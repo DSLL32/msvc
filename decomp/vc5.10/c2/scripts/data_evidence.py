@@ -78,6 +78,13 @@ def verify(config):
     symbol_dispatch=[]
     record_dispatch=[]
     name_dispatch=[]
+    if '@update_symbol_storage@4'in config['accepted']:
+        for side,path in [('original',TARGET),('rebuilt',BINARY/'build/c2.exe')]:
+            read=reader(path);start=0x4283e3 if side=='original'else maps['@update_symbol_storage@4'];table=0x4285cc if side=='original'else start+0x3c0
+            targets=struct.unpack('<7I',read(table,28));expected=[0x42849f,0x428428,0x42849f,0x428428,0x46bf6b,0x46bf6b,0x42841a]if side=='original'else[start+n for n in (0x5e,0x6d,0x5e,0x6d,0x152,0x152,0x141)]
+            assert list(targets)==expected,'symbol storage seven-way target table differs'
+        for at,name in [(0x490b78,'_compiling_function'),(0x4973f8,'_default_storage_section')]:
+            assert reader(TARGET)(at,4)==bytes(4)and reader(BINARY/'build/c2.exe')(maps[name],4)==bytes(4),'storage initial typed pointer differs'
     if '@record_filename@4'in config['accepted']:
         assert reader(TARGET)(0x4973b8,4)==bytes(4),'original filename registry initial pointer differs'
         assert reader(BINARY/'build/c2.exe')(maps['_filenames'],4)==bytes(4),'rebuilt filename registry initial pointer differs'

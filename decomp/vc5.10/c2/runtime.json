@@ -132,14 +132,6 @@
     "evidence": null
   },
   {
-    "name": "@update_symbol_storage@4",
-    "start": 4359139,
-    "end": 4359140,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@reserve_symbol_storage@4",
     "start": 4251079,
     "end": 4251080,
@@ -215,6 +207,38 @@
     "name": "@uppercase_symbol_name@4",
     "start": 4745583,
     "end": 4745584,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_next_symbol_serial",
+    "start": 4249048,
+    "end": 4249049,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@is_constant_symbol@4",
+    "start": 4538458,
+    "end": 4538459,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@is_known_symbol@4",
+    "start": 4329521,
+    "end": 4329522,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@select_symbol_section@8",
+    "start": 4547313,
+    "end": 4547314,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

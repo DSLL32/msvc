@@ -166,7 +166,7 @@ def main():
                           ('compact signed extended type flag differs',lambda r:changed_compact_field(r,54,0x52)),
                           ('compact signed source line differs',lambda r:changed_compact_field(r,44,1)),
                           ('compact signed source file differs',lambda r:changed_compact_field(r,90,1))]
-        if current_state['function']=='update_symbol_storage':
+        if current_state['function']in ('update_symbol_storage','lookup_global_symbol'):
             def changed_completed_field(root,index,value,size=4):
                 import struct
                 data=bytearray.fromhex(current_state['symbol_type_input']['symbol_bytes']);struct.pack_into('<H'if size==2 else'<I',data,index,value)
@@ -184,6 +184,12 @@ def main():
                           ('storage updater original name pointer differs',lambda r:changed_type_raw(r,'function-symbol.bin',24)),
                           ('storage updater copied name terminator differs',lambda r:changed_type_raw(r,'pool-block.bin',673)),
                           ('storage updater copied name rounded padding differs',lambda r:changed_type_raw(r,'pool-block.bin',675))]
+        if current_state['function']=='lookup_global_symbol':
+            def wrong_lookup_serial(root):
+                path=root/'o/events.txt';raw=path.read_text().replace('lookup-input serial=5 ','lookup-input serial=6 ');path.write_text(raw);raw_changed(root,'o','events.txt')
+            mutations += [('section lookup actual unsigned serial differs',lambda r:changed_type_input(r,'lookup_serial',6)),
+                          ('section lookup actual formal type differs',lambda r:changed_type_input(r,'formals',[{'name':'serial','type':'int'}])),
+                          ('section lookup original ECX serial differs',wrong_lookup_serial)]
     if 'filename_input'in current_state:
         def changed_filename_input(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['filename_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

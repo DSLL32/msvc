@@ -150,6 +150,7 @@ extern unsigned selected_save_register_mask, call_clobbered_register_mask;
 extern int stack_alignment, c2_cpu_generation;
 void initialize_machine_registers(void);
 typedef struct C2SectionContext C2SectionContext;
+typedef struct C2SectionGroup C2SectionGroup;
 typedef struct C2SymbolScope C2SymbolScope;
 
 #pragma pack(2)
@@ -163,6 +164,7 @@ struct C2Symbol {
     unsigned char pending1c[8];
     union {
         C2SectionContext *context;
+        C2SectionGroup *group;
         unsigned section_serial;
     } association;
     unsigned serial;
@@ -183,10 +185,13 @@ typedef struct C2Section {
     unsigned pending3a;
     unsigned alignment;
     unsigned char attribute, combine, section_kind;
-    unsigned char pending45[9];
-    unsigned order;
-    unsigned pending52;
+    unsigned char reserved45, pending46[4];
+    struct C2Section *parent;
+    union { unsigned order; C2Symbol *owner; } link;
+    unsigned char selection, associative;
+    unsigned short pending54;
 } C2Section;
+struct C2SectionGroup { unsigned pending00, count, pending08; };
 typedef struct C2FunctionSymbol {
     C2Symbol symbol;
     unsigned char pending32[4];
@@ -271,7 +276,7 @@ typedef char C2SymbolScopeHashCheck[offsetof(C2SymbolScope, symbols) == 16 ? 1 :
 typedef char C2SymbolScopeDebugCheck[offsetof(C2SymbolScope, debug_scope) == 32 ? 1 : -1];
 typedef char C2SectionSizeCheck[sizeof(C2Section) == 86 ? 1 : -1];
 typedef char C2SectionAlignmentCheck[offsetof(C2Section, alignment) == 0x3e ? 1 : -1];
-typedef char C2SectionOrderCheck[offsetof(C2Section, order) == 0x4e ? 1 : -1];
+typedef char C2SectionOrderCheck[offsetof(C2Section, link) == 0x4e ? 1 : -1];
 extern C2Section *code_section, *data_section, *const_section, *bss_section;
 extern C2Section *debug_symbols_section, *debug_types_section, *tls_section;
 extern char *code_section_name, *data_section_name, *const_section_name;
@@ -309,6 +314,12 @@ char *__fastcall lookup_source_file(char *name, unsigned *bytes);
 C2Symbol *__fastcall lookup_symbol(C2ScopeHash *scope, unsigned serial);
 C2Symbol *__fastcall put_symbol(C2ScopeHash *scope, C2Symbol *symbol);
 void __fastcall queue_symbol_debug(C2Symbol *symbol);
+extern C2FunctionSymbol *compiling_function;
+extern C2Section *default_storage_section;
+unsigned next_symbol_serial(void);
+int __fastcall is_constant_symbol(C2Symbol *symbol);
+int __fastcall is_known_symbol(unsigned serial);
+C2Section *__fastcall select_symbol_section(C2FunctionSymbol *function, C2Symbol *symbol);
 void __fastcall update_symbol_storage(C2Symbol *symbol);
 unsigned __fastcall reserve_symbol_storage(C2Symbol *symbol);
 void __fastcall record_filename(C2Symbol *symbol);

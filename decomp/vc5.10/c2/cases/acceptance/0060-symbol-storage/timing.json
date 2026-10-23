@@ -1,0 +1,57 @@
+{
+  "builds": {
+    "native": {
+      "seconds": 2.6296183317899704,
+      "status": 0
+    },
+    "original": {
+      "seconds": 5.8454104624688625,
+      "status": 0
+    }
+  },
+  "earlier_build_attempt": {
+    "native": {
+      "seconds": 0.3081953711807728,
+      "status": 2
+    },
+    "original": {
+      "seconds": 0.6521321106702089,
+      "status": 2
+    },
+    "helper": {
+      "seconds": 1.307270442135632,
+      "status": 0
+    }
+  },
+  "earlier_build_note": "First native/original build failed the stale offsetof(order) compile assertion after naming the typed section link union; fixed assertion to link at same offset78. Helper succeeded. Both final builds passed.",
+  "original_capture": {
+    "setup": 0.23123609274625778,
+    "execution": 1.6208293866366148,
+    "total": 1.8962074387818575
+  },
+  "native_gdb_capture": {
+    "execution": 0.32049249671399593,
+    "total": 0.4143841816112399
+  },
+  "audit_seconds": 0.1515681827440858,
+  "rejection_control": {
+    "control_and_rejections": 7.452152010984719
+  },
+  "fresh_rejections": 18,
+  "reused_rejections": 123,
+  "cached_native_fixture": {
+    "case": "unsupported-help-diagnostic",
+    "status": "PASS",
+    "application_entries": 19,
+    "stdout_bytes": 0,
+    "stderr_bytes": 51,
+    "seconds": {
+      "setup": 0.008651146665215492,
+      "execution": 0.004168112762272358,
+      "checks": 0.00021672993898391724,
+      "total": 0.013496327213943005
+    },
+    "transport": "native ELF32 only; frozen original reference",
+    "make_total_seconds": 0.09215452149510384
+  }
+}

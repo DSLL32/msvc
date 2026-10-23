@@ -41,10 +41,6 @@ void __fastcall queue_symbol_debug(C2Symbol *symbol)
     __asm { int 3 }
 }
 
-void __fastcall update_symbol_storage(C2Symbol *symbol)
-{
-    __asm { int 3 }
-}
 
 unsigned __fastcall reserve_symbol_storage(C2Symbol *symbol)
 {
@@ -123,3 +119,8 @@ void __fastcall read_module_directive(int kind) { __asm { int 3 } }
 int __fastcall register_source_file(char *name) { __asm { int 3 } return 0; }
 char *__fastcall lookup_source_file(char *name, unsigned *bytes) { __asm { int 3 } return NULL; }
 void __fastcall uppercase_symbol_name(char *name) { __asm { int 3 } }
+
+unsigned next_symbol_serial(void) { __asm { int 3 } return 0; }
+int __fastcall is_constant_symbol(C2Symbol *symbol) { __asm { int 3 } return 0; }
+int __fastcall is_known_symbol(unsigned serial) { __asm { int 3 } return 0; }
+C2Section *__fastcall select_symbol_section(C2FunctionSymbol *function, C2Symbol *symbol) { __asm { int 3 } return NULL; }
