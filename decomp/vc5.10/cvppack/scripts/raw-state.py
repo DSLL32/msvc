@@ -556,6 +556,8 @@ def compare(config,data,events,native,artifacts=None,views=None):
     typed_records_checked=0
     extended_references_checked=0
     recursive_type_nodes_checked=0
+    interned_type_nodes_checked=0
+    pooled_interned_nodes_checked=0
     cached_type_names_checked=0
     globals_checked = []
     for item in data:
@@ -611,7 +613,19 @@ def compare(config,data,events,native,artifacts=None,views=None):
                         while source or destination:
                             assert source and destination and source not in visited and len(visited)<4096,'interned-type node NULL/identity/chain differs'
                             visited.add(source);count+=1;pair(source,destination)
-                            assert image_aliases[source]==destination and image_sizes[source]==12,'interned-type node allocation differs'
+                            if image_sizes.get(source)==12:
+                                assert image_aliases[source]==destination,'interned-type node allocation differs'
+                            else:
+                                assert any(row['name']=='interned_node_cursor' for row in data),'interned-type pool needs an observed contract'
+                                owners=[base for base,size in image_sizes.items() if size==0x3000 and base<=source and source+12<=base+size and (source-base)%12==0]
+                                assert len(owners)==1,'interned-type node has no actual pool ownership'
+                                owner=owners[0]
+                                remaining=global_integer('interned_nodes_remaining')
+                                cursor=global_integer('interned_node_cursor')
+                                assert 0<=remaining<=1024 and cursor-owner==(1024-remaining)*12,'interned-type active pool/cursor ownership differs'
+                                assert source+12<=cursor,'interned-type node exceeds initialized pool prefix'
+                                assert destination==image_aliases[owner]+source-owner,'interned-type pool/offset alias differs'
+                                used_uninitialized.add(owner);pooled_interned_nodes_checked+=1
                             a=original['memory'][source];b=bytes.fromhex(native['memory'][str(destination)])
                             assert len(a)==len(b)==12 and a[:4]==b[:4],'interned-type index/extent differs'
                             index=int.from_bytes(a[:4],'little');assert 0x1000<=index<global_integer('next_global_type'),'interned-type index out of range'
@@ -622,6 +636,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
                             block=int.from_bytes(original['memory'][block_root][:4],'little')
                             assert int.from_bytes(original['memory'][block][(index&511)*4:(index&511)*4+4],'little')==payload,'interned-type/global slot alias differs'
                             source=int.from_bytes(a[8:12],'little');destination=int.from_bytes(b[8:12],'little')
+                            interned_type_nodes_checked+=1
                         assert count==int.from_bytes(counts[offset//2:offset//2+2],'little'),'interned-type bucket count differs'
             elif item.get('type_name_cache'):
                 address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
@@ -876,4 +891,4 @@ def compare(config,data,events,native,artifacts=None,views=None):
             parameters[item['name']]=native_parameters[item['name']]=dict(null=True)
     assert parameters == native_parameters, ('typed ABI arguments differ',parameters,native_parameters)
     if original_calls:assert original['last_error']==native['last_error'],'frontier LastError differs'
-    return dict(parameters=parameters,caller_state=caller_state,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)
+    return dict(parameters=parameters,caller_state=caller_state,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)

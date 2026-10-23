@@ -90,7 +90,8 @@
     "hash_recursive_type",
     "intern_recursive_type",
     "mark_recursive_type",
-    "hash_type_reference"
+    "hash_type_reference",
+    "index_recursive_type"
   ],
   "functions": [
     {
@@ -1979,7 +1980,25 @@
       "status": "stub",
       "extent": null,
       "ret": 0,
-      "parameters": []
+      "parameters": [
+        {
+          "name": "index",
+          "slot": 1,
+          "kind": "integer",
+          "native_width": 4
+        },
+        {
+          "name": "from_global",
+          "slot": 2,
+          "kind": "caller-local-pointer",
+          "width": 4,
+          "owner": "compact_type_index",
+          "local": "from_global",
+          "owner_return": 4206922,
+          "original_delta": 36,
+          "initialized": false
+        }
+      ]
     },
     {
       "name": "convert_legacy_record",
@@ -3159,8 +3178,11 @@
       "source_name": "index_recursive_type",
       "native_symbol": "index_recursive_type",
       "original": 4241552,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4241552,
+        4241663
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -3177,7 +3199,8 @@
           "kind": "integer",
           "native_width": 4
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0085-index-recursive-type-dword-output/promotion.json"
     }
   ],
   "support_unmasked": [

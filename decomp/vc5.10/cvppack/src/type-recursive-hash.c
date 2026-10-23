@@ -60,11 +60,14 @@ unsigned __fastcall hash_recursive_type(TypeRecord *record)
 /* Follow one recursive reference [0040e820,0040e8c4). */
 unsigned short __fastcall hash_type_reference(TypeRecord *record, unsigned short ordinal)
 {
+    union { unsigned global_index; unsigned short ordinal; } saved;
     unsigned short offset;
     unsigned value, slot;
     TypeRecord *target;
-    offset = record->flags & 1 ? record->extended_references[ordinal] :
-        record->reference_offsets[ordinal];
+    /* Original WORD argument shares a DWORD local with the lookup output. */
+    saved.ordinal = ordinal;
+    offset = record->flags & 1 ? record->extended_references[saved.ordinal] :
+        record->reference_offsets[saved.ordinal];
     value = *(unsigned *)(record->data + offset);
     if (value < module_type_base) return (unsigned short)value;
     slot = value - module_type_base;
@@ -72,9 +75,9 @@ unsigned short __fastcall hash_type_reference(TypeRecord *record, unsigned short
     else {
         target = &type_records[slot];
         if (target->status & 0x1000)
-            /* Original low-byte output aliases the saved ordinal WORD. */
+            /* The lookup overwrites the whole saved DWORD; ordinal is dead here. */
             target = lookup_global_type(target->global_index - 0x1000,
-                                        (unsigned char *)&ordinal);
+                                        &saved.global_index);
     }
     if (target->status & 4) return target->recursive_hash;
     return (unsigned short)hash_recursive_type(target);

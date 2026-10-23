@@ -33,7 +33,8 @@ void scan_module_symbols(void *lines, unsigned size, unsigned short *symbols,
 {
     unsigned char *first = (unsigned char *)lines + 4;
     unsigned char *end = (unsigned char *)lines + size;
-    unsigned char *record, *name, *type, from_global;
+    unsigned char *record, *name, *type;
+    unsigned from_global;
     unsigned short old_symbols, old_references, length, kind;
     unsigned index, slot, hash, count, i;
     TypeRecord *entry;

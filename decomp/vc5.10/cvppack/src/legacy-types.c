@@ -14,7 +14,8 @@ unsigned __fastcall compact_legacy_index(unsigned index)
     TypeRecord *record, *target;
     CachedTypeName *named_target;
     unsigned slot, target_slot, result, previous_chain, value, position;
-    unsigned char first_pending = 0, count = 0, global_record;
+    unsigned first_pending = 0, global_record;
+    unsigned char count = 0;
     unsigned char *data;
     unsigned short flags;
     int scan, limit;
@@ -170,7 +171,7 @@ void flush_type_stack(void)
     unsigned char *data, *source;
     unsigned slot, length;
     unsigned short kind;
-    unsigned char from_global;
+    unsigned from_global;
     while (pending) {
         slot = pending->index - module_type_base;
         if (!module_type_low && slot == 0xffff - module_type_base) record = empty_type_record;

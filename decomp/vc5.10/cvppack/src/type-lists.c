@@ -13,7 +13,7 @@ unsigned __fastcall compact_type_list(unsigned index, unsigned count)
     TypeIndexMapper map;
     unsigned slot, target_slot, value, previous_chain, offset, remaining, i;
     unsigned short flags, kind, field_kind, reference, attributes;
-    unsigned char from_global;
+    unsigned from_global;
     unsigned char *data, *field;
     int limit, scan;
     slot = index - module_type_base;

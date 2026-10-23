@@ -73,7 +73,7 @@ extern unsigned short recursive_type_pending, type_recursion_depth;
 extern unsigned type_recursion_chain, type_recursion_stack[256];
 extern int discard_types;
 unsigned map_primitive_type(unsigned index);
-TypeRecord *lookup_global_type(unsigned index, unsigned char *from_global);
+TypeRecord *lookup_global_type(unsigned index, unsigned *from_global);
 void convert_legacy_record(unsigned index);
 unsigned char __fastcall compact_legacy_pointer(TypeRecord *record);
 int __fastcall match_forward_type(TypeRecord *record, CachedTypeName **match, int insert);

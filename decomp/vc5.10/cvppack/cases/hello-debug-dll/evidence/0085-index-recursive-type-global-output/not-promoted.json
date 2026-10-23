@@ -1,0 +1,6 @@
+{
+  "schema": 1,
+  "promoted": false,
+  "reason": "Rejected provisional observer used compact_legacy_index owner and guessed byte output. Actual caller403145 is compact_type_index and callee402c25/402c71 write DWORD; no byte-output ABI was proved and no promotion occurred.",
+  "corrected_pair": "0085-index-recursive-type-dword-output"
+}

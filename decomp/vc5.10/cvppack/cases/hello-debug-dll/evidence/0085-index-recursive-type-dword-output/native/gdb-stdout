@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5656a905 in lookup_global_type (index=203, from_global=0xfff48438) at src/stubs.c:54
+54	TypeRecord *lookup_global_type(unsigned index, unsigned *from_global) { __asm { int 3 } return NULL; }

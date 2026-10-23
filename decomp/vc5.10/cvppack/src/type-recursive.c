@@ -25,7 +25,8 @@ unsigned __fastcall intern_recursive_type(unsigned index)
     unsigned slot = index - module_type_base;
     TypeRecord *record;
     CachedTypeName *match;
-    unsigned char first_global, second_global, *data;
+    unsigned first_global, second_global;
+    unsigned char *data;
     unsigned short i, offset, kind;
     unsigned mask, flags;
     int found;

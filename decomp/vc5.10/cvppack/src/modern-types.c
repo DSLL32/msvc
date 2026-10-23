@@ -9,7 +9,7 @@ unsigned __fastcall compact_type_index(unsigned index)
     CachedTypeName *named_target;
     unsigned slot, target_slot, result, global_index = 0, previous_chain;
     unsigned value, count;
-    unsigned char from_global;
+    unsigned from_global;
     unsigned char *data, *saved_data;
     unsigned short flags, kind;
     int limit, scan, match;

@@ -1,0 +1,122 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "count": 16,
+  "rejected": [
+    {
+      "name": "lost-pooled-node",
+      "diagnostic": "interned-type node NULL/identity/chain differs"
+    },
+    {
+      "name": "wrong-pool-node-offset",
+      "diagnostic": "interned-type pool/offset alias differs"
+    },
+    {
+      "name": "both-node-in-unused-pool-tail",
+      "diagnostic": "interned-type node exceeds initialized pool prefix"
+    },
+    {
+      "name": "truncated-initialized-node",
+      "diagnostic": "interned-type index/extent differs"
+    },
+    {
+      "name": "wrong-global-index",
+      "diagnostic": "interned-type index/extent differs"
+    },
+    {
+      "name": "wrong-payload-alias",
+      "diagnostic": "type payload arena/offset alias differs"
+    },
+    {
+      "name": "both-wrong-chain-count",
+      "diagnostic": "interned-type bucket count differs"
+    },
+    {
+      "name": "wrong-pool-cursor",
+      "diagnostic": "arena cursor/capacity/offset differs"
+    },
+    {
+      "name": "both-wrong-pool-unit-count",
+      "diagnostic": "interned-type active pool/cursor ownership differs"
+    },
+    {
+      "name": "wrong-output-width",
+      "diagnostic": "('typed ABI arguments differ', {'index': 203, 'from_global': {'owner': 'compact_type_index', 'local': 'from_global', 'width': 4}}, {'index': 203, 'from_global': {'owner': 'compact_type_index', 'local': 'from_global', 'width': 1}})"
+    },
+    {
+      "name": "wrong-output-owner",
+      "diagnostic": "('typed ABI arguments differ', {'index': 203, 'from_global': {'owner': 'compact_type_index', 'local': 'from_global', 'width': 4}}, {'index': 203, 'from_global': {'owner': 'compact_legacy_index', 'local': 'from_global', 'width': 4}})"
+    },
+    {
+      "name": "wrong-actual-pointee",
+      "diagnostic": "actual frontier pointee extent differs"
+    },
+    {
+      "name": "original-interior-output-pointer",
+      "diagnostic": "original output argument caller-local identity differs"
+    }
+  ],
+  "actual_gdb_rejections": [
+    {
+      "name": "byte-width",
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x5661a905 in lookup_global_type (index=203, from_global=0xffa01608) at src/stubs.c:54\n54\tTypeRecord *lookup_global_type(unsigned index, unsigned *from_global) { __asm { int 3 } return NULL; }\n\nPython Exception <class 'AssertionError'>: actual pointer formal pointee extent differs\n/root/.ai-tmp/cvpack-dword-output-wj_xn2qt/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: actual pointer formal pointee extent differs\n",
+      "observer_sha256": "5dd5eea61e3b7eeeab0393b0db9fd3f26fe073f3e3c57946f761a51abc695227",
+      "bad_config_sha256": "79f84029a530cb3a1ab0c9f369b7825f43b9ec0716d8913f1229ee77f8cf1cdf"
+    },
+    {
+      "name": "wrong-owner",
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x5662b905 in lookup_global_type (index=203, from_global=0xffdb7dc8) at src/stubs.c:54\n54\tTypeRecord *lookup_global_type(unsigned index, unsigned *from_global) { __asm { int 3 } return NULL; }\n\nPython Exception <class 'AssertionError'>: \n/root/.ai-tmp/cvpack-dword-output-6sx_z5qt/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python.\n",
+      "observer_sha256": "5dd5eea61e3b7eeeab0393b0db9fd3f26fe073f3e3c57946f761a51abc695227",
+      "bad_config_sha256": "985111a468f0062f9cff4b45d6fc7ec351d8ae0617bbbdf192ed375c49fb3420"
+    },
+    {
+      "name": "omitted-formals",
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x5661c905 in lookup_global_type (index=203, from_global=0xffbad198) at src/stubs.c:54\n54\tTypeRecord *lookup_global_type(unsigned index, unsigned *from_global) { __asm { int 3 } return NULL; }\n\nPython Exception <class 'AssertionError'>: ('incomplete frontier ABI contract', ['index', 'from_global'], [])\n/root/.ai-tmp/cvpack-dword-output-dkjrkla3/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: ('incomplete frontier ABI contract', ['index', 'from_global'], [])\n",
+      "observer_sha256": "5dd5eea61e3b7eeeab0393b0db9fd3f26fe073f3e3c57946f761a51abc695227",
+      "bad_config_sha256": "6010133c0fb874b1cfee93e5c852445375da6b72fa99d82e7bee7ae07e45d993"
+    }
+  ],
+  "pooled_nodes": 32,
+  "total_interned_nodes": 76,
+  "pool_size": 12288,
+  "node_size": 12,
+  "remaining": 992,
+  "parameters": {
+    "index": 203,
+    "from_global": {
+      "owner": "compact_type_index",
+      "local": "from_global",
+      "width": 4
+    }
+  },
+  "uninitialized_output_prebytes_not_compared": true,
+  "original_instruction_witnesses": {
+    "0x402c25": "c70200000000",
+    "0x402c71": "8902",
+    "0x403139": "8d4c2418",
+    "0x40e820": "51",
+    "0x40e825": "6689542400",
+    "0x40e89b": "8d4c2400",
+    "0x40e8a7": "e87443ffff",
+    "0x40e8af": "f6401c04",
+    "0x40e8b5": "668b400e",
+    "0x40e8bb": "8bc8",
+    "0x40e8bd": "e87efdffff"
+  },
+  "union_liveness": "40e825 stores WORD ordinal in DWORD PUSH ECX local; only offset selection reads ordinal before40e89b passes that exact slot; after lookup40e8af only returned record status/hash is consumed. Original and native pop/discard local without a later ordinal read.",
+  "corrected_caller_sources": {
+    "src/types.h": "f5fcffc431ad00687726cf1faf20525fe96a5431edfde838e3ce78146b5a05ee",
+    "src/stubs.c": "0f4d05d8a948d404e5485d2100d464464024b10a0d807b9e83bb5b0007173fc7",
+    "src/modern-types.c": "4e7942dc1e3b61902cf95e105161bcdc76c27971d526a1e6333b7c04a768bae3",
+    "src/legacy-types.c": "ca94d82b9a3f15d2d863ca76453b2232aec25587764c6e6917399982e7068a4c",
+    "src/type-lists.c": "18c2e3cf909f05d70fa0a06325f81a79cd829f1226eb14edf950e867c0dbb35a",
+    "src/symbol-scan.c": "07790cee022250a3b1a7dbcf3a9fa72d9347ad75d81af33deb9ea2d61575dd23",
+    "src/type-recursive.c": "352fa96e746547c4fb04ea4dec5f7dff9529211da12156b2b4b031e03e655440",
+    "src/type-recursive-hash.c": "f745e76394f45e0b59a9568b759052445f1a3f2029cdfcb60b5c3b439574991d"
+  },
+  "original_receipt_sha256": "84bda61425d59fbff1c49977750aa796008522f6be898046b005e3dc81e61644",
+  "native_receipt_sha256": "108935890ee4be7ca1a0332af4dc96d7e9385b2f778a0e44624ceff920c8c8a7",
+  "checker_sha256": "1d051f37231b18d663b8ea43c9adf74922c19196027c56ffd5383b352fc03be2",
+  "decoder_sha256": "6521fe1f91668f64a1edfcc7ee31d58b4ef5ef86704a1ce19e53d6b860cfeb3f",
+  "seconds": 6.0969515554606915
+}

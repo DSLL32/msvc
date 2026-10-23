@@ -50,7 +50,7 @@ The current prefix compares 336 type records and all 384,000 initialized table
 bytes, buffer/record aliases, actual reads and allocations, complete mapped-file
 contents, defined symbol/source-module buffers, and 55 owned counted type-name
 cache nodes with their bucket/segment aliases, plus initialized arena prefixes,
-global pointer slots and interned-node ownership. Local/global symbol hash heads
+global pointer slots and direct/pool interned-node ownership. Lookup outputs use actual DWORD caller storage; the recursive-reference helper shares its saved DWORD/WORD local through an explicit union. Earlier byte-schema scaffolds were rejected before the callee executed. Local/global symbol hash heads
 retain their actual shared public-arena nodes, full initialized records/padding
 and separate byte/count counters. The default dispatch row and
 next global index share their original storage, with actual DWARF offset proof. Uninitialized allocation tails
@@ -81,5 +81,5 @@ Each accepted function's `evidence/*/function-review.json` or `validation.json`
 records fresh/reused controls and separate build/capture/check/fixture times.
 Historical raw is never relabeled; incomplete and superseded trials retain their
 status. Current native help runs in roughly 15 ms; the partial debug fixture is
-about 0.7 s including GDB. Completion will use native entry traces, exact streams,
+about 0.8 s including GDB. Completion will use native entry traces, exact streams,
 status and the cached NB11 master without launching Wine.

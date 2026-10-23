@@ -51,7 +51,7 @@ void *resize_bytes(void *buffer, unsigned size) { __asm { int 3 } return NULL; }
 
 
 
-TypeRecord *lookup_global_type(unsigned index, unsigned char *from_global) { __asm { int 3 } return NULL; }
+TypeRecord *lookup_global_type(unsigned index, unsigned *from_global) { __asm { int 3 } return NULL; }
 void convert_legacy_record(unsigned index) { __asm { int 3 } }
 void __fastcall associate_forward_type(unsigned index, CachedTypeName *record) { __asm { int 3 } }
 void append_type_field_list(unsigned char *field, TypeRecord *record) { __asm { int 3 } }
@@ -72,4 +72,3 @@ void register_type_server(void *leaf) { __asm { int 3 } }
 void __fastcall find_type_server(void *name, unsigned mode, void *first, void *second, void *third) { __asm { int 3 } }
 
 int __fastcall compare_recursive_type(TypeRecord *record, unsigned index, unsigned char *other_data, unsigned other_index) { __asm { int 3 } return 0; }
-void __fastcall index_recursive_type(unsigned char *data, unsigned index) { __asm { int 3 } }
