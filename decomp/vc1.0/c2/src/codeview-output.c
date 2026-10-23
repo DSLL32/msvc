@@ -6,6 +6,21 @@
 #include <string.h>
 #include <recon.h>
 int codeview_output_started; /* original84fd8 */
+DebugScope *codeview_scope_cursor; /* original7e8ac */
+
+/* Original69250..692a3. Emit the procedure and lexical scopes, then the
+   S_END record (the existing begin_debug_function placeholder at69210). */
+void __fastcall end_debug_function(FunctionSymbol *symbol)
+{
+    unsigned storage;
+    if (!symbol || symbol->symbol.kind != 4 ||
+        ((storage = symbol->field24 & 0xf0) != 0x50 && storage != 0x30))
+        compiler_internal_error("@(#)emit.c:1.20", 0x238);
+    write_codeview_function(symbol);
+    codeview_scope_cursor = current_function->debug_scope;
+    write_debug_scopes(symbol);
+    begin_debug_function();
+}
 
 /* Original69100..69114; final call is a tail jump in the original. */
 void initialize_codeview_output(void)

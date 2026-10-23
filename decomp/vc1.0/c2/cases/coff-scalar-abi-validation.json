@@ -37,7 +37,7 @@
         ],
         [
           {
-            "site": "0x56ba0",
+            "site": "0x56c9d",
             "cleanup": 8
           }
         ]
@@ -72,7 +72,7 @@
         ],
         [
           {
-            "site": "0x54783",
+            "site": "0x54807",
             "cleanup": 0
           }
         ]
@@ -103,7 +103,89 @@
         ],
         [
           {
-            "site": "0x56a39",
+            "site": "0x56b36",
+            "cleanup": 0
+          }
+        ]
+      ]
+    },
+    {
+      "function": "@coff_line_marker@4",
+      "formals": [
+        {
+          "name": "marker",
+          "location": "ECX",
+          "type": "unsigned16",
+          "value": 14
+        }
+      ],
+      "returns": [
+        [
+          {
+            "site": "0x6edbd",
+            "cleanup": 0
+          }
+        ],
+        [
+          {
+            "site": "0x56a1e",
+            "cleanup": 0
+          }
+        ]
+      ]
+    },
+    {
+      "function": "@coff_end_lines@8",
+      "formals": [
+        {
+          "name": "line",
+          "location": "ECX",
+          "type": "unsigned16",
+          "value": 42
+        },
+        {
+          "name": "offset",
+          "location": "EDX",
+          "type": "unsigned32",
+          "value": 185
+        }
+      ],
+      "returns": [
+        [
+          {
+            "site": "0x6eb17",
+            "cleanup": 0
+          }
+        ],
+        [
+          {
+            "site": "0x56a6a",
+            "cleanup": 0
+          }
+        ]
+      ]
+    },
+    {
+      "function": "@end_debug_function@4",
+      "formals": [
+        {
+          "name": "symbol",
+          "location": "ECX",
+          "type": "FunctionSymbol pointer",
+          "original": 8066692,
+          "native": 1449314136
+        }
+      ],
+      "returns": [
+        [
+          {
+            "site": "0x692a2",
+            "cleanup": 0
+          }
+        ],
+        [
+          {
+            "site": "0x53f85",
             "cleanup": 0
           }
         ]
@@ -128,8 +210,25 @@
     "@coff_record_line@8: wrong input value",
     "@coff_record_line@8: wrong input register",
     "@coff_record_line@8: wrong width",
-    "@coff_record_line@8: wrong cleanup"
+    "@coff_record_line@8: wrong cleanup",
+    "@coff_line_marker@4: missing formal",
+    "@coff_line_marker@4: unknown hidden register",
+    "@coff_line_marker@4: wrong input value",
+    "@coff_line_marker@4: wrong input register",
+    "@coff_line_marker@4: wrong width",
+    "@coff_line_marker@4: wrong cleanup",
+    "@coff_end_lines@8: missing formal",
+    "@coff_end_lines@8: unknown hidden register",
+    "@coff_end_lines@8: wrong input value",
+    "@coff_end_lines@8: wrong input register",
+    "@coff_end_lines@8: wrong width",
+    "@coff_end_lines@8: wrong cleanup",
+    "@end_debug_function@4: missing pointer formal",
+    "@end_debug_function@4: broken symbol alias",
+    "@end_debug_function@4: changed parent storage",
+    "@end_debug_function@4: unknown pointer input",
+    "@end_debug_function@4: wrong symbol name"
   ],
-  "seconds": 0.2578070480376482,
+  "seconds": 0.2638633456081152,
   "scope": "All actual scalar formals, no-hidden-input proof, immutable original raw binding and original/canonical CFG RET cleanup. Legacy logical spelling only allowed by explicit same-VA callback correction metadata. No blanket unvisited input equivalence."
 }

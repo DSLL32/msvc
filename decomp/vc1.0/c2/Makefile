@@ -69,6 +69,7 @@ audit-data: build/c2.exe native build/native/check-codeview-string build/native/
 	$(PYTHON) scripts/check-subtraction-overflow.py
 	$(PYTHON) scripts/check-debug-segment-storage.py
 	$(PYTHON) scripts/check-codeview-string.py
+	$(PYTHON) scripts/check-coff-line-boundaries.py
 	$(PYTHON) scripts/check-coff-record-line.py
 	$(PYTHON) scripts/check-coff-debug-record.py
 	$(PYTHON) scripts/check-coff-begin-lines.py

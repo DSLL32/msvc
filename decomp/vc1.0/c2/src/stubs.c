@@ -86,7 +86,8 @@ __declspec(naked) void output_noop_value(void) { RECON_TRACE_NAKED_ENTRY(output_
 unsigned __fastcall output_noop_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment) { __asm int 3 }
 __declspec(naked) void output_noop_record(void) { RECON_TRACE_NAKED_ENTRY(output_noop_record) __asm int 3 }
 __declspec(naked) void mark_unwritten_symbol(void) { RECON_TRACE_NAKED_ENTRY(mark_unwritten_symbol) __asm int 3 }
-__declspec(naked) void end_debug_function(void) { RECON_TRACE_NAKED_ENTRY(end_debug_function) __asm int 3 }
+void __fastcall write_codeview_function(FunctionSymbol *symbol) { __asm int 3 }
+void __fastcall write_debug_scopes(FunctionSymbol *symbol) { __asm int 3 }
 __declspec(naked) void begin_debug_function(void) { RECON_TRACE_NAKED_ENTRY(begin_debug_function) __asm int 3 }
 __declspec(naked) void finish_debug_module(void) { RECON_TRACE_NAKED_ENTRY(finish_debug_module) __asm int 3 }
 __declspec(naked) void coff_output_value(void) { RECON_TRACE_NAKED_ENTRY(coff_output_value) __asm int 3 }
@@ -150,8 +151,6 @@ int __fastcall write_demangled_listing(SymbolHeader *symbol, int first) { __asm 
 unsigned __fastcall write_listing_line(unsigned line) { __asm int 3 }
 char *__fastcall listing_size_suffix(unsigned bytes) { __asm int 3 }
 void __cdecl compiler_error(unsigned code, ...) { __asm int 3 }
-void __fastcall coff_line_marker(unsigned short marker) { __asm int 3 }
-void __fastcall coff_end_lines(unsigned short line, unsigned offset) { __asm int 3 }
 void __fastcall coff_write_lines(CoffContribution *contribution, unsigned base) { __asm int 3 }
 unsigned input_float_bits(void) { __asm int 3 }
 

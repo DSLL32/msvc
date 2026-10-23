@@ -324,3 +324,13 @@ remain exact. Coverage334038/399693=83.5736% code extent, not branch coverage.
 Data/ABI limits, original references and separate timing receipts are recorded
 in cases/dbglist-lines-checkpoint.json. The earlier informal begin-lines251
 count was arithmetic only; its accepted6eca0..6ed9d extent was always253.
+
+Checkpoint1236 adds whole.lf30-byte and.ef56-byte boundary writers plus
+83-byte end_debug_function. Actual ABI inputs include a typed FunctionSymbol
+pointer with current_symbol/current_function.symbol identities and complete
+parent-read field proof; children remain named typed traps.128 boundary
+shapes retain untouched auxiliary bytes and original WORD masking. All14
+native cases and canonical graph/extent/ABI checks pass,13 output cases
+complete; dbglist reaches write_codeview_function69650. Original/W3 builds
+pass.169new extent bytes; code-extent coverage is in
+cases/dbglist-line-end-checkpoint.json with split measured timing/limits.

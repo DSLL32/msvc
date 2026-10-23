@@ -36,7 +36,7 @@ void initialize_output_callbacks(void)
     char *library;
     target_segment_group = dos_object ? "FLAT" : "DGROUP";
     if (object_filename && codeview_debug) {
-    output_callbacks.end_function = (void (__fastcall *)(FunctionSymbol *))end_debug_function;
+    output_callbacks.end_function = end_debug_function;
     output_callbacks.debug_function = (OutputRoutine)begin_debug_function;
     output_callbacks.finish_debug = (OutputRoutine)finish_debug_module;
     } else {

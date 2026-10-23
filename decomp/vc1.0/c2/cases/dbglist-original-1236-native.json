@@ -1,0 +1,12 @@
+{
+  "logical": "@write_codeview_function@4",
+  "matched": true,
+  "executable_sha256": "7d95c1e7b56cf1ffccab083c42fb418af999ea5c873df6182f8c69a51dfe34d3",
+  "config_sha256": "cfa768cb8c555b8a55ff2e52dcae75f4fa977467519cf10536a9b921dd176c2f",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+  "setup_seconds": 0.007347816601395607,
+  "execution_seconds": 0.12153561599552631,
+  "seconds": 0.13894889038056135,
+  "log_sha256": "e426b4146ace041d6ac79f533bc5e9c0c211b8882f6d774ba88952174d3c01fb",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/dbglist-gdb-osx6c4zd"
+}

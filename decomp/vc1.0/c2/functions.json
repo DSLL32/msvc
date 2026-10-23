@@ -1237,7 +1237,10 @@
     "@coff_output_debug_pair@4",
     "@coff_begin_lines@16",
     "@coff_output_debug_record@8",
-    "@coff_record_line@8"
+    "@coff_record_line@8",
+    "@coff_line_marker@4",
+    "@coff_end_lines@8",
+    "@end_debug_function@4"
   ],
   "driver": [
     {
@@ -2015,10 +2018,23 @@
       "provisional": true
     },
     {
-      "name": "_end_debug_function",
+      "name": "@end_debug_function@4",
       "start": 430672,
-      "end": 430673,
-      "provisional": true
+      "end": 430755,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "FunctionSymbol pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-end-debug-function-abi/validation.json",
+        "observed_legacy_logical": "_end_debug_function"
+      }
     },
     {
       "name": "_begin_debug_function",
@@ -4161,14 +4177,43 @@
     {
       "name": "@coff_line_marker@4",
       "start": 454048,
-      "end": 454049,
-      "provisional": true
+      "end": 454078,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "marker",
+            "location": "ECX",
+            "type": "unsigned16"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-line-marker-abi/validation.json"
+      }
     },
     {
       "name": "@coff_end_lines@8",
       "start": 453344,
-      "end": 453345,
-      "provisional": true
+      "end": 453400,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "line",
+            "location": "ECX",
+            "type": "unsigned16"
+          },
+          {
+            "name": "offset",
+            "location": "EDX",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-end-lines-abi/validation.json"
+      }
     },
     {
       "name": "_clear_optimizer_trees",
@@ -8112,6 +8157,18 @@
         "callee_stack_cleanup": 0,
         "entry_observation": "cases/dbglist-record-line-abi/validation.json"
       }
+    },
+    {
+      "name": "@write_codeview_function@4",
+      "start": 431696,
+      "end": 431697,
+      "provisional": true
+    },
+    {
+      "name": "@write_debug_scopes@4",
+      "start": 431488,
+      "end": 431489,
+      "provisional": true
     }
   ],
   "cases": {

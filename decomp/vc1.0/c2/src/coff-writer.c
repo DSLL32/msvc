@@ -566,6 +566,22 @@ unsigned __fastcall coff_define_aux_symbol(char *name, unsigned short section,
 
 CoffLineAuxiliary *coff_previous_begin_auxiliary; /* 000851d0 */
 CoffFunctionAuxiliary *coff_previous_function_auxiliary; /* 000851d4 */
+/* Original6eda0..6edbe. COFF .lf records carry the pending line count. */
+void __fastcall coff_line_marker(unsigned short marker)
+{
+    coff_define_symbol(".lf", coff_selected_section, 0x65, marker, 0);
+}
+/* Original6eae0..6eb18. Only the final line WORD is defined in .ef's
+   auxiliary record; its other bytes retain allocator contents. */
+void __fastcall coff_end_lines(unsigned short line, unsigned offset)
+{
+    void *auxiliary;
+    if (coff_debug & 1) {
+        coff_define_aux_symbol(".ef", coff_selected_section, 0x65,
+            offset, 0, &auxiliary);
+        ((CoffLineAuxiliary *)auxiliary)->line = line;
+    }
+}
 /* Original6ec30..6ec94. Ordinary line positions are relative to the
    logical section base. Full blocks reuse the writer's line free list. */
 void __fastcall coff_record_line(unsigned short line, unsigned offset)

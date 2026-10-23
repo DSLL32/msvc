@@ -52,7 +52,7 @@ void __fastcall output_noop_debug(unsigned line, unsigned offset);
 unsigned __fastcall output_noop_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment);
 void output_noop_record(void);
 void mark_unwritten_symbol(void);
-void end_debug_function(void);
+void __fastcall end_debug_function(FunctionSymbol *symbol);
 void begin_debug_function(void);
 void finish_debug_module(void);
 void __fastcall coff_output_symbol(FunctionSymbol *symbol);

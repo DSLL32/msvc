@@ -104,6 +104,17 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
             read_word(process,image_base+0x6901c),read_word(process,image_base+0x6e8a0));
         log_line(line);
     }
+    if(!strcmp(call->name,"_end_debug_function") ||
+       !strcmp(call->name,"@end_debug_function@4")) {
+        DWORD symbol=call->args[0],function=read_word(process,image_base+0x731b4);
+        dump_bytes(process,"symbol_hex",symbol,84);
+        dump_bytes(process,"symbol_name_hex",read_word(process,symbol+16),
+            string_bytes(process,read_word(process,symbol+16)));
+        sprintf(line,"symbol_state current_symbol %08lx current_function %08lx scope %08lx\n",
+            read_word(process,image_base+0x731ac),function,read_word(process,function+36));
+        log_line(line);
+        dump_bytes(process,"function_hex",function,44);
+    }
     log_line("entry_end\n");
 }
 static void numeric_snapshot(HANDLE process,ObservedCall *call,char *stage,CONTEXT *context)
