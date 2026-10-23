@@ -38,7 +38,7 @@ def field_map(model,observed):
            'cleanup_callbacks':(0x104c4d58,128,'bss','frontend_bss.cleanup_callbacks'),
            'restore_mode':(0x104cb06c,4,'external','restore_mode'),
            'compiler_mode':(0x104cb008,4,'external','compiler_mode')}
-    s.require(model['schema'] in (1,2,3,4,5,6,7,8,9,10,11,12),'unknown state-model schema')
+    s.require(model['schema'] in (1,2,3,4,5,6,7,8,9,10,11,12,13),'unknown state-model schema')
     if model['schema']>=2:
         known['context_stack']=(0x104ba900,12,'bss','frontend_bss.context_stack')
         s.require(observed['context_stack_fields']==(['origin','position','top'] if model['schema']>=5 else ['begin','end','top']),
@@ -57,7 +57,7 @@ def field_map(model,observed):
         original_offsets={'data':0,'cursor':4,'capacity':8,'relocation':12,'relocation_context':16,
                           'file':20,'ok':24,'descriptor':0x120,'mode':28}
         output_count=model['schema']-5
-        for i,base in enumerate((0x104bf5c0,0x104c0590,0x104bf358,0x104c0360,0x104c0840,0x104c0230,0x104c00f8)[:output_count]):
+        for i,base in enumerate((0x104bf5c0,0x104c0590,0x104bf358,0x104c0360,0x104c0840,0x104c0230,0x104c00f8,0x104bf228)[:output_count]):
             for name,(_,width) in layout.items():
                 known['output_buffer_%02d.'%(i+1)+name]=(base+original_offsets[name],width,'bss','frontend_bss.output_buffers[%d].'%i+name)
         s.require(observed['output_native_layout']=={'size':36,'fields':layout} and observed['output_count']==output_count and
@@ -90,7 +90,7 @@ def field_map(model,observed):
     if model['schema']>=5:fields.append('source_position')
     if model['schema']>=6:fields.append('output_buffers')
     s.require(observed['declared_fields']=={'initialized':['first_invocation'],'bss':fields} and
-              observed['known_sizes']=={'initialized':4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312,7:348,8:384,9:420,10:456,11:492,12:528}[model['schema']]},
+              observed['known_sizes']=={'initialized':4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312,7:348,8:384,9:420,10:456,11:492,12:528,13:564}[model['schema']]},
               'typed structs contain unmodeled/omitted storage')
     for kind in ('initialized','bss'):
         padding=model['native_padding']['bytes'] if kind=='bss' and model['schema']>=6 else 0

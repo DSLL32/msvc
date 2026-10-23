@@ -252,6 +252,10 @@ static void save_frontend_state(const char *suffix)
     readmem(base + 0xc0218, data + 28, 4);
     readmem(base + 0xc0114, data + 32, 1);
     sprintf(name, "output-buffer-07-%s.bin", suffix); save_blob(name, data, 33);
+    readmem(base + 0xbf228, data, 28);
+    readmem(base + 0xbf348, data + 28, 4);
+    readmem(base + 0xbf244, data + 32, 1);
+    sprintf(name, "output-buffer-08-%s.bin", suffix); save_blob(name, data, 33);
     readmem(base + 0xcc000, data, sizeof(data));
     sprintf(name, "frontend-data-%s.bin", suffix); save_blob(name, data, sizeof(data));
     if (values[1]) {
@@ -278,9 +282,9 @@ static void save_aux_state(const char *suffix)
 static void seed_output_buffer(unsigned index, const char *role)
 {
     DWORD allocated, value;
-    static const DWORD objects[] = { 0xbf5c0, 0xc0590, 0xbf358, 0xc0360, 0xc0840, 0xc0230, 0xc00f8 };
+    static const DWORD objects[] = { 0xbf5c0, 0xc0590, 0xbf358, 0xc0360, 0xc0840, 0xc0230, 0xc00f8, 0xbf228 };
     DWORD object;
-    if (index >= 7) fail("unmodeled output seed");
+    if (index >= 8) fail("unmodeled output seed");
     object = base + objects[index];
     readmem(base + 0xc4d50, &allocated, 4);
     if (!allocated) fail("output seed needs owned snapshot");
@@ -348,6 +352,7 @@ static void seed_frontend_restore(void)
     seed_output_buffer(4, "nonzero-BSS-reset");
     seed_output_buffer(5, "nonzero-BSS-reset");
     seed_output_buffer(6, "nonzero-BSS-reset");
+    seed_output_buffer(7, "nonzero-BSS-reset");
     value = 9; write_mem(base + 0xcb06c, &value, 4);
     value = !strcmp(seed, "restore-zero") ? 0 : 3; write_mem(base + 0xcb008, &value, 4);
     fprintf(events, "restore-seed mode=%s allocation=%08lx bytes=8520 cleanup-count=32 mocked-cleanup-callback=_initialize_frontend_01 slots=32\n", seed, allocated);
@@ -520,9 +525,9 @@ int main(int argc, char **argv)
                 }
                 if (address == base + 0x384d4) seed_frontend_restore();
                 if (getenv("C1XX_TEST_OUTPUT_CONSTRUCTOR")) {
-                    static const DWORD constructors[] = { 0x38666, 0x386db, 0x3872a, 0x38779, 0x387c8, 0x38817, 0x38866 };
+                    static const DWORD constructors[] = { 0x38666, 0x386db, 0x3872a, 0x38779, 0x387c8, 0x38817, 0x38866, 0x388b5 };
                     unsigned object = atoi(getenv("C1XX_TEST_OUTPUT_CONSTRUCTOR"));
-                    if (!object || object > 7) fail("unknown constructor data seed");
+                    if (!object || object > 8) fail("unknown constructor data seed");
                     if (address == base + constructors[object - 1])
                         seed_output_buffer(object - 1, "constructor-entry");
                 }

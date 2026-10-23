@@ -1,0 +1,219 @@
+{
+  "schema": 1,
+  "trial": "_initialize_output_buffer_08",
+  "trials": [
+    {
+      "seed": null,
+      "auxiliary_constructor_seed": false,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-output08-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-output08-native-1",
+      "original_receipt_sha256": "75404d6981603cec6fc93150c2fcc658e0e26e172f3a6a9588ef3fef535a2b2e",
+      "native_receipt_sha256": "8a3e28db68059522d4bc397f93273e8d67f21d5b864816475ced6eac4a8c1975",
+      "audit": "build/audits/9accdb0866b6a0423fceb625ca8845c2c744ae19e6ec500be3d56fc5d39c72a7.json",
+      "comparison": {
+        "trial": "_initialize_output_buffer_08",
+        "frontier": "_initialize_frontend_16",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 540,
+        "native_bss_size": 564,
+        "native_c_padding_bytes": 24,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 1.1665219692513347,
+        "native_seconds": 1.2912908596917987
+      }
+    },
+    {
+      "seed": "restore-nonzero",
+      "auxiliary_constructor_seed": true,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-output08-restore-nonzero-aux-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-output08-restore-nonzero-aux-native-1",
+      "original_receipt_sha256": "43e1041fc0d05560734a5b5d382bb4f8fb1ff2ad340897db11faa7deb8577b7d",
+      "native_receipt_sha256": "8d25b18daf1df009e1278e0dc2223a30cd76062920b9160cfea3ce1631aa8a57",
+      "audit": "build/audits/35e082304d7c24d84209432bb74f81fb0a2311d38bf1ebacc574997ed75a1145.json",
+      "comparison": {
+        "trial": "_initialize_output_buffer_08",
+        "frontier": "_initialize_frontend_16",
+        "seed": "restore-nonzero",
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 540,
+        "native_bss_size": 564,
+        "native_c_padding_bytes": 24,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": true,
+        "nonzero_expanded_BSS_restore_checked": true,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 1.1164969950914383,
+        "native_seconds": 1.2622654354199767
+      }
+    },
+    {
+      "seed": "restore-zero",
+      "auxiliary_constructor_seed": true,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-output08-restore-zero-aux-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-output08-restore-zero-aux-native-1",
+      "original_receipt_sha256": "e522b6e72f956aaf94bf1580b48826086d60c17f852208dfe30375ddb14837f5",
+      "native_receipt_sha256": "41c016d5a1eba5b5e74b8d353def62554176834d15f59067a8d34824c57ade50",
+      "audit": "build/audits/938dedf17e748017d5e5da3e1629bdce4c2e7025d3c8f3826ac104322b5259a3.json",
+      "comparison": {
+        "trial": "_initialize_output_buffer_08",
+        "frontier": "_initialize_frontend_16",
+        "seed": "restore-zero",
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 540,
+        "native_bss_size": 564,
+        "native_c_padding_bytes": 24,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": true,
+        "nonzero_expanded_BSS_restore_checked": true,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 1.0662585170939565,
+        "native_seconds": 1.3811256596818566
+      }
+    }
+  ],
+  "checkpoint_controls": {
+    "fresh_current_state_negative_count": 20,
+    "fresh_historical_lifecycle_negative_count": 20,
+    "original_execution_repeated_for_historical_controls": false,
+    "runs": [
+      {
+        "command": [
+          "python3",
+          "scripts/check-output-negative.py",
+          "--packet",
+          "cases/minimal/output08-trials.json"
+        ],
+        "seconds": 4.876553571783006,
+        "script_sha256": "451cba098b768a8a4faad8693f2f6cec6dba9ea2b808e27d47985a04844ef7b9",
+        "result": {
+          "result": "PASS",
+          "count": 10,
+          "rejected": [
+            "wrong-native-padding",
+            "wrong-mode-width",
+            "BSS-clear-skipped",
+            "constructor-ok-wrong",
+            "descriptor-unsigned",
+            "wrong-unused-callback",
+            "FILE-outside-owned-role",
+            "false-constructor-PC",
+            "changed-registration-callback",
+            "changed-real-initializer-table"
+          ]
+        }
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/check-context-negative.py",
+          "--packet",
+          "cases/minimal/output08-trials.json"
+        ],
+        "seconds": 4.968921856023371,
+        "script_sha256": "21e7aa1f8d3903e158a8164f419e4db706b5371234ecd992ea3ce388699af74f",
+        "result": {
+          "result": "PASS",
+          "rejected": [
+            "missing-nonzero-prestate",
+            "uncleared-new-field",
+            "changed-original-prestate",
+            "final-context-nonzero",
+            "wrong-context-layout",
+            "wrong-callback-PC",
+            "missing-callback-frontier",
+            "wrong-snapshot-identity",
+            "scalar-treated-as-pointer",
+            "wrong-scalar-value"
+          ],
+          "count": 10
+        }
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/check-completion-negative.py",
+          "--historical",
+          "/root/.ai-tmp/msvc2/vc5.10/c1xx/lifecycle-complete-original-1",
+          "/root/.ai-tmp/msvc2/vc5.10/c1xx/lifecycle-complete-native-2"
+        ],
+        "seconds": 1.665799466893077,
+        "script_sha256": "d67332816daf021f0bdb3c120fbcce956b4cde9fd67cd85efdb739287b6a9cae",
+        "result": {
+          "count": 20,
+          "rejected": [
+            "missing-return",
+            "wrong-return",
+            "false-original-completion",
+            "export-body-entered",
+            "original-module",
+            "original-dangling-end",
+            "original-callback",
+            "original-x87",
+            "wrong-provider",
+            "native-return",
+            "native-dangling-end",
+            "native-module",
+            "native-x87",
+            "native-last-error",
+            "native-notification",
+            "raw-native-state-mismatch",
+            "native-exit",
+            "native-trace",
+            "compiled-source-content",
+            "audit-missing-cold"
+          ]
+        }
+      }
+    ],
+    "checker_contract_controller_inputs_sha256": {
+      "scripts/check-callback.py": "80fd30d09f230f586d55b3f8e9b5ead81601597c167c2ed14d57882095ea277b",
+      "scripts/check-projection.py": "c483ee3b1d476e3c1247314aba75fcdd85fb5e2eefd824d382b7bc899cdc7ca4",
+      "scripts/trial-support.py": "3f998038e8b191f6c34f6b3257a9e7aaa2d1563c41fa8657f3593655cf4b8f25",
+      "scripts/check-history.py": "1a237fe8e84ba66dbdde41a1b1751af5475423f9ce472eea286f10a2ba257bd4",
+      "scripts/check-completion.py": "48670080269adbb1e3cd4703a1747cb28730bb45e62b4b8ba6acdb91276ab278",
+      "scripts/check-completion-negative.py": "d67332816daf021f0bdb3c120fbcce956b4cde9fd67cd85efdb739287b6a9cae",
+      "scripts/check-trial.py": "f02cebbe5b8da57089763e41717031badc1e5007a1a493270cf9556510cafb9c",
+      "scripts/capture-original.py": "bdf694c832247b379144dd27fcee378fae23dd2a96131a1b09891b1fb4f53bae",
+      "scripts/capture-native.py": "1fb85a12d75c35027e995b36bd9baef3af745c91518335737d0a91c7e3db6315",
+      "scripts/capture-minimal-native.py": "0629ee3512ac8ee8e0bad6b9f1f10daf7a9dc4e5ba4aa247e4c0df7dafbf2190",
+      "scripts/dll-capture.c": "4dae823101c7a9fdbca41d0fea7b08b78d809e920aa86857a0c151c65c23fb1e",
+      "scripts/native-host.c": "561d0b427dd0777b75d4f61885be23d2169da3f87890beca022b17ebf2706284",
+      "cases/minimal/contract.json": "91cdf96319801664dfe5dd853873bb4cdc57a20019147a3105ba6b3b0b7f588f",
+      "cases/minimal/state-model.json": "ef6695aaca131731e7aab6bf5042c7228d9397355bed5d4a55e61be8a0c07674",
+      "cases/minimal/invoke-argv.bin": "251781dd4a4a2891f462c2cb064b01a22d697b828f361d10e8fd501c04022b53",
+      "cases/lifecycle/validation.json": "4808f3d73f613957d6d6f77ca6e32a2ce0a73f0b22bef95b88e7f0133909c171"
+    },
+    "reuse_policy": "Earlier protocol results refer to frozen captures; no claim of fresh execution. This output-object checkpoint refreshes current-state and historical lifecycle negatives; future reuse requires unchanged checker/contract/input premises."
+  }
+}
