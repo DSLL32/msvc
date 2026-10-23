@@ -1,0 +1,15 @@
+{
+  "source": "src/stubs.c",
+  "before_sha256": "3564c952774dd00d5ba605f5584681abd085518d8e49c6f4253c27e9ed161835",
+  "after_sha256": "861ebe492c328c3d0f9593a8c471c58d263fb5e2e165f3edd9f441f19959096d",
+  "before_text": {
+    "original_compiler_text": "623f354da626cc1ac3bc20622a7ac8c6361a40cced7eeb9dfdbc652ab43b8704",
+    "native_text": "f8ddf1bc63078548cdf473fc25f59db2e4c7d8193c548a2f87fc5dd78da1f996"
+  },
+  "after_text": {
+    "original_compiler_text": "623f354da626cc1ac3bc20622a7ac8c6361a40cced7eeb9dfdbc652ab43b8704",
+    "native_text": "f8ddf1bc63078548cdf473fc25f59db2e4c7d8193c548a2f87fc5dd78da1f996"
+  },
+  "build_seconds": 3.3764032730832696,
+  "scope": "Remove blank EOF only. All original-compiler and native .text bytes identical. Existing accepted raw proofs/config/source content remain immutable. Current source hash refreshed; no new function acceptance or original recapture."
+}

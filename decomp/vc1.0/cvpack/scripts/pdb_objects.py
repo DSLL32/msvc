@@ -38,7 +38,7 @@ def capture(address,read):
         ranges.append((lo,hi))
     return result
 
-def compare_node(left,right,old,new,logical,old_names,new_names,consumed):
+def compare_node(left,right,old,new,logical,old_names,new_names,consumed,defined_writes=None):
     master=(BINARY/'cases/hello-debug-dll/input/msvc.pdb').read_bytes()
     assert bytes(left[:64])==bytes(right[:64])==master[:64],'published PDB header differs'
     assert set(old['objects'])==set(new['objects'])=={'offsets','type-storage-0','type-storage-1','index-storage-0'}
@@ -70,7 +70,13 @@ def compare_node(left,right,old,new,logical,old_names,new_names,consumed):
             used=4140 if key=='type-storage-1'else 0
             assert word(body,4)==item['address']+12+used,'PDB block cursor differs from defined payload end'
             assert word(body,8)==(storage1['address']if key=='type-storage-0'else 0),'PDB block next ownership differs'
-            if used:assert body[12:12+used]==master[64:]and len(body)==12300,'PDB payload differs or allocation extent is wrong'
+            if used:
+                expected=bytearray(master[64:])
+                for write in defined_writes or []:
+                    offset=write['offset']-12;before=bytes.fromhex(write['before']);after=bytes.fromhex(write['after'])
+                    assert 0<=offset and offset+len(before)<=len(expected)and len(before)==len(after)==2 and expected[offset:offset+2]==before,'unproved PDB defined-field preimage'
+                    expected[offset:offset+2]=after
+                assert body[12:12+used]==expected and len(body)==12300,'PDB payload differs or allocation extent is wrong'
             else:assert len(body)==12,'PDB constructor block extent differs'
         table=bytes.fromhex(objects['offsets']['bytes']);payload=bytes.fromhex(storage1['bytes'])[12:4152]
         assert len(table)==544

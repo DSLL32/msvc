@@ -132,15 +132,21 @@ def main():
     progress_path=native/args.case/'read-progress.json'
     progress_proof=compare_read_progress(config,pe,events,json.loads(progress_path.read_text())if progress_path.exists()else [],frontier,state)
     object_proof={}
+    buffer_proof=None
     if not completed and (BINARY/'walks.json').exists():
         specifications=json.loads((BINARY/'walks.json').read_text())
         from allocations import context as allocation_context
         definitions=allocation_context(config,pe,events,state,frontier,args.case,native_reads,progress_proof)
         from public_arena import context as public_arena_context
         arena_context=public_arena_context(config,pe,events,state)
-        object_proof=compare_walks(specifications,original_walks(events,specifications),state['walks'],definitions,arena_context,consumed_proof)
+        from buffer_storage import compare as compare_buffer_storage
+        buffer_path=native/args.case/'buffer-storage.json'
+        buffer_proof=compare_buffer_storage(config,pe,events,json.loads(buffer_path.read_text())if buffer_path.exists()else None,original_walks(events,specifications),state['walks'],state,args.case)
+        object_proof=compare_walks(specifications,original_walks(events,specifications),state['walks'],definitions,arena_context,consumed_proof,buffer_proof['original_namespace']if buffer_proof else None,buffer_proof['native_namespace']if buffer_proof else None,buffer_proof['comparison']['pdb_writes']if buffer_proof else None)
     original_objects=original_walks(events,specifications)if not completed else {}
     native_objects=dict(state['walks'])if not completed else {}
+    if buffer_proof:
+        original_objects.update(buffer_proof['original_namespace']);native_objects.update(buffer_proof['native_namespace'])
     from symbol_output import compare as compare_symbol_output
     symbol_path=native/args.case/'symbol-output.json'
     symbol_proof=compare_symbol_output(config,pe,events,json.loads(symbol_path.read_text())if symbol_path.exists()else [],original_objects,native_objects,args.case=='hello-debug-dll'and function.get('required_symbol_output_observation',False),state)if args.case=='hello-debug-dll'else None
@@ -149,14 +155,22 @@ def main():
         native_objects['packed_symbol_allocation']=[symbol_proof['native_namespace']]
     from type_pages import compare as compare_type_pages
     page_path=native/args.case/'type-pages.json'
-    page_proof=compare_type_pages(config,pe,events,json.loads(page_path.read_text())if page_path.exists()else [],original_objects,native_objects,state,args.case)if args.case=='hello-debug-dll'else None
+    page_proof=compare_type_pages(config,pe,events,json.loads(page_path.read_text())if page_path.exists()else [],original_objects,native_objects,state,args.case,buffer_proof)if args.case=='hello-debug-dll'else None
     if page_proof:
         original_objects['type_pointer_page']=[page_proof['original_namespace']]
         native_objects['type_pointer_page']=[page_proof['native_namespace']]
     for item in ([] if completed else json.loads((BINARY/'data.json').read_text())):
         raw=bytes(memory[item['original']+i]for i in range(item['size']))
         actual=state['globals'][item['name']]
-        if item.get('kind')=='callback-table':
+        if item.get('kind')=='pointer-structure':
+            expected=bytearray(raw);observed=bytearray.fromhex(actual)
+            assert len(expected)==len(observed)==item['size']
+            for offset in item['pointer_fields']:
+                assert pointer_identity(original_objects,int.from_bytes(expected[offset:offset+4],'little'))==pointer_identity(native_objects,int.from_bytes(observed[offset:offset+4],'little')),'global structure pointer owner differs'
+                expected[offset:offset+4]=observed[offset:offset+4]=b'\0'*4
+            assert expected==observed,'global structure defined bytes differ'
+            expected=actual
+        elif item.get('kind')=='callback-table':
             from callback_table import describe
             expected=describe(item,raw,config['functions'])
         elif item.get('kind')=='string-pointer-array':
@@ -274,7 +288,7 @@ def main():
     directory.mkdir(parents=True,exist_ok=False)
     for name in ('events','receipt.json','stdout','stderr','runtime-plan','configuration.json'):
         shutil.copyfile(original/name,directory/('original-'+name))
-    for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr','crt-returns.json','read-returns.json','pdb-read-returns.json','pdb-consumed.json','read-progress.json','symbol-output.json','type-pages.json'):
+    for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr','crt-returns.json','read-returns.json','pdb-read-returns.json','pdb-consumed.json','read-progress.json','symbol-output.json','type-pages.json','buffer-storage.json'):
         if (native/args.case/name).is_file():shutil.copyfile(native/args.case/name,directory/('native-'+name))
     shutil.copyfile(native/args.case/'configuration.json',directory/'native-configuration.json')
     for side,source in (('original',original),('native',native/args.case)):
@@ -295,7 +309,7 @@ def main():
         matched_frontier_parameters=state['parameters'],runtime_unmasked=support,pdb_header_reads=pdb_read_proof,consumed_undefined_input=consumed_proof,
         conditionally_inactive_parameters=inactive,
         conditional_CRT_support=crt_proof,
-        read_return_observations=read_proof,partial_read_observations=progress_proof,packed_symbol_output=symbol_proof,type_page_lifetime=page_proof,
+        read_return_observations=read_proof,partial_read_observations=progress_proof,packed_symbol_output=symbol_proof,type_page_lifetime=page_proof,buffer_storage=buffer_proof,
         observed_objects=object_proof,
         process_boundary=native_receipt.get('process_boundary'),
         graph_ABI_data='Complete original/compiler CFG/callee/RET ABI and contextual initial data passed',

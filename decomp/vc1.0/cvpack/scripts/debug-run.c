@@ -368,6 +368,7 @@ static DWORD symbol_base,symbol_size,symbol_input_base,symbol_module,symbol_entr
 static DWORD symbol_padding,symbol_skipped,symbol_step,symbol_tf,symbol_thread;
 static unsigned char symbol_before[8192];
 static DWORD type_page_base,type_page_step,type_page_tf,type_page_thread;
+static int buffer_enabled;
 static unsigned char type_page_before[2048];
 static DWORD pdb_read_enabled, pdb_read_step, pdb_read_tf, pdb_read_site;
 static DWORD read_site_count, read_step_site, read_step_address, read_saved_tf;
@@ -404,6 +405,11 @@ static int restore_runtime(HANDLE child, HANDLE original, HANDLE log,
             if (!WriteProcessMemory(child,(void *)0x2504e,&trap,1,&bytes) || bytes!=1) return -1;
         if (read_site_count && address<=0x199d7 && 0x199d7<address+length)
             if (!WriteProcessMemory(child,(void *)0x199d7,&trap,1,&bytes) || bytes!=1) return -1;
+        if (buffer_enabled) {
+            DWORD sites[2];sites[0]=0x22f6d;sites[1]=0x19a65;
+            for(j=0;j<2;++j)if(address<=sites[j] && sites[j]<address+length)
+                if(!WriteProcessMemory(child,(void *)sites[j],&trap,1,&bytes) || bytes!=1)return -1;
+        }
         FlushInstructionCache(child, (void *)address, length);
         memset(&context, 0, sizeof(context));
         context.ContextFlags = CONTEXT_CONTROL;
@@ -728,7 +734,7 @@ static int dump_symbol_allocation(HANDLE child,HANDLE log,DWORD frontier)
     if(frontier==0x1bee0) { defined=4;offset=4; }
     else if(frontier==0x255c0) { defined=16;offset=4; }
     else if(frontier==0x25800 || frontier==0x1b500) { defined=40;offset=28; }
-    else if(frontier==0x26520 || frontier==0x27100 || frontier==0x272a0 || frontier==0x19580 || frontier==0x1c1a0 || frontier==0x19860 || frontier==0x22f40) { defined=40;offset=202; }
+    else if(frontier==0x26520 || frontier==0x27100 || frontier==0x272a0 || frontier==0x19580 || frontier==0x1c1a0 || frontier==0x19860 || frontier==0x22f40 || frontier==0x262d0) { defined=40;offset=202; }
     else return 0;
     if(symbol_step || symbol_size!=5113 ||
        !ReadProcessMemory(child,(void *)0x335e4,&input,4,&bytes) || bytes!=4 || input!=symbol_input_base+offset ||
@@ -784,7 +790,7 @@ static int dump_type_page(HANDLE child,HANDLE log,DWORD frontier)
 {
     DWORD roots[120],bytes,written,i;int used;
     if(!type_page_base)return 1;
-    if(type_page_step || frontier!=0x22f40 ||
+    if(type_page_step || (frontier!=0x22f40 && frontier!=0x262d0) ||
        !ReadProcessMemory(child,(void *)0x37198,roots,sizeof(roots),&bytes) || bytes!=sizeof(roots) || roots[0]!=type_page_base) return 0;
     for(i=1;i<120;++i)if(roots[i])return 0;
     if(!ReadProcessMemory(child,(void *)type_page_base,array_bytes,2048,&bytes) || bytes!=2048)return 0;
@@ -1037,6 +1043,8 @@ static int dump_walks(HANDLE child, HANDLE log)
     return 1;
 }
 
+#include "buffer-observer.h"
+
 int main(int argc, char **argv)
 {
     STARTUPINFOA startup;
@@ -1080,6 +1088,7 @@ int main(int argc, char **argv)
     sprintf(command, "\"%s\" %s", program, argv[2]);
     if (GetEnvironmentVariableA("CVPACK_CAPTURE_WATCH_SPAWN", program, sizeof(program)))
         watched_spawn = strtoul(program, 0, 16);
+    buffer_enabled = GetEnvironmentVariableA("CVPACK_CAPTURE_BUFFER", program, sizeof(program)) != 0;
     if (GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_GUARD", program, sizeof(program))) {
         if (sscanf(program, "%lx:%lx:%lx", &sopen_start, &sopen_end, &sopen_offset) != 3 ||
             sopen_start != 0x2dcb0 || sopen_end != 0x2e0a0 ||
@@ -1145,6 +1154,15 @@ int main(int argc, char **argv)
                 loader_break = 1;
             } else {
                 thread = event.dwThreadId == child.dwThreadId ? child.hThread : 0;
+                if(buffer_enabled && buffer_step && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_SINGLE_STEP) {
+                    if(!rearm_buffer(child.hProcess,log,thread,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,event.dwThreadId))return 36;
+                    ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
+                }
+                if(buffer_enabled && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT) {
+                    restored=observe_buffer(child.hProcess,original,log,thread,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,event.dwThreadId);
+                    if(restored<0)return 35;
+                    if(restored) { ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue; }
+                }
                 if (thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
                     (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x2504e) {
                     if(!observe_symbol_allocation(child.hProcess,log,thread,event.dwThreadId)) return 29;
@@ -1260,6 +1278,7 @@ int main(int argc, char **argv)
                         }
                     }
                 }
+                if(!dump_buffer(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress))return 37;
                 if(!dump_type_page(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress)) return 34;
                 if(!dump_symbol_allocation(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress)) return 31;
                 if (!dump_read_progress(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,&context,words)) return 28;

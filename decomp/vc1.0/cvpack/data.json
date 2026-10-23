@@ -413,7 +413,13 @@
     "symbol": "_type_symbol_storage",
     "original": 208924,
     "size": 24,
-    "source": "src/types.c"
+    "source": "src/types.c",
+    "kind": "pointer-structure",
+    "pointer_fields": [
+      8,
+      12,
+      20
+    ]
   },
   {
     "name": "empty_type",

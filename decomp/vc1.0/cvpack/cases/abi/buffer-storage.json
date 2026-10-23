@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "root": 208924,
+  "block_size": 32512,
+  "node_size": 12,
+  "maximum_blocks": 1,
+  "record_indices": [
+    4115,
+    4133,
+    4134
+  ],
+  "copy_sizes": [
+    8,
+    12,
+    8
+  ],
+  "frontier": 156368,
+  "original_sites": {
+    "entry": 143168,
+    "allocated": 143213,
+    "returned": 105061
+  },
+  "native_allocation_line": 1306,
+  "sources": {
+    "src/types.c": "b4465be664ee2a84ade5ecc22f6476e46eed53aad2a6a803af23cada5f87b231",
+    "src/types.h": "88df451bbd2a8fe5d74d15a26b06e57a3f4b66b89b250babd8c035ac38d94c3d"
+  },
+  "instructions": [
+    {
+      "start": 143168,
+      "end": 143290,
+      "sha256": "1dc3820aadcb584b300ad89aec6abeec17dcd280814bef42963cb1a2b80b94a7"
+    },
+    {
+      "start": 103808,
+      "end": 104292,
+      "sha256": "c3ec66a54c6fc9143b6c0c3d19d9fcb4fc05dbf239c9b551025473efa1ab6eab"
+    },
+    {
+      "start": 105003,
+      "end": 105158,
+      "sha256": "d83303005876442759e574454a25de4d73311f92bf87978333be1f598b9a8755"
+    },
+    {
+      "start": 127024,
+      "end": 127065,
+      "sha256": "6edcc5c916ccf15a4da819b9e79483c5844c02192441ae9d1a2ad4a1ee81fa61"
+    },
+    {
+      "start": 127072,
+      "end": 127145,
+      "sha256": "2dfcc3eb1f5c68514a248d31132714d125768f366a9f1e27e929055749515426"
+    },
+    {
+      "start": 156960,
+      "end": 159893,
+      "sha256": "42065f0c5858fe0d6da378a5e76c8e566b3e8fbf439b1ccc2bc75cec982fb511"
+    },
+    {
+      "start": 160000,
+      "end": 160406,
+      "sha256": "d8b0954356cc26aa144a98d28c60a1b15cb59e4dd73b2cb5d193513e97f272eb"
+    }
+  ],
+  "defined_hash_node_ranges": [
+    [
+      0,
+      2
+    ],
+    [
+      4,
+      12
+    ]
+  ],
+  "reserved_hash_node_range": [
+    2,
+    4
+  ],
+  "scope": "One observed hello-debug-dll/module3 type_symbol_storage block. Every append entry/return and payload allocation observed; defined ranges grow from actual copy bytes only. Three malloc12 hash nodes have defined index/data/next and uncredited reserved2..3. Actual finite publication topology and source/callsize/def-use bound to original+canonical artifacts. No second block, unknown owner, extra copy or unobserved write allowed.",
+  "pdb_defined_writes": [
+    {
+      "type_index": 4133,
+      "field": 10,
+      "before": 4115,
+      "after": 4096
+    },
+    {
+      "type_index": 4134,
+      "field": 6,
+      "before": 4133,
+      "after": 4097
+    }
+  ]
+}

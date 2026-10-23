@@ -125,6 +125,9 @@ def main():
     env['CVPACK_CAPTURE_ARGV0']=tool.windows(ROOT/config['target']['path'])
     env['CVPACK_CAPTURE_INSPECT']=','.join(args.inspect)
     walks=json.loads((BINARY/'walks.json').read_text()) if (BINARY/'walks.json').exists() else []
+    if args.case=='hello-debug-dll'and any(r['name']=='append_buffer'and r['status']!='stub'for r in config['functions']):env['CVPACK_CAPTURE_BUFFER']='1'
+    from buffer_storage import validate as validate_buffer_storage
+    if args.case=='hello-debug-dll':validate_buffer_storage(config,original)
     env['CVPACK_CAPTURE_WALKS']=','.join('%x:%d:%d:%d:%x:%d:%d:%d'%(r['original'],r['size'],r['next'],r['limit'],r.get('count_original',0),r.get('count_size',4),r.get('count_limit',r['limit']),int(r.get('zero_allocation',False))) for r in walks)
     env['CVPACK_CAPTURE_OUTPUTS']=','.join('%x:%d:%d:%d'%(r['original'],p['slot'],json.loads((BINARY/p['evidence']).read_text())['size'],int(p['kind']in('stack-input','transient-pointer')))for r in config['functions']for p in r.get('parameters',[])if p['kind']in ('stack-output','stack-input','transient-pointer'))
     env['CVPACK_CAPTURE_ARENAS']=','.join('%x:%x:%d'%(r['original'],r['arena']['available_original'],r['arena']['capacity'])for r in walks if r.get('arena'))

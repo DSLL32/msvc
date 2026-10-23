@@ -41,7 +41,7 @@ def parse(events):
     return entries,outputs
 
 
-def compare(config,pe,events,native,old_walks,new_walks,state,case):
+def compare(config,pe,events,native,old_walks,new_walks,state,case,buffer_proof=None):
     p=validate(config,pe);entries,outputs=parse(events)
     if not(entries or outputs or native):
         assert not required(config,case),'missing mandatory type page lifetime observations'
@@ -50,24 +50,28 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case):
     assert events.splitlines().count('type-page-rearm 000199d7 000199da')==1,'missing type page allocation rearm'
     a,b,post=entries[0],native[0],outputs[0];assert not b.get('error'),'native type page observer failed'
     assert a['size']==b['size']==post['size']==2048 and a['index']==b['index']==0x1000 and a['capacity']==b['capacity']==512
-    assert post['base']==a['base']and post['frontier']==0x22f40 and b['frontier']=='append_buffer'
-    words={int(m[1]):int(m[2],16)for m in re.finditer(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)}
-    fields=re.search(r'^registers (.*)$',events,re.M)[1].split();registers={k:int(v,16)for k,v in zip(fields[::2],fields[1::2])}
-    assert words[0]==0x19a65 and words[1]==8 and a['esp']==registers['esp']+4,'type page allocation belongs to another caller frame'
-    assert len(old_walks['local_type_records'])==len(new_walks['local_type_records'])==1
-    old_table,new_table=old_walks['local_type_records'][0],new_walks['local_type_records'][0];offset=19*28
-    assert a['owner']==registers['ebx']==old_table['address']+offset and b['owner']==new_table['address']+offset,'wrong type page parent record owner'
-    assert registers['esi']==a['base']and registers['edi']==0 and registers['ebp']&0xffff==8,'wrong type page active slot/size'
-    data_pointer=int.from_bytes(bytes.fromhex(old_table['bytes'])[offset:offset+4],'little')
-    assert registers['edx']==data_pointer and registers['ecx']==0x3301c,'wrong pending type page record copy arguments'
-    frozen=(BINARY/'cases/hello-debug-dll/input/msvc.pdb').read_bytes()
-    assert hashlib.sha256(frozen).hexdigest()=='6421bc52a3c6b42958d229e92b0b4612dfb5335be933fe4ec995cd66fb30cd28','changed type page record input'
-    for walks,table in((old_walks,old_table),(new_walks,new_table)):
-        pointer=int.from_bytes(bytes.fromhex(table['bytes'])[offset:offset+4],'little')
-        block=walks['current_type_server'][0]['objects']['type-storage-1'];delta=pointer-block['address']
-        assert 12<=delta and delta+8<=12+4140,'pending type copy extends outside defined PDB payload'
-        payload=bytes.fromhex(block['bytes']);record=payload[delta:delta+8]
-        assert record==frozen[delta+52:delta+60]and record[:6]==bytes.fromhex('060001020100'),'pending type copy differs from its actual frozen record'
+    assert post['base']==a['base']and ((post['frontier']==0x22f40 and b['frontier']=='append_buffer')or(post['frontier']==0x262d0 and b['frontier']=='finish_recursive_types'and buffer_proof)), 'unproved type page frontier'
+    if post['frontier']==0x22f40:
+        words={int(m[1]):int(m[2],16)for m in re.finditer(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)}
+        fields=re.search(r'^registers (.*)$',events,re.M)[1].split();registers={k:int(v,16)for k,v in zip(fields[::2],fields[1::2])}
+        assert words[0]==0x19a65 and words[1]==8 and a['esp']==registers['esp']+4,'type page allocation belongs to another caller frame'
+        assert len(old_walks['local_type_records'])==len(new_walks['local_type_records'])==1
+        old_table,new_table=old_walks['local_type_records'][0],new_walks['local_type_records'][0];offset=19*28
+        assert a['owner']==registers['ebx']==old_table['address']+offset and b['owner']==new_table['address']+offset,'wrong type page parent record owner'
+        assert registers['esi']==a['base']and registers['edi']==0 and registers['ebp']&0xffff==8,'wrong type page active slot/size'
+        data_pointer=int.from_bytes(bytes.fromhex(old_table['bytes'])[offset:offset+4],'little')
+        assert registers['edx']==data_pointer and registers['ecx']==0x3301c,'wrong pending type page record copy arguments'
+        frozen=(BINARY/'cases/hello-debug-dll/input/msvc.pdb').read_bytes()
+        assert hashlib.sha256(frozen).hexdigest()=='6421bc52a3c6b42958d229e92b0b4612dfb5335be933fe4ec995cd66fb30cd28','changed type page record input'
+        for walks,table in((old_walks,old_table),(new_walks,new_table)):
+            pointer=int.from_bytes(bytes.fromhex(table['bytes'])[offset:offset+4],'little')
+            block=walks['current_type_server'][0]['objects']['type-storage-1'];delta=pointer-block['address']
+            assert 12<=delta and delta+8<=12+4140,'pending type copy extends outside defined PDB payload'
+            payload=bytes.fromhex(block['bytes']);record=payload[delta:delta+8]
+            assert record==frozen[delta+52:delta+60]and record[:6]==bytes.fromhex('060001020100'),'pending type copy differs from its actual frozen record'
+    else:
+        assert buffer_proof['original']['entries'][0]['owner']==a['owner']and buffer_proof['native']['entries'][0]['owner']==b['owner'],'type page allocation parent differs'
+        assert a['esp']==buffer_proof['original']['entries'][0]['esp']+4,'type page creation frame differs'
 
     memory={}
     for m in re.finditer(r'^memory ([0-9a-f]+) ([0-9a-f]+)$',events,re.M):memory.update((int(m[1],16)+i,v)for i,v in enumerate(bytes.fromhex(m[2])))
@@ -79,6 +83,14 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case):
         assert bytes.fromhex(row['roots_before'])==b'\0'*480,'type page existed before current allocation'
         assert roots==row['base'].to_bytes(4,'little')+b'\0'*476,'type page root publication differs'
         before,after=bytes.fromhex(row['before']),bytes.fromhex(after)
-        assert len(before)==len(after)==2048 and after==before,'type page has unproved writes before append returns'
+        assert len(before)==len(after)==2048
+        if post['frontier']==0x22f40:assert after==before,'type page has unproved writes before append returns'
+        else:
+            side=buffer_proof['original']if row is a else buffer_proof['native']
+            slots=b''.join(r['result'].to_bytes(4,'little')for r in side['returns'])
+            assert len(slots)==12 and after[:12]==slots and after[12:]==before[12:],'type page pointer writes/untouched tail differ'
+            for offset in range(0,12,4):
+                value=int.from_bytes(after[offset:offset+4],'little')
+                assert value==side['returns'][offset//4]['result'],'type page slot lacks observed copy result'
         for address,size,name in namespace(walks):assert not(row['base']<address+size and address<row['base']+2048),'type page allocation overlaps another owner'
-    return dict(original=a,native=b,defined_ranges=[],logical_owner='save_type/module3/type_page0/malloc199d2',original_namespace=dict(address=a['base'],bytes=post['bytes']),native_namespace=dict(address=b['base'],bytes=b['postbytes']))
+    return dict(original=a,native=b,defined_ranges=([[0,12]]if buffer_proof else []),logical_owner='save_type/module3/type_page0/malloc199d2',original_namespace=dict(address=a['base'],bytes=post['bytes']),native_namespace=dict(address=b['base'],bytes=b['postbytes']))

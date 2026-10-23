@@ -37,6 +37,8 @@ def run_case(name, directory, debug=False):
     symbol_proof=validate_symbol_output(config,original)if name=='hello-debug-dll'else None
     from type_pages import validate as validate_type_pages
     page_proof=validate_type_pages(config,original)if name=='hello-debug-dll'else None
+    from buffer_storage import validate as validate_buffer_storage
+    buffer_proof=validate_buffer_storage(config,original)if name=='hello-debug-dll'else None
     from inputs import namespace as input_namespace,relative as input_relative
     from seams import approved as approved_seams
     policies=[]
@@ -55,6 +57,7 @@ def run_case(name, directory, debug=False):
         ('python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_pdb_consumed_observer"]('+repr(str(directory/'pdb-consumed.json'))+','+repr(str(BINARY/'src/pdb.c'))+','+str(next(i for i,line in enumerate((BINARY/'src/pdb.c').read_text().splitlines(),1)if line.strip()=='if (server->incremental) {'))+')\nend\n'if name=='hello-debug-dll'else '')+
         ('python\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_symbol_allocation_observer"]('+repr(str(BINARY/'src/types.c'))+','+str(symbol_proof['native_allocation_line'])+')\nend\n'if symbol_proof else '')+
         ('python\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_type_page_observer"]('+repr(str(BINARY/'src/types.c'))+','+str(page_proof['native_allocation_line'])+')\nend\n'if page_proof else '')+
+        ('python\nrunpy.run_path('+repr(str(BINARY/'scripts/buffer-debug.py'))+')["install"]('+repr(str(BINARY/'src/types.c'))+','+str(buffer_proof['native_allocation_line'])+')\nend\n'if buffer_proof else '')+
         'continue\npython\n'
         'import gdb,json\n'
         'current=gdb.newest_frame()\nparameters={}\n'
@@ -65,6 +68,8 @@ def run_case(name, directory, debug=False):
         'json.dump(symbol_output,open('+repr(str(directory/'symbol-output.json'))+',"w"))\n'
         'pages=runpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["capture_type_page"]()\n'
         'json.dump(pages,open('+repr(str(directory/'type-pages.json'))+',"w"))\n'
+        'buffer_storage=runpy.run_path('+repr(str(BINARY/'scripts/buffer-debug.py'))+')["capture"]()\n'
+        'json.dump(buffer_storage,open('+repr(str(directory/'buffer-storage.json'))+',"w"))\n'
         'for symbol in current.block():\n'
         ' if symbol.is_argument:\n'
         '  value=current.read_var(symbol); kind=value.type.strip_typedefs().code\n'

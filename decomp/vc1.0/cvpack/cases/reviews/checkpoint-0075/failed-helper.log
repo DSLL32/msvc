@@ -1,0 +1,21 @@
+make: Nothing to be done for 'graph-identities'.
+make: Nothing to be done for 'graph-audit-tool'.
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/capture-original.py", line 180, in <module>
+    main()
+    ~~~~^^
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/capture-original.py", line 155, in main
+    assert result.returncode in ((0,17)if args.guard_probe else (0,)), repr(result.stderr)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: b''
+Traceback (most recent call last):
+  File "/root/.ai-tmp/vc1.0-cvpack/advance.py", line 7, in <module>
+    run(['python3','scripts/capture-original.py','--case','hello-debug-dll','--discover-runtime','--candidate',name,'--inspect-context','--output',str(original)])
+    ~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/.ai-tmp/vc1.0-cvpack/advance.py", line 5, in run
+    def run(args):subprocess.run(args,cwd=root,check=True)
+                  ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/usr/lib/python3.13/subprocess.py", line 577, in run
+    raise CalledProcessError(retcode, process.args,
+                             output=stdout, stderr=stderr)
+subprocess.CalledProcessError: Command '['python3', 'scripts/capture-original.py', '--case', 'hello-debug-dll', '--discover-runtime', '--candidate', 'append_buffer', '--inspect-context', '--output', '/root/.ai-tmp/vc1.0-cvpack/0075-append_buffer-original']' returned non-zero exit status 1.

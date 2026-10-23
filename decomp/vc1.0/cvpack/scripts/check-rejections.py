@@ -74,6 +74,9 @@ def main():
     from symbol_output_checks import check_append_buffer
     append_pair=BINARY/'cases/hello-debug-dll/evidence/0074-save_type'
     if append_pair.is_dir():check_append_buffer(append_pair)
+    from buffer_storage_checks import check as check_buffer_storage
+    buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
+    if buffer_directory.is_dir():check_buffer_storage(buffer_directory)
     from type_pages_checks import check as check_type_pages
     pages=BINARY/'cases/hello-debug-dll/evidence/0074-save_type'
     if pages.is_dir():check_type_pages(pages)

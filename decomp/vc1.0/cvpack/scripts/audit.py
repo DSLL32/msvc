@@ -226,6 +226,8 @@ def main():
     rebuilt=PE(args.rebuilt)
     assert original.base+original.entry==config['target']['entry']
     functions=config['functions']
+    from buffer_storage import validate as validate_buffer_storage,compiled_provenance as buffer_provenance
+    if validate_buffer_storage(config,original):buffer_provenance(rebuilt,linked)
     from reads import validate as validate_reads
     validate_reads(config,original)
     from allocations import validate as validate_allocations

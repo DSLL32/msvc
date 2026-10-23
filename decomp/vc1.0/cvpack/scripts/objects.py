@@ -82,10 +82,10 @@ def resident_module_fields(walks):
     assert len(fields)==len(set(fields)),'duplicate resident module directory'
     return sorted(fields)
 
-def compare_walks(specifications,original,native,definitions=None,public_arena=None,pdb_consumed=None):
+def compare_walks(specifications,original,native,definitions=None,public_arena=None,pdb_consumed=None,extra_original=None,extra_native=None,pdb_writes=None):
     definitions=definitions or {}
     assert set(original)==set(native)=={item['name']for item in specifications}
-    original_names,native_names=namespace(original),namespace(native)
+    original_names,native_names=namespace(original)+namespace(extra_original or {}),namespace(native)+namespace(extra_native or {})
     def logical(value,namespace):
         if not value:return None
         candidates=[(identity,value-address)for address,size,identity in namespace if address<=value<address+size or (size==0 and value==address)]
@@ -157,7 +157,7 @@ def compare_walks(specifications,original,native,definitions=None,public_arena=N
             pdb_evidence=None
             if item.get('pdb_graph'):
                 from pdb_objects import compare_node
-                pdb_evidence=compare_node(left,right,a,b,logical,original_names,native_names,pdb_consumed)
+                pdb_evidence=compare_node(left,right,a,b,logical,original_names,native_names,pdb_consumed,pdb_writes)
             cache_evidence=None
             if item.get('type_cache'):
                 from type_cache import compare as compare_type_cache

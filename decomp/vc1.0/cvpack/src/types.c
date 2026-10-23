@@ -1292,3 +1292,29 @@ complete:
         type_recursion_error = 1;
     }
 }
+
+void *__fastcall append_buffer(GrowingBuffer *buffer, const void *data, unsigned long size)
+{
+    BufferBlock *block;
+    unsigned char *payload, *result;
+    const unsigned char *source = data;
+    unsigned long i;
+    if (buffer->block_size < size) return NULL;
+    if (buffer->available < size) {
+        block = checked_zero(sizeof(*block));
+        payload = checked_alloc(buffer->block_size);
+        block->data = payload;
+        if (buffer->last) buffer->last->next = block;
+        else buffer->first = block;
+        ++buffer->block_count;
+        buffer->last = block;
+        buffer->next = block->data;
+        buffer->available = buffer->block_size;
+    }
+    result = buffer->next;
+    for (i = 0; i < size; ++i) result[i] = source[i];
+    buffer->next += size;
+    buffer->available -= size;
+    buffer->last->used += size;
+    return result;
+}

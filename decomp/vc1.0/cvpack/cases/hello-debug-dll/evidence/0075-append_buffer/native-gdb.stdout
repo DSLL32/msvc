@@ -1,0 +1,10 @@
+Breakpoint 1 at 0x6377: file src/main.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main (argc=4, argv=0xffda9914, environment=0xffda9928) at src/main.c:13
+13	{
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56626bff in finish_recursive_types () at src/stubs.c:67
+67	void finish_recursive_types(void) { __asm { int 3 } }
