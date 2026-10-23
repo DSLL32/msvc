@@ -1,0 +1,500 @@
+{
+  "schema": 1,
+  "functions": {
+    "_mainCRTStartup": {
+      "original": {
+        "roots": [
+          4608910,
+          4608931
+        ],
+        "text_data": []
+      },
+      "rebuilt": {
+        "roots": [
+          4248094,
+          4248115
+        ],
+        "text_data": []
+      }
+    },
+    "_main": {
+      "original": {
+        "roots": [
+          4251873,
+          4251918
+        ],
+        "text_data": []
+      },
+      "rebuilt": {
+        "roots": [
+          4206330,
+          4206394
+        ],
+        "text_data": []
+      }
+    },
+    "_print_logo": {
+      "original": {
+        "text_data": [
+          [
+            4593260,
+            4593280
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": []
+      }
+    },
+    "?FullLink@LinkContext@@QAEHPAE@Z": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true
+      }
+    }
+  },
+  "callback_tables": [
+    {
+      "label": "application constructors",
+      "original": [
+        4616192,
+        4616212
+      ],
+      "rebuilt_begin": "___xc_a",
+      "rebuilt_end": "___xc_z",
+      "require_accepted": false
+    },
+    {
+      "label": "C initializers",
+      "original": [
+        4616216,
+        4616220
+      ],
+      "rebuilt_begin": "___xi_a",
+      "rebuilt_end": "___xi_z",
+      "require_accepted": false
+    }
+  ],
+  "register_imports": {
+    "preservation_contracts": [
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "sprintf"
+          }
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "fprintf"
+          }
+        },
+        "preserves": [
+          "ebx",
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "fflush"
+          }
+        },
+        "preserves": [
+          "ebx",
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "kernel32.dll",
+            "name": "GetTickCount"
+          }
+        },
+        "preserves": [
+          "ebx",
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_finish_alpha_branches"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_close_argument_file@8"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_seek_file@16"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_create_contribution@28"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_close_pdb"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_commit_pdb"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_link_fatal"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_count_hash_symbols@4"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_adjust_incremental_symbols@4"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_write_mac_incremental_table@8"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_finish_image_layout@8"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "LinkContext::FinishNativeSections"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_emit_symbol_class@8"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "LinkContext::WriteRelocationSymbols"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "LinkContext::WriteLocalImports"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_write_coff_symbols@8"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "LinkContext::EmitDebugDirectories"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "LinkContext::FinishImage"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "LinkContext::PassTwo"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_release_memory@4"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_finish_mac_entry_point@8"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_finish_mac_headers@4"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "LinkAuxiliaryData::FinishOutput"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_finish_ppc_branches"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_clear_argument_list@4"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "LinkContext::UpdateChecksum"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_finish_symbol_tables"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      },
+      {
+        "target": {
+          "function": "_attach_comdat@12"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-import-preservation.json",
+          "sha256": "f9fd3a64cc8c16bcf4cb32c64145b1b3ab8c1ca9da253eddec2ba2c27ec686e5"
+        }
+      }
+    ],
+    "callback_preservation_contracts": [
+      {
+        "owner": "?FullLink@LinkContext@@QAEHPAE@Z",
+        "original": {
+          "site": 4474773,
+          "slot": 4714192
+        },
+        "rebuilt": {
+          "site": 4242801,
+          "slot": 4260888
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-win32/full-link-closed-slot.json",
+          "sha256": "73626e3fec5c360a7ecf230bea74f18e2707679743cb3a197dd73135e0dae458"
+        }
+      }
+    ]
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "start": 4255184,
+  "end": 4255335,
+  "bytes": 151,
+  "sha256": "41b39c2407125aa10714b3d8184b0a8110de08f7d0be3b5d61a421c27f7553a0",
+  "record_bytes": 68,
+  "encountered_fields": {
+    "modules": 4,
+    "module_capacity": 8,
+    "module_count": 12,
+    "active": 16,
+    "path": 20
+  },
+  "preserved_fields": {
+    "index_data": 28,
+    "flags": 48,
+    "next": 60
+  },
+  "allocation": "reserve_memory68 or incremental allocate_link_memory(1,68); five-pointer modulevector allocate_memory20. NULL name/path case stops before allocations at genuine find_library entry; no dynamic creator completion claimed.",
+  "field_inputs": "name/path/libraries actual NULL,NULL,context+1bc. Current context library list16B is actualempty [0,self,0,0]; finder actual name/head/before are all0, head tied to this typed owner; no hidden inputs.",
+  "source_checks": "Both original and native builds assert complete68B size and every consumed fieldoffset. Existing header fields flags48/next60 unchanged; full graph/RET/import/body/reference/ownership gates pass."
+}

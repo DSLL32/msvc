@@ -93,7 +93,8 @@
     "_get_available_file_record",
     "_move_file_record@24",
     "_open_mapped_file@16",
-    "_initialize_file_mapping@12"
+    "_initialize_file_mapping@12",
+    "_create_library@12"
   ],
   "driver": [
     {
@@ -2415,10 +2416,9 @@
     {
       "name": "_create_library@12",
       "start": 4255184,
-      "end": 4255185,
+      "end": 4255335,
       "source": "src/pass-one.cpp",
-      "status": "stub",
-      "pending_extent": true,
+      "status": "implemented",
       "native_symbol": "create_library",
       "abi": "stdcall OutputLibrary *(const char *name,const char *path,LinkPointerList *libraries); three stack inputs,RET12; declarations derived from actual caller/callee inventory; formals captured when reached"
     },

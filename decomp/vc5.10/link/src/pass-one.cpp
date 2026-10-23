@@ -9,11 +9,13 @@
 #include "options.h"
 #include "full-link-functions.h"
 #include "pass-one.h"
+#include "memory.h"
 #include <recon.h>
 
 extern "C" {
 extern BYTE verbose_link,mac_target;
-extern BYTE module_section_pools_ready;
+extern BYTE module_section_pools_ready,incremental_enabled;
+extern MemoryArena *output_library_arena;
 extern const char *output_file_name,*entry_point_name,*definition_file;
 extern char *repro_directory;
 extern char current_phase[32];
@@ -136,7 +138,26 @@ void RECON_THISCALL LinkContext::PassOne(void)
 }
 
 extern "C" void __cdecl link_message(unsigned message,...) { __asm { int 3 } }
-extern "C" OutputLibrary *__stdcall create_library(const char *name,const char *path,LinkPointerList *libraries) { __asm { int 3 } return NULL; }
+extern "C" OutputLibrary *__stdcall create_library(const char *name,const char *path,LinkPointerList *libraries)
+{
+    OutputLibrary *library=(OutputLibrary *)find_library((const unsigned char *)name,libraries->first,0);
+    if (!library) {
+        if (incremental_enabled) library=(OutputLibrary *)allocate_link_memory(1,sizeof(OutputLibrary));
+        else library=(OutputLibrary *)reserve_memory(&output_library_arena,sizeof(OutputLibrary));
+        library->name=name?duplicate_link_string(name):NULL;
+        library->path=path;
+        library->reserved34[1]=0;
+        library->next=NULL;
+        library->reserved40=0;
+        library->module_capacity=5;
+        library->module_count=0;
+        library->modules=(OutputModule **)allocate_memory(5*sizeof(*library->modules));
+        library->active=1;
+        *libraries->last=library;
+        libraries->last=(void **)&library->next;
+    }
+    return library;
+}
 extern "C" void __stdcall check_output_input_collision(const char *output,InputArgument *inputs)
 {
     char output_path[260],input_path[260];

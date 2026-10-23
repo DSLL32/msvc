@@ -15,12 +15,16 @@ typedef struct ComdatRoot ComdatRoot;
 
 /* Only fields consumed by FullLink are named here. These are prefixes, not
  * claims about an allocation's complete size or its as-yet unknown tail. */
-/* The initializer allocates these complete records (156 and68 bytes). Only
- * its name/library fields have yet been consumed; the other fields remain
- * explicitly unnamed rather than borrowing another linker's layout. */
+/* The initializer allocates complete156-byte module and68-byte library records.
+ * Name fields as their producers/consumers are reached; retain unknown gaps. */
 struct OutputLibrary {
     char *name;
-    DWORD reserved04[6];
+    OutputModule **modules;
+    DWORD module_capacity;
+    LONG module_count;
+    BYTE active, reserved11[3];
+    const char *path;
+    DWORD reserved18;
     /* Opaque library-owned index buffers, released after input processing. */
     void *index_data[5];
     DWORD flags, reserved34[2];
@@ -87,6 +91,9 @@ typedef struct MacResource {
 } MacResource;
 
 typedef char OutputLibrarySize[(sizeof(OutputLibrary)==68)?1:-1];
+typedef char LibraryCreatorFields[(offsetof(OutputLibrary,modules)==4 &&
+    offsetof(OutputLibrary,module_capacity)==8 && offsetof(OutputLibrary,module_count)==12 &&
+    offsetof(OutputLibrary,active)==16 && offsetof(OutputLibrary,path)==20)?1:-1];
 typedef char LibraryIndexDataAt1c[(offsetof(OutputLibrary,index_data)==0x1c)?1:-1];
 typedef char LibraryFlagsAt30[(offsetof(OutputLibrary,flags)==0x30)?1:-1];
 typedef char LibraryNextAt3c[(offsetof(OutputLibrary,next)==0x3c)?1:-1];
