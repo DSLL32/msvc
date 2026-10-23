@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_deferred_tokens_may_be_declaration",
+    "start": 101296,
+    "end": 101622
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_check_parameter_default@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4154932154342532,
+  "total_operation_seconds": 4.319686742499471,
+  "original_capture_seconds": 2.020024343393743
+}

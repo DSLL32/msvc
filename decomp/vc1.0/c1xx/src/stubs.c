@@ -243,7 +243,6 @@ ParserValue __stdcall recovery_token_value(int token) { ParserValue value; __asm
 void __stdcall report_parser_error(char *text) { __asm { int 3 } }
 
 /* C++ token classification and deferred lookahead. */
-int deferred_tokens_may_be_declaration(void) { __asm { int 3 } return 0; }
 unsigned char read_deferred_argument_text(void) { __asm { int 3 } return 0; }
 void __stdcall restore_qualified_lookup(QualifierBinding *binding) { __asm { int 3 } }
 QualifiedDeclarator *__stdcall copy_qualified_declarator(QualifiedDeclarator *source, int arena) { __asm { int 3 } return 0; }

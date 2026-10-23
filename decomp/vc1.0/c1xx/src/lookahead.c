@@ -190,3 +190,35 @@ void __stdcall classify_deferred_type(DeferredToken *token)
     deferred_token_cursor->value.name = tag->name;
     declaration_spec_flags[declaration_depth] |= 2;
 }
+
+/* Original 0x18bb0..0x18cf6. Consume deferred tokens while checking
+   whether a type-like token can still start a declaration. Parentheses and
+   brackets protect interior stars, and an unmatched closing parenthesis
+   terminates lookahead without advancing past it. */
+int deferred_tokens_may_be_declaration(void)
+{
+    int parentheses = 0, brackets = 0, may_start_type = 1;
+    if (token_allocation_flags & 0x40000000UL) return 1;
+    while ((token_allocation_flags & 0x10000000UL) &&
+        deferred_token_cursor != deferred_token_end) {
+        switch (deferred_token_cursor->parser_token) {
+        case 2: case 3: case 34: case 161: case 181:
+            if (may_start_type) return 1;
+            break;
+        case 61:
+            may_start_type = 1;
+            break;
+        case 64:
+            if (!parentheses && !brackets) may_start_type = 0;
+            break;
+        case 74: ++brackets; break;
+        case 128: ++parentheses; break;
+        case 132: --brackets; break;
+        case 136:
+            if (--parentheses < 0) return 0;
+            break;
+        }
+        ++deferred_token_cursor;
+    }
+    return 0;
+}

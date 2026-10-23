@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "accepted_frontiers": 1035,
+  "source_functions": 948,
+  "source_commit": "26bea2fa",
+  "checks": [
+    "audit",
+    "graph-negative-check",
+    "native-rejections"
+  ],
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "graph-negative-check",
+    "native-rejections"
+  ],
+  "scope": "Canonical accepted function graph and encountered data, parser grammars, graph/data negative checks, and all four existing native unsupported-path guards. No original recapture for this audit.",
+  "files": {
+    "state-machine-1035-audits.json": "28bc3b203ef86c8e640aaef99d036c40a993ceb94bd75af6903b407a136bc53c",
+    "state-machine-1035-audits.log": "f6e8423e86836bdcde13284707570d1e936b4fde5a8891a1065cabda3131c7ea"
+  }
+}

@@ -1039,7 +1039,8 @@
     "_mangle_static_member_name@8",
     "_register_static_member_alias@8",
     "_hash_symbol_index",
-    "_hash_low_pointer_bits"
+    "_hash_low_pointer_bits",
+    "_deferred_tokens_may_be_declaration"
   ],
   "driver": [
     {
@@ -3157,7 +3158,7 @@
     {
       "name": "_deferred_tokens_may_be_declaration",
       "start": 101296,
-      "end": 101297
+      "end": 101622
     },
     {
       "name": "_read_deferred_argument_text",
@@ -7955,7 +7956,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_deferred_tokens_may_be_declaration",
+      "terminal": "_check_parameter_default@8",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -7978,7 +7979,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1034-hash_low_pointer_bits/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1035-deferred_tokens_may_be_declaration/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8018,7 +8019,8 @@
         "cases/frontiers/state_machine_debug/1031-mangle_static_member_name-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1032-register_static_member_alias-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1033-hash_symbol_index/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1034-hash_low_pointer_bits/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1034-hash_low_pointer_bits/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1035-deferred_tokens_may_be_declaration/frontier-extension.json"
       ]
     }
   },

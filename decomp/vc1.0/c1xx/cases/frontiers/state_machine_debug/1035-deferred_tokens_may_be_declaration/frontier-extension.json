@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1035,
+  "accepted": "_deferred_tokens_may_be_declaration",
+  "terminal": "_check_parameter_default@8",
+  "original_capture": "cases/frontiers/state_machine_debug/1035-deferred_tokens_may_be_declaration/original-receipt.json",
+  "original_capture_sha256": "a1d74e2da564dd0b592f608c1ae7f9dc4eae96cb9e2e4f11cf0b80adb6c46f3b",
+  "original_events": "cases/frontiers/state_machine_debug/1035-deferred_tokens_may_be_declaration/original-events.txt",
+  "original_events_sha256": "ecefcc0408a0c7e6446fb327789758d6451228e79a075f935905fbcaaf9e8703",
+  "original_configuration": "cases/frontiers/state_machine_debug/1035-deferred_tokens_may_be_declaration/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}
