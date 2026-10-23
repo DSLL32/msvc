@@ -1084,7 +1084,8 @@
     "@select_runtime_intrinsic@4",
     "@lookup_runtime_intrinsic_opcode@8",
     "@can_keep_float_store@12",
-    "@find_float_register_reload@12"
+    "@find_float_register_reload@12",
+    "@initializer_symbols_available@4"
   ],
   "driver": [
     {
@@ -2240,8 +2241,7 @@
     {
       "name": "@initializer_symbols_available@4",
       "start": 322928,
-      "end": 322929,
-      "provisional": true
+      "end": 323103
     },
     {
       "name": "@queue_initializer_dependencies@4",

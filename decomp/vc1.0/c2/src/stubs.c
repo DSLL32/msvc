@@ -134,7 +134,6 @@ Segment *__fastcall close_segment_listing(Segment *segment) { __asm int 3 }
 char *__fastcall listing_segment_name(Segment *segment) { __asm int 3 }
 #include "machine.h"
 SymbolHeader *__fastcall lookup_alias_target(SymbolHeader *symbol) { __asm int 3 }
-int __fastcall initializer_symbols_available(SymbolHeader *symbol) { __asm int 3 }
 #include "symbol-output.h"
 void __fastcall write_public_listing(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_external_listing(SymbolHeader *symbol) { __asm int 3 }

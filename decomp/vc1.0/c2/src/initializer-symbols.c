@@ -82,3 +82,36 @@ BackendSymbolList *new_symbol_list_node(void)
 {
     return arena_alloc(4, sizeof(BackendSymbolList));
 }
+
+/* Original [0004ed70,0004ee1f). Check referenced initializer symbols
+   recursively. Output bit4 is both the recursion mark and the retained
+   dependency mark; roll it back when a nested reference is unavailable. */
+int __fastcall initializer_symbols_available(SymbolHeader *symbol)
+{
+    Initializer *initializer;
+    SymbolHeader *referenced;
+    BackendSymbol *storage;
+    if (symbol->kind != 1 || !(symbol->field0e & 0x480)) return 1;
+    for (initializer = find_initializer(symbol->identifier)->next; initializer;
+         initializer = initializer->next) {
+        if (initializer->kind != 2) continue;
+        referenced = lookup_global_symbol(initializer->content.relocation.symbol_id);
+        if (!referenced) return 0;
+        storage = (BackendSymbol *)referenced;
+        if ((referenced->kind == 4 || referenced->kind == 1) &&
+            (storage->attributes & 0x1000))
+            referenced = lookup_alias_target(referenced);
+        storage = (BackendSymbol *)referenced;
+        if (storage->output_flags & 4) continue;
+        storage->output_flags |= 4;
+        if (!initializer_symbols_available(referenced)) {
+            storage->output_flags &= ~4;
+            return 0;
+        }
+        queue_symbol_debug(referenced);
+        if (referenced->kind == 4 && (storage->attributes & 0x4000) &&
+            !(storage->attributes & 0x1000))
+            ((FunctionSymbol *)referenced)->flags52 |= 0x20;
+    }
+    return 1;
+}

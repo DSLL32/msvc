@@ -1,7 +1,7 @@
 C23232.EXE reconstruction, vc1.0 / original1.0-nt toolchain
 
-Current checkpoint:1080 accepted frontiers and1001 reconstructed source functions.
-Accepted original code extents cover298932/399693 bytes (74.790402%). This is
+Current checkpoint:1081 accepted frontiers and1002 reconstructed source functions.
+Accepted original code extents cover299107/399693 bytes (74.834185%). This is
 an extent union of source, shared text data, CRT and import thunks, clipped to
 original VirtualSize (raw-size fallback when zero), not branch coverage.
 
@@ -15,11 +15,9 @@ check/replay and named-profile checks run native i386 -O0 -g only. They compare
 cached original first-entry traces, status, streams and complete object bytes.
 Unknown process dependencies fail; no fixture invokes Wine or refreshes original
 references. Only identified COFF timestamp bytes4..7 are normalized. The suite
-contains seven complete objects: minimal286, hello2289, loops620, pressure879,
-aliasing600, floating979 and i386572 bytes. Deep x87 currently ends at the
-matching named trap initializer_symbols_available. Its original complete947-byte
-object is captured for the later completion check. The approved883-byte i486
-case remains queued. See cases/queue.json and cases/native-all-validation.json.
+contains eight complete objects: minimal286, hello2289, loops620, pressure879,
+aliasing600, floating979, i386572 and deep x87947 bytes. The approved883-byte
+i486 case is next. See cases/queue.json and cases/native-all-validation.json.
 
 Original builds and explicit captures use the repository shared prefix
 ~/.ai-tmp/vc1.0-capture/wine. Fixed drives are R:repo and S:~/.ai-tmp/msvc2.

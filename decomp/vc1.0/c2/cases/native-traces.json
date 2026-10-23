@@ -2,7 +2,7 @@
   "schema": 2,
   "description": "Fresh shared-prefix original entry projection; no capture or Wine in fixtures",
   "metadata_sha256": {
-    "functions.json": "2f8742f108cc6b5cc81d0e5416103c16eb2b41ba8611d45adf555860d6729161",
+    "functions.json": "9083cced296a3d8ccb540a152666fc060283882707948b87330ef063a908dec5",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -2116,7 +2116,7 @@
     },
     "initializer_symbols_available": {
       "logical": "@initializer_symbols_available@4",
-      "source": "src/stubs.c"
+      "source": "src/initializer-symbols.c"
     },
     "inline_argument_prefix": {
       "logical": "@inline_argument_prefix@4",
@@ -14487,6 +14487,116 @@
               "total_seconds": 0.8717717053368688
             }
           }
+        },
+        {
+          "accepted_function": "@initializer_symbols_available@4",
+          "accepted_kind": "application",
+          "previous_logical": "@initializer_symbols_available@4",
+          "original_extent": [
+            "0x4ed70",
+            "0x4ee1f"
+          ],
+          "before": {
+            "path": "cases/x87-original-1080.json",
+            "sha256": "aa6ed482b3150792bed48a5c0d800fbe9dab9a933b822a0a22dce4e6b18e3068",
+            "capture": {
+              "label": "x87-original-1080",
+              "profile": "x87",
+              "accepted": 1080,
+              "events": "exception 80000003 rva 0003ed70 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "14386fbc9a908403b663f2933aecff356dc1cef14847f3abc2629a4b600ba78a",
+              "config_sha256": "2f8742f108cc6b5cc81d0e5416103c16eb2b41ba8611d45adf555860d6729161",
+              "manifest_sha256": "d64118f64de5cfdd7f9631c197e4e772843979666987237cff203f77261187a2",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "83a2663ce1022428d1529c5e46a16058bef4c3dc26754b56df1907f4c5e55884",
+                "c2/irsy": "d430f60f62b0267369a2bf72f2ef784b8a677b8e5a3f0bfe002bbd8b016a920f",
+                "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+                "c2/irgl": "e237def8092a228c3511d53f1dae8597a329c8c055b25615b15c76cd012d8151"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f stack87.c -W 1 -dos -Fostack87.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-x87-gl26pqzi",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\x87",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "@initializer_symbols_available@4",
+              "original_va": "0x4ed70",
+              "setup_seconds": 0.22387190628796816,
+              "execution_seconds": 0.621230049058795,
+              "check_seconds": 0.026669340208172798,
+              "total_seconds": 0.8717717053368688
+            }
+          },
+          "after": {
+            "path": "cases/x87-original-1081.json",
+            "sha256": "0825cbadc5346451fec0413a988d594cdf944746a453a4a667733377c9c924b4",
+            "capture": {
+              "label": "x87-original-1081",
+              "profile": "x87",
+              "accepted": 1081,
+              "events": "exit 0\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "c8899b74c196a1899b5ba66a0a9ca7598738e4adc44861c83b3aecc92442f258",
+              "config_sha256": "9083cced296a3d8ccb540a152666fc060283882707948b87330ef063a908dec5",
+              "manifest_sha256": "d64118f64de5cfdd7f9631c197e4e772843979666987237cff203f77261187a2",
+              "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+              "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+              "inputs": {
+                "c2/irex": "83a2663ce1022428d1529c5e46a16058bef4c3dc26754b56df1907f4c5e55884",
+                "c2/irsy": "d430f60f62b0267369a2bf72f2ef784b8a677b8e5a3f0bfe002bbd8b016a920f",
+                "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+                "c2/irgl": "e237def8092a228c3511d53f1dae8597a329c8c055b25615b15c76cd012d8151"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f stack87.c -W 1 -dos -Fostack87.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "S:\\vc1.0\\c2\\original-x87-dgtvls6k",
+              "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+              "canonical_working_directory": "S:\\vc1.0\\c2\\x87",
+              "fixed_drives": {
+                "R:": "/root/msvc2",
+                "S:": "/root/.ai-tmp/msvc2"
+              },
+              "first_entry_projection": {
+                "expected": [],
+                "observed": [],
+                "seeded": [],
+                "entry_plan_sha256": null
+              },
+              "logical": "exit:0",
+              "original_va": null,
+              "outputs": [
+                {
+                  "path": "cases/x87-original-1081/stack87.obj",
+                  "name": "stack87.obj",
+                  "bytes": 947,
+                  "sha256": "a283bb7084759bb5642396ea273df0767731eab4245badec30f3bde3e7379c72",
+                  "normalized_sha256": "ea2ede713ea319d8ed87433a73f77bce17bffddb35a6d95dc8296d37c3063be1",
+                  "ignored_timestamp": [
+                    4,
+                    4
+                  ]
+                }
+              ],
+              "setup_seconds": 0.2234415002167225,
+              "execution_seconds": 1.4223303608596325,
+              "check_seconds": 0.025159531272947788,
+              "total_seconds": 1.6709316987544298
+            }
+          }
         }
       ]
     }
@@ -20095,7 +20205,7 @@
     },
     "x87": {
       "first": 1071,
-      "last": 1080,
+      "last": 1081,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -21097,9 +21207,9 @@
         "find_float_register_reload",
         "initializer_symbols_available"
       ],
-      "terminal": "@initializer_symbols_available@4",
-      "terminal_kind": "application",
-      "returncode": -5
+      "terminal": "exit:0",
+      "terminal_kind": "exit",
+      "returncode": 0
     }
   }
 }

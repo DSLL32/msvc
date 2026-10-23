@@ -1,10 +1,10 @@
 {
   "modules": [
     {
-      "module": "float-machine",
-      "seconds": 2.161995705217123,
+      "module": "initializer-symbols",
+      "seconds": 1.9569112276658416,
       "returncode": 0
     }
   ],
-  "seconds": 2.162192481569946
+  "seconds": 1.9571182588115335
 }

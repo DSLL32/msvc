@@ -1,5 +1,5 @@
 {
-  "active": "x87-stack",
+  "active": "i486-floating",
   "queued": [
     {
       "case": "hello-win32",
@@ -145,7 +145,7 @@
       "case": "x87-stack",
       "after": "i386-integer",
       "phase": "c2",
-      "status": "active",
+      "status": "complete",
       "flags": [
         "/Oi",
         "/O2",
@@ -251,6 +251,14 @@
       "exit": 0,
       "object_bytes": 572,
       "normalized_sha256": "0a6b9aab640ae847cbf4f9eaf03bc100dd334a186b35397791d43ca73e67ad2b"
+    },
+    {
+      "case": "x87-stack",
+      "accepted_frontiers": 1081,
+      "reconstructed_functions": 1002,
+      "exit": 0,
+      "object_bytes": 947,
+      "normalized_sha256": "ea2ede713ea319d8ed87433a73f77bce17bffddb35a6d95dc8296d37c3063be1"
     }
   ],
   "status": "Active approved CPU/x87 queue; pause after all three complete"

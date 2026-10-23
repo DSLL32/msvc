@@ -1,0 +1,114 @@
+{
+  "checkpoint": 1081,
+  "base_commit": "c21009d0",
+  "status": "complete",
+  "source_graphs": 1002,
+  "accepted_function": "@initializer_symbols_available@4",
+  "extent": [
+    "0x4ed70",
+    "0x4ee1f"
+  ],
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1081,
+    "accepted_code_bytes": 299107,
+    "original_code_bytes": 399693,
+    "percentage": 74.83418523716952,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 493
+  },
+  "original": "cases/x87-original-1081.json",
+  "native": {
+    "profile": "x87",
+    "terminal": "exit:0",
+    "returncode": 0,
+    "application_entries": 10,
+    "seeded_entries": 987,
+    "output": {
+      "name": "stack87.obj",
+      "bytes": 947,
+      "normalized_sha256": "ea2ede713ea319d8ed87433a73f77bce17bffddb35a6d95dc8296d37c3063be1",
+      "ignored_timestamp": [
+        4,
+        4
+      ]
+    },
+    "setup_seconds": 0.012542987242341042,
+    "execution_seconds": 0.006665477529168129,
+    "check_seconds": 0.0010520946234464645,
+    "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/native-fixtures-01zz5_wc/x87"
+  },
+  "limits": [
+    "All947 object bytes match after only established COFF timestamp normalization; original/native exit0 and empty streams",
+    "Whole175-byte recursive initializer dependency predicate preserves rollback and function-marking branches",
+    "Actual input completes without reaching scheduler exchange/arrangement stubs; no slot8 execution claimed",
+    "No shared shim changes required"
+  ],
+  "timing": {
+    "frontier1081-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.453832716681063,
+      "returncode": 0,
+      "log_sha256": "8d8ec7e66e735fee64bd8665145df860c6214b66ca05e2a2b8ee1fcbd82f0401"
+    },
+    "frontier1081-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "initializer-symbols"
+      ],
+      "seconds": 2.007659563794732,
+      "returncode": 0,
+      "log_sha256": "d186de5a8593afd40a7232d6880a5c7e98199b0bd513b1f2d59b9a36fb8b00ca"
+    },
+    "frontier1081-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "x87",
+        "--receipt",
+        "cases/x87-original-1081.json"
+      ],
+      "seconds": 1.7413443448022008,
+      "returncode": 0,
+      "log_sha256": "0825cbadc5346451fec0413a988d594cdf944746a453a4a667733377c9c924b4"
+    },
+    "frontier1081-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.778772486373782,
+      "returncode": 0,
+      "log_sha256": "eb835abc8f4e0b89baccb60722ed2a297fa23e39b762078e67f008908c3af790"
+    },
+    "frontier1081-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4341513914987445,
+      "returncode": 0,
+      "log_sha256": "01835338b7b56457a354137a2ba6f44757212579735572be94b35e2f0b798ebe"
+    }
+  },
+  "analysis_seconds": null
+}
