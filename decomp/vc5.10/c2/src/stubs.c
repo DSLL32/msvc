@@ -125,4 +125,3 @@ void __fastcall read_module_directive(int kind) { __asm { int 3 } }
 int __fastcall register_source_file(char *name) { __asm { int 3 } return 0; }
 char *__fastcall lookup_source_file(char *name, unsigned *bytes) { __asm { int 3 } return NULL; }
 void __fastcall uppercase_symbol_name(char *name) { __asm { int 3 } }
-unsigned short input_type(void) { __asm { int 3 } return 0; }

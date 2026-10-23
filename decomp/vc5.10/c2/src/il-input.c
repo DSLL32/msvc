@@ -80,6 +80,15 @@ void __fastcall input_string(char *buffer, unsigned capacity)
         c2_report_internal("E:\\utc\\src\\\\Common\\ioin.c", 0x126);
 }
 
+unsigned short input_type(void)
+{
+    unsigned char first = (unsigned char)c2_read_il_byte();
+    if (first & 0x80)
+        return (unsigned short)(((first & 0x7f) << 8) |
+                                (unsigned char)c2_read_il_byte());
+    return first;
+}
+
 void read_global_symbols(void)
 {
     c2_current_il = c2_globals_input;

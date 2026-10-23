@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "baseline_commit": "6c8e1f00",
+  "control_result": "cases/acceptance/0056-symbol-type/rejections.json",
+  "control_result_sha256": "0757224d07a1183b0dd6161429ad340fe3e965d6a0289078db1c0f24ecdb3550",
+  "checker_contracts": {
+    "scripts/accept.py": "d75eb39b2710ded0bdb308d81e0e628c1b96a16c3769643d96767d57b6489e14",
+    "scripts/audit.py": "938cace588deae113948d5b1828155e8cd90036c737001dd05f2767ff90acc40",
+    "scripts/build-index.py": "5beaace21d403b849369c992ae8ca21183d211da58aca531d0678407d124289f",
+    "scripts/capture-native.py": "26dfcdfcc4b382a9245ad6562685008316214266b1ddc13619a028a8b12ca4ba",
+    "scripts/capture-original.py": "af5c46fdd5c60a9d50a69981bdbfdf0df9abb3eef31b3cd25cc63b21f2862ec5",
+    "scripts/case_inputs.py": "13ab2ee944896ade6b46c2b2d226fd63233ea9d3191931b1d8a84ddbfaa48aa9",
+    "scripts/check-rejections.py": "28ae2e6453f551e246cb7d43bb71b9ef262dd9104a693a749bae8e504a262d2b",
+    "scripts/compare.py": "6b39b3a6a4f3c664d6ee9f6bb372169d6c9278fed53d79a903bbff43b222b138",
+    "scripts/data_evidence.py": "e9a5604c0e13ef481461d0099a5387ed4a05e6582ed87a6d30ab9e793ce28af0",
+    "scripts/debug-run.c": "6af9d38ae3f496899fe93fd4ec7b4dd03f54d55abf85f956cb21dffe2e417721",
+    "scripts/import_evidence.py": "b95bf84a6fe9a82ccc1f8450e0767f4e62da0ef396bcdb625719b500b10c768c",
+    "scripts/intrinsic_evidence.py": "89e13fbff12ec278801984bd7360b54b392cc50e332d9f449c7f8b9032ab0034",
+    "scripts/native-proof.py": "91fd879644eb159a173dade958a2f78d47ca25738ad3e3452be43757a33d7102",
+    "scripts/state.py": "c823efddd33082153589d54de971b74d841cf14da3b3080fb9f2639d1211f34e"
+  },
+  "source_archive": "checker-contracts.tar.gz",
+  "source_archive_sha256": "ed4ab3566b09ce5d9f7c7cd6921161092f9062f2d486283b5cfe3ed9026a85bc",
+  "proof_inputs": {
+    "original_receipt": "12dab99a5285e02109ecbc82daaf955016076d7467309cb1f01d3f0c21739c4c",
+    "native_receipt": "ac626b916ac7830a4d646a1c6251dd3023d1f5760b23f72b0757250407ac1d67"
+  },
+  "review": "Type56 passed9 fresh controls plus117 reviewed/reused; immutable checker and raw proof inputs retained. Reader57 advances3bytes to compact signed value, currentattribute52 proves decodedtype2 and storageclass5."
+}

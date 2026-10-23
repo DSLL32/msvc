@@ -130,7 +130,7 @@ def main():
             path=root/'n/receipt.json';receipt=json_at(path);receipt['gdb_outputs']['gdb.stdout']=sha((root/'n/gdb.stdout').read_bytes());write_json(path,receipt)
         def changed_type_raw(root,name,index):
             path=root/'o'/name;data=bytearray(path.read_bytes());data[index]^=1;path.write_bytes(data)
-        formal_control=('type reader omits actual symbol formal',lambda r:changed_type_input(r,'formals',[]))if current_state['symbol_type_input']['formals']else('type-code reader invents actual formal',lambda r:changed_type_input(r,'formals',[{'name':'symbol','type':'C2Symbol *'}]))
+        formal_control=('type reader omits actual symbol formal',lambda r:changed_type_input(r,'formals',[]))if current_state['symbol_type_input']['formals']else('no-argument reader invents actual formal',lambda r:changed_type_input(r,'formals',[{'name':'symbol','type':'C2Symbol *'}]))
         mutations += [formal_control,
                       ('type reader actual symbol pool offset differs',lambda r:changed_type_input(r,'symbol_offset',552)),
                       ('type reader loses actual caller-symbol alias',lambda r:changed_type_input(r,'caller_symbol_alias',False)),
@@ -150,6 +150,11 @@ def main():
                       ('type reader raw current record kind differs',lambda r:changed_type_raw(r,'function-symbol.bin',4)),
                       ('type reader raw current record untouched tail differs',lambda r:changed_type_raw(r,'function-symbol.bin',109)),
                       ('type reader rounded function padding differs',lambda r:changed_type_raw(r,'pool-block.bin',659))]
+        if bytes.fromhex(current_state['symbol_type_input']['symbol_bytes'])[54]:
+            def missing_decoded_type(root):
+                data=bytearray.fromhex(current_state['symbol_type_input']['symbol_bytes']);data[54]&=0xf0
+                changed_type_input(root,'symbol_bytes',data.hex())
+            mutations.append(('decoded basic type bits lost while storage bits remain',missing_decoded_type))
     if 'filename_input'in current_state:
         def changed_filename_input(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['filename_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
