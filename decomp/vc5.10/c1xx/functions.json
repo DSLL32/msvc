@@ -75,7 +75,8 @@
     "_initialize_work_buffers",
     "_reserve_work_buffer",
     "_initialize_intermediate_files",
-    "_process_early_option"
+    "_process_early_option",
+    "_initialize_frontend_hook"
   ],
   "driver": [
     {
@@ -4040,6 +4041,53 @@
         ]
       ],
       "shared_text_data_code_credit": 0
+    },
+    {
+      "name": "_initialize_frontend_hook",
+      "classification": "application source",
+      "source": "src/frontend.c",
+      "source_sha256": "32cd1430952b300b1a25b782435becbeb21d10e31426ae859271ed9860adcdc9",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-system-info-original-2",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-system-info-native-2",
+      "original_receipt_sha256": "f50cf2889e5aa81ef30fd4e1f159eeeb5d3e7ef92a8a883574802d6fdea272e0",
+      "native_receipt_sha256": "d82c8bb4c893d58ad90b787cb52422712bbb3d0d9c0e7923fad744614762b7af",
+      "trial_sha256": "aa986440d4fdfd025e29ac1cbe643ce21365f71d137a50901e513fbff586f7b5",
+      "audit_sha256": "0091a6b6cda94e7ad6e0c3cbe76f0a6feb36c295f8661bf636421378fad59e0f",
+      "code_chunks": [
+        [
+          232944,
+          232945
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_frontend_hook",
+        "frontier": "_initialize_compiler_environment",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1085,
+        "native_bss_size": 1116,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 8.43037573620677,
+        "native_seconds": 4.527147281914949
+      }
     }
   ],
   "imports": [
