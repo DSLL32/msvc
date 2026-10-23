@@ -6,11 +6,12 @@ import json
 import os
 from pathlib import Path
 import subprocess
+import shutil
 import time
 HERE=Path(__file__).resolve().parents[1]
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--argv0',required=True);p.add_argument('--module-path',required=True);p.add_argument('--negative-module-sha');p.add_argument('--configuration',type=Path)
+    p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--argv0',required=True);p.add_argument('--module-path',required=True);p.add_argument('--negative-module-sha');p.add_argument('--configuration',type=Path);p.add_argument('--reference',type=Path)
     a=p.parse_args();out=a.output.resolve()
     if out.exists():p.error('output must be new')
     out.mkdir(parents=True)
@@ -29,12 +30,30 @@ def main():
     if a.negative_module_sha:env['RCDLL_NEGATIVE_MODULE_SHA']=a.negative_module_sha
     else:env.pop('RCDLL_NEGATIVE_MODULE_SHA',None)
     for k in ['WINEPREFIX','WINEARCH','WINEDLLOVERRIDES','WINEPATH']:env.pop(k,None)
-    command=['gdb','--batch','-q',str(native),'-ex','set pagination off','-ex','handle SIGTRAP stop print nopass','-ex','set breakpoint pending on','-ex','source '+str(HERE/'scripts/native-observers.py'),'-ex','run '+str(out/'events.txt')+' > '+str(out/'stdout.bin')+' 2> '+str(out/'stderr.bin'),'-ex','source '+str(HERE/'scripts/native-gdb.py')]
+    cwd=HERE;target_args=[]
+    if a.reference:
+        reference=a.reference.resolve();manifest=json.loads((reference/'manifest.json').read_text())
+        assert manifest['case']=='resources-rich'
+        for name,value in manifest['files'].items():assert sha(reference/name)==value,name
+        for name,info in manifest['source_inputs'].items():assert sha(HERE/'cases/resources-rich/source'/name)==info['sha256'],name
+        drive=out/'drive-s';relative=manifest['child_cwd'][3:].replace('\\','/')
+        assert manifest['child_cwd'].startswith('S:\\vc5.10\\rcdll\\')
+        cwd=drive/relative;cwd.parent.mkdir(parents=True,exist_ok=True)
+        shutil.copytree(HERE/'cases/resources-rich/source',cwd)
+        env.update(RECON_DRIVE_R=str(HERE.parents[2]),RECON_DRIVE_S=str(drive),RECON_CANONICAL_CWD=manifest['child_cwd'])
+        environment=(reference/'environment-utf16.bin').read_bytes().decode('utf-16le')
+        values=dict(value.split('=',1)for value in environment.rstrip('\0').split('\0')if value and not value.startswith('='))
+        for name in ['INCLUDE','LIB','RCCODEPAGE']:
+            if name in values:env[name]=values[name]
+            else:env.pop(name,None)
+        target_args=manifest['args']
+        (out/'case-reference.json').write_text(json.dumps(dict(manifest=str(reference/'manifest.json'),sha256=sha(reference/'manifest.json')),indent=2)+'\n')
+    command=['gdb','--batch','-q',str(native),'-ex','set pagination off','-ex','handle SIGTRAP stop print nopass','-ex','set breakpoint pending on','-ex','source '+str(HERE/'scripts/native-observers.py'),'-ex','run '+str(out/'events.txt')+(' '+' '.join(target_args) if target_args else '')+' > '+str(out/'stdout.bin')+' 2> '+str(out/'stderr.bin'),'-ex','source '+str(HERE/'scripts/native-gdb.py')]
     active=read_configuration(config);names=[f['name']for f in active['functions']if f['kind']=='application' and f['name'] in active['accepted']+[active.get('trial_function')]]
     (out/'trace-filter.txt').write_text(''.join(name+'\n'for name in names));(out/'trace-seen.txt').write_text('')
     with (out/'trace.txt').open('wb') as trace:
         env.update(RECON_TRACE_FD=str(trace.fileno()),RECON_TRACE_FILTER=str(out/'trace-filter.txt'),RECON_TRACE_SEEN=str(out/'trace-seen.txt'))
-        started=time.perf_counter();result=subprocess.run(command,cwd=HERE,env=env,capture_output=True,timeout=15,pass_fds=(trace.fileno(),));elapsed=time.perf_counter()-started
+        started=time.perf_counter();result=subprocess.run(command,cwd=cwd,env=env,capture_output=True,timeout=15,pass_fds=(trace.fileno(),));elapsed=time.perf_counter()-started
     (out/'gdb.stdout').write_bytes(result.stdout);(out/'gdb.stderr').write_bytes(result.stderr)
     report=dict(status=result.returncode,elapsed_seconds=elapsed,native_sha256=sha(native),candidate_sha256=sha(config),command=command,files={f.name:dict(bytes=f.stat().st_size,sha256=sha(f)) for f in out.iterdir() if f.is_file()})
     (out/'receipt.json').write_text(json.dumps(report,indent=2)+'\n')

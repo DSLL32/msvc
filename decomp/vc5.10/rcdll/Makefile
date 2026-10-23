@@ -37,6 +37,7 @@ build/debug-original.obj: scripts/debug-original.c | build
 	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
 build/debug-original.exe: build/debug-original.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
+	$(PYTHON) scripts/source-snapshot.py debugger build/debug-original-source.json
 graph-audit: $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/audit.py
 build/message-probe.obj: scripts/message-probe.c | build
@@ -58,3 +59,8 @@ check-abi:
 
 build/help.res: src/help.rc build/help-messages.bin
 	$(TOOL) RC.EXE /r /fobuild/help.res src/help.rc
+
+build/resources-api-probe.obj: scripts/resources-api-probe.c | build
+	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
+build/resources-api-probe.exe: build/resources-api-probe.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib

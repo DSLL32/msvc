@@ -17,7 +17,7 @@ tools=importlib.util.module_from_spec(spec);spec.loader.exec_module(tools)
 SHA_CRT='e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210'
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--mode',choices=['baseline','masked'],required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--timeout',type=float,default=45)
+    p=argparse.ArgumentParser();p.add_argument('--mode',choices=['baseline','masked'],required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--timeout',type=float,default=45);p.add_argument('--case',choices=['help','resources-rich'],default='help')
     a=p.parse_args();out=a.output.resolve()
     out.relative_to(Path.home()/'.ai-tmp/msvc2/vc5.10/rcdll')
     if out.exists():p.error('output must be a new explicit scratch directory')
@@ -53,6 +53,12 @@ def main():
     for name in ['RC.EXE','RCDLL.DLL','MSVCRT.DLL']:
         shutil.copyfile(tc/name,out/name)
     shutil.copyfile(HERE/'build/debug-original.exe',out/'debug-original.exe')
+    shutil.copyfile(HERE/'build/debug-original-source.json',out/'helper-compiled-source.json')
+    case_args=['/help'];child_cwd=None
+    if a.case=='resources-rich':
+        case_args=['/r','/dCASE_FROM_COMMAND=7','/iinclude','/foresources.res','resources.rc']
+        shutil.copytree(HERE/'cases/resources-rich/source',out/'source');child_cwd=tools.windows(out/'source')
+        (out/'case-args.txt').write_text(subprocess.list2cmdline(case_args))
     from protocol import candidate,validation_versions
     (out/'candidate.json').write_text(json.dumps(candidate(),indent=2)+'\n')
     (out/'validation-versions.json').write_text(json.dumps(validation_versions(),indent=2)+'\n')
@@ -68,7 +74,15 @@ def main():
     shutil.copyfile(HERE/'build/original-source.json',out/'compiled-source.json')
     (out/'functions.json').write_bytes((HERE/'functions.json').read_bytes())
     env=tools.environment()
+    if a.case=='resources-rich':
+        # Freeze a small public launcher environment; the actual Windows child
+        # block is captured from its PEB, rather than assuming Wine translation.
+        keep={'PATH','HOME','USER','LOGNAME','LANG','LC_ALL','LC_CTYPE','DISPLAY',
+              'XAUTHORITY','WINEPREFIX','WINEARCH','WINEDEBUG','WINESERVER',
+              'WINEDLLOVERRIDES','INCLUDE','LIB','WINEPATH'}
+        env={key:value for key,value in env.items() if key in keep}
     command=['wine',str(out/'debug-original.exe'),a.mode,tools.windows(out/'RC.EXE'),'ranges.txt']
+    if child_cwd:command += ['case-args.txt',child_cwd]
     started=time.perf_counter()
     with (out/'stdout.bin').open('wb') as stdout,(out/'stderr.bin').open('wb') as stderr:
         try:
@@ -77,10 +91,12 @@ def main():
         except subprocess.TimeoutExpired:
             status=None;timed_out=True
     elapsed=time.perf_counter()-started
-    report=dict(preflight=dict(tls=False,entry_guard_nonrelocated=True,relocation_sites=len(relocation_sites),loader_data_ranges=[['0x1000','0x114c'],['0x12e2c','0x13371']],import_cycle_scope='target has only canonical MSVCRT and Wine system KERNEL32/USER32 imports; canonical MSVCRT imports no RCDLL'),mode=a.mode,command=command,status=status,timed_out=timed_out,elapsed_seconds=elapsed,wineprefix=env['WINEPREFIX'],wine_override=env['WINEDLLOVERRIDES'],argv0=tools.windows(out/'RC.EXE'),target_sha256=sha(tc/'RCDLL.DLL'),crt_expected_sha256=SHA_CRT,candidate_sha256=sha(HERE/'functions.json'),debugger_sha256=sha(out/'debug-original.exe'),files={})
-    for name in ['compiled-source.json','candidate.json','functions.json','ranges.txt','validation-versions.json','stdout.bin','stderr.bin','events.txt','relocated-text.bin','masked-text.bin','globals.bin','completion-globals.bin','loaded-target.bin','loaded-crt.bin']:
+    report=dict(preflight=dict(tls=False,entry_guard_nonrelocated=True,relocation_sites=len(relocation_sites),loader_data_ranges=[['0x1000','0x114c'],['0x12e2c','0x13371']],import_cycle_scope='target has only canonical MSVCRT and Wine system KERNEL32/USER32 imports; canonical MSVCRT imports no RCDLL'),case=a.case,args=case_args,child_cwd=child_cwd,environment={key:env[key]for key in ['INCLUDE','LIB','WINEPATH']},mode=a.mode,command=command,status=status,timed_out=timed_out,elapsed_seconds=elapsed,wineprefix=env['WINEPREFIX'],wine_override=env['WINEDLLOVERRIDES'],argv0=tools.windows(out/'RC.EXE'),target_sha256=sha(tc/'RCDLL.DLL'),crt_expected_sha256=SHA_CRT,candidate_sha256=sha(HERE/'functions.json'),debugger_sha256=sha(out/'debug-original.exe'),files={})
+    for name in ['helper-compiled-source.json','case-args.txt','environment-utf16.bin','compiled-source.json','candidate.json','functions.json','ranges.txt','validation-versions.json','stdout.bin','stderr.bin','events.txt','relocated-text.bin','masked-text.bin','globals.bin','completion-globals.bin','loaded-target.bin','loaded-crt.bin','loaded-driver.bin']:
         f=out/name
         if f.exists():report['files'][name]=dict(bytes=f.stat().st_size,sha256=sha(f))
+    if a.case=='resources-rich':
+        report['case_files']={str(f.relative_to(out/'source')):dict(bytes=f.stat().st_size,sha256=sha(f))for f in (out/'source').rglob('*')if f.is_file()}
     report['actual_target_verified']=report['files'].get('loaded-target.bin',{}).get('sha256')==report['target_sha256']
     report['actual_crt_verified']=report['files'].get('loaded-crt.bin',{}).get('sha256')==SHA_CRT
     (out/'receipt.json').write_text(json.dumps(report,indent=2)+'\n')

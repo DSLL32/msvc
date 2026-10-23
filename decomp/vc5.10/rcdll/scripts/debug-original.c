@@ -21,7 +21,7 @@ static unsigned range_count;
 static Point points[2048];
 static unsigned point_count;
 static int baseline,guarded,ready;
-static DWORD callback_text,callback_bytes,lifecycle_reason,format_dest,format_capacity;
+static DWORD callback_text,callback_bytes,lifecycle_reason,format_dest,format_capacity,export_count,export_vector;
 
 static void fail(const char *what)
 {
@@ -53,6 +53,36 @@ static void hexbytes(const char *tag,DWORD at,DWORD size)
     fprintf(events,"%s %lu ",tag,size);
     for(n=0;n<size;++n){readmem(at+n,&byte,1);fprintf(events,"%02x",byte);}
     fprintf(events,"\n");fflush(events);
+}
+static void vector_state(const char *stage)
+{
+    DWORD n,pointer;char label[80];
+    fprintf(events,"export-%s-argc %lu\n",stage,export_count);
+    for(n=0;n<export_count;++n){
+        readmem(export_vector+n*4,&pointer,4);
+        fprintf(events,"export-%s-pointer %lu %08lx\n",stage,n,pointer);
+        sprintf(label,"export-%s-argv-%lu",stage,n);hexbytes(label,pointer,string_bytes(pointer));
+    }
+    readmem(export_vector+export_count*4,&pointer,4);
+    fprintf(events,"export-%s-terminator %08lx\n",stage,pointer);fflush(events);
+}
+static void process_inputs(void)
+{
+    DWORD peb,parameters,environment,buffer,n,written;WORD length;WCHAR word,prior=1;
+    HANDLE file;
+    readmem(initial_teb+0x30,&peb,4);readmem(peb+0x10,&parameters,4);
+    readmem(parameters+0x24,&length,2);readmem(parameters+0x28,&buffer,4);
+    hexbytes("process-cwd-utf16",buffer,length);
+    readmem(parameters+0x48,&environment,4);
+    file=CreateFileA("environment-utf16.bin",GENERIC_WRITE,0,NULL,CREATE_NEW,0,NULL);
+    if(file==INVALID_HANDLE_VALUE)fail("environment-open");
+    for(n=0;n<32768;++n){
+        readmem(environment+n*2,&word,2);
+        if(!WriteFile(file,&word,2,&written,NULL)||written!=2)fail("environment-write");
+        if(!word&&!prior)break;prior=word;
+    }
+    CloseHandle(file);if(n==32768)fail("environment-limit");
+    fprintf(events,"process-environment-bytes %lu\n",(n+1)*2);fflush(events);
 }
 static void save_file(HANDLE input,const char *name)
 {
@@ -151,6 +181,7 @@ static void snapshot_and_mask(void)
         for(n=0;n<range_count;++n)if(ranges[n].kind)point(base+ranges[n].start,2);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x12bb0 && ranges[n].kind)point(base+0x12c30,11);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x7443 && ranges[n].kind)point(base+0x7466,13);
+        for(n=0;n<range_count;++n)if(ranges[n].start==0x7443 && ranges[n].kind)point(base+0x7b77,22);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x84c4 && ranges[n].kind)point(base+0x850b,17);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x109b2 && ranges[n].kind)point(base+0x109c3,19);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x8bcd && ranges[n].kind)point(exe_base+0x1100,7);
@@ -160,6 +191,7 @@ static void snapshot_and_mask(void)
         point(base+0x2c64,5);
         point(exe_base+0x1100,7);
         point(base+0x7466,13);point(base+0x2c98,15);point(base+0x850b,17);point(base+0x109c3,19);
+        point(base+0x7b77,22);
     }
     ready=1;fprintf(events,"snapshot-ready mode=%s\n",baseline?"baseline":"masked");fflush(events);
 }
@@ -190,8 +222,10 @@ static int trap(HANDLE thread,DWORD address)
         }else if(p->kind==2)fprintf(events,"entry %08lx\n",address-base);
         else if(p->kind==3){
             readmem(c.Esp,words,7*4);
+            fprintf(events,"export-caller %08lx\n",words[0]);
             fprintf(events,"export-args %08lx %08lx %08lx %08lx %lu %08lx\n",words[1],words[2],words[3],words[4],words[5],words[6]);
-        }else if(p->kind==4)fprintf(events,"export-result %ld\n",(long)c.Eax);
+            export_count=words[5];export_vector=words[6];if(export_count>256)fail("export-argc");vector_state("before");process_inputs();
+        }else if(p->kind==4){fprintf(events,"export-result %ld\n",(long)c.Eax);if(export_vector)vector_state("after");}
         else if(p->kind==5){readmem(c.Esp,words,8);fprintf(events,"message-id %lu\n",words[1]);point(base+0x2c89,6);}
         else if(p->kind==6){
             fprintf(events,"message-result %lu\n",c.Eax);
@@ -214,7 +248,8 @@ static int trap(HANDLE thread,DWORD address)
             readmem(c.Esp,words,24);format_dest=words[1];format_capacity=words[2];
             readmem(initial_teb+0x34,&error,4);
             fprintf(events,"format-call capacity=%lu version=%08lx build=%lu last-error=%08lx\n",words[2],words[4],words[5],error);
-            hexbytes("format-template",words[3],string_bytes(words[3]));hexbytes("format-version",words[4],string_bytes(words[4]));
+            hexbytes("format-template",words[3],string_bytes(words[3]));
+            if(words[0]==base+0x7aa2||words[0]==base+0x7b15)hexbytes("format-version",words[4],string_bytes(words[4]));
             hexbytes("format-before",format_dest,format_capacity);point(base+0x2cbe,16);
         }else if(p->kind==16){
             DWORD error;readmem(initial_teb+0x34,&error,4);
@@ -228,6 +263,12 @@ static int trap(HANDLE thread,DWORD address)
         else if(p->kind==20){DWORD error;readmem(initial_teb+0x34,&error,4);fprintf(events,"heap-alloc-result %08lx last-error=%08lx\n",c.Eax,error);hexbytes("heap-alloc-payload",c.Eax,528);}
         else if(p->kind==11){readmem(c.Esp,words,4);fprintf(events,"crt-malloc-size %lu\n",words[0]);point(base+0x12c36,12);}
         else if(p->kind==12)fprintf(events,"crt-malloc-result %08lx\n",c.Eax);
+        else if(p->kind==22){DWORD error;readmem(initial_teb+0x34,&error,4);fprintf(events,"getacp-call last-error=%08lx\n",error);point(base+0x7b7d,23);}
+        else if(p->kind==23){DWORD error;readmem(initial_teb+0x34,&error,4);fprintf(events,"getacp-result %lu last-error=%08lx\n",c.Eax,error);}
+        else if(p->kind==21){
+            readmem(c.Esp,words,16);
+            fprintf(events,"driver-main %08lx caller=%08lx argc=%lu argv=%08lx envp=%08lx\n",address,words[0],words[1],words[2],words[3]);
+        }
         else if(p->kind==9){
             fprintf(events,"lifecycle-return %lu %ld\n",lifecycle_reason,(long)c.Eax);
             if(lifecycle_reason==0){FILE *state;readmem(base+0x14000,globals,sizeof(globals));state=fopen("completion-globals.bin","wb");if(!state)fail("completion-open");if(fwrite(globals,1,sizeof(globals),state)!=sizeof(globals))fail("completion-write");fclose(state);}
@@ -278,24 +319,31 @@ static int trap(HANDLE thread,DWORD address)
 int main(int argc,char **argv)
 {
     STARTUPINFOA startup;PROCESS_INFORMATION process;DEBUG_EVENT event;
-    DWORD status,i;HANDLE thread;FILE *file;char command[2048];int stop=0;
-    if(argc!=4)return 125;
+    DWORD status,i;HANDLE thread;FILE *file;char command[2048],tail[1800];const char *directory=NULL;int stop=0;
+    if(argc!=4&&argc!=6)return 125;
     baseline=!strcmp(argv[1],"baseline");
     if(!baseline&&strcmp(argv[1],"masked"))return 125;
     file=fopen(argv[3],"rb");if(!file)return 125;
     while(range_count<MAX_RANGES&&fscanf(file,"%lx %lx %lu",&ranges[range_count].start,&ranges[range_count].end,&ranges[range_count].kind)==3)++range_count;
     if(!feof(file)||range_count==MAX_RANGES){fclose(file);return 125;}fclose(file);
     events=fopen("events.txt","wb");if(!events)return 125;
-    sprintf(command,"\"%s\" /help",argv[2]);
+    if(argc==6){
+        size_t length;file=fopen(argv[4],"rb");if(!file)return 125;
+        length=fread(tail,1,sizeof(tail)-1,file);if(!feof(file)){fclose(file);return 125;}fclose(file);tail[length]=0;
+        if(strchr(tail,'\r')||strchr(tail,'\n'))return 125;directory=argv[5];
+    }else strcpy(tail,"/help");
+    sprintf(command,"\"%s\" %s",argv[2],tail);
     memset(&startup,0,sizeof(startup));startup.cb=sizeof(startup);
     SetEnvironmentVariableA("TMP",".");SetEnvironmentVariableA("TEMP",".");
-    if(!CreateProcessA(argv[2],command,NULL,NULL,TRUE,DEBUG_ONLY_THIS_PROCESS,NULL,NULL,&startup,&process))fail("create");
+    if(!CreateProcessA(argv[2],command,NULL,NULL,TRUE,DEBUG_ONLY_THIS_PROCESS,NULL,directory,&startup,&process))fail("create");
     for(;;){
         if(!WaitForDebugEvent(&event,30000))fail("debug-wait");
         status=DBG_CONTINUE;
         if(event.dwDebugEventCode==CREATE_PROCESS_DEBUG_EVENT){
             child=event.u.CreateProcessInfo.hProcess;initial_teb=(DWORD)event.u.CreateProcessInfo.lpThreadLocalBase;exe_base=(DWORD)event.u.CreateProcessInfo.lpBaseOfImage;
             thread_ids[thread_count]=event.dwThreadId;threads[thread_count++]=event.u.CreateProcessInfo.hThread;
+            save_file(event.u.CreateProcessInfo.hFile,"loaded-driver.bin");
+            if(argc==6)point(exe_base+0x11d2,21);
             if(event.u.CreateProcessInfo.hFile)CloseHandle(event.u.CreateProcessInfo.hFile);
         }else if(event.dwDebugEventCode==CREATE_THREAD_DEBUG_EVENT){
             if(thread_count==64)fail("threads");

@@ -101,5 +101,13 @@ hashes are in verification metadata; historical raw captures are not relabelled.
 for future resource/preprocessor cases. These inputs include menus, dialogs,
 strings, icons, cursor/bitmap, accelerators, raw/custom/message/version resources,
 includes, macros and conditionals. No VC1 outputs became VC5 reference oracles.
-No second case is released. Original capture scratch uses the shared R:/S: prefix
+The resources-rich second case is authorized and in progress. Original capture scratch uses the shared R:/S: prefix
 under `~/.ai-tmp/msvc2/vc5.10/rcdll`; fixtures never invoke Wine.
+
+The rich source compiles unchanged with original VC5 RC: status 0, empty streams,
+and a 3,672-byte resource file. The immutable boundary and complete source/header
+input hashes are under [cases/resources-rich/reference](cases/resources-rich/reference/manifest.json).
+The capture includes actual loaded RC/RCDLL/CRT identities, the six export slots,
+mutable argument pointers, Windows environment and working directory. RC and
+CVTRES consume this verified reference independently of RCDLL reconstruction.
+Its original capture took 0.666 seconds; no new target function is accepted yet.

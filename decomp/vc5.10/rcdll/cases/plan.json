@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "first-case-complete-paused",
+  "state": "resources-rich-in-progress",
   "reconstruction_released": true,
   "accepted_functions": [
     "recon_dll_entry",
@@ -107,7 +107,7 @@
         "/foresources.res",
         "resources.rc"
       ],
-      "reference_state": "uncaptured; VC1 source only",
+      "reference_state": "original VC5 source compatibility passed unchanged; canonical DLL boundary captured; reconstruction in progress",
       "features": [
         "include",
         "macro",
@@ -125,7 +125,8 @@
         "messagetable",
         "VERSIONINFO",
         "languages"
-      ]
+      ],
+      "reference": "cases/resources-rich/reference/manifest.json"
     },
     {
       "id": "preprocessor",
@@ -150,5 +151,5 @@
     "scratch_subdir": "vc5.10/rcdll",
     "native_fixtures_may_use_wine": false
   },
-  "first_case_limit": 1
+  "authorization": "vc510_orchestrator: first-case-only pause lifted; resources-rich DLL case authorized; further cases may be proposed after completion"
 }

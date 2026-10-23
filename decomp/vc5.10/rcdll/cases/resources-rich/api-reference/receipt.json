@@ -1,0 +1,13 @@
+{
+  "status": 0,
+  "seconds": 0.5886525781825185,
+  "wineprefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "override": "msvcrt=n",
+  "files": {
+    "probe.exe": "c5d7be317665fc0578bf1c7cf5f36ca4061ef60570f6086ab2ce9df0a573f10d",
+    "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "stdout.bin": "cb5a1ab512bc1804898640138933c9014870880aee9df187f120d0f72e29e332",
+    "MSVCRT.DLL": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "compiled-source.c": "8717f0fefbd7b27559b2bf62c626d1726047835b166106db95ad41a37bfb58e1"
+  }
+}

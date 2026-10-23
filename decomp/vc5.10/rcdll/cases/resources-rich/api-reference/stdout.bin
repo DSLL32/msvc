@@ -1,0 +1,9 @@
+crt S:\vc5.10\rcdll\resources-api-probe-01\MSVCRT.dll
+GetACP before-error=0 before-errno=0 result=1252 after-error=0 after-errno=0
+HeapFree flags=1 requested=528 before-error=0 before-errno=0 result=1 after-error=0 after-errno=0
+GetACP before-error=0 before-errno=111 result=1252 after-error=0 after-errno=111
+HeapFree flags=1 requested=528 before-error=0 before-errno=111 result=1 after-error=0 after-errno=111
+GetACP before-error=305419896 before-errno=0 result=1252 after-error=305419896 after-errno=0
+HeapFree flags=1 requested=528 before-error=305419896 before-errno=0 result=1 after-error=305419896 after-errno=0
+GetACP before-error=305419896 before-errno=111 result=1252 after-error=305419896 after-errno=111
+HeapFree flags=1 requested=528 before-error=305419896 before-errno=111 result=1 after-error=305419896 after-errno=111
