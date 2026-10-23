@@ -107,6 +107,13 @@ def main():
         mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
                       ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
                       ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if 'symbol_hash'in current_state:
+        def wrong_hash_extent(root):
+            path=root/'n/state.json';state=json_at(path);state['symbol_hash']['slots']=1023;write_json(path,state);raw_changed(root,'n','state.json')
+        def wrong_hash_tail(root):
+            path=root/'o/symbol-hash.bin';data=bytearray(path.read_bytes());data[-1]=1;path.write_bytes(data)
+        mutations += [('symbol hash reset omits final pointer slot',wrong_hash_extent),
+                      ('raw original hash has an uncleared final byte',wrong_hash_tail)]
     if current_state.get('globals',{}).get('0x497df8')==146:
         def wrong_decoded_count(root):
             path=root/'n/state.json';state=json_at(path);state['globals']['0x497df8']=147;write_json(path,state);raw_changed(root,'n','state.json')

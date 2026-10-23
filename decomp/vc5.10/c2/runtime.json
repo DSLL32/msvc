@@ -16,14 +16,6 @@
     "evidence": null
   },
   {
-    "name": "_c2_reset_symbol_table",
-    "start": 4534290,
-    "end": 4534291,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_c2_create_type_table",
     "start": 4534317,
     "end": 4534318,

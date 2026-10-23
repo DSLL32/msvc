@@ -40,7 +40,7 @@ def main():
     for side,source,files in [('original',a.original,original_files),('native',a.native,native_files)]:
         destination=a.proof/side;destination.mkdir()
         if side=='original':
-            files += [name for name in ('main-argv.bin','main-environment.bin','command-argv.bin','matcher-input.bin','data-plan.txt','data-model.json','data-state.bin','wildcard-input.bin','wildcard-pattern.bin','option-value.bin','fatal-argument.bin','fatal-phase.bin','current-option.bin','message-cache.bin','format-pattern.bin','format-prefix.bin','integer-prefix.bin','copy-flags.bin','integer-input.bin','option-operand.bin','header-streams.bin','il-buffer.bin')if(source/name).exists()]
+            files += [name for name in ('main-argv.bin','main-environment.bin','command-argv.bin','matcher-input.bin','data-plan.txt','data-model.json','data-state.bin','wildcard-input.bin','wildcard-pattern.bin','option-value.bin','fatal-argument.bin','fatal-phase.bin','current-option.bin','message-cache.bin','format-pattern.bin','format-prefix.bin','integer-prefix.bin','copy-flags.bin','integer-input.bin','option-operand.bin','header-streams.bin','il-buffer.bin','symbol-hash.bin')if(source/name).exists()]
         if side=='original':files += [p.name for p in source.glob('cache-message-*.bin')]+[p.name for p in source.glob('diagnostic-format.bin')]
         files += [p.name for p in source.glob('artifact-*.bin')]
         if side=='original':files += [p.name for p in source.glob('intermediate-*.bin')]
