@@ -36,7 +36,8 @@
     "rc_hash_macro_name",
     "rc_define_macro",
     "rc_find_macro",
-    "rc_copy_macro_text"
+    "rc_copy_macro_text",
+    "rc_open_source"
   ],
   "functions": [
     {
@@ -780,7 +781,17 @@
       "abi": "stdcall",
       "stack_bytes": 8,
       "kind": "application",
-      "stub": true
+      "stub": false,
+      "text_data": [
+        [
+          "0x1230",
+          "0x1236"
+        ],
+        [
+          "0x1244",
+          "0x1250"
+        ]
+      ]
     },
     {
       "name": "rc_find_macro",
@@ -822,6 +833,51 @@
       "end": "0xc0f9",
       "abi": "stdcall",
       "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_refill_source",
+      "start": "0x4298",
+      "end": "0x447f",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_duplicate_source_name",
+      "start": "0xbebd",
+      "end": "0xbee2",
+      "abi": "stdcall",
+      "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_emit_source_line",
+      "start": "0x4240",
+      "end": "0x4298",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_write_preprocessed",
+      "start": "0x91a4",
+      "end": "0x91d5",
+      "abi": "stdcall",
+      "stack_bytes": 16,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_scan_line_start",
+      "start": "0x1205d",
+      "end": "0x12176",
+      "abi": "cdecl",
+      "stack_bytes": 0,
       "kind": "application",
       "stub": true
     }

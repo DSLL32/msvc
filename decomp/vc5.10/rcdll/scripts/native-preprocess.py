@@ -17,7 +17,11 @@ def capture_preprocessor(path):
         value=gdb.parse_and_eval(row['name']);address=int(value.address)
         record=dict(address=address,bytes=bytes(gdb.selected_inferior().read_memory(address,row['bytes'])).hex())
         if row['kind']=='wide-string':record['text']=wide_bytes(int(value))
-        if row['kind']=='crt-file'and int(value):record['file_state']=bytes(gdb.selected_inferior().read_memory(int(value),32)).hex()
+        if row['kind']in ['crt-file','crt-buffered-file']and int(value):
+            record['file_state']=bytes(gdb.selected_inferior().read_memory(int(value),32)).hex()
+            file=value.dereference();base=int(file['_base']);size=int(file['_bufsiz'])
+            if base:
+                assert 0<size<=65536;record['file_buffer']=bytes(gdb.selected_inferior().read_memory(base,size)).hex()
         state[row['name']]=record
     tables={}
     for label in ['options','letters']:

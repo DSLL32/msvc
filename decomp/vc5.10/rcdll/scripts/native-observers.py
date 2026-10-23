@@ -325,3 +325,13 @@ class WideInitial(gdb.Breakpoint):
             MacroTrimWrite('*(unsigned short *)'+str(wide_initial['trim_pointer']),type=gdb.BP_WATCHPOINT,wp_class=gdb.WP_WRITE,internal=True)
         save_wide_initial();return False
 WideInitial('rc_preprocessor_main',internal=True);save_wide_initial()
+
+
+class SourceOpened(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();depth=int(gdb.parse_and_eval('rc_source_depth'))
+        if depth!=-1:return False
+        pointer=int(gdb.parse_and_eval('&rc_source_frames'));data=bytes(gdb.selected_inferior().read_memory(pointer,36*1024))
+        entry={field:int(frame.read_var(field))for field in ['path','first']};entry.update(depth=depth,frames=data.hex())
+        (path.parent/'source-entry.json').write_text(json.dumps(entry,indent=2)+'\n');self.enabled=False;return False
+SourceOpened('rc_open_source',internal=True)

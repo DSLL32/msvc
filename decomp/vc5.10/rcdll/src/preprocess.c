@@ -16,7 +16,7 @@ WCHAR *rc_cpp_option_argument;
 WCHAR rc_macro_name[512];
 unsigned rc_macro_name_length;
 unsigned char rc_macro_hash;
-char rc_cpp_output_path[257];
+char rc_cpp_path_buffer[257];
 FILE *rc_cpp_output_file;
 
 int __stdcall rc_preprocess(int count,char **arguments,int unused)
@@ -268,11 +268,11 @@ void __stdcall rc_open_preprocessor(WCHAR *input,WCHAR *output,
         rc_macro_name_length=wcslen(rc_macro_name)+1;
         rc_undefine_macro();
     }
-    WideCharToMultiByte(GetACP(),0,output,-1,rc_cpp_output_path,257,NULL,NULL);
-    rc_cpp_output_file=fopen(rc_cpp_output_path,"w+b");
+    WideCharToMultiByte(GetACP(),0,output,-1,rc_cpp_path_buffer,257,NULL,NULL);
+    rc_cpp_output_file=fopen(rc_cpp_path_buffer,"w+b");
     if(!rc_cpp_output_file){
         rc_error_template=rc_message(1023);
-        rc_format(rc_error_text,2048,rc_error_template,rc_cpp_output_path);
+        rc_format(rc_error_text,2048,rc_error_template,rc_cpp_path_buffer);
         rc_input_fatal(1023);
     }
     rc_open_source(input,1);
@@ -367,9 +367,3 @@ RcMacro *__cdecl rc_find_macro(void)
     }
     return NULL;
 }
-
-/* Source-stack state first consumed by rc_open_source. */
-int rc_source_depth=-1,rc_source_encoding;
-WCHAR *rc_source_cursor;
-FILE *rc_source_file;
-RcSourceFrame rc_source_frames[1024];

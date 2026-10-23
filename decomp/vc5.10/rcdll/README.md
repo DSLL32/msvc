@@ -271,3 +271,10 @@ three macro records match at source opening. [Verification](cases/resources-rich
 records 40 gate controls, seven SEH-role controls, a native source-guard negative
 and timings. The earlier no-space input retains its unsupported overread limit;
 no allocator defaults were changed and native exception recovery is unclaimed.
+
+Source opening is accepted (616 bytes), reaching the zero-argument refill with
+its full source stack, file state and allocated buffer checked. The original
+reuses a parameter slot for the new buffer; entry arguments and subsequent
+ownership are checked separately. [Verification](cases/resources-rich-trailing-space/open-source-verification.json)
+records 38 fresh rejection controls, the exact 512-byte CRT buffer at position
+zero, and separate build/capture/audit timings. Refill remains a named trap.

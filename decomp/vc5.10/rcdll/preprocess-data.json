@@ -261,7 +261,7 @@
       "bytes": 1
     },
     {
-      "name": "rc_cpp_output_path",
+      "name": "rc_cpp_path_buffer",
       "original_rva": "0x18540",
       "kind": "byte-buffer",
       "bytes": 257
@@ -311,7 +311,7 @@
     {
       "name": "rc_source_cursor",
       "original_rva": "0x18120",
-      "kind": "null-pointer",
+      "kind": "source-buffer",
       "bytes": 4
     },
     {
@@ -323,13 +323,13 @@
     {
       "name": "rc_source_file",
       "original_rva": "0x21e88",
-      "kind": "null-pointer",
+      "kind": "crt-buffered-file",
       "bytes": 4
     },
     {
       "name": "rc_source_frames",
       "original_rva": "0x18e80",
-      "kind": "byte-buffer",
+      "kind": "source-stack",
       "bytes": 36864
     }
   ],

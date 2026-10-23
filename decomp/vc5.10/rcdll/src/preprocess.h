@@ -29,7 +29,7 @@ typedef struct RcMacro {
     unsigned short reserved;
 } RcMacro;
 typedef struct RcSourceFrame {
-    unsigned chunk_bytes;
+    unsigned capacity;
     FILE *file;
     unsigned saved_line;
     WCHAR *filename,*saved_cursor,*buffer;
@@ -54,7 +54,7 @@ extern RcOption rc_cpp_options[];
 extern WCHAR rc_macro_name[512];
 extern unsigned rc_macro_name_length;
 extern unsigned char rc_macro_hash;
-extern char rc_cpp_output_path[257];
+extern char rc_cpp_path_buffer[257];
 extern FILE *rc_cpp_output_file;
 
 WCHAR **__stdcall rc_widen_arguments(int,char **);
@@ -77,6 +77,11 @@ void __stdcall rc_define_macro(const WCHAR *,unsigned,int);
 void __cdecl rc_undefine_macro(void);
 int __stdcall rc_open_source(WCHAR *,int);
 void __stdcall rc_open_preprocessor(WCHAR *,WCHAR *,RcOptionList *,RcOptionList *);
+int __cdecl rc_refill_source(void);
+WCHAR *__stdcall rc_duplicate_source_name(const WCHAR *);
+void __cdecl rc_emit_source_line(void);
+void __stdcall rc_write_preprocessed(const void *,unsigned,unsigned,FILE *);
+void __cdecl rc_scan_line_start(void);
 void __cdecl rc_run_preprocessor(void);
 void __cdecl rc_close_preprocessor(void);
 #endif

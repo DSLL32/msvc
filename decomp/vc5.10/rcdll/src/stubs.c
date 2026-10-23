@@ -75,11 +75,6 @@ void __cdecl rc_undefine_macro(void)
 {
     __asm int 3
 }
-int __stdcall rc_open_source(WCHAR *path,int first)
-{
-    __asm int 3
-    return 0;
-}
 void __cdecl rc_run_preprocessor(void)
 {
     __asm int 3
@@ -95,6 +90,29 @@ int __stdcall rc_macro_text_differs(const WCHAR *value,const WCHAR *prior,unsign
     return 0;
 }
 void __stdcall rc_list_macro(RcMacro *macro)
+{
+    __asm int 3
+}
+
+int __cdecl rc_refill_source(void)
+{
+    __asm int 3
+    return 0;
+}
+WCHAR *__stdcall rc_duplicate_source_name(const WCHAR *path)
+{
+    __asm int 3
+    return NULL;
+}
+void __cdecl rc_emit_source_line(void)
+{
+    __asm int 3
+}
+void __stdcall rc_write_preprocessed(const void *data,unsigned size,unsigned count,FILE *file)
+{
+    __asm int 3
+}
+void __cdecl rc_scan_line_start(void)
 {
     __asm int 3
 }
