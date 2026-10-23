@@ -1898,7 +1898,16 @@ WEAK size_t recon_mbclen(const unsigned char *text)
 }
 WEAK size_t recon_mbsspn(const unsigned char *text,const unsigned char *accept)
 {
-    (void)text;(void)accept;recon_unsupported("unreviewed _mbsspn");return 0;
+    const unsigned char *cursor,*set;
+    ascii_multibyte_scope();
+    if (!text || !accept) recon_unsupported("NULL _mbsspn argument");
+    for (set=accept;*set;++set)
+        if (*set>=128) recon_unsupported("nonASCII _mbsspn set");
+    for (cursor=text;*cursor;++cursor) {
+        if (*cursor>=128) recon_unsupported("nonASCII _mbsspn text");
+        if (!strchr((const char *)accept,*cursor)) break;
+    }
+    return (size_t)(cursor-text);
 }
 
 WEAK WCHAR *recon_wcsdup(const WCHAR *text)

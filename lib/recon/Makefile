@@ -298,3 +298,8 @@ build/check-cpp-ownership: tests/check-cpp-ownership.c $(SOURCES) $(HEADERS) | b
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 cpp-delete-check: build/cpp-delete-probe build/check-cpp-ownership
 	$(PYTHON) tests/check-cpp-delete.py build/cpp-delete-probe build/check-cpp-ownership
+
+build/mb-span-probe: tests/mb-span-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+mb-span-check: build/mb-span-probe
+	$(PYTHON) tests/check-mb-span.py build/mb-span-probe
