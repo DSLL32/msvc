@@ -1268,7 +1268,9 @@
     "@omf_append_bytes@12",
     "_omf_flush_records",
     "@omf_flush_record@4",
-    "@omf_write_record@4"
+    "@omf_write_record@4",
+    "@omf_output_record@4",
+    "@omf_write_comment@8"
   ],
   "driver": [
     {
@@ -2296,10 +2298,29 @@
       "provisional": true
     },
     {
-      "name": "_omf_output_record",
+      "name": "@omf_output_record@4",
       "start": 440416,
-      "end": 440417,
-      "provisional": true
+      "end": 440594,
+      "shared": [
+        [
+          440596,
+          440640
+        ]
+      ],
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "directive",
+            "location": "ECX",
+            "type": "ModuleDirective pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-output-record-abi/validation.json",
+        "scope": "Actual current directive aliases module_directives head,kind6 and full20-byte user comment+NUL observed;12-byte node fields/next/text pointer identities. Invalid kind controls stop at named diagnostic294, no initialization invented."
+      }
     },
     {
       "name": "_omf_mark_symbol",
@@ -8756,6 +8777,30 @@
       "start": 443392,
       "end": 443393,
       "provisional": true
+    },
+    {
+      "name": "@omf_write_comment@8",
+      "start": 440640,
+      "end": 440718,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "kind",
+            "location": "ECX",
+            "type": "unsigned8"
+          },
+          {
+            "name": "text",
+            "location": "EDX",
+            "type": "char pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-write-comment-abi/validation.json",
+        "scope": "Actual lowCL classDF, full20-byte user string+NUL and current module-directive text owner observed; no other incoming ABI inputs."
+      }
     }
   ],
   "cases": {

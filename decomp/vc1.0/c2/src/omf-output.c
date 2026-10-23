@@ -21,6 +21,7 @@ unsigned __fastcall omf_alignment(unsigned alignment);
 void __fastcall omf_append_bytes(OmfRecord *record, char *bytes, unsigned count);
 void __fastcall omf_write_record(OmfRecord *record);
 void omf_write_fixups(void);
+void __fastcall omf_write_comment(unsigned char kind, char *text);
 /* Original84fc4 points at the existing two-word object84fb8. Preserve that
    identity, rather than allocating a new group or inventing initialization. */
 OmfGroup omf_group_storage;
@@ -470,4 +471,54 @@ void __fastcall omf_write_record(OmfRecord *record)
     if (fwrite(record->bytes, 1, size, object_file) != size)
         report_context_error(0x55, generated_source, object_filename);
     record->count = 0;
+}
+/* Original [0006b860,0006b912), dispatch data [0006b914,0006b940).
+   Unsupported directive ids call the original internal-error boundary. That
+   path has no defined class if the fatal diagnostic were ever to return;
+   retain the original assumption rather than inventing a default class. */
+void __fastcall omf_output_record(ModuleDirective *directive)
+{
+    unsigned kind;
+    OmfRecord *record;
+    char *text;
+    switch (directive->kind) {
+    case 1:
+        directive->text = compiler_identification;
+        kind = 0xdb;
+        break;
+    case 2: kind = 0xdc; break;
+    case 3: kind = 0xa4; break;
+    case 4: kind = 0x9f; break;
+    case 5: kind = 0xdd; break;
+    case 6: kind = 0xdf; break;
+    case 7:
+        record = omf_begin_record(0x88, NULL);
+        text = directive->text;
+        omf_append_bytes(record, text + 1, (int)*(signed char *)text);
+        return;
+    case 8: kind = 0; break;
+    case 9: kind = 0x9d; break;
+    case 10: kind = 0xa0; break;
+    case 11: kind = 0xa1; break;
+    default:
+        compiler_internal_error("@(#)omf.c:1.10", 0x294);
+        break;
+    }
+    omf_write_comment((unsigned char)kind, directive->text);
+}
+/* Original [0006b940,0006b98e). COMENT records begin with zero attributes
+   and the low-byte comment class, followed by the uncounted string bytes. */
+void __fastcall omf_write_comment(unsigned char kind, char *text)
+{
+    OmfRecord *record = omf_begin_record(0x88, NULL);
+    char *end;
+    ++record->count;
+    *record->cursor = 0;
+    ++record->cursor;
+    ++record->count;
+    *record->cursor = kind;
+    ++record->cursor;
+    end = text;
+    while (*end++) ;
+    omf_append_bytes(record, text, (unsigned)(end - text) - 1);
 }

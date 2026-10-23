@@ -1,0 +1,3374 @@
+{
+  "actual_abi": true,
+  "rejected": [
+    "missing class",
+    "wrong class width",
+    "wrong pointer register",
+    "unknown hidden pointer",
+    "wrong class",
+    "lost owner",
+    "missing consumed bytes"
+  ],
+  "states": 153,
+  "cases": [
+    {
+      "raw_ecx": 0,
+      "length": 0,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "ad4e4a62de354ffeb4bee747a4513529781a2e36fb51d57e177f224018e1aa41"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 0,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "53b8c08b844f991f93d1d9f22b18b44e95595cd05f83698198838272aee9cb48"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 0,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "40b815c846cc1effa4e121d9396b0738947cf5ddd8d9452f4fe00d57faf61efe"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 0,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "e4a13a98ab62d32bbf54afae9565a7960c126726737495b59642e5b7cc5c5b23"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 0,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "b2fe46f66463950a6be3067fffb8808deb6bd619adf328903993a93cd6a99b03"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 0,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "729d0dfcc55cf9c082ca6e60448ca7b36d167219a8c9ff2422b0562f5a5ffb08"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 1,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "3197c7bb5851db11cc75879ea727a2a68f64f6fd4c04bc586b2c44c2fb690a1c"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 1,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "ca899f6a9442d7ac377d5af1e8e62d61e1313a05dd35bb6c0127bc5555c77f8f"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 1,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "1f6da403c03b10654d43ac8433c88a1f13b9e0d5a7c987e78bb2e95175f69517"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 1,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "4107c75f487cfa5c250ec2c27c5efc7ae269466016f7a9bd38ffc2befab0dfdb"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 1,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "bcd69d579d8588b81cdc01f5a723970b73c39d3711a4c00c6dac253b81eaab00"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 1,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "baebf606a6cb7c266c52a1d63ba94be4dac968823eda48e6ee948d3a0da5124a"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 20,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "3679bdcc9413fbc497f7cffa2d5f1d4d610eaace35ed0f063335ae2ab769e59d"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 20,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "a49ce6be7f72677cb3a0c04c9e008e2767b4cdfc5f3820dbb232aabbc09a00aa"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 20,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "5c00acd513c867264b98d1d8b3cf3f3b8a410a14035f9df998be63010b88bd0b"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 20,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "216dae99add938bfaae4e287487022302abf68ce456e0453b44fe3c4562b31c6"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 20,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "b25afe6bfa6ced4e0f7e9280da1bad5740cb647d16553d3ffd36aa6b95a572d8"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 20,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "7555feb1574c85545b62efa9c41516cc24bb7d79c43b282d5338e1644aa8e533"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 255,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "44a308d2acb6bc44921b967275b278a2651585611b32fa0604b17730adbaa076"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 255,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "a8c1234f854b220e49ce8992ae1c6045cb178f83a6397aedeb5c7edc32274e90"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 255,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "f860c3609d7b87ac874dab3470fa9d6a2abba0c44e4ff6adcf06731ee29bed45"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 255,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "f049bfe97c4b031f682e98b4ac38433a4e29f12b3d4009c0c7f2aa8d475afcff"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 255,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "dd351f8047ff09377d4b38204afa21e4a189064d1d83f42aeef8ab8c64608521"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "length": 255,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "fd56ec51fd77f479ab281db9c79d1da186bc853cba0b8827c8ba3441461c2b97"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 0,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "8f79a6adfb48bfccfa68304ee0203f1c14666f12ed291b4f480e55b6159d6302"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 0,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "43906bea6723adf2fd9a2c433c463dc6b06d2f820d76d8dbef670069057927a1"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 0,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "7aefff3f24e5e767d606bbf56cef3fa19883031941a118ba5715c0a8a09f3667"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 0,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "2d498595c6c4b674ffd41d9aa675c4d8bfe4c8f2c9a724b5fa3bcb3acec60c78"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 0,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "d4a4ba4c2908cbd9c54398d079633b19ad4c83314b873f99a0760296612fd032"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 0,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "f72e3bd4749e4f1b0c2535d1e77e1168d6d6dee3e12df5ed648e96e11e3fa5dd"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 1,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "9ec59bf2e661680d557bf98acc58b19340c1d52f887409d58ae88f62fbf9e7da"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 1,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "54e75e01c4718b1e4db36aaca9d721d8e5ad53e52b9add8db590139961d10e23"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 1,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "c0c1bfcadc683def4595a24d2d48bb8c59965aca1bef876a9b4846ea34248a33"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 1,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "784345cde94a80ce051025c3aa4534782bd70029c9b5a0dfb7f207a2181d84f3"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 1,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "fd2f61d43cc42acf537d531eecc4b9b6ce47b3ada6596b3fddd4447bf6e7d55b"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 1,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "5366fc8373d17c4f637ccd9cc9136a9e2ef2b244302786ff8ea13d29b1606d82"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 20,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "caee47cdebd3e0663bc0e6b814688fd2a0d9c41ce82bbc0c820b206c7fc042c6"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 20,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "3c586e2ac07380c42e7dea7283db4358fea64455d786d2c0a41a572e0bde9b64"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 20,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "87e8e222458d7fe80619944ee924ffe5607b6d91e737881debd66dc2d87a39c3"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 20,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "3cf8cf7a141691a90d0ae880f4869ac4e7f5029f850d1e06a1ba72ecab8a3bfe"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 20,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "073c7bf1d8753e878e46f0e2b4c79a08c6e186304a762658abc40f20c9fbd382"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 20,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "e56b5414c0d873751a28770fdc922184edaf51020f6326c4ab10a192a4a9d318"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 255,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "6bd3dc7b3a17e291800d2428ae89696bfc01ed3d94961ac8b2fdbd1e310eb3d8"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 255,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "8316c59fb7cad0d1015f8654d75f907124a52a768df4af7f73a6a8d08a4f02de"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 255,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "4f461e59a6e9136a64764cb1f727c1474d533a9748de3bbf94e3b5ac2a3bbf23"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 255,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "7a24d8f20048c6e4910f84a08f9fe28c66259cd690b377d9ee3f2c0f7872f3d8"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 255,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "0857cf27fb3b6a9ffebf55aa33ddf09243164550c73bb10ede8c95897a9ac1d3"
+      }
+    },
+    {
+      "raw_ecx": 1,
+      "length": 255,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "4d1a4ea7df41062d230fd09e67235c51bc66ce0da5d60d81327883fb8fdefa7a"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 0,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "3d281945b0331b3851d4d01d709422dcaa5526570af27e0014dffa325b3abf8d"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 0,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "f5b342fdf2612cc35cbf0661a10080b8f42b51038bf3d5fcd69474c6fe141d55"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 0,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "e91a899ff0bf7b7bfd2b9099a28903393ddaeeef17473f82d20de91358ad2fcd"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 0,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "cab9bd0be3452436a4154f124530f4145d6b35b8d69cc01a0ec5fae1e3116fe4"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 0,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "725be61c9d6a7c9621f71dc55020bbecdc7ac244c258b3f00c03e3c1296b620c"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 0,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "b60810b1ba63f6121b543e87718e3ad07082037ff84d082ffdbce2bf279eb8e1"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 1,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "30ba72bc6431dcf8df0a07b58c68fdebbe30edad03e63a95bcc79011dd2f2c24"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 1,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "2f160bf0779f404e91c6ab9ae42433461c39f240dde7fe73a706c73645dd9fb8"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 1,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "af8baaa6c577399acad44794b85ad8ab5b4e9973dd0cd38492e3d33f35498556"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 1,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "6765b96b9bc3a61f4148af24b6109bf7d13f75d5dc87a833a9aa2e4ce9313676"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 1,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "f065629677f8e8658e3a4346a1f965fd9c6e21956053bc7ace976fd497e937d1"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 1,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "239e535f290309c3c045ed53f2353686baec04530b206fb69a228567193c9184"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 20,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "6bd5d3fad9ab4bbd57b227450535bdf47f1469c863b18fd66a4ad60e5bf06786"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 20,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "27776cf05f4bfc0f87dc3296d8c02e4a620c7bf7e2ad5b72664d1360519d5352"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 20,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "79742f715308220eac8a99e0251b172f35791e286fb4fb7c29f95c6bdb7eef3c"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 20,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "f6e8ef19692b5ce0accd313730716fb36cdf5c463134e3f2605842259f7678fe"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 20,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "99bbea01834dd980f5c9f86c63707fee6535ab1405b8ab72dc536c5312f0a11e"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 20,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "55d3fa572168275a5c4ad42fc7ceab6b227597ed1768dddf15137987378c8d64"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 255,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "b3db4ba22495c1bc3e3b479117bbcc94451183edbea8c4c2d83c3b7a76165efa"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 255,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "fbc0fc18115398acee70c91c398c12d60eb12aedd3c9b0fac405c40055e5c057"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 255,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "460007a2454e5c8707662251baca7a1cc20631f9bcc0373e161e6be866ce18c0"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 255,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "277c776f6f8b8677cb0ba5da4bc106bbf232f5c0114d17d66e4b93fc80b91cc8"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 255,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "2f128041d2389f3bd303e71d2908c029b32afeee7255d406e0803f9619523ef8"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "length": 255,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "9ef602b85b3346eef5500bab58b3bd924cc9818b1c924aa6f1e39bc086e6abf1"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 0,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "ad4e4a62de354ffeb4bee747a4513529781a2e36fb51d57e177f224018e1aa41"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 0,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "53b8c08b844f991f93d1d9f22b18b44e95595cd05f83698198838272aee9cb48"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 0,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "40b815c846cc1effa4e121d9396b0738947cf5ddd8d9452f4fe00d57faf61efe"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 0,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "e4a13a98ab62d32bbf54afae9565a7960c126726737495b59642e5b7cc5c5b23"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 0,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "b2fe46f66463950a6be3067fffb8808deb6bd619adf328903993a93cd6a99b03"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 0,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "729d0dfcc55cf9c082ca6e60448ca7b36d167219a8c9ff2422b0562f5a5ffb08"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 1,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "3197c7bb5851db11cc75879ea727a2a68f64f6fd4c04bc586b2c44c2fb690a1c"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 1,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "ca899f6a9442d7ac377d5af1e8e62d61e1313a05dd35bb6c0127bc5555c77f8f"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 1,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "1f6da403c03b10654d43ac8433c88a1f13b9e0d5a7c987e78bb2e95175f69517"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 1,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "4107c75f487cfa5c250ec2c27c5efc7ae269466016f7a9bd38ffc2befab0dfdb"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 1,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "bcd69d579d8588b81cdc01f5a723970b73c39d3711a4c00c6dac253b81eaab00"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 1,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "baebf606a6cb7c266c52a1d63ba94be4dac968823eda48e6ee948d3a0da5124a"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 20,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "3679bdcc9413fbc497f7cffa2d5f1d4d610eaace35ed0f063335ae2ab769e59d"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 20,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "a49ce6be7f72677cb3a0c04c9e008e2767b4cdfc5f3820dbb232aabbc09a00aa"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 20,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "5c00acd513c867264b98d1d8b3cf3f3b8a410a14035f9df998be63010b88bd0b"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 20,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "216dae99add938bfaae4e287487022302abf68ce456e0453b44fe3c4562b31c6"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 20,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "b25afe6bfa6ced4e0f7e9280da1bad5740cb647d16553d3ffd36aa6b95a572d8"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 20,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "7555feb1574c85545b62efa9c41516cc24bb7d79c43b282d5338e1644aa8e533"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 255,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "44a308d2acb6bc44921b967275b278a2651585611b32fa0604b17730adbaa076"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 255,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "a8c1234f854b220e49ce8992ae1c6045cb178f83a6397aedeb5c7edc32274e90"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 255,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "f860c3609d7b87ac874dab3470fa9d6a2abba0c44e4ff6adcf06731ee29bed45"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 255,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "f049bfe97c4b031f682e98b4ac38433a4e29f12b3d4009c0c7f2aa8d475afcff"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 255,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "dd351f8047ff09377d4b38204afa21e4a189064d1d83f42aeef8ab8c64608521"
+      }
+    },
+    {
+      "raw_ecx": 256,
+      "length": 255,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "fd56ec51fd77f479ab281db9c79d1da186bc853cba0b8827c8ba3441461c2b97"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 0,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "3d281945b0331b3851d4d01d709422dcaa5526570af27e0014dffa325b3abf8d"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 0,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "f5b342fdf2612cc35cbf0661a10080b8f42b51038bf3d5fcd69474c6fe141d55"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 0,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "e91a899ff0bf7b7bfd2b9099a28903393ddaeeef17473f82d20de91358ad2fcd"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 0,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "cab9bd0be3452436a4154f124530f4145d6b35b8d69cc01a0ec5fae1e3116fe4"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 0,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "725be61c9d6a7c9621f71dc55020bbecdc7ac244c258b3f00c03e3c1296b620c"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 0,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "b60810b1ba63f6121b543e87718e3ad07082037ff84d082ffdbce2bf279eb8e1"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 1,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "30ba72bc6431dcf8df0a07b58c68fdebbe30edad03e63a95bcc79011dd2f2c24"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 1,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "2f160bf0779f404e91c6ab9ae42433461c39f240dde7fe73a706c73645dd9fb8"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 1,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "af8baaa6c577399acad44794b85ad8ab5b4e9973dd0cd38492e3d33f35498556"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 1,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "6765b96b9bc3a61f4148af24b6109bf7d13f75d5dc87a833a9aa2e4ce9313676"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 1,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "f065629677f8e8658e3a4346a1f965fd9c6e21956053bc7ace976fd497e937d1"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 1,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "239e535f290309c3c045ed53f2353686baec04530b206fb69a228567193c9184"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 20,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "6bd5d3fad9ab4bbd57b227450535bdf47f1469c863b18fd66a4ad60e5bf06786"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 20,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "27776cf05f4bfc0f87dc3296d8c02e4a620c7bf7e2ad5b72664d1360519d5352"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 20,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "79742f715308220eac8a99e0251b172f35791e286fb4fb7c29f95c6bdb7eef3c"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 20,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "f6e8ef19692b5ce0accd313730716fb36cdf5c463134e3f2605842259f7678fe"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 20,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "99bbea01834dd980f5c9f86c63707fee6535ab1405b8ab72dc536c5312f0a11e"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 20,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "55d3fa572168275a5c4ad42fc7ceab6b227597ed1768dddf15137987378c8d64"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 255,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "b3db4ba22495c1bc3e3b479117bbcc94451183edbea8c4c2d83c3b7a76165efa"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 255,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "fbc0fc18115398acee70c91c398c12d60eb12aedd3c9b0fac405c40055e5c057"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 255,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "460007a2454e5c8707662251baca7a1cc20631f9bcc0373e161e6be866ce18c0"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 255,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "277c776f6f8b8677cb0ba5da4bc106bbf232f5c0114d17d66e4b93fc80b91cc8"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 255,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "2f128041d2389f3bd303e71d2908c029b32afeee7255d406e0803f9619523ef8"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "length": 255,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "9ef602b85b3346eef5500bab58b3bd924cc9818b1c924aa6f1e39bc086e6abf1"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 0,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "74d0b66641b64b26a7206fbcf06cb24ec5ff54679230a79a0ad0941ae346d074"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 0,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "ea014d85f41c8b23d569331d7b1e0ee49ec20a874487fd4691833651540a04b5"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 0,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "b4dc1ad2cf8235df17bcc7533fbfc246796e54c4053ec627ddedcacfea099032"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 0,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "970582378460aa3a3fb57118c1d94e7f55fcb41166eacc0aae2d70ad7b61900c"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 0,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "a27a45a6b318dfaedf24047304640c4ca3d1dba5c8e52470ef0263450616cbba"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 0,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "2a2f87f55513a7c992a3b5adb36131db13461148e9c142e11bdc1a1d77d18d32"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 1,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "eaeac6bf596e88e359276dacbf26ebe611c3b42996cfbc67dc9fe2db96cf5df8"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 1,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "df65b92da8060afd75c3ee7bbc1a4c2a90fd51c1f6db6a0ccff042be458abd60"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 1,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "16a89a62275f3e116c94714ff1f7876ab1c6f8765999990e9a5cdecd91e875b4"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 1,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "d62b603f3f3ba0ac2f817ca317076218d3b2c20a6da5be6512c77e33ca9c2738"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 1,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "b0539d406adbca9c3c5b5899fd7674c264b1652d866f59603d5fbde34a8a2f3f"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 1,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            1,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "e78e6df8aa2b6a26d10d8fa57e6c40b05e6bce68614b6daa8bd56697781ef16a"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 20,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "23df2aa965dd5c5ea71b33e086c0f1705441924d319e39cdc7f2f24413954721"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 20,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "dc727bd4c8bcc824455ae8f7094b911093319dabc2565bd9385c279ade51c167"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 20,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "10ce04349d80d7b979f3d71eab2ca93522a47309e4339f13edaea7f5596e4982"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 20,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "9b748293fdf1d19e10aa00b329dc95cbb56f7bed71367ac2d33557368e047788"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 20,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "b4f54e26fdc7a024171f7e70315b1830db3f603772f6833cf1070cee4d67c4dc"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 20,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            20,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "26af2d1b38da62351a79f00c1ea95c6282033bd8ec33ff6105dcadbd3261de0c"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 255,
+      "initial_count": 0,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "3155fbb063bbac8e69b149a9c5831b7ecfed549a8439afcd27aa313c9d205a5e"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 255,
+      "initial_count": 0,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            2,
+            82
+          ]
+        ],
+        "record_sha256": "158777fe032cca62ce7d3f4ec5635d8b86178ed134eae62846d5c23ef246dddf"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 255,
+      "initial_count": 7,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "b6a4b5073704f658c82fb499a686dfc9b4edac57a6df2bfdbe197f77f1e02f45"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 255,
+      "initial_count": 7,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            9,
+            82
+          ]
+        ],
+        "record_sha256": "4ec6a608941426775786f24e56fbe794bef7aaf27c174924629b412b10bb3185"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 255,
+      "initial_count": 4294967295,
+      "cursor_offset": 23,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "12de2965102a6c36cfc7cd41262b0bbb62a5937204c817336e999875c6bd4df1"
+      }
+    },
+    {
+      "raw_ecx": 4294967295,
+      "length": 255,
+      "initial_count": 4294967295,
+      "cursor_offset": 80,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            255,
+            1,
+            82
+          ]
+        ],
+        "record_sha256": "aaf620dfb25ef21e8ffcfd4d0b2db2ceeadbc181eb68ac8c771e95b68c885204"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "initial_count": 0,
+      "text_aliases_prefix": true,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "2fde2348a2d127c221bc274feab2f192909f0a7d4cc56db33a0be1bbf1ff0d38"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "initial_count": 7,
+      "text_aliases_prefix": true,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "bbd378547c25afa9d5f0cd5f3584b01ebc24a21675268ca3f478e6e479b623ef"
+      }
+    },
+    {
+      "raw_ecx": 0,
+      "initial_count": 4294967295,
+      "text_aliases_prefix": true,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "5b01f5f82bf53172402fd80a35e4007d06c9b57ab76cc6b7c8ff0e66b0fca806"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "initial_count": 0,
+      "text_aliases_prefix": true,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "c0d692d30221d200a939165a80e1c3a941b66fafd60984c34870ac61b6d2f096"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "initial_count": 7,
+      "text_aliases_prefix": true,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "a6c990448ba20509f3ea31c96e97f7bf89e5122de47734522d3f0e632bcffbf2"
+      }
+    },
+    {
+      "raw_ecx": 223,
+      "initial_count": 4294967295,
+      "text_aliases_prefix": true,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "ac7c3fd00496ca3796aea4198981bda43da122b5640e68c37d2a106db887e24a"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "initial_count": 0,
+      "text_aliases_prefix": true,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            2,
+            25
+          ]
+        ],
+        "record_sha256": "c0d692d30221d200a939165a80e1c3a941b66fafd60984c34870ac61b6d2f096"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "initial_count": 7,
+      "text_aliases_prefix": true,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            9,
+            25
+          ]
+        ],
+        "record_sha256": "a6c990448ba20509f3ea31c96e97f7bf89e5122de47734522d3f0e632bcffbf2"
+      }
+    },
+    {
+      "raw_ecx": 305419999,
+      "initial_count": 4294967295,
+      "text_aliases_prefix": true,
+      "result": {
+        "events": [
+          [
+            "begin",
+            136,
+            0
+          ],
+          [
+            "bytes",
+            0,
+            1,
+            25
+          ]
+        ],
+        "record_sha256": "ac7c3fd00496ca3796aea4198981bda43da122b5640e68c37d2a106db887e24a"
+      }
+    }
+  ],
+  "seconds": 2.264139640145004,
+  "scope": "Whole78-byte original/canonical COMENT wrapper: lowCL class with high24 bits poisoned, empty/1/20/255 strings, count wrap/cursor offset, begin first and its return pointer,0/class prefix before strlen including source-alias overwrite, exact byte helper pointer/count, all spare bytes and callee-save/ESP preserved. Children mocked; actual classDF/head-owned20-char user string observed independently, no other classes claimed executed."
+}

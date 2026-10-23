@@ -487,8 +487,8 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "_omf_output_record",
-  "current_checkpoint": 1264,
+  "current_application_frontier": "@omf_name_index@4",
+  "current_checkpoint": 1266,
   "current_hold": null,
   "resolved_input_hold": {
     "field": "object_file->_bufsiz",

@@ -1,0 +1,93 @@
+{
+  "matched": true,
+  "function": "@omf_write_comment@8",
+  "original_va": "0x6b940",
+  "formals": [
+    {
+      "name": "kind",
+      "location": "ECX",
+      "type": "unsigned8",
+      "original": 223,
+      "native": 223
+    },
+    {
+      "name": "text",
+      "location": "EDX",
+      "type": "char pointer",
+      "original": 8072060,
+      "native": 1449344116
+    }
+  ],
+  "record_input": null,
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "no_hidden_inputs_proof": "Original6b940..6b98e consumes lowCL comment class and EDX full NUL string pointer, RET0; savedEBX/ESI/EDI/EBP assigned internally, no other incoming register/stack/flags/x87/hidden input. Actual classDF and module_directives-head-owned20-byte user comment+NUL observed, raw incoming ECX retained.",
+  "original_string_hex": "4f4d46207479706564206465627567206361736500",
+  "original_source_global": 8061113,
+  "native": {
+    "comment_kind": 223,
+    "comment_owner": 1449344116,
+    "record": null,
+    "byte_count": null,
+    "pointer": 1449344116,
+    "source_global": 4294958650,
+    "hex": "4f4d46207479706564206465627567206361736500",
+    "column": 4294967295,
+    "cw": 639,
+    "sw": 0,
+    "stdout": {
+      "flags": 2,
+      "count": 0,
+      "fd": 1,
+      "size": 0,
+      "null": 1,
+      "used": 0,
+      "buffer_hex": ""
+    }
+  },
+  "original_stdout": {
+    "flags": 2,
+    "count": 0,
+    "fd": 1,
+    "size": 0,
+    "null": 1,
+    "used": 0,
+    "position": 0,
+    "counter": 0,
+    "cursor": 0,
+    "value": 0,
+    "buffer_hex": ""
+  },
+  "original_state": {
+    "column": 4294967295,
+    "cw": 639,
+    "sw": 0,
+    "fastcall": 1
+  },
+  "binding": {
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "manifest_sha256": "23d816b9638b58c44cb1045109412b9270c1925c62f99ea69438685881ea5e13",
+    "config_sha256": "b6fcde0d13d3dc8a3648b2cae090e4c77872b0ee12aa6e1407a03a06246e508b",
+    "observer_source_sha256": "32a521682477abf6387bb144dcbf0528960cda3478841661c2c51ac237ec8e87",
+    "observer_sha256": "a9476ebe10da324d66c0de6fc4d574e511bedadc0800ca26c952e223f5f46cd6",
+    "files": {
+      "entry-plan.txt": "8b227c11b89712430de3bb4dccd6009cb9740c6bedb91b7285374d0715755e74",
+      "original.txt": "d2478ce02908b920a91404716b6d769773ed0dc60d5c5d3d0524e7ac2e86c8a1",
+      "original.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original.events": "d4ba83b9025c080c0634219434501234c30a29308d472b7affe23215bf78ecae",
+      "observer.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observer.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "native_executable_sha256": "b16f53e2da8ea0b40e0e5d63b1ba4b3f21a62d22a6126bc16089bedec3edb676",
+  "original_execution_seconds": 1.1594466771930456,
+  "native_debug_seconds": 0.1495522614568472,
+  "total_seconds": 1.5704101603478193,
+  "scope": "Actual class/text formals and full consumed NUL bytes/owner alias. No record child behavior or other comment classes claimed executed.",
+  "original_kind_raw": 223,
+  "comment_input": {
+    "kind": 223,
+    "owner": 8072060
+  }
+}

@@ -225,17 +225,43 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
     if(!strcmp(call->name,"@omf_write_module_header@4") ||
        !strcmp(call->name,"@omf_name_index@4") ||
        !strcmp(call->name,"@omf_append_string@8") ||
-       !strcmp(call->name,"@omf_append_bytes@12")) {
+       !strcmp(call->name,"@omf_append_bytes@12") ||
+       !strcmp(call->name,"@omf_write_comment@8")) {
         unsigned index=(!strcmp(call->name,"@omf_append_string@8") ||
-            !strcmp(call->name,"@omf_append_bytes@12"))?1:0;
+            !strcmp(call->name,"@omf_append_bytes@12") ||
+            !strcmp(call->name,"@omf_write_comment@8"))?1:0;
         unsigned bytes=!strcmp(call->name,"@omf_append_bytes@12");
+        unsigned comment=!strcmp(call->name,"@omf_write_comment@8");
         sprintf(line,"omf_string source_global %08lx\n",read_word(process,image_base+0x705ec));log_line(line);
         dump_bytes(process,"omf_string_hex",call->args[index],string_bytes(process,call->args[index]));
-        if(index) {
+        if(comment) {
+            DWORD directive=read_word(process,image_base+0x74fdc);
+            sprintf(line,"omf_comment kind %lu owner %08lx\n",call->args[0]&255,
+                read_word(process,directive+8));log_line(line);
+        } else if(index) {
             sprintf(line,"omf_record pointer %08lx current %08lx base %08lx\n",
                 call->args[0],read_word(process,image_base+0x6b88c),image_base+0x6a8dc);log_line(line);
             dump_bytes(process,"omf_record_hex",call->args[0],bytes?24:23);
         }
+    }
+    if(!strcmp(call->name,"@omf_output_record@4")) {
+        DWORD directive=call->args[0],kind=read_word(process,directive+4);
+        DWORD text=read_word(process,directive+8),bytes=0;
+        sprintf(line,"omf_directive pointer %08lx head %08lx next %08lx kind %lu text %08lx\n",
+            directive,read_word(process,image_base+0x74fdc),read_word(process,directive),kind,text);log_line(line);
+        dump_bytes(process,"omf_directive_hex",directive,12);
+        if(kind!=1 && text) {
+            if(kind==7) {
+                unsigned char raw;
+                signed char length;
+                DWORD got;
+                if(!ReadProcessMemory(process,(void*)text,&raw,1,&got)||got!=1)exit(287);
+                length=(signed char)raw;
+                if(length<0)exit(286);
+                bytes=1+length;
+            } else bytes=string_bytes(process,text);
+        }
+        dump_bytes(process,"omf_directive_text_hex",text,bytes);
     }
     if(!strcmp(call->name,"@omf_flush_record_type@4") ||
        !strcmp(call->name,"@omf_find_record@8") ||

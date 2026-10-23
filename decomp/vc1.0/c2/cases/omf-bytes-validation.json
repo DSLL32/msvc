@@ -824,6 +824,6 @@
       }
     }
   ],
-  "seconds": 1.3867805553600192,
+  "seconds": 1.442037245258689,
   "scope": "Whole75-byte original/canonical bounded0..255 copies, NULL/count0, exact capacity boundaries, record-count wrap, forward overlapping source and unchanged tails/source. Capacity failure stops at actual compiler_internal_error source/code, does not pretend error returns or copy oversized ranges. Actual source10 bytes/header/cursor/count stack formal separately proved. No safety or equivalence claim for malformed huge unsigned counts."
 }

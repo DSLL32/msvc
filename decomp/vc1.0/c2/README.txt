@@ -534,3 +534,16 @@ Original/W3, final full graph/extent/ABI/data audit and15 native cases pass
 pending. Next omf_output_record6b860.340037/399693 accepted extent bytes;
 app/support321737B and1149 functions exclude5 historical CRT bodies. Honest
 failed/repeated/candidate/final timing ledger: cases/omf-wire-checkpoint.json.
+
+Checkpoint1266 reconstructs178-byte module-directive dispatch plus44-byte switch
+data and78-byte COMENT wrapper. The callback now has its proved fastcall pointer
+ABI; raw historical old-name evidence remains untouched. Actual kind6/head-owned
+20-character user comment and lowCL classDF/text inputs match.290 dispatcher and
+153 comment controls verify all11 kinds, single compiler_identification address
+mutation, prefix/counter order and source aliasing. Unsupported kinds stop at
+actual294 diagnostic with the original undefined-after-fatal class assumption;
+no default init/guard, original /W3 passes. Signed kind7 lengths only have request-
+shape proof under child mocks, no huge-copy execution claim. All15 native cases
+pass (14 complete), original graph/extent/ABI/data pass; next omf_name_index6a940.
+340337/399693 accepted extent bytes; app/support322037B and1151functions exclude5
+historical CRT bodies. Full timing/scope: cases/omf-directive-comment-checkpoint.json.
