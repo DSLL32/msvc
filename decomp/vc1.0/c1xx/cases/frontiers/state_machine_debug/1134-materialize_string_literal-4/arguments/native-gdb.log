@@ -1,0 +1,19 @@
+Breakpoint 1 at 0x421ca: file src/literals.c, line 23.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, materialize_string_literal (token=0x56637824) at src/literals.c:23
+23	    ++function_expression_sequence;
+#0  materialize_string_literal (token=0x56637824) at src/literals.c:23
+#1  0x565ab95c in emit_expression_tree (expression=0x56637824) at src/expression-output.c:33
+#2  0x565ac057 in emit_expression_tree (expression=0x56637858) at src/expression-output.c:105
+#3  0x565ac081 in emit_expression_tree (expression=0x56637880) at src/expression-output.c:109
+#4  0x565ac1b8 in emit_expression_statement (expression=0x56637880) at src/expression-output.c:127
+#5  0x56586939 in initialize_lvalue (target=0x5663786c, value=0x56637880) at src/constructor-initializers.c:426
+#6  0x565926bb in emit_initializer_assignment (target=0x56637844, value=0x56637824) at src/object-initializers.c:421
+#7  0x56592103 in initialize_object_value (symbol=0x5664ddb8, value=0x56637824) at src/object-initializers.c:303
+#8  0x56591e9e in initialize_object (symbol=0x5664ddb8, value=0x56637824) at src/object-initializers.c:255
+#9  0x565b5f59 in parse_translation_unit () at src/parser-declaration-actions.inc:327
+#10 0x5655dfff in compile_translation_unit () at src/frontend.c:73
+#11 0x565588b6 in guarded_compile () at src/c1xx.c:28
+#12 0x56558884 in main (argc=1, argv=0xffffd7a4, environment=0xffffd7ac) at src/c1xx.c:20

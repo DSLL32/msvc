@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "855015642d70709bb4c50811e4bb6cbc32ab2f817ae21454ee86dbf1d9ce2bdf",
+    "functions.json": "d2edbcd3da5260d334b3b7ba2f58596eedae4a6c9f693cdeafc3f904f12868ba",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "fa4026d6f2bca994679e6ee8a530a66bef6bb2f2585f8e131f25a00c8355ec7d",
-    "cases/canonical-map.txt": "eda275943eb9478c75317c6e7b39c224d59879dd1acba35d46eea08c3d81d932",
+    "cases/original-entry-references.json": "9f9e645dfc8f1617333fbaed83fb344b6c59fc7afe58c0fa3f8b45827ab49c21",
+    "cases/canonical-map.txt": "8967e3b97713e7086640c1dc90f76cb3264fa7ab44a5f41919291a315e40c648",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -44,9 +44,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1133-record_string_literal-4/entry-reference/original-receipt.json": "21642715e6fd5f974e04c37d08e0839fe28dc313959c973d613cc0e5fd8eb472",
-    "cases/frontiers/state_machine_debug/1133-record_string_literal-4/entry-reference/original-events.txt": "ddc3b843a8ca7db510702ed8a984cdb97e44e513db0382a6374ebbcd7fc94476",
-    "cases/frontiers/state_machine_debug/1133-record_string_literal-4/entry-reference/original-entries.plan": "4631ce6ea82eff6cbfea3e48c5937c97dbdcf9c86e4f54f9e28fdef6b621a8dc"
+    "cases/frontiers/state_machine_debug/1134-materialize_string_literal-4/entry-reference/original-receipt.json": "7452edbbd8e9117a7e6e4c7494b2f899fcd7083f8f8ae400294d1b34b24cc4d6",
+    "cases/frontiers/state_machine_debug/1134-materialize_string_literal-4/entry-reference/original-events.txt": "3ad57d2a57bb1ba96ef814bc104561acaa55775a39ab34eb2dbc1d25b033375a",
+    "cases/frontiers/state_machine_debug/1134-materialize_string_literal-4/entry-reference/original-entries.plan": "29714b45ec8d4918aa52e8af2b6719fef3c27dfe44fdb62cbe9aa7c9fe98600a"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -3409,6 +3409,10 @@
       "logical": "_make_size_constant@4",
       "source": "src/constants.c"
     },
+    "make_string_literal_object": {
+      "logical": "_make_string_literal_object@12",
+      "source": "src/stubs.c"
+    },
     "make_subobject_pointer": {
       "logical": "_make_subobject_pointer@12",
       "source": "src/constructor-initializers.c"
@@ -3525,6 +3529,10 @@
       "logical": "_mangle_static_member_name@8",
       "source": "src/mangling.c"
     },
+    "mangle_string_literal": {
+      "logical": "_mangle_string_literal@8",
+      "source": "src/stubs.c"
+    },
     "mangle_symbol_encoding": {
       "logical": "_mangle_symbol_encoding@16",
       "source": "src/mangling.c"
@@ -3615,7 +3623,7 @@
     },
     "materialize_string_literal": {
       "logical": "_materialize_string_literal@4",
-      "source": "src/stubs.c"
+      "source": "src/literals.c"
     },
     "member_call_is_nonvirtual": {
       "logical": "_member_call_is_nonvirtual@4",
@@ -6697,7 +6705,8 @@
     "consume_line_escape",
     "decode_literal_escape",
     "concatenate_strings",
-    "record_string_literal"
+    "record_string_literal",
+    "materialize_string_literal"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10810,7 +10819,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1134,
+      "last": 1135,
       "seen": [
         "main",
         "message_text",
@@ -11853,12 +11862,13 @@
         "decode_literal_escape",
         "concatenate_strings",
         "record_string_literal",
-        "materialize_string_literal"
+        "materialize_string_literal",
+        "mangle_string_literal"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_materialize_string_literal@4",
-        "native": "materialize_string_literal",
+        "logical": "_mangle_string_literal@8",
+        "native": "mangle_string_literal",
         "signal": 5
       }
     }

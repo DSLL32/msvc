@@ -59,7 +59,6 @@ void fatal_error(unsigned code, ...) { __asm { int 3 } }
 void clear_packing(PackingEntry *entry) { __asm { int 3 } }
 void compiler_warning(int level, unsigned code, ...) { __asm { int 3 } }
 void preprocess_translation_unit(void) { __asm { int 3 } }
-IrToken *__stdcall materialize_string_literal(IrToken *token) { __asm { int 3 } return 0; }
 int compare_filenames(char *first, char *second) { __asm { int 3 } return 0; }
 void begin_automatic_pch(void) { __asm { int 3 } }
 
@@ -613,3 +612,5 @@ IrToken *__stdcall convert_member_pointer_representation(IrToken *expression, CT
 void __stdcall save_macro_argument_text(char *start, char *end) { __asm { int 3 } }
 void advance_macro_argument(void) { __asm { int 3 } }
 void browser_end_macro_expansion(void) { __asm { int 3 } }
+char *__stdcall mangle_string_literal(ParserValue *literal, int wide) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_string_literal_object(IrToken *token, char *name, int shared) { __asm { int 3 } return 0; }

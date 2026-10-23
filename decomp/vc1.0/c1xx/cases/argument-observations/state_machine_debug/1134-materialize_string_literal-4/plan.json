@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "function": "_materialize_string_literal@4",
+  "native_entry": "materialize_string_literal",
+  "argument_words": 4,
+  "ownership_register": "edi",
+  "ownership_caller_extent": [
+    367717,
+    367723
+  ],
+  "native_caller_locals": {
+    "caller_token": {
+      "frame": 1,
+      "function": "emit_expression_tree",
+      "local": "expression"
+    }
+  },
+  "native_expressions": {
+    "raw_token": "(unsigned)token"
+  },
+  "formals": [
+    {
+      "name": "token",
+      "stack_index": 0,
+      "native_field": "raw_token",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 302187,
+        "original_owner_function": "_emit_expression_tree@4",
+        "native_owner_function": "emit_expression_tree",
+        "native_owner_field": "caller_token",
+        "native_owner_local": "expression",
+        "identity": "Actual emitter expressionEDI/PUSHEDI59c65/CALL59c66 return59c6b; native actual expression local beforematerialization replacement."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      379840,
+      379943
+    ],
+    "argument_bytes": 4,
+    "proof": "Whole103B/saveESIEDI8:tokenESP+12,RET4/EAXexpression. Incrementalreadysharedfunction_expression_sequence91360; mangle_string_literal42aa0..42b0e/RET8 receivesactualembedded8BParserValueat token.value+12 andwideboolean. Nullablecontentname intern_identifier1e0f0/RET4, find_scope_symbol53570/RET12(global_scope9f2c8,name,0), foundreturns symbol_reference61380/RET4 else make_string_literal_object5c9a0..5cbb6/RET12(token,name,shared1); no-namecalls token,NULL,shared0. Newcallee wholebodies independentlyrawinspected, namedstubs remain; no additionalABI/hiddenregisterinputs/newsharedstate."
+  }
+}

@@ -3,11 +3,34 @@
 #include "characters.h"
 #include "source-input.h"
 #include "numeric-scanning.h"
+#include "function-definitions.h"
 #include <stdlib.h>
 #include <recon.h>
 
 unsigned char *__stdcall copy_bytes_forward(unsigned char *destination,
     const unsigned char *source, unsigned bytes);
+
+char *__stdcall mangle_string_literal(ParserValue *literal, int wide);
+IrToken *__stdcall make_string_literal_object(IrToken *token, char *name, int shared);
+
+/* Original 0x5cbc0..0x5cc27. Reuse an existing pooled literal symbol
+   when its content has a shareable name; otherwise create a fresh object. */
+IrToken *__stdcall materialize_string_literal(IrToken *token)
+{
+    ParserValue *literal;
+    char *name;
+    CppSymbol *symbol;
+    ++function_expression_sequence;
+    literal = (ParserValue *)&token->value;
+    name = mangle_string_literal(literal, (token->tail.string.auxiliary_flags & 1) ? 1 : 0);
+    if (name) {
+        name = intern_identifier(name);
+        symbol = find_scope_symbol(global_scope, name, 0);
+        if (symbol) return symbol_reference(symbol);
+        return make_string_literal_object(token, name, 1);
+    }
+    return make_string_literal_object(token, 0, 0);
+}
 
 /* Original 0x2c530..0x2c5f9. Give the completed literal its actual
    character-array type and retain text permanently when capture requires it. */

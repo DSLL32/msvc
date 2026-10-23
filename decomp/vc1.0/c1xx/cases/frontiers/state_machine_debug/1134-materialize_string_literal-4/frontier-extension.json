@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 1134,
+  "accepted": "_materialize_string_literal@4",
+  "terminal": "_mangle_string_literal@8",
+  "original_capture": "cases/frontiers/state_machine_debug/1134-materialize_string_literal-4/original-receipt.json",
+  "original_capture_sha256": "7452edbbd8e9117a7e6e4c7494b2f899fcd7083f8f8ae400294d1b34b24cc4d6",
+  "original_events": "cases/frontiers/state_machine_debug/1134-materialize_string_literal-4/original-events.txt",
+  "original_events_sha256": "3ad57d2a57bb1ba96ef814bc104561acaa55775a39ab34eb2dbc1d25b033375a",
+  "original_configuration": "cases/frontiers/state_machine_debug/1134-materialize_string_literal-4/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

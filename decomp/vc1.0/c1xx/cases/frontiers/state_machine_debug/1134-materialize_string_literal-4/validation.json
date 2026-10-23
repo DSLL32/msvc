@@ -1,0 +1,22 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_materialize_string_literal@4",
+    "start": 379840,
+    "end": 379943
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1134-materialize_string_literal-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_find_scope_symbol@12",
+    "_intern_identifier@4",
+    "_make_string_literal_object@12",
+    "_mangle_string_literal@8",
+    "_symbol_reference@4"
+  ],
+  "next_frontier": "_mangle_string_literal@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5425629913806915,
+  "total_operation_seconds": 4.6241600988432765,
+  "original_capture_seconds": 1.8698236551135778
+}
