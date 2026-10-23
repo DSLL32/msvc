@@ -129,6 +129,12 @@ for table in cfg.get('tables', []):
             upper = sum(name[0] <= chr(ch) for name in rows)
             assert [lower, upper] == list(groups[ch-ord('_'):ch-ord('_')+2]), 'directive group bounds differ'
         print('%d logical preprocessor directive spellings, kinds and first-character groups match the original.' % len(rows))
+    elif kind == 'diagnostic_spellings':
+        for index in range(table['count']):
+            a, b = old + index*8, new + index*8
+            assert read(original, a, 4) == read(rebuilt, b, 4), 'diagnostic attribute row differs'
+            assert original.string(word(original, a+4)) == rebuilt.string(word(rebuilt, b+4)), 'diagnostic spelling differs'
+        print('%d declaration attribute spellings match the original.' % table['count'])
     elif kind == 'bytes':
         assert read(original, old, table['bytes']) == read(rebuilt, new, table['bytes']), \
             'byte vocabulary differs: '+table['name']

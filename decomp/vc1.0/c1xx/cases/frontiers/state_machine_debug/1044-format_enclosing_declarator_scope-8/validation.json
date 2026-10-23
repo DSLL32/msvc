@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_format_enclosing_declarator_scope@8",
+    "start": 425040,
+    "end": 425287
+  },
+  "distinct_direct_callees": [
+    "_append_type_diagnostic@8"
+  ],
+  "next_frontier": "_format_declarator_shapes@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4367814427241683,
+  "total_operation_seconds": 4.228456343524158,
+  "original_capture_seconds": 1.9196182349696755
+}

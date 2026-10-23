@@ -1047,7 +1047,9 @@
     "_print_inline_declaration@8",
     "_print_declaration@8",
     "_format_declarator@8",
-    "_format_declarator_shape@8"
+    "_format_declarator_shape@8",
+    "_format_shape_attributes@20",
+    "_format_enclosing_declarator_scope@8"
   ],
   "driver": [
     {
@@ -7792,12 +7794,12 @@
     {
       "name": "_format_shape_attributes@20",
       "start": 425488,
-      "end": 425489
+      "end": 425805
     },
     {
       "name": "_format_enclosing_declarator_scope@8",
       "start": 425040,
-      "end": 425041
+      "end": 425287
     },
     {
       "name": "_append_type_diagnostic_char@8",
@@ -7813,6 +7815,11 @@
       "name": "_format_declarator_shapes@8",
       "start": 426304,
       "end": 426305
+    },
+    {
+      "name": "_format_based_declaration@8",
+      "start": 425296,
+      "end": 425297
     }
   ],
   "cases": {
@@ -8013,7 +8020,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_format_shape_attributes@20",
+      "terminal": "_format_declarator_shapes@8",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8036,7 +8043,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1042-format_declarator_shape-8/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1044-format_enclosing_declarator_scope-8/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8084,7 +8091,9 @@
         "cases/frontiers/state_machine_debug/1039-print_inline_declaration-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1040-print_declaration-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1041-format_declarator-8/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1042-format_declarator_shape-8/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1042-format_declarator_shape-8/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1043-format_shape_attributes-20/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1044-format_enclosing_declarator_scope-8/frontier-extension.json"
       ]
     }
   },
@@ -10392,6 +10401,18 @@
           "bytes": 4
         }
       ]
+    },
+    {
+      "kind": "diagnostic_spellings",
+      "name": "_declaration_calling_conventions",
+      "original": 663208,
+      "count": 6
+    },
+    {
+      "kind": "diagnostic_spellings",
+      "name": "_declaration_pointer_models",
+      "original": 663288,
+      "count": 4
     }
   ],
   "buffered_streams": [

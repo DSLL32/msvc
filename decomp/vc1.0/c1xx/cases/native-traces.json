@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "d03ff2f2f0bb41eac1805774e7458aede77dfb1dded099b6f1fc8230d0c79db7",
+    "functions.json": "163bca29f5dbee4a90205d3c6ebd46304cdb7f6d542c7344ef29689254db3acb",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "f5b6b2d0897f72df933ebe92c35cba9b0b96361dae5ef2e6528ece9c173311b4",
-    "cases/canonical-map.txt": "8f4a287642d263f0c3e22e50e2bdb7367868f41c0adcfc5176b2b91e94c13d17",
+    "cases/original-entry-references.json": "41eb044e2974ba0565865962b01d45de2f54629aeb0b46c4570082ff2e4e2a5e",
+    "cases/canonical-map.txt": "2e7cdc4a0a087abf4a86ebce51cebf20d16a43caeee5f0d2bfc682ffec26f217",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1042-format_declarator_shape-8/entry-reference/original-receipt.json": "31de02b9fde63efb8ee44a9efec6320bac5da1861b4cd05393903dd025348b38",
-    "cases/frontiers/state_machine_debug/1042-format_declarator_shape-8/entry-reference/original-events.txt": "29330e2ea8bdc5989cc113ab54d69ba304bbfb641d0bf1c5203c28012ac90edc",
-    "cases/frontiers/state_machine_debug/1042-format_declarator_shape-8/entry-reference/original-entries.plan": "03c6072beca303da4320d827be77a3458cc6df28d53473deffcbc0afc7c084bb"
+    "cases/frontiers/state_machine_debug/1044-format_enclosing_declarator_scope-8/entry-reference/original-receipt.json": "2dd14c3af714088f133af14ae5de29704f3798f6552f9dd0f49107c284e9622b",
+    "cases/frontiers/state_machine_debug/1044-format_enclosing_declarator_scope-8/entry-reference/original-events.txt": "b2e79bb197a6387594baa358e9fdb92b945bce066bf474c6a19d8cf7bc2f3ee3",
+    "cases/frontiers/state_machine_debug/1044-format_enclosing_declarator_scope-8/entry-reference/original-entries.plan": "9dd63d3311a3fcd67d35f27a89a9b95e255f1d3571a2553ee325cbe0f8ad95fd"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -2311,6 +2311,10 @@
       "logical": "_fold_symbol_constant@4",
       "source": "src/constants.c"
     },
+    "format_based_declaration": {
+      "logical": "_format_based_declaration@8",
+      "source": "src/stubs.c"
+    },
     "format_declaration_base_type": {
       "logical": "_format_declaration_base_type@8",
       "source": "src/stubs.c"
@@ -2333,7 +2337,7 @@
     },
     "format_enclosing_declarator_scope": {
       "logical": "_format_enclosing_declarator_scope@8",
-      "source": "src/stubs.c"
+      "source": "src/type-diagnostics.c"
     },
     "format_function_parameters": {
       "logical": "_format_function_parameters@12",
@@ -2353,7 +2357,7 @@
     },
     "format_shape_attributes": {
       "logical": "_format_shape_attributes@20",
-      "source": "src/stubs.c"
+      "source": "src/type-diagnostics.c"
     },
     "format_storage_spec": {
       "logical": "_format_storage_spec@8",
@@ -6309,7 +6313,9 @@
     "print_inline_declaration",
     "print_declaration",
     "format_declarator",
-    "format_declarator_shape"
+    "format_declarator_shape",
+    "format_shape_attributes",
+    "format_enclosing_declarator_scope"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10421,7 +10427,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1043,
+      "last": 1045,
       "seen": [
         "main",
         "message_text",
@@ -11374,12 +11380,14 @@
         "print_declaration",
         "format_declarator",
         "format_declarator_shape",
-        "format_shape_attributes"
+        "format_shape_attributes",
+        "format_enclosing_declarator_scope",
+        "format_declarator_shapes"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_format_shape_attributes@20",
-        "native": "format_shape_attributes",
+        "logical": "_format_declarator_shapes@8",
+        "native": "format_declarator_shapes",
         "signal": 5
       }
     }

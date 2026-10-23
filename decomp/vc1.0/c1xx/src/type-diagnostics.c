@@ -290,3 +290,87 @@ short __stdcall format_declarator_shape(CppSymbol *symbol, CType *type)
     if (shape && !(shape->flags & 0x77)) shape = shape->related;
     return format_declarator_shapes(text, shape);
 }
+
+/* Only these encountered attribute/spelling tables are needed here;
+   other diagnostic vocabularies between them remain unreconstructed. */
+typedef struct DeclarationSpelling {
+    unsigned short attributes, reserved;
+    char *text;
+} DeclarationSpelling;
+typedef char DeclarationSpellingSizeMustBe8[(sizeof(DeclarationSpelling) == 8) ? 1 : -1];
+DeclarationSpelling declaration_calling_conventions[6] = {
+    {0x20,0,"__pascal "}, {0x40,0,"__fastcall "}, {0x10,0,"__cdecl "},
+    {0x60,0,"__stdcall "}, {0x50,0,"__syscall "}, {0,0,""}
+}; /* original 0xa1ea8..0xa1ed8 */
+DeclarationSpelling declaration_pointer_models[4] = {
+    {1,0,""}, {2,0,"__far "}, {3,0,"__far16 "}, {0,0,""}
+}; /* original 0xa1ef8..0xa1f18 */
+
+/* Original 0x67e10..0x67f4d. Emit calling convention and extension
+   attributes through the supplied append/prepend writer, retaining the
+   original ordering and restrictions for each declarator shape. */
+short __stdcall format_shape_attributes(short text, TypeDiagnosticWriter writer,
+    unsigned short attributes, void *base, TypeShape *shape)
+{
+    unsigned convention = attributes & 0x70, index, kind;
+    short based;
+    for (index = 0; index < 6; ++index) {
+        if (declaration_calling_conventions[index].attributes == convention) {
+            writer(text, declaration_calling_conventions[index].text);
+            break;
+        }
+    }
+    if (!options.configuration.extensions_enabled) return text;
+    if (attributes & 12) {
+        based = format_based_declaration(attributes, base);
+        writer(text, type_diagnostic_text(based));
+        release_type_diagnostic(based);
+    } else {
+        for (index = 0; index < 4; ++index) {
+            if (declaration_pointer_models[index].attributes == (attributes & 7)) {
+                writer(text, declaration_pointer_models[index].text);
+                break;
+            }
+        }
+    }
+    if (attributes & 0x100) writer(text, "__interrupt ");
+    if (shape) {
+        kind = shape->flags & 0x77;
+        if (!(shape->flags & 0x40) && kind != 3 && kind != 1 && !(shape->flags & 0x30)) {
+            if (attributes & 0x400) writer(text, "__export ");
+            if (attributes & 0x800) writer(text, "__loadds ");
+            if (attributes & 0x200) writer(text, "__saveregs ");
+            if (convention == 0x40) writer(text, "__fastcall ");
+        }
+    }
+    return text;
+}
+
+/* Original 0x67c50..0x67d47. Print the active directory's class-scope
+   run, optionally with a leading global scope separator. Omit hidden tags
+   except when the parser requests their explicit spelling. */
+int __stdcall format_enclosing_declarator_scope(short text, int mode)
+{
+    unsigned char scope_kind, index;
+    int count = 0;
+    CppSymbol *tag;
+    scope_kind = (unsigned char)scope_directory[scope_directory_index]->flags;
+    if (scope_kind < 0xfa) return 0;
+    index = scope_directory_index;
+    do { --index; }
+    while ((unsigned char)scope_directory[index]->flags == scope_kind);
+    if ((unsigned char)scope_directory[index]->flags == 0xfc && scope_kind == 0xfe)
+        --index;
+    if (mode) append_type_diagnostic(text, "::");
+    ++index;
+    while (index <= scope_directory_index) {
+        tag = scope_directory[index]->buckets[0];
+        if ((token_allocation_flags & 0x200) || !(tag->flags & 0x80)) {
+            ++count;
+            append_type_diagnostic(text, tag->name);
+            if (index != scope_directory_index) append_type_diagnostic(text, "::");
+        }
+        ++index;
+    }
+    return count != 0;
+}
