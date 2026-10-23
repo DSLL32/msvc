@@ -1,14 +1,14 @@
 {
   "case": "state_machine_debug",
-  "scope": "1158 accepted frontiers; explicit original-backed current partial frontend terminal",
-  "reference_receipt": "cases/frontiers/state_machine_debug/1157-fold_floating_binary-12/original-receipt.json",
-  "reference_receipt_sha256": "96829737252531d7f3624a14dd7c1df4cd1f8f2a272c1aa74a8b52daf295a197",
+  "scope": "1159 accepted frontiers; explicit original-backed current partial frontend terminal",
+  "reference_receipt": "cases/frontiers/state_machine_debug/1158-multiply_extended/original-receipt.json",
+  "reference_receipt_sha256": "6af14ad69e363b564894bebd143a40326e318884481eba370f248c988ce0754a",
   "reference_original_image_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
   "canonical_map": "canonical-map.txt",
-  "canonical_map_sha256": "b0bcae6f17ad9d032818ea411dd5bbc756be0c241386e112dbde092749732e52",
+  "canonical_map_sha256": "29daab53d3d830e625376c195264156031f40d7bf0bb38e4649488116505eb40",
   "terminal": {
     "kind": "frontier",
-    "logical": "_multiply_extended",
+    "logical": "_finish_extended_arithmetic",
     "native_signal": 5,
     "original_exception": "80000003"
   },
@@ -42,7 +42,7 @@
     }
   ],
   "normalization": "none; captured visible bytes, not unflushed CRT buffers",
-  "capture_seconds": 1.0675224121659994,
+  "capture_seconds": 0.8159422148019075,
   "dependencies": [
     {
       "path": "toolchains/1.0-nt/bin/C1.ERR",

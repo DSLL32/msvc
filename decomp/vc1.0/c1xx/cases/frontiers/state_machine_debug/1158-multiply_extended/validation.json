@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_multiply_extended",
+    "start": 478519,
+    "end": 478598
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1158-multiply_extended/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_finish_extended_arithmetic"
+  ],
+  "next_frontier": "_finish_extended_arithmetic",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.9099727077409625,
+  "total_operation_seconds": 4.158597519621253,
+  "original_capture_seconds": 0.8159422148019075
+}

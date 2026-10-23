@@ -27,6 +27,7 @@ extern ExtendedRangeState extended_range_state;
 int check_extended_range(void);
 /* Private ABI: destination in ESI and value in ST(0). */
 void store_extended(void);
+int finish_extended_arithmetic(void);
 extern Extended extended_zero, scanned_floating_value;
 int __stdcall convert_floating_literal(char *text, Extended *value);
 int add_extended(const Extended *left, const Extended *right, Extended *result);

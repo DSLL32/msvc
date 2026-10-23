@@ -143,3 +143,28 @@ __declspec(naked) void store_extended(void)
         ret
     }
 }
+
+/* Original 0x74d37..0x74d85. Ten-byte arithmetic and the ESI/ST(0)
+   finishing ABI require narrow bridges; representation selection stays C. */
+int multiply_extended(const Extended *left, const Extended *right, Extended *result)
+{
+    unsigned short format;
+    int status;
+    __asm {
+        mov eax, left
+        fld tbyte ptr [eax]
+        mov eax, right
+        fld tbyte ptr [eax]
+        fmulp st(1), st(0)
+    }
+    format = left->format | right->format;
+    if (format & 2) result->format = 10;
+    else if (format & 8) result->format = 8;
+    else result->format = 4;
+    __asm {
+        mov esi, result
+        call finish_extended_arithmetic
+        mov status, eax
+    }
+    return status;
+}

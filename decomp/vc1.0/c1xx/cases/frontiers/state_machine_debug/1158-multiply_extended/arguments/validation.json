@@ -1,0 +1,123 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_multiply_extended",
+  "case": "state_machine_debug",
+  "accepted_before": 1158,
+  "configuration_sha256": "4ef289705f414c0d52d6fe2d300ee6ab4ddd3f06d582f0a836bb5dd0e9ed8324",
+  "native_entry": "multiply_extended",
+  "declared_formal_count": 3,
+  "formals": [
+    {
+      "name": "left",
+      "stack_index": 0,
+      "native_field": "raw_left",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esp",
+        "original_stack_offset": 108,
+        "original_caller_rva": 119268,
+        "original_owner_function": "_fold_floating_binary@12",
+        "native_owner_function": "fold_floating_binary",
+        "native_owner_field": "caller_left",
+        "native_owner_local": "left",
+        "native_owner_address": false,
+        "identity": "ActualcurrentcalleeESP=immediatecallerentry-52; resultlocal callerentry-12=>+40; forwardedleft/right are prioraccepted realancestorlocals callerentry+56/+68=>+108/+120, independentlycheckedfreshactualpointerwords. Nativeowner is immediatecalleractualformal value or resultaddress, never rawframeequality.",
+        "original_owner_value": 2948560,
+        "native_owner_value": 4294956140
+      },
+      "original_raw": 2948560,
+      "native_raw": 4294956140,
+      "result": "match"
+    },
+    {
+      "name": "right",
+      "stack_index": 1,
+      "native_field": "raw_right",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esp",
+        "original_stack_offset": 120,
+        "original_caller_rva": 119268,
+        "original_owner_function": "_fold_floating_binary@12",
+        "native_owner_function": "fold_floating_binary",
+        "native_owner_field": "caller_right",
+        "native_owner_local": "right",
+        "native_owner_address": false,
+        "identity": "ActualcurrentcalleeESP=immediatecallerentry-52; resultlocal callerentry-12=>+40; forwardedleft/right are prioraccepted realancestorlocals callerentry+56/+68=>+108/+120, independentlycheckedfreshactualpointerwords. Nativeowner is immediatecalleractualformal value or resultaddress, never rawframeequality.",
+        "original_owner_value": 2948572,
+        "native_owner_value": 4294956128
+      },
+      "original_raw": 2948572,
+      "native_raw": 4294956128,
+      "result": "match"
+    },
+    {
+      "name": "result",
+      "stack_index": 2,
+      "native_field": "raw_result",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esp",
+        "original_stack_offset": 40,
+        "original_caller_rva": 119268,
+        "original_owner_function": "_fold_floating_binary@12",
+        "native_owner_function": "fold_floating_binary",
+        "native_owner_field": "caller_result",
+        "native_owner_local": "result",
+        "native_owner_address": true,
+        "output_only": true,
+        "identity": "ActualcurrentcalleeESP=immediatecallerentry-52; resultlocal callerentry-12=>+40; forwardedleft/right are prioraccepted realancestorlocals callerentry+56/+68=>+108/+120, independentlycheckedfreshactualpointerwords. Nativeowner is immediatecalleractualformal value or resultaddress, never rawframeequality.",
+        "original_owner_value": 2948492,
+        "native_owner_value": 4294956008
+      },
+      "original_raw": 2948492,
+      "native_raw": 4294956008,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      478519,
+      478598
+    ],
+    "argument_bytes": 12,
+    "convention": "cdeclthreepointerformals/fullEAXrangestatus",
+    "proof": "Whole79B EBPframe; left+8/right+12/result+16, plainRET/fullEAXstatus fromfinishhelper. Loads bothfirst10B operands thenFMULP, ORsformatwords chooses10ifbit2/8ifbit8/4otherwise, passesrealresultESI andST0product tofinish75034, preservescallee-savedGPRs. No incomingprivateGPR/x87/CPUflagsformal. Narrow10B/x87 andESI bridges required, formatcontrolC. Currentactualcallerfold_floating entryF, baselineF-36; LEAresultbaseline+24/PUSH, loadrightfrombaseline+48=F+12/PUSH, loadleftfrombaseline+44=F+8/PUSH/CALL2d1dfret2d1e4 =>calleeESP=F-52. Prioracceptedwholecallersource provescurrentleft/rightactualorigincallerlocalsF+56/F+68 (proof1157), so currentleft/rightESP+108/120, resultESP+40; eachfreshactualargument must equalthat samecontextESP-derivedowner andnativeimmediatecaller left/rightpointervalues/resultaddress. No rawframeequality/recursivememoryread/frozenheapowner.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "22df91e4396bb59d756d4df974db3478fcf61c6f13299f78d1361ade21f01f63",
+  "capture_timing": {
+    "original_capture_seconds": 1.719272549264133,
+    "native_capture_seconds": 0.18736979365348816,
+    "total_operation_seconds": 2.2310524387285113
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "3cf0e715c05eb8ea6e78b7df27e9eb4ba79eb2beaa74a037bcd7145ad0cbe80f",
+    "native-commands.gdb": "3eb6de42d2637b044142de2a2622ba2d1f0ccbfa6845c23750673ba2319eaee5",
+    "native-gdb.log": "399f4f52241bed8973544d6fba1baf8cb3baeaaeac0505fd31a39d0e3d5df475",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "4dd21e46ab23d8d086d71cfb5f82068cb388919e5ced8edc4074daf3abff27d6",
+    "original-configuration.json": "4ef289705f414c0d52d6fe2d300ee6ab4ddd3f06d582f0a836bb5dd0e9ed8324",
+    "original-disassembly.txt": "4ce03469d6bca6ca39fc819c3ddb800a35b898624f55d2fa71b6d0bc399ea72c",
+    "original-entries.plan": "9866aaeb866a75ea641c7fb8bab07cc44be86ba93df6c122fe01800cb688244c",
+    "original-events.txt": "94f37a8689d7995060bfae4fc9eae4e7feed644a1d0a1dffa7d28ac6df1ef23d",
+    "original-ownership-caller-disassembly.txt": "3a8ef37386813451cbe3fdcc43056811969164e1af96900517d5fe44e6f0784b",
+    "original-receipt.json": "0cd07f711d710370cc9ee2cf7a67092fe389c4e0b0ef307e0f3b49470a4cb458",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "ae56ab443ac7f70171d9ee72fd0473eecb3eeada9014c2f8f03f9bdffb278a61"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

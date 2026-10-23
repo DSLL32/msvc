@@ -28,9 +28,9 @@ def main():
     args=parser.parse_args()
     started=time.perf_counter()
     original=json.loads(args.proof.read_text())
-    assert original['function'] in ('_resolve_member_pointer_path@12','_extended_to_double','_double_to_extended','_fold_floating_binary@12')
+    assert original['function'] in ('_resolve_member_pointer_path@12','_extended_to_double','_double_to_extended','_fold_floating_binary@12','_multiply_extended')
     formals=[row for row in original['formals'] if row['binding']['kind']=='caller-owned-pointer' and row['binding']['original_register']=='esp']
-    assert len(formals)==(2 if original['function'] in ('_resolve_member_pointer_path@12','_fold_floating_binary@12') else 1) and all(row['binding']['original_register']=='esp' for row in formals)
+    assert len(formals)==({'_resolve_member_pointer_path@12':2,'_fold_floating_binary@12':2,'_multiply_extended':3}.get(original['function'],1)) and all(row['binding']['original_register']=='esp' for row in formals)
     registers=['esp']
     directory=Path(tempfile.mkdtemp(prefix='member-path-output-negatives-',dir=CAPTURE_ROOT))
     (directory/'functions.json').write_bytes((args.proof.parent/'original-configuration.json').read_bytes())
@@ -55,7 +55,9 @@ def main():
         if name=='swapped-output-addresses':
             native=json.loads((target/'native-checkpoint.json').read_text())
             left=native['caller_locals'][formals[0]['binding']['native_owner_field']];right=native['caller_locals'][formals[1]['binding']['native_owner_field']]
-            left['address'],right['address']=right['address'],left['address']
+            left_key='address' if formals[0]['binding'].get('native_owner_address') else 'value'
+            right_key='address' if formals[1]['binding'].get('native_owner_address') else 'value'
+            left[left_key],right[right_key]=right[right_key],left[left_key]
             (target/'native-checkpoint.json').write_text(json.dumps(native,indent=2)+'\n')
         if name=='read-output-prestate':
             native=json.loads((target/'native-checkpoint.json').read_text())

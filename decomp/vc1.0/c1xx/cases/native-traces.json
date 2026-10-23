@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "4da20b12b39167c00736293ef6ca7867474f43019826e7671b7166b0fd55076d",
+    "functions.json": "3e125552d4e6eec9df2515abf11438b9250d2db9f2f48864232b584824a7c78c",
     "runtime.json": "783a72fca2331f20c8e763b8fb43e7e67311f614399eb411aab24b1d5e9a66e7",
-    "cases/original-entry-references.json": "e7b499a230cacafd075ba6303e539fcc1ce6497a657f73993ffd449a79d805ea",
-    "cases/canonical-map.txt": "b0bcae6f17ad9d032818ea411dd5bbc756be0c241386e112dbde092749732e52",
+    "cases/original-entry-references.json": "7c785196aa7bea877b0b0720118794865b8bc3192f2c1f8567bc95d7c5aca072",
+    "cases/canonical-map.txt": "29daab53d3d830e625376c195264156031f40d7bf0bb38e4649488116505eb40",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -61,9 +61,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1157-fold_floating_binary-12/entry-reference/original-receipt.json": "96829737252531d7f3624a14dd7c1df4cd1f8f2a272c1aa74a8b52daf295a197",
-    "cases/frontiers/state_machine_debug/1157-fold_floating_binary-12/entry-reference/original-events.txt": "2d1e23ae22df416ac393da808b63d8a9041c3b833386c453aa058bfa3204eecc",
-    "cases/frontiers/state_machine_debug/1157-fold_floating_binary-12/entry-reference/original-entries.plan": "0917e5df81e6133c1392fad0cc629b2540183c133b4633d91354fad17c038319"
+    "cases/frontiers/state_machine_debug/1158-multiply_extended/entry-reference/original-receipt.json": "6af14ad69e363b564894bebd143a40326e318884481eba370f248c988ce0754a",
+    "cases/frontiers/state_machine_debug/1158-multiply_extended/entry-reference/original-events.txt": "4ffe62a391179028027f0461abbda293f8fda81a5daabb8cf358f71ee63f3a6d",
+    "cases/frontiers/state_machine_debug/1158-multiply_extended/entry-reference/original-entries.plan": "99cf81a3152544f7e5bdd467bc88e9db2ea2a8f73d7ff51a8c0c54cf28b82749"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -2358,6 +2358,10 @@
       "logical": "_finish_expression_output",
       "source": "src/function-finalization.c"
     },
+    "finish_extended_arithmetic": {
+      "logical": "_finish_extended_arithmetic",
+      "source": "src/stubs.c"
+    },
     "finish_external_definition": {
       "logical": "_finish_external_definition@4",
       "source": "src/parser-state.c"
@@ -3800,7 +3804,7 @@
     },
     "multiply_extended": {
       "logical": "_multiply_extended",
-      "source": "src/stubs.c"
+      "source": "src/floating.c"
     },
     "needs_virtual_base_vtordisp": {
       "logical": "_needs_virtual_base_vtordisp@8",
@@ -6772,7 +6776,8 @@
     "store_extended",
     "save_extended_constant",
     "save_extended_in_arena",
-    "fold_floating_binary"
+    "fold_floating_binary",
+    "multiply_extended"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10895,7 +10900,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1158,
+      "last": 1159,
       "seen": [
         "main",
         "message_text",
@@ -11952,12 +11957,13 @@
         "save_extended_constant",
         "save_extended_in_arena",
         "fold_floating_binary",
-        "multiply_extended"
+        "multiply_extended",
+        "finish_extended_arithmetic"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_multiply_extended",
-        "native": "multiply_extended",
+        "logical": "_finish_extended_arithmetic",
+        "native": "finish_extended_arithmetic",
         "signal": 5
       }
     }

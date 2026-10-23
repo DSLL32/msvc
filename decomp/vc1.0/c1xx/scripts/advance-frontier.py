@@ -160,6 +160,9 @@ def main():
             assert formal['native_raw']==binding['native_owner_value']==actual_native_owner, 'native actual caller local owner differs'
             if 'original_stack_offset' in binding and args.candidate=='_resolve_member_pointer_path@12':
                 validate_member_path_output(args.candidate, formal, owner)
+            elif 'original_stack_offset' in binding and args.candidate=='_multiply_extended':
+                from extended_arithmetic_owners import validate as validate_extended_arithmetic_owner
+                validate_extended_arithmetic_owner(args.candidate, formal, owner)
             elif 'original_stack_offset' in binding and args.candidate=='_fold_floating_binary@12':
                 from floating_binary_owners import validate as validate_floating_binary_owner
                 validate_floating_binary_owner(args.candidate, formal, owner)

@@ -1,0 +1,12 @@
+{
+  "scope": "Whole79B multiplication wrapper and three actual pointerformals",
+  "owner_derivation": "At actualmultiplyentryESP M, immediatecallerfold_floating entryF=M+52. Its actual resultlocal F-12=M+40; left/right are acceptedancestor fold_binary actuallocals F+56/F+68=M+108/M+120. Every fresh pointerword is checked against samecontextM, and corresponding nativeimmediatecaller pointerformal/outputaddress.",
+  "ancestor_raw_record": {
+    "path": "evidence/extended-multiplication/ancestor-caller-disassembly.txt",
+    "sha256": "71d0f155930c8a5cd82173962daa97335643393f931b9fea242abb585451f045",
+    "origin": "cases/frontiers/state_machine_debug/1157-fold_floating_binary-12/arguments/original-ownership-caller-disassembly.txt"
+  },
+  "abi": "Cdecl3pointers; FLD10Bleft/right thenFMULP. OrdinaryC selectsformat10/8/4 from combinedformatbits. PrivateESI/ST0finishcallee preserves returnedEAXstatus.",
+  "output_prestate": "Address-only, ignored/uncredited. First10B uninitialized until finishingcallee writes; onlyformat WORD is assigned here.",
+  "credit": "One whole79B app/supportfunction; no extra observer or sourceCRT"
+}

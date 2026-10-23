@@ -1,0 +1,15 @@
+Breakpoint 1 at 0xad30: file src/floating.c, line 153.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, multiply_extended (left=0xffffd46c, right=0xffffd460, result=0xffffd3e8) at src/floating.c:153
+153	    __asm {
+#0  multiply_extended (left=0xffffd46c, right=0xffffd460, result=0xffffd3e8) at src/floating.c:153
+#1  0x565629de in fold_floating_binary (expression=0x56639998, left=0xffffd46c, right=0xffffd460) at src/constants.c:332
+#2  0x5656205b in fold_binary_constant (expression=0x56639998, left=0x56639964, right=0x56639984) at src/constants.c:179
+#3  0x56580989 in builtin_binary_expression (operation=83 'S', left=0x56639964, right=0x56639984) at src/binary-expressions.c:78
+#4  0x56584515 in binary_expression (operation=83 'S', left=0x56639964, right=0x56639984) at src/binary-expressions.c:865
+#5  0x565ba8b7 in parse_translation_unit () at src/parser-expression-actions.inc:88
+#6  0x5655df7f in compile_translation_unit () at src/frontend.c:73
+#7  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#8  0x56558894 in main (argc=1, argv=0xffffd7b4, environment=0xffffd7bc) at src/c1xx.c:20
