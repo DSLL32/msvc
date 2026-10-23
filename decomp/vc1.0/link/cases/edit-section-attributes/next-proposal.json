@@ -1,0 +1,47 @@
+{
+  "status": "Root-approved next single workflow; start after EDIT checkpoint",
+  "family": "Cross-machine DEF import archives and legacy CODE/DATA declarations",
+  "routines": [
+    {
+      "name": "_write_helper_thunk_member",
+      "entry": "0x2bec0",
+      "analysis_ceiling": "0x2c180",
+      "instruction_bytes": 690,
+      "calls": [
+        "0x21990",
+        "0x25060",
+        "0x251b0",
+        "0x2fb50",
+        "0x3cc50",
+        "0x3ce90",
+        "0x50fa0",
+        "0x51160",
+        "0x512b0"
+      ]
+    },
+    {
+      "name": "_skip_definition_code",
+      "entry": "0x2a0f0",
+      "analysis_ceiling": "0x2a110",
+      "instruction_bytes": 29,
+      "calls": [
+        "0x29c20",
+        "0x518b0"
+      ]
+    },
+    {
+      "name": "_skip_definition_data",
+      "entry": "0x2a110",
+      "analysis_ceiling": "0x2a130",
+      "instruction_bytes": 29,
+      "calls": [
+        "0x29c20",
+        "0x518b0"
+      ]
+    }
+  ],
+  "known_application_instruction_bytes": 748,
+  "plan": "Create one conventional module-definition file with LIBRARY, meaningful CODE/DATA declarations, named/ordinal function exports and DATA export. Public -lib /machine:i860 /def:... /name:... /debugtype:both builds actual i860 import archive plus .exp; helper_thunk is1 only in bundled import_i860. Companion MIPS variant of same DEF proves machine-specific descriptor/jump/relocation paths, not native MIPS code execution. LINK32_DB27 buffered backend as already original-proven library convention. Public -lib /list and -dump /headers /symbols /relocations on actual output archives/objects independently inspect emitted machine/reloc/thunk bytes. Repeat untouched originals and freeze full artifacts/streams before acceptance; inspect-only machine bytes are contextual typed serialized input/output, never executed by fixtures.",
+  "reachability_evidence": "src/import-library.c build_import_library supports0x14d/0x162 while full image initialize_machine supports onlyi386/Mac. import_i860.helper_thunk1 selects _write_helper_thunk_member; MIPS/i386 helper0. src/library-options.c publicly accepts i860/mips and /def, /debugtype:both. Definition parser has direct CODE/DATA dispatch to remaining named skip handlers. Fresh CFG finds helper body omitted by old Ghidra entry-only seed.",
+  "limits": "No original validation yet and no reachability/acceptance promise. Full i860/MIPS image linking is not claimed; use genuine bundled import-archive interface. If original feature interaction rejects valid conventional DEF, preserve probe and ask root for coherent adjustment. OMF internal-g and17887 unclassified unaccepted bytes remain pending, not CRT."
+}

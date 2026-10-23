@@ -1,0 +1,28 @@
+{
+  "case": "edit-section-attributes",
+  "arguments": [
+    "-edit",
+    "/section:.store,rs!w",
+    "/section:.code,ek!p",
+    "/section:.rdata,a8",
+    "/section:.reloc,d",
+    "/section:.miss,r",
+    "edit.dll"
+  ],
+  "environment": {
+    "LIB": "{lib}"
+  },
+  "inputs": [
+    {
+      "path": "cases/edit-section-attributes/inputs/renamed/edit.dll",
+      "bytes": 4194304,
+      "sha256": "51d4ff4ce53e6792d8dd13547756d7ffeb9dcae244375e793c2d2d87d2f03eb0"
+    }
+  ],
+  "outputs": [
+    {
+      "output_name": "edit.dll",
+      "artifact_kind": "raw"
+    }
+  ]
+}

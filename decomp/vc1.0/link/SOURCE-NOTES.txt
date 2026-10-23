@@ -1098,7 +1098,7 @@ PE is identical to the prior negative-tested artifact after only structural COFF
 timestamp, independently recovering that artifact's one recorded scratch mutation.
 No unchanged negative campaign was repeated. See capture/negative-build-equivalence.
 
-Large-image/fixup checkpoint928 (current)
+Large-image/fixup checkpoint928 (historical)
 
 All ten proposed public-case functions now have fresh matched original/native
 GDB entries and complete readable C extents: read_switch_number3a710,
@@ -1130,3 +1130,30 @@ the approved pinned baseline during shared tool publishing; no source-policy
 change. Source freeze is shared b967da90. See cases/large-image-fixups.
 Root authorized public EDIT section rename/characteristics/alignment next, based
 on newly inventoried1176-byte body28180+40-byte inline switch table.
+
+Public EDIT section checkpoint929 (current)
+
+Readable edit_section28180..28630 plus40-byte table28630..28658 reconstructs
+1176 true instructions bytes and24 alignment, independently CFG-inventoried.
+Fresh native GDB/masked-original entry and partial streams match. Conventional
+section rename/flags/alignment, a real missing-section warning and final release
+are each original-validated twice before freezing; all full4MB bytes/streams
+match without normalization. Release checksum validates actual entire raw file.
+Native stage2/3 and all three header dumps consume actual prior native artifacts;
+nonempty receipt inventory and changed-input/source/missing-flow negatives prove
+this relation. The original !a AND-mask quirk is retained, not fixed.
+
+929frontiers/246011of281634 .text=87.3513%. Known partial target-body inventory
+181110accepted/189663known; CRT27995/37088, imports258/348, inline1936, alignment
+3052;17887 remaining unclassified bytes remain pending, not CRT. Final58cached
+native cases/738app entries pass5.380s external,5.115s internal: setup1.815,
+directELF.668,oracles2.585,tracecheck.00662,traceprep.176s. Final native make was
+already current (.019s); initial incremental build log has no stopwatch. Canonical
+make -j4 all audit7.082s,768Rustgraphs (raw935/932, unique930/929),755callbacks,
+486data,41ECX and actual graph/RET/runtime-tail mutation negatives pass. Shared
+C/H freeze3098cc5d is unchanged before/after fullsuite. Case docs contain hashes.
+
+Next root-authorized single workflow: public conventional DEF→i860/MIPS import
+archives, real helper-thunk route and CODE/DATA handlers, then independent archive
+list/header/symbol/relocation inspection. Static opportunity748bytes/3functions,
+not a promised gain; no full cross-machine image linking or execution claimed.

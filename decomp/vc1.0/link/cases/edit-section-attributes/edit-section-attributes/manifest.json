@@ -1,0 +1,53 @@
+{
+  "case": "edit-section-attributes",
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-section-edit.py",
+    "sha256": "981db5b0a04d62d4b63e727243411235702ee08a9c6ff0cbcd47f7642023a87c"
+  },
+  "phases": {
+    "reference": {
+      "arguments": [
+        "-edit",
+        "/section:.store,rs!w",
+        "/section:.code,ek!p",
+        "/section:.rdata,a8",
+        "/section:.reloc,d",
+        "/section:.miss,r",
+        "edit.dll"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "inputs": [
+        {
+          "path": "../inputs/renamed/edit.dll",
+          "bytes": 4194304,
+          "sha256": "51d4ff4ce53e6792d8dd13547756d7ffeb9dcae244375e793c2d2d87d2f03eb0",
+          "from_case": {
+            "case": "edit-section-rename",
+            "output_name": "edit.dll"
+          },
+          "artifact_kind": "raw",
+          "ignored_fields": [],
+          "normalized_sha256": "51d4ff4ce53e6792d8dd13547756d7ffeb9dcae244375e793c2d2d87d2f03eb0"
+        }
+      ],
+      "outputs": [
+        {
+          "output_name": "edit.dll",
+          "artifact_kind": "raw",
+          "path": "../reference/edit-section-attributes/1/edit.dll",
+          "bytes": 4194304,
+          "sha256": "710b19bec27b7423a79441e5405701728104428650bd63caa39f9a3df1b283de",
+          "normalized_sha256": "710b19bec27b7423a79441e5405701728104428650bd63caa39f9a3df1b283de",
+          "ignored_fields": []
+        }
+      ],
+      "expected_exit": 0,
+      "canonical_working_directory": "S:\\vc1.0\\link\\edit-section-attributes",
+      "expected_stdout": "Microsoft (R) COFF Binary File Editor Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n\r\nLINK : warning LNK4039: section \".miss\" does not exist \r\n",
+      "expected_stderr": ""
+    }
+  }
+}

@@ -1,0 +1,41 @@
+{
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-section-edit.py",
+    "sha256": "981db5b0a04d62d4b63e727243411235702ee08a9c6ff0cbcd47f7642023a87c"
+  },
+  "case": "dump-section-released",
+  "phases": {
+    "reference": {
+      "arguments": [
+        "-dump",
+        "/headers",
+        "edit.dll"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "inputs": [
+        {
+          "path": "../../edit-section-attributes/inputs/released/edit.dll",
+          "bytes": 4194304,
+          "sha256": "9edb88616e750116abcec8e20bec0b6e00420892005b8a3471e4c17e609570e9",
+          "from_case": {
+            "case": "edit-section-release",
+            "output_name": "edit.dll"
+          },
+          "artifact_kind": "section-release",
+          "ignored_fields": [],
+          "normalized_sha256": "9edb88616e750116abcec8e20bec0b6e00420892005b8a3471e4c17e609570e9"
+        }
+      ],
+      "outputs": [],
+      "expected_exit": 0,
+      "canonical_working_directory": "S:\\vc1.0\\link\\dump-section-released",
+      "expected_stdout": "Microsoft (R) COFF Binary File Dumper Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n\r\nDump of file edit.dll\r\n\r\nNT signature found\r\n\r\nFile Type: DLL\r\n\r\nFILE HEADER VALUES\r\n     14C machine (i386)\r\n       4 number of sections\r\n6ADB8542 time date stamp Fri Oct 23 09:03:14 2026\r\n  302A20 file pointer to symbol table\r\n      11 number of symbols\r\n      E0 size of optional header\r\n    A186 characteristics\r\n            Executable\r\n            Line numbers stripped\r\n            Bytes reversed\r\n            32 bit word machine\r\n            DLL\r\n\r\nOPTIONAL HEADER VALUES\r\n     10B magic #\r\n    2.23 linker version\r\n     200 size of code\r\n  302600 size of initialized data\r\n       0 size of uninitialized data\r\n    1000 address of entry point\r\n    1000 base of code\r\n    2000 base of data\r\n         ----- new -----\r\n  400000 image base\r\n    1000 section alignment\r\n     200 file alignment\r\n       2 subsystem (Windows GUI)\r\n     1.0 operating system version\r\n     0.0 image version\r\n     3.A subsystem version\r\n  306000 size of image\r\n     400 size of headers\r\n  40E80E checksum\r\n  200000 size of stack reserve\r\n    3000 size of stack commit\r\n  100000 size of heap reserve\r\n    2000 size of heap commit\r\n       0 [       0] address [size] of Export Directory\r\n       0 [       0] address [size] of Import Directory\r\n       0 [       0] address [size] of Resource Directory\r\n       0 [       0] address [size] of Exception Directory\r\n       0 [       0] address [size] of Security Directory\r\n  304000 [      18] address [size] of Base Relocation Directory\r\n    2000 [      38] address [size] of Debug Directory\r\n       0 [       0] address [size] of Description Directory\r\n       0 [       0] address [size] of Special Directory\r\n       0 [       0] address [size] of Thread Storage Directory\r\n\r\n\r\nSECTION HEADER #1\r\n   .text name\r\n      64 virtual size\r\n    1000 virtual address\r\n     200 size of raw data\r\n     400 file pointer to raw data\r\n       0 file pointer to relocation table\r\n       0 file pointer to line numbers\r\n       0 number of relocations\r\n       0 number of line numbers\r\n60000020 flags\r\n         Code\r\n         (no align specified)\r\n         Execute Read\r\n\r\nSECTION HEADER #2\r\n  .rdata name\r\n      FC virtual size\r\n    2000 virtual address\r\n     200 size of raw data\r\n     600 file pointer to raw data\r\n       0 file pointer to relocation table\r\n       0 file pointer to line numbers\r\n       0 number of relocations\r\n       0 number of line numbers\r\n40400040 flags\r\n         Initialized Data\r\n         8 byte align\r\n         Read Only\r\n\r\n\r\nDebug Directories(2)\r\n\tType       Size     Address  Pointer\r\n\r\n\tcoff        152           0   302a00\r\n\tfixup        24           0   302b78\r\n\r\nSECTION HEADER #3\r\n   .data name\r\n  30010C virtual size\r\n    3000 virtual address\r\n  300200 size of raw data\r\n     800 file pointer to raw data\r\n       0 file pointer to relocation table\r\n       0 file pointer to line numbers\r\n       0 number of relocations\r\n       0 number of line numbers\r\nC0000040 flags\r\n         Initialized Data\r\n         (no align specified)\r\n         Read Write\r\n\r\nSECTION HEADER #4\r\n  .reloc name\r\n    1E38 virtual size\r\n  304000 virtual address\r\n    2000 size of raw data\r\n  300A00 file pointer to raw data\r\n       0 file pointer to relocation table\r\n       0 file pointer to line numbers\r\n       0 number of relocations\r\n       0 number of line numbers\r\n42000040 flags\r\n         Initialized Data\r\n         Discardable\r\n         (no align specified)\r\n         Read Only\r\n\r\n     Summary\r\n       .text      200\r\n      .rdata      200\r\n       .data   300200\r\n      .reloc     2000\r\n",
+      "expected_stderr": ""
+    }
+  },
+  "source_reference": "decomp/vc1.0/link/cases/edit-section-attributes/dump-section-released",
+  "migration": "Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged"
+}

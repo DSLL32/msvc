@@ -213,3 +213,96 @@ void parse_reserve_commit(const char *text,unsigned long *reserve,unsigned long 
         *commit=second;
     }
 }
+
+#pragma intrinsic(memcpy,memset)
+/* Original code [00028180,00028630), switch table [00028630,00028658). */
+void edit_section(char *text)
+{
+    char old_name[9],new_name[8],*cursor=text,*start;
+    unsigned long length,set_flags=0,clear_flags=0,*mask=&set_flags,alignment;
+    unsigned short index;
+    unsigned char found=0;
+    PIMAGE_SECTION_HEADER section;
+    while (*cursor && *cursor!='=' && *cursor!=',') ++cursor;
+    length=cursor-text;
+    if (!length || length>8) fatal_message(program_name,0x28,text);
+    strncpy(old_name,text,length);
+    memset(old_name+length,0,9-length);
+    if (*cursor=='=') {
+        start=++cursor;
+        while (*cursor && *cursor!='=' && *cursor!=',') ++cursor;
+        length=cursor-start;
+        if (!length || length>8) fatal_message(program_name,0x28,text);
+        strncpy(new_name,start,length);
+        if (length<8) memset(new_name+length,0,8-length);
+    } else new_name[0]=0;
+    if (*cursor==',') ++cursor;
+    else if (*cursor) fatal_message(program_name,0x28,text);
+    for (;*cursor;++cursor) {
+        switch ((unsigned char)*cursor) {
+        case 'c': *mask|=0x20; break;
+        case 'd': *mask|=0x02000000; break;
+        case 'e': *mask|=0x20000000; break;
+        case 'i': *mask|=0x40; break;
+        case 'm': *mask|=0x800; break;
+        case 'o': *mask|=0x200; break;
+        case 'r': *mask|=0x40000000; break;
+        case 's': *mask|=0x10000000; break;
+        case 'u': *mask|=0x80; break;
+        case 'w': *mask|=0x80000000; break;
+        case 'k':
+            if (mask==&set_flags) clear_flags|=0x04000000;
+            else set_flags|=0x04000000;
+            break;
+        case 'p':
+            if (mask==&set_flags) clear_flags|=0x08000000;
+            else set_flags|=0x08000000;
+            break;
+        case 'a':
+            ++cursor;
+            if (*cursor=='x') *mask|=8;
+            else if (mask==&clear_flags) {
+                /* Original AND retains only previously requested alignment
+                 * removals; negated alignment does not invent a clear mask. */
+                *mask&=0x00700000;
+            } else {
+                clear_flags|=0x00700000;
+                *mask&=~0x00700000UL;
+                switch ((unsigned char)*cursor) {
+                default:
+                    fatal_message(program_name,0x28,text);
+                    /* The native fatal helper exits; retain its fallthrough. */
+                case '1': alignment=0x00100000; break;
+                case '2': alignment=0x00200000; break;
+                case '4': alignment=0x00300000; break;
+                case '8': alignment=0x00400000; break;
+                case 'p': alignment=0x00500000; break;
+                case 't': alignment=0x00600000; break;
+                case 's': alignment=0x00700000; break;
+                }
+                *mask|=alignment;
+            }
+            break;
+        default:
+            fatal_message(program_name,0x28,text);
+        case '!':
+        case 'n':
+            if (!cursor[1]) fatal_message(program_name,0x28,text);
+            mask=&clear_flags;
+            continue;
+        }
+        mask=&set_flags;
+    }
+    for (index=1;index<=edit_image->file.NumberOfSections;++index) {
+        section=&edit_section_headers[index];
+        if (strncmp(old_name,(char *)section->Name,8)) continue;
+        found=1;
+        if (new_name[0]) memcpy(section->Name,new_name,8);
+        section->Characteristics&=~clear_flags;
+        section->Characteristics|=set_flags;
+        seek_file(output_file,edit_image->file.SizeOfOptionalHeader+index*40+
+            pe_header_offset+archive_data_offset-20,SEEK_SET);
+        write_section_header(output_file,section);
+    }
+    if (!found) warning_message(program_name,0x6e,old_name,"");
+}

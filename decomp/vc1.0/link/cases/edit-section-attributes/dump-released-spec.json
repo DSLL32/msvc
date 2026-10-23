@@ -1,0 +1,19 @@
+{
+  "case": "dump-section-released",
+  "arguments": [
+    "-dump",
+    "/headers",
+    "edit.dll"
+  ],
+  "environment": {
+    "LIB": "{lib}"
+  },
+  "inputs": [
+    {
+      "path": "cases/edit-section-attributes/inputs/released/edit.dll",
+      "bytes": 4194304,
+      "sha256": "9edb88616e750116abcec8e20bec0b6e00420892005b8a3471e4c17e609570e9"
+    }
+  ],
+  "outputs": []
+}

@@ -5,15 +5,15 @@ period Win32 C preserving individual graph vertices and calling conventions.
 Pending functions are named INT3 stubs. There are no assembly ABI exceptions,
 lifted implementation blocks or copied original data sections.
 
-Current checkpoint:928 accepted frontiers,244771/281634 accepted .text bytes
-(86.9110%). This union includes contextual inline data and alignment; it is not
-branch coverage. The partial checked inventory distinguishes179934 accepted
+Current checkpoint:929 accepted frontiers,246011/281634 accepted .text bytes
+(87.3513%). This union includes contextual inline data and alignment; it is not
+branch coverage. The partial checked inventory distinguishes181110 accepted
 target-body instruction bytes,27995 CRT instructions,258 import-thunk bytes,
-1896 inline-data bytes,3028 alignment bytes and31660 accepted unclassified bytes.
-Unclassified bytes are not all padding. cases/large-image-fixups/components.json
+1936 inline-data bytes,3052 alignment bytes and31660 accepted unclassified bytes.
+Unclassified bytes are not all padding. cases/edit-section-attributes/components.json
 records the partial accounting; it is not a full application-body denominator.
 
-The52 completed native cases cover help; minimal console/GUI/DLL linking;
+The58 completed native cases cover help; minimal console/GUI/DLL linking;
 archive creation/list/extract/remove; COFF/archive/PE/FPO/symbol-map dumps; PE
 editing/rebase/bind/release; ordinary OMF conversion/linking; old C++ undecoration;
 x86 disassembly; Macintosh linking/relocations/debug/swapper/static/resource/pcode
@@ -230,3 +230,16 @@ Rust graphs, callback/data/ECX checks and mutation guards pass.
 
 The next root-authorized workflow is public EDIT section rename/attributes;
 remaining OMF internal-g and unclassified ranges remain pending, not CRT.
+
+Public section-edit checkpoint (929 frontiers)
+
+One1176-byte whole C function plus40-byte inline table/24-byte alignment now
+preserves section rename, cache/page/read/write/share flags, alignment, per-letter
+negation and missing-section diagnostics. Six repeated original phases and all
+actual native edited/dumped4MB files match with zero normalization; release raw
+checksum is independently correct. Later phases consume actual native artifacts.
+All58 cached trace/output cases pass5.380s;768 Rust graphs,755 callback routines,
+486 data and41 ECX checks pass. See cases/edit-section-attributes/README.txt and
+validation/timing/components JSON. Remaining17887 unclassified unaccepted bytes
+are not proven CRT. Next root-approved single case creates/inspects i860/MIPS
+import archives from conventional DEF; it does not link/run those target images.

@@ -1,0 +1,27 @@
+{
+  "case": "edit-section-rename",
+  "arguments": [
+    "-edit",
+    "/section:.data=.store,rw",
+    "/section:.text=.code,er",
+    "/section:.reloc,!d",
+    "/section:.rdata,a4",
+    "edit.dll"
+  ],
+  "environment": {
+    "LIB": "{lib}"
+  },
+  "inputs": [
+    {
+      "path": "cases/edit-section-attributes/inputs/original/edit.dll",
+      "bytes": 4194304,
+      "sha256": "dfd2f5d8200ba181ebdda15ad6f2da36af63d1e646daa6793b88aa5c61ba3c84"
+    }
+  ],
+  "outputs": [
+    {
+      "output_name": "edit.dll",
+      "artifact_kind": "raw"
+    }
+  ]
+}

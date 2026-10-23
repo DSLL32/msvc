@@ -1,0 +1,54 @@
+{
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-section-edit.py",
+    "sha256": "981db5b0a04d62d4b63e727243411235702ee08a9c6ff0cbcd47f7642023a87c"
+  },
+  "case": "edit-section-release",
+  "phases": {
+    "reference": {
+      "arguments": [
+        "-edit",
+        "/section:.store=.data,rw!s",
+        "/section:.code=.text,erkp",
+        "/section:.rdata,!a4",
+        "/release",
+        "edit.dll"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "inputs": [
+        {
+          "path": "../../edit-section-attributes/inputs/attributes/edit.dll",
+          "bytes": 4194304,
+          "sha256": "710b19bec27b7423a79441e5405701728104428650bd63caa39f9a3df1b283de",
+          "from_case": {
+            "case": "edit-section-attributes",
+            "output_name": "edit.dll"
+          },
+          "artifact_kind": "raw",
+          "ignored_fields": [],
+          "normalized_sha256": "710b19bec27b7423a79441e5405701728104428650bd63caa39f9a3df1b283de"
+        }
+      ],
+      "outputs": [
+        {
+          "output_name": "edit.dll",
+          "artifact_kind": "section-release",
+          "path": "expected/edit.dll",
+          "bytes": 4194304,
+          "sha256": "9edb88616e750116abcec8e20bec0b6e00420892005b8a3471e4c17e609570e9",
+          "normalized_sha256": "9edb88616e750116abcec8e20bec0b6e00420892005b8a3471e4c17e609570e9",
+          "ignored_fields": []
+        }
+      ],
+      "expected_exit": 0,
+      "canonical_working_directory": "S:\\vc1.0\\link\\edit-section-release",
+      "expected_stdout": "Microsoft (R) COFF Binary File Editor Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n\r\n",
+      "expected_stderr": ""
+    }
+  },
+  "source_reference": "decomp/vc1.0/link/cases/edit-section-attributes/edit-section-release",
+  "migration": "Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged"
+}

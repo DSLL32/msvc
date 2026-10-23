@@ -1,0 +1,43 @@
+{
+  "mode": "original",
+  "analysis_samples": [],
+  "case": "edit-section-attributes",
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "root_exit": 0,
+    "failed": 0,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "1ebf89baaf44c1f3ef75c736f809465f86aec9145682ed2146436f17d47bf2e7",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 928,
+  "accepted_sha256": "d60b2c499fa237d8a8e03bd7d649aab4fd6cc97eb77bec620ae08b768ea1c6be",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": null,
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\edit-section-attributes",
+    "TEMP": "S:\\vc1.0\\link\\edit-section-attributes"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-edit /section:.store,rs!w /section:.code,ek!p /section:.rdata,a8 /section:.reloc,d /section:.miss,r edit.dll",
+    "S:\\vc1.0\\link\\new-captures\\edit-section-attributes\\original-ux_yfdi5\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\edit-section-attributes\\original-ux_yfdi5\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\edit-section-attributes\\original-ux_yfdi5\\events.jsonl",
+    "S:\\vc1.0\\link\\edit-section-attributes",
+    "S:\\vc1.0\\link\\new-captures\\edit-section-attributes\\original-ux_yfdi5\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\edit-section-attributes\\original-ux_yfdi5\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\edit-section-attributes\\original-ux_yfdi5\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\edit-section-attributes\\original-ux_yfdi5\\after.dll",
+    "-"
+  ],
+  "seconds": 0.6175678512081504
+}

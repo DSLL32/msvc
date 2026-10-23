@@ -1,0 +1,507 @@
+{
+  "status": "pass",
+  "shared_commit": "3098cc5d",
+  "shared_source_sha256": {
+    "../../../lib/recon/src/compat.c": "3fd3515569a9bb8ea637cdd81359ee74724da607a06bac54d1866953b9e299a6",
+    "../../../lib/recon/src/crt.c": "9f76177d4bfdfcd308353b4957ab657d8538e1ada184cc55df2845eca43c78e1",
+    "../../../lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+    "../../../lib/recon/src/entry.c": "12a10f7190b430c73b4754d2e5c234bce38addb7f188e16518ec0ba604fe8c80",
+    "../../../lib/recon/src/process.c": "b1a4dae8f45ad5051f50acea6bb36d994e0d084c925291d46e154519e5d8f73a",
+    "../../../lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+    "../../../lib/recon/src/win32.c": "e1aac13365695a424df34d1fd1bcc08ed0ee838899955c681d19bd5f54a6eaaf",
+    "../../../lib/recon/include/recon.h": "e063140bc69e38216729a2839c2a0bdf413988d2684129e63d76f0c07ede8514",
+    "../../../lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "../../../lib/recon/include/win32.h": "30474cfc65ed0e1242514cb51d5d5e35c4d608832b177132b56b45c05080f1e4",
+    "../../../lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+    "../../../lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+    "../../../lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+    "../../../lib/recon/native/float.h": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+    "../../../lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "../../../lib/recon/native/mbctype.h": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+    "../../../lib/recon/native/mbstring.h": "c81999035af2a447d1d1d53dd7eb23bf3e69ad8b272402182d6632686f173b44",
+    "../../../lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "../../../lib/recon/native/setjmp.h": "62dd5dcc70d652ad68bccd31f9c916b829b9577d0e7c8b8d0655e47cb5ab151f",
+    "../../../lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+    "../../../lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a"
+  },
+  "executable_sha256": "a7ca1f6831470d3910492e861c3f91081f09f1fa2b13be8f2f09f4eba0a6abb9",
+  "native_receipt": "/root/.ai-tmp/msvc2/vc1.0/link/native/native-check-zkeoj0pw/receipt.json",
+  "native_receipt_sha256": "584015b1e0774fc658273d1ddd226c0eda33d825a9836680c98e1e9b9fbdc16f",
+  "native_build_seconds": 0.019048072397708893,
+  "external_suite_seconds": 5.380327415652573,
+  "internal_suite_seconds": 5.115454060956836,
+  "trace_prepare_seconds": 0.17632988467812538,
+  "case_count": 58,
+  "case_timings": [
+    {
+      "case": "help",
+      "setup_seconds": 0.0018073339015245438,
+      "execution_seconds": 0.005692789331078529,
+      "trace_check_seconds": 0.00015599559992551804,
+      "oracle_seconds": 0.00021344143897294998,
+      "total_seconds": 0.008252731524407864
+    },
+    {
+      "case": "absolute-weak-unmatched",
+      "setup_seconds": 0.014475866220891476,
+      "execution_seconds": 0.005485944449901581,
+      "trace_check_seconds": 0.00011065509170293808,
+      "oracle_seconds": 0.053679012693464756,
+      "total_seconds": 0.07418425101786852
+    },
+    {
+      "case": "absolute-weak",
+      "setup_seconds": 0.011897388845682144,
+      "execution_seconds": 0.005127470940351486,
+      "trace_check_seconds": 0.00011379830539226532,
+      "oracle_seconds": 0.05036767106503248,
+      "total_seconds": 0.06792400870472193
+    },
+    {
+      "case": "dump-fpo-object",
+      "setup_seconds": 0.00253107026219368,
+      "execution_seconds": 0.003544826991856098,
+      "trace_check_seconds": 9.337067604064941e-05,
+      "oracle_seconds": 0.00037529878318309784,
+      "total_seconds": 0.00689337495714426
+    },
+    {
+      "case": "dump-fpo-map",
+      "setup_seconds": 0.012470407411456108,
+      "execution_seconds": 0.006551498547196388,
+      "trace_check_seconds": 0.00010157003998756409,
+      "oracle_seconds": 0.0006700437515974045,
+      "total_seconds": 0.0201414180919528
+    },
+    {
+      "case": "cpp-pointer-status",
+      "setup_seconds": 0.002106575295329094,
+      "execution_seconds": 0.0032954392954707146,
+      "trace_check_seconds": 0.00013129226863384247,
+      "oracle_seconds": 0.00018346775323152542,
+      "total_seconds": 0.006087535992264748
+    },
+    {
+      "case": "cpp-template-status",
+      "setup_seconds": 0.002198861911892891,
+      "execution_seconds": 0.003399387001991272,
+      "trace_check_seconds": 9.874720126390457e-05,
+      "oracle_seconds": 0.00016408506780862808,
+      "total_seconds": 0.006191030144691467
+    },
+    {
+      "case": "cpp-based-vbtable",
+      "setup_seconds": 0.002140623517334461,
+      "execution_seconds": 0.0031717317178845406,
+      "trace_check_seconds": 9.910482913255692e-05,
+      "oracle_seconds": 0.00017365068197250366,
+      "total_seconds": 0.005937498994171619
+    },
+    {
+      "case": "m68k-dupcon",
+      "setup_seconds": 0.010753666050732136,
+      "execution_seconds": 0.00401107594370842,
+      "trace_check_seconds": 9.990110993385315e-05,
+      "oracle_seconds": 0.04811807069927454,
+      "total_seconds": 0.06333315744996071
+    },
+    {
+      "case": "m68k-pcode-alias",
+      "setup_seconds": 0.01113962009549141,
+      "execution_seconds": 0.0036968234926462173,
+      "trace_check_seconds": 0.00011790357530117035,
+      "oracle_seconds": 0.04922143369913101,
+      "total_seconds": 0.06461058463901281
+    },
+    {
+      "case": "m68k-static-resources",
+      "setup_seconds": 0.011320648714900017,
+      "execution_seconds": 0.0037515079602599144,
+      "trace_check_seconds": 0.00012194551527500153,
+      "oracle_seconds": 0.04876448679715395,
+      "total_seconds": 0.06431164685636759
+    },
+    {
+      "case": "m68k-debug-swapper",
+      "setup_seconds": 0.011968130245804787,
+      "execution_seconds": 0.005524787120521069,
+      "trace_check_seconds": 0.0001117335632443428,
+      "oracle_seconds": 0.0482606515288353,
+      "total_seconds": 0.06627330556511879
+    },
+    {
+      "case": "definition-directives",
+      "setup_seconds": 0.020746247842907906,
+      "execution_seconds": 0.007146669551730156,
+      "trace_check_seconds": 0.00010441988706588745,
+      "oracle_seconds": 0.23430663160979748,
+      "total_seconds": 0.2626345558091998
+    },
+    {
+      "case": "m68k-minimal",
+      "setup_seconds": 0.011335418559610844,
+      "execution_seconds": 0.004860706627368927,
+      "trace_check_seconds": 0.00010975729674100876,
+      "oracle_seconds": 0.04662021063268185,
+      "total_seconds": 0.06325796246528625
+    },
+    {
+      "case": "m68k-reloc-loader",
+      "setup_seconds": 0.011291153728961945,
+      "execution_seconds": 0.004887247458100319,
+      "trace_check_seconds": 0.00010444410145282745,
+      "oracle_seconds": 0.04655945021659136,
+      "total_seconds": 0.06317352596670389
+    },
+    {
+      "case": "dump-disasm-x86-rich",
+      "setup_seconds": 0.0022107502445578575,
+      "execution_seconds": 0.0040032584220170975,
+      "trace_check_seconds": 0.0001118658110499382,
+      "oracle_seconds": 0.000197545625269413,
+      "total_seconds": 0.0068728020414710045
+    },
+    {
+      "case": "dump-disasm-code",
+      "setup_seconds": 0.0020864782854914665,
+      "execution_seconds": 0.004020963795483112,
+      "trace_check_seconds": 0.00010637752711772919,
+      "oracle_seconds": 0.0001610834151506424,
+      "total_seconds": 0.006701560690999031
+    },
+    {
+      "case": "dump-disasm-data",
+      "setup_seconds": 0.002229423262178898,
+      "execution_seconds": 0.002671775408089161,
+      "trace_check_seconds": 0.00010373815894126892,
+      "oracle_seconds": 0.00015498138964176178,
+      "total_seconds": 0.005471252836287022
+    },
+    {
+      "case": "library-create",
+      "setup_seconds": 0.011891460977494717,
+      "execution_seconds": 0.006134863942861557,
+      "trace_check_seconds": 0.00011625979095697403,
+      "oracle_seconds": 0.0005913544446229935,
+      "total_seconds": 0.019177121110260487
+    },
+    {
+      "case": "library-list",
+      "setup_seconds": 0.01178811676800251,
+      "execution_seconds": 0.0030570803210139275,
+      "trace_check_seconds": 8.74856486916542e-05,
+      "oracle_seconds": 0.0001584850251674652,
+      "total_seconds": 0.015428969636559486
+    },
+    {
+      "case": "library-extract",
+      "setup_seconds": 0.011587897315621376,
+      "execution_seconds": 0.0030735451728105545,
+      "trace_check_seconds": 9.643658995628357e-05,
+      "oracle_seconds": 0.0003736549988389015,
+      "total_seconds": 0.01545510720461607
+    },
+    {
+      "case": "library-remove",
+      "setup_seconds": 0.011106316931545734,
+      "execution_seconds": 0.0045205531641840935,
+      "trace_check_seconds": 9.668432176113129e-05,
+      "oracle_seconds": 0.00046693533658981323,
+      "total_seconds": 0.016542076133191586
+    },
+    {
+      "case": "library-list-trimmed",
+      "setup_seconds": 0.011018259450793266,
+      "execution_seconds": 0.002961672842502594,
+      "trace_check_seconds": 8.726399391889572e-05,
+      "oracle_seconds": 0.00015874020755290985,
+      "total_seconds": 0.014548295177519321
+    },
+    {
+      "case": "dump-library",
+      "setup_seconds": 0.01109276246279478,
+      "execution_seconds": 0.00558830238878727,
+      "trace_check_seconds": 0.00010142754763364792,
+      "oracle_seconds": 0.0003457581624388695,
+      "total_seconds": 0.01758761703968048
+    },
+    {
+      "case": "dump-object",
+      "setup_seconds": 0.01109158992767334,
+      "execution_seconds": 0.0035788100212812424,
+      "trace_check_seconds": 8.719693869352341e-05,
+      "oracle_seconds": 0.00024937931448221207,
+      "total_seconds": 0.01537442859262228
+    },
+    {
+      "case": "dump-dll",
+      "setup_seconds": 0.01216842234134674,
+      "execution_seconds": 0.01132312323898077,
+      "trace_check_seconds": 0.00010250508785247803,
+      "oracle_seconds": 0.0012874603271484375,
+      "total_seconds": 0.02587356511503458
+    },
+    {
+      "case": "dump-edited",
+      "setup_seconds": 0.011382706463336945,
+      "execution_seconds": 0.0030015120282769203,
+      "trace_check_seconds": 8.126720786094666e-05,
+      "oracle_seconds": 0.00019927788525819778,
+      "total_seconds": 0.0149726876989007
+    },
+    {
+      "case": "edit",
+      "setup_seconds": 0.011757238768041134,
+      "execution_seconds": 0.004059198312461376,
+      "trace_check_seconds": 9.931623935699463e-05,
+      "oracle_seconds": 0.0015184031799435616,
+      "total_seconds": 0.017747743986546993
+    },
+    {
+      "case": "omf-library",
+      "setup_seconds": 0.002344180829823017,
+      "execution_seconds": 0.00479948241263628,
+      "trace_check_seconds": 0.0001091761514544487,
+      "oracle_seconds": 0.000461735762655735,
+      "total_seconds": 0.008051920682191849
+    },
+    {
+      "case": "omf-link",
+      "setup_seconds": 0.0026048170402646065,
+      "execution_seconds": 0.007310798391699791,
+      "trace_check_seconds": 9.690225124359131e-05,
+      "oracle_seconds": 0.000499446876347065,
+      "total_seconds": 0.010832450352609158
+    },
+    {
+      "case": "cpp-undecorate",
+      "setup_seconds": 0.0023881345987319946,
+      "execution_seconds": 0.004251752980053425,
+      "trace_check_seconds": 0.0001207469031214714,
+      "oracle_seconds": 0.00020065996795892715,
+      "total_seconds": 0.0073140887543559074
+    },
+    {
+      "case": "minimal-c",
+      "setup_seconds": 0.014510245062410831,
+      "execution_seconds": 0.00737894419580698,
+      "trace_check_seconds": 0.00015715695917606354,
+      "oracle_seconds": 0.05036441795527935,
+      "total_seconds": 0.07273856643587351
+    },
+    {
+      "case": "hello-win32",
+      "setup_seconds": 0.019490976817905903,
+      "execution_seconds": 0.009215334430336952,
+      "trace_check_seconds": 0.00010002590715885162,
+      "oracle_seconds": 0.048729375936090946,
+      "total_seconds": 0.07786824088543653
+    },
+    {
+      "case": "hello-dll",
+      "setup_seconds": 0.04306686669588089,
+      "execution_seconds": 0.01602627243846655,
+      "trace_check_seconds": 0.0003379620611667633,
+      "oracle_seconds": 0.22137733828276396,
+      "total_seconds": 0.28153001982718706
+    },
+    {
+      "case": "hello-debug-dll",
+      "setup_seconds": 0.08036417420953512,
+      "execution_seconds": 0.07485164329409599,
+      "trace_check_seconds": 0.0003296639770269394,
+      "oracle_seconds": 0.300293343141675,
+      "total_seconds": 0.4566170247271657
+    },
+    {
+      "case": "omf-records-library",
+      "setup_seconds": 0.0024807238951325417,
+      "execution_seconds": 0.005074933171272278,
+      "trace_check_seconds": 0.00010665040463209152,
+      "oracle_seconds": 0.0004931166768074036,
+      "total_seconds": 0.008508939296007156
+    },
+    {
+      "case": "large-symbols-wildcards",
+      "setup_seconds": 0.013756206259131432,
+      "execution_seconds": 0.13883427064865828,
+      "trace_check_seconds": 0.00010097585618495941,
+      "oracle_seconds": 0.06299595441669226,
+      "total_seconds": 0.21603640913963318
+    },
+    {
+      "case": "legacy-win16-resources",
+      "setup_seconds": 0.012313706800341606,
+      "execution_seconds": 0.006423131562769413,
+      "trace_check_seconds": 0.00012186728417873383,
+      "oracle_seconds": 0.049778787419199944,
+      "total_seconds": 0.068980623036623
+    },
+    {
+      "case": "omf-lidata-exestr-library",
+      "setup_seconds": 0.0026740040630102158,
+      "execution_seconds": 0.0041931867599487305,
+      "trace_check_seconds": 0.0001019015908241272,
+      "oracle_seconds": 0.0004651574417948723,
+      "total_seconds": 0.007733214646577835
+    },
+    {
+      "case": "rom-local-imports",
+      "setup_seconds": 0.014230486936867237,
+      "execution_seconds": 0.007183169946074486,
+      "trace_check_seconds": 9.911134839057922e-05,
+      "oracle_seconds": 0.0508607579395175,
+      "total_seconds": 0.07303793635219336
+    },
+    {
+      "case": "editor-rebase",
+      "setup_seconds": 0.04099167138338089,
+      "execution_seconds": 0.04389803670346737,
+      "trace_check_seconds": 0.00013286247849464417,
+      "oracle_seconds": 0.12747314851731062,
+      "total_seconds": 0.21283708605915308
+    },
+    {
+      "case": "editor-bind",
+      "setup_seconds": 0.14534186385571957,
+      "execution_seconds": 0.011115001514554024,
+      "trace_check_seconds": 0.00011012796312570572,
+      "oracle_seconds": 0.13083177898079157,
+      "total_seconds": 0.2877350402995944
+    },
+    {
+      "case": "editor-release",
+      "setup_seconds": 0.145001370459795,
+      "execution_seconds": 0.01330345869064331,
+      "trace_check_seconds": 9.511783719062805e-05,
+      "oracle_seconds": 0.12632532697170973,
+      "total_seconds": 0.28507558163255453
+    },
+    {
+      "case": "editor-release-compact",
+      "setup_seconds": 0.01156960055232048,
+      "execution_seconds": 0.004945357330143452,
+      "trace_check_seconds": 9.190011769533157e-05,
+      "oracle_seconds": 0.0790432058274746,
+      "total_seconds": 0.09598907455801964
+    },
+    {
+      "case": "dump-disasm-x86-monitor",
+      "setup_seconds": 0.002369724214076996,
+      "execution_seconds": 0.005781077779829502,
+      "trace_check_seconds": 0.00014155637472867966,
+      "oracle_seconds": 0.0003154892474412918,
+      "total_seconds": 0.00912605132907629
+    },
+    {
+      "case": "dump-disasm-x86-monitor-extra",
+      "setup_seconds": 0.002395002171397209,
+      "execution_seconds": 0.004830524325370789,
+      "trace_check_seconds": 0.00011014845222234726,
+      "oracle_seconds": 0.00018268544226884842,
+      "total_seconds": 0.007913542911410332
+    },
+    {
+      "case": "large-image-mapped",
+      "setup_seconds": 0.036782379262149334,
+      "execution_seconds": 0.02669725939631462,
+      "trace_check_seconds": 0.0001031532883644104,
+      "oracle_seconds": 0.13974466267973185,
+      "total_seconds": 0.20366652682423592
+    },
+    {
+      "case": "large-image-buffered",
+      "setup_seconds": 0.03122018836438656,
+      "execution_seconds": 0.03611887898296118,
+      "trace_check_seconds": 9.401142597198486e-05,
+      "oracle_seconds": 0.11074338387697935,
+      "total_seconds": 0.17854451015591621
+    },
+    {
+      "case": "large-image-dump486",
+      "setup_seconds": 0.018277425318956375,
+      "execution_seconds": 0.004199706017971039,
+      "trace_check_seconds": 0.00010597798973321915,
+      "oracle_seconds": 0.00019952468574047089,
+      "total_seconds": 0.023120305500924587
+    },
+    {
+      "case": "large-image-extra",
+      "setup_seconds": 0.0538838654756546,
+      "execution_seconds": 0.052230690605938435,
+      "trace_check_seconds": 0.00010942481458187103,
+      "oracle_seconds": 0.19222312327474356,
+      "total_seconds": 0.2988406978547573
+    },
+    {
+      "case": "large-image-dump486-extra",
+      "setup_seconds": 0.02830807212740183,
+      "execution_seconds": 0.004422390833497047,
+      "trace_check_seconds": 9.499862790107727e-05,
+      "oracle_seconds": 0.00019649416208267212,
+      "total_seconds": 0.033360108733177185
+    },
+    {
+      "case": "large-image-standard486",
+      "setup_seconds": 0.002187413163483143,
+      "execution_seconds": 0.0032533137127757072,
+      "trace_check_seconds": 0.00010151322931051254,
+      "oracle_seconds": 0.00016516726464033127,
+      "total_seconds": 0.00605637114495039
+    },
+    {
+      "case": "edit-section-rename",
+      "setup_seconds": 0.040000407956540585,
+      "execution_seconds": 0.004187401384115219,
+      "trace_check_seconds": 0.0001048501580953598,
+      "oracle_seconds": 0.07625716179609299,
+      "total_seconds": 0.1208912692964077
+    },
+    {
+      "case": "edit-section-attributes",
+      "setup_seconds": 0.1621426548808813,
+      "execution_seconds": 0.00576077401638031,
+      "trace_check_seconds": 9.746290743350983e-05,
+      "oracle_seconds": 0.07444453239440918,
+      "total_seconds": 0.2427839059382677
+    },
+    {
+      "case": "edit-section-release",
+      "setup_seconds": 0.16048787254840136,
+      "execution_seconds": 0.021028968505561352,
+      "trace_check_seconds": 9.819120168685913e-05,
+      "oracle_seconds": 0.10622785799205303,
+      "total_seconds": 0.288177858106792
+    },
+    {
+      "case": "dump-section-renamed",
+      "setup_seconds": 0.14091159775853157,
+      "execution_seconds": 0.004623067565262318,
+      "trace_check_seconds": 9.912624955177307e-05,
+      "oracle_seconds": 0.0002208435907959938,
+      "total_seconds": 0.14620740246027708
+    },
+    {
+      "case": "dump-section-attributes",
+      "setup_seconds": 0.1559733934700489,
+      "execution_seconds": 0.00410196278244257,
+      "trace_check_seconds": 0.00010136980563402176,
+      "oracle_seconds": 0.00022256840020418167,
+      "total_seconds": 0.16084854770451784
+    },
+    {
+      "case": "dump-section-released",
+      "setup_seconds": 0.16753416880965233,
+      "execution_seconds": 0.003709547221660614,
+      "trace_check_seconds": 9.528640657663345e-05,
+      "oracle_seconds": 0.00021170638501644135,
+      "total_seconds": 0.1719063026830554
+    }
+  ],
+  "summed_timings": {
+    "setup_seconds": 1.8151976307854056,
+    "execution_seconds": 0.6678929030895233,
+    "oracle_seconds": 2.5850894190371037,
+    "trace_check_seconds": 0.006621683947741985
+  }
+}

@@ -1,0 +1,31 @@
+[
+  {
+    "command": [
+      "python3",
+      "scripts/check-section-edit.py",
+      "--native-receipt",
+      "/root/.ai-tmp/msvc2/vc1.0/link/native/native-check-zkeoj0pw/receipt.json"
+    ],
+    "seconds": 1.3948565060272813,
+    "status": "pass",
+    "output": "/root/.ai-tmp/msvc2/vc1.0/link/edit-section-guard0.log"
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/check-native-rejections.py"
+    ],
+    "seconds": 0.2433193838223815,
+    "status": "pass",
+    "output": "/root/.ai-tmp/msvc2/vc1.0/link/edit-section-guard1.log"
+  },
+  {
+    "command": [
+      "python3",
+      "scripts/check-large-image.py"
+    ],
+    "seconds": 0.45590537786483765,
+    "status": "pass",
+    "output": "/root/.ai-tmp/msvc2/vc1.0/link/edit-section-guard2.log"
+  }
+]

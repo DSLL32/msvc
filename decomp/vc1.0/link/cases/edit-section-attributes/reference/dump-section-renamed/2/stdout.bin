@@ -1,0 +1,132 @@
+Microsoft (R) COFF Binary File Dumper Version 1.00
+Copyright (C) Microsoft Corp 1992-93. All rights reserved.
+
+
+Dump of file edit.dll
+
+NT signature found
+
+File Type: DLL
+
+FILE HEADER VALUES
+     14C machine (i386)
+       4 number of sections
+6ADB8542 time date stamp Fri Oct 23 09:03:14 2026
+  302A20 file pointer to symbol table
+      11 number of symbols
+      E0 size of optional header
+    A186 characteristics
+            Executable
+            Line numbers stripped
+            Bytes reversed
+            32 bit word machine
+            DLL
+
+OPTIONAL HEADER VALUES
+     10B magic #
+    2.23 linker version
+     200 size of code
+  302600 size of initialized data
+       0 size of uninitialized data
+    1000 address of entry point
+    1000 base of code
+    2000 base of data
+         ----- new -----
+  400000 image base
+    1000 section alignment
+     200 file alignment
+       2 subsystem (Windows GUI)
+     1.0 operating system version
+     0.0 image version
+     3.A subsystem version
+  306000 size of image
+     400 size of headers
+       0 checksum
+  200000 size of stack reserve
+    3000 size of stack commit
+  100000 size of heap reserve
+    2000 size of heap commit
+       0 [       0] address [size] of Export Directory
+       0 [       0] address [size] of Import Directory
+       0 [       0] address [size] of Resource Directory
+       0 [       0] address [size] of Exception Directory
+       0 [       0] address [size] of Security Directory
+  304000 [      18] address [size] of Base Relocation Directory
+    2000 [      38] address [size] of Debug Directory
+       0 [       0] address [size] of Description Directory
+       0 [       0] address [size] of Special Directory
+       0 [       0] address [size] of Thread Storage Directory
+
+
+SECTION HEADER #1
+   .code name
+      64 virtual size
+    1000 virtual address
+     200 size of raw data
+     400 file pointer to raw data
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+60000020 flags
+         Code
+         (no align specified)
+         Execute Read
+
+SECTION HEADER #2
+  .rdata name
+      FC virtual size
+    2000 virtual address
+     200 size of raw data
+     600 file pointer to raw data
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+40300040 flags
+         Initialized Data
+         4 byte align
+         Read Only
+
+
+Debug Directories(2)
+	Type       Size     Address  Pointer
+
+	coff        152           0   302a00
+	fixup        24           0   302b78
+
+SECTION HEADER #3
+  .store name
+  30010C virtual size
+    3000 virtual address
+  300200 size of raw data
+     800 file pointer to raw data
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+C0000040 flags
+         Initialized Data
+         (no align specified)
+         Read Write
+
+SECTION HEADER #4
+  .reloc name
+    1E38 virtual size
+  304000 virtual address
+    2000 size of raw data
+  300A00 file pointer to raw data
+       0 file pointer to relocation table
+       0 file pointer to line numbers
+       0 number of relocations
+       0 number of line numbers
+40000040 flags
+         Initialized Data
+         (no align specified)
+         Read Only
+
+     Summary
+       .code      200
+      .rdata      200
+      .store   300200
+      .reloc     2000

@@ -499,6 +499,65 @@
         "code": 0
       },
       "reason": "Frozen original large-image/fixup/order workflow or legal486 inspect-only companion"
+    },
+    {
+      "case": "edit-section-rename",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Root-approved public section rename/attributes/checksum workflow and actual native prior-stage header dumps"
+    },
+    {
+      "case": "edit-section-attributes",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Root-approved public section rename/attributes/checksum workflow and actual native prior-stage header dumps",
+      "accepted_prefix": 929
+    },
+    {
+      "case": "edit-section-release",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Root-approved public section rename/attributes/checksum workflow and actual native prior-stage header dumps",
+      "accepted_prefix": 929
+    },
+    {
+      "case": "dump-section-renamed",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Root-approved public section rename/attributes/checksum workflow and actual native prior-stage header dumps",
+      "accepted_prefix": 929
+    },
+    {
+      "case": "dump-section-attributes",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Root-approved public section rename/attributes/checksum workflow and actual native prior-stage header dumps",
+      "accepted_prefix": 929
+    },
+    {
+      "case": "dump-section-released",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Root-approved public section rename/attributes/checksum workflow and actual native prior-stage header dumps",
+      "accepted_prefix": 929
     }
   ]
 }

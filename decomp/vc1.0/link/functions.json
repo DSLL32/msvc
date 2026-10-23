@@ -927,7 +927,8 @@
     "_decode_op_4c710",
     "_grow_buffered_file",
     "_decode_op_4d9d0",
-    "_decode_op_4da00"
+    "_decode_op_4da00",
+    "_edit_section"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -5064,10 +5065,17 @@
     {
       "name": "_edit_section",
       "start": 164224,
-      "end": 164225,
-      "implementation": "stub-C",
-      "source": "src/edit-stubs.c",
-      "abi": "cdecl void(char *)"
+      "end": 165424,
+      "implementation": "C",
+      "source": "src/editor.c",
+      "abi": "cdecl void(char *)",
+      "shared": [
+        [
+          165424,
+          165464
+        ]
+      ],
+      "evidence": "Whole28180..28630 code plus independently decoded ten-entry40-byte switch table28630..28658. Static CFG1176bytes, excluding24alignment; formerly omitted from old body inventory. Fresh matching original masked/native GDB edit-section-rename-edit_section-_t518n2n entry and exact partial streams.8/9-byte name semantics, per-letter mask reset/negation, inverse cache/page flags, original !a AND quirk, every matching header update and actual file offset/calls retained."
     },
     {
       "name": "_checksum_mapped_image",
@@ -9193,6 +9201,7 @@
     "large-image-dump486",
     "large-image-extra",
     "large-image-standard486",
-    "large-image-standard486"
+    "large-image-standard486",
+    "edit-section-rename"
   ]
 }

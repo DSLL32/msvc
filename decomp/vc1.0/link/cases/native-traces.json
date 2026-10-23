@@ -365,12 +365,54 @@
       "manifest_path": "cases/shared-prefix/large-image-standard486/manifest.json",
       "manifest_sha256": "f91693fe086a842a8adc5eddcad76d201cfdb84c7e852850439d4edfff2e00b2",
       "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "edit-section-rename": {
+      "receipt_path": "cases/shared-prefix/edit-section-rename/capture/receipt.json",
+      "receipt_sha256": "72c158329db1c5024a9b88000585ab27551e5470ef070f8c82a25f34f1e0a276",
+      "manifest_path": "cases/shared-prefix/edit-section-rename/manifest.json",
+      "manifest_sha256": "f21a85d458a35ddddd4f3ce209ae67e7bb1439cd0fe4c5d5fb7b129bcad21547",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "edit-section-attributes": {
+      "receipt_path": "cases/shared-prefix/edit-section-attributes/capture/receipt.json",
+      "receipt_sha256": "f303397e146e6ae175d5b3ef197096ca6a23db073a861fc136198515008a832d",
+      "manifest_path": "cases/shared-prefix/edit-section-attributes/manifest.json",
+      "manifest_sha256": "3fe63fee74e1647253ad824749a91a59ab261cbeca219333a9733034717ec903",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "edit-section-release": {
+      "receipt_path": "cases/shared-prefix/edit-section-release/capture/receipt.json",
+      "receipt_sha256": "f0b490ddd4219d0ae7f48045a844d75360b709b97e6a1a4ff43d40803fd87189",
+      "manifest_path": "cases/shared-prefix/edit-section-release/manifest.json",
+      "manifest_sha256": "b35b797388755730fa62e452815e0f7997bd2f42ab235b791a71b2a1f025d66f",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "dump-section-renamed": {
+      "receipt_path": "cases/shared-prefix/dump-section-renamed/capture/receipt.json",
+      "receipt_sha256": "82e54d767151b59effabcfa2f012acf8d3c5c8d6fbb11e3ef2a40fea6c0584a1",
+      "manifest_path": "cases/shared-prefix/dump-section-renamed/manifest.json",
+      "manifest_sha256": "42bc7b58b0aeba8907646530d7b8e38fff9293387c98994610baaf5fa6d0c7b0",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "dump-section-attributes": {
+      "receipt_path": "cases/shared-prefix/dump-section-attributes/capture/receipt.json",
+      "receipt_sha256": "75a77d918e2b04dd33388f9d33da15c75570135846f684f618ce309f21af64f5",
+      "manifest_path": "cases/shared-prefix/dump-section-attributes/manifest.json",
+      "manifest_sha256": "5c86e4d8e362341caf94d068be50771fd25f4144bfe05157364d7ae0dc2e06f7",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "dump-section-released": {
+      "receipt_path": "cases/shared-prefix/dump-section-released/capture/receipt.json",
+      "receipt_sha256": "efbedd84ba4cf902d91e7ea600bfdff3641f041ec6e8c6b3df383ee9c959549b",
+      "manifest_path": "cases/shared-prefix/dump-section-released/manifest.json",
+      "manifest_sha256": "004606aaa22dee3b4b81a3839c823dd26c822b558e59c588101b68e7b1ebc7b0",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
     }
   },
   "metadata_sha256": {
-    "functions.json": "3f7b981bf4211b614655860c6c87c3adc0a579dee84cddf56584172645065725",
+    "functions.json": "6a95bc43757adc0ef0ca3e2e10c0368e607e96ea81d881293026ebf554ac42a6",
     "runtime.json": "46333e1ea9d4668441051c017a3fb344cf0679622388d8868b97cfdb7bf521b5",
-    "replay-cases.json": "1e0093682832808c6d02c3161f908c6dc36636c36a09df136fc76b100ae79dce"
+    "replay-cases.json": "0d5104ff92f4b65b0ca29ffb9fe7d411c2973bd4e71cb488d3e5c202a3ce2c21"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -2034,9 +2076,9 @@
       "implementation": "C"
     },
     "edit_section": {
-      "source": "src/edit-stubs.c",
+      "source": "src/editor.c",
       "logical": "_edit_section",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "editor_bind_error": {
       "source": "src/edit-stubs.c",
@@ -5036,7 +5078,8 @@
     "decode_op_4c710",
     "grow_buffered_file",
     "decode_op_4d9d0",
-    "decode_op_4da00"
+    "decode_op_4da00",
+    "edit_section"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6530,6 +6573,68 @@
         "decode_op_4d9d0",
         "decode_op_4da00"
       ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "edit-section-rename": {
+      "first": 928,
+      "last": 929,
+      "seen_count": 737,
+      "expected": [
+        "edit_section"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "edit-section-attributes": {
+      "first": 929,
+      "last": 929,
+      "seen_count": 738,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "edit-section-release": {
+      "first": 929,
+      "last": 929,
+      "seen_count": 738,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "dump-section-renamed": {
+      "first": 929,
+      "last": 929,
+      "seen_count": 738,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "dump-section-attributes": {
+      "first": 929,
+      "last": 929,
+      "seen_count": 738,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "dump-section-released": {
+      "first": 929,
+      "last": 929,
+      "seen_count": 738,
+      "expected": [],
       "terminal": {
         "kind": "exit",
         "code": 0

@@ -1,5 +1,5 @@
 {
-  "status": "Root-approved nextsinglelegal386 diagnostic-monitor corpus active",
+  "status": "Seven families complete; root-approved cross-machine import archives next",
   "baseline": {
     "commit": "b8a6dd9b",
     "frontiers": 788,
@@ -84,11 +84,23 @@
     {
       "order": 7,
       "name": "edit-section-attributes",
-      "status": "Authorized by root; start after large-image checkpoint",
+      "status": "complete",
       "scope": "Single public EDIT /SECTION rename/characteristics/alignment workflow with independent dumps and actual native prior-stage input flow",
       "known_instruction_bytes": 1176,
       "known_functions": 1,
-      "proposal": "cases/large-image-fixups/next-proposal.json"
+      "proposal": "cases/large-image-fixups/next-proposal.json",
+      "functions": 1,
+      "native_cases": 6,
+      "receipt": "cases/edit-section-attributes/validation.json"
+    },
+    {
+      "order": 8,
+      "name": "cross-machine-imports",
+      "status": "Authorized; original preflight follows EDIT checkpoint",
+      "known_instruction_bytes": 748,
+      "known_functions": 3,
+      "proposal": "cases/edit-section-attributes/next-proposal.json",
+      "scope": "Public LIB DEF i860/MIPS import archives and independent list/header/symbol/relocation inspections only; no cross-machine image execution/linking"
     }
   ],
   "methodology": "Explicit shared R:/S: original capture before acceptance, native cached regressions only, full artifacts and graph/ABI/data preservation"
