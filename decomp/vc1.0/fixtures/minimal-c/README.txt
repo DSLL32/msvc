@@ -54,8 +54,11 @@ Verify all three cases from any working directory:
     python3 /root/msvc2/decomp/vc1.0/fixtures/minimal-c/capture-original.py
 
 Select one with a c1, c2, or link argument. The verifier builds run-phase.c using the
-original compiler/linker, creates a private 32-bit prefix, and uses isolated
-working directories under ~/.ai-tmp/vc1.0-capture/. The launcher explicitly
+original compiler/linker and uses the shared repo prefix
+~/.ai-tmp/vc1.0-capture/wine with its fixed R: repo and S: scratch mappings.
+It asserts those mappings without creating a prefix or changing drives.
+Per-fixture capture locks protect helpers and phase working directories under
+~/.ai-tmp/msvc2/fixtures/. verification.json there records split timings. The launcher explicitly
 passes the single-variable environment block for C1/C2 and inherits the
 environment for LINK, reproducing CL's launch policy for each process.
 Use --fixture PATH to verify another captured case, such as ../hello-win32.

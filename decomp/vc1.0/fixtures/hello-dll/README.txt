@@ -49,7 +49,12 @@ Verification from the repository root:
 Select c1, c2 or link as an optional positional argument. The link check runs
 twice independently, compares all three products, checks DLL/export metadata,
 and exercises load, exported stdcall invocation, painting, close and unload.
-validation.json records the original-only verification receipts.
+validation.json retains the historical original-only verification receipts.
+New verification receipts and split timings go under
+~/.ai-tmp/msvc2/fixtures/hello-dll/verification.json by default.
+The verifier uses the shared repo prefix ~/.ai-tmp/vc1.0-capture/wine,
+asserts fixed R: repo/S: scratch mappings, and holds a per-fixture capture lock.
+It never creates a prefix or changes a drive mapping.
 
 Compiler invocations use no command-line options: their explicit environment
 contains only MSC_CMD_FLAGS, including its final space. The manifest retains
@@ -59,5 +64,6 @@ are retained under c2/. The backend object excludes only its COFF timestamp.
 
 Capture used ../minimal-c/capture-cl.c at original CL's CreateProcessA import
 thunk RVA 0x11000, copying each intermediate before its consumer started. No
-diagnostic options were added. Original binaries remain unchanged; captures,
-helpers, logs and the private Wine prefix are under ~/.ai-tmp/vc1.0-hello-dll/.
+diagnostic options were added. Original binaries and historical captures remain
+unchanged. Current helpers, working files and logs live under
+~/.ai-tmp/msvc2/fixtures/hello-dll/.

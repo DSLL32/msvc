@@ -7,15 +7,17 @@ compiled resources.res has 3,684 bytes and 19 nonempty Win32 resource records.
 The captured RCPP output has 336,686 bytes. All comparisons are exact bytes:
 there are no ignored fields, path replacements or timestamp exclusions.
 
-Run from any directory:
+The historical capture-original.py execution command is retired and fails before
+starting Wine or changing files. Its frozen RCPP output includes the former
+absolute toolchain drive in #line directives; the shared R:/S: mapping cannot
+reproduce those exact bytes. The parser resource_records remains available for
+read-only inspection. Historical inputs, manifests and raw oracles are unchanged.
 
-    python3 /root/msvc2/decomp/vc1.0/fixtures/resources-rich/capture-original.py
-
-Use rc or rcpp as the positional argument to verify one phase. --prefix selects
-a private Wine prefix; the default is ~/.ai-tmp/vc1.0-resource-capture/wine.
-The verifier maps T: to toolchains/1.0-nt so header names in #line directives
-remain stable when the repository moves. Working files and verification.json
-are outside the repository under ~/.ai-tmp/vc1.0-resource-capture.
+Current explicit original captures belong to the binary:
+  rc/scripts/capture-native-boundaries.py (see --help)
+  rcpp/scripts/capture-shared-prefix.py
+These use the shared repo prefix ~/.ai-tmp/vc1.0-capture/wine. They are separate
+from native fixture execution and never silently replace historical evidence.
 
 The original top-level command is:
 
@@ -31,7 +33,7 @@ RCPP's input is the original RC-prepared temporary text, not the unmodified
 resources.rc. Its captured input/output basenames (RC000360 and RD000360) are
 retained because the input name appears in the first emitted #line directive.
 Both files are under rcpp/. Headers and all asset files retain their relative
-layout under source/. The verifier replays the captured child independently.
+layout under source/. The historical verifier replayed the child independently.
 RC's case invokes the original RCPP child normally; reconstructing RCPP is a
 separate task. RC does not import RCDLL.DLL on this case.
 
@@ -42,8 +44,8 @@ Native reconstruction checks:
 
 Normal fixtures run native i386 reconstructions against cached original
 references. They do not invoke Wine or refresh the original captures. The
-capture-original.py command above is an explicit original-only verification
-operation, outside normal regression execution.
+current binary-owned capture commands above are explicit original-only
+operations, outside normal regression execution.
 
 composed-validation.json retains historical evidence from the former Win32
 composed RC/RCPP experiment. Its Wine runner has been removed.
@@ -98,7 +100,8 @@ the application/command/cwd/environment mode, and snapshots RC's temporary
 files at DeleteFileA (RVA 0x12680) before deletion. It never modifies the
 executable on disk. It only records MSC_CMD_FLAGS if explicitly supplied;
 unrelated environment values are never dumped. The capture stdout and metadata
-are retained under ~/.ai-tmp/vc1.0-resource-capture/final-capture*.
+were retained in scratch during the historical capture; current authoritative
+capture receipts live with the binary-owned cases.
 
 Both target binaries have early PE section headers with VirtualSize=0.
 Reconstruction tooling must handle this explicitly, use the backed raw size

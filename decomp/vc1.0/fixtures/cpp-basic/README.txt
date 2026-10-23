@@ -38,9 +38,11 @@ Run all independent original phases with:
 
 The verifier builds run-phase.c with the original toolchain,
 reproducing the explicit one-variable environment for compiler phases and
-inherited environment for LINK. It uses private scratch and Wine prefix
-under ~/.ai-tmp/vc1.0-c1xx/replay. A c1, c2 or link argument selects one phase;
---prefix PATH selects an already existing private prefix.
+inherited environment for LINK. It uses the shared repo prefix
+~/.ai-tmp/vc1.0-capture/wine and asserts fixed R: repo/S: scratch mappings.
+Helpers and phase working directories are protected by a per-fixture lock under
+~/.ai-tmp/msvc2/fixtures/cpp-basic/. verification.json there records split timings.
+A c1, c2 or link argument selects one phase; no prefix or drive is created.
 
 This fixture is an exact frontend oracle. It does not claim that the C1XX
 reconstruction has yet reproduced these outputs; see ../../c1xx/README.txt
