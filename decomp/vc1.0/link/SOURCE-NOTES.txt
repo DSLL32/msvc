@@ -956,3 +956,20 @@ layout. Fixed-count Unicode cursor advancement retains the native byte rule.
 Rustgraphs/639callback/454data/41ECX checks pass.1979instruction bytes+101padding
 extend accepted union to228981/281634=81.3045%,798frontiers. No CRT/import gain.
 See cases/legacy-win16-resources/validation.json. OMF LIDATA/EXESTR remains next.
+
+Ordinary OMF LIDATA/EXESTR checkpoint801
+
+Two original successes freeze284-byte ordinary OMF input and716-byte archive.
+Nested16/32-bit LIDATA yields64exactbytes; three EXESTR strings create40-byte
+.comment containing only 'com' then37zeros, the native count-versus-length rule.
+Three fresh matched original/native GDB frontiers close record handler45e00,
+recursive expander46df0 and comment writer48ba0, with FILE seek/state replay.
+No internal-g/debug reachability or CRT application credit.569instructions plus
+23alignment bytes extend union to229573/281634=81.5147%,801frontiers. The old
+475-byte estimate omitted94handler bytes that were in the inventory underFUN.
+39native cases/625appentries pass2.479s external;652Rustgraphs,642callbacks,
+454data and41ECX checks plus all12negative checks pass. Graph audit caught a
+pragma-scope leak that added memcpy to an older routine; corrected before final
+checks, failed23.630s attempt preserved separately from final6.979s build/audits.
+Both families complete. Root approved the next combined ROM/local-import/repro
+case for original validation under autonomous continuation; unknown code is not CRT.

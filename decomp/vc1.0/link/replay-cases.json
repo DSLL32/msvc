@@ -369,6 +369,15 @@
         "code": 0
       },
       "reason": "Original-backed Win16 bitmap/menu/dialog/strings/accelerator/raw/named resources"
+    },
+    {
+      "case": "omf-lidata-exestr-library",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Nested ordinary LIDATA16/32 and COMENT EXESTR conversion, no internal-g"
     }
   ]
 }

@@ -267,12 +267,19 @@
       "manifest_path": "cases/shared-prefix/legacy-win16-resources/manifest.json",
       "manifest_sha256": "b7e47dde54858245a2ae63ce3e83142b3286ba09a9cf93278f5002afd96e98f8",
       "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "omf-lidata-exestr-library": {
+      "receipt_path": "cases/shared-prefix/omf-lidata-exestr-library/capture/receipt.json",
+      "receipt_sha256": "8cdf963eb7ae26130067faf2a758f6f5d21e2cf1704249db54becd10886468c0",
+      "manifest_path": "cases/shared-prefix/omf-lidata-exestr-library/manifest.json",
+      "manifest_sha256": "7f54377c3102160adc0ad716e4421c9035200d21ab9c3f27c3418c06c81d4d98",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
     }
   },
   "metadata_sha256": {
-    "functions.json": "504fe7b6f64e06f5c637bdeec9c6a6adfbfa65a1aa9c053068e47d3689eefa41",
+    "functions.json": "0b5870f1623475754c6c477c2d3b3cf77f7f58cc8b4b490e5e460cc1b92b0c31",
     "runtime.json": "0cd6b61b5dcee06e3ee5bc870634b94be341fdde6185b4816d577e0879b9685c",
-    "replay-cases.json": "5d26c5a270dea2605efca43b7eb92d2aecda4adfbd8ed689fa1a77c444a9ba8c"
+    "replay-cases.json": "edf779c680e3b944009307518ec661083dc347ebf1ead243b59d7b71a7e1dd3d"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -2765,6 +2772,11 @@
       "logical": "_omf_error",
       "implementation": "stub-C"
     },
+    "omf_expand_iterated_block": {
+      "source": "src/omf.c",
+      "logical": "_omf_expand_iterated_block",
+      "implementation": "C"
+    },
     "omf_extend_section": {
       "source": "src/omf-stubs.c",
       "logical": "_omf_extend_section",
@@ -2916,9 +2928,9 @@
       "implementation": "C"
     },
     "omf_record_iterated_data": {
-      "source": "src/omf-stubs.c",
+      "source": "src/omf.c",
       "logical": "_omf_record_iterated_data",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "omf_record_lheadr": {
       "source": "src/omf-stubs.c",
@@ -3006,9 +3018,9 @@
       "implementation": "C"
     },
     "omf_write_comment_data": {
-      "source": "src/omf-stubs.c",
+      "source": "src/omf.c",
       "logical": "_omf_write_comment_data",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "omf_write_debug_symbol_data": {
       "source": "src/omf-stubs.c",
@@ -4743,7 +4755,10 @@
     "resource_copy_identifier",
     "resource_align_dword",
     "convert_legacy_strings",
-    "convert_legacy_accelerators"
+    "convert_legacy_accelerators",
+    "omf_record_iterated_data",
+    "omf_expand_iterated_block",
+    "omf_write_comment_data"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5956,6 +5971,20 @@
         "resource_align_dword",
         "convert_legacy_strings",
         "convert_legacy_accelerators"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "omf-lidata-exestr-library": {
+      "first": 798,
+      "last": 801,
+      "seen_count": 622,
+      "expected": [
+        "omf_record_iterated_data",
+        "omf_expand_iterated_block",
+        "omf_write_comment_data"
       ],
       "terminal": {
         "kind": "exit",

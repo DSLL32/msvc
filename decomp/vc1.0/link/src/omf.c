@@ -801,6 +801,68 @@ void omf_record_comdat(void)
 }
 #pragma function(memset)
 
+/* Original [00048ba0,00048c60). The native count is a byte count copied
+ * from the first comment pointer, despite the caller passing comment count. */
+#pragma intrinsic(memcpy)
+void omf_write_comment_data(short section,unsigned long offset,
+                             char *const *comments,short count)
+{
+    int index=(short)(section-1);
+    unsigned long capacity=omf_coff_section_capacity[index];
+    unsigned char *replacement;
+    if (offset+(long)count>capacity) {
+        replacement=calloc(capacity+(long)count+0x20000,1);
+        if (!replacement) out_of_memory();
+        memcpy(replacement,omf_coff_section_data[index],capacity);
+        free(omf_coff_section_data[index]);
+        omf_coff_section_data[index]=replacement;
+        omf_coff_section_capacity[index]+=(long)count+0x20000;
+    }
+    memcpy(omf_coff_section_data[index]+offset,*comments,(long)count);
+}
+#pragma function(memcpy)
+
+/* Original [00046df0,00046f20). Repeat a leaf or replay nested input blocks. */
+unsigned long omf_expand_iterated_block(unsigned long offset)
+{
+    unsigned char data[2048];
+    unsigned long repeat=omf_record_wide?omf_read_dword():omf_read_word();
+    unsigned short blocks=omf_read_word(),index;
+    unsigned char length;
+    long position;
+    short remaining;
+    if (blocks) {
+        position=ftell(omf_input);
+        remaining=omf_record_remaining;
+        while ((long)repeat-- > 0) {
+            omf_record_remaining=remaining;
+            for (index=0;index<blocks;++index)
+                offset=omf_expand_iterated_block(offset);
+            if (repeat && fseek(omf_input,position,SEEK_SET))
+                omf_error("Cannot expand iterated data");
+        }
+    } else {
+        length=omf_read_byte();
+        omf_read_block(data,length);
+        while ((long)repeat-- > 0) {
+            omf_write_section_data(omf_segments[(short)omf_data_segment].coff_section,
+                                   offset,data,length);
+            offset+=length;
+        }
+    }
+    return offset;
+}
+
+/* LIDATA/LIDATA32 [00045e00,00045e60). */
+void omf_record_iterated_data(void)
+{
+    omf_data_record_type=0xa2;
+    omf_data_segment=omf_read_index();
+    omf_data_offset=omf_record_wide?omf_read_dword():omf_read_word();
+    while (omf_record_remaining>1)
+        omf_data_offset=omf_expand_iterated_block(omf_data_offset);
+}
+
 #pragma intrinsic(memcpy)
 /* Original [00048ae0,00048ba0). */
 void omf_write_section_data(short section,unsigned long offset,const void *data,

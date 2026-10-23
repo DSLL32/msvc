@@ -1,0 +1,70 @@
+{
+  "case": "omf-lidata-exestr-library",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "reference": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-lib",
+        "/out:lidata.lib",
+        "lidata.obj"
+      ],
+      "canonical_working_directory": "S:\\vc1.0\\link\\omf-lidata-exestr-library",
+      "inputs": [
+        {
+          "path": "../../omf-lidata-exestr/inputs/lidata.obj",
+          "sha256": "e0e0ecd5f2d3b9ad83ed71ba8deac7e3d08684eed9f86e3e760cbeb3e00fab71",
+          "bytes": 284
+        }
+      ],
+      "outputs": [
+        {
+          "output_name": "lidata.lib",
+          "artifact_kind": "archive-generated",
+          "bytes": 716,
+          "sha256": "12585923503ff3e0745c0a5f2a4357ed492b989e5bea2735f21266314388eab1",
+          "normalized_sha256": "511f3cc4f9efad3c41bb9de20572b16a80cbe69e6f5aa573952e7720a440b6a1",
+          "ignored_fields": [
+            {
+              "offset": 24,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 124,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 228,
+              "bytes": 12,
+              "name": "Archive member date"
+            },
+            {
+              "offset": 276,
+              "bytes": 4,
+              "name": "Generated COFF TimeDateStamp"
+            }
+          ],
+          "path": "expected/lidata.lib"
+        }
+      ],
+      "environment": {
+        "LIB": "{lib}",
+        "LINK32_DB": "27"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "Microsoft (R) 32-Bit Library Manager Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n",
+      "expected_stderr": ""
+    }
+  }
+}

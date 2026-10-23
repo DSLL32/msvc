@@ -112,6 +112,7 @@ void omf_save_fixup_record(long position);
 void omf_record_fixups(void);
 void omf_record_data(void);
 void omf_record_iterated_data(void);
+unsigned long omf_expand_iterated_block(unsigned long);
 void omf_record_common(unsigned short storage);
 unsigned long omf_read_numeric_leaf(void);
 void omf_record_backpatch(void);

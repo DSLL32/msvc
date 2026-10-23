@@ -1,5 +1,5 @@
 {
-  "status": "Family1 complete, family2 next",
+  "status": "Both original families complete; root approved next combined ROM/local-import/repro case",
   "baseline": {
     "commit": "b8a6dd9b",
     "frontiers": 788,
@@ -18,7 +18,20 @@
     {
       "order": 2,
       "name": "omf-lidata-exestr",
-      "status": "queued; no internal-g reachability assumption"
+      "status": "complete",
+      "functions": 3,
+      "receipt": "cases/omf-lidata-exestr/validation.json"
+    },
+    {
+      "order": 3,
+      "name": "rom-local-import-duplicate-warning-map-repro",
+      "status": "root approved; original validation begins after checkpoint",
+      "known_uncovered_instruction_bytes": 1072,
+      "required_options": [
+        "/ROM",
+        "/warn:2"
+      ],
+      "limits": "Ordinary duplicate behavior must be original-validated. /force only if supported and complete output independently meaningful/repeatable; no pointer-leak normalization."
     }
   ],
   "methodology": "Explicit shared R:/S: original capture before acceptance, native cached regressions only, full artifacts and graph/ABI/data preservation"

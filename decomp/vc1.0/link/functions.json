@@ -797,7 +797,10 @@
     "_resource_copy_identifier",
     "_resource_align_dword",
     "_convert_legacy_strings",
-    "_convert_legacy_accelerators"
+    "_convert_legacy_accelerators",
+    "_omf_record_iterated_data",
+    "_omf_expand_iterated_block",
+    "_omf_write_comment_data"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -5255,10 +5258,11 @@
     {
       "name": "_omf_record_iterated_data",
       "start": 286208,
-      "end": 286209,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 286304,
+      "source": "src/omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Whole45e00..45e60 decoded; fresh matching original/native entry and streams on valid nestedLIDATA16/32."
     },
     {
       "name": "_omf_record_common",
@@ -5481,10 +5485,11 @@
     {
       "name": "_omf_write_comment_data",
       "start": 297888,
-      "end": 297889,
-      "source": "src/omf-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(short,unsigned long,char *const *,short)"
+      "end": 298080,
+      "source": "src/omf.c",
+      "implementation": "C",
+      "abi": "cdecl void(short,unsigned long,char *const *,short)",
+      "evidence": "Whole48ba0..48c60 decoded; fresh matching original/native entry and streams. Signed count, growth/copy/free, and native first-comment byte-copy behavior preserved."
     },
     {
       "name": "_omf_debug_type_auxiliary",
@@ -7938,6 +7943,15 @@
       "implementation": "stub-C",
       "source": "src/resource-legacy.c",
       "abi": "cdecl void(const unsigned char *,unsigned long)"
+    },
+    {
+      "name": "_omf_expand_iterated_block",
+      "start": 290288,
+      "end": 290592,
+      "source": "src/omf.c",
+      "implementation": "C",
+      "abi": "cdecl unsigned long(unsigned long offset)",
+      "evidence": "Whole46df0..46f20 decoded; fresh matching original/native entry and streams.16/32-bit signed repetition test, recursive ftell/fseek replay and remaining-byte restoration recovered."
     }
   ],
   "c_stub_references": [
@@ -8741,6 +8755,9 @@
     "legacy-win16-resources",
     "legacy-win16-resources",
     "legacy-win16-resources",
-    "legacy-win16-resources"
+    "legacy-win16-resources",
+    "omf-lidata-exestr-library",
+    "omf-lidata-exestr-library",
+    "omf-lidata-exestr-library"
   ]
 }
