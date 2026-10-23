@@ -1,0 +1,11 @@
+{
+  "kind": "observed _access missing leaves under existing C: parents",
+  "source_capture_sha256": "1c1e45733dbb474f510fea65b7b9fc7d5a55bc914181d3296ce164d94be8867a",
+  "dos_parents": [
+    "C:\\windows",
+    "C:\\windows\\system32",
+    "C:\\windows\\system32\\WindowsPowershell\\v1.0",
+    "C:\\windows\\system32\\wbem"
+  ],
+  "native_root": "/root/.ai-tmp/msvc2/vc5.10/cl/advance-jobs-2-native/drive-c"
+}

@@ -1,0 +1,7 @@
+test.c
+`S:\vc5.10\cl\advance-jobs-1-original\c1.dll -il .\a00520 -f test.c -W 1 -Ze -D_MSC_EXTENSIONS -Zp8 -ZB64 -D_INTEGRAL_MAX_BITS=64 -D_M_IX86=500 -G5 -Gs -Ot -Ob0 -Fotest.obj -pc \:/ -Fdvc50.pdb -D_MSC_VER=1100 -D_WIN32 -nologo -I R:\toolchains\5.10\include'
+test.c
+`S:\vc5.10\cl\advance-jobs-1-original\c1.dll -il .\a10520 -f test.c -W 1 -Ze -D_MSC_EXTENSIONS -Zp8 -ZB64 -D_INTEGRAL_MAX_BITS=64 -D_M_IX86=500 -G5 -Gs -Ot -Ob0 -Fotest.obj -pc \:/ -Fdvc50.pdb -D_MSC_VER=1100 -D_WIN32 -nologo -I R:\toolchains\5.10\include'
+Generating Code...
+`S:\vc5.10\cl\advance-jobs-1-original\c2.exe -il .\a10520 -f test.c -W 1 -G5 -Gs4096 -dos -Fotest.obj -ML -Fdvc50.idb'
+`S:\vc5.10\cl\advance-jobs-1-original\c2.exe -il .\a00520 -f test.c -W 1 -G5 -Gs4096 -dos -Fotest.obj -ML -Fdvc50.idb'

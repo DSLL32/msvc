@@ -834,3 +834,16 @@ void release(void *memory)
     if (memory)
         free(memory);
 }
+
+/* 00403df0..00403e07: reverse source jobs before the next grouped pass. */
+Job *advance_jobs(Job *jobs)
+{
+    Job *head = NULL, *next;
+    while (jobs) {
+        next = jobs->next;
+        jobs->next = head;
+        head = jobs;
+        jobs = next;
+    }
+    return head;
+}

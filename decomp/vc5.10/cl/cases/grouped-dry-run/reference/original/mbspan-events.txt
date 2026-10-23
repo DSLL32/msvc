@@ -1,0 +1,8 @@
+call sequence=1 site=00404130 function=7800620c text=008903c8 set=004084a4
+state phase=mbspan-1-before teb=3ffe2000 tid=520 tls_index=1 ptd=00890100
+return sequence=1 result=00000000
+state phase=mbspan-1-after teb=3ffe2000 tid=520 tls_index=1 ptd=00890100
+call sequence=2 site=00404130 function=7800620c text=008903c8 set=004084a4
+state phase=mbspan-2-before teb=3ffe2000 tid=520 tls_index=1 ptd=00890100
+return sequence=2 result=00000000
+state phase=mbspan-2-after teb=3ffe2000 tid=520 tls_index=1 ptd=00890100

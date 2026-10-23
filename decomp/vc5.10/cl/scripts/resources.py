@@ -76,7 +76,7 @@ def encounter(identifier,capture):
     rc='/* Encountered CL diagnostic/help string resources. */\nLANGUAGE 9, 1\nSTRINGTABLE\nBEGIN\n'
     for item in resource_proof()['resources']:rc+='    %d %s\n'%(item['id'],rc_literal(item['text']))
     (PROJECT/'src/messages.rc').write_text(rc+'END\n')
-    print('defined encountered string',identifier,repr(item['text']))
+    print('defined encountered string',identifier,repr(extract(identifier)['text']))
 
 
 def provider_bytes():

@@ -11,9 +11,6 @@ Job *jobs_from_deferred(DeferredInput *inputs) { __asm int 3
 DeferredInput *deferred_from_jobs(Job *jobs) { __asm int 3
     return NULL;
 }
-Job *advance_jobs(Job *jobs) { __asm int 3
-    return NULL;
-}
 
 void start_timer(void) { __asm int 3 }
 void stop_timer(char *name) { __asm int 3 }

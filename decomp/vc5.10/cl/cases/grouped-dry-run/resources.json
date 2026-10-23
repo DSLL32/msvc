@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "resources": [
+    {
+      "id": 333,
+      "language": 1033,
+      "type": 6,
+      "record_file_offset": 35138,
+      "length_utf16": 19,
+      "utf16le": "470065006e00650072006100740069006e006700200043006f00640065002e002e002e000a00",
+      "text": "Generating Code...\n",
+      "codepage": 0,
+      "encounter": {
+        "state_path": "/root/.ai-tmp/msvc2/vc5.10/cl/advance-jobs-1-original/state.json",
+        "state_sha256": "c64aec4aa861f60b5c897d8148d57af587ee009ae7b0f198d4accfe7db5ff6b7",
+        "entry_context_sha256": "7e8a9f4be3200551a335c79253d9d3981c964467999f465070b108292c56655a",
+        "api_events_sha256": "8cb67988cd6b1d99a8655f7c2bcb0451f0398ad3a4c14c1c276e8bc346534eca",
+        "sequence": 1,
+        "before_sha256": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1",
+        "after_sha256": "d82da2cdcf67edd5c4b2620e1b245a56f38743fa7679ab9c68192dcf4750c85d"
+      }
+    }
+  ]
+}

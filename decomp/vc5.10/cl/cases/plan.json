@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "link-naming-completed",
+  "state": "grouped-dry-run-completed",
   "acceptance_enabled": true,
   "blocked_by": [],
   "themes": [
@@ -153,6 +153,19 @@
       ],
       "source": "minimal-c/reference/test.obj",
       "from_vc1": "Authored genuine5.10 LINK command dry-run: public /Fm and /LD generate %m/%x, /Bz skips childexecution."
+    },
+    {
+      "id": "grouped-dry-run",
+      "arguments": [
+        "/nologo",
+        "/Bz",
+        "/ZM",
+        "/c",
+        "test.c",
+        "test.c"
+      ],
+      "source": "sources/test.c",
+      "from_vc1": "Authored5.10 grouped stage dry-run, two real input records for the same owned source; /Bz skips all dependency invocation."
     }
   ],
   "notes": [
@@ -165,7 +178,7 @@
     "filename-substitutions initial help probe completed without new handlers; user filename % is escaped. Retained analysis receipt, no coverage credit."
   ],
   "groundwork_capture": "original-probes/host-contract-2/manifest.json",
-  "authorized_case": "link-naming",
+  "authorized_case": "grouped-dry-run",
   "authorized_queue": [
     "help",
     "minimal-c",
@@ -178,7 +191,8 @@
     "optimization-defaults",
     "link-object",
     "filename-substitutions",
-    "link-naming"
+    "link-naming",
+    "grouped-dry-run"
   ],
   "next_case_gate": "Orchestrator approved response-file/options/help followed by diagnostics after minimal compile completion; no new successful dependency boundary authorized.",
   "completed_cases": [
@@ -192,6 +206,7 @@
     "macro-language-conflict",
     "optimization-defaults",
     "link-object",
-    "link-naming"
+    "link-naming",
+    "grouped-dry-run"
   ]
 }

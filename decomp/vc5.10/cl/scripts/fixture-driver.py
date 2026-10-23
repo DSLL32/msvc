@@ -27,7 +27,7 @@ def shared(name,revision):
 
 parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('case');parser.add_argument('--config',type=Path)
 args=parser.parse_args()
-from case_inputs import load,copy_inputs,dependencies,copy_dependencies,verify_dependencies
+from case_inputs import load,copy_inputs,dependencies,copy_dependencies,verify_dependencies,prepare_c_drive
 case=load(args.case)
 started=time.perf_counter();reference=PROJECT/'cases'/args.case/'reference'
 master=json.loads((reference/'fixture.json').read_text());config=json.loads((args.config or PROJECT/'functions.json').read_text())
@@ -50,6 +50,9 @@ with tempfile.TemporaryDirectory(prefix='fixture-driver-',dir=scratch) as work:
     if dependency_inputs is not None:
         assert master['dependencies']==dependency_inputs
         copy_dependencies(dependency_inputs,directory)
+    if dependency_inputs is not None:
+        assert sha((reference/'original/capture.json').read_bytes())==master['capture_sha256'],'filesystem proof belongs to a different original'
+    c_drive=prepare_c_drive(reference/'original',directory)if dependency_inputs is not None else None
     shutil.copyfile(reference/'resources.bin',directory/'resources.bin')
     assert sha((directory/'resources.bin').read_bytes())==master['native_resource_provider_sha256']
     expected_trace=(reference/'trace.txt').read_bytes();assert sha(expected_trace)==master['trace_sha256']
@@ -69,6 +72,7 @@ with tempfile.TemporaryDirectory(prefix='fixture-driver-',dir=scratch) as work:
         mirror=directory/'drive-s'/historical
         mirror.parent.mkdir(parents=True);mirror.symlink_to(directory,target_is_directory=True)
         environment.update(RECON_DRIVE_S=str(directory/'drive-s'),RECON_DRIVE_R=str(ROOT),RECON_SPAWN_FD='-1')
+        if c_drive is not None:environment['RECON_DRIVE_C']=str(c_drive)
     call=master['temporary_name_boundary']['calls'][0]if master['temporary_name_boundary']is not None else None
     with contextlib.ExitStack()as contexts:
         terminal=contexts.enter_context(status_reader.TerminalStatus())
@@ -110,6 +114,7 @@ with tempfile.TemporaryDirectory(prefix='fixture-driver-',dir=scratch) as work:
         verify_dependencies(directory)
         assert b'execute_pass\n'not in expected_trace,'driver-only fixture unexpectedly invokes a dependency'
         expected_files|={'drive-s','dependency-inputs.json'}|{item['name']for item in dependency_inputs['files']}
+    if c_drive is not None:expected_files|={'drive-c','native-filesystem.json'}
     assert {p.name for p in directory.iterdir()}==expected_files,'unexpected output artifact'
     checks=time.perf_counter()-checks
 report={'schema':1,'case':args.case,'passed':True,'full_dword_status':status,

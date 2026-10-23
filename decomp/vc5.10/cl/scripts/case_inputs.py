@@ -72,7 +72,7 @@ def prepare_c_drive(original,directory):
     """
     original=Path(original);directory=Path(directory)
     capture=json.loads((original/'capture.json').read_text())
-    if capture['case']!='minimal-c':return None
+    if 'access-events.txt'not in capture['files']:return None
     def raw(name):
         value=(original/name).read_bytes();item=capture['files'][name]
         assert len(value)==item['bytes'] and hashlib.sha256(value).hexdigest()==item['sha256']
@@ -93,7 +93,7 @@ def prepare_c_drive(original,directory):
         parts=parent[3:].split('\\')
         assert parts and all(part and part not in ('.','..') and '/' not in part for part in parts)
         parents.add(parent)
-    assert parents,'missing original C: search observations'
+    if not parents:return None
     root=directory/'drive-c';root.mkdir()
     for parent in sorted(parents):
         (root/Path(*parent[3:].split('\\'))).mkdir(parents=True,exist_ok=True)

@@ -96,7 +96,7 @@ PARAMETERS={
  'join_text':[('left','string'),('right','string')],
  'release':[('memory','owned_string')], 'prepare_execution':[],
  'run_driver':[('state','driver')], 'source_jobs':[('state','driver')],
- 'create_job':[('input','inputs')],
+ 'create_job':[('input','inputs')], 'advance_jobs':[('jobs','jobs')],
  'prepare_jobs':[('state','driver'),('jobs','jobs'),('pending','output_buffer')],
  'run_jobs':[('state','driver'),('jobs','jobs')],
  'run_passes':[('passes','pass_sequence'),('state','driver'),('callback','callback')],

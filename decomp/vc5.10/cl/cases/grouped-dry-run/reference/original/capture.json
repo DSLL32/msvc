@@ -1,0 +1,1077 @@
+{
+  "schema": 1,
+  "controller_error": null,
+  "case": "grouped-dry-run",
+  "arguments": [
+    "/nologo",
+    "/Bz",
+    "/ZM",
+    "/c",
+    "test.c",
+    "test.c"
+  ],
+  "inputs": [
+    {
+      "name": "test.c",
+      "source": "cases/sources/test.c",
+      "bytes": 26,
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2"
+    }
+  ],
+  "baseline": false,
+  "dependency_analysis": false,
+  "dependency_complete": false,
+  "dependency_response": false,
+  "link_response": false,
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "config_sha256": "8234b3037e0067a62b6880e480f801220f5c49df0e0a296edcb2ca114fc178e3",
+  "original_mask_sha256": "d646a8df167d54c9f15e62f78284e331b701acb7813c5965a371e189ee3f5b8b",
+  "helper_status": 0,
+  "loaded_msvcrt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "loaded_target_sha256": "d646a8df167d54c9f15e62f78284e331b701acb7813c5965a371e189ee3f5b8b",
+  "helper_sha256": "399eab2011e03fbc402b3f3487a4a9df0d79a7660aa40fc30d20f95d818505ef",
+  "helper_build": {
+    "binary": {
+      "path": "build/reference-debugger.exe",
+      "sha256": "399eab2011e03fbc402b3f3487a4a9df0d79a7660aa40fc30d20f95d818505ef"
+    },
+    "sources": {
+      "scripts/reference-debugger.c": "321e1f14b3f0ff7219b647405f1de5ac0fa0d5ba42105873136d64d8846caf8a",
+      "scripts/dependency-observer.inc": "8761ffead32c3cf94b1ee3b949e15f79fbbb5bcab8e08923f1c6f9dba70db080",
+      "scripts/export-reader.h": "64ffe9f75692ee7ac2790d9d8a8e8f5e128189837fda814316446bcd81af7607"
+    },
+    "compiler": {
+      "path": "toolchains/5.10/bin/CL.EXE",
+      "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd"
+    }
+  },
+  "native_sha256": "cd4d3316311a719d785930d9dc945292766c22aa71b2e152066dc9f4725847ea",
+  "rebuilt_sha256": "c13f7119d4a531690466fedeabb33a1bea6ed9ddb5c6da78493c8dfd10557218",
+  "build_dependency_hashes": {
+    "/root/msvc2/decomp/vc5.10/cl/Makefile": "748ba05d8469dc054171b407fc17b333479981411dcb3e71a664bc84d63b3c2b",
+    "/root/msvc2/decomp/vc5.10/cl/src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "/root/msvc2/decomp/vc5.10/cl/src/arguments.c": "555538b6d96aedb4ec49764587b4487eb3f479e6cf89038740a56b57a13b449f",
+    "/root/msvc2/decomp/vc5.10/cl/src/cl.h": "b1149b0a317397ca22f2a5fabc1e9c13e05a3735417184732e5ebf4fc3a0e122",
+    "/root/msvc2/decomp/vc5.10/cl/src/console.c": "77019952ab650a00f77974ed6ec779b165ef8df1b635b6da278a68241c2e87c1",
+    "/root/msvc2/decomp/vc5.10/cl/src/driver.c": "f3121555bf238e91194509e9aed1768254c0ef882e18dec6bac3a060cce92c1a",
+    "/root/msvc2/decomp/vc5.10/cl/src/filenames.c": "f9e82dc152340ca4065852a967223263154c927d15ccc27c97ec0d8c497fd1c9",
+    "/root/msvc2/decomp/vc5.10/cl/src/frontiers.c": "8b0429fb23e5e974bb8999a453ef6ed123c3a7f9ae950dec8c851b3c78a60828",
+    "/root/msvc2/decomp/vc5.10/cl/src/main.c": "f0c27d439e85d3b7d8eef16a8408ad731e60825aeb83ef985fc2733c83f1aad8",
+    "/root/msvc2/decomp/vc5.10/cl/src/messages.c": "c7a81d1e22b30a04f2e3bc1dc0ed25c3b28b6ce7e3e9ca591b5f3117cb2c3a48",
+    "/root/msvc2/decomp/vc5.10/cl/src/messages.rc": "4413a60f72c6cd824d4d4ba79cc3f080207911aa9ab732d2e6f56593ed48a871",
+    "/root/msvc2/decomp/vc5.10/cl/src/mre.h": "da747790e0da2cfbd3b622845f1c28d69ff685cb0fe819221209f0f2efa8bf5e",
+    "/root/msvc2/decomp/vc5.10/cl/src/options.c": "f6c20e24a424c7a171737e85c4badd81a371f90948bd7f0365f4d0ad343f81cc",
+    "/root/msvc2/decomp/vc5.10/cl/src/rules.c": "e7f13f06ffaa570ef796e9c59a4f8ab74570002e25db48f1b003aa9cbe1f6d66",
+    "/root/msvc2/decomp/vc5.10/cl/src/settings.c": "c9abdbbf29424e67bab4dbbeb1094b0845d5faf381af21fb48350d7bdad81d3a",
+    "/root/msvc2/lib/recon/include/recon.h": "efd2cf980852100e00b4f137584d0ee2ef36edf9d52d144ca162a0c8ea10f8f4",
+    "/root/msvc2/lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "/root/msvc2/lib/recon/include/win32.h": "d221d3befe079427f612f1a3ffdc286415bb22471e883a300663a19f0f51ffa8",
+    "/root/msvc2/lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+    "/root/msvc2/lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+    "/root/msvc2/lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+    "/root/msvc2/lib/recon/native/float.h": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+    "/root/msvc2/lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "/root/msvc2/lib/recon/native/locale.h": "a4bcba0ad40ff971717170453d1725d8b4452ddfd8411d1a8ed309809d55a13c",
+    "/root/msvc2/lib/recon/native/malloc.h": "2eb86ea79987793bde23d2016e7d52ad7d5c6a5818a5812f53a072d980934f21",
+    "/root/msvc2/lib/recon/native/mbctype.h": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+    "/root/msvc2/lib/recon/native/mbstring.h": "ce7c483355c795650db82a8174b472747d34bd3462ba3bde375357cb28b0ec34",
+    "/root/msvc2/lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "/root/msvc2/lib/recon/native/setjmp.h": "1063e154c5b2277afe91cad791706358b5cc5163b3374e2f2367b8cfd4e7c7a4",
+    "/root/msvc2/lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+    "/root/msvc2/lib/recon/native/signal.h": "ba3d6621f3f863b022f6aa9f5d6125a584d594a9f3d79ad172a6ae3f8c12a150",
+    "/root/msvc2/lib/recon/native/sys/stat.h": "4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb",
+    "/root/msvc2/lib/recon/native/sys/timeb.h": "56e745d9e9f91dccd40083158914daeb3cab0c97e01b7276c447993aad52a47d",
+    "/root/msvc2/lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+    "/root/msvc2/lib/recon/src/compat.c": "9f175cae12c4bfb56bab6dc0ee8000388b945559568eb12c2dbab2e801046d12",
+    "/root/msvc2/lib/recon/src/crt.c": "e7ffcaea6a7084332f204ace662afdfc0bf8a8ae0fd84831c5c2ca8af92da0e2",
+    "/root/msvc2/lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+    "/root/msvc2/lib/recon/src/entry.c": "77d9a4253e5e5b1754f089ec744e50ba073eda22d486dfd68f50d5b1ea64030b",
+    "/root/msvc2/lib/recon/src/process.c": "885ae0c197f2f64933598b3d1435af156086f63c664a04b5b99cbae52d89a42d",
+    "/root/msvc2/lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+    "/root/msvc2/lib/recon/src/win32.c": "9efe3109c97039271d66574e6274f639a9405c837c341e67a4417a72f610fd8f"
+  },
+  "helper_source_sha256": "321e1f14b3f0ff7219b647405f1de5ac0fa0d5ba42105873136d64d8846caf8a",
+  "helper_sources": {
+    "reference-debugger.c": "321e1f14b3f0ff7219b647405f1de5ac0fa0d5ba42105873136d64d8846caf8a",
+    "dependency-observer.inc": "8761ffead32c3cf94b1ee3b949e15f79fbbb5bcab8e08923f1c6f9dba70db080",
+    "export-reader.h": "64ffe9f75692ee7ac2790d9d8a8e8f5e128189837fda814316446bcd81af7607"
+  },
+  "controller_source": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/d002fe1e81ede747a713ddcb2145579fd5417f2495ec194e7d64078c34a259d7",
+    "sha256": "d002fe1e81ede747a713ddcb2145579fd5417f2495ec194e7d64078c34a259d7",
+    "bytes": 11987
+  },
+  "helper_source": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/build-source-blobs/321e1f14b3f0ff7219b647405f1de5ac0fa0d5ba42105873136d64d8846caf8a",
+    "sha256": "321e1f14b3f0ff7219b647405f1de5ac0fa0d5ba42105873136d64d8846caf8a",
+    "bytes": 38561
+  },
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc5.10\\cl\\advance-jobs-1-original\\reference-debugger.exe",
+    "S:\\vc5.10\\cl\\advance-jobs-1-original\\CL.EXE",
+    "/nologo /Bz /ZM /c test.c test.c",
+    "S:\\vc5.10\\cl\\advance-jobs-1-original",
+    "1",
+    "1"
+  ],
+  "environment": {
+    "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
+    "WINEDLLOVERRIDES": "msvcrt=n",
+    "INCLUDE": "R:\\toolchains\\5.10\\include",
+    "LIB": "R:\\toolchains\\5.10\\lib",
+    "WINEPATH": "R:\\toolchains\\5.10\\bin",
+    "TMP": ".",
+    "TEMP": "."
+  },
+  "timing": {
+    "setup_seconds": 0.025441142730414867,
+    "reference_execution_seconds": 0.893499756231904
+  },
+  "files": {
+    "mktemp-access-19-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-11-before-teb.bin": {
+      "sha256": "34d704da9b9e9d1b3e73babd902f5ec82b88d46ebfd624cc1803eef91613388d",
+      "bytes": 4096
+    },
+    "mktemp-access-10-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-4-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "streams-entry.json": {
+      "sha256": "35baa749e081b0ac1ef8496a086b418292af7ab93f17689f5d38bd3afca1aebc",
+      "bytes": 1298
+    },
+    "mktemp-access-18-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-1-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-13-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-1-before-ptd.bin": {
+      "sha256": "5460a0bfe2d1639be8d4d9ca220d7f28197ad02e5966ac9d2746f98a104d2625",
+      "bytes": 116
+    },
+    "access-23-path.bin": {
+      "sha256": "2c18c7b9a278a09dc5176482a824776da801faf19a13edc459483f83c28537df",
+      "bytes": 44
+    },
+    "mktemp-access-21-after-teb.bin": {
+      "sha256": "75fc87947f4040c90f9612739941ad138c5467447a3b1096a20d079e0023ac56",
+      "bytes": 4096
+    },
+    "loaded-target.bin": {
+      "sha256": "d646a8df167d54c9f15e62f78284e331b701acb7813c5965a371e189ee3f5b8b",
+      "bytes": 46080
+    },
+    "mktemp-access-20-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "access-13-path.bin": {
+      "sha256": "c151ef93f7f68b7cc8c7d3d7b15bf1e82b65f7792119cd6fd8a9fc087f50b054",
+      "bytes": 14
+    },
+    "mktemp-access-5-after-teb.bin": {
+      "sha256": "a80b824d07a72cceca973082c66b3d58cb28f1e220fa36b25fa040b255a3edd3",
+      "bytes": 4096
+    },
+    "mktemp-access-18-after-teb.bin": {
+      "sha256": "3c692433bd7dc46f9bbd30a99d1aadc9f8eb6e38958ae802d79c0aeb80a9bef0",
+      "bytes": 4096
+    },
+    "mktemp-access-17-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "access-3-path.bin": {
+      "sha256": "726fc8f98917b51b8bcddb536743fc0f75e01b44bc0874f408ec69eac5638fa7",
+      "bytes": 26
+    },
+    "mktemp-access-1-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-16-before-teb.bin": {
+      "sha256": "8cf2bc560eaf2d134e8441f19148d15bed43b0e6fb9652e8dcf62e1f6ebca470",
+      "bytes": 4096
+    },
+    "mktemp-access-20-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mre-calls.txt": {
+      "sha256": "9a271f2a916b0b6ee6cecb2426f0b3206ef074578be55d9bc94f6f3fe3ab86aa",
+      "bytes": 2
+    },
+    "mktemp-access-7-before-teb.bin": {
+      "sha256": "7ad230616ac05aa202fd0df2e32a18b9909ea63fc4a176aa463adb347a2fa5cb",
+      "bytes": 4096
+    },
+    "mktemp-access-6-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-23-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-mbspan-1-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-16-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-23-before-teb.bin": {
+      "sha256": "f9f05b2f890b56b02ec71ccb1c75c717ecb529808587fba06b1cfeffe5b7cf19",
+      "bytes": 4096
+    },
+    "mktemp-access-22-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-13-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-11-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-after.bin": {
+      "sha256": "6238f7e7fe191d21b673abde23e0975d9e9d543c88a06b9358c169b49aa3e63a",
+      "bytes": 9
+    },
+    "input-directory.json": {
+      "sha256": "b761f24f7fc7a75fbfe69b8bb6862341da86c577ca8240d78d21cc19acb92412",
+      "bytes": 2106
+    },
+    "mktemp-mbspan-1-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "test.c": {
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "bytes": 26
+    },
+    "mktemp-access-17-after-teb.bin": {
+      "sha256": "58262030beb0e9e2524b933b3d3ef808c18c6246908fe78de60c33e456ecd29b",
+      "bytes": 4096
+    },
+    "environment.bin": {
+      "sha256": "15dfe1c795615612fc83a7dd71e3fea16fd4eb230bb230228e5844ebb930a764",
+      "bytes": 2725
+    },
+    "mktemp-access-9-before-teb.bin": {
+      "sha256": "2ebe1ba0350a403e803da3a58f2b93ef173affbfca30c7d93ef514181c95ecc0",
+      "bytes": 4096
+    },
+    "mktemp-mbspan-1-before-teb.bin": {
+      "sha256": "2ebe1ba0350a403e803da3a58f2b93ef173affbfca30c7d93ef514181c95ecc0",
+      "bytes": 4096
+    },
+    "mktemp-access-8-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-5-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "streams-entry-pioinfo-slot.bin": {
+      "sha256": "3da00fca1a11a3b0e80cebf56d2caa88a3771d747dde51b3d00f2d49ac562b03",
+      "bytes": 4
+    },
+    "MSVCRT.DLL": {
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "bytes": 277776
+    },
+    "mktemp-access-18-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-15-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-mbspan-2-after-teb.bin": {
+      "sha256": "2ebe1ba0350a403e803da3a58f2b93ef173affbfca30c7d93ef514181c95ecc0",
+      "bytes": 4096
+    },
+    "mktemp-access-2-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "access-14-path.bin": {
+      "sha256": "a62e1b1c8e85753ccf7c8411237d26b7dc93be94fb21b2dbe2e4b5ef0e6fc8f3",
+      "bytes": 28
+    },
+    "mktemp-access-19-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-7-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-18-before-teb.bin": {
+      "sha256": "58262030beb0e9e2524b933b3d3ef808c18c6246908fe78de60c33e456ecd29b",
+      "bytes": 4096
+    },
+    "mktemp-access-12-after-teb.bin": {
+      "sha256": "2e65c75414e63c3bc258e44e9639c589307c3782410970bb2f0d583bd96377d3",
+      "bytes": 4096
+    },
+    "mktemp-access-16-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "access-4-path.bin": {
+      "sha256": "c831bdff6b8749b29c98491a9fc6c4908317491785542bf02123485f87446f65",
+      "bytes": 23
+    },
+    "mbspan-events.txt": {
+      "sha256": "3acc4f9712962e6009f89e5d1cd5049fcf29e4e7cc218aa85ab85f542424594b",
+      "bytes": 512
+    },
+    "access-12-path.bin": {
+      "sha256": "eeee8b32fc96e2530735228a32c436757243c82cfb7e9d5f17614f37218d919b",
+      "bytes": 23
+    },
+    "mktemp-access-12-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "access-2-path.bin": {
+      "sha256": "7837d02f2c42418b344fd170b1428e5b80f32eb13e544de365d4fe93390db354",
+      "bytes": 5
+    },
+    "mktemp-access-14-before-teb.bin": {
+      "sha256": "44c04d4d5e7cbc69eb7623103e7d1e8b1e8fa55e6f50c2ae359ec012c83d42eb",
+      "bytes": 4096
+    },
+    "mktemp-access-20-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "streams-entry-peb.bin": {
+      "sha256": "854e47d41f8a456dcece123722b686148bdbd20e6402a95a4aa18030e2230092",
+      "bytes": 32
+    },
+    "mktemp-access-15-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-10-after-teb.bin": {
+      "sha256": "34d704da9b9e9d1b3e73babd902f5ec82b88d46ebfd624cc1803eef91613388d",
+      "bytes": 4096
+    },
+    "mktemp-access-19-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "helper.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "mktemp-access-9-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-4-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-5-before-teb.bin": {
+      "sha256": "b984b87d91c422526c8f951d2e0fc0f5ac104958441b03d94030708826be870c",
+      "bytes": 4096
+    },
+    "mktemp-access-14-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-before-ptd.bin": {
+      "sha256": "0d373bd9979a2723fb894c04454b3169661b48a49f8fa130d1d7522917b398d5",
+      "bytes": 116
+    },
+    "mktemp-access-12-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "dependency-observer.inc": {
+      "sha256": "8761ffead32c3cf94b1ee3b949e15f79fbbb5bcab8e08923f1c6f9dba70db080",
+      "bytes": 20485
+    },
+    "mbspan-1-before-context.bin": {
+      "sha256": "766f01aa96da36643e5f9a74715cb5cad40fffcb9c4da1db2c0129341de80f80",
+      "bytes": 204
+    },
+    "mktemp-after-teb.bin": {
+      "sha256": "49dee36569e1b17ed3154140521c493002723938a7a736b75394d99e0535ef3c",
+      "bytes": 4096
+    },
+    "export-reader.h": {
+      "sha256": "64ffe9f75692ee7ac2790d9d8a8e8f5e128189837fda814316446bcd81af7607",
+      "bytes": 4858
+    },
+    "entries.txt": {
+      "sha256": "082ed2704f9331d875a983ee6787980406beb0f1d6ef5f55fb62b2c50103000f",
+      "bytes": 2226
+    },
+    "argv.bin": {
+      "sha256": "5d3dea4091330ba84417d528cb709c91d21173a8a3d250bafed25c217c1fc8f1",
+      "bytes": 141
+    },
+    "events.txt": {
+      "sha256": "025aff9e8f088e36f456b8646c12a5a3f0f9397af574b07290e7cd5dbbcae070",
+      "bytes": 6032
+    },
+    "mktemp-access-13-before-teb.bin": {
+      "sha256": "2e65c75414e63c3bc258e44e9639c589307c3782410970bb2f0d583bd96377d3",
+      "bytes": 4096
+    },
+    "mktemp-mbspan-1-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-2-before-teb.bin": {
+      "sha256": "f5b9777050f426f9e17fe761637d7a719dd8eb502e9fbcbdc0fcad7b83b3662d",
+      "bytes": 4096
+    },
+    "access-22-path.bin": {
+      "sha256": "d76422a6f914de6465d31df1888f314e08082ac9b4ff7ba83c8dd938fdb5018e",
+      "bytes": 50
+    },
+    "mktemp-access-11-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-3-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-15-after-teb.bin": {
+      "sha256": "8cf2bc560eaf2d134e8441f19148d15bed43b0e6fb9652e8dcf62e1f6ebca470",
+      "bytes": 4096
+    },
+    "mktemp-access-21-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "trace.txt": {
+      "sha256": "2015109a828464bfe2ed1b5beae801cab4f8e14b3a4c6e981dcc77fec94fad39",
+      "bytes": 1025
+    },
+    "stderr.bin": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "mktemp-access-8-after-teb.bin": {
+      "sha256": "2ebe1ba0350a403e803da3a58f2b93ef173affbfca30c7d93ef514181c95ecc0",
+      "bytes": 4096
+    },
+    "mktemp-mbspan-2-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-1-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-7-after-teb.bin": {
+      "sha256": "e3a3f7d56b8fabd3be6c8e4f4c0bc01f956dbef4d9789b282dc830068c7df776",
+      "bytes": 4096
+    },
+    "mktemp-access-3-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-entry-teb.bin": {
+      "sha256": "38e509623dc5c2632befeb2d6ebd8bbcc51fc392c31c54a312b1c6968a05991c",
+      "bytes": 4096
+    },
+    "mktemp-access-22-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-6-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "access-15-path.bin": {
+      "sha256": "97dd8e0e61ceda08399891cc9db5eb1b3db6fd71d6ab9483b15848abcd0667ee",
+      "bytes": 46
+    },
+    "resource-events.txt": {
+      "sha256": "8cb67988cd6b1d99a8655f7c2bcb0451f0398ad3a4c14c1c276e8bc346534eca",
+      "bytes": 102
+    },
+    "access-5-path.bin": {
+      "sha256": "69a016ff79de7c6231980c18a79a0c0fbce7c72c7b5e2525a747b0e101f093b0",
+      "bytes": 14
+    },
+    "access-events.txt": {
+      "sha256": "5c848f65645119cc2b4bf89e1f2a3505781cc33c7220662b2b3bb5184bd24da5",
+      "bytes": 5898
+    },
+    "mktemp-access-6-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-12-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-mbspan-2-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mbspan-1-after-context.bin": {
+      "sha256": "e5d06d0a45dac640db609ed1f068d4b870ff3aad54e476df142abc0654593bc7",
+      "bytes": 204
+    },
+    "stdout.bin": {
+      "sha256": "e63de7a34410d65de6bbc6f83de1cb60c48d684babb48efdfb493cf0657aaea3",
+      "bytes": 792
+    },
+    "mktemp-access-6-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mbspan-2-set.bin": {
+      "sha256": "451c192acc363f9450510d3b649ebe486b4158d6e0f5020eb5e6c40ba5377d44",
+      "bytes": 3
+    },
+    "mktemp-access-20-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-21-before-teb.bin": {
+      "sha256": "388f846d64de82c84be1d61adb1fa722c8317ade563afb18df3e1fe911630c04",
+      "bytes": 4096
+    },
+    "mktemp-access-2-after-teb.bin": {
+      "sha256": "bac79f865c97ef897c1e57a31a4d249c5c4c1c8cd26ca7a87ffd407955685749",
+      "bytes": 4096
+    },
+    "mb-state.bin": {
+      "sha256": "3ae4207e40d5e3e931dedc0c56702c08fec7fb5c058383496297268b76b592ed",
+      "bytes": 261
+    },
+    "mktemp-access-23-after-teb.bin": {
+      "sha256": "56410bd6062404f59417f6c8d66159ea3ceeac5ac79f2c9af82dfce8a74dc94f",
+      "bytes": 4096
+    },
+    "mktemp-access-15-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-14-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mbspan-1-text.bin": {
+      "sha256": "38bd91fcaeb1311c709b8ec9a3209c5457e200a49b59586c42e2880b2e6b1421",
+      "bytes": 27
+    },
+    "mktemp-entry-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "reference-debugger.c": {
+      "sha256": "321e1f14b3f0ff7219b647405f1de5ac0fa0d5ba42105873136d64d8846caf8a",
+      "bytes": 38561
+    },
+    "mktemp-access-8-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-7-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-3-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-mbspan-2-before-teb.bin": {
+      "sha256": "2ebe1ba0350a403e803da3a58f2b93ef173affbfca30c7d93ef514181c95ecc0",
+      "bytes": 4096
+    },
+    "C2.EXE": {
+      "sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+      "bytes": 660240
+    },
+    "mktemp-access-3-after-teb.bin": {
+      "sha256": "54b55d255f44dcbb83b53b214311e8b5ed1d848ecbf0bbe2b43f298cbf5e7381",
+      "bytes": 4096
+    },
+    "mbspan-2-text.bin": {
+      "sha256": "38bd91fcaeb1311c709b8ec9a3209c5457e200a49b59586c42e2880b2e6b1421",
+      "bytes": 27
+    },
+    "mktemp-access-22-after-teb.bin": {
+      "sha256": "f9f05b2f890b56b02ec71ccb1c75c717ecb529808587fba06b1cfeffe5b7cf19",
+      "bytes": 4096
+    },
+    "mktemp-entry-ptd.bin": {
+      "sha256": "0d373bd9979a2723fb894c04454b3169661b48a49f8fa130d1d7522917b398d5",
+      "bytes": 116
+    },
+    "mktemp-access-22-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-events.txt": {
+      "sha256": "dff7cf442540c70c0aaeb015bc24d2128643b1ad4e1b00ad7226b1820a849c17",
+      "bytes": 279
+    },
+    "mktemp-access-4-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-19-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-10-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "streams-entry-iob.bin": {
+      "sha256": "4d0149241f1bbdf767bd2181c978844a97e5e2fced31a59e5aa8cb165a739763",
+      "bytes": 96
+    },
+    "mktemp-access-11-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "reference-debugger.exe": {
+      "sha256": "399eab2011e03fbc402b3f3487a4a9df0d79a7660aa40fc30d20f95d818505ef",
+      "bytes": 89600
+    },
+    "mktemp-access-8-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-6-after-teb.bin": {
+      "sha256": "7ad230616ac05aa202fd0df2e32a18b9909ea63fc4a176aa463adb347a2fa5cb",
+      "bytes": 4096
+    },
+    "mktemp-access-21-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-2-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "streams-entry-lowio.bin": {
+      "sha256": "58968ad1dd95fadf9d6bf8df351b4e04725143e2ae118ed74571781ef359598a",
+      "bytes": 108
+    },
+    "mktemp-access-20-before-teb.bin": {
+      "sha256": "356a406dfffb65ea550f6a7fe375208fac370e0e9cb8e7045802085737eb6e66",
+      "bytes": 4096
+    },
+    "access-6-path.bin": {
+      "sha256": "66c87498d249211d2b2a6af1af58a5fe1992ca805be05d5134c244a9fe33e625",
+      "bytes": 28
+    },
+    "crt-state.bin": {
+      "sha256": "c8d88837e26163437ac8b52a73ff33e9c68b6c712a9bf70ab48aafeb845c9970",
+      "bytes": 132
+    },
+    "access-9-path.bin": {
+      "sha256": "70354a86215fbf967e25dc311b1dc437b5ca012d63149bbb8518698381856bfc",
+      "bytes": 40
+    },
+    "mktemp-access-23-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-17-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-3-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "access-19-path.bin": {
+      "sha256": "b5aef9506f9c49e079706d47e5327626974b8df5cabd2a31940a316f0c7fdab3",
+      "bytes": 27
+    },
+    "config.json": {
+      "sha256": "8234b3037e0067a62b6880e480f801220f5c49df0e0a296edcb2ca114fc178e3",
+      "bytes": 83733
+    },
+    "mktemp-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "access-16-path.bin": {
+      "sha256": "d205bc9c79341a4e321a8edf2d5953813a5769140016ef891e793ffd7fc27867",
+      "bytes": 44
+    },
+    "streams-entry-parameters.bin": {
+      "sha256": "9d37904e8fecc4893349492240d853f820fff9f93d5a4c1d46f043c7c14c038b",
+      "bytes": 36
+    },
+    "mktemp-before.bin": {
+      "sha256": "e126b1eba52faccd6a3fc442136b3d13ba181f9d979d92af52a3eecdc856e260",
+      "bytes": 9
+    },
+    "mktemp-access-5-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mbspan-2-after-context.bin": {
+      "sha256": "8f21606c9a655839e9f52392b1ba7121f25bde59caee36fce537b76a342f72dc",
+      "bytes": 204
+    },
+    "mktemp-access-15-before-teb.bin": {
+      "sha256": "b6869f819c05ba44fdd80fe405f5dfdf1071eba4dce31b294ce315846a893c1b",
+      "bytes": 4096
+    },
+    "mktemp-access-14-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-22-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "pgmptr.bin": {
+      "sha256": "1ea6130ca30dff1767deb62da27fdfc640dde2def17cb654075031a0ad160c02",
+      "bytes": 44
+    },
+    "mktemp-access-10-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "case-inputs.json": {
+      "sha256": "85aa689fe218b9c7350677cd69b242773b3c703712cbe39033243ff432db7825",
+      "bytes": 325
+    },
+    "mktemp-access-17-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "access-21-path.bin": {
+      "sha256": "c730b21924660c81d37b2c1acbb686933977a4eb295883c6907bc58eb2e1ecc9",
+      "bytes": 32
+    },
+    "mktemp-access-5-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-14-after-teb.bin": {
+      "sha256": "b6869f819c05ba44fdd80fe405f5dfdf1071eba4dce31b294ce315846a893c1b",
+      "bytes": 4096
+    },
+    "mktemp-before-teb.bin": {
+      "sha256": "9cb0a49e2441a58223d14b0065feeea3ba2642b1f1f71a6d66fd7765caae8994",
+      "bytes": 4096
+    },
+    "mktemp-access-4-before-teb.bin": {
+      "sha256": "54b55d255f44dcbb83b53b214311e8b5ed1d848ecbf0bbe2b43f298cbf5e7381",
+      "bytes": 4096
+    },
+    "mktemp-access-9-after-teb.bin": {
+      "sha256": "cfbebd8f07ec4124bb62a83ce09529b1b65aa3b285e9d98d36fdc0318cceb31d",
+      "bytes": 4096
+    },
+    "mktemp-access-13-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "access-1-path.bin": {
+      "sha256": "75ef7f29fa2ab0cec8a03838d800e54f8d28c30c7835ee6644c7b7e9241748a5",
+      "bytes": 40
+    },
+    "mktemp-after-ptd.bin": {
+      "sha256": "5460a0bfe2d1639be8d4d9ca220d7f28197ad02e5966ac9d2746f98a104d2625",
+      "bytes": 116
+    },
+    "mktemp-access-12-before-teb.bin": {
+      "sha256": "c5e6d484e4b996f7993089660184ddc1cde0b0a0571e398dbfc0c9dcd4de6964",
+      "bytes": 4096
+    },
+    "mktemp-mbspan-1-after-teb.bin": {
+      "sha256": "2ebe1ba0350a403e803da3a58f2b93ef173affbfca30c7d93ef514181c95ecc0",
+      "bytes": 4096
+    },
+    "access-11-path.bin": {
+      "sha256": "45527c2ce7153a176ddb29eb198654ea40b996bdcb94c30ab08484c8b1cca9df",
+      "bytes": 26
+    },
+    "mktemp-access-3-before-teb.bin": {
+      "sha256": "bac79f865c97ef897c1e57a31a4d249c5c4c1c8cd26ca7a87ffd407955685749",
+      "bytes": 4096
+    },
+    "mktemp-access-11-after-teb.bin": {
+      "sha256": "c5e6d484e4b996f7993089660184ddc1cde0b0a0571e398dbfc0c9dcd4de6964",
+      "bytes": 4096
+    },
+    "mktemp-access-2-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-8-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-15-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "loaded-msvcrt.bin": {
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "bytes": 277776
+    },
+    "mktemp-access-14-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-22-before-teb.bin": {
+      "sha256": "75fc87947f4040c90f9612739941ad138c5467447a3b1096a20d079e0023ac56",
+      "bytes": 4096
+    },
+    "mktemp-access-23-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-23-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-9-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-13-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "access-8-path.bin": {
+      "sha256": "5b316415766fb363a9e05043b8b8eac73a01c69b944d3221225f72d5a96dabd1",
+      "bytes": 44
+    },
+    "access-7-path.bin": {
+      "sha256": "bbe3fc532f7d9f5a94d73f5c37fb6e4b4019cf297a43fe165d299bf4c9974c94",
+      "bytes": 46
+    },
+    "mktemp-access-13-after-teb.bin": {
+      "sha256": "44c04d4d5e7cbc69eb7623103e7d1e8b1e8fa55e6f50c2ae359ec012c83d42eb",
+      "bytes": 4096
+    },
+    "resource-0001-after.bin": {
+      "sha256": "d82da2cdcf67edd5c4b2620e1b245a56f38743fa7679ab9c68192dcf4750c85d",
+      "bytes": 256
+    },
+    "mktemp-access-17-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "access-17-path.bin": {
+      "sha256": "828a9fdc8a697848ab5d46a25e9b6cb0d6f80d6eddc4fe938be339613eb25ace",
+      "bytes": 9
+    },
+    "streams-entry-teb.bin": {
+      "sha256": "38e509623dc5c2632befeb2d6ebd8bbcc51fc392c31c54a312b1c6968a05991c",
+      "bytes": 4096
+    },
+    "access-18-path.bin": {
+      "sha256": "ff46b3e3111471624a19a4f0911722a0106b599c4642d9765f2a967710cde967",
+      "bytes": 30
+    },
+    "mktemp-access-8-before-teb.bin": {
+      "sha256": "e3a3f7d56b8fabd3be6c8e4f4c0bc01f956dbef4d9789b282dc830068c7df776",
+      "bytes": 4096
+    },
+    "mktemp-access-2-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-7-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-9-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-mbspan-1-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-mbspan-2-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-12-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mbspan-1-set.bin": {
+      "sha256": "451c192acc363f9450510d3b649ebe486b4158d6e0f5020eb5e6c40ba5377d44",
+      "bytes": 3
+    },
+    "mktemp-access-18-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-19-before-teb.bin": {
+      "sha256": "3c692433bd7dc46f9bbd30a99d1aadc9f8eb6e38958ae802d79c0aeb80a9bef0",
+      "bytes": 4096
+    },
+    "mktemp-access-9-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-16-after-teb.bin": {
+      "sha256": "03210bded21f0596fb3d52088bd09a055b97382a6e5e5756e3407fd3690b0fe9",
+      "bytes": 4096
+    },
+    "mktemp-access-10-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-16-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-10-before-teb.bin": {
+      "sha256": "cfbebd8f07ec4124bb62a83ce09529b1b65aa3b285e9d98d36fdc0318cceb31d",
+      "bytes": 4096
+    },
+    "mktemp-access-4-after-teb.bin": {
+      "sha256": "b984b87d91c422526c8f951d2e0fc0f5ac104958441b03d94030708826be870c",
+      "bytes": 4096
+    },
+    "mktemp-access-11-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-19-after-teb.bin": {
+      "sha256": "356a406dfffb65ea550f6a7fe375208fac370e0e9cb8e7045802085737eb6e66",
+      "bytes": 4096
+    },
+    "dependency-inputs.json": {
+      "sha256": "223ec4231a9c26f2805ee8e92fe0fd78ca02d9282710065cc4b2b4efc5fe5acd",
+      "bytes": 514
+    },
+    "access-10-path.bin": {
+      "sha256": "c494a98972a6f237a499aae0484819ee5c23c9e9d783d929b28efe50a6c48bb9",
+      "bytes": 5
+    },
+    "mktemp-access-21-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "CL.EXE": {
+      "sha256": "d646a8df167d54c9f15e62f78284e331b701acb7813c5965a371e189ee3f5b8b",
+      "bytes": 46080
+    },
+    "mktemp-access-1-before-teb.bin": {
+      "sha256": "49dee36569e1b17ed3154140521c493002723938a7a736b75394d99e0535ef3c",
+      "bytes": 4096
+    },
+    "helper.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "MSPDB50.DLL": {
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+      "bytes": 167424
+    },
+    "mktemp-access-4-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-18-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-5-after-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-16-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-mbspan-2-before-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    },
+    "mktemp-access-1-after-teb.bin": {
+      "sha256": "f5b9777050f426f9e17fe761637d7a719dd8eb502e9fbcbdc0fcad7b83b3662d",
+      "bytes": 4096
+    },
+    "resource-0001-before.bin": {
+      "sha256": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1",
+      "bytes": 256
+    },
+    "mktemp-access-17-before-teb.bin": {
+      "sha256": "03210bded21f0596fb3d52088bd09a055b97382a6e5e5756e3407fd3690b0fe9",
+      "bytes": 4096
+    },
+    "C1.DLL": {
+      "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+      "bytes": 565008
+    },
+    "mktemp-access-20-after-teb.bin": {
+      "sha256": "388f846d64de82c84be1d61adb1fa722c8317ade563afb18df3e1fe911630c04",
+      "bytes": 4096
+    },
+    "mbspan-2-before-context.bin": {
+      "sha256": "c0aa2884342c155eec06f631b77780018819dc5fbae092741c343bcae9514417",
+      "bytes": 204
+    },
+    "mktemp-access-6-before-teb.bin": {
+      "sha256": "a80b824d07a72cceca973082c66b3d58cb28f1e220fa36b25fa040b255a3edd3",
+      "bytes": 4096
+    },
+    "loaded-mspdb50.bin": {
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+      "bytes": 167424
+    },
+    "main-entry-context.bin": {
+      "sha256": "7e8a9f4be3200551a335c79253d9d3981c964467999f465070b108292c56655a",
+      "bytes": 268
+    },
+    "access-20-path.bin": {
+      "sha256": "2db12db2e5381a8b3051306b72fcd3211ee7cd16e23b6c66e43a2fc669c42109",
+      "bytes": 18
+    },
+    "mktemp-access-7-before-ptd.bin": {
+      "sha256": "9157ae2a4cef645b466019c02cbfc424968d6abbdc32901058aa6fd709ee8cb7",
+      "bytes": 116
+    },
+    "mktemp-access-21-after-tls-index.bin": {
+      "sha256": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+      "bytes": 4
+    }
+  }
+}

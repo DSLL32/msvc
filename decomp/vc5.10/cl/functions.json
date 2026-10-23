@@ -113,7 +113,8 @@
     "_write_link_response",
     "_write_link_message",
     "_file_directory",
-    "_make_map_name"
+    "_make_map_name",
+    "_advance_jobs"
   ],
   "driver": [
     {
@@ -1637,10 +1638,14 @@
     {
       "name": "_advance_jobs",
       "start": 4210160,
-      "end": 4210161,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "advance_jobs"
+      "end": 4210183,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "advance_jobs",
+      "evidence": {
+        "kind": "complete23B in-place job linked-list reversal disassembly",
+        "range": "00403df0..00403e07",
+        "inputs": "one cdecl Job* argument, next-pointer links only, no hidden input; returns reversed head"
+      }
     },
     {
       "name": "_configure_pass",
