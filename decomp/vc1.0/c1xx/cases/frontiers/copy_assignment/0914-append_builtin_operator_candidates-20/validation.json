@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_append_builtin_operator_candidates@20",
+    "start": 486752,
+    "end": 487256
+  },
+  "distinct_direct_callees": [
+    "_add_builtin_operator_candidate@20",
+    "_begin_builtin_operand_types@16",
+    "_next_builtin_operand_type@4"
+  ],
+  "next_frontier": "_begin_builtin_operand_types@16",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2819352289661765,
+  "total_operation_seconds": 3.6729728216305375,
+  "original_capture_seconds": 1.8197278985753655
+}

@@ -1,4 +1,5 @@
 #include "mangling.h"
+#include "builtin-operators.h"
 #include "reference-initializers.h"
 #include "symbol-output.h"
 #include "function-finalization.h"
@@ -582,7 +583,6 @@ IrToken *__stdcall resolve_overloaded_arrow(IrToken *object) { __asm { int 3 } r
 int __stdcall rank_operator_operands(OverloadSearch *search, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_selected_operator_call(OverloadCandidate *candidate, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
 OverloadCandidate *__stdcall report_operator_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }
-void __stdcall append_builtin_operator_candidates(OverloadSearch *search, BuiltinOperator *rule, IrToken *left, IrToken *right, unsigned *count) { __asm { int 3 } }
 
 int evaluate_preprocessor_expression(void) { __asm { int 3 } return 0; }
 void undefine_source_macro(void) { __asm { int 3 } }
@@ -621,3 +621,6 @@ IrToken *__stdcall initialize_reference_temporary(CType *referent, CType *refere
 int __stdcall reference_source_is_array(CType *type) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall class_tag_for_result_type(CType *type) { __asm { int 3 } return 0; }
 int __stdcall temporary_cleanup_is_suppressed(IrToken *object, unsigned index) { __asm { int 3 } return 0; }
+void __stdcall begin_builtin_operand_types(BuiltinOperandIterator *iterator, IrToken *expression, CType *category, unsigned require_lvalue) { __asm { int 3 } }
+int __stdcall next_builtin_operand_type(BuiltinOperandIterator *iterator) { __asm { int 3 } return 0; }
+void __stdcall add_builtin_operator_candidate(OverloadSearch *search, BuiltinOperator *rule, CType *left, CType *right, unsigned *count) { __asm { int 3 } }

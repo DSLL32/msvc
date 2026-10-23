@@ -8,7 +8,7 @@ import json
 from pathlib import Path
 import subprocess
 import time
-from shared_build_inputs import snapshot, current_signature
+from shared_build_inputs import snapshot, materialize, signature, inputs
 
 BINARY=Path(__file__).resolve().parents[1]
 
@@ -28,19 +28,21 @@ def main():
     for label,command in commands:
         setup=time.perf_counter()
         shared=snapshot()
+        compiled=materialize(shared)
+        command.append('RECON='+str(compiled.relative_to(BINARY)))
         setup_seconds=time.perf_counter()-setup
         started=time.perf_counter()
         path=directory/('queue-'+args.label+'-'+label+'.log')
         with path.open('w') as log:
             result=subprocess.run(command,cwd=BINARY,stdout=log,stderr=subprocess.STDOUT)
-        stable=current_signature()==shared['manifest_sha256']
+        stable=signature(inputs(compiled))[0]==shared['manifest_sha256']
         records.append(dict(phase=label,seconds=time.perf_counter()-started,
                             status=result.returncode,command=command,log=str(path),
                             shared_inputs=shared,shared_input_setup_seconds=setup_seconds,
                             shared_inputs_unchanged_during_build=stable))
         receipt.write_text(json.dumps(records,indent=2)+'\n')
         if not stable:
-            print('Shared inputs changed during build; receipt retained, dependent acceptance stopped.')
+            print('Immutable compiled inputs changed during build; dependent acceptance stopped.')
             return 1
         if result.returncode:
             print(path.read_text()[-4000:])

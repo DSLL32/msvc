@@ -1,0 +1,44 @@
+{
+  "status": 0,
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "graph-negative-check",
+    "check",
+    "native-rejections"
+  ],
+  "seconds": 5.03230632096529,
+  "coverage": {
+    "accepted_code_bytes": 242905,
+    "total_executable_code_bytes": 476418,
+    "accepted_code_percent": 50.98568903777775,
+    "accepted_frontiers": 915,
+    "source_functions": 829,
+    "accepted_source_text_and_switch_bytes": 231060,
+    "section_ranges": [
+      [
+        94208,
+        570626
+      ]
+    ],
+    "native_limitations": [
+      {
+        "function": "_begin_implicit_statement_scope@4",
+        "original": [
+          157520,
+          157666
+        ],
+        "condition": "parser_lookahead != -1",
+        "behavior": "explicit native-only INT3; unsupported original caller-derived stale-stack-byte path",
+        "win32": "original-style uninitialized unsigned char token retained",
+        "authorization": "User explicitly selected faithful Win32 source bug plus unsupported native-path trap",
+        "evidence": "evidence/implicit-scope-lookahead/analysis.json",
+        "coverage_note": "accepted original extent does not claim native malformed-input-path equivalence"
+      }
+    ]
+  },
+  "guard_rejections": "guard-rejections.json",
+  "incremental_validation": "validation.json",
+  "accepted_frontier": "cases/frontiers/copy_assignment/0914-append_builtin_operator_candidates-20/validation.json"
+}

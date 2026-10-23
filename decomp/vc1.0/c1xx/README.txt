@@ -1,10 +1,10 @@
 C1XX3232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 ==========================================================
 
-PARTIAL binary reconstruction: 914 accepted frontiers, including 821 frontend
+PARTIAL binary reconstruction: 915 accepted frontiers, including 822 frontend
 functions and seven older CRT functions reconstructed as source.
 Complete cases: cpp_basic, virtual_diamond.
-Active case copy_assignment stops at _append_builtin_operator_candidates@20, original VA 0x76d60.
+Active case copy_assignment stops at _begin_builtin_operand_types@16, original VA 0x76f60.
 All unimplemented callees remain meaningful named INT3 stubs.
 The user selected preservation of scope entry's original Win32 uninitialized
 token bug, with an explicit native-only INT3 when cached parser lookahead would
@@ -14,7 +14,7 @@ the instruction, grammar repair counterexample, last writer and original probe.
 The approved copy/assignment, stack-lifetime/destruction and new/delete/operator
 cases follow virtual_diamond; cases/reconstruction-queue.json records the queue.
 
-Accepted original extents cover 242401 / 476418 code-section bytes (50.879900%).
+Accepted original extents cover 242905 / 476418 code-section bytes (50.985689%).
 The union includes function bodies, shared text data, exact matched CRT and import
 thunks, clipped to section VirtualSize (backed raw size only if zero). This is
 not branch coverage. Whole functions include statically recovered unvisited paths.
@@ -43,7 +43,7 @@ cases/original-entry-references.json binds fresh original first-entry plans,
 raw events and capture receipts. Each debugger first-entry trap is checked,
 restored, instruction-cache flushed and EIP rewound. Missing/out-of-order entries,
 unexpected exceptions and early exit reject the capture. functions.json retains
-the ordered 914-entry acceptance provenance and full original extents; the cache
+the ordered 915-entry acceptance provenance and full original extents; the cache
 also classifies exact CRT/import entries. The projection cache is rebuilt only
 explicitly after verified metadata changes:
 
@@ -137,7 +137,18 @@ Explicit build provenance
 scripts/build-frontier.py LABEL records native and original-toolchain builds
 separately. Each phase archives the encountered shared C/header sources under
 evidence/shared-build-inputs, keyed by the manifest hash, and verifies that the
-shared inputs did not change during compilation. Setup/hash failures stop before
+immutable compiled inputs did not change during compilation.
+Default native and canonical builds use the committed pin/tree in
+cases/shared-build-reference.json, materialized from Git blobs; no live or
+untracked shared source is used. At each substantial case boundary, review
+newer verified shared fixes with /root/recon_lib_maintenance and deliberately
+refresh with:
+
+    make refresh-shared-build RECON_COMMIT=<reviewed-commit>
+
+Old archives remain available and the selected revision/tree is in each build
+receipt. The native input signature covers nested headers, C inputs and compiler
+flags; unchanged inputs retain incremental objects. Setup/hash failures stop before
 the dependent phase or acceptance capture. --native-only supports infrastructure
 revalidation without another original invocation. Snapshot setup time is separate
 from compilation where measured. Historical receipts refer to their immutable

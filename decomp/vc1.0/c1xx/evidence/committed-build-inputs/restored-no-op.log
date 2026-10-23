@@ -1,0 +1,2 @@
+python3 scripts/native-build-signature.py "build/shared-inputs/f615a9512a55233687b38f8e8dfee884a4f726e8c5aff9eccb87d772ee4aaceb" "build/native-inputs.stamp" "clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -Ibuild/shared-inputs/f615a9512a55233687b38f8e8dfee884a4f726e8c5aff9eccb87d772ee4aaceb/include -Ibuild/shared-inputs/f615a9512a55233687b38f8e8dfee884a4f726e8c5aff9eccb87d772ee4aaceb/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g"
+make: Nothing to be done for 'native-trace'.

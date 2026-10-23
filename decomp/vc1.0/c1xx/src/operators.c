@@ -1,5 +1,6 @@
 /* Builtin C++ operator candidates and their operand type patterns. */
 #include "operators.h"
+#include "builtin-operators.h"
 #include "keywords.h"
 #include "lexer.h"
 #include "call-expressions.h"
@@ -393,4 +394,57 @@ unsigned __stdcall count_builtin_operator_candidates(BuiltinOperator *rule,
         ++rule;
     } while (rule->token == operation);
     return total;
+}
+
+/* Original 0x76d60..0x76f57, stdcall 20. Unary rules consume one
+   operand iterator. The 0x81 pattern uses one common type on both sides;
+   ordinary binary rules form the product of the two permitted type sets. */
+void __stdcall append_builtin_operator_candidates(OverloadSearch *search,
+    BuiltinOperator *rule, IrToken *left, IrToken *right, unsigned *count)
+{
+    BuiltinOperandIterator left_types, right_types;
+    CType *left_pattern, *right_pattern;
+    unsigned char operation;
+    unsigned found;
+    *count = 0;
+    if (!rule) return;
+    operation = rule->token;
+    do {
+        left_pattern = rule->operands[0].type;
+        right_pattern = rule->operands[1].type;
+        if ((right_pattern != 0) == (right != 0)) {
+            if (!right_pattern) {
+                begin_builtin_operand_types(&left_types, left, left_pattern,
+                    (unsigned char)rule->assignment);
+                while (next_builtin_operand_type(&left_types))
+                    add_builtin_operator_candidate(search, rule, left_types.type, 0, count);
+            } else if ((right_pattern->flags & 0x2fdf) == 0x81) {
+                found = 0;
+                begin_builtin_operand_types(&left_types, left, left_pattern,
+                    (unsigned char)rule->assignment);
+                while (next_builtin_operand_type(&left_types)) {
+                    ++found;
+                    add_builtin_operator_candidate(search, rule,
+                        left_types.type, left_types.type, count);
+                }
+                if (found) {
+                    begin_builtin_operand_types(&right_types, right, left_pattern,
+                        (unsigned char)rule->assignment);
+                    while (next_builtin_operand_type(&right_types))
+                        add_builtin_operator_candidate(search, rule,
+                            right_types.type, right_types.type, count);
+                }
+            } else {
+                begin_builtin_operand_types(&left_types, left, left_pattern,
+                    (unsigned char)rule->assignment);
+                while (next_builtin_operand_type(&left_types)) {
+                    begin_builtin_operand_types(&right_types, right, right_pattern, 0);
+                    while (next_builtin_operand_type(&right_types))
+                        add_builtin_operator_candidate(search, rule,
+                            left_types.type, right_types.type, count);
+                }
+            }
+        }
+        ++rule;
+    } while (rule->token == operation);
 }

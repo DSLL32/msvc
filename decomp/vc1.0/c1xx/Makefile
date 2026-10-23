@@ -1,8 +1,10 @@
 PYTHON ?= python3
 TOOL = $(PYTHON) scripts/wine-tool.py
 TC = ../../../toolchains/1.0-nt
-RECON = ../../../lib/recon
-.PHONY: all win32 prefix check replay audit graph-negative-check reference-capture native-rejections clean
+ifneq ($(MAKECMDGOALS),clean)
+include build/shared-inputs.mk
+endif
+.PHONY: refresh-shared-build all win32 prefix check replay audit graph-negative-check reference-capture native-rejections clean
 all: native-trace
 include ../../../tooling/graph-audit/graph-audit.mk
 GRAPH_AUDIT_FLAGS = --profile c1xx --project . --repo ../../.. --discovery cfg --check-ret --check-references --check-callbacks --check-ownership --check-extents --metadata build/graph-metadata.json
@@ -11,6 +13,13 @@ prefix:
 	$(TOOL) --init
 build:
 	mkdir -p $@
+# Pin/tree: cases/shared-build-reference.json; no live shared-source fallback.
+# Refresh only after reviewing a committed slice with the shared maintainer.
+refresh-shared-build:
+	$(if $(strip $(RECON_COMMIT)),,$(error set RECON_COMMIT to a reviewed shared commit))
+	$(PYTHON) scripts/shared_build_inputs.py --pin-commit "$(RECON_COMMIT)" --makefile build/shared-inputs.mk
+build/shared-inputs.mk: cases/shared-build-reference.json scripts/shared_build_inputs.py | build
+	$(PYTHON) scripts/shared_build_inputs.py --makefile $@
 build/%.obj: src/%.c scripts/wine-tool.py scripts/case_paths.py | build prefix
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /I$(RECON)/include /Fobuild/$*.obj $<
 build/parser-grammar.c: scripts/generate-parser.py scripts/grammar.py src/grammar.bnf | build
@@ -94,12 +103,15 @@ endif
 NATIVE_CC ?= clang
 NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g
 NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I$(RECON)/include -I$(RECON)/native -Isrc
-NATIVE_HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h $(RECON)/native/sys/*.h)
+NATIVE_HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h $(RECON)/native/sys/*.h) build/native-inputs.stamp
 NATIVE_OBJECTS = $(patsubst build/%.obj,build/native/%.o,$(OBJECTS))
 NATIVE_SHIMS = $(filter-out $(RECON)/src/trace.c,$(wildcard $(RECON)/src/*.c))
 NATIVE_TRACE_OBJECTS = $(patsubst build/native/%,build/native-trace/%,$(NATIVE_OBJECTS))
 
-.PHONY: native native-trace native-check native-trace-check
+.PHONY: native native-trace native-check native-trace-check native-inputs-force
+native-inputs-force:
+build/native-inputs.stamp: native-inputs-force scripts/native-build-signature.py scripts/shared_build_inputs.py | build
+	$(PYTHON) scripts/native-build-signature.py "$(RECON)" "$@" "$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS)"
 native: build/native/C1XX3232.EXE
 native-trace: build/native-trace/C1XX3232.EXE
 build/native build/native-trace:

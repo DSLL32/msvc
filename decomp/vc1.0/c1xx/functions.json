@@ -918,7 +918,8 @@
     "_cancel_temporary_cleanup@4",
     "_temporary_reference_matches@8",
     "_remove_frontend_record@4",
-    "_replace_temporary_reference@12"
+    "_replace_temporary_reference@12",
+    "_append_builtin_operator_candidates@20"
   ],
   "driver": [
     {
@@ -6804,7 +6805,7 @@
     {
       "name": "_append_builtin_operator_candidates@20",
       "start": 486752,
-      "end": 486753
+      "end": 487256
     },
     {
       "name": "_flush_initializer_records",
@@ -7201,6 +7202,21 @@
       "name": "_temporary_cleanup_is_suppressed@8",
       "start": 253696,
       "end": 253697
+    },
+    {
+      "name": "_begin_builtin_operand_types@16",
+      "start": 487264,
+      "end": 487265
+    },
+    {
+      "name": "_next_builtin_operand_type@4",
+      "start": 487376,
+      "end": 487377
+    },
+    {
+      "name": "_add_builtin_operator_candidate@20",
+      "start": 487920,
+      "end": 487921
     }
   ],
   "cases": {
@@ -7242,8 +7258,8 @@
       "native_reference": "cases/native-copy-assignment",
       "frontiers": "cases/frontiers/copy_assignment",
       "accepted_from": 871,
-      "terminal": "_append_builtin_operator_candidates@20",
-      "terminal_evidence": "cases/frontiers/copy_assignment/0913-replace_temporary_reference-12/original-events.txt",
+      "terminal": "_begin_builtin_operand_types@16",
+      "terminal_evidence": "cases/frontiers/copy_assignment/0914-append_builtin_operator_candidates-20/original-events.txt",
       "original_seed": "cases/copy_assignment-seed",
       "frontier_extensions": [
         "cases/frontiers/copy_assignment/0871-read_operator_function_id/frontier-extension.json",
@@ -7288,7 +7304,8 @@
         "cases/frontiers/copy_assignment/0910-cancel_temporary_cleanup-4/frontier-extension.json",
         "cases/frontiers/copy_assignment/0911-temporary_reference_matches-8/frontier-extension.json",
         "cases/frontiers/copy_assignment/0912-remove_frontend_record-4/frontier-extension.json",
-        "cases/frontiers/copy_assignment/0913-replace_temporary_reference-12/frontier-extension.json"
+        "cases/frontiers/copy_assignment/0913-replace_temporary_reference-12/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0914-append_builtin_operator_candidates-20/frontier-extension.json"
       ]
     }
   },

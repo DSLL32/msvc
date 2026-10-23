@@ -1,0 +1,69 @@
+{
+  "status": "pass",
+  "pin": {
+    "schema": 1,
+    "commit": "23dd0e2aa23bacb970408dad7168a2479fa8a4be",
+    "tree": "35875f48d7bdba1ac878fd9416d58c000a009a5c",
+    "verification": "lib/recon/tick-context-validation.json at the pinned commit records GCC and Clang checks; prior committed shared slices retain their own tests",
+    "policy": "Deliberate committed-source reference; ignore evolving shared worktree contents until explicitly refreshed"
+  },
+  "rows": [
+    {
+      "phase": "no-op",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 0.07914891745895147,
+      "status": 0
+    },
+    {
+      "phase": "isolated-baseline",
+      "command": [
+        "make",
+        "-j4",
+        "build/native/arguments.o",
+        "RECON=/root/.ai-tmp/msvc2/vc1.0/c1xx/signature-change-g9ns3rgl/recon"
+      ],
+      "seconds": 0.21520607452839613,
+      "status": 0
+    },
+    {
+      "phase": "content-change",
+      "command": [
+        "make",
+        "-j4",
+        "build/native/arguments.o",
+        "RECON=/root/.ai-tmp/msvc2/vc1.0/c1xx/signature-change-g9ns3rgl/recon"
+      ],
+      "seconds": 0.18352097179740667,
+      "status": 0
+    },
+    {
+      "phase": "restore-pinned",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 8.825569747015834,
+      "status": 0
+    },
+    {
+      "phase": "restored-no-op",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 0.0800743205472827,
+      "status": 0
+    }
+  ],
+  "probe": "Actual arguments.o target rebuilt after only shared compat.c content changed in an isolated copy, preserving its mtime and command flags. Synthetic object was replaced by a complete pinned rebuild; neither original input nor shared worktree changed.",
+  "no_live_fallback": "Default RECON is materialized from explicit committed Git blobs; nested native headers and C inputs archived with receipt; Make signature includes compiler/include flags."
+}

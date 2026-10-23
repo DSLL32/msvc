@@ -2,19 +2,19 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "cf8d070c1d976db3d2d0837c387c9cf0dcc331caff6430a2e0bf65e45e96efaf",
+    "functions.json": "174de297f10f9e4ab0fc589d71d8c908513f0322664454ade1f3a7c34683d9bb",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "2a0e35c6f41944f0bee6e3ff5c7f955d1125fd7ca544ffd5759f7b9238d6288f",
-    "cases/canonical-map.txt": "849429f1b133be2368602951cda541ee4d414c99f12377fbd75d25a62ac5e66a",
+    "cases/original-entry-references.json": "0aae3fc46f32908816beb5348419c84e01f7d2313e17296e7a882ea2190bc316",
+    "cases/canonical-map.txt": "1211427103053fa2b57ddd75047f822de29165be4a9b7262e6d44e88f2ef6fae",
     "cases/shared-reference/cpp_basic/original-receipt.json": "c0b231bf1b4ad8c8ee582b0419697346750bcbea4484c6729dc71c7eb35ed198",
     "cases/shared-reference/cpp_basic/original-events.txt": "c211a19028f71257317cb8957e26dd76c27f60208208de53d25e18a8a5520e27",
     "cases/shared-reference/cpp_basic/original-entries.plan": "795b86f57be090ebab4b5bf36a3fe93b742ba8f9b4f29a48ba548a77d801ee07",
     "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-receipt.json": "294c8ba994d7c0a2b262d0ffc64a6108626a4da6278df6f28a5943ea902eb973",
     "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-events.txt": "8c1a3e34e895950da92b0ebff06a54961be5cf23d49f5b599b88124f0dd3b864",
     "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-entries.plan": "e202c7c8bca59732c6060e013a983deb61c10523c9301d68ac4474dba992194f",
-    "cases/frontiers/copy_assignment/0913-replace_temporary_reference-12/entry-reference/original-receipt.json": "99a5c10aa3c9bbc52c06c681f844b645fe6f1f85c8b52eeb1237730ccbae1858",
-    "cases/frontiers/copy_assignment/0913-replace_temporary_reference-12/entry-reference/original-events.txt": "459d944f7a0bd57e5b2fcfb81448d8efef292924525f2c8fd8d9d54a4f570723",
-    "cases/frontiers/copy_assignment/0913-replace_temporary_reference-12/entry-reference/original-entries.plan": "811a4df25ab076679f4688ada02ff72cf666322a04f8955b429d8e38f507a637"
+    "cases/frontiers/copy_assignment/0914-append_builtin_operator_candidates-20/entry-reference/original-receipt.json": "4bc2a4bd58aea00579b6b7f3c9f6cb8a22c064018b171be3d93849a9ae3558f5",
+    "cases/frontiers/copy_assignment/0914-append_builtin_operator_candidates-20/entry-reference/original-events.txt": "eeaaab03b36d6decde648293cddd86b99ad00742e675e225b8be71a0cdc6ac69",
+    "cases/frontiers/copy_assignment/0914-append_builtin_operator_candidates-20/entry-reference/original-entries.plan": "d86087ff84d614c414265e9f729c26dc3cf0a75cd568dd970040935161b654bd"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -28,6 +28,10 @@
     "add_base_class": {
       "logical": "_add_base_class@12",
       "source": "src/class-members.c"
+    },
+    "add_builtin_operator_candidate": {
+      "logical": "_add_builtin_operator_candidate@20",
+      "source": "src/stubs.c"
     },
     "add_case_label": {
       "logical": "_add_case_label@4",
@@ -123,7 +127,7 @@
     },
     "append_builtin_operator_candidates": {
       "logical": "_append_builtin_operator_candidates@20",
-      "source": "src/stubs.c"
+      "source": "src/operators.c"
     },
     "append_class_members": {
       "logical": "_append_class_members@8",
@@ -279,6 +283,10 @@
     },
     "begin_browser_output": {
       "logical": "_begin_browser_output",
+      "source": "src/stubs.c"
+    },
+    "begin_builtin_operand_types": {
+      "logical": "_begin_builtin_operand_types@16",
       "source": "src/stubs.c"
     },
     "begin_class_body": {
@@ -3405,6 +3413,10 @@
       "logical": "_next_argument",
       "source": "src/arguments.c"
     },
+    "next_builtin_operand_type": {
+      "logical": "_next_builtin_operand_type@4",
+      "source": "src/stubs.c"
+    },
     "next_class_member": {
       "logical": "_next_class_member@4",
       "source": "src/class-members.c"
@@ -5787,7 +5799,8 @@
     "cancel_temporary_cleanup",
     "temporary_reference_matches",
     "remove_frontend_record",
-    "replace_temporary_reference"
+    "replace_temporary_reference",
+    "append_builtin_operator_candidates"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -7247,7 +7260,7 @@
     },
     "copy_assignment": {
       "first": 871,
-      "last": 914,
+      "last": 915,
       "seen": [
         "main",
         "message_text",
@@ -8072,12 +8085,13 @@
         "temporary_reference_matches",
         "remove_frontend_record",
         "replace_temporary_reference",
-        "append_builtin_operator_candidates"
+        "append_builtin_operator_candidates",
+        "begin_builtin_operand_types"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_append_builtin_operator_candidates@20",
-        "native": "append_builtin_operator_candidates",
+        "logical": "_begin_builtin_operand_types@16",
+        "native": "begin_builtin_operand_types",
         "signal": 5
       }
     }

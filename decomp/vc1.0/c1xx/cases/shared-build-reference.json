@@ -1,0 +1,7 @@
+{
+  "schema": 1,
+  "commit": "23dd0e2aa23bacb970408dad7168a2479fa8a4be",
+  "tree": "35875f48d7bdba1ac878fd9416d58c000a009a5c",
+  "verification": "lib/recon/tick-context-validation.json at the pinned commit records GCC and Clang checks; prior committed shared slices retain their own tests",
+  "policy": "Deliberate committed-source reference; ignore evolving shared worktree contents until explicitly refreshed"
+}
