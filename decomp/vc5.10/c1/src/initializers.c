@@ -150,7 +150,6 @@ void __cdecl initialize_state_1277b(void)
 
 void __cdecl initialize_state_127a6(void)
 {
-    __asm { int 3 }
 }
 
 void __cdecl compiler_fatal(int message)

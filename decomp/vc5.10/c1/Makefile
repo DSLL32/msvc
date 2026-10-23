@@ -11,7 +11,7 @@ GRAPH_CONFIG ?= functions.json
 GRAPH_METADATA ?=
 NATIVE_HEADERS = $(wildcard $(RECON)/include/*.h $(RECON)/native/*.h $(RECON)/native/sys/*.h)
 
-.PHONY: all inspect groundwork check-groundwork native original audit fixtures
+.PHONY: all inspect groundwork check-groundwork native native-recorded original audit fixtures
 all: native
 include ../../../tooling/graph-audit/graph-audit.mk
 
@@ -31,6 +31,9 @@ build/native/host.o: scripts/native-host.c $(wildcard src/*.h) $(NATIVE_HEADERS)
 build/native/c1-host: $(addprefix build/native/,$(addsuffix .o,$(NATIVE_NAMES))) build/native/host.o $(SHIMS) $(RECON)/src/trace.c Makefile
 	$(NATIVE_CC) $(NATIVE_FLAGS) -no-pie $(filter %.o,$^) $(SHIMS) $(RECON)/src/trace.c -o $@
 native: build/native/c1-host
+
+native-recorded:
+	$(PYTHON) scripts/build-native-recorded.py
 
 build/%.obj: src/%.c $(wildcard src/*.h) | build
 	$(TOOL) CL.EXE /nologo /c /Od /MD /G5 /Isrc /I$(RECON)/include /Fo$@ $<

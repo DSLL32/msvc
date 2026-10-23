@@ -1,6 +1,7 @@
 """The reviewed fixed20-byte empty-record prototype, not its larger users' layout."""
 import copy,json,re,struct,subprocess
 from provenance import captured_native_binary
+from pass_state import plain_globals_after_invoke_store,native_after_invoke_store
 MODEL=dict(original_rva=0x58f50,native_offset=688,bytes=20,
  purpose='exact-width empty-record byte prototype, no larger record layout inferred',
  original_store_offsets=[0,4,8,12,16,0],static_copy_rvas=[0x48331,0x49ead,0x4a24e,0x4b6c3],
@@ -34,7 +35,9 @@ def validate(original,native,fields,state,sequence,probe,candidate,project):
  old=(original/('compiler-bss-%03d.bin'%before_seq)).read_bytes();expected=bytearray(old);expected[0x8f50:0x8f64]=bytes(20)
  assert bytes(expected)==final
  for region in ('compiler-data','compiler-snapshot','state'):
-  assert (original/('%s-%03d.bin'%(region,before_seq))).read_bytes()==(original/('%s-%03d.bin'%(region,sequence))).read_bytes()
+  before_region=(original/('%s-%03d.bin'%(region,before_seq))).read_bytes()
+  if region=='state':before_region=plain_globals_after_invoke_store(original,before_region,candidate,module)
+  assert before_region==(original/('%s-%03d.bin'%(region,sequence))).read_bytes()
  if probe=='normal':
   assert read(old)==ZERO and not (original/'prototype-probe.txt').exists() and not re.findall(r'^prototype-seed ',events,re.M)
   return
@@ -52,4 +55,4 @@ def validate(original,native,fields,state,sequence,probe,candidate,project):
  address,size=(int(v,16) for v in re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] initialize_state_1277b$',symbols,re.M).groups())
  assert address<=obs['prototype_pc']<address+size
  before=copy.deepcopy(obs['before_prototype']);before['bss']['empty_record_prototype']=list(ZERO)
- assert before==current
+ assert native_after_invoke_store(before,candidate)==current

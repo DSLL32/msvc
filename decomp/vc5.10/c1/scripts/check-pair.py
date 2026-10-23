@@ -36,6 +36,18 @@ def checked_receipt(directory):
     for item in candidate.get("input_files", []):
         assert sha(directory / item["name"]) == item["sha256"] == sha(PROJECT / item["source"])
     check_source_snapshot(directory)
+    compiled=receipt.get('compiled_build_sha256')
+    if compiled:
+        assert compiled==sha(directory/'compiled-build.json')
+        record=json.loads((directory/'compiled-build.json').read_text())
+        assert record['kind']=='native-build-source-content' and record['stable_before_after']
+        assert record['native_sha256']==receipt['native_sha256']
+        assert record['sources']==json.loads((directory/'source-snapshot.json').read_text())
+        prefix=str(PROJECT.relative_to(ROOT))+'/'
+        from provenance import native_sources
+        owned={str(p.relative_to(ROOT)) for p in native_sources() if p.is_relative_to(PROJECT)}
+        assert owned=={name for name in record['sources'] if name.startswith(prefix)}
+        assert all(sha(ROOT/name)==record['sources'][name]['sha256'] for name in owned)
     reuse = receipt.get("build_source_reuse")
     if reuse:
         origin = Path(reuse["directory"])

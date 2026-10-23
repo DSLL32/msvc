@@ -3,14 +3,14 @@
 Target: `toolchains/5.10/bin/C1.DLL`, SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`.
 The lifecycle-only first case is complete. Minimal C compilation is in progress,
-currently reaching the last named initializer callback127a6. The native i386
+all initialization callbacks now complete and the current frontier is main127a7. The native i386
 harness and actual Win32 DLL compile the same reconstructed source; two genuine
 thiscall members and their callers use small C++ translation units. The lifecycle
 fixture resolves both compiler exports; the minimal case calls InvokeCompilerPass.
 AbortCompilerPass remains a named INT3 stub.
 
-Accepted ownership is49 application functions /1701 original bytes,2 CRT support
-functions /451 bytes and one6-byte import thunk:2158 of the `.text` virtual
+Accepted ownership is50 application functions /1702 original bytes,2 CRT support
+functions /451 bytes and one6-byte import thunk:2159 of the `.text` virtual
 extent's322288 bytes (0.670%). That denominator includes CRT and unclassified
 code; it is not non-CRT coverage. The original17-DWORD PCH-context initializer
 and its tail wrapper were explicitly accepted as one ordered JOINT two-function
@@ -389,3 +389,16 @@ See `cases/minimal/PCH-STATE-ANALYSIS.md` and `evidence/pch-joint-*` for origina
 native timings, immutable proof and the explicit two-function acceptance.
 Native cached lifecycle fixture4.36ms. Independent orchestrator review passed;
 historical prospective evidence remains raw-only, never relabeled acceptance.
+
+The final empty initializer127a6 is accepted, reaching genuine main127a7 with
+argc/argv and actual Invoke caller/return verified. The already reconstructed
+wrapper's known pass_mode store is proved from its original instruction and
+actual BOOL value; unknown state remains trapped before main's body. Full
+core47/100 controls and new main16/16 plus compiled-source8 controls pass.
+`make -j4 native-recorded` freezes actual source CONTENT before compilation,
+checks that it stayed stable, and binds it to the retained ELF. Captures can
+reuse that manifest after shared-only worktree drift; owned-source/content/ELF
+changes reject. The normal original capture was reused after a native-only
+build, with its historical native hash retained honestly. No original rerun
+was needed. Evidence and measured build/capture/fixture/control times are in
+`cases/minimal/evidence/last-initializer-*`.

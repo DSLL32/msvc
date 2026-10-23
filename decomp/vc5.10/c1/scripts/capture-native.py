@@ -7,7 +7,7 @@ import json
 from pathlib import Path
 import subprocess
 import time
-from provenance import freeze, native_sources, reuse_native_sources, freeze_native_binary
+from provenance import freeze, native_sources, reuse_native_sources, freeze_native_binary, compiled_native_sources
 from pch_state import MEMBERS as PCH_MEMBERS
 
 PROJECT = Path(__file__).resolve().parents[1]
@@ -26,6 +26,7 @@ def main():
     parser.add_argument("--restore-probe", action="store_true")
     parser.add_argument("--prospective-tail-chain", action="store_true", help="bounded raw-only input observation, never acceptance")
     parser.add_argument("--negative-value", action="store_true", help="labeled negative signed-value auxiliary input")
+    parser.add_argument("--compiled-build", type=Path, help="verified prebuild source-content manifest for this exact ELF")
     parser.add_argument("--reuse-build-from", type=Path, help="prior verified capture of the same ELF and owned sources")
     parser.add_argument("--pdb-reuse", type=int, choices=(0,1), default=0, help="labeled persistent-context helper reuse branch")
     args = parser.parse_args()
@@ -41,7 +42,12 @@ def main():
     candidate = json.loads(candidate_path.read_text())
     assert not args.prospective_tail_chain or not args.reuse_build_from
     source_reuse = None
-    if args.reuse_build_from:
+    compiled_build = None
+    assert not (args.compiled_build and args.reuse_build_from)
+    if args.compiled_build:
+        compiled_build=compiled_native_sources(args.compiled_build.resolve(),output/'source-snapshot.json',binary)
+        (output/'compiled-build.json').write_text(json.dumps(compiled_build,indent=2)+'\n')
+    elif args.reuse_build_from:
         source_reuse = reuse_native_sources(args.reuse_build_from.resolve(), output / "source-snapshot.json",
                                             binary, candidate_path, PROJECT / "build/c1.dll",
                                             PROJECT / candidate.get("audit_config", "functions.json"))
@@ -73,7 +79,7 @@ formals=[{'name':symbol.name,'type':str(symbol.type)} for symbol in block if sym
 value={'symbol':frame.name(),'pc':int(gdb.parse_and_eval('$pc')),'args':args,'formal_inventory':formals}
 assert {row['name'] for row in formals}==set(args), 'omitted or invented native formal'
 
-if frame.name()=='InvokeCompilerPass':
+if frame.name() in ('InvokeCompilerPass','c1_main'):
     value['argv']=[gdb.parse_and_eval('argv[%%d]'%%i).string() for i in range(args['argc'])]
     value['argv_terminator']=int(gdb.parse_and_eval('(unsigned int)argv[%%d]'%%args['argc']))
 ancestor=frame
@@ -453,6 +459,7 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
                "value_copy_sign": ("negative" if args.negative_value else "positive") if args.restore_probe else None,
                "pdb_reuse": args.pdb_reuse if args.restore_probe else None, "seconds": elapsed,
                "native_sha256": binary_sha, "build_source_reuse": source_reuse,
+               "compiled_build_sha256": sha(output / "compiled-build.json") if compiled_build else None,
                "rebuilt_sha256": sha(PROJECT / "build/c1.dll"),
                "candidate_sha256": sha(output / "candidate.json"),
                "functions_sha256": sha(output / "functions.json"),

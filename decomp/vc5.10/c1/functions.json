@@ -55,7 +55,8 @@
     "_initialize_state_1277a",
     "_initialize_state_1277b",
     "_initialize_state_1279c",
-    "CompilerPchState::Initialize"
+    "CompilerPchState::Initialize",
+    "_initialize_state_127a6"
   ],
   "driver": [
     {
@@ -462,6 +463,12 @@
       "symbol": "?Initialize@CompilerPchState@@QAEPAU1@XZ",
       "start": 274800170,
       "end": 274800188,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_127a6",
+      "start": 274802598,
+      "end": 274802599,
       "role": "application"
     }
   ],

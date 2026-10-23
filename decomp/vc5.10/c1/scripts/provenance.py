@@ -92,3 +92,18 @@ def captured_native_binary(directory):
     binary = BINARY_STORE / expected
     assert binary.is_file() and sha(binary) == expected, 'missing or changed captured ELF'
     return binary
+
+
+def compiled_native_sources(record_path,destination,binary):
+    """Use real prebuild content, even if only current shared inputs changed."""
+    record=json.loads(record_path.read_text())
+    assert record['kind']=='native-build-source-content' and record['stable_before_after']
+    assert record['native_sha256']==sha(binary),'different compiled ELF'
+    records=record['sources'];assert records
+    prefix=str(PROJECT.relative_to(ROOT))+'/'
+    owned={str(p.relative_to(ROOT)) for p in native_sources() if p.is_relative_to(PROJECT)}
+    assert owned=={name for name in records if name.startswith(prefix)},'owned source set changed'
+    assert all(sha(ROOT/name)==records[name]['sha256'] for name in owned),'owned compiled source changed'
+    assert all(sha(Path(item['content']))==item['sha256'] for item in records.values()),'missing or corrupt compiled content'
+    destination.write_text(json.dumps(records,indent=2)+'\n')
+    return record

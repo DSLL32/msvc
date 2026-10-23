@@ -341,6 +341,11 @@
       "start_rva": 73258,
       "end_rva": 73276,
       "entry": 1
+    },
+    {
+      "start_rva": 75686,
+      "end_rva": 75687,
+      "entry": 1
     }
   ],
   "functions": [
@@ -1056,7 +1061,7 @@
         ]
       ],
       "source": "src/pch-state.cpp",
-      "status": "joint-new-candidate:tail-wrapper"
+      "status": "accepted-prefix"
     },
     {
       "name": "CompilerPchState::Initialize",
@@ -1070,7 +1075,20 @@
         ]
       ],
       "source": "src/pch-state.cpp",
-      "status": "joint-new-candidate:real-member"
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_127a6",
+      "native_symbol": "initialize_state_127a6",
+      "role": "application",
+      "chunks": [
+        [
+          75686,
+          75687
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "sole-new-candidate"
     }
   ],
   "text_data": [],
@@ -1085,10 +1103,13 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 75686,
-    "native_symbol": "initialize_state_127a6",
-    "kind": "initialization-callback",
-    "native_args": []
+    "rva": 75687,
+    "native_symbol": "c1_main",
+    "kind": "compiler-main",
+    "native_args": [
+      "argc",
+      "argv"
+    ]
   },
   "imports": [
     {
@@ -1293,7 +1314,7 @@
       "pointer_roles": "owned snapshot interior sentinels; cleared by genuine member before any semantic consumer"
     }
   },
-  "staging_role": "ROOT-approved ordered joint tail-wrapper1279c + actual member11e2a closure; prospective member-input receipts distinct and unaccepted",
+  "staging_role": "last empty initializer127a6 sole new candidate; approved PCH joint closure is accepted prefix",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -1336,7 +1357,7 @@
       "native_symbol": "destroy_pdb_context_238db"
     }
   ],
-  "joint_acceptance": {
+  "accepted_joint_prefix": {
     "kind": "ordered-tail-chain",
     "functions": [
       "_initialize_state_1279c",

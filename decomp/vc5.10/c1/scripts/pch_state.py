@@ -1,6 +1,7 @@
 """Typed PCH file/relocation context, genuine member ABI and bounded reset."""
 import json,re,struct,subprocess
 from provenance import captured_native_binary
+from pass_state import plain_globals_after_invoke_store
 MEMBERS={'image_count':0,'root_image':4,'images':8,'stored_file_position':12,'file_name':16,'file_offset':20,'file':24,'mapping_handles':28,'loaded_image_count':52,'scratch_arena':56,'original_pages':60,'mapped_pages':64}
 POINTERS=['root_image','images','file_name','file']+['mapping_handles[%d]'%i for i in range(6)]+['scratch_arena','original_pages','mapped_pages']
 METHOD='CompilerPchState::Initialize'
@@ -47,7 +48,9 @@ def validate(original,native,fields,state,sequence,probe,candidate,project):
  assert len(entries)==1
  seq,esp,receiver,stack=entries[0]
  assert (int(seq)<sequence if joint else int(seq)==sequence) and int(receiver,16)==module+0x58f68 and int(stack.split(',')[0],16)==module+0x12348
- if joint:assert state['args']=={} and candidate['expected_frontier']['rva']==0x127a6
+ if joint:
+  if candidate['expected_frontier']['kind']=='compiler-main':assert set(state['args'])=={'argc','argv'} and candidate['expected_frontier']['rva']==0x127a7
+  else:assert state['args']=={} and candidate['expected_frontier']['rva']==0x127a6
  else:assert state['args']==dict(this=current['live_addresses']['bss']+708)
  binary=captured_native_binary(native);symbols=subprocess.check_output(['nm','-S','--defined-only',str(binary)],text=True)
  address,size=(int(v,16) for v in re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] '+re.escape(LINKAGE)+'$',symbols,re.M).groups())
@@ -61,7 +64,7 @@ def validate(original,native,fields,state,sequence,probe,candidate,project):
  assert re.search(r'^\s*%x:\s+e8 (?:[0-9a-f]{2} ){3}[0-9a-f]{2}\s+call\s+%x\b'%(entry['return']-5,address),call,re.M)
  code=subprocess.check_output(['objdump','-d','-Mintel','--start-address='+str(address),'--stop-address='+str(address+size),str(binary)],text=True)
  returns=re.findall(r'\bret[ \t]*([^\n]*)',code);assert returns and all(value.strip()=='' for value in returns)
- if joint:validate_member(original,native,fields,state,sequence,probe,candidate,module,int(seq),entry)
+ if joint:validate_member(original,native,fields,state,sequence,probe,candidate,module,int(seq),entry,project)
  if probe=='normal':
   assert not (original/'pch-state-probe.txt').exists() and not re.findall(r'^pch-state-seed ',events,re.M)
   return
@@ -80,13 +83,18 @@ def validate(original,native,fields,state,sequence,probe,candidate,project):
   at(original,int(seqs[0]),item['before'],zero())
 
 
-def validate_member(original,native,fields,state,sequence,probe,candidate,module,entry_sequence,entry):
- assert candidate['joint_acceptance']['kind']=='ordered-tail-chain'
- assert candidate['joint_acceptance']['functions']==['_initialize_state_1279c',METHOD]
+def validate_member(original,native,fields,state,sequence,probe,candidate,module,entry_sequence,entry,project):
+ chain=candidate.get('joint_acceptance',candidate.get('accepted_joint_prefix'))
+ assert chain['kind']=='ordered-tail-chain' and chain['functions']==['_initialize_state_1279c',METHOD]
  member=next(row for row in candidate['functions'] if row['name']==METHOD)
  wrapper=next(row for row in candidate['functions'] if row['name']=='_initialize_state_1279c')
  assert member['chunks']==[[0x11e2a,0x11e3c]] and wrapper['chunks']==[[0x1279c,0x127a6]]
- assert member['status'].startswith('joint-new-candidate') and wrapper['status'].startswith('joint-new-candidate')
+ if candidate.get('joint_acceptance'):
+  assert member['status'].startswith('joint-new-candidate') and wrapper['status'].startswith('joint-new-candidate')
+ else:
+  assert member['status']==wrapper['status']=='accepted-prefix'
+  durable=json.loads((project/'functions.json').read_text())
+  assert all(name in durable['accepted'] for name in chain['functions'])
  relocated=(original/'relocated-text.bin').read_bytes()
  assert relocated[0x11e2a-0x1000:0x11e3c-0x1000]==bytes.fromhex('8b d1 57 b9 11 00 00 00 33 c0 8b fa f3 ab 8b c2 5f c3')
  assert relocated[0x1279c-0x1000:0x127a1-0x1000]==b'\xb9'+struct.pack('<I',module+0x58f68)
@@ -104,7 +112,11 @@ def validate_member(original,native,fields,state,sequence,probe,candidate,module
  wanted=bytearray(original_before);wanted[0x8f68:0x8fac]=bytes(68)
  assert bytes(wanted)==original_after and original_after==(original/('compiler-bss-%03d.bin'%sequence)).read_bytes()
  for region in ('compiler-data','compiler-snapshot','state'):
-  assert (original/('%s-%03d.bin'%(region,entry_sequence))).read_bytes()==(original/('%s-%03d.bin'%(region,rseq))).read_bytes()==(original/('%s-%03d.bin'%(region,sequence))).read_bytes()
+  before_region=(original/('%s-%03d.bin'%(region,entry_sequence))).read_bytes()
+  returned_region=(original/('%s-%03d.bin'%(region,rseq))).read_bytes()
+  assert before_region==returned_region
+  expected_region=plain_globals_after_invoke_store(original,returned_region,candidate,module) if region=='state' else returned_region
+  assert expected_region==(original/('%s-%03d.bin'%(region,sequence))).read_bytes()
  native_returns=json.loads((native/'pch-return-observations.json').read_text());assert len(native_returns)==1
  returned_native=native_returns[0]
  assert returned_native['pc']==entry['return'] and returned_native['eax']==entry['ecx'] and returned_native['esp']==entry['esp']+4 and returned_native['edi']==entry['edi']
