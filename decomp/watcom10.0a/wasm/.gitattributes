@@ -1,0 +1,2 @@
+# Captured streams retain their original bytes, including CRLF and final lines.
+cases/help-patched-flat-resource/reference/*.bin binary

@@ -30,12 +30,20 @@ without invoking Wine. See `cases/help/gs-diagnostic/`.
 `cases/help/gs-patch-proposal.json` proposes four fixed-size substitutions in a
 new `.patched/binb/WASM.EXE`, with an unchanged `.patched/binnt/WASM.EXE` loader
 copy. The approved copies have been created with their exact proposed hashes;
-`cases/help/gs-copy-creation.json` records their provenance. They have not run.
-A new reference capture must
-guard **every** resource-reader invocation's far selector against actual DS;
-the first observed reader call does not prove future callers. The changed
-`.patched` module/payload/program-name paths are new explicit case inputs,
-not normalized or relabeled versions of the failed baseline.
+`cases/help/gs-copy-creation.json` records their provenance. Their first approved
+guarded `/?` capture now completes with exit 1, 2,063 stdout bytes and empty
+stderr. All 43 reader invocations pass the actual selector/owner/thread checks,
+with 86 complete rearm checks and GS preserved through confirmed process exit.
+Target debug elapsed time is 678 ms; launcher execution is 1.819 s. No repeat
+has run and no application function is accepted.
+
+The new explicit case and raw receipt are under
+`cases/help-patched-flat-resource/`. Its event log is stored as ordinary gzip
+with the original raw hash retained. The actual `.patched/binnt` module,
+`.patched/binb` program/argv0 and two observed self-open paths are recorded
+without normalization. The first postlaunch self-open does not establish a
+complete open inventory or independently prove its resource role.
+`scripts/check-guarded-help-reference.py` checks this cached proof without Wine.
 
 The embedded CF header is at file offset `0x50`, the MZ header size in
 paragraphs. Its initialized image occupies file `[0x2200, 0x2a482)`, with entry

@@ -1,0 +1,128 @@
+{
+  "schema": 1,
+  "kind": "first guarded patched-path capture, raw evidence storage and artifact inventory",
+  "original_capture_directory": "/root/.ai-tmp/msvc2/watcom10.0a/wasm/help-patched-flat-resource/reference",
+  "capture_source": {
+    "path": "decomp/watcom10.0a/wasm/scripts/capture-guarded-help.py",
+    "sha256": "36739b79b94b7c925a337e8bcf19381d877fbb41abaf18800ad58247503f142e"
+  },
+  "raw_receipt": {
+    "path": "reference/receipt.json",
+    "sha256": "bf5aa5eb95e0824ed9a18fe0aea2d0687f1be1a5101559180f3b24a546747e30",
+    "unchanged": true
+  },
+  "raw_events": {
+    "original_path": "/root/.ai-tmp/msvc2/watcom10.0a/wasm/help-patched-flat-resource/reference/events.txt",
+    "raw_bytes": 241900,
+    "raw_sha256": "5f213700cefb1a1f3f4fca0313e862d4405a142a0f3ccc1f65c7bb46a341e112",
+    "stored_path": "reference/events.txt.gz",
+    "stored_sha256": "f14bd32ccc8bb4a2e7f128b5d6a8103a50000f5e817572c6f1e4f378be5132c0",
+    "encoding": "gzip, decompressed bytes exactly equal original events.txt"
+  },
+  "cwd_inventory_before": {
+    "condition": "Capture script required this path not to exist and created a new empty directory; stdin was a separate existing regular repository file",
+    "entries": []
+  },
+  "cwd_inventory_after": [
+    {
+      "path": "events.txt",
+      "kind": "file",
+      "role": "debugger observation log",
+      "bytes": 241900,
+      "sha256": "5f213700cefb1a1f3f4fca0313e862d4405a142a0f3ccc1f65c7bb46a341e112"
+    },
+    {
+      "path": "launcher.stderr.bin",
+      "kind": "file",
+      "role": "helper launcher stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "launcher.stdout.bin",
+      "kind": "file",
+      "role": "helper launcher stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "receipt.json",
+      "kind": "file",
+      "role": "capture recorder receipt",
+      "bytes": 5792,
+      "sha256": "bf5aa5eb95e0824ed9a18fe0aea2d0687f1be1a5101559180f3b24a546747e30"
+    },
+    {
+      "path": "stderr.bin",
+      "kind": "file",
+      "role": "target stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "stdout.bin",
+      "kind": "file",
+      "role": "target stdout",
+      "bytes": 2063,
+      "sha256": "e0432b8f7cae51bde2fac736a72650d4ea95d054aa59003a82b4ba28670f35fd"
+    }
+  ],
+  "program_artifacts": [],
+  "observed_paths_and_arguments": [
+    {
+      "kind": "actual-module-filename",
+      "value": "R:\\toolchains\\watcom10.0a\\.patched\\binnt\\WASM.EXE"
+    },
+    {
+      "kind": "actual-CreateFileA-filename",
+      "value": "R:\\toolchains\\watcom10.0a\\.patched\\binb\\WASM.EXE"
+    },
+    {
+      "kind": "actual-CF-program-name",
+      "value": "R:\\toolchains\\watcom10.0a\\.patched\\binb\\WASM.EXE"
+    },
+    {
+      "kind": "actual-CF-command-tail",
+      "value": "/?"
+    },
+    {
+      "kind": "actual-main-argument",
+      "value": "R:\\toolchains\\watcom10.0a\\.patched\\binb\\WASM.EXE"
+    },
+    {
+      "kind": "actual-main-argument",
+      "value": "/?"
+    },
+    {
+      "kind": "actual-CreateFileA-filename",
+      "value": "R:\\toolchains\\watcom10.0a\\.patched\\binb\\WASM.EXE"
+    }
+  ],
+  "observed_file_open_coverage": "Exactly loader-open and first-postlaunch self-open through stub caller004107f2; neither a complete open inventory nor independent resource-role proof",
+  "guard_counts": {
+    "guard-owner result=": 43,
+    "guard-reader result=": 43,
+    "guard-reader-return result=": 43,
+    "guard-owner-return result=": 43,
+    "guard-step-result=": 86,
+    "guard-step-rearmed": 86,
+    "guard-arm-readback result=": 86
+  },
+  "final_segments": {
+    "DS": "0x2b",
+    "GS": "0x63"
+  },
+  "actual_child_exit": {
+    "event_status": 1,
+    "actual_status": 1,
+    "handle_signaled": true
+  },
+  "result": {
+    "stdout_bytes": 2063,
+    "stdout_sha256": "e0432b8f7cae51bde2fac736a72650d4ea95d054aa59003a82b4ba28670f35fd",
+    "stderr_bytes": 0,
+    "normalization": "none",
+    "application_acceptance": "zero"
+  },
+  "repeat_status": "No repeat executed; pending review/explicit approval"
+}
