@@ -1232,5 +1232,12 @@
     "original": 230196,
     "size": 4,
     "source": "src/strip.c"
+  },
+  {
+    "name": "strip_padding",
+    "symbol": "_strip_padding",
+    "original": 230200,
+    "size": 16,
+    "source": "src/strip.c"
   }
 ]

@@ -517,3 +517,95 @@ unsigned short find_next_coff_function(CoffSymbol *symbol,
     if (!read_coff_auxiliary(auxiliary)) fatal_error(37, NULL, NULL);
     return 1;
 }
+
+/* DWORD padding for source names and line-subsection records. */
+unsigned long strip_padding[4] = { 0, 3, 2, 1 };
+
+void write_strip_records(void)
+{
+    CoffModule *module = strip_records, *next_module;
+    CoffSource *source, *next_source;
+    CoffFunctionLink *item, *next_item;
+    CoffFunction *record;
+    ModuleInfo *owner;
+    unsigned long header_size, file_size, line_size, total, length, i, count;
+    unsigned char *buffer, *file_record, *line_record;
+    unsigned long *file_offsets, *module_ranges, *function_offsets, *file_ranges;
+    unsigned long *addresses;
+    unsigned short *module_segments, *name_length, *numbers;
+    char *name;
+
+    while (module) {
+        header_size = 4+module->file_count*4+module->function_count*10;
+        if (module->function_count & 1) header_size += 2;
+        file_size = line_size = 0;
+        for (source = module->files; source; source = source->next) {
+            for (length = 0; source->name[length]; ++length) {}
+            file_size += length+source->function_count*12+6;
+            file_size += strip_padding[file_size & 3];
+            for (item = source->functions; item; item = item->next) {
+                count = item->record->line_count;
+                line_size += count*6+4;
+                if (count & 1) line_size += 2;
+            }
+        }
+        total = header_size+file_size+line_size;
+        buffer = malloc(total);
+        if (!buffer) fatal_error(13, NULL, NULL);
+        for (i = 0; i < total; ++i) buffer[i] = 0;
+        *(unsigned short *)buffer = module->file_count;
+        *(unsigned short *)(buffer+2) = module->function_count;
+        file_offsets = (unsigned long *)(buffer+4);
+        module_ranges = (unsigned long *)((unsigned char *)file_offsets+module->file_count*4);
+        module_segments = (unsigned short *)((unsigned char *)module_ranges+module->function_count*8);
+        file_record = buffer+header_size;
+        for (source = module->files; source; source = next_source) {
+            *(unsigned short *)file_record = source->function_count;
+            function_offsets = (unsigned long *)(file_record+4);
+            file_ranges = (unsigned long *)((unsigned char *)function_offsets+source->function_count*4);
+            name_length = (unsigned short *)((unsigned char *)file_ranges+source->function_count*8);
+            name = (char *)(name_length+1);
+            for (length = 0; source->name[length]; ++length) {}
+            line_record = (unsigned char *)name+length;
+            line_record += strip_padding[(line_record-buffer) & 3];
+            for (item = source->functions; item; item = next_item) {
+                record = item->record;
+                count = record->line_count;
+                *(unsigned short *)line_record = record->section;
+                *(unsigned short *)(line_record+2) = (unsigned short)count;
+                addresses = (unsigned long *)(line_record+4);
+                numbers = (unsigned short *)((unsigned char *)addresses+count*4);
+                for (i = 0; i < count; ++i) {
+                    addresses[i] = record->lines[i].offset;
+                    numbers[i] = record->lines[i].line;
+                }
+                *function_offsets++ = line_record-buffer;
+                *file_ranges++ = record->offset;
+                *file_ranges++ = record->end;
+                *module_ranges++ = record->offset;
+                *module_ranges++ = record->end;
+                *module_segments++ = record->section;
+                line_record += count*6+4;
+                if (count & 1) line_record += 2;
+                next_item = item->next;
+                free(record->lines);
+                free(item);
+            }
+            *file_offsets++ = file_record-buffer;
+            /* Original writes a WORD length, then starts the counted name at
+               its high byte, leaving a BYTE count in the serialized record. */
+            *name_length = (unsigned short)length;
+            strncpy(name-1, source->name, *name_length);
+            file_record = line_record;
+            next_source = source->next;
+            free(source->name);
+            free(source);
+        }
+        for (owner = module_list; owner && owner->module != module->module; owner = owner->next) {}
+        if (owner) { owner->lines = buffer; owner->line_size = total; }
+        else fatal_error(12, NULL, NULL);
+        next_module = module->next;
+        free(module);
+        module = next_module;
+    }
+}

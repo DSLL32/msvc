@@ -119,5 +119,5 @@ int __fastcall compare_recursive_type(TypeRecord *entry, unsigned short type, un
 
 
 
-void write_strip_records(void) { __asm { int 3 } }
+
 void free_strip_records(void) { __asm { int 3 } }

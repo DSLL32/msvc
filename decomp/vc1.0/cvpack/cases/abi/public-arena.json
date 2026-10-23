@@ -10,7 +10,7 @@
   "initialized": "Completed intern_public and intern_global share allocate_symbol: same next/name_offset/hash/offset/segment/full record/padding writes; same reserved6..7 and suffix2 remain undefined, raw retained. Distinct public/global bucket families/counts/recordbytes must completely partition the one current block.",
   "sources": {
     "src/modules.c": "72c7e2d4fa232020d5154aa027aeac1d26dfbf3202f16f88b91e86f3b8ca0e36",
-    "src/image.h": "14f3a483329f37d8b04064edb7181a58e53a9c61818814df4d1130ec7766a97e"
+    "src/image.h": "14ac422e881af84a5a262256d0be956b81ac5ff65b39a3419c1eb5e44cf1a2cd"
   },
   "instructions": [
     {
