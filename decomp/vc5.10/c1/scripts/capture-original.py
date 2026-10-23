@@ -121,6 +121,9 @@ def main():
     if candidate.get('system_info_observers'):
         assert candidate['system_info_observers']==dict(before_call_rva=0x127ec,after_call_rva=0x127f2,iat_rva=0x5d1b4,output_rva=0x5f508,output_bytes=36)
         (output/'system-info-observers.txt').write_text('127ec\n127f2\n')
+    if candidate.get('scaler_observers'):
+        assert candidate['scaler_observers']['rvas']==[0x12a7f,0x12a85,0x12a8b,0x12a96,0x12a29,0x12a51,0x12a57]
+        (output/'scaler-observers.txt').write_text(''.join('%x\n'%rva for rva in candidate['scaler_observers']['rvas']))
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))

@@ -1,0 +1,74 @@
+{
+  "kind": "actual first target-instruction boundary x87 input; request for typed host-input review, no seed implemented",
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-scaler-001",
+  "original_receipt_sha256": "2da07b34a4dfbdaafbf6b94f52f02d1d88a1a4659dcd108fdfd50c9805ced91e",
+  "candidate_sha256": "98fb659b634a022d9b5c50e103b10b5476ec33fe0c908b71c8b57d7277cd6298",
+  "target_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+  "canonical_crt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "environment_sha256": "ec8a3f94a1a5d916ef7f3da4a657ddbda0fbf871d557ef29b8233fddcb1bbbe2",
+  "events_sha256": "acc731c25056387bcaf1f1a21f9af308c5bf04e07da485223db354208cfb5deb",
+  "raw_float_save_sha256": "063e3aff221e9d15e4606537445329c40040763bd20bf369b01ba328df6b951d",
+  "raw_float_save_file": "original-entry-float-save-112.bin",
+  "guard": {
+    "load_event": "module name=c1n32_l.dll actual=10600000 preferred=10600000 entry=0001202a",
+    "first_original_byte": 83,
+    "guard_byte": 204,
+    "trap_sequence": 0,
+    "entry_rva": 73770,
+    "reason": 1,
+    "reserved": 0,
+    "no_target_instruction_executed": true,
+    "proof": "LOAD_DLL entry guard patched verified non-reloc byte before target CRT execution; relocated snapshot/fullmask installed at first guard trap; noTLS/acyclicdeps established in inventory/lifecycle"
+  },
+  "actual_known_input": {
+    "control_word": 639,
+    "status_word": 32,
+    "tag_word": 65535,
+    "top": 0,
+    "live_stack": [],
+    "all_slots_empty": true
+  },
+  "unmodeled_not_seeded": [
+    "upper16 Windows DWORD transport bits",
+    "lastinstruction/data pointers/selectors",
+    "empty-register payload bytes",
+    "Cr0NpxState and unrelated host state"
+  ],
+  "native_diagnostic_directory": "/root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-scaler-denial-003",
+  "native_receipt_sha256": "ee1d47fd51f8a8b6adbf00baf43c644e86e55a6ce2e5415a9d522bb0299823aa",
+  "native_first_entry": {
+    "pc": 134523104,
+    "esp": 4294957004,
+    "return": 134532571,
+    "args": [
+      134663604,
+      1,
+      0
+    ],
+    "fp": {
+      "cw": 639,
+      "sw": 0,
+      "tag": 65535,
+      "top": 0,
+      "registers": [
+        "00000000000000000000",
+        "00000000000000000000",
+        "00000000000000000000",
+        "00000000000000000000",
+        "00000000000000000000",
+        "00000000000000000000",
+        "00000000000000000000",
+        "00000000000000000000"
+      ],
+      "live": []
+    }
+  },
+  "provider_runtime_code": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-scaler-001/ftol-provider-code-000.bin",
+    "sha256": "d0a2aca68648a0ae9d5cbfae1b276d4a64d4f797fc0c60f28b64096cdfa3148c",
+    "bytes": 39,
+    "iat_rva": 381132,
+    "actual_address": 2013285825
+  },
+  "state_effect": "Original SW20 exists before target execution and is unchanged throughout integer startup. Native initialSW0 is a host input difference; no frontier or target fix authorized."
+}

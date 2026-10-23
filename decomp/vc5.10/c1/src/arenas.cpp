@@ -50,11 +50,20 @@ int RECON_THISCALL CompilerArena::Initialize(CompilerArenaDescriptor *descriptor
     return 1;
 }
 
+/* The compiler's _ftol conversion produces a signed QWORD. The caller uses
+ * only its low DWORD before rounding the reservation to the commit unit. */
 unsigned __cdecl arena_reservation_bytes(CompilerArenaDescriptor *descriptor)
 {
-    __asm { int 3 }
-    return 0;
+    __int64 converted;
+    unsigned unit = descriptor->commit_unit;
+    unsigned size;
+
+    converted = (__int64)((double)descriptor->reserve_bytes *
+                          c1_data.memory_percent * -0.01);
+    size = (unit - (unsigned)converted - 1) & ~(unit - 1);
+    return size ? size : unit;
 }
+
 
 void RECON_THISCALL CompilerArena::Reset(void)
 {

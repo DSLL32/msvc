@@ -1,0 +1,82 @@
+{
+  "status": "conversion values/final state match; whole case held on host-input/allocation support",
+  "acceptance": false,
+  "original_receipt_sha256": "2da07b34a4dfbdaafbf6b94f52f02d1d88a1a4659dcd108fdfd50c9805ced91e",
+  "native_receipt_sha256": "fb59af54c014c110212a659ab7874d6256241f0675988096d7eadb9862703b0f",
+  "input": {
+    "reserve_bytes": 52428800,
+    "memory_percent": 100,
+    "commit_unit": 65536
+  },
+  "signed_qword": -52428800,
+  "qword_hex": "fffffffffce00000",
+  "rounded_return": 52428800,
+  "initial_state_match": true,
+  "original_initial": {
+    "cw": 639,
+    "sw": 32,
+    "tag": 65535,
+    "top": 0,
+    "live": []
+  },
+  "native_initial": {
+    "cw": 639,
+    "sw": 32,
+    "tag": 65535,
+    "top": 0,
+    "live": []
+  },
+  "comparisons": [
+    {
+      "label": "before signed load",
+      "original_rva": 76415,
+      "native_pc": 134532030,
+      "architectural_state_match": true,
+      "original_status": 32,
+      "native_status": 32
+    },
+    {
+      "label": "after signed reserve load",
+      "original_rva": 76421,
+      "native_pc": 134532041,
+      "architectural_state_match": true,
+      "original_status": 14368,
+      "native_status": 14368
+    },
+    {
+      "label": "after signed percentage multiplication",
+      "original_rva": 76427,
+      "native_pc": 134532046,
+      "architectural_state_match": true,
+      "original_status": 14368,
+      "native_status": 14368
+    },
+    {
+      "label": "before QWORD conversion",
+      "original_rva": 76460,
+      "native_pc": 134532054,
+      "architectural_state_match": true,
+      "original_status": 14368,
+      "native_status": 14368
+    },
+    {
+      "label": "after QWORD conversion",
+      "original_rva": 76438,
+      "native_pc": 134532079,
+      "architectural_state_match": true,
+      "original_status": 32,
+      "native_status": 32
+    }
+  ],
+  "final_state_match": true,
+  "temporary_depths": [
+    0,
+    1,
+    2,
+    1,
+    2,
+    1
+  ],
+  "original_return_sequence": 130,
+  "captured_native_elf_sha256": "6c0c2f4b62de603863b85d74961bee2add82a18c2a45746a2ce5111e9594761d"
+}

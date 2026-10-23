@@ -1,0 +1,65 @@
+{
+  "kind": "actual ELF x87 conversion observer points",
+  "elf_sha256": "6c0c2f4b62de603863b85d74961bee2add82a18c2a45746a2ce5111e9594761d",
+  "function": "arena_reservation_bytes",
+  "start": 134531984,
+  "size": 187,
+  "instructions": [
+    {
+      "pc": 134532030,
+      "bytes": "db45e4",
+      "mnemonic": "fild",
+      "operands": "dword ptr [ebp - 0x1c]"
+    },
+    {
+      "pc": 134532041,
+      "bytes": "db45e0",
+      "mnemonic": "fild",
+      "operands": "dword ptr [ebp - 0x20]"
+    },
+    {
+      "pc": 134532044,
+      "bytes": "dec9",
+      "mnemonic": "fmulp",
+      "operands": "st(1)"
+    },
+    {
+      "pc": 134532046,
+      "bytes": "dd05504f0608",
+      "mnemonic": "fld",
+      "operands": "qword ptr [0x8064f50]"
+    },
+    {
+      "pc": 134532052,
+      "bytes": "dec9",
+      "mnemonic": "fmulp",
+      "operands": "st(1)"
+    },
+    {
+      "pc": 134532054,
+      "bytes": "d97dde",
+      "mnemonic": "fnstcw",
+      "operands": "word ptr [ebp - 0x22]"
+    },
+    {
+      "pc": 134532070,
+      "bytes": "d96ddc",
+      "mnemonic": "fldcw",
+      "operands": "word ptr [ebp - 0x24]"
+    },
+    {
+      "pc": 134532073,
+      "bytes": "df7de8",
+      "mnemonic": "fistp",
+      "operands": "qword ptr [ebp - 0x18]"
+    },
+    {
+      "pc": 134532076,
+      "bytes": "d96dde",
+      "mnemonic": "fldcw",
+      "operands": "word ptr [ebp - 0x22]"
+    }
+  ],
+  "converted_pc": 134532079,
+  "result_ebp_displacement": -24
+}

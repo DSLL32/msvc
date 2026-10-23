@@ -126,13 +126,6 @@
     "evidence": "actual arena initializer callee; named INT3 only"
   },
   {
-    "name": "_arena_reservation_bytes",
-    "start": 274803322,
-    "end": 274803323,
-    "pending_extent": true,
-    "evidence": "actual cdecl descriptor input; named INT3 only"
-  },
-  {
     "name": "CompilerArena::Reset",
     "symbol": "?Reset@CompilerArena@@QAEXXZ",
     "start": 274803378,

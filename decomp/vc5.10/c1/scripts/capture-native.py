@@ -63,6 +63,10 @@ def main():
     if args.system_info_reference:
         from system_info_reference import encode
         system_reference=encode(args.system_info_reference,output/'system-info-profile.bin',candidate_path)
+    x87_reference=None
+    if candidate.get('scaler_observers'):
+        from x87_reference import bind
+        x87_reference=bind(args.system_info_reference,output)
     field_map = json.loads((PROJECT / candidate["field_map"]).read_text()) if candidate.get("field_map") else {}
     buffer_models = field_map.get("output_buffers", [])
     import_boundary = candidate.get("expected_frontier", {}).get("kind") == "import-boundary"
@@ -79,11 +83,12 @@ bt
 python
 import gdb,json
 frame=gdb.newest_frame()
-args={name:int(gdb.parse_and_eval('(unsigned int)'+name)) for name in %r}
+expected_argument_names=%r
 block=frame.block()
 while block and not block.function:block=block.superblock
 assert block and block.function
 formals=[{'name':symbol.name,'type':str(symbol.type)} for symbol in block if symbol.is_argument]
+args={row['name']:int(frame.read_var(row['name']).cast(gdb.lookup_type('unsigned int')))for row in formals}
 value={'symbol':frame.name(),'pc':int(gdb.parse_and_eval('$pc')),'args':args,'formal_inventory':formals}
 assert {row['name'] for row in formals}==set(args), 'omitted or invented native formal'
 
@@ -470,6 +475,11 @@ ActualArenaMemberEntry('*0x%x')
         commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(arena_entries,indent=2)+'\\n')\n"%str(output/'arena-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(primary_entries,indent=2)+'\\n')\n"%str(output/'primary-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(arena_member_entries,indent=2)+'\\n')\n"%str(output/'arena-member-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
+        if candidate.get('scaler_observers'):
+            from scaler_native_probe import probes
+            allocation_probe=allocation_probe.replace('\nend\n','\n'+probes(binary,output)+'end\n')
+            for name,expression in [('arena-reset-entries.json','arena_reset_entries'),('initial-x87.json','initial_x87_records'),('scaler-fpu.json','scaler_fp_records'),('scaler-entries.json','scaler_entries'),('scaler-returns.json','scaler_returns')]:
+                commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')\n"%(str(output/name),expression)+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         if candidate.get('allocation_observers'):
             table=subprocess.check_output(['nm','-S','--defined-only',str(binary)],text=True)
             api_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] recon_VirtualAlloc$',table,re.M)[1],16)
@@ -500,6 +510,15 @@ class WorkApiEntry(gdb.Breakpoint):
         frame=gdb.newest_frame()
         # Host/shim initialization does not call this API in this case. Require
         # the actual application allocator as caller, with no filtered calls.
+        if frame.older().name()=='CompilerArena::Initialize':
+            pc=int(gdb.parse_and_eval('(unsigned int)$pc'));esp=int(gdb.parse_and_eval('(unsigned int)$esp'))
+            words=list(struct.unpack('<5I',gdb.selected_inferior().read_memory(esp,20).tobytes()))
+            block=gdb.block_for_pc(pc)
+            while block and not block.function:block=block.superblock
+            formals=[{'name':symbol.name,'type':str(symbol.type)}for symbol in block if symbol.is_argument]
+            arena_api_entries.append({'pc':pc,'esp':esp,'return':words[0],'args':words[1:],'formal_inventory':formals,'last_error':int(gdb.parse_and_eval('last_error')),'fp':capture_x87(),'compiler_state':capture_modeled(),
+              'preserved':{name:int(gdb.parse_and_eval('(unsigned int)$'+name))for name in ('ebx','esi','edi','ebp')}})
+            ArenaApiReturn(words[0]);return False
         assert frame.older().name()=='reserve_work_buffer'
         pc=int(gdb.parse_and_eval('$pc'));esp=int(gdb.parse_and_eval('(unsigned int)$esp'))
         words=list(struct.unpack('<5I',gdb.selected_inferior().read_memory(esp,20).tobytes()))
@@ -544,6 +563,18 @@ class WorkReserveEntry(gdb.Breakpoint):
 WorkApiEntry('*0x%x')
 WorkReserveEntry('*0x%x')
 """%(api_address,reserve_address)
+            if candidate.get('scaler_observers'):
+                api_probe="""arena_api_entries=[]
+arena_api_returns=[]
+class ArenaApiReturn(gdb.Breakpoint):
+    def __init__(self,address):super(ArenaApiReturn,self).__init__('*0x%%x'%%address)
+    def stop(self):
+        arena_api_returns.append({'pc':int(gdb.parse_and_eval('(unsigned int)$pc')),'esp':int(gdb.parse_and_eval('(unsigned int)$esp')),'eax':int(gdb.parse_and_eval('(unsigned int)$eax')),
+          'last_error':int(gdb.parse_and_eval('last_error')),'fp':capture_x87(),'compiler_state':capture_modeled(),'maps':open('/proc/%%d/maps'%%gdb.selected_inferior().pid).read(),
+          'preserved':{name:int(gdb.parse_and_eval('(unsigned int)$'+name))for name in ('ebx','esi','edi','ebp')}});self.enabled=False;return False
+""".replace('%%','%')+api_probe
+                for name,expression in [('arena-api-entries.json','arena_api_entries'),('arena-api-returns.json','arena_api_returns')]:
+                    commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')\n"%(str(output/name),expression)+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
             api_probe=api_probe.replace('WORK_OUTPUT',repr(str(output)))
             allocation_probe=allocation_probe.replace('\nend\n','\n'+api_probe+'end\n')
             for name,expression in [('work-api-entries.json','work_api_entries'),('work-api-returns.json','work_api_returns'),('work-reserve-entries.json','work_reserve_entries'),('work-reserve-returns.json','work_reserve_returns')]:
@@ -836,6 +867,9 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
     environment=os.environ.copy()
     environment.pop('RECON_C1_SYSTEM_INFO_PROFILE',None)
     environment.pop('RECON_C1_SYSTEM_INFO_REFERENCE',None)
+    environment.pop('RECON_C1_X87_ENTRY_REFERENCE',None)
+    if x87_reference:
+        environment['RECON_C1_X87_ENTRY_REFERENCE']=x87_reference
     if system_reference:
         expected_probe='restore'if args.restore_probe else 'normal'
         assert json.loads((args.system_info_reference/'receipt.json').read_text())['probe']==expected_probe

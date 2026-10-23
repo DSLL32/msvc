@@ -141,7 +141,7 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
     scanner_argument=expected.get('kind')=='scanner-argument'
     post_internal=expected.get('kind')=='post-internal-switches'
     post_system=expected.get('kind')=='post-system-info'
-    arena_initialization=expected.get('kind') in ('arena-initialization','arena-reservation','arena-size-calculation')
+    arena_initialization=expected.get('kind') in ('arena-initialization','arena-reservation','arena-size-calculation','arena-initialized')
     compiler_flow = arena_initialization or post_system or post_internal or scanner_argument or main_switches or work_allocation or pass_boundary or pass_initializer or compiler_allocation or initialization_callback or compiler_main or main_helper
     if compiler_flow:
         case = candidate.get("case_contract") or json.loads((PROJECT / "cases/minimal/case.json").read_text())
@@ -200,6 +200,7 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
             assert state['caller']['symbol']==expected['caller']['native_symbol']
             if expected['kind']=='arena-initialization':assert state['args']=={}
             elif expected['kind']=='arena-reservation':assert set(state['args'])=={'this','descriptor','address'}
+            elif expected['kind']=='arena-initialized':assert set(state['args'])=={'this'}
             else:assert set(state['args'])=={'descriptor'}
             invocations=[row for row in traps if int(row[1],16)==0x12229];assert len(invocations)==1
             args=[int(value,16)for value in invocations[0][2].split(',')][1:4]
@@ -310,7 +311,7 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
         assert item["end_rva"] - item["start_rva"] == 6
         if not prospective_tail_chain:
             slot = report["import_catalogs"]["original"]["slots"][str(0x10600000 + item["iat_rva"])]
-            assert slot == {"dll": item["provider"], "name": "_initterm"}
+            assert slot == {"dll": item["provider"], "name": item.get("import_name", "_initterm")}
     labels = ["module identity/token", "CRT attach count", "null raw callback", "Win32 last error", "x87 control WORD"]
     labels.append("actual pass argc/argv/BOOL and NUL terminator" if compiler_flow else "reason/reserved")
     if candidate.get("field_map"):

@@ -1,0 +1,22 @@
+
+/root/msvc2/toolchains/5.10/bin/MSVCRT.DLL:     file format pei-i386
+
+
+Disassembly of section .text:
+
+78004dc1 <.text+0x3dc1>:
+78004dc1:	55                   	push   ebp
+78004dc2:	8b ec                	mov    ebp,esp
+78004dc4:	83 c4 f4             	add    esp,0xfffffff4
+78004dc7:	9b d9 7d fe          	fstcw  WORD PTR [ebp-0x2]
+78004dcb:	9b                   	fwait
+78004dcc:	66 8b 45 fe          	mov    ax,WORD PTR [ebp-0x2]
+78004dd0:	80 cc 0c             	or     ah,0xc
+78004dd3:	66 89 45 fc          	mov    WORD PTR [ebp-0x4],ax
+78004dd7:	d9 6d fc             	fldcw  WORD PTR [ebp-0x4]
+78004dda:	df 7d f4             	fistp  QWORD PTR [ebp-0xc]
+78004ddd:	d9 6d fe             	fldcw  WORD PTR [ebp-0x2]
+78004de0:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+78004de3:	8b 55 f8             	mov    edx,DWORD PTR [ebp-0x8]
+78004de6:	c9                   	leave
+78004de7:	c3                   	ret

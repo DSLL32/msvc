@@ -65,7 +65,9 @@
     "_initialize_state_12998",
     "_initialize_compiler_arenas",
     "_initialize_primary_arenas",
-    "CompilerArena::Initialize"
+    "CompilerArena::Initialize",
+    "_arena_reservation_bytes",
+    "import:_ftol"
   ],
   "driver": [
     {
@@ -579,6 +581,18 @@
         [
           274924831,
           274924836
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_arena_reservation_bytes",
+      "start": 274803322,
+      "end": 274803372,
+      "code_chunks": [
+        [
+          274924836,
+          274924843
         ]
       ],
       "role": "application"

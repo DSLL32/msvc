@@ -21,7 +21,7 @@ int c1_native_host(int argc, char **argv)
     C1Initializer *allocated;
     BOOL status;
     int pass_result;
-    const char *system_profile, *system_reference;
+    const char *system_profile, *system_reference, *x87_reference;
     char *pass_args[] = { "c1.dll", "-il", ".\\minimal", "-f", "test.c", "-W", "1", "-G5", "-Ot", "-Ob0", "-nologo", NULL };
     system_profile = recon_host_getenv("RECON_C1_SYSTEM_INFO_PROFILE");
     system_reference = recon_host_getenv("RECON_C1_SYSTEM_INFO_REFERENCE");
@@ -41,6 +41,9 @@ int c1_native_host(int argc, char **argv)
     if (!c1_host_module) return 2;
     c1_host_identity = recon_module_identity(c1_host_module);
     if (!c1_host_identity) return 2;
+    x87_reference = recon_host_getenv("RECON_C1_X87_ENTRY_REFERENCE");
+    if (x87_reference)
+        recon_apply_x87_empty_entry_profile(x87_reference, 0x027f, 0x0020, 0xffff);
     /* Explicit initial state captured at the original guarded DLL entry. */
     SetLastError(14007);
     status = _DllMainCRTStartup(c1_host_module, DLL_PROCESS_ATTACH, NULL);

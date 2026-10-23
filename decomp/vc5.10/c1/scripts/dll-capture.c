@@ -55,6 +55,9 @@ static int parser_return_active, parser_probe;
 static Range getenv_observer;
 static Range system_observers[2];
 static int system_probe;
+static Range scaler_observers[7];
+static int scaler_probe;
+static DWORD arena_allocation_esp, arena_allocation_error;
 static DWORD system_before_esp, system_before_error;
 
 
@@ -172,6 +175,7 @@ static void module_loaded(DWORD address, HANDLE file)
 }
 
 static void save_remote_state(const char *, unsigned, DWORD, DWORD);
+static DWORD exported(DWORD, const char *);
 
 static void prepare_mask(void)
 {
@@ -263,6 +267,26 @@ static void prepare_mask(void)
             }
             if (fscanf(probe, "%lx", &rva) != EOF) fail("extra systeminfo observer metadata");
             fclose(probe); system_probe = 1;
+        }
+    }
+    {
+        FILE *probe = fopen("scaler-observers.txt", "r");
+        static DWORD const expected[7] = {0x12a7f,0x12a85,0x12a8b,0x12a96,0x12a29,0x12a51,0x12a57};
+        DWORD rva, provider;
+        unsigned index;
+        if (probe) {
+            for (index = 0; index < 7; ++index) {
+                if (fscanf(probe, "%lx", &rva) != 1 || rva != expected[index]) fail("scaler observer metadata");
+                readmem(base + rva, &first, 1);
+                if (first != snapshot[rva - code_rva] || first == 0xcc) fail("scaler observer outside owned source");
+                scaler_observers[index].first = rva; scaler_observers[index].saved = first; patch(base + rva, 0xcc);
+            }
+            if (fscanf(probe, "%lx", &rva) != EOF) fail("extra scaler observer");
+            fclose(probe); scaler_probe = 1;
+            readmem(base + 0x5d0cc, &provider, 4);
+            if (provider != exported(crt_base, "_ftol")) fail("canonical ftol provider");
+            fprintf(events, "ftol-provider iat=0005d0cc resolved=%08lx\n", provider);
+            save_remote_state("ftol-provider-code", 0, provider, 39);
         }
     }
     save_remote_state("compiler-callbacks", 0, base + 0x69000, 34 * 4);
@@ -911,7 +935,8 @@ int main(int argc, char **argv)
             memset(&context, 0, sizeof(context)); context.ContextFlags = CONTEXT_FULL | CONTEXT_FLOATING_POINT;
             if (!GetThreadContext(thread, &context)) fail("GetThreadContext");
             if (code == EXCEPTION_SINGLE_STEP && pending != -1) {
-                if (pending == -21 || pending == -22) patch(base + system_observers[-pending - 21].first, 0xcc);
+                if (pending <= -30 && pending >= -36) patch(base + scaler_observers[-pending - 30].first, 0xcc);
+                else if (pending == -21 || pending == -22) patch(base + system_observers[-pending - 21].first, 0xcc);
                 else if (pending == -20) patch(base + getenv_observer.first, 0xcc);
                 else if (pending <= -3) patch(base + allocation_observers[-pending - 3].first, 0xcc);
                 else if (pending == -2) patch(restore_observer, 0xcc);
@@ -1019,12 +1044,40 @@ int main(int argc, char **argv)
                         save_remote_state("system-info-after", 0, base + 0x5f508, sizeof(info));
                     }
                 }
+                if (scaler_probe) {
+                    FILE *floating;
+                    char name[64];
+                    sprintf(name, "fpu-%03u.bin", sequence);
+                    floating = fopen(name, "wb");
+                    if (!floating || fwrite(&context.FloatSave, 1, sizeof(context.FloatSave), floating) != sizeof(context.FloatSave)) fail("floating context record");
+                    fclose(floating);
+                    fprintf(events, "fpu seq=%u rva=%08lx eax=%08lx edx=%08lx esp=%08lx cw=%08lx sw=%08lx tag=%08lx\n", sequence, address-base, context.Eax, context.Edx, context.Esp, context.FloatSave.ControlWord, context.FloatSave.StatusWord, context.FloatSave.TagWord);
+                    if (address == base + 0x12a51) {
+                        DWORD arguments[4], provider;
+                        readmem(context.Esp, arguments, sizeof(arguments)); readmem(base + 0x5d1c4, &provider, 4);
+                        arena_allocation_esp = context.Esp; arena_allocation_error = thread_error(&context, thread);
+                        fprintf(events, "arena-allocation-before seq=%u esp=%08lx address=%08lx bytes=%08lx kind=%08lx protection=%08lx provider=%08lx error=%lu\n", sequence, context.Esp, arguments[0], arguments[1], arguments[2], arguments[3], provider, arena_allocation_error);
+                    } else if (address == base + 0x12a57) {
+                        MEMORY_BASIC_INFORMATION region;
+                        DWORD size;
+                        fprintf(events, "arena-allocation-after seq=%u esp=%08lx before-esp=%08lx result=%08lx error=%lu before-error=%lu\n", sequence, context.Esp, arena_allocation_esp, context.Eax, thread_error(&context, thread), arena_allocation_error);
+                        if (context.Eax) {
+                            size = VirtualQueryEx(child, (LPVOID)context.Eax, &region, sizeof(region));
+                            if (size != sizeof(region)) fail("arena reservation region query");
+                            fprintf(events, "arena-region base=%08lx allocation=%08lx allocation-protect=%08lx bytes=%08lx state=%08lx protect=%08lx type=%08lx\n", (DWORD)region.BaseAddress, (DWORD)region.AllocationBase, region.AllocationProtect, region.RegionSize, region.State, region.Protect, region.Type);
+                        }
+                    }
+                }
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;
                 if (i < count) {
                     patch(address, ranges[i].saved); pending = i;
                     context.EFlags |= 0x100;
+                } else if (scaler_probe && (address == base + 0x12a7f || address == base + 0x12a85 || address == base + 0x12a8b || address == base + 0x12a96 || address == base + 0x12a29 || address == base + 0x12a51 || address == base + 0x12a57)) {
+                    for (i = 0; i < 7; ++i) if (address == base + scaler_observers[i].first) break;
+                    if (i == 7) fail("unknown scaler observer");
+                    patch(address, scaler_observers[i].saved); pending = -(int)i - 30; context.EFlags |= 0x100;
                 } else if (restore_probe && address == restore_observer) {
                     patch(address, restore_observer_saved); pending = -2;
                     context.EFlags |= 0x100;

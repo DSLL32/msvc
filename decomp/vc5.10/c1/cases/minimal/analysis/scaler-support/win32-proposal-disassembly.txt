@@ -1,0 +1,43 @@
+
+build/scaler-proposal.obj:     file format pe-i386
+
+
+Disassembly of section .text:
+
+00000000 <_arena_reservation_bytes>:
+   0:	55                   	push   ebp
+   1:	8b ec                	mov    ebp,esp
+   3:	83 ec 14             	sub    esp,0x14
+   6:	8b 45 08             	mov    eax,DWORD PTR [ebp+0x8]
+   9:	8b 48 08             	mov    ecx,DWORD PTR [eax+0x8]
+   c:	89 4d f8             	mov    DWORD PTR [ebp-0x8],ecx
+   f:	8b 55 08             	mov    edx,DWORD PTR [ebp+0x8]
+  12:	db 42 04             	fild   DWORD PTR [edx+0x4]
+  15:	da 0d 3c 00 00 00    	fimul  DWORD PTR ds:0x3c
+			17: dir32	_c1_data
+  1b:	dc 0d 00 00 00 00    	fmul   QWORD PTR ds:0x0
+			1d: dir32	$T22019
+  21:	e8 00 00 00 00       	call   26 <_arena_reservation_bytes+0x26>
+			22: DISP32	__ftol
+  26:	89 45 f0             	mov    DWORD PTR [ebp-0x10],eax
+  29:	89 55 f4             	mov    DWORD PTR [ebp-0xc],edx
+  2c:	8b 45 f0             	mov    eax,DWORD PTR [ebp-0x10]
+  2f:	8b 4d f8             	mov    ecx,DWORD PTR [ebp-0x8]
+  32:	2b c8                	sub    ecx,eax
+  34:	83 e9 01             	sub    ecx,0x1
+  37:	8b 55 f8             	mov    edx,DWORD PTR [ebp-0x8]
+  3a:	83 ea 01             	sub    edx,0x1
+  3d:	f7 d2                	not    edx
+  3f:	23 ca                	and    ecx,edx
+  41:	89 4d fc             	mov    DWORD PTR [ebp-0x4],ecx
+  44:	83 7d fc 00          	cmp    DWORD PTR [ebp-0x4],0x0
+  48:	74 08                	je     52 <_arena_reservation_bytes+0x52>
+  4a:	8b 45 fc             	mov    eax,DWORD PTR [ebp-0x4]
+  4d:	89 45 ec             	mov    DWORD PTR [ebp-0x14],eax
+  50:	eb 06                	jmp    58 <_arena_reservation_bytes+0x58>
+  52:	8b 4d f8             	mov    ecx,DWORD PTR [ebp-0x8]
+  55:	89 4d ec             	mov    DWORD PTR [ebp-0x14],ecx
+  58:	8b 45 ec             	mov    eax,DWORD PTR [ebp-0x14]
+  5b:	8b e5                	mov    esp,ebp
+  5d:	5d                   	pop    ebp
+  5e:	c3                   	ret

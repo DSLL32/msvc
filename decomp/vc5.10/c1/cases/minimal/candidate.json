@@ -431,6 +431,21 @@
       "start_rva": 197919,
       "end_rva": 197924,
       "entry": 0
+    },
+    {
+      "start_rva": 76410,
+      "end_rva": 76460,
+      "entry": 1
+    },
+    {
+      "start_rva": 197924,
+      "end_rva": 197931,
+      "entry": 0
+    },
+    {
+      "start_rva": 76460,
+      "end_rva": 76466,
+      "entry": 1
     }
   ],
   "functions": [
@@ -1323,7 +1338,24 @@
         ]
       ],
       "source": "src/arenas.cpp",
-      "status": "sole-new-candidate"
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_arena_reservation_bytes",
+      "native_symbol": "arena_reservation_bytes",
+      "role": "application",
+      "chunks": [
+        [
+          76410,
+          76460
+        ],
+        [
+          197924,
+          197931
+        ]
+      ],
+      "source": "src/arenas.cpp",
+      "status": "sole-new-candidate; held for actual conversion/allocation support proof"
     }
   ],
   "text_data": [
@@ -1345,15 +1377,17 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 76410,
-    "native_symbol": "arena_reservation_bytes",
-    "kind": "arena-size-calculation",
+    "rva": 76466,
+    "native_symbol": "CompilerArena::Reset",
+    "native_linkage_symbol": "_ZN13CompilerArena5ResetEv",
+    "kind": "arena-initialized",
+    "calling_convention": "thiscall-arena-reset",
     "native_args": [
-      "descriptor"
+      "this"
     ],
     "caller": {
       "native_symbol": "CompilerArena::Initialize",
-      "return_rva": 76329
+      "return_rva": 76400
     }
   },
   "imports": [
@@ -1368,6 +1402,20 @@
       "native_symbol": "recon_initterm",
       "contract": "lib/recon/initterm-validation.json",
       "status": "accepted-prefix"
+    },
+    {
+      "name": "import:_ftol",
+      "import_name": "_ftol",
+      "start_rva": 76460,
+      "end_rva": 76466,
+      "iat_rva": 381132,
+      "provider": "msvcrt.dll",
+      "provider_rva": 19905,
+      "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "native_projection": "signed64 cast followed by explicit consumed low32; no native application vertex",
+      "review": "/root/.ai-tmp/msvc2/vc5.10/c1/scaler-support-orchestrator-review.json",
+      "review_sha256": "73a1c14f09fd28a5c45b630ba9a8120f188b581f755f30b101f199587cd9b4c2",
+      "status": "existing public CRT compiler support; zero application credit"
     }
   ],
   "case": "minimal",
@@ -1624,7 +1672,7 @@
       "scope": "owned snapshot interior sentinels and labeled nonzero ints before BSS clear; never dereferenced"
     }
   },
-  "staging_role": "sole actual thiscall arena initializer; descriptor store then genuine reserve-size-helper trap before any allocation",
+  "staging_role": "sole57B scaler plus approved6B existing compiler import support; holds actual FPU and unsupported MEM_TOP_DOWN, no acceptance until both real pairs pass",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -1707,5 +1755,20 @@
     "iat_rva": 381364,
     "output_rva": 390408,
     "output_bytes": 36
+  },
+  "scaler_observers": {
+    "rvas": [
+      76415,
+      76421,
+      76427,
+      76438,
+      76329,
+      76369,
+      76375
+    ],
+    "ftol_thunk_rva": 76460,
+    "ftol_iat_rva": 381132,
+    "provider_rva": 19905,
+    "provider_bytes": 39
   }
 }
