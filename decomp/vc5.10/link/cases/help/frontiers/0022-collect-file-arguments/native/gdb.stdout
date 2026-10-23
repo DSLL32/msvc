@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x0804c3e8 in parse_command_line (argc=2, argv=0xffffd914, before=0x805d085 "LINK", after=0x805d08a "_LINK_") at src/link-driver.cpp:183
+183	void __stdcall parse_command_line(int argc,char **argv,const char *before,const char *after) { __asm { int 3 }  }

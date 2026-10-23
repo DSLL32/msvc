@@ -2,9 +2,10 @@
 
 Target: `toolchains/5.10/bin/LINK.EXE`, PE32 i386, image base `0x400000`,
 entry RVA `0x65280`. There are no exports or TLS directory. Root approved the scaffold and exact
-shipped CRT startup boundary. Twenty application functions are accepted: constructors and their helpers, main,
+shipped CRT startup boundary. Twenty-three application functions are accepted: constructors and their helpers, main,
 debug parsing, file-cache records, memory initialization and the main linker
-driver. The first `/?` case is still in progress at reproduction setup. Later
+driver, reproduction setup and command-line prepass. The first `/?` case is
+still in progress at individual argument parsing. Later
 hello, DLL, debug/PDB and resource cases remain source-only and unreleased.
 Native i386 and original 5.10 `/MD /Od /Z7` builds pass with `make -j4`.
 
@@ -111,7 +112,8 @@ Its optimized original caches printf/setvbuf in EBX; debug parsing caches
 isdigit/sscanf in EDI/EBP. Finite instruction certificates prove qualified IAT
 identities, callsites, all register-alias writes through restores, and incoming
 branch cases. Full Rust graph/RET/ref/ownership checks still include both bodies;
-qualified-import checks exclude only these documented residuals. Eighteen
+qualified-import checks exclude only these documented residuals, reproduction
+setup and command-line parsing (getenv/fullpath caches). Thirty-three
 negative mutations reject wrong slots, calls, register writes, branches, restores
 and dispatch-row identities. Native exceptions are still fatal.
 

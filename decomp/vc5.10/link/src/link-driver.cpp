@@ -180,9 +180,6 @@ int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
 /* Named original callees remain trapping until reached. */
 extern "C" {
 void __cdecl linker_usage(void) { __asm { int 3 }  }
-void __cdecl initialize_repro(void) { __asm { int 3 }  }
-void __stdcall collect_file_arguments(int argc,char **argv,const char *before,const char *after) { __asm { int 3 }  }
-void __stdcall parse_command_line(int argc,char **argv,const char *before,const char *after) { __asm { int 3 }  }
 unsigned char __stdcall has_switch(const char *name) { __asm { int 3 } return 0; }
 void *__stdcall allocate_link_memory(unsigned count,unsigned size) { __asm { int 3 } return NULL; }
 void __stdcall configure_link_options(LinkContext *context,void *first,void *second) { __asm { int 3 }  }

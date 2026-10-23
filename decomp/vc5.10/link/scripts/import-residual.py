@@ -154,3 +154,95 @@ def check_debug(original,rebuilt,object_bytes,map_text):
     assert seen=={'msvcrt.dll!'+n for n in ['getenv','isdigit','sscanf']},'debug rebuilt import set differs'
     return dict(original_cached=evidence,rebuilt_direct=calls,qualified_imports=sorted(seen),
         qualification='Finite EDI/EBP cache lifetimes through their restores, including getenv-NULL branch after the last cached call; ordinary cdecl/stdcall preserves these registers. Rust owns CFG discovery.')
+
+
+def check_repro(original,rebuilt,object_bytes,map_text):
+    """Finite two-register certificate for the complete reproduction setup."""
+    from capstone.x86 import X86_REG_EDI,X86_REG_DI,X86_REG_ESI,X86_REG_SI
+    start,end=0x444b10,0x444c33
+    cs=Cs(CS_ARCH_X86,CS_MODE_32);cs.detail=True
+    instructions=list(cs.disasm(original.read(start,end-start),start));by_pc={i.address:i for i in instructions}
+    assert sum(i.size for i in instructions)==end-start
+    catalog=slots(original)
+    contracts=[('edi',{X86_REG_EDI,X86_REG_DI},0x444b19,0x444bcf,0x401134,'getenv',[0x444b24,0x444bc1],0x444b9c,0x444c29),
+               ('esi',{X86_REG_ESI,X86_REG_SI},0x444b36,0x444be5,0x401138,'_fullpath',[0x444b47,0x444b5e],0x444b9d,0x444c2a)]
+    actual={(i.address,i.reg_name(i.operands[0].reg)) for i in instructions if i.mnemonic=='call' and i.operands[0].type==X86_OP_REG}
+    assert actual=={(site,reg) for reg,_,_,_,_,_,calls,_,_ in contracts for site in calls},'repro cached callsites differ'
+    evidence=[]
+    for reg,aliases,load,dead,slot,name,calls,early_restore,final_restore in contracts:
+        i=by_pc[load];ops=i.operands
+        assert i.mnemonic=='mov' and ops[0].type==X86_OP_REG and i.reg_name(ops[0].reg)==reg
+        assert ops[1].type==X86_OP_MEM and not ops[1].mem.base and not ops[1].mem.index
+        assert ops[1].mem.disp==slot and catalog[slot]=='msvcrt.dll!'+name,'repro IAT slot identity differs'
+        for point in instructions:
+            if load<point.address<dead and aliases.intersection(point.regs_access()[1]):
+                assert point.address==early_restore and point.mnemonic=='pop' and point.op_str==reg,'repro cache alias overwritten while live'
+            if point.group(CS_GRP_JUMP):
+                assert point.operands[0].type==X86_OP_IMM
+                target=point.operands[0].imm&0xffffffff
+                assert not (load<target<dead and not load<=point.address<dead),'repro branch bypasses cache load'
+        assert by_pc[dead].mnemonic=='mov' and by_pc[dead].op_str==('edi, eax' if reg=='edi' else 'esi, edi')
+        assert max(calls)<dead
+        assert by_pc[early_restore].mnemonic==by_pc[final_restore].mnemonic=='pop'
+        assert by_pc[early_restore].op_str==by_pc[final_restore].op_str==reg
+        evidence.append(dict(register=reg,load=load,slot=slot,identity='msvcrt.dll!'+name,calls=calls,cache_dead_overwrite=dead,early_restore=early_restore,final_restore=final_restore))
+    # Each post-cache alias write belongs to the identified inline strcat span.
+    # These pointers never become import calls again, then the saved registers
+    # are restored. The early-return branch terminates before this span.
+    for reg,aliases,load,dead,slot,name,calls,early_restore,final_restore in contracts:
+        writes=[i.address for i in instructions if dead<=i.address<final_restore and aliases.intersection(i.regs_access()[1])]
+        assert writes==({'edi':[0x444bcf,0x444bda,0x444bde,0x444be9,0x444bee,0x444bf2,0x444bf6,0x444c02], 'esi':[0x444be5,0x444bf6,0x444c02]}[reg]),'post-cache inline string pointer writes differ'
+    expected={'msvcrt.dll!'+name for name in ['getenv','_fullpath','_stricmp','fopen']}
+    seen={'msvcrt.dll!getenv','msvcrt.dll!_fullpath'}
+    for i in instructions:
+        if i.mnemonic=='call' and i.operands[0].type==X86_OP_MEM:
+            m=i.operands[0].mem;assert not m.base and not m.index
+            seen.add(catalog[m.disp])
+    assert seen==expected
+    publics={n:int(a,16) for n,a in re.findall(r'^\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})',map_text,re.M)}
+    obj=COFF(object_bytes);symbol=next(s for s in obj.symbols.values() if s['name']=='_initialize_repro');section=obj.sections[symbol['section']-1]
+    stop=min([s['value'] for s in obj.symbols.values() if s['section']==symbol['section'] and s['type']==32 and s['value']>symbol['value']]+[len(section['data'])])
+    rebuilt_slots=slots(rebuilt);seen=set();rebuilt_calls=[]
+    for offset,reference,kind in section['relocs']:
+        if not symbol['value']<=offset<stop or not reference['name'].startswith('__imp_'):continue
+        assert kind==6 and section['data'][offset-2:offset]==b'\xff\x15'
+        site=publics['_initialize_repro']+offset-symbol['value']
+        assert rebuilt.read(site-2,2)==b'\xff\x15'
+        identity=rebuilt_slots[u32(rebuilt.read(site,4),0)]
+        assert reference['name'][6:]=='_'+identity.split('!',1)[1]
+        seen.add(identity);rebuilt_calls.append(dict(site=site-2,identity=identity))
+    assert seen==expected,'repro rebuilt qualified import set differs'
+    return dict(original_cached=evidence,rebuilt_direct=rebuilt_calls,qualified_imports=sorted(seen),qualification='Bounded import cache lifetimes, explicit inline strcat pointer reuse and both restore paths; no independent CFG walk. All actual bodies retain common Rust CFG/RET/ref/ownership checks.')
+
+
+def check_commandline(original,rebuilt,object_bytes,map_text):
+    from capstone.x86 import X86_REG_EBX,X86_REG_BX,X86_REG_BL,X86_REG_BH
+    start,end=0x45cb20,0x45cbb6
+    cs=Cs(CS_ARCH_X86,CS_MODE_32);cs.detail=True
+    instructions=list(cs.disasm(original.read(start,end-start),start));by_pc={i.address:i for i in instructions}
+    assert sum(i.size for i in instructions)==end-start
+    catalog=slots(original);load=by_pc[0x45cb25]
+    assert load.mnemonic=='mov' and load.operands[0].reg==X86_REG_EBX
+    m=load.operands[1].mem;assert not m.base and not m.index and m.disp==0x401134 and catalog[m.disp]=='msvcrt.dll!getenv'
+    aliases={X86_REG_EBX,X86_REG_BX,X86_REG_BL,X86_REG_BH}
+    for i in instructions:
+        if 0x45cb25<i.address<0x45cbb2:assert not aliases.intersection(i.regs_access()[1]),'argument parser cache overwritten'
+        if i.group(CS_GRP_JUMP):
+            assert i.operands[0].type==X86_OP_IMM
+            target=i.operands[0].imm&0xffffffff
+            assert not (0x45cb25<target<0x45cbb2 and not 0x45cb25<=i.address<0x45cbb2),'argument parser branch bypasses cache load'
+    assert by_pc[0x45cbb2].mnemonic=='pop' and by_pc[0x45cbb2].op_str=='ebx'
+    calls=[(i.address,i.op_str) for i in instructions if i.mnemonic=='call' and i.operands[0].type in (X86_OP_REG,X86_OP_MEM)]
+    assert calls==[(0x45cb32,'ebx'),(0x45cb93,'ebx')],'argument parser cached calls differ'
+    publics={n:int(a,16) for n,a in re.findall(r'^\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})',map_text,re.M)}
+    obj=COFF(object_bytes);symbol=next(s for s in obj.symbols.values() if s['name']=='_parse_command_line@16');section=obj.sections[symbol['section']-1]
+    stop=min([s['value'] for s in obj.symbols.values() if s['section']==symbol['section'] and s['type']==32 and s['value']>symbol['value']]+[len(section['data'])])
+    rebuilt_slots=slots(rebuilt);seen=[]
+    for offset,reference,kind in section['relocs']:
+        if not symbol['value']<=offset<stop or not reference['name'].startswith('__imp_'):continue
+        assert kind==6 and reference['name']=='__imp__getenv' and section['data'][offset-2:offset]==b'\xff\x15'
+        site=publics['_parse_command_line@16']+offset-symbol['value']
+        assert rebuilt.read(site-2,2)==b'\xff\x15' and rebuilt_slots[u32(rebuilt.read(site,4),0)]=='msvcrt.dll!getenv'
+        seen.append(site-2)
+    assert len(seen)==2,'rebuilt argument parser imports differ'
+    return dict(original_load=0x45cb25,slot=0x401134,identity='msvcrt.dll!getenv',original_calls=[x[0] for x in calls],restore=0x45cbb2,rebuilt_calls=seen,qualification='Exact whole-body register-write and incoming-branch certificate; cdecl/stdcall callees preserve EBX. Common Rust retains CFG, RET, references and ownership.')

@@ -19,4 +19,5 @@ def plan(accepted):
     if '_initialize_memory' in accepted:
         result += [(0x4f571,'observe:system_before'),(0x4f577,'observe:system_after'),
                    (0x4f586,'observe:memory_before'),(0x4f58c,'observe:memory_after')]
+    if '_parse_command_line@16' in accepted:result.append((0xde93,'observe:main_frame'))
     return result

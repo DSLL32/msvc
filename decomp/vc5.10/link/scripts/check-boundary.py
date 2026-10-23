@@ -41,7 +41,7 @@ if 'program_name' in native:
     negative('lost local basename alias',lambda s:s.__setitem__('program_name_address',0))
 if 'frontier_arguments' in native and 'a' in native['frontier_arguments']:
     negative('wrong file-cache limit',lambda s:s['frontier_arguments'].__setitem__('a',17))
-if args.frontier in ('_run_linker@8','_initialize_repro'):
+if args.frontier in ('_run_linker@8','_initialize_repro','_collect_file_arguments@16','_parse_command_line@16','_parse_argument@8'):
     negative('wrong page size',lambda s:s.__setitem__('allocation_page_size',8192))
     negative('wrong physical memory',lambda s:s.__setitem__('maximum_physical_memory',0x4000000))
     negative('missing hardware call',lambda s:s['system_calls'].pop())
@@ -56,5 +56,18 @@ if args.frontier in ('_run_linker@8','_initialize_repro'):
     negative('broken FILE buffer alias',lambda s:s.__setitem__('crt_stdout_bytes',('00000000'+s['crt_stdout_bytes'][8:])))
     negative('broken file-record link',lambda s:s['file_records'].__setitem__(15,s['file_records'][15][:72]+'00000000'))
     negative('wrong file record count',lambda s:s['file_globals'].__setitem__('file_record_count',15))
+if args.frontier in ('_collect_file_arguments@16','_parse_command_line@16','_parse_argument@8'):
+    negative('unexpected repro directory',lambda s:s.__setitem__('repro_directory',1))
+    negative('unexpected repro response',lambda s:s.__setitem__('repro_response',1))
+    if 'environment_arguments' in native:negative('wrong parsing environments',lambda s:s['environment_arguments'].reverse())
+if args.frontier=='_parse_command_line@16':
+    negative('missing input prepass',lambda s:s.__setitem__('input_prepass',0))
+    negative('unexpected prepass input',lambda s:s['input_files'].__setitem__(2,1))
+if args.frontier=='_parse_argument@8':
+    negative('wrong argument text',lambda s:s['argument_detail'].__setitem__('text','/help'))
+    negative('wrong argument source',lambda s:s['argument_detail'].__setitem__('source',1))
+    negative('lost argument argv alias',lambda s:s['argument_detail'].__setitem__('address',0))
+    negative('premature argument tail',lambda s:s.__setitem__('argument_tail',1))
+    negative('lost prepass',lambda s:s.__setitem__('input_prepass',0))
 args.report.write_text(json.dumps(dict(frontier=args.frontier,positive=True,negative_count=len(checks),rejected=checks),indent=2)+'\n')
 print('Typed boundary passes; %d semantic negatives rejected.'%len(checks))

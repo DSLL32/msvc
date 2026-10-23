@@ -12,7 +12,7 @@ static unsigned char *mask;
 typedef struct Entry { DWORD rva; unsigned byte, seen; char name[128]; } Entry;
 static Entry entries[2048];
 static unsigned entry_count;
-static DWORD crt_base;
+static DWORD crt_base, main_frame_base;
 typedef struct StateRequest { char scope[16], name[128]; DWORD rva, size; } StateRequest;
 static StateRequest requests[64];
 static unsigned request_count;
@@ -114,13 +114,19 @@ static int snapshot(DWORD address)
         if(!remote_string(stack[2],value,sizeof(value)))return 0;
         fprintf(events,",\"debug_options_pointer\":%lu,\"debug_environment\":",stack[1]);quoted(value);
     }
-    if(address==base+0xb560 || address==base+0x152f0 || address==base+0x4fe70 || address==base+0xb660 || address==base+0x4f560 || address==base+0x48cb0 || address==base+0x44b10) {
+    if(main_frame_base || address==base+0xb560 || address==base+0x152f0 || address==base+0x4fe70 || address==base+0xb660 || address==base+0x4f560 || address==base+0x48cb0 || address==base+0x44b10 || address==base+0x5caa0 || address==base+0x5cb20) {
         if(!ReadProcessMemory(process,(void *)(base+0x7f074),&pointer,4,&got)||got!=4||!remote_string(pointer,value,sizeof(value)))return 0;
-        fprintf(events,",\"program_name_pointer\":%lu,\"main_frame_pointer\":%lu,\"program_name\":",pointer,address==base+0x44b10?stack[2]:context.Ebp);quoted(value);
+        fprintf(events,",\"program_name_pointer\":%lu,\"main_frame_pointer\":%lu,\"program_name\":",pointer,main_frame_base?main_frame_base:address==base+0x44b10?stack[2]:address==base+0x5caa0?stack[6]:address==base+0x5cb20?stack[13]:context.Ebp);quoted(value);
     }
-    if(address==base+0x48cb0 || address==base+0x44b10) {
+    if(main_frame_base || address==base+0x48cb0 || address==base+0x44b10 || address==base+0x5caa0 || address==base+0x5cb20) {
         if(!ReadProcessMemory(process,(void *)(base+0x7f060),&pointer,4,&got)||got!=4||!remote_string(pointer,value,sizeof(value)))return 0;
         fprintf(events,",\"selected_tool_name_pointer\":%lu,\"selected_tool_name\":",pointer);quoted(value);
+    }
+    if(address==base+0x5c780) {
+        if(!remote_string(stack[1],value,sizeof(value)))return 0;
+        fprintf(events,",\"argument_pointer\":%lu,\"argument_text\":",stack[1]);quoted(value);
+        if(!ReadProcessMemory(process,(void *)(arguments+4),&pointer,4,&got)||got!=4)return 0;
+        fprintf(events,",\"crt_first_argument_pointer\":%lu",pointer);
     }
     fprintf(events,"}\n");
     for (index = 0; index < request_count; ++index) {
@@ -137,7 +143,7 @@ static int snapshot(DWORD address)
             written != requests[index].size) return 0;
         CloseHandle(output);
     }
-    if(address==base+0x4f560 || address==base+0x48cb0 || address==base+0x44b10) {
+    if(main_frame_base || address==base+0x4f560 || address==base+0x48cb0 || address==base+0x44b10 || address==base+0x5caa0 || address==base+0x5cb20) {
         DWORD slots[16],array;
         if(!ReadProcessMemory(process,(void *)(base+0x67538),&array,4,&got)||got!=4||
            !ReadProcessMemory(process,(void *)array,slots,sizeof(slots),&got)||got!=sizeof(slots))return 0;
@@ -250,7 +256,10 @@ int main(int argc, char **argv)
                     context.Eip = site;
                     if (!SetThreadContext(thread, &context)) { failed = 6; break; }
                     entries[index].seen = 1;
-                    if (!strncmp(entries[index].name, "observe:initerm_", 16)) {
+                    if (!strcmp(entries[index].name,"observe:main_frame")) {
+                        main_frame_base=context.Ebp;
+                        fprintf(events,"{\"event\":\"main_frame\",\"site\":%lu,\"ebp\":%lu}\n",site,main_frame_base);
+                    } else if (!strncmp(entries[index].name, "observe:initerm_", 16)) {
                         DWORD arguments[2], got, count, item, value;
                         if (!ReadProcessMemory(process,(void *)context.Esp,arguments,8,&got) || got!=8 ||
                             arguments[0]>arguments[1] || (arguments[1]-arguments[0])%4 ||

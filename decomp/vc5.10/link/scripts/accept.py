@@ -128,13 +128,13 @@ def audit_trial(path):
     inputs = [tool, ROOT/'toolchains/5.10/bin/LINK.EXE', BINARY/'build/link.exe',
               BINARY/'build/link.map',path,BINARY/'runtime.json',BINARY/'build/runtime.json',BINARY/'graph.json',BINARY/'build/graph.json']
     inputs.append(strict_path)
-    cached_bodies={'_main','_initialize_debug@8'} & set(trial['accepted'])
+    cached_bodies={'_main','_initialize_debug@8','_initialize_repro','_parse_command_line@16'} & set(trial['accepted'])
     imported=copy.deepcopy(trial)
     imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies]
     import_path=path.parent/'direct-import-config.json'
     import_path.write_text(json.dumps(imported,indent=2)+'\n')
     inputs.append(import_path)
-    if cached_bodies:inputs += [BINARY/'scripts/import-residual.py',BINARY/'build/driver.obj',BINARY/'build/driver-stubs.obj']
+    if cached_bodies:inputs += [BINARY/'scripts/import-residual.py',BINARY/'build/driver.obj',BINARY/'build/driver-stubs.obj',BINARY/'build/reproduction.obj',BINARY/'build/arguments.obj']
     before = {str(p):sha(p.read_bytes()) for p in inputs}
     full_command = [arg for arg in command if arg!='--check-ret'] + ['--include-evidenced-runtime']
     started=time.perf_counter()
@@ -158,6 +158,8 @@ def audit_trial(path):
         map_text=(BINARY/'build/link.map').read_text()
         if '_main' in cached_bodies:residual['_main']=module.check(original_pe,rebuilt_pe,(BINARY/'build/driver.obj').read_bytes(),map_text)
         if '_initialize_debug@8' in cached_bodies:residual['_initialize_debug@8']=module.check_debug(original_pe,rebuilt_pe,(BINARY/'build/driver-stubs.obj').read_bytes(),map_text)
+    if '_initialize_repro' in cached_bodies:residual['_initialize_repro']=module.check_repro(original_pe,rebuilt_pe,(BINARY/'build/reproduction.obj').read_bytes(),map_text)
+    if '_parse_command_line@16' in cached_bodies:residual['_parse_command_line@16']=module.check_commandline(original_pe,rebuilt_pe,(BINARY/'build/arguments.obj').read_bytes(),map_text)
     elapsed=time.perf_counter()-started
     after = {str(p):sha(p.read_bytes()) for p in inputs}
     assert before == after, 'audit inputs changed during discovery'

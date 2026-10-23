@@ -35,6 +35,10 @@ def main():
             data=source.read_bytes();destination=capture/'source'/name
             destination.parent.mkdir(parents=True,exist_ok=True);destination.write_bytes(data)
             source_content[name]=sha(data);content_paths.append((source,name))
+    harness=BINARY/'scripts/native-host.c'
+    name='harness/native-host.c';data=harness.read_bytes()
+    destination=capture/'source'/name;destination.parent.mkdir(parents=True,exist_ok=True);destination.write_bytes(data)
+    source_content[name]=sha(data);content_paths.append((harness,name))
     configuration = json.loads(config)
     targets = []
     for record in configuration['driver']:
@@ -159,7 +163,7 @@ def stopped(event):
     if state['function']=='initialize_debug':
         state['frontier_arguments']=dict(options=int(frame.read_var('options')),environment=frame.read_var('environment').string())
     if state['function']=='get_debug_flag':state['frontier_arguments']=dict(index=int(frame.read_var('index')))
-    if state['function'] in ('run_linker','initialize_repro'):
+    if state['function'] in ('run_linker','initialize_repro','collect_file_arguments','parse_command_line','parse_argument'):
         driver=frame
         while driver and driver.name()!='run_linker':driver=driver.older()
         assert driver
@@ -169,6 +173,15 @@ def stopped(event):
         state['selected_tool_name_address']=int(gdb.parse_and_eval('selected_tool_name'))
         state['first_tool_name_address']=int(gdb.parse_and_eval('tool_modes[0].name'))
         state['selected_tool_kind']=int(gdb.parse_and_eval('selected_tool_kind'))
+    state['argument_tail']=int(gdb.parse_and_eval('argument_tail'))
+    if state['function']=='parse_argument':
+        state['argument_detail']=dict(text=frame.read_var('text').string(),source=int(frame.read_var('source')),address=int(frame.read_var('text')))
+    state['input_prepass']=int(gdb.parse_and_eval('input_prepass'))
+    state['input_files']=[int(gdb.parse_and_eval('input_files.'+name)) for name in ('first','last','count')]
+    state['repro_directory']=int(gdb.parse_and_eval('repro_directory'))
+    state['repro_response']=int(gdb.parse_and_eval('repro_response'))
+    if state['function'] in ('collect_file_arguments','parse_command_line'):
+        state['environment_arguments']=[frame.read_var('before').string(),frame.read_var('after').string()]
     if state['function']=='zero_allocate':state['frontier_arguments']=dict(bytes=int(frame.read_var('bytes')))
     if int(gdb.parse_and_eval('program_name')):
         state['program_name_address']=int(gdb.parse_and_eval('program_name'))
@@ -207,6 +220,7 @@ def stopped(event):
         frame.select()
         count=int(gdb.parse_and_eval('argc'))
         state['crt_argv_address']=int(gdb.parse_and_eval('argv'))
+        state['crt_first_argument_address']=int(gdb.parse_and_eval('argv[1]'))
         state['crt_argv']=[gdb.parse_and_eval('argv[%%d]'%%i).string() for i in range(count)]
         gdb.newest_frame().select()
     state['stack']=[int(gdb.parse_and_eval('((unsigned*)$esp)[%%d]'%%i)) for i in range(32)]

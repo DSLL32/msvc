@@ -1,0 +1,141 @@
+{
+  "kind": "native-i386-gdb-frontier",
+  "configuration_sha256": "3d3b401aceca6529a055109e42cb3c7ea95ff6b6e51098a912e3d71275bac179",
+  "native_sha256": "06cccbe2d60b3090d95ab1b2443f40938580f46d02652834852fe9f9bccdce82",
+  "rebuilt_sha256": "3c6de60e75192d7f9dcc0fa4acd911bb95ccc82b988ad5a76c7af89be365a1b0",
+  "source_files": {
+    "src/arguments.c": "477c2710fb0b01ca0af4036d5ca1416c6221cf34103262fab9b49fc45ab34070",
+    "src/arguments.h": "aaec1332c587289234575f8b40f732d3bcd3e9d1d2fcde96c1a40505771f1ab6",
+    "src/crt-imports.h": "fdd2bbde51b429c9106b37136d7a62f5ab706ad7216b412be3c157574a8c3616",
+    "src/driver-stubs.c": "bf464d7c4e9aaff9d65b63af45361af91399bdff46b93302660bfc3ec49e6116",
+    "src/driver.c": "9528710fbcb0a12bd278f267356563620c983eaaaa5455edfcc2101d95e82d18",
+    "src/files.c": "6cb56c589d34f06124104988e95e68e64ec8bc6cf9ff693d49d0bfc02343e110",
+    "src/files.h": "0d8f48c1ee9f723ef463619442dc4d26c03a134a158764e20a91f42590ed06fe",
+    "src/initializers.c": "0a2849251b7a4818f66e43376e66e39d52e11479051d2c00d1d3be61f01e48b0",
+    "src/initializers.h": "7587ee4278c51d9fe0990828291e235938df181bbd92dea9ef0bc7f9218e4937",
+    "src/link-driver.cpp": "f411b45e84f98c73bf395fbffd4a89131d66d077173b38e662f05e3b70ae35fd",
+    "src/link-driver.h": "34877a36228a5127a1a68a3f3c7fd12a1d3bab6563bf6a142a14148cd0730cbc",
+    "src/link.h": "c3d31fa73b10466f528721e3e4dc653ca6cc1c3ba05aeb7879e2e3343ea3ad5e",
+    "src/memory.c": "ca14184419a01921ae0ea667f97c997ba8137994b29bea72b44239fe6924786b",
+    "src/reproduction.c": "34154837f20ec08f076a9b0c62d3e56d14d4798a560e9455de840fbd6674a0e3"
+  },
+  "source_content": {
+    "project/arguments.c": "477c2710fb0b01ca0af4036d5ca1416c6221cf34103262fab9b49fc45ab34070",
+    "project/arguments.h": "aaec1332c587289234575f8b40f732d3bcd3e9d1d2fcde96c1a40505771f1ab6",
+    "project/crt-imports.h": "fdd2bbde51b429c9106b37136d7a62f5ab706ad7216b412be3c157574a8c3616",
+    "project/driver-stubs.c": "bf464d7c4e9aaff9d65b63af45361af91399bdff46b93302660bfc3ec49e6116",
+    "project/driver.c": "9528710fbcb0a12bd278f267356563620c983eaaaa5455edfcc2101d95e82d18",
+    "project/files.c": "6cb56c589d34f06124104988e95e68e64ec8bc6cf9ff693d49d0bfc02343e110",
+    "project/files.h": "0d8f48c1ee9f723ef463619442dc4d26c03a134a158764e20a91f42590ed06fe",
+    "project/initializers.c": "0a2849251b7a4818f66e43376e66e39d52e11479051d2c00d1d3be61f01e48b0",
+    "project/initializers.h": "7587ee4278c51d9fe0990828291e235938df181bbd92dea9ef0bc7f9218e4937",
+    "project/link-driver.cpp": "f411b45e84f98c73bf395fbffd4a89131d66d077173b38e662f05e3b70ae35fd",
+    "project/link-driver.h": "34877a36228a5127a1a68a3f3c7fd12a1d3bab6563bf6a142a14148cd0730cbc",
+    "project/link.h": "c3d31fa73b10466f528721e3e4dc653ca6cc1c3ba05aeb7879e2e3343ea3ad5e",
+    "project/memory.c": "ca14184419a01921ae0ea667f97c997ba8137994b29bea72b44239fe6924786b",
+    "project/reproduction.c": "34154837f20ec08f076a9b0c62d3e56d14d4798a560e9455de840fbd6674a0e3",
+    "recon/include/recon.h": "493de5b0f0d27aabbbbf97dbaafc7c1ee780a9b2e97eca6183e3dd00b1bb8a12",
+    "recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "recon/include/win32.h": "a789f62196f170f663978151e11f7f47c8e0359f3d692b2ac3a8b6016f96ec5f",
+    "recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+    "recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+    "recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+    "recon/native/float.h": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+    "recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "recon/native/mbctype.h": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+    "recon/native/mbstring.h": "4934a203e531d42676d62072210649397031ec01507989c3134fe126339cb9b9",
+    "recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "recon/native/setjmp.h": "62dd5dcc70d652ad68bccd31f9c916b829b9577d0e7c8b8d0655e47cb5ab151f",
+    "recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+    "recon/native/sys/stat.h": "4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb",
+    "recon/native/sys/timeb.h": "56e745d9e9f91dccd40083158914daeb3cab0c97e01b7276c447993aad52a47d",
+    "recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+    "recon/src/compat.c": "3fd3515569a9bb8ea637cdd81359ee74724da607a06bac54d1866953b9e299a6",
+    "recon/src/crt.c": "17e50c504af5a870cd236cc43de401052ff9d201c52bc6856eda5adfa0851ffc",
+    "recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+    "recon/src/entry.c": "12a10f7190b430c73b4754d2e5c234bce38addb7f188e16518ec0ba604fe8c80",
+    "recon/src/process.c": "b1a4dae8f45ad5051f50acea6bb36d994e0d084c925291d46e154519e5d8f73a",
+    "recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+    "recon/src/win32.c": "1a2cec7113fef2ef77ed103081fc85bbac28e6ba6d7a253181737b9569f5c9f6",
+    "harness/native-host.c": "e9be5d83bb52ee543ac393971566dcaed8f2882f7fffccf20504226a3cc69de0"
+  },
+  "command": [
+    "gdb",
+    "-q",
+    "-nx",
+    "-batch",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc5.10/link/native-9sosietm/capture.gdb.py",
+    "--args",
+    "/root/msvc2/decomp/vc5.10/link/build/native/LINK.EXE",
+    "/?"
+  ],
+  "status": 0,
+  "elapsed_seconds": 0.18846372980624437,
+  "files": {
+    "state.json": {
+      "bytes": 6481,
+      "sha256": "30f6718d41270f12744ddd60c8670457d6169555e8c5f90e6c5975fa45a20720"
+    },
+    "gdb.stdout": {
+      "bytes": 433,
+      "sha256": "8822c1f01a0bbdd2babac6c17679c3def83bdd7b424cfea79f973b2840339225"
+    },
+    "functions.json": {
+      "bytes": 27065,
+      "sha256": "3d3b401aceca6529a055109e42cb3c7ea95ff6b6e51098a912e3d71275bac179"
+    },
+    "capture.gdb.py": {
+      "bytes": 11806,
+      "sha256": "ea6523e29a40a7c280ab7138ced4d9778a39140e0a849573f42ad580ad378cce"
+    },
+    "gdb.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "runtime.json": {
+      "bytes": 3430,
+      "sha256": "f2c607da5a692c987fc7d6db65c438026d369078a86e6e18389ba4a6730e3396"
+    },
+    "environment/binding.json": {
+      "bytes": 367,
+      "sha256": "ecd5bf753eeb6dcaebf2687b78316aaf6a473d0f71cf33daa2cd90333829bad3"
+    },
+    "environment/system-after.bin": {
+      "bytes": 36,
+      "sha256": "f249873a246e47fe0690bcb26673eac7d0a33c622e6ed0cc42487094160c9b57"
+    },
+    "environment/memory-before.bin": {
+      "bytes": 32,
+      "sha256": "67d07d78588a1cce40395d2ce2d624fee17d023b7f4b3c4aee78ff85aadee159"
+    },
+    "environment/memory-after.bin": {
+      "bytes": 32,
+      "sha256": "4e532e8d56ff99ea54bde5cf4af1e427893037131b802d21a200cf59eed8d538"
+    },
+    "environment/system-profile.bin": {
+      "bytes": 136,
+      "sha256": "6adb30e9ab48a8d176375a0d328e29aedfe1205b19d70ea66fc146b1204b4c53"
+    },
+    "environment/reference-receipt.json": {
+      "bytes": 11777,
+      "sha256": "e24c3be7b590c922ae032498b10ad78f284cdf3c70b684b99e7a91072b14cc08"
+    },
+    "environment/system-before.bin": {
+      "bytes": 36,
+      "sha256": "de462deb816bae29bfaeec9840ec1519eb9051490b1b14a2a523149b44fd3de9"
+    },
+    "environment/events.jsonl": {
+      "bytes": 6314,
+      "sha256": "229a98ee1549f6decd2cd58e6b058b41b4ad2581dcf064f5f5f7850b09b567d1"
+    }
+  }
+}

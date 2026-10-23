@@ -3,10 +3,10 @@ NATIVE_CC ?= clang
 NATIVE_CXX ?= clang++
 RECON = ../../../lib/recon
 TOOL = $(PYTHON) scripts/wine-tool.py
-SOURCES = src/memory.c src/files.c src/driver-stubs.c src/driver.c src/initializers.c src/host.c
+SOURCES = src/arguments.c src/reproduction.c src/memory.c src/files.c src/driver-stubs.c src/driver.c src/initializers.c
 CPP_SOURCES = src/link-driver.cpp
 OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES)) $(patsubst src/%.cpp,build/%.obj,$(CPP_SOURCES))
-NATIVE_OBJECTS = $(patsubst src/%.c,build/native/%.o,$(SOURCES)) $(patsubst src/%.cpp,build/native/%.o,$(CPP_SOURCES))
+NATIVE_OBJECTS = $(patsubst src/%.c,build/native/%.o,$(SOURCES)) $(patsubst src/%.cpp,build/native/%.o,$(CPP_SOURCES)) build/native/native-host.o
 HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h $(RECON)/native/sys/*.h)
 ORIGINAL_HEADERS = $(wildcard src/*.h)
 NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie
@@ -38,7 +38,7 @@ build/native/%.o: src/%.cpp $(HEADERS) Makefile | build/native
 build/operator-new-alias.obj: scripts/weak-import.py | build
 	$(PYTHON) scripts/weak-import.py $@
 
-build/link.exe: $(OBJECTS) build/operator-new-alias.obj
+build/link.exe: $(OBJECTS) build/operator-new-alias.obj Makefile
 	$(TOOL) LINK.EXE /nologo /incremental:no /map:build/link.map /out:$@ $(OBJECTS) build/operator-new-alias.obj kernel32.lib
 
 original: build/link.exe build/capture-help.exe
@@ -48,6 +48,9 @@ build/capture-help.exe: scripts/capture-help.c | build
 
 build/native/%.o: src/%.c $(HEADERS) Makefile | build/native
 	$(NATIVE_CC) $(NATIVE_FLAGS) $(NATIVE_CPPFLAGS) $(NATIVE_APP_FLAGS) $(if $(filter src/driver.c,$<),-Dmain=link_main) -c $< -o $@
+
+build/native/native-host.o: scripts/native-host.c $(HEADERS) Makefile | build/native
+	$(NATIVE_CC) $(NATIVE_FLAGS) $(NATIVE_CPPFLAGS) -Isrc -c $< -o $@
 
 build/native/LINK.EXE: $(NATIVE_OBJECTS) $(SHIMS) $(HEADERS) Makefile
 	$(NATIVE_CC) $(NATIVE_FLAGS) $(NATIVE_CPPFLAGS) -no-pie $(NATIVE_OBJECTS) $(SHIMS) -o $@

@@ -1,4 +1,4 @@
-/* Native/Win32 executable host; target source starts at link_main. */
+/* Native harness around canonical source main (native build alias link_main). */
 #include <windows.h>
 #include <stdlib.h>
 #include <float.h>
@@ -6,7 +6,6 @@
 #include "initializers.h"
 #include <recon.h>
 
-#if defined(RECON_NATIVE_TEST)
 static int target_startup(int argc, char **argv, char **environment)
 {
     Initializer c_initializers[1];
@@ -20,9 +19,7 @@ static int target_startup(int argc, char **argv, char **environment)
     _initterm(application_initializers, application_initializers + 5);
     return link_main(argc, argv, environment);
 }
-#endif
 
-#if defined(RECON_NATIVE_TEST)
 int main(int argc, char **argv, char **environment)
 {
     const char *profile, *reference;
@@ -32,4 +29,3 @@ int main(int argc, char **argv, char **environment)
     exit(target_startup(argc, argv, environment));
     return 255;
 }
-#endif

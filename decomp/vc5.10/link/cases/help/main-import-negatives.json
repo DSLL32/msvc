@@ -1,6 +1,6 @@
 {
   "positive": true,
-  "negative_count": 18,
+  "negative_count": 33,
   "rejected": [
     "swapped setvbuf slot",
     "swapped second setvbuf slot",
@@ -19,6 +19,21 @@
     "debug EBP overwrite",
     "debug BP alias overwrite",
     "debug load-bypassing branch",
-    "debug restore differs"
+    "debug restore differs",
+    "repro swapped getenv slot",
+    "repro swapped fullpath slot",
+    "repro wrong getenv register",
+    "repro wrong fullpath register",
+    "repro cache write",
+    "repro DI alias write",
+    "repro entry skips fullpath load",
+    "repro early restore changed",
+    "repro final restore changed",
+    "parser swapped getenv slot",
+    "parser wrong call register",
+    "parser overwritten cache",
+    "parser BH alias overwrite",
+    "parser branch bypasses load",
+    "parser restore differs"
   ]
 }

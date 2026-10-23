@@ -46,6 +46,37 @@ for name,site,patch in [
  try:module.check_debug(mutated,rebuilt,debug_obj,maptext)
  except (AssertionError,KeyError,IndexError):passed.append(name)
  else:raise AssertionError('mutation accepted: '+name)
+repro_obj=(BINARY/'build/reproduction.obj').read_bytes()
+module.check_repro(original,rebuilt,repro_obj,maptext)
+for name,site,patch in [
+ ('repro swapped getenv slot',0x444b1b,struct.pack('<I',0x401138)),
+ ('repro swapped fullpath slot',0x444b38,struct.pack('<I',0x401134)),
+ ('repro wrong getenv register',0x444b24,b'\xff\xd6'),
+ ('repro wrong fullpath register',0x444b47,b'\xff\xd7'),
+ ('repro cache write',0x444b29,b'\x31\xff\x90\x90\x90'),
+ ('repro DI alias write',0x444b29,b'\x66\x31\xff\x90\x90'),
+ ('repro entry skips fullpath load',0x444b32,struct.pack('<i',0x444b47-(0x444b30+6))),
+ ('repro early restore changed',0x444b9c,b'\x5e'),
+ ('repro final restore changed',0x444c2a,b'\x5f'),
+]:
+ mutated=PE(ROOT/'toolchains/5.10/bin/LINK.EXE');data=bytearray(mutated.data);offset=mutated.offset(site);data[offset:offset+len(patch)]=patch;mutated.data=bytes(data)
+ try:module.check_repro(mutated,rebuilt,repro_obj,maptext)
+ except (AssertionError,KeyError,IndexError):passed.append(name)
+ else:raise AssertionError('mutation accepted: '+name)
+argument_obj=(BINARY/'build/arguments.obj').read_bytes()
+module.check_commandline(original,rebuilt,argument_obj,maptext)
+for name,site,patch in [
+ ('parser swapped getenv slot',0x45cb27,struct.pack('<I',0x401138)),
+ ('parser wrong call register',0x45cb32,b'\xff\xd6'),
+ ('parser overwritten cache',0x45cb53,b'\x31\xdb\x90\x90\x90\x90\x90\x90\x90\x90'),
+ ('parser BH alias overwrite',0x45cb53,b'\xb7\x01\x90\x90\x90\x90\x90\x90\x90\x90'),
+ ('parser branch bypasses load',0x45cb20,b'\xeb\x10\x90\x90'),
+ ('parser restore differs',0x45cbb2,b'\x5e'),
+]:
+ mutated=PE(ROOT/'toolchains/5.10/bin/LINK.EXE');data=bytearray(mutated.data);offset=mutated.offset(site);data[offset:offset+len(patch)]=patch;mutated.data=bytes(data)
+ try:module.check_commandline(mutated,rebuilt,argument_obj,maptext)
+ except (AssertionError,KeyError,IndexError):passed.append(name)
+ else:raise AssertionError('mutation accepted: '+name)
 report=dict(positive=True,negative_count=len(passed),rejected=passed)
 (BINARY/'cases/help/main-import-negatives.json').write_text(json.dumps(report,indent=2)+'\n')
 print(json.dumps(report,indent=2))

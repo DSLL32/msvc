@@ -12,8 +12,13 @@ STAGES = {
     '_initialize_buffer4': (3,2,2), '_allocate_buffer4': (3,2,2),
     '_register_buffer4_cleanup': (3,3,2),
     '_initialize_timing': (4,3,3), '_setup_timing': (4,3,3),
-    '_register_timing_cleanup': (4,3,3), '_main': (None,3,4), '_initialize_debug@8':(None,3,4), '_initialize_file_cache@16':(None,3,4), '_get_debug_flag@4':(None,3,4), '_zero_allocate@4':(None,3,4), '_new_file_record':(None,3,4), '_initialize_memory':(None,3,4), '_run_linker@8':(None,3,4), '_initialize_repro':(None,3,4),
+    '_register_timing_cleanup': (4,3,3), '_main': (None,3,4), '_initialize_debug@8':(None,3,4), '_initialize_file_cache@16':(None,3,4), '_get_debug_flag@4':(None,3,4), '_zero_allocate@4':(None,3,4), '_new_file_record':(None,3,4), '_initialize_memory':(None,3,4), '_run_linker@8':(None,3,4), '_initialize_repro':(None,3,4), '_collect_file_arguments@16':(None,3,4), '_parse_command_line@16':(None,3,4), '_parse_argument@8':(None,3,4),
 }
+MEMORY_READY={ '_run_linker@8','_initialize_repro','_collect_file_arguments@16',
+               '_parse_command_line@16','_parse_argument@8' }
+CACHE_READY=MEMORY_READY | {'_initialize_memory'}
+DEBUG_READY=CACHE_READY | {'_get_debug_flag@4','_zero_allocate@4','_new_file_record'}
+
 BUFFERS = [('12',0x424e70,12288,1024,0x424ea0,0x424eb0),
            ('8',0x431d80,4000,500,0x431db0,0x431dc0),
            ('4',0x431df0,4096,1024,0x431e20,0x431e30)]
@@ -81,7 +86,7 @@ def compare(name, original, native, original_state, native_state):
         assert timing[17:]==bytes.fromhex(native_state['app_globals']['timing'])[17:]==b'\0'*3
         stdout=(original/'crt-stdout.bin').read_bytes()
         nstdout=bytes.fromhex(native_state['crt_stdout_bytes'])
-        if name in ('_run_linker@8','_initialize_repro'):
+        if name in MEMORY_READY:
             original_file=struct.unpack('<8I',stdout);native_file=struct.unpack('<8I',nstdout)
             assert original_file[0]==original_file[2] and original_file[0]
             assert native_file[0]==native_file[2] and native_file[0]
@@ -114,14 +119,14 @@ def compare(name, original, native, original_state, native_state):
         assert original_state['debug_options_pointer']==native_state['frontier_arguments']['options']==0
         assert original_state['debug_environment']==native_state['frontier_arguments']['environment']=='LINK_DB'
 
-    if name in ('_get_debug_flag@4','_zero_allocate@4','_new_file_record','_initialize_memory','_run_linker@8','_initialize_repro'):
+    if name in DEBUG_READY:
         assert original_state['program_name']==native_state['program_name']=='LINK'
         assert original_state['program_name_pointer']==original_state['main_frame_pointer']-0x23c
         assert native_state['program_name_address']==native_state['basename_address']
         flags=(original/'debug-flags.bin').read_bytes()
         assert flags.hex()==native_state['debug_flags'] and not any(flags)
 
-    if name in ('_get_debug_flag@4','_zero_allocate@4','_new_file_record','_initialize_memory','_run_linker@8','_initialize_repro'):
+    if name in DEBUG_READY:
         probes=[event for event in events if event['event']=='module_probe']
         assert [event['name'] for event in probes]==['observe:module_call','observe:module_return','observe:proc_call','observe:proc_return']
         module_call,module_return,proc_call,proc_return=probes
@@ -137,23 +142,23 @@ def compare(name, original, native, original_state, native_state):
         assert module_pe.string(module_pe.base+u32(module_pe.read(exports+12,4),0)).lower()=='kernel32.dll'
         assert native_state['module_probes']==[dict(kind='module',requested='kernel32.dll',module=0,result=1),dict(kind='proc',requested='IsTNT',module=1,result=0)]
         slots_pointer,newest,count=struct.unpack('<3I',(original/'file-pointers.bin').read_bytes())
-        if name not in ('_initialize_memory','_run_linker@8','_initialize_repro'):assert newest==count==0
-        if name in ('_new_file_record','_initialize_memory','_run_linker@8','_initialize_repro'):
+        if name not in CACHE_READY:assert newest==count==0
+        if name in ('_new_file_record','_initialize_memory','_run_linker@8','_initialize_repro','_collect_file_arguments@16','_parse_command_line@16','_parse_argument@8'):
             assert slots_pointer and native_state['file_globals']['file_slots']
             array=(original/'file-slots.bin').read_bytes()
             if name=='_new_file_record':assert array.hex()==native_state['file_slots_bytes'] and not any(array)
         else:assert slots_pointer==native_state['file_globals']['file_slots']==0
         assert (original/'file-mapping-enabled.bin').read_bytes()==b'\1'
-        assert struct.unpack('<I',(original/'file-window-limit.bin').read_bytes())[0]==(14 if name in ('_initialize_memory','_run_linker@8','_initialize_repro') else 0)
+        assert struct.unpack('<I',(original/'file-window-limit.bin').read_bytes())[0]==(14 if name in CACHE_READY else 0)
         assert struct.unpack('<15I',(original/'file-statistics.bin').read_bytes())==(0,)*15
-        assert native_state['file_globals']==dict(file_slots=native_state['file_globals']['file_slots'],file_newest=native_state['file_globals']['file_newest'] if name in ('_initialize_memory','_run_linker@8','_initialize_repro') else 0,file_record_count=16 if name in ('_initialize_memory','_run_linker@8','_initialize_repro') else 0,file_window_limit=14 if name in ('_initialize_memory','_run_linker@8','_initialize_repro') else 0,file_mapping_enabled=1)
+        assert native_state['file_globals']==dict(file_slots=native_state['file_globals']['file_slots'],file_newest=native_state['file_globals']['file_newest'] if name in CACHE_READY else 0,file_record_count=16 if name in CACHE_READY else 0,file_window_limit=14 if name in CACHE_READY else 0,file_mapping_enabled=1)
         assert native_state['file_statistics']==[0]*15
         if name=='_get_debug_flag@4':
             assert original_state['stack'][1]==native_state['frontier_arguments']['index']==44
         elif name=='_zero_allocate@4':
             assert original_state['stack'][1]==native_state['frontier_arguments']['bytes']==64
 
-        if name in ('_initialize_memory','_run_linker@8','_initialize_repro'):
+        if name in CACHE_READY:
             pointers=struct.unpack('<16I',array)
             native_pointers=struct.unpack('<16I',bytes.fromhex(native_state['file_slots_bytes']))
             assert len(set(pointers))==len(set(native_pointers))==16 and all(pointers) and all(native_pointers)
@@ -167,7 +172,7 @@ def compare(name, original, native, original_state, native_state):
                 assert record[9]==(pointers[index-1] if index else 0)
                 assert native_record[9]==(native_pointers[index-1] if index else 0)
 
-    if name in ('_run_linker@8','_initialize_repro'):
+    if name in MEMORY_READY:
         system=(original/'system-after.bin').read_bytes();memory=(original/'memory-after.bin').read_bytes()
         calls=native_state['system_calls']
         assert [(call['kind'],call['after']) for call in calls]==[('system',system.hex()),('memory',memory.hex())]
@@ -180,12 +185,38 @@ def compare(name, original, native, original_state, native_state):
         pe=PE(original/'module-000.bin')
         table_name=u32(pe.read(0x467020,4),0)
         assert original_state['selected_tool_name_pointer']==table_name
+        if name not in ('_run_linker@8','_initialize_repro'):
+            assert (original/'repro-directory.bin').read_bytes()==bytes(4) and native_state['repro_directory']==0
+            assert (original/'repro-response.bin').read_bytes()==bytes(4) and native_state['repro_response']==0
         assert native_state['frontier_arguments']['argc']==2
         if name=='_run_linker@8':
             assert original_state['stack'][1]==2
             assert original_state['stack'][2]==original_state['crt_argv_pointer']
-        else:
+        elif name=='_initialize_repro':
             assert original_state['stack'][6]==2
             assert original_state['stack'][7]==original_state['crt_argv_pointer']
+        elif name!='_parse_argument@8':
+            assert original_state['stack'][1]==2
+            assert original_state['stack'][2]==original_state['crt_argv_pointer']
+            assert original_state['stack'][3:5]==[0x408508,0x408510]
+            assert native_state['environment_arguments']==['LINK','_LINK_']
+            assert struct.unpack('<I',(original/'repro-directory.bin').read_bytes())[0]==native_state['repro_directory']==0
+            assert struct.unpack('<I',(original/'repro-response.bin').read_bytes())[0]==native_state['repro_response']==0
         assert native_state['frontier_arguments']['argv_address']==native_state['crt_argv_address']
         assert native_state['frontier_arguments']['argv']==native_state['crt_argv']
+
+    if name=='_parse_command_line@16':
+        assert (original/'input-prepass.bin').read_bytes()==b'\1' and native_state['input_prepass']==1
+        assert (original/'input-files.bin').read_bytes()==bytes(12)
+        assert native_state['input_files']==[0,0,0]
+
+    if name=='_parse_argument@8':
+        assert original_state['argument_text']==native_state['argument_detail']['text']=='/?'
+        assert original_state['stack'][2]==native_state['argument_detail']['source']==0
+        assert original_state['argument_pointer']==original_state['crt_first_argument_pointer']
+        assert native_state['argument_detail']['address']==native_state['crt_first_argument_address']
+        assert (original/'input-prepass.bin').read_bytes()==b'\1' and native_state['input_prepass']==1
+        assert (original/'input-files.bin').read_bytes()==bytes(12) and native_state['input_files']==[0,0,0]
+        assert (original/'argument-tail.bin').read_bytes()==bytes(4) and native_state['argument_tail']==0
+        frames=[e for e in events if e['event']=='main_frame']
+        assert len(frames)==1 and frames[0]['site']==0x40de93 and frames[0]['ebp']==original_state['main_frame_pointer']

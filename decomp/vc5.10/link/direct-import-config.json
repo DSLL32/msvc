@@ -33,7 +33,9 @@
     "_get_debug_flag@4",
     "_zero_allocate@4",
     "_new_file_record",
-    "_initialize_memory"
+    "_initialize_memory",
+    "_run_linker@8",
+    "_collect_file_arguments@16"
   ],
   "driver": [
     {
@@ -341,28 +343,28 @@
     {
       "name": "_initialize_repro",
       "start": 4475664,
-      "end": 4475665,
-      "source": "src/link-driver.cpp",
-      "status": "stub",
-      "pending_extent": true,
+      "end": 4475955,
+      "source": "src/reproduction.c",
+      "status": "implemented",
+      "pending_extent": false,
       "native_symbol": "initialize_repro"
     },
     {
       "name": "_collect_file_arguments@16",
       "start": 4573856,
-      "end": 4573857,
-      "source": "src/link-driver.cpp",
-      "status": "stub",
-      "pending_extent": true,
+      "end": 4573970,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "pending_extent": false,
       "native_symbol": "collect_file_arguments"
     },
     {
       "name": "_parse_command_line@16",
       "start": 4573984,
-      "end": 4573985,
-      "source": "src/link-driver.cpp",
-      "status": "stub",
-      "pending_extent": true,
+      "end": 4574134,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "pending_extent": false,
       "native_symbol": "parse_command_line"
     },
     {
@@ -535,6 +537,60 @@
       "status": "stub",
       "pending_extent": true,
       "native_symbol": "LinkContext::FullLink(unsigned char*)"
+    },
+    {
+      "name": "_load_input_module@8",
+      "start": 4247744,
+      "end": 4247745,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "load_input_module"
+    },
+    {
+      "name": "_duplicate_argument@4",
+      "start": 4521680,
+      "end": 4521681,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "duplicate_argument"
+    },
+    {
+      "name": "_tokenize_arguments@4",
+      "start": 4573376,
+      "end": 4573377,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "tokenize_arguments"
+    },
+    {
+      "name": "_release_memory@4",
+      "start": 4521520,
+      "end": 4521521,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "release_memory"
+    },
+    {
+      "name": "_read_response_file@4",
+      "start": 4573568,
+      "end": 4573569,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "read_response_file"
+    },
+    {
+      "name": "_parse_argument@8",
+      "start": 4573056,
+      "end": 4573057,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "parse_argument"
     }
   ],
   "text_data": [
@@ -809,6 +865,46 @@
       "reason": "run_linker nine-entry subsystem switch table",
       "sha256": "d800a5e4f0fde92598efaef7ec51df91ec09ff4c0e36eda63a32666672e737bf",
       "evidence": "bounded eax=Subsystem-1 in0..8 at448e2c..448e32"
+    },
+    {
+      "start": 4225652,
+      "end": 4225663,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'LINK_REPRO\\x00'",
+      "sha256": "0044f291a74f02137d19db274de8a74f81e475b5c1c7a306c3183f525a17e28a",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4225384,
+      "end": 4225386,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'.\\x00'",
+      "sha256": "075d3ddf5a3a826e13a92288e853bc4b2cb17fb05367ae865f401a4bb11f05ce",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4225636,
+      "end": 4225652,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'LINK_REPRO_NAME\\x00'",
+      "sha256": "f886943103de3419adf94cdd306cd73090bf50de1ff56e6c1ddf362bbbf1b666",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4225624,
+      "end": 4225634,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'\\\\link.rsp\\x00'",
+      "sha256": "c03d393ef0158a769d579f61e9f90f57b1e70648f3773d2f9e97bc994d2301c2",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4213652,
+      "end": 4213655,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'wt\\x00'",
+      "sha256": "15eec7f94fc5b359e2a9946d8603f6d2e201c84dcea1bb8fa5b8d77e12c06138",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
     }
   ],
   "cases": {
