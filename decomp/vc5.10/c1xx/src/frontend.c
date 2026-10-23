@@ -51,6 +51,10 @@ int initialize_compiler_pass(void)
         frontend_bss.sentinel_token.kind = 0;
         frontend_bss.sentinel_token.value.integer = 0;
         frontend_bss.source_signature = 0;
+        frontend_bss.pools[0].cursor = NULL;
+        frontend_bss.pools[0].remaining = 0;
+        frontend_bss.pools[0].minimum_pages = 0;
+        frontend_bss.pools[0].arena = NULL;
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }

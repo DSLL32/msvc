@@ -112,6 +112,11 @@ if gdb.lookup_global_symbol('output_pdb_context') is not None:
     value['frontend']['output_pdb_context']={field:int(gdb.parse_and_eval('(unsigned int)output_pdb_context.'+field)) for field in fields}
     for field in fields:
         value['frontend']['storage']['output_pdb_context.'+field]=[int(gdb.parse_and_eval('(unsigned int)&output_pdb_context.'+field)),4]
+if any(f.name=='pools' for f in gdb.lookup_type('FrontendBss').fields()):
+    fields=('cursor','remaining','minimum_pages','arena')
+    value['frontend']['pools']=[{name:int(gdb.parse_and_eval('(unsigned int)frontend_bss.pools[0].'+name)) for name in fields}]
+    for name in fields:value['frontend']['storage']['pool_01.'+name]=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.pools[0].'+name)),4]
+    value['frontend']['pool_native_layout']={'size':int(gdb.parse_and_eval('sizeof(CompilerPool)')),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof)] for f in gdb.lookup_type('CompilerPool').fields()}}
 value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
 value['target_state']['onexit_first']=int(gdb.parse_and_eval('(unsigned int)*onexit_begin')) if value['target_state']['onexit_begin'] else None

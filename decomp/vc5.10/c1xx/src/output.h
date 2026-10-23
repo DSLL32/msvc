@@ -22,6 +22,9 @@ typedef struct OutputBuffer {
 
 enum { FRONTEND_OUTPUT_BUFFERS = 8 };
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 void initialize_output_buffer_01(void);
 void destroy_output_buffer_01(void);
 void initialize_output_buffer_02(void);
@@ -38,4 +41,7 @@ void initialize_output_buffer_07(void);
 void destroy_output_buffer_07(void);
 void initialize_output_buffer_08(void);
 void destroy_output_buffer_08(void);
+#ifdef __cplusplus
+}
+#endif
 #endif

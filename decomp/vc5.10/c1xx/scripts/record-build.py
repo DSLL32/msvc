@@ -26,10 +26,10 @@ def main():
     parser.add_argument("command", nargs=argparse.REMAINDER)
     args = parser.parse_args()
     command = args.command[1:] if args.command[:1] == ["--"] else args.command
-    files = set(PROJECT.glob("src/*.[ch]")) | set((PROJECT / "scripts").glob("*.h")) | set((RECON / "include").glob("*.h"))
+    files = set(PROJECT.glob("src/*.[ch]")) | set(PROJECT.glob("src/*.cpp")) | set((PROJECT / "scripts").glob("*.h")) | set((RECON / "include").glob("*.h"))
     for item in command:
         path = Path(item)
-        if path.suffix in (".c", ".h") and path.is_file():
+        if path.suffix in (".c", ".h", ".cpp") and path.is_file():
             files.add(path.resolve())
     if args.native:
         files |= set((RECON / "native").rglob("*.h"))

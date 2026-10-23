@@ -38,6 +38,17 @@ typedef struct SentinelToken {
     TokenValue value;
 } SentinelToken;
 
+/* Genuine thiscall POD: no implicit constructors, vtable or unknown fields. */
+typedef struct CompilerPool {
+    unsigned char *cursor;
+    unsigned remaining;
+    unsigned minimum_pages;
+    struct CompilerArena *arena;
+#ifdef __cplusplus
+    CompilerPool *RECON_THISCALL Initialize(unsigned minimum_pages);
+#endif
+} CompilerPool;
+
 typedef struct FrontendBss {
     FrontendData *saved_state;
     int cleanup_count;
@@ -51,8 +62,12 @@ typedef struct FrontendBss {
     TokenValue token_value;
     SentinelToken sentinel_token;
     unsigned long source_signature;
+    CompilerPool pools[1];
 } FrontendBss;
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 extern FrontendData frontend_data;
 extern FrontendBss frontend_bss;
 extern int restore_mode;
@@ -63,4 +78,8 @@ int report_compiler_diagnostic(int number, ...);
 int register_cleanup(Initializer cleanup);
 void initialize_deferred_work(void);
 void destroy_deferred_work(void);
+void initialize_frontend_24(void);
+#ifdef __cplusplus
+}
+#endif
 #endif

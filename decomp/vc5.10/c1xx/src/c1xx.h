@@ -8,6 +8,9 @@
 typedef void (__cdecl *Initializer)(void);
 typedef BOOL (WINAPI *RawDllEntry)(HINSTANCE, DWORD, LPVOID);
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 extern int process_attached;
 extern int compiler_mode;
 extern HINSTANCE dll_module;
@@ -26,5 +29,9 @@ int initialize_compiler_pass(void);
 int cleanup_compiler_pass(void);
 void WINAPI AbortCompilerPass(DWORD);
 int WINAPI InvokeCompilerPass(int, char **, int);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif

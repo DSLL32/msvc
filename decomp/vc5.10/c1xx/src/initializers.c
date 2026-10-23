@@ -134,10 +134,6 @@ void initialize_frontend_23(void)
     register_cleanup(destroy_pdb_context_02);
 }
 
-void initialize_frontend_24(void)
-{
-    __asm { int 3 }
-}
 
 void initialize_frontend_25(void)
 {
