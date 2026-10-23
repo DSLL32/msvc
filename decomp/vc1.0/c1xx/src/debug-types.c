@@ -15,6 +15,30 @@ unsigned debug_type_capacity; /* original 0xa25bc */
 unsigned short debug_field_properties; /* original 0xa25c4 */
 DebugTypeFixup *debug_type_fixups; /* original 0xa25b0 */
 
+/* Original 0x6ff00..0x6ffcf. A modifier leaf names the corresponding
+   unqualified type and retains only the const/volatile qualifier bits. */
+void __stdcall emit_debug_qualified_type(CType *type)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    CType *description, *base;
+    unsigned short *words = (unsigned short *)(debug_record_buffer + 2);
+    if (pool->remaining < 12) refill_arena(&compiler_arena, pool);
+    description = (CType *)pool->next;
+    pool->remaining -= 12;
+    pool->next += 12;
+    *description = *type;
+    description->attributes &= 0xcfff;
+    description->debug_index = 0;
+    base = intern_type((TypeDescription *)description);
+    if (!base->debug_index) reference_debug_type(base);
+    words[0] = 1;
+    words[1] = (debug_field_properties & ~3) |
+        ((type->attributes & 0x1000) ? 1 : 0) |
+        ((type->attributes & 0x2000) ? 2 : 0);
+    words[2] = base->debug_index;
+    emit_debug_type_record(6);
+}
+
 /* Explicit pointer distances: default, near32, far32 and far16. Only
    indices0..3 reach this table: based attributes4/8 take another branch. */
 unsigned char cv_pointer_models[4] = { 0, 10, 11, 2 }; /* original0xa25b8 */
