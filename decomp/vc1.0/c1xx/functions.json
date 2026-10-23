@@ -982,7 +982,8 @@
     "_skip_conditional_block@4",
     "_read_skipped_directive",
     "_skip_source_line",
-    "_define_source_macro"
+    "_define_source_macro",
+    "_expand_macro@4"
   ],
   "driver": [
     {
@@ -3250,7 +3251,13 @@
     {
       "name": "_expand_macro@4",
       "start": 131216,
-      "end": 131217
+      "end": 132532,
+      "shared": [
+        [
+          132532,
+          132560
+        ]
+      ]
     },
     {
       "name": "_match_source_character@4",
@@ -7501,6 +7508,76 @@
       "name": "_read_macro_replacement",
       "start": 129840,
       "end": 129841
+    },
+    {
+      "name": "_reference_browser_macro@4",
+      "start": 181312,
+      "end": 181313
+    },
+    {
+      "name": "_push_macro_expansion@4",
+      "start": 134240,
+      "end": 134241
+    },
+    {
+      "name": "_rescan_macro_replacement",
+      "start": 134368,
+      "end": 134369
+    },
+    {
+      "name": "_finish_macro_expansion",
+      "start": 133568,
+      "end": 133569
+    },
+    {
+      "name": "_skip_macro_space",
+      "start": 135232,
+      "end": 135233
+    },
+    {
+      "name": "_expand_macro_arguments@8",
+      "start": 132560,
+      "end": 132561
+    },
+    {
+      "name": "_emit_macro_string@8",
+      "start": 133856,
+      "end": 133857
+    },
+    {
+      "name": "_emit_macro_text@4",
+      "start": 134160,
+      "end": 134161
+    },
+    {
+      "name": "_scan_macro_name@4",
+      "start": 134720,
+      "end": 134721
+    },
+    {
+      "name": "_read_macro_parameter",
+      "start": 135168,
+      "end": 135169
+    },
+    {
+      "name": "_copy_macro_literal@12",
+      "start": 130976,
+      "end": 130977
+    },
+    {
+      "name": "_check_defined_macro@4",
+      "start": 148816,
+      "end": 148817
+    },
+    {
+      "name": "_macro_expansion_error@4",
+      "start": 135536,
+      "end": 135537
+    },
+    {
+      "name": "_current_source_timestamp",
+      "start": 123808,
+      "end": 123809
     }
   ],
   "cases": {
@@ -7656,8 +7733,8 @@
       "native_reference": "cases/native-new-delete",
       "frontiers": "cases/frontiers/new_delete",
       "accepted_from": 963,
-      "terminal": "_expand_macro@4",
-      "terminal_evidence": "cases/frontiers/new_delete/0977-define_source_macro/original-events.txt",
+      "terminal": "_transform_function_parameters@8",
+      "terminal_evidence": "cases/frontiers/new_delete/0978-expand_macro-4/original-events.txt",
       "original_seed": "cases/new_delete-seed",
       "frontier_extensions": [
         "cases/frontiers/new_delete/0963-read_include_name/frontier-extension.json",
@@ -7674,7 +7751,8 @@
         "cases/frontiers/new_delete/0974-skip_conditional_block-4/frontier-extension.json",
         "cases/frontiers/new_delete/0975-read_skipped_directive/frontier-extension.json",
         "cases/frontiers/new_delete/0976-skip_source_line/frontier-extension.json",
-        "cases/frontiers/new_delete/0977-define_source_macro/frontier-extension.json"
+        "cases/frontiers/new_delete/0977-define_source_macro/frontier-extension.json",
+        "cases/frontiers/new_delete/0978-expand_macro-4/frontier-extension.json"
       ]
     }
   },
@@ -7911,9 +7989,10 @@
           "bytes": 4
         },
         {
-          "name": "_macro_saved_input_cursor",
+          "name": "_macro_expansion_frames",
           "original": 612256,
-          "bytes": 4
+          "bytes": 4,
+          "offset": 20
         },
         {
           "name": "_browser_file_cookie",
@@ -9766,6 +9845,43 @@
           "name": "_macro_formal_count",
           "original": 612232,
           "bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "_macro_expansion_frames",
+      "original": 612236,
+      "kind": "state",
+      "fields": [
+        {
+          "name": "_macro_expansion_frames",
+          "original": 612236,
+          "bytes": 5120
+        },
+        {
+          "name": "_macro_argument_start",
+          "original": 612204,
+          "bytes": 4
+        },
+        {
+          "name": "_macro_argument_state",
+          "original": 612208,
+          "bytes": 4
+        },
+        {
+          "name": "_macro_intertoken_space",
+          "original": 612212,
+          "bytes": 4
+        },
+        {
+          "name": "_macro_expansion_line",
+          "original": 612216,
+          "bytes": 4
+        },
+        {
+          "name": "_macro_file_timestamp",
+          "original": 596168,
+          "bytes": 26
         }
       ]
     }

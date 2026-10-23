@@ -154,18 +154,18 @@ for table in cfg.get('tables', []):
     elif kind == 'state':
         for field in table['fields']:
             for offset in range(field['bytes']):
-                a, b = field['original'] + offset, names[field['name']] + offset
+                a, b = field['original'] + offset, names[field['name']] + field.get('offset', 0) + offset
                 assert state_addresses.setdefault(a, b) == b, 'shared frontend state was split: %s at original %x (expected %x, previously mapped %x)' % (field['name'], a, b, state_addresses[a])
                 assert state_reverse_addresses.setdefault(b, a) == a, 'distinct frontend state was merged: '+field['name']
             if 'pointer_to' in field:
                 assert field['bytes'] == 4
                 assert word(original, field['original']) == field['original_target'], \
                     'original frontend pointer target differs: '+field['name']
-                assert word(rebuilt, names[field['name']]) == names[field['pointer_to']] + field.get('target_offset', 0), \
+                assert word(rebuilt, names[field['name']] + field.get('offset', 0)) == names[field['pointer_to']] + field.get('target_offset', 0), \
                     'rebuilt frontend pointer target differs: '+field['name']
             else:
                 assert read(original, field['original'], field['bytes']) == \
-                       read(rebuilt, names[field['name']], field['bytes']), \
+                       read(rebuilt, names[field['name']] + field.get('offset', 0), field['bytes']), \
                     'initial frontend state differs: '+field['name']
         print('%d shared frontend state defaults match the original.' % len(table['fields']))
     elif kind == 'tokens':

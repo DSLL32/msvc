@@ -1,0 +1,42 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_expand_macro@4",
+    "start": 131216,
+    "end": 132532,
+    "shared": [
+      [
+        132532,
+        132560
+      ]
+    ]
+  },
+  "distinct_direct_callees": [
+    "_check_defined_macro@4",
+    "_copy_macro_literal@12",
+    "_current_source_timestamp",
+    "_emit_macro_string@8",
+    "_emit_macro_text@4",
+    "_expand_macro_arguments@8",
+    "_finish_macro_expansion",
+    "_format_text",
+    "_format_timestamp@4",
+    "_lookup_macro",
+    "_macro_expansion_error@4",
+    "_push_macro_expansion@4",
+    "_quote_source_filename@8",
+    "_read_macro_parameter",
+    "_recover_special_character",
+    "_reference_browser_macro@4",
+    "_rescan_macro_replacement",
+    "_scan_macro_name@4",
+    "_skip_macro_space",
+    "_skip_source_comment"
+  ],
+  "next_frontier": "_transform_function_parameters@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4100672136992216,
+  "total_operation_seconds": 3.9128119312226772,
+  "original_capture_seconds": 1.718942005187273
+}

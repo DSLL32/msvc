@@ -1,0 +1,10 @@
+{
+  "original_frame_base": "0x9578c",
+  "frame_bytes": 20,
+  "capacity": 256,
+  "capacity_proof": "push_macro_expansion20c6b checks active<256 before recording frame; slots1..255 are used by normal push.",
+  "definition_offset": 12,
+  "root_source_cursor": "frame[1].source_cursor = original0x957a0",
+  "prior_error": "Source input previously declared a standalone macro_saved_input_cursor at that address. Consolidated as typed frame1 cursor before any nonempty rescan acceptance.",
+  "data_audit": "Initial-state address maps include full5120-byte array and explicit overlapping4-byte alias using field.offset20; no separate copied cursor remains."
+}

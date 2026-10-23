@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "9bf42ae6f2c2c494ff6cd1c171e80acf904ed486dcc8c852654d46eaf7f6cecf",
+    "functions.json": "7d3ee1755d5549b268518fb2ebf34cefe05a94bf79b6c55870ca647098d01437",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "dd6b3f342421546a460d1291f45d9032c2916fb1f12d96e9f9616cb15ea79624",
-    "cases/canonical-map.txt": "e6825b10c1107312930787092dd7cdd86a11efdd33237970d6e44d3e2388a7cd",
+    "cases/original-entry-references.json": "5347970ed94179e38b129aebd7666c18ab6702b91701ec9aa51ecb2c962305d5",
+    "cases/canonical-map.txt": "f7f75ad9dbe83870b6bdde8c15fde0d13c7a01b4e7263da11ed226ec0954838e",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -31,9 +31,9 @@
     "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-receipt.json": "c96405bad006bb3fd9f900a346c2d788eb6906b74f281ddbf6e3032440b280f5",
     "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-events.txt": "9e35a24f4e53f4b7b0219bec08cb63897a7eca106f3d009663ffb919319a941f",
     "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-entries.plan": "a5f1b84b7a83babbd447d32cf9a76cf4fa037e529269692bfe6ac29127e5c35d",
-    "cases/frontiers/new_delete/0977-define_source_macro/entry-reference/original-receipt.json": "711a6155efd02e9b76739785ff44b08bf18446949a614cb1b3bd7557f809b881",
-    "cases/frontiers/new_delete/0977-define_source_macro/entry-reference/original-events.txt": "06f8d9dd8e67ca65dc2ebe543f4d0218dfb77a44d7287e9b9c20697e8b982f1d",
-    "cases/frontiers/new_delete/0977-define_source_macro/entry-reference/original-entries.plan": "13733818c4d7efb38bb10ad78236fc2a10bb86614669fd3e9ecc1a07b1773a8c"
+    "cases/frontiers/new_delete/0978-expand_macro-4/entry-reference/original-receipt.json": "5b53ca0e9f9d158101d1104d43f887cd02ea2273fe6801fd0d2120ba0f4bc266",
+    "cases/frontiers/new_delete/0978-expand_macro-4/entry-reference/original-events.txt": "741afc90ea8007e3e0ba4855a316f4ed68a8194b35d6b2caee77525da674be14",
+    "cases/frontiers/new_delete/0978-expand_macro-4/entry-reference/original-entries.plan": "67333945aac3e8bf575708e060577fea2904635e10a52bd3d18e53097e75d5bc"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -712,6 +712,10 @@
       "logical": "_check_declarator_prefix@8",
       "source": "src/stubs.c"
     },
+    "check_defined_macro": {
+      "logical": "_check_defined_macro@4",
+      "source": "src/stubs.c"
+    },
     "check_empty_declaration": {
       "logical": "_check_empty_declaration@4",
       "source": "src/tags.c"
@@ -1144,6 +1148,10 @@
       "logical": "_copy_inherited_virtual_group@12",
       "source": "src/class-finalization.c"
     },
+    "copy_macro_literal": {
+      "logical": "_copy_macro_literal@12",
+      "source": "src/stubs.c"
+    },
     "copy_qualified_declarator": {
       "logical": "_copy_qualified_declarator@8",
       "source": "src/stubs.c"
@@ -1247,6 +1255,10 @@
     "current_declaration_type": {
       "logical": "_current_declaration_type@4",
       "source": "src/parser-state.c"
+    },
+    "current_source_timestamp": {
+      "logical": "_current_source_timestamp",
+      "source": "src/stubs.c"
     },
     "data_member_pointer_size": {
       "logical": "_data_member_pointer_size@4",
@@ -1540,6 +1552,14 @@
       "logical": "_emit_line_directive",
       "source": "src/source-input.c"
     },
+    "emit_macro_string": {
+      "logical": "_emit_macro_string@8",
+      "source": "src/stubs.c"
+    },
+    "emit_macro_text": {
+      "logical": "_emit_macro_text@4",
+      "source": "src/stubs.c"
+    },
     "emit_member_and_base_destructors": {
       "logical": "_emit_member_and_base_destructors@4",
       "source": "src/constructor-initializers.c"
@@ -1826,6 +1846,10 @@
     },
     "expand_macro": {
       "logical": "_expand_macro@4",
+      "source": "src/macro-expansion.c"
+    },
+    "expand_macro_arguments": {
+      "logical": "_expand_macro_arguments@8",
       "source": "src/stubs.c"
     },
     "expression_can_be_repeated": {
@@ -2126,6 +2150,10 @@
     },
     "finish_local_static_initialization": {
       "logical": "_finish_local_static_initialization@4",
+      "source": "src/stubs.c"
+    },
+    "finish_macro_expansion": {
+      "logical": "_finish_macro_expansion",
       "source": "src/stubs.c"
     },
     "finish_nonvirtual_class_size": {
@@ -2930,6 +2958,10 @@
     },
     "lower_member_pointer_call": {
       "logical": "_lower_member_pointer_call@8",
+      "source": "src/stubs.c"
+    },
+    "macro_expansion_error": {
+      "logical": "_macro_expansion_error@4",
       "source": "src/stubs.c"
     },
     "macro_replacement_diff": {
@@ -3860,6 +3892,10 @@
       "logical": "_push_loop_label@8",
       "source": "src/loop-output.c"
     },
+    "push_macro_expansion": {
+      "logical": "_push_macro_expansion@4",
+      "source": "src/stubs.c"
+    },
     "push_packing": {
       "logical": "_push_packing",
       "source": "src/packing.c"
@@ -3955,6 +3991,10 @@
     "read_lexical_token": {
       "logical": "_read_lexical_token",
       "source": "src/lexer.c"
+    },
+    "read_macro_parameter": {
+      "logical": "_read_macro_parameter",
+      "source": "src/stubs.c"
     },
     "read_macro_parameters": {
       "logical": "_read_macro_parameters",
@@ -4118,6 +4158,10 @@
     },
     "recursive_lookahead_parse": {
       "logical": "_recursive_lookahead_parse",
+      "source": "src/stubs.c"
+    },
+    "reference_browser_macro": {
+      "logical": "_reference_browser_macro@4",
       "source": "src/stubs.c"
     },
     "reference_debug_type": {
@@ -4388,6 +4432,10 @@
       "logical": "_requires_address_temporary@4",
       "source": "src/unary-expressions.c"
     },
+    "rescan_macro_replacement": {
+      "logical": "_rescan_macro_replacement",
+      "source": "src/stubs.c"
+    },
     "reserve_type_diagnostic": {
       "logical": "_reserve_type_diagnostic",
       "source": "src/type-diagnostics.c"
@@ -4616,6 +4664,10 @@
       "logical": "_scan_macro_identifier",
       "source": "src/stubs.c"
     },
+    "scan_macro_name": {
+      "logical": "_scan_macro_name@4",
+      "source": "src/stubs.c"
+    },
     "scan_number": {
       "logical": "_scan_number@4",
       "source": "src/numeric-scanning.c"
@@ -4762,6 +4814,10 @@
     },
     "skip_line_comment": {
       "logical": "_skip_line_comment",
+      "source": "src/stubs.c"
+    },
+    "skip_macro_space": {
+      "logical": "_skip_macro_space",
       "source": "src/stubs.c"
     },
     "skip_reference_shape": {
@@ -6053,7 +6109,8 @@
     "skip_conditional_block",
     "read_skipped_directive",
     "skip_source_line",
-    "define_source_macro"
+    "define_source_macro",
+    "expand_macro"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -9249,7 +9306,7 @@
     },
     "new_delete": {
       "first": 963,
-      "last": 978,
+      "last": 979,
       "seen": [
         "main",
         "message_text",
@@ -10137,12 +10194,13 @@
         "read_skipped_directive",
         "skip_source_line",
         "define_source_macro",
-        "expand_macro"
+        "expand_macro",
+        "transform_function_parameters"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_expand_macro@4",
-        "native": "expand_macro",
+        "logical": "_transform_function_parameters@8",
+        "native": "transform_function_parameters",
         "signal": 5
       }
     }

@@ -12,6 +12,7 @@
 #include "work-list.h"
 #include "loop-output.h"
 #include "comments.h"
+#include "macro-expansion.h"
 #include "cpp-context.h"
 #include "expression-records.h"
 #include "function-definitions.h"
@@ -274,7 +275,20 @@ unsigned __stdcall read_number_text(char *destination) { __asm { int 3 } return 
 unsigned char __stdcall scan_float_tail(char *destination) { __asm { int 3 } return 0; }
 unsigned char __stdcall scan_assembler_number(unsigned char first_character) { __asm { int 3 } return 0; }
 int scan_macro_identifier(void) { __asm { int 3 } return 0; }
-int __stdcall expand_macro(MacroDefinition *macro) { __asm { int 3 } return 0; }
+void __stdcall reference_browser_macro(MacroDefinition *definition) { __asm { int 3 } }
+void __stdcall push_macro_expansion(MacroDefinition *definition) { __asm { int 3 } }
+void rescan_macro_replacement(void) { __asm { int 3 } }
+int finish_macro_expansion(void) { __asm { int 3 } return 0; }
+int skip_macro_space(void) { __asm { int 3 } return 0; }
+void __stdcall expand_macro_arguments(MacroDefinition *definition, int count) { __asm { int 3 } }
+void __stdcall emit_macro_string(unsigned char delimiter, char *text) { __asm { int 3 } }
+void __stdcall emit_macro_text(char *text) { __asm { int 3 } }
+int __stdcall scan_macro_name(unsigned char first) { __asm { int 3 } return 0; }
+char *read_macro_parameter(void) { __asm { int 3 } return 0; }
+char *__stdcall copy_macro_literal(char *cursor, char *limit, unsigned char delimiter) { __asm { int 3 } return 0; }
+int __stdcall check_defined_macro(char *name) { __asm { int 3 } return 0; }
+void __stdcall macro_expansion_error(unsigned code) { __asm { int 3 } }
+long current_source_timestamp(void) { __asm { int 3 } return 0; }
 
 void report_ide_line(void) { __asm { int 3 } }
 void finish_pch_capture(void) { __asm { int 3 } }

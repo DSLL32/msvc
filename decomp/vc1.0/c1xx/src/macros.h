@@ -30,6 +30,18 @@ typedef struct MacroDefinition {
     unsigned short field0e;
     unsigned browser_index;
 } MacroDefinition;
+/* Original 0x9578c: 256 twenty-byte expansion frames; frame1's source
+   cursor is also the root input cursor used while a source window is moved. */
+typedef struct MacroExpansionFrame {
+    char *source_cursor, *argument_start, *replacement_start;
+    MacroDefinition *definition;
+    unsigned char argument_state, flags;
+    unsigned short reserved;
+} MacroExpansionFrame;
+extern MacroExpansionFrame macro_expansion_frames[256];
+typedef char MacroFrameSizeMustBe20[(sizeof(MacroExpansionFrame) == 20) ? 1 : -1];
+typedef char MacroFrameDefinitionOffsetMustBe12[(offsetof(MacroExpansionFrame, definition) == 12) ? 1 : -1];
+typedef char MacroFrameArgumentStateOffsetMustBe16[(offsetof(MacroExpansionFrame, argument_state) == 16) ? 1 : -1];
 extern MacroDefinition **macro_buckets;
 extern unsigned macro_work_bytes;
 extern char *macro_work_buffer;
