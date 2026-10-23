@@ -1130,7 +1130,8 @@
     "_new_member_pointer_thunk_key@8",
     "_hash_tail_word_pair",
     "_emit_member_pointer_virtual_thunk@4",
-    "_copy_member_pointer_thunk_key@8"
+    "_copy_member_pointer_thunk_key@8",
+    "_member_pointer_is_aggregate@4"
   ],
   "driver": [
     {
@@ -8453,7 +8454,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_member_pointer_is_aggregate@4",
+      "terminal": "_sizeof_expression@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8476,7 +8477,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1125-copy_member_pointer_thunk_key-8/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1126-member_pointer_is_aggregate-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8607,7 +8608,8 @@
         "cases/frontiers/state_machine_debug/1122-new_member_pointer_thunk_key-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1123-hash_tail_word_pair/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1124-emit_member_pointer_virtual_thunk-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1125-copy_member_pointer_thunk_key-8/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1125-copy_member_pointer_thunk_key-8/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1126-member_pointer_is_aggregate-4/frontier-extension.json"
       ]
     }
   },

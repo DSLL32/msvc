@@ -1,0 +1,19 @@
+Breakpoint 1 at 0x4f6e9: file src/member-pointers.c, line 42.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, member_pointer_is_aggregate (type=0x56629460) at src/member-pointers.c:42
+42	    TypeShape *shape = type->related;
+#0  member_pointer_is_aggregate (type=0x56629460) at src/member-pointers.c:42
+#1  0x56563203 in emit_record_node (tag=50, node=0x56636600, mode=2) at src/ir.c:344
+#2  0x56562a02 in write_ir_record (tag=50, value=0x56636600) at src/ir.c:154
+#3  0x565ab952 in emit_expression_tree (expression=0x56636600) at src/expression-output.c:112
+#4  0x565ab9b8 in emit_expression_statement (expression=0x56636600) at src/expression-output.c:127
+#5  0x56586989 in initialize_lvalue (target=0x566365ec, value=0x56636600) at src/constructor-initializers.c:426
+#6  0x5659270b in emit_initializer_assignment (target=0x566365d8, value=0x566365c4) at src/object-initializers.c:421
+#7  0x56592153 in initialize_object_value (symbol=0x5664cbd4, value=0x566365c4) at src/object-initializers.c:303
+#8  0x56591eee in initialize_object (symbol=0x5664cbd4, value=0x566365c4) at src/object-initializers.c:255
+#9  0x565b54d0 in parse_translation_unit () at src/parser-declaration-actions.inc:327
+#10 0x5655e04f in compile_translation_unit () at src/frontend.c:73
+#11 0x565588b6 in guarded_compile () at src/c1xx.c:28
+#12 0x56558884 in main (argc=1, argv=0xffffd7a4, environment=0xffffd7ac) at src/c1xx.c:20

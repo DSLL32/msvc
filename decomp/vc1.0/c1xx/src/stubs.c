@@ -88,7 +88,6 @@ void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
 int __stdcall pch_record_macro(char *name, char *replacement, int parameter_count) { __asm { int 3 } return 0; }
 int __stdcall macro_replacement_diff(char *left, char *right, unsigned bytes) { __asm { int 3 } return 0; }
 void __stdcall browser_macro(MacroDefinition *definition) { __asm { int 3 } }
-unsigned char __stdcall member_pointer_is_aggregate(CType *type) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_symbol_binding(CppSymbol *symbol, CppSymbol **value) { __asm { int 3 } return 0; }
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
 CppSymbol *__stdcall symbol_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }

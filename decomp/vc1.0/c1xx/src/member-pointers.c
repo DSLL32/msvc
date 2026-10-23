@@ -35,6 +35,23 @@ int __stdcall tag_has_base_relation(CppSymbol *derived, CppSymbol *base);
 int __stdcall equal_member_function_parameters(FunctionParameters *source,
     FunctionParameters *target);
 
+/* Original 0x4e0c0..0x4e127. Virtual/general member pointers and
+   multiple-inheritance method pointers need aggregate storage. */
+unsigned char __stdcall member_pointer_is_aggregate(CType *type)
+{
+    TypeShape *shape = type->related;
+    unsigned model;
+    if (!shape) return 0;
+    if (!(shape->flags & 0x77)) shape = shape->related;
+    if (!shape || !(shape->flags & 0x30)) return 0;
+    model = member_pointer_inheritance_model(type);
+    switch (model) {
+    case 2: return (type->related->flags & 0x20) != 0;
+    case 3: case 4: return 1;
+    default: return 0;
+    }
+}
+
 /* Original 0x4df40..0x4df98. The cache retains a separate key
    with the original allocation policy and all three defined words. */
 MemberPointerThunkKey *__stdcall copy_member_pointer_thunk_key(MemberPointerThunkKey *key,
