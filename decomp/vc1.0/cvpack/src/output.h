@@ -32,5 +32,6 @@ void write_global_symbols(CvDirectoryEntry *,unsigned long);
 void write_static_symbols(CvDirectoryEntry *,unsigned long);
 unsigned long write_packed_types(void);
 unsigned long write_old_packed_types(void);
+int __cdecl compare_symbol_address(const void *,const void *);
 int __cdecl compare_output_directory(const void *,const void *);
 #endif

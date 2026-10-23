@@ -476,4 +476,84 @@ void *append_fill(GrowingBuffer *buffer, unsigned char value, unsigned long size
     buffer->last->used += size;
     return result;
 }
+
+typedef struct AddressHashEntry {
+    PublicSymbol *symbol;
+    unsigned long stream_offset;
+} AddressHashEntry;
+typedef struct AddressHashSegment {
+    unsigned long count, used;
+    AddressHashEntry *entries;
+} AddressHashSegment;
+typedef char AddressHashEntrySize[(sizeof(AddressHashEntry)==8)?1:-1];
+typedef char AddressHashSegmentSize[(sizeof(AddressHashSegment)==12)?1:-1];
+
+void build_symbol_address_hash(unsigned short *kind, unsigned long *size,
+                               GrowingBuffer *buffer, unsigned long count,
+                               void **buckets)
+{
+    unsigned short max_segment = 0;
+    unsigned long i, j, bucket, orphans = 0, position = 0, offset = 0;
+    AddressHashSegment *segments, *segment;
+    AddressHashEntry *entry;
+    PublicSymbol *symbol;
+
+    if (!count) return;
+    for (bucket = 0; bucket < 4096; ++bucket) {
+        for (symbol = buckets[bucket]; symbol; symbol = symbol->next) {
+            if (*(unsigned short *)(symbol->record+2) != 0x402 &&
+                symbol->segment > max_segment) max_segment = symbol->segment;
+        }
+    }
+    segments = checked_zero(max_segment*sizeof(*segments));
+    for (bucket = 0; bucket < 4096; ++bucket) {
+        for (symbol = buckets[bucket]; symbol; symbol = symbol->next) {
+            if (*(unsigned short *)(symbol->record+2) != 0x402) {
+                if (!symbol->segment) ++orphans;
+                else ++segments[symbol->segment-1].count;
+            }
+        }
+    }
+    for (i = 0; i < max_segment; ++i) {
+        if (segments[i].count)
+            segments[i].entries = checked_zero(segments[i].count*sizeof(AddressHashEntry));
+    }
+    for (bucket = 0; bucket < 4096; ++bucket) {
+        for (symbol = buckets[bucket]; symbol; symbol = symbol->next) {
+            if (*(unsigned short *)(symbol->record+2) != 0x402 && symbol->segment) {
+                segment = &segments[symbol->segment-1];
+                entry = &segment->entries[segment->used++];
+                entry->symbol = symbol;
+                entry->stream_offset = position;
+            }
+            position += *(unsigned short *)symbol->record+2;
+        }
+    }
+    for (i = 0; i < max_segment; ++i)
+        qsort(segments[i].entries, segments[i].count, sizeof(AddressHashEntry),
+              compare_symbol_address);
+    initialize_buffer(buffer, 4096);
+    append_buffer(buffer, &max_segment, 2);
+    append_fill(buffer, 0, 2);
+    for (i = 0; i < max_segment; ++i) {
+        append_buffer(buffer, &offset, 4);
+        offset += segments[i].count*8;
+    }
+    for (i = 0; i < max_segment; ++i) {
+        append_buffer(buffer, &segments[i].count, 2);
+        append_fill(buffer, 0, 2);
+    }
+    for (i = 0; i < max_segment; ++i) {
+        for (j = 0; j < segments[i].count; ++j) {
+            entry = &segments[i].entries[j];
+            append_buffer(buffer, &entry->stream_offset, 4);
+            append_buffer(buffer, &entry->symbol->offset, 4);
+        }
+    }
+    *kind = 12;
+    *size = (max_segment-orphans+count)*8+4;
+    for (i = 0; i < max_segment; ++i)
+        if (segments[i].entries) free(segments[i].entries);
+    free(segments);
+}
 #undef OUTPUT_BYTES

@@ -7112,13 +7112,16 @@
       "native": "build_symbol_address_hash",
       "symbol": "_build_symbol_address_hash",
       "original": 118896,
-      "source": "src/stubs.c",
+      "source": "src/output.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        118896,
+        119626
+      ],
       "abi": "void build_symbol_address_hash(unsigned short *,unsigned long *,GrowingBuffer *,unsigned long,void **)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0135-build_symbol_address_hash/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -7157,7 +7160,21 @@
           "original_root": 225660,
           "requested_size": 16384
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "first_buffer_block",
@@ -7241,6 +7258,37 @@
           }
         ]
       }
+    },
+    {
+      "name": "compare_symbol_address",
+      "native": "compare_symbol_address",
+      "symbol": "_compare_symbol_address",
+      "original": 118864,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int __cdecl compare_symbol_address(const void *,const void *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "left",
+          "slot": 1,
+          "kind": "symbol-sort-key",
+          "qsort_return": 119255,
+          "qsort_callback": 118864
+        },
+        {
+          "name": "right",
+          "slot": 2,
+          "kind": "symbol-sort-key",
+          "qsort_return": 119255,
+          "qsort_callback": 118864
+        }
+      ]
     }
   ],
   "review": {
@@ -8071,6 +8119,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 134
+    },
+    {
+      "function": "build_symbol_address_hash",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 135
     }
   ],
   "support_unmasked": [
@@ -8681,7 +8735,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "c5a528a9cd203860c0521a28d6cf01e8e2fc9fd2d397c3448bc1c0338ccfd2c2"
+    "evidence_sha256": "b9e892dbb5652fbd0a4d61fa847b5e22237f6de23ead378cbe5c160de26d256b"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -8757,6 +8811,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "f85e12af6f3af2b82712451b54708ab7ee5d21ab2fbc556816730143d1903b23"
+    "sha256": "af49d942c065c59139bd6c6a6fa984c46bebae7ff1474ecf81d05c45906740c2"
   }
 }

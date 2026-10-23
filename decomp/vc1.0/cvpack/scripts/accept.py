@@ -40,6 +40,20 @@ def compare_integer(item,descriptions,words,parameters):
     assert value&mask==actual&mask,('ABI integer differs',item['name'],value,actual)
     return None
 
+def compare_symbol_sort_key(item,words,actual,events):
+    assert(item['qsort_return'],item['qsort_callback'])==(0x1d1d7,0x1d050),'unknown symbol-sort caller'
+    frames=[i for i in words if isinstance(i,int)and words[i]==item['qsort_return']and words.get(i+3)==8 and words.get(i+4)==item['qsort_callback']]
+    assert len(frames)==1,'missing/ambiguous actual original qsort frame'
+    frame=frames[0];base,count=words[frame+1],words[frame+2];pointer=words[item['slot']];array=actual['array']
+    assert count>1 and base<=pointer<base+count*8 and not(pointer-base)%8,'original symbol key outside qsort allocation'
+    assert array['count']==count and array['stride']==8 and array['index']==(pointer-base)//8 and actual['address']==array['base']+array['index']*8,'symbol sort array/index differs'
+    raw=re.findall(r'^input-buffer %08x ([0-9a-f]+)$'%pointer,events,re.M);key=re.findall(r'^symbol-key %08x ([0-9a-f]+) ([0-9a-f]+)$'%pointer,events,re.M)
+    assert len(raw)==len(key)==1,'missing actual original symbol-sort inputs'
+    raw=bytes.fromhex(raw[0]);node,offset=(int(v,16)for v in key[0]);new=bytes.fromhex(actual['bytes'])
+    assert len(raw)==len(new)==8 and int.from_bytes(raw[:4],'little')==node!=0 and int.from_bytes(new[:4],'little')==actual['symbol']['address']!=0,'symbol key cell/pointee differs'
+    assert offset==actual['symbol']['offset'],'consumed symbol address differs'
+    return dict(original_cell=pointer,native_cell=actual['address'],array_index=array['index'],array_count=count,original_symbol=node,native_symbol=actual['symbol']['address'],consumed_offset=offset,original_raw=raw.hex(),native_raw=new.hex(),scope='Actual qsort array allocation/call; comparator consumes PublicSymbol offset DWORD12 only, no wider node/heap equality claimed')
+
 def compare_global_owner(item,words,actual,events):
     assert (item['root'],item['original_root'],item['requested_size'])==('public_symbol_hash',0x3717c,0x4000),'unreviewed published table allocation'
     matches=re.findall(r'^memory %08x ([0-9a-f]+)$'%item['original_root'],events,re.M)
@@ -110,6 +124,7 @@ def accept_entry_flow(args,config,pe,function,original,native,captured,receipt):
     assert set(state['parameters'])=={r['name']for r in frontier['parameters']},'new frontier ABI observation incomplete'
     for item in frontier['parameters']:
         if item['kind']=='integer':parameters[item['name']]=compare_integer(item,frontier['parameters'],words,state['parameters'])
+        elif item['kind']=='symbol-sort-key':parameters[item['name']]=compare_symbol_sort_key(item,words,state['parameters'][item['name']],events)
         elif item['kind']=='function':
             callback=next(r for r in config['functions']if r['name']==item['target']);actual=state['parameters'][item['name']]
             assert words[item['slot']]==item['original_target']==callback['original']and actual['function']==callback['native']and not actual['null'],'callback ABI identity differs'

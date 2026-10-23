@@ -158,6 +158,15 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
         ' if not root or root!=argument["address"]: raise RuntimeError("argument differs from published table owner")\n'
         ' argument["owner"]=dict(root=description["root"],address=root,requested_size=description["requested_size"])\n'
         'for description in frontier.get("parameters",[]):\n'
+        ' if description["kind"]!="symbol-sort-key": continue\n'
+        ' sorter=current.older()\n'
+        ' while sorter and sorter.name()!="recon_qsort": sorter=sorter.older()\n'
+        ' if not sorter: raise RuntimeError("missing actual qsort array owner")\n'
+        ' base=int(sorter.read_var("array"));count=int(sorter.read_var("count"));stride=int(sorter.read_var("width"));argument=parameters[description["name"]];pointer=argument["address"]\n'
+        ' if not base or stride!=8 or not base<=pointer<base+count*8 or (pointer-base)%8: raise RuntimeError("symbol key outside current qsort array")\n'
+        ' raw=bytes(gdb.selected_inferior().read_memory(pointer,8));node=int.from_bytes(raw[:4],"little");key=int.from_bytes(bytes(gdb.selected_inferior().read_memory(node+12,4)),"little")\n'
+        ' argument["array"]=dict(base=base,count=count,index=(pointer-base)//8,stride=8);argument["bytes"]=raw.hex();argument["symbol"]=dict(address=node,offset=key)\n'
+        'for description in frontier.get("parameters",[]):\n'
         ' if description["kind"]!="transient-pointer": continue\n'
         ' proof=json.load(open('+repr(str(BINARY))+'+"/"+description["evidence"]))\n'
         ' owner=current.older()\n'
@@ -270,7 +279,7 @@ def run_case(name, directory, debug=False, reference_completion=False, scalar_co
     if expected.get('proof_mode')=='entry-flow'and not(reference_completion or scalar_completion):
         marker='set argv[0] = recon_pgmptr\n';text=script.read_text();prefix=text[:text.index(marker)+len(marker)]
         frontier=next(r for r in config['functions']if r['native']==expected['native_function'])
-        assert all(r['kind']in('integer','stack-output','stack-input','allocation-output','counted-string','directory-key','directory-output','global-owner','function')or(r['kind']=='pointer'and r.get('null_only'))for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
+        assert all(r['kind']in('integer','stack-output','stack-input','allocation-output','counted-string','directory-key','directory-output','global-owner','function','symbol-sort-key')or(r['kind']=='pointer'and r.get('null_only'))for r in frontier['parameters']),'new frontier requires concrete typed pointer observation'
         observed=[r for r in data if r['name']in expected.get('observed_globals',[])]
         assert len(observed)==len(expected.get('observed_globals',[])),'unknown observed global'
         prefix+='python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_sopen_observer"]('+repr(str(directory/'crt-returns.json'))+','+repr(str(directory/'debug-work'))+','+repr(policies)+')\nend\ncontinue\npython\nimport json\nf=gdb.newest_frame();frames=[];frame=f\nwhile frame:frames.append(frame.name());frame=frame.older()\n'

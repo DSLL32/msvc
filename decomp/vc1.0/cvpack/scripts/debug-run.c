@@ -895,6 +895,13 @@ static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *wor
             for (i = 0; i < size; ++i) used += sprintf(object_line+used, "%02x", original_bytes[i]);
             object_line[used++] = '\n';
             if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
+            if (entry == 0x1d050 && size == 8 && input) {
+                DWORD node, key;
+                if (!ReadProcessMemory(child, (void *)pointer, &node, 4, &bytes) || bytes != 4 || !node ||
+                    !ReadProcessMemory(child, (void *)(node+12), &key, 4, &bytes) || bytes != 4) return 0;
+                used = sprintf(object_line, "symbol-key %08lx %08lx %08lx\n", pointer, node, key);
+                if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
+            }
             if (entry == 0x28e00 && slot == 1 && size == 28 && input &&
                 !dump_coff_children(child, log, pointer)) return 0;
         }

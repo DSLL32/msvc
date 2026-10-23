@@ -21,7 +21,7 @@ unsigned short flush_output(int handle) { __asm { int 3 } return 0; }
 
 
 
-void build_symbol_address_hash(unsigned short *kind,unsigned long *size,GrowingBuffer *buffer,unsigned long count,void **buckets) { __asm { int 3 } }
+int __cdecl compare_symbol_address(const void *left,const void *right) { __asm { int 3 } return 0; }
 BufferBlock *first_buffer_block(const GrowingBuffer *buffer) { __asm { int 3 } return NULL; }
 BufferBlock *next_buffer_block(const BufferBlock *block) { __asm { int 3 } return NULL; }
 void write_global_symbols(CvDirectoryEntry *entry,unsigned long offset) { __asm { int 3 } }
