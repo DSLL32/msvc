@@ -386,8 +386,17 @@ def compare(config,data,events,native,artifacts=None,views=None):
             def value(name):
                 item=next(row for row in data if row['name']==name)
                 return int.from_bytes(original['memory'][item['original']],'little')
-            entries=original['memory'][value('directory_entries')];index=value('line_entry_index')
-            size=int.from_bytes(entries[index*12+8:index*12+12],'little')
+            # The directory entry size is replaced with the packed size after
+            # rewriting; retain its input extent from the actual earlier read.
+            symbol_reads=[row for row in original['file_reads'] if row['pc']==0x4050b8 and row['buffer']==value('type_data')]
+            assert len(symbol_reads)==1,'symbol rewrite input read lifetime differs'
+            size=symbol_reads[0]['returned'];assert size==symbol_reads[0]['size'],'symbol rewrite input read is incomplete'
+            directory_reads=[row for row in original['file_reads'] if row['pc']==0x40588b]
+            assert len(directory_reads)==1,'symbol directory input read lifetime differs'
+            entries=bytes.fromhex(directory_reads[0]['bytes']);index=value('line_entry_index')
+            identity=original['memory'][value('directory_entries')][index*12:index*12+4]
+            matches=[entries[i:i+12] for i in range(0,len(entries),12) if entries[i:i+4]==identity]
+            assert len(matches)==1 and int.from_bytes(matches[0][8:12],'little')==size,'symbol rewrite original directory/read extent differs'
             assert size+value('module_symbol_count')-value('module_reference_count')==left['size'],'symbol rewrite allocation expression differs'
             assert right.get('owner')=='rewrite_module_symbols','symbol output allocation owner differs'
         assert left['size']==right['size'] and left['address'] and right['address'],'actual image allocation request/result differs'
@@ -523,6 +532,20 @@ def compare(config,data,events,native,artifacts=None,views=None):
             if 'payload' in shape:
                 spec=shape['payload'];payload_offset=spec['offset'];excluded.update(range(payload_offset,payload_offset+4))
                 module_buffer(int.from_bytes(left[payload_offset:payload_offset+4],'little'),int.from_bytes(right[payload_offset:payload_offset+4],'little'),int.from_bytes(left[spec['length_offset']:spec['length_offset']+4],'little'))
+            # Actual ModuleInfo layout: rewritten symbols at20, length24. The
+            # original module payload remains separately owned at12/16.
+            if shape['size']==48 and shape['link']==44 and shape.get('payload')==dict(offset=12,length_offset=16):
+                excluded.update(range(20,24))
+                symbols=int.from_bytes(left[20:24],'little');actual_symbols=int.from_bytes(right[20:24],'little')
+                assert bool(symbols)==bool(actual_symbols),'module rewritten symbols NULL state differs'
+                if symbols:
+                    allocations=[row for row in original['image_allocations'] if row['site']==0x40a7d1]
+                    assert len(allocations)==1 and allocations[0]['address']==symbols,'module rewritten symbols allocation lifetime differs'
+                    allocation=allocations[0];size=int.from_bytes(left[24:28],'little')
+                    assert image_aliases[symbols]==actual_symbols and 0<=size<=allocation['size'],'module rewritten symbols allocation/size differs'
+                    assert symbols+size==global_integer('symbol_output'),'module rewritten symbols initialized extent differs'
+                    assert original['memory'][symbols][:size]==bytes.fromhex(native['memory'][str(actual_symbols)])[:size],'module rewritten symbol bytes differ'
+                    pair(symbols,actual_symbols);used_uninitialized.add(symbols)
             assert all(a==b for i,(a,b) in enumerate(zip(left,right)) if i not in excluded),'target object bytes differ'
             address=int.from_bytes(left[offset:offset+4],'little')
             other=int.from_bytes(right[offset:offset+4],'little')
@@ -597,6 +620,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
     typed_records_checked=0
     extended_references_checked=0
     recursive_type_nodes_checked=0
+    reference_symbol_nodes_checked=0
     interned_type_nodes_checked=0
     pooled_interned_nodes_checked=0
     cached_type_names_checked=0
@@ -799,10 +823,33 @@ def compare(config,data,events,native,artifacts=None,views=None):
                             owner=owners[0];assert destination==image_aliases[owner]+source-owner,'public node arena/offset differs'
                             a=original['memory'][source];b=bytes.fromhex(native['memory'][str(destination)])
                             assert 20<=len(a)==len(b)==18+int.from_bytes(a[16:18],'little')<=1042 and source+len(a)<=owner+image_sizes[owner],'incomplete or unowned initialized symbol node extent'
-                            assert a[4:]==b[4:],'initialized public node header/record/padding differs'
+                            kind=int.from_bytes(a[18:20],'little')
+                            if item.get('reference_records') and kind in (0x400,0x401):
+                                assert len(a)==32 and a[16:18]==b'\x0e\x00','reference node extent/type differs'
+                                assert a[4:30]==b[4:30],'initialized reference node fields differ'
+                                assert a[20:24]==a[4:8],'reference checksum/header hash alias differs'
+                                current=global_integer('current_module_info')
+                                module=int.from_bytes(original['memory'][current][:2],'little')
+                                assert int.from_bytes(a[28:30],'little')==module,'reference module owner differs'
+                                allocations=[row for row in original['image_allocations'] if row['site']==0x40a7d1]
+                                assert len(allocations)==1,'reference source allocation lifetime differs'
+                                source_allocation=allocations[0];base=source_allocation['address'];position=int.from_bytes(a[24:28],'little')
+                                size=global_integer('symbol_output')-base
+                                assert 4<=position<=size-4,'reference source offset exceeds initialized output'
+                                before=original['memory'][base];after=bytes.fromhex(native['memory'][str(image_aliases[base])])
+                                length=int.from_bytes(before[position:position+2],'little')+2
+                                assert 4<=length<=size-position,'reference source record exceeds initialized output'
+                                assert before[position:position+length]==after[position:position+length],'reference source record bytes differ'
+                                name=int.from_bytes(a[12:14],'little')
+                                assert 4<=name<length and name+1+before[position+name]<=length,'reference borrowed counted name exceeds source record'
+                                source_kind=int.from_bytes(before[position+2:position+4],'little')
+                                assert (kind==0x400 and source_kind in (0x104,0x105,0x100a,0x100b,0x1010,0x1011)) or (kind==0x401 and source_kind in (0x101,0x102,0x1007,0x1008,0x100e,0x100f)),'reference kind/source record differs'
+                                reference_symbol_nodes_checked+=1
+                            else:
+                                assert a[4:]==b[4:],'initialized public node header/record/padding differs'
+                                name=16+int.from_bytes(a[12:14],'little')
+                                assert 20<=name<len(a) and name+1+a[name]<=len(a),'symbol node counted name exceeds initialized record'
                             assert int.from_bytes(a[4:8],'little')%4096==offset//4,'symbol node hash/bucket differs'
-                            name=16+int.from_bytes(a[12:14],'little')
-                            assert 20<=name<len(a) and name+1+a[name]<=len(a),'symbol node counted name exceeds initialized record'
                             source=int.from_bytes(a[:4],'little');destination=int.from_bytes(b[:4],'little')
             elif item.get('written_allocation'):
                 spec=item['written_allocation'];owned=[row for row in original['image_allocations'] if row['site']==spec['site']]
@@ -874,7 +921,19 @@ def compare(config,data,events,native,artifacts=None,views=None):
                             source=int.from_bytes(left[offset:offset+4],'little');destination=int.from_bytes(right[offset:offset+4],'little')
                             if source in module_aliases or destination in module_aliases.values():
                                 excluded.update(range(offset,offset+4));module_buffer(source,destination)
-                    assert all(a==b for i,(a,b) in enumerate(zip(left,right)) if i not in excluded),'allocated initialized bytes differ'
+                            elif relocation.get('rewritten_symbols_site') and (source in image_aliases or destination in image_aliases.values()):
+                                owners=[row for row in original['image_allocations'] if row['site']==relocation['rewritten_symbols_site']]
+                                assert len(owners)==1 and owners[0]['address']==source,'directory rewritten symbol allocation lifetime differs'
+                                assert image_aliases[source]==destination,'directory rewritten symbol allocation alias differs'
+                                assert offset==global_integer('line_entry_index')*12+4,'directory rewritten symbol entry owner differs'
+                                assert int.from_bytes(left[offset-4:offset-2],'little')==0x124,'directory rewritten symbol subsection differs'
+                                length=int.from_bytes(left[offset+4:offset+8],'little')
+                                current=global_integer('current_module_info');module=original['memory'][current]
+                                assert module[20:24]==source.to_bytes(4,'little') and int.from_bytes(module[24:28],'little')==length,'directory/module rewritten symbol identity differs'
+                                assert 0<=length<=owners[0]['size'] and source+length==global_integer('symbol_output'),'directory rewritten symbol initialized extent differs'
+                                assert original['memory'][source][:length]==bytes.fromhex(native['memory'][str(destination)])[:length],'directory rewritten symbol contents differ'
+                                excluded.update(range(offset,offset+4));pair(source,destination);used_uninitialized.add(source)
+                    assert all(a==b for i,(a,b) in enumerate(zip(left,right)) if i not in excluded),('allocated initialized bytes differ',item['name'],[(i,a,b) for i,(a,b) in enumerate(zip(left,right)) if i not in excluded and a!=b][:16])
             elif 'shape' not in item:
                 assert not any(raw) and not any(actual), ('non-NULL pointer needs an evidenced role',item['name'])
             else:
@@ -962,4 +1021,4 @@ def compare(config,data,events,native,artifacts=None,views=None):
                 offset=result-root
                 assert 0<=offset<count*32 and offset%32==0 and actual_result==other+offset,'global-type lookup returned record identity differs'
             lookup_calls_checked+=1
-    return dict(parameters=parameters,caller_state=caller_state,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,type_compare_calls_checked=type_compare_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)
+    return dict(parameters=parameters,caller_state=caller_state,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,type_compare_calls_checked=type_compare_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,reference_symbol_nodes_checked=reference_symbol_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)

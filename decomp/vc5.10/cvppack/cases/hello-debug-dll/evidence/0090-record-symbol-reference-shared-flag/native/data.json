@@ -1,0 +1,1195 @@
+[
+  {
+    "name": "input_file",
+    "original": 4268324,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "show_logo",
+    "original": 4268328,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "banner_pending",
+    "original": 4268332,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "checksum_required",
+    "original": 4281140,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "module_count",
+    "original": 4281144,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "statistics_enabled",
+    "original": 4281538,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "debug_directory",
+    "original": 4281944,
+    "size": 4,
+    "kind": "pointer",
+    "allocation": {
+      "size_global": "module_capacity"
+    }
+  },
+  {
+    "name": "line_data",
+    "original": 4281980,
+    "size": 4,
+    "kind": "pointer",
+    "segment_buffer": true,
+    "blob": {
+      "size": 4
+    },
+    "segment_contents": true
+  },
+  {
+    "name": "symbol_data",
+    "original": 4283044,
+    "size": 4,
+    "kind": "pointer",
+    "allocation": {
+      "size_global": "symbol_capacity"
+    },
+    "read_contents": true,
+    "blob": {
+      "count": "symbol_capacity",
+      "element_size": 1
+    }
+  },
+  {
+    "name": "type_data",
+    "original": 4281972,
+    "size": 4,
+    "kind": "pointer",
+    "allocation": {
+      "size_global": "line_capacity"
+    },
+    "read_contents": true,
+    "blob": {
+      "count": "line_capacity",
+      "element_size": 1
+    }
+  },
+  {
+    "name": "module_data",
+    "original": 4281976,
+    "size": 4,
+    "kind": "pointer",
+    "allocation": {
+      "size_global": "type_capacity"
+    },
+    "read_contents": true,
+    "blob": {
+      "count": "type_capacity",
+      "element_size": 1
+    }
+  },
+  {
+    "name": "minimum_pack",
+    "original": 4281900,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "verbose",
+    "original": 4281896,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "resource_library",
+    "original": 4270472,
+    "size": 4,
+    "kind": "pointer"
+  },
+  {
+    "name": "load_string",
+    "original": 4270476,
+    "size": 4,
+    "kind": "pointer"
+  },
+  {
+    "name": "resource_module",
+    "original": 4270480,
+    "size": 4,
+    "kind": "pointer"
+  },
+  {
+    "name": "message_buffer",
+    "original": 4269448,
+    "size": 1024,
+    "kind": "bytes"
+  },
+  {
+    "name": "maximum_files",
+    "original": 4269356,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "file_increment",
+    "original": 4269352,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "page_increment",
+    "original": 4269388,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "maximum_pages",
+    "original": 4269392,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "mapped_files",
+    "original": 4269412,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "free_pages",
+    "original": 4269368,
+    "size": 4,
+    "kind": "pointer",
+    "shape": {
+      "size": 4136,
+      "link": 4124
+    }
+  },
+  {
+    "name": "free_files",
+    "original": 4269396,
+    "size": 4,
+    "kind": "pointer",
+    "shape": {
+      "size": 40,
+      "link": 36,
+      "string": 0,
+      "handle": 16,
+      "view": {
+        "offset": 20,
+        "length_offset": 24
+      }
+    }
+  },
+  {
+    "name": "cached_files",
+    "original": 4281948,
+    "size": 4,
+    "kind": "pointer",
+    "shape": {
+      "size": 40,
+      "link": 36,
+      "count": "maximum_files",
+      "string": 0,
+      "handle": 16,
+      "view": {
+        "offset": 20,
+        "length_offset": 24
+      }
+    }
+  },
+  {
+    "name": "mapped_file_slots",
+    "original": 4269288,
+    "size": 64,
+    "kind": "pointer-array",
+    "shape": {
+      "size": 40,
+      "link": 36,
+      "string": 0,
+      "count_literal": 16,
+      "inline": true,
+      "handle": 16,
+      "view": {
+        "offset": 20,
+        "length_offset": 24
+      }
+    }
+  },
+  {
+    "name": "file_allocations",
+    "original": 4269380,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "input_name",
+    "original": 4281632,
+    "size": 260,
+    "kind": "bytes"
+  },
+  {
+    "name": "closed_files",
+    "original": 4269404,
+    "size": 4,
+    "kind": "pointer",
+    "shape": {
+      "size": 40,
+      "link": 36,
+      "string": 0,
+      "handle": 16,
+      "view": {
+        "offset": 20,
+        "length_offset": 24
+      }
+    }
+  },
+  {
+    "name": "last_closed_file",
+    "original": 4269408,
+    "size": 4,
+    "kind": "pointer",
+    "shape": {
+      "size": 40,
+      "link": 36,
+      "string": 0,
+      "handle": 16,
+      "view": {
+        "offset": 20,
+        "length_offset": 24
+      }
+    }
+  },
+  {
+    "name": "active_files",
+    "original": 4269400,
+    "size": 4,
+    "kind": "pointer",
+    "shape": {
+      "size": 40,
+      "link": 36,
+      "string": 0,
+      "handle": 16,
+      "view": {
+        "offset": 20,
+        "length_offset": 24
+      }
+    }
+  },
+  {
+    "name": "closed_file_count",
+    "original": 4269384,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "type_table_primary",
+    "original": 4271328,
+    "size": 4,
+    "kind": "pointer",
+    "recursive_types": true
+  },
+  {
+    "name": "type_table_primary_counts",
+    "original": 4271332,
+    "size": 4,
+    "kind": "pointer",
+    "blob": {
+      "size": 8192
+    }
+  },
+  {
+    "name": "type_table_secondary",
+    "original": 4271336,
+    "size": 4,
+    "kind": "pointer",
+    "interned_types": true
+  },
+  {
+    "name": "type_table_secondary_counts",
+    "original": 4271340,
+    "size": 4,
+    "kind": "pointer",
+    "blob": {
+      "size": 8192
+    }
+  },
+  {
+    "name": "type_table_local",
+    "original": 4271344,
+    "size": 4,
+    "kind": "pointer",
+    "public_buckets": true,
+    "reference_records": true
+  },
+  {
+    "name": "type_table_global",
+    "original": 4271348,
+    "size": 4,
+    "kind": "pointer",
+    "public_buckets": true
+  },
+  {
+    "name": "type_table_forward",
+    "original": 4271352,
+    "size": 4,
+    "kind": "pointer",
+    "public_buckets": true,
+    "reference_records": true
+  },
+  {
+    "name": "type_table_pending",
+    "original": 4271356,
+    "size": 4,
+    "kind": "pointer",
+    "blob": {
+      "size": 16384
+    }
+  },
+  {
+    "name": "type_hash_buckets",
+    "original": 4281100,
+    "size": 4,
+    "kind": "pointer",
+    "blob": {
+      "size": 1536
+    }
+  },
+  {
+    "name": "type_references",
+    "original": 4271320,
+    "size": 4,
+    "kind": "pointer",
+    "blob": {
+      "size": 2048
+    },
+    "type_name_cache": true
+  },
+  {
+    "name": "type_positions",
+    "original": 4271324,
+    "size": 4,
+    "kind": "pointer",
+    "type_name_cache": "global"
+  },
+  {
+    "name": "type_table_limit",
+    "original": 4272832,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "type_table_used",
+    "original": 4272856,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "type_arena",
+    "original": 4272800,
+    "size": 24,
+    "kind": "bytes",
+    "type_arena": true
+  },
+  {
+    "name": "type_large_arena",
+    "original": 4271456,
+    "size": 24,
+    "kind": "bytes",
+    "type_arena": true
+  },
+  {
+    "name": "empty_type_record",
+    "original": 4272840,
+    "size": 4,
+    "kind": "pointer",
+    "blob": {
+      "size": 32,
+      "pointers": [
+        {
+          "offset": 0,
+          "size": 8
+        }
+      ]
+    }
+  },
+  {
+    "name": "image_file_header",
+    "original": 4281248,
+    "size": 20,
+    "kind": "bytes"
+  },
+  {
+    "name": "image_read_mode",
+    "original": 4281952,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "optional_header_position",
+    "original": 4281196,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "section_table_position",
+    "original": 4281152,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "debug_section_position",
+    "original": 4281132,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "original_image_checksum",
+    "original": 4281140,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "original_file_length",
+    "original": 4281148,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "debug_directory_offset",
+    "original": 4281220,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "codeview_file_offset",
+    "original": 4281940,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "image_linker_major",
+    "original": 4281276,
+    "size": 1,
+    "kind": "integer"
+  },
+  {
+    "name": "image_linker_minor",
+    "original": 4281184,
+    "size": 1,
+    "kind": "integer"
+  },
+  {
+    "name": "codeview_version",
+    "original": 4281216,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "source_symbol_bytes",
+    "original": 4283056,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "source_line_bytes",
+    "original": 4281988,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "source_type_bytes",
+    "original": 4281968,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "source_module_bytes",
+    "original": 4283052,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "symbol_capacity",
+    "original": 4281924,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "line_capacity",
+    "original": 4281936,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "type_capacity",
+    "original": 4281960,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "module_capacity",
+    "original": 4281912,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "type_segment_bytes",
+    "original": 4281984,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "type_segment_count",
+    "original": 4283040,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "type_segment_index",
+    "original": 4283048,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "type_segments",
+    "original": 4281932,
+    "size": 4,
+    "kind": "pointer",
+    "blob": {
+      "count": "type_segment_count",
+      "element_size": 4,
+      "pointers": [
+        {
+          "offset": 0,
+          "stride": 4,
+          "allocation": {
+            "size_global": "type_segment_bytes",
+            "maximum": 65512
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "codeview_signature",
+    "original": 4281212,
+    "size": 4,
+    "kind": "bytes"
+  },
+  {
+    "name": "codeview_directory_header",
+    "original": 4281168,
+    "size": 16,
+    "kind": "bytes"
+  },
+  {
+    "name": "directory_relative_offset",
+    "original": 4281964,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "directory_count",
+    "original": 4281920,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "directory_entries",
+    "original": 4281272,
+    "size": 4,
+    "kind": "pointer",
+    "blob": {
+      "count": "directory_count",
+      "element_size": 12,
+      "spare_elements": 6,
+      "relocations": [
+        {
+          "offset": 4,
+          "stride": 12,
+          "allocation_kind": "module"
+        }
+      ]
+    }
+  },
+  {
+    "name": "libraries",
+    "original": 4281156,
+    "size": 4,
+    "kind": "pointer",
+    "blob": {
+      "count": "libraries_size",
+      "element_size": 1
+    }
+  },
+  {
+    "name": "segment_map",
+    "original": 4281268,
+    "size": 4,
+    "kind": "pointer",
+    "blob": {
+      "count": "segment_map_size",
+      "element_size": 1
+    }
+  },
+  {
+    "name": "segment_names",
+    "original": 4281200,
+    "size": 4,
+    "kind": "pointer",
+    "blob": {
+      "count": "segment_names_size",
+      "element_size": 1
+    }
+  },
+  {
+    "name": "libraries_size",
+    "original": 4281208,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "segment_map_size",
+    "original": 4281136,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "segment_names_size",
+    "original": 4281188,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "module_index",
+    "original": 4281204,
+    "size": 4,
+    "kind": "pointer",
+    "blob": {
+      "count": "module_count",
+      "element_size": 12,
+      "pointers": [
+        {
+          "offset": 8,
+          "stride": 12,
+          "size": 48,
+          "shape": {
+            "size": 48,
+            "link": 44,
+            "payload": {
+              "offset": 12,
+              "length_offset": 16
+            }
+          }
+        }
+      ]
+    }
+  },
+  {
+    "name": "module_list",
+    "original": 4281192,
+    "size": 4,
+    "kind": "pointer",
+    "shape": {
+      "size": 48,
+      "link": 44,
+      "payload": {
+        "offset": 12,
+        "length_offset": 16
+      }
+    }
+  },
+  {
+    "name": "pack_buffer_size",
+    "original": 4269424,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "pack_fixup_count",
+    "original": 4269428,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "pack_buffer",
+    "original": 4269432,
+    "size": 4,
+    "kind": "pointer",
+    "allocation": {
+      "size_global": "pack_buffer_size"
+    }
+  },
+  {
+    "name": "pack_fixups",
+    "original": 4269436,
+    "size": 4,
+    "kind": "pointer",
+    "allocation": {
+      "size_global": "pack_fixup_count",
+      "element_size": 8
+    }
+  },
+  {
+    "name": "module_type_low",
+    "original": 4281544,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "module_symbol_count",
+    "original": 4281572,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "module_reference_count",
+    "original": 4281584,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "module_procedure_count",
+    "original": 4281586,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "module_symbol_flags",
+    "original": 4281568,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "current_type_index",
+    "original": 4272744,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "current_module_flags",
+    "original": 4281892,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "line_entry_index",
+    "original": 4281580,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "symbol_entry_index",
+    "original": 4281540,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "type_entry_index",
+    "original": 4281560,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "current_type_count",
+    "original": 4281588,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "has_precompiled",
+    "original": 4281592,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "pending_module_bytes",
+    "original": 4281956,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "total_symbol_bytes",
+    "original": 4281552,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "total_line_bytes",
+    "original": 4281564,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "strip_module_lines",
+    "original": 4281900,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "current_module_has_types",
+    "original": 4281538,
+    "size": 2,
+    "kind": "integer",
+    "storage": {
+      "name": "statistics_enabled",
+      "offset": 0
+    },
+    "native_expression": "statistics_enabled"
+  },
+  {
+    "name": "current_module_buffer",
+    "original": 4281596,
+    "size": 4,
+    "kind": "pointer",
+    "module_buffer": true
+  },
+  {
+    "name": "current_module_info",
+    "original": 4281916,
+    "size": 4,
+    "kind": "pointer",
+    "shape": {
+      "size": 48,
+      "link": 44,
+      "payload": {
+        "offset": 12,
+        "length_offset": 16
+      }
+    }
+  },
+  {
+    "name": "public_scope_depth",
+    "original": 4281120,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "type_record_count",
+    "original": 4272740,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "module_type_base",
+    "original": 4281548,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "type_records",
+    "original": 4272836,
+    "size": 4,
+    "kind": "pointer",
+    "type_record_table": true
+  },
+  {
+    "name": "recursive_type_pending",
+    "original": 4281904,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "type_recursion_depth",
+    "original": 4270484,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "type_recursion_chain",
+    "original": 4270488,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "type_recursion_stack",
+    "original": 4282016,
+    "size": 1024,
+    "kind": "bytes"
+  },
+  {
+    "name": "discard_types",
+    "original": 4271360,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "pending_types_head",
+    "original": 4269416,
+    "size": 4,
+    "kind": "pointer"
+  },
+  {
+    "name": "pending_types_tail",
+    "original": 4269420,
+    "size": 4,
+    "kind": "pointer"
+  },
+  {
+    "name": "public_symbol_bytes",
+    "original": 4272852,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "public_symbol_count",
+    "original": 4272756,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "duplicate_public_symbols",
+    "original": 4271688,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "public_arena_remaining",
+    "original": 4271364,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "public_arena_cursor",
+    "original": 4271368,
+    "size": 4,
+    "kind": "pointer",
+    "interior_allocation": {
+      "size": 8100,
+      "remaining": "public_arena_remaining"
+    }
+  },
+  {
+    "name": "module_type_entries",
+    "original": 4272844,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "module_type_list_used",
+    "original": 4272764,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "module_precompiled_limit",
+    "original": 4272748,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "type_record_capacity",
+    "original": 4272864,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "source_type_input_bytes",
+    "original": 4281096,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "current_type_server",
+    "original": 4281588,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "type_module_count",
+    "original": 4281092,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "module_symbol_records",
+    "original": 4281556,
+    "size": 4,
+    "kind": "pointer",
+    "buffer_alias": "type_data"
+  },
+  {
+    "name": "symbol_segment_count",
+    "original": 4272746,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "symbol_segments",
+    "original": 4271712,
+    "size": 510,
+    "kind": "bytes"
+  },
+  {
+    "name": "symbol_rewriters",
+    "original": 4268968,
+    "size": 312,
+    "kind": "bytes",
+    "function_table": true
+  },
+  {
+    "name": "symbol_input",
+    "original": 4281112,
+    "size": 4,
+    "kind": "pointer",
+    "buffer_cursor": {
+      "root": "type_data",
+      "capacity": "line_capacity"
+    }
+  },
+  {
+    "name": "symbol_output",
+    "original": 4281104,
+    "size": 4,
+    "kind": "pointer",
+    "written_allocation": {
+      "site": 4237265,
+      "owner": "rewrite_module_symbols"
+    }
+  },
+  {
+    "name": "discard_symbol_depth",
+    "original": 4281108,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "packed_symbol_bytes",
+    "original": 4281576,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "type_index_mappers",
+    "original": 4268312,
+    "size": 12,
+    "kind": "bytes",
+    "function_table": {
+      "stride": 4,
+      "pointer_offset": 0
+    }
+  },
+  {
+    "name": "type_hash_current",
+    "original": 4271316,
+    "size": 1,
+    "kind": "integer"
+  },
+  {
+    "name": "type_hash_previous",
+    "original": 4270504,
+    "size": 1,
+    "kind": "integer"
+  },
+  {
+    "name": "type_hash_mix",
+    "original": 4270508,
+    "size": 1,
+    "kind": "integer"
+  },
+  {
+    "name": "next_global_type",
+    "original": 4269272,
+    "size": 4,
+    "kind": "integer",
+    "native_expression": "symbol_rewriters.state.next_global_type",
+    "storage": {
+      "name": "symbol_rewriters",
+      "offset": 304
+    }
+  },
+  {
+    "name": "retain_structure_names",
+    "original": 4272744,
+    "size": 2,
+    "kind": "integer"
+  },
+  {
+    "name": "structure_aliases",
+    "original": 4281568,
+    "size": 4,
+    "kind": "pointer"
+  },
+  {
+    "name": "last_structure_alias",
+    "original": 4281600,
+    "size": 4,
+    "kind": "pointer"
+  },
+  {
+    "name": "global_type_blocks",
+    "original": 4272896,
+    "size": 8192,
+    "kind": "bytes",
+    "global_type_blocks": {
+      "initialized_prefix": true
+    }
+  },
+  {
+    "name": "global_symbol_bytes",
+    "original": 4281088,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "global_symbol_count",
+    "original": 4272760,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "recursive_nodes_remaining",
+    "original": 4270500,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "recursive_node_cursor",
+    "original": 4270780,
+    "size": 4,
+    "kind": "pointer",
+    "interior_allocation": {
+      "size": 12288,
+      "remaining": "recursive_nodes_remaining",
+      "remaining_element_size": 12
+    }
+  },
+  {
+    "name": "interned_nodes_remaining",
+    "original": 4270776,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "interned_node_cursor",
+    "original": 4270772,
+    "size": 4,
+    "kind": "pointer",
+    "interior_allocation": {
+      "size": 12288,
+      "remaining": "interned_nodes_remaining",
+      "remaining_element_size": 12
+    }
+  },
+  {
+    "name": "reference_symbol_bytes",
+    "original": 4272220,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "reference_symbol_count",
+    "original": 4272772,
+    "size": 4,
+    "kind": "integer"
+  }
+]

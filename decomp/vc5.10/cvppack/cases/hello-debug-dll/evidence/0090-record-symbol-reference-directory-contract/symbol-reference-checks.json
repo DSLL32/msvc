@@ -1,0 +1,217 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "count": 19,
+  "rejected": [
+    {
+      "name": "changed-initialized-reference-hash",
+      "diagnostic": "initialized reference node fields differ"
+    },
+    {
+      "name": "changed-initialized-reference-address",
+      "diagnostic": "initialized reference node fields differ"
+    },
+    {
+      "name": "changed-initialized-reference-name-offset",
+      "diagnostic": "initialized reference node fields differ"
+    },
+    {
+      "name": "changed-initialized-reference-segment",
+      "diagnostic": "initialized reference node fields differ"
+    },
+    {
+      "name": "changed-initialized-reference-kind",
+      "diagnostic": "initialized reference node fields differ"
+    },
+    {
+      "name": "changed-initialized-reference-checksum",
+      "diagnostic": "initialized reference node fields differ"
+    },
+    {
+      "name": "changed-initialized-reference-source-offset",
+      "diagnostic": "initialized reference node fields differ"
+    },
+    {
+      "name": "changed-initialized-reference-module",
+      "diagnostic": "initialized reference node fields differ"
+    },
+    {
+      "name": "both-source-offset-in-unwritten-tail",
+      "diagnostic": "reference source offset exceeds initialized output"
+    },
+    {
+      "name": "both-checksum-header-alias-mismatch",
+      "diagnostic": "reference checksum/header hash alias differs"
+    },
+    {
+      "name": "reference-self-chain",
+      "diagnostic": "symbol node NULL/identity/chain differs"
+    },
+    {
+      "name": "lost-real-type-flag",
+      "diagnostic": "('application global differs', 'current_module_has_types', '0100', '0000')"
+    },
+    {
+      "name": "separate-historical-flag-value",
+      "diagnostic": "('application global differs', 'statistics_enabled', '0100', '0000')"
+    },
+    {
+      "name": "wrong-module-symbol-pointer",
+      "diagnostic": "module rewritten symbols allocation/size differs"
+    },
+    {
+      "name": "wrong-module-symbol-size",
+      "diagnostic": "directory/module rewritten symbol identity differs"
+    },
+    {
+      "name": "wrong-directory-symbol-pointer",
+      "diagnostic": "directory rewritten symbol allocation alias differs"
+    },
+    {
+      "name": "both-directory-module-size-mismatch",
+      "diagnostic": "directory/module rewritten symbol identity differs"
+    }
+  ],
+  "actual_gdb_rejections": [
+    {
+      "name": "wrong-module-info-extent",
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x5664e5b8 in rewrite_module_global_types (types=0x575c5e60, entry=0x575952c8, info=0x57595740) at src/stubs.c:39\n39\tvoid rewrite_module_global_types(void *types, CodeViewDirectoryEntry *entry, ModuleInfo *info) { __asm { int 3 } }\n\nPython Exception <class 'AssertionError'>: actual pointer formal pointee extent differs\n/root/.ai-tmp/cvpack-reference-frontier-1z1ek9a1/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: actual pointer formal pointee extent differs\n",
+      "observer_sha256": "8a719cd59d36703dcdcd09357cce40d4296ad82ae258c31419a1d91d85d801cf",
+      "bad_config_sha256": "ba8410916785210f8cba47b2a35bbc776c71d7f3037d566cefa0ab0c85e3c96b"
+    },
+    {
+      "name": "omitted-formals",
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x565715b8 in rewrite_module_global_types (types=0x5683de60, entry=0x5680d2c8, info=0x5680d740) at src/stubs.c:39\n39\tvoid rewrite_module_global_types(void *types, CodeViewDirectoryEntry *entry, ModuleInfo *info) { __asm { int 3 } }\n\nPython Exception <class 'AssertionError'>: ('incomplete frontier ABI contract', ['types', 'entry', 'info'], [])\n/root/.ai-tmp/cvpack-reference-frontier-y20vou9l/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: ('incomplete frontier ABI contract', ['types', 'entry', 'info'], [])\n",
+      "observer_sha256": "8a719cd59d36703dcdcd09357cce40d4296ad82ae258c31419a1d91d85d801cf",
+      "bad_config_sha256": "ee9a9fd6b95f12aa9184704ac4ff8adffbbb5fa0933c83bfe3b9a11e5092fe9e"
+    }
+  ],
+  "reference_nodes": 3,
+  "own_unwritten_tail_positive": true,
+  "single_original_word_flag": 4281538,
+  "original_instruction_witnesses": {
+    "0x404763": "66391dc2544100",
+    "0x404e88": "66c705c25441000100",
+    "0x40f473": "668b54241c",
+    "0x40f47f": "6689501c",
+    "0x40f45d": "668b542424",
+    "0x40f46b": "66895012",
+    "0x40a9f5": "897718",
+    "0x40a9f8": "895f14"
+  },
+  "original_receipt_sha256": "3a682228ce1ff4503d334419c664e0fc9c79e20a2d5d43a3c1f5e2c271f86c38",
+  "native_receipt_sha256": "7631b6e02be27330db2ef40649dc637b53ab7eaca0113be160c962bded7ea8e6",
+  "checker_sha256": "ffc36396b3054cb36c9324bdffa4749539bf916c969de0501207f4abfa3bf1d9",
+  "decoder_sha256": "f907fbd73d0dcddad3f01dfbbf60498cdd03f659557654ac08ed17f0cd3fc638",
+  "observer_sha256": "8a719cd59d36703dcdcd09357cce40d4296ad82ae258c31419a1d91d85d801cf",
+  "unit": {
+    "scope": "Independent native examples; not original branch coverage.",
+    "inputs": {
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/diagnostics.o": "a73a4281a699a00ab7e2e1a45c55a0892b96deb01fcc381ce026ff8654f7707f",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/files.o": "53b78ac77bc02a2f5ffb2a953e492623fb5a7e1feb403e6620320d1f7e8c8392",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/global-symbols.o": "78c9af2a1df7502794e92ecbaefcd7356f29ded6ee1360eb98ec0a8350642d48",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/global-types.o": "5bd510201c49b93ec1020722b0564659c6fe5994ab622e4cca4d1dc2a33c18c4",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/image.o": "2412b0fd70b2e3e2e72d226ab73decca9b92900ad7f70a8324a7d4d7865a4c95",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/input.o": "c10c9a18d1163e8ccbf09680ee68a40b2fa70dcf8d6012c356fe2c06e43d6329",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/legacy-types.o": "bce5a703741cfb9c34a972315244ec95e43c10f8fdc18df55a282043a0d69d23",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/main.o": "a80235dc129c68bb637554b77ef435f44be0233f7004d16edecd874b3bd68243",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/messages.o": "0789fd533e1368e7e70981046e19b1cf641f1ae4caa98b68bb06a1c2920d9853",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/modern-types.o": "a0ec4c70f95f8a34ce214665bac07e0b51c12c912e6f7a5beba942249d7a78f7",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/module-types.o": "5966ea32b61aa733664db7d8b735253de1c44a737d2d2381aa6c1e279f6f2952",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/options.o": "0e2b9956d9410f2572956e3e645818d5c682bda3c699262bd2669585d548e1c6",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/pack.o": "2d3785fe0e07d4cdbc519fbf4a164259d8dfe49e5129cfc2c77a15ac446177ae",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/primitive-types.o": "8ec71eec9c09c48ec1bf7e6bb49452bcd99ff590271b35391f74f11608f1d341",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/publics.o": "3f2d497dc858e21eeeda790aff201ac092f02ac25a8e9d574e69581300076ecb",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/stubs.o": "a8c0953f12c62c8087540976619a4cf17acc75ecd7b2f160fa1208528885afe0",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/symbol-handlers.o": "017b90113d1369e36e2bc382a1de4fbbf6ed4d6e95b9631ed1e7ef17f05b43e4",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/symbol-reference.o": "dd85868d337a2c1bd765dfcf58f47cc343123d8b396e536bd3734acf2a8b5c5d",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/symbol-references.o": "9899a9ca9d59543ec88bcf20fd0c83484e510d103057a80a3ea95c84a533f908",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/symbol-rewrite.o": "a6138a853c9ed1907c79693813b70f7a80d1f2f5f6519376a043555172a31465",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/symbol-scan.o": "3441670da44ef73e0c6914ae26dd14a4a4be245557b648427d491a75e7c5790b",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/symbol-scopes.o": "9c4646663eb9d5bdef8f8999aa2a3db992065a7907be479ba4d2b9bb23c27475",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-arena.o": "5aaae42b69e515de6934ebc7648f5bbcafffc057612464ec28adb7c3c86434d0",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-compare.o": "2589adcf068d4a88433dc9e54c3d07b23d7a9d97fe0e56674df7de264372d945",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-hash.o": "47ddcf0b99433689d68adbcc96f6a314f17453556d7c8fcd8352b921d91e8263",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-index.o": "18826ea2e5c90c0faf62118ba654b0c2334fa86b2d52115a156e9a682d34e826",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-intern.o": "b81825cf811ed4b720ea3fdd635084149980b731c519d71a934f7b8bf836666a",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-lists.o": "49b1faf5c3c6cac13b0807078e1042cf1167c25033ebb3391bc684efafc502e8",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-lookup.o": "c06051379ae3bf228a3377c7775fe402095ba4d570af29e2c169045eadc43ee8",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-names.o": "6671f4fe49f6742d10160efcea91109fd7a2597bdab273224db4e0092ad1ac0b",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-pointers.o": "e6a17b90b13687c85e0bb78f9a9405c14a7a34dd4168e2bf7f71de99d63419a7",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-recursive-hash.o": "04de48c8fb7fd6f14aa3ec49c647d4c028f5b566a6082b8b7e3c0c878e8d6872",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-recursive.o": "5357a8cc56ba7b35700202154e8321fd88ef796b34fcbe980fe4bb4ac365953e",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-references.o": "00b0c3ce2fa76578101a237815b3950c4c7038736dc46163f960ba236172dc9e",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/types.o": "79beed219822e677ccbb052aa44e56f0d17fc895db97a21d95ddb38fc5dd53a1",
+      "/root/msvc2/lib/recon/src/compat.c": "b2c52f8bd07b5970ae56a41440132fa37346873b3b1ecc6decca12524efcaa49",
+      "/root/msvc2/lib/recon/src/crt.c": "6369375a148a2743656676005537f95a9ca14d2105c39334709f0d55131236ac",
+      "/root/msvc2/lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "/root/msvc2/lib/recon/src/entry.c": "93bb510da82267823c5b3ab7056d9cc32a3ce955964109876f9be60d0e101963",
+      "/root/msvc2/lib/recon/src/process.c": "11acf59c2781a152a075940e9eb702b2a1a8a00b1f28eda6583afb4106075f52",
+      "/root/msvc2/lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "/root/msvc2/lib/recon/src/win32.c": "4824c85b7503254bf4bf91ee78d5c7f80c4db838563ba2ccd2bfb6a5b2fc8ace",
+      "/root/msvc2/decomp/vc5.10/cvppack/scripts/symbol-reference-unit.c": "f3ceb3ced61c946a6d76fe5b5ff17ee241b9e2237a1cbf092bbe58968cd662bd",
+      "/root/msvc2/decomp/vc5.10/cvppack/scripts/native-widen.c": "5e5076d9ac9f8200f3e1b1152c8696e489802b325e51f94aeecb481498098399"
+    },
+    "command": [
+      "clang",
+      "-DRECON_NATIVE_TEST",
+      "-I/root/msvc2/lib/recon/include",
+      "-I/root/msvc2/lib/recon/native",
+      "-I/root/msvc2/decomp/vc5.10/cvppack/src",
+      "-m32",
+      "-std=gnu89",
+      "-fms-extensions",
+      "-fasm-blocks",
+      "-O0",
+      "-g",
+      "/root/msvc2/decomp/vc5.10/cvppack/scripts/symbol-reference-unit.c",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/diagnostics.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/files.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/global-symbols.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/global-types.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/image.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/input.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/legacy-types.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/main.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/messages.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/modern-types.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/module-types.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/options.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/pack.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/primitive-types.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/publics.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/stubs.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/symbol-handlers.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/symbol-reference.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/symbol-references.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/symbol-rewrite.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/symbol-scan.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/symbol-scopes.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-arena.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-compare.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-hash.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-index.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-intern.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-lists.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-lookup.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-names.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-pointers.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-recursive-hash.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-recursive.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/type-references.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/native/types.o",
+      "/root/msvc2/decomp/vc5.10/cvppack/scripts/native-widen.c",
+      "/root/msvc2/lib/recon/src/compat.c",
+      "/root/msvc2/lib/recon/src/crt.c",
+      "/root/msvc2/lib/recon/src/decimal.c",
+      "/root/msvc2/lib/recon/src/entry.c",
+      "/root/msvc2/lib/recon/src/process.c",
+      "/root/msvc2/lib/recon/src/trace.c",
+      "/root/msvc2/lib/recon/src/win32.c",
+      "-o",
+      "/root/.ai-tmp/cvpack-reference-unit-iagougdj/reference-unit"
+    ],
+    "build_seconds": 1.6846036054193974
+  },
+  "seconds": 14.053457148373127
+}

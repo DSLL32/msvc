@@ -191,6 +191,17 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
     assert pe.read(0x40b866,10)==bytes.fromhex('c705002d410001000000')
     assert pe.read(0x4027fa,6)==bytes.fromhex('392d002d4100')
     assert pe.read(0x4031d0,6)==pe.read(0x403268,6)==bytes.fromhex('391d002d4100')
+    type_flag_references=[]
+    alias=next(row for row in data if row['name']=='statistics_enabled')
+    assert alias['original']==0x4154c2 and alias['storage']==dict(name='current_module_has_types',offset=0),'module type flag storage identity differs'
+    assert 'statistics_enabled' not in sizes and '_statistics_enabled' not in publics,'duplicate module type flag storage'
+    for name in ('main','pack'):
+        path=BINARY/'build'/(name+'.obj');obj=COFF(path.read_bytes())
+        references=[offset for section in obj.sections if section['name']=='.text' for offset,symbol,kind in section['relocs'] if symbol['name']=='_current_module_has_types']
+        assert len(references)==1,('module type flag consumer reference differs',name,references)
+        type_flag_references.append(dict(object=name,sha256=sha(path),symbol='_current_module_has_types',references=references))
+    assert pe.read(0x404763,7)==bytes.fromhex('66391dc2544100'),'original module type flag reader differs'
+    assert pe.read(0x404e88,9)==bytes.fromhex('66c705c25441000100'),'original module type flag writer differs'
     import importlib.util
     spec=importlib.util.spec_from_file_location('resource_evidence',BINARY/'scripts/resource-evidence.py')
     resources=importlib.util.module_from_spec(spec);spec.loader.exec_module(resources)
@@ -204,7 +215,7 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
         switch_data_validator_sha256=sha(BINARY/'scripts/switch-data.py'), data_sha256=sha(BINARY/'data.json'),
         runtime_sha256=sha(BINARY/'runtime.json'), graph_runtime_sha256=sha(empty),
         audit_wrapper_sha256=sha(BINARY/'scripts/audit.py'),
-        cached_import_sites=import_sites, function_tables=function_tables, data_aliases=data_aliases, discard_flag_references=discard_flag_references, data_objects_checked=len(data), resource_strings_checked=len(actual), historical_reconstructed_bodies=historical_bodies,
+        cached_import_sites=import_sites, function_tables=function_tables, data_aliases=data_aliases, discard_flag_references=discard_flag_references,type_flag_references=type_flag_references, data_objects_checked=len(data), resource_strings_checked=len(actual), historical_reconstructed_bodies=historical_bodies,
         resource_evidence_sha256=sha(BINARY/'cases/help/resources.json'),
         candidates=list(candidates), checked_functions=[r['name'] for r in checked],
         owned_ranges=len(intervals), graph_command=command, graph=graph,

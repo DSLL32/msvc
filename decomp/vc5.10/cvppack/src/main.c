@@ -4,7 +4,7 @@
 #include <recon.h>
 
 int input_file = -1, show_logo = 1, banner_pending = 1, checksum_required;
-unsigned short module_count, statistics_enabled;
+unsigned short module_count, current_module_has_types;
 void *debug_directory, *line_data, *symbol_data, *type_data, *module_data;
 
 int main(int argc, char **argv, char **environment)
@@ -39,7 +39,7 @@ int main(int argc, char **argv, char **environment)
         free(module_data);
         write_debug_directory();
         free_type_tables();
-        if (statistics_enabled) print_statistics();
+        if (current_module_has_types) print_statistics();
         flush_packed_file();
         if (checksum_required) {
             image_help = LoadLibraryA("imagehlp");

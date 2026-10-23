@@ -67,4 +67,3 @@ int record_widen(WidenTi *object, void *output, const void *input, unsigned *siz
 void use_precompiled_types(void *leaf) { __asm { int 3 } }
 void register_type_server(void *leaf) { __asm { int 3 } }
 void __fastcall find_type_server(void *name, unsigned mode, void *first, void *second, void *third) { __asm { int 3 } }
-void record_symbol_reference(const unsigned char *record, PublicSymbol **buckets, unsigned short module, unsigned offset, unsigned short kind) { __asm { int 3 } }

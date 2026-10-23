@@ -33,7 +33,12 @@
     "name": "statistics_enabled",
     "original": 4281538,
     "size": 2,
-    "kind": "integer"
+    "kind": "integer",
+    "storage": {
+      "name": "current_module_has_types",
+      "offset": 0
+    },
+    "native_expression": "current_module_has_types"
   },
   {
     "name": "debug_directory",
@@ -327,7 +332,8 @@
     "original": 4271344,
     "size": 4,
     "kind": "pointer",
-    "public_buckets": true
+    "public_buckets": true,
+    "reference_records": true
   },
   {
     "name": "type_table_global",
@@ -341,9 +347,8 @@
     "original": 4271352,
     "size": 4,
     "kind": "pointer",
-    "blob": {
-      "size": 16384
-    }
+    "public_buckets": true,
+    "reference_records": true
   },
   {
     "name": "type_table_pending",
@@ -616,7 +621,8 @@
         {
           "offset": 4,
           "stride": 12,
-          "allocation_kind": "module"
+          "allocation_kind": "module",
+          "rewritten_symbols_site": 4237265
         }
       ]
     }

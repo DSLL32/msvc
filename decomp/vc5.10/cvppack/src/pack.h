@@ -10,7 +10,7 @@ extern unsigned line_entry_index, symbol_entry_index, type_entry_index;
 extern unsigned current_type_count, has_precompiled, pending_module_bytes;
 extern unsigned total_symbol_bytes, total_line_bytes, strip_module_lines;
 extern unsigned short module_symbol_count, module_reference_count, module_procedure_count;
-extern unsigned short current_type_index, current_module_has_types;
+extern unsigned short current_type_index;
 extern unsigned char *current_module_buffer;
 void initialize_single_module(CodeViewDirectoryEntry *entry, ModuleInfo *info);
 void read_module_types(CodeViewDirectoryEntry *entry, int precompiled);

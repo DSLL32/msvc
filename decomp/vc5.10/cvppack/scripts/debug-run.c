@@ -337,7 +337,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         memory(log, process, symbol_output_base, symbol_output_capacity);
     if (full_graphs) {
       DWORD table;
-      for (table = 0; table < 2; ++table) {
+      for (table = 0; table < 3; ++table) {
         DWORD bucket, node, next_node, visited;
         WORD length;
         if (!read_bytes(process, 0x412cf0 + table * 4, &value, 4) || !value) continue;

@@ -95,7 +95,8 @@
     "lookup_global_type",
     "compare_recursive_type",
     "link_symbol_scopes",
-    "record_symbol_references"
+    "record_symbol_references",
+    "record_symbol_reference"
   ],
   "functions": [
     {
@@ -1619,7 +1620,41 @@
       "status": "stub",
       "extent": null,
       "ret": 0,
-      "parameters": []
+      "parameters": [
+        {
+          "name": "types",
+          "slot": 1,
+          "kind": "global-buffer",
+          "allowed_globals": [
+            "module_data"
+          ],
+          "entry_slot": 2,
+          "entry_name": "entry",
+          "count_offset": 8
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "blob-element-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12
+        },
+        {
+          "name": "info",
+          "slot": 3,
+          "kind": "object-pointer",
+          "native_pointee_width": 48,
+          "shape": {
+            "size": 48,
+            "link": 44,
+            "payload": {
+              "offset": 12,
+              "length_offset": 16
+            }
+          }
+        }
+      ]
     },
     {
       "name": "widen_subsection",
@@ -3266,8 +3301,11 @@
       "source_name": "record_symbol_reference",
       "native_symbol": "record_symbol_reference",
       "original": 4256768,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4256768,
+        4256926
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -3312,7 +3350,8 @@
           "kind": "integer",
           "native_width": 2
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0090-record-symbol-reference-directory-contract/promotion.json"
     }
   ],
   "support_unmasked": [

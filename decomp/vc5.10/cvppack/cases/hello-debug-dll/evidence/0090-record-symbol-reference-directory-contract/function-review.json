@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "candidate": "record_symbol_reference",
+  "accepted_functions": 90,
+  "application_extent_bytes": 28229,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 45.04963135552648,
+  "qualification": "Application extents / whole text including CRT/unknown/padding, not non-CRT or branch coverage.",
+  "source_extent": [
+    4256768,
+    4256926
+  ],
+  "associated_switch_bytes_total": 784,
+  "source_review": [
+    "Preserve cdecl5 with module and kind WORD consumption, and the saved record-pointer/name-WORD union after pointer liveness ends.",
+    "Allocate32B public arena node, initialize common16B header and14B reference payload. Leave final2B native-owned/unwritten; never replay original padding.",
+    "Case creates3 global procedure references, each mapped to the actual652B initialized prefix of its8705B rewrite allocation and current ModuleInfo module2.",
+    "Actual directory0124 data pointer aliases ModuleInfo.symbols offset20, size652 at24; actual input8093B read joined by subsection/module identity to original unsorted directory read.",
+    "Canonical current_module_has_types WORD4154c2 has exactly original main404763 reader and pack_module404e88 writer. Historical misleading statistics_enabled metadata aliases that one object. Earlier zero-only evidence did not prove nonzero identity."
+  ],
+  "fresh_pair": true,
+  "next_frontier": "rewrite_module_global_types",
+  "fresh_negative_count": 19,
+  "fresh_controls": {
+    "path": "symbol-reference-checks.json",
+    "sha256": "c96c1034f00b89d4c6d0087f72ad33a84988ff621d6da9f1854673969d299a4f"
+  },
+  "reused_controls": {
+    "recursive-node-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0083-mark-recursive-type/recursive-node-state-checks.json",
+      "sha256": "f9707ed0369dd10721872719d775b0f4198d153f5e5d11c2605391aa92766e37"
+    },
+    "public-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0083-mark-recursive-type/public-state-checks.json",
+      "sha256": "a7d37d3571245a2d16324c9808e44f86bee83e07aafd9ac2c2f6ba7b2daf7a2f"
+    },
+    "abi-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0083-mark-recursive-type/abi-state-checks.json",
+      "sha256": "4b372e3b49e142efd9c72b01b9801970ffd3b65bf27ae62d7660c7f98fb3ee1c"
+    },
+    "type-record-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0083-mark-recursive-type/type-record-state-checks.json",
+      "sha256": "0d18d946c425c8452b36edce512a850891f6961d8c92ee309cb95bcd1e07892c"
+    },
+    "help-protocol-report.json": {
+      "path": "cases/hello-debug-dll/evidence/0083-mark-recursive-type/help-protocol-report.json",
+      "sha256": "abf0746bc1a03b8bfbee1151cac2a4f166bc99afb0eca61856f5b1d2c7042abf"
+    }
+  },
+  "reuse_scope": "Fresh whole candidate pair,19 initialized-field/ownership/shared-flag/formal controls plus own-padding positive and independent native examples. Unchanged protocol controls reused by pinned historical hashes; no new Wine for these controls.",
+  "seconds": {
+    "original_build": 0.028432288207113743,
+    "native_build": 0.025460039265453815,
+    "graph_tool_build": 0.025760999880731106,
+    "original_capture": 15.448805982246995,
+    "native_capture": 1.5108128087595105,
+    "pair_check": 1.3837598832324147
+  },
+  "native_capture": {
+    "direct_execution": 0.019618971273303032,
+    "gdb_execution": 1.3160177916288376,
+    "total": 1.4353697281330824
+  },
+  "original_capture": {
+    "setup": 1.1761204423382878,
+    "execution": 13.899111109785736,
+    "total": 15.255297534167767
+  },
+  "support": {
+    "crt_bodies": 4,
+    "crt_bytes": 400,
+    "import_thunks": 5,
+    "import_thunk_bytes": 30,
+    "application_credit": 0
+  },
+  "build_timing_note": "This final contract trial reused already-built current original/native binaries (make no-op timings above). Source-changing canonical-flag trial retained build logs but did not reach validation.json; no full-build elapsed invented."
+}

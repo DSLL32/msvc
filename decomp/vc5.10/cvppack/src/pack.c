@@ -10,7 +10,7 @@ unsigned line_entry_index, symbol_entry_index, type_entry_index;
 unsigned current_type_count, has_precompiled, pending_module_bytes;
 unsigned total_symbol_bytes, total_line_bytes, strip_module_lines;
 unsigned short module_symbol_count, module_reference_count, module_procedure_count;
-unsigned short current_type_index, current_module_has_types;
+unsigned short current_type_index;
 unsigned char *current_module_buffer;
 
 int pack_module(unsigned short module)

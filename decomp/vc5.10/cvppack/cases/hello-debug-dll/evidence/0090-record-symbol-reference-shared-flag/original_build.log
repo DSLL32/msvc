@@ -1,0 +1,74 @@
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/diagnostics.obj src/diagnostics.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/files.obj src/files.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/global-symbols.obj src/global-symbols.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/global-types.obj src/global-types.c
+files.c
+diagnostics.c
+global-symbols.c
+global-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/image.obj src/image.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/input.obj src/input.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/legacy-types.obj src/legacy-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/main.obj src/main.c
+image.c
+legacy-types.c
+input.c
+main.c
+src/legacy-types.c(163) : warning C4101: 'position' : unreferenced local variable
+src/main.c(34) : warning C4761: integral size mismatch in argument; conversion supplied
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/messages.obj src/messages.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/modern-types.obj src/modern-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/module-types.obj src/module-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/options.obj src/options.c
+messages.c
+module-types.c
+modern-types.c
+options.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/pack.obj src/pack.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/primitive-types.obj src/primitive-types.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/publics.obj src/publics.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/stubs.obj src/stubs.c
+pack.c
+primitive-types.c
+publics.c
+stubs.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/symbol-handlers.obj src/symbol-handlers.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/symbol-reference.obj src/symbol-reference.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/symbol-references.obj src/symbol-references.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/symbol-rewrite.obj src/symbol-rewrite.c
+symbol-reference.c
+symbol-handlers.c
+symbol-references.c
+symbol-rewrite.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/symbol-scan.obj src/symbol-scan.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/symbol-scopes.obj src/symbol-scopes.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-arena.obj src/type-arena.c
+symbol-scopes.c
+symbol-scan.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-compare.obj src/type-compare.c
+type-arena.c
+type-compare.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-hash.obj src/type-hash.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-index.obj src/type-index.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-intern.obj src/type-intern.c
+type-index.c
+type-hash.c
+type-intern.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-lists.obj src/type-lists.c
+type-lists.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-lookup.obj src/type-lookup.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-names.obj src/type-names.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-pointers.obj src/type-pointers.c
+type-names.c
+type-lookup.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-recursive-hash.obj src/type-recursive-hash.c
+type-pointers.c
+type-recursive-hash.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-recursive.obj src/type-recursive.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-references.obj src/type-references.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/types.obj src/types.c
+make: 'build/debug-run.exe' is up to date.
+type-recursive.c
+type-references.c
+types.c
+python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /map:build/cvpack.map /out:build/CVPACK.EXE build/diagnostics.obj build/files.obj build/global-symbols.obj build/global-types.obj build/image.obj build/input.obj build/legacy-types.obj build/main.obj build/messages.obj build/modern-types.obj build/module-types.obj build/options.obj build/pack.obj build/primitive-types.obj build/publics.obj build/stubs.obj build/symbol-handlers.obj build/symbol-reference.obj build/symbol-references.obj build/symbol-rewrite.obj build/symbol-scan.obj build/symbol-scopes.obj build/type-arena.obj build/type-compare.obj build/type-hash.obj build/type-index.obj build/type-intern.obj build/type-lists.obj build/type-lookup.obj build/type-names.obj build/type-pointers.obj build/type-recursive-hash.obj build/type-recursive.obj build/type-references.obj build/types.obj build/resources.res
