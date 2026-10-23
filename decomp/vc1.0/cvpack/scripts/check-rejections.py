@@ -139,6 +139,10 @@ def main():
     if procedure_pair.is_dir():
         from procedure_checks import check as check_procedure
         check_procedure(procedure_pair)
+    module_address_pair=BINARY/'cases/hello-debug-dll/evidence/0091-address_in_module'
+    if module_address_pair.is_dir():
+        from module_address_checks import check as check_module_address
+        check_module_address(module_address_pair)
     from buffer_storage_checks import check as check_buffer_storage
     buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
     if buffer_directory.is_dir():check_buffer_storage(buffer_directory)

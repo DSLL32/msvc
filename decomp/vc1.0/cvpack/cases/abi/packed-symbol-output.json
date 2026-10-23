@@ -592,6 +592,18 @@
       "nested_returns": {
         "5": 151922
       }
+    },
+    "convert_bp_relative32": {
+      "original": 152816,
+      "defined": 164,
+      "input_offset": 4336,
+      "return_address": 151922,
+      "allocation_esp_delta": 0,
+      "buffer_slot": 5,
+      "input_slot": 8,
+      "record_length": 17,
+      "callback_index": 1,
+      "kind": 512
     }
   }
 }

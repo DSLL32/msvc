@@ -168,6 +168,9 @@ def main():
         original_objects.update(recursive_proof['original_namespace']);native_objects.update(recursive_proof['native_namespace'])
     if blocks_proof:
         original_objects.update(blocks_proof['original_namespace']);native_objects.update(blocks_proof['native_namespace'])
+    from module_address_returns import compare as compare_module_address
+    module_address_path=native/args.case/'module-address.json'
+    module_address_proof=compare_module_address(config,pe,events,json.loads(module_address_path.read_text())if module_address_path.exists()else [],original_objects,native_objects,args.case)if args.case=='hello-debug-dll'else None
     from resolver_returns import compare as compare_resolver_returns
     resolver_path=native/args.case/'resolver-returns.json'
     resolver_proof=compare_resolver_returns(config,pe,events,json.loads(resolver_path.read_text())if resolver_path.exists()else None,original_objects,native_objects,args.case)if args.case=='hello-debug-dll'else None
@@ -312,7 +315,7 @@ def main():
     directory.mkdir(parents=True,exist_ok=False)
     for name in ('events','receipt.json','stdout','stderr','runtime-plan','configuration.json'):
         shutil.copyfile(original/name,directory/('original-'+name))
-    for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr','crt-returns.json','read-returns.json','pdb-read-returns.json','pdb-consumed.json','read-progress.json','symbol-output.json','type-pages.json','buffer-storage.json','resolver-returns.json','recursive-arena.json','packed-arena.json','symbol-blocks.json'):
+    for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr','crt-returns.json','read-returns.json','pdb-read-returns.json','pdb-consumed.json','read-progress.json','symbol-output.json','type-pages.json','buffer-storage.json','resolver-returns.json','recursive-arena.json','packed-arena.json','symbol-blocks.json','module-address.json'):
         if (native/args.case/name).is_file():shutil.copyfile(native/args.case/name,directory/('native-'+name))
     shutil.copyfile(native/args.case/'configuration.json',directory/'native-configuration.json')
     for side,source in (('original',original),('native',native/args.case)):
@@ -334,7 +337,7 @@ def main():
         conditionally_inactive_parameters=inactive,
         conditional_CRT_support=crt_proof,
         read_return_observations=read_proof,partial_read_observations=progress_proof,packed_symbol_output=symbol_proof,type_page_lifetime=page_proof,buffer_storage=buffer_proof,
-        observed_objects=object_proof,resolver_returns=resolver_proof,recursive_arena=recursive_proof,packed_arena=packed_proof,symbol_blocks=blocks_proof,
+        observed_objects=object_proof,resolver_returns=resolver_proof,recursive_arena=recursive_proof,packed_arena=packed_proof,symbol_blocks=blocks_proof,module_address=module_address_proof,
         process_boundary=native_receipt.get('process_boundary'),
         graph_ABI_data='Complete original/compiler CFG/callee/RET ABI and contextual initial data passed',
         seconds=native_receipt['seconds'])

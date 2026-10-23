@@ -398,3 +398,32 @@ duplicate:
     ++duplicate_symbols;
     return 0;
 }
+
+typedef struct ModuleContribution {
+    unsigned short segment, reserved;
+    unsigned long offset, size;
+} ModuleContribution;
+typedef char ModuleContributionSize[(sizeof(ModuleContribution)==12)?1:-1];
+
+unsigned short address_in_module(ModuleInfo *module, unsigned short segment,
+                                unsigned long offset)
+{
+    unsigned char *record = module->record;
+    ModuleContribution *contribution;
+    unsigned short count, i;
+    if (!record) fatal_error(14, NULL, NULL);
+#ifdef RECON_NATIVE_TEST
+    if (module->record_size < 8) __asm { int 3 }
+#endif
+    count = *(unsigned short *)(record+4);
+#ifdef RECON_NATIVE_TEST
+    if (count > (module->record_size-8)/sizeof(ModuleContribution)) __asm { int 3 }
+#endif
+    contribution = (ModuleContribution *)(record+8);
+    for (i = 0; i < count; ++i, ++contribution) {
+        /* Preserve the original unsigned subtraction and test order. */
+        if (offset-contribution->offset < contribution->size &&
+            contribution->segment == segment) return 1;
+    }
+    return 0;
+}

@@ -85,7 +85,7 @@ static DWORD expected_buffer_count(DWORD frontier,int nodes)
     case 0x19ca0:return nodes?71:72;
     case 0x1c880:return nodes?71:73;
     case 0x19c20:return nodes?71:74;
-    case 0x257a0:case 0x25920:return 113;
+    case 0x257a0:case 0x25920:case 0x254f0:return 113;
     default:return 0;
     }
 }

@@ -130,6 +130,7 @@ def main():
     if args.case=='hello-debug-dll'and any(r['name']=='publish_recursive_type'and r['status']!='stub'for r in config['functions']):env['CVPACK_CAPTURE_RECURSIVE_ARENA']='1'
     if args.case=='hello-debug-dll'and any(r['name']=='publish_packed_type'and r['status']!='stub'for r in config['functions']):env['CVPACK_CAPTURE_PACKED_ARENA']='1'
     if args.case=='hello-debug-dll'and any(r['name']=='publish_packed_type'and r['status']!='stub'for r in config['functions']):env['CVPACK_CAPTURE_SYMBOL_BLOCKS']='1'
+    if args.case=='hello-debug-dll'and any(r['name']=='address_in_module'and r['status']!='stub'for r in config['functions']):env['CVPACK_CAPTURE_MODULE_ADDRESS']='1'
     from buffer_storage import validate as validate_buffer_storage
     if args.case=='hello-debug-dll':
         validate_buffer_storage(config,original)
@@ -139,6 +140,8 @@ def main():
         validate_packed_arena(config,original)
         from symbol_blocks import validate as validate_symbol_blocks
         validate_symbol_blocks(config,original)
+        from module_address_returns import validate as validate_module_address
+        validate_module_address(config,original)
     env['CVPACK_CAPTURE_WALKS']=','.join('%x:%d:%d:%d:%x:%d:%d:%d'%(r['original'],r['size'],r['next'],r['limit'],r.get('count_original',0),r.get('count_size',4),r.get('count_limit',r['limit']),int(r.get('zero_allocation',False))) for r in walks)
     env['CVPACK_CAPTURE_OUTPUTS']=','.join('%x:%d:%d:%d'%(r['original'],(256 if p.get('register')=='edx'else p['slot']),json.loads((BINARY/p['evidence']).read_text())['size'],int(p['kind']in('stack-input','transient-pointer')))for r in config['functions']for p in r.get('parameters',[])if p['kind']in ('stack-output','stack-input','transient-pointer'))
     env['CVPACK_CAPTURE_ARENAS']=','.join('%x:%x:%d'%(r['original'],r['arena']['available_original'],r['arena']['capacity'])for r in walks if r.get('arena'))

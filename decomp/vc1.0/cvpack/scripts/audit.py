@@ -228,6 +228,8 @@ def main():
     functions=config['functions']
     from resolver_returns import validate as validate_resolver_returns
     validate_resolver_returns(config,original)
+    from module_address_returns import validate as validate_module_address
+    validate_module_address(config,original)
     from symbol_blocks import validate as validate_symbol_blocks
     validate_symbol_blocks(config,original,rebuilt,linked)
     from packed_arena import validate as validate_packed_arena

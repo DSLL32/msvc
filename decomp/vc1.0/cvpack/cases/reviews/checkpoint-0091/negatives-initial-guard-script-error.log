@@ -1,0 +1,245 @@
+rejected: truncated RET cleanup
+rejected: truncated immediate
+rejected: missing terminal
+rejected: branch into operand
+rejected: undeclared indirect jump
+rejected: conditional outside function
+rejected: branch into text data
+rejected: unresolved application call
+rejected: undeclared flag-writing alignment
+rejected: declared alignment on executable path
+rejected: nonalignment bytes in reviewed padding
+rejected: overlapping reviewed alignment declarations
+rejected: alignment declaration overlaps text data
+rejected: overlapping contextual data owners
+rejected: CRT startup with incorrect relocated application target
+rejected: binary record differing trailing NUL byte
+rejected: binary record truncated after embedded NUL
+rejected: both actual undefined-field reads omitted
+rejected: actual undefined-field consumed value differs
+rejected: undefined-field observation from another instruction
+rejected: both PDB payload-return records omitted
+rejected: PDB payload return header
+rejected: PDB payload return returned
+rejected: PDB payload return position
+rejected: PDB payload return input_matches
+rejected: actual undefined-field read from another allocation
+rejected: PDB payload read belongs to another allocation
+rejected: PDB allocation aliases another allocation unused tail
+rejected: unproved extra PDB allocation
+rejected: PDB defined object byte offsets
+rejected: PDB defined object byte type-storage-0
+rejected: PDB defined object byte type-storage-1
+rejected: PDB defined object byte index-storage-0
+rejected: PDB allocation requested extent changed
+proved: PDB unused pool tail retained without equality credit
+rejected: append-buffer wrong nested return 0
+rejected: append-buffer wrong nested return 10
+rejected: append-buffer wrong nested return 16
+rejected: append-buffer wrong nested return 28
+rejected: append-buffer wrong nested return 37
+rejected: append-buffer wrong nested return 43
+rejected: append-buffer wrong nested return 52
+rejected: append-buffer wrong nested return 54
+rejected: append-buffer wrong nested return 56
+rejected: append-buffer wrong pending copy size
+rejected: append-buffer wrong native frame chain
+rejected: append-buffer wrong actual list_count
+rejected: append-buffer wrong actual type_record
+rejected: append-buffer wrong actual page
+rejected: native unsupported nonempty queue before post-free lifetime path (0.135721s)
+rejected: named output original EDX points to another local
+rejected: named output native pointer not local base
+rejected: named output wrong owning frame
+rejected: named output unknown caller return
+rejected: named output both missing observations
+rejected: named output unsupported register transport
+accepted: named output undefined entry bytes retained without cross-side equality
+rejected: named output original ARGUMENT3 points to another local
+rejected: named output native pointer not local base
+rejected: named output wrong owning frame
+rejected: named output unknown caller return
+rejected: named output both missing observations
+rejected: named output unsupported register transport
+accepted: named output undefined entry bytes retained without cross-side equality
+rejected: named lookup undeclared original flag-writing filler
+rejected: named lookup missing explicit canonical switch-exit JMP root
+rejected: named output original ARGUMENT3 points to another local
+rejected: named output native pointer not local base
+rejected: named output wrong owning frame
+rejected: named output unknown caller return
+rejected: named output both missing observations
+rejected: named output unsupported register transport
+accepted: named output undefined entry bytes retained without cross-side equality
+rejected: global lookup missing explicit canonical loop-step JMP root
+rejected: both global named-cache node inventories missing
+rejected: extra global named-cache allocation
+rejected: global named-cache uninitialized flag credit
+rejected: global named-cache wrong index
+rejected: global named-cache wrong record pointer
+rejected: global named-cache name points inside wrong field
+rejected: global named-cache wrong hash bucket
+rejected: global named-cache allocation aliases primary node
+rejected: moved primary cache type without packed-copy proof
+rejected: moved primary cache type has wrong packed index
+rejected: primary cache wrong original provider record
+rejected: global named-cache calloc size changed
+rejected: global named-cache publication reads wrong root
+rejected: both sides omit new RECT copy inventory
+rejected: RECT field-list copy has wrong extent
+rejected: RECT class copy has wrong parent owner
+rejected: eighth type page slot not the observed RECT return
+rejected: typed global cache without constructor provenance
+rejected: both sides omit late module type copies
+rejected: late module type copy wrong source parent
+rejected: late module type copy wrong complete extent
+rejected: converted UDT current name differs from frozen symbol name
+rejected: later primary-cache packed index lacks observed return
+rejected: both sides omit later named-cache allocation
+rejected: later named-cache record pointer has wrong packed owner
+rejected: last module type page slot omits observed return
+rejected: named output original ARGUMENT2 points to another local
+rejected: named output native pointer not local base
+rejected: named output wrong owning frame
+rejected: named output unknown caller return
+rejected: named output both missing observations
+rejected: named output unsupported register transport
+accepted: named output undefined entry bytes retained without cross-side equality
+rejected: both sides omit forward-resolver type copies
+rejected: forward-resolver late copy wrong owner
+rejected: both sides omit actual pending member conversion
+rejected: pending member write belongs to different provider record
+rejected: pending member owner is outside active compaction
+rejected: both sides omit resolver target named-cache allocation
+rejected: forward-resolver last page slot lacks actual copy return
+rejected: both resolver call inventories missing
+rejected: both resolver last invocations missing
+rejected: original resolver flag points to different caller local
+rejected: native resolver flag has different typed local
+rejected: both resolver defined flag words changed
+rejected: both resolver relative result identities changed
+rejected: resolver result pointer shifted to next TypeRecord
+rejected: both resolver returned record byte observations missing
+rejected: resolver native parent TypeRecord ownership changed
+rejected: resolver per-entry trap not rearmed
+accepted: resolver undefined entry bytes retained independently
+rejected: both pending recursive pointer writes missing
+rejected: pending recursive pointer result has wrong active target
+rejected: pending recursive target is no longer active
+rejected: both recursive-frontier last type copies omitted
+rejected: both pending final member conversion writes omitted
+rejected: inline recursive offset differs from observed argument54
+rejected: recursive-offset original flag-writing filler undeclared
+rejected: expanded recursion allocation loses original zero-helper identity
+rejected: native unproved expanded recursion before allocation/write
+rejected: recursive intern original flag-writing filler undeclared
+rejected: recursive hash ECX points at a different TypeRecord
+rejected: recursive hash lacks actual intern_type caller frame
+rejected: recursive hash missing canonical implicit switch-break root
+rejected: recursive hash return upper word differs despite matching AX
+rejected: recursive hash actual caller bucket differs from cache
+rejected: both recursive hash caches differ from actual returned value
+rejected: both pending recursive root copies omitted
+rejected: pending root waiver hides a missing ordinary hash node
+rejected: ordinary hash node fabricated before its constructor
+rejected: both copied roots lack actual data-pointer publication
+rejected: pending root index is not its observed append ordinal
+rejected: both newly published recursive name-cache nodes missing
+rejected: uninitialized named output falsely treated as a match
+rejected: both recursive allocation observations missing
+rejected: both recursive frontier observations missing
+rejected: duplicate actual recursive allocation lifetime
+rejected: recursive slab requested size not12288
+rejected: recursive slab allocation parent not root4209
+rejected: recursive slab cursor not one actual used node
+rejected: recursive slab remaining slot count differs
+rejected: recursive slab frontier belongs to another allocation
+rejected: recursive node reserved bytes acquire invented writes
+rejected: recursive unused suffix acquires invented writes
+rejected: recursive node global index differs on BOTH sides
+rejected: recursive node record pointer loses actual copied owner
+rejected: recursive node next points outside owned used prefix
+rejected: both recursive bucket arrays omit required node
+rejected: both recursive bucket counts omit required node
+rejected: recursive slab aliases another allocation owner
+rejected: missing original recursive allocation probe rearm
+rejected: missing recursive ownership evidence
+rejected: stale recursive ownership evidence
+rejected: compiled recursive allocator request changed
+rejected: referenced hash caller partial value differs
+rejected: both post-copy pointer fields remain unconverted
+rejected: post-copy pointer resolves to wrong root on BOTH sides
+rejected: post-copy write changes neighboring defined byte
+rejected: post-copy write changes unallocated buffer tail
+rejected: post-copy recursive mark absent on BOTH sides
+rejected: both last pointer copies and publications omitted
+rejected: post-copy pointer TypeRecord still points to provider
+rejected: third recursive node index aliases first global type
+rejected: second recursive node points at wrong copied record
+rejected: third recursive node reserved bytes mutated
+rejected: recursive prefix36 tail has unproved writes
+rejected: recursive cursor fails to include three nodes
+rejected: recursive slot counter fails to include three nodes
+rejected: next packed-type DX argument differs
+rejected: next packed-type observer falsely leaves local reference
+rejected: missing mandatory retained symbol block observations
+rejected: both retained block birth inventories absent
+rejected: first retained block falsely expired on BOTH sides
+rejected: second retained block wrong family on BOTH sides
+rejected: retained symbol allocation extent changed
+rejected: retained block birth predecessor cursor lost
+rejected: retained block exhaustion residual changed
+rejected: second block first request changed
+rejected: old retained block unused tail mutated
+rejected: retained node reserved bytes receive unproved writes
+rejected: second retained node suffix receives unproved writes
+rejected: new typed allocation aliases old retained block
+rejected: new packed pool malloc observations both absent
+rejected: packed pool owner not first actual pointer copy
+rejected: packed pool first lowDX argument differs
+rejected: packed pool is treated as recursive-node layout
+rejected: packed pool reserved bytes altered
+rejected: packed pool unused tail altered
+rejected: packed pool cursor does not cover three actual nodes
+rejected: packed node data no longer owns actual copy
+rejected: missing typed packed parent proof
+rejected: both recursive root fixups absent before next copy
+rejected: both recursive fieldlist fixups absent before next copy
+rejected: both newly required four resolver calls omitted
+rejected: packed pool canonical malloc request differs
+rejected: module-address actual module_argument differs
+rejected: module-address actual segment_argument differs
+rejected: module-address actual offset_argument differs
+rejected: module-address nested callback return differs
+rejected: both procedure source segment fields differ from actual argument
+rejected: module-address callback has wrong procedure kind
+rejected: both module-address return inventories missing
+rejected: both module-address returns truthy but not original AX1
+rejected: module-address typed native return wrong
+rejected: module-address native caller wrong
+rejected: module-address module ownership missing
+rejected: both module-address segment inputs wrong
+rejected: both module-address offset inputs wrong
+rejected: both module-address source record bytes omitted
+rejected: module-address source owner moved
+rejected: module-address return probe not rearmed
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/check-rejections.py", line 697, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/check-rejections.py", line 145, in main
+    check_module_address(module_address_pair)
+    ~~~~~~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc1.0/cvpack/scripts/module_address_checks.py", line 62, in check
+    assert run_result.returncode==0 and b'NATIVE_MODULE_BOUND_GUARD_PASS'in run_result.stdout,run_result.stdout.decode('latin1')
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: Breakpoint 1 at 0x6377: file src/main.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main (argc=1, argv=0xffc9aa64, environment=0xffc9aa6c) at src/main.c:13
+13	{
+Python Exception <class 'SyntaxError'>: invalid decimal literal (<string>, line 5)
+/root/.ai-tmp/vc1.0-cvpack/module-guard-1_ab2ade/guard.gdb:19: Error in sourced command file:
+Error occurred in Python: invalid decimal literal (<string>, line 5)
+

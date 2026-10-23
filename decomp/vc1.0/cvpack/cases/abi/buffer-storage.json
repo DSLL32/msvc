@@ -139,6 +139,12 @@
       "end": 153980,
       "sha256": "163a5a3b4cc8cbe799b52ff96734ba0fa757dfeab50ac7946a6ff57a58c731fe",
       "purpose": "Nextcallee whole ABI: three caller-stack slots module32/segment low16/offset32; all incoming scratch unused before definition, RET0/AX ushort."
+    },
+    {
+      "start": 152816,
+      "end": 152869,
+      "sha256": "0b7f4e32e6032c70dabe76ccaffdf4428c635d6974a2ec773a2cfae0659c51ac",
+      "purpose": "Whole next bp-relative32 ABI: no formal or hidden inputs; globals read before use; RET0."
     }
   ],
   "defined_hash_node_ranges": [
@@ -3022,5 +3028,6 @@
       }
     ]
   },
-  "procedure_address_frontier": 153888
+  "procedure_address_frontier": 153888,
+  "bp_frontier": 152816
 }
