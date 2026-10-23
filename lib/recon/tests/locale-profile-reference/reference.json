@@ -1,0 +1,14 @@
+{
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "source_packet": "/root/.ai-tmp/msvc2/vc5.10/cl/dependency-boundary-2.packet-v3.json",
+  "source_packet_sha256": "6ebe76a055d79b9d8366639f5732ff9e400b808688c00c0073b7cbc19ae33700",
+  "files": {
+    "invoke-before-mb-state.bin": "3ae4207e40d5e3e931dedc0c56702c08fec7fb5c058383496297268b76b592ed",
+    "invoke-before-ctype.bin": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725",
+    "invoke-after-mb-state.bin": "e7b41e3095dd1fa8be87d59fd638ad52e4a4917ffb23fd8e0e839a27c957e110",
+    "invoke-after-ctype.bin": "aba319e028b28540f24afb197c5735b0e29dc130fc8f5d165f27edf8de28296d"
+  },
+  "mb_state_layout": "DWORD codepage +257 unsigned-byte flags, element0 EOF, character+1",
+  "ctype_layout": "257 little-endian uint16 flags, element0 EOF; exposed _pctype=allocation+2 bytes",
+  "scope": "Encountered typed locale tables only, not an initialized image/section. Pointer/static ownership and scalar transitions are separately captured in packet."
+}

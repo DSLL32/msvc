@@ -1,0 +1,37 @@
+{
+  "scope": "Host-only encountered MSVCRT510 CP0\u21921252/en-US table/state transition, explicit profile+provider identity only; no new locale-conversion/API behavior.",
+  "api": "ReconCrtLocaleProfile(provider_sha256,kind,mbctype/count257,ctype/count257); recon_crt_apply_locale_profile; recon_mbctype[257]",
+  "reference": {
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "source_packet": "/root/.ai-tmp/msvc2/vc5.10/cl/dependency-boundary-2.packet-v3.json",
+    "source_packet_sha256": "6ebe76a055d79b9d8366639f5732ff9e400b808688c00c0073b7cbc19ae33700",
+    "files": {
+      "invoke-before-mb-state.bin": "3ae4207e40d5e3e931dedc0c56702c08fec7fb5c058383496297268b76b592ed",
+      "invoke-before-ctype.bin": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725",
+      "invoke-after-mb-state.bin": "e7b41e3095dd1fa8be87d59fd638ad52e4a4917ffb23fd8e0e839a27c957e110",
+      "invoke-after-ctype.bin": "aba319e028b28540f24afb197c5735b0e29dc130fc8f5d165f27edf8de28296d"
+    },
+    "mb_state_layout": "DWORD codepage +257 unsigned-byte flags, element0 EOF, character+1",
+    "ctype_layout": "257 little-endian uint16 flags, element0 EOF; exposed _pctype=allocation+2 bytes",
+    "scope": "Encountered typed locale tables only, not an initialized image/section. Pointer/static ownership and scalar transitions are separately captured in packet."
+  },
+  "ownership": "mb-array remains static at same native address; beforectype is static with exposed pointer=base+2; afterctype is owned514-byte allocation with same EOF/exposed-pointer convention; old static table remains alive; no unload reset.",
+  "data_context": "Actual period flag bits are named by meaning; all entries are reconstructed from encountered class groups. Uniform observed NLS0200 is explicitly retained without a guessed meaning. No raw initialized-image or section copy.",
+  "initial_profile_fix": "Only explicit MSVCRT510 default TAB changes68\u219228 to match all captured257 default table words; static mb-table is initialized to exact captured257 bytes. Default VC1 code path unchanged.",
+  "checks": {
+    "compilers": [
+      "GCC",
+      "Clang"
+    ],
+    "full_tables": "All257 mb bytes and257 ctype words before/after exact, all scalars/EOF/base/exposed offsets/static-old/new-allocation aliases and preserved errors checked.",
+    "denials_each": 14,
+    "default_closure": "Apply without explicit MSVCRT510 profile denies; unproved1252 multibyte call still denies.",
+    "affected_regression": "Default shim, VC5 stdio flags, static-stdin ownership, seek/refill, CP0 ASCII MB and bound-getenv suites pass.",
+    "independent_review": "VC5 parent independently froze profile/default executables, compared all four owned records byte-for-byte to actual original capture and reran positives/14 denials/default closure; no source changes requested."
+  },
+  "limits": [
+    "Only this encountered provider/reference table and exact CP0 initial state are accepted.",
+    "No nonASCII/case-conversion/DBCS API semantics enabled by profile data application.",
+    "No generic setlocale, ACP mutation or target dependency business logic."
+  ]
+}

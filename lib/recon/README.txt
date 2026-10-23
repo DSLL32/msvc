@@ -675,3 +675,22 @@ fixture seed. Only a missing initial candidate succeeds: it creates no file and
 retains the direct access errno/DOS/LastError2. Fallback/collision/overflow/OOM
 and other unproved paths fail closed. With no option, prior tempnam behavior is
 unchanged. The independently verified errno-preserving mktemp paths are unchanged.
+
+Encountered VC5 locale table state
+---------------------------------
+recon_crt_apply_locale_profile accepts ReconCrtLocaleProfile only under the
+explicit MSVCRT510 build profile and the exact canonical provider hash. It
+requires the proved CP0/static-table initial state, then validates all257 mb
+bytes and257 uint16 ctype words supplied by a verified host adapter. The ctype
+input includes EOF at element0; recon_pctype exposes element1 (base+2 bytes).
+The shared mb-array stays static. The changed ctype allocation and locale
+scalars1252/LC_CTYPE1033 persist across dependency unload. Old static table
+storage remains alive. The apply API preserves errno/DOS/LastError; case replay
+owns any actually observed error effect at its dependency boundary.
+The tables are reconstructed as character flag properties, not a section image.
+Period WINNLS/CTYPE flag meanings are retained; the captured uniform0200 NLS
+bit is preserved without inventing a meaning absent from the period header.
+This profile describes the encountered reference environment, not all Windows
+CP1252 installations. VC5 default TAB is CONTROL|SPACE(28), then captured locale
+TAB268; VC1/default other profiles are unchanged. Existing multibyte/getenv
+CP0 guards remain strict until separate1252 API behavior is proved.

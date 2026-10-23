@@ -47,6 +47,7 @@ unsigned recon_lc_codepage;
 int recon_mb_cur_max=1,recon_mb_codepage;
 static unsigned short character_flags[257];
 unsigned short *recon_pctype=character_flags+1;
+unsigned char recon_mbctype[257];
 char *recon_pgmptr,*recon_aenvptr;
 long recon_timezone;
 int recon_daylight;
@@ -102,6 +103,95 @@ static void fsopen_preflight(const char *name)
         closedir(directory);
     } else if (errno!=ENOENT) recon_unsupported("_fsopen unavailable file identity");
     errno=saved_errno;
+}
+
+/* Encountered CP1252 tables. Each byte index uses character+1; index0 is
+ * EOF. The mb-table keeps static identity even when the locale changes. */
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+static unsigned short initial_ctype_510[257];
+static int locale_profile_applied;
+static void msvcrt510_mb_flags(unsigned char table[257])
+{
+    static const unsigned char upper[]={138,140,142,159};
+    static const unsigned char lower[]={131,154,156,158,170,181,186};
+    unsigned c,n;
+    memset(table,0,257);
+    /* 10/20 are single-byte uppercase/lowercase flags; lead/trail04/08
+     * remain clear throughout this encountered single-byte table. */
+    for (c='A';c<='Z';++c) table[c+1]=0x10;
+    for (c='a';c<='z';++c) table[c+1]=0x20;
+    for (c=192;c<=222;++c) if (c!=215) table[c+1]=0x10;
+    for (c=223;c<=255;++c) if (c!=247) table[c+1]=0x20;
+    for (n=0;n<sizeof(upper);++n) table[upper[n]+1]=0x10;
+    for (n=0;n<sizeof(lower);++n) table[lower[n]+1]=0x20;
+}
+static void msvcrt510_locale_ctype(const unsigned char mb[257],unsigned short table[257])
+{
+    enum {UPPER=1,LOWER=2,DIGIT=4,SPACE=8,PUNCT=16,CONTROL=32,
+          BLANK=64,HEX=128,ALPHA=256,OBSERVED_NLS_0200=512};
+    static const unsigned char punctuation[]={130,132,133,134,135,137,139,
+        145,146,147,148,149,150,151,155,161,162,163,164,165,166,167,168,
+        169,171,172,174,175,176,177,180,182,183,184,187,188,189,190,191,215,247};
+    static const unsigned char controls[]={129,141,143,144,157};
+    static const unsigned char numeric_punctuation[]={178,179,185};
+    static const unsigned char lower_punctuation[]={170,181,186};
+    unsigned c,n,bits;
+    table[0]=0;
+    for (c=0;c<256;++c) {
+        /* 0200 is uniformly present in this captured reference NLS table.
+         * Period WINNLS.H defines the other bits; no extra meaning is inferred. */
+        bits=OBSERVED_NLS_0200;
+        if (mb[c+1]&0x10) bits|=UPPER|ALPHA;
+        if (mb[c+1]&0x20) bits|=LOWER|ALPHA;
+        if (c<32 || c==127) bits|=CONTROL;
+        if (c==32 || c==160 || (c>=9 && c<=13)) bits|=SPACE;
+        if (c==32 || c==160 || c==9) bits|=BLANK;
+        if (c>='0' && c<='9') bits|=DIGIT|HEX;
+        if ((c>='A' && c<='F') || (c>='a' && c<='f')) bits|=HEX;
+        if ((c>=33 && c<=47) || (c>=58 && c<=64) ||
+            (c>=91 && c<=96) || (c>=123 && c<=126)) bits|=PUNCT;
+        table[c+1]=(unsigned short)bits;
+    }
+    for (n=0;n<sizeof(punctuation);++n) table[punctuation[n]+1]|=PUNCT;
+    for (n=0;n<sizeof(controls);++n) table[controls[n]+1]|=CONTROL;
+    for (n=0;n<sizeof(numeric_punctuation);++n) table[numeric_punctuation[n]+1]|=DIGIT|PUNCT;
+    for (n=0;n<sizeof(lower_punctuation);++n) table[lower_punctuation[n]+1]|=PUNCT;
+    table[136+1]|=ALPHA; /* Encountered modifier letter without upper/lower. */
+    table[173+1]|=PUNCT|CONTROL; /* Encountered soft-hyphen flags. */
+}
+#endif
+void recon_crt_apply_locale_profile(const ReconCrtLocaleProfile *profile)
+{
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    unsigned char expected_mb[257]; unsigned short expected_ctype[257],*allocated;
+    unsigned n; int saved=errno; unsigned long dos=recon_doserrno; DWORD error=recon_GetLastError();
+    if (!profile || !profile->provider_sha256 ||
+        strcmp(profile->provider_sha256,"e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210") ||
+        profile->kind!=RECON_CRT_LOCALE_1252_EN_US || !profile->mbctype || !profile->ctype ||
+        profile->mbctype_count!=257 || profile->ctype_count!=257 || locale_profile_applied ||
+        recon_mb_codepage || recon_lc_codepage || recon_mb_cur_max!=1 ||
+        recon_pctype!=character_flags+1)
+        recon_unsupported("locale profile identity/extent/initial state");
+    for (n=0;n<6;++n) if (recon_lc_handle[n])
+        recon_unsupported("locale profile nondefault initial handles");
+    msvcrt510_mb_flags(expected_mb); msvcrt510_locale_ctype(expected_mb,expected_ctype);
+    if (memcmp(recon_mbctype,expected_mb,sizeof(expected_mb)) ||
+        memcmp(character_flags,initial_ctype_510,sizeof(character_flags)) ||
+        memcmp(profile->mbctype,expected_mb,sizeof(expected_mb)) ||
+        memcmp(profile->ctype,expected_ctype,sizeof(expected_ctype)))
+        recon_unsupported("locale profile encountered table mismatch");
+    allocated=malloc(sizeof(expected_ctype));
+    if (!allocated) recon_unsupported("locale profile table allocation failure");
+    memcpy(allocated,expected_ctype,sizeof(expected_ctype));
+    /* Keep the old static table and the static mb-array alive. The changed
+     * pctype allocation persists after the dependency's FreeLibrary. */
+    recon_pctype=allocated+1;
+    recon_mb_codepage=1252; recon_lc_codepage=1252; recon_lc_handle[2]=1033;
+    locale_profile_applied=1;
+    errno=saved; recon_doserrno=dos; recon_SetLastError(error);
+#else
+    (void)profile;recon_unsupported("locale profile without explicit MSVCRT510 profile");
+#endif
 }
 
 /* Canonical VC5 MSVCRT _initterm: unsigned exclusive end, NULL slots skipped,
@@ -1585,6 +1675,12 @@ __attribute__((constructor)) static void initialize_crt(void)
         if (isxdigit(i)) bits|=128;
         recon_pctype[i]=bits;
     }
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    /* Actual canonical default-C table has CONTROL|SPACE at TAB, not BLANK. */
+    recon_pctype['\t']&=~0x40;
+    memcpy(initial_ctype_510,character_flags,sizeof(character_flags));
+    msvcrt510_mb_flags(recon_mbctype);
+#endif
     if (getenv("RECON_PROGRAM_PATH")) recon_pgmptr=strdup(getenv("RECON_PROGRAM_PATH"));
     else {
         command=fopen("/proc/self/cmdline","rb");

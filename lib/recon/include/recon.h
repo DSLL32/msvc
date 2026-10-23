@@ -125,6 +125,15 @@ extern unsigned long recon_doserrno,recon_lc_handle[6];
 extern unsigned recon_lc_codepage;
 extern int recon_mb_cur_max,recon_mb_codepage;
 extern unsigned short *recon_pctype;
+extern unsigned char recon_mbctype[257];
+#define RECON_CRT_LOCALE_1252_EN_US 1
+typedef struct ReconCrtLocaleProfile {
+ const char *provider_sha256; unsigned kind;
+ const unsigned char *mbctype; size_t mbctype_count;
+ /* Includes EOF at element0; exposed _pctype points to element1. */
+ const unsigned short *ctype; size_t ctype_count;
+} ReconCrtLocaleProfile;
+void recon_crt_apply_locale_profile(const ReconCrtLocaleProfile *);
 extern char *recon_pgmptr,*recon_aenvptr;
 extern long recon_timezone;
 extern int recon_daylight;

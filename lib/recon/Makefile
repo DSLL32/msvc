@@ -358,3 +358,11 @@ build/tempnam-probe: tests/tempnam-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 tempnam-check: build/tempnam-probe
 	$(PYTHON) tests/check-tempnam.py build/tempnam-probe
+
+.PHONY: locale-profile-check
+build/locale-profile-probe: tests/locale-profile-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+build/locale-profile-default: tests/locale-profile-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+locale-profile-check: build/locale-profile-probe build/locale-profile-default
+	$(PYTHON) tests/check-locale-profile.py build/locale-profile-probe build/locale-profile-default
