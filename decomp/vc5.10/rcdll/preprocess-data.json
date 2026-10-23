@@ -300,7 +300,7 @@
       "name": "rc_macro_listing_enabled",
       "original_rva": "0x25058",
       "kind": "integer",
-      "bytes": 1
+      "bytes": 4
     }
   ],
   "options": {

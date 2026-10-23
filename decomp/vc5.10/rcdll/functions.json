@@ -33,7 +33,8 @@
     "rc_open_preprocessor",
     "rc_set_character_token",
     "rc_set_character_class",
-    "rc_hash_macro_name"
+    "rc_hash_macro_name",
+    "rc_define_macro"
   ],
   "functions": [
     {
@@ -757,7 +758,13 @@
       "abi": "stdcall",
       "stack_bytes": 12,
       "kind": "application",
-      "stub": true
+      "stub": false,
+      "text_data": [
+        [
+          "0x1304",
+          "0x131c"
+        ]
+      ]
     },
     {
       "name": "rc_undefine_macro",
@@ -774,6 +781,43 @@
       "end": "0x401c",
       "abi": "stdcall",
       "stack_bytes": 8,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_find_macro",
+      "start": "0x4da5",
+      "end": "0x4ddf",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_macro_text_differs",
+      "start": "0x4ddf",
+      "end": "0x4e19",
+      "abi": "stdcall",
+      "stack_bytes": 12,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_copy_macro_text",
+      "start": "0xbee2",
+      "end": "0xbfc4",
+      "abi": "stdcall",
+      "stack_bytes": 8,
+      "kind": "application",
+      "stub": true,
+      "extent_note": "Unaccepted SEH helper: entry+tail and local filter/handler ownership must be resolved before promotion; bounding range only."
+    },
+    {
+      "name": "rc_list_macro",
+      "start": "0xc036",
+      "end": "0xc0f9",
+      "abi": "stdcall",
+      "stack_bytes": 4,
       "kind": "application",
       "stub": true
     }

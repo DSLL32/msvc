@@ -302,4 +302,47 @@ unsigned char __stdcall rc_hash_macro_name(const WCHAR *name)
 }
 
 RcMacro *rc_macro_buckets[256];
-unsigned char rc_macro_listing_enabled;
+int rc_macro_listing_enabled;
+
+void __stdcall rc_define_macro(const WCHAR *value,unsigned length,int parameters)
+{
+    RcMacro *macro;
+    unsigned char name_length;
+
+    if(!length) value=NULL;
+    if(!wcscmp(rc_macro_name,L"defined")) goto protected_name;
+    macro=rc_find_macro();
+    if(macro){
+        if(macro->parameters < -2) goto protected_name;
+        if(!rc_macro_text_differs(value,macro->text,length)) return;
+        rc_error_template=rc_message(4005);
+        rc_format(rc_error_text,2048,rc_error_template,rc_macro_name);
+        rc_input_warning(4005);
+    }else{
+        name_length=(unsigned char)rc_macro_name_length;
+        macro=rc_allocate(sizeof(RcMacro));
+        if(!macro){
+            strcpy(rc_error_text,rc_message(1002));
+            rc_input_error(1002);
+            return;
+        }
+        macro->name=rc_copy_macro_text(rc_macro_name,name_length);
+        macro->text=NULL;
+        macro->flags=0;
+        macro->next=rc_macro_buckets[rc_macro_hash];
+        rc_macro_buckets[rc_macro_hash]=macro;
+    }
+    if(length){
+        macro->text=rc_copy_macro_text(value,length);
+        if(parameters==-2) macro->text[length-1]=0x44;
+    }
+    macro->parameters=(signed char)(parameters==-2 ? 0 : parameters);
+    if(rc_macro_listing_enabled && macro->parameters>=-2 && !macro->parameters)
+        rc_list_macro(macro);
+    return;
+
+protected_name:
+    rc_error_template=rc_message(4117);
+    rc_format(rc_error_text,2048,rc_error_template,rc_macro_name,"#define");
+    rc_input_warning(4117);
+}

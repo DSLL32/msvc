@@ -1,0 +1,63 @@
+{
+  "function": "rc_define_macro",
+  "original_start": "0x4c2f",
+  "original_end": "0x4da5",
+  "original_code_bytes": 374,
+  "abi": "stdcall3/ret12;pointer,unsigned32,signed32",
+  "accepted_application_functions": 29,
+  "accepted_application_bytes": 9882,
+  "provisional_application_denominator": 66295,
+  "provisional_coverage_percent": 14.906101515951429,
+  "denominator_scope": "provisional Ghidra application ownership; separate CRT555/import12/compiler47 bytes excluded",
+  "matched_frontier": "rc_find_macro",
+  "raw_original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/define-macro-trial-original-01",
+  "raw_native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/define-macro-trial-native-01",
+  "builds": {
+    "original": {
+      "seconds": 4.797336172312498,
+      "status": 0
+    },
+    "native": {
+      "seconds": 1.9505137521773577,
+      "status": 0
+    }
+  },
+  "original_seconds": 1.26733654178679,
+  "native_gdb_seconds": 0.8680011657997966,
+  "audit_seconds": 0.08460993133485317,
+  "negative_controls": {
+    "fresh": 32,
+    "reused": 0,
+    "reason": "New zero-formal lookup boundary with explicit full hidden globals; common controls rerun."
+  },
+  "gate_sha256": "1bc7933bcd39e77139730a6049620808f83c043b48bdcc53335336322dd2894a",
+  "graph_audit_record": "audit-0031.json",
+  "help_fixture": {
+    "logical_name_aliases": {
+      "rcdll_main": "DllMain",
+      "recon_dll_entry": "_DllMainCRTStartup",
+      "rcdll_crt_init": "_CRT_INIT",
+      "rc_main": "main",
+      "rcdll_command_main": "main"
+    },
+    "case": "help",
+    "status": "pass",
+    "stdout_bytes": 589,
+    "application_entries": 9,
+    "seconds": {
+      "setup": 0.0038906969130039215,
+      "execution": 0.002328723669052124,
+      "checks": 0.0011663427576422691,
+      "total": 0.008040803484618664
+    },
+    "native_sha256": "63429461863525b0b3ba9507a442d53182e9f3aece37d5d409270d9c6f277738",
+    "reference_manifest_sha256": "387c741bdb3fa4d388da034d339b5d21e872667d27934bb570e03d448db05524"
+  },
+  "notes": [
+    "Full original body reconstructs protected names,redefinition checks,16B record insertion,replacement sentinel and optionallisting.",
+    "First lookup has zero stackformals; actual macro_name/full1024bytes,name_length18,hash,bucket table and fullDWORD listingflag are explicit hidden inputs.",
+    "Listingflag refined from provisional byte declaration to actual DWORD before its consumer executes; previous historical byte-scoped snapshot retained unchanged.",
+    "New copy helper remains unaccepted: SEH main/filter/handler ownership recorded as pending; no source credit for that body.",
+    "Only wcscmp against ordinaryLdefined executes before this frontier; all unknown branches retain named stubs."
+  ]
+}

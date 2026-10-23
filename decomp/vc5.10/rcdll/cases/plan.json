@@ -32,7 +32,8 @@
     "rc_open_preprocessor",
     "rc_set_character_token",
     "rc_set_character_class",
-    "rc_hash_macro_name"
+    "rc_hash_macro_name",
+    "rc_define_macro"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

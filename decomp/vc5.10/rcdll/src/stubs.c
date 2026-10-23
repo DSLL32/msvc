@@ -71,10 +71,6 @@ int __stdcall rc_match_option(const WCHAR *pattern,const WCHAR *argument)
     __asm int 3
     return 0;
 }
-void __stdcall rc_define_macro(const WCHAR *value,unsigned length,int parameters)
-{
-    __asm int 3
-}
 void __cdecl rc_undefine_macro(void)
 {
     __asm int 3
@@ -89,6 +85,26 @@ void __cdecl rc_run_preprocessor(void)
     __asm int 3
 }
 void __cdecl rc_close_preprocessor(void)
+{
+    __asm int 3
+}
+
+RcMacro *__cdecl rc_find_macro(void)
+{
+    __asm int 3
+    return NULL;
+}
+int __stdcall rc_macro_text_differs(const WCHAR *value,const WCHAR *prior,unsigned length)
+{
+    __asm int 3
+    return 0;
+}
+WCHAR *__stdcall rc_copy_macro_text(const WCHAR *value,unsigned length)
+{
+    __asm int 3
+    return NULL;
+}
+void __stdcall rc_list_macro(RcMacro *macro)
 {
     __asm int 3
 }

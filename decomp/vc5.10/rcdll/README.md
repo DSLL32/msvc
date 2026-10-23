@@ -252,3 +252,9 @@ with replacement `7`, length3 and parameter kind-2. The actual AL return,
 macro buffer/length/hash and initially empty bucket table are preserved.
 [Verification](cases/resources-rich/macro-hash-verification.json) records 30 fresh
 controls, full typed frontier inputs and split timings.
+
+Macro definition is accepted (374 bytes), reaching its zero-argument lookup
+with all implicit name/hash/bucket inputs checked. The full body covers record
+insertion, protected names and replacement storage behind named callees.
+[Verification](cases/resources-rich/define-macro-verification.json) records 32 fresh
+controls; the newly encountered SEH copy helper remains unaccepted.

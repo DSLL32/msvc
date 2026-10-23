@@ -29,7 +29,7 @@ typedef struct RcMacro {
     unsigned short reserved;
 } RcMacro;
 extern RcMacro *rc_macro_buckets[256];
-extern unsigned char rc_macro_listing_enabled;
+extern int rc_macro_listing_enabled;
 
 extern int rc_cpp_remaining,rc_cpp_active,rc_cpp_E,rc_cpp_P;
 extern int rc_cpp_nesting_level;
@@ -57,6 +57,10 @@ void __stdcall rc_set_character_token(unsigned short,unsigned short);
 extern unsigned short rc_character_classes[257];
 void __stdcall rc_set_character_class(unsigned short,unsigned short);
 unsigned char __stdcall rc_hash_macro_name(const WCHAR *);
+RcMacro *__cdecl rc_find_macro(void);
+int __stdcall rc_macro_text_differs(const WCHAR *,const WCHAR *,unsigned);
+WCHAR *__stdcall rc_copy_macro_text(const WCHAR *,unsigned);
+void __stdcall rc_list_macro(RcMacro *);
 void __stdcall rc_define_macro(const WCHAR *,unsigned,int);
 void __cdecl rc_undefine_macro(void);
 int __stdcall rc_open_source(WCHAR *,int);
