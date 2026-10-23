@@ -404,7 +404,6 @@ int __fastcall choose_derived_induction_representative(Node *difference, Node *l
     Node *right, Node **representative) { __asm int 3 }
 int __fastcall derived_induction_is_profitable(Node *node) { __asm int 3 }
 void __fastcall rewrite_derived_induction_group(DerivedInduction *candidates, Node *representative) { __asm int 3 }
-Node *__fastcall materialize_region_value(Node *node) { __asm int 3 }
 int supports_region_memory_operations(void) { __asm int 3 }
 BasicInduction *__fastcall find_region_memory_induction(Node *address, Node *assignment,
     unsigned bytes, unsigned *reverse) { __asm int 3 }

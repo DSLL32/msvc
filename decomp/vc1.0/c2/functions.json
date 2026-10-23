@@ -876,7 +876,12 @@
     "@has_no_later_work_store@4",
     "@basic_induction_increment@4",
     "@remove_left_wrapper@4",
-    "@add_derived_induction@24"
+    "@add_derived_induction@24",
+    "@materialize_region_value@4",
+    "@numbered_expression_temporary@12",
+    "@ensure_numbered_expression@4",
+    "@record_hoisted_work_effect@4",
+    "@record_work_effect_in_regions@8"
   ],
   "driver": [
     {
@@ -6290,8 +6295,7 @@
     {
       "name": "@materialize_region_value@4",
       "start": 391440,
-      "end": 391441,
-      "provisional": true
+      "end": 391814
     },
     {
       "name": "_supports_region_memory_operations",
@@ -6528,6 +6532,26 @@
       "name": "@replace_bitwise_occurrences@12",
       "start": 353008,
       "end": 353130
+    },
+    {
+      "name": "@numbered_expression_temporary@12",
+      "start": 384704,
+      "end": 384811
+    },
+    {
+      "name": "@record_hoisted_work_effect@4",
+      "start": 392064,
+      "end": 392082
+    },
+    {
+      "name": "@ensure_numbered_expression@4",
+      "start": 384608,
+      "end": 384693
+    },
+    {
+      "name": "@record_work_effect_in_regions@8",
+      "start": 392256,
+      "end": 392285
     }
   ],
   "cases": {

@@ -2193,3 +2193,11 @@ Loop derived-value collection: checkpoint872
 native fixtures pass. See cases/loops-derived-collection.json for extent union, limits
 and measured timing splits. Minimal/hello objects remain exact after timestamp;
 loop620-byte final object is incomplete.
+
+Loop invariant materialization passed: checkpoint877
+-------------------------------------
+5 whole functions pass fresh original/native matching; current frontier
+_supports_region_memory_operations. 799 graph checks, canonical/native/W3 and all three
+native fixtures pass. See cases/loops-materialization.json for extent union, limits
+and measured timing splits. Minimal/hello objects remain exact after timestamp;
+loop620-byte final object is incomplete.

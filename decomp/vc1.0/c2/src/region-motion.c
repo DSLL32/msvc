@@ -619,6 +619,8 @@ BasicInduction *__fastcall find_basic_induction(Node *address)
 }
 
 
+Node *__fastcall numbered_expression_temporary(Node *node, Node **canonical, int intern);
+void __fastcall record_hoisted_work_effect(Node *node);
 static BitSet *hoist_materialized_values; /*0007be68: insertion deduplication*/
 /* Original [0005e680,0005e786). Select invariant numbered values, rewrite
    dominated expressions and materialize selected assignment operands, then
@@ -1043,4 +1045,68 @@ void __fastcall add_derived_induction(Node *tree, Node *parent, BasicInduction *
         ++candidate->uses;
         candidate->blocked &= blocked;
     }
+}
+
+/* Original [0005f910,0005fa86). Materialize a numbered invariant once
+   in the region preheader and maintain its load/store liveness. Comparisons
+   (original shape bit0010, exactly opcodes1f..24) retain their two operands. */
+Node *__fastcall materialize_region_value(Node *node)
+{
+    unsigned opcode = node->opcode;
+    Node *load, *store, *reference;
+    int identifier;
+    if ((node_shapes[opcode] & NODE_ARITY) == NODE_LEAF ||
+        (opcode == 0x30 && node->left.node->opcode == 0x26)) return node;
+    if ((node->attributes.words.type & 0x1000) && opcode == 0x30) {
+        node->left.node = materialize_region_value(node->left.node);
+        return node;
+    }
+    if ((opcode >= 0x1f && opcode <= 0x24) || opcode == 0x43) {
+        node->second.node = materialize_region_value(node->second.node);
+        node->left.node = materialize_region_value(node->left.node);
+        return node;
+    }
+    if (opcode == 0x59) {
+        node->left.node = materialize_region_value(node->left.node);
+        return node;
+    }
+    load = copy_tree(numbered_expression_temporary(node, 0, 1));
+    load->attributes.words.flags |= 0x20;
+    load->info.words.identifier = node->info.words.identifier;
+    if (!bitset_contains(hoist_materialized_values, node->info.words.identifier)) {
+        store = build_tree("PPNTS", load->left.node, node, 0x32, node);
+        store->attributes.words.flags |= 0x20;
+        insert_tree_expression(transformation_cursor.expression, 0, store);
+        hoist_materialized_values = bitset_include(hoist_materialized_values, node->info.words.identifier);
+        reference = load->detail.node;
+        store->detail.node = reference;
+        record_hoisted_work_effect(store);
+        identifier = reference->info.words.identifier;
+        current_expression_work->flow_sets[WORK_MEMORY_READS] =
+            bitset_include(current_expression_work->flow_sets[WORK_MEMORY_READS], identifier);
+        hoist_header_work->flow_sets[WORK_MEMORY_STORES] =
+            bitset_include(hoist_header_work->flow_sets[WORK_MEMORY_STORES], identifier);
+        hoist_header_work->flow_sets[WORK_UNREAD_STORES] =
+            bitset_include(hoist_header_work->flow_sets[WORK_UNREAD_STORES], identifier);
+        hoist_header_work->flow_sets[WORK_MEMORY_LIVE_OUT] =
+            bitset_include(hoist_header_work->flow_sets[WORK_MEMORY_LIVE_OUT], identifier);
+    }
+    return copy_tree(load);
+}
+
+void __fastcall record_work_effect_in_regions(Node *node, FlowRegion *region);
+/* Original [0005fb80,0005fb92). A preheader insertion changes the
+   enclosing region's effects, leaving its own loop's candidate set separate. */
+void __fastcall record_hoisted_work_effect(Node *node)
+{
+    FlowRegion *region = hoist_entry_work->region;
+    if (region) record_work_effect_in_regions(node, region);
+}
+
+void __fastcall add_region_candidate(Node *node, FlowRegion *region);
+/* Original [0005fc40,0005fc5d). Record the effect in every enclosing
+   region, preserving its independent candidate chain. */
+void __fastcall record_work_effect_in_regions(Node *node, FlowRegion *region)
+{
+    for (; region; region = region->parent) add_region_candidate(node, region);
 }

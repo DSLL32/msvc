@@ -1112,3 +1112,42 @@ int __fastcall has_no_later_work_store(Expression *expression)
     }
     return 1;
 }
+
+NumberedExpression *__fastcall ensure_numbered_expression(Node *node);
+/* Original [0005dec0,0005df2b). Lazily allocate the numbered value's
+   stack temporary load, sharing its canonical work-memory identity. */
+Node *__fastcall numbered_expression_temporary(Node *node, Node **canonical, int intern)
+{
+    NumberedExpression *expression;
+    Node *load;
+    WorkValue *value;
+    expression = intern ? ensure_numbered_expression(node) : find_numbered_expression(node);
+    if (canonical) *canonical = expression->canonical;
+    load = expression->temporary_load;
+    if (!load) {
+        load = build_tree("PNTS", new_temporary_reference(node->attributes.words.type & 255, 0),
+                          0x30, node);
+        expression->temporary_load = load;
+        value = intern_work_value(load);
+        load = expression->temporary_load;
+        load->detail.node = value->canonical;
+    }
+    return load;
+}
+
+/* Original [0005de60,0005deb5). Ensure the identifier index contains
+   a canonical operand tree without adding a structural-hash/use entry. */
+NumberedExpression *__fastcall ensure_numbered_expression(Node *node)
+{
+    NumberedExpression *expression = find_numbered_expression(node);
+    NumberedExpression **bucket;
+    if (!expression) {
+        expression = arena_alloc(4, sizeof(NumberedExpression));
+        expression->canonical = copy_numbered_expression(node);
+        expression->temporary_load = 0;
+        bucket = &numbered_expressions_by_id[(int)node->info.words.identifier % NUMBERED_EXPRESSION_BUCKETS];
+        expression->identifier_next = *bucket;
+        *bucket = expression;
+    }
+    return expression;
+}
