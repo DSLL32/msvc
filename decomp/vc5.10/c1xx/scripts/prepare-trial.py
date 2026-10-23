@@ -14,6 +14,18 @@ def sha(path):
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def compiler_support(candidate,indexes,accepted):
+    """The encountered compiler import is support, never another app body."""
+    support=candidate.get('support_imports',[])
+    if support:
+        if support!=['import:_ftol'] or candidate['trial']!='_calculate_arena_reservation' or support[0] in accepted:
+            raise ValueError('not the bounded encountered automatic compiler _ftol support')
+        record=indexes[support[0]]
+        if (record['start'],record['end'],record['provider'])!=(0x10438f04,0x10438f0a,{'dll':'MSVCRT.dll','name':'_ftol'}):
+            raise ValueError('compiler-support boundary identity changed')
+    return support
+
+
 def prepare():
     cfg = json.loads((PROJECT / "functions.json").read_text())
     candidate_path = cfg.get("candidate_path", "cases/lifecycle/candidate.json")
@@ -38,7 +50,8 @@ def prepare():
                 raise ValueError('prospective member must remain genuine pending stub')
         elif closure != ['_initialize_frontend_37','PchContext::Initialize'] or member.get('pending_extent') or member['end'] != 0x1043bd53:
             raise ValueError('ordered PCH closure differs from authorized10+18-byte pair')
-    accepted = list(cfg["accepted"]) + (closure or ([trial_name] if trial_name else []))
+    support = compiler_support(candidate,indexes,cfg['accepted'])
+    accepted = list(cfg["accepted"]) + (closure or ([trial_name] if trial_name else [])) + support
     base = cfg["target"]["base"]
     expected = []
     for name in accepted:
@@ -86,6 +99,7 @@ def prepare():
     trial = dict(cfg)
     trial["accepted"] = accepted
     trial["trial"] = trial_name
+    if support:trial['support_imports']=support
     if prospective:trial["prospective_only"] = True
     if closure:trial["ordered_closure"] = closure
     trial["ranges"] = expected
@@ -114,6 +128,8 @@ def prepare():
         trial['early_switch_observers']={'owner':'_process_early_option','scope':'25 real argv calls and actual returns; no environment arguments mocked','entry_rva':0x38d56,'return_rva':0x38d28,'shared_text_data_rvas':[[0x38de0,0x38df0]]}
     if '_initialize_frontend_hook' in accepted:
         trial['system_info_observers']={'owner':'_main','before_rva':0x38c42,'after_rva':0x38c48,'provider_iat_rva':0xc91f4,'destination_rva':0xcd7b8,'output_bytes':36,'scope':'one actual GetSystemInfo; no GlobalMemoryStatus or fabricated fields'}
+    if '_calculate_arena_reservation' in accepted:
+        trial['scaler_observers']={'owner':'_calculate_arena_reservation','original_points':[0x38ed7,0x38edd,0x38ee3,0x38ee9,0x38eee,0x38e81,0x38ea9,0x38eaf],'ftol_thunk_rva':0x38f04,'ftol_iat_rva':0xc90c8,'provider_export':'MSVCRT.dll!_ftol','provider_bytes':39,'x87_entry_profile':[0x027f,0x0020,0xffff],'scope':'actual math/conversion/QWORD return and single real TOP_DOWN reservation; no mock or code substitution'}
     trial['test_action_seed']=bool(candidate.get('test_action_seed'))
     if trial['test_action_seed']:
         trial['auxiliary_action_data_seed']={'owner':'_initialize_frontend_41','point':'actual entry after BSS reset','head':'owned snapshot+4','tail':'owned snapshot+8','depth':17,'pointees_dereferenced':False,'code_or_allocator_mock':False}

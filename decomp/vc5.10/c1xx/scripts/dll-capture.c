@@ -33,6 +33,12 @@ static int return_active, restore_observer, pool_return_observer;
 static BYTE restore_observer_byte;
 static DWORD aux_old_base, aux_new_base;
 static int aux_returned;
+static unsigned scaler_sequence;
+static int scaler_observers;
+static DWORD scaler_provider;
+static const DWORD scaler_points[8] = { 0x38ed7,0x38edd,0x38ee3,0x38ee9,0x38eee,0x38e81,0x38ea9,0x38eaf };
+static const BYTE scaler_opcodes[8] = { 0xdb,0xda,0xdc,0xe8,0x8b,0x89,0xff,0x85 };
+static BYTE scaler_saved[8];
 static unsigned sequence;
 static BYTE *snapshot;
 static Range ranges[512];
@@ -205,6 +211,20 @@ static void prepare_mask(void)
         fail("save actual masked image");
     CloseHandle(saved);
     free(masked); initialized = 1;
+    if (getenv("C1XX_OBSERVE_SCALER") && !baseline) {
+        BYTE provider_code[39];
+        readmem(base+0xc90c8,&scaler_provider,4);
+        if (scaler_provider!=crt_base+0x4dc1) fail("canonical ftol provider resolution");
+        readmem(scaler_provider,provider_code,39);save_blob("ftol-provider-code.bin",provider_code,39);
+        fprintf(events,"ftol-provider iat=000c90c8 resolved=%08lx\n",scaler_provider);
+        for (i=0;i<8;++i) {
+            scaler_saved[i]=snapshot[scaler_points[i]-code_rva];
+            if (scaler_saved[i]!=scaler_opcodes[i]) fail("scaler observer opcode");
+            patch(base+scaler_points[i],0xcc);
+        }
+        scaler_observers=1;
+        fprintf(events,"scaler-observers points=8 one-shot=1 after-full-mask-readback=1 no-code-mock=1\n");
+    }
     if ((getenv("C1XX_TEST_INIT_RESTORE") || getenv("C1XX_OBSERVE_INIT_COPY")) && !baseline) {
         restore_observer_byte = snapshot[0x385be - code_rva];
         if (restore_observer_byte != 0x89) fail("restore observer instruction changed");
@@ -842,6 +862,33 @@ int main(int argc, char **argv)
                 patch(base + ranges[pending].first, 0xcc);
                 context.EFlags &= ~0x100; pending = -1;
                 if (!SetThreadContext(thread, &context)) fail("single step context");
+            } else if (code == EXCEPTION_BREAKPOINT && scaler_observers &&
+                    (address==base+0x38ed7 || address==base+0x38edd || address==base+0x38ee3 || address==base+0x38ee9 || address==base+0x38eee || address==base+0x38e81 || address==base+0x38ea9 || address==base+0x38eaf)) {
+                DWORD words[5],saved_state;
+                BYTE *blob;char name[80];unsigned point;
+                for(point=0;point<8;++point)if(address==base+scaler_points[point])break;
+                if(point==8)fail("unknown scaler observation");
+                readmem(context.Esp,words,sizeof(words));
+                fprintf(events,"scaler point=%u seq=%u rva=%08lx eax=%08lx edx=%08lx ecx=%08lx edi=%08lx esi=%08lx ebx=%08lx esp=%08lx error=%lu cw=%04lx sw=%04lx tag=%04lx stack=%08lx,%08lx,%08lx,%08lx,%08lx\n",point,scaler_sequence,address-base,context.Eax,context.Edx,context.Ecx,context.Edi,context.Esi,context.Ebx,context.Esp,thread_error(&context,thread),context.FloatSave.ControlWord,context.FloatSave.StatusWord,context.FloatSave.TagWord,words[0],words[1],words[2],words[3],words[4]);
+                sprintf(name,"scaler-fp-%03u.bin",scaler_sequence);save_blob(name,&context.FloatSave,sizeof(context.FloatSave));
+                blob=(BYTE *)malloc(0xf69c);if(!blob)fail("scaler guard buffer");
+                readmem(base+0xb9000,blob,0xf69c);sprintf(name,"scaler-bss-%03u.bin",scaler_sequence);save_blob(name,blob,0xf69c);
+                readmem(base+0xcc000,blob,8520);sprintf(name,"scaler-data-%03u.bin",scaler_sequence);save_blob(name,blob,8520);
+                readmem(base+0xc4d50,&saved_state,4);if(!saved_state)fail("scaler snapshot identity");
+                readmem(saved_state,blob,8520);sprintf(name,"scaler-saved-%03u.bin",scaler_sequence);save_blob(name,blob,8520);
+                readmem(base+0xcb000,blob,0xa4);sprintf(name,"scaler-support-%03u.bin",scaler_sequence);save_blob(name,blob,0xa4);
+                if(point==6) {
+                    readmem(base+0xc9204,&saved_state,4);
+                    fprintf(events,"arena-api-before address=%08lx bytes=%08lx kind=%08lx protection=%08lx provider=%08lx esp=%08lx error=%lu\n",words[0],words[1],words[2],words[3],saved_state,context.Esp,thread_error(&context,thread));
+                }
+                if(point==7) {
+                    MEMORY_BASIC_INFORMATION region;
+                    if(!context.Eax || VirtualQueryEx(child,(void *)context.Eax,&region,sizeof(region))!=sizeof(region))fail("arena reserved region");
+                    sprintf(name,"arena-region.bin");save_blob(name,&region,sizeof(region));
+                    fprintf(events,"arena-api-after result=%08lx esp=%08lx error=%lu region-base=%08lx bytes=%08lx state=%08lx protect=%08lx allocation-protect=%08lx type=%08lx\n",context.Eax,context.Esp,thread_error(&context,thread),(DWORD)region.BaseAddress,region.RegionSize,region.State,region.Protect,region.AllocationProtect,region.Type);
+                }
+                free(blob);++scaler_sequence;patch(address,scaler_saved[point]);
+                context.Eip=address;if(!SetThreadContext(thread,&context))fail("scaler observer context");
             } else if (code == EXCEPTION_BREAKPOINT && system_observer_active && (address==base+0x38c42 || address==base+0x38c48)) {
                 DWORD argument;BYTE *state_bss;SYSTEM_INFO info;
                 state_bss=(BYTE *)malloc(0xf69c);if(!state_bss)fail("system info observation buffer");
@@ -941,6 +988,12 @@ int main(int argc, char **argv)
                     readmem(base + 0xb9000, action_bss, sizeof(action_bss));
                     save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
                 }
+                if (address == base + 0x38f0a) {
+                    BYTE *reset_bss = (BYTE *)malloc(0xf69c);
+                    if (!reset_bss) fail("arena reset frontier guard");
+                    readmem(base+0xb9000,reset_bss,0xf69c);
+                    save_blob("arena-bss-reset-frontier.bin",reset_bss,0xf69c);free(reset_bss);
+                }
                 if (address == base + 0x38ed2) {
                     BYTE *size_bss = (BYTE *)malloc(0xf69c);
                     if (!size_bss) fail("allocate arena sizing BSS observation");
@@ -1013,6 +1066,12 @@ int main(int argc, char **argv)
                     }
                     readmem(base + 0xb9000, action_bss, sizeof(action_bss));
                     save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
+                }
+                if (address == base + 0x38f0a) {
+                    BYTE *reset_bss = (BYTE *)malloc(0xf69c);
+                    if (!reset_bss) fail("arena reset frontier guard");
+                    readmem(base+0xb9000,reset_bss,0xf69c);
+                    save_blob("arena-bss-reset-frontier.bin",reset_bss,0xf69c);free(reset_bss);
                 }
                 if (address == base + 0x38ed2) {
                     BYTE *size_bss = (BYTE *)malloc(0xf69c);

@@ -137,6 +137,8 @@ def main():
         if trial.get('early_switch_observers'):environment['C1XX_OBSERVE_EARLY_OPTIONS']='1'
         environment.pop('C1XX_OBSERVE_SYSTEM_INFO',None)
         if trial.get('system_info_observers'):environment['C1XX_OBSERVE_SYSTEM_INFO']='1'
+        environment.pop('C1XX_OBSERVE_SCALER',None)
+        if trial.get('scaler_observers'):environment['C1XX_OBSERVE_SCALER']='1'
         environment.pop('C1XX_TEST_OUTPUT_CONSTRUCTOR',None)
         environment.pop('C1XX_TEST_DEFERRED_CONSTRUCTOR',None)
         environment.pop('C1XX_TEST_TOKEN_COPY',None)

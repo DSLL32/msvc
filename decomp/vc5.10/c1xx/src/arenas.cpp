@@ -57,10 +57,17 @@ void RECON_THISCALL CompilerArena::Reset(void)
     __asm { int 3 }
 }
 
+/* The existing compiler CRT conversion returns a signed QWORD. The caller
+ * consumes its low DWORD and rounds upward to this arena's commit unit. */
 extern "C" unsigned calculate_arena_reservation(const ArenaDescriptor *descriptor)
 {
-    __asm { int 3 }
-    return 0;
+    __int64 converted;
+    unsigned unit = descriptor->commit_unit;
+    unsigned bytes;
+    converted = (__int64)((double)descriptor->reserve_bytes *
+            frontend_data.option_zm_percent * -0.01);
+    bytes = (unit - (unsigned)converted - 1) & ~(unit - 1);
+    return bytes ? bytes : unit;
 }
 
 extern "C" void initialize_pool_arenas(void)

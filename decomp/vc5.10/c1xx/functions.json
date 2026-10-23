@@ -928,10 +928,15 @@
     {
       "name": "_calculate_arena_reservation",
       "start": 272862930,
-      "end": 272862931,
+      "end": 272862980,
       "source": "src/arenas.cpp",
-      "pending_extent": true,
-      "abi": "cdecl4"
+      "abi": "cdecl4",
+      "code_chunks": [
+        [
+          273097075,
+          273097082
+        ]
+      ]
     },
     {
       "name": "CompilerArena::Reset",
@@ -4315,6 +4320,17 @@
         "name": "_initterm"
       },
       "classification": "linker-generated import thunk"
+    },
+    {
+      "name": "import:_ftol",
+      "start": 272862980,
+      "end": 272862986,
+      "provider": {
+        "dll": "MSVCRT.dll",
+        "name": "_ftol"
+      },
+      "classification": "compiler-generated public CRT import thunk; zero application credit",
+      "source": "src/arenas.cpp"
     }
   ],
   "candidate_path": "cases/minimal/candidate.json"

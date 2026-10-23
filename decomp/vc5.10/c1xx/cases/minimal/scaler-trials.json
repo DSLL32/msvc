@@ -1,0 +1,279 @@
+{
+  "schema": 1,
+  "trial": "_calculate_arena_reservation",
+  "trials": [
+    {
+      "seed": null,
+      "auxiliary": false,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-scaler-original-2",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-scaler-native-2",
+      "original_receipt_sha256": "0adf68a4e5e9279a368ee997d938912558e49e751a0156cea70e27b3b324fc94",
+      "native_receipt_sha256": "ced77cce36c27f47d403bf4f73ee51eadecdf07566ec7ed8bde05e90697a5dfa",
+      "audit_sha256": "fdd2c9a887f78ed1c432292b438b93fc5d9da9009d5670de05ff6f77920dd4ff",
+      "comparison": {
+        "trial": "_calculate_arena_reservation",
+        "frontier": "CompilerArena::Reset",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1373,
+        "native_bss_size": 1404,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 9.688177387230098,
+        "native_seconds": 5.181566121056676
+      },
+      "conversion": {
+        "actual_percent": 100,
+        "actual_signed_qword": -52428800,
+        "actual_rounded_return": 52428800,
+        "native_live_depths": [
+          0,
+          1,
+          2,
+          1,
+          2,
+          1
+        ],
+        "one_time_entry_reference": {
+          "reference": "0adf68a4e5e9279a368ee997d938912558e49e751a0156cea70e27b3b324fc94",
+          "applications": 1
+        },
+        "exact_live_FP_semantics_checked": true,
+        "empty_payload_IP_DP_equivalence_claimed": false
+      }
+    },
+    {
+      "seed": "restore-nonzero",
+      "auxiliary": true,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-scaler-restore-nonzero-aux-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-scaler-restore-nonzero-aux-native-1",
+      "original_receipt_sha256": "8df719605a702ff67587b6bec5cbaeba7e4074fef7790047cf1a48593eb28820",
+      "native_receipt_sha256": "ed01bd23b2bb65638e1462a24c256fb0ce1007286978557f3c3055a572db8685",
+      "audit_sha256": "cd63a40b9e126207c7863d8040016ece742bf8895aedcac8ebec0184ee22d6c0",
+      "comparison": {
+        "trial": "_calculate_arena_reservation",
+        "frontier": "CompilerArena::Reset",
+        "seed": "restore-nonzero",
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1373,
+        "native_bss_size": 1404,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": true,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 9.73888516612351,
+        "native_seconds": 5.36396371293813
+      },
+      "conversion": {
+        "actual_percent": 41,
+        "actual_signed_qword": -21495808,
+        "actual_rounded_return": 21495808,
+        "native_live_depths": [
+          0,
+          1,
+          2,
+          1,
+          2,
+          1
+        ],
+        "one_time_entry_reference": {
+          "reference": "8df719605a702ff67587b6bec5cbaeba7e4074fef7790047cf1a48593eb28820",
+          "applications": 1
+        },
+        "exact_live_FP_semantics_checked": true,
+        "empty_payload_IP_DP_equivalence_claimed": false
+      }
+    },
+    {
+      "seed": "restore-zero",
+      "auxiliary": true,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-scaler-restore-zero-aux-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-scaler-restore-zero-aux-native-1",
+      "original_receipt_sha256": "661ec82138cd8886baeae0fcaf8d4108c4655bb91bd579b3b62f95c9abc9cdb8",
+      "native_receipt_sha256": "48664c483f25376c04582329a1b4dc02de6c5ff653aabc478b6d7112af0df502",
+      "audit_sha256": "019ebb09eb1f2ef193bf91131a01ec810913a8d62aa6bc8c5e075f116fe1a650",
+      "comparison": {
+        "trial": "_calculate_arena_reservation",
+        "frontier": "CompilerArena::Reset",
+        "seed": "restore-zero",
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1373,
+        "native_bss_size": 1404,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": true,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 9.483413845300674,
+        "native_seconds": 5.1819540662691
+      },
+      "conversion": {
+        "actual_percent": 41,
+        "actual_signed_qword": -21495808,
+        "actual_rounded_return": 21495808,
+        "native_live_depths": [
+          0,
+          1,
+          2,
+          1,
+          2,
+          1
+        ],
+        "one_time_entry_reference": {
+          "reference": "661ec82138cd8886baeae0fcaf8d4108c4655bb91bd579b3b62f95c9abc9cdb8",
+          "applications": 1
+        },
+        "exact_live_FP_semantics_checked": true,
+        "empty_payload_IP_DP_equivalence_claimed": false
+      }
+    }
+  ],
+  "runtime_scope": "actual signed64 calculator/ftol support and first TOP_DOWN reservation to genuine Reset; normal+both restore modes",
+  "old_protocol_controls": "unchanged namespace/profile23 controls reused from system-info-trials.json, not rerun",
+  "compiler_support_review": {
+    "packet": "cases/minimal/evidence/scaler-support-plan.json",
+    "packet_sha256": "695f7cd32305ddfd098e2961b509b4646ebb9cd621e7432e24a6741d02cb4a25",
+    "receipt": "/root/.ai-tmp/msvc2/vc5.10/c1xx/scaler-support-orchestrator-review.json",
+    "receipt_sha256": "63a8611e80180722c1ff0d7ce43f6822a3d13b764da998d7aa8eafb93aa54385"
+  },
+  "entry_profile_review": {
+    "receipt": "/root/.ai-tmp/msvc2/vc5.10/c1xx/x87-entry-orchestrator-review.json",
+    "receipt_sha256": "e27b3110720290ae51784bd106bf619521350e4b8ab6075060c92cade489649b"
+  },
+  "prototype_capture": {
+    "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-scaler-original-1",
+    "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-scaler-native-1",
+    "scope": "correct preliminary analysis pair; later normal2 adds final wholeBSS guard and native generator source snapshot; no promotion from prototype"
+  },
+  "build_timing": {
+    "build/win32-provenance.json": 0.8704419191926718,
+    "build/native/provenance.json": 1.5616595251485705,
+    "whole_build_wall": "not separately measured"
+  },
+  "validation_sources": {
+    "scripts/scaler_state.py": "9057397c4d2b25999305c2bc289f3184159e556497716566945f934ef5eca341",
+    "scripts/scaler_probe.py": "17e31bdc83d80ab14e5a326fd9080c728bc718643d172b9d586e5754d45396a9",
+    "scripts/x87_reference.py": "ac7b85f114ef1f3639f89050cd0f13c9cc6446756cffc22c2f149e0f40039dc1",
+    "scripts/check-scaler-negative.py": "befa6c7499a43f85b392e75f5040504e0d3a7b2f1139879a7f7d97c1eae04926",
+    "scripts/check-compiler-support-negative.py": "c8f0aa6ca6bf03e1cc8b48c0431310da4d01fcde5d9df5341969e47b47d338da"
+  },
+  "fresh_FP_state_ABI_controls": {
+    "scope": "raw FP/profile/ABI/state/allocation mutations only; current strict full audit separately mandatory",
+    "result": "PASS",
+    "count": 28,
+    "seconds": 93.70059260819107,
+    "rejected": [
+      "profile-reference",
+      "profile-count",
+      "initial-status",
+      "initial-reason",
+      "initial-reference",
+      "FP-live80",
+      "FP-status",
+      "FP-tag",
+      "extra-operand",
+      "extra-depth",
+      "truncation-control",
+      "QWORD-high",
+      "QWORD-location",
+      "rounded-result",
+      "cdecl-return-stack",
+      "FP-state-write",
+      "API-argument",
+      "API-return-stack",
+      "API-error",
+      "API-nonvolatile",
+      "reservation-owner-size",
+      "reservation-protection",
+      "Reset-this",
+      "Reset-formals",
+      "original-provider",
+      "original-FP",
+      "original-unknown-BSS",
+      "original-final-BSS"
+    ],
+    "checker_sha256": "befa6c7499a43f85b392e75f5040504e0d3a7b2f1139879a7f7d97c1eae04926"
+  },
+  "compiler_support_scope_controls": {
+    "result": "PASS",
+    "count": 8,
+    "seconds": 0.009078745730221272,
+    "scope": "bounded mask-selection policy only; strict actual original/rebuilt import catalogs checked separately",
+    "rejected": [
+      "extra-support-body",
+      "wrong-support",
+      "wrong-application-candidate",
+      "already-accepted-support",
+      "wrong-entry",
+      "unowned-extra-byte",
+      "wrong-dll",
+      "wrong-export"
+    ],
+    "checker_sha256": "c8f0aa6ca6bf03e1cc8b48c0431310da4d01fcde5d9df5341969e47b47d338da"
+  },
+  "fixture": {
+    "case": "dll-lifecycle-and-exports",
+    "result": "PASS",
+    "wine_invocations": 0,
+    "seconds": {
+      "build": 0.006433681584894657,
+      "setup": 0.0008230023086071014,
+      "execution": 0.0018985597416758537,
+      "checks": 0.003621302545070648,
+      "total": 0.013464972376823425
+    }
+  },
+  "status": "all three fresh pairs/current strict graph and28 FP controls+8 support-scope controls passed; calculator unpromoted pending concrete packet review",
+  "current_audit": {
+    "trial": "_calculate_arena_reservation",
+    "trial_sha256": "e1cb77db58474bb4c7e20e0f5f2c43bfe1256f87b28b4be380dfc7e7ff668d9c",
+    "auditor_sha256": "2871dfec83f97736c31e6e9b3ffaa3726d9b1f62b5d7ff087d345e77a2d0392c",
+    "seconds": 0.1038997583091259
+  }
+}

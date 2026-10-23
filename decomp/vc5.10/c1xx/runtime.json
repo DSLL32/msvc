@@ -38,5 +38,15 @@
     "evidence": {
       "kind": "local-import-thunk"
     }
+  },
+  {
+    "name": "__ftol",
+    "start": 272862980,
+    "end": 272862986,
+    "evidence": {
+      "kind": "local-import-thunk",
+      "provider": "MSVCRT.dll!_ftol",
+      "source": "original compiler signed64 cast lowering; no handwritten CRT implementation"
+    }
   }
 ]

@@ -78,7 +78,7 @@
     "_initialize_default_arena",
     "CompilerArena::Reserve"
   ],
-  "trial": null,
+  "trial": "_calculate_arena_reservation",
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -680,7 +680,28 @@
       "start_rva": 467310,
       "end_rva": 467315,
       "entry": 0
+    },
+    {
+      "owner": "_calculate_arena_reservation",
+      "start_rva": 233170,
+      "end_rva": 233220,
+      "entry": 1
+    },
+    {
+      "owner": "_calculate_arena_reservation",
+      "start_rva": 467315,
+      "end_rva": 467322,
+      "entry": 0
+    },
+    {
+      "owner": "import:_ftol",
+      "start_rva": 233220,
+      "end_rva": 233226,
+      "entry": 1
     }
   ],
-  "stage": "CompilerArena::Reserve accepted; next frontier _calculate_arena_reservation"
+  "stage": "CompilerArena::Reserve accepted; next frontier _calculate_arena_reservation",
+  "support_imports": [
+    "import:_ftol"
+  ]
 }

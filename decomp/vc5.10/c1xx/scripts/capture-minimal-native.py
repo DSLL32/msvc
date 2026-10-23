@@ -31,6 +31,10 @@ def capture(project,output,binary,trial):
         from system_info_reference import prepare as prepare_system_info
         reference_sha=prepare_system_info(project,Path(reference),output,trial)
         environment.update(C1XX_SYSTEM_INFO_PROFILE=str(output/'system-info-profile.bin'),C1XX_SYSTEM_INFO_REFERENCE_SHA256=reference_sha,C1XX_CRT_ARGV=str(output/'original-crt-argv.bin'),C1XX_CRT_ENVIRONMENT=str(output/'original-crt-environment.bin'))
+    environment.pop('C1XX_X87_ENTRY_REFERENCE',None)
+    if trial.get('scaler_observers'):
+        from x87_reference import prepare as prepare_x87
+        environment['C1XX_X87_ENTRY_REFERENCE']=prepare_x87(project,Path(environment['C1XX_SYSTEM_INFO_ORIGINAL']),output,trial)
     environment.pop('C1XX_TEST_INIT_RESTORE',None)
     if trial.get('test_seed'):environment['C1XX_TEST_INIT_RESTORE']=trial['test_seed']
     wrapper=output/'exec-wrapper.py'
@@ -93,6 +97,9 @@ if frame.name()=='calculate_arena_reservation' and value['pc']==int(gdb.parse_an
     formal_block=gdb.block_for_pc(value['pc'])
     while formal_block and not formal_block.function:formal_block=formal_block.superblock
     value['formal_inventory']=[{'name':item.name,'type':str(item.type)} for item in formal_block if item.is_argument] if formal_block else []
+if frame.name()=='CompilerArena::Reset' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&_ZN13CompilerArena5ResetEv')):
+    value['args']={'this':int(gdb.parse_and_eval('(unsigned int)$ecx'))}
+    value['raw_entry_abi']={'ecx':value['args']['this'],'esp':value['esp'],'return_pc':int(gdb.parse_and_eval('*(unsigned int *)$esp')),'stack_arguments':[]}
 value['x87']={name:int(gdb.parse_and_eval(register)) for name,register in [('control','$fctrl'),('status','$fstat'),('tag','$ftag')]}
 value['target_state']={name:int(gdb.parse_and_eval('(unsigned int)'+name)) for name in
     ('process_attached','raw_dll_entry','dll_adjust_fdiv','dll_module','onexit_begin','onexit_end')}
@@ -452,7 +459,7 @@ end
     allocation_finish=''
     if trial.get('allocation_observers'):
         from allocation_probe import setup as setup_allocation
-        allocation_observer,allocation_finish=setup_allocation(output,binary,collector)
+        allocation_observer,allocation_finish=setup_allocation(output,binary,collector,allow_arena=bool(trial.get('scaler_observers')))
         observer+=allocation_observer
     switch_finish=''
     if trial.get('early_switch_observers'):
@@ -464,6 +471,11 @@ end
         from system_info_probe import setup as setup_system_info
         system_observer,system_finish=setup_system_info(output,collector)
         observer+=system_observer
+    scaler_finish=''
+    if trial.get('scaler_observers'):
+        from scaler_probe import setup as setup_scaler
+        scaler_observer,scaler_finish=setup_scaler(output,binary,collector,model)
+        observer+=scaler_observer
     from collector_cache import prepare as prepare_collector_cache
     cache_startup=prepare_collector_cache(output,collector)
     def timed_source(match):
@@ -474,7 +486,7 @@ end
     timing_before_run='python\nrecon_before_run=time.perf_counter()\nend\n'
     timing_after_run='python\nrecon_after_run=time.perf_counter()\nend\n'
     timing_finish='python\nopen('+repr(str(output/'gdb-timing.json'))+',"w").write(json.dumps({"first_command":recon_first_command,"before_run":recon_before_run,"after_run":recon_after_run,"collectors":recon_collect_timings,"source_commands":recon_source_timings},indent=2)+"\\n")\nend\n'
-    commands.write_text(timing_start+cache_startup+'set pagination off\nset confirm off\nset exec-wrapper '+str(wrapper)+'\n'+observer+timing_before_run+'run > '+str(output/'stdout.bin')+' 2> '+str(output/'stderr.bin')+'\n'+timing_after_run+auxiliary+'bt\nsource '+str(collector)+'\n'+allocation_finish+switch_finish+system_finish+timing_finish+'quit\n')
+    commands.write_text(timing_start+cache_startup+'set pagination off\nset confirm off\nset exec-wrapper '+str(wrapper)+'\n'+observer+timing_before_run+'run > '+str(output/'stdout.bin')+' 2> '+str(output/'stderr.bin')+'\n'+timing_after_run+auxiliary+'bt\nsource '+str(collector)+'\n'+allocation_finish+switch_finish+system_finish+scaler_finish+timing_finish+'quit\n')
     started=time.perf_counter()
     result=subprocess.run(['gdb','--batch','-x',str(commands),'--args',str(binary)],cwd=output,env=environment,
                           stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=15)

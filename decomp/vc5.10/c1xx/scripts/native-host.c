@@ -72,6 +72,11 @@ int main(void)
     SetLastError(203);
     /* Captured caller x87 precision is 53 bits (CW 027f). */
     _controlfp(_PC_53, _MCW_PC);
+    {
+        const char *reference = recon_host_getenv("C1XX_X87_ENTRY_REFERENCE");
+        if (reference)
+            recon_apply_x87_empty_entry_profile(reference, 0x027f, 0x0020, 0xffff);
+    }
     status = _DllMainCRTStartup(module, DLL_PROCESS_ATTACH, NULL);
     checkpoint(DLL_PROCESS_ATTACH, status, module, &spec);
     if (!status) return 3;

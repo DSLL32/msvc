@@ -31,6 +31,11 @@ def main():
     cfg["accepted"] = trial["accepted"]
     cfg["status"] = "autonomous minimal C++ reconstruction active" if trial["case"] == "minimal" else "lifecycle reconstruction active"
     names = trial.get("ordered_closure", [trial["trial"]])
+    support=trial.get('support_imports',[])
+    if support:
+        if trial['trial']!='_calculate_arena_reservation' or support!=['import:_ftol'] or candidate.get('support_imports')!=support:
+            raise ValueError('not the reviewed sole scaler candidate with existing compiler import')
+        names=[trial['trial']]+support
     if "ordered_closure" in trial:
         if names != ['_initialize_frontend_37', 'PchContext::Initialize'] or candidate.get('ordered_closure') != names or len(candidate['accepted']) != 57:
             raise ValueError('not the reviewed bounded ordered PCH closure')
@@ -38,9 +43,9 @@ def main():
         source = "src/dllmain.c" if name == "_DllMain@12" else "src/startup.c"
         classification = "application source" if name == "_DllMain@12" else "target CRT support source"
         if name.startswith("import:"):
-            source = "src/c1xx.h"
-            classification = "linker-generated import thunk; ordinary external declaration"
-        if trial["case"] == "minimal":
+            source = next((row.get('source','src/c1xx.h')for row in cfg.get('imports',[])if row['name']==name),'src/c1xx.h')
+            classification = "compiler-generated public CRT import thunk; zero application credit" if name=='import:_ftol' else "linker-generated import thunk; ordinary external declaration"
+        if trial["case"] == "minimal" and not name.startswith("import:"):
             source = next(row["source"] for row in cfg["driver"] if row["name"] == name)
             classification = "application source"
         record = {
@@ -55,6 +60,10 @@ def main():
             "comparison": result,
         }
         data_ranges=[[row['start_rva'],row['end_rva']] for row in trial['ranges'] if row['owner']==name and row.get('kind')=='text_data']
+        if name in support:
+            record['application_code_credit']=0
+            record['application_function_credit']=0
+            record['source_projection']='automatic original compiler/linker import; ordinary native signed64 cast'
         if data_ranges:
             record['shared_text_data']=data_ranges
             record['shared_text_data_code_credit']=0
@@ -65,6 +74,7 @@ def main():
     candidate["accepted"] = list(cfg["accepted"])
     candidate["trial"] = None
     candidate.pop("ordered_closure", None)
+    candidate.pop("support_imports",None)
     candidate.pop("prospective_only", None)
     candidate["stage"] = trial["trial"] + " accepted; next frontier " + result["frontier"]
     for path, value in ((PROJECT / "functions.json", cfg),

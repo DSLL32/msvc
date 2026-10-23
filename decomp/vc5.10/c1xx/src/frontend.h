@@ -95,7 +95,7 @@ typedef struct CompilerWorkBuffer {
  * The reset member proves only zero for reset_value; later uses stay pending. */
 typedef struct ArenaDescriptor {
     unsigned kind;
-    unsigned reserve_bytes;
+    int reserve_bytes;
     unsigned commit_unit;
     unsigned flags;
     unsigned alignment;

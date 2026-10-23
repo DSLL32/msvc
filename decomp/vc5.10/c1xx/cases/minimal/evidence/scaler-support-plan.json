@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "status": "concrete one-application-candidate compiler-support proposal; no acceptance",
+  "target_sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+  "application_candidate": {
+    "name": "_calculate_arena_reservation",
+    "code_chunks": [
+      [
+        272862930,
+        272862980
+      ],
+      [
+        273097075,
+        273097082
+      ]
+    ],
+    "code_bytes": 57,
+    "source": "src/arenas.cpp",
+    "source_sha256": "73959cbf80d9ec3c29ca3d12ce34925bd5ae999737009da8eb6429e6a5a2d374",
+    "expression": "signed32 FILD reserve, signed32 percentage multiply, -0.01, signed64 conversion, consumed low32, unsigned commit-unit rounding/fallback"
+  },
+  "compiler_support": {
+    "name": "import:_ftol",
+    "interval": [
+      272862980,
+      272862986
+    ],
+    "bytes": "ff25c8904c10",
+    "iat_rva": 823496,
+    "provider": "MSVCRT.dll!_ftol",
+    "provider_rva": 19905,
+    "provider_bytes": "558bec83c4f49bd97dfe9b668b45fe80cc0c668945fcd96dfcdf7df4d96dfe8b45f48b55f8c9c3",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "code_bytes": 6,
+    "application_credit": 0,
+    "source": "automatic original compiler cast lowering and original LINK MSVCRT import; no handwritten CRT or ABI wrapper",
+    "native_projection": "ordinary signed64 source cast lowered inline by native compiler; nine actual x87 operations, saved/restored CW and FISTP QWORD verified in current ELF"
+  },
+  "audit": {
+    "proof_sha256": "20195b03ee6ec204bfed9160b76ed28073eb3e8cbfe69e7f4c51da40c6c831af",
+    "auditor_sha256": "2871dfec83f97736c31e6e9b3ffaa3726d9b1f62b5d7ff087d345e77a2d0392c",
+    "original_rebuilt_thunk_identity": "current strict import catalogs resolve original and auto emitted rebuilt6B thunk to MSVCRT.dll!_ftol; extra direct verification enabled on trial accepted set",
+    "support_extension": "prepare-trial.py accepts support_imports only exact_ftol+exactcalc candidate/address/provider; accept.py will record zero-app import separately at successful actual paired proof",
+    "native_sha256": "b2b58d8a48fc6c8cfa468e91fc60d617556c20818812461e89c44663cc0553a3",
+    "rebuilt_sha256": "e08509cd7f3a2d3596e4f1f18de1fe00b921d5850f535209e159ba94b98f2ff1"
+  },
+  "planned_dynamic_proof": [
+    "own reviewed earliest x87 profile once before lifecycle and actual initial native reference/count/args/state",
+    "actual calculator descriptor/memory-percent and all own original/native raw80 live values/status/tag/depth before math and afterQWORD",
+    "actual canonical loadedhFile/IAT/provider39bytes; EDX:EAX and native FISTP QWORD; consumedlow32/whole roundedreturn",
+    "extra native temporary operands/depth/state documented; no IP/DP/empty payload equivalence claim",
+    "real TOP_DOWN VirtualAlloc args/RET16/nonvolatile/error203/opaque reserved region, allocation/objectidentity; then genuine Reset frontierECX/no stackargs",
+    "all raw state guard regions and current complete strict graph/ABI/mask with candidate+support frozen together"
+  ],
+  "first_native_observer_instruction_inventory": [
+    "fild",
+    "fild",
+    "fmulp",
+    "fld",
+    "fmulp",
+    "fnstcw",
+    "fldcw",
+    "fistp",
+    "fldcw"
+  ]
+}

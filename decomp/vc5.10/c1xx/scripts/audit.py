@@ -33,6 +33,15 @@ def verify_initializer_thunk(report, cfg, rebuilt_path=None, runtime_path=None):
         identity = report["import_catalogs"][side]["slots"][str(slot)]
         if identity["dll"].lower() != "msvcrt.dll" or identity.get("name") != "_initterm":
             raise ValueError("initializer thunk has wrong provider identity")
+    if 'import:_ftol' in cfg.get('accepted',[]):
+        for side,path,address in (('original',ROOT/cfg['target']['path'],0x10438f04),('rebuilt',rebuilt_path or BASE/'build/c1n32_l.dll',None)):
+            if address is None:
+                rows=json.loads((runtime_path or BASE/'build/runtime.json').read_text());address=next(row['start'] for row in rows if row['name']=='__ftol')
+            image=inventory(path);rva=address-image['image_base'];section=next(row for row in image['sections'] if row['rva']<=rva<row['rva']+row['raw_size']);code=path.read_bytes()[section['raw_offset']+rva-section['rva']:section['raw_offset']+rva-section['rva']+6]
+            if code[:2]!=b'\xff\x25':raise ValueError('compiler conversion boundary is not a six-byte import thunk')
+            identity=report['import_catalogs'][side]['slots'][str(struct.unpack_from('<I',code,2)[0])]
+            if identity['dll'].lower()!='msvcrt.dll' or identity.get('name')!='_ftol':raise ValueError('compiler conversion provider identity differs')
+        if 'import:_ftol' not in report['original_accepted_graphs']:raise ValueError('compiler support absent from strict accepted-index audit')
     if "import:_initterm" not in report["original_accepted_graphs"]:
         raise ValueError("genuine import thunk absent from accepted-index audit")
 
@@ -92,7 +101,7 @@ def main():
         if candidate_name not in report.get("functions", {}):
             raise SystemExit("actual candidate is absent from graph comparison")
     if "import:_initterm" in trial["accepted"]:
-        verify_initializer_thunk(report, cfg)
+        verify_initializer_thunk(report, trial)
     proof = {"schema": 1, "trial": trial["trial"], "seconds": elapsed,
              "auditor_sha256": auditor_sha,
              "trial_sha256": hashlib.sha256((BASE / "build/trial.json").read_bytes()).hexdigest(),

@@ -10,6 +10,10 @@ DESCRIPTORS=[0,0x3200000,0x10000,0x21,1,1,0xa00000,0x8000,0x10,4,2,0x500000,0x80
 
 def check(s,d,original,native,trial,text,pre,phase,state,seed,final,symbols,traps):
     def require(value,message):s.require(value,'arena initialization: '+message)
+    full_state,full_final=state,final
+    if '_calculate_arena_reservation' in trial['accepted']:
+        state=json.loads((native/'arena-size-entry.json').read_text())
+        final='%03d'%int(next(row[0]for row in traps if row[1]=='00038ed2'))
     def raw(suffix,descriptors=False):
         data=(original/(('arena-descriptors-' if descriptors else 'arenas-')+suffix+'.bin')).read_bytes()
         require(len(data)==(180 if descriptors else 288),'wrong original typed record bytes')
@@ -70,3 +74,7 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,symbols,trap
     suffix='%03d'%int(old_entry[0])
     for prefix in ('frontend-data-','frontend-snapshot-','state-'):
         require((original/(prefix+suffix+'.bin')).read_bytes()==(original/(prefix+final+'.bin')).read_bytes(),'pre-loop wrapper mutated initialized/saved/support state')
+
+    if '_calculate_arena_reservation' in trial['accepted']:
+        from scaler_state import check as check_scaler
+        check_scaler(s,d,original,native,trial,text,full_state,full_final,symbols,traps)

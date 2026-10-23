@@ -76,6 +76,7 @@ def check(original, native, require_audit=True, audit_path=None):
                   '_initialize_compiler_environment':'check-callback.py',
                   '_initialize_default_arena':'check-callback.py',
                   'CompilerArena::Reserve':'check-callback.py',
+                  '_calculate_arena_reservation':'check-callback.py',
                   '_initialize_frontend_01':'check-callback.py'}.get(candidate['trial'])
         if (candidate['trial'] or '').startswith('_initialize_frontend_'):
             filename='check-callback.py'
