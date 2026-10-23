@@ -1272,7 +1272,8 @@
     "@omf_output_record@4",
     "@omf_write_comment@8",
     "@omf_name_index@4",
-    "@omf_intern_name@8"
+    "@omf_intern_name@8",
+    "@omf_write_segment_definition@4"
   ],
   "driver": [
     {
@@ -8535,8 +8536,21 @@
     {
       "name": "@omf_write_segment_definition@4",
       "start": 436368,
-      "end": 436369,
-      "provisional": true
+      "end": 436544,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "segment",
+            "location": "ECX",
+            "type": "Segment pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-segment-definition-abi/validation.json",
+        "scope": "Actual code_segment72-byte extent owner and all6 consumed fields/global next-segment/empty-name observed. Other stored pointer fields are unused, retained raw without invented equality."
+      }
     },
     {
       "name": "@omf_write_group_definition@8",

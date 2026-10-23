@@ -389,7 +389,7 @@ void omf_open_module(void)
     }
     empty = omf_empty_name;
     for (segment = segment_list; segment; segment = segment->segment_next) {
-        if (segment->word_size == 7) {
+        if (segment->combine == 7) {
             symbol = (FunctionSymbol *)segment->identity.owner;
             if (symbol->symbol.kind != 4 || (symbol->field24 & 0xf0) != 0x50 ||
                 !(symbol->flags52 & 0x20)) continue;
@@ -430,7 +430,7 @@ void omf_open_module(void)
         debug_types_segment->omf_header_end = ftell(object_file);
     }
     for (segment = segment_list; segment; segment = segment->segment_next) {
-        if (segment->word_size != 7 && !segment->omf_header_end) {
+        if (segment->combine != 7 && !segment->omf_header_end) {
             segment->identity.order = omf_next_segment;
             omf_write_segment_definition(segment);
             segment->omf_header_end = ftell(object_file);
@@ -571,4 +571,32 @@ int __fastcall omf_intern_name(char *name, unsigned *index)
     *bucket = entry;
     *index = entry->index;
     return 0;
+}
+/* Original [0006a890,0006a940). SEGDEF32 attributes are formed in a byte;
+   cached count/cursor values survive the alignment call just as in the original. */
+void __fastcall omf_write_segment_definition(Segment *segment)
+{
+    OmfRecord *record;
+    unsigned count, value;
+    unsigned char *cursor, attributes;
+    if (segment->identity.order != omf_next_segment)
+        compiler_internal_error("@(#)omf.c:1.10", 0x5b2);
+    ++omf_next_segment;
+    record = omf_begin_record(0x99, NULL);
+    count = record->count;
+    record->count = ++count;
+    cursor = record->cursor;
+    attributes = (unsigned char)omf_alignment(segment->alignment);
+    attributes = (unsigned char)((attributes << 3) | segment->combine);
+    attributes = (unsigned char)((attributes << 2) | 1);
+    *cursor++ = attributes;
+    record->cursor = cursor;
+    value = segment->symbol.field04;
+    record->count = ++count; *cursor++ = (unsigned char)value; record->cursor = cursor;
+    record->count = ++count; *cursor++ = (unsigned char)(value >> 8); record->cursor = cursor;
+    record->count = ++count; *cursor++ = (unsigned char)(value >> 16); record->cursor = cursor;
+    record->count = ++count; *cursor++ = (unsigned char)(value >> 24); record->cursor = cursor;
+    omf_write_index(record, segment->object_section);
+    omf_write_index(record, segment->object_attributes.omf_class_index);
+    omf_write_index(record, omf_empty_name);
 }

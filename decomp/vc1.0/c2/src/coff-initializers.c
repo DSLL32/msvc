@@ -72,12 +72,12 @@ unsigned __fastcall coff_output_relocation(Initializer *initializer,
         }
         if (special && coff_alias_reference_tables) {
             coff_write_dword(value);
-            if (segment->word_size != 7) compiler_internal_error("@(#)coff.c:1.14", 0x345);
+            if (segment->combine != 7) compiler_internal_error("@(#)coff.c:1.14", 0x345);
             if (!initializer_reference_segment) {
                 references = create_segment("__CRT_F", "DEBSYM", next_symbol_identifier());
                 initializer_reference_segment = references;
                 references->alignment = 1;
-                references->word_size = 7;
+                references->combine = 7;
                 references->format_flags = 1;
                 references->section_number = 1;
                 references->object_attributes.coff.selection = 5;

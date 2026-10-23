@@ -1,0 +1,101 @@
+{
+  "matched": true,
+  "function": "@omf_write_segment_definition@4",
+  "formals": [
+    {
+      "name": "segment",
+      "location": "ECX",
+      "type": "Segment pointer",
+      "original": 8065900,
+      "native": 1449337920
+    }
+  ],
+  "hidden_inputs": [],
+  "callee_stack_cleanup": 0,
+  "no_hidden_inputs_proof": "Original6a890..6a940 consumes ECX72-byte Segment pointer, RET0; savedGPRs assigned internally, no other incoming register/stack/flags/x87 or hidden outputs. Exactly six consumed scalar fields at4,48,53,56,64,68 and global next-segment/empty-name inputs observed. Other stored pointer fields are retained raw but not read by this function; no fabricated pointer equality.",
+  "original": {
+    "pointer": 8065900,
+    "owner": 8065900,
+    "next_index": 1,
+    "empty_name": 1,
+    "raw_hex": "000000000000000000000000090000000850080000000000c84f08000500000000000000b4137b00ec0c080000000000040000000102000003000000000000000100000004000000"
+  },
+  "native": {
+    "pointer": 1449337920,
+    "owner": 1449337920,
+    "next_index": 1,
+    "empty_name": 1,
+    "raw_hex": "0000000000000000000000000900000035425f5600000000cd475f5605000000000000008824635651425f5600000000040000000102000003000000000000000100000004000000",
+    "size": 72,
+    "column": 4294967295,
+    "cw": 639,
+    "sw": 0,
+    "stdout": {
+      "flags": 2,
+      "count": 0,
+      "fd": 1,
+      "size": 0,
+      "null": 1,
+      "used": 0,
+      "buffer_hex": ""
+    }
+  },
+  "consumed_fields": {
+    "position": 0,
+    "alignment": 4,
+    "word_size": 2,
+    "name_index": 3,
+    "order": 1,
+    "class_index": 4
+  },
+  "binding": {
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "manifest_sha256": "23d816b9638b58c44cb1045109412b9270c1925c62f99ea69438685881ea5e13",
+    "config_sha256": "a07f862c1f081c176e42136bbdd3af395367cdd5e0e57e54ffe4fd86c897531e",
+    "observer_source_sha256": "677df60949521b99d6c6d8baa6b45016534e8af7c1e30a55a8f235b05427d5ac",
+    "observer_sha256": "d0393a001bdea8198d8e53ba8eb926f234e61badab3a94707905cb7c0821f89b",
+    "files": {
+      "entry-plan.txt": "349ad4ca9bf388ec4c586cbad820639bfee53f0d645c8974db67bcad29008dcc",
+      "original.txt": "e71ada9341c1b90d4a55825435f15eaed52c2b19a16ef2bbea3435ffc79d77ff",
+      "original.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "original.events": "00e8a938d0822e65df9510e90a176a8149bae53a56810df5c90d9411cbea6aad",
+      "observer.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "observer.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "original_state": {
+    "column": 4294967295,
+    "cw": 639,
+    "sw": 0,
+    "fastcall": 1
+  },
+  "original_stdout": {
+    "flags": 2,
+    "count": 0,
+    "fd": 1,
+    "size": 0,
+    "null": 1,
+    "used": 0,
+    "position": 0,
+    "counter": 0,
+    "cursor": 0,
+    "value": 0,
+    "buffer_hex": ""
+  },
+  "native_executable_sha256": "61dfecaf89c0ef2add5f99599c532977d2bb6aa2acf586dd75e9998364b651a4",
+  "original_execution_seconds": 1.6677599642425776,
+  "native_debug_seconds": 0.15826845355331898,
+  "total_seconds": 2.094624752178788,
+  "scope": "Actual code_segment owner alias,complete raw72-byte descriptor extent and all six consumed field values/global counter/name scalars. Pointer bytes in unused fields are not equated; no child alignment/index writer behavior or cold execution claim.",
+  "field_name_refinement": {
+    "legacy_json_key": "word_size",
+    "source_field": "Segment.combine",
+    "offset": 53,
+    "proof": [
+      "Original6a8d0..6a8e6 places byte53 in SEGDEF combine bits2..4",
+      "Previously accepted listing28510..28674 maps2 PUBLIC,6 COMMON,7 COMDAT"
+    ],
+    "scope": "Legacy input-evidence key retained, raw capture bytes unmodified; source name/layout refinement only."
+  }
+}

@@ -40,14 +40,14 @@ void prepare_backend_symbols(void)
     if (debug_symbols_segment) {
         debug_symbols_segment->identity.order = 5;
         debug_symbols_segment->alignment = 1;
-        debug_symbols_segment->word_size = 0;
+        debug_symbols_segment->combine = 0;
         debug_symbols_segment->format_flags = 1;
     }
     if (debug_types_segment) {
         debug_types_segment->identity.order = 6;
         debug_types_segment->identity.order = 6;
         debug_types_segment->alignment = 1;
-        debug_types_segment->word_size = 0;
+        debug_types_segment->combine = 0;
         debug_types_segment->format_flags = 1;
     }
 }

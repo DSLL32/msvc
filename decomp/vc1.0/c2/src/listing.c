@@ -878,7 +878,7 @@ Segment *__fastcall write_segment_listing(Segment *segment, int definition)
     if (!segment) compiler_internal_error("@(#)listing.c:1.76", 0x4a2);
     if (segment != listed_segment) {
         listed_segment = close_segment_listing(listed_segment);
-        if ((signed char)segment->word_size == 7) {
+        if ((signed char)segment->combine == 7) {
             parent = segment->parent;
             printf(";\tCOMDAT %s", listing_segment_name(segment));
             listing_column = 0;
@@ -888,7 +888,7 @@ Segment *__fastcall write_segment_listing(Segment *segment, int definition)
                 printf(" %s USE32%s '%s'", listing_alignment_name(parent->alignment),
                     " PUBLIC", parent->class_name);
         } else {
-            switch ((signed char)segment->word_size) {
+            switch ((signed char)segment->combine) {
             case 2: modifier = " PUBLIC"; break;
             case 6: modifier = " COMMON"; segment->field2c = 0; break;
             default: modifier = ""; break;
@@ -908,7 +908,7 @@ Segment *__fastcall write_segment_listing(Segment *segment, int definition)
 Segment *__fastcall close_segment_listing(Segment *segment)
 {
     if (segment) {
-        if (segment->word_size == 7) segment = segment->parent;
+        if (segment->combine == 7) segment = segment->parent;
         printf("%s\tENDS", listing_segment_name(segment));
         listing_column = 0;
         printf("\n");

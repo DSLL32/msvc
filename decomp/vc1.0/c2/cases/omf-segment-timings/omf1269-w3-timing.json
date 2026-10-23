@@ -1,0 +1,18 @@
+{
+  "command": [
+    "python3",
+    "scripts/check-canonical-warnings.py",
+    "omf-output",
+    "backend-symbols",
+    "coff-output",
+    "coff-functions",
+    "coff-initializers",
+    "coff-segments",
+    "listing",
+    "segment-storage",
+    "segments"
+  ],
+  "seconds": 17.458229042589664,
+  "returncode": 0,
+  "log_sha256": "85a9d6ade67092a77ea33e3bf51e0c24e033ac4200b3912cf2b5e2bbd66b4e7c"
+}

@@ -39,7 +39,7 @@ void coff_open_module(void)
     coff_initialize(configuration);
     directive_segment = create_segment(".drectve", "DRECTVE", next_symbol_identifier());
     directive_segment->alignment = 1;
-    directive_segment->word_size = 0;
+    directive_segment->combine = 0;
     directive_segment->format_flags = 1;
     directive_segment->section_number = 10;
     write_module_directives();

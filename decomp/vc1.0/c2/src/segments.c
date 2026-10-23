@@ -35,14 +35,14 @@ void initialize_segments(void)
     if (codeview_debug) {
         debug_symbols_segment = create_segment("$$SYMBOLS", "DEBSYM", 7);
         debug_symbols_segment->alignment = 1;
-        debug_symbols_segment->word_size = 0;
+        debug_symbols_segment->combine = 0;
         debug_symbols_segment->symbol.field18.group = default_segment_group;
         debug_symbols_segment->format_flags = 1;
         debug_symbols_segment->section_number = 4;
         debug_symbols_segment->identity.order = 5;
         debug_types_segment = create_segment("$$TYPES", "DEBTYP", 8);
         debug_types_segment->alignment = 1;
-        debug_types_segment->word_size = 0;
+        debug_types_segment->combine = 0;
         debug_types_segment->symbol.field18.group = default_segment_group;
         debug_types_segment->format_flags = 1;
         debug_types_segment->section_number = 5;
@@ -83,7 +83,7 @@ void __fastcall append_segment(Segment *segment)
 Segment *__fastcall segment_defaults(Segment *segment)
 {
     segment->alignment = default_segment_alignment;
-    segment->word_size = 2;
+    segment->combine = 2;
     segment->symbol.field18.group = default_segment_group;
     return segment;
 }

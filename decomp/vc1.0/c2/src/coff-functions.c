@@ -86,7 +86,7 @@ void __fastcall coff_begin_function(FunctionSymbol *symbol, char *filename, int 
             segment = create_segment(".debug$S", "DEBSYM", next_symbol_identifier());
             debug_symbols_segment = segment;
             segment->alignment = 1;
-            segment->word_size = 7;
+            segment->combine = 7;
             segment->format_flags = 1;
             segment->section_number = 4;
             segment->object_attributes.coff.selection = 5;
@@ -102,14 +102,14 @@ void __fastcall coff_begin_function(FunctionSymbol *symbol, char *filename, int 
                 coff_default_fpo_segment = segment;
                 coff_function_fpo_segment = segment;
                 segment->alignment = 1;
-                segment->word_size = 0;
+                segment->combine = 0;
                 segment->section_number = 9;
             } else coff_function_fpo_segment = coff_default_fpo_segment;
         } else {
             segment = create_segment(".debug$F", "DEBFPO", next_symbol_identifier());
             coff_function_fpo_segment = segment;
             segment->alignment = 1;
-            segment->word_size = 7;
+            segment->combine = 7;
             segment->section_number = 9;
             segment->object_attributes.coff.selection = 5;
             segment->identity.owner = &symbol->symbol;

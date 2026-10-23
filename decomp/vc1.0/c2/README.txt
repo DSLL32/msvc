@@ -559,3 +559,14 @@ state reload. Old nodes/strings and output guards are checked. Original/W3 and
 full graph/extent/ABI/data pass;15 native cases pass (14 complete). Next segment
 definition6a890.340577/399693 accepted extent bytes; app/support322277B and1153
 functions exclude5 historical CRT bodies. Timings/scope: cases/omf-name-interner-checkpoint.json.
+
+Checkpoint1269 reconstructs the whole176-byte SEGDEF32 writer.164 whole
+original/canonical controls and8 actual descriptor ABI negatives pass. Source
+byte53 is now correctly named Segment.combine, proved by SEGDEF bit placement
+and accepted PUBLIC/COMMON/COMDAT listing paths; historical evidence retains its
+legacy key with an explicit refinement. Cached prefix state survives alignment
+children; class/empty-name values reload after index children. All15 native cases
+pass (14 complete); next alignment6a310 with actual ECX4 already observed.
+Original/W3 passes all9 renamed modules; graph/extent/ABI/data pass.340753/399693
+accepted extent bytes; app/support322453B and1154functions exclude5 historical
+CRT bodies. Scope/timings: cases/omf-segment-checkpoint.json.

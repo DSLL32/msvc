@@ -19,7 +19,7 @@
       ],
       "canonical": [
         {
-          "site": "0x12068",
+          "site": "0x12054",
           "storage": "0x95080",
           "mnemonic": "mov",
           "operand": 1,
@@ -42,7 +42,7 @@
       ],
       "canonical": [
         {
-          "site": "0x4f2e0",
+          "site": "0x4f2c4",
           "storage": "0x8f9cc",
           "mnemonic": "mov",
           "operand": 1,
@@ -50,7 +50,7 @@
           "width": 4
         },
         {
-          "site": "0x4f2ea",
+          "site": "0x4f2ce",
           "storage": "0x8f9cc",
           "mnemonic": "mov",
           "operand": 1,
@@ -73,7 +73,7 @@
       ],
       "canonical": [
         {
-          "site": "0x297f0",
+          "site": "0x297dc",
           "storage": "0x8f850",
           "mnemonic": "mov",
           "operand": 0,
@@ -96,7 +96,7 @@
       ],
       "canonical": [
         {
-          "site": "0x52328",
+          "site": "0x5230c",
           "storage": "0x8f850",
           "mnemonic": "mov",
           "operand": 0,
@@ -104,7 +104,7 @@
           "width": 4
         },
         {
-          "site": "0x5232d",
+          "site": "0x52311",
           "storage": "0x8f850",
           "mnemonic": "mov",
           "operand": 1,
@@ -127,7 +127,7 @@
       ],
       "canonical": [
         {
-          "site": "0x56ec5",
+          "site": "0x57005",
           "storage": "0x8f9cc",
           "mnemonic": "cmp",
           "operand": 0,
@@ -135,7 +135,7 @@
           "width": 4
         },
         {
-          "site": "0x56edf",
+          "site": "0x5701f",
           "storage": "0x8f9cc",
           "mnemonic": "mov",
           "operand": 1,
@@ -166,7 +166,7 @@
       ],
       "canonical": [
         {
-          "site": "0x566ca",
+          "site": "0x5680a",
           "storage": "0x95080",
           "mnemonic": "mov",
           "operand": 1,
@@ -174,7 +174,7 @@
           "width": 4
         },
         {
-          "site": "0x5671c",
+          "site": "0x5685c",
           "storage": "0x8f9cc",
           "mnemonic": "cmp",
           "operand": 0,
@@ -182,7 +182,7 @@
           "width": 4
         },
         {
-          "site": "0x5672e",
+          "site": "0x5686e",
           "storage": "0x8f9cc",
           "mnemonic": "mov",
           "operand": 1,
@@ -213,7 +213,7 @@
       ],
       "canonical": [
         {
-          "site": "0x55c2d",
+          "site": "0x55c11",
           "storage": "0x95080",
           "mnemonic": "mov",
           "operand": 1,
@@ -221,7 +221,7 @@
           "width": 4
         },
         {
-          "site": "0x55c47",
+          "site": "0x55c2b",
           "storage": "0x8f9cc",
           "mnemonic": "mov",
           "operand": 1,
@@ -244,7 +244,7 @@
       ],
       "canonical": [
         {
-          "site": "0x18510",
+          "site": "0x184fc",
           "storage": "0x8f850",
           "mnemonic": "mov",
           "operand": 0,
@@ -252,7 +252,7 @@
           "width": 4
         },
         {
-          "site": "0x18515",
+          "site": "0x18501",
           "storage": "0x8f850",
           "mnemonic": "mov",
           "operand": 1,
@@ -275,7 +275,7 @@
       ],
       "canonical": [
         {
-          "site": "0x194fc",
+          "site": "0x194e8",
           "storage": "0x8f850",
           "mnemonic": "mov",
           "operand": 0,
@@ -298,7 +298,7 @@
       ],
       "canonical": [
         {
-          "site": "0x5a40c",
+          "site": "0x5a54c",
           "storage": "0x8f850",
           "mnemonic": "mov",
           "operand": 0,
@@ -321,7 +321,7 @@
       ],
       "canonical": [
         {
-          "site": "0x562eb",
+          "site": "0x562cf",
           "storage": "0x95080",
           "mnemonic": "mov",
           "operand": 1,
@@ -338,6 +338,6 @@
     "wrong function filename domain",
     "wrong current-source store domain"
   ],
-  "seconds": 0.4925831528380513,
+  "seconds": 0.4990466795861721,
   "scope": "Three existing distinct typed storages: primary805ec, current7901c, diagnostic85db4. Initial PE values/string and actual-f# option destination/action. All accepted original/canonical CFG instruction memory/address operands, including base/index displacement and address escape constructions, bind to the same domain sets per function. Does not prove arbitrary indirect aliases or unaccepted code. Failed begin-lines handle10/12 and callback formal pointer evidence retained separately; no handle normalization or new initialization."
 }

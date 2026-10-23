@@ -21,7 +21,7 @@ scratch=Path(tempfile.mkdtemp(prefix='debug-segment-native-',dir=C2_SCRATCH));wo
 for row in phase['inputs']:shutil.copyfile(fixture/row['path'],work/Path(row['path']).name)
 env.update(PATH=os.defpath,LC_ALL='C',TZ='UTC',MSC_CMD_FLAGS=phase['environment']['MSC_CMD_FLAGS'].format(bin=windows(idx.wt.TC/'bin')),RECON_PROGRAM_PATH=windows(idx.wt.TC/'bin/C23232.EXE'))
 command=['gdb','-q','--batch','-ex','set pagination off','-ex','break write_codeview_object_name','-ex','run > native-inferior.stdout','-ex','set $s=debug_symbols_segment','-ex',
- 'printf "C2_SEG offset=%u kind=%u identifier=%u alignment=%u format_word_section=%u object_declared=%u identity=%u\\n",$s->symbol.field04,$s->symbol.kind,$s->symbol.identifier,$s->alignment,$s->format_flags+($s->word_size<<8)+($s->section_number<<16),!!$s->object_section,$s->identity.order',
+ 'printf "C2_SEG offset=%u kind=%u identifier=%u alignment=%u format_word_section=%u object_declared=%u identity=%u\\n",$s->symbol.field04,$s->symbol.kind,$s->symbol.identifier,$s->alignment,$s->format_flags+($s->combine<<8)+($s->section_number<<16),!!$s->object_section,$s->identity.order',
  '-ex','printf "C2_SEG_NAME %s\\nC2_SEG_CLASS %s\\n",$s->symbol.name,$s->class_name',str(Path('build/native/C23232.EXE').resolve())]
 phase_started=time.perf_counter();result=subprocess.run(command,cwd=work,env=env,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=30);native_seconds=time.perf_counter()-phase_started
 (receipt/'native.txt').write_bytes(result.stdout);log=result.stdout.decode(errors='replace')

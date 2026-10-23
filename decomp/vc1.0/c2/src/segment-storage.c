@@ -108,7 +108,7 @@ void __fastcall update_symbol_storage(SymbolHeader *header)
     if (!(header->field0e & 0x20)) return;
     identifier = header->field18.identifier;
     segment = (Segment *)lookup_global_symbol(identifier);
-    if (segment->word_size == 7) return;
+    if (segment->combine == 7) return;
     if (header->kind == 4) {
         segment = create_segment(header->name, "CODE", next_symbol_identifier());
         segment->section_number = 0;
@@ -128,7 +128,7 @@ void __fastcall update_symbol_storage(SymbolHeader *header)
         segment->object_attributes.coff.selection = 1;
         segment->alignment = default_segment_alignment;
     }
-    segment->word_size = 7;
+    segment->combine = 7;
     segment->format_flags = 1;
     segment->identity.owner = header;
     segment->object_attributes.coff.field45 = 0;

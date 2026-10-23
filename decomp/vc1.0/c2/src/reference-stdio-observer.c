@@ -271,6 +271,12 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         /* The caller's four-byte index local is write-only at this boundary.
            Its prior uninitialized bytes are neither read nor compared. */
     }
+    if(!strcmp(call->name,"@omf_write_segment_definition@4")) {
+        sprintf(line,"omf_segment pointer %08lx owner %08lx next_index %lu empty_name %lu\n",
+            call->args[0],read_word(process,image_base+0x6b8d4),
+            read_word(process,image_base+0x75080),read_word(process,image_base+0x6a8d8));log_line(line);
+        dump_bytes(process,"omf_segment_hex",call->args[0],72);
+    }
     if(!strcmp(call->name,"@omf_flush_record_type@4") ||
        !strcmp(call->name,"@omf_find_record@8") ||
        !strcmp(call->name,"@omf_allocate_record@8") ||

@@ -29,9 +29,9 @@ unsigned short __fastcall coff_declare_segment(Segment *segment)
     unsigned flags, i;
     unsigned short associated;
     if (!segment->object_section) {
-        parent = segment->word_size == 7 ? segment->parent : segment;
+        parent = segment->combine == 7 ? segment->parent : segment;
         if (segment->section_number == 1 &&
-            !(segment->word_size == 7 && segment->object_attributes.coff.selection == 5)) {
+            !(segment->combine == 7 && segment->object_attributes.coff.selection == 5)) {
             if (!strncmp(parent->symbol.name, ".rdata", 6) ||
                 !strncmp(parent->symbol.name, ".const", 6))
                 segment->section_number = 2;
@@ -45,38 +45,38 @@ unsigned short __fastcall coff_declare_segment(Segment *segment)
         switch ((signed char)segment->section_number) {
         case 0:
             name = parent->symbol.identifier == 5 ||
-                (segment->word_size == 7 && segment->object_attributes.coff.selection == 5) ?
+                (segment->combine == 7 && segment->object_attributes.coff.selection == 5) ?
                 ".text\0\0" : parent->symbol.name;
             flags = 0x60000020;
             segment->alignment = optimize_speed ? stack_alignment : 1;
             break;
         case 1:
             name = parent->symbol.identifier == 2 ||
-                (segment->word_size == 7 && segment->object_attributes.coff.selection == 5) ?
+                (segment->combine == 7 && segment->object_attributes.coff.selection == 5) ?
                 ".data\0\0" : parent->symbol.name;
             flags = 0xc0000040;
             break;
         case 2:
             name = parent->symbol.identifier == 3 ||
-                (segment->word_size == 7 && segment->object_attributes.coff.selection == 5) ?
+                (segment->combine == 7 && segment->object_attributes.coff.selection == 5) ?
                 ".rdata\0" : parent->symbol.name;
             flags = 0x40000040;
             break;
         case 3:
             name = parent->symbol.identifier == 4 ||
-                (segment->word_size == 7 && segment->object_attributes.coff.selection == 5) ?
+                (segment->combine == 7 && segment->object_attributes.coff.selection == 5) ?
                 ".bss\0\0\0" : parent->symbol.name;
             flags = 0xc0000080;
             break;
         case 4:
             name = parent->symbol.identifier == 7 ||
-                (segment->word_size == 7 && segment->object_attributes.coff.selection == 5) ?
+                (segment->combine == 7 && segment->object_attributes.coff.selection == 5) ?
                 ".debug$S" : parent->symbol.name;
             flags = 0x42000048;
             break;
         case 5:
             if (parent->symbol.identifier == 8 ||
-                (segment->word_size == 7 && segment->object_attributes.coff.selection == 5))
+                (segment->combine == 7 && segment->object_attributes.coff.selection == 5))
                 name = coff_precompiled_types ? ".debug$P" : ".debug$T";
             else name = parent->symbol.name;
             flags = 0x42000048;
@@ -91,7 +91,7 @@ unsigned short __fastcall coff_declare_segment(Segment *segment)
             break;
         case 11:
             name = parent->symbol.identifier == 9 ||
-                (segment->word_size == 7 && segment->object_attributes.coff.selection == 5) ?
+                (segment->combine == 7 && segment->object_attributes.coff.selection == 5) ?
                 ".tls$\0\0" : parent->symbol.name;
             flags = 0xc0000040;
             break;
@@ -100,7 +100,7 @@ unsigned short __fastcall coff_declare_segment(Segment *segment)
         short_name = arena_alloc(7, 9);
         for (i = 0; i != 8; ++i) short_name[i] = name[i];
         short_name[8] = 0;
-        if (segment->word_size == 7) {
+        if (segment->combine == 7) {
             associated = segment->object_attributes.coff.selection == 5 ?
                 (unsigned short)segment->parent->object_section : 0;
             segment->object_section = coff_create_comdat_section(short_name,
