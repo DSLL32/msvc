@@ -1,0 +1,10 @@
+{
+  "decomp/vc5.10/c1/scripts/system_info_reference.py": {
+    "sha256": "dc4917bda877957408fe7a8e7abd84906968c961389651ce268114c8f2ac9805",
+    "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/dc4917bda877957408fe7a8e7abd84906968c961389651ce268114c8f2ac9805"
+  },
+  "lib/recon/system_profile.py": {
+    "sha256": "0c305d70c5a9e538bac2ab8d930546a989012daf01c2781f70453122c895c173",
+    "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/0c305d70c5a9e538bac2ab8d930546a989012daf01c2781f70453122c895c173"
+  }
+}

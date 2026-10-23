@@ -1,0 +1,12 @@
+{
+  "kind": "actual HOST CRT vectors; separate from Invoke11 and Linux host controls",
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-pages-001",
+  "original_receipt_sha256": "1c7e1d0863b119ec60634a8af5a77a6f38f52198fa7baa824d9beda8df1773b6",
+  "files": {
+    "original-crt-argv.bin": "9c612245308551a71271c9c7a83aea310c7b4c306b8971b0a395c6828e2d864f",
+    "original-crt-environment.bin": "ec8a3f94a1a5d916ef7f3da4a657ddbda0fbf871d557ef29b8233fddcb1bbbe2"
+  },
+  "host_argc": 3,
+  "environment_count": 78,
+  "pass_argc": 11
+}

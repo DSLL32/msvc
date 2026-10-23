@@ -32,7 +32,7 @@
     {
       "order": 2,
       "id": "minimal",
-      "status": "reconstructing; Refill54B accepted to actual AllocatePagesaacb(arena0,pages1,&pool8.remaining)",
+      "status": "reconstructing; AllocatePages73B accepted to actual CommitExtent9883(arena0), pool8.remaining4096 and cursorbase+4096, no committed contents yet",
       "proposed_driver_argv": [
         "/nologo",
         "/c",

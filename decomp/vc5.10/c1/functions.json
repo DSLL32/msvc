@@ -71,7 +71,8 @@
     "CompilerArena::Reset",
     "_initialize_default_pools",
     "CompilerPool::SetArena",
-    "CompilerPool::Refill"
+    "CompilerPool::Refill",
+    "CompilerArena::AllocatePages"
   ],
   "driver": [
     {
@@ -632,6 +633,13 @@
           274908158
         ]
       ],
+      "role": "application"
+    },
+    {
+      "name": "CompilerArena::AllocatePages",
+      "symbol": "?AllocatePages@CompilerArena@@QAEPAEIPAI@Z",
+      "start": 274770635,
+      "end": 274770708,
       "role": "application"
     }
   ],

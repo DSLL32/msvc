@@ -5,7 +5,7 @@ from allocation_imports import export_rva
 from provenance import captured_native_binary
 
 def validate(original,native,entry,state,entry_sequence,sequence,module,candidate):
- assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('post-internal-switches',0x12998),('post-system-info',0x12999),('arena-initialization',0x129db),('arena-reservation',0x12a18),('arena-size-calculation',0x12a7a),('arena-initialized',0x12ab2),('arenas-complete',0x12ac3),('default-pool-arena',0x12b30),('pool-refill',0xaa9c),('arena-page-allocation',0xaacb)]
+ assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('post-internal-switches',0x12998),('post-system-info',0x12999),('arena-initialization',0x129db),('arena-reservation',0x12a18),('arena-size-calculation',0x12a7a),('arena-initialized',0x12ab2),('arenas-complete',0x12ac3),('default-pool-arena',0x12b30),('pool-refill',0xaa9c),('arena-page-allocation',0xaacb),('arena-commit',0x9883)]
  events=(original/'events.txt').read_text();binary=captured_native_binary(native);names=symbols(binary)
  entries=json.loads((native/'internal-parser-entries.json').read_text());returns=json.loads((native/'internal-parser-returns.json').read_text())
  raw_entries=re.findall(r'^internal-parser-entry index=(\d+) seq=(\d+) argument=([0-9a-f]+) mode=(\d+) esp=([0-9a-f]+)$',events,re.M)

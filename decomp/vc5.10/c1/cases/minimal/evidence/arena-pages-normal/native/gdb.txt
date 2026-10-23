@@ -1,0 +1,100 @@
+Breakpoint 1 at 0x804ad09: file src/pass.c, line 39.
+Breakpoint 2 at 0x804be00: file src/pools.cpp, line 8.
+Breakpoint 3 at 0x804c430: file src/pch-state.cpp, line 7.
+Breakpoint 4 at 0x804c540: file src/main.c, line 7.
+Breakpoint 5 at 0x804ccf0: file src/arenas.cpp, line 40.
+Breakpoint 6 at 0x804c1c0: file src/pools.cpp, line 63.
+Breakpoint 7 at 0x804c320: file src/pools.cpp, line 76.
+Breakpoint 8 at 0x804c390: file src/pools.cpp, line 82.
+Breakpoint 9 at 0x804cef0: file src/arenas.cpp, line 77.
+Breakpoint 10 at 0x804c730: file src/work-buffers.c, line 6.
+Breakpoint 11 at 0x804c880: file src/options.c, line 7.
+Breakpoint 12 at 0x804c670: file src/main.c, line 33.
+Breakpoint 13 at 0x804cb80: file src/arenas.cpp, line 15.
+Breakpoint 14 at 0x804cc40: file src/arenas.cpp, line 28.
+Breakpoint 15 at 0x804a8f0: file src/native-crt.c, line 20.
+Breakpoint 16 at 0x804cdd0: file src/arenas.cpp, line 56.
+Breakpoint 17 at 0x804cdfe: file src/arenas.cpp, line 61.
+Breakpoint 18 at 0x804ce09: file src/arenas.cpp, line 62.
+Breakpoint 19 at 0x804ce0c: file src/arenas.cpp, line 61.
+Breakpoint 20 at 0x804ce0e: file src/arenas.cpp, line 61.
+Breakpoint 21 at 0x804ce14: file src/arenas.cpp, line 62.
+Breakpoint 22 at 0x804ce16: file src/arenas.cpp, line 61.
+Breakpoint 23 at 0x804ce26: file src/arenas.cpp, line 61.
+Breakpoint 24 at 0x804ce29: file src/arenas.cpp, line 61.
+Breakpoint 25 at 0x804ce2c: file src/arenas.cpp, line 61.
+Breakpoint 26 at 0x804ce2f: file src/arenas.cpp, line 61.
+Breakpoint 27 at 0x804ce90: file src/arenas.cpp, line 69.
+Breakpoint 28 at 0x805f240: file ../../../lib/recon/src/win32.c, line 835.
+Breakpoint 29 at 0x804c7c0: file src/work-buffers.c, line 14.
+Breakpoint 30 at 0x804c980: file src/options.c, line 26.
+Breakpoint 31 at 0x804ef10: file ../../../lib/recon/src/crt.c, line 240.
+Breakpoint 32 at 0x805c4d0: file ../../../lib/recon/src/win32.c, line 317.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+Breakpoint 33 at 0x804bea3: file src/pools.cpp, line 18.
+Breakpoint 34 at 0x804bef6: file src/pools.cpp, line 23.
+Breakpoint 35 at 0x804bf56: file src/pools.cpp, line 28.
+Breakpoint 36 at 0x804bfb6: file src/pools.cpp, line 33.
+Breakpoint 37 at 0x804c016: file src/pools.cpp, line 38.
+Breakpoint 38 at 0x804c076: file src/pools.cpp, line 43.
+Breakpoint 39 at 0x804c0d6: file src/pools.cpp, line 48.
+Breakpoint 40 at 0x804c136: file src/pools.cpp, line 53.
+Breakpoint 41 at 0x804c199: file src/pools.cpp, line 58.
+Breakpoint 42 at 0x804c51c: file src/pch-state.cpp, line 27.
+Breakpoint 43 at 0x804c75f: file src/work-buffers.c, line 7.
+Breakpoint 44 at 0x804c806: file src/work-buffers.c, line 16.
+Breakpoint 45 at 0x804c840: file src/work-buffers.c, line 19.
+Breakpoint 46 at 0x804c787: file src/work-buffers.c, line 9.
+Breakpoint 47 at 0x804c806: file src/work-buffers.c, line 16.
+Breakpoint 48 at 0x804c840: file src/work-buffers.c, line 19.
+Breakpoint 49 at 0x804c8cd: file src/options.c, line 13.
+Breakpoint 50 at 0x804c8cd: file src/options.c, line 13.
+Breakpoint 51 at 0x804c8cd: file src/options.c, line 13.
+Breakpoint 52 at 0x804c8cd: file src/options.c, line 13.
+Breakpoint 53 at 0x804c8cd: file src/options.c, line 13.
+Breakpoint 54 at 0x804c8cd: file src/options.c, line 13.
+Breakpoint 55 at 0x804c8cd: file src/options.c, line 13.
+Breakpoint 56 at 0x804c8cd: file src/options.c, line 13.
+Breakpoint 57 at 0x804c8cd: file src/options.c, line 13.
+Breakpoint 58 at 0x804c8cd: file src/options.c, line 13.
+Breakpoint 59 at 0x804c8e9: file src/options.c, line 14.
+Breakpoint 60 at 0x804c5af: file src/main.c, line 15.
+Breakpoint 61 at 0x804ccb1: file src/arenas.cpp, line 32.
+Breakpoint 62 at 0x804cd33: file src/arenas.cpp, line 42.
+Breakpoint 63 at 0x804cd74: file src/arenas.cpp, line 43.
+Breakpoint 64 at 0x804cd9d: file src/arenas.cpp, line 50.
+Breakpoint 65 at 0x804cbf6: file src/arenas.cpp, line 20.
+Breakpoint 66 at 0x804cd33: file src/arenas.cpp, line 42.
+Breakpoint 67 at 0x804cd74: file src/arenas.cpp, line 43.
+Breakpoint 68 at 0x804cd9d: file src/arenas.cpp, line 50.
+Breakpoint 69 at 0x804cbf6: file src/arenas.cpp, line 20.
+Breakpoint 70 at 0x804cd33: file src/arenas.cpp, line 42.
+Breakpoint 71 at 0x804cd74: file src/arenas.cpp, line 43.
+Breakpoint 72 at 0x804cd9d: file src/arenas.cpp, line 50.
+Breakpoint 73 at 0x804cbf6: file src/arenas.cpp, line 20.
+Breakpoint 74 at 0x804cd33: file src/arenas.cpp, line 42.
+Breakpoint 75 at 0x804cd74: file src/arenas.cpp, line 43.
+Breakpoint 76 at 0x804cd9d: file src/arenas.cpp, line 50.
+Breakpoint 77 at 0x804cbf6: file src/arenas.cpp, line 20.
+Breakpoint 78 at 0x804cd33: file src/arenas.cpp, line 42.
+Breakpoint 79 at 0x804cd74: file src/arenas.cpp, line 43.
+Breakpoint 80 at 0x804cd9d: file src/arenas.cpp, line 50.
+Breakpoint 81 at 0x804cbf6: file src/arenas.cpp, line 20.
+Breakpoint 82 at 0x804cd33: file src/arenas.cpp, line 42.
+Breakpoint 83 at 0x804cd74: file src/arenas.cpp, line 43.
+Breakpoint 84 at 0x804cd9d: file src/arenas.cpp, line 50.
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+CompilerArena::CommitExtent (this=0x806c66c <c1_bss+804>) at src/arenas.cpp:95
+95	}
+#0  CompilerArena::CommitExtent (this=0x806c66c <c1_bss+804>) at src/arenas.cpp:95
+#1  0x0804cf72 in CompilerArena::AllocatePages (this=0x806c66c <c1_bss+804>, pages=1, available_bytes=0x806c5ec <c1_bss+676>) at src/arenas.cpp:88
+#2  0x0804c3ff in CompilerPool::Refill (this=0x806c5e8 <c1_bss+672>, minimum_bytes=1) at src/pools.cpp:88
+#3  0x0804c36c in CompilerPool::SetArena (this=0x806c5e8 <c1_bss+672>, arena_index=0) at src/pools.cpp:78
+#4  0x0804c1fb in initialize_default_pools () at src/pools.cpp:64
+#5  0x0804cc1e in initialize_compiler_arenas () at src/arenas.cpp:24
+#6  0x0804c5b7 in c1_main (argc=11, argv=0xffffd6cc) at src/main.c:16
+#7  0x0804a864 in InvokeCompilerPass (argc=11, argv=0xffffd6cc, mode=1) at src/exports.c:16
+#8  0x0804d322 in c1_native_host (argc=2, argv=0xffffd804) at scripts/native-host.c:80
+#9  0x080599d5 in main (argc=2, argv=0xffffd804) at ../../../lib/recon/src/entry.c:30

@@ -28,7 +28,7 @@ def reset_proof(before,entry,returned,index,receiver,seed,pc):
 
 def validate(original,native,fields,first_member,first_scaler,state,member_sequence,scaler_sequence,sequence,module,candidate,probe):
     assert candidate['reset_observers']==RESET_PLAN
-    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('arenas-complete',0x12ac3),('default-pool-arena',0x12b30),('pool-refill',0xaa9c),('arena-page-allocation',0xaacb)]
+    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('arenas-complete',0x12ac3),('default-pool-arena',0x12b30),('pool-refill',0xaa9c),('arena-page-allocation',0xaacb),('arena-commit',0x9883)]
     binary=captured_native_binary(native);names=symbols(binary);events=(original/'events.txt').read_text()
     def read(name):return json.loads((native/(name+'.json')).read_text())
     tables={name:read(name)for name in ('arena-member-entry-observations','arena-member-returns','scaler-entries','scaler-returns','arena-api-entries','arena-api-returns','arena-reset-entries','arena-reset-returns')}

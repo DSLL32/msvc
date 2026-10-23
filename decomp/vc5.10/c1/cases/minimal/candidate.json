@@ -471,6 +471,11 @@
       "start_rva": 181239,
       "end_rva": 181246,
       "entry": 0
+    },
+    {
+      "start_rva": 43723,
+      "end_rva": 43796,
+      "entry": 1
     }
   ],
   "functions": [
@@ -1437,6 +1442,19 @@
         ]
       ],
       "source": "src/pools.cpp",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "CompilerArena::AllocatePages",
+      "native_symbol": "_ZN13CompilerArena13AllocatePagesEjPj",
+      "role": "application",
+      "chunks": [
+        [
+          43723,
+          43796
+        ]
+      ],
+      "source": "src/arenas.cpp",
       "status": "candidate"
     }
   ],
@@ -1459,19 +1477,17 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 43723,
-    "native_symbol": "CompilerArena::AllocatePages",
-    "native_linkage_symbol": "_ZN13CompilerArena13AllocatePagesEjPj",
-    "kind": "arena-page-allocation",
-    "calling_convention": "thiscall-arena-pages",
+    "rva": 39043,
+    "native_symbol": "CompilerArena::CommitExtent",
+    "native_linkage_symbol": "_ZN13CompilerArena12CommitExtentEv",
+    "kind": "arena-commit",
+    "calling_convention": "thiscall-arena-commit",
     "native_args": [
-      "this",
-      "pages",
-      "available_bytes"
+      "this"
     ],
     "caller": {
-      "native_symbol": "CompilerPool::Refill",
-      "return_rva": 43717
+      "native_symbol": "CompilerArena::AllocatePages",
+      "return_rva": 43794
     }
   },
   "imports": [
@@ -1756,7 +1772,7 @@
       "scope": "owned snapshot interior sentinels and labeled nonzero ints before BSS clear; never dereferenced"
     }
   },
-  "staging_role": "sole54B Refill member: unsigned page ceiling/minimum and real Arena AllocatePages frontier before allocator effects/cursor assignment",
+  "staging_role": "sole73B AllocatePages: output remaining count/cursor writes then genuine ECX-only CommitExtent trap, no memory contents claim",
   "registered_cleanup": [
     {
       "original_rva": 145728,

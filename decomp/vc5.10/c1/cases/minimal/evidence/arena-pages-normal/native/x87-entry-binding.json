@@ -1,0 +1,21 @@
+{
+  "kind": "once-before-lifecycle captured architectural x87 input",
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-pages-001",
+  "original_receipt_sha256": "1c7e1d0863b119ec60634a8af5a77a6f38f52198fa7baa824d9beda8df1773b6",
+  "original_float_save_sha256": "da314f55132fcf81bfab0eeb191610ea268f13fecd92b6d27b476d23a4e57923",
+  "original_environment_sha256": "ec8a3f94a1a5d916ef7f3da4a657ddbda0fbf871d557ef29b8233fddcb1bbbe2",
+  "guard_rva": 73770,
+  "cw": 639,
+  "sw": 32,
+  "tag": 65535,
+  "top": 0,
+  "live_registers": [],
+  "excluded": [
+    "IP",
+    "DP",
+    "selectors",
+    "empty register payload",
+    "transport upper words",
+    "Cr0NpxState"
+  ]
+}

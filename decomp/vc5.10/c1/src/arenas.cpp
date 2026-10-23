@@ -73,3 +73,23 @@ void RECON_THISCALL CompilerArena::Reset(void)
     reset_value = 0;
 }
 
+unsigned char *RECON_THISCALL CompilerArena::AllocatePages(unsigned pages, unsigned *available_bytes)
+{
+    unsigned char *old_cursor;
+    unsigned offset, page_size;
+
+    old_cursor = cursor;
+    offset = (unsigned)cursor - (unsigned)base;
+    page_size = c1_data.system_info.dwPageSize;
+    *available_bytes = (((pages + 1) * page_size + offset - 1) &
+                        ~(page_size - 1)) - offset;
+    cursor += *available_bytes;
+    if (cursor > committed_limit)
+        CommitExtent();
+    return old_cursor;
+}
+
+void RECON_THISCALL CompilerArena::CommitExtent(void)
+{
+    __asm { int 3 }
+}

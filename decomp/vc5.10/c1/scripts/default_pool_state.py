@@ -18,7 +18,7 @@ def boundary(original,native,state,sequence,module):
 
 def validate(original,native,fields,entry,state,entry_sequence,sequence,module,candidate):
     assert candidate['default_pool_order']==ORDER
-    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('default-pool-arena',0x12b30),('pool-refill',0xaa9c),('arena-page-allocation',0xaacb)]
+    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('default-pool-arena',0x12b30),('pool-refill',0xaa9c),('arena-page-allocation',0xaacb),('arena-commit',0x9883)]
     binary=captured_native_binary(native);names=symbols(binary)
     first=fields['pools'][8];native_this=names['c1_bss'][0]+first['native_offset'];original_this=module+first['original_object_rva']
     assert first['index']==8 and first['native_size']==16 and first['original_object_rva']==0x54dc0
@@ -49,7 +49,7 @@ def validate(original,native,fields,entry,state,entry_sequence,sequence,module,c
 
 def validate_binding(original,native,fields,entry,state,entry_sequence,sequence,module,candidate):
     """Real SetArena entry and its sole pointer store before genuine Refill."""
-    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('pool-refill',0xaa9c),('arena-page-allocation',0xaacb)]
+    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('pool-refill',0xaa9c),('arena-page-allocation',0xaacb),('arena-commit',0x9883)]
     rows=re.findall(r'^trap seq=(\d+) rva=00012b30 .*stack=([0-9a-f,]+)$',(original/'events.txt').read_text(),re.M);assert len(rows)==1
     at=int(rows[0][0]);assert entry_sequence<at<sequence
     observed=json.loads((native/'pool-arena-entries.json').read_text());assert len(observed)==1
@@ -81,7 +81,7 @@ def validate_binding(original,native,fields,entry,state,entry_sequence,sequence,
 
 def validate_refill(original,native,fields,entry,state,entry_sequence,sequence,module,candidate):
     """Unsigned page calculation and real owned remaining-count output address."""
-    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])==('arena-page-allocation',0xaacb)
+    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('arena-page-allocation',0xaacb),('arena-commit',0x9883)]
     rows=re.findall(r'^trap seq=(\d+) rva=0000aa9c .*stack=([0-9a-f,]+)$',(original/'events.txt').read_text(),re.M);assert len(rows)==1
     at=int(rows[0][0]);assert entry_sequence<at<sequence
     observed=json.loads((native/'pool-refill-entries.json').read_text());assert len(observed)==1
@@ -114,3 +114,42 @@ def validate_refill(original,native,fields,entry,state,entry_sequence,sequence,m
     assert snapshot[0xaac0-0x1000:0xaac5-0x1000]==b'\xe8'+struct.pack('<i',0xaacb-0xaac5)
     assert snapshot[0xaac5-0x1000:0xaacb-0x1000]==b'\x89\x06\x5e\xc2\x04\0'
     assert snapshot[0x2c3f7-0x1000:0x2c3fe-0x1000]==b'\x8b\xc1\xe9'+struct.pack('<i',0xaab8-0x2c3fe)
+
+
+def validate_allocation(original,native,fields,entry,state,entry_sequence,sequence,module,candidate):
+    """Two genuine allocation writes; reservation contents stay opaque."""
+    assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])==('arena-commit',0x9883)
+    rows=re.findall(r'^trap seq=(\d+) rva=0000aacb .*stack=([0-9a-f,]+)$',(original/'events.txt').read_text(),re.M);assert len(rows)==1
+    at=int(rows[0][0]);assert entry_sequence<at<sequence
+    observed=json.loads((native/'arena-page-entries.json').read_text());assert len(observed)==1
+    before=copy.deepcopy(observed[0]);before.update(before['crt_state'])
+    assert before['boundary_rva']==0xaacb and before['invocation']==entry['invocation']==state['invocation']
+    names=symbols(captured_native_binary(native));assert before['pc']==names['_ZN13CompilerArena13AllocatePagesEjPj'][0]
+    assert before['ecx']==before['args']['this'] and before['pages']==before['args']['pages'] and before['available_bytes']==before['args']['available_bytes']
+    validate_refill(original,native,fields,entry,before,entry_sequence,at,module,candidate)
+    page_size=before['compiler_state']['initialized']['system_info']['dwPageSize'];arena=before['compiler_state']['bss']['arenas'][0]
+    assert arena['cursor']==arena['base']==arena['committed_limit'] and arena['committed_bytes']==0
+    offset=(arena['cursor']-arena['base'])&0xffffffff
+    allocated=((((before['args']['pages']+1)*page_size+offset-1)&0xffffffff)&~(page_size-1))-offset
+    assert allocated==page_size==4096 and allocated<arena['reserve_bytes']
+    expected=copy.deepcopy(before['compiler_state']);expected['bss']['pools'][8]['remaining']=allocated;expected['bss']['arenas'][0]['cursor']+=allocated
+    assert state['compiler_state']==expected and state['compiler_state']['bss']['arenas'][0]['cursor']>arena['committed_limit']
+    assert state['symbol']=='CompilerArena::CommitExtent' and state['formal_inventory']==[dict(name='this',type='CompilerArena *')]
+    assert state['args']==dict(this=before['args']['this']) and state['caller']['symbol']=='CompilerArena::AllocatePages' and state['caller']['args']==before['args']
+    call(captured_native_binary(native),state['caller']['pc'],names['_ZN13CompilerArena12CommitExtentEv'][0])
+    raw=bytearray((original/('compiler-bss-%03d.bin'%at)).read_bytes());base=fields['arenas']['original_rva']-fields['original_bss_region_rva'][0]
+    original_cursor,original_limit,original_base=struct.unpack_from('<3I',raw,base);assert original_cursor==original_limit==original_base
+    out=fields['pools'][8]['original_object_rva']-fields['original_bss_region_rva'][0]+4
+    assert struct.unpack_from('<I',raw,out)[0]==0
+    struct.pack_into('<I',raw,out,allocated);struct.pack_into('<I',raw,base,original_cursor+allocated)
+    assert(original/('compiler-bss-%03d.bin'%sequence)).read_bytes()==bytes(raw)
+    for region in ('compiler-data','compiler-snapshot','state'):
+        assert(original/('%s-%03d.bin'%(region,at))).read_bytes()==(original/('%s-%03d.bin'%(region,sequence))).read_bytes()
+    for key,value in before['crt_state'].items():assert state[key]==value
+    rows=re.findall(r'^trap seq=%d rva=00009883 esp=([0-9a-f]+) eax=[0-9a-f]+ ecx=([0-9a-f]+) stack=([0-9a-f,]+)$'%sequence,(original/'events.txt').read_text(),re.M);assert len(rows)==1
+    assert int(rows[0][1],16)==module+fields['arenas']['original_rva'] and int(rows[0][2].split(',')[0],16)==module+0xab12
+    snapshot=(original/'relocated-text.bin').read_bytes()
+    assert snapshot[0xab0d-0x1000:0xab12-0x1000]==b'\xe8'+struct.pack('<i',0x9883-0xab12)
+    assert snapshot[0xab0a-0x1000:0xab0d-0x1000]==b'\xc2\x08\0'
+    # The pending helper independently reloads cursor from ECX, not hidden EAX.
+    assert pe_read(original/'loaded-target.bin',0x9883,6)==b'\x56\x57\x8b\xf9\x8b\x07' and pe_read(original/'loaded-target.bin',0x98d9,1)==b'\xc3'

@@ -89,8 +89,3 @@ unsigned char *RECON_THISCALL CompilerPool::Refill(unsigned minimum_bytes)
     return cursor;
 }
 
-unsigned char *RECON_THISCALL CompilerArena::AllocatePages(unsigned pages, unsigned *available_bytes)
-{
-    __asm { int 3 }
-    return NULL;
-}

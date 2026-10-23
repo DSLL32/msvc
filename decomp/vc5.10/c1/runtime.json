@@ -119,11 +119,11 @@
     "evidence": "genuine internal-switch scanner callee; named INT3 entry only"
   },
   {
-    "name": "CompilerArena::AllocatePages",
-    "symbol": "?AllocatePages@CompilerArena@@QAEPAEIPAI@Z",
-    "start": 274770635,
-    "end": 274770636,
+    "name": "CompilerArena::CommitExtent",
+    "symbol": "?CommitExtent@CompilerArena@@QAEXXZ",
+    "start": 274765955,
+    "end": 274765956,
     "pending_extent": true,
-    "evidence": "genuine thiscall arena page allocator, pages plus owned unsigned count output; named INT3 entry only"
+    "evidence": "genuine ECX-only arena commit helper; reloads cursor itself at9887, RET0; named INT3 identity only"
   }
 ]
