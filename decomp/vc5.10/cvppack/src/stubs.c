@@ -39,7 +39,6 @@ void rewrite_register16_symbol(void) { __asm { int 3 } }
 void rewrite_data16_symbol(void) { __asm { int 3 } }
 void rewrite_global_data16_symbol(void) { __asm { int 3 } }
 void rewrite_type_name_symbol(void) { __asm { int 3 } }
-void rewrite_object_name_symbol(void) { __asm { int 3 } }
 void rewrite_procedure16_symbol(void) { __asm { int 3 } }
 void rewrite_procedure32_symbol(void) { __asm { int 3 } }
 void rewrite_mips_procedure_symbol(void) { __asm { int 3 } }

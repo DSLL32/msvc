@@ -1,0 +1,6 @@
+{
+  "schema": 1,
+  "status": "not-promoted",
+  "stage": "static-qualified-import-audit-before-original-execution",
+  "reason": "Original4161c0 is memmove, initial source used memcpy; strict graph rejected. Corrected candidate uses memmove and a distinct fresh trial."
+}

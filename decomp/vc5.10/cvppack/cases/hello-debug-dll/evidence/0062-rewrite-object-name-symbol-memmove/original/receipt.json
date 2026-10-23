@@ -1,0 +1,138 @@
+{
+  "schema": 1,
+  "case": "hello-debug-dll",
+  "unmasked": false,
+  "candidates": [
+    "rewrite_object_name_symbol"
+  ],
+  "case_definition_sha256": "e048b9cc441f59224f9fa8138ec4acc2313f4309578beb974c6af86b14bc974c",
+  "debugger_source_sha256": "0ebc6ea683bd9008efa7fee223d382686e5835115ad210debf313303239f15a6",
+  "command": [
+    "wine",
+    "S:\\vc5.10\\cvppack\\captures\\65762cc0ac71-1792781099182334049\\debug-run.exe",
+    "S:\\vc5.10\\cvppack\\captures\\65762cc0ac71-1792781099182334049\\CVPACK.EXE",
+    "R:\\toolchains\\5.10\\bin\\CVPACK.EXE /nologo hello.dll",
+    "R:\\decomp\\vc5.10\\cvppack\\cases\\hello-debug-dll\\evidence\\0062-rewrite-object-name-symbol-memmove\\original\\stdout",
+    "R:\\decomp\\vc5.10\\cvppack\\cases\\hello-debug-dll\\evidence\\0062-rewrite-object-name-symbol-memmove\\original\\stderr",
+    "R:\\decomp\\vc5.10\\cvppack\\cases\\hello-debug-dll\\evidence\\0062-rewrite-object-name-symbol-memmove\\original\\events",
+    "S:\\vc5.10\\cvppack\\captures\\65762cc0ac71-1792781099182334049",
+    "R:\\decomp\\vc5.10\\cvppack\\cases\\hello-debug-dll\\evidence\\0062-rewrite-object-name-symbol-memmove\\original\\runtime-plan",
+    "R:\\toolchains\\5.10\\bin\\CVPACK.EXE",
+    "S:\\vc5.10\\cvppack\\captures\\65762cc0ac71-1792781099182334049\\loaded-msvcrt.dll",
+    "0"
+  ],
+  "original_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "masked_image_sha256": "cc8e8b8af5ae06794c6783a3e5ed1b7f0ce3aabe68506242797a27abb6531ad3",
+  "debugger_sha256": "b805eacc1d5884fcf284a828129b8505779b4df530ea672e35f866c764ee2dd0",
+  "rebuilt_sha256": "93958ef876fc408b7003a5654315d0ff75128dfe57bc88f2953af558e70ba33a",
+  "configuration_sha256": "65762cc0ac711440052c0fb4f213b546afc70bde6e2f9bf91f777cec714136ad",
+  "native_sha256": "519fd5887f40ea088f021440cc5b47606197d9e128f906b752508a02b8fdd045",
+  "plan_sha256": "adc58d9bd8250cfb70098a12e1d1bed03d578faa20e36f579474471007a0b050",
+  "actual_loaded_crt": {
+    "module": "MSVCRT.dll",
+    "bytes": 277776,
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "capture_path": "/root/.ai-tmp/msvc2/vc5.10/cvppack/captures/65762cc0ac71-1792781099182334049/loaded-msvcrt.dll",
+    "source": "LOAD_DLL_DEBUG_EVENT.hFile exact file copy"
+  },
+  "actual_target_capture": "/root/.ai-tmp/msvc2/vc5.10/cvppack/captures/65762cc0ac71-1792781099182334049/CVPACK.EXE",
+  "actual_target_windows": "S:\\vc5.10\\cvppack\\captures\\65762cc0ac71-1792781099182334049\\CVPACK.EXE",
+  "adjacent_inputs": [
+    {
+      "name": "MSVCRT.DLL",
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    {
+      "name": "MSPDB50.DLL",
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+    }
+  ],
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "wine_dll_overrides": "msvcrt,mspdb50=n",
+  "canonical_argv0": "R:\\toolchains\\5.10\\bin\\CVPACK.EXE",
+  "environment": {
+    "MSC_CMD_FLAGS": null,
+    "_MSC_IDE_FLAGS": null
+  },
+  "data_sha256": "7de2e6d74fd72a235c735b17a10d8caaf13cee783abe9199d3059310bdf536e6",
+  "runtime_sha256": "45bed7b37cc8171159533760fe4d1d62ec97f16d098c27ec474f5cd9ed9790bf",
+  "audit_sha256": "065ac52a29362a575837f9565d8f7cda5ea074a1d6ab2f75670e5eb78f07df15",
+  "graph_config_sha256": "d4b69a6b4650fa52c6ed1903c9df7f1ee8004375a1c73e5bd6a3b3232414bf40",
+  "graph_runtime_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "graph_metadata_sha256": "e0aeea756be5d97859d7cbbd142d421162b510517d2141b672de4dd64c333f1a",
+  "graph_metadata_proof_sha256": "02af8362c332fd4bfe38a398dcac8f83472892694e2e1ae72a3fb73531f9717b",
+  "compiled_sources_sha256": "a620f6d695d0918c4b36d119bb65f18a7bb783871762f3c3eabbed9ea2e56559",
+  "outputs": [
+    {
+      "name": "stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "events",
+      "bytes": 5979427,
+      "sha256": "eb06ac69a9f2536bf38808da7dba078b7e84369b3f567c0f8c94b33b6153aef9"
+    },
+    {
+      "name": "audit.json",
+      "bytes": 97527,
+      "sha256": "065ac52a29362a575837f9565d8f7cda5ea074a1d6ab2f75670e5eb78f07df15"
+    },
+    {
+      "name": "graph-config.json",
+      "bytes": 12727,
+      "sha256": "d4b69a6b4650fa52c6ed1903c9df7f1ee8004375a1c73e5bd6a3b3232414bf40"
+    },
+    {
+      "name": "graph-runtime.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "name": "case-definition.json",
+      "bytes": 1203,
+      "sha256": "e048b9cc441f59224f9fa8138ec4acc2313f4309578beb974c6af86b14bc974c"
+    },
+    {
+      "name": "artifact-hello.dll",
+      "bytes": 2097152,
+      "sha256": "210307903accd6e4653cb089a313b3a6b8a72a5d9b3726a77e881e454ff27d36"
+    },
+    {
+      "name": "events-view-1.bin",
+      "bytes": 2097152,
+      "sha256": "210307903accd6e4653cb089a313b3a6b8a72a5d9b3726a77e881e454ff27d36"
+    },
+    {
+      "name": "graph-metadata.json",
+      "bytes": 6462,
+      "sha256": "e0aeea756be5d97859d7cbbd142d421162b510517d2141b672de4dd64c333f1a"
+    },
+    {
+      "name": "graph-metadata-proof.json",
+      "bytes": 6653,
+      "sha256": "02af8362c332fd4bfe38a398dcac8f83472892694e2e1ae72a3fb73531f9717b"
+    },
+    {
+      "name": "pack-switch.obj",
+      "bytes": 8719,
+      "sha256": "ea0d0a4cc65b133015103b55f9323ccf5467c6d83c0c304efbdfba92332c0ef7"
+    }
+  ],
+  "seconds": {
+    "setup": 0.6747818635776639,
+    "execution": 5.901224873960018,
+    "total": 6.639225861988962
+  },
+  "actual_loaded_mspdb": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cvppack/captures/65762cc0ac71-1792781099182334049/loaded-mspdb50.dll",
+    "bytes": 167424,
+    "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+    "source": "LOAD_DLL_DEBUG_EVENT.hFile exact file copy"
+  }
+}

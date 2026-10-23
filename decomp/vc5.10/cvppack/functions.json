@@ -67,7 +67,8 @@
     "add_symbol_segment",
     "has_symbol_segment",
     "rewrite_module_symbols",
-    "write_segment_record"
+    "write_segment_record",
+    "rewrite_object_name_symbol"
   ],
   "functions": [
     {
@@ -2368,10 +2369,14 @@
       "symbol": "_rewrite_object_name_symbol",
       "native_symbol": "rewrite_object_name_symbol",
       "original": 4238592,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4238592,
+        4238692
+      ],
       "ret": 0,
-      "parameters": []
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0062-rewrite-object-name-symbol-memmove/promotion.json"
     },
     {
       "name": "rewrite_procedure16_symbol",

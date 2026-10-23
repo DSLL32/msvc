@@ -49,7 +49,7 @@ void read_new_module_types(unsigned size, int precompiled)
             } else if (*(unsigned short *)(record + 2) == 0x14) {
                 current_type_server = type_record_count + 0x1000;
                 find_type_server(NULL, 1, NULL, NULL, NULL);
-                current_module_info->fields_before[1] = *(unsigned *)(record + 4);
+                current_module_info->type_server = *(unsigned *)(record + 4);
             } else {
                 skip = *(unsigned short *)(record + 2) == 0x1200 ?
                     *(unsigned *)(record + 4) - type_record_count - 0x1000 : 0;

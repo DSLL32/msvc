@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565f7bef in rewrite_procedure32_symbol () at src/stubs.c:43
+43	void rewrite_procedure32_symbol(void) { __asm { int 3 } }

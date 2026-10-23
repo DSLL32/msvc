@@ -23,7 +23,8 @@ extern CodeViewDirectoryEntry *directory_entries;
 extern unsigned directory_relative_offset, directory_count;
 typedef struct ModuleInfo {
     unsigned short module, reserved;
-    unsigned fields_before[2];
+    unsigned char *precompiled_object_name;
+    unsigned type_server;
     unsigned char *data;
     unsigned size;
     unsigned char *symbols;
