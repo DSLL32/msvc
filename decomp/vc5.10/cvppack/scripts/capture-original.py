@@ -101,6 +101,8 @@ def main():
         env['VC510_CVPACK_PROBES']+=',40fb97:cleared-allocation-entry,40fb9d:cleared-allocation-result'
     if config.get('observe_global_type_lookup'):
         env['VC510_CVPACK_PROBES']+=',402c24:lookup-type-enter,402c4e:lookup-type-sentinel-return,402c8c:lookup-type-normal-return'
+    if config.get('observe_recursive_type_compare'):
+        env['VC510_CVPACK_PROBES']+=',408749:type-compare-entry,40874e:type-compare-result'
     env['VC510_CVPACK_BLOBS']=','.join('%x:%d:%d:%d:%x:%d:%d'%(item['original'],item['blob'].get('size',0),
         item['blob'].get('pointers',[dict(offset=0xffffffff)])[0]['offset'],
         item['blob'].get('pointers',[dict(size=0)])[0].get('size',0),

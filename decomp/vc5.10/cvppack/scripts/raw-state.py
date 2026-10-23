@@ -78,6 +78,18 @@ def decode(events):
             all_strings[int(location,16)]=raw
     for call in file_calls:call['pathname']=all_strings[call.pop('pointer')]
 
+    type_compare_calls=[]
+    for line in lines:
+        if line.startswith('type-compare-failed'):raise AssertionError('incomplete recursive comparison observation')
+        if line.startswith('type-compare-call '):
+            _,record,offset,size,left,right=line.split()
+            size=int(size)
+            assert left!='FAILED' and right!='FAILED','unobserved recursive comparison bytes'
+            assert len(bytes.fromhex(left))==len(bytes.fromhex(right))==size,'truncated recursive comparison bytes'
+            type_compare_calls.append(dict(record=int(record,16),offset=int(offset),size=size,left=left,right=right))
+        elif line.startswith('type-compare-return '):
+            assert type_compare_calls and 'different' not in type_compare_calls[-1],'recursive comparison return inventory differs'
+            type_compare_calls[-1]['different']=bool(int(line.split()[1]))
     lookup_calls=[];lookup_stack=[]
     for line in lines:
         if line.startswith('lookup-type-failed'):raise AssertionError('incomplete global-type lookup observation')
@@ -117,7 +129,7 @@ def decode(events):
     assert registers and len(registers) == 8
     stack = memory[registers[-1]]
     assert len(stack) == 128
-    return dict(address=address,memory=memory,strings=strings,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),
+    return dict(address=address,memory=memory,strings=strings,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
                 registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations,cleared_allocations=cleared_allocations)
 
 
@@ -269,10 +281,17 @@ def compare(config,data,events,native,artifacts=None,views=None):
             assert len(owned)==1,'symbol output allocation lifetime differs'
             allocation=owned[0]
             row=next(row for row in data if row['name']==item['cursor'])
-            assert value==int.from_bytes(original['memory'][row['original']],'little'),'symbol output argument cursor alias differs'
+            cursor=int.from_bytes(original['memory'][row['original']],'little')
             offset=value-allocation['address']
-            assert 0<=offset<=allocation['size']-item['write_size'],'symbol output argument extent differs'
-            parameters[item['name']]=dict(owner=item['owner'],offset=offset,capacity=allocation['size'],write_size=item['write_size'])
+            if item.get('base_argument'):
+                size=original['stack'][item['size_slot']]
+                assert offset==0 and 0<=size<=allocation['size'] and value+size==cursor,'original initialized symbol buffer ownership/extent differs'
+                assert len(original['memory'][value])>=size,'incomplete initialized symbol buffer'
+                parameters[item['name']]=dict(owner=item['owner'],offset=0,capacity=allocation['size'],size=size,bytes=original['memory'][value][:size].hex())
+            else:
+                assert value==cursor,'symbol output argument cursor alias differs'
+                assert 0<=offset<=allocation['size']-item['write_size'],'symbol output argument extent differs'
+                parameters[item['name']]=dict(owner=item['owner'],offset=offset,capacity=allocation['size'],write_size=item['write_size'])
         else:
             raise AssertionError('unimplemented parameter kind: '+item['kind'])
     caller_state={}
@@ -907,6 +926,19 @@ def compare(config,data,events,native,artifacts=None,views=None):
             parameters[item['name']]=native_parameters[item['name']]=dict(null=True)
     assert parameters == native_parameters, ('typed ABI arguments differ',parameters,native_parameters)
     if original_calls:assert original['last_error']==native['last_error'],'frontier LastError differs'
+    type_compare_calls_checked=0
+    if config.get('observe_recursive_type_compare'):
+        before=original['type_compare_calls'];after=native['type_compare_calls']
+        assert before and len(before)==len(after),'recursive comparison call inventory differs'
+        root=global_integer('type_records');count=global_integer('type_record_count')
+        for left,right in zip(before,after):
+            offset=left['record']-root
+            assert 0<=offset<count*32 and offset%32==0,'recursive comparison record ownership differs'
+            expected={key:value for key,value in left.items() if key!='record'}
+            expected['record_index']=offset//32
+            assert 'different' in expected and expected==right,'recursive comparison operands/zero-result differ'
+            assert expected['different']==(expected['left']!=expected['right']),'recursive comparison result contradicts complete inputs'
+            type_compare_calls_checked+=1
     lookup_calls_checked=0
     if config.get('observe_global_type_lookup'):
         assert original['lookup_active_depth']==native['lookup_type_active_depth']==0,'unfinished global-type lookup observation'
@@ -924,4 +956,4 @@ def compare(config,data,events,native,artifacts=None,views=None):
                 offset=result-root
                 assert 0<=offset<count*32 and offset%32==0 and actual_result==other+offset,'global-type lookup returned record identity differs'
             lookup_calls_checked+=1
-    return dict(parameters=parameters,caller_state=caller_state,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)
+    return dict(parameters=parameters,caller_state=caller_state,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,type_compare_calls_checked=type_compare_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)

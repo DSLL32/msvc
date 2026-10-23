@@ -1,0 +1,25 @@
+{
+  "schema": 1,
+  "library_sha256": "e0a55e77c6005cacc86783688dd5d372bee6dda9c994493edbe583cd2b367be2",
+  "original_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "selected": [
+    {
+      "name": "import:memcmp",
+      "start": 4260646,
+      "end": 4260652,
+      "evidence": "cases/hello-debug-dll/memcmp-import-support.json"
+    }
+  ],
+  "kind": "Existing sixbyte IAT tail thunk only; no CRT reconstruction source or application credit.",
+  "original_bytes": "ff25fc614100",
+  "iat": 4284924,
+  "import_identity": {
+    "dll": "msvcrt.dll",
+    "name": "memcmp"
+  },
+  "reached_by": {
+    "function": "compare_recursive_type",
+    "callsite": 4228937,
+    "frontier_evidence": "cases/hello-debug-dll/evidence/0087-compare-recursive-type/original/events"
+  }
+}

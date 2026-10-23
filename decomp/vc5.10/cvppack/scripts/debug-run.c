@@ -565,6 +565,24 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
             fprintf(log, "lookup-type-return %lu %08lx %08lx\n", lookup_depth, context->Eax, output);
         }
     }
+    if (entry == 0x408749) {
+        DWORD args[3], left, right, cursor = context->Ecx;
+        unsigned char bytes[65536];
+        if (!read_bytes(process, context->Esp, args, sizeof(args)) || args[2] > sizeof(bytes) ||
+            !read_bytes(process, context->Esp + 36, &left, 4) ||
+            !read_bytes(process, context->Esp + 44, &right, 4) ||
+            args[0] != left + cursor || args[1] != right + cursor)
+            fprintf(log, "type-compare-failed\n");
+        else {
+            fprintf(log, "type-compare-call %08lx %lu %lu ", context->Edi, cursor, args[2]);
+            if (!read_bytes(process, args[0], bytes, args[2])) fprintf(log, "FAILED");
+            else for (i = 0; i < args[2]; ++i) fprintf(log, "%02x", bytes[i]);
+            fputc(' ', log);
+            if (!read_bytes(process, args[1], bytes, args[2])) fprintf(log, "FAILED");
+            else for (i = 0; i < args[2]; ++i) fprintf(log, "%02x", bytes[i]);
+            fputc('\n', log);
+        }
+    } else if (entry == 0x40874e) fprintf(log, "type-compare-return %lu\n", context->Eax != 0);
     widen_state(log, process, context, entry);
 }
 

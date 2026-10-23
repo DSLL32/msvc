@@ -6,11 +6,11 @@ Target: `toolchains/5.10/bin/CVPACK.EXE`; the requested folder spelling is
 
 `/help` is complete: status 1, 193 stdout bytes, no stderr, six application
 entries. The genuine embedded-CodeView `hello-debug-dll` case is in progress at
-`compare_recursive_type`, after resolving aliased global records. There are 86
-accepted application functions / 26,707 extent bytes, plus 752 associated switch-data
-bytes. This is 42.62% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
+`link_symbol_scopes`, after comparing recursive type records. There are 87
+accepted application functions / 27,384 extent bytes, plus 752 associated switch-data
+bytes. This is 43.70% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
 it is neither non-CRT nor executed-branch coverage. Four CRT bodies (400 bytes)
-and four import thunks (24 bytes) remain separate support.
+and five import thunks (30 bytes) remain separate support.
 
 ## Build and validation
 
@@ -48,7 +48,7 @@ master are specific to this toolchain; no VC1 output is reused.
 
 The current prefix compares 336 type records and all 384,000 initialized table
 bytes, buffer/record aliases, actual reads and allocations, complete mapped-file
-contents, defined symbol/source-module buffers, and 83 owned counted type-name
+contents, defined symbol/source-module buffers, and 87 owned counted type-name
 cache nodes with their bucket/segment aliases, plus initialized arena prefixes,
 global pointer slots and direct/pool interned-node ownership. Lookup outputs use actual DWORD caller storage; the recursive-reference helper shares its saved DWORD/WORD local through an explicit union. Earlier byte-schema scaffolds were rejected before the callee executed. Local/global symbol hash heads
 retain their actual shared public-arena nodes, full initialized records/padding

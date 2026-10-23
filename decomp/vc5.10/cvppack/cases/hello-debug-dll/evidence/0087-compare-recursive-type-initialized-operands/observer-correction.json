@@ -1,0 +1,13 @@
+{
+  "schema": 1,
+  "original_reused_unchanged": true,
+  "first_native": "native",
+  "first_failure": "*memcmp names IFUNCresolver, missing2calls; pairinventoryreject.",
+  "second_native": "native-plt-observer",
+  "second_failure": "Return-site temporarybreakpoint remainedactive and overwrote firstzero result at laterreturn; completeinputs/result guardreject.",
+  "corrected_native": "native-plt-finish",
+  "correction": "Actual memcmp@plt entry plus scoped FinishBreakpoint reads currentreturnedEAX; original/freshnative2completecalls agree.",
+  "unmodified_original_receipt_sha256": "805f1b3ae3192454398b8c00cdac32442febb9d528b55a349f001165c2318f6b",
+  "native_receipt_sha256": "a9a08a4427e0516c21910459305435844561498925b704bbfc7f5d6ef2531afd",
+  "observer_sha256": "61140979af078cc5339ceea8570132c9081c8780a61ad722b48d05b79437f705"
+}

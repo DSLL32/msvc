@@ -18,6 +18,7 @@ cleared_allocations=[]
 module_allocations=[]
 lookup_calls=[]
 lookup_stack=[]
+type_compare_calls=[]
 live_mappings={}
 def install(configuration):
     config=json.loads(Path(configuration).read_text())
@@ -188,6 +189,31 @@ def install(configuration):
                 LookupReturned(record,int(output));return False
         LookupEntered()
 
+    if config.get('observe_recursive_type_compare'):
+        class TypeCompareReturned(gdb.FinishBreakpoint):
+            def __init__(self,record):
+                self.record=record
+                super().__init__(gdb.newest_frame(),internal=True)
+            def stop(self):
+                self.record['different']=bool(int(gdb.newest_frame().read_register('eax')))
+                return False
+        class TypeCompareEntered(gdb.Breakpoint):
+            def __init__(self):super().__init__("*'memcmp@plt'",internal=True)
+            def stop(self):
+                frame=gdb.newest_frame();owner=frame.older()
+                if owner is None or owner.name()!='compare_recursive_type':return False
+                inferior=gdb.selected_inferior();stack=int(gdb.parse_and_eval('$esp'))
+                args=[int.from_bytes(bytes(inferior.read_memory(stack+4+i*4,4)),'little') for i in range(3)]
+                cursor=int(owner.read_var('cursor'));offset=int(owner.read_var('offset'))
+                assert args[0]==int(owner.read_var('data'))+cursor and args[1]==int(owner.read_var('other_data'))+cursor,'comparison actual operand aliases differ'
+                assert args[2]==((offset-cursor)&0xffff) and 0<args[2]<=65536,'comparison actual length differs'
+                root=int(gdb.parse_and_eval('type_records'));record=int(owner.read_var('record'));count=int(gdb.parse_and_eval('type_record_count'))
+                assert root<=record<root+count*32 and (record-root)%32==0,'comparison record ownership differs'
+                observed=dict(record_index=(record-root)//32,offset=cursor,size=args[2],
+                    left=bytes(inferior.read_memory(args[0],args[2])).hex(),right=bytes(inferior.read_memory(args[1],args[2])).hex())
+                type_compare_calls.append(observed);TypeCompareReturned(observed);return False
+        TypeCompareEntered()
+
 
 def capture(configuration,data_file,output):
     config=json.loads(open(configuration).read());data=json.loads(open(data_file).read())
@@ -344,8 +370,14 @@ def capture(configuration,data_file,output):
             owned=[row for row in image_allocations if row.get('owner')==item['owner']]
             assert len(owned)==1,'symbol output allocation lifetime differs'
             allocation=owned[0];offset=int(value)-allocation['address']
-            assert int(value)==int(gdb.parse_and_eval(item['cursor'])) and 0<=offset<=allocation['size']-item['write_size'],'symbol output argument ownership/extent differs'
-            parameters[item['name']]=dict(owner=item['owner'],offset=offset,capacity=allocation['size'],write_size=item['write_size'])
+            cursor=int(gdb.parse_and_eval(item['cursor']))
+            if item.get('base_argument'):
+                size=int(frame.read_var(item['size_name']))
+                assert offset==0 and 0<=size<=allocation['size'] and int(value)+size==cursor,'initialized symbol buffer ownership/extent differs'
+                parameters[item['name']]=dict(owner=item['owner'],offset=0,capacity=allocation['size'],size=size,bytes=bytes(inferior.read_memory(int(value),size)).hex())
+            else:
+                assert int(value)==cursor and 0<=offset<=allocation['size']-item['write_size'],'symbol output argument ownership/extent differs'
+                parameters[item['name']]=dict(owner=item['owner'],offset=offset,capacity=allocation['size'],write_size=item['write_size'])
         elif item['kind']=='global-pointer':
             address=int(value)
             if not address:
@@ -380,6 +412,7 @@ def capture(configuration,data_file,output):
     state['cleared_allocations']=cleared_allocations
     state['lookup_type_calls']=lookup_calls
     state['lookup_type_active_depth']=len(lookup_stack)
+    state['type_compare_calls']=type_compare_calls
     state['module_allocations']=module_allocations
     state['globals']={item['name']:bytes(inferior.read_memory(gdb.parse_and_eval('&('+item.get('native_expression',item['name'])+')'),item['size'])).hex() for item in data}
     if any(item.get('function_table') for item in data):

@@ -92,7 +92,8 @@
     "mark_recursive_type",
     "hash_type_reference",
     "index_recursive_type",
-    "lookup_global_type"
+    "lookup_global_type",
+    "compare_recursive_type"
   ],
   "functions": [
     {
@@ -2632,7 +2633,11 @@
           "owner": "rewrite_module_symbols",
           "allocation_site": 4237265,
           "cursor": "symbol_output",
-          "write_size": 0
+          "write_size": 0,
+          "base_argument": true,
+          "size_slot": 2,
+          "size_name": "size",
+          "native_pointee_width": 1
         },
         {
           "name": "size",
@@ -3069,8 +3074,11 @@
       "source_name": "compare_recursive_type",
       "native_symbol": "compare_recursive_type",
       "original": 4228688,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4228688,
+        4229365
+      ],
       "ret": 8,
       "parameters": [
         {
@@ -3101,7 +3109,8 @@
           "kind": "integer",
           "native_width": 4
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0087-compare-recursive-type-initialized-operands/promotion.json"
     },
     {
       "name": "intern_recursive_type",
@@ -3258,6 +3267,12 @@
       "start": 4261056,
       "end": 4261062,
       "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "import:memcmp",
+      "start": 4260646,
+      "end": 4260652,
+      "evidence": "cases/hello-debug-dll/memcmp-import-support.json"
     }
   ],
   "loader_data": [],
@@ -3430,5 +3445,6 @@
     }
   ],
   "require_native_argument_inventory": true,
-  "observe_global_type_lookup": true
+  "observe_global_type_lookup": true,
+  "observe_recursive_type_compare": true
 }

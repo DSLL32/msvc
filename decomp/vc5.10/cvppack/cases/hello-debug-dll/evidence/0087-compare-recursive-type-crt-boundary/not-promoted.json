@@ -1,0 +1,6 @@
+{
+  "schema": 1,
+  "promoted": false,
+  "reason": "Next initializedbase-buffer provisional contract wronglyrequired outputcursor; observer failed. No promotion.",
+  "corrected_pair": "0087-compare-recursive-type-initialized-operands"
+}

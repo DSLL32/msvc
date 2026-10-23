@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0086-lookup-global-type-arena-contract/original",
-  "reference_receipt_sha256": "5ede7d65b0ea1cf57a996c970fb6c90e0b7ca2158b61cabdc159d50e5954c14a",
+  "reference": "cases/hello-debug-dll/evidence/0087-compare-recursive-type-initialized-operands/original",
+  "reference_receipt_sha256": "805f1b3ae3192454398b8c00cdac32442febb9d528b55a349f001165c2318f6b",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -92,6 +92,7 @@
     "hash_type_reference",
     "index_recursive_type",
     "lookup_global_type",
-    "compare_recursive_type"
+    "compare_recursive_type",
+    "link_symbol_scopes"
   ]
 }
