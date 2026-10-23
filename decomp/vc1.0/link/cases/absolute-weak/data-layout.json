@@ -1,0 +1,42 @@
+{
+  "type": "External",
+  "bytes": 56,
+  "evidence": {
+    "original_allocation": "lookup_external25d3c push0x38,calloc1; original56-byte record",
+    "fields": [
+      {
+        "name": "flags",
+        "offset": 36,
+        "evidence": "process_weak2374c/237c3 and prior symbol logic"
+      },
+      {
+        "name": "mac_reference_section",
+        "offset": 40,
+        "evidence": "size_mac_jump_table399b0"
+      },
+      {
+        "name": "mac_jump_offset",
+        "offset": 44,
+        "evidence": "existing Mac jump-table serialization and relocation readers"
+      },
+      {
+        "name": "unused_tail",
+        "offset": 48,
+        "bytes": 2,
+        "evidence": "No encountered reader/writer. Typed unconsumed WORD separates known Mac DWORD and member WORD; no initial bytes copied."
+      },
+      {
+        "name": "archive_member",
+        "offset": 50,
+        "evidence": "define_external23c86,process_weak237ab,register_export3acfc"
+      },
+      {
+        "name": "weak_default",
+        "offset": 52,
+        "evidence": "process_weak237a0 and resolve_weak24af0..24b6f"
+      }
+    ]
+  },
+  "correction": "Previously compressed tail aliased member with Mac section and fallback with Mac jump offset. Separate contextual fields now preserve original allocation and known offsets. Entire previous native regression required after correction.",
+  "compile_time_checks": "sizeof56,offsetofMacSection40/member50/fallback52 in src/symbols.h"
+}

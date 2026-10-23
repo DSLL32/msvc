@@ -1,5 +1,6 @@
 #ifndef LINK_SYMBOLS_H
 #define LINK_SYMBOLS_H
+#include <stddef.h>
 #include "modules.h"
 #include <recon.h>
 
@@ -28,9 +29,16 @@ struct External {
     union { External *undefined_next; unsigned long symbol_index; } state;
     char *export_target;
     unsigned long flags;
-    union { unsigned short archive_member; Section *mac_reference_section; };
-    union { External *weak_default; unsigned long mac_jump_offset; };
+    Section *mac_reference_section;
+    unsigned long mac_jump_offset;
+    unsigned short unused_tail; /* Native +0x30 WORD has no encountered reader. */
+    unsigned short archive_member;
+    External *weak_default;
 };
+typedef char ExternalIs56[sizeof(External)==56?1:-1];
+typedef char ExternalMacSectionAt40[offsetof(External,mac_reference_section)==40?1:-1];
+typedef char ExternalMemberAt50[offsetof(External,archive_member)==50?1:-1];
+typedef char ExternalDefaultAt52[offsetof(External,weak_default)==52?1:-1];
 struct ExternalLink { External *external; ExternalLink *next; };
 typedef struct UndefinedEnumerator {
     unsigned char (*next)(struct UndefinedEnumerator *);

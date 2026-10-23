@@ -515,3 +515,35 @@ partial:156891 accepted target instruction bytes,26904 CRT,192 import thunks,
 The unclassified portion is not all padding. Both approved families are complete;
 worker pauses. remaining.json suggests FPO/symbol-map dumping and absolute/weak
 symbol resolution as possible next public-input cases, without starting them.
+
+FPO/absolute/weak checkpoint (774 frontiers)
+
+Four frozen cases close image/object FPO and symbol-map output, COFF weak/lazy/
+alias fallbacks, and /absolutesfrom parsing/nonmatching scan. Seven whole C
+functions add2103 instruction bytes plus26 alignment (2129 accepted extents).
+Original FPO units, symbol iteration and size-display quirks remain unchanged.
+The56-byte External tail now separates Mac section/jump and member/fallback;
+compile-time offsets and all previous Mac/import output regressions pass.
+
+The absolute reader's matching-undefined backlink corruption and forced-relocated
+process-pointer leak remain rejected exact evidence, without code/pointer
+normalization or target repair. Final /include forced-unresolved input contains
+no relocation to that symbol; its actualLNK4016 and stable image/map match.
+
+All35 native cases/600 app entries pass; final single sample2.123s external,
+1.931s case loop,0.103s trace setup. Summed setup0.418s/execution0.243s/oracle1.250s
+and trace checks0.004s. Audits pass626 graphs/617 callbacks/455 data/780 boundaries/
+41 ECX cleanup. Original compilation passed separately; final native-trace/static
+audit rebuild17.625s. Earlier17.183s build and2.121s suite are retained explicitly:
+a final empty-source EOF whitespace rebuild produced the final hashed artifact.
+Intermediate original/native build times were not all measured.
+
+Union224207/281634=79.6094%,774 frontiers. Partial checked target inventory has
+161231 accepted instruction bytes,CRT26904/import192; contextual inline1784,
+alignment2477,accepted unclassified31619. Unclassified is not all padding.
+New dump CFG accounting backfills2237 already-accepted instruction bytes absent
+from the old inventory, separate from the2103-byte reconstruction gain.
+
+cases/absolute-weak/family-validation.json contains evidence/accounting. Both
+selected reconstruction families are complete. User-authorized shared-prefix/
+path-reference migration is next, before the idle prompt or another code case.

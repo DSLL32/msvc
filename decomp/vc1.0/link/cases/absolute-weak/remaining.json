@@ -1,0 +1,68 @@
+{
+  "status": "Suggestions only after user-authorized prefix migration; no extra reconstruction started.",
+  "current": {
+    "frontiers": 774,
+    "extent_bytes": 224207,
+    "text_bytes": 281634,
+    "percent": 79.60935114368294
+  },
+  "recommendations": [
+    {
+      "rank": 1,
+      "case": "Ordinary public OMF conversion with COMDEF, BAKPAT/NBKPAT, LINNUM and LPUBDEF records",
+      "known_uncovered_instruction_bytes": 927,
+      "functions": [
+        {
+          "start": "0x45470",
+          "name": "_omf_record_common",
+          "bytes": 211
+        },
+        {
+          "start": "0x46a10",
+          "name": "_omf_record_named_backpatch",
+          "bytes": 204
+        },
+        {
+          "start": "0x46ae0",
+          "name": "_omf_record_backpatch",
+          "bytes": 197
+        },
+        {
+          "start": "0x45e60",
+          "name": "_omf_record_lines",
+          "bytes": 186
+        },
+        {
+          "start": "0x46020",
+          "name": "_omf_record_local_publics",
+          "bytes": 129
+        }
+      ],
+      "evidence": "Accepted read_omf_records switch calls these handlers directly for94/b0/b2/b6/b8/c8 record types. Known native body ranges from analysis/native-body-inventory.tsv. Valid inputs and actual debug subbranches need original validation; no gain promised."
+    },
+    {
+      "rank": 2,
+      "case": "Large defined-external COFF corpus plus wildcard object inputs",
+      "known_uncovered_instruction_bytes": 591,
+      "functions": [
+        {
+          "start": "0x26860",
+          "name": "_expand_hash",
+          "bytes": 417
+        },
+        {
+          "start": "0x20630",
+          "name": "_expand_wildcards",
+          "bytes": 174
+        }
+      ],
+      "evidence": "Accepted find_hash_entry expands above element_count/bucket_count3.0; initialize_hash starts1024 buckets, so more than3072 distinct names tests splitting. Accepted process_argument dispatches ?/* to wildcard helper. Public original-valid case must precede reconstruction."
+    }
+  ],
+  "limits": [
+    "OMF total9800-byte known closure includes internal -g debug conversion not requested by normal public -o/-co wrapper. Suggestions avoid claiming all9800 public-reachable.",
+    "Undecorator57-byte merge-error remains suppression-only under public flags0x800; name variants alone cannot reach it.",
+    "Partial native/CRT/import/padding inventory is not a whole-target body denominator.",
+    "Both currently selected reconstruction families complete; prefix migration is authorized next before idle."
+  ]
+}

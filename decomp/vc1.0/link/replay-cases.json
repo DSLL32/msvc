@@ -296,6 +296,46 @@
         "code": 0
       },
       "reason": "Repeated untouched-original COFF grammar input before native reconstruction acceptance."
+    },
+    {
+      "case": "dump-fpo-map",
+      "mode": "native",
+      "status": "complete",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Repeat original dump output frozen before reconstruction."
+    },
+    {
+      "case": "absolute-weak",
+      "mode": "native",
+      "status": "complete",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Repeat untouched-original inputs/outputs frozen before reconstruction."
+    },
+    {
+      "case": "dump-fpo-object",
+      "mode": "native",
+      "status": "complete",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Zero-new-frontier object FPO route, frozen original output before fresh check."
+    },
+    {
+      "case": "absolute-weak-unmatched",
+      "mode": "native",
+      "status": "complete",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Original repeat-stable public include/unmatched scan; no relocated undefined pointer."
     }
   ]
 }

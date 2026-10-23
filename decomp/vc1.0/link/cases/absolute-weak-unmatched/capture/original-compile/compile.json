@@ -1,0 +1,12 @@
+{
+  "arguments": [
+    "/nologo",
+    "/c",
+    "/Od",
+    "/G3",
+    "weak.c",
+    "values.c"
+  ],
+  "exit": 0,
+  "seconds": 1.4998662611469626
+}

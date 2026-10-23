@@ -1249,3 +1249,98 @@ void dump_base_relocation_block(IMAGE_BASE_RELOCATION *block,unsigned short *fix
         else fprintf(map_stream,"\n");
     }
 }
+
+/* Original [000344c0,00034620). FPO records retain their native DWORD units. */
+void dump_fpo(IMAGE_SECTION_HEADER *section)
+{
+    unsigned long size=locate_fpo_data(section),count,index;
+    FPO_DATA *records,*record;
+    PIMAGE_SYMBOL symbol;
+    if (!size) return;
+    count=size>>4;
+    fprintf(map_stream,"\nFPO Data (%ld)\n",count);
+    records=malloc(size+16);
+    if (!records) out_of_memory();
+    read_file(input_file,records,size);
+    fprintf(map_stream," Address  Proc Size   Locals   Prolog  UseBP   Parameters\n\n");
+    for (record=records;count;--count,++record) {
+        fprintf(map_stream,"%8x   %8x %8x %8x     %d          %4x     ",
+            record->ulOffStart,record->cbProcSize,record->cdwLocals,
+            record->cbProlog,record->fUseBP,record->cdwParams<<2);
+        if (dump_symbol_table && dump_image->file.SizeOfOptionalHeader) {
+            for (index=0,symbol=dump_symbol_table;index<dump_image->file.NumberOfSymbols;
+                ++index,++symbol) {
+                if (symbol->Value==record->ulOffStart &&
+                    (symbol->StorageClass==IMAGE_SYM_CLASS_EXTERNAL ||
+                     (symbol->StorageClass==IMAGE_SYM_CLASS_STATIC && (symbol->Type&0x30)==0x20))) {
+                    print_dump_symbol_name(map_stream,"%s",symbol);
+                    break;
+                }
+            }
+        }
+        fprintf(map_stream,"\n");
+    }
+    free(records);
+}
+
+/* Original [00034620,00034725). Successful return leaves file at FPO records. */
+unsigned long locate_fpo_data(IMAGE_SECTION_HEADER *section)
+{
+    IMAGE_DEBUG_DIRECTORY directory;
+    unsigned long count;
+    if (!dump_image->file.SizeOfOptionalHeader) {
+        if (strncmp(".debug$F",(char *)section->Name,8)) return 0;
+        seek_file(input_file,section->PointerToRawData+archive_data_offset,SEEK_SET);
+        return section->SizeOfRawData;
+    }
+    if (!dump_image->optional.DataDirectory[IMAGE_DIRECTORY_ENTRY_DEBUG].VirtualAddress)
+        return 0;
+    seek_file(input_file,section->PointerToRawData-section->VirtualAddress+
+        dump_image->optional.DataDirectory[IMAGE_DIRECTORY_ENTRY_DEBUG].VirtualAddress+
+        archive_data_offset,SEEK_SET);
+    count=dump_image->optional.DataDirectory[IMAGE_DIRECTORY_ENTRY_DEBUG].Size/
+        sizeof(directory);
+    while (count) {
+        read_file(input_file,&directory,sizeof(directory));
+        if (directory.Type==IMAGE_DEBUG_TYPE_FPO) break;
+        --count;
+    }
+    /* Native code tests the last local record even for a zero-entry directory. */
+    if (directory.Type!=IMAGE_DEBUG_TYPE_FPO) return 0;
+    seek_file(input_file,directory.PointerToRawData+archive_data_offset,SEEK_SET);
+    return directory.SizeOfData;
+}
+
+/* Original [00032fc0,00033109). Keep original adjacent-record size estimate. */
+void dump_symbol_map(void)
+{
+    PIMAGE_SYMBOL cursor=dump_symbol_table,symbol;
+    unsigned long index=0,size;
+    unsigned short auxiliary;
+    char short_name[9]={0};
+    const char *name;
+    IMAGE_SECTION_HEADER *section;
+    fprintf(map_stream,"\nSYMBOL MAP\n");
+    while (index<dump_image->file.NumberOfSymbols) {
+        ++index;
+        symbol=next_coff_symbol(&cursor,0);
+        auxiliary=symbol->NumberOfAuxSymbols;
+        index+=auxiliary;
+        while (auxiliary--) next_coff_symbol(&cursor,1);
+        if (symbol->SectionNumber>0 && symbol->StorageClass==IMAGE_SYM_CLASS_EXTERNAL) {
+            if (symbol->N.Name.Short) name=strncpy(short_name,(char *)symbol,8);
+            else name=coff_strings+symbol->N.Name.Long;
+            if (*name=='_') ++name;
+            fprintf(map_stream,"%-48.48s, %08lx",name,symbol->Value);
+            fflush(map_stream);
+            if (index+1<dump_image->file.NumberOfSymbols &&
+                cursor->SectionNumber==symbol->SectionNumber)
+                size=cursor->Value-symbol->Value;
+            else {
+                section=dump_section_headers+symbol->SectionNumber-1;
+                size=section->SizeOfRawData+section->VirtualAddress-symbol->Value;
+            }
+            fprintf(map_stream," , %8lu\n",size);
+        }
+    }
+}

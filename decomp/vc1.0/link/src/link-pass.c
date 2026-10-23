@@ -1,8 +1,9 @@
 /* Output layout and emission around the two linker passes. */
 #include "link-pass.h"
 #include "dos-stub.h"
+#include "archive.h"
 #include <recon.h>
-#pragma intrinsic(strlen)
+#pragma intrinsic(strlen,strcmp)
 SectionDefault readonly_section_defaults={".rdata",0x40000040UL};
 SectionDefault bss_section_defaults={".bss",0xc0000080UL};
 SectionDefault debug_section_defaults={".debug",0x42000048UL};
@@ -10,7 +11,7 @@ SectionDefault idata_directory_defaults={".idata$2",0xc0000048UL};
 SectionDefault reloc_section_defaults={".reloc",0x42000040UL};
 BaseFixup *base_fixup_next,*base_fixups;
 unsigned long codeview_start,codeview_end,undefined_symbols;
-External **sorted_externals;
+ExternalLink *sorted_externals;
 unsigned long symbol_table_file_offset;
 ComdatNode *comdat_nodes;
 ComdatRoot *comdat_roots;
@@ -35,6 +36,7 @@ extern unsigned char debug_requested;
 extern char *output_name,*dos_stub_template;
 extern unsigned long dos_stub_size;
 extern FILE *map_stream;
+extern char *coff_strings;
 
 
 /* The ROM optional header used by the MIPS output format. */
@@ -608,4 +610,77 @@ unsigned char emit_symbol_class(unsigned char storage_class,ImageOptions *option
     default:
         return options->debug_level==3;
     }
+}
+
+/* Original [00024b70,00024bee). Undefined entries retain name-sort order. */
+void sort_externals(SymbolTable *table)
+{
+    unsigned long count=count_externals(table);
+    External **entries=get_externals_by_name(table),*external;
+    ExternalLink *node,**tail;
+    while (count--) {
+        external=*entries++;
+        if (!(external->flags&EXTERNAL_DEFINED)) {
+            node=malloc(sizeof(*node));
+            if (!node) out_of_memory();
+            /* The native one-shot builder starts with a zero global head. */
+            if (!sorted_externals) sorted_externals=node;
+            else *tail=node;
+            tail=&node->next;
+            node->external=external;
+            *tail=NULL;
+        }
+    }
+}
+
+/* Original [000248e0,00024ae3). Read the external values from a COFF object. */
+void read_absolute_symbols(const char *file,ExternalLink *remaining,SymbolTable *table)
+{
+    IMAGE_FILE_HEADER header;
+    PIMAGE_SYMBOL records,cursor,symbol;
+    ExternalLink *scan;
+    unsigned long length,index=0;
+    unsigned short auxiliary;
+    unsigned char found;
+    char short_name[9];
+    const char *name,*other;
+    short_name[8]=0;
+    archive_member_size=archive_data_offset=0;
+    input_file=open_file(file,0x8000,0);
+    read_coff_header(input_file,&header);
+    coff_strings=read_coff_strings(file,header.PointerToSymbolTable+
+        header.NumberOfSymbols*18+archive_data_offset,&length);
+    records=cursor=read_coff_symbols(header.PointerToSymbolTable+archive_data_offset,
+        header.NumberOfSymbols);
+    while (remaining && index!=header.NumberOfSymbols) {
+        symbol=next_coff_symbol(&cursor,0);
+        if (symbol->StorageClass==IMAGE_SYM_CLASS_EXTERNAL) {
+            if (symbol->N.Name.Short) name=strncpy(short_name,(char *)symbol,8);
+            else name=coff_strings+symbol->N.Name.Long;
+            found=0;
+            for (scan=remaining;scan;scan=scan->next) {
+                if (scan->external->symbol.N.Name.Short)
+                    other=strncpy(short_symbol_name,(char *)&scan->external->symbol,8);
+                else other=table->strings.data+scan->external->symbol.N.Name.Long;
+                if (!strcmp(name,other)) { found=1; break; }
+            }
+            if (found) {
+                /* Preserve two native defects: update the head rather than scan,
+                   and overwrite the undefined backlink before the status setter.
+                   The rejected matching probe demonstrates the resulting AV. */
+                remaining->external->value.final_value=symbol->Value;
+                remaining->external->symbol.Value=remaining->external->value.final_value;
+                remaining->external->symbol.SectionNumber=-1;
+                set_external_defined(remaining->external,1,table);
+                remaining=remaining->next;
+            }
+        }
+        ++index;
+        auxiliary=symbol->NumberOfAuxSymbols;
+        index+=auxiliary;
+        while (auxiliary--) next_coff_symbol(&cursor,1);
+    }
+    release_coff_strings(coff_strings);
+    release_coff_symbols(records);
+    close_file(input_file,1);
 }

@@ -1,0 +1,19 @@
+trap 00024b70 exception 80000003 esp 0029fa30 eax 007d0610 ecx 007d9f40 edx 007d9f01
+stack 00 0001a98b
+stack 01 007d0610
+stack 02 0029ff0c
+stack 03 00000000
+stack 04 00000200
+stack 05 3fff1000
+stack 06 0001aaa4
+stack 07 75626564
+stack 08 6f6e3a67
+stack 09 00000000
+stack 10 61763a00
+stack 11 7365756c
+stack 12 6a626f2e
+stack 13 0007aa00
+stack 14 00000000
+stack 15 0000000a
+stack 16 00000000
+exit 99

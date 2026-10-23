@@ -1,0 +1,19 @@
+trap 00034620 exception 80000003 esp 0029fa64 eax 0029fad0 ecx 00004200 edx 0029fad0
+stack 00 000344d1
+stack 01 0029fad0
+stack 02 007b006f
+stack 03 0029faf8
+stack 04 007d69d4
+stack 05 00000000
+stack 06 0007dd74
+stack 07 0003207d
+stack 08 0029fad0
+stack 09 007b006f
+stack 10 007d084c
+stack 11 00000001
+stack 12 00000000
+stack 13 000025c4
+stack 14 000025c2
+stack 15 00000003
+stack 16 00000000
+exit 99

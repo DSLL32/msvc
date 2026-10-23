@@ -3,8 +3,6 @@
 #include "codeview.h"
 #include <recon.h>
 char * replace_extension(const char *name,const char *extension) { __asm { int 3 } return 0; }
-void sort_externals(SymbolTable *table) { __asm { int 3 } }
-void read_absolute_symbols(const char *file,External **sorted,SymbolTable *table) { __asm { int 3 } }
 void resolve_entry_symbol(SymbolTable *table) { __asm { int 3 } }
 void dump_symbols(SymbolTable *table) { __asm { int 3 } }
 void emit_rom_relocations(void) { __asm { int 3 } }

@@ -1,0 +1,25 @@
+{
+  "status": "Rejected, not a regression fixture",
+  "reason": "Forced undefined DIR32 relocation serializes External.value.previous process pointer. Exact output differs across original launch/catalog allocation and native. No pointer normalization; preserved every prior expected artifact.",
+  "comparisons": [
+    {
+      "side": "original",
+      "unpermitted_difference_offsets": [
+        561
+      ],
+      "reference_operand": "ac047e00",
+      "actual_operand": "b8047e00"
+    },
+    {
+      "side": "native",
+      "unpermitted_difference_offsets": [
+        561,
+        562,
+        563
+      ],
+      "reference_operand": "ac047e00",
+      "actual_operand": "00100100"
+    }
+  ],
+  "new_case": "absolute-weak-unmatched will use public /include with no fixup to that symbol"
+}

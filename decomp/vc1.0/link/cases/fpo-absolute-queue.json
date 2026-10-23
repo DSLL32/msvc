@@ -1,0 +1,33 @@
+{
+  "authorization": "User selected both suggestions after767-frontier checkpoint; parent dispatch2026-10-23.",
+  "baseline": {
+    "commit": "5893277",
+    "accepted_frontiers": 767,
+    "accepted_extent_bytes": 222078,
+    "text_bytes": 281634,
+    "completed_native_cases": 31
+  },
+  "order": [
+    {
+      "family": "fpo-symbol-map",
+      "status": "complete",
+      "known_opportunity_bytes": 936,
+      "cases": [
+        "dump-fpo-map",
+        "dump-fpo-object"
+      ]
+    },
+    {
+      "family": "absolutesfrom-weak-aliases",
+      "status": "complete",
+      "known_opportunity_bytes": 1043,
+      "cases": [
+        "absolute-weak",
+        "absolute-weak-unmatched"
+      ],
+      "limits": "Matching undefined values cause original backlink AV; forced relocated undefined symbol leaks a process pointer. Both probes rejected/preserved. Final public include/no-relocation case exercises successful nonmatching scan."
+    }
+  ],
+  "method": "Native i386 -O0 -g/GDB and cached-only fixtures. Explicit untouched-original validation outside fixture execution; original compiler and graph/ABI/data/boundary audits. Shared shims parent-owned.",
+  "stop": "Pause after both families complete; no unapproved extra cases."
+}

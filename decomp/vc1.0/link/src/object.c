@@ -413,3 +413,42 @@ void mark_import_contributions(Module *module)
         if (!strncmp(contributions.current->group->name,".idata",6))
             contributions.current->rva=1;
 }
+
+/* Original [00023660,00023803). Consume the single weak-external auxiliary. */
+void process_weak_external(SymbolTable *table,PIMAGE_SYMBOL *cursor,PIMAGE_SYMBOL symbol,
+    External *external,Module *module,unsigned char *new_externals,unsigned char created,
+    unsigned char *imports,unsigned short member)
+{
+    PIMAGE_AUX_SYMBOL auxiliary;
+    IMAGE_SYMBOL fallback;
+    unsigned long position,search;
+    const char *name;
+    char display[264];
+    if (symbol->NumberOfAuxSymbols!=1) {
+        format_module_name(module,display);
+        if (external->symbol.N.Name.Short)
+            name=strncpy(short_symbol_name,(char *)&external->symbol,8);
+        else name=table->strings.data+external->symbol.N.Name.Long;
+        fatal_message(display,0x20,name);
+    }
+    auxiliary=(PIMAGE_AUX_SYMBOL)next_coff_symbol(cursor,1);
+    --symbol->NumberOfAuxSymbols;
+    position=tell_file(input_file);
+    seek_file(input_file,module->symbol_offset+auxiliary->Sym.TagIndex*18+
+        archive_data_offset,SEEK_SET);
+    read_coff_symbol(input_file,&fallback);
+    /* The ordinary COFF auxiliary union stores weak search characteristics at4. */
+    search=auxiliary->Sym.Misc.TotalSize;
+    if (created || (!(external->flags&EXTERNAL_DEFINED) && search==3)) {
+        ++weak_symbol_count;
+        external->symbol.StorageClass=IMAGE_SYM_CLASS_WEAK_EXTERNAL;
+        name=fallback.N.Name.Short?(char *)&fallback:coff_strings+fallback.N.Name.Long;
+        external->weak_default=lookup_external(table,(unsigned short)(fallback.N.Name.Short!=0),
+            name,new_externals,imports);
+        external->archive_member=member;
+        if (search==1) external->flags|=EXTERNAL_WEAK;
+        else if (search==2) external->flags|=EXTERNAL_LAZY;
+        else if (search==3) external->flags|=EXTERNAL_ALIAS;
+    }
+    seek_file(input_file,position,SEEK_SET);
+}

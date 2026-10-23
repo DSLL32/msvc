@@ -20,6 +20,10 @@ ROOT = BINARY.parents[2]
 FIXTURES = BINARY.parent / 'fixtures'
 CASES = {
     'help': None,
+    'absolute-weak-unmatched': (BINARY/'cases/absolute-weak-unmatched','link'),
+    'absolute-weak': (BINARY/'cases/absolute-weak','link'),
+    'dump-fpo-object': (BINARY/'cases/dump-fpo-object','dump'),
+    'dump-fpo-map': (BINARY/'cases/dump-fpo-map','dump'),
     'cpp-pointer-status': (BINARY/'cases/cpp-pointer-status','dump'),
     'cpp-template-status': (BINARY/'cases/cpp-template-status','dump'),
     'cpp-based-vbtable': (BINARY/'cases/cpp-based-vbtable','dump'),

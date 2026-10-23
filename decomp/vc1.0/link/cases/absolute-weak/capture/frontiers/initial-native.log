@@ -1,0 +1,23 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565a7040 in process_weak_external (table=0x565fd1a0, cursor=0xffffd238, symbol=0x56602072, external=0x56606a90, module=0x56600a90, new_externals=0x0, created=1 '\001', imports=0xffffd217 "", member=0) at src/object-stubs.c:8
+8	void process_weak_external(SymbolTable *table,PIMAGE_SYMBOL *cursor,PIMAGE_SYMBOL symbol,External *external,Module *module,unsigned char *new_externals,unsigned char created,unsigned char *imports,unsigned short member) { __asm { int 3 } }
+#0  0x565a7040 in process_weak_external (table=0x565fd1a0, cursor=0xffffd238, symbol=0x56602072, external=0x56606a90, module=0x56600a90, new_externals=0x0, created=1 '\001', imports=0xffffd217 "", member=0) at src/object-stubs.c:8
+#1  0x5659d849 in process_object_symbols (image=0x565fd040, module=0x56600a90, new_externals=0x0, import_symbols=0x0, records=0x56601fd0, member=0) at src/object.c:344
+#2  0x5659ca0d in process_object (image=0x565fd040, new_externals=0x0, symbols_changed=0x0, module=0x56600a90, explicit_input=1 '\001', member=0) at src/object.c:30
+#3  0x56595a97 in process_input_argument (argument=0x565fe560, image=0x565fd040) at src/pass-one.c:83
+#4  0x565956cd in pass_one (image=0x565fd040) at src/pass-one.c:37
+#5  0x56591fa5 in link_passes (image=0x565fd040, pack=0xffffd507 <incomplete sequence \367>) at src/link-pass.c:96
+#6  0x5657e5b5 in linker_main (argc=10, argv=0xffffd934) at src/linker.c:65
+#7  0x56559e0d in main (argc=10, argv=0xffffd934) at src/link.c:72
+table = 0x565fd1a0
+cursor = 0xffffd238
+symbol = 0x56602072
+external = 0x56606a90
+module = 0x56600a90
+new_externals = 0x0
+created = 1 '\001'
+imports = 0xffffd217 ""
+member = 0

@@ -766,7 +766,14 @@
     "_demangle_status_write",
     "_demangle_name_plus_status",
     "_demangle_name_assign_status",
-    "_demangle_prepend_status"
+    "_demangle_prepend_status",
+    "_dump_fpo",
+    "_locate_fpo_data",
+    "_dump_symbol_map",
+    "_process_weak_external",
+    "_resolve_weak_externals",
+    "_sort_externals",
+    "_read_absolute_symbols"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1602,26 +1609,29 @@
     {
       "name": "_read_absolute_symbols",
       "start": 149728,
-      "end": 149729,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(const char *file,External **sorted,SymbolTable *table)"
+      "end": 150243,
+      "implementation": "C",
+      "source": "src/link-pass.c",
+      "abi": "cdecl void(const char *,ExternalLink *,SymbolTable *)",
+      "evidence": "Fresh absolute-entry248e0/native reader matches values.obj/NULL list; additional force scan-entry confirms non-NULL list. Whole515-byte extent contains511 known instruction bytes; inline strcmp, COFF reads/releases and native head/backlink write defects retained. Normal fresh final matches full streams/PE/map beyond only identified clocks. Forced relocated variant rejected for serialized process-pointer leak; no acceptance from its failed output."
     },
     {
       "name": "_resolve_weak_externals",
       "start": 150256,
-      "end": 150257,
-      "implementation": "stub-C",
-      "source": "src/pass-stubs.c",
-      "abi": "cdecl void(SymbolTable *symbols,unsigned long flags)"
+      "end": 150383,
+      "implementation": "C",
+      "source": "src/symbols.c",
+      "abi": "cdecl void(SymbolTable *symbols,unsigned long flags)",
+      "evidence": "Fresh resolve-entry24af0/native method agrees flags0x40; whole127-byte C body follows existing external enumeration and copies only already-defined defaults, retaining status setter call order. Fresh sort-entry24b70/native sort_externals agrees partial streams after weak/lazy/alias passes."
     },
     {
       "name": "_sort_externals",
       "start": 150384,
-      "end": 150385,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(SymbolTable *table)"
+      "end": 150510,
+      "implementation": "C",
+      "source": "src/link-pass.c",
+      "abi": "cdecl void(SymbolTable *table)",
+      "evidence": "Fresh sort-entry24b70/native sort_externals agrees; whole126-byte extent includes124 instruction bytes and2 alignment. Typed8-byte ExternalLink cells and native one-shot tail behavior. Fresh absolute-entry248e0/native read_absolute_symbols agrees file values.obj/NULL list and partial streams."
     },
     {
       "name": "_emit_symbol_class",
@@ -2828,10 +2838,11 @@
     {
       "name": "_process_weak_external",
       "start": 144992,
-      "end": 144993,
-      "implementation": "stub-C",
-      "source": "src/object-stubs.c",
-      "abi": "cdecl void(SymbolTable *table,PIMAGE_SYMBOL *cursor,PIMAGE_SYMBOL symbol,External *external,Module *module,unsigned char *new_externals,unsigned char created,unsigned char *imports,unsigned short member)"
+      "end": 145411,
+      "implementation": "C",
+      "source": "src/object.c",
+      "abi": "cdecl void(SymbolTable *table,PIMAGE_SYMBOL *cursor,PIMAGE_SYMBOL symbol,External *external,Module *module,unsigned char *new_externals,unsigned char created,unsigned char *imports,unsigned short member)",
+      "evidence": "Fresh initial23660/native process_weak_external matches9 cdecl arguments including created1/member0. Complete419-byte C extent preserves405 instruction-byte logic, aux-count mutation, fallback file reads, weak/lazy/alias flags and restore seek. Fresh resolve-entry24af0 matches flags0x40 and partial streams. External tail now56 bytes with independent native member50/fallback52."
     },
     {
       "name": "_define_external",
@@ -4696,10 +4707,11 @@
     {
       "name": "_dump_symbol_map",
       "start": 208832,
-      "end": 208833,
-      "source": "src/dump-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl void(void)"
+      "end": 209161,
+      "source": "src/dump.c",
+      "implementation": "C",
+      "abi": "cdecl void(void)",
+      "evidence": "Fresh map-entry32fc0/native dump_symbol_map matched exact partial streams and4155 dump bytes. Final complete masked-original/native GDB run exits0 and matches stdout/stderr/full17790-byte file. Whole329-byte body retains aux walking, underscore removal, fflush and adjacent-record/section-end size estimate."
     },
     {
       "name": "_dump_coff_symbols",
@@ -4731,10 +4743,11 @@
     {
       "name": "_dump_fpo",
       "start": 214208,
-      "end": 214209,
-      "implementation": "stub-C",
-      "source": "src/dump-stubs.c",
-      "abi": "cdecl void(IMAGE_SECTION_HEADER *)"
+      "end": 214560,
+      "implementation": "C",
+      "source": "src/dump.c",
+      "abi": "cdecl void(IMAGE_SECTION_HEADER *)",
+      "evidence": "Fresh initial344c0/native dump_fpo logical match; redirected-stderr mismatch preserved and fixed in shared CRT from runtime state. New locate-entry pair34620/native locate_fpo_data has exact partial streams. Complete352-byte C body preserves allocation+16,56 record printing and symbol scan graph."
     },
     {
       "name": "_dump_debug_directory",
@@ -7750,6 +7763,15 @@
       "source": "src/mac-object.c",
       "abi": "cdecl int(const void *,const void *)",
       "evidence": "Matched original370d0/native named key callback after splitting byte-identical qsort37070 vertex. Complete35-byte unsigned-key comparator. Fresh next38c50/native apply_mac_special_relocation trapped stub agrees logical entry and exact partial streams."
+    },
+    {
+      "name": "_locate_fpo_data",
+      "start": 214560,
+      "end": 214821,
+      "source": "src/dump.c",
+      "implementation": "C",
+      "abi": "cdecl unsigned long(IMAGE_SECTION_HEADER *)",
+      "evidence": "Fresh locate-entry pair matches34620/native locator; complete261-byte extent contains255 instructions and6 alignment. New map-entry pair32fc0/native dump_symbol_map agrees partial streams and4155 on-disk dump bytes. Native IMAGE_DEBUG_DIRECTORY walking and object .debug$F routes retained."
     }
   ],
   "c_stub_references": [
@@ -8522,6 +8544,13 @@
     "cpp-template-status",
     "cpp-template-status",
     "cpp-template-status",
-    "cpp-pointer-status"
+    "cpp-pointer-status",
+    "dump-fpo-map",
+    "dump-fpo-map",
+    "dump-fpo-map",
+    "absolute-weak",
+    "absolute-weak",
+    "absolute-weak",
+    "absolute-weak"
   ]
 }

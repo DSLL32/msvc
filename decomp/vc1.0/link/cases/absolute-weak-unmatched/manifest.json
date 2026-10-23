@@ -1,0 +1,107 @@
+{
+  "case": "absolute-weak-unmatched",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "link": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-link",
+        "/nodefaultlib",
+        "/force",
+        "/include:_absolute_value",
+        "/entry:entry",
+        "/subsystem:console",
+        "/absolutesfrom:values.obj",
+        "/out:weak.exe",
+        "/map:weak.map",
+        "/debug:none",
+        "weak.obj"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "inputs": [
+        {
+          "path": "inputs/weak.obj",
+          "bytes": 532,
+          "sha256": "8748c94928e39f35cd61dc06468d4d639deb33ab244a876de49c33e18296283a"
+        },
+        {
+          "path": "inputs/values.obj",
+          "bytes": 208,
+          "sha256": "6fed169fe8bcae2be59ca780ea9ac0cd5c08e231985edaeca13b5a5d62bde941"
+        },
+        {
+          "path": "inputs/link.err",
+          "bytes": 6426,
+          "sha256": "723e3ab6f48831990bd6c8938955839774865c764489573e3a2f4c7aed2bac1d"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/weak.exe",
+          "output_name": "weak.exe",
+          "artifact_kind": "plain-pe",
+          "bytes": 2097152,
+          "sha256": "e30190283f4cd936aee670ffee7807e0a72fc2d391afa68bf15b0971099832f4",
+          "normalized_sha256": "11c3bbe7230369be06303903117c8413d0ad9e83e0f11776d4cc9193072729f1",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            }
+          ]
+        },
+        {
+          "path": "expected/weak.map",
+          "output_name": "weak.map",
+          "artifact_kind": "map",
+          "bytes": 713,
+          "sha256": "6c7664dfed96e639a70ba9e2e6cc51e8ec7b41683c98b40af99ff8afd7e77f1e",
+          "normalized_sha256": "d45e5e52651c44fde1b36e10086701dc661bc56a58767856a621d48dcbdcb319",
+          "ignored_fields": [
+            {
+              "offset": 23,
+              "bytes": 8,
+              "name": "Map PE timestamp hexadecimal"
+            },
+            {
+              "offset": 33,
+              "bytes": 24,
+              "name": "Map timestamp ctime rendering"
+            }
+          ]
+        }
+      ],
+      "expected_stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\nLINK : warning LNK4016: unresolved external symbol \"_absolute_value\"\r\n",
+      "expected_stderr": ""
+    }
+  },
+  "provenance": {
+    "scope": "Three weak/lazy/alias metadata records preserve original compiler instruction bytes. Public /include:_absolute_value retains an unmatched undefined external with NO relocation referencing it. /force emits actualLNK4016 and still creates stable image. No process-pointer serialization and no pointer normalization.",
+    "generator": {
+      "path": "scripts/build-absolute-weak-input.py",
+      "bytes": 3083,
+      "sha256": "4dbf736a99a2dbc423e2a9f8e3476943004c81552015396857eeb20e82f2b776"
+    },
+    "generator_arguments": [
+      "compile-directory",
+      "output-directory",
+      "--unmatched"
+    ],
+    "capture": "Two explicit untouched-original-only successful links match streams/artifacts except structurally identified PE/map timestamps.",
+    "limits": "Companion values.obj external renamed _unmatched_name; reader scans nonmatching list. Matching undefined branch still has native backlink corruption, retained separately as rejected evidence.",
+    "catalog": "Original bin/LINK.ERR frozen explicitly. Original captures read same bytes beside original LINK.EXE. Native case copies it beside canonical native program path."
+  }
+}

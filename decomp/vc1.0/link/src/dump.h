@@ -19,6 +19,8 @@ void dump_headers(const char *,unsigned char);
 void dump_string_table(const char *);
 void dump_sections(void);
 void dump_symbol_map(void);
+unsigned long locate_fpo_data(IMAGE_SECTION_HEADER *);
+void dump_fpo(IMAGE_SECTION_HEADER *);
 void dump_coff_symbols(void);
 typedef struct DumpStringTable { char *data; unsigned long size; } DumpStringTable;
 extern DumpStringTable dump_string_view;

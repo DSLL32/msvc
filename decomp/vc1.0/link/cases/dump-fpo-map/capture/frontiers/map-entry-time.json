@@ -1,0 +1,12 @@
+{
+  "original": {
+    "exit": 0,
+    "seconds": 1.0673873657360673
+  },
+  "native": {
+    "exit": 0,
+    "seconds": 0.16487972624599934
+  },
+  "logical": "_dump_symbol_map",
+  "partial_streams_match": true
+}

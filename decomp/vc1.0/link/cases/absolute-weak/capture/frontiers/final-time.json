@@ -1,0 +1,15 @@
+{
+  "original": {
+    "exit": 0,
+    "seconds": 1.2675754260271788
+  },
+  "native": {
+    "exit": 0,
+    "seconds": 0.16485053300857544
+  },
+  "stdout_bytes": 115,
+  "stderr_bytes": 0,
+  "terminal": "exit:0",
+  "normalization": "None; exact streams/status",
+  "artifacts_match": true
+}

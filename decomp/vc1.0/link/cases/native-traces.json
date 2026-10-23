@@ -2,9 +2,9 @@
   "schema": 1,
   "description": "Projection of existing original-backed acceptance metadata; no recapture",
   "metadata_sha256": {
-    "functions.json": "ffe25182b40116bfbab0dcaeae814cf3936d6f5978afc12eced903b9ecb0771b",
+    "functions.json": "bcb7a01305a14a0dddd9fe2ad12f778afefa6fb30893e3bfa9e9de2333fe764b",
     "runtime.json": "0ec72e80c921c13613bfc93f7da57aec764a4563629512b8ccc741479975b7d9",
-    "replay-cases.json": "1b95fe12ccb611f2d5d6cf65b06fffd57fd9e4b720f2ad1940886449253ce951"
+    "replay-cases.json": "4e52717122c369561790cf0aee9563aaf0d74b1e07325fc2442d5d5d446fc4cd"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -1558,9 +1558,9 @@
       "implementation": "C"
     },
     "dump_fpo": {
-      "source": "src/dump-stubs.c",
+      "source": "src/dump.c",
       "logical": "_dump_fpo",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "dump_headers": {
       "source": "src/dump.c",
@@ -1593,9 +1593,9 @@
       "implementation": "C"
     },
     "dump_symbol_map": {
-      "source": "src/dump-stubs.c",
+      "source": "src/dump.c",
       "logical": "_dump_symbol_map",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "dump_symbols": {
       "source": "src/link-pass-stubs.c",
@@ -2215,6 +2215,11 @@
     "load_next_default_library": {
       "source": "src/options.c",
       "logical": "_load_next_default_library",
+      "implementation": "C"
+    },
+    "locate_fpo_data": {
+      "source": "src/dump.c",
+      "logical": "_locate_fpo_data",
       "implementation": "C"
     },
     "lookup_diagnostic_code": {
@@ -2893,14 +2898,14 @@
       "implementation": "C"
     },
     "process_weak_external": {
-      "source": "src/object-stubs.c",
+      "source": "src/object.c",
       "logical": "_process_weak_external",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "read_absolute_symbols": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/link-pass.c",
       "logical": "_read_absolute_symbols",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "read_archive_header": {
       "source": "src/archive.c",
@@ -3228,9 +3233,9 @@
       "implementation": "C"
     },
     "resolve_weak_externals": {
-      "source": "src/pass-stubs.c",
+      "source": "src/symbols.c",
       "logical": "_resolve_weak_externals",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "resource_allocate": {
       "source": "src/resources.c",
@@ -3418,9 +3423,9 @@
       "implementation": "C"
     },
     "sort_externals": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/link-pass.c",
       "logical": "_sort_externals",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "sort_mac_fixup_list": {
       "source": "src/mac-fixups.c",
@@ -4366,7 +4371,14 @@
     "demangle_status_write",
     "demangle_name_plus_status",
     "demangle_name_assign_status",
-    "demangle_prepend_status"
+    "demangle_prepend_status",
+    "dump_fpo",
+    "locate_fpo_data",
+    "dump_symbol_map",
+    "process_weak_external",
+    "resolve_weak_externals",
+    "sort_externals",
+    "read_absolute_symbols"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4945,9 +4957,9 @@
       }
     },
     "library-list": {
-      "first": 767,
-      "last": 767,
-      "seen_count": 593,
+      "first": 774,
+      "last": 774,
+      "seen_count": 600,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4979,9 +4991,9 @@
       }
     },
     "library-list-trimmed": {
-      "first": 767,
-      "last": 767,
-      "seen_count": 593,
+      "first": 774,
+      "last": 774,
+      "seen_count": 600,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -5015,9 +5027,9 @@
       }
     },
     "library-dump-object": {
-      "first": 767,
-      "last": 767,
-      "seen_count": 593,
+      "first": 774,
+      "last": 774,
+      "seen_count": 600,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -5060,9 +5072,9 @@
       }
     },
     "library-dump-edited": {
-      "first": 767,
-      "last": 767,
-      "seen_count": 593,
+      "first": 774,
+      "last": 774,
+      "seen_count": 600,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -5474,6 +5486,55 @@
       "expected": [
         "demangle_prepend_status"
       ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "dump-fpo-map": {
+      "first": 767,
+      "last": 770,
+      "seen_count": 593,
+      "expected": [
+        "dump_fpo",
+        "locate_fpo_data",
+        "dump_symbol_map"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "absolute-weak": {
+      "first": 770,
+      "last": 774,
+      "seen_count": 596,
+      "expected": [
+        "process_weak_external",
+        "resolve_weak_externals",
+        "sort_externals",
+        "read_absolute_symbols"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "dump-fpo-object": {
+      "first": 774,
+      "last": 774,
+      "seen_count": 600,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "absolute-weak-unmatched": {
+      "first": 774,
+      "last": 774,
+      "seen_count": 600,
+      "expected": [],
       "terminal": {
         "kind": "exit",
         "code": 0

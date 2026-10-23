@@ -1,0 +1,13 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565a724a in resolve_weak_externals (symbols=0x565fd1a0, flags=64) at src/pass-stubs.c:7
+7	void resolve_weak_externals(SymbolTable *symbols,unsigned long flags) { __asm { int 3 } }
+#0  0x565a724a in resolve_weak_externals (symbols=0x565fd1a0, flags=64) at src/pass-stubs.c:7
+#1  0x56595723 in pass_one (image=0x565fd040) at src/pass-one.c:41
+#2  0x56591fa5 in link_passes (image=0x565fd040, pack=0xffffd507 <incomplete sequence \367>) at src/link-pass.c:96
+#3  0x5657e5b5 in linker_main (argc=10, argv=0xffffd934) at src/linker.c:65
+#4  0x56559e0d in main (argc=10, argv=0xffffd934) at src/link.c:72
+symbols = 0x565fd1a0
+flags = 64

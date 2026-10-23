@@ -1,0 +1,102 @@
+{
+  "target_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "family": "fpo-absolute",
+  "alignment_bytes": 26,
+  "extent_gap_ranges": [
+    [
+      145353,
+      145360
+    ],
+    [
+      145369,
+      145376
+    ],
+    [
+      150076,
+      150080
+    ],
+    [
+      150478,
+      150480
+    ],
+    [
+      214667,
+      214672
+    ],
+    [
+      214783,
+      214784
+    ]
+  ],
+  "extent_gap_instructions": [
+    [
+      "add",
+      "eax, 0"
+    ],
+    [
+      "lea",
+      "esp, [esp]"
+    ],
+    [
+      "mov",
+      "edi, edi"
+    ],
+    [
+      "nop",
+      ""
+    ]
+  ],
+  "method": "Static original CFG instruction-byte union of all accepted contextual fpo-absolute functions, follows both conditional edges, internal JMP tables and call fallthrough; excludes padding, inline table bytes and callee bodies. Not dynamic branch coverage. Old Ghidra one-byte seeds excluded from overlap.",
+  "functions": {
+    "_read_absolute_symbols": {
+      "bytes": 511,
+      "start": 149728,
+      "end": 150243,
+      "internal_tables": []
+    },
+    "_resolve_weak_externals": {
+      "bytes": 127,
+      "start": 150256,
+      "end": 150383,
+      "internal_tables": []
+    },
+    "_sort_externals": {
+      "bytes": 124,
+      "start": 150384,
+      "end": 150510,
+      "internal_tables": []
+    },
+    "_process_weak_external": {
+      "bytes": 405,
+      "start": 144992,
+      "end": 145411,
+      "internal_tables": []
+    },
+    "_dump_symbol_map": {
+      "bytes": 329,
+      "start": 208832,
+      "end": 209161,
+      "internal_tables": []
+    },
+    "_dump_fpo": {
+      "bytes": 352,
+      "start": 214208,
+      "end": 214560,
+      "internal_tables": []
+    },
+    "_locate_fpo_data": {
+      "bytes": 255,
+      "start": 214560,
+      "end": 214821,
+      "internal_tables": []
+    }
+  },
+  "function_count": 7,
+  "instruction_bytes": 2103,
+  "accepted_extent_union_bytes": 2129,
+  "internal_data_bytes": 0,
+  "extent_outside_cfg_and_data": 26,
+  "unresolved_jumps": [],
+  "instruction_overlap_old_body_inventory": 2103,
+  "additional_proven_instruction_bytes_outside_old_inventory": 0
+}

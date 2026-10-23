@@ -1,0 +1,66 @@
+{
+  "method": "Explicit untouched-original-only diagnostic outside fixtures",
+  "arguments": [
+    "-link",
+    "/nodefaultlib",
+    "/force",
+    "/include:_absolute_value",
+    "/entry:entry",
+    "/subsystem:console",
+    "/absolutesfrom:values.obj",
+    "/out:weak.exe",
+    "/map:weak.map",
+    "/debug:none",
+    "weak.obj"
+  ],
+  "helper_exit": 0,
+  "seconds": 0.7433185558766127,
+  "state": "exit 0\n",
+  "environment": {
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib"
+  },
+  "unset": [
+    "CL",
+    "_CL_",
+    "LINK",
+    "_LINK_",
+    "MSC_CMD_FLAGS",
+    "LINK32_DB"
+  ],
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "helper_sha256": "9fc160c5a45b0fc50923414ea56e49ae9bae7829d3bf18fee6a25d374fea68ed",
+  "files": {
+    "capture.state": {
+      "bytes": 8,
+      "sha256": "5e0e6077065598e0b3b20a5d8bda3cf3d641ee1039780467e49abeed04b6903c"
+    },
+    "weak.exe": {
+      "bytes": 2097152,
+      "sha256": "e30190283f4cd936aee670ffee7807e0a72fc2d391afa68bf15b0971099832f4"
+    },
+    "weak.obj": {
+      "bytes": 532,
+      "sha256": "8748c94928e39f35cd61dc06468d4d639deb33ab244a876de49c33e18296283a"
+    },
+    "weak.map": {
+      "bytes": 713,
+      "sha256": "6c7664dfed96e639a70ba9e2e6cc51e8ec7b41683c98b40af99ff8afd7e77f1e"
+    },
+    "values.obj": {
+      "bytes": 208,
+      "sha256": "6fed169fe8bcae2be59ca780ea9ac0cd5c08e231985edaeca13b5a5d62bde941"
+    },
+    "helper.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.bin": {
+      "bytes": 185,
+      "sha256": "a9b6a8e83399a588d6640202c7a4ce21239c5d786f5bed67d598903bdf47aadd"
+    }
+  }
+}

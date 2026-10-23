@@ -1,0 +1,99 @@
+{
+  "case": "absolute-weak",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "link": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-link",
+        "/nodefaultlib",
+        "/entry:entry",
+        "/subsystem:console",
+        "/absolutesfrom:values.obj",
+        "/out:weak.exe",
+        "/map:weak.map",
+        "/debug:none",
+        "weak.obj",
+        "values.obj"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "inputs": [
+        {
+          "path": "inputs/weak.obj",
+          "bytes": 581,
+          "sha256": "dcc890e82998a48947d03cb55dba0e6f9fb7c81c4048f65594d61fd57e7dbaab"
+        },
+        {
+          "path": "inputs/values.obj",
+          "bytes": 208,
+          "sha256": "220726d8802d48579491b64d9bcdbb87bb047ff66baf82a75a5b45e0c01c7e0b"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/weak.exe",
+          "output_name": "weak.exe",
+          "artifact_kind": "plain-pe",
+          "bytes": 2097152,
+          "sha256": "3370b2eda5675932485e9a72ef5ed9cfc6d87281bc864c48834c60743f7380ed",
+          "normalized_sha256": "9220a36674d1b448a64d24a8e6003e7f7a0ba4cac8231b248a5e43b5754b7168",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            }
+          ]
+        },
+        {
+          "path": "expected/weak.map",
+          "output_name": "weak.map",
+          "artifact_kind": "map",
+          "bytes": 713,
+          "sha256": "c85270e3d58b5e3aed18161c2ec128cfd2ea12a526ab8b3dc15961e4a713cbdc",
+          "normalized_sha256": "963e10e2f42864b8b25a8fc33a81ff0410f5c077744dbfe8493e047619bb0d79",
+          "ignored_fields": [
+            {
+              "offset": 23,
+              "bytes": 8,
+              "name": "Map PE timestamp hexadecimal"
+            },
+            {
+              "offset": 33,
+              "bytes": 24,
+              "name": "Map timestamp ctime rendering"
+            }
+          ]
+        }
+      ],
+      "expected_stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n",
+      "expected_stderr": ""
+    }
+  },
+  "provenance": {
+    "scope": "Three original-compiled undefined functions become documented COFF weak-external1/2 and native alias3 metadata, all target compiled default_target. Instruction bytes unchanged. Companion ordinary object supplies one absolute symbol value0x1234.",
+    "generator": {
+      "path": "scripts/build-absolute-weak-input.py",
+      "bytes": 3083,
+      "sha256": "4dbf736a99a2dbc423e2a9f8e3476943004c81552015396857eeb20e82f2b776"
+    },
+    "generator_arguments": [
+      "compile-directory",
+      "output-directory"
+    ],
+    "capture": "Two explicit untouched-original-only successful links match streams/artifacts except structurally identified PE/map timestamps.",
+    "limits": "Normal case links values.obj as ordinary input: absolutesfrom list is empty. Matching-undefined and forced-relocated probes are rejected and preserved under capture/. New absolute-weak-unmatched case exercises nonmatching scan without any relocation to the undefined external."
+  }
+}

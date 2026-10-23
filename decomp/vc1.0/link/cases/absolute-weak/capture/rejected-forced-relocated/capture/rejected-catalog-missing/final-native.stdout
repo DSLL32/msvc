@@ -1,0 +1,5 @@
+Microsoft (R) 32-Bit Executable Linker Version 1.00
+Copyright (C) Microsoft Corp 1992-93. All rights reserved.
+
+LINK : warning: file not found "/root/msvc2/decomp/vc1.0/link/build/native/\link.err"
+weak.obj :LNK4016:

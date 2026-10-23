@@ -1,0 +1,64 @@
+{
+  "method": "Explicit untouched-original-only diagnostic outside fixtures",
+  "arguments": [
+    "-link",
+    "/nodefaultlib",
+    "/entry:entry",
+    "/subsystem:console",
+    "/absolutesfrom:values.obj",
+    "/out:weak.exe",
+    "/map:weak.map",
+    "/debug:none",
+    "weak.obj"
+  ],
+  "helper_exit": 10,
+  "seconds": 0.6526246266439557,
+  "state": "trap 00025e99 exception c0000005 esp 0029f9b0 eax 00000000 ecx 00001234 edx 007d4e01\nstack 00 007d05fc\nstack 01 007d5244\nstack 02 007d9e14\nstack 03 007d9e14\nstack 04 0000000d\nstack 05 007d51fc\nstack 06 0000005a\nstack 07 00000000\nstack 08 00024a76\nstack 09 007d9c38\nstack 10 00000001\nstack 11 007d05fc\nstack 12 007d05dc\nstack 13 00000000\nstack 14 007d04a0\nstack 15 007d04b4\nstack 16 01000008\nexit 99\n",
+  "environment": {
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib"
+  },
+  "unset": [
+    "CL",
+    "_CL_",
+    "LINK",
+    "_LINK_",
+    "MSC_CMD_FLAGS",
+    "LINK32_DB"
+  ],
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "helper_sha256": "9fc160c5a45b0fc50923414ea56e49ae9bae7829d3bf18fee6a25d374fea68ed",
+  "files": {
+    "weak.obj": {
+      "bytes": 581,
+      "sha256": "dcc890e82998a48947d03cb55dba0e6f9fb7c81c4048f65594d61fd57e7dbaab"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.bin": {
+      "bytes": 115,
+      "sha256": "563e1c4b87c22077e867f7c37d7e0d978c306c97a0404dbc5a1aaea6a16d9dd7"
+    },
+    "weak.exe": {
+      "bytes": 2097152,
+      "sha256": "5647f05ec18958947d32874eeb788fa396a05d0bab7c1b71f112ceb7e9b31eee"
+    },
+    "helper.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "values.obj": {
+      "bytes": 208,
+      "sha256": "220726d8802d48579491b64d9bcdbb87bb047ff66baf82a75a5b45e0c01c7e0b"
+    },
+    "capture.state": {
+      "bytes": 418,
+      "sha256": "b5c9a2a2343f209158e42035c998aeb1c76c65160db707899caac15b2ee93aea"
+    },
+    "weak.map": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

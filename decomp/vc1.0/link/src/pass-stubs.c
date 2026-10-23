@@ -4,7 +4,6 @@
 #include "resources.h"
 #include <recon.h>
 void reproduce_input(const char *name,unsigned char input) { __asm { int 3 } }
-void resolve_weak_externals(SymbolTable *symbols,unsigned long flags) { __asm { int 3 } }
 void warn_unused_libraries(Library *library) { __asm { int 3 } }
 void end_undefined_enumerator(UndefinedEnumerator *scan) { __asm { int 3 } }
 void resource_usage(int error) { __asm { int 3 } }

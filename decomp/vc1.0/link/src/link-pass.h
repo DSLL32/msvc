@@ -42,7 +42,7 @@ extern int output_file;
 char *replace_extension(const char *,const char *);
 void apply_section_merges(Image *);
 void sort_externals(SymbolTable *);
-void read_absolute_symbols(const char *,External **,SymbolTable *);
+void read_absolute_symbols(const char *,ExternalLink *,SymbolTable *);
 void resolve_entry_symbol(SymbolTable *);
 void resolve_local_imports(Image *,Contribution **,ExternalLink **);
 void emit_externals(SymbolTable *,unsigned char defined,unsigned char emit,unsigned char name_order,ImageOptions *);

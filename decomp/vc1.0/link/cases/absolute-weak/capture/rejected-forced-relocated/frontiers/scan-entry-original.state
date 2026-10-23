@@ -1,0 +1,19 @@
+trap 000248e0 exception 80000003 esp 0029fa28 eax 007b00b6 ecx 007d9e5d edx 007e0000
+stack 00 0001a9a6
+stack 01 007b00b6
+stack 02 007d9e54
+stack 03 007d0614
+stack 04 0029ff0c
+stack 05 00000000
+stack 06 00000200
+stack 07 3fff1000
+stack 08 0001aaa4
+stack 09 75626564
+stack 10 6f6e3a67
+stack 11 00000000
+stack 12 61763a00
+stack 13 7365756c
+stack 14 6a626f2e
+stack 15 0007aa00
+stack 16 00000000
+exit 99

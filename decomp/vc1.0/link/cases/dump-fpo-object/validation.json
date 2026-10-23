@@ -1,0 +1,73 @@
+{
+  "status": "pass",
+  "accepted_functions": [],
+  "fresh_terminal": {
+    "original": {
+      "exit": 0,
+      "seconds": 1.517995678819716
+    },
+    "native": {
+      "exit": 0,
+      "seconds": 0.16501450445502996
+    },
+    "stdout_bytes": 114,
+    "stderr_bytes": 26,
+    "terminal": "exit:0",
+    "normalization": "None; exact streams/status"
+  },
+  "native_case": {
+    "case": "dump-fpo-object",
+    "setup_seconds": 0.0023392895236611366,
+    "exit": 0,
+    "execution_seconds": 0.004443563520908356,
+    "stdout_bytes": 114,
+    "stdout_sha256": "bc34e9d0f94946b86a7905e3a5153aa721659dfc64d3c8711091a555d445d3d3",
+    "stderr_bytes": 26,
+    "stderr_sha256": "961c41f6a6141650b51d78067511dfaacef6af062c7f923c88c6332bfacaaa48",
+    "trace_entries": 0,
+    "trace_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "trace_prefix_entries": 600,
+    "trace_check_seconds": 8.839741349220276e-05,
+    "status": "pass",
+    "manifest": "decomp/vc1.0/link/cases/dump-fpo-object/manifest.json",
+    "manifest_sha256": "c124bfada40b87450f444749f1a5969231b9119d87d6bfc12e4c007fb472dfc2",
+    "outputs": [
+      {
+        "name": "dump.txt",
+        "bytes": 1043,
+        "sha256": "9096c084fa8fccd1decea4f5c9c3be0f0f29d774b6e6fc2f4bfc48fa57312303",
+        "normalized_sha256": "9096c084fa8fccd1decea4f5c9c3be0f0f29d774b6e6fc2f4bfc48fa57312303",
+        "ignored_fields": []
+      }
+    ],
+    "oracle_seconds": 0.00036520976573228836,
+    "total_seconds": 0.007580632343888283
+  },
+  "family_validation": "cases/absolute-weak/family-validation.json",
+  "raw_evidence": [
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/dump-fpo-object/complete.py",
+      "sha256": "2b3dc993d55d496abdfca590f7423e12b12cba3b21e8da38a67269b64bf9a327"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/dump-fpo-object/final-native.log",
+      "sha256": "cd2bd1331a64b1cd2792f5f50a46a0563d00452002281fb5fcc0c10cf6c08a30"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/dump-fpo-object/final-original.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/dump-fpo-object/final-original.state",
+      "sha256": "5e0e6077065598e0b3b20a5d8bda3cf3d641ee1039780467e49abeed04b6903c"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/dump-fpo-object/final-time.json",
+      "sha256": "2169dc6621f72913b0c3888907d3201697c4ba761812637a4e8a068d00f1700e"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/dump-fpo-object/final.gdb",
+      "sha256": "ac9f230d15bb6adbaeb94ea05bc1edd55f37c2c6cdbb046c53a0187c3b8cc6d6"
+    }
+  ]
+}

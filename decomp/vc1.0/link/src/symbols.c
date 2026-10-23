@@ -469,3 +469,21 @@ int compare_external_addresses(const void *left,const void *right)
     External *a=*(External *const *)left,*b=*(External *const *)right;
     return (int)(a->value.final_value-b->value.final_value);
 }
+
+/* Original [00024af0,00024b6f). Resolve only defaults already defined. */
+void resolve_weak_externals(SymbolTable *table,unsigned long flags)
+{
+    External *external;
+    begin_external_enumeration(table);
+    while ((external=next_external(table))!=NULL) {
+        if ((external->flags&flags) && (external->weak_default->flags&EXTERNAL_DEFINED)) {
+            external->symbol.Value=external->weak_default->symbol.Value;
+            external->symbol.SectionNumber=external->weak_default->symbol.SectionNumber;
+            external->symbol.Type=external->weak_default->symbol.Type;
+            set_external_defined(external,1,table);
+            external->owner.contribution=external->weak_default->owner.contribution;
+            external->value.final_value=external->weak_default->value.final_value;
+        }
+    }
+    end_external_enumeration(table);
+}
