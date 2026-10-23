@@ -1,0 +1,1 @@
+Observer-only failure: reading main formals selected the caller frame, then finish incorrectly operated from that outermost frame. Corrected by selecting the real newest heap frame before GDB finish. No target/shim state or return was changed. Raw failed evidence preserved.

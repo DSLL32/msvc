@@ -153,6 +153,6 @@
     "offset": 58880,
     "size": 3858
   },
-  "accepted_application_functions": 0,
-  "accepted_application_bytes": 0
+  "accepted_application_functions": 1,
+  "accepted_application_bytes": 142
 }

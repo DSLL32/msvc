@@ -6,10 +6,10 @@ HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h $(RECON)/n
 NATIVE_SHIMS = $(wildcard $(RECON)/src/*.c)
 NATIVE_OBJECTS = $(patsubst src/%.c,build/native/%.o,$(SOURCES))
 OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES))
-NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
+NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_NATIVE_STARTUP_WATCOM_100A_FP -I$(RECON)/include -I$(RECON)/native
 NATIVE_FLAGS = -m32 -std=gnu89 -O0 -g -fno-omit-frame-pointer -fno-pie
 
-.PHONY: all native original reference-build metadata inspect check fixtures
+.PHONY: all native original reference-build metadata inspect check fixtures audit-main-candidate
 all: native
 
 native: build/native/WLIB
@@ -20,8 +20,8 @@ build/native:
 build/native/%.o: src/%.c $(HEADERS) | build/native
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
 
-build/native/WLIB: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(HEADERS) Makefile
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -no-pie $(NATIVE_OBJECTS) $(NATIVE_SHIMS) -o $@
+build/native/WLIB: $(NATIVE_OBJECTS) scripts/native-host.c $(NATIVE_SHIMS) $(HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -no-pie $(NATIVE_OBJECTS) scripts/native-host.c $(NATIVE_SHIMS) -o $@
 
 original reference-build: build/WLIB.EXE build/wlib.map
 
@@ -41,6 +41,12 @@ metadata inspect:
 check:
 	$(PYTHON) scripts/metadata.py --check binary.json
 
-fixtures:
-	@printf '%s\n' 'HOLD: original help capture is blocked by resource GS clobber; no accepted application functions.' >&2
-	@exit 2
+# Current accepted prefix; later application callees remain INT3 frontiers.
+fixtures: native
+	@$(PYTHON) scripts/check-main-prefix.py
+
+include ../../../tooling/graph-audit/graph-audit.mk
+
+# Candidate static checks do not grant runtime reconstruction acceptance.
+audit-main-candidate: reference-build $(GRAPH_AUDIT_BIN)
+	@$(PYTHON) scripts/audit-main.py "$(GRAPH_AUDIT_BIN)"

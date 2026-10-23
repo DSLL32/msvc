@@ -1,22 +1,30 @@
 # Watcom 10.0a WLIB
 
-Entry scaffold for `toolchains/watcom10.0a/binnt/WLIB.EXE`; zero accepted
-application functions and no successful native fixture yet. `make check`
-verifies the original hash and PE metadata in `binary.json`. `make -j4 native`
-builds the native i386 named `main(argc, argv)` INT3 stub with shared recon C
-compiled at final link. `make -j4 reference-build` builds its Win32 PE with
-original Watcom 10.0a and the separately verified patched shipped WLINK.
-Native tests use GCC i386 conventions and semantic arguments/ownership;
-the Win32 build preserves and audits exact Watcom conventions.
+`src/main.c` reconstructs the actual 142-byte application entry, with named
+trapping application/support callees. Main is accepted: one application function, 142 original bytes, through the
+matching `CheckMemoryHook` frontier. Later application callees remain trapping. Both `make -j4 native` (GCC i386) and `make -j4 reference-build` (original
+Watcom Win32) compile the source. `make -j4 audit-main-candidate` checks the real
+Watcom MAP/PE with the canonical Rust graph auditor: nine callee identities,
+callback references, RET cleanup, ownership and extents match. Native tests use
+GCC semantic formals; original Win32 builds preserve Watcom conventions.
 
-Both builds passed. Watcom compilation took 0.532 seconds with zero warnings or
-errors; linking took 0.624 seconds. A measured fresh native build took 1.217
-seconds and GDB verification 0.165 seconds: real SIGTRAP at the named `main`,
-actual argc 2, argv option `-?`, and byte CC immediately before the stopped PC.
-The pragma intrinsic emits INT3 inline and adds no function/helper vertex.
-Source/object/ELF/MAP/PE and build-log hashes are recorded under
-`cases/help/scaffold/`. The rebuilt Win32 PE was not executed. `make fixtures`
-still fails explicitly on the held original help/GS reference.
+One reviewed masked original prefix reached `CheckMemoryHook` after `_heapchk`.
+At actual main, the helper verified all five CRT initializers, then masked every
+one of the 50,688 BEGTEXT bytes and restored only main's 142 bytes and the proved
+416-byte CRT heap-check closure. The real hook CALL trapped with the mask still
+intact. Heap-check returned zero, changed its private clean flag from 0 to 1,
+and preserved observed application/error/FP state. Owned termination 151 was
+confirmed through the actual exit event and signaled process handle. This was
+a frontier stop, not successful help completion; elapsed time was 1.167 seconds.
+`cases/help/main-frontier/` retains source/body provenance and raw observations.
+The native input check exposed CW `037f` versus original `127f`; the reviewed
+shared Watcom startup option now supplies `127f`. The explicit first-call empty
+target allocation namespace contract supplies the reached heap boundary without
+claiming glibc integrity validation. Native paired checks passed with matching
+arguments, 52-byte jump storage, flags, errors and architectural x87 state.
+`make -j4 fixtures` runs only this native prefix, with no Wine or recapture; the
+fixture took 0.252 seconds overall (debugger execution/checks 0.178 seconds).
+The parallel original/native build plus graph audit took 1.260 seconds.
 
 The original is a native i386 PE32 console program, SHA256
 `f20631839a9c1c38969f0c5930e26010361c6175790992181455b5c0ffb1cbb3`.
@@ -80,12 +88,10 @@ observation. The proposed four-site Wine-only patch is documented in
 `cases/help/diagnostic/gs-patch-proposal.json`, including exact bytes, candidate
 hash, relocation nonoverlap and future-selector restrictions. A separate exact
 patched copy was subsequently approved and created, as recorded in
-`cases/help/diagnostic/gs-patched-copy.json`. It has not been executed; persistent
-all-invocation guard implementation passed 198 native policy checks and all 13
-authored Win32 controls; final source/result review and explicit patched-run
-approval remain prerequisites. See `cases/help/guard-probes/authored-v4/`.
-The attempted `-?` currently takes a
-diagnostic path; historical successful help syntax remains to be established.
+`cases/help/diagnostic/gs-patched-copy.json`. Persistent all-invocation guards passed 198 native policy checks and all 13
+authored Win32 controls before the separately approved captures described below.
+See `cases/help/guard-probes/authored-v4/`. The original `-?` is a diagnostic
+input; bare `?` is successful help.
 
 The reference resource reader in
 `bld/sdk/rc/wres/c/loadstr.c:GetString` closely matches the original 128-byte
@@ -106,4 +112,5 @@ identical 1,870-byte stdout, empty stderr and no artifacts. Each guarded 32 read
 calls and 64 rearms. Times were 0.616 and 0.866 seconds; evidence is retained in
 `cases/patched-help/capture-summary.json`. Both cases observed actual exit debug
 events; the frozen helper did not verify a signaled process handle on normal
-exit, and these receipts make no such claim. No functions are accepted yet.
+exit, and these receipts make no such claim. These unmasked captures accepted no functions; the later masked main acceptance
+is described above.

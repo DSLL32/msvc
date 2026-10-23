@@ -1,20 +1,30 @@
-/* Unreconstructed application entry, original VA 0x412a67.
-   Native tests use GCC's ABI; the Win32 build retains Watcom's ABI.
-   The trap is a frontier marker, not accepted application implementation. */
+/* Original main: VA 0x412a67..0x412af5, 13 calls to nine physical callees.
+   Recovered from the 1994 body. The 2002 nwlib entry has a different subsystem
+   architecture and is not substituted here. CRT bodies remain library calls;
+   native Watcom compatibility is supplied by lib/recon, not local CRT code. */
+#include "wlib.h"
 #include <recon.h>
 
-#if defined(__WATCOMC__)
-/* Watcom 10.0a intrinsic emits INT3 inline, without a function or call edge. */
-void reconstruction_trap( void );
-#pragma aux reconstruction_trap = 0xcc;
-#endif
+jmp_buf Env;
+unsigned long ToolFlags;
 
 int main( int argc, char **argv )
 {
-#if defined(__WATCOMC__)
-    reconstruction_trap();
-#else
-    __asm__ volatile ("int3");
-#endif
-    return 0;
+    _heapchk();
+    CheckMemoryHook();
+    InitMsg( argv[0] );
+    signal( SIGABRT, HandleSignal );
+    signal( SIGBREAK, HandleSignal );
+    signal( SIGTERM, HandleSignal );
+    signal( SIGINT, HandleSignal );
+    /* The original tests AL. Keep the consumed width explicit even when a
+       later longjmp supplies a value outside the usual zero/one pair. */
+    if( (unsigned char)setjmp( Env ) == 0 ) {
+        InitToolState( argc, argv );
+        ProcessCommands();
+    }
+    FiniToolState();
+    FiniMsg();
+    CheckMemoryHook();
+    return( (ToolFlags & 0x40) != 0 );
 }

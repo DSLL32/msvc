@@ -1,0 +1,109 @@
+{
+  "argv": [
+    "gdb",
+    "-q",
+    "-batch",
+    "/root/msvc2/decomp/watcom10.0a/wlib/build/native/WLIB",
+    "-x",
+    "/root/.ai-tmp/msvc2/watcom10.0a/wlib/native-main-prefix/run-60q1sfrz/commands.gdb"
+  ],
+  "status": 125,
+  "elapsed_seconds": 0.1696151541545987,
+  "binary_sha256": "36aa82a528987e7957ca0674dd510de659ba4dbed5d69a8ca5d55c2f14ec0291",
+  "reference_sha256": "a4f641651dfb1c1d4181a33042ad29eb3f00cdad45d291db02c128f94faae6d7",
+  "closure_sha256": "1b1f029451106e1e055c63ec21a78dac740984dcebe66bc212b73fbbaff1b625",
+  "source_sha256": {
+    "src/main.c": "2834b65d25880768e89e3a43d39091133f23c3b4a218484f22f28e28ca870ab5",
+    "src/stubs.c": "fe1a5c7733fbf094e7f21d815e3e3d491acbb1d8f09e757db36efbe54117c864",
+    "src/wlib.h": "4e8af9f450cf0e38fbeb068400a1d497a6ee4db5a09a7040be7a9267e83633c4",
+    "scripts/native-host.c": "58acc55e80bb0966338714645bf5299e0e76e5f3fdb197402577baa728f6f90c",
+    "Makefile": "78405bc287c6704d867af5bd656c0dc765c8c2586b950f5a5649f69f6bf3608f",
+    "scripts/check-main-prefix.py": "57ddf2a75c38c21adc92c977a1e58d6548f16646be4abac53c2f3542209db147"
+  },
+  "native_abi": "GCC i386 semantic values; no raw Watcom register identity claim",
+  "termination": "GDB owns and kills native inferior at logical INT3 frontier; no normal case exit claim",
+  "native_state": {
+    "status": "HOLD",
+    "error": "\"finish\" not meaningful in the outermost frame.",
+    "records": [
+      {
+        "place": "main-entry",
+        "argc": 2,
+        "argv": [
+          "R:\\toolchains\\watcom10.0a\\.patched\\WLIB.EXE",
+          "?"
+        ],
+        "Env": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "ToolFlags": 0,
+        "fp": {
+          "cw": 4735,
+          "sw": 0,
+          "tag": 65535
+        },
+        "errors": {
+          "errno": 0,
+          "doserrno": 0
+        },
+        "heap": {
+          "bound": 1,
+          "clean": 0,
+          "calls": 0,
+          "target_activity": 0,
+          "reference_sha256": "1b1f029451106e1e055c63ec21a78dac740984dcebe66bc212b73fbbaff1b625"
+        }
+      },
+      {
+        "place": "heap-entry",
+        "argc": 2,
+        "argv": [
+          "R:\\toolchains\\watcom10.0a\\.patched\\WLIB.EXE",
+          "?"
+        ],
+        "Env": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+        "ToolFlags": 0,
+        "fp": {
+          "cw": 4735,
+          "sw": 0,
+          "tag": 65535
+        },
+        "errors": {
+          "errno": 0,
+          "doserrno": 0
+        },
+        "heap": {
+          "bound": 1,
+          "clean": 0,
+          "calls": 0,
+          "target_activity": 0,
+          "reference_sha256": "1b1f029451106e1e055c63ec21a78dac740984dcebe66bc212b73fbbaff1b625"
+        }
+      }
+    ]
+  },
+  "files": {
+    "stderr.bin": {
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "gdb.stderr": {
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.bin": {
+      "size": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "native-state.json": {
+      "size": 1420,
+      "sha256": "d24f43c13f7c581197a0ebd8f650cd5f63cc71bec4e0358636b7a6651829fefb"
+    },
+    "gdb.stdout": {
+      "size": 497,
+      "sha256": "f3f9a626cb1730927bc5934988fa4ab1e9192020b718a469f4b097cdb5b106d5"
+    },
+    "commands.gdb": {
+      "size": 3001,
+      "sha256": "df00cec0a7163bdd98f1a6e665052c9683319ec10808247cb17ba4276cfda804"
+    }
+  }
+}

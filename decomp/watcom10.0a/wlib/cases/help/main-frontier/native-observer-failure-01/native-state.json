@@ -1,0 +1,58 @@
+{
+  "status": "HOLD",
+  "error": "\"finish\" not meaningful in the outermost frame.",
+  "records": [
+    {
+      "place": "main-entry",
+      "argc": 2,
+      "argv": [
+        "R:\\toolchains\\watcom10.0a\\.patched\\WLIB.EXE",
+        "?"
+      ],
+      "Env": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "ToolFlags": 0,
+      "fp": {
+        "cw": 4735,
+        "sw": 0,
+        "tag": 65535
+      },
+      "errors": {
+        "errno": 0,
+        "doserrno": 0
+      },
+      "heap": {
+        "bound": 1,
+        "clean": 0,
+        "calls": 0,
+        "target_activity": 0,
+        "reference_sha256": "1b1f029451106e1e055c63ec21a78dac740984dcebe66bc212b73fbbaff1b625"
+      }
+    },
+    {
+      "place": "heap-entry",
+      "argc": 2,
+      "argv": [
+        "R:\\toolchains\\watcom10.0a\\.patched\\WLIB.EXE",
+        "?"
+      ],
+      "Env": "00000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+      "ToolFlags": 0,
+      "fp": {
+        "cw": 4735,
+        "sw": 0,
+        "tag": 65535
+      },
+      "errors": {
+        "errno": 0,
+        "doserrno": 0
+      },
+      "heap": {
+        "bound": 1,
+        "clean": 0,
+        "calls": 0,
+        "target_activity": 0,
+        "reference_sha256": "1b1f029451106e1e055c63ec21a78dac740984dcebe66bc212b73fbbaff1b625"
+      }
+    }
+  ]
+}

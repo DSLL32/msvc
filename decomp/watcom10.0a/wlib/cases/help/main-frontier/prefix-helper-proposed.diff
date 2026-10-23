@@ -1,0 +1,259 @@
+--- current/diagnose-startup.c
++++ candidate/diagnose-startup.c
+@@ -31,9 +31,17 @@
+ static DWORD owned_process_id, event_count;
+ static DWORD initial_entry_address;
+ static int final_exit_seen, cf_file_observer_rearmed;
++static int prefix_mode, prefix_state;
++static unsigned prefix_initializers;
++static DWORD prefix_thread, prefix_heap_stack, prefix_argc, prefix_argv;
++static WORD prefix_ds, prefix_gs;
++static BYTE *prefix_expected;
++static const char *prefix_target;
++static const DWORD prefix_init[5] = {0x419942,0x41a39c,0x4194e4,0x41a5ed,0x41984d};
+ static HANDLE child;
+ static FILE *events;
+ static int bytes_at(const char *, DWORD, DWORD);
++static int input_string(const char *, DWORD, DWORD);
+ 
+ static int memory(DWORD at, void *bytes, DWORD count)
+ {
+@@ -50,6 +58,125 @@
+     if (!FlushInstructionCache(child, (void *)at, 1)) ok = 0;
+     if (!VirtualProtectEx(child, (void *)at, 1, old, &restored)) ok = 0;
+     return ok;
++}
++
++/* Target-scoped first-main prefix. CRT bootstrap runs only under the separately
++   reviewed five-initializer contract. At the real main boundary every BEGTEXT
++   byte is verified then masked; only main and the 416-byte heap-check service
++   closure are restored. This is not an arbitrary startup-range exemption. */
++static int prefix_callbacks(int finished)
++{
++    unsigned i;
++    BYTE rows[30];
++    DWORD callback, access, release, provider, signal_init;
++    if (!memory(0x420ac8, rows, sizeof(rows)) ||
++        !memory(0x420990, &access, 4) || !memory(0x420998, &release, 4) ||
++        access != 0x418d82 || release != 0x418d82 ||
++        !memory(0x420974,&provider,4) || provider!=0x418d7d ||
++        !memory(0x4209ac,&signal_init,4) || signal_init!=0x418267) return 0;
++    for (i = 0; i < 5; ++i) {
++        memcpy(&callback, rows + i*6 + 2, 4);
++        if (callback != prefix_init[i] || rows[i*6+1] != (i == 4 ? 2 : 32) ||
++            rows[i*6] != (finished ? 2 : 0)) return 0;
++    }
++    fprintf(events,"prefix-bootstrap-callbacks state=%s slots=5 access=%08lx release=%08lx\n",
++            finished ? "finished" : "initial",access,release);
++    return 1;
++}
++
++static int prefix_verify_mask(void)
++{
++    BYTE actual[512];
++    DWORD i, n;
++    for (i=0;i<50688;i+=n) {
++        n=50688-i; if(n>sizeof(actual))n=sizeof(actual);
++        if(!memory(0x410000+i,actual,n) || memcmp(actual,prefix_expected+i,n))return 0;
++    }
++    fprintf(events,"prefix-whole-code-mask-verified base=00410000 bytes=50688\n");
++    return 1;
++}
++
++static int prefix_mask(unsigned main_site, CONTEXT *context)
++{
++    static const DWORD spans[6][2] = {
++        {0x412a67,0x412af5},{0x417e35,0x417e86},{0x417e86,0x417ec3},
++        {0x417ec3,0x417f5a},{0x41971a,0x419794},{0x418d82,0x418d83}};
++    FILE *file;
++    BYTE *original,*loaded;
++    DWORD i,old,restored,wrote,caller,actual_argc,actual_argv;
++    int ok;
++    if(image_base!=0x400000 || prefix_initializers!=31 || !prefix_callbacks(1) ||
++       context->Eip!=0x412a68 || context->Eax!=2 ||
++       !memory(context->Esp,&caller,4) || caller!=0x41afef ||
++       !memory(0x430464,&actual_argc,4) || actual_argc!=context->Eax ||
++       !memory(0x430460,&actual_argv,4) || actual_argv!=context->Edx ||
++       !patch(0x412a67,sites[main_site].saved))return 0;
++    original=(BYTE *)malloc(50688); loaded=(BYTE *)malloc(50688);
++    prefix_expected=(BYTE *)malloc(50688);
++    if(!original || !loaded || !prefix_expected)return 0;
++    file=fopen(prefix_target,"rb");
++    if(!file)return 0;
++    ok=fseek(file,1024,SEEK_SET)==0 && fread(original,1,50688,file)==50688;
++    fclose(file);
++    if(!ok || !memory(0x410000,loaded,50688) || memcmp(original,loaded,50688))return 0;
++    fprintf(events,"prefix-loaded-code-identity exact-preferred-base bytes=50688 file-offset=1024\n");
++    memset(prefix_expected,0xcc,50688);
++    for(i=0;i<6;++i) {
++        memcpy(prefix_expected+spans[i][0]-0x410000,original+spans[i][0]-0x410000,
++               spans[i][1]-spans[i][0]);
++        fprintf(events,"prefix-restored-span start=%08lx end=%08lx\n",spans[i][0],spans[i][1]);
++    }
++    if(original[0x17ec3-0x10000]!=0x52 || original[0x12a72-0x10000]!=0xe8)return 0;
++    for(i=0;i<2;++i) {
++        Site *point;
++        if(site_count==64)return 0;
++        point=&sites[site_count++]; memset(point,0,sizeof(*point));
++        point->address=i ? 0x412a72 : 0x417ec3;
++        point->rva=point->address-0x400000;
++        point->saved=original[point->address-0x410000];point->expected=point->saved;point->guarded=1;
++        strcpy(point->name,i ? "prefix_heap_return" : "prefix_heap_entry");
++        prefix_expected[point->address-0x410000]=0xcc;
++    }
++    if(!VirtualProtectEx(child,(void *)0x410000,50688,PAGE_EXECUTE_READWRITE,&old))return 0;
++    ok=WriteProcessMemory(child,(void *)0x410000,prefix_expected,50688,&wrote) && wrote==50688;
++    if(!FlushInstructionCache(child,(void *)0x410000,50688))ok=0;
++    if(!VirtualProtectEx(child,(void *)0x410000,50688,old,&restored))ok=0;
++    free(original);free(loaded);
++    if(!ok || !prefix_verify_mask())return 0;
++    prefix_argc=context->Eax;prefix_argv=context->Edx;
++    prefix_ds=(WORD)context->SegDs;prefix_gs=(WORD)context->SegGs;
++    prefix_state=1;context->Eip=0x412a67;sites[main_site].hit=1;
++    return 1;
++}
++
++static int prefix_observe(const char *name, const CONTEXT *context)
++{
++    DWORD values[3],pointer,thread_data,crt_errors[2];
++    CONTEXT fp;
++    BYTE clean;
++    unsigned i;
++    if((WORD)context->SegDs!=prefix_ds || (WORD)context->SegGs!=prefix_gs)return 0;
++    if(!memory(0x420668,values,4) || !memory(0x420690,values+1,4) ||
++       !memory(0x430450,&clean,1) || !memory(context->Esp,&pointer,4))return 0;
++    fprintf(events,"%s state=%d eax=%08lx ecx=%08lx ebx=%08lx esp=%08lx return=%08lx heap-root=%08lx free-ring=%08lx heap-clean=%u ds=%04lx gs=%04lx\n",
++            name,prefix_state,context->Eax,context->Ecx,context->Ebx,context->Esp,pointer,
++            values[0],values[1],clean,context->SegDs,context->SegGs);
++    if(!memory(0x43044c,&thread_data,4) || !thread_data ||
++       !memory(thread_data+4,crt_errors,sizeof(crt_errors)))return 0;
++    fprintf(events,"prefix-crt-errors errno=%08lx doserrno=%08lx thread-data=%08lx\n",
++            crt_errors[0],crt_errors[1],thread_data);
++    if(values[0] && !bytes_at("prefix-descriptive-root-header",values[0],12))return 0;
++    if(values[1] && !bytes_at("prefix-descriptive-free-ring-header",values[1],12))return 0;
++    if(!bytes_at("prefix-application-jump-storage",0x430014,52) ||
++       !bytes_at("prefix-application-flags",0x4302b8,4))return 0;
++    memset(&fp,0,sizeof(fp));fp.ContextFlags=CONTEXT_FULL|CONTEXT_FLOATING_POINT;
++    if(!GetThreadContext(threads[0].handle,&fp))return 0;
++    fprintf(events,"prefix-fp control=%08lx status=%08lx tag=%08lx\n",
++            fp.FloatSave.ControlWord,fp.FloatSave.StatusWord,fp.FloatSave.TagWord);
++    if(!memory(prefix_argv,values,sizeof(values)) || values[2] || !values[0] || !values[1])return 0;
++    for(i=0;i<2;++i)if(!input_string("prefix-argv",values[i],512))return 0;
++    if(context->Ecx!=prefix_argc || context->Ebx!=prefix_argv)return 0;
++    return 1;
+ }
+ 
+ static DWORD guard_base(void)
+@@ -545,7 +672,10 @@
+         if (fscanf(site_file, "%lx", &value) != EOF) return 121;
+         fclose(site_file);
+     }
+-    if (argc == 13 && !read_guard_config(argv[12])) return 121;
++    if (argc == 13 && !strcmp(argv[12], "wlib-main-prefix")) {
++        if (cf_relocation_count || site_count != 7) return 121;
++        prefix_mode=1;prefix_target=argv[1];
++    } else if (argc == 13 && !read_guard_config(argv[12])) return 121;
+     events = fopen(argv[6], "wb");
+     if (!events) return 122;
+     fprintf(events, "helper-start tick=%lu target=%s arguments=%s cwd=%s\n",
+@@ -595,7 +725,7 @@
+         if (!WaitForDebugEvent(&event, 100)) continue;
+         pending_event = event; event_pending = 1;
+         ++event_count;
+-        if (guard_mode && (event_count > 100000 || event.dwProcessId != owned_process_id ||
++        if ((guard_mode || prefix_mode) && (event_count > 100000 || event.dwProcessId != owned_process_id ||
+             (guard_state.step && event.dwDebugEventCode != EXCEPTION_DEBUG_EVENT))) return fail_owned(140);
+         fprintf(events, "event code=%lu pid=%lu tid=%lu elapsed=%lu\n",
+                 event.dwDebugEventCode, event.dwProcessId, event.dwThreadId, GetTickCount() - start);
+@@ -604,7 +734,7 @@
+             base = (DWORD)event.u.CreateProcessInfo.lpBaseOfImage;
+             image_base = base;
+             initial_entry_address = (DWORD)event.u.CreateProcessInfo.lpStartAddress;
+-            guard_state.thread = event.dwThreadId;
++            guard_state.thread = event.dwThreadId;prefix_thread=event.dwThreadId;
+             threads[thread_count].id = event.dwThreadId;
+             threads[thread_count++].handle = event.u.CreateProcessInfo.hThread;
+             fprintf(events, "create base=%08lx entry=%08lx teb=%08lx\n", base,
+@@ -618,7 +748,7 @@
+             }
+             if (event.u.CreateProcessInfo.hFile) CloseHandle(event.u.CreateProcessInfo.hFile);
+         } else if (event.dwDebugEventCode == CREATE_THREAD_DEBUG_EVENT) {
+-            if (guard_mode) return fail_owned(140);
++            if (guard_mode || prefix_mode) return fail_owned(140);
+             if (thread_count == 64) return fail_owned(128);
+             threads[thread_count].id = event.dwThreadId;
+             threads[thread_count++].handle = event.u.CreateThread.hThread;
+@@ -639,10 +769,26 @@
+                     code, address, event.u.Exception.dwFirstChance);
+             for (t = 0; t < thread_count; ++t) if (threads[t].id == event.dwThreadId) break;
+             if (t == thread_count) return fail_owned(129);
+-            if (guard_mode && event.dwThreadId != guard_state.thread) return fail_owned(140);
++            if ((guard_mode || prefix_mode) && event.dwThreadId != guard_state.thread) return fail_owned(140);
+             registers(threads[t].handle, "exception-context", event.dwThreadId, 0);
+             memset(&context, 0, sizeof(context)); context.ContextFlags = CONTEXT_FULL;
+             if (!GetThreadContext(threads[t].handle, &context)) return fail_owned(130);
++            if(prefix_mode) {
++                BYTE actual;
++                if(code!=EXCEPTION_BREAKPOINT || !event.u.Exception.dwFirstChance ||
++                   context.Eip!=address+1 || !memory(address,&actual,1) || actual!=0xcc)
++                    return fail_owned(152);
++            }
++            if(prefix_mode && prefix_state && code==EXCEPTION_BREAKPOINT && address==0x411fdf) {
++                DWORD caller;
++                BYTE actual;
++                if(prefix_state!=3 || !event.u.Exception.dwFirstChance || context.Eip!=address+1 ||
++                   !memory(address,&actual,1) || actual!=0xcc || !prefix_verify_mask() ||
++                   !memory(context.Esp,&caller,4) || caller!=0x412a77 || context.Esp!=prefix_heap_stack ||
++                   !prefix_observe("prefix-frontier-CheckMemoryHook",&context))return fail_owned(152);
++                fprintf(events,"prefix-frontier logical=CheckMemoryHook before-body=1 source-main=00412a67\n");
++                return fail_owned(151);
++            }
+             if (guard_mode && guard_state.step) {
+                 if (code != EXCEPTION_SINGLE_STEP || address != context.Eip ||
+                     !guard_step_end(&context, event.dwThreadId, code, event.u.Exception.dwFirstChance) ||
+@@ -688,6 +834,28 @@
+                 }
+                 memset(&context, 0, sizeof(context)); context.ContextFlags = CONTEXT_FULL;
+                 if (!GetThreadContext(threads[t].handle, &context)) return fail_owned(130);
++                if(prefix_mode) {
++                    unsigned j;
++                    if(!strcmp(sites[i].name,"pe_entry") && !prefix_callbacks(0))return fail_owned(152);
++                    for(j=0;j<5;++j)if(address==prefix_init[j])prefix_initializers|=1U<<j;
++                    if(!strcmp(sites[i].name,"main")) {
++                        if(prefix_state || !observe_inputs("main",&context) || !prefix_mask(i,&context) ||
++                           !SetThreadContext(threads[t].handle,&context))return fail_owned(152);
++                        fflush(events);
++                        if(!ContinueDebugEvent(event.dwProcessId,event.dwThreadId,DBG_CONTINUE))return fail_owned(131);
++                        event_pending=0;continue;
++                    }
++                    if(!strcmp(sites[i].name,"prefix_heap_entry")) {
++                        DWORD caller;
++                        if(prefix_state!=1 || !prefix_callbacks(1) || !memory(context.Esp,&caller,4) ||
++                           caller!=0x412a72 || !prefix_observe("prefix-heap-entry",&context))return fail_owned(152);
++                        prefix_heap_stack=context.Esp;prefix_state=2;
++                    } else if(!strcmp(sites[i].name,"prefix_heap_return")) {
++                        if(prefix_state!=2 || context.Esp!=prefix_heap_stack+4 || !prefix_callbacks(1) ||
++                           !prefix_observe("prefix-heap-return",&context))return fail_owned(152);
++                        prefix_state=3;
++                    }
++                }
+                 if (guard_mode && ((int)i == guard_owner_site || (int)i == guard_reader_site)) {
+                     if (context.Eip != address + 1 ||
+                         !((int)i == guard_owner_site ? guard_owner(&context, event.dwThreadId) : guard_reader(&context, event.dwThreadId)) ||
+@@ -720,6 +888,7 @@
+                     else fprintf(events, "read-only-dword-failed rva=%08lx\n", reads[value]);
+                 }
+                 if (!patch(address, sites[i].saved)) return fail_owned(130);
++                if(prefix_mode && prefix_state)prefix_expected[address-0x410000]=sites[i].saved;
+                 sites[i].hit = 1;
+                 memset(&context, 0, sizeof(context)); context.ContextFlags = CONTEXT_FULL;
+                 if (!GetThreadContext(threads[t].handle, &context)) return fail_owned(130);
+@@ -736,7 +905,7 @@
+                 fprintf(events, "unclassified-breakpoint-held address=%08lx\n", address);
+                 return fail_owned(133);
+             }
+-            else if (guard_mode) return fail_owned(146);
++            else if (guard_mode || prefix_mode) return fail_owned(146);
+             else status = DBG_EXCEPTION_NOT_HANDLED;
+         } else if (event.dwDebugEventCode == EXIT_PROCESS_DEBUG_EVENT) {
+             DWORD continued, signaled, actual_exit = STILL_ACTIVE;

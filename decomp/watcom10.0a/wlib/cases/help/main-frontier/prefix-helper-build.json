@@ -1,0 +1,47 @@
+{
+  "source_paths": {
+    "diagnose-startup.c": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/main-groundwork/diagnose-main-prefix.c",
+    "resource-guard.h": "/root/msvc2/decomp/watcom10.0a/wlib/scripts/resource-guard.h"
+  },
+  "source_sha256": {
+    "diagnose-startup.c": "42f9c6180d08ba060bb01d11a4edf5a349623315a8cdbfaf665fa1ee2bd9d809",
+    "resource-guard.h": "a0c5d2d2c69308aa607dda424e69bb162be47f1d39ae897772f6d1bfc2a1f0d0"
+  },
+  "commands": [
+    {
+      "argv": [
+        "/usr/bin/wine",
+        "R:\\toolchains\\5.10\\bin\\CL.EXE",
+        "/nologo",
+        "/c",
+        "/W3",
+        "/Od",
+        "/MT",
+        "/IR:\\lib\\recon\\include",
+        "/FoS:\\watcom10.0a\\wlib\\helper-10-main-prefix\\diagnose-startup.obj",
+        "S:\\watcom10.0a\\wlib\\helper-10-main-prefix\\diagnose-startup.c"
+      ],
+      "status": 0,
+      "elapsed_seconds": 1.4864151692017913,
+      "log": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/helper-10-main-prefix/build-0.log",
+      "log_sha256": "af1c949a5a541ba3b5f9f399db4ac8a65b3c7e3e4d0f80ca970a84fb1ffe9af5"
+    },
+    {
+      "argv": [
+        "/usr/bin/wine",
+        "R:\\toolchains\\5.10\\bin\\LINK.EXE",
+        "/nologo",
+        "/subsystem:console",
+        "/map:S:\\watcom10.0a\\wlib\\helper-10-main-prefix\\diagnose-startup.map",
+        "/out:S:\\watcom10.0a\\wlib\\helper-10-main-prefix\\diagnose-startup.exe",
+        "S:\\watcom10.0a\\wlib\\helper-10-main-prefix\\diagnose-startup.obj"
+      ],
+      "status": 0,
+      "elapsed_seconds": 0.3127475315704942,
+      "log": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/helper-10-main-prefix/build-1.log",
+      "log_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "runtime_executed": false,
+  "helper_sha256": "b188cdaa8b0b1585c208a3f0fadf894fe9758a2ccc43baea244540c6be13dd89"
+}

@@ -1,0 +1,77 @@
+{
+  "command": [
+    "make",
+    "-j4",
+    "audit-main-candidate"
+  ],
+  "status": 0,
+  "elapsed_seconds": 0.06700928509235382,
+  "source_sha256": {
+    "src/main.c": "2834b65d25880768e89e3a43d39091133f23c3b4a218484f22f28e28ca870ab5",
+    "src/stubs.c": "fe1a5c7733fbf094e7f21d815e3e3d491acbb1d8f09e757db36efbe54117c864",
+    "src/wlib.h": "4e8af9f450cf0e38fbeb068400a1d497a6ee4db5a09a7040be7a9267e83633c4",
+    "scripts/original.py": "6d28763bcd4710de5c585244352d71b659b51584d893e62e4669d8dee782af34",
+    "scripts/audit-main.py": "d46d8346bfca7024ed712e5fd3082d27c0d551998e99d3b8a06f68c4e1da4724",
+    "Makefile": "d8b66cc7086ddabfa7816101cedddbd4d1b161729f4b538686d2c3334a891be7"
+  },
+  "rebuilt_pe_sha256": "859a95cd56c51c2ee1db133554d8d5bfc388e4bbaaa38422e124eaaaa8b0afd4",
+  "real_watcom_map_sha256": "2022de7d3417d4291946844999136da2bae270303d34776f39aa6b98421c9f9b",
+  "graph_report": {
+    "checked_accepted_extents": null,
+    "checked_functions": 1,
+    "checked_unique_accepted_extents": null,
+    "checks": [
+      "call_graph",
+      "ret_cleanup",
+      "function_references",
+      "extent_ownership",
+      "whole_extent_boundaries"
+    ],
+    "discovery": "cfg",
+    "functions": {
+      "main": {
+        "edges": [
+          "CheckMemoryHook_",
+          "FiniMsg_",
+          "FiniToolState_",
+          "InitMsg_",
+          "InitToolState_",
+          "ProcessCommands_",
+          "_heapchk_",
+          "_setjmp_",
+          "signal_"
+        ]
+      }
+    },
+    "image_inputs": {
+      "map": {
+        "absolute_symbols": {
+          "__DOSseg__": 4660
+        },
+        "format": "watcom10-pe",
+        "map_sha256": "2022de7d3417d4291946844999136da2bae270303d34776f39aa6b98421c9f9b",
+        "rebuilt_pe_sha256": "859a95cd56c51c2ee1db133554d8d5bfc388e4bbaaa38422e124eaaaa8b0afd4",
+        "segment_group_bases": {
+          "1": 4259840,
+          "2": 4325376
+        }
+      },
+      "original": {
+        "coordinates": "preferred-va",
+        "format": "pe32",
+        "original_file_sha256": "f20631839a9c1c38969f0c5930e26010361c6175790992181455b5c0ffb1cbb3",
+        "preferred_base": 4194304
+      },
+      "rebuilt": {
+        "coordinates": "preferred-va",
+        "format": "pe32",
+        "original_file_sha256": "859a95cd56c51c2ee1db133554d8d5bfc388e4bbaaa38422e124eaaaa8b0afd4",
+        "preferred_base": 4194304
+      }
+    },
+    "original_accepted_graphs": null,
+    "profile": "cl"
+  },
+  "application_functions_accepted": 0,
+  "scope": "static main candidate only; no runtime acceptance"
+}

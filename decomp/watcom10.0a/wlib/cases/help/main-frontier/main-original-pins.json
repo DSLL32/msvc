@@ -1,0 +1,62 @@
+[
+  {
+    "name": "_heapchk_",
+    "start": 4292291,
+    "end": 4292291,
+    "pending_extent": true
+  },
+  {
+    "name": "CheckMemoryHook_",
+    "start": 4267999,
+    "end": 4267999,
+    "pending_extent": true
+  },
+  {
+    "name": "InitMsg_",
+    "start": 4279294,
+    "end": 4279294,
+    "pending_extent": true
+  },
+  {
+    "name": "signal_",
+    "start": 4293038,
+    "end": 4293038,
+    "pending_extent": true
+  },
+  {
+    "name": "_setjmp_",
+    "start": 4294120,
+    "end": 4294120,
+    "pending_extent": true
+  },
+  {
+    "name": "InitToolState_",
+    "start": 4270837,
+    "end": 4270837,
+    "pending_extent": true
+  },
+  {
+    "name": "ProcessCommands_",
+    "start": 4271168,
+    "end": 4271168,
+    "pending_extent": true
+  },
+  {
+    "name": "FiniToolState_",
+    "start": 4272760,
+    "end": 4272760,
+    "pending_extent": true
+  },
+  {
+    "name": "FiniMsg_",
+    "start": 4280006,
+    "end": 4280006,
+    "pending_extent": true
+  },
+  {
+    "name": "HandleSignal_",
+    "start": 4270684,
+    "end": 4270684,
+    "pending_extent": true
+  }
+]

@@ -48,8 +48,9 @@ def main():
     if args.operation == "compile":
         source, output = map(Path, args.paths)
         command = ["/usr/bin/wine", windows(TOOLCHAIN / "binnt/WCC386.EXE"),
-                   "-bt=nt", "-3r", "-od", "-d2",
+                   "-bt=nt", "-3r", "-od", "-d2", "-s",
                    "-i=" + windows(ROOT / "lib/recon/include"),
+                   "-i=" + windows(TOOLCHAIN / "h"),
                    "-fo=" + windows(output), windows(source)]
         receipt = PROJECT / "build" / (output.stem + "-compile.json")
         inputs = {str(source): sha(source)}

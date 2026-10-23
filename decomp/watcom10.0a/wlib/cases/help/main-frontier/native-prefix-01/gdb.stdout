@@ -1,0 +1,17 @@
+Breakpoint 1 at 0x804a7bb: file src/main.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main (argc=2, argv=0xffffd894) at src/main.c:13
+13	    _heapchk();
+Breakpoint 2 at 0x804aba1: file ../../../lib/recon/src/compat.c, line 52.
+
+Breakpoint 2, recon_watcom_heapchk () at ../../../lib/recon/src/compat.c:52
+52	    if (recon_watcom_first_main_heap.bound!=1 || recon_watcom_first_main_heap.calls ||
+main (argc=2, argv=0xffffd894) at src/main.c:14
+14	    CheckMemoryHook();
+Value returned is $1 = 0
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x0804a8a1 in CheckMemoryHook () at src/stubs.c:8
+8	    WLIB_FRONTIER();

@@ -1,0 +1,77 @@
+{
+  "status": "accepted main142B; parent independent adoption review PASS",
+  "application_candidate": {
+    "name": "main",
+    "start": 4270695,
+    "end_exclusive": 4270837,
+    "bytes": 142,
+    "call_sites": 13,
+    "unique_callees": 9
+  },
+  "scope": "main accepted after matching fresh maskedoriginal/native CheckMemoryHook frontier. All later callee bodies remain trapping; no full nativehelp completion claim.",
+  "original_capture": {
+    "receipt": "original-prefix-01/receipt.json",
+    "sha256": "e7a44db681231fe497aa8a63d98d083f6660ea9a2f765c59ab15bfa1477e6d62",
+    "events_sha256": "a4f641651dfb1c1d4181a33042ad29eb3f00cdad45d291db02c128f94faae6d7",
+    "termination": "owned forced151 plus actual continued EXIT_PROCESS/signaled; not normal program exit"
+  },
+  "native_capture": {
+    "receipt": "native-prefix-01/receipt.json",
+    "sha256": "f0ab0655739e9921e230bf93da845c381d0146c0cbe75ae084bfa8e2aaa6f80c",
+    "state_sha256": "a1c0f5ca016da50b3ccc7d6825f0e8ee48c35dd1a94a02c22f67530077fff728",
+    "termination": "GDB owns kills at actual CheckMemoryHook INT3; not normal program exit"
+  },
+  "native_ELF_sha256": "36aa82a528987e7957ca0674dd510de659ba4dbed5d69a8ca5d55c2f14ec0291",
+  "native_initializer_proof_sha256": "1545235f35f7b7963164530eb742f7dabb641dad0d91473b2e2fbf439bac0398",
+  "closure_sha256": "1b1f029451106e1e055c63ec21a78dac740984dcebe66bc212b73fbbaff1b625",
+  "approved_shared_commits": [
+    "472a2dd1f",
+    "8c4c76102"
+  ],
+  "source_sha256": {
+    "src/main.c": "2834b65d25880768e89e3a43d39091133f23c3b4a218484f22f28e28ca870ab5",
+    "src/stubs.c": "fe1a5c7733fbf094e7f21d815e3e3d491acbb1d8f09e757db36efbe54117c864",
+    "src/wlib.h": "4e8af9f450cf0e38fbeb068400a1d497a6ee4db5a09a7040be7a9267e83633c4",
+    "scripts/native-host.c": "58acc55e80bb0966338714645bf5299e0e76e5f3fdb197402577baa728f6f90c",
+    "scripts/check-main-prefix.py": "61fb924e63ca1ca01d189f35006e87903defac0707aa71e5768cd045340ac75d",
+    "scripts/audit-main.py": "d46d8346bfca7024ed712e5fd3082d27c0d551998e99d3b8a06f68c4e1da4724",
+    "Makefile": "c8edec57ef698874738259c6854c4e2a9f5ea52ef9abf09d6a16bcd70dbfc8be"
+  },
+  "graph_proof_sha256": "1473c53b9664110642822fdc11c5b370c1a27651a770eb9a8aafa8eb233f6738",
+  "original_build": {
+    "PE_sha256": "b598eb8b8e70580b089e01bc0cbaae226e269ec2b70b573575b7d20947606059",
+    "real_MAP_sha256": "aa303388069f688b2a0ee8692e3f1568a6702186b14f863d35becdf292ad2360",
+    "compiler": "Watcom10.0a,-3r,-od,-d2,-s; no added __CHK call; exact historical ABI remains in this build"
+  },
+  "timing_seconds": {
+    "explicit_original_reference_prefix": 1.1673544580116868,
+    "parallel_native_and_original_build_plus_graph": 1.2604026375338435,
+    "native_fixture_total": 0.24727400112897158,
+    "native_execution_with_debugger_checks": 0.17381949722766876,
+    "native_setup": 0.00254114530980587
+  },
+  "native_streams": "empty stdout/stderr, stdin64LFpipe, no target artifacts",
+  "native_abi": "GCCi386 semantic formals, original/native register values not equated",
+  "matched_state": [
+    "argc2",
+    "actual argv0 originalpatchedWindows path,argv1?",
+    "Env52zero",
+    "ToolFlags0",
+    "errno0,doserrno0",
+    "architecturalx87CW127f/SW0/tagffff",
+    "nativeemptytargetnamespace bound1clean0calls0activity0\u2192clean1calls1activity0",
+    "real originalCALLreturn412a77/nativeGCC maincaller at CheckMemoryHookINT3"
+  ],
+  "parent_reviewed_packet_sha256": "edd6328c7d5f6db3f4d00caf21f3e415d0b2276db349cd6769f7b16519859760",
+  "parent_review": {
+    "path": "/root/.ai-tmp/msvc2/watcom10.0a/orchestrator-review/wlib-main-acceptance-independent.json",
+    "sha256": "99eabd5ee227844a24cbe1fce1f34c5a61a1de94cd311b11a4b0ba523fd67744"
+  },
+  "fixture_hardening": {
+    "receipt": "native-prefix-02/receipt.json",
+    "sha256": "3bc5f89a1f265084afc2e852c10b0c203831d01707d33a6a9db250ccd639a0ef",
+    "scope": "same target/sharedbinary; additionally enforces initiallyempty nativechildcwd, empty streams and no artifacts",
+    "native_fixture_total_seconds": 0.25189471431076527,
+    "native_execution_with_debugger_checks_seconds": 0.17829391174018383
+  }
+}

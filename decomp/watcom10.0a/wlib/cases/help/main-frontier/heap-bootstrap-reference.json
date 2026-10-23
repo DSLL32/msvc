@@ -1,0 +1,35 @@
+{
+  "contract": "Watcom100a WLIB first actual main call: empty target allocation namespace only",
+  "application_boundary": {
+    "main_start": 4270695,
+    "main_end_exclusive": 4270837,
+    "first_call_site": 4270701,
+    "first_call_target": 4292291,
+    "next_application_frontier": 4267999
+  },
+  "scope": [
+    "Real original bootstrap is positivelyCRT-only with allfive actualinitializers observed, noTLS/newthread/appcallback.",
+    "Native target source main/stubs contains no constructors; first application call is_heapchk, before any targetallocation. Native ELFconstructoridentity is verified separately against bound source build.",
+    "Hostconstructor104 binds this exactreference; reconstructed main remainsnamedmain and unchanged.",
+    "Shared firstcall contract validates bound1/clean0/calls0/targetactivity0, setsclean1/calls1 and returns_HEAPOK0; target allocation wrappers makeactivitysticky.",
+    "Original CRT heaproot/free-ring bytes remain outside logicalapplicationstate; native nevercopies those structures or claims glibcwholeheapvalidation.",
+    "No repeat/nonempty namespace or later_heapchk/_nheapchk/signal/jump success authorized."
+  ],
+  "original_target_sha256": "0927524a7d8f90207996257ecd32e09670016917284de5203b0015d439dda92e",
+  "pristine_sha256": "f20631839a9c1c38969f0c5930e26010361c6175790992181455b5c0ffb1cbb3",
+  "helper_sha256": "b188cdaa8b0b1585c208a3f0fadf894fe9758a2ccc43baea244540c6be13dd89",
+  "bindings": {
+    "src/main.c": "2834b65d25880768e89e3a43d39091133f23c3b4a218484f22f28e28ca870ab5",
+    "src/stubs.c": "fe1a5c7733fbf094e7f21d815e3e3d491acbb1d8f09e757db36efbe54117c864",
+    "src/wlib.h": "4e8af9f450cf0e38fbeb068400a1d497a6ee4db5a09a7040be7a9267e83633c4",
+    "cases/help/main-frontier/bootstrap-prefix-provenance.json": "c76fd20f0c46df31699c1f484c5d390cf43629b6199d33a36c63f8d163e41a3f",
+    "cases/help/main-frontier/original-prefix-01/events.txt": "a4f641651dfb1c1d4181a33042ad29eb3f00cdad45d291db02c128f94faae6d7",
+    "cases/help/main-frontier/original-prefix-01/receipt.json": "e7a44db681231fe497aa8a63d98d083f6660ea9a2f765c59ab15bfa1477e6d62",
+    "cases/help/main-frontier/original-prefix-01/bindings.json": "89f2138c77aa980598c3dd21d86e8133c04ccdc8c19154a4823f6605d386d906",
+    "cases/help/main-frontier/main-static-current.json": "a0ec8c99a0a3cf11d39bc7893b7d0eb16c9dfaf4f5b36fc07e2ea4cc25f56bc4",
+    "cases/help/main-frontier/fp-startup-provenance.json": "1d5574ad98bf9743b1cec6599ed75629fcd28386b7eb5489298e0d8b15d9b88e",
+    "scripts/diagnose-startup.c": "42f9c6180d08ba060bb01d11a4edf5a349623315a8cdbfaf665fa1ee2bd9d809",
+    "scripts/original.py": "6d28763bcd4710de5c585244352d71b659b51584d893e62e4669d8dee782af34"
+  },
+  "application_credit": 0
+}

@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x804a7ab: file src/main.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main (argc=2, argv=0xffffd984) at src/main.c:13
+13	    _heapchk();
+MAIN_CRT_INPUT argc=2 argv0=R:\toolchains\watcom10.0a\.patched\WLIB.EXE argv1=? cw=0x37f sw=0 tag=0xffff
+Breakpoint 2 at 0x804a9f8: file ../../../lib/recon/src/compat.c, line 12.
+
+Breakpoint 2, recon_watcom_heapchk () at ../../../lib/recon/src/compat.c:12
+12	{ recon_unsupported("unreviewed Watcom _heapchk"); return 0; }
+HEAP_CRT_INPUT cw=0x37f sw=0 tag=0xffff
+#0  recon_watcom_heapchk () at ../../../lib/recon/src/compat.c:12
+#1  0x0804a7b0 in main (argc=2, argv=0xffffd984) at src/main.c:13

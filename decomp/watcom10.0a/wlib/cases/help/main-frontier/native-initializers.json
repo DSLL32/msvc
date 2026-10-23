@@ -1,0 +1,58 @@
+{
+  "native_binary_sha256": "36aa82a528987e7957ca0674dd510de659ba4dbed5d69a8ca5d55c2f14ec0291",
+  "init_array_readelf": "\nHex dump of section '.init_array':\n  0x08064eec 2d730508 3dc80408 174f0508 02aa0408 -s..=....O......\n  0x08064efc 90a70408 ac1c0508                   ........\n\n",
+  "address_to_source": "recon_trace_initialize_trace\n/root/msvc2/decomp/watcom10.0a/wlib/../../../lib/recon/src/trace.c:263\ninitialize_terminal_status\n/root/msvc2/decomp/watcom10.0a/wlib/../../../lib/recon/src/crt.c:389\ninitialize_direct_main_precision\n/root/msvc2/decomp/watcom10.0a/wlib/../../../lib/recon/src/entry.c:6\nbind_first_main_heap\n/root/msvc2/decomp/watcom10.0a/wlib/scripts/native-host.c:8\nframe_dummy\ncrtstuff.c:?\ninitialize_crt\n/root/msvc2/decomp/watcom10.0a/wlib/../../../lib/recon/src/crt.c:1742\n",
+  "callbacks": [
+    {
+      "address": 134574893,
+      "name": "recon_trace_initialize_trace",
+      "source": "lib/recon/src/trace.c",
+      "classification": "shared host compatibility"
+    },
+    {
+      "address": 134531133,
+      "name": "initialize_terminal_status",
+      "source": "lib/recon/src/crt.c",
+      "classification": "shared host compatibility"
+    },
+    {
+      "address": 134565655,
+      "name": "initialize_direct_main_precision",
+      "source": "lib/recon/src/entry.c",
+      "classification": "shared host compatibility"
+    },
+    {
+      "address": 134523394,
+      "name": "bind_first_main_heap",
+      "source": "decomp/watcom10.0a/wlib/scripts/native-host.c",
+      "classification": "host binding"
+    },
+    {
+      "address": 134522768,
+      "name": "frame_dummy",
+      "source": "GCC crtstuff.c",
+      "classification": "host compiler CRT"
+    },
+    {
+      "address": 134552748,
+      "name": "initialize_crt",
+      "source": "lib/recon/src/crt.c",
+      "classification": "shared host compatibility"
+    }
+  ],
+  "source_sha256": {
+    "decomp/watcom10.0a/wlib/scripts/native-host.c": "58acc55e80bb0966338714645bf5299e0e76e5f3fdb197402577baa728f6f90c",
+    "lib/recon/src/crt.c": "0456e633ae5b7ab7d4d5f5e7fff7f445fbe741c50ba838d4704799ef3bf16a89",
+    "lib/recon/src/entry.c": "77d9a4253e5e5b1754f089ec744e50ba073eda22d486dfd68f50d5b1ea64030b",
+    "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328"
+  },
+  "no_target_constructors": true,
+  "target_source_sha256": {
+    "src/main.c": "2834b65d25880768e89e3a43d39091133f23c3b4a218484f22f28e28ca870ab5",
+    "src/stubs.c": "fe1a5c7733fbf094e7f21d815e3e3d491acbb1d8f09e757db36efbe54117c864",
+    "src/wlib.h": "4e8af9f450cf0e38fbeb068400a1d497a6ee4db5a09a7040be7a9267e83633c4"
+  },
+  "first_application_call": "main source and actual audited original/rebuilt graph begin with _heapchk; no target allocation or application call precedes it",
+  "reference_sha256": "1b1f029451106e1e055c63ec21a78dac740984dcebe66bc212b73fbbaff1b625",
+  "scope": "actual native constructor ownership; host bootstrap outside application comparison"
+}

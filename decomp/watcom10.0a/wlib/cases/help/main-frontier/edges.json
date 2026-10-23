@@ -1,0 +1,377 @@
+{
+  "scope": "read-only candidate graph; zero app acceptance and no execution during this analysis",
+  "target": {
+    "path": "toolchains/watcom10.0a/binnt/WLIB.EXE",
+    "sha256": "f20631839a9c1c38969f0c5930e26010361c6175790992181455b5c0ffb1cbb3"
+  },
+  "main": {
+    "start": 4270695,
+    "end_exclusive": 4270837,
+    "bytes": 142,
+    "sha256": "b82dcbcdca79fcd0b377d738ad42f0269f225f6dbe89f9a95b3d08a62218f018",
+    "actual_formals": "int main(int argc,char **argv): argcEAX/argvEDX, savedECX/EBX; RET0 returns bit6 of flags4302b8 as0/1",
+    "formal_ownership": "Original argv vector/string allocation ownership remains to be proved; readable mapping alone is not capacity proof",
+    "calls": [
+      {
+        "site": 4270701,
+        "instruction_bytes": "e851540000",
+        "target": 4292291
+      },
+      {
+        "site": 4270706,
+        "instruction_bytes": "e868f5ffff",
+        "target": 4267999
+      },
+      {
+        "site": 4270713,
+        "instruction_bytes": "e880210000",
+        "target": 4279294
+      },
+      {
+        "site": 4270728,
+        "instruction_bytes": "e821570000",
+        "target": 4293038
+      },
+      {
+        "site": 4270743,
+        "instruction_bytes": "e812570000",
+        "target": 4293038
+      },
+      {
+        "site": 4270758,
+        "instruction_bytes": "e803570000",
+        "target": 4293038
+      },
+      {
+        "site": 4270773,
+        "instruction_bytes": "e8f4560000",
+        "target": 4293038
+      },
+      {
+        "site": 4270783,
+        "instruction_bytes": "e8245b0000",
+        "target": 4294120
+      },
+      {
+        "site": 4270796,
+        "instruction_bytes": "e824000000",
+        "target": 4270837
+      },
+      {
+        "site": 4270801,
+        "instruction_bytes": "e86a010000",
+        "target": 4271168
+      },
+      {
+        "site": 4270806,
+        "instruction_bytes": "e89d070000",
+        "target": 4272760
+      },
+      {
+        "site": 4270811,
+        "instruction_bytes": "e8e6230000",
+        "target": 4280006
+      },
+      {
+        "site": 4270816,
+        "instruction_bytes": "e8faf4ffff",
+        "target": 4267999
+      }
+    ],
+    "direct_call_sites": 13,
+    "distinct_targets": 9,
+    "indirect_calls": 0,
+    "setjmp_branch": "Tests AL; zero path calls initialization and processing",
+    "result_expression": "(flags4302b8 &0x40)!=0"
+  },
+  "edges": [
+    {
+      "target": 4292291,
+      "end_exclusive": 4292442,
+      "name_evidence": "_heapchk / _nheapchk",
+      "classification": "CRT candidate",
+      "native_semantic_formals": "int _heapchk(void); return ignored",
+      "original_Watcom_obligations": "No formal; returnsEAX int/RET0. Live argcECX and argvEBX must survive. Private heapclean430450 and heaproot420668 are CRT state.",
+      "evidence": "Free-list verification, __NHeapWalk/checkFree loop, _HEAPBADNODE3/_HEAPEND4/_HEAPBADPTR5 handling and success cleanflag1 match body. Shipped codegen/frame differs. Actual returned value and cleanflag/caller consumption still need capture; no assumed success0.",
+      "original_body_sha256": "8f04b28a0e7df701baad26a3bbac251eec6ba729c720b8e9f468152b52ca53b8",
+      "call_sites": [
+        4270701
+      ],
+      "source_correlation": {
+        "path": "bld/clib/heap/c/nheapchk.c",
+        "commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
+        "sha256": "1938a753d825f5271726db5976e4a3055727f9bb6f8688540c2e54719c88c758",
+        "scope": "later source corroboration; not original debug symbols or blanket code identity"
+      },
+      "shipped_library": {
+        "path": "toolchains/watcom10.0a/lib386/NT/CLIB3R.LIB",
+        "sha256": "efb920061a686cb8b105134c6c3948621b668d30aa749b2e4abc069def9eb86d",
+        "module": "nheapchk",
+        "THEADR_file_offset": 151600,
+        "publics": [
+          {
+            "name": "_nheapchk_",
+            "segment": 1,
+            "offset": 170
+          },
+          {
+            "name": "_heapchk_",
+            "segment": 1,
+            "offset": 170
+          }
+        ],
+        "scope": "Module record checksums validated. Names are shipped-library publics, not recovered WLIB debug data. Explicit body differences remain."
+      }
+    },
+    {
+      "target": 4267999,
+      "end_exclusive": 4268000,
+      "name_evidence": "unidentified RET hook",
+      "classification": "application/support until identified",
+      "native_semantic_formals": "void hook(void), tentative",
+      "original_Watcom_obligations": "Exact RET0 consumes no formal and preserves all state. One physical vertex at both main callsites.",
+      "evidence": "Exact C3. Next allocator at411fe0 is separate. No proof of CRT or InitMem/FiniMem identity; source names remain unknown.",
+      "original_body_sha256": "ae3f4619b0413d70d3004b9131c3752153074e45725be13b9a148978895e359e",
+      "call_sites": [
+        4270706,
+        4270816
+      ]
+    },
+    {
+      "target": 4279294,
+      "end_exclusive": 4279399,
+      "name_evidence": "InitMsg candidate",
+      "classification": "application/resource support",
+      "native_semantic_formals": "int InitMsg(const char *image_name), return ignored",
+      "original_Watcom_obligations": "EAX argv0; EAX status/RET0; savesEBX/EDX. Writes hInstance filename420448 and resource status43034c.",
+      "evidence": "Filename assignment then OpenResFile418ac8, FindResources418b18, InitResources418ad8 match sequence;2002 outer globals/error behavior differ. WRes vertices remain support/app, not CRT.",
+      "original_body_sha256": "2d603e9ac625312ae22fcbcfa45cea8a31759290942ce53a450b85678aac29c3",
+      "call_sites": [
+        4270713
+      ],
+      "source_correlation": {
+        "path": "bld/nwlib/c/error.c",
+        "commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
+        "sha256": "dc45496216f5cc8317bf6bd265d63ba2733f6692196c3d4ae488e1b9671b25d8",
+        "scope": "later source corroboration; not original debug symbols or blanket code identity"
+      }
+    },
+    {
+      "target": 4293038,
+      "end_exclusive": 4293151,
+      "name_evidence": "signal",
+      "classification": "CRT candidate",
+      "native_semantic_formals": "handler_t signal(int,handler_t); result ignored",
+      "original_Watcom_obligations": "EAX signal,EDX callback,EAX previoushandler/RET0; savesEBX/ECX. Inputs1,7,6,4 and same callback412a5c.",
+      "evidence": "Range1..12, errno9 on bad number, abort hook, SIG_DFL2/SIG_ERR3 tests, TLS handler slots78/7c identify semantics. Shipped public exists but slots58/5c/codegen differ. Native MS/host numbering and pointer tokens must not leak into Watcom profile.",
+      "original_body_sha256": "ddac75bc5e95943530b1995b918648705e8d47e7366c75e5198b840177f1e4a4",
+      "call_sites": [
+        4270728,
+        4270743,
+        4270758,
+        4270773
+      ],
+      "source_correlation": {
+        "path": "bld/clib/process/c/signlwnt.c",
+        "commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
+        "sha256": "ec1bdd82190fe588a64f5951da36ca5eb2a80b3188aae339b1eb48b68a30c0ba",
+        "scope": "later source corroboration; not original debug symbols or blanket code identity"
+      },
+      "shipped_library": {
+        "path": "toolchains/watcom10.0a/lib386/NT/CLIB3R.LIB",
+        "sha256": "efb920061a686cb8b105134c6c3948621b668d30aa749b2e4abc069def9eb86d",
+        "module": "signlwnt",
+        "THEADR_file_offset": 108464,
+        "publics": [
+          {
+            "name": "__sigabort_",
+            "segment": 1,
+            "offset": 0
+          },
+          {
+            "name": "raise_",
+            "segment": 1,
+            "offset": 5
+          },
+          {
+            "name": "__sigfpe_handler_",
+            "segment": 1,
+            "offset": 62
+          },
+          {
+            "name": "signal_",
+            "segment": 1,
+            "offset": 133
+          },
+          {
+            "name": "__SigInit_",
+            "segment": 1,
+            "offset": 324
+          },
+          {
+            "name": "__SigFini_",
+            "segment": 1,
+            "offset": 369
+          },
+          {
+            "name": "___ExceptionFilter",
+            "segment": 1,
+            "offset": 400
+          },
+          {
+            "name": "__NewExceptionHandler_",
+            "segment": 1,
+            "offset": 1235
+          },
+          {
+            "name": "__DoneExceptionHandler_",
+            "segment": 1,
+            "offset": 1297
+          },
+          {
+            "name": "_SignalTable",
+            "segment": 4,
+            "offset": 0
+          },
+          {
+            "name": "___ExceptionHandled",
+            "segment": 5,
+            "offset": 0
+          }
+        ],
+        "scope": "Module record checksums validated. Names are shipped-library publics, not recovered WLIB debug data. Explicit body differences remain."
+      }
+    },
+    {
+      "target": 4294120,
+      "end_exclusive": 4294177,
+      "name_evidence": "_setjmp",
+      "classification": "CRT candidate",
+      "native_semantic_formals": "int _setjmp(jmp_buf); Watcom jmp_buf unsigned[13]=52B",
+      "original_Watcom_obligations": "Header special pragma: EAX env, EAX return/RET0. SavesEBX/ECX/EDX/ESI/EDI/EBP, PC/ESP, ES/DS/CS/FS/GS/SS,FS[0]. First48B written, final4B untouched. Main tests AL, not EAX.",
+      "evidence": "Exact save layout matches header/source. Shipped _setjmp_ has66-prefixed segment stores and29c0 versus unprefixed stores and2bc0 in target: not byte identity. Native caller-side host registry needs typed52B profile; never copy raw Windows context into host.",
+      "original_body_sha256": "77942d19e240f08dc00581cd9fb09a08c7f50e8e1e475cf849898c1860f01210",
+      "call_sites": [
+        4270783
+      ],
+      "source_correlation": {
+        "path": "bld/clib/startup/a/stjmp386.asm",
+        "commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
+        "sha256": "9489897eedcec1485be9ee1740bc1e89b291fb5c1a8bead2c47a7d05a4070a4a",
+        "scope": "later source corroboration; not original debug symbols or blanket code identity"
+      },
+      "shipped_library": {
+        "path": "toolchains/watcom10.0a/lib386/NT/CLIB3R.LIB",
+        "sha256": "efb920061a686cb8b105134c6c3948621b668d30aa749b2e4abc069def9eb86d",
+        "module": "stjmp386",
+        "THEADR_file_offset": 94480,
+        "publics": [
+          {
+            "name": "_setjmp_",
+            "segment": 1,
+            "offset": 0
+          },
+          {
+            "name": "longjmp_",
+            "segment": 1,
+            "offset": 63
+          }
+        ],
+        "scope": "Module record checksums validated. Names are shipped-library publics, not recovered WLIB debug data. Explicit body differences remain."
+      }
+    },
+    {
+      "target": 4270837,
+      "end_exclusive": 4271168,
+      "name_evidence": "initialize tool state",
+      "classification": "application",
+      "native_semantic_formals": "void initialize_state(int argc,char **argv), tentative",
+      "original_Watcom_obligations": "EAX argc/EDX argv,RET0; stores argc-1/argv+1; clears options, creates pool entries and uppercase map.",
+      "evidence": "Target state differs from2002 InitCmdLine reset architecture; descriptive name only.",
+      "original_body_sha256": "4fc111c93af46370396c288eb320509e20923af99dcbf22773bc90a6bc9e4609",
+      "call_sites": [
+        4270796
+      ]
+    },
+    {
+      "target": 4271168,
+      "end_exclusive": 4271312,
+      "name_evidence": "process options and commands",
+      "classification": "application",
+      "native_semantic_formals": "unsigned char process_commands(void), tentative",
+      "original_Watcom_obligations": "No formal established; AL return ignored by main/RET0. Calls parser410eb9 and target command/output operations.",
+      "evidence": "Broad genuine application logic; no single-service/CRT exemption.",
+      "original_body_sha256": "32e20987d3e36dbb2c07c580b001fba4e9d6ab0ce754e17004dd448ba4730092",
+      "call_sites": [
+        4270801
+      ]
+    },
+    {
+      "target": 4272760,
+      "end_exclusive": 4272820,
+      "name_evidence": "release tool state",
+      "classification": "application",
+      "native_semantic_formals": "void release_tool_state(void), tentative",
+      "original_Watcom_obligations": "No formal established; list/pool teardown plus TAILJMP4119f4, which retains a distinct graph edge and its actual cleanup.",
+      "evidence": "Deallocation wrappers are application-owned until positively CRT.",
+      "original_body_sha256": "60cf929cfa59fc8b44b3709076430619aed98edbdc89da0ea9657f0588205d68",
+      "call_sites": [
+        4270806
+      ]
+    },
+    {
+      "target": 4280006,
+      "end_exclusive": 4280056,
+      "name_evidence": "FiniMsg candidate",
+      "classification": "application/resource support",
+      "native_semantic_formals": "int FiniMsg(void), result ignored",
+      "original_Watcom_obligations": "No formal; EAX status/RET0; savesEDX. Tests resource status43034c and calls CloseResFile418b00.",
+      "evidence": "Resource lifetime counterpart; source correlation only, no WRes exemption.",
+      "original_body_sha256": "464965275c925083955bcdd14fea65d2553e3c83f82a151e034834669da85ce3",
+      "call_sites": [
+        4270811
+      ],
+      "source_correlation": {
+        "path": "bld/nwlib/c/error.c",
+        "commit": "6b9cb4438959d845a2b4dd4bf19f7908ecd608e9",
+        "sha256": "dc45496216f5cc8317bf6bd265d63ba2733f6692196c3d4ae488e1b9671b25d8",
+        "scope": "later source corroboration; not original debug symbols or blanket code identity"
+      }
+    }
+  ],
+  "callback": {
+    "entry": 4270684,
+    "end_exclusive": 4270695,
+    "sha256": "23a193c0f5f7bd8c7b97db6d339a7b997b6ccd1b990ff8019c61bb6d5d777d49",
+    "semantic": "void handler(int): ignores incoming signal, stores interrupt430010=1,RET0",
+    "classification": "application callback",
+    "registrations": [
+      {
+        "site": 4270728,
+        "signal": 1,
+        "handler": 4270684
+      },
+      {
+        "site": 4270743,
+        "signal": 7,
+        "handler": 4270684
+      },
+      {
+        "site": 4270758,
+        "signal": 6,
+        "handler": 4270684
+      },
+      {
+        "site": 4270773,
+        "signal": 4,
+        "handler": 4270684
+      }
+    ]
+  },
+  "header_sha256": {
+    "toolchains/watcom10.0a/h/SIGNAL.H": "c82885ca1c80d544a05de0c654d80dfbfce24f6ceafed3a700325a801c65b3a1",
+    "toolchains/watcom10.0a/h/SETJMP.H": "d2039415d0ea2a72012b472678ea0b1e62ba5d82bd647b2ec9989b3bf9c34f3d",
+    "toolchains/watcom10.0a/h/MALLOC.H": "d269c7807424c126231a7e2196058fd067148c4505fc29b91c0308830a941a30"
+  },
+  "audit_note": "Isolated analysis selection main deliberately fails against real Watcom INT3 scaffold. Not a project acceptance manifest. Scaffold has extra __CHK stack-check edge, absent in actual originalmain; no silent filtering."
+}
