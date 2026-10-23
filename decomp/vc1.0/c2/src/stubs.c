@@ -410,6 +410,7 @@ int __fastcall can_merge_float_branch(FloatStreamBranch *branch, MachineInstruct
 int __fastcall can_reuse_float_branch_target(MachineInstruction *target) { __asm int 3 }
 void release_float_motion_scratch(void) { __asm int 3 }
 void __fastcall record_float_nonfloat_uses(MachineInstruction *instruction) { __asm int 3 }
-void __fastcall record_float_operation_uses(MachineInstruction *instruction, int nested) { __asm int 3 }
 void __fastcall record_float_motion_branch(MachineInstruction *instruction) { __asm int 3 }
 void finish_float_motion_uses(void) { __asm int 3 }
+void __fastcall update_float_use_access(FloatStreamUse *use, unsigned access) { __asm int 3 }
+unsigned __fastcall float_symbol_name_hash(char *name) { __asm int 3 }

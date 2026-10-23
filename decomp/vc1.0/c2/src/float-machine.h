@@ -75,7 +75,22 @@ typedef struct MemoryMotionContext {
     unsigned flags;
 } MemoryMotionContext;
 typedef char MemoryMotionContextSizeCheck[sizeof(MemoryMotionContext) == 88 ? 1 : -1];
-typedef struct FloatStreamUse FloatStreamUse;
+/* Original64-byte per-operand use summary, allocated by3a8f0. Counts
+   describe the x87 operation classes; flags and field20 await later policy. */
+typedef struct FloatStreamUse {
+    struct FloatStreamUse *next;
+    MachineOperand *operand;
+    unsigned weighted_uses;
+    int stack_slot;
+    unsigned short base, index;
+    unsigned width, operation;
+    struct FloatStreamUse *hash_next;
+    unsigned field20, stores, multiplies, arithmetic, loads;
+    int cost_adjustment;
+    MachineInstruction *branch;
+    unsigned flags;
+} FloatStreamUse;
+typedef char FloatStreamUseSizeCheck[sizeof(FloatStreamUse) == 64 ? 1 : -1];
 extern MemoryMotionContext *memory_motion_context, *float_stream_context;
 extern MemoryMotionContext *float_stream_first_context, *float_stream_last_context;
 extern FloatStreamUse **float_stream_register_uses, **float_stream_sorted_uses;
@@ -128,4 +143,8 @@ extern FloatStreamUse *float_motion_buckets[8];
 extern int float_motion_writes_unknown_memory, float_motion_reads_unknown_memory;
 /* Tagged register-map cell; not a valid FloatStreamUse allocation. */
 #define FLOAT_STREAM_FIXED_REGISTER ((FloatStreamUse *)1)
+FloatStreamUse *__fastcall find_float_stream_use(MachineOperand *operand, int create, unsigned width, unsigned operation);
+void __fastcall update_float_use_access(FloatStreamUse *use, unsigned access);
+unsigned __fastcall float_operand_hash(MachineOperand *operand);
+unsigned __fastcall float_symbol_name_hash(char *name);
 #endif

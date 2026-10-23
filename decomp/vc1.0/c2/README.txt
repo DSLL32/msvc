@@ -2548,3 +2548,9 @@ Whole floating motion range analysis: checkpoint1014
 @record_float_operation_uses@8. 935 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-motion-analysis.json for extent union, limits and measured timings.
+
+Floating operation summaries and operand interning: checkpoint1017
+3 acceptances pass fresh original/native matching; current frontier
+@update_float_use_access@8. 938 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-use-interning.json for extent union, limits and measured timings.

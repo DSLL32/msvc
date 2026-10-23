@@ -1018,7 +1018,10 @@
     "@match_float_stream_branches@12",
     "@analyze_float_motion_range@12",
     "_initialize_float_motion_uses",
-    "@resolve_float_motion_branch@4"
+    "@resolve_float_motion_branch@4",
+    "@record_float_operation_uses@8",
+    "@find_float_stream_use@16",
+    "@float_operand_hash@4"
   ],
   "driver": [
     {
@@ -7224,8 +7227,7 @@
     {
       "name": "@record_float_operation_uses@8",
       "start": 238768,
-      "end": 238769,
-      "provisional": true
+      "end": 239421
     },
     {
       "name": "@record_float_motion_branch@4",
@@ -7242,6 +7244,28 @@
       "name": "_finish_float_motion_uses",
       "start": 238384,
       "end": 238385,
+      "provisional": true
+    },
+    {
+      "name": "@find_float_stream_use@16",
+      "start": 239856,
+      "end": 240322
+    },
+    {
+      "name": "@update_float_use_access@8",
+      "start": 240336,
+      "end": 240337,
+      "provisional": true
+    },
+    {
+      "name": "@float_operand_hash@4",
+      "start": 239536,
+      "end": 239821
+    },
+    {
+      "name": "@float_symbol_name_hash@4",
+      "start": 239824,
+      "end": 239825,
       "provisional": true
     }
   ],

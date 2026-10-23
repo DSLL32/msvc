@@ -1296,3 +1296,156 @@ void __fastcall resolve_float_motion_branch(MachineInstruction *instruction)
         branch = branch->next;
     }
 }
+
+/* Original [0003a4b0,0003a73d). Collect weighted floating memory/virtual
+   uses. Adjacent load/store pairs carry their original CPU cost penalty;
+   nested contexts mark an operand unavailable and stop collection early. */
+void __fastcall record_float_operation_uses(MachineInstruction *instruction, int nested)
+{
+    MachineOperand *operand;
+    MachineInstruction *probe;
+    FloatStreamUse *use;
+    unsigned operation = FM_OPERATION(instruction);
+    int adjacent_store;
+    if (machine_operand_counts[operation] == 0) return;
+    operand = &instruction->operands[0];
+    if ((operand->flags & 15) != OPERAND_REGISTER || (operand->value.reg.words.number & 0x3fff) > 21) {
+        use = find_float_stream_use(operand, 1, (instruction->opcode >> 4) & 15, operation);
+        if (nested) {
+            use->flags |= 2;
+            return;
+        }
+        use->flags = (use->flags & ~0x40U) | ((instruction->record.float_flags >> 3) & 0x40);
+        if (operation == MC_FST || operation == MC_FSTP) {
+            use->flags |= 0x20;
+            update_float_use_access(use, 1);
+            if (FM_OPERATION(instruction) == MC_FSTP && float_motion_previous && FM_OPERATION(float_motion_previous) == MC_FLD) {
+                use->cost_adjustment -= cpu_model < 4 ? 43 : 9;
+                goto second_operand;
+            }
+            ++use->stores;
+        }
+        use->weighted_uses += float_motion_mode;
+    }
+second_operand:
+    operation = FM_OPERATION(instruction);
+    operand = &instruction->operands[1];
+    if (machine_operand_counts[operation] == 2 &&
+        ((operand->flags & 15) != OPERAND_REGISTER || (operand->value.reg.words.number & 0x3fff) > 21)) {
+        use = find_float_stream_use(operand, 1, (instruction->opcode >> 4) & 15, operation);
+        if (nested) {
+            use->flags |= 2;
+            return;
+        }
+        use->flags = (use->flags & ~0x40U) | ((instruction->record.float_flags >> 3) & 0x40);
+        if (FM_OPERATION(instruction) == MC_FLD) {
+            adjacent_store = 0;
+            for (probe = instruction->next; probe; probe = probe->next) {
+                if (FM_MOTION_BARRIER(probe)) break;
+                if (FM_ELIGIBLE(probe) && FM_FLOAT(probe)) {
+                    adjacent_store = FM_OPERATION(probe) == MC_FSTP;
+                    break;
+                }
+            }
+            if (adjacent_store) use->cost_adjustment -= cpu_model < 4 ? 43 : 9;
+            else {
+                ++use->loads;
+                use->weighted_uses += float_motion_mode;
+            }
+        } else {
+            use->weighted_uses += float_motion_mode;
+            if (FM_OPERATION(instruction) == MC_FMUL && cpu_model == 4) ++use->multiplies;
+            else ++use->arithmetic;
+        }
+        update_float_use_access(use, 2);
+    }
+    float_motion_previous = instruction;
+}
+
+/* Original [0003a8f0,0003aac2). Intern a typed use record by canonical
+   operand equality. The record owns copies of its operand and address so
+   later instruction rewrites cannot change the lookup key. */
+FloatStreamUse *__fastcall find_float_stream_use(MachineOperand *operand, int create, unsigned width, unsigned operation)
+{
+    unsigned bucket = float_operand_hash(operand), kind = operand->flags & 15;
+    FloatStreamUse *use;
+    unsigned *word, count;
+    for (use = float_motion_buckets[bucket]; use; use = use->hash_next) {
+        if (operands_equal(operand, use->operand)) {
+            if (!(use->flags & 4) && ((operation >= MC_FADD && operation <= MC_FLD1) ||
+                (operation >= MC_FUCOM && operation <= MC_FCOS))) use->flags |= 4;
+            if (kind == OPERAND_REGISTER) use->flags = (use->flags & ~1U) | ((operand->flags >> 10) & 1);
+            return use;
+        }
+    }
+    if (create != 1) return use;
+    use = arena_alloc(4, sizeof(*use));
+    word = (unsigned *)use;
+    count = sizeof(*use) / sizeof(*word);
+    while (count--) *word++ = 0;
+    if ((operation >= MC_FADD && operation <= MC_FLD1) || (operation >= MC_FUCOM && operation <= MC_FCOS)) use->flags |= 4;
+    use->operand = arena_alloc(4, sizeof(*use->operand));
+    *use->operand = *operand;
+    if (kind != OPERAND_REGISTER) {
+        use->operand->value.address = arena_alloc(4, sizeof(MachineAddress));
+        *use->operand->value.address = *operand->value.address;
+    }
+    if (kind == OPERAND_REGISTER) {
+        use->operand->flags &= ~0x400U;
+        use->flags = (use->flags & ~1U) | ((operand->flags >> 10) & 1);
+    } else use->flags &= ~1U;
+    use->stack_slot = -1;
+    use->base = use->index = 0xffff;
+    use->width = width;
+    use->operation = operation;
+    if (kind == OPERAND_BASED || kind == OPERAND_INDEXED) {
+        if (kind == OPERAND_INDEXED) use->index = operand->value.address->index.words.number & 0x3fff;
+        if (operand->value.address->base.words.number != 27) use->base = operand->value.address->base.words.number & 0x3fff;
+    }
+    use->hash_next = float_motion_buckets[bucket];
+    float_motion_buckets[bucket] = use;
+    return use;
+}
+
+/* Original [0003a7b0,0003a8cd). Hash the original operand identity fields.
+   The indexed form deliberately adds the base twice (unless absent) and
+   does not hash its index; equality still distinguishes colliding operands. */
+unsigned __fastcall float_operand_hash(MachineOperand *operand)
+{
+    MachineAddress *address;
+    SymbolHeader *symbol;
+    unsigned hash = 0, kind = operand->flags & 15, base;
+    switch (kind) {
+    case OPERAND_REGISTER:
+        hash = operand->value.reg.words.number & 0x3fff;
+        break;
+    case OPERAND_ABSOLUTE:
+        address = operand->value.address;
+        hash = float_symbol_name_hash(symbol_display_name(address->symbol)) + (unsigned)address->first.displacement;
+        break;
+    case OPERAND_BASED: case OPERAND_INDEXED:
+        address = operand->value.address;
+        symbol = address->symbol;
+        if (symbol) {
+            if (symbol->kind == 19) hash = symbol->field04;
+            else hash = float_symbol_name_hash(symbol_display_name(symbol));
+        }
+        base = address->base.words.number;
+        if (kind == OPERAND_INDEXED) {
+            if (base != 27) hash += base;
+            hash += (operand->flags & 0x300) >> 8;
+        }
+        hash += base + (unsigned)address->first.displacement;
+        break;
+    case OPERAND_SYMBOL:
+        hash = float_symbol_name_hash(symbol_display_name(operand->value.symbol));
+        break;
+    default:
+        compiler_internal_error("@(#)fltreg.c:1.31", 0x564);
+        break;
+    }
+    /* Unsigned subtraction preserves the original32-bit abs wrap at
+       INT_MIN, whose signed remainder modulo8 is also zero. */
+    if ((int)hash < 0) hash = 0U - hash;
+    return hash & 7;
+}
