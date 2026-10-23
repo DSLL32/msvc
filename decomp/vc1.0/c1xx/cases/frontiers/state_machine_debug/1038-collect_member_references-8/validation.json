@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_collect_member_references@8",
+    "start": 253728,
+    "end": 254088
+  },
+  "distinct_direct_callees": [
+    "_allocate_permanent@4",
+    "_collect_member_references@8",
+    "_refill_arena@8"
+  ],
+  "next_frontier": "_print_inline_declaration@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.3923970963805914,
+  "total_operation_seconds": 3.2676560431718826,
+  "original_capture_seconds": 1.0668484643101692
+}

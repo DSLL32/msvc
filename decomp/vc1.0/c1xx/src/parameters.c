@@ -310,3 +310,69 @@ IrToken *__stdcall save_default_argument(IrToken *expression)
     if (groups) expression = wrap_default_argument_members(expression, groups);
     return append_expression((IrToken *)default_argument_storage[declaration_depth], expression, 2);
 }
+
+/* Original 0x3df20..0x3e088. Walk deferred expression variants and
+   group kind-0xa7 member references by the identity of their payload. Each
+   group retains the original expression nodes for later substitutions. */
+void __stdcall collect_member_references(MemberReferenceGroup **groups, IrToken *expression)
+{
+    ExpressionReference *reference;
+    MemberReferenceGroup *group;
+    ArenaPool *pool;
+    unsigned char kind;
+    while (expression) {
+        kind = expression->flags & 7;
+        if (kind == 2) {
+            collect_member_references(groups, EXPR(expression)->left);
+            expression = EXPR(expression)->right;
+            continue;
+        }
+        if (kind == 1) {
+            expression = EXPR(expression)->left;
+            continue;
+        }
+        if (kind == 7) {
+            if (expression->kind != 0xc8 && expression->kind != 0xc9) return;
+            reference = expression->tail.references;
+            while (reference) {
+                collect_member_references(groups, reference->expression);
+                reference = reference->next;
+            }
+            expression = EXPR(expression)->left;
+            continue;
+        }
+        if (kind != 4 || expression->kind != 0xa7) return;
+        group = *groups;
+        while (group && group->references->expression->value.pointer != expression->value.pointer)
+            group = group->next;
+        if (!group) {
+            if (token_allocation_flags & 0x20000020UL)
+                group = allocate_permanent(sizeof(MemberReferenceGroup));
+            else {
+                pool = &compiler_arena.pools[1];
+                if (pool->remaining < (int)sizeof(MemberReferenceGroup))
+                    refill_arena(&compiler_arena, pool);
+                group = (MemberReferenceGroup *)pool->next;
+                pool->remaining -= sizeof(MemberReferenceGroup);
+                pool->next += sizeof(MemberReferenceGroup);
+            }
+            group->next = *groups;
+            *groups = group;
+            group->references = 0;
+        }
+        if (token_allocation_flags & 0x20000020UL)
+            reference = allocate_permanent(sizeof(ExpressionReference));
+        else {
+            pool = &compiler_arena.pools[1];
+            if (pool->remaining < (int)sizeof(ExpressionReference))
+                refill_arena(&compiler_arena, pool);
+            reference = (ExpressionReference *)pool->next;
+            pool->remaining -= sizeof(ExpressionReference);
+            pool->next += sizeof(ExpressionReference);
+        }
+        reference->expression = expression;
+        reference->next = group->references;
+        group->references = reference;
+        return;
+    }
+}
