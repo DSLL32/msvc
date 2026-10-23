@@ -1,0 +1,29 @@
+{
+  "functions": [
+    {
+      "name": "@prepare_float_machine_data@4",
+      "start": 248624,
+      "end": 249170,
+      "edges": [
+        "@call_float_result_count@4",
+        "@call_preserves_float_stack@4",
+        "@finish_float_machine_range@4",
+        "@float_register_heap_allocate@4",
+        "@prepare_float_machine_instruction@8",
+        "@scan_float_machine_range@8",
+        "_exclude_float_machine_registers",
+        "_initialize_float_register_homes",
+        "_release_float_machine_data",
+        "_reset_float_register_stack"
+      ]
+    },
+    {
+      "name": "_initialize_float_register_homes",
+      "start": 254512,
+      "end": 254583,
+      "edges": []
+    }
+  ],
+  "property_proof": "hello-machine-regions-abi.json",
+  "note": "Whole driver and initializer; other floating helpers remain named traps. Twenty-byte records introduced at their allocation and first encountered fields."
+}

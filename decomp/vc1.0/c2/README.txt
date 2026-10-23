@@ -2470,3 +2470,9 @@ Runtime external symbols and x87 conversion accounting: checkpoint983
 @prepare_float_machine_data@4. 904 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-runtime.json for extent union, limits and measured timings.
+
+Floating machine-data driver and stack initialization: checkpoint986
+3 acceptances pass fresh original/native matching; current frontier
+@scan_float_machine_range@8. 907 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-machine-driver.json for extent union, limits and measured timings.

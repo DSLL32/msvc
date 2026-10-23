@@ -32,6 +32,7 @@
 #include "records.h"
 #include "backend-passes.h"
 #include "float-peepholes.h"
+#include "float-machine.h"
 #include <recon.h>
 BOOL WINAPI compiler_control(DWORD event) { __asm int 3 }
 void initialize_debugging(void) { __asm int 3 }
@@ -175,6 +176,7 @@ void __fastcall optimize_sahf(MachineInstruction *instruction) { __asm int 3 }
 
 #include "instruction-encoding.h"
 #include "float-peepholes.h"
+#include "float-machine.h"
 #include <recon.h>
 int __fastcall extend_previous_instruction(MachineInstruction *instruction, unsigned bytes) { __asm int 3 }
 unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
@@ -300,7 +302,6 @@ MachineInstruction *__fastcall find_transfer_call_boundary(MachineInstruction *t
 
 int __fastcall close_machine_region(MachineFlowRegion *parent, MachineFlowRegion *region) { __asm int 3 }
 MachineFlowRegion *__fastcall process_special_machine_region_reference(MachineFlowRegion *region, SymbolHeader *label) { __asm int 3 }
-void __fastcall prepare_float_machine_data(int has_protected_blocks) { __asm int 3 }
 void rewrite_float_machine_data(void) { __asm int 3 }
 void prepare_float_stream_uses(void) { __asm int 3 }
 void __fastcall prepare_machine_region_transform(MachineFlowRegion *region) { __asm int 3 }
@@ -390,3 +391,10 @@ void __fastcall split_float_memory_transfer(MachineInstruction *load, MachineIns
 int __fastcall can_split_float_transfer(MachineInstruction *load, MachineInstruction *store) { __asm int 3 }
 int __fastcall can_reuse_float_load(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall fold_previous_float_load(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
+
+int __fastcall scan_float_machine_range(MachineInstruction *first, MachineInstruction **end) { __asm int 3 }
+MachineInstruction *__fastcall prepare_float_machine_instruction(MachineInstruction *instruction, MachineInstruction **next) { __asm int 3 }
+void __fastcall finish_float_machine_range(MachineInstruction *boundary) { __asm int 3 }
+int __fastcall call_preserves_float_stack(MachineInstruction *instruction) { __asm int 3 }
+void exclude_float_machine_registers(void) { __asm int 3 }
+void release_float_machine_data(void) { __asm int 3 }

@@ -1,0 +1,9 @@
+{
+  "executable_sha256": "7c85722ae0d7ff19573476a8418708586482b3cbe073ab8ebebf4299aeaa7bf3",
+  "config_sha256": "b85df060bd6b81d65577bec71c5c16b27a8228fc7f007e39b5c821b26785e02a",
+  "seconds": 0.1343846684321761,
+  "logical": "_reset_float_register_stack",
+  "matched": true,
+  "log_sha256": "55dc06854107aec245203deea00364030e2fad60dd74600fc9b466bdd593ff12",
+  "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-8jznkwmg"
+}
