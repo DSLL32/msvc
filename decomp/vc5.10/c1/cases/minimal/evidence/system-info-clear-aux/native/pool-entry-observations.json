@@ -1,0 +1,218 @@
+[
+  {
+    "formal_inventory": [
+      {
+        "name": "this",
+        "type": "CompilerPool *"
+      },
+      {
+        "name": "minimum_pages",
+        "type": "unsigned int"
+      }
+    ],
+    "index": 0,
+    "values": [
+      134764832,
+      91,
+      7,
+      134765216
+    ],
+    "pc": 134528496,
+    "ecx": 134657256,
+    "esp": 4294956892,
+    "return": 134528659,
+    "argument": 1
+  },
+  {
+    "formal_inventory": [
+      {
+        "name": "this",
+        "type": "CompilerPool *"
+      },
+      {
+        "name": "minimum_pages",
+        "type": "unsigned int"
+      }
+    ],
+    "index": 1,
+    "values": [
+      134764848,
+      92,
+      8,
+      134765232
+    ],
+    "pc": 134528496,
+    "ecx": 134657272,
+    "esp": 4294956892,
+    "return": 134528742,
+    "argument": 1
+  },
+  {
+    "formal_inventory": [
+      {
+        "name": "this",
+        "type": "CompilerPool *"
+      },
+      {
+        "name": "minimum_pages",
+        "type": "unsigned int"
+      }
+    ],
+    "index": 2,
+    "values": [
+      134764864,
+      93,
+      9,
+      134765248
+    ],
+    "pc": 134528496,
+    "ecx": 134657288,
+    "esp": 4294956892,
+    "return": 134528838,
+    "argument": 1
+  },
+  {
+    "formal_inventory": [
+      {
+        "name": "this",
+        "type": "CompilerPool *"
+      },
+      {
+        "name": "minimum_pages",
+        "type": "unsigned int"
+      }
+    ],
+    "index": 3,
+    "values": [
+      134764880,
+      94,
+      10,
+      134765264
+    ],
+    "pc": 134528496,
+    "ecx": 134657304,
+    "esp": 4294956892,
+    "return": 134528934,
+    "argument": 1
+  },
+  {
+    "formal_inventory": [
+      {
+        "name": "this",
+        "type": "CompilerPool *"
+      },
+      {
+        "name": "minimum_pages",
+        "type": "unsigned int"
+      }
+    ],
+    "index": 4,
+    "values": [
+      134764896,
+      95,
+      11,
+      134765280
+    ],
+    "pc": 134528496,
+    "ecx": 134657320,
+    "esp": 4294956892,
+    "return": 134529030,
+    "argument": 1
+  },
+  {
+    "formal_inventory": [
+      {
+        "name": "this",
+        "type": "CompilerPool *"
+      },
+      {
+        "name": "minimum_pages",
+        "type": "unsigned int"
+      }
+    ],
+    "index": 5,
+    "values": [
+      134764912,
+      96,
+      12,
+      134765296
+    ],
+    "pc": 134528496,
+    "ecx": 134657336,
+    "esp": 4294956892,
+    "return": 134529126,
+    "argument": 1
+  },
+  {
+    "formal_inventory": [
+      {
+        "name": "this",
+        "type": "CompilerPool *"
+      },
+      {
+        "name": "minimum_pages",
+        "type": "unsigned int"
+      }
+    ],
+    "index": 6,
+    "values": [
+      134764928,
+      97,
+      13,
+      134765312
+    ],
+    "pc": 134528496,
+    "ecx": 134657352,
+    "esp": 4294956892,
+    "return": 134529222,
+    "argument": 1
+  },
+  {
+    "formal_inventory": [
+      {
+        "name": "this",
+        "type": "CompilerPool *"
+      },
+      {
+        "name": "minimum_pages",
+        "type": "unsigned int"
+      }
+    ],
+    "index": 7,
+    "values": [
+      134764944,
+      98,
+      14,
+      134765328
+    ],
+    "pc": 134528496,
+    "ecx": 134657368,
+    "esp": 4294956892,
+    "return": 134529318,
+    "argument": 1
+  },
+  {
+    "formal_inventory": [
+      {
+        "name": "this",
+        "type": "CompilerPool *"
+      },
+      {
+        "name": "minimum_pages",
+        "type": "unsigned int"
+      }
+    ],
+    "index": 8,
+    "values": [
+      134764960,
+      99,
+      15,
+      134765344
+    ],
+    "pc": 134528496,
+    "ecx": 134657384,
+    "esp": 4294956892,
+    "return": 134529417,
+    "argument": 1
+  }
+]

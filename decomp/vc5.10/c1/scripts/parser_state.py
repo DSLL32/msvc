@@ -5,7 +5,7 @@ from allocation_imports import export_rva
 from provenance import captured_native_binary
 
 def validate(original,native,entry,state,entry_sequence,sequence,module,candidate):
- assert candidate['expected_frontier']['kind']=='post-internal-switches' and candidate['expected_frontier']['rva']==0x12998
+ assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('post-internal-switches',0x12998),('post-system-info',0x12999)]
  events=(original/'events.txt').read_text();binary=captured_native_binary(native);names=symbols(binary)
  entries=json.loads((native/'internal-parser-entries.json').read_text());returns=json.loads((native/'internal-parser-returns.json').read_text())
  raw_entries=re.findall(r'^internal-parser-entry index=(\d+) seq=(\d+) argument=([0-9a-f]+) mode=(\d+) esp=([0-9a-f]+)$',events,re.M)
@@ -67,7 +67,7 @@ def validate(original,native,entry,state,entry_sequence,sequence,module,candidat
  assert at==len(environment)
  assert state['args']=={} and state['formal_inventory']==[] and state['caller']['symbol']=='c1_main'
  assert state['compiler_state']==entry['compiler_state']
- for key,value in entry['crt_state'].items():assert state[key]==value
+ for key,value in entry['crt_state'].items():assert(state['crt_state']if 'crt_state'in state else state)[key]==value
  call(binary,state['caller']['pc'],names['initialize_state_12998'][0])
  for region in ('compiler-data','compiler-bss','compiler-snapshot','state'):
   assert (original/('%s-%03d.bin'%(region,entry_sequence))).read_bytes()==(original/('%s-%03d.bin'%(region,sequence))).read_bytes()

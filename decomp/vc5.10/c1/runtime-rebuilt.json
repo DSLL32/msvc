@@ -98,30 +98,23 @@
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_initialize_state_12998",
-    "start": 268442890,
-    "end": 268442891,
-    "pending_extent": true,
-    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
-  },
-  {
     "name": "_initialize_compiler_arenas",
-    "start": 268442902,
-    "end": 268442903,
+    "start": 268442895,
+    "end": 268442896,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_parse_command_line",
-    "start": 268442914,
-    "end": 268442915,
+    "start": 268442907,
+    "end": 268442908,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_compile_translation_unit",
-    "start": 268442926,
-    "end": 268442927,
+    "start": 268442919,
+    "end": 268442920,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },

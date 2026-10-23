@@ -53,6 +53,10 @@ static DWORD parser_return_address, parser_entry_esp, parser_calls;
 static BYTE parser_return_saved;
 static int parser_return_active, parser_probe;
 static Range getenv_observer;
+static Range system_observers[2];
+static int system_probe;
+static DWORD system_before_esp, system_before_error;
+
 
 
 
@@ -243,6 +247,22 @@ static void prepare_mask(void)
             if (getenv_observer.saved != snapshot[rva - code_rva] || getenv_observer.saved != 0x83) fail("internal getenv observer outside owned source");
             if (fscanf(probe, "%lx", &rva) != EOF) fail("extra getenv observer metadata");
             patch(base + getenv_observer.first, 0xcc); parser_probe = 1; fclose(probe);
+        }
+    }
+    {
+        FILE *probe = fopen("system-info-observers.txt", "r");
+        DWORD rva;
+        unsigned index;
+        if (probe) {
+            for (index = 0; index < 2; ++index) {
+                if (fscanf(probe, "%lx", &rva) != 1 || rva != (index ? 0x127f2 : 0x127ec)) fail("systeminfo observer metadata");
+                system_observers[index].first = rva;
+                readmem(base + rva, &system_observers[index].saved, 1);
+                if (system_observers[index].saved != snapshot[rva - code_rva] || system_observers[index].saved != (index ? 0xe8 : 0xff)) fail("systeminfo observer outside owned source");
+                patch(base + rva, 0xcc);
+            }
+            if (fscanf(probe, "%lx", &rva) != EOF) fail("extra systeminfo observer metadata");
+            fclose(probe); system_probe = 1;
         }
     }
     save_remote_state("compiler-callbacks", 0, base + 0x69000, 34 * 4);
@@ -875,7 +895,8 @@ int main(int argc, char **argv)
             memset(&context, 0, sizeof(context)); context.ContextFlags = CONTEXT_FULL | CONTEXT_FLOATING_POINT;
             if (!GetThreadContext(thread, &context)) fail("GetThreadContext");
             if (code == EXCEPTION_SINGLE_STEP && pending != -1) {
-                if (pending == -20) patch(base + getenv_observer.first, 0xcc);
+                if (pending == -21 || pending == -22) patch(base + system_observers[-pending - 21].first, 0xcc);
+                else if (pending == -20) patch(base + getenv_observer.first, 0xcc);
                 else if (pending <= -3) patch(base + allocation_observers[-pending - 3].first, 0xcc);
                 else if (pending == -2) patch(restore_observer, 0xcc);
                 else patch(base + ranges[pending].first, 0xcc);
@@ -968,6 +989,20 @@ int main(int argc, char **argv)
                     if (resolved != exported(crt_base, "getenv")) fail("canonical getenv provider");
                     fprintf(events, "internal-getenv seq=%u pc=%08lx provider=%08lx name=%s name-address=%08lx result=%08lx parser-calls=%lu\n", sequence, address, resolved, text, name, context.Eax, parser_calls);
                 }
+                if (system_probe && (address == base + 0x127ec || address == base + 0x127f2)) {
+                    DWORD argument, provider;
+                    SYSTEM_INFO info;
+                    if (address == base + 0x127ec) {
+                        readmem(context.Esp, &argument, 4); readmem(base + 0x5d1b4, &provider, 4);
+                        if (argument != base + 0x5f508) fail("GetSystemInfo output identity");
+                        system_before_esp = context.Esp; system_before_error = thread_error(&context, thread);
+                        fprintf(events, "systeminfo-before seq=%u pc=%08lx esp=%08lx argument=%08lx provider=%08lx error=%lu fpu=%04lx\n", sequence, address, context.Esp, argument, provider, system_before_error, context.FloatSave.ControlWord);
+                        save_remote_state("system-info-before", 0, argument, sizeof(info));
+                    } else {
+                        fprintf(events, "systeminfo-after seq=%u pc=%08lx esp=%08lx before-esp=%08lx error=%lu before-error=%lu fpu=%04lx\n", sequence, address, context.Esp, system_before_esp, thread_error(&context, thread), system_before_error, context.FloatSave.ControlWord);
+                        save_remote_state("system-info-after", 0, base + 0x5f508, sizeof(info));
+                    }
+                }
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;
@@ -977,6 +1012,9 @@ int main(int argc, char **argv)
                 } else if (restore_probe && address == restore_observer) {
                     patch(address, restore_observer_saved); pending = -2;
                     context.EFlags |= 0x100;
+                } else if (system_probe && (address == base + 0x127ec || address == base + 0x127f2)) {
+                    i = address == base + 0x127ec ? 0 : 1;
+                    patch(address, system_observers[i].saved); pending = -(int)i - 21; context.EFlags |= 0x100;
                 } else if (parser_probe && address == base + getenv_observer.first) {
                     patch(address, getenv_observer.saved); pending = -20; context.EFlags |= 0x100;
                 } else {

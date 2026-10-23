@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Capture a native INT3 frontier using Linux GDB; no original execution."""
 import argparse
+import os
 import hashlib
 import re
 import json
@@ -27,6 +28,7 @@ def main():
     parser.add_argument("--restore-probe", action="store_true")
     parser.add_argument("--prospective-tail-chain", action="store_true", help="bounded raw-only input observation, never acceptance")
     parser.add_argument("--negative-value", action="store_true", help="labeled negative signed-value auxiliary input")
+    parser.add_argument("--system-info-reference", type=Path, help="actual immutable original GetSystemInfo-only capture")
     parser.add_argument("--compiled-build", type=Path, help="verified prebuild source-content manifest for this exact ELF")
     parser.add_argument("--reuse-build-from", type=Path, help="prior verified capture of the same ELF and owned sources")
     parser.add_argument("--pdb-reuse", type=int, choices=(0,1), default=0, help="labeled persistent-context helper reuse branch")
@@ -56,6 +58,11 @@ def main():
         assert subprocess.run(["make", "-q", "build/native/c1-host"], cwd=PROJECT,
                               stdout=subprocess.DEVNULL).returncode == 0, "rebuild the stale native binary first"
         freeze(native_sources(), output / "source-snapshot.json")
+    system_reference=None
+    assert bool(args.system_info_reference)==bool(candidate.get('system_info_observers'))
+    if args.system_info_reference:
+        from system_info_reference import encode
+        system_reference=encode(args.system_info_reference,output/'system-info-profile.bin',candidate_path)
     field_map = json.loads((PROJECT / candidate["field_map"]).read_text()) if candidate.get("field_map") else {}
     buffer_models = field_map.get("output_buffers", [])
     import_boundary = candidate.get("expected_frontier", {}).get("kind") == "import-boundary"
@@ -336,7 +343,36 @@ class ActualScannerEntry(gdb.Breakpoint):
         return False
 ActualScannerEntry('*0x%x')
 """%scanner_address
-            main_probe+=work_probe+scanner_probe
+            empty_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] initialize_state_12998$',table,re.M)[1],16)
+            empty_probe="""empty_entries=[]
+class ActualEmptyEntry(gdb.Breakpoint):
+    def stop(self):
+        esp=int(gdb.parse_and_eval('$esp'))
+        words=list(struct.unpack('<I',gdb.selected_inferior().read_memory(esp,4).tobytes()))
+        block=gdb.block_for_pc(int(gdb.parse_and_eval('$pc')))
+        while block and not block.function:block=block.superblock
+        assert block and block.function
+        formals=[{'name':symbol.name,'type':str(symbol.type)} for symbol in block if symbol.is_argument]
+        assert formals==[]
+        crt_state={'win32_last_error':int(gdb.parse_and_eval('last_error')),'x87_control':int(gdb.parse_and_eval('$fctrl')),
+          'crt_attached':int(gdb.parse_and_eval('c1_crt_attached')),'raw_dllmain':int(gdb.parse_and_eval('(unsigned int)c1_raw_dllmain')),
+          'onexit_begin':int(gdb.parse_and_eval('(unsigned int)c1_onexit_begin')),'onexit_end':int(gdb.parse_and_eval('(unsigned int)c1_onexit_end')),
+          'onexit_first':int(gdb.parse_and_eval('(unsigned int)*c1_onexit_begin')),'crt_adjust_fdiv':int(gdb.parse_and_eval('c1_crt_adjust_fdiv')),
+          'dll_instance':int(gdb.parse_and_eval('(unsigned int)c1_dll_instance')),'module_token':int(gdb.parse_and_eval('(unsigned int)c1_host_module'))}
+        frame=gdb.newest_frame();caller=frame.older()
+        ancestor=frame
+        while ancestor and ancestor.name()!='InvokeCompilerPass':ancestor=ancestor.older()
+        assert ancestor
+        actual={key:int(ancestor.read_var(key).cast(gdb.lookup_type('unsigned int')))for key in ('argc','argv','mode')}
+        invocation={'symbol':ancestor.name(),'args':actual,'argv':[ancestor.read_var('argv')[i].string()for i in range(actual['argc'])],
+          'argv_pointers':[int(ancestor.read_var('argv')[i].cast(gdb.lookup_type('unsigned int')))for i in range(actual['argc'])],
+          'argv_terminator':int(ancestor.read_var('argv')[actual['argc']].cast(gdb.lookup_type('unsigned int')))}
+        empty_entries.append({'invocation':invocation,'crt_state':crt_state,'boundary_rva':0x12998,'symbol':block.function.name,'pc':int(gdb.parse_and_eval('$pc')),'esp':esp,'return':words[0],
+          'args':{},'formal_inventory':formals,'compiler_state':capture_modeled(),'caller':{'symbol':caller.name(),'pc':int(caller.pc()),'args':{key:int(caller.read_var(key).cast(gdb.lookup_type('unsigned int'))) for key in ('argc','argv')}}})
+        return False
+ActualEmptyEntry('*0x%x')
+"""%empty_address
+            main_probe+=work_probe+scanner_probe+empty_probe
             allocation_probe=allocation_probe.replace('\nend\n','\n'+main_probe+'end\n')
             commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(main_entries,indent=2)+'\\n')\n"%str(output/'main-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(work_entries,indent=2)+'\\n')\n"%str(output/'work-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
@@ -472,6 +508,37 @@ InternalGetenvEntry('*0x%x')
 """%(parser_address,getenv_address)
             allocation_probe=allocation_probe.replace('\nend\n','\n'+parser_probe+'end\n')
             for name,expression in [('internal-parser-entries.json','internal_parser_entries'),('internal-parser-returns.json','internal_parser_returns'),('internal-getenv-entries.json','internal_getenv_entries'),('internal-getenv-returns.json','internal_getenv_returns')]:
+                commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')\n"%(str(output/name),expression)+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
+        if candidate.get('system_info_observers'):
+            table=subprocess.check_output(['nm','-S','--defined-only',str(binary)],text=True)
+            system_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] recon_GetSystemInfo$',table,re.M)[1],16)
+            system_probe="""system_entries=[]
+system_returns=[]
+class SystemInfoReturn(gdb.Breakpoint):
+    def stop(self):
+        entry=system_entries[-1]
+        system_returns.append({'pc':int(gdb.parse_and_eval('$pc')),'esp':int(gdb.parse_and_eval('(unsigned int)$esp')),
+          'profile':{'bound':int(gdb.parse_and_eval('native_system_profile.bound')),'system_calls':int(gdb.parse_and_eval('native_system_profile.system_calls')),'memory_calls':int(gdb.parse_and_eval('native_system_profile.memory_calls')),'reference':gdb.parse_and_eval('native_system_profile.reference_sha256').string()},'bytes':list(gdb.selected_inferior().read_memory(entry['argument'],36).tobytes()),'compiler_state':capture_modeled(),
+          'last_error':int(gdb.parse_and_eval('last_error')),'fpu':int(gdb.parse_and_eval('$fctrl'))})
+        self.enabled=False
+        return False
+class SystemInfoEntry(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();assert frame.older().name()=='c1_main'
+        pc=int(gdb.parse_and_eval('$pc'));esp=int(gdb.parse_and_eval('(unsigned int)$esp'))
+        words=list(struct.unpack('<2I',gdb.selected_inferior().read_memory(esp,8).tobytes()))
+        block=gdb.block_for_pc(pc)
+        while block and not block.function:block=block.superblock
+        formals=[{'name':symbol.name,'type':str(symbol.type)}for symbol in block if symbol.is_argument]
+        system_entries.append({'pc':pc,'esp':esp,'return':words[0],'argument':words[1],'formal_inventory':formals,
+          'profile':{'bound':int(gdb.parse_and_eval('native_system_profile.bound')),'system_calls':int(gdb.parse_and_eval('native_system_profile.system_calls')),'memory_calls':int(gdb.parse_and_eval('native_system_profile.memory_calls')),'reference':gdb.parse_and_eval('native_system_profile.reference_sha256').string()},'bytes':list(gdb.selected_inferior().read_memory(words[1],36).tobytes()),'compiler_state':capture_modeled(),
+          'last_error':int(gdb.parse_and_eval('last_error')),'fpu':int(gdb.parse_and_eval('$fctrl'))})
+        SystemInfoReturn('*0x%%x'%%words[0])
+        return False
+SystemInfoEntry('*0x%x')
+"""%system_address
+            allocation_probe=allocation_probe.replace('\nend\n','\n'+system_probe+'end\n')
+            for name,expression in [('empty-entry-observations.json','empty_entries'),('system-info-entries.json','system_entries'),('system-info-returns.json','system_returns')]:
                 commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')\n"%(str(output/name),expression)+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         commands = commands.replace("run\nbt\npython", allocation_probe + "run\nbt\npython", 1)
         commands = commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')" % str(output/'state.json'),
@@ -667,9 +734,17 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
     if args.case == "minimal":
         import shutil
         shutil.copy2(PROJECT / "cases/minimal/inputs/test.c", output / "test.c")
+    environment=os.environ.copy()
+    environment.pop('RECON_C1_SYSTEM_INFO_PROFILE',None)
+    environment.pop('RECON_C1_SYSTEM_INFO_REFERENCE',None)
+    if system_reference:
+        expected_probe='restore'if args.restore_probe else 'normal'
+        assert json.loads((args.system_info_reference/'receipt.json').read_text())['probe']==expected_probe
+        environment['RECON_C1_SYSTEM_INFO_PROFILE']=str(output/'system-info-profile.bin')
+        environment['RECON_C1_SYSTEM_INFO_REFERENCE']=system_reference
     result = subprocess.run(["gdb", "--batch", "-x", str(output / "commands.gdb"),
                              "--args", str(binary)] + (["minimal"] if args.case == "minimal" else []), cwd=output,
-                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=15)
+                            stdout=subprocess.PIPE, stderr=subprocess.STDOUT, timeout=15,env=environment)
     elapsed = time.perf_counter() - started
     (output / "gdb.txt").write_bytes(result.stdout)
     assert result.returncode == 0

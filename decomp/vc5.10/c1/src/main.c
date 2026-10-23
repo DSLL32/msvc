@@ -31,7 +31,6 @@ void __cdecl release_work_buffers_238da(void)
 
 void __cdecl initialize_state_12998(void)
 {
-    __asm { int 3 }
 }
 
 void __cdecl initialize_compiler_arenas(void)

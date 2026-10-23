@@ -1,0 +1,549 @@
+{
+  "target": {
+    "path": "toolchains/5.10/bin/C1.DLL",
+    "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"
+  },
+  "accepted": [
+    "_c1_crt_entry@12",
+    "_c1_crt_init@12",
+    "import:_initterm",
+    "_DllMain@12",
+    "_InvokeCompilerPass@12",
+    "_initialize_compiler_pass",
+    "_allocate_compiler_memory",
+    "_initialize_state_12365",
+    "_initialize_state_12377",
+    "_initialize_state_12389",
+    "_initialize_state_123a4",
+    "_initialize_state_123a5",
+    "_initialize_state_123a6",
+    "_initialize_state_123a7",
+    "_initialize_output_buffer_123ae",
+    "_register_compiler_cleanup",
+    "_initialize_state_1241c",
+    "_initialize_output_buffer_12423",
+    "_initialize_state_1246b",
+    "_initialize_output_buffer_12472",
+    "_initialize_state_124ba",
+    "_initialize_output_buffer_124c1",
+    "_initialize_state_12509",
+    "_initialize_output_buffer_12510",
+    "_initialize_state_12558",
+    "_initialize_output_buffer_1255f",
+    "_initialize_state_125a7",
+    "_initialize_output_buffer_125ae",
+    "_initialize_state_125f6",
+    "_initialize_output_buffer_125fd",
+    "_initialize_state_12645",
+    "_initialize_state_12646",
+    "_initialize_state_12663",
+    "_initialize_state_12664",
+    "_initialize_state_1266f",
+    "_initialize_pdb_context_12676",
+    "_initialize_state_126af",
+    "_initialize_pdb_context_126b6",
+    "_initialize_state_126ef",
+    "CompilerPool::Initialize",
+    "_initialize_state_12712",
+    "_initialize_state_1271f",
+    "_initialize_state_1272c",
+    "_initialize_state_12739",
+    "_initialize_state_12746",
+    "_initialize_state_12753",
+    "_initialize_state_12760",
+    "_initialize_state_1276d",
+    "_initialize_state_1277a",
+    "_initialize_state_1277b",
+    "_initialize_state_1279c",
+    "CompilerPchState::Initialize",
+    "_initialize_state_127a6",
+    "_main",
+    "_initialize_work_buffers",
+    "_reserve_work_buffer",
+    "_scan_internal_switches",
+    "_parse_internal_switch",
+    "_initialize_state_12998"
+  ],
+  "driver": [
+    {
+      "name": "_c1_crt_entry@12",
+      "start": 274800682,
+      "end": 274800846,
+      "code_chunks": [
+        [
+          274924252,
+          274924312
+        ]
+      ],
+      "role": "linked-crt-support",
+      "symbol": "__DllMainCRTStartup@12"
+    },
+    {
+      "name": "_c1_crt_init@12",
+      "start": 274800846,
+      "end": 274801038,
+      "code_chunks": [
+        [
+          274924312,
+          274924347
+        ]
+      ],
+      "role": "linked-crt-support",
+      "symbol": "__CRT_INIT@12"
+    },
+    {
+      "name": "_DllMain@12",
+      "start": 274801038,
+      "end": 274801073,
+      "role": "application"
+    },
+    {
+      "name": "_InvokeCompilerPass@12",
+      "start": 274801193,
+      "end": 274801317,
+      "code_chunks": [
+        [
+          274924377,
+          274924425
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_initialize_compiler_pass",
+      "start": 274801317,
+      "end": 274801509,
+      "code_chunks": [
+        [
+          274924425,
+          274924551
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_allocate_compiler_memory",
+      "start": 274786201,
+      "end": 274786230,
+      "code_chunks": [
+        [
+          274916636,
+          274916651
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12365",
+      "start": 274801509,
+      "end": 274801527,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12377",
+      "start": 274801527,
+      "end": 274801545,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12389",
+      "start": 274801545,
+      "end": 274801572,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_123a4",
+      "start": 274801572,
+      "end": 274801573,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_123a5",
+      "start": 274801573,
+      "end": 274801574,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_123a6",
+      "start": 274801574,
+      "end": 274801575,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_123a7",
+      "start": 274801575,
+      "end": 274801582,
+      "code_chunks": [
+        [
+          274801640,
+          274801654
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_initialize_output_buffer_123ae",
+      "start": 274801582,
+      "end": 274801640,
+      "role": "application"
+    },
+    {
+      "name": "_register_compiler_cleanup",
+      "start": 274801654,
+      "end": 274801692,
+      "code_chunks": [
+        [
+          274924551,
+          274924576
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_1241c",
+      "start": 274801692,
+      "end": 274801699,
+      "code_chunks": [
+        [
+          274801757,
+          274801771
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_initialize_output_buffer_12423",
+      "start": 274801699,
+      "end": 274801757,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_1246b",
+      "start": 274801771,
+      "end": 274801778,
+      "role": "application",
+      "code_chunks": [
+        [
+          274801836,
+          274801850
+        ]
+      ]
+    },
+    {
+      "name": "_initialize_output_buffer_12472",
+      "start": 274801778,
+      "end": 274801836,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_124ba",
+      "start": 274801850,
+      "end": 274801857,
+      "role": "application",
+      "code_chunks": [
+        [
+          274801915,
+          274801929
+        ]
+      ]
+    },
+    {
+      "name": "_initialize_output_buffer_124c1",
+      "start": 274801857,
+      "end": 274801915,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12509",
+      "start": 274801929,
+      "end": 274801936,
+      "role": "application",
+      "code_chunks": [
+        [
+          274801994,
+          274802008
+        ]
+      ]
+    },
+    {
+      "name": "_initialize_output_buffer_12510",
+      "start": 274801936,
+      "end": 274801994,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12558",
+      "start": 274802008,
+      "end": 274802015,
+      "role": "application",
+      "code_chunks": [
+        [
+          274802073,
+          274802087
+        ]
+      ]
+    },
+    {
+      "name": "_initialize_output_buffer_1255f",
+      "start": 274802015,
+      "end": 274802073,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_125a7",
+      "start": 274802087,
+      "end": 274802094,
+      "role": "application",
+      "code_chunks": [
+        [
+          274802152,
+          274802166
+        ]
+      ]
+    },
+    {
+      "name": "_initialize_output_buffer_125ae",
+      "start": 274802094,
+      "end": 274802152,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_125f6",
+      "start": 274802166,
+      "end": 274802173,
+      "role": "application",
+      "code_chunks": [
+        [
+          274802231,
+          274802245
+        ]
+      ]
+    },
+    {
+      "name": "_initialize_output_buffer_125fd",
+      "start": 274802173,
+      "end": 274802231,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12645",
+      "start": 274802245,
+      "end": 274802246,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12646",
+      "start": 274802246,
+      "end": 274802275,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12663",
+      "start": 274802275,
+      "end": 274802276,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12664",
+      "start": 274802276,
+      "end": 274802287,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_1266f",
+      "start": 274802287,
+      "end": 274802294,
+      "code_chunks": [
+        [
+          274802337,
+          274802351
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_initialize_pdb_context_12676",
+      "start": 274802294,
+      "end": 274802337,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_126af",
+      "start": 274802351,
+      "end": 274802358,
+      "code_chunks": [
+        [
+          274802401,
+          274802415
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_initialize_pdb_context_126b6",
+      "start": 274802358,
+      "end": 274802401,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_126ef",
+      "start": 274802415,
+      "end": 274802428,
+      "role": "application"
+    },
+    {
+      "name": "CompilerPool::Initialize",
+      "symbol": "?Initialize@CompilerPool@@QAEPAU1@I@Z",
+      "start": 274802428,
+      "end": 274802450,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12712",
+      "start": 274802450,
+      "end": 274802463,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_1271f",
+      "start": 274802463,
+      "end": 274802476,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_1272c",
+      "start": 274802476,
+      "end": 274802489,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12739",
+      "start": 274802489,
+      "end": 274802502,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12746",
+      "start": 274802502,
+      "end": 274802515,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12753",
+      "start": 274802515,
+      "end": 274802528,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12760",
+      "start": 274802528,
+      "end": 274802541,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_1276d",
+      "start": 274802541,
+      "end": 274802554,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_1277a",
+      "start": 274802554,
+      "end": 274802555,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_1277b",
+      "start": 274802555,
+      "end": 274802588,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_1279c",
+      "start": 274802588,
+      "end": 274802598,
+      "role": "application"
+    },
+    {
+      "name": "CompilerPchState::Initialize",
+      "symbol": "?Initialize@CompilerPchState@@QAEPAU1@XZ",
+      "start": 274800170,
+      "end": 274800188,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_127a6",
+      "start": 274802598,
+      "end": 274802599,
+      "role": "application"
+    },
+    {
+      "name": "_main",
+      "start": 274802599,
+      "end": 274802736,
+      "code_chunks": [
+        [
+          274924576,
+          274924603
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_initialize_work_buffers",
+      "start": 274802736,
+      "end": 274802803,
+      "role": "application"
+    },
+    {
+      "name": "_reserve_work_buffer",
+      "start": 274802803,
+      "end": 274802865,
+      "code_chunks": [
+        [
+          274924603,
+          274924633
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_scan_internal_switches",
+      "start": 274802865,
+      "end": 274802944,
+      "code_chunks": [
+        [
+          274924633,
+          274924717
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_parse_internal_switch",
+      "start": 274802944,
+      "end": 274803076,
+      "code_chunks": [
+        [
+          274924717,
+          274924801
+        ],
+        [
+          274803080,
+          274803096
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12998",
+      "start": 274803096,
+      "end": 274803097,
+      "role": "application"
+    }
+  ],
+  "cases": [
+    "dll-lifecycle-and-exports",
+    "minimal"
+  ]
+}

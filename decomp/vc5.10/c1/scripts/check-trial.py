@@ -139,7 +139,8 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
     main_switches = expected.get('kind') == 'main-switches'
     scanner_argument=expected.get('kind')=='scanner-argument'
     post_internal=expected.get('kind')=='post-internal-switches'
-    compiler_flow = post_internal or scanner_argument or main_switches or work_allocation or pass_boundary or pass_initializer or compiler_allocation or initialization_callback or compiler_main or main_helper
+    post_system=expected.get('kind')=='post-system-info'
+    compiler_flow = post_system or post_internal or scanner_argument or main_switches or work_allocation or pass_boundary or pass_initializer or compiler_allocation or initialization_callback or compiler_main or main_helper
     if compiler_flow:
         case = candidate.get("case_contract") or json.loads((PROJECT / "cases/minimal/case.json").read_text())
         pass_state = state if pass_boundary else state["caller"] if pass_initializer else state["invocation"]
@@ -186,6 +187,10 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
             invocations=[row for row in traps if int(row[1],16)==0x12229];assert len(invocations)==1
             args=[int(value,16)for value in invocations[0][2].split(',')][1:4]
         if post_internal:
+            assert state['caller']['symbol']=='c1_main' and state['args']=={}
+            invocations=[row for row in traps if int(row[1],16)==0x12229];assert len(invocations)==1
+            args=[int(value,16)for value in invocations[0][2].split(',')][1:4]
+        if post_system:
             assert state['caller']['symbol']=='c1_main' and state['args']=={}
             invocations=[row for row in traps if int(row[1],16)==0x12229];assert len(invocations)==1
             args=[int(value,16)for value in invocations[0][2].split(',')][1:4]

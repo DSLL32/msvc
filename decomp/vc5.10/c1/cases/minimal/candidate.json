@@ -396,6 +396,11 @@
       "start_rva": 76168,
       "end_rva": 76184,
       "entry": 0
+    },
+    {
+      "start_rva": 76184,
+      "end_rva": 76185,
+      "entry": 1
     }
   ],
   "functions": [
@@ -1223,6 +1228,19 @@
         ]
       ],
       "source": "src/options.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_12998",
+      "native_symbol": "initialize_state_12998",
+      "role": "application",
+      "chunks": [
+        [
+          76184,
+          76185
+        ]
+      ],
+      "source": "src/main.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -1245,13 +1263,13 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 76184,
-    "native_symbol": "initialize_state_12998",
-    "kind": "post-internal-switches",
+    "rva": 76185,
+    "native_symbol": "initialize_compiler_arenas",
+    "kind": "post-system-info",
     "native_args": [],
     "caller": {
       "native_symbol": "c1_main",
-      "return_rva": 75751
+      "return_rva": 75767
     }
   },
   "imports": [
@@ -1509,7 +1527,7 @@
       "normal_case": false
     }
   },
-  "staging_role": "whole mode/prefix parser plus exactowned16Btable, allnaturalargvreturns then capturedabsentMSC_CMD_FLAGS; no newconsumer beyond nextmainstub",
+  "staging_role": "sole emptyhelper candidate then genuineGetSystemInfo full36 output/provider/ABI then pendingarena initializer",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -1585,5 +1603,12 @@
     "getenv_return_rva": 76012,
     "parser_entry_rva": 76032,
     "parser_return_rva": 75986
+  },
+  "system_info_observers": {
+    "before_call_rva": 75756,
+    "after_call_rva": 75762,
+    "iat_rva": 381364,
+    "output_rva": 390408,
+    "output_bytes": 36
   }
 }

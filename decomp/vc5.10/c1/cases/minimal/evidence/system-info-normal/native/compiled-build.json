@@ -1,0 +1,174 @@
+{
+  "schema": 1,
+  "kind": "native-build-source-content",
+  "native_sha256": "b6b8589baa199118b0123006a03045a8fe9ab96761e302851e054c5dc28c2732",
+  "command": [
+    "make",
+    "-j4",
+    "native"
+  ],
+  "seconds": 1.9027269100770354,
+  "stable_before_after": true,
+  "sources": {
+    "decomp/vc5.10/c1/Makefile": {
+      "sha256": "cd8bab454101ddb894fa420247b7d615fb38c8447e811b4d002ea80519476743",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/cd8bab454101ddb894fa420247b7d615fb38c8447e811b4d002ea80519476743"
+    },
+    "decomp/vc5.10/c1/scripts/native-host.c": {
+      "sha256": "997ffed6b2ac0313fe896e2a18d7fcf1c95c0df268d6738061df7f571bfc874b",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/997ffed6b2ac0313fe896e2a18d7fcf1c95c0df268d6738061df7f571bfc874b"
+    },
+    "decomp/vc5.10/c1/src/buffers.c": {
+      "sha256": "bfa97caa452f3b58cff31f344c2ebba04d8687cf559211e299df03532aeacb71",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/bfa97caa452f3b58cff31f344c2ebba04d8687cf559211e299df03532aeacb71"
+    },
+    "decomp/vc5.10/c1/src/c1.h": {
+      "sha256": "a0e4d738331b2e2ec07d687717bbd79a99a04301a54b376babb0d4960ce56509",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/a0e4d738331b2e2ec07d687717bbd79a99a04301a54b376babb0d4960ce56509"
+    },
+    "decomp/vc5.10/c1/src/compiler-state.c": {
+      "sha256": "87bce1b42638c767a93151cb69646c0bde6c4dac9d80bdc9f0becc24a281f952",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/87bce1b42638c767a93151cb69646c0bde6c4dac9d80bdc9f0becc24a281f952"
+    },
+    "decomp/vc5.10/c1/src/compiler-state.h": {
+      "sha256": "5a80174658bf405fc4c33b13330a01b62c90d15fb4b65cdf34dfe903c66db32f",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/5a80174658bf405fc4c33b13330a01b62c90d15fb4b65cdf34dfe903c66db32f"
+    },
+    "decomp/vc5.10/c1/src/dllmain.c": {
+      "sha256": "7f72154db8c07b8d1492be392f6ce45099eee864fdcc78850573a84f59bf69eb",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/7f72154db8c07b8d1492be392f6ce45099eee864fdcc78850573a84f59bf69eb"
+    },
+    "decomp/vc5.10/c1/src/exports.c": {
+      "sha256": "34ea6194b62f5f3f734e59bee170cbd840a4d7df460f6d74e9b705c443eab80c",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/34ea6194b62f5f3f734e59bee170cbd840a4d7df460f6d74e9b705c443eab80c"
+    },
+    "decomp/vc5.10/c1/src/initializers.c": {
+      "sha256": "cd8f1ea78690c6ca3c9cab9d1c99e1de3eb7f23e5e4e215d57c1446a7f244f78",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/cd8f1ea78690c6ca3c9cab9d1c99e1de3eb7f23e5e4e215d57c1446a7f244f78"
+    },
+    "decomp/vc5.10/c1/src/main.c": {
+      "sha256": "c2d74fe239bb72043a2b7e56a82467660d87a5d3290b4be690c4a7de3061817a",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/c2d74fe239bb72043a2b7e56a82467660d87a5d3290b4be690c4a7de3061817a"
+    },
+    "decomp/vc5.10/c1/src/native-crt.c": {
+      "sha256": "6a4ddd20674b97d411e3718c46b0045d563e4739c650c9b7c95a2c9083c37cd9",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/6a4ddd20674b97d411e3718c46b0045d563e4739c650c9b7c95a2c9083c37cd9"
+    },
+    "decomp/vc5.10/c1/src/options.c": {
+      "sha256": "ceba36600487c2484d881a8773be8f96c4fb56f07bccaeed93991960521269e0",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/ceba36600487c2484d881a8773be8f96c4fb56f07bccaeed93991960521269e0"
+    },
+    "decomp/vc5.10/c1/src/pass.c": {
+      "sha256": "99a89a75d592bae027bdfefcdd9a4030e0ff10d4089956126c8fe1e76ccdbea4",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/99a89a75d592bae027bdfefcdd9a4030e0ff10d4089956126c8fe1e76ccdbea4"
+    },
+    "decomp/vc5.10/c1/src/pch-state.cpp": {
+      "sha256": "423e9bccf8dc65cbc3cd1cdda6830df38298fab625df6a9fa4e403aaa7c3b42d",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/423e9bccf8dc65cbc3cd1cdda6830df38298fab625df6a9fa4e403aaa7c3b42d"
+    },
+    "decomp/vc5.10/c1/src/pdb.c": {
+      "sha256": "9e3e8142268551274696fe47af8644d9b497c5aab561ff2e865498ce7cb15e82",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/9e3e8142268551274696fe47af8644d9b497c5aab561ff2e865498ce7cb15e82"
+    },
+    "decomp/vc5.10/c1/src/pools.cpp": {
+      "sha256": "d838e72919ddd23e03f6960bf9ad439126b1f476ee8d6fb77cc1586f71dc4e8e",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/d838e72919ddd23e03f6960bf9ad439126b1f476ee8d6fb77cc1586f71dc4e8e"
+    },
+    "decomp/vc5.10/c1/src/work-buffers.c": {
+      "sha256": "577d0be78aecb73770c6b35b28c4729e1d1e38751e2efb72611983114c97ed8e",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/577d0be78aecb73770c6b35b28c4729e1d1e38751e2efb72611983114c97ed8e"
+    },
+    "lib/recon/include/recon.h": {
+      "sha256": "7b8bbbe80780c744cef86c645c6a75b7c1f0d3393ef374449aeb3823e9c4310b",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/7b8bbbe80780c744cef86c645c6a75b7c1f0d3393ef374449aeb3823e9c4310b"
+    },
+    "lib/recon/include/trace-abi.h": {
+      "sha256": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7"
+    },
+    "lib/recon/include/win32.h": {
+      "sha256": "30474cfc65ed0e1242514cb51d5d5e35c4d608832b177132b56b45c05080f1e4",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/30474cfc65ed0e1242514cb51d5d5e35c4d608832b177132b56b45c05080f1e4"
+    },
+    "lib/recon/native/direct.h": {
+      "sha256": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e"
+    },
+    "lib/recon/native/excpt.h": {
+      "sha256": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660"
+    },
+    "lib/recon/native/fcntl.h": {
+      "sha256": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a"
+    },
+    "lib/recon/native/float.h": {
+      "sha256": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42"
+    },
+    "lib/recon/native/io.h": {
+      "sha256": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b"
+    },
+    "lib/recon/native/mbctype.h": {
+      "sha256": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50"
+    },
+    "lib/recon/native/mbstring.h": {
+      "sha256": "ce7c483355c795650db82a8174b472747d34bd3462ba3bde375357cb28b0ec34",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/ce7c483355c795650db82a8174b472747d34bd3462ba3bde375357cb28b0ec34"
+    },
+    "lib/recon/native/process.h": {
+      "sha256": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a"
+    },
+    "lib/recon/native/setjmp.h": {
+      "sha256": "62dd5dcc70d652ad68bccd31f9c916b829b9577d0e7c8b8d0655e47cb5ab151f",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/62dd5dcc70d652ad68bccd31f9c916b829b9577d0e7c8b8d0655e47cb5ab151f"
+    },
+    "lib/recon/native/share.h": {
+      "sha256": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b"
+    },
+    "lib/recon/native/sys/stat.h": {
+      "sha256": "4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb"
+    },
+    "lib/recon/native/sys/timeb.h": {
+      "sha256": "56e745d9e9f91dccd40083158914daeb3cab0c97e01b7276c447993aad52a47d",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/56e745d9e9f91dccd40083158914daeb3cab0c97e01b7276c447993aad52a47d"
+    },
+    "lib/recon/native/windows.h": {
+      "sha256": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a"
+    },
+    "lib/recon/src/compat.c": {
+      "sha256": "3fd3515569a9bb8ea637cdd81359ee74724da607a06bac54d1866953b9e299a6",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/3fd3515569a9bb8ea637cdd81359ee74724da607a06bac54d1866953b9e299a6"
+    },
+    "lib/recon/src/crt.c": {
+      "sha256": "ab8e3b3c0e9e778f7ae9684b9d34ab66b88b9fc4dfd1ecfc97f7d4c0aba95d99",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/ab8e3b3c0e9e778f7ae9684b9d34ab66b88b9fc4dfd1ecfc97f7d4c0aba95d99"
+    },
+    "lib/recon/src/decimal.c": {
+      "sha256": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4"
+    },
+    "lib/recon/src/entry.c": {
+      "sha256": "93bb510da82267823c5b3ab7056d9cc32a3ce955964109876f9be60d0e101963",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/93bb510da82267823c5b3ab7056d9cc32a3ce955964109876f9be60d0e101963"
+    },
+    "lib/recon/src/process.c": {
+      "sha256": "11acf59c2781a152a075940e9eb702b2a1a8a00b1f28eda6583afb4106075f52",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/11acf59c2781a152a075940e9eb702b2a1a8a00b1f28eda6583afb4106075f52"
+    },
+    "lib/recon/src/trace.c": {
+      "sha256": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328"
+    },
+    "lib/recon/src/win32.c": {
+      "sha256": "b38bfa967ea6f4f81ee8f98673e7d8b5126b61a07a595096a0ae485976bfc6be",
+      "content": "/root/.ai-tmp/msvc2/vc5.10/c1/source-store/b38bfa967ea6f4f81ee8f98673e7d8b5126b61a07a595096a0ae485976bfc6be"
+    }
+  }
+}

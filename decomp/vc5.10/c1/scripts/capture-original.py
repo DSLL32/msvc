@@ -118,6 +118,9 @@ def main():
     if candidate.get('parser_observers'):
         assert candidate['parser_observers']==dict(getenv_return_rva=0x128ec,parser_entry_rva=0x12900,parser_return_rva=0x128d2)
         (output/'internal-switch-observers.txt').write_text('128ec\n')
+    if candidate.get('system_info_observers'):
+        assert candidate['system_info_observers']==dict(before_call_rva=0x127ec,after_call_rva=0x127f2,iat_rva=0x5d1b4,output_rva=0x5f508,output_bytes=36)
+        (output/'system-info-observers.txt').write_text('127ec\n127f2\n')
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))

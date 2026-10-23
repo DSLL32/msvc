@@ -21,7 +21,16 @@ int c1_native_host(int argc, char **argv)
     C1Initializer *allocated;
     BOOL status;
     int pass_result;
+    const char *system_profile, *system_reference;
     char *pass_args[] = { "c1.dll", "-il", ".\\minimal", "-f", "test.c", "-W", "1", "-G5", "-Ot", "-Ob0", "-nologo", NULL };
+    system_profile = recon_host_getenv("RECON_C1_SYSTEM_INFO_PROFILE");
+    system_reference = recon_host_getenv("RECON_C1_SYSTEM_INFO_REFERENCE");
+    if (system_profile) {
+        if (!system_reference) return 126;
+        recon_load_system_info_profile(system_profile, system_reference);
+    } else if (system_reference) {
+        return 126;
+    }
     /* Captured original loader context: x87 precision53, control word027f. */
     _controlfp(_PC_53, _MCW_PC);
     spec.name = "C1.DLL";
