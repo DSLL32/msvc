@@ -2494,3 +2494,9 @@ Virtual floating homes and physical stack pop: checkpoint992
 @finish_float_machine_range@4. 913 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-homes.json for extent union, limits and measured timings.
+
+Floating boundary stack reconciliation: checkpoint993
+1 acceptances pass fresh original/native matching; current frontier
+@prepare_float_register_source@8. 914 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-boundary.json for extent union, limits and measured timings.

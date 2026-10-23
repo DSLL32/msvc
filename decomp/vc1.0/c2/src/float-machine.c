@@ -504,3 +504,63 @@ void pop_float_machine_stack(void)
         if (float_machine_registers[index].stack_slot != -1) --float_machine_registers[index].stack_slot;
     --float_machine_stack_depth;
 }
+
+/* Original [0003d4a0,0003d770). Reconcile the virtual stack with the
+   physical depth required at a boundary. Preserve one real result at the
+   bottom when needed, then store or discard each extra virtual value. */
+void __fastcall finish_float_machine_range(MachineInstruction *boundary)
+{
+    MachineInstruction *instruction, *store;
+    FloatMachineRegister *reg;
+    int index, live = 0, number;
+    if (float_machine_exit_depth == float_machine_stack_depth) return;
+    for (index = 0; index < float_machine_stack_depth; ++index)
+        if (float_machine_stack[index] != -1) ++live;
+    if (FM_ELIGIBLE(boundary) && FM_OPERATION(boundary) == MC_LEAVE) {
+        do { boundary = boundary->previous; } while (FM_KIND(boundary) != 7);
+    }
+    if (!live) return;
+    if (float_machine_conservative) compiler_internal_error("@(#)fltreg.c:1.31", 0x1477);
+    if (float_machine_exit_depth + live < float_machine_stack_depth)
+        compiler_internal_error("@(#)fltreg.c:1.31", 0x147a);
+    if (float_machine_exit_depth != 1 && float_machine_exit_depth != 0)
+        compiler_internal_error("@(#)fltreg.c:1.31", 0x147b);
+    if (float_machine_exit_depth == 1 && float_machine_stack_depth > 1) {
+        instruction = new_machine_instruction(0);
+        FM_SET_OPERATION(instruction, MC_FXCH);
+        instruction->opcode = (instruction->opcode & ~0xf0U) | 0x80;
+        FM_SET_STACK_OPERAND(instruction->operands[0], float_machine_stack_depth - 1);
+        insert_machine_after(boundary->previous, instruction);
+        number = float_machine_stack[float_machine_stack_depth - 1];
+        if (number == -1) compiler_internal_error("@(#)fltreg.c:1.31", 0x1487);
+        float_machine_stack[float_machine_stack_depth - 1] = float_machine_stack[0];
+        float_machine_stack[0] = number;
+        float_machine_registers[number].stack_slot = 0;
+    }
+    while (float_machine_exit_depth < float_machine_stack_depth) {
+        number = float_machine_stack[0];
+        if (number >= float_machine_register_count || number == -1)
+            compiler_internal_error("@(#)fltreg.c:1.31", 0x1490);
+        reg = &float_machine_registers[number];
+        store = new_machine_instruction(0);
+        FM_SET_OPERATION(store, MC_FSTP);
+        store->opcode = (store->opcode & ~0xf0U) | ((reg->width << 4) & 0xf0);
+        store->operands[1] = operand_st0;
+        if (!(reg->flags & 3)) {
+            if (!reg->home) {
+                reg->home = arena_alloc(3, sizeof(*reg->home));
+                initialize_float_register_home(reg->home, (unsigned short)float_machine_stack[0]);
+            }
+            assign_machine_operand(&store->operands[0], reg->home);
+        } else if (reg->last_store && FM_OPERATION(reg->last_store) == MC_FST) {
+            remove_machine_instruction(reg->last_store);
+            if (!(reg->flags & 1)) assign_machine_operand(&store->operands[0], reg->home);
+            else store->operands[0] = operand_st0;
+        } else store->operands[0] = operand_st0;
+        pop_float_machine_stack();
+        insert_machine_after(boundary->previous, store);
+    }
+    if (float_machine_exit_depth != float_machine_stack_depth)
+        compiler_internal_error("@(#)fltreg.c:1.31", 0x14ba);
+    float_machine_stack_depth = float_machine_exit_depth;
+}

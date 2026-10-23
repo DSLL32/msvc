@@ -996,7 +996,8 @@
     "_push_float_machine_stack",
     "@float_store_value_dead@4",
     "@initialize_float_register_home@8",
-    "_pop_float_machine_stack"
+    "_pop_float_machine_stack",
+    "@finish_float_machine_range@4"
   ],
   "driver": [
     {
@@ -6969,8 +6970,7 @@
     {
       "name": "@finish_float_machine_range@4",
       "start": 251040,
-      "end": 251041,
-      "provisional": true
+      "end": 251760
     },
     {
       "name": "@call_preserves_float_stack@4",
