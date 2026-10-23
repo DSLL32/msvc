@@ -1,15 +1,10 @@
 {
   "modules": [
     {
-      "module": "intrinsics",
-      "seconds": 1.1948677487671375,
-      "returncode": 0
-    },
-    {
-      "module": "work-prepare",
-      "seconds": 1.1249181414023042,
+      "module": "intrinsic-selection",
+      "seconds": 1.7489880649372935,
       "returncode": 0
     }
   ],
-  "seconds": 2.320102035999298
+  "seconds": 1.7491783229634166
 }

@@ -1,0 +1,85 @@
+{
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "rebuilt_sha256": "84a1515bf1d7deddc29cc4e951307a1cf4b5db10bbe537e36df7dc91449469d7",
+  "map": {
+    "original": [
+      "0x80238",
+      "0x80278"
+    ],
+    "canonical": "0x89960",
+    "rows": [
+      [
+        107,
+        214
+      ],
+      [
+        106,
+        214
+      ],
+      [
+        111,
+        215
+      ],
+      [
+        110,
+        215
+      ],
+      [
+        92,
+        140
+      ],
+      [
+        93,
+        140
+      ],
+      [
+        71,
+        76
+      ],
+      [
+        4294967295,
+        0
+      ]
+    ]
+  },
+  "switch": {
+    "start": "0x1d304",
+    "end": "0x1d3ac",
+    "entries": 42,
+    "routes": {
+      "0x1d0a0": [
+        92,
+        93,
+        106,
+        107,
+        110,
+        111
+      ],
+      "0x1d0d3": [
+        96,
+        97
+      ],
+      "0x1d1b0": [
+        100,
+        101,
+        104,
+        105
+      ],
+      "0x1d200": [
+        114,
+        115
+      ],
+      "0x1d236": [
+        130,
+        131
+      ],
+      "0x1d265": [
+        132,
+        133
+      ]
+    },
+    "default": "0x1d2a0"
+  },
+  "instruction_constants": "Independent numeric ISA IDs: FSIN214 FCOS215 FSQRT140 FMULP76",
+  "executes_reference": false
+}

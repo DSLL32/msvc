@@ -1,0 +1,12 @@
+{
+  "logical": "@lookup_runtime_intrinsic_opcode@8",
+  "matched": true,
+  "executable_sha256": "e17907e7fed4e21dff6c39c1357e5e63cf4bdb8c80cb2bfa0564d1bcfa817ee3",
+  "config_sha256": "b5cc7884a4ca23d9494df46bbb7fad5628c66b8c444094fe614adbb5851ba7bb",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\x87",
+  "setup_seconds": 0.006066475063562393,
+  "execution_seconds": 0.12870061118155718,
+  "seconds": 0.1436930699273944,
+  "log_sha256": "eeea1af3869686403c3593b9a7bc91c3f499daa81851195b47f7357c3461a215",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/x87-gdb-bhp8hfqt"
+}

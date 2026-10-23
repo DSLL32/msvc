@@ -344,7 +344,6 @@ unsigned short __fastcall select_intrinsic_a5(Node *node) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_a6(Node *node) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_string_length(Node *value, int mode, unsigned type) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_aa_ab(Node *node, int mode) { __asm int 3 }
-unsigned short __fastcall select_runtime_intrinsic(Node *node) { __asm int 3 }
 SymbolHeader *__fastcall lookup_external_name(char *name) { __asm int 3 }
 void __fastcall emit_explicit_block_transfer(int fill, MachineOperand *source,
     MachineOperand *destination, unsigned short type, unsigned offset) { __asm int 3 }

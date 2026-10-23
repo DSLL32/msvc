@@ -351,3 +351,94 @@ void __fastcall select_block_operation(unsigned constant_count, MachineOperand *
 done:
     if (direction == -1 && (!unrolled || !direct)) emit_machine_operation(MC_CLD, 0);
 }
+
+/* Original80238..80278: the complete intrinsic/ISA operation map, with
+   the original unsigned -1 terminator. Other runtime operations use calls. */
+const OpcodeMap runtime_intrinsic_opcodes[] = {
+    { 0x6b, MC_FSIN }, { 0x6a, MC_FSIN },
+    { 0x6f, MC_FCOS }, { 0x6e, MC_FCOS },
+    { 0x5c, MC_FSQRT }, { 0x5d, MC_FSQRT },
+    { 0x47, MC_FMULP }, { ~0U, 0 }
+};
+extern int optimize_global, optimize_precision, optimize_speed;
+unsigned __fastcall lookup_runtime_intrinsic_opcode(const OpcodeMap *map, unsigned intrinsic);
+
+/* Original [0001d060,0001d3ac), including the42-entry dispatch table at
+   1d304. Inline x87 sequences retain their original operand counts and
+   stack order. Unsupported operations evaluate all arguments then call
+   the generated runtime symbol established during tree lowering. */
+unsigned short __fastcall select_runtime_intrinsic(Node *node)
+{
+    unsigned intrinsic = node->left.node->left.value;
+    unsigned short type = node->attributes.words.type;
+    Node *argument, *arguments;
+    MachineOperand *target;
+    if (optimize_global && !optimize_precision) {
+        switch (intrinsic) {
+        case 0x5c: case 0x5d: case 0x6a: case 0x6b:
+        case 0x6e: case 0x6f:
+            select_value_register(node->second.node->left.node);
+            emit_machine_operation(lookup_runtime_intrinsic_opcode(
+                runtime_intrinsic_opcodes, intrinsic), type, &operand_st0, &operand_st0);
+            return REG_ST0;
+        case 0x60: case 0x61:
+            if (!optimize_speed) break;
+            select_value_register(node->second.node->left.node);
+            emit_machine_operation(MC_FLDL2E, type);
+            emit_machine_operation(MC_FMULP, type, &operand_st1, &operand_st0);
+            emit_machine_operation(MC_FLD, type, &operand_st0, &operand_st0);
+            emit_machine_operation(MC_FRNDINT, type);
+            emit_machine_operation(MC_FXCH, type, &operand_st1);
+            emit_machine_operation(MC_FSUB, type, &operand_st0, &operand_st1);
+            emit_machine_operation(MC_F2XM1, type);
+            emit_machine_operation(MC_FLD1, type);
+            emit_machine_operation(MC_FADDP, type, &operand_st1, &operand_st0);
+            emit_machine_operation(MC_FSCALE, type);
+            emit_machine_operation(MC_FSTP, type, &operand_st1, &operand_st0);
+            return REG_ST0;
+        case 0x64: case 0x65: case 0x68: case 0x69:
+            select_value_register(node->second.node->left.node);
+            emit_machine_operation(intrinsic == 0x64 || intrinsic == 0x65 ?
+                MC_FLDLN2 : MC_FLDLG2, type);
+            emit_machine_operation(MC_FXCH, type, &operand_st1);
+            emit_machine_operation(MC_FYL2X, type);
+            return REG_ST0;
+        case 0x72: case 0x73:
+            select_value_register(node->second.node->left.node);
+            emit_machine_operation(MC_FPTAN, type);
+            emit_machine_operation(MC_FSTP, type, &operand_st0, &operand_st0);
+            return REG_ST0;
+        case 0x82: case 0x83:
+            select_value_register(node->second.node->left.node);
+            emit_machine_operation(MC_FLD1, type);
+            emit_machine_operation(MC_FPATAN, type);
+            return REG_ST0;
+        case 0x84: case 0x85:
+            select_value_register(node->second.node->left.node);
+            select_value_register(node->second.node->second.node->left.node);
+            arrange_x87_left(node->second.node->left.node);
+            emit_machine_operation(MC_FPATAN, type);
+            return REG_ST0;
+        }
+    }
+    arguments = node->second.node;
+    for (argument = arguments; argument->opcode != 0x4c;
+         argument = argument->second.node)
+        select_value_register(argument->left.node);
+    arrange_x87_left(arguments->left.node);
+    target = new_operand(OPERAND_SYMBOL, 0, 0, node->left.node->right.symbol);
+    emit_call(node->left.node->attributes.words.type & 255, target, 0, 0, 0x4000);
+    return REG_ST0;
+}
+
+/* Original [0001b240,0001b26b). This map uses -1 as its terminator;
+   unlike the arithmetic opcode table there is no wildcard/default row. */
+unsigned __fastcall lookup_runtime_intrinsic_opcode(const OpcodeMap *map,
+    unsigned intrinsic)
+{
+    while (map->tree_opcode != ~0U) {
+        if (map->tree_opcode == intrinsic) return map->selection;
+        ++map;
+    }
+    compiler_internal_error("@(#)cgintrin.c:1.57", 0x57);
+}

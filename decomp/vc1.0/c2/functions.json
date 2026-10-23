@@ -1080,7 +1080,9 @@
     "@release_intrinsic_operands@4",
     "@intrinsic_operator@4",
     "@available_chain_operands@8",
-    "@set_generated_intrinsic_call@16"
+    "@set_generated_intrinsic_call@16",
+    "@select_runtime_intrinsic@4",
+    "@lookup_runtime_intrinsic_opcode@8"
   ],
   "driver": [
     {
@@ -6519,8 +6521,7 @@
     {
       "name": "@select_runtime_intrinsic@4",
       "start": 118880,
-      "end": 118881,
-      "provisional": true
+      "end": 119724
     },
     {
       "name": "@intrinsic_float_cleanup_count@4",
@@ -7453,6 +7454,11 @@
       "name": "@set_generated_intrinsic_call@16",
       "start": 162608,
       "end": 162656
+    },
+    {
+      "name": "@lookup_runtime_intrinsic_opcode@8",
+      "start": 111168,
+      "end": 111211
     }
   ],
   "cases": {

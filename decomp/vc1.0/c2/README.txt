@@ -1,7 +1,7 @@
 C23232.EXE reconstruction, vc1.0 / original1.0-nt toolchain
 
-Current checkpoint:1076 accepted frontiers and997 reconstructed source functions.
-Accepted original code extents cover296904/399693 bytes (74.283012%). This is
+Current checkpoint:1078 accepted frontiers and999 reconstructed source functions.
+Accepted original code extents cover297791/399693 bytes (74.504933%). This is
 an extent union of source, shared text data, CRT and import thunks, clipped to
 original VirtualSize (raw-size fallback when zero), not branch coverage.
 
@@ -17,7 +17,7 @@ Unknown process dependencies fail; no fixture invokes Wine or refreshes original
 references. Only identified COFF timestamp bytes4..7 are normalized. The suite
 contains seven complete objects: minimal286, hello2289, loops620, pressure879,
 aliasing600, floating979 and i386572 bytes. Deep x87 currently ends at the
-matching named trap select_runtime_intrinsic. Its original complete947-byte
+matching named trap can_keep_float_store. Its original complete947-byte
 object is captured for the later completion check. The approved883-byte i486
 case remains queued. See cases/queue.json and cases/native-all-validation.json.
 
