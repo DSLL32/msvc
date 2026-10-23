@@ -1,0 +1,8 @@
+scope-context 007e0c38 007b882c 0 007b7818
+scope-link 0 007e0c38 007b7818 1
+scope-link 1 007b7818 00000000 0
+scope-registers entry 0029fd90 0029fd49 007b961c 007c7dac 0000002e
+flag-words 0 entry 00000000 00010000
+scope-registers finish 0029fd94 0029fd49 007b961c 007c7dac 0000002e 007b7818
+flag-words 0 finish 00000000 00010000
+exit 0

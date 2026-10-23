@@ -1,14 +1,14 @@
 {
-  "authorization": "Root approved one bounded damageddispatch-header expression/type diagnostic case with actual incomplete-record/function-designator/nestedpointer gates, recovered_tail/browser proof. Untouchedexactdiagnostics/status/fullpartialfiles beforefreeze; no runtime-success/privateflags.",
-  "baseline_commit": "7148f23ea5a3298513c9466670e348f9e559af73",
-  "baseline_accepted_count": 1004,
+  "authorization": "Root approved one successful forward-declared packet/callback-registry /FR /Z7 /Od /G5 /W4 workflow. Actual prototype-scope C4115 behavior, complete original compile/link/runtime and exact transport beforefreeze. Target enclosing-scope helper; extra shape reach provisional.",
+  "baseline_commit": "35ed5428a6752a76475370e2bf2137082fc352c5",
+  "baseline_accepted_count": 1007,
   "status": "complete",
   "cases": [
     {
-      "case": "dispatch-type-diagnostics",
+      "case": "prototype-scope-registry",
       "phase": "c1",
-      "status": "complete;1004 through1007;three frontend bodies147B;exact expected-error terminal"
+      "status": "complete;1007 through1008;one frontend body41B;exact warning/artifacts/runtime original"
     }
   ],
-  "completion": "cases/dispatch-type-diagnostics/validation.json"
+  "completion": "cases/prototype-scope-registry/validation.json"
 }

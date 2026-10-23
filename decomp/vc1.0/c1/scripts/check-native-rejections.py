@@ -529,6 +529,26 @@ def main():
     rejects('dispatch-historical-entry-order','native trace dispatch-type-diagnostics index 0: expected',
             lambda:checker.run_case('dispatch-type-diagnostics',executable,private_root,(wrong,filter_path)))
 
+    _, registry = checker.run_case('prototype-scope-registry',executable,directory,(cache,filter_path))
+    registry_fixture=checker.BINARY/'cases/prototype-scope-registry'
+    registry_phase=json.loads((registry_fixture/'manifest.json').read_text())['phases']['c1']
+    warning=registry_phase['expected_stdout'].encode('latin1')
+    rejects('registry-missing-C4115','stdout differs',
+            lambda:checker.validate_result('prototype-scope-registry',0,b'',b'',registry_phase))
+    rejects('registry-unexpected-error','native status',
+            lambda:checker.validate_result('prototype-scope-registry',1,warning,b'',registry_phase))
+    browser=bytearray((registry/'registry.sbr').read_bytes())
+    assert b'RegistryPacket\0' in browser
+    browser[browser.index(b'RegistryPacket\0')]=ord('x')
+    (registry/'registry.sbr').write_bytes(browser)
+    rejects('registry-tag-browser-binding','output bytes differ: registry.sbr',
+            lambda:checker.validate_artifacts(registry,registry_fixture,registry_phase))
+    wrong=copy.deepcopy(cache)
+    wrong['cases']['prototype-scope-registry']['expected'][0]='require_complete_type'
+    private_root=directory/'wrong-registry-entry';private_root.mkdir()
+    rejects('registry-historical-entry','native trace prototype-scope-registry index 0: expected',
+            lambda:checker.run_case('prototype-scope-registry',executable,private_root,(wrong,filter_path)))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

@@ -1,0 +1,70 @@
+{
+  "raw_receipt_sha256": "e5bf5eafcde582427267ac26e207a83ba704a50eb258144469316d22fdae4b62",
+  "provenance": "Derived complete boundary inventory; raw snapshots unchanged",
+  "sets": {
+    "001-before": [
+      {
+        "name": "registry.c",
+        "bytes": 1377,
+        "sha256": "feeaa08cca7225d94d3c110cfd2d06fbd415c649d93942d4417ab4da3bea28b1",
+        "mtime_ns": 1792785164117858900
+      },
+      {
+        "name": "registry.h",
+        "bytes": 552,
+        "sha256": "ce11a78c178b9379e492ff743c0c54bbedc310341240b4883abff8ee705d08ec",
+        "mtime_ns": 1792785164117858900
+      }
+    ],
+    "001-after": [
+      {
+        "name": "001744db",
+        "bytes": 343,
+        "sha256": "40ee3391fa4821c7177bfcb5599ca3ec3331667035e617cf1947cdd1ec5fa852",
+        "mtime_ns": 1792785166133818800
+      },
+      {
+        "name": "001744ex",
+        "bytes": 1780,
+        "sha256": "08b0f69d9eec4216929ca6ba9db550257422bfd519ed64e152edb389c801225e",
+        "mtime_ns": 1792785166133818800
+      },
+      {
+        "name": "001744gl",
+        "bytes": 358,
+        "sha256": "11d854cc74d587d8141b83194d1fe3cda18ca5e63ef3178d9f2aea16f82412ff",
+        "mtime_ns": 1792785166133818800
+      },
+      {
+        "name": "001744in",
+        "bytes": 47,
+        "sha256": "dac9a26f98b14adfd1f4cfcbcd59a805e45362e7117be86d2fd26000269b19c0",
+        "mtime_ns": 1792785166133818800
+      },
+      {
+        "name": "001744sy",
+        "bytes": 447,
+        "sha256": "b4e80d4e7eb84bc61df76bfb915b544a974177d0c6d8e016d46a73952b6d3b73",
+        "mtime_ns": 1792785166133818800
+      },
+      {
+        "name": "registry.c",
+        "bytes": 1377,
+        "sha256": "feeaa08cca7225d94d3c110cfd2d06fbd415c649d93942d4417ab4da3bea28b1",
+        "mtime_ns": 1792785164117858900
+      },
+      {
+        "name": "registry.h",
+        "bytes": 552,
+        "sha256": "ce11a78c178b9379e492ff743c0c54bbedc310341240b4883abff8ee705d08ec",
+        "mtime_ns": 1792785164117858900
+      },
+      {
+        "name": "registry.sbr",
+        "bytes": 907,
+        "sha256": "9c4369dca2263405779a472253c248aab73c95e691d63711049f9468e3d04daf",
+        "mtime_ns": 1792785166137818700
+      }
+    ]
+  }
+}

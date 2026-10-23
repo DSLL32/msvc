@@ -8,6 +8,21 @@
 SymbolScope *global_scope, *current_scope, *lookup_scope;
 SymbolScope **scope_directory;
 
+/* Original0x355c0..0x355e9. Skip parameter scopes to find the scope
+   which owns a tag first introduced in a prototype. The directory lookup
+   is retained although its result is not used by this version. */
+SymbolScope *enclosing_declaration_scope(void)
+{
+    SymbolScope *scope = current_scope;
+    SymbolScope *entry;
+    if ((scope->flags & 0xff) == 1) {
+        entry = scope_directory[scope_depth];
+        do scope = scope->next;
+        while ((scope->flags & 0xff) == 1);
+    }
+    return scope;
+}
+
 /* Original 0x33690..0x336e6. */
 void initialize_global_scope(void)
 {

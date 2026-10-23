@@ -196,6 +196,10 @@
     "dispatch-type-diagnostics": {
       "receipt": "cases/dispatch-type-diagnostics/evidence/dispatch-entries-1007.receipt.json",
       "sha256": "73889685a363cf455a9e963bb6680cab2ad7808ec2f3b378b759b6497a5f7235"
+    },
+    "prototype-scope-registry": {
+      "receipt": "cases/prototype-scope-registry/evidence/registry-entries-1008.receipt.json",
+      "sha256": "e43ac695bc549e92d85bca59b347c3a35f760ebae7d8191da146a1fdb751006d"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

@@ -1,0 +1,52 @@
+[
+  {
+    "name": "native-build",
+    "command": [
+      "make",
+      "-j4",
+      "-WMakefile",
+      "RECON=/root/.ai-tmp/msvc2/vc1.0/c1/shared-inputs/hdrstop/lib/recon",
+      "native",
+      "native-trace"
+    ],
+    "seconds": 7.315551675856113,
+    "exit": 0,
+    "compiled_source_snapshot": "/root/.ai-tmp/msvc2/vc1.0/c1/registry-pin-enter-1007-compiled-shared-inputs.json",
+    "compiled_source_snapshot_sha256": "12df3d6d787109da80641c6835c9f18e20a102b47c1fe1076de7d3a654062d9c",
+    "compiled_inputs_stable": true
+  },
+  {
+    "name": "original-capture",
+    "command": [
+      "python3",
+      "scripts/capture-frontier.py",
+      "--case",
+      "cases/prototype-scope-registry",
+      "--phase",
+      "c1",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/registry-pin-enter-1007",
+      "--debugger",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+    ],
+    "seconds": 1.046730225905776,
+    "exit": 0
+  },
+  {
+    "name": "native-frontier",
+    "command": [
+      "python3",
+      "scripts/debug-frontier.py",
+      "--case",
+      "cases/prototype-scope-registry",
+      "--phase",
+      "c1",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/validation/registry-pin-enter-1007",
+      "--reference",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/registry-pin-enter-1007"
+    ],
+    "seconds": 0.2665016232058406,
+    "exit": 0
+  }
+]

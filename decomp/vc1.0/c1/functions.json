@@ -1011,7 +1011,8 @@
     "_clear_packing",
     "_require_complete_type@4",
     "_report_conversion_mismatch@12",
-    "_report_function_operand@8"
+    "_report_function_operand@8",
+    "_enclosing_declaration_scope"
   ],
   "driver": [
     {
@@ -3544,7 +3545,16 @@
     {
       "name": "_enclosing_declaration_scope",
       "start": 218560,
-      "end": 218561
+      "end": 218601,
+      "abi_inputs": [],
+      "abi_globals": [
+        {
+          "name": "scope_depth",
+          "original": 446060,
+          "bytes": 1
+        }
+      ],
+      "abi_contract": "cdecl RET0, no formals. Actual current_scope@6b734, scope_directory@6b738 and scope_depthBYTE@6ce6c plus owned next pointer/kindBYTE+14 chain independently observed; directory slot read but unused. Return is first scope with kindbyte !=1. Raw original355c0..355e9 establishes implicit inputs and unused load."
     },
     {
       "name": "_insert_hash_value@12",
@@ -6208,6 +6218,11 @@
       "accepted_from": 1004,
       "accepted_count": 1007,
       "expected_exit": 4
+    },
+    "prototype-scope-registry": {
+      "accepted_from": 1007,
+      "accepted_count": 1008,
+      "expected_exit": 0
     }
   },
   "buffered_streams": [

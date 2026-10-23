@@ -535,7 +535,6 @@ void browser_macro_end(void) { __asm { int 3 } }
 /* Original 0x328c0. */
 
 /* Original 0x355c0. */
-SymbolScope *enclosing_declaration_scope(void) { __asm { int 3 } return 0; }
 
 /* Original 0x32990. */
 

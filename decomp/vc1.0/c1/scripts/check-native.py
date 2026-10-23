@@ -51,7 +51,8 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'asm-parser-repair':('asm-parser-repair','c1'),
          'hdrstop-create':('pragma-hdrstop-pch','c1-create'),
          'hdrstop-use':('pragma-hdrstop-pch','c1-use'),
-         'dispatch-type-diagnostics':('dispatch-type-diagnostics','c1')}
+         'dispatch-type-diagnostics':('dispatch-type-diagnostics','c1'),
+         'prototype-scope-registry':('prototype-scope-registry','c1')}
 
 
 CASE_DEPENDENCIES = {

@@ -1,0 +1,106 @@
+
+/root/msvc2/toolchains/1.0-nt/bin/C13232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00028860 <.text+0x11860>:
+   28860:	56                   	push   esi
+   28861:	57                   	push   edi
+   28862:	6a 00                	push   0x0
+   28864:	e8 c7 03 00 00       	call   0x28c30
+   28869:	8b f0                	mov    esi,eax
+   2886b:	c6 06 04             	mov    BYTE PTR [esi],0x4
+   2886e:	81 3d f4 b7 06 00 ff 	cmp    DWORD PTR ds:0x6b7f4,0x7fffffff
+   28875:	ff ff 7f 
+   28878:	72 0a                	jb     0x28884
+   2887a:	6a 37                	push   0x37
+   2887c:	e8 4f 22 02 00       	call   0x4aad0
+   28881:	83 c4 04             	add    esp,0x4
+   28884:	a1 f8 b7 06 00       	mov    eax,ds:0x6b7f8
+   28889:	39 05 f4 b7 06 00    	cmp    DWORD PTR ds:0x6b7f4,eax
+   2888f:	72 0e                	jb     0x2889f
+   28891:	83 3d 88 b5 05 00 00 	cmp    DWORD PTR ds:0x5b588,0x0
+   28898:	74 05                	je     0x2889f
+   2889a:	e8 a1 ec ff ff       	call   0x27540
+   2889f:	a1 f4 b7 06 00       	mov    eax,ds:0x6b7f4
+   288a4:	ff 05 f4 b7 06 00    	inc    DWORD PTR ds:0x6b7f4
+   288aa:	89 46 10             	mov    DWORD PTR [esi+0x10],eax
+   288ad:	83 3d 04 e2 06 00 10 	cmp    DWORD PTR ds:0x6e204,0x10
+   288b4:	7d 0f                	jge    0x288c5
+   288b6:	68 f8 e1 06 00       	push   0x6e1f8
+   288bb:	68 c8 e1 06 00       	push   0x6e1c8
+   288c0:	e8 3b 1d 02 00       	call   0x4a600
+   288c5:	8b 3d 00 e2 06 00    	mov    edi,DWORD PTR ds:0x6e200
+   288cb:	83 2d 04 e2 06 00 10 	sub    DWORD PTR ds:0x6e204,0x10
+   288d2:	83 05 00 e2 06 00 10 	add    DWORD PTR ds:0x6e200,0x10
+   288d9:	66 8b 44 24 10       	mov    ax,WORD PTR [esp+0x10]
+   288de:	f6 c4 02             	test   ah,0x2
+   288e1:	66 89 07             	mov    WORD PTR [edi],ax
+   288e4:	74 28                	je     0x2890e
+   288e6:	66 0d 04 00          	or     ax,0x4
+   288ea:	66 89 07             	mov    WORD PTR [edi],ax
+   288ed:	66 a1 46 bb 06 00    	mov    ax,ds:0x6bb46
+   288f3:	66 25 08 00          	and    ax,0x8
+   288f7:	66 3d 01 00          	cmp    ax,0x1
+   288fb:	6a 00                	push   0x0
+   288fd:	1b c0                	sbb    eax,eax
+   288ff:	66 40                	inc    ax
+   28901:	6a 00                	push   0x0
+   28903:	50                   	push   eax
+   28904:	6a 04                	push   0x4
+   28906:	e8 b5 9f 00 00       	call   0x328c0
+   2890b:	89 46 28             	mov    DWORD PTR [esi+0x28],eax
+   2890e:	89 77 08             	mov    DWORD PTR [edi+0x8],esi
+   28911:	57                   	push   edi
+   28912:	e8 49 74 01 00       	call   0x3fd60
+   28917:	89 46 0c             	mov    DWORD PTR [esi+0xc],eax
+   2891a:	8b 44 24 0c          	mov    eax,DWORD PTR [esp+0xc]
+   2891e:	0b c0                	or     eax,eax
+   28920:	74 46                	je     0x28968
+   28922:	89 46 08             	mov    DWORD PTR [esi+0x8],eax
+   28925:	83 3d 90 07 06 00 00 	cmp    DWORD PTR ds:0x60790,0x0
+   2892c:	7e 57                	jle    0x28985
+   2892e:	83 3d 54 bb 06 00 00 	cmp    DWORD PTR ds:0x6bb54,0x0
+   28935:	50                   	push   eax
+   28936:	6a 73                	push   0x73
+   28938:	74 06                	je     0x28940
+   2893a:	6a 04                	push   0x4
+   2893c:	eb 04                	jmp    0x28942
+   2893e:	8b ff                	mov    edi,edi
+   28940:	6a 01                	push   0x1
+   28942:	e8 b9 22 02 00       	call   0x4ac00
+   28947:	83 c4 0c             	add    esp,0xc
+   2894a:	83 7c 24 18 00       	cmp    DWORD PTR [esp+0x18],0x0
+   2894f:	75 34                	jne    0x28985
+   28951:	83 3d 54 bb 06 00 00 	cmp    DWORD PTR ds:0x6bb54,0x0
+   28958:	74 2b                	je     0x28985
+   2895a:	56                   	push   esi
+   2895b:	e8 60 cc 00 00       	call   0x355c0
+   28960:	50                   	push   eax
+   28961:	e8 3a cd 00 00       	call   0x356a0
+   28966:	eb 22                	jmp    0x2898a
+   28968:	83 3d 90 07 06 00 00 	cmp    DWORD PTR ds:0x60790,0x0
+   2896f:	7e 0c                	jle    0x2897d
+   28971:	6a 74                	push   0x74
+   28973:	6a 01                	push   0x1
+   28975:	e8 86 22 02 00       	call   0x4ac00
+   2897a:	83 c4 08             	add    esp,0x8
+   2897d:	a1 b8 b6 06 00       	mov    eax,ds:0x6b6b8
+   28982:	89 46 08             	mov    DWORD PTR [esi+0x8],eax
+   28985:	56                   	push   esi
+   28986:	ff 54 24 18          	call   DWORD PTR [esp+0x18]
+   2898a:	83 3d 88 b5 05 00 00 	cmp    DWORD PTR ds:0x5b588,0x0
+   28991:	74 18                	je     0x289ab
+   28993:	80 3d 3c b1 05 00 00 	cmp    BYTE PTR ds:0x5b13c,0x0
+   2899a:	74 09                	je     0x289a5
+   2899c:	83 3d b8 d5 05 00 00 	cmp    DWORD PTR ds:0x5d5b8,0x0
+   289a3:	74 06                	je     0x289ab
+   289a5:	56                   	push   esi
+   289a6:	e8 25 ec ff ff       	call   0x275d0
+   289ab:	c7 05 a4 04 06 00 01 	mov    DWORD PTR ds:0x604a4,0x1
+   289b2:	00 00 00 
+   289b5:	8b c6                	mov    eax,esi
+   289b7:	5f                   	pop    edi
+   289b8:	5e                   	pop    esi
+   289b9:	c2 10 00             	ret    0x10

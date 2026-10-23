@@ -196,6 +196,32 @@ static void dump_type_pair(HANDLE process, HANDLE thread, HANDLE log)
     }
 }
 
+/* Original355c0 reads these two global pointers and the scope-depth byte.
+   The observer follows only the owned next/kind prefix consumed by355e1. */
+static void dump_declaration_scopes(HANDLE process, HANDLE log, DWORD base)
+{
+    DWORD current, directory, selected, got, written, next;
+    unsigned char depth, kind;
+    unsigned index = 0;
+    char line[200];
+    if (!getenv("C1_SCOPE_PROBE")) return;
+    if (!ReadProcessMemory(process,(void *)(base+0x5b734),&current,4,&got) || got!=4 ||
+        !ReadProcessMemory(process,(void *)(base+0x5b738),&directory,4,&got) || got!=4 ||
+        !ReadProcessMemory(process,(void *)(base+0x5ce6c),&depth,1,&got) || got!=1 ||
+        !ReadProcessMemory(process,(void *)(directory+depth*4),&selected,4,&got) || got!=4) return;
+    sprintf(line,"scope-context %08lx %08lx %u %08lx\n",current,directory,depth,selected);
+    WriteFile(log,line,strlen(line),&written,0);
+    while (current && index<16) {
+        if (!ReadProcessMemory(process,(void *)current,&next,4,&got) || got!=4 ||
+            !ReadProcessMemory(process,(void *)(current+14),&kind,1,&got) || got!=1) return;
+        sprintf(line,"scope-link %u %08lx %08lx %u\n",index,current,next,kind);
+        WriteFile(log,line,strlen(line),&written,0);
+        if (kind!=1) break;
+        current=next;
+        ++index;
+    }
+}
+
 /* Keep caller/register evidence for diagnosing a logical-trap divergence. */
 static void dump_context(HANDLE process, HANDLE thread, HANDLE log)
 {
@@ -307,6 +333,11 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
     memset(&context,0,sizeof(context)); context.ContextFlags = CONTEXT_FULL;
     if (!GetThreadContext(thread,&context)) return -1;
     if (site == flag_entry) {
+        if (getenv("C1_SCOPE_PROBE")) {
+            dump_declaration_scopes(process,log,base);
+            sprintf(line,"scope-registers entry %08lx %08lx %08lx %08lx %08lx\n",context.Esp,context.Ebx,context.Esi,context.Edi,context.Ebp);
+            WriteFile(log,line,strlen(line),&written,0);
+        }
         if (segment_probe) dump_asm_operand(process,log,base,"entry");
         if (return8_probe || segment_probe || strdup_probe || complete_probe) {
             if (!ReadProcessMemory(process,(void *)context.Esp,arguments,sizeof(arguments),&got) || got != sizeof(arguments)) return -1;
@@ -335,6 +366,10 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
         flag_step = 1;
         context.EFlags |= 0x100;
     } else {
+        if (getenv("C1_SCOPE_PROBE")) {
+            sprintf(line,"scope-registers finish %08lx %08lx %08lx %08lx %08lx %08lx\n",context.Esp,context.Ebx,context.Esi,context.Edi,context.Ebp,context.Eax);
+            WriteFile(log,line,strlen(line),&written,0);
+        }
         if (segment_probe) dump_asm_operand(process,log,base,"finish");
         if (return8_probe || segment_probe || strdup_probe || complete_probe) {
             sprintf(line,"%s-finish %u %08lx %08lx %08lx\n",complete_probe?"type":strdup_probe?"strdup":segment_probe?"segment":"return8",flag_count,context.Esp,context.Eax,context.Edx);
@@ -623,6 +658,7 @@ int main(int argc, char **argv)
                 dump_requested_strings(pi.hProcess,log,base);
                 dump_complete_type(pi.hProcess,pi.hThread,log);
                 dump_type_pair(pi.hProcess,pi.hThread,log);
+                dump_declaration_scopes(pi.hProcess,log,base);
                 dump_asm_operand(pi.hProcess,log,base,"stop");
                 if (argc >= 9) dump_stream_buffers(pi.hProcess, log, base, argv[8]);
                 TerminateProcess(pi.hProcess, 99);

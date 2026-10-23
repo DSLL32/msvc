@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "1061bcab032423e0ab702904f6d5db261a14256d095c3406ca66dd17e61872ca",
+    "functions.json": "75e5ba672986642d0abeb4f51cc82e4f40af9a9c3e560cc24a3b37d5d22c49ad",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "36bc18a928d6384a83aa439b511add05a2b27a59a9408ad83bdb791e8f11ffbd"
+    "sha256": "bab6906d6830620532d34b5e70a0eadbe6fde39b1c2e6d77d1fc983e1ea591d4"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "263bed46f3c52ef4672fd68cb44ddf7b3a59eb19e3733c69ad7d984e5f56b3a7"
+    "sha256": "77b66ee99f510edcb3a87090e458b7c30ed60a18cf23ea5fe9cf6006fcdb97b8"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -1135,7 +1135,7 @@
     },
     "enclosing_declaration_scope": {
       "logical": "_enclosing_declaration_scope",
-      "source": "src/stubs.c"
+      "source": "src/scopes.c"
     },
     "encode_name_character": {
       "logical": "_encode_name_character@8",
@@ -4521,7 +4521,8 @@
     "clear_packing",
     "require_complete_type",
     "report_conversion_mismatch",
-    "report_function_operand"
+    "report_function_operand",
+    "enclosing_declaration_scope"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6067,6 +6068,18 @@
       "terminal": {
         "kind": "exit",
         "code": 4
+      }
+    },
+    "prototype-scope-registry": {
+      "first": 1007,
+      "last": 1008,
+      "seen_count": 863,
+      "expected": [
+        "enclosing_declaration_scope"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
       }
     }
   }

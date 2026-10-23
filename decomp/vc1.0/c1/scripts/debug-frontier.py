@@ -257,6 +257,18 @@ if gdb.selected_inferior().pid:
         descriptor=gdb.parse_and_eval('type').dereference()
         tag=descriptor['field08'].cast(gdb.lookup_type('FrontendSymbol').pointer())
         state['complete_type']=dict(type=int(gdb.parse_and_eval('type')),tag=int(tag),flags=int(tag.dereference()['flags']) if int(tag) else 0,name=tag.dereference()['name'].string(encoding='latin1') if int(tag) else None)
+    if %r:
+        scope=gdb.parse_and_eval('current_scope')
+        directory=gdb.parse_and_eval('scope_directory')
+        depth=int(gdb.parse_and_eval('scope_depth'))
+        links=[]
+        while int(scope):
+            assert len(links)<16
+            item=scope.dereference()
+            links.append([int(scope),int(item['next']),int(item['flags']) & 255])
+            if links[-1][2]!=1: break
+            scope=item['next']
+        state['declaration_scopes']=dict(current=int(gdb.parse_and_eval('current_scope')),directory=int(directory),depth=depth,selected=int((directory+depth).dereference()),links=links)
     state['label_stack_count']=int(gdb.parse_and_eval('label_stack_count'))
     state['scanner_flags']=int(gdb.parse_and_eval('scanner_flags'))
     state['exception_scope_depth']=[int(gdb.parse_and_eval('exception_scope_depth[%%d]'%%i)) for i in range(3)]
@@ -264,7 +276,7 @@ else:
     state['frontier']=None
 with open(%r,'w') as out:json.dump(state,out,indent=2)
 end
-''' % (runtime_break+callback_commands+flag_commands,redirection,abi_inputs,abi_globals,abi_strings,names,bool(options.reference and 'asm-state stop ' in (options.reference.resolve()/'events').read_text()),bool(expected_record and expected_record['name']=='_report_conversion_mismatch@12'),bool(expected_record and expected_record['name']=='_require_complete_type@4'),str(directory/'state.json'))
+''' % (runtime_break+callback_commands+flag_commands,redirection,abi_inputs,abi_globals,abi_strings,names,bool(options.reference and 'asm-state stop ' in (options.reference.resolve()/'events').read_text()),bool(expected_record and expected_record['name']=='_report_conversion_mismatch@12'),bool(expected_record and expected_record['name']=='_require_complete_type@4'),bool(expected_record and expected_record['name']=='_enclosing_declaration_scope'),str(directory/'state.json'))
     (directory/'commands.gdb').write_text(script)
     prepared = time.perf_counter()-start
     run_start = time.perf_counter()
@@ -322,6 +334,19 @@ end
                 original_name=re.search(r'^pointer-text complete-tag-name [0-9a-f]+ ([0-9a-f]+)$',events,re.M)
                 assert (None if not original_name else bytes.fromhex(original_name[1])[:-1].decode('latin1'))==raw['name']
                 state['complete_type_original_match']=True
+
+            if 'declaration_scopes' in state:
+                context=re.search(r'^scope-context ([0-9a-f]+) ([0-9a-f]+) (\d+) ([0-9a-f]+)$',events,re.M)
+                assert context,'Original owned scope inputs not observed'
+                original=dict(current=int(context[1],16),directory=int(context[2],16),depth=int(context[3]),selected=int(context[4],16),links=[[int(a,16),int(b,16),int(c)]for a,b,c in re.findall(r'^scope-link \d+ ([0-9a-f]+) ([0-9a-f]+) (\d+)$',events,re.M)])
+                native=state['declaration_scopes']
+                def scope_projection(row):
+                    links=row['links'];owners=[p[0]for p in links]
+                    assert links and owners[0]==row['current'] and row['directory']
+                    return dict(depth=row['depth'],kinds=[p[2]for p in links],next_owners=[owners.index(p[1])if p[1]in owners else None if not p[1]else 'outside'for p in links],selected_owner=owners.index(row['selected'])if row['selected']in owners else None if not row['selected']else 'outside')
+                assert scope_projection(native)==scope_projection(original),('declaration scope inputs differ',native,original)
+                state['declaration_scopes_original']=original
+                state['declaration_scopes_original_match']=True
 
             if 'asm_operand_state' in state:
                 row=next(line for line in events.splitlines()if line.startswith('asm-state stop '))

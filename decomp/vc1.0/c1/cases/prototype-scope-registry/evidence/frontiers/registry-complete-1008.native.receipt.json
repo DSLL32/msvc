@@ -1,0 +1,25 @@
+{
+  "buffers": {},
+  "frames": [],
+  "exit": 0,
+  "frontier": null,
+  "fresh_original_match": true,
+  "reference_clock_observation": null,
+  "preparation_seconds": 0.0047935424372553825,
+  "execution_seconds": 0.16432984173297882,
+  "total_seconds": 0.1712162382900715,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f registry.c -Ze -Zp8 -Gs -Foregistry.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR registry.sbr -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/registry-complete-1008",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\prototype-scope-registry"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL aliases fd2 to fd1 before child launch; exact captured child intervals."
+  },
+  "executable_sha256": "f2ba064c23bc601efece7d4499aaa80624b82228711b2d85596b8c68e72ee900"
+}
