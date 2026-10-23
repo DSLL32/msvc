@@ -1,0 +1,124 @@
+{
+  "method": "CFG traversal of original/canonical machine RET operands; jump-table data not decoded as instructions",
+  "checkpoint": 1118,
+  "accepted_slice": [
+    1112,
+    1118
+  ],
+  "checked": [
+    {
+      "name": "@format_function_name@4",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x4dfa0",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x4dffd",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x4dff7",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x4c487",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "_compiler_warning",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x70566",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x7050a",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x12b7a",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@warning_override_level@4",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x70606",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x70611",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x12bd8",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@merge_inline_scope@8",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x6502a",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x1d730",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@bind_inline_arguments@12",
+      "callee_stack_bytes": 4,
+      "original": [
+        {
+          "address": "0x64fb3",
+          "stack_bytes": 4
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x1d824",
+          "stack_bytes": 4
+        }
+      ]
+    },
+    {
+      "name": "@new_inline_binding@8",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x65478",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x1d8a1",
+          "stack_bytes": 0
+        }
+      ]
+    }
+  ],
+  "seconds": 0.2658089892938733,
+  "return_width_evidence": "Diagnostic formatter/binding factory return EAX pointers; warning override returns EAX int; other additions are void. cdecl compiler_warning RET0 and three-argument fastcall binder RET4 match every recovered original/canonical CFG return."
+}

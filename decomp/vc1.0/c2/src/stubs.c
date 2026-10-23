@@ -33,6 +33,7 @@
 #include "backend-passes.h"
 #include "float-peepholes.h"
 #include "float-machine.h"
+#include <stdarg.h>
 #include <recon.h>
 BOOL WINAPI compiler_control(DWORD event) { __asm int 3 }
 void initialize_debugging(void) { __asm int 3 }
@@ -47,7 +48,7 @@ DoubleBits input_double_bits(void) { __asm int 3 }
 int extended_to_float(const Extended *number, float *result) { __asm int 3 }
 void float_to_extended(const float *number, Extended *result) { __asm int 3 }
 void __fastcall decode_inline_assembly(Node *node, ScopeHash *scope) { __asm int 3 }
-char *__fastcall format_function_name(SymbolHeader *symbol) { __asm int 3 }
+char *__fastcall undecorate_function_name(char *name) { __asm int 3 }
 void __cdecl ide_message(int code, ...) { __asm int 3 }
 void __fastcall set_warning_override(short number, signed char level) { __asm int 3 }
 void __fastcall prepare_inline_function(Function *function) { __asm int 3 }
@@ -63,10 +64,8 @@ Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
 void __fastcall lower_bitfield_assignment(Node *node) { __asm int 3 }
 void __fastcall finish_inline_function(Function *function) { __asm int 3 }
 #include "inline-calls.h"
-InlineBinding *__fastcall bind_inline_arguments(Function *function, Node *entry, Node *call) { __asm int 3 }
 void __fastcall check_inline_argument_aliases(InlineBinding *bindings) { __asm int 3 }
 int __fastcall analyze_inline_returns(Expression *entry, InlineBinding *bindings) { __asm int 3 }
-void __fastcall merge_inline_scope(ScopeHash *outer, ScopeHash *inner) { __asm int 3 }
 Node *__fastcall new_inline_storage(signed char kind, unsigned bytes) { __asm int 3 }
 InlineBinding *__fastcall find_inline_binding(InlineBinding *bindings, SymbolHeader *symbol) { __asm int 3 }
 Node *__fastcall inline_argument_prefix(InlineBinding *bindings) { __asm int 3 }
@@ -86,7 +85,9 @@ int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 #include "instruction-selection.h"
 void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm int 3 }
 void __fastcall clone_alias_symbol(SymbolHeader *symbol) { __asm int 3 }
-void __cdecl compiler_warning(int level, int code, ...) { __asm int 3 }
+void __fastcall change_warning_override(short number, signed char level) { __asm int 3 }
+char *__fastcall diagnostic_format(unsigned number) { __asm int 3 }
+void __cdecl emit_diagnostic(unsigned category, unsigned number, char *format, va_list arguments) { __asm int 3 }
 void __fastcall uppercase_name(char *name) { __asm int 3 }
 void __fastcall emit_function_inline_data(Function *function) { __asm int 3 }
 #include "output.h"

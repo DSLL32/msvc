@@ -1116,7 +1116,13 @@
     "@lower_bitfield_reference@4",
     "@aligned_value_size@4",
     "@new_storage_reference@4",
-    "@new_inline_site@16"
+    "@new_inline_site@16",
+    "@format_function_name@4",
+    "_compiler_warning",
+    "@warning_override_level@4",
+    "@merge_inline_scope@8",
+    "@bind_inline_arguments@12",
+    "@new_inline_binding@8"
   ],
   "driver": [
     {
@@ -1418,8 +1424,7 @@
     {
       "name": "@format_function_name@4",
       "start": 319344,
-      "end": 319345,
-      "provisional": true
+      "end": 319486
     },
     {
       "name": "_ide_message",
@@ -1614,8 +1619,7 @@
     {
       "name": "_compiler_warning",
       "start": 459920,
-      "end": 459921,
-      "provisional": true
+      "end": 460196
     },
     {
       "name": "@input_string@8",
@@ -2824,8 +2828,7 @@
     {
       "name": "@bind_inline_arguments@12",
       "start": 413456,
-      "end": 413457,
-      "provisional": true
+      "end": 413622
     },
     {
       "name": "@check_inline_argument_aliases@4",
@@ -2842,8 +2845,7 @@
     {
       "name": "@merge_inline_scope@8",
       "start": 413632,
-      "end": 413633,
-      "provisional": true
+      "end": 413739
     },
     {
       "name": "@new_inline_storage@8",
@@ -7483,6 +7485,40 @@
       "name": "@generic_operand_size_cost@4",
       "start": 272576,
       "end": 272667
+    },
+    {
+      "name": "@undecorate_function_name@4",
+      "start": 456224,
+      "end": 456225,
+      "provisional": true
+    },
+    {
+      "name": "@warning_override_level@4",
+      "start": 460256,
+      "end": 460306
+    },
+    {
+      "name": "@change_warning_override@8",
+      "start": 460208,
+      "end": 460209,
+      "provisional": true
+    },
+    {
+      "name": "@diagnostic_format@4",
+      "start": 460912,
+      "end": 460913,
+      "provisional": true
+    },
+    {
+      "name": "_emit_diagnostic",
+      "start": 459440,
+      "end": 459441,
+      "provisional": true
+    },
+    {
+      "name": "@new_inline_binding@8",
+      "start": 414768,
+      "end": 414841
     }
   ],
   "cases": {

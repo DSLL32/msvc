@@ -175,3 +175,67 @@ next:
     }
     return original_budget - budget;
 }
+
+/* Original [00064fc0,0006502b). Move inline locals into the caller's
+  64-bucket scope, giving them fresh identities. Parameters retain their
+   descriptors for binding, and automatic copies advance their generation. */
+void __fastcall merge_inline_scope(ScopeHash *outer, ScopeHash *inner)
+{
+    unsigned next_symbol_identifier(void);
+    SymbolHeader *symbol, *next;
+    TemporarySymbol *temporary;
+    unsigned bucket;
+    for (bucket = 0; bucket < 64; ++bucket) {
+        for (symbol = inner->buckets[bucket]; symbol; symbol = next) {
+            next = symbol->hash_next;
+            temporary = (TemporarySymbol *)symbol;
+            if (symbol->kind == 1 && (temporary->attributes & 0x70) == 0x30)
+                continue;
+            symbol->identifier = next_symbol_identifier();
+            if (symbol->kind == 1 && (temporary->attributes & 0x70) == 0x10)
+                ++temporary->anonymous;
+            put_symbol(outer, symbol);
+        }
+        inner->buckets[bucket] = 0;
+    }
+}
+
+/* Original [00064f10,00064fb6). Pair parameter records with call arguments
+   in list order. Hidden-result bindings and repeatable unescaped arguments
+   may be substituted directly; other arguments require storage later. */
+InlineBinding *__fastcall bind_inline_arguments(Function *function, Node *entry, Node *call)
+{
+    InlineBinding *__fastcall new_inline_binding(Node *parameter, Node *argument);
+    InlineBinding *head = 0, **tail = &head, *binding;
+    Node *parameter = entry->second.node, *argument = call->second.node;
+    while (parameter->opcode != 0x4c && argument->opcode != 0x4c) {
+        binding = new_inline_binding(parameter, argument);
+        if (function->return_temp && parameter->right.symbol == function->return_temp)
+            binding->flags |= 1;
+        else if (!(parameter->right.symbol->field0e & 0x2000) &&
+                 can_repeat_tree(argument->left.node)) binding->flags |= 1;
+        else binding->flags &= ~1U;
+        binding->next = *tail;
+        *tail = binding;
+        tail = &binding->next;
+        parameter = parameter->second.node;
+        argument = argument->second.node;
+    }
+    return head;
+}
+
+/* Original [00065430,00065479). Arena4 owns20-byte binding records.
+   Only the direct-substitution flag is cleared: preserve other flag bits
+   on reuse, as the original constructor does. */
+InlineBinding *__fastcall new_inline_binding(Node *parameter, Node *argument)
+{
+    InlineBinding *binding = free_inline_bindings;
+    if (binding) free_inline_bindings = binding->next;
+    else binding = arena_alloc(4, sizeof(*binding));
+    binding->next = 0;
+    binding->parameter = parameter;
+    binding->argument = argument;
+    binding->storage = 0;
+    binding->flags &= ~1U;
+    return binding;
+}

@@ -3,6 +3,7 @@
 #include "machine.h"
 #include "function-input.h"
 #include "options.h"
+#include <string.h>
 #include <recon.h>
 extern unsigned descriptor_bytes[7];
 void __fastcall uppercase_name(char *name);
@@ -150,4 +151,29 @@ unsigned __fastcall format_integer(unsigned value, char *text, unsigned radix)
     } while (value);
     while ((*text++ = *--digit) != 0) ++count;
     return count;
+}
+
+/* Original [0004df70,0004dffe). Diagnostic spelling strips the native
+   leading decoration and, for stack/register convention names, the @size
+   suffix. C++ names retain their spelling if undecoration fails. */
+char *__fastcall format_function_name(SymbolHeader *symbol)
+{
+    char *__fastcall undecorate_function_name(char *name);
+    static char function_name_buffer[256]; /* original7e2b0..7e3b0 */
+    char *name = symbol->name, *result, *source, *destination;
+    unsigned convention;
+    if (!name) compiler_internal_error("@(#)p2symtab.c:1.89", 0x33c);
+    if (*name == '?') {
+        result = undecorate_function_name(name);
+        return *result ? result : name;
+    }
+    convention = symbol->field0e & 0x1c;
+    if (symbol->kind == 4 && (convention == 0x10 || convention == 4)) {
+        source = name + 1;
+        destination = function_name_buffer;
+        while ((*destination++ = *source++) != 0) ;
+        *strchr(function_name_buffer, '@') = 0;
+        return function_name_buffer;
+    }
+    return name + 1;
 }

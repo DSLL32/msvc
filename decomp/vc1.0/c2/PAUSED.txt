@@ -1,3 +1,4 @@
-C2 active: approved /O2 /Ob2 /G5 inline-records case at1112 accepted functions.
-Current matching frontier format_function_name4df70; new_inline_site and hidden-return setup recovered.
-See cases/inlrec-first-checkpoint.json and queue.json. Continue this case, then review next proposal with root.
+C2 active: approved inline-records case at1118 accepted /1039 source graphs.
+Current matching frontier check_inline_argument_aliases64ea0.
+Full warning filter, inline-scope merge, argument binder/factory now recovered.
+See cases/inlrec-binding-checkpoint.json and queue.json; continue current case.

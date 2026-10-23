@@ -1,30 +1,20 @@
 {
   "modules": [
     {
-      "module": "tree-lowering",
-      "seconds": 2.342305020429194,
+      "module": "names",
+      "seconds": 2.050402152352035,
       "returncode": 0
     },
     {
-      "module": "tree-types",
-      "seconds": 2.0791539065539837,
+      "module": "warnings",
+      "seconds": 2.079713601619005,
       "returncode": 0
     },
     {
-      "module": "temporaries",
-      "seconds": 1.9774577021598816,
-      "returncode": 0
-    },
-    {
-      "module": "inline-candidates",
-      "seconds": 1.258633304387331,
-      "returncode": 0
-    },
-    {
-      "module": "intrinsics",
-      "seconds": 1.1485936073586345,
+      "module": "inline-calls",
+      "seconds": 1.0961812026798725,
       "returncode": 0
     }
   ],
-  "seconds": 8.806673490442336
+  "seconds": 5.226807553321123
 }
