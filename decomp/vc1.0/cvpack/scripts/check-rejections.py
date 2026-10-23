@@ -23,9 +23,10 @@ class Bytes:
     def __init__(self,data):self.data=data
     def read(self,address,size):return self.data[address:address+size]
 
-def reject(label, action):
+def reject(label, action, reason=None):
     try:action()
-    except (AssertionError,ValueError,IndexError,KeyError):
+    except (AssertionError,ValueError,IndexError,KeyError)as error:
+        if reason:assert reason in str(error),(label,error)
         print('rejected:',label)
         return
     raise AssertionError('accepted invalid '+label)
@@ -70,6 +71,20 @@ def main():
     config,original=load()
     from pdb_checks import check as pdb_checks
     pdb_checks(config,original,reject)
+    from symbol_output_checks import check as check_symbol_output
+    packed=BINARY/'cases/hello-debug-dll/evidence/0064-pack_new_types'
+    if packed.is_dir():check_symbol_output(packed)
+    from callback_table import describe as callback_description,check_rebuilt as check_callbacks
+    table=next((r for r in context if r.get('kind')=='callback-table'),None)
+    if table:
+        original_table=PE(target).read(table['original'],table['size']);symbols=publics();rebuilt_table=PE(BINARY/'build/CVPACK.EXE').read(symbols[table['symbol']],table['size'])
+        check_callbacks(table,original_table,rebuilt_table,configuration['functions'],symbols)
+        altered=bytearray(rebuilt_table);struct.pack_into('<I',altered,4,symbols['_end_symbol_block'])
+        reject('callback table redirected to another known function',lambda:check_callbacks(table,original_table,altered,configuration['functions'],symbols))
+        altered=bytearray(rebuilt_table);altered[0]^=1
+        reject('callback table changed symbol kind',lambda:check_callbacks(table,original_table,altered,configuration['functions'],symbols))
+        altered=bytearray(original_table);struct.pack_into('<I',altered,4,1)
+        reject('callback table unknown original target',lambda:callback_description(table,altered,configuration['functions']))
     from type_cache_checks import check as check_cache,compiled_checks as check_cache_compiler
     cached=BINARY/'cases/hello-debug-dll/evidence/0061-index_new_types'
     if cached.is_dir():check_cache(cached);check_cache_compiler()
@@ -226,7 +241,7 @@ def main():
         for destination in (old,new):(destination/'configuration.json').write_bytes(current.read_bytes())
         masked=old/'CVPACK.EXE';masked.write_bytes(b'captured masked image')
         executable=directory/'native.exe';executable.write_bytes(b'native executable')
-        captured=dict(configuration_sha256=sha(current),original_sha256=sha(target),executable_sha256=sha(masked))
+        captured=dict(configuration_sha256=sha(current),original_sha256=sha(target),executable_sha256=sha(masked),debugger_sha256=sha(BINARY/'build/debug-run.exe'))
         native=dict(configuration_sha256=sha(current),original_sha256=sha(target),executable_sha256=sha(executable))
         def snapshot(a=captured,b=native):validate_snapshot(config,current,old,new,a,b,target,executable)
         snapshot()
@@ -254,6 +269,8 @@ def main():
         masked.write_bytes(b'changed masked image')
         reject('captured masked image changed after execution',snapshot)
         masked.write_bytes(b'captured masked image')
+        changed=dict(captured,debugger_sha256='0'*64)
+        reject('captured original controller differs',lambda:snapshot(a=changed),'original capture controller changed')
         executable.write_bytes(b'changed native executable')
         reject('native executable changed after execution',snapshot)
     specifications=[dict(name='pool',original=0x4000,pointer_fields=[4])]

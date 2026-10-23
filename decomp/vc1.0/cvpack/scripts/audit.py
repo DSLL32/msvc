@@ -266,6 +266,8 @@ def main():
         assert set(report['functions'])==expected and report['checked_functions']==len(expected),'incomplete Rust graph report'
     text_end=max(rebuilt.base+s['rva']+s['virtual_size'] for s in rebuilt.sections if s['flags']&0x20)
     addresses=sorted(set(linked.values())|{text_end})
+    from symbol_output import validate as validate_symbol_output
+    validate_symbol_output(config,original)
     from type_cache import validate as validate_type_cache
     validate_type_cache(config,original,rebuilt,linked)
     from module_write import validate as validate_module_write
@@ -327,7 +329,10 @@ def main():
             assert record['abi'],record['name']
         checked+=1
     for record in json.loads((BINARY/'data.json').read_text()):
-        if record.get('kind')=='string-pointer-array':
+        if record.get('kind')=='callback-table':
+            from callback_table import check_rebuilt
+            check_rebuilt(record,original.read(record['original'],record['size']),rebuilt.read(linked[record['symbol']],record['size']),functions,linked)
+        elif record.get('kind')=='string-pointer-array':
             for index in range(record['size']//4):
                 a=u32(original.read(record['original']+index*4,4),0)
                 b=u32(rebuilt.read(linked[record['symbol']]+index*4,4),0)

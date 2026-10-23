@@ -221,3 +221,37 @@ def capture_type_cache(node):
             objects['cache-%d-%d'%(bucket,index)]=dict(address=pointer,bytes=data.hex())
             pointer=int.from_bytes(data[12:16],'little');index+=1
     if objects:node['objects']=objects
+
+
+def install_symbol_allocation_observer(source,line):
+    gdb.cvpack_symbol_allocations=[]
+    class Allocated(gdb.Breakpoint):
+        def __init__(self):super().__init__(str(source)+':'+str(line),internal=True)
+        def stop(self):
+            try:
+                f=gdb.newest_frame();assert f.name()=='pack_new_types'
+                base=int(f.read_var('buffer'));size=int(f.read_var('output_size'))
+                input=int(f.read_var('types'));entry=f.read_var('entry');module=f.read_var('module')
+                padding=int(f.read_var('padding_bytes').dereference());skipped=int(f.read_var('skipped_bytes').dereference())
+                assert not gdb.cvpack_symbol_allocations and base and size==5113
+                assert int(entry.dereference()['size'])==4746 and int(entry.dereference()['subsection'])==0x124 and int(entry.dereference()['module'])==3
+                assert int(module.dereference()['module'])==3 and padding==367 and skipped==0 and size==4746+padding-skipped
+                gdb.cvpack_symbol_allocations.append(dict(base=base,size=size,input=input,entry=int(entry),module=int(module),number=3,padding=padding,skipped=skipped,
+                    before=bytes(gdb.selected_inferior().read_memory(base,size)).hex()))
+                return False
+            except Exception as error:gdb.cvpack_symbol_allocations.append(dict(error=str(error)));return True
+    Allocated()
+
+
+def capture_symbol_output():
+    rows=getattr(gdb,'cvpack_symbol_allocations',[])
+    if not rows:return []
+    assert len(rows)==1 and not rows[0].get('error'),'invalid actual symbol allocation'
+    entry=rows[0].copy();f=gdb.newest_frame();caller=f.older()
+    assert f.name()=='write_search_symbol'and caller.name()=='pack_new_types','unreviewed symbol output consumer'
+    base,size=entry['base'],entry['size'];cursor=int(gdb.parse_and_eval('symbol_output'))
+    assert int(caller.read_var('buffer'))==int(caller.read_var('start'))==base
+    assert int(caller.read_var('end'))==entry['input']+4746 and int(caller.read_var('output_size'))==size
+    assert cursor==base+4==int(f.read_var('buffer'))
+    entry.update(cursor=cursor,frontier=f.name(),parent='pack_new_types',postbytes=bytes(gdb.selected_inferior().read_memory(base,size)).hex())
+    return [entry]

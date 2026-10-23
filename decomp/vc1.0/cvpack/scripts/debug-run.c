@@ -364,6 +364,9 @@ static int load_plan(char *path)
 
 typedef struct ReadSite { DWORD call, returned; } ReadSite;
 static ReadSite read_sites[32];
+static DWORD symbol_base,symbol_size,symbol_input_base,symbol_module,symbol_entry;
+static DWORD symbol_padding,symbol_skipped,symbol_step,symbol_tf,symbol_thread;
+static unsigned char symbol_before[8192];
 static DWORD pdb_read_enabled, pdb_read_step, pdb_read_tf, pdb_read_site;
 static DWORD read_site_count, read_step_site, read_step_address, read_saved_tf;
 static DWORD read_active_site, read_address, read_size, read_handle;
@@ -395,6 +398,8 @@ static int restore_runtime(HANDLE child, HANDLE original, HANDLE log,
             for (j=0;j<3;++j) if (address<=sites[j] && sites[j]<address+length)
                 if (!WriteProcessMemory(child,(void *)sites[j],&trap,1,&bytes) || bytes!=1) return -1;
         }
+        if (read_site_count && address<=0x2504e && 0x2504e<address+length)
+            if (!WriteProcessMemory(child,(void *)0x2504e,&trap,1,&bytes) || bytes!=1) return -1;
         FlushInstructionCache(child, (void *)address, length);
         memset(&context, 0, sizeof(context));
         context.ContextFlags = CONTEXT_CONTROL;
@@ -670,6 +675,59 @@ static int rearm_pdb_header(HANDLE child, HANDLE log, HANDLE thread, DWORD addre
     context.EFlags=(context.EFlags&~0x100UL)|pdb_read_tf;
     pdb_read_step=0;
     return SetThreadContext(thread,&context);
+}
+
+static int observe_symbol_allocation(HANDLE child,HANDLE log,HANDLE thread,DWORD tid)
+{
+    CONTEXT context;DWORD words[13],bytes,written,i,header[3],number;int used;
+    unsigned char instruction=0x89;
+    memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL;
+    if(symbol_base || symbol_step || !GetThreadContext(thread,&context) || context.Eip!=0x2504f ||
+       !ReadProcessMemory(child,(void *)context.Esp,words,sizeof(words),&bytes) || bytes!=sizeof(words) ||
+       !ReadProcessMemory(child,(void *)words[9],header,12,&bytes) || bytes!=12 ||
+       !ReadProcessMemory(child,(void *)words[10],&number,2,&bytes) || bytes!=2) return 0;
+    symbol_size=words[0];symbol_base=context.Eax;symbol_input_base=words[8];symbol_entry=words[9];symbol_module=words[10];
+    if(!ReadProcessMemory(child,(void *)words[11],&symbol_padding,2,&bytes) || bytes!=2 ||
+       !ReadProcessMemory(child,(void *)words[12],&symbol_skipped,2,&bytes) || bytes!=2) return 0;
+    symbol_padding&=0xffff;symbol_skipped&=0xffff;number&=0xffff;
+    if(!symbol_base || symbol_size!=5113 || header[0]!=0x30124 || header[2]!=4746 || number!=3 || symbol_padding!=367 || symbol_skipped ||
+       symbol_size!=header[2]+symbol_padding-symbol_skipped ||
+       !ReadProcessMemory(child,(void *)symbol_base,symbol_before,symbol_size,&bytes) || bytes!=symbol_size) return 0;
+    used=sprintf(object_line,"symbol-allocation base %08lx size %lu input %08lx entry %08lx module %08lx number %lu padding %lu skipped %lu esp %08lx before ",
+         symbol_base,symbol_size,symbol_input_base,symbol_entry,symbol_module,number,symbol_padding,symbol_skipped,context.Esp);
+    for(i=0;i<symbol_size;++i)used+=sprintf(object_line+used,"%02x",symbol_before[i]);
+    object_line[used++]='\n';
+    if(!WriteFile(log,object_line,used,&written,0) || written!=(DWORD)used ||
+       !WriteProcessMemory(child,(void *)0x2504e,&instruction,1,&bytes) || bytes!=1) return 0;
+    FlushInstructionCache(child,(void *)0x2504e,1);
+    symbol_step=0x25052;symbol_tf=context.EFlags&0x100;symbol_thread=tid;context.Eip=0x2504e;context.EFlags|=0x100;
+    return SetThreadContext(thread,&context);
+}
+
+static int rearm_symbol_allocation(HANDLE child,HANDLE log,HANDLE thread,DWORD address,DWORD tid)
+{
+    CONTEXT context;DWORD bytes,written;unsigned char trap=0xcc;
+    char line[]="symbol-allocation-rearm 0002504e 00025052\n";
+    memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_CONTROL;
+    if(address!=symbol_step || tid!=symbol_thread || !GetThreadContext(thread,&context) || context.Eip!=symbol_step ||
+       !WriteProcessMemory(child,(void *)0x2504e,&trap,1,&bytes) || bytes!=1) return 0;
+    FlushInstructionCache(child,(void *)0x2504e,1);
+    if(!WriteFile(log,line,sizeof(line)-1,&written,0) || written!=sizeof(line)-1) return 0;
+    context.EFlags=(context.EFlags&~0x100UL)|symbol_tf;symbol_step=0;
+    return SetThreadContext(thread,&context);
+}
+
+static int dump_symbol_allocation(HANDLE child,HANDLE log,DWORD frontier)
+{
+    DWORD cursor,bytes,written,i;int used;
+    if(!symbol_base)return 1;
+    if(frontier!=0x1bee0 || symbol_step || symbol_size!=5113 ||
+       !ReadProcessMemory(child,(void *)0x335f0,&cursor,4,&bytes) || bytes!=4 || cursor!=symbol_base+4 ||
+       !ReadProcessMemory(child,(void *)symbol_base,array_bytes,symbol_size,&bytes) || bytes!=symbol_size) return 0;
+    used=sprintf(object_line,"symbol-output base %08lx size %lu cursor %08lx frontier %08lx bytes ",symbol_base,symbol_size,cursor,frontier);
+    for(i=0;i<symbol_size;++i)used+=sprintf(object_line+used,"%02x",array_bytes[i]);
+    object_line[used++]='\n';
+    return WriteFile(log,object_line,used,&written,0) && written==(DWORD)used;
 }
 
 static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *words)
@@ -1023,6 +1081,15 @@ int main(int argc, char **argv)
                 loader_break = 1;
             } else {
                 thread = event.dwThreadId == child.dwThreadId ? child.hThread : 0;
+                if (thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
+                    (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x2504e) {
+                    if(!observe_symbol_allocation(child.hProcess,log,thread,event.dwThreadId)) return 29;
+                    ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
+                }
+                if(symbol_step && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_SINGLE_STEP) {
+                    if(!rearm_symbol_allocation(child.hProcess,log,thread,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,event.dwThreadId)) return 30;
+                    ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
+                }
                 if (read_step_site && thread && event.u.Exception.ExceptionRecord.ExceptionCode == EXCEPTION_SINGLE_STEP) {
                     if (rearm_read(child.hProcess, thread, log, (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress) < 0) return 19;
                     ContinueDebugEvent(event.dwProcessId, event.dwThreadId, disposition);
@@ -1120,6 +1187,7 @@ int main(int argc, char **argv)
                         }
                     }
                 }
+                if(!dump_symbol_allocation(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress)) return 31;
                 if (!dump_read_progress(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,&context,words)) return 28;
                 if (!dump_output_buffers(child.hProcess, log, (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress, words)) return 15;
                 if (!dump_transient_children(child.hProcess, log, (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress, words)) return 21;

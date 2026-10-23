@@ -10,7 +10,7 @@
   "initialized": "Completed intern_public writes next/name_offset,hash/offset/segment and full record including explicit pad bytes. Reserved header bytes6..7 and allocation suffix2 bytes remain undefined; retain their raw evidence.",
   "sources": {
     "src/modules.c": "980401f576db12845ffd1dbdb5a69ef7112700c6e9c4146074a29bdd84fc3fab",
-    "src/image.h": "8d6612c22ac7c5896e4dcdf2b8c2923060819a2db43592f1a7dccf0b0c902519"
+    "src/image.h": "9a767c762ea436712276e0c55a4d80a069c89c97fbce719b22fe2f7ba899248d"
   },
   "instructions": [
     {

@@ -57,7 +57,6 @@ void prepare_old_types(void * types,unsigned long size) { __asm { int 3 } }
 void pack_old_types(void * types,CvDirectoryEntry * entry,void * module_record,ModuleInfo * module) { __asm { int 3 } }
 
 
-void pack_new_types(void * types,CvDirectoryEntry * entry,ModuleInfo * module,unsigned short * base,unsigned short * count) { __asm { int 3 } }
 
 void pack_new_lines(void * lines,CvDirectoryEntry * entry,ModuleInfo * module) { __asm { int 3 } }
 
@@ -78,3 +77,35 @@ void *type_server_fill_alloc(unsigned long size, unsigned char value) { __asm { 
 TypeServerRecord *__stdcall type_server_record_init(TypeServerRecord *node, TypeServerRecord *next, unsigned char *record, unsigned short type) { __asm { int 3 } return NULL; }
 
 TypeRecord *get_type_record(unsigned short type, unsigned short *flag) { __asm { int 3 } return NULL; }
+
+void begin_symbol_block(void) { __asm { int 3 } }
+
+void end_symbol_block(void) { __asm { int 3 } }
+
+void convert_bp_relative16(void) { __asm { int 3 } }
+
+void convert_bp_relative32(void) { __asm { int 3 } }
+
+void convert_register_symbol(void) { __asm { int 3 } }
+
+void convert_constant_symbol(void) { __asm { int 3 } }
+
+void convert_object_name(void) { __asm { int 3 } }
+
+void convert_local_data16(void) { __asm { int 3 } }
+
+void convert_global_data16(void) { __asm { int 3 } }
+
+void convert_local_data32(void) { __asm { int 3 } }
+
+void convert_global_data32(void) { __asm { int 3 } }
+
+void convert_procedure16(void) { __asm { int 3 } }
+
+void convert_procedure32(void) { __asm { int 3 } }
+
+void convert_udt_symbol(void) { __asm { int 3 } }
+
+unsigned short write_search_symbol(unsigned char *buffer, unsigned short segment) { __asm { int 3 } return 0; }
+int link_symbol_scopes(unsigned char *symbols, unsigned long size) { __asm { int 3 } return 0; }
+void record_symbol_offsets(unsigned char *symbols, unsigned long size, unsigned short module) { __asm { int 3 } }

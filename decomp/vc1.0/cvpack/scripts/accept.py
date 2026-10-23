@@ -19,6 +19,7 @@ def validate_snapshot(config,current,original,native,captured,native_receipt,tar
     assert captured['configuration_sha256']==native_receipt['configuration_sha256']
     assert captured['original_sha256']==native_receipt['original_sha256']==config['target']['sha256']==sha(target),'captured original target differs'
     assert captured['executable_sha256']==sha(original/'CVPACK.EXE'),'captured masked image differs'
+    assert captured['debugger_sha256']==sha(BINARY/'build/debug-run.exe'),'original capture controller changed'
     assert native_receipt['executable_sha256']==sha(executable),'native executable changed since run'
 
 def compare_integer(item,descriptions,words,parameters):
@@ -138,10 +139,21 @@ def main():
         from public_arena import context as public_arena_context
         arena_context=public_arena_context(config,pe,events,state)
         object_proof=compare_walks(specifications,original_walks(events,specifications),state['walks'],definitions,arena_context,consumed_proof)
+    original_objects=original_walks(events,specifications)if not completed else {}
+    native_objects=dict(state['walks'])if not completed else {}
+    from symbol_output import compare as compare_symbol_output
+    symbol_path=native/args.case/'symbol-output.json'
+    symbol_proof=compare_symbol_output(config,pe,events,json.loads(symbol_path.read_text())if symbol_path.exists()else [],original_objects,native_objects,args.case=='hello-debug-dll'and function.get('required_symbol_output_observation',False))if args.case=='hello-debug-dll'else None
+    if symbol_proof:
+        original_objects['packed_symbol_allocation']=[symbol_proof['original_namespace']]
+        native_objects['packed_symbol_allocation']=[symbol_proof['native_namespace']]
     for item in ([] if completed else json.loads((BINARY/'data.json').read_text())):
         raw=bytes(memory[item['original']+i]for i in range(item['size']))
         actual=state['globals'][item['name']]
-        if item.get('kind')=='string-pointer-array':
+        if item.get('kind')=='callback-table':
+            from callback_table import describe
+            expected=describe(item,raw,config['functions'])
+        elif item.get('kind')=='string-pointer-array':
             expected=[]
             for index in range(item['size']//4):
                 pointer=int.from_bytes(raw[index*4:index*4+4],'little')
@@ -164,8 +176,8 @@ def main():
                     assert actual['address']==state['global_addresses'][owner['name']]+owner['offset']
                     expected['global']=owner
                 else:
-                    old_id=pointer_identity(original_walks(events,specifications),value)
-                    new_id=pointer_identity(state['walks'],actual['address'])
+                    old_id=pointer_identity(original_objects,value)
+                    new_id=pointer_identity(native_objects,actual['address'])
                     assert old_id==new_id,('global object pointer differs',item['name'],old_id,new_id)
                     expected['object']=old_id
             actual=expected
@@ -197,8 +209,8 @@ def main():
                 if owners:
                     assert len(owners)==1 and actual.get('global')==owners[0],('mismatched global pointer argument',item['name'],value,actual)
                 else:
-                    old_pointer=pointer_identity(original_walks(events,specifications),value)
-                    new_pointer=pointer_identity(state['walks'],actual['address'])
+                    old_pointer=pointer_identity(original_objects,value)
+                    new_pointer=pointer_identity(native_objects,actual['address'])
                     assert old_pointer==new_pointer,('mismatched pool pointer argument',item['name'],old_pointer,new_pointer)
                 if kind=='cstring':
                     text=[];pointer=value
@@ -243,7 +255,7 @@ def main():
     directory.mkdir(parents=True,exist_ok=False)
     for name in ('events','receipt.json','stdout','stderr','runtime-plan','configuration.json'):
         shutil.copyfile(original/name,directory/('original-'+name))
-    for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr','crt-returns.json','read-returns.json','pdb-read-returns.json','pdb-consumed.json','read-progress.json'):
+    for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr','crt-returns.json','read-returns.json','pdb-read-returns.json','pdb-consumed.json','read-progress.json','symbol-output.json'):
         if (native/args.case/name).is_file():shutil.copyfile(native/args.case/name,directory/('native-'+name))
     shutil.copyfile(native/args.case/'configuration.json',directory/'native-configuration.json')
     for side,source in (('original',original),('native',native/args.case)):
@@ -264,7 +276,7 @@ def main():
         matched_frontier_parameters=state['parameters'],runtime_unmasked=support,pdb_header_reads=pdb_read_proof,consumed_undefined_input=consumed_proof,
         conditionally_inactive_parameters=inactive,
         conditional_CRT_support=crt_proof,
-        read_return_observations=read_proof,partial_read_observations=progress_proof,
+        read_return_observations=read_proof,partial_read_observations=progress_proof,packed_symbol_output=symbol_proof,
         observed_objects=object_proof,
         process_boundary=native_receipt.get('process_boundary'),
         graph_ABI_data='Complete original/compiler CFG/callee/RET ABI and contextual initial data passed',

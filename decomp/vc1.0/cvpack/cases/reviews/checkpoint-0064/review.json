@@ -1,0 +1,23 @@
+{
+  "application_functions": 64,
+  "next": "write_search_symbol",
+  "original_malloc_request": 5113,
+  "defined_prefix": 4,
+  "own_unchanged_suffix": 5109,
+  "scope": "Root approved exact module3 parent-owned packed-symbol allocation pattern and subsequent concrete write extensions with the same ownership/defined-byte invariants.",
+  "naming": "read_types/index_new_types/pack_new_types/type_data retain historical provisional identities. They process sstAlignSym(0x124), not the global type records; new callbacks use symbol/procedure names. Current S_UDT records map their type indices to verified PDB types. No historical raw naming is rewritten.",
+  "new_negative_controls": {
+    "packed_symbol_output": 17,
+    "callback_tables": 3,
+    "controller_identity": 1
+  },
+  "audit_seconds": 0.47036052867770195,
+  "native_seconds": {
+    "setup": 0.15344547107815742,
+    "execution": 0.016325474716722965,
+    "debugging": 1.7552030785009265,
+    "checks": 0.03363531641662121,
+    "total": 1.9586170017719269
+  },
+  "source_default_scope": "Original callback search advances beyond the32-entry table for an unknown symbol kind; currentcase uses recognized kinds. No equivalence claim for adjacent table reads on an unrecognized-kind path until separately exercised/reviewed."
+}

@@ -2153,13 +2153,16 @@
       "native": "pack_new_types",
       "symbol": "_pack_new_types",
       "original": 151552,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        151552,
+        152220
+      ],
       "abi": "void pack_new_types(void *,CvDirectoryEntry *,ModuleInfo *,unsigned short *,unsigned short *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0064-pack_new_types/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -2193,7 +2196,23 @@
           "kind": "pointer",
           "bits": 32
         }
-      ]
+      ],
+      "required_pdb_record_proof": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      },
+      "required_symbol_output_observation": true
     },
     {
       "name": "pack_new_lines",
@@ -3409,6 +3428,325 @@
           }
         ]
       }
+    },
+    {
+      "name": "begin_symbol_block",
+      "native": "begin_symbol_block",
+      "symbol": "_begin_symbol_block",
+      "original": 152656,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void begin_symbol_block(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "end_symbol_block",
+      "native": "end_symbol_block",
+      "symbol": "_end_symbol_block",
+      "original": 152704,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void end_symbol_block(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "convert_bp_relative16",
+      "native": "convert_bp_relative16",
+      "symbol": "_convert_bp_relative16",
+      "original": 152752,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void convert_bp_relative16(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "convert_bp_relative32",
+      "native": "convert_bp_relative32",
+      "symbol": "_convert_bp_relative32",
+      "original": 152816,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void convert_bp_relative32(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "convert_register_symbol",
+      "native": "convert_register_symbol",
+      "symbol": "_convert_register_symbol",
+      "original": 152880,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void convert_register_symbol(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "convert_constant_symbol",
+      "native": "convert_constant_symbol",
+      "symbol": "_convert_constant_symbol",
+      "original": 152944,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void convert_constant_symbol(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "convert_object_name",
+      "native": "convert_object_name",
+      "symbol": "_convert_object_name",
+      "original": 153024,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void convert_object_name(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "convert_local_data16",
+      "native": "convert_local_data16",
+      "symbol": "_convert_local_data16",
+      "original": 153120,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void convert_local_data16(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "convert_global_data16",
+      "native": "convert_global_data16",
+      "symbol": "_convert_global_data16",
+      "original": 153184,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void convert_global_data16(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "convert_local_data32",
+      "native": "convert_local_data32",
+      "symbol": "_convert_local_data32",
+      "original": 153264,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void convert_local_data32(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "convert_global_data32",
+      "native": "convert_global_data32",
+      "symbol": "_convert_global_data32",
+      "original": 153328,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void convert_global_data32(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "convert_procedure16",
+      "native": "convert_procedure16",
+      "symbol": "_convert_procedure16",
+      "original": 153408,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void convert_procedure16(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "convert_procedure32",
+      "native": "convert_procedure32",
+      "symbol": "_convert_procedure32",
+      "original": 153504,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void convert_procedure32(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "convert_udt_symbol",
+      "native": "convert_udt_symbol",
+      "symbol": "_convert_udt_symbol",
+      "original": 153600,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void convert_udt_symbol(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "write_search_symbol",
+      "native": "write_search_symbol",
+      "symbol": "_write_search_symbol",
+      "original": 114400,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned short write_search_symbol(unsigned char *,unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "buffer",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "segment",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 16
+        }
+      ],
+      "return_bits": 16
+    },
+    {
+      "name": "link_symbol_scopes",
+      "native": "link_symbol_scopes",
+      "symbol": "_link_symbol_scopes",
+      "original": 114016,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int link_symbol_scopes(unsigned char *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "symbols",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "size",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        }
+      ],
+      "return_bits": 32
+    },
+    {
+      "name": "record_symbol_offsets",
+      "native": "record_symbol_offsets",
+      "symbol": "_record_symbol_offsets",
+      "original": 120896,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void record_symbol_offsets(unsigned char *,unsigned long,unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "symbols",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "size",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "module",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 16
+        }
+      ]
     }
   ],
   "review": {
@@ -3813,6 +4151,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 63
+    },
+    {
+      "function": "pack_new_types",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 64
     }
   ],
   "support_unmasked": [
@@ -4407,15 +4751,15 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "686ef2e7c9d176dacbf8ee2d20032def60d5a177479a41609a7c4b44bd4221e0"
+    "evidence_sha256": "6991a012c66211ec6453dfe783f1282554c21b07cbc8dbbca4cefd383b06e090"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "221f90ee23a84475a8d18c81fbdcf4f803fbd4b4aecd23786c3654e679a35f5a"
+    "evidence_sha256": "aa99ca5544a5c26c65da9cda60631c9c1bc81e4811da5aceffb91373495fd2a9"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
-    "evidence_sha256": "840aab29fb4fab5ee391a5d7940a1b2339465afba87efcd1c6fbd3fa50624be7"
+    "evidence_sha256": "50d0f8c3cf248420d0a73599f4a173d585ad38e85efdea991b649d31d66cfbe6"
   },
   "external_inputs": {
     "evidence": "cases/abi/pdb-input.json",
@@ -4443,6 +4787,10 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "6a320bb80d02183aa33e84e18a1366d94779356182bb873d1c96c1423b1ae25d"
+    "evidence_sha256": "2ebef437891f48226810e39de7c2c2b89b5951769c9ef337ee8f4903ce898de5"
+  },
+  "symbol_output_observations": {
+    "evidence": "cases/abi/packed-symbol-output.json",
+    "evidence_sha256": "bfb73438815b037e3fb8ba27b55a5830f954f1052da0a07551fe2a5bca828e53"
   }
 }

@@ -33,6 +33,8 @@ def run_case(name, directory, debug=False):
     walks=json.loads((BINARY/'walks.json').read_text()) if (BINARY/'walks.json').exists() else []
     from reads import validate as validate_reads
     read_sites=validate_reads(config,original)if name=='hello-debug-dll'else []
+    from symbol_output import validate as validate_symbol_output
+    symbol_proof=validate_symbol_output(config,original)if name=='hello-debug-dll'else None
     from inputs import namespace as input_namespace,relative as input_relative
     from seams import approved as approved_seams
     policies=[]
@@ -49,12 +51,15 @@ def run_case(name, directory, debug=False):
         ('python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_read_observer"]('+repr(str(directory/'read-returns.json'))+','+repr(read_sites)+')\nend\n'if read_sites else '')+
         ('python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_pdb_header_observer"]('+repr(str(directory/'pdb-read-returns.json'))+','+repr(str(BINARY/'cases/hello-debug-dll/input/msvc.pdb'))+','+repr(str(next((p['input']for p in policies if p['mode']==0x8000),'')))+')\nend\n'if name=='hello-debug-dll'else '')+
         ('python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_pdb_consumed_observer"]('+repr(str(directory/'pdb-consumed.json'))+','+repr(str(BINARY/'src/pdb.c'))+','+str(next(i for i,line in enumerate((BINARY/'src/pdb.c').read_text().splitlines(),1)if line.strip()=='if (server->incremental) {'))+')\nend\n'if name=='hello-debug-dll'else '')+
+        ('python\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_symbol_allocation_observer"]('+repr(str(BINARY/'src/types.c'))+','+str(symbol_proof['native_allocation_line'])+')\nend\n'if symbol_proof else '')+
         'continue\npython\n'
         'import gdb,json\n'
         'current=gdb.newest_frame()\nparameters={}\n'
         'import runpy\n'
         'progress=runpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["capture_read_progress"]('+repr(str(BINARY/'src/files.c'))+','+str(next(i for i,line in enumerate((BINARY/'src/files.c').read_text().splitlines(),1)if line.strip()=='advance_file_page(slot);'))+')\n'
         'json.dump(progress,open('+repr(str(directory/'read-progress.json'))+',"w"))\n'
+        'symbol_output=runpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["capture_symbol_output"]()\n'
+        'json.dump(symbol_output,open('+repr(str(directory/'symbol-output.json'))+',"w"))\n'
         'for symbol in current.block():\n'
         ' if symbol.is_argument:\n'
         '  value=current.read_var(symbol); kind=value.type.strip_typedefs().code\n'
@@ -108,7 +113,13 @@ def run_case(name, directory, debug=False):
         'for item in '+repr(data)+':\n'
         ' name=item["name"]\n'
         ' value=gdb.parse_and_eval(name)\n'
-        ' if item.get("kind")=="string-pointer-array": globals[name]=[value[i].string(encoding="latin1").encode("latin1").hex() for i in range(item["size"]//4)]\n'
+        ' if item.get("kind")=="callback-table":\n'
+        '  raw=bytes(gdb.selected_inferior().read_memory(value.address,item["size"]));records=[]\n'
+        '  for offset in range(0,len(raw),8):\n'
+        '   address=int.from_bytes(raw[offset+4:offset+8],"little");function=gdb.block_for_pc(address).function.name if address else None\n'
+        '   records.append(dict(fields=raw[offset:offset+4].hex(),function=function))\n'
+        '  globals[name]=records\n'
+        ' elif item.get("kind")=="string-pointer-array": globals[name]=[value[i].string(encoding="latin1").encode("latin1").hex() for i in range(item["size"]//4)]\n'
         ' elif value.type.strip_typedefs().code==gdb.TYPE_CODE_PTR:\n'
         '  globals[name]=dict(null=int(value)==0,address=int(value))\n'
         '  if int(value) and value.type.strip_typedefs().target().strip_typedefs().code==gdb.TYPE_CODE_FUNC: globals[name]["function"]=gdb.block_for_pc(int(value)).function.name\n'

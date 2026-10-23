@@ -34,7 +34,9 @@ typedef struct ModuleInfo {
     unsigned long precompiled_signature;
     unsigned char *record;
     unsigned long record_size;
-    unsigned char state_after_record[24];
+    unsigned char *symbols;
+    unsigned long symbol_size;
+    unsigned char state_after_symbols[16];
     struct ModuleInfo *next;
 } ModuleInfo;
 

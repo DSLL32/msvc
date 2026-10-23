@@ -282,7 +282,7 @@ void index_new_types(void *types, unsigned long size,
                 cached = ((TypeCacheEntry **)type_work_a)[bucket];
                 while (cached) {
                     if (!cached->type) break;
-                    if (!strncmp(cached->name, name, name[0]+1)) {
+                    if (!strncmp((char *)cached->name, (char *)name, name[0]+1)) {
                         if (cached->index != index) module_type_bytes |= module_types_indexed;
                         break;
                     }
@@ -336,4 +336,107 @@ int has_extra_type(unsigned short type)
         ++i;
     }
     return 0;
+}
+
+/* The historical pack_new_types name is provisional: sstAlignSym contains
+   CodeView symbol records, including UDT references and procedure scopes. */
+typedef struct SymbolConversion {
+    unsigned short kind;
+    void (*convert)(void);
+} SymbolConversion;
+
+SymbolConversion symbol_conversions[32] = {
+    { 0x100, convert_bp_relative16 },
+    { 0x200, convert_bp_relative32 },
+    { 0x107, begin_symbol_block },
+    { 0x207, begin_symbol_block },
+    { 0x104, convert_procedure16 },
+    { 0x204, convert_procedure32 },
+    { 0x105, convert_procedure16 },
+    { 0x205, convert_procedure32 },
+    { 0x6, end_symbol_block },
+    { 0x101, convert_local_data16 },
+    { 0x201, convert_local_data32 },
+    { 0x102, convert_global_data16 },
+    { 0x202, convert_global_data32 },
+    { 0x103, convert_local_data16 },
+    { 0x203, convert_local_data32 },
+    { 0x109, NULL },
+    { 0x209, NULL },
+    { 0x108, begin_symbol_block },
+    { 0x208, begin_symbol_block },
+    { 0x106, begin_symbol_block },
+    { 0x206, begin_symbol_block },
+    { 0x10a, NULL },
+    { 0x20a, NULL },
+    { 0x2, convert_register_symbol },
+    { 0x3, convert_constant_symbol },
+    { 0x20d, convert_local_data32 },
+    { 0x20e, convert_global_data32 },
+    { 0x4, convert_udt_symbol },
+    { 0x5, NULL },
+    { 0x7, NULL },
+    { 0x1, NULL },
+    { 0x9, convert_object_name }
+};
+
+unsigned char *symbol_input, *symbol_output;
+unsigned long suppressed_symbol_depth, total_packed_symbol_bytes;
+
+void pack_new_types(void *types, CvDirectoryEntry *entry, ModuleInfo *module,
+                    unsigned short *padding_bytes, unsigned short *skipped_bytes)
+{
+    unsigned char *buffer, *start, *end;
+    unsigned long output_size, i;
+    unsigned short index, length, kind, padding;
+    SymbolConversion *conversion;
+
+    symbol_input = types;
+    suppressed_symbol_depth = 0;
+    public_symbol_bytes = 0;
+    end = (unsigned char *)types+entry->size;
+    output_size = entry->size+(unsigned long)*padding_bytes-(unsigned long)*skipped_bytes;
+    buffer = malloc(output_size);
+    if (!buffer) fatal_error(14, NULL, NULL);
+    symbol_output = buffer;
+    if (!buffer) fatal_error(14, NULL, NULL);
+    start = symbol_output;
+    *(unsigned long *)symbol_output = *(unsigned long *)symbol_input;
+    symbol_input += 4;
+    symbol_output += 4;
+    for (index = 0; index < extra_type_count; ++index)
+        symbol_output += write_search_symbol(symbol_output, extra_types[index]);
+    while (symbol_input < end) {
+        if (!((unsigned long)symbol_input & 1)) {
+            length = *(unsigned short *)symbol_input+2;
+            kind = *(unsigned short *)(symbol_input+2);
+        } else {
+            length = (unsigned short)(symbol_input[0]+(symbol_input[1]<<8)+2);
+            kind = (unsigned short)(symbol_input[2]+(symbol_input[3]<<8));
+        }
+        if (kind != 7) {
+            conversion = symbol_conversions;
+            for (index = 0; index < 32; ++index, ++conversion)
+                if (conversion->kind == kind) break;
+            if (conversion->convert) conversion->convert();
+            if (*(unsigned short *)(symbol_input+2) != 8) {
+                for (i = 0; i < length; ++i) symbol_output[i] = symbol_input[i];
+                padding = (unsigned short)(3-((length-1)&3));
+                *(unsigned short *)symbol_output = (unsigned short)(length+padding-2);
+                symbol_output += length;
+                while (padding--) *symbol_output++ = 0;
+            }
+        }
+        symbol_input += length;
+    }
+    output_size = symbol_output-start;
+    if (!link_symbol_scopes(start, output_size)) {
+        warning(3, module_name(current_module), NULL);
+        output_size = 0;
+    } else record_symbol_offsets(start, output_size, module->module);
+    entry->location.data = buffer;
+    entry->size = output_size;
+    total_packed_symbol_bytes += output_size;
+    module->symbol_size = output_size;
+    module->symbols = buffer;
 }

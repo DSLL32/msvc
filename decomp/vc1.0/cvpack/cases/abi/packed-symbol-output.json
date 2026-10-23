@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "size": 5113,
+  "input_size": 4746,
+  "defined": 4,
+  "frontier": 114400,
+  "native_allocation_line": 400,
+  "original_regions": [
+    {
+      "start": 151552,
+      "end": 151726,
+      "bytes": "83ec08535657558b44241ca3e4350300c705e8350300000000008b4c2420c705ec350300000000008b51088d1c108b44242833c9668b088b44242c668b0025ffff00002bc88d040a50e8627f00008944241483c4040bc0750e6a006a006a0ee8fc9cffff83c40c8b442410a3f0350300837c241000750e6a006a006a0ee8de9cffff83c40ca1f035030089442414a1e43503008b0df0350300662bf68b0089018305e4350300048305f035030004"
+    },
+    {
+      "start": 151735,
+      "end": 151765,
+      "bytes": "8bc625ffff0000668b0445b432030050a1f035030050e80e6effff83c408"
+    }
+  ],
+  "sources": {
+    "src/types.c": "f80064e9f343623516f8276dbf98cd3630d89e6ab756467ec6c231712880f845",
+    "src/types.h": "1550f8ff69cdb7cb329781def2b6437459649f5e91a3dbde420998ed3cb4cd78",
+    "src/image.h": "9a767c762ea436712276e0c55a4d80a069c89c97fbce719b22fe2f7ba899248d"
+  },
+  "scope": "Actual malloc25049\u21922504ereturn, module3/directory7/sstAlignSym. Full5113pre/post retained; actual4-byte signature write defined, own5109-byte suffix unchanged. Future writes/owners/frontiers require extension."
+}
