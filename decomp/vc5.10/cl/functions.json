@@ -79,7 +79,12 @@
     "_run_passes",
     "_configure_pass",
     "_find_file",
-    "_search_path"
+    "_search_path",
+    "_final_pass",
+    "_quoted_length",
+    "_expanded_length",
+    "_quote_argument",
+    "_append_text"
   ],
   "driver": [
     {
@@ -275,10 +280,13 @@
     {
       "name": "_append_text",
       "start": 4213376,
-      "end": 4213377,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "append_text"
+      "end": 4213412,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "append_text",
+      "evidence": {
+        "kind": "complete optional fragment copy/end-pointer body disassembly",
+        "range": "00404a80..00404aa4"
+      }
     },
     {
       "name": "_warning",
@@ -1016,10 +1024,13 @@
     {
       "name": "_final_pass",
       "start": 4210269,
-      "end": 4210270,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "final_pass"
+      "end": 4211307,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "final_pass",
+      "evidence": {
+        "kind": "complete pass argument count/storage/quoting/options/include list/debug/timing/execution dispatch body disassembly",
+        "range": "00403e5d..0040426b"
+      }
     },
     {
       "name": "_file_name",
@@ -1107,6 +1118,63 @@
         "kind": "complete PATH token/separator scan, capacity diagnostic and access test body disassembly",
         "range": "004030d8..00403190"
       }
+    },
+    {
+      "name": "_quoted_length",
+      "native_symbol": "quoted_length",
+      "start": 4213476,
+      "end": 4213616,
+      "state": "reconstructed pending fresh proof",
+      "evidence": {
+        "kind": "complete multibyte Windows quote/backslash storage length body disassembly",
+        "range": "00404ae4..00404b70"
+      }
+    },
+    {
+      "name": "_expanded_length",
+      "native_symbol": "expanded_length",
+      "start": 4212742,
+      "end": 4213005,
+      "state": "reconstructed pending fresh proof",
+      "evidence": {
+        "kind": "complete filename-placeholder and Windows quoting upper-bound body disassembly",
+        "range": "00404806..0040490d"
+      }
+    },
+    {
+      "name": "_quote_argument",
+      "native_symbol": "quote_argument",
+      "start": 4213616,
+      "end": 4213908,
+      "state": "reconstructed pending fresh proof",
+      "evidence": {
+        "kind": "complete multibyte quote escaping/backslash doubling/whitespace enclosure body disassembly",
+        "range": "00404b70..00404c94"
+      }
+    },
+    {
+      "name": "_start_timer",
+      "native_symbol": "start_timer",
+      "start": 4215805,
+      "end": 4215806,
+      "pending_extent": true,
+      "state": "named INT3 frontier"
+    },
+    {
+      "name": "_stop_timer",
+      "native_symbol": "stop_timer",
+      "start": 4215818,
+      "end": 4215819,
+      "pending_extent": true,
+      "state": "named INT3 frontier"
+    },
+    {
+      "name": "_execute_pass",
+      "native_symbol": "execute_pass",
+      "start": 4216077,
+      "end": 4216078,
+      "pending_extent": true,
+      "state": "named INT3 frontier"
     }
   ],
   "runtime": [

@@ -36,6 +36,11 @@ static DWORD access_calls,access_argument,access_mode;
 static DWORD access_sites[] = { 0x3023,0x3066,0x309c,0x3173 };
 static unsigned access_site_count;
 static int access_pending = -1;
+static int observe_mbspan,mbspan_pending=-1;
+static FILE *mbspan_events;
+static DWORD mbspan_calls;
+static DWORD mbspan_sites[] = { 0x40db,0x4130 };
+
 
 
 static void patch_byte(DWORD address, BYTE value)
@@ -314,6 +319,7 @@ int main(int argc,char **argv)
         if (!strcmp(entry_guards[i].name,"prepare_environment")) observe_mktemp=1;
         else if (!strcmp(entry_guards[i].name,"prepare_jobs")) observe_mre=1;
         else if (!strcmp(entry_guards[i].name,"find_file")) { observe_access=1;access_site_count=3; }
+        else if (!strcmp(entry_guards[i].name,"final_pass")) observe_mbspan=1;
     for (i=0;i<entry_count;++i)
         if (!strcmp(entry_guards[i].name,"search_path") && observe_access) access_site_count=4;
     output_path(path,"trace.txt");trace=fopen(path,"wb");if (!trace) return 43;
@@ -329,6 +335,9 @@ int main(int argc,char **argv)
     }
     if (observe_access) {
         output_path(path,"access-events.txt");access_events=fopen(path,"wb");if (!access_events) return 68;
+    }
+    if (observe_mbspan) {
+        output_path(path,"mbspan-events.txt");mbspan_events=fopen(path,"wb");if (!mbspan_events) return 75;
     }
     memset(&security,0,sizeof(security));security.nLength=sizeof(security);
     security.bInheritHandle=TRUE;
@@ -395,6 +404,15 @@ int main(int argc,char **argv)
                     patch_byte(target_base+access_sites[i],0xcc);
                 }
             }
+            if (observe_mbspan) {
+                BYTE call[6],after;DWORD slot;
+                for (i=0;i<2;++i) {
+                    memory(target_base+mbspan_sites[i],call,6);memcpy(&slot,call+2,4);
+                    memory(target_base+mbspan_sites[i]+6,&after,1);
+                    if (call[0]!=0xff || call[1]!=0x15 || slot!=target_base+0xa274 || after!=0x59) return 76;
+                    patch_byte(target_base+mbspan_sites[i],0xcc);
+                }
+            }
             for (i=0;i<entry_count;++i) {
                 BYTE byte;
                 memory(target_base+entry_guards[i].rva,&byte,1);
@@ -414,6 +432,11 @@ int main(int argc,char **argv)
             DWORD address=(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress;
             EntryGuard *guard=NULL;
             int mre_site=0,access_site=-1,access_return=0;
+            int mbspan_site=-1,mbspan_return=0;
+            if (observe_mbspan) for (i=0;i<2;++i) {
+                if (address==target_base+mbspan_sites[i]) mbspan_site=i;
+                if (mbspan_pending==(int)i && address==target_base+mbspan_sites[i]+6) { mbspan_site=i;mbspan_return=1; }
+            }
             if (observe_access) for (i=0;i<access_site_count;++i) {
                 if (address==target_base+access_sites[i]) access_site=i;
                 if (access_pending==(int)i && address==target_base+access_sites[i]+(i==1 || i==2 ? 2 : 6)) { access_site=i;access_return=1; }
@@ -473,6 +496,34 @@ int main(int argc,char **argv)
                     patch_byte(address,0x59);patch_byte(target_base+access_sites[access_site],0xcc);access_pending=-1;
                 }
                 fflush(access_events);context.Eip=address;if (!SetThreadContext(thread,&context)) return 74;
+            } else if (code==EXCEPTION_BREAKPOINT && mbspan_site>=0) {
+                char text[1024],phase[64],name[80];DWORD args[2],actual;
+                thread=NULL;teb=0;
+                for (i=0;i<threads_count;++i)
+                    if (thread_ids[i]==event.dwThreadId) { thread=threads[i];teb=thread_tebs[i]; }
+                if (!thread) return 77;
+                memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL;
+                if (!GetThreadContext(thread,&context)) return 78;
+                if (!mbspan_return) {
+                    if (mbspan_pending!=-1 || ++mbspan_calls>64) return 79;
+                    memory(context.Esp,args,8);memory(target_base+0xa274,&actual,4);
+                    if (actual!=crt_base+0x620c) return 80;
+                    for (i=0;i<2;++i) {
+                        remote_string(args[i],text,sizeof(text));
+                        sprintf(name,"mbspan-%lu-%s.bin",mbspan_calls,i ? "set" : "text");output_path(path,name);
+                        snapshot=fopen(path,"wb");fwrite(text,1,strlen(text)+1,snapshot);fclose(snapshot);
+                    }
+                    fprintf(mbspan_events,"call sequence=%lu site=%08lx function=%08lx text=%08lx set=%08lx\n",mbspan_calls,address,actual,args[0],args[1]);
+                    sprintf(phase,"mbspan-%lu-before",mbspan_calls);error_state_to(teb,event.dwThreadId,phase,mbspan_events);
+                    mbspan_pending=mbspan_site;patch_byte(address,0xff);patch_byte(address+6,0xcc);
+                } else {
+                    fprintf(mbspan_events,"return sequence=%lu result=%08lx\n",mbspan_calls,context.Eax);
+                    sprintf(phase,"mbspan-%lu-after",mbspan_calls);error_state_to(teb,event.dwThreadId,phase,mbspan_events);
+                    patch_byte(address,0x59);patch_byte(target_base+mbspan_sites[mbspan_site],0xcc);mbspan_pending=-1;
+                }
+                sprintf(name,"%s-context.bin",phase);output_path(path,name);snapshot=fopen(path,"wb");
+                fwrite(&context,1,sizeof(context),snapshot);fclose(snapshot);
+                fflush(mbspan_events);context.Eip=address;if (!SetThreadContext(thread,&context)) return 81;
             } else if (code==EXCEPTION_BREAKPOINT && observe_resources &&
                 (address==target_base+0x534d || address==target_base+0x5353)) {
                 BYTE output[256];

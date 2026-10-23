@@ -1,0 +1,143 @@
+{
+  "runs": [
+    {
+      "name": "execution-state",
+      "command": [
+        "python3",
+        "scripts/check-execution-state.py",
+        "/root/.ai-tmp/msvc2/vc5.10/cl/append-text-1-original",
+        "/root/.ai-tmp/msvc2/vc5.10/cl/append-text-2-native"
+      ],
+      "checker_sha256": "eee0c52cec2254213139905a10690f31ea44b2e86b595fe4e5c470894a13f28e",
+      "inputs": [
+        {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/cl/append-text-1-original/capture.json",
+          "sha256": "901aedfe09a32affda88a10d6c716c6a22375fe571f3d5e708dd6e96c321e358"
+        },
+        {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/cl/append-text-2-native/capture.json",
+          "sha256": "a3172763668b375cfef71bf4e3c1fe6a240fdeefdc415a15a571c7dcedfe0002"
+        }
+      ],
+      "semantic_negative_controls": 6,
+      "status": 0,
+      "seconds": 0.09847532119601965,
+      "log": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/arguments-controls-execution-state.log",
+        "sha256": "d3b85786f423a46e4372d76e8c7bfa200110636483591e0de163991b705020c2"
+      }
+    },
+    {
+      "name": "dependency-inputs",
+      "command": [
+        "python3",
+        "scripts/check-dependencies.py",
+        "/root/.ai-tmp/msvc2/vc5.10/cl/append-text-2-native"
+      ],
+      "checker_sha256": "3fbc0a75faae49a907cae86dc9f11ffd8fded33c388fe741822af6d6e4bac7a3",
+      "inputs": [
+        {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/cl/append-text-2-native/capture.json",
+          "sha256": "a3172763668b375cfef71bf4e3c1fe6a240fdeefdc415a15a571c7dcedfe0002"
+        }
+      ],
+      "semantic_negative_controls": 5,
+      "status": 0,
+      "seconds": 0.08207390643656254,
+      "log": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/arguments-controls-dependency-inputs.log",
+        "sha256": "70fea0f91b7a39ded11cf7acaf6d69b14e3a817f76cbb682d393bc72bf8efddd"
+      }
+    },
+    {
+      "name": "located-pass",
+      "command": [
+        "python3",
+        "scripts/check-pass-lookup.py",
+        "/root/.ai-tmp/msvc2/vc5.10/cl/quoted-length-2-original",
+        "/root/.ai-tmp/msvc2/vc5.10/cl/quoted-length-3-native"
+      ],
+      "checker_sha256": "a1bb5887135a91af73dc8f4cd50c752e75914ea10b1c0e4662925d3cf66241c7",
+      "inputs": [
+        {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/cl/quoted-length-2-original/capture.json",
+          "sha256": "23ed2c11f0127876a6d6d3730fb9714227412f74df0b1d0aded9555098b672d5"
+        },
+        {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/cl/quoted-length-3-native/capture.json",
+          "sha256": "59848c43c02e259de27aeb005bccf84fa709a70e557733b80e0c70133964121b"
+        }
+      ],
+      "semantic_negative_controls": 7,
+      "status": 0,
+      "seconds": 0.17301354557275772,
+      "log": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/arguments-controls-located-pass.log",
+        "sha256": "f23d5ef7ebb4910ef49b7f916022419836105841ace4f9392d65f9f7781570a3"
+      }
+    },
+    {
+      "name": "job-state",
+      "command": [
+        "python3",
+        "scripts/check-job-state.py",
+        "/root/.ai-tmp/msvc2/vc5.10/cl/file-name-1-original"
+      ],
+      "checker_sha256": "b988f2956094f8b1f1457ecdb5be1a28bc3986141a4c584342ecdb123267c106",
+      "inputs": [
+        {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/cl/file-name-1-original/capture.json",
+          "sha256": "96c4f988a8b4b69fbad0b35cab6dd127b8831438d1d848dd74019207cd6cddfd"
+        }
+      ],
+      "semantic_negative_controls": 4,
+      "status": 0,
+      "seconds": 0.10743076540529728,
+      "log": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/arguments-controls-job-state.log",
+        "sha256": "ff51f353bd312ce660b5a90e4f59dec4ef092951a549369fd0a4899c945df86c"
+      }
+    },
+    {
+      "name": "stream-state",
+      "command": [
+        "python3",
+        "scripts/check-streams.py",
+        "--original",
+        "/root/.ai-tmp/msvc2/vc5.10/cl/append-text-1-original",
+        "--native",
+        "/root/.ai-tmp/msvc2/vc5.10/cl/append-text-2-native"
+      ],
+      "checker_sha256": "553c88b5c7cf007a24140a5cce04161060fd67ad9c1f25cb6515c441ff6128e2",
+      "inputs": [
+        {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/cl/append-text-1-original/capture.json",
+          "sha256": "901aedfe09a32affda88a10d6c716c6a22375fe571f3d5e708dd6e96c321e358"
+        },
+        {
+          "path": "/root/.ai-tmp/msvc2/vc5.10/cl/append-text-2-native/capture.json",
+          "sha256": "a3172763668b375cfef71bf4e3c1fe6a240fdeefdc415a15a571c7dcedfe0002"
+        }
+      ],
+      "semantic_negative_controls": 11,
+      "status": 0,
+      "seconds": 0.09663847088813782,
+      "log": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/arguments-controls-stream-state.log",
+        "sha256": "11c63b3756e7d9158d0124b4cadde1832a00edce4fd113db536798728f47010d"
+      }
+    }
+  ],
+  "scope": "Fresh affected-state controls at argument-builder checkpoint; unchanged grammar/protocol premise checks remain separately hash-bound.",
+  "refreshed_protocol": {
+    "checker_sha256": "847740d023d6c97fece12875deeebd8a58894dd6e208056ab1a5a0c58d78dee8",
+    "positive_controls": 1,
+    "negative_controls": 30,
+    "log": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/check-acceptance-arguments.log",
+      "sha256": "d63aef395e82c529bfc43239840e9ea5486cf9ef4b45ee755ee570a7b28232db"
+    },
+    "seconds": null,
+    "timing_note": "Not individually measured; no timing inferred from combined command."
+  }
+}

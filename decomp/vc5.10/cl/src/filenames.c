@@ -148,3 +148,50 @@ int search_path(char *name, char *out, int capacity)
     *out = 0;
     return 0;
 }
+
+/* 00404806..0040490d: bound expansion and Windows argument quoting. */
+int expanded_length(char *text, Driver *state)
+{
+    char *name, basename[260], *path;
+    CompilerPass *pass;
+    int length = 0;
+    if (state->current_input) {
+        name = state->current_input->name;
+        pass = state->current_pass;
+    } else {
+        name = "";
+        pass = NULL;
+    }
+    while (*text) {
+        switch ((unsigned char)*text++) {
+        case '\\':
+        case '\"': length += 2; break;
+        case '%':
+            switch ((unsigned char)*text++) {
+            case '%': ++length; break;
+            case 'B':
+            case 'b':
+                file_basename(basename, name);
+                length += quoted_length(basename);
+                break;
+            case 'e':
+                path = pass ? pass->path : NULL;
+                if (path)
+                    length += quoted_length(path);
+                break;
+            case 'f': length += quoted_length(name); break;
+            case 'm': length += 1024; break;
+            case 't': length += quoted_length(state->temporary); break;
+            case 'x':
+                file_directory(basename, image_name);
+                length += quoted_length(basename);
+                break;
+            case 'X': length += 3; break;
+            }
+            break;
+        default: ++length; break;
+        }
+    }
+    return length;
+}
+

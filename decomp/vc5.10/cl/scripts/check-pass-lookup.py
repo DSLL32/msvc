@@ -7,13 +7,13 @@ from pathlib import Path
 import shutil
 import struct
 import tempfile
-from frontier_state import decode
+from frontier_state import decode,PARAMETERS
 from case_inputs import verify_dependencies
 
 parser=argparse.ArgumentParser(description=__doc__)
 parser.add_argument('original',type=Path);parser.add_argument('native',type=Path);args=parser.parse_args()
 expected=decode(args.original,'original')['fields'];actual=decode(args.native,'native')['fields']
-assert expected==actual and expected['frontier']=='final_pass'
+assert expected==actual and expected['frontier']in ('final_pass','quoted_length','expanded_length','quote_argument','append_text')
 proof=verify_dependencies(args.original);assert proof==verify_dependencies(args.native)
 assert any(item['name']=='C1.DLL'for item in proof['files'])
 selected=expected['globals']['driver']['current_pass']['index'];assert selected==1
@@ -36,10 +36,24 @@ with tempfile.TemporaryDirectory(prefix='pass-lookup-controls-',dir='/root/.ai-t
         assert result!=expected,'changed located pass ignored: '+name
         passed.append(name)
     base=raw['context']['compiler_passes_address'];record=base+36*selected
-    state=raw['context']['arguments'][0]
+    address=raw['context']['globals']['driver']
+    pointers={struct.unpack('<I',bytes.fromhex(item['data']))[0]for item in raw['ranges']if item['address']==address and len(bytes.fromhex(item['data']))==4}
+    assert len(pointers)==1;state=pointers.pop()
     control('different current compiler',lambda v:patch(v,state+8,base+72))
     control('missing DLL classification',lambda v:patch(v,record+16,11))
     control('missing last-input flag',lambda v:patch(v,record+16,7))
     control('unknown successful DLL module',lambda v:patch(v,record+20,1))
     control('unknown Invoke pointer',lambda v:patch(v,record+24,1))
+    if expected['frontier']!='final_pass':
+        assert expected['globals']['output_produced']==1
+        control('lost output-produced transition',lambda v:patch(v,v['context']['globals']['output_produced'],0))
+        def text_changed(value):
+            slot=next(i for i,(name,kind)in enumerate(PARAMETERS[expected['frontier']])if name=='text'and kind=='string')
+            address=value['context']['arguments'][slot];seen=0
+            for item in value['ranges']:
+                data=bytearray.fromhex(item['data']);offset=address-item['address']
+                if 0<=offset<len(data):data[offset]^=1;item['data']=data.hex();seen+=1
+            assert seen
+        control('changed argument input bytes',text_changed)
+
 print('Actual located C1 pass and owned dependencies match; %d mutation controls pass'%len(passed))

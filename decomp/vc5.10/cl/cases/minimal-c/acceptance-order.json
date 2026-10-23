@@ -171,6 +171,56 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/search-path-1/pair.json",
         "sha256": "fed8d2351fab452a6a5e8f416ee8df81c1e620bd0170fe0f4bbc285b988e698e"
       }
+    },
+    {
+      "order": 18,
+      "candidate": "_final_pass",
+      "class": "application",
+      "extent_bytes": 1038,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/final-pass-3/pair.json",
+        "sha256": "0faee1cc45e8186cf2bbd9f65ca2357cb897f1b8f5c63fe968b47cc36453b009"
+      }
+    },
+    {
+      "order": 19,
+      "candidate": "_quoted_length",
+      "class": "application",
+      "extent_bytes": 140,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/quoted-length-3/pair.json",
+        "sha256": "5baacb775f1df09528956ebbfd321d8abe0fecde06f18834feaf58097bdc8309"
+      }
+    },
+    {
+      "order": 20,
+      "candidate": "_expanded_length",
+      "class": "application",
+      "extent_bytes": 263,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/expanded-length-1/pair.json",
+        "sha256": "f65edd8d740e85012826964b1ea63bf038e1b2583639ee4dc592b00410f0eae2"
+      }
+    },
+    {
+      "order": 21,
+      "candidate": "_quote_argument",
+      "class": "application",
+      "extent_bytes": 292,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/quote-argument-2/pair.json",
+        "sha256": "1de3f5b56f529bac046c6f6c36e0ffca7c7f069147f0b9767a7f238081400312"
+      }
+    },
+    {
+      "order": 22,
+      "candidate": "_append_text",
+      "class": "application",
+      "extent_bytes": 36,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/append-text-2/pair.json",
+        "sha256": "b345b3e05e1aeffd273575d46c39959356951a724486dc4af0389d4abbbaa85d"
+      }
     }
   ]
 }

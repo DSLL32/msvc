@@ -39,7 +39,7 @@ def input_paths(project=PROJECT,root=ROOT,config=None):
 # These two bodies cache qualified IAT values in callee-saved registers. The
 # optional direct-import engine cannot resolve those calls; retain exact narrow
 # evidence instead of reshaping target source or silently accepting unknowns.
-CACHED_IMPORT_RESIDUALS={'_main','_split_arguments','_format_message','_validate_value','_format_number','_define_macro','_set_output_option','_show_help','_append_escaped','_find_file'}
+CACHED_IMPORT_RESIDUALS={'_main','_split_arguments','_format_message','_validate_value','_format_number','_define_macro','_set_output_option','_show_help','_append_escaped','_find_file','_quoted_length','_quote_argument'}
 
 
 def import_leaves(config):
@@ -97,7 +97,7 @@ def run(config,report):
         'trial_identity':trial_identity,'config_snapshot':before['config'],'inputs':before,'passes':passes,
         'report':{'path':str(report),'sha256':sha(report)},'seconds':elapsed}
     if len(configurations)>1:
-        assert verify_import_residuals(config_value,PROJECT,ROOT)==sorted(set(config_value['accepted']) & CACHED_IMPORT_RESIDUALS)
+        assert verify_import_residuals(config_value,PROJECT,ROOT)==sorted(set(config_value['accepted']) & (CACHED_IMPORT_RESIDUALS|{'_final_pass'}))
         residual=PROJECT/'cases/help/import-residuals.json'
         receipt['cached_import_residuals']={'path':str(residual),'sha256':sha(residual)}
         receipt['strict_excluded_imports']=sorted(import_leaves(config_value))

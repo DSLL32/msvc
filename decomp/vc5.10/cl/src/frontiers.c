@@ -6,10 +6,6 @@ void show_usage(void) {
     __asm int 3
 
 } /* 00402b8a */
-char * append_text(char *out, const char *text) {
-    __asm int 3
-    return NULL;
-} /* 00404a80 */
 void warning(unsigned id, ...) {
     __asm int 3
 
@@ -34,7 +30,9 @@ void cleanup_files(int preserve) { __asm int 3 }
 int link_pass(Driver *state) { __asm int 3
     return 0;
 }
-int final_pass(Driver *state) { __asm int 3
+void start_timer(void) { __asm int 3 }
+void stop_timer(char *name) { __asm int 3 }
+int execute_pass(int mode, CompilerPass *pass, char *name, char *environment, char **args) { __asm int 3
     return 0;
 }
 void driver_exit(int status) {

@@ -25,6 +25,10 @@ PARAMETERS={
  'show_banner':[('force','signed')], 'load_string':[('id','unsigned')], 'parse_arguments':[('args','vector'),('count','signed')],
  'write_message':[('fd','signed'),('text','string')], 'finish_options':[],
  'final_pass':[('state','driver')],
+ 'execute_pass':[('mode','signed'),('pass','pass'),('name','string'),('environment','string'),('args','vector')],
+ 'quoted_length':[('text','string')],
+ 'quote_argument':[('out','output_buffer'),('text','string')],
+ 'expanded_length':[('text','string'),('state','driver')],
  'configure_pass':[('state','driver')],
  'find_file':[('directory','string'),('name','string'),('found','output_unsigned')],
  'search_path':[('name','string'),('out','output_buffer'),('capacity','signed')],
@@ -78,7 +82,7 @@ PARAMETERS={
  'file_directory':[('out','output_buffer'),('name','string')],
  'make_map_name':[('out','output_buffer'),('name','string')],
  'show_help':[], 'allocate':[('bytes','unsigned')],
- 'append_text':[('out','string'),('text','string')],
+ 'append_text':[('out','output_buffer'),('text','string')],
  'join_text':[('left','string'),('right','string')],
  'release':[('memory','owned_string')], 'prepare_execution':[],
  'run_driver':[('state','driver')], 'source_jobs':[('state','driver')],
@@ -103,7 +107,11 @@ class Memory:
     def __init__(self,read,rule_base,pass_base=None):
         self.read=read;self.rule_base=rule_base;self.pass_base=pass_base
         self.option_ids={};self.input_ids={};self.job_ids={}
-    def words(self,address,count):return struct.unpack('<%dI'%count,self.read(address,4*count))
+        self.word_reads={};self.vector_slots={}
+    def words(self,address,count):
+        value=struct.unpack('<%dI'%count,self.read(address,4*count));key=(address,count)
+        assert key not in self.word_reads or self.word_reads[key]==value,'stopped memory changed between reads'
+        self.word_reads[key]=value;return value
     def string(self,address):
         if not address:return None
         data=bytearray()
@@ -114,10 +122,11 @@ class Memory:
         raise AssertionError('unterminated frontier string')
     def vector(self,address):
         if not address:return None
-        result=[]
+        result=[];self.vector_slots[address]=[]
         for i in range(4096):
             pointer=self.words(address+4*i,1)[0]
             if not pointer:return result
+            self.vector_slots[address].append(pointer)
             result.append(self.string(pointer))
         raise AssertionError('unterminated frontier vector')
     def rule(self,address):
@@ -236,6 +245,8 @@ def snapshot(read,context):
     assert len(parameters)==len(context['arguments'])
     fields={'frontier':symbol,'parameters':{name:memory.value(kind,value)
         for (name,kind),value in zip(parameters,context['arguments'])}}
+    if symbol=='append_text' and not context['arguments'][1]:
+        fields['parameters']['out']=memory.string(context['arguments'][0])
     if symbol in ('write_message','format_message'):
         types=format_types(memory.string(context['arguments'][1]))
         if symbol=='format_message':values=memory.words(context['arguments'][2],len(types))
@@ -252,6 +263,24 @@ def snapshot(read,context):
     assert context['globals']['ir_prefix']==driver_address+32,'driver temporary/IR-prefix storage alias differs'
     if 'compiler_passes_address' in context:
         fields['compiler_passes']=memory.passes(context['compiler_passes_address'])
+    if symbol=='execute_pass':
+        mode,record,name,environment,argv=context['arguments']
+        base=context['compiler_passes_address'];assert base<=record<base+180 and (record-base)%36==0
+        driver=memory.word_reads[(driver_address,11)];passed=memory.word_reads[(record,9)]
+        assert driver[2]==record and name==passed[0] and environment==passed[2],'pass/name/environment argument aliases differ'
+        strings=fields['parameters']['args'];slots=memory.vector_slots[argv]
+        assert strings and len(slots)==len(strings)
+        live=b''.join(text.encode('latin1')+b'\0'for text in strings)
+        offset=0;offsets=[]
+        for pointer,text in zip(slots,strings):
+            assert pointer==slots[0]+offset,'argument strings do not occupy the caller storage contiguously'
+            offsets.append(offset);offset+=len(text.encode('latin1'))+1
+        assert argv+4*(len(slots)+1)<=slots[0] or slots[0]+len(live)<=argv,'argv table overlaps string storage'
+        fields['execution_aliases']={'pass_index':(record-base)//36,'pass_is_current':True,
+            'name_is_pass_name':True,'environment_is_pass_environment':True,
+            'argc':len(strings),'argv_string_offsets':offsets,'live_storage_hex':live.hex(),
+            'argv_table_disjoint_from_strings':True,'name_is_argv0':name==slots[0],
+            'environment_aliases_argument':[i for i,pointer in enumerate(slots)if pointer==environment]}
     return fields
 
 

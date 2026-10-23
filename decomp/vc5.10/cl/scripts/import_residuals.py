@@ -31,7 +31,7 @@ def verify(config,project,root):
     record=json.loads((project/'cases/help/import-residuals.json').read_text())
     pe=PE(root/config['target']['path']);slots=qualified_slots(pe)
     assert record['target_sha256']==hashlib.sha256(pe.data).hexdigest(),'cached-import evidence targets different PE'
-    expected=set(config['accepted']) & {'_main','_split_arguments','_format_message','_validate_value','_format_number','_define_macro','_set_output_option','_show_help','_append_escaped','_find_file'}
+    expected=set(config['accepted']) & {'_main','_split_arguments','_format_message','_validate_value','_format_number','_define_macro','_set_output_option','_show_help','_append_escaped','_find_file','_quoted_length','_quote_argument','_final_pass'}
     selected=[r for r in record['residuals'] if r['function'] in expected]
     assert {r['function'] for r in selected}==expected,'missing cached-import body evidence'
     for entry in selected:
@@ -42,4 +42,10 @@ def verify(config,project,root):
         span=entry['inspected_lifetime_span']
         assert hashlib.sha256(pe.read(span['start'],span['end']-span['start'])).hexdigest()==span['sha256'],'inspected register lifetime span changed'
         assert entry['register'] in ('esi','edi','ebx','ebp') and entry['lifetime_evidence'],'missing explicit lifetime residual'
+        if 'provider_preservation' in entry:
+            proof=entry['provider_preservation'];provider=PE(root/proof['path'])
+            assert hashlib.sha256(provider.data).hexdigest()==proof['sha256']
+            for span in proof['ranges']:
+                assert hashlib.sha256(provider.read(span['start'],span['end']-span['start'])).hexdigest()==span['sha256']
+
     return sorted(expected)

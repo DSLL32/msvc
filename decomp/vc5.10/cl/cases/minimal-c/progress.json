@@ -1,10 +1,10 @@
 {
   "case": "minimal-c",
   "state": "driver-prefix-in-progress",
-  "checkpoint": "1d4b3001 plus ordered proof journal",
-  "next_frontier": "final_pass",
-  "accepted_application_functions": 67,
-  "accepted_application_extent_bytes": 11145,
+  "checkpoint": "b08c9b41 plus ordered proof journal",
+  "next_frontier": "execute_pass",
+  "accepted_application_functions": 72,
+  "accepted_application_extent_bytes": 12914,
   "whole_text_virtual_bytes": 19062,
   "non_crt_denominator": "not yet fully classified",
   "separate_CRT_import_support_records": 15,
@@ -213,14 +213,78 @@
         "original_execution": 4.164842019788921,
         "native_gdb": 0.21125880535691977
       }
+    },
+    {
+      "candidate": "_final_pass",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/final-pass-3/pair.json",
+        "sha256": "0faee1cc45e8186cf2bbd9f65ca2357cb897f1b8f5c63fe968b47cc36453b009"
+      },
+      "seconds": {
+        "audit": 0.46052094269543886,
+        "original_execution": 4.297503462061286,
+        "native_gdb": 0.2082778997719288
+      }
+    },
+    {
+      "candidate": "_quoted_length",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/quoted-length-3/pair.json",
+        "sha256": "5baacb775f1df09528956ebbfd321d8abe0fecde06f18834feaf58097bdc8309"
+      },
+      "seconds": {
+        "audit": 0.4580755429342389,
+        "original_execution": 4.8430256294086576,
+        "native_gdb": 0.2118751723319292
+      }
+    },
+    {
+      "candidate": "_expanded_length",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/expanded-length-1/pair.json",
+        "sha256": "f65edd8d740e85012826964b1ea63bf038e1b2583639ee4dc592b00410f0eae2"
+      },
+      "seconds": {
+        "audit": 0.4726479519158602,
+        "original_execution": 4.4663893189281225,
+        "native_gdb": 0.20580992195755243
+      }
+    },
+    {
+      "candidate": "_quote_argument",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/quote-argument-2/pair.json",
+        "sha256": "1de3f5b56f529bac046c6f6c36e0ffca7c7f069147f0b9767a7f238081400312"
+      },
+      "seconds": {
+        "audit": 0.46891939733177423,
+        "original_execution": 4.120403920300305,
+        "native_gdb": 0.20946521125733852
+      }
+    },
+    {
+      "candidate": "_append_text",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/append-text-2/pair.json",
+        "sha256": "b345b3e05e1aeffd273575d46c39959356951a724486dc4af0389d4abbbaa85d"
+      },
+      "seconds": {
+        "audit": 0.46428865380585194,
+        "original_execution": 4.93146675825119,
+        "native_gdb": 0.21024955715984106
+      }
     }
   ],
-  "checks": "Fresh candidate pairs, complete three-pass Rust audits,30 refreshed protocol negatives,4 new job-state controls,5 dependency controls and5 located-pass controls pass. Native-only completed help regression remains unchanged.",
+  "checks": "Fresh candidate proofs, full/strict RET/qualified import audits with explicit cached-register supplements,30 refreshed acceptance negatives and current timed affected-state controls in argument-controls.json pass. Native-only help fixture26.84ms total/3.73ms execution.",
   "dependency_boundaries": "C1 DLL and C2 child remain closed pending complete observable response contracts; no native Wine/helper execution.",
   "observed_gap": "No difference in current prefix. MRE imports are declaration-only/fail-closed; C1/C2 response boundaries remain closed.",
   "current_review": {
-    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/search-path-1/pair.json",
-    "sha256": "fed8d2351fab452a6a5e8f416ee8df81c1e620bd0170fe0f4bbc285b988e698e",
-    "scope": "All67 accepted application functions audited; located owned original C1.DLL, DLL classification/last-input flags and complete typed frontier agree. Inert dependency inputs explicitly added; old input sets retained historically."
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/append-text-2/pair.json",
+    "sha256": "b345b3e05e1aeffd273575d46c39959356951a724486dc4af0389d4abbbaa85d",
+    "scope": "All72 accepted app bodies audited; actual26-token execute_pass argv, contiguous live storage and pass/name/environment aliases match. Original append-text-1 raw reused after shared-only ASCII span implementation and raw-derived alias projection; no original replay for those retries."
+  },
+  "shared_gap_resolution": {
+    "_mbclen": "Fresh original quoted-length-2 path/error proof; native denial retained, then5f724e69 CP0/ASCII support and native-only retry passed.",
+    "_mbsspn": "Fresh original append-text-1 include-path/space-tab/error pre/post proof; native denial retained, theneace7509 support and native-only retry passed."
   }
 }

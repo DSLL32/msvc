@@ -410,3 +410,69 @@ char *find_last_separator(char *text, char *separators)
     }
     return last;
 }
+
+/* 00404ae4..00404b70: storage needed for a quoted Windows argument. */
+int quoted_length(const char *text)
+{
+    const unsigned char *cursor = (const unsigned char *)text;
+    int length = 0, backslashes = 0, needs_quotes = 0;
+    while (*cursor) {
+        if (_ismbcspace(*cursor))
+            needs_quotes = 1;
+        if (!_mbsncmp(cursor, (const unsigned char *)"\"", 1))
+            length += backslashes + 1;
+        ++backslashes;
+        if (_mbsncmp(cursor, (const unsigned char *)"\\", 1))
+            backslashes = 0;
+        length += _mbclen(cursor);
+        cursor = _mbsinc(cursor);
+    }
+    if (needs_quotes)
+        length += backslashes + 2;
+    return length;
+}
+
+/* 00404b70..00404c94: escape quotes and enclose whitespace arguments. */
+char *quote_argument(char *out, const char *text)
+{
+    unsigned char *start = (unsigned char *)out, *cursor = start;
+    const unsigned char *source = (const unsigned char *)text;
+    int backslashes = 0, needs_quotes = 0, count;
+    while (*source) {
+        if (_ismbcspace(*source))
+            needs_quotes = 1;
+        if (!_mbsncmp(source, (const unsigned char *)"\"", 1)) {
+            for (count = backslashes + 1; count > 0; --count) {
+                _mbccpy(cursor, (const unsigned char *)"\\");
+                cursor = _mbsinc(cursor);
+            }
+        }
+        ++backslashes;
+        if (_mbsncmp(source, (const unsigned char *)"\\", 1))
+            backslashes = 0;
+        _mbccpy(cursor, source);
+        cursor = _mbsinc(cursor);
+        source = _mbsinc(source);
+    }
+    if (needs_quotes) {
+        memmove(start + 1, start, cursor - start);
+        _mbccpy(start, (const unsigned char *)"\"");
+        cursor = _mbsinc(cursor);
+        while (backslashes-- > 0) {
+            _mbccpy(cursor, (const unsigned char *)"\\");
+            cursor = _mbsinc(cursor);
+        }
+        _mbccpy(cursor, (const unsigned char *)"\"");
+        cursor = _mbsinc(cursor);
+    }
+    *cursor = 0;
+    return out;
+}
+
+/* 00404a80..00404aa4: copy a fragment and return its terminating NUL. */
+char *append_text(char *out, const char *text)
+{
+    if (text)
+        strcpy(out, text);
+    return out + strlen(out);
+}

@@ -7,6 +7,129 @@ int first_dependency_scan = 1;
 int first_stage_notice = 1;
 static char mre_error[1024];
 
+/* 00403e5d..0040426b: build pass argv and invoke its DLL or executable. */
+int final_pass(Driver *state)
+{
+    char *temporary, *value, *storage, *out, *name, *prefix, *include, *end;
+    char **args, **slot, **argument;
+    char *(*copy)(char *, const char *);
+    CompilerPass *pass;
+    Input *input;
+    Option *option;
+    int count = 0, bytes, status = 0;
+    output_produced = 1;
+    temporary = allocate(1024);
+    value = allocate(1024);
+    pass = state->current_pass;
+    input = state->current_input;
+    name = pass->name;
+    prefix = pass->options;
+    bytes = quoted_length(name) + 1;
+    if (prefix) {
+        bytes += quoted_length(prefix) + 1;
+        count = 1;
+    }
+    for (option = state->options; option; option = option->next) {
+        if (!option_for_pass(option, pass))
+            continue;
+        ++count;
+        bytes += expanded_length(option->name, state) + 2;
+        if (option->value) {
+            ++count;
+            bytes += expanded_length(option->value, state) + 2;
+        }
+    }
+    if (state->include_path && use_standard_include) {
+        count += 2;
+        bytes += quoted_length(state->include_path) + 6;
+        for (end = (char *)_mbschr((unsigned char *)state->include_path, ';'); end;
+             end = (char *)_mbschr((unsigned char *)(end + 1), ';')) {
+            count += 2;
+            bytes += 6;
+        }
+    }
+    args = allocate(count * sizeof(char *) + 2 * sizeof(char *));
+    storage = allocate(bytes);
+    copy = (pass->flags & 4) ? strcpy : quote_argument;
+    args[0] = storage;
+    if (prefix) {
+        quote_argument(temporary, prefix);
+        out = append_text(storage, temporary) + 1;
+        args[1] = out;
+        slot = args + 2;
+        copy(temporary, name);
+        out = append_text(out, temporary);
+    } else {
+        slot = args + 1;
+        quote_argument(temporary, name);
+        out = append_text(storage, temporary);
+    }
+    for (option = state->options; option; option = option->next) {
+        if (!option_for_pass(option, pass))
+            continue;
+        *slot++ = ++out;
+        if (!(option->flags & 8))
+            *out++ = pass->option_prefix[1];
+        out = append_text(out, expand_filename(temporary, option->name, state));
+        if (option->value) {
+            if (!(option->flags & 4))
+                *slot++ = ++out;
+            copy(temporary, expand_filename(value, option->value, state));
+            out = append_text(out, temporary);
+        }
+    }
+    if (state->include_path && use_standard_include && strchr("1P", pass->option_prefix[0])) {
+        include = state->include_path;
+        while ((end = (char *)_mbschr((unsigned char *)include, ';')) != NULL) {
+            if (end != include && _mbsspn((unsigned char *)include, (unsigned char *)" \t") < (unsigned)(end - include)) {
+                *slot++ = ++out;
+                out = append_text(out, "-I");
+                *slot++ = ++out;
+                *end = 0;
+                copy(temporary, include);
+                *end = ';';
+                out = append_text(out, temporary);
+            }
+            include = end + 1;
+        }
+        if (_mbsspn((unsigned char *)include, (unsigned char *)" \t") < strlen(include)) {
+            *slot++ = ++out;
+            out = append_text(out, "-I");
+            *slot++ = ++out;
+            copy(temporary, include);
+            append_text(out, temporary);
+        }
+    }
+    *slot = NULL;
+    if (debug_exceptions) {
+        write_message(2, "`");
+        argument = args;
+        if (prefix) {
+            write_message(2, "%s ", prefix);
+            argument = args + 1;
+        }
+        write_message(2, "%s", name);
+        while (*++argument)
+            write_message(2, " %s", *argument);
+        write_message(2, "'\n");
+    }
+    if (!bz_requested) {
+        if (timing_requested)
+            start_timer();
+        if (prefix)
+            status = execute_pass(3, pass, prefix, NULL, args);
+        else
+            status = execute_pass(input->kind == 9 ? 2 : 0, pass, name, pass->environment, args);
+        if (timing_requested)
+            stop_timer(name);
+    }
+    release(args);
+    release(storage);
+    release(value);
+    release(temporary);
+    return status;
+}
+
 /* 00402e6b..00402fd1: locate each compiler pass once, preferring DLLs. */
 void configure_pass(Driver *state)
 {

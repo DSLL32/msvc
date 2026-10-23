@@ -15,8 +15,8 @@ acceptance journal for the measured evidence.
 Help artifacts are frozen and independently verified. The authorized next case is a
 genuine minimal-C compile. Its in-process frontend and backend child boundaries
 require complete captured response contracts; unknown dependencies fail.
-The driver prefix has added seventeen functions with fresh candidate-inclusive
-proofs; it currently traps at `final_pass` after locating the verified compiler DLL.
+The driver prefix has added twenty-two functions with fresh candidate-inclusive
+proofs; it currently traps at `execute_pass` with the verified 26-argument C1 invocation.
 Minimal-C has a separately captured errno0/doserrno0/LastError0 entry profile.
 Its source bytes, arguments and entry state are part of every comparison.
 
