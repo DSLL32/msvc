@@ -41,6 +41,7 @@ scaler_reset_entries=[]
 scaler_reset_returns=[]
 scaler_member_entries=[]
 scaler_pool_entries=[]
+scaler_bind_entries=[]
 def scaler_fp():
     cw=int(gdb.parse_and_eval('$fctrl'))&0xffff;sw=int(gdb.parse_and_eval('$fstat'))&0xffff;tag=int(gdb.parse_and_eval('$ftag'))&0xffff;top=(sw>>11)&7
     registers=[gdb.parse_and_eval('$st%d'%i).bytes.hex()for i in range(8)]
@@ -106,6 +107,13 @@ class ArenaPoolEntry(gdb.Breakpoint):
         while block and not block.function:block=block.superblock
         row["formal_inventory"]=[{"name":item.name,"type":str(item.type)}for item in block if item.is_argument]
         scaler_pool_entries.append(row);return False
+class PoolBindEntry(gdb.Breakpoint):
+    def stop(self):
+        row=scaler_context();words=list(struct.unpack("<2I",gdb.selected_inferior().read_memory(row["esp"],8)));row.update(return_pc=words[0],args=words[1:],guard=scaler_guard())
+        block=gdb.block_for_pc(row["pc"])
+        while block and not block.function:block=block.superblock
+        row["formal_inventory"]=[{"name":item.name,"type":str(item.type)}for item in block if item.is_argument]
+        scaler_bind_entries.append(row);return False
 class ArenaMemberEntry(gdb.Breakpoint):
     def stop(self):
         row=scaler_context();words=list(struct.unpack('<3I',gdb.selected_inferior().read_memory(row['esp'],12)))
@@ -140,8 +148,9 @@ end
     replace={'@@POOL@@':str(names['initialize_pool_arenas'][0]),'@@RESET_SEED@@':repr(bool(trial.get('test_arena_reset_seed'))),'@@RESET_ACCEPTED@@':repr('CompilerArena::Reset' in trial['accepted']),'@@MEMBER@@':str(names['_ZN13CompilerArena7ReserveEPK15ArenaDescriptorPh'][0]),'@@EXTERNAL@@':repr(externals),'@@DISPLACEMENT@@':str(metadata['qword_ebp_displacement']),'@@RETURN_COLLECTOR@@':repr(str(output/'collect-scaler-return.gdb')),'@@RESET_COLLECTOR@@':repr(str(output/'collect-arena-reset-entry.gdb')),'@@INITIAL@@':str(names['_DllMainCRTStartup'][0]),'@@PROFILE@@':str(names['recon_apply_x87_empty_entry_profile'][0]),'@@ENTRY@@':str(metadata['start']),'@@API@@':str(names['recon_VirtualAlloc'][0]),'@@RESET@@':str(names['_ZN13CompilerArena5ResetEv'][0])}
     for key,value in replace.items():body=body.replace(key,value)
     script=output/'observe-scaler.gdb';body=body[:-4]
+    if '_initialize_pool_arenas' in trial['accepted']:body+="PoolBindEntry('*0x%x',internal=True)\n"%names['_ZN12CompilerPool9BindArenaEj'][0]
     for i,row in enumerate(metadata['instructions']):body+='ScalerPoint(%d,%r)\n'%(row['pc'],'instruction-%d'%i)
     body+='ScalerPoint(%d,"converted")\nend\n'%metadata['converted_pc'];script.write_text(body)
     finish='python\n'
-    for name,variable in [('scaler-fpu','scaler_fp_records'),('scaler-entries','scaler_function_entries'),('scaler-returns','scaler_function_returns'),('scaler-initial','scaler_initial_entries'),('scaler-profile','scaler_profile_entries'),('arena-api-entries','scaler_api_entries'),('arena-api-returns','scaler_api_returns'),('arena-reset-entries','scaler_reset_entries'),('arena-reset-returns','scaler_reset_returns'),('arena-member-entries','scaler_member_entries'),('arena-pool-entries','scaler_pool_entries')]:finish+='open('+repr(str(output/(name+'.json')))+',"w").write(json.dumps('+variable+',indent=2)+"\\n")\n'
+    for name,variable in [('scaler-fpu','scaler_fp_records'),('scaler-entries','scaler_function_entries'),('scaler-returns','scaler_function_returns'),('scaler-initial','scaler_initial_entries'),('scaler-profile','scaler_profile_entries'),('arena-api-entries','scaler_api_entries'),('arena-api-returns','scaler_api_returns'),('arena-reset-entries','scaler_reset_entries'),('arena-reset-returns','scaler_reset_returns'),('arena-member-entries','scaler_member_entries'),('arena-pool-entries','scaler_pool_entries'),('pool-bind-entries','scaler_bind_entries')]:finish+='open('+repr(str(output/(name+'.json')))+',"w").write(json.dumps('+variable+',indent=2)+"\\n")\n'
     finish+='end\n';return 'source '+str(script)+'\n',finish

@@ -75,5 +75,14 @@ extern "C" unsigned calculate_arena_reservation(const ArenaDescriptor *descripto
 
 extern "C" void initialize_pool_arenas(void)
 {
-    __asm { int 3 }
+    frontend_bss.pools[9].BindArena(0);
+    frontend_bss.pools[8].BindArena(0);
+    frontend_bss.pools[0].BindArena(0);
+    frontend_bss.pools[1].BindArena(0);
+    frontend_bss.pools[3].BindArena(0);
+    frontend_bss.pools[4].BindArena(0);
+    frontend_bss.pools[5].BindArena(0);
+    frontend_bss.pools[2].BindArena(0);
+    frontend_bss.pools[6].BindArena(0);
+    frontend_bss.pools[7].BindArena(0);
 }

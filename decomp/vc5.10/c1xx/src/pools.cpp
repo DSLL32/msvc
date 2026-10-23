@@ -62,3 +62,9 @@ extern "C" void initialize_frontend_33(void)
 {
     frontend_bss.pools[9].Initialize(1);
 }
+
+/* Pending: actual thiscall receiver and one arena-index stack argument. */
+void RECON_THISCALL CompilerPool::BindArena(unsigned arena_index)
+{
+    __asm { int 3 }
+}

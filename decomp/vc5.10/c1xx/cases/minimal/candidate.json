@@ -79,7 +79,8 @@
     "CompilerArena::Reserve",
     "_calculate_arena_reservation",
     "import:_ftol",
-    "CompilerArena::Reset"
+    "CompilerArena::Reset",
+    "_initialize_pool_arenas"
   ],
   "trial": null,
   "ranges": [
@@ -707,7 +708,13 @@
       "start_rva": 233226,
       "end_rva": 233243,
       "entry": 1
+    },
+    {
+      "owner": "_initialize_pool_arenas",
+      "start_rva": 233243,
+      "end_rva": 233364,
+      "entry": 1
     }
   ],
-  "stage": "CompilerArena::Reset accepted; next frontier _initialize_pool_arenas"
+  "stage": "_initialize_pool_arenas accepted; next frontier CompilerPool::BindArena"
 }

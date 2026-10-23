@@ -13,11 +13,11 @@ compares its graph/ABI/imports using the shared Rust auditor. Audit/build target
 may use Wine explicitly; fixture dependencies do not. Fixtures inspect the
 already-built Win32 DLL's exports without executing it.
 
-Accepted code is **73 application functions (3,166 bytes)**, **two historical CRT
+Accepted code is **74 application functions (3,287 bytes)**, **two historical CRT
 support functions (451 bytes)** and **two compiler/linker-generated import thunks (12 bytes)**.
-The 3,629 accepted code bytes are 0.4831% of the 751,216-byte code extent; this is not
+The 3,750 accepted code bytes are 0.4992% of the 751,216-byte code extent; this is not
 a non-CRT coverage percentage. The real minimal compilation remains unfinished,
-stopping in the real noarg pool initializer after nine arena reservations.
+stopping in the first real pool-binding member after nine arena reservations.
 
 ## Target and ABI
 
@@ -276,3 +276,13 @@ are hash-referenced. `cases/minimal/arena-reset-trials.json` records the14.59–
 original/5.30–5.55s native GDB observations and13.36ms native-only lifecycle fixture.
 No new data fields, import support, reserved-payload reads or meaningful Reset
 EAX return value are claimed. The next real frontier is initialize_pool_arenas.
+
+The121-byte pool-binding wrapper is accepted with all ten calls in its audited
+graph. Its natural dynamic frontier is the first BindArena call: pool10 as the
+actual ECX receiver, arena index0 on the stack, complete source formals, actual
+CALL/caller and unchanged target state/FP context. Eight focused ABI/state
+controls take0.35s after the full paired/strict graph check; no new data or
+repeated unchanged control campaign. `cases/minimal/pool-binding-wrapper-trial.json`
+records16.25s original/5.38s native GDB and14.09ms native-only lifecycle fixture.
+The other nine binding calls and the member body are not claimed as dynamically
+executed by this wrapper proof.

@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "trial": "_initialize_pool_arenas",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool-bind-wrapper-original-1",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool-bind-wrapper-native-1",
+  "original_receipt_sha256": "03afbae7cb4c992ca83ca68c00d27370dfef9a941a1b4b1ed891f383a902ea86",
+  "native_receipt_sha256": "aa264bd0d59d9b61a16291dd88f789982e2169ea95504d4265a548e87cecc692",
+  "status": "accepted;121B app wrapper, no new data/support; actual first member body pending",
+  "code_bytes": 121,
+  "case_scope": "full ten-call wrapper graph; dynamic first member only, after all9 prior reservation/Reset iterations",
+  "frontier": {
+    "name": "CompilerPool::BindArena",
+    "original_rva": 233364,
+    "this_original": 273418256,
+    "modeled_pool_index": 9,
+    "arena_index": 0,
+    "ABI": "ECX this, one DWORD stack argument; pending member body/returns not accepted"
+  },
+  "new_data_fields": 0,
+  "prior_controls_reused": {
+    "path": "cases/minimal/arena-reset-trials.json",
+    "sha256": "cdb8f0c8332e5b4a1d7bc6f7f1b06c6189d67d7f27a693d67c657d36f878dd20"
+  },
+  "controls": {
+    "result": "PASS",
+    "count": 8,
+    "seconds": 0.3481562174856663,
+    "scope": "focused semantic frontier controls after mandatory full paired and strict graph check; no binary execution",
+    "rejected": [
+      "receiver",
+      "stack-index",
+      "formal-inventory",
+      "caller-return",
+      "state-write",
+      "FP-status",
+      "named-stub-argument",
+      "original-receiver"
+    ]
+  },
+  "fixture": {
+    "case": "dll-lifecycle-and-exports",
+    "result": "PASS",
+    "wine_invocations": 0,
+    "seconds": {
+      "build": 0.006673092022538185,
+      "setup": 0.0008497778326272964,
+      "execution": 0.002197500318288803,
+      "checks": 0.003659602254629135,
+      "total": 0.014086032286286354
+    }
+  },
+  "validation_sources": {
+    "scripts/pool_bind_state.py": "61ae6d208cd8fd8e4bbe7f618285fa9883d9e675bb18061ef26ad93c2be318b7",
+    "scripts/check-pool-binding-negative.py": "731eaa9f846956c1d964b5e5a269da76cb82a413c625b95780ac5b335eae71c6",
+    "scripts/check-callback.py": "7e0447c956549dda5f7106eb48868fa07c762c81aeb6133310da9426bdf76622",
+    "scripts/scaler_probe.py": "7b2e4ff23c7efdca9f4df2922cbf6d12b9bad8287010ee751ce52c0f4cd41a7f"
+  },
+  "timing": {
+    "original": 16.246784506365657,
+    "native": 5.379974288865924
+  }
+}

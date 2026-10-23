@@ -82,7 +82,8 @@
     "CompilerArena::Reserve",
     "_calculate_arena_reservation",
     "import:_ftol",
-    "CompilerArena::Reset"
+    "CompilerArena::Reset",
+    "_initialize_pool_arenas"
   ],
   "driver": [
     {
@@ -923,9 +924,8 @@
     {
       "name": "_initialize_pool_arenas",
       "start": 272863003,
-      "end": 272863004,
+      "end": 272863124,
       "source": "src/arenas.cpp",
-      "pending_extent": true,
       "abi": "cdecl0"
     },
     {
@@ -949,6 +949,16 @@
       "abi": "thiscall0",
       "symbol": "?Reset@CompilerArena@@QAEXXZ",
       "native_symbol": "_ZN13CompilerArena5ResetEv"
+    },
+    {
+      "name": "CompilerPool::BindArena",
+      "start": 272863124,
+      "end": 272863125,
+      "source": "src/pools.cpp",
+      "pending_extent": true,
+      "abi": "thiscall4",
+      "symbol": "?BindArena@CompilerPool@@QAEXI@Z",
+      "native_symbol": "_ZN12CompilerPool9BindArenaEj"
     }
   ],
   "status": "autonomous minimal C++ reconstruction active",
@@ -4457,6 +4467,53 @@
         "nonzero_seed_scope": "typed pointer identities and exact scalar17",
         "original_seconds": 14.591720674186945,
         "native_seconds": 5.304091374389827
+      }
+    },
+    {
+      "name": "_initialize_pool_arenas",
+      "classification": "application source",
+      "source": "src/arenas.cpp",
+      "source_sha256": "75447dee91e1434754738288b3b3f44e5dc409efe88c11ffdda6e0fd77a29c49",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool-bind-wrapper-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pool-bind-wrapper-native-1",
+      "original_receipt_sha256": "03afbae7cb4c992ca83ca68c00d27370dfef9a941a1b4b1ed891f383a902ea86",
+      "native_receipt_sha256": "aa264bd0d59d9b61a16291dd88f789982e2169ea95504d4265a548e87cecc692",
+      "trial_sha256": "d21b550a71a76d305b277ba39ba1e800cb7accf9c8cd20f524794f32019aa7c5",
+      "audit_sha256": "7f1b458cd405470d874dddbc40eede2849356f9886942aa18eef6ce48f1a2c7d",
+      "code_chunks": [
+        [
+          233243,
+          233364
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_pool_arenas",
+        "frontier": "CompilerPool::BindArena",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1373,
+        "native_bss_size": 1404,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 16.246784506365657,
+        "native_seconds": 5.379974288865924
       }
     }
   ],
