@@ -1,5 +1,6 @@
 use crate::{
-    Args, Profile,
+    Args, MapFormat, Profile,
+    image::{Image, ImageView},
     pe::{Pe, u32_at},
 };
 use anyhow::{Context, Result, bail, ensure};
@@ -134,8 +135,8 @@ pub fn imports(
     Ok(result)
 }
 pub struct Inputs {
-    pub o: Pe,
-    pub r: Pe,
+    pub o: Image,
+    pub r: Image,
     pub oi: Vec<Record>,
     pub ri: Vec<Record>,
     pub drivers: Vec<Record>,
@@ -143,6 +144,7 @@ pub struct Inputs {
     pub publics: BTreeMap<String, u32>,
     pub original_imports: Option<crate::imports::Catalog>,
     pub rebuilt_imports: Option<crate::imports::Catalog>,
+    pub map_provenance: Option<Value>,
 }
 impl Inputs {
     pub fn load(a: &Args) -> Result<Self> {
@@ -172,32 +174,53 @@ impl Inputs {
                 .map(|p| a.repo.join(p))
                 .unwrap_or(a.repo.join("toolchains/1.0-nt/bin").join(fallback))
         });
-        let o = Pe::open(&original)?;
+        let mut o = Image::open_original(&original, &cfg["target"]["image"], &a.project, &a.repo)?;
         ensure!(
-            Some(hash(&o.data).as_str()) == cfg["target"]["sha256"].as_str(),
+            !o.is_cf() || (a.discovery == crate::Discovery::Cfg && a.profile == Profile::Cl),
+            "CF images require standalone cl CFG metadata profile"
+        );
+        ensure!(
+            !o.is_cf() || !a.check_imports,
+            "CF has no PE IAT; --check-imports/register import resolution is unsupported"
+        );
+        ensure!(
+            !o.is_cf() || !a.check_callbacks,
+            "CF callback-table checks require fixup-aware pointer/null interpretation and are unsupported"
+        );
+        ensure!(
+            Some(hash(o.source_bytes()).as_str()) == cfg["target"]["sha256"].as_str(),
             "target changed"
         );
-        let r = Pe::open(
+        let mut r = Image::open_pe(
             &a.rebuilt
                 .clone()
                 .unwrap_or(a.project.join(format!("build/{name}.exe"))),
         )?;
         let original_imports = a
             .check_imports
-            .then(|| crate::imports::Catalog::load(&o))
+            .then(|| crate::imports::Catalog::load(o.require_pe()?))
             .transpose()
             .context("original PE imports")?;
         let rebuilt_imports = a
             .check_imports
-            .then(|| crate::imports::Catalog::load(&r))
+            .then(|| crate::imports::Catalog::load(r.require_pe()?))
             .transpose()
             .context("rebuilt PE imports")?;
-        let mut publics = map(
-            &a.map
-                .clone()
-                .unwrap_or(a.project.join(format!("build/{name}.map"))),
-            a.profile == Profile::Rc,
-        )?;
+        let map_path = a
+            .map
+            .clone()
+            .unwrap_or(a.project.join(format!("build/{name}.map")));
+        let (mut publics, absolute_publics, map_provenance) = match a.map_format {
+            MapFormat::Msvc => (
+                map(&map_path, a.profile == Profile::Rc)?,
+                BTreeMap::new(),
+                None,
+            ),
+            MapFormat::Watcom10 => {
+                let parsed = crate::watcom_map::parse(&map_path, r.require_pe()?)?;
+                (parsed.addresses, parsed.absolutes, Some(parsed.provenance))
+            }
+        };
         let drivers = records(
             &cfg[if a.profile == Profile::Rcpp {
                 "functions"
@@ -205,6 +228,25 @@ impl Inputs {
                 "driver"
             }],
         )?;
+        for driver in cfg[if a.profile == Profile::Rcpp {
+            "functions"
+        } else {
+            "driver"
+        }]
+        .as_array()
+        .into_iter()
+        .flatten()
+        {
+            let symbol = driver
+                .get("symbol")
+                .unwrap_or(&driver["name"])
+                .as_str()
+                .context("driver MAP symbol")?;
+            ensure!(
+                !absolute_publics.contains_key(symbol),
+                "absolute Watcom MAP symbol cannot be a function: {symbol}"
+            );
+        }
         symbol_aliases(
             &cfg[if a.profile == Profile::Rcpp {
                 "functions"
@@ -236,9 +278,12 @@ impl Inputs {
             for d in &drivers {
                 ensure!(
                     d.start < d.end
-                        && o.sections.iter().any(|s| s.flags & 0x20 != 0
-                            && s.start <= d.start
-                            && d.end <= s.start + s.virtual_size),
+                        && o.pe_sections()
+                            .into_iter()
+                            .flatten()
+                            .any(|s| s.flags & 0x20 != 0
+                                && s.start <= d.start
+                                && d.end <= s.start + s.virtual_size),
                     "invalid original extent: {}",
                     d.name
                 );
@@ -251,6 +296,13 @@ impl Inputs {
                 &a.runtime.clone().unwrap_or(a.project.join("runtime.json")),
             )?)?
         };
+        for record in &runtime {
+            ensure!(
+                !absolute_publics.contains_key(&record.name),
+                "absolute Watcom MAP symbol cannot be a runtime function: {}",
+                record.name
+            );
+        }
         if a.profile == Profile::C2 {
             let mut ordered = drivers.clone();
             ordered.sort_by_key(|d| d.start);
@@ -276,11 +328,13 @@ impl Inputs {
                 _ => true,
             })
             .collect();
-        oi.extend(imports(
-            &o,
-            a.profile == Profile::Rcpp,
-            original_imports.as_ref(),
-        )?);
+        if let Some(pe) = o.as_pe() {
+            oi.extend(imports(
+                pe,
+                a.profile == Profile::Rcpp,
+                original_imports.as_ref(),
+            )?);
+        }
         oi.extend(drivers.clone());
         let mut ri = if a.profile == Profile::Rcpp {
             Vec::new()
@@ -291,11 +345,18 @@ impl Inputs {
                     .unwrap_or(a.project.join("build/runtime.json")),
             )?)?
         };
+        for record in &ri {
+            ensure!(
+                !absolute_publics.contains_key(&record.name),
+                "absolute Watcom MAP symbol cannot be a runtime function: {}",
+                record.name
+            );
+        }
         if a.profile == Profile::Rc {
             ri.retain(|r| !driver_names.contains(r.name.as_str()));
         }
         ri.extend(imports(
-            &r,
+            r.require_pe()?,
             a.profile == Profile::Rcpp,
             rebuilt_imports.as_ref(),
         )?);
@@ -366,8 +427,10 @@ impl Inputs {
                 }
             }
         }
+        o.bind_code(&oi)?;
+        r.bind_code(&ri)?;
         for (side, pe, index) in [("original", &o, &oi), ("rebuilt", &r, &ri)] {
-            if index.iter().any(|record| !record.code_chunks.is_empty()) {
+            if pe.is_cf() || index.iter().any(|record| !record.code_chunks.is_empty()) {
                 ensure!(
                     a.discovery != crate::Discovery::Legacy,
                     "code_chunks require cfg discovery; legacy mode cannot audit fragmented functions"
@@ -406,6 +469,7 @@ impl Inputs {
             publics,
             original_imports,
             rebuilt_imports,
+            map_provenance,
         })
     }
 }
@@ -458,7 +522,7 @@ pub(crate) fn symbol_aliases(records: &Value, publics: &mut BTreeMap<String, u32
     Ok(())
 }
 
-pub fn validate_chunk_ownership(pe: &Pe, records: &[Record]) -> Result<()> {
+pub fn validate_chunk_ownership(pe: &impl ImageView, records: &[Record]) -> Result<()> {
     for record in records {
         let mut ranges = record.code_ranges().collect::<Vec<_>>();
         ranges.sort();

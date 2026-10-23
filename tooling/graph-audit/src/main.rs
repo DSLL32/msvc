@@ -1,11 +1,14 @@
 mod audit;
+mod cf;
 mod cvpack;
 mod decode;
 mod flow;
+mod image;
 mod imports;
 mod index;
 mod pe;
 mod register_imports;
+mod watcom_map;
 use anyhow::Result;
 use clap::{Parser, ValueEnum};
 use std::path::PathBuf;
@@ -26,9 +29,15 @@ pub enum Discovery {
     Cfg,
     Legacy,
 }
+#[derive(Clone, Copy, Debug, ValueEnum, PartialEq, Eq, serde::Serialize)]
+#[serde(rename_all = "lowercase")]
+pub enum MapFormat {
+    Msvc,
+    Watcom10,
+}
 #[derive(Parser, Debug)]
 #[command(
-    about = "Read-only PE function graph audits and explicit optional checks.",
+    about = "Read-only x86 function graph audits over verified PE and Watcom CF images.",
     version
 )]
 pub struct Args {
@@ -87,6 +96,8 @@ pub struct Args {
     pub rebuilt: Option<PathBuf>,
     #[arg(long)]
     pub map: Option<PathBuf>,
+    #[arg(long, value_enum, default_value = "msvc")]
+    pub map_format: MapFormat,
     #[arg(long)]
     pub config: Option<PathBuf>,
     #[arg(long)]
@@ -113,8 +124,13 @@ fn run() -> Result<()> {
                 || args.check_instruction_overlap
                 || args.include_evidenced_runtime
                 || args.check_accepted_extents
-                || args.metadata.is_some()),
+                || args.metadata.is_some()
+                || args.map_format != MapFormat::Msvc),
         "optional checks/metadata require --discovery cfg; legacy mode already applies exact Python preset checks"
+    );
+    anyhow::ensure!(
+        args.profile != Profile::Cvpack || args.map_format == MapFormat::Msvc,
+        "integrated CVPACK profile requires MSVC MAP format"
     );
     if args.profile == Profile::Cvpack
         && let Some(path) = &args.metadata

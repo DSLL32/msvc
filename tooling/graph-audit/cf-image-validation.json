@@ -1,0 +1,122 @@
+{
+  "timestamp_utc": "2026-10-23T21:52:16.122380+00:00",
+  "scope": "Explicit original Watcom CF image-offset reader plus actual Watcom10 rebuilt-PE MAP parser; shared CFG/decoder and unchanged PE compatibility policies. Static fixture verification only; no application acceptance.",
+  "status": "Published coherent source+matching release after independent parent/root review; canonical reports reverified.",
+  "binary_sha256": "2871dfec83f97736c31e6e9b3ffaa3726d9b1f62b5d7ff087d345e77a2d0392c",
+  "baseline_commit": "5e6734b5448d0fa9b4db14c3d86b4047d0695d43",
+  "baseline_sha256": "eb2cd26c11408839b97ab3ff39e2df5d14ae96459b1f05806cc06d74e4c68cf7",
+  "reviewed_source_hashes": {
+    "src/audit.rs": "436f3f66d0846597055c83c300fa7abb6eac789f4bb48498364e8c98619e00d9",
+    "src/cf.rs": "69ba129e563e7a86d2bec0b44b4c7bb3b64515700310cc6a58313a049393511f",
+    "src/cvpack.rs": "595f854120ec9a991f2fcd22a39c6aab76fac0fdfa30b8b3b106bf1ff3da731a",
+    "src/decode.rs": "ffbf6103ad435535578f015ade897b7129353b1e30bec2f7186fcbd736d81f23",
+    "src/flow.rs": "ed38a991e20b7c6b6e064a2344f364fffca083a097c8980560129b1cf63bb7fe",
+    "src/image.rs": "b8752a70e9e6065b9be02f156a19b71ab0c67d7e139d13a34265987f63abf719",
+    "src/index.rs": "e5cb176e7d9a036ef29d1d5329ed38a2c2d53246492b4ad0203968277a9bef29",
+    "src/main.rs": "7508d7ff26db4b401b164dca3db9e9f11aa5e28528d4342af2e183e949b3cea7",
+    "src/watcom_map.rs": "b6f5fffee505ad23f04f76b0b7a63c3b8d920dab3ec466c1c449b2ccab2d0be9",
+    "README.md": "eb5a8ffad284b045064cfc36ac6bc63ef1f1ab704965640f129cf202c03799ac",
+    "check-cf.py": "b86e42f6965155c5de17d0c481751c6ec467ef794a41c8c4701ba14975d6c66f"
+  },
+  "reviewed_full_receipt": {
+    "path": "/root/.ai-tmp/graph-audit/cf-image/final/validation.json",
+    "sha256": "7855582ba10a3bc19e15e5a9b6afc3f628d15225d1c288a72ab745f9e59408aa"
+  },
+  "reviews": {
+    "watcom_parent": {
+      "path": "/root/.ai-tmp/msvc2/watcom10.0a/orchestrator-review/cf-independent-review.json",
+      "sha256": "cc5b24cc625f084a4ea5efcb292125c811653668ac12d5c3b7b38f6c1a8b6670",
+      "result": "Independent semantic/source review,57CF/MAPchecks and2realcommands passed; reports byteexact."
+    },
+    "root": "CF/MAP implementation independently reviewed; real trademark positive rerun; final4line integratedCVPACK image guard approved before publication."
+  },
+  "tests": {
+    "units": 58,
+    "fmt": true,
+    "clippy_warnings_as_errors": true,
+    "CF_MAP_control_invocations": 57,
+    "CF_MAP_distinct_controls": 50,
+    "CF_MAP_rejections": 44,
+    "old_register_CLI": 28,
+    "old_callback_CLI": 41,
+    "old_owner_enable_CLI": 21,
+    "old_exact_reports": 20
+  },
+  "real_fixture": {
+    "original_source": "toolchains/watcom10.0a/binb/WASM.EXE",
+    "original_code_ranges": [
+      [
+        52084,
+        52137
+      ]
+    ],
+    "original_code_bytes": 53,
+    "rebuilt_code_ranges": [
+      [
+        4259856,
+        4259948
+      ]
+    ],
+    "rebuilt_code_bytes": 92,
+    "named_calls": [
+      "printf_"
+    ],
+    "RET_cleanup": [
+      0
+    ],
+    "pending_callee": "printf_ is an entry pin, not reconstructed or accepted",
+    "candidate_built_by": "actual Watcom10.0a -bt=nt -3r -od -s -d2; worker receipt retained",
+    "native_or_original_execution": "none by auditor/fixture checks"
+  },
+  "static_CF_CLI_seconds": {
+    "median": 0.00846301019191742,
+    "min": 0.008209935389459133,
+    "max": 0.009177266620099545,
+    "scope": "full CLI with image/hash/MAP/graph/RET/extent checks; excludes builds, Wine and target execution"
+  },
+  "build": {
+    "scratch_release_package": {
+      "seconds": 38.528527843765914,
+      "status": 0,
+      "scope": "incremental release package rebuild with existing dependency cache"
+    },
+    "canonical_release_package": 36.63496523723006
+  },
+  "production_verification": {
+    "path": "/root/.ai-tmp/graph-audit/cf-image/publication-verification.json",
+    "sha256": "64f36cb05aa7a4959c9cb33af50f163fc6cfb1bacd47e2655c198d30b05a5ea8",
+    "result": "20priorreports+2realstaticfixture reports byteexact;2unsupported-mode denials; source and binary hashes exact."
+  },
+  "limitations": [
+    "CF only standalone CL metadata adapter + CFG",
+    "no CF PE-IAT or callback-table checks",
+    "no inferred CF SEH roots; explicit roots required",
+    "no allocation tail value inference",
+    "no service gateway normalization",
+    "No serialized full-fixup descriptor export or execution/mask controller; thin byte-verification metadata is capture-owned.",
+    "Layout witness SHA binds reviewed evidence; its semantic content is verified independently by target checker/reviewer.",
+    "CF callback-table checking deliberately rejected: raw base0 relocated zero addend and NULL require fixup-aware interpretation.",
+    "Function-reference check remains the existing immediate/address heuristic, not typed pointer or full ABI proof.",
+    "WASM observed unaligned base008e0020 anchors model comparison; WCC/WPP parser positives make no runtime allocation-base claims."
+  ],
+  "host": {
+    "machine": "x86_64",
+    "system": "Linux",
+    "load_average": [
+      3.6083984375,
+      4.248046875,
+      3.755859375
+    ]
+  },
+  "history": {
+    "pre_guard_receipt": {
+      "path": "/root/.ai-tmp/graph-audit/cf-image/validation.json",
+      "sha256": "d94034d02e1986613d1665821404696bc4a785c8f53cc2fd0dad08b067e64fa0",
+      "delta": "One explicit integrated CVPACK non-null target.image denial; static test-copy MAP retains original CRLF bytes."
+    },
+    "publication": {
+      "path": "/root/.ai-tmp/graph-audit/cf-image/publication.json",
+      "sha256": "dc7cba62b32a339331b8430bbfe89a31aa10247c73953c138f515aad2e927028"
+    }
+  }
+}

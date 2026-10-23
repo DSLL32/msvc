@@ -1,6 +1,7 @@
 # Experimental graph audit
 
-Standalone Rust audit for the eight `vc1.0` reconstructions. Integration is
+Standalone Rust audit with compatibility profiles for the eight `vc1.0` reconstructions
+and explicit PE/Watcom CF input support. Integration is
 coordinated per worker; preserve each project's required checks and explicit
 reference provenance. The executable reads files;
 it never invokes Python, Wine, a compiler, or a reconstructed/original executable.
@@ -488,3 +489,86 @@ python3 tooling/graph-audit/check-register-imports.py \
   --scratch ~/.ai-tmp/graph-audit/register-import-cli \
   --report ~/.ai-tmp/graph-audit/register-import-cli-validation.json
 ```
+
+## Watcom CF and PE MAP inputs
+
+`--map-format watcom10` reads the original Watcom 10 PE linker MAP without
+rewriting it. Group/segment offsets are anchored to matching sections of the
+actual rebuilt PE, with mapped bounds checked per public. A DGROUP offset may
+reach a separate BSS section beyond DGROUP's raw bytes. Names, case and genuine
+same-address aliases are preserved. Conflicting public definitions, ambiguous
+anchors and absolute symbols used as functions reject. This format is explicit;
+the default remains the existing MSVC MAP parser.
+
+For the Watcom `binb` CF containers, use standalone `--profile cl --discovery cfg`
+(the profile selects the `driver` metadata convention). Declare an image view:
+
+```json
+{
+  "target": {
+    "path": "toolchains/watcom10.0a/binb/WASM.EXE",
+    "sha256": "<whole original file SHA256>",
+    "image": {
+      "format": "watcom-cf",
+      "coordinates": "image-offset",
+      "analysis_base": 0,
+      "initialized_sha256": "<exact initialized image SHA256>",
+      "relocation_sha256": "<exact relocation stream SHA256>",
+      "loader": {
+        "path": "toolchains/watcom10.0a/binnt/WASM.EXE",
+        "sha256": "<whole actual loader SHA256>"
+      },
+      "layout_evidence": {
+        "path": "cases/cf-layout.json",
+        "sha256": "<reviewed layout witness SHA256>"
+      }
+    }
+  }
+}
+```
+
+The loader path is contained under `--repo`; the layout witness is contained
+under `--project`. Both files are hashed before use. The witness's semantic
+claims must be verified by the target's checker/reviewer; the common tool binds
+the packet rather than interpreting a second provenance language.
+
+CF function/data addresses are **image offsets**, not PE RVAs or observed process
+VAs. The actual six-DWORD header is found through MZ `e_cparhdr`; initialized
+file bounds, entry/allocation/relocation layout, grouped relocation writes and
+exact stream termination are checked. Fixup *writes* must be disjoint and fit
+initialized pre-stream bytes. Fixup contents are 32-bit addends, which may be
+negative: the real WPP386 indexed displacement is valid and wraps on base
+addition. No PE sections or import table are fabricated.
+
+Code comes only from explicit index records/chunks. External switch data needs
+exact `shared` ownership, and inferred tables must not intersect executable
+instructions. There is no whole-image executable classification. SEH roots must
+be explicit target metadata; a recognizable scope target without its declared
+root rejects instead of silently expanding traversal. Allocation tail contents
+are not inferred. The normal CFG, callee identity, RET cleanup, ownership and
+extent checks run over the same reader interface as PE.
+
+`image_inputs` binds the actual file/image/stream, loader/witness hashes, header,
+relocation counts/groups, explicit code ranges and MAP/PE identities. It is absent
+from unchanged PE/MSVC reports. A pending named callee entry pin is not a whole
+function extent, source reconstruction or accepted code credit.
+
+CF currently rejects legacy mode, other metadata profiles, PE-IAT import
+checks and `--check-callbacks`. At base zero, a relocated pointer with addend zero
+and an unrelocated NULL have the same raw value; callback checking needs a real
+fixup-aware fixture before it can distinguish them. Function-reference comparison
+remains the existing immediate/address heuristic, not typed pointer or ABI proof. Its rebuilt input must be a real PE. `--check-ret` still compares cleanup
+sets; original Watcom register/formal/near-far ABIs need the target's explicit
+proof. The reader does not normalize far service gateways or supply execution
+masking. Actual load-base, before/after relocation, complete loaded-byte and
+mask/frontier evidence remain capture-controller obligations. Never mask the
+on-disk fixup bytes and assume loader relocation preserves those traps.
+
+`check-cf.py --binary BIN --fixture FROZEN_PROJECT --report RESULT.json` runs
+scratch-only mutations against the real WASM `trademark` / original-Watcom-build
+fixture. This is a static auditor fixture, with no application acceptance or
+runtime equivalence claim. It checks input bindings, layout/fixup failures,
+code/data ownership, changed callees, extent splits and MAP/unsupported modes;
+unit tests also cover the actual three CF files and base-invariant decoding at
+zero and WASM's observed unaligned `0x008e0020` base. No compiler, Wine or target
+executable is launched by these checks.

@@ -1,4 +1,4 @@
-use crate::pe::Pe;
+use crate::image::ImageView;
 use anyhow::{Context, Result};
 use capstone::{arch::x86::X86OperandType, prelude::*};
 #[derive(Clone, Debug)]
@@ -59,7 +59,7 @@ impl Decoder {
                 .build()?,
         ))
     }
-    pub fn one(&self, pe: &Pe, a: u32, limit: usize) -> Result<Option<Inst>> {
+    pub fn one(&self, pe: &impl ImageView, a: u32, limit: usize) -> Result<Option<Inst>> {
         let bytes = pe.read(a, limit)?;
         let insns = self.0.disasm_count(bytes, a as u64, 1)?;
         let Some(i) = insns.first() else {
@@ -101,7 +101,7 @@ impl Decoder {
             address_size: x.addr_size(),
         }))
     }
-    pub fn linear(&self, pe: &Pe, start: u32, end: u32) -> Result<Vec<Inst>> {
+    pub fn linear(&self, pe: &impl ImageView, start: u32, end: u32) -> Result<Vec<Inst>> {
         let mut out = Vec::new();
         let mut a = start;
         while a < end {

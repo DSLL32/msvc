@@ -2,7 +2,7 @@
 //! audit.rs, not here; roots/switches/data are explicit input metadata.
 use crate::{
     decode::{Decoder, Inst, Op},
-    pe::Pe,
+    image::ImageView,
 };
 use anyhow::{Context, Result, ensure};
 use std::collections::{BTreeMap, BTreeSet, HashMap};
@@ -17,6 +17,7 @@ pub struct Options {
     pub switches: BTreeMap<u32, Vec<u32>>,
     pub infer_switches: bool,
     pub infer_seh: bool,
+    pub require_explicit_seh_roots: bool,
     pub strict: bool,
     pub forbid_overlapping_instructions: bool,
     pub stop_on_software_interrupts: bool,
@@ -40,7 +41,13 @@ pub struct Graph {
     pub covered: usize,
     pub tables: Vec<(u32, u32)>,
 }
-pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Result<Graph> {
+pub fn walk(
+    d: &Decoder,
+    pe: &impl ImageView,
+    start: u32,
+    end: u32,
+    options: &Options,
+) -> Result<Graph> {
     ensure!(start < end, "invalid function extent");
     let mut ranges = vec![(start, end)];
     ranges.extend(&options.code_chunks);
@@ -109,7 +116,7 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
                 && !i.jump
             {
                 out.references.insert(*v);
-                if options.infer_seh
+                if (options.infer_seh || options.require_explicit_seh_roots)
                     && let Ok(b) = pe.read(*v, 12)
                     && b.len() == 12
                     && crate::pe::u32_at(b, 0)? == u32::MAX
@@ -117,6 +124,15 @@ pub fn walk(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Re
                     for off in [4, 8] {
                         let target = crate::pe::u32_at(b, off)?;
                         if inside(target) {
+                            ensure!(
+                                !options.require_explicit_seh_roots
+                                    || target == start
+                                    || options.roots.contains(&target),
+                                "CF SEH target {target:x} from scope {v:x} requires explicit metadata roots"
+                            );
+                            if !options.infer_seh {
+                                continue;
+                            }
                             pending.push(target);
                             if options.record_dataflow {
                                 out.roots.insert(target);

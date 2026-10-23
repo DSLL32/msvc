@@ -1,8 +1,8 @@
 use crate::{
     Args, Profile,
     decode::{Decoder, Inst, Op},
+    image::{Image, ImageView},
     index::{Inputs, Record, first_names, identity},
-    pe::Pe,
 };
 use anyhow::{Context, Result, bail, ensure};
 use serde_json::{Value, json};
@@ -28,7 +28,13 @@ fn add_call(i: &Inst, names: &HashMap<u32, String>, out: &mut Edges) {
             .unwrap_or_else(|| "indirect".into()),
     );
 }
-fn boundary(d: &Decoder, pe: &Pe, r: &Record, start: u32, complete: bool) -> Result<()> {
+fn boundary(
+    d: &Decoder,
+    pe: &impl ImageView,
+    r: &Record,
+    start: u32,
+    complete: bool,
+) -> Result<()> {
     let mut a = start;
     while a < r.end {
         let Some(i) = d.one(pe, a, 15)? else { break };
@@ -53,7 +59,7 @@ fn boundary(d: &Decoder, pe: &Pe, r: &Record, start: u32, complete: bool) -> Res
 }
 fn linear_tables(
     d: &Decoder,
-    pe: &Pe,
+    pe: &impl ImageView,
     r: &Record,
     profile: Profile,
     is_original: bool,
@@ -77,7 +83,7 @@ fn linear_tables(
             if !inside(r, table) {
                 if profile == Profile::C1
                     && is_original
-                    && pe.sections.iter().any(|s| {
+                    && pe.pe_sections().into_iter().flatten().any(|s| {
                         s.flags & 0x20 != 0 && s.start <= table && table < s.start + s.virtual_size
                     })
                 {
@@ -128,7 +134,12 @@ fn linear_tables(
         tables = discovered;
     }
 }
-fn link_edges(d: &Decoder, pe: &Pe, r: &Record, names: &HashMap<u32, String>) -> Result<Edges> {
+fn link_edges(
+    d: &Decoder,
+    pe: &impl ImageView,
+    r: &Record,
+    names: &HashMap<u32, String>,
+) -> Result<Edges> {
     let mut a = r.start;
     let mut tables = Vec::<(u32, u32)>::new();
     let mut out = Edges::new();
@@ -175,7 +186,12 @@ fn link_edges(d: &Decoder, pe: &Pe, r: &Record, names: &HashMap<u32, String>) ->
     }
     Ok(out)
 }
-fn c2_edges(d: &Decoder, pe: &Pe, r: &Record, names: &HashMap<u32, String>) -> Result<Edges> {
+fn c2_edges(
+    d: &Decoder,
+    pe: &impl ImageView,
+    r: &Record,
+    names: &HashMap<u32, String>,
+) -> Result<Edges> {
     let mut pending = vec![r.start];
     for i in d.linear(pe, r.start, (r.start + 256).min(r.end))? {
         for (op, _) in i.ops {
@@ -250,7 +266,12 @@ fn c2_edges(d: &Decoder, pe: &Pe, r: &Record, names: &HashMap<u32, String>) -> R
     }
     Ok(out)
 }
-fn rcpp_edges(d: &Decoder, pe: &Pe, r: &Record, names: &HashMap<u32, String>) -> Result<Edges> {
+fn rcpp_edges(
+    d: &Decoder,
+    pe: &impl ImageView,
+    r: &Record,
+    names: &HashMap<u32, String>,
+) -> Result<Edges> {
     if r.name == "_rcpp_start" {
         let mut out = Edges::new();
         for i in d.linear(pe, r.start, r.end)? {
@@ -331,7 +352,7 @@ struct Description {
     tails: BTreeSet<u32>,
     indirect: bool,
 }
-fn describe(d: &Decoder, pe: &Pe, r: &Record) -> Result<Description> {
+fn describe(d: &Decoder, pe: &impl ImageView, r: &Record) -> Result<Description> {
     let mut out = Description::default();
     let mut queue = vec![r.start];
     let mut seen = HashSet::new();
@@ -465,7 +486,7 @@ fn equivalent(
 }
 fn cleanup(
     d: &Decoder,
-    pe: &Pe,
+    pe: &impl ImageView,
     r: &Record,
     index: &[Record],
     visiting: &mut HashSet<u32>,
@@ -492,7 +513,7 @@ fn cleanup(
 }
 fn cached(
     d: &Decoder,
-    pe: &Pe,
+    pe: &impl ImageView,
     r: &Record,
     cache: &mut HashMap<(u32, u32), Description>,
 ) -> Result<Description> {
@@ -728,31 +749,32 @@ pub fn run(a: &Args) -> Result<Value> {
                 x.ri.iter()
                     .find(|r| r.name == f.name)
                     .with_context(|| format!("missing reconstructed function {}", f.name))?;
-            let edges =
-                |pe: &Pe, r: &Record, n: &HashMap<u32, String>, original: bool| -> Result<Edges> {
-                    match a.profile {
-                        Profile::Cl => {
-                            let mut out = Edges::new();
-                            for i in d.linear(pe, r.start, r.end)? {
-                                if i.m == "call" {
-                                    out.insert(
-                                        immediate_text(&i)
-                                            .map(|v| identity(n, v))
-                                            .unwrap_or_else(|| "indirect".into()),
-                                    );
-                                }
+            let edges = |pe: &Image,
+                         r: &Record,
+                         n: &HashMap<u32, String>,
+                         original: bool|
+             -> Result<Edges> {
+                match a.profile {
+                    Profile::Cl => {
+                        let mut out = Edges::new();
+                        for i in d.linear(pe, r.start, r.end)? {
+                            if i.m == "call" {
+                                out.insert(
+                                    immediate_text(&i)
+                                        .map(|v| identity(n, v))
+                                        .unwrap_or_else(|| "indirect".into()),
+                                );
                             }
-                            Ok(out)
                         }
-                        Profile::C1 | Profile::C1xx => {
-                            linear_tables(&d, pe, r, a.profile, original, n)
-                        }
-                        Profile::C2 => c2_edges(&d, pe, r, n),
-                        Profile::Link => link_edges(&d, pe, r, n),
-                        Profile::Rcpp => rcpp_edges(&d, pe, r, n),
-                        _ => unreachable!(),
+                        Ok(out)
                     }
-                };
+                    Profile::C1 | Profile::C1xx => linear_tables(&d, pe, r, a.profile, original, n),
+                    Profile::C2 => c2_edges(&d, pe, r, n),
+                    Profile::Link => link_edges(&d, pe, r, n),
+                    Profile::Rcpp => rcpp_edges(&d, pe, r, n),
+                    _ => unreachable!(),
+                }
+            };
             let l = edges(&x.o, f, &on, true)?;
             let r = edges(&x.r, other, &rn, false)?;
             ensure!(
@@ -896,7 +918,8 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         let resolve_owner = a.resolve_register_imports || enabled_owners.contains(&f.name);
         let options = Options {
             infer_switches: true,
-            infer_seh: true,
+            infer_seh: !x.o.explicit_flat_ownership(),
+            require_explicit_seh_roots: x.o.explicit_flat_ownership(),
             imports: original_imports.clone(),
             record_dataflow: resolve_owner,
             code_chunks: f.code_chunks.clone(),
@@ -914,6 +937,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         validate_text_data(&x.o, f, &options.data, &x.oi)?;
         let mut l = flow::walk(&d, &x.o, f.start, f.end, &options)
             .with_context(|| format!("original {}", f.name))?;
+        validate_inferred_data(&x.o, f, &l, &x.oi)?;
         let mut rebuilt_options = Options {
             infer_switches: true,
             infer_seh: true,
@@ -955,7 +979,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
                 left_contracts,
                 strict,
                 f,
-                &x.o,
+                x.o.require_pe()?,
                 crate::register_imports::Side::Original,
             )
             .with_context(|| format!("original {} register imports", f.name))?;
@@ -965,7 +989,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
                 right_contracts,
                 strict,
                 other,
-                &x.r,
+                x.r.require_pe()?,
                 crate::register_imports::Side::Rebuilt,
             )
             .with_context(|| format!("rebuilt {} register imports", f.name))?;
@@ -1095,7 +1119,7 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         result["import_catalogs"] = json!({"original":{"slots":original_imports.as_ref().map(|c|&c.slots),"normalizable_thunks":original_imports.as_ref().map(|c|c.thunks.len())},"rebuilt":{"slots":rebuilt_imports.as_ref().map(|c|&c.slots),"normalizable_thunks":rebuilt_imports.as_ref().map(|c|c.thunks.len())}});
     }
     if use_register_imports {
-        result["register_import_inputs"] = json!({"original_sha256":crate::index::hash(&x.o.data),"rebuilt_sha256":crate::index::hash(&x.r.data),"metadata_sha256":crate::index::hash(&serde_json::to_vec(&metadata)?),"preservation_contracts":metadata["register_imports"]["preservation_contracts"]});
+        result["register_import_inputs"] = json!({"original_sha256":crate::index::hash(x.o.source_bytes()),"rebuilt_sha256":crate::index::hash(x.r.source_bytes()),"metadata_sha256":crate::index::hash(&serde_json::to_vec(&metadata)?),"preservation_contracts":metadata["register_imports"]["preservation_contracts"]});
     }
     if use_register_imports
         && metadata["register_imports"]["callback_preservation_contracts"]
@@ -1134,11 +1158,38 @@ fn consolidated(a: &Args, x: &Inputs) -> Result<Value> {
         }
         result["owned_code_chunks"] = json!(domains);
     }
+    if x.o.is_cf() || x.map_provenance.is_some() {
+        result["image_inputs"] =
+            json!({"original":x.o.provenance(),"rebuilt":x.r.provenance(),"map":x.map_provenance});
+    }
     Ok(result)
 }
 
+pub(crate) fn validate_inferred_data(
+    pe: &impl ImageView,
+    record: &Record,
+    graph: &crate::flow::Graph,
+    index: &[Record],
+) -> Result<()> {
+    if !pe.explicit_flat_ownership() {
+        return Ok(());
+    }
+    validate_text_data(pe, record, &graph.tables, index)?;
+    for &(a, b) in &graph.tables {
+        ensure!(
+            graph
+                .instructions
+                .values()
+                .all(|i| i.next() <= a || b <= i.a),
+            "{} inferred CF table intersects executable instructions: {a:x}..{b:x}",
+            record.name
+        );
+    }
+    Ok(())
+}
+
 pub(crate) fn validate_text_data(
-    pe: &Pe,
+    pe: &impl ImageView,
     record: &Record,
     data: &[(u32, u32)],
     index: &[Record],
@@ -1153,7 +1204,7 @@ pub(crate) fn validate_text_data(
     );
     for &(a, b) in data {
         ensure!(
-            pe.file_backed_code(a, b),
+            pe.text_data_backed(a, b),
             "{} text data is malformed/non-file-backed: {a:x}..{b:x}",
             record.name
         );
@@ -1169,7 +1220,7 @@ pub(crate) fn validate_text_data(
                 record
                     .shared
                     .iter()
-                    .any(|&(c, d)| c <= a && b <= d && pe.file_backed_code(c, d)),
+                    .any(|&(c, d)| c <= a && b <= d && pe.text_data_backed(c, d)),
                 "{} external text data lacks explicit shared ownership: {a:x}..{b:x}",
                 record.name
             );
@@ -1193,7 +1244,7 @@ pub(crate) fn validate_text_data(
 }
 pub(crate) fn cfg_boundaries(
     d: &Decoder,
-    pe: &Pe,
+    pe: &impl ImageView,
     record: &Record,
     graph: &crate::flow::Graph,
     declared_data: &[(u32, u32)],
@@ -1283,7 +1334,7 @@ fn apply_metadata(options: &mut crate::flow::Options, value: &Value) -> Result<(
 }
 fn cfg_cleanup(
     d: &Decoder,
-    pe: &Pe,
+    pe: &impl ImageView,
     r: &Record,
     index: &[Record],
     metadata: &Value,
@@ -1293,7 +1344,8 @@ fn cfg_cleanup(
     ensure!(visiting.insert(r.start), "tail-call cycle {}", r.name);
     let mut options = crate::flow::Options {
         infer_switches: true,
-        infer_seh: true,
+        infer_seh: !pe.explicit_flat_ownership(),
+        require_explicit_seh_roots: pe.explicit_flat_ownership(),
         code_chunks: r.code_chunks.clone(),
         fallthrough_entries: r
             .code_ranges()
@@ -1306,6 +1358,7 @@ fn cfg_cleanup(
     apply_metadata(&mut options, &metadata["functions"][&r.name][side])?;
     validate_text_data(pe, r, &options.data, index)?;
     let graph = crate::flow::walk(d, pe, r.start, r.end, &options)?;
+    validate_inferred_data(pe, r, &graph, index)?;
     ensure!(
         !graph.unresolved_tail,
         "unresolved indirect tail ABI in {}",
@@ -1374,7 +1427,7 @@ fn callback_tables(
                 && (rebuilt_end - rebuilt_begin) % 4 == 0,
             "invalid callback range"
         );
-        let values = |pe: &Pe, a: u32, b: u32| -> Result<Vec<u32>> {
+        let values = |pe: &Image, a: u32, b: u32| -> Result<Vec<u32>> {
             Ok((a..b)
                 .step_by(4)
                 .map(|p| pe.word(p))
@@ -1436,7 +1489,8 @@ fn accepted_extents(
             }
             let mut options = crate::flow::Options {
                 infer_switches: true,
-                infer_seh: true,
+                infer_seh: !pe.explicit_flat_ownership(),
+                require_explicit_seh_roots: pe.explicit_flat_ownership(),
                 code_chunks: record.code_chunks.clone(),
                 allow_extent_end: true,
                 forbid_overlapping_instructions: forbid_overlap,
@@ -1457,6 +1511,7 @@ fn accepted_extents(
                 raw.0.extend(&graph.calls);
                 raw.1.extend(&graph.references);
             }
+            validate_inferred_data(pe, record, &graph, index)?;
             cfg_boundaries(d, pe, record, &graph, &options.data, false)
                 .with_context(|| format!("{side} accepted extent tail {}", record.name))?;
         }

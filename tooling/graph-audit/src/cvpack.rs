@@ -476,6 +476,10 @@ pub fn run(a: &Args) -> Result<Value> {
     );
     let cfg = json(&a.config.clone().unwrap_or(a.project.join("functions.json")))?;
     ensure!(
+        cfg["target"]["image"].is_null(),
+        "explicit image views require the standalone cl CFG profile"
+    );
+    ensure!(
         list(&cfg, "functions")?
             .iter()
             .all(
