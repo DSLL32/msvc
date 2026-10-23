@@ -256,6 +256,22 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         sprintf(line,"omf_record pointer %08lx current %08lx base %08lx bytes %lu\n",
             record,current,image_base+0x6a8dc,bytes);log_line(line);
         dump_bytes(process,"omf_record_hex",record,bytes);
+        if(!strcmp(call->name,"@omf_write_record@4")) {
+            DWORD file=read_word(process,image_base+0x74fb0),fields[8],got,used;
+            DWORD handle,position,high=0,file_bytes;
+            HANDLE copy;
+            if(!ReadProcessMemory(process,(void*)file,fields,sizeof(fields),&got)||got!=sizeof(fields))exit(282);
+            used=fields[0]&&fields[2]?fields[0]-fields[2]:0;
+            if(used>4096||fields[4]>=64)exit(283);
+            handle=read_word(process,image_base+0x767b8+4*fields[4]);
+            if(!DuplicateHandle(process,(HANDLE)handle,GetCurrentProcess(),&copy,0,FALSE,DUPLICATE_SAME_ACCESS))exit(284);
+            position=SetFilePointer(copy,0,(LONG*)&high,FILE_CURRENT);file_bytes=GetFileSize(copy,0);CloseHandle(copy);
+            if(high||position==0xffffffff||file_bytes==0xffffffff)exit(285);
+            sprintf(line,"omf_object stream %08lx flags %lu count %ld fd %lu size %lu null %lu used %lu position %lu osfile %lu file_bytes %lu\n",
+                file,fields[3],(long)fields[1],fields[4],fields[6],!fields[0]&&!fields[2],used,position,
+                read_word(process,image_base+0x76778+fields[4])&255,file_bytes);log_line(line);
+            dump_bytes(process,"omf_object_buffer_hex",fields[2],used);
+        }
     }
     log_line("entry_end\n");
 }

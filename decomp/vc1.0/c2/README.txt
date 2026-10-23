@@ -496,3 +496,14 @@ unsafe oversized copy. Original/W3, graph/extent/ABI/data and15 native cases
 pass (14 complete); next omf_flush_record6c330 with full pointer input already
 observed.339689/399693 accepted extent bytes; app/support321389B and1147functions
 exclude5 historical CRT bodies. Timings: cases/omf-bytes-wrapper-checkpoint.json.
+
+Checkpoint1263 reconstructs the full197-byte record flusher.336 original/
+canonical controls preserve dependency short-circuit order, cached pre-write
+type, tag clearing before pending fixups and current-record changes by children.
+Fresh original/native match writer6c440; original/W3, graph/extent/ABI and15
+cached cases pass (14 complete).339886/399693 accepted extent bytes; app/support
+321586B and1148 functions exclude5 historical CRT bodies. The next writer's
+full record input matches, but actual object_file._bufsiz4096 vs native0 holds
+its ABI/acceptance. Failed raw evidence is cases/omf-write-record-abi/PENDING.json;
+shared maintainer is investigating preserved metadata on FILE reuse. No oracle
+exclusion/target forcing or writer promotion. Timings: cases/omf-flush-checkpoint.json.

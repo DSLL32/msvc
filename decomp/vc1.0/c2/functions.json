@@ -1266,7 +1266,8 @@
     "@omf_initialize_record@12",
     "@omf_append_string@8",
     "@omf_append_bytes@12",
-    "_omf_flush_records"
+    "_omf_flush_records",
+    "@omf_flush_record@4"
   ],
   "driver": [
     {
@@ -8633,8 +8634,21 @@
     {
       "name": "@omf_flush_record@4",
       "start": 443184,
-      "end": 443185,
-      "provisional": true
+      "end": 443381,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "record",
+            "location": "ECX",
+            "type": "omf_record_current32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/omf-flush-record-abi/validation.json",
+        "return_value": "EAX original record pointer"
+      }
     },
     {
       "name": "@omf_initialize_record@12",
@@ -8716,6 +8730,18 @@
         "callee_stack_cleanup": 4,
         "entry_observation": "cases/omf-append-bytes-abi/validation.json"
       }
+    },
+    {
+      "name": "@omf_write_record@4",
+      "start": 443456,
+      "end": 443457,
+      "provisional": true
+    },
+    {
+      "name": "_omf_write_fixups",
+      "start": 443392,
+      "end": 443393,
+      "provisional": true
     }
   ],
   "cases": {

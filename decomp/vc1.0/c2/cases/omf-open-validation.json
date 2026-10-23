@@ -1425,6 +1425,6 @@
     "bytes": 8,
     "initial": "two zero DWORDs with existing self-owned pointer"
   },
-  "seconds": 4.324648861773312,
+  "seconds": 4.242699892260134,
   "scope": "Whole1173-byte original/canonical opener, original string/directive bytes, true zero-input ABI and exact PE column/counters/group pointer.128 controls compare all72-byte standard/extra segment descriptors, OMF class/header overlays, threads/group/counters/call order across C/alternate language, debug on/off, DOS/group modes, owned COMDAT eligibility and empty/custom names. Name/vector/record/file/symbol/error children explicitly mocked; controlled error callback returning is not real error-path acceptance. Actual case and each child frontier independently observed; no new CRT implementation."
 }

@@ -1,0 +1,7390 @@
+{
+  "actual_abi": true,
+  "rejected": [
+    "missing pointer",
+    "wrong register",
+    "unknown hidden input",
+    "wrong current identity",
+    "lost pointer owner",
+    "wrong payload"
+  ],
+  "states": 336,
+  "cases": [
+    {
+      "type": 0,
+      "return_bits": 0,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 0,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 0,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 0,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 0,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 0,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 1,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 1,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 1,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 1,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 1,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 1,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 2,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 2,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 2,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 2,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 2,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 2,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 3,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 3,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 3,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 3,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 3,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 3,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 4,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 4,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 4,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 4,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 4,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 4,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 5,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 5,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 5,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 5,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 5,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 5,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 6,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 6,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 6,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 6,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 6,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 6,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 7,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 7,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 7,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 7,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 7,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": []
+    },
+    {
+      "type": 0,
+      "return_bits": 7,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": []
+    },
+    {
+      "type": 128,
+      "return_bits": 0,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 0,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 0,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 0,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 0,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 0,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 1,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 1,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 1,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 1,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 1,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 1,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 2,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 2,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 2,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 2,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 2,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 2,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 3,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 3,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 3,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 3,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 3,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 3,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 4,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 4,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 4,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 4,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 4,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 4,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 5,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 5,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 5,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 5,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 5,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 5,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 6,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 6,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 6,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 6,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 6,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 6,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 7,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 7,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 7,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 7,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 7,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 128,
+      "return_bits": 7,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          128
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 0,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          180,
+          161
+        ],
+        [
+          "type",
+          188,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 0,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          180,
+          161
+        ],
+        [
+          "type",
+          188,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 0,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          180,
+          161
+        ],
+        [
+          "type",
+          188,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 0,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          180,
+          161
+        ],
+        [
+          "type",
+          188,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 0,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          180,
+          161
+        ],
+        [
+          "type",
+          188,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 0,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          180,
+          161
+        ],
+        [
+          "type",
+          188,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 1,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 1,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 1,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 1,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 1,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 1,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 2,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 2,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 2,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 2,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 2,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 2,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 3,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 3,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 3,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 3,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 3,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 3,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 4,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          180,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 4,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          180,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 4,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          180,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 4,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          180,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 4,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          180,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 4,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          180,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 5,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 5,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 5,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 5,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 5,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 5,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 6,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 6,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 6,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 6,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 6,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 6,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          140,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 7,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 7,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 7,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 7,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 7,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 161,
+      "return_bits": 7,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          161
+        ],
+        [
+          "type",
+          145,
+          161
+        ],
+        [
+          "type",
+          183,
+          161
+        ],
+        [
+          "write",
+          161
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 0,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          180,
+          163
+        ],
+        [
+          "type",
+          188,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 0,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          180,
+          163
+        ],
+        [
+          "type",
+          188,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 0,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          180,
+          163
+        ],
+        [
+          "type",
+          188,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 0,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          180,
+          163
+        ],
+        [
+          "type",
+          188,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 0,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          180,
+          163
+        ],
+        [
+          "type",
+          188,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 0,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          180,
+          163
+        ],
+        [
+          "type",
+          188,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 1,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 1,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 1,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 1,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 1,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 1,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 2,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 2,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 2,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 2,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 2,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 2,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 3,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 3,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 3,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 3,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 3,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 3,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 4,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          180,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 4,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          180,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 4,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          180,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 4,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          180,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 4,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          180,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 4,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          180,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 5,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 5,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 5,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 5,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 5,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 5,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 6,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 6,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 6,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 6,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 6,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 6,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          140,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 7,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 7,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 7,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 7,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 7,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 163,
+      "return_bits": 7,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          163
+        ],
+        [
+          "type",
+          145,
+          163
+        ],
+        [
+          "type",
+          183,
+          163
+        ],
+        [
+          "write",
+          163
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 0,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          180,
+          195
+        ],
+        [
+          "type",
+          188,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 0,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          180,
+          195
+        ],
+        [
+          "type",
+          188,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 0,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          180,
+          195
+        ],
+        [
+          "type",
+          188,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 0,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          180,
+          195
+        ],
+        [
+          "type",
+          188,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 0,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          180,
+          195
+        ],
+        [
+          "type",
+          188,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 0,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          180,
+          195
+        ],
+        [
+          "type",
+          188,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 1,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 1,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 1,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 1,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 1,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 1,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 2,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 2,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 2,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 2,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 2,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 2,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 3,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 3,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 3,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 3,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 3,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 3,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 4,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          180,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 4,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          180,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 4,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          180,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 4,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          180,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 4,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          180,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 4,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          180,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 5,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 5,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 5,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 5,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 5,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 5,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 6,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 6,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 6,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 6,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 6,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 6,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          140,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 7,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 7,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 7,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 7,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 7,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ],
+        [
+          "fixups",
+          0
+        ],
+        [
+          "current",
+          0,
+          1
+        ]
+      ]
+    },
+    {
+      "type": 195,
+      "return_bits": 7,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          176,
+          195
+        ],
+        [
+          "type",
+          145,
+          195
+        ],
+        [
+          "type",
+          183,
+          195
+        ],
+        [
+          "write",
+          195
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 0,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 0,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 0,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 0,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 0,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 0,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 1,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 1,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 1,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 1,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 1,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 1,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 2,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 2,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 2,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 2,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 2,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 2,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 3,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 3,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 3,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 3,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 3,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 3,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 4,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 4,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 4,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 4,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 4,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 4,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 5,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 5,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 5,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 5,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 5,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 5,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 6,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 6,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 6,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 6,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 6,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 6,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "type",
+          202,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 7,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 7,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 7,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 7,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 7,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 188,
+      "return_bits": 7,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "type",
+          150,
+          188
+        ],
+        [
+          "write",
+          188
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 0,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 0,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 0,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 0,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 0,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 0,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 1,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 1,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 1,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 1,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 1,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 1,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 2,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 2,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 2,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 2,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 2,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 2,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 3,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 3,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 3,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 3,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 3,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 3,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 4,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 4,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 4,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 4,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 4,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 4,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 5,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 5,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 5,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 5,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 5,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 5,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 6,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 6,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 6,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 6,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 6,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 6,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 7,
+      "fixups": 0,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 7,
+      "fixups": 0,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 7,
+      "fixups": 1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 7,
+      "fixups": 1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 7,
+      "fixups": -1,
+      "writer_changes_fixups": false,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    },
+    {
+      "type": 4294967295,
+      "return_bits": 7,
+      "fixups": -1,
+      "writer_changes_fixups": true,
+      "events": [
+        [
+          "write",
+          4294967295
+        ]
+      ]
+    }
+  ],
+  "seconds": 4.806728511117399,
+  "scope": "Whole197-byte original/canonical flusher: all dependency classes, flush short-circuit results, empty record, cached old type despite writer tag mutation, post-write fixup count changes/negative nonzero, tag clearing before fixups and global-current change through child, original pointer return/ESP. All child bodies explicitly mocked; actual type80 path only reaches writer. Actual34-byte input alias/payload proved separately."
+}

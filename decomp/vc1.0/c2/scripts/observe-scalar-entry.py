@@ -39,6 +39,9 @@ snapshot=snapshot.replace('PARAMETERS',repr([p[0]for p in parameters]));command=
 if name in ['_omf_flush_records','@omf_flush_record@4','@omf_write_record@4']:
  extra="import gdb,json; p=int(gdb.parse_and_eval('omf_current_record')); read=lambda a,n:bytes(gdb.selected_inferior().read_memory(a,n)); import struct; end=struct.unpack('<I',read(p+16,4))[0]; assert 20<=end-p<=1004; print('C2_RECORD '+json.dumps(dict(pointer=p,current=p,base=int(gdb.parse_and_eval('&omf_records[0]')),bytes=end-p,hex=read(p,end-p).hex())))"
  command[-1:-1]=['-ex','python '+extra]
+ if name=='@omf_write_record@4':
+  obj="import gdb,json,os; s=gdb.parse_and_eval('*object_file'); fd=int(s['_file']); host=int(gdb.parse_and_eval('recon_osfhnd[%d]'%fd))-1; path='/proc/%d/fd/%d'%(gdb.selected_inferior().pid,host); assert os.readlink(path).endswith('/omftypes.obj'); info=open('/proc/%d/fdinfo/%d'%(gdb.selected_inferior().pid,host)).read(); pos=int(next(l.split()[1]for l in info.splitlines()if l.startswith('pos:'))); used=int(s['_ptr'])-int(s['_base'])if int(s['_base'])else 0; print('C2_OBJECT '+json.dumps(dict(stream=int(gdb.parse_and_eval('object_file')),flags=int(s['_flag']),count=int(s['_cnt']),fd=fd,size=int(s['_bufsiz']),null=int(not int(s['_ptr'])and not int(s['_base'])),used=used,position=pos,osfile=int(gdb.parse_and_eval('recon_osfile[%d]'%fd)),file_bytes=os.stat(path).st_size,buffer_hex=bytes(gdb.selected_inferior().read_memory(int(s['_base']),used)).hex()if used else '')))"
+  command[-1:-1]=['-ex','python '+obj]
 begin=time.perf_counter();result=subprocess.run(command,cwd=work,env=env,stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=30);native_seconds=time.perf_counter()-begin
 (receipt/'native.txt').write_bytes(result.stdout);log=result.stdout.decode(errors='replace');assert result.returncode==0,log;native=json.loads(re.search('C2_SCALARS (.*)',log)[1]);lines=(receipt/'original.txt').read_text().splitlines();assert lines[0].split()[:2]==['enter',name]
 values=[int(v,16)for v in lines[0].split()[5:]];assert len(values)==len(parameters);raw_values=values[:]
@@ -49,7 +52,7 @@ assert all(values[i]==native['values'][i]==0 for i,p in enumerate(parameters)if 
 native_raw_values=native['values'][:]
 parts=lines[1].split();stdout={parts[n]:int(parts[n+1],16 if parts[n]in['cursor','value']else 10)for n in range(1,len(parts),2)};stdout['buffer_hex']=lines[2].removeprefix('buffer_hex ')
 parts=lines[3].split();state={parts[n]:int(parts[n+1])for n in range(1,len(parts),2)};assert lines[-1]=='entry_end'
-omf_state=None;pool_input=None;record_input=None
+omf_state=None;pool_input=None;record_input=None;object_input=None
 if name=='_omf_open_module':
     assert len(lines)==6 and lines[4]=='omf_entry coff_object 0'and native['coff_object']==0;omf_state=dict(coff_object=0)
 elif name in ['@omf_flush_record_type@4','@omf_find_record@8','@omf_allocate_record@8','@omf_initialize_record@12']:
@@ -59,12 +62,15 @@ elif name in ['@omf_flush_record_type@4','@omf_find_record@8','@omf_allocate_rec
     assert pool['headers']==other['headers']==[bytes(20).hex()]*4
     pool_input=dict(original=pool,native=other,scope='Actual first helper has four BSS-zero20-byte headers and current record aliases slot0; no payload read/dump or arbitrary reuse-state claim.')
 elif name in ['_omf_flush_records','@omf_flush_record@4','@omf_write_record@4']:
-    assert len(lines)==7
+    assert len(lines)==(9 if name=='@omf_write_record@4'else 7)
     parts=lines[4].split();record={parts[n]:int(parts[n+1],10 if parts[n]=='bytes'else 16)for n in range(1,len(parts),2)};record['hex']=lines[5].removeprefix('omf_record_hex ');other=json.loads(re.search('C2_RECORD (.*)',log)[1])
     for r in [record,other]:
         assert r['pointer']==r['current']==r['base']and r['bytes']==34
         raw=bytes.fromhex(r['hex']);assert len(raw)==34 and struct.unpack('<5I',raw[:20])==(128,0,0,11,r['pointer']+34)and raw[20:]==b'\x80\0\0\x0aomftypes.c'
     record_input=dict(original=record,native=other,scope='Actual current slot0 has defined20-byte header and14-byte wire prefix/payload; cursor and owner aliases retained. No uninitialized tail dump or arbitrary record claim.')
+    if name=='@omf_write_record@4':
+        parts=lines[6].split();obj={parts[n]:int(parts[n+1],16 if parts[n]=='stream'else 10)for n in range(1,len(parts),2)};obj['buffer_hex']=lines[7].removeprefix('omf_object_buffer_hex ');other=json.loads(re.search('C2_OBJECT (.*)',log)[1]);assert {k:v for k,v in obj.items()if k!='stream'}=={k:v for k,v in other.items()if k!='stream'};assert obj['stream']and other['stream']and obj['flags']==2 and obj['count']==obj['used']==obj['position']==obj['file_bytes']==0 and obj['null']==1
+        object_input=dict(original=obj,native=other,scope='Actual object_file owner, FILE flags/count/fd/buffer state, lowio flags and independent descriptor position/length; native path ends omftypes.obj. Read-only observer/proc inspection, no injected target calls.')
 else:assert len(lines)==5
 record_pointer_formals=[]
 for i,(parameter,kind)in enumerate(parameters):
@@ -83,5 +89,5 @@ for i,(parameter,kind)in enumerate(parameters):
 assert values==native['values'],(values,native['values'])
 assert native['stdout']=={k:v for k,v in stdout.items()if k not in ['counter','cursor','value','position']}
 assert {k:native[k]for k in ['column','cw','sw']}=={k:state[k]for k in ['column','cw','sw']}
-r=dict(matched=True,function=name,profile=args.profile,omf_state=omf_state,pool_input=pool_input,record_input=record_input,record_pointer_formals=record_pointer_formals,native_raw_values=native_raw_values,null_pointer_formals=[p[0]for p in parameters if p[1]=='null32'],formals=[dict(name=p,location=('ECX'if i==0 else'EDX'if i==1 else'entryESP+%d'%(4*(i-1))),type=t,value=values[i])for i,(p,t)in enumerate(parameters)],hidden_inputs=[],no_hidden_inputs_proof=args.no_hidden_inputs_proof,callee_stack_cleanup=args.stack_cleanup,original_raw_values=raw_values,original_values=values,original_state=state,native=native,original_stdout=stdout,target_sha256=sha(idx.wt.TC/'bin/C23232.EXE'),manifest_sha256=sha(fixture/'manifest.json'),config_sha256=sha('functions.json'),observer_source_sha256=sha('src/reference-stdio-observer.c'),observer_sha256=sha('build/reference-stdio-observer.exe'),native_executable_sha256=sha('build/native/C23232.EXE'),original_execution_seconds=original_seconds,reused_immutable_original=args.native_only,native_debug_seconds=native_seconds,total_seconds=time.perf_counter()-started,scope='Actual scalar fastcall register/stack formals (16-bit parameters compare their proved lower-word contract; full original register/slot words retained) and known stdout/column/x87 entry state. No injected calls, return observation, child behavior, arbitrary-input equivalence or completed artifact claim.')
+r=dict(matched=True,function=name,profile=args.profile,omf_state=omf_state,pool_input=pool_input,record_input=record_input,object_input=object_input,record_pointer_formals=record_pointer_formals,native_raw_values=native_raw_values,null_pointer_formals=[p[0]for p in parameters if p[1]=='null32'],formals=[dict(name=p,location=('ECX'if i==0 else'EDX'if i==1 else'entryESP+%d'%(4*(i-1))),type=t,value=values[i])for i,(p,t)in enumerate(parameters)],hidden_inputs=[],no_hidden_inputs_proof=args.no_hidden_inputs_proof,callee_stack_cleanup=args.stack_cleanup,original_raw_values=raw_values,original_values=values,original_state=state,native=native,original_stdout=stdout,target_sha256=sha(idx.wt.TC/'bin/C23232.EXE'),manifest_sha256=sha(fixture/'manifest.json'),config_sha256=sha('functions.json'),observer_source_sha256=sha('src/reference-stdio-observer.c'),observer_sha256=sha('build/reference-stdio-observer.exe'),native_executable_sha256=sha('build/native/C23232.EXE'),original_execution_seconds=original_seconds,reused_immutable_original=args.native_only,native_debug_seconds=native_seconds,total_seconds=time.perf_counter()-started,scope='Actual scalar fastcall register/stack formals (16-bit parameters compare their proved lower-word contract; full original register/slot words retained) and known stdout/column/x87 entry state. No injected calls, return observation, child behavior, arbitrary-input equivalence or completed artifact claim.')
 (receipt/'validation.json').write_text(json.dumps(r,indent=2)+'\n');print('Actual',name,'scalar formals match',values)

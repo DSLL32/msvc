@@ -19,6 +19,8 @@ void __fastcall omf_write_index(OmfRecord *record, int index);
 unsigned char __fastcall omf_comdat_selection(unsigned char selection);
 unsigned __fastcall omf_alignment(unsigned alignment);
 void __fastcall omf_append_bytes(OmfRecord *record, char *bytes, unsigned count);
+void __fastcall omf_write_record(OmfRecord *record);
+void omf_write_fixups(void);
 /* Original84fc4 points at the existing two-word object84fb8. Preserve that
    identity, rather than allocating a new group or inventing initialization. */
 OmfGroup omf_group_storage;
@@ -302,6 +304,27 @@ void __fastcall omf_append_bytes(OmfRecord *record, char *bytes, unsigned count)
 OmfRecord *omf_flush_records(void)
 {
     return omf_flush_record(omf_current_record);
+}
+/* Original [0006c330,0006c3f5). Dependency flushes precede writing this
+   record. Keep its original type across those calls and clear only its tag. */
+OmfRecord *__fastcall omf_flush_record(OmfRecord *record)
+{
+    unsigned type = record->type;
+    if (!type) return record;
+    if (type == 0xa3 || type == 0xa1 || type == 0xc3) {
+        if (!omf_flush_record_type(0xb0) && !omf_flush_record_type(0x8c) &&
+            !omf_flush_record_type(0xb4)) omf_flush_record_type(0xbc);
+        omf_flush_record_type(0x91);
+        omf_flush_record_type(0xb7);
+    }
+    if (type == 0xbc && !omf_flush_record_type(0x96)) omf_flush_record_type(0xca);
+    omf_write_record(record);
+    record->type = 0;
+    if ((type == 0xa1 || type == 0xc3) && omf_fixup_count) {
+        omf_write_fixups();
+        omf_flush_records();
+    }
+    return record;
 }
 /* Original [0006a350,0006a7e5); eleven following bytes are alignment.
    The four tail words of Segment have format-specific meanings: OMF names,
