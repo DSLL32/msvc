@@ -14,6 +14,13 @@ typedef char PendingClassFlagsOffsetMustBe29[
 
 #define GENERATING_MEMBER (token_allocation_flags & 0x08000000UL)
 
+/* Original 0x34e80..0x34e9a. End the deferred class-name context before
+   replaying any of its captured inline declarations. */
+void emit_deferred_class_terminator(void)
+{
+    format_work_text(compiler_stack, "%Fs;\n", token_spellings[TOK_NCTAG]);
+}
+
 /* Original 0x34ea0..0x354ea. The class parser defers inline definitions
    through the paged text stack. Generation kinds 0..10 synthesize the same
    text stream without scanning a user body. All four stack slots remain. */

@@ -340,7 +340,6 @@ void browser_end_tag(void) { __asm { int 3 } }
 
 
 
-void emit_deferred_class_terminator(void) { __asm { int 3 } }
 
 int equal_inline_vectors(InlineVector *left, InlineVector *right) { __asm { int 3 } return 0; }
 

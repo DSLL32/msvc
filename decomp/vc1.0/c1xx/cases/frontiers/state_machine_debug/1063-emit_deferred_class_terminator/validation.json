@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_emit_deferred_class_terminator",
+    "start": 216704,
+    "end": 216730
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1063-emit_deferred_class_terminator/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_format_work_text"
+  ],
+  "next_frontier": "_declare_nctag@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.40400874987244606,
+  "total_operation_seconds": 3.982711578719318,
+  "original_capture_seconds": 1.617609528824687
+}
