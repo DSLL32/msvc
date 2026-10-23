@@ -1,0 +1,423 @@
+{
+  "schema": 1,
+  "case": "help",
+  "entries": [
+    {
+      "order": 1,
+      "candidate": "_mainCRTStartup",
+      "class": "CRT support closure",
+      "extent_bytes": 336,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/crt-gate-frozen-d56/pair.json",
+        "sha256": "7da001c39f89588c4088c687a2c62ee0814338a233fbe4b9239370e6c03f3398"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 2,
+      "candidate": "_main",
+      "class": "application",
+      "extent_bytes": 938,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/main-trial-2/pair-seh.json",
+        "sha256": "2449f7c6b357a29f1ae8007fde0e209a246c0f0737602024cd1a86cceb36d1f4"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 3,
+      "candidate": "_install_control_handler",
+      "class": "application",
+      "extent_bytes": 14,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/install-control-2/pair.json",
+        "sha256": "ea86664ba3daca2d35f0fe40171fee6637b182aab097238bdfaf7a690d859709"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 4,
+      "candidate": "_split_arguments",
+      "class": "application",
+      "extent_bytes": 512,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/split-arguments-1/pair.json",
+        "sha256": "871230e505f9a566cdf5b2ee3b66b75fdea37645dcf95343c06eee62f8d8bd5a"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 5,
+      "candidate": "_count_arguments",
+      "class": "application",
+      "extent_bytes": 25,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/count-arguments-1/pair.json",
+        "sha256": "13e4a28237d7f23604a284f26e263dfc1a1d56c1b547fb3a4d951144f3d18912"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 6,
+      "candidate": "_program_name",
+      "class": "application",
+      "extent_bytes": 9,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/program-name-1/pair.json",
+        "sha256": "ace7e3f44369c6f7dce943d01fde787b9ee1fe585b24192424949e61488da1c9"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 7,
+      "candidate": "_initialize_driver",
+      "class": "application",
+      "extent_bytes": 48,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/initialize-driver-2/pair-current-audit.json",
+        "sha256": "8200851f6ad08e1887ca7356c57dd173b47cc01c15a5a8d9df37a25cf8028d9e"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 8,
+      "candidate": "_program_directory",
+      "class": "application",
+      "extent_bytes": 134,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/program-directory-1/pair.json",
+        "sha256": "20c8bff2efc7006d1535eb100f7dd5f8f4fe4b281833acc7b3641e51dd955c2c"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 9,
+      "candidate": "_duplicate",
+      "class": "application",
+      "extent_bytes": 39,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/duplicate-1/pair.json",
+        "sha256": "2658a8a79bc7a497188983812dfe43a0ba2a77fdb80df8119d3830ef816b66eb"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 10,
+      "candidate": "_has_nologo",
+      "class": "application",
+      "extent_bytes": 410,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/has-nologo-2/pair.json",
+        "sha256": "da1ea3b1f255df1a929c3aacccf3a37ae5d716646e2dc9564c77962d012b6939"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 11,
+      "candidate": "_show_banner",
+      "class": "application",
+      "extent_bytes": 49,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/show-banner-1/pair.json",
+        "sha256": "2cbab7d90ceb5c5ce730075b84f409ba3bbc00e26209e51b5b94d534eb62330a"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 12,
+      "candidate": "_load_string",
+      "class": "application",
+      "extent_bytes": 45,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/load-string-1/pair.json",
+        "sha256": "f736255bfc0b295b9c680a67671ff7d51a2efda1846fdf7749623452771c585b"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 13,
+      "candidate": "_write_message",
+      "class": "application",
+      "extent_bytes": 41,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/write-message-1/pair.json",
+        "sha256": "8ed1273c8ef7f170f8347ef20927e32272bf4b1068d133872702bae9a47e748e"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 14,
+      "candidate": "_format_message",
+      "class": "application",
+      "extent_bytes": 416,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/format-message-1/pair.json",
+        "sha256": "e3c44de0264c850189c40de86e2072a70f2b38e3b0a57a46611824707e229c5d"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 15,
+      "candidate": "_allocate",
+      "class": "application",
+      "extent_bytes": 29,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/allocate-2/pair.json",
+        "sha256": "8d941088994c1a1123d6d544a481f627559eb5ffeb6d8fdd2816ab8a3c138e09"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 16,
+      "candidate": "_parse_arguments",
+      "class": "application",
+      "extent_bytes": 250,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/parse-arguments-2/pair.json",
+        "sha256": "7b11eb86345c07ed25c7694ff4cb9577a6ad3874d09b7b77ae694a47ef53338e"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 17,
+      "candidate": "_find_special",
+      "class": "application",
+      "extent_bytes": 57,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/find-special-1/pair.json",
+        "sha256": "e3006d8d57d390c5d009316a2a66f257497fb3c094477a05bce5cf3f29f8f1b4"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 18,
+      "candidate": "_has_prefix",
+      "class": "application",
+      "extent_bytes": 38,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/has-prefix-1/pair.json",
+        "sha256": "a25e6a986448b2e462a86f1729d78676e98a6fbc6b6ef2b32721bafca8be60ed"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 19,
+      "candidate": "_match_option",
+      "class": "application",
+      "extent_bytes": 564,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/match-option-1/pair.json",
+        "sha256": "13ebb9bf7b1b541caee22837dc4b1f0cbebafd171e42aac96afdacc420b9621b"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 20,
+      "candidate": "_find_rule",
+      "class": "application",
+      "extent_bytes": 108,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/find-rule-1/pair.json",
+        "sha256": "ea94d984091676b2950dc02ea9d036110b0cbbcb515bcfe2f9670b6bc73e506e"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 21,
+      "candidate": "_match_pattern",
+      "class": "application",
+      "extent_bytes": 81,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/match-pattern-1/pair.json",
+        "sha256": "9da7ed39f9f238f50868ef7ab854f22b882d681ee4ddf90072675531208b96ef"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 22,
+      "candidate": "_read_option",
+      "class": "application",
+      "extent_bytes": 397,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/read-option-1/pair.json",
+        "sha256": "c98dc6d1fb5566363bce42883a5f8f84cfb729f7eb7b90fc680ced6387eefcec"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 23,
+      "candidate": "_new_option",
+      "class": "application",
+      "extent_bytes": 93,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/new-option-1/pair.json",
+        "sha256": "bb4607d78a4543311ee4f5c0964e0fce352b21cd46be0098cbf68fd076e0a9b9"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 24,
+      "candidate": "_append_option",
+      "class": "application",
+      "extent_bytes": 19,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/append-option-1/pair.json",
+        "sha256": "998c39e1061d0a4bdca48af424b98cbadc3bb5ca12a1c0df4ec367de9a012728"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 25,
+      "candidate": "_expand_options",
+      "class": "application",
+      "extent_bytes": 274,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/expand-options-1/pair.json",
+        "sha256": "761061b46afd6ea63f5296cf4a349d5ee63008f59851eef28735c36891ee577c"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 26,
+      "candidate": "_skip_space",
+      "class": "application",
+      "extent_bytes": 42,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/skip-space-1/pair.json",
+        "sha256": "30cff91376f80b5ada1a6e8e49bff23a33a6c9c0b3de828d9d027dfe922f87a7"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 27,
+      "candidate": "_expand_word",
+      "class": "application",
+      "extent_bytes": 197,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/expand-word-1/pair.json",
+        "sha256": "f28405e2e5390affd0c09b44d0cc7db34018af463e56e5f85e648134555ad1dd"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 28,
+      "candidate": "_append_literal",
+      "class": "application",
+      "extent_bytes": 36,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/append-literal-1/pair.json",
+        "sha256": "084869d3aeadc4be2f0312334b785737aa77100c1fd45ebc6a5f312951938278"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 29,
+      "candidate": "_detach_options",
+      "class": "application",
+      "extent_bytes": 160,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/detach-options-1/pair.json",
+        "sha256": "825be0272493611a60a5acd985309a9d2df72dff028c1f2070f57058db6eb95a"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 30,
+      "candidate": "_delete_options",
+      "class": "application",
+      "extent_bytes": 26,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/delete-options-1/pair.json",
+        "sha256": "0b77e7e4b9c4696b43fa65dec8283cfb8e3f038950e359b61e4d6907627c718e"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 31,
+      "candidate": "_options_match",
+      "class": "application",
+      "extent_bytes": 204,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/options-match-1/pair.json",
+        "sha256": "7f34356755c4b388195672e4c320bbcf9ee5340b81e86716a11498f9a4a631e9"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 32,
+      "candidate": "_validate_value",
+      "class": "application",
+      "extent_bytes": 237,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/validate-value-3/pair.json",
+        "sha256": "9f922a03908f8475dacf0c98c80e1294bfe4c3ac9a52de11b2f4b433bba9600c"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 33,
+      "candidate": "_format_number",
+      "class": "application",
+      "extent_bytes": 123,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/format-number-2/pair.json",
+        "sha256": "c906e4f5bdd5c45065dd6b385e548909745c51033e32410a97ca8209d52d29bf"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 34,
+      "candidate": "_delete_option",
+      "class": "application",
+      "extent_bytes": 47,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/delete-option-1/pair.json",
+        "sha256": "12e694ba9329b0eee4e25a1f408175d5945071a05e25d80bf2a50540ec2dcf16"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 35,
+      "candidate": "_release",
+      "class": "application",
+      "extent_bytes": 19,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/release-1/pair.json",
+        "sha256": "c68dfdeaf4c5457a3c07fc799e7905909dfa4aec2b385ed9d4aabe88dcba5ba9"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 36,
+      "candidate": "_apply_special",
+      "class": "application",
+      "extent_bytes": 209,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/apply-special-1/pair.json",
+        "sha256": "8713004e03da2ffff012af3964e4f751f8e60f8817835ff04144887913d67a9c"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 37,
+      "candidate": "_expand_alternative",
+      "class": "application",
+      "extent_bytes": 77,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/expand-alternative-1/pair.json",
+        "sha256": "0635bf3112c92badf1c2fb5b5be01edb530f521a49950fabc3f65431f05a76c6"
+      },
+      "note": "Validated before promotion; historical raw captures retain their original sources, native symbol aliases and decoder versions."
+    },
+    {
+      "order": 38,
+      "candidate": "_apply_extension",
+      "class": "application",
+      "extent_bytes": 150,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/apply-extension-1/pair.json",
+        "sha256": "ba34d40934461a4c3389b84e529c92a1cb6bf348368ddb5c9055bf11251cc26f"
+      }
+    }
+  ]
+}

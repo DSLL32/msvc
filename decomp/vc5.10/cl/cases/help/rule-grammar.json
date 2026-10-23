@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "start": 4219712,
+  "record_size": 20,
+  "count": 174,
+  "record_bytes_sha256": "4c8f9a7a52f7af68a055c791af0228fe6a347f06e014019e774aa34e769366c7",
+  "layout": [
+    "pattern:string",
+    "add:string|null",
+    "conflict:string|null",
+    "replace:string|null",
+    "extra: @ mode cdecl callback, otherwise requirement string|null"
+  ],
+  "callbacks": [
+    {
+      "address": 4205612,
+      "name": "define_macro",
+      "abi": "cdecl Option *(char **args, int *index); caller pops8; bodies remain named traps until encountered"
+    },
+    {
+      "address": 4205489,
+      "name": "link_arguments",
+      "abi": "cdecl Option *(char **args, int *index); caller pops8; bodies remain named traps until encountered"
+    },
+    {
+      "address": 4205860,
+      "name": "c_input",
+      "abi": "cdecl Option *(char **args, int *index); caller pops8; bodies remain named traps until encountered"
+    },
+    {
+      "address": 4205886,
+      "name": "cpp_input",
+      "abi": "cdecl Option *(char **args, int *index); caller pops8; bodies remain named traps until encountered"
+    },
+    {
+      "address": 4205834,
+      "name": "object_input",
+      "abi": "cdecl Option *(char **args, int *index); caller pops8; bodies remain named traps until encountered"
+    }
+  ]
+}

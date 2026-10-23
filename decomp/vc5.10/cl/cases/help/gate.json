@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "state": "first help case reconstruction in progress",
+  "accepted_application_functions": 37,
+  "accepted_support_records": 15,
+  "trial_candidate": "_apply_extension",
+  "verified_support_closure": {
+    "records": 9,
+    "extent_bytes": 440,
+    "source_credit": false
+  },
+  "raw_pair": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/crt-gate-frozen-d56/pair.json",
+    "sha256": "7da001c39f89588c4088c687a2c62ee0814338a233fbe4b9239370e6c03f3398"
+  },
+  "canonical_loaded_msvcrt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "checks": {
+    "exact_runtime_source_and_relocations": "scripts/identify-runtime.py",
+    "mask": "scripts/mask.py",
+    "current_graph_input_binding": "scripts/audit.py",
+    "typed_raw_state_decoder": "scripts/state.py",
+    "acceptance_protocol": "scripts/accept.py",
+    "negative_protocol_controls": 27,
+    "review_only_validation": "passed; acceptance remains gated",
+    "immutable_native_build_provenance": "scripts/native-build.py; content-addressed compiled bytes and object receipts; shared commit d56d6c2d",
+    "grammar": "174 typed records across original/rebuilt/native, plus spelling/handler/terminator controls"
+  },
+  "native_entry_flags": [
+    "RECON_NATIVE_ENTRY_CONTROLFP_53",
+    "RECON_DEFAULT_FMODE=0"
+  ],
+  "raw_original_reference_seconds": 2.0459201419726014,
+  "native_gdb_seconds": 0.15808856301009655,
+  "audit_seconds": 0.007358340546488762,
+  "case_limit": "Only /?; no minimal-C reconstruction.",
+  "previous_raw_pair": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/crt-gate-final-2/pair-current-audit.json",
+    "sha256": "e584382ac35189176cf8e887b22d25bf2cb9933ecefa84d0985f827a48acf612"
+  },
+  "original_reuse": "Original raw capture and observation are unchanged; this native-only rebuild uses explicitly pinned shared sources.",
+  "reached_support_records": 1,
+  "closure_support_records": 8,
+  "approval": "Parent independently validated frozen-d56 pair and 25 protocol negatives; authorized promotion of exact 440-byte CRT closure, no application source credit.",
+  "accepted_application_extent_bytes": 6117,
+  "text_extent_bytes": 19062,
+  "current_frontier": "_find_last_separator",
+  "main_trial": "/root/.ai-tmp/msvc2/vc5.10/cl/main-trial-2/pair-seh.json",
+  "main_state_correction": "show_commands initialized to 1; initial mismatching raw capture preserved",
+  "accepted_support_extent_bytes": 476,
+  "current_pair": "/root/.ai-tmp/msvc2/vc5.10/cl/apply-extension-1/pair.json"
+}

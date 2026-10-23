@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "kind": "initial fully masked entry comparison; not function acceptance",
+  "case": "help",
+  "arguments": [
+    "/?"
+  ],
+  "accepted": [],
+  "original_entry": 4217056,
+  "native_entry_symbol": "startup_frontier",
+  "logical_entry": "_mainCRTStartup",
+  "loaded_msvcrt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "config_sha256": "4985e864f293a5dbd4dc0cd8040991e9a8f82de9395e01b08ee27f84b55fac46",
+  "native_sha256": "41f6b5835d30042479434cfd7af068c94da2598e16a439f0fa2fd922b10654b3",
+  "rebuilt_sha256": "202a784770fdd494b71e66dc7df0c9ad7fd42bbf6f1f8e0641dbf42d9d0d57ee",
+  "comparison": {
+    "named_initial_entry_traps_match": true,
+    "empty_stdout_and_stderr_match": true,
+    "state_comparison": "No application state or function execution accepted at this initial entry gate."
+  },
+  "native_gdb_seconds": 0.11578517593443394,
+  "build_timings": {
+    "native_build": {
+      "seconds": 1.1147256083786488,
+      "status": 0,
+      "log": "/root/.ai-tmp/msvc2/vc5.10/cl/native_build-initial.log"
+    },
+    "original_build": {
+      "seconds": 1.945300572551787,
+      "status": 0,
+      "log": "/root/.ai-tmp/msvc2/vc5.10/cl/original_build-initial.log"
+    },
+    "audit": {
+      "seconds": 0.012299057096242905,
+      "status": 0,
+      "log": "/root/.ai-tmp/msvc2/vc5.10/cl/audit-initial.log"
+    },
+    "checks": {
+      "seconds": 0.4115034295246005,
+      "status": 0,
+      "log": "/root/.ai-tmp/msvc2/vc5.10/cl/checks-initial.log"
+    }
+  },
+  "files": {
+    "native-gdb.txt": {
+      "bytes": 263,
+      "sha256": "902814cdd59f127cca3ec52ce95040766be28fbcf1ebe7db7791231f36543839"
+    },
+    "native-stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "native-stdout.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "original-capture.json": {
+      "bytes": 3160,
+      "sha256": "c902b7c9c53bf2460f95540720d812603e9a5e24a754aab302e991e5360f5911"
+    },
+    "original-config.json": {
+      "bytes": 577,
+      "sha256": "4985e864f293a5dbd4dc0cd8040991e9a8f82de9395e01b08ee27f84b55fac46"
+    },
+    "original-context.bin": {
+      "bytes": 268,
+      "sha256": "e4a426e201e8235632525c3a20f2f5f71cb57783eb2499362768f2229f1ed395"
+    },
+    "original-events.txt": {
+      "bytes": 1728,
+      "sha256": "bca4f4a3c8a1d236c539773f8daf76dfc67af7988a2b080cb6884d1af76640a7"
+    },
+    "original-globals.bin": {
+      "bytes": 2000,
+      "sha256": "4af685b8778df387bc0ff1283a12e455561880d86ce3cbf4493559d89af6f85d"
+    },
+    "original-stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "original-stdout.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

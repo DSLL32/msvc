@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "case": "help",
+  "arguments": [
+    "/?"
+  ],
+  "baseline": false,
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "config_sha256": "4985e864f293a5dbd4dc0cd8040991e9a8f82de9395e01b08ee27f84b55fac46",
+  "original_mask_sha256": "019e5918ff66da6939db33d025d2eb76396c6dc10d844150ad852187e6688908",
+  "helper_status": 0,
+  "loaded_msvcrt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "helper_sha256": "2648da541db80baae46c115ace89b295fb106aff20c567ecf46ca31684428a5a",
+  "helper_source_sha256": "83167e517b92f1bb57b90ba8e38986e9cfcf8fc090830662da3fa94f0f11ae12",
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc5.10\\cl\\initial-allmasked-entry\\reference-debugger.exe",
+    "S:\\vc5.10\\cl\\initial-allmasked-entry\\CL.EXE",
+    "/?",
+    "S:\\vc5.10\\cl\\initial-allmasked-entry",
+    "1"
+  ],
+  "environment": {
+    "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
+    "WINEDLLOVERRIDES": "msvcrt=n",
+    "INCLUDE": "R:\\toolchains\\5.10\\include",
+    "LIB": "R:\\toolchains\\5.10\\lib",
+    "WINEPATH": "R:\\toolchains\\5.10\\bin",
+    "TMP": ".",
+    "TEMP": "."
+  },
+  "timing": {
+    "setup_seconds": 0.005903495475649834,
+    "reference_execution_seconds": 1.1631069723516703
+  },
+  "files": {
+    "helper.stderr": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "globals.bin": {
+      "sha256": "4af685b8778df387bc0ff1283a12e455561880d86ce3cbf4493559d89af6f85d",
+      "bytes": 2000
+    },
+    "CL.EXE": {
+      "sha256": "019e5918ff66da6939db33d025d2eb76396c6dc10d844150ad852187e6688908",
+      "bytes": 46080
+    },
+    "MSVCRT.DLL": {
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "bytes": 277776
+    },
+    "loaded-mspdb50.bin": {
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+      "bytes": 167424
+    },
+    "helper.stdout": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "loaded-msvcrt.bin": {
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "bytes": 277776
+    },
+    "config.json": {
+      "sha256": "4985e864f293a5dbd4dc0cd8040991e9a8f82de9395e01b08ee27f84b55fac46",
+      "bytes": 577
+    },
+    "stdout.bin": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "MSPDB50.DLL": {
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+      "bytes": 167424
+    },
+    "reference-debugger.exe": {
+      "sha256": "2648da541db80baae46c115ace89b295fb106aff20c567ecf46ca31684428a5a",
+      "bytes": 52224
+    },
+    "events.txt": {
+      "sha256": "bca4f4a3c8a1d236c539773f8daf76dfc67af7988a2b080cb6884d1af76640a7",
+      "bytes": 1728
+    },
+    "stderr.bin": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "context.bin": {
+      "sha256": "e4a426e201e8235632525c3a20f2f5f71cb57783eb2499362768f2229f1ed395",
+      "bytes": 268
+    }
+  }
+}

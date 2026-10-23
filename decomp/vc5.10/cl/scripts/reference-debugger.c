@@ -1,0 +1,358 @@
+/* Original-only debugger. Native tests never build or launch this program. */
+#include <windows.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+static HANDLE child;
+static FILE *events;
+static char directory[MAX_PATH];
+static DWORD target_base,target_size;
+static DWORD event_number;
+static DWORD crt_base;
+static int observe_resources;
+static FILE *resource_events;
+static DWORD resource_arguments[4], resource_call_count;
+typedef struct EntryGuard {
+    DWORD rva;
+    unsigned byte;
+    char name[128];
+    int seen;
+} EntryGuard;
+static EntryGuard entry_guards[1024];
+static unsigned entry_count;
+static int root_inputs_captured;
+static FILE *trace;
+
+static void patch_byte(DWORD address, BYTE value)
+{
+    DWORD wrote;
+    if (!WriteProcessMemory(child,(void *)address,&value,1,&wrote) || wrote!=1)
+        ExitProcess(35);
+    FlushInstructionCache(child,(void *)address,1);
+}
+
+static void output_path(char *out,const char *name)
+{
+    sprintf(out,"%s\\%s",directory,name);
+}
+static void memory(DWORD address,void *out,DWORD bytes)
+{
+    DWORD got;
+    if (!ReadProcessMemory(child,(void *)address,out,bytes,&got) || got!=bytes)
+        ExitProcess(20);
+}
+static void remote_string(DWORD address,char *out,DWORD capacity)
+{
+    DWORD i;
+    for (i=0;i+1<capacity;++i) {
+        memory(address+i,out+i,1);
+        if (!out[i]) return;
+    }
+    out[capacity-1]=0;
+}
+static void save_file(HANDLE source,const char *name)
+{
+    char path[MAX_PATH];
+    HANDLE destination;
+    BYTE buffer[16384];
+    DWORD got,wrote,total=0;
+    output_path(path,name);
+    if (!source || source==INVALID_HANDLE_VALUE) ExitProcess(21);
+    if (SetFilePointer(source,0,NULL,FILE_BEGIN)==0xffffffffUL) ExitProcess(22);
+    destination=CreateFileA(path,GENERIC_WRITE,0,NULL,CREATE_NEW,0,NULL);
+    if (destination==INVALID_HANDLE_VALUE) ExitProcess(23);
+    for (;;) {
+        if (!ReadFile(source,buffer,sizeof(buffer),&got,NULL)) ExitProcess(24);
+        if (!got) break;
+        if (!WriteFile(destination,buffer,got,&wrote,NULL) || wrote!=got) ExitProcess(25);
+        total+=got;
+    }
+    CloseHandle(destination);
+    fprintf(events,"loaded-file %s bytes=%lu\n",name,total);
+}
+static DWORD exported(DWORD base,const char *wanted)
+{
+    IMAGE_DOS_HEADER dos;
+    IMAGE_NT_HEADERS nt;
+    IMAGE_EXPORT_DIRECTORY exports;
+    DWORD i,name_rva,function_rva;
+    WORD ordinal;
+    char name[256];
+    memory(base,&dos,sizeof(dos));memory(base+dos.e_lfanew,&nt,sizeof(nt));
+    memory(base+nt.OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress,&exports,sizeof(exports));
+    for (i=0;i<exports.NumberOfNames;++i) {
+        memory(base+(DWORD)exports.AddressOfNames+4*i,&name_rva,4);
+        remote_string(base+name_rva,name,sizeof(name));
+        if (!strcmp(name,wanted)) {
+            memory(base+(DWORD)exports.AddressOfNameOrdinals+2*i,&ordinal,2);
+            memory(base+(DWORD)exports.AddressOfFunctions+4*ordinal,&function_rva,4);
+            return base+function_rva;
+        }
+    }
+    fprintf(events,"missing-export %s\n",wanted);fflush(events);ExitProcess(26);return 0;
+}
+static void raw_vector(const char *name,DWORD vector,int expected_count)
+{
+    DWORD count=0,pointer,length;
+    char path[MAX_PATH],text[32768];
+    FILE *file;
+    output_path(path,name);file=fopen(path,"wb");
+    if (!file) ExitProcess(27);
+    fwrite(&vector,4,1,file);fwrite(&count,4,1,file);
+    for (;;) {
+        memory(vector+count*4,&pointer,4);
+        if (!pointer) break;
+        if (count==4096) ExitProcess(28);
+        for (length=0;length<sizeof(text);++length) {
+            memory(pointer+length,text+length,1);
+            if (!text[length]) break;
+        }
+        if (length==sizeof(text)) ExitProcess(29);
+        ++length;
+        fwrite(&pointer,4,1,file);fwrite(&length,4,1,file);fwrite(text,1,length,file);
+        ++count;
+    }
+    if (expected_count>=0 && count!=(DWORD)expected_count) ExitProcess(30);
+    fseek(file,4,SEEK_SET);fwrite(&count,4,1,file);fclose(file);
+}
+static void crt_state(DWORD *stack)
+{
+    DWORD values[6],pointer,length;
+    BYTE info[108],mb_state[261];
+    char path[MAX_PATH],program[32768];
+    FILE *file;
+    if (!crt_base) ExitProcess(31);
+    values[0]=crt_base;
+    memory(exported(crt_base,"_fmode"),values+1,4);
+    memory(exported(crt_base,"_commode"),values+2,4);
+    memory(exported(crt_base,"__mb_cur_max"),values+3,4);
+    memory(exported(crt_base,"_pgmptr"),values+4,4);
+    memory(exported(crt_base,"__pioinfo"),values+5,4);
+    memory(values[5],info,sizeof(info));
+    output_path(path,"crt-state.bin");file=fopen(path,"wb");
+    fwrite(values,4,6,file);fwrite(info,1,sizeof(info),file);fclose(file);
+    pointer=values[4];
+    for (length=0;length<sizeof(program);++length) {
+        memory(pointer+length,program+length,1);if (!program[length]) break;
+    }
+    if (length==sizeof(program)) ExitProcess(32);
+    output_path(path,"pgmptr.bin");file=fopen(path,"wb");fwrite(program,1,length+1,file);fclose(file);
+    /* Canonical provider: actual mb codepage DWORD plus _mbctype[257]. */
+    memory(crt_base+0x3f1c0,mb_state,4);
+    memory(crt_base+0x3f1c8,mb_state+4,257);
+    output_path(path,"mb-state.bin");file=fopen(path,"wb");fwrite(mb_state,1,sizeof(mb_state),file);fclose(file);
+    raw_vector("argv.bin",stack[2],(int)stack[1]);
+    raw_vector("environment.bin",stack[3],-1);
+}
+static void frontier_requests(DWORD address, DWORD *stack)
+{
+    char line[128];
+    DWORD requested, length, got, i;
+    BYTE buffer[65536];
+    printf("TRAP %08lx\n", address);fflush(stdout);
+    while (fgets(line,sizeof(line),stdin)) {
+        if (!strcmp(line,"DONE\n")) break;
+        if (sscanf(line,"%lx %lu",&requested,&length)!=2 || !length || length>sizeof(buffer))
+            ExitProcess(33);
+        if (!ReadProcessMemory(child,(void *)requested,buffer,length,&got) || got!=length)
+            { printf("ERROR\n");fflush(stdout);ExitProcess(34); }
+        printf("DATA %08lx %lu ",requested,length);
+        for (i=0;i<length;++i) printf("%02x",(unsigned)buffer[i]);
+        printf("\n");fflush(stdout);
+    }
+}
+static void module(DWORD base,HANDLE file)
+{
+    IMAGE_DOS_HEADER dos;
+    IMAGE_NT_HEADERS nt;
+    IMAGE_EXPORT_DIRECTORY exports;
+    char name[MAX_PATH];
+    memory(base,&dos,sizeof(dos));
+    memory(base+dos.e_lfanew,&nt,sizeof(nt));
+    strcpy(name,"<no-exports>");
+    if (nt.OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress) {
+        memory(base+nt.OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress,
+            &exports,sizeof(exports));
+        remote_string(base+exports.Name,name,sizeof(name));
+    }
+    fprintf(events,"module event=%lu name=%s base=%08lx preferred=%08lx timestamp=%08lx size=%08lx\n",
+        event_number,name,base,nt.OptionalHeader.ImageBase,nt.FileHeader.TimeDateStamp,
+        nt.OptionalHeader.SizeOfImage);
+    if (!_stricmp(name,"msvcrt.dll")) { crt_base=base;save_file(file,"loaded-msvcrt.bin"); }
+    if (!_stricmp(name,"mspdb50.dll")) save_file(file,"loaded-mspdb50.bin");
+    fflush(events);
+}
+int main(int argc,char **argv)
+{
+    STARTUPINFOA startup;
+    PROCESS_INFORMATION process;
+    SECURITY_ATTRIBUTES security;
+    DEBUG_EVENT event;
+    CONTEXT context;
+    DWORD status,threads_count=0,i,stack[16];
+    DWORD thread_ids[64];
+    HANDLE threads[64],thread;
+    HANDLE out,err,input;
+    char command[4096],path[MAX_PATH];
+    FILE *snapshot;
+    BYTE globals[2000];
+    int stop_at_trap;
+    if (argc!=6) return 2;
+    observe_resources=atoi(argv[5]);
+    strcpy(directory,argv[3]);
+    stop_at_trap=atoi(argv[4]);
+    output_path(path,"entries.txt");snapshot=fopen(path,"r");
+    if (snapshot) {
+        while (entry_count<1024 && fscanf(snapshot,"%lx %u %127s",&entry_guards[entry_count].rva,
+                &entry_guards[entry_count].byte,entry_guards[entry_count].name)==3)
+            ++entry_count;
+        if (!feof(snapshot)) return 42;
+        fclose(snapshot);
+    }
+    output_path(path,"trace.txt");trace=fopen(path,"wb");if (!trace) return 43;
+    output_path(path,"events.txt");events=fopen(path,"wb");
+    if (!events) return 3;
+    if (observe_resources) {
+        output_path(path,"resource-events.txt");resource_events=fopen(path,"wb");
+        if (!resource_events) return 36;
+    }
+    memset(&security,0,sizeof(security));security.nLength=sizeof(security);
+    security.bInheritHandle=TRUE;
+    output_path(path,"stdout.bin");
+    out=CreateFileA(path,GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,&security,CREATE_ALWAYS,0,NULL);
+    output_path(path,"stderr.bin");
+    err=CreateFileA(path,GENERIC_WRITE,FILE_SHARE_READ|FILE_SHARE_WRITE,&security,CREATE_ALWAYS,0,NULL);
+    input=CreateFileA("NUL",GENERIC_READ,FILE_SHARE_READ|FILE_SHARE_WRITE,&security,OPEN_EXISTING,0,NULL);
+    if (out==INVALID_HANDLE_VALUE || err==INVALID_HANDLE_VALUE || input==INVALID_HANDLE_VALUE) return 4;
+    memset(&startup,0,sizeof(startup));startup.cb=sizeof(startup);
+    startup.dwFlags=STARTF_USESTDHANDLES;
+    startup.hStdOutput=out;startup.hStdError=err;startup.hStdInput=input;
+    sprintf(command,"\"%s\" %s",argv[1],argv[2]);
+    if (!CreateProcessA(argv[1],command,NULL,NULL,TRUE,DEBUG_ONLY_THIS_PROCESS,
+        NULL,NULL,&startup,&process)) return 5;
+    for (;;) {
+        if (!WaitForDebugEvent(&event,30000)) return 6;
+        ++event_number;status=DBG_CONTINUE;
+        if (event.dwDebugEventCode==CREATE_PROCESS_DEBUG_EVENT) {
+            child=event.u.CreateProcessInfo.hProcess;
+            target_base=(DWORD)event.u.CreateProcessInfo.lpBaseOfImage;
+            target_size=0x4c00;
+            threads[threads_count]=event.u.CreateProcessInfo.hThread;
+            thread_ids[threads_count++]=event.dwThreadId;
+            fprintf(events,"create event=%lu base=%08lx entry=%08lx\n",event_number,
+                target_base,(DWORD)event.u.CreateProcessInfo.lpStartAddress);
+            save_file(event.u.CreateProcessInfo.hFile,"loaded-target.bin");
+            if (event.u.CreateProcessInfo.hFile) CloseHandle(event.u.CreateProcessInfo.hFile);
+            if (observe_resources) {
+                BYTE before,after;
+                memory(target_base+0x534d,&before,1);memory(target_base+0x5353,&after,1);
+                if (before!=0xff || after!=0x85) return 37;
+                patch_byte(target_base+0x534d,0xcc);
+            }
+            for (i=0;i<entry_count;++i) {
+                BYTE byte;
+                memory(target_base+entry_guards[i].rva,&byte,1);
+                if (byte!=entry_guards[i].byte || byte==0xcc) return 44;
+                patch_byte(target_base+entry_guards[i].rva,0xcc);
+            }
+        } else if (event.dwDebugEventCode==CREATE_THREAD_DEBUG_EVENT) {
+            if (threads_count==64) return 7;
+            threads[threads_count]=event.u.CreateThread.hThread;
+            thread_ids[threads_count++]=event.dwThreadId;
+        } else if (event.dwDebugEventCode==LOAD_DLL_DEBUG_EVENT) {
+            module((DWORD)event.u.LoadDll.lpBaseOfDll,event.u.LoadDll.hFile);
+            if (event.u.LoadDll.hFile) CloseHandle(event.u.LoadDll.hFile);
+        } else if (event.dwDebugEventCode==EXCEPTION_DEBUG_EVENT) {
+            DWORD code=event.u.Exception.ExceptionRecord.ExceptionCode;
+            DWORD address=(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress;
+            EntryGuard *guard=NULL;
+            for (i=0;i<entry_count;++i)
+                if (!entry_guards[i].seen && target_base+entry_guards[i].rva==address) guard=entry_guards+i;
+            if (code==EXCEPTION_BREAKPOINT && guard) {
+                thread=NULL;
+                for (i=0;i<threads_count;++i)
+                    if (thread_ids[i]==event.dwThreadId) thread=threads[i];
+                if (!thread) return 45;
+                memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL|CONTEXT_FLOATING_POINT;
+                if (!GetThreadContext(thread,&context)) return 46;
+                if (guard->rva==0x1743) {
+                    memory(context.Esp,stack,sizeof(stack));crt_state(stack);root_inputs_captured=1;
+                    output_path(path,"main-entry-context.bin");snapshot=fopen(path,"wb");
+                    fwrite(&context,1,sizeof(context),snapshot);fwrite(stack,1,sizeof(stack),snapshot);fclose(snapshot);
+                }
+                fprintf(events,"entry event=%lu address=%08lx name=%s\n",event_number,address,guard->name);fflush(events);
+                fprintf(trace,"%s\n",guard->name);fflush(trace);guard->seen=1;
+                patch_byte(address,(BYTE)guard->byte);context.Eip=address;
+                if (!SetThreadContext(thread,&context)) return 47;
+            } else if (code==EXCEPTION_BREAKPOINT && observe_resources &&
+                (address==target_base+0x534d || address==target_base+0x5353)) {
+                BYTE output[256];
+                thread=NULL;
+                for (i=0;i<threads_count;++i)
+                    if (thread_ids[i]==event.dwThreadId) thread=threads[i];
+                if (!thread) return 38;
+                memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL;
+                if (!GetThreadContext(thread,&context)) return 39;
+                if (address==target_base+0x534d) {
+                    memory(context.Esp,resource_arguments,sizeof(resource_arguments));
+                    if (resource_arguments[0]!=target_base || resource_arguments[2]!=target_base+0x9698 || resource_arguments[3]!=256) return 40;
+                    ++resource_call_count;
+                    memory(resource_arguments[2],output,sizeof(output));
+                    sprintf(path,"%s\\resource-%04lu-before.bin",directory,resource_call_count);
+                    snapshot=fopen(path,"wb");fwrite(output,1,sizeof(output),snapshot);fclose(snapshot);
+                    fprintf(resource_events,"call sequence=%lu id=%lu module=%08lx output=%08lx capacity=%lu\n",
+                        resource_call_count,resource_arguments[1],resource_arguments[0],resource_arguments[2],resource_arguments[3]);
+                    patch_byte(address,0xff);patch_byte(target_base+0x5353,0xcc);
+                } else {
+                    memory(resource_arguments[2],output,sizeof(output));
+                    sprintf(path,"%s\\resource-%04lu-after.bin",directory,resource_call_count);
+                    snapshot=fopen(path,"wb");fwrite(output,1,sizeof(output),snapshot);fclose(snapshot);
+                    fprintf(resource_events,"return sequence=%lu id=%lu value=%lu\n",resource_call_count,resource_arguments[1],context.Eax);
+                    patch_byte(address,0x85);patch_byte(target_base+0x534d,0xcc);
+                }
+                fflush(resource_events);context.Eip=address;
+                if (!SetThreadContext(thread,&context)) return 41;
+            } else if (code==EXCEPTION_BREAKPOINT && address>=target_base+0x1000 &&
+                address<target_base+0x1000+target_size && stop_at_trap) {
+                thread=NULL;
+                for (i=0;i<threads_count;++i)
+                    if (thread_ids[i]==event.dwThreadId) thread=threads[i];
+                if (!thread) return 8;
+                memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL|CONTEXT_FLOATING_POINT;
+                if (!GetThreadContext(thread,&context)) return 9;
+                memory(context.Esp,stack,sizeof(stack));
+                memory(target_base+0x9000,globals,sizeof(globals));
+                output_path(path,"context.bin");snapshot=fopen(path,"wb");
+                fwrite(&context,1,sizeof(context),snapshot);fwrite(stack,1,sizeof(stack),snapshot);fclose(snapshot);
+                output_path(path,"globals.bin");snapshot=fopen(path,"wb");
+                fwrite(globals,1,sizeof(globals),snapshot);fclose(snapshot);
+                if (address==target_base+0x1743) crt_state(stack);
+                else if (!root_inputs_captured && address!=target_base+0x58e0) {
+                    DWORD root[4];
+                    root[0]=0;
+                    memory(exported(crt_base,"__argc"),root+1,4);
+                    memory(exported(crt_base,"__argv"),root+2,4);
+                    memory(exported(crt_base,"_environ"),root+3,4);
+                    crt_state(root);
+                }
+                fprintf(events,"trap event=%lu address=%08lx rva=%08lx eax=%08lx ecx=%08lx edx=%08lx esp=%08lx\n",
+                    event_number,address,address-target_base,context.Eax,context.Ecx,context.Edx,context.Esp);
+                fflush(events);
+                if (address!=target_base+0x1743 && address!=target_base+0x58e0)
+                    frontier_requests(address,stack);
+                TerminateProcess(child,0x7001);
+            } else if (code!=EXCEPTION_BREAKPOINT) {
+                fprintf(events,"exception event=%lu code=%08lx address=%08lx first=%lu\n",
+                    event_number,code,address,event.u.Exception.dwFirstChance);
+                fflush(events);status=DBG_EXCEPTION_NOT_HANDLED;
+            }
+        } else if (event.dwDebugEventCode==EXIT_PROCESS_DEBUG_EVENT) {
+            fprintf(events,"exit event=%lu status=%lu\n",event_number,event.u.ExitProcess.dwExitCode);
+            fclose(events);fclose(trace);if (resource_events) fclose(resource_events);CloseHandle(out);CloseHandle(err);CloseHandle(input);
+            ContinueDebugEvent(event.dwProcessId,event.dwThreadId,status);
+            return event.u.ExitProcess.dwExitCode==0x7001 ? 0:event.u.ExitProcess.dwExitCode;
+        }
+        ContinueDebugEvent(event.dwProcessId,event.dwThreadId,status);
+    }
+}

@@ -1,0 +1,287 @@
+{
+  "schema": 1,
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "scope": "_main; narrow cached-import evidence, not a generic register-dataflow audit",
+  "residuals": [
+    {
+      "identity": {
+        "dll": "msvcrt.dll",
+        "name": "getenv"
+      },
+      "iat": 4235800,
+      "register": "esi",
+      "load": 4200313,
+      "calls": [
+        4200319,
+        4200330
+      ],
+      "bounded_sequence": {
+        "start": 4200313,
+        "bytes": "8b3518a24000ffd6598945cc6808624000ffd6"
+      },
+      "lifetime": "The exact straight-line instruction sequence loads ESI once, calls ESI twice, and contains no intervening ESI write. MSVCRT cdecl getenv preserves ESI.",
+      "reconstructed_source": "src/main.c calls getenv(\"CL\") followed by getenv(\"_CL_\"); /Od emits two direct IAT calls.",
+      "tool_limitation": "--check-imports reports original {strlen} vs rebuilt {getenv, strlen}; generic call graphs correctly retain indirect. No source reshaping or blanket import waiver.",
+      "function": "_main",
+      "instruction_sites": [
+        {
+          "address": 4200313,
+          "bytes": "8b3518a24000"
+        },
+        {
+          "address": 4200319,
+          "bytes": "ffd6"
+        },
+        {
+          "address": 4200330,
+          "bytes": "ffd6"
+        }
+      ],
+      "inspected_lifetime_span": {
+        "start": 4200313,
+        "end": 4200332,
+        "sha256": "c4d7bb3404107bb999c1566165544bbad982e035b5a7e87473ca235d65afe56f"
+      },
+      "lifetime_evidence": "The exact straight-line instruction sequence loads ESI once, calls ESI twice, and contains no intervening ESI write. MSVCRT cdecl getenv preserves ESI."
+    },
+    {
+      "function": "_split_arguments",
+      "identity": {
+        "dll": "msvcrt.dll",
+        "name": "_mbsncmp"
+      },
+      "iat": 4235752,
+      "register": "ebx",
+      "load": 4214046,
+      "calls": [
+        4214082,
+        4214113,
+        4214147
+      ],
+      "instruction_sites": [
+        {
+          "address": 4214046,
+          "bytes": "8b1de8a14000"
+        },
+        {
+          "address": 4214082,
+          "bytes": "ffd3"
+        },
+        {
+          "address": 4214113,
+          "bytes": "ffd3"
+        },
+        {
+          "address": 4214147,
+          "bytes": "ffd3"
+        }
+      ],
+      "inspected_lifetime_span": {
+        "start": 4214046,
+        "end": 4214389,
+        "sha256": "b175529285e054d7d359e99ed84fb384a346ec2e4440ec531d9433028600dc43"
+      },
+      "lifetime_evidence": "Inspected complete loop and branch paths: register is loaded from this qualified IAT slot and not written before these calls. Cdecl callees preserve it. EDI is repurposed only at 00404e75 after the parsing loop; EBX becomes the allocated argument-vector pointer at 00404e8a.",
+      "reconstructed_source": "src/arguments.c calls the same original multibyte CRT APIs; /Od emits direct IAT calls.",
+      "tool_limitation": "Cached-register import resolution is not performed by the shared optional direct-import checker. This is explicit narrow manual evidence, not a general register-dataflow proof."
+    },
+    {
+      "function": "_split_arguments",
+      "identity": {
+        "dll": "msvcrt.dll",
+        "name": "_mbsinc"
+      },
+      "iat": 4235848,
+      "register": "edi",
+      "load": 4214052,
+      "calls": [
+        4214092,
+        4214136,
+        4214157,
+        4214247,
+        4214289,
+        4214346,
+        4214352
+      ],
+      "instruction_sites": [
+        {
+          "address": 4214052,
+          "bytes": "8b3d48a24000"
+        },
+        {
+          "address": 4214092,
+          "bytes": "ffd7"
+        },
+        {
+          "address": 4214136,
+          "bytes": "ffd7"
+        },
+        {
+          "address": 4214157,
+          "bytes": "ffd7"
+        },
+        {
+          "address": 4214247,
+          "bytes": "ffd7"
+        },
+        {
+          "address": 4214289,
+          "bytes": "ffd7"
+        },
+        {
+          "address": 4214346,
+          "bytes": "ffd7"
+        },
+        {
+          "address": 4214352,
+          "bytes": "ffd7"
+        }
+      ],
+      "inspected_lifetime_span": {
+        "start": 4214052,
+        "end": 4214389,
+        "sha256": "1ff38dec664d867b0e526dfaa8dab7dd1be4ee18af1ebd418c4db56e63cf0688"
+      },
+      "lifetime_evidence": "Inspected complete loop and branch paths: register is loaded from this qualified IAT slot and not written before these calls. Cdecl callees preserve it. EDI is repurposed only at 00404e75 after the parsing loop; EBX becomes the allocated argument-vector pointer at 00404e8a.",
+      "reconstructed_source": "src/arguments.c calls the same original multibyte CRT APIs; /Od emits direct IAT calls.",
+      "tool_limitation": "Cached-register import resolution is not performed by the shared optional direct-import checker. This is explicit narrow manual evidence, not a general register-dataflow proof."
+    },
+    {
+      "function": "_format_message",
+      "identity": {
+        "dll": "msvcrt.dll",
+        "name": "_mbsinc"
+      },
+      "iat": 4235848,
+      "register": "ebx",
+      "load": 4214977,
+      "calls": [
+        4215009,
+        4215062,
+        4215078,
+        4215084
+      ],
+      "instruction_sites": [
+        {
+          "address": 4214977,
+          "bytes": "8b1d48a24000"
+        },
+        {
+          "address": 4215009,
+          "bytes": "ffd3"
+        },
+        {
+          "address": 4215062,
+          "bytes": "ffd3"
+        },
+        {
+          "address": 4215078,
+          "bytes": "ffd3"
+        },
+        {
+          "address": 4215084,
+          "bytes": "ffd3"
+        }
+      ],
+      "inspected_lifetime_span": {
+        "start": 4214977,
+        "end": 4215136,
+        "sha256": "9e88a762c696aa39304bc4594ca7e391070eb7cb89da1b3827bacec3382f5189"
+      },
+      "lifetime_evidence": "Inspected complete formatting loop and string-buffer expansion paths. EBX is loaded once from MSVCRT!_mbsinc, never written in these paths, and preserved by all cdecl helper/import calls. It is popped only in the epilogue at00405163.",
+      "reconstructed_source": "src/messages.c calls the same original _mbsinc API; /Od emits direct IAT calls.",
+      "tool_limitation": "Explicit cached-register import residual; no general register-dataflow proof is claimed."
+    },
+    {
+      "function": "_validate_value",
+      "iat": 4235772,
+      "identity": {
+        "dll": "msvcrt.dll",
+        "name": "strtoul"
+      },
+      "register": "esi",
+      "instruction_sites": [
+        {
+          "address": 4198743,
+          "bytes": "8b35fca14000"
+        },
+        {
+          "address": 4198755,
+          "bytes": "ffd6"
+        },
+        {
+          "address": 4198808,
+          "bytes": "ffd6"
+        },
+        {
+          "address": 4198833,
+          "bytes": "ffd6"
+        }
+      ],
+      "inspected_lifetime_span": {
+        "start": 4198743,
+        "end": 4198912,
+        "sha256": "ddb77bd5dc41179dca12eecb4dfa5ff5195c2f664c5d4cc9f0b9347934ad0117"
+      },
+      "lifetime_evidence": "ESI receives actual qualified MSVCRT!strtoul slot at401157; no ESI assignment before all three ff d6 callsites or any CFG path through4011fd; MS x86 cdecl callees preserve ESI. Function epilogue restores caller ESI afterward. Explicit residual because the direct-import audit does not resolve cached-register calls."
+    },
+    {
+      "function": "_format_number",
+      "iat": 4235848,
+      "identity": {
+        "dll": "msvcrt.dll",
+        "name": "_mbsinc"
+      },
+      "register": "ebx",
+      "instruction_sites": [
+        {
+          "address": 4214781,
+          "bytes": "8b1d48a24000"
+        },
+        {
+          "address": 4214819,
+          "bytes": "ffd3"
+        },
+        {
+          "address": 4214865,
+          "bytes": "ffd3"
+        }
+      ],
+      "inspected_lifetime_span": {
+        "start": 4214781,
+        "end": 4214884,
+        "sha256": "9ad1df3beb622a4c9c638b66a6c15cb32a6c650f266c67ec5001176dbec97a50"
+      },
+      "lifetime_evidence": "Qualified IAT slot loaded once into callee-saved ebx; complete formatter loop inspection shows no subsequent assignment before all listed calls. All external cdecl calls preserve the register; caller value restored by epilogue. Explicit direct-import resolver residual."
+    },
+    {
+      "function": "_format_number",
+      "iat": 4235912,
+      "identity": {
+        "dll": "msvcrt.dll",
+        "name": "_mbccpy"
+      },
+      "register": "edi",
+      "instruction_sites": [
+        {
+          "address": 4214789,
+          "bytes": "8b3d88a24000"
+        },
+        {
+          "address": 4214814,
+          "bytes": "ffd7"
+        },
+        {
+          "address": 4214858,
+          "bytes": "ffd7"
+        }
+      ],
+      "inspected_lifetime_span": {
+        "start": 4214789,
+        "end": 4214884,
+        "sha256": "1185dca15be49ad715e886223a8062a71005b0fd17df5c27cca0f14f619ab0ee"
+      },
+      "lifetime_evidence": "Qualified IAT slot loaded once into callee-saved edi; complete formatter loop inspection shows no subsequent assignment before all listed calls. All external cdecl calls preserve the register; caller value restored by epilogue. Explicit direct-import resolver residual."
+    }
+  ]
+}

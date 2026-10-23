@@ -1,0 +1,93 @@
+{
+  "schema": 1,
+  "functions": {
+    "_mainCRTStartup": {
+      "original": {
+        "roots": [
+          4217326,
+          4217347
+        ],
+        "text_data": [],
+        "switches": {}
+      },
+      "rebuilt": {
+        "roots": [
+          4209262,
+          4209283
+        ],
+        "text_data": [],
+        "switches": {}
+      }
+    },
+    "_main": {
+      "original": {
+        "roots": [
+          4201109,
+          4201139
+        ],
+        "text_data": [],
+        "switches": {}
+      },
+      "rebuilt": {
+        "roots": [
+          4203950,
+          4203998
+        ],
+        "text_data": [],
+        "switches": {}
+      }
+    },
+    "_read_option": {
+      "original": {
+        "roots": [],
+        "text_data": [],
+        "switches": {}
+      },
+      "rebuilt": {
+        "roots": [],
+        "text_data": [
+          [
+            4208408,
+            4208462
+          ]
+        ],
+        "switches": {
+          "4207985": [
+            4208080,
+            4208058,
+            4208036,
+            4208014,
+            4207992,
+            4208102
+          ]
+        }
+      }
+    },
+    "_format_message": {
+      "original": {
+        "roots": [],
+        "text_data": [],
+        "switches": {}
+      },
+      "rebuilt": {
+        "roots": [],
+        "text_data": [
+          [
+            4204909,
+            4204951
+          ]
+        ],
+        "switches": {
+          "4204410": [
+            4204690,
+            4204621,
+            4204417,
+            4204621,
+            4204728
+          ]
+        }
+      }
+    }
+  },
+  "callback_tables": []
+}

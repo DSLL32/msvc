@@ -1,0 +1,98 @@
+{
+  "schema": 1,
+  "kind": "canonical shipped-MSVCRT original help reference",
+  "status": 0,
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "loaded_msvcrt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "streams": {
+    "stdout": "5b8a5b4f29a78454f1a650cb40dc7000b467474006846a241f117352ffb55950",
+    "stderr": "e40236c70e917f52edd96f3ff819cf86b89131f2dda961960f78fe90e188ae45"
+  },
+  "original_capture": {
+    "schema": 1,
+    "case": "help",
+    "arguments": [
+      "/?"
+    ],
+    "baseline": true,
+    "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+    "config_sha256": "4985e864f293a5dbd4dc0cd8040991e9a8f82de9395e01b08ee27f84b55fac46",
+    "original_mask_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+    "helper_status": 0,
+    "loaded_msvcrt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "helper_sha256": "2648da541db80baae46c115ace89b295fb106aff20c567ecf46ca31684428a5a",
+    "helper_source_sha256": "83167e517b92f1bb57b90ba8e38986e9cfcf8fc090830662da3fa94f0f11ae12",
+    "command": [
+      "/usr/bin/wine",
+      "S:\\vc5.10\\cl\\canonical-help-baseline\\reference-debugger.exe",
+      "S:\\vc5.10\\cl\\canonical-help-baseline\\CL.EXE",
+      "/?",
+      "S:\\vc5.10\\cl\\canonical-help-baseline",
+      "0"
+    ],
+    "environment": {
+      "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
+      "WINEDLLOVERRIDES": "msvcrt=n",
+      "INCLUDE": "R:\\toolchains\\5.10\\include",
+      "LIB": "R:\\toolchains\\5.10\\lib",
+      "WINEPATH": "R:\\toolchains\\5.10\\bin",
+      "TMP": ".",
+      "TEMP": "."
+    },
+    "timing": {
+      "setup_seconds": 0.005244387313723564,
+      "reference_execution_seconds": 0.5991710377857089
+    },
+    "files": {
+      "stderr.bin": {
+        "sha256": "e40236c70e917f52edd96f3ff819cf86b89131f2dda961960f78fe90e188ae45",
+        "bytes": 141
+      },
+      "events.txt": {
+        "sha256": "f5f5f300d866067500cdbe4c31f9370b513bf5febd2db6dd0028b17f19a65a38",
+        "bytes": 1628
+      },
+      "CL.EXE": {
+        "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+        "bytes": 46080
+      },
+      "stdout.bin": {
+        "sha256": "5b8a5b4f29a78454f1a650cb40dc7000b467474006846a241f117352ffb55950",
+        "bytes": 3976
+      },
+      "helper.stdout": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      },
+      "MSVCRT.DLL": {
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+        "bytes": 277776
+      },
+      "loaded-msvcrt.bin": {
+        "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+        "bytes": 277776
+      },
+      "reference-debugger.exe": {
+        "sha256": "2648da541db80baae46c115ace89b295fb106aff20c567ecf46ca31684428a5a",
+        "bytes": 52224
+      },
+      "config.json": {
+        "sha256": "4985e864f293a5dbd4dc0cd8040991e9a8f82de9395e01b08ee27f84b55fac46",
+        "bytes": 577
+      },
+      "loaded-mspdb50.bin": {
+        "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+        "bytes": 167424
+      },
+      "MSPDB50.DLL": {
+        "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+        "bytes": 167424
+      },
+      "helper.stderr": {
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "bytes": 0
+      }
+    }
+  },
+  "note": "Earlier builtin-provider groundwork probes remain historical and separate."
+}

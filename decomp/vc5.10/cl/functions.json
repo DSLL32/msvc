@@ -1,0 +1,1357 @@
+{
+  "schema": 1,
+  "target": {
+    "path": "toolchains/5.10/bin/CL.EXE",
+    "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+    "entry": 4217056
+  },
+  "accepted": [
+    "_mainCRTStartup",
+    "_main",
+    "_install_control_handler",
+    "_split_arguments",
+    "_count_arguments",
+    "_program_name",
+    "_initialize_driver",
+    "import:memset",
+    "_program_directory",
+    "import:strlen",
+    "import:strcat",
+    "_duplicate",
+    "_has_nologo",
+    "_show_banner",
+    "_load_string",
+    "_write_message",
+    "_format_message",
+    "import:strcpy",
+    "import:memcpy",
+    "_allocate",
+    "_parse_arguments",
+    "_find_special",
+    "_has_prefix",
+    "_match_option",
+    "_find_rule",
+    "_match_pattern",
+    "_read_option",
+    "_new_option",
+    "_append_option",
+    "_expand_options",
+    "_skip_space",
+    "_expand_word",
+    "_append_literal",
+    "_detach_options",
+    "_delete_options",
+    "_options_match",
+    "import:strcmp",
+    "_validate_value",
+    "_format_number",
+    "_delete_option",
+    "_release",
+    "_apply_special",
+    "_expand_alternative",
+    "_apply_extension"
+  ],
+  "driver": [
+    {
+      "name": "_main",
+      "start": 4200259,
+      "end": 4201197,
+      "pending_extent": false,
+      "state": "reconstructed full entry routine; candidate pending fresh proof",
+      "native_symbol": "main",
+      "evidence": {
+        "kind": "readable full-function reconstruction",
+        "source": "src/main.c",
+        "analysis": "00401743..00401aed including SEH filter and handler"
+      }
+    },
+    {
+      "name": "_install_control_handler",
+      "start": 4216756,
+      "end": 4216770,
+      "pending_extent": false,
+      "state": "reconstructed; awaiting fresh candidate proof",
+      "native_symbol": "install_control_handler",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/console.c"
+      }
+    },
+    {
+      "name": "_split_arguments",
+      "start": 4213969,
+      "end": 4214481,
+      "pending_extent": false,
+      "state": "full command-line parser reconstructed; awaiting fresh proof",
+      "native_symbol": "split_arguments",
+      "evidence": {
+        "kind": "readable whole-function reconstruction",
+        "source": "src/arguments.c"
+      }
+    },
+    {
+      "name": "_count_arguments",
+      "start": 4202806,
+      "end": 4202831,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "count_arguments",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/arguments.c"
+      }
+    },
+    {
+      "name": "_program_name",
+      "start": 4203451,
+      "end": 4203460,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "program_name",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/driver.c"
+      }
+    },
+    {
+      "name": "_initialize_driver",
+      "start": 4203241,
+      "end": 4203289,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "initialize_driver",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/driver.c"
+      },
+      "import_support": [
+        "import:memset"
+      ]
+    },
+    {
+      "name": "_show_usage",
+      "start": 4205450,
+      "end": 4205451,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "show_usage"
+    },
+    {
+      "name": "_has_nologo",
+      "start": 4202831,
+      "end": 4203241,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "has_nologo",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/arguments.c"
+      }
+    },
+    {
+      "name": "_show_banner",
+      "start": 4206004,
+      "end": 4206053,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "show_banner",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/messages.c"
+      }
+    },
+    {
+      "name": "_parse_arguments",
+      "start": 4201197,
+      "end": 4201447,
+      "state": "reconstructed",
+      "native_symbol": "parse_arguments",
+      "evidence": {
+        "kind": "complete body disassembly",
+        "range": "00401aed..00401be7"
+      }
+    },
+    {
+      "name": "_write_message",
+      "start": 4214889,
+      "end": 4214930,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "write_message",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/messages.c"
+      }
+    },
+    {
+      "name": "_finish_options",
+      "start": 4204851,
+      "end": 4204852,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "finish_options"
+    },
+    {
+      "name": "_prepare_inputs",
+      "start": 4204617,
+      "end": 4204618,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "prepare_inputs"
+    },
+    {
+      "name": "_prepare_environment",
+      "start": 4203289,
+      "end": 4203290,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "prepare_environment"
+    },
+    {
+      "name": "_show_help",
+      "start": 4215461,
+      "end": 4215462,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "show_help"
+    },
+    {
+      "name": "_allocate",
+      "start": 4215957,
+      "end": 4215986,
+      "state": "reconstructed",
+      "native_symbol": "allocate",
+      "evidence": {
+        "kind": "complete original body disassembly",
+        "range": "00405495..004054b2",
+        "logic": "malloc requested bytes, fatal(0) on NULL, return allocation"
+      }
+    },
+    {
+      "name": "_append_text",
+      "start": 4213376,
+      "end": 4213377,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "append_text"
+    },
+    {
+      "name": "_warning",
+      "start": 4215738,
+      "end": 4215739,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "warning"
+    },
+    {
+      "name": "_release",
+      "start": 4215986,
+      "end": 4216005,
+      "state": "reconstructed",
+      "native_symbol": "release",
+      "evidence": {
+        "kind": "complete null-guarded CRT free body disassembly",
+        "range": "004054b2..004054c5"
+      }
+    },
+    {
+      "name": "_fatal",
+      "start": 4215649,
+      "end": 4215650,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "fatal"
+    },
+    {
+      "name": "_prepare_execution",
+      "start": 4216832,
+      "end": 4216833,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "prepare_execution"
+    },
+    {
+      "name": "_run_driver",
+      "start": 4207404,
+      "end": 4207405,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "run_driver"
+    },
+    {
+      "name": "_driver_exit",
+      "start": 4214746,
+      "end": 4214747,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "driver_exit"
+    },
+    {
+      "name": "_console_control_handler@4",
+      "native_symbol": "console_control_handler",
+      "start": 4216770,
+      "end": 4216771,
+      "pending_extent": true,
+      "state": "named INT3 callback frontier"
+    },
+    {
+      "name": "_skip_space",
+      "native_symbol": "skip_space",
+      "start": 4213190,
+      "end": 4213232,
+      "state": "reconstructed",
+      "evidence": {
+        "kind": "complete multibyte whitespace loop disassembly",
+        "range": "004049c6..004049f0"
+      }
+    },
+    {
+      "name": "_program_directory",
+      "native_symbol": "program_directory",
+      "start": 4206053,
+      "end": 4206187,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/driver.c"
+      },
+      "import_support": [
+        "import:strlen",
+        "import:strcat"
+      ]
+    },
+    {
+      "name": "_duplicate",
+      "native_symbol": "duplicate",
+      "start": 4216005,
+      "end": 4216044,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/driver.c"
+      }
+    },
+    {
+      "name": "_load_string",
+      "native_symbol": "load_string",
+      "start": 4215604,
+      "end": 4215649,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "evidence": {
+        "kind": "readable function reconstruction with encountered resources",
+        "source": "src/messages.c"
+      }
+    },
+    {
+      "name": "_format_message",
+      "native_symbol": "format_message",
+      "start": 4214930,
+      "end": 4215346,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "evidence": {
+        "kind": "readable whole-function reconstruction",
+        "source": "src/messages.c"
+      },
+      "import_support": [
+        "import:strcpy",
+        "import:memcpy",
+        "import:strlen"
+      ]
+    },
+    {
+      "name": "_format_number",
+      "native_symbol": "format_number",
+      "start": 4214766,
+      "end": 4214889,
+      "state": "reconstructed",
+      "evidence": {
+        "kind": "complete unsigned-division digit reversal body disassembly",
+        "range": "00404fee..00405069"
+      }
+    },
+    {
+      "name": "_read_response",
+      "start": 4206992,
+      "end": 4206993,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "read_response"
+    },
+    {
+      "name": "_classify_input",
+      "start": 4198400,
+      "end": 4198401,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "classify_input"
+    },
+    {
+      "name": "_add_input",
+      "start": 4198548,
+      "end": 4198549,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "add_input"
+    },
+    {
+      "name": "_find_special",
+      "start": 4202502,
+      "end": 4202559,
+      "state": "reconstructed",
+      "native_symbol": "find_special",
+      "evidence": {
+        "kind": "complete body and four grouped option records encountered in prefix lookup",
+        "range": "00402006..0040203f",
+        "records": "EH/G/O/Z at 004062d8..00406300"
+      }
+    },
+    {
+      "name": "_apply_special",
+      "start": 4202559,
+      "end": 4202768,
+      "state": "reconstructed",
+      "native_symbol": "apply_special",
+      "evidence": {
+        "kind": "complete grouped-option suffix expansion body disassembly",
+        "range": "0040203f..00402110"
+      }
+    },
+    {
+      "name": "_match_option",
+      "start": 4201447,
+      "end": 4202011,
+      "state": "reconstructed",
+      "native_symbol": "match_option",
+      "evidence": {
+        "kind": "complete body disassembly",
+        "range": "00401be7..00401e1b"
+      }
+    },
+    {
+      "name": "_has_prefix",
+      "start": 4202768,
+      "end": 4202806,
+      "state": "reconstructed",
+      "native_symbol": "has_prefix",
+      "evidence": {
+        "kind": "complete body disassembly",
+        "range": "00402110..00402136"
+      }
+    },
+    {
+      "name": "_find_rule",
+      "start": 4202084,
+      "end": 4202192,
+      "state": "reconstructed",
+      "native_symbol": "find_rule",
+      "evidence": {
+        "kind": "complete body and contextual typed 174-rule grammar",
+        "range": "00401e64..00401ed0",
+        "data": "src/rules.c option_rules; original 00406340..004070ec including terminator"
+      }
+    },
+    {
+      "name": "_read_option",
+      "start": 4198917,
+      "end": 4199314,
+      "state": "reconstructed",
+      "native_symbol": "read_option",
+      "evidence": {
+        "kind": "complete body disassembly with mode-tagged callback ABI",
+        "range": "00401205..00401392"
+      }
+    },
+    {
+      "name": "_new_option",
+      "start": 4199314,
+      "end": 4199407,
+      "state": "reconstructed",
+      "native_symbol": "new_option",
+      "evidence": {
+        "kind": "complete body and free-list ownership disassembly",
+        "range": "00401392..004013ef"
+      }
+    },
+    {
+      "name": "_append_option",
+      "start": 4200036,
+      "end": 4200055,
+      "state": "reconstructed",
+      "native_symbol": "append_option",
+      "evidence": {
+        "kind": "complete body disassembly",
+        "range": "00401664..00401677"
+      }
+    },
+    {
+      "name": "_expand_options",
+      "start": 4199762,
+      "end": 4200036,
+      "state": "reconstructed",
+      "native_symbol": "expand_options",
+      "evidence": {
+        "kind": "complete expansion body, pass-prefix inheritance and flag fields",
+        "range": "00401552..00401664"
+      }
+    },
+    {
+      "name": "_detach_options",
+      "start": 4202192,
+      "end": 4202352,
+      "state": "reconstructed",
+      "native_symbol": "detach_options",
+      "evidence": {
+        "kind": "complete matching/removal/default-preservation body disassembly",
+        "range": "00401ed0..00401f70"
+      }
+    },
+    {
+      "name": "_delete_options",
+      "start": 4202011,
+      "end": 4202037,
+      "state": "reconstructed",
+      "native_symbol": "delete_options",
+      "evidence": {
+        "kind": "complete chain-deletion loop disassembly",
+        "range": "00401e1b..00401e35"
+      }
+    },
+    {
+      "name": "_option_conflict",
+      "start": 4202418,
+      "end": 4202419,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "option_conflict"
+    },
+    {
+      "name": "_match_pattern",
+      "start": 4199407,
+      "end": 4199488,
+      "state": "reconstructed",
+      "native_symbol": "match_pattern",
+      "evidence": {
+        "kind": "complete body disassembly",
+        "range": "004013ef..00401440"
+      }
+    },
+    {
+      "name": "_define_macro",
+      "start": 4205612,
+      "end": 4205613,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "define_macro"
+    },
+    {
+      "name": "_link_arguments",
+      "start": 4205489,
+      "end": 4205490,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "link_arguments"
+    },
+    {
+      "name": "_c_input",
+      "start": 4205860,
+      "end": 4205861,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "c_input"
+    },
+    {
+      "name": "_cpp_input",
+      "start": 4205886,
+      "end": 4205887,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "cpp_input"
+    },
+    {
+      "name": "_object_input",
+      "start": 4205834,
+      "end": 4205835,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "object_input"
+    },
+    {
+      "name": "_validate_value",
+      "start": 4198680,
+      "end": 4198917,
+      "state": "reconstructed",
+      "native_symbol": "validate_value",
+      "evidence": {
+        "kind": "complete numeric parsing/range/default body disassembly",
+        "range": "00401118..00401205"
+      }
+    },
+    {
+      "name": "_expand_word",
+      "start": 4199565,
+      "end": 4199762,
+      "state": "reconstructed",
+      "native_symbol": "expand_word",
+      "evidence": {
+        "kind": "complete word-substitution and delimiter body disassembly",
+        "range": "0040148d..00401552"
+      }
+    },
+    {
+      "name": "_expand_alternative",
+      "start": 4199488,
+      "end": 4199565,
+      "state": "reconstructed",
+      "native_symbol": "expand_alternative",
+      "evidence": {
+        "kind": "complete alternative expansion and shared fallback buffer body disassembly",
+        "range": "00401440..0040148d"
+      }
+    },
+    {
+      "name": "_append_literal",
+      "start": 4213232,
+      "end": 4213268,
+      "state": "reconstructed",
+      "native_symbol": "append_literal",
+      "evidence": {
+        "kind": "complete body disassembly",
+        "range": "004049f0..00404a14"
+      }
+    },
+    {
+      "name": "_append_escaped",
+      "start": 4213268,
+      "end": 4213269,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "append_escaped"
+    },
+    {
+      "name": "_apply_extension",
+      "start": 4205300,
+      "end": 4205450,
+      "state": "reconstructed",
+      "native_symbol": "apply_extension",
+      "evidence": {
+        "kind": "complete conditional replacement/default basename extension body disassembly",
+        "range": "00402af4..00402b8a"
+      }
+    },
+    {
+      "name": "_options_match",
+      "start": 4200055,
+      "end": 4200259,
+      "state": "reconstructed",
+      "native_symbol": "options_match",
+      "evidence": {
+        "kind": "complete name/argument wildcard-comparison body disassembly",
+        "range": "00401677..00401743"
+      },
+      "import_support": [
+        "import:strcmp"
+      ]
+    },
+    {
+      "name": "_copy_option",
+      "start": 4202352,
+      "end": 4202353,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "copy_option"
+    },
+    {
+      "name": "_unlink_option",
+      "start": 4202385,
+      "end": 4202386,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "unlink_option"
+    },
+    {
+      "name": "_delete_option",
+      "start": 4202037,
+      "end": 4202084,
+      "state": "reconstructed",
+      "native_symbol": "delete_option",
+      "evidence": {
+        "kind": "complete payload release/node recycling body disassembly",
+        "range": "00401e35..00401e64"
+      }
+    },
+    {
+      "name": "_find_last_separator",
+      "start": 4213908,
+      "end": 4213909,
+      "pending_extent": true,
+      "state": "named INT3 frontier",
+      "native_symbol": "find_last_separator"
+    }
+  ],
+  "runtime": [
+    {
+      "name": "_mainCRTStartup",
+      "start": 4217056,
+      "end": 4217392,
+      "evidence": {
+        "library": "MSVCRT.LIB",
+        "library_sha256": "e0a55e77c6005cacc86783688dd5d372bee6dda9c994493edbe583cd2b367be2",
+        "member": "build\\intel\\dll_obj\\crtexe.obj",
+        "member_sha256": "0433c241187a6b9c46a485f18d9c59d7a1ce8ee822817ecb05ce94fd65ac3cdb",
+        "bindings": [
+          {
+            "section": ".text",
+            "offset": 6,
+            "symbol": "$T7942",
+            "kind": 6,
+            "actual": 4228440,
+            "expected": 4228440
+          },
+          {
+            "section": ".text",
+            "offset": 11,
+            "symbol": "__except_handler3",
+            "kind": 6,
+            "actual": 4217008,
+            "expected": 4217008
+          },
+          {
+            "section": ".text",
+            "offset": 17,
+            "symbol": "__except_list",
+            "kind": 6,
+            "actual": 0,
+            "expected": 0
+          },
+          {
+            "section": ".text",
+            "offset": 25,
+            "symbol": "__except_list",
+            "kind": 6,
+            "actual": 0,
+            "expected": 0
+          },
+          {
+            "section": ".text",
+            "offset": 49,
+            "symbol": "__imp____set_app_type",
+            "kind": 6,
+            "actual": 4236008,
+            "expected": 4236008
+          },
+          {
+            "section": ".text",
+            "offset": 58,
+            "symbol": "___onexitend",
+            "kind": 6,
+            "actual": 4233156,
+            "expected": 4233156
+          },
+          {
+            "section": ".text",
+            "offset": 68,
+            "symbol": "___onexitbegin",
+            "kind": 6,
+            "actual": 4233160,
+            "expected": 4233160
+          },
+          {
+            "section": ".text",
+            "offset": 78,
+            "symbol": "__imp____p__fmode",
+            "kind": 6,
+            "actual": 4236004,
+            "expected": 4236004
+          },
+          {
+            "section": ".text",
+            "offset": 84,
+            "symbol": "__fmode",
+            "kind": 6,
+            "actual": 4233152,
+            "expected": 4233152
+          },
+          {
+            "section": ".text",
+            "offset": 92,
+            "symbol": "__imp____p__commode",
+            "kind": 6,
+            "actual": 4236000,
+            "expected": 4236000
+          },
+          {
+            "section": ".text",
+            "offset": 98,
+            "symbol": "__commode",
+            "kind": 6,
+            "actual": 4233148,
+            "expected": 4233148
+          },
+          {
+            "section": ".text",
+            "offset": 105,
+            "symbol": "__imp___adjust_fdiv",
+            "kind": 6,
+            "actual": 4235996,
+            "expected": 4235996
+          },
+          {
+            "section": ".text",
+            "offset": 113,
+            "symbol": "__adjust_fdiv",
+            "kind": 6,
+            "actual": 4233164,
+            "expected": 4233164
+          },
+          {
+            "section": ".text",
+            "offset": 118,
+            "symbol": "__setargv",
+            "kind": 20,
+            "actual": 4216960,
+            "expected": 4216960
+          },
+          {
+            "section": ".text",
+            "offset": 123,
+            "symbol": "___defaultmatherr",
+            "kind": 6,
+            "actual": 4231600,
+            "expected": 4231600
+          },
+          {
+            "section": ".text",
+            "offset": 132,
+            "symbol": "__matherr",
+            "kind": 6,
+            "actual": 4217440,
+            "expected": 4217440
+          },
+          {
+            "section": ".text",
+            "offset": 138,
+            "symbol": "__imp____setusermatherr",
+            "kind": 6,
+            "actual": 4235992,
+            "expected": 4235992
+          },
+          {
+            "section": ".text",
+            "offset": 146,
+            "symbol": "__setdefaultprecision",
+            "kind": 20,
+            "actual": 4217408,
+            "expected": 4217408
+          },
+          {
+            "section": ".text",
+            "offset": 151,
+            "symbol": "___xi_z",
+            "kind": 6,
+            "actual": 4231180,
+            "expected": 4231180
+          },
+          {
+            "section": ".text",
+            "offset": 156,
+            "symbol": "___xi_a",
+            "kind": 6,
+            "actual": 4231176,
+            "expected": 4231176
+          },
+          {
+            "section": ".text",
+            "offset": 161,
+            "symbol": "__initterm",
+            "kind": 20,
+            "actual": 4217398,
+            "expected": 4217398
+          },
+          {
+            "section": ".text",
+            "offset": 170,
+            "symbol": "__newmode",
+            "kind": 6,
+            "actual": 4233144,
+            "expected": 4233144
+          },
+          {
+            "section": ".text",
+            "offset": 183,
+            "symbol": "__dowildcard",
+            "kind": 6,
+            "actual": 4233140,
+            "expected": 4233140
+          },
+          {
+            "section": ".text",
+            "offset": 202,
+            "symbol": "__imp____getmainargs",
+            "kind": 6,
+            "actual": 4235908,
+            "expected": 4235908
+          },
+          {
+            "section": ".text",
+            "offset": 210,
+            "symbol": "___xc_z",
+            "kind": 6,
+            "actual": 4231172,
+            "expected": 4231172
+          },
+          {
+            "section": ".text",
+            "offset": 215,
+            "symbol": "___xc_a",
+            "kind": 6,
+            "actual": 4231168,
+            "expected": 4231168
+          },
+          {
+            "section": ".text",
+            "offset": 220,
+            "symbol": "__initterm",
+            "kind": 20,
+            "actual": 4217398,
+            "expected": 4217398
+          },
+          {
+            "section": ".text",
+            "offset": 229,
+            "symbol": "__imp____p___initenv",
+            "kind": 6,
+            "actual": 4235984,
+            "expected": 4235984
+          },
+          {
+            "section": ".text",
+            "offset": 251,
+            "symbol": "_main",
+            "kind": 20,
+            "actual": 4200259,
+            "expected": 4200259
+          },
+          {
+            "section": ".text",
+            "offset": 264,
+            "symbol": "__imp__exit",
+            "kind": 6,
+            "actual": 4235860,
+            "expected": 4235860
+          },
+          {
+            "section": ".text",
+            "offset": 283,
+            "symbol": "__XcptFilter",
+            "kind": 20,
+            "actual": 4217392,
+            "expected": 4217392
+          },
+          {
+            "section": ".text",
+            "offset": 300,
+            "symbol": "__imp___exit",
+            "kind": 6,
+            "actual": 4235888,
+            "expected": 4235888
+          },
+          {
+            "section": ".text",
+            "offset": 320,
+            "symbol": "__except_list",
+            "kind": 6,
+            "actual": 0,
+            "expected": 0
+          },
+          {
+            "section": ".rdata",
+            "offset": 4,
+            "symbol": "$L7938",
+            "kind": 6,
+            "actual": 4217326,
+            "expected": 4217326
+          },
+          {
+            "section": ".rdata",
+            "offset": 8,
+            "symbol": "$L7939",
+            "kind": 6,
+            "actual": 4217347,
+            "expected": 4217347
+          }
+        ],
+        "context_sections": {
+          "1": 4217056,
+          "2": 4228440
+        },
+        "initial_data": {
+          "__fmode": {
+            "address": 4233152,
+            "bytes": "00000000",
+            "source": "zero-initialized common storage"
+          },
+          "__commode": {
+            "address": 4233148,
+            "bytes": "00000000",
+            "source": "zero-initialized common storage"
+          },
+          "__newmode": {
+            "address": 4233144,
+            "bytes": "00000000",
+            "source": "zero-initialized common storage"
+          },
+          "__dowildcard": {
+            "address": 4233140,
+            "bytes": "00000000",
+            "source": "zero-initialized common storage"
+          },
+          "___defaultmatherr": {
+            "address": 4231600,
+            "bytes": "01000000",
+            "source": "merr.obj .data"
+          },
+          "__adjust_fdiv": {
+            "address": 4233164,
+            "bytes": "00000000",
+            "source": "zero-initialized common storage"
+          },
+          "___onexitbegin": {
+            "address": 4233160,
+            "bytes": "00000000",
+            "source": "zero-initialized common storage"
+          },
+          "___onexitend": {
+            "address": 4233156,
+            "bytes": "00000000",
+            "source": "zero-initialized common storage"
+          }
+        }
+      },
+      "native_boundary": "external CRT startup contract; no application coverage",
+      "support_closure": [
+        "___setargv",
+        "__setdefaultprecision",
+        "__matherr",
+        "__setargv",
+        "import:_except_handler3",
+        "import:_XcptFilter",
+        "import:_initterm",
+        "import:_controlfp"
+      ]
+    },
+    {
+      "name": "___setargv",
+      "start": 4217040,
+      "end": 4217056,
+      "evidence": {
+        "library": "MSVCRT.LIB",
+        "library_sha256": "e0a55e77c6005cacc86783688dd5d372bee6dda9c994493edbe583cd2b367be2",
+        "member": "build\\intel\\dll_obj\\dll_argv.obj",
+        "member_sha256": "363071655dd507cb9f3c9dc9a64bc3b77f35ecd085fd51f74b96b38b6874d0ef",
+        "bindings": [
+          {
+            "section": ".text",
+            "offset": 2,
+            "symbol": "__dowildcard",
+            "kind": 6,
+            "actual": 4233140,
+            "expected": 4233140
+          }
+        ],
+        "context_sections": {
+          "1": 4217040
+        },
+        "initial_data": {}
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "__setdefaultprecision",
+      "start": 4217408,
+      "end": 4217440,
+      "evidence": {
+        "library": "MSVCRT.LIB",
+        "library_sha256": "e0a55e77c6005cacc86783688dd5d372bee6dda9c994493edbe583cd2b367be2",
+        "member": "build\\intel\\dll_obj\\fp8.obj",
+        "member_sha256": "2121abdca03f2b269946d003463dae2526bfccdd8011d50479759eeb3f07a716",
+        "bindings": [
+          {
+            "section": ".text",
+            "offset": 11,
+            "symbol": "__controlfp",
+            "kind": 20,
+            "actual": 4217456,
+            "expected": 4217456
+          }
+        ],
+        "context_sections": {
+          "1": 4217408
+        },
+        "initial_data": {}
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "__matherr",
+      "start": 4217440,
+      "end": 4217456,
+      "evidence": {
+        "library": "MSVCRT.LIB",
+        "library_sha256": "e0a55e77c6005cacc86783688dd5d372bee6dda9c994493edbe583cd2b367be2",
+        "member": "build\\intel\\dll_obj\\merr.obj",
+        "member_sha256": "9155a1ccc009f2764164035c65b78e9594cfc9d0c8792ea23dbfd607c779b92e",
+        "bindings": [],
+        "context_sections": {
+          "2": 4217440
+        },
+        "initial_data": {}
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "__setargv",
+      "start": 4216960,
+      "end": 4216976,
+      "evidence": {
+        "library": "SETARGV.OBJ",
+        "library_sha256": "9879ac8c0f46480c1967e9eec669f91af5c37b8a200f3bbe6c57aa7502098ea5",
+        "member": "SETARGV.OBJ",
+        "member_sha256": "9879ac8c0f46480c1967e9eec669f91af5c37b8a200f3bbe6c57aa7502098ea5",
+        "bindings": [
+          {
+            "section": ".text",
+            "offset": 1,
+            "symbol": "___setargv",
+            "kind": 20,
+            "actual": 4217040,
+            "expected": 4217040
+          }
+        ],
+        "context_sections": {
+          "1": 4216960
+        },
+        "initial_data": {}
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:_except_handler3",
+      "start": 4217008,
+      "end": 4217014,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235804,
+        "import_symbol": "__except_handler3"
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:_XcptFilter",
+      "start": 4217392,
+      "end": 4217398,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235980,
+        "import_symbol": "__XcptFilter"
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:_initterm",
+      "start": 4217398,
+      "end": 4217404,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235988,
+        "import_symbol": "__initterm"
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:_controlfp",
+      "start": 4217456,
+      "end": 4217462,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235976,
+        "import_symbol": "__controlfp"
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:memset",
+      "start": 4216982,
+      "end": 4216988,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235784,
+        "import_symbol": "_memset",
+        "qualified_identity": {
+          "dll": "msvcrt.dll",
+          "name": "memset"
+        },
+        "abi": {
+          "calling_convention": "cdecl",
+          "arguments": [
+            "void *",
+            "int",
+            "size_t"
+          ],
+          "result": "void *",
+          "argument_bytes": 12,
+          "caller_cleanup": true,
+          "encountered_in": "_initialize_driver"
+        }
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:strlen",
+      "start": 4216988,
+      "end": 4216994,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235788,
+        "import_symbol": "_strlen",
+        "qualified_identity": {
+          "dll": "msvcrt.dll",
+          "name": "strlen"
+        },
+        "abi": {
+          "calling_convention": "cdecl",
+          "arguments": [
+            "const char *"
+          ],
+          "result": "size_t",
+          "argument_bytes": 4,
+          "caller_cleanup": true,
+          "encountered_in": "_program_directory"
+        }
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:strcat",
+      "start": 4217020,
+      "end": 4217026,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235852,
+        "import_symbol": "_strcat",
+        "qualified_identity": {
+          "dll": "msvcrt.dll",
+          "name": "strcat"
+        },
+        "abi": {
+          "calling_convention": "cdecl",
+          "arguments": [
+            "char *",
+            "const char *"
+          ],
+          "result": "char *",
+          "argument_bytes": 8,
+          "caller_cleanup": true,
+          "encountered_in": "_program_directory"
+        }
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:strcpy",
+      "start": 4216976,
+      "end": 4216982,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235776,
+        "import_symbol": "_strcpy",
+        "qualified_identity": {
+          "dll": "msvcrt.dll",
+          "name": "strcpy"
+        },
+        "abi": {
+          "calling_convention": "cdecl",
+          "arguments": [
+            "char *",
+            "const char *"
+          ],
+          "result": "char *",
+          "argument_bytes": 8,
+          "caller_cleanup": true,
+          "encountered_in": "_format_message"
+        }
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:memcpy",
+      "start": 4217014,
+      "end": 4217020,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235812,
+        "import_symbol": "_memcpy",
+        "qualified_identity": {
+          "dll": "msvcrt.dll",
+          "name": "memcpy"
+        },
+        "abi": {
+          "calling_convention": "cdecl",
+          "arguments": [
+            "void *",
+            "const void *",
+            "size_t"
+          ],
+          "result": "void *",
+          "argument_bytes": 12,
+          "caller_cleanup": true,
+          "encountered_in": "_format_message"
+        }
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    },
+    {
+      "name": "import:strcmp",
+      "start": 4216994,
+      "end": 4217000,
+      "evidence": {
+        "kind": "exact FF25 IAT import thunk",
+        "iat": 4235796,
+        "import_symbol": "_strcmp",
+        "qualified_identity": {
+          "dll": "msvcrt.dll",
+          "name": "strcmp"
+        },
+        "abi": {
+          "calling_convention": "cdecl",
+          "arguments": [
+            "const char *",
+            "const char *"
+          ],
+          "result": "int",
+          "argument_bytes": 8,
+          "caller_cleanup": true,
+          "encountered_in": "_options_match"
+        }
+      },
+      "native_boundary": "external CRT startup contract; no application coverage"
+    }
+  ],
+  "initial_frontier": {
+    "logical_name": "_mainCRTStartup",
+    "original": 4217056,
+    "native_symbol": "startup_frontier"
+  },
+  "acceptance_reviewed": true,
+  "native_symbol_history": [
+    {
+      "name": "_main",
+      "previous_native_symbol": "cl_main",
+      "current_native_symbol": "main",
+      "reason": "Known target entry name preserved; Linux CRT adapted by uninstrumented --wrap=main host unit. Historical raw captures retain cl_main unchanged."
+    }
+  ]
+}

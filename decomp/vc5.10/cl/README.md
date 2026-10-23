@@ -1,10 +1,33 @@
-# CL.EXE 5.10 groundwork
+# CL.EXE 5.10 reconstruction
 
-Reconstruction has **not started**. There are no reconstructed target functions,
-accepted extents, masked originals, regression oracles or coverage claims.
-`make -j4 inspect` verifies the read-only PE inventory. `native`, `original` and
-`fixtures` deliberately fail until the orchestrator approves the DLL workflow,
-the Rust graph auditor is ready and reconstruction is explicitly started.
+Only the first `/?` case is authorized; finish it, then pause. The current
+checkpoint has 37 accepted application functions (6,117 original bytes) and
+476 separately counted CRT/import support bytes. The whole `.text` denominator
+is 19,062 bytes; a complete non-CRT denominator is not yet classified. Current
+frontier: `find_last_separator`. `cases/help/acceptance-order.json` records each
+promotion and immutable paired receipt; `gate.json` records the current state.
+
+Fresh trials compare candidate-inclusive masked originals against native i386
+`-O0 -g` builds: named frontier, decoded parameters/driver state, streams and
+first-entry trace. The shared Rust tool audits graph/ABI/references/ownership and
+extents, with narrowly verified import leaves separated from strict RET checks.
+All 174 structured option rules, their terminator and five real callbacks are
+also compared across original, rebuilt Win32 and native images. Compiler-generated
+text tables have explicit bounded metadata. Native source builds use immutable
+content-addressed provenance and a pinned shared-library revision.
+
+Source retains the known `main` name. An uninstrumented Linux host unit uses
+`--wrap=main` to call it with the verified CRT setup; old `cl_main` captures are
+preserved unchanged with an explicit alias in `functions.json`. Source still
+builds with original CL `/MD`; contextual encountered messages are embedded by
+the original RC and prepared for native use from the same payloads.
+
+`make -j4 native native-trace` builds Linux binaries. `original` explicitly uses
+Wine; `audit` is separate. `check` tests masking, current named traps, acceptance
+negatives and grammar controls. `fixtures` remains fail-closed until help
+completes. Native-only corrections explicitly reuse unchanged original captures;
+failed captures and old decoder/build receipts remain intact. Earlier groundwork
+below is historical; accepted references use the shipped canonical MSVCRT.
 
 Target: `toolchains/5.10/bin/CL.EXE`, SHA-256
 `aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd`.

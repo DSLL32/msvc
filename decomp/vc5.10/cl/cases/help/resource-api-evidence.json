@@ -1,0 +1,30 @@
+{
+  "events": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/load-string-1-original/resource-events.txt",
+    "sha256": "9b41e0ef931324741d3e721980e2af9b6ca13aa3e4547c34c098ae346ec9cd24"
+  },
+  "calls": [
+    {
+      "call": {
+        "sequence": 1,
+        "id": 306,
+        "module": 4194304,
+        "output": 4232856,
+        "capacity": 256
+      },
+      "return": {
+        "sequence": 1,
+        "id": 306,
+        "value": 68
+      },
+      "before": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/load-string-1-original/resource-0001-before.bin",
+        "sha256": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1"
+      },
+      "after": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/load-string-1-original/resource-0001-after.bin",
+        "sha256": "0c83e2441fdbd0486bc5387043d3b2b11fd00836ae4c5aa52eaa418fdde35c13"
+      }
+    }
+  ]
+}

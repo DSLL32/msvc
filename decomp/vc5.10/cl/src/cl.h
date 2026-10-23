@@ -1,0 +1,133 @@
+#ifndef CL510_H
+#define CL510_H
+#include <windows.h>
+#include <stdlib.h>
+#include <stdio.h>
+#include <string.h>
+#include <stdarg.h>
+#include <io.h>
+#include <process.h>
+#include <errno.h>
+#include <ctype.h>
+#include <mbstring.h>
+#include <mbctype.h>
+#include <recon.h>
+
+typedef struct Option Option;
+typedef struct OptionRule {
+    char *pattern, *add, *conflict, *replace;
+    void *extra;
+} OptionRule;
+typedef struct SpecialOption { char *name; char *pattern; } SpecialOption;
+typedef struct Input Input;
+struct Option {
+    Option *next;
+    unsigned flags;
+    char *matching;
+    char *name;
+    char *value;
+    Option *origin;
+};
+struct Input {
+    Input *next;
+    char *name;
+    int kind;
+    unsigned short explicit_kind;
+};
+typedef struct Driver {
+    Option *options, *other_options;
+    void *reserved;
+    Input *inputs;
+    char *program, *base_name, *output_name, *current_output;
+    char *temporary, *include_path, *directory;
+} Driver;
+typedef int (__stdcall *InvokeCompilerPass)(int, char **, BOOL);
+typedef void (__stdcall *AbortCompilerPass)(int);
+typedef struct CompilerPass {
+    char *name, *path, *environment;
+    char option_prefix[4];
+    unsigned flags;
+    HMODULE module;
+    InvokeCompilerPass invoke;
+    AbortCompilerPass abort;
+    char *options;
+} CompilerPass;
+typedef struct InputKind {
+    int *passes;
+    char *suffix;
+    unsigned flags;
+} InputKind;
+extern Driver *driver;
+extern Option *unrecognized_options, *free_options;
+extern int source_count;
+extern int options_after_link, link_warning;
+extern int no_logo, echo_response, help_requested, show_commands;
+extern int debug_exceptions, error_count, output_produced, default_c_language;
+extern char *source_language;
+extern CompilerPass compiler_passes[5];
+extern InputKind input_kinds[9];
+
+int main(int, char **, char **);
+BOOL install_control_handler(void);
+BOOL WINAPI console_control_handler(DWORD);
+char **split_arguments(char *, int);
+char *skip_space(char *);
+int count_arguments(char **);
+char *program_name(char *);
+char *program_directory(char *);
+char *duplicate(char *);
+void initialize_driver(char *, Driver *);
+void show_usage(void);
+int has_nologo(char **, int);
+void show_banner(int);
+void parse_arguments(char **, int);
+void read_response(char *);
+int classify_input(char *);
+void add_input(char *, int, int);
+SpecialOption *find_special(char *);
+int has_prefix(char *, char *);
+void apply_special(SpecialOption *, char *);
+int match_option(char **, int *);
+extern OptionRule option_rules[];
+OptionRule *find_rule(char **, int);
+int match_pattern(OptionRule *, char **, int);
+Option *define_macro(char **, int *);
+Option *link_arguments(char **, int *);
+Option *c_input(char **, int *);
+Option *cpp_input(char **, int *);
+Option *object_input(char **, int *);
+Option *read_option(OptionRule *, char **, int *);
+void validate_value(char *, char *, char *);
+Option *new_option(char *, char *, char *, unsigned);
+void append_option(Option **, Option *);
+Option *expand_options(char *, Option *);
+char *expand_word(char *, char *, char *);
+char *expand_alternative(char *, char *, char *, char **);
+char *append_literal(char *, char *);
+char *append_escaped(char *, char *);
+char *apply_extension(char *, char *, char *);
+char *find_last_separator(char *, char *);
+Option *detach_options(Option **, Option *, Option **);
+int options_match(Option *, Option *);
+Option *copy_option(Option *);
+Option *unlink_option(Option **, Option *);
+void delete_options(Option *);
+void delete_option(Option *);
+void option_conflict(unsigned, Option *, Option *);
+int write_message(int, const char *, ...);
+char *load_string(unsigned);
+char *format_message(unsigned *, const char *, va_list);
+int format_number(unsigned, char *, unsigned);
+void finish_options(void);
+void prepare_inputs(Driver *);
+void prepare_environment(Driver *);
+void show_help(void);
+void *allocate(unsigned);
+char *append_text(char *, const char *);
+void warning(unsigned, ...);
+void release(void *);
+void fatal(unsigned, ...);
+void prepare_execution(void);
+void run_driver(Driver *);
+void driver_exit(int);
+#endif

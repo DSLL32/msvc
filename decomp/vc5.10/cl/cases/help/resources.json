@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "resources": [
+    {
+      "id": 306,
+      "language": 1033,
+      "type": 6,
+      "record_file_offset": 34616,
+      "length_utf16": 68,
+      "utf16le": "4d006900630072006f0073006f006600740020002800520029002000330032002d00620069007400200043002f0043002b002b0020004f007000740069006d0069007a0069006e006700200043006f006d00700069006c00650072002000560065007200730069006f006e00200025007300200066006f0072002000380030007800380036000a00",
+      "text": "Microsoft (R) 32-bit C/C++ Optimizing Compiler Version %s for 80x86\n",
+      "codepage": 0,
+      "encounter": {
+        "state_path": "/root/.ai-tmp/msvc2/vc5.10/cl/show-banner-1-original/state.json",
+        "state_sha256": "0a1087d0d902f2c626bb5c142fe7d62497a81072891630b7ceb88ebaf33bc899",
+        "context_sha256": "98e7fd06ba7e7714c8b731305bc5977cb545222f0dd2a2f5520b1ae0d4d9ac9e",
+        "memory_sha256": "138dcaa3ae84003ddce9ab852742d9fb1966df623f445750d969c38532be1511"
+      }
+    },
+    {
+      "id": 307,
+      "language": 1033,
+      "type": 6,
+      "record_file_offset": 34754,
+      "length_utf16": 62,
+      "utf16le": "43006f007000790072006900670068007400200028004300290020004d006900630072006f0073006f0066007400200043006f0072007000200031003900380034002d0031003900390037002e00200041006c006c0020007200690067006800740073002000720065007300650072007600650064002e000a000a00",
+      "text": "Copyright (C) Microsoft Corp 1984-1997. All rights reserved.\n\n",
+      "codepage": 0,
+      "encounter": {
+        "state_path": "/root/.ai-tmp/msvc2/vc5.10/cl/allocate-1-original/state.json",
+        "state_sha256": "dc43b67876ed268540a5bc6b39e85a4ff4822cf3c9a197cc2a05d239425b1bb9",
+        "context_sha256": "2b19549aac0981986c156bb7459034fa70d5255ae0b8e6c10585f7cf696a6894",
+        "memory_sha256": "35a0f39c98fe2b850fd9ddc8855c1ac65d12eb14e4c8d84cb2ec4dec7b400e50",
+        "api_events_sha256": "68296b8b094ee13773fbd360abf387a4f55f07d1f6a5c714ac4243b9c876e735",
+        "sequence": 2,
+        "before_sha256": "0c83e2441fdbd0486bc5387043d3b2b11fd00836ae4c5aa52eaa418fdde35c13",
+        "after_sha256": "24f44e6d89e4f6cc8000dbd053f4ada289114681d49148397e8db2c1e2c63ccf"
+      }
+    }
+  ]
+}

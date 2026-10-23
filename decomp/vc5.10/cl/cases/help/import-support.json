@@ -1,0 +1,69 @@
+{
+  "memset": {
+    "calling_convention": "cdecl",
+    "arguments": [
+      "void *",
+      "int",
+      "size_t"
+    ],
+    "result": "void *",
+    "argument_bytes": 12,
+    "caller_cleanup": true,
+    "encountered_in": "_initialize_driver"
+  },
+  "strlen": {
+    "calling_convention": "cdecl",
+    "arguments": [
+      "const char *"
+    ],
+    "result": "size_t",
+    "argument_bytes": 4,
+    "caller_cleanup": true,
+    "encountered_in": "_program_directory"
+  },
+  "strcat": {
+    "calling_convention": "cdecl",
+    "arguments": [
+      "char *",
+      "const char *"
+    ],
+    "result": "char *",
+    "argument_bytes": 8,
+    "caller_cleanup": true,
+    "encountered_in": "_program_directory"
+  },
+  "strcpy": {
+    "calling_convention": "cdecl",
+    "arguments": [
+      "char *",
+      "const char *"
+    ],
+    "result": "char *",
+    "argument_bytes": 8,
+    "caller_cleanup": true,
+    "encountered_in": "_format_message"
+  },
+  "memcpy": {
+    "calling_convention": "cdecl",
+    "arguments": [
+      "void *",
+      "const void *",
+      "size_t"
+    ],
+    "result": "void *",
+    "argument_bytes": 12,
+    "caller_cleanup": true,
+    "encountered_in": "_format_message"
+  },
+  "strcmp": {
+    "calling_convention": "cdecl",
+    "arguments": [
+      "const char *",
+      "const char *"
+    ],
+    "result": "int",
+    "argument_bytes": 8,
+    "caller_cleanup": true,
+    "encountered_in": "_options_match"
+  }
+}
