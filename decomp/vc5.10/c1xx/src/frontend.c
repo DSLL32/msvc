@@ -68,6 +68,23 @@ int initialize_compiler_pass(void)
             frontend_bss.complex_type_rank[i] = 0;
         for (i = 0; i < sizeof(frontend_bss.empty_metadata_prototype); ++i)
             frontend_bss.empty_metadata_prototype[i] = 0;
+        frontend_bss.pch_context.image_count = 0;
+        frontend_bss.pch_context.root_image = NULL;
+        frontend_bss.pch_context.images = NULL;
+        frontend_bss.pch_context.stored_file_position = 0;
+        frontend_bss.pch_context.file_name = NULL;
+        frontend_bss.pch_context.file_offset = 0;
+        frontend_bss.pch_context.file = NULL;
+        frontend_bss.pch_context.mapping_handles[0] = NULL;
+        frontend_bss.pch_context.mapping_handles[1] = NULL;
+        frontend_bss.pch_context.mapping_handles[2] = NULL;
+        frontend_bss.pch_context.mapping_handles[3] = NULL;
+        frontend_bss.pch_context.mapping_handles[4] = NULL;
+        frontend_bss.pch_context.mapping_handles[5] = NULL;
+        frontend_bss.pch_context.loaded_image_count = 0;
+        frontend_bss.pch_context.scratch_arena = NULL;
+        frontend_bss.pch_context.original_pages = NULL;
+        frontend_bss.pch_context.mapped_pages = NULL;
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }

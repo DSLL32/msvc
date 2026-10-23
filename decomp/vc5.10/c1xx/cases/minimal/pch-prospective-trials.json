@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "kind": "bounded ordered tail-wrapper/member observation; RAW ONLY",
+  "promotion": false,
+  "durable_prefix_functions": 57,
+  "wrapper_rva": 232152,
+  "member_rva": 245057,
+  "strict_graph_failure": "unidentified tail-call ABI; original pending member has no reachable RET",
+  "strict_graph_failure_log_sha256": "c62a8bf6ce0f0278cdfcc5839b461229271ca4be25d535f0817cc61822ff4839",
+  "trials": [
+    {
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pch-prospective-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-pch-prospective-native-1",
+      "original_receipt_sha256": "71422e911c204bd519af601aba7142548803a895f0143051be270fdb84a44326",
+      "native_receipt_sha256": "82c7544717ee536165ce426fff22b75a72d5da238fa3005226b6a2b0dade3cef",
+      "comparison": {
+        "trial": "_initialize_frontend_37",
+        "frontier": "PchContext::Initialize",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 951,
+        "native_bss_size": 980,
+        "native_c_padding_bytes": 29,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8431,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 3.727060291916132,
+        "native_seconds": 5.8015264216810465
+      }
+    }
+  ],
+  "source_packet": {
+    "src/frontend.h": "22eb9e9d3ae492bf304e217572ec5be176d53535a29be20370a5548e8b48f4d6",
+    "src/frontend.c": "01d1dba5fe7e16f7905d279c87bd2cc28914aa2c41c7ea8e2dfeaba42dcacd00",
+    "src/pch.cpp": "7e71b4852ddfaee8bfb4da57d354fb7886fc1d50fa344c4c108aecfde33f5e08",
+    "functions.json": "d5ad39bd28b6c271042315af82aa4c5ab84ff649866271c50b9e3a45b379b23b",
+    "cases/minimal/state-model.json": "46ca949af1780a6873f1057b65bd6e85b5fb2a0cd35565ec0b840859f3160bf5",
+    "cases/minimal/candidate.json": "00fa18655f1b1e373afcf9c1753681ce6ad362afea327307a3f7c0759e445dee"
+  }
+}

@@ -145,6 +145,23 @@ int main(void)
             frontend_bss.sentinel_token.value.integer = -7;
             frontend_bss.sentinel_token.kind = 165;
             memset(frontend_bss.empty_metadata_prototype, 165, sizeof(frontend_bss.empty_metadata_prototype));
+            frontend_bss.pch_context.image_count = 17;
+            frontend_bss.pch_context.root_image = (struct PchImage *)((unsigned char *)frontend_bss.saved_state + 4);
+            frontend_bss.pch_context.images = (struct PchImage **)((unsigned char *)frontend_bss.saved_state + 8);
+            frontend_bss.pch_context.stored_file_position = 23;
+            frontend_bss.pch_context.file_name = (const char *)((unsigned char *)frontend_bss.saved_state + 12);
+            frontend_bss.pch_context.file_offset = -11;
+            frontend_bss.pch_context.file = (HANDLE)((unsigned char *)frontend_bss.saved_state + 16);
+            frontend_bss.pch_context.mapping_handles[0] = (HANDLE)((unsigned char *)frontend_bss.saved_state + 20);
+            frontend_bss.pch_context.mapping_handles[1] = (HANDLE)((unsigned char *)frontend_bss.saved_state + 24);
+            frontend_bss.pch_context.mapping_handles[2] = (HANDLE)((unsigned char *)frontend_bss.saved_state + 28);
+            frontend_bss.pch_context.mapping_handles[3] = (HANDLE)((unsigned char *)frontend_bss.saved_state + 32);
+            frontend_bss.pch_context.mapping_handles[4] = (HANDLE)((unsigned char *)frontend_bss.saved_state + 36);
+            frontend_bss.pch_context.mapping_handles[5] = (HANDLE)((unsigned char *)frontend_bss.saved_state + 40);
+            frontend_bss.pch_context.loaded_image_count = 29;
+            frontend_bss.pch_context.scratch_arena = (struct CompilerArena *)((unsigned char *)frontend_bss.saved_state + 44);
+            frontend_bss.pch_context.original_pages = (struct PchImage **)((unsigned char *)frontend_bss.saved_state + 48);
+            frontend_bss.pch_context.mapped_pages = (struct PchImage **)((unsigned char *)frontend_bss.saved_state + 52);
             frontend_bss.type_ranks_initialized = 37;
             frontend_bss.source_signature = 37;
             for (i = 0; i < sizeof(frontend_bss.pools) / sizeof(frontend_bss.pools[0]); ++i) {

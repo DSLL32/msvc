@@ -61,7 +61,7 @@
     "_initialize_frontend_35",
     "_initialize_frontend_36"
   ],
-  "trial": null,
+  "trial": "_initialize_frontend_37",
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -506,7 +506,14 @@
       "start_rva": 232119,
       "end_rva": 232152,
       "entry": 1
+    },
+    {
+      "owner": "_initialize_frontend_37",
+      "start_rva": 232152,
+      "end_rva": 232162,
+      "entry": 1
     }
   ],
-  "stage": "_initialize_frontend_36 accepted; next frontier _initialize_frontend_37"
+  "stage": "_initialize_frontend_36 accepted; next frontier _initialize_frontend_37",
+  "prospective_only": true
 }

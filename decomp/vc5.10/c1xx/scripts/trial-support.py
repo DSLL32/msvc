@@ -137,6 +137,7 @@ def original_state(directory, text, sequence):
 
 
 def audit(trial, audit_path=None):
+    require(not trial.get("prospective_only"), "prospective raw-only observations have no acceptance audit")
     proof = json.loads((audit_path or PROJECT / "build/audit-proof.json").read_text())
     trial_path = HISTORICAL_SNAPSHOT / "trial.json" if HISTORICAL_SNAPSHOT else PROJECT / "build/trial.json"
     require(proof["trial"] == trial["trial"] and proof["trial_sha256"] == sha(trial_path),

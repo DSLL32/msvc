@@ -51,6 +51,8 @@ def main():
     preparer = importlib.util.module_from_spec(spec)
     spec.loader.exec_module(preparer)
     trial = preparer.prepare()
+    if trial.get("prospective_only"):
+        raise SystemExit("Raw-only prospective tail chain: no acceptance graph audit or function credit")
     graph = Path(os.environ.get("GRAPH_AUDIT_BIN", ROOT / "tooling/graph-audit/target/release/graph-audit"))
     auditor_sha = hashlib.sha256(graph.read_bytes()).hexdigest()
     started = __import__("time").perf_counter()

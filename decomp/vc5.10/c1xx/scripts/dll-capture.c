@@ -297,6 +297,8 @@ static void save_frontend_state(const char *suffix)
     sprintf(name, "primitive-type-rank-%s.bin", suffix); save_blob(name, data, 65);
     readmem(base + 0xc4c80, data, 69);
     sprintf(name, "complex-type-rank-%s.bin", suffix); save_blob(name, data, 69);
+    readmem(base + 0xc64b8, data, 68);
+    sprintf(name, "pch-context-%s.bin", suffix); save_blob(name, data, 68);
     readmem(base + 0xc64a0, data, 20);
     sprintf(name, "empty-prototype-%s.bin", suffix); save_blob(name, data, 20);
     readmem(base + 0xc4c78, data, 4);
@@ -466,6 +468,23 @@ static void seed_frontend_restore(void)
     value = 23; write_mem(base + 0xc0814, &value, 4);
     value = 37; write_mem(base + 0xc0818, &value, 4);
     value = allocated + 8; write_mem(base + 0xc081c, &value, 4);
+    value = 17; write_mem(base + 0xc64b8, &value, 4);
+    value = allocated + 4; write_mem(base + 0xc64bc, &value, 4);
+    value = allocated + 8; write_mem(base + 0xc64c0, &value, 4);
+    value = 23; write_mem(base + 0xc64c4, &value, 4);
+    value = allocated + 12; write_mem(base + 0xc64c8, &value, 4);
+    value = -11; write_mem(base + 0xc64cc, &value, 4);
+    value = allocated + 16; write_mem(base + 0xc64d0, &value, 4);
+    value = allocated + 20; write_mem(base + 0xc64d4, &value, 4);
+    value = allocated + 24; write_mem(base + 0xc64d8, &value, 4);
+    value = allocated + 28; write_mem(base + 0xc64dc, &value, 4);
+    value = allocated + 32; write_mem(base + 0xc64e0, &value, 4);
+    value = allocated + 36; write_mem(base + 0xc64e4, &value, 4);
+    value = allocated + 40; write_mem(base + 0xc64e8, &value, 4);
+    value = 29; write_mem(base + 0xc64ec, &value, 4);
+    value = allocated + 44; write_mem(base + 0xc64f0, &value, 4);
+    value = allocated + 48; write_mem(base + 0xc64f4, &value, 4);
+    value = allocated + 52; write_mem(base + 0xc64f8, &value, 4);
     value = 9; write_mem(base + 0xcb06c, &value, 4);
     value = !strcmp(seed, "restore-zero") ? 0 : 3; write_mem(base + 0xcb008, &value, 4);
     fprintf(events, "restore-seed mode=%s allocation=%08lx bytes=8520 cleanup-count=32 mocked-cleanup-callback=_initialize_frontend_01 slots=32\n", seed, allocated);
@@ -495,8 +514,8 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
 {
     DWORD stack[5];
     readmem(context->Esp, stack, sizeof(stack));
-    fprintf(events, "trap seq=%u rva=%08lx esp=%08lx eax=%08lx ecx=%08lx stack=%08lx,%08lx,%08lx,%08lx,%08lx\n",
-            sequence, address - base, context->Esp, context->Eax, context->Ecx,
+    fprintf(events, "trap seq=%u rva=%08lx esp=%08lx eax=%08lx ecx=%08lx edi=%08lx stack=%08lx,%08lx,%08lx,%08lx,%08lx\n",
+            sequence, address - base, context->Esp, context->Eax, context->Ecx, context->Edi,
             stack[0], stack[1], stack[2], stack[3], stack[4]);
     fprintf(events, "last-error=%lu\n", thread_error(context, thread));
     fprintf(events, "control-word=%04lx\n", context->FloatSave.ControlWord);

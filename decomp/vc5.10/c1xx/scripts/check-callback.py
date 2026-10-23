@@ -31,7 +31,7 @@ def check(original,native,require_audit=True,audit_path=None):
     pdb_number=2 if trial['trial']=='_initialize_pdb_context_02' else 1
     deferred=trial['trial']=='_initialize_deferred_work'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=36,
+    s.require(rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=37,
               'no reviewed callback decoder for this function')
     index=34 if rank_helper else 24 if pool_member else 21+pdb_number if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
@@ -40,7 +40,7 @@ def check(original,native,require_audit=True,audit_path=None):
     wrapper09=index>=9
     seed=trial.get('test_seed')
     model=json.loads((native/'state-model.json').read_text())
-    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23),'context fields omitted from typed snapshot/BSS model')
+    s.require(model['schema'] in (2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23,24),'context fields omitted from typed snapshot/BSS model')
     context_names=['context_stack']+(['saved_context_stack'] if model['schema']>=3 else [])
     if model['schema']>=4:context_names.append('nested_context_stacks')
     if model['schema']>=5:context_names.append('source_position')
@@ -90,7 +90,12 @@ def check(original,native,require_audit=True,audit_path=None):
             path.append((name,records['_'+name]['start']-0x10400000))
     if index>=34:
         path.append(('initialize_type_ranks',0x38a6b))
-        if '_initialize_type_ranks' in trial['accepted']:path += [callback(slot) for slot in range(35,index+2)]
+        if '_initialize_type_ranks' in trial['accepted']:
+            for slot in range(35,index+2):
+                path.append(callback(slot))
+                if slot==37 and index>=37:
+                    path.append(('PchContext::Initialize',0x3bd41))
+                    if 'PchContext::Initialize' not in trial['accepted']:break
     expected += [(str((7 if seed else 8)+i),'%08x'%rva) for i,(_,rva) in enumerate(path)]
     final='%03d'%int(expected[-1][0]);frontier=path[-1][0]
     expected_frontier=expected[-1][1]
@@ -99,14 +104,14 @@ def check(original,native,require_audit=True,audit_path=None):
     s.require([int(word,16) for word in traps[4][2].split(',')][1:4]==[26,pointer,1],'original raw Invoke ABI differs')
     trace=['DllMain','InvokeCompilerPass','initialize_compiler_pass']+([] if seed else ['checked_malloc'])
     for name,_ in path:
-        trace_name=records['CompilerPool::Initialize']['native_symbol'] if name=='CompilerPool::Initialize' else name
+        trace_name=records[name]['native_symbol'] if name in ('CompilerPool::Initialize','PchContext::Initialize') else name
         if trace_name not in trace:trace.append(trace_name)
     s.require((native/'trace.txt').read_text()==''.join(name+'\n' for name in trace),'native first-entry callback trace differs')
     registered=sum(name=='register_cleanup' for name,_ in path[:-1])
-    s.require(state['symbol']==frontier and (constructor or frontier=='CompilerPool::Initialize' or state['args']=={}) and
+    s.require(state['symbol']==frontier and (constructor or frontier in ('CompilerPool::Initialize','PchContext::Initialize') or state['args']=={}) and
               'Program received signal SIGTRAP' in (native/'gdb.txt').read_text(),'not a real native callback frontier')
     symbols=subprocess.check_output(['nm','-S','--defined-only',str(native/'native-executable.elf')],text=True)
-    native_frontier=records['CompilerPool::Initialize']['native_symbol'] if frontier=='CompilerPool::Initialize' else frontier
+    native_frontier=records[frontier]['native_symbol'] if frontier in ('CompilerPool::Initialize','PchContext::Initialize') else frontier
     match=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] '+native_frontier+'$',symbols,re.M)
     s.require(match is not None,'missing native callback02 symbol');start,size=[int(word,16) for word in match.groups()]
     s.require(start<state['pc']<=start+size and d.elf_byte(native,state['pc']-1)==0xcc,'false native callback INT3 PC')
@@ -180,11 +185,14 @@ def check(original,native,require_audit=True,audit_path=None):
     if model['schema']>=23:
         spec=importlib.util.spec_from_file_location('prototype_state',Path(__file__).with_name('prototype_state.py'));prototype=importlib.util.module_from_spec(spec);spec.loader.exec_module(prototype)
         prototype.check(s,original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
+    if model['schema']>=24:
+        spec=importlib.util.spec_from_file_location('pch_state',Path(__file__).with_name('pch_state.py'));pch=importlib.util.module_from_spec(spec);spec.loader.exec_module(pch)
+        pch.check(s,original,native,trial,text,pre,phase,state,seed,final,symbols,traps)
     if model['schema']>=16:check_signature(original,native,pre,phase,state,seed,final,symbols,traps)
     s.require(set(re.findall(r'^last-error=(\d+)$',text,re.M))=={'203'} and
               {int(word,16)&0xffff for word in re.findall(r'^control-word=(\w+)$',text,re.M)}=={0x27f},'original caller state changed')
     if require_audit:s.audit(trial,audit_path)
-    return {'trial':trial['trial'],'frontier':frontier if frontier=='CompilerPool::Initialize' else '_'+frontier,'seed':seed,
+    return {'trial':trial['trial'],'frontier':frontier if frontier in ('CompilerPool::Initialize','PchContext::Initialize') else '_'+frontier,'seed':seed,
             'modeled_context_fields':sum(counts.values()),'original_default_context':[0,0,0],
             'typed_bss_bytes':state['frontend']['known_sizes']['bss']-(model['native_padding']['bytes'] if model['schema']>=6 else 0),
             'native_bss_size':state['frontend']['known_sizes']['bss'],

@@ -45,6 +45,9 @@ typedef struct SentinelToken {
     TokenValue value;
 } SentinelToken;
 
+struct CompilerArena;
+struct PchImage;
+
 /* Genuine thiscall POD: no implicit constructors, vtable or unknown fields. */
 typedef struct CompilerPool {
     unsigned char *cursor;
@@ -55,6 +58,24 @@ typedef struct CompilerPool {
     CompilerPool *RECON_THISCALL Initialize(unsigned minimum_pages);
 #endif
 } CompilerPool;
+
+typedef struct PchContext {
+    int image_count;
+    struct PchImage *root_image;
+    struct PchImage **images;
+    DWORD stored_file_position;
+    const char *file_name;
+    LONG file_offset;
+    HANDLE file;
+    HANDLE mapping_handles[6];
+    int loaded_image_count;
+    struct CompilerArena *scratch_arena;
+    struct PchImage **original_pages;
+    struct PchImage **mapped_pages;
+#ifdef __cplusplus
+    PchContext *RECON_THISCALL Initialize(void);
+#endif
+} PchContext;
 
 typedef struct FrontendBss {
     FrontendData *saved_state;
@@ -74,6 +95,7 @@ typedef struct FrontendBss {
     unsigned char primitive_type_rank[65];
     unsigned char complex_type_rank[69];
     unsigned char empty_metadata_prototype[20];
+    PchContext pch_context;
 } FrontendBss;
 
 #ifdef __cplusplus
@@ -100,6 +122,7 @@ void initialize_frontend_31(void);
 void initialize_frontend_32(void);
 void initialize_frontend_33(void);
 int initialize_type_ranks(void);
+void initialize_frontend_37(void);
 #ifdef __cplusplus
 }
 #endif

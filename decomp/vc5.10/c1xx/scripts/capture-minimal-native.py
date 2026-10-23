@@ -33,7 +33,7 @@ def capture(project,output,binary,trial):
     collector.write_text('''python
 import gdb,json,struct
 frame=gdb.newest_frame()
-value={'symbol':frame.name(),'pc':int(gdb.parse_and_eval('$pc')),'eax':int(gdb.parse_and_eval('(unsigned int)$eax')),'esp':int(gdb.parse_and_eval('(unsigned int)$esp')),
+value={'symbol':frame.name(),'pc':int(gdb.parse_and_eval('$pc')),'eax':int(gdb.parse_and_eval('(unsigned int)$eax')),'edi':int(gdb.parse_and_eval('(unsigned int)$edi')),'esp':int(gdb.parse_and_eval('(unsigned int)$esp')),
        'control_word':int(gdb.parse_and_eval('$fctrl')),'args':{}}
 block=frame.block()
 while block is not None and not block.is_global and not block.is_static:
@@ -43,6 +43,9 @@ while block is not None and not block.is_global and not block.is_static:
 if frame.name()=='CompilerPool::Initialize' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&_ZN12CompilerPool10InitializeEj')):
     value['args']={'this':int(gdb.parse_and_eval('(unsigned int)$ecx')),'minimum_pages':int(gdb.parse_and_eval('*(unsigned int *)($esp+4)'))}
     value['raw_entry_abi']={'ecx':value['args']['this'],'esp':value['esp'],'return_pc':int(gdb.parse_and_eval('*(unsigned int *)$esp')),'stack_argument':value['args']['minimum_pages']}
+if frame.name()=='PchContext::Initialize' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&_ZN10PchContext10InitializeEv')):
+    value['args']={'this':int(gdb.parse_and_eval('(unsigned int)$ecx'))}
+    value['raw_entry_abi']={'ecx':value['args']['this'],'edi':value['edi'],'esp':value['esp'],'return_pc':int(gdb.parse_and_eval('*(unsigned int *)$esp')),'stack_arguments':[]}
 value['target_state']={name:int(gdb.parse_and_eval('(unsigned int)'+name)) for name in
     ('process_attached','raw_dll_entry','dll_adjust_fdiv','dll_module','onexit_begin','onexit_end')}
 value['target_state']['last_error']=int(gdb.parse_and_eval('last_error'))
@@ -138,6 +141,11 @@ if any(f.name=='primitive_type_ranks' for f in gdb.lookup_type('FrontendData').f
 if any(f.name=='empty_metadata_prototype' for f in gdb.lookup_type('FrontendBss').fields()):
     value['frontend']['empty_metadata_prototype']=list(bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('(unsigned int)&frontend_bss.empty_metadata_prototype')),20)))
     value['frontend']['storage']['empty_metadata_prototype']=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.empty_metadata_prototype')),20]
+if any(f.name=='pch_context' for f in gdb.lookup_type('FrontendBss').fields()):
+    pch_fields=['image_count','root_image','images','stored_file_position','file_name','file_offset','file']+['mapping_handles[%d]'%i for i in range(6)]+['loaded_image_count','scratch_arena','original_pages','mapped_pages']
+    value['frontend']['pch_context']={name:int(gdb.parse_and_eval(('' if name in ('image_count','stored_file_position','file_offset','loaded_image_count') else '(unsigned int)')+'frontend_bss.pch_context.'+name)) for name in pch_fields}
+    for name in pch_fields:value['frontend']['storage']['pch_context.'+name]=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.pch_context.'+name)),4]
+    value['frontend']['pch_native_layout']={'size':int(gdb.parse_and_eval('sizeof(PchContext)')),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof)] for f in gdb.lookup_type('PchContext').fields()}}
 value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
 value['target_state']['onexit_first']=int(gdb.parse_and_eval('(unsigned int)*onexit_begin')) if value['target_state']['onexit_begin'] else None
@@ -254,6 +262,10 @@ end
         return_observer=output/'observe-pool-return.gdb'
         return_observer.write_text('python\nimport gdb\nclass PoolReturnObserver(gdb.Breakpoint):\n    def stop(self):\n        gdb.execute("source "+'+repr(str(result))+')\n        return False\npool_return_bp=PoolReturnObserver("*0x%x"%int(gdb.parse_and_eval("*(unsigned int *)$esp")),temporary=True,internal=True)\nend\n')
         observer+='break *_ZN12CompilerPool10InitializeEj\ncommands\nsilent\n'+seed+'source '+str(entry)+'\nsource '+str(return_observer)+'\ncontinue\nend\n'
+    if model['schema']>=24:
+        entry=output/'collect-pch-entry.gdb'
+        entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'pch-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'pch-entry-argv.bin'))))
+        observer+='break *_ZN10PchContext10InitializeEv\ncommands\nsilent\nsource '+str(entry)+'\ncontinue\nend\n'
     if trial.get('validation_observers'):
         phase=output/'collect-phase.gdb'
         phase.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'phase.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'phase-argv.bin'))))

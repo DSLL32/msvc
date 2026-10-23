@@ -153,6 +153,8 @@ def main():
                "compiled_source_provenance_sha256": sha(output / "build-provenance.json"),
                "artifacts": {p.name: {"sha256": sha(p), "size": p.stat().st_size}
                              for p in sorted(output.iterdir()) if p.is_file()}}
+    if candidate.get("prospective_only"):
+        receipt["scope"] = "prospective raw-only tail chain; no graph acceptance or function credit"
     (output / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
     print(json.dumps({"output": str(output), "seconds": elapsed}))
 

@@ -180,6 +180,8 @@ def main():
                              for p in sorted(output.iterdir()) if p.is_file()}}
     if native_sha is not None:
         receipt["native_sha256"] = native_sha
+    if trial.get("prospective_only"):
+        receipt["scope"] = "prospective raw-only tail chain; no graph acceptance or function credit"
     (output / "receipt.json").write_text(json.dumps(receipt, indent=2) + "\n")
     print(json.dumps({"output": str(output), "exit": result.returncode, "seconds": elapsed}))
     return 0 if result.returncode in (0, 125) else 1

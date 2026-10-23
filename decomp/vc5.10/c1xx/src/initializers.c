@@ -160,10 +160,6 @@ void initialize_frontend_36(void)
         frontend_bss.empty_metadata_prototype[i] = 0;
 }
 
-void initialize_frontend_37(void)
-{
-    __asm { int 3 }
-}
 
 void initialize_frontend_38(void)
 {

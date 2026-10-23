@@ -25,7 +25,20 @@ def prepare():
     trial_name = candidate["trial"]
     if trial_name is not None and (trial_name not in indexes or trial_name in cfg["accepted"]):
         raise ValueError("trial is not exactly one new identified target function")
-    accepted = list(cfg["accepted"]) + ([trial_name] if trial_name else [])
+    closure = candidate.get("ordered_closure")
+    prospective = bool(candidate.get("prospective_only"))
+    if prospective or closure:
+        if len(cfg["accepted"]) != 57 or trial_name != '_initialize_frontend_37':
+            raise ValueError('bounded PCH closure does not follow exact57-function prefix')
+        wrapper, member = indexes['_initialize_frontend_37'], indexes['PchContext::Initialize']
+        if (wrapper['start'],wrapper['end'],member['start']) != (0x10438ad8,0x10438ae2,0x1043bd41):
+            raise ValueError('bounded PCH wrapper/member identity changed')
+        if prospective:
+            if closure or not member.get('pending_extent') or member['end'] != member['start']+1:
+                raise ValueError('prospective member must remain genuine pending stub')
+        elif closure != ['_initialize_frontend_37','PchContext::Initialize'] or member.get('pending_extent') or member['end'] != 0x1043bd53:
+            raise ValueError('ordered PCH closure differs from authorized10+18-byte pair')
+    accepted = list(cfg["accepted"]) + (closure or ([trial_name] if trial_name else []))
     base = cfg["target"]["base"]
     expected = []
     for name in accepted:
@@ -71,6 +84,8 @@ def prepare():
     trial = dict(cfg)
     trial["accepted"] = accepted
     trial["trial"] = trial_name
+    if prospective:trial["prospective_only"] = True
+    if closure:trial["ordered_closure"] = closure
     trial["ranges"] = expected
     trial["case"] = candidate["case"]
     trial["candidate_sha256"] = sha(PROJECT / candidate_path)

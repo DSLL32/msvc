@@ -1,5 +1,5 @@
 {
-  "schema": 23,
+  "schema": 24,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -1682,6 +1682,176 @@
       "native_expression": "frontend_bss.empty_metadata_prototype",
       "original_default": "20 zero bytes",
       "evidence": "Actual whole20B reset/copy/equality prototype, no invented interior fields or larger-object layout"
+    },
+    {
+      "name": "pch_context.image_count",
+      "class": "bss",
+      "original_address": 273441976,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pch_context.image_count",
+      "original_default": 0,
+      "evidence": "Own PCH read/map/close/relocation consumers; full68B receiver reset by3bd41",
+      "component_type": "int"
+    },
+    {
+      "name": "pch_context.root_image",
+      "class": "bss",
+      "original_address": 273441980,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pch_context.root_image",
+      "original_default": 0,
+      "evidence": "Own PCH read/map/close/relocation consumers; full68B receiver reset by3bd41",
+      "component_type": "struct PchImage *"
+    },
+    {
+      "name": "pch_context.images",
+      "class": "bss",
+      "original_address": 273441984,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pch_context.images",
+      "original_default": 0,
+      "evidence": "Own PCH read/map/close/relocation consumers; full68B receiver reset by3bd41",
+      "component_type": "struct PchImage **"
+    },
+    {
+      "name": "pch_context.stored_file_position",
+      "class": "bss",
+      "original_address": 273441988,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pch_context.stored_file_position",
+      "original_default": 0,
+      "evidence": "Own PCH read/map/close/relocation consumers; full68B receiver reset by3bd41",
+      "component_type": "DWORD"
+    },
+    {
+      "name": "pch_context.file_name",
+      "class": "bss",
+      "original_address": 273441992,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pch_context.file_name",
+      "original_default": 0,
+      "evidence": "Own PCH read/map/close/relocation consumers; full68B receiver reset by3bd41",
+      "component_type": "const char *"
+    },
+    {
+      "name": "pch_context.file_offset",
+      "class": "bss",
+      "original_address": 273441996,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pch_context.file_offset",
+      "original_default": 0,
+      "evidence": "Own PCH read/map/close/relocation consumers; full68B receiver reset by3bd41",
+      "component_type": "LONG"
+    },
+    {
+      "name": "pch_context.file",
+      "class": "bss",
+      "original_address": 273442000,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pch_context.file",
+      "original_default": 0,
+      "evidence": "Own PCH read/map/close/relocation consumers; full68B receiver reset by3bd41",
+      "component_type": "HANDLE"
+    },
+    {
+      "name": "pch_context.mapping_handles[0]",
+      "class": "bss",
+      "original_address": 273442004,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pch_context.mapping_handles[0]",
+      "original_default": 0,
+      "evidence": "Own PCH read/map/close/relocation consumers; full68B receiver reset by3bd41",
+      "component_type": "HANDLE"
+    },
+    {
+      "name": "pch_context.mapping_handles[1]",
+      "class": "bss",
+      "original_address": 273442008,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pch_context.mapping_handles[1]",
+      "original_default": 0,
+      "evidence": "Own PCH read/map/close/relocation consumers; full68B receiver reset by3bd41",
+      "component_type": "HANDLE"
+    },
+    {
+      "name": "pch_context.mapping_handles[2]",
+      "class": "bss",
+      "original_address": 273442012,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pch_context.mapping_handles[2]",
+      "original_default": 0,
+      "evidence": "Own PCH read/map/close/relocation consumers; full68B receiver reset by3bd41",
+      "component_type": "HANDLE"
+    },
+    {
+      "name": "pch_context.mapping_handles[3]",
+      "class": "bss",
+      "original_address": 273442016,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pch_context.mapping_handles[3]",
+      "original_default": 0,
+      "evidence": "Own PCH read/map/close/relocation consumers; full68B receiver reset by3bd41",
+      "component_type": "HANDLE"
+    },
+    {
+      "name": "pch_context.mapping_handles[4]",
+      "class": "bss",
+      "original_address": 273442020,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pch_context.mapping_handles[4]",
+      "original_default": 0,
+      "evidence": "Own PCH read/map/close/relocation consumers; full68B receiver reset by3bd41",
+      "component_type": "HANDLE"
+    },
+    {
+      "name": "pch_context.mapping_handles[5]",
+      "class": "bss",
+      "original_address": 273442024,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pch_context.mapping_handles[5]",
+      "original_default": 0,
+      "evidence": "Own PCH read/map/close/relocation consumers; full68B receiver reset by3bd41",
+      "component_type": "HANDLE"
+    },
+    {
+      "name": "pch_context.loaded_image_count",
+      "class": "bss",
+      "original_address": 273442028,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pch_context.loaded_image_count",
+      "original_default": 0,
+      "evidence": "Own PCH read/map/close/relocation consumers; full68B receiver reset by3bd41",
+      "component_type": "int"
+    },
+    {
+      "name": "pch_context.scratch_arena",
+      "class": "bss",
+      "original_address": 273442032,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pch_context.scratch_arena",
+      "original_default": 0,
+      "evidence": "Own PCH read/map/close/relocation consumers; full68B receiver reset by3bd41",
+      "component_type": "struct CompilerArena *"
+    },
+    {
+      "name": "pch_context.original_pages",
+      "class": "bss",
+      "original_address": 273442036,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pch_context.original_pages",
+      "original_default": 0,
+      "evidence": "Own PCH read/map/close/relocation consumers; full68B receiver reset by3bd41",
+      "component_type": "struct PchImage **"
+    },
+    {
+      "name": "pch_context.mapped_pages",
+      "class": "bss",
+      "original_address": 273442040,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pch_context.mapped_pages",
+      "original_default": 0,
+      "evidence": "Own PCH read/map/close/relocation consumers; full68B receiver reset by3bd41",
+      "component_type": "struct PchImage **"
     }
   ],
   "initializers": [
@@ -1904,13 +2074,13 @@
   "hard_stop": "checked_malloc is initially an INT3; after its reconstruction every unknown initializer remains a named INT3 before semantic use",
   "native_padding": {
     "bytes": 29,
-    "kind": "natural trailing C object padding; no original semantic counterpart",
+    "kind": "natural C object/array alignment padding; no original semantic counterpart",
     "output_buffer_size": 36,
     "output_mapped_bytes": 33,
     "output_count": 8,
     "sentinel_size": 12,
     "sentinel_padding_bytes": 3,
-    "rank_array_trailing_bytes": 2
+    "byte_array_alignment_bytes": 2
   },
   "token_projection": {
     "original_payload_bytes": 40,
@@ -2063,5 +2233,82 @@
     "complex_output_bytes": 69,
     "unknown_index_consumer": "hard named frontier before any semantic access outside currently modeled domains",
     "original_record_padding_unmodeled_bytes": 51
+  },
+  "pch_projection": {
+    "original_base": 273441976,
+    "bytes": 68,
+    "fields": [
+      [
+        "image_count",
+        "int"
+      ],
+      [
+        "root_image",
+        "struct PchImage *"
+      ],
+      [
+        "images",
+        "struct PchImage **"
+      ],
+      [
+        "stored_file_position",
+        "DWORD"
+      ],
+      [
+        "file_name",
+        "const char *"
+      ],
+      [
+        "file_offset",
+        "LONG"
+      ],
+      [
+        "file",
+        "HANDLE"
+      ],
+      [
+        "mapping_handles[0]",
+        "HANDLE"
+      ],
+      [
+        "mapping_handles[1]",
+        "HANDLE"
+      ],
+      [
+        "mapping_handles[2]",
+        "HANDLE"
+      ],
+      [
+        "mapping_handles[3]",
+        "HANDLE"
+      ],
+      [
+        "mapping_handles[4]",
+        "HANDLE"
+      ],
+      [
+        "mapping_handles[5]",
+        "HANDLE"
+      ],
+      [
+        "loaded_image_count",
+        "int"
+      ],
+      [
+        "scratch_arena",
+        "struct CompilerArena *"
+      ],
+      [
+        "original_pages",
+        "struct PchImage **"
+      ],
+      [
+        "mapped_pages",
+        "struct PchImage **"
+      ]
+    ],
+    "member_rva": 245057,
+    "member_abi": "ECX this, no stack arguments, EAX this, RET0; EDI preserved",
+    "pointees": "opaque until actual semantic consumer; no image/arena/page layout modeled"
   }
 }
