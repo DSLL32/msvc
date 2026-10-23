@@ -14,5 +14,7 @@ int main(int argc,char **argv)
     if(!strcmp(argv[1],"upper")) return _mbsupr(target)==NULL;
     if(!strcmp(argv[1],"pbrk")) return _mbspbrk(text,text)==NULL;
     if(!strcmp(argv[1],"substring")) return _mbsstr(text,text)==NULL;
+    if(!strcmp(argv[1],"fullcompare")) return _mbsicmp(text,text);
+    if(!strcmp(argv[1],"bytecopy")) return _mbsnbcpy(target,text,1)==NULL;
     return 1;
 }

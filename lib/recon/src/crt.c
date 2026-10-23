@@ -1567,3 +1567,12 @@ WEAK unsigned char *recon_mbschr(const unsigned char *text,unsigned int value)
     } while (byte);
     return NULL;
 }
+
+WEAK int recon_mbsicmp(const unsigned char *left,const unsigned char *right)
+{
+    (void)left;(void)right;recon_unsupported("unreviewed _mbsicmp");return 0;
+}
+WEAK unsigned char *recon_mbsnbcpy(unsigned char *out,const unsigned char *text,size_t bytes)
+{
+    (void)out;(void)text;(void)bytes;recon_unsupported("unreviewed _mbsnbcpy");return NULL;
+}

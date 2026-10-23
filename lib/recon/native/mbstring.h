@@ -5,6 +5,8 @@
 extern "C" {
 #endif
 int _mbsncmp(const unsigned char *,const unsigned char *,size_t);
+int _mbsicmp(const unsigned char *,const unsigned char *);
+unsigned char *_mbsnbcpy(unsigned char *,const unsigned char *,size_t);
 int _mbsnbicmp(const unsigned char *,const unsigned char *,size_t);
 unsigned char *_mbspbrk(const unsigned char *,const unsigned char *);
 unsigned char *_mbsrchr(const unsigned char *,unsigned int);
