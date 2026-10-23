@@ -119,7 +119,7 @@ void __stdcall report_type_conversion(unsigned code, int mode, unsigned char ope
 void __stdcall check_parameter_default(IrToken *expression, CType *type);
 IrToken *__stdcall convert_initializer(unsigned char operation, CType *type, IrToken *expression);
 IrToken *__stdcall prepare_reference_initializer(CType *type, IrToken *expression);
-DefaultArgument *__stdcall save_default_argument(IrToken *expression);
+IrToken *__stdcall save_default_argument(IrToken *expression);
 void increment_expression_record_depth(void);
 void mark_evaluation_boundary(void);
 CppSymbol *__stdcall lookup_based_symbol(char *name);

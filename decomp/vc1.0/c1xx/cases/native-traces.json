@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "c22e99fa9964f68914e44a8aa78843dd5b2edbcaf88fa422b01c684e4d6125c5",
+    "functions.json": "17393603dc5fb587e8298d58c903873c79c589358cab006c0a4e600c99e87d56",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "982085aef7c8599bf0605f8ead34c255b0c7d43667593852013c25aaae43d170",
-    "cases/canonical-map.txt": "140c15f7a39a68533f2ad2c8884c8758d393cd61580b3206219aad6ad6822df8",
+    "cases/original-entry-references.json": "615fec3c301009baffc2f649c66da68be9192fb01ed3b2d7a5ac2d46fbaac263",
+    "cases/canonical-map.txt": "804a13a8159782ded07368eae3ee640808b73a49fd5a2676fc3a01106f1e4542",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1036-check_parameter_default-8/entry-reference/original-receipt.json": "50647033090eace54d6637cc5ef9dd387e53a614e151e5b264aa296feb96323d",
-    "cases/frontiers/state_machine_debug/1036-check_parameter_default-8/entry-reference/original-events.txt": "2c711fd19063da8d34d0221b9468c27ab8f25ad41573df903f0e0c35b7043507",
-    "cases/frontiers/state_machine_debug/1036-check_parameter_default-8/entry-reference/original-entries.plan": "283edfa7a0584391b0a7c7f88188ebec214c8849c49de17dd567650eca99c566"
+    "cases/frontiers/state_machine_debug/1037-save_default_argument-4/entry-reference/original-receipt.json": "2ce4ba4f2f43c44ef46eacf1e5ff96dcb373f09f586796abb03db93db68a70b6",
+    "cases/frontiers/state_machine_debug/1037-save_default_argument-4/entry-reference/original-events.txt": "c03f7729c1d6d088b073baf8fb801d7eff32be850086f7a60fe7523ad1a25533",
+    "cases/frontiers/state_machine_debug/1037-save_default_argument-4/entry-reference/original-entries.plan": "6b47714f33e01957e6ffa58153d5b0ebeef483df017a19f1a0c6aa9c066271ff"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -4713,7 +4713,7 @@
     },
     "save_default_argument": {
       "logical": "_save_default_argument@4",
-      "source": "src/stubs.c"
+      "source": "src/parameters.c"
     },
     "save_extended_constant": {
       "logical": "_save_extended_constant@4",
@@ -5238,6 +5238,14 @@
     "warn_pointer_conversion": {
       "logical": "_warn_pointer_conversion@12",
       "source": "src/binary-expressions.c"
+    },
+    "wrap_default_argument_members": {
+      "logical": "_wrap_default_argument_members@8",
+      "source": "src/stubs.c"
+    },
+    "wrap_default_argument_symbols": {
+      "logical": "_wrap_default_argument_symbols@8",
+      "source": "src/stubs.c"
     },
     "write_counted_ir": {
       "logical": "_write_counted_ir",
@@ -6263,7 +6271,8 @@
     "hash_symbol_index",
     "hash_low_pointer_bits",
     "deferred_tokens_may_be_declaration",
-    "check_parameter_default"
+    "check_parameter_default",
+    "save_default_argument"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10375,7 +10384,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1037,
+      "last": 1038,
       "seen": [
         "main",
         "message_text",
@@ -11322,12 +11331,13 @@
         "hash_low_pointer_bits",
         "deferred_tokens_may_be_declaration",
         "check_parameter_default",
-        "save_default_argument"
+        "save_default_argument",
+        "collect_member_references"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_save_default_argument@4",
-        "native": "save_default_argument",
+        "logical": "_collect_member_references@8",
+        "native": "collect_member_references",
         "signal": 5
       }
     }

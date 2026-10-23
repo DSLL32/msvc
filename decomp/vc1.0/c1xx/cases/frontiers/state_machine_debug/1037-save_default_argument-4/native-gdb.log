@@ -1,0 +1,12 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655a8ca in collect_member_references (groups=0xffffd608, expression=0x5661cf18) at src/stubs.c:566
+566	void __stdcall collect_member_references(MemberReferenceGroup **groups, IrToken *expression) { __asm { int 3 } }
+#0  0x5655a8ca in collect_member_references (groups=0xffffd608, expression=0x5661cf18) at src/stubs.c:566
+#1  0x56573917 in save_default_argument (expression=0x5661cf18) at src/parameters.c:309
+#2  0x565aeabe in parse_translation_unit () at src/parser-declarator-actions.inc:224
+#3  0x5655e15f in compile_translation_unit () at src/frontend.c:73
+#4  0x565588a6 in guarded_compile () at src/c1xx.c:28
+#5  0x56558874 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

@@ -1,6 +1,7 @@
 #ifndef PARAMETERS_H
 #define PARAMETERS_H
 #include "declarations.h"
+#include "frontend-records.h"
 #include <recon.h>
 
 typedef struct DeclarationParameterInfo {
@@ -49,4 +50,7 @@ DeclarationParameterInfo *void_parameter_list(void);
 DeclarationParameterInfo *intern_declaration_parameters(int count, CppSymbol *head);
 FunctionParameters *__stdcall intern_function_parameters(FunctionParameters *parameters);
 typedef char FunctionParametersSizeMustBe16[(sizeof(FunctionParameters) == 16) ? 1 : -1];
+IrToken *__stdcall wrap_default_argument_symbols(IrToken *expression, ExpressionSymbolList *symbols);
+IrToken *__stdcall wrap_default_argument_members(IrToken *expression, MemberReferenceGroup *groups);
+void __stdcall collect_member_references(MemberReferenceGroup **groups, IrToken *expression);
 #endif

@@ -1041,7 +1041,8 @@
     "_hash_symbol_index",
     "_hash_low_pointer_bits",
     "_deferred_tokens_may_be_declaration",
-    "_check_parameter_default@8"
+    "_check_parameter_default@8",
+    "_save_default_argument@4"
   ],
   "driver": [
     {
@@ -3044,7 +3045,7 @@
     {
       "name": "_save_default_argument@4",
       "start": 254096,
-      "end": 254097
+      "end": 254215
     },
     {
       "name": "_scan_token",
@@ -7757,6 +7758,16 @@
       "name": "_register_static_member_alias@8",
       "start": 352032,
       "end": 352130
+    },
+    {
+      "name": "_wrap_default_argument_symbols@8",
+      "start": 397664,
+      "end": 397665
+    },
+    {
+      "name": "_wrap_default_argument_members@8",
+      "start": 397776,
+      "end": 397777
     }
   ],
   "cases": {
@@ -7957,7 +7968,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_save_default_argument@4",
+      "terminal": "_collect_member_references@8",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -7980,7 +7991,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1036-check_parameter_default-8/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1037-save_default_argument-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8022,7 +8033,8 @@
         "cases/frontiers/state_machine_debug/1033-hash_symbol_index/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1034-hash_low_pointer_bits/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1035-deferred_tokens_may_be_declaration/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1036-check_parameter_default-8/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1036-check_parameter_default-8/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1037-save_default_argument-4/frontier-extension.json"
       ]
     }
   },

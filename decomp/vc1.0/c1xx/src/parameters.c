@@ -1,6 +1,7 @@
 /* C++ function signatures combine interned declaration types with defaults. */
 #include "parameters.h"
 #include "class-members.h"
+#include "frontend-records.h"
 #include <recon.h>
 
 DeclarationControl declaration_control; /* original 0x8cc18..0x8cc58 */
@@ -293,4 +294,19 @@ CType *__stdcall transform_function_parameters(CType *type, ParameterTransform t
 void __stdcall check_parameter_default(IrToken *expression, CType *type)
 {
     expression->linkage.list_head = new_ir_expression(0x6a, expression, 0, type);
+}
+
+/* Original 0x3e090..0x3e107. Keep the default argument together with
+   symbols and member-reference groups required when its expression is later
+   instantiated. The parser stores this expression-list prefix as defaults. */
+IrToken *__stdcall save_default_argument(IrToken *expression)
+{
+    ExpressionSymbolList *symbols;
+    MemberReferenceGroup *groups = 0;
+    if (ir_records_suppressed) return expression;
+    symbols = detach_expression_symbols();
+    if (symbols) expression = wrap_default_argument_symbols(expression, symbols);
+    collect_member_references(&groups, expression);
+    if (groups) expression = wrap_default_argument_members(expression, groups);
+    return append_expression((IrToken *)default_argument_storage[declaration_depth], expression, 2);
 }

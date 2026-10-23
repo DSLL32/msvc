@@ -226,7 +226,6 @@ void __stdcall report_missing_declarator(unsigned code, DeclarationType *type) {
 void __stdcall report_type_conversion(unsigned code, int mode, unsigned char operation, CType *source, CType *destination) { __asm { int 3 } }
 void __stdcall report_type_error(unsigned code, CType *type) { __asm { int 3 } }
 void __stdcall resolve_member_pointer_class(CppSymbol **result, QualifiedDeclarator *name) { __asm { int 3 } }
-DefaultArgument *__stdcall save_default_argument(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall segment_offset_expression(IrToken *segment, IrToken *offset) { __asm { int 3 } return 0; }
 IrToken *__stdcall sizeof_expression(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall sizeof_type(CType *type) { __asm { int 3 } return 0; }
@@ -625,3 +624,5 @@ IrToken *__stdcall initializer_object_expression(CType *type) { __asm { int 3 } 
 void __stdcall emit_initializer_padding(CppSymbol *symbol) { __asm { int 3 } }
 void emit_runtime_zero_initializer(void) { __asm { int 3 } }
 unsigned remaining_braced_initializer_bytes(void) { __asm { int 3 } return 0; }
+IrToken *__stdcall wrap_default_argument_symbols(IrToken *expression, ExpressionSymbolList *symbols) { __asm { int 3 } return 0; }
+IrToken *__stdcall wrap_default_argument_members(IrToken *expression, MemberReferenceGroup *groups) { __asm { int 3 } return 0; }
