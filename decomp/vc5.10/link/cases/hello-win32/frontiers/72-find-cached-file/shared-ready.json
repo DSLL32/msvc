@@ -1,0 +1,14 @@
+{
+  "kind": "Derived unchanged-byte readiness binding",
+  "ready_commits": [
+    "8c4c76102",
+    "472a2dd1f"
+  ],
+  "shared_sha256": {
+    "include/recon.h": "ffba274d4a4d3841c8a080490b675471ce81b60641b20b837faaff05996ce3b6",
+    "src/compat.c": "7c8e3b110db78bf424de56eb79e9bcd2fa62d67f1e48b14e619737366f216a74",
+    "src/entry.c": "77d9a4253e5e5b1754f089ec744e50ba073eda22d486dfd68f50d5b1ea64030b"
+  },
+  "native_receipt_sha256": "9b4f06149c84183752833096c18febbc8801f9e41bf37a17db1fbfb6ef6b7324",
+  "chronology": "Existing in-flight promotion/archive finished before parent hold delivery. No commit or next acceptance during hold; maintainer released hold after independent review. Exact frozen shared bytes unchanged; no original/native execution needed for readiness."
+}

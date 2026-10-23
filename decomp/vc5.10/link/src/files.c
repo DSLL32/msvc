@@ -1,5 +1,6 @@
 #include <windows.h>
 #include <stdlib.h>
+#include <string.h>
 #include "files.h"
 #include "link.h"
 #include <recon.h>
@@ -99,7 +100,30 @@ FileRecord *__stdcall acquire_file_record(const char *name,int flags,int mode,un
     }
     return record;
 }
-FileRecord *__stdcall find_cached_file(const char *name) { __asm { int 3 } return NULL; }
+FileRecord *cached_files,*cached_file_tail,*pending_files;
+unsigned cached_file_count;
+void __stdcall move_file_record(FileRecord *,FileRecord **,FileRecord **,
+                                FileRecord **,FileRecord **,unsigned char);
+
+#pragma intrinsic(strcmp)
+FileRecord *__stdcall find_cached_file(const char *name)
+{
+    FileRecord *record=cached_files;
+    if (!name || !record) return NULL;
+    do {
+        if (!strcmp(record->name,name)) {
+            --cached_file_count;
+            move_file_record(record,&cached_files,&cached_file_tail,&pending_files,NULL,0);
+            record->flags&=~4u;
+            return record;
+        }
+        record=record->previous;
+    } while (record);
+    return NULL;
+}
+void __stdcall move_file_record(FileRecord *record,FileRecord **source_first,
+    FileRecord **source_last,FileRecord **destination_first,
+    FileRecord **destination_last,unsigned char append) { __asm { int 3 } }
 FileRecord *__cdecl get_available_file_record(void) { __asm { int 3 } return NULL; }
 int __stdcall open_mapped_file(FileRecord *record,int flags,unsigned char created,DWORD *size) { __asm { int 3 } return -1; }
 void __cdecl initialize_file_buffers(void) { __asm { int 3 } }

@@ -1,0 +1,546 @@
+ link
+
+ Timestamp is 6adbe284 (Fri Oct 23 22:41:08 2026)
+
+ Preferred load address is 00400000
+
+ Start         Length     Name                   Class
+ 0001:00000000 0000bcd6H .text                   CODE
+ 0002:00000000 00000114H .idata$5                DATA
+ 0002:00000118 0000009cH .rdata                  DATA
+ 0002:000001b4 00000028H .idata$2                DATA
+ 0002:000001dc 00000014H .idata$3                DATA
+ 0002:000001f0 00000114H .idata$4                DATA
+ 0002:00000304 00000354H .idata$6                DATA
+ 0002:00000658 00000000H .edata                  DATA
+ 0003:00000000 00000004H .CRT$XCA                DATA
+ 0003:00000004 00000010H .CRT$XCU                DATA
+ 0003:00000014 00000004H .CRT$XCZ                DATA
+ 0003:00000018 00000004H .CRT$XIA                DATA
+ 0003:0000001c 00000004H .CRT$XIZ                DATA
+ 0003:00000020 000013e4H .data                   DATA
+ 0003:00001408 000004f0H .bss                    DATA
+
+  Address         Publics by Value              Rva+Base     Lib:Object
+
+ 0001:00000000       _switch_number@12          00401000 f   option-stubs.obj
+ 0001:00000010       _valid_section_name@4      00401010 f   option-stubs.obj
+ 0001:00000020       _find_library@12           00401020 f   option-stubs.obj
+ 0001:00000030       _exclude_default_library@8 00401030 f   option-stubs.obj
+ 0001:0000003e       _add_default_library@8     0040103e f   option-stubs.obj
+ 0001:0000004c       _disallow_library@12       0040104c f   option-stubs.obj
+ 0001:0000005a       _add_delay_library@4       0040105a f   option-stubs.obj
+ 0001:00000068       _remove_delay_library@4    00401068 f   option-stubs.obj
+ 0001:00000076       _has_delay_library@4       00401076 f   option-stubs.obj
+ 0001:00000086       _enable_warning_errors     00401086 f   option-stubs.obj
+ 0001:00000092       _disable_warning@4         00401092 f   option-stubs.obj
+ 0001:000000a0       _add_librarian_export@16   004010a0 f   option-stubs.obj
+ 0001:000000ae       _record_incremental_include@8 004010ae f   option-stubs.obj
+ 0001:000000bc       _copy_repro_file@8         004010bc f   option-stubs.obj
+ 0001:000000ca       _add_mac_data@12           004010ca f   option-stubs.obj
+ 0001:000000d8       _append_bytes@12           004010d8 f   option-stubs.obj
+ 0001:000000e8       _set_mac_initializer@8     004010e8 f   option-stubs.obj
+ 0001:000000f6       _set_mac_terminator@8      004010f6 f   option-stubs.obj
+ 0001:00000104       _add_mac_import@16         00401104 f   option-stubs.obj
+ 0001:00000114       _set_mac_import_versions@16 00401114 f   option-stubs.obj
+ 0001:00000122       _enable_order_file         00401122 f   option-stubs.obj
+ 0001:0000012e       _find_argument@8           0040112e f   option-stubs.obj
+ 0001:0000013e       _parse_machine@8           0040113e f   option-stubs.obj
+ 0001:0000014f       _record_symbol_reference@8 0040114f f   option-stubs.obj
+ 0001:00000160       _create_string_table@12    00401160 f   symbols.obj
+ 0001:000001b0       _initialize_hash_table@20  004011b0 f   symbols.obj
+ 0001:000002ab       _hash_allocate@16          004012ab f   symbols.obj
+ 0001:000002de       _string_key_name@8         004012de f   symbols.obj
+ 0001:000002f0       _collect_file_arguments@16 004012f0 f   arguments.obj
+ 0001:00000388       _parse_switch@8            00401388 f   arguments.obj
+ 0001:000005be       _parse_command_line@16     004015be f   arguments.obj
+ 0001:0000069a       _duplicate_argument@4      0040169a f   arguments.obj
+ 0001:000006c2       _tokenize_arguments@4      004016c2 f   arguments.obj
+ 0001:000006d0       _release_memory@4          004016d0 f   arguments.obj
+ 0001:000006e4       _read_response_file@4      004016e4 f   arguments.obj
+ 0001:000006f2       _parse_argument@8          004016f2 f   arguments.obj
+ 0001:0000087b       _is_libpath@4              0040187b f   arguments.obj
+ 0001:000008b4       _expand_wildcards@4        004018b4 f   arguments.obj
+ 0001:000008c2       _canonicalize_argument@8   004018c2 f   arguments.obj
+ 0001:000009c8       _search_library_paths@8    004019c8 f   arguments.obj
+ 0001:00000af6       _is_archive@8              00401af6 f   arguments.obj
+ 0001:00000b06       _close_argument_file@8     00401b06 f   arguments.obj
+ 0001:00000b14       _append_argument@8         00401b14 f   arguments.obj
+ 0001:00000b2c       _append_argument_record@12 00401b2c f   arguments.obj
+ 0001:00000ba4       _has_switch@4              00401ba4 f   arguments.obj
+ 0001:00000c10       _initialize_repro          00401c10 f   reproduction.obj
+ 0001:00000d70       _initialize_memory         00401d70 f   memory.obj
+ 0001:00000dbb       _allocate_link_memory@8    00401dbb f   memory.obj
+ 0001:00000e0f       _allocate_incremental@4    00401e0f f   memory.obj
+ 0001:00000e1f       _allocate_memory@4         00401e1f f   memory.obj
+ 0001:00000e47       _reserve_memory@8          00401e47 f   memory.obj
+ 0001:00000ed7       _create_memory_arena@4     00401ed7 f   memory.obj
+ 0001:00000f31       _allocate_virtual_memory@16 00401f31 f   memory.obj
+ 0001:00000f70       _initialize_file_cache@16  00401f70 f   files.obj
+ 0001:0000108f       _new_file_record           0040208f f   files.obj
+ 0001:000010b1       _zero_allocate@4           004020b1 f   files.obj
+ 0001:000010db       _out_of_memory             004020db f   files.obj
+ 0001:000010e7       _open_argument_file@12     004020e7 f   files.obj
+ 0001:00001177       _acquire_file_record@16    00402177 f   files.obj
+ 0001:0000127e       _find_cached_file@4        0040227e f   files.obj
+ 0001:00001355       _move_file_record@24       00402355 f   files.obj
+ 0001:00001363       _get_available_file_record 00402363 f   files.obj
+ 0001:00001371       _open_mapped_file@16       00402371 f   files.obj
+ 0001:00001382       _initialize_file_buffers   00402382 f   files.obj
+ 0001:0000138e       _open_buffered_file@16     0040238e f   files.obj
+ 0001:000013a0       _console_control@4         004023a0 f   driver-stubs.obj
+ 0001:000013b0       _initialize_debug@8        004023b0 f   driver-stubs.obj
+ 0001:0000147d       _get_debug_flag@4          0040247d f   driver-stubs.obj
+ 0001:0000148e       _run_librarian@8           0040248e f   driver-stubs.obj
+ 0001:000014a1       _run_dumper@8              004024a1 f   driver-stubs.obj
+ 0001:000014b4       _run_editor@8              004024b4 f   driver-stubs.obj
+ 0001:000014c7       _run_helper@8              004024c7 f   driver-stubs.obj
+ 0001:000014da       _save_exception@24         004024da f   driver-stubs.obj
+ 0001:000014ed       _report_delayed_import@12  004024ed f   driver-stubs.obj
+ 0001:000014fb       _print_logo                004024fb f   driver-stubs.obj
+ 0001:000015fa       _clear_buffer@4            004025fa f   driver-stubs.obj
+ 0001:00001610       _main                      00402610 f   driver.obj
+ 0001:00001be0       _initialize_buffer12       00402be0 f   initializers.obj
+ 0001:00001bef       _allocate_buffer12         00402bef f   initializers.obj
+ 0001:00001c25       _register_buffer12_cleanup 00402c25 f   initializers.obj
+ 0001:00001c37       _free_buffer12             00402c37 f   initializers.obj
+ 0001:00001c53       _initialize_buffer8        00402c53 f   initializers.obj
+ 0001:00001c62       _allocate_buffer8          00402c62 f   initializers.obj
+ 0001:00001c98       _register_buffer8_cleanup  00402c98 f   initializers.obj
+ 0001:00001caa       _free_buffer8              00402caa f   initializers.obj
+ 0001:00001cc6       _allocate_buffer4          00402cc6 f   initializers.obj
+ 0001:00001cfc       _register_buffer4_cleanup  00402cfc f   initializers.obj
+ 0001:00001d0e       _free_buffer4              00402d0e f   initializers.obj
+ 0001:00001d2a       _initialize_buffer4        00402d2a f   initializers.obj
+ 0001:00001d39       _initialize_timing         00402d39 f   initializers.obj
+ 0001:00001d48       _setup_timing              00402d48 f   initializers.obj
+ 0001:00001d82       _register_timing_cleanup   00402d82 f   initializers.obj
+ 0001:00001d94       _close_timing              00402d94 f   initializers.obj
+ 0001:00001e10       _initialize_output_modules@4 00402e10 f   full-link-init.obj
+ 0001:00001e95       _duplicate_link_string@4   00402e95 f   full-link-init.obj
+ 0001:00001ef9       _initialize_contribution_pools 00402ef9 f   full-link-init.obj
+ 0001:00001f40       _initialize_comdats        00402f40 f   comdat.obj
+ 0001:00001f50       _create_output_section@20  00402f50 f   sections.obj
+ 0001:0000201a       _create_contribution_group@8 0040301a f   sections.obj
+ 0001:0000212b       _find_contribution_group@8 0040312b f   sections.obj
+ 0001:000021d8       _initialize_group_enumerator@8 004031d8 f   sections.obj
+ 0001:00002205       _next_contribution_group@4 00403205 f   sections.obj
+ 0001:00002243       _find_matching_output_section@20 00403243 f   sections.obj
+ 0001:000023a0       _adjust_output_section_flags@12 004033a0 f   sections.obj
+ 0001:0000247d       _format_module_name@8      0040347d f   sections.obj
+ 0001:0000248d       _resolve_output_section@4  0040348d f   sections.obj
+ 0001:000024db       _initialize_section_enumerator@8 004034db f   sections.obj
+ 0001:0000250a       _next_output_section@4     0040350a f   sections.obj
+ 0001:00002543       _end_section_enumerator@4  00403543 f   sections.obj
+ 0001:00002550       _run_linker@8              00403550 f   link-driver.obj
+ 0001:00002d1f       ?Initialize@LinkContext@@QAEPAULinkAuxiliaryData@@H@Z 00403d1f f   link-driver.obj
+ 0001:00003002       ?InitializeVxd@LinkContext@@QAEXXZ 00404002 f   link-driver.obj
+ 0001:00003014       ?PeHeaderSize@LinkContext@@QAEKPAK@Z 00404014 f   link-driver.obj
+ 0001:0000302a       ?VxdHeaderSize@LinkContext@@QAEKPAK@Z 0040402a f   link-driver.obj
+ 0001:00003040       ?PeWriteSection@LinkContext@@QAEXHPAX0@Z 00404040 f   link-driver.obj
+ 0001:00003054       ?VxdWriteSection@LinkContext@@QAEXHPAX0@Z 00404054 f   link-driver.obj
+ 0001:00003068       ?PeWriteHeaders@LinkContext@@QAEXH@Z 00404068 f   link-driver.obj
+ 0001:0000307c       ?VxdWriteHeaders@LinkContext@@QAEXH@Z 0040407c f   link-driver.obj
+ 0001:00003090       _linker_usage              00404090 f   link-driver.obj
+ 0001:000030c1       _link_warning              004040c1 f   link-driver.obj
+ 0001:000030cd       _link_fatal                004040cd f   link-driver.obj
+ 0001:000030d9       _link_error                004040d9 f   link-driver.obj
+ 0001:000030e5       _validate_debug_options@4  004040e5 f   link-driver.obj
+ 0001:00003376       _supports_incremental@4    00404376 f   link-driver.obj
+ 0001:00003386       _load_incremental_state@4  00404386 f   link-driver.obj
+ 0001:00003394       _initialize_incremental_inputs 00404394 f   link-driver.obj
+ 0001:000033a0       _incremental_link@4        004043a0 f   link-driver.obj
+ 0001:000033b0       _abort_incremental@4       004043b0 f   link-driver.obj
+ 0001:000033c0       _write_image_map@8         004043c0 f   link-driver.obj
+ 0001:000033ce       _save_incremental_state@4  004043ce f   link-driver.obj
+ 0001:000033dc       _close_files               004043dc f   link-driver.obj
+ 0001:000033e8       _cleanup_pdb               004043e8 f   link-driver.obj
+ 0001:000033f4       _run_cvpack                004043f4 f   link-driver.obj
+ 0001:00003402       _close_repro               00404402 f   link-driver.obj
+ 0001:00003410       _configure_link_options@12 00404410 f   options.obj
+ 0001:000083d2       ?Lookup@StringTable@@QAEPAUStringNode@@PBEPAE@Z 004093d2 f   options.obj
+ 0001:000083f0       ?FullLink@LinkContext@@QAEHPAE@Z 004093f0 f   full-link.obj
+ 0001:0000aa90       ?RangeCodeBytes@LinkContext@@QAEKKKPAPAUContribution@@@Z 0040ba90 f   full-link-stubs.obj
+ 0001:0000aaa6       _finish_alpha_branches     0040baa6 f   full-link-stubs.obj
+ 0001:0000aab2       _seek_file@16              0040bab2 f   full-link-stubs.obj
+ 0001:0000aac0       _buffered_read@12          0040bac0 f   full-link-stubs.obj
+ 0001:0000aad0       _buffered_write@12         0040bad0 f   full-link-stubs.obj
+ 0001:0000aae0       _mapped_read@12            0040bae0 f   full-link-stubs.obj
+ 0001:0000aaf0       _mapped_write@12           0040baf0 f   full-link-stubs.obj
+ 0001:0000ab00       _record_file_access        0040bb00 f   full-link-stubs.obj
+ 0001:0000ab0c       _map_file_range@12         0040bb0c f   full-link-stubs.obj
+ 0001:0000ab1c       _create_contribution@28    0040bb1c f   full-link-stubs.obj
+ 0001:0000ab2c       _find_output_section@8     0040bb2c f   full-link-stubs.obj
+ 0001:0000ab3c       _merge_section_groups@8    0040bb3c f   full-link-stubs.obj
+ 0001:0000ab4a       _merge_output_section@8    0040bb4a f   full-link-stubs.obj
+ 0001:0000ab58       _move_contribution_to_end@4 0040bb58 f   full-link-stubs.obj
+ 0001:0000ab66       _move_group_to_end@4       0040bb66 f   full-link-stubs.obj
+ 0001:0000ab74       _initialize_pdb@8          0040bb74 f   full-link-stubs.obj
+ 0001:0000ab82       _close_pdb                 0040bb82 f   full-link-stubs.obj
+ 0001:0000ab8e       _commit_pdb                0040bb8e f   full-link-stubs.obj
+ 0001:0000ab9a       _initialize_pdb_image@4    0040bb9a f   full-link-stubs.obj
+ 0001:0000aba8       _derive_pdb_name@8         0040bba8 f   full-link-stubs.obj
+ 0001:0000abb8       _prepare_delay_imports     0040bbb8 f   full-link-stubs.obj
+ 0001:0000abc4       _link_contribution_fatal   0040bbc4 f   full-link-stubs.obj
+ 0001:0000abd0       _count_hash_symbols@4      0040bbd0 f   full-link-stubs.obj
+ 0001:0000abe0       ?FoldIdenticalComdats@LinkContext@@QAEXXZ 0040bbe0 f   full-link-stubs.obj
+ 0001:0000abf2       ?PrintFoldedComdats@LinkContext@@QAEXXZ 0040bbf2 f   full-link-stubs.obj
+ 0001:0000ac04       _allocate_pdb_module_table@4 0040bc04 f   full-link-stubs.obj
+ 0001:0000ac12       _derive_old_image_name@4   0040bc12 f   full-link-stubs.obj
+ 0001:0000ac22       _read_old_image@16         0040bc22 f   full-link-stubs.obj
+ 0001:0000ac32       _adjust_incremental_symbols@4 0040bc32 f   full-link-stubs.obj
+ 0001:0000ac40       ?CreateIncrementalContribution@LinkContext@@QAEPAUContribution@@XZ 0040bc40 f   full-link-stubs.obj
+ 0001:0000ac54       _write_mac_incremental_table@8 0040bc54 f   full-link-stubs.obj
+ 0001:0000ac62       _allocate_mac_incremental_table@8 0040bc62 f   full-link-stubs.obj
+ 0001:0000ac70       ?BuildDosExtension@LinkContext@@QAEKPAPAX@Z 0040bc70 f   full-link-stubs.obj
+ 0001:0000ac86       ?ApplyMerges@LinkContext@@QAEXXZ 0040bc86 f   full-link-stubs.obj
+ 0001:0000ac98       ?PrepareMacDebugSections@LinkContext@@QAEXXZ 0040bc98 f   full-link-stubs.obj
+ 0001:0000acaa       ?PrepareMacRuntimeSections@LinkContext@@QAEXXZ 0040bcaa f   full-link-stubs.obj
+ 0001:0000acbc       ?PrepareNativeRelocations@LinkContext@@QAEXXZ 0040bcbc f   full-link-stubs.obj
+ 0001:0000acce       ?CanMergeReadOnlyData@LinkContext@@QAEEXZ 0040bcce f   full-link-stubs.obj
+ 0001:0000ace2       ?MergeExceptionSections@LinkContext@@QAEXXZ 0040bce2 f   full-link-stubs.obj
+ 0001:0000acf4       _section_data_size@4       0040bcf4 f   full-link-stubs.obj
+ 0001:0000ad04       ?ResolveEntryPoint@LinkContext@@QAEXXZ 0040bd04 f   full-link-stubs.obj
+ 0001:0000ad16       _count_debug_modules@4     0040bd16 f   full-link-stubs.obj
+ 0001:0000ad26       ?CountOutputSections@LinkContext@@QAEGXZ 0040bd26 f   full-link-stubs.obj
+ 0001:0000ad3b       _finish_image_layout@8     0040bd3b f   full-link-stubs.obj
+ 0001:0000ad49       ?PrepareSectionLayout@LinkContext@@QAEXXZ 0040bd49 f   full-link-stubs.obj
+ 0001:0000ad5b       ?LayoutSections@LinkContext@@QAEXPAK00@Z 0040bd5b f   full-link-stubs.obj
+ 0001:0000ad6f       _update_gp_bounds          0040bd6f f   full-link-stubs.obj
+ 0001:0000ad7b       ?WriteSections@LinkContext@@QAEXPAK@Z 0040bd7b f   full-link-stubs.obj
+ 0001:0000ad8f       _pad_debug_contribution@4  0040bd8f f   full-link-stubs.obj
+ 0001:0000ad9d       _align_image_base@4        0040bd9d f   full-link-stubs.obj
+ 0001:0000adad       ?ApplySectionAttributes@LinkContext@@QAEXXZ 0040bdad f   full-link-stubs.obj
+ 0001:0000adbf       _prepare_import_sections   0040bdbf f   full-link-stubs.obj
+ 0001:0000adcb       ?ResolveLocalImports@LinkContext@@QAEXPAPAUContribution@@PAPAUIncludeSymbol@@@Z 0040bdcb f   full-link-stubs.obj
+ 0001:0000addf       ?ResolveUndefined@LinkContext@@QAEXXZ 0040bddf f   full-link-stubs.obj
+ 0001:0000adf1       ?CollectRelocationSymbols@LinkContext@@QAEXPAKPAPAX01@Z 0040bdf1 f   full-link-stubs.obj
+ 0001:0000ae05       ?FinalizeOrder@LinkContext@@QAEXXZ 0040be05 f   full-link-stubs.obj
+ 0001:0000ae17       ?FinishNativeSections@LinkContext@@QAEXXZ 0040be17 f   full-link-stubs.obj
+ 0001:0000ae29       _emit_symbol_class@8       0040be29 f   full-link-stubs.obj
+ 0001:0000ae39       ?WriteRelocationSymbols@LinkContext@@QAEXKPAPAXK0@Z 0040be39 f   full-link-stubs.obj
+ 0001:0000ae4d       ?WriteLocalImports@LinkContext@@QAEXPAUContribution@@PAPAUIncludeSymbol@@@Z 0040be4d f   full-link-stubs.obj
+ 0001:0000ae61       _write_coff_symbols@8      0040be61 f   full-link-stubs.obj
+ 0001:0000ae6f       ?EmitDebugDirectories@LinkContext@@QAEXKKKKK@Z 0040be6f f   full-link-stubs.obj
+ 0001:0000ae83       ?FinishImage@LinkContext@@QAEXXZ 0040be83 f   full-link-stubs.obj
+ 0001:0000ae95       ?PassTwo@LinkContext@@QAEXXZ 0040be95 f   full-link-stubs.obj
+ 0001:0000aea7       ?PrepareMacJumpTables@LinkContext@@QAEXXZ 0040bea7 f   full-link-stubs.obj
+ 0001:0000aeb9       ?ResolveMacImports@LinkContext@@QAEXXZ 0040beb9 f   full-link-stubs.obj
+ 0001:0000aecb       ?ResolveMacExports@LinkContext@@QAEXXZ 0040becb f   full-link-stubs.obj
+ 0001:0000aedd       ?PrepareMacResources@LinkContext@@QAEXXZ 0040bedd f   full-link-stubs.obj
+ 0001:0000aeef       ?PrepareMacSections@LinkContext@@QAEXXZ 0040beef f   full-link-stubs.obj
+ 0001:0000af01       _set_mac_entry_point@8     0040bf01 f   full-link-stubs.obj
+ 0001:0000af0f       _prepare_mac_resource_map  0040bf0f f   full-link-stubs.obj
+ 0001:0000af1b       _prepare_mac_data_headers@4 0040bf1b f   full-link-stubs.obj
+ 0001:0000af29       _finish_mac_entry_point@8  0040bf29 f   full-link-stubs.obj
+ 0001:0000af37       _set_mac_section_addresses@4 0040bf37 f   full-link-stubs.obj
+ 0001:0000af45       ?PrepareMacSymbols@LinkContext@@QAEXXZ 0040bf45 f   full-link-stubs.obj
+ 0001:0000af57       _finish_mac_headers@4      0040bf57 f   full-link-stubs.obj
+ 0001:0000af65       _set_mac_symbol_addresses  0040bf65 f   full-link-stubs.obj
+ 0001:0000af71       _prepare_mac_debug_information@4 0040bf71 f   full-link-stubs.obj
+ 0001:0000af7f       ?PrepareAuxiliarySections@LinkContext@@QAEXXZ 0040bf7f f   full-link-stubs.obj
+ 0001:0000af91       ?PrepareOutput@LinkAuxiliaryData@@QAEXXZ 0040bf91 f   full-link-stubs.obj
+ 0001:0000afa3       ?FinishOutput@LinkAuxiliaryData@@QAEXPAULinkContext@@@Z 0040bfa3 f   full-link-stubs.obj
+ 0001:0000afb7       _finish_ppc_branches       0040bfb7 f   full-link-stubs.obj
+ 0001:0000afc3       _clear_argument_list@4     0040bfc3 f   full-link-stubs.obj
+ 0001:0000afd1       _apply_section_merge@4     0040bfd1 f   full-link-stubs.obj
+ 0001:0000afdf       ?SortSymbols@StringTable@@QAEXXZ 0040bfdf f   full-link-stubs.obj
+ 0001:0000aff1       _replace_extension@8       0040bff1 f   full-link-stubs.obj
+ 0001:0000b001       ?UpdateChecksum@LinkContext@@QAEXXZ 0040c001 f   full-link-stubs.obj
+ 0001:0000b013       _finish_symbol_tables      0040c013 f   full-link-stubs.obj
+ 0001:0000b01f       _get_symbol_name@16        0040c01f f   full-link-stubs.obj
+ 0001:0000b02f       ?LookupSymbol@StringTable@@QAEPAUStringNode@@GPBDPAE@Z 0040c02f f   full-link-stubs.obj
+ 0001:0000b045       ?FindSymbol@StringTable@@QAEPAUStringNode@@PBD@Z 0040c045 f   full-link-stubs.obj
+ 0001:0000b05b       _set_symbol_defined@12     0040c05b f   full-link-stubs.obj
+ 0001:0000b069       _release_comdat_tables     0040c069 f   full-link-stubs.obj
+ 0001:0000b075       _attach_comdat@12          0040c075 f   full-link-stubs.obj
+ 0001:0000b083       _add_comdat_root@16        0040c083 f   full-link-stubs.obj
+ 0001:0000b091       _add_special_comdat_roots@4 0040c091 f   full-link-stubs.obj
+ 0001:0000b09f       _eliminate_unused_comdats@8 0040c09f f   full-link-stubs.obj
+ 0001:0000b0ad       _finish_comdat_elimination 0040c0ad f   full-link-stubs.obj
+ 0001:0000b0b9       _print_removed_comdats     0040c0b9 f   full-link-stubs.obj
+ 0001:0000b0c5       ?WriteVxdModuleTable@LinkContext@@QAEXH@Z 0040c0c5 f   full-link-stubs.obj
+ 0001:0000b0d9       ?WriteVxdNames@LinkContext@@QAEXH@Z 0040c0d9 f   full-link-stubs.obj
+ 0001:0000b0f0       ?InitializeSections@LinkContext@@QAEXXZ 0040c0f0 f   section-driver.obj
+ 0001:0000b300       ?PassOne@LinkContext@@QAEXXZ 0040c300 f   pass-one.obj
+ 0001:0000b8f1       _link_message              0040c8f1 f   pass-one.obj
+ 0001:0000b8fd       _create_library@12         0040c8fd f   pass-one.obj
+ 0001:0000b90d       _check_output_input_collision@8 0040c90d f   pass-one.obj
+ 0001:0000b9cc       ?LoadInputArgument@LinkContext@@QAEXPAUInputArgument@@PAUOutputLibrary@@@Z 0040c9cc f   pass-one.obj
+ 0001:0000b9e0       _check_input_modules@8     0040c9e0 f   pass-one.obj
+ 0001:0000b9ee       _resolve_weak_externals@8  0040c9ee f   pass-one.obj
+ 0001:0000b9fc       _search_libraries@4        0040c9fc f   pass-one.obj
+ 0001:0000ba0a       _resolve_initial_entry@4   0040ca0a f   pass-one.obj
+ 0001:0000ba1a       _infer_subsystem@4         0040ca1a f   pass-one.obj
+ 0001:0000ba2a       _infer_entry_point@4       0040ca2a f   pass-one.obj
+ 0001:0000ba3a       _process_definition_file@8 0040ca3a f   pass-one.obj
+ 0001:0000ba4a       _finalize_mac_entry@8      0040ca4a f   pass-one.obj
+ 0001:0000ba58       _set_subsystem_version@4   0040ca58 f   pass-one.obj
+ 0001:0000ba66       _warn_unused_libraries@4   0040ca66 f   pass-one.obj
+ 0001:0000ba74       _warn_missing_default_libraries@4 0040ca74 f   pass-one.obj
+ 0001:0000ba82       _initialize_library_enumerator@8 0040ca82 f   pass-one.obj
+ 0001:0000ba90       _next_library@4            0040ca90 f   pass-one.obj
+ 0001:0000baa0       _warn_unused_delay_libraries@0 0040caa0 f   pass-one.obj
+ 0001:0000bab0       __except_handler3          0040cab0 f   MSVCRT:MSVCRT.dll
+ 0001:0000bac0       __onexit                   0040cac0 f   MSVCRT:atonexit.obj
+ 0001:0000baf0       _atexit                    0040caf0 f   MSVCRT:atonexit.obj
+ 0001:0000bb10       ??2@YAPAXI@Z               0040cb10 f   MSVCRT:MSVCRT.dll
+ 0001:0000bb10       _crt_operator_new          0040cb10 f   MSVCRT:MSVCRT.dll
+ 0001:0000bb16       _crt_operator_delete       0040cb16 f   MSVCRT:MSVCRT.dll
+ 0001:0000bb16       ??3@YAXPAX@Z               0040cb16 f   MSVCRT:MSVCRT.dll
+ 0001:0000bb20       _mainCRTStartup            0040cb20 f   MSVCRT:crtexe.obj
+ 0001:0000bc70       ___dllonexit               0040cc70 f   MSVCRT:MSVCRT.dll
+ 0001:0000bc76       __XcptFilter               0040cc76 f   MSVCRT:MSVCRT.dll
+ 0001:0000bc7c       __initterm                 0040cc7c f   MSVCRT:MSVCRT.dll
+ 0001:0000bc90       __setdefaultprecision      0040cc90 f   MSVCRT:fp8.obj
+ 0001:0000bcb0       __matherr                  0040ccb0 f   MSVCRT:merr.obj
+ 0001:0000bcc0       __setargv                  0040ccc0 f   MSVCRT:dllargv.obj
+ 0001:0000bcd0       __controlfp                0040ccd0 f   MSVCRT:MSVCRT.dll
+ 0002:00000000       __imp__GetSystemInfo@4     0040d000     kernel32:KERNEL32.dll
+ 0002:00000004       __imp__VirtualAlloc@16     0040d004     kernel32:KERNEL32.dll
+ 0002:00000008       __imp__GetProcAddress@8    0040d008     kernel32:KERNEL32.dll
+ 0002:0000000c       __imp__GetModuleHandleA@4  0040d00c     kernel32:KERNEL32.dll
+ 0002:00000010       __imp__SetConsoleCtrlHandler@8 0040d010     kernel32:KERNEL32.dll
+ 0002:00000014       __imp__GetTickCount@0      0040d014     kernel32:KERNEL32.dll
+ 0002:00000018       __imp__GlobalMemoryStatus@4 0040d018     kernel32:KERNEL32.dll
+ 0002:0000001c       \177KERNEL32_NULL_THUNK_DATA 0040d01c     kernel32:KERNEL32.dll
+ 0002:00000020       __imp__strchr              0040d020     MSVCRT:MSVCRT.dll
+ 0002:00000024       __imp__getenv              0040d024     MSVCRT:MSVCRT.dll
+ 0002:00000028       __imp___strdup             0040d028     MSVCRT:MSVCRT.dll
+ 0002:0000002c       __imp__free                0040d02c     MSVCRT:MSVCRT.dll
+ 0002:00000030       __imp___mbspbrk            0040d030     MSVCRT:MSVCRT.dll
+ 0002:00000034       __imp___mbsnbicmp          0040d034     MSVCRT:MSVCRT.dll
+ 0002:00000038       __imp___searchenv          0040d038     MSVCRT:MSVCRT.dll
+ 0002:0000003c       __imp___access             0040d03c     MSVCRT:MSVCRT.dll
+ 0002:00000040       __imp___makepath           0040d040     MSVCRT:MSVCRT.dll
+ 0002:00000044       __imp___splitpath          0040d044     MSVCRT:MSVCRT.dll
+ 0002:00000048       __imp___mbsdec             0040d048     MSVCRT:MSVCRT.dll
+ 0002:0000004c       __imp___stricmp            0040d04c     MSVCRT:MSVCRT.dll
+ 0002:00000050       __imp__fopen               0040d050     MSVCRT:MSVCRT.dll
+ 0002:00000054       __imp___fullpath           0040d054     MSVCRT:MSVCRT.dll
+ 0002:00000058       __imp__malloc              0040d058     MSVCRT:MSVCRT.dll
+ 0002:0000005c       __imp__calloc              0040d05c     MSVCRT:MSVCRT.dll
+ 0002:00000060       __imp__sscanf              0040d060     MSVCRT:MSVCRT.dll
+ 0002:00000064       __imp__isdigit             0040d064     MSVCRT:MSVCRT.dll
+ 0002:00000068       __imp__fflush              0040d068     MSVCRT:MSVCRT.dll
+ 0002:0000006c       __imp___iob                0040d06c     MSVCRT:MSVCRT.dll
+ 0002:00000070       __imp__printf              0040d070     MSVCRT:MSVCRT.dll
+ 0002:00000074       __imp__setvbuf             0040d074     MSVCRT:MSVCRT.dll
+ 0002:00000078       __imp___strnicmp           0040d078     MSVCRT:MSVCRT.dll
+ 0002:0000007c       __imp___strupr             0040d07c     MSVCRT:MSVCRT.dll
+ 0002:00000080       __imp__memmove             0040d080     MSVCRT:MSVCRT.dll
+ 0002:00000084       __imp___except_handler3    0040d084     MSVCRT:MSVCRT.dll
+ 0002:00000088       __imp__fprintf             0040d088     MSVCRT:MSVCRT.dll
+ 0002:0000008c       __imp__fclose              0040d08c     MSVCRT:MSVCRT.dll
+ 0002:00000090       __imp__exit                0040d090     MSVCRT:MSVCRT.dll
+ 0002:00000094       __imp__puts                0040d094     MSVCRT:MSVCRT.dll
+ 0002:00000098       __imp__fread               0040d098     MSVCRT:MSVCRT.dll
+ 0002:0000009c       __imp___filelength         0040d09c     MSVCRT:MSVCRT.dll
+ 0002:000000a0       __imp____p__pgmptr         0040d0a0     MSVCRT:MSVCRT.dll
+ 0002:000000a4       __imp___mbsnbcpy           0040d0a4     MSVCRT:MSVCRT.dll
+ 0002:000000a8       __imp___mbsicmp            0040d0a8     MSVCRT:MSVCRT.dll
+ 0002:000000ac       __imp___mbschr             0040d0ac     MSVCRT:MSVCRT.dll
+ 0002:000000b0       __imp__atoi                0040d0b0     MSVCRT:MSVCRT.dll
+ 0002:000000b4       __imp__strtok              0040d0b4     MSVCRT:MSVCRT.dll
+ 0002:000000b8       __imp__fgets               0040d0b8     MSVCRT:MSVCRT.dll
+ 0002:000000bc       __imp__sprintf             0040d0bc     MSVCRT:MSVCRT.dll
+ 0002:000000c0       __imp__time                0040d0c0     MSVCRT:MSVCRT.dll
+ 0002:000000c4       __imp___tzset              0040d0c4     MSVCRT:MSVCRT.dll
+ 0002:000000c8       __imp__strncpy             0040d0c8     MSVCRT:MSVCRT.dll
+ 0002:000000cc       __imp___unlink             0040d0cc     MSVCRT:MSVCRT.dll
+ 0002:000000d0       __imp__fputc               0040d0d0     MSVCRT:MSVCRT.dll
+ 0002:000000d4       __imp_??2@YAPAXI@Z         0040d0d4     MSVCRT:MSVCRT.dll
+ 0002:000000d8       __imp_??3@YAXPAX@Z         0040d0d8     MSVCRT:MSVCRT.dll
+ 0002:000000dc       __imp____dllonexit         0040d0dc     MSVCRT:MSVCRT.dll
+ 0002:000000e0       __imp___onexit             0040d0e0     MSVCRT:MSVCRT.dll
+ 0002:000000e4       __imp___exit               0040d0e4     MSVCRT:MSVCRT.dll
+ 0002:000000e8       __imp___XcptFilter         0040d0e8     MSVCRT:MSVCRT.dll
+ 0002:000000ec       __imp____p___initenv       0040d0ec     MSVCRT:MSVCRT.dll
+ 0002:000000f0       __imp____getmainargs       0040d0f0     MSVCRT:MSVCRT.dll
+ 0002:000000f4       __imp___initterm           0040d0f4     MSVCRT:MSVCRT.dll
+ 0002:000000f8       __imp____setusermatherr    0040d0f8     MSVCRT:MSVCRT.dll
+ 0002:000000fc       __imp___adjust_fdiv        0040d0fc     MSVCRT:MSVCRT.dll
+ 0002:00000100       __imp____p__commode        0040d100     MSVCRT:MSVCRT.dll
+ 0002:00000104       __imp____p__fmode          0040d104     MSVCRT:MSVCRT.dll
+ 0002:00000108       __imp____set_app_type      0040d108     MSVCRT:MSVCRT.dll
+ 0002:0000010c       __imp___controlfp          0040d10c     MSVCRT:MSVCRT.dll
+ 0002:00000110       \177MSVCRT_NULL_THUNK_DATA 0040d110     MSVCRT:MSVCRT.dll
+ 0002:00000128       _default_dos_image         0040d128     link-driver.obj
+ 0002:000001b4       __IMPORT_DESCRIPTOR_KERNEL32 0040d1b4     kernel32:KERNEL32.dll
+ 0002:000001c8       __IMPORT_DESCRIPTOR_MSVCRT 0040d1c8     MSVCRT:MSVCRT.dll
+ 0002:000001dc       __NULL_IMPORT_DESCRIPTOR   0040d1dc     kernel32:KERNEL32.dll
+ 0003:00000000       ___xc_a                    0040e000     MSVCRT:cinitexe.obj
+ 0003:00000004       _application_initializer1  0040e004     initializers.obj
+ 0003:00000008       _application_initializer2  0040e008     initializers.obj
+ 0003:0000000c       _application_initializer3  0040e00c     initializers.obj
+ 0003:00000010       _application_initializer4  0040e010     initializers.obj
+ 0003:00000014       ___xc_z                    0040e014     MSVCRT:cinitexe.obj
+ 0003:00000018       ___xi_a                    0040e018     MSVCRT:cinitexe.obj
+ 0003:0000001c       ___xi_z                    0040e01c     MSVCRT:cinitexe.obj
+ 0003:00000178       _default_phase             0040e178     driver.obj
+ 0003:00000180       _tool_modes                0040e180     driver.obj
+ 0003:000004dc       _pdb_enabled               0040e4dc     link-driver.obj
+ 0003:00000b44       _definition_file           0040eb44     options.obj
+ 0003:00000b48       _vxd_module_name           0040eb48     options.obj
+ 0003:00000b4c       _warning_level             0040eb4c     options.obj
+ 0003:00000b50       _icf_iterations            0040eb50     options.obj
+ 0003:000013d0       _current_image_file        0040f3d0     pass-one.obj
+ 0003:00001400       ___defaultmatherr          0040f400     MSVCRT:merr.obj
+ 0003:0000140c       _reference_optimization_specified 0040f40c     link-driver.obj
+ 0003:00001410       _debug_option_present      0040f410     link-driver.obj
+ 0003:00001414       _incremental_enabled       0040f414     link-driver.obj
+ 0003:00001418       ?image_write_headers@@3P8LinkContext@@AEXH@ZQ1@ 0040f418     link-driver.obj
+ 0003:0000141c       _map_output                0040f41c     link-driver.obj
+ 0003:00001420       _repro_directory           0040f420     link-driver.obj
+ 0003:00001424       ?image_header_size@@3P8LinkContext@@AEKPAK@ZQ1@ 0040f424     link-driver.obj
+ 0003:00001428       _link_argc                 0040f428     link-driver.obj
+ 0003:0000142c       _link_argv                 0040f42c     link-driver.obj
+ 0003:00001430       _maximum_image_size        0040f430     link-driver.obj
+ 0003:00001434       _debug_formats             0040f434     link-driver.obj
+ 0003:00001438       _incremental_failed        0040f438     link-driver.obj
+ 0003:0000143c       ?image_write_section@@3P8LinkContext@@AEXHPAX0@ZQ1@ 0040f43c     link-driver.obj
+ 0003:00001440       _incremental_reuse         0040f440     link-driver.obj
+ 0003:00001448       _mac_resources             0040f448     options.obj
+ 0003:00001454       _map_file_name             0040f454     options.obj
+ 0003:00001458       _linker_time               0040f458     options.obj
+ 0003:00001460       _weak_mac_imports          0040f460     options.obj
+ 0003:00001470       _section_attributes        0040f470     options.obj
+ 0003:0000147c       _xoff                      0040f47c     options.obj
+ 0003:00001480       _export_directive_changed  0040f480     options.obj
+ 0003:00001484       _separate_types            0040f484     options.obj
+ 0003:00001488       _order_file_name           0040f488     options.obj
+ 0003:0000148c       _entry_point_name          0040f48c     options.obj
+ 0003:00001490       _verbose_link              0040f490     options.obj
+ 0003:00001494       _output_file_name          0040f494     options.obj
+ 0003:00001498       _librarian_context         0040f498     options.obj
+ 0003:000014a0       _section_merges            0040f4a0     options.obj
+ 0003:000014b0       _mac_import_arguments      0040f4b0     options.obj
+ 0003:000014bc       _mapped_debug              0040f4bc     options.obj
+ 0003:000014c0       _verbose_libraries         0040f4c0     options.obj
+ 0003:000014c4       _incremental_requested     0040f4c4     options.obj
+ 0003:000014c8       _edit_pad_size             0040f4c8     options.obj
+ 0003:000014cc       _mac_file_padding          0040f4cc     options.obj
+ 0003:000014d0       _reproducible_build        0040f4d0     options.obj
+ 0003:000014d4       _cross_module_types        0040f4d4     options.obj
+ 0003:000014d8       _import_library_name       0040f4d8     options.obj
+ 0003:000014e0       _image_comments            0040f4e0     options.obj
+ 0003:000014f0       _weak_mac_libraries        0040f4f0     options.obj
+ 0003:000014fc       _incremental_switch_set    0040f4fc     options.obj
+ 0003:00001500       _linker_test               0040f500     options.obj
+ 0003:00001504       _pdb_file_name             0040f504     options.obj
+ 0003:00001508       _export_arguments          0040f508     options.obj
+ 0003:00001520       _data_section              0040f520     full-link.obj
+ 0003:00001524       _output_module             0040f524     full-link.obj
+ 0003:00001528       _codeview_offset           0040f528     full-link.obj
+ 0003:0000152c       _file_access_statistics    0040f52c     full-link.obj
+ 0003:00001530       _export_section            0040f530     full-link.obj
+ 0003:00001534       _debug_directory           0040f534     full-link.obj
+ 0003:00001538       _coff_string_size          0040f538     full-link.obj
+ 0003:0000153c       _local_symbol_count        0040f53c     full-link.obj
+ 0003:00001540       _module_debug_table        0040f540     full-link.obj
+ 0003:00001544       _fixup_debug               0040f544     full-link.obj
+ 0003:00001548       _incremental_code          0040f548     full-link.obj
+ 0003:0000154c       _mac_toc                   0040f54c     full-link.obj
+ 0003:00001550       _mac_data                  0040f550     full-link.obj
+ 0003:00001554       _mac_function_symbol       0040f554     full-link.obj
+ 0003:00001558       _mac_toc_symbol            0040f558     full-link.obj
+ 0003:0000155c       _read_only_section         0040f55c     full-link.obj
+ 0003:00001560       _comdat_roots              0040f560     full-link.obj
+ 0003:00001564       _gp_base                   0040f564     full-link.obj
+ 0003:00001568       _undefined_symbols         0040f568     full-link.obj
+ 0003:0000156c       _large_ppc_image           0040f56c     full-link.obj
+ 0003:00001570       _old_image_name            0040f570     full-link.obj
+ 0003:00001574       _debug_section             0040f574     full-link.obj
+ 0003:00001578       _mac_function_info         0040f578     full-link.obj
+ 0003:0000157c       _output_file               0040f57c     full-link.obj
+ 0003:00001580       _emitted_symbol_count      0040f580     full-link.obj
+ 0003:00001584       _exception_section         0040f584     full-link.obj
+ 0003:00001588       _mac_resource_list         0040f588     full-link.obj
+ 0003:0000158c       _coff_debug                0040f58c     full-link.obj
+ 0003:00001590       _gp_symbol                 0040f590     full-link.obj
+ 0003:00001594       _coff_symbol_offset        0040f594     full-link.obj
+ 0003:00001598       _incremental_weak_symbols  0040f598     full-link.obj
+ 0003:0000159c       _misc_debug                0040f59c     full-link.obj
+ 0003:000015a0       _large_alpha_image         0040f5a0     full-link.obj
+ 0003:000015a4       _entry_symbol              0040f5a4     full-link.obj
+ 0003:000015a8       _short_entry_name          0040f5a8     full-link.obj
+ 0003:000015b0       _mac_target                0040f5b0     full-link.obj
+ 0003:000015b4       _procedure_section         0040f5b4     full-link.obj
+ 0003:000015b8       _duplicate_symbols         0040f5b8     full-link.obj
+ 0003:000015bc       _mac_procedure_group       0040f5bc     full-link.obj
+ 0003:000015c0       _gp_limit                  0040f5c0     full-link.obj
+ 0003:000015c4       _fixup_count               0040f5c4     full-link.obj
+ 0003:000015c8       _codeview_debug            0040f5c8     full-link.obj
+ 0003:000015cc       _bss_section               0040f5cc     full-link.obj
+ 0003:000015d0       _small_data_section        0040f5d0     full-link.obj
+ 0003:000015d4       _arch_data_ignored         0040f5d4     pass-one.obj
+ 0003:000015d8       _output_file_open          0040f5d8     pass-one.obj
+ 0003:000015dc       _current_input_library     0040f5dc     pass-one.obj
+ 0003:000015e0       __dowildcard               0040f5e0     MSVCRT:wildcard.obj
+ 0003:000015e4       __newmode                  0040f5e4     MSVCRT:_newmode.obj
+ 0003:000015e8       __commode                  0040f5e8     MSVCRT:xncommod.obj
+ 0003:000015ec       __fmode                    0040f5ec     MSVCRT:xtxtmode.obj
+ 0003:000015f0       _output_section_count      0040f5f0     <common>
+ 0003:000015f4       _architecture_section      0040f5f4     <common>
+ 0003:000015f8       _export_group              0040f5f8     <common>
+ 0003:000015fc       _initialize_bss            0040f5fc     <common>
+ 0003:00001600       _contribution_group_arena  0040f600     <common>
+ 0003:00001604       _delay_import_section      0040f604     <common>
+ 0003:00001608       _import_section            0040f608     <common>
+ 0003:0000160c       _debug_precompiled_group   0040f60c     <common>
+ 0003:00001610       _debug_type_group          0040f610     <common>
+ 0003:00001614       _import_thunk_section      0040f614     <common>
+ 0003:00001618       _debug_symbol_group        0040f618     <common>
+ 0003:0000161c       _import_descriptor_section 0040f61c     <common>
+ 0003:00001620       _output_section_arena      0040f620     <common>
+ 0003:00001624       _debug_fixup_group         0040f624     <common>
+ 0003:00001628       _ppc_loader_section        0040f628     <common>
+ 0003:0000162c       _comdat_arena              0040f62c     <common>
+ 0003:00001630       _module_section_capacity   0040f630     <common>
+ 0003:00001634       _module_section_map        0040f634     <common>
+ 0003:00001638       _module_section_headers    0040f638     <common>
+ 0003:0000163c       _module_section_pools_ready 0040f63c     <common>
+ 0003:00001640       _output_module_arena       0040f640     <common>
+ 0003:00001644       _output_library_arena      0040f644     <common>
+ 0003:00001650       _buffer4                   0040f650     <common>
+ 0003:00001660       _buffer8                   0040f660     <common>
+ 0003:00001680       _timing                    0040f680     <common>
+ 0003:000016a0       _buffer12                  0040f6a0     <common>
+ 0003:000016ac       _selected_tool_kind        0040f6ac     <common>
+ 0003:000016b0       _diagnostic_output         0040f6b0     <common>
+ 0003:000016b4       _selected_tool_name        0040f6b4     <common>
+ 0003:000016c0       _current_phase             0040f6c0     <common>
+ 0003:000016e0       _let_exceptions_escape     0040f6e0     <common>
+ 0003:000016e4       _program_name              0040f6e4     <common>
+ 0003:000016e8       _logo_pending              0040f6e8     <common>
+ 0003:00001700       _debug_flags               0040f700     <common>
+ 0003:00001800       _logo_text                 0040f800     <common>
+ 0003:0000180c       _cached_file_count         0040f80c     <common>
+ 0003:00001810       _cached_file_tail          0040f810     <common>
+ 0003:00001814       _file_record_count         0040f814     <common>
+ 0003:00001818       _file_mapping_enabled      0040f818     <common>
+ 0003:0000181c       _file_window_limit         0040f81c     <common>
+ 0003:00001820       _file_newest               0040f820     <common>
+ 0003:00001824       _cached_files              0040f824     <common>
+ 0003:00001828       _pending_files             0040f828     <common>
+ 0003:0000182c       _file_slots                0040f82c     <common>
+ 0003:00001840       _file_statistics           0040f840     <common>
+ 0003:0000187c       _maximum_physical_memory   0040f87c     <common>
+ 0003:00001880       _allocation_page_size      0040f880     <common>
+ 0003:00001884       _repro_response            0040f884     <common>
+ 0003:00001890       _input_files               0040f890     <common>
+ 0003:000018a0       _ordinary_files            0040f8a0     <common>
+ 0003:000018ac       _input_prepass             0040f8ac     <common>
+ 0003:000018b0       _library_files             0040f8b0     <common>
+ 0003:000018c0       _link_files                0040f8c0     <common>
+ 0003:000018cc       _argument_tail             0040f8cc     <common>
+ 0003:000018d0       _argument_file             0040f8d0     <common>
+ 0003:000018e0       _option_arguments          0040f8e0     <common>
+ 0003:000018ec       __adjust_fdiv              0040f8ec     <common>
+ 0003:000018f0       ___onexitend               0040f8f0     <common>
+ 0003:000018f4       ___onexitbegin             0040f8f4     <common>
+
+ entry point at        0001:0000bb20
+
+ Static symbols
+

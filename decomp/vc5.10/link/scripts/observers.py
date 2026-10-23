@@ -49,6 +49,8 @@ def plan(accepted,case="help"):
                        (0x61862,'observe:collision_fullpath_output_call'),(0x61864,'observe:collision_fullpath_output_return'),
                        (0x6189d,'observe:collision_fullpath_input_call'),(0x6189f,'observe:collision_fullpath_input_return'),
                        (0x618c4,'observe:collision_compare_call'),(0x618c6,'observe:collision_compare_return')])
+    if '_find_cached_file@4'in accepted:
+        result.extend([(0xb878,'observe:file_lookup_call'),(0xb87d,'observe:file_lookup_return')])
     if '_close_timing' in accepted:result.append((0x44eb6,'observe:timing_end'))
     for suffix,address in [('4',0x431e30),('8',0x431dc0),('12',0x424eb0)]:
         if '_free_buffer'+suffix in accepted:result += [(address+10-0x400000,'observe:delete_call_'+suffix),(address+15-0x400000,'observe:delete_return_'+suffix)]

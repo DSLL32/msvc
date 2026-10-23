@@ -88,7 +88,8 @@
     "LinkContext::PassOne",
     "_check_output_input_collision@8",
     "_open_argument_file@12",
-    "_acquire_file_record@16"
+    "_acquire_file_record@16",
+    "_find_cached_file@4"
   ],
   "driver": [
     {
@@ -2619,10 +2620,9 @@
     {
       "name": "_find_cached_file@4",
       "start": 4241760,
-      "end": 4241761,
+      "end": 4241920,
       "source": "src/files.c",
-      "status": "stub",
-      "pending_extent": true,
+      "status": "implemented",
       "native_symbol": "find_cached_file",
       "abi": "stdcall FileRecord *(const char *name); one stack input,RET4; no hidden inputs"
     },
@@ -2635,6 +2635,16 @@
       "pending_extent": true,
       "native_symbol": "get_available_file_record",
       "abi": "cdecl FileRecord *(void); no stack inputs,RET0; actual globals/state observed when reached"
+    },
+    {
+      "name": "_move_file_record@24",
+      "start": 4245472,
+      "end": 4245473,
+      "source": "src/files.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "move_file_record",
+      "abi": "stdcall void(FileRecord *record,FileRecord **source_first,FileRecord **source_last,FileRecord **destination_first,FileRecord **destination_last,BYTE append); six stack inputs,RET24; low-byte sixthformal, no hidden inputs; actual nullable pointer roles observed when reached"
     }
   ],
   "text_data": [

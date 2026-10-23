@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 71 application
-functions (31,144 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 72 application
+functions (31,304 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `find_cached_file`; hello-win32 has not completed.
+next frontier is `get_available_file_record`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -431,3 +431,13 @@ formal. Both builds, 225 freshly rerun state negatives and the strict 84-vertex/
 77-return audit pass. The measured state campaign takes 4.637 s (0.109 s positive,
 4.528 s negatives); unchanged controller/import protocol campaigns are hash-reused.
 Detailed capture/audit/native-fixture accounting is under `frontiers/71-acquire-file-record`.
+
+The 160-byte cached-file finder is accepted through its real NULL return on
+the empty active list. The zero-argument allocator is next; the sixteen free
+records remain distinct from the empty active/pending lists. Both builds and
+the strict 85-vertex/78-return audit pass. All 233 state negatives ran on the
+first native pair. Shared-header drift then required a native-only rebuild;
+its fresh positive passes with the prior mutation campaign reused by unchanged
+predicate hashes. Final shared readiness binds identical frozen bytes without
+an original recapture. Evidence, the stale-build rejection and precise fresh/
+reused timing are under `frontiers/72-find-cached-file`.
