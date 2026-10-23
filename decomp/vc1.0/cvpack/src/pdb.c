@@ -278,3 +278,87 @@ unsigned long type_server_age(TypeServer *server)
 {
     return server->age;
 }
+
+char loaded_type_server_name[512];
+
+void load_type_server_records(const char *name)
+{
+    unsigned short first, limit, type, index;
+    unsigned long count;
+    unsigned char *out, *record;
+    const char *in;
+    unsigned properties;
+    TypeRecord *entry;
+    if (!name) {
+        if (current_type_server) type_server_close(current_type_server);
+        name = loaded_type_server_name;
+        current_type_server = type_server_open(name, "rc");
+        if (!current_type_server) fatal_error(34, name, NULL);
+    } else {
+        in = name; out = (unsigned char *)loaded_type_server_name;
+        do { *out++ = *in; } while (*in++);
+    }
+    if (verbose == 1) printf("Reading PDB: %s\n", name);
+    if (previous_type_count) {
+        count = (unsigned long)previous_type_count*sizeof(*local_type_records);
+        out = (unsigned char *)local_type_records;
+        while (count--) *out++ = 0;
+        previous_type_count = 0;
+    }
+    first = type_server_first(current_type_server);
+    limit = type_server_limit(current_type_server);
+    for (type = first; type < limit; ++type) {
+        record = type_server_record(current_type_server, type);
+        index = local_type_count;
+        if (previous_type_count) {
+            count = (unsigned long)previous_type_count*sizeof(*local_type_records);
+            out = (unsigned char *)local_type_records;
+            while (count--) *out++ = 0;
+            previous_type_count = 0;
+        }
+        ++local_type_count;
+        if (local_type_count >= local_type_capacity) {
+            local_type_capacity += 6000;
+            local_type_records = realloc(local_type_records, (unsigned long)local_type_capacity*sizeof(*local_type_records));
+            if (!local_type_records) fatal_error(13, NULL, NULL);
+            out = (unsigned char *)&local_type_records[index];
+            count = 6000*sizeof(*local_type_records);
+            while (count--) *out++ = 0;
+        }
+        entry = &local_type_records[index];
+        entry->data = record;
+        entry->index = 0;
+        entry->flags |= 0x400;
+        entry->flags &= ~0x800;
+        properties = 0;
+        if (record) {
+            switch (*(unsigned short *)(record+2)) {
+            case 4: case 5: case 6:
+                properties = (*(unsigned short *)(record+8)&0x80)>>7;
+                break;
+            case 7:
+                properties = (*(unsigned short *)(record+10)&0x80)>>7;
+                break;
+            }
+        }
+        entry->flags = (entry->flags&~0x4000)|(properties<<14);
+    }
+    cached_type_count = local_type_count;
+}
+
+unsigned short type_server_first(TypeServer *server)
+{
+    return server->first_type;
+}
+
+unsigned short type_server_limit(TypeServer *server)
+{
+    return server->last_type;
+}
+
+unsigned char *type_server_record(TypeServer *server, unsigned short type)
+{
+    if (!server->loaded || type < server->first_type || type >= server->last_type)
+        _assert("fGetCVRecords && fHasTi(ti)", "typesrvr.cpp", 0x15d);
+    return server->type_offsets[type-0x1000]+2;
+}

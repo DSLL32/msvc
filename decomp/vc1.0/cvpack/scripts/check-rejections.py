@@ -67,6 +67,8 @@ def main():
     config,original=load()
     from pdb_checks import check as pdb_checks
     pdb_checks(config,original,reject)
+    from read_progress_checks import check as progress_checks
+    progress_checks(config,original,reject)
     from stack_output import compare as compare_output,validate as validate_output
     outputs=next(r for r in config['functions']if r['name']=='read_file')['parameters']
     output=next(r for r in outputs if r['name']=='buffer')
@@ -405,14 +407,20 @@ def main():
     arguments=dict(segment=dict(null=False,address=0x4000,local_address=0x4000,local=dict(owner='intern_public',name='segment',size=2,offset=0),prebytes='0100'))
     events='registers eax 00000000 esp 00001000 eip 0001afe1\noutput-buffer %08x 0100\n'%words[4]
     reject('both initialized stack output values differ from actual zero write',lambda:compare_output(segment,[segment],words,arguments,events,original))
-    pair=BINARY/'cases/hello-debug-dll/evidence/0050-type_server_age'
+    latest=next(entry for entry in reversed(config['accepted_order'])if entry['case']=='hello-debug-dll')
+    owner=next(record for record in config['functions']if record['name']==latest['function'])
+    pair=(BINARY/owner['evidence']).parent
     events=(pair/'original-events').read_text()
     state=json.loads((pair/'native-gdb.json').read_text());native_reads=json.loads((pair/'native-read-returns.json').read_text())
     filtered='\n'.join(line for line in events.splitlines()if not(line.startswith(('read-entry 00017e69 ','read-return 00017e69 ','read-rearm 00017e69 ','read-rearm 00017e6e '))))
     from allocations import context as allocation_context
-    frontier=next(r for r in config['functions']if r['name']=='load_type_server_records')
-    allocation_context(config,original,events,state,frontier,'hello-debug-dll',native_reads)
-    try:allocation_context(config,original,filtered,state,frontier,'hello-debug-dll',[r for r in native_reads if r['site']!=0x17e69])
+    next_name=json.loads((pair/'proof.json').read_text())['native_frontier']
+    frontier=next(r for r in config['functions']if r['native']==next_name)
+    from read_progress import compare as compare_progress
+    progress=json.loads((pair/'native-read-progress.json').read_text())if (pair/'native-read-progress.json').exists()else []
+    partial=compare_progress(config,original,events,progress,frontier,state)
+    allocation_context(config,original,events,state,frontier,'hello-debug-dll',native_reads,partial)
+    try:allocation_context(config,original,filtered,state,frontier,'hello-debug-dll',[r for r in native_reads if r['site']!=0x17e69],partial)
     except AssertionError as error:assert str(error)=='scratch consumer reads before initialization',error
     else:raise AssertionError('accepted missing actual defining public read')
     print('rejected: scratch consumer has no defining public read on either side')

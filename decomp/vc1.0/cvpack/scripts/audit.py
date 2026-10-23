@@ -271,6 +271,8 @@ def main():
     validate_pdb_read(config,original)
     from public_arena import validate as validate_public_arena
     validate_public_arena(config,original)
+    from read_progress import validate as validate_read_progress
+    validate_read_progress(config,original)
     checked=0
     for record in functions:
         from stack_output import validate as validate_output

@@ -1,0 +1,33 @@
+{
+  "reviewer": "/root",
+  "time_utc": "2026-10-23T12:32:11.460851+00:00",
+  "commit": "1e5ff27f283ff27251c64bb99d4e42553b0a50fe",
+  "packet_sha256": "4b98e09509fb8d08f8c3face77263c931d48e09c217ef6b5e957b63812c19042",
+  "source_inventory_verified": 14,
+  "decision": "approved: release gate50",
+  "checks": {
+    "native_receipt": "/root/.ai-tmp/msvc2/cvpack-root-review-0050-native/receipt.json",
+    "audit": {
+      "exit": 0,
+      "seconds": 0.26003204,
+      "result": "50 original/compiler CFG/callee/ABI functions;140 contextual data objects;strict runtime identities"
+    },
+    "negative_controls": {
+      "exit": 0,
+      "count": 166
+    }
+  },
+  "review_scope": [
+    "Readable Win32 C and source layout; assembly limited to INT3 stubs",
+    "Original ABI and typed object layout; contextual data ownership",
+    "Exact CRT identities separated from application and guarded variants",
+    "Mandatory ordered DLL/PDB _sopen inventory and rearm/actual API observations",
+    "Defined-byte and owner proofs; raw uninitialized allocation bytes receive no equality credit",
+    "Native-only cached fixtures; owned immutable PDB input; no original execution for review"
+  ],
+  "limitations": [
+    "Second case remains at load_type_server_records; not a completion claim",
+    "Observed uninitialized incremental field is case-specific; allocator perturbation counterexample retained",
+    "Original inherited HANDLE/native CLOEXEC differs outside this no-child case"
+  ]
+}

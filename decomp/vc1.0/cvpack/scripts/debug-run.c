@@ -531,6 +531,30 @@ static int observe_read(HANDLE child, HANDLE thread, HANDLE log, DWORD address)
     return 0;
 }
 
+/* The reached public read is suspended after its first page copy.  Retain
+   actual loop registers/ABI words and the full pending buffer, without returning
+   from the read or initializing its untouched tail. */
+static int dump_read_progress(HANDLE child,HANDLE log,DWORD entry,CONTEXT *context,DWORD *words)
+{
+    DWORD bytes,written,position,fd,flags,host_position,module,module_number=0;
+    int used;DWORD i;
+    if (!read_active_site) return 1;
+    if (entry!=0x2a5c0 || read_active_site!=0x17e69 || read_size!=209 || context->Ebp!=197 ||
+        words[0]!=0x2a3dd || words[1]!=context->Ebx || words[3]!=209 || words[8]!=words[1] ||
+        words[9]!=read_address || words[10]!=209 || words[11]!=0x17e6e ||
+        words[12]!=read_handle || words[13]!=read_address || words[14]!=209 ||
+        context->Edi!=read_address+197 ||
+        !ReadProcessMemory(child,(void *)0x33050,&module,4,&bytes) || bytes!=4 ||
+        !ReadProcessMemory(child,(void *)module,&module_number,2,&bytes) || bytes!=2 || module_number!=3 ||
+        !ReadProcessMemory(child,(void *)read_address,array_bytes,read_size,&bytes) || bytes!=read_size ||
+        !read_state(child,read_handle,&position,&fd,&flags,&host_position)) return 0;
+    used=sprintf(object_line,"read-progress site %08lx address %08lx count %lu copied %lu remaining %lu counter %lu position %lu slot %08lx caller %08lx readreturn %08lx destination %08lx cursor %08lx module %lu bytes ",
+        read_active_site,read_address,read_size,context->Ebp,words[3]-context->Ebp,words[3],position,words[1],words[0],words[11],words[9],context->Esi,module_number);
+    for(i=0;i<read_size;++i)used+=sprintf(object_line+used,"%02x",array_bytes[i]);
+    object_line[used++]='\n';
+    return WriteFile(log,object_line,used,&written,0) && written==(DWORD)used;
+}
+
 static int rearm_read(HANDLE child, HANDLE thread, HANDLE log, DWORD address)
 {
     CONTEXT context;
@@ -1055,6 +1079,7 @@ int main(int argc, char **argv)
                         }
                     }
                 }
+                if (!dump_read_progress(child.hProcess,log,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,&context,words)) return 28;
                 if (!dump_output_buffers(child.hProcess, log, (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress, words)) return 15;
                 if (!dump_transient_children(child.hProcess, log, (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress, words)) return 21;
                 dump_process_arguments(child.hProcess, log);

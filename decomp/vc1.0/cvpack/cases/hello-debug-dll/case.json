@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "load_type_server_records",
-    "native_function": "load_type_server_records",
+    "logical": "advance_file_page",
+    "native_function": "advance_file_page",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -68,7 +68,12 @@
       "type_server_read_records",
       "type_server_signature",
       "type_server_age",
-      "load_type_server_records"
+      "load_type_server_records",
+      "type_server_first",
+      "type_server_limit",
+      "type_server_record",
+      "reset_type_hash",
+      "advance_file_page"
     ]
   },
   "complete_reference": {

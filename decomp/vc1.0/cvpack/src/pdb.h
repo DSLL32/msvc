@@ -49,4 +49,7 @@ typedef struct TypeServerRecord {
 } TypeServerRecord;
 void *type_server_fill_alloc(unsigned long, unsigned char);
 TypeServerRecord *__stdcall type_server_record_init(TypeServerRecord *, TypeServerRecord *, unsigned char *, unsigned short);
+unsigned short type_server_first(TypeServer *);
+unsigned short type_server_limit(TypeServer *);
+unsigned char *type_server_record(TypeServer *, unsigned short);
 #endif

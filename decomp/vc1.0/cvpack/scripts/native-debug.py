@@ -66,6 +66,7 @@ def install_sopen_observer(output,work,policies):
 
 def install_read_observer(output,sites):
     events=[];output=Path(output)
+    gdb.cvpack_read_events=events
     by_line={(r.get('owner','read_image_debug'),r['native_line']):r for r in sites}
     def save():output.write_text(json.dumps(events,indent=2)+'\n')
     def state(handle):
@@ -166,3 +167,23 @@ def install_pdb_consumed_observer(output,source,line):
                 events.append(dict(address=address,value=int(server.dereference()['incremental'])&0xffffffff,site=0x2b1a7));save();return False
             except Exception as error:events.append(dict(error=str(error)));save();return True
     Consumed();save()
+
+
+def capture_read_progress(source,line):
+    events=getattr(gdb,'cvpack_read_events',[])
+    if not events or 'returned'in events[-1]:return []
+    active=events[-1];current=gdb.newest_frame();caller=current.older();outer=caller.older()
+    assert current.name()=='advance_file_page'and caller.name()=='read_buffered_file'and outer.name()=='read_file','unreviewed pending read consumer'
+    sal=gdb.find_pc_line(int(caller.pc())-1)
+    assert Path(sal.symtab.fullname()).resolve()==Path(source).resolve()and sal.line==line,'pending read caller site differs'
+    slot=current.read_var('slot');address=int(caller.read_var('buffer'));destination=int(caller.read_var('destination'))
+    copied=int(caller.read_var('copied'));counter=int(caller.read_var('remaining'));size=int(caller.read_var('size'))
+    assert int(slot)==int(caller.read_var('slot'))and int(slot)==int(gdb.parse_and_eval('file_slots[%d]'%active['handle']))
+    assert outer.older().name()=='read_publics'and int(outer.read_var('buffer'))==address and int(outer.read_var('size'))==size
+    assert address==active['address']==destination and size==counter==active['count']==209 and copied==197
+    assert int(gdb.parse_and_eval('current_module->module'))==3
+    page=slot.dereference()['cursor']['page'].dereference()
+    assert int(page['position'])==int(page['limit'])
+    return [dict(site=active['site'],address=address,count=size,copied=copied,remaining=counter-copied,counter=counter,
+        position=int(page['position']),slot=int(slot),caller=0x2a3dd,readreturn=0x17e6e,destination=destination,cursor=int(page['cursor']),module=3,
+        pending=True,returned=False,native_return_pc=int(caller.pc()),native_source_line=sal.line,bytes=bytes(gdb.selected_inferior().read_memory(address,size)).hex())]

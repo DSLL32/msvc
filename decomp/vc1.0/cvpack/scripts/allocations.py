@@ -22,7 +22,7 @@ def validate(config,pe):
         assert allocation['defined_ranges']==[], 'unreviewed scratch definedness'
     return proof
 
-def context(config,pe,events,state,frontier,case,native_reads=None):
+def context(config,pe,events,state,frontier,case,native_reads=None,partial_reads=None):
     proof=validate(config,pe)
     if not proof:return {}
     assert case==proof['allowed_case'],'unreviewed scratch case'
@@ -81,8 +81,13 @@ def context(config,pe,events,state,frontier,case,native_reads=None):
             assert a['site']in item.get('allowed_write_sites',[]),'unreviewed scratch write site'
             offset=a['address']-old_address
             assert offset==b['address']-new_address,'scratch write allocation-relative pointer differs'
-            assert 'returned'in a and 'returned'in b and a['returned']==b['returned'],'incomplete scratch defining write'
-            length=max(a['returned'],0)
+            if 'returned'in a or 'returned'in b:
+                assert 'returned'in a and 'returned'in b and a['returned']==b['returned'],'incomplete scratch defining write'
+                length=max(a['returned'],0)
+            else:
+                records=[r for r in partial_reads or []if r['site']==a['site']and r['original_address']==a['address']and r['native_address']==b['address']and r['count']==a['count']==b['count']]
+                assert len(records)==1 and records[0]['pending']is True,'missing actual partial scratch write'
+                length=records[0]['copied']
             assert 0<=offset<=offset+length<=count,'scratch defining write exceeds allocation'
             ranges.append((offset,offset+length));writes.append(dict(site=a['site'],offset=offset,length=length))
         merged=[]

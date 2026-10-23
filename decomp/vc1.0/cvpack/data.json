@@ -900,5 +900,13 @@
     "symbol": "_empty_type_server_header",
     "original": 232868,
     "size": 64
+  },
+  {
+    "name": "loaded_type_server_name",
+    "symbol": "_loaded_type_server_name",
+    "original": 217264,
+    "size": 512,
+    "source": "src/pdb.c",
+    "provenance": "Reached cached database filename buffer; original unbounded copy to350b0,512-byte zero extent before next identified file manager globals. Current case defines exact58-byte filename prefix."
   }
 ]

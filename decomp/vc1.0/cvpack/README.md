@@ -8,9 +8,9 @@ The PE/COFF analysis reader was reused from LINK; no sibling files are changed.
 `make -j4 native check` builds/runs native i386 fixtures. `make -j4 all audit`
 also verifies original-compiler compilability. Debug with GDB against
 `build/native/CVPACK.EXE`. `/help` is complete: exact 219-byte stdout, exit 1 and
-empty stderr. Fifty application functions are accepted; reconstruction is paused for the second
-orchestrator review. The independent DLL case stops at the named
-`load_type_server_records` stub. CRT startup has a
+empty stderr. Fifty-five application functions are accepted. The second orchestrator review
+passed at fifty; reconstruction continues autonomously. The independent DLL case
+currently stops at the named `advance_file_page` stub. CRT startup has a
 separate exact-library and observed-state proof and is counted separately.
 `audit` checks complete original/compiler CFGs and callees, RET cleanup, SEH
 roots, contextual initial data, library relocations, and targeted rejection checks, including ownership, snapshots, conditional ABI words and
@@ -126,3 +126,12 @@ the alternate named stub and the regression rejects it.
 The original capture/debug helper is under `scripts/debug-run.c`, outside the
 reconstructed source inventory. Cached CRT guard controls and rejection fixtures
 use owned evidence, with no dependency on historical scratch directories.
+
+Gate fifty passed independent root review; its immutable approval is retained in
+`cases/reviews/0050/root-approval.json`. Checkpoint55 adds PDB-backed local type
+records and cache reset. The current public read crosses a buffered page and is
+still pending: a narrowly bound observer proves197of209 bytes were actually
+written, compares them, and checks each untouched tail against its own entry
+bytes. Full raw buffers remain evidence; no return or general partial-write rule
+is invented. The184 rejection controls include this boundary's ownership,
+caller, extent, defined bytes, tail, completion and freshness checks.

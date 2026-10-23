@@ -2528,16 +2528,34 @@
       "native": "reset_type_hash",
       "symbol": "_reset_type_hash",
       "original": 107184,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        107184,
+        107228
+      ],
       "abi": "void reset_type_hash(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0055-reset_type_hash/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [],
+      "required_pdb_record_proof": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "reset_local_types",
@@ -2796,13 +2814,16 @@
       "native": "load_type_server_records",
       "symbol": "_load_type_server_records",
       "original": 108912,
-      "source": "src/stubs.c",
+      "source": "src/pdb.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        108912,
+        109539
+      ],
       "abi": "void load_type_server_records(const char *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0051-load_type_server_records/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -2811,7 +2832,22 @@
           "slot": 1,
           "kind": "cstring"
         }
-      ]
+      ],
+      "required_pdb_record_proof": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "type_server_open_file",
@@ -2836,7 +2872,7 @@
           "slot": 1,
           "kind": "transient-pointer",
           "evidence": "cases/abi/type-server-constructor.json",
-          "evidence_sha256": "7e774f169ba314e517cce7849fb250c4b24e26d1ca3336df3ae4143e3c87f87b"
+          "evidence_sha256": "0ea919d8b4f58c5342c6086b1634b801bd313ca1d0809411b0a395236182a667"
         },
         {
           "name": "name",
@@ -2889,7 +2925,7 @@
           "slot": 1,
           "kind": "transient-pointer",
           "evidence": "cases/abi/type-server-header.json",
-          "evidence_sha256": "83f5923a49a8da113e758c5694f0e113267b1dae3e0125e5830773784e98d639"
+          "evidence_sha256": "a41797d12cab66c15cde37bd66e262ffb32ca0eb62e281ddec34e8aa7e230fee"
         }
       ],
       "required_conditional_calls_by_case": {
@@ -2974,6 +3010,132 @@
           "bits": 16
         }
       ]
+    },
+    {
+      "name": "type_server_first",
+      "native": "type_server_first",
+      "symbol": "_type_server_first",
+      "original": 179392,
+      "source": "src/pdb.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        179392,
+        179404
+      ],
+      "abi": "unsigned short type_server_first(TypeServer *)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0052-type_server_first/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "server",
+          "slot": 1,
+          "kind": "pointer"
+        }
+      ],
+      "required_pdb_record_proof": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
+    },
+    {
+      "name": "type_server_limit",
+      "native": "type_server_limit",
+      "symbol": "_type_server_limit",
+      "original": 179404,
+      "source": "src/pdb.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        179404,
+        179416
+      ],
+      "abi": "unsigned short type_server_limit(TypeServer *)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0053-type_server_limit/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "server",
+          "slot": 1,
+          "kind": "pointer"
+        }
+      ],
+      "required_pdb_record_proof": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
+    },
+    {
+      "name": "type_server_record",
+      "native": "type_server_record",
+      "symbol": "_type_server_record",
+      "original": 178908,
+      "source": "src/pdb.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        178908,
+        179001
+      ],
+      "abi": "unsigned char *type_server_record(TypeServer *,unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0054-type_server_record/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "server",
+          "slot": 1,
+          "kind": "pointer"
+        },
+        {
+          "name": "type",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 16
+        }
+      ],
+      "required_pdb_record_proof": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     }
   ],
   "review": {
@@ -2991,11 +3153,13 @@
       "approval": "Root independently read all source/layouts/proofs and reran native build, both fixtures, whole graph/ABI/data audit and32 negatives; all passed."
     },
     "fifty": {
-      "status": "awaiting root review; reconstruction paused",
+      "status": "passed by root; released for autonomous reconstruction",
       "receipt": "cases/reviews/0050/review.json",
       "application_functions": 50,
       "next_stub": "load_type_server_records",
-      "further_reconstruction_paused": true
+      "further_reconstruction_paused": false,
+      "approval": "Root independently checked all14 source hashes, both native cases, audit and166 negatives; all passed.",
+      "approval_receipt": "cases/reviews/0050/root-approval.json"
     }
   },
   "accepted_order": [
@@ -3298,6 +3462,36 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 50
+    },
+    {
+      "function": "load_type_server_records",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 51
+    },
+    {
+      "function": "type_server_first",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 52
+    },
+    {
+      "function": "type_server_limit",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 53
+    },
+    {
+      "function": "type_server_record",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 54
+    },
+    {
+      "function": "reset_type_hash",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 55
     }
   ],
   "support_unmasked": [
@@ -3892,11 +4086,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "a60cf3d892f7b17dda85e7855295e712ad510e26c741fd8e17cb7f26a9ee1d13"
+    "evidence_sha256": "52ace21d5b92f02e905a092d14046eab988e4a2f6aa937d399d3840f6bf6322d"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "c044e2d4ffb290b5dd20c8a5db03498de7d9d0488667fb3180873e0a138c3679"
+    "evidence_sha256": "c8cfb6e3fd1f1a945a463e8033ff75aa146b1ceb6b3a14983bc3390034391712"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -3908,14 +4102,18 @@
   },
   "pdb_read_observations": {
     "evidence": "cases/abi/pdb-header-read.json",
-    "evidence_sha256": "b2d436fcc64732f7c6cbf738e268edc8155a94ccca96f288fb59b84e9e10c065"
+    "evidence_sha256": "c35874eee00780e9a54a08297f175bfabad9ddf740b639471f70a1c3da837c37"
   },
   "pdb_object_observations": {
     "evidence": "cases/abi/pdb-objects.json",
-    "evidence_sha256": "b7d5ab19d65b476720ae5080295f96d0064f35169365638b606e694a4d841526"
+    "evidence_sha256": "49fa0002adcc57b331e8b546f57efee866fb92d0aa0750d51d8233fbb6c6d6ac"
   },
   "pdb_consumed_observations": {
     "evidence": "cases/abi/pdb-consumed.json",
-    "evidence_sha256": "d32b4891bfce6f373bdd79ec5d40427cc534ed05ca705a9349abe602254e6ca9"
+    "evidence_sha256": "e93b5d383370b0ee7c057b4df431988896bf5248c36dd469133c9ed7effdfd2f"
+  },
+  "partial_read_observations": {
+    "evidence": "cases/abi/partial-public-read.json",
+    "evidence_sha256": "eef685961f870cc63e62c513d5e5104974ad7064c1397b56b4e9519b46aee8fe"
   }
 }

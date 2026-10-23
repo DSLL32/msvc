@@ -1,0 +1,27 @@
+{
+  "site": 97897,
+  "frontier": 173504,
+  "return": 173021,
+  "requested": 209,
+  "copied": 197,
+  "remaining": 12,
+  "module": 3,
+  "native_line": 340,
+  "sources": {
+    "src/files.c": "bceafc3238f58167a1e6a552d487109271ec87b63c8e821137e13ab151297040",
+    "src/modules.c": "ad28d7fb9548e4a4ce3ecbf8c04da13a4d9a6cb9992f1ffcba219afeae2dacdb"
+  },
+  "instructions": [
+    [
+      172880,
+      173054,
+      "05f8e6eabe1526cb41edc9ced1d40c29be83d3021566a7d7371d2072ff13c318"
+    ],
+    [
+      97824,
+      97960,
+      "1a976e13c514ea7b19e0a7eb7fe02bd85ab34c858d5e3c7a3d1952764a459f4e"
+    ]
+  ],
+  "scope": "Root-approved exact module3 public read: first209-byte request pauses at advance_file_page after197actual writes. Physical loop counter remains209 before subtraction; logical remainder12 derived. Exact raw stack/caller/page/source/allocation proof; full209bytes preserved,197defined compared, each own12-byte tail unchanged. No invented return or arbitrary partial-write exemption."
+}

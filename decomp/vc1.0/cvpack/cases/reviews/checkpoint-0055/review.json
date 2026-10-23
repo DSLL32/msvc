@@ -1,0 +1,37 @@
+{
+  "application_functions": 55,
+  "next": "advance_file_page",
+  "gate50": "Approved by root at1e5ff27f; root-approval receipt retained under0050.",
+  "scope": "209-byte module3 public read suspended after197actual writes. Both complete raw buffers retained;197defined bytes match and12-byte tails each unchanged relative to ownentry. Logicalremainder12, physicalcounter209 beforeoriginal2a3e0subtraction. Exactloop/callsite/ownedallocation/source/config proof required; no invented return or generalpartialwrite mask.",
+  "negative_controls": 184,
+  "timing": {
+    "build": {
+      "argv": [
+        "make",
+        "-j4",
+        "all",
+        "native",
+        "graph-identities",
+        "graph-audit-tool"
+      ],
+      "seconds": 1.4981246488168836
+    },
+    "native": {
+      "argv": [
+        "python3",
+        "scripts/check-native.py",
+        "--output",
+        "/root/.ai-tmp/vc1.0-cvpack/0055-checkpoint-native"
+      ],
+      "seconds": 0.3355516027659178
+    },
+    "audit": {
+      "argv": [
+        "python3",
+        "scripts/audit.py"
+      ],
+      "seconds": 0.4085478698834777
+    }
+  },
+  "evidence": "cases/hello-debug-dll/evidence/0055-reset_type_hash/proof.json"
+}

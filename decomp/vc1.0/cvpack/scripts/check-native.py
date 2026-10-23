@@ -52,6 +52,9 @@ def run_case(name, directory, debug=False):
         'continue\npython\n'
         'import gdb,json\n'
         'current=gdb.newest_frame()\nparameters={}\n'
+        'import runpy\n'
+        'progress=runpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["capture_read_progress"]('+repr(str(BINARY/'src/files.c'))+','+str(next(i for i,line in enumerate((BINARY/'src/files.c').read_text().splitlines(),1)if line.strip()=='advance_file_page(slot);'))+')\n'
+        'json.dump(progress,open('+repr(str(directory/'read-progress.json'))+',"w"))\n'
         'for symbol in current.block():\n'
         ' if symbol.is_argument:\n'
         '  value=current.read_var(symbol); kind=value.type.strip_typedefs().code\n'
@@ -159,7 +162,7 @@ def run_case(name, directory, debug=False):
         '  pointer=0 if item["next"]==0xffffffff else int.from_bytes(raw[item["next"]:item["next"]+4],"little")\n'
         ' if pointer: raise RuntimeError("unterminated object walk: "+name)\n'
         ' walks[name]=nodes\n'
-        'json.dump(dict(signal=int(signal),frames=frames,argc=argc,argv=argv,stdout=stream,state=state,parameters=parameters,globals=globals,global_addresses=global_addresses,walks=walks),open('+repr(str(report))+',"w"))\n'
+        'json.dump(dict(signal=int(signal),frames=frames,argc=argc,argv=argv,stdout=stream,state=state,parameters=parameters,globals=globals,global_addresses=global_addresses,walks=walks,pending_read_entries=[r for r in getattr(gdb,"cvpack_read_events",[])if "returned"not in r]),open('+repr(str(report))+',"w"))\n'
         'end\nquit\n')
     env = os.environ.copy()
     for variable in list(env):

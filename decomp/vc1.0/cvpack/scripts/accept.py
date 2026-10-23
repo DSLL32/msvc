@@ -121,11 +121,14 @@ def main():
     if crt_proof and not completed:
         old_errno=int.from_bytes(bytes(memory[0x39614+i]for i in range(4)),'little')
         assert old_errno==state['state']['crt_errno'],'CRT errno differs at application boundary'
+    from read_progress import compare as compare_read_progress
+    progress_path=native/args.case/'read-progress.json'
+    progress_proof=compare_read_progress(config,pe,events,json.loads(progress_path.read_text())if progress_path.exists()else [],frontier,state)
     object_proof={}
     if not completed and (BINARY/'walks.json').exists():
         specifications=json.loads((BINARY/'walks.json').read_text())
         from allocations import context as allocation_context
-        definitions=allocation_context(config,pe,events,state,frontier,args.case,native_reads)
+        definitions=allocation_context(config,pe,events,state,frontier,args.case,native_reads,progress_proof)
         from public_arena import context as public_arena_context
         arena_context=public_arena_context(config,pe,events,state)
         object_proof=compare_walks(specifications,original_walks(events,specifications),state['walks'],definitions,arena_context,consumed_proof)
@@ -233,7 +236,7 @@ def main():
     directory.mkdir(parents=True,exist_ok=False)
     for name in ('events','receipt.json','stdout','stderr','runtime-plan','configuration.json'):
         shutil.copyfile(original/name,directory/('original-'+name))
-    for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr','crt-returns.json','read-returns.json','pdb-read-returns.json','pdb-consumed.json'):
+    for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr','crt-returns.json','read-returns.json','pdb-read-returns.json','pdb-consumed.json','read-progress.json'):
         if (native/args.case/name).is_file():shutil.copyfile(native/args.case/name,directory/('native-'+name))
     shutil.copyfile(native/args.case/'configuration.json',directory/'native-configuration.json')
     for side,source in (('original',original),('native',native/args.case)):
@@ -251,7 +254,7 @@ def main():
         matched_frontier_parameters=state['parameters'],runtime_unmasked=support,pdb_header_reads=pdb_read_proof,consumed_undefined_input=consumed_proof,
         conditionally_inactive_parameters=inactive,
         conditional_CRT_support=crt_proof,
-        read_return_observations=read_proof,
+        read_return_observations=read_proof,partial_read_observations=progress_proof,
         observed_objects=object_proof,
         process_boundary=native_receipt.get('process_boundary'),
         graph_ABI_data='Complete original/compiler CFG/callee/RET ABI and contextual initial data passed',

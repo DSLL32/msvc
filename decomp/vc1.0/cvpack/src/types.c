@@ -200,3 +200,18 @@ void reset_local_types(void)
     }
     local_type_count = 0;
 }
+
+void reset_type_hash(void)
+{
+    unsigned i;
+    TypeCacheEntry *entry;
+    for (i = 0; i < 512; ++i) {
+        entry = ((TypeCacheEntry **)type_work_a)[i];
+        while (entry) {
+            entry->count = 0;
+            entry->state[1] = 0;
+            entry->state[0] = 0;
+            entry = entry->next;
+        }
+    }
+}

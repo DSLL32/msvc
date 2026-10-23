@@ -25,6 +25,14 @@ typedef struct TypeRecord {
     unsigned short flags;
 } TypeRecord;
 
+/* Linked cache nodes reset between modules; later passes fill their state. */
+typedef struct TypeCacheEntry {
+    unsigned long state[2];
+    unsigned short count;
+    struct TypeCacheEntry *next;
+} TypeCacheEntry;
+typedef char TypeCacheEntrySize[(sizeof(TypeCacheEntry)==16)?1:-1];
+
 typedef struct TypeDerivation {
     unsigned short type, count, capacity, reserved;
     unsigned short *list;

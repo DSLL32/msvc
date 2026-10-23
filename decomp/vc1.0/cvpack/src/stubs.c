@@ -74,11 +74,9 @@ void finish_recursive_types(void) { __asm { int 3 } }
 
 unsigned short numeric_leaf_size(const unsigned char *leaf) { __asm { int 3 } return 0; }
 void read_old_global_types(void *types, unsigned long size) { __asm { int 3 } }
-void reset_type_hash(void) { __asm { int 3 } }
 void load_precompiled_types(const unsigned char *record) { __asm { int 3 } }
 void __fastcall add_old_type(const unsigned char *record, int is_new, int flag, int extra, unsigned short skip) { __asm { int 3 } }
 
 int type_server_close(TypeServer *server) { __asm { int 3 } return 0; }
-void load_type_server_records(const char *name) { __asm { int 3 } }
 void *type_server_fill_alloc(unsigned long size, unsigned char value) { __asm { int 3 } return NULL; }
 TypeServerRecord *__stdcall type_server_record_init(TypeServerRecord *node, TypeServerRecord *next, unsigned char *record, unsigned short type) { __asm { int 3 } return NULL; }
