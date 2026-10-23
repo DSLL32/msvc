@@ -1,0 +1,32 @@
+{
+  "buffers": {
+    "expression_file": "004f1f80000080244f020a004f01195353267500462d74002d73004c4f11534f011a",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "1186032e1d30016900000000120a006172656e612e6300",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "normalize_based_expression",
+    "make_indirection",
+    "make_symbol_value",
+    "reference_identifier_symbol",
+    "make_identifier_expression",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "exit": null,
+  "frontier": "normalize_based_expression",
+  "pc": 1448962568,
+  "label_stack_count": 0,
+  "scanner_flags": 2623488,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ]
+}

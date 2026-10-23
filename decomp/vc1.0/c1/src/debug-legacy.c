@@ -618,3 +618,40 @@ void __stdcall restore_pch_debug_state(char *object_name)
     end = append_codeview_name(name,object_name);
     write_legacy_type_record(10 + (end - name));
 }
+
+/* Embedded CodeView symbol records used by based-pointer type leaves. */
+enum LegacyBaseSymbolKind {
+    LEGACY_BASE_STACK = 0x200,
+    LEGACY_BASE_LOCAL_DATA = 0x201,
+    LEGACY_BASE_GLOBAL_DATA = 0x202
+};
+
+/* Original 0x48c60..0x48d10. Serialize a stack or data symbol after
+   assigning its referenced type index; offsets remain relocation placeholders. */
+unsigned __stdcall serialize_legacy_symbol(unsigned char *destination, FrontendSymbol *symbol)
+{
+    unsigned storage;
+    unsigned short *record = (unsigned short *)destination;
+    unsigned short bytes;
+    char *name, *end;
+    emit_debug_type(symbol->type);
+    storage = symbol->storage[0] & 7;
+    if (storage == 4 || storage == 5) {
+        record[1] = LEGACY_BASE_STACK;
+        *(unsigned *)(destination + 4) = 0;
+        record[4] = (unsigned short)symbol->type->field0c;
+        name = (char *)destination + 10;
+        end = append_codeview_name(name, symbol->name);
+        bytes = (unsigned short)(end - name + 8);
+    } else {
+        record[1] = storage == 3 ? LEGACY_BASE_LOCAL_DATA : LEGACY_BASE_GLOBAL_DATA;
+        *(unsigned *)(destination + 4) = 0;
+        record[4] = 0;
+        record[5] = (unsigned short)symbol->type->field0c;
+        name = (char *)destination + 12;
+        end = append_codeview_name(name, symbol->name);
+        bytes = (unsigned short)(end - name + 10);
+    }
+    record[0] = bytes;
+    return (unsigned)bytes + 2;
+}

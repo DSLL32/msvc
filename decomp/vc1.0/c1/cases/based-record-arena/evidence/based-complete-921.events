@@ -1,0 +1,9 @@
+entry _resolve_based_pointer_symbol@4 rva 00015e30 byte 56
+entry _normalize_based_expression@4 rva 000162e0 byte 56
+entry _make_based_pointer_base@4 rva 00016060 byte 83
+entry _convert_based_pointer@8 rva 00016210 byte 56
+entry _is_pointer_based_shape@4 rva 00015de0 byte 8b
+entry _classify_unsigned_integer@4 rva 000122d0 byte b0
+entry _serialize_legacy_symbol@8 rva 00038c60 byte 53
+entry _check_based_pointer_conversion@12 rva 0002f240 byte 53
+exit 0

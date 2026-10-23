@@ -1,0 +1,8 @@
+15e30 56 _resolve_based_pointer_symbol@4
+162e0 56 _normalize_based_expression@4
+16060 83 _make_based_pointer_base@4
+16210 56 _convert_based_pointer@8
+15de0 8b _is_pointer_based_shape@4
+122d0 b0 _classify_unsigned_integer@4
+38c60 53 _serialize_legacy_symbol@8
+2f240 53 _check_based_pointer_conversion@12

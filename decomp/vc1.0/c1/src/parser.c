@@ -39,7 +39,7 @@ int parameter_depth; /* original 0x604a8 */
 int unevaluated_type_depth; /* original 0x6539c */
 unsigned enumerator_value = (unsigned)-1; /* original 0x6bfb8 */
 CType *enumerator_context; /* original 0x6b648 */
-CType *based_type; /* original 0x5ff10 */
+FrontendSymbol *based_declarator_symbol; /* original 0x5ff10 */
 unsigned array_bound; /* original 0x65398 */
 
 /* A label stack cell is shared by loop, switch, and branch contexts. */
@@ -533,11 +533,11 @@ read_action:
             CLEAR_DECLARATION_FLAGS();
             break;
         case 90:
-            parser_value.shape = new_type_shape(0, right[0].modifier, &based_type);
+            parser_value.shape = new_type_shape(0, right[0].modifier, &based_declarator_symbol);
             break;
         case 91:
             parser_value.shape = append_type_shape(right[-1].shape,
-                new_type_shape(0, right[0].modifier, &based_type));
+                new_type_shape(0, right[0].modifier, &based_declarator_symbol));
             break;
         case 92:
         case 93:
@@ -553,12 +553,12 @@ read_action:
             break;
         case 97:
             parser_value.modifier = 5;
-            based_type = (CType *)right[0].symbol;
+            based_declarator_symbol = right[0].symbol;
             break;
         case 99:
             parser_value.modifier = 5;
-            based_type = (CType *)resolve_type_symbol(right[0].symbol);
-            if (!based_type) parser_value.modifier = 2;
+            based_declarator_symbol = resolve_based_pointer_symbol(right[0].name);
+            if (!based_declarator_symbol) parser_value.modifier = 2;
             break;
         case 100:
             parser_value.modifier = 4;

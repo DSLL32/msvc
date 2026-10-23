@@ -160,8 +160,7 @@ unsigned char recover_parser_token(unsigned char token, ...) { __asm { int 3 } r
 
 /* Original 0x230c0. */
 
-/* Original 0x25e30. */
-FrontendSymbol *__stdcall resolve_type_symbol(FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+
 
 /* Original 0x25ed0. */
 unsigned short __stdcall based_string_modifier(unsigned short kind, FrontendSymbol *symbol) { __asm { int 3 } return 0; }
@@ -173,7 +172,7 @@ unsigned short __stdcall based_symbol_modifier(unsigned short kind, FrontendSymb
 unsigned short __stdcall based_type_modifier(unsigned short kind) { __asm { int 3 } return 0; }
 
 /* Original 0x262e0. */
-IrToken *__stdcall normalize_based_expression(IrToken *expression) { __asm { int 3 } return 0; }
+
 
 /* Original 0x27780. */
 
@@ -401,19 +400,19 @@ void __stdcall define_register_parameter(FrontendSymbol *parameter) { __asm { in
 void __stdcall record_inline_parameter(FrontendSymbol *parameter) { __asm { int 3 } }
 
 
-IrToken *__stdcall make_based_pointer_base(CType *type) { __asm { int 3 } return 0; }
 
 
 
-unsigned char __stdcall classify_unsigned_integer(unsigned value) { __asm { int 3 } return 0; }
 
 
-IrToken *__stdcall convert_based_pointer(CType *target, IrToken *value) { __asm { int 3 } return 0; }
+
+
+
 
 
 void warn_void_function_pointer(void) { __asm { int 3 } }
 void __stdcall conversion_diagnostic(unsigned code, unsigned level, unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
-void __stdcall check_based_pointer_conversion(unsigned char operation, TypeShape *target, TypeShape *source) { __asm { int 3 } }
+
 int __stdcall compare_prototype_parameter_types(CType *target, CType *source) { __asm { int 3 } return 0; }
 void __stdcall report_conversion_mismatch(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
 
@@ -801,14 +800,14 @@ void __fastcall destroy_pdb_buffer_list(PdbBufferList *self) { __asm { int 3 } }
 
 /* Original 0x4af40. */
 
-int __stdcall is_pointer_based_shape(TypeShape *shape) { __asm { int 3 } }
+
 
 
 
 
 unsigned short pdb_enum_type_index(FrontendSymbol *tag) { __asm { int 3 } }
 
-unsigned __stdcall serialize_legacy_symbol(unsigned char *destination, FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+
 void __stdcall add_legacy_type_fixup(FrontendSymbol *symbol, unsigned char *position, unsigned bytes) { __asm { int 3 } }
 
 
@@ -908,3 +907,12 @@ void restore_pch_separate_debug(void) { __asm { int 3 } }
 
 /* Original0x35a30: unvisited _TEXT suffix classification. */
 int __stdcall name_has_text_suffix(char *name, char *suffix) { __asm { int 3 } return 0; }
+
+/* Original 0x26340. Compare normalized base expressions. */
+int __stdcall same_based_pointer_base(IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
+
+/* Original 0x3f3b0. Symbol-typed value-bearing leaf wrapper. */
+IrToken *__stdcall make_symbol_ir_leaf(unsigned char kind, FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+
+/* Original 0x26180. Self-based conversion source validation. */
+void __stdcall validate_self_based_source(IrToken *value) { __asm { int 3 } }

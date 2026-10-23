@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "f1326118dfa10363e004f159ebd99d93a7efcf8a2999f1c1c71bbf1d8f06e8a5",
+    "functions.json": "67c14a72de0c72bd9194f88fad4096f3a79f16f9aab883bf62cb08d9e7236495",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "8fba749f32a66b99f7c6cf9856713be93caa4848f7bb8cbe2bf1d8fc07535ade"
+    "sha256": "53865feb9a6086bba5bcce29d063cde2cdc4855477019707a55053de3c5c9929"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "15601618c1e9db6b4389fc8282bf812979a113f92e5148e4623aea808e7a1a05"
+    "sha256": "c07f6bd3503a06bc07af5b203f4091c72c5c42bc29f0738de2e62565aa841e09"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -483,7 +483,7 @@
     },
     "check_based_pointer_conversion": {
       "logical": "_check_based_pointer_conversion@12",
-      "source": "src/stubs.c"
+      "source": "src/based-pointers.c"
     },
     "check_binary_type_conversion": {
       "logical": "_check_binary_type_conversion@12",
@@ -591,7 +591,7 @@
     },
     "classify_unsigned_integer": {
       "logical": "_classify_unsigned_integer@4",
-      "source": "src/stubs.c"
+      "source": "src/lexer.c"
     },
     "classify_void_pointer_conversion": {
       "logical": "_classify_void_pointer_conversion@12",
@@ -723,7 +723,7 @@
     },
     "convert_based_pointer": {
       "logical": "_convert_based_pointer@8",
-      "source": "src/stubs.c"
+      "source": "src/based-pointers.c"
     },
     "convert_binary_operands": {
       "logical": "_convert_binary_operands@4",
@@ -1731,7 +1731,7 @@
     },
     "is_pointer_based_shape": {
       "logical": "_is_pointer_based_shape@4",
-      "source": "src/stubs.c"
+      "source": "src/based-pointers.c"
     },
     "is_record_type": {
       "logical": "_is_record_type@4",
@@ -1859,7 +1859,7 @@
     },
     "make_based_pointer_base": {
       "logical": "_make_based_pointer_base@4",
-      "source": "src/stubs.c"
+      "source": "src/based-pointers.c"
     },
     "make_binary_expression": {
       "logical": "_make_binary_expression@12",
@@ -1952,6 +1952,10 @@
     "make_sizeof_type": {
       "logical": "_make_sizeof_type@4",
       "source": "src/expressions.c"
+    },
+    "make_symbol_ir_leaf": {
+      "logical": "_make_symbol_ir_leaf@8",
+      "source": "src/stubs.c"
     },
     "make_symbol_reference": {
       "logical": "_make_symbol_reference@4",
@@ -2259,7 +2263,7 @@
     },
     "normalize_based_expression": {
       "logical": "_normalize_based_expression@4",
-      "source": "src/stubs.c"
+      "source": "src/based-pointers.c"
     },
     "normalize_initializer_expression": {
       "logical": "_normalize_initializer_expression@4",
@@ -3093,13 +3097,13 @@
       "logical": "_resolve_asm_operand_size",
       "source": "src/asm-instructions.c"
     },
+    "resolve_based_pointer_symbol": {
+      "logical": "_resolve_based_pointer_symbol@4",
+      "source": "src/based-pointers.c"
+    },
     "resolve_identifier_token": {
       "logical": "_resolve_identifier_token@4",
       "source": "src/lexer.c"
-    },
-    "resolve_type_symbol": {
-      "logical": "_resolve_type_symbol@4",
-      "source": "src/stubs.c"
     },
     "restore_pch_browser_name": {
       "logical": "_restore_pch_browser_name@4",
@@ -3128,6 +3132,10 @@
     "rewind_source_file": {
       "logical": "_rewind_source_file",
       "source": "src/source-input.c"
+    },
+    "same_based_pointer_base": {
+      "logical": "_same_based_pointer_base@8",
+      "source": "src/stubs.c"
     },
     "save_extended_constant": {
       "logical": "_save_extended_constant@4",
@@ -3215,7 +3223,7 @@
     },
     "serialize_legacy_symbol": {
       "logical": "_serialize_legacy_symbol@8",
-      "source": "src/stubs.c"
+      "source": "src/debug-legacy.c"
     },
     "serialize_scope": {
       "logical": "_serialize_scope@4",
@@ -3396,6 +3404,10 @@
     "validate_packing": {
       "logical": "_validate_packing@4",
       "source": "src/packing.c"
+    },
+    "validate_self_based_source": {
+      "logical": "_validate_self_based_source@4",
+      "source": "src/stubs.c"
     },
     "vector_count": {
       "logical": "_vector_count@4",
@@ -4381,7 +4393,15 @@
     "recover_undeclared_identifier",
     "declare_implicit_function",
     "read_parenthesized_pragma_argument",
-    "read_pragma_argument"
+    "read_pragma_argument",
+    "resolve_based_pointer_symbol",
+    "normalize_based_expression",
+    "make_based_pointer_base",
+    "convert_based_pointer",
+    "is_pointer_based_shape",
+    "classify_unsigned_integer",
+    "serialize_legacy_symbol",
+    "check_based_pointer_conversion"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5594,6 +5614,25 @@
       "terminal": {
         "kind": "exit",
         "code": 6
+      }
+    },
+    "based-record-arena": {
+      "first": 913,
+      "last": 921,
+      "seen_count": 775,
+      "expected": [
+        "resolve_based_pointer_symbol",
+        "normalize_based_expression",
+        "make_based_pointer_base",
+        "convert_based_pointer",
+        "is_pointer_based_shape",
+        "classify_unsigned_integer",
+        "serialize_legacy_symbol",
+        "check_based_pointer_conversion"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
       }
     }
   }

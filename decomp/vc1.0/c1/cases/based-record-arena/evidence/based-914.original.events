@@ -1,0 +1,74 @@
+exception 80000003 rva 000162e0 base 00010000 first 1
+registers eax 007c9d50 ecx 007b9ad0 edx 007dfd0a ebx 3fff108a esi 007c9d3c edi 007dfc20 ebp 0029fec0 esp 0029fde0
+stack 0 0003c6fb
+stack 1 007c9d50
+stack 2 0002d308
+stack 3 007c9d3c
+stack 4 0005b564
+stack 5 007dfc20
+stack 6 0002d1ba
+stack 7 007dfc20
+stack 8 007b368e
+stack 9 0002d177
+stack 10 007dfc20
+stack 11 0006be4c
+stack 12 00025762
+stack 13 007b368e
+stack 14 0005b564
+stack 15 0006be4c
+stack 16 3fff108a
+stack 17 000513cb
+stack 18 00000000
+stack 19 00000077
+stack 20 00000340
+stack 21 0006083a
+stack 22 00003000
+stack 23 0029fe5c
+stack 24 00000000
+stack 25 00000000
+stack 26 00060839
+stack 27 0006083a
+stack 28 0006083b
+stack 29 00000001
+stack 30 00043e52
+stack 31 00000a7d
+frame -128 00000000
+frame -124 00000000
+frame -120 00060839
+frame -116 0006083a
+frame -112 0006083b
+frame -108 00000001
+frame -104 00043e52
+frame -100 00000a7d
+frame -96 0001bedd
+frame -92 00000008
+frame -88 0006083a
+frame -84 00003000
+frame -80 0005d5bc
+frame -76 0006ed0a
+frame -72 0004ba4c
+frame -68 0029fe8c
+frame -64 0029fec4
+frame -60 00000001
+frame -56 00000000
+frame -52 0029ff00
+frame -48 00000000
+frame -44 00000080
+frame -40 00065400
+frame -36 00060889
+frame -32 007b1560
+frame -28 0006b33c
+frame -24 0005047e
+frame -20 00060037
+frame -16 00065106
+frame -12 280400d3
+frame -8 0001000d
+frame -4 000653f8
+buffer 0 34 004f1f80000080244f020a004f01195353267500462d74002d73004c4f11534f011a
+buffer 1 0 
+buffer 2 0 
+buffer 3 23 1186032e1d30016900000000120a006172656e612e6300
+buffer 4 10 0c000a00030401000000
+buffer 5 unopened
+buffer 6 unopened
+exit 99

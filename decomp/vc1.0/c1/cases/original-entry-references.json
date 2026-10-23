@@ -108,6 +108,10 @@
     "diagnostic-recovery": {
       "receipt": "cases/diagnostic-recovery/evidence/recovery-complete-913.receipt.json",
       "sha256": "67a82501ca641d4433823cbecf58330d4945e0a1a3d38923064bffc06c4f4489"
+    },
+    "based-record-arena": {
+      "receipt": "cases/based-record-arena/evidence/based-complete-921.receipt.json",
+      "sha256": "7b0cdcb42e4db58e99d54f533d3ca990022868d279b1d057c5e8bfb589b1395d"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

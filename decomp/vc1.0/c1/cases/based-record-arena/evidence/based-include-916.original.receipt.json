@@ -1,0 +1,66 @@
+{
+  "terminal_exit": 99,
+  "expected_exit": 0,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/based-record-arena",
+  "phase": "c1",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "accepted_count": 916,
+  "accepted_sha256": "f3582c5afd9344a0f62ba95777fc9475ce52de06b8bbe2445acf6250aa8d0ef4",
+  "executable_sha256": "4b421bd9062b6134d4a73042e79bc1af4812d9fda8ef8a1a1d398bdd18875c60",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "a9359cefdfad0dfa84f977c621687613ea218dfcff950d8cf525cec9f83d0ee7",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f arena.c -Ze -Zp8 -Gs -Foarena.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\captures\\based-include-916\\work",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); original _spawnvpe child transport and complete boundary inventories captured."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/captures/based-include-916/work",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.050140684470534325,
+  "execution_seconds": 1.568174283951521,
+  "total_seconds": 1.6183173032477498,
+  "files": [
+    {
+      "name": "arena.c",
+      "bytes": 2685,
+      "sha256": "ba2f1b47750b7210dd738b3ed0db85861904e7147af772233e6c33a1695103f3"
+    },
+    {
+      "name": "irdb",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irex",
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    {
+      "name": "irgl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irsy",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

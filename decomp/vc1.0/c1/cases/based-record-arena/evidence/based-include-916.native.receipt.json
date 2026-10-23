@@ -1,0 +1,48 @@
+{
+  "buffers": {
+    "expression_file": "004f1f80000080244f020a004f01195353267500462d74002d73004c4f11534f011a4f011a26770026730030864333a64110022c8643003286434b4f011b4f011c4f011c26780033a641003286414b3a7900297a004f011c267800338641010f86414b29790026780030864133a6410322387b00534f011d4f011d26770030864326780030864133a64110042800003386410027864326740030864133a6410726780030864104023286414b4f011e",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "1186032e1d30016900000000120a006172656e612e6300",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "convert_based_pointer",
+    "finish_scalar_cast",
+    "convert_cast_expression",
+    "make_cast_expression",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "exit": null,
+  "frontier": "convert_based_pointer",
+  "pc": 1449307051,
+  "label_stack_count": 3,
+  "scanner_flags": 2623488,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_convert_based_pointer@8",
+  "fresh_original_match": true,
+  "preparation_seconds": 0.003580368123948574,
+  "execution_seconds": 0.14881937578320503,
+  "total_seconds": 0.15481860749423504,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f arena.c -Ze -Zp8 -Gs -Foarena.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); original _spawnvpe child transport and complete boundary inventories captured."
+  },
+  "executable_sha256": "7ca92600420fa0ce3273f63b5b232b9d617173de7ef4e900bf993849e851ee17"
+}

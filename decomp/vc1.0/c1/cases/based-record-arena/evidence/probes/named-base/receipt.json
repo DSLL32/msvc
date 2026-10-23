@@ -1,0 +1,24 @@
+{
+  "arguments": [
+    "/usr/bin/wine",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "/nologo",
+    "/Z7",
+    "/Od",
+    "/G5",
+    "/W3",
+    "/Feprobe.exe",
+    "probe.c"
+  ],
+  "source_sha256": "9260baee4561e6f057367c508503654950ffd2af3377f914ca6ef90982c69878",
+  "compiler_exit": 0,
+  "compiler_seconds": 1.6599355610087514,
+  "environment": {
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine"
+  },
+  "program_exit": 0,
+  "program_seconds": 1.0624206876382232
+}

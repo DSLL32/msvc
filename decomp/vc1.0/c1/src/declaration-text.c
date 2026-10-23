@@ -187,7 +187,7 @@ short __stdcall build_declarator_text(FrontendSymbol *symbol, CType *type)
             attributes = symbol->type->attributes;
         }
         handle = write_declarator_attributes(handle,append_declaration_text,
-            attributes,(FrontendSymbol *)based_type,shape);
+            attributes,based_declarator_symbol,shape);
         if (symbol->name != name_formal) append_declaration_text(handle,symbol->name);
     }
     if (!type) return handle;

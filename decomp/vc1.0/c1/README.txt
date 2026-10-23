@@ -1,18 +1,19 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Twenty-seven native phases are complete: minimal C, optimized Win32 hello, DLL,
+Twenty-eight native phases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
 /O2 /Ob1 plus /Ob2 small functions with early returns, and the combined
 enum/long-record/literal/floating case, debug-bearing PCH creation/reuse, and
 richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
-automatic-bitfield checksum case, and the deliberate diagnostic/recovery unit.
+automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
+the named-base relocatable record arena.
 
-There are 786 accepted source functions and 913 accepted original entries.
-Accepted original extents cover 228920/277234 code-section bytes (82.572845%):
-209153 frontend bytes, 19587 CRT bytes and 180 import-thunk bytes. This is a
+There are 794 accepted source functions and 921 accepted original entries.
+Accepted original extents cover 230056/277234 code-section bytes (82.982607%):
+210289 frontend bytes, 19587 CRT bytes and 180 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Unvisited functions retain named trapping stubs.
 
@@ -34,12 +35,12 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds 27 completed phase histories to fresh
-shared-prefix original first-entry captures. All 775 accepted application entries
+cases/original-entry-references.json binds 28 completed phase histories to fresh
+shared-prefix original first-entry captures. All 783 accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current all 27 regression receipts are in cases/diagnostic-recovery/validation.json.
+current all 28 regression receipts are in cases/based-record-arena/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -206,3 +207,16 @@ to establish these two internal word identities: their caller and callee shared
 the wrong parser/scanner choice. The corrected reconstruction additionally
 compares both complete 32-bit words at actual original/native function entry
 and caller-return boundaries. This correction earns no new-function credit.
+
+Completed named-base record arena
+--------------------------------
+cases/based-record-arena completes the supported named-base pointer workflow:
+two arenas, offset-linked records, pointer arithmetic/member access, ordinary
+address conversions and a checked base switch. Original CL /Z7 /Od /G5 /W3
+compiles and links the silent checksum program. Eight new whole functions add
+1136 accepted frontend extent bytes. Five raw intermediates, entry order,
+pending buffers and streams match without normalization. All 28 native phases,
+20 oracle/dependency rejections, six graph/ABI/mask checks, three flag-word
+mutations, 288 state defaults/aliases and both grammar suites pass. Unsupported
+based(void), __self and __segment probes are preserved as rejected syntax;
+their remaining compatibility helpers are neither CRT nor completed.

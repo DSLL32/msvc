@@ -180,6 +180,7 @@ STATE = [
     ('_case_label', 0x600a0, 4),
     ('_seh_exit_labels', 0x600a4, 4),
     ('_pointer_base_symbol', 0x5ffbc, 4),
+    ('_based_declarator_symbol', 0x5ff10, 4),
     ('_inline_base_region', 0x5ffd0, 2),
     ('_inline_regions', 0x5ffd4, 4),
     ('_inline_scope_depth', 0x5ffd8, 4),

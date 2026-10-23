@@ -1,22 +1,27 @@
 {
-  "authorization": "Root approved one substantial ordinary malformed-C diagnostic/recovery unit. Preserve exact nonzero C1 status, ordered streams and complete partial/absent outputs; verify the valid tail.",
-  "baseline_accepted_count": 905,
+  "authorization": "Root approved one successful relocatable-record arena unit with supported __based declarations/conversions; validate originals first, complete its reached frontend paths, then propose the next substantial case.",
+  "baseline_accepted_count": 913,
   "baseline_coverage": {
-    "bytes": 227839,
-    "total": 277234,
-    "percent": 82.18292128671087,
-    "metric": "Accepted extent union; not branch coverage."
+    "accepted_union_bytes": 228920,
+    "original_code_bytes": 277234,
+    "accepted_by_origin_bytes": {
+      "frontend_source": 209153,
+      "CRT": 19587,
+      "import_thunks": 180
+    },
+    "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
+    "percent": 82.57284460059012,
+    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
   },
   "cases": [
     {
-      "case": "diagnostic-recovery",
+      "case": "based-record-arena",
       "phase": "c1",
-      "status": "complete: exact six-error status6, ordered streams and all partial/absent files; original/native recovered_tail semantic finish proved",
-      "accepted_from": 905,
-      "accepted_count": 913
+      "status": "complete; 913 through 921; exact five raw files and all 28 phase regressions"
     }
   ],
   "Yd": "Not selected: the standalone /Z7 types case has no PCH dependency, so /Yd would add a distinct PCH-debug case rather than validate this embedded-type writer.",
-  "status": "completed; awaiting root review of the next substantial single case",
-  "previous_completed_authorization": "Root approved one coherent storage/pragma/runtime-initialization checksum case. Complete its reached frontend paths, then propose the next substantial case for review."
+  "status": "complete",
+  "previous_completed_authorization": "Ordinary malformed-C diagnostic/recovery case completed at82d2bd31, eight functions and exact expected exit6; flag repairs independently proved without function credit.",
+  "completion": "cases/based-record-arena/validation.json"
 }

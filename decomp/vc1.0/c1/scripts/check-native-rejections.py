@@ -156,6 +156,22 @@ def main():
     rejects('success-case-still-requires-zero', 'native status',
             lambda:checker.validate_result('minimal',6,b'',b'',phase))
 
+    _, arena = checker.run_case('based-record-arena', executable, directory, (cache,filter_path))
+    arena_fixture = checker.BINARY/'cases/based-record-arena'
+    arena_phase = json.loads((arena_fixture/'manifest.json').read_text())['phases']['c1']
+    database = bytearray((arena/'irdb').read_bytes())
+    name_offset = database.index(b'arena_base')
+    database[name_offset] = ord('A')
+    (arena/'irdb').write_bytes(database)
+    rejects('based-debug-base-symbol-name', 'output bytes differ: irdb',
+            lambda:checker.validate_artifacts(arena,arena_fixture,arena_phase))
+    (arena/'irdb').write_bytes((arena_fixture/'expected/c1/irdb').read_bytes())
+    expression = bytearray((arena/'irex').read_bytes())
+    expression[-1] ^= 1
+    (arena/'irex').write_bytes(expression)
+    rejects('based-expression-stream-byte', 'output bytes differ: irex',
+            lambda:checker.validate_artifacts(arena,arena_fixture,arena_phase))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

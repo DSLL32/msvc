@@ -29,7 +29,8 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'debug-pch-use':('debug-pch','c1-use'),
          'inline-asm-rich':('inline-asm-rich','c1'),
          'storage-pragmas':('storage-pragmas','c1'),
-         'diagnostic-recovery':('diagnostic-recovery','c1')}
+         'diagnostic-recovery':('diagnostic-recovery','c1'),
+         'based-record-arena':('based-record-arena','c1')}
 
 
 CASE_DEPENDENCIES = {

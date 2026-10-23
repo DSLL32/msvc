@@ -855,6 +855,13 @@ unsigned char __stdcall classify_radix_integer(unsigned value)
     return (value & 0x80000000U) ? TOK_UINT_CONSTANT : TOK_INT_CONSTANT;
 }
 
+/* Original 0x222d0..0x222d5. The U suffix selects unsigned int;
+   this target gives unsigned int and unsigned long the same 32-bit range. */
+unsigned char __stdcall classify_unsigned_integer(unsigned value)
+{
+    return TOK_UINT_CONSTANT;
+}
+
 /* Original 0x22920..0x229a3. A slash has already been consumed; report
    whether it starts a comment and preserve /C output outside directives. */
 int skip_source_comment(void)

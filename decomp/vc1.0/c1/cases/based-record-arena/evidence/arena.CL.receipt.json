@@ -1,0 +1,102 @@
+{
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc1.0\\c1\\tools\\capture-cl.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "/nologo /c /Z7 /Od /G5 /W3 arena.c",
+    "S:\\vc1.0\\c1\\transport\\based-record-arena-capture1\\stdout",
+    "S:\\vc1.0\\c1\\transport\\based-record-arena-capture1\\stderr",
+    "S:\\vc1.0\\c1\\transport\\based-record-arena-capture1\\events",
+    "S:\\vc1.0\\c1\\based-record-arena",
+    "S:\\vc1.0\\c1\\transport\\based-record-arena-capture1\\config.txt",
+    "ordinary",
+    "S:\\vc1.0\\c1\\transport\\based-record-arena-capture1"
+  ],
+  "CL_arguments": "/nologo /c /Z7 /Od /G5 /W3 arena.c",
+  "helper_source": "decomp/vc1.0/cl/src/capture-run.c",
+  "helper_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+  "helper_sha256": "b80b97201ce6f78fccc165200f844db467639e38e02f01523cdf68cecdc6683c",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "cwd": "S:\\vc1.0\\c1\\based-record-arena",
+  "environment": {
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib"
+  },
+  "host_exit": 0,
+  "execution_seconds": 2.3203045558184385,
+  "children": [
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\002040 -f arena.c -Ze -Zp8 -Gs -Foarena.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include "
+      ]
+    },
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c23232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il .\\002040 -f arena.c -Gs4096 -dos -Foarena.obj -ML -Zi -G5 -W 3 "
+      ]
+    }
+  ],
+  "C1_boundary_file_sets": {
+    "001-before": [
+      {
+        "name": "arena.c",
+        "bytes": 2685,
+        "sha256": "ba2f1b47750b7210dd738b3ed0db85861904e7147af772233e6c33a1695103f3"
+      }
+    ],
+    "001-after": [
+      {
+        "name": "002040db",
+        "bytes": 459,
+        "sha256": "7986cbc545989c70a04841978dce106c6e4c9776187e139ee459c32f0e67cbc7"
+      },
+      {
+        "name": "002040ex",
+        "bytes": 3269,
+        "sha256": "9fb7d7fd6d2b3c84a3aa0e8c2cc6bde84f6c79e6e8bc6c430e32d980ab6e2761"
+      },
+      {
+        "name": "002040gl",
+        "bytes": 318,
+        "sha256": "ec00e8885c7d80dab4c26240470e5cb07b771e00b4e14bd5fa9b7857f67a4ffc"
+      },
+      {
+        "name": "002040in",
+        "bytes": 12,
+        "sha256": "e4738a568ff05727ce074bddb2214bfb81815cd4137a063b34d366bbf577265a"
+      },
+      {
+        "name": "002040sy",
+        "bytes": 659,
+        "sha256": "9f2806ac9f4fdd5b26b494d4ba7b44b14c3bcfddc5b5d8d9ce4eee85c41c646c"
+      },
+      {
+        "name": "arena.c",
+        "bytes": 2685,
+        "sha256": "ba2f1b47750b7210dd738b3ed0db85861904e7147af772233e6c33a1695103f3"
+      }
+    ]
+  },
+  "C1_output_intervals": {
+    "stdout": [
+      9,
+      9
+    ],
+    "stderr": [
+      0,
+      0
+    ],
+    "child_exit": 0
+  }
+}

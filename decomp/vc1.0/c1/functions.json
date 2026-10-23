@@ -917,7 +917,15 @@
     "_recover_undeclared_identifier@4",
     "_declare_implicit_function@4",
     "_read_parenthesized_pragma_argument@4",
-    "_read_pragma_argument@4"
+    "_read_pragma_argument@4",
+    "_resolve_based_pointer_symbol@4",
+    "_normalize_based_expression@4",
+    "_make_based_pointer_base@4",
+    "_convert_based_pointer@8",
+    "_is_pointer_based_shape@4",
+    "_classify_unsigned_integer@4",
+    "_serialize_legacy_symbol@8",
+    "_check_based_pointer_conversion@12"
   ],
   "driver": [
     {
@@ -1853,9 +1861,9 @@
       "end": 143762
     },
     {
-      "name": "_resolve_type_symbol@4",
+      "name": "_resolve_based_pointer_symbol@4",
       "start": 155184,
-      "end": 155185
+      "end": 155333
     },
     {
       "name": "_based_string_modifier@8",
@@ -1875,7 +1883,7 @@
     {
       "name": "_normalize_based_expression@4",
       "start": 156384,
-      "end": 156385
+      "end": 156480
     },
     {
       "name": "_make_constant_token@8",
@@ -2622,7 +2630,7 @@
     {
       "name": "_make_based_pointer_base@4",
       "start": 155744,
-      "end": 155745
+      "end": 156029
     },
     {
       "name": "_make_typed_unary_expression@12",
@@ -2667,7 +2675,7 @@
     {
       "name": "_classify_unsigned_integer@4",
       "start": 139984,
-      "end": 139985
+      "end": 139989
     },
     {
       "name": "_integer_digit_value@4",
@@ -2682,7 +2690,7 @@
     {
       "name": "_convert_based_pointer@8",
       "start": 156176,
-      "end": 156177
+      "end": 156374
     },
     {
       "name": "_check_type_conversion@12",
@@ -2718,7 +2726,7 @@
     {
       "name": "_check_based_pointer_conversion@12",
       "start": 258624,
-      "end": 258625
+      "end": 258781
     },
     {
       "name": "_compatible_shape_attributes@8",
@@ -4350,7 +4358,7 @@
     {
       "name": "_is_pointer_based_shape@4",
       "start": 155104,
-      "end": 155105
+      "end": 155174
     },
     {
       "name": "_emit_pdb_type",
@@ -5493,7 +5501,7 @@
     {
       "name": "_serialize_legacy_symbol@8",
       "start": 298080,
-      "end": 298081
+      "end": 298256
     },
     {
       "name": "_add_legacy_type_fixup@12",
@@ -5604,6 +5612,21 @@
       "name": "_note_browser_error",
       "start": 161136,
       "end": 161158
+    },
+    {
+      "name": "_same_based_pointer_base@8",
+      "start": 156480,
+      "end": 156481
+    },
+    {
+      "name": "_make_symbol_ir_leaf@8",
+      "start": 258992,
+      "end": 258993
+    },
+    {
+      "name": "_validate_self_based_source@4",
+      "start": 156032,
+      "end": 156033
     }
   ],
   "cases": {
@@ -5729,6 +5752,10 @@
       "accepted_from": 905,
       "accepted_count": 913,
       "expected_exit": 6
+    },
+    "based-record-arena": {
+      "accepted_from": 913,
+      "accepted_count": 921
     }
   },
   "buffered_streams": [
