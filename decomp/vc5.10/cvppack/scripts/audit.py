@@ -114,10 +114,26 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
     # Historical /help indices predate these callbacks. Initial data still uses
     # the current named source index, without counting those bodies as checked.
     function_tables=switches.function_tables(list(live.values()))
+    data_aliases=[]
     for item in data:
-        assert sizes[item['name']]==item['size'], ('native global type/extent differs',item['name'])
+        storage=item.get('storage')
+        if storage:
+            owner=next(row for row in data if row['name']==storage['name'])
+            offset=storage['offset'];expression=item['native_expression']
+            assert 0<=offset and offset+item['size']<=sizes[owner['name']]==owner['size'],'aliased global exceeds actual storage'
+            assert item['original']==owner['original']+offset,'original data alias offset differs'
+            # Query the actual ELF DWARF field, not just a second copy of metadata.
+            script='python import gdb,json; v=gdb.parse_and_eval('+repr(expression)+'); b=gdb.parse_and_eval('+repr(owner['name'])+'); print("DATA-ALIAS "+json.dumps([int(v.address)-int(b.address),int(v.type.sizeof)]))'
+            alias_output=subprocess.check_output(['gdb','-q','-nx','-batch',str(BINARY/'build/native/CVPACK'),'-ex',script],text=True,stderr=subprocess.STDOUT)
+            actual=json.loads(next(line[11:] for line in alias_output.splitlines() if line.startswith('DATA-ALIAS ')))
+            assert actual==[offset,item['size']],'actual DWARF data alias offset/extent differs'
+            rebuilt_address=publics['_'+owner['name']]+offset
+            data_aliases.append(dict(name=item['name'],storage=storage,native_expression=expression,actual_offset=actual[0],actual_size=actual[1],rebuilt=rebuilt_address))
+        else:
+            assert sizes[item['name']]==item['size'], ('native global type/extent differs',item['name'])
+            rebuilt_address=publics['_'+item['name']]
         if not item.get('function_table'):
-            assert pe.read(item['original'],item['size'])==rebuilt.read(publics['_'+item['name']],item['size']), ('initial Win32 data differs',item['name'])
+            assert pe.read(item['original'],item['size'])==rebuilt.read(rebuilt_address,item['size']), ('initial Win32 data differs',item['name'])
     import importlib.util
     spec=importlib.util.spec_from_file_location('resource_evidence',BINARY/'scripts/resource-evidence.py')
     resources=importlib.util.module_from_spec(spec);spec.loader.exec_module(resources)
@@ -131,7 +147,7 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
         switch_data_validator_sha256=sha(BINARY/'scripts/switch-data.py'), data_sha256=sha(BINARY/'data.json'),
         runtime_sha256=sha(BINARY/'runtime.json'), graph_runtime_sha256=sha(empty),
         audit_wrapper_sha256=sha(BINARY/'scripts/audit.py'),
-        cached_import_sites=import_sites, function_tables=function_tables, data_objects_checked=len(data), resource_strings_checked=len(actual), historical_reconstructed_bodies=historical_bodies,
+        cached_import_sites=import_sites, function_tables=function_tables, data_aliases=data_aliases, data_objects_checked=len(data), resource_strings_checked=len(actual), historical_reconstructed_bodies=historical_bodies,
         resource_evidence_sha256=sha(BINARY/'cases/help/resources.json'),
         candidates=list(candidates), checked_functions=[r['name'] for r in checked],
         owned_ranges=len(intervals), graph_command=command, graph=graph,

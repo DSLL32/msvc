@@ -3,9 +3,23 @@
 #include "cvpack.h"
 #include <recon.h>
 
+typedef struct TypeArenaBlock {
+    unsigned used;
+    unsigned char *data;
+    struct TypeArenaBlock *next;
+} TypeArenaBlock;
 typedef struct TypeArena {
     unsigned capacity;
-    unsigned fields[5];
+    union {
+        unsigned fields[5];
+        struct {
+            unsigned block_count;
+            TypeArenaBlock *last;
+            unsigned char *cursor;
+            unsigned remaining;
+            TypeArenaBlock *first;
+        };
+    };
 } TypeArena;
 typedef struct TypeRecord {
     unsigned char *data;
@@ -85,7 +99,6 @@ typedef struct StructureAlias {
     unsigned index;
     unsigned char name[1];
 } StructureAlias;
-extern unsigned next_global_type;
 extern int global_types_exhausted;
 extern unsigned short retain_structure_names;
 extern unsigned char **global_type_blocks[2048];

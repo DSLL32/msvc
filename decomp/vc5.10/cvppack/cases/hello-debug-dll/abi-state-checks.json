@@ -27,7 +27,7 @@
     "wrong-defined-offset-input",
     "wrong-callback-divisor"
   ],
-  "decoder_sha256": "abe3905e71ea362680b10a2aa7422032c752f3d0a22af93984aa44542d53285f",
+  "decoder_sha256": "c4775e42f972cadb9e6d026153a92b1a5f18a391fd27a34af495dca2a9028e2d",
   "checker_sha256": "29d0820d30c06da32013e53734d69b39586809f85872be14c71df3fea161ca2a",
   "inputs": [
     {
@@ -51,5 +51,5 @@
       "native_receipt_sha256": "0aed7a748ee03facbe392f0e9c8d639bdc22e1a3c7f7373c5fa5fab2a13f95b1"
     }
   ],
-  "seconds": 2.922594053670764
+  "seconds": 2.8089127046987414
 }

@@ -1,0 +1,11 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/capture-original.py", line 159, in <module>
+    main()
+    ~~~~^^
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/capture-original.py", line 37, in main
+    audit_candidate(output / 'configuration.json', args.candidate, output / 'audit.json')
+    ~~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/root/msvc2/decomp/vc5.10/cvppack/scripts/audit.py", line 171, in run
+    output.write_text(json.dumps(receipt, indent=2) + '\n')
+    ^^^^^^^^^^^^^^^^^
+AttributeError: 'str' object has no attribute 'write_text'

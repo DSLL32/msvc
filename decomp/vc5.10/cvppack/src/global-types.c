@@ -5,7 +5,6 @@
 
 #pragma intrinsic(memcpy, memcmp)
 
-unsigned next_global_type = 0x1000;
 int global_types_exhausted;
 unsigned short retain_structure_names;
 unsigned char **global_type_blocks[2048];
@@ -37,16 +36,16 @@ void __fastcall allocate_global_type(TypeRecord *record)
             else last_structure_alias->next = alias;
             alias->length = bytes;
             alias->kind = 0x1003;
-            alias->index = next_global_type;
+            alias->index = symbol_rewriters.state.next_global_type;
             memcpy(alias->name, name, *name + 1);
             for (length = 0; length < padding; ++length) alias->name[*name + 1 + length] = 0;
             last_structure_alias = alias;
             alias->next = NULL;
         }
     }
-    if (next_global_type - 0x1000 == type_table_used) {
+    if (symbol_rewriters.state.next_global_type - 0x1000 == type_table_used) {
         type_table_used += 512;
-        global_type_blocks[(next_global_type - 0x1000) >> 9] = allocate_bytes(512 * sizeof(void *));
+        global_type_blocks[(symbol_rewriters.state.next_global_type - 0x1000) >> 9] = allocate_bytes(512 * sizeof(void *));
     }
     bytes = (unsigned short)(*(unsigned short *)data + 2);
     if (bytes > 0xc000) {
@@ -55,12 +54,12 @@ void __fastcall allocate_global_type(TypeRecord *record)
         bytes = 4;
         warning(4006, NULL, NULL);
     }
-    block = global_type_blocks[(next_global_type - 0x1000) >> 9];
-    block[next_global_type & 511] = copy_type_arena(&type_large_arena, data, bytes);
+    block = global_type_blocks[(symbol_rewriters.state.next_global_type - 0x1000) >> 9];
+    block[symbol_rewriters.state.next_global_type & 511] = copy_type_arena(&type_large_arena, data, bytes);
     if (record->status & 0x38) release_type_payload(record);
-    record->data = block[next_global_type & 511];
-    record->mapped_index = next_global_type;
-    index = next_global_type++;
+    record->data = block[symbol_rewriters.state.next_global_type & 511];
+    record->mapped_index = symbol_rewriters.state.next_global_type;
+    index = symbol_rewriters.state.next_global_type++;
     data = record->data;
     kind = *(unsigned short *)(data + 2);
     if (kind == 0x1004 || kind == 0x1005 || kind == 0x1006) {
@@ -89,7 +88,7 @@ void __fastcall allocate_global_type(TypeRecord *record)
         cached->type_index = index;
     }
 checked_limit:
-    if (!next_global_type || next_global_type > 0xffffff) {
+    if (!symbol_rewriters.state.next_global_type || symbol_rewriters.state.next_global_type > 0xffffff) {
         sprintf(limit, "%lu", 0xfff000UL);
         warning(4009, limit, module_name(current_module_info));
         global_types_exhausted = 1;

@@ -313,9 +313,7 @@
     "original": 4271336,
     "size": 4,
     "kind": "pointer",
-    "blob": {
-      "size": 16384
-    }
+    "interned_types": true
   },
   {
     "name": "type_table_secondary_counts",
@@ -384,9 +382,7 @@
     "original": 4271324,
     "size": 4,
     "kind": "pointer",
-    "blob": {
-      "size": 2048
-    }
+    "type_name_cache": "global"
   },
   {
     "name": "type_table_limit",
@@ -404,13 +400,15 @@
     "name": "type_arena",
     "original": 4272800,
     "size": 24,
-    "kind": "bytes"
+    "kind": "bytes",
+    "type_arena": true
   },
   {
     "name": "type_large_arena",
     "original": 4271456,
     "size": 24,
-    "kind": "bytes"
+    "kind": "bytes",
+    "type_arena": true
   },
   {
     "name": "empty_type_record",
@@ -1101,7 +1099,12 @@
     "name": "next_global_type",
     "original": 4269272,
     "size": 4,
-    "kind": "integer"
+    "kind": "integer",
+    "native_expression": "symbol_rewriters.state.next_global_type",
+    "storage": {
+      "name": "symbol_rewriters",
+      "offset": 304
+    }
   },
   {
     "name": "global_types_exhausted",
@@ -1132,6 +1135,8 @@
     "original": 4272896,
     "size": 8192,
     "kind": "bytes",
-    "global_type_blocks": true
+    "global_type_blocks": {
+      "initialized_prefix": true
+    }
   }
 ]

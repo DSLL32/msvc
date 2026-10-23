@@ -1,0 +1,138 @@
+{
+  "schema": 1,
+  "case": "hello-debug-dll",
+  "unmasked": false,
+  "candidates": [
+    "copy_type_arena"
+  ],
+  "case_definition_sha256": "e048b9cc441f59224f9fa8138ec4acc2313f4309578beb974c6af86b14bc974c",
+  "debugger_source_sha256": "9fe9a9d56f1f1eeaaa8502369367efdadeeefa7b16172edba36d8c3f7e3540aa",
+  "command": [
+    "wine",
+    "S:\\vc5.10\\cvppack\\captures\\454feafc1a58-1792784426528997983\\debug-run.exe",
+    "S:\\vc5.10\\cvppack\\captures\\454feafc1a58-1792784426528997983\\CVPACK.EXE",
+    "R:\\toolchains\\5.10\\bin\\CVPACK.EXE /nologo hello.dll",
+    "R:\\decomp\\vc5.10\\cvppack\\cases\\hello-debug-dll\\evidence\\0069-copy-type-arena\\original\\stdout",
+    "R:\\decomp\\vc5.10\\cvppack\\cases\\hello-debug-dll\\evidence\\0069-copy-type-arena\\original\\stderr",
+    "R:\\decomp\\vc5.10\\cvppack\\cases\\hello-debug-dll\\evidence\\0069-copy-type-arena\\original\\events",
+    "S:\\vc5.10\\cvppack\\captures\\454feafc1a58-1792784426528997983",
+    "R:\\decomp\\vc5.10\\cvppack\\cases\\hello-debug-dll\\evidence\\0069-copy-type-arena\\original\\runtime-plan",
+    "R:\\toolchains\\5.10\\bin\\CVPACK.EXE",
+    "S:\\vc5.10\\cvppack\\captures\\454feafc1a58-1792784426528997983\\loaded-msvcrt.dll",
+    "0"
+  ],
+  "original_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "masked_image_sha256": "ff037456256523d36b4d607e05a8c3ee5e13daf17e15101231d9961bcdeda22c",
+  "debugger_sha256": "2bd87d0b9b50b365e6f238d19e92dde807379848aff859e9e547c6d15c94cd13",
+  "rebuilt_sha256": "8ddbf81ec46ed7f4b546fc4e6cd886353f41b543273cc98465bb237099205582",
+  "configuration_sha256": "454feafc1a58489b0b58675d2192dd3131f425d33bf7ff1dd3179875728f0ee5",
+  "native_sha256": "11d7136f8f144a50e6aed6d19feb1fef5bab024b5a23413de5f900467376e7f2",
+  "plan_sha256": "9ac542f9c7b74a177259183fcdbc51f5b39d6e97da7b0432f07bce4af08e2bc6",
+  "actual_loaded_crt": {
+    "module": "MSVCRT.dll",
+    "bytes": 277776,
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "capture_path": "/root/.ai-tmp/msvc2/vc5.10/cvppack/captures/454feafc1a58-1792784426528997983/loaded-msvcrt.dll",
+    "source": "LOAD_DLL_DEBUG_EVENT.hFile exact file copy"
+  },
+  "actual_target_capture": "/root/.ai-tmp/msvc2/vc5.10/cvppack/captures/454feafc1a58-1792784426528997983/CVPACK.EXE",
+  "actual_target_windows": "S:\\vc5.10\\cvppack\\captures\\454feafc1a58-1792784426528997983\\CVPACK.EXE",
+  "adjacent_inputs": [
+    {
+      "name": "MSVCRT.DLL",
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    {
+      "name": "MSPDB50.DLL",
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+    }
+  ],
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "wine_dll_overrides": "msvcrt,mspdb50=n",
+  "canonical_argv0": "R:\\toolchains\\5.10\\bin\\CVPACK.EXE",
+  "environment": {
+    "MSC_CMD_FLAGS": null,
+    "_MSC_IDE_FLAGS": null
+  },
+  "data_sha256": "feea6b800b709278c7a9ce46d7c97174a601fba07447b69cf41f6250c6057db0",
+  "runtime_sha256": "45bed7b37cc8171159533760fe4d1d62ec97f16d098c27ec474f5cd9ed9790bf",
+  "audit_sha256": "d3ef43b2a465ba510b8e1a278bd0312de28f45d773a574dcd9466039d9850de8",
+  "graph_config_sha256": "0f782ec77dbdc7d0657719e874d081e5c9cc954fb49dea05a49fb1e98f38bad3",
+  "graph_runtime_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "graph_metadata_sha256": "6c5abe9a80dc220c66b870d7ddaa85525e22f80c75e8d68aa78ca256248f5ef3",
+  "graph_metadata_proof_sha256": "65fef20060a2f3367bbf98fe350c2b3cc04d7a980e9e6fba89aaf6765a9e8292",
+  "compiled_sources_sha256": "9a283c2723efd010a619202008db291f9e97e57fbcdca48c661dd9e2edc8565a",
+  "outputs": [
+    {
+      "name": "stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "events",
+      "bytes": 12808757,
+      "sha256": "9be9e0bdf4c330f41ed7464a1f4a2796b04eb87659a4ce2ff07335a7b5252014"
+    },
+    {
+      "name": "audit.json",
+      "bytes": 106145,
+      "sha256": "d3ef43b2a465ba510b8e1a278bd0312de28f45d773a574dcd9466039d9850de8"
+    },
+    {
+      "name": "graph-config.json",
+      "bytes": 13801,
+      "sha256": "0f782ec77dbdc7d0657719e874d081e5c9cc954fb49dea05a49fb1e98f38bad3"
+    },
+    {
+      "name": "graph-runtime.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    },
+    {
+      "name": "case-definition.json",
+      "bytes": 1203,
+      "sha256": "e048b9cc441f59224f9fa8138ec4acc2313f4309578beb974c6af86b14bc974c"
+    },
+    {
+      "name": "artifact-hello.dll",
+      "bytes": 2097152,
+      "sha256": "210307903accd6e4653cb089a313b3a6b8a72a5d9b3726a77e881e454ff27d36"
+    },
+    {
+      "name": "events-view-1.bin",
+      "bytes": 2097152,
+      "sha256": "210307903accd6e4653cb089a313b3a6b8a72a5d9b3726a77e881e454ff27d36"
+    },
+    {
+      "name": "graph-metadata.json",
+      "bytes": 6581,
+      "sha256": "6c5abe9a80dc220c66b870d7ddaa85525e22f80c75e8d68aa78ca256248f5ef3"
+    },
+    {
+      "name": "graph-metadata-proof.json",
+      "bytes": 7154,
+      "sha256": "65fef20060a2f3367bbf98fe350c2b3cc04d7a980e9e6fba89aaf6765a9e8292"
+    },
+    {
+      "name": "pack-switch.obj",
+      "bytes": 8719,
+      "sha256": "3c96b8667297c8f862bc1e5a9ab10b3410061db7faae6b4e9cb982b7daa42ec4"
+    }
+  ],
+  "seconds": {
+    "setup": 0.828253242187202,
+    "execution": 5.832447028718889,
+    "total": 6.7583662904798985
+  },
+  "actual_loaded_mspdb": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cvppack/captures/454feafc1a58-1792784426528997983/loaded-mspdb50.dll",
+    "bytes": 167424,
+    "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+    "source": "LOAD_DLL_DEBUG_EVENT.hFile exact file copy"
+  }
+}

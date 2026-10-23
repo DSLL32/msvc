@@ -451,6 +451,52 @@ def compare(config,data,events,native,artifacts=None,views=None):
     def global_integer(name):
         item=next(item for item in data if item['name']==name)
         return int.from_bytes(original['memory'][item['original']],'little')
+    # Arena capacities are captured in full, but only each block's used prefix
+    # is initialized. Preserve allocation and chain identity independently.
+    arena_payloads={};arena_nodes=set()
+    for arena_item in data:
+        if not arena_item.get('type_arena'):continue
+        a=original['memory'][arena_item['original']];b=bytes.fromhex(native['globals'][arena_item['name']])
+        assert len(a)==len(b)==24,'incomplete arena header'
+        av=struct.unpack('<6I',a);bv=struct.unpack('<6I',b)
+        assert av[0:2]==bv[0:2] and av[4]==bv[4],'arena capacity/count/remaining differs'
+        assert av[0] in (0x1000,0x10000) and av[1]<=1024,'invalid arena capacity/block count'
+        source=av[5];destination=bv[5];visited=[]
+        while source or destination:
+            assert source and destination and source not in arena_nodes,'arena chain NULL/identity/cycle differs'
+            arena_nodes.add(source);visited.append(source);pair(source,destination)
+            assert image_aliases[source]==destination and image_sizes[source]==12,'arena block header allocation differs'
+            assert any(row['address']==source for row in original['cleared_allocations']),'arena header was not cleared'
+            left=original['memory'][source];right=bytes.fromhex(native['memory'][str(destination)])
+            assert len(left)==len(right)==12,'incomplete arena block header'
+            x=struct.unpack('<3I',left);y=struct.unpack('<3I',right)
+            assert x[0]==y[0] and 0<=x[0]<=av[0],'arena initialized extent differs'
+            assert x[1] in image_aliases and image_aliases[x[1]]==y[1] and image_sizes[x[1]]==av[0],'arena payload allocation differs'
+            before=original['memory'][x[1]];after=bytes.fromhex(native['memory'][str(y[1])])
+            assert len(before)==len(after)==av[0],'incomplete arena payload capacity'
+            assert before[:x[0]]==after[:y[0]],'initialized arena payload bytes differ'
+            assert x[1] not in arena_payloads,'arena payload identity reused'
+            arena_payloads[x[1]]=dict(native=y[1],used=x[0],capacity=av[0],bytes=before)
+            used_uninitialized.add(x[1]);pair(x[1],y[1])
+            source,destination=x[2],y[2]
+        assert len(visited)==av[1],'arena chain inventory differs'
+        if visited:
+            last=visited[-1];actual_last=aliases[last];last_fields=struct.unpack('<3I',original['memory'][last])
+            assert av[2]==last and bv[2]==actual_last,'arena last-block alias differs'
+            assert av[3]==last_fields[1]+last_fields[0] and bv[3]==image_aliases[last_fields[1]]+last_fields[0],'arena cursor alias/offset differs'
+            assert av[4]==av[0]-last_fields[0],'arena remaining/used extent differs'
+        else:assert not any(av[2:]) and not any(bv[2:]),'empty arena has live state'
+    def arena_payload(source,destination,length=None):
+        owners=[(base,row) for base,row in arena_payloads.items() if base<=source<base+row['used']]
+        assert len(owners)==1,'type payload has no initialized arena owner'
+        base,row=owners[0];offset=source-base
+        assert destination==row['native']+offset,'type payload arena/offset alias differs'
+        if length is None:
+            assert offset+2<=row['used'],'incomplete arena record length'
+            length=int.from_bytes(row['bytes'][offset:offset+2],'little')+2
+            assert length>=4,'invalid arena type record length'
+        assert 0<=length and offset+length<=row['used'],'type payload exceeds initialized arena prefix'
+        return row['bytes'][offset:offset+length]
     typed_records_checked=0
     cached_type_names_checked=0
     globals_checked = []
@@ -465,7 +511,32 @@ def compare(config,data,events,native,artifacts=None,views=None):
             for index in range(count):
                 linked(int.from_bytes(raw[index*4:index*4+4],'little'),int.from_bytes(actual[index*4:index*4+4],'little'),shape)
         elif item['kind'] == 'pointer':
-            if item.get('type_name_cache'):
+            if item.get('interned_types'):
+                address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
+                if pair(address,other):
+                    assert image_aliases[address]==other and image_sizes[address]==16384,'interned-type bucket allocation differs'
+                    left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
+                    assert len(left)==len(right)==16384,'incomplete interned-type bucket observation'
+                    visited=set();counts_address=global_integer('type_table_secondary_counts')
+                    counts=original['memory'][counts_address]
+                    for offset in range(0,16384,4):
+                        source=int.from_bytes(left[offset:offset+4],'little');destination=int.from_bytes(right[offset:offset+4],'little');count=0
+                        while source or destination:
+                            assert source and destination and source not in visited and len(visited)<4096,'interned-type node NULL/identity/chain differs'
+                            visited.add(source);count+=1;pair(source,destination)
+                            assert image_aliases[source]==destination and image_sizes[source]==12,'interned-type node allocation differs'
+                            a=original['memory'][source];b=bytes.fromhex(native['memory'][str(destination)])
+                            assert len(a)==len(b)==12 and a[:4]==b[:4],'interned-type index/extent differs'
+                            index=int.from_bytes(a[:4],'little');assert 0x1000<=index<global_integer('next_global_type'),'interned-type index out of range'
+                            payload=int.from_bytes(a[4:8],'little');actual_payload=int.from_bytes(b[4:8],'little')
+                            arena_payload(payload,actual_payload)
+                            block_root=next(row['original'] for row in data if row['name']=='global_type_blocks')
+                            assert index-0x1000<512,'interned-type block inventory needs an explicit contract'
+                            block=int.from_bytes(original['memory'][block_root][:4],'little')
+                            assert int.from_bytes(original['memory'][block][(index&511)*4:(index&511)*4+4],'little')==payload,'interned-type/global slot alias differs'
+                            source=int.from_bytes(a[8:12],'little');destination=int.from_bytes(b[8:12],'little')
+                        assert count==int.from_bytes(counts[offset//2:offset//2+2],'little'),'interned-type bucket count differs'
+            elif item.get('type_name_cache'):
                 address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
                 if pair(address,other):
                     assert image_aliases[address]==other and image_sizes[address]==2048,'type-name bucket allocation differs'
@@ -486,19 +557,23 @@ def compare(config,data,events,native,artifacts=None,views=None):
                             name=int.from_bytes(a[:4],'little');actual_name=int.from_bytes(b[:4],'little')
                             pair(name,actual_name)
                             if name:
-                                assert name in checked and image_aliases[name]==actual_name,'type-name counted string allocation differs'
                                 text=original['memory'][name];actual_text=bytes.fromhex(native['memory'][str(actual_name)])
-                                assert len(text)==len(actual_text)==image_sizes[name]==text[0]+1==actual_text[0]+1,'incomplete type-name counted string observation'
+                                assert len(text)==len(actual_text)==text[0]+1==actual_text[0]+1,'incomplete type-name counted string observation'
+                                if item['type_name_cache']=='global':
+                                    assert arena_payload(name,actual_name,len(text))==text,'global counted name bytes/owner differ'
+                                else:assert name in checked and image_aliases[name]==actual_name and image_sizes[name]==len(text),'type-name counted string allocation differs'
                                 assert text==actual_text,'type-name counted string bytes differ'
                                 assert sum(text)&511==offset//4,'type-name bucket/hash differs'
                             payload=int.from_bytes(a[4:8],'little');actual_payload=int.from_bytes(b[4:8],'little')
                             assert bool(payload)==bool(actual_payload),'type-name record NULL state differs'
                             if payload:
-                                displacement=payload-base;segment=original['memory'][base]
-                                assert 0<=displacement<=len(segment)-4,'type-name record has no observed segment owner'
-                                length=int.from_bytes(segment[displacement:displacement+2],'little')+2
-                                assert length>=4 and any(row.get('segment_index')==0 and row['segment_offset']<=displacement and displacement+length<=row['segment_offset']+row['size'] for row in reads),'type-name record exceeds initialized segment'
-                                assert actual_payload==image_aliases[base]+displacement,'type-name record segment alias differs'
+                                if item['type_name_cache']=='global':arena_payload(payload,actual_payload)
+                                else:
+                                    displacement=payload-base;segment=original['memory'][base]
+                                    assert 0<=displacement<=len(segment)-4,'type-name record has no observed segment owner'
+                                    length=int.from_bytes(segment[displacement:displacement+2],'little')+2
+                                    assert length>=4 and any(row.get('segment_index')==0 and row['segment_offset']<=displacement and displacement+length<=row['segment_offset']+row['size'] for row in reads),'type-name record exceeds initialized segment'
+                                    assert actual_payload==image_aliases[base]+displacement,'type-name record segment alias differs'
                             source=int.from_bytes(a[16:20],'little');destination=int.from_bytes(b[16:20],'little')
                             cached_type_names_checked+=1
             elif item.get('type_record_table'):
@@ -522,10 +597,11 @@ def compare(config,data,events,native,artifacts=None,views=None):
                         assert bool(source)==bool(target), 'type record payload NULL state differs'
                         if source:
                             offset=source-base
-                            assert 0<=offset<=len(segment)-4, 'type record has no observed segment owner'
-                            length=int.from_bytes(segment[offset:offset+2],'little')+2
-                            assert length>=4 and any(first<=offset and offset+length<=last for first,last in initialized), 'type record exceeds initialized segment input'
-                            assert target==destination+offset, 'type record segment/payload offset alias differs'
+                            if 0<=offset<=len(segment)-4:
+                                length=int.from_bytes(segment[offset:offset+2],'little')+2
+                                assert length>=4 and any(first<=offset and offset+length<=last for first,last in initialized), 'type record exceeds initialized segment input'
+                                assert target==destination+offset, 'type record segment/payload offset alias differs'
+                            else:arena_payload(source,target)
                         assert a[4:]==b[4:], 'initialized type record fields differ'
                     typed_records_checked=count
             elif item.get('segment_buffer'):
@@ -645,13 +721,20 @@ def compare(config,data,events,native,artifacts=None,views=None):
                         linked(int.from_bytes(left[index*4:index*4+4],'little'),int.from_bytes(right[index*4:index*4+4],'little'),shape)
         elif item.get('global_type_blocks'):
             capacity=global_integer('type_table_used');used=global_integer('next_global_type')-0x1000
-            assert capacity in (0,512) and used==0,'global type block contents need an observed initialized-prefix contract'
+            assert capacity in (0,512) and 0<=used<=capacity,'global type block contents need an observed initialized-prefix contract'
             for offset in range(0,item['size'],4):
                 source=int.from_bytes(raw[offset:offset+4],'little');destination=int.from_bytes(actual[offset:offset+4],'little')
                 if offset==0 and capacity:
                     assert source in image_aliases and image_aliases[source]==destination and image_sizes[source]==2048,'global type block allocation/alias/capacity differs'
                     used_uninitialized.add(source);pair(source,destination)
+                    if isinstance(item['global_type_blocks'],dict):
+                        left=original['memory'][source];right=bytes.fromhex(native['memory'][str(destination)])
+                        assert len(left)==len(right)==2048,'incomplete global type pointer-block capacity'
+                        for index in range(used):
+                            arena_payload(int.from_bytes(left[index*4:index*4+4],'little'),int.from_bytes(right[index*4:index*4+4],'little'))
+                    else:assert used==0,'historical global type block has no initialized-prefix observation'
                 else:assert not source and not destination,'unused global type block slot is not zero'
+        elif item.get('type_arena'):pass # Proven above, including pointer roles.
         elif item.get('function_table'):
             spec=item['function_table'] if isinstance(item['function_table'],dict) else {}
             stride=spec.get('stride',8);pointer=spec.get('pointer_offset',4)

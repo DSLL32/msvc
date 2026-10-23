@@ -20,7 +20,7 @@ unsigned short write_segment_record(unsigned char *buffer, unsigned short segmen
 }
 
 /* The ordered kind dispatch is program data, including the final default row. */
-SymbolRewriteEntry symbol_rewriters[39] = {
+SymbolRewriterState symbol_rewriters = { {
     { 0x1006, 0, rewrite_bp_relative_symbol },
     { 0x0207, 0, enter_symbol_scope },
     { 0x100a, 0, rewrite_procedure32_symbol },
@@ -60,7 +60,7 @@ SymbolRewriteEntry symbol_rewriters[39] = {
     { 0x0001, 0, NULL },
     { 0x0009, 0, rewrite_object_name_symbol },
     { 0x1000, 0, NULL }
-};
+} };
 
 void rewrite_module_symbols(void *lines, CodeViewDirectoryEntry *entry,
                             ModuleInfo *info, unsigned short *symbols,
@@ -85,8 +85,8 @@ void rewrite_module_symbols(void *lines, CodeViewDirectoryEntry *entry,
         kind = symbol_input[2] | (symbol_input[3] << 8);
         if (kind != 7) {
             for (i = 0; i < 38; ++i)
-                if (symbol_rewriters[i].kind == kind) break;
-            if (symbol_rewriters[i].rewrite) symbol_rewriters[i].rewrite();
+                if (symbol_rewriters.entries[i].kind == kind) break;
+            if (symbol_rewriters.entries[i].rewrite) symbol_rewriters.entries[i].rewrite();
             if (*(unsigned short *)(symbol_input + 2) != 8) {
                 memcpy(symbol_output, symbol_input, length);
                 padding = 3 - ((length - 1) & 3);

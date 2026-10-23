@@ -1,0 +1,79 @@
+{
+  "schema": 1,
+  "candidate": "copy_type_arena",
+  "accepted_functions": 69,
+  "application_extent_bytes": 22928,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 36.58995882672114,
+  "qualification": "Application extents / whole text, not non-CRT or branch coverage.",
+  "source_extent": [
+    4259712,
+    4259850
+  ],
+  "associated_text_data": [],
+  "source_review": [
+    "Typed24B arena and12B block header preserve checked/cleared allocation, capacity, chain order, used/cursor/remaining writes and intrinsic copy.",
+    "NULL result for oversized request; original size-zero behavior retained.",
+    "Two copied records24+16B match; complete65536B arena capacity observed, only40B initialized prefix compared.",
+    "Real shared global4124d8 is both next-global index and default dispatch row DWORD; readable contextual union preserves identity, actual ELF DWARF field offset304/size4 and original/rebuilt initial bytes independently audited.",
+    "Full defined global pointer slots and12B interned-node aliases/counts checked; native owns unwritten tails."
+  ],
+  "executed_scope": "One arena block allocated, two records copied/interned; next BP-relative symbol callback.",
+  "fresh_pair": true,
+  "next_frontier": "rewrite_bp_relative_symbol",
+  "fresh_negative_count": 17,
+  "affected_controls": {
+    "read-state-checks.json": {
+      "path": "read-state-checks.json",
+      "sha256": "b9afefbb0c727f2de3ba0abd9492633ffd86b3983c5d22e8449e495896496aec"
+    },
+    "initialized-storage-checks.json": {
+      "path": "initialized-storage-checks.json",
+      "sha256": "1b0d1a91767e5090e9c6b91d6b5f7b97486e79dbfd6cb730f250c5ec5013ce3f"
+    },
+    "type-record-state-checks.json": {
+      "path": "type-record-state-checks.json",
+      "sha256": "f68e84250f529025ed62aeed885aceadc3497ab43410a02f49ddd38589039060"
+    },
+    "abi-state-checks.json": {
+      "path": "abi-state-checks.json",
+      "sha256": "56f603b9899c1db1384c1bd39f78470626bed3e4ad170da264ac6e2753766f61"
+    },
+    "type-arena-state-checks.json": {
+      "path": "type-arena-state-checks.json",
+      "sha256": "88aeff931bfc28cb2c6f2552daa8faa4aece83e9a000ffb40eac9d0fb6b352ba"
+    }
+  },
+  "fresh_protocol_negatives": 24,
+  "seconds": {
+    "trial": {
+      "original_build": 0.027854285202920437,
+      "native_build": 0.023889354430139065,
+      "graph_tool_build": 0.023809844627976418,
+      "original_capture": 7.309493667446077,
+      "native_capture": 0.7280856622382998,
+      "pair_check": 0.7052395278587937
+    },
+    "controls": 2.903896958567202,
+    "fixtures": {
+      "hello-debug-dll": {
+        "preparation": 0.0025713667273521423,
+        "execution": 0.702079120092094,
+        "checks": 0.0044125765562057495,
+        "total": 1.0132990553975105
+      },
+      "help": {
+        "preparation": 0.002425272949039936,
+        "execution": 0.006595504470169544,
+        "checks": 0.0027097659185528755,
+        "total": 0.016532188281416893
+      }
+    },
+    "protocol": {
+      "native_capture": 0.10728688351809978,
+      "candidate_audit": 0.4470549067482352,
+      "pair_check": 0.1607922213152051,
+      "negative_checks": 1.4706757804378867
+    }
+  }
+}

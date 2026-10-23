@@ -56,7 +56,17 @@ typedef struct SymbolRewriteEntry {
     unsigned short kind, reserved;
     SymbolRewriteProc rewrite;
 } SymbolRewriteEntry;
-extern SymbolRewriteEntry symbol_rewriters[39];
+/* The default dispatch row shares its first DWORD with the next global index.
+ * Preserve that observed storage identity, including its NULL callback. */
+typedef union SymbolRewriterState {
+    SymbolRewriteEntry entries[39];
+    struct {
+        SymbolRewriteEntry predefined[38];
+        unsigned next_global_type;
+        SymbolRewriteProc fallback;
+    } state;
+} SymbolRewriterState;
+extern SymbolRewriterState symbol_rewriters;
 extern unsigned char *symbol_input, *symbol_output;
 extern unsigned discard_symbol_depth, packed_symbol_bytes;
 void rewrite_module_symbols(void *lines, CodeViewDirectoryEntry *entry, ModuleInfo *info, unsigned short *symbols, unsigned short *references);

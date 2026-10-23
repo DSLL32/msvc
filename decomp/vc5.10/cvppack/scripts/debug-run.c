@@ -331,11 +331,55 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
             if (node) fprintf(log, "public-node-observation-failed\n");
         }
     }
+    /* Chained type arenas: capture full capacities, compare only used prefixes. */
+    if (full_graphs) {
+        DWORD arena_addresses[2] = { 0x4132a0, 0x412d60 };
+        DWORD arena[6], block[3], node, visited, a;
+        for (a = 0; a < 2; ++a) {
+            if (!read_bytes(process, arena_addresses[a], arena, sizeof(arena))) {
+                fprintf(log, "blob-observation-failed\n"); return;
+            }
+            node = arena[5]; visited = 0;
+            while (node) {
+                if (++visited > 1024 || !read_bytes(process, node, block, sizeof(block)) ||
+                    !block[1] || !arena[0] || arena[0] > 65536) {
+                    fprintf(log, "blob-observation-failed\n"); return;
+                }
+                memory(log, process, node, sizeof(block));
+                memory(log, process, block[1], arena[0]);
+                node = block[2];
+            }
+        }
+        if (!read_bytes(process, 0x4132d8, &count, 4) || count > 512) {
+            fprintf(log, "blob-observation-failed\n"); return;
+        }
+        if (count && read_bytes(process, 0x413300, &value, 4) && value)
+            memory(log, process, value, 2048);
+        if (read_bytes(process, 0x412ce8, &value, 4) && value) {
+            DWORD bucket, node, fields[3], visited = 0;
+            memory(log, process, value, 16384);
+            for (bucket = 0; bucket < 4096; ++bucket) {
+                if (!read_bytes(process, value + bucket * 4, &node, 4)) {
+                    fprintf(log, "blob-observation-failed\n"); return;
+                }
+                while (node) {
+                    if (++visited > 4096 || !read_bytes(process, node, fields, sizeof(fields))) {
+                        fprintf(log, "blob-observation-failed\n"); return;
+                    }
+                    memory(log, process, node, sizeof(fields));
+                    node = fields[2];
+                }
+            }
+        }
+    }
     /* Encountered counted-name cache: 512 heads, 20-byte nodes and separately
      * allocated length-prefixed names. Type payloads belong to captured segments. */
-    if (full_graphs && read_bytes(process, 0x412cd8, &value, 4) && value) {
+    if (full_graphs) {
+      DWORD cache;
+      for (cache = 0; cache < 2; ++cache) {
         DWORD bucket, node, fields[5], seen[512], visited = 0, k;
         unsigned char length;
+        if (!read_bytes(process, 0x412cd8 + cache * 4, &value, 4) || !value) continue;
         memory(log, process, value, 512 * 4);
         for (bucket = 0; bucket < 512; ++bucket) {
             if (!read_bytes(process, value + bucket * 4, &node, 4)) {
@@ -357,6 +401,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
                 node = fields[4];
             }
         }
+      }
     }
     for (i = 0; i < argument_count; ++i) if (argument_entry[i] == entry) {
         if (!read_bytes(process, context->Esp + argument_slot[i] * 4, &value, 4)) continue;

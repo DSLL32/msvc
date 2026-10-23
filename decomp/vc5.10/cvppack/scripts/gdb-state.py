@@ -169,7 +169,7 @@ def capture(configuration,data_file,output):
     config=json.loads(open(configuration).read());data=json.loads(open(data_file).read())
     frame=gdb.newest_frame();inferior=gdb.selected_inferior()
     state=dict(function=frame.name(),pc=int(gdb.parse_and_eval('$pc')),signal=gdb.execute('info program',to_string=True))
-    state['global_addresses']={item['name']:int(gdb.parse_and_eval('&'+item['name'])) for item in data}
+    state['global_addresses']={item['name']:int(gdb.parse_and_eval('&('+item.get('native_expression',item['name'])+')')) for item in data}
     record=next((row for row in config['functions'] if row['native_symbol']==frame.name()),None)
     parameters={}
     if record:
@@ -298,7 +298,7 @@ def capture(configuration,data_file,output):
     state['checked_allocations']=checked_allocations
     state['cleared_allocations']=cleared_allocations
     state['module_allocations']=module_allocations
-    state['globals']={item['name']:bytes(inferior.read_memory(gdb.parse_and_eval('&'+item['name']),item['size'])).hex() for item in data}
+    state['globals']={item['name']:bytes(inferior.read_memory(gdb.parse_and_eval('&('+item.get('native_expression',item['name'])+')'),item['size'])).hex() for item in data}
     if any(item.get('function_table') for item in data):
         state['function_addresses']={row['native_symbol']:int(gdb.parse_and_eval('&'+row['native_symbol'])) for row in config['functions']}
     memory={};strings={};handles={};mapped_views={};captured_shapes={}
@@ -414,6 +414,32 @@ def capture(configuration,data_file,output):
                 assert length<=1024
                 memory[str(node)]=bytes(inferior.read_memory(node,16+length+2)).hex()
                 node=int.from_bytes(header[:4],'little')
+    for item in data:
+        if item.get('type_arena'):
+            words=bytes.fromhex(state['globals'][item['name']])
+            capacity=int.from_bytes(words[:4],'little');head=int.from_bytes(words[20:24],'little');seen=set()
+            while head:
+                assert head not in seen and len(seen)<1024,'arena chain is cyclic/unbounded'
+                seen.add(head);block=bytes(inferior.read_memory(head,12));memory[str(head)]=block.hex()
+                payload=int.from_bytes(block[4:8],'little')
+                assert 0<capacity<=65536 and payload,'invalid arena payload capacity'
+                memory[str(payload)]=bytes(inferior.read_memory(payload,capacity)).hex()
+                head=int.from_bytes(block[8:12],'little')
+        if item.get('global_type_blocks'):
+            slots=bytes.fromhex(state['globals'][item['name']]);capacity=int(gdb.parse_and_eval('type_table_used'))
+            assert 0<=capacity<=512 and capacity%512==0,'global block inventory needs an explicit contract'
+            if capacity:
+                block=int.from_bytes(slots[:4],'little');memory[str(block)]=bytes(inferior.read_memory(block,2048)).hex()
+        if item.get('interned_types'):
+            root=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')
+            if root:
+                heads=bytes(inferior.read_memory(root,16384));memory[str(root)]=heads.hex();seen=set()
+                for offset in range(0,16384,4):
+                    head=int.from_bytes(heads[offset:offset+4],'little')
+                    while head:
+                        assert head not in seen and len(seen)<4096,'interned-type chain is cyclic/unbounded'
+                        seen.add(head);node=bytes(inferior.read_memory(head,12));memory[str(head)]=node.hex()
+                        head=int.from_bytes(node[8:12],'little')
     for item in data:
         if not item.get('type_name_cache'):continue
         root=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')

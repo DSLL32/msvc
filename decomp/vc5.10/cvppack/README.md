@@ -6,9 +6,9 @@ Target: `toolchains/5.10/bin/CVPACK.EXE`; the requested folder spelling is
 
 `/help` is complete: status 1, 193 stdout bytes, no stderr, six application
 entries. The genuine embedded-CodeView `hello-debug-dll` case is in progress at
-`copy_type_arena`, allocating a 24-byte owned argument-list payload. There are 68
-accepted application functions / 22,790 extent bytes, plus 621 associated switch-data
-bytes. This is 36.37% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
+`rewrite_bp_relative_symbol`, after packing two global type records. There are 69
+accepted application functions / 22,928 extent bytes, plus 621 associated switch-data
+bytes. This is 36.59% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
 it is neither non-CRT nor executed-branch coverage. Four CRT bodies (400 bytes)
 and four import thunks (24 bytes) remain separate support.
 
@@ -49,7 +49,9 @@ master are specific to this toolchain; no VC1 output is reused.
 The current prefix compares 336 type records and all 384,000 initialized table
 bytes, buffer/record aliases, actual reads and allocations, complete mapped-file
 contents, defined symbol/source-module buffers, and 47 owned counted type-name
-cache nodes with their bucket/segment aliases. Uninitialized allocation tails
+cache nodes with their bucket/segment aliases, plus initialized arena prefixes,
+global pointer slots and interned-node ownership. The default dispatch row and
+next global index share their original storage, with actual DWARF offset proof. Uninitialized allocation tails
 remain native owned; explicit positive controls permit changing them. The first
 module's type-table contract fails closed on reuse until that lifetime is observed.
 

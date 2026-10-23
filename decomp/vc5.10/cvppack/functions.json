@@ -74,7 +74,8 @@
     "compact_type_list",
     "intern_type",
     "hash_type_record",
-    "allocate_global_type"
+    "allocate_global_type",
+    "copy_type_arena"
   ],
   "functions": [
     {
@@ -2727,8 +2728,11 @@
       "source_name": "copy_type_arena",
       "native_symbol": "copy_type_arena",
       "original": 4259712,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4259712,
+        4259850
+      ],
       "ret": 4,
       "parameters": [
         {
@@ -2755,7 +2759,8 @@
           "kind": "integer",
           "slot": 1
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0069-copy-type-arena-corrected-alias/promotion.json"
     }
   ],
   "support_unmasked": [
