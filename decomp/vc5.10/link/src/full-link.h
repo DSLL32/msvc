@@ -24,8 +24,8 @@ struct ContributionGroup {
     DWORD contribution_count, rva, reserved0c, file_offset, size;
     BYTE alignment, reserved19[3];
     Contribution *first, *last;
-    OutputSection *section;
     ContributionGroup *next;
+    OutputSection *section;
 };
 struct Contribution {
     DWORD rva, characteristics, raw_size, file_offset, reserved10, reserved14;
@@ -55,6 +55,8 @@ typedef char SectionFileOffsetAt18[(offsetof(OutputSection,file_offset)==0x18)?1
 typedef char SectionIndexAt30[(offsetof(OutputSection,index)==0x30)?1:-1];
 typedef char GroupAlignmentAt18[(offsetof(ContributionGroup,alignment)==0x18)?1:-1];
 typedef char GroupFirstAt1c[(offsetof(ContributionGroup,first)==0x1c)?1:-1];
+typedef char GroupNextAt24[(offsetof(ContributionGroup,next)==0x24)?1:-1];
+typedef char GroupSectionAt28[(offsetof(ContributionGroup,section)==0x28)?1:-1];
 typedef char ContributionGroupAt1c[(offsetof(Contribution,group)==0x1c)?1:-1];
 typedef char ContributionNextAt20[(offsetof(Contribution,next)==0x20)?1:-1];
 

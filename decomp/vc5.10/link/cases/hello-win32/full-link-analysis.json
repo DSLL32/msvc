@@ -1344,5 +1344,15 @@
       "end": 4475197,
       "role": "Final output state, pack-request out-byte, header callback, checksum, close, PDB completion and inline timing"
     }
-  ]
+  ],
+  "group_tail_layout": {
+    "next": 36,
+    "section": 40,
+    "evidence": [
+      "40e746 stores section receiver at group+28",
+      "40e786/40e789 traverses next at24",
+      "40e793 stores new group next at24"
+    ],
+    "qualification": "Recovered from actual group constructor; these tail fields are not consumed by currently accepted functions. Earlier source preparation placed these two tails in the wrong order; corrected before FullLink implementation or allocation/sizeof credit."
+  }
 }
