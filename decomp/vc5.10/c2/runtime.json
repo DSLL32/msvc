@@ -148,14 +148,6 @@
     "evidence": null
   },
   {
-    "name": "@lookup_global_symbol@4",
-    "start": 4322387,
-    "end": 4322388,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@clone_alias_symbol@4",
     "start": 4553883,
     "end": 4553884,

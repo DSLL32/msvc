@@ -166,7 +166,7 @@ def main():
                           ('compact signed extended type flag differs',lambda r:changed_compact_field(r,54,0x52)),
                           ('compact signed source line differs',lambda r:changed_compact_field(r,44,1)),
                           ('compact signed source file differs',lambda r:changed_compact_field(r,90,1))]
-        if current_state['function']in ('update_symbol_storage','lookup_global_symbol'):
+        if current_state['function']in ('update_symbol_storage','lookup_global_symbol','next_symbol_serial'):
             def changed_completed_field(root,index,value,size=4):
                 import struct
                 data=bytearray.fromhex(current_state['symbol_type_input']['symbol_bytes']);struct.pack_into('<H'if size==2 else'<I',data,index,value)
@@ -190,6 +190,12 @@ def main():
             mutations += [('section lookup actual unsigned serial differs',lambda r:changed_type_input(r,'lookup_serial',6)),
                           ('section lookup actual formal type differs',lambda r:changed_type_input(r,'formals',[{'name':'serial','type':'int'}])),
                           ('section lookup original ECX serial differs',wrong_lookup_serial)]
+        if current_state['function']=='next_symbol_serial':
+            def changed_next_serial_raw(root,key,value):
+                path=root/'o/events.txt';raw=path.read_text();raw=re.sub(r'^(next-serial-input .*?'+key+'=)[0-9a-f]+',lambda m:m[1]+value,raw,flags=re.M);path.write_text(raw);raw_changed(root,'o','events.txt')
+            mutations += [('global lookup returned section loses code alias',lambda r:changed_type_input(r,'selected_section_code_alias',False)),
+                          ('global lookup original returned section differs',lambda r:changed_next_serial_raw(r,'selected-section','0048fb68')),
+                          ('global lookup original caller identifier differs',lambda r:changed_next_serial_raw(r,'identifier','6'))]
     if 'filename_input'in current_state:
         def changed_filename_input(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['filename_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

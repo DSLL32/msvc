@@ -85,6 +85,8 @@ def verify(config):
             assert list(targets)==expected,'symbol storage seven-way target table differs'
         for at,name in [(0x490b78,'_compiling_function'),(0x4973f8,'_default_storage_section')]:
             assert reader(TARGET)(at,4)==bytes(4)and reader(BINARY/'build/c2.exe')(maps[name],4)==bytes(4),'storage initial typed pointer differs'
+    if '@lookup_global_symbol@4'in config['accepted']:
+        assert reader(TARGET)(0x490b70,4)==bytes(4)and reader(BINARY/'build/c2.exe')(maps['_local_symbol_table'],4)==bytes(4),'global lookup optional existing local table initial pointer differs'
     if '@record_filename@4'in config['accepted']:
         assert reader(TARGET)(0x4973b8,4)==bytes(4),'original filename registry initial pointer differs'
         assert reader(BINARY/'build/c2.exe')(maps['_filenames'],4)==bytes(4),'rebuilt filename registry initial pointer differs'

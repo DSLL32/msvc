@@ -111,7 +111,6 @@ unsigned __fastcall resolve_diagnostic_location(unsigned location, char **file)
 }
 
 unsigned input_extended_flags(void) { __asm { int 3 } return 0; }
-C2Symbol *__fastcall lookup_global_symbol(unsigned serial) { __asm { int 3 } return NULL; }
 void __fastcall clone_alias_symbol(C2Symbol *symbol) { __asm { int 3 } }
 void __fastcall read_qualified_symbol(C2Symbol *symbol, int pool) { __asm { int 3 } }
 void compiler_warning(int level, int code, ...) { __asm { int 3 } }

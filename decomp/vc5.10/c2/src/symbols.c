@@ -29,3 +29,28 @@ void __fastcall insert_symbol(C2Symbol *symbol, int local)
     *bucket = symbol;
     symbol->hash_next = previous;
 }
+
+C2Symbol *__fastcall lookup_global_symbol(unsigned serial)
+{
+    C2Symbol *symbol;
+    unsigned bucket;
+
+    if (!serial)
+        return NULL;
+    bucket = serial & 1023;
+    symbol = global_scope.buckets[bucket];
+    while (symbol) {
+        if (symbol->serial == serial)
+            return symbol;
+        symbol = symbol->hash_next;
+    }
+    if (local_symbol_table) {
+        symbol = local_symbol_table->buckets[bucket];
+        while (symbol) {
+            if (symbol->serial == serial)
+                return symbol;
+            symbol = symbol->hash_next;
+        }
+    }
+    return NULL;
+}
