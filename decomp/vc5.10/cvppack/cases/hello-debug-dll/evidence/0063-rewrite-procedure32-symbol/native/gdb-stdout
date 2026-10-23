@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565c8bf9 in module_contains_address (info=0x56eb87d0, segment=1, offset=0) at src/stubs.c:43
+43	int module_contains_address(ModuleInfo *info, unsigned short segment, unsigned offset) { __asm { int 3 } return 0; }

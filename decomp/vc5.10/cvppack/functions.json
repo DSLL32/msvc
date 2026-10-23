@@ -68,7 +68,8 @@
     "has_symbol_segment",
     "rewrite_module_symbols",
     "write_segment_record",
-    "rewrite_object_name_symbol"
+    "rewrite_object_name_symbol",
+    "rewrite_procedure32_symbol"
   ],
   "functions": [
     {
@@ -2012,7 +2013,18 @@
       "status": "stub",
       "extent": null,
       "ret": 0,
-      "parameters": []
+      "parameters": [
+        {
+          "name": "index",
+          "register": "ecx",
+          "kind": "integer"
+        },
+        {
+          "name": "count",
+          "register": "edx",
+          "kind": "integer"
+        }
+      ]
     },
     {
       "name": "resolve_recursive_type",
@@ -2393,10 +2405,14 @@
       "symbol": "_rewrite_procedure32_symbol",
       "native_symbol": "rewrite_procedure32_symbol",
       "original": 4239040,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4239040,
+        4239131
+      ],
       "ret": 0,
-      "parameters": []
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0063-rewrite-procedure32-symbol/promotion.json"
     },
     {
       "name": "rewrite_mips_procedure_symbol",
@@ -2472,6 +2488,42 @@
       "extent": null,
       "ret": 0,
       "parameters": []
+    },
+    {
+      "name": "module_contains_address",
+      "symbol": "_module_contains_address",
+      "native_symbol": "module_contains_address",
+      "original": 4239232,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "info",
+          "slot": 1,
+          "kind": "object-pointer",
+          "shape": {
+            "size": 48,
+            "link": 44,
+            "payload": {
+              "offset": 12,
+              "length_offset": 16
+            }
+          },
+          "native_pointee_width": 48
+        },
+        {
+          "name": "segment",
+          "slot": 2,
+          "kind": "integer",
+          "native_width": 2
+        },
+        {
+          "name": "offset",
+          "slot": 3,
+          "kind": "integer"
+        }
+      ]
     }
   ],
   "support_unmasked": [

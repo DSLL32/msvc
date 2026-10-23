@@ -14,3 +14,18 @@ void rewrite_object_name_symbol(void)
         memmove(current_module_info->precompiled_object_name, name, name[0] + 1);
     }
 }
+
+/* Keep a procedure only when its segment/address belongs to this module
+ * [0040aec0,0040af1b). */
+void rewrite_procedure32_symbol(void)
+{
+    ++public_scope_depth;
+    if (!module_contains_address(current_module_info,
+                                 *(unsigned short *)(symbol_input + 36),
+                                 *(unsigned *)(symbol_input + 32))) {
+        ++discard_symbol_depth;
+        *(unsigned short *)(symbol_input + 2) = 8;
+        return;
+    }
+    *(unsigned *)(symbol_input + 28) = map_type_index(*(unsigned *)(symbol_input + 28));
+}

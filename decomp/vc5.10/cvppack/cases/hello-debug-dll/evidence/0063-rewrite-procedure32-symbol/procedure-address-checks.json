@@ -1,0 +1,72 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "count": 8,
+  "rejected": [
+    {
+      "name": "wrong-segment",
+      "diagnostic": "('typed ABI arguments differ', {'segment': 1, 'offset': 0, 'info': {'null': False, 'object_id': 161}}, {'info': {'null': False, 'object_id': 161}, 'segment': 2, 'offset': 0})"
+    },
+    {
+      "name": "wrong-code-offset",
+      "diagnostic": "('typed ABI arguments differ', {'segment': 1, 'offset': 0, 'info': {'null': False, 'object_id': 161}}, {'info': {'null': False, 'object_id': 161}, 'segment': 1, 'offset': 1})"
+    },
+    {
+      "name": "wrong-module-identity",
+      "diagnostic": "object alias differs"
+    },
+    {
+      "name": "wrong-module-pointee-extent",
+      "diagnostic": "actual frontier pointee extent differs"
+    },
+    {
+      "name": "wrong-short-parameter-width",
+      "diagnostic": "actual frontier formal width differs"
+    },
+    {
+      "name": "missing-scope-increment",
+      "diagnostic": "('application global differs', 'public_scope_depth', '01000000', '00000000')"
+    },
+    {
+      "name": "wrong-original-short-low-word",
+      "diagnostic": "('typed ABI arguments differ', {'segment': 0, 'offset': 0, 'info': {'null': False, 'object_id': 161}}, {'info': {'null': False, 'object_id': 161}, 'segment': 1, 'offset': 0})"
+    }
+  ],
+  "actual_gdb_module_rejection": {
+    "returncode": 1,
+    "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x565b0bf9 in module_contains_address (info=0x57514730, segment=1, offset=0) at src/stubs.c:43\n43\tint module_contains_address(ModuleInfo *info, unsigned short segment, unsigned offset) { __asm { int 3 } return 0; }\n\nPython Exception <class 'AssertionError'>: actual pointer formal pointee extent differs\n/root/.ai-tmp/cvpack-procedure-abi-rutfpes5/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: actual pointer formal pointee extent differs\n",
+    "bad_config_sha256": "9bed9062d673a9fb49acd07c51e7381ef313780aa2081c6192815a9fea36139f",
+    "observer_sha256": "ece585d1f4ac016ec04f86b6b98d15454c014dc867e612fbc020d9626874ab29"
+  },
+  "actual_formals": [
+    {
+      "name": "info",
+      "kind": "pointer",
+      "width": 4,
+      "native_type": "ModuleInfo *",
+      "pointee_width": 48
+    },
+    {
+      "name": "segment",
+      "kind": "integer",
+      "width": 2,
+      "native_type": "unsigned short"
+    },
+    {
+      "name": "offset",
+      "kind": "integer",
+      "width": 4,
+      "native_type": "unsigned int"
+    }
+  ],
+  "ushort_load": {
+    "address": 4239280,
+    "bytes": "668b7c2418"
+  },
+  "dead_ushort_high_word_change_allowed": true,
+  "original_receipt_sha256": "0cfa4cb08ed0a2dd86d9bc312349d6e0d4d5cbca1017266ecd51f0b103377215",
+  "native_receipt_sha256": "f5b69daaea0e8512904d6caf50f2d5a13d5943205cf3f00a4f36600b33450e0f",
+  "checker_sha256": "3c6e4cbbd01a4fee418e91ad222355796969b035b7540674120483b832c6889d",
+  "decoder_sha256": "3d3abb3d2e4feae070bc40c3227431748387ba899b5985c082ce6af35c6bb17c",
+  "seconds": 2.21435733884573
+}

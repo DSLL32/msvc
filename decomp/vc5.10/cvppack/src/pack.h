@@ -76,5 +76,6 @@ void rewrite_object_name_symbol(void);
 void rewrite_procedure16_symbol(void);
 void rewrite_procedure32_symbol(void);
 void rewrite_mips_procedure_symbol(void);
+int module_contains_address(ModuleInfo *info, unsigned short segment, unsigned offset);
 void rewrite_module_global_types(void *types, CodeViewDirectoryEntry *entry, ModuleInfo *info);
 #endif
