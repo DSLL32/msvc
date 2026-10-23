@@ -18,6 +18,7 @@ def compare(original,native,validation=None):
             data=(path/(stream+'.bin')).read_bytes()
             assert receipt[stream]=={'bytes':len(data),'sha256':sha(data)},'stream evidence changed'
         receipts.append(receipt)
+    assert receipts[1]['resource_sha256']==sha((BINARY/'build/messages.rmr').read_bytes()),'prepared native resources changed'
     assert receipts[0]['candidates']==receipts[1]['candidates']==config['trial'],'different candidate sets'
     if validation is None:
         audit_file=original/'audit-receipt.json';report_file=original/'graph-audit.json'
@@ -33,6 +34,10 @@ def compare(original,native,validation=None):
     for name,digest in win_provenance['inputs'].items():
         assert sha((report_file.parent/'win32-inputs'/name).read_bytes())==digest,'immutable Win32 compiler input changed'
     graph=json.loads(report_file.read_text())
+    from import_evidence import verify
+    residual_file=report_file.parent/'import-residuals.json'
+    assert sha(residual_file.read_bytes())==audit['import_residuals_sha256']
+    assert json.loads(residual_file.read_text())==verify(config,graph),'cached-import identity evidence differs'
     for support in config['support']:
         if support['kind']=='import'and support['name']in config['accepted']:
             identity=graph['import_catalogs']['original']['slots'][str(support['iat'])]
@@ -73,7 +78,7 @@ def compare(original,native,validation=None):
     assert len(matching)==1,'unknown original frontier'
     expected=matching[0]
     if expected['name']!='_c2_crt_startup':
-        assert expected.get('state_policy')in ('pre-main-no-arguments','main-arguments-and-initial-state','exit-callback','command-line-state','environment-flags')and expected.get('state'),'new frontier needs explicit state decoder'
+        assert expected.get('state_policy')in ('pre-main-no-arguments','main-arguments-and-initial-state','exit-callback','command-line-state','environment-flags','match-option')and expected.get('state'),'new frontier needs explicit state decoder'
         if expected['state_policy']=='pre-main-no-arguments':
             assert expected['abi']=='cdecl, no parameters','parameter ABI has no decoder'
     for group in ('gdb_inputs','gdb_outputs'):
@@ -105,15 +110,32 @@ def compare(original,native,validation=None):
         raw={int(a,16):int(v,16)for a,v in re.findall(r'^global ([0-9a-f]+) ([0-9a-f]+)$',section[1],re.M)}
         required={view['original']:raw[int(view['original'],16)]for view in expected['state']}
         assert state['globals']==required,'frontier globals/runtime state differs'
-    if expected.get('state_policy')in ('command-line-state','environment-flags'):
+    if expected.get('state_policy')in ('command-line-state','environment-flags','match-option'):
         segment=text.rsplit('observe %08x '%address,1)[1]
         values=re.findall(r'^command-state argc=(\d+) argv=([0-9a-f]+) input=([0-9a-f]+)$',segment,re.M)
         assert len(values)==1
         expected_argv=(BINARY/'cases/unsupported-help-diagnostic/argv.bin').read_bytes()
-        assert (original/'command-argv.bin').read_bytes()==expected_argv
-        assert state['command_state']=={'argc':int(values[0][0]),'argv':[v.decode()for v in expected_argv[:-2].split(b'\0')]}
+        consumed=expected.get('argv_consumed',0)
+        strings=expected_argv[:-2].split(b'\0')[consumed:]
+        assert (original/'command-argv.bin').read_bytes()==b'\0'.join(strings)+b'\0\0'
+        assert int(values[0][0])==2-consumed
+        assert state['command_state']=={'argc':2-consumed,'argv':[v.decode()for v in strings]}
         if expected['state_policy']=='environment-flags':
             assert int(values[0][2],16)==0 and state['flags']is None,'absent MSC_CMD_FLAGS input is not NULL'
+    if expected.get('state_policy')=='match-option':
+        raw=re.findall(r'^matcher-state table=([0-9a-f]+) input=([0-9a-f]+) callback=([0-9a-f]+) mode=(\d+)$',text,re.M)
+        assert len(raw)==1
+        pending=next(r for r in config['pending_data']if r['name']=='c2_options')
+        assert int(raw[0][0],16)==pending['original'] and int(raw[0][2],16)==0x452bb7 and int(raw[0][3])==0
+        assert (original/'matcher-input.bin').read_bytes()==b'/?\0'
+        table,size=proof.symbols(BINARY/'build/native/c2',data=True)['c2_options']
+        bias=int(native_proof['load_bias'],16)
+        callback=proof.symbols(BINARY/'build/native/c2')['c2_next_argument'][0]+bias
+        assert size==pending['storage_records']*12
+        assert state['matcher']=={'table':table+bias,'input':'/?','next':callback,'mode':0,
+                                  'record_size':12,'storage_records':pending['storage_records']},'matcher ABI/logical table identity differs'
+        line='C2-MATCHER table=%s next=%s mode=0'%(hex(table+bias),hex(callback))
+        assert re.findall(r'^C2-MATCHER .*$',(native/'gdb.stdout').read_text(),re.M)==[line]
     if expected.get('state_policy')=='exit-callback':
         callback=next(r for r in config['stubs']if r['name']=='_c2_cleanup')
         assert re.findall(r'^exit-callback ([0-9a-f]+)$',text.rsplit('observe %08x '%address,1)[1],re.M)==['%08x'%callback['start']]

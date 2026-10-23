@@ -92,7 +92,19 @@ static void observe(CONTEXT *context, DWORD address)
     for (i=0;i<sizeof(globals)/sizeof(globals[0]);++i)
         if (read_memory(globals[i],&value,4)) fprintf(events,"global %08lx %08lx\n",globals[i],value);
     fprintf(events,"x87-control %08lx\n", context->FloatSave.ControlWord);
-    if (address == 0x452a22 || address == 0x452acb) {
+    if (address == 0x452bd9) {
+        char value;
+        FILE *file;
+        if (!read_memory(context->Esp,stack,sizeof(stack))) ExitProcess(152);
+        fprintf(events,"matcher-state table=%08lx input=%08lx callback=%08lx mode=%lu\n",context->Ecx,context->Edx,stack[1],stack[2]);
+        file=fopen("matcher-input.bin","wb");if (!file) ExitProcess(153);
+        for(i=0;i<4096;++i) {
+            if (!read_memory(context->Edx+i,&value,1)) ExitProcess(154);
+            fputc(value,file);if (!value)break;
+        }
+        fclose(file);if(i==4096)ExitProcess(155);
+    }
+    if (address == 0x452a22 || address == 0x452acb || address == 0x452bb7 || address == 0x452bd9) {
         DWORD argc, argv;
         if (!read_memory(0x49972c,&argc,4) || !read_memory(0x499728,&argv,4)) ExitProcess(151);
         fprintf(events,"command-state argc=%lu argv=%08lx input=%08lx\n",argc,argv,context->Ecx);

@@ -1,0 +1,42 @@
+{
+  "function": "_c2_register_onexit",
+  "match": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/onexit-validation/receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/onexit-validation/graph-audit.json",
+    "matched": "@c2_read_environment@4",
+    "original": "0x452a22",
+    "native": "c2_read_environment",
+    "argument_state": "environment-flags",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "c2_read_environment",
+      "symbol_start": "0x27d0",
+      "symbol_size": 159,
+      "static_pc": "0x2808",
+      "int3_sites": [
+        "0x2807"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit"
+    ],
+    "candidates": [
+      "_c2_register_onexit"
+    ],
+    "acceptance": false
+  },
+  "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/onexit-original",
+  "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/onexit-native",
+  "base_configuration_sha256": "c3c8982941bd19ca28e87d016177868ac16744af4d2879914e709c5f2e2100e3",
+  "review": {
+    "approved": true,
+    "scope": "First unsupported /? diagnostic only; no second case",
+    "status": "Independently reviewed real candidate pair and all 24 negative controls; authorized first case only",
+    "review_id": "orchestrator-c2-startup-provenance-2026-10-23"
+  }
+}

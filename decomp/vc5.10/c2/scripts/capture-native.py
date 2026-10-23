@@ -52,7 +52,7 @@ records=[r for r in %r if r['native']==frame.name()]
 if len(records)==1:
     for view in records[0].get('state',[]):
         info['globals'][view['original']]=int(gdb.parse_and_eval(view['native'])) & 0xffffffff
-    if records[0].get('state_policy')in ('command-line-state','environment-flags'):
+    if records[0].get('state_policy')in ('command-line-state','environment-flags','match-option'):
         ptr=gdb.parse_and_eval('c2_argv');values=[];i=0
         while int(ptr[i]):
             values.append(ptr[i].string());i+=1
@@ -60,6 +60,12 @@ if len(records)==1:
         info['command_state']={'argc':int(gdb.parse_and_eval('c2_argc')),'argv':values}
         if records[0]['state_policy']=='environment-flags':
             info['flags']=None if int(gdb.parse_and_eval('flags'))==0 else gdb.parse_and_eval('flags').string()
+    if records[0].get('state_policy')=='match-option':
+        info['matcher']={'table':int(gdb.parse_and_eval('table')),'input':gdb.parse_and_eval('input').string(),
+                         'next':int(gdb.parse_and_eval('next')),'mode':int(gdb.parse_and_eval('mode')),
+                         'record_size':int(gdb.parse_and_eval('sizeof(C2Option)')),
+                         'storage_records':int(gdb.parse_and_eval('sizeof(c2_options)/sizeof(C2Option)'))}
+        gdb.write('C2-MATCHER table=0x%%x next=0x%%x mode=%%d\\n'%%(info['matcher']['table'],info['matcher']['next'],info['matcher']['mode']))
     if records[0].get('state_policy')=='exit-callback':
         info['callback']=int(gdb.parse_and_eval('callback'))
         gdb.write('C2-CALLBACK 0x%%x\\n'%%info['callback'])
@@ -85,6 +91,8 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
     manifest=json.loads((environment_file.parent/'case.json').read_text())
     assert sha(environment_file.read_bytes())==manifest['environment']['sha256'],'frozen environment changed'
     env['C2_ENVIRONMENT_FILE']=str(environment_file)
+    resources=BINARY/'build/messages.rmr';resource_sha256=sha(resources.read_bytes())
+    env['C2_RESOURCE_FILE']=str(resources)
     start=time.monotonic();result=subprocess.run(command,cwd=output,env=env,capture_output=True,timeout=30)
     execution=time.monotonic()-start
     (output/'gdb.stdout').write_bytes(result.stdout);(output/'gdb.stderr').write_bytes(result.stderr)
@@ -93,7 +101,8 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
     assert build_inputs['binary_sha256']==sha(executable.read_bytes()),'native build provenance does not match executable'
     shutil.copyfile(provenance,output/'compiled-inputs.json')
     shutil.copytree(build_inputs['snapshot'],output/'compiled-inputs')
-    receipt=dict(kind='native-linux-gdb',command=command,candidates=config['trial'],base_configuration_sha256=sha(base_snapshot),configuration_sha256=sha(snapshot),
+    assert sha(resources.read_bytes())==resource_sha256,'prepared resources changed during capture'
+    receipt=dict(resource_sha256=resource_sha256,kind='native-linux-gdb',command=command,candidates=config['trial'],base_configuration_sha256=sha(base_snapshot),configuration_sha256=sha(snapshot),
                  target_sha256=sha(TARGET.read_bytes()),native_sha256=sha(executable.read_bytes()),
                  rebuilt_sha256=sha((BINARY/'build/c2.exe').read_bytes()),
                  audit_inputs=audit_input_hashes(),source_hashes=source_hashes(),state_sha256=sha((output/'state.json').read_bytes())if(output/'state.json').exists()else None,

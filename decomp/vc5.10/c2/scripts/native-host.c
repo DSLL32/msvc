@@ -36,6 +36,7 @@ static char **read_environment(const char *path)
 int main(int argc, char **argv)
 {
     ReconModuleSpec module;
+    HMODULE instance;
     char **environment;
     if (argc != 2 || strcmp(argv[1], "/?"))
         recon_unsupported("C2 host is released for the first /? case only");
@@ -46,7 +47,9 @@ int main(int argc, char **argv)
     module.path = argv[0];
     module.sha256 = "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae";
     module.flags = RECON_MODULE_PRIMARY | RECON_MODULE_NO_TLS;
-    if (!recon_register_module(&module)) recon_unsupported("C2 module registration");
+    instance = recon_register_module(&module);
+    if (!instance) recon_unsupported("C2 module registration");
+    recon_load_module_resources(instance, getenv("C2_RESOURCE_FILE"));
     /* Canonical MSVCRT DLL initialization precedes the target EXE startup. */
     recon_controlfp(0x10000, 0x30000);
     c2_crt_startup();

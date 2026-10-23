@@ -1,0 +1,44 @@
+{
+  "function": "_c2_initialize_options",
+  "match": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/options-original-2/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/options-original-2/graph-audit.json",
+    "matched": "_c2_next_argument",
+    "original": "0x452bb7",
+    "native": "c2_next_argument",
+    "argument_state": "command-line-state",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "c2_next_argument",
+      "symbol_start": "0x2e40",
+      "symbol_size": 732,
+      "static_pc": "0x2e6f",
+      "int3_sites": [
+        "0x2e6e"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_initialize_options"
+    ],
+    "candidates": [
+      "_c2_initialize_options"
+    ],
+    "acceptance": false
+  },
+  "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/options-original-2",
+  "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/options-native",
+  "base_configuration_sha256": "2455c5a06940e9bc8ffa2fe5048968132086f78884445f60e43182999715609b",
+  "review": {
+    "approved": true,
+    "scope": "First unsupported /? diagnostic only; no second case",
+    "status": "Independently reviewed real candidate pair and all 24 negative controls; authorized first case only",
+    "review_id": "orchestrator-c2-startup-provenance-2026-10-23"
+  }
+}

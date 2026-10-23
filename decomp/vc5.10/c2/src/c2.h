@@ -9,9 +9,18 @@
 #include <math.h>
 #include <excpt.h>
 #include <io.h>
+/* This target imports the FILE array; the SDK accessor adds a graph vertex. */
+#undef _iob
+__declspec(dllimport) extern FILE _iob[];
 #include <recon.h>
 
 typedef void (__cdecl *C2Initializer)(void);
+typedef struct C2Option {
+    char *pattern;
+    void *value;
+    unsigned char result, kind;
+    unsigned short reserved;
+} C2Option;
 struct _exception;
 struct _startupinfo { int newmode; };
 
@@ -39,7 +48,15 @@ int c2_main(int, char **, char **);
 int c2_register_exit(C2Initializer callback);
 C2Initializer c2_register_onexit(C2Initializer callback);
 void __fastcall c2_read_environment(char *flags);
+char **c2_copy_arguments(void);
+extern int c2_argc;
+extern char **c2_argv;
 void c2_initialize_options(void);
+char *c2_next_argument(void);
+int __fastcall c2_match_option(C2Option *table, char *input, char *(__cdecl *next)(void), int mode);
+void __fastcall c2_validate_alignment(int alignment);
+char *__fastcall c2_get_diagnostic_string(int message);
+void __fastcall c2_system_fatal(int message, char *prefix, char *filename);
 void c2_print_banner(void);
 FILE *__fastcall c2_open_intermediate(char *base, char *suffix, char *mode, char *description);
 void c2_read_header(void);

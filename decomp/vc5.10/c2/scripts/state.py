@@ -56,6 +56,8 @@ def validate(config, original, inventory):
             seen.append((start,end,record['name']))
     names=[r['name'] for r in config['driver']+config['support']+config['stubs']]
     assert len(names)==len(set(names)), 'duplicate logical function'
+    for data in config.get('pending_data',[]):
+        assert not set(data['required_before'])&set(config['accepted']+config['trial']),'pending table data blocks accessing function acceptance'
     assert len(config['trial'])==len(set(config['trial']))
     assert set(config['trial']) <= {r['name']for r in config['driver']+config['support']}
     assert len(config['accepted'])==len(set(config['accepted']))

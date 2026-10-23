@@ -1,0 +1,118 @@
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+004529f1 <.text+0x519f1>:
+  4529f1:	8b 44 24 04          	mov    eax,DWORD PTR [esp+0x4]
+  4529f5:	50                   	push   eax
+  4529f6:	e8 0b 00 00 00       	call   0x452a06
+  4529fb:	83 c4 04             	add    esp,0x4
+  4529fe:	f7 d8                	neg    eax
+  452a00:	1b c0                	sbb    eax,eax
+  452a02:	f7 d8                	neg    eax
+  452a04:	48                   	dec    eax
+  452a05:	c3                   	ret
+  452a06:	83 3d d4 96 49 00 ff 	cmp    DWORD PTR ds:0x4996d4,0xffffffff
+  452a0d:	0f 85 4a 1b 02 00    	jne    0x47455d
+  452a13:	8b 44 24 04          	mov    eax,DWORD PTR [esp+0x4]
+  452a17:	50                   	push   eax
+  452a18:	ff 15 80 d0 48 00    	call   DWORD PTR ds:0x48d080
+  452a1e:	83 c4 04             	add    esp,0x4
+  452a21:	c3                   	ret
+  452a22:	56                   	push   esi
+  452a23:	57                   	push   edi
+  452a24:	8b f1                	mov    esi,ecx
+  452a26:	33 ff                	xor    edi,edi
+  452a28:	85 f6                	test   esi,esi
+  452a2a:	74 69                	je     0x452a95
+  452a2c:	e8 67 00 00 00       	call   0x452a98
+  452a31:	8a 0e                	mov    cl,BYTE PTR [esi]
+  452a33:	84 c9                	test   cl,cl
+  452a35:	74 58                	je     0x452a8f
+  452a37:	55                   	push   ebp
+  452a38:	8b 2d 2c 97 49 00    	mov    ebp,DWORD PTR ds:0x49972c
+  452a3e:	53                   	push   ebx
+  452a3f:	b3 22                	mov    bl,0x22
+  452a41:	eb 2b                	jmp    0x452a6e
+  452a43:	3a cb                	cmp    cl,bl
+  452a45:	0f 84 39 1b 02 00    	je     0x474584
+  452a4b:	88 0a                	mov    BYTE PTR [edx],cl
+  452a4d:	42                   	inc    edx
+  452a4e:	8a 4e 01             	mov    cl,BYTE PTR [esi+0x1]
+  452a51:	46                   	inc    esi
+  452a52:	84 c9                	test   cl,cl
+  452a54:	74 09                	je     0x452a5f
+  452a56:	80 f9 20             	cmp    cl,0x20
+  452a59:	75 e8                	jne    0x452a43
+  452a5b:	85 ff                	test   edi,edi
+  452a5d:	75 e4                	jne    0x452a43
+  452a5f:	80 3e 00             	cmp    BYTE PTR [esi],0x0
+  452a62:	74 01                	je     0x452a65
+  452a64:	46                   	inc    esi
+  452a65:	c6 02 00             	mov    BYTE PTR [edx],0x0
+  452a68:	8a 0e                	mov    cl,BYTE PTR [esi]
+  452a6a:	84 c9                	test   cl,cl
+  452a6c:	74 19                	je     0x452a87
+  452a6e:	80 f9 20             	cmp    cl,0x20
+  452a71:	0f 84 fe 1a 02 00    	je     0x474575
+  452a77:	8a 0e                	mov    cl,BYTE PTR [esi]
+  452a79:	84 c9                	test   cl,cl
+  452a7b:	74 eb                	je     0x452a68
+  452a7d:	89 30                	mov    DWORD PTR [eax],esi
+  452a7f:	83 c0 04             	add    eax,0x4
+  452a82:	8b d6                	mov    edx,esi
+  452a84:	45                   	inc    ebp
+  452a85:	eb cf                	jmp    0x452a56
+  452a87:	89 2d 2c 97 49 00    	mov    DWORD PTR ds:0x49972c,ebp
+  452a8d:	5b                   	pop    ebx
+  452a8e:	5d                   	pop    ebp
+  452a8f:	c7 00 00 00 00 00    	mov    DWORD PTR [eax],0x0
+  452a95:	5f                   	pop    edi
+  452a96:	5e                   	pop    esi
+  452a97:	c3                   	ret
+  452a98:	8b 15 28 97 49 00    	mov    edx,DWORD PTR ds:0x499728
+  452a9e:	b8 f8 7f 49 00       	mov    eax,0x497ff8
+  452aa3:	8b 0a                	mov    ecx,DWORD PTR [edx]
+  452aa5:	83 c2 04             	add    edx,0x4
+  452aa8:	85 c9                	test   ecx,ecx
+  452aaa:	89 0d f8 7f 49 00    	mov    DWORD PTR ds:0x497ff8,ecx
+  452ab0:	74 0e                	je     0x452ac0
+  452ab2:	8b 0a                	mov    ecx,DWORD PTR [edx]
+  452ab4:	83 c0 04             	add    eax,0x4
+  452ab7:	83 c2 04             	add    edx,0x4
+  452aba:	85 c9                	test   ecx,ecx
+  452abc:	89 08                	mov    DWORD PTR [eax],ecx
+  452abe:	75 f2                	jne    0x452ab2
+  452ac0:	c7 05 28 97 49 00 f8 	mov    DWORD PTR ds:0x499728,0x497ff8
+  452ac7:	7f 49 00 
+  452aca:	c3                   	ret
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0047455d <.text+0x7355d>:
+  47455d:	8b 4c 24 04          	mov    ecx,DWORD PTR [esp+0x4]
+  474561:	68 08 97 49 00       	push   0x499708
+  474566:	68 d4 96 49 00       	push   0x4996d4
+  47456b:	51                   	push   ecx
+  47456c:	e8 3d 7b 01 00       	call   0x48c0ae
+  474571:	83 c4 0c             	add    esp,0xc
+  474574:	c3                   	ret
+  474575:	8a 4e 01             	mov    cl,BYTE PTR [esi+0x1]
+  474578:	46                   	inc    esi
+  474579:	80 f9 20             	cmp    cl,0x20
+  47457c:	0f 85 f5 e4 fd ff    	jne    0x452a77
+  474582:	eb f1                	jmp    0x474575
+  474584:	80 7e ff 5c          	cmp    BYTE PTR [esi-0x1],0x5c
+  474588:	75 08                	jne    0x474592
+  47458a:	88 5a ff             	mov    BYTE PTR [edx-0x1],bl
+  47458d:	e9 bc e4 fd ff       	jmp    0x452a4e
+  474592:	33 c9                	xor    ecx,ecx
+  474594:	85 ff                	test   edi,edi
+  474596:	0f 94 c1             	sete   cl
+  474599:	8b f9                	mov    edi,ecx
+  47459b:	e9 ae e4 fd ff       	jmp    0x452a4e

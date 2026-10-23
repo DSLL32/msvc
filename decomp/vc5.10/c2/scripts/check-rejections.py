@@ -83,6 +83,21 @@ def main():
         ('changed raw child command',lambda r:(r/'o/child-command-input.bin').write_bytes(b'wrong')),
         ('changed raw child environment',lambda r:(r/'o/child-environment-input.bin').write_bytes(b'MSC_CMD_FLAGS=\0\0')),
     ]
+    def changed_residual(root):
+        path=audit_directory(root)/'import-residuals.json';values=json_at(path)
+        values[0]['rebuilt']['lifetime_sha256']='0'*64;write_json(path,values)
+        apath=audit_path(root);audit=json_at(apath);audit['import_residuals_sha256']=sha(path.read_bytes());write_json(apath,audit);bind_audit(root)
+    source_audit=a.validation.parent if a.validation else a.original
+    if json_at(source_audit/'import-residuals.json'):
+        mutations.append(('changed cached-import evidence with matching receipt hash',changed_residual))
+    current_state=json_at(a.native/'state.json')
+    if 'flags'in current_state:
+        mutations.append(('NULL environment flags changed to empty string',lambda r:mutate_state(r,'flags','')))
+    if 'command_state'in current_state:
+        mutations.append(('different backend argc/argv state',lambda r:mutate_state(r,'command_state',{'argc':0,'argv':[]})))
+        mutations.append(('changed original argument-vector bytes',lambda r:(r/'o/command-argv.bin').write_bytes(b'wrong\0\0')))
+    if 'callback'in current_state:
+        mutations.append(('different native callback identity',lambda r:mutate_state(r,'callback',1)))
     with tempfile.TemporaryDirectory(prefix='candidate-negatives-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c2')as scratch:
         for index,(name,change)in enumerate(mutations):
             root=Path(scratch)/str(index);shutil.copytree(a.original,root/'o');shutil.copytree(a.native,root/'n')

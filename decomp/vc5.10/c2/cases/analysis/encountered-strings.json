@@ -1,0 +1,86 @@
+{
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "analysis_source": "PE RT_STRING numeric resource directory; English1033 blocks19and63, length-prefixed UTF16LE",
+  "observation": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/canonical-message-observer",
+  "observation_receipt_sha256": "76981436af6518e9f0fe2164a400558e6c5fcaef39b7fda7e9d12da627aa7a54",
+  "observation_events_sha256": "d9940dbd957118c462b23d0ba7494308d6f18f16928bea2233cae0993437dae9",
+  "entries": [
+    {
+      "id": 301,
+      "language": 1033,
+      "kind": "string",
+      "text": "warning",
+      "utf16_file_offset": 647172,
+      "utf16_bytes": 14,
+      "utf16_sha256": "92b3945f000eec808f879cb960b7d7e51e6483b27e835e9388e706267b1ccd85",
+      "observed_buffer": "message-00-301.bin",
+      "observed_buffer_sha256": "30280a79856b9d1d9d4279e1163554015054e60c7b979b74cb090031eca0e9b9"
+    },
+    {
+      "id": 302,
+      "language": 1033,
+      "kind": "string",
+      "text": "error",
+      "utf16_file_offset": 647188,
+      "utf16_bytes": 10,
+      "utf16_sha256": "ed0fd9b0e3564161a6a5857e6234f97d8064c205eb1e9c236b28df7799104148",
+      "observed_buffer": "message-01-302.bin",
+      "observed_buffer_sha256": "1939230197b59028f7f8c7c656a053d9cf5f54eb2686a1c4b83092e31a91f11f"
+    },
+    {
+      "id": 303,
+      "language": 1033,
+      "kind": "string",
+      "text": "fatal error",
+      "utf16_file_offset": 647200,
+      "utf16_bytes": 22,
+      "utf16_sha256": "e1a4d8595039b049cb7ffe706fe70a1ba5ce1f222086da5030064f947a4ae908",
+      "observed_buffer": "message-02-303.bin",
+      "observed_buffer_sha256": "30ae1e273ac23fe01dfa17894a96fce961b6a619ec189bfebec78b42de5b6c32"
+    },
+    {
+      "id": 310,
+      "language": 1033,
+      "kind": "string",
+      "text": "compiler generated",
+      "utf16_file_offset": 647238,
+      "utf16_bytes": 36,
+      "utf16_sha256": "d7e15e6ccfd5ee4c19ae2802a42b94bf1e8cf078989282a5f27301127f8caafd",
+      "observed_buffer": "message-03-310.bin",
+      "observed_buffer_sha256": "b3576006112f9661a2f9f9974fbadc014a6136f063a9aeb7c372aeb4372973e2"
+    },
+    {
+      "id": 311,
+      "language": 1033,
+      "kind": "string",
+      "text": "compiler intermediate",
+      "utf16_file_offset": 647276,
+      "utf16_bytes": 42,
+      "utf16_sha256": "f2c84d0a623128a28e612132ce6f422fa877ded2b188b0a5038a263044edf8a1",
+      "observed_buffer": "message-04-311.bin",
+      "observed_buffer_sha256": "f84b2bc353b5f97643ece22874c61825ee155220622a61eee8e7934bed0625bf"
+    },
+    {
+      "id": 312,
+      "language": 1033,
+      "kind": "string",
+      "text": "source",
+      "utf16_file_offset": 647320,
+      "utf16_bytes": 12,
+      "utf16_sha256": "03ec8e17d0fc6a7f51da59bbc1c623c5d8738f1d334f9bafe6ceb0cec31dd995",
+      "observed_buffer": "message-05-312.bin",
+      "observed_buffer_sha256": "b262e4d694763d3a84cc37b913cad7a149c0e91a2cd6b3643c984bc7880e3f6d"
+    },
+    {
+      "id": 1007,
+      "language": 1033,
+      "kind": "string",
+      "text": "unrecognized flag '%s' in '%s'",
+      "utf16_file_offset": 648454,
+      "utf16_bytes": 60,
+      "utf16_sha256": "650da7cad6f8d2aaf649c1a657fe3a0ccdca9c9583184bb91713eed0078d6fcb",
+      "observed_buffer": "message-06-1007.bin",
+      "observed_buffer_sha256": "b3a77a9221a2d7cd72e1c4bb6c8afce7bcb76d676c83fa2cdc44ef73f86bbf18"
+    }
+  ]
+}

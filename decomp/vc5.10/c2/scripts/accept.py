@@ -40,7 +40,7 @@ def main():
     for side,source,files in [('original',a.original,original_files),('native',a.native,native_files)]:
         destination=a.proof/side;destination.mkdir()
         if side=='original':
-            files += [name for name in ('main-argv.bin','main-environment.bin','command-argv.bin')if(source/name).exists()]
+            files += [name for name in ('main-argv.bin','main-environment.bin','command-argv.bin','matcher-input.bin')if(source/name).exists()]
         for name in files:shutil.copyfile(source/name,destination/name)
     def archive_inputs(directory,manifest,destination):
         with destination.open('wb')as raw,gzip.GzipFile(filename='',fileobj=raw,mode='wb',mtime=0)as compressed,tarfile.open(fileobj=compressed,mode='w')as archive:
@@ -52,6 +52,7 @@ def main():
     validation_folder=a.proof/'current-validation';validation_folder.mkdir()
     shutil.copyfile(result['validation'],validation_folder/'receipt.json')
     shutil.copyfile(result['graph_report'],validation_folder/'graph-audit.json')
+    shutil.copyfile(Path(result['graph_report']).parent/'import-residuals.json',validation_folder/'import-residuals.json')
     shutil.copyfile(Path(result['graph_report']).parent/'win32-inputs.json',validation_folder/'win32-inputs.json')
     archive_inputs(Path(result['graph_report']).parent/'win32-inputs',json.loads((Path(result['graph_report']).parent/'win32-inputs.json').read_text()),validation_folder/'win32-inputs.tar.gz')
     record={'function':a.function,'match':result,'original_capture':str(a.original.resolve()),'native_capture':str(a.native.resolve()),'base_configuration_sha256':sha(before),'review':gate}

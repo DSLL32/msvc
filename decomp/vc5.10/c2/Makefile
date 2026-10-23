@@ -25,15 +25,19 @@ build/original/input-start.json: $(PROVENANCE_ORIGINAL) scripts/build-provenance
 	$(PYTHON) scripts/build-provenance.py begin original
 build/native/%.o: src/%.c $(NATIVE_HEADERS) | build/native build/native/input-start.json
 	$(NATIVE_CC) $(NATIVE_FLAGS) -DRECON_NATIVE_TRACE -finstrument-functions -c $< -o $@
-build/native/c2: build/native/stubs.o build/native/startup.o build/native/precision.o build/native/main.o scripts/native-host.c $(NATIVE_SHIMS) $(RECON)/src/trace.c $(NATIVE_HEADERS) Makefile build/native/input-start.json
+build/native/c2: build/messages.rmr build/native/stubs.o build/native/startup.o build/native/precision.o build/native/main.o build/native/onexit.o build/native/environment.o build/native/options.o scripts/native-host.c $(NATIVE_SHIMS) $(RECON)/src/trace.c $(NATIVE_HEADERS) Makefile build/native/input-start.json
 	$(NATIVE_CC) $(NATIVE_FLAGS) $(filter %.o,$^) scripts/native-host.c $(NATIVE_SHIMS) $(RECON)/src/trace.c -o $@
 	$(PYTHON) scripts/build-provenance.py finish native --binary $@
 ORIGINAL_CRT_FLAGS = /MD
 build/precision.obj: ORIGINAL_CRT_FLAGS = /ML /Zl
 build/%.obj: src/%.c src/c2.h | build build/original/input-start.json
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /W3 $(ORIGINAL_CRT_FLAGS) /I$(RECON)/include /Fo$@ $<
-build/c2.exe: build/stubs.obj build/startup.obj build/precision.obj build/main.obj build/original/input-start.json
-	$(TOOL) LINK.EXE /nologo /subsystem:console /entry:c2_crt_startup /map:build/c2.map /out:$@ $(filter %.obj,$^) kernel32.lib
+build/messages.rmr: src/messages.rc cases/analysis/encountered-strings.json scripts/prepare-resources.py | build
+	$(PYTHON) scripts/prepare-resources.py
+build/messages.res: src/messages.rc | build
+	$(TOOL) RC.EXE /r /fo build/messages.res src/messages.rc
+build/c2.exe: build/messages.res build/stubs.obj build/startup.obj build/precision.obj build/main.obj build/onexit.obj build/environment.obj build/options.obj build/original/input-start.json
+	$(TOOL) LINK.EXE /nologo /subsystem:console /entry:c2_crt_startup /map:build/c2.map /out:$@ $(filter %.obj %.res,$^) kernel32.lib
 	$(PYTHON) scripts/build-provenance.py finish original --binary $@
 build/debug-run.obj: scripts/debug-run.c | build
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /W3 /ML /I$(RECON)/include /Fo$@ $<

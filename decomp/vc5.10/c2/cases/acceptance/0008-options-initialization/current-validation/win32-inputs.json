@@ -1,0 +1,22 @@
+{
+  "mode": "original",
+  "inputs": {
+    "decomp/vc5.10/c2/Makefile": "b1249f43876bc10769f8933498920a442225ee9f6286e563e5bda77fda71faa8",
+    "decomp/vc5.10/c2/src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "decomp/vc5.10/c2/src/c2.h": "0fe27ca57ec004f5dc503b0ccab97942bd60a4a7329225995b4eec0582bf5502",
+    "decomp/vc5.10/c2/src/environment.c": "44486ae38568891691c56724e46cd3a39953483faa1aee7f1834b4ebc87428f3",
+    "decomp/vc5.10/c2/src/main.c": "29259d2b3aff8144aa41bf930be324b68d1bfbcceea130ce9c6bc70e483372f4",
+    "decomp/vc5.10/c2/src/messages.rc": "2c5d0852b25ad0dba5048fb18634420c3fb7a7d93032187083bff0b8a443df8c",
+    "decomp/vc5.10/c2/src/onexit.c": "655604423c7d014c413f586440382adbb7651a91596121050a0e98b536d39bd2",
+    "decomp/vc5.10/c2/src/options.c": "890b42425d414b05614cdd73bbcad3a89f010e0d52365670b112f7a880b6e526",
+    "decomp/vc5.10/c2/src/precision.c": "daae70312d63b144872fb3486186501d6de76afae8c42eb0ff572c9d1da25501",
+    "decomp/vc5.10/c2/src/startup.c": "c8ee152c9cc1f74d9c87c78641aa41200644da73c9f57baa86f696b00abc2019",
+    "decomp/vc5.10/c2/src/stubs.c": "d7d85dfb245b96140faaf9bb42944d6280af9886876b1f872e7531a852ea641e",
+    "lib/recon/include/recon.h": "62bfe4ca3757010afc4b02424d25459740e1d3ab26faabd8690a3729e5ec1148",
+    "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "lib/recon/include/win32.h": "a4c018b83809d6ea02435c3d56a2fd41a833346e92d1a8fa7aed621b7e3cbcb5"
+  },
+  "snapshot": "/root/msvc2/decomp/vc5.10/c2/build/provenance/original/a69e5b8d15fd5809f31f78317b2ff1fe5c317891498df39f91652cdb06e54ef7",
+  "input_set_sha256": "a69e5b8d15fd5809f31f78317b2ff1fe5c317891498df39f91652cdb06e54ef7",
+  "binary_sha256": "fcc7b576fdd8fa934d3907268158058ece07638f66e5ff0b4545cadee12f594d"
+}

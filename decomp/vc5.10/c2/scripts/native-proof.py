@@ -5,12 +5,12 @@ import subprocess
 from pathlib import Path
 
 
-def symbols(binary):
+def symbols(binary,data=False):
     rows={}
     text=subprocess.check_output(['nm','-S','--defined-only',str(binary)],text=True)
     for line in text.splitlines():
         parts=line.split()
-        if len(parts)==4 and parts[2]in ('T','t','W','w'):
+        if len(parts)==4 and (data or parts[2]in ('T','t','W','w')):
             rows[parts[3]]=(int(parts[0],16),int(parts[1],16))
     return rows
 

@@ -1,4 +1,4 @@
-#include "c2.h"
+#include <float.h>
 #include <recon.h>
 
 /* The CRT precision helper uses the import-library call thunk. */

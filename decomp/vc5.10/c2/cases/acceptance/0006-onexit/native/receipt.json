@@ -1,0 +1,73 @@
+{
+  "resource_sha256": "bba673f819e7f365e1914b6e261a33993611fa172aaf4308ae1ea330996198d8",
+  "kind": "native-linux-gdb",
+  "command": [
+    "/usr/bin/gdb",
+    "-nx",
+    "-batch",
+    "-ex",
+    "set pagination off",
+    "-ex",
+    "set confirm off",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/onexit-native/gdb-prefix.py",
+    "-ex",
+    "run /? > /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/onexit-native/stdout.bin 2> /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/onexit-native/stderr.bin",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/onexit-native/gdb-state.py",
+    "/root/msvc2/decomp/vc5.10/c2/build/native/c2"
+  ],
+  "candidates": [
+    "_c2_register_onexit"
+  ],
+  "base_configuration_sha256": "c3c8982941bd19ca28e87d016177868ac16744af4d2879914e709c5f2e2100e3",
+  "configuration_sha256": "18610a684a9575a53d41c3d18becf3a4ad4c123ba21a4c4edd9423c40faba57f",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "native_sha256": "6bc3904ac214df7dd8f358412fed0204171290a58e9246cf2a450e20ffc00e89",
+  "rebuilt_sha256": "700329447e6b61e898d130f517b93c2d8a7e0e0839c61c4c8128512f29e1ec99",
+  "audit_inputs": {
+    "runtime.json": "3e2b8f0ad910e0904ff330acf3b27438b1e5929abb22c8db08f76d090430d56f",
+    "build/runtime.json": "4a424f614cf714cb5df8cdacf86f65552e0f69f63191be466c60899cb846d1a4",
+    "build/c2.map": "d092d1a33fb587d973f6f91e5772d0c9f1ce1836476fdb5c12fd80ac31bf9f31",
+    "build/graph-metadata.json": "376394e70752d6062e2bcd6b2f362ad681e72a8f5292a122b4189e4b46ad1b46",
+    "graph-audit": "30fc576ce5e055a36e806f4079862d08bcaa7a734eae4f93e28a30b2c0c4d269"
+  },
+  "source_hashes": {
+    "scripts/native-host.c": "f96c645be97c49d241c340509681a2da386ce271769c8069a3cf0fdb5309266a",
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/c2.h": "0622fd0de875e18a330f23843c83386beee47d0f3629994170c5eb925c41c15b",
+    "src/main.c": "29259d2b3aff8144aa41bf930be324b68d1bfbcceea130ce9c6bc70e483372f4",
+    "src/messages.rc": "2c5d0852b25ad0dba5048fb18634420c3fb7a7d93032187083bff0b8a443df8c",
+    "src/onexit.c": "655604423c7d014c413f586440382adbb7651a91596121050a0e98b536d39bd2",
+    "src/precision.c": "c3f4cd1069e31c3e1d290fd242543e2ccd8a8c31d0408d03f040a44d576b0e6f",
+    "src/startup.c": "c8ee152c9cc1f74d9c87c78641aa41200644da73c9f57baa86f696b00abc2019",
+    "src/stubs.c": "5d284178aa4f7f1ef247086b55d54efcfdc325660e70da5d511982881893c181"
+  },
+  "state_sha256": "deb31d4fb3e39ecf2f8bd59ec8ec5ed8c47341eafbcc8e74dbfb4e6fbd0709b9",
+  "provenance_sha256": "1a86bb26478b87fe120e0eb0cab4a5eff7e3f574ffe3a1501ca1b5795bfcfb27",
+  "gdb_inputs": {
+    "gdb-prefix.py": "72e29f75ecfc48d01b091f81a2c9679cafd18453b5f867493a43189dfe46895d",
+    "gdb-state.py": "87c2e81c4bf677b96abc190cbcbc5a86108eafa982a2ebc98a10fb81ed744ebb"
+  },
+  "gdb_outputs": {
+    "gdb.stdout": "9dcdb81ac3c6a1f8d649d10479d7ac3084edeab1a2240c71f78c1cb90e05e3e9",
+    "gdb.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-maps.txt": "f102fac9e5b6d8ce9dd044ef96f00ea2c0b8dd8c7518234d4b02ab6294d302cd"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": null
+  },
+  "helper_status": 0,
+  "seconds": {
+    "execution": 0.14741202909499407,
+    "total": 0.20971929747611284
+  },
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}
