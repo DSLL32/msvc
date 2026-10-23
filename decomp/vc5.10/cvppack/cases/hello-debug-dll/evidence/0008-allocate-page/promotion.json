@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "candidate": "allocate_page",
+  "extent": [
+    4202256,
+    4202276
+  ],
+  "trial_config_sha256": "76a4af8a3e746bfe0b8e965ee5af5431bda752b99e3765ba86301d9497d57ffc",
+  "original_receipt_sha256": "941196e8a755f2df50deccf7f9d00a6dfa6d43f123ebcc81230125378f4fff0d",
+  "native_receipt_sha256": "9af514db58194c44db5c97a64c9069ee36837cea7a3f7382aac0a8d521b3684c",
+  "audit_sha256": "9683679829b8a35b78169f36df1cd4aff8b4beb05987eecf0b2140b8cad4b874",
+  "result": {
+    "terminal": "trap",
+    "frontier": "allocate_zero",
+    "original_address": 4198416,
+    "native_function": "allocate_zero",
+    "typed_state": {
+      "parameters": {
+        "size": 4136
+      },
+      "globals": [
+        "input_file",
+        "show_logo",
+        "banner_pending",
+        "checksum_required",
+        "module_count",
+        "statistics_enabled",
+        "debug_directory",
+        "line_data",
+        "symbol_data",
+        "type_data",
+        "module_data",
+        "minimum_pack",
+        "verbose",
+        "resource_library",
+        "load_string",
+        "resource_module",
+        "message_buffer",
+        "maximum_files",
+        "file_increment",
+        "page_increment",
+        "maximum_pages",
+        "mapped_files",
+        "free_pages",
+        "free_files",
+        "cached_files",
+        "io_statistics"
+      ]
+    }
+  }
+}

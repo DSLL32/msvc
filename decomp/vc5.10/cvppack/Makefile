@@ -11,6 +11,7 @@ OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES))
 NATIVE_OBJECTS = $(patsubst src/%.c,build/native/%.o,$(SOURCES))
 NATIVE_SHIMS = $(wildcard $(RECON)/src/*.c)
 NATIVE_HEADERS = $(HEADERS) $(shell rg --files $(RECON)/include $(RECON)/native -g '*.h')
+CHECK_CASES = $(patsubst cases/%/case.json,%,$(wildcard cases/*/case.json))
 
 .PHONY: all native check audit audit-native final-check inspect capture-help
 all: build/CVPACK.EXE
@@ -52,8 +53,9 @@ audit-native: native $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/audit.py
 final-check: native $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-final.py
-check: native
-	$(PYTHON) scripts/check-native.py
+check: $(addprefix check-,$(CHECK_CASES))
+$(addprefix check-,$(CHECK_CASES)): check-%: native
+	$(PYTHON) scripts/check-native.py --case $*
 
 # Explicit original-only capture, never a fixture dependency.
 capture-help:

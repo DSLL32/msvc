@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Native-only regression of the current explicitly frozen help frontier/result."""
 import importlib.util
+import argparse
 import json
 import os
 from pathlib import Path
@@ -21,9 +22,14 @@ def environment(reference):
 
 
 def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--case',choices=['help','hello-debug-dll'],default='help')
+    args=parser.parse_args()
     start=time.perf_counter()
     config,_=load()
-    case=json.loads((BINARY/'cases/help/case.json').read_text())
+    case=json.loads((BINARY/'cases'/args.case/'case.json').read_text())
+    from caseio import definition,prepare
+    inputs=definition(args.case)
     reference_dir=BINARY/case['reference']
     reference=json.loads((reference_dir/'receipt.json').read_text())
     assert sha(reference_dir/'receipt.json')==case['reference_receipt_sha256'], 'changed frozen reference'
@@ -34,6 +40,7 @@ def main():
     decoder=importlib.util.module_from_spec(spec);spec.loader.exec_module(decoder)
     with tempfile.TemporaryDirectory(prefix='cv510-cvpack-fixture-',dir=Path.home()/'.ai-tmp') as temporary:
         output=Path(temporary)
+        prepare(inputs,output)
         preparation=time.perf_counter()
         resource_spec=importlib.util.spec_from_file_location('native_resources',BINARY/'scripts/native-resources.py')
         resources=importlib.util.module_from_spec(resource_spec);resource_spec.loader.exec_module(resources)
@@ -68,11 +75,14 @@ def main():
         assert (capture/'entry-trace').read_text().splitlines()==case['application_trace']
         for name in ('stdout','stderr'):
             assert (capture/name).read_bytes()==(reference_dir/name).read_bytes(), name+' mismatch'
-        report=dict(schema=1,case='help',terminal=case['terminal'],native_only=True,
+        for name in inputs['artifacts']:
+            artifact=capture/('artifact-'+name) if case['terminal']=='trap' else output/name
+            assert artifact.read_bytes()==(reference_dir/('artifact-'+name)).read_bytes(),'artifact mismatch'
+        report=dict(schema=1,case=args.case,terminal=case['terminal'],native_only=True,
             native_sha256=sha(BINARY/'build/native/CVPACK'),reference_receipt_sha256=case['reference_receipt_sha256'],
             prepared_resources=resource_provider,
             seconds=dict(preparation=preparation_seconds,execution=elapsed,checks=time.perf_counter()-checking,total=time.perf_counter()-start))
-        (BINARY/'build/native-fixture.json').write_text(json.dumps(report,indent=2)+'\n')
+        (BINARY/('build/native-fixture'+('' if args.case=='help' else '-'+args.case)+'.json')).write_text(json.dumps(report,indent=2)+'\n')
         print(json.dumps(report,indent=2))
 
 

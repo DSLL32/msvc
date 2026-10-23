@@ -18,15 +18,19 @@ def main():
     parser.add_argument('--unmasked', action='store_true')
     parser.add_argument('--candidate', action='append', default=[])
     parser.add_argument('--resource-probe', action='store_true')
+    parser.add_argument('--case', choices=['help','hello-debug-dll'], default='help')
     args = parser.parse_args()
     start = time.perf_counter()
     config, pe = load()
+    from caseio import definition,prepare,artifacts
+    case = definition(args.case)
     assert not args.resource_probe or args.unmasked, 'resource probe requires explicit whole-original mode'
     output = args.output.resolve()
     output.mkdir(parents=True, exist_ok=False)
     (output / 'configuration.json').write_bytes((BINARY / 'functions.json').read_bytes())
     (output / 'data.json').write_bytes((BINARY / 'data.json').read_bytes())
     (output / 'runtime.json').write_bytes((BINARY / 'runtime.json').read_bytes())
+    (output / 'case-definition.json').write_text(json.dumps(case,indent=2)+'\n')
     from provenance import snapshot
     snapshot(output/'compiled-sources.json')
     from audit import run as audit_candidate
@@ -34,6 +38,7 @@ def main():
     token = sha(output / 'configuration.json')[:12] + '-' + str(time.time_ns())
     work = Path.home() / '.ai-tmp/msvc2/vc5.10/cvppack/captures' / token
     work.mkdir(parents=True, exist_ok=False)
+    prepare(case,work)
     binary = work / 'CVPACK.EXE'
     image = bytearray(pe.data) if args.unmasked else mask(config, pe, args.candidate)
     plan = []
@@ -59,7 +64,7 @@ def main():
     shutil.copyfile(debugger, local_debugger)
     loaded_provider = work / 'loaded-msvcrt.dll'
     command = ['wine', tool.windows(local_debugger), tool.windows(binary),
-               tool.windows(ROOT / config['target']['path']) + ' /help',
+               tool.windows(ROOT / config['target']['path']) + ' ' + ' '.join(case['argv']),
                tool.windows(output / 'stdout'), tool.windows(output / 'stderr'),
                tool.windows(output / 'events'), tool.windows(work),
                tool.windows(output / 'runtime-plan'), tool.windows(ROOT / config['target']['path']),
@@ -69,6 +74,8 @@ def main():
     env = tool.environment()
     data = json.loads((output / 'data.json').read_text())
     env['VC510_CVPACK_DATA'] = ','.join('%x:%d' % (item['original'],item['size']) for item in data)
+    env['VC510_CVPACK_GRAPHS'] = ','.join('%x:%d:%d:%x' % (item['original'],item['shape']['size'],item['shape']['link'],
+        next((row['original'] for row in data if row['name']==item['shape'].get('count')),0)) for item in data if 'shape' in item)
     env['VC510_CVPACK_ARGUMENTS'] = ','.join('%x:%d:%s' % (record['original'],item['slot'],
         'S' if item['kind']=='string' else 'A') for record in config['functions']
         for item in record.get('parameters',[]) if item['kind'] in ('string','argv'))
@@ -80,7 +87,10 @@ def main():
     assert result.returncode == 0, ('original debugger failure', result.returncode, result.stderr)
     assert loaded_provider.is_file() and sha(loaded_provider) == CRT_SHA, 'actual loaded CRT is not canonical shipped provider'
     assert (BINARY / 'functions.json').read_bytes() == (output / 'configuration.json').read_bytes(), 'configuration changed during capture'
-    receipt = dict(schema=1, case='help', unmasked=args.unmasked, candidates=args.candidate,
+    artifact_records = artifacts(case,work,output)
+    receipt = dict(schema=1, case=args.case, unmasked=args.unmasked, candidates=args.candidate,
+        case_definition_sha256=sha(output/'case-definition.json'),
+        debugger_source_sha256=sha(BINARY/'scripts/debug-run.c'),
         command=command, original_sha256=config['target']['sha256'],
         masked_image_sha256=sha(binary), debugger_sha256=sha(debugger),
         rebuilt_sha256=sha(BINARY / 'build/CVPACK.EXE'),
@@ -100,7 +110,7 @@ def main():
         graph_runtime_sha256=sha(output / 'graph-runtime.json'),
         compiled_sources_sha256=sha(output/'compiled-sources.json'),
         outputs=[dict(name=name, bytes=(output / name).stat().st_size, sha256=sha(output / name))
-                 for name in ('stdout', 'stderr', 'events', 'audit.json', 'graph-config.json', 'graph-runtime.json')],
+                 for name in ('stdout', 'stderr', 'events', 'audit.json', 'graph-config.json', 'graph-runtime.json','case-definition.json')]+artifact_records,
         seconds=dict(setup=setup, execution=elapsed, total=time.perf_counter()-start))
     (output / 'receipt.json').write_text(json.dumps(receipt, indent=2) + '\n')
     lines = (output / 'events').read_text().splitlines()

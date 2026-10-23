@@ -1,8 +1,7 @@
 /* Unreconstructed application boundaries retain their original call slots. */
-#include "cvpack.h"
+#include "files.h"
 #include <recon.h>
 
-void files_initialize(int pages, int files, int page_shift, int file_pages, int file_shift, int mapped) { __asm { int 3 } }
 void select_input_name(char *name) { __asm { int 3 } }
 void initialize_type_tables(void) { __asm { int 3 } }
 void read_image_debug(void) { __asm { int 3 } }

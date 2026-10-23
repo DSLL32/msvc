@@ -1,0 +1,100 @@
+{
+  "schema": 1,
+  "case": "hello-debug-dll",
+  "native_sha256": "998cc0804d388c60cef559d7b9cebbb863065676120268c92462f209355beefd",
+  "case_definition_sha256": "e048b9cc441f59224f9fa8138ec4acc2313f4309578beb974c6af86b14bc974c",
+  "configuration_sha256": "685bbe09fabee99dbd0a6180b81152ec5a1c0c71937348afac5f1720552965a1",
+  "rebuilt_sha256": "bc0ea62d2cabf4dfef7013cf8c548b085903c70b60bc1659179846f1f3072991",
+  "data_sha256": "0119aca7e289ae749f6abbaa9392e098ce168f7cf810045d5ed3fd398bceda4c",
+  "original_receipt_sha256": "6eff141fa45f608585cee865741fa529d4f8780bf7367fb0e07718827f7a487a",
+  "executed_command": [
+    "/root/msvc2/decomp/vc5.10/cvppack/build/native/CVPACK",
+    "/nologo",
+    "hello.dll"
+  ],
+  "compiled_sources_sha256": "a4a4c7daef4b69110f5bbc2c35d1539029f5efa2e05e9b9a4983d608edd6e02e",
+  "prepared_resources": {
+    "provider_sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b",
+    "source_rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+    "entries": 3,
+    "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de"
+  },
+  "reused_original_capture": false,
+  "outputs": [
+    {
+      "name": "stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gdb-stdout",
+      "bytes": 314,
+      "sha256": "ba2e8825d0fe5d66c060bb11bf7243424132b96c5eb2a0b64fa9a443b779f196"
+    },
+    {
+      "name": "gdb-stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "state.json",
+      "bytes": 137923,
+      "sha256": "78da4ae3323389eea20a78f5704a90a9a522f733eb7393ed7d0030f900257e1a"
+    },
+    {
+      "name": "entry-trace",
+      "bytes": 123,
+      "sha256": "cf3d23a0ae5d8aec448fbbd0af5ab5c7026b0fb88cb058cb1eb94db0c960980d"
+    },
+    {
+      "name": "entry-filter",
+      "bytes": 359,
+      "sha256": "70a57c2e711848312e81d690fc1423dbabe63360c360edf1bf9067a6206df5a5"
+    },
+    {
+      "name": "native-status",
+      "bytes": 3,
+      "sha256": "0b2f06dddfa807ee574a78468d3a05904873b97f44377eb93481e091c257b800"
+    },
+    {
+      "name": "direct-stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "direct-stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "resources.rmr",
+      "bytes": 310,
+      "sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b"
+    },
+    {
+      "name": "case-definition.json",
+      "bytes": 1203,
+      "sha256": "e048b9cc441f59224f9fa8138ec4acc2313f4309578beb974c6af86b14bc974c"
+    },
+    {
+      "name": "gdb-state.py",
+      "bytes": 2209,
+      "sha256": "008018ed31ad9ff512fa6f4102febd1213d5fa8ac2588941d0fe9515bef19423"
+    },
+    {
+      "name": "artifact-hello.dll",
+      "bytes": 33280,
+      "sha256": "37c3a6d47173f047a14cae6f4067498d3e0b2905c5f4916bd3f30a4a8e16ae9e"
+    }
+  ],
+  "seconds": {
+    "direct_execution": 0.006912749260663986,
+    "gdb_execution": 0.14125938899815083,
+    "total": 0.1777721419930458
+  }
+}

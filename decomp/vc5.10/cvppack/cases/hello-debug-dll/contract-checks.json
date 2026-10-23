@@ -1,0 +1,14 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "positive_instances": 21,
+  "all_raw_hashes_refreshed": true,
+  "rejected": [
+    "changed-post-emit-input",
+    "changed-own-output-capacity-tail",
+    "truncated-capacity-observation",
+    "missing-capacity-observation",
+    "wrong-actual-provider-despite-canonical-claim-and-refreshed-file-hash"
+  ],
+  "seconds": 0.09735074825584888
+}

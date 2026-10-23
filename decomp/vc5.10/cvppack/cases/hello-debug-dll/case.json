@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "name": "hello-debug-dll",
+  "argv": [
+    "/nologo",
+    "hello.dll"
+  ],
+  "reference": "cases/hello-debug-dll/evidence/0010-allocate-file/original",
+  "reference_receipt_sha256": "6eff141fa45f608585cee865741fa529d4f8780bf7367fb0e07718827f7a487a",
+  "terminal": "trap",
+  "application_trace": [
+    "cvpack_main",
+    "initialize_messages",
+    "parse_options",
+    "files_initialize",
+    "allocate_page",
+    "allocate_zero",
+    "allocate_file",
+    "select_input_name"
+  ]
+}

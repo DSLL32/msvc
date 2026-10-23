@@ -12,14 +12,18 @@ typedef struct RestoreRange {
 static RestoreRange ranges[256];
 static unsigned range_count;
 static unsigned char original_bytes[65536];
-static DWORD probe_sites[] = { 0x407667, 0x407669, 0x407641, 0x407647, 0x40761f, 0x407625 };
-static char *probe_names[] = { "resource-call", "resource-return", "getproc-call", "getproc-return", "loadlibrary-call", "loadlibrary-return" };
-static unsigned char probe_bytes[6];
+static DWORD probe_sites[64] = { 0x407667, 0x407669, 0x407641, 0x407647, 0x40761f, 0x407625 };
+static char probe_names[64][64] = { "resource-call", "resource-return", "getproc-call", "getproc-return", "loadlibrary-call", "loadlibrary-return" };
+static unsigned char probe_bytes[64];
+static unsigned probe_count = 6;
 static DWORD active_teb;
 static int probes_enabled, pending_probe = -1;
 static DWORD watched_address[64], watched_size[64], watch_count;
 static DWORD argument_entry[64], argument_slot[64], argument_count;
 static char argument_kind[64];
+static DWORD graph_address[64], graph_size[64], graph_link[64], graph_count_address[64], graph_count;
+static DWORD widen_output, widen_object, widen_arguments[4];
+static DWORD widen_capacities[2];
 static int read_bytes(HANDLE process, DWORD address, void *data, DWORD size);
 
 static void configure(void)
@@ -36,6 +40,21 @@ static void configure(void)
     while (value && *value && argument_count < 64) {
         if (sscanf(value, "%lx:%lu:%c", &argument_entry[argument_count], &argument_slot[argument_count], &argument_kind[argument_count]) != 3) break;
         ++argument_count;
+        next = strchr(value, ',');
+        value = next ? next + 1 : NULL;
+    }
+    value = getenv("VC510_CVPACK_PROBES");
+    while (value && *value && probe_count < 64) {
+        if (sscanf(value, "%lx:%63[^,]", &probe_sites[probe_count], probe_names[probe_count]) != 2) break;
+        ++probe_count;
+        next = strchr(value, ',');
+        value = next ? next + 1 : NULL;
+    }
+    value = getenv("VC510_CVPACK_GRAPHS");
+    while (value && *value && graph_count < 64) {
+        if (sscanf(value, "%lx:%lu:%lu:%lx", &graph_address[graph_count], &graph_size[graph_count],
+                   &graph_link[graph_count], &graph_count_address[graph_count]) != 4) break;
+        ++graph_count;
         next = strchr(value, ',');
         value = next ? next + 1 : NULL;
     }
@@ -69,7 +88,7 @@ static int write_bytes(HANDLE process, DWORD address, const void *data, DWORD si
 
 static void memory(FILE *log, HANDLE process, DWORD address, DWORD size)
 {
-    unsigned char bytes[1024];
+    unsigned char bytes[65536];
     DWORD i;
     if (size > sizeof(bytes) || !read_bytes(process, address, bytes, size)) {
         fprintf(log, "memory-failed %08lx %lu\n", address, size);
@@ -78,6 +97,75 @@ static void memory(FILE *log, HANDLE process, DWORD address, DWORD size)
     fprintf(log, "memory %08lx ", address);
     for (i = 0; i < size; ++i) fprintf(log, "%02x", bytes[i]);
     fputc('\n', log);
+}
+
+static void linked_memory(FILE *log, HANDLE process, DWORD head, DWORD size, DWORD link)
+{
+    DWORD seen[128], count = 0, i;
+    while (head && count < 128) {
+        for (i = 0; i < count; ++i) if (seen[i] == head) return;
+        seen[count++] = head;
+        memory(log, process, head, size);
+        if (!read_bytes(process, head + link, &head, 4)) return;
+    }
+    if (head) fprintf(log, "memory-graph-unbounded\n");
+}
+
+/* These are caller-side API observations, not reconstructed dependency code.
+ * Preserve opaque object identity/vptr only; never inspect its private fields. */
+static void widen_state(FILE *log, HANDLE process, CONTEXT *context, DWORD site)
+{
+    DWORD args[4], object, table, length, description[4];
+    unsigned short record_length;
+    if (site == 0x41029c) {
+        if (!read_bytes(process, context->Esp, args, 12)) return;
+        widen_output = args[0];
+        fprintf(log, "widen create-call %08lx %lu %lu\n", args[0], args[1], args[2]);
+    } else if (site == 0x4102a2) {
+        if (!read_bytes(process, widen_output, &object, 4) || !read_bytes(process, object, &table, 4)) return;
+        fprintf(log, "widen create-return %lu %08lx %08lx\n", context->Eax, object, table);
+        memory(log, process, object, 4);
+        memory(log, process, table, 40);
+    } else if (site == 0x4102d5 || site == 0x4102f7 || site == 0x41031a) {
+        widen_object = context->Ecx;
+        length = site == 0x4102d5 ? 12 : 16;
+        if (!read_bytes(process, context->Esp, widen_arguments, length)) return;
+        fprintf(log, "widen method-call %u %08lx %08lx %08lx %08lx %08lx\n",
+                site == 0x4102d5 ? 12 : site == 0x4102f7 ? 32 : 36,
+                widen_object, widen_arguments[0], widen_arguments[1], widen_arguments[2],
+                site == 0x4102d5 ? 0 : widen_arguments[3]);
+        if (site == 0x4102d5) {
+            if (!read_bytes(process, widen_arguments[1], &record_length, 2)) return;
+            memory(log, process, widen_arguments[1], (DWORD)record_length + 2);
+            memory(log, process, widen_arguments[2], 4);
+        } else {
+            memory(log, process, widen_arguments[1], widen_arguments[2]);
+            memory(log, process, widen_arguments[0], 16);
+            if (site == 0x41031a && read_bytes(process, widen_arguments[0], description, 16)) {
+                widen_capacities[0] = description[0];
+                widen_capacities[1] = description[1];
+                memory(log, process, description[2], description[0]);
+                memory(log, process, description[3], description[1] * 8);
+            }
+        }
+    } else if (site == 0x4102d8 || site == 0x4102fa || site == 0x41031d) {
+        fprintf(log, "widen method-return %u %08lx %lu\n",
+                site == 0x4102d8 ? 12 : site == 0x4102fa ? 32 : 36, widen_object, context->Eax);
+        if (site == 0x4102d8) {
+            if (!read_bytes(process, widen_arguments[2], &length, 4)) return;
+            memory(log, process, widen_arguments[2], 4);
+            memory(log, process, widen_arguments[0], length);
+        } else {
+            memory(log, process, widen_arguments[0], 16);
+            if (site == 0x41031d && read_bytes(process, widen_arguments[0], description, 16)) {
+                memory(log, process, widen_arguments[1], widen_arguments[2]);
+                memory(log, process, description[2], widen_capacities[0]);
+                memory(log, process, description[3], widen_capacities[1] * 8);
+            }
+        }
+    } else if (site == 0x4102b6) {
+        fprintf(log, "widen destroy %08lx\n", context->Ecx);
+    }
 }
 
 static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry)
@@ -95,6 +183,15 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry)
     if (active_teb && read_bytes(process, active_teb + 0x34, &value, 4))
         fprintf(log, "last-error %lu\n", value);
     for (i = 0; i < watch_count; ++i) memory(log, process, watched_address[i], watched_size[i]);
+    for (i = 0; i < graph_count; ++i) {
+        if (!read_bytes(process, graph_address[i], &value, 4)) continue;
+        if (!graph_count_address[i]) linked_memory(log, process, value, graph_size[i], graph_link[i]);
+        else if (read_bytes(process, graph_count_address[i], &count, 4) && count <= 128) {
+            memory(log, process, value, count * 4);
+            for (j = 0; j < count; ++j) if (read_bytes(process, value + j * 4, &item, 4))
+                linked_memory(log, process, item, graph_size[i], graph_link[i]);
+        }
+    }
     for (i = 0; i < argument_count; ++i) if (argument_entry[i] == entry) {
         if (!read_bytes(process, context->Esp + argument_slot[i] * 4, &value, 4)) continue;
         if (argument_kind[i] == 'S' && value) string(log, process, value);
@@ -104,6 +201,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry)
             for (j = 0; j < count; ++j) if (read_bytes(process, value+j*4, &item, 4) && item) string(log, process, item);
         }
     }
+    widen_state(log, process, context, entry);
 }
 
 static int module(FILE *log, HANDLE process, LOAD_DLL_DEBUG_INFO *info, const char *provider)
@@ -128,7 +226,10 @@ static int module(FILE *log, HANDLE process, LOAD_DLL_DEBUG_INFO *info, const ch
         name[sizeof(name)-1] = 0;
     }
     fprintf(log, "module %08lx %s\n", base, name);
-    if (_stricmp(name, "MSVCRT.dll")) return 1;
+    if (_stricmp(name, "MSVCRT.dll")) {
+        if (_stricmp(name, "mspdb50.dll") || !getenv("VC510_CVPACK_PDB_PROVIDER")) return 1;
+        provider = getenv("VC510_CVPACK_PDB_PROVIDER");
+    }
     if (!info->hFile || info->hFile == INVALID_HANDLE_VALUE) return 0;
     if (SetFilePointer(info->hFile, 0, NULL, FILE_BEGIN) == 0xffffffffUL && GetLastError()) return 0;
     output = CreateFileA(provider, GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
@@ -172,7 +273,7 @@ int main(int argc, char **argv)
     while (range_count < 256 && fscanf(plan, "%lx %lx %lx", &ranges[range_count].start,
             &ranges[range_count].end, &ranges[range_count].offset) == 3) ++range_count;
     fclose(plan);
-    probes_enabled = atoi(argv[10]);
+    probes_enabled = atoi(argv[10]) || probe_count > 6;
     memset(&security, 0, sizeof(security));
     security.nLength = sizeof(security);
     security.bInheritHandle = TRUE;
@@ -226,13 +327,13 @@ int main(int argc, char **argv)
             } else if (status == EXCEPTION_BREAKPOINT) {
                 if (initial_break && (address < 0x401000 || address >= 0x4104c6)) {
                     initial_break = 0;
-                    if (probes_enabled) for (i = 0; i < 6; ++i) {
+                    if (probes_enabled) for (i = 0; i < probe_count; ++i) {
                         if (!read_bytes(child.hProcess, probe_sites[i], &probe_bytes[i], 1) ||
                             !write_bytes(child.hProcess, probe_sites[i], &trap, 1)) failed = 1;
                     }
                 } else {
                     known = 0;
-                    for (i = 0; probes_enabled && i < 6; ++i) if (address == probe_sites[i]) {
+                    for (i = 0; probes_enabled && i < probe_count; ++i) if (address == probe_sites[i]) {
                         fprintf(log, "%s %08lx eax %08lx\n", probe_names[i], address, context.Eax);
                         state(log, child.hProcess, &context, address);
                         if (!write_bytes(child.hProcess, address, &probe_bytes[i], 1)) failed = 1;

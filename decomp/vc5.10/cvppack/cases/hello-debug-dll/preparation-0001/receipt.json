@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "original_only": true,
+  "source_sha256": "4e75bd57e12322c38246eb2019b569f6d2943db1894bceeb3a261828adb18638",
+  "commands": [
+    {
+      "tool": "CL.EXE",
+      "tool_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+      "argv": [
+        "wine",
+        "R:\\toolchains\\5.10\\bin\\CL.EXE",
+        "/nologo",
+        "/c",
+        "/MD",
+        "/Od",
+        "/Z7",
+        "/Fohello.obj",
+        "hello-dll.c"
+      ],
+      "cwd": "S:\\vc5.10\\cvppack\\hello-debug-dll\\preparation-0001",
+      "status": 0,
+      "seconds": 1.2658144775778055
+    },
+    {
+      "tool": "LINK.EXE",
+      "tool_sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+      "argv": [
+        "wine",
+        "R:\\toolchains\\5.10\\bin\\LINK.EXE",
+        "/nologo",
+        "/DLL",
+        "/DEBUG",
+        "/DEBUGTYPE:CV",
+        "/PDB:NONE",
+        "/NOPACK",
+        "/INCREMENTAL:NO",
+        "/OUT:hello.dll",
+        "hello.obj"
+      ],
+      "cwd": "S:\\vc5.10\\cvppack\\hello-debug-dll\\preparation-0001",
+      "status": 0,
+      "seconds": 1.0415522931143641
+    }
+  ],
+  "files": [
+    {
+      "name": "link-stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "name": "cl-stdout",
+      "sha256": "18eea5490cccc7ad584c3837223f0cef8b3e96ccbca7e673eec89b86623cecc7",
+      "bytes": 13
+    },
+    {
+      "name": "hello.exp",
+      "sha256": "ca688776e2fb72dfcc606b0d77e53a547e4f0c6b88ce8aecbd1a4729980fd58b",
+      "bytes": 450
+    },
+    {
+      "name": "hello.dll",
+      "sha256": "37c3a6d47173f047a14cae6f4067498d3e0b2905c5f4916bd3f30a4a8e16ae9e",
+      "bytes": 33280
+    },
+    {
+      "name": "link-stdout",
+      "sha256": "09cd06034e7a87b188e10a1c0e65ba6b1cbac795efb5ed4a19f188e5bd3e2493",
+      "bytes": 52
+    },
+    {
+      "name": "cl-stderr",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "name": "hello.obj",
+      "sha256": "86b732a8aa18264ddd2179348a69c6765d03efa297a31b650bc6125a1eb8b62c",
+      "bytes": 23085
+    },
+    {
+      "name": "hello.lib",
+      "sha256": "6f38b63175a8d1518356a76e5c4ebc9cc94a5c04557beddb53bb767847afc62a",
+      "bytes": 2072
+    }
+  ],
+  "scratch_files": [
+    "hello.obj",
+    "hello.lib",
+    "hello.dll",
+    "hello.exp",
+    "hello-dll.c"
+  ]
+}

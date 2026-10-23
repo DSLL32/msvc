@@ -1,0 +1,50 @@
+{
+  "schema": 1,
+  "candidate": "allocate_zero",
+  "extent": [
+    4198416,
+    4198458
+  ],
+  "trial_config_sha256": "1245da40e59549eb999025556d2c8f1e08152af44aa449dd5360a13e8865698a",
+  "original_receipt_sha256": "7a619ba68bed870a84f6c2f169f8371223b7c65654b0de3de1628755a5001951",
+  "native_receipt_sha256": "24e90a08da36ec5521758f9da8234334679835d92bb92b823fea5bb5ac77e04e",
+  "audit_sha256": "8770047cfccf5c20e9087d737ede5d19569b6a9fbe8b55f3aded76caab2b3999",
+  "result": {
+    "terminal": "trap",
+    "frontier": "allocate_file",
+    "original_address": 4198800,
+    "native_function": "allocate_file",
+    "typed_state": {
+      "parameters": {},
+      "globals": [
+        "input_file",
+        "show_logo",
+        "banner_pending",
+        "checksum_required",
+        "module_count",
+        "statistics_enabled",
+        "debug_directory",
+        "line_data",
+        "symbol_data",
+        "type_data",
+        "module_data",
+        "minimum_pack",
+        "verbose",
+        "resource_library",
+        "load_string",
+        "resource_module",
+        "message_buffer",
+        "maximum_files",
+        "file_increment",
+        "page_increment",
+        "maximum_pages",
+        "mapped_files",
+        "free_pages",
+        "free_files",
+        "cached_files",
+        "io_statistics"
+      ],
+      "aliased_objects_checked": 17
+    }
+  }
+}

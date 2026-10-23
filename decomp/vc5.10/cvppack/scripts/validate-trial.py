@@ -14,6 +14,7 @@ def main():
     parser.add_argument('--candidate',required=True)
     parser.add_argument('--output',type=Path,required=True)
     parser.add_argument('--promote',action='store_true')
+    parser.add_argument('--case',choices=['help','hello-debug-dll'],default='help')
     args=parser.parse_args()
     output=args.output.resolve()
     assert not output.exists()
@@ -35,17 +36,18 @@ def main():
     snapshot(output/'build-source-inputs.json')
     run('graph_tool_build',['make','graph-audit-tool'])
     original,native=output/'original',output/'native'
-    run('original_capture',[sys.executable,'scripts/capture-original.py','--candidate',args.candidate,'--output',str(original)])
+    run('original_capture',[sys.executable,'scripts/capture-original.py','--case',args.case,'--candidate',args.candidate,'--output',str(original)])
     run('native_capture',[sys.executable,'scripts/native-debug.py','--original',str(original),'--output',str(native)])
     run('pair_check',[sys.executable,'scripts/accept.py','--candidate',args.candidate,'--original',str(original),'--native',str(native),'--check-only'])
     result=json.loads((output/'pair_check.log').read_text())
     if args.promote:
         run('promotion',[sys.executable,'scripts/accept.py','--candidate',args.candidate,'--original',str(original),'--native',str(native)])
-        case=dict(schema=1,name='help',argv=['/help'],reference=str(original.relative_to(BINARY)),
+        from caseio import definition
+        case=dict(schema=1,name=args.case,argv=definition(args.case)['argv'],reference=str(original.relative_to(BINARY)),
             reference_receipt_sha256=sha(original/'receipt.json'),terminal=result['terminal'],
             application_trace=(native/'entry-trace').read_text().splitlines())
         if result['terminal']=='exit':case['exit_status']=result['exit_status']
-        (BINARY/'cases/help/case.json').write_text(json.dumps(case,indent=2)+'\n')
+        (BINARY/'cases'/args.case/'case.json').write_text(json.dumps(case,indent=2)+'\n')
         run('native_fixture',['make','-j4','check'])
     (output/'validation.json').write_text(json.dumps(dict(schema=1,candidate=args.candidate,promoted=args.promote,result=result,
         original=json.loads((original/'receipt.json').read_text())['seconds'],

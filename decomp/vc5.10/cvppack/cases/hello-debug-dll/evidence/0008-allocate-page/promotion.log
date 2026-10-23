@@ -1,0 +1,39 @@
+{
+  "terminal": "trap",
+  "frontier": "allocate_zero",
+  "original_address": 4198416,
+  "native_function": "allocate_zero",
+  "typed_state": {
+    "parameters": {
+      "size": 4136
+    },
+    "globals": [
+      "input_file",
+      "show_logo",
+      "banner_pending",
+      "checksum_required",
+      "module_count",
+      "statistics_enabled",
+      "debug_directory",
+      "line_data",
+      "symbol_data",
+      "type_data",
+      "module_data",
+      "minimum_pack",
+      "verbose",
+      "resource_library",
+      "load_string",
+      "resource_module",
+      "message_buffer",
+      "maximum_files",
+      "file_increment",
+      "page_increment",
+      "maximum_pages",
+      "mapped_files",
+      "free_pages",
+      "free_files",
+      "cached_files",
+      "io_statistics"
+    ]
+  }
+}

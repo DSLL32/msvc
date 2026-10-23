@@ -12,7 +12,11 @@
     "parse_options",
     "fatal_error",
     "print_banner",
-    "message_text"
+    "message_text",
+    "files_initialize",
+    "allocate_page",
+    "allocate_zero",
+    "allocate_file"
   ],
   "functions": [
     {
@@ -106,9 +110,45 @@
       "symbol": "_files_initialize",
       "native_symbol": "files_initialize",
       "original": 4198560,
-      "status": "stub",
-      "extent": null,
-      "ret": 0
+      "status": "accepted",
+      "extent": [
+        4198560,
+        4198795
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "pages",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "files",
+          "slot": 2,
+          "kind": "integer"
+        },
+        {
+          "name": "page_shift",
+          "slot": 3,
+          "kind": "integer"
+        },
+        {
+          "name": "file_pages",
+          "slot": 4,
+          "kind": "integer"
+        },
+        {
+          "name": "file_shift",
+          "slot": 5,
+          "kind": "integer"
+        },
+        {
+          "name": "mapped",
+          "slot": 6,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0007-files-initialize/promotion.json"
     },
     {
       "name": "print_banner",
@@ -131,7 +171,14 @@
       "original": 4213296,
       "status": "stub",
       "extent": null,
-      "ret": 0
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "name",
+          "slot": 1,
+          "kind": "string"
+        }
+      ]
     },
     {
       "name": "initialize_type_tables",
@@ -307,6 +354,54 @@
         }
       ],
       "acceptance_proof": "cases/help/evidence/0006-message-text/promotion.json"
+    },
+    {
+      "name": "allocate_zero",
+      "symbol": "_allocate_zero",
+      "native_symbol": "allocate_zero",
+      "original": 4198416,
+      "status": "accepted",
+      "extent": [
+        4198416,
+        4198458
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "size",
+          "slot": 1,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0009-allocate-zero/promotion.json"
+    },
+    {
+      "name": "allocate_page",
+      "symbol": "_allocate_page",
+      "native_symbol": "allocate_page",
+      "original": 4202256,
+      "status": "accepted",
+      "extent": [
+        4202256,
+        4202276
+      ],
+      "ret": 0,
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0008-allocate-page/promotion.json"
+    },
+    {
+      "name": "allocate_file",
+      "symbol": "_allocate_file",
+      "native_symbol": "allocate_file",
+      "original": 4198800,
+      "status": "accepted",
+      "extent": [
+        4198800,
+        4198824
+      ],
+      "ret": 0,
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0010-allocate-file/promotion.json"
     }
   ],
   "support_unmasked": [

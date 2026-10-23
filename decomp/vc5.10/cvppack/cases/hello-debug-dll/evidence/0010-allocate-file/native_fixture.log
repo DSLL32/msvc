@@ -1,0 +1,42 @@
+python3 scripts/check-native.py --case hello-debug-dll
+python3 scripts/check-native.py --case help
+{
+  "schema": 1,
+  "case": "help",
+  "terminal": "exit",
+  "native_only": true,
+  "native_sha256": "998cc0804d388c60cef559d7b9cebbb863065676120268c92462f209355beefd",
+  "reference_receipt_sha256": "a55251ff7652c5146d63e73004c183cad25a7196b23947e19300b0453081f688",
+  "prepared_resources": {
+    "provider_sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b",
+    "source_rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+    "entries": 3,
+    "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de"
+  },
+  "seconds": {
+    "preparation": 0.0025583626702427864,
+    "execution": 0.0038368776440620422,
+    "checks": 0.0018798010423779488,
+    "total": 0.011694610118865967
+  }
+}
+{
+  "schema": 1,
+  "case": "hello-debug-dll",
+  "terminal": "trap",
+  "native_only": true,
+  "native_sha256": "998cc0804d388c60cef559d7b9cebbb863065676120268c92462f209355beefd",
+  "reference_receipt_sha256": "6eff141fa45f608585cee865741fa529d4f8780bf7367fb0e07718827f7a487a",
+  "prepared_resources": {
+    "provider_sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b",
+    "source_rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+    "entries": 3,
+    "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de"
+  },
+  "seconds": {
+    "preparation": 0.0024404656141996384,
+    "execution": 0.2555835694074631,
+    "checks": 0.0019729388877749443,
+    "total": 0.26926744915544987
+  }
+}

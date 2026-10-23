@@ -100,5 +100,78 @@
     "original": 4269448,
     "size": 1024,
     "kind": "bytes"
+  },
+  {
+    "name": "maximum_files",
+    "original": 4269356,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "file_increment",
+    "original": 4269352,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "page_increment",
+    "original": 4269388,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "maximum_pages",
+    "original": 4269392,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "mapped_files",
+    "original": 4269412,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "free_pages",
+    "original": 4269368,
+    "size": 4,
+    "kind": "pointer",
+    "shape": {
+      "size": 4136,
+      "link": 4124
+    }
+  },
+  {
+    "name": "free_files",
+    "original": 4269396,
+    "size": 4,
+    "kind": "pointer",
+    "shape": {
+      "size": 40,
+      "link": 36
+    }
+  },
+  {
+    "name": "cached_files",
+    "original": 4281948,
+    "size": 4,
+    "kind": "pointer",
+    "shape": {
+      "size": 40,
+      "link": 36,
+      "count": "maximum_files"
+    }
+  },
+  {
+    "name": "io_statistics",
+    "original": 4269292,
+    "size": 60,
+    "kind": "bytes"
+  },
+  {
+    "name": "file_allocations",
+    "original": 4269380,
+    "size": 4,
+    "kind": "integer"
   }
 ]

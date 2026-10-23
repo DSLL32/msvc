@@ -53,6 +53,25 @@ def compare(config,data,events,native):
         else:
             raise AssertionError('unimplemented parameter kind: '+item['kind'])
     assert parameters == native['parameters'], ('typed ABI arguments differ',parameters,native['parameters'])
+    aliases,reverse={},{}
+    def pair(address,other):
+        assert bool(address)==bool(other),'pointer NULL state differs'
+        if not address:return False
+        if address in aliases:
+            assert aliases[address]==other and reverse[other]==address,'object alias differs'
+            return False
+        assert other not in reverse,'native object aliases distinct original objects'
+        aliases[address]=other;reverse[other]=address
+        return True
+    def linked(address,other,shape):
+        while pair(address,other):
+            assert len(aliases)<=512,'unbounded object graph'
+            left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
+            assert len(left)==len(right)==shape['size']
+            offset=shape['link'];assert 0<=offset<=shape['size']-4
+            assert left[:offset]==right[:offset] and left[offset+4:]==right[offset+4:],'target object bytes differ'
+            address=int.from_bytes(left[offset:offset+4],'little')
+            other=int.from_bytes(right[offset:offset+4],'little')
     globals_checked = []
     for item in data:
         raw = original['memory'][item['original']]
@@ -60,8 +79,19 @@ def compare(config,data,events,native):
         actual = bytes.fromhex(native['globals'][item['name']])
         assert len(actual)==item['size']
         if item['kind'] == 'pointer':
-            assert not any(raw) and not any(actual), ('non-NULL pointer needs an evidenced role',item['name'])
+            if 'shape' not in item:
+                assert not any(raw) and not any(actual), ('non-NULL pointer needs an evidenced role',item['name'])
+            else:
+                shape=item['shape'];address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
+                if 'count' not in shape:linked(address,other,shape)
+                elif pair(address,other):
+                    count_item=next(row for row in data if row['name']==shape['count'])
+                    count=int.from_bytes(original['memory'][count_item['original']],'little');assert count<=128
+                    left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
+                    assert len(left)==len(right)==count*4
+                    for index in range(count):
+                        linked(int.from_bytes(left[index*4:index*4+4],'little'),int.from_bytes(right[index*4:index*4+4],'little'),shape)
         else:
             assert raw == actual, ('application global differs',item['name'],raw.hex(),actual.hex())
         globals_checked.append(item['name'])
-    return dict(parameters=parameters,globals=globals_checked)
+    return dict(parameters=parameters,globals=globals_checked,aliased_objects_checked=len(aliases))

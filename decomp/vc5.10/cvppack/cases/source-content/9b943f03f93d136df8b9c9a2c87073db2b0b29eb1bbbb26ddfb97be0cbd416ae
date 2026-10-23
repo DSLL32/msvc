@@ -1,0 +1,18 @@
+/* Unreconstructed application boundaries retain their original call slots. */
+#include "files.h"
+#include <recon.h>
+
+void select_input_name(char *name) { __asm { int 3 } }
+void initialize_type_tables(void) { __asm { int 3 } }
+void read_image_debug(void) { __asm { int 3 } }
+void initialize_module_pack(void) { __asm { int 3 } }
+void pack_module(unsigned int module) { __asm { int 3 } }
+void write_debug_directory(void) { __asm { int 3 } }
+void free_type_tables(void) { __asm { int 3 } }
+void print_statistics(void) { __asm { int 3 } }
+void flush_packed_file(void) { __asm { int 3 } }
+unsigned int get_file_size(int file) { __asm { int 3 } return 0; }
+void *map_file_region(int file, unsigned int offset, unsigned int size) { __asm { int 3 } return NULL; }
+void close_file(int file, int release) { __asm { int 3 } }
+void warning(unsigned int message, const char *first, const char *second) { __asm { int 3 } }
+

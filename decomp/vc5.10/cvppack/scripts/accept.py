@@ -22,6 +22,14 @@ def validate_pair(config_path, original_dir, native_dir, audit_path=None):
     assert sha(target) == config['target']['sha256']
     original = json.loads((original_dir / 'receipt.json').read_text())
     native = json.loads((native_dir / 'receipt.json').read_text())
+    from caseio import definition,master
+    case=definition(original.get('case','help'))
+    if 'case_definition_sha256' in original:
+        assert original['case_definition_sha256']==sha(original_dir/'case-definition.json')
+        assert native['case_definition_sha256']==sha(native_dir/'case-definition.json')
+        assert (original_dir/'case-definition.json').read_bytes()==(native_dir/'case-definition.json').read_bytes()
+        assert json.loads((original_dir/'case-definition.json').read_text())==case,'changed frozen case definition'
+    assert native.get('case','help')==case['name']
     assert native['original_receipt_sha256'] == sha(original_dir/'receipt.json'), 'native inputs do not bind this original trial'
     for directory, record in ((original_dir, original), (native_dir, native)):
         assert (directory / 'configuration.json').read_bytes() == config_raw, 'stale/wrong trial snapshot'
@@ -89,19 +97,24 @@ def validate_pair(config_path, original_dir, native_dir, audit_path=None):
         record=next(r for r in config['functions'] if r['name']==candidate)
         assert record['original'] in original_entries, 'candidate never entered original'
         assert record['native_symbol'] in native_entries, 'candidate never entered native'
+    for name in case['artifacts']:
+        assert (original_dir/('artifact-'+name)).read_bytes()==(native_dir/('artifact-'+name)).read_bytes(),'different partial artifact'
     if not frontier:
         exits=re.findall(r'^exit (\d+)$',events,re.M)
         assert len(exits)==1 and not re.search(r'^exception |^debug-timeout',events,re.M), 'missing real original completion'
         status=int(exits[0])
-        assert status==native_status==1, ('actual completion statuses differ',exits,native_status)
+        expected=master(case)
+        assert status==native_status==expected['status'], ('actual completion statuses differ',exits,native_status)
         assert json.loads((native_dir/'state.json').read_text())==dict(terminal='exit',exit_status=status)
         assert native_entries==expected_entries, 'completion application trace differs'
-        master=BINARY/'cases/help/original/stdout'
-        assert sha(master)=='f0188b3a0350b59bac8eea2dff386dd4897b1518426e167109712fcbc5f52b1c'
-        assert (original_dir/'stdout').read_bytes()==(native_dir/'stdout').read_bytes()==master.read_bytes()
-        assert (original_dir/'stderr').read_bytes()==(native_dir/'stderr').read_bytes()==b''
+        if case['name']=='help':assert sha(BINARY/expected['stdout'])=='f0188b3a0350b59bac8eea2dff386dd4897b1518426e167109712fcbc5f52b1c'
+        for stream in ('stdout','stderr'):
+            assert (original_dir/stream).read_bytes()==(native_dir/stream).read_bytes()==(BINARY/expected[stream]).read_bytes()
+        for item in expected.get('artifacts',[]):
+            assert sha(BINARY/item['source'])==item['sha256']
+            assert sha(native_dir/('artifact-'+item['name']))==item['sha256'],'completed artifact differs from master'
         return dict(terminal='exit',exit_status=status,application_trace=expected_entries,
-                    stdout_bytes=193,stderr_bytes=0)
+                    stdout_bytes=(native_dir/'stdout').stat().st_size,stderr_bytes=(native_dir/'stderr').stat().st_size)
     native_raw = (native_dir / 'gdb-stdout').read_text()
     assert len(frontier) == 1, 'need one real original frontier'
     assert 'Program received signal SIGTRAP' in native_raw, 'missing raw native trap'
@@ -155,6 +168,9 @@ def main():
         assert review['first_main_promotion']=='approved'
         if not config['accepted']:assert args.candidate==review['first_function']
         else:assert review['autonomous_help_protocol']=='approved after first main promotion'
+        if receipt.get('case','help')!='help':
+            plan=json.loads((BINARY/'cases/plan.json').read_text())
+            assert receipt['case'] in plan['autonomous_cases'],'case not released'
         record=next(r for r in config['functions'] if r['name']==args.candidate)
         proof=(args.original.parent/'promotion.json').resolve()
         promoted=dict(schema=1,candidate=args.candidate,extent=record['extent'],

@@ -1,0 +1,196 @@
+{
+  "schema": 1,
+  "original_only": true,
+  "command": [
+    "wine",
+    "S:\\vc5.10\\cvppack\\hello-debug-dll\\original-probe-0001\\debug-run.exe",
+    "S:\\vc5.10\\cvppack\\hello-debug-dll\\original-probe-0001\\CVPACK.EXE",
+    "R:\\toolchains\\5.10\\bin\\CVPACK.EXE /nologo hello.dll",
+    "R:\\decomp\\vc5.10\\cvppack\\cases\\hello-debug-dll\\original-probe-0001\\stdout",
+    "R:\\decomp\\vc5.10\\cvppack\\cases\\hello-debug-dll\\original-probe-0001\\stderr",
+    "R:\\decomp\\vc5.10\\cvppack\\cases\\hello-debug-dll\\original-probe-0001\\events",
+    "S:\\vc5.10\\cvppack\\hello-debug-dll\\original-probe-0001",
+    "R:\\decomp\\vc5.10\\cvppack\\cases\\hello-debug-dll\\original-probe-0001\\runtime-plan",
+    "R:\\toolchains\\5.10\\bin\\CVPACK.EXE",
+    "S:\\vc5.10\\cvppack\\hello-debug-dll\\original-probe-0001\\loaded-msvcrt.dll",
+    "0"
+  ],
+  "target_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "debugger_sha256": "b486521dfe2ebf89178e10fbf29bc53fe62ada3e7816d8630d032be908ea4cd5",
+  "debugger_source_sha256": "20937c4369bac129eb13abd278e631b261b0a4e48d253afeacad9cfb18accb3c",
+  "seconds": 1.350666107609868,
+  "pdb_reference_probes": [
+    {
+      "site": 4239769,
+      "iat": 4285040,
+      "symbol": "TypesClose",
+      "instruction": "call   *0x416270"
+    },
+    {
+      "site": 4239790,
+      "iat": 4285020,
+      "symbol": "PDBClose",
+      "instruction": "call   *0x41625c"
+    },
+    {
+      "site": 4241940,
+      "iat": 4285040,
+      "symbol": "TypesClose",
+      "instruction": "call   *0x416270"
+    },
+    {
+      "site": 4241960,
+      "iat": 4285020,
+      "symbol": "PDBClose",
+      "instruction": "call   *0x41625c"
+    },
+    {
+      "site": 4242007,
+      "iat": 4285000,
+      "symbol": "PDBOpen",
+      "instruction": "call   *0x416248"
+    },
+    {
+      "site": 4242037,
+      "iat": 4285024,
+      "symbol": "PDBOpenTpi",
+      "instruction": "call   *0x416260"
+    },
+    {
+      "site": 4242194,
+      "iat": 4285028,
+      "symbol": "TypesQueryTiMinEx",
+      "instruction": "call   *0x416264"
+    },
+    {
+      "site": 4242212,
+      "iat": 4285032,
+      "symbol": "TypesQueryTiMacEx",
+      "instruction": "call   *0x416268"
+    },
+    {
+      "site": 4242247,
+      "iat": 4285036,
+      "symbol": "TypesQueryPbCVRecordForTiEx",
+      "instruction": "call   *0x41626c"
+    },
+    {
+      "site": 4242701,
+      "iat": 4285008,
+      "symbol": "PDBQuerySignature",
+      "instruction": "call   *0x416250"
+    },
+    {
+      "site": 4242758,
+      "iat": 4285012,
+      "symbol": "PDBQueryAge",
+      "instruction": "call   *0x416254"
+    },
+    {
+      "site": 4242972,
+      "iat": 4285040,
+      "symbol": "TypesClose",
+      "instruction": "call   *0x416270"
+    },
+    {
+      "site": 4242993,
+      "iat": 4285020,
+      "symbol": "PDBClose",
+      "instruction": "call   *0x41625c"
+    },
+    {
+      "site": 4243021,
+      "iat": 4285016,
+      "symbol": "PDBExportValidateInterface",
+      "instruction": "call   *0x416258"
+    },
+    {
+      "site": 4243196,
+      "iat": 4285000,
+      "symbol": "PDBOpen",
+      "instruction": "mov    0x416248,%ebp"
+    },
+    {
+      "site": 4243252,
+      "iat": 4285008,
+      "symbol": "PDBQuerySignature",
+      "instruction": "mov    0x416250,%ebx"
+    },
+    {
+      "site": 4243297,
+      "iat": 4285020,
+      "symbol": "PDBClose",
+      "instruction": "call   *0x41625c"
+    },
+    {
+      "site": 4243416,
+      "iat": 4285020,
+      "symbol": "PDBClose",
+      "instruction": "call   *0x41625c"
+    },
+    {
+      "site": 4243457,
+      "iat": 4285012,
+      "symbol": "PDBQueryAge",
+      "instruction": "call   *0x416254"
+    },
+    {
+      "site": 4243528,
+      "iat": 4285024,
+      "symbol": "PDBOpenTpi",
+      "instruction": "call   *0x416260"
+    },
+    {
+      "site": 4260508,
+      "iat": 4285004,
+      "symbol": "?fCreate@WidenTi@@SAHAAPAU1@IH@Z",
+      "instruction": "call   *0x41624c"
+    }
+  ],
+  "actual_loaded_crt": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cvppack/hello-debug-dll/original-probe-0001/loaded-msvcrt.dll",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+  },
+  "files": [
+    {
+      "name": "stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "host-stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "input.dll",
+      "bytes": 33280,
+      "sha256": "37c3a6d47173f047a14cae6f4067498d3e0b2905c5f4916bd3f30a4a8e16ae9e"
+    },
+    {
+      "name": "stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "runtime-plan",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "host-stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "output.dll",
+      "bytes": 37876,
+      "sha256": "935d7828c7003e4f951e79cb4a709c747eac8006405ac996299dea4e64dd0d40"
+    },
+    {
+      "name": "events",
+      "bytes": 54547,
+      "sha256": "ebb10c5cf7bf822f6699dc99b80df58682bf5a240ded43a1dcf22bcce50570e8"
+    }
+  ]
+}

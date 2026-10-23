@@ -3,10 +3,12 @@
 The target is `toolchains/5.10/bin/CVPACK.EXE`; the requested project-folder
 spelling `cvppack` is retained. The first `/help` case is complete and paused:
 native and masked-original runs produce exit 1, exactly 193 stdout bytes and
-empty stderr, with the same six application entries. The queued debug-DLL case
-has not been authorized or started.
+empty stderr, with the same six application entries. The second, genuine
+embedded-debug GUI DLL case is now authorized and in progress; its current
+matching frontier is `select_input_name`. Ten application functions are accepted
+overall, including the file-cache initialization/allocation prefix.
 
-Six application functions account for 1,269 reconstructed extent bytes, plus
+The completed help case accounts for six functions and 1,269 extent bytes, plus
 48 bytes of parser switch data. This is 2.03% of the executable's 62,662-byte
 `.text` extent, which includes CRT, unknown code and padding; it is not a
 non-CRT coverage percentage. Three reached CRT routines and two import thunks
@@ -51,6 +53,8 @@ and loaded-module paths are preserved. USER32's executed LoadStringA boundary is
 supported; unencountered resources fail closed.
 
 This version imports eleven MSPDB50 PDB/type APIs. `/help` does not reach them,
-and no speculative PDB semantics have been implemented. The second case retains
-only vc1.0 source themes, not old output oracles. Actual 5.10 debug format,
-invocation and dependency evidence must establish that case before work resumes.
+and no speculative PDB semantics have been implemented. The new case was compiled and linked by the actual 5.10 tools with embedded
+CodeView and no PDB file, then successfully packed twice to an identical NB11
+master. Its encountered opaque WidenTi interface is documented under
+`cases/hello-debug-dll/DEPENDENCY.md`; native dependency traversal remains gated
+on the concrete typed-response review. No general MSPDB logic is implemented.

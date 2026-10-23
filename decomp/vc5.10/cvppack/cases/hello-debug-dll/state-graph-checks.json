@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "positive_objects": 33,
+  "rejected": [
+    "changed-page-payload",
+    "lost-page-link",
+    "lost-file-object",
+    "wrong-cross-root-file-alias"
+  ],
+  "seconds": 0.010513266548514366
+}

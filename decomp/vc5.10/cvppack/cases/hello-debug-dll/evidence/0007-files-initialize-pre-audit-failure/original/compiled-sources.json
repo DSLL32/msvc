@@ -1,0 +1,191 @@
+{
+  "schema": 1,
+  "kind": "compiled target/native build inputs; content retained independently of worktree",
+  "files": [
+    {
+      "path": "decomp/vc5.10/cvppack/Makefile",
+      "sha256": "2828991b7a27f0c0d53ac3eddf04ea9acd4ea51cee645857b59d7610b1a59dd7",
+      "blob": "cases/source-content/2828991b7a27f0c0d53ac3eddf04ea9acd4ea51cee645857b59d7610b1a59dd7"
+    },
+    {
+      "path": "decomp/vc5.10/cvppack/scripts/debug-run.c",
+      "sha256": "58e489fb4da861df6ea8a205e3ee8a5718d0f654b24d1a8666a85ee92ed65bf1",
+      "blob": "cases/source-content/58e489fb4da861df6ea8a205e3ee8a5718d0f654b24d1a8666a85ee92ed65bf1"
+    },
+    {
+      "path": "decomp/vc5.10/cvppack/scripts/native-driver.c",
+      "sha256": "90438a8a0d0fd190966a52ad17492f051c01e9f9203286f14da552523f48df52",
+      "blob": "cases/source-content/90438a8a0d0fd190966a52ad17492f051c01e9f9203286f14da552523f48df52"
+    },
+    {
+      "path": "decomp/vc5.10/cvppack/scripts/native-resources.py",
+      "sha256": "fac1605e53b5a61d8eb4a8718c75dea0ba58dbdf91e236662cbe3b9050bd81d0",
+      "blob": "cases/source-content/fac1605e53b5a61d8eb4a8718c75dea0ba58dbdf91e236662cbe3b9050bd81d0"
+    },
+    {
+      "path": "decomp/vc5.10/cvppack/src/cvpack.h",
+      "sha256": "406dde0539224c704ecd97e326bc4a09c9ccebf977861586e312ac910abcb056",
+      "blob": "cases/source-content/406dde0539224c704ecd97e326bc4a09c9ccebf977861586e312ac910abcb056"
+    },
+    {
+      "path": "decomp/vc5.10/cvppack/src/cvpack.rc",
+      "sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+      "blob": "cases/source-content/926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480"
+    },
+    {
+      "path": "decomp/vc5.10/cvppack/src/diagnostics.c",
+      "sha256": "273d6cad71d301ad0f226560b1cbae9401a0e1bcdcb8248732cbf7bfef8b35b6",
+      "blob": "cases/source-content/273d6cad71d301ad0f226560b1cbae9401a0e1bcdcb8248732cbf7bfef8b35b6"
+    },
+    {
+      "path": "decomp/vc5.10/cvppack/src/files.c",
+      "sha256": "2800530b1f3c9470973cd4004e02b9a59e7878637ac13e6b8d4dadfcab7f87b6",
+      "blob": "cases/source-content/2800530b1f3c9470973cd4004e02b9a59e7878637ac13e6b8d4dadfcab7f87b6"
+    },
+    {
+      "path": "decomp/vc5.10/cvppack/src/files.h",
+      "sha256": "3b7c68ab81d751e54d090dbfef889c67a98ca3a635854b3d3c265de64002260f",
+      "blob": "cases/source-content/3b7c68ab81d751e54d090dbfef889c67a98ca3a635854b3d3c265de64002260f"
+    },
+    {
+      "path": "decomp/vc5.10/cvppack/src/main.c",
+      "sha256": "fc5f41bd0bd0a01dd8bf1fccdb9a2c200eafbae23dbadb263010659f49286889",
+      "blob": "cases/source-content/fc5f41bd0bd0a01dd8bf1fccdb9a2c200eafbae23dbadb263010659f49286889"
+    },
+    {
+      "path": "decomp/vc5.10/cvppack/src/messages.c",
+      "sha256": "9effa3c98cd3f6230a81e6888c04ee621a4e16ea35494d86541693c101d8f79f",
+      "blob": "cases/source-content/9effa3c98cd3f6230a81e6888c04ee621a4e16ea35494d86541693c101d8f79f"
+    },
+    {
+      "path": "decomp/vc5.10/cvppack/src/options.c",
+      "sha256": "a3589b0b47c761da4a36fafeeb38cc21041b9dc49fe56b60d9968ad72ce7238c",
+      "blob": "cases/source-content/a3589b0b47c761da4a36fafeeb38cc21041b9dc49fe56b60d9968ad72ce7238c"
+    },
+    {
+      "path": "decomp/vc5.10/cvppack/src/stubs.c",
+      "sha256": "ddccb589db2c1934165443deb5951868a723b7f5a7b1e6153f6fadee335307d6",
+      "blob": "cases/source-content/ddccb589db2c1934165443deb5951868a723b7f5a7b1e6153f6fadee335307d6"
+    },
+    {
+      "path": "lib/recon/include/recon.h",
+      "sha256": "5f3b7e1dcd227f118ae6b91b4dd4db35d45f809dcfddd75aecc100891cdc69ac",
+      "blob": "cases/source-content/5f3b7e1dcd227f118ae6b91b4dd4db35d45f809dcfddd75aecc100891cdc69ac"
+    },
+    {
+      "path": "lib/recon/include/trace-abi.h",
+      "sha256": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "blob": "cases/source-content/30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7"
+    },
+    {
+      "path": "lib/recon/include/win32.h",
+      "sha256": "a789f62196f170f663978151e11f7f47c8e0359f3d692b2ac3a8b6016f96ec5f",
+      "blob": "cases/source-content/a789f62196f170f663978151e11f7f47c8e0359f3d692b2ac3a8b6016f96ec5f"
+    },
+    {
+      "path": "lib/recon/native/direct.h",
+      "sha256": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "blob": "cases/source-content/d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e"
+    },
+    {
+      "path": "lib/recon/native/excpt.h",
+      "sha256": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "blob": "cases/source-content/f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660"
+    },
+    {
+      "path": "lib/recon/native/fcntl.h",
+      "sha256": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+      "blob": "cases/source-content/ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a"
+    },
+    {
+      "path": "lib/recon/native/float.h",
+      "sha256": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+      "blob": "cases/source-content/6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42"
+    },
+    {
+      "path": "lib/recon/native/io.h",
+      "sha256": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "blob": "cases/source-content/b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b"
+    },
+    {
+      "path": "lib/recon/native/mbctype.h",
+      "sha256": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+      "blob": "cases/source-content/4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50"
+    },
+    {
+      "path": "lib/recon/native/mbstring.h",
+      "sha256": "2e635168012175a83a6d52a4f614af93f50513897589d2ca613d5a38dc09e8d6",
+      "blob": "cases/source-content/2e635168012175a83a6d52a4f614af93f50513897589d2ca613d5a38dc09e8d6"
+    },
+    {
+      "path": "lib/recon/native/process.h",
+      "sha256": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "blob": "cases/source-content/12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a"
+    },
+    {
+      "path": "lib/recon/native/setjmp.h",
+      "sha256": "62dd5dcc70d652ad68bccd31f9c916b829b9577d0e7c8b8d0655e47cb5ab151f",
+      "blob": "cases/source-content/62dd5dcc70d652ad68bccd31f9c916b829b9577d0e7c8b8d0655e47cb5ab151f"
+    },
+    {
+      "path": "lib/recon/native/share.h",
+      "sha256": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "blob": "cases/source-content/8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b"
+    },
+    {
+      "path": "lib/recon/native/sys/stat.h",
+      "sha256": "4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb",
+      "blob": "cases/source-content/4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb"
+    },
+    {
+      "path": "lib/recon/native/sys/timeb.h",
+      "sha256": "56e745d9e9f91dccd40083158914daeb3cab0c97e01b7276c447993aad52a47d",
+      "blob": "cases/source-content/56e745d9e9f91dccd40083158914daeb3cab0c97e01b7276c447993aad52a47d"
+    },
+    {
+      "path": "lib/recon/native/windows.h",
+      "sha256": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "blob": "cases/source-content/f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a"
+    },
+    {
+      "path": "lib/recon/resources.py",
+      "sha256": "47c8b2114d92a29eeef5a36f818cd55f35f2b5fccef0a40e2f0bf9a042c28710",
+      "blob": "cases/source-content/47c8b2114d92a29eeef5a36f818cd55f35f2b5fccef0a40e2f0bf9a042c28710"
+    },
+    {
+      "path": "lib/recon/src/compat.c",
+      "sha256": "3fd3515569a9bb8ea637cdd81359ee74724da607a06bac54d1866953b9e299a6",
+      "blob": "cases/source-content/3fd3515569a9bb8ea637cdd81359ee74724da607a06bac54d1866953b9e299a6"
+    },
+    {
+      "path": "lib/recon/src/crt.c",
+      "sha256": "d9747604e63fcd8894baadc003d57ee0ee6141971d7166a9848c6f99af2a6bf5",
+      "blob": "cases/source-content/d9747604e63fcd8894baadc003d57ee0ee6141971d7166a9848c6f99af2a6bf5"
+    },
+    {
+      "path": "lib/recon/src/decimal.c",
+      "sha256": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "blob": "cases/source-content/0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4"
+    },
+    {
+      "path": "lib/recon/src/entry.c",
+      "sha256": "12a10f7190b430c73b4754d2e5c234bce38addb7f188e16518ec0ba604fe8c80",
+      "blob": "cases/source-content/12a10f7190b430c73b4754d2e5c234bce38addb7f188e16518ec0ba604fe8c80"
+    },
+    {
+      "path": "lib/recon/src/process.c",
+      "sha256": "b1a4dae8f45ad5051f50acea6bb36d994e0d084c925291d46e154519e5d8f73a",
+      "blob": "cases/source-content/b1a4dae8f45ad5051f50acea6bb36d994e0d084c925291d46e154519e5d8f73a"
+    },
+    {
+      "path": "lib/recon/src/trace.c",
+      "sha256": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "blob": "cases/source-content/1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328"
+    },
+    {
+      "path": "lib/recon/src/win32.c",
+      "sha256": "3d6d57cbbe0e4f790ab2bb1dc675348f1cc00ec41040a9e34fbe2c502f85c41b",
+      "blob": "cases/source-content/3d6d57cbbe0e4f790ab2bb1dc675348f1cc00ec41040a9e34fbe2c502f85c41b"
+    }
+  ]
+}

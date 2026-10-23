@@ -7,7 +7,7 @@ from state import BINARY, ROOT, sha
 
 def inputs():
     files=list((BINARY/'src').glob('*.[ch]'))+list((BINARY/'src').glob('*.rc'))
-    files.extend([BINARY/'Makefile',BINARY/'scripts/native-driver.c',BINARY/'scripts/native-resources.py',ROOT/'lib/recon/resources.py'])
+    files.extend([BINARY/'Makefile',BINARY/'scripts/debug-run.c',BINARY/'scripts/native-driver.c',BINARY/'scripts/native-resources.py',ROOT/'lib/recon/resources.py'])
     for folder in ('src','include','native'):
         files.extend(path for path in (ROOT/'lib/recon'/folder).rglob('*') if path.suffix in ('.c','.h'))
     return sorted(set(path.resolve() for path in files))
