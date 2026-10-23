@@ -4,6 +4,7 @@ Plans contain only reviewed stack words and scalar/static-object identities.
 The original observer defaults to four words, with an explicit six-word option.
 Unsupported transport holds rather than guessing registers or dumping objects.
 """
+from member_parameter_owner import validate as validate_member_parameter_owner
 import argparse
 from parser_context_owner import validate as validate_parser_context_owner
 from virtual_table_owner import validate as validate_virtual_table_owner, validate_iterator as validate_virtual_iterator
@@ -50,7 +51,7 @@ def main():
         assert item.get('bytes',4) in (2,4)
         command += ['--observe-short' if item.get('bytes',4)==2 else '--observe-state', item['name']+'='+hex(item['original'])]
     if plan.get('ownership_register'):
-        owners = {item['binding']['original_owner_function'] for item in plan['formals'] if item['binding']['kind'] in ('caller-owned-pointer','parser-context-slot')}
+        owners = {item['binding']['original_owner_function'] for item in plan['formals'] if item['binding']['kind'] in ('caller-owned-pointer','parser-context-slot','member-function-parameter-owner')}
         assert len(owners)==1, 'one explicit actual ownership caller per observation'
         command += ['--ownership-register', plan['ownership_register'], '--entry-plan', '--entry-owner', owners.pop()]
     original = Path(subprocess.check_output(command, cwd=BINARY, text=True).strip().splitlines()[-1]).parent
@@ -85,6 +86,8 @@ def main():
             validate_virtual_table_owner(name, item, anchors, checkpoint, words)
         elif binding['kind'] == 'parser-context-slot':
             validate_parser_context_owner(name, item, anchors, checkpoint, words, receipt, events, config, sha(original/'events.txt'))
+        elif binding['kind'] == 'member-function-parameter-owner':
+            validate_member_parameter_owner(name, item, anchors, checkpoint, words, receipt, events, config, sha(original/'events.txt'))
         elif binding['kind'] == 'null-pointer':
             assert item['original_raw'] == item['native_raw'] == 0
         elif binding['kind'] == 'object-offset':

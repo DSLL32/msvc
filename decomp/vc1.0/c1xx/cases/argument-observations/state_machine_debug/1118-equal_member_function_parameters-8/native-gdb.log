@@ -1,0 +1,20 @@
+Breakpoint 1 at 0x1e22c: file src/parameters.c, line 18.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, equal_member_function_parameters (source=0x566270c8, target=0x56627140) at src/parameters.c:18
+18	    DeclarationParameterInfo *left = source->declarations, *right = target->declarations;
+#0  equal_member_function_parameters (source=0x566270c8, target=0x56627140) at src/parameters.c:18
+#1  0x565a47f2 in classify_member_pointer_conversion (source=0x5662932c, target=0x5662930c, reverse=0) at src/member-pointers.c:59
+#2  0x56587af9 in classify_derived_type_conversion (target=0x5662930c, source=0x5662932c, flags=0, context=0x0) at src/constructor-initializers.c:630
+#3  0x565870ea in classify_type_conversion (target=0x5662930c, source=0x5662932c, flags=0, context=0x0) at src/constructor-initializers.c:484
+#4  0x56586fb9 in classify_expression_conversion (type=0x5662930c, value=0x56636338, flags=0, context=0x0) at src/constructor-initializers.c:463
+#5  0x56586b0d in classify_initializer_conversion (type=0x5662930c, value=0x56636338) at src/constructor-initializers.c:443
+#6  0x56586927 in initialize_lvalue (target=0x5663634c, value=0x56636338) at src/constructor-initializers.c:417
+#7  0x5659278b in emit_initializer_assignment (target=0x5663634c, value=0x56636338) at src/object-initializers.c:421
+#8  0x565921d3 in initialize_object_value (symbol=0x5664c988, value=0x56636338) at src/object-initializers.c:303
+#9  0x56591f6e in initialize_object (symbol=0x5664c988, value=0x56636338) at src/object-initializers.c:255
+#10 0x565b4e80 in parse_translation_unit () at src/parser-declaration-actions.inc:327
+#11 0x5655e0cf in compile_translation_unit () at src/frontend.c:73
+#12 0x565588b6 in guarded_compile () at src/c1xx.c:28
+#13 0x56558884 in main (argc=1, argv=0xffffd794, environment=0xffffd79c) at src/c1xx.c:20

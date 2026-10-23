@@ -60,10 +60,24 @@ def capture(directory, executable=None, breakpoint=None, expressions=None, case_
                              '    owner_value=owner_value[-1]']
             for field in fields:
                 commands += ['    owner_value = owner_value['+repr(field)+']']
+            if owner.get('member_parameter_path'):
+                assert breakpoint=='equal_member_function_parameters' and owner['function']=='classify_member_pointer_conversion' and owner['local']=='target_shape' and not fields and not owner.get('index')
+                commands += ['    parameter_root=int(owner_value)',
+                             '    assert 0 < parameter_root <= 0xffffffff-12 and owner_value.dereference().type.sizeof==12',
+                             '    parameter_signature=owner_value["related"]',
+                             '    assert int(parameter_signature.address)==parameter_root+4 and parameter_signature.type.sizeof==4',
+                             '    assert 0 < int(parameter_signature) <= 0xffffffff-12 and parameter_signature.dereference().type.sizeof==12',
+                             '    parameter_record=parameter_signature["data"]["parameters"]',
+                             '    assert int(parameter_record.address)==int(parameter_signature)+8 and parameter_record.type.sizeof==4',
+                             '    assert int(parameter_record)!=0',
+                             '    parameter_path=[dict(address=int(parameter_signature.address),value=int(parameter_signature),bytes=4,read_bytes=4,read_succeeded=True),dict(address=int(parameter_record.address),value=int(parameter_record),bytes=4,read_bytes=4,read_succeeded=True)]',
+                             '    owner_value=parameter_record']
             if owner.get('address_only'):
                 assert owner.get('address_of') and not fields
             value_expression = 'None' if owner.get('address_only') else 'int(owner_value)'
             commands += ['    result["caller_locals"]['+repr(key)+'] = {"function": owner.name(), "local": '+repr(owner['local'])+', "fields": '+repr(fields)+', "value": '+value_expression+'}']
+            if owner.get('member_parameter_path'):
+                commands += ['    result["caller_locals"]['+repr(key)+'].update(member_parameter_path=True,root=parameter_root,pointer_path=parameter_path)']
             if 'index' in owner:
                 commands += ['    result["caller_locals"]['+repr(key)+'].update(index=-1,slot_address=parser_slot_address,stack_base=parser_stack_base,stack_elements=220)']
             if owner.get('address_of'):

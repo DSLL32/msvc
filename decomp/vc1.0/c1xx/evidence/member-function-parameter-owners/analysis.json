@@ -1,0 +1,29 @@
+{
+  "function": "_equal_member_function_parameters@8",
+  "formal": "target",
+  "actual_caller": "_classify_member_pointer_conversion@12",
+  "caller_return": 347806,
+  "owner_register": "ebx",
+  "raw_loads": [
+    {
+      "instruction": 413322,
+      "offset": 4,
+      "type": "TypeShape.related",
+      "owner_bytes": 12
+    },
+    {
+      "instruction": 413329,
+      "offset": 8,
+      "type": "TypeShape.data.parameters",
+      "owner_bytes": 12
+    }
+  ],
+  "push": 413332,
+  "source_argument": {
+    "register": "eax",
+    "load": 413333,
+    "push": 413336
+  },
+  "native": "Real immediate caller target_shape typed exact2field projection; checks offsetof4/8 and sizeof12/12 before dereference, nonnull/fullread/bounds before promotion. Actual source_parameters local bound independently. Same-context owner registers are not extra ABI inputs.",
+  "scope": "Only this exact two-load path/formal, no arbitrary traversal, no unproved link dereference, no frozen raw heap identity."
+}

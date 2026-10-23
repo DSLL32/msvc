@@ -10,6 +10,26 @@ DefaultArgument *default_argument_storage[61]; /* original 0x911f4..0x912e8 */
 CType *parameter_associated_type; /* original 0xa1e38 */
 static DeclarationParameterInfo *void_parameters; /* original 0x9f3c0 */
 
+/* Original 0x634f0..0x6359d. Compare member-function parameter lists
+   and the associated return type's relevant qualifier classes. */
+int __stdcall equal_member_function_parameters(FunctionParameters *source,
+    FunctionParameters *target)
+{
+    DeclarationParameterInfo *left = source->declarations, *right = target->declarations;
+    short count = (short)left->count, index;
+    CType *source_type, *target_type;
+    if (count != (short)right->count) return 0;
+    for (index = 0; index < count; ++index)
+        if (left->types[index] != right->types[index]) return 0;
+    source_type = source->associated_type;
+    target_type = target->associated_type;
+    if (source_type == target_type) return 1;
+    if ((source_type->attributes ^ target_type->attributes) & 0x3000) return 0;
+    if ((source_type->related->attributes ^ target_type->related->attributes) & 7)
+        return 0;
+    return 1;
+}
+
 /* Original 0x62e40..0x62e81. The sole type is the canonical void type. */
 DeclarationParameterInfo *void_parameter_list(void)
 {

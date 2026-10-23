@@ -620,4 +620,3 @@ IrToken * __stdcall make_general_method_pointer(CType *type, IrToken *function, 
 IrToken * __stdcall make_virtual_data_member_pointer(CType *type, IrToken *offset, IrToken *virtual_offset) { __asm { int 3 } return 0; }
 IrToken * __stdcall make_general_data_member_pointer(CType *type, IrToken *offset, int vbptr_offset, IrToken *vbtable_offset) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_multiple_inheritance_method_pointer(CType *type, IrToken *function, IrToken *adjustment) { __asm { int 3 } return 0; }
-int __stdcall equal_member_function_parameters(FunctionParameters *source, FunctionParameters *target) { __asm { int 3 } return 0; }

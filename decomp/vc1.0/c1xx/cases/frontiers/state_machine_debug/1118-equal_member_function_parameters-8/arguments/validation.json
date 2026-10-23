@@ -1,0 +1,99 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_equal_member_function_parameters@8",
+  "case": "state_machine_debug",
+  "accepted_before": 1118,
+  "configuration_sha256": "b8ad989e85e2f65242db19c738932995cedce51529b418a0d4b364ef2640d98b",
+  "native_entry": "equal_member_function_parameters",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "source",
+      "stack_index": 0,
+      "native_field": "raw_source",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 347806,
+        "original_owner_function": "_classify_member_pointer_conversion@12",
+        "native_owner_function": "classify_member_pointer_conversion",
+        "native_owner_field": "caller_source",
+        "native_owner_local": "source_parameters",
+        "identity": "Original source signatureECX64e87, sourceparametersEAX64e95/PUSHEAX64e98; native actual source_parameters local, no extra semantic registerinput.",
+        "original_owner_value": 8302792,
+        "native_owner_value": 1449291976
+      },
+      "original_raw": 8302792,
+      "native_raw": 1449291976,
+      "result": "match"
+    },
+    {
+      "name": "target",
+      "stack_index": 1,
+      "native_field": "raw_target",
+      "binding": {
+        "kind": "member-function-parameter-owner",
+        "original_register": "ebx",
+        "original_caller_rva": 347806,
+        "original_owner_function": "_classify_member_pointer_conversion@12",
+        "native_owner_field": "caller_target",
+        "offsets": [
+          4,
+          8
+        ],
+        "owner_bytes": [
+          12,
+          12
+        ],
+        "identity": "Actual caller EBXtarget_shape, loadnestedshape+4 at64e8a/loadparameters+8 at64e91/PUSHEAX64e94; samecontextEBX root and fresh exact2DWORDreads bound to actualarg1. Native actualcaller target_shape typed twofield projection with fieldoffset/sizeof/read checks; no frozen heap identity."
+      },
+      "original_raw": 8302912,
+      "native_raw": 1449292096,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      406768,
+      406941
+    ],
+    "argument_bytes": 8,
+    "proof": "Whole173B, four savedregisters16:sourceESP+20,targetESP+24, allRET8/EAXbool, no callees. Reads source/targetFunctionParameters.declarations+12; compare lowWORDcount atoffset0, signedshortloop overactualtypes+8, associated_type+0 identity orattrs xor3000 then nestedshapeattrs xor7. C shortcount/index preserves actualrawWORD signedloop behavior; no hidden/register semanticinputs/uninitialized output. Actual caller rawEBX path typed TypeShape12B related+4,TypeShape12B data.parameters+8, exactcallerreturn54e9e.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "be0cc362629601e8fcef595a4cfe28d6c9c553b0b886fd96decee4837cbb9c51",
+  "capture_timing": {
+    "original_capture_seconds": 1.8695198502391577,
+    "native_capture_seconds": 0.19074262864887714,
+    "total_operation_seconds": 2.398451150394976
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "cda8220145ec6342c4cff0b7ae3a797f1e5a078e29a7f46ec4eee088bf66cad3",
+    "native-commands.gdb": "f2b979f1530eb6b8add72e27847574f0673a7a6cf6d8f2912d9f5ee518b27862",
+    "native-gdb.log": "5416bce2954f663c9c582c9cd7d0f659faa10e6c0b187a17e883f37eb2e11f20",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "17ca51b2e39f32e279dfae007bbe238433689106660bf287e0557d486ee9f0b6",
+    "original-configuration.json": "b8ad989e85e2f65242db19c738932995cedce51529b418a0d4b364ef2640d98b",
+    "original-disassembly.txt": "f1880ed0317c8f262109dc0d0efd9e24ee2effcb5e5c3f75280cea60caefc04b",
+    "original-entries.plan": "c49cc7fc4b484a02adc80d5ad4f4b50d3d26457874b9528bcff06fa7471f0cf2",
+    "original-events.txt": "b671d801a24b54adfb8276b83526f36e44201f7934d2c3e9c1c68eaebd736e7c",
+    "original-ownership-caller-disassembly.txt": "063dc10f42f8143172f5e0562ce0052b4f4ca1c66f96b06f501fb7ae0b2663ee",
+    "original-receipt.json": "646755301e67c0427b8f651aea4cdf19e234097b3b339c6864812b2f4d4fe4eb",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "cb784331afb405aa1146c4bb787f63cff6ead1a255a1c1b5be147d6a723ab79b"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

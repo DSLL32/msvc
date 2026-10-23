@@ -40,6 +40,7 @@ unsigned __stdcall classify_member_pointer_conversion(CType *source, CType *targ
     unsigned short source_flags = source_shape->flags, target_flags = target_shape->flags;
     unsigned short source_attributes = source_shape->attributes;
     unsigned short target_attributes = target_shape->attributes, difference;
+    FunctionParameters *source_parameters;
     CppSymbol *source_class = source_shape->data.tag_symbol;
     CppSymbol *target_class = target_shape->data.tag_symbol;
 
@@ -53,10 +54,11 @@ unsigned __stdcall classify_member_pointer_conversion(CType *source, CType *targ
     if (reverse) {
         if (!tag_has_base_relation(source_class, target_class)) return 0x2000;
     } else if (!tag_has_base_relation(target_class, source_class)) return 0x2000;
-    if ((target_flags & 0x20) && source_shape->related != target_shape->related &&
-        !equal_member_function_parameters(source_shape->related->data.parameters,
-            target_shape->related->data.parameters))
-        return 0x2000;
+    if ((target_flags & 0x20) && source_shape->related != target_shape->related) {
+        source_parameters = source_shape->related->data.parameters;
+        if (!equal_member_function_parameters(source_parameters,
+            target_shape->related->data.parameters)) return 0x2000;
+    }
     return source_class == target_class ? 1 : 0x20;
 }
 

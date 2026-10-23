@@ -1,0 +1,84 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+000634f0 <.text+0x4c4f0>:
+   634f0:	53                   	push   ebx
+   634f1:	56                   	push   esi
+   634f2:	57                   	push   edi
+   634f3:	55                   	push   ebp
+   634f4:	8b 54 24 14          	mov    edx,DWORD PTR [esp+0x14]
+   634f8:	8b 44 24 18          	mov    eax,DWORD PTR [esp+0x18]
+   634fc:	8b 7a 0c             	mov    edi,DWORD PTR [edx+0xc]
+   634ff:	8b 58 0c             	mov    ebx,DWORD PTR [eax+0xc]
+   63502:	66 8b 37             	mov    si,WORD PTR [edi]
+   63505:	66 39 33             	cmp    WORD PTR [ebx],si
+   63508:	74 09                	je     0x63513
+   6350a:	2b c0                	sub    eax,eax
+   6350c:	5d                   	pop    ebp
+   6350d:	5f                   	pop    edi
+   6350e:	5e                   	pop    esi
+   6350f:	5b                   	pop    ebx
+   63510:	c2 08 00             	ret    0x8
+   63513:	83 c7 08             	add    edi,0x8
+   63516:	83 c3 08             	add    ebx,0x8
+   63519:	66 2b c9             	sub    cx,cx
+   6351c:	66 3b f1             	cmp    si,cx
+   6351f:	7e 15                	jle    0x63536
+   63521:	0f bf c1             	movsx  eax,cx
+   63524:	c1 e0 02             	shl    eax,0x2
+   63527:	8b 2c 07             	mov    ebp,DWORD PTR [edi+eax*1]
+   6352a:	39 2c 18             	cmp    DWORD PTR [eax+ebx*1],ebp
+   6352d:	75 21                	jne    0x63550
+   6352f:	66 41                	inc    cx
+   63531:	66 3b ce             	cmp    cx,si
+   63534:	7c eb                	jl     0x63521
+   63536:	8b 44 24 18          	mov    eax,DWORD PTR [esp+0x18]
+   6353a:	8b 12                	mov    edx,DWORD PTR [edx]
+   6353c:	8b 00                	mov    eax,DWORD PTR [eax]
+   6353e:	3b c2                	cmp    eax,edx
+   63540:	75 1e                	jne    0x63560
+   63542:	b8 01 00 00 00       	mov    eax,0x1
+   63547:	5d                   	pop    ebp
+   63548:	5f                   	pop    edi
+   63549:	5e                   	pop    esi
+   6354a:	5b                   	pop    ebx
+   6354b:	c2 08 00             	ret    0x8
+   6354e:	8b ff                	mov    edi,edi
+   63550:	2b c0                	sub    eax,eax
+   63552:	5d                   	pop    ebp
+   63553:	5f                   	pop    edi
+   63554:	5e                   	pop    esi
+   63555:	5b                   	pop    ebx
+   63556:	c2 08 00             	ret    0x8
+   63559:	8d a4 24 00 00 00 00 	lea    esp,[esp+0x0]
+   63560:	66 8b 48 02          	mov    cx,WORD PTR [eax+0x2]
+   63564:	66 33 4a 02          	xor    cx,WORD PTR [edx+0x2]
+   63568:	f6 c5 30             	test   ch,0x30
+   6356b:	74 09                	je     0x63576
+   6356d:	2b c0                	sub    eax,eax
+   6356f:	5d                   	pop    ebp
+   63570:	5f                   	pop    edi
+   63571:	5e                   	pop    esi
+   63572:	5b                   	pop    ebx
+   63573:	c2 08 00             	ret    0x8
+   63576:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+   63579:	8b 4a 04             	mov    ecx,DWORD PTR [edx+0x4]
+   6357c:	66 8b 40 02          	mov    ax,WORD PTR [eax+0x2]
+   63580:	66 33 41 02          	xor    ax,WORD PTR [ecx+0x2]
+   63584:	a8 07                	test   al,0x7
+   63586:	74 09                	je     0x63591
+   63588:	2b c0                	sub    eax,eax
+   6358a:	5d                   	pop    ebp
+   6358b:	5f                   	pop    edi
+   6358c:	5e                   	pop    esi
+   6358d:	5b                   	pop    ebx
+   6358e:	c2 08 00             	ret    0x8
+   63591:	b8 01 00 00 00       	mov    eax,0x1
+   63596:	5d                   	pop    ebp
+   63597:	5f                   	pop    edi
+   63598:	5e                   	pop    esi
+   63599:	5b                   	pop    ebx
+   6359a:	c2 08 00             	ret    0x8
