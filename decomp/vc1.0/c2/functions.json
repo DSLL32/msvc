@@ -1054,7 +1054,11 @@
     "@fold_previous_float_load@8",
     "@floating_value_for_symbol@4",
     "@optimize_sahf@4",
-    "@advance_operand_byte@4"
+    "@advance_operand_byte@4",
+    "@prepare_float_schedule@4",
+    "@push_scheduled_float_stack@4",
+    "@pop_scheduled_float_stack@4",
+    "@scheduled_float_conflict@12"
   ],
   "driver": [
     {
@@ -5838,8 +5842,7 @@
     {
       "name": "@prepare_float_schedule@4",
       "start": 287024,
-      "end": 287025,
-      "provisional": true
+      "end": 288234
     },
     {
       "name": "@call_float_result_count@4",
@@ -5972,8 +5975,7 @@
     {
       "name": "@scheduled_float_conflict@12",
       "start": 284672,
-      "end": 284673,
-      "provisional": true
+      "end": 284915
     },
     {
       "name": "@analyze_scheduled_instruction@4",
@@ -7351,6 +7353,22 @@
       "name": "@next_float_context_after_call@4",
       "start": 237520,
       "end": 237616
+    },
+    {
+      "name": "@push_scheduled_float_stack@4",
+      "start": 288240,
+      "end": 288326
+    },
+    {
+      "name": "@pop_scheduled_float_stack@4",
+      "start": 288336,
+      "end": 288450
+    },
+    {
+      "name": "@scheduler_call_float_arguments@4",
+      "start": 288464,
+      "end": 288465,
+      "provisional": true
     }
   ],
   "cases": {

@@ -10,19 +10,22 @@ import struct
 import subprocess
 import tempfile
 import time
+import sys
 from binary import PE
 
 
 def main():
     started = time.perf_counter()
-    source = Path('src/float-machine.c')
-    expression = re.search(r'#define FM_STACK_EFFECT\(op\).*?\? 1 : 0\)', source.read_text(), re.S).group()
+    scheduler = '--scheduler' in sys.argv[1:]
+    source = Path('src/scheduler.c' if scheduler else 'src/float-machine.c')
+    macro = 'SCHEDULER_FLOAT_STACK_EFFECT' if scheduler else 'FM_STACK_EFFECT'
+    expression = re.search(r'#define '+macro+r'\(op\).*?\? 1 : 0\)', source.read_text(), re.S).group()
     original = PE('../../../toolchains/1.0-nt/bin/C23232.EXE')
     names = re.findall(r'^OP\((\w+),', Path('src/machine-opcodes.def').read_text(), re.M)
     with tempfile.TemporaryDirectory(prefix='float-stack-effect-', dir=Path.home()/'.ai-tmp/vc1.0-c2') as directory:
         directory = Path(directory)
         probe = directory/'probe.c'
-        probe.write_text('#include "'+str(Path('src/machine.h').resolve())+'"\n#undef write\nextern int write(int,const void*,unsigned);\n'+expression+'''
+        program = '#include "'+str(Path('src/machine.h').resolve())+'"\n#undef write\nextern int write(int,const void*,unsigned);\n'+expression+'''
 int main(void)
 {
     int operation, effect;
@@ -32,7 +35,8 @@ int main(void)
     }
     return 0;
 }
-''')
+'''
+        probe.write_text(program.replace('effect=FM_STACK_EFFECT(operation)', 'effect='+macro+'(operation)'))
         command = ['clang','-m32','-std=gnu89','-fms-extensions','-fasm-blocks','-O0','-g','-DRECON_NATIVE_TEST',
                    '-I../../../lib/recon/include','-I../../../lib/recon/native',str(probe),'-o',str(directory/'probe')]
         phase = time.perf_counter()
@@ -52,7 +56,7 @@ int main(void)
         nonzero_classes={str(effect):[name for name,value in zip(names,actual) if value==effect] for effect in [-2,-1,1]},
         expression_sha256=hashlib.sha256(expression.encode()).hexdigest(), probe_sha256=probe_sha,
         executes_wine=False, timing=dict(compile_seconds=compile_seconds,execution_seconds=execution_seconds,total_seconds=time.perf_counter()-started))
-    Path('cases/floating-stack-effects-proof.json').write_text(json.dumps(receipt,indent=2)+'\n')
+    Path('cases/floating-scheduler-stack-effects-proof.json' if scheduler else 'cases/floating-stack-effects-proof.json').write_text(json.dumps(receipt,indent=2)+'\n')
     print(str(len(names))+' original signed x87 stack effects match compiled semantic classes')
 
 

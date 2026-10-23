@@ -25,6 +25,9 @@ typedef struct InstructionSchedule {
 typedef char InstructionScheduleSizeCheck[sizeof(InstructionSchedule) == 44 ? 1 : -1];
 InstructionSchedule *__cdecl new_instruction_schedule(void);
 void __fastcall prepare_float_schedule(MachineInstruction *instruction);
+void __fastcall push_scheduled_float_stack(int update_positions);
+void __fastcall pop_scheduled_float_stack(int update_positions);
+int __fastcall scheduler_call_float_arguments(MachineInstruction *instruction);
 int __fastcall call_float_result_count(MachineInstruction *instruction);
 /* Constructor use3f7d2: arena4 node, live only during scheduling. */
 typedef struct SchedulerRegionFrame {

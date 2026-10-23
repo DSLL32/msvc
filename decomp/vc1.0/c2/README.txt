@@ -2608,3 +2608,9 @@ Final floating load folding and SAHF selection: checkpoint1050
 @prepare_float_schedule@4. 971 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating1050.json for extent union, limits and measured timings.
+
+Pentium floating schedule identities and depth: checkpoint1054
+4 acceptances pass fresh original/native matching; current frontier
+@instruction_float_not_ready@4. 975 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating1054.json for extent union, limits and measured timings.

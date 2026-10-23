@@ -319,12 +319,11 @@ int __fastcall count_shared_register_conflicts(RegisterVariable *left, RegisterV
 int __fastcall stack_copy_operand_changed(MachineInstruction *first, MachineInstruction *last, MachineOperand *operand, unsigned bytes) { __asm int 3 }
 void __fastcall retarget_comparison_branch(MachineInstruction *target, MachineInstruction *branch, MachineInstruction *load, int mode) { __asm int 3 }
 void __fastcall register_machine_label(MachineInstruction *instruction) { __asm int 3 }
-void __fastcall prepare_float_schedule(MachineInstruction *instruction) { __asm int 3 }
+int __fastcall scheduler_call_float_arguments(MachineInstruction *instruction) { __asm int 3 }
 MachineInstruction *__fastcall schedule_generic_instruction(MachineInstruction *instruction) { __asm int 3 }
 
 int __fastcall instruction_float_not_ready(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall apply_scheduled_float(MachineInstruction *instruction) { __asm int 3 }
-int __fastcall scheduled_float_conflict(MachineInstruction *first, MachineInstruction *last, int *adjustment) { __asm int 3 }
 int __fastcall scheduled_float_latency(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall scheduler_instruction_cycles(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall pair_pentium_fallthrough_jump(MachineInstruction *jump, MachineInstruction **middle) { __asm int 3 }

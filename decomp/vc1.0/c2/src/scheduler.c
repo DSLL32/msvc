@@ -6,6 +6,7 @@
 #include "register-use.h"
 #include "function-input.h"
 #include "float-machine.h"
+#include "intrinsic-selection.h"
 #include <stdlib.h>
 #include <recon.h>
 extern int cpu_model, optimize_speed;
@@ -2165,4 +2166,193 @@ MachineInstruction *__fastcall find_prior_scheduled_definition(unsigned short nu
         }
     }
     return 0;
+}
+
+/* Same signed ISA stack classes, independently checked against all231
+   original opcode-property words. No property-section image is retained. */
+#define SCHEDULER_FLOAT_STACK_EFFECT(op) (((op) == MC_FCOMPP || (op) == MC_FUCOMPP) ? -2 : \
+    (((op) >= MC_FADDP && (op) <= MC_FDIVRP) || (op) == MC_FICOMP || \
+     (op) == MC_FISTP || (op) == MC_FCOMP || (op) == MC_FSTP || \
+     (op) == MC_FBSTP || (op) == MC_FPATAN || (op) == MC_FYL2X || \
+     (op) == MC_FYL2XP1 || (op) == MC_FUCOMP) ? -1 : \
+    ((op) == MC_FILD || (op) == MC_FLD || (op) == MC_FBLD || \
+     ((op) >= MC_FLDZ && (op) <= MC_FLDLN2) || (op) == MC_FPTAN || \
+     (op) == MC_FXTRACT || (op) == MC_FLD1 || (op) == MC_FSINCOS) ? 1 : 0)
+/* Original [00046130,000465ea). Assign logical x87 value identities to
+   physical ST slots and record the inputs/depth needed by Pentium scheduling. */
+void __fastcall prepare_float_schedule(MachineInstruction *instruction)
+{
+    InstructionSchedule *info = instruction->record.scheduling;
+    unsigned operation = (instruction->opcode >> 8) & 255, number, destination;
+    int result_count, arguments, cleanup, exchanged;
+    info->float_depth = scheduler_float_depth;
+    switch (operation) {
+    case MC_CALL:
+        result_count = call_float_result_count(instruction);
+        if (result_count > 1) scheduler_float_invalid = 1;
+        arguments = scheduler_call_float_arguments(instruction);
+        if (!arguments) arguments = scheduler_float_depth;
+        info->float_arity = arguments;
+        if (arguments < 0 || arguments > 2) {
+            scheduler_float_invalid = 1;
+            return;
+        }
+        cleanup = intrinsic_float_cleanup_count((FunctionSymbol *)instruction->operands[0].value.symbol);
+        if (arguments) {
+            if (scheduler_float_values[0] == -1) compiler_internal_error("@(#)schedp5u.c:1.0", 0x7c3);
+            info->float_inputs[0] = scheduler_float_values[0];
+        }
+        if (arguments == 2) {
+            if (scheduler_float_values[1] == -1) compiler_internal_error("@(#)schedp5u.c:1.0", 0x7c8);
+            info->float_inputs[1] = scheduler_float_values[1];
+        }
+        while (cleanup) {
+            pop_scheduled_float_stack(0);
+            --cleanup;
+        }
+        info->float_result = ++scheduler_float_serial;
+        if (!arguments && result_count) push_scheduled_float_stack(0);
+        scheduler_float_values[0] = scheduler_float_serial;
+        return;
+    case MC_FADDP: case MC_FMULP: case MC_FSUBP:
+    case MC_FSUBRP: case MC_FDIVP: case MC_FDIVRP:
+        number = instruction->operands[0].value.reg.words.number & 0x3fff;
+        if (scheduler_float_values[0] == -1 ||
+            (number != REG_ST0 + 1 && scheduler_float_values[number - REG_ST0] != -1)) {
+            scheduler_float_invalid = 1;
+            return;
+        }
+        info->float_inputs[0] = scheduler_float_values[0];
+        info->float_inputs[1] = scheduler_float_values[number - REG_ST0];
+        if (info->float_inputs[1] == -1) info->float_inputs[1] = 0;
+        pop_scheduled_float_stack(0);
+        if (scheduler_float_values[number - REG_ST0 - 1] != -1)
+            scheduler_float_values[number - REG_ST0 - 1] = info->float_inputs[0];
+        return;
+    case MC_FICOMP: case MC_FISTP: case MC_FCOMP: case MC_FSTP: case MC_FBSTP:
+        if (scheduler_float_values[0] == -1) scheduler_float_invalid = 1;
+        info->float_inputs[0] = scheduler_float_values[0];
+        number = instruction->operands[0].value.reg.words.number & 0x3fff;
+        if ((instruction->operands[0].flags & 15) == OPERAND_REGISTER &&
+            number > REG_ST0 && number <= REG_ST0 + 7 && scheduler_float_values[number - REG_ST0] != -1)
+            info->float_inputs[1] = scheduler_float_values[number - REG_ST0];
+        pop_scheduled_float_stack(0);
+        return;
+    case MC_FCOMPP:
+        info->float_inputs[0] = scheduler_float_values[0];
+        info->float_inputs[1] = scheduler_float_values[1];
+        if (info->float_inputs[0] == -1 || info->float_inputs[1] == -1) scheduler_float_invalid = 1;
+        pop_scheduled_float_stack(0);
+        pop_scheduled_float_stack(0);
+        return;
+    case MC_FXCH:
+        number = instruction->operands[0].value.reg.words.number & 0x3fff;
+        info->float_inputs[0] = scheduler_float_values[0];
+        info->float_inputs[1] = scheduler_float_values[number - REG_ST0];
+        exchanged = scheduler_float_values[number - REG_ST0];
+        scheduler_float_values[number - REG_ST0] = scheduler_float_values[0];
+        scheduler_float_values[0] = exchanged;
+        if (exchanged == -1) scheduler_float_invalid = 1;
+        return;
+    case MC_FLD:
+        number = instruction->operands[1].value.reg.words.number & 0x3fff;
+        if ((instruction->operands[1].flags & 15) == OPERAND_REGISTER && number >= REG_ST0 && number <= REG_ST0 + 7) {
+            info->float_inputs[1] = scheduler_float_values[number - REG_ST0];
+            if (info->float_inputs[1] == -1) info->float_inputs[1] = 0;
+        }
+        /* fall through: loads give the new top a fresh value identity */
+    case MC_FILD: case MC_FBLD: case MC_FLDZ: case MC_FLD1:
+        info->float_inputs[0] = ++scheduler_float_serial;
+        push_scheduled_float_stack(0);
+        scheduler_float_values[0] = scheduler_float_serial;
+        return;
+    default:
+        if (SCHEDULER_FLOAT_STACK_EFFECT(operation)) {
+            scheduler_float_invalid = 1;
+            return;
+        }
+        info->float_inputs[0] = scheduler_float_values[0];
+        if (info->float_inputs[0] == -1) {
+            if (operation == MC_FNSTSW || operation == MC_FSTSW) info->float_inputs[0] = 0;
+            else scheduler_float_invalid = 1;
+        }
+        if (machine_operand_counts[operation] != 2 || (instruction->operands[1].flags & 15) != OPERAND_REGISTER) return;
+        number = instruction->operands[1].value.reg.words.number & 0x3fff;
+        if (number < REG_ST0 || number > REG_ST0 + 7) return;
+        if (number == REG_ST0) {
+            if ((instruction->operands[0].flags & 15) != OPERAND_REGISTER) return;
+            destination = instruction->operands[0].value.reg.words.number & 0x3fff;
+            if (destination != REG_ST0) {
+                if (destination < REG_ST0) return;
+                if (operation != MC_FST) scheduler_float_invalid = 1;
+                if (scheduler_float_values[destination - REG_ST0] != -1) info->float_inputs[1] = scheduler_float_values[destination - REG_ST0];
+                return;
+            }
+        }
+        if (scheduler_float_values[number - REG_ST0] != -1) info->float_inputs[1] = scheduler_float_values[number - REG_ST0];
+        return;
+    }
+}
+
+/* Original [000465f0,00046646). Shift logical resident values down
+   one ST slot, optionally updating serial-to-position observations. */
+void __fastcall push_scheduled_float_stack(int update_positions)
+{
+    int slot, value;
+    for (slot = 7; slot > 0; --slot) {
+        value = scheduler_float_values[slot];
+        if (update_positions && value != -1) ++scheduler_float_positions[value];
+        scheduler_float_values[slot] = scheduler_float_values[slot - 1];
+    }
+    value = scheduler_float_values[0];
+    if (update_positions && value != -1) ++scheduler_float_positions[value];
+    scheduler_float_values[0] = -1;
+    ++scheduler_float_depth;
+}
+
+/* Original [00046650,000466c2). Pop the logical x87 top. Intermediate
+   unknown positions retain-1; the bottom slot has the original unconditional
+   position decrement when its value identity is known. */
+void __fastcall pop_scheduled_float_stack(int update_positions)
+{
+    int slot, value;
+    for (slot = 0; slot < 7; ++slot) {
+        value = scheduler_float_values[slot];
+        if (update_positions && value != -1 && scheduler_float_positions[value] != -1)
+            --scheduler_float_positions[value];
+        scheduler_float_values[slot] = scheduler_float_values[slot + 1];
+    }
+    value = scheduler_float_values[7];
+    if (update_positions && value != -1) --scheduler_float_positions[value];
+    scheduler_float_values[7] = -1;
+    if (--scheduler_float_depth < 0) scheduler_float_invalid = 1;
+}
+
+/* Original [00045800,000458f3). Shared x87 value inputs prevent a
+   scheduling move; an alternate input also requests stack adjustment. */
+int __fastcall scheduled_float_conflict(MachineInstruction *first, MachineInstruction *last, int *adjustment)
+{
+    InstructionSchedule *a = first->record.scheduling, *b = last->record.scheduling;
+    MachineInstruction *previous = scheduler_pairs.previous[0].first;
+    unsigned operation = (last->opcode >> 8) & 255, first_operation = (first->opcode >> 8) & 255;
+    *adjustment = 0;
+    if (previous && ((previous->opcode >> 8) & 255) == MC_CALL) *adjustment = 1;
+    if (last == previous && operation >= MC_FADDP && operation <= MC_FDIVRP &&
+        (last->operands[0].value.reg.words.number & 0x3fff) -
+        (first->operands[0].value.reg.words.number & 0x3fff) == 1 &&
+        first_operation != MC_FLD && first_operation != MC_FLDZ && first_operation != MC_FLD1) return 1;
+    if (a->float_inputs[0]) {
+        if (b->float_inputs[0] == a->float_inputs[0]) return 1;
+        if (b->float_inputs[1] == a->float_inputs[0]) {
+            if (b->float_inputs[0] == a->float_inputs[0] ||
+                (a->float_inputs[1] && b->float_inputs[0] == a->float_inputs[1])) return 1;
+            *adjustment = 1;
+            return 1;
+        }
+    }
+    if (!a->float_inputs[1]) return 0;
+    if (b->float_inputs[0] == a->float_inputs[1]) return 1;
+    if (b->float_inputs[1] != a->float_inputs[1]) return 0;
+    *adjustment = 1;
+    return 1;
 }
