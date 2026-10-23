@@ -46,6 +46,8 @@ void *__cdecl allocate_compiler_memory(unsigned);
 void __cdecl compiler_fatal(int);
 int __cdecl compiler_error(int, ...);
 int __cdecl initialize_output_buffer_123ae(void);
+int __cdecl initialize_output_buffer_12423(void);
+void __cdecl destroy_output_buffer_23939(void);
 void __cdecl destroy_output_buffer_23940(void);
 int __cdecl register_compiler_cleanup(C1Initializer);
 void __cdecl initialize_state_12365(void);

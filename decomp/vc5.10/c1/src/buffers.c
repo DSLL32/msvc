@@ -19,3 +19,14 @@ void __cdecl destroy_output_buffer_23940(void)
 {
     __asm { int 3 }
 }
+
+int __cdecl initialize_output_buffer_12423(void)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+void __cdecl destroy_output_buffer_23939(void)
+{
+    __asm { int 3 }
+}

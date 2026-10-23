@@ -116,6 +116,16 @@
       "start_rva": 197639,
       "end_rva": 197664,
       "entry": 0
+    },
+    {
+      "start_rva": 74780,
+      "end_rva": 74787,
+      "entry": 1
+    },
+    {
+      "start_rva": 74845,
+      "end_rva": 74859,
+      "entry": 0
     }
   ],
   "functions": [
@@ -340,6 +350,23 @@
         ]
       ],
       "source": "src/pass.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_1241c",
+      "native_symbol": "initialize_state_1241c",
+      "role": "application",
+      "chunks": [
+        [
+          74780,
+          74787
+        ],
+        [
+          74845,
+          74859
+        ]
+      ],
+      "source": "src/initializers.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -355,11 +382,15 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 74780,
-    "native_symbol": "initialize_state_1241c",
-    "kind": "initialization-callback",
+    "rva": 74787,
+    "native_symbol": "initialize_output_buffer_12423",
+    "kind": "initialization-helper",
     "native_args": [],
-    "abi": "cdecl void callback, cleanup0"
+    "abi": "cdecl no arguments, cleanup0",
+    "caller": {
+      "native_symbol": "initialize_state_1241c",
+      "return_rva": 74785
+    }
   },
   "imports": [
     {
@@ -489,7 +520,7 @@
       "normal_case": false
     }
   },
-  "staging_role": "Cleanup registration is the only new candidate",
+  "staging_role": "Second split buffer wrapper is sole new candidate; second constructor remains trap",
   "registered_cleanup": [
     {
       "original_rva": 145728,

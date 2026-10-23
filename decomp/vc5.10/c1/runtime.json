@@ -14,13 +14,6 @@
     "evidence": "Unaccepted named call-entry identity only; full extent not established or unmasked."
   },
   {
-    "name": "_initialize_state_1241c",
-    "start": 274801692,
-    "end": 274801693,
-    "pending_extent": true,
-    "evidence": "actual .initfe callback table entry; unrecovered body traps"
-  },
-  {
     "name": "_initialize_state_1246b",
     "start": 274801771,
     "end": 274801772,
@@ -215,5 +208,19 @@
     "end": 275014260,
     "pending_extent": true,
     "evidence": "separate variadic diagnostic call in cleanup-table overflow branch, identity only; no body accepted"
+  },
+  {
+    "name": "_initialize_output_buffer_12423",
+    "start": 274801699,
+    "end": 274801700,
+    "pending_extent": true,
+    "evidence": "separate named pending body, entry identity only"
+  },
+  {
+    "name": "_destroy_output_buffer_23939",
+    "start": 274872633,
+    "end": 274872634,
+    "pending_extent": true,
+    "evidence": "separate named pending body, entry identity only"
   }
 ]

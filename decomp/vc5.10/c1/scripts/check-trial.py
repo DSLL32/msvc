@@ -128,17 +128,24 @@ def check(original, native, audit_directory=None):
                 assert args[0] == state["args"]["size"] == 6548
                 assert state["caller"]["symbol"] == "initialize_compiler_pass"
             elif expected.get("kind") == "initialization-helper":
-                assert state["caller"]["symbol"] == "initialize_state_123a7"
-                if expected["rva"] == 0x123ae:
-                    assert state["args"] == {}
-                    assert int(words.split(",")[0], 16) == module_base + 0x123ac
-                elif expected["rva"] == 0x123f6:
-                    callback = re.search(r"^([0-9a-f]+) [0-9a-f]+ [Tt] destroy_output_buffer_23940$", symbols, re.M)
+                caller = expected.get("caller", {"native_symbol": "initialize_state_123a7",
+                         "return_rva": 0x123f2 if expected["rva"] == 0x123f6 else 0x123ac})
+                assert state["caller"]["symbol"] == caller["native_symbol"]
+                owner = next(row for row in candidate["functions"] if row["native_symbol"] == caller["native_symbol"])
+                assert any(a <= caller["return_rva"] - 1 < b for a, b in owner["chunks"])
+                assert int(words.split(",")[0], 16) == module_base + caller["return_rva"]
+                snapshot = (original / "relocated-text.bin").read_bytes()
+                call_site = caller["return_rva"] - 5
+                assert snapshot[call_site - 0x1000] == 0xe8
+                displacement = struct.unpack_from("<i", snapshot, call_site - 0x1000 + 1)[0]
+                assert caller["return_rva"] + displacement == expected["rva"]
+                if expected["rva"] == 0x123f6:
+                    cb = expected.get("callback", {"native_symbol": "destroy_output_buffer_23940", "original_rva": 0x23940})
+                    callback = re.search(r"^([0-9a-f]+) [0-9a-f]+ [Tt] " + re.escape(cb["native_symbol"]) + "$", symbols, re.M)
                     assert callback and state["args"] == {"callback": int(callback[1], 16)}
-                    assert args[0] == module_base + 0x23940
-                    assert int(words.split(",")[0], 16) == module_base + 0x123f2
+                    assert args[0] == module_base + cb["original_rva"]
                 else:
-                    raise AssertionError("new helper requires an explicit caller/ABI projection")
+                    assert state["args"] == {}
             else:
                 assert state["args"] == {} and state["caller"]["symbol"] == "initialize_compiler_pass"
             assert pass_state["symbol"] == "InvokeCompilerPass"
