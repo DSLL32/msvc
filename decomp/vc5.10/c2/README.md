@@ -7,10 +7,10 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 59 application functions (11664 bytes) and five CRT
+Current reconstruction has 60 application functions (11953 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded its complete IL header and
-has initialized all five no-debug output sections and has reconstructed the23-kind symbol decoder; its compact signed readers and whole storage updater match, and it has consumed all global IL and initialized ten sections/seven function declarations or definitions, and stops at the typed initializer-record reader. Four import thunks (24 bytes) and contextual
-text tables (567 bytes) remain separate. The 12102 source bytes are 2.111% of
+has initialized all five no-debug output sections and has reconstructed the23-kind symbol decoder; its compact signed readers and whole storage updater match, and it has consumed all global IL and initialized ten sections/seven function declarations or definitions, and has consumed the initializer stream and stops at the function-IR pipeline. Four import thunks (24 bytes) and contextual
+text tables (616 bytes) remain separate. The 12391 source bytes are 2.162% of
 573183 `.text` bytes; that denominator includes CRT/data/padding and is not
 non-CRT coverage. `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -137,3 +137,14 @@ mask, controller, source or executable inputs. The child remains INT3 and has
 no reconstruction credit. Its cold chunk is126 bytes, primary163 bytes and
 external dispatch data49 bytes. All104 current protocol rejection controls and
 26 focused forbidden-delta controls pass; timings are recorded separately.
+
+The complete289-byte initializer reader now passes a single full65-source
+CFG/RET/import/ownership/extent audit. Resolver enablement applies only to this
+owner: one EBP-cached canonical `free` call matches the rebuilt direct IAT call.
+Thirteen named callee-preservation witnesses have individual bit ablations;
+the canonical public CRT boundary remains external. Its28-byte root record
+uses a signed DWORD offset at12, not a WORD. The post-reader proof compares all
+32 FILE bytes with only base/ptr identity normalized, EOF and active-main
+aliases, and the15 actually initialized buffer bytes; unused buffer tails
+receive no state credit. Proof0065 records37 fresh/85 reused protocol controls,
+ten provider-evidence controls and the separately timed static ABI controls.

@@ -212,27 +212,43 @@
     "evidence": null
   },
   {
-    "name": "@read_initializer_records@4",
-    "start": 4531154,
-    "end": 4531317,
-    "pending_extent": false,
-    "kind": "unaccepted-application-tail-target",
-    "evidence": null,
-    "classification": "application",
-    "accepted": false,
-    "extent_evidence": "cases/analysis/read-initializers-disassembly.txt:163B primary4523d2..452475 RET0; complete126B cold4741c6..474244 reached by dispatch-target5 and primaryJA, with recursivecall and jumps back452443; separate32B targets+17B classes452478..4524a9. Static ownership/tailABI only, stillINT3/no unmask/sourcecredit.",
-    "provenance": "Original extent/RET evidence only; source remains INT3, no unmask or source-coverage credit",
-    "code_chunks": [
-      [
-        4669894,
-        4670020
-      ]
-    ],
-    "shared": [
-      [
-        4531320,
-        4531369
-      ]
-    ]
+    "name": "@new_initializer@4",
+    "start": 4530866,
+    "end": 4530924,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@read_initializer_values@4",
+    "start": 4531369,
+    "end": 4531370,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@queue_initializer@4",
+    "start": 4538474,
+    "end": 4538475,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@emit_initializer@4",
+    "start": 4499172,
+    "end": 4499173,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@free_initializer@4",
+    "start": 4499141,
+    "end": 4499142,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
   }
 ]

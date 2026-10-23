@@ -401,7 +401,7 @@ def compare(original,native,validation=None):
         image=(original/'unmodeled-original-data.bin').read_bytes();block=(original/'pool-block.bin').read_bytes()
         preserved=receipts[0]['unmodeled_original_data'];assert len(image)==preserved['bytes']==67328 and sha(image)==preserved['sha256']
         snapshots=receipts[0]['globals_complete_hashes']
-        assert set(snapshots)=={'unmodeled-original-data.bin','pool-block.bin','header-streams.bin'}
+        assert set(snapshots)==({'unmodeled-original-data.bin','pool-block.bin','header-streams.bin'} | ({'initializer-buffer.bin'} if expected.get('frontier_contract')=='initializers-complete'else set()))
         for name,digest in snapshots.items():assert sha((original/name).read_bytes())==digest,'complete raw snapshot changed'
         head=struct.unpack_from('<I',image,0x48e020-0x48e000)[0]
         def read(address,size):
@@ -426,11 +426,22 @@ def compare(original,native,validation=None):
         source_streams=(original/'header-streams.bin').read_bytes();assert len(source_streams)==64
         input_words=struct.unpack('<8I',source_streams[:32]);closed_words=struct.unpack('<8I',source_streams[32:])
         native_input=bytes.fromhex(streams['input_bytes']);native_closed=struct.unpack('<8I',bytes.fromhex(streams['closed_globals_bytes']))
-        assert input_words==(0,0,0,1,3,0,0,0)and native_input==source_streams[:32],'main IL stream was unexpectedly consumed'
         assert closed_words==(0,0,0,0,4,0,4096,0)and native_closed==closed_words,'canonical closed global FILE layout differs'
-        assert streams['input_index']==3 and streams['globals_index']==4 and streams['active_globals_alias']is True
-        raw_globals=struct.unpack('<I',read(0x497fd4,4))[0]
-        assert struct.unpack('<I',read(0x490b80,4))[0]==raw_globals,'target active stream no longer aliases closed globals FILE'
+        assert streams['input_index']==3 and streams['globals_index']==4
+        active=struct.unpack('<I',read(0x490b80,4))[0]
+        if expected.get('frontier_contract')=='initializers-complete':
+            native_words=struct.unpack('<8I',native_input)
+            for words in (input_words,native_words):
+                assert words[2] and words[0]==words[2] and words[1]==0 and words[3:]==(25,3,0,4096,0),'postEOF canonical FILE layout differs'
+            valid=(case_directory/'inputs/a01068in').read_bytes();assert len(valid)==15
+            assert (original/'initializer-buffer.bin').read_bytes()==bytes.fromhex(streams['valid_input_bytes'])==valid,'defined initializer buffer bytes differ'
+            assert streams['active_globals_alias'] is False and streams['active_input_alias'] is True
+            assert active==struct.unpack('<I',read(0x499698,4))[0],'active initializer stream lost mainFILE alias'
+            assert re.findall(r'^initializer-input-complete pointer=([0-9a-f]+) base=([0-9a-f]+) count=(-?\d+) flag=([0-9a-f]+) valid=(\d+)$',segment,re.M)==[('%08x'%input_words[0],'%08x'%input_words[2],'0','00000019','15')]
+        else:
+            assert input_words==(0,0,0,1,3,0,0,0)and native_input==source_streams[:32],'main IL stream was unexpectedly consumed'
+            assert streams['active_globals_alias'] is True
+            assert active==struct.unpack('<I',read(0x497fd4,4))[0],'target active stream no longer aliases closed globals FILE'
     if expected.get('state_policy')=='filename-record':
         import struct
         segment=text.rsplit('observe %08x '%address,1)[1]

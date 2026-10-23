@@ -1,0 +1,89 @@
+{
+  "schema": 1,
+  "owner": "@read_initializer_records@4",
+  "unique_seed": 4531165,
+  "qualified_slot": 4772064,
+  "holder": "ebp",
+  "last_restore": 4531311,
+  "loop_join": 4531267,
+  "original_call_sites": [
+    {
+      "address": 4531178,
+      "target": "@new_initializer@4"
+    },
+    {
+      "address": 4531185,
+      "target": "_input_varuint"
+    },
+    {
+      "address": 4531193,
+      "target": "_input_compact_signed"
+    },
+    {
+      "address": 4531203,
+      "target": "@read_initializer_values@4"
+    },
+    {
+      "address": 4531210,
+      "target": "@queue_initializer@4"
+    },
+    {
+      "address": 4531217,
+      "target": "@new_initializer@4"
+    },
+    {
+      "address": 4531231,
+      "target": "_input_compact_signed"
+    },
+    {
+      "address": 4531241,
+      "target": "@read_initializer_values@4"
+    },
+    {
+      "address": 4531248,
+      "target": "@emit_initializer@4"
+    },
+    {
+      "address": 4531255,
+      "target": "@free_initializer@4"
+    },
+    {
+      "address": 4531262,
+      "target": "_input_varuint"
+    },
+    {
+      "address": 4531267,
+      "target": "_c2_read_il_byte"
+    },
+    {
+      "address": 4531302,
+      "target": "_c2_read_il_byte"
+    },
+    {
+      "address": 4669904,
+      "target": "@input_string@8"
+    },
+    {
+      "address": 4669918,
+      "target": "@lookup_source_file@8"
+    },
+    {
+      "address": 4669939,
+      "target": "@c2_report_internal@8"
+    },
+    {
+      "address": 4669978,
+      "target": "@read_initializer_records@4"
+    },
+    {
+      "address": 4669984,
+      "target": "msvcrt.dll!free"
+    },
+    {
+      "address": 4670010,
+      "target": "@c2_report_internal@8"
+    }
+  ],
+  "facts": "One IAT seed dominates the first dispatch and every returning loop iteration. Each path before474220 is covered by these named callee masks; any omitted EBP mask loses the must-value at the loop join or recursive return. Exact13valid-EBX-for-EBP ablations all reject in the common engine. No holder/address escape or custom callback in this reader body.",
+  "contract_ablations": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/initializer-records-scope-probes/contract-ablations/result.json"
+}

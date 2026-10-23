@@ -550,6 +550,9 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
         'active_globals_alias':int(gdb.parse_and_eval('c2_current_il'))==int(second),
         'input_bytes':gdb.selected_inferior().read_memory(first,32).tobytes().hex(),
         'closed_globals_bytes':gdb.selected_inferior().read_memory(second,32).tobytes().hex()}
+    if records[0].get('frontier_contract')=='initializers-complete':
+        info['globals_complete']['streams']['active_input_alias']=int(gdb.parse_and_eval('c2_current_il'))==int(first)
+        info['globals_complete']['streams']['valid_input_bytes']=gdb.selected_inferior().read_memory(first.dereference()['_base'],15).tobytes().hex()
     gdb.write('C2-GLOBALS-COMPLETE '+json.dumps(info['globals_complete'],sort_keys=True)+'\\n')
 """.replace('MODEL_SOURCE',repr(complete_model))
     program=program.replace('open(',complete_program+'open(',1)

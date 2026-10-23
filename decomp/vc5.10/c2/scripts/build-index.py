@@ -52,7 +52,10 @@ def main():
     (BINARY/'build/runtime.json').write_text(json.dumps(rebuilt,indent=2)+'\n')
     read=pe(BINARY/'build/c2.exe')
     metadata={'schema':1,'functions':{},'callback_tables':[]}
+    if config.get('register_imports'): metadata['register_imports']=config['register_imports']
     for record in config['driver']:
+        if record.get('register_imports'):
+            metadata['functions'].setdefault(record['name'],{})['register_imports']=record['register_imports']
         if record.get('seh_table'):
             table=record['seh_table']
             enclosing,flt,handler=struct.unpack('<III',original[offset(inventory,table,12):offset(inventory,table,12)+12])
@@ -96,7 +99,8 @@ def main():
                 '@c2_match_option@16':(8,5,0x452cd0,46),
                 '@c2_apply_option@12':(4,8,0x452e00,39),
                 '_format_diagnostic_args':(0,7,0x48cecc,51),
-                '@read_symbols@4':(0,11,0x4206a0,23)
+                '@read_symbols@4':(0,11,0x4206a0,23),
+                '@read_initializer_records@4':(0,8,0x452498,17)
             }[record['name']]
             terminal=b'\xc2'+struct.pack('<H',cleanup)if cleanup else b'\xc3'
             assert read(intervals[0][0]-len(terminal),len(terminal))==terminal,'expected final RET immediately precedes dispatch data'

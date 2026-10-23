@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "reviewer": "/root/vc510_orchestrator",
+  "result": "PASS",
+  "scope": "Finite12namedC2callee plus publiccanonicalMSVCRTfree incomingEBP normalreturn preservation only",
+  "manifest_sha256": "73d0de00287f988fe823d03edf4b27b1f92733a10152104e5787e792b7c5e319",
+  "witness_sha256": "ea3d376da198c092b837f9315f66c68035a4ac36348a4e989ccb6b65c3983eb5",
+  "independent_checks": [
+    "Whole originalprimary/cold interval hashes verified against actualtargetPE for12callees",
+    "Capstone bounded instruction inventory verifies noEBPwrite leafs and actualsavedEBP prologue/restore/RET anchors for readvalues,queue,emit andrecursive reader",
+    "Canonical namedfree ordinal604/address7800138a/full104B/noEBPwrites and bothESI/ECXpopRET0 exits reviewed; provider/actualhFile/receipt/SDKdeclaration bindings verified",
+    "Own import_evidence.verify on exactcurrenttrial+strictreaderreport passes all14qualifiedresiduals",
+    "All frozenmanifest sources/PE/MAP/evidence hashes match;13contractablations pass in target andcommonowner corpora"
+  ],
+  "actual_preservation_anchors": {
+    "read_values": [
+      "4524ac PUSHEBP",
+      "45263d POPEBP",
+      "452641 RET0"
+    ],
+    "queue": [
+      "45406c PUSHEBP",
+      "4540c3 POPEBP",
+      "4540c6 RET0"
+    ],
+    "emit": [
+      "44a6e6 PUSHEBP",
+      "44a749 POPEBP/44a74c RET0",
+      "471ab7 POPEBP/471aba RET0"
+    ],
+    "recursive_reader": [
+      "4523dc PUSHEBP",
+      "4523dd seedfree",
+      "45246f POPEBP",
+      "452474 RET0"
+    ]
+  },
+  "limits": [
+    "OrdinaryCABI/publicCRTnormalreturn boundaries; notfault/unwind/allocatorimplementationproof",
+    "Unacceptedapplicationcallee bodies remainMASKED/namedINT3/zeroappcredit; staticcontract doesnotunmask",
+    "OnlyEBP masks, exactreaderfree site474220; no otherregisterfacts or callbacktargetinference",
+    "Reader65 finalpromotion stillrequires publishedcommonperownerfeature and freshcandidate casepair"
+  ]
+}

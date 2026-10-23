@@ -114,4 +114,8 @@ int __fastcall is_constant_symbol(C2Symbol *symbol) { __asm { int 3 } return 0; 
 int __fastcall is_known_symbol(unsigned serial) { __asm { int 3 } return 0; }
 C2Section *__fastcall select_symbol_section(C2FunctionSymbol *function, C2Symbol *symbol) { __asm { int 3 } return NULL; }
 
-void __fastcall read_initializer_records(FILE *input) { __asm { int 3 } }
+C2InitRecord *__fastcall new_initializer(int kind) { __asm { int 3 } return NULL; }
+void __fastcall read_initializer_values(C2InitRecord *record) { __asm { int 3 } }
+C2InitRecord *__fastcall queue_initializer(C2InitRecord *record) { __asm { int 3 } return NULL; }
+void __fastcall emit_initializer(C2InitRecord *record) { __asm { int 3 } }
+void __fastcall free_initializer(C2InitRecord *record) { __asm { int 3 } }

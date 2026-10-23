@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "baseline_commit": "739d8fc0",
+  "control_result": "cases/acceptance/0064-read-initializers/rejections.json",
+  "control_result_sha256": "3a155c3a57017333acfc9313e1b74980ce73b630095aebc1296838e02515120a",
+  "checker_contracts": {
+    "scripts/accept.py": "76e8d681245f9ea3f1040130dcce5a988a97532a2691f89f065e7209ba7ebe88",
+    "scripts/audit.py": "938cace588deae113948d5b1828155e8cd90036c737001dd05f2767ff90acc40",
+    "scripts/build-index.py": "63eaeb2a9fe49db3adf5dcfa525b32610e4276711abfeebb916918b7102ca847",
+    "scripts/capture-native.py": "4eb811ff8dd5aa871a0b7681373f56d0f6e1ace74b1f3694363c543922bbf936",
+    "scripts/capture-original.py": "258a4f7f75e099981ec12f324f09c8d8eaa636ba0397fefd2189cbab49c8cf22",
+    "scripts/case_inputs.py": "13ab2ee944896ade6b46c2b2d226fd63233ea9d3191931b1d8a84ddbfaa48aa9",
+    "scripts/check-rejections.py": "a1fdffeca56459151493235e459c348122e1086793c73301dca649a24f9a2197",
+    "scripts/compare.py": "06c1958a06e5f4446ba66d89a088f8fcdee11b3b651a37de6ccaea4aa5b7a51d",
+    "scripts/data_evidence.py": "15d32c591d1f8ba16a27058b744255f7460e71f0e9ba91df23f8e5c3c1afe271",
+    "scripts/debug-run.c": "e374fc0dcf14f75c0f8e98320f1411e67b8045632a9c9b8a54d6a10129fcb999",
+    "scripts/import_evidence.py": "b95bf84a6fe9a82ccc1f8450e0767f4e62da0ef396bcdb625719b500b10c768c",
+    "scripts/intrinsic_evidence.py": "89e13fbff12ec278801984bd7360b54b392cc50e332d9f449c7f8b9032ab0034",
+    "scripts/native-proof.py": "91fd879644eb159a173dade958a2f78d47ca25738ad3e3452be43757a33d7102",
+    "scripts/state.py": "7f5e869a7e139e12ffad9d6968c36a87f45c688e6d047bfc8a71bfbf18ef04d6",
+    "scripts/globals_state.py": "fe989f8e231acc875fec69066a21f7bbbbb7060ebf571301eec5416ba32f6317",
+    "scripts/pending_metadata.py": "4fb55fa9f12620145ccaf5142b9b65c355f2fd8c6e9824e0037e763ff4413634",
+    "scripts/check-pending-metadata.py": "f497374b1e272e5162f1e4a1685edb78bef525ff5d060d519a9d8c4312810d25",
+    "scripts/reaudit-capture.py": "47db322d4f96cad39e15681be42151d6b974d95fde39007623bdb68bcacb361e"
+  },
+  "source_archive": "checker-contracts.tar.gz",
+  "source_archive_sha256": "379e836c9e3ce2a50d51b0501373ddbb6ec4f205b19967a489728d4f07cb8bf5",
+  "proof_inputs": {
+    "original_receipt": "90ce6e3a5fb97bcab82e13fc893dc35d90d965a507d287b007861d666cccb5b3",
+    "native_receipt": "bcea425d25c0db936419622b9b4bfeefc44c3180a533e722a4a9113dad4279de"
+  },
+  "review": "Source64 full104 controls independently reviewed with derived raw-receipt digests rebound to test semantic checks. Source65 keeps the exact configuration/candidate/ELF-PC/source/provenance/default transport guards. Re-run new owner-specific import proofs, postEOF FILE/defined-buffer/active-main state and affected graph/formal/FILE checks; reuse unchanged globals/arena/options/intrinsic/controller predicates with archived source hashes. No old field is relabeled as new proof."
+}

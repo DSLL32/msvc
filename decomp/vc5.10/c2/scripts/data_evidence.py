@@ -146,6 +146,17 @@ def verify(config):
             assert list(targets)==expected,'symbol reader case target identities differ'
             assert read(classes_address,23)==classes,'symbol reader kind/class mapping differs'
             symbol_dispatch.append({'side':side,'targets':targets_address,'target_sha256':sha(read(targets_address,44)),'classes':classes_address,'class_sha256':sha(classes),'kinds':23,'blocks':11})
+    if '@read_initializer_records@4' in config['accepted']:
+        classes=bytes([0,1,7,7,7,7,7,7,7,7,2,3,7,4,7,5,6])
+        original_targets=[0x45246d,0x4523ea,0x45243e,0x452411,0x452466,0x4741c6,0x45246d,0x474230]
+        rebuilt_offsets=[0x47,0x4c,0xbf,0x82,0xc9,0xd3,0x47,0x149]
+        for side,path in [('original',TARGET),('rebuilt',BINARY/'build/c2.exe')]:
+            read=reader(path);start=0x4523d2 if side=='original'else maps['@read_initializer_records@4']
+            table,classes_address=(0x452478,0x452498)if side=='original'else(start+0x161,start+0x181)
+            targets=struct.unpack('<8I',read(table,32))
+            assert list(targets)==(original_targets if side=='original'else[start+n for n in rebuilt_offsets]),'initializer case target identities differ'
+            assert read(classes_address,17)==classes,'initializer signed-tag classes differ'
+            symbol_dispatch.append({'side':side,'owner':'read_initializer_records','targets':table,'target_sha256':sha(read(table,32)),'classes':classes_address,'class_sha256':sha(classes),'kinds':17,'blocks':8})
     for side,path in [('original',TARGET),('rebuilt',BINARY/'build/c2.exe')]:
         read=reader(path)
         def address(name):

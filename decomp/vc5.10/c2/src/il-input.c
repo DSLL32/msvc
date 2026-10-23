@@ -132,3 +132,62 @@ void read_initializers(void)
 {
     read_initializer_records(c2_input);
 }
+
+
+void __fastcall read_initializer_records(FILE *input)
+{
+    C2InitRecord *record;
+    FILE memory_file, *saved_input;
+    char *source;
+    unsigned bytes;
+    int kind;
+
+    c2_current_il = input;
+    for (;;) {
+        kind = (signed char)c2_read_il_byte();
+        switch (kind) {
+        case -1:
+        case 15:
+            return;
+        case 0:
+            record = new_initializer(kind);
+            record->symbol_serial = input_varuint();
+            record->offset = input_compact_signed();
+            read_initializer_values(record);
+            queue_initializer(record);
+            break;
+        case 10:
+            record = new_initializer(kind);
+            record->symbol_serial = 0;
+            record->offset = input_compact_signed();
+            read_initializer_values(record);
+            emit_initializer(record);
+            free_initializer(record);
+            break;
+        case 9:
+            input_varuint();
+            break;
+        case 12:
+            c2_read_il_byte();
+            break;
+        case 14:
+            input_string(symbol_name, sizeof(symbol_name));
+            source = lookup_source_file(symbol_name, &bytes);
+            if (!source)
+                c2_report_internal("E:\\utc\\src\\\\P2\\p2symtab.c", 0x89d);
+            saved_input = c2_current_il;
+            /* The other FILE fields are deliberately uninitialized. */
+            memory_file._ptr = source;
+            memory_file._cnt = bytes;
+            memory_file._flag = 1;
+            memory_file._file = -1;
+            read_initializer_records(&memory_file);
+            free(source);
+            c2_current_il = saved_input;
+            break;
+        default:
+            c2_report_internal("E:\\utc\\src\\\\P2\\p2symtab.c", 0x8ad);
+            break;
+        }
+    }
+}

@@ -96,6 +96,28 @@ def main():
     source_audit=a.validation.parent if a.validation else a.original
     if json_at(source_audit/'import-residuals.json'):
         mutations.append(('changed cached-import evidence with matching receipt hash',changed_residual))
+    control_graph=json_at(source_audit/'graph-audit.json')
+    if control_graph.get('register_import_inputs',{}).get('enabled_functions'):
+        owner=control_graph['register_import_inputs']['enabled_functions'][0]
+        def register_graph(root,change):
+            path=audit_directory(root)/'graph-audit.json';graph=json_at(path);change(graph);write_json(path,graph)
+            path=audit_path(root);audit=json_at(path);audit['report_sha256']=sha((audit_directory(root)/'graph-audit.json').read_bytes());write_json(path,audit);bind_audit(root)
+        def resolution(graph):return graph['functions'][owner]['register_imports']
+        def change_resolved(graph):
+            calls=resolution(graph)['original']['resolved_register_calls'];key=next(iter(calls));calls[key]={'dll':'msvcrt.dll','name':'malloc'}
+        mutations += [
+            ('register import enabled owner omitted',lambda r:register_graph(r,lambda g:g['register_import_inputs'].__setitem__('enabled_functions',[]))),
+            ('register import adds unrelated owner',lambda r:register_graph(r,lambda g:g['register_import_inputs']['enabled_functions'].append('_c2_main'))),
+            ('register import strictness cleared',lambda r:register_graph(r,lambda g:resolution(g).__setitem__('require_all_register_calls_resolved',False))),
+            ('register import original free identity changed',lambda r:register_graph(r,change_resolved)),
+            ('register import original free site omitted',lambda r:register_graph(r,lambda g:resolution(g)['original'].__setitem__('resolved_register_calls',{}))),
+            ('register import original unknown transfer introduced',lambda r:register_graph(r,lambda g:resolution(g)['original']['unresolved_register_calls'].append(0x474220))),
+            ('register import rebuilt unknown transfer introduced',lambda r:register_graph(r,lambda g:resolution(g)['rebuilt']['other_unresolved_calls'].append(0x402dae))),
+            ('register import rebuilt direct free site omitted',lambda r:register_graph(r,lambda g:resolution(g)['rebuilt'].__setitem__('direct_import_calls',{}))),
+            ('register import callee contracts omitted',lambda r:register_graph(r,lambda g:g['register_import_inputs'].__setitem__('preservation_contracts',[]))),
+            ('register import target input hash differs',lambda r:register_graph(r,lambda g:g['register_import_inputs'].__setitem__('original_sha256','0'*64))),
+            ('register import rebuilt input hash differs',lambda r:register_graph(r,lambda g:g['register_import_inputs'].__setitem__('rebuilt_sha256','0'*64))),
+        ]
     current_state=json_at(a.native/'state.json')
     if 'data_state'in current_state:
         def changed_native_table(root):
@@ -146,6 +168,28 @@ def main():
                           ('initializer reader FILE points to closed globals slot',lambda r:complete_changed(r,lambda v:v['input_file'].__setitem__('index',4))),
                           ('initializer reader FILE loses main input alias',lambda r:complete_changed(r,lambda v:v['input_file'].__setitem__('main_alias',False))),
                           ('initializer reader original FILE argument differs',lambda r:wrong_initializer_original(r,'file','7803f5f0'))]
+        if 'valid_input_bytes' in current_state['globals_complete']['streams']:
+            def initializer_stream_word(root,index,value):
+                def change(state):
+                    import struct
+                    words=list(struct.unpack('<8I',bytes.fromhex(state['streams']['input_bytes'])))
+                    words[index]=value(words[index])if callable(value)else value
+                    state['streams']['input_bytes']=struct.pack('<8I',*words).hex()
+                complete_changed(root,change)
+            mutations += [
+                ('initializer complete input count differs',lambda r:initializer_stream_word(r,1,1)),
+                ('initializer complete EOF flag cleared',lambda r:initializer_stream_word(r,3,9)),
+                ('initializer complete buffer pointer offset differs',lambda r:initializer_stream_word(r,0,lambda value:value+1)),
+                ('initializer complete FILE charbuf overwritten',lambda r:initializer_stream_word(r,5,1)),
+                ('initializer complete FILE buffersize differs',lambda r:initializer_stream_word(r,6,512)),
+                ('initializer complete FILE descriptor differs',lambda r:initializer_stream_word(r,4,4)),
+                ('initializer complete main stream alias lost',lambda r:complete_changed(r,lambda v:v['streams'].__setitem__('active_input_alias',False))),
+                ('initializer complete valid input buffer differs',lambda r:complete_changed(r,lambda v:v['streams'].__setitem__('valid_input_bytes','00'+v['streams']['valid_input_bytes'][2:]))),
+                ('initializer complete original defined buffer differs',lambda r:complete_raw(r,'initializer-buffer.bin',14)),
+                ('initializer complete original EOF flag differs',lambda r:complete_raw(r,'header-streams.bin',12)),
+                ('initializer complete original main FILE count differs',lambda r:complete_raw(r,'header-streams.bin',4)),
+                ('initializer complete original active stream differs',lambda r:complete_raw(r,'unmodeled-original-data.bin',0x490b80-0x48e000)),
+            ]
         mutations += [('complete globals invent actual formal',lambda r:complete_field(r,'formals',[{'name':'unused','type':'int'}])),
                       ('complete globals opaque context anchor loses identity',lambda r:complete_field(r,'opaque_context_anchor_alias',False)),
                       ('complete globals arena cursor differs',lambda r:complete_field(r,'pool_cursor',1888)),
@@ -169,7 +213,7 @@ def main():
                       ('complete globals preserved template differs',lambda r:complete_byte(r,'template_bytes',4)),
                       ('complete globals main FILE index differs',lambda r:complete_changed(r,lambda v:v['streams'].__setitem__('input_index',4))),
                       ('complete globals closed FILE index differs',lambda r:complete_changed(r,lambda v:v['streams'].__setitem__('globals_index',3))),
-                      ('complete globals active FILE loses closed stream alias',lambda r:complete_changed(r,lambda v:v['streams'].__setitem__('active_globals_alias',False))),
+                      (('initializer complete active FILE regresses to closed globals alias'if current_state['globals_complete']['streams'].get('active_input_alias')else'complete globals active FILE loses closed stream alias'),lambda r:complete_changed(r,lambda v:v['streams'].__setitem__('active_globals_alias',not current_state['globals_complete']['streams']['active_globals_alias']))),
                       ('complete globals closed FILE flag differs',lambda r:complete_changed(r,lambda v:v['streams'].__setitem__('closed_globals_bytes','00'*12+'01'+'00'*19))),
                       ('complete globals original function name pointer differs',lambda r:complete_raw(r,'pool-block.bin',572)),
                       ('complete globals original function section serial differs',lambda r:complete_raw(r,'pool-block.bin',584)),

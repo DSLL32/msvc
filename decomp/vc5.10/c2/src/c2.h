@@ -326,6 +326,26 @@ unsigned __fastcall reserve_symbol_storage(C2Symbol *symbol);
 void __fastcall record_filename(C2Symbol *symbol);
 extern C2Filename *filenames;
 void read_initializers(void);
+/* Root initializer records are 28 bytes. Leaf variants reuse the payload;
+ * these names describe the root form encountered by the IL dispatcher. */
+typedef struct C2InitRecord {
+    int kind;
+    struct C2InitRecord *next;
+    struct C2InitRecord *list_next;
+    long offset;
+    unsigned symbol_serial;
+    int emitted;
+    C2Symbol *symbol;
+} C2InitRecord;
+typedef char C2InitRecordSizeCheck[sizeof(C2InitRecord) == 28 ? 1 : -1];
+typedef char C2InitRecordOffsetCheck[offsetof(C2InitRecord, offset) == 12 ? 1 : -1];
+typedef char C2InitRecordSerialCheck[offsetof(C2InitRecord, symbol_serial) == 16 ? 1 : -1];
+C2InitRecord *__fastcall new_initializer(int kind);
+void __fastcall read_initializer_values(C2InitRecord *record);
+C2InitRecord *__fastcall queue_initializer(C2InitRecord *record);
+void __fastcall emit_initializer(C2InitRecord *record);
+void __fastcall free_initializer(C2InitRecord *record);
+extern char symbol_name[2058];
 void __fastcall read_initializer_records(FILE *input);
 void c2_initialize_optimizer(void);
 void c2_compile_unit(void);
