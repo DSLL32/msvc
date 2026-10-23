@@ -164,3 +164,11 @@ All42 initializer callbacks are accepted; the real `main` remains a named trap.
 The current frontier verifies argc26, original/native argv identities and the
 Invoke mode assignment after initialization. Nine new entry/ABI controls are in
 `cases/minimal/empty42-trials.json`. Minimal compilation is still unfinished.
+
+The native GDB controller compiles one hash-checked collector body per process.
+Thin checkpoint wrappers select verified output paths and execute in fresh
+namespaces; every mutable field is still read at each stop. The same48-observation
+case fell from12.09s to3.40s, with identical logical checks/trace/streams and eight
+cache guards. `cases/minimal/collector-cache-verification.json` preserves both
+immutable native receipts and the reused original. The lifecycle fixture remains
+separate:12.81ms total,1.98ms execution, zero Wine invocations.
