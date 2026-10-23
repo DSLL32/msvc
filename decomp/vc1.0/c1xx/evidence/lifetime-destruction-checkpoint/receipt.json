@@ -1,0 +1,60 @@
+{
+  "status": "passed",
+  "case": "stack_lifetime",
+  "coverage": {
+    "accepted_code_bytes": 249080,
+    "total_executable_code_bytes": 476418,
+    "accepted_code_percent": 52.28181974652511,
+    "accepted_frontiers": 949,
+    "source_functions": 863,
+    "accepted_source_text_and_switch_bytes": 237235,
+    "section_ranges": [
+      [
+        94208,
+        570626
+      ]
+    ],
+    "native_limitations": [
+      {
+        "function": "_begin_implicit_statement_scope@4",
+        "original": [
+          157520,
+          157666
+        ],
+        "condition": "parser_lookahead != -1",
+        "behavior": "explicit native-only INT3; unsupported original caller-derived stale-stack-byte path",
+        "win32": "original-style uninitialized unsigned char token retained",
+        "authorization": "User explicitly selected faithful Win32 source bug plus unsupported native-path trap",
+        "evidence": "evidence/implicit-scope-lookahead/analysis.json",
+        "coverage_note": "accepted original extent does not claim native malformed-input-path equivalence"
+      },
+      {
+        "function": "_multiplication_overflows@16",
+        "original": [
+          477232,
+          477505
+        ],
+        "condition": "!unsigned_arithmetic && ((int)left>0)!=((int)right>0) && bytes not in {1,2,4}",
+        "behavior": "explicit native-only INT3; unsupported original unwritten-threshold path for malformed/internal type widths",
+        "win32": "original uninitialized threshold switch fallback retained",
+        "authorization": "Root approved preserving Win32 source bug with exact native unsupported-path trap; no universal caller invariant claimed",
+        "evidence": "evidence/multiply-boundary/receipt.json",
+        "coverage_note": "accepted extent will not claim malformed/internal unsupported-width native equivalence"
+      }
+    ]
+  },
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "graph-negative-check",
+    "check",
+    "native-rejections"
+  ],
+  "seconds": 5.599954129196703,
+  "first_frontier": 942,
+  "last_frontier": 948,
+  "next_frontier": "_begin_while_condition",
+  "arithmetic_boundary": "evidence/multiply-boundary/receipt.json",
+  "limitations": "Both explicit native unsupported paths remain outside claimed equivalence. All4 registered ordinary native traces/status/raw streams/artifacts match frozen references."
+}

@@ -14,10 +14,75 @@
 #include "call-expressions.h"
 #include "object-initializers.h"
 #include "macros.h"
+#include "type-sizes.h"
 #include <recon.h>
 
 CType *__stdcall runtime_callback_type(unsigned short pointer_attributes,
     unsigned short function_attributes);
+
+/* Original 0x37f20..0x37f4b, stdcall 4. A zero-valued object carrying
+   the constructor's associated pointer type exercises ordinary access checks
+   without emitting an object construction. */
+IrToken *__stdcall make_constructor_access_probe(CType *object_type)
+{
+    IrToken *object = new_integer_constant(0);
+    CppSymbol *tag;
+    object->type = object_type;
+    tag = cpp_context_stack->items[object_type->field08];
+    return make_constructor_call(tag, object, 0, 0, 1);
+}
+
+/* Original 0x386b0..0x38716, stdcall 4. Referenced vector callbacks
+   retain the destructor declaration and use the runtime's pointer signature. */
+IrToken *__stdcall make_array_destructor_address(CType *type)
+{
+    CppSymbol *destructor = lookup_complete_object_destructor(type);
+    TypeShape *shape;
+    IrToken *reference;
+    unsigned short pointer_attributes, function_attributes;
+    ++destructor->references;
+    defer_generated_member(destructor);
+    shape = destructor->type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    pointer_attributes = shape->data.parameters->associated_type->related->attributes & 7;
+    function_attributes = (destructor->type->related->attributes & 7) | 0x70;
+    reference = symbol_reference(destructor);
+    reference->type = runtime_callback_type(pointer_attributes, function_attributes);
+    return reference;
+}
+
+/* Original 0x38680..0x386ad, stdcall 16. Retain the runtime helper
+   lookup before constructing the destructor callback's typed address. */
+IrToken *__stdcall make_vector_destructor_call(IrToken *object, unsigned element_bytes,
+    IrToken *element_count, CType *element_type)
+{
+    IrToken *helper = identifier_expression(name_vector_dtor);
+    IrToken *destructor = make_array_destructor_address(element_type);
+    return make_vector_helper_call(object, element_bytes, element_count, destructor, helper);
+}
+
+/* Original 0x385f0..0x3867b, stdcall 4. Flatten nested array bounds
+   using target unsigned multiplication, then pass the innermost element
+   width and full count to the reverse-destruction helper. */
+IrToken *__stdcall make_array_destructor_call(IrToken *object)
+{
+    TypeShape *shape = object->type->related, *following;
+    CType *element;
+    unsigned count = 1, element_bytes;
+    IrToken *count_expression;
+    while (shape && (following = shape->related) != 0 &&
+        (following->flags & 0x77) == 2) {
+        object = binary_expression(0x4a, object, make_integer_constant(0));
+        count *= (unsigned)shape->data.array_bound;
+        shape = following;
+    }
+    count *= (unsigned)shape->data.array_bound;
+    element = drop_first_type_shape(object->type);
+    element_bytes = inner_type_size(element->flags,
+        cpp_context_stack->items[element->field08], element->related);
+    count_expression = make_integer_constant(count);
+    return make_vector_destructor_call(object, element_bytes, count_expression, element);
+}
 
 /* Original 0x37e80..0x37f11, stdcall 4. A constructor with default
    arguments needs a generated no-argument closure before it can serve as a

@@ -1,0 +1,12 @@
+exception 80000003 rva 00064830 base 00010000 first 1
+exception 80000003 rva 0001cd86 base 00010000 first 1
+exception 80000003 rva 0001cd86 base 00010000 first 1
+exception 80000003 rva 0001cd86 base 00010000 first 1
+exception 80000003 rva 0001cd86 base 00010000 first 1
+exception 80000003 rva 0001cd86 base 00010000 first 1
+exception 80000003 rva 0001cd86 base 00010000 first 1
+exception 80000003 rva 0001cd86 base 00010000 first 1
+exception 80000003 rva 0001cd86 base 00010000 first 1
+exception 80000003 rva 0001cd86 base 00010000 first 1
+exception 80000003 rva 0001cd86 base 00010000 first 1
+exit 99

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 944,
+  "accepted": "_multiplication_overflows@16",
+  "terminal": "_make_array_destructor_call@4",
+  "original_capture": "cases/frontiers/stack_lifetime/0944-multiplication_overflows-16/original-receipt.json",
+  "original_capture_sha256": "9f75ed585309feb8029e0831a88d20013a424dc37399164103f04f621cd84f07",
+  "original_events": "cases/frontiers/stack_lifetime/0944-multiplication_overflows-16/original-events.txt",
+  "original_events_sha256": "c3381f27d9631ffb4e6bcdbb3efff29e87a10768d0b32a8a78aa43e6ac56246b",
+  "original_configuration": "cases/frontiers/stack_lifetime/0944-multiplication_overflows-16/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

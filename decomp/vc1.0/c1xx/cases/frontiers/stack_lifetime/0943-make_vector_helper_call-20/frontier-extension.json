@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 943,
+  "accepted": "_make_vector_helper_call@20",
+  "terminal": "_multiplication_overflows@16",
+  "original_capture": "cases/frontiers/stack_lifetime/0943-make_vector_helper_call-20/original-receipt.json",
+  "original_capture_sha256": "94b0b9f4207c4e5c1bcf1daa0178d87a319b6b13bc948b33de596011edf8d569",
+  "original_events": "cases/frontiers/stack_lifetime/0943-make_vector_helper_call-20/original-events.txt",
+  "original_events_sha256": "15be7a59d5157fa234e442ae598aaab8789f312f54f94ea3a9a3552bc4cd0f28",
+  "original_configuration": "cases/frontiers/stack_lifetime/0943-make_vector_helper_call-20/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

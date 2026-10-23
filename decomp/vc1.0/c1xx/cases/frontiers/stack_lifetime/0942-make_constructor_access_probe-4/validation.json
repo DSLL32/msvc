@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_constructor_access_probe@4",
+    "start": 229152,
+    "end": 229196
+  },
+  "distinct_direct_callees": [
+    "_make_constructor_call@20",
+    "_new_integer_constant@4"
+  ],
+  "next_frontier": "_make_vector_helper_call@20",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2840956337749958,
+  "total_operation_seconds": 3.5576267009600997,
+  "original_capture_seconds": 1.6185566112399101
+}

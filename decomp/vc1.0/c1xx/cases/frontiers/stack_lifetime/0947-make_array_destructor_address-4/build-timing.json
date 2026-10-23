@@ -1,0 +1,52 @@
+[
+  {
+    "phase": "native",
+    "seconds": 9.313320414163172,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace",
+      "RECON=build/shared-inputs/732d052e407b73362a59f4c66ce8805cb22533b81725074c8f414b4bc45b1e12"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-lifetime-make-array-destructor-address-native.log",
+    "shared_inputs": {
+      "manifest": "evidence/shared-build-inputs/732d052e407b73362a59f4c66ce8805cb22533b81725074c8f414b4bc45b1e12.json",
+      "manifest_sha256": "732d052e407b73362a59f4c66ce8805cb22533b81725074c8f414b4bc45b1e12",
+      "archive": "evidence/shared-build-inputs/732d052e407b73362a59f4c66ce8805cb22533b81725074c8f414b4bc45b1e12.tar.gz",
+      "archive_sha256": "248399e1e42fb941c4dc6be337d5198bfa5b39bec3130c5d90b2633d33a663d2",
+      "files": 23,
+      "committed_reference": "499e1fe81eed52a6807d1577468b73d5b6df0898",
+      "committed_tree": "6836ab62e54629bcaadf01017b51b99ce0d4e369"
+    },
+    "shared_input_setup_seconds": 0.08510683570057154,
+    "shared_inputs_unchanged_during_build": true
+  },
+  {
+    "phase": "canonical",
+    "seconds": 5.019719162024558,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json",
+      "graph-audit-tool",
+      "build/graph-metadata.json",
+      "RECON=build/shared-inputs/732d052e407b73362a59f4c66ce8805cb22533b81725074c8f414b4bc45b1e12"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-lifetime-make-array-destructor-address-canonical.log",
+    "shared_inputs": {
+      "manifest": "evidence/shared-build-inputs/732d052e407b73362a59f4c66ce8805cb22533b81725074c8f414b4bc45b1e12.json",
+      "manifest_sha256": "732d052e407b73362a59f4c66ce8805cb22533b81725074c8f414b4bc45b1e12",
+      "archive": "evidence/shared-build-inputs/732d052e407b73362a59f4c66ce8805cb22533b81725074c8f414b4bc45b1e12.tar.gz",
+      "archive_sha256": "248399e1e42fb941c4dc6be337d5198bfa5b39bec3130c5d90b2633d33a663d2",
+      "files": 23,
+      "committed_reference": "499e1fe81eed52a6807d1577468b73d5b6df0898",
+      "committed_tree": "6836ab62e54629bcaadf01017b51b99ce0d4e369"
+    },
+    "shared_input_setup_seconds": 0.09496330469846725,
+    "shared_inputs_unchanged_during_build": true
+  }
+]

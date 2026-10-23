@@ -196,9 +196,6 @@ IrToken *__stdcall initialize_allocated_scalar(IrToken *object, IrToken *initial
 void __stdcall capture_allocation_pointer(IrToken **saved, IrToken **object) { __asm { int 3 } }
 IrToken *__stdcall guard_allocation_result(IrToken *saved, IrToken *object) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall require_default_constructor_closure(CppSymbol *constructor) { __asm { int 3 } return 0; }
-IrToken *__stdcall make_constructor_access_probe(CType *object_type) { __asm { int 3 } return 0; }
-IrToken *__stdcall make_vector_helper_call(IrToken *object, int element_bytes,
-    IrToken *element_count, IrToken *function, IrToken *helper) { __asm { int 3 } return 0; }
 void __stdcall finish_local_static_initialization(CppSymbol *symbol) { __asm { int 3 } }
 unsigned short __stdcall fit_string_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
 void __stdcall begin_initializer_function(CppSymbol *symbol) { __asm { int 3 } }
@@ -451,7 +448,6 @@ int __stdcall has_single_function(CppSymbol *symbol) { __asm { int 3 } return 0;
 void __stdcall type_warning(unsigned level, unsigned code, CType *type) { __asm { int 3 } }
 IrToken *__stdcall make_address_temporary(IrToken *expression) { __asm { int 3 } return 0; }
 IrToken *__stdcall fold_floating_binary(IrToken *expression, Extended *left, Extended *right) { __asm { int 3 } return 0; }
-int __stdcall multiplication_overflows(unsigned left, unsigned right, short unsigned_arithmetic, unsigned short bytes) { __asm { int 3 } return 0; }
 int __stdcall subtraction_overflows(int left, int right, short unsigned_arithmetic, unsigned short bytes) { __asm { int 3 } return 0; }
 int compare_extended(unsigned short mask, const Extended *left, const Extended *right) { __asm { int 3 } return 0; }
 IrToken * __stdcall apply_member_pointer(IrToken *expression) { __asm { int 3 } return 0; }
@@ -561,7 +557,6 @@ int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3
 int __cdecl equal_word_triplets(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_word_pairs(void *left, void *right) { __asm { int 3 } return 0; }
 int __stdcall vector_contains(Vector *vector, void *item) { __asm { int 3 } return 0; }
-IrToken *__stdcall make_array_destructor_call(IrToken *object) { __asm { int 3 } return 0; }
 IrToken *__stdcall convert_member_pointer_initializer(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 int __stdcall can_bind_conversion_reference(CType *reference, CType *value) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_once_virtual_base_pointer(IrToken *object, CType *type, unsigned pointer_offset, unsigned table_offset, unsigned member_offset, CType *pointer_type, int check_null) { __asm { int 3 } return 0; }

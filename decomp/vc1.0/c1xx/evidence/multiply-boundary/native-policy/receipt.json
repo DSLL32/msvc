@@ -1,0 +1,21 @@
+{
+  "status": "pass",
+  "frozen": {
+    "/root/msvc2/decomp/vc1.0/c1xx/build/native-trace/C1XX3232.EXE": "27930d05b8c79cebdaf7dac9582f58690b8cd607054c1285a2135b41a11c8e30",
+    "/root/msvc2/decomp/vc1.0/fixtures/c1xx-stack-lifetime/manifest.json": "18e8f77f29c4312da9f46bdb6935e7f982024063ed649fb36f148325c46a6773",
+    "/root/msvc2/decomp/vc1.0/c1xx/functions.json": "72293205aa19a9a09c15e91f3e1ccfa34bd5107133d0cb15a9f1e2593626e8c3",
+    "/root/msvc2/decomp/vc1.0/c1xx/cases/native-traces.json": "da0bfa3b80c12e0ede4d1dcce34395e7a0a2d8919f616fa05a47cacb7f95fd68",
+    "/root/msvc2/decomp/vc1.0/fixtures/c1xx-stack-lifetime/c1/lifetime.cpp": "84d31216f585ba33ed70036832830c1c7f912fa891f8a673664b7f15c1f41310"
+  },
+  "observation": {
+    "status": "unsupported native path rejected",
+    "function": "multiplication_overflows",
+    "signal": 5,
+    "injected_width": 3,
+    "pc_offset": 315
+  },
+  "setup_seconds": 0.012678109109401703,
+  "debugger_seconds": 0.14550724253058434,
+  "check_seconds": 0.019011149182915688,
+  "total_seconds": 0.17719745356589556
+}

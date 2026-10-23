@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "83b5be345666c27c7d95ca96f84d0f34e01761b483e11d1709a8ccbd26d092af",
+    "functions.json": "ff8612a19ec4594003e93bf42adb5f6dbd120735f3784fe12cd0fe7938526086",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "4c2c75ca100462d86c33ed91ed41830598b48c25aa8c3a6d08a459a7273715c8",
-    "cases/canonical-map.txt": "4fab677c3631378a5bcd4a504c31276cfcb990530efd925850a3a3e9debb7113",
+    "cases/original-entry-references.json": "95bb992414388f4f239baf8b23d3dcee0aa67cb904907e48b1f31680e070aba4",
+    "cases/canonical-map.txt": "961686845ae2eee7c633aedeaa263e1d85515e5a8e276915efd7621504d16528",
     "cases/shared-reference/cpp_basic/original-receipt.json": "c0b231bf1b4ad8c8ee582b0419697346750bcbea4484c6729dc71c7eb35ed198",
     "cases/shared-reference/cpp_basic/original-events.txt": "c211a19028f71257317cb8957e26dd76c27f60208208de53d25e18a8a5520e27",
     "cases/shared-reference/cpp_basic/original-entries.plan": "795b86f57be090ebab4b5bf36a3fe93b742ba8f9b4f29a48ba548a77d801ee07",
@@ -15,9 +15,9 @@
     "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/entry-reference/original-receipt.json": "95bec537e2dc9e24ed52278445c795650669f259c303b5fd623daeaa2ee1663a",
     "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/entry-reference/original-events.txt": "39da0c728c9a3cc0e550edff49d28f1d34b0b17f63f149b04e1cec24864b68b1",
     "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/entry-reference/original-entries.plan": "0f61dfc9058b40b2510dd9ad3b749aa500a68c1a04a9f80eef61b2b2c328cc94",
-    "cases/frontiers/stack_lifetime/0941-is_void_parameter_constructor-4/entry-reference/original-receipt.json": "234127574791c571716ef5d62dcf97d69ebde18888882a8d05b1377d39ac7583",
-    "cases/frontiers/stack_lifetime/0941-is_void_parameter_constructor-4/entry-reference/original-events.txt": "582c0aab963fb41b56aca699d4eb767dc0562a9105a7040b4040d4a28718dc58",
-    "cases/frontiers/stack_lifetime/0941-is_void_parameter_constructor-4/entry-reference/original-entries.plan": "c16fb3efdbaaf606d8216c8243ee79d41b4d600251eb6be0174f0532d067523f"
+    "cases/frontiers/stack_lifetime/0948-lookup_complete_object_destructor-4/entry-reference/original-receipt.json": "5aa30f4e889bccf01b9e6566be90bc65b65fea48ae6926da3c8ae7342add4e2d",
+    "cases/frontiers/stack_lifetime/0948-lookup_complete_object_destructor-4/entry-reference/original-events.txt": "2f8ff22997abb30f92b52884b0e70ccc617b589b77c100c5bc44b3f5a8f018a3",
+    "cases/frontiers/stack_lifetime/0948-lookup_complete_object_destructor-4/entry-reference/original-entries.plan": "e0188f81da9235dca2d229253318f25665e69b48d2b98c0dc8d5f38cf67a7326"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -2828,6 +2828,10 @@
       "logical": "_lookup_class_name_paths@12",
       "source": "src/declaration-lookup.c"
     },
+    "lookup_complete_object_destructor": {
+      "logical": "_lookup_complete_object_destructor@4",
+      "source": "src/special-member-lookup.c"
+    },
     "lookup_current_scope_declaration": {
       "logical": "_lookup_current_scope_declaration@4",
       "source": "src/declaration-lookup.c"
@@ -2912,9 +2916,13 @@
       "logical": "_make_array_constructor_call@12",
       "source": "src/constructor-initializers.c"
     },
+    "make_array_destructor_address": {
+      "logical": "_make_array_destructor_address@4",
+      "source": "src/constructor-initializers.c"
+    },
     "make_array_destructor_call": {
       "logical": "_make_array_destructor_call@4",
-      "source": "src/stubs.c"
+      "source": "src/constructor-initializers.c"
     },
     "make_assignment_lvalue": {
       "logical": "_make_assignment_lvalue@4",
@@ -2938,7 +2946,7 @@
     },
     "make_constructor_access_probe": {
       "logical": "_make_constructor_access_probe@4",
-      "source": "src/stubs.c"
+      "source": "src/constructor-initializers.c"
     },
     "make_constructor_call": {
       "logical": "_make_constructor_call@20",
@@ -3048,9 +3056,13 @@
       "logical": "_make_tagged_type@4",
       "source": "src/types.c"
     },
+    "make_vector_destructor_call": {
+      "logical": "_make_vector_destructor_call@16",
+      "source": "src/constructor-initializers.c"
+    },
     "make_vector_helper_call": {
       "logical": "_make_vector_helper_call@20",
-      "source": "src/stubs.c"
+      "source": "src/runtime-symbols.c"
     },
     "make_virtual_base_displacement": {
       "logical": "_make_virtual_base_displacement@16",
@@ -3350,7 +3362,7 @@
     },
     "multiplication_overflows": {
       "logical": "_multiplication_overflows@16",
-      "source": "src/stubs.c"
+      "source": "src/arithmetic.c"
     },
     "needs_virtual_base_vtordisp": {
       "logical": "_needs_virtual_base_vtordisp@8",
@@ -5898,7 +5910,14 @@
     "make_array_constructor_address",
     "find_default_constructor",
     "default_constructor_candidate",
-    "is_void_parameter_constructor"
+    "is_void_parameter_constructor",
+    "make_constructor_access_probe",
+    "make_vector_helper_call",
+    "multiplication_overflows",
+    "make_array_destructor_call",
+    "make_vector_destructor_call",
+    "make_array_destructor_address",
+    "lookup_complete_object_destructor"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -8210,7 +8229,7 @@
     },
     "stack_lifetime": {
       "first": 932,
-      "last": 942,
+      "last": 949,
       "seen": [
         "main",
         "message_text",
@@ -9063,12 +9082,19 @@
         "find_default_constructor",
         "default_constructor_candidate",
         "is_void_parameter_constructor",
-        "make_constructor_access_probe"
+        "make_constructor_access_probe",
+        "make_vector_helper_call",
+        "multiplication_overflows",
+        "make_array_destructor_call",
+        "make_vector_destructor_call",
+        "make_array_destructor_address",
+        "lookup_complete_object_destructor",
+        "begin_while_condition"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_make_constructor_access_probe@4",
-        "native": "make_constructor_access_probe",
+        "logical": "_begin_while_condition",
+        "native": "begin_while_condition",
         "signal": 5
       }
     }

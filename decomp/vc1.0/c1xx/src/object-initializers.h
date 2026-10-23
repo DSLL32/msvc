@@ -43,6 +43,10 @@ IrToken *__stdcall make_array_constructor_call(IrToken *object, int element_byte
 IrToken *__stdcall make_array_constructor_address(CType *type);
 CppSymbol *__stdcall require_default_constructor_closure(CppSymbol *constructor);
 IrToken *__stdcall make_constructor_access_probe(CType *object_type);
+IrToken *__stdcall make_vector_destructor_call(IrToken *object, unsigned element_bytes,
+    IrToken *element_count, CType *element_type);
+IrToken *__stdcall make_array_destructor_address(CType *type);
+CppSymbol *__stdcall lookup_complete_object_destructor(CType *type);
 CppSymbol *__stdcall find_default_constructor(CType *type);
 int __stdcall is_void_parameter_constructor(CppSymbol *function);
 IrToken *__stdcall make_vector_helper_call(IrToken *object, int element_bytes,

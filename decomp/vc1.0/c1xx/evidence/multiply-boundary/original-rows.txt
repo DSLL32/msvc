@@ -1,0 +1,11 @@
+actual caller 0002cd86 raw_width 007e0004
+result 0 00000000 00000004 0 4 0
+result 1 000000ff 00000002 1 1 1
+result 2 ffffff80 00000001 0 1 0
+result 3 ffffff80 ffffffff 0 1 1
+result 4 ffff8000 00000001 0 2 0
+result 5 ffff8000 ffffffff 0 2 1
+result 6 80000000 00000001 0 4 0
+result 7 80000000 ffffffff 0 4 1
+result 8 7fffffff 00000002 0 4 1
+result 9 ffffffff 00000002 1 4 1

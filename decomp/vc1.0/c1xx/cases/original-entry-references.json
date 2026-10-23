@@ -24,11 +24,11 @@
     "plan_sha256": "0f61dfc9058b40b2510dd9ad3b749aa500a68c1a04a9f80eef61b2b2c328cc94"
   },
   "stack_lifetime": {
-    "receipt": "cases/frontiers/stack_lifetime/0941-is_void_parameter_constructor-4/entry-reference/original-receipt.json",
-    "receipt_sha256": "234127574791c571716ef5d62dcf97d69ebde18888882a8d05b1377d39ac7583",
-    "events": "cases/frontiers/stack_lifetime/0941-is_void_parameter_constructor-4/entry-reference/original-events.txt",
-    "events_sha256": "582c0aab963fb41b56aca699d4eb767dc0562a9105a7040b4040d4a28718dc58",
-    "plan": "cases/frontiers/stack_lifetime/0941-is_void_parameter_constructor-4/entry-reference/original-entries.plan",
-    "plan_sha256": "c16fb3efdbaaf606d8216c8243ee79d41b4d600251eb6be0174f0532d067523f"
+    "receipt": "cases/frontiers/stack_lifetime/0948-lookup_complete_object_destructor-4/entry-reference/original-receipt.json",
+    "receipt_sha256": "5aa30f4e889bccf01b9e6566be90bc65b65fea48ae6926da3c8ae7342add4e2d",
+    "events": "cases/frontiers/stack_lifetime/0948-lookup_complete_object_destructor-4/entry-reference/original-events.txt",
+    "events_sha256": "2f8ff22997abb30f92b52884b0e70ccc617b589b77c100c5bc44b3f5a8f018a3",
+    "plan": "cases/frontiers/stack_lifetime/0948-lookup_complete_object_destructor-4/entry-reference/original-entries.plan",
+    "plan_sha256": "e0188f81da9235dca2d229253318f25665e69b48d2b98c0dc8d5f38cf67a7326"
   }
 }

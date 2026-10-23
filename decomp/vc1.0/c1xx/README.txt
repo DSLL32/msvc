@@ -1,20 +1,26 @@
 C1XX3232.EXE reconstruction (project vc1.0, toolchain 1.0-nt)
 ==========================================================
 
-PARTIAL binary reconstruction: 942 accepted frontiers, including 849 frontend
+PARTIAL binary reconstruction: 949 accepted frontiers, including 856 frontend
 functions and seven older CRT functions reconstructed as source.
 Complete cases: cpp_basic, virtual_diamond, copy_assignment.
-Active case stack_lifetime stops at _make_constructor_access_probe@4, original VA 0x37f20.
+Active case stack_lifetime stops at _begin_while_condition, original VA 0x3f770.
 All unimplemented callees remain meaningful named INT3 stubs.
 The user selected preservation of scope entry's original Win32 uninitialized
 token bug, with an explicit native-only INT3 when cached parser lookahead would
 read that caller-derived stack byte. That malformed-input path is unsupported
 natively and is not claimed equivalent. evidence/implicit-scope-lookahead records
 the instruction, grammar repair counterexample, last writer and original probe.
+Multiplication overflow checking retains the original Win32 uninitialized
+threshold for signed opposite-positive-status operands with unsupported widths.
+That exact native path traps; malformed/internal widths are not claimed equivalent.
+Normal integer widths1/2/4 and the actual lifetime invocation have exact original/
+native return evidence under evidence/multiply-boundary. native-rejections checks
+both documented guards without running Wine.
 The approved copy/assignment, stack-lifetime/destruction and new/delete/operator
 cases follow virtual_diamond; cases/reconstruction-queue.json records the queue.
 
-Accepted original extents cover 248329 / 476418 code-section bytes (52.124185%).
+Accepted original extents cover 249080 / 476418 code-section bytes (52.281820%).
 The union includes function bodies, shared text data, exact matched CRT and import
 thunks, clipped to section VirtualSize (backed raw size only if zero). This is
 not branch coverage. Whole functions include statically recovered unvisited paths.
@@ -43,7 +49,7 @@ cases/original-entry-references.json binds fresh original first-entry plans,
 raw events and capture receipts. Each debugger first-entry trap is checked,
 restored, instruction-cache flushed and EIP rewound. Missing/out-of-order entries,
 unexpected exceptions and early exit reject the capture. functions.json retains
-the ordered 942-entry acceptance provenance and full original extents; the cache
+the ordered 949-entry acceptance provenance and full original extents; the cache
 also classifies exact CRT/import entries. The projection cache is rebuilt only
 explicitly after verified metadata changes:
 

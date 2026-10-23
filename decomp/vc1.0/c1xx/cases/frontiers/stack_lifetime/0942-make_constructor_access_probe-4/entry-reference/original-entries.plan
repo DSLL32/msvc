@@ -1,0 +1,11 @@
+2b8c0 8b _evaluate_integer_constant@4
+35830 83 _check_static_initializer@8
+4ef70 83 _parameter_reference_type@4
+40030 83 _initialize_allocated_array@20
+27b00 8b _has_trivial_class_constructor@4
+27e00 53 _make_array_constructor_call@12
+27e80 53 _make_array_constructor_address@4
+27f70 68 _find_default_constructor@4
+27f50 8b _default_constructor_candidate
+27f90 8b _is_void_parameter_constructor@4
+27f20 6a _make_constructor_access_probe@4

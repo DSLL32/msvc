@@ -35,6 +35,15 @@ CppSymbol *__stdcall find_default_constructor(CType *type)
     return lookup_special_member(type, name_ctor, default_constructor_candidate);
 }
 
+/* Original 0x38720..0x38752, stdcall 4. Complete array elements use
+   the virtual-base destructor variant when the class requires it. */
+CppSymbol *__stdcall lookup_complete_object_destructor(CType *type)
+{
+    CppSymbol *tag = cpp_context_stack->items[type->field08];
+    char *name = (tag->detail.class_info->flags & 0x20) ? name_vbase_dtor : name_dtor;
+    return lookup_special_member(type, name, 0);
+}
+
 /* Original 0x38780..0x38794, stdcall4. Preserve the independent
    vector deleting destructor lookup entry and its shared interned name. */
 CppSymbol *__stdcall lookup_vector_delete_destructor(CType *type)

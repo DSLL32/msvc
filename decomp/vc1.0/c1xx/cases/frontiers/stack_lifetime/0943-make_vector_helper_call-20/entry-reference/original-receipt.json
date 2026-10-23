@@ -1,0 +1,69 @@
+{
+  "case": "stack_lifetime",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 943,
+  "terminal": "_multiplication_overflows@16",
+  "candidate": "_make_vector_helper_call@20",
+  "pending_accepted": [],
+  "configuration_sha256": "c6ef049be472dc7bb71177b114f37d8509819c226780dde96fa5b2f5332721ec",
+  "capture_seconds": 0.7157516730949283,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "lifetime.cpp": {
+      "bytes": 886,
+      "sha256": "84d31216f585ba33ed70036832830c1c7f912fa891f8a673664b7f15c1f41310"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\stack-lifetime",
+  "first_entry_projection": {
+    "accepted_first": 932,
+    "accepted_last": 944,
+    "accepted_prefix_sha256": "10e44e22088724f5fd33761fb8d60af5061f1c2a89b30192928ef3fbcdd09eb6",
+    "expected": [
+      "_evaluate_integer_constant@4",
+      "_check_static_initializer@8",
+      "_parameter_reference_type@4",
+      "_initialize_allocated_array@20",
+      "_has_trivial_class_constructor@4",
+      "_make_array_constructor_call@12",
+      "_make_array_constructor_address@4",
+      "_find_default_constructor@4",
+      "_default_constructor_candidate",
+      "_is_void_parameter_constructor@4",
+      "_make_constructor_access_probe@4",
+      "_make_vector_helper_call@20"
+    ],
+    "observed": [
+      "_evaluate_integer_constant@4",
+      "_check_static_initializer@8",
+      "_parameter_reference_type@4",
+      "_initialize_allocated_array@20",
+      "_has_trivial_class_constructor@4",
+      "_make_array_constructor_call@12",
+      "_make_array_constructor_address@4",
+      "_find_default_constructor@4",
+      "_default_constructor_candidate",
+      "_is_void_parameter_constructor@4",
+      "_make_constructor_access_probe@4",
+      "_make_vector_helper_call@20"
+    ],
+    "events_sha256": "15be7a59d5157fa234e442ae598aaab8789f312f54f94ea3a9a3552bc4cd0f28",
+    "plan_sha256": "9e4eda9dffd363e8294210603c4c5cbe4376b4d976ea16f3b8bdb7208b091120"
+  }
+}

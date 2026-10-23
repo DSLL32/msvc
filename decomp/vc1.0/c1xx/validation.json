@@ -1,18 +1,18 @@
 {
-  "accepted_frontiers": 942,
-  "driver_functions": 849,
+  "accepted_frontiers": 949,
+  "driver_functions": 856,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 856,
-  "current_frontier": "_make_constructor_access_probe@4",
-  "original_frontier_va": "0x37f20",
+  "reconstructed_source_functions": 863,
+  "current_frontier": "_begin_while_condition",
+  "original_frontier_va": "0x3f770",
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_make_constructor_access_probe@4",
-    "original_va": "0x37f20"
+    "current_frontier": "_begin_while_condition",
+    "original_va": "0x3f770"
   },
-  "current_native_application_entries": 11,
+  "current_native_application_entries": 18,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 248329,
+    "accepted_code_bytes": 249080,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 52.12418506437624,
-    "accepted_frontiers": 942,
-    "source_functions": 856,
-    "accepted_source_text_and_switch_bytes": 236484,
+    "accepted_code_percent": 52.28181974652511,
+    "accepted_frontiers": 949,
+    "source_functions": 863,
+    "accepted_source_text_and_switch_bytes": 237235,
     "section_ranges": [
       [
         94208,
@@ -45,16 +45,29 @@
         "authorization": "User explicitly selected faithful Win32 source bug plus unsupported native-path trap",
         "evidence": "evidence/implicit-scope-lookahead/analysis.json",
         "coverage_note": "accepted original extent does not claim native malformed-input-path equivalence"
+      },
+      {
+        "function": "_multiplication_overflows@16",
+        "original": [
+          477232,
+          477505
+        ],
+        "condition": "!unsigned_arithmetic && ((int)left>0)!=((int)right>0) && bytes not in {1,2,4}",
+        "behavior": "explicit native-only INT3; unsupported original unwritten-threshold path for malformed/internal type widths",
+        "win32": "original uninitialized threshold switch fallback retained",
+        "authorization": "Root approved preserving Win32 source bug with exact native unsupported-path trap; no universal caller invariant claimed",
+        "evidence": "evidence/multiply-boundary/receipt.json",
+        "coverage_note": "accepted extent will not claim malformed/internal unsupported-width native equivalence"
       }
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 248329,
+    "accepted_code_bytes": 249080,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 52.12418506437624,
-    "accepted_frontiers": 942,
-    "source_functions": 856,
-    "accepted_source_text_and_switch_bytes": 236484,
+    "accepted_code_percent": 52.28181974652511,
+    "accepted_frontiers": 949,
+    "source_functions": 863,
+    "accepted_source_text_and_switch_bytes": 237235,
     "section_ranges": [
       [
         94208,
@@ -74,13 +87,26 @@
         "authorization": "User explicitly selected faithful Win32 source bug plus unsupported native-path trap",
         "evidence": "evidence/implicit-scope-lookahead/analysis.json",
         "coverage_note": "accepted original extent does not claim native malformed-input-path equivalence"
+      },
+      {
+        "function": "_multiplication_overflows@16",
+        "original": [
+          477232,
+          477505
+        ],
+        "condition": "!unsigned_arithmetic && ((int)left>0)!=((int)right>0) && bytes not in {1,2,4}",
+        "behavior": "explicit native-only INT3; unsupported original unwritten-threshold path for malformed/internal type widths",
+        "win32": "original uninitialized threshold switch fallback retained",
+        "authorization": "Root approved preserving Win32 source bug with exact native unsupported-path trap; no universal caller invariant claimed",
+        "evidence": "evidence/multiply-boundary/receipt.json",
+        "coverage_note": "accepted extent will not claim malformed/internal unsupported-width native equivalence"
       }
     ]
   },
   "complete_frontend_case": false,
   "active_case": "stack_lifetime",
   "status": "stack_lifetime reconstruction in progress",
-  "latest_verification": "cases/frontiers/stack_lifetime/0941-is_void_parameter_constructor-4/validation.json",
+  "latest_verification": "cases/frontiers/stack_lifetime/0948-lookup_complete_object_destructor-4/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -98,11 +124,11 @@
     },
     "stack_lifetime": {
       "status": "partial",
-      "frontier": "_make_constructor_access_probe@4",
-      "latest_verification": "cases/frontiers/stack_lifetime/0941-is_void_parameter_constructor-4/validation.json"
+      "frontier": "_begin_while_condition",
+      "latest_verification": "cases/frontiers/stack_lifetime/0948-lookup_complete_object_destructor-4/validation.json"
     }
   },
-  "next_operation": "Continue _make_constructor_access_probe@4 reconstruction",
+  "next_operation": "Continue _begin_while_condition reconstruction",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
   "native_limitations": [
     {

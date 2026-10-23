@@ -71,6 +71,9 @@ build/reference-scope-observer.exe: build/reference-scope-observer.obj
 build/reference-constructor-observer.obj: src/reference-constructor-observer.c src/debug-run.c
 build/reference-constructor-observer.exe: build/reference-constructor-observer.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
+build/reference-arithmetic-observer.obj: src/reference-arithmetic-observer.c src/debug-run.c
+build/reference-arithmetic-observer.exe: build/reference-arithmetic-observer.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 build/reference-capture-driver.exe: build/reference-capture-driver.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 build/reference-run-phase.exe: build/reference-run-phase.obj
@@ -84,6 +87,7 @@ reference-capture: build/debug-run.exe
 native-rejections: native-trace
 	$(PYTHON) scripts/check-native-boundary.py
 	$(PYTHON) scripts/check-scope-policy.py
+	$(PYTHON) scripts/check-multiply-policy.py
 build/graph-metadata.json: functions.json scripts/graph_metadata.py | build
 	$(PYTHON) scripts/graph_metadata.py $@
 graph-negative-check: $(GRAPH_AUDIT_BIN) build/graph-metadata.json build/runtime.json runtime.json

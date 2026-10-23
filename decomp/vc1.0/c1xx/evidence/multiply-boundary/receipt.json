@@ -1,0 +1,105 @@
+{
+  "status": "exact bounded original/native returns; unsupported native width denied",
+  "rows": [
+    {
+      "left": 0,
+      "right": 4,
+      "unsigned_arithmetic": 0,
+      "consumed_width": 4,
+      "result": 0
+    },
+    {
+      "left": 255,
+      "right": 2,
+      "unsigned_arithmetic": 1,
+      "consumed_width": 1,
+      "result": 1
+    },
+    {
+      "left": 4294967168,
+      "right": 1,
+      "unsigned_arithmetic": 0,
+      "consumed_width": 1,
+      "result": 0
+    },
+    {
+      "left": 4294967168,
+      "right": 4294967295,
+      "unsigned_arithmetic": 0,
+      "consumed_width": 1,
+      "result": 1
+    },
+    {
+      "left": 4294934528,
+      "right": 1,
+      "unsigned_arithmetic": 0,
+      "consumed_width": 2,
+      "result": 0
+    },
+    {
+      "left": 4294934528,
+      "right": 4294967295,
+      "unsigned_arithmetic": 0,
+      "consumed_width": 2,
+      "result": 1
+    },
+    {
+      "left": 2147483648,
+      "right": 1,
+      "unsigned_arithmetic": 0,
+      "consumed_width": 4,
+      "result": 0
+    },
+    {
+      "left": 2147483648,
+      "right": 4294967295,
+      "unsigned_arithmetic": 0,
+      "consumed_width": 4,
+      "result": 1
+    },
+    {
+      "left": 2147483647,
+      "right": 2,
+      "unsigned_arithmetic": 0,
+      "consumed_width": 4,
+      "result": 1
+    },
+    {
+      "left": 4294967295,
+      "right": 2,
+      "unsigned_arithmetic": 1,
+      "consumed_width": 4,
+      "result": 1
+    }
+  ],
+  "original_processes": 1,
+  "observer_build_seconds": 2.4044766714796424,
+  "original_execution_seconds": 1.4673053659498692,
+  "native_probe_build_seconds": 0.10811773128807545,
+  "native_probe_execution_seconds": 0.001377662643790245,
+  "mutation_build_seconds": 0.24490395560860634,
+  "total_seconds": 4.422406178899109,
+  "native_guard_status": -5,
+  "initialized_default_variant_status": 125,
+  "rejections": [
+    "missing-observer",
+    "wrong-consumed-width",
+    "fabricated-initialized-default fails guard-status oracle"
+  ],
+  "config_sha256": "52e4e3ef24332dfbc8ad68f341c3c034ba7cf74e76cf2c353a00bc9dc78123d5",
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "native_object_sha256": "80a22eb4d099b03f62c63a9ac8525d78dff6ee1ae8e63ba68a2cda7ce96183b9",
+  "observer_sha256": "02983177305074c2c2b4dcc1cdea9d0ef9ac942ef176ffd61d111e32a06f6a21",
+  "shared_inputs": {
+    "manifest": "evidence/shared-build-inputs/732d052e407b73362a59f4c66ce8805cb22533b81725074c8f414b4bc45b1e12.json",
+    "manifest_sha256": "732d052e407b73362a59f4c66ce8805cb22533b81725074c8f414b4bc45b1e12",
+    "archive": "evidence/shared-build-inputs/732d052e407b73362a59f4c66ce8805cb22533b81725074c8f414b4bc45b1e12.tar.gz",
+    "archive_sha256": "248399e1e42fb941c4dc6be337d5198bfa5b39bec3130c5d90b2633d33a663d2",
+    "files": 23,
+    "committed_reference": "499e1fe81eed52a6807d1577468b73d5b6df0898",
+    "committed_tree": "6836ab62e54629bcaadf01017b51b99ce0d4e369"
+  },
+  "scope": "First0*4 invocation is unchanged lifetime case; following rows are bounded direct diagnostics reusing that call stack. Native direct calls use the application object. Actual-case fresh frontier pair remains required.",
+  "width_abi": "unsigned short bytes consumes low16; original incidental highword retained raw and deliberately varied on supplemental probes, never equated with native parameter bits",
+  "limitation": "signed opposite-positive-status unsupported widths retain original uninitialized Win32 threshold; native inline INT3, no universal malformed descriptor invariant claimed"
+}

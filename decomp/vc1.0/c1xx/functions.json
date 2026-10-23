@@ -946,7 +946,14 @@
     "_make_array_constructor_address@4",
     "_find_default_constructor@4",
     "_default_constructor_candidate",
-    "_is_void_parameter_constructor@4"
+    "_is_void_parameter_constructor@4",
+    "_make_constructor_access_probe@4",
+    "_make_vector_helper_call@20",
+    "_multiplication_overflows@16",
+    "_make_array_destructor_call@4",
+    "_make_vector_destructor_call@16",
+    "_make_array_destructor_address@4",
+    "_lookup_complete_object_destructor@4"
   ],
   "driver": [
     {
@@ -6052,7 +6059,7 @@
     {
       "name": "_multiplication_overflows@16",
       "start": 477232,
-      "end": 477233
+      "end": 477505
     },
     {
       "name": "_subtraction_overflows@16",
@@ -6642,7 +6649,7 @@
     {
       "name": "_make_array_destructor_call@4",
       "start": 230896,
-      "end": 230897
+      "end": 231036
     },
     {
       "name": "_emit_virtual_base_table_initializers@4",
@@ -7313,7 +7320,7 @@
     {
       "name": "_make_vector_helper_call@20",
       "start": 233088,
-      "end": 233089
+      "end": 233182
     },
     {
       "name": "_require_default_constructor_closure@4",
@@ -7323,12 +7330,27 @@
     {
       "name": "_make_constructor_access_probe@4",
       "start": 229152,
-      "end": 229153
+      "end": 229196
     },
     {
       "name": "_default_constructor_candidate",
       "start": 229200,
       "end": 229218
+    },
+    {
+      "name": "_make_vector_destructor_call@16",
+      "start": 231040,
+      "end": 231086
+    },
+    {
+      "name": "_make_array_destructor_address@4",
+      "start": 231088,
+      "end": 231191
+    },
+    {
+      "name": "_lookup_complete_object_destructor@4",
+      "start": 231200,
+      "end": 231251
     }
   ],
   "cases": {
@@ -7442,8 +7464,8 @@
       "native_reference": "cases/native-stack-lifetime",
       "frontiers": "cases/frontiers/stack_lifetime",
       "accepted_from": 932,
-      "terminal": "_make_constructor_access_probe@4",
-      "terminal_evidence": "cases/frontiers/stack_lifetime/0941-is_void_parameter_constructor-4/original-events.txt",
+      "terminal": "_begin_while_condition",
+      "terminal_evidence": "cases/frontiers/stack_lifetime/0948-lookup_complete_object_destructor-4/original-events.txt",
       "original_seed": "cases/stack_lifetime-seed",
       "frontier_extensions": [
         "cases/frontiers/stack_lifetime/0932-evaluate_integer_constant-4/frontier-extension.json",
@@ -7455,7 +7477,14 @@
         "cases/frontiers/stack_lifetime/0938-make_array_constructor_address-4/frontier-extension.json",
         "cases/frontiers/stack_lifetime/0939-find_default_constructor-4/frontier-extension.json",
         "cases/frontiers/stack_lifetime/0940-default_constructor_candidate/frontier-extension.json",
-        "cases/frontiers/stack_lifetime/0941-is_void_parameter_constructor-4/frontier-extension.json"
+        "cases/frontiers/stack_lifetime/0941-is_void_parameter_constructor-4/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0942-make_constructor_access_probe-4/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0943-make_vector_helper_call-20/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0944-multiplication_overflows-16/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0945-make_array_destructor_call-4/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0946-make_vector_destructor_call-16/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0947-make_array_destructor_address-4/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0948-lookup_complete_object_destructor-4/frontier-extension.json"
       ]
     }
   },
@@ -9593,6 +9622,19 @@
       "authorization": "User explicitly selected faithful Win32 source bug plus unsupported native-path trap",
       "evidence": "evidence/implicit-scope-lookahead/analysis.json",
       "coverage_note": "accepted original extent does not claim native malformed-input-path equivalence"
+    },
+    {
+      "function": "_multiplication_overflows@16",
+      "original": [
+        477232,
+        477505
+      ],
+      "condition": "!unsigned_arithmetic && ((int)left>0)!=((int)right>0) && bytes not in {1,2,4}",
+      "behavior": "explicit native-only INT3; unsupported original unwritten-threshold path for malformed/internal type widths",
+      "win32": "original uninitialized threshold switch fallback retained",
+      "authorization": "Root approved preserving Win32 source bug with exact native unsupported-path trap; no universal caller invariant claimed",
+      "evidence": "evidence/multiply-boundary/receipt.json",
+      "coverage_note": "accepted extent will not claim malformed/internal unsupported-width native equivalence"
     }
   ]
 }

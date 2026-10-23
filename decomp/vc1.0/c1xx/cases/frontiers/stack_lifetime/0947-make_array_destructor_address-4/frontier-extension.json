@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 947,
+  "accepted": "_make_array_destructor_address@4",
+  "terminal": "_lookup_complete_object_destructor@4",
+  "original_capture": "cases/frontiers/stack_lifetime/0947-make_array_destructor_address-4/original-receipt.json",
+  "original_capture_sha256": "3394ab2ca5e71f2906f9a4ac008b225344d4d312d5c1897b45e99990b850f361",
+  "original_events": "cases/frontiers/stack_lifetime/0947-make_array_destructor_address-4/original-events.txt",
+  "original_events_sha256": "1f235d28f6dd7436188fc133acaf7428d06c8e70cae0ebd7356053440ad833ca",
+  "original_configuration": "cases/frontiers/stack_lifetime/0947-make_array_destructor_address-4/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

@@ -1,0 +1,21 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_array_destructor_call@4",
+    "start": 230896,
+    "end": 231036
+  },
+  "distinct_direct_callees": [
+    "_binary_expression@12",
+    "_drop_first_type_shape@4",
+    "_inner_type_size@12",
+    "_make_integer_constant@4",
+    "_make_vector_destructor_call@16"
+  ],
+  "next_frontier": "_make_vector_destructor_call@16",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2678154530003667,
+  "total_operation_seconds": 2.583422034047544,
+  "original_capture_seconds": 0.7162437830120325
+}

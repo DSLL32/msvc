@@ -2,6 +2,9 @@
 #include "macros.h"
 #include "parameters.h"
 #include "keywords.h"
+#include "object-initializers.h"
+#include "call-expressions.h"
+#include "types.h"
 #include <recon.h>
 
 void __stdcall declare_runtime_function(char *name, unsigned short pointer_attributes,
@@ -11,6 +14,21 @@ CType *__stdcall runtime_callback_type(unsigned short pointer_attributes, unsign
 void __stdcall declare_vector_helper(char *name, unsigned runtime_kind);
 CppSymbol *__stdcall runtime_function_symbol(int index);
 CppSymbol *purecall_symbol; /* original 0x9f2b0 */
+
+/* Original 0x38e80..0x38edd, stdcall 20. Vector helper arguments are
+   the unqualified object pointer, element width, count and callback. */
+IrToken *__stdcall make_vector_helper_call(IrToken *object, int element_bytes,
+    IrToken *element_count, IrToken *function, IrToken *helper)
+{
+    IrToken *arguments, *width;
+    object->type = remove_type_qualifiers(object->type, 0x3000);
+    arguments = append_expression(0, object, 2);
+    width = make_integer_constant(element_bytes);
+    arguments = append_expression(arguments, width, 2);
+    arguments = append_expression(arguments, element_count, 2);
+    arguments = append_expression(arguments, function, 2);
+    return build_call_expression(helper, arguments);
+}
 
 /* Original 0x38bd0..0x38bf8. */
 void declare_runtime_helpers(void)
