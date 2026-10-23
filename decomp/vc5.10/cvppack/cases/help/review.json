@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "reviewer": "/root/vc510_orchestrator",
+  "initial_scaffold": "approved",
+  "first_main_promotion": "approved",
+  "autonomous_help_protocol": "approved after first main promotion",
+  "first_function": "cvpack_main",
+  "case_limit": "help only; pause after exact exit1/193-byte stdout/empty stderr",
+  "required": [
+    "immutable candidate trial and exact graph projection",
+    "current target/rebuilt/native/MAP/runtime/tool hashes",
+    "actual loaded canonical CRT bytes",
+    "raw-derived frontier or actual completion",
+    "typed application arguments and state at a frontier",
+    "candidate entered both original and native first-entry traces",
+    "native-only cached-reference regression"
+  ],
+  "root_independent_negative_checks": 24
+}

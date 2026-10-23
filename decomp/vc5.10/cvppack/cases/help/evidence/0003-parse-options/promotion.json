@@ -1,0 +1,46 @@
+{
+  "schema": 1,
+  "candidate": "parse_options",
+  "extent": [
+    4212928,
+    4213158
+  ],
+  "trial_config_sha256": "0686c7c6819b7fb53a62cfe5b6f6f10f5a0c5d6e008c12a05c867aebf288a984",
+  "original_receipt_sha256": "3037a7171660cb1195e5a4e107973c4f5ffaf3c30e043770632d07169cdb8e5a",
+  "native_receipt_sha256": "17416567ba6d79fd9ea4a002125405812055a8a8cdf6229bdc173058ccec60c7",
+  "audit_sha256": "d63e21faa8f641106861ce9842605e17594db26229f5930bb9f7e352415fe9c0",
+  "result": {
+    "terminal": "trap",
+    "frontier": "fatal_error",
+    "original_address": 4216016,
+    "native_function": "fatal_error",
+    "typed_state": {
+      "parameters": {
+        "message": 1029,
+        "first": {
+          "null": true,
+          "bytes": null
+        },
+        "second": {
+          "null": true,
+          "bytes": null
+        }
+      },
+      "globals": [
+        "input_file",
+        "show_logo",
+        "banner_pending",
+        "checksum_required",
+        "module_count",
+        "statistics_enabled",
+        "debug_directory",
+        "line_data",
+        "symbol_data",
+        "type_data",
+        "module_data",
+        "minimum_pack",
+        "verbose"
+      ]
+    }
+  }
+}

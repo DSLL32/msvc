@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5656b2f8 in fatal_error (message=1029, first=0x0, second=0x0) at src/stubs.c:20
+20	void fatal_error(unsigned int message, const char *first, const char *second) { __asm { int 3 } }

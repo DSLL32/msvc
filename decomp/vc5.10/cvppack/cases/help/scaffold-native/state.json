@@ -1,0 +1,5 @@
+{
+  "function": "main",
+  "pc": 1448871844,
+  "signal": "Last stopped for thread 1 (Thread 0xf7f85580 (LWP 1021518)).\n\tUsing the running image of child process 1021518.\nProgram stopped at 0x565c07a3.\nIt stopped with signal SIGTRAP, Trace/breakpoint trap.\n"
+}

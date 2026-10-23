@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "kind": "exact-shipped-library-boundary",
+  "library": "toolchains/5.10/lib/MSVCRT.LIB",
+  "library_sha256": "e0a55e77c6005cacc86783688dd5d372bee6dda9c994493edbe583cd2b367be2",
+  "original_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "runtime_index": "runtime.json",
+  "selected": [
+    {
+      "name": "_mainCRTStartup",
+      "start": 4260656,
+      "end": 4260992,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "__setargv",
+      "start": 4230224,
+      "end": 4230240,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "__setdefaultprecision",
+      "start": 4261008,
+      "end": 4261040,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "__matherr",
+      "start": 4261040,
+      "end": 4261056,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "import:_except_handler3",
+      "start": 4260640,
+      "end": 4260646,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "import:_XcptFilter",
+      "start": 4260992,
+      "end": 4260998,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "import:_initterm",
+      "start": 4260998,
+      "end": 4261004,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "import:_controlfp",
+      "start": 4261056,
+      "end": 4261062,
+      "evidence": "cases/help/crt-support.json"
+    }
+  ],
+  "note": "Only reached entries count as support observations. Byte candidates without complete relocation/callee/import bindings are rejected. Empty RET aliases elsewhere are not selected or restored. CRT initializer tables at412000..41200c are zero; target main binding404620 preserved."
+}

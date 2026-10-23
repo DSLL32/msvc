@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "name": "help",
+  "argv": [
+    "/help"
+  ],
+  "reference": "cases/help/evidence/0006-message-text/original",
+  "reference_receipt_sha256": "a55251ff7652c5146d63e73004c183cad25a7196b23947e19300b0453081f688",
+  "terminal": "exit",
+  "application_trace": [
+    "cvpack_main",
+    "initialize_messages",
+    "parse_options",
+    "fatal_error",
+    "print_banner",
+    "message_text"
+  ],
+  "exit_status": 1
+}

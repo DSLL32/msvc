@@ -1,0 +1,10 @@
+{
+  "schema": 1,
+  "case": "help",
+  "native_sha256": "7c6e76829275bd27521641131a47fbd2b285eaa539a3bf81c586b17553197ef5",
+  "configuration_sha256": "6b1f07421d286385b640e00b637ca4485cb434d5a5f94185f611dac4cb675014",
+  "seconds": {
+    "execution": 0.12280857004225254,
+    "total": 0.12531038280576468
+  }
+}

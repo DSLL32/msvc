@@ -1,0 +1,88 @@
+{
+  "schema": 1,
+  "config_sha256": "189c53375d059fb2a541435c1960e3dc637ecde832f93f9690237c69c4e93495",
+  "graph_config_sha256": "63398ac6a45a8d13315cf03c24d940d6c1fbe58928fec090ac3c3db9b7bde158",
+  "original_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "rebuilt_sha256": "5666f24c505c23dfde0f3dad6e538bbcc53eb4f93bfe67cd9cda0561bd7ba2f1",
+  "native_sha256": "1e884488e989b9faf7f146fe63401887aae9fde29ea6e8d71cdd551f2fbb13b1",
+  "map_sha256": "7d428463f703f71dca7bad7413201454f7a2fe3df8dd2f5bccf0d913ba6cac93",
+  "graph_tool_sha256": "6a9885bc5a0ab2b8c6dc805568964d214c6930dc2a9c884b3af53995e0f72b94",
+  "data_sha256": "08811c232f3fcff3fb164e82b311105316874570219aed537907b13fa6001057",
+  "runtime_sha256": "45bed7b37cc8171159533760fe4d1d62ec97f16d098c27ec474f5cd9ed9790bf",
+  "graph_runtime_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "audit_wrapper_sha256": "664a8e6e091dccd25c2c6f133358a28c1c4cbb4720b2eccba85392a06edb0887",
+  "candidates": [
+    "cvpack_main"
+  ],
+  "checked_functions": [
+    "cvpack_main"
+  ],
+  "owned_ranges": 9,
+  "graph_command": [
+    "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+    "--profile",
+    "cl",
+    "--project",
+    "/root/msvc2/decomp/vc5.10/cvppack",
+    "--repo",
+    "/root/msvc2",
+    "--original",
+    "/root/msvc2/toolchains/5.10/bin/CVPACK.EXE",
+    "--rebuilt",
+    "/root/msvc2/decomp/vc5.10/cvppack/build/CVPACK.EXE",
+    "--map",
+    "/root/msvc2/decomp/vc5.10/cvppack/build/cvpack.map",
+    "--config",
+    "cases/help/evidence/0001-main-reviewed/current-audit-2/graph-config.json",
+    "--runtime",
+    "cases/help/evidence/0001-main-reviewed/current-audit-2/graph-runtime.json",
+    "--rebuilt-runtime",
+    "cases/help/evidence/0001-main-reviewed/current-audit-2/graph-runtime.json",
+    "--discovery",
+    "cfg",
+    "--check-ret",
+    "--check-references",
+    "--check-ownership",
+    "--check-extents"
+  ],
+  "graph": {
+    "checked_accepted_extents": null,
+    "checked_functions": 1,
+    "checked_unique_accepted_extents": null,
+    "checks": [
+      "call_graph",
+      "ret_cleanup",
+      "function_references",
+      "extent_ownership",
+      "whole_extent_boundaries"
+    ],
+    "discovery": "cfg",
+    "functions": {
+      "_main": {
+        "edges": [
+          "_close_file",
+          "_files_initialize",
+          "_flush_packed_file",
+          "_free_type_tables",
+          "_get_file_size",
+          "_initialize_messages",
+          "_initialize_module_pack",
+          "_initialize_type_tables",
+          "_map_file_region",
+          "_pack_module",
+          "_parse_options",
+          "_print_banner",
+          "_print_statistics",
+          "_read_image_debug",
+          "_select_input_name",
+          "_warning",
+          "_write_debug_directory",
+          "indirect"
+        ]
+      }
+    },
+    "original_accepted_graphs": null,
+    "profile": "cl"
+  },
+  "seconds": 0.10673754755407572
+}

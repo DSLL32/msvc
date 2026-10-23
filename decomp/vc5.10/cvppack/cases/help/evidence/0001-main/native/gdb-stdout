@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56605bb8 in initialize_messages (file=0x56616008 "cvpack.err", program=0x572b81a0 "R:\\toolchains\\5.10\\bin\\CVPACK.EXE", resources=1) at src/stubs.c:5
+5	int initialize_messages(const char *file, const char *program, int resources) { __asm { int 3 } return 0; }

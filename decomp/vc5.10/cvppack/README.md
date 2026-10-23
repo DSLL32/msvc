@@ -1,44 +1,56 @@
-# CVPACK groundwork (project folder `cvppack`)
+# CVPACK 5.00.7113
 
-The target is `toolchains/5.10/bin/CVPACK.EXE`, version 5.00.7113. The requested
-folder spelling is retained. Reconstruction has not started: no accepted
-functions, target implementation, masked image, native runner or coverage claim.
-Release awaits the shared Rust graph tool and the DLL workflow investigation.
+The target is `toolchains/5.10/bin/CVPACK.EXE`; the requested project-folder
+spelling `cvppack` is retained. The first `/help` case is complete and paused:
+native and masked-original runs produce exit 1, exactly 193 stdout bytes and
+empty stderr, with the same six application entries. The queued debug-DLL case
+has not been authorized or started.
 
-`make inspect` reads the PE without Wine. `cases/inventory.json` records its
-SHA-256, sections, imports and available original compiler inputs. This is an
-i386 console EXE at image base `0x400000`, entry `0x410330`; it has no export,
-TLS, relocation or debug directory. Its `.text` virtual size is 62,662 bytes,
-which is a section extent, not discovered application-code coverage.
+Six application functions account for 1,269 reconstructed extent bytes, plus
+48 bytes of parser switch data. This is 2.03% of the executable's 62,662-byte
+`.text` extent, which includes CRT, unknown code and padding; it is not a
+non-CRT coverage percentage. Three reached CRT routines and two import thunks
+are tracked separately. CRT ranges are identified against shipped MSVCRT.LIB,
+including relocated call/import/global bindings, rather than blanket unmasking.
 
-Unlike vc1.0 CVPACK, this executable imports its CRT from `MSVCRT.DLL` and eleven
-PDB/type APIs from shipped `MSPDB50.DLL`, including decorated `WidenTi::fCreate`.
-The latter is an additional native dependency boundary requiring actual call,
-ABI, input and state evidence. `lib/recon` does not currently implement it;
-its maintainer was informed, with no speculative shim work requested. Dynamic
-library strings also mention USER32; that alone does not establish an executed
-dependency. Mapping imports include `CreateFileMappingA` and `MapViewOfFileEx`.
+Run from this folder:
 
-`make capture-help` is an explicit, unmodified-original-only probe using the
-fixed shared prefix and R:/S: drives. It refuses to overwrite a capture or create
-a prefix. The recorded `/help` result is exit 1, 193 raw stdout bytes and empty
-stderr; execution took 0.866 s. Native DLL overrides select shipped MSVCRT and
-MSPDB50 for this capture. No fixture invokes this script. Advertised switches
-are `/help`, `/minimum`, `/nologo` and `/verbose`; `/cvnew` from the old case must
-not be assumed valid for this version.
+```
+make -j4 native check final-check
+make -j4 audit-native
+```
 
-`cases/plan.json` preserves the initial ordering: help, then debug-DLL compaction.
-Only source/themes are seeded from vc1.0. `hello-dll.c` is a byte-identical copy
-of the older GUI DLL source; `typed-debug-seed.c` is a smaller optional input for
-type records. No older object, DLL, stream or trace is a 5.10 oracle. The LINK
-groundwork worker owns the compiler/link debug/PDB probes to avoid duplicate
-captures. Its results must establish actual formats and invocations before the
-second case is frozen. Existing NB11/PDB strings are clues, not proof that any
-particular debug format or command succeeds.
+These commands use Linux i386 code and cached original evidence only. `check`
+compares the native application trace, status and complete streams. `final-check`
+also checks the last immutable candidate trial against a fresh native capture,
+the current Rust graph audit and 24 rejection tests. `audit-native` requires the
+previously built Win32 EXE/MAP and never launches an original. `make -j4 all`
+explicitly checks compilation with the original 5.10 CL/RC/LINK through the shared
+Wine prefix. Native code uses `-O0 -g`, shared shims and entry instrumentation.
 
-The original CL/C1/C2/LINK binaries, headers and CRT libraries are present.
-Compilation of reconstruction source has not been attempted because no target
-source exists. After release, source belongs under `src/`, native tests use
-shared shims and cached 5.10-only references, and original compiler checks remain
-mandatory. `all`, `native`, `check` and `audit` currently fail explicitly rather
-than claiming a scaffold is a reconstruction.
+Each accepted function has immutable original/native raw evidence under
+`cases/help/evidence/`, in acceptance order. Candidate-inclusive graph audits,
+actual candidate entry, typed parameters/globals and real trap/completion events
+are required before promotion. Captures verify the actual loaded MSVCRT file
+against the canonical 277,776-byte provider hash. Compiled-source contents are
+retained in `cases/source-content/`, independently of later shared-library edits.
+Unchanged original trials can be reused for native-only rebuilding and static
+reauditing; references are never silently recaptured by fixtures.
+
+`cases/help/completion.json` records the result, extent qualification and final
+validation paths. The retained final native fixture took 12.31 ms internally: 2.60 ms
+preparation, 4.85 ms execution and 1.71 ms checks. The last function's explicit
+original build took 3.46 s, native build 1.42 s and original capture 1.40 s;
+the native capture command took 0.108 s. Full final native pair/audit/rejection
+commands took approximately 1.39 s, including 0.97 s for the 24 negative checks.
+
+The three encountered language-1033 resource strings are verified against target
+UTF-16 bytes and the contextual `src/cvpack.rc`, then prepared using shared
+resource support. No runtime PE helper is involved. Distinct original `argv[0]`
+and loaded-module paths are preserved. USER32's executed LoadStringA boundary is
+supported; unencountered resources fail closed.
+
+This version imports eleven MSPDB50 PDB/type APIs. `/help` does not reach them,
+and no speculative PDB semantics have been implemented. The second case retains
+only vc1.0 source themes, not old output oracles. Actual 5.10 debug format,
+invocation and dependency evidence must establish that case before work resumes.

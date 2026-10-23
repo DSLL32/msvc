@@ -1,0 +1,83 @@
+{
+  "schema": 1,
+  "case": "help",
+  "native_sha256": "270f7d11488b366b50a18471e8c52fb860417e4fa570f6d561ff47343e299b7e",
+  "configuration_sha256": "f0a0df0d306457327487f026f9a930bd10ecc2ea2a4ebf1bb181951947f17446",
+  "rebuilt_sha256": "63b918d573e7fa48b1d565fcb9ad85072d14b74c2b8143df2b61760ca73ed6d3",
+  "data_sha256": "b8802f56cd37a25827aaf384fd8af99e989437c80e00b26433ca978a0b82fb07",
+  "original_receipt_sha256": "a55251ff7652c5146d63e73004c183cad25a7196b23947e19300b0453081f688",
+  "executed_command": [
+    "/root/msvc2/decomp/vc5.10/cvppack/build/native/CVPACK",
+    "/help"
+  ],
+  "compiled_sources_sha256": "b4f2e463b9f88363c3a778929539e2d852512487d16d33fedc9cf15d5b91cf71",
+  "prepared_resources": {
+    "provider_sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b",
+    "source_rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+    "entries": 3,
+    "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de"
+  },
+  "reused_original_capture": false,
+  "outputs": [
+    {
+      "name": "stdout",
+      "bytes": 193,
+      "sha256": "f0188b3a0350b59bac8eea2dff386dd4897b1518426e167109712fcbc5f52b1c"
+    },
+    {
+      "name": "stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gdb-stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gdb-stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "state.json",
+      "bytes": 45,
+      "sha256": "a073f06c2098af17a0a13ea90bf054e6b08db176dec1e2403b9e8659192cab23"
+    },
+    {
+      "name": "entry-trace",
+      "bytes": 84,
+      "sha256": "a41f52cb351b9e19f41619443ca1d23e28bac6ce5cc49fea711a4b77aa21a09c"
+    },
+    {
+      "name": "entry-filter",
+      "bytes": 317,
+      "sha256": "6273f818c11acb36189941a754c72c42d4fdf251d9db650a680ff0c900d00268"
+    },
+    {
+      "name": "native-status",
+      "bytes": 2,
+      "sha256": "4355a46b19d348dc2f57c046f8ef63d4538ebb936000f3c9ee954a27460dd865"
+    },
+    {
+      "name": "direct-stdout",
+      "bytes": 193,
+      "sha256": "f0188b3a0350b59bac8eea2dff386dd4897b1518426e167109712fcbc5f52b1c"
+    },
+    {
+      "name": "direct-stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "resources.rmr",
+      "bytes": 310,
+      "sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b"
+    }
+  ],
+  "seconds": {
+    "direct_execution": 0.004489687271416187,
+    "gdb_execution": 0.0,
+    "total": 0.02928092982620001
+  }
+}

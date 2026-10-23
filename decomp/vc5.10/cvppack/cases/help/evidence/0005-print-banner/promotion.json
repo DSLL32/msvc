@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "candidate": "print_banner",
+  "extent": [
+    4213216,
+    4213289
+  ],
+  "trial_config_sha256": "f5e4e078fae69f432a87be388b3320cb0358ae14611f67fc07e6826c503ed6ef",
+  "original_receipt_sha256": "b6a2dd9435ac4e1e5483815778c6f5c2952d1cacd4c23f6d38882377927bc0a0",
+  "native_receipt_sha256": "e173cbc9a2aad49c0dbf386bb64ac5c12861926fb4e4ebe68299b96a4a866623",
+  "audit_sha256": "46ae90c0b8a2310b1d9f2de0ff0ba57483570bd6320b667ac5067c70ea614277",
+  "result": {
+    "terminal": "trap",
+    "frontier": "message_text",
+    "original_address": 4224528,
+    "native_function": "message_text",
+    "typed_state": {
+      "parameters": {
+        "message": 8008
+      },
+      "globals": [
+        "input_file",
+        "show_logo",
+        "banner_pending",
+        "checksum_required",
+        "module_count",
+        "statistics_enabled",
+        "debug_directory",
+        "line_data",
+        "symbol_data",
+        "type_data",
+        "module_data",
+        "minimum_pack",
+        "verbose"
+      ]
+    }
+  }
+}

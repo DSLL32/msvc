@@ -1,0 +1,97 @@
+{
+  "schema": 1,
+  "case": "help",
+  "unmasked": false,
+  "candidates": [
+    "fatal_error"
+  ],
+  "command": [
+    "wine",
+    "S:\\vc5.10\\cvppack\\captures\\e76e19ad3fd0-1792754319476418568\\debug-run.exe",
+    "S:\\vc5.10\\cvppack\\captures\\e76e19ad3fd0-1792754319476418568\\CVPACK.EXE",
+    "R:\\toolchains\\5.10\\bin\\CVPACK.EXE /help",
+    "R:\\decomp\\vc5.10\\cvppack\\cases\\help\\evidence\\0004-fatal-error\\original\\stdout",
+    "R:\\decomp\\vc5.10\\cvppack\\cases\\help\\evidence\\0004-fatal-error\\original\\stderr",
+    "R:\\decomp\\vc5.10\\cvppack\\cases\\help\\evidence\\0004-fatal-error\\original\\events",
+    "S:\\vc5.10\\cvppack\\captures\\e76e19ad3fd0-1792754319476418568",
+    "R:\\decomp\\vc5.10\\cvppack\\cases\\help\\evidence\\0004-fatal-error\\original\\runtime-plan",
+    "R:\\toolchains\\5.10\\bin\\CVPACK.EXE",
+    "S:\\vc5.10\\cvppack\\captures\\e76e19ad3fd0-1792754319476418568\\loaded-msvcrt.dll",
+    "0"
+  ],
+  "original_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "masked_image_sha256": "19a627d90cc291687c9200c44ce24fa5c720a0fd8563db9101e4c903d90f1088",
+  "debugger_sha256": "cd338f919d5f756c5bf9142ed04036ba3bf9f80363a214b6603e7461e62c5267",
+  "rebuilt_sha256": "92c5abca4321afddd84c73609cc280093a3a45c6132fa27fc6db4dfc7c42d631",
+  "configuration_sha256": "e76e19ad3fd02c0663de6154062a0e1bf33f471777d502aca74bcffbd59935d1",
+  "native_sha256": "d2564df65bea1a504b44ecbdb460be8e0b3f6aaa8d02bbc8828268f3abd7de20",
+  "plan_sha256": "5f1d0d01b53fb08f17e26ec4c22060700c3a1e7604ff19167daab5d8fe3dd50d",
+  "actual_loaded_crt": {
+    "module": "MSVCRT.dll",
+    "bytes": 277776,
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "capture_path": "/root/.ai-tmp/msvc2/vc5.10/cvppack/captures/e76e19ad3fd0-1792754319476418568/loaded-msvcrt.dll",
+    "source": "LOAD_DLL_DEBUG_EVENT.hFile exact file copy"
+  },
+  "actual_target_capture": "/root/.ai-tmp/msvc2/vc5.10/cvppack/captures/e76e19ad3fd0-1792754319476418568/CVPACK.EXE",
+  "actual_target_windows": "S:\\vc5.10\\cvppack\\captures\\e76e19ad3fd0-1792754319476418568\\CVPACK.EXE",
+  "adjacent_inputs": [
+    {
+      "name": "MSVCRT.DLL",
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    {
+      "name": "MSPDB50.DLL",
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+    }
+  ],
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "wine_dll_overrides": "msvcrt,mspdb50=n",
+  "canonical_argv0": "R:\\toolchains\\5.10\\bin\\CVPACK.EXE",
+  "environment": {
+    "MSC_CMD_FLAGS": null,
+    "_MSC_IDE_FLAGS": null
+  },
+  "data_sha256": "cd19d8bd3ec45b9a50bc1b60d6a29ef951df3f6ffa071cbc3e0e65dc1e0fbf38",
+  "runtime_sha256": "45bed7b37cc8171159533760fe4d1d62ec97f16d098c27ec474f5cd9ed9790bf",
+  "audit_sha256": "cf7d46c56c77da880091307fa7945fdc4f526504929066846065c7b31686745f",
+  "graph_config_sha256": "0f8d72d4bb02638c77034a10efaffadbc4bb80efb963b565edd78d23d7826f1a",
+  "graph_runtime_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "outputs": [
+    {
+      "name": "stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "events",
+      "bytes": 29535,
+      "sha256": "b1abc752a13751a9369b65f91b728067bf0fd2c564c362dad30c1917dd749246"
+    },
+    {
+      "name": "audit.json",
+      "bytes": 3494,
+      "sha256": "cf7d46c56c77da880091307fa7945fdc4f526504929066846065c7b31686745f"
+    },
+    {
+      "name": "graph-config.json",
+      "bytes": 2155,
+      "sha256": "0f8d72d4bb02638c77034a10efaffadbc4bb80efb963b565edd78d23d7826f1a"
+    },
+    {
+      "name": "graph-runtime.json",
+      "bytes": 3,
+      "sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570"
+    }
+  ],
+  "seconds": {
+    "setup": 0.11072585172951221,
+    "execution": 0.4452805835753679,
+    "total": 0.5662886835634708
+  }
+}

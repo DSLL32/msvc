@@ -3,20 +3,26 @@
   "project": "vc5.10",
   "binary_folder": "cvppack",
   "target": "toolchains/5.10/bin/CVPACK.EXE",
-  "stage": "groundwork-only",
-  "reconstruction_authorized": false,
-  "release_requirements": ["Rust graph-audit readiness", "DLL workflow review", "root release"],
+  "stage": "help-complete-paused",
+  "reconstruction_authorized": true,
+  "release_requirements": [
+    "Rust graph-audit readiness",
+    "DLL workflow review",
+    "root release"
+  ],
   "ordered_cases": [
     {
       "id": "help",
-      "argv": ["/help"],
+      "argv": [
+        "/help"
+      ],
       "theme_from": "decomp/vc1.0/cvpack/cases/queue.json#help",
-      "stage": "unmodified-original-probed",
-      "reference": "help/original/receipt.json",
+      "stage": "complete-six-application-functions-accepted",
+      "reference": "help/evidence/0006-message-text/original/receipt.json",
       "expected_original_status": 1,
       "original_stdout_bytes": 193,
       "original_stderr_bytes": 0,
-      "native_fixture_ready": false
+      "native_fixture_ready": true
     },
     {
       "id": "hello-debug-dll",
@@ -25,7 +31,7 @@
       "source_sha256": "4e75bd57e12322c38246eb2019b569f6d2943db1894bceeb3a261828adb18638",
       "source": "hello-debug-dll/hello-dll.c",
       "optional_small_typed_input": "hello-debug-dll/typed-debug-seed.c",
-      "stage": "source-only-awaiting-LINK-probe",
+      "stage": "queued-not-authorized",
       "argv": null,
       "capture_owner": "/root/vc510_orchestrator/link",
       "probe_questions": [
@@ -44,5 +50,6 @@
     "PDB_support_present": false,
     "policy_owner": "/root/vc510_orchestrator",
     "implementation_requested": false
-  }
+  },
+  "release_scope": "Complete only /help, then pause; debug-DLL case remains queued and unauthorized."
 }

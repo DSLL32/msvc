@@ -1,0 +1,14 @@
+{
+  "terminal": "exit",
+  "exit_status": 1,
+  "application_trace": [
+    "cvpack_main",
+    "initialize_messages",
+    "parse_options",
+    "fatal_error",
+    "print_banner",
+    "message_text"
+  ],
+  "stdout_bytes": 193,
+  "stderr_bytes": 0
+}

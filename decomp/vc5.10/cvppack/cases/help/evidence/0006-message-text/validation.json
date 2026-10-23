@@ -1,0 +1,39 @@
+{
+  "schema": 1,
+  "candidate": "message_text",
+  "promoted": true,
+  "result": {
+    "terminal": "exit",
+    "exit_status": 1,
+    "application_trace": [
+      "cvpack_main",
+      "initialize_messages",
+      "parse_options",
+      "fatal_error",
+      "print_banner",
+      "message_text"
+    ],
+    "stdout_bytes": 193,
+    "stderr_bytes": 0
+  },
+  "original": {
+    "setup": 0.1579500986263156,
+    "execution": 1.1648815283551812,
+    "total": 1.333290807902813
+  },
+  "native": {
+    "direct_execution": 0.004489687271416187,
+    "gdb_execution": 0.0,
+    "total": 0.02928092982620001
+  },
+  "seconds": {
+    "original_build": 3.455230883322656,
+    "native_build": 1.4155924282968044,
+    "graph_tool_build": 0.027351096272468567,
+    "original_capture": 1.3986436370760202,
+    "native_capture": 0.10821540746837854,
+    "pair_check": 0.11297222785651684,
+    "promotion": 0.1160719571635127,
+    "native_fixture": 0.10424398258328438
+  }
+}

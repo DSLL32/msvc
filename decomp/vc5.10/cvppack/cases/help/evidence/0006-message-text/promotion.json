@@ -1,0 +1,26 @@
+{
+  "schema": 1,
+  "candidate": "message_text",
+  "extent": [
+    4224528,
+    4224632
+  ],
+  "trial_config_sha256": "f0a0df0d306457327487f026f9a930bd10ecc2ea2a4ebf1bb181951947f17446",
+  "original_receipt_sha256": "a55251ff7652c5146d63e73004c183cad25a7196b23947e19300b0453081f688",
+  "native_receipt_sha256": "6ca7e5f3f4779a54fd8ebf5223763f37d72463bca3f95ea44e81c698db04fc85",
+  "audit_sha256": "4c7efbea1feee1acbab463450958a66751d2e6ed379fc39df69e12c8d99738b0",
+  "result": {
+    "terminal": "exit",
+    "exit_status": 1,
+    "application_trace": [
+      "cvpack_main",
+      "initialize_messages",
+      "parse_options",
+      "fatal_error",
+      "print_banner",
+      "message_text"
+    ],
+    "stdout_bytes": 193,
+    "stderr_bytes": 0
+  }
+}

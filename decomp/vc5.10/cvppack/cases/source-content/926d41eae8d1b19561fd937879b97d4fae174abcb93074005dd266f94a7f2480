@@ -1,0 +1,8 @@
+/* Only resource strings encountered by the /help reconstruction. */
+LANGUAGE 9, 1
+STRINGTABLE
+BEGIN
+    1029 "Usage: cvpack [/help] [/minimum] [/nologo] [/verbose] exefile"
+    8008 "Microsoft (R) Debugging Information Compactor  Version %d.%02d.%04d%c"
+    8009 "Copyright (C) Microsoft Corp 1987-1997. All rights reserved."
+END

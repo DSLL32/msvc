@@ -1,0 +1,346 @@
+{
+  "schema": 1,
+  "target": {
+    "path": "toolchains/5.10/bin/CVPACK.EXE",
+    "sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+    "entry": 4260656,
+    "application_main": 4212256
+  },
+  "accepted": [
+    "cvpack_main",
+    "initialize_messages",
+    "parse_options"
+  ],
+  "functions": [
+    {
+      "name": "cvpack_main",
+      "symbol": "_main",
+      "native_symbol": "cvpack_main",
+      "original": 4212256,
+      "status": "accepted",
+      "extent": [
+        4212256,
+        4212917
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "argc",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "argv",
+          "slot": 2,
+          "kind": "argv"
+        }
+      ],
+      "acceptance_proof": "cases/help/evidence/0001-main-reviewed/promotion.json"
+    },
+    {
+      "name": "initialize_messages",
+      "symbol": "_initialize_messages",
+      "native_symbol": "initialize_messages",
+      "original": 4224640,
+      "status": "accepted",
+      "extent": [
+        4224640,
+        4224646
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "file",
+          "slot": 1,
+          "kind": "string"
+        },
+        {
+          "name": "program",
+          "slot": 2,
+          "kind": "string"
+        },
+        {
+          "name": "resources",
+          "slot": 3,
+          "kind": "integer"
+        }
+      ],
+      "acceptance_proof": "cases/help/evidence/0002-initialize-messages/promotion.json"
+    },
+    {
+      "name": "parse_options",
+      "symbol": "_parse_options",
+      "native_symbol": "parse_options",
+      "original": 4212928,
+      "status": "accepted",
+      "extent": [
+        4212928,
+        4213158
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "argc",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "argv",
+          "slot": 2,
+          "kind": "argv"
+        }
+      ],
+      "text_data": [
+        [
+          4213160,
+          4213208
+        ]
+      ],
+      "acceptance_proof": "cases/help/evidence/0003-parse-options/promotion.json"
+    },
+    {
+      "name": "files_initialize",
+      "symbol": "_files_initialize",
+      "native_symbol": "files_initialize",
+      "original": 4198560,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "print_banner",
+      "symbol": "_print_banner",
+      "native_symbol": "print_banner",
+      "original": 4213216,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "select_input_name",
+      "symbol": "_select_input_name",
+      "native_symbol": "select_input_name",
+      "original": 4213296,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "initialize_type_tables",
+      "symbol": "_initialize_type_tables",
+      "native_symbol": "initialize_type_tables",
+      "original": 4239344,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "read_image_debug",
+      "symbol": "_read_image_debug",
+      "native_symbol": "read_image_debug",
+      "original": 4218112,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "initialize_module_pack",
+      "symbol": "_initialize_module_pack",
+      "native_symbol": "initialize_module_pack",
+      "original": 4215264,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "pack_module",
+      "symbol": "_pack_module",
+      "native_symbol": "pack_module",
+      "original": 4213776,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "write_debug_directory",
+      "symbol": "_write_debug_directory",
+      "native_symbol": "write_debug_directory",
+      "original": 4215344,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "free_type_tables",
+      "symbol": "_free_type_tables",
+      "native_symbol": "free_type_tables",
+      "original": 4239680,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "print_statistics",
+      "symbol": "_print_statistics",
+      "native_symbol": "print_statistics",
+      "original": 4256000,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "flush_packed_file",
+      "symbol": "_flush_packed_file",
+      "native_symbol": "flush_packed_file",
+      "original": 4221408,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "get_file_size",
+      "symbol": "_get_file_size",
+      "native_symbol": "get_file_size",
+      "original": 4200768,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "map_file_region",
+      "symbol": "_map_file_region",
+      "native_symbol": "map_file_region",
+      "original": 4203840,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "close_file",
+      "symbol": "_close_file",
+      "native_symbol": "close_file",
+      "original": 4200064,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    },
+    {
+      "name": "warning",
+      "symbol": "_warning",
+      "native_symbol": "warning",
+      "original": 4216224,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "message",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "first",
+          "slot": 2,
+          "kind": "string"
+        },
+        {
+          "name": "second",
+          "slot": 3,
+          "kind": "string"
+        }
+      ]
+    },
+    {
+      "name": "fatal_error",
+      "symbol": "_fatal_error",
+      "native_symbol": "fatal_error",
+      "original": 4216016,
+      "status": "candidate",
+      "extent": [
+        4216016,
+        4216211
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "message",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "first",
+          "slot": 2,
+          "kind": "string"
+        },
+        {
+          "name": "second",
+          "slot": 3,
+          "kind": "string"
+        }
+      ]
+    },
+    {
+      "name": "message_text",
+      "symbol": "_message_text",
+      "native_symbol": "message_text",
+      "original": 4224528,
+      "status": "stub",
+      "extent": null,
+      "ret": 0
+    }
+  ],
+  "support_unmasked": [
+    {
+      "name": "_mainCRTStartup",
+      "start": 4260656,
+      "end": 4260992,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "__setargv",
+      "start": 4230224,
+      "end": 4230240,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "__setdefaultprecision",
+      "start": 4261008,
+      "end": 4261040,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "__matherr",
+      "start": 4261040,
+      "end": 4261056,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "import:_except_handler3",
+      "start": 4260640,
+      "end": 4260646,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "import:_XcptFilter",
+      "start": 4260992,
+      "end": 4260998,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "import:_initterm",
+      "start": 4260998,
+      "end": 4261004,
+      "evidence": "cases/help/crt-support.json"
+    },
+    {
+      "name": "import:_controlfp",
+      "start": 4261056,
+      "end": 4261062,
+      "evidence": "cases/help/crt-support.json"
+    }
+  ],
+  "loader_data": [],
+  "review_gate": "root approved scaffold and first main; autonomous help only",
+  "native_entry_guard": false
+}

@@ -1,0 +1,34 @@
+{
+  "terminal": "trap",
+  "frontier": "fatal_error",
+  "original_address": 4216016,
+  "native_function": "fatal_error",
+  "typed_state": {
+    "parameters": {
+      "message": 1029,
+      "first": {
+        "null": true,
+        "bytes": null
+      },
+      "second": {
+        "null": true,
+        "bytes": null
+      }
+    },
+    "globals": [
+      "input_file",
+      "show_logo",
+      "banner_pending",
+      "checksum_required",
+      "module_count",
+      "statistics_enabled",
+      "debug_directory",
+      "line_data",
+      "symbol_data",
+      "type_data",
+      "module_data",
+      "minimum_pack",
+      "verbose"
+    ]
+  }
+}

@@ -1,0 +1,24 @@
+{
+  "terminal": "trap",
+  "frontier": "print_banner",
+  "original_address": 4213216,
+  "native_function": "print_banner",
+  "typed_state": {
+    "parameters": {},
+    "globals": [
+      "input_file",
+      "show_logo",
+      "banner_pending",
+      "checksum_required",
+      "module_count",
+      "statistics_enabled",
+      "debug_directory",
+      "line_data",
+      "symbol_data",
+      "type_data",
+      "module_data",
+      "minimum_pack",
+      "verbose"
+    ]
+  }
+}

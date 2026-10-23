@@ -1,0 +1,177 @@
+#!/usr/bin/env python3
+"""Validate fresh raw evidence against an immutable candidate trial."""
+import argparse
+import json
+from pathlib import Path
+import re
+from state import BINARY, ROOT, load, mask, sha
+from capture_original_constants import CRT_SHA
+
+
+def checked_files(directory, receipt):
+    for item in receipt['outputs']:
+        path = directory / item['name']
+        assert path.is_file() and path.stat().st_size == item['bytes'] and sha(path) == item['sha256'], ('changed raw capture', path)
+
+
+def validate_pair(config_path, original_dir, native_dir, audit_path=None):
+    config_raw = config_path.read_bytes()
+    config = json.loads(config_raw)
+    from binary import PE
+    target = ROOT / config['target']['path']
+    assert sha(target) == config['target']['sha256']
+    original = json.loads((original_dir / 'receipt.json').read_text())
+    native = json.loads((native_dir / 'receipt.json').read_text())
+    assert native['original_receipt_sha256'] == sha(original_dir/'receipt.json'), 'native inputs do not bind this original trial'
+    for directory, record in ((original_dir, original), (native_dir, native)):
+        assert (directory / 'configuration.json').read_bytes() == config_raw, 'stale/wrong trial snapshot'
+        assert record['configuration_sha256'] == sha(config_path)
+        if directory==native_dir or not native.get('reused_original_capture'):
+            assert record['native_sha256'] == sha(BINARY / 'build/native/CVPACK'), 'native binary changed'
+            assert record['rebuilt_sha256'] == sha(BINARY / 'build/CVPACK.EXE'), 'Win32 binary changed'
+        if 'compiled_sources_sha256' in record:
+            assert record['compiled_sources_sha256']==sha(directory/'compiled-sources.json')
+            from provenance import verify
+            verify(directory/'compiled-sources.json')
+        checked_files(directory, record)
+    assert original['unmasked'] is False, 'unmasked reference is not acceptance evidence'
+    assert original['original_sha256'] == sha(target)
+    assert original['actual_loaded_crt']['sha256'] == CRT_SHA and original['actual_loaded_crt']['bytes'] == 277776
+    provider = Path(original['actual_loaded_crt']['capture_path'])
+    assert provider.stat().st_size == 277776 and sha(provider) == CRT_SHA, 'actual loaded-provider bytes differ'
+    assert sha(Path(original['actual_target_capture'])) == original['masked_image_sha256'], 'actual child image differs'
+    assert original['plan_sha256'] == sha(original_dir / 'runtime-plan')
+    historical_audit = json.loads((original_dir/'audit.json').read_text())
+    assert original['audit_sha256'] == sha(original_dir/'audit.json')
+    assert historical_audit['config_sha256'] == sha(config_path)
+    assert historical_audit['graph_config_sha256'] == sha(original_dir/'graph-config.json')
+    audit_path=audit_path or original_dir/'audit.json'
+    audit = json.loads(audit_path.read_text())
+    assert audit['config_sha256'] == sha(config_path)
+    assert audit['candidates'] == original['candidates'], 'audit is not for the candidate trial'
+    expected_checked = [r['name'] for r in config['functions']
+                        if r['status']=='accepted' or r['name'] in original['candidates']]
+    assert audit['checked_functions'] == expected_checked
+    assert audit['graph']['checked_functions'] == len(expected_checked), 'candidate graph missing'
+    for key,path in [('original_sha256',target),('rebuilt_sha256',BINARY/'build/CVPACK.EXE'),
+                     ('native_sha256',BINARY/'build/native/CVPACK'),('map_sha256',BINARY/'build/cvpack.map'),
+                     ('graph_tool_sha256',ROOT/'tooling/graph-audit/target/release/graph-audit'),
+                     ('runtime_sha256',BINARY/'runtime.json'),('data_sha256',BINARY/'data.json'),
+                     ('audit_wrapper_sha256',BINARY/'scripts/audit.py'),
+                     ('resource_evidence_sha256',BINARY/'cases/help/resources.json'),
+                     ('graph_config_sha256',audit_path.parent/'graph-config.json'),
+                     ('graph_runtime_sha256',audit_path.parent/'graph-runtime.json')]:
+        assert audit[key] == sha(path), ('stale candidate audit input',key)
+    assert original['graph_config_sha256'] == sha(original_dir/'graph-config.json')
+    assert original['graph_runtime_sha256'] == sha(original_dir/'graph-runtime.json')
+    assert (original_dir/'graph-config.json').read_bytes()==(audit_path.parent/'graph-config.json').read_bytes(), 'audit refresh changed trial projection'
+    assert (original_dir/'graph-runtime.json').read_bytes()==(audit_path.parent/'graph-runtime.json').read_bytes(), 'audit refresh changed runtime projection'
+    assert original['runtime_sha256']==sha(original_dir/'runtime.json')==sha(BINARY/'runtime.json')
+    assert len(set(original['candidates'])) == len(original['candidates'])
+    for candidate in original['candidates']:
+        assert any(r['name'] == candidate and r['status'] == 'candidate' and r['extent']
+                   for r in config['functions']), 'unknown/non-candidate trial function'
+    import hashlib
+    image = mask(config, PE(target), original['candidates'])
+    for line in (original_dir / 'runtime-plan').read_text().splitlines():
+        start, _, _ = [int(value, 16) for value in line.split()]
+        image[PE(target).offset(start)] = 0xcc
+    assert hashlib.sha256(image).hexdigest() == original['masked_image_sha256'], 'wrong original candidate mask'
+    events = (original_dir / 'events').read_text()
+    frontier = re.findall(r'^frontier ([0-9a-f]{8})$', events, re.M)
+    native_entries=(native_dir/'entry-trace').read_text().splitlines()
+    original_entries=[int(value,16) for value in re.findall(r'^entry ([0-9a-f]{8})$',events,re.M)]
+    expected_entries=[r['native_symbol'] for address in original_entries for r in config['functions'] if r['original']==address]
+    native_status_text=(native_dir/'native-status').read_text()
+    assert re.fullmatch(r'-?\d+\n',native_status_text), 'missing actual native status'
+    native_status=int(native_status_text)
+    for candidate in original['candidates']:
+        record=next(r for r in config['functions'] if r['name']==candidate)
+        assert record['original'] in original_entries, 'candidate never entered original'
+        assert record['native_symbol'] in native_entries, 'candidate never entered native'
+    if not frontier:
+        exits=re.findall(r'^exit (\d+)$',events,re.M)
+        assert len(exits)==1 and not re.search(r'^exception |^debug-timeout',events,re.M), 'missing real original completion'
+        status=int(exits[0])
+        assert status==native_status==1, ('actual completion statuses differ',exits,native_status)
+        assert json.loads((native_dir/'state.json').read_text())==dict(terminal='exit',exit_status=status)
+        assert native_entries==expected_entries, 'completion application trace differs'
+        master=BINARY/'cases/help/original/stdout'
+        assert sha(master)=='f0188b3a0350b59bac8eea2dff386dd4897b1518426e167109712fcbc5f52b1c'
+        assert (original_dir/'stdout').read_bytes()==(native_dir/'stdout').read_bytes()==master.read_bytes()
+        assert (original_dir/'stderr').read_bytes()==(native_dir/'stderr').read_bytes()==b''
+        return dict(terminal='exit',exit_status=status,application_trace=expected_entries,
+                    stdout_bytes=193,stderr_bytes=0)
+    native_raw = (native_dir / 'gdb-stdout').read_text()
+    assert len(frontier) == 1, 'need one real original frontier'
+    assert 'Program received signal SIGTRAP' in native_raw, 'missing raw native trap'
+    frames = re.findall(r'^0x[0-9a-f]+ in ([A-Za-z_][A-Za-z_0-9]*) \(', native_raw, re.M)
+    assert len(frames) == 1 and frames[0], 'missing raw native frontier'
+    state = json.loads((native_dir / 'state.json').read_text())
+    assert state['function'] == frames[0], 'native state does not match raw GDB frame'
+    address = int(frontier[0], 16)
+    assert native_status==-5, 'missing actual native trap status'
+    if address == config['target']['entry']:
+        assert frames[0] == 'main' and config.get('native_entry_guard', True), 'wrong initial CRT guard'
+        logical = 'runtime:mainCRTStartup'
+    else:
+        matches = [r for r in config['functions'] if r['original'] == address and r['native_symbol'] == frames[0]]
+        assert len(matches) == 1, ('different logical frontier', frontier, frames)
+        logical = matches[0]['name']
+        if frames[0] not in expected_entries:expected_entries.append(frames[0])
+        assert native_entries == expected_entries, ('application first-entry traces differ',expected_entries,native_entries)
+        assert (original_dir/'data.json').read_bytes() == (native_dir/'data.json').read_bytes() == (BINARY/'data.json').read_bytes(), 'stale data schema'
+        assert original['data_sha256'] == native['data_sha256'] == sha(BINARY/'data.json')
+        import importlib.util
+        spec = importlib.util.spec_from_file_location('raw_state',BINARY/'scripts/raw-state.py')
+        decoder = importlib.util.module_from_spec(spec)
+        spec.loader.exec_module(decoder)
+        typed = decoder.compare(config,json.loads((original_dir/'data.json').read_text()),events,state)
+    for name in ('stdout', 'stderr'):
+        assert (original_dir / name).read_bytes() == (native_dir / name).read_bytes(), ('different partial output', name)
+    return dict(terminal='trap', frontier=logical, original_address=address, native_function=frames[0],
+                typed_state=typed if address != config['target']['entry'] else 'initial CRT entry only')
+
+
+def main():
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--original', type=Path, required=True)
+    parser.add_argument('--native', type=Path, required=True)
+    parser.add_argument('--config', type=Path, default=BINARY / 'functions.json')
+    parser.add_argument('--candidate')
+    parser.add_argument('--audit',type=Path)
+    parser.add_argument('--check-only', action='store_true')
+    args = parser.parse_args()
+    if args.candidate:
+        config=json.loads(args.config.read_text())
+        receipt=json.loads((args.original/'receipt.json').read_text())
+        assert receipt['candidates']==[args.candidate], 'requested candidate differs from original trial'
+        assert any(r['name']==args.candidate and r['status']=='candidate' for r in config['functions'])
+    result = validate_pair(args.config, args.original, args.native,args.audit)
+    if not args.check_only:
+        assert args.candidate, 'promotion requires an explicit single candidate'
+        assert args.config.resolve()==(BINARY/'functions.json').resolve(), 'only promote the current primary trial'
+        review=json.loads((BINARY/'cases/help/review.json').read_text())
+        assert review['first_main_promotion']=='approved'
+        if not config['accepted']:assert args.candidate==review['first_function']
+        else:assert review['autonomous_help_protocol']=='approved after first main promotion'
+        record=next(r for r in config['functions'] if r['name']==args.candidate)
+        proof=(args.original.parent/'promotion.json').resolve()
+        promoted=dict(schema=1,candidate=args.candidate,extent=record['extent'],
+            trial_config_sha256=sha(args.config),original_receipt_sha256=sha(args.original/'receipt.json'),
+            native_receipt_sha256=sha(args.native/'receipt.json'),
+            audit_sha256=sha(args.audit or args.original/'audit.json'),result=result)
+        if proof.exists():
+            assert json.loads(proof.read_text())==promoted, 'different promotion already recorded'
+        else:
+            proof.write_text(json.dumps(promoted,indent=2)+'\n')
+        record['status']='accepted'
+        record['acceptance_proof']=str(proof.relative_to(BINARY))
+        assert args.candidate not in config['accepted']
+        config['accepted'].append(args.candidate)
+        args.config.write_text(json.dumps(config,indent=2)+'\n')
+    print(json.dumps(result, indent=2))
+
+
+if __name__ == '__main__':
+    main()

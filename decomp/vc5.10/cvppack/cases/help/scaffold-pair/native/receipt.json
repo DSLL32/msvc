@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "case": "help",
+  "native_sha256": "7c6e76829275bd27521641131a47fbd2b285eaa539a3bf81c586b17553197ef5",
+  "configuration_sha256": "6b1f07421d286385b640e00b637ca4485cb434d5a5f94185f611dac4cb675014",
+  "rebuilt_sha256": "c3a4b805f2201a87bd53938e28d13eb1c11a6f26bcf15f6ac557e0abeca62856",
+  "outputs": [
+    {
+      "name": "stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gdb-stdout",
+      "bytes": 294,
+      "sha256": "fc5205c219155e374f0c29c52485792962061fc3c54b11fd2d3ae0df34488000"
+    },
+    {
+      "name": "gdb-stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "state.json",
+      "bytes": 263,
+      "sha256": "fe066852972d28ceb0819b2a793d9bda0fe49449f31c3b763caf900ea20d0de5"
+    }
+  ],
+  "seconds": {
+    "execution": 0.12549992837011814,
+    "total": 0.12867756001651287
+  }
+}

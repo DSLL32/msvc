@@ -1,0 +1,14 @@
+python3 scripts/check-native.py
+{
+  "schema": 1,
+  "case": "help",
+  "terminal": "trap",
+  "native_only": true,
+  "native_sha256": "3f7eeaa2cfddb15078d85d509bf7227e66654914e7d403506327c41212111094",
+  "reference_receipt_sha256": "3037a7171660cb1195e5a4e107973c4f5ffaf3c30e043770632d07169cdb8e5a",
+  "seconds": {
+    "execution": 0.2414126107469201,
+    "checks": 0.0014642495661973953,
+    "total": 0.24644587468355894
+  }
+}

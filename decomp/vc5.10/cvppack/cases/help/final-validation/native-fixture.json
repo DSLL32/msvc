@@ -1,0 +1,20 @@
+{
+  "schema": 1,
+  "case": "help",
+  "terminal": "exit",
+  "native_only": true,
+  "native_sha256": "56b3d2a58cb5af769bb7dac7db440812d9fca8ebf582d71f6ca4f164b9d9b4b9",
+  "reference_receipt_sha256": "a55251ff7652c5146d63e73004c183cad25a7196b23947e19300b0453081f688",
+  "prepared_resources": {
+    "provider_sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b",
+    "source_rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+    "entries": 3,
+    "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de"
+  },
+  "seconds": {
+    "preparation": 0.0026003122329711914,
+    "execution": 0.004849634133279324,
+    "checks": 0.0017141615971922874,
+    "total": 0.012308605946600437
+  }
+}

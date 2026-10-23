@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "case": "help",
+  "native_sha256": "1e884488e989b9faf7f146fe63401887aae9fde29ea6e8d71cdd551f2fbb13b1",
+  "configuration_sha256": "189c53375d059fb2a541435c1960e3dc637ecde832f93f9690237c69c4e93495",
+  "rebuilt_sha256": "5666f24c505c23dfde0f3dad6e538bbcc53eb4f93bfe67cd9cda0561bd7ba2f1",
+  "data_sha256": "08811c232f3fcff3fb164e82b311105316874570219aed537907b13fa6001057",
+  "original_receipt_sha256": "fb101e84a2596a09290eff4b26474ef440b2069e5114be79edc884b188f99a76",
+  "outputs": [
+    {
+      "name": "stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "gdb-stdout",
+      "bytes": 481,
+      "sha256": "574d11ccdaec7054aabafd80c216205d192f2e037b65349a559fed209b496143"
+    },
+    {
+      "name": "gdb-stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "state.json",
+      "bytes": 973,
+      "sha256": "46cc9d627736deb5d1e309ad5a8bf760570d962f1eaf09262290a8a028966a6e"
+    },
+    {
+      "name": "entry-trace",
+      "bytes": 32,
+      "sha256": "791e7fef5d8c8c0a951e1c5b1427f613bb3e236fca79c0791597e61b90333934"
+    },
+    {
+      "name": "entry-filter",
+      "bytes": 317,
+      "sha256": "6273f818c11acb36189941a754c72c42d4fdf251d9db650a680ff0c900d00268"
+    },
+    {
+      "name": "native-status",
+      "bytes": 3,
+      "sha256": "0b2f06dddfa807ee574a78468d3a05904873b97f44377eb93481e091c257b800"
+    },
+    {
+      "name": "direct-stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "direct-stderr",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "seconds": {
+    "direct_execution": 0.004239827394485474,
+    "gdb_execution": 0.1462892284616828,
+    "total": 0.15571838896721601
+  }
+}

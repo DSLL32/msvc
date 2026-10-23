@@ -1,0 +1,6 @@
+{
+  "schema": 1,
+  "rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+  "evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de",
+  "scope": "Only three encountered RT_STRING records; ASCII/lang1033; no runtime PE resource parser."
+}

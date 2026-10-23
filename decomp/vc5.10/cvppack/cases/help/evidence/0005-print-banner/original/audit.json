@@ -1,0 +1,117 @@
+{
+  "schema": 1,
+  "config_sha256": "f5e4e078fae69f432a87be388b3320cb0358ae14611f67fc07e6826c503ed6ef",
+  "graph_config_sha256": "e0e9778a744f3e98510f221a11a2020ce685992710e17443e1cbacb6e77ccc83",
+  "original_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "rebuilt_sha256": "3ee2a815f163974bd96572af039c6154eeeb7a2dcc2d07d1c4e86d774125181b",
+  "native_sha256": "6bac0ddedb79a5f5eeb75580893553fcd88e9f994806baa2a661ac1b63700083",
+  "map_sha256": "13481771a59bb3d2eb05114390f86b5b7223127dd999489d20b1fcf08b189979",
+  "graph_tool_sha256": "ce16e47d87dd969a1be34cbfc8f8025fbd44ba72423ba8ef3a35d46308d055bf",
+  "data_sha256": "cd19d8bd3ec45b9a50bc1b60d6a29ef951df3f6ffa071cbc3e0e65dc1e0fbf38",
+  "runtime_sha256": "45bed7b37cc8171159533760fe4d1d62ec97f16d098c27ec474f5cd9ed9790bf",
+  "graph_runtime_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+  "audit_wrapper_sha256": "664a8e6e091dccd25c2c6f133358a28c1c4cbb4720b2eccba85392a06edb0887",
+  "candidates": [
+    "print_banner"
+  ],
+  "checked_functions": [
+    "cvpack_main",
+    "initialize_messages",
+    "parse_options",
+    "print_banner",
+    "fatal_error"
+  ],
+  "owned_ranges": 14,
+  "graph_command": [
+    "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+    "--profile",
+    "cl",
+    "--project",
+    "/root/msvc2/decomp/vc5.10/cvppack",
+    "--repo",
+    "/root/msvc2",
+    "--original",
+    "/root/msvc2/toolchains/5.10/bin/CVPACK.EXE",
+    "--rebuilt",
+    "/root/msvc2/decomp/vc5.10/cvppack/build/CVPACK.EXE",
+    "--map",
+    "/root/msvc2/decomp/vc5.10/cvppack/build/cvpack.map",
+    "--config",
+    "/root/msvc2/decomp/vc5.10/cvppack/cases/help/evidence/0005-print-banner/original/graph-config.json",
+    "--runtime",
+    "/root/msvc2/decomp/vc5.10/cvppack/cases/help/evidence/0005-print-banner/original/graph-runtime.json",
+    "--rebuilt-runtime",
+    "/root/msvc2/decomp/vc5.10/cvppack/cases/help/evidence/0005-print-banner/original/graph-runtime.json",
+    "--discovery",
+    "cfg",
+    "--check-ret",
+    "--check-references",
+    "--check-ownership",
+    "--check-extents"
+  ],
+  "graph": {
+    "checked_accepted_extents": null,
+    "checked_functions": 5,
+    "checked_unique_accepted_extents": null,
+    "checks": [
+      "call_graph",
+      "ret_cleanup",
+      "function_references",
+      "extent_ownership",
+      "whole_extent_boundaries"
+    ],
+    "discovery": "cfg",
+    "functions": {
+      "_fatal_error": {
+        "edges": [
+          "_close_file",
+          "_message_text",
+          "_print_banner",
+          "indirect"
+        ]
+      },
+      "_initialize_messages": {
+        "edges": []
+      },
+      "_main": {
+        "edges": [
+          "_close_file",
+          "_files_initialize",
+          "_flush_packed_file",
+          "_free_type_tables",
+          "_get_file_size",
+          "_initialize_messages",
+          "_initialize_module_pack",
+          "_initialize_type_tables",
+          "_map_file_region",
+          "_pack_module",
+          "_parse_options",
+          "_print_banner",
+          "_print_statistics",
+          "_read_image_debug",
+          "_select_input_name",
+          "_warning",
+          "_write_debug_directory",
+          "indirect"
+        ]
+      },
+      "_parse_options": {
+        "edges": [
+          "_fatal_error",
+          "_print_banner",
+          "_warning",
+          "indirect"
+        ]
+      },
+      "_print_banner": {
+        "edges": [
+          "_message_text",
+          "indirect"
+        ]
+      }
+    },
+    "original_accepted_graphs": null,
+    "profile": "cl"
+  },
+  "seconds": 0.10356325097382069
+}

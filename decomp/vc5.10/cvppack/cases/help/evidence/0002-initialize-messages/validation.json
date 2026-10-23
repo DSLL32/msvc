@@ -1,0 +1,53 @@
+{
+  "schema": 1,
+  "candidate": "initialize_messages",
+  "promoted": true,
+  "result": {
+    "terminal": "trap",
+    "frontier": "parse_options",
+    "original_address": 4212928,
+    "native_function": "parse_options",
+    "typed_state": {
+      "parameters": {
+        "argc": 2,
+        "argv": [
+          "523a5c746f6f6c636861696e735c352e31305c62696e5c43565041434b2e45584500",
+          "2f68656c7000"
+        ]
+      },
+      "globals": [
+        "input_file",
+        "show_logo",
+        "banner_pending",
+        "checksum_required",
+        "module_count",
+        "statistics_enabled",
+        "debug_directory",
+        "line_data",
+        "symbol_data",
+        "type_data",
+        "module_data"
+      ]
+    }
+  },
+  "original": {
+    "setup": 0.1066110236570239,
+    "execution": 0.47062383964657784,
+    "total": 0.5874544084072113
+  },
+  "native": {
+    "direct_execution": 0.004217549227178097,
+    "gdb_execution": 0.1461368054151535,
+    "total": 0.15647394116967916
+  },
+  "seconds": {
+    "original_build": 0.9922995707020164,
+    "native_build": 1.2418215973302722,
+    "graph_tool_build": 14.883724486455321,
+    "original_capture": 0.6503935037180781,
+    "native_capture": 0.22352415975183249,
+    "pair_check": 0.10673034563660622,
+    "promotion": 0.10021254792809486,
+    "native_fixture": 0.2964361561462283
+  }
+}

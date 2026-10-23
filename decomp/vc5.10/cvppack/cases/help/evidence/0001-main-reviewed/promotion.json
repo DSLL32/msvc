@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "candidate": "cvpack_main",
+  "extent": [
+    4212256,
+    4212917
+  ],
+  "trial_config_sha256": "189c53375d059fb2a541435c1960e3dc637ecde832f93f9690237c69c4e93495",
+  "original_receipt_sha256": "fb101e84a2596a09290eff4b26474ef440b2069e5114be79edc884b188f99a76",
+  "native_receipt_sha256": "ab44e25d28263f524be7ab1fb27dece97d18e04d0fd512dbf186acced753e7e8",
+  "audit_sha256": "062a4fa0a147c8a84cf17e9a6b5eda09e5c973f37952a34f929974fde3eb1e21",
+  "result": {
+    "terminal": "trap",
+    "frontier": "initialize_messages",
+    "original_address": 4224640,
+    "native_function": "initialize_messages",
+    "typed_state": {
+      "parameters": {
+        "file": {
+          "null": false,
+          "bytes": "63767061636b2e65727200"
+        },
+        "program": {
+          "null": false,
+          "bytes": "533a5c7663352e31305c6376707061636b5c63617074757265735c3138396335333337356430352d313739323735333239383834313433333730305c43565041434b2e45584500"
+        },
+        "resources": 1
+      },
+      "globals": [
+        "input_file",
+        "show_logo",
+        "banner_pending",
+        "checksum_required",
+        "module_count",
+        "statistics_enabled",
+        "debug_directory",
+        "line_data",
+        "symbol_data",
+        "type_data",
+        "module_data"
+      ]
+    }
+  }
+}
