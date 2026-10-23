@@ -123,6 +123,7 @@ int main(void)
                 frontend_bss.output_buffers[i].descriptor = 37;
                 frontend_bss.output_buffers[i].mode = 23;
             }
+            frontend_bss.deferred_work = (DeferredWorkFrame *)frontend_bss.saved_state;
             restore_mode = 9;
             compiler_mode = !strcmp(seed, "restore-zero") ? 0 : 3;
         }

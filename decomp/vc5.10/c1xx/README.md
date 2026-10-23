@@ -115,5 +115,10 @@ diagnostic boundary. The eighth-object checkpoint records checker, controller
 and input hashes, 20 fresh state controls and 20 fresh historical lifecycle
 controls, with timings; no original lifecycle execution was repeated.
 
-Current reconstruction has reached initializer 16; minimal compilation remains
+The deferred-work constructor adds one proven pointer field, with frame contents
+unmodeled. Its natural and nonzero/reset proofs are in
+`cases/minimal/deferred-trials.json`; schema 14 has 544 semantic BSS bytes,
+24 native padding bytes and a sizeof of 568.
+
+Current reconstruction has reached initializer 17; minimal compilation remains
 unfinished. The completed lifecycle fixture remains native-only (about 12 ms warm).

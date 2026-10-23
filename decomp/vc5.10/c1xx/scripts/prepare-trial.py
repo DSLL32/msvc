@@ -82,9 +82,12 @@ def prepare():
             "cases/minimal/contract.json", "cases/minimal/invoke-argv.bin", "cases/sources/minimal.cpp", "cases/minimal/state-model.json")}
     trial["test_seed"] = candidate.get("test_seed")
     trial['test_constructor_seed']=bool(candidate.get('test_constructor_seed'))
-    if trial["test_seed"] or trial_name in ('_checked_malloc','_register_cleanup') or (trial_name or '').startswith(('_initialize_frontend_','_initialize_output_buffer_')):
+    if trial["test_seed"] or trial_name in ('_checked_malloc','_register_cleanup','_initialize_deferred_work') or (trial_name or '').startswith(('_initialize_frontend_','_initialize_output_buffer_')):
         trial["validation_observers"] = [{"owner":"_initialize_compiler_pass", "original_rva":0x385be,
             "original_byte":0x89,"purpose":"observe typed copy/restore before first-flag reset"}]
+    trial['test_deferred_seed']=bool(candidate.get('test_deferred_seed'))
+    if trial['test_deferred_seed']:
+        trial['auxiliary_deferred_data_seed']={'owner':'_initialize_deferred_work','point':'entry before target body','deferred_work':'owned snapshot identity; never dereferenced','code_or_allocator_mock':False}
     if trial['test_constructor_seed']:
         trial['auxiliary_data_seed']={'owner':trial_name,'point':'entry before target body',
             'data':'owned snapshot+0','cursor':'owned snapshot+4','capacity':64,

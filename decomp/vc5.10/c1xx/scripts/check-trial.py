@@ -46,11 +46,13 @@ def check(original, native, require_audit=True, audit_path=None):
     candidate = json.loads((PROJECT / cfg.get("candidate_path", "cases/lifecycle/candidate.json")).read_text())
     if candidate["case"] == "minimal":
         require(not candidate.get('test_seed'),'auxiliary/seeded executions cannot promote a function')
+        require(not candidate.get('test_deferred_seed'),'deferred-work data auxiliary cannot promote a function')
         require(not candidate.get('test_constructor_seed'),'constructor data-seed auxiliary cannot promote a function')
         filename={'_InvokeCompilerPass@12':'check-minimal.py',
                   '_initialize_compiler_pass':'check-projection.py',
                   '_checked_malloc':'check-projection.py',
                   '_register_cleanup':'check-callback.py',
+                  '_initialize_deferred_work':'check-callback.py',
                   '_initialize_frontend_01':'check-callback.py'}.get(candidate['trial'])
         if (candidate['trial'] or '').startswith('_initialize_frontend_'):
             filename='check-callback.py'

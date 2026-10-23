@@ -46,6 +46,7 @@ int initialize_compiler_pass(void)
             frontend_bss.output_buffers[i].descriptor = 0;
             frontend_bss.output_buffers[i].mode = 0;
         }
+        frontend_bss.deferred_work = NULL;
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }
@@ -105,7 +106,7 @@ int register_cleanup(Initializer cleanup)
 
 void initialize_deferred_work(void)
 {
-    __asm { int 3 }
+    frontend_bss.deferred_work = NULL;
 }
 
 void destroy_deferred_work(void)

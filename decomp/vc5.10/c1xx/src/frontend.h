@@ -24,6 +24,9 @@ typedef struct FrontendSourcePosition {
     unsigned position;
 } FrontendSourcePosition;
 
+/* Frame contents remain unknown until a semantic consumer is reached. */
+typedef struct DeferredWorkFrame DeferredWorkFrame;
+
 typedef struct FrontendBss {
     FrontendData *saved_state;
     int cleanup_count;
@@ -33,6 +36,7 @@ typedef struct FrontendBss {
     FrontendContextStack nested_context_stacks[9];
     FrontendSourcePosition source_position;
     OutputBuffer output_buffers[FRONTEND_OUTPUT_BUFFERS];
+    DeferredWorkFrame *deferred_work;
 } FrontendBss;
 
 extern FrontendData frontend_data;

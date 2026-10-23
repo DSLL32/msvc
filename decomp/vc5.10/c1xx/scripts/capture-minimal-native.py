@@ -90,6 +90,8 @@ if int(gdb.parse_and_eval('(unsigned int)c1xx_aux_new_base')):
         value['aux_mock_call']={'callee':'_checked_malloc','request':value['args']['bytes'],
             'genuine_int3_pc':value['pc']-1,'actual_opcode':bytes(gdb.selected_inferior().read_memory(value['pc']-1,1)).hex(),
             'result':value['aux_owned']['new']['payload'],'caller_return_pc':int(frame.older().pc())}
+value['frontend']['deferred_work']=int(gdb.parse_and_eval('(unsigned int)frontend_bss.deferred_work'))
+value['frontend']['storage']['deferred_work']=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.deferred_work')),4]
 value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
 value['target_state']['onexit_first']=int(gdb.parse_and_eval('(unsigned int)*onexit_begin')) if value['target_state']['onexit_begin'] else None
@@ -139,6 +141,14 @@ end
             registration=output/('collect-'+stem+'.gdb')
             registration.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/(stem+'.json')))).replace(repr(str(output/'native-argv.bin')),repr(str(output/(stem+'-argv.bin')))))
             observer+='break register_cleanup if frontend_bss.cleanup_count==%d\ncommands\nsilent\nsource '%i+str(registration)+'\ncontinue\nend\n'
+    if trial['trial']=='_initialize_deferred_work':
+        entry=output/'collect-deferred-entry.gdb'
+        entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'deferred-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'deferred-entry-argv.bin'))))
+        seed='set variable frontend_bss.deferred_work=(DeferredWorkFrame *)frontend_bss.saved_state\n' if trial.get('test_deferred_seed') else ''
+        observer+='break *initialize_deferred_work\ncommands\nsilent\n'+seed+'source '+str(entry)+'\ncontinue\nend\n'
+        registration=output/'collect-deferred-registration.gdb'
+        registration.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'deferred-registration.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'deferred-registration-argv.bin'))))
+        observer+='break register_cleanup if frontend_bss.cleanup_count==8\ncommands\nsilent\nsource '+str(registration)+'\ncontinue\nend\n'
     if trial.get('validation_observers'):
         phase=output/'collect-phase.gdb'
         phase.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'phase.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'phase-argv.bin'))))

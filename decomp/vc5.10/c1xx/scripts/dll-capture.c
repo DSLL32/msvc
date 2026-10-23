@@ -256,6 +256,8 @@ static void save_frontend_state(const char *suffix)
     readmem(base + 0xbf348, data + 28, 4);
     readmem(base + 0xbf244, data + 32, 1);
     sprintf(name, "output-buffer-08-%s.bin", suffix); save_blob(name, data, 33);
+    readmem(base + 0xc0578, data, 4);
+    sprintf(name, "deferred-work-%s.bin", suffix); save_blob(name, data, 4);
     readmem(base + 0xcc000, data, sizeof(data));
     sprintf(name, "frontend-data-%s.bin", suffix); save_blob(name, data, sizeof(data));
     if (values[1]) {
@@ -353,6 +355,7 @@ static void seed_frontend_restore(void)
     seed_output_buffer(5, "nonzero-BSS-reset");
     seed_output_buffer(6, "nonzero-BSS-reset");
     seed_output_buffer(7, "nonzero-BSS-reset");
+    write_mem(base + 0xc0578, &allocated, 4);
     value = 9; write_mem(base + 0xcb06c, &value, 4);
     value = !strcmp(seed, "restore-zero") ? 0 : 3; write_mem(base + 0xcb008, &value, 4);
     fprintf(events, "restore-seed mode=%s allocation=%08lx bytes=8520 cleanup-count=32 mocked-cleanup-callback=_initialize_frontend_01 slots=32\n", seed, allocated);
@@ -530,6 +533,13 @@ int main(int argc, char **argv)
                     if (!object || object > 8) fail("unknown constructor data seed");
                     if (address == base + constructors[object - 1])
                         seed_output_buffer(object - 1, "constructor-entry");
+                }
+                if (address == base + 0x38904 && getenv("C1XX_TEST_DEFERRED_CONSTRUCTOR")) {
+                    DWORD owned;
+                    readmem(base + 0xc4d50, &owned, 4);
+                    if (!owned) fail("deferred seed needs owned snapshot");
+                    write_mem(base + 0xc0578, &owned, 4);
+                    fprintf(events, "deferred-seed role=constructor-entry value=owned-snapshot never-dereferenced=1\n");
                 }
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)

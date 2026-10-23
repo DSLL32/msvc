@@ -1,5 +1,5 @@
 {
-  "schema": 13,
+  "schema": 14,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -787,6 +787,16 @@
       "native_expression": "frontend_bss.output_buffers[7].mode",
       "original_default": 0,
       "evidence": "constructor388b5 same-class object; 9 encountered fields only, intervening 259 bytes UNMODELED"
+    },
+    {
+      "name": "deferred_work",
+      "class": "bss",
+      "original_address": 273417592,
+      "bytes": 4,
+      "native_expression": "frontend_bss.deferred_work",
+      "original_default": 0,
+      "pointer_identity": "NULL or owned snapshot identity only; frame contents UNMODELED",
+      "evidence": "constructor38904 clears pointer;44809 lazily allocates12-byte list frame,4d0c0 pushes parent at+8,4cbf4 pops it"
     }
   ],
   "initializers": [
