@@ -43,12 +43,17 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  assert struct.unpack_from('<18I',(original/'compiler-bss-000.bin').read_bytes(),0x1858)==(0,)*18
  assert struct.unpack_from('<18I',bss,0x1858)==(0,)*18
  assert b['contexts']==[dict(object=0,value=0,saved_frame=0) for i in range(6)]
- # This frontier has not executed any registering callback yet.
- assert struct.unpack_from('<32I',bss,0x7820)==tuple(b['cleanup_callbacks'])==(0,)*32
+ symbols={name:int(address,16) for address,size,name in re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [TtWw] (\S+)$',subprocess.check_output(['nm','-S','--defined-only',str(PROJECT/'build/native/c1-host')],text=True),re.M)}
+ registered=candidate.get('registered_cleanup',[])
+ assert len(registered)<=32
+ wanted_original=tuple(module+row['original_rva'] for row in registered)+(0,)*(32-len(registered))
+ wanted_native=tuple(symbols[row['native_symbol']] for row in registered)+(0,)*(32-len(registered))
+ assert struct.unpack_from('<32I',bss,0x7820)==wanted_original
+ assert tuple(b['cleanup_callbacks'])==wanted_native
+ assert b['cleanup_count']==len(registered)
  globals_data=(original/('state-%03d.bin'%sequence)).read_bytes()
  assert i32(globals_data,0x64)==current['reuse_state']
  assert i32(globals_data,0x8c)==state['pass_mode']==current['pass_mode']
- symbols={name:int(address,16) for address,size,name in re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [TtWw] (\S+)$',subprocess.check_output(['nm','-S','--defined-only',str(PROJECT/'build/native/c1-host')],text=True),re.M)}
  all_symbols={name:(int(address,16),int(size,16)) for address,size,name in re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [A-Za-z] (\S+)$',subprocess.check_output(['nm','-S','--defined-only',str(PROJECT/'build/native/c1-host')],text=True),re.M)}
  for key,symbol in [('initialized','c1_data'),('bss','c1_bss')]:
   address,size=all_symbols[symbol];assert current['live_addresses'][key]==address
@@ -68,7 +73,7 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
   expected_first = candidate['restore_probe']['snapshot_first_call'] if probe=='restore' else 1
   assert i32(snapshot,0x1530)==current['snapshot']['first_call']==expected_first
  else:raise AssertionError('new state consumer requires an explicit modeled projection')
- assert current['reuse_state']==0 and b['cleanup_count']==0
+ assert current['reuse_state']==0 and b['cleanup_count']==len(registered)
 
  if probe=='normal' and expected['kind'] in ('initialization-callback','initialization-helper','compiler-allocation'):
   raw=(original/'events.txt').read_text()

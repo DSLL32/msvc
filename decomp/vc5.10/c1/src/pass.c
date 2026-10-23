@@ -4,7 +4,6 @@
 #pragma intrinsic(memset)
 #include <recon.h>
 
-/* Named next frontiers; no pass implementation accepted yet. */
 int __cdecl initialize_compiler_pass(void)
 {
     unsigned index;
@@ -58,6 +57,8 @@ int __cdecl cleanup_compiler_pass(void)
 
 int __cdecl register_compiler_cleanup(C1Initializer callback)
 {
-    __asm { int 3 }
+    if (c1_bss.cleanup_count >= 32)
+        compiler_error(1, ".\\main.c", 1977);
+    c1_bss.cleanup_callbacks[c1_bss.cleanup_count++] = callback;
     return 0;
 }

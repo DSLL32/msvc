@@ -106,6 +106,16 @@
       "start_rva": 74670,
       "end_rva": 74728,
       "entry": 1
+    },
+    {
+      "start_rva": 74742,
+      "end_rva": 74780,
+      "entry": 1
+    },
+    {
+      "start_rva": 197639,
+      "end_rva": 197664,
+      "entry": 0
     }
   ],
   "functions": [
@@ -313,6 +323,23 @@
         ]
       ],
       "source": "src/buffers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_register_compiler_cleanup",
+      "native_symbol": "register_compiler_cleanup",
+      "role": "application",
+      "chunks": [
+        [
+          74742,
+          74780
+        ],
+        [
+          197639,
+          197664
+        ]
+      ],
+      "source": "src/pass.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -328,13 +355,11 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 74742,
-    "native_symbol": "register_compiler_cleanup",
-    "kind": "initialization-helper",
-    "native_args": [
-      "callback"
-    ],
-    "abi": "cdecl void callback pointer, cleanup0"
+    "rva": 74780,
+    "native_symbol": "initialize_state_1241c",
+    "kind": "initialization-callback",
+    "native_args": [],
+    "abi": "cdecl void callback, cleanup0"
   },
   "imports": [
     {
@@ -464,5 +489,11 @@
       "normal_case": false
     }
   },
-  "staging_role": "Buffered output constructor is sole new candidate; registration remains trap"
+  "staging_role": "Cleanup registration is the only new candidate",
+  "registered_cleanup": [
+    {
+      "original_rva": 145728,
+      "native_symbol": "destroy_output_buffer_23940"
+    }
+  ]
 }

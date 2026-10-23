@@ -203,17 +203,17 @@
     "evidence": "named fatal diagnostic trap; not reached on successful allocation"
   },
   {
-    "name": "_register_compiler_cleanup",
-    "start": 274801654,
-    "end": 274801655,
-    "pending_extent": true,
-    "evidence": "Unaccepted named entry identity only; extent not established or unmasked."
-  },
-  {
     "name": "_destroy_output_buffer_23940",
     "start": 274872640,
     "end": 274872641,
     "pending_extent": true,
     "evidence": "Unaccepted named entry identity only; extent not established or unmasked."
+  },
+  {
+    "name": "_compiler_error",
+    "start": 275014259,
+    "end": 275014260,
+    "pending_extent": true,
+    "evidence": "separate variadic diagnostic call in cleanup-table overflow branch, identity only; no body accepted"
   }
 ]

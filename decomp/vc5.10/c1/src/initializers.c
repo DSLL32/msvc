@@ -177,3 +177,9 @@ void __cdecl compiler_fatal(int message)
 {
     __asm { int 3 }
 }
+
+int __cdecl compiler_error(int message, ...)
+{
+    __asm { int 3 }
+    return 0;
+}

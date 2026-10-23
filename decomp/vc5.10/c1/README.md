@@ -220,3 +220,8 @@ has three padding bytes. The original filename/other storage remains UNMODELED.
 The nonzero auxiliary probe never invokes its callback or dereferences its fake
 stream sentinel. It verifies genuine constructor execution and BSS clearing of
 every mapped field before the next named registration trap.
+
+Cleanup registration (RVA123f6 plus cold30407, 63 bytes) is accepted, with
+matching count1, destructor identity in slot0 and 31 remaining zero slots. The
+overflow diagnostic call remains a separate variadic named trap; its source
+literal is kept at the call. Next frontier is callback1241c.

@@ -44,6 +44,7 @@ extern int c1_reuse_state;
 extern C1Initializer const c1_initialization_callbacks[34];
 void *__cdecl allocate_compiler_memory(unsigned);
 void __cdecl compiler_fatal(int);
+int __cdecl compiler_error(int, ...);
 int __cdecl initialize_output_buffer_123ae(void);
 void __cdecl destroy_output_buffer_23940(void);
 int __cdecl register_compiler_cleanup(C1Initializer);

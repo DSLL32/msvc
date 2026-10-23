@@ -18,7 +18,8 @@
     "_initialize_state_123a5",
     "_initialize_state_123a6",
     "_initialize_state_123a7",
-    "_initialize_output_buffer_123ae"
+    "_initialize_output_buffer_123ae",
+    "_register_compiler_cleanup"
   ],
   "driver": [
     {
@@ -141,6 +142,18 @@
       "name": "_initialize_output_buffer_123ae",
       "start": 274801582,
       "end": 274801640,
+      "role": "application"
+    },
+    {
+      "name": "_register_compiler_cleanup",
+      "start": 274801654,
+      "end": 274801692,
+      "code_chunks": [
+        [
+          274924551,
+          274924576
+        ]
+      ],
       "role": "application"
     }
   ],
