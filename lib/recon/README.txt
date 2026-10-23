@@ -590,3 +590,9 @@ With explicit RECON_ACP=1252, GetCPInfo(0) writes only its defined fields and
 preserves errno/LastError plus each native caller's padding18..19. Actual20-byte
 original buffers and alternate native padding controls verify this; unconfigured
 legacy behavior and other codepages are unchanged.
+
+The VC5 stdio profile initializes stdin from proved provider data: ptr/base alias
+a shared static4096-byte buffer (originalRVA42780), count0, flags101, descriptor0.
+It has user-buffer ownership and survives dup2/close/reopen without heap-free.
+Untouched contents have no live-byte equivalence claim. Default VC1 startup is
+unchanged; this is provider initial-state behavior, not a case/API reseed.

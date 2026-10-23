@@ -1,0 +1,21 @@
+{
+  "scope": "Canonical MSVCRT510 provider initial stdin state, not case reseed; defaultVC1 unchanged",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "provider_image_base": 2013265920,
+  "iob0_rva": 259440,
+  "iob0_raw_hex": "8027047800000000802704780101000000000000000000000010000000000000",
+  "buffer_rva": 272256,
+  "buffer_size": 4096,
+  "buffer_section": {
+    "name": ".data",
+    "rva": 249856,
+    "virtual_size": 26496,
+    "raw_size": 20992,
+    "raw_offset": 245248,
+    "flags": 3221225536
+  },
+  "actual_CL_main_and_frontier_reference": "/root/.ai-tmp/msvc2/vc5.10/cl/streams-before-dup2-1-original",
+  "native_checks": "GCC/Clang initial aliases/fields, dup+close/dup2 unchangedFILE, user-buffer lifetime across close/reopen; default/profile stdio/fsopen/prefetch",
+  "combined_build_checks_seconds": 3.409,
+  "buffer_contents": "No live bytes at entry; untouched contents unclaimed/uncompared"
+}

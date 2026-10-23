@@ -237,3 +237,10 @@ build/cpinfo-probe: tests/cpinfo-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 cpinfo-check: build/cpinfo-probe
 	$(PYTHON) tests/check-cpinfo.py build/cpinfo-probe
+
+build/stdin-profile-default: tests/stdin-profile.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+build/stdin-profile-510: tests/stdin-profile.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+stdin-profile-check: build/stdin-profile-default build/stdin-profile-510
+	$(PYTHON) tests/check-stdin-profile.py build/stdin-profile-default build/stdin-profile-510

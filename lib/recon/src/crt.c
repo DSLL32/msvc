@@ -31,6 +31,11 @@ WEAK int recon_mbtowc(WCHAR *destination,const char *source,size_t count)
     return value?1:0;
 }
 ShimFILE recon_iob[20];
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+/* Canonical provider .data points stdin at its static4096-byte buffer.
+ * This is user-buffer ownership: fclose/freebuf must never heap-free it. */
+static char recon_stdin_buffer[4096];
+#endif
 WEAK unsigned char recon_osfile[256];
 WEAK unsigned recon_nhandle=256;
 #ifndef RECON_DEFAULT_FMODE
@@ -697,7 +702,7 @@ WEAK int recon_fstat(int descriptor,struct recon_stat *out)
     if (S_ISCHR(info.st_mode)) mode=0020000;
     else if (S_ISFIFO(info.st_mode)) mode=0010000;
     else if (S_ISREG(info.st_mode)) mode=0100000;
-    else recon_unsupported("_fstat unreviewed file type");
+    else {recon_unsupported("_fstat unreviewed file type");return -1;}
     out->st_ino=0;out->st_uid=out->st_gid=0;out->st_nlink=1;
     if (mode==0100000) {
         out->st_mode=mode|((info.st_mode&0222)?0666:0444);
@@ -1265,8 +1270,8 @@ int recon_spawnlp(int mode,const char *file,const char *first,...)
 }
 __attribute__((constructor)) static void initialize_crt(void)
 {
-    mktemp_process_owner=getpid();
     int i; FILE *command; char program[PATH_MAX]; size_t bytes,total=1; char **e,*cursor;
+    mktemp_process_owner=getpid();
     for (i=0;i<256;++i) pushed_byte[i]=-1;
     for (i=0;i<3;++i) {
         os_handles[i]=(long)recon_GetStdHandle((DWORD)(-10-i)); recon_osfile[i]=0x81;
@@ -1274,6 +1279,10 @@ __attribute__((constructor)) static void initialize_crt(void)
         else if (recon_GetFileType((HANDLE)os_handles[i])==FILE_TYPE_CHAR) recon_osfile[i]|=0x40;
         recon_iob[i]._file=i; recon_iob[i]._flag=i?2:1;
     }
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    recon_iob[0]._ptr=recon_iob[0]._base=recon_stdin_buffer;
+    recon_iob[0]._flag=0x101;recon_iob[0]._bufsiz=sizeof(recon_stdin_buffer);
+#endif
     /* VC1 buffers redirected stderr just like stdout. Abrupt traps leave
      * pending bytes in FILE; normal exit/fflush emits them. */
     if (recon_osfile[2]&0x40) recon_iob[2]._flag|=4;
