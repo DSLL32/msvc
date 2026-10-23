@@ -1,4 +1,4 @@
-"""Production-preflight negatives for the exact two caller-owned output locals.
+"""Production-preflight negatives for the exact caller-owned output locals.
 
 Use its frozen original configuration and current matching executable in scratch.
 Only the read-only argument preflight runs; no Wine, replay or promotion occurs.
@@ -28,9 +28,9 @@ def main():
     args=parser.parse_args()
     started=time.perf_counter()
     original=json.loads(args.proof.read_text())
-    assert original['function']=='_resolve_member_pointer_path@12'
+    assert original['function'] in ('_resolve_member_pointer_path@12','_extended_to_double')
     formals=[row for row in original['formals'] if row['binding']['kind']=='caller-owned-pointer']
-    assert len(formals)==2 and all(row['binding']['original_register']=='esp' for row in formals)
+    assert len(formals)==(2 if original['function']=='_resolve_member_pointer_path@12' else 1) and all(row['binding']['original_register']=='esp' for row in formals)
     registers=['esp']
     directory=Path(tempfile.mkdtemp(prefix='member-path-output-negatives-',dir=CAPTURE_ROOT))
     (directory/'functions.json').write_bytes((args.proof.parent/'original-configuration.json').read_bytes())
@@ -43,6 +43,7 @@ def main():
     module.BINARY=directory
     results=[]
     for name in ('control','missing-anchor','wrong-offset','swapped-output-addresses','wrong-native-owner','read-output-prestate'):
+        if name=='swapped-output-addresses' and len(formals)==1:continue
         target=directory/name
         shutil.copytree(args.proof.parent,target)
         proof=copy.deepcopy(original)
@@ -58,7 +59,7 @@ def main():
             (target/'native-checkpoint.json').write_text(json.dumps(native,indent=2)+'\n')
         if name=='read-output-prestate':
             native=json.loads((target/'native-checkpoint.json').read_text())
-            native['caller_locals']['caller_virtual_base']['value']=0
+            native['caller_locals'][formals[0]['binding']['native_owner_field']]['value']=0
             (target/'native-checkpoint.json').write_text(json.dumps(native,indent=2)+'\n')
         if name=='wrong-native-owner':
             native=json.loads((target/'native-checkpoint.json').read_text())

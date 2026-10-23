@@ -52,3 +52,29 @@ int __stdcall convert_floating_literal(char *text, Extended *value)
     }
     return 0;
 }
+
+/* Original 0xa66de..0xa66e7, exactly ten bytes. The following original
+   integer threshold is a separate object, not an Extended format field. */
+ExtendedLimit double_round_limit = { 0xfffffbffU, 0xffffffffU, 0x43fe };
+
+/* Original 0x74dfc..0x74e22. MSVC 1.0 has no ten-byte scalar type;
+   these narrow transfers retain it and the private range-helper x87 ABI.
+   Ordinary C controls the range result and conditional output write. */
+int extended_to_double(const Extended *value, double *result)
+{
+    int overflow;
+    __asm {
+        mov eax, value
+        fld tbyte ptr [eax]
+        fld tbyte ptr double_round_limit
+    }
+    overflow = check_extended_range();
+    if (!overflow) {
+        __asm {
+            mov eax, result
+            fstp qword ptr [eax]
+            fwait
+        }
+    }
+    return overflow;
+}

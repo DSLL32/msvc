@@ -1,0 +1,7 @@
+{
+  "scope": "Bounded exact caller-local output ownership, before acceptance",
+  "initial_hold": "Generic observer allowed existing34/36 offsets only; this separately proved double result is calleeESP+28",
+  "correction": "Added only _extended_to_double/current convert_floating_literal real-local/return64c21 address-only case, not arbitraryoffsetpermission",
+  "failed_unaccepted_pair": "/root/.ai-tmp/msvc2/vc1.0/c1xx/extended-to-double-initial-proof-unregistered-offset28",
+  "negative_check": "MissingESP, wrongoffset, wrongnativeowner and inventedprestate all hold; fresh control succeeds"
+}

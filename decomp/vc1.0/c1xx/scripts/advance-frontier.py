@@ -150,6 +150,12 @@ def main():
             assert formal['native_raw']==binding['native_owner_value']==actual_native_owner, 'native actual caller local owner differs'
             if 'original_stack_offset' in binding and args.candidate=='_resolve_member_pointer_path@12':
                 validate_member_path_output(args.candidate, formal, owner)
+            elif 'original_stack_offset' in binding and args.candidate=='_extended_to_double':
+                assert offset==28 and binding['original_register']=='esp' and binding['native_owner_address'], 'wrong double output stack owner'
+                assert binding['original_caller_rva']==0x64c21 and binding['original_owner_function']=='_convert_floating_literal@8'
+                assert owner['function']=='convert_floating_literal' and owner['local']=='real', 'wrong double output local owner'
+                assert owner['value'] is None and binding['output_only'], 'double output prestate is uncredited'
+                assert 'original_prestate_word_anchor' not in binding
             elif 'original_stack_offset' in binding:
                 assert offset in (34,36) and binding['original_register']=='esp' and binding['native_owner_address'], 'unsupported caller stack owner offset'
                 if offset==34:

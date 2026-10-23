@@ -7,6 +7,16 @@ typedef struct Extended {
     unsigned short exponent, format;
 } Extended;
 typedef char ExtendedSizeMustBe12[(sizeof(Extended) == 12) ? 1 : -1];
+#pragma pack(2)
+typedef struct ExtendedLimit {
+    unsigned low, high;
+    unsigned short exponent;
+} ExtendedLimit;
+#pragma pack()
+typedef char ExtendedLimitSizeMustBe10[(sizeof(ExtendedLimit) == 10) ? 1 : -1];
+extern ExtendedLimit double_round_limit;
+/* Private ABI: ST(0) limit and ST(1) value; leaves the value in ST(0). */
+int check_extended_range(void);
 extern Extended extended_zero, scanned_floating_value;
 int __stdcall convert_floating_literal(char *text, Extended *value);
 int subtract_extended(const Extended *left, const Extended *right, Extended *result);
