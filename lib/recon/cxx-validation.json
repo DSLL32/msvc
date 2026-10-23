@@ -1,0 +1,29 @@
+{
+  "scope": "Native C++ C-linkage and explicit i386 member convention, with canonical VC5 implicit thiscall; shared implementation remains C",
+  "tests": [
+    "C++TU links sharedC symbols/global state without mangledrecon refs",
+    "real classmember ECXthis/RET4 convention emitted",
+    "legacy setjmp/longjmp and Win32/CRT functions usablefromC++",
+    "regular C/setjmp3 regressions"
+  ],
+  "native_build_checks_seconds": {
+    "gcc": 1.0165076907724142,
+    "clang": 1.2285187607631087
+  },
+  "flags": [
+    "-nostdinc++",
+    "-fno-exceptions",
+    "-fno-rtti"
+  ],
+  "limits": [
+    "no hostC++stdlib dependency required for minimalABI TU",
+    "no target ABI/exception/RTTI semantics invented"
+  ],
+  "annotation": "RECON_THISCALL is empty for the canonical Win32 compiler and i386 thiscall for native builds",
+  "original_vc510_member_probe": {
+    "source_sha256": "597f39f8b96efa021ba8b24ddd4fd6770ebdcea35f77d67bbb4398cfad04daf6",
+    "build_seconds": 1.7118160221725702,
+    "execution_seconds": 0.43117896374315023,
+    "status": 0
+  }
+}

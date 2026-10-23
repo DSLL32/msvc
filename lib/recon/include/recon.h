@@ -1,6 +1,12 @@
 #ifndef RECON_SHIMS_H
 #define RECON_SHIMS_H
 #include <trace-abi.h>
+/* VC5 expresses this convention implicitly on C++ members. */
+#if defined(RECON_NATIVE_TEST) && defined(__linux__)
+#define RECON_THISCALL __attribute__((thiscall))
+#else
+#define RECON_THISCALL
+#endif
 /* Empty in the canonical Win32 build. Include last, after ordinary includes. */
 #if defined(RECON_NATIVE_TEST) && defined(__linux__)
 /* Consume host declarations before any token remapping. Project headers may
@@ -23,6 +29,9 @@
 #include <float.h>
 #include <sys/timeb.h>
 #include <win32.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 #ifndef _ONEXIT_T_DEFINED
 typedef int (__cdecl *_onexit_t)(void);
@@ -243,6 +252,10 @@ void recon_load_module_resources(HMODULE,const char *);
 #define RECON_DECLARE_WIN32(result,name,args) result WINAPI recon_##name args;
 RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #undef RECON_DECLARE_WIN32
+
+#ifdef __cplusplus
+}
+#endif
 
 #ifndef RECON_SHIM_IMPL
 /* Clang accepts the original MS inline-assembly trap bodies. Native fixtures

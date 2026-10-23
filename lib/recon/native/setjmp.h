@@ -15,6 +15,9 @@
 typedef int jmp_buf[RECON_LEGACY_JMP_WORDS];
 typedef char ReconJumpBufferSize[(sizeof(jmp_buf) == 4*RECON_LEGACY_JMP_WORDS) ? 1 : -1];
 
+#ifdef __cplusplus
+extern "C" {
+#endif
 recon_host_jmp_buf *recon_jmp_context(void *);
 recon_host_jmp_buf *recon_setjmp3_context(void *, unsigned, int);
 /* The libc save executes in the application's frame. A C wrapper around
@@ -22,6 +25,10 @@ recon_host_jmp_buf *recon_setjmp3_context(void *, unsigned, int);
 extern int recon_host_setjmp(recon_host_jmp_buf)
     __asm__("_setjmp") __attribute__((returns_twice));
 void recon_longjmp(void *, int) __attribute__((noreturn));
+
+#ifdef __cplusplus
+}
+#endif
 
 #ifndef RECON_SHIM_IMPL
 #define _setjmp3(environment, count, ...) \

@@ -10,5 +10,11 @@ struct _timeb {
     short dstflag;
 };
 typedef char ReconTimebIs12[(sizeof(struct _timeb) == 12) ? 1 : -1];
+#ifdef __cplusplus
+extern "C" {
+#endif
 void _ftime(struct _timeb *);
+#ifdef __cplusplus
+}
+#endif
 #endif

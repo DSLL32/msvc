@@ -22,6 +22,12 @@
 #define _IC_AFFINE 0x00040000
 #define _IC_PROJECTIVE 0x00000000
 #define _CW_DEFAULT (_RC_NEAR | _PC_64 | _EM_INVALID | _EM_ZERODIVIDE | _EM_OVERFLOW | _EM_UNDERFLOW | _EM_INEXACT)
+#ifdef __cplusplus
+extern "C" {
+#endif
 unsigned int _control87(unsigned int, unsigned int);
 unsigned int _controlfp(unsigned int, unsigned int);
+#ifdef __cplusplus
+}
+#endif
 #endif

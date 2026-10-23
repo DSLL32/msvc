@@ -424,3 +424,9 @@ NULL inputs. Advance includes NUL, copy changes exactly one byte including NUL.
 Unknown codepages/locales/non-ASCII fail explicitly. `_ismbcspace` and `_mbschr`
 remain unsupported. The separate `recon_mb_codepage` state is not LC_CTYPE's
 codepage and must be observed rather than inferred from MB_CUR_MAX alone.
+
+Minimal native C++ target units may include shared headers with C linkage; shared
+implementations remain C. RECON_THISCALL is empty for VC5 (implicit member ABI)
+and explicitly selects i386 thiscall natively. Compile these narrow units with
+-nostdinc++ -fno-exceptions -fno-rtti, then link through the C compiler alongside
+shared C sources; no host C++ runtime is needed for this surface.

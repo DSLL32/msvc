@@ -4,7 +4,7 @@ CPPFLAGS += -DRECON_NATIVE_TEST -Iinclude -Inative
 CFLAGS += -m32 -std=gnu89 -O0 -g -Wall -Wextra
 SOURCES = src/crt.c src/win32.c src/process.c src/compat.c src/entry.c src/decimal.c
 HEADERS = $(wildcard include/*.h native/*.h native/sys/*.h)
-.PHONY: all check find-check module-check initterm-check startup-check resource-check status-check jump-storage-check system-check cpp-new-check setjmp3-check format-inserts-check multibyte-surface-check private-heap-check tick-context-check onexit-check editor-api-check mb-ascii-check trace-check process-check process-stream-check trace-allocation-check adoption-check clean
+.PHONY: all check find-check module-check initterm-check startup-check resource-check status-check jump-storage-check system-check cpp-new-check setjmp3-check format-inserts-check multibyte-surface-check private-heap-check tick-context-check onexit-check editor-api-check mb-ascii-check cxx-check trace-check process-check process-stream-check trace-allocation-check adoption-check clean
 all: build/check
 build:
 	mkdir -p $@
@@ -95,6 +95,12 @@ build/mb-ascii-probe: tests/mb-ascii-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) tests/mb-ascii-probe.c $(SOURCES) -o $@
 mb-ascii-check: build/mb-ascii-probe
 	$(PYTHON) tests/check-mb-ascii.py build/mb-ascii-probe
+build/cxx-surface.o: tests/cxx-surface.cpp $(HEADERS) | build
+	$(CXX) $(CPPFLAGS) -m32 -std=gnu++98 -O0 -g -nostdinc++ -fno-exceptions -fno-rtti -c $< -o $@
+build/cxx-surface: build/cxx-surface.o $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) build/cxx-surface.o $(SOURCES) -o $@
+cxx-check: build/cxx-surface
+	./build/cxx-surface
 build/trace-target.o: tests/trace-target.c | build
 	$(CC) -m32 -std=gnu89 -O0 -g -finstrument-functions -c $< -o $@
 build/trace-pie: build/trace-target.o src/trace.c
