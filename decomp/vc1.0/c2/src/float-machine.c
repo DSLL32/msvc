@@ -974,3 +974,131 @@ start:
     float_stream_context->order = float_stream_order;
     ++float_stream_order;
 }
+
+/* Original [0003a0a0,0003a25c). Resolve incoming branch records against a
+   label, remembering their agreed x87 depth. Mismatched depths close unsafe
+   contexts; a label forwarded from the following context can resolve at0. */
+int __fastcall resolve_float_stream_label(LabelSymbol *label, MachineInstruction *instruction)
+{
+    FloatStreamBranch *branch, *previous = 0;
+    FloatStreamLabel *resolved = 0;
+    MemoryMotionContext *context;
+    int remaining = label->references;
+    for (branch = float_stream_context->branches; branch; branch = branch->next) {
+        if (branch->label == label) {
+            if (!resolved) {
+                resolved = arena_alloc(4, sizeof(*resolved));
+                resolved->label = label;
+                resolved->next = float_stream_context->labels;
+                float_stream_context->labels = resolved;
+            } else if (resolved->stack_depth != branch->stack_depth) close_float_stream_context();
+            resolved->stack_depth = branch->stack_depth;
+            if (float_stream_context->stack_depth != branch->stack_depth &&
+                (!FM_ELIGIBLE(instruction->previous) || FM_OPERATION(instruction->previous) != MC_JMP ||
+                 float_stream_context->last_branch->instruction != branch->next->instruction))
+                close_float_stream_context();
+            float_stream_context->stack_depth = branch->stack_depth;
+            if (!previous || float_stream_context->branches == branch) {
+                float_stream_context->branches = branch->next;
+                if (!float_stream_context->branches) float_stream_context->last_branch = 0;
+            } else {
+                previous->next = branch->next;
+                if (!branch->next) float_stream_context->last_branch = previous;
+            }
+            if (--remaining == 0) return 1;
+        }
+        previous = branch;
+    }
+    context = float_stream_context->next;
+    if (context && context->label && float_stream_context->stack_depth == 0) {
+        for (branch = context->branches; branch; branch = branch->next) {
+            if (branch->label == label) {
+                if (branch->references != (unsigned)label->references) return 0;
+                resolved = arena_alloc(4, sizeof(*resolved));
+                resolved->label = label;
+                resolved->next = float_stream_context->labels;
+                float_stream_context->labels = resolved;
+                resolved->stack_depth = 0;
+                return 1;
+            }
+        }
+    }
+    return 0;
+}
+
+/* Original [000395c0,000395f5). Merge each completed safe context before
+   closing all entries. Merging may change links, so advance afterward. */
+void close_float_stream_context(void)
+{
+    MemoryMotionContext *context;
+    for (context = float_stream_first_context; context; context = context->next) {
+        if (!(context->flags & 3) && context->last) {
+            memory_motion_context = context;
+            merge_float_stream_context();
+        }
+        context->flags |= 2;
+    }
+}
+MemoryMotionContext *float_stream_active_context; /* 0007e22c */
+/* Original [00039b30,00039d7d). Replay the active context range and its
+   nested ranges only when some context has floating uses to move. Preserve
+   stack state at labels and calls while each child performs its own rewrite. */
+void merge_float_stream_context(void)
+{
+    MemoryMotionContext *context, *probe, *saved;
+    MachineInstruction *instruction, *next_boundary;
+    FloatStreamLabel *label;
+    int nesting = 0;
+    for (probe = memory_motion_context; probe; probe = probe->next)
+        if (probe->uses) break;
+    if (!probe) return;
+    context = memory_motion_context;
+    context->stack_depth = 0;
+    float_stream_active_context = context;
+    initialize_float_context_uses(context);
+    next_boundary = context->next ? context->next->boundary : 0;
+    instruction = memory_motion_context->boundary;
+    while (instruction != memory_motion_context->last) {
+        if (instruction == next_boundary) {
+            if (context->stack_depth) compiler_internal_error("@(#)fltreg.c:1.31", 0x704);
+            context = context->next;
+            float_stream_active_context = context;
+            context->stack_depth = 0;
+            initialize_float_context_uses(context);
+            next_boundary = context->next ? context->next->boundary : 0;
+            ++nesting;
+        }
+        if (context->last == instruction) {
+            finish_float_context_motion(context);
+            if (context->rewrite_end) instruction = context->rewrite_end->next;
+            context->flags |= 1;
+            if (nesting) {
+                context = context->previous;
+                --nesting;
+                float_stream_active_context = context;
+            }
+        }
+        if (FM_ELIGIBLE(instruction)) {
+            if (FM_FLOAT(instruction)) rewrite_float_motion_operation(instruction);
+            else if (FM_OPERATION(instruction) == MC_CALL && call_preserves_float_stack(instruction)) {
+                saved = float_stream_active_context;
+                saved->stack_depth -= intrinsic_float_cleanup_count((FunctionSymbol *)instruction->operands[0].value.symbol);
+            } else if (FM_OPERATION(instruction) == MC_JCC || FM_OPERATION(instruction) == MC_JMP)
+                process_float_motion_branch(instruction, context);
+        } else if (FM_KIND(instruction) == 1 && ((LabelSymbol *)instruction->record.symbol)->references &&
+            context->boundary != instruction && !label_in_float_context_chain(context->next, instruction)) {
+            for (label = context->labels; label; label = label->next)
+                if (&label->label->symbol == instruction->record.symbol) break;
+            if (!label) compiler_internal_error("@(#)fltreg.c:1.31", 0x745);
+            context->stack_depth = label->stack_depth;
+        }
+        instruction = instruction->next;
+    }
+    if (FM_ELIGIBLE(instruction) && FM_FLOAT(instruction)) rewrite_float_motion_operation(instruction);
+    else if (FM_OPERATION(instruction) == MC_CALL && call_preserves_float_stack(instruction)) {
+        saved = float_stream_active_context;
+        saved->stack_depth -= intrinsic_float_cleanup_count((FunctionSymbol *)instruction->operands[0].value.symbol);
+    }
+    finish_float_context_motion(memory_motion_context);
+    memory_motion_context->flags |= 1;
+}
