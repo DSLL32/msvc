@@ -1,0 +1,22 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_finish_braced_initializer@4",
+    "start": 293856,
+    "end": 294148
+  },
+  "distinct_direct_callees": [
+    "_end_nested_initializer",
+    "_finish_initializer_symbol@4",
+    "_flush_initializer_constructors",
+    "_inferred_initializer_count",
+    "_replace_first_type_shape@16",
+    "_type_size@4"
+  ],
+  "next_frontier": "_inferred_initializer_count",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4160086242482066,
+  "total_operation_seconds": 4.05238929297775,
+  "original_capture_seconds": 1.7694697296246886
+}

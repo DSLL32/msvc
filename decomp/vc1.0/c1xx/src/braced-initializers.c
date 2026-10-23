@@ -598,3 +598,44 @@ void __stdcall end_braced_initializer(CppSymbol *symbol)
         symbol->attributes &= ~4U;
     }
 }
+
+/* Original 0x47be0..0x47d04. Finish a braced declaration, installing
+   its inferred array bound or an incomplete aggregate's byte extent before
+   pending constructor records and declaration cleanup are emitted. */
+void __stdcall finish_braced_initializer(CppSymbol *symbol)
+{
+    CppSymbol *tag;
+    TypeShape *shape;
+    unsigned count;
+    int unbounded_array, incomplete_tag;
+    if (options.prototypes_only || !symbol) return;
+    if (current_braced_initializer->flags & 0x20) {
+        if (braced_initializer_depth >= 0) {
+            --braced_initializer_depth;
+            current_braced_initializer = braced_initializers + braced_initializer_depth;
+        }
+        return;
+    }
+    end_nested_initializer();
+    unbounded_array = (symbol->attributes & 0x500) == 0x500;
+    incomplete_tag = 0;
+    if (symbol->type->flags & 0x400) {
+        tag = cpp_context_stack->items[symbol->type->field08];
+        incomplete_tag = (tag->attributes & 0x100) != 0;
+    }
+    if (unbounded_array) {
+        symbol->attributes &= ~0x100U;
+        count = inferred_initializer_count();
+        shape = symbol->type->related;
+        if (symbol->attributes & 2) shape = shape->related;
+        symbol->type = replace_first_type_shape(symbol->type, shape->flags,
+            shape->attributes, &count);
+    } else if (incomplete_tag) {
+        if (initializer_selected_type)
+            symbol->auxiliary.value = type_size(initializer_selected_type) * inferred_initializer_count();
+        else symbol->auxiliary.value = 0;
+        initializer_selected_type = 0;
+    }
+    flush_initializer_constructors();
+    finish_initializer_symbol(symbol);
+}
