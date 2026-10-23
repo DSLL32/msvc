@@ -48,11 +48,10 @@ def main():
         assert byte != 0xcc, 'accepted entry is still masked'
         entries.append('%x %x 0 %s\n' % (rva, byte, record['name']))
         mutable[position] = 0xcc
-    if '_mainCRTStartup' in config['accepted']:
-        for rva, name in [(0x65320,'observe:initerm_c'),(0x6535b,'observe:initerm_cpp')]:
-            position=8+rva-mask_rva
-            entries.append('%x %x 0 %s\n'%(rva,mutable[position],name))
-            mutable[position]=0xcc
+    from observers import plan
+    for rva,name in plan(config['accepted']):
+        position=8+rva-mask_rva
+        entries.append('%x %x 0 %s\n'%(rva,mutable[position],name));mutable[position]=0xcc
     if args.mode=='observe-new':
         for rva,name in [(0x24e75,'observe:new_call_12'),(0x24e7a,'observe:new_return_12'),
                          (0x31d85,'observe:new_call_8'),(0x31d8a,'observe:new_return_8'),

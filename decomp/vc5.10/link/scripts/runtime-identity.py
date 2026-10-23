@@ -10,7 +10,7 @@ from binary import PE, COFF, archive, u32
 from mask import ROOT, BINARY
 
 
-def analyze(target=None, main_address=0x40de90):
+def analyze(target=None, main_address=0x40de90, atexit_address=0x465250):
     target = target or ROOT / 'toolchains/5.10/bin/LINK.EXE'
     library = ROOT / 'toolchains/5.10/lib/MSVCRT.LIB'
     pe = PE(target)
@@ -21,7 +21,7 @@ def analyze(target=None, main_address=0x40de90):
         for symbol in obj.symbols.values():
             if symbol['storage'] == 2 and symbol['section'] > 0:
                 definitions.setdefault(symbol['name'], []).append((member, data, obj, symbol))
-    pins = {'_mainCRTStartup':pe.base + pe.entry, '_main':main_address, '__except_list':0}
+    pins = {'_mainCRTStartup':pe.base + pe.entry, '_main':main_address, '_atexit':atexit_address, '__except_list':0}
     reasons = {name:'verified target entry/application main/Win32 FS exception-list offset'
                for name in pins}
     descriptor = pe.base + u32(pe.data, pe.optional + 104)
@@ -39,7 +39,7 @@ def analyze(target=None, main_address=0x40de90):
                 reasons[decorated] = 'actual PE import slot: ' + dll + '!' + name
             index += 1
         descriptor += 20
-    queue = ['_mainCRTStartup']
+    queue = ['_mainCRTStartup', '_atexit']
     verified, unresolved = {}, []
     while queue:
         name = queue.pop(0)
@@ -89,6 +89,10 @@ def analyze(target=None, main_address=0x40de90):
                         relocations.append(dict(site=site,name=referred['name'],kind=kind,target=resolved,
                                                 proof='actual executable DLL/name import descriptor; no import-hint identity claim'))
                         continue
+                    if referred['type']==32:
+                        pins[referred['name']]=resolved
+                        reasons[referred['name']]='exact same-object code relocation at %08x'%site
+                        if referred['name'] not in verified:queue.append(referred['name'])
                     newbase = resolved - referred['value']
                     if referred['section'] in section_bases:
                         assert section_bases[referred['section']] == newbase
@@ -123,7 +127,7 @@ if __name__ == '__main__':
         for line in (BINARY/'build/link.map').read_text().splitlines():
             match=re.match(r'\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})',line)
             if match:symbols[match[1]]=int(match[2],16)
-        result=analyze(BINARY/'build/link.exe',symbols['_main'])
+        result=analyze(BINARY/'build/link.exe',symbols['_main'], symbols['_atexit'])
         assert not result['unresolved'], 'rebuilt CRT closure is not verified'
         records=[]
         for record in result['functions']:

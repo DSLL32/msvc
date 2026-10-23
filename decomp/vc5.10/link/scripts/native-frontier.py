@@ -41,7 +41,33 @@ def main():
             targets.append((record['name'], 'link_main' if record['name']=='_main' else record['name'].lstrip('_')))
     script = '''
 import gdb,json
-state={'entries':[],'initerm_calls':[]}
+state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[]}
+class NewReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,size):
+        super().__init__(frame,internal=True);self.size=size
+    def stop(self):
+        state['operator_new_calls'].append({'bytes':self.size,'result':int(self.return_value)})
+        return False
+class NewEntry(gdb.Breakpoint):
+    def stop(self):
+        size=int(gdb.parse_and_eval('((unsigned*)$esp)[1]'))
+        NewReturned(gdb.newest_frame(),size)
+        return False
+NewEntry('*recon_cpp_new',internal=True)
+class AtExitReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,callback):
+        super().__init__(frame,internal=True);self.callback=callback
+    def stop(self):
+        state['atexit_calls'].append({'callback':self.callback,'result':int(gdb.parse_and_eval('(int)$eax'))})
+        return False
+class AtExitEntry(gdb.Breakpoint):
+    def stop(self):
+        callback=int(gdb.parse_and_eval('((unsigned*)$esp)[1]'))
+        name=gdb.execute('info symbol '+str(callback),to_string=True).strip().split(' ')[0]
+        if name in ('free_buffer12','free_buffer8','free_buffer4','close_timing'):
+            AtExitReturned(gdb.newest_frame(),name)
+        return False
+AtExitEntry('*atexit',internal=True)
 def callback_names(begin,count):
     result=[]
     for index in range(count):

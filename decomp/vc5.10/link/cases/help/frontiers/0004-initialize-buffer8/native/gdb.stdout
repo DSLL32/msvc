@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x0804a97c in allocate_buffer8 () at src/initializers.c:45
+45	void __cdecl allocate_buffer8(void) { __asm { int 3 } }

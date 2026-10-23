@@ -1,0 +1,161 @@
+{
+  "schema": 1,
+  "target": {
+    "path": "toolchains/5.10/bin/LINK.EXE",
+    "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579"
+  },
+  "accepted": [
+    "_mainCRTStartup",
+    "__except_handler3",
+    "__setargv",
+    "__matherr",
+    "__setdefaultprecision",
+    "__initterm",
+    "__XcptFilter",
+    "__controlfp",
+    "_initialize_buffer12",
+    "import:??2@YAPAXI@Z",
+    "_allocate_buffer12",
+    "_atexit",
+    "__onexit",
+    "___dllonexit",
+    "_register_buffer12_cleanup",
+    "_initialize_buffer8",
+    "_allocate_buffer8",
+    "_register_buffer8_cleanup"
+  ],
+  "driver": [
+    {
+      "name": "_main",
+      "start": 4251280,
+      "end": 4252242,
+      "source": "src/driver.c",
+      "status": "stub",
+      "abi": "cdecl int(int,char**,char**); original normal body+SEH filter/handler",
+      "pending_extent": false
+    },
+    {
+      "name": "_initialize_buffer12",
+      "start": 4345440,
+      "end": 4345450,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_initialize_buffer8",
+      "start": 4398448,
+      "end": 4398458,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_initialize_buffer4",
+      "start": 4398560,
+      "end": 4398570,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_initialize_timing",
+      "start": 4476512,
+      "end": 4476522,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_allocate_buffer12",
+      "start": 4345456,
+      "end": 4345494,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_buffer12_cleanup",
+      "start": 4345504,
+      "end": 4345518,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_free_buffer12",
+      "start": 4345520,
+      "end": 4345539,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_allocate_buffer8",
+      "start": 4398464,
+      "end": 4398502,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_buffer8_cleanup",
+      "start": 4398512,
+      "end": 4398526,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_free_buffer8",
+      "start": 4398528,
+      "end": 4398547,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_allocate_buffer4",
+      "start": 4398576,
+      "end": 4398614,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_buffer4_cleanup",
+      "start": 4398624,
+      "end": 4398638,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_free_buffer4",
+      "start": 4398640,
+      "end": 4398659,
+      "source": "src/initializers.c",
+      "status": "stub",
+      "abi": "cdecl void(void)"
+    }
+  ],
+  "text_data": [
+    {
+      "start": 4232232,
+      "end": 4232244,
+      "accepted": true,
+      "reason": "CRTEXE.OBJ contextual SEH scope table",
+      "evidence": "cases/runtime-entry-identity.json",
+      "sha256": "71cd0e84dd60b732f51a5f49fd8f67f26908a0567e4cbba001a09b86b89b5614"
+    }
+  ],
+  "cases": {
+    "help": {
+      "arguments": [
+        "/?"
+      ],
+      "complete": false
+    }
+  },
+  "review_gate": "approved"
+}

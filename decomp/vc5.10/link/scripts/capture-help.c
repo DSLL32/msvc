@@ -239,6 +239,10 @@ int main(int argc, char **argv)
                         if(!ReadProcessMemory(process,(void *)(crt_base+0x42034),&new_handler,4,&got)||got!=4 ||
                            !ReadProcessMemory(process,(void *)(crt_base+0x3f198),&new_mode,4,&got)||got!=4){failed=6;break;}
                         fprintf(events,"{\"event\":\"operator_new_observation\",\"name\":\"%s\",\"site\":%lu,\"stack_top\":%lu,\"eax\":%lu,\"new_handler\":%lu,\"malloc_new_mode\":%lu}\n",entries[index].name,site,argument,context.Eax,new_handler,new_mode);
+                    } else if(!strncmp(entries[index].name,"observe:atexit_",15)) {
+                        DWORD argument,got;
+                        if(!ReadProcessMemory(process,(void *)context.Esp,&argument,4,&got)||got!=4){failed=6;break;}
+                        fprintf(events,"{\"event\":\"atexit_observation\",\"name\":\"%s\",\"site\":%lu,\"stack_top\":%lu,\"eax\":%lu}\n",entries[index].name,site,argument,context.Eax);
                     } else fprintf(events, "{\"event\":\"entry\",\"name\":\"%s\",\"rva\":%lu}\n",
                                    entries[index].name, entries[index].rva);
                 }

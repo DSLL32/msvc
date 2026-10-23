@@ -26,8 +26,11 @@ build build/native:
 build/%.obj: src/%.c $(ORIGINAL_HEADERS) | build
 	$(TOOL) CL.EXE /nologo /c /MD /Od /Z7 /I$(RECON)/include /Fo$@ $<
 
-build/link.exe: $(OBJECTS)
-	$(TOOL) LINK.EXE /nologo /incremental:no /map:build/link.map /out:$@ $(OBJECTS) kernel32.lib
+build/operator-new-alias.obj: scripts/weak-import.py | build
+	$(PYTHON) scripts/weak-import.py $@
+
+build/link.exe: $(OBJECTS) build/operator-new-alias.obj
+	$(TOOL) LINK.EXE /nologo /incremental:no /map:build/link.map /out:$@ $(OBJECTS) build/operator-new-alias.obj kernel32.lib
 
 original: build/link.exe build/capture-help.exe
 
@@ -46,7 +49,7 @@ build/runtime.json: build/link.exe runtime.json graph.json scripts/runtime-ident
 	$(PYTHON) scripts/runtime-identity.py --rebuilt
 
 audit: build/runtime.json $(GRAPH_AUDIT_BIN)
-	$(GRAPH_AUDIT_BIN) --profile link --discovery cfg --repo ../../.. --project . --original ../../../toolchains/5.10/bin/LINK.EXE --rebuilt build/link.exe --map build/link.map --config functions.json --runtime runtime.json --rebuilt-runtime build/runtime.json --metadata build/graph.json --check-ret --check-references --check-ownership --check-extents --check-callbacks --report build/graph-audit.json
+	$(PYTHON) scripts/audit.py
 
 # Explicit reference capture stays separate from every fixture prerequisite.
 capture-help: build/capture-help.exe

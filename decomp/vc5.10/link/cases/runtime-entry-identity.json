@@ -234,6 +234,62 @@
       ]
     },
     {
+      "name": "_atexit",
+      "start": 4608592,
+      "member": "build\\intel\\dll_obj\\atonexit.obj",
+      "object_sha256": "59229278a0f05882d25015f0da06e89987ec096cc641ce4242d845a61083de9b",
+      "verified_sections": [
+        {
+          "name": ".text",
+          "start": 4608592,
+          "end": 4608624
+        },
+        {
+          "name": ".text",
+          "start": 4608544,
+          "end": 4608592
+        }
+      ],
+      "relocations": [
+        {
+          "site": 4608598,
+          "name": "__onexit",
+          "kind": 20,
+          "target": 4608544
+        },
+        {
+          "site": 4608546,
+          "name": "___onexitbegin",
+          "kind": 6,
+          "target": 4802896
+        },
+        {
+          "site": 4608560,
+          "name": "__imp___onexit",
+          "kind": 6,
+          "target": 4198880
+        },
+        {
+          "site": 4608573,
+          "name": "___onexitend",
+          "kind": 6,
+          "target": 4802892
+        },
+        {
+          "site": 4608578,
+          "name": "___onexitbegin",
+          "kind": 6,
+          "target": 4802896
+        },
+        {
+          "site": 4608584,
+          "name": "___dllonexit",
+          "kind": 20,
+          "target": 4608976
+        }
+      ]
+    },
+    {
       "name": "__except_handler3",
       "start": 4608432,
       "member": "MSVCRT.dll",
@@ -349,6 +405,73 @@
       ]
     },
     {
+      "name": "__onexit",
+      "start": 4608544,
+      "member": "build\\intel\\dll_obj\\atonexit.obj",
+      "object_sha256": "59229278a0f05882d25015f0da06e89987ec096cc641ce4242d845a61083de9b",
+      "verified_sections": [
+        {
+          "name": ".text",
+          "start": 4608544,
+          "end": 4608592
+        }
+      ],
+      "relocations": [
+        {
+          "site": 4608546,
+          "name": "___onexitbegin",
+          "kind": 6,
+          "target": 4802896
+        },
+        {
+          "site": 4608560,
+          "name": "__imp___onexit",
+          "kind": 6,
+          "target": 4198880
+        },
+        {
+          "site": 4608573,
+          "name": "___onexitend",
+          "kind": 6,
+          "target": 4802892
+        },
+        {
+          "site": 4608578,
+          "name": "___onexitbegin",
+          "kind": 6,
+          "target": 4802896
+        },
+        {
+          "site": 4608584,
+          "name": "___dllonexit",
+          "kind": 20,
+          "target": 4608976
+        }
+      ]
+    },
+    {
+      "name": "___dllonexit",
+      "start": 4608976,
+      "member": "MSVCRT.dll",
+      "object_sha256": "ab545a33dae540147ae5a059e6b54357b9263fc1a0907810344bca28dd4481e3",
+      "verified_sections": [
+        {
+          "name": ".text",
+          "start": 4608976,
+          "end": 4608982
+        }
+      ],
+      "relocations": [
+        {
+          "site": 4608978,
+          "name": "__imp____dllonexit",
+          "kind": 6,
+          "target": 4198876,
+          "proof": "actual executable DLL/name import descriptor; no import-hint identity claim"
+        }
+      ]
+    },
+    {
       "name": "__controlfp",
       "start": 4609072,
       "member": "MSVCRT.dll",
@@ -379,6 +502,10 @@
     },
     "_main": {
       "address": 4251280,
+      "reason": "verified target entry/application main/Win32 FS exception-list offset"
+    },
+    "_atexit": {
+      "address": 4608592,
       "reason": "verified target entry/application main/Win32 FS exception-list offset"
     },
     "__except_list": {
@@ -1104,6 +1231,14 @@
     "__XcptFilter": {
       "address": 4608982,
       "reason": "build\\intel\\dll_obj\\crtexe.obj:_mainCRTStartup relocation at 0046539b"
+    },
+    "__onexit": {
+      "address": 4608544,
+      "reason": "exact same-object code relocation at 00465256"
+    },
+    "___dllonexit": {
+      "address": 4608976,
+      "reason": "build\\intel\\dll_obj\\atonexit.obj:_atexit relocation at 00465248"
     },
     "__controlfp": {
       "address": 4609072,

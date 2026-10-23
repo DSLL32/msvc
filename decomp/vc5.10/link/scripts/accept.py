@@ -6,6 +6,7 @@ import hashlib
 import json
 from pathlib import Path
 import subprocess
+import time
 from mask import BINARY, ROOT, construct
 
 
@@ -69,11 +70,10 @@ def bind_capture(directory, expected, kind):
                 position = 8 + rva - mask_rva
                 expected_entries.append('%x %x 0 %s\n' % (rva, mutable[position], record['name']))
                 mutable[position] = 0xcc
-        if '_mainCRTStartup' in expected['accepted']:
-            for rva,name in [(0x65320,'observe:initerm_c'),(0x6535b,'observe:initerm_cpp')]:
-                position=8+rva-mask_rva
-                expected_entries.append('%x %x 0 %s\n'%(rva,mutable[position],name))
-                mutable[position]=0xcc
+        from observers import plan
+        for rva,name in plan(expected['accepted']):
+            position=8+rva-mask_rva
+            expected_entries.append('%x %x 0 %s\n'%(rva,mutable[position],name));mutable[position]=0xcc
         mask = bytes(mutable)
         assert (directory / 'entries.txt').read_text() == ''.join(expected_entries), 'entry trace plan changed'
         assert (directory / 'mask.bin').read_bytes() == mask and receipt['mask_sha256'] == sha(mask)
@@ -125,12 +125,14 @@ def audit_trial(path):
     inputs.append(strict_path)
     before = {str(p):sha(p.read_bytes()) for p in inputs}
     full_command = [arg for arg in command if arg!='--check-ret'] + ['--include-evidenced-runtime','--check-imports']
+    started=time.perf_counter()
     full = subprocess.run(full_command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=True)
     strict_command = command.copy()
     strict_command[strict_command.index('--config')+1] = str(strict_path)
     strict_command.append('--include-evidenced-runtime')
     strict_command.append('--check-imports')
     result = subprocess.run(strict_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+    elapsed=time.perf_counter()-started
     after = {str(p):sha(p.read_bytes()) for p in inputs}
     assert before == after, 'audit inputs changed during discovery'
     report = json.loads(result.stdout)
@@ -139,7 +141,7 @@ def audit_trial(path):
     assert full_report['discovery'] == 'cfg'
     assert set(report['functions']) == set(strict['accepted']), 'strict body subset differs'
     assert set(full_report['functions']) == set(trial['accepted']), 'full trial graph subset differs'
-    return dict(full_command=full_command,strict_command=strict_command,
+    return dict(elapsed_seconds=elapsed,full_command=full_command,strict_command=strict_command,
                 strict_projection_excludes_only_verified_import_thunks=sorted(import_leaves & set(trial['accepted'])),
                 input_sha256_before=before, input_sha256_after=after,
                 full_report=full_report,strict_report=report,

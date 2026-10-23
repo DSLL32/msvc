@@ -1,0 +1,90 @@
+{
+  "kind": "native-i386-gdb-frontier",
+  "configuration_sha256": "df69857d95f3febc081f42141e5ec759cbde2e688bf6de3b088aa16197cb0279",
+  "native_sha256": "2aa14d4947785b9bdfd659f5d2335f1e735479d31bb551fb04d63e34a8f8e8fd",
+  "rebuilt_sha256": "a4d63d806530c2656218f8e8883b869dd1ce9ce58d0d6c671b8813818be623da",
+  "source_files": {
+    "src/driver.c": "838ab5738e6b40b7e29f6fc06eb0bce564ac6f8bf5051146728cc2bfbd5bb9fd",
+    "src/host.c": "3868a1d249889006bbc11e07aa4ae23dcb803cfd36e30a2d420820af77134339",
+    "src/initializers.c": "777af80d26bc1c66ed10fca1d2f8322ba977ed1f2cd99bd55b1826f571e79af0",
+    "src/initializers.h": "d223c44341896326346edfd35baa109b4e7755a09a56bae3425d5246594c98a4",
+    "src/link.h": "248ec18a35be6bd9a727c7f6697a2212e69c77d38a70bda9798d45fd62a8024d"
+  },
+  "source_content": {
+    "project/driver.c": "838ab5738e6b40b7e29f6fc06eb0bce564ac6f8bf5051146728cc2bfbd5bb9fd",
+    "project/host.c": "3868a1d249889006bbc11e07aa4ae23dcb803cfd36e30a2d420820af77134339",
+    "project/initializers.c": "777af80d26bc1c66ed10fca1d2f8322ba977ed1f2cd99bd55b1826f571e79af0",
+    "project/initializers.h": "d223c44341896326346edfd35baa109b4e7755a09a56bae3425d5246594c98a4",
+    "project/link.h": "248ec18a35be6bd9a727c7f6697a2212e69c77d38a70bda9798d45fd62a8024d",
+    "recon/include/recon.h": "b2226d0f911377b6a5c5da762594be14748750220b7df998979fc7a5596302e3",
+    "recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "recon/include/win32.h": "956da22a5291b647fe3e82d879e412ca26c3758e8956ab3b69ae96ae477ed54c",
+    "recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+    "recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+    "recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+    "recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+    "recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "recon/native/mbctype.h": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+    "recon/native/mbstring.h": "8f6c6fe27fbd6546d59928415b2a11673cf03e378972fa9c293327c98911af03",
+    "recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "recon/native/setjmp.h": "4e1f6298d24463a5de27b71282a7475aa636f60c15dccc2b039990cb203ca408",
+    "recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+    "recon/native/sys/stat.h": "4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb",
+    "recon/native/sys/timeb.h": "43956856b08374c73e15d66054507401bfcb710ee615865ecafce8da83f03e55",
+    "recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+    "recon/src/compat.c": "3fd3515569a9bb8ea637cdd81359ee74724da607a06bac54d1866953b9e299a6",
+    "recon/src/crt.c": "9b0983f6fda7cc1fd689a037fd2e474172a096e82a4fac9813e1c5215feffda2",
+    "recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+    "recon/src/entry.c": "12a10f7190b430c73b4754d2e5c234bce38addb7f188e16518ec0ba604fe8c80",
+    "recon/src/process.c": "b1a4dae8f45ad5051f50acea6bb36d994e0d084c925291d46e154519e5d8f73a",
+    "recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+    "recon/src/win32.c": "1a309a74322197251109f4cc9b8a8538e6f40f86f4955e1faa8fdc103380c9d8"
+  },
+  "command": [
+    "gdb",
+    "-q",
+    "-nx",
+    "-batch",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc5.10/link/native-dlaj7ks2/capture.gdb.py",
+    "--args",
+    "/root/msvc2/decomp/vc5.10/link/build/native/LINK.EXE",
+    "/?"
+  ],
+  "status": 0,
+  "elapsed_seconds": 0.1408382309600711,
+  "files": {
+    "gdb.stdout": {
+      "bytes": 296,
+      "sha256": "d17ce8838ed0b034e3a197af34ea7b477b4c31036ac1a6d67f28a71dbe6b0ef1"
+    },
+    "runtime.json": {
+      "bytes": 3430,
+      "sha256": "f2c607da5a692c987fc7d6db65c438026d369078a86e6e18389ba4a6730e3396"
+    },
+    "state.json": {
+      "bytes": 1854,
+      "sha256": "ff107eff7abcaef514e5d68d3446977c1426184c331521ad6c0005b1ff370190"
+    },
+    "stdout.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "gdb.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "functions.json": {
+      "bytes": 3849,
+      "sha256": "df69857d95f3febc081f42141e5ec759cbde2e688bf6de3b088aa16197cb0279"
+    },
+    "capture.gdb.py": {
+      "bytes": 5053,
+      "sha256": "7966b483adee49d504e89dd4931e0020d286541be1f5692aeb063db470a50980"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

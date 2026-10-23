@@ -1,0 +1,105 @@
+{
+  "entries": [
+    "_initialize_buffer12",
+    "_allocate_buffer12",
+    "_register_buffer12_cleanup",
+    "_initialize_buffer8",
+    "_allocate_buffer8",
+    "_register_buffer8_cleanup",
+    "_initialize_buffer4"
+  ],
+  "initerm_calls": [
+    [
+      null
+    ],
+    [
+      null,
+      "initialize_buffer12",
+      "initialize_buffer8",
+      "initialize_buffer4",
+      "initialize_timing"
+    ]
+  ],
+  "operator_new_calls": [
+    {
+      "bytes": 12288,
+      "result": 134632944
+    },
+    {
+      "bytes": 4000,
+      "result": 134645248
+    }
+  ],
+  "atexit_calls": [
+    {
+      "callback": "free_buffer12",
+      "result": 0
+    },
+    {
+      "callback": "free_buffer8",
+      "result": 0
+    }
+  ],
+  "signal": null,
+  "signal_number": 5,
+  "function": "allocate_buffer4",
+  "pc": 134523532,
+  "previous_byte": 204,
+  "x87_control_word": 639,
+  "crt_fmode": 0,
+  "crt_commode": 0,
+  "crt_adjust_fdiv": 0,
+  "initializers": [
+    null,
+    "initialize_buffer12",
+    "initialize_buffer8",
+    "initialize_buffer4",
+    "initialize_timing"
+  ],
+  "app_globals": {
+    "buffer12": "f05506080004000000040000",
+    "buffer8": "00860608f4010000f4010000",
+    "buffer4": "000000000000000000000000",
+    "timing": "0000000000000000000000000000000000000000"
+  },
+  "initerm_current_index": 3,
+  "initerm_end_index": 5,
+  "crt_argv": [
+    "R:\\toolchains\\5.10\\bin\\LINK.EXE",
+    "/?"
+  ],
+  "stack": [
+    134523504,
+    134522896,
+    4294957272,
+    134522896,
+    134522864,
+    134528723,
+    4294957288,
+    134528723,
+    65536,
+    196608,
+    4294957320,
+    134523946,
+    134607240,
+    134607248,
+    14,
+    4158310859,
+    4158141528,
+    0,
+    4294957352,
+    134523764,
+    2,
+    4294957540,
+    4294957552,
+    4160736096,
+    4294957432,
+    0,
+    0,
+    4158201027,
+    2,
+    4294957540,
+    4294957552,
+    4294957392
+  ]
+}

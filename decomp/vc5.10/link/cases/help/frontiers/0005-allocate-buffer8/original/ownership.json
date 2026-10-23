@@ -1,0 +1,982 @@
+[
+  {
+    "start": 4611210,
+    "end": 4611223,
+    "reason": "import string"
+  },
+  {
+    "start": 4610830,
+    "end": 4610864,
+    "reason": "import string"
+  },
+  {
+    "start": 4610864,
+    "end": 4610925,
+    "reason": "import string"
+  },
+  {
+    "start": 4611016,
+    "end": 4611048,
+    "reason": "import string"
+  },
+  {
+    "start": 4610926,
+    "end": 4610984,
+    "reason": "import string"
+  },
+  {
+    "start": 4610984,
+    "end": 4611016,
+    "reason": "import string"
+  },
+  {
+    "start": 4611178,
+    "end": 4611210,
+    "reason": "import string"
+  },
+  {
+    "start": 4611144,
+    "end": 4611177,
+    "reason": "import string"
+  },
+  {
+    "start": 4611112,
+    "end": 4611144,
+    "reason": "import string"
+  },
+  {
+    "start": 4611080,
+    "end": 4611111,
+    "reason": "import string"
+  },
+  {
+    "start": 4610796,
+    "end": 4610830,
+    "reason": "import string"
+  },
+  {
+    "start": 4611048,
+    "end": 4611080,
+    "reason": "import string"
+  },
+  {
+    "start": 4610284,
+    "end": 4610332,
+    "reason": "import lookup table including terminator"
+  },
+  {
+    "start": 4198556,
+    "end": 4198604,
+    "reason": "loader-written import address table including terminator"
+  },
+  {
+    "start": 4611302,
+    "end": 4611314,
+    "reason": "import string"
+  },
+  {
+    "start": 4611254,
+    "end": 4611301,
+    "reason": "import string"
+  },
+  {
+    "start": 4611238,
+    "end": 4611254,
+    "reason": "import string"
+  },
+  {
+    "start": 4611224,
+    "end": 4611237,
+    "reason": "import string"
+  },
+  {
+    "start": 4610780,
+    "end": 4610796,
+    "reason": "import lookup table including terminator"
+  },
+  {
+    "start": 4199052,
+    "end": 4199068,
+    "reason": "loader-written import address table including terminator"
+  },
+  {
+    "start": 4611386,
+    "end": 4611399,
+    "reason": "import string"
+  },
+  {
+    "start": 4611364,
+    "end": 4611386,
+    "reason": "import string"
+  },
+  {
+    "start": 4611342,
+    "end": 4611363,
+    "reason": "import string"
+  },
+  {
+    "start": 4611328,
+    "end": 4611342,
+    "reason": "import string"
+  },
+  {
+    "start": 4611314,
+    "end": 4611328,
+    "reason": "import string"
+  },
+  {
+    "start": 4610128,
+    "end": 4610148,
+    "reason": "import lookup table including terminator"
+  },
+  {
+    "start": 4198400,
+    "end": 4198420,
+    "reason": "loader-written import address table including terminator"
+  },
+  {
+    "start": 4612442,
+    "end": 4612453,
+    "reason": "import string"
+  },
+  {
+    "start": 4611728,
+    "end": 4611736,
+    "reason": "import string"
+  },
+  {
+    "start": 4611736,
+    "end": 4611747,
+    "reason": "import string"
+  },
+  {
+    "start": 4611748,
+    "end": 4611759,
+    "reason": "import string"
+  },
+  {
+    "start": 4611760,
+    "end": 4611770,
+    "reason": "import string"
+  },
+  {
+    "start": 4611770,
+    "end": 4611782,
+    "reason": "import string"
+  },
+  {
+    "start": 4611782,
+    "end": 4611796,
+    "reason": "import string"
+  },
+  {
+    "start": 4611716,
+    "end": 4611727,
+    "reason": "import string"
+  },
+  {
+    "start": 4611796,
+    "end": 4611805,
+    "reason": "import string"
+  },
+  {
+    "start": 4611806,
+    "end": 4611818,
+    "reason": "import string"
+  },
+  {
+    "start": 4611818,
+    "end": 4611827,
+    "reason": "import string"
+  },
+  {
+    "start": 4611828,
+    "end": 4611838,
+    "reason": "import string"
+  },
+  {
+    "start": 4611838,
+    "end": 4611848,
+    "reason": "import string"
+  },
+  {
+    "start": 4611848,
+    "end": 4611861,
+    "reason": "import string"
+  },
+  {
+    "start": 4611862,
+    "end": 4611869,
+    "reason": "import string"
+  },
+  {
+    "start": 4611870,
+    "end": 4611880,
+    "reason": "import string"
+  },
+  {
+    "start": 4611880,
+    "end": 4611888,
+    "reason": "import string"
+  },
+  {
+    "start": 4611888,
+    "end": 4611896,
+    "reason": "import string"
+  },
+  {
+    "start": 4611896,
+    "end": 4611904,
+    "reason": "import string"
+  },
+  {
+    "start": 4611904,
+    "end": 4611911,
+    "reason": "import string"
+  },
+  {
+    "start": 4611912,
+    "end": 4611921,
+    "reason": "import string"
+  },
+  {
+    "start": 4611922,
+    "end": 4611931,
+    "reason": "import string"
+  },
+  {
+    "start": 4611932,
+    "end": 4611939,
+    "reason": "import string"
+  },
+  {
+    "start": 4611940,
+    "end": 4611949,
+    "reason": "import string"
+  },
+  {
+    "start": 4611950,
+    "end": 4611958,
+    "reason": "import string"
+  },
+  {
+    "start": 4611958,
+    "end": 4611969,
+    "reason": "import string"
+  },
+  {
+    "start": 4611970,
+    "end": 4611992,
+    "reason": "import string"
+  },
+  {
+    "start": 4611992,
+    "end": 4612001,
+    "reason": "import string"
+  },
+  {
+    "start": 4612002,
+    "end": 4612014,
+    "reason": "import string"
+  },
+  {
+    "start": 4612014,
+    "end": 4612025,
+    "reason": "import string"
+  },
+  {
+    "start": 4611698,
+    "end": 4611706,
+    "reason": "import string"
+  },
+  {
+    "start": 4611690,
+    "end": 4611697,
+    "reason": "import string"
+  },
+  {
+    "start": 4612048,
+    "end": 4612058,
+    "reason": "import string"
+  },
+  {
+    "start": 4612286,
+    "end": 4612296,
+    "reason": "import string"
+  },
+  {
+    "start": 4612068,
+    "end": 4612079,
+    "reason": "import string"
+  },
+  {
+    "start": 4612080,
+    "end": 4612089,
+    "reason": "import string"
+  },
+  {
+    "start": 4612090,
+    "end": 4612105,
+    "reason": "import string"
+  },
+  {
+    "start": 4612106,
+    "end": 4612116,
+    "reason": "import string"
+  },
+  {
+    "start": 4612116,
+    "end": 4612136,
+    "reason": "import string"
+  },
+  {
+    "start": 4612136,
+    "end": 4612146,
+    "reason": "import string"
+  },
+  {
+    "start": 4612146,
+    "end": 4612156,
+    "reason": "import string"
+  },
+  {
+    "start": 4612156,
+    "end": 4612166,
+    "reason": "import string"
+  },
+  {
+    "start": 4612166,
+    "end": 4612176,
+    "reason": "import string"
+  },
+  {
+    "start": 4612176,
+    "end": 4612186,
+    "reason": "import string"
+  },
+  {
+    "start": 4612186,
+    "end": 4612196,
+    "reason": "import string"
+  },
+  {
+    "start": 4612196,
+    "end": 4612206,
+    "reason": "import string"
+  },
+  {
+    "start": 4612206,
+    "end": 4612214,
+    "reason": "import string"
+  },
+  {
+    "start": 4612214,
+    "end": 4612221,
+    "reason": "import string"
+  },
+  {
+    "start": 4612222,
+    "end": 4612229,
+    "reason": "import string"
+  },
+  {
+    "start": 4612230,
+    "end": 4612240,
+    "reason": "import string"
+  },
+  {
+    "start": 4612240,
+    "end": 4612248,
+    "reason": "import string"
+  },
+  {
+    "start": 4612248,
+    "end": 4612256,
+    "reason": "import string"
+  },
+  {
+    "start": 4612256,
+    "end": 4612266,
+    "reason": "import string"
+  },
+  {
+    "start": 4612266,
+    "end": 4612275,
+    "reason": "import string"
+  },
+  {
+    "start": 4612276,
+    "end": 4612286,
+    "reason": "import string"
+  },
+  {
+    "start": 4611706,
+    "end": 4611716,
+    "reason": "import string"
+  },
+  {
+    "start": 4612296,
+    "end": 4612306,
+    "reason": "import string"
+  },
+  {
+    "start": 4612306,
+    "end": 4612318,
+    "reason": "import string"
+  },
+  {
+    "start": 4612318,
+    "end": 4612325,
+    "reason": "import string"
+  },
+  {
+    "start": 4612326,
+    "end": 4612336,
+    "reason": "import string"
+  },
+  {
+    "start": 4612336,
+    "end": 4612345,
+    "reason": "import string"
+  },
+  {
+    "start": 4612346,
+    "end": 4612355,
+    "reason": "import string"
+  },
+  {
+    "start": 4612356,
+    "end": 4612370,
+    "reason": "import string"
+  },
+  {
+    "start": 4612370,
+    "end": 4612382,
+    "reason": "import string"
+  },
+  {
+    "start": 4612382,
+    "end": 4612391,
+    "reason": "import string"
+  },
+  {
+    "start": 4612392,
+    "end": 4612402,
+    "reason": "import string"
+  },
+  {
+    "start": 4612402,
+    "end": 4612415,
+    "reason": "import string"
+  },
+  {
+    "start": 4612416,
+    "end": 4612429,
+    "reason": "import string"
+  },
+  {
+    "start": 4612430,
+    "end": 4612441,
+    "reason": "import string"
+  },
+  {
+    "start": 4612454,
+    "end": 4612468,
+    "reason": "import string"
+  },
+  {
+    "start": 4612468,
+    "end": 4612478,
+    "reason": "import string"
+  },
+  {
+    "start": 4612478,
+    "end": 4612486,
+    "reason": "import string"
+  },
+  {
+    "start": 4612486,
+    "end": 4612500,
+    "reason": "import string"
+  },
+  {
+    "start": 4612500,
+    "end": 4612516,
+    "reason": "import string"
+  },
+  {
+    "start": 4612516,
+    "end": 4612532,
+    "reason": "import string"
+  },
+  {
+    "start": 4612532,
+    "end": 4612544,
+    "reason": "import string"
+  },
+  {
+    "start": 4612544,
+    "end": 4612563,
+    "reason": "import string"
+  },
+  {
+    "start": 4612564,
+    "end": 4612579,
+    "reason": "import string"
+  },
+  {
+    "start": 4612580,
+    "end": 4612595,
+    "reason": "import string"
+  },
+  {
+    "start": 4612596,
+    "end": 4612609,
+    "reason": "import string"
+  },
+  {
+    "start": 4612610,
+    "end": 4612627,
+    "reason": "import string"
+  },
+  {
+    "start": 4612628,
+    "end": 4612641,
+    "reason": "import string"
+  },
+  {
+    "start": 4611678,
+    "end": 4611690,
+    "reason": "import string"
+  },
+  {
+    "start": 4611662,
+    "end": 4611677,
+    "reason": "import string"
+  },
+  {
+    "start": 4611642,
+    "end": 4611661,
+    "reason": "import string"
+  },
+  {
+    "start": 4611634,
+    "end": 4611641,
+    "reason": "import string"
+  },
+  {
+    "start": 4611624,
+    "end": 4611634,
+    "reason": "import string"
+  },
+  {
+    "start": 4611614,
+    "end": 4611624,
+    "reason": "import string"
+  },
+  {
+    "start": 4611600,
+    "end": 4611613,
+    "reason": "import string"
+  },
+  {
+    "start": 4611590,
+    "end": 4611600,
+    "reason": "import string"
+  },
+  {
+    "start": 4611578,
+    "end": 4611590,
+    "reason": "import string"
+  },
+  {
+    "start": 4611568,
+    "end": 4611578,
+    "reason": "import string"
+  },
+  {
+    "start": 4611558,
+    "end": 4611567,
+    "reason": "import string"
+  },
+  {
+    "start": 4611548,
+    "end": 4611557,
+    "reason": "import string"
+  },
+  {
+    "start": 4611538,
+    "end": 4611548,
+    "reason": "import string"
+  },
+  {
+    "start": 4611528,
+    "end": 4611537,
+    "reason": "import string"
+  },
+  {
+    "start": 4611518,
+    "end": 4611527,
+    "reason": "import string"
+  },
+  {
+    "start": 4611508,
+    "end": 4611517,
+    "reason": "import string"
+  },
+  {
+    "start": 4611498,
+    "end": 4611507,
+    "reason": "import string"
+  },
+  {
+    "start": 4611490,
+    "end": 4611498,
+    "reason": "import string"
+  },
+  {
+    "start": 4611482,
+    "end": 4611490,
+    "reason": "import string"
+  },
+  {
+    "start": 4611472,
+    "end": 4611481,
+    "reason": "import string"
+  },
+  {
+    "start": 4611462,
+    "end": 4611471,
+    "reason": "import string"
+  },
+  {
+    "start": 4611448,
+    "end": 4611461,
+    "reason": "import string"
+  },
+  {
+    "start": 4611440,
+    "end": 4611448,
+    "reason": "import string"
+  },
+  {
+    "start": 4611430,
+    "end": 4611440,
+    "reason": "import string"
+  },
+  {
+    "start": 4611420,
+    "end": 4611430,
+    "reason": "import string"
+  },
+  {
+    "start": 4611410,
+    "end": 4611420,
+    "reason": "import string"
+  },
+  {
+    "start": 4611400,
+    "end": 4611410,
+    "reason": "import string"
+  },
+  {
+    "start": 4612026,
+    "end": 4612040,
+    "reason": "import string"
+  },
+  {
+    "start": 4612040,
+    "end": 4612048,
+    "reason": "import string"
+  },
+  {
+    "start": 4612058,
+    "end": 4612067,
+    "reason": "import string"
+  },
+  {
+    "start": 4610332,
+    "end": 4610780,
+    "reason": "import lookup table including terminator"
+  },
+  {
+    "start": 4198604,
+    "end": 4199052,
+    "reason": "loader-written import address table including terminator"
+  },
+  {
+    "start": 4613196,
+    "end": 4613209,
+    "reason": "import string"
+  },
+  {
+    "start": 4613114,
+    "end": 4613129,
+    "reason": "import string"
+  },
+  {
+    "start": 4612970,
+    "end": 4612982,
+    "reason": "import string"
+  },
+  {
+    "start": 4612956,
+    "end": 4612970,
+    "reason": "import string"
+  },
+  {
+    "start": 4613098,
+    "end": 4613114,
+    "reason": "import string"
+  },
+  {
+    "start": 4613130,
+    "end": 4613150,
+    "reason": "import string"
+  },
+  {
+    "start": 4612642,
+    "end": 4612659,
+    "reason": "import string"
+  },
+  {
+    "start": 4612660,
+    "end": 4612679,
+    "reason": "import string"
+  },
+  {
+    "start": 4613184,
+    "end": 4613196,
+    "reason": "import string"
+  },
+  {
+    "start": 4613168,
+    "end": 4613184,
+    "reason": "import string"
+  },
+  {
+    "start": 4613150,
+    "end": 4613167,
+    "reason": "import string"
+  },
+  {
+    "start": 4612920,
+    "end": 4612939,
+    "reason": "import string"
+  },
+  {
+    "start": 4612904,
+    "end": 4612919,
+    "reason": "import string"
+  },
+  {
+    "start": 4612710,
+    "end": 4612724,
+    "reason": "import string"
+  },
+  {
+    "start": 4612724,
+    "end": 4612738,
+    "reason": "import string"
+  },
+  {
+    "start": 4612694,
+    "end": 4612709,
+    "reason": "import string"
+  },
+  {
+    "start": 4613076,
+    "end": 4613097,
+    "reason": "import string"
+  },
+  {
+    "start": 4613050,
+    "end": 4613076,
+    "reason": "import string"
+  },
+  {
+    "start": 4613032,
+    "end": 4613050,
+    "reason": "import string"
+  },
+  {
+    "start": 4613012,
+    "end": 4613032,
+    "reason": "import string"
+  },
+  {
+    "start": 4612996,
+    "end": 4613011,
+    "reason": "import string"
+  },
+  {
+    "start": 4612982,
+    "end": 4612995,
+    "reason": "import string"
+  },
+  {
+    "start": 4612680,
+    "end": 4612694,
+    "reason": "import string"
+  },
+  {
+    "start": 4612844,
+    "end": 4612858,
+    "reason": "import string"
+  },
+  {
+    "start": 4612940,
+    "end": 4612955,
+    "reason": "import string"
+  },
+  {
+    "start": 4612830,
+    "end": 4612844,
+    "reason": "import string"
+  },
+  {
+    "start": 4612890,
+    "end": 4612904,
+    "reason": "import string"
+  },
+  {
+    "start": 4612866,
+    "end": 4612890,
+    "reason": "import string"
+  },
+  {
+    "start": 4612858,
+    "end": 4612866,
+    "reason": "import string"
+  },
+  {
+    "start": 4612754,
+    "end": 4612771,
+    "reason": "import string"
+  },
+  {
+    "start": 4612738,
+    "end": 4612753,
+    "reason": "import string"
+  },
+  {
+    "start": 4612808,
+    "end": 4612829,
+    "reason": "import string"
+  },
+  {
+    "start": 4612790,
+    "end": 4612808,
+    "reason": "import string"
+  },
+  {
+    "start": 4612772,
+    "end": 4612790,
+    "reason": "import string"
+  },
+  {
+    "start": 4610148,
+    "end": 4610284,
+    "reason": "import lookup table including terminator"
+  },
+  {
+    "start": 4198420,
+    "end": 4198556,
+    "reason": "loader-written import address table including terminator"
+  },
+  {
+    "start": 4610008,
+    "end": 4610128,
+    "reason": "import descriptors including terminator"
+  },
+  {
+    "start": 4232232,
+    "end": 4232244,
+    "reason": "CRTEXE.OBJ contextual SEH scope table"
+  },
+  {
+    "start": 4345440,
+    "end": 4345450,
+    "reason": "accepted _initialize_buffer12"
+  },
+  {
+    "start": 4398448,
+    "end": 4398458,
+    "reason": "accepted _initialize_buffer8"
+  },
+  {
+    "start": 4345456,
+    "end": 4345494,
+    "reason": "accepted _allocate_buffer12"
+  },
+  {
+    "start": 4345504,
+    "end": 4345518,
+    "reason": "accepted _register_buffer12_cleanup"
+  },
+  {
+    "start": 4398464,
+    "end": 4398502,
+    "reason": "accepted _allocate_buffer8"
+  },
+  {
+    "start": 4608640,
+    "end": 4608976,
+    "reason": "accepted _mainCRTStartup"
+  },
+  {
+    "start": 4608432,
+    "end": 4608438,
+    "reason": "accepted __except_handler3"
+  },
+  {
+    "start": 4609056,
+    "end": 4609072,
+    "reason": "accepted __setargv"
+  },
+  {
+    "start": 4609040,
+    "end": 4609056,
+    "reason": "accepted __matherr"
+  },
+  {
+    "start": 4609008,
+    "end": 4609040,
+    "reason": "accepted __setdefaultprecision"
+  },
+  {
+    "start": 4608988,
+    "end": 4608994,
+    "reason": "accepted __initterm"
+  },
+  {
+    "start": 4608982,
+    "end": 4608988,
+    "reason": "accepted __XcptFilter"
+  },
+  {
+    "start": 4609072,
+    "end": 4609078,
+    "reason": "accepted __controlfp"
+  },
+  {
+    "start": 4608524,
+    "end": 4608530,
+    "reason": "accepted import:??2@YAPAXI@Z"
+  },
+  {
+    "start": 4608592,
+    "end": 4608624,
+    "reason": "accepted _atexit"
+  },
+  {
+    "start": 4608544,
+    "end": 4608592,
+    "reason": "accepted __onexit"
+  },
+  {
+    "start": 4608976,
+    "end": 4608982,
+    "reason": "accepted ___dllonexit"
+  }
+]

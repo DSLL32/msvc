@@ -1,9 +1,10 @@
 # LINK 5.10 reconstruction
 
 Target: `toolchains/5.10/bin/LINK.EXE`, PE32 i386, image base `0x400000`,
-entry RVA `0x65280`. There are no exports or TLS directory. No function has
-been reconstructed, unmasked or accepted. Root released exactly the first `/?`
-case; scaffold review is pending before the first function acceptance. Later
+entry RVA `0x65280`. There are no exports or TLS directory. Root approved the scaffold and exact
+shipped CRT startup boundary. Nine application functions are accepted: the three
+buffer constructors and their independent allocation/cleanup-registration helpers.
+The first `/?` case is still in progress at the timing constructor. Later
 hello, DLL, debug/PDB and resource cases remain source-only and unreleased.
 Native i386 and original 5.10 `/MD /Od /Z7` builds pass with `make -j4`.
 
@@ -30,7 +31,7 @@ with the full Win32 DWORD **1100**, writes 1430 stdout bytes and no stderr.
 Its loaded MSVCRT hFile has SHA256
 `e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210`.
 The native POSIX projection is 76; it must be checked separately from the full
-logical status, which requires the shared terminal-status recording seam.
+logical status, which is recorded separately by the shared terminal-status FD protocol.
 
 The initial `/help`-equivalent `/?` probes did not reach LINK: shared-prefix
 prestartup health failures also affected other tools. One timed-out run's raw
@@ -93,3 +94,14 @@ instruction ownership; future masking must preserve verified non-code ranges.
 All regressions will run the native i386 reconstruction with cached original
 references, never Wine. Reconstruction source remains original-style Win32 C,
 includes `<recon.h>` last and must also compile with the original toolchain.
+
+The operator-new C import spelling uses a zero-section COFF weak alias, preserving
+the actual `MSVCRT.dll!??2@YAPAXI@Z` import and cdecl ABI. The shared native
+provider implements the evidenced successful allocations, zero-size and oversize
+contracts; heap failure and unknown new-handlers fail closed. Fresh raw
+call/return observations bind allocation sizes and normalized pointer ownership.
+The shipped `atonexit.obj` closure is separately byte/relocation verified; native
+callback registration arguments and successful results are compared in order.
+`cases/help/frontiers/` records acceptance order, raw evidence, frozen compiled
+source content and candidate-inclusive Rust provenance. No native fixture is
+claimed complete yet.

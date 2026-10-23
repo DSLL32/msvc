@@ -70,5 +70,41 @@
     "library": "MSVCRT.LIB",
     "evidence": "cases/runtime-entry-identity.json: exact anchored whole section and all relocations",
     "classification": "import"
+  },
+  {
+    "name": "import:??2@YAPAXI@Z",
+    "start": 4608524,
+    "end": 4608530,
+    "status": "implemented",
+    "classification": "import",
+    "library": "MSVCRT.LIB",
+    "evidence": "cases/help/operator-new/provider-proof.json; canonical actual IAT + zero-section alias probe; shared contract84794d6f"
+  },
+  {
+    "name": "_atexit",
+    "start": 4608592,
+    "end": 4608624,
+    "status": "implemented",
+    "library": "MSVCRT.LIB",
+    "evidence": "cases/runtime-entry-identity.json: anchored at actual register_buffer12_cleanup call; exact whole atonexit.obj closure and relocations",
+    "classification": "crt"
+  },
+  {
+    "name": "__onexit",
+    "start": 4608544,
+    "end": 4608592,
+    "status": "implemented",
+    "library": "MSVCRT.LIB",
+    "evidence": "cases/runtime-entry-identity.json: anchored at actual register_buffer12_cleanup call; exact whole atonexit.obj closure and relocations",
+    "classification": "crt"
+  },
+  {
+    "name": "___dllonexit",
+    "start": 4608976,
+    "end": 4608982,
+    "status": "implemented",
+    "library": "MSVCRT.LIB",
+    "evidence": "cases/runtime-entry-identity.json: anchored at actual register_buffer12_cleanup call; exact whole atonexit.obj closure and relocations",
+    "classification": "import"
   }
 ]

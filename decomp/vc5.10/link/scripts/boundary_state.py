@@ -2,6 +2,21 @@
 import json
 import struct
 
+# Which completed allocations and registrations may be consumed at each trap.
+# A pointer is compared by its observed allocation role, never host address.
+STAGES = {
+    '_initialize_buffer12': (1,0,0), '_allocate_buffer12': (1,0,0),
+    '_register_buffer12_cleanup': (1,1,0),
+    '_initialize_buffer8': (2,1,1), '_allocate_buffer8': (2,1,1),
+    '_register_buffer8_cleanup': (2,2,1),
+    '_initialize_buffer4': (3,2,2), '_allocate_buffer4': (3,2,2),
+    '_register_buffer4_cleanup': (3,3,2),
+    '_initialize_timing': (4,3,3), '_setup_timing': (4,3,3),
+}
+BUFFERS = [('12',0x424e70,12288,1024,0x424ea0,0x424eb0),
+           ('8',0x431d80,4000,500,0x431db0,0x431dc0),
+           ('4',0x431df0,4096,1024,0x431e20,0x431e30)]
+
 
 def compare(name, original, native, original_state, native_state):
     if name == '_mainCRTStartup':
@@ -10,29 +25,55 @@ def compare(name, original, native, original_state, native_state):
         assert original_state['rva'] == 0x65280
         assert native_state['function'] == 'target_startup'
         return
-    if name in ('_initialize_buffer12','_allocate_buffer12'):
-        config = json.loads((original / 'functions.json').read_text())
-        names = {record['start']:record['name'].lstrip('_') for record in config['driver']}
-        values = list(struct.unpack('<5I',(original / 'initializers.bin').read_bytes()))
-        logical = [None if value==0 else names[value] for value in values]
-        assert logical == native_state['initializers']
-        assert logical == [None,'initialize_buffer12','initialize_buffer8','initialize_buffer4','initialize_timing']
-        events = [json.loads(line) for line in (original / 'events.jsonl').read_text().splitlines()]
-        calls = [event for event in events if event['event']=='initerm_call']
-        assert [(event['site'],event['begin'],event['end']) for event in calls] == [(0x465320,0x467018,0x46701c),(0x46535b,0x467000,0x467014)]
-        observed_calls = [[None if value==0 else names[value] for value in event['values']] for event in calls]
-        assert observed_calls == [[None],logical] == native_state['initerm_calls']
-        assert (original_state['esi']-0x467000)//4 == native_state['initerm_current_index'] == 1
-        assert (original_state['edi']-0x467000)//4 == native_state['initerm_end_index'] == 5
-        assert original_state['x87_control_word'] == native_state['x87_control_word'] == 0x027f
-        for filename, native_name in [('crt-fmode.bin','crt_fmode'),('crt-commode.bin','crt_commode'),('crt-adjust-fdiv.bin','crt_adjust_fdiv')]:
-            assert struct.unpack('<i',(original/filename).read_bytes())[0] == native_state[native_name] == 0
-        assert original_state['crt_argv'] == native_state['crt_argv'] == ['R:\\toolchains\\5.10\\bin\\LINK.EXE','/?']
-        startup = struct.unpack('<9I',(original/'startup-globals.bin').read_bytes())
-        assert startup == (0,0,0,0,0,0,0,0xffffffff,0xffffffff)
-        for symbol in ['buffer12','buffer8','buffer4','timing']:
-            data = (original/(symbol+'.bin')).read_bytes()
-            assert data.hex() == native_state['app_globals'][symbol]
-            assert not any(data), 'constructor application state is not pristine'
-        return
-    raise AssertionError('raw state contract not implemented for ' + name)
+    assert name in STAGES, 'raw state contract not implemented for ' + name
+    cursor, allocations, registrations = STAGES[name]
+    config = json.loads((original / 'functions.json').read_text())
+    names = {record['start']:record['name'].lstrip('_') for record in config['driver']}
+    values = list(struct.unpack('<5I',(original / 'initializers.bin').read_bytes()))
+    logical = [None if value==0 else names[value] for value in values]
+    assert logical == native_state['initializers']
+    assert logical == [None,'initialize_buffer12','initialize_buffer8','initialize_buffer4','initialize_timing']
+    events = [json.loads(line) for line in (original / 'events.jsonl').read_text().splitlines()]
+    calls = [event for event in events if event['event']=='initerm_call']
+    assert [(event['site'],event['begin'],event['end']) for event in calls] == [(0x465320,0x467018,0x46701c),(0x46535b,0x467000,0x467014)]
+    observed_calls = [[None if value==0 else names[value] for value in event['values']] for event in calls]
+    assert observed_calls == [[None],logical] == native_state['initerm_calls']
+    assert (original_state['esi']-0x467000)//4 == native_state['initerm_current_index'] == cursor
+    assert (original_state['edi']-0x467000)//4 == native_state['initerm_end_index'] == 5
+    assert original_state['x87_control_word'] == native_state['x87_control_word'] == 0x027f
+    for filename, native_name in [('crt-fmode.bin','crt_fmode'),('crt-commode.bin','crt_commode'),('crt-adjust-fdiv.bin','crt_adjust_fdiv')]:
+        assert struct.unpack('<i',(original/filename).read_bytes())[0] == native_state[native_name] == 0
+    assert original_state['crt_argv'] == native_state['crt_argv'] == ['R:\\toolchains\\5.10\\bin\\LINK.EXE','/?']
+    startup = struct.unpack('<9I',(original/'startup-globals.bin').read_bytes())
+    assert startup == (0,0,0,0,0,0,0,0xffffffff,0xffffffff)
+    observations = [event for event in events if event['event']=='operator_new_observation']
+    assert len(observations) == 2*allocations
+    assert len(native_state.get('operator_new_calls',[])) == allocations
+    for index,(suffix,address,size,count,registration,cleanup) in enumerate(BUFFERS):
+        symbol='buffer'+suffix
+        data=(original/(symbol+'.bin')).read_bytes()
+        native_data=bytes.fromhex(native_state['app_globals'][symbol])
+        if index >= allocations:
+            assert data==native_data and not any(data), 'unconstructed buffer state changed'
+            continue
+        pointer, remaining, capacity = struct.unpack('<3I', data)
+        native_pointer, native_remaining, native_capacity = struct.unpack('<3I',native_data)
+        assert pointer and native_pointer, 'allocation unexpectedly failed'
+        assert (remaining,capacity)==(native_remaining,native_capacity)==(count,count)
+        call,returned=observations[index*2:index*2+2]
+        assert (call['name'],call['site'],call['stack_top'])==('observe:new_call_'+suffix,address+5,size)
+        assert (returned['name'],returned['site'],returned['eax'])==('observe:new_return_'+suffix,address+10,pointer)
+        assert call['new_handler']==returned['new_handler']==0
+        assert call['malloc_new_mode']==returned['malloc_new_mode']==0
+        assert native_state['operator_new_calls'][index]==dict(bytes=size,result=native_pointer)
+    # Uninitialized allocation contents are not consumed before these frontiers.
+    timing=(original/'timing.bin').read_bytes()
+    assert timing.hex()==native_state['app_globals']['timing'] and not any(timing)
+    observations=[event for event in events if event['event']=='atexit_observation']
+    assert len(observations)==registrations*2
+    assert len(native_state.get('atexit_calls',[]))==registrations
+    for index,(suffix,address,size,count,registration,cleanup) in enumerate(BUFFERS[:registrations]):
+        call,returned=observations[index*2:index*2+2]
+        assert (call['name'],call['site'],call['stack_top'])==('observe:atexit_call_'+suffix,registration+5,cleanup)
+        assert (returned['name'],returned['site'],returned['eax'])==('observe:atexit_return_'+suffix,registration+10,0)
+        assert native_state['atexit_calls'][index]==dict(callback='free_buffer'+suffix,result=0)
