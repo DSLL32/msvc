@@ -474,9 +474,6 @@ void finish_target_expression(void)
 {
 }
 
-/* Encountered four-byte prefix of optional function+2c target information.
-   Later fields are neither read nor allocated by these accessors. */
-typedef struct FunctionFloatStackInfo { short maximum_depth, cleanup_count; } FunctionFloatStackInfo;
 /* Original [00027b60,00027b74). Unknown callees conservatively need
    all eight x87 stack entries; recorded depth is a signed word. */
 int __fastcall function_float_stack_depth(FunctionSymbol *symbol)

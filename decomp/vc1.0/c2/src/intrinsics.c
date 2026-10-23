@@ -346,3 +346,17 @@ unsigned __fastcall intrinsic_operator(unsigned intrinsic)
            intrinsic_tree_operators[index].intrinsic != intrinsic) ++index;
     return intrinsic_tree_operators[index].operation;
 }
+
+/* Original [00027b30,00027b60). Fixed four-argument fastcall: the two
+   trailing words occupy stack argument slots and the callee returns RET8. */
+void __fastcall set_generated_intrinsic_call(FunctionSymbol *symbol,
+    unsigned short maximum_depth, unsigned short cleanup_count,
+    unsigned short argument_count)
+{
+    FunctionFloatStackInfo *information;
+    information = (FunctionFloatStackInfo *)arena_alloc(0, sizeof(*information));
+    information->maximum_depth = (short)maximum_depth;
+    information->cleanup_count = (short)cleanup_count;
+    information->argument_count = (short)argument_count;
+    symbol->field2c = (unsigned)information;
+}

@@ -1078,7 +1078,9 @@
     "@select_generic_candidate@8",
     "@prepare_generated_intrinsic@8",
     "@release_intrinsic_operands@4",
-    "@intrinsic_operator@4"
+    "@intrinsic_operator@4",
+    "@available_chain_operands@8",
+    "@set_generated_intrinsic_call@16"
   ],
   "driver": [
     {
@@ -4706,8 +4708,7 @@
     {
       "name": "@available_chain_operands@8",
       "start": 379136,
-      "end": 379137,
-      "provisional": true
+      "end": 379209
     },
     {
       "name": "@substitute_work_values@8",
@@ -7451,8 +7452,7 @@
     {
       "name": "@set_generated_intrinsic_call@16",
       "start": 162608,
-      "end": 162609,
-      "provisional": true
+      "end": 162656
     }
   ],
   "cases": {

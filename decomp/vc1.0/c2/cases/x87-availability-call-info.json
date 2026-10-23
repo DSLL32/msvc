@@ -1,0 +1,212 @@
+{
+  "checkpoint": 1076,
+  "base_commit": "a290e0a",
+  "source_graphs": 997,
+  "accepted_functions": [
+    {
+      "name": "@available_chain_operands@8",
+      "start": 379136,
+      "end": 379209
+    },
+    {
+      "name": "@set_generated_intrinsic_call@16",
+      "start": 162608,
+      "end": 162656
+    }
+  ],
+  "frontier": "@select_runtime_intrinsic@4",
+  "coverage": {
+    "bytes": 296904,
+    "total": 399693,
+    "percentage": 74.28301221187262,
+    "metric": "accepted original code-extent union; not branch coverage"
+  },
+  "abi": [
+    {
+      "name": "@available_chain_operands@8",
+      "original_returns": [
+        "",
+        ""
+      ],
+      "canonical_returns": [
+        ""
+      ],
+      "callee_stack_bytes": 0
+    },
+    {
+      "name": "@set_generated_intrinsic_call@16",
+      "original_returns": [
+        "8"
+      ],
+      "canonical_returns": [
+        "8"
+      ],
+      "callee_stack_bytes": 8
+    }
+  ],
+  "limits": [
+    "available_chain_operands preserves signed-word value identifier widening and 4c argument sentinel",
+    "set_generated_intrinsic_call allocates a typed six-byte arena0 record; its first two signed readers retain exact offsets",
+    "Shared FunctionFloatStackInfo completes previously encountered four-byte prefix; third word is argument count",
+    "Seven completed object oracles and deep x87 named trap all pass; no new shim required"
+  ],
+  "evidence": {
+    "before": "cases/shared-prefix-evidence/x87.json",
+    "after1075": "cases/x87-original-1075.json",
+    "after1076": "cases/x87-original-1076.json",
+    "native": "matching -native.json receipts",
+    "regressions": "cases/native-all-validation.json"
+  },
+  "timing": {
+    "frontier1075-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.43349396251142025,
+      "returncode": 0,
+      "log_sha256": "0fed72f4c95c7be2406ad1df9fa5ec3b213c17566c990888ed993b5461acb018"
+    },
+    "frontier1076-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.871071873232722,
+      "returncode": 0,
+      "log_sha256": "e142b3c35679f1a08a40846f8a7a0a808347ed1631fb50fce280431d26486862"
+    },
+    "frontier1076-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "intrinsics",
+        "work-prepare"
+      ],
+      "seconds": 2.3680466916412115,
+      "returncode": 0,
+      "log_sha256": "8b6d8bd0a143d9ec21c46598d1e5203287edfbfd631b73c47a76bb89f3102a55"
+    },
+    "frontier1075-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native-trace"
+      ],
+      "seconds": 2.289598516188562,
+      "returncode": 0,
+      "log_sha256": "79362dc52ab16c07de6fecfd00c64d972900ffd73d9bd684ffcf9601a862846f"
+    },
+    "frontier1076-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "x87",
+        "--receipt",
+        "cases/x87-original-1076.json"
+      ],
+      "seconds": 0.9926179740577936,
+      "returncode": 0,
+      "log_sha256": "5b7ae1b1c1725fb68e49a6a2fdc3ada60c2cb4e1c88faee71c0e836b9d6b8944"
+    },
+    "frontier1076-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4863396268337965,
+      "returncode": 0,
+      "log_sha256": "e8d79f1e8e9bde5a3e36b65c5b11269b9e1c8c633313afcd2b719fb6b4c7e2b2"
+    },
+    "frontier1075-native-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "native"
+      ],
+      "seconds": 1.3774399273097515,
+      "returncode": 0,
+      "log_sha256": "e92e4ce52b8bfdd4fa5d5d76cf7e215fab3dbefbddb728ebd9b1a2df2d257a0d"
+    },
+    "frontier1075-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "x87",
+        "--reference",
+        "cases/x87-original-1075.json"
+      ],
+      "seconds": 0.20565013028681278,
+      "returncode": 0,
+      "log_sha256": "27b13bcee60e201323842b51ef7c83ac9fa4d2fd82f4b887fbdb9175d8784f2c"
+    },
+    "frontier1076-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "x87",
+        "--reference",
+        "cases/x87-original-1076.json"
+      ],
+      "seconds": 0.20893504098057747,
+      "returncode": 0,
+      "log_sha256": "8e05c0030fc53d13149298260a19812425bb6aed0a68c2cdacca228adcd52023"
+    },
+    "frontier1075-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.816458806395531,
+      "returncode": 0,
+      "log_sha256": "3c6cd19bdb491a94813f58c41258e5392fe209ff04712046f4aefb492b05bd49"
+    },
+    "frontier1076-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 33.95880634337664,
+      "returncode": 0,
+      "log_sha256": "ecd86a98176f473a53e3689578c34d9ab2862a60cba6a1bfe0906fec942e2363"
+    },
+    "frontier1075-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "work-optimizer"
+      ],
+      "seconds": 1.893954200670123,
+      "returncode": 0,
+      "log_sha256": "cb36e6f7817750aba5ec1ad982c79d4916216684dd3ad3303a0e74703de3716b"
+    },
+    "frontier1075-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "x87",
+        "--receipt",
+        "cases/x87-original-1075.json"
+      ],
+      "seconds": 1.470901214517653,
+      "returncode": 0,
+      "log_sha256": "e957683bc60e4d9ed6c0243904b83721d7e8e1a1c5256a12f5aed3ac8d7ed160"
+    }
+  },
+  "analysis_seconds": null,
+  "analysis_note": "Read-only disassembly and implementation wall time not separately instrumented; build1075 combines canonical and trace-native; build1076 full header rebuild combines canonical/native/trace. Other measured stages separate below."
+}

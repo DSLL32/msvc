@@ -2,19 +2,14 @@
   "modules": [
     {
       "module": "intrinsics",
-      "seconds": 0.9540801905095577,
+      "seconds": 1.1948677487671375,
       "returncode": 0
     },
     {
-      "module": "debug-run",
-      "seconds": 0.9368236316367984,
-      "returncode": 0
-    },
-    {
-      "module": "capture-cl",
-      "seconds": 0.919578324072063,
+      "module": "work-prepare",
+      "seconds": 1.1249181414023042,
       "returncode": 0
     }
   ],
-  "seconds": 2.810834242030978
+  "seconds": 2.320102035999298
 }

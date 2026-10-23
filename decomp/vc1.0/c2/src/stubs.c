@@ -258,7 +258,6 @@ void __fastcall forget_exception_label(Function *function, SymbolHeader *label) 
 
 
 
-int __fastcall available_chain_operands(Node *node, BitSet *available) { __asm int 3 }
 
 
 int __fastcall equal_chain_value_ids(Node *left, Node *right) { __asm int 3 }
@@ -391,5 +390,3 @@ MachineInstruction *__fastcall find_generic_candidate(MachineInstruction *instru
 int __fastcall swap_scheduled_address_registers(MachineInstruction *instruction) { __asm int 3 }
 
 int __fastcall generic_instruction_size_cost(MachineInstruction *instruction) { __asm int 3 }
-
-void __fastcall set_generated_intrinsic_call(FunctionSymbol *symbol, unsigned short convention, unsigned short result, unsigned short arguments) { __asm int 3 }

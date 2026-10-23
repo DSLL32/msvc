@@ -1183,3 +1183,19 @@ void __fastcall retarget_empty_work_branch(WorkItem *work, Node *node)
     if (removed && !removed->predecessors)
         remove_unreachable_work(global_entry_work);
 }
+
+/* Original [0005c900,0005c949). Every nonleaf value in the argument
+   chain must be present in the incoming availability set. The identifier
+   load is a signed word in the original, widened before bitset lookup. */
+int __fastcall available_chain_operands(Node *node, BitSet *available)
+{
+    Node *argument, *value;
+    for (argument = node->second.node; argument->opcode != 0x4c;
+         argument = argument->second.node) {
+        value = argument->left.node;
+        if ((node_shapes[value->opcode] & NODE_ARITY) != NODE_LEAF &&
+            !bitset_contains(available, (int)(short)value->info.words.identifier))
+            return 0;
+    }
+    return 1;
+}

@@ -4,6 +4,12 @@
 #include "symbols.h"
 #include "warnings.h"
 #include <recon.h>
+/* Optional function+2c x87 call information. The setter at27b30 allocates
+   exactly six bytes; the two existing readers sign-extend its first words. */
+typedef struct FunctionFloatStackInfo {
+    short maximum_depth, cleanup_count, argument_count;
+} FunctionFloatStackInfo;
+typedef char FunctionFloatStackInfoSizeCheck[sizeof(FunctionFloatStackInfo) == 6 ? 1 : -1];
 typedef struct FunctionSymbol {
     SymbolHeader symbol;
     unsigned field20, field24, field28, field2c, field30, parameter_bytes;

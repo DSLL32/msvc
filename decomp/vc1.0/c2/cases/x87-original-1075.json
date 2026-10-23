@@ -1,0 +1,40 @@
+{
+  "label": "x87-original-1075",
+  "profile": "x87",
+  "accepted": 1075,
+  "events": "exception 80000003 rva 00017b30 base 00010000 first 1\nexit 99\n",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "masked_sha256": "8ee11d92c959cabc9a19b2776353cf509701a016d32ac2f709a87df187442a80",
+  "config_sha256": "51d0d839c5e8cc7b8c8ecb97196f1e72ba810423393177d3fc49b2f2c9cdc1cf",
+  "manifest_sha256": "d64118f64de5cfdd7f9631c197e4e772843979666987237cff203f77261187a2",
+  "debugger_sha256": "8b008dabdd1c3eb1661e335701b24333a6c0c2eea8646442c77d1f366268d26a",
+  "debugger_source_sha256": "6a94008fbedf8597f69aa94533eedea189df64a31b250b1c4573d1961c04a04c",
+  "inputs": {
+    "c2/irex": "83a2663ce1022428d1529c5e46a16058bef4c3dc26754b56df1907f4c5e55884",
+    "c2/irsy": "d430f60f62b0267369a2bf72f2ef784b8a677b8e5a3f0bfe002bbd8b016a920f",
+    "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+    "c2/irgl": "e237def8092a228c3511d53f1dae8597a329c8c055b25615b15c76cd012d8151"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f stack87.c -W 1 -dos -Fostack87.obj -ML -Gs4096 -Gy -G5 "
+  },
+  "directory": "S:\\vc1.0\\c2\\original-x87-0skek85l",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\x87",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "first_entry_projection": {
+    "expected": [],
+    "observed": [],
+    "seeded": [],
+    "entry_plan_sha256": null
+  },
+  "logical": "@set_generated_intrinsic_call@16",
+  "original_va": "0x27b30",
+  "setup_seconds": 0.22274084575474262,
+  "execution_seconds": 1.1549419853836298,
+  "check_seconds": 0.024041902273893356,
+  "total_seconds": 1.4017251003533602
+}

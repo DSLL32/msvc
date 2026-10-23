@@ -1,0 +1,12 @@
+{
+  "logical": "@set_generated_intrinsic_call@16",
+  "matched": true,
+  "executable_sha256": "afabe2bccb18e7c44c963b7a7c7fc6b90ef730769f3d9070a480241d03c388c3",
+  "config_sha256": "51d0d839c5e8cc7b8c8ecb97196f1e72ba810423393177d3fc49b2f2c9cdc1cf",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\x87",
+  "setup_seconds": 0.005923569202423096,
+  "execution_seconds": 0.12630873639136553,
+  "seconds": 0.14130132552236319,
+  "log_sha256": "665d954b3cae7a1296d42775da51378559c044eced14e4587a8577781010f43b",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/x87-gdb-2xvwbk72"
+}
