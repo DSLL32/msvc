@@ -48,10 +48,21 @@ static char zone_names[2][32]={"PST","PDT"};
 char *recon_tzname[2]={zone_names[0],zone_names[1]};
 int recon_days[13]={-1,30,58,89,119,150,180,211,242,272,303,333,364};
 int recon_fltused,recon_tmpoff;
+WEAK int recon_adjust_fdiv;
 WEAK long recon_osfhnd[256];
 #define os_handles recon_osfhnd
 char *recon_decimal_point=".";
 static int pushed_byte[256];
+
+/* Canonical VC5 MSVCRT _initterm: unsigned exclusive end, NULL slots skipped,
+ * each callback pointer read when reached (earlier callbacks may change it). */
+WEAK void recon_initterm(ReconInitializer *begin,ReconInitializer *end)
+{
+    while ((uintptr_t)begin<(uintptr_t)end) {
+        if (*begin) (*begin)();
+        ++begin;
+    }
+}
 
 void recon_unsupported(const char *operation)
 {

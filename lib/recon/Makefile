@@ -4,7 +4,7 @@ CPPFLAGS += -DRECON_NATIVE_TEST -Iinclude -Inative
 CFLAGS += -m32 -std=gnu89 -O0 -g -Wall -Wextra
 SOURCES = src/crt.c src/win32.c src/process.c src/compat.c src/entry.c src/decimal.c
 HEADERS = $(wildcard include/*.h native/*.h native/sys/*.h)
-.PHONY: all check find-check module-check trace-check process-check process-stream-check trace-allocation-check adoption-check clean
+.PHONY: all check find-check module-check initterm-check trace-check process-check process-stream-check trace-allocation-check adoption-check clean
 all: build/check
 build:
 	mkdir -p $@
@@ -22,6 +22,15 @@ build/check-module: tests/check-module.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) tests/check-module.c $(SOURCES) -o $@
 module-check: build/module-probe build/check-module
 	$(PYTHON) tests/check-module.py build/module-probe build/check-module
+build/check-initterm: tests/check-initterm.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) tests/check-initterm.c $(SOURCES) -o $@
+build/entry-precision-default: tests/entry-precision-target.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_NATIVE_ENTRY=recon_precision_entry tests/entry-precision-target.c $(SOURCES) -o $@
+build/entry-precision-53: tests/entry-precision-target.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_NATIVE_ENTRY=recon_precision_entry -DRECON_NATIVE_ENTRY_CONTROLFP_53 tests/entry-precision-target.c $(SOURCES) -o $@
+initterm-check: build/check-initterm build/entry-precision-default build/entry-precision-53
+	./build/check-initterm
+	$(PYTHON) tests/check-entry-precision.py build/entry-precision-default build/entry-precision-53
 build/trace-target.o: tests/trace-target.c | build
 	$(CC) -m32 -std=gnu89 -O0 -g -finstrument-functions -c $< -o $@
 build/trace-pie: build/trace-target.o src/trace.c

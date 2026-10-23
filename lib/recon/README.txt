@@ -63,11 +63,13 @@ exports (including LINK's IsTNT probe) return NULL with the Windows error code;
 unsupported DLLs fail. No dynamic PE loading is involved.
 
 Native EXE/DLL hosts can register a verified module with recon_register_module
-and a ReconModuleSpec containing its name, canonical DOS path, image SHA256 and
+and a ReconModuleSpec containing its name, captured loaded-image DOS path, image SHA256 and
 RECON_MODULE_NO_TLS flag. The case adapter must verify that provenance before
 launch; registration only retains metadata and never opens a PE image.
-RECON_MODULE_PRIMARY selects GetModuleHandleA(NULL)'s EXE identity. DLL hosts
-keep their real reconstructed attach/export/detach calls; registration does not
+RECON_MODULE_PRIMARY selects GetModuleHandleA(NULL)'s EXE identity.
+The loaded path can be an S: transport path and is independent of argv0 and
+the repository source path; the case retains their provenance separately.
+DLL hosts keep their real reconstructed attach/export/detach calls; registration does not
 run initialization or load a DLL. Registered modules are process-lifetime tokens.
 DisableThreadLibraryCalls validates the token, records disabled notifications
 and preserves errno/LastError on success. Native hosts can inspect retained
@@ -76,6 +78,16 @@ handles return failure with ERROR_MOD_NOT_FOUND, as the explicit original probe
 does. Unregistered VC1 hosts retain their existing kernel32-only module behavior.
 Run make -j4 module-check for native identity/lifecycle checks and the frozen
 original DisableThreadLibraryCalls success, repeat and invalid-handle comparison.
+
+The canonical VC5 _initterm boundary walks an exclusive initializer range in
+address order, skips NULL slots and reads each callback when reached. Imported
+_adjust_fdiv is a mutable int32 seeded to the verified canonical provider's zero;
+the target CRT retains its own separate copy and initialization logic.
+RECON_NATIVE_ENTRY_CONTROLFP_53 opts a verified EXE host into the original CRT's
+recon_controlfp(0x10000,0x30000) before application entry. Record this in build and
+initial-state metadata; it is not applied to DLL hosts or other tools implicitly.
+The existing RECON_DEFAULT_FMODE setting can seed a verified initial CRT mode.
+Run make -j4 initterm-check for callback order/mutation and entry precision checks.
 
 Compatibility scope
 -------------------

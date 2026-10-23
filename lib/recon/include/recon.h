@@ -79,6 +79,9 @@ extern long recon_timezone;
 extern int recon_daylight;
 extern char *recon_tzname[2];
 extern int recon_days[13],recon_fltused,recon_tmpoff;
+extern int recon_adjust_fdiv;
+typedef void (__cdecl *ReconInitializer)(void);
+void recon_initterm(ReconInitializer *,ReconInitializer *);
 extern char *recon_decimal_point;
 #ifndef SIGBREAK
 #define SIGBREAK 21
@@ -286,6 +289,8 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _sopen recon_sopen
 #define _setmode recon_setmode
 #define _find recon_find
+#define _initterm recon_initterm
+#define _adjust_fdiv recon_adjust_fdiv
 #define strcpy recon_strcpy
 #define _openfile recon_openfile
 #define _read recon_read

@@ -1,0 +1,44 @@
+{
+  "schema": 1,
+  "scope": "Canonical VC5 MSVCRT _initterm import, observed adjust_fdiv data and explicitly opted-in CL native entry precision",
+  "provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "initterm_extent": [
+      "0x78001715",
+      "0x78001737"
+    ],
+    "complete_body_evidence": "decomp/vc5.10/rc/cases/msvcrt-initterm-analysis.txt",
+    "adjust_fdiv_rva": "0x3f928",
+    "observed_adjust_fdiv": 0,
+    "actual_provider_proof": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/controlled-startup-observer/events.txt"
+  },
+  "behavior": {
+    "initterm": "Unsigned begin/end comparison, exclusive end, NULL slots skipped, synchronous cdecl void callbacks in address order, later slots reread after callback mutation; no reset of errno/LastError or imported data",
+    "adjust_fdiv": "Mutable shared int32 initially0 from verified canonical provider state; no per-call reset",
+    "entry_precision": "Only RECON_NATIVE_ENTRY_CONTROLFP_53 calls existing recon_controlfp(0x10000,0x30000) before application entry; default unchanged; host/build metadata must bind opt-in",
+    "precision_evidence": "CL exact shipped startup _setdefaultprecision in decomp/vc5.10/cl/scripts/identify-runtime.py; actual control word027f before main vs native default037f"
+  },
+  "checks": [
+    "callback order and NULL slots",
+    "callback mutates later slot",
+    "exclusive end and reversed/empty range",
+    "callback errno and LastError survive return",
+    "adjust_fdiv mutation remains coherent",
+    "default64-bit precision unchanged",
+    "opt-in53-bit precision at entry"
+  ],
+  "native": [
+    {
+      "compiler": "gcc",
+      "build_and_checks_seconds": 0.9262120286002755,
+      "status": "passed"
+    },
+    {
+      "compiler": "clang",
+      "build_and_checks_seconds": 1.174668881110847,
+      "status": "passed"
+    }
+  ],
+  "coverage": "Shared imports/host initial-state support only, no target function acceptance"
+}
