@@ -26,6 +26,8 @@ def main():
     with tempfile.TemporaryDirectory(prefix='native-fixture-',dir=scratch) as temporary:
         output=Path(temporary)
         environment=os.environ.copy()
+        for key in ('C1XX_INVOKE_ARGV','C1XX_TEST_INIT_RESTORE'):
+            environment.pop(key,None)
         # Start each case with its own known empty entry prefix.
         for key in ('RECON_TRACE_FD','RECON_TRACE_FILTER','RECON_TRACE_SEEN','RECON_TRACE_STATE_FD'):
             environment.pop(key,None)

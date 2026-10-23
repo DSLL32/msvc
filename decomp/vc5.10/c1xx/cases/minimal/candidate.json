@@ -9,7 +9,7 @@
     "_DllMain@12",
     "_InvokeCompilerPass@12"
   ],
-  "trial": null,
+  "trial": "_initialize_compiler_pass",
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -58,7 +58,19 @@
       "start_rva": 466856,
       "end_rva": 466904,
       "entry": 0
+    },
+    {
+      "owner": "_initialize_compiler_pass",
+      "start_rva": 230736,
+      "end_rva": 230928,
+      "entry": 1
+    },
+    {
+      "owner": "_initialize_compiler_pass",
+      "start_rva": 466904,
+      "end_rva": 467030,
+      "entry": 0
     }
   ],
-  "stage": "_InvokeCompilerPass@12 accepted; next frontier _initialize_compiler_pass"
+  "stage": "typed snapshot initializer trial; promotion held for concrete orchestrator review"
 }

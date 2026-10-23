@@ -129,6 +129,9 @@ def main():
             if sha(PROJECT / item) != digest: raise ValueError("case input changed " + item)
             shutil.copy2(PROJECT / item, output / Path(item).name)
         environment.update(C1XX_INVOKE_ARGV="invoke-argv.bin", TMP=".", TEMP=".")
+        environment.pop("C1XX_TEST_INIT_RESTORE", None)
+        if trial.get("test_seed"):
+            environment["C1XX_TEST_INIT_RESTORE"] = trial["test_seed"]
     shutil.copy2(CRT, output / "MSVCRT.DLL")
     command = ["wine", transport.windows(output / "dll-capture.exe"), "--debug",
                transport.windows(TARGET), transport.windows(CRT), args.mode, "ranges.txt"]

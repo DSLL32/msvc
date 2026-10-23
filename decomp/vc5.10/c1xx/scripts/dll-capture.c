@@ -12,7 +12,10 @@ static FILE *events;
 static DWORD base, entry_rva, code_rva, code_size, image_size;
 static DWORD crt_base, return_address, return_reason;
 static BYTE return_saved;
-static int return_active;
+static int return_active, restore_observer;
+static BYTE restore_observer_byte;
+static DWORD aux_old_base, aux_new_base;
+static int aux_returned;
 static unsigned sequence;
 static BYTE *snapshot;
 static Range ranges[512];
@@ -127,13 +130,15 @@ static void module_loaded(DWORD address, HANDLE file)
     fflush(events);
 }
 
+static void save_blob(const char *name, const void *bytes, unsigned length);
+
 static void prepare_mask(void)
 {
     BYTE *masked;
     HANDLE saved;
     DWORD wrote;
     unsigned i;
-    DWORD resolved, adjust_value;
+    DWORD resolved, adjust_value, initfe[43];
     static DWORD import_slots[4] = { 0xc9114, 0xc90a8, 0xc9140, 0xc9118 };
     static DWORD provider_rvas[4] = { 0x1715, 0x1498, 0x138a, 0x3f928 };
     for (i = 0; i < 4; ++i) {
@@ -145,6 +150,8 @@ static void prepare_mask(void)
             fprintf(events, "provider-adjust-fdiv=%lu\n", adjust_value);
         }
     }
+    readmem(base + 0xdf000, initfe, sizeof(initfe));
+    save_blob("initfe.bin", initfe, sizeof(initfe));
     snapshot = (BYTE *)malloc(code_size);
     masked = (BYTE *)malloc(code_size);
     if (!snapshot || !masked) fail("snapshot allocation");
@@ -173,6 +180,12 @@ static void prepare_mask(void)
         fail("save actual masked image");
     CloseHandle(saved);
     free(masked); initialized = 1;
+    if (getenv("C1XX_TEST_INIT_RESTORE") && !baseline) {
+        restore_observer_byte = snapshot[0x385be - code_rva];
+        if (restore_observer_byte != 0x89) fail("restore observer instruction changed");
+        patch(base + 0x385be, 0xcc); restore_observer = 1;
+        fprintf(events, "restore-observer rva=000385be byte=89 after-mask-readback=1\n");
+    }
     fprintf(events, "mask snapshot=relocated-text.bin baseline=%d ranges=%u\n", baseline, count);
 }
 
@@ -187,12 +200,92 @@ static DWORD thread_error(CONTEXT *context, HANDLE thread)
     return last_error;
 }
 
+static void save_blob(const char *name, const void *bytes, unsigned length)
+{
+    FILE *file = fopen(name, "wb");
+    if (!file || fwrite(bytes, 1, length, file) != length || fclose(file)) fail("save frontend state");
+}
+
+static void save_frontend_state(const char *suffix)
+{
+    DWORD values[36];
+    BYTE data[8520];
+    char name[80];
+    readmem(base + 0xcd7e0, values, 4);
+    readmem(base + 0xc4d50, values + 1, 8);
+    readmem(base + 0xcb06c, values + 3, 4);
+    readmem(base + 0xc4d58, values + 4, 128);
+    sprintf(name, "frontend-state-%s.bin", suffix); save_blob(name, values, sizeof(values));
+    readmem(base + 0xcc000, data, sizeof(data));
+    sprintf(name, "frontend-data-%s.bin", suffix); save_blob(name, data, sizeof(data));
+    if (values[1]) {
+        readmem(values[1], data, sizeof(data));
+        sprintf(name, "frontend-snapshot-%s.bin", suffix); save_blob(name, data, sizeof(data));
+    }
+}
+
+static void save_aux_state(const char *suffix)
+{
+    BYTE guards[64];
+    DWORD fields[4];
+    char name[80];
+    if (!aux_new_base) return;
+    readmem(aux_old_base, guards, 32); readmem(aux_old_base + 32 + 8520, guards + 32, 32);
+    sprintf(name, "aux-old-guards-%s.bin", suffix); save_blob(name, guards, 64);
+    readmem(aux_new_base, guards, 32); readmem(aux_new_base + 32 + 8520, guards + 32, 32);
+    sprintf(name, "aux-new-guards-%s.bin", suffix); save_blob(name, guards, 64);
+    fields[0] = aux_old_base + 32; fields[1] = aux_new_base + 32;
+    readmem(fields[0] + 0x17e0, fields + 2, 4); readmem(fields[1] + 0x17e0, fields + 3, 4);
+    sprintf(name, "aux-owned-fields-%s.bin", suffix); save_blob(name, fields, sizeof(fields));
+}
+
+static void seed_frontend_restore(void)
+{
+    const char *seed = getenv("C1XX_TEST_INIT_RESTORE");
+    BYTE bytes[8520], guards[32];
+    DWORD allocated, value, callbacks[32];
+    unsigned i;
+    int first_copy;
+    if (!seed) return;
+    first_copy = !strcmp(seed, "first-copy-aux");
+    if (!first_copy && strcmp(seed, "restore-nonzero") && strcmp(seed, "restore-zero")) fail("unknown restore seed");
+    readmem(base + 0xcc000, bytes, sizeof(bytes));
+    value = first_copy ? 23 : 17; memcpy(bytes + 0x17e0, &value, 4);
+    if (first_copy) {
+        aux_old_base = (DWORD)VirtualAllocEx(child, NULL, 8584, MEM_COMMIT, PAGE_READWRITE);
+        aux_new_base = (DWORD)VirtualAllocEx(child, NULL, 8584, MEM_COMMIT, PAGE_READWRITE);
+        if (!aux_old_base || !aux_new_base) fail("owned aux buffers");
+        memset(guards, 0xa7, sizeof(guards));
+        write_mem(aux_old_base, guards, 32); write_mem(aux_old_base + 32 + 8520, guards, 32);
+        memset(guards, 0xd3, sizeof(guards));
+        write_mem(aux_new_base, guards, 32); write_mem(aux_new_base + 32 + 8520, guards, 32);
+        allocated = aux_old_base + 32;
+        value = 303; write_mem(aux_new_base + 32 + 0x17e0, &value, 4);
+        fprintf(events, "aux-owned role=old-snapshot base=%08lx payload=%08lx request=8584 payload-bytes=8520 guards=32 pattern=a7 first=23\n", aux_old_base, allocated);
+        fprintf(events, "aux-owned role=mock-return base=%08lx payload=%08lx request=8584 payload-bytes=8520 guards=32 pattern=d3 first=303\n", aux_new_base, aux_new_base + 32);
+    } else {
+        allocated = (DWORD)VirtualAllocEx(child, NULL, sizeof(bytes), MEM_COMMIT, PAGE_READWRITE);
+        if (!allocated) fail("restore-test allocation");
+    }
+    write_mem(allocated, bytes, sizeof(bytes));
+    write_mem(base + 0xc4d50, &allocated, 4);
+    value = first_copy ? 17 : 0; write_mem(base + 0xcd7e0, &value, 4);
+    value = 32; write_mem(base + 0xc4d54, &value, 4);
+    for (i = 0; i < 32; ++i) callbacks[i] = base + 0x38610;
+    write_mem(base + 0xc4d58, callbacks, sizeof(callbacks));
+    value = 9; write_mem(base + 0xcb06c, &value, 4);
+    value = !strcmp(seed, "restore-zero") ? 0 : 3; write_mem(base + 0xcb008, &value, 4);
+    fprintf(events, "restore-seed mode=%s allocation=%08lx bytes=8520 cleanup-count=32 mocked-cleanup-callback=_initialize_frontend_01 slots=32\n", seed, allocated);
+    save_frontend_state("seed"); save_aux_state("seed");
+}
+
 static void save_state(void)
 {
     BYTE globals[0xa4];
     DWORD begin, first = 0;
-    char filename[80];
+    char filename[80], suffix[16];
     FILE *state;
+    sprintf(suffix, "%03u", sequence); save_frontend_state(suffix); save_aux_state(suffix);
     readmem(base + 0xcb000, globals, sizeof(globals));
     memcpy(&begin, globals + 0x1c, 4);
     if (begin) readmem(begin, &first, 4);
@@ -338,12 +431,19 @@ int main(int argc, char **argv)
                 patch(return_address, return_saved); return_active = 0;
                 context.Eip = address;
                 if (!SetThreadContext(thread, &context)) fail("CRT return context");
+            } else if (code == EXCEPTION_BREAKPOINT && restore_observer && address == base + 0x385be) {
+                fprintf(events, "restore-phase rva=000385be\n");
+                save_frontend_state("phase"); save_aux_state("phase");
+                patch(address, restore_observer_byte); restore_observer = 0;
+                context.Eip = address;
+                if (!SetThreadContext(thread, &context)) fail("restore observer context");
             } else if (code == EXCEPTION_BREAKPOINT && target_seen &&
                     address >= base + code_rva && address < base + code_rva + code_size) {
                 if (!initialized) {
                     if (address != base + entry_rva || !crt_seen) fail("unguarded entry/provider");
                     prepare_mask();
                 }
+                if (address == base + 0x384d4) seed_frontend_restore();
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;
@@ -352,6 +452,16 @@ int main(int argc, char **argv)
                     context.EFlags |= 0x100;
                 } else if (baseline && address == base + entry_rva) {
                     patch(address, 0x53);
+                } else if (aux_new_base && !aux_returned && address == base + 0x233ba) {
+                    DWORD call[2]; BYTE byte;
+                    readmem(context.Esp, call, sizeof(call)); readmem(address, &byte, 1);
+                    if (call[1] != 8520 || byte != 0xcc || call[0] != base + 0x38595) fail("aux allocator ABI/trap");
+                    fprintf(events, "aux-stub-return role=mock-return rva=000233ba target-byte=cc request=8520 result=%08lx caller=%08lx cdecl-pop=4\n", aux_new_base + 32, call[0]);
+                    save_aux_state("call");
+                    context.Eax = aux_new_base + 32; context.Eip = call[0]; context.Esp += 4;
+                    aux_returned = 1;
+                    if (!SetThreadContext(thread, &context)) fail("aux mock return context");
+                    ContinueDebugEvent(event.dwProcessId, event.dwThreadId, status); continue;
                 } else {
                     fprintf(events, "frontier rva=%08lx\n", address - base); fflush(events);
                     TerminateProcess(child, 125); return 125;

@@ -16,9 +16,9 @@ def module(name,file):
     result=importlib.util.module_from_spec(spec);spec.loader.exec_module(result);return result
 
 
-def configure(decoder,original,native):
+def configure(decoder,original,native,saved_record=None):
     # Anchor the untouched baseline before semantic-negative tests make copies.
-    saved=json.loads((PROJECT/'cases/lifecycle/validation.json').read_text())
+    saved=saved_record or json.loads((PROJECT/'cases/lifecycle/validation.json').read_text())
     for directory,key in ((original,'original'),(native,'native')):
         decoder.s.require(decoder.s.sha(directory/'receipt.json')==saved[key+'_receipt_sha256'],
                           'not the recorded immutable completion proof')

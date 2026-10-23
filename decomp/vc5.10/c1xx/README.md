@@ -38,8 +38,10 @@ is a Boolean mode, not a host callback table. The real invocation is captured un
 `cases/minimal/contract.json`: argc26, Boolean1, raw vectors/context and a return0.
 A direct original DLL host reproduces all four CL-produced IR files byte-for-byte.
 `cases/minimal/invoke-validation.json` records the wrapper promotion and11 rejected
-input/state/ELF/extent controls. The initializer snapshot schema remains pending
-common policy; no frontend data section has been bulk copied. Repeated invocation resets frontend state and runs `.initfe`
+input/state/ELF/extent controls. The initializer uses a reviewed limited typed projection: only encountered fields
+are represented, with unknown original bytes explicitly unmodeled. Its concrete
+implementation/proof packet is held for review in `cases/minimal/initializer-review.json`;
+no frontend data section has been bulk copied. Repeated invocation resets frontend state and runs `.initfe`
 callbacks; cancellation, SEH, PDB/COM and resource lookup need later cases.
 
 ## First-case evidence
@@ -86,7 +88,7 @@ The saved module feeds LoadStringA (256-byte buffer); resources will need actual
 encountered IDs/encoding/capacity behavior before native support is claimed.
 MSVCRT FILE, `_mbctype`, SEH/longjmp and wide-character imports require provider
 contract checks. MSPDB50 and OLE methods are in-process stateful interfaces, not
-subprocess responses. Only the first lifecycle subset is implemented.
+subprocess responses. The lifecycle and Invoke wrapper are accepted; the minimal compilation remains in progress.
 
 `cases/plan.json` retains source-only C++ seeds copied from vc1.0; it contains no
 old IR/oracle reuse. Original builds/captures use the shared prefix and fixed R:/S:

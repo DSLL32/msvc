@@ -1,0 +1,305 @@
+#!/usr/bin/env python3
+"""Validate only modeled fields; original opaque bytes never imply native equivalence."""
+import argparse
+import importlib.util
+import json
+from pathlib import Path
+import re
+import struct
+import subprocess
+
+PROJECT=Path(__file__).resolve().parents[1]
+spec=importlib.util.spec_from_file_location('minimal_base',Path(__file__).with_name('check-minimal.py'))
+b=importlib.util.module_from_spec(spec);spec.loader.exec_module(b)
+s=b.s
+
+
+def original_fields(directory,suffix):
+    raw=(directory/('frontend-state-'+suffix+'.bin')).read_bytes()
+    s.require(len(raw)==144,'incomplete raw modeled-field state')
+    words=struct.unpack('<36I',raw)
+    return dict(zip(('first_invocation','saved_state','cleanup_count','restore_mode'),words[:4]),
+                cleanup_callbacks=list(words[4:]))
+
+
+def disjoint(ranges):
+    pairs=sorted(ranges)
+    return all(first<last for first,last in pairs) and all(a[1]<=b[0] for a,b in zip(pairs,pairs[1:]))
+
+
+def field_map(model,observed):
+    s.require(model['original_snapshot_bytes']==8520 and model['original_initialized_region']==[0x104cc000,0x104ce148] and
+              model['original_bss_region']==[0x104b9000,0x104c869c],'wrong original state-region boundaries')
+    names={row['name'] for row in model['fields']}
+    s.require(names==set(observed['storage']),'missing/extra declared field mapping')
+    known={'first_invocation':(0x104cd7e0,4,'initialized','frontend_data.first_invocation'),
+           'saved_state':(0x104c4d50,4,'bss','frontend_bss.saved_state'),
+           'cleanup_count':(0x104c4d54,4,'bss','frontend_bss.cleanup_count'),
+           'cleanup_callbacks':(0x104c4d58,128,'bss','frontend_bss.cleanup_callbacks'),
+           'restore_mode':(0x104cb06c,4,'external','restore_mode'),
+           'compiler_mode':(0x104cb008,4,'external','compiler_mode')}
+    s.require(names==set(known),'field mapping is not the encountered typed projection')
+    original=[];native=[]
+    for row in model['fields']:
+        s.require((row['original_address'],row['bytes'],row['class'],row['native_expression'])==known[row['name']],
+                  'field mapping differs from actual decoded original storage')
+        first,last=row['original_address'],row['original_address']+row['bytes']
+        address,width=observed['storage'][row['name']]
+        s.require(row['bytes']==width and first%4==address%4==0,'field width/alignment differs')
+        original.append((first,last));native.append((address,address+width))
+        if row['class']=='initialized':
+            s.require(model['original_initialized_region'][0]<=first<last<=model['original_initialized_region'][1] and
+                      row['original_snapshot_offset']==first-model['original_initialized_region'][0],
+                      'bad initialized field/snapshot offset')
+        elif row['class']=='bss':
+            s.require(model['original_bss_region'][0]<=first<last<=model['original_bss_region'][1], 'bad BSS field')
+        else:s.require(not any(a<=first<z for a,z in (model['original_initialized_region'],model['original_bss_region'])),
+                       'external field aliases copied/cleared region')
+    s.require(disjoint(original) and disjoint(native),'modeled fields overlap/alias storage')
+    s.require(observed['declared_fields']=={'initialized':['first_invocation'],
+              'bss':['saved_state','cleanup_count','cleanup_callbacks']} and
+              observed['known_sizes']=={'initialized':4,'bss':136},'typed structs contain unmodeled/omitted storage')
+    for kind in ('initialized','bss'):
+        s.require(sum(row['bytes'] for row in model['fields'] if row['class']==kind)==observed['known_sizes'][kind],
+                  'typed field-map does not cover all modeled struct storage')
+
+
+def callback_table(model,original,native,state):
+    entries=model['initializers']
+    s.require(len(entries)==43 and [row['slot'] for row in entries]==list(range(43)), 'incomplete initializer table')
+    raw=(original/'initfe.bin').read_bytes()
+    s.require(len(raw)==172 and list(struct.unpack('<43I',raw))==[row['original_address'] for row in entries],
+              'actual original callback table differs')
+    elf=native/'native-executable.elf'
+    symbols=subprocess.check_output(['nm','-S','--defined-only',str(elf)],text=True)
+    names={name:int(address,16) for address,size,kind,name in re.findall(r'^(\w+) (\w+) ([Tt]) (\S+)$',symbols,re.M)}
+    expected=[0]
+    for index,row in enumerate(entries[1:],1):
+        name='initialize_frontend_%02d'%index
+        s.require(row['symbol']=='_'+name and row['original_address']!=0 and name in names,'callback identity absent')
+        expected.append(names[name])
+    s.require(entries[0]['original_address']==0 and entries[0]['symbol'] is None and
+              state['frontend']['callback_slots']==expected and len(set(expected))==43,
+              'native initializer order/NULL slot/storage identity differs')
+    return expected
+
+
+def elf_byte(native,address):
+    elf=(native/'native-executable.elf').read_bytes()
+    s.require(elf[:6]==b'\x7fELF\x01\x01','not the archived little-endian ELF32 executable')
+    offset=struct.unpack_from('<I',elf,28)[0];size,count=struct.unpack_from('<HH',elf,42)
+    segments=[struct.unpack_from('<8I',elf,offset+i*size) for i in range(count)]
+    matching=[row for row in segments if row[0]==1 and row[6]&1 and row[2]<=address<row[2]+row[4]]
+    s.require(len(matching)==1,'frontier outside archived executable ELF segment')
+    return elf[matching[0][1]+address-matching[0][2]]
+
+
+def first_copy_aux(original,native,trial,text,pre,phase,state,slots):
+    """A declared debugger return, never evidence that the allocator is implemented."""
+    s.require(trial['auxiliary_mock']=={
+        'callee':'_checked_malloc','genuine_trap_required':True,'request':8520,
+        'returned_buffer_role':'mock-return','old_buffer_role':'old-snapshot',
+        'owned_request':8584,'guard_bytes':32,'old_guard':0xa7,'new_guard':0xd3,
+        'mocked_cleanup_callback':'_initialize_frontend_01','mocked_cleanup_slots':32,
+        'helper_unmasked':False,'helper_acceptance_credit':False},'undeclared auxiliary mock roles')
+    s.require(not any(row['owner']=='_checked_malloc' for row in trial['ranges']),
+              'auxiliary allocator gained unmask/acceptance credit')
+    s.require((original/'masked-text.bin').read_bytes()[0x233ba-0x1000]==0xcc,
+              'auxiliary allocator was not an actual masked trap')
+    call=json.loads((native/'aux-call.json').read_text());returned=json.loads((native/'aux-return.json').read_text())
+    mock=call['aux_mock_call']
+    s.require(call['symbol']=='checked_malloc' and call['args']=={'bytes':8520} and
+              mock['callee']=='_checked_malloc' and mock['request']==8520 and mock['actual_opcode']=='cc' and
+              mock['genuine_int3_pc']==call['pc']-1 and
+              returned=={'eax':mock['result'],'pc':mock['caller_return_pc'],
+                         'role':'mock-return','helper_accepted':False},'native mock did not follow the real allocator trap')
+    # Read the archived ELF byte, rather than accepting the callback's claimed opcode.
+    s.require(elf_byte(native,mock['genuine_int3_pc'])==0xcc,
+              'archived allocator does not contain the trapped INT3')
+    symbols=subprocess.check_output(['nm','-S','--defined-only',str(native/'native-executable.elf')],text=True)
+    callee=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] checked_malloc$',symbols,re.M)
+    caller=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] initialize_compiler_pass$',symbols,re.M)
+    s.require(callee is not None and caller is not None,'missing actual auxiliary call edge symbols')
+    first,width=[int(word,16) for word in caller.groups()]
+    pc=mock['caller_return_pc'];instruction=bytes(elf_byte(native,pc-5+i) for i in range(5))
+    s.require(first<pc<first+width and instruction[0]==0xe8 and
+              pc+struct.unpack_from('<i',instruction,1)[0]==int(callee[1],16),
+              'mock return does not follow the actual initializer-to-allocator call')
+    original_mock=re.findall(r'^aux-stub-return role=mock-return rva=000233ba target-byte=cc request=8520 result=([0-9a-f]+) caller=10438595 cdecl-pop=4$',text,re.M)
+    s.require(len(original_mock)==1,'missing raw original allocator-return experiment')
+    owned=re.findall(r'^aux-owned role=(old-snapshot|mock-return) base=([0-9a-f]+) payload=([0-9a-f]+) request=8584 payload-bytes=8520 guards=32 pattern=(a7|d3) first=(23|303)$',text,re.M)
+    s.require(len(owned)==2 and {row[0] for row in owned}=={'old-snapshot','mock-return'},'missing owned original allocations')
+    buffers={role:(int(base,16),int(payload,16),int(pattern,16),int(first)) for role,base,payload,pattern,first in owned}
+    s.require(buffers['old-snapshot'][2:]==(0xa7,23) and buffers['mock-return'][2:]==(0xd3,303) and
+              buffers['old-snapshot'][1]!=buffers['mock-return'][1] and
+              int(original_mock[0],16)==buffers['mock-return'][1], 'original mock returned the wrong owned buffer')
+    for base,payload,_,_ in buffers.values():s.require(payload==base+32,'original guard/payload layout differs')
+    for suffix,snapshot,new_first in (('006',pre,303),('007',call,303),('phase',phase,17),('008',state,17)):
+        raw=(original/('aux-owned-fields-'+suffix+'.bin')).read_bytes()
+        s.require(len(raw)==16 and struct.unpack('<4I',raw)==
+                  (buffers['old-snapshot'][1],buffers['mock-return'][1],23,new_first),
+                  'original owned field/copy order differs')
+        for old_role,new_role in (('old-snapshot','old'),('mock-return','new')):
+            guard=buffers[old_role][2]
+            s.require((original/('aux-'+new_role+'-guards-'+suffix+'.bin')).read_bytes()==bytes([guard])*64,
+                      'original owned allocation guard changed')
+            item=snapshot['aux_owned'][new_role]
+            s.require(item['payload']==item['base']+32 and item['owned_request']==8584 and item['payload_bytes']==8520 and
+                      item['prefix']==item['suffix']==('%02x'%guard)*32 and
+                      item['known_first']==(23 if new_role=='old' else new_first),
+                      'native owned allocation/guard/copy order differs')
+            s.require(item['payload']==pre['aux_owned'][new_role]['payload'],'native owned buffer identity changed')
+    s.require(mock['result']==pre['aux_owned']['new']['payload'] and
+              pre['frontend']['saved_state']==pre['aux_owned']['old']['payload'], 'wrong native buffer roles')
+    before=original_fields(original,'006')
+    s.require(before['first_invocation']==17 and before['saved_state']==buffers['old-snapshot'][1] and
+              before['cleanup_count']==32 and before['restore_mode']==9 and
+              pre['frontend']['saved_first']==23,'wrong nonzero first-copy input')
+    for suffix,snapshot,wanted_first in (('phase',phase,17),('008',state,0)):
+        value=original_fields(original,suffix);new=snapshot['frontend']
+        s.require(value['first_invocation']==new['first_invocation']==wanted_first and
+                  value['saved_state']==buffers['mock-return'][1] and new['saved_state']==mock['result'] and
+                  value['cleanup_count']==new['cleanup_count']==32 and value['restore_mode']==new['restore_mode']==0 and
+                  value['cleanup_callbacks']==[0x10438610]*32 and new['cleanup_callbacks']==[slots[1]]*32 and
+                  new['saved_first']==17,'first-copy pointer/order or BSS preservation differs')
+        raw=(original/('frontend-snapshot-'+suffix+'.bin')).read_bytes()
+        s.require(len(raw)==8520 and struct.unpack_from('<I',raw,0x17e0)[0]==17,'missing complete original copied snapshot')
+    s.require((original/'frontend-data-phase.bin').read_bytes()==(original/'frontend-snapshot-phase.bin').read_bytes(),
+              'original opaque first-copy transfer differs')
+    return 8520
+
+
+def check(original,native,require_audit=True,audit_path=None):
+    o,n,trial,text,state=s.pair(original,native)
+    s.require(trial['trial']=='_initialize_compiler_pass' and trial['case']=='minimal' and o['exit']==125,
+              'wrong initializer trial/frontier')
+    s.require(s.sha(native/'native-executable.elf')==n['native_sha256'],'wrong captured ELF')
+    model=json.loads((native/'state-model.json').read_text())
+    pre=json.loads((native/'pre.json').read_text())
+    field_map(model,state['frontend']);field_map(model,pre['frontend'])
+    slots=callback_table(model,original,native,state)
+    contract=json.loads((native/'contract.json').read_text())
+    _,old_argv=b.vector(original/'invoke-entry-argv.bin');native_pointer,new_argv=b.vector(native/'native-argv.bin')
+    s.require(old_argv==new_argv==contract['original_argv'] and state['invocation']=={
+        'argc':26,'argv':new_argv,'argv_address':native_pointer,'mode':1}, 'real Invoke input differs')
+    defaults=original_fields(original,'000')
+    s.require(defaults=={'first_invocation':1,'saved_state':0,'cleanup_count':0,'restore_mode':0,'cleanup_callbacks':[0]*32},
+              'actual original defaults differ from modeled initializers')
+    raw=(original/'frontend-data-000.bin').read_bytes()
+    s.require(len(raw)==8520 and struct.unpack_from('<I',raw,0x17e0)[0]==1,'missing complete original initialized state')
+    global0=(original/'state-000.bin').read_bytes()
+    s.require(struct.unpack_from('<I',global0,8)[0]==0,'compiler-mode original default differs')
+    seed=trial.get('test_seed')
+    traps=re.findall(r'^trap seq=(\d+) rva=([0-9a-f]{8}).*stack=([0-9a-f,]+)$',text,re.M)
+    wanted=[('0','0002e3c6'),('1','0002e46a'),('2','000384ce'),('3','0002e52a'),
+            ('5','000384d4'),('6','00038550')]
+    if seed in (None,'first-copy-aux'):wanted.append(('7','000233ba'))
+    if seed:wanted.append(('8' if seed=='first-copy-aux' else '7','00038610'))
+    s.require([row[:2] for row in traps]==wanted,'raw initializer execution path differs')
+    s.require(set(re.findall(r'^last-error=(\d+)$',text,re.M))=={'203'} and
+              {int(word,16)&0xffff for word in re.findall(r'^control-word=(\w+)$',text,re.M)}=={0x27f},
+              'original caller LastError/x87 differs')
+    pointer,_=b.vector(original/'invoke-entry-argv.bin')
+    s.require([int(word,16) for word in traps[4][2].split(',')][1:4]==[26,pointer,1],
+              'original raw Invoke ABI differs')
+    if seed in (None,'first-copy-aux'):
+        s.require(int(traps[6][2].split(',')[1],16)==8520,'original raw allocator argument differs')
+    context=(original/'invoke-entry-context.bin').read_bytes()
+    s.require(len(context)==204 and struct.unpack_from('<I',context,184)[0]==0x104384d5 and
+              struct.unpack_from('<I',context,196)[0]==int(re.search(r'^trap seq=5 .*esp=(\w+)',text,re.M)[1],16),
+              'original Invoke entry CONTEXT differs')
+    symbols=subprocess.check_output(['nm','-S','--defined-only',str(native/'native-executable.elf')],text=True)
+    match=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] '+state['symbol']+'$',symbols,re.M)
+    s.require(match is not None,'missing named ELF frontier')
+    start,width=[int(word,16) for word in match.groups()]
+    s.require(start<state['pc']<=start+width and elf_byte(native,state['pc']-1)==0xcc,'not a real named native INT3 frontier')
+    trace=['DllMain','InvokeCompilerPass','initialize_compiler_pass']
+    if seed in (None,'first-copy-aux'):trace.append('checked_malloc')
+    if seed:trace.append('initialize_frontend_01')
+    s.require((native/'trace.txt').read_text()==''.join(name+'\n' for name in trace),'native logical entry trace differs')
+    before=original_fields(original,'006');after=original_fields(original,'008' if seed=='first-copy-aux' else '007')
+    s.require(pre['symbol']=='initialize_compiler_pass','missing actual native initializer prestate')
+    keys=('first_invocation','cleanup_count','restore_mode','cleanup_callbacks')
+    for key in keys:s.require(before[key]==pre['frontend'][key] if key!='cleanup_callbacks' or not seed else
+                             before[key]==[0x10438610]*32 and pre['frontend'][key]==[slots[1]]*32,
+                             'typed prestate differs '+key)
+    s.require((before['saved_state']==0)==(pre['frontend']['saved_state']==0),'snapshot pointer nullness differs')
+    if not seed:
+        s.require(before==defaults and after==defaults and state['frontend']['first_invocation']==1 and
+                  state['frontend']['saved_state']==0 and state['frontend']['cleanup_count']==0 and
+                  state['frontend']['cleanup_callbacks']==[0]*32 and state['frontend']['restore_mode']==0,
+                  'fresh path changed fields before allocation')
+        s.require(pre['target_state']['compiler_mode']==state['target_state']['compiler_mode']==0,
+                  'normal initializer changed the caller mode before returning')
+        s.require(state['symbol']=='checked_malloc' and state['args']=={'bytes':8520} and
+                  re.findall(r'^frontier rva=(\w+)$',text,re.M)==['000233ba'],'fresh allocation request/frontier differs')
+        last=re.findall(r'^trap seq=7 .*stack=([0-9a-f,]+)$',text,re.M)
+        s.require(len(last)==1 and int(last[0].split(',')[1],16)==8520,'raw original allocation size differs')
+        frontier='_checked_malloc';opaque=0
+    else:
+        s.require(seed in ('restore-nonzero','restore-zero','first-copy-aux'),'unknown seeded case')
+        phase=original_fields(original,'phase');phase_native=json.loads((native/'phase.json').read_text())
+        if seed=='first-copy-aux':
+            opaque=first_copy_aux(original,native,trial,text,pre,phase_native,state,slots)
+        else:
+            check_restore(original,native,seed,before,after,pre,phase,phase_native,state)
+            opaque=8520
+        s.require(state['symbol']=='initialize_frontend_01' and state['args']=={} and
+                  re.findall(r'^frontier rva=(\w+)$',text,re.M)==['00038610'] and
+                  'restore-phase rva=000385be\n' in text,'unknown consumer did not hard trap after copy/restore')
+        observer=trial['validation_observers']
+        s.require(len(observer)==1 and {key:observer[0][key] for key in ('owner','original_rva','original_byte')}=={
+              'owner':'_initialize_compiler_pass','original_rva':0x385be,'original_byte':0x89} and
+              observer[0]['purpose'] in ('observe typed restore/BSS clear before first-flag reset',
+                  'observe typed copy/restore before first-flag reset'),'undeclared copy/restore validation observer')
+        mode=0 if seed=='restore-zero' else 3
+        s.require(pre['target_state']['compiler_mode']==phase_native['target_state']['compiler_mode']==
+                  state['target_state']['compiler_mode']==mode,'compiler mode changed during initializer')
+        frontier='_initialize_frontend_01'
+    for snapshot in (pre,state):
+        s.require(snapshot['target_state']['process_attached']==1 and snapshot['target_state']['last_error']==203 and
+                  snapshot['control_word']==0x27f,'lifecycle/LastError/x87 changed')
+    s.require('Program received signal SIGTRAP' in (native/'gdb.txt').read_text(),'no real native frontier')
+    if require_audit:s.audit(trial,audit_path)
+    return {'trial':trial['trial'],'seed':seed,'frontier':frontier,'malloc_bytes':8520,
+            'mapped_snapshot_fields':['first_invocation'],'original_unmodeled_snapshot_bytes':8516,
+            'native_snapshot_byte_equivalence_claimed':False,'original_opaque_transfer_bytes_checked':opaque,
+            'callback_slots_verified':43,'typed_bss_bytes':136,'whole_mask_bytes_checked':751216,
+            'original_seconds':o['seconds'],'native_seconds':n['seconds']}
+
+
+def check_restore(original,native,seed,before,after,pre,phase,phase_native,state):
+        wanted=1 if seed=='restore-zero' else 0
+        s.require(before['first_invocation']==0 and before['cleanup_count']==32 and before['restore_mode']==9 and
+                  before['saved_state']!=0,'not the declared nonzero seeded prestate')
+        s.require(phase['first_invocation']==phase_native['frontend']['first_invocation']==17 and
+                  after['first_invocation']==state['frontend']['first_invocation']==0,'snapshot restore/reset order differs')
+        for old,new in ((phase,phase_native['frontend']),(after,state['frontend'])):
+            s.require(old['saved_state']==before['saved_state'] and new['saved_state']==pre['frontend']['saved_state'] and
+                      old['cleanup_count']==new['cleanup_count']==0 and
+                      old['cleanup_callbacks']==new['cleanup_callbacks']==[0]*32 and
+                      old['restore_mode']==new['restore_mode']==wanted and new['saved_first']==17,
+                      'typed BSS clear/retained pointer/restore-mode differs')
+        for suffix in ('seed','006','phase','007'):
+            snapshot=(original/('frontend-snapshot-'+suffix+'.bin')).read_bytes()
+            s.require(len(snapshot)==8520 and struct.unpack_from('<I',snapshot,0x17e0)[0]==17,
+                      'missing complete original opaque snapshot/mapped flag')
+        s.require((original/'frontend-data-phase.bin').read_bytes()==(original/'frontend-snapshot-phase.bin').read_bytes(),
+                  'original opaque restore itself differs')
+
+
+def main():
+    parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--packet',type=Path,default=PROJECT/'cases/minimal/initializer-trials.json')
+    args=parser.parse_args();packet=json.loads(args.packet.read_text());results=[]
+    spec=importlib.util.spec_from_file_location('history',Path(__file__).with_name('check-history.py'))
+    history=importlib.util.module_from_spec(spec);spec.loader.exec_module(history)
+    import sys
+    decoder=sys.modules[__name__]
+    for row in packet['trials']:
+        original,native=Path(row['original']),Path(row['native'])
+        audit=history.configure(decoder,original,native,saved_record=row)
+        results.append(check(original,native,audit_path=audit))
+    print(json.dumps({'result':'PASS','projection_trials':results},indent=2))
+
+
+if __name__=='__main__':main()

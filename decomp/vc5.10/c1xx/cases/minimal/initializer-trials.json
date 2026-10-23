@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "status": "review required before initializer promotion",
+  "trials": [
+    {
+      "seed": null,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-initializer-fresh-original-3",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-initializer-fresh-native-4",
+      "audit": "build/audits/7c35f0172d2bb67b7c41504593d2859aee1cc32db10ae180e971353d40b52509.json",
+      "original_receipt_sha256": "ffd67e817df3c0677895817750b222dd699e5fb04e5737cbd6330702749fede6",
+      "native_receipt_sha256": "d8d5856154c147bcdfc0b969b198439c2dbebc62f76ced786194629e2c526743",
+      "supersedes_normal_pair": [
+        "minimal-initializer-fresh-original-2",
+        "minimal-initializer-fresh-native-3"
+      ]
+    },
+    {
+      "seed": "restore-nonzero",
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-initializer-restore-nonzero-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-initializer-restore-nonzero-native-1",
+      "audit": "build/audits/2132628459204194fbfe3350e4c7187fd77169694e5874391e17ec2e886e451d.json",
+      "original_receipt_sha256": "5620374f43251145796b8c7313c966d310a147b4119270426eed055ffe93fd7a",
+      "native_receipt_sha256": "b9791021277da12ce2e0a899c650826f61e6368a41c1e215828b6561e7cffec9"
+    },
+    {
+      "seed": "restore-zero",
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-initializer-restore-zero-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-initializer-restore-zero-native-1",
+      "audit": "build/audits/4420705a9df570ba0693be06c23c4294648cd9638b2c51304653afca2fe155a9.json",
+      "original_receipt_sha256": "87aee2482fc6f2e47776dac5be90b562752af3f229859a2722461332aafa7e1b",
+      "native_receipt_sha256": "15dca3057d2f1ad59fe91b85f60aae6c07d5a51cbaada3b3b848079056f76f10"
+    },
+    {
+      "seed": "first-copy-aux",
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-initializer-first-copy-aux-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-initializer-first-copy-aux-native-1",
+      "audit": "build/audits/62f19573dcac8d546832f65bccf3d3cee22cb51681bd22f802411b17a875f6be.json",
+      "original_receipt_sha256": "6945b891001e313731a91a00f2227bae9ae4ecf233647ae911e24507e0fb409e",
+      "native_receipt_sha256": "342ff677856a52cfa4792233bc0efa25da381ffcf5f59851378d2d090a73a107"
+    }
+  ]
+}

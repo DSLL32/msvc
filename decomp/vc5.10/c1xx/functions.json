@@ -34,10 +34,16 @@
     {
       "name": "_initialize_compiler_pass",
       "start": 272860496,
-      "end": 272860497,
+      "end": 272860688,
       "source": "src/frontend.c",
-      "pending_extent": true,
-      "abi": "cdecl0"
+      "pending_extent": false,
+      "abi": "cdecl0",
+      "code_chunks": [
+        [
+          273096664,
+          273096790
+        ]
+      ]
     },
     {
       "name": "_main",
@@ -54,6 +60,355 @@
       "end": 272844404,
       "source": "src/frontend.c",
       "pending_extent": true,
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_checked_malloc",
+      "start": 272774074,
+      "end": 272774103,
+      "code_chunks": [
+        [
+          273047649,
+          273047664
+        ]
+      ],
+      "source": "src/frontend.c",
+      "abi": "cdecl4"
+    },
+    {
+      "name": "_initialize_frontend_01",
+      "start": 272860688,
+      "end": 272860689,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_02",
+      "start": 272860706,
+      "end": 272860707,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_03",
+      "start": 272860724,
+      "end": 272860725,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_04",
+      "start": 272860751,
+      "end": 272860752,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_05",
+      "start": 272860752,
+      "end": 272860753,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_06",
+      "start": 272860753,
+      "end": 272860754,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_07",
+      "start": 272860754,
+      "end": 272860755,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_08",
+      "start": 272860767,
+      "end": 272860768,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_09",
+      "start": 272860884,
+      "end": 272860885,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_10",
+      "start": 272860963,
+      "end": 272860964,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_11",
+      "start": 272861042,
+      "end": 272861043,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_12",
+      "start": 272861121,
+      "end": 272861122,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_13",
+      "start": 272861200,
+      "end": 272861201,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_14",
+      "start": 272861279,
+      "end": 272861280,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_15",
+      "start": 272861358,
+      "end": 272861359,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_16",
+      "start": 272861437,
+      "end": 272861438,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_17",
+      "start": 272861469,
+      "end": 272861470,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_18",
+      "start": 272861470,
+      "end": 272861471,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_19",
+      "start": 272861499,
+      "end": 272861500,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_20",
+      "start": 272861500,
+      "end": 272861501,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_21",
+      "start": 272861501,
+      "end": 272861502,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_22",
+      "start": 272861512,
+      "end": 272861513,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_23",
+      "start": 272861576,
+      "end": 272861577,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_24",
+      "start": 272861640,
+      "end": 272861641,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_25",
+      "start": 272861675,
+      "end": 272861676,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_26",
+      "start": 272861688,
+      "end": 272861689,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_27",
+      "start": 272861701,
+      "end": 272861702,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_28",
+      "start": 272861714,
+      "end": 272861715,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_29",
+      "start": 272861727,
+      "end": 272861728,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_30",
+      "start": 272861740,
+      "end": 272861741,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_31",
+      "start": 272861753,
+      "end": 272861754,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_32",
+      "start": 272861766,
+      "end": 272861767,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_33",
+      "start": 272861779,
+      "end": 272861780,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_34",
+      "start": 272861792,
+      "end": 272861793,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_35",
+      "start": 272861878,
+      "end": 272861879,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_36",
+      "start": 272861879,
+      "end": 272861880,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_37",
+      "start": 272861912,
+      "end": 272861913,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_38",
+      "start": 272861922,
+      "end": 272861923,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_39",
+      "start": 272861935,
+      "end": 272861936,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_40",
+      "start": 272862185,
+      "end": 272862186,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_41",
+      "start": 272862186,
+      "end": 272862187,
+      "pending_extent": true,
+      "source": "src/initializers.c",
+      "abi": "cdecl0"
+    },
+    {
+      "name": "_initialize_frontend_42",
+      "start": 272862204,
+      "end": 272862205,
+      "pending_extent": true,
+      "source": "src/initializers.c",
       "abi": "cdecl0"
     }
   ],

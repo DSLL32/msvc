@@ -1,0 +1,283 @@
+{
+  "schema": 1,
+  "original_snapshot_bytes": 8520,
+  "original_initialized_region": [
+    273465344,
+    273473864
+  ],
+  "original_bss_region": [
+    273387520,
+    273450652
+  ],
+  "projection": "Encountered fields only; all other original bytes UNMODELED, never claimed native-equivalent",
+  "fields": [
+    {
+      "name": "first_invocation",
+      "class": "initialized",
+      "original_address": 273471456,
+      "original_snapshot_offset": 6112,
+      "bytes": 4,
+      "native_expression": "frontend_data.first_invocation",
+      "original_default": 1
+    },
+    {
+      "name": "saved_state",
+      "class": "bss",
+      "original_address": 273435984,
+      "bytes": 4,
+      "native_expression": "frontend_bss.saved_state",
+      "original_default": 0,
+      "pointer_identity": "snapshot allocation"
+    },
+    {
+      "name": "cleanup_count",
+      "class": "bss",
+      "original_address": 273435988,
+      "bytes": 4,
+      "native_expression": "frontend_bss.cleanup_count",
+      "original_default": 0
+    },
+    {
+      "name": "cleanup_callbacks",
+      "class": "bss",
+      "original_address": 273435992,
+      "bytes": 128,
+      "native_expression": "frontend_bss.cleanup_callbacks",
+      "original_default": "32 NULL pointers"
+    },
+    {
+      "name": "restore_mode",
+      "class": "external",
+      "original_address": 273461356,
+      "bytes": 4,
+      "native_expression": "restore_mode",
+      "original_default": 0
+    },
+    {
+      "name": "compiler_mode",
+      "class": "external",
+      "original_address": 273461256,
+      "bytes": 4,
+      "native_expression": "compiler_mode",
+      "original_default": 0
+    }
+  ],
+  "initializers": [
+    {
+      "slot": 0,
+      "original_address": 0,
+      "symbol": null
+    },
+    {
+      "slot": 1,
+      "original_address": 272860688,
+      "symbol": "_initialize_frontend_01"
+    },
+    {
+      "slot": 2,
+      "original_address": 272860706,
+      "symbol": "_initialize_frontend_02"
+    },
+    {
+      "slot": 3,
+      "original_address": 272860724,
+      "symbol": "_initialize_frontend_03"
+    },
+    {
+      "slot": 4,
+      "original_address": 272860751,
+      "symbol": "_initialize_frontend_04"
+    },
+    {
+      "slot": 5,
+      "original_address": 272860752,
+      "symbol": "_initialize_frontend_05"
+    },
+    {
+      "slot": 6,
+      "original_address": 272860753,
+      "symbol": "_initialize_frontend_06"
+    },
+    {
+      "slot": 7,
+      "original_address": 272860754,
+      "symbol": "_initialize_frontend_07"
+    },
+    {
+      "slot": 8,
+      "original_address": 272860767,
+      "symbol": "_initialize_frontend_08"
+    },
+    {
+      "slot": 9,
+      "original_address": 272860884,
+      "symbol": "_initialize_frontend_09"
+    },
+    {
+      "slot": 10,
+      "original_address": 272860963,
+      "symbol": "_initialize_frontend_10"
+    },
+    {
+      "slot": 11,
+      "original_address": 272861042,
+      "symbol": "_initialize_frontend_11"
+    },
+    {
+      "slot": 12,
+      "original_address": 272861121,
+      "symbol": "_initialize_frontend_12"
+    },
+    {
+      "slot": 13,
+      "original_address": 272861200,
+      "symbol": "_initialize_frontend_13"
+    },
+    {
+      "slot": 14,
+      "original_address": 272861279,
+      "symbol": "_initialize_frontend_14"
+    },
+    {
+      "slot": 15,
+      "original_address": 272861358,
+      "symbol": "_initialize_frontend_15"
+    },
+    {
+      "slot": 16,
+      "original_address": 272861437,
+      "symbol": "_initialize_frontend_16"
+    },
+    {
+      "slot": 17,
+      "original_address": 272861469,
+      "symbol": "_initialize_frontend_17"
+    },
+    {
+      "slot": 18,
+      "original_address": 272861470,
+      "symbol": "_initialize_frontend_18"
+    },
+    {
+      "slot": 19,
+      "original_address": 272861499,
+      "symbol": "_initialize_frontend_19"
+    },
+    {
+      "slot": 20,
+      "original_address": 272861500,
+      "symbol": "_initialize_frontend_20"
+    },
+    {
+      "slot": 21,
+      "original_address": 272861501,
+      "symbol": "_initialize_frontend_21"
+    },
+    {
+      "slot": 22,
+      "original_address": 272861512,
+      "symbol": "_initialize_frontend_22"
+    },
+    {
+      "slot": 23,
+      "original_address": 272861576,
+      "symbol": "_initialize_frontend_23"
+    },
+    {
+      "slot": 24,
+      "original_address": 272861640,
+      "symbol": "_initialize_frontend_24"
+    },
+    {
+      "slot": 25,
+      "original_address": 272861675,
+      "symbol": "_initialize_frontend_25"
+    },
+    {
+      "slot": 26,
+      "original_address": 272861688,
+      "symbol": "_initialize_frontend_26"
+    },
+    {
+      "slot": 27,
+      "original_address": 272861701,
+      "symbol": "_initialize_frontend_27"
+    },
+    {
+      "slot": 28,
+      "original_address": 272861714,
+      "symbol": "_initialize_frontend_28"
+    },
+    {
+      "slot": 29,
+      "original_address": 272861727,
+      "symbol": "_initialize_frontend_29"
+    },
+    {
+      "slot": 30,
+      "original_address": 272861740,
+      "symbol": "_initialize_frontend_30"
+    },
+    {
+      "slot": 31,
+      "original_address": 272861753,
+      "symbol": "_initialize_frontend_31"
+    },
+    {
+      "slot": 32,
+      "original_address": 272861766,
+      "symbol": "_initialize_frontend_32"
+    },
+    {
+      "slot": 33,
+      "original_address": 272861779,
+      "symbol": "_initialize_frontend_33"
+    },
+    {
+      "slot": 34,
+      "original_address": 272861792,
+      "symbol": "_initialize_frontend_34"
+    },
+    {
+      "slot": 35,
+      "original_address": 272861878,
+      "symbol": "_initialize_frontend_35"
+    },
+    {
+      "slot": 36,
+      "original_address": 272861879,
+      "symbol": "_initialize_frontend_36"
+    },
+    {
+      "slot": 37,
+      "original_address": 272861912,
+      "symbol": "_initialize_frontend_37"
+    },
+    {
+      "slot": 38,
+      "original_address": 272861922,
+      "symbol": "_initialize_frontend_38"
+    },
+    {
+      "slot": 39,
+      "original_address": 272861935,
+      "symbol": "_initialize_frontend_39"
+    },
+    {
+      "slot": 40,
+      "original_address": 272862185,
+      "symbol": "_initialize_frontend_40"
+    },
+    {
+      "slot": 41,
+      "original_address": 272862186,
+      "symbol": "_initialize_frontend_41"
+    },
+    {
+      "slot": 42,
+      "original_address": 272862204,
+      "symbol": "_initialize_frontend_42"
+    }
+  ],
+  "hard_stop": "checked_malloc is initially an INT3; after its reconstruction every unknown initializer remains a named INT3 before semantic use"
+}

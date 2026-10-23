@@ -45,7 +45,11 @@ def check(original, native, require_audit=True, audit_path=None):
     cfg = json.loads((PROJECT / "functions.json").read_text())
     candidate = json.loads((PROJECT / cfg.get("candidate_path", "cases/lifecycle/candidate.json")).read_text())
     if candidate["case"] == "minimal":
-        spec = importlib.util.spec_from_file_location("minimal",Path(__file__).with_name("check-minimal.py"))
+        require(not candidate.get('test_seed'),'auxiliary/seeded executions cannot promote a function')
+        filename={'_InvokeCompilerPass@12':'check-minimal.py',
+                  '_initialize_compiler_pass':'check-projection.py'}.get(candidate['trial'])
+        require(filename is not None,'no reviewed decoder for this minimal-case candidate')
+        spec = importlib.util.spec_from_file_location("minimal",Path(__file__).with_name(filename))
         decoder = importlib.util.module_from_spec(spec);spec.loader.exec_module(decoder)
         return decoder.check(original,native,require_audit,audit_path)
     if candidate["trial"] in ("__CRT_INIT@12", "import:_initterm", "_DllMain@12"):

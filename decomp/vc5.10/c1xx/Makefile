@@ -3,8 +3,8 @@ include ../../../tooling/graph-audit/graph-audit.mk
 RECON = ../../../lib/recon
 TOOL = $(PYTHON) scripts/wine-tool.py
 NATIVE_CC ?= clang
-SOURCES = src/startup.c src/dllmain.c src/exports.c src/frontend.c
-HEADERS = src/c1xx.h $(RECON)/include/recon.h
+SOURCES = src/startup.c src/dllmain.c src/exports.c src/frontend.c src/initializers.c
+HEADERS = src/c1xx.h src/frontend.h $(RECON)/include/recon.h
 OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES))
 NATIVE_OBJECTS = $(patsubst src/%.c,build/native/%.o,$(SOURCES))
 NATIVE_SHIMS = $(wildcard $(RECON)/src/*.c)

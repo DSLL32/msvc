@@ -24,6 +24,8 @@ def capture(project,output,binary,trial):
     environment.update(contract['consumed_environment_seed'])
     environment['C1XX_INVOKE_ARGV']=str(output/'invoke-argv.bin')
     environment['RECON_DRIVE_R']=str(project.parents[2])
+    environment.pop('C1XX_TEST_INIT_RESTORE',None)
+    if trial.get('test_seed'):environment['C1XX_TEST_INIT_RESTORE']=trial['test_seed']
     wrapper=output/'exec-wrapper.py'
     wrapper.write_text('#!/usr/bin/python3\nimport os,sys\nfd=os.open('+repr(str(output/'trace.txt'))+',os.O_WRONLY|os.O_CREAT|os.O_TRUNC,0o600)\nos.set_inheritable(fd,True)\nos.environ.update(RECON_TRACE_FD=str(fd),RECON_TRACE_FILTER='+repr(str(output/'filter.txt'))+',RECON_TRACE_SEEN='+repr(str(output/'seen.txt'))+')\nos.execv(sys.argv[1],sys.argv[1:])\n')
     wrapper.chmod(0o755)
@@ -43,6 +45,31 @@ value['target_state']={name:int(gdb.parse_and_eval('(unsigned int)'+name)) for n
 value['target_state']['last_error']=int(gdb.parse_and_eval('last_error'))
 try:value['target_state']['compiler_mode']=int(gdb.parse_and_eval('compiler_mode'))
 except gdb.error:pass
+value['frontend']={name:int(gdb.parse_and_eval('(unsigned int)'+expr)) for name,expr in
+    [('first_invocation','frontend_data.first_invocation'),('saved_state','frontend_bss.saved_state'),
+     ('cleanup_count','frontend_bss.cleanup_count'),('restore_mode','restore_mode')]}
+value['frontend']['saved_first']=int(gdb.parse_and_eval('frontend_bss.saved_state->first_invocation')) if value['frontend']['saved_state'] else None
+value['frontend']['cleanup_callbacks']=[int(gdb.parse_and_eval('(unsigned int)frontend_bss.cleanup_callbacks[%d]'%n)) for n in range(32)]
+value['frontend']['storage']={name:[int(gdb.parse_and_eval('(unsigned int)&'+expr)),int(gdb.parse_and_eval('sizeof('+expr+')'))] for name,expr in
+    [('first_invocation','frontend_data.first_invocation'),('saved_state','frontend_bss.saved_state'),
+     ('cleanup_count','frontend_bss.cleanup_count'),('cleanup_callbacks','frontend_bss.cleanup_callbacks'),('restore_mode','restore_mode'),('compiler_mode','compiler_mode')]}
+value['frontend']['declared_fields']={'initialized':[field.name for field in gdb.lookup_type('FrontendData').fields()], 'bss':[field.name for field in gdb.lookup_type('FrontendBss').fields()]}
+value['frontend']['known_sizes']={'initialized':int(gdb.parse_and_eval('sizeof(FrontendData)')),'bss':int(gdb.parse_and_eval('sizeof(FrontendBss)'))}
+value['aux_owned']=None
+if int(gdb.parse_and_eval('(unsigned int)c1xx_aux_new_base')):
+    value['aux_owned']={}
+    for role in ('old','new'):
+        base=int(gdb.parse_and_eval('(unsigned int)c1xx_aux_'+role+'_base'))
+        payload=int(gdb.parse_and_eval('(unsigned int)c1xx_aux_'+role+'_payload'))
+        value['aux_owned'][role]={'base':base,'payload':payload,'owned_request':8584,'payload_bytes':8520,
+            'prefix':bytes(gdb.selected_inferior().read_memory(base,32)).hex(),
+            'suffix':bytes(gdb.selected_inferior().read_memory(base+32+8520,32)).hex(),
+            'known_first':int(gdb.parse_and_eval('c1xx_aux_'+role+'_payload->first_invocation'))}
+    if frame.name()=='checked_malloc':
+        value['aux_mock_call']={'callee':'_checked_malloc','request':value['args']['bytes'],
+            'genuine_int3_pc':value['pc']-1,'actual_opcode':bytes(gdb.selected_inferior().read_memory(value['pc']-1,1)).hex(),
+            'result':value['aux_owned']['new']['payload'],'caller_return_pc':int(frame.older().pc())}
+value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
 value['target_state']['onexit_first']=int(gdb.parse_and_eval('(unsigned int)*onexit_begin')) if value['target_state']['onexit_begin'] else None
 invocation=frame
@@ -65,7 +92,21 @@ open(@@STATE@@,'w').write(json.dumps(value,indent=2)+'\\n')
 end
 '''.replace('@@ARGV@@',repr(str(output/'native-argv.bin'))).replace('@@STATE@@',repr(str(output/'state.json'))))
     commands=output/'commands.gdb'
-    commands.write_text('set pagination off\nset confirm off\nset exec-wrapper '+str(wrapper)+'\nrun > '+str(output/'stdout.bin')+' 2> '+str(output/'stderr.bin')+'\nbt\nsource '+str(collector)+'\nquit\n')
+    pre=output/'collect-pre.gdb'
+    pre.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'pre.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'pre-argv.bin'))))
+    observer='break *initialize_compiler_pass\ncommands\nsilent\nsource '+str(pre)+'\ncontinue\nend\n'
+    if trial.get('test_seed'):
+        phase=output/'collect-phase.gdb'
+        phase.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'phase.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'phase-argv.bin'))))
+        lines=(project/'src/frontend.c').read_text().splitlines()
+        line=lines.index('    frontend_data.first_invocation = 0;')+1
+        observer+='break '+str(project/'src/frontend.c')+':'+str(line)+'\ncommands\nsilent\nsource '+str(phase)+'\ncontinue\nend\n'
+    auxiliary=''
+    if trial.get('test_seed')=='first-copy-aux':
+        auxiliary_collector=output/'collect-aux-call.gdb'
+        auxiliary_collector.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'aux-call.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'aux-call-argv.bin'))))
+        auxiliary='bt\nsource '+str(auxiliary_collector)+'\nreturn (void *)c1xx_aux_new_payload\npython\nimport gdb,json\nopen('+repr(str(output/'aux-return.json'))+',"w").write(json.dumps({"eax":int(gdb.parse_and_eval("$eax")),"pc":int(gdb.parse_and_eval("$pc")),"role":"mock-return","helper_accepted":False})+"\\n")\nend\ncontinue\n'
+    commands.write_text('set pagination off\nset confirm off\nset exec-wrapper '+str(wrapper)+'\n'+observer+'run > '+str(output/'stdout.bin')+' 2> '+str(output/'stderr.bin')+'\n'+auxiliary+'bt\nsource '+str(collector)+'\nquit\n')
     started=time.perf_counter()
     result=subprocess.run(['gdb','--batch','-x',str(commands),'--args',str(binary)],cwd=output,env=environment,
                           stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=15)

@@ -29,10 +29,11 @@
         "/Od",
         "minimal.cpp"
       ],
-      "status": "active; Invoke wrapper promoted172bytes; next initializer and snapshot schema",
+      "status": "active; Invoke wrapper accepted; initializer typed projection and four paired trials held for concrete review",
       "source_sha256": "deac66ccb79f6d31c0fa7d358de48e083c15c02ff50ec1ebd4b64314b9e6e196",
       "contract": "minimal/contract.json",
-      "validation": "minimal/invoke-validation.json"
+      "validation": "minimal/invoke-validation.json",
+      "initializer_review": "minimal/initializer-review.json"
     },
     {
       "id": "cpp-basic",

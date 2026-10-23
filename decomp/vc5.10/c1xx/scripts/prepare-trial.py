@@ -79,7 +79,17 @@ def prepare():
         "build/c1n32_l.dll", "build/c1xx.map", "build/native/c1xx-host")}
     if trial["case"] == "minimal":
         trial["case_inputs"] = {item: sha(PROJECT / item) for item in (
-            "cases/minimal/contract.json", "cases/minimal/invoke-argv.bin", "cases/sources/minimal.cpp")}
+            "cases/minimal/contract.json", "cases/minimal/invoke-argv.bin", "cases/sources/minimal.cpp", "cases/minimal/state-model.json")}
+    trial["test_seed"] = candidate.get("test_seed")
+    if trial["test_seed"]:
+        trial["validation_observers"] = [{"owner":"_initialize_compiler_pass", "original_rva":0x385be,
+            "original_byte":0x89,"purpose":"observe typed copy/restore before first-flag reset"}]
+    if trial["test_seed"] == "first-copy-aux":
+        trial["auxiliary_mock"] = {"callee":"_checked_malloc", "genuine_trap_required":True,
+            "request":8520, "returned_buffer_role":"mock-return", "old_buffer_role":"old-snapshot",
+            "owned_request":8584,"guard_bytes":32,"old_guard":0xa7,"new_guard":0xd3,
+            "mocked_cleanup_callback":"_initialize_frontend_01", "mocked_cleanup_slots":32,
+            "helper_unmasked":False,"helper_acceptance_credit":False}
     path = PROJECT / "build/trial.json"
     path.write_text(json.dumps(trial, indent=2) + "\n")
     return trial

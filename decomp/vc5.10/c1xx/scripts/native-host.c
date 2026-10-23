@@ -1,16 +1,19 @@
 /* Linux-only host; excluded from the target function graph. */
 #include <stdio.h>
 #include <float.h>
-#include "c1xx.h"
+#include "frontend.h"
 #include "invoke-arguments.h"
 #include <recon.h>
 
+
+unsigned char *c1xx_aux_old_base, *c1xx_aux_new_base;
+FrontendData *c1xx_aux_old_payload, *c1xx_aux_new_payload;
 
 /* Host-only observation after the actual stdcall has returned. */
 static void checkpoint(DWORD reason, BOOL status, HINSTANCE module,
                        const ReconModuleSpec *spec)
 {
-    const char *path = getenv("RECON_LIFECYCLE_STATE");
+    const char *path = recon_host_getenv("RECON_LIFECYCLE_STATE");
     FILE *file;
     unsigned first = onexit_begin ? (unsigned)*onexit_begin : 0;
     DWORD error = GetLastError();
@@ -49,6 +52,8 @@ int main(void)
     const char *argument_file;
     int pass_argc, pass_result;
     char **pass_argv;
+    const char *seed;
+    unsigned i;
     spec.name = "C1XX.DLL";
     spec.path = "R:\\toolchains\\5.10\\bin\\C1XX.DLL";
     spec.sha256 = "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9";
@@ -69,9 +74,33 @@ int main(void)
     invoke_export = (FARPROC)InvokeCompilerPass;
     if (!abort_export || !invoke_export || abort_export == invoke_export) return 4;
     puts("exports=1");
-    argument_file = getenv("C1XX_INVOKE_ARGV");
+    argument_file = recon_host_getenv("C1XX_INVOKE_ARGV");
     if (argument_file) {
         pass_argc = read_invoke_arguments(argument_file, &pass_argv);
+        seed = recon_host_getenv("C1XX_TEST_INIT_RESTORE");
+        if (seed) {
+            if (strcmp(seed, "restore-nonzero") && strcmp(seed, "restore-zero") && strcmp(seed, "first-copy-aux")) return 126;
+            if (!strcmp(seed, "first-copy-aux")) {
+                c1xx_aux_old_base = (unsigned char *)malloc(8584);
+                c1xx_aux_new_base = (unsigned char *)malloc(8584);
+                if (!c1xx_aux_old_base || !c1xx_aux_new_base) return 126;
+                memset(c1xx_aux_old_base, 0xa7, 32); memset(c1xx_aux_old_base + 32 + 8520, 0xa7, 32);
+                memset(c1xx_aux_new_base, 0xd3, 32); memset(c1xx_aux_new_base + 32 + 8520, 0xd3, 32);
+                c1xx_aux_old_payload = (FrontendData *)(c1xx_aux_old_base + 32);
+                c1xx_aux_new_payload = (FrontendData *)(c1xx_aux_new_base + 32);
+                c1xx_aux_old_payload->first_invocation = 23;
+                c1xx_aux_new_payload->first_invocation = 303;
+            }
+            frontend_bss.saved_state = !strcmp(seed, "first-copy-aux") ? c1xx_aux_old_payload : (FrontendData *)malloc(FRONTEND_STATE_BYTES);
+            if (!frontend_bss.saved_state) return 126;
+            frontend_bss.saved_state->first_invocation = !strcmp(seed, "first-copy-aux") ? 23 : 17;
+            frontend_data.first_invocation = !strcmp(seed, "first-copy-aux") ? 17 : 0;
+            frontend_bss.cleanup_count = 32;
+            for (i = 0; i < 32; ++i)
+                frontend_bss.cleanup_callbacks[i] = frontend_initializers[1];
+            restore_mode = 9;
+            compiler_mode = !strcmp(seed, "restore-zero") ? 0 : 3;
+        }
         SetLastError(203);
         pass_result = InvokeCompilerPass(pass_argc, pass_argv, 1);
         printf("invoke=%d\n", pass_result);

@@ -1,0 +1,173 @@
+{
+  "schema": 1,
+  "status": "initializer promotion held pending orchestrator review",
+  "trial": "_initialize_compiler_pass",
+  "original_code_chunks": [
+    [
+      272860496,
+      272860688
+    ],
+    [
+      273096664,
+      273096790
+    ]
+  ],
+  "original_code_bytes": 318,
+  "durable_accepted_bytes_before": 664,
+  "entire_code_extent_bytes": 751216,
+  "application_functions_before": 2,
+  "target_crt_functions_before": 2,
+  "import_boundaries_before": 1,
+  "projection": {
+    "original_snapshot_bytes": 8520,
+    "modeled_snapshot_fields": [
+      "first_invocation"
+    ],
+    "unmodeled_original_bytes": 8516,
+    "native_snapshot_byte_equivalence_claimed": false,
+    "native_initialized_bytes": 4,
+    "native_bss_bytes": 136,
+    "initializer_slots": 43,
+    "non_NULL_initializer_stubs": 42,
+    "unknown_consumer_policy": "stop at named stub; extend typed map/reset/restore and prove original defaults before any field is consumed"
+  },
+  "normal_frontier": "_checked_malloc",
+  "auxiliary_frontier": "_initialize_frontend_01",
+  "auxiliary_disclaimer": "Explicit paired debugger allocator-stub return; checked_malloc remains genuine INT3, fully masked, unaccepted. No production/regression patches. Real allocator candidate must next prove genuine first-copy typed state.",
+  "source_sha256": {
+    "src/frontend.c": "80d4bed91feecb639667d321d1e9778bf0065e989ee14b91fd754711e39e46f1",
+    "src/frontend.h": "92987b77f8dc82b6c5d67608c5a8c90ba1107ebfea0ac12bee0bd73d72a376f5",
+    "src/initializers.c": "56dd38e4e34c082c9efe9d6324dc9c9d9acdcd9efd2d6174893411aaa7ca7088",
+    "cases/minimal/state-model.json": "edcdae8ad94dce461f1284b57928277cb0f92960758b10e94731d2d8b56914b5"
+  },
+  "build_and_audit_timings": {
+    "native_build": {
+      "seconds": 1.8926663724705577,
+      "exit": 0
+    },
+    "original_build": {
+      "seconds": 3.4302562661468983,
+      "exit": 0
+    },
+    "audit": {
+      "seconds": 0.15128818526864052,
+      "exit": 0
+    }
+  },
+  "paired_checks": {
+    "result": "PASS",
+    "projection_trials": [
+      {
+        "trial": "_initialize_compiler_pass",
+        "seed": null,
+        "frontier": "_checked_malloc",
+        "malloc_bytes": 8520,
+        "mapped_snapshot_fields": [
+          "first_invocation"
+        ],
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "original_opaque_transfer_bytes_checked": 0,
+        "callback_slots_verified": 43,
+        "typed_bss_bytes": 136,
+        "whole_mask_bytes_checked": 751216,
+        "original_seconds": 1.066813767887652,
+        "native_seconds": 0.20980930794030428
+      },
+      {
+        "trial": "_initialize_compiler_pass",
+        "seed": "restore-nonzero",
+        "frontier": "_initialize_frontend_01",
+        "malloc_bytes": 8520,
+        "mapped_snapshot_fields": [
+          "first_invocation"
+        ],
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "original_opaque_transfer_bytes_checked": 8520,
+        "callback_slots_verified": 43,
+        "typed_bss_bytes": 136,
+        "whole_mask_bytes_checked": 751216,
+        "original_seconds": 1.3167990818619728,
+        "native_seconds": 0.2302269646897912
+      },
+      {
+        "trial": "_initialize_compiler_pass",
+        "seed": "restore-zero",
+        "frontier": "_initialize_frontend_01",
+        "malloc_bytes": 8520,
+        "mapped_snapshot_fields": [
+          "first_invocation"
+        ],
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "original_opaque_transfer_bytes_checked": 8520,
+        "callback_slots_verified": 43,
+        "typed_bss_bytes": 136,
+        "whole_mask_bytes_checked": 751216,
+        "original_seconds": 1.167393865995109,
+        "native_seconds": 0.22219036146998405
+      },
+      {
+        "trial": "_initialize_compiler_pass",
+        "seed": "first-copy-aux",
+        "frontier": "_initialize_frontend_01",
+        "malloc_bytes": 8520,
+        "mapped_snapshot_fields": [
+          "first_invocation"
+        ],
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "original_opaque_transfer_bytes_checked": 8520,
+        "callback_slots_verified": 43,
+        "typed_bss_bytes": 136,
+        "whole_mask_bytes_checked": 751216,
+        "original_seconds": 1.4683019174262881,
+        "native_seconds": 0.28340220637619495
+      }
+    ]
+  },
+  "negative_controls": {
+    "result": "PASS",
+    "rejected": [
+      "missing-field",
+      "original-alias",
+      "wrong-original-offset",
+      "native-alias",
+      "unmodeled-native-field",
+      "padding-blob",
+      "wrong-allocation-size",
+      "false-native-PC",
+      "changed-source",
+      "missing-cold-owner",
+      "bad-phase-flag",
+      "uncleared-callback",
+      "uncleared-count",
+      "changed-snapshot-pointer",
+      "wrong-restore-mode",
+      "bad-original-transfer",
+      "wrong-callback-order",
+      "wrong-zero-mode",
+      "wrong-mock-request",
+      "wrong-mock-return",
+      "wrong-mock-caller",
+      "not-an-INT3",
+      "native-guard-corrupt",
+      "original-guard-corrupt",
+      "old-buffer-modified",
+      "new-buffer-not-copied",
+      "first-copy-clears-BSS",
+      "wrong-original-mock-return"
+    ],
+    "count": 28
+  },
+  "commands": [
+    "python3 scripts/check-projection.py",
+    "python3 scripts/check-projection-negative.py",
+    "python3 scripts/check-trial.py /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-initializer-fresh-original-3 /root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-initializer-fresh-native-4",
+    "make -j4 fixtures"
+  ],
+  "current_validation_sha256": "19e131911e1717316ab8583a50adba05f8c88d2cdd3bfca5986afb7b4292c1ba",
+  "current_audit_sha256": "7c35f0172d2bb67b7c41504593d2859aee1cc32db10ae180e971353d40b52509",
+  "raw_trial_receipts": "initializer-trials.json"
+}
