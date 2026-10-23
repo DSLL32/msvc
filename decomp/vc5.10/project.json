@@ -1,7 +1,7 @@
 {
   "project": "vc5.10",
-  "phase": "groundwork-only",
-  "reconstruction_enabled": false,
+  "phase": "first-case-reconstruction",
+  "reconstruction_enabled": true,
   "toolchain": "toolchains/5.10",
   "copy": {
     "source": "/root/scbeta-decomp/toolchains/5.10",
@@ -74,5 +74,6 @@
       "bytes": 7952,
       "kind": "exe"
     }
-  ]
+  ],
+  "reconstruction_scope": "Exactly one first case per target as recorded in first-cases.json; pause after completion."
 }

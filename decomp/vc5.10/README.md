@@ -1,13 +1,13 @@
-# VC 5.10 groundwork
+# VC 5.10 first-case reconstruction
 
-Reconstruction is paused. These folders contain target inventories, source-only
-case seeds and explicit original-only investigation records. No target functions
-have been accepted. Wait for the shared Rust graph auditor to be ready and an
-explicit reconstruction release from the orchestrating agent.
+The first-case trial is released. Each of the nine workers may reconstruct only
+its case in `first-cases.json`, then must pause and report evidence and timings.
+The Rust integration and root AGENTS advisory prerequisites are complete. These
+folders also retain the target inventories and original-only groundwork records.
 
-`first-cases.json` plans the conditional first-case trial. It does not authorize
-execution or reconstruction. Each worker must complete only its first case and
-pause with timings and evidence. C1/C1XX start with DLL attach, export presence
+`first-cases.json` records the released scope and canonical CRT provider. Each
+worker must complete only its first case and pause with timings and evidence.
+C1/C1XX start with DLL attach, export presence
 and detach; their compiler-pass exports remain trapping stubs. Other targets
 start with help, an observed usage diagnostic or a faithful exported help call.
 
@@ -73,8 +73,8 @@ requirements, not implemented shims.
 Use the shared repo Wine prefix and fixed R:/S: drives described in root
 AGENTS.md. Keep scratch under `~/.ai-tmp/msvc2/vc5.10/<binary>/<case>`.
 Wine is used only for explicit original builds and reference investigations;
-native fixtures never invoke it. Existing per-binary Makefiles expose groundwork
-commands and refuse reconstruction builds until their prerequisites exist.
+native fixtures never invoke it. Build scaffolds must retain fail-closed traps
+and acceptance checks as implementation progresses.
 Native DLL harnesses, debugging and dependency handling remain entirely Linux
 native. Do not run PE or Wine helpers for DLL, PDB or other dependencies; use
 strict previously captured responses or an evidenced native implementation.
@@ -83,8 +83,8 @@ The experimental Rust graph auditor currently understands PE32 bytes, including
 DLLs, but its verified profiles cover vc1.0. VC 5.10 profiles must describe the
 actual graph roots, import/runtime boundaries, export aliases and any executable
 text data. Keep module identities distinct if a later case needs multiple
-reconstructed modules in one run. Do not integrate the new auditor during this
-groundwork phase.
+reconstructed modules in one run. Integrate the common auditor with explicit
+target metadata and retain separate export, ABI and lifecycle checks.
 
 The shared auditor can provisionally read a DLL using the CL-shaped index format
 and explicit original/rebuilt/MAP/config/runtime paths; that format has no fixed
@@ -93,16 +93,16 @@ entry roots, text data and switch targets. Export ordinals/signatures, DLL loade
 contracts and the native harness require separate checks; PE graph support alone
 does not certify them. Review this metadata policy before integration.
 
-## Remaining gates
+## Remaining checks
 
 - Generalize the proven C1 load-event/entry breakpoint probe into the eventual
   masked runner. Verify any nonpreferred-base relocation behavior separately;
   the initial C1 DLL loaded at its preferred base.
 - Agree on encountered module-resource and imported-runtime contracts with the
   shared maintainer. PDB and C++ disassembler interfaces need separate evidence.
-- Review the Rust auditor and supply VC 5.10 metadata without integrating it
-  during this groundwork phase.
-- Obtain explicit reconstruction release. All nine workers remain paused.
+- Supply and verify VC 5.10 graph metadata, including noncontiguous code chunks
+  when the original has hot/cold partitions.
+- Stop after the released first case. Second cases require a further release.
 
 Successful original observations include CL 11.00.7022 help and minimal C
 compilation, RC help, CVPACK help, CVTRES help and C2's unsupported-help

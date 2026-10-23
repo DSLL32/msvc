@@ -1,8 +1,8 @@
 {
   "schema": 1,
   "project": "vc5.10",
-  "state": "planned; awaiting explicit root release",
-  "reconstruction_enabled": false,
+  "state": "released for exactly one first case per worker; pause after completion",
+  "reconstruction_enabled": true,
   "first_case_limit_per_worker": 1,
   "gates": [
     "Rust tool finished",
@@ -19,7 +19,6 @@
     "dependencies": "Capture and strictly verify dependency responses beforehand or implement an evidenced native contract; do not add Wine to native fixtures/debugging/runtime."
   },
   "original_policy": "Wine only for original-compiler checks, explicit reference capture and fresh masked-original acceptance, with shared repo prefix. No per-regression originals or extra DLL/PDB helper Wine invocations.",
-  "provider_policy_pending": "Root to choose canonical imported CRT provider before accepting functions. Groundwork CL/C1 used Wine builtin MSVCRT; CVPACK used shipped native MSVCRT. Bind actual provider identity/hash and overrides to every new case; evaluate shipped native CRT rather than implicitly mixing providers.",
   "dll_capture_conditions": [
     "Verified target file identity and actual base; export module name can differ from filename.",
     "No TLS callbacks and no import-cycle call into target before guarded entry.",
@@ -210,5 +209,20 @@
     "Report native build, original build, audits, explicit original capture/acceptance and native fixture elapsed times separately where measured.",
     "Identify native-only fixture evidence, graph/ABI/export checks, outstanding gaps and any Python fallback.",
     "If blocked, report concrete evidence and preserve fail-closed traps; do not claim case completion."
-  ]
+  ],
+  "release": {
+    "authorized_by": "root",
+    "conditions_met": {
+      "rust_tool_and_eight_vc1_integrations": true,
+      "root_agents_advisory_commit": "47f7dc9a"
+    },
+    "scope": "Only the nine listed first cases; no second cases."
+  },
+  "canonical_original_crt": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "bytes": 277776,
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "selection": "WINEDLLOVERRIDES=msvcrt=n plus verified adjacent copy for S:-resident original hosts when needed; record actual loaded module-file hash.",
+    "failure_policy": "Preserve and report shipped-provider failure before changing baseline; earlier builtin observations stay separate."
+  }
 }
