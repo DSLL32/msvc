@@ -154,3 +154,10 @@ checkpoint is counted as a function. `accept-reference-slice.py` permits only
 this reviewed97 acceptance. Ordinary fixtures remain native-only; explicit
 original capture modes `--reference-completion` and `--entry-progress-only`
 are separate from fixture execution and standard acceptance rejects them.
+
+Checkpoint 98: `begin_symbol_block` is accepted from its actual first module10
+callback entry/return (scope 0 to 1, suppression 0, unchanged cursors), with
+independent genuine progression to `strip_debug(handle=15)`. Full module3
+ownership proof97 remains retained. Later symbol heap equality and the
+suppressed-input write branch are unexercised. There are 98 accepted application
+functions (32,084 bytes); no handwritten CRT reconstruction credit.

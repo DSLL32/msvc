@@ -4,7 +4,7 @@ static int dump_progress_input(HANDLE child,HANDLE log,DWORD frontier,DWORD *wor
 {
     DWORD fields[4],base,capacity,module,cvbase,read_offset,entry[3],bytes,written,i;WORD number;int used;
     unsigned char input[43],header[4];
-    if(!entry_progress_only)return 1;
+    if(!entry_progress_only || scalar_checkpoint || (scalar_progress && !scalar_completion))return 1;
     if(frontier!=0x25450 || words[0]!=0x25172 ||
        !ReadProcessMemory(child,(void *)0x335e4,fields,16,&bytes) || bytes!=16 || fields[1] || fields[2] ||
        !ReadProcessMemory(child,(void *)0x3305c,&base,4,&bytes) || bytes!=4 ||

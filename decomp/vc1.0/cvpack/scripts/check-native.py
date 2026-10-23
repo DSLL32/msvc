@@ -11,7 +11,7 @@ import time
 from state import BINARY, ROOT, load, case, prepare, sha
 from processes import Processes
 
-def run_case(name, directory, debug=False, reference_completion=False):
+def run_case(name, directory, debug=False, reference_completion=False, scalar_completion=False):
     start = time.perf_counter()
     config, original = load()
     snapshot=directory/'configuration.json'
@@ -28,7 +28,8 @@ def run_case(name, directory, debug=False, reference_completion=False):
     executable = BINARY / 'build/native/CVPACK.EXE'
     executable_hash=sha(executable)
     expected = record['current']
-    debug=(debug or reference_completion)and expected['terminal']=='trap'
+    debug=(debug or reference_completion or scalar_completion)and expected['terminal']=='trap'
+    assert not scalar_completion or(name=="hello-debug-dll"and next(r for r in config["functions"]if r["name"]=="begin_symbol_block")["status"]in("candidate","accepted")),"only98 scalar slice"
     assert not reference_completion or(name=='hello-debug-dll'and next(r for r in config['functions']if r['name']=='create_symbol_reference')['status']in('candidate','accepted')),'completion mode restricted to reviewed function97'
     data=json.loads((BINARY/'data.json').read_text())
     walks=json.loads((BINARY/'walks.json').read_text()) if (BINARY/'walks.json').exists() else []
@@ -224,6 +225,12 @@ def run_case(name, directory, debug=False, reference_completion=False):
         observer='python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/symbol-reference-debug.py'))+')["install"]('+repr(str(BINARY/'src/types.c'))+','+str(line)+','+repr(str(directory/'symbol-references.json'))+')\nend\n'
         assert marker in text;text=text.replace(marker,marker+observer,1).replace('signal=gdb.parse_and_eval("$_siginfo.si_signo")','signal=0')
         script.write_text(text)
+    if expected.get("proof_mode")=="scalar-callback-return-plus-entry-progress"and not(reference_completion or scalar_completion):
+        import runpy
+        runpy.run_path(str(BINARY/"scripts/scalar-progression-debug.py"))["write"](script,directory,policies)
+    if scalar_completion:
+        import runpy
+        runpy.run_path(str(BINARY/"scripts/scalar-block-debug.py"))["write"](script,directory,policies)
     env = os.environ.copy()
     for variable in list(env):
         if variable.startswith(('WINE','RECON_')) or variable in ('CL','_CL_','LINK','_LINK_','MSC_CMD_FLAGS','_MSC_IDE_FLAGS','LINK32_DB'):
@@ -245,7 +252,7 @@ def run_case(name, directory, debug=False, reference_completion=False):
     with trace.open('wb') as log,stdout.open('wb') as out,stderr.open('wb') as err:
         env.update(RECON_TRACE_FD=str(log.fileno()),RECON_TRACE_FILTER=str(symbols),
                    RECON_TRACE_SEEN=str(seen))
-        child=None if reference_completion else subprocess.run([canonical,*record['argv']],executable=str(executable),cwd=work,env=env,
+        child=None if(reference_completion or scalar_completion)else subprocess.run([canonical,*record['argv']],executable=str(executable),cwd=work,env=env,
             stdout=out,stderr=err,stdin=subprocess.DEVNULL,timeout=10,
             pass_fds=(log.fileno(),processes.fileno()),preexec_fn=no_core)
     verify_inputs(record,work)
@@ -273,6 +280,12 @@ def run_case(name, directory, debug=False, reference_completion=False):
         assert debugger.returncode==0,debugger.stdout.decode('latin1')+debugger.stderr.decode('latin1')
     debugging=time.perf_counter()-debug_start if debug else 0
     check = time.perf_counter()
+    if scalar_completion:
+        actual=json.loads(report.read_text());row=json.loads((directory/'scalar-block.json').read_text())
+        assert actual['frames']==['pack_new_types']and actual['signal']==0 and 'after'in row,'native scalar return failed'
+        assert sha(snapshot)==sha(BINARY/'functions.json')and sha(executable)==executable_hash,'scalar config/executable changed'
+        check_policy_snapshot(directory,policy_hash)
+        return dict(case=name,terminal='observed-scalar-return',scalar_completion=True,function='begin_symbol_block',executable_sha256=executable_hash,configuration_sha256=sha(snapshot),original_sha256=config['target']['sha256'],conditional_support_sha256=policy_hash,process_boundary=processes.receipt(),seconds=dict(setup=setup,execution=0,debugging=debugging,checks=time.perf_counter()-check,total=time.perf_counter()-start))
     if reference_completion:
         actual=json.loads(report.read_text());rows=json.loads((directory/'symbol-references.json').read_text())
         assert actual['frames'][0]=='record_symbol_offsets'and actual['signal']==0 and len(rows)==3 and all('after'in r and not r.get('error')for r in rows),'native completion observation failed'
@@ -312,7 +325,9 @@ def main():
     parser.add_argument('--output',type=Path)
     parser.add_argument('--debug',action='store_true')
     parser.add_argument('--reference-completion',action='store_true',help='native97 actual third constructor return, separate from progression fixture')
+    parser.add_argument("--scalar-completion",action="store_true",help="exact98 first native callback actual return")
     args=parser.parse_args()
+    assert not(args.scalar_completion and args.reference_completion)
     directory=args.output or Path.home()/'.ai-tmp/vc1.0-cvpack'/('native-'+str(time.time_ns()))
     directory.mkdir(parents=True,exist_ok=False)
     names=[args.case] if args.case else [r['name'] for r in json.loads((BINARY/'cases/queue.json').read_text())['cases'] if r['status']!='queued']
@@ -320,7 +335,7 @@ def main():
     for name in names:
         case_directory=directory/name
         case_directory.mkdir()
-        receipts.append(run_case(name,case_directory,args.debug,args.reference_completion))
+        receipts.append(run_case(name,case_directory,args.debug,args.reference_completion,args.scalar_completion))
     (directory/'receipt.json').write_text(json.dumps(receipts,indent=2)+'\n')
     for receipt in receipts:print(receipt['case'],receipt['terminal'],receipt['seconds'])
     print(directory/'receipt.json')

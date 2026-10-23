@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "begin_symbol_block",
-    "native_function": "begin_symbol_block",
+    "logical": "strip_debug",
+    "native_function": "strip_debug",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -115,10 +115,11 @@
       "link_symbol_scopes",
       "record_symbol_offsets",
       "create_symbol_reference",
-      "begin_symbol_block"
+      "begin_symbol_block",
+      "strip_debug"
     ],
-    "proof_mode": "constructor-return-plus-entry-progress",
-    "heap_scope": "Constructor module3 completion fully observed separately; later-module heap equality not claimed. Actual next callback consumes zero suppression/scope globals and no heap on its concrete path."
+    "proof_mode": "scalar-callback-return-plus-entry-progress",
+    "heap_scope": "Function98 exact first callback entry/return scalar proof; prior module3 proof97 retained. Later-module symbol heap unobserved; actual next strip_debug int handle observed before body."
   },
   "complete_reference": {
     "path": "decomp/vc1.0/cvpack/cases/hello-debug-dll/reference/packed.dll",

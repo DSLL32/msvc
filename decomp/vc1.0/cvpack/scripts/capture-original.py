@@ -26,10 +26,12 @@ def main():
     parser.add_argument('--guard-probe',choices=['good-twice','first-text','second-text','second-share','pdb-good-twice','pdb-second-write','pdb-second-share','pdb-second-name'],help='explicit original-only guard controller, never application acceptance')
     parser.add_argument('--entry-progress-only',action='store_true',help='explicit filtered-entry progression; no broad application heap equality claim')
     parser.add_argument('--reference-completion',action='store_true',help='stop at actual third module3 reference constructor caller return')
+    parser.add_argument("--scalar-completion",action="store_true",help="reviewed98 first actual callback return")
     args = parser.parse_args()
+    assert not args.scalar_completion or(args.entry_progress_only and args.candidate==["begin_symbol_block"]),"only98 scalar slice"
     assert not(args.entry_progress_only and args.reference_completion), 'capture modes are separate'
     assert not((args.entry_progress_only or args.reference_completion)and(args.unmasked or args.guard_probe or args.stop_at)), 'bounded capture modes require normal masked candidate'
-    assert not(args.entry_progress_only or args.reference_completion)or(args.case=='hello-debug-dll'and args.candidate==['create_symbol_reference']), 'only reviewed function97 boundary'
+    assert not(args.entry_progress_only or args.reference_completion)or(args.case=='hello-debug-dll'and args.candidate in(['create_symbol_reference'],['begin_symbol_block'])), 'only reviewed function97 boundary'
     start = time.perf_counter()
     config, original = load()
     record = case(args.case)
@@ -169,6 +171,8 @@ def main():
         for key in ('BUFFER','RESOLVER','RECURSIVE_ARENA','PACKED_ARENA','SYMBOL_BLOCKS','SYMBOL_REFERENCES','MODULE_ADDRESS','PDB_HEADER','WALKS','OUTPUTS','ARENAS','TRANSIENTS','STRINGS','ARRAYS'):
             env.pop('CVPACK_CAPTURE_'+key,None)
         env['CVPACK_CAPTURE_PROGRESS_ONLY']='1'
+    if args.candidate==['begin_symbol_block'] and args.entry_progress_only:env['CVPACK_CAPTURE_SCALAR_PROGRESS']='1'
+    if args.scalar_completion:env['CVPACK_CAPTURE_SCALAR_COMPLETION']='1'
     if args.reference_completion:env['CVPACK_CAPTURE_REFERENCE_COMPLETION']='1'
     from inputs import original as original_inputs
     ancillary_inputs=original_inputs(record)
@@ -189,7 +193,7 @@ def main():
         discover_runtime=args.discover_runtime,canonical_argv0=env['CVPACK_CAPTURE_ARGV0'],
         candidates=args.candidate,
         guard_probe=args.guard_probe,
-        entry_progress_only=args.entry_progress_only,reference_completion=args.reference_completion,
+        entry_progress_only=args.entry_progress_only,reference_completion=args.reference_completion,scalar_completion=args.scalar_completion,
         helper_status=result.returncode,
         conditional_runtime=seam_records,
         conditional_support_sha256=policy_hash,

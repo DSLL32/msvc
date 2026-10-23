@@ -371,6 +371,8 @@ static DWORD type_page_base,type_page_step,type_page_tf,type_page_thread;
 static int buffer_enabled;
 static DWORD recursive_arena_enabled,packed_arena_enabled,symbol_blocks_enabled,module_address_enabled;
 static DWORD symbol_reference_enabled,symbol_reference_completion,symbol_reference_checkpoint,entry_progress_only;
+static DWORD scalar_completion,scalar_checkpoint,scalar_active,scalar_thread,scalar_esp,scalar_ebp;
+static DWORD scalar_before[4],scalar_progress;
 static unsigned char type_page_before[2048];
 static DWORD pdb_read_enabled, pdb_read_step, pdb_read_tf, pdb_read_site;
 static DWORD read_site_count, read_step_site, read_step_address, read_saved_tf;
@@ -1078,6 +1080,7 @@ static int dump_walks(HANDLE child, HANDLE log)
 #include "module-address-observer.h"
 #include "symbol-reference-observer.h"
 #include "progress-input-observer.h"
+#include "scalar-block-observer.h"
 
 int main(int argc, char **argv)
 {
@@ -1122,6 +1125,8 @@ int main(int argc, char **argv)
     sprintf(command, "\"%s\" %s", program, argv[2]);
     if (GetEnvironmentVariableA("CVPACK_CAPTURE_WATCH_SPAWN", program, sizeof(program)))
         watched_spawn = strtoul(program, 0, 16);
+    scalar_completion = GetEnvironmentVariableA("CVPACK_CAPTURE_SCALAR_COMPLETION", program, sizeof(program)) != 0;
+    scalar_progress = GetEnvironmentVariableA("CVPACK_CAPTURE_SCALAR_PROGRESS", program, sizeof(program)) != 0;
     symbol_reference_completion = GetEnvironmentVariableA("CVPACK_CAPTURE_REFERENCE_COMPLETION", program, sizeof(program)) != 0;
     entry_progress_only = GetEnvironmentVariableA("CVPACK_CAPTURE_PROGRESS_ONLY", program, sizeof(program)) != 0;
     symbol_reference_enabled = GetEnvironmentVariableA("CVPACK_CAPTURE_SYMBOL_REFERENCES", program, sizeof(program)) != 0;
@@ -1196,6 +1201,10 @@ int main(int argc, char **argv)
                 loader_break = 1;
             } else {
                 thread = event.dwThreadId == child.dwThreadId ? child.hThread : 0;
+                if(scalar_active && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
+                   (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x25172) {
+                    if(!finish_scalar_block(child.hProcess,log,thread,event.dwThreadId))return 56;
+                }
                 if(symbol_reference_enabled && symbol_reference_step && thread && event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_SINGLE_STEP) {
                     if(!rearm_symbol_reference(child.hProcess,log,thread,(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress,event.dwThreadId))return 52;
                     ContinueDebugEvent(event.dwProcessId,event.dwThreadId,disposition);continue;
@@ -1345,14 +1354,20 @@ int main(int argc, char **argv)
                     (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress == watched_spawn)
                     if (!watch_spawn(child.hProcess, thread, log)) return 12;
                 restored = 0;
-                if (!symbol_reference_checkpoint && thread && original != INVALID_HANDLE_VALUE &&
+                if (!symbol_reference_checkpoint && !scalar_checkpoint && thread && original != INVALID_HANDLE_VALUE &&
                     event.u.Exception.ExceptionRecord.ExceptionCode == EXCEPTION_BREAKPOINT)
                     restored = restore_runtime(child.hProcess, original, log, thread,
                         (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress);
                 if (restored < 0) return 9;
                 if (restored > 0) {
+                    if(scalar_completion && (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==0x25450 &&
+                       !begin_scalar_block(child.hProcess,log,thread,event.dwThreadId))return 55;
                     ContinueDebugEvent(event.dwProcessId, event.dwThreadId, disposition);
                     continue;
+                }
+                if(scalar_checkpoint) {
+                    const char completed[]="observed-scalar-completion 00025172 calls 1\n";
+                    WriteFile(log,completed,sizeof(completed)-1,&written,0);
                 }
                 if(symbol_reference_checkpoint) {
                     const char completed[]="observed-reference-completion 0001d943 calls 3\n";

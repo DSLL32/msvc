@@ -167,6 +167,10 @@ def main():
     if reference_slice_pair.is_dir():
         from reference_slice_checks import check as check_reference_slice
         check_reference_slice(reference_slice_pair/'completion-original',reference_slice_pair/'completion-native',reference_slice_pair/'progression-original',reference_slice_pair/'progression-native')
+    scalar_pair=BINARY/"cases/hello-debug-dll/evidence/0098-begin_symbol_block"
+    if scalar_pair.is_dir():
+        from scalar_block_checks import check as check_scalar_block
+        check_scalar_block(scalar_pair/"scalar-original",scalar_pair/"scalar-native",scalar_pair/"progression-original",scalar_pair/"progression-native")
     from buffer_storage_checks import check as check_buffer_storage
     buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
     if buffer_directory.is_dir():check_buffer_storage(buffer_directory)
@@ -597,6 +601,10 @@ def main():
     latest=next(entry for entry in reversed(config['accepted_order'])if entry['case']=='hello-debug-dll')
     owner=next(record for record in config['functions']if record['name']==latest['function'])
     pair=(BINARY/owner['evidence']).parent
+    if (pair/"scalar-original").is_dir():
+        # Latest scalar slice retains the independently complete97 module3
+        # state; mutation controls for reads/owned heap use that full packet.
+        pair=BINARY/"cases/hello-debug-dll/evidence/0097-create_symbol_reference"
     if (pair/'completion-original').is_dir():
         events=(pair/'completion-original/events').read_text();native_pair=pair/'completion-native'
         state=json.loads((native_pair/'gdb.json').read_text());next_name=state['frames'][0]

@@ -1,0 +1,67 @@
+{
+  "signal": 0,
+  "frames": [
+    "begin_symbol_block",
+    "pack_new_types",
+    "pack_module",
+    "main"
+  ],
+  "parameters": {},
+  "scope_depth": 0,
+  "suppressed_depth": 0,
+  "module": 10,
+  "module_address": 1462959600,
+  "input": 1462967840,
+  "cursor": 1462967844,
+  "capacity": 4746,
+  "directory": 1462955224,
+  "offset": 4754,
+  "size": 43,
+  "cvbase": 41972,
+  "read_offset": 4797,
+  "output": 1463070144,
+  "output_cursor": 1463070148,
+  "bytes": "0100000021000602000000000000000000000000ea170000010006000009536574426b4d6f646502000600",
+  "callback": {
+    "kind": 518,
+    "length": 35,
+    "index": 20
+  },
+  "later_heap_equality": false,
+  "before": [
+    1462967844,
+    0,
+    0,
+    1463070148
+  ],
+  "thread": [
+    1805156,
+    1805156,
+    0
+  ],
+  "caller_pc": 1449076755,
+  "caller_fp": 4290265912,
+  "entry_pc": 1449074839,
+  "function_address": 1449074832,
+  "call_bytes": "5dd88b45dcff5004",
+  "caller_line": 426,
+  "conversion": 1449236600,
+  "conversion_base": 1449236440,
+  "conversion_kind": 518,
+  "conversion_target": 1449074832,
+  "conversion_index": 20,
+  "return_pc": 1449076755,
+  "return_fp": 4290265912,
+  "return_thread": [
+    1805156,
+    1805156,
+    0
+  ],
+  "return_function": "pack_new_types",
+  "after": [
+    1462967844,
+    0,
+    1,
+    1463070148
+  ]
+}

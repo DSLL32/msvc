@@ -1959,3 +1959,12 @@ void create_symbol_reference(unsigned char *record, void **buckets,
     node->next = buckets[bucket];
     buckets[bucket] = node;
 }
+
+void begin_symbol_block(void)
+{
+    ++symbol_scope_depth;
+    if (suppressed_symbol_depth) {
+        *(unsigned short *)(symbol_input+2) = 8;
+        ++suppressed_symbol_depth;
+    }
+}

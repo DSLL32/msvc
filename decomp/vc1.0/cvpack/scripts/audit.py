@@ -287,6 +287,9 @@ def main():
     validate_type_pages(config,original)
     from type_hash import validate as validate_type_hash
     validate_type_hash(config,original)
+    if "scalar_block_observations"in config:
+        from scalar_block import validate as validate_scalar_block
+        validate_scalar_block(config,original,rebuilt,linked)
     from symbol_output import validate as validate_symbol_output
     validate_symbol_output(config,original)
     if config.get('symbol_reference_observations'):

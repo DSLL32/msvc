@@ -76,7 +76,7 @@ TypeServerRecord *__stdcall type_server_record_init(TypeServerRecord *node, Type
 
 
 
-void begin_symbol_block(void) { __asm { int 3 } }
+
 
 
 

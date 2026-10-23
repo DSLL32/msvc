@@ -71,7 +71,7 @@ def main():
                           ROOT/config['target']['path'],BINARY/'build/native/CVPACK.EXE')
     assert captured['case']==native_receipt['case']==args.case
     assert captured['candidates']==[args.function]
-    assert not(captured.get('entry_progress_only')or captured.get('reference_completion')),'bounded sliced captures require their separate reviewed validator'
+    assert not(captured.get('entry_progress_only')or captured.get('reference_completion')or captured.get('scalar_completion')),'bounded sliced captures require their separate reviewed validator'
     assert not captured.get('guard_probe'),'guard controller evidence cannot accept application functions'
     assert native_receipt['executable_sha256']==sha(BINARY/'build/native/CVPACK.EXE')
     events=(original/'events').read_text()
