@@ -45,8 +45,10 @@ style and function ABIs.
 It must still compile with the original toolchain; verify that build as work
 progresses even when all testing is native.
 
-`lib/recon/` supplies native Win32/CRT shims and tracing. The orchestrating agent
-owns shared shim changes; binary workers must request them. Include `<recon.h>` last
+`lib/recon/` supplies native Win32/CRT shims and tracing. Its dedicated maintainer
+(`/root/recon_lib_maintenance`) owns shared changes; binary workers should contact
+it directly for shim changes or advice. Escalate reconstruction policy and
+cross-project decisions to the orchestrating agent. Include `<recon.h>` last
 in each reconstructed C/header file's include list; it is empty in the Win32 build.
 Keep host compatibility in this shared layer and compile its C files directly at
 native final link. Use `make -j4`. Wine is for explicit original-toolchain builds
