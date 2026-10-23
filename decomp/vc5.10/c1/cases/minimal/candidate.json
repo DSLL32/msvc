@@ -326,6 +326,11 @@
       "start_rva": 75642,
       "end_rva": 75643,
       "entry": 1
+    },
+    {
+      "start_rva": 75643,
+      "end_rva": 75676,
+      "entry": 1
     }
   ],
   "functions": [
@@ -1015,6 +1020,19 @@
         ]
       ],
       "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_1277b",
+      "native_symbol": "initialize_state_1277b",
+      "role": "application",
+      "chunks": [
+        [
+          75643,
+          75676
+        ]
+      ],
+      "source": "src/initializers.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -1030,8 +1048,8 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 75643,
-    "native_symbol": "initialize_state_1277b",
+    "rva": 75676,
+    "native_symbol": "initialize_state_1279c",
     "kind": "initialization-callback",
     "native_args": [],
     "abi": "cdecl void no arguments,cleanup0"
@@ -1212,9 +1230,16 @@
       "minimum_pages": 1,
       "normal_case": false,
       "object_count": 9
+    },
+    "empty_record_prototype": {
+      "before_clear_first": 1,
+      "before_callback_first": 160,
+      "bytes": 20,
+      "entry_rva": 75643,
+      "normal_case": false
     }
   },
-  "staging_role": "Empty callback1277a sole new candidate; next state initializer remains INT3",
+  "staging_role": "Reviewed fixed20-byte empty-record prototype reset is sole new candidate; larger record layouts remain unknown",
   "registered_cleanup": [
     {
       "original_rva": 145728,

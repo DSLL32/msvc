@@ -7,6 +7,7 @@ import signature_state
 import pdb_state
 import output_pdb_state
 import pool_state
+import prototype_state
 PROJECT=Path(__file__).resolve().parents[1]
 def i32(data,offset):return struct.unpack_from('<i',data,offset)[0]
 def u32(data,offset):return struct.unpack_from('<I',data,offset)[0]
@@ -25,13 +26,14 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  expected_bss.update(value_state.expected_fields(fields,expected['rva']))
  expected_bss.update(signature_state.expected_fields(fields))
  expected_bss.update(pool_state.expected_fields(fields))
+ expected_bss.update(prototype_state.expected_fields(fields))
  assert {r['name']:(r['original_rva'],r['bytes'],r['native_offset']) for r in fields['modeled_bss']}==expected_bss
  first=fields['modeled_initialized'][0]
  assert first['snapshot_original_offset']==first['original_rva']-fields['original_initialized_region_rva'][0]==0x1530
  assert first['snapshot_native_offset']==first['native_offset']==0
  assert i32((original/'compiler-data-000.bin').read_bytes(),0x1530)==first['default']==1
  current=state['compiler_state'];layout=current['native_layout']
- assert layout=={'initialized_size':4,'bss_size':544+16*len(fields['pools']),'pools':544,'pool_count':len(fields['pools']),'pool_size':16,'pool_members':{'cursor':0,'remaining':4,'minimum_pages':8,'arena':12},'pdb_signature':540,'literal':520,'saved_literal':528,'saved_literal_available':536,'value_size':8,'first_call':0,'saved_data':0,'cleanup_count':4,'cleanup_callbacks':8,'context':136,'current_context':148,'contexts':160,'contexts_stride':12,'output_buffers':232,'output_buffer_count':len(fields['output_buffers']),'output_buffer_size':36,'buffer_members':{name:native for name,(original,native,size) in buffer_state.FIELDS.items()},'context_members':{'object':0,'value':4,'saved_frame':8}}
+ assert layout=={'initialized_size':4,'bss_size':544+16*len(fields['pools'])+20,'empty_record_prototype':688,'empty_record_prototype_size':20,'pools':544,'pool_count':len(fields['pools']),'pool_size':16,'pool_members':{'cursor':0,'remaining':4,'minimum_pages':8,'arena':12},'pdb_signature':540,'literal':520,'saved_literal':528,'saved_literal_available':536,'value_size':8,'first_call':0,'saved_data':0,'cleanup_count':4,'cleanup_callbacks':8,'context':136,'current_context':148,'contexts':160,'contexts_stride':12,'output_buffers':232,'output_buffer_count':len(fields['output_buffers']),'output_buffer_size':36,'buffer_members':{name:native for name,(original,native,size) in buffer_state.FIELDS.items()},'context_members':{'object':0,'value':4,'saved_frame':8}}
  data=(original/('compiler-data-%03d.bin'%sequence)).read_bytes();bss=(original/('compiler-bss-%03d.bin'%sequence)).read_bytes()
  assert len(data)==6548 and len(bss)==0xa06c
  buffer_state.validate(fields,original,bss,current)
@@ -40,6 +42,7 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  pdb_state.validate(original,native,fields,state,sequence,probe,candidate,PROJECT)
  output_pdb_state.validate(original,native,fields,state,sequence,probe,candidate,PROJECT)
  pool_state.validate(original,native,fields,state,sequence,probe,candidate,PROJECT)
+ prototype_state.validate(original,native,fields,state,sequence,probe,candidate,PROJECT)
  assert i32(data,0x1530)==current['initialized']['first_call']
  saved=u32(bss,0x7818);b=current['bss']
  assert bool(saved)==bool(b['saved_data'])

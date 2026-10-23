@@ -102,6 +102,8 @@ def main():
             (output / "pools-probe.txt").write_text("".join("%x\n" % row["original_object_rva"] for row in field_map["pools"]))
     if args.restore_probe and candidate.get("restore_probe", {}).get("pool_member"):
         (output / "pool-member-probe.txt").write_text("126fc %x\n" % len(field_map["pools"]))
+    if args.restore_probe and field_map.get("empty_record_prototype"):
+        (output / "prototype-probe.txt").write_text("58f50 14 01 a0\n")
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))

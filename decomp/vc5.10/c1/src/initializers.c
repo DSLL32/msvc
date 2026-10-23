@@ -138,7 +138,12 @@ void __cdecl initialize_state_1277a(void)
 
 void __cdecl initialize_state_1277b(void)
 {
-    __asm { int 3 }
+    unsigned index;
+    for (index = 0; index < sizeof(c1_bss.empty_record_prototype); ++index)
+        c1_bss.empty_record_prototype[index] = 0;
+    /* The original clears its first DWORD again after the complete record. */
+    for (index = 0; index < 4; ++index)
+        c1_bss.empty_record_prototype[index] = 0;
 }
 
 void __cdecl initialize_state_1279c(void)

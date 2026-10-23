@@ -1178,6 +1178,36 @@
       "native_field": "c1_bss.pools[8].arena",
       "default": 0,
       "evidence": "encountered distinct receiver of the accepted genuine member126fc; four actual field writes/defaults only"
+    },
+    {
+      "name": "empty_record_prototype",
+      "original_rva": 364368,
+      "bytes": 20,
+      "native_offset": 688,
+      "native_field": "c1_bss.empty_record_prototype",
+      "default": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "evidence": "Reviewed exact20-byte fixed-width byte prototype; actual stores and count5 copies, full loaded zero default; no invented internal fields"
     }
   ],
   "outside_bss": [
@@ -1579,7 +1609,7 @@
     "native_saved_offset": 528,
     "native_flag_offset": 536,
     "native_value_size": 8,
-    "native_bss_size": 688,
+    "native_bss_size": 708,
     "source_writer_rvas": [
       [
         12576,
@@ -1590,7 +1620,7 @@
         23897
       ]
     ],
-    "hard_frontier_rva": 75643,
+    "hard_frontier_rva": 75676,
     "policy": "reviewed specific internal transfer; tail remains UNMODELED and cannot be semantically consumed before a named trap"
   },
   "pdb_signature": {
@@ -1925,5 +1955,27 @@
       "type_evidence": "238c advances cursor/decrements remaining; aa9c uses minimum_pages;12b30 installs arena pointer"
     }
   ],
-  "native_bss_size": 688
+  "native_bss_size": 708,
+  "empty_record_prototype": {
+    "original_rva": 364368,
+    "native_offset": 688,
+    "bytes": 20,
+    "purpose": "exact-width empty-record byte prototype, no larger record layout inferred",
+    "original_store_offsets": [
+      0,
+      4,
+      8,
+      12,
+      16,
+      0
+    ],
+    "static_copy_rvas": [
+      295729,
+      302765,
+      303694,
+      308931
+    ],
+    "larger_record_layout_known": false,
+    "included_in_initialized_snapshot": false
+  }
 }

@@ -1,0 +1,177 @@
+{
+  "target_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+  "original_object_rva": 364368,
+  "extent_bytes": 20,
+  "extent_basis": "six DWORD stores cover0/4/8/12/16/0; four static users copy exactlyfive DWORDs, never extend the global object",
+  "full_original_initializer_stores": [
+    0,
+    4,
+    8,
+    12,
+    16,
+    0
+  ],
+  "all_sliding_absolute_address_references_in_target_file": [
+    {
+      "file_offset": 73086,
+      "value": 275091280,
+      "section": ".text",
+      "rva": 75646
+    },
+    {
+      "file_offset": 73091,
+      "value": 275091284,
+      "section": ".text",
+      "rva": 75651
+    },
+    {
+      "file_offset": 73096,
+      "value": 275091288,
+      "section": ".text",
+      "rva": 75656
+    },
+    {
+      "file_offset": 73101,
+      "value": 275091292,
+      "section": ".text",
+      "rva": 75661
+    },
+    {
+      "file_offset": 73106,
+      "value": 275091296,
+      "section": ".text",
+      "rva": 75666
+    },
+    {
+      "file_offset": 73111,
+      "value": 275091280,
+      "section": ".text",
+      "rva": 75671
+    },
+    {
+      "file_offset": 293170,
+      "value": 275091280,
+      "section": ".text",
+      "rva": 295730
+    },
+    {
+      "file_offset": 300206,
+      "value": 275091280,
+      "section": ".text",
+      "rva": 302766
+    },
+    {
+      "file_offset": 301135,
+      "value": 275091280,
+      "section": ".text",
+      "rva": 303695
+    },
+    {
+      "file_offset": 306372,
+      "value": 275091280,
+      "section": ".text",
+      "rva": 308932
+    }
+  ],
+  "original_default_and_frontier": [
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-pool-empty-normal-001/compiler-bss-000.bin",
+      "sha256": "ce99a55e2ba16ad1d4e74b2b206cf0347c53271bc76ddea5a7adc2d3d50a5a24",
+      "offset": 36688,
+      "bytes": 20,
+      "value_hex": "0000000000000000000000000000000000000000",
+      "sequence": 0
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-pool-empty-normal-001/compiler-bss-076.bin",
+      "sha256": "bb3e05c9fc32edb9db71ca1f5e22593426c2550339b94b67f04c1b85a08845f0",
+      "offset": 36688,
+      "bytes": 20,
+      "value_hex": "0000000000000000000000000000000000000000",
+      "sequence": 76
+    }
+  ],
+  "initializer_and_static_users": {
+    "1277b..1279c": [
+      "1061277b:\t33 c0                \txor    eax,eax",
+      "1061277d:\ta3 50 8f 65 10       \tmov    ds:0x10658f50,eax",
+      "10612782:\ta3 54 8f 65 10       \tmov    ds:0x10658f54,eax",
+      "10612787:\ta3 58 8f 65 10       \tmov    ds:0x10658f58,eax",
+      "1061278c:\ta3 5c 8f 65 10       \tmov    ds:0x10658f5c,eax",
+      "10612791:\ta3 60 8f 65 10       \tmov    ds:0x10658f60,eax",
+      "10612796:\ta3 50 8f 65 10       \tmov    ds:0x10658f50,eax",
+      "1061279b:\tc3                   \tret"
+    ],
+    "48327..48353": [
+      "10648327:\t8d bd f4 00 00 00    \tlea    edi,[ebp+0xf4]",
+      "1064832d:\t33 c0                \txor    eax,eax",
+      "1064832f:\t8b cf                \tmov    ecx,edi",
+      "10648331:\tbe 50 8f 65 10       \tmov    esi,0x10658f50",
+      "10648336:\t89 01                \tmov    DWORD PTR [ecx],eax",
+      "10648338:\t89 41 04             \tmov    DWORD PTR [ecx+0x4],eax",
+      "1064833b:\t89 41 08             \tmov    DWORD PTR [ecx+0x8],eax",
+      "1064833e:\t89 41 0c             \tmov    DWORD PTR [ecx+0xc],eax",
+      "10648341:\t89 41 10             \tmov    DWORD PTR [ecx+0x10],eax",
+      "10648344:\t89 1f                \tmov    DWORD PTR [edi],ebx",
+      "10648346:\tb9 05 00 00 00       \tmov    ecx,0x5",
+      "1064834b:\t89 9d e0 00 00 00    \tmov    DWORD PTR [ebp+0xe0],ebx",
+      "10648351:\tf3 a5                \trep movs DWORD PTR es:[edi],DWORD PTR ds:[esi]"
+    ],
+    "49ea8..49ee2": [
+      "10649ea8:\tb9 05 00 00 00       \tmov    ecx,0x5",
+      "10649ead:\tbe 50 8f 65 10       \tmov    esi,0x10658f50",
+      "10649eb2:\t8d 7c 24 34          \tlea    edi,[esp+0x34]",
+      "10649eb6:\t89 54 24 14          \tmov    DWORD PTR [esp+0x14],edx",
+      "10649eba:\t89 54 24 1c          \tmov    DWORD PTR [esp+0x1c],edx",
+      "10649ebe:\t89 54 24 18          \tmov    DWORD PTR [esp+0x18],edx",
+      "10649ec2:\t89 54 24 24          \tmov    DWORD PTR [esp+0x24],edx",
+      "10649ec6:\t89 6c 24 28          \tmov    DWORD PTR [esp+0x28],ebp",
+      "10649eca:\t66 89 54 24 2c       \tmov    WORD PTR [esp+0x2c],dx",
+      "10649ecf:\t66 89 54 24 2e       \tmov    WORD PTR [esp+0x2e],dx",
+      "10649ed4:\t88 44 24 30          \tmov    BYTE PTR [esp+0x30],al",
+      "10649ed8:\t89 54 24 20          \tmov    DWORD PTR [esp+0x20],edx",
+      "10649edc:\t8d 44 24 14          \tlea    eax,[esp+0x14]",
+      "10649ee0:\tf3 a5                \trep movs DWORD PTR es:[edi],DWORD PTR ds:[esi]"
+    ],
+    "4a234..4a265": [
+      "1064a234:\t33 c0                \txor    eax,eax",
+      "1064a236:\t8b 6c 24 14          \tmov    ebp,DWORD PTR [esp+0x14]",
+      "1064a23a:\t89 44 24 38          \tmov    DWORD PTR [esp+0x38],eax",
+      "1064a23e:\tb9 05 00 00 00       \tmov    ecx,0x5",
+      "1064a243:\t89 44 24 3c          \tmov    DWORD PTR [esp+0x3c],eax",
+      "1064a247:\t8b 55 00             \tmov    edx,DWORD PTR [ebp+0x0]",
+      "1064a24a:\t89 44 24 40          \tmov    DWORD PTR [esp+0x40],eax",
+      "1064a24e:\tbe 50 8f 65 10       \tmov    esi,0x10658f50",
+      "1064a253:\t89 44 24 44          \tmov    DWORD PTR [esp+0x44],eax",
+      "1064a257:\t8d 7c 24 38          \tlea    edi,[esp+0x38]",
+      "1064a25b:\t89 44 24 48          \tmov    DWORD PTR [esp+0x48],eax",
+      "1064a25f:\t89 44 24 24          \tmov    DWORD PTR [esp+0x24],eax",
+      "1064a263:\tf3 a5                \trep movs DWORD PTR es:[edi],DWORD PTR ds:[esi]"
+    ],
+    "4b6a7..4b6cd": [
+      "1064b6a7:\t89 0e                \tmov    DWORD PTR [esi],ecx",
+      "1064b6a9:\t83 c5 48             \tadd    ebp,0x48",
+      "1064b6ac:\t83 c0 48             \tadd    eax,0x48",
+      "1064b6af:\t89 4e 04             \tmov    DWORD PTR [esi+0x4],ecx",
+      "1064b6b2:\t4b                   \tdec    ebx",
+      "1064b6b3:\t89 4e 08             \tmov    DWORD PTR [esi+0x8],ecx",
+      "1064b6b6:\t89 4e 0c             \tmov    DWORD PTR [esi+0xc],ecx",
+      "1064b6b9:\t89 4e 10             \tmov    DWORD PTR [esi+0x10],ecx",
+      "1064b6bc:\t89 17                \tmov    DWORD PTR [edi],edx",
+      "1064b6be:\tb9 05 00 00 00       \tmov    ecx,0x5",
+      "1064b6c3:\tbe 50 8f 65 10       \tmov    esi,0x10658f50",
+      "1064b6c8:\t89 50 a8             \tmov    DWORD PTR [eax-0x58],edx",
+      "1064b6cb:\tf3 a5                \trep movs DWORD PTR es:[edi],DWORD PTR ds:[esi]"
+    ]
+  },
+  "reached_consumers_before_named1279c_frontier": [],
+  "larger_record_layout": "UNMODELED; only exact20-byte empty-record prototype, no tail/zero extension or fabricated internalfields",
+  "source_sketch": "CompilerBss member BYTE empty_record_prototype[20]; initializer1277b zeroes each20 bytes, then repeatsfirst4-bytezeroing to retain originalredundancy. No new calls, ABIvoid(void), no initializedsection snapshot. Native loops express genuine fixed-width clear; original five scalar field roles are not invented.",
+  "validation_plan": [
+    "modeled20B field nativeoffset688, nativeBSSsize708, static/defaultfull20 proof",
+    "freshnormal mask/nativepair to1279c and currentcandidate-inclusiveRust",
+    "clearlylabeledbeforeBSSclear nonzerobytes01..14 ->all20zero; then callbackentrya0..b3 ->all20zero",
+    "fulloriginalBSSpre/post differs onlyactual20B extent, neighboringbytesunchanged; nativewholemodeledstate comparision",
+    "focusedmissing/wrongextent/default/seed/reset/neighbor/alias/formal/candidate negatives; immutable raw/source provenance"
+  ]
+}

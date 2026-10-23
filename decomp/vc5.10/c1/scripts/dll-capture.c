@@ -34,6 +34,7 @@ static DWORD pdb_reuse, pdb_context_count;
 static int pdb_probe, pdb_seeded;
 static DWORD pool_objects[16];
 static unsigned pool_count;
+static int prototype_probe, prototype_seeded;
 static int pool_member_probe, pool_member_seeded, pool_return_active;
 static DWORD pool_return_address, pool_entry_esp;
 static BYTE pool_return_saved;
@@ -408,6 +409,15 @@ static void seed_pools(DWORD saved)
     for (index = 0; index < pool_count; ++index) seed_pool(index, saved, "pool-seed");
 }
 
+static void seed_prototype(DWORD rva, unsigned first)
+{
+    BYTE value[20];
+    unsigned i;
+    for (i = 0; i < 20; ++i) value[i] = (BYTE)(first + i);
+    write_mem(base + 0x58f50, value, sizeof(value));
+    fprintf(events, "prototype-seed rva=%08lx bytes=20 first=%02x\n", rva, first);
+}
+
 static void seed_output_buffer(unsigned index, DWORD rva)
 {
     DWORD saved, start, object, values[7], descriptor;
@@ -466,6 +476,7 @@ static void seed_restore_state(void)
     if (signature_probe) seed_signature(0x122a5, 0);
     if (pdb_probe) seed_pdb_context();
     seed_pools(saved);
+    if (prototype_probe) seed_prototype(0x122a5, 1);
     write_mem(base + 0x5c08c, &mode, 4);
     write_mem(base + 0x5c064, &reuse, 4);
     fprintf(events, "restore-seed snapshot=%08lx bytes=6548 first=%08lx count=7 mode=1 reuse=9\n", saved, first);
@@ -610,7 +621,16 @@ int main(int argc, char **argv)
     if ((argc != 6 && argc != 7) || strcmp(argv[1], "--debug")) return 2;
     if (argc == 7 && strcmp(argv[6], "minimal") && strcmp(argv[6], "minimal-restore")) return 2;
     restore_probe = argc == 7 && !strcmp(argv[6], "minimal-restore");
-    if (restore_probe) { read_buffer_probes(); read_value_probe(); read_signature_probe(); read_pdb_probe(); read_pool_probes(); }
+    if (restore_probe) {
+        FILE *probe;
+        DWORD object, bytes, first, callback;
+        read_buffer_probes(); read_value_probe(); read_signature_probe(); read_pdb_probe(); read_pool_probes();
+        probe = fopen("prototype-probe.txt", "r");
+        if (probe) {
+            if (fscanf(probe, "%lx %lx %lx %lx", &object, &bytes, &first, &callback) != 4 || object != 0x58f50 || bytes != 20 || first != 1 || callback != 0xa0) fail("prototype probe metadata");
+            prototype_probe = 1; fclose(probe);
+        }
+    }
     strcpy(target_path, argv[2]); strcpy(crt_path, argv[3]);
     baseline = !strcmp(argv[4], "baseline");
     if (!baseline && strcmp(argv[4], "masked")) return 2;
@@ -707,6 +727,9 @@ int main(int argc, char **argv)
                     readmem(base + 0x57818, &saved, 4);
                     seed_pool(pool, saved, "pool-member-field-seed"); pool_member_seeded |= 1 << pool;
                     fprintf(events, "pool-member-seed rva=000126fc index=%u object=%08lx allocation=%08lx\n", pool, pool_objects[pool], saved);
+                }
+                if (restore_probe && prototype_probe && !prototype_seeded && address == base + 0x1277b) {
+                    seed_prototype(0x1277b, 0xa0); prototype_seeded = 1;
                 }
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)

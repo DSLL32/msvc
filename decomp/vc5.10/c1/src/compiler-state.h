@@ -58,6 +58,9 @@ typedef struct CompilerBss {
     unsigned char saved_literal_available;
     unsigned long pdb_signature;
     CompilerPool pools[9];
+    /* Fixed-width all-zero prototype copied into later records; their layouts
+     * are separate. No five logical fields are inferred from scalar stores. */
+    BYTE empty_record_prototype[20];
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */

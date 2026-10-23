@@ -1,0 +1,1182 @@
+{
+  "original/compiler-snapshot-022.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-022.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-022.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-022.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-060.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-060.bin",
+    "sha256": "a1108e6688dc9c0e96c51fe1bb73059e6c578fd0ee4d00c0c5b146fdefaeadfd",
+    "size": 41068
+  },
+  "original/compiler-data-025.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-025.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-059.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-059.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-067.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-067.bin",
+    "sha256": "9f6c3d889b4570cdad33f39d47279dddadacee6e758643f79707e839605063bf",
+    "size": 41068
+  },
+  "original/compiler-data-059.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-059.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-025.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-025.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-snapshot-057.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-057.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-069.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-069.bin",
+    "sha256": "4349c74b4fe4e615ea4894fd7618cc16623196348b14258c5159b86022b9bc71",
+    "size": 41068
+  },
+  "original/compiler-data-057.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-057.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-015.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-015.bin",
+    "sha256": "38900436023ad9a558f666c3a067b5ff6fe286d72b981d80be4d7d3fb30441e9",
+    "size": 41068
+  },
+  "original/compiler-data-050.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-050.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-012.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-012.bin",
+    "sha256": "be34fcb7070eab112c2de8f16f5eec840de25c305f06b0e179780006d358b57c",
+    "size": 41068
+  },
+  "original/compiler-snapshot-050.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-050.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/restore-original-input.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/restore-original-input.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-snapshot-019.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-019.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-065.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-065.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-027.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-027.bin",
+    "sha256": "6155775d8b69ea21333ab90724b741f10b6b328c1585863358257395c5597f05",
+    "size": 41068
+  },
+  "original/compiler-snapshot-065.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-065.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-019.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-019.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-062.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-062.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-062.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-062.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-020.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-020.bin",
+    "sha256": "53703049ec1c01939e3216e69ccbe55c872d90a1f9b06642a8f64b8365c88126",
+    "size": 41068
+  },
+  "original/compiler-data-010.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-010.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-052.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-052.bin",
+    "sha256": "d1d3452da7c78f72d7e46daac88806cae51b5cf28f51ef8093c336e4a9f37ec1",
+    "size": 41068
+  },
+  "original/compiler-snapshot-010.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-010.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-snapshot-017.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-017.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-029.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-029.bin",
+    "sha256": "7c91028f5698a70383d8cdff44520c37a933aaf287cfbfa6594501724e399125",
+    "size": 41068
+  },
+  "original/compiler-data-017.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-017.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-055.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-055.bin",
+    "sha256": "a81ea0d6bca4f9cafd9e6728ea4103d292c2534ccce6ec9e193d6d03c6ca4a18",
+    "size": 41068
+  },
+  "original/compiler-bss-038.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-038.bin",
+    "sha256": "c71605117107e367e7430fa93027adf244618da4ee76eff51a731d57b6d0d256",
+    "size": 41068
+  },
+  "original/compiler-snapshot-006.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-006.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-044.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-044.bin",
+    "sha256": "0fce6f76f39569fcc5641fb18d1a695e7b5f3c2cb17faa01008ad370941331b5",
+    "size": 41068
+  },
+  "original/compiler-data-006.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-006.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-043.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-043.bin",
+    "sha256": "0fce6f76f39569fcc5641fb18d1a695e7b5f3c2cb17faa01008ad370941331b5",
+    "size": 41068
+  },
+  "original/compiler-data-001.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-001.bin",
+    "sha256": "7f93cede3bfc311955162379e5d8e3a9a78430de4eb4149b2c11cdfba4828066",
+    "size": 6548
+  },
+  "original/compiler-snapshot-073.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-073.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-031.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-031.bin",
+    "sha256": "9dbb0be8db424bb85b99e083711d4b7df22adea3a2bd98dac0c5145ce89d0b10",
+    "size": 41068
+  },
+  "original/compiler-data-073.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-073.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-036.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-036.bin",
+    "sha256": "0b1e18514220e2b9d28ff822223603575aea4a9b6309f47b16c6cff73979170d",
+    "size": 41068
+  },
+  "original/compiler-data-074.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-074.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-008.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-008.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-008.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-008.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-074.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-074.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-003.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-003.bin",
+    "sha256": "ce99a55e2ba16ad1d4e74b2b206cf0347c53271bc76ddea5a7adc2d3d50a5a24",
+    "size": 41068
+  },
+  "original/compiler-data-041.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-041.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-041.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-041.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-snapshot-046.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-046.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-004.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-004.bin",
+    "sha256": "ce99a55e2ba16ad1d4e74b2b206cf0347c53271bc76ddea5a7adc2d3d50a5a24",
+    "size": 41068
+  },
+  "original/compiler-data-046.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-046.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-076.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-076.bin",
+    "sha256": "c1e0ab4ca246759dd74c3c58e3d00322d04997f7f53225015f8125205fa27c43",
+    "size": 41068
+  },
+  "original/compiler-snapshot-048.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-048.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-034.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-034.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-034.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-034.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-048.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-048.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-033.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-033.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-071.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-071.bin",
+    "sha256": "dd5c4919e39882da902b84cac728c0394c95b9c5731440d5d25c5370b85597c3",
+    "size": 41068
+  },
+  "original/compiler-data-033.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-033.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-016.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-016.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-028.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-028.bin",
+    "sha256": "3a21545bacf86be19d7e50c6b0f03d1418ff825c15b45f679e85e2868cd43b6e",
+    "size": 41068
+  },
+  "original/compiler-data-016.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-016.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-054.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-054.bin",
+    "sha256": "2338d7a80d6275b917dcc2bc09bd79da160f1729111b5ca49847207ec31b5cc0",
+    "size": 41068
+  },
+  "original/compiler-data-011.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-011.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-053.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-053.bin",
+    "sha256": "2338d7a80d6275b917dcc2bc09bd79da160f1729111b5ca49847207ec31b5cc0",
+    "size": 41068
+  },
+  "original/compiler-snapshot-011.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-011.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-snapshot-063.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-063.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-063.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-063.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-021.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-021.bin",
+    "sha256": "e01a6788bf2c1ffb6bb6d848a35140ded6ac12a40607d80ded084fc3b596de65",
+    "size": 41068
+  },
+  "original/compiler-snapshot-018.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-018.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-064.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-064.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-026.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-026.bin",
+    "sha256": "f887adf5a957388bf3367fe89e356034950fabd61079eb0687e156f141ff1767",
+    "size": 41068
+  },
+  "original/compiler-snapshot-064.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-064.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-018.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-018.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-data-051.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-051.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-013.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-013.bin",
+    "sha256": "be34fcb7070eab112c2de8f16f5eec840de25c305f06b0e179780006d358b57c",
+    "size": 41068
+  },
+  "original/compiler-snapshot-051.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-051.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-snapshot-056.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-056.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-068.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-068.bin",
+    "sha256": "4349c74b4fe4e615ea4894fd7618cc16623196348b14258c5159b86022b9bc71",
+    "size": 41068
+  },
+  "original/compiler-data-056.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-056.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-014.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-014.bin",
+    "sha256": "be34fcb7070eab112c2de8f16f5eec840de25c305f06b0e179780006d358b57c",
+    "size": 41068
+  },
+  "original/compiler-data-024.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-024.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-058.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-058.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-066.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-066.bin",
+    "sha256": "3e6701f86ad2172df6d6470006678269188c160c42c2ace05c190836f5ff06c4",
+    "size": 41068
+  },
+  "original/compiler-data-058.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-058.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-024.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-024.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-snapshot-023.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-023.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-023.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-023.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-061.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-061.bin",
+    "sha256": "f175f06ee1e8b83b6c4f6dd3a337046c34bc2bb140ca1320c99755be33aa8efa",
+    "size": 41068
+  },
+  "original/compiler-snapshot-032.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-032.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-070.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-070.bin",
+    "sha256": "0ea85f3450427db638e4b0ee5f0084f3f68be0399bbaf82a43a87973776aab8d",
+    "size": 41068
+  },
+  "original/compiler-data-032.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-032.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-077.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-077.bin",
+    "sha256": "2389a15663b6fa291a915debecc4410c2295470da726e1e855d4beac8d93c438",
+    "size": 41068
+  },
+  "original/loaded-msvcrt.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/loaded-msvcrt.bin",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "size": 277776
+  },
+  "original/compiler-snapshot-049.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-049.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-035.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-035.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-035.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-035.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-049.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-049.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-047.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-047.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-005.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-005.bin",
+    "sha256": "ce99a55e2ba16ad1d4e74b2b206cf0347c53271bc76ddea5a7adc2d3d50a5a24",
+    "size": 41068
+  },
+  "original/compiler-data-047.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-047.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-002.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-002.bin",
+    "sha256": "ce99a55e2ba16ad1d4e74b2b206cf0347c53271bc76ddea5a7adc2d3d50a5a24",
+    "size": 41068
+  },
+  "original/compiler-data-040.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-040.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-040.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-040.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-037.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-037.bin",
+    "sha256": "032bcaa0950ec0c359b29a4172ec47f2acb25d6888983a5959898772adccf391",
+    "size": 41068
+  },
+  "original/compiler-data-075.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-075.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-009.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-009.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-009.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-009.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-075.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-075.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-snapshot-072.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-072.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-030.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-030.bin",
+    "sha256": "b1e706c7660814fe2d1db278ab000166840811ee8d27e0fab6e3a2ec0b3e0f3b",
+    "size": 41068
+  },
+  "original/compiler-data-072.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-072.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-042.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-042.bin",
+    "sha256": "0fce6f76f39569fcc5641fb18d1a695e7b5f3c2cb17faa01008ad370941331b5",
+    "size": 41068
+  },
+  "original/compiler-data-000.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-000.bin",
+    "sha256": "7f93cede3bfc311955162379e5d8e3a9a78430de4eb4149b2c11cdfba4828066",
+    "size": 6548
+  },
+  "original/compiler-bss-039.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-039.bin",
+    "sha256": "9064a114f6ef0f52cbe79c5709d226f15a682c1289c90298cd06b5fa267e4f92",
+    "size": 41068
+  },
+  "original/compiler-snapshot-007.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-007.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-045.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-045.bin",
+    "sha256": "769acc5be3d716584e065a78d46027dd0824656548101d62cf331aba4ab6acfc",
+    "size": 41068
+  },
+  "original/compiler-data-007.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-007.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-074.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-074.bin",
+    "sha256": "2389a15663b6fa291a915debecc4410c2295470da726e1e855d4beac8d93c438",
+    "size": 41068
+  },
+  "original/compiler-data-036.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-036.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-008.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-008.bin",
+    "sha256": "3bafbae577c4bfb61cd47480a1890cee5f2e9e84e374565ee4a0a61f57e9cb39",
+    "size": 41068
+  },
+  "original/MSVCRT.DLL": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "size": 277776
+  },
+  "original/compiler-snapshot-036.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-036.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-snapshot-031.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-031.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-073.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-073.bin",
+    "sha256": "f794130408cb02379e5144d65569704a7534c1bbc512bbf26abf64e06400f6f6",
+    "size": 41068
+  },
+  "original/compiler-data-031.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-031.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-001.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-001.bin",
+    "sha256": "ce99a55e2ba16ad1d4e74b2b206cf0347c53271bc76ddea5a7adc2d3d50a5a24",
+    "size": 41068
+  },
+  "original/compiler-data-043.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-043.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/relocated-text.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/relocated-text.bin",
+    "sha256": "3de6235f0fa89b5d1977f7b582450f80ff52df025f7da8d111ff23cf8b5bb5dc",
+    "size": 322288
+  },
+  "original/compiler-snapshot-043.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-043.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-snapshot-044.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-044.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-038.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-038.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-006.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-006.bin",
+    "sha256": "83b429114038ce4d43fd51500e6f6800b456a0161a63c8cfeadc3446d15755de",
+    "size": 41068
+  },
+  "original/compiler-snapshot-038.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-038.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-044.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-044.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-071.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-071.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-033.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-033.bin",
+    "sha256": "a1a0a03994cc58ebaba01afcea80e40708cab9d38c5b80922fa193eb05738a2b",
+    "size": 41068
+  },
+  "original/compiler-data-071.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-071.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-034.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-034.bin",
+    "sha256": "790efc2fbbea1f5f473d640dcd39f970176a114ba16d6cccfe997cd676fd66ed",
+    "size": 41068
+  },
+  "original/compiler-data-076.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-076.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-048.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-048.bin",
+    "sha256": "e1e97e213c90b72f195b7ddefc8ffee17da854a80a30267bc5120a02edf44ff6",
+    "size": 41068
+  },
+  "original/compiler-snapshot-076.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-076.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/invoke-environment.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/invoke-environment.bin",
+    "sha256": "ec8a3f94a1a5d916ef7f3da4a657ddbda0fbf871d557ef29b8233fddcb1bbbe2",
+    "size": 2787
+  },
+  "original/compiler-bss-046.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-046.bin",
+    "sha256": "769acc5be3d716584e065a78d46027dd0824656548101d62cf331aba4ab6acfc",
+    "size": 41068
+  },
+  "original/compiler-data-004.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-004.bin",
+    "sha256": "7f93cede3bfc311955162379e5d8e3a9a78430de4eb4149b2c11cdfba4828066",
+    "size": 6548
+  },
+  "original/compiler-bss-041.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-041.bin",
+    "sha256": "72bb2ee3e2117437d17a330b37b4f4cbcb37d907f7c8f3a30326840c7a27d8ac",
+    "size": 41068
+  },
+  "original/compiler-data-003.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-003.bin",
+    "sha256": "7f93cede3bfc311955162379e5d8e3a9a78430de4eb4149b2c11cdfba4828066",
+    "size": 6548
+  },
+  "original/compiler-data-012.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-012.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-050.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-050.bin",
+    "sha256": "9294f768350a348d9b16fe51d040c9042e5512dbb2b4322539e85c0632851529",
+    "size": 41068
+  },
+  "original/compiler-snapshot-012.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-012.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-snapshot-015.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-015.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-069.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-069.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-069.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-069.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-015.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-015.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-057.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-057.bin",
+    "sha256": "906cf9abd7f2f3007b82681566c73b623af08937005153b131c27e72cffdca5f",
+    "size": 41068
+  },
+  "original/compiler-data-067.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-067.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-025.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-025.bin",
+    "sha256": "f3722335ac8ecf34ace523c4b7f6ce71ba0bdae48d51782da291438031fe902d",
+    "size": 41068
+  },
+  "original/compiler-snapshot-067.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-067.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-059.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-059.bin",
+    "sha256": "a1108e6688dc9c0e96c51fe1bb73059e6c578fd0ee4d00c0c5b146fdefaeadfd",
+    "size": 41068
+  },
+  "original/loaded-target.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/loaded-target.bin",
+    "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+    "size": 565008
+  },
+  "original/compiler-snapshot-060.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-060.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-060.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-060.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-022.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-022.bin",
+    "sha256": "22266909afee3d0106af5a49b545582b6e8b9469d31b019ba3932641ca648f46",
+    "size": 41068
+  },
+  "original/compiler-data-029.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-029.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-055.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-055.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-055.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-055.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-029.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-029.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-017.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-017.bin",
+    "sha256": "3ae97e38a48c27b1d00528165671789be704ca9cde8bd03cc041abd1164e6a7a",
+    "size": 41068
+  },
+  "original/compiler-data-052.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-052.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-010.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-010.bin",
+    "sha256": "28092f20be5c64c9e32296d395df29d36b5fb6136ad28ce15686ab501e55c1ad",
+    "size": 41068
+  },
+  "original/compiler-snapshot-052.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-052.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-snapshot-020.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-020.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-020.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-020.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-062.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-062.bin",
+    "sha256": "4bdf1bb7f78acf9dc7582e873ea135fde0bba62fd1ef8cfcc20717df30170592",
+    "size": 41068
+  },
+  "original/compiler-data-027.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-027.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-065.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-065.bin",
+    "sha256": "3e6701f86ad2172df6d6470006678269188c160c42c2ace05c190836f5ff06c4",
+    "size": 41068
+  },
+  "original/compiler-snapshot-027.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-027.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-019.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-019.bin",
+    "sha256": "3e733b559d54cf27ad16708d08745b4920b7382daca7074263501700b70864b7",
+    "size": 41068
+  },
+  "original/compiler-bss-040.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-040.bin",
+    "sha256": "158b125f635a9994538ad051138a925fe3ce28eb83b0fc11c6e1fb9c4cb4ef11",
+    "size": 41068
+  },
+  "original/compiler-data-002.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-002.bin",
+    "sha256": "7f93cede3bfc311955162379e5d8e3a9a78430de4eb4149b2c11cdfba4828066",
+    "size": 6548
+  },
+  "original/compiler-bss-047.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-047.bin",
+    "sha256": "769acc5be3d716584e065a78d46027dd0824656548101d62cf331aba4ab6acfc",
+    "size": 41068
+  },
+  "original/compiler-data-005.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-005.bin",
+    "sha256": "7f93cede3bfc311955162379e5d8e3a9a78430de4eb4149b2c11cdfba4828066",
+    "size": 6548
+  },
+  "original/compiler-bss-035.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-035.bin",
+    "sha256": "a6662451e1234b5dfbe27dd6de7c17e9572b787bb50109b80ef303aaf2b0d52c",
+    "size": 41068
+  },
+  "original/compiler-data-077.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-077.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-049.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-049.bin",
+    "sha256": "7b1a29c8281765f4c3e4b8ab0d72783c9d1b9f3d26dc79b7f6098d53d825bd93",
+    "size": 41068
+  },
+  "original/compiler-snapshot-077.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-077.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-snapshot-070.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-070.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-032.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-032.bin",
+    "sha256": "f896f317acfa08a0840b7678ac58823fd6c89752f7ba98b2c9785a8f41a613df",
+    "size": 41068
+  },
+  "original/compiler-data-070.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-070.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/dll-capture.exe": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/dll-capture.exe",
+    "sha256": "a0cb3912f6c3d6542d4037779955376f2b22e24dec8f68016ea658c160e6f4d7",
+    "size": 20992
+  },
+  "original/compiler-snapshot-045.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-045.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-039.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-039.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-007.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-007.bin",
+    "sha256": "be34fcb7070eab112c2de8f16f5eec840de25c305f06b0e179780006d358b57c",
+    "size": 41068
+  },
+  "original/compiler-snapshot-039.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-039.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-045.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-045.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-000.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-000.bin",
+    "sha256": "ce99a55e2ba16ad1d4e74b2b206cf0347c53271bc76ddea5a7adc2d3d50a5a24",
+    "size": 41068
+  },
+  "original/compiler-data-042.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-042.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-042.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-042.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-snapshot-030.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-030.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-072.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-072.bin",
+    "sha256": "dd5c4919e39882da902b84cac728c0394c95b9c5731440d5d25c5370b85597c3",
+    "size": 41068
+  },
+  "original/compiler-data-030.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-030.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-075.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-075.bin",
+    "sha256": "2389a15663b6fa291a915debecc4410c2295470da726e1e855d4beac8d93c438",
+    "size": 41068
+  },
+  "original/compiler-data-037.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-037.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-009.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-009.bin",
+    "sha256": "1587fe1744cff88592a4df6eb8d5b4759cf1efe28a3c90a28a57d331f676a12d",
+    "size": 41068
+  },
+  "original/compiler-snapshot-037.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-037.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-026.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-026.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-064.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-064.bin",
+    "sha256": "27984f0da1486f951f71da33b345bf003c8ef10db0d4a0411bc8aa74916bca0c",
+    "size": 41068
+  },
+  "original/compiler-snapshot-026.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-026.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-018.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-018.bin",
+    "sha256": "f3f8e9a6d22594a07097a8ea46e8224d6bc50c54337caf155bcdb86b9df8c4cc",
+    "size": 41068
+  },
+  "original/compiler-snapshot-021.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-021.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-021.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-021.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-063.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-063.bin",
+    "sha256": "4bdf1bb7f78acf9dc7582e873ea135fde0bba62fd1ef8cfcc20717df30170592",
+    "size": 41068
+  },
+  "original/compiler-data-053.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-053.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-011.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-011.bin",
+    "sha256": "be34fcb7070eab112c2de8f16f5eec840de25c305f06b0e179780006d358b57c",
+    "size": 41068
+  },
+  "original/compiler-snapshot-053.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-053.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-028.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-028.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-054.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-054.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-054.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-054.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-028.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-028.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-016.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-016.bin",
+    "sha256": "25806873ad67f4dc5c5368df726d3944a5e50fe6d6d1a1c87bcfd41f48940232",
+    "size": 41068
+  },
+  "original/compiler-snapshot-061.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-061.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-061.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-061.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-023.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-023.bin",
+    "sha256": "ac25299aa100d47f84bf074021090febaf5c29f418d436391aeb6b0e6c47916f",
+    "size": 41068
+  },
+  "original/compiler-data-066.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-066.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-024.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-024.bin",
+    "sha256": "e6754f0c9d36f556691142ae012d4592b80c5bd787ec5d93d08c32529346d413",
+    "size": 41068
+  },
+  "original/compiler-snapshot-066.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-066.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-058.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-058.bin",
+    "sha256": "a49e9e66906ca5d0cf1b09aaa5a81b86254f1396ac7c2ccced1359775e423e9d",
+    "size": 41068
+  },
+  "original/compiler-snapshot-014.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-014.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-068.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-068.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-snapshot-068.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-068.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-014.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-014.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-056.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-056.bin",
+    "sha256": "906cf9abd7f2f3007b82681566c73b623af08937005153b131c27e72cffdca5f",
+    "size": 41068
+  },
+  "original/compiler-data-013.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-data-013.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-051.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-bss-051.bin",
+    "sha256": "9294f768350a348d9b16fe51d040c9042e5512dbb2b4322539e85c0632851529",
+    "size": 41068
+  },
+  "original/compiler-snapshot-013.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-empty-prototype-clear-aux-001/compiler-snapshot-013.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "native/captured-elf": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/native-binary-store/7762ce5cb483da91412472510f074a0b7783bf08cfc2b933197a10a5b717874d",
+    "sha256": "7762ce5cb483da91412472510f074a0b7783bf08cfc2b933197a10a5b717874d",
+    "size": 282584
+  }
+}

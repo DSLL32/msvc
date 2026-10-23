@@ -360,3 +360,15 @@ have exact receiver/stack/return/default/nonzero reset proofs. Durable coverage:
 Pool step pool-empty is accepted, reaching1277b; 9 separately encountered pool objects
 have exact receiver/stack/return/default/nonzero reset proofs. Durable coverage:
 46 application functions /1640B +2 CRT /451B +6B import =2097B (48 source functions).
+
+The33-byte reset1277b is accepted under the reviewed exact20-byte empty-record
+prototype representation. Six original DWORD stores (including repeatedfirst)
+and four count5 copies establish that byte extent; no larger record layout is
+claimed. Source uses a named BYTEarray and bounded clears, retaining the
+redundant first4 clear. All20 bytes join known BSS/reset state and remain
+outside the6548-byte initialized snapshot. Fresh nonzero before-clear and
+callback probes prove full20 reset with whole neighboring-state comparisons.
+Prototype negatives16/28, generic47/100 and4 formal/trace controls perpair pass.
+See `EMPTY-PROTOTYPE-REVIEW.json` and evidence/empty-prototype-* for immutable
+raw sources, field ownership and timings. Durable49 source functions:47 app /
+1673B +2 CRT /451B +6 import =2130B; next frontier1279c.
