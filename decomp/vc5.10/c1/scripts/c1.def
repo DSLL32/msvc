@@ -1,0 +1,4 @@
+LIBRARY c1n32_l
+EXPORTS
+    _AbortCompilerPass@4 @1
+    _InvokeCompilerPass@12 @2

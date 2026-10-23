@@ -1,0 +1,9 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x0804a9a5 in c1_crt_init (module=0x805e054 <native_modules>, reason=1, reserved=0x0) at src/native-crt.c:42
+42	    __asm { int 3 }
+#0  0x0804a9a5 in c1_crt_init (module=0x805e054 <native_modules>, reason=1, reserved=0x0) at src/native-crt.c:42
+#1  0x0804a888 in c1_crt_entry (module=0x805e054 <native_modules>, reason=1, reserved=0x0) at src/native-crt.c:22
+#2  0x0804aa79 in main () at scripts/native-host.c:22

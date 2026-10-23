@@ -2,10 +2,14 @@
 
 Target: `toolchains/5.10/bin/C1.DLL`, SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`.
-No target function has been reconstructed or accepted. `make groundwork` checks
-the original PE against `cases/inventory.json`; `make inspect` prints metadata.
-Build and fixture targets deliberately fail until the DLL workflow and Rust graph
-audit are ready and the orchestrator releases reconstruction.
+The lifecycle-only first case is in progress. The reviewed CRT entry is accepted
+as one support function owning 224 original code bytes; no application function
+is accepted yet. `make groundwork` checks
+the original PE; `make inspect` prints metadata. `make -j4 native original` builds
+the static Linux harness and real Win32 DLL with named INT3 stubs. `make audit`
+invokes common Rust CFG discovery with explicit DLL paths and checks, currently
+with zero accepted vertices. Fixtures remain blocked until the case is accepted.
+See `cases/lifecycle/PROTOCOL.md` for the review and fresh-evidence gate.
 
 ## Binary and host contract
 
@@ -29,8 +33,8 @@ Static evidence supports a three-slot stdcall invocation
 names, not a recovered header. CL's call at VA `0x4056c6` pushes
 `((pass.flags >> 3) & 1)`, `argv`, then `argc`. C1 stores argument 3 at RVA
 `0x5c08c` and calls its C front end at RVA `0x127a7` with only argc/argv. This is
-not a callback-table argument. The exact pass-specific argument vector still
-requires an explicit 5.10 host capture. Abort's four-byte slot is not read by its
+not a callback-table argument. The CL worker captured the actual minimal-pass
+argument vector; that compile is queued second. Abort's four-byte slot is not read by its
 observed body; preserve it and the stdcall cleanup regardless. The cancellation
 body signals application state and waits on a semaphore; it is not equivalent to
 unconditionally exiting the host.
@@ -83,7 +87,7 @@ functions are transport, outside the target graph. Start with a fresh process
 for one invocation, then add a deliberate same-process two-invocation case to
 exercise the observed reset behavior. Do not use a fresh process to claim that
 reset path has been tested. The orchestrator reports root approval of this
-preferred transport; implementation and reconstruction remain gated.
+preferred transport; only the lifecycle first case is now released.
 
 For original captures, a debugger must observe the actual DLL load/base and trap
 at its CRT entry before target instructions execute. Use the staged load-event
@@ -94,8 +98,12 @@ entry trap or a breakpoint installed after LoadLibrary returns misses the DLL's
 initialization. Record DLL identity/hash plus RVA (`runtime_pc - loaded_base`),
 not the preferred VA alone; retain CL and dependent-module identities separately.
 Native instrumentation must map those target identities consistently and exclude
-harness/shim/import entries without excluding target initializers. No debugger,
-masker or native harness has been implemented here.
+harness/shim/import entries without excluding target initializers.
+`scripts/dll-capture.c` now implements the original-only guarded loader and masker;
+its baseline records both lifecycle calls and its masked mode restores explicit
+ranges from the relocated snapshot. `scripts/native-host.c` is the initial native
+transport, currently trapping at its CRT entry counterpart. The CRT entry is accepted; CRT_INIT, DllMain and both compiler exports still trap.
+Nonpreferred-base behavior remains untested.
 
 ## Seed cases and release conditions
 
@@ -103,7 +111,7 @@ masker or native harness has been implemented here.
 numeric/varargs, embedded CodeView types, then repeated minimal invocation. Only
 source inputs were copied from vc1.0; their hashes and provenance are recorded.
 No vc1.0 expected output, IR, trace or acceptance record is a 5.10 oracle. The
-source files are case inputs, not reconstructed target source; `src/` is empty.
+source files are case inputs, separate from the target INT3 stubs in `src/`.
 
 Original work uses the shared prefix `~/.ai-tmp/vc1.0-capture/wine`, R: for the
 repo and S: for shared scratch, under `S:\vc5.10\c1`. Prefer relative case paths;

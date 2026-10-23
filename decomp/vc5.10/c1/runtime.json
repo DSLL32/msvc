@@ -1,0 +1,20 @@
+[
+  {
+    "name": "_c1_crt_init@12",
+    "start": 274800846,
+    "end": 274801038,
+    "role": "unaccepted-callee-identity-only",
+    "code_chunks": [
+      [
+        274924312,
+        274924347
+      ]
+    ]
+  },
+  {
+    "name": "_DllMain@12",
+    "start": 274801038,
+    "end": 274801073,
+    "role": "unaccepted-callee-identity-only"
+  }
+]

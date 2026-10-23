@@ -2,12 +2,8 @@
   "schema_version": 1,
   "project": "vc5.10",
   "target": "toolchains/5.10/bin/C1.DLL",
-  "status": "groundwork-only",
-  "release_gates": [
-    "Agree DLL original/native lifecycle and module-relative trap identities",
-    "Rust graph audit ready and verified across existing reconstructions",
-    "Explicit orchestrator release before reconstruction"
-  ],
+  "status": "released-lifecycle-only",
+  "release_gates": [],
   "reference_policy": "Source-only seeds; no vc1.0 artifacts, traces, IR, or expected output are 5.10 references. Freeze real CL-to-C1 invocation before acceptance.",
   "shared_prefix": "~/.ai-tmp/vc1.0-capture/wine",
   "scratch_windows": "S:\\vc5.10\\c1",
@@ -22,6 +18,19 @@
   "cases": [
     {
       "order": 1,
+      "id": "dll-lifecycle-and-exports",
+      "status": "reconstructing; reviewed CRT entry accepted",
+      "original_reference": "cases/lifecycle/evidence",
+      "purpose": "Load verified C1, CRT attach, resolve exports by name/ordinal without invoking, CRT detach",
+      "expected": {
+        "exit": 0,
+        "stdout_bytes": 31,
+        "stderr_bytes": 0
+      },
+      "compiler_exports_must_not_be_invoked": true
+    },
+    {
+      "order": 2,
       "id": "minimal",
       "status": "source-only-unvalidated",
       "proposed_driver_argv": [
@@ -40,7 +49,7 @@
       "expected": null
     },
     {
-      "order": 2,
+      "order": 3,
       "id": "comments",
       "status": "source-only-unvalidated",
       "proposed_driver_argv": [
@@ -65,7 +74,7 @@
       "expected": null
     },
     {
-      "order": 3,
+      "order": 4,
       "id": "numeric-varargs",
       "status": "source-only-unvalidated",
       "proposed_driver_argv": [
@@ -85,7 +94,7 @@
       "expected": null
     },
     {
-      "order": 4,
+      "order": 5,
       "id": "embedded-codeview",
       "status": "source-only-unvalidated",
       "proposed_driver_argv": [
@@ -105,7 +114,7 @@
       "expected": null
     },
     {
-      "order": 5,
+      "order": 6,
       "id": "repeated-minimal",
       "status": "planned-no-reference",
       "reuses_inputs": "minimal",
