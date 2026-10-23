@@ -28,4 +28,6 @@ void initialize_output_buffer_02(void);
 void destroy_output_buffer_02(void);
 void initialize_output_buffer_03(void);
 void destroy_output_buffer_03(void);
+void initialize_output_buffer_04(void);
+void destroy_output_buffer_04(void);
 #endif
