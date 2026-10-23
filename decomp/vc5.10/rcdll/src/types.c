@@ -32,3 +32,10 @@ RcIntegerType *__stdcall rc_intern_type(RcIntegerType *type)
     entry->type.other16=0;
     return &entry->type;
 }
+
+int __stdcall rc_equal_type(const RcIntegerType *left,const RcIntegerType *right)
+{
+    return left->flags==right->flags &&
+           left->key8==right->key8 &&
+           left->key4==right->key4;
+}

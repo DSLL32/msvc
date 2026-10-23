@@ -1729,3 +1729,46 @@ def expect_end_trial(original,native):
     proof['directive_end']=dict(argument='#line',argument_bytes=4,cleanup=4,return_scope='void; EAX unclaimed',input_source_offset=old_offset,input_words=[13,10],cursor_advance_bytes=2,behavior='Nonspace reader skips CR and returns LF; directive helper rewinds one WCHAR and returns. Following scanner consumes that newline and starts the next #line marker.',next_formals=dict(left_pointer_bytes=4,right_pointer_bytes=4,pointees_bytes=20,contents='flags1003 and eighteen zero bytes',distinct_owners=True,right_alias='owned24B interned entry.type at+4',left_owner='actual fresh20B type in28B private allocation',cleanup=8),next_hidden_inputs='Whole comparator body reads only WORD0/DWORD8/DWORD4 from the two observed formal pointees; no global/register input identified.',current_source_offset=current_offset,current_word=word,pending_output_defined_bytes=defined)
     proof['trial']='rc_expect_end'
     return proof
+
+
+def equal_type_trial(original,native):
+    config=read_configuration(original/'functions.json');assert config.get('trial_function')=='rc_equal_type'and len(config['accepted'])==57
+    a,b,proof=checkpoint(original,native,'rc_parse_angle_name',('rc_input_temporary','rc_output_temporary'))
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_handle_directive\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert proof['application_trace'][-1]=='rc_equal_type'and a['words'][0]==0x71c2668c
+    text=(original/'events.txt').read_text();args=b['arguments'];old_globals=(original/'globals.bin').read_bytes();globals=args['preprocessor']['globals']
+    rows=args['type_comparisons'];assert rows==json.loads((native/'type-comparisons.json').read_text())and len(rows)==1;row=rows[0]
+    calls=re.findall(r'^compare-entry left=([0-9a-f]+) right=([0-9a-f]+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M);returns=re.findall(r'^compare-return result=([0-9a-f]+) esp=([0-9a-f]+)$',text,re.M);assert len(calls)==len(returns)==1
+    old_left,old_right,old_sp,old_caller=[int(v,16)for v in calls[0]];result,old_return_sp=[int(v,16)for v in returns[0]]
+    type_bytes=b'\x03\x10'+b'\0'*18
+    assert old_caller==0x71c272d5 and old_left!=old_right and row['left']!=row['right']and row['caller']=='rc_intern_type'
+    assert row['formal_bytes']==dict(left=4,right=4)and old_return_sp==old_sp+12 and row['return_esp']==row['entry_esp']+12 and result==row['result']==1
+    assert raw_bytes(text,'compare-input-left')==raw_bytes(text,'compare-input-right')==bytes.fromhex(row['left_bytes'])==bytes.fromhex(row['right_bytes'])==type_bytes
+    blocks=b['heap_identity']['blocks']
+    requests=re.findall(r'^heap-alloc ([0-9a-f]+) (\d+) (\d+) last-error=([0-9a-f]+)$',text,re.M);results=re.findall(r'^heap-alloc-result ([0-9a-f]+) last-error=([0-9a-f]+)$',text,re.M);payloads=re.findall(r'^heap-alloc-payload (\d+) ([0-9a-f]*)$',text,re.M)
+    assert len(requests)==len(results)==len(payloads)==21
+    assert requests[20]==(requests[0][0],'9','28','00000000')and results[20]==('%08x'%(old_left-8),'00000000')and payloads[20]==('28','00'*28)
+    assert int(results[18][0],16)+12==old_right and requests[18]==(requests[0][0],'9','32','00000000')and payloads[18]==('32','00'*32)
+    old_buckets=old_globals[0x22830-0x14000:0x22c30-0x14000];expected=bytearray(1024);struct.pack_into('<I',expected,12,old_right-4);assert old_buckets==bytes(expected)
+    for pointer,size,offset in [(row['left'],28,8),(row['right'],32,12)]:
+        block=next(v for v in blocks if v['payload']+offset==pointer);assert block['owner']==b['heap_identity']['handle']and block['flags']==9 and block['bytes']==size
+        assert bytes.fromhex(block['contents'])[offset:offset+20]==type_bytes
+    angle=args['angle_name'];assert angle['formals']==[]and angle['caller']=='rc_handle_directive'and angle['macro_bytes']==1024
+    assert angle['header_mode']==0 and angle['output_active']==angle['in_directive']==1 and angle['token_kind']==old_globals[0x144f4-0x14000] ==63
+    assert raw_bytes(text,'angle-macro-before')==bytes.fromhex(angle['macro_before'])==bytes.fromhex(globals['rc_macro_name']['bytes'])
+    assert angle['macro']==globals['rc_macro_name']['address']and raw_bytes(text,'angle-marker-before')==bytes.fromhex(angle['marker_before'])==b'\0\0'
+    old_frame=struct.unpack_from('<9I',old_globals,0x18e80-0x14000);new_frame=struct.unpack('<9I',bytes.fromhex(globals['rc_source_frames']['bytes'])[:36])
+    source=raw_bytes(text,'angle-source-block');block=next(v for v in blocks if v['payload']+8==new_frame[5])
+    assert block['owner']==b['heap_identity']['handle']and block['flags']==9 and block['bytes']==8206 and bytes.fromhex(block['contents'])==source
+    old_cursor=struct.unpack_from('<I',old_globals,0x18120-0x14000)[0];offset=old_cursor-old_frame[5]
+    assert offset==angle['cursor']-new_frame[5]and 0<=offset<len(source)-10
+    word=struct.unpack_from('<H',source,8+offset)[0];assert angle['current_word']==word and source[8+offset:8+offset+24]=='windows.h>\r\n'.encode('utf-16le')
+    assert angle['cursor']==int.from_bytes(bytes.fromhex(globals['rc_source_cursor']['bytes']),'little')
+    for name,rva in [('rc_cpp_active',0x1811c),('rc_in_directive',0x18530),('rc_header_mode',0x16efc)]:
+        assert struct.unpack_from('<I',old_globals,rva-0x14000)[0]==angle[dict(rc_cpp_active='output_active',rc_in_directive='in_directive',rc_header_mode='header_mode')[name]]==int.from_bytes(bytes.fromhex(globals[name]['bytes']),'little')
+    assert struct.unpack_from('<I',old_globals,0x16ce8-0x14000)[0]==args['current_line']and struct.unpack_from('<I',old_globals,0x29458-0x14000)[0]==args['prepared_lines']
+    old_output=struct.unpack('<8I',raw_bytes(text,'cpp-output-file'));new_output=struct.unpack('<8I',bytes.fromhex(globals['rc_cpp_output_file']['file_state']));defined=old_output[0]-old_output[2]
+    assert old_output[1:2]+old_output[3:]==new_output[1:2]+new_output[3:]and defined==new_output[0]-new_output[2]and 0<=defined<=4096
+    assert raw_bytes(text,'cpp-output-buffer')==bytes.fromhex(globals['rc_cpp_output_file']['file_buffer'])[:defined]and b['crt_errors']==dict(errno=0,last_error=0)
+    proof['type_comparison']=dict(formals=dict(left_pointer_bytes=4,right_pointer_bytes=4,pointee_bytes=20),field_order=['flagsWORD0','keyDWORD8','keyDWORD4'],equal=True,result=1,cleanup=8,distinct_owned_objects=True,next_formals=[],next_hidden_inputs=dict(source_cursor_offset=offset,current_word=word,source_block_bytes=8206,macro_scratch_bytes=1024,header_mode=0,output_active=1,in_directive=1,token_kind=63),next_source='windows.h>CRLF',marker_scope='Only empty firstWCHAR currently modeled; next angle-name stub traps before any include marker copy.',pending_output_defined_bytes=defined)
+    proof['trial']='rc_equal_type';return proof

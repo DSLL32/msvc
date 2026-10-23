@@ -59,7 +59,8 @@
     "rc_store_integer",
     "rc_intern_type",
     "rc_read_string",
-    "rc_expect_end"
+    "rc_expect_end",
+    "rc_equal_type"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

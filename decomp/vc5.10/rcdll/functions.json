@@ -60,7 +60,8 @@
     "rc_store_integer",
     "rc_intern_type",
     "rc_read_string",
-    "rc_expect_end"
+    "rc_expect_end",
+    "rc_equal_type"
   ],
   "functions": [
     {
@@ -1387,8 +1388,7 @@
       "end": "0x736b",
       "abi": "stdcall",
       "stack_bytes": 8,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_escape_character",

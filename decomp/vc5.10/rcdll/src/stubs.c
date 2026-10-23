@@ -251,9 +251,4 @@ unsigned char __stdcall rc_unsigned_integer_kind(unsigned value)
     return 0;
 }
 
-int __stdcall rc_equal_type(const RcIntegerType *left,const RcIntegerType *right)
-{
-    __asm int 3
-    return 0;
-}
 

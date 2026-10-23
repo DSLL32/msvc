@@ -576,3 +576,17 @@ class ExpectedEndEntered(gdb.Breakpoint):
         entry=dict(word=int(word),word_bytes=raw.hex(),formal_bytes=word.type.sizeof,entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,cursor=int(gdb.parse_and_eval('rc_source_cursor')),current_word=int(gdb.parse_and_eval('*rc_source_cursor')))
         expected_ends.append(entry);save_expected_ends();ExpectedEndReturned(frame,entry);return False
 ExpectedEndEntered('rc_expect_end',internal=True);save_expected_ends()
+
+type_comparisons=[]
+def save_type_comparisons():(path.parent/'type-comparisons.json').write_text(json.dumps(type_comparisons,indent=2)+'\n')
+class TypeComparisonReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,result=int(self.return_value)&0xffffffff)
+        save_type_comparisons();return False
+class TypeComparisonEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();left=frame.read_var('left');right=frame.read_var('right')
+        entry=dict(left=int(left),right=int(right),formal_bytes=dict(left=left.type.sizeof,right=right.type.sizeof),left_bytes=bytes(gdb.selected_inferior().read_memory(int(left),20)).hex(),right_bytes=bytes(gdb.selected_inferior().read_memory(int(right),20)).hex(),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name())
+        type_comparisons.append(entry);save_type_comparisons();TypeComparisonReturned(frame,entry);return False
+TypeComparisonEntered('rc_equal_type',internal=True);save_type_comparisons()

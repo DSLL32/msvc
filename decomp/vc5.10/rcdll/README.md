@@ -479,3 +479,12 @@ records ten affected controls. The fresh pair caught an omitted scanner CR
 literal in the mask; its exact four-byte shared ownership was corrected, with
 no source change or code credit. The failed run and old acceptance remain
 unchanged; the new physical mask differs by exactly those four bytes.
+
+Type comparison is accepted (42 bytes): distinct owned20-byte types compare the
+flags WORD, key DWORD8 and key DWORD4, returning1 with ret8. The next angle-name
+reader has no formals and sees the actual source cursor84/word119 at
+`windows.h>`, the full scratch buffer and parser flags.
+[Verification](cases/resources-rich-trailing-space/equal-type-verification.json)
+records eleven affected controls and timings. The native help fixture takes
+9.73ms total; the rich case remains in progress. Nonempty include-marker writes
+remain untraversed until their contextual storage proof is complete.
