@@ -892,7 +892,11 @@
     "@derived_increment_opcode@8",
     "@find_region_assignment_work@8",
     "@record_current_region_effect@4",
-    "@release_node_children@4"
+    "@release_node_children@4",
+    "@rewrite_region_exit_counter@4",
+    "_create_region_induction_counter",
+    "@remove_basic_induction@4",
+    "@induction_is_dead_on_exit@4"
   ],
   "driver": [
     {
@@ -6229,8 +6233,7 @@
     {
       "name": "@induction_is_dead_on_exit@4",
       "start": 390896,
-      "end": 390897,
-      "provisional": true
+      "end": 391015
     },
     {
       "name": "_remove_region_blocks",
@@ -6328,8 +6331,7 @@
     {
       "name": "_create_region_induction_counter",
       "start": 395936,
-      "end": 395937,
-      "provisional": true
+      "end": 396158
     },
     {
       "name": "@insert_region_memory_operation@28",
@@ -6345,14 +6347,12 @@
     {
       "name": "@remove_basic_induction@4",
       "start": 396704,
-      "end": 396705,
-      "provisional": true
+      "end": 397034
     },
     {
       "name": "@rewrite_region_exit_counter@4",
       "start": 397040,
-      "end": 397041,
-      "provisional": true
+      "end": 397434
     },
     {
       "name": "@can_rewrite_induction_comparison@12",
@@ -6594,6 +6594,12 @@
       "name": "@find_region_assignment_work@8",
       "start": 390288,
       "end": 390338
+    },
+    {
+      "name": "@remove_parent_counter_records@4",
+      "start": 395824,
+      "end": 395825,
+      "provisional": true
     }
   ],
   "cases": {

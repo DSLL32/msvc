@@ -1404,3 +1404,134 @@ void __fastcall record_current_region_effect(Node *node)
 {
     record_work_effect_in_regions(node, hoist_current_region);
 }
+
+/* Original [00060ef0,0006107a). Replace the terminal induction test by
+   a decrementing trip counter, inserting its update before the exit branch
+   and retaining a separate basic-induction descriptor and memory identity. */
+void __fastcall rewrite_region_exit_counter(Node *count)
+{
+    WorkItem *work = find_region_assignment_work(hoist_first_work, region_exit_branch);
+    WorkValue *memory;
+    BasicInduction *induction;
+    Node *load, *address, *store, *one, *decrement;
+    int identifier;
+    if (region_trip_count) create_region_induction_counter();
+    load = region_induction_counter;
+    if (load && load->opcode == 0x30 &&
+        (!load->right.symbol || load->right.symbol->kind == 0x13))
+        load = copy_tree(load);
+    else {
+        address = new_temporary_reference(count->attributes.words.type & 255, 0);
+        store = build_tree("PDNTS", address, count, 0x32, count);
+        memory = intern_work_value(store);
+        store->detail.node = memory->canonical;
+        insert_tree_expression(transformation_cursor.expression, 0, store);
+        record_hoisted_work_effect(store);
+        load = build_tree("PNTS", address, 0x30, count);
+        load->detail.node = store->detail.node;
+    }
+    one = typed_integer_node(count, 1);
+    decrement = build_tree("DDDNYNTS", load->left.node, load, one, 3, 0x32, count);
+    decrement->detail.node = load->detail.node;
+    record_current_region_effect(decrement);
+    identifier = load->info.words.identifier;
+    work->flow_sets[WORK_MEMORY_STORES] = bitset_include(work->flow_sets[WORK_MEMORY_STORES], identifier);
+    hoist_header_work->flow_sets[WORK_MEMORY_LIVE_OUT] =
+        bitset_include(hoist_header_work->flow_sets[WORK_MEMORY_LIVE_OUT], identifier);
+    work->flow_sets[WORK_MEMORY_READS] = bitset_include(work->flow_sets[WORK_MEMORY_READS], identifier);
+    work->body.expressions = insert_tree_expression(work->body.expressions, region_exit_branch, decrement);
+    induction = new_basic_induction(decrement, one, work, 0, 0, 0);
+    induction->total_uses = 2;
+    release_node_children(region_exit_branch);
+    build_tree("PPNYL", load, integer_node(0, count->attributes.words.type), 0x1f, region_exit_branch);
+}
+
+/* Original [00060aa0,00060b7e). Reuse a constant/direct trip count, or
+   evaluate it once into a preheader temporary with registered store liveness. */
+void create_region_induction_counter(void)
+{
+    Node *count, *store;
+    WorkValue *memory;
+    int identifier;
+    if (region_induction_counter) return;
+    count = region_trip_count;
+    if (count->opcode == 0x33 || (count->opcode == 0x30 &&
+        (count->attributes.words.flags & 1) && count->left.node->opcode != 0x68)) {
+        region_induction_counter = copy_tree(count);
+        return;
+    }
+    store = build_tree("PDNTS", new_temporary_reference(count->attributes.words.type & 255, 0),
+                       count, 0x32, count);
+    memory = intern_work_value(store);
+    store->detail.node = memory->canonical;
+    insert_tree_expression(transformation_cursor.expression, 0, store);
+    region_induction_counter = build_tree("DNTS", store->left.node, 0x30, store);
+    region_induction_counter->detail.node = memory->canonical;
+    record_hoisted_work_effect(store);
+    identifier = memory->identifier;
+    hoist_header_work->flow_sets[WORK_MEMORY_STORES] =
+        bitset_include(hoist_header_work->flow_sets[WORK_MEMORY_STORES], identifier);
+    hoist_header_work->flow_sets[WORK_UNREAD_STORES] =
+        bitset_include(hoist_header_work->flow_sets[WORK_UNREAD_STORES], identifier);
+}
+
+void __fastcall remove_parent_counter_records(Node *assignment);
+/* Original [00060da0,00060eea). Remove a dead induction update. If its
+   final value remains live, first reconstruct that value from the trip count
+   and stride when dominance and scalar width permit the motion. */
+void __fastcall remove_basic_induction(BasicInduction *induction)
+{
+    Node *assignment = induction->assignment, *step, *address, *step_copy;
+    Node *first_address, *second_address, *replacement, *reference;
+    int ancestors;
+    if (((assignment->attributes.words.flags & 1) &&
+         (!assignment->right.symbol || assignment->right.symbol->kind == 0x13)) ||
+        induction_is_dead_on_exit(assignment)) {
+        bitset_remove(hoist_entry_work->next->flow_sets[WORK_MEMORY_LIVE_OUT],
+                      assignment->detail.node->info.words.identifier);
+        ancestors = 1;
+    } else {
+        if (!region_trip_count || !induction->dominates_region) return;
+        if (region_trip_count->opcode == 0x30 && basic_region_inductions->next &&
+            trees_equal(region_trip_count->left.node, assignment->left.node, 1)) return;
+        if ((assignment->attributes.words.type & 255) <
+            (region_trip_count->attributes.words.type & 255)) return;
+        create_region_induction_counter();
+        step = induction->step;
+        address = assignment->left.node;
+        step_copy = copy_tree(step);
+        first_address = copy_tree(address);
+        second_address = copy_tree(address);
+        replacement = build_tree("PPNSTDNTPNYNYNST", second_address, first_address, 0x30,
+            assignment, region_induction_counter, 0x34, step, step_copy, 4,
+            assignment->second.node->opcode, 0x32, assignment);
+        reference = assignment->detail.node;
+        replacement->detail.node = reference;
+        replacement->second.node->left.node->detail.node = reference;
+        replacement = optimize_tree_global(replacement);
+        insert_tree_expression(transformation_cursor.expression, 0, replacement);
+        ancestors = 0;
+    }
+    remove_region_candidate(assignment, ancestors);
+    remove_parent_counter_records(assignment);
+    release_node_children(assignment);
+    assignment->opcode = 1;
+    release_basic_induction(induction);
+}
+
+/* Original [0005f6f0,0005f767). An induction is dead on exit only when
+   every edge leaving the region reaches a block where its memory value is
+   absent from the incoming live set, including earlier-numbered exits. */
+int __fastcall induction_is_dead_on_exit(Node *assignment)
+{
+    WorkItem *work, *target;
+    FlowLink *edge;
+    for (work = hoist_first_work; work != hoist_after_work; work = work->next)
+        for (edge = work->successors; edge; edge = edge->next) {
+            target = edge->work;
+            if ((target->number < hoist_first_work->number || target->number > hoist_last_work->number) &&
+                bitset_contains(target->flow_sets[WORK_MEMORY_LIVE_IN],
+                                assignment->detail.node->info.words.identifier)) return 0;
+        }
+    return 1;
+}

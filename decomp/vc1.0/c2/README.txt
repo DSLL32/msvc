@@ -2217,3 +2217,11 @@ Derived induction group rewrite passed: checkpoint888
 native fixtures pass. See cases/loops-derived-rewrite.json for extent union, limits
 and measured timing splits. Minimal/hello objects remain exact after timestamp;
 loop620-byte final object is incomplete.
+
+Loop exit counter rewriting: checkpoint892
+---------------------------
+4 whole functions pass fresh original/native matching; current frontier
+@bitset_remove@8. 814 graph checks, canonical/native/W3 and all three
+native fixtures pass. See cases/loops-exit-rewrite.json for extent union, limits
+and measured timing splits. Minimal/hello objects remain exact after timestamp;
+loop620-byte final object is incomplete.
