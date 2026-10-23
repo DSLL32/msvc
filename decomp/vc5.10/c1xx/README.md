@@ -120,5 +120,11 @@ unmodeled. Its natural and nonzero/reset proofs are in
 `cases/minimal/deferred-trials.json`; schema 14 has 544 semantic BSS bytes,
 24 native padding bytes and a sizeof of 568.
 
-Current reconstruction has reached initializer 18; minimal compilation remains
+The callback18 sentinel-token copy passed independent review: complete original
+40-byte internal transfer is checked separately from17modeled native bytes.
+Only zero/numeric auxiliary input is validated; real pointer inputs require
+identity mapping, and both32-byte tails remain unmodeled. The proof packet and
+42rejection controls are in `cases/minimal/token-copy-trials.json`.
+
+Current reconstruction has reached initializer19; minimal compilation remains
 unfinished. The completed lifecycle fixture remains native-only (about 12 ms warm).

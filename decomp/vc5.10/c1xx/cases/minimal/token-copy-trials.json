@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "trial": "_initialize_frontend_18",
-  "status": "candidate only; concrete projection review required before promotion",
+  "status": "reviewed and accepted: callback18 only, limited typed internal transfer",
   "trials": [
     {
       "seed": null,
@@ -192,5 +192,18 @@
     "build/win32-provenance.json": 0.7865038346499205
   },
   "measured_build_note": "Individual measured compiler/link commands; parallel components are not added into a fictitious wall time.",
-  "audit_seconds": 0.02822556160390377
+  "audit_seconds": 0.02822556160390377,
+  "orchestrator_review": {
+    "reviewer": "/root/vc510_orchestrator",
+    "result": "PASS",
+    "independently_checked_pairs": 3,
+    "independently_checked_negative_controls": 42,
+    "scope": "29-byte callback18; original40-byte internal transfer and native17-byte projection",
+    "limits": [
+      "pointer arm remains untested; actual use needs allocation/object identity mapping",
+      "each32-byte payload tail and original7-byte header gap remain UNMODELED",
+      "hard frontier before wider semantic consumer",
+      "no blanket permission for other copies"
+    ]
+  }
 }

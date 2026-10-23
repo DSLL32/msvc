@@ -36,9 +36,10 @@
     "_initialize_output_buffer_08",
     "_initialize_frontend_16",
     "_initialize_deferred_work",
-    "_initialize_frontend_17"
+    "_initialize_frontend_17",
+    "_initialize_frontend_18"
   ],
-  "trial": "_initialize_frontend_18",
+  "trial": null,
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -341,5 +342,5 @@
       "entry": 1
     }
   ],
-  "stage": "sentinel token copy candidate; promotion held for concrete projection review"
+  "stage": "_initialize_frontend_18 accepted; next frontier _initialize_frontend_19"
 }

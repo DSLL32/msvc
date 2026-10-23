@@ -1,9 +1,8 @@
-# Callback 18 concrete review packet — candidate, not accepted
+# Callback 18 concrete review packet — independently approved
 
 Source: `src/initializers.c`, `src/frontend.h`, `src/frontend.c`.
 Storage/writer evidence: `value-copy-plan.md`. Trial records and immutable raw
-receipt hashes: `../token-copy-trials.json`. Durable accepted prefix remains
-34 boundaries. Candidate RVA `3891e..3893b` owns all 29 original bytes.
+receipt hashes: `../token-copy-trials.json`. Review inspected the 34-boundary prefix and the sole callback18 candidate. Candidate RVA `3891e..3893b` owns all 29 original bytes.
 
 The callback sets sentinel token kind to 1 and copies the known union prefix.
 There are no accepted-code reads selecting or interpreting a union arm: target
@@ -63,4 +62,5 @@ The normal pair reuses its unchanged original execution after a native-only GDB
 typedef-introspection fix. Both native captures remain immutable; the second
 records the real underlying union type. The original target/body/mask, compiled
 native bytes and case inputs were unchanged. No original recapture was performed
-merely for that debugger metadata correction. Promotion awaits orchestrator review.
+merely for that debugger metadata correction. The orchestrator independently validated all three pairs and 42 controls,
+then released this specific callback for promotion. Its limits remain binding.
