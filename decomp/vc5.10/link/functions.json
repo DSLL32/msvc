@@ -89,7 +89,8 @@
     "_check_output_input_collision@8",
     "_open_argument_file@12",
     "_acquire_file_record@16",
-    "_find_cached_file@4"
+    "_find_cached_file@4",
+    "_get_available_file_record"
   ],
   "driver": [
     {
@@ -2629,10 +2630,9 @@
     {
       "name": "_get_available_file_record",
       "start": 4241648,
-      "end": 4241649,
+      "end": 4241754,
       "source": "src/files.c",
-      "status": "stub",
-      "pending_extent": true,
+      "status": "implemented",
       "native_symbol": "get_available_file_record",
       "abi": "cdecl FileRecord *(void); no stack inputs,RET0; actual globals/state observed when reached"
     },
@@ -2645,6 +2645,26 @@
       "pending_extent": true,
       "native_symbol": "move_file_record",
       "abi": "stdcall void(FileRecord *record,FileRecord **source_first,FileRecord **source_last,FileRecord **destination_first,FileRecord **destination_last,BYTE append); six stack inputs,RET24; low-byte sixthformal, no hidden inputs; actual nullable pointer roles observed when reached"
+    },
+    {
+      "name": "_close_buffered_file@4",
+      "start": 4242848,
+      "end": 4242849,
+      "source": "src/files.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "close_buffered_file",
+      "abi": "stdcall int(FileRecord *record); one stack input,RET4; actual close result EAX; hidden inputs/state observed when reached"
+    },
+    {
+      "name": "_close_mapped_file@4",
+      "start": 4246480,
+      "end": 4246481,
+      "source": "src/files.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "close_mapped_file",
+      "abi": "stdcall BOOL(FileRecord *record); one stack input,RET4; actual CloseHandle/empty-file Boolean EAX; hidden inputs/state observed when reached"
     }
   ],
   "text_data": [

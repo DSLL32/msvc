@@ -530,7 +530,7 @@ def stopped(event):
     while configuration and configuration.name()!='configure_link_options':configuration=configuration.older()
     full_frame=frame
     while full_frame and full_frame.name()!='LinkContext::FullLink':full_frame=full_frame.older()
-    if configuration or state['function']in ('validate_debug_options','LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section','end_section_enumerator','resolve_output_section','create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group','LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record'):
+    if configuration or state['function']in ('validate_debug_options','LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section','end_section_enumerator','resolve_output_section','create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group','LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record','move_file_record'):
         receiver=(full_frame.read_var('this')if full_frame else (configuration if configuration else frame).read_var('context'))
         state['context_this']=int(receiver);state['context_vxd']=int(receiver.dereference()['is_vxd'])
         state['caller_context']=int(driver.read_var('context'))
@@ -547,7 +547,7 @@ def stopped(event):
                 arena=int(hash_state.dereference()[field]);raw=gdb.selected_inferior().read_memory(arena,16).tobytes();words=struct.unpack('<4I',raw)
                 record['arenas'].append(dict(address=arena,raw=raw.hex(),data=gdb.selected_inferior().read_memory(words[3],words[1]+words[2]).tobytes().hex()))
             state['context_heap'].append(record)
-        if state['function']in ('validate_debug_options','LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section','end_section_enumerator','resolve_output_section','create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group','LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record'):
+        if state['function']in ('validate_debug_options','LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section','end_section_enumerator','resolve_output_section','create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group','LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record','move_file_record'):
             state['validation_arguments']=dict(context=int(receiver))
             state['output_name_pointer']=int(gdb.parse_and_eval('output_file_name'))
             state['output_name']=gdb.parse_and_eval('output_file_name').string()
@@ -558,7 +558,7 @@ def stopped(event):
         if state['function']=='initialize_output_modules':
             module=frame.read_var('result')
             state['output_module_formals']=dict(module=int(module),destination_global=int(gdb.parse_and_eval('&output_module')),initial=int(module.dereference()))
-        if state['function']in ('duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section','end_section_enumerator','resolve_output_section','create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group','LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record'):
+        if state['function']in ('duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section','end_section_enumerator','resolve_output_section','create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group','LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record','move_file_record'):
             if state['function']=='duplicate_link_string':
                 initializer=frame.older();module=initializer.read_var('module');library=initializer.read_var('library');result=initializer.read_var('result');text=frame.read_var('text')
                 state['argument_detail']=dict(address=int(text),text=text.string())
@@ -566,7 +566,7 @@ def stopped(event):
                 module=gdb.parse_and_eval('output_module');library=module.dereference()['library'];result=gdb.parse_and_eval('&output_module')
                 state['frontier_inputs']=dict(formals=[int(frame.read_var(k))for k in ('address','bytes','flags','protection')]if state['function']=='allocate_virtual_memory'else [],hidden_register_inputs=[])
                 if state['function']=='allocate_virtual_memory':state['module_section_pools']={k:int(gdb.parse_and_eval(k))for k in ('module_section_map','module_section_headers','module_section_capacity','module_section_pools_ready')}
-                if state['function']in ('initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section','end_section_enumerator','resolve_output_section','create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group','LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record'):
+                if state['function']in ('initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section','end_section_enumerator','resolve_output_section','create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group','LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record','move_file_record'):
                     if state['function']=='LinkContext::InitializeSections':
                         state['comdat_arena']=int(gdb.parse_and_eval('comdat_arena'))
                         state['section_initializer_formals']=dict(this=int(frame.read_var('this')),stack_formals=[],other_hidden_inputs=[])
@@ -597,8 +597,8 @@ def stopped(event):
                     state['section_initializer_this']=int(initializer.read_var('this'))
                     state['section_handles']=[int(gdb.parse_and_eval(k))for k in ['bss_section', 'small_data_section', 'read_only_section', 'data_section', 'procedure_section', 'import_section', 'import_thunk_section', 'import_descriptor_section', 'delay_import_section', 'export_section', 'export_group', 'exception_section', 'architecture_section', 'ppc_loader_section', 'debug_section', 'debug_symbol_group', 'debug_type_group', 'debug_precompiled_group', 'debug_fixup_group'] ]
                     state['comdat_arena']=int(gdb.parse_and_eval('comdat_arena'))
-                if state['function']in ('create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group','LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record'):
-                    if state['function']in ('LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record'):
+                if state['function']in ('create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group','LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record','move_file_record'):
+                    if state['function']in ('LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record','move_file_record'):
                         owner=frame if state['function']=='LinkContext::PassOne'else frame.older()
                         while owner and owner.name()!='LinkContext::PassOne':owner=owner.older()
                         assert owner and owner.name()=='LinkContext::PassOne'
@@ -612,33 +612,44 @@ def stopped(event):
                                 state['collision_formals']=dict(output=int(output),inputs=int(inputs),text=output.string())
                                 state['frontier_inputs']=dict(formals=[int(output),int(inputs)],hidden_register_inputs=[])
                             else:
-                                file_frame=frame.older()if state['function']in ('find_cached_file','get_available_file_record')else frame
+                                file_frame=frame
+                                if state['function']in ('find_cached_file','get_available_file_record','move_file_record'):
+                                    while file_frame and file_frame.name()!='acquire_file_record':file_frame=file_frame.older()
+                                    assert file_frame
+
                                 name=file_frame.read_var('name');flags=file_frame.read_var('flags');mode=file_frame.read_var('mode')
                                 state['open_file_formals']=dict(name=int(name),flags=int(flags),mode=int(mode),text=name.string())
                                 state['frontier_inputs']=dict(formals=[int(name),int(flags),int(mode)],hidden_register_inputs=[])
-                                if state['function']in ('acquire_file_record','find_cached_file','get_available_file_record'):
+                                if state['function']in ('acquire_file_record','find_cached_file','get_available_file_record','move_file_record'):
                                     created=file_frame.read_var('created');caller=file_frame.older();local=caller.read_var('created');size=caller.read_var('size')
                                     state['file_record_formals']=dict(name=int(name),flags=int(flags),mode=int(mode),created=int(created),initial_created=int(created.dereference()),size_slot=int(size.address),initial_size=int(size),initial_mapped_result=int(caller.read_var('mapped')),file_access_statistics=int(gdb.parse_and_eval('file_access_statistics')),created_bytes=local.type.sizeof,local_created=int(local.address))
-                                    if state['function']=='get_available_file_record':
+                                    if state['function']in ('get_available_file_record','move_file_record'):
                                         state['frontier_inputs']=dict(formals=[],hidden_register_inputs=[])
                                         state['file_cache_lists']={k:int(gdb.parse_and_eval(k))for k in ('cached_files','cached_file_tail','pending_files','cached_file_count')}
+                                        if state['function']=='move_file_record':
+                                            keys=('record','source_first','source_last','destination_first','destination_last','append')
+                                            values={k:frame.read_var(k)for k in keys}
+                                            state['file_move_formals']={k:int(v)for k,v in values.items()}
+                                            state['file_move_formals'].update(source_value=int(values['source_first'].dereference()),destination_value=int(values['destination_first'].dereference()),slot_bytes=values['source_first'].type.target().sizeof)
+                                            state['file_cache_slots']={k:int(gdb.parse_and_eval('&'+k))for k in ('file_newest','pending_files')}
+                                            state['frontier_inputs']=dict(formals=[int(values[k])for k in keys],hidden_register_inputs=[])
                                     elif state['function']=='find_cached_file':state['frontier_inputs']=dict(formals=[int(frame.read_var('name'))],hidden_register_inputs=[])
                                     else:state['frontier_inputs']['formals'].append(int(created))
 
                             state['pass_one_flags']={k:int(gdb.parse_and_eval(k))for k in ('verbose_link','output_file_open','current_image_file','arch_data_ignored')}
                         phase=gdb.parse_and_eval('default_phase');state['default_phase']=dict(address=int(phase),text=phase.string())
                     else:
-                        finder=frame.older()if state['function']in ('initialize_group_enumerator','next_contribution_group','LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record')else frame
+                        finder=frame.older()if state['function']in ('initialize_group_enumerator','next_contribution_group','LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record','move_file_record')else frame
                         name=finder.read_var('name');section=finder.read_var('section')
                         state['section_group_formals']=dict(name=int(name),section=int(section),text=name.string())
                         state['section_callback_addresses']={k:int(gdb.parse_and_eval('&'+k))for k in ('next_output_section','end_section_enumerator')}
                         state['frontier_inputs']=dict(formals=[int(name),int(section)]if state['function']=='create_contribution_group'else[int(section),int(name)],hidden_register_inputs=[])
-                        if state['function']in ('initialize_group_enumerator','next_contribution_group','LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record'):
+                        if state['function']in ('initialize_group_enumerator','next_contribution_group','LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record','move_file_record'):
                             pointer=frame.read_var('enumerator');owner=finder.read_var('enumerator')
                             state['group_enumerator_formals']=dict(enumerator=int(pointer),section=int(section),owner_local=int(owner.address),before=gdb.selected_inferior().read_memory(int(pointer),16).tobytes().hex(),initial_value_contract='uninitialized output record; no incoming bytes consumed'if state['function']=='initialize_group_enumerator'else 'fully initialized group enumerator record')
                             state['group_callback_addresses']={k:int(gdb.parse_and_eval('&'+k))for k in ('next_contribution_group','end_section_enumerator')}
                             state['frontier_inputs']=dict(formals=[int(pointer),int(section)]if state['function']=='initialize_group_enumerator'else[int(pointer)],hidden_register_inputs=[])
-                    if state['function']in ('LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record'):
+                    if state['function']in ('LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record','move_file_record'):
                         state['section_initializer_this']=state['sections_initializer_call']['this']
                         state['section_callback_addresses']={k:int(gdb.parse_and_eval('&'+k))for k in ('next_output_section','end_section_enumerator')}
                         state['group_callback_addresses']={k:int(gdb.parse_and_eval('&'+k))for k in ('next_contribution_group','end_section_enumerator')}
@@ -659,7 +670,7 @@ def stopped(event):
                     arena=gdb.parse_and_eval('output_section_arena');raw=gdb.selected_inferior().read_memory(int(arena),16).tobytes();header=struct.unpack('<4I',raw)
                     state['output_section_arena']=dict(address=int(arena),raw=raw.hex(),data=gdb.selected_inferior().read_memory(header[3],header[1]+header[2]).tobytes().hex())
                     state['output_section_count']=int(gdb.parse_and_eval('output_section_count'))
-                    if state['function']in ('LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record'):
+                    if state['function']in ('LinkContext::PassOne','check_output_input_collision','open_argument_file','acquire_file_record','find_cached_file','get_available_file_record','move_file_record'):
                         arena=gdb.parse_and_eval('contribution_group_arena');raw=gdb.selected_inferior().read_memory(int(arena),16).tobytes();header=struct.unpack('<4I',raw)
                         state['contribution_group_arena']=dict(address=int(arena),raw=raw.hex(),data=gdb.selected_inferior().read_memory(header[3],header[1]+header[2]).tobytes().hex())
                         state['group_records']=[]

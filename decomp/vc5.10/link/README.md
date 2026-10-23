@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 72 application
-functions (31,304 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 73 application
+functions (31,410 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `get_available_file_record`; hello-win32 has not completed.
+next frontier is `move_file_record`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -441,3 +441,17 @@ its fresh positive passes with the prior mutation campaign reused by unchanged
 predicate hashes. Final shared readiness binds identical frozen bytes without
 an original recapture. Evidence, the stale-build rejection and precise fresh/
 reused timing are under `frontiers/72-find-cached-file`.
+
+The 106-byte free-record allocator is accepted through its first real list-move
+call. All six inputs are explicit: free record 15, the real free-list slot, NULL
+source tail, the real pending-list slot, NULL destination tail and append byte 0.
+Mandatory pointees and complete pre-mutation records match. Native slots are
+also bound to SHA-verified frozen ELF symbols and four-byte object sizes, so
+coherent copied-slot metadata cannot impersonate the actual globals. Both builds,
+246 final state negatives and the strict 86-vertex/79-return audit pass. The
+earlier 244-control campaign and a fixed checker-threading error remain recorded;
+no extra original/native execution was needed for this checker strengthening.
+Evidence and both campaign timings are under `frontiers/73-get-available-file-record`.
+A separate `current-tool-audit.json` revalidates the identical frozen pair with
+READY `cd5375ce`; the prior-tool validation remains unchanged. This static-only
+update took 1.007 s and ran neither executable.

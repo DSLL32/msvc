@@ -124,7 +124,25 @@ FileRecord *__stdcall find_cached_file(const char *name)
 void __stdcall move_file_record(FileRecord *record,FileRecord **source_first,
     FileRecord **source_last,FileRecord **destination_first,
     FileRecord **destination_last,unsigned char append) { __asm { int 3 } }
-FileRecord *__cdecl get_available_file_record(void) { __asm { int 3 } return NULL; }
+int __stdcall close_buffered_file(FileRecord *record);
+BOOL __stdcall close_mapped_file(FileRecord *record);
+
+FileRecord *__cdecl get_available_file_record(void)
+{
+    FileRecord *record;
+    if (!file_newest) {
+        record=cached_files;
+        --cached_file_count;
+        move_file_record(record,&cached_files,&cached_file_tail,&file_newest,NULL,0);
+        if (record->flags & 8) close_mapped_file(record);
+        else close_buffered_file(record);
+    }
+    record=file_newest;
+    move_file_record(record,&file_newest,NULL,&pending_files,NULL,0);
+    return record;
+}
+int __stdcall close_buffered_file(FileRecord *record) { __asm { int 3 } return -1; }
+BOOL __stdcall close_mapped_file(FileRecord *record) { __asm { int 3 } return 0; }
 int __stdcall open_mapped_file(FileRecord *record,int flags,unsigned char created,DWORD *size) { __asm { int 3 } return -1; }
 void __cdecl initialize_file_buffers(void) { __asm { int 3 } }
 int __stdcall open_buffered_file(FileRecord *record,int flags,int mode,unsigned char created) { __asm { int 3 } return -1; }
