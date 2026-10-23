@@ -1,0 +1,24 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_decode_literal_escape@8",
+    "start": 153856,
+    "end": 154668
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1131-decode_literal_escape-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_compiler_warning",
+    "_consume_line_escape",
+    "_integer_digit_value@4",
+    "_next_source_character",
+    "_recover_special_character",
+    "_recover_trigraph",
+    "_report_syntax_error"
+  ],
+  "next_frontier": "_concatenate_strings@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5528823900967836,
+  "total_operation_seconds": 4.406350270844996,
+  "original_capture_seconds": 1.7187113836407661
+}

@@ -2,8 +2,79 @@
 #include "literals-internal.h"
 #include "characters.h"
 #include "source-input.h"
+#include "numeric-scanning.h"
 #include <stdlib.h>
 #include <recon.h>
+
+/* Original 0x25900..0x25c2c. Escape values are words: narrow numeric
+   escapes sign-extend their byte, while wide escapes retain all sixteen bits. */
+unsigned short __stdcall decode_literal_escape(unsigned char character, int wide)
+{
+    unsigned value, count;
+    unsigned char next;
+    int octal;
+restart:
+    if (character_flags[character] & CF_OCTAL) {
+        octal = 1;
+        value = integer_digit_value(character);
+        count = 1;
+        next = next_source_character();
+        while (count < 3 && (character_flags[next] & CF_OCTAL)) {
+            value = value * 8 + integer_digit_value(next);
+            ++count;
+            next = next_source_character();
+        }
+        goto numeric_value;
+    }
+    switch (character) {
+    case 'a': return 7;
+    case 'b': return 8;
+    case 'f': return 12;
+    case 'n': return options.option_m ? 13 : 10;
+    case 'r': return options.option_m ? 10 : 13;
+    case 't': return 9;
+    case 'v': return 11;
+    case '\'': case '"': return character;
+    case '?':
+        if (!(recover_trigraph() & ~0x40U)) return character;
+        character = next_source_character();
+        goto restart;
+    case '\\':
+        if (!consume_line_escape()) return character;
+        character = next_source_character();
+        goto restart;
+    case 'x':
+        octal = 0;
+        next = next_source_character();
+        value = 0;
+        if (!(character_flags[next] & CF_HEX)) report_syntax_error(153);
+        else do {
+            value = (value << 4) + integer_digit_value(next);
+            next = next_source_character();
+        } while (character_flags[next] & CF_HEX);
+        goto numeric_value;
+    }
+    value = character;
+    if (character_class[character] == CC_LEAD_BYTE) {
+        value <<= 8;
+        next = (unsigned char)*source_text_cursor++;
+        while (!next) {
+            recover_special_character();
+            next = (unsigned char)*source_text_cursor++;
+        }
+        value |= next;
+        compiler_warning(1, 129, value);
+    } else compiler_warning(1, 129, (signed char)character);
+    return (unsigned short)value;
+numeric_value:
+    if (!octal || !options.option_E) {
+        if (!wide && (unsigned char)value != value) report_syntax_error(22, value);
+        else if ((unsigned short)value != value) report_syntax_error(188, value);
+        if (octal && (character_flags[next] & CF_DECIMAL)) compiler_warning(4, 125);
+    }
+    --source_text_cursor;
+    return wide ? (unsigned short)value : (unsigned short)(signed char)value;
+}
 
 /* Original 0x24ea0..0x250cb, stdcall8. Retain raw capture, escaped
    delimiters, DBCS pairs, wide code units, Pascal prefixes and newline recovery.

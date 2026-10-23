@@ -550,7 +550,6 @@ int process_pch_directive(void) { __asm { int 3 } return 0; }
 void warn_ident_requires_string(void) { __asm { int 3 } }
 
 void __stdcall finish_pascal_literal(ParserValue *literal) { __asm { int 3 } }
-unsigned __stdcall decode_literal_escape(unsigned char character, int wide) { __asm { int 3 } return 0; }
 
 
 
