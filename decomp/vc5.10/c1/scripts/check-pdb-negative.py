@@ -10,7 +10,7 @@ def main():
  p=argparse.ArgumentParser(description=__doc__);p.add_argument('original',type=Path);p.add_argument('native',type=Path);a=p.parse_args();started=time.perf_counter();trial.check(a.original,a.native)
  aux=json.loads((a.native/'receipt.json').read_text())['probe']=='restore'
  tests=['native-'+key for key in pdb_state.MEMBERS]+['native-layout','native-alias','original-final','original-default','metadata-gap','metadata-provider','metadata-field-alias']
- if aux:tests+=['before-clear-lifetime','after-clear-lifetime','before-helper-alias','before-helper-mode','helper-pc','missing-context-seed','missing-helper-seed','wrong-probe','original-gap-write','neighbor-change','wrong-branch']
+ if aux:tests+=['before-clear-lifetime','after-clear-lifetime','before-helper-alias','before-helper-mode','helper-pc','missing-context-seed','missing-helper-seed','wrong-probe','original-gap-write','neighbor-change','wrong-branch','after-helper-pc','missing-after-helper']
  for test in tests:
   with tempfile.TemporaryDirectory(prefix='pdb-negative-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c1') as tmp:
    root=Path(tmp);o=root/'original';n=root/'native';b=root/'audit';shutil.copytree(a.original,o);shutil.copytree(a.native,n);b.mkdir()
@@ -39,7 +39,9 @@ def main():
     f.write_text(json.dumps(r));rehash(n,f.name)
    else:
     f=n/'restore-observations.json';r=json.loads(f.read_text())
-    if test=='helper-pc':r['pdb_context_pc']=1
+    if test=='after-helper-pc':r['after_pdb_context_pc']=1
+    elif test=='missing-after-helper':del r['after_pdb_context']
+    elif test=='helper-pc':r['pdb_context_pc']=1
     elif test=='before-helper-mode':r['before_pdb_context']['reuse_state']^=1
     elif test=='neighbor-change':r['before_pdb_context']['bss']['pdb_signature']^=1
     else:

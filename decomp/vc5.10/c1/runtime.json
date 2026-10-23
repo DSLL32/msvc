@@ -182,13 +182,6 @@
     "evidence": "actual separate callee and registration callback identity; named INT3 only"
   },
   {
-    "name": "_initialize_pdb_context_126b6",
-    "start": 274802358,
-    "end": 274802359,
-    "pending_extent": true,
-    "evidence": "actual separate callee/registration callback; named INT3 only"
-  },
-  {
     "name": "_destroy_pdb_context_238db",
     "start": 274872539,
     "end": 274872540,

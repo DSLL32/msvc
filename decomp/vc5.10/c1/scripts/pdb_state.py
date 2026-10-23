@@ -16,7 +16,7 @@ def at(original,sequence,native,allocation,native_allocation,seeded):
 def validate(original,native,fields,state,sequence,probe,candidate,project):
  model=fields['pdb_context']
  assert model=={'original_base_rva':0x5c048,'original_unmodeled_offsets':[[16,20]],'native_size':24,'native_members':NATIVE,'lifetime':'plain .data: outside both datafe snapshot and bssfe clear','provider_layout_claimed':False}
- rows=fields['modeled_persistent'];assert len(rows)==6
+ rows=fields['modeled_persistent'][:6];assert len(fields['modeled_persistent'])==12
  for row,(name,original_offset) in zip(rows,MEMBERS.items()):
   assert (row['name'],row['original_rva'],row['bytes'],row['native_offset'],row['native_field'],row['default'])==(name,0x5c048+original_offset,4,NATIVE[name],'c1_pdb_context.'+name,0)
   assert not 0x5e000<=row['original_rva']<0x5f994 and not 0x50000<=row['original_rva']<0x5a06c
@@ -39,7 +39,7 @@ def validate(original,native,fields,state,sequence,probe,candidate,project):
   assert not (original/'pdb-context-probe.txt').exists()
   assert not re.findall(r'^pdb-(context|helper)-seed ',events,re.M)
   return
- assert (original/'pdb-context-probe.txt').read_text()=='%x\n'%reuse
+ assert (original/'pdb-context-probe.txt').read_text()=='%x 2\n'%reuse
  obs=json.loads((native/'restore-observations.json').read_text());assert obs['pre_seed']['pdb_context']==zero()
  checkpoints=[(0x122a5,'before'),(0x303d5,'post_restore'),(0x12365,'before_callback'),(0x12377,'before_current_callback'),(0x12389,'before_contexts_callback'),(0x12646,'before_value_copy'),(0x12663,'after_value_copy'),(0x12664,'before_signature'),(0x1266f,'after_signature'),(0x12676,'before_pdb_context')]
  for rva,key in checkpoints:
@@ -53,22 +53,27 @@ def validate(original,native,fields,state,sequence,probe,candidate,project):
  address,size=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] initialize_pdb_context_12676$',symbol_text,re.M).groups()
  assert int(address,16)<=obs['pdb_context_pc']<int(address,16)+int(size,16)
  before=obs['before_pdb_context'];assert before['reuse_state']==reuse
+ after=obs['after_pdb_context']
+ after_seq=int(re.findall(r'^trap seq=(\d+) rva=000126af ',events,re.M)[0])
+ at(original,after_seq,after,allocation,native_allocation,seeded=bool(reuse))
+ wrapper_address,wrapper_size=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] initialize_state_126af$',symbol_text,re.M).groups()
+ assert int(wrapper_address,16)<=obs['after_pdb_context_pc']<int(wrapper_address,16)+int(wrapper_size,16)
  # The helper changes only six mapped session fields. The wrapper then appends
  # exactly its known cleanup callback; no provider object is touched.
  seq=int(re.findall(r'^trap seq=(\d+) rva=00012676 ',events,re.M)[0])
- old_raw=(original/('state-%03d.bin'%seq)).read_bytes();new_raw=(original/('state-%03d.bin'%sequence)).read_bytes()
+ old_raw=(original/('state-%03d.bin'%seq)).read_bytes();new_raw=(original/('state-%03d.bin'%after_seq)).read_bytes()
  expected=bytearray(old_raw)
  if not reuse:
   for offset in MEMBERS.values():struct.pack_into('<I',expected,0x48+offset,0)
  assert bytes(expected)==new_raw
  symbols={name:int(address,16) for address,size,name in re.findall(r'^([0-9a-f]+) ([0-9a-f]+) [TtWw] (\S+)$',symbol_text,re.M)}
- count=len(candidate['registered_cleanup'])
+ count=next(i+1 for i,row in enumerate(candidate['registered_cleanup']) if row['native_symbol']=='destroy_pdb_context_238dc')
  assert before['bss']['cleanup_count']==count-1
  expected_bss=dict(before['bss']);expected_bss['cleanup_count']=count
  expected_bss['cleanup_callbacks']=list(expected_bss['cleanup_callbacks']);expected_bss['cleanup_callbacks'][count-1]=symbols['destroy_pdb_context_238dc']
- assert expected_bss==current['bss']
+ assert expected_bss==after['bss']
  for key in before:
-  if key not in ('pdb_context','bss'):assert before[key]==current[key]
+  if key not in ('pdb_context','bss'):assert before[key]==after[key]
  old_bss=bytearray((original/('compiler-bss-%03d.bin'%seq)).read_bytes())
  struct.pack_into('<I',old_bss,0x781c,count);struct.pack_into('<I',old_bss,0x7820+(count-1)*4,module+0x238dc)
- assert bytes(old_bss)==(original/('compiler-bss-%03d.bin'%sequence)).read_bytes()
+ assert bytes(old_bss)==(original/('compiler-bss-%03d.bin'%after_seq)).read_bytes()

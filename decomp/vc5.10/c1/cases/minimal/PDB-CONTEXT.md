@@ -40,3 +40,11 @@ Rust audit, immutable original/native receipts, actual ELF/source contents,
 typed field map, measured capture/check times and mutation controls. Large raw
 original state remains private and is bound by external artifact hashes. Fixtures
 are cached native Linux runs and never invoke Wine.
+
+The second instance at5c070 uses the same encountered layout, selected through
+the original current-context pointer at5c068 (12d17). Its helper126b6 has its own
+43-byte body and independent cleanup identity238db. Both contexts receive
+distinct owned pointer sentinels before repeat-pass reset. A matched observation
+at callback126af separates the first helper's effects from the second; neither
+may mutate the other object. The final callback126ef has ten cleanup identities.
+Evidence is under `output-pdb-{normal,clear-aux,retain-aux}/`.

@@ -89,6 +89,8 @@ value['module_token']=int(gdb.parse_and_eval('(unsigned int)c1_host_module'))
 value['compiler_state']={
  'pdb_context':{key:int(gdb.parse_and_eval(('(int)' if key=='read_mode' else '(unsigned int)')+'c1_pdb_context.'+key)) for key in ('database','names','types','minimal_rebuild','rebuild_state','read_mode')},
  'pdb_context_layout':{'address':int(gdb.parse_and_eval('(unsigned int)&c1_pdb_context')),'size':int(gdb.parse_and_eval('sizeof(c1_pdb_context)')),'members':{key:int(gdb.parse_and_eval('(char*)&c1_pdb_context.'+key+'-(char*)&c1_pdb_context')) for key in ('database','names','types','minimal_rebuild','rebuild_state','read_mode')}},
+ 'output_pdb_context':{key:int(gdb.parse_and_eval(('(int)' if key=='read_mode' else '(unsigned int)')+'c1_output_pdb_context.'+key)) for key in ('database','names','types','minimal_rebuild','rebuild_state','read_mode')},
+ 'output_pdb_context_layout':{'address':int(gdb.parse_and_eval('(unsigned int)&c1_output_pdb_context')),'size':int(gdb.parse_and_eval('sizeof(c1_output_pdb_context)')),'members':{key:int(gdb.parse_and_eval('(char*)&c1_output_pdb_context.'+key+'-(char*)&c1_output_pdb_context')) for key in ('database','names','types','minimal_rebuild','rebuild_state','read_mode')}},
  'live_addresses':{'initialized':int(gdb.parse_and_eval('(unsigned int)&c1_data')),'bss':int(gdb.parse_and_eval('(unsigned int)&c1_bss'))},
  'initialized':{'first_call':int(gdb.parse_and_eval('c1_data.first_call'))},
  'bss':{'pdb_signature':int(gdb.parse_and_eval('c1_bss.pdb_signature')),'literal':int(gdb.parse_and_eval('c1_bss.literal.integer')),'saved_literal':int(gdb.parse_and_eval('c1_bss.saved_literal.integer')),'saved_literal_available':int(gdb.parse_and_eval('c1_bss.saved_literal_available')),'saved_data':int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data')),
@@ -195,6 +197,9 @@ gdb.execute('set var c1_bss.pdb_signature = 0x13572468')
 for i,key in enumerate(('database','names','types','minimal_rebuild','rebuild_state')):
     gdb.execute('set var c1_pdb_context.'+key+' = (void *)((char *)c1_bss.saved_data + '+str(i*8)+')')
 gdb.execute('set var c1_pdb_context.read_mode = 37')
+for i,key in enumerate(('database','names','types','minimal_rebuild','rebuild_state')):
+    gdb.execute('set var c1_output_pdb_context.'+key+' = (void *)((char *)c1_bss.saved_data + '+str(64+i*8)+')')
+gdb.execute('set var c1_output_pdb_context.read_mode = 37')
 gdb.execute('set var c1_pass_mode = 1')
 gdb.execute('set var c1_reuse_state = 9')
 restore_observations['before']=capture_modeled()
@@ -260,6 +265,18 @@ python
 gdb.execute('set var c1_reuse_state = PDB_REUSE')
 restore_observations['before_pdb_context']=capture_modeled()
 restore_observations['pdb_context_pc']=int(gdb.parse_and_eval('$pc'))
+end
+break initialize_state_126af
+continue
+python
+restore_observations['after_pdb_context']=capture_modeled()
+restore_observations['after_pdb_context_pc']=int(gdb.parse_and_eval('$pc'))
+end
+break initialize_pdb_context_126b6
+continue
+python
+restore_observations['before_output_pdb_context']=capture_modeled()
+restore_observations['output_pdb_context_pc']=int(gdb.parse_and_eval('$pc'))
 end
 python
 open(%r,'w').write(json.dumps(restore_observations,indent=2)+'\\n')

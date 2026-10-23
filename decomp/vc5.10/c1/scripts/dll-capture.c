@@ -30,7 +30,7 @@ static DWORD value_words[9];
 static int value_probe, value_seeded;
 static DWORD signature_words[2];
 static int signature_probe, signature_seeded;
-static DWORD pdb_reuse;
+static DWORD pdb_reuse, pdb_context_count;
 static int pdb_probe, pdb_seeded;
 
 static void fail(const char *message)
@@ -342,23 +342,28 @@ static void read_pdb_probe(void)
     DWORD extra;
     file = fopen("pdb-context-probe.txt", "r");
     if (!file) return;
-    if (fscanf(file, "%lx", &pdb_reuse) != 1 || pdb_reuse > 1 ||
+    if (fscanf(file, "%lx %lx", &pdb_reuse, &pdb_context_count) != 2 || pdb_reuse > 1 ||
+            pdb_context_count != 2 ||
             fscanf(file, "%lx", &extra) != EOF) fail("invalid PDB helper probe");
     fclose(file); pdb_probe = 1;
 }
 
 static void seed_pdb_context(void)
 {
-    DWORD saved, value, offsets[5] = {0,4,8,12,20};
-    unsigned index;
+    DWORD saved, value, object, offsets[5] = {0,4,8,12,20};
+    unsigned index, instance;
     readmem(base + 0x57818, &saved, 4);
     if (!saved) fail("PDB probe missing owned snapshot");
-    for (index = 0; index < 5; ++index) {
-        value = saved + index * 8;
-        write_mem(base + 0x5c048 + offsets[index], &value, 4);
+    for (instance = 0; instance < pdb_context_count; ++instance) {
+        object = instance ? 0x5c070 : 0x5c048;
+        for (index = 0; index < 5; ++index) {
+            value = saved + instance * 64 + index * 8;
+            write_mem(base + object + offsets[index], &value, 4);
+        }
+        value = 37; write_mem(base + object + 24, &value, 4);
+        fprintf(events, "%spdb-context-seed rva=000122a5 allocation=%08lx read_mode=37\n",
+                instance ? "output-" : "", saved);
     }
-    value = 37; write_mem(base + 0x5c060, &value, 4);
-    fprintf(events, "pdb-context-seed rva=000122a5 allocation=%08lx read_mode=37\n", saved);
 }
 
 static void seed_output_buffer(unsigned index, DWORD rva)

@@ -1266,7 +1266,7 @@
         23897
       ]
     ],
-    "hard_frontier_rva": 75446,
+    "hard_frontier_rva": 75503,
     "policy": "reviewed specific internal transfer; tail remains UNMODELED and cannot be semantically consumed before a named trap"
   },
   "pdb_signature": {
@@ -1341,10 +1341,84 @@
       "native_field": "c1_pdb_context.read_mode",
       "default": 0,
       "evidence": "1588b/31844 writes0/1 according to strchr(mode,'r')"
+    },
+    {
+      "name": "output.database",
+      "original_rva": 376944,
+      "bytes": 4,
+      "native_offset": 0,
+      "native_field": "c1_output_pdb_context.database",
+      "default": 0,
+      "evidence": "same context role via current-context pointer5c068 selecting5c070 (12d17); helper126b6 exact six field writes"
+    },
+    {
+      "name": "output.names",
+      "original_rva": 376948,
+      "bytes": 4,
+      "native_offset": 4,
+      "native_field": "c1_output_pdb_context.names",
+      "default": 0,
+      "evidence": "same context role via current-context pointer5c068 selecting5c070 (12d17); helper126b6 exact six field writes"
+    },
+    {
+      "name": "output.types",
+      "original_rva": 376952,
+      "bytes": 4,
+      "native_offset": 8,
+      "native_field": "c1_output_pdb_context.types",
+      "default": 0,
+      "evidence": "same context role via current-context pointer5c068 selecting5c070 (12d17); helper126b6 exact six field writes"
+    },
+    {
+      "name": "output.minimal_rebuild",
+      "original_rva": 376956,
+      "bytes": 4,
+      "native_offset": 12,
+      "native_field": "c1_output_pdb_context.minimal_rebuild",
+      "default": 0,
+      "evidence": "same context role via current-context pointer5c068 selecting5c070 (12d17); helper126b6 exact six field writes"
+    },
+    {
+      "name": "output.rebuild_state",
+      "original_rva": 376964,
+      "bytes": 4,
+      "native_offset": 16,
+      "native_field": "c1_output_pdb_context.rebuild_state",
+      "default": 0,
+      "evidence": "same context role via current-context pointer5c068 selecting5c070 (12d17); helper126b6 exact six field writes"
+    },
+    {
+      "name": "output.read_mode",
+      "original_rva": 376968,
+      "bytes": 4,
+      "native_offset": 20,
+      "native_field": "c1_output_pdb_context.read_mode",
+      "default": 0,
+      "evidence": "same context role via current-context pointer5c068 selecting5c070 (12d17); helper126b6 exact six field writes"
     }
   ],
   "pdb_context": {
     "original_base_rva": 376904,
+    "original_unmodeled_offsets": [
+      [
+        16,
+        20
+      ]
+    ],
+    "native_size": 24,
+    "native_members": {
+      "database": 0,
+      "names": 4,
+      "types": 8,
+      "minimal_rebuild": 12,
+      "rebuild_state": 16,
+      "read_mode": 20
+    },
+    "lifetime": "plain .data: outside both datafe snapshot and bssfe clear",
+    "provider_layout_claimed": false
+  },
+  "output_pdb_context": {
+    "original_base_rva": 376944,
     "original_unmodeled_offsets": [
       [
         16,

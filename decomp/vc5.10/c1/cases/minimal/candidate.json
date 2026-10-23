@@ -266,6 +266,11 @@
       "start_rva": 75489,
       "end_rva": 75503,
       "entry": 0
+    },
+    {
+      "start_rva": 75446,
+      "end_rva": 75489,
+      "entry": 1
     }
   ],
   "functions": [
@@ -799,6 +804,19 @@
         ]
       ],
       "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_pdb_context_126b6",
+      "native_symbol": "initialize_pdb_context_126b6",
+      "role": "application",
+      "chunks": [
+        [
+          75446,
+          75489
+        ]
+      ],
+      "source": "src/pdb.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -814,15 +832,11 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 75446,
-    "native_symbol": "initialize_pdb_context_126b6",
-    "kind": "initialization-helper",
+    "rva": 75503,
+    "native_symbol": "initialize_state_126ef",
+    "kind": "initialization-callback",
     "native_args": [],
-    "abi": "cdecl int no arguments, cleanup0",
-    "caller": {
-      "native_symbol": "initialize_state_126af",
-      "return_rva": 75444
-    }
+    "abi": "cdecl void callback, cleanup0"
   },
   "imports": [
     {
@@ -986,7 +1000,7 @@
       "normal_case": false
     }
   },
-  "staging_role": "Second split PDB wrapper126af is sole new candidate",
+  "staging_role": "Second persistent PDB helper126b6 is sole new candidate",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -1023,6 +1037,10 @@
     {
       "original_rva": 145628,
       "native_symbol": "destroy_pdb_context_238dc"
+    },
+    {
+      "original_rva": 145627,
+      "native_symbol": "destroy_pdb_context_238db"
     }
   ]
 }

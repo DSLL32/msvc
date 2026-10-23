@@ -5,6 +5,7 @@ import buffer_state
 import value_state
 import signature_state
 import pdb_state
+import output_pdb_state
 PROJECT=Path(__file__).resolve().parents[1]
 def i32(data,offset):return struct.unpack_from('<i',data,offset)[0]
 def u32(data,offset):return struct.unpack_from('<I',data,offset)[0]
@@ -35,6 +36,7 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  value_state.validate(original,native,fields,state,sequence,probe,candidate,PROJECT)
  signature_state.validate(original,native,fields,state,sequence,probe,candidate,PROJECT)
  pdb_state.validate(original,native,fields,state,sequence,probe,candidate,PROJECT)
+ output_pdb_state.validate(original,native,fields,state,sequence,probe,candidate,PROJECT)
  assert i32(data,0x1530)==current['initialized']['first_call']
  saved=u32(bss,0x7818);b=current['bss']
  assert bool(saved)==bool(b['saved_data'])

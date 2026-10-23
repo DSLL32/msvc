@@ -58,6 +58,7 @@ typedef struct CompilerPdbContext {
     int read_mode;
 } CompilerPdbContext;
 extern CompilerPdbContext c1_pdb_context;
+extern CompilerPdbContext c1_output_pdb_context;
 extern CompilerInitializedState c1_data;
 extern CompilerBss c1_bss;
 extern int c1_reuse_state;

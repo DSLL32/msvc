@@ -1,0 +1,28 @@
+{
+  "accepted_function": "_initialize_pdb_context_126b6",
+  "new_original_bytes": 43,
+  "source_functions": 37,
+  "application_functions": 35,
+  "application_bytes": 1500,
+  "CRT_functions": 2,
+  "CRT_bytes": 451,
+  "import_bytes": 6,
+  "owned_original_bytes": 1957,
+  "modeled_persistent_bytes": 48,
+  "unmodeled_persistent_gap_bytes": 8,
+  "original_seconds": 1.2674757670611143,
+  "native_gdb_seconds": 0.7219174625352025,
+  "audit_seconds": 0.019143082201480865,
+  "fresh_counts": {
+    "first-controls": 26,
+    "output-controls": 25,
+    "core-controls": 4
+  },
+  "fresh_seconds": {
+    "first-controls": 8.751027096062899,
+    "output-controls": 8.773495176807046,
+    "core-controls": 1.2617343999445438
+  },
+  "reused_generic_controls": 96,
+  "branch": "retain"
+}
