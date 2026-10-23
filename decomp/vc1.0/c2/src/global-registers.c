@@ -658,3 +658,10 @@ void __fastcall exclude_exception_registers(WorkItem *head)
     }
     release_bitset(excluded);
 }
+
+/* Original [000634b0,000634be). Return a range record to its own pool. */
+void __fastcall release_allocation_range(AllocationRange *range)
+{
+    range->next = free_allocation_ranges;
+    free_allocation_ranges = range;
+}

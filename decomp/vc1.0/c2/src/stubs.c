@@ -214,7 +214,6 @@ unsigned input_float_bits(void) { __asm int 3 }
 
 
 void unsigned_integer_to_extended(const unsigned *integer, Extended *number) { __asm int 3 }
-int extended_to_integer(const Extended *number, int *result) { __asm int 3 }
 
 
 
@@ -302,7 +301,6 @@ void __fastcall record_float_register(unsigned short number, SymbolHeader *symbo
 int __cdecl compare_allocation_load_counts(const void *left, const void *right) { __asm int 3 }
 
 int __fastcall allocation_use_dominates_backedges(WorkItem *work) { __asm int 3 }
-void __fastcall release_allocation_range(AllocationRange *range) { __asm int 3 }
 
 void __fastcall restore_excluded_registers(Node *node) { __asm int 3 }
 
@@ -394,7 +392,6 @@ int __fastcall i386_instruction_cost(MachineInstruction *instruction) { __asm in
 int __fastcall register_has_region_uses(unsigned short number, MachineFlowRegion *regions) { __asm int 3 }
 int __fastcall find_forward_scheduled_symbol(SymbolHeader **symbol, MachineInstruction *boundary, unsigned short number) { __asm int 3 }
 MachineInstruction *__fastcall find_prior_scheduled_definition(unsigned short number, MachineInstruction *boundary) { __asm int 3 }
-int __cdecl subtract_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl multiply_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl divide_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl minimum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }

@@ -61,7 +61,7 @@ int extended_to_double(const Extended *number, DoubleBits *result)
 static union {
     DoubleBits rounded_double;
     float rounded_single;
-    struct { unsigned negative; unsigned short status, reserved; } range;
+    struct { unsigned negative; unsigned short status, saved_control; } range;
 } extended_scratch;
 
 /* Original [00071685,000716cb). Private ABI: ST(0) is the magnitude
@@ -202,4 +202,74 @@ int normalize_extended(void)
         call store_extended
     }
     return range_error;
+}
+
+/* Original [000711e4,00071233). Same tag policy and private x87
+   bridge as addition; the m80 arithmetic primitive subtracts right from left. */
+int __cdecl subtract_extended(const Extended *left, const Extended *right, Extended *result)
+{
+    unsigned format;
+    int range_error;
+    __asm {
+        mov esi, left
+        mov edi, right
+        fld tbyte ptr [esi]
+        fld tbyte ptr [edi]
+        fsubp st(1), st(0)
+    }
+    format = left->format | right->format;
+    result->format = (format & 2) ? 10 : ((format & 8) ? 8 : 4);
+    __asm {
+        mov esi, result
+        call normalize_extended
+        mov range_error, eax
+    }
+    return range_error;
+}
+
+/* Original signed integer range [00086154,0008615e). */
+static const Extended integer_conversion_limit = {0, 0xfffffffeUL, 0x401d, 0};
+
+/* Original [000713e4,0007140c). Required m80/raw-ST0 bridge. The
+   rounding helper leaves a truncated value on ST(0); the range helper
+   supplies EAX while FISTP writes the signed DWORD destination. */
+int extended_to_integer(const Extended *number, int *result)
+{
+    int range_error;
+    __asm {
+        mov esi, number
+        fld tbyte ptr [esi]
+        call truncate_extended
+        fld tbyte ptr integer_conversion_limit
+        call check_extended_range
+        mov edi, result
+        fistp dword ptr [edi]
+        fwait
+        mov range_error, eax
+    }
+    return range_error;
+}
+
+/* Original temporary control word [00086174,00086176); saved control
+   is the contextual alias at scratch+6 ([00086172,00086174)). */
+static unsigned short truncation_control;
+
+/* Original [000715f8,00071621). Private ST0 input/result. Preserve the
+   caller's control word around truncation, including original invalid-mask
+   bit0 and round-toward-zero bits10/11. No scalar80-bit C type exists. */
+void truncate_extended(void)
+{
+    __asm {
+        fwait
+        fnstcw word ptr extended_scratch+6
+        fwait
+    }
+    truncation_control = extended_scratch.range.saved_control | 0x0c01;
+    __asm {
+        fwait
+        fldcw truncation_control
+        frndint
+        fwait
+        fldcw word ptr extended_scratch+6
+    }
 }

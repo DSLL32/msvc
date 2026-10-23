@@ -2410,3 +2410,9 @@ Whole floating constant folder and format normalizer: checkpoint954
 _subtract_extended. 875 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-folder.json for extent union, limits and measured timings.
+
+Signed extended conversion and allocation-range cleanup: checkpoint958
+4 acceptances pass fresh original/native matching; current frontier
+@record_float_register@8. 879 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-truncation.json for extent union, limits and measured timings.

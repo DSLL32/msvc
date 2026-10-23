@@ -958,7 +958,11 @@
     "@copy_factor_exponent@4",
     "@fold_floating_node@4",
     "_add_extended",
-    "_normalize_extended"
+    "_normalize_extended",
+    "_subtract_extended",
+    "_extended_to_integer",
+    "_truncate_extended",
+    "@release_allocation_range@4"
   ],
   "driver": [
     {
@@ -4009,8 +4013,7 @@
     {
       "name": "_extended_to_integer",
       "start": 463844,
-      "end": 463845,
-      "provisional": true
+      "end": 463884
     },
     {
       "name": "@prepare_global_tree@4",
@@ -5007,8 +5010,7 @@
     {
       "name": "@release_allocation_range@4",
       "start": 406704,
-      "end": 406705,
-      "provisional": true
+      "end": 406718
     },
     {
       "name": "@bitsets_overlap@8",
@@ -6798,8 +6800,7 @@
     {
       "name": "_subtract_extended",
       "start": 463332,
-      "end": 463333,
-      "provisional": true
+      "end": 463411
     },
     {
       "name": "_multiply_extended",
@@ -6835,6 +6836,11 @@
       "name": "_normalize_extended",
       "start": 464417,
       "end": 464513
+    },
+    {
+      "name": "_truncate_extended",
+      "start": 464376,
+      "end": 464417
     }
   ],
   "cases": {

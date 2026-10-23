@@ -17,6 +17,7 @@ void double_to_extended(const DoubleBits *number, Extended *result);
 void integer_to_extended(const int *integer, Extended *number);
 void unsigned_integer_to_extended(const unsigned *integer, Extended *number);
 int extended_to_integer(const Extended *number, int *result);
+void truncate_extended(void); /* private ABI: ST(0) input and result */
 int normalize_extended(void); /* private ABI: ESI destination, ST(0) value */
 int check_extended_range(void); /* private ABI: ST(0) limit, ST(1) value */
 void store_extended(void); /* private ABI: ESI destination, ST(0) value */
