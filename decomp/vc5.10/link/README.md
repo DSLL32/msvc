@@ -5,8 +5,11 @@ entry RVA `0x65280`. There are no exports or TLS directory. Root approved the sc
 shipped CRT startup boundary. Thirty-six application functions are accepted: constructors and their helpers, main,
 debug parsing, file-cache records, memory initialization and the main linker
 driver, reproduction setup and command-line prepass. The first `/?` case is
-still in progress at the full option dispatcher after constructor/table/arena setup. Later
-hello, DLL, debug/PDB and resource cases remain source-only and unreleased.
+still in progress. The full option dispatcher is written and both builds match
+its first `parse_switch(NULL,"?")` boundary, including the completed context and
+85 semantic rejection controls. It is not accepted: its cached-IAT import audit
+awaits a shared-tool policy decision. Hello and DLL cases are queued after help;
+debug/PDB and resource themes remain source-only.
 Native i386 and original 5.10 `/MD /Od /Z7` builds pass with `make -j4`.
 
 `make inspect` prints the read-only PE inventory. `make native` builds the same
@@ -40,7 +43,7 @@ logs and receipt remain in scratch, summarized by
 `cases/original-probe-incomplete.json`. Its timeout is not LINK's expected result.
 Those failures remain historical transport evidence. They are not the current
 help baseline. No debug DLL, PDB or child invocation has been dynamically
-validated; these later cases remain unreleased.
+validated by this worker.
 
 ## Acceptance gate
 
@@ -113,7 +116,7 @@ isdigit/sscanf in EDI/EBP. Finite instruction certificates prove qualified IAT
 identities, callsites, all register-alias writes through restores, and incoming
 branch cases. Full Rust graph/RET/ref/ownership checks still include both bodies;
 qualified-import checks exclude only these documented residuals, reproduction
-setup and command-line parsing (getenv/fullpath caches). Thirty-three
+setup, command-line parsing and switch lookup (getenv/fullpath/comparison caches). Forty
 negative mutations reject wrong slots, calls, register writes, branches, restores
 and dispatch-row identities. Native exceptions are still fatal.
 
@@ -125,10 +128,11 @@ physical-memory fields are consumed. Volatile memory availability is not an
 invariant. The shared verified VC5 CRT profile preserves the explicit setvbuf
 flag and buffer ownership; full FILE state remains checked.
 
-The genuine thiscall linker context requires one narrow C++ translation unit.
+The genuine thiscall linker context and symbol lookup require two C++ caller translation units.
 It remains POD, with no constructors, destructors, RTTI, exception machinery or
 C++ runtime. `RECON_THISCALL` retains native i386 ECX-this/stack4/RET4; the
-original VC5 compiler supplies its implicit member convention. Other sources and
+original VC5 compiler supplies its implicit member convention; symbol lookup has
+two stack arguments and RET8. Both structures retain C-compatible POD layouts. Other sources and
 the final shared shim compilation remain C. Native compilation needs no host
 C++ standard library.
 
@@ -158,3 +162,9 @@ calls are additionally checked in order against the four concrete arena roles.
 No unsupported error-state or allocation-granularity equivalence is claimed.
 Only the explicit pointer ownership fields and identified clocks project across
 platforms. Eighty-two semantic mutations reject heap/API/configuration drift.
+
+The prepared native help runner executes only ELF, resolves actual application
+symbols (including genuine member names), and separately checks full DWORD1100,
+POSIX76, raw streams and first-seen entry order against a completed cached
+original. It refuses success until help is accepted and that complete reference
+exists. Setup, execution and checking times will be reported separately.

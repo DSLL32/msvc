@@ -12,7 +12,7 @@ static unsigned char *mask;
 typedef struct Entry { DWORD rva; unsigned byte, seen; char name[128]; } Entry;
 static Entry entries[2048];
 static unsigned entry_count;
-static DWORD crt_base, main_frame_base, virtual_arguments[4];
+static DWORD crt_base, main_frame_base, configuration_context, virtual_arguments[4];
 typedef struct StateRequest { char scope[16], name[128]; DWORD rva, size; } StateRequest;
 static StateRequest requests[64];
 static unsigned request_count;
@@ -168,6 +168,7 @@ static int snapshot(DWORD address)
     case 0x5c750: /* is_libpath(text) */
     case 0x44f20: /* has_switch(name) */
         argument_index=1; break;
+    case 0xd0c0: /* parse_switch(file, text) */
     case 0x5cca0: /* append_argument(list, text) */
     case 0x5cc00: /* append_argument_record(list, text, original_name) */
         argument_index=2; break;
@@ -177,6 +178,7 @@ static int snapshot(DWORD address)
         if(!remote_string(pointer,value,sizeof(value)))return 0;
         fprintf(events,",\"argument_pointer\":%lu,\"argument_text\":",pointer);quoted(value);
     }
+    if(configuration_context)fprintf(events,",\"configuration_context\":%lu",configuration_context);
     fprintf(events,"}\n");
     for (index = 0; index < request_count; ++index) {
         address_base = strcmp(requests[index].scope, "crt") ? base : crt_base;
@@ -228,8 +230,9 @@ static int snapshot(DWORD address)
             }
         }
     }
-    if(address==base+0x45130) {
-        if(!save_memory(stack[1],664,"link-context.bin") || !save_context_heap(stack[1]))return 0;
+    if(address==base+0x45130 || (address==base+0xd0c0 && configuration_context)) {
+        pointer=address==base+0x45130?stack[1]:configuration_context;
+        if(!save_memory(pointer,664,"link-context.bin") || !save_context_heap(pointer))return 0;
     }
     fflush(events);
     return 1;
@@ -410,8 +413,17 @@ int main(int argc, char **argv)
                         if(saved==INVALID_HANDLE_VALUE||!WriteFile(saved,observed,size,&written,NULL)||written!=size){failed=6;break;}
                         CloseHandle(saved);
                         fprintf(events,"{\"event\":\"system_observation\",\"name\":\"%s\",\"site\":%lu,\"buffer\":%lu,\"bytes\":%lu,\"eax\":%lu}\n",entries[index].name,site,pointer,size,context.Eax);
-                    } else fprintf(events, "{\"event\":\"entry\",\"name\":\"%s\",\"rva\":%lu}\n",
+                    } else {
+                        if(!strcmp(entries[index].name,"_configure_link_options@12")) {
+                            DWORD arguments[3],got;
+                            if(!ReadProcessMemory(process,(void *)(context.Esp+4),arguments,12,&got)||got!=12||
+                               !arguments[0]||arguments[1]||arguments[2]){failed=6;break;}
+                            configuration_context=arguments[0];
+                            fprintf(events,"{\"event\":\"configuration_arguments\",\"context\":%lu,\"module\":%lu,\"file\":%lu}\n",arguments[0],arguments[1],arguments[2]);
+                        }
+                        fprintf(events, "{\"event\":\"entry\",\"name\":\"%s\",\"rva\":%lu}\n",
                                    entries[index].name, entries[index].rva);
+                    }
                 }
             } else {
                 snapshot(site); failed = 8; break;

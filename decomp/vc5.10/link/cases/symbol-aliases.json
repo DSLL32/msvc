@@ -4,7 +4,12 @@
     {
       "historical_logical_name": "?Initialize@LinkContext@@QAEPAU1@H@Z",
       "current_logical_name": "LinkContext::Initialize",
-      "reason": "Full initializer shows EAX auxiliary allocation orNULL, notthis; genuine typed source method corrected. Historical snapshots retain provisional name unchanged."
+      "reason": "Full initializer shows EAX auxiliary allocation or NULL, not this; genuine typed source method corrected. Historical snapshots retain provisional name unchanged."
+    },
+    {
+      "historical_logical_name": "_load_input_module@8",
+      "current_logical_name": "_parse_switch@8",
+      "reason": "Dispatcher and full callee show a parsed switch name/value vector, not an input module. The unaccepted provisional name remains unchanged in historical snapshots."
     }
   ]
 }

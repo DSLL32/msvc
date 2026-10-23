@@ -21,12 +21,12 @@ void __stdcall collect_file_arguments(int argc,char **argv,
     argument = input_files.first;
     input_prepass = 0;
     for (index=0; index<input_files.count; ++index) {
-        argument->module = load_input_module(NULL,argument->name);
-        if (!argument->module->format) link_warning(NULL,4105,argument->name);
+        argument->switch_info = parse_switch(NULL,argument->name);
+        if (!argument->switch_info->value_count) link_warning(NULL,4105,argument->name);
         argument = argument->next;
     }
 }
-InputModule *__stdcall load_input_module(void *context,const char *name)
+SwitchInfo *__stdcall parse_switch(const char *file,const char *text)
 {
     __asm { int 3 }
     return NULL;

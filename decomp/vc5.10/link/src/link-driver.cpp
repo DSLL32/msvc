@@ -6,6 +6,7 @@
 #include "initializers.h"
 #include "crt-imports.h"
 #include "link-driver.h"
+#include "options.h"
 #include <recon.h>
 
 extern "C" {
@@ -23,7 +24,6 @@ void __stdcall collect_file_arguments(int,char **,const char *,const char *);
 void __stdcall parse_command_line(int,char **,const char *,const char *);
 unsigned char __stdcall has_switch(const char *);
 void *__stdcall allocate_link_memory(unsigned,unsigned);
-void __stdcall configure_link_options(LinkContext *,void *,void *);
 void __cdecl link_warning(const char *,unsigned,...);
 void __cdecl link_fatal(const char *,unsigned,...);
 void __cdecl link_error(const char *,unsigned,...);
@@ -99,7 +99,7 @@ extern "C" int __stdcall run_linker(int argc, char **argv)
             link_warning(NULL, 4075, "WINDOWSCE:NOCONVERT", subsystem);
         }
     }
-    if (context->options.rom) context->options.emit_symbols = 0;
+    if (context->options.rom) context->options.checksum_enabled = 0;
     if (context->options.fixed_image) {
         if (context->options.profile) {
             context->options.fixed_image = 0;
@@ -135,8 +135,8 @@ extern "C" int __stdcall run_linker(int argc, char **argv)
     if (!reference_optimization_specified)
         context->options.effective_reference_opt = !incremental_enabled && !context->options.debug_level;
     if (!(context->specified_switches & 0x400000))
-        context->options.discard_unreferenced = context->options.effective_reference_opt;
-    if (context->options.discard_unreferenced) buffer4.remaining = 0;
+        context->options.fold_identical_comdats = context->options.effective_reference_opt;
+    if (context->options.fold_identical_comdats) buffer4.remaining = 0;
     if (incremental_enabled && !incremental_reuse && context->options.option142 && incremental_failed)
         link_error(NULL, 6021);
     result = -1;
@@ -206,15 +206,15 @@ LinkAuxiliaryData *RECON_THISCALL LinkContext::Initialize(int vxd)
     optional_header.SizeOfHeapCommit=0x1000;
     optional_header.NumberOfRvaAndSizes=16;
     memset(&options,0,sizeof(options));
-    options.default12e=1;
-    options.default135=1;
-    options.default136=1;
+    options.bind_delay_imports=1;
+    options.legacy_import_library=1;
+    options.mac_bundle=1;
     options.option142=1;
     options.default144=1;
     options.default_extension=".dll";
     options.default180=1;
     specified_switches=0;
-    memset(reserved194,0,sizeof(reserved194));
+    memset(&reserved194,0,32);
     create_string_table(&symbols,1024,128);
     create_string_table(&strings,128,32);
     pointer_list.first=NULL;
@@ -261,7 +261,6 @@ int RECON_THISCALL LinkContext::FullLink(BYTE *pack_requested)
 /* Named original callees remain trapping until reached. */
 extern "C" {
 void __cdecl linker_usage(void) { __asm { int 3 }  }
-void __stdcall configure_link_options(LinkContext *context,void *first,void *second) { __asm { int 3 }  }
 void __cdecl link_warning(const char *file,unsigned message,...) { __asm { int 3 }  }
 void __cdecl link_fatal(const char *file,unsigned message,...) { __asm { int 3 }  }
 void __cdecl link_error(const char *file,unsigned message,...) { __asm { int 3 }  }

@@ -140,7 +140,7 @@ if args.frontier in ('_create_memory_arena@4','_allocate_memory@4'):
     negative('wrong rounded arena size',lambda s:s.__setitem__('arena_creation_bytes',512))
 if args.frontier=='_allocate_memory@4':
     negative('wrong arena-descriptor size',lambda s:s.__setitem__('allocation_bytes',8))
-if args.frontier=='_configure_link_options@12':
+if args.frontier in ('_configure_link_options@12','_parse_switch@8'):
     def patch(state,key,offset,value):
         data=bytearray.fromhex(state[key]);data[offset:offset+4]=struct.pack('<I',value);state[key]=data.hex()
     negative('wrong configuration receiver',lambda s:s['configuration_arguments'].__setitem__('context',0))
@@ -174,5 +174,9 @@ if args.frontier=='_configure_link_options@12':
     negative('unknown callback code',lambda s:s['member_pointers']['image_write_headers'].__setitem__('raw','0100000000000000'))
     negative('ambiguous callback null',lambda s:s['member_pointers']['image_write_section'].__setitem__('raw','0000000000000000'))
     negative('wrong DOS output bytes',lambda s:s.__setitem__('default_dos_image','00'+s['default_dos_image'][2:]))
+if args.frontier=='_parse_switch@8':
+    negative('wrong parser diagnostic file',lambda s:s['argument_detail'].__setitem__('file',1))
+    negative('wrong parser option text',lambda s:s['argument_detail'].__setitem__('text','help'))
+    negative('lost parser slash-stripped alias',lambda s:s['argument_detail'].__setitem__('address',0))
 args.report.write_text(json.dumps(dict(frontier=args.frontier,positive=True,negative_count=len(checks),rejected=checks),indent=2)+'\n')
 print('Typed boundary passes; %d semantic negatives rejected.'%len(checks))

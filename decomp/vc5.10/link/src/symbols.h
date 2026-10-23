@@ -27,6 +27,9 @@ typedef struct StringTable {
     HashTable hash;
     StringNode *first;
     StringNode **last;
+#ifdef __cplusplus
+    StringNode *RECON_THISCALL Lookup(const unsigned char *,BYTE *);
+#endif
 } StringTable;
 StringTable *__stdcall create_string_table(StringTable **,unsigned,unsigned);
 void __stdcall initialize_hash_table(HashTable *,unsigned,unsigned,KeyNameFunction,WORD);

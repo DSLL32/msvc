@@ -7,10 +7,11 @@ from member_pointers import CONTRACTS,project
 def words(data):return struct.unpack('<%dI'%(len(data)//4),data)
 
 
-def compare(original,state,trap):
-    context=trap['stack'][1];ncontext=state['context_this']
+def compare(original,state,trap,configuration_context=None):
+    context=trap['stack'][1] if configuration_context is None else configuration_context
+    ncontext=state['context_this']
     assert context and ncontext==state['caller_context'] and ncontext
-    assert trap['stack'][2:4]==[0,0]
+    if configuration_context is None:assert trap['stack'][2:4]==[0,0]
     assert state['configuration_arguments']==dict(context=ncontext,first=0,second=0)
     assert state['context_vxd']==0 and state['context_extension']=='.dll'
     data=bytearray((original/'link-context.bin').read_bytes());native=bytearray.fromhex(state['link_context'])

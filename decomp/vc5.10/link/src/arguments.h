@@ -6,14 +6,18 @@
 extern "C" {
 #endif
 
-typedef struct InputModule {
-    DWORD reserved0;
-    WORD format;
-} InputModule;
+typedef struct SwitchValue {
+    char *name, *text;
+} SwitchValue;
+typedef struct SwitchInfo {
+    char *name;
+    WORD value_count, reserved;
+    SwitchValue values[1]; /* Values and their mutable text follow this prefix. */
+} SwitchInfo;
 typedef struct InputArgument {
     char *name;
     char *original_name;
-    InputModule *module;
+    SwitchInfo *switch_info;
     DWORD reserved0c, reserved10;
     struct InputArgument *next;
 } InputArgument;
@@ -22,10 +26,14 @@ typedef struct InputArguments {
     unsigned count;
 } InputArguments;
 extern BYTE input_prepass;
-extern InputArguments input_files;
+extern InputArguments input_files, library_files, ordinary_files, link_files, option_arguments;
+extern InputArgument *argument_tail;
+char *__stdcall duplicate_argument(const char *);
+void __stdcall release_memory(void *);
+InputArgument *__stdcall append_argument(InputArguments *,const char *);
 void __stdcall parse_command_line(int,char **,const char *,const char *);
 void __stdcall collect_file_arguments(int,char **,const char *,const char *);
-InputModule *__stdcall load_input_module(void *,const char *);
+SwitchInfo *__stdcall parse_switch(const char *,const char *);
 #ifdef __cplusplus
 }
 #endif

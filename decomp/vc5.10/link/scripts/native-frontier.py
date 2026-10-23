@@ -197,13 +197,16 @@ def stopped(event):
         state['selected_tool_name_address']=int(gdb.parse_and_eval('selected_tool_name'))
         state['first_tool_name_address']=int(gdb.parse_and_eval('tool_modes[0].name'))
         state['selected_tool_kind']=int(gdb.parse_and_eval('selected_tool_kind'))
-    if state['function']=='configure_link_options':
-        receiver=frame.read_var('context')
+    if state['function'] in ('configure_link_options','parse_switch'):
+        configuration=frame
+        while configuration and configuration.name()!='configure_link_options':configuration=configuration.older()
+        assert configuration
+        receiver=configuration.read_var('context')
         state['context_this']=int(receiver);state['context_vxd']=int(receiver.dereference()['is_vxd'])
         state['caller_context']=int(driver.read_var('context'))
         state['link_context']=gdb.selected_inferior().read_memory(state['context_this'],664).tobytes().hex()
         state['context_extension']=receiver.dereference()['options']['default_extension'].string()
-        state['configuration_arguments']=dict(context=int(receiver),first=int(frame.read_var('first')),second=int(frame.read_var('second')))
+        state['configuration_arguments']=dict(context=int(receiver),first=int(configuration.read_var('module')),second=int(configuration.read_var('file')))
         state['context_auxiliary_address']=int(receiver.dereference()['auxiliary'])
         state['context_auxiliary']=gdb.selected_inferior().read_memory(state['context_auxiliary_address'],44).tobytes().hex()
         state['context_heap']=[]
@@ -265,6 +268,7 @@ def stopped(event):
     state['option_arguments']=[int(gdb.parse_and_eval('option_arguments.'+name)) for name in ('first','last','count')]
     if state['option_arguments'][0]:state['option_node']=gdb.selected_inferior().read_memory(state['option_arguments'][0],24).tobytes().hex()
     if state['function']=='has_switch':state['argument_detail']=dict(text=frame.read_var('name').string(),address=int(frame.read_var('name')))
+    if state['function']=='parse_switch':state['argument_detail']=dict(file=int(frame.read_var('file')),text=frame.read_var('text').string(),address=int(frame.read_var('text')))
     if state['function']=='allocate_link_memory':state['allocation_arguments']=dict(count=int(frame.read_var('count')),size=int(frame.read_var('size')))
     state['logo_pending']=int(gdb.parse_and_eval('logo_pending'))
     state['incremental_enabled']=int(gdb.parse_and_eval('incremental_enabled'))
