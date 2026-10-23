@@ -340,3 +340,7 @@ have exact receiver/stack/return/default/nonzero reset proofs. Durable coverage:
 Pool step pool-wrapper5 is accepted, reaching12746; 5 separately encountered pool objects
 have exact receiver/stack/return/default/nonzero reset proofs. Durable coverage:
 41 application functions /1587B +2 CRT /451B +6B import =2044B (43 source functions).
+
+Pool step pool-wrapper6 is accepted, reaching12753; 6 separately encountered pool objects
+have exact receiver/stack/return/default/nonzero reset proofs. Durable coverage:
+42 application functions /1600B +2 CRT /451B +6B import =2057B (44 source functions).

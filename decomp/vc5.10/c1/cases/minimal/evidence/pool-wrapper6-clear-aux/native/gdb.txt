@@ -1,0 +1,103 @@
+Breakpoint 1 at 0x804acc9: file src/pass.c, line 39.
+Breakpoint 2 at 0x804bed0: file src/pools.cpp, line 8.
+Breakpoint 3 at 0x804abb6: file src/pass.c, line 8.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 3, initialize_compiler_pass () at src/pass.c:8
+8	{
+Breakpoint 4 at 0x804ac3f: file src/pass.c, line 22.
+
+Breakpoint 4, initialize_compiler_pass () at src/pass.c:22
+22	        c1_reuse_state = !c1_pass_mode;
+Breakpoint 5 at 0x804ae46: file src/initializers.c, line 5.
+
+Breakpoint 5, initialize_state_12365 () at src/initializers.c:5
+5	{
+Breakpoint 6 at 0x804aea6: file src/initializers.c, line 12.
+
+Breakpoint 6, initialize_state_12377 () at src/initializers.c:12
+12	{
+Breakpoint 7 at 0x804af06: file src/initializers.c, line 19.
+
+Breakpoint 7, initialize_state_12389 () at src/initializers.c:19
+19	{
+Breakpoint 8 at 0x804b6d6: file src/buffers.c, line 5.
+
+Breakpoint 8, initialize_output_buffer_123ae () at src/buffers.c:5
+5	{
+Breakpoint 9 at 0x804b7a6: file src/buffers.c, line 24.
+
+Breakpoint 9, initialize_output_buffer_12423 () at src/buffers.c:24
+24	{
+Breakpoint 10 at 0x804b876: file src/buffers.c, line 44.
+
+Breakpoint 10, initialize_output_buffer_12472 () at src/buffers.c:44
+44	{
+Breakpoint 11 at 0x804b946: file src/buffers.c, line 63.
+
+Breakpoint 11, initialize_output_buffer_124c1 () at src/buffers.c:63
+63	{
+Breakpoint 12 at 0x804ba16: file src/buffers.c, line 82.
+
+Breakpoint 12, initialize_output_buffer_12510 () at src/buffers.c:82
+82	{
+Breakpoint 13 at 0x804bae6: file src/buffers.c, line 101.
+
+Breakpoint 13, initialize_output_buffer_1255f () at src/buffers.c:101
+101	{
+Breakpoint 14 at 0x804bbb6: file src/buffers.c, line 120.
+
+Breakpoint 14, initialize_output_buffer_125ae () at src/buffers.c:120
+120	{
+Breakpoint 15 at 0x804bc86: file src/buffers.c, line 139.
+
+Breakpoint 15, initialize_output_buffer_125fd () at src/buffers.c:139
+139	{
+Breakpoint 16 at 0x804b326: file src/initializers.c, line 93.
+
+Breakpoint 16, initialize_state_12646 () at src/initializers.c:93
+93	{
+Breakpoint 17 at 0x804b376: file src/initializers.c, line 99.
+
+Breakpoint 17, initialize_state_12663 () at src/initializers.c:99
+99	{
+Breakpoint 18 at 0x804b3b6: file src/initializers.c, line 103.
+
+Breakpoint 18, initialize_state_12664 () at src/initializers.c:103
+103	{
+Breakpoint 19 at 0x804b3f6: file src/initializers.c, line 108.
+
+Breakpoint 19, initialize_state_1266f () at src/initializers.c:108
+108	{
+Breakpoint 20 at 0x804bd56: file src/pdb.c, line 7.
+
+Breakpoint 20, initialize_pdb_context_12676 () at src/pdb.c:7
+7	{
+Breakpoint 21 at 0x804b446: file src/initializers.c, line 114.
+
+Breakpoint 21, initialize_state_126af () at src/initializers.c:114
+114	{
+Breakpoint 22 at 0x804be16: file src/pdb.c, line 27.
+
+Breakpoint 22, initialize_pdb_context_126b6 () at src/pdb.c:27
+27	{
+Breakpoint 23 at 0x804bf46: file src/pools.cpp, line 17.
+
+Breakpoint 23, initialize_state_126ef () at src/pools.cpp:17
+17	{
+Breakpoint 24 at 0x804bf73: file src/pools.cpp, line 18.
+Breakpoint 25 at 0x804bfc6: file src/pools.cpp, line 23.
+Breakpoint 26 at 0x804c026: file src/pools.cpp, line 28.
+Breakpoint 27 at 0x804c086: file src/pools.cpp, line 33.
+Breakpoint 28 at 0x804c0e6: file src/pools.cpp, line 38.
+Breakpoint 29 at 0x804c146: file src/pools.cpp, line 43.
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+initialize_state_12753 () at src/initializers.c:132
+132	}
+#0  initialize_state_12753 () at src/initializers.c:132
+#1  0x0804ac83 in initialize_compiler_pass () at src/pass.c:28
+#2  0x0804a819 in InvokeCompilerPass (argc=11, argv=0xffffd8c8, mode=1) at src/exports.c:11
+#3  0x0804c389 in c1_native_host (argc=2, argv=0xffffd9f4) at scripts/native-host.c:57
+#4  0x08057905 in main (argc=2, argv=0xffffd9f4) at ../../../lib/recon/src/entry.c:24
