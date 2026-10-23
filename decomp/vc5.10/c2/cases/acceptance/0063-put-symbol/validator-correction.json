@@ -1,0 +1,5 @@
+{
+  "issue": "Python tuples in the pending queue become JSON lists; original/native semantic bytes already matched.",
+  "change": "JSON-roundtrip the independently decoded original data view before comparison. Complete32B canonicalclosedFILE matches exactly; no CRT-field waiver.",
+  "transport": "Same original raw retained. Final native-only observation adds explicit opaqueanchor identity; priornative observers remain retained and timed separately."
+}

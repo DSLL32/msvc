@@ -116,14 +116,6 @@
     "evidence": null
   },
   {
-    "name": "@put_symbol@8",
-    "start": 4359656,
-    "end": 4359657,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@queue_symbol_debug@4",
     "start": 4325189,
     "end": 4325190,

@@ -61,3 +61,12 @@ unsigned next_symbol_serial(void)
         c2_fatal(0x37);
     return c2_il_initial_symbol_count++;
 }
+
+C2Symbol *__fastcall put_symbol(C2ScopeHash *scope, C2Symbol *symbol)
+{
+    unsigned bucket = symbol->serial & 1023;
+    C2Symbol *previous = scope->buckets[bucket];
+    scope->buckets[bucket] = symbol;
+    symbol->hash_next = previous;
+    return symbol;
+}

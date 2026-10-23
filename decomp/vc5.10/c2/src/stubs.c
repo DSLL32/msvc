@@ -30,11 +30,6 @@ C2Symbol *__fastcall lookup_symbol(C2ScopeHash *scope, unsigned serial)
     return NULL;
 }
 
-C2Symbol *__fastcall put_symbol(C2ScopeHash *scope, C2Symbol *symbol)
-{
-    __asm { int 3 }
-    return NULL;
-}
 
 void __fastcall queue_symbol_debug(C2Symbol *symbol)
 {

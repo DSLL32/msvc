@@ -123,6 +123,57 @@ def main():
                       ('machine call-clobber register mask differs',lambda r:changed_machine_value(r,'0x495f34',7)),
                       ('machine stack alignment differs',lambda r:changed_machine_value(r,'0x49745c',4)),
                       ('earlier intrinsic observation cannot replace final frontier observation',missing_final_intrinsic_observation)]
+    if 'globals_complete'in current_state:
+        def complete_changed(root,change):
+            path=root/'n/state.json';state=json_at(path);change(state['globals_complete']);write_json(path,state);raw_changed(root,'n','state.json')
+            path=root/'n/gdb.stdout';raw=path.read_text();raw=re.sub(r'^C2-GLOBALS-COMPLETE .*$',lambda m:'C2-GLOBALS-COMPLETE '+json.dumps(state['globals_complete'],sort_keys=True),raw,flags=re.M);path.write_text(raw)
+            path=root/'n/receipt.json';receipt=json_at(path);receipt['gdb_outputs']['gdb.stdout']=sha((root/'n/gdb.stdout').read_bytes());write_json(path,receipt)
+        def complete_field(root,key,value):complete_changed(root,lambda state:state.__setitem__(key,value))
+        def complete_byte(root,key,index):
+            def change(state):
+                data=bytearray.fromhex(state[key]);data[index]^=1;state[key]=data.hex()
+            complete_changed(root,change)
+        def complete_raw(root,name,index):
+            path=root/'o'/name;data=bytearray(path.read_bytes());data[index]^=1;path.write_bytes(data)
+            path=root/'o/receipt.json';receipt=json_at(path);receipt['globals_complete_hashes'][name]=sha((root/'o'/name).read_bytes())
+            if name=='unmodeled-original-data.bin':receipt['unmodeled_original_data']['sha256']=sha((root/'o'/name).read_bytes())
+            write_json(path,receipt)
+        mutations += [('complete globals invent actual formal',lambda r:complete_field(r,'formals',[{'name':'unused','type':'int'}])),
+                      ('complete globals opaque context anchor loses identity',lambda r:complete_field(r,'opaque_context_anchor_alias',False)),
+                      ('complete globals arena cursor differs',lambda r:complete_field(r,'pool_cursor',1888)),
+                      ('complete globals arena remaining differs',lambda r:complete_field(r,'pool_remaining',2208)),
+                      ('complete globals raw pointer normalization differs',lambda r:complete_byte(r,'pool_bytes',572)),
+                      ('complete globals function type or storage differs',lambda r:complete_byte(r,'pool_bytes',602)),
+                      ('complete globals last declaration allocation size differs',lambda r:complete_changed(r,lambda v:v['objects'][-1].__setitem__('size',110))),
+                      ('complete globals declaration omitted',lambda r:complete_changed(r,lambda v:v['objects'].pop())),
+                      ('complete globals declaration name differs',lambda r:complete_changed(r,lambda v:v['objects'][-1].__setitem__('name','observe'))),
+                      ('complete globals section list reordered',lambda r:complete_changed(r,lambda v:v['sections'].reverse())),
+                      ('complete globals pending queue reordered',lambda r:complete_changed(r,lambda v:v['pending'].reverse())),
+                      ('complete globals pending input order differs',lambda r:complete_changed(r,lambda v:v['pending'][-1].__setitem__(1,2414))),
+                      ('complete globals insertion field alias differs',lambda r:complete_field(r,'insertion_offset',1562)),
+                      ('complete globals filename alias differs',lambda r:complete_field(r,'filename_offset',540)),
+                      ('complete globals class string identity differs',lambda r:complete_changed(r,lambda v:v['external_strings'].__setitem__(1,'DATA'))),
+                      ('complete globals global hash slot differs',lambda r:complete_byte(r,'scope_bytes',4+85*4)),
+                      ('complete globals last hash slot differs',lambda r:complete_byte(r,'scope_bytes',4099)),
+                      ('complete globals arena tail differs',lambda r:complete_byte(r,'pool_bytes',4095)),
+                      ('complete globals input scratch residual differs',lambda r:complete_byte(r,'input_bytes',10)),
+                      ('complete globals decorated scratch residual differs',lambda r:complete_byte(r,'decorated_bytes',14)),
+                      ('complete globals preserved template differs',lambda r:complete_byte(r,'template_bytes',4)),
+                      ('complete globals main FILE index differs',lambda r:complete_changed(r,lambda v:v['streams'].__setitem__('input_index',4))),
+                      ('complete globals closed FILE index differs',lambda r:complete_changed(r,lambda v:v['streams'].__setitem__('globals_index',3))),
+                      ('complete globals active FILE loses closed stream alias',lambda r:complete_changed(r,lambda v:v['streams'].__setitem__('active_globals_alias',False))),
+                      ('complete globals closed FILE flag differs',lambda r:complete_changed(r,lambda v:v['streams'].__setitem__('closed_globals_bytes','00'*12+'01'+'00'*19))),
+                      ('complete globals original function name pointer differs',lambda r:complete_raw(r,'pool-block.bin',572)),
+                      ('complete globals original function section serial differs',lambda r:complete_raw(r,'pool-block.bin',584)),
+                      ('complete globals original pending link differs',lambda r:complete_raw(r,'pool-block.bin',650)),
+                      ('complete globals original last declaration name differs',lambda r:complete_raw(r,'pool-block.bin',1880)),
+                      ('complete globals original zeroed arena tail differs',lambda r:complete_raw(r,'pool-block.bin',4095)),
+                      ('complete globals original hash link differs',lambda r:complete_raw(r,'unmodeled-original-data.bin',0x48fb6c+85*4-0x48e000)),
+                      ('complete globals original pending root differs',lambda r:complete_raw(r,'unmodeled-original-data.bin',0x4973d4-0x48e000)),
+                      ('complete globals original insertion root differs',lambda r:complete_raw(r,'unmodeled-original-data.bin',0x4973f0-0x48e000)),
+                      ('complete globals original opaque context identity differs',lambda r:complete_raw(r,'unmodeled-original-data.bin',0x497f58-0x48e000)),
+                      ('complete globals original closed FILE count differs',lambda r:complete_raw(r,'header-streams.bin',36)),
+                      ('complete globals original closed FILE flag differs',lambda r:complete_raw(r,'header-streams.bin',44))]
     if 'symbol_type_input'in current_state:
         def changed_type_input(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['symbol_type_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
