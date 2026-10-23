@@ -562,4 +562,9 @@ int __cdecl compare_symbol_address(const void *left, const void *right)
     const AddressHashEntry *a = left, *b = right;
     return (int)(a->symbol->offset-b->symbol->offset);
 }
+
+BufferBlock *first_buffer_block(const GrowingBuffer *buffer)
+{
+    return buffer->first;
+}
 #undef OUTPUT_BYTES

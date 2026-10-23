@@ -10,7 +10,10 @@ def validate(item,pe):
     assert 0<proof['size']<=1024 and proof['offset']==0
     for part in ('callsite','frame',*(['wrapper']if 'wrapper'in proof else []),*(['consumed_callee']if 'consumed_callee'in proof else [])):
         r=proof[part];assert hashlib.sha256(pe.read(r['start'],r['end']-r['start'])).hexdigest()==r['sha256'],'changed stack-output instruction evidence'
-    if proof.get('location')=='allocation':
+    if proof.get('location')=='buffer-block':
+        assert(proof['owner'],proof['local'],proof['size'],proof['base_register'],proof['parent_local'],proof['parent_field'],proof['parent_first_slot'])==('write_global_publics','block',12,'ebx','names','first',22),'unreviewed buffer-block ownership'
+        assert proof['return_slots']==[dict(slot=0,address=0x1b8e9)]and proof['mode']=='input'and proof['consumed_ranges']==[[8,12]],'unreviewed next-block consumer'
+    elif proof.get('location')=='allocation':
         a=proof['allocation']
         assert (proof['owner'],proof['local'],proof['size'])==('collect_strip_records','record',28),'unreviewed constructor allocation output'
         assert a==dict(size=28,callee=0x2cfb0,call=0x2844d,returned=0x28452,argument=0x2844b,carrier=0x28455),'unreviewed allocation birth/lifetime'
@@ -45,7 +48,9 @@ def compare(item,descriptions,words,parameters,events,pe):
     for r in proof['return_slots']:assert words[r['slot']]==r['address'],'unknown stack-output caller'
     esp=int(re.search(r'^registers .* esp ([0-9a-f]+) ',events,re.M)[1],16)
     value=words[item['register']]if item.get('register')else words[item['slot']];actual=parameters[item['name']]
-    if proof.get('location')=='allocation':assert value==words[proof['base_register']],'output pointer differs from original live allocation carrier'
+    if proof.get('location')in('allocation','buffer-block'):
+        assert value==words[proof['base_register']],'output pointer differs from original live allocation carrier'
+        if proof.get('location')=='buffer-block':assert words[proof['parent_first_slot']]==value,'block differs from original borrowed buffer parent'
     else:assert value==esp+proof['esp_offset'],'output pointer differs from original caller local'
     if 'size_argument'in item:
         count=next(r for r in descriptions if r['name']==item['size_argument'])
