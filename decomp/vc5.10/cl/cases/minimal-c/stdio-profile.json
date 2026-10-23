@@ -1,0 +1,17 @@
+{
+  "profile": "RECON_CRT_PROFILE_MSVCRT_510",
+  "shared_revision": "300e5e52",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "original_iob_rva": 259440,
+  "original_iob_first32": "8027047800000000802704780101000000000000000000000010000000000000",
+  "backing_buffer_rva": 272256,
+  "buffer_bytes": 4096,
+  "ownership": "static provider/host storage, user-buffer flag0x100; never heap-free",
+  "untouched_contents": "undefined and not compared; no live bytes; new consumers require further proof",
+  "pair": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/prepare-execution-1/pair.json",
+    "sha256": "09caeea413a533a41a657b7c47a36744ce16eb7fd75dd8a7e1a504eb63e0761a"
+  },
+  "controls": "scripts/check-streams.py: 11 semantic mutation controls pass",
+  "source_provider_proof": "lib/recon/stdin-profile-validation.json"
+}

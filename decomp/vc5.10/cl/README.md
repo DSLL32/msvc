@@ -15,8 +15,8 @@ acceptance journal for the measured evidence.
 Help artifacts are frozen and independently verified. The authorized next case is a
 genuine minimal-C compile. Its in-process frontend and backend child boundaries
 require complete captured response contracts; unknown dependencies fail.
-The driver prefix has added `append_escaped`, `classify_input` and `add_input`
-with fresh candidate-inclusive proofs; it currently traps at `create_input`.
+The driver prefix has added seven functions with fresh candidate-inclusive
+proofs; it currently traps at `run_driver`.
 Minimal-C has a separately captured errno0/doserrno0/LastError0 entry profile.
 Its source bytes, arguments and entry state are part of every comparison.
 
@@ -25,6 +25,11 @@ by help. The corrected ten extension/category/pass-list records and terminator,
 including shared pass-list identities, and all five compiler-pass records now
 match original, rebuilt and native images. A bounded initializer review found no
 other discrepancy. See `cases/minimal-c/{input-kinds,initializer-review}.json`.
+The verified VC5 CRT profile supplies the provider's static empty stdin buffer.
+Read-only boundary captures compare FILE ownership, CRT descriptors and separate
+Win32 standard handles, destinations, positions and errors through `_dup2(1,2)`.
+Untouched buffer bytes are unclaimed. See `cases/minimal-c/stdio-profile.json`
+and `scripts/check-streams.py` for the eleven semantic mutation controls.
 
 Fresh trials compare candidate-inclusive masked originals against native i386
 `-O0 -g` builds: named frontier, decoded parameters/driver state, streams and

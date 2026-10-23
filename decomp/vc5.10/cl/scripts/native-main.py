@@ -74,7 +74,7 @@ def capture(original,directory):
         env['RECON_RESOURCE_PROVIDER']=str(directory/'resources.bin')
         resource_before=sha(directory/'resources.bin')
     # Freeze the actual GDB controller/schema bytes used for this execution.
-    for name in ('gdb_capture.py','gdb_entry.py','gdb_mktemp.py','native_status.py','frontier_state.py'):
+    for name in ('gdb_capture.py','gdb_entry.py','gdb_mktemp.py','gdb_streams.py','native_status.py','frontier_state.py'):
         shutil.copyfile(PROJECT/'scripts'/name,directory/name)
     script='import sys\nsys.path.insert(0,'+repr(str(directory))+')\nfrom gdb_capture import capture\ncapture('+repr(str(directory))+')\n'
     (directory/'gdb-capture.py').write_text(script)

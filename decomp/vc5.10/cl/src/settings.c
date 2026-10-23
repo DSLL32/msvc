@@ -84,6 +84,16 @@ int option_for_pass(Option *option, CompilerPass *pass)
     return strchr(option->matching, (unsigned char)pass->option_prefix[0]) != NULL;
 }
 
+/* 00402458..00402499: disable selected compiler stages, or all for '.'. */
+void disable_pass(Option *option)
+{
+    int i, all = option->value[0] == '.';
+    for (i = 0; i < 5; ++i)
+        if (all || _mbschr((unsigned char *)option->value,
+                          (unsigned char)compiler_passes[i].option_prefix[0]))
+            compiler_passes[i].flags &= ~1;
+}
+
 /* 00402594..00402633: validate per-source output naming, then consume it. */
 void set_output_option(Option *option)
 {

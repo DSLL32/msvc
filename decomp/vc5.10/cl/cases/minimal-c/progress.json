@@ -1,0 +1,101 @@
+{
+  "case": "minimal-c",
+  "state": "driver-prefix-in-progress",
+  "checkpoint": "d5dceb7a",
+  "next_frontier": "run_driver",
+  "accepted_application_functions": 57,
+  "accepted_application_extent_bytes": 8619,
+  "whole_text_virtual_bytes": 19062,
+  "non_crt_denominator": "not yet fully classified",
+  "separate_CRT_import_support_records": 15,
+  "separate_support_extent_bytes": 476,
+  "proofs": [
+    {
+      "candidate": "_append_escaped",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/append-escaped-2/pair.json",
+        "sha256": "7e758ec1210c2881fe334204b65a52001ae83cbd6d41dfc83d68d2665daba3a8"
+      },
+      "seconds": {
+        "audit": 0.35843860544264317,
+        "original_execution": 2.0497233662754297,
+        "native_gdb": 0.19039331655949354
+      }
+    },
+    {
+      "candidate": "_classify_input",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/classify-input-2/pair.json",
+        "sha256": "c199d25a9f28e2e903d39bfb908c598d6e0b9a5e751244b6a5ce34628f12ffec"
+      },
+      "seconds": {
+        "audit": 0.35790349543094635,
+        "original_execution": 1.9695249265059829,
+        "native_gdb": 0.19355573877692223
+      }
+    },
+    {
+      "candidate": "_add_input",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/add-input-1/pair.json",
+        "sha256": "99112d128a240553b80b7103443e1c6533b6071b495db49f5915e6a444d8af0c"
+      },
+      "seconds": {
+        "audit": 0.3549194326624274,
+        "original_execution": 2.481768561527133,
+        "native_gdb": 0.19185649417340755
+      }
+    },
+    {
+      "candidate": "_create_input",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/create-input-1/pair.json",
+        "sha256": "c9cc22f786634cdad0dd718f68f45833bae9b992f82c03424e157f1b13c689be"
+      },
+      "seconds": {
+        "audit": 0.3626630464568734,
+        "original_execution": 2.439591641537845,
+        "native_gdb": 0.19597796443849802
+      }
+    },
+    {
+      "candidate": "_unlink_option",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/unlink-option-1/pair.json",
+        "sha256": "8e81c5dc7aceeaf94997917bc6a5b3b725d6af04cfe63cc15d3cb79a7981641d"
+      },
+      "seconds": {
+        "audit": 0.3669988438487053,
+        "original_execution": 2.2787449238821864,
+        "native_gdb": 0.20031289476901293
+      }
+    },
+    {
+      "candidate": "_disable_pass",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/disable-pass-2/pair.json",
+        "sha256": "b863532a993f76d239db5cb76d7905ac4a0344ddf7f0d4144a315b2717340f93"
+      },
+      "seconds": {
+        "audit": 0.3657238185405731,
+        "original_execution": 2.232840116135776,
+        "native_gdb": 0.20211660210043192
+      }
+    },
+    {
+      "candidate": "_prepare_execution",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/prepare-execution-1/pair.json",
+        "sha256": "09caeea413a533a41a657b7c47a36744ce16eb7fd75dd8a7e1a504eb63e0761a"
+      },
+      "seconds": {
+        "audit": 0.4186664158478379,
+        "original_execution": 2.6032108515501022,
+        "native_gdb": 0.21318780723959208
+      }
+    }
+  ],
+  "checks": "Original/native builds, fresh pairs, three Rust audit passes, 30 protocol negatives, grammar controls and seven input/pass table mutation controls pass; native help regression remains unchanged.",
+  "dependency_boundaries": "C1 DLL and C2 child remain closed pending complete observable response contracts; no native Wine/helper execution.",
+  "observed_gap": "None in current driver prefix. Canonical static stdin profile now matches; C1/C2 response boundaries remain closed."
+}

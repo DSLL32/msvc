@@ -140,7 +140,8 @@ class Memory:
         while address:
             assert address not in seen and len(seen)<4096
             seen.add(address);v=self.words(address,4)
-            result.append({'name':self.string(v[1]),'kind':v[2],'explicit_kind':v[3]&0xffff})
+            result.append({'name':self.string(v[1]),'kind':v[2],'explicit_kind':v[3]&0xffff,
+                'sequence':struct.unpack('<h',struct.pack('<I',v[3])[2:])[0]})
             address=v[0]
         return result
     def driver(self,address):
@@ -152,6 +153,15 @@ class Memory:
         return {'options':self.options(v[0]),'other_options':self.options(v[1]),
             'inputs':self.inputs(v[3]),'temporary':self.string(v[8]),
             'include_path':self.string(v[9]),'directory':self.string(v[10])}
+    def passes(self,address):
+        rows=[]
+        for i in range(5):
+            v=self.words(address+36*i,9)
+            assert not any(v[5:8]),'compiler DLL/entry slots require an explicit module/export identity decoder'
+            rows.append({'name':self.string(v[0]),'path':self.string(v[1]),
+                'environment':self.string(v[2]),'prefix':struct.pack('<I',v[3]).split(b'\0')[0].decode('latin1'),
+                'flags':v[4],'module':None,'invoke':None,'abort':None,'options':self.string(v[8])})
+        return rows
     def value(self,kind,value):
         # Reached release calls in help own strdup-created option strings.
         # Other allocation shapes require a new explicit projection.
@@ -200,6 +210,8 @@ def snapshot(read,context):
         fields['globals'][name]={'object_name':memory.string,'image_name':memory.string,'ir_prefix':memory.string,'map_name':memory.string,'pdb_name':memory.string,'browser_name':memory.string,'free_options':memory.freelist,'driver':memory.driver,'unrecognized_options':memory.options,
             'source_language':memory.string,'format_buffer':memory.string}[name](pointer)
     assert context['globals']['ir_prefix']==driver_address+32,'driver temporary/IR-prefix storage alias differs'
+    if 'compiler_passes_address' in context:
+        fields['compiler_passes']=memory.passes(context['compiler_passes_address'])
     return fields
 
 
@@ -208,7 +220,7 @@ def original_context(directory,address,stack):
     record=next(r for r in index['driver'] if r['start']==address)
     symbol=record['native_symbol'];parameters=PARAMETERS[symbol]
     context={'symbol':symbol,'arguments':list(stack[1:1+len(parameters)]),
-        'globals':{**SCALARS,**POINTERS},'rule_base':0x406340}
+        'globals':{**SCALARS,**POINTERS},'rule_base':0x406340,'compiler_passes_address':0x4090a8}
     if symbol=='write_message':context['varargs']=list(stack[3:])
     if (directory/'mb-state.bin').exists():
         mb=(directory/'mb-state.bin').read_bytes();crt=(directory/'crt-state.bin').read_bytes()
@@ -236,6 +248,7 @@ def capture_native(directory,gdb):
     context={'symbol':symbol,'arguments':[int(frame.read_var(name))&0xffffffff for name,kind in PARAMETERS[symbol]],
         'globals':{name:int(gdb.parse_and_eval('(unsigned)&'+('driver_storage.temporary' if name=='ir_prefix' else name))) for name in [*SCALARS,*POINTERS]}}
     context['rule_base']=int(gdb.parse_and_eval('(unsigned)option_rules'))
+    context['compiler_passes_address']=int(gdb.parse_and_eval('(unsigned)compiler_passes'))
     context['crt_mb']={name:int(gdb.parse_and_eval(expression)) for name,expression in
         [('codepage','recon_mb_codepage'),('mb_cur_max','recon_mb_cur_max')]}
     if symbol=='write_message':

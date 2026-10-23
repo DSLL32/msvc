@@ -12,3 +12,5 @@ def capture(directory):
     (Path(directory)/'native-entry-errors.json').write_text(json.dumps(values,indent=2)+'\n')
     (Path(directory)/'native-process.json').write_text(json.dumps({'pid':gdb.selected_inferior().pid})+'\n')
     print('NATIVE_PROCESS_PID='+str(gdb.selected_inferior().pid))
+    from gdb_streams import capture as streams
+    streams(directory,'entry')

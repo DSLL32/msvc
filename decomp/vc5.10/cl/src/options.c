@@ -2,6 +2,22 @@
 #include "cl.h"
 #include <recon.h>
 
+/* 00401f91..00401fb2: detach one exact node without releasing its storage. */
+Option *unlink_option(Option **head, Option *option)
+{
+    Option *found;
+    while (*head) {
+        if (*head == option) {
+            found = *head;
+            *head = found->next;
+            found->next = NULL;
+            return found;
+        }
+        head = &(*head)->next;
+    }
+    return NULL;
+}
+
 Option *free_options;
 
 /* 00401392..004013ef: reuse nodes, retaining private copies of each field. */

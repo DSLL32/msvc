@@ -115,6 +115,22 @@ def project(platform,directory):
             names+=['mktemp-entry-'+kind+'.bin'for kind in ('teb','ptd','tls-index')]
         else:names+=['native-entry-errors.json','gdb_entry.py','gdb-entry.py','native-process.json','entry-profile.json']
         result['raw_inputs'].update({name:sha(directory/name)for name in names})
+        if (directory/'streams-entry.json').exists():
+            import streams_state
+            phases=('entry',) if result['fields'].get('status')==0 else ('entry','frontier')
+            result['fields']['streams']={phase:getattr(streams_state,platform)(directory,phase)
+                for phase in phases}
+            names=[]
+            for phase in phases:
+                prefix='streams-'+phase
+                names += [prefix+'.json',prefix+'-iob.bin']
+                if platform=='original':names += [prefix+'-'+kind+'.bin'for kind in ('teb','peb','parameters','lowio','pioinfo-slot')]
+            if platform=='original' and 'frontier' in phases:
+                names+=['mktemp-frontier-'+kind+'.bin'for kind in ('teb','ptd','tls-index')]
+                names+=['context.bin']
+            if platform=='native':names+=['gdb_streams.py']
+            result['raw_inputs'].update({name:sha(directory/name)for name in names})
+            result['stream_decoder_sha256']=sha(Path(streams_state.__file__))
     observed=(directory/'mktemp-before.bin').exists() if platform=='original' else (directory/'mktemp-expected.json').exists()
     if observed:
         import mktemp_state

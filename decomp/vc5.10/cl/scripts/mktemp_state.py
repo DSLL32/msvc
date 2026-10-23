@@ -57,7 +57,8 @@ def original(directory):
     directory=Path(directory)
     capture=json.loads((directory/'capture.json').read_text())
     lines=(directory/'mktemp-events.txt').read_text().splitlines()
-    assert len(lines)==5,'missing/extra temporary-name observations'
+    assert len(lines) in (5,6),'missing/extra temporary-name observations'
+    if len(lines)==6:assert lines[5].startswith('state phase=frontier ')
     states=original_states(directory,['entry','before','after'])
     call=re.fullmatch(r'call sequence=1 argument=([0-9a-f]{8})',lines[1])
     result=re.fullmatch(r'return sequence=1 result=([0-9a-f]{8}) argument=([0-9a-f]{8})',lines[3])

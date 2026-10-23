@@ -68,6 +68,7 @@ extern int no_logo, echo_response, help_requested, show_commands;
 extern int debug_exceptions, error_count, output_produced, default_c_language;
 extern char *source_language, *image_name;
 extern int is_dll;
+extern int keep_preprocessor_output;
 extern CompilerPass compiler_passes[5];
 extern InputKind input_kinds[11];
 

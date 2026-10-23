@@ -16,6 +16,8 @@ def capture(directory):
         print('NATIVE_COMPLETION_STATUS='+str(read(directory,posix,verify_release=False)))
         return
     print('NATIVE_FRONTIER_SYMBOL='+frame.name())
+    from gdb_streams import capture as streams
+    streams(directory,'frontier')
     if frame.name()!='main':
         from frontier_state import capture_native
         capture_native(directory,gdb)

@@ -125,6 +125,58 @@ static void error_state(DWORD teb,DWORD tid,const char *phase)
     file=fopen(path,"wb");fwrite(ptd,1,sizeof(ptd),file);fclose(file);
     fprintf(mktemp_events,"state phase=%s teb=%08lx tid=%lu tls_index=%lu ptd=%08lx\n",phase,teb,tid,index,pointer);
 }
+/* Observe the stopped child's slots. Queries execute only in this debugger;
+ * duplicates are closed here without changing the child's file positions. */
+static void save_bytes(const char *phase,const char *kind,const void *bytes,DWORD count)
+{
+    char path[MAX_PATH];FILE *file;
+    sprintf(path,"%s\\streams-%s-%s.bin",directory,phase,kind);
+    file=fopen(path,"wb");if (!file) ExitProcess(60);
+    if (fwrite(bytes,1,count,file)!=count) ExitProcess(61);
+    fclose(file);
+}
+static void handle_query(FILE *file,HANDLE handle,int remote)
+{
+    HANDLE local=handle;
+    BY_HANDLE_FILE_INFORMATION info;
+    DWORD type,position=0,high=0,ok=0;
+    if (remote && !DuplicateHandle(child,handle,GetCurrentProcess(),&local,0,FALSE,DUPLICATE_SAME_ACCESS))
+        ExitProcess(62);
+    type=GetFileType(local);memset(&info,0,sizeof(info));
+    if (type==FILE_TYPE_DISK) {
+        ok=GetFileInformationByHandle(local,&info);
+        if (!ok) ExitProcess(63);
+        SetLastError(0);position=SetFilePointer(local,0,&high,FILE_CURRENT);
+        if (position==0xffffffffUL && GetLastError()) ExitProcess(64);
+    }
+    fprintf(file,"{\"handle\":%lu,\"type\":%lu,\"information_valid\":%lu,\"volume\":%lu,\"index_high\":%lu,\"index_low\":%lu,\"position_high\":%lu,\"position_low\":%lu}",
+        (DWORD)handle,type,ok,info.dwVolumeSerialNumber,info.nFileIndexHigh,info.nFileIndexLow,high,position);
+    if (remote) CloseHandle(local);
+}
+static void stream_state(DWORD teb,const char *phase,HANDLE input,HANDLE out,HANDLE err)
+{
+    BYTE raw_teb[4096],peb[32],parameters[36],lowio[108],iob[96];
+    DWORD peb_address,parameters_address,lowio_address,iob_address,handle;
+    char path[MAX_PATH];FILE *file;int i;
+    memory(teb,raw_teb,sizeof(raw_teb));memcpy(&peb_address,raw_teb+0x30,4);
+    memory(peb_address,peb,sizeof(peb));memcpy(&parameters_address,peb+0x10,4);
+    memory(parameters_address,parameters,sizeof(parameters));
+    memory(exported(crt_base,"__pioinfo"),&lowio_address,4);
+    iob_address=exported(crt_base,"_iob");
+    memory(lowio_address,lowio,sizeof(lowio));memory(iob_address,iob,sizeof(iob));
+    save_bytes(phase,"teb",raw_teb,sizeof(raw_teb));save_bytes(phase,"peb",peb,sizeof(peb));
+    save_bytes(phase,"parameters",parameters,sizeof(parameters));
+    save_bytes(phase,"pioinfo-slot",&lowio_address,4);
+    save_bytes(phase,"lowio",lowio,sizeof(lowio));save_bytes(phase,"iob",iob,sizeof(iob));
+    sprintf(path,"%s\\streams-%s.json",directory,phase);file=fopen(path,"wb");if (!file) ExitProcess(65);
+    fprintf(file,"{\"teb\":%lu,\"peb\":%lu,\"parameters\":%lu,\"lowio\":%lu,\"iob\":%lu,\"inherited\":[",teb,peb_address,parameters_address,lowio_address,iob_address);
+    handle_query(file,input,0);fprintf(file,",");handle_query(file,out,0);fprintf(file,",");handle_query(file,err,0);
+    fprintf(file,"],\"crt\":[");
+    for (i=0;i<3;++i) { if (i) fprintf(file,",");memcpy(&handle,lowio+36*i,4);handle_query(file,(HANDLE)handle,1); }
+    fprintf(file,"],\"win32\":[");
+    for (i=0;i<3;++i) { if (i) fprintf(file,",");memcpy(&handle,parameters+0x18+4*i,4);handle_query(file,(HANDLE)handle,1); }
+    fprintf(file,"]}\n");fclose(file);
+}
 static void raw_vector(const char *name,DWORD vector,int expected_count)
 {
     DWORD count=0,pointer,length;
@@ -333,6 +385,7 @@ int main(int argc,char **argv)
                 if (guard->rva==0x1743) {
                     memory(context.Esp,stack,sizeof(stack));crt_state(stack);root_inputs_captured=1;
                     if (observe_mktemp) error_state(teb,event.dwThreadId,"entry");
+                    if (observe_mktemp) stream_state(teb,"entry",input,out,err);
                     output_path(path,"main-entry-context.bin");snapshot=fopen(path,"wb");
                     fwrite(&context,1,sizeof(context),snapshot);fwrite(stack,1,sizeof(stack),snapshot);fclose(snapshot);
                 }
@@ -343,9 +396,9 @@ int main(int argc,char **argv)
             } else if (code==EXCEPTION_BREAKPOINT && observe_resources &&
                 (address==target_base+0x534d || address==target_base+0x5353)) {
                 BYTE output[256];
-                thread=NULL;
+                thread=NULL;teb=0;
                 for (i=0;i<threads_count;++i)
-                    if (thread_ids[i]==event.dwThreadId) thread=threads[i];
+                    if (thread_ids[i]==event.dwThreadId) { thread=threads[i];teb=thread_tebs[i]; }
                 if (!thread) return 38;
                 memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL;
                 if (!GetThreadContext(thread,&context)) return 39;
@@ -398,9 +451,9 @@ int main(int argc,char **argv)
                 if (!SetThreadContext(thread,&context)) return 59;
             } else if (code==EXCEPTION_BREAKPOINT && address>=target_base+0x1000 &&
                 address<target_base+0x1000+target_size && stop_at_trap) {
-                thread=NULL;
+                thread=NULL;teb=0;
                 for (i=0;i<threads_count;++i)
-                    if (thread_ids[i]==event.dwThreadId) thread=threads[i];
+                    if (thread_ids[i]==event.dwThreadId) { thread=threads[i];teb=thread_tebs[i]; }
                 if (!thread) return 8;
                 memset(&context,0,sizeof(context));context.ContextFlags=CONTEXT_FULL|CONTEXT_FLOATING_POINT;
                 if (!GetThreadContext(thread,&context)) return 9;
@@ -422,6 +475,10 @@ int main(int argc,char **argv)
                 fprintf(events,"trap event=%lu address=%08lx rva=%08lx eax=%08lx ecx=%08lx edx=%08lx esp=%08lx\n",
                     event_number,address,address-target_base,context.Eax,context.Ecx,context.Edx,context.Esp);
                 fflush(events);
+                if (observe_mktemp && address!=target_base+0x58e0) {
+                    error_state(teb,event.dwThreadId,"frontier");fflush(mktemp_events);
+                    stream_state(teb,"frontier",input,out,err);
+                }
                 if (address!=target_base+0x1743 && address!=target_base+0x58e0)
                     frontier_requests(address,stack);
                 TerminateProcess(child,0x7001);

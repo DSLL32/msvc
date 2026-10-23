@@ -65,7 +65,11 @@
     "_show_help",
     "_append_escaped",
     "_classify_input",
-    "_add_input"
+    "_add_input",
+    "_create_input",
+    "_unlink_option",
+    "_disable_pass",
+    "_prepare_execution"
   ],
   "driver": [
     {
@@ -296,10 +300,14 @@
     {
       "name": "_prepare_execution",
       "start": 4216832,
-      "end": 4216833,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "prepare_execution"
+      "end": 4216854,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "prepare_execution",
+      "evidence": {
+        "kind": "complete conditional stdout-to-stderr descriptor duplication body disassembly",
+        "range": "00405800..00405816",
+        "import": "MSVCRT!_dup2 at IAT0040a2c4; cdecl int(int,int)"
+      }
     },
     {
       "name": "_run_driver",
@@ -711,10 +719,13 @@
     {
       "name": "_unlink_option",
       "start": 4202385,
-      "end": 4202386,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "unlink_option"
+      "end": 4202418,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "unlink_option",
+      "evidence": {
+        "kind": "complete exact-node detach and null-on-missing body disassembly",
+        "range": "00401f91..00401fb2"
+      }
     },
     {
       "name": "_delete_option",
@@ -810,10 +821,13 @@
     {
       "name": "_disable_pass",
       "start": 4203608,
-      "end": 4203609,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "disable_pass"
+      "end": 4203673,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "disable_pass",
+      "evidence": {
+        "kind": "complete pass selection and enable-bit clearing body disassembly",
+        "range": "00402458..00402499"
+      }
     },
     {
       "name": "_set_output_option",
@@ -910,10 +924,13 @@
     {
       "name": "_create_input",
       "start": 4198499,
-      "end": 4198500,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "create_input"
+      "end": 4198548,
+      "state": "reconstructed pending fresh proof",
+      "native_symbol": "create_input",
+      "evidence": {
+        "kind": "complete input record allocation/name ownership/initial fields disassembly",
+        "range": "00401063..00401094"
+      }
     }
   ],
   "runtime": [

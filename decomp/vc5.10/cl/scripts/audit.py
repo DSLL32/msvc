@@ -4,6 +4,7 @@ import argparse
 import copy
 import hashlib
 import json
+import os
 from pathlib import Path
 import subprocess
 import time
@@ -11,7 +12,7 @@ from import_residuals import verify as verify_import_residuals
 
 PROJECT=Path(__file__).resolve().parents[1]
 ROOT=PROJECT.parents[2]
-TOOL=ROOT/'tooling/graph-audit/target/release/graph-audit'
+TOOL=Path(os.environ.get('GRAPH_AUDIT_BIN',str(ROOT/'tooling/graph-audit/target/release/graph-audit'))).resolve()
 FLAGS=['--discovery','cfg','--check-ret','--check-references','--check-ownership','--check-extents','--include-evidenced-runtime','--check-accepted-extents']
 sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
@@ -20,7 +21,7 @@ def input_paths(project=PROJECT,root=ROOT,config=None):
     result={'original':root/'toolchains/5.10/bin/CL.EXE','rebuilt':project/'build/cl.exe',
         'map':project/'build/cl.map','runtime':project/'runtime.json',
         'rebuilt_runtime':project/'build/runtime.json','metadata':project/'graph-metadata.json',
-        'tool':root/'tooling/graph-audit/target/release/graph-audit',
+        'tool':TOOL,
         'runner':project/'scripts/audit.py','config':config or project/'functions.json',
         'import_residuals':project/'cases/help/import-residuals.json','import_residual_verifier':project/'scripts/import_residuals.py'}
     if '_find_rule' in json.loads((config or project/'functions.json').read_text())['accepted']:

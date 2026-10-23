@@ -18,10 +18,6 @@ void fatal(unsigned id, ...) {
     __asm int 3
 
 } /* 00405361 */
-void prepare_execution(void) {
-    __asm int 3
-
-} /* 00405800 */
 void run_driver(Driver *state) {
     __asm int 3
 
@@ -44,9 +40,6 @@ BOOL WINAPI console_control_handler(DWORD event)
 
 
 void read_response(char *name) { __asm int 3 }
-Input *create_input(char *name, int kind) { __asm int 3
-    return NULL;
-}
 
 
 void option_conflict(unsigned id, Option *old, Option *replacement) { __asm int 3 }
@@ -76,9 +69,6 @@ Option *object_input(char **args, int *index) { __asm int 3
 Option *copy_option(Option *option) { __asm int 3
     return NULL;
 }
-Option *unlink_option(Option **head, Option *option) { __asm int 3
-    return NULL;
-}
 
 
 
@@ -98,7 +88,6 @@ void enable_pass(Option *option) { __asm int 3 }
 
 void toggle_pass(Option *option) { __asm int 3 }
 
-void disable_pass(Option *option) { __asm int 3 }
 
 
 void set_pass_suffix(Option *option) { __asm int 3 }

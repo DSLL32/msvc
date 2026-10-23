@@ -31,6 +31,46 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/add-input-1/pair.json",
         "sha256": "99112d128a240553b80b7103443e1c6533b6071b495db49f5915e6a444d8af0c"
       }
+    },
+    {
+      "order": 4,
+      "candidate": "_create_input",
+      "class": "application",
+      "extent_bytes": 49,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/create-input-1/pair.json",
+        "sha256": "c9cc22f786634cdad0dd718f68f45833bae9b992f82c03424e157f1b13c689be"
+      }
+    },
+    {
+      "order": 5,
+      "candidate": "_unlink_option",
+      "class": "application",
+      "extent_bytes": 33,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/unlink-option-1/pair.json",
+        "sha256": "8e81c5dc7aceeaf94997917bc6a5b3b725d6af04cfe63cc15d3cb79a7981641d"
+      }
+    },
+    {
+      "order": 6,
+      "candidate": "_disable_pass",
+      "class": "application",
+      "extent_bytes": 65,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/disable-pass-2/pair.json",
+        "sha256": "b863532a993f76d239db5cb76d7905ac4a0344ddf7f0d4144a315b2717340f93"
+      }
+    },
+    {
+      "order": 7,
+      "candidate": "_prepare_execution",
+      "class": "application",
+      "extent_bytes": 22,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/prepare-execution-1/pair.json",
+        "sha256": "09caeea413a533a41a657b7c47a36744ce16eb7fd75dd8a7e1a504eb63e0761a"
+      }
     }
   ]
 }

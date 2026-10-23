@@ -152,6 +152,18 @@ void add_input(char *name, int kind, int explicit_kind)
         ++source_count;
 }
 
+/* 00401063..00401094: construct one owned input record. */
+Input *create_input(char *name, int kind)
+{
+    Input *input = allocate(sizeof(Input));
+    input->kind = kind;
+    input->explicit_kind = 1;
+    input->name = duplicate(name);
+    input->next = NULL;
+    input->sequence = -1;
+    return input;
+}
+
 /* 00401aed..00401be7: response files, input names and driver options. */
 void parse_arguments(char **args, int count)
 {
