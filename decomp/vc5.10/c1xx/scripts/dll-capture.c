@@ -244,6 +244,10 @@ static void save_frontend_state(const char *suffix)
     readmem(base + 0xc0960, data + 28, 4);
     readmem(base + 0xc085c, data + 32, 1);
     sprintf(name, "output-buffer-05-%s.bin", suffix); save_blob(name, data, 33);
+    readmem(base + 0xc0230, data, 28);
+    readmem(base + 0xc0350, data + 28, 4);
+    readmem(base + 0xc024c, data + 32, 1);
+    sprintf(name, "output-buffer-06-%s.bin", suffix); save_blob(name, data, 33);
     readmem(base + 0xcc000, data, sizeof(data));
     sprintf(name, "frontend-data-%s.bin", suffix); save_blob(name, data, sizeof(data));
     if (values[1]) {
@@ -270,9 +274,9 @@ static void save_aux_state(const char *suffix)
 static void seed_output_buffer(unsigned index, const char *role)
 {
     DWORD allocated, value;
-    static const DWORD objects[] = { 0xbf5c0, 0xc0590, 0xbf358, 0xc0360, 0xc0840 };
+    static const DWORD objects[] = { 0xbf5c0, 0xc0590, 0xbf358, 0xc0360, 0xc0840, 0xc0230 };
     DWORD object;
-    if (index >= 5) fail("unmodeled output seed");
+    if (index >= 6) fail("unmodeled output seed");
     object = base + objects[index];
     readmem(base + 0xc4d50, &allocated, 4);
     if (!allocated) fail("output seed needs owned snapshot");
@@ -338,6 +342,7 @@ static void seed_frontend_restore(void)
     seed_output_buffer(2, "nonzero-BSS-reset");
     seed_output_buffer(3, "nonzero-BSS-reset");
     seed_output_buffer(4, "nonzero-BSS-reset");
+    seed_output_buffer(5, "nonzero-BSS-reset");
     value = 9; write_mem(base + 0xcb06c, &value, 4);
     value = !strcmp(seed, "restore-zero") ? 0 : 3; write_mem(base + 0xcb008, &value, 4);
     fprintf(events, "restore-seed mode=%s allocation=%08lx bytes=8520 cleanup-count=32 mocked-cleanup-callback=_initialize_frontend_01 slots=32\n", seed, allocated);
@@ -510,8 +515,10 @@ int main(int argc, char **argv)
                 }
                 if (address == base + 0x384d4) seed_frontend_restore();
                 if (getenv("C1XX_TEST_OUTPUT_CONSTRUCTOR")) {
+                    static const DWORD constructors[] = { 0x38666, 0x386db, 0x3872a, 0x38779, 0x387c8, 0x38817 };
                     unsigned object = atoi(getenv("C1XX_TEST_OUTPUT_CONSTRUCTOR"));
-                    if (address == base + (object == 5 ? 0x387c8 : object == 4 ? 0x38779 : object == 3 ? 0x3872a : object == 2 ? 0x386db : 0x38666))
+                    if (!object || object > 6) fail("unknown constructor data seed");
+                    if (address == base + constructors[object - 1])
                         seed_output_buffer(object - 1, "constructor-entry");
                 }
                 boundary(&context, address, thread);

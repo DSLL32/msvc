@@ -20,7 +20,7 @@ typedef struct OutputBuffer {
     unsigned char mode;
 } OutputBuffer;
 
-enum { FRONTEND_OUTPUT_BUFFERS = 5 };
+enum { FRONTEND_OUTPUT_BUFFERS = 6 };
 
 void initialize_output_buffer_01(void);
 void destroy_output_buffer_01(void);
