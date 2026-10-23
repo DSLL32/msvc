@@ -22,7 +22,8 @@ def check():
             else:
                 import re
                 publics={m[1]:int(m[2],16) for m in re.finditer(r'^\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})',(HERE/'build/rc.map').read_text(),re.M)}
-                start=publics[logical]
+                target=next(r for r in config['driver'] if r['name']==logical)
+                start=publics[target.get('symbol',logical)]
                 row={'start':start,'end':min(a for a in publics.values() if a>start)}
             assert iat.cached_import(pe,row['start'],row['end'],logical)==proof
             for kind in ['slot','call-register','partial-register-write','branch-before-load','branch-after-restore']:

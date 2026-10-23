@@ -1,0 +1,91 @@
+{
+  "kind": "source-symbol-only migration",
+  "source_entry": "main",
+  "original_MAP_symbol": "_main",
+  "historical_logical_ID": "_rc_main",
+  "native_target_TU_alias": "-Dmain=rc_main",
+  "original_replayed": false,
+  "pair": "/root/.ai-tmp/msvc2/vc5.10/rc/frontiers/019-main-name",
+  "original_reuse": {
+    "source": "/root/.ai-tmp/msvc2/vc5.10/rc/frontiers/012-diagnostic-frame/original",
+    "receipt_sha256": "e5bfeca4d0436babf8285fc852345c11ee9b842c9ba01d290146d1a3655583c2",
+    "driver_symbol_projection": [
+      {
+        "logical": "_rc_main",
+        "captured_symbol": "_rc_main",
+        "current_symbol": "_main"
+      }
+    ],
+    "reason": "Explicit reuse of unchanged target/module/case/candidate/mask inputs; native rebuilt independently"
+  },
+  "comparison": {
+    "frontier": null,
+    "completion": true,
+    "status": 0,
+    "entries": [
+      "_rc_main",
+      "_rc_diagnostic@12"
+    ]
+  },
+  "config_sha256": "1b910a28f43388400718fea406b440cbb47db384a864d664c407b50212cf6bbc",
+  "rebuilt_sha256": "f4a943a507e5c8d581aba440ba8f241010a2cf15e2753a25d9fb0de167413e45",
+  "native_sha256": "58f2726e60c60c5f25bf6b9e66373398874585604b1760d5b7bf9f814410c776",
+  "audit_sha256": "671d95b2638c5f7303c108a54db103eeea04d00d39335b8220652355c4a6779a",
+  "rejections": {
+    "rejected": [
+      "reuse-wrong-extent",
+      "reuse-wrong-reference",
+      "reuse-wrong-argv",
+      "reuse-wrong-mask-prefix",
+      "stale-config",
+      "changed-raw-original",
+      "resealed-missing-frontier",
+      "resealed-missing-native-state",
+      "resealed-wrong-native-trap",
+      "resealed-wrong-native-exit",
+      "resealed-missing-completion",
+      "resealed-missing-GDB-exit",
+      "wrong-immutable-source",
+      "resealed-wrong-native-compiled-content",
+      "wrong-runtime-projection",
+      "wrong-audit-MAP-pin",
+      "resealed-wrong-loaded-target",
+      "resealed-stream-mismatch",
+      "unknown-owner",
+      "overlap",
+      "accepted-trap-stub"
+    ]
+  },
+  "source_sha256": {
+    "src/rc.c": "e6f3db4f8952b480f6bf11c12dd90bd37b9094863bbe1a4cd7e2bd0d766e83fa",
+    "src/rcdll.def": "801a4383ad2f4330539713381b677e1f17d5e305628d29c007c812a76c80c570",
+    "src/startup.c": "b84b72756f6452c548c74a7d0b92b7e0b87380cca820f4cfc62015f74278d18e",
+    "src/rc.h": "f5e3056b4b81f64d57607be435a3965199ff14d592c7710ec7952386277a1f4c"
+  },
+  "cached_import_rejections": {
+    "status": "pass",
+    "rejected": [
+      "original:_rc_main:slot",
+      "original:_rc_main:call-register",
+      "original:_rc_main:partial-register-write",
+      "original:_rc_main:branch-before-load",
+      "original:_rc_main:branch-after-restore",
+      "original:_rc_diagnostic@12:slot",
+      "original:_rc_diagnostic@12:call-register",
+      "original:_rc_diagnostic@12:partial-register-write",
+      "original:_rc_diagnostic@12:branch-before-load",
+      "original:_rc_diagnostic@12:branch-after-restore",
+      "rebuilt:_rc_main:slot",
+      "rebuilt:_rc_main:call-register",
+      "rebuilt:_rc_main:partial-register-write",
+      "rebuilt:_rc_main:branch-before-load",
+      "rebuilt:_rc_main:branch-after-restore",
+      "rebuilt:_rc_diagnostic@12:slot",
+      "rebuilt:_rc_diagnostic@12:call-register",
+      "rebuilt:_rc_diagnostic@12:partial-register-write",
+      "rebuilt:_rc_diagnostic@12:branch-before-load",
+      "rebuilt:_rc_diagnostic@12:branch-after-restore"
+    ],
+    "qualification": "specific callee-saved-register residual, separate from Rust CFG and --check-imports"
+  }
+}

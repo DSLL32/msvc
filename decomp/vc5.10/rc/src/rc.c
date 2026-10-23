@@ -1,7 +1,7 @@
 #include "rc.h"
 #include <recon.h>
 
-int rc_main(int argc, char **argv, char **environment)
+int main(int argc, char **argv, char **environment)
 {
     int result;
 

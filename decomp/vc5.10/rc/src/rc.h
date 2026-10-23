@@ -15,7 +15,7 @@ typedef void *ResourceCallback;
 int WINAPI RC(HWND, unsigned, DiagnosticCallback,
                                    ResourceCallback, int, char **);
 BOOL WINAPI Handler(DWORD);
-int rc_main(int, char **, char **);
+int main(int, char **, char **);
 int WINAPI rc_diagnostic(HWND, unsigned, char *);
 void mainCRTStartup(void);
 void set_argv(void);

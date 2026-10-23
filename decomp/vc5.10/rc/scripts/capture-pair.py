@@ -6,7 +6,7 @@ import json
 import shutil
 import time
 from pathlib import Path
-from common import HERE
+from common import HERE,read,original_trial_projection
 
 def module(name,filename):
     spec=importlib.util.spec_from_file_location(name,HERE/'scripts'/filename)
@@ -23,7 +23,7 @@ if __name__=='__main__':
     for source,name in [(HERE/'build/audit-original-runtime.json','audit-original-runtime.json'),(HERE/'build/runtime.json','audit-rebuilt-runtime.json'),(HERE/'build/rc.map','rc.map'),(HERE/'graph-metadata.json','graph-metadata.json')]:shutil.copyfile(source,a.directory/name)
     phase=time.perf_counter()
     if a.reuse_original:
-        assert (a.reuse_original/'candidate.json').read_bytes()==config.read_bytes(),'Reused original had different execution metadata/mask'
+        projection=original_trial_projection(read(config),read(a.reuse_original/'candidate.json'))
         shutil.copytree(a.reuse_original,a.directory/'original')
         attachment=a.directory/'original/compiled-sources.json'
         if not attachment.exists():
@@ -36,7 +36,7 @@ if __name__=='__main__':
                 contents[name]=raw.decode()
             attachment.write_text(json.dumps(contents,indent=2)+'\n')
 
-        (a.directory/'reuse-original.json').write_text(json.dumps({'source':str(a.reuse_original.resolve()),'receipt_sha256':module('rc_common','common.py').sha(a.reuse_original/'receipt.json'),'reason':'Explicit reuse of unchanged target/module/case/candidate/mask inputs; native rebuilt independently'},indent=2)+'\n')
+        (a.directory/'reuse-original.json').write_text(json.dumps({'source':str(a.reuse_original.resolve()),'receipt_sha256':module('rc_common','common.py').sha(a.reuse_original/'receipt.json'),'driver_symbol_projection':projection,'reason':'Explicit reuse of unchanged target/module/case/candidate/mask inputs; native rebuilt independently'},indent=2)+'\n')
     else:
         module('rc_original','capture-original.py').capture(a.directory/'original',config)
     timings['original_reuse_copy_seconds' if a.reuse_original else 'original_capture_seconds']=time.perf_counter()-phase

@@ -11,7 +11,8 @@
       "name": "_rc_main",
       "start": 16781778,
       "end": 16781845,
-      "abi": "cdecl3"
+      "abi": "cdecl3",
+      "symbol": "_main"
     },
     {
       "name": "_rc_diagnostic@12",

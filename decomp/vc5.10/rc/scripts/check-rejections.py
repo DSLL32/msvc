@@ -6,7 +6,7 @@ import json
 from pathlib import Path
 import shutil
 import tempfile
-from common import HERE,ROOT,read,sha,verify_compiled_sources
+from common import HERE,ROOT,read,sha,verify_compiled_sources,original_trial_projection
 
 spec=importlib.util.spec_from_file_location('verify_pair',HERE/'scripts/verify-pair.py')
 v=importlib.util.module_from_spec(spec);spec.loader.exec_module(v)
@@ -32,6 +32,19 @@ def run(initial):
         verify_compiled_sources(compiled)
     finally:
         Path.read_text=original_read
+    if (initial/'reuse-original.json').exists():
+        import copy
+        captured=read(initial/'original/candidate.json')
+        current=read(base_config)
+        for label,mutate in [
+            ('reuse-wrong-extent',lambda j:j['driver'][0].update(end=j['driver'][0]['end']+1)),
+            ('reuse-wrong-reference',lambda j:j.update(reference_manifest_sha256='0'*64)),
+            ('reuse-wrong-argv',lambda j:j['cases']['help'].update(argv=['/other'])),
+            ('reuse-wrong-mask-prefix',lambda j:j['accepted'].pop())]:
+            changed=copy.deepcopy(current);mutate(changed)
+            try:original_trial_projection(changed,captured)
+            except AssertionError:accepted.append(label)
+            else:raise AssertionError('Accepted wrong original reuse projection '+label)
     with tempfile.TemporaryDirectory(prefix='rc-rejections-',dir=str(Path.home()/'.ai-tmp')) as temp:
         temp=Path(temp)
         def check(name,change):

@@ -35,7 +35,7 @@ void mainCRTStartup(void)
         __getmainargs(&argc, &argv, &environment, crt_wildcard, &information);
         _initterm(crt_xc, crt_xc + 1);
         *__p___initenv() = environment;
-        exit(rc_main(argc, argv, environment));
+        exit(main(argc, argv, environment));
     } __except(_XcptFilter(fault_code = GetExceptionCode(), GetExceptionInformation())) {
         _exit(fault_code);
     }

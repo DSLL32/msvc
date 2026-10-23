@@ -9,7 +9,7 @@ int WINAPI rc_diagnostic(HWND window, unsigned code, char *message)
     exit(126);
     return 0;
 }
-int main(int argc, char **argv)
+int main(int argc, char **argv, char **environment)
 {
     const char *mode = getenv("RC_REJECTION");
     HWND window = NULL;

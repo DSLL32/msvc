@@ -3,7 +3,7 @@
 import argparse
 import json
 from pathlib import Path
-from common import HERE,ROOT,read,sha,source_pins,parse_original,parse_native,symbol,CRT_SHA,verify_compiled_sources
+from common import HERE,ROOT,read,sha,source_pins,parse_original,parse_native,symbol,CRT_SHA,verify_compiled_sources,original_trial_projection
 
 from reference_data import verify as verify_reference
 
@@ -23,8 +23,14 @@ def validate(directory,candidate):
     assert audit['checked_functions']==len(expected) and set(audit['functions'])==expected,'Trial source graph not fully audited'
     for side in ['original','native']:
         place=directory/side;receipt=read(place/'receipt.json')
-        assert (place/'candidate.json').read_bytes()==Path(candidate).read_bytes(),'Trial snapshot differs'
-        assert receipt.get('candidate_sha256',receipt.get('config_sha256'))==sha(candidate),'Trial config hash differs'
+        captured=read(place/'candidate.json')
+        if side=='original' and (directory/'reuse-original.json').exists():
+            reuse=read(directory/'reuse-original.json')
+            assert reuse['receipt_sha256']==sha(place/'receipt.json'),'Reused original receipt changed'
+            assert reuse.get('driver_symbol_projection',[])==original_trial_projection(config,captured),'Invalid naming-only original projection'
+        else:
+            assert (place/'candidate.json').read_bytes()==Path(candidate).read_bytes(),'Trial snapshot differs'
+        assert receipt.get('candidate_sha256',receipt.get('config_sha256'))==sha(place/'candidate.json'),'Trial config hash differs'
         if side=='native':
             assert receipt['native_sha256']==sha(HERE/'build/native/rc'),'Native changed since capture'
             assert receipt['rebuilt_sha256']==sha(HERE/'build/rc.exe'),'Rebuilt changed since capture'

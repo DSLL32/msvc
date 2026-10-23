@@ -1,8 +1,11 @@
 # VC 5.10 RC
 
 Target: `toolchains/5.10/bin/RC.EXE`, resource compiler 5.00.1472.1.
-The released first case, `/help`, is complete. Work is paused before resource
-compilation. Two application functions account for all 277 identified application
+The source entry is `main` (Win32 MAP `_main`); the historical logical ID
+`_rc_main` is retained explicitly, and native target translation units use
+`-Dmain=rc_main` to keep the host adapter separate. The naming-only migration
+retains the old raw evidence and did not recapture the original.
+The released first case, `/help`, is complete. Rich resource compilation is now authorized and in preparation. Two application functions account for all 277 identified application
 bytes. Reached startup support accounts for 350 of 353 bytes; the unvisited
 three-byte math-error hook remains an INT3 stub. Three accepted import thunks
 account for another 18 bytes, separately. This earns no RCDLL implementation credit.

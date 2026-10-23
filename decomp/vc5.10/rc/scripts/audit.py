@@ -27,7 +27,7 @@ def audit(config,report=None):
     assert set(settings['accepted'])<=known,'Unknown accepted function'
     source='\n'.join(p.read_text() for p in (HERE/'src').glob('*.c'))
     for row in settings['driver']+settings['support']:
-        plain=row['name'].lstrip('_').split('@')[0]
+        plain=row.get('symbol',row['name']).lstrip('_').split('@')[0]
         assert re.search(r'\b'+re.escape(plain)+r'\s*\(',source),'Missing named body/stub '+plain
         if row['name'] in settings['accepted']:
             body=re.search(r'\b'+re.escape(plain)+r'\s*\([^)]*\)\s*\{(.*?)\n\}',source,re.S)
@@ -56,7 +56,7 @@ def audit(config,report=None):
     spec=importlib.util.spec_from_file_location('rc_iat',HERE/'scripts/iat-references.py');iat=importlib.util.module_from_spec(spec);spec.loader.exec_module(iat)
     original_pe=PE(ROOT/settings['target']['path']);rebuilt_records={r['name']:r for r in runtime}
     for row in settings['driver']:
-        start=publics[row['name']];rebuilt_records[row['name']]={'start':start,'end':next(a for a in ends if a>start)}
+        start=publics[row.get('symbol',row['name'])];rebuilt_records[row['name']]={'start':start,'end':next(a for a in ends if a>start)}
     iat_report={}
     cached_report={}
     for row in settings['driver']+settings['support']:

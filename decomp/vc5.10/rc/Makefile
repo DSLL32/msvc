@@ -27,7 +27,7 @@ NATIVE_OBJECTS = build/native/rc.o build/native/startup.o
 build/native:
 	mkdir -p $@
 build/native/%.o: src/%.c $(NATIVE_HEADERS) | build/native
-	$(NATIVE_CC) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
+	$(NATIVE_CC) $(NATIVE_FLAGS) -Dmain=rc_main -finstrument-functions -c $< -o $@
 build/native/rc: $(NATIVE_OBJECTS) scripts/native-host.c scripts/native-boundary.c scripts/native-fixture.h $(NATIVE_SHIMS) $(RECON)/src/trace.c scripts/native-build.py Makefile
 	$(PYTHON) scripts/native-build.py $@ -- $(NATIVE_CC) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/native-host.c scripts/native-boundary.c $(NATIVE_SHIMS) $(RECON)/src/trace.c -o $@
 native: build/native/rc

@@ -1,5 +1,5 @@
 {
-  "status": "first-case-complete-paused",
+  "status": "resources-rich-authorized-reference-in-preparation",
   "gates": [],
   "reconstructed_functions": 5,
   "cases": [
@@ -24,16 +24,18 @@
     {
       "id": "resources-rich",
       "argv": [
-        "/fooutput.res",
-        "/iinclude",
+        "/r",
         "/dCASE_FROM_COMMAND=7",
-        "/iR:\\toolchains\\5.10\\include",
+        "/iinclude",
+        "/foresources.res",
         "resources.rc"
       ],
       "source": "resources-rich/source",
       "source_seed": "decomp/vc1.0/fixtures/resources-rich/source",
       "initial": true,
-      "status": "queued-not-released"
+      "status": "shared-original-reference-in-preparation",
+      "shared_source_owner": "decomp/vc5.10/rcdll/cases/resources-rich/source",
+      "dependency": "strict native RCDLL response replay with complete inputs, callbacks and .res artifact"
     }
   ],
   "dependency_boundary": {

@@ -30,6 +30,19 @@ def verify_compiled_sources(compiled):
         if name.startswith(prefix):
             assert (ROOT/name).read_text()==text,'Target-owned consumed source changed: '+name
 
+def original_trial_projection(current,captured):
+    """Only source MAP symbol names may differ in explicitly reused original data."""
+    import copy
+    a,b=copy.deepcopy(current),copy.deepcopy(captured)
+    changes=[]
+    for left,right in zip(a['driver'],b['driver']):
+        previous=right.pop('symbol',right['name'])
+        following=left.pop('symbol',left['name'])
+        if previous!=following:
+            changes.append({'logical':left['name'],'captured_symbol':previous,'current_symbol':following})
+    assert a==b,'Reused original has different effective target/mask/case/reference inputs'
+    return changes
+
 def parse_original(directory,config):
     directory=Path(directory);text=(directory/'events.txt').read_text()
     assert 'error ' not in text and 'exception ' not in text,'Original debugger error/exception'
