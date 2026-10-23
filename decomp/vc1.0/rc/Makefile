@@ -2,8 +2,10 @@ PYTHON ?= python3
 TOOL = $(PYTHON) scripts/wine-tool.py
 TC = ../../../toolchains/1.0-nt
 RECON = ../../../lib/recon
-.PHONY: prefix all native native-trace native-check native-trace-check check replay clean reference-build reference-audit native-cache-reference capture-native-boundaries-reference capture-direct-reference capture-specialized-reference
+.PHONY: prefix all native native-trace native-check native-trace-check check replay clean reference-build reference-audit native-cache-reference capture-native-boundaries-reference capture-direct-reference capture-specialized-reference graph-audit
 all: native
+include ../../../tooling/graph-audit/graph-audit.mk
+GRAPH_AUDIT_FLAGS = --discovery cfg --check-ret --check-references --check-callbacks --check-ownership --check-extents --check-accepted-extents
 
 # Explicit canonical compile/analysis only. No fixture target depends on Wine.
 prefix:
@@ -23,8 +25,13 @@ runtime.json: functions.json scripts/identify-runtime.py scripts/binary.py $(TC)
 build/runtime.json: functions.json build/rc.exe scripts/identify-runtime.py scripts/binary.py
 	$(PYTHON) scripts/identify-runtime.py build/rc.exe $@
 reference-audit: reference-build runtime.json build/runtime.json
-	$(PYTHON) scripts/audit-graph.py
-	$(PYTHON) scripts/audit-uncovered.py
+	$(MAKE) graph-audit
+# Host-only read-only audits of existing canonical artifacts; no Wine dependency.
+# Keep the complete tool report, and let actual tool error diagnostics reach stderr.
+graph-audit: $(GRAPH_AUDIT_BIN) | build
+	$(GRAPH_AUDIT_BIN) --repo ../../.. --project . --profile rc $(GRAPH_AUDIT_FLAGS) >build/graph-audit.json
+	$(PYTHON) scripts/audit-data.py
+	$(PYTHON) scripts/audit-uncovered.py --graph-report build/graph-audit.json
 
 # Separate native objects instrument application C only. Shared compatibility
 # sources and the small fixture entry compile directly at final link, no archive.

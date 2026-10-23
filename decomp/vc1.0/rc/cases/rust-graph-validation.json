@@ -1,0 +1,7495 @@
+{
+  "status": "pass",
+  "scope": "Host graph-audit tooling integration only; no new reconstruction, source change, Wine rebuild or original recapture",
+  "common_tool": {
+    "ready_commit": "c09b3eb0",
+    "binary": {
+      "path": "tooling/graph-audit/target/release/graph-audit",
+      "bytes": 5853464,
+      "sha256": "8fc8bacc8d17daa091bf3b8aaded806dc53de7861a0768c9a85d7b5dc4bc047c"
+    },
+    "flags": [
+      "--discovery",
+      "cfg",
+      "--check-ret",
+      "--check-references",
+      "--check-callbacks",
+      "--check-ownership",
+      "--check-extents",
+      "--check-accepted-extents"
+    ],
+    "full_report": {
+      "checked_accepted_extents": {
+        "original": 254,
+        "rebuilt": 254
+      },
+      "checked_functions": 193,
+      "checked_unique_accepted_extents": {
+        "original": 254,
+        "rebuilt": 254
+      },
+      "checks": [
+        "call_graph",
+        "ret_cleanup",
+        "function_references",
+        "callback_tables",
+        "extent_ownership",
+        "whole_extent_boundaries",
+        "accepted_index_extents"
+      ],
+      "discovery": "cfg",
+      "functions": {
+        "__alloc_osfhnd": {
+          "edges": []
+        },
+        "__cenvarg": {
+          "edges": [
+            "_free",
+            "_malloc"
+          ]
+        },
+        "__cinit": {
+          "edges": [
+            "__initterm",
+            "indirect"
+          ]
+        },
+        "__close": {
+          "edges": [
+            "__dosmaperr",
+            "__free_osfhnd",
+            "__get_osfhandle",
+            "import:CloseHandle",
+            "import:GetLastError"
+          ]
+        },
+        "__dospawn": {
+          "edges": [
+            "__dosmaperr",
+            "__exit",
+            "_calloc",
+            "_free",
+            "import:CloseHandle",
+            "import:CreateProcessA",
+            "import:GetExitCodeProcess",
+            "import:GetLastError",
+            "import:WaitForSingleObject"
+          ]
+        },
+        "__filbuf": {
+          "edges": [
+            "__getbuf",
+            "__read"
+          ]
+        },
+        "__flushall": {
+          "edges": [
+            "_flsall"
+          ]
+        },
+        "__free_osfhnd": {
+          "edges": [
+            "import:SetStdHandle"
+          ]
+        },
+        "__freebuf": {
+          "edges": [
+            "_free"
+          ]
+        },
+        "__ftbuf": {
+          "edges": [
+            "__flush"
+          ]
+        },
+        "__get_osfhandle": {
+          "edges": []
+        },
+        "__getbuf": {
+          "edges": [
+            "_malloc"
+          ]
+        },
+        "__getpath": {
+          "edges": []
+        },
+        "__heap_init": {
+          "edges": [
+            "import:GetProcessHeap"
+          ]
+        },
+        "__hextodec": {
+          "edges": [
+            "__isctype"
+          ]
+        },
+        "__inc": {
+          "edges": [
+            "__filbuf"
+          ]
+        },
+        "__initterm": {
+          "edges": [
+            "indirect"
+          ]
+        },
+        "__input": {
+          "edges": [
+            "__hextodec",
+            "__inc",
+            "__isctype",
+            "__un_inc",
+            "__whiteout",
+            "_isspace",
+            "_mbtowc",
+            "indirect"
+          ]
+        },
+        "__isatty": {
+          "edges": []
+        },
+        "__makepath": {
+          "edges": []
+        },
+        "__output": {
+          "edges": [
+            "_get_int_arg",
+            "_get_short_arg",
+            "_wctomb",
+            "_write_char",
+            "_write_multi_char",
+            "_write_string",
+            "indirect"
+          ]
+        },
+        "__read": {
+          "edges": [
+            "__dosmaperr",
+            "__lseek",
+            "import:GetLastError",
+            "import:ReadFile"
+          ]
+        },
+        "__set_osfhnd": {
+          "edges": [
+            "import:SetStdHandle"
+          ]
+        },
+        "__setargv": {
+          "edges": [
+            "__amsg_exit",
+            "_malloc",
+            "_parse_cmdline",
+            "import:GetModuleFileNameA"
+          ]
+        },
+        "__sopen": {
+          "edges": [
+            "__alloc_osfhnd",
+            "__chsize",
+            "__close",
+            "__dosmaperr",
+            "__lseek",
+            "__read",
+            "__set_osfhnd",
+            "import:CloseHandle",
+            "import:CreateFileA",
+            "import:GetFileType",
+            "import:GetLastError"
+          ]
+        },
+        "__spawnvp": {
+          "edges": [
+            "__spawnvpe"
+          ]
+        },
+        "__spawnvpe": {
+          "edges": [
+            "__getpath",
+            "__spawnve",
+            "_free",
+            "_getenv",
+            "_malloc",
+            "_strchr"
+          ]
+        },
+        "__splitpath": {
+          "edges": [
+            "_strncpy"
+          ]
+        },
+        "__stbuf": {
+          "edges": [
+            "__isatty",
+            "_malloc"
+          ]
+        },
+        "__un_inc": {
+          "edges": [
+            "_ungetc"
+          ]
+        },
+        "__whiteout": {
+          "edges": [
+            "__inc",
+            "_isspace"
+          ]
+        },
+        "__write": {
+          "edges": [
+            "__dosmaperr",
+            "__lseek",
+            "import:GetLastError",
+            "import:WriteFile"
+          ]
+        },
+        "_accelerator_word_operators@4": {
+          "edges": [
+            "_next_token@4",
+            "_parse_word_expression"
+          ]
+        },
+        "_advance_argument": {
+          "edges": [
+            "_next_token@4"
+          ]
+        },
+        "_advance_argument_flags@4": {
+          "edges": [
+            "_next_token@4"
+          ]
+        },
+        "_advance_character": {
+          "edges": [
+            "_read_source_character"
+          ]
+        },
+        "_align_resource_data": {
+          "edges": [
+            "_put_byte@4",
+            "_put_word@4"
+          ]
+        },
+        "_allocate_resource_data": {
+          "edges": [
+            "_resource_alloc@4"
+          ]
+        },
+        "_ansi_to_wide@12": {
+          "edges": [
+            "import:RtlAnsiStringToUnicodeString"
+          ]
+        },
+        "_apply_operator@12": {
+          "edges": []
+        },
+        "_atoi": {
+          "edges": [
+            "_atol"
+          ]
+        },
+        "_atol": {
+          "edges": [
+            "__isctype"
+          ]
+        },
+        "_begin_resource_data": {
+          "edges": []
+        },
+        "_calloc": {
+          "edges": [
+            "import:HeapAlloc",
+            "indirect"
+          ]
+        },
+        "_combine_word_operators@4": {
+          "edges": [
+            "_advance_argument",
+            "_parse_word_expression"
+          ]
+        },
+        "_compile_resources": {
+          "edges": [
+            "_advance_argument",
+            "_allocate_resource_data",
+            "_ansi_to_wide@12",
+            "_begin_resource_data",
+            "_duplicate_wide@4",
+            "_emit_font_directory",
+            "_emit_string_tables@4",
+            "_fflush",
+            "_find_resource_type@8",
+            "_fprintf",
+            "_initialize_resource_types",
+            "_next_token@4",
+            "_parse_accelerators@4",
+            "_parse_dialog@4",
+            "_parse_dialog_include@4",
+            "_parse_font@4",
+            "_parse_language",
+            "_parse_memory_flag@4",
+            "_parse_menu@8",
+            "_parse_raw_data@4",
+            "_parse_resource_identifier",
+            "_parse_string_table@4",
+            "_parse_version_info",
+            "_parse_word_expression",
+            "_parser_error@8",
+            "_put_word@4",
+            "_read_bitmap_file_header",
+            "_read_icon_file_header@4",
+            "_read_resource_file",
+            "_release_resource_data",
+            "_resource_alloc@4",
+            "_resource_free@4",
+            "_split_icon_file@12",
+            "_wcscmp",
+            "_write_file@12",
+            "_write_resource@8"
+          ]
+        },
+        "_concatenate_wide_string@4": {
+          "edges": [
+            "_put_wide_string@4"
+          ]
+        },
+        "_control_style@4": {
+          "edges": []
+        },
+        "_copy_basename@8": {
+          "edges": []
+        },
+        "_copy_file_bytes@12": {
+          "edges": [
+            "_read_file@12",
+            "_resource_alloc@4",
+            "_resource_free@4",
+            "_write_file@12"
+          ]
+        },
+        "_copy_file_to_end@8": {
+          "edges": [
+            "_fread",
+            "_resource_alloc@4",
+            "_resource_free@4",
+            "_write_file@12"
+          ]
+        },
+        "_copy_resource_data@16": {
+          "edges": [
+            "_copy_file_bytes@12",
+            "_copy_file_to_end@8",
+            "_fclose",
+            "_write_file@12"
+          ]
+        },
+        "_copy_resource_memory@8": {
+          "edges": [
+            "_malloc",
+            "_resource_finish"
+          ]
+        },
+        "_detect_encoding@4": {
+          "edges": [
+            "__isctype",
+            "_fgetc",
+            "_fread",
+            "_fseek",
+            "_ftell",
+            "_native_byte_order"
+          ]
+        },
+        "_doexit": {
+          "edges": [
+            "__initterm",
+            "import:ExitProcess",
+            "indirect"
+          ]
+        },
+        "_duplicate_wide@4": {
+          "edges": [
+            "_resource_alloc@4",
+            "_wcscpy",
+            "_wcslen"
+          ]
+        },
+        "_emit_font_directory": {
+          "edges": [
+            "_begin_resource_data",
+            "_duplicate_wide@4",
+            "_find_resource_type@8",
+            "_put_bytes@8",
+            "_put_word@4",
+            "_resource_alloc@4",
+            "_write_resource@8"
+          ]
+        },
+        "_emit_string_tables@4": {
+          "edges": [
+            "_begin_resource_data",
+            "_find_resource_type@8",
+            "_put_word@4",
+            "_resource_alloc@4",
+            "_wcslen",
+            "_write_resource@8"
+          ]
+        },
+        "_end_dialog_control": {
+          "edges": [
+            "_put_word@4"
+          ]
+        },
+        "_exit": {
+          "edges": [
+            "_doexit"
+          ]
+        },
+        "_expression_factor": {
+          "edges": [
+            "__isctype",
+            "_advance_character",
+            "_expression_value",
+            "_parser_error@8",
+            "_scan_number_literal",
+            "_skip_expression_space"
+          ]
+        },
+        "_expression_operator@4": {
+          "edges": [
+            "_advance_character",
+            "_skip_expression_space",
+            "_strchr"
+          ]
+        },
+        "_expression_value": {
+          "edges": [
+            "_advance_character",
+            "_apply_operator@12",
+            "_expression_factor",
+            "_expression_operator@4",
+            "_skip_expression_space"
+          ]
+        },
+        "_fflush": {
+          "edges": [
+            "__commit",
+            "__flush",
+            "_flsall"
+          ]
+        },
+        "_find_resource_type@8": {
+          "edges": [
+            "_duplicate_wide@4",
+            "_resource_alloc@4",
+            "_wcscmp"
+          ]
+        },
+        "_finish_accelerators": {
+          "edges": []
+        },
+        "_finish_menu": {
+          "edges": []
+        },
+        "_flsall": {
+          "edges": [
+            "_fflush"
+          ]
+        },
+        "_fread": {
+          "edges": [
+            "__filbuf",
+            "__read"
+          ]
+        },
+        "_free": {
+          "edges": [
+            "import:HeapFree"
+          ]
+        },
+        "_fseek": {
+          "edges": [
+            "__flush",
+            "__lseek",
+            "_ftell"
+          ]
+        },
+        "_ftell": {
+          "edges": [
+            "__lseek"
+          ]
+        },
+        "_fwrite": {
+          "edges": [
+            "__flsbuf",
+            "__flush",
+            "__write"
+          ]
+        },
+        "_get_int_arg": {
+          "edges": []
+        },
+        "_increment_dialog_controls": {
+          "edges": []
+        },
+        "_initialize_lexer@4": {
+          "edges": [
+            "_advance_character"
+          ]
+        },
+        "_initialize_resource_types": {
+          "edges": [
+            "_find_resource_type@8"
+          ]
+        },
+        "_interrupt_resource@4": {
+          "edges": [
+            "__fcloseall",
+            "_exit",
+            "_remove"
+          ]
+        },
+        "_is_kanji_lead@4": {
+          "edges": []
+        },
+        "_is_space_byte@4": {
+          "edges": []
+        },
+        "_is_style_token": {
+          "edges": []
+        },
+        "_isspace": {
+          "edges": [
+            "__isctype"
+          ]
+        },
+        "_lexical_error@8": {
+          "edges": [
+            "_fprintf",
+            "_resource_finish"
+          ]
+        },
+        "_lookup_keyword@4": {
+          "edges": [
+            "__stricmp"
+          ]
+        },
+        "_mainCRTStartup": {
+          "edges": [
+            "__XcptFilter",
+            "__cinit",
+            "__exit",
+            "__heap_init",
+            "__ioinit",
+            "__setargv",
+            "__setenvp",
+            "_exit",
+            "_resource_main",
+            "import:GetCommandLineA",
+            "import:GetEnvironmentStrings",
+            "import:GetVersion"
+          ]
+        },
+        "_malloc": {
+          "edges": [
+            "import:HeapAlloc",
+            "indirect"
+          ]
+        },
+        "_mark_accelerator": {
+          "edges": []
+        },
+        "_mark_menu_item": {
+          "edges": []
+        },
+        "_native_byte_order": {
+          "edges": []
+        },
+        "_next_numeric_character": {
+          "edges": []
+        },
+        "_next_token@4": {
+          "edges": [
+            "__isctype",
+            "_advance_character",
+            "_scan_ansi_string",
+            "_scan_expression",
+            "_scan_kanji_string",
+            "_scan_keyword_or_symbol@4",
+            "_scan_number_token",
+            "_scan_wide_string"
+          ]
+        },
+        "_parse_accelerators@4": {
+          "edges": [
+            "__isctype",
+            "_accelerator_word_operators@4",
+            "_finish_accelerators",
+            "_fprintf",
+            "_mark_accelerator",
+            "_next_token@4",
+            "_parse_language",
+            "_parser_error@8",
+            "_put_word@4",
+            "_rc_toupper"
+          ]
+        },
+        "_parse_button_control@4": {
+          "edges": [
+            "_fprintf",
+            "_parse_caption_control@4"
+          ]
+        },
+        "_parse_caption_control@4": {
+          "edges": [
+            "_combine_word_operators@4",
+            "_next_token@4",
+            "_parse_control_id@4",
+            "_parse_control_rectangle@4",
+            "_parse_control_text@4",
+            "_parse_style@4"
+          ]
+        },
+        "_parse_cmdline": {
+          "edges": []
+        },
+        "_parse_combobox_control@4": {
+          "edges": [
+            "_combine_word_operators@4",
+            "_next_token@4",
+            "_parse_control_id@4",
+            "_parse_control_rectangle@4",
+            "_parse_style@4"
+          ]
+        },
+        "_parse_control_id@4": {
+          "edges": [
+            "_advance_argument",
+            "_combine_word_operators@4",
+            "_parser_error@8"
+          ]
+        },
+        "_parse_control_rectangle@4": {
+          "edges": [
+            "_advance_argument",
+            "_combine_word_operators@4",
+            "_parse_word_expression"
+          ]
+        },
+        "_parse_control_text@4": {
+          "edges": [
+            "_advance_argument_flags@4",
+            "_ansi_to_wide@12",
+            "_fprintf",
+            "_parser_error@8",
+            "_wide_itoa@12"
+          ]
+        },
+        "_parse_dialog@4": {
+          "edges": [
+            "_advance_argument",
+            "_combine_word_operators@4",
+            "_parse_dialog_controls",
+            "_parse_dialog_options@4",
+            "_parse_word_expression",
+            "_parser_error@8",
+            "_put_dialog_header@4"
+          ]
+        },
+        "_parse_dialog_caption": {
+          "edges": [
+            "_ansi_to_wide@12",
+            "_fprintf",
+            "_next_token@4",
+            "_parser_error@8"
+          ]
+        },
+        "_parse_dialog_class": {
+          "edges": [
+            "_ansi_to_wide@12",
+            "_fprintf",
+            "_next_token@4",
+            "_parser_error@8",
+            "_wide_itoa@12"
+          ]
+        },
+        "_parse_dialog_controls": {
+          "edges": [
+            "_combine_word_operators@4",
+            "_control_style@4",
+            "_next_token@4",
+            "_parse_button_control@4",
+            "_parse_combobox_control@4",
+            "_parse_edit_control@4",
+            "_parse_generic_control@4",
+            "_parse_group_control@4",
+            "_parse_icon_control@4",
+            "_parse_listbox_control@4",
+            "_parse_scrollbar_control@4",
+            "_parse_static_control@4",
+            "_parser_error@8",
+            "_put_dialog_control@4"
+          ]
+        },
+        "_parse_dialog_font": {
+          "edges": [
+            "_advance_argument",
+            "_ansi_to_wide@12",
+            "_fprintf",
+            "_next_token@4",
+            "_parser_error@8"
+          ]
+        },
+        "_parse_dialog_include@4": {
+          "edges": [
+            "_ansi_to_wide@12",
+            "_parser_error@8",
+            "_put_wide_string@4"
+          ]
+        },
+        "_parse_dialog_menu": {
+          "edges": [
+            "_ansi_to_wide@12",
+            "_fprintf",
+            "_next_token@4",
+            "_read_identifier"
+          ]
+        },
+        "_parse_dialog_options@4": {
+          "edges": [
+            "_next_token@4",
+            "_parse_dialog_caption",
+            "_parse_dialog_class",
+            "_parse_dialog_font",
+            "_parse_dialog_menu",
+            "_parse_language",
+            "_parse_style@4",
+            "_parser_error@8"
+          ]
+        },
+        "_parse_edit_control@4": {
+          "edges": [
+            "_combine_word_operators@4",
+            "_control_style@4",
+            "_next_token@4",
+            "_parse_control_id@4",
+            "_parse_control_rectangle@4",
+            "_parse_style@4"
+          ]
+        },
+        "_parse_fixed_version": {
+          "edges": [
+            "_parse_version_number@4",
+            "_parse_version_scalar@4",
+            "_parser_error@8",
+            "_put_version_block@12"
+          ]
+        },
+        "_parse_font@4": {
+          "edges": [
+            "_fprintf",
+            "_read_file@12",
+            "_resource_alloc@4",
+            "_resource_free@4",
+            "_resource_stream@4",
+            "_seek_file@12"
+          ]
+        },
+        "_parse_generic_control@4": {
+          "edges": [
+            "__stricmp",
+            "_advance_argument",
+            "_ansi_to_wide@12",
+            "_fprintf",
+            "_next_token@4",
+            "_parse_control_id@4",
+            "_parse_control_rectangle@4",
+            "_parse_control_text@4",
+            "_parse_style@4",
+            "_parser_error@8"
+          ]
+        },
+        "_parse_group_control@4": {
+          "edges": [
+            "_parse_caption_control@4"
+          ]
+        },
+        "_parse_icon_control@4": {
+          "edges": [
+            "_parse_caption_control@4"
+          ]
+        },
+        "_parse_language": {
+          "edges": [
+            "_next_token@4",
+            "_parser_error@8"
+          ]
+        },
+        "_parse_listbox_control@4": {
+          "edges": [
+            "_combine_word_operators@4",
+            "_next_token@4",
+            "_parse_control_id@4",
+            "_parse_control_rectangle@4",
+            "_parse_style@4"
+          ]
+        },
+        "_parse_memory_flag@4": {
+          "edges": [
+            "_next_token@4",
+            "_parse_style@4",
+            "_parser_error@8"
+          ]
+        },
+        "_parse_menu@8": {
+          "edges": [
+            "_finish_menu",
+            "_next_token@4",
+            "_parse_language",
+            "_parse_menu@8",
+            "_parse_menu_item@4",
+            "_parser_error@8"
+          ]
+        },
+        "_parse_menu_flag@8": {
+          "edges": []
+        },
+        "_parse_menu_item@4": {
+          "edges": [
+            "_advance_argument",
+            "_ansi_to_wide@12",
+            "_combine_word_operators@4",
+            "_fprintf",
+            "_mark_menu_item",
+            "_next_token@4",
+            "_parse_menu_flag@8",
+            "_parser_error@8",
+            "_put_menu_item@4"
+          ]
+        },
+        "_parse_raw_data@4": {
+          "edges": [
+            "_advance_argument",
+            "_next_token@4",
+            "_parse_language",
+            "_parser_error@8",
+            "_put_byte@4",
+            "_put_dword@4",
+            "_put_word@4"
+          ]
+        },
+        "_parse_resource_identifier": {
+          "edges": [
+            "__isctype",
+            "__strupr",
+            "_atoi",
+            "_read_identifier"
+          ]
+        },
+        "_parse_scrollbar_control@4": {
+          "edges": [
+            "_combine_word_operators@4",
+            "_next_token@4",
+            "_parse_control_id@4",
+            "_parse_control_rectangle@4",
+            "_parse_style@4"
+          ]
+        },
+        "_parse_static_control@4": {
+          "edges": [
+            "_parse_caption_control@4"
+          ]
+        },
+        "_parse_string_table@4": {
+          "edges": [
+            "_advance_argument",
+            "_ansi_to_wide@12",
+            "_combine_word_operators@4",
+            "_copy_resource_memory@8",
+            "_next_token@4",
+            "_parse_language",
+            "_parser_error@8",
+            "_wcslen"
+          ]
+        },
+        "_parse_style@4": {
+          "edges": [
+            "_advance_argument_flags@4",
+            "_is_style_token",
+            "_next_token@4",
+            "_parser_error@8"
+          ]
+        },
+        "_parse_version_children": {
+          "edges": [
+            "_next_token@4",
+            "_parse_version_children",
+            "_parse_version_value@4",
+            "_parser_error@8",
+            "_resource_data_length"
+          ]
+        },
+        "_parse_version_data@4": {
+          "edges": [
+            "_advance_argument",
+            "_ansi_to_wide@12",
+            "_concatenate_wide_string@4",
+            "_parser_error@8",
+            "_put_bytes@8",
+            "_put_dword@4",
+            "_put_wide_string@4",
+            "_put_word@4",
+            "_resource_data_length"
+          ]
+        },
+        "_parse_version_info": {
+          "edges": [
+            "_parse_fixed_version",
+            "_parse_version_children"
+          ]
+        },
+        "_parse_version_number@4": {
+          "edges": [
+            "_next_token@4",
+            "_parser_error@8"
+          ]
+        },
+        "_parse_version_scalar@4": {
+          "edges": [
+            "_next_token@4",
+            "_parser_error@8"
+          ]
+        },
+        "_parse_version_value@4": {
+          "edges": [
+            "_ansi_to_wide@12",
+            "_parse_version_data@4",
+            "_put_bytes@8",
+            "_put_wide_string@4",
+            "_put_word@4",
+            "_resource_data_end",
+            "_resource_data_length"
+          ]
+        },
+        "_parse_word_expression": {
+          "edges": [
+            "_parser_error@8"
+          ]
+        },
+        "_parser_error@8": {
+          "edges": [
+            "_fprintf",
+            "_resource_finish"
+          ]
+        },
+        "_prefix_matches@8": {
+          "edges": [
+            "_rc_toupper"
+          ]
+        },
+        "_prepare_input@4": {
+          "edges": [
+            "__alloca_probe",
+            "__isctype",
+            "_detect_encoding@4",
+            "_fclose",
+            "_fopen",
+            "_prefix_matches@8",
+            "_read_source_line@12",
+            "_sprintf",
+            "_trim_token@4",
+            "_write_file@12"
+          ]
+        },
+        "_put_byte@4": {
+          "edges": [
+            "_resource_data_error@8"
+          ]
+        },
+        "_put_bytes@8": {
+          "edges": [
+            "_put_byte@4"
+          ]
+        },
+        "_put_dialog_control@4": {
+          "edges": [
+            "_align_resource_data",
+            "_end_dialog_control",
+            "_increment_dialog_controls",
+            "_put_dword@4",
+            "_put_wide_string@4",
+            "_put_word@4",
+            "_wide_atoi@4"
+          ]
+        },
+        "_put_dialog_header@4": {
+          "edges": [
+            "_put_dword@4",
+            "_put_wide_string@4",
+            "_put_word@4",
+            "_wide_atoi@4"
+          ]
+        },
+        "_put_dword@4": {
+          "edges": [
+            "_resource_data_error@8"
+          ]
+        },
+        "_put_menu_item@4": {
+          "edges": [
+            "_put_word@4"
+          ]
+        },
+        "_put_version_block@12": {
+          "edges": [
+            "_ansi_to_wide@12",
+            "_put_bytes@8",
+            "_put_wide_string@4",
+            "_put_word@4",
+            "_resource_data_end",
+            "_resource_data_length"
+          ]
+        },
+        "_put_wide_string@4": {
+          "edges": [
+            "_put_word@4"
+          ]
+        },
+        "_put_word@4": {
+          "edges": [
+            "_resource_data_error@8"
+          ]
+        },
+        "_rc_tolower": {
+          "edges": [
+            "__isctype",
+            "import:LCMapStringW",
+            "import:MultiByteToWideChar",
+            "import:WideCharToMultiByte"
+          ]
+        },
+        "_rc_toupper": {
+          "edges": [
+            "__isctype",
+            "import:LCMapStringW",
+            "import:MultiByteToWideChar",
+            "import:WideCharToMultiByte"
+          ]
+        },
+        "_read_bitmap_file_header": {
+          "edges": [
+            "_put_bytes@8",
+            "_read_file@12",
+            "_resource_alloc@4",
+            "_resource_data_error@8",
+            "_resource_free@4",
+            "_resource_stream@4",
+            "_seek_file@12"
+          ]
+        },
+        "_read_buffered_character": {
+          "edges": [
+            "_fclose",
+            "_read_file@12"
+          ]
+        },
+        "_read_file@12": {
+          "edges": [
+            "_fread",
+            "_resource_finish"
+          ]
+        },
+        "_read_icon_file_header@4": {
+          "edges": [
+            "_put_bytes@8",
+            "_put_word@4",
+            "_read_file@12",
+            "_resource_data_error@8",
+            "_resource_stream@4",
+            "_seek_file@12"
+          ]
+        },
+        "_read_identifier": {
+          "edges": [
+            "_advance_character",
+            "_read_source_character"
+          ]
+        },
+        "_read_resource_file": {
+          "edges": [
+            "_fopen",
+            "_parser_error@8",
+            "_resolve_resource_path@12",
+            "_resource_stream@4",
+            "_seek_file@12"
+          ]
+        },
+        "_read_source_character": {
+          "edges": [
+            "_lexical_error@8",
+            "_rc_tolower",
+            "_read_buffered_character"
+          ]
+        },
+        "_read_source_line@12": {
+          "edges": [
+            "_fgetc"
+          ]
+        },
+        "_record_resource@20": {
+          "edges": [
+            "_write_record_header@20"
+          ]
+        },
+        "_release_resource_data": {
+          "edges": [
+            "_resource_free@4"
+          ]
+        },
+        "_resolve_resource_path@12": {
+          "edges": [
+            "_fclose",
+            "_fopen",
+            "_getenv"
+          ]
+        },
+        "_resource_alloc@4": {
+          "edges": [
+            "_calloc",
+            "_resource_finish"
+          ]
+        },
+        "_resource_data_end": {
+          "edges": []
+        },
+        "_resource_data_error@8": {
+          "edges": [
+            "_fprintf",
+            "_resource_finish"
+          ]
+        },
+        "_resource_data_length": {
+          "edges": []
+        },
+        "_resource_finish": {
+          "edges": [
+            "__fcloseall",
+            "_exit",
+            "_fprintf",
+            "_remove",
+            "_vfprintf"
+          ]
+        },
+        "_resource_free@4": {
+          "edges": [
+            "_free"
+          ]
+        },
+        "_resource_main": {
+          "edges": [
+            "__makepath",
+            "__mktemp",
+            "__spawnv",
+            "__spawnvp",
+            "__splitpath",
+            "__strupr",
+            "_compile_resources",
+            "_fflush",
+            "_fopen",
+            "_fprintf",
+            "_getenv",
+            "_initialize_lexer@4",
+            "_interrupt_resource@4",
+            "_prepare_input@4",
+            "_rc_toupper",
+            "_resource_alloc@4",
+            "_resource_finish",
+            "_seek_file@12",
+            "_sscanf",
+            "_switch_character@4",
+            "_write_file@12",
+            "import:SetConsoleCtrlHandler"
+          ]
+        },
+        "_resource_payload_size": {
+          "edges": [
+            "_seek_file@12"
+          ]
+        },
+        "_resource_stream@4": {
+          "edges": []
+        },
+        "_scan_ansi_string": {
+          "edges": [
+            "__alloca_probe",
+            "__isctype",
+            "_advance_character",
+            "_lexical_error@8",
+            "_rc_toupper",
+            "_read_source_character"
+          ]
+        },
+        "_scan_decimal_number": {
+          "edges": [
+            "__isctype",
+            "_next_numeric_character"
+          ]
+        },
+        "_scan_expression": {
+          "edges": [
+            "_expression_value",
+            "_parser_error@8"
+          ]
+        },
+        "_scan_hex_number": {
+          "edges": [
+            "__isctype",
+            "_next_numeric_character",
+            "_rc_toupper"
+          ]
+        },
+        "_scan_kanji_string": {
+          "edges": [
+            "__alloca_probe",
+            "_advance_character",
+            "_is_kanji_lead@4",
+            "_lexical_error@8",
+            "_read_source_character"
+          ]
+        },
+        "_scan_keyword_or_symbol@4": {
+          "edges": [
+            "_advance_character",
+            "_lexical_error@8",
+            "_lookup_keyword@4"
+          ]
+        },
+        "_scan_number_literal": {
+          "edges": [
+            "_advance_character",
+            "_next_numeric_character",
+            "_scan_decimal_number",
+            "_scan_hex_number",
+            "_scan_octal_number"
+          ]
+        },
+        "_scan_number_token": {
+          "edges": [
+            "_scan_number_literal"
+          ]
+        },
+        "_scan_octal_number": {
+          "edges": [
+            "_next_numeric_character"
+          ]
+        },
+        "_scan_wide_string": {
+          "edges": [
+            "__alloca_probe",
+            "__isctype",
+            "_advance_character",
+            "_fprintf",
+            "_lexical_error@8",
+            "_rc_toupper",
+            "_read_source_character"
+          ]
+        },
+        "_seek_file@12": {
+          "edges": [
+            "_fseek",
+            "_ftell",
+            "_resource_finish"
+          ]
+        },
+        "_skip_expression_space": {
+          "edges": [
+            "_advance_character"
+          ]
+        },
+        "_split_icon_file@12": {
+          "edges": [
+            "_fclose",
+            "_find_resource_type@8",
+            "_put_bytes@8",
+            "_put_word@4",
+            "_read_file@12",
+            "_read_resource_file",
+            "_record_resource@20",
+            "_resource_alloc@4",
+            "_resource_data_error@8",
+            "_seek_file@12",
+            "_write_file@12",
+            "_write_resource@8"
+          ]
+        },
+        "_switch_character@4": {
+          "edges": []
+        },
+        "_trim_token@4": {
+          "edges": [
+            "__isctype"
+          ]
+        },
+        "_ungetc": {
+          "edges": [
+            "__getbuf"
+          ]
+        },
+        "_wcscpy": {
+          "edges": []
+        },
+        "_wide_atoi@4": {
+          "edges": []
+        },
+        "_wide_itoa@12": {
+          "edges": []
+        },
+        "_wide_to_ansi@12": {
+          "edges": [
+            "import:RtlUnicodeStringToAnsiString"
+          ]
+        },
+        "_write_char": {
+          "edges": [
+            "__flsbuf"
+          ]
+        },
+        "_write_file@12": {
+          "edges": [
+            "_fwrite",
+            "_resource_finish"
+          ]
+        },
+        "_write_multi_char": {
+          "edges": [
+            "_write_char"
+          ]
+        },
+        "_write_record_header@20": {
+          "edges": [
+            "_copy_resource_data@16",
+            "_fprintf",
+            "_resource_payload_size",
+            "_seek_file@12",
+            "_wcslen",
+            "_wide_to_ansi@12",
+            "_write_file@12",
+            "_write_resource_name@8"
+          ]
+        },
+        "_write_resource@8": {
+          "edges": [
+            "_record_resource@20",
+            "_seek_file@12",
+            "_write_file@12"
+          ]
+        },
+        "_write_resource_name@8": {
+          "edges": [
+            "_wcslen",
+            "_write_file@12"
+          ]
+        },
+        "_write_string": {
+          "edges": [
+            "_write_char"
+          ]
+        }
+      },
+      "original_accepted_graphs": {
+        "__access": {
+          "calls": [
+            16834960,
+            16834976,
+            16835344
+          ],
+          "references": [
+            1,
+            2,
+            4,
+            5,
+            13,
+            4294967295
+          ]
+        },
+        "__alloc_osfhnd": {
+          "calls": [],
+          "references": [
+            1,
+            4294967295
+          ]
+        },
+        "__cenvarg": {
+          "calls": [
+            16839408,
+            16839472
+          ],
+          "references": [
+            0,
+            2,
+            3,
+            4,
+            7,
+            8,
+            10,
+            12,
+            32,
+            32766,
+            32767,
+            4294967295
+          ]
+        },
+        "__chkstk": {
+          "calls": [],
+          "references": [
+            0,
+            8,
+            4096
+          ]
+        },
+        "__cinit": {
+          "calls": [
+            16835264
+          ],
+          "references": [
+            8,
+            16904192,
+            16904208,
+            16904224,
+            16904240
+          ]
+        },
+        "__close": {
+          "calls": [
+            16834976,
+            16835344,
+            16837552,
+            16841264,
+            16841376
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            4,
+            9,
+            4294967295
+          ]
+        },
+        "__dosmaperr": {
+          "calls": [],
+          "references": [
+            2,
+            8,
+            13,
+            19,
+            22,
+            36,
+            188,
+            202,
+            16897712,
+            16897800
+          ]
+        },
+        "__dospawn": {
+          "calls": [
+            16834976,
+            16835072,
+            16835344,
+            16837552,
+            16837568,
+            16837584,
+            16837600,
+            16839248,
+            16839472
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            8,
+            17,
+            22,
+            32,
+            68,
+            100,
+            16898424,
+            16898488,
+            4294967295
+          ]
+        },
+        "__endstdio": {
+          "calls": [
+            16834144,
+            16840736
+          ],
+          "references": [
+            0
+          ]
+        },
+        "__fcloseall": {
+          "calls": [
+            16840240
+          ],
+          "references": [
+            4,
+            32,
+            16897040,
+            4294967295
+          ]
+        },
+        "__filbuf": {
+          "calls": [
+            16842752,
+            16842848
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            4,
+            12,
+            32,
+            64,
+            130,
+            131,
+            255,
+            268,
+            8192,
+            4294967280,
+            4294967295
+          ]
+        },
+        "__flsbuf": {
+          "calls": [
+            16841712,
+            16842304,
+            16842752,
+            16846240
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            4,
+            12,
+            16,
+            32,
+            64,
+            130,
+            255,
+            264,
+            268,
+            16896976,
+            16897008,
+            4294967279,
+            4294967294,
+            4294967295
+          ]
+        },
+        "__flush": {
+          "calls": [
+            16841712
+          ],
+          "references": [
+            0,
+            2,
+            3,
+            12,
+            32,
+            128,
+            264,
+            4294967293,
+            4294967295
+          ]
+        },
+        "__flushall": {
+          "calls": [
+            16840752
+          ],
+          "references": [
+            1,
+            4
+          ]
+        },
+        "__free_osfhnd": {
+          "calls": [
+            16841616
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            9,
+            4294967284,
+            4294967285,
+            4294967286,
+            4294967295
+          ]
+        },
+        "__freebuf": {
+          "calls": [
+            16839472
+          ],
+          "references": [
+            0,
+            4,
+            8,
+            131,
+            4294967287
+          ]
+        },
+        "__fsopen": {
+          "calls": [
+            16843712,
+            16843808
+          ],
+          "references": [
+            16
+          ]
+        },
+        "__ftbuf": {
+          "calls": [
+            16840624
+          ],
+          "references": [
+            0,
+            4,
+            16,
+            4294962943
+          ]
+        },
+        "__get_osfhandle": {
+          "calls": [],
+          "references": [
+            0,
+            1,
+            9,
+            4294967295
+          ]
+        },
+        "__getbuf": {
+          "calls": [
+            16839408
+          ],
+          "references": [
+            0,
+            2,
+            4,
+            8,
+            512
+          ]
+        },
+        "__getpath": {
+          "calls": [],
+          "references": [
+            0,
+            34,
+            59
+          ]
+        },
+        "__getpid": {
+          "calls": [
+            16835520
+          ],
+          "references": []
+        },
+        "__getstream": {
+          "calls": [],
+          "references": [
+            0,
+            32,
+            131,
+            16896944,
+            4294967295
+          ]
+        },
+        "__heap_init": {
+          "calls": [
+            16839392
+          ],
+          "references": []
+        },
+        "__hextodec": {
+          "calls": [
+            16834224
+          ],
+          "references": [
+            1,
+            4,
+            8,
+            4294967263
+          ]
+        },
+        "__inc": {
+          "calls": [
+            16842544
+          ],
+          "references": [
+            4,
+            255
+          ]
+        },
+        "__initterm": {
+          "calls": [],
+          "references": [
+            4
+          ]
+        },
+        "__input": {
+          "calls": [
+            16834224,
+            16855664,
+            16855728,
+            16855776,
+            16855808,
+            16856192,
+            16856800
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            7,
+            8,
+            12,
+            24,
+            32,
+            37,
+            42,
+            43,
+            45,
+            48,
+            56,
+            67,
+            69,
+            70,
+            76,
+            78,
+            83,
+            88,
+            93,
+            94,
+            99,
+            100,
+            101,
+            104,
+            108,
+            110,
+            111,
+            112,
+            119,
+            120,
+            123,
+            128,
+            255,
+            256,
+            349,
+            440,
+            32768,
+            16899872,
+            16899880,
+            4294967295
+          ]
+        },
+        "__ioinit": {
+          "calls": [
+            16837872,
+            16837888,
+            16837904
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            8,
+            12,
+            64,
+            72,
+            128,
+            129,
+            255,
+            16898424,
+            16898488,
+            16898496,
+            4294967286,
+            4294967295
+          ]
+        },
+        "__isatty": {
+          "calls": [],
+          "references": [
+            64
+          ]
+        },
+        "__lseek": {
+          "calls": [
+            16834976,
+            16835344,
+            16841376,
+            16842448
+          ],
+          "references": [
+            0,
+            4,
+            9,
+            253,
+            4294967295
+          ]
+        },
+        "__makepath": {
+          "calls": [],
+          "references": [
+            0,
+            46,
+            47,
+            58,
+            92
+          ]
+        },
+        "__mktemp": {
+          "calls": [
+            16834864,
+            16835488
+          ],
+          "references": [
+            0,
+            4,
+            6,
+            8,
+            10,
+            13,
+            48,
+            88,
+            97,
+            123
+          ]
+        },
+        "__openfile": {
+          "calls": [
+            16844352
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            16,
+            32,
+            43,
+            64,
+            68,
+            82,
+            83,
+            84,
+            97,
+            98,
+            99,
+            110,
+            114,
+            116,
+            119,
+            128,
+            192,
+            265,
+            420,
+            769,
+            4096,
+            16384,
+            32768,
+            4294950911,
+            4294967292,
+            4294967294
+          ]
+        },
+        "__output": {
+          "calls": [
+            16848624,
+            16848704,
+            16848768,
+            16848832,
+            16848848,
+            16858592
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            4,
+            6,
+            7,
+            8,
+            10,
+            12,
+            15,
+            16,
+            20,
+            32,
+            35,
+            39,
+            42,
+            43,
+            45,
+            48,
+            53,
+            57,
+            64,
+            67,
+            81,
+            103,
+            104,
+            108,
+            119,
+            120,
+            128,
+            256,
+            512,
+            580,
+            2048,
+            2064,
+            2096,
+            32768,
+            65535,
+            2147483647,
+            4294967287,
+            4294967295
+          ]
+        },
+        "__read": {
+          "calls": [
+            16834976,
+            16835344,
+            16842304,
+            16843424
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            4,
+            5,
+            9,
+            10,
+            12,
+            13,
+            26,
+            64,
+            72,
+            109,
+            128,
+            251,
+            4294967295
+          ]
+        },
+        "__set_osfhnd": {
+          "calls": [
+            16841616
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            9,
+            4294967284,
+            4294967285,
+            4294967286,
+            4294967295
+          ]
+        },
+        "__setargv": {
+          "calls": [
+            16839408,
+            16849584,
+            16850416,
+            16850800
+          ],
+          "references": [
+            0,
+            2,
+            4,
+            8,
+            20,
+            260,
+            16863328
+          ]
+        },
+        "__setenvp": {
+          "calls": [
+            16839408,
+            16849584
+          ],
+          "references": [
+            0,
+            2,
+            3,
+            4,
+            9,
+            4294967295
+          ]
+        },
+        "__sopen": {
+          "calls": [
+            16834976,
+            16835344,
+            16837552,
+            16837872,
+            16840368,
+            16841056,
+            16841120,
+            16842304,
+            16842848,
+            16845344,
+            16845360
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            8,
+            12,
+            16,
+            22,
+            24,
+            26,
+            32,
+            48,
+            64,
+            72,
+            128,
+            131,
+            256,
+            512,
+            768,
+            1280,
+            1792,
+            4096,
+            16384,
+            32768,
+            65536,
+            67108864,
+            134217728,
+            268435456,
+            1073741824,
+            2147483648,
+            3221225472,
+            4294967295
+          ]
+        },
+        "__spawnv": {
+          "calls": [
+            16835696
+          ],
+          "references": [
+            0,
+            16
+          ]
+        },
+        "__spawnve": {
+          "calls": [
+            16834864,
+            16835584,
+            16839408,
+            16839472,
+            16857064,
+            16857160
+          ],
+          "references": [
+            0,
+            2,
+            3,
+            4,
+            8,
+            12,
+            16,
+            46,
+            47,
+            58,
+            92,
+            16898368,
+            16898380,
+            16898384,
+            4294967295
+          ]
+        },
+        "__spawnvp": {
+          "calls": [
+            16837968
+          ],
+          "references": [
+            0,
+            16
+          ]
+        },
+        "__spawnvpe": {
+          "calls": [
+            16835696,
+            16838384,
+            16839408,
+            16839472,
+            16852288,
+            16857064
+          ],
+          "references": [
+            0,
+            2,
+            3,
+            4,
+            8,
+            12,
+            16,
+            47,
+            92,
+            259,
+            260,
+            16898816,
+            4294967295
+          ]
+        },
+        "__splitpath": {
+          "calls": [
+            16857112
+          ],
+          "references": [
+            0,
+            2,
+            4,
+            12,
+            46,
+            47,
+            58,
+            92,
+            255
+          ]
+        },
+        "__stbuf": {
+          "calls": [
+            16839408,
+            16846240
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            268,
+            512,
+            4354,
+            16896976,
+            16897008
+          ]
+        },
+        "__strcmpi": {
+          "calls": [],
+          "references": [
+            0,
+            26,
+            32,
+            65,
+            255
+          ]
+        },
+        "__strnicmp": {
+          "calls": [],
+          "references": [
+            0,
+            32,
+            65,
+            90,
+            16852448,
+            4294967295
+          ]
+        },
+        "__strupr": {
+          "calls": [],
+          "references": [
+            0,
+            26,
+            65,
+            97
+          ]
+        },
+        "__un_inc": {
+          "calls": [
+            16858080
+          ],
+          "references": [
+            8,
+            4294967295
+          ]
+        },
+        "__whiteout": {
+          "calls": [
+            16855728,
+            16856192
+          ],
+          "references": [
+            4
+          ]
+        },
+        "__write": {
+          "calls": [
+            16834976,
+            16835344,
+            16842288,
+            16842304
+          ],
+          "references": [
+            0,
+            2,
+            4,
+            5,
+            9,
+            10,
+            12,
+            13,
+            26,
+            28,
+            32,
+            64,
+            128,
+            1024,
+            1040,
+            4294967295
+          ]
+        },
+        "_accelerator_word_operators@4": {
+          "calls": [
+            16812448,
+            16823552
+          ],
+          "references": [
+            1,
+            4,
+            12,
+            101,
+            102
+          ]
+        },
+        "_advance_argument": {
+          "calls": [
+            16812448
+          ],
+          "references": [
+            0,
+            1,
+            15,
+            4294902015
+          ]
+        },
+        "_advance_argument_flags@4": {
+          "calls": [
+            16812448
+          ],
+          "references": [
+            1,
+            4,
+            15,
+            65535,
+            4294902015
+          ]
+        },
+        "_advance_character": {
+          "calls": [
+            16811120
+          ],
+          "references": [
+            10,
+            59,
+            127
+          ]
+        },
+        "_align_resource_data": {
+          "calls": [
+            16819936,
+            16820192
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3
+          ]
+        },
+        "_allocate_resource_data": {
+          "calls": [
+            16805888
+          ],
+          "references": [
+            65500
+          ]
+        },
+        "_ansi_to_wide@12": {
+          "calls": [
+            16833392
+          ],
+          "references": [
+            0,
+            1,
+            12,
+            16
+          ]
+        },
+        "_apply_operator@12": {
+          "calls": [],
+          "references": [
+            12,
+            38,
+            43,
+            45,
+            124
+          ]
+        },
+        "_atoi": {
+          "calls": [
+            16839040
+          ],
+          "references": [
+            4
+          ]
+        },
+        "_atol": {
+          "calls": [
+            16834224
+          ],
+          "references": [
+            1,
+            4,
+            8,
+            43,
+            45
+          ]
+        },
+        "_begin_resource_data": {
+          "calls": [],
+          "references": [
+            0
+          ]
+        },
+        "_calloc": {
+          "calls": [
+            16839344
+          ],
+          "references": [
+            1,
+            4,
+            8
+          ]
+        },
+        "_combine_word_operators@4": {
+          "calls": [
+            16823552,
+            16828208
+          ],
+          "references": [
+            4,
+            12,
+            101
+          ]
+        },
+        "_comexecmd": {
+          "calls": [
+            16836272,
+            16836944,
+            16839472
+          ],
+          "references": [
+            4,
+            8,
+            16,
+            20,
+            4294967295
+          ]
+        },
+        "_compile_resources": {
+          "calls": [
+            16805888,
+            16805936,
+            16805968,
+            16806096,
+            16810176,
+            16812448,
+            16815424,
+            16815840,
+            16815920,
+            16817072,
+            16817232,
+            16817472,
+            16817632,
+            16819488,
+            16819760,
+            16819776,
+            16819840,
+            16820192,
+            16820512,
+            16820720,
+            16821680,
+            16822128,
+            16822496,
+            16822592,
+            16823552,
+            16824512,
+            16828208,
+            16828368,
+            16829536,
+            16831072,
+            16831264,
+            16831920,
+            16832240,
+            16840544,
+            16845904,
+            16858320
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            8,
+            12,
+            13,
+            16,
+            20,
+            32,
+            44,
+            48,
+            127,
+            255,
+            256,
+            2078,
+            4112,
+            4144,
+            65535,
+            16863648,
+            16867752,
+            16876608,
+            16892800,
+            16892808,
+            16892820,
+            16892828,
+            16892832,
+            16892856,
+            16892872,
+            16892876,
+            16892908,
+            16892912,
+            16892980,
+            16893004,
+            16893072,
+            16893096,
+            16893100,
+            16893116,
+            16893120,
+            4294967295
+          ]
+        },
+        "_concatenate_wide_string@4": {
+          "calls": [
+            16819856
+          ],
+          "references": [
+            0,
+            2,
+            4
+          ]
+        },
+        "_control_style@4": {
+          "calls": [],
+          "references": [
+            4,
+            1342177280
+          ]
+        },
+        "_copy_basename@8": {
+          "calls": [],
+          "references": [
+            2,
+            3,
+            8,
+            47,
+            58,
+            92,
+            4294967295
+          ]
+        },
+        "_copy_file_bytes@12": {
+          "calls": [
+            16805888,
+            16805936,
+            16806032,
+            16806096
+          ],
+          "references": [
+            4,
+            12,
+            2048
+          ]
+        },
+        "_copy_file_to_end@8": {
+          "calls": [
+            16805888,
+            16805936,
+            16806096,
+            16851040
+          ],
+          "references": [
+            1,
+            8,
+            16,
+            2048
+          ]
+        },
+        "_copy_resource_data@16": {
+          "calls": [
+            16806096,
+            16806224,
+            16806336,
+            16840240
+          ],
+          "references": [
+            4,
+            16,
+            4294967295
+          ]
+        },
+        "_copy_resource_memory@8": {
+          "calls": [
+            16809424,
+            16839408
+          ],
+          "references": [
+            0,
+            4,
+            8,
+            16895988
+          ]
+        },
+        "_detect_encoding@4": {
+          "calls": [
+            16810704,
+            16834224,
+            16842464,
+            16851040,
+            16851392,
+            16851552
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            8,
+            12,
+            16,
+            40,
+            60,
+            343
+          ]
+        },
+        "_doexit": {
+          "calls": [
+            16835264,
+            16835328
+          ],
+          "references": [
+            0,
+            4,
+            8,
+            16904256,
+            16904288,
+            16904304,
+            16904320
+          ]
+        },
+        "_duplicate_wide@4": {
+          "calls": [
+            16805888,
+            16858480,
+            16858544
+          ],
+          "references": [
+            4,
+            8
+          ]
+        },
+        "_emit_font_directory": {
+          "calls": [
+            16805888,
+            16805968,
+            16817072,
+            16819776,
+            16820192,
+            16820272,
+            16822496
+          ],
+          "references": [
+            0,
+            7,
+            44,
+            80,
+            16892784
+          ]
+        },
+        "_emit_string_tables@4": {
+          "calls": [
+            16805888,
+            16817072,
+            16819776,
+            16820192,
+            16822496,
+            16858544
+          ],
+          "references": [
+            0,
+            2,
+            4,
+            6,
+            8,
+            16,
+            18,
+            44
+          ]
+        },
+        "_end_dialog_control": {
+          "calls": [
+            16820192
+          ],
+          "references": [
+            0
+          ]
+        },
+        "_exit": {
+          "calls": [
+            16835136
+          ],
+          "references": [
+            0,
+            12
+          ]
+        },
+        "_expression_factor": {
+          "calls": [
+            16810944,
+            16813040,
+            16813456,
+            16813888,
+            16815840,
+            16834224
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            8,
+            40,
+            45,
+            126,
+            16859136,
+            16891728
+          ]
+        },
+        "_expression_operator@4": {
+          "calls": [
+            16810944,
+            16813888,
+            16857064
+          ],
+          "references": [
+            1,
+            4,
+            8,
+            16891536
+          ]
+        },
+        "_expression_value": {
+          "calls": [
+            16810944,
+            16813552,
+            16813648,
+            16813808,
+            16813888
+          ],
+          "references": [
+            4,
+            41
+          ]
+        },
+        "_fclose": {
+          "calls": [
+            16839472,
+            16840368,
+            16840624,
+            16841632
+          ],
+          "references": [
+            0,
+            4,
+            64,
+            131,
+            4294967295
+          ]
+        },
+        "_fflush": {
+          "calls": [
+            16840624,
+            16840752,
+            16840928
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            64,
+            4294967295
+          ]
+        },
+        "_fgetc": {
+          "calls": [
+            16842544
+          ],
+          "references": [
+            4
+          ]
+        },
+        "_find_resource_type@8": {
+          "calls": [
+            16805888,
+            16805968,
+            16858320
+          ],
+          "references": [
+            0,
+            8,
+            20
+          ]
+        },
+        "_finish_accelerators": {
+          "calls": [],
+          "references": [
+            128
+          ]
+        },
+        "_finish_menu": {
+          "calls": [],
+          "references": [
+            128
+          ]
+        },
+        "_flsall": {
+          "calls": [
+            16840544
+          ],
+          "references": [
+            1,
+            2,
+            4,
+            32,
+            131,
+            16896944,
+            4294967295
+          ]
+        },
+        "_fopen": {
+          "calls": [
+            16843616
+          ],
+          "references": [
+            12,
+            64
+          ]
+        },
+        "_fprintf": {
+          "calls": [
+            16845984,
+            16846144,
+            16846288
+          ],
+          "references": [
+            4,
+            8,
+            12
+          ]
+        },
+        "_fread": {
+          "calls": [
+            16842544,
+            16842848
+          ],
+          "references": [
+            0,
+            2,
+            3,
+            4,
+            12,
+            16,
+            32,
+            268,
+            512,
+            4294967295
+          ]
+        },
+        "_free": {
+          "calls": [
+            16839520
+          ],
+          "references": [
+            0
+          ]
+        },
+        "_fseek": {
+          "calls": [
+            16840624,
+            16842304,
+            16851552
+          ],
+          "references": [
+            1,
+            2,
+            4,
+            12,
+            22,
+            128,
+            131,
+            4294967279,
+            4294967292,
+            4294967295
+          ]
+        },
+        "_ftell": {
+          "calls": [
+            16842304
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            10,
+            12,
+            22,
+            32,
+            128,
+            264,
+            4294967295
+          ]
+        },
+        "_fwrite": {
+          "calls": [
+            16840624,
+            16841712,
+            16848880
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            8,
+            12,
+            32,
+            264,
+            268,
+            512,
+            4294967295
+          ]
+        },
+        "_get_int_arg": {
+          "calls": [],
+          "references": [
+            4
+          ]
+        },
+        "_getenv": {
+          "calls": [
+            16852424
+          ],
+          "references": [
+            0,
+            4,
+            12,
+            61,
+            4294967295
+          ]
+        },
+        "_increment_dialog_controls": {
+          "calls": [],
+          "references": []
+        },
+        "_initialize_lexer@4": {
+          "calls": [
+            16810944
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            8,
+            23,
+            16843009,
+            16875952,
+            16875985,
+            16891376
+          ]
+        },
+        "_initialize_resource_types": {
+          "calls": [
+            16817072
+          ],
+          "references": [
+            2,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            14,
+            16,
+            17,
+            16892540,
+            16892556,
+            16892568,
+            16892584,
+            16892596,
+            16892612,
+            16892636,
+            16892652,
+            16892664,
+            16892692,
+            16892708,
+            16892736,
+            16892760
+          ]
+        },
+        "_interrupt_resource@4": {
+          "calls": [
+            16834144,
+            16835040,
+            16852528
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            16876904,
+            16889968
+          ]
+        },
+        "_is_kanji_lead@4": {
+          "calls": [],
+          "references": [
+            1,
+            4
+          ]
+        },
+        "_is_space_byte@4": {
+          "calls": [],
+          "references": [
+            4,
+            9,
+            10,
+            13,
+            32,
+            4294967295
+          ]
+        },
+        "_is_style_token": {
+          "calls": [],
+          "references": [
+            1,
+            2,
+            20,
+            104
+          ]
+        },
+        "_isspace": {
+          "calls": [
+            16834224
+          ],
+          "references": [
+            1,
+            8
+          ]
+        },
+        "_lexical_error@8": {
+          "calls": [
+            16809424,
+            16845904
+          ],
+          "references": [
+            4,
+            8,
+            12,
+            16,
+            16876608,
+            16891948,
+            16891976
+          ]
+        },
+        "_lookup_keyword@4": {
+          "calls": [
+            16838904
+          ],
+          "references": [
+            0,
+            4,
+            8,
+            65535,
+            16890800
+          ]
+        },
+        "_mainCRTStartup": {
+          "calls": [
+            16806416,
+            16834992,
+            16835040,
+            16835072,
+            16837616,
+            16839360,
+            16849648,
+            16849664,
+            16849680,
+            16849856,
+            16850240,
+            16850816
+          ],
+          "references": [
+            0,
+            4,
+            8,
+            12,
+            16,
+            36,
+            255,
+            65535,
+            16833480,
+            16879632,
+            4294967295
+          ]
+        },
+        "_malloc": {
+          "calls": [
+            16839344
+          ],
+          "references": [
+            0,
+            1,
+            4
+          ]
+        },
+        "_mark_accelerator": {
+          "calls": [],
+          "references": []
+        },
+        "_mark_menu_item": {
+          "calls": [],
+          "references": []
+        },
+        "_native_byte_order": {
+          "calls": [],
+          "references": [
+            0,
+            1,
+            4,
+            255
+          ]
+        },
+        "_next_numeric_character": {
+          "calls": [],
+          "references": []
+        },
+        "_next_token@4": {
+          "calls": [
+            16810944,
+            16811696,
+            16813344,
+            16813440,
+            16813920,
+            16814608,
+            16814992,
+            16834224
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            8,
+            32,
+            34,
+            40,
+            45,
+            126,
+            127,
+            137,
+            32768
+          ]
+        },
+        "_parse_accelerators@4": {
+          "calls": [
+            16812448,
+            16815840,
+            16819488,
+            16820192,
+            16821568,
+            16821584,
+            16832144,
+            16834224,
+            16845904,
+            16857680
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            4,
+            8,
+            12,
+            13,
+            14,
+            15,
+            16,
+            20,
+            21,
+            64,
+            94,
+            103,
+            106,
+            110,
+            111,
+            112,
+            130,
+            131,
+            132,
+            134,
+            259,
+            263,
+            65535,
+            16863648,
+            16876608,
+            16896304,
+            16896308,
+            16896332,
+            16896336,
+            16896368,
+            16896372,
+            16896408,
+            16896412,
+            16896448,
+            16896452,
+            16896480,
+            16896484,
+            16896528,
+            16896532,
+            16896552,
+            16896556,
+            16896604,
+            16896608,
+            16896644,
+            16896648,
+            16896680,
+            16896684,
+            16896728,
+            16896732,
+            16896780,
+            16896848,
+            4294967295
+          ]
+        },
+        "_parse_button_control@4": {
+          "calls": [
+            16826000,
+            16845904
+          ],
+          "references": [
+            4,
+            16,
+            128,
+            65535,
+            16876608,
+            16894204
+          ]
+        },
+        "_parse_caption_control@4": {
+          "calls": [
+            16812448,
+            16823296,
+            16824432,
+            16826224,
+            16826560,
+            16826672
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            15
+          ]
+        },
+        "_parse_cmdline": {
+          "calls": [],
+          "references": [
+            0,
+            1,
+            4,
+            9,
+            32,
+            34,
+            92
+          ]
+        },
+        "_parse_combobox_control@4": {
+          "calls": [
+            16812448,
+            16823296,
+            16824432,
+            16826560,
+            16826672
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            15,
+            133,
+            65535
+          ]
+        },
+        "_parse_control_id@4": {
+          "calls": [
+            16815840,
+            16824432,
+            16828208
+          ],
+          "references": [
+            4,
+            16,
+            20,
+            16894460,
+            16894464
+          ]
+        },
+        "_parse_control_rectangle@4": {
+          "calls": [
+            16823552,
+            16824432,
+            16828208
+          ],
+          "references": [
+            4
+          ]
+        },
+        "_parse_control_text@4": {
+          "calls": [
+            16810176,
+            16815840,
+            16828288,
+            16840128,
+            16845904
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            10,
+            16,
+            20,
+            21,
+            23,
+            255,
+            256,
+            32768,
+            16863648,
+            16867752,
+            16876608,
+            16894260,
+            16894336,
+            16894412,
+            16894416
+          ]
+        },
+        "_parse_dialog@4": {
+          "calls": [
+            16815840,
+            16821088,
+            16823552,
+            16823600,
+            16824432,
+            16826768,
+            16828208
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            10,
+            12,
+            13,
+            14,
+            16,
+            64,
+            16893980,
+            16893984,
+            16894012,
+            16894016,
+            2156396544,
+            4294967231
+          ]
+        },
+        "_parse_dialog_caption": {
+          "calls": [
+            16810176,
+            16812448,
+            16815840,
+            16845904
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            16,
+            21,
+            23,
+            255,
+            256,
+            1046,
+            12582912,
+            16863648,
+            16867752,
+            16876608,
+            16894856,
+            16894928,
+            16895000,
+            16895004
+          ]
+        },
+        "_parse_dialog_class": {
+          "calls": [
+            16810176,
+            16812448,
+            16815840,
+            16840128,
+            16845904
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            10,
+            16,
+            20,
+            21,
+            23,
+            255,
+            256,
+            532,
+            16863648,
+            16867752,
+            16876608,
+            16895044,
+            16895120,
+            16895196,
+            16895200
+          ]
+        },
+        "_parse_dialog_controls": {
+          "calls": [
+            16812448,
+            16815840,
+            16821312,
+            16823280,
+            16824432,
+            16824880,
+            16825488,
+            16825568,
+            16825600,
+            16825632,
+            16825664,
+            16825776,
+            16825888,
+            16826096
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            14,
+            26,
+            40,
+            90,
+            91,
+            93,
+            134,
+            1048,
+            65536,
+            8388609,
+            16893952,
+            16893956,
+            1342177280
+          ]
+        },
+        "_parse_dialog_font": {
+          "calls": [
+            16810176,
+            16812448,
+            16815840,
+            16828208,
+            16845904
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            16,
+            20,
+            21,
+            23,
+            255,
+            256,
+            1562,
+            16863648,
+            16867752,
+            16876608,
+            16894584,
+            16894588,
+            16894616,
+            16894684,
+            16894752,
+            16894756
+          ]
+        },
+        "_parse_dialog_include@4": {
+          "calls": [
+            16810176,
+            16815840,
+            16819856
+          ],
+          "references": [
+            4,
+            21,
+            16863648,
+            16867752,
+            16895932,
+            16895936
+          ]
+        },
+        "_parse_dialog_menu": {
+          "calls": [
+            16810176,
+            16812448,
+            16815696,
+            16845904
+          ],
+          "references": [
+            0,
+            1,
+            16,
+            18,
+            48,
+            57,
+            255,
+            256,
+            16876608,
+            16894780
+          ]
+        },
+        "_parse_dialog_options@4": {
+          "calls": [
+            16812448,
+            16815840,
+            16819488,
+            16823296,
+            16827120,
+            16827440,
+            16827584,
+            16827872
+          ],
+          "references": [
+            0,
+            4,
+            13,
+            20,
+            70,
+            94,
+            100,
+            130,
+            131,
+            132,
+            133,
+            135,
+            65527,
+            16894488,
+            16894492,
+            16894516,
+            16894520,
+            16894552,
+            16894556
+          ]
+        },
+        "_parse_edit_control@4": {
+          "calls": [
+            16812448,
+            16823280,
+            16823296,
+            16824432,
+            16826560,
+            16826672
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            15,
+            129,
+            65535,
+            65536,
+            8388608
+          ]
+        },
+        "_parse_fixed_version": {
+          "calls": [
+            16815840,
+            16829808,
+            16830112,
+            16830352
+          ],
+          "references": [
+            6,
+            13,
+            52,
+            120,
+            65536,
+            16895660,
+            16895688,
+            16895720,
+            4277077181
+          ]
+        },
+        "_parse_font@4": {
+          "calls": [
+            16805888,
+            16805936,
+            16806032,
+            16806144,
+            16819808,
+            16845904
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            8,
+            20,
+            148,
+            216,
+            65535,
+            16876608,
+            16893708
+          ]
+        },
+        "_parse_generic_control@4": {
+          "calls": [
+            16810176,
+            16812448,
+            16815840,
+            16823296,
+            16826224,
+            16826560,
+            16826672,
+            16828208,
+            16838904,
+            16845904
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            8,
+            15,
+            16,
+            20,
+            21,
+            64,
+            65,
+            90,
+            91,
+            93,
+            95,
+            128,
+            129,
+            130,
+            131,
+            132,
+            133,
+            255,
+            256,
+            65535,
+            16863648,
+            16876608,
+            16894040,
+            16894048,
+            16894056,
+            16894064,
+            16894072,
+            16894084,
+            16894096,
+            16894172,
+            16894176
+          ]
+        },
+        "_parse_group_control@4": {
+          "calls": [
+            16826000
+          ],
+          "references": [
+            4,
+            128,
+            65535
+          ]
+        },
+        "_parse_icon_control@4": {
+          "calls": [
+            16826000
+          ],
+          "references": [
+            4,
+            130,
+            65535
+          ]
+        },
+        "_parse_language": {
+          "calls": [
+            16812448,
+            16815840
+          ],
+          "references": [
+            0,
+            10,
+            15,
+            20,
+            16893148,
+            16893152,
+            16893188,
+            16893192,
+            16893224,
+            16893228,
+            16893264,
+            16893268,
+            16893296,
+            16893300
+          ]
+        },
+        "_parse_listbox_control@4": {
+          "calls": [
+            16812448,
+            16823296,
+            16824432,
+            16826560,
+            16826672
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            15,
+            131,
+            65535
+          ]
+        },
+        "_parse_memory_flag@4": {
+          "calls": [
+            16812448,
+            16815840,
+            16823296
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            7,
+            16,
+            18,
+            32,
+            64,
+            4144,
+            61407,
+            61423,
+            65471,
+            65520,
+            16892504,
+            16892508
+          ]
+        },
+        "_parse_menu@8": {
+          "calls": [
+            16812448,
+            16815840,
+            16819488,
+            16821552,
+            16828368,
+            16828784
+          ],
+          "references": [
+            0,
+            1,
+            8,
+            13,
+            14,
+            20,
+            71,
+            78,
+            130,
+            131,
+            132,
+            16895240,
+            16895244,
+            16895268,
+            16895272,
+            16895304,
+            16895308,
+            16895332,
+            16895336,
+            16895360,
+            16895364,
+            16895388,
+            16895392,
+            16895416,
+            16895420
+          ]
+        },
+        "_parse_menu_flag@8": {
+          "calls": [],
+          "references": [
+            1,
+            2,
+            4,
+            8,
+            29,
+            32,
+            50,
+            64
+          ]
+        },
+        "_parse_menu_item@4": {
+          "calls": [
+            16810176,
+            16812448,
+            16815840,
+            16821536,
+            16821600,
+            16824432,
+            16828208,
+            16829264,
+            16845904
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            16,
+            20,
+            21,
+            23,
+            72,
+            255,
+            256,
+            520,
+            16863648,
+            16867752,
+            16876608,
+            16895444,
+            16895520,
+            16895596,
+            16895600,
+            16895632,
+            16895636
+          ]
+        },
+        "_parse_raw_data@4": {
+          "calls": [
+            16812448,
+            16815840,
+            16819488,
+            16819936,
+            16820000,
+            16820192,
+            16828208
+          ],
+          "references": [
+            0,
+            2,
+            4,
+            13,
+            14,
+            20,
+            21,
+            23,
+            130,
+            131,
+            132,
+            16863648,
+            16867752,
+            16893548,
+            16893552,
+            16893576,
+            16893580,
+            16893612,
+            16893616,
+            16893644,
+            16893648,
+            16893676,
+            16893680
+          ]
+        },
+        "_parse_resource_identifier": {
+          "calls": [
+            16815696,
+            16834224,
+            16838984,
+            16839216
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            8,
+            48,
+            55,
+            65,
+            88,
+            128,
+            16863648,
+            16863650
+          ]
+        },
+        "_parse_scrollbar_control@4": {
+          "calls": [
+            16812448,
+            16823296,
+            16824432,
+            16826560,
+            16826672
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            15,
+            132,
+            65535
+          ]
+        },
+        "_parse_static_control@4": {
+          "calls": [
+            16826000
+          ],
+          "references": [
+            4,
+            130,
+            65535,
+            131072
+          ]
+        },
+        "_parse_string_table@4": {
+          "calls": [
+            16810176,
+            16812448,
+            16815840,
+            16819488,
+            16824432,
+            16828208,
+            16831152,
+            16858544
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            8,
+            13,
+            14,
+            15,
+            20,
+            21,
+            23,
+            82,
+            130,
+            131,
+            132,
+            16863648,
+            16867752,
+            16896032,
+            16896036,
+            16896060,
+            16896064,
+            16896096,
+            16896100,
+            16896140,
+            16896144,
+            16896184,
+            16896188,
+            16896232,
+            16896236,
+            16896268,
+            16896272
+          ]
+        },
+        "_parse_style@4": {
+          "calls": [
+            16812448,
+            16815840,
+            16826624,
+            16828288
+          ],
+          "references": [
+            1,
+            2,
+            4,
+            12,
+            20,
+            104,
+            32768,
+            32769,
+            16893884,
+            16893888
+          ]
+        },
+        "_parse_version_children": {
+          "calls": [
+            16812448,
+            16815840,
+            16823264,
+            16830176,
+            16830560
+          ],
+          "references": [
+            1,
+            13,
+            14,
+            21,
+            113,
+            114,
+            65535,
+            16863648,
+            16895772,
+            16895776,
+            16895816,
+            16895820,
+            16895852,
+            16895856
+          ]
+        },
+        "_parse_version_data@4": {
+          "calls": [
+            16810176,
+            16815840,
+            16819856,
+            16819888,
+            16820000,
+            16820192,
+            16820272,
+            16823264,
+            16828208
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            4,
+            8,
+            13,
+            14,
+            20,
+            21,
+            113,
+            114,
+            65532,
+            65535,
+            16863648,
+            16867752,
+            16895896,
+            16895900
+          ]
+        },
+        "_parse_version_info": {
+          "calls": [
+            16829568,
+            16830176
+          ],
+          "references": [
+            1
+          ]
+        },
+        "_parse_version_number@4": {
+          "calls": [
+            16812448,
+            16815840
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            15,
+            16,
+            20,
+            16893840,
+            16895736,
+            16895740,
+            16895744,
+            16895748
+          ]
+        },
+        "_parse_version_scalar@4": {
+          "calls": [
+            16812448,
+            16815840
+          ],
+          "references": [
+            1,
+            4,
+            20,
+            16895752,
+            16895756
+          ]
+        },
+        "_parse_version_value@4": {
+          "calls": [
+            16810176,
+            16819856,
+            16820192,
+            16820272,
+            16823248,
+            16823264,
+            16830736
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            8,
+            65532,
+            16867752,
+            4294967295
+          ]
+        },
+        "_parse_word_expression": {
+          "calls": [
+            16815840
+          ],
+          "references": [
+            20,
+            16893912,
+            16893916
+          ]
+        },
+        "_parser_error@8": {
+          "calls": [
+            16809424,
+            16845904
+          ],
+          "references": [
+            4,
+            8,
+            12,
+            16,
+            16876608,
+            16892224,
+            16892252
+          ]
+        },
+        "_prefix_matches@8": {
+          "calls": [
+            16857680
+          ],
+          "references": [
+            0,
+            4,
+            8,
+            4294967295
+          ]
+        },
+        "_prepare_input@4": {
+          "calls": [
+            16806096,
+            16809264,
+            16810352,
+            16833432,
+            16834224,
+            16839536,
+            16840240,
+            16843440,
+            16843664,
+            16852624
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            8,
+            9,
+            10,
+            12,
+            92,
+            512,
+            5140,
+            16890000,
+            16890004,
+            16890008,
+            16890024,
+            16890036,
+            16890048,
+            16890052,
+            16890064,
+            4294967295
+          ]
+        },
+        "_put_byte@4": {
+          "calls": [
+            16819680
+          ],
+          "references": [
+            4,
+            65499,
+            16893364,
+            16893368
+          ]
+        },
+        "_put_bytes@8": {
+          "calls": [
+            16819936
+          ],
+          "references": [
+            8
+          ]
+        },
+        "_put_dialog_control@4": {
+          "calls": [
+            16819856,
+            16820000,
+            16820128,
+            16820192,
+            16821504,
+            16821520,
+            16840080
+          ],
+          "references": [
+            0,
+            4,
+            534,
+            65535
+          ]
+        },
+        "_put_dialog_header@4": {
+          "calls": [
+            16819856,
+            16820000,
+            16820192,
+            16840080
+          ],
+          "references": [
+            0,
+            4,
+            1562,
+            65535
+          ]
+        },
+        "_put_dword@4": {
+          "calls": [
+            16819680
+          ],
+          "references": [
+            4,
+            16,
+            24,
+            65496,
+            16893388,
+            16893392
+          ]
+        },
+        "_put_menu_item@4": {
+          "calls": [
+            16820192
+          ],
+          "references": [
+            0,
+            2,
+            4,
+            16,
+            4294902015
+          ]
+        },
+        "_put_version_block@12": {
+          "calls": [
+            16810176,
+            16819856,
+            16820192,
+            16820272,
+            16823248,
+            16823264
+          ],
+          "references": [
+            0,
+            4,
+            12,
+            65532,
+            16867752,
+            4294967295
+          ]
+        },
+        "_put_wide_string@4": {
+          "calls": [
+            16820192
+          ],
+          "references": [
+            0,
+            2,
+            4
+          ]
+        },
+        "_put_word@4": {
+          "calls": [
+            16819680
+          ],
+          "references": [
+            4,
+            65498,
+            16893412,
+            16893416
+          ]
+        },
+        "_rc_tolower": {
+          "calls": [
+            16834224,
+            16834448,
+            16857632,
+            16857648
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            7,
+            8,
+            12,
+            32,
+            256,
+            528,
+            32768,
+            65280,
+            65536,
+            4294967295
+          ]
+        },
+        "_rc_toupper": {
+          "calls": [
+            16834224,
+            16834448,
+            16857632,
+            16857648
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            7,
+            8,
+            12,
+            32,
+            256,
+            512,
+            528,
+            32768,
+            65280,
+            65536,
+            4294967295
+          ]
+        },
+        "_read_bitmap_file_header": {
+          "calls": [
+            16805888,
+            16805936,
+            16806032,
+            16806144,
+            16819680,
+            16819808,
+            16820272
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            12,
+            14,
+            16,
+            24,
+            28,
+            40,
+            60,
+            19778,
+            65535,
+            16863648,
+            16893476,
+            16893516,
+            16893520
+          ]
+        },
+        "_read_buffered_character": {
+          "calls": [
+            16806032,
+            16840240
+          ],
+          "references": [
+            0,
+            4,
+            4097,
+            16859160
+          ]
+        },
+        "_read_file@12": {
+          "calls": [
+            16809424,
+            16851040
+          ],
+          "references": [
+            1,
+            4,
+            12,
+            16,
+            32,
+            16887912
+          ]
+        },
+        "_read_icon_file_header@4": {
+          "calls": [
+            16806032,
+            16806144,
+            16819680,
+            16819808,
+            16820192,
+            16820272
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            12,
+            16,
+            16863648,
+            16893436
+          ]
+        },
+        "_read_identifier": {
+          "calls": [
+            16810944,
+            16811120
+          ],
+          "references": [
+            0,
+            32,
+            127,
+            16863648,
+            16863649
+          ]
+        },
+        "_read_resource_file": {
+          "calls": [
+            16806144,
+            16815840,
+            16819808,
+            16839712,
+            16843664
+          ],
+          "references": [
+            0,
+            2,
+            8,
+            260,
+            16863648,
+            16892256,
+            16892264,
+            16892268
+          ]
+        },
+        "_read_source_character": {
+          "calls": [
+            16811008,
+            16815344,
+            16857232
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            9,
+            10,
+            12,
+            13,
+            32,
+            34,
+            35,
+            46,
+            48,
+            57,
+            99,
+            101,
+            104,
+            105,
+            108,
+            110,
+            127,
+            16876608,
+            16891488,
+            16891544
+          ]
+        },
+        "_read_source_line@12": {
+          "calls": [
+            16842464
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            7,
+            8,
+            9,
+            10,
+            12,
+            13,
+            32,
+            4294967295
+          ]
+        },
+        "_record_resource@20": {
+          "calls": [
+            16816160
+          ],
+          "references": [
+            0,
+            20
+          ]
+        },
+        "_release_resource_data": {
+          "calls": [
+            16805936
+          ],
+          "references": []
+        },
+        "_remove": {
+          "calls": [
+            16834976,
+            16835344,
+            16852608
+          ],
+          "references": [
+            0,
+            4,
+            4294967295
+          ]
+        },
+        "_resolve_resource_path@12": {
+          "calls": [
+            16840240,
+            16843664,
+            16852288
+          ],
+          "references": [
+            0,
+            2,
+            4,
+            8,
+            12,
+            47,
+            58,
+            59,
+            92,
+            16878472,
+            16898848,
+            16898856,
+            16898860
+          ]
+        },
+        "_resource_alloc@4": {
+          "calls": [
+            16809424,
+            16839248
+          ],
+          "references": [
+            1,
+            4,
+            8,
+            16887856
+          ]
+        },
+        "_resource_data_end": {
+          "calls": [],
+          "references": []
+        },
+        "_resource_data_error@8": {
+          "calls": [
+            16809424,
+            16845904
+          ],
+          "references": [
+            4,
+            8,
+            12,
+            16,
+            16876608,
+            16893332,
+            16893360
+          ]
+        },
+        "_resource_data_length": {
+          "calls": [],
+          "references": []
+        },
+        "_resource_finish": {
+          "calls": [
+            16834144,
+            16835040,
+            16845904,
+            16852528,
+            16858240
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            8,
+            12,
+            16876904,
+            16889980,
+            16889984,
+            16889988
+          ]
+        },
+        "_resource_free@4": {
+          "calls": [
+            16839472
+          ],
+          "references": [
+            4
+          ]
+        },
+        "_resource_main": {
+          "calls": [
+            16805888,
+            16806096,
+            16806144,
+            16809168,
+            16809424,
+            16809616,
+            16810752,
+            16817776,
+            16833424,
+            16834464,
+            16834640,
+            16835536,
+            16837920,
+            16838544,
+            16838984,
+            16839680,
+            16840544,
+            16843664,
+            16845904,
+            16852288,
+            16852752,
+            16857680
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            6,
+            7,
+            8,
+            12,
+            20,
+            25,
+            45,
+            59,
+            63,
+            79,
+            255,
+            260,
+            1024,
+            1504,
+            16833480,
+            16876904,
+            16877168,
+            16878200,
+            16878472,
+            16879616,
+            16887832,
+            16888120,
+            16888124,
+            16888132,
+            16888188,
+            16888256,
+            16888296,
+            16888308,
+            16888336,
+            16888380,
+            16888408,
+            16888436,
+            16888476,
+            16888520,
+            16888568,
+            16888572,
+            16888644,
+            16888648,
+            16888724,
+            16888788,
+            16888832,
+            16888896,
+            16888944,
+            16889004,
+            16889012,
+            16889068,
+            16889140,
+            16889148,
+            16889200,
+            16889208,
+            16889212,
+            16889224,
+            16889228,
+            16889240,
+            16889244,
+            16889288,
+            16889300,
+            16889308,
+            16889316,
+            16889344,
+            16889352,
+            16889360,
+            16889368,
+            16889396,
+            16889440,
+            16889456,
+            16889500,
+            16889508,
+            16889516,
+            16889528,
+            16889600,
+            16889652,
+            16889712,
+            16889776,
+            16889836,
+            16889904,
+            16889908,
+            16889912,
+            16891988,
+            16896976,
+            1073741510,
+            4294967295
+          ]
+        },
+        "_resource_payload_size": {
+          "calls": [
+            16806144
+          ],
+          "references": [
+            0,
+            1,
+            2
+          ]
+        },
+        "_resource_stream@4": {
+          "calls": [],
+          "references": [
+            4
+          ]
+        },
+        "_scan_ansi_string": {
+          "calls": [
+            16810944,
+            16811120,
+            16815344,
+            16833432,
+            16834224,
+            16857680
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            8,
+            9,
+            10,
+            13,
+            21,
+            34,
+            48,
+            55,
+            65,
+            84,
+            88,
+            92,
+            97,
+            110,
+            114,
+            116,
+            120,
+            127,
+            128,
+            255,
+            4097,
+            4104,
+            16863648,
+            16891760,
+            16891764,
+            16891788,
+            16891792
+          ]
+        },
+        "_scan_decimal_number": {
+          "calls": [
+            16810912,
+            16834224
+          ],
+          "references": [
+            1,
+            4,
+            8
+          ]
+        },
+        "_scan_expression": {
+          "calls": [
+            16813456,
+            16815840
+          ],
+          "references": [
+            0,
+            1,
+            20,
+            16891700,
+            16891704
+          ]
+        },
+        "_scan_hex_number": {
+          "calls": [
+            16810912,
+            16834224,
+            16857680
+          ],
+          "references": [
+            1,
+            4,
+            8,
+            48,
+            55,
+            65,
+            128
+          ]
+        },
+        "_scan_kanji_string": {
+          "calls": [
+            16810944,
+            16811120,
+            16814544,
+            16815344,
+            16833432
+          ],
+          "references": [
+            0,
+            2,
+            3,
+            8,
+            9,
+            21,
+            34,
+            65,
+            84,
+            92,
+            97,
+            116,
+            127,
+            4097,
+            4100,
+            16863648,
+            16891836,
+            16891840,
+            16891864,
+            16891868,
+            4294967295
+          ]
+        },
+        "_scan_keyword_or_symbol@4": {
+          "calls": [
+            16810944,
+            16815280,
+            16815344
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            8,
+            11,
+            34,
+            76,
+            108,
+            137,
+            65535,
+            16863648,
+            16863649,
+            16891376,
+            16891912
+          ]
+        },
+        "_scan_number_literal": {
+          "calls": [
+            16810912,
+            16810944,
+            16812736,
+            16812880,
+            16812928
+          ],
+          "references": [
+            0,
+            1,
+            20,
+            32,
+            45,
+            48,
+            76,
+            108,
+            111,
+            120,
+            126,
+            16863649
+          ]
+        },
+        "_scan_number_token": {
+          "calls": [
+            16813040
+          ],
+          "references": []
+        },
+        "_scan_octal_number": {
+          "calls": [
+            16810912
+          ],
+          "references": [
+            48,
+            55
+          ]
+        },
+        "_scan_wide_string": {
+          "calls": [
+            16810944,
+            16811120,
+            16815344,
+            16833432,
+            16834224,
+            16845904,
+            16857680
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            7,
+            8,
+            9,
+            10,
+            13,
+            16,
+            23,
+            34,
+            48,
+            55,
+            65,
+            84,
+            88,
+            92,
+            97,
+            110,
+            114,
+            116,
+            120,
+            127,
+            128,
+            256,
+            4097,
+            8200,
+            65535,
+            16867752,
+            16876608,
+            16891548,
+            16891552,
+            16891576,
+            16891580,
+            16891624,
+            4294902015
+          ]
+        },
+        "_seek_file@12": {
+          "calls": [
+            16809424,
+            16851392,
+            16851552
+          ],
+          "references": [
+            4,
+            12,
+            16888016,
+            16888068,
+            4294967295
+          ]
+        },
+        "_skip_expression_space": {
+          "calls": [
+            16810944
+          ],
+          "references": [
+            32
+          ]
+        },
+        "_split_icon_file@12": {
+          "calls": [
+            16805888,
+            16806032,
+            16806096,
+            16806144,
+            16815920,
+            16816976,
+            16817072,
+            16819680,
+            16820192,
+            16820272,
+            16822496,
+            16840240
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            6,
+            12,
+            16,
+            40,
+            44,
+            64,
+            92,
+            4144,
+            65535,
+            16863648,
+            16893756,
+            16893796
+          ]
+        },
+        "_sprintf": {
+          "calls": [
+            16846288,
+            16848880
+          ],
+          "references": [
+            0,
+            8,
+            12,
+            32,
+            66,
+            2147483647
+          ]
+        },
+        "_sscanf": {
+          "calls": [
+            16852848
+          ],
+          "references": [
+            12,
+            32,
+            73,
+            4294967295
+          ]
+        },
+        "_strchr": {
+          "calls": [],
+          "references": [
+            0,
+            4294967295
+          ]
+        },
+        "_strncpy": {
+          "calls": [],
+          "references": [
+            0,
+            16857131
+          ]
+        },
+        "_strrchr": {
+          "calls": [],
+          "references": [
+            0,
+            4294967295
+          ]
+        },
+        "_switch_character@4": {
+          "calls": [],
+          "references": [
+            1,
+            4,
+            45,
+            47
+          ]
+        },
+        "_trim_token@4": {
+          "calls": [
+            16834224
+          ],
+          "references": [
+            0,
+            1,
+            4,
+            8
+          ]
+        },
+        "_ungetc": {
+          "calls": [
+            16842752
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            4,
+            64,
+            128,
+            255,
+            4294967279,
+            4294967295
+          ]
+        },
+        "_vfprintf": {
+          "calls": [
+            16845984,
+            16846144,
+            16846288
+          ],
+          "references": [
+            4,
+            8,
+            12
+          ]
+        },
+        "_wcscmp": {
+          "calls": [],
+          "references": [
+            0,
+            1,
+            2,
+            4294967295
+          ]
+        },
+        "_wcscpy": {
+          "calls": [],
+          "references": [
+            2
+          ]
+        },
+        "_wcslen": {
+          "calls": [],
+          "references": [
+            0,
+            1,
+            2
+          ]
+        },
+        "_wide_atoi@4": {
+          "calls": [],
+          "references": [
+            0,
+            2,
+            4
+          ]
+        },
+        "_wide_itoa@12": {
+          "calls": [],
+          "references": [
+            0,
+            2,
+            12,
+            48
+          ]
+        },
+        "_wide_to_ansi@12": {
+          "calls": [
+            16833408
+          ],
+          "references": [
+            0,
+            1,
+            12,
+            16
+          ]
+        },
+        "_write_char": {
+          "calls": [
+            16848880
+          ],
+          "references": [
+            8,
+            4294967295
+          ]
+        },
+        "_write_file@12": {
+          "calls": [
+            16809424,
+            16851888
+          ],
+          "references": [
+            1,
+            4,
+            12,
+            16,
+            16887964
+          ]
+        },
+        "_write_multi_char": {
+          "calls": [
+            16848624
+          ],
+          "references": [
+            12
+          ]
+        },
+        "_write_record_header@20": {
+          "calls": [
+            16806096,
+            16806144,
+            16810256,
+            16816048,
+            16820320,
+            16820432,
+            16845904,
+            16858544
+          ],
+          "references": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            17,
+            20,
+            24,
+            776,
+            65535,
+            16892288,
+            16892324,
+            16892360,
+            16892396,
+            16892432,
+            16892468
+          ]
+        },
+        "_write_resource@8": {
+          "calls": [
+            16806096,
+            16806144,
+            16816976
+          ],
+          "references": [
+            0,
+            1,
+            3,
+            4,
+            8,
+            4294967295
+          ]
+        },
+        "_write_resource_name@8": {
+          "calls": [
+            16806096,
+            16858544
+          ],
+          "references": [
+            0,
+            2,
+            4,
+            8,
+            65535
+          ]
+        },
+        "_write_string": {
+          "calls": [
+            16848624
+          ],
+          "references": [
+            12
+          ]
+        },
+        "import:CloseHandle": {
+          "calls": [],
+          "references": []
+        },
+        "import:CreateFileA": {
+          "calls": [],
+          "references": []
+        },
+        "import:CreateProcessA": {
+          "calls": [],
+          "references": []
+        },
+        "import:DeleteFileA": {
+          "calls": [],
+          "references": []
+        },
+        "import:ExitProcess": {
+          "calls": [],
+          "references": []
+        },
+        "import:GetCommandLineA": {
+          "calls": [],
+          "references": []
+        },
+        "import:GetCurrentProcessId": {
+          "calls": [],
+          "references": []
+        },
+        "import:GetEnvironmentStrings": {
+          "calls": [],
+          "references": []
+        },
+        "import:GetExitCodeProcess": {
+          "calls": [],
+          "references": []
+        },
+        "import:GetFileAttributesA": {
+          "calls": [],
+          "references": []
+        },
+        "import:GetFileType": {
+          "calls": [],
+          "references": []
+        },
+        "import:GetLastError": {
+          "calls": [],
+          "references": []
+        },
+        "import:GetModuleFileNameA": {
+          "calls": [],
+          "references": []
+        },
+        "import:GetProcessHeap": {
+          "calls": [],
+          "references": []
+        },
+        "import:GetStartupInfoA": {
+          "calls": [],
+          "references": []
+        },
+        "import:GetStdHandle": {
+          "calls": [],
+          "references": []
+        },
+        "import:GetVersion": {
+          "calls": [],
+          "references": []
+        },
+        "import:HeapAlloc": {
+          "calls": [],
+          "references": []
+        },
+        "import:HeapFree": {
+          "calls": [],
+          "references": []
+        },
+        "import:ReadFile": {
+          "calls": [],
+          "references": []
+        },
+        "import:RtlAnsiStringToUnicodeString": {
+          "calls": [],
+          "references": []
+        },
+        "import:RtlUnicodeStringToAnsiString": {
+          "calls": [],
+          "references": []
+        },
+        "import:SetConsoleCtrlHandler": {
+          "calls": [],
+          "references": []
+        },
+        "import:SetFilePointer": {
+          "calls": [],
+          "references": []
+        },
+        "import:WaitForSingleObject": {
+          "calls": [],
+          "references": []
+        },
+        "import:WriteFile": {
+          "calls": [],
+          "references": []
+        }
+      },
+      "profile": "rc"
+    },
+    "callback_metadata": {
+      "path": "tooling/graph-audit/profiles/rc.json",
+      "bytes": 887,
+      "sha256": "1c82b113ea2df3a575850b36548af63da48c97ec822be27ffa32c3731f1c4b64"
+    },
+    "scope_note": "193 declared accepted driver function graphs/RET/reference identities;254accepted indexed extent guards per side. Remaining CRT graph vertices are not added implicitly.",
+    "overlap_assumption": false,
+    "overlap_reason": "Old RC policy allows valid alternative instruction streams; no new global byte-ownership assumption"
+  },
+  "guarantees": {
+    "alias_bijection": true,
+    "inherited_RET_cleanup": true,
+    "indirect_topology": true,
+    "function_references": true,
+    "ordered_initializer_termination_callbacks": true,
+    "six_floating_callback_slots": true,
+    "original_disjoint_file_backed_driver_ranges": true,
+    "whole_driver_extents": true,
+    "accepted_source_CRT_import_instruction_ends": true
+  },
+  "residual": {
+    "script": {
+      "path": "decomp/vc1.0/rc/scripts/audit-data.py",
+      "bytes": 3374,
+      "sha256": "2cc7d1d2cf22be7b694ca97f49b2556fe30df4bc87712e6f977b6abd0a7d4edd"
+    },
+    "report": {
+      "standard_streams": {
+        "count": 20,
+        "sizeof_FILE": 32,
+        "flag_offset": 12,
+        "descriptor_offset": 16,
+        "last_stream_offset": 608,
+        "diagnostics_stream_index": 1
+      },
+      "C_locale": {
+        "character_classes_including_EOF": 257,
+        "ctype_sha256": "765bf4d1f9da8f6990d56bdbcfbe585290303b77e30cd481e7d99bca2a955725",
+        "multibyte_max": 1,
+        "decimal_point": "."
+      },
+      "KANJI_bounds": {
+        "bytes": 16,
+        "element_bytes": 2,
+        "signed": true,
+        "field_offsets": [
+          0,
+          4,
+          8,
+          12
+        ],
+        "range_stride": 8
+      }
+    },
+    "fields": [
+      "twenty32-byte FILE records, flags/descriptors and last-stream offset",
+      "25716-bit C-locale classes including EOF, multibyte maximum and decimal storage",
+      "zero-filled signed16-bit Kanji ranges, exact MOVSX loads/field offsets/stride"
+    ],
+    "previous_data_subset_byte_equivalent": true,
+    "callback_checks": "Moved to common RC callback metadata; no duplicate Python graph/callback walker retained"
+  },
+  "inventory": {
+    "script": {
+      "path": "decomp/vc1.0/rc/scripts/audit-uncovered.py",
+      "bytes": 6657,
+      "sha256": "70bd67f1bf9a8f478c6d0e4f79d69d79ff5d383e7e9e041902628fdfbaa1fbe8"
+    },
+    "report": {
+      "path": "decomp/vc1.0/rc/uncovered-code.json",
+      "bytes": 10090,
+      "sha256": "2bf941772f6503a4fb7ecd2838115c1e2944adb010121845f4e09e08078190ee"
+    },
+    "incoming_targets": 14,
+    "entire_previous_inventory_byte_identical": true,
+    "discovery_source": "explicit fresh shared original_accepted_graphs report; every accepted original index record",
+    "stale_report_guards": "profile/engine/flag, exact accepted original names/extent count, original/index input mtimes, independently pinned original SHA"
+  },
+  "timing": {
+    "samples": 1,
+    "measured_commands": [
+      {
+        "name": "python_baseline",
+        "seconds": 5.064635002054274,
+        "status": 0
+      },
+      {
+        "name": "data_residual",
+        "seconds": 0.13021397404372692,
+        "status": 0
+      },
+      {
+        "name": "native_outputs",
+        "seconds": 2.422761918976903,
+        "status": 0
+      },
+      {
+        "name": "native_entries",
+        "seconds": 2.4275980247184634,
+        "status": 0
+      },
+      {
+        "name": "native_rejections",
+        "seconds": 0.20877830870449543,
+        "status": 0
+      },
+      {
+        "name": "host_initial",
+        "seconds": 21.965332015417516,
+        "status": 0
+      },
+      {
+        "name": "quiet_build_accepted_extents",
+        "seconds": 0.0080782575532794,
+        "status": 0
+      },
+      {
+        "name": "host_accepted_extents",
+        "seconds": 0.5436500906944275,
+        "status": 2
+      },
+      {
+        "name": "quiet_build_final",
+        "seconds": 0.007864325307309628,
+        "status": 0
+      },
+      {
+        "name": "host_final",
+        "seconds": 0.5420825323089957,
+        "status": 0
+      },
+      {
+        "name": "rust_graph_final",
+        "seconds": 0.26181425619870424,
+        "status": 0
+      },
+      {
+        "name": "data_residual_final",
+        "seconds": 0.13168581202626228,
+        "status": 0
+      }
+    ],
+    "old_graph_and_data_seconds": 5.064635002054274,
+    "new_graph_seconds": 0.26181425619870424,
+    "new_data_seconds": 0.13168581202626228,
+    "new_graph_and_data_seconds": 0.3935000682249665,
+    "graph_and_data_speedup": 12.870734749552291,
+    "complete_host_target_seconds": 0.5420825323089957,
+    "quiet_build_note": "Initial host integration21.97s included quiet Cargo setup/build and audits, not separately measured. Final graph-audit-tool check0.008s reused the shared up-to-date binary.",
+    "original_compile_seconds": 0,
+    "original_capture_seconds": 0
+  },
+  "native": {
+    "outputs": {
+      "mode": "native-only captured-reference",
+      "build_seconds": "separate build; not measured by fixture runner",
+      "trace_setup_seconds": 1.1278316378593445e-06,
+      "cases": [
+        {
+          "case": "resources-rich",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.020687646232545376,
+          "execution_seconds": 0.9572085002437234,
+          "checks_seconds": 0.0021042078733444214,
+          "total_seconds": 0.9805013258010149,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "resource.h": {
+              "bytes": 746,
+              "sha256": "8928ffb8acb0481e8775ca63dc0104143af852929b71c6459fd6889f4f93d8d8"
+            },
+            "resources.res": {
+              "bytes": 3684,
+              "sha256": "10dee20c34c66e704c56b8bd31d7f2efbc60ce407964d727830449eb6a85618d"
+            },
+            "resources.rc": {
+              "bytes": 3440,
+              "sha256": "47f13f702adfbcfc05a40ab9ce1a27cb22730e33f888be81e276ac424dc41881"
+            },
+            "assets/payload.bin": {
+              "bytes": 50,
+              "sha256": "20c1bef1846bc87953a2663d95185cd5e33ad97a534899ed892a02f5a1a81590"
+            },
+            "assets/multi.ico": {
+              "bytes": 518,
+              "sha256": "4eafdacd795611297df4cd4dd5774d0955d0f12c644e1cd17d729e0e1168204d"
+            },
+            "assets/messages.bin": {
+              "bytes": 48,
+              "sha256": "27fbf6c0451b6521d19618032f26de4be6ae744c37082ec0917aa4afe89efccc"
+            },
+            "assets/pattern.bmp": {
+              "bytes": 246,
+              "sha256": "d28d27e861fc34d7599df0b7bb3cdd02f8ddbc985daa846f9d06a5004757904f"
+            },
+            "assets/pointer.cur": {
+              "bytes": 198,
+              "sha256": "38904338263e5c23802d4961ece21222b3997f466887a0fb052994d0d3794d4a"
+            },
+            "include/features.h": {
+              "bytes": 938,
+              "sha256": "7b7fb5c3c82eb19ae662105631fbd1b02a4b313b7055453249976ac7714c2070"
+            },
+            "include/nested/values.h": {
+              "bytes": 129,
+              "sha256": "edcf2670a9f6af506a4ba80a5a3fab40619a765bb2d2dd50f149f9fffed5ef51"
+            }
+          },
+          "trace_entries": null,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994022,
+                "input": "RC994022",
+                "output": "RD994022",
+                "input_bytes": 3381,
+                "input_sha256": "bcf079a08386aee55016e382db7490301ed690f72e1e84e3d5b1f7cde2b8231e",
+                "response_bytes": 349826,
+                "response_sha256": "126387d0ba64ce0417e1bf48dc61b83bc522dfc753a122edfc4d379390606c3e",
+                "captured_read_attempts": 72,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994022,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-outputs/resources-rich/namespace/vc1.0/rc/resources-rich/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994022 -g RD994022 -D RC_INVOKED -pc \\:/ -E   -Iinclude  -IR:\\toolchains\\1.0-nt\\include  -DCASE_FROM_COMMAND=7"
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.9422055305913091,
+            "manifest_sha256": "90a82df6d244d49ee80a36af8c9c9fa9b18fbd8b11ec1526e64302f21591540b",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "help",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.0014840289950370789,
+          "execution_seconds": 0.0013389866799116135,
+          "checks_seconds": 0.00011531449854373932,
+          "total_seconds": 0.0032096710056066513,
+          "stdout_bytes": 424,
+          "stderr_bytes": 0,
+          "artifacts": {},
+          "trace_entries": null,
+          "process_fixture": null,
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "invalid-switch",
+          "status": "pass",
+          "exit": 1,
+          "setup_seconds": 0.0013503944501280785,
+          "execution_seconds": 0.001023394986987114,
+          "checks_seconds": 0.0001163966953754425,
+          "total_seconds": 0.002791615203022957,
+          "stdout_bytes": 48,
+          "stderr_bytes": 0,
+          "artifacts": {},
+          "trace_entries": null,
+          "process_fixture": null,
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "missing-input",
+          "status": "pass",
+          "exit": 1,
+          "setup_seconds": 0.0013677142560482025,
+          "execution_seconds": 0.0017481474205851555,
+          "checks_seconds": 0.00011213123798370361,
+          "total_seconds": 0.00354715995490551,
+          "stdout_bytes": 54,
+          "stderr_bytes": 0,
+          "artifacts": {},
+          "trace_entries": null,
+          "process_fixture": null,
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "alternate",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.005452116951346397,
+          "execution_seconds": 0.07560603506863117,
+          "checks_seconds": 0.0011576320976018906,
+          "total_seconds": 0.0826563835144043,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "alternate.rc": {
+              "bytes": 428,
+              "sha256": "082a82f0fdc089ef3efe46b2d6d96623b9acb8bf3f30c7e13ff8b1400e1d7f4c"
+            },
+            "inline.img": {
+              "bytes": 14,
+              "sha256": "a3303fa317e47c6cf7d881930bf579a491c02947a7948712aad68b5905dca8ac"
+            },
+            "alternate.res": {
+              "bytes": 940,
+              "sha256": "e7bdd612221ea774de0a9f785dc82d4ed6f360cc53d07d9248cce3a86bbacdca"
+            },
+            "tiny.fnt": {
+              "bytes": 160,
+              "sha256": "f379ec68adb7f2a7147439619211885d996a75d83ae3ecd61b6b372cf138200f"
+            },
+            "legacy.img": {
+              "bytes": 20,
+              "sha256": "247c260b12e05cda3f45baa7022ee34b93e3fbb5fbe4a58d8bb6a373794b3880"
+            }
+          },
+          "trace_entries": null,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994032,
+                "input": "RC994032",
+                "output": "RD994032",
+                "input_bytes": 430,
+                "input_sha256": "1b1b9fcde08116855954f0d4297d61aa5de1c40ec7c9f4623b532b40c51989ed",
+                "response_bytes": 466,
+                "response_sha256": "548a58c26fd5b6a762e1be4f554a472fb76546b43237511dafb17581a38e7af8",
+                "captured_read_attempts": 2,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994032,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-outputs/alternate/namespace/vc1.0/rc/alternate/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994032 -g RD994032 -D RC_INVOKED -pc \\:/ -E   -IR:\\toolchains\\1.0-nt\\include"
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.0724055739119649,
+            "manifest_sha256": "8b280c0b349344076a0e1cead45dbbbf53bf019c81ccf55984e34521e9a329b1",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "lexical-error",
+          "status": "pass",
+          "exit": 1,
+          "setup_seconds": 0.0041405027732253075,
+          "execution_seconds": 0.07137490529567003,
+          "checks_seconds": 0.000597330741584301,
+          "total_seconds": 0.07652904465794563,
+          "stdout_bytes": 80,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "bad.rc": {
+              "bytes": 34,
+              "sha256": "b8a512db35b15c8f11e4800578b062c3ea0659cff26ac22d5c545c30927c5392"
+            }
+          },
+          "trace_entries": null,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994034,
+                "input": "RC994034",
+                "output": "RD994034",
+                "input_bytes": 61,
+                "input_sha256": "20b3a0d0e35ca8bbf1be46ed70aef68a6c9fbf975d8e83920f3b71011091ea34",
+                "response_bytes": 91,
+                "response_sha256": "33a93d63c2eaba2825146f0299e611f0c3010c16e319884b279fce72d3fc3a4c",
+                "captured_read_attempts": 2,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994034,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-outputs/lexical-error/namespace/vc1.0/rc/lexical-error/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994034 -g RD994034 -D RC_INVOKED -pc \\:/ -E   -IR:\\toolchains\\1.0-nt\\include"
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.06857943069189787,
+            "manifest_sha256": "a81abc51f75e6c7b630391d97d8e2a9cca89538619f103e50660d173ab55aa4f",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "parser-error",
+          "status": "pass",
+          "exit": 1,
+          "setup_seconds": 0.005060388706624508,
+          "execution_seconds": 0.07291636895388365,
+          "checks_seconds": 0.0010823942720890045,
+          "total_seconds": 0.07988907862454653,
+          "stdout_bytes": 73,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "bad.rc": {
+              "bytes": 42,
+              "sha256": "6cdf2fe57406e6c59d80d6130d147a77ceb60eacc956e90ccef0846f6eeb22f6"
+            }
+          },
+          "trace_entries": null,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994036,
+                "input": "RC994036",
+                "output": "RD994036",
+                "input_bytes": 72,
+                "input_sha256": "45d2af37f3bd6537a64f91fcaf40292225f37beef3814ba63b1d1cd4ed185d9c",
+                "response_bytes": 102,
+                "response_sha256": "8b91baa93ff7f62edde051d0ed06b67761e72fe3d33e2adb8f47cd1c4b6a330e",
+                "captured_read_attempts": 2,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994036,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-outputs/parser-error/namespace/vc1.0/rc/parser-error/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994036 -g RD994036 -D RC_INVOKED -pc \\:/ -E   -IR:\\toolchains\\1.0-nt\\include"
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.06987340655177832,
+            "manifest_sha256": "b620765d74af1a616b7600f1f64a40b70d46f5923c9829a7f0b84c31cb8c2681",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "resource-error",
+          "status": "pass",
+          "exit": 1,
+          "setup_seconds": 0.007470541633665562,
+          "execution_seconds": 0.07002295181155205,
+          "checks_seconds": 0.0012630987912416458,
+          "total_seconds": 0.07935910858213902,
+          "stdout_bytes": 78,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "bad.img": {
+              "bytes": 14,
+              "sha256": "029d766abac9f78f05d52db9abbe1dbade88bac6f952e66bb1ed1af2213e6a0e"
+            },
+            "bad.rc": {
+              "bytes": 14,
+              "sha256": "fac345589d67ad670e8406af1b4aedde83659ed7d6d0afd3bec060d268635af7"
+            }
+          },
+          "trace_entries": null,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994038,
+                "input": "RC994038",
+                "output": "RD994038",
+                "input_bytes": 41,
+                "input_sha256": "2523c2ef78004b06cce695f3d979715e91cecb0f63dba755841c682fe57c32ef",
+                "response_bytes": 71,
+                "response_sha256": "ce84ccbdda8dca90aeb84f57d538f9e37e2adac07f9306099be243d5afdecb0e",
+                "captured_read_attempts": 2,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994038,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-outputs/resource-error/namespace/vc1.0/rc/resource-error/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994038 -g RD994038 -D RC_INVOKED -pc \\:/ -E   -IR:\\toolchains\\1.0-nt\\include"
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.06705660559237003,
+            "manifest_sha256": "a94d8b9f3bb8c16dc0010b48e924b90d3f2b4a302941bc83b1888071883570da",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "kanji",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.012992283329367638,
+          "execution_seconds": 0.09183456096798182,
+          "checks_seconds": 0.0020958753302693367,
+          "total_seconds": 0.10737164597958326,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "wide-long.rc": {
+              "bytes": 348,
+              "sha256": "2281b620985de8dd5165a65497a48fcdab3b581d13cfdf1e7f8aecab6aab95d7"
+            },
+            "preprocessor-error.rc": {
+              "bytes": 36,
+              "sha256": "c46aab0c71343098117f878c9b5b1d775052dd7b6a1fc82310088f7483efbf8f"
+            },
+            "encoding.res": {
+              "bytes": 480,
+              "sha256": "e932117ff1d314d3a1098294bf32cadc0bdec94b560a2319c8dd96acd52c3c8c"
+            },
+            "encoding.rc": {
+              "bytes": 427,
+              "sha256": "e786dc80226ec19c7aef2756d6b19feaebf46f80316080a99f3506e7d9e11096"
+            },
+            "include/values.h": {
+              "bytes": 65,
+              "sha256": "3bce3b23726fdbe130234da2f735151d5f0fa8fc59a35dfab513e404c7cbb06b"
+            }
+          },
+          "trace_entries": null,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994040,
+                "input": "RC994040",
+                "output": "RD994040",
+                "input_bytes": 475,
+                "input_sha256": "8350ba884901977c70e4acd405d0cfc335a563eb29fb66af92ba8b4721abbda3",
+                "response_bytes": 566,
+                "response_sha256": "cb3e5b0dd06ef271a080b8cdbbdc332354250d204b2489056fbc126376b1bbf2",
+                "captured_read_attempts": 3,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994040,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-outputs/kanji/namespace/vc1.0/rc/kanji/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994040 -g RD994040 -D RC_INVOKED -pc \\:/ -E   -Iinclude"
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.08861495461314917,
+            "manifest_sha256": "76867d6ddba8c20153f7bbb8181ff94c32fc8b7772c3d96dd121008679f9ebfb",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "wide-long",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.011436418630182743,
+          "execution_seconds": 0.07135143224149942,
+          "checks_seconds": 0.001146768219769001,
+          "total_seconds": 0.08432518038898706,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "wide-long.rc": {
+              "bytes": 348,
+              "sha256": "2281b620985de8dd5165a65497a48fcdab3b581d13cfdf1e7f8aecab6aab95d7"
+            },
+            "encoding.rc": {
+              "bytes": 427,
+              "sha256": "e786dc80226ec19c7aef2756d6b19feaebf46f80316080a99f3506e7d9e11096"
+            },
+            "preprocessor-error.rc": {
+              "bytes": 36,
+              "sha256": "c46aab0c71343098117f878c9b5b1d775052dd7b6a1fc82310088f7483efbf8f"
+            },
+            "wide-long.res": {
+              "bytes": 700,
+              "sha256": "df4b835d1c0ca49ba734f366c29172f802e363b6c258a9eac2e43cfde2aed196"
+            },
+            "include/values.h": {
+              "bytes": 65,
+              "sha256": "3bce3b23726fdbe130234da2f735151d5f0fa8fc59a35dfab513e404c7cbb06b"
+            }
+          },
+          "trace_entries": null,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994042,
+                "input": "RC994042",
+                "output": "RD994042",
+                "input_bytes": 383,
+                "input_sha256": "7a7356e4890f149706283a14bf3da92d397af24c3e3e297db1c5072f25c008f5",
+                "response_bytes": 419,
+                "response_sha256": "509d904f4b360c8a13810b7e78054efdc99a661c847b51fdece910a9b16700ad",
+                "captured_read_attempts": 2,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994042,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-outputs/wide-long/namespace/vc1.0/rc/wide-long/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994042 -g RD994042 -D RC_INVOKED -pc \\:/ -E "
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.06799182575196028,
+            "manifest_sha256": "56cc0d24b30fec7c560899e0bca852c37c2edd91eb2ba09a4c7ac696b6f92f12",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "preprocessor-error",
+          "status": "pass",
+          "exit": 1,
+          "setup_seconds": 0.006576607935130596,
+          "execution_seconds": 0.09326116926968098,
+          "checks_seconds": 0.0018627448007464409,
+          "total_seconds": 0.10233853757381439,
+          "stdout_bytes": 69,
+          "stderr_bytes": 100,
+          "artifacts": {
+            "preprocessor-error.rc": {
+              "bytes": 36,
+              "sha256": "c46aab0c71343098117f878c9b5b1d775052dd7b6a1fc82310088f7483efbf8f"
+            },
+            "encoding.rc": {
+              "bytes": 427,
+              "sha256": "e786dc80226ec19c7aef2756d6b19feaebf46f80316080a99f3506e7d9e11096"
+            },
+            "wide-long.rc": {
+              "bytes": 348,
+              "sha256": "2281b620985de8dd5165a65497a48fcdab3b581d13cfdf1e7f8aecab6aab95d7"
+            },
+            "include/values.h": {
+              "bytes": 65,
+              "sha256": "3bce3b23726fdbe130234da2f735151d5f0fa8fc59a35dfab513e404c7cbb06b"
+            }
+          },
+          "trace_entries": null,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994044,
+                "input": "RC994044",
+                "output": "RD994044",
+                "input_bytes": 78,
+                "input_sha256": "3d2df354afc2ee19c11505af47e6ddb5cf2d5f4086515701dfce85a063d592d0",
+                "response_bytes": 86,
+                "response_sha256": "3494fcedb88d991cfbd9e264f24e86c64330a9c1365a7d6f827680d74362f320",
+                "captured_read_attempts": 3,
+                "status": 1
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994044,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-outputs/preprocessor-error/namespace/vc1.0/rc/preprocessor-error/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994044 -g RD994044 -D RC_INVOKED -pc \\:/ -E "
+                ],
+                "action": "replay",
+                "status": 1
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.09050329122692347,
+            "manifest_sha256": "6e77b5f6ab1a6343e3f5f10bf2f743b70cc70318b9581a57c8f2476e2a6352fa",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "rcinclude",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.012267768383026123,
+          "execution_seconds": 0.13859284576028585,
+          "checks_seconds": 0.002406948246061802,
+          "total_seconds": 0.15376660786569118,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "part.rc": {
+              "bytes": 95,
+              "sha256": "cafd2b79160be84bc18ce572992d73a9eae18c2601c487fafebd73d19831e410"
+            },
+            "pushback.rc": {
+              "bytes": 30,
+              "sha256": "ce3873fa8a556675d905ad086ffdbda79f5007cf4488f317c1846edbccd42b0e"
+            },
+            "rcinclude.rc": {
+              "bytes": 120,
+              "sha256": "05e3ae5fc1b531a7945985ad34505ab7fadcbe4fc3305c627ddd64aa8a8493fd"
+            },
+            "values.h": {
+              "bytes": 23,
+              "sha256": "4518b6c5495325294d3e919cf0fb3d9dcc161d69453deea5bf961b3b1129d868"
+            },
+            "second.rc": {
+              "bytes": 105,
+              "sha256": "db3813885a609390f3110d17531218588dfe7820a1bdea7d8ee3a7e11c8caa04"
+            },
+            "rcinclude.res": {
+              "bytes": 344,
+              "sha256": "7a51c51aee5ade012ae684087493c744a999d9f9f2a6752e94ab208a76dc9e2d"
+            }
+          },
+          "trace_entries": null,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994046,
+                "input": "RC994046",
+                "output": "RD994046",
+                "input_bytes": 155,
+                "input_sha256": "9ad1ebd79ffb3e8f815521cb0e542c55e4bc0566b340810b8e037d88506098bc",
+                "response_bytes": 445,
+                "response_sha256": "e29c3d98fd3cfb090fc75c4eeac6102a2c983a7f7d61005732859f089d876ace",
+                "captured_read_attempts": 5,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994046,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-outputs/rcinclude/namespace/vc1.0/rc/rcinclude/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994046 -g RD994046 -D RC_INVOKED -pc \\:/ -E "
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.13513769768178463,
+            "manifest_sha256": "a4f3abdfd7e9f73f11ffb8c039d3ab58470868104cee389591dd714ec937c2e5",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "scanf-pushback",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.014776837080717087,
+          "execution_seconds": 0.07142055686563253,
+          "checks_seconds": 0.0026470692828297615,
+          "total_seconds": 0.08932820055633783,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "pushback.res": {
+              "bytes": 68,
+              "sha256": "8dd39c71de33c999b0f7f8bba7e6e2ece1147a24541cdb20d1045275bc5bb29c"
+            },
+            "rcinclude.rc": {
+              "bytes": 120,
+              "sha256": "05e3ae5fc1b531a7945985ad34505ab7fadcbe4fc3305c627ddd64aa8a8493fd"
+            },
+            "second.rc": {
+              "bytes": 105,
+              "sha256": "db3813885a609390f3110d17531218588dfe7820a1bdea7d8ee3a7e11c8caa04"
+            },
+            "pushback.rc": {
+              "bytes": 30,
+              "sha256": "ce3873fa8a556675d905ad086ffdbda79f5007cf4488f317c1846edbccd42b0e"
+            },
+            "values.h": {
+              "bytes": 23,
+              "sha256": "4518b6c5495325294d3e919cf0fb3d9dcc161d69453deea5bf961b3b1129d868"
+            },
+            "part.rc": {
+              "bytes": 95,
+              "sha256": "cafd2b79160be84bc18ce572992d73a9eae18c2601c487fafebd73d19831e410"
+            }
+          },
+          "trace_entries": null,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994048,
+                "input": "RC994048",
+                "output": "RD994048",
+                "input_bytes": 61,
+                "input_sha256": "2f0998badf20c650650b2e009e7d2c7ae9f44d8bb3f8b89adab1dfc79c480ef9",
+                "response_bytes": 96,
+                "response_sha256": "6ff674443f98d87f16bcc4cfb70ca8cc3bc6c6edcad74bc996025ccbe50ce9fc",
+                "captured_read_attempts": 2,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994048,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-outputs/scanf-pushback/namespace/vc1.0/rc/scanf-pushback/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994048 -g RD994048 -D RC_INVOKED -pc \\:/ -E "
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.06919237226247787,
+            "manifest_sha256": "615a57924fd74fd9046b6bdeac0841eb606e89edf6ae14344acadd6a0bb41f8f",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "console-interrupt",
+          "status": "pass",
+          "exit": 1,
+          "setup_seconds": 0.00856887549161911,
+          "execution_seconds": 0.21788536570966244,
+          "checks_seconds": 0.002093477174639702,
+          "total_seconds": 0.2289464846253395,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "interrupt.rc": {
+              "bytes": 21,
+              "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
+            }
+          },
+          "trace_entries": null,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994060,
+                "input": "RC994060",
+                "output": "RD994060",
+                "input_bytes": 54,
+                "input_sha256": "c61a20ca5a6c4af9e80084e873b3051e4ffa6eedccf67b4ab4bb8bc0ec89954b",
+                "response_bytes": 90,
+                "response_sha256": "de9d6e3173076d5c6adf14709ae6e2b6179ff70d90c0afbcc031594afd2404f8",
+                "captured_read_attempts": 2,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994060,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-outputs/console-interrupt/namespace/vc1.0/rc/console-interrupt/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994060 -g RD994060 -D RC_INVOKED -pc \\:/ -E "
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.07792866509407759,
+            "manifest_sha256": "1f066319f8a1f848d3c98d71decfaf4f8cfc5aae9ceffea50befdc2ea027c166",
+            "Wine_invocations": 0
+          },
+          "scope": "Actual native SIGINT delivered at GDB pre-lexer boundary; exact cleanup. Windows console membership and OS callback thread remain original-only evidence."
+        },
+        {
+          "case": "verbose-names",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.007896150462329388,
+          "execution_seconds": 0.07475456967949867,
+          "checks_seconds": 0.0018180310726165771,
+          "total_seconds": 0.08505215030163527,
+          "stdout_bytes": 349,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "path-fallback.rc": {
+              "bytes": 21,
+              "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
+            },
+            "verbose.res": {
+              "bytes": 180,
+              "sha256": "6281f6ea61374460b5bf0608b11f4f8d67aca223c042280aa6fc0b45573df4a8"
+            },
+            "verbose-names.rc": {
+              "bytes": 77,
+              "sha256": "609564534bbd609d6a894eb1760ad769a36d7ee276b43b1e2e02717df3fdb6ee"
+            }
+          },
+          "trace_entries": null,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994064,
+                "input": "RC994064",
+                "output": "RD994064",
+                "input_bytes": 116,
+                "input_sha256": "c60f5518a507130b32385d3966cee5d6775adcfa72523bc63f4cb2dca6932a40",
+                "response_bytes": 156,
+                "response_sha256": "d2adcf3e46d54ee35d12bd9d8c46cc52f2093c52b82226afa16c72b8be7e3d18",
+                "captured_read_attempts": 2,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994064,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-outputs/verbose-names/namespace/vc1.0/rc/verbose-names/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994064 -g RD994064 -D RC_INVOKED -pc \\:/ -E "
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.07063660025596619,
+            "manifest_sha256": "e5789c4315b0d31b46464d0404d9147aeb512858dcdd4443fc70bd1ab4b249ed",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "path-fallback",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.07525002397596836,
+          "execution_seconds": 0.09113552421331406,
+          "checks_seconds": 0.00109194777905941,
+          "total_seconds": 0.16797093115746975,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "path-fallback.rc": {
+              "bytes": 21,
+              "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
+            },
+            "path.res": {
+              "bytes": 68,
+              "sha256": "d40bd446753ac712bf8621ea929d08fa2f20715fa1ccb7001e482ef79707201f"
+            },
+            "verbose-names.rc": {
+              "bytes": 77,
+              "sha256": "609564534bbd609d6a894eb1760ad769a36d7ee276b43b1e2e02717df3fdb6ee"
+            }
+          },
+          "trace_entries": null,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994071,
+                "input": "RC994071",
+                "output": "RD994071",
+                "input_bytes": 58,
+                "input_sha256": "abec1f5c28d7d5d6ad1e289328260c30adb46ea4a09487665121d4d6820e790b",
+                "response_bytes": 98,
+                "response_sha256": "b997d2936e5fe6340b64f35084cfe5be3e631bc1e2eeb48b48a9d4475a9eafe5",
+                "captured_read_attempts": 2,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994071,
+                "file": "S:\\vc1.0\\rc\\path-fallback\\preprocessor bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-outputs/path-fallback/namespace/vc1.0/rc/path-fallback/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994071 -g RD994071 -D RC_INVOKED -pc \\:/ -E "
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.08822448831051588,
+            "manifest_sha256": "6af6a10b40d2974da16d12c47ca9d687a878e7b43b3db59e8879ce4fa03e4923",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "direct-whitespace",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.0018643653020262718,
+          "execution_seconds": 0.0015450501814484596,
+          "checks_seconds": 0.0003122035413980484,
+          "total_seconds": 0.004041503183543682,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "results.bin": {
+              "bytes": 1024,
+              "sha256": "59f9184a4beae1fd1b5550bf7b053cdb0fc75a3193899827997318aab95c3300"
+            }
+          },
+          "trace_entries": null,
+          "process_fixture": null,
+          "scope": "Direct native utility results/canaries; canonical stdcall/nonvolatile ABI audit retained separately."
+        },
+        {
+          "case": "direct-basename",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.001861625351011753,
+          "execution_seconds": 0.0016831457614898682,
+          "checks_seconds": 0.00032073259353637695,
+          "total_seconds": 0.004221643321216106,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "results.bin": {
+              "bytes": 600,
+              "sha256": "4d79a50838f5b0ebcc68239297218171c79a1e3b4398fb469bf9b594da256776"
+            }
+          },
+          "trace_entries": null,
+          "process_fixture": null,
+          "scope": "Direct native utility results/canaries; canonical stdcall/nonvolatile ABI audit retained separately."
+        }
+      ],
+      "executable_sha256": "66bd5fced720d89b2453f6ed1e8d8d54a78865612f53956a0df778d217a4bcfe",
+      "Wine_invocations": 0,
+      "total_seconds": 2.339765368960798,
+      "status": "pass"
+    },
+    "entries": {
+      "mode": "native-only captured-reference",
+      "build_seconds": "separate build; not measured by fixture runner",
+      "trace_setup_seconds": 0.05598927568644285,
+      "cases": [
+        {
+          "case": "resources-rich",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.020986219868063927,
+          "execution_seconds": 0.9324653102084994,
+          "checks_seconds": 0.002242395654320717,
+          "total_seconds": 0.9561813855543733,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "resources.rc": {
+              "bytes": 3440,
+              "sha256": "47f13f702adfbcfc05a40ab9ce1a27cb22730e33f888be81e276ac424dc41881"
+            },
+            "resources.res": {
+              "bytes": 3684,
+              "sha256": "10dee20c34c66e704c56b8bd31d7f2efbc60ce407964d727830449eb6a85618d"
+            },
+            "resource.h": {
+              "bytes": 746,
+              "sha256": "8928ffb8acb0481e8775ca63dc0104143af852929b71c6459fd6889f4f93d8d8"
+            },
+            "include/features.h": {
+              "bytes": 938,
+              "sha256": "7b7fb5c3c82eb19ae662105631fbd1b02a4b313b7055453249976ac7714c2070"
+            },
+            "assets/multi.ico": {
+              "bytes": 518,
+              "sha256": "4eafdacd795611297df4cd4dd5774d0955d0f12c644e1cd17d729e0e1168204d"
+            },
+            "assets/pattern.bmp": {
+              "bytes": 246,
+              "sha256": "d28d27e861fc34d7599df0b7bb3cdd02f8ddbc985daa846f9d06a5004757904f"
+            },
+            "assets/payload.bin": {
+              "bytes": 50,
+              "sha256": "20c1bef1846bc87953a2663d95185cd5e33ad97a534899ed892a02f5a1a81590"
+            },
+            "assets/pointer.cur": {
+              "bytes": 198,
+              "sha256": "38904338263e5c23802d4961ece21222b3997f466887a0fb052994d0d3794d4a"
+            },
+            "assets/messages.bin": {
+              "bytes": 48,
+              "sha256": "27fbf6c0451b6521d19618032f26de4be6ae744c37082ec0917aa4afe89efccc"
+            },
+            "include/nested/values.h": {
+              "bytes": 129,
+              "sha256": "edcf2670a9f6af506a4ba80a5a3fab40619a765bb2d2dd50f149f9fffed5ef51"
+            }
+          },
+          "trace_entries": 120,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994078,
+                "input": "RC994078",
+                "output": "RD994078",
+                "input_bytes": 3381,
+                "input_sha256": "bcf079a08386aee55016e382db7490301ed690f72e1e84e3d5b1f7cde2b8231e",
+                "response_bytes": 349826,
+                "response_sha256": "b54d647b37e38b60273c6e4656bc988dc91f3f3d1b6ca35b1d170a27adb05cdd",
+                "captured_read_attempts": 72,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994078,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-entries/resources-rich/namespace/vc1.0/rc/resources-rich/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994078 -g RD994078 -D RC_INVOKED -pc \\:/ -E   -Iinclude  -IR:\\toolchains\\1.0-nt\\include  -DCASE_FROM_COMMAND=7"
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.9093599859625101,
+            "manifest_sha256": "90a82df6d244d49ee80a36af8c9c9fa9b18fbd8b11ec1526e64302f21591540b",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "help",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.001975294202566147,
+          "execution_seconds": 0.0017468491569161415,
+          "checks_seconds": 0.00020004156976938248,
+          "total_seconds": 0.0042314669117331505,
+          "stdout_bytes": 424,
+          "stderr_bytes": 0,
+          "artifacts": {},
+          "trace_entries": 0,
+          "process_fixture": null,
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "invalid-switch",
+          "status": "pass",
+          "exit": 1,
+          "setup_seconds": 0.001801854930818081,
+          "execution_seconds": 0.0015839021652936935,
+          "checks_seconds": 0.0001832377165555954,
+          "total_seconds": 0.0038975095376372337,
+          "stdout_bytes": 48,
+          "stderr_bytes": 0,
+          "artifacts": {},
+          "trace_entries": 0,
+          "process_fixture": null,
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "missing-input",
+          "status": "pass",
+          "exit": 1,
+          "setup_seconds": 0.0018301261588931084,
+          "execution_seconds": 0.0018684612587094307,
+          "checks_seconds": 0.00018064770847558975,
+          "total_seconds": 0.004195788875222206,
+          "stdout_bytes": 54,
+          "stderr_bytes": 0,
+          "artifacts": {},
+          "trace_entries": 0,
+          "process_fixture": null,
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "alternate",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.0061948103830218315,
+          "execution_seconds": 0.07153954356908798,
+          "checks_seconds": 0.002441542223095894,
+          "total_seconds": 0.08068141154944897,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "tiny.fnt": {
+              "bytes": 160,
+              "sha256": "f379ec68adb7f2a7147439619211885d996a75d83ae3ecd61b6b372cf138200f"
+            },
+            "legacy.img": {
+              "bytes": 20,
+              "sha256": "247c260b12e05cda3f45baa7022ee34b93e3fbb5fbe4a58d8bb6a373794b3880"
+            },
+            "alternate.rc": {
+              "bytes": 428,
+              "sha256": "082a82f0fdc089ef3efe46b2d6d96623b9acb8bf3f30c7e13ff8b1400e1d7f4c"
+            },
+            "alternate.res": {
+              "bytes": 940,
+              "sha256": "e7bdd612221ea774de0a9f785dc82d4ed6f360cc53d07d9248cce3a86bbacdca"
+            },
+            "inline.img": {
+              "bytes": 14,
+              "sha256": "a3303fa317e47c6cf7d881930bf579a491c02947a7948712aad68b5905dca8ac"
+            }
+          },
+          "trace_entries": 7,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994083,
+                "input": "RC994083",
+                "output": "RD994083",
+                "input_bytes": 430,
+                "input_sha256": "1b1b9fcde08116855954f0d4297d61aa5de1c40ec7c9f4623b532b40c51989ed",
+                "response_bytes": 466,
+                "response_sha256": "88096dae07d070fe440921b40b8d63274aff241791fe9f244e4705ddd0f46ff5",
+                "captured_read_attempts": 2,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994083,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-entries/alternate/namespace/vc1.0/rc/alternate/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994083 -g RD994083 -D RC_INVOKED -pc \\:/ -E   -IR:\\toolchains\\1.0-nt\\include"
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.06799903232604265,
+            "manifest_sha256": "8b280c0b349344076a0e1cead45dbbbf53bf019c81ccf55984e34521e9a329b1",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "lexical-error",
+          "status": "pass",
+          "exit": 1,
+          "setup_seconds": 0.008922243490815163,
+          "execution_seconds": 0.07322698552161455,
+          "checks_seconds": 0.001468663103878498,
+          "total_seconds": 0.08426867052912712,
+          "stdout_bytes": 80,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "bad.rc": {
+              "bytes": 34,
+              "sha256": "b8a512db35b15c8f11e4800578b062c3ea0659cff26ac22d5c545c30927c5392"
+            }
+          },
+          "trace_entries": 1,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994085,
+                "input": "RC994085",
+                "output": "RD994085",
+                "input_bytes": 61,
+                "input_sha256": "20b3a0d0e35ca8bbf1be46ed70aef68a6c9fbf975d8e83920f3b71011091ea34",
+                "response_bytes": 91,
+                "response_sha256": "5e8c7a8b98304b4356910fd01b54e1a0c6820670b6b65387560244921d4bc20b",
+                "captured_read_attempts": 2,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994085,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-entries/lexical-error/namespace/vc1.0/rc/lexical-error/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994085 -g RD994085 -D RC_INVOKED -pc \\:/ -E   -IR:\\toolchains\\1.0-nt\\include"
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.06924118660390377,
+            "manifest_sha256": "a81abc51f75e6c7b630391d97d8e2a9cca89538619f103e50660d173ab55aa4f",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "parser-error",
+          "status": "pass",
+          "exit": 1,
+          "setup_seconds": 0.008619925007224083,
+          "execution_seconds": 0.07377693150192499,
+          "checks_seconds": 0.0013033514842391014,
+          "total_seconds": 0.08428886160254478,
+          "stdout_bytes": 73,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "bad.rc": {
+              "bytes": 42,
+              "sha256": "6cdf2fe57406e6c59d80d6130d147a77ceb60eacc956e90ccef0846f6eeb22f6"
+            }
+          },
+          "trace_entries": 1,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994087,
+                "input": "RC994087",
+                "output": "RD994087",
+                "input_bytes": 72,
+                "input_sha256": "45d2af37f3bd6537a64f91fcaf40292225f37beef3814ba63b1d1cd4ed185d9c",
+                "response_bytes": 102,
+                "response_sha256": "5216945728845c5914bd82a2946c564c3be0d73ad4bcb5883cdaae08b4135c74",
+                "captured_read_attempts": 2,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994087,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-entries/parser-error/namespace/vc1.0/rc/parser-error/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994087 -g RD994087 -D RC_INVOKED -pc \\:/ -E   -IR:\\toolchains\\1.0-nt\\include"
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.06914503779262304,
+            "manifest_sha256": "b620765d74af1a616b7600f1f64a40b70d46f5923c9829a7f0b84c31cb8c2681",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "resource-error",
+          "status": "pass",
+          "exit": 1,
+          "setup_seconds": 0.009724345989525318,
+          "execution_seconds": 0.06988984253257513,
+          "checks_seconds": 0.0009625442326068878,
+          "total_seconds": 0.08109224401414394,
+          "stdout_bytes": 78,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "bad.img": {
+              "bytes": 14,
+              "sha256": "029d766abac9f78f05d52db9abbe1dbade88bac6f952e66bb1ed1af2213e6a0e"
+            },
+            "bad.rc": {
+              "bytes": 14,
+              "sha256": "fac345589d67ad670e8406af1b4aedde83659ed7d6d0afd3bec060d268635af7"
+            }
+          },
+          "trace_entries": 1,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994089,
+                "input": "RC994089",
+                "output": "RD994089",
+                "input_bytes": 41,
+                "input_sha256": "2523c2ef78004b06cce695f3d979715e91cecb0f63dba755841c682fe57c32ef",
+                "response_bytes": 71,
+                "response_sha256": "da7d2b029d5379d181b1d07db1e02bdc2bf6ac6ceef21abab1fd59be9baa194e",
+                "captured_read_attempts": 2,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994089,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-entries/resource-error/namespace/vc1.0/rc/resource-error/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994089 -g RD994089 -D RC_INVOKED -pc \\:/ -E   -IR:\\toolchains\\1.0-nt\\include"
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.06658166088163853,
+            "manifest_sha256": "a94d8b9f3bb8c16dc0010b48e924b90d3f2b4a302941bc83b1888071883570da",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "kanji",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.009407894685864449,
+          "execution_seconds": 0.0916043296456337,
+          "checks_seconds": 0.001559952273964882,
+          "total_seconds": 0.10302857868373394,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "encoding.res": {
+              "bytes": 480,
+              "sha256": "e932117ff1d314d3a1098294bf32cadc0bdec94b560a2319c8dd96acd52c3c8c"
+            },
+            "encoding.rc": {
+              "bytes": 427,
+              "sha256": "e786dc80226ec19c7aef2756d6b19feaebf46f80316080a99f3506e7d9e11096"
+            },
+            "preprocessor-error.rc": {
+              "bytes": 36,
+              "sha256": "c46aab0c71343098117f878c9b5b1d775052dd7b6a1fc82310088f7483efbf8f"
+            },
+            "wide-long.rc": {
+              "bytes": 348,
+              "sha256": "2281b620985de8dd5165a65497a48fcdab3b581d13cfdf1e7f8aecab6aab95d7"
+            },
+            "include/values.h": {
+              "bytes": 65,
+              "sha256": "3bce3b23726fdbe130234da2f735151d5f0fa8fc59a35dfab513e404c7cbb06b"
+            }
+          },
+          "trace_entries": 2,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994091,
+                "input": "RC994091",
+                "output": "RD994091",
+                "input_bytes": 475,
+                "input_sha256": "8350ba884901977c70e4acd405d0cfc335a563eb29fb66af92ba8b4721abbda3",
+                "response_bytes": 566,
+                "response_sha256": "5a389c07f48fedfc17d3d614b6755c5ac377f1b82d6e8198fe240e9000f48fb7",
+                "captured_read_attempts": 3,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994091,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-entries/kanji/namespace/vc1.0/rc/kanji/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994091 -g RD994091 -D RC_INVOKED -pc \\:/ -E   -Iinclude"
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.0880697425454855,
+            "manifest_sha256": "76867d6ddba8c20153f7bbb8181ff94c32fc8b7772c3d96dd121008679f9ebfb",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "wide-long",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.01143212616443634,
+          "execution_seconds": 0.0711208051070571,
+          "checks_seconds": 0.0024096649140119553,
+          "total_seconds": 0.08555503189563751,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "encoding.rc": {
+              "bytes": 427,
+              "sha256": "e786dc80226ec19c7aef2756d6b19feaebf46f80316080a99f3506e7d9e11096"
+            },
+            "preprocessor-error.rc": {
+              "bytes": 36,
+              "sha256": "c46aab0c71343098117f878c9b5b1d775052dd7b6a1fc82310088f7483efbf8f"
+            },
+            "wide-long.res": {
+              "bytes": 700,
+              "sha256": "df4b835d1c0ca49ba734f366c29172f802e363b6c258a9eac2e43cfde2aed196"
+            },
+            "wide-long.rc": {
+              "bytes": 348,
+              "sha256": "2281b620985de8dd5165a65497a48fcdab3b581d13cfdf1e7f8aecab6aab95d7"
+            },
+            "include/values.h": {
+              "bytes": 65,
+              "sha256": "3bce3b23726fdbe130234da2f735151d5f0fa8fc59a35dfab513e404c7cbb06b"
+            }
+          },
+          "trace_entries": 0,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994093,
+                "input": "RC994093",
+                "output": "RD994093",
+                "input_bytes": 383,
+                "input_sha256": "7a7356e4890f149706283a14bf3da92d397af24c3e3e297db1c5072f25c008f5",
+                "response_bytes": 419,
+                "response_sha256": "be559de02ee35656a2f118a3071dee309f69ab4c9e600f7b30ec6287ac31d263",
+                "captured_read_attempts": 2,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994093,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-entries/wide-long/namespace/vc1.0/rc/wide-long/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994093 -g RD994093 -D RC_INVOKED -pc \\:/ -E "
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.0671269753947854,
+            "manifest_sha256": "56cc0d24b30fec7c560899e0bca852c37c2edd91eb2ba09a4c7ac696b6f92f12",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "preprocessor-error",
+          "status": "pass",
+          "exit": 1,
+          "setup_seconds": 0.012809260748326778,
+          "execution_seconds": 0.0926793348044157,
+          "checks_seconds": 0.0020936308428645134,
+          "total_seconds": 0.10824537556618452,
+          "stdout_bytes": 69,
+          "stderr_bytes": 100,
+          "artifacts": {
+            "encoding.rc": {
+              "bytes": 427,
+              "sha256": "e786dc80226ec19c7aef2756d6b19feaebf46f80316080a99f3506e7d9e11096"
+            },
+            "wide-long.rc": {
+              "bytes": 348,
+              "sha256": "2281b620985de8dd5165a65497a48fcdab3b581d13cfdf1e7f8aecab6aab95d7"
+            },
+            "preprocessor-error.rc": {
+              "bytes": 36,
+              "sha256": "c46aab0c71343098117f878c9b5b1d775052dd7b6a1fc82310088f7483efbf8f"
+            },
+            "include/values.h": {
+              "bytes": 65,
+              "sha256": "3bce3b23726fdbe130234da2f735151d5f0fa8fc59a35dfab513e404c7cbb06b"
+            }
+          },
+          "trace_entries": 0,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994095,
+                "input": "RC994095",
+                "output": "RD994095",
+                "input_bytes": 78,
+                "input_sha256": "3d2df354afc2ee19c11505af47e6ddb5cf2d5f4086515701dfce85a063d592d0",
+                "response_bytes": 86,
+                "response_sha256": "44579f42ac19bdd7c078e2fe1256492a548d01d137b4d67e86e0bdd217cbe590",
+                "captured_read_attempts": 3,
+                "status": 1
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994095,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-entries/preprocessor-error/namespace/vc1.0/rc/preprocessor-error/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994095 -g RD994095 -D RC_INVOKED -pc \\:/ -E "
+                ],
+                "action": "replay",
+                "status": 1
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.08992725796997547,
+            "manifest_sha256": "6e77b5f6ab1a6343e3f5f10bf2f743b70cc70318b9581a57c8f2476e2a6352fa",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "rcinclude",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.014050042256712914,
+          "execution_seconds": 0.13575454521924257,
+          "checks_seconds": 0.00218083243817091,
+          "total_seconds": 0.15255102794617414,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "pushback.rc": {
+              "bytes": 30,
+              "sha256": "ce3873fa8a556675d905ad086ffdbda79f5007cf4488f317c1846edbccd42b0e"
+            },
+            "second.rc": {
+              "bytes": 105,
+              "sha256": "db3813885a609390f3110d17531218588dfe7820a1bdea7d8ee3a7e11c8caa04"
+            },
+            "values.h": {
+              "bytes": 23,
+              "sha256": "4518b6c5495325294d3e919cf0fb3d9dcc161d69453deea5bf961b3b1129d868"
+            },
+            "rcinclude.rc": {
+              "bytes": 120,
+              "sha256": "05e3ae5fc1b531a7945985ad34505ab7fadcbe4fc3305c627ddd64aa8a8493fd"
+            },
+            "rcinclude.res": {
+              "bytes": 344,
+              "sha256": "7a51c51aee5ade012ae684087493c744a999d9f9f2a6752e94ab208a76dc9e2d"
+            },
+            "part.rc": {
+              "bytes": 95,
+              "sha256": "cafd2b79160be84bc18ce572992d73a9eae18c2601c487fafebd73d19831e410"
+            }
+          },
+          "trace_entries": 1,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994097,
+                "input": "RC994097",
+                "output": "RD994097",
+                "input_bytes": 155,
+                "input_sha256": "9ad1ebd79ffb3e8f815521cb0e542c55e4bc0566b340810b8e037d88506098bc",
+                "response_bytes": 445,
+                "response_sha256": "4e0cf87a92790962b7706bfef80e6f6a0ad82154b232342d54e48288c2a51d4d",
+                "captured_read_attempts": 5,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994097,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-entries/rcinclude/namespace/vc1.0/rc/rcinclude/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994097 -g RD994097 -D RC_INVOKED -pc \\:/ -E "
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.13244357239454985,
+            "manifest_sha256": "a4f3abdfd7e9f73f11ffb8c039d3ab58470868104cee389591dd714ec937c2e5",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "scanf-pushback",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.012284590862691402,
+          "execution_seconds": 0.0718920212239027,
+          "checks_seconds": 0.0012089693918824196,
+          "total_seconds": 0.08580159116536379,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "pushback.res": {
+              "bytes": 68,
+              "sha256": "8dd39c71de33c999b0f7f8bba7e6e2ece1147a24541cdb20d1045275bc5bb29c"
+            },
+            "second.rc": {
+              "bytes": 105,
+              "sha256": "db3813885a609390f3110d17531218588dfe7820a1bdea7d8ee3a7e11c8caa04"
+            },
+            "part.rc": {
+              "bytes": 95,
+              "sha256": "cafd2b79160be84bc18ce572992d73a9eae18c2601c487fafebd73d19831e410"
+            },
+            "values.h": {
+              "bytes": 23,
+              "sha256": "4518b6c5495325294d3e919cf0fb3d9dcc161d69453deea5bf961b3b1129d868"
+            },
+            "rcinclude.rc": {
+              "bytes": 120,
+              "sha256": "05e3ae5fc1b531a7945985ad34505ab7fadcbe4fc3305c627ddd64aa8a8493fd"
+            },
+            "pushback.rc": {
+              "bytes": 30,
+              "sha256": "ce3873fa8a556675d905ad086ffdbda79f5007cf4488f317c1846edbccd42b0e"
+            }
+          },
+          "trace_entries": 0,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994099,
+                "input": "RC994099",
+                "output": "RD994099",
+                "input_bytes": 61,
+                "input_sha256": "2f0998badf20c650650b2e009e7d2c7ae9f44d8bb3f8b89adab1dfc79c480ef9",
+                "response_bytes": 96,
+                "response_sha256": "21394a6ed69f3e60c98ca0cda0e1f3c254d6884551a8231ca858ac106011510a",
+                "captured_read_attempts": 2,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994099,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-entries/scanf-pushback/namespace/vc1.0/rc/scanf-pushback/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994099 -g RD994099 -D RC_INVOKED -pc \\:/ -E "
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.06885873712599277,
+            "manifest_sha256": "615a57924fd74fd9046b6bdeac0841eb606e89edf6ae14344acadd6a0bb41f8f",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "console-interrupt",
+          "status": "pass",
+          "exit": 1,
+          "setup_seconds": 0.005097636952996254,
+          "execution_seconds": 0.20893498603254557,
+          "checks_seconds": 0.0010713618248701096,
+          "total_seconds": 0.21543181594461203,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "interrupt.rc": {
+              "bytes": 21,
+              "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
+            }
+          },
+          "trace_entries": 1,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994111,
+                "input": "RC994111",
+                "output": "RD994111",
+                "input_bytes": 54,
+                "input_sha256": "c61a20ca5a6c4af9e80084e873b3051e4ffa6eedccf67b4ab4bb8bc0ec89954b",
+                "response_bytes": 90,
+                "response_sha256": "0dba7cbb781ee81b7d5ebdb3a2fce6a0fe87ca592ba3a5f541f591077e494fa9",
+                "captured_read_attempts": 2,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994111,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-entries/console-interrupt/namespace/vc1.0/rc/console-interrupt/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994111 -g RD994111 -D RC_INVOKED -pc \\:/ -E "
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.06790501065552235,
+            "manifest_sha256": "1f066319f8a1f848d3c98d71decfaf4f8cfc5aae9ceffea50befdc2ea027c166",
+            "Wine_invocations": 0
+          },
+          "scope": "Actual native SIGINT delivered at GDB pre-lexer boundary; exact cleanup. Windows console membership and OS callback thread remain original-only evidence."
+        },
+        {
+          "case": "verbose-names",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.005913771688938141,
+          "execution_seconds": 0.07479683496057987,
+          "checks_seconds": 0.0009324904531240463,
+          "total_seconds": 0.082066610455513,
+          "stdout_bytes": 349,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "path-fallback.rc": {
+              "bytes": 21,
+              "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
+            },
+            "verbose.res": {
+              "bytes": 180,
+              "sha256": "6281f6ea61374460b5bf0608b11f4f8d67aca223c042280aa6fc0b45573df4a8"
+            },
+            "verbose-names.rc": {
+              "bytes": 77,
+              "sha256": "609564534bbd609d6a894eb1760ad769a36d7ee276b43b1e2e02717df3fdb6ee"
+            }
+          },
+          "trace_entries": 1,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994115,
+                "input": "RC994115",
+                "output": "RD994115",
+                "input_bytes": 116,
+                "input_sha256": "c60f5518a507130b32385d3966cee5d6775adcfa72523bc63f4cb2dca6932a40",
+                "response_bytes": 156,
+                "response_sha256": "546f87e82e222e489bb2ac52688e5d2cf9fd84ef076ee17c3f086fbef6968ec1",
+                "captured_read_attempts": 2,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994115,
+                "file": "R:\\toolchains\\1.0-nt\\bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-entries/verbose-names/namespace/vc1.0/rc/verbose-names/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994115 -g RD994115 -D RC_INVOKED -pc \\:/ -E "
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.07169702276587486,
+            "manifest_sha256": "e5789c4315b0d31b46464d0404d9147aeb512858dcdd4443fc70bd1ab4b249ed",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "path-fallback",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.048722959123551846,
+          "execution_seconds": 0.09175397362560034,
+          "checks_seconds": 0.0021713171154260635,
+          "total_seconds": 0.1431658174842596,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "path-fallback.rc": {
+              "bytes": 21,
+              "sha256": "f81d5819af9ba3cb25c8bb10d099aced01178b2e628969f47d04baafd4095e85"
+            },
+            "path.res": {
+              "bytes": 68,
+              "sha256": "d40bd446753ac712bf8621ea929d08fa2f20715fa1ccb7001e482ef79707201f"
+            },
+            "verbose-names.rc": {
+              "bytes": 77,
+              "sha256": "609564534bbd609d6a894eb1760ad769a36d7ee276b43b1e2e02717df3fdb6ee"
+            }
+          },
+          "trace_entries": 0,
+          "process_fixture": {
+            "kind": "verified captured original RCPP response",
+            "calls": [
+              {
+                "pid": 994117,
+                "input": "RC994117",
+                "output": "RD994117",
+                "input_bytes": 58,
+                "input_sha256": "abec1f5c28d7d5d6ad1e289328260c30adb46ea4a09487665121d4d6820e790b",
+                "response_bytes": 98,
+                "response_sha256": "7faf762317526821bac8b3cf9afb55f03cbf52284c1341576795ecbb4b2ab034",
+                "captured_read_attempts": 2,
+                "status": 0
+              }
+            ],
+            "requests": [
+              {
+                "mode": 0,
+                "pid": 994117,
+                "file": "S:\\vc1.0\\rc\\path-fallback\\preprocessor bin\\rcpp.exe",
+                "cwd": "/root/.ai-tmp/msvc2/vc1.0/rc/rust-graph-maintenance/native-entries/path-fallback/namespace/vc1.0/rc/path-fallback/work",
+                "argv": [
+                  "RCPP.EXE",
+                  " -f RC994117 -g RD994117 -D RC_INVOKED -pc \\:/ -E "
+                ],
+                "action": "replay",
+                "status": 0
+              }
+            ],
+            "errors": [],
+            "replay_seconds": 0.08798723481595516,
+            "manifest_sha256": "6af6a10b40d2974da16d12c47ca9d687a878e7b43b3db59e8879ce4fa03e4923",
+            "Wine_invocations": 0
+          },
+          "scope": "Native CLI with captured original RCPP process response when required"
+        },
+        {
+          "case": "direct-whitespace",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.0031204624101519585,
+          "execution_seconds": 0.0018301885575056076,
+          "checks_seconds": 0.00047185737639665604,
+          "total_seconds": 0.005740382708609104,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "results.bin": {
+              "bytes": 1024,
+              "sha256": "59f9184a4beae1fd1b5550bf7b053cdb0fc75a3193899827997318aab95c3300"
+            }
+          },
+          "trace_entries": 1,
+          "process_fixture": null,
+          "scope": "Direct native utility results/canaries; canonical stdcall/nonvolatile ABI audit retained separately."
+        },
+        {
+          "case": "direct-basename",
+          "status": "pass",
+          "exit": 0,
+          "setup_seconds": 0.002946332097053528,
+          "execution_seconds": 0.0017370693385601044,
+          "checks_seconds": 0.000489003024995327,
+          "total_seconds": 0.005486335605382919,
+          "stdout_bytes": 0,
+          "stderr_bytes": 0,
+          "artifacts": {
+            "results.bin": {
+              "bytes": 600,
+              "sha256": "4d79a50838f5b0ebcc68239297218171c79a1e3b4398fb469bf9b594da256776"
+            }
+          },
+          "trace_entries": 1,
+          "process_fixture": null,
+          "scope": "Direct native utility results/canaries; canonical stdcall/nonvolatile ABI audit retained separately."
+        }
+      ],
+      "executable_sha256": "7eee6d3b8b38adbe0949f6877f5203ab17afb86f492445a665a27c6da454721f",
+      "Wine_invocations": 0,
+      "total_seconds": 2.2899069590494037,
+      "status": "pass"
+    }
+  },
+  "native_rejections": {
+    "status": "pass",
+    "Wine_invocations": 0,
+    "tests": [
+      {
+        "test": "prepared-input-corruption",
+        "status": "expected rejection",
+        "reason": "complete prepared RCPP input differs",
+        "seconds": 0.042007352225482464
+      },
+      {
+        "test": "unknown-child-invocation",
+        "status": "expected rejection",
+        "reason": "('RCPP executable spelling differs', 'R:\\\\uncaptured-child\\\\rcpp.exe', 'R:\\\\toolchains\\\\1.0-nt\\\\bin\\\\rcpp.exe')",
+        "seconds": 0.034155718982219696
+      },
+      {
+        "test": "wrong-application-entry",
+        "status": "expected rejection",
+        "reason": "('direct-basename', 'application first-entry trace differs', ['copy_basename'], ['is_space_byte'])",
+        "seconds": 0.007751542143523693
+      }
+    ]
+  },
+  "focused_audit_rejections": {
+    "status": "pass",
+    "tests": [
+      {
+        "test": "wrong-stdcall-cleanup",
+        "status": "expected rejection",
+        "reason": "graph-audit: _copy_basename@8 RET cleanup differs",
+        "seconds": 0.15542072150856256
+      },
+      {
+        "test": "wrong-floating-callback",
+        "status": "expected rejection",
+        "reason": "graph-audit: different/unaccepted callback identity or order",
+        "seconds": 0.16008287481963634
+      },
+      {
+        "test": "wrong-FILE-flags",
+        "status": "expected data-layout rejection",
+        "seconds": 0.0018677758052945137
+      },
+      {
+        "test": "wrong-C-locale-EOF",
+        "status": "expected data-layout rejection",
+        "seconds": 0.0018803831189870834
+      },
+      {
+        "test": "wrong-Kanji-range-storage",
+        "status": "expected in-memory zero-fill layout rejection"
+      },
+      {
+        "test": "unsigned-Kanji-load",
+        "status": "expected data-layout rejection",
+        "seconds": 0.0028233500197529793
+      },
+      {
+        "test": "clipped-accepted-nondriver-CRT-JMP",
+        "status": "expected accepted-extent rejection; unguarded graph control passed",
+        "reason": "graph-audit: original accepted extent __getpid 100e3a0..100e3a4: truncated instruction 100e3a0",
+        "seconds": 0.16544443927705288
+      }
+    ],
+    "scope": "Scratch-only PE/metadata mutations plus explicit zero-fill reader mutation; canonical artifacts and frozen fixtures unchanged"
+  },
+  "input_artifacts": {
+    "toolchains/1.0-nt/bin/RC.EXE": "eb2e4bb5994303a37326cc60107ee07be01ca267daca1f9116e3149d9ea31591",
+    "decomp/vc1.0/rc/build/rc.exe": "8dd4cf24febed07353f17d2ec47aa917bad5e881d1dc668e6b070acfc148a50c",
+    "decomp/vc1.0/rc/build/rc.map": "1f29d4ecefdb765fb66ebb1c551048f02a788fbfc4a366f829d12e6cb96d446f",
+    "decomp/vc1.0/rc/functions.json": "8abaa3a471c1caee328eb62b66d91f69cce450c5d3a735b863af52c307e62c5b",
+    "decomp/vc1.0/rc/runtime.json": "f121a1f7f6feab2249b488c03acad20dba01001976ea3c1b23ed9bcc2269605d",
+    "decomp/vc1.0/rc/build/runtime.json": "482e1e331ed2b0063c161c272ac61af376a1b3c402edc5283671fcd3bb5a6bfd"
+  },
+  "default_goals": "all remains native; check/replay remain native-only; graph-audit is host-only using existing canonical artifacts; reference-audit explicitly refreshes original build/indexes first",
+  "shared_build": "graph-audit.mk direct binary prerequisite with quiet Cargo helper; full tool JSON saved and actual stderr inherited",
+  "production_sources_unchanged": true,
+  "coverage": {
+    "bytes": 46249,
+    "total": 53248,
+    "percentage": 86.86,
+    "frontiers": 254,
+    "definition": "unchanged accepted code-extent union, not branch coverage"
+  },
+  "resolved_integration_issue": "Removed uncovered-inventory import of old Python describe; common accepted-graph observation export preserves all14original uncovered incoming targets exactly"
+}

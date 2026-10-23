@@ -7,7 +7,7 @@ archive-candidate extents. This is analysis metadata, never executable recovery.
 from pathlib import Path
 import json
 from collections import defaultdict
-import importlib.machinery
+import argparse
 import reference_indexes as compare
 
 GROUPS = {
@@ -42,6 +42,10 @@ PADDING = [bytes.fromhex(s) for s in ('8da42400000000','8d9b00000000','050000000
 
 
 def main():
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('--graph-report',required=True,type=Path,
+                        help='fresh shared graph-audit report with --check-accepted-extents')
+    options=parser.parse_args()
     pe,_,cfg,index,_=compare.indexes();base=pe.base;accepted=set(cfg['accepted'])
     code=set();restored=set()
     for s in pe.sections:
@@ -68,13 +72,24 @@ def main():
             if pattern:padding.update(range(cursor,cursor+len(pattern)));cursor+=len(pattern)
             else:unknown.append(cursor);cursor+=1
         n+=limit-a
-    audit=importlib.machinery.SourceFileLoader('gap_graph',str(Path(__file__).with_name('audit-graph.py'))).load_module()
+    # The Make target supplies this immediately after the common audit. Keep
+    # discovery in Rust; this script only classifies its original observations.
+    graph=json.loads(options.graph_report.read_text())
+    assert graph['profile']=='rc' and graph['discovery']=='cfg'
+    assert 'accepted_index_extents' in graph['checks']
+    observations=graph['original_accepted_graphs']
+    expected={r['name'] for r in index if r['name'] in accepted}
+    assert set(observations)==expected,'original accepted observation names differ'
+    count=len({(r['name'],r['start'],r['end']) for r in index if r['name'] in accepted})
+    assert graph['checked_accepted_extents']['original']==count
+    # Standalone use must explicitly supply a report newer than these inputs;
+    # a changed original also fails the pinned target SHA in indexes().
+    inputs=[Path('functions.json'),Path('runtime.json'),compare.wt.TC/'bin/RC.EXE']
+    assert options.graph_report.stat().st_mtime_ns>=max(p.stat().st_mtime_ns for p in inputs),'graph report predates original/index inputs'
     xrefs=defaultdict(set)
-    for r in index:
-        if r['name'] not in accepted:continue
-        desc=audit.describe(pe,r)
-        for address in desc['calls']|desc['references']:
-            if address in uncovered:xrefs[address].add(r['name'])
+    for name,desc in observations.items():
+        for address in set(desc['calls'])|set(desc['references']):
+            if address in uncovered:xrefs[address].add(name)
     report=dict(accepted_code_extent_bytes=len(restored),total_code_extent_bytes=len(code),uncovered_bytes=len(uncovered),
                 groups=groups,recognized_padding_outside_functions=len(padding),unclassified_bytes=len(unknown),
                 unclassified_addresses=[hex(a) for a in unknown],

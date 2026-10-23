@@ -89,12 +89,35 @@ Original compiler and reference analysis
 ----------------------------------------
     make -j4 reference-build
     make -j4 reference-audit
+    make -j4 graph-audit
 
-These explicit operations compile Win32 C with original CL/LINK under Wine and
-perform PE/map graph, ABI, text-boundary, callback-table and data-layout analysis;
-they do not run regression fixtures. scripts/reference_indexes.py contains pure
-PE/map indexing, with no paired runner or execution fallback. Old paired Wine
-regression drivers and masked-image targets have been removed.
+reference-build compiles Win32 C with original CL/LINK under Wine; reference-audit
+refreshes that build and its indexes before invoking the host-only graph-audit.
+The latter uses existing PE/MAP/index artifacts without Wine or recapture. Shared
+tooling/graph-audit is built quietly once through graph-audit.mk, then invoked
+directly. Its full JSON stdout is saved in build/graph-audit.json; actual error
+stderr remains visible. No cargo run or legacy Python graph walker is used.
+
+Common CFG checks preserve graph aliases/indirect topology, inherited RET cleanup,
+function references, ordered accepted initializer/termination callbacks and all
+six floating-conversion slots. The explicit flags are --check-ret,
+--check-references, --check-callbacks, --check-ownership, --check-extents and
+--check-accepted-extents. The last guard checks every accepted indexed extent on
+both sides, including CRT/imports outside the 193-function graph comparison.
+Ownership requires disjoint original file-backed driver ranges; whole-extent
+checks supplement reachable-instruction endpoint guards. Overlapping alternative
+instruction streams are not prohibited by an unsupported new assumption.
+
+scripts/audit-data.py retains only RC's non-graph data assertions: twenty 32-byte
+FILE objects and last-stream displacement, flags/descriptors, 257 C-locale class
+entries including EOF, multibyte/decimal storage, and zero-filled signed Kanji
+range words plus their exact MOVSX access offsets/stride. Its report is
+build/data-layout.json. Callback identities belong to the common Rust metadata.
+scripts/reference_indexes.py contains pure PE/map indexing, with no paired runner
+or execution fallback. The gap inventory consumes the fresh shared report via
+--graph-report and retains all14 original uncovered incoming-reference targets;
+it does not rediscover graphs in Python. None of these audits run regression
+fixtures. Integration checks and timings are in cases/rust-graph-validation.json.
 
 Explicit original-only capture is also separate. capture-native-boundaries-reference
 builds the small original debugger and calls scripts/capture-native-boundaries.py;
