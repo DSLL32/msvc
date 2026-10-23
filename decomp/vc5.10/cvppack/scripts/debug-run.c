@@ -110,15 +110,20 @@ static int write_bytes(HANDLE process, DWORD address, const void *data, DWORD si
 
 static void memory(FILE *log, HANDLE process, DWORD address, DWORD size)
 {
-    unsigned char bytes[65536];
+    unsigned char *bytes;
     DWORD i;
-    if (size > sizeof(bytes) || !read_bytes(process, address, bytes, size)) {
+    if (size > 1048576) {
+        fprintf(log, "memory-failed %08lx %lu\n", address, size); return;
+    }
+    bytes = malloc(size ? size : 1);
+    if (!bytes || !read_bytes(process, address, bytes, size)) {
         fprintf(log, "memory-failed %08lx %lu\n", address, size);
-        return;
+        free(bytes); return;
     }
     fprintf(log, "memory %08lx ", address);
     for (i = 0; i < size; ++i) fprintf(log, "%02x", bytes[i]);
     fputc('\n', log);
+    free(bytes);
 }
 
 /* Query only a parent-owned duplicate. Child LastError is recorded before this
@@ -294,6 +299,19 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
                 memory(log, process, item, blob_child_size[i]);
         }
     }
+    /* Full defined record-table storage and the owned type segment capacity.
+     * The decoder compares only bytes initialized by clearing/actual reads. */
+    if (full_graphs && read_bytes(process, 0x4132c4, &value, 4) && value &&
+        read_bytes(process, 0x4132e0, &count, 4)) {
+        if (count > 32768) fprintf(log, "blob-observation-failed\n");
+        else memory(log, process, value, count * 32);
+    }
+    if (full_graphs && read_bytes(process, 0x41564c, &value, 4) && value &&
+        read_bytes(process, value, &item, 4) && item &&
+        read_bytes(process, 0x415680, &count, 4)) {
+        if (count > 65512) count = 65512;
+        memory(log, process, item, count);
+    }
     if (full_graphs && read_bytes(process, 0x412cf4, &value, 4) && value) {
         DWORD bucket, node, next_node, visited;
         WORD length;
@@ -398,6 +416,9 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
     if (entry == 0x404b59 && read_bytes(process, context->Esp, &value, 4))
         fprintf(log, "module-allocation-call %08lx %lu\n", context->Esi, value);
     else if (entry == 0x404b5f) fprintf(log, "module-allocation-return %08lx\n", context->Eax);
+    if (entry == 0x40fb97 && read_bytes(process, context->Esp, &value, 4))
+        fprintf(log, "cleared-allocation-call %lu\n", value);
+    else if (entry == 0x40fb9d) fprintf(log, "cleared-allocation-return %08lx\n", context->Eax);
     widen_state(log, process, context, entry);
 }
 

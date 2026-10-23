@@ -56,7 +56,8 @@
     "symbol_record_key",
     "allocate_public_block",
     "read_module_types",
-    "read_new_module_types"
+    "read_new_module_types",
+    "initialize_module_type_storage"
   ],
   "functions": [
     {
@@ -2003,10 +2004,14 @@
       "source_name": "initialize_module_type_storage",
       "native_symbol": "initialize_module_type_storage",
       "original": 4245280,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4245280,
+        4245341
+      ],
       "ret": 0,
-      "parameters": []
+      "parameters": [],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0051-initialize-module-type-storage/promotion.json"
     },
     {
       "name": "record_widen",
@@ -2244,6 +2249,12 @@
       "capacity_global": "type_segment_bytes",
       "capacity_max": 65512,
       "count_literal": 4
+    },
+    {
+      "return_pc": 4243911,
+      "owner": "read_new_module_types",
+      "local": "raw",
+      "segment_input": true
     }
   ]
 }

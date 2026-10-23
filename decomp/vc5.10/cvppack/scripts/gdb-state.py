@@ -14,6 +14,7 @@ directory_allocation={}
 subsection_allocations=[]
 image_allocations=[]
 checked_allocations=[]
+cleared_allocations=[]
 module_allocations=[]
 live_mappings={}
 def install(configuration):
@@ -100,7 +101,12 @@ def install(configuration):
             for site in config.get('read_sites',[]):
                 if site['owner']!=owner.name():continue
                 local=gdb.parse_and_eval(site['local']) if site.get('global_buffer') or (site.get('heap_buffer') and not site.get('count_parameter')) else owner.read_var(site['local'])
-                if site.get('allocated_global'):
+                if site.get('segment_input'):
+                    segment=int(gdb.parse_and_eval('type_segments[0]'))
+                    capacity=min(int(gdb.parse_and_eval('type_segment_bytes')),0xffe8)
+                    assert int(gdb.parse_and_eval('type_segment_index'))==0,'later segment allocation requires its own observation'
+                    matches=int(local)+int(owner.read_var('carried'))==buffer and size==int(owner.read_var('amount')) and segment<=buffer and buffer+size<=segment+capacity
+                elif site.get('allocated_global'):
                     capacity=int(gdb.parse_and_eval(site['capacity_global']))
                     if 'capacity_max' in site:capacity=min(capacity,site['capacity_max'])
                     count=site['count_literal'] if 'count_literal' in site else int(owner.read_var(site['count_parameter']).dereference()[site['count_member']])
@@ -118,6 +124,7 @@ def install(configuration):
                     capacity=site['capacity'];matches=int(local.address)==buffer and local.type.sizeof==capacity and size<=capacity
                 if matches:
                     role=dict(owner=site['owner'],local=site['local'],capacity=capacity)
+                    if site.get('segment_input'):role.update(segment_index=0,segment_offset=buffer-int(gdb.parse_and_eval('type_segments[0]')))
                     if role not in roles:roles.append(role)
             assert len(roles)==1,'read buffer actual caller/local/extent is unobserved'
             call=dict(**roles[0],file=file,size=size,entry_position=int(gdb.parse_and_eval('cached_files[%d]->position'%file)),
@@ -136,12 +143,14 @@ def install(configuration):
         def __init__(self):super().__init__('*malloc',internal=True)
         def stop(self):
             frame=gdb.newest_frame();owner=frame.older()
-            if owner is None or owner.name() not in ('read_codeview_directory','load_debug_subsection','read_image_debug','allocate_bytes','initialize_single_module'):return False
+            if owner is None or owner.name() not in ('read_codeview_directory','load_debug_subsection','read_image_debug','allocate_bytes','initialize_single_module','allocate_cleared'):return False
             stack=int(gdb.parse_and_eval('$esp'))
             size=int.from_bytes(bytes(gdb.selected_inferior().read_memory(stack+4,4)),'little')
             if owner.name()=='read_codeview_directory':
                 assert not directory_allocation,'directory allocation generation needs an explicit model'
                 directory_allocation['size']=size;record=directory_allocation
+            elif owner.name()=='allocate_cleared':
+                record=dict(size=size);cleared_allocations.append(record)
             elif owner.name()=='allocate_bytes':
                 record=dict(size=size);checked_allocations.append(record)
             elif owner.name()=='read_image_debug':
@@ -227,6 +236,7 @@ def capture(configuration,data_file,output):
     state['subsection_allocations']=subsection_allocations
     state['image_allocations']=image_allocations
     state['checked_allocations']=checked_allocations
+    state['cleared_allocations']=cleared_allocations
     state['module_allocations']=module_allocations
     state['globals']={item['name']:bytes(inferior.read_memory(gdb.parse_and_eval('&'+item['name']),item['size'])).hex() for item in data}
     memory={};strings={};handles={};mapped_views={};captured_shapes={}
@@ -342,6 +352,18 @@ def capture(configuration,data_file,output):
                 assert length<=1024
                 memory[str(node)]=bytes(inferior.read_memory(node,16+length+2)).hex()
                 node=int.from_bytes(header[:4],'little')
+    for item in data:
+        if item.get('type_record_table'):
+            address=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')
+            if address:
+                size=int(gdb.parse_and_eval('type_record_capacity'))*32
+                assert 0<size<=1048576
+                memory[str(address)]=bytes(inferior.read_memory(address,size)).hex()
+        if item.get('segment_contents'):
+            address=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')
+            if address:
+                size=min(int(gdb.parse_and_eval('type_segment_bytes')),0xffe8)
+                memory[str(address)]=bytes(inferior.read_memory(address,size)).hex()
     state['memory']=memory
     state['strings']=strings
     state['file_handles']=handles

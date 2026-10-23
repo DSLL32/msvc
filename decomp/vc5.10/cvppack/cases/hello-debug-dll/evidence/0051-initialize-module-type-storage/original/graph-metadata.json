@@ -1,0 +1,257 @@
+{
+  "schema": 1,
+  "functions": {
+    "_parse_options": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "_print_banner": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "_fatal_error": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "_read_image_debug": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "_create_mapping": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true
+      }
+    },
+    "_main": {
+      "register_imports": {
+        "require_all_register_calls_resolved": false
+      }
+    },
+    "_pack_module": {
+      "rebuilt": {
+        "text_data": [
+          [
+            4212719,
+            4212758
+          ]
+        ],
+        "switches": {
+          "4212228": [
+            4212235,
+            4212291,
+            4212309,
+            4212327,
+            4212251,
+            4212343
+          ]
+        }
+      }
+    }
+  },
+  "register_imports": {
+    "preservation_contracts": [
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "free"
+          }
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/import-preservation.json",
+          "sha256": "1d11f8e059eef48acbc20f9fc2a4c46c8918e6c895ade42d78497f422e51c5e3"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "printf"
+          }
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "sprintf"
+          }
+        },
+        "preserves": [
+          "ebx"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "toupper"
+          }
+        },
+        "preserves": [
+          "edi",
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "_strcmpi"
+          }
+        },
+        "preserves": [
+          "edi",
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "strncmp"
+          }
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "malloc"
+          }
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "kernel32.dll",
+            "name": "CloseHandle"
+          }
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "function": "_message_text"
+        },
+        "preserves": [
+          "ebx",
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "function": "_fatal_error"
+        },
+        "preserves": [
+          "esi",
+          "edi",
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "function": "_warning"
+        },
+        "preserves": [
+          "edi",
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "function": "_read_cached_file"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "function": "_tell_cached_file"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "function": "_allocate_cleared"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      }
+    ]
+  }
+}

@@ -12,13 +12,18 @@ def decode(events):
     assert len(frontiers) == 1, 'expected one raw original frontier'
     index,address = frontiers[0]
     memory,strings = {},{}
-    file_calls=[];all_strings={};last_error=None;handles={};mapping_calls=[];mapped_views={};file_reads=[];directory_allocation={};subsection_allocations=[];image_allocations=[];checked_allocations=[];module_allocations=[]
+    file_calls=[];all_strings={};last_error=None;handles={};mapping_calls=[];mapped_views={};file_reads=[];directory_allocation={};subsection_allocations=[];image_allocations=[];checked_allocations=[];module_allocations=[];cleared_allocations=[]
     for line in lines:
         if line.startswith('module-allocation-call '):
             _,entry,size=line.split();module_allocations.append(dict(entry=int(entry,16),size=int(size)))
         elif line.startswith('module-allocation-return '):
             assert module_allocations and 'address' not in module_allocations[-1]
             module_allocations[-1]['address']=int(line.split()[1],16)
+        elif line.startswith('cleared-allocation-call '):
+            cleared_allocations.append(dict(size=int(line.split()[1])))
+        elif line.startswith('cleared-allocation-return '):
+            assert cleared_allocations and 'address' not in cleared_allocations[-1]
+            cleared_allocations[-1]['address']=int(line.split()[1],16)
         elif line.startswith('checked-allocation-call '):
             checked_allocations.append(dict(size=int(line.split()[1])))
         elif line.startswith('checked-allocation-return '):
@@ -99,7 +104,7 @@ def decode(events):
     stack = memory[registers[-1]]
     assert len(stack) == 128
     return dict(address=address,memory=memory,strings=strings,
-                registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations)
+                registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations,cleared_allocations=cleared_allocations)
 
 
 def compare(config,data,events,native,artifacts=None,views=None):
@@ -181,7 +186,16 @@ def compare(config,data,events,native,artifacts=None,views=None):
         pc=row.pop('pc');sites=[site for site in config.get('read_sites',[]) if site['return_pc']==pc]
         assert len(sites)==1,'unknown actual original read caller'
         site=sites[0];row.pop('buffer')
-        if site.get('allocated_global'):
+        if site.get('segment_input'):
+            item=next(item for item in data if item['name']=='type_segments')
+            table=int.from_bytes(original['memory'][item['original']],'little')
+            base=int.from_bytes(original['memory'][table][:4],'little')
+            item=next(item for item in data if item['name']=='type_segment_bytes')
+            capacity=min(int.from_bytes(original['memory'][item['original']],'little'),0xffe8)
+            assert any(allocation['address']==base and allocation['size']==capacity for allocation in original['image_allocations']), 'type read has no owned segment capacity'
+            assert base<=captured['buffer'] and captured['buffer']+row['size']<=base+capacity, 'type read exceeds first segment'
+            row.update(segment_index=0,segment_offset=captured['buffer']-base)
+        elif site.get('allocated_global'):
             item=next(item for item in data if item['name']==site['allocated_global']);address=int.from_bytes(original['memory'][item['original']],'little')
             item=next(item for item in data if item['name']==site['capacity_global']);capacity=int.from_bytes(original['memory'][item['original']],'little')
             if 'capacity_max' in site:capacity=min(capacity,site['capacity_max'])
@@ -249,6 +263,11 @@ def compare(config,data,events,native,artifacts=None,views=None):
     for left,right in zip(original['checked_allocations'],native.get('checked_allocations',[])):
         assert left['size']==right['size'] and left['address'] and right['address'],'checked allocator request/result differs'
         assert left['address'] not in image_aliases and right['address'] not in image_aliases.values(),'live checked allocation identity reused'
+        image_aliases[left['address']]=right['address'];image_sizes[left['address']]=left['size']
+    assert len(original['cleared_allocations'])==len(native.get('cleared_allocations',[])), 'cleared allocator inventory differs'
+    for left,right in zip(original['cleared_allocations'],native.get('cleared_allocations',[])):
+        assert left['size']==right['size'] and left['address'] and right['address'], 'cleared allocation request/result differs'
+        assert left['address'] not in image_aliases and right['address'] not in image_aliases.values(), 'live cleared allocation identity reused'
         image_aliases[left['address']]=right['address'];image_sizes[left['address']]=left['size']
     used_uninitialized=set()
     aliases,reverse={},{}
@@ -371,6 +390,10 @@ def compare(config,data,events,native,artifacts=None,views=None):
             assert all(a==b for i,(a,b) in enumerate(zip(left,right)) if i not in excluded),'target object bytes differ'
             address=int.from_bytes(left[offset:offset+4],'little')
             other=int.from_bytes(right[offset:offset+4],'little')
+    def global_integer(name):
+        item=next(item for item in data if item['name']==name)
+        return int.from_bytes(original['memory'][item['original']],'little')
+    typed_records_checked=0
     globals_checked = []
     for item in data:
         raw = original['memory'][item['original']]
@@ -383,7 +406,34 @@ def compare(config,data,events,native,artifacts=None,views=None):
             for index in range(count):
                 linked(int.from_bytes(raw[index*4:index*4+4],'little'),int.from_bytes(actual[index*4:index*4+4],'little'),shape)
         elif item['kind'] == 'pointer':
-            if item.get('segment_buffer'):
+            if item.get('type_record_table'):
+                address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
+                if pair(address,other):
+                    assert global_integer('type_module_count')==1, 'reused type-table lifetime needs an explicit state contract'
+                    capacity=global_integer('type_record_capacity');count=global_integer('type_record_count')
+                    assert 0<=count<=capacity<=32768, 'type record count/capacity differs'
+                    assert image_aliases[address]==other and image_sizes[address]==capacity*32, 'type record table allocation differs'
+                    left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
+                    assert len(left)==len(right)==capacity*32, 'incomplete initialized type record table'
+                    table=global_integer('type_segments');base=int.from_bytes(original['memory'][table][:4],'little')
+                    segment=original['memory'][base];destination=image_aliases[base]
+                    initialized=[(row['segment_offset'],row['segment_offset']+row['size']) for row in reads if row.get('segment_index')==0]
+                    for index in range(capacity):
+                        a=left[index*32:index*32+32];b=right[index*32:index*32+32]
+                        if index>=count:
+                            assert not any(a) and not any(b), 'unused type record capacity is not cleared'
+                            continue
+                        source=int.from_bytes(a[:4],'little');target=int.from_bytes(b[:4],'little')
+                        assert bool(source)==bool(target), 'type record payload NULL state differs'
+                        if source:
+                            offset=source-base
+                            assert 0<=offset<=len(segment)-4, 'type record has no observed segment owner'
+                            length=int.from_bytes(segment[offset:offset+2],'little')+2
+                            assert length>=4 and any(first<=offset and offset+length<=last for first,last in initialized), 'type record exceeds initialized segment input'
+                            assert target==destination+offset, 'type record segment/payload offset alias differs'
+                        assert a[4:]==b[4:], 'initialized type record fields differ'
+                    typed_records_checked=count
+            elif item.get('segment_buffer'):
                 address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
                 assert bool(address)==bool(other),'type segment buffer NULL state differs'
                 if address:
@@ -391,7 +441,14 @@ def compare(config,data,events,native,artifacts=None,views=None):
                     base=int.from_bytes(original['memory'][table][:4],'little')
                     assert address==base and image_aliases[base]==other,'type segment buffer/allocator alias differs'
                     left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
-                    assert len(left)==len(right)==item['blob']['size'] and left==right,'initialized type segment prefix differs'
+                    if item.get('segment_contents'):
+                        capacity=min(global_integer('type_segment_bytes'),0xffe8)
+                        assert len(left)==len(right)==capacity, 'incomplete type segment capacity observation'
+                        defined=[(0,4)]+[(row['segment_offset'],row['segment_offset']+row['size']) for row in reads if row.get('segment_index')==0]
+                        for first,last in defined:
+                            assert 0<=first<=last<=capacity and left[first:last]==right[first:last], 'initialized type segment bytes differ'
+                    else:
+                        assert len(left)==len(right)==item['blob']['size'] and left==right,'initialized type segment prefix differs'
                     pair(address,other)
             elif item.get('public_buckets'):
                 address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
@@ -478,4 +535,4 @@ def compare(config,data,events,native,artifacts=None,views=None):
             parameters[item['name']]=native_parameters[item['name']]=dict(null=True)
     assert parameters == native_parameters, ('typed ABI arguments differ',parameters,native_parameters)
     if original_calls:assert original['last_error']==native['last_error'],'frontier LastError differs'
-    return dict(parameters=parameters,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases))
+    return dict(parameters=parameters,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']))

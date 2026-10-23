@@ -153,3 +153,15 @@ cached calls behind its genuine checksum callback. Original observations remain
 immutable; current native/static sidecars bind both generations and regenerate
 current COFF/import metadata. See `cases/hello-debug-dll/REVIEW-50.md` and
 `import-audit-review/0003-qualified-stable/review.json` beneath that case.
+
+The first module type-storage initializer is accepted (51 application functions,
+13,893 extent bytes: 22.17% of the qualified whole-text denominator). Fresh raw
+checks all 384,000 initialized table bytes, 336 record entries and their payload
+offsets, fifteen cleared allocations, and the complete 12,324-byte type read in
+an owned 12,332-byte segment. Its eight uninitialized tail bytes remain native
+owned: changing them is an explicit allowed control. Thirteen focused mutations
+and the affected seventeen read/eight initialized-storage controls pass. The
+next frontier is the original 0x40c760 routine. This first-module table contract
+fails closed on a reused table until its new lifetime/state is observed.
+See `cases/hello-debug-dll/evidence/0051-initialize-module-type-storage/function-review.json`
+for exact fresh/reused provenance and split timings.

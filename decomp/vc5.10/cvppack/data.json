@@ -52,7 +52,8 @@
     "segment_buffer": true,
     "blob": {
       "size": 4
-    }
+    },
+    "segment_contents": true
   },
   {
     "name": "symbol_data",
@@ -873,7 +874,8 @@
     "name": "type_records",
     "original": 4272836,
     "size": 4,
-    "kind": "pointer"
+    "kind": "pointer",
+    "type_record_table": true
   },
   {
     "name": "recursive_type_pending",
@@ -984,6 +986,12 @@
   {
     "name": "current_type_server",
     "original": 4281588,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "type_module_count",
+    "original": 4281092,
     "size": 4,
     "kind": "integer"
   }

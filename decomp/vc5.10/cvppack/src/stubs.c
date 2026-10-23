@@ -59,7 +59,7 @@ unsigned short numeric_leaf_size(const unsigned char *record) { __asm { int 3 } 
 void read_legacy_module_types(void *types, unsigned size) { __asm { int 3 } }
 void build_type_record_index(void) { __asm { int 3 } }
 
-void initialize_module_type_storage(void) { __asm { int 3 } }
+
 int record_widen(WidenTi *object, void *output, const void *input, unsigned *size) { __asm { int 3 } return 0; }
 void use_precompiled_types(void *leaf) { __asm { int 3 } }
 void register_type_server(void *leaf) { __asm { int 3 } }

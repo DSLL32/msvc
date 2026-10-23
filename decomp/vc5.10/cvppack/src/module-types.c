@@ -110,3 +110,15 @@ void read_new_module_types(unsigned size, int precompiled)
         line_data = type_segments[0];
     }
 }
+
+/* Begin a module's type records, retaining the reusable table [0040c720,0040c75d). */
+unsigned type_module_count;
+void initialize_module_type_storage(void)
+{
+    ++type_module_count;
+    if (!type_records) {
+        type_record_capacity = 12000;
+        type_records = allocate_cleared(type_record_capacity * sizeof(TypeRecord));
+    }
+    type_record_count = 0;
+}
