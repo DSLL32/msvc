@@ -2104,3 +2104,65 @@ SymbolHeader *__fastcall infer_scheduled_address_symbol(MachineOperand *operand,
         return definition->operands[1].value.address->symbol;
     return 0;
 }
+
+/* Original [0003c560,0003c659). Follow the block's instruction stream to
+   its outgoing branch, accepting exactly one definition of the register.
+   The original assumes a terminating branch before the end of the stream. */
+int __fastcall find_forward_scheduled_symbol(SymbolHeader **symbol,
+    MachineInstruction *boundary, unsigned short number)
+{
+    MachineInstruction *instruction = boundary->next;
+    unsigned kind, operation;
+    int definitions = 0;
+    *symbol = 0;
+    while (instruction) {
+        kind = instruction->opcode & 15;
+        operation = (instruction->opcode >> 8) & 255;
+        if (SCHEDULABLE_KIND(kind) && (operation == MC_JCC || operation == MC_JMP)) break;
+        if (kind == 1) return 0;
+        if (SCHEDULABLE_KIND(kind) &&
+            (instruction->operands[0].flags & 15) == OPERAND_REGISTER &&
+            instruction->operands[0].value.reg.words.number == number && writes_first_operand(instruction)) {
+            if (++definitions > 1) return 0;
+            if (operation == MC_LEA || (operation == MC_MOV &&
+                (instruction->operands[1].flags & 15) == OPERAND_LABEL_ADDRESS))
+                *symbol = instruction->operands[1].value.address->symbol;
+        }
+        instruction = instruction->next;
+    }
+    if (boundary->record.symbol != instruction->operands[0].value.symbol) return 0;
+    return *symbol != 0;
+}
+
+/* Original [0003c470,0003c558). Search backward through single-entry
+   label regions and conditional branches for a visible register operand. */
+MachineInstruction *__fastcall find_prior_scheduled_definition(unsigned short number,
+    MachineInstruction *boundary)
+{
+    MachineInstruction *instruction = boundary->previous;
+    MachineFlowRegion *region;
+    MachineRegionRegister *record;
+    int crossed_branch = 0;
+    unsigned kind, operation, flags;
+    for (; instruction; instruction = instruction->previous) {
+        kind = instruction->opcode & 15;
+        if (kind == 1) {
+            if (crossed_branch) return 0;
+            region = instruction->labels.attachment;
+            if (!region || (region->flags & 1) || ((LabelSymbol *)instruction->record.symbol)->references != 1) return 0;
+            record = find_machine_region_register(region, number, 0);
+            if (!record) return 0;
+            flags = record->flags;
+            if (!(flags & 4) && (!(flags & 1) || !(flags & 2))) return 0;
+        }
+        if (SCHEDULABLE_KIND(kind)) {
+            operation = (instruction->opcode >> 8) & 255;
+            if (operation == MC_JMP) return 0;
+            if (operation == MC_JCC) ++crossed_branch;
+            if (machine_operand_counts[operation] > 0 &&
+                (instruction->operands[0].flags & 15) == OPERAND_REGISTER &&
+                instruction->operands[0].value.reg.words.number == number) return instruction;
+        }
+    }
+    return 0;
+}

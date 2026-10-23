@@ -2566,3 +2566,9 @@ Integer spelling and unresolved floating motion edges: checkpoint1023
 _exclude_float_motion_uses. 944 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating1023.json for extent union, limits and measured timings.
+
+Floating alias exclusions and address-origin scans: checkpoint1027
+4 acceptances pass fresh original/native matching; current frontier
+_select_float_motion_uses. 948 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating1027.json for extent union, limits and measured timings.

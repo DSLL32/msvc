@@ -1027,7 +1027,11 @@
     "@record_float_nonfloat_uses@4",
     "@format_integer@12",
     "@record_float_motion_branch@4",
-    "_finish_float_motion_uses"
+    "_finish_float_motion_uses",
+    "_exclude_float_motion_uses",
+    "@compare_float_motion_aliases@8",
+    "@find_forward_scheduled_symbol@12",
+    "@find_prior_scheduled_definition@8"
   ],
   "driver": [
     {
@@ -6824,14 +6828,12 @@
     {
       "name": "@find_forward_scheduled_symbol@12",
       "start": 247136,
-      "end": 247137,
-      "provisional": true
+      "end": 247385
     },
     {
       "name": "@find_prior_scheduled_definition@8",
       "start": 246896,
-      "end": 246897,
-      "provisional": true
+      "end": 247128
     },
     {
       "name": "_check_extended_range",
@@ -7271,14 +7273,18 @@
     {
       "name": "_exclude_float_motion_uses",
       "start": 240880,
-      "end": 240881,
-      "provisional": true
+      "end": 241339
     },
     {
       "name": "_select_float_motion_uses",
       "start": 240512,
       "end": 240513,
       "provisional": true
+    },
+    {
+      "name": "@compare_float_motion_aliases@8",
+      "start": 245664,
+      "end": 245754
     }
   ],
   "cases": {

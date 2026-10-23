@@ -375,8 +375,6 @@ int __fastcall diamond_register_constraint(unsigned short number, MachineInstruc
 void fill_previous_pentium_gap(void) { __asm int 3 }
 int __fastcall i386_instruction_cost(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall register_has_region_uses(unsigned short number, MachineFlowRegion *regions) { __asm int 3 }
-int __fastcall find_forward_scheduled_symbol(SymbolHeader **symbol, MachineInstruction *boundary, unsigned short number) { __asm int 3 }
-MachineInstruction *__fastcall find_prior_scheduled_definition(unsigned short number, MachineInstruction *boundary) { __asm int 3 }
 int __cdecl multiply_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl divide_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl minimum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
@@ -408,5 +406,4 @@ void __fastcall mark_float_branch_targets(FloatStreamBranch *branches) { __asm i
 int __fastcall can_merge_float_branch(FloatStreamBranch *branch, MachineInstruction *previous, MachineInstruction *target) { __asm int 3 }
 int __fastcall can_reuse_float_branch_target(MachineInstruction *target) { __asm int 3 }
 void release_float_motion_scratch(void) { __asm int 3 }
-void exclude_float_motion_uses(void) { __asm int 3 }
 void select_float_motion_uses(void) { __asm int 3 }

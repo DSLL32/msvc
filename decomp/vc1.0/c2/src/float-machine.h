@@ -78,7 +78,7 @@ typedef char MemoryMotionContextSizeCheck[sizeof(MemoryMotionContext) == 88 ? 1 
 /* Original64-byte per-operand use summary, allocated by3a8f0. Counts
    describe the x87 operation classes; flags and field20 await later policy. */
 typedef struct FloatStreamUse {
-    struct FloatStreamUse *next;
+    SymbolHeader *origin_symbol; /* common cached-origin first word,3c000 */
     MachineOperand *operand;
     unsigned weighted_uses;
     int stack_slot;
@@ -149,4 +149,5 @@ FloatStreamUse *__fastcall find_float_stream_use(MachineOperand *operand, int cr
 void __fastcall update_float_use_access(FloatStreamUse *use, unsigned access);
 unsigned __fastcall float_operand_hash(MachineOperand *operand);
 unsigned __fastcall float_symbol_name_hash(char *name);
+void __fastcall compare_float_motion_aliases(FloatStreamUse *first, FloatStreamUse *second);
 #endif

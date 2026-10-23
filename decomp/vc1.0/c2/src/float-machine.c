@@ -1548,3 +1548,73 @@ void finish_float_motion_uses(void)
     select_float_motion_uses();
     if (memory_motion_context->flags & 2) close_float_stream_context();
 }
+
+/* Original [0003acf0,0003aebb). Reject memory values invalidated by
+   unknown reads/writes, reserved address registers or pairwise aliases. */
+void exclude_float_motion_uses(void)
+{
+    FloatStreamUse *use, *other;
+    MachineOperand *operand;
+    SymbolHeader *symbol;
+    unsigned bucket, later, kind;
+    if (float_motion_writes_unknown_memory) {
+        for (bucket = 0; bucket < 8; ++bucket) {
+            for (use = float_motion_buckets[bucket]; use; use = use->hash_next) {
+                operand = use->operand;
+                if ((operand->flags & 15) == OPERAND_ABSOLUTE) {
+                    symbol = operand->value.address->symbol;
+                    if (symbol && (((BackendSymbol *)symbol)->attributes & 0x70) == 0x40) continue;
+                }
+                if (!(use->flags & 0x40)) use->flags |= 2;
+            }
+        }
+    }
+    for (bucket = 0; bucket < 8; ++bucket) {
+        for (use = float_motion_buckets[bucket]; use; use = use->hash_next) {
+            if (float_motion_reads_unknown_memory && (use->flags & 0x20) && !(use->flags & 0x40)) use->flags |= 2;
+            if (use->base != 0xffff) {
+                if (use->base >= (unsigned short)float_stream_register_count) compiler_internal_error("@(#)fltreg.c:1.31", 0xbc4);
+                if (float_stream_register_uses[use->base]) use->flags |= 2;
+            }
+            if (use->index != 0xffff) {
+                if (use->index >= (unsigned short)float_stream_register_count) compiler_internal_error("@(#)fltreg.c:1.31", 0xbcc);
+                if (float_stream_register_uses[use->index]) use->flags |= 2;
+            }
+        }
+    }
+    for (bucket = 0; bucket < 8; ++bucket) {
+        for (use = float_motion_buckets[bucket]; use; use = use->hash_next) {
+            if (use->flags & 0x40) continue;
+            operand = use->operand;
+            kind = operand->flags & 15;
+            if (kind != OPERAND_BASED && kind != OPERAND_INDEXED) {
+                if (kind != OPERAND_ABSOLUTE) continue;
+                symbol = operand->value.address->symbol;
+                if (symbol && (((BackendSymbol *)symbol)->attributes & 0x70) == 0x40) continue;
+            }
+            if (operand->flags & 0x8000) use->flags |= 2;
+            for (other = use->hash_next; other; other = other->hash_next) compare_float_motion_aliases(use, other);
+            for (later = bucket + 1; later < 8; ++later)
+                for (other = float_motion_buckets[later]; other; other = other->hash_next) compare_float_motion_aliases(use, other);
+        }
+    }
+}
+
+/* Original [0003bfa0,0003bffa). The shared memory comparator interprets
+   only the common cached-origin first word of these64-byte use summaries. */
+void __fastcall compare_float_motion_aliases(FloatStreamUse *first, FloatStreamUse *second)
+{
+    MachineOperand *operand = second->operand;
+    SymbolHeader *symbol;
+    int relation;
+    if (second->flags & 0x40) return;
+    if ((operand->flags & 15) == OPERAND_ABSOLUTE) {
+        symbol = operand->value.address->symbol;
+        if (symbol && (((BackendSymbol *)symbol)->attributes & 0x70) == 0x40) return;
+    }
+    if (compare_scheduled_memory(first->operand, first->width, operand, second->width,
+            1, 0, &relation, (SchedulerMemoryAccess *)first, (SchedulerMemoryAccess *)second)) {
+        first->flags |= 2;
+        second->flags |= 2;
+    }
+}
