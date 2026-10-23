@@ -1,0 +1,107 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_classify_member_pointer_conversion@12",
+  "case": "state_machine_debug",
+  "accepted_before": 1117,
+  "configuration_sha256": "b834c51fba9b14d5c5e11ca4705e8706eeb18f5177e18af943ef4272056d99ed",
+  "native_entry": "classify_member_pointer_conversion",
+  "declared_formal_count": 3,
+  "formals": [
+    {
+      "name": "source",
+      "stack_index": 0,
+      "native_field": "raw_source",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 346519,
+        "original_owner_function": "_classify_derived_type_conversion@16",
+        "native_owner_function": "classify_derived_type_conversion",
+        "native_owner_field": "caller_source",
+        "native_owner_local": "source",
+        "identity": "Actual derived-type classifier retains sourceEDI/targetESI, PUSH0 6498e/PUSHESI64990/PUSHEDI64991/CALL64992 return64997. Native actual caller source/target formals bound separately; no frozen heap or staticclassslot.",
+        "original_owner_value": 8311596,
+        "native_owner_value": 1449300780
+      },
+      "original_raw": 8311596,
+      "native_raw": 1449300780,
+      "result": "match"
+    },
+    {
+      "name": "target",
+      "stack_index": 1,
+      "native_field": "raw_target",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 346519,
+        "original_owner_function": "_classify_derived_type_conversion@16",
+        "native_owner_function": "classify_derived_type_conversion",
+        "native_owner_field": "caller_target",
+        "native_owner_local": "target",
+        "identity": "Actual derived-type classifier retains sourceEDI/targetESI, PUSH0 6498e/PUSHESI64990/PUSHEDI64991/CALL64992 return64997. Native actual caller source/target formals bound separately; no frozen heap or staticclassslot.",
+        "original_owner_value": 8311564,
+        "native_owner_value": 1449300748
+      },
+      "original_raw": 8311564,
+      "native_raw": 1449300748,
+      "result": "match"
+    },
+    {
+      "name": "reverse",
+      "stack_index": 2,
+      "native_field": "raw_reverse",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      413088,
+      413416
+    ],
+    "argument_bytes": 12,
+    "proof": "Whole328B, SUBESP12/saveEBX/ESI/EDI/EBP16:sourceESP+32/target+36/reverse+40, allRET12/unsignedrankEAX. Reads initialized type/shape fields and definedCType shortfield08; only callees67490/RET8 tagrelation and634f0/RET8 functionparametercomparison (independently rawdisassembled634f0..6359d, actual FunctionParameters pointers loadedfromnestedshape+8). SBB after tagpointerdifference returns1forequal/32otherwise, no pointerordering identity claim. No hidden/registersemanticinputs/uninitialized result.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "f9426994c0dfae921359e6a729838df29e9fee157e296f3a9b2e38cb0b0b0820",
+  "capture_timing": {
+    "original_capture_seconds": 1.7183004459366202,
+    "native_capture_seconds": 0.1830208757892251,
+    "total_operation_seconds": 2.161029541864991
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "151a048ed092bd29230ecf35a1d515cf1acddce021babb6f40f7854fc2f91de8",
+    "native-commands.gdb": "85f4e7c683b7dbc9705fb0f8f65adea786e774266a455c250fdae964323aa955",
+    "native-gdb.log": "c2506ab883d8061bf4ae4113c7596ae7059571c97d2ac702915d113afd20879d",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "c22452c3b1eeca7d94ceed76f36ba97016f27e026ca39249d3a2f230e216ec2d",
+    "original-configuration.json": "b834c51fba9b14d5c5e11ca4705e8706eeb18f5177e18af943ef4272056d99ed",
+    "original-disassembly.txt": "dcc769b83f2a0605b836442600be687c27c8de1a07f3f6512226c996c70a8602",
+    "original-entries.plan": "917698e7188d63b54bb2ccc448ca5e81bb6600397fb0bad7ab2440d34fa21fdb",
+    "original-events.txt": "f8f816d011732ab211ea9887d0a404749705a4e09e12637fc799b86590a9193b",
+    "original-ownership-caller-disassembly.txt": "bdf93aa72a788856356de2660cf58aacc731c1f0f8524708bf7c7f018ddf1d77",
+    "original-receipt.json": "d8b5a058ddc75e12d0f80f83c53ca6ff22725d7026046c8ac6fac361f7ebfa8a",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "25358cfbb422cbaeba03566feff3a1d8511eb0dcf98fe7e4b2262cdeadc7ecc6"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_classify_member_pointer_conversion@12",
+    "start": 413088,
+    "end": 413416
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1117-classify_member_pointer_conversion-12/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_equal_member_function_parameters@8",
+    "_tag_has_base_relation@8"
+  ],
+  "next_frontier": "_equal_member_function_parameters@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5171843711286783,
+  "total_operation_seconds": 4.130524327978492,
+  "original_capture_seconds": 1.4679023325443268
+}

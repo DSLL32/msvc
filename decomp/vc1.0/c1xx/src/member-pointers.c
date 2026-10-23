@@ -4,6 +4,8 @@
 #include "expression-records.h"
 #include "special-members.h"
 #include "numeric-conversion.h"
+#include "constructor-initializers.h"
+#include "parameters.h"
 #include <recon.h>
 
 IrToken *__stdcall make_multiple_inheritance_method_pointer(CType *type,
@@ -24,6 +26,39 @@ IrToken *__stdcall make_virtual_data_member_pointer(CType *type, IrToken *offset
     IrToken *virtual_offset);
 IrToken *__stdcall make_general_data_member_pointer(CType *type, IrToken *offset,
     int vbptr_offset, IrToken *vbtable_offset);
+
+int __stdcall tag_has_base_relation(CppSymbol *derived, CppSymbol *base);
+int __stdcall equal_member_function_parameters(FunctionParameters *source,
+    FunctionParameters *target);
+
+/* Original 0x64da0..0x64ee8. Rank conversion between member-pointer
+   shapes, their class relation and any nested member-function signature. */
+unsigned __stdcall classify_member_pointer_conversion(CType *source, CType *target,
+    int reverse)
+{
+    TypeShape *source_shape = source->related, *target_shape = target->related;
+    unsigned short source_flags = source_shape->flags, target_flags = target_shape->flags;
+    unsigned short source_attributes = source_shape->attributes;
+    unsigned short target_attributes = target_shape->attributes, difference;
+    CppSymbol *source_class = source_shape->data.tag_symbol;
+    CppSymbol *target_class = target_shape->data.tag_symbol;
+
+    if (source == target) return 1;
+    if (((source->flags ^ target->flags) & 0xefff) ||
+        source->field08 != target->field08 || ((source_flags ^ target_flags) & 0x10))
+        return 0x2000;
+    difference = source_attributes ^ target_attributes;
+    if (difference & 7) return 0x2007;
+    if (difference & 0x70) return 0x2008;
+    if (reverse) {
+        if (!tag_has_base_relation(source_class, target_class)) return 0x2000;
+    } else if (!tag_has_base_relation(target_class, source_class)) return 0x2000;
+    if ((target_flags & 0x20) && source_shape->related != target_shape->related &&
+        !equal_member_function_parameters(source_shape->related->data.parameters,
+            target_shape->related->data.parameters))
+        return 0x2000;
+    return source_class == target_class ? 1 : 0x20;
+}
 
 /* Original 0x4a260..0x4a29c. A zero-adjustment class needs only
    the function address; multiple inheritance stores the adjustment too. */

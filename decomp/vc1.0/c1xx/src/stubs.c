@@ -455,7 +455,6 @@ unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *sour
 int __stdcall has_pointer_or_member_pointer_shape(CType *type) { __asm { int 3 } return 0; }
 int __stdcall based_pointer_has_indirect_base(TypeShape *shape) { __asm { int 3 } return 0; }
 unsigned __stdcall classify_nested_shape_conversion(TypeShape *target, TypeShape *source) { __asm { int 3 } return 0; }
-unsigned __stdcall classify_member_pointer_conversion(CType *source, CType *target, int reverse) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *type, int mode) { __asm { int 3 } return 0; }
 
 void __stdcall resolve_goto_cleanup(FrontendRecord *from, FrontendRecord *to, int mode) { __asm { int 3 } }
@@ -621,3 +620,4 @@ IrToken * __stdcall make_general_method_pointer(CType *type, IrToken *function, 
 IrToken * __stdcall make_virtual_data_member_pointer(CType *type, IrToken *offset, IrToken *virtual_offset) { __asm { int 3 } return 0; }
 IrToken * __stdcall make_general_data_member_pointer(CType *type, IrToken *offset, int vbptr_offset, IrToken *vbtable_offset) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_multiple_inheritance_method_pointer(CType *type, IrToken *function, IrToken *adjustment) { __asm { int 3 } return 0; }
+int __stdcall equal_member_function_parameters(FunctionParameters *source, FunctionParameters *target) { __asm { int 3 } return 0; }

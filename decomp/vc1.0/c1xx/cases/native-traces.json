@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "882bc51c3e9147498bd59a607cdb234b20f29a8d1c5104c21240efdaa9c9e4f7",
+    "functions.json": "d84ca16764d7934109482e53944f91e49864365846f963d8164e0b26b0c1ce75",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "fb0edb058847e83491345dd20d5749f2c8ab713bea65c3c77aed5a950ab7ab45",
-    "cases/canonical-map.txt": "7d05c7ee648d8a79131a96e93226e949e6cef9b70d2125d952bf934791bedee9",
+    "cases/original-entry-references.json": "30839a9b2aac0d3836463d81ead4622484e900f20e723e2e812093c3192bd06a",
+    "cases/canonical-map.txt": "493268ab7b469a372d15bfe38740ba9ecd350fe546166a98b1909f3ad57a5666",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -44,9 +44,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1116-make_compact_method_pointer-12/entry-reference/original-receipt.json": "e91238fa67350605096073ce3bcdd0177967167fb4cd1c24f3aaf44c71f2dafb",
-    "cases/frontiers/state_machine_debug/1116-make_compact_method_pointer-12/entry-reference/original-events.txt": "82241d23d9e889d99b66f927b40dd7bd024d64f9aa99f88bbefd7275c3dda2d4",
-    "cases/frontiers/state_machine_debug/1116-make_compact_method_pointer-12/entry-reference/original-entries.plan": "39ee4fd4fc2a77bac648ade6492e2d63cb7e2a71afb3e5f895bccb83dcd9bd5d"
+    "cases/frontiers/state_machine_debug/1117-classify_member_pointer_conversion-12/entry-reference/original-receipt.json": "f50a8b039286e67786dd7fe19c08e8a688a6138d4487950c5d3287636820d1df",
+    "cases/frontiers/state_machine_debug/1117-classify_member_pointer_conversion-12/entry-reference/original-events.txt": "52673e377724b18ba0ff8ee3b777c55653a78277c88947c8f341d90764f6f3ff",
+    "cases/frontiers/state_machine_debug/1117-classify_member_pointer_conversion-12/entry-reference/original-entries.plan": "737f3623a1411fe1d5a7b8d783e7934052878eba724dba917fb0dc70efe84dd8"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -907,7 +907,7 @@
     },
     "classify_member_pointer_conversion": {
       "logical": "_classify_member_pointer_conversion@12",
-      "source": "src/stubs.c"
+      "source": "src/member-pointers.c"
     },
     "classify_nested_shape_conversion": {
       "logical": "_classify_nested_shape_conversion@8",
@@ -1960,6 +1960,10 @@
     "equal_inline_vectors": {
       "logical": "_equal_inline_vectors",
       "source": "src/inline-vector.c"
+    },
+    "equal_member_function_parameters": {
+      "logical": "_equal_member_function_parameters@8",
+      "source": "src/stubs.c"
     },
     "equal_pointer": {
       "logical": "_equal_pointer",
@@ -6648,7 +6652,8 @@
     "member_pointer_expression",
     "member_pointer_inheritance_model",
     "member_pointer_owner_class",
-    "make_compact_method_pointer"
+    "make_compact_method_pointer",
+    "classify_member_pointer_conversion"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10761,7 +10766,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1117,
+      "last": 1118,
       "seen": [
         "main",
         "message_text",
@@ -11787,12 +11792,13 @@
         "member_pointer_inheritance_model",
         "member_pointer_owner_class",
         "make_compact_method_pointer",
-        "classify_member_pointer_conversion"
+        "classify_member_pointer_conversion",
+        "equal_member_function_parameters"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_classify_member_pointer_conversion@12",
-        "native": "classify_member_pointer_conversion",
+        "logical": "_equal_member_function_parameters@8",
+        "native": "equal_member_function_parameters",
         "signal": 5
       }
     }
