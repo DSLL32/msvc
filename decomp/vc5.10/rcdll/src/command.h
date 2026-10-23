@@ -17,6 +17,7 @@ extern WCHAR rc_filename_storage[257],*rc_filename;
 extern unsigned rc_preparing_line,rc_prepared_lines;
 unsigned __stdcall rc_write_bytes(FILE *,const void *,unsigned);
 int __stdcall rc_detect_encoding(FILE *);
+int __stdcall rc_is_text_unicode(const void *,unsigned,unsigned *);
 int __stdcall rc_read_wide_line(WCHAR *,unsigned,int,FILE *);
 WCHAR *__stdcall rc_skip_white(WCHAR *,int);
 int __stdcall rc_prefix_equal(const WCHAR *,const WCHAR *);

@@ -82,6 +82,11 @@ def capture():
             arguments['message']=bytes(gdb.selected_inferior().read_memory(int(message),length)).hex()
         if name=='rc_message':arguments['id']=int(frame.read_var('id'))
         if name=='rc_prepare_input':arguments['path']=frame.read_var('path').string()
+        if name=='rc_is_text_unicode':
+            sample=frame.read_var('sample');size=int(frame.read_var('bytes'));flags=frame.read_var('flags')
+            parent=frame.older();assert parent.name()=='rc_detect_encoding'
+            file=parent.read_var('file');state=file.dereference();start=int(state['_base']);length=int(state['_ptr'])-start+int(state['_cnt']);assert 0<=length<=4096
+            arguments.update(sample=bytes(gdb.selected_inferior().read_memory(int(sample),size+2)).hex(),bytes=size,flags=int(flags.dereference()),position=int(parent.read_var('position')),file_state=bytes(gdb.selected_inferior().read_memory(int(file),32)).hex(),file_buffer=bytes(gdb.selected_inferior().read_memory(start,length)).hex())
         if name=='rc_detect_encoding':
             file=frame.read_var('file');parent=frame.older();assert parent.name()=='rc_prepare_input'
             output_file=parent.read_var('output');state=output_file.dereference()

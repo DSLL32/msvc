@@ -260,3 +260,30 @@ def write_trial(original,native):
     assert proof['application_trace'][-1]=='rc_write_bytes'
     proof.update(trial='rc_write_bytes',write=dict(bytes=46,result=46,payload=expected.hex(),buffered=True,buffer_bytes=4096,remaining=4050),files=dict(input_flag=1,output_flag=0x8a,descriptors='semantic live handles, not raw descriptor identity'))
     return proof
+
+
+def detect_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_detect_encoding'and len(config['accepted'])==14
+    a,b,proof=checkpoint(original,native,'rc_is_text_unicode',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c308e7 and a['words'][2]==250
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_detect_encoding\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    text=(original/'events.txt').read_text();arguments=b['arguments'];source=(original/'source/resources.rc').read_bytes()
+    assert arguments['bytes']==250 and arguments['flags']==0xffff and arguments['position']==0
+    assert raw_bytes(text,'text-flags')==b'\xff\xff\0\0'
+    assert raw_bytes(text,'text-sample')==bytes.fromhex(arguments['sample'])==source[:250]+b'\0\0'
+    assert re.findall(r'^text-original-position (\d+)$',text,re.M)==['0']
+    assert raw_bytes(text,'text-file-buffer')==bytes.fromhex(arguments['file_buffer'])==source
+    old=struct.unpack('<8I',raw_bytes(text,'text-file-state'));new=struct.unpack('<8I',bytes.fromhex(arguments['file_state']))
+    for state in [old,new]:
+        assert state[0]-state[2]==250 and state[0]>state[2]>0
+        assert (state[1],state[3],state[5],state[6],state[7])==(len(source)-250,9,0,4096,0)and state[4]>=3
+    identity=b['heap_identity'];blocks=identity['blocks'];assert len(blocks)==3
+    for field,label,size in [('rc_include_paths','include-current-block',528),('rc_input_temporary','input-temporary-block',268),('rc_output_temporary','output-temporary-block',268)]:
+        pointer=int.from_bytes(bytes.fromhex(b['globals'][field]),'little')
+        block=next(block for block in blocks if block['payload']+8==pointer)
+        assert block['owner']==identity['handle']and block['flags']==9 and block['bytes']==size
+        assert bytes.fromhex(block['contents'])==raw_bytes(text,label)
+    assert proof['application_trace'][-1]=='rc_detect_encoding'
+    proof.update(trial='rc_detect_encoding',sample=dict(bytes=250,terminator_bytes=2,flags=0xffff,original_position=0,contents=arguments['sample']),file=dict(buffered_bytes=len(source),consumed=250,remaining=len(source)-250,buffer_bytes=4096))
+    return proof

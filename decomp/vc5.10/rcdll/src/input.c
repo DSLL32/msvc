@@ -124,3 +124,19 @@ unsigned __stdcall rc_write_bytes(FILE *file,const void *data,unsigned bytes)
     }
     return written;
 }
+
+int __stdcall rc_detect_encoding(FILE *file)
+{
+    WCHAR sample[126];
+    unsigned flags=0xffff,bytes;
+    long position=ftell(file);
+    int encoding=1;
+
+    if(position%2) fgetc(file);
+    bytes=fread(sample,1,250,file);
+    *(WCHAR *)((char *)sample+bytes)=0;
+    if(rc_is_text_unicode(sample,bytes,&flags))
+        encoding=3-((flags&0x80)!=0x80);
+    fseek(file,position,SEEK_SET);
+    return encoding;
+}

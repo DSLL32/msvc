@@ -52,11 +52,6 @@ void __stdcall rc_cleanup(void)
     __asm int 3
 }
 
-int __stdcall rc_detect_encoding(FILE *file)
-{
-    __asm int 3
-    return 0;
-}
 int __stdcall rc_read_wide_line(WCHAR *line,unsigned capacity,int wide,FILE *file)
 {
     __asm int 3
@@ -87,4 +82,10 @@ void __stdcall rc_input_fatal(unsigned code)
 void __stdcall rc_input_warning(unsigned code)
 {
     __asm int 3
+}
+
+int __stdcall rc_is_text_unicode(const void *sample,unsigned bytes,unsigned *flags)
+{
+    __asm int 3
+    return 0;
 }
