@@ -1,0 +1,25 @@
+{
+  "name": "help",
+  "status": "planned-no-original-execution",
+  "original": "toolchains/watcom10.0a/binnt/WLIB.EXE",
+  "original_sha256": "f20631839a9c1c38969f0c5930e26010361c6175790992181455b5c0ffb1cbb3",
+  "argv": ["-?"],
+  "argument_status": "candidate-from-newer-source; confirm historical parser and explicit reference capture",
+  "working_directory": "empty case-local directory",
+  "stdin": "empty bytes then EOF",
+  "environment": "record complete target-visible environment, locale and command line at capture",
+  "reference_capture": {
+    "authorization": "pending compiler/ABI architecture review",
+    "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+    "transport": "direct native PE32 under shared Wine; no CF payload stub needed",
+    "record": ["original hash", "argv and raw command line", "target environment", "status", "raw stdout", "raw stderr", "files before/after", "application entry trace", "frontier ABI and state"],
+    "normalization": "none unless an identified clock field is subsequently proven"
+  },
+  "native_regression": {
+    "status": "not implemented; no reference cached yet",
+    "wine_allowed": false,
+    "checks": ["complete invocation and input", "application entry trace", "status", "raw streams", "artifacts"],
+    "timing": ["build", "setup", "execution", "checks"]
+  },
+  "unknowns": ["historical help switch and exit status", "application/CRT entry boundary", "app-vs-CRT function extents", "appended message resource format", "native Watcom register and return conventions"]
+}

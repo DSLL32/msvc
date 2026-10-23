@@ -1,0 +1,158 @@
+{
+  "original": "toolchains/watcom10.0a/binnt/WLIB.EXE",
+  "sha256": "f20631839a9c1c38969f0c5930e26010361c6175790992181455b5c0ffb1cbb3",
+  "size": 62738,
+  "machine": "i386",
+  "image_base": 4194304,
+  "entry_rva": 99984,
+  "timestamp": 777664092,
+  "coff_symbol_count": 0,
+  "directories": {
+    "export": {
+      "rva": 0,
+      "size": 0
+    },
+    "import": {
+      "rva": 262144,
+      "size": 674
+    },
+    "resource": {
+      "rva": 0,
+      "size": 0
+    },
+    "debug": {
+      "rva": 0,
+      "size": 0
+    }
+  },
+  "sections": [
+    {
+      "name": "BEGTEXT",
+      "rva": 65536,
+      "virtual_size": 0,
+      "raw_size": 50688,
+      "raw_offset": 1024,
+      "executable": true
+    },
+    {
+      "name": "DGROUP",
+      "rva": 131072,
+      "virtual_size": 0,
+      "raw_size": 3072,
+      "raw_offset": 51712,
+      "executable": false
+    },
+    {
+      "name": ".bss",
+      "rva": 196608,
+      "virtual_size": 0,
+      "raw_size": 2048,
+      "raw_offset": 0,
+      "executable": false
+    },
+    {
+      "name": ".idata",
+      "rva": 262144,
+      "virtual_size": 0,
+      "raw_size": 1024,
+      "raw_offset": 54784,
+      "executable": false
+    },
+    {
+      "name": ".reloc",
+      "rva": 327680,
+      "virtual_size": 0,
+      "raw_size": 3072,
+      "raw_offset": 55808,
+      "executable": false
+    }
+  ],
+  "imports": [
+    {
+      "dll": "KERNEL32.DLL",
+      "symbols": [
+        {
+          "name": "CloseHandle"
+        },
+        {
+          "name": "CreateFileA"
+        },
+        {
+          "name": "DeleteFileA"
+        },
+        {
+          "name": "ExitProcess"
+        },
+        {
+          "name": "GetCommandLineA"
+        },
+        {
+          "name": "GetConsoleMode"
+        },
+        {
+          "name": "GetCurrentProcessId"
+        },
+        {
+          "name": "GetCurrentThreadId"
+        },
+        {
+          "name": "GetEnvironmentStrings"
+        },
+        {
+          "name": "GetFileAttributesA"
+        },
+        {
+          "name": "GetFileType"
+        },
+        {
+          "name": "GetLastError"
+        },
+        {
+          "name": "GetModuleFileNameA"
+        },
+        {
+          "name": "GetProcAddress"
+        },
+        {
+          "name": "GetStdHandle"
+        },
+        {
+          "name": "GetVersion"
+        },
+        {
+          "name": "LoadLibraryA"
+        },
+        {
+          "name": "LocalAlloc"
+        },
+        {
+          "name": "MoveFileA"
+        },
+        {
+          "name": "ReadFile"
+        },
+        {
+          "name": "RtlUnwind"
+        },
+        {
+          "name": "SetConsoleMode"
+        },
+        {
+          "name": "SetFilePointer"
+        },
+        {
+          "name": "SetStdHandle"
+        },
+        {
+          "name": "WriteFile"
+        }
+      ]
+    }
+  ],
+  "overlay": {
+    "offset": 58880,
+    "size": 3858
+  },
+  "accepted_application_functions": 0,
+  "accepted_application_bytes": 0
+}
