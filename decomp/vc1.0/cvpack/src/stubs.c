@@ -112,4 +112,4 @@ void __fastcall add_recursive_offset(TypeRecord *entry, unsigned short offset) {
 void merge_field_list(unsigned char *record, TypeRecord *entry) { __asm { int 3 } }
 
 void release_type_data(TypeRecord *entry) { __asm { int 3 } }
-void record_derived_types(unsigned short type, unsigned short list) { __asm { int 3 } }
+void add_derived_type(unsigned short type, unsigned short base) { __asm { int 3 } }

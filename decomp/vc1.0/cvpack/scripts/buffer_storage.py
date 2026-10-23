@@ -63,8 +63,8 @@ def parse(events):
             current[key]=raw;current[key+'_address']=address
     if 'frontier'in result:
         match=re.search(r'^exception 80000003 va ([0-9a-f]+) ',events,re.M)
-        assert match and int(match[1],16)in(0x262d0,0x1ad40,0x1af10,0x1ae40,0x19770),'unreviewed original type buffer frontier'
-        result['frontier']['name']='finish_recursive_types'if int(match[1],16)==0x262d0 else('find_named_type'if int(match[1],16)==0x1ad40 else('find_global_type'if int(match[1],16)==0x1af10 else('find_local_type'if int(match[1],16)==0x1ae40 else 'record_derived_types')))
+        assert match and int(match[1],16)in(0x262d0,0x1ad40,0x1af10,0x1ae40,0x19770,0x256f0),'unreviewed original type buffer frontier'
+        result['frontier']['name']='finish_recursive_types'if int(match[1],16)==0x262d0 else('find_named_type'if int(match[1],16)==0x1ad40 else('find_global_type'if int(match[1],16)==0x1af10 else('find_local_type'if int(match[1],16)==0x1ae40 else('record_derived_types'if int(match[1],16)==0x19770 else 'convert_global_data32'))))
     return result
 
 
@@ -76,9 +76,9 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case):
     assert p and case=='hello-debug-dll'and not native.get('error'),'native buffer observer failed'
     old=parse(events);results=[];spaces=[]
     frontier=native['frontier']['name']
-    assert frontier in('finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types'),'unsupported type buffer consumer'
+    assert frontier in('finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32'),'unsupported type buffer consumer'
     indices=p['record_indices'];sizes=p['copy_sizes'];write_sites=[(1,10,4115,0x1000),(2,6,4133,0x1001)]
-    if frontier in('find_named_type','find_global_type','find_local_type','record_derived_types'):
+    if frontier in('find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32'):
         assert p['extension']==dict(frontier=0x1ad40,record_indices=[4115,4133,4134,4193,4194,4195],copy_sizes=[8,12,8,16,12,8],pdb_writes=[dict(type_index=4194,field=10,before=4193,after=0x1003),dict(type_index=4195,field=6,before=4194,after=0x1004)]),'unreviewed type buffer extension'
         indices=p['extension']['record_indices'];sizes=p['extension']['copy_sizes']
         write_sites +=[(4,10,4193,0x1003),(5,6,4194,0x1004)]
@@ -88,6 +88,9 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case):
         assert p['derived_frontier']==dict(frontier=0x19770,record_indices=[4115,4133,4134,4193,4194,4195,4191,4192],copy_sizes=[8,12,8,16,12,8,64,24],pdb_write=dict(type_index=4192,field=6,before=4191,after=0x1006)),'unreviewed derived type buffer lifetime'
         indices=p['derived_frontier']['record_indices'];sizes=p['derived_frontier']['copy_sizes']
         write_sites +=[(7,6,4191,0x1006)]
+    if frontier=='convert_global_data32':
+        assert p['global_data_frontier']=={'frontier': 153328, 'record_indices': [4115, 4133, 4134, 4193, 4194, 4195, 4191, 4192, 4183, 4184, 4185, 4102, 4131, 4132, 4103, 4112, 4108, 4109, 4110, 4169, 4170, 4171, 4106, 4152, 4153, 4111], 'copy_sizes': [8, 12, 8, 16, 12, 8, 64, 24, 12, 108, 32, 16, 12, 8, 12, 8, 8, 12, 8, 12, 28, 32, 12, 12, 8, 8], 'pdb_writes': [[1, 10, 4115, 4096], [2, 6, 4133, 4097], [4, 10, 4193, 4099], [5, 6, 4194, 4100], [7, 6, 4191, 4102], [9, 34, 4097, 4103], [9, 90, 4183, 4104], [10, 6, 4184, 4105], [12, 10, 4102, 4107], [13, 6, 4131, 4108], [14, 10, 4102, 4107], [15, 6, 4103, 4110], [17, 10, 4108, 4112], [18, 6, 4109, 4113], [20, 6, 4169, 4115], [21, 6, 4170, 4116], [23, 10, 4106, 4118], [24, 6, 4152, 4119]]},'unreviewed completed module type copies'
+        indices=p['global_data_frontier']['record_indices'];sizes=p['global_data_frontier']['copy_sizes'];write_sites=[tuple(r)for r in p['global_data_frontier']['pdb_writes']]
     count=len(indices)
     for side,walks in((old,old_walks),(native,new_walks)):
         assert len(side['allocations'])==1 and len(side['entries'])==len(side['returns'])==count,'missing/extra type buffer copy lifetime'

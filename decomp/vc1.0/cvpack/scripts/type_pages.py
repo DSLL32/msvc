@@ -50,7 +50,7 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case,buffer_proof=
     assert events.splitlines().count('type-page-rearm 000199d7 000199da')==1,'missing type page allocation rearm'
     a,b,post=entries[0],native[0],outputs[0];assert not b.get('error'),'native type page observer failed'
     assert a['size']==b['size']==post['size']==2048 and a['index']==b['index']==0x1000 and a['capacity']==b['capacity']==512
-    assert post['base']==a['base']and ((post['frontier']==0x22f40 and b['frontier']=='append_buffer')or(post['frontier']in(0x262d0,0x1ad40,0x1af10,0x1ae40,0x19770)and b['frontier']in('finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types')and buffer_proof)), 'unproved type page frontier'
+    assert post['base']==a['base']and ((post['frontier']==0x22f40 and b['frontier']=='append_buffer')or(post['frontier']in(0x262d0,0x1ad40,0x1af10,0x1ae40,0x19770,0x256f0)and b['frontier']in('finish_recursive_types','find_named_type','find_global_type','find_local_type','record_derived_types','convert_global_data32')and buffer_proof)), 'unproved type page frontier'
     if post['frontier']==0x22f40:
         words={int(m[1]):int(m[2],16)for m in re.finditer(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)}
         fields=re.search(r'^registers (.*)$',events,re.M)[1].split();registers={k:int(v,16)for k,v in zip(fields[::2],fields[1::2])}
@@ -88,7 +88,7 @@ def compare(config,pe,events,native,old_walks,new_walks,state,case,buffer_proof=
         else:
             side=buffer_proof['original']if row is a else buffer_proof['native']
             slots=b''.join(r['result'].to_bytes(4,'little')for r in side['returns'])
-            assert len(slots)in(12,24,32)and after[:len(slots)]==slots and after[len(slots):]==before[len(slots):],'type page pointer writes/untouched tail differ'
+            assert len(slots)in(12,24,32,104)and after[:len(slots)]==slots and after[len(slots):]==before[len(slots):],'type page pointer writes/untouched tail differ'
             for offset in range(0,len(slots),4):
                 value=int.from_bytes(after[offset:offset+4],'little')
                 assert value==side['returns'][offset//4]['result'],'type page slot lacks observed copy result'

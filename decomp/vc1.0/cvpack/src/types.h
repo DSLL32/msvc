@@ -82,6 +82,7 @@ void release_type_data(TypeRecord *);
 void __fastcall save_type(TypeRecord *);
 void *__fastcall append_buffer(GrowingBuffer *, const void *, unsigned long);
 void record_derived_types(unsigned short, unsigned short);
+void add_derived_type(unsigned short, unsigned short);
 
 void reserve_extra_type(unsigned short, unsigned short *);
 int has_extra_type(unsigned short);

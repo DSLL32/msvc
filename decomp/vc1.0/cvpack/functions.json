@@ -4511,13 +4511,16 @@
       "native": "record_derived_types",
       "symbol": "_record_derived_types",
       "original": 104304,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        104304,
+        104544
+      ],
       "abi": "void record_derived_types(unsigned short,unsigned short)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0080-record_derived_types/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -4533,7 +4536,25 @@
           "kind": "integer",
           "bits": 16
         }
-      ]
+      ],
+      "required_pdb_record_proof": true,
+      "required_symbol_output_observation": true,
+      "required_type_page_observation": true,
+      "required_buffer_storage_observation": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "append_buffer",
@@ -4719,6 +4740,35 @@
         327
       ],
       "rebuilt_root_reason": "VC1 /Od emits unreachable loop-step JMP after the return epilogue jump; explicitly root/decode and retain its existing owned loop target, no edge/instruction waiver."
+    },
+    {
+      "name": "add_derived_type",
+      "native": "add_derived_type",
+      "symbol": "_add_derived_type",
+      "original": 115968,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void add_derived_type(unsigned short,unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "type",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 16
+        },
+        {
+          "name": "base",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 16
+        }
+      ]
     }
   ],
   "review": {
@@ -5219,6 +5269,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 79
+    },
+    {
+      "function": "record_derived_types",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 80
     }
   ],
   "support_unmasked": [
@@ -5813,11 +5869,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "805aaa4a217797961a4d9b92950e7938f360583b618d6854d935202e25089a69"
+    "evidence_sha256": "086ec9f1643efbcdcce03650dc316830930dc5a0d423c732a792e971ad2f179d"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "8dda29eaa9571226523bfbed45aa0203c2d6c54cdad9bebe240d9c865e167925"
+    "evidence_sha256": "ae455dfa2b99bc84f0ed4199a9b821d075fde366c045d7fe5f40a9c3f7051530"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -5849,22 +5905,22 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "660e9c12d9f4feacdf22c2c322590deecd38e4e1ec004005f6a900298123bcc4"
+    "evidence_sha256": "e66425c9b001310a118358bce82f0cee65a7cf46d2a39dcf1fcbd89a1e76f1f5"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "3edf949e0f313aee23a73ef3371d151756c2f3399565b245a36b1f9b9b78d0ec"
+    "evidence_sha256": "7f22ce9170f5aae1b5ef48a36bb7b3e9aff3acd5794fe58138db4a3e03401bb4"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
-    "evidence_sha256": "10928ef8ab2db3c2bc937b1da9993ab8613feb2ac8a6b4d2a7ee110508a7e9f6"
+    "evidence_sha256": "9f49e511a015fe7a4e7737bdaa2542bf6ece6545d0601a396c943b6d137ac0d1"
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "522ba63d108b8b68ace1eddea569fd51888499206b462249f10847f98d99f386"
+    "evidence_sha256": "6c9765f17b9ebf66cb46f3e1ae0873e6dc053d3a6285e59189f6889a8e0ccdd5"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
-    "evidence_sha256": "88aefba8740c6a019b54e903918351607985e4f5db4a5ffb4fc0ef535fa51cb2"
+    "evidence_sha256": "425a2def2b89f1decce5aed8ae94a2b7b0790cc21025ca23b33406bf2c021c91"
   }
 }

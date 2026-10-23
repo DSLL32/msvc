@@ -83,13 +83,19 @@ def compare(left,right,a,b,original,native,buffer_context=None):
         names=walks['type_data'];assert len(names)==1
         name_base=names[0]['address'];name_bytes=bytes.fromhex(names[0]['bytes'])
         assert len(name_bytes)==4746 and word(name_bytes,0)==1,'unreviewed cache name owner'
+        proof=json.loads((BINARY/'cases/abi/type-cache.json').read_text())['original_symbol_preimage']
+        assert proof['offset']==0xa3fc and proof['size']==4746 and proof['sha256']=='bcd39ae0eeb809e5a79fce8d64af2126edf8338eb1dc03bac5d0d446c0b0306b'
+        preimage=(BINARY/proof['input']).read_bytes()[proof['offset']:proof['offset']+proof['size']]
+        assert hashlib.sha256(preimage).hexdigest()==proof['sha256'],'stale original symbol name preimage'
+        paired=BINARY/proof['paired_evidence'];assert hashlib.sha256(paired.read_bytes()).hexdigest()==proof['paired_sha256']
+        assert bytes.fromhex(json.loads(paired.read_text())['walks']['type_data'][0]['bytes'])==preimage,'symbol preimage differs from paired before-pack state'
         allowed={};offset=4
         while offset<len(name_bytes):
-            length=word(name_bytes,offset,2)+2;kind=word(name_bytes,offset+2,2)
+            length=word(preimage,offset,2)+2;kind=word(preimage,offset+2,2)
             assert length>=4 and offset+length<=len(name_bytes),'invalid defined module type record'
             if kind==4:
-                count=name_bytes[offset+6];assert offset+7+count<=offset+length
-                allowed[name_base+offset+6]=(word(name_bytes,offset+4,2),name_bytes[offset+6:offset+7+count])
+                count=preimage[offset+6];assert offset+7+count<=offset+length and name_bytes[offset+6:offset+7+count]==preimage[offset+6:offset+7+count],'primary-cache Pascal name owner changed'
+                allowed[name_base+offset+6]=(word(preimage,offset+4,2),preimage[offset+6:offset+7+count])
             offset+=length
         assert offset==len(name_bytes)
         records=walks['local_type_records'];assert len(records)==1
@@ -113,7 +119,7 @@ def compare(left,right,a,b,original,native,buffer_context=None):
                 if word(entry,0)!=typ:
                     assert buffer_context,'missing stored primary-cache type lifetime'
                     copies=buffer_context['comparison']['copies'];matches=[(i,r)for i,r in enumerate(copies)if r['index']==index]
-                    assert len(matches)==1 and index==4192,'unreviewed primary-cache copied type'
+                    assert len(matches)==1 and index in(4192,4185,4171),'unreviewed primary-cache copied type'
                     rank,copy=matches[0];side='original_namespace'if walks is original else 'native_namespace'
                     payload=buffer_context[side]['type_buffer_payload'][0]
                     assert word(entry,0)==payload['address']+copy['offset']and word(entry,4,2)==0x1000+rank,'primary-cache current record does not own copied type'

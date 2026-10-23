@@ -15,7 +15,7 @@ def validate(config,pe,rebuilt=None,linked=None):
     assert spec or not required,'missing global cache constructor proof'
     if not spec:return
     assert spec['root']==0x37164 and spec['size']==16 and spec['owner']=='save_type'and spec['original_allocation']==0x19ba4
-    assert spec['publication']==[0x19bc0,0x19be1]and spec['input_types']==[4192]
+    assert spec['publication']==[0x19bc0,0x19be1]and spec['input_types']==[4192,4185,4171]
     assert pe.read(0x19ba2,7)==bytes.fromhex('6a10e8b7540000'),'global cache calloc size/callee differs'
     # Whole save_type, including this publication, is already bound in the
     # buffer lifetime proof; retain a second exact site binding here.
@@ -45,7 +45,8 @@ def compiled(pe,linked):
 
 def compare(left,right,a,b,original,native,context):
     assert context,'missing global type-cache owner/lifetime proof'
-    copies=context['comparison']['copies'];expected={0x1000+i:copy for i,copy in enumerate(copies)if copy['index']==4192}
+    spec=json.loads((BINARY/'cases/abi/buffer-storage.json').read_text())['global_cache']
+    copies=context['comparison']['copies'];expected={0x1000+i:copy for i,copy in enumerate(copies)if copy['index']in spec['input_types']}
     results=[]
     for root,walks,extra in((a,original,context['original_namespace']),(b,native,context['native_namespace'])):
         heads=bytes.fromhex(root['bytes']);assert len(heads)==2048
@@ -59,11 +60,11 @@ def compare(left,right,a,b,original,native,context):
                 seen.add(pointer);owned.add(key);index=word(raw,8,2)
                 assert index in expected and raw[10:12]==b'\0\0','global cache input/index/initialized flags differ'
                 copy=expected[index];start=copy['offset'];record=bytes.fromhex(copy['bytes'])
-                assert copy['index']==4192 and copy['size']==24 and word(record,2,2)==5 and word(record,14,2)<0x8000,'unreviewed global cache record/name mode'
+                assert spec['input_name_modes'][str(copy['index'])]==dict(kind=5,name_offset=16,size=copy['size'])and word(record,2,2)==5 and word(record,14,2)<0x8000,'unreviewed global cache record/name mode'
                 name=start+16;assert word(raw,4)==base+start and word(raw,0)==base+name,'global cache pointers do not own the observed copied record'
-                text=raw_payload[name:name+1+raw_payload[name]];assert len(text)==8 and text==record[16:24]and bucket==sum(text)&511,'global cache Pascal name/bucket differs'
+                text=raw_payload[name:name+1+raw_payload[name]];assert len(text)==record[16]+1 and text==record[16:17+record[16]]and 17+record[16]<=copy['size']and bucket==sum(text)&511,'global cache Pascal name/bucket differs'
                 assert all(not(pointer<address+size and address<pointer+16)for address,size,identity in namespace(walks)+namespace(extra)if identity!=('type_work_b',0,'object',key)),'global cache allocation overlaps another owner'
-                logical.append(dict(key=key,bucket=bucket,input_type=4192,index=index,record_offset=start,name=text.hex(),next_key='cache-%d-%d'%(bucket,rank+1)if word(raw,12)else None))
+                logical.append(dict(key=key,bucket=bucket,input_type=copy['index'],index=index,record_offset=start,name=text.hex(),next_key='cache-%d-%d'%(bucket,rank+1)if word(raw,12)else None))
                 pointer=word(raw,12);rank+=1
         assert owned==set(objects),'unowned global cache object'
         results.append(logical)

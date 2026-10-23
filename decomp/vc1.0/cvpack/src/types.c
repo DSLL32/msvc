@@ -1476,3 +1476,36 @@ int find_local_type(unsigned short kind, const unsigned char *name, TypeCacheEnt
     }
     return 0;
 }
+
+void record_derived_types(unsigned short type, unsigned short list)
+{
+    int relative, page, slot, scanning = 1;
+    unsigned char *field;
+    if (!list) return;
+    relative = (int)list-0x1000;
+    page = relative/512;
+    slot = relative%512;
+#ifdef RECON_NATIVE_TEST
+    if (page < 0 || page >= 120 || slot < 0) __asm { int 3 }
+#endif
+    field = type_pages[page][slot]+4;
+    do {
+        if (*field >= 0xf0) field += *field&15;
+        switch (*(unsigned short *)field) {
+        case 0x400:
+            add_derived_type(type, *(unsigned short *)(field+2));
+            field += 6;
+            field += *(unsigned short *)field < 0x8000 ? 2 : numeric_leaf_size(field);
+            break;
+        case 0x401:
+            add_derived_type(type, *(unsigned short *)(field+2));
+            field += 8;
+            field += *(unsigned short *)field < 0x8000 ? 2 : numeric_leaf_size(field);
+            field += *(unsigned short *)field < 0x8000 ? 2 : numeric_leaf_size(field);
+            break;
+        default:
+            scanning = 0;
+            break;
+        }
+    } while (scanning == 1);
+}

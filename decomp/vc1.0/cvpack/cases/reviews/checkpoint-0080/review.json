@@ -1,0 +1,63 @@
+{
+  "application_functions": 80,
+  "application_bytes": 28656,
+  "next": "convert_global_data32",
+  "source": "Whole record_derived_types19770..19860: original signed page/slot division, padding and base/virtual-base member scan, add_derived_type callee and numeric-leaf paths. Current RECT member0406 exits; native page bounds guard before unsupported out-of-range indexing. Original and canonical whole graph/ABI remain checked.",
+  "ownership": "Same single32512-byte buffer now26 actual copies/500 defined bytes and26 observed page writes/104 bytes. Eighteen exact in-place PDB words compared against frozen full4140-byte provider preimage. Three global calloc16 name nodes4192/4185/4171 and primary17 nodes retain actual distinct provider/copied-record ownership; all remaining raw tails uncredited and unchanged within each execution.",
+  "names": "Primary-cache names/indices refer to original symbol records, while UDT conversion mutates current kind/index. Bind exact4746-byte before-pack range at DLL+a3fc to frozen input and accepted61 paired state; current Pascal bytes at exact offsets must still match. This recovers real preimage identity without faking current fields or recapturing solely for provenance.",
+  "abi": "Next convert_global_data32 at256f0 is a no-argument callback, verified from whole original body, callback table and caller25170. Actual ECX tableentry38170/EDXkind202/EAXcallback256f0 and caller locals/current globals checked; stale stack words are not fabricated parameters.",
+  "rejection_controls": 477,
+  "new_controls": 8,
+  "checks": {
+    "incremental-build": {
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "native",
+        "build/debug-run.exe",
+        "graph-identities",
+        "graph-audit-tool"
+      ],
+      "status": 0,
+      "elapsed": 0.3804257111623883
+    },
+    "audit": {
+      "command": [
+        "python3",
+        "scripts/audit.py"
+      ],
+      "status": 0,
+      "elapsed": 0.5766985062509775
+    },
+    "negatives": {
+      "command": [
+        "python3",
+        "scripts/check-rejections.py"
+      ],
+      "status": 0,
+      "elapsed": 11.535521722398698
+    },
+    "fixtures": {
+      "command": [
+        "python3",
+        "scripts/check-native.py"
+      ],
+      "status": 0,
+      "elapsed": 0.3769799470901489
+    }
+  },
+  "native_acceptance_seconds": {
+    "setup": 0.16446328163146973,
+    "execution": 0.015604622662067413,
+    "debugging": 2.0201606955379248,
+    "checks": 0.017822510562837124,
+    "total": 2.2180574368685484
+  },
+  "original_acceptance_seconds": {
+    "setup": 0.25994817446917295,
+    "execution": 2.213514318689704,
+    "total": 2.4979943400248885
+  },
+  "remaining": "Initial DLL case still partial. No new CRT/shared shim policy. Native nonempty TypeMatch queue path remains guarded before original post-free-next UAF; Win32 original order preserved."
+}
