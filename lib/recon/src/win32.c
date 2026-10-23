@@ -984,5 +984,6 @@ DWORD WINAPI recon_SearchPathA(LPCSTR path,LPCSTR file,LPCSTR extension,DWORD ca
 
 BOOL WINAPI recon_IsDBCSLeadByteEx(UINT page,BYTE byte)
 {
-    (void)page;(void)byte;recon_unsupported("unreviewed IsDBCSLeadByteEx");return FALSE;
+    if (page!=1252 || byte>=128) recon_unsupported("IsDBCSLeadByteEx outside1252 ASCII scope");
+    return FALSE;
 }

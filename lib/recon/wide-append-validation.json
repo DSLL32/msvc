@@ -1,0 +1,8 @@
+{
+  "scope": "Explicit1252 ASCII IsDBCSLeadByteEx +canonical16-bit wcscat scan/append, no locale conversion",
+  "reference": "tests/wide-append-original.json",
+  "provider_analysis": "canonical MSVCRT wcscat1584..15c3 complete body, no calls/globals",
+  "original_proof": "Actual loaded provider hFile SHA verified by worker debugger;4 errno/LastError pairs;all8 full8196-byte pre/post buffers",
+  "native_checks": "GCC/Clang exact original stdout/buffer hashes +typed import surface;unknown codepage/nonASCII denied",
+  "combined_build_checks_seconds": 2.348
+}

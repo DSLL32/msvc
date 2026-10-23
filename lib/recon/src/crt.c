@@ -1632,7 +1632,11 @@ WEAK unsigned char *recon_mbsnbcpy(unsigned char *out,const unsigned char *text,
 
 WEAK WCHAR *recon_wcscat(WCHAR *out,const WCHAR *text)
 {
-    (void)out;(void)text;recon_unsupported("unreviewed UTF16 wcscat");return NULL;
+    WCHAR *end=out;
+    if (!out || !text) recon_unsupported("UTF16 wcscat NULL argument");
+    while (*end) ++end;
+    while ((*end++=*text++)!=0) {}
+    return out;
 }
 WEAK int recon_swprintf(WCHAR *out,const WCHAR *format,...)
 {

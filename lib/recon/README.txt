@@ -574,3 +574,10 @@ MapViewOfFileEx supports the observed whole-view NULL-base form through the
 same typed mapping/view ownership model. Its successful call preserves both
 error slots, proved with a full2MB zero-extension/lifetime/persistence probe.
 Fixed-base or partial-view requests remain explicitly unsupported.
+
+IsDBCSLeadByteEx supports explicit codepage1252 and ASCII bytes (includingNUL),
+returningFALSE with unchanged errors; other pages/bytes fail. UTF16 wcscat uses
+the canonical16-bit code-unit scan/forward append, returns the original pointer,
+and writes only the appended units/NUL. The full canonical body has no locale
+conversion. Actual8196-byte pre/post buffers across4 sentinel pairs prove the
+encountered append, untouched tails, pointer alias and error preservation.

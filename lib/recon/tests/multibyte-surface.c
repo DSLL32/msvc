@@ -20,5 +20,7 @@ int main(int argc,char **argv)
     if(!strcmp(argv[1],"wideformat")) {WCHAR out[4],format[2]={'a',0};return swprintf(out,format);}
     if(!strcmp(argv[1],"wideclass")) return iswctype('a',4);
     if(!strcmp(argv[1],"leadbyte")) return IsDBCSLeadByteEx(1252,'a');
+    if(!strcmp(argv[1],"leadpage")) return IsDBCSLeadByteEx(932,'a');
+    if(!strcmp(argv[1],"leadhigh")) return IsDBCSLeadByteEx(1252,0x80);
     return 1;
 }

@@ -222,3 +222,8 @@ build/mapview-ex-probe: tests/mapview-ex-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 mapview-ex-check: build/mapview-ex-probe
 	$(PYTHON) tests/check-mapview-ex.py build/mapview-ex-probe
+
+build/wide-append-probe: tests/wide-append-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -fshort-wchar $< $(SOURCES) -o $@
+wide-append-check: build/wide-append-probe
+	$(PYTHON) tests/check-wide-append.py build/wide-append-probe
