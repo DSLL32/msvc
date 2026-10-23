@@ -5,6 +5,7 @@
 #include "instruction-rewrite.h"
 #include "register-use.h"
 #include "function-input.h"
+#include "float-machine.h"
 #include <stdlib.h>
 #include <recon.h>
 extern int cpu_model, optimize_speed;
@@ -2066,15 +2067,6 @@ void __fastcall update_pentium_gap_history(MachineInstruction *last,
     }
 }
 
-/* Original7e230: context of the separate memory-motion pass. Only its
-   boundary field at1c is consumed here; remaining fields await that pass.
-   This prefix is neither allocated nor initialized by scheduling. */
-typedef struct MemoryMotionContextPrefix {
-    unsigned field00, field04, field08, field0c, field10, field14, field18;
-    MachineInstruction *boundary;
-} MemoryMotionContextPrefix;
-typedef char MemoryMotionContextPrefixSizeCheck[sizeof(MemoryMotionContextPrefix) == 32 ? 1 : -1];
-MemoryMotionContextPrefix *memory_motion_context;
 /* Original [0003c340,0003c466). Infer an address origin only from region
    register summaries and compatible visible definitions. Scheduling uses
    its current region frame; the memory-motion caller supplies its context. */

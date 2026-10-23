@@ -770,3 +770,110 @@ void __fastcall float_register_heap_release(void *allocation)
 {
     free(allocation);
 }
+
+MemoryMotionContext *memory_motion_context; /* 0007e230 */
+MemoryMotionContext *float_stream_context; /* 0007e228 */
+FloatStreamUse **float_stream_register_uses; /* 0007e218 */
+FloatStreamUse *float_stream_uses; /* 00082e6c: next link at1c */
+FloatStreamUse **float_stream_sorted_uses; /* 00082e70: sorted pointer view */
+int float_stream_register_count; /* 0007e270 */
+int float_stream_order; /* 0007e21c */
+MachineInstruction *float_stream_next; /* 0007e278: mutation-safe scan cursor */
+/* Original [00038e20,00038fd3). A stream with computed jumps or protected
+   block2 cannot supply the label/call flow required for floating use motion.
+   Otherwise allocate only the encountered register map and let each record
+   kind update its context, preserving a mutable next-instruction cursor. */
+void prepare_float_stream_uses(void)
+{
+    MachineInstruction *instruction;
+    unsigned kind, operation;
+    unsigned short highest;
+    for (instruction = machine_instructions; instruction; instruction = instruction->next) {
+        kind = FM_KIND(instruction);
+        operation = FM_OPERATION(instruction);
+        if (FM_ELIGIBLE(instruction) && (operation == MC_JCC || operation == MC_JMP) &&
+            (instruction->operands[0].flags & 15) != OPERAND_SYMBOL) return;
+        if (kind == 7 && (((MachineBlockHeader *)instruction)->flags & 2)) return;
+    }
+    instruction = machine_instructions;
+    highest = next_tree_register > next_machine_register ? next_tree_register : next_machine_register;
+    float_stream_register_count = (unsigned)highest + 1;
+    float_stream_register_uses = float_register_heap_allocate(float_stream_register_count * sizeof(*float_stream_register_uses));
+    float_stream_uses = 0;
+    float_stream_context = 0;
+    memory_motion_context = 0;
+    float_stream_sorted_uses = 0;
+    float_machine_stack_depth = 0;
+    if (!initialize_float_stream_context()) {
+        float_register_heap_release(float_stream_register_uses);
+        return;
+    }
+    float_stream_order = 1;
+    while (instruction) {
+        float_stream_next = instruction->next;
+        if (FM_KIND(instruction) == 1) process_float_stream_label(instruction);
+        kind = FM_KIND(instruction);
+        operation = FM_OPERATION(instruction);
+        if (kind == 7 && (((MachineBlockHeader *)instruction)->flags & 1))
+            process_float_stream_protected_block(instruction);
+        else if (FM_ELIGIBLE(instruction)) {
+            if (operation == MC_CALL) process_float_stream_call(instruction);
+            else if (operation == MC_JCC || operation == MC_JMP) process_float_stream_branch(instruction);
+            else if (operation == MC_RET) process_float_stream_return(instruction);
+            else if (FM_FLOAT(instruction)) process_float_stream_operation(instruction);
+        }
+        instruction = float_stream_next;
+    }
+    finish_float_stream_uses();
+}
+
+MemoryMotionContext *float_stream_first_context; /* 0007e220 */
+MemoryMotionContext *float_stream_last_context; /* 0007e224 */
+/* Original [00039500,00039582). Find the function header and its initial
+   block, then construct one complete zeroed arena4 motion record. The
+   register map is separately owned and has not been initialized here. */
+int initialize_float_stream_context(void)
+{
+    MachineInstruction *instruction;
+    MemoryMotionContext *context;
+    unsigned *word, count;
+    for (instruction = machine_instructions; instruction; instruction = instruction->next)
+        if (FM_KIND(instruction) == 2) break;
+    if (!instruction) return 0;
+    while (FM_KIND(instruction) != 7) instruction = instruction->next;
+    instruction = instruction->next;
+    context = arena_alloc(4, sizeof(*context));
+    float_stream_first_context = context;
+    word = (unsigned *)context;
+    count = sizeof(*context) / sizeof(*word);
+    while (count--) *word++ = 0;
+    context->boundary = instruction;
+    float_stream_context = context;
+    float_stream_last_context = context;
+    return 1;
+}
+
+MachineInstruction *float_stream_previous; /* 0007e214 */
+/* Original [00039170,00039247). Measure stack depth and peak demand for
+   one motion context. A non-pushing first float operation marks its context
+   as consuming an existing stack value. */
+void __fastcall process_float_stream_operation(MachineInstruction *instruction)
+{
+    unsigned operation = FM_OPERATION(instruction);
+    int effect;
+    if (operation == MC_CALL) {
+        if (float_stream_context->maximum_depth < float_stream_context->stack_depth +
+            function_float_stack_depth((FunctionSymbol *)instruction->operands[0].value.symbol))
+            float_stream_context->maximum_depth = float_stream_context->stack_depth +
+                function_float_stack_depth((FunctionSymbol *)instruction->operands[0].value.symbol);
+        float_stream_context->stack_depth -= intrinsic_float_cleanup_count((FunctionSymbol *)instruction->operands[0].value.symbol);
+        float_stream_previous = instruction;
+        return;
+    }
+    effect = FM_STACK_EFFECT(operation);
+    if (effect < 0 && float_stream_context->maximum_depth < float_stream_context->stack_depth)
+        float_stream_context->maximum_depth = float_stream_context->stack_depth;
+    if (effect <= 0 && !float_stream_previous) float_stream_context->flags |= 2;
+    float_stream_context->stack_depth += effect;
+    float_stream_previous = instruction;
+}

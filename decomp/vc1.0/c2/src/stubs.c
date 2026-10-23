@@ -302,7 +302,6 @@ MachineInstruction *__fastcall find_transfer_call_boundary(MachineInstruction *t
 
 int __fastcall close_machine_region(MachineFlowRegion *parent, MachineFlowRegion *region) { __asm int 3 }
 MachineFlowRegion *__fastcall process_special_machine_region_reference(MachineFlowRegion *region, SymbolHeader *label) { __asm int 3 }
-void prepare_float_stream_uses(void) { __asm int 3 }
 void __fastcall prepare_machine_region_transform(MachineFlowRegion *region) { __asm int 3 }
 void __fastcall prepare_region_insertion(MachineFlowRegion *region) { __asm int 3 }
 void __fastcall replace_machine_definition(unsigned identifier, MachineInstruction *previous, MachineInstruction *replacement) { __asm int 3 }
@@ -397,3 +396,9 @@ void __fastcall save_float_machine_register(MachineInstruction *instruction, Flo
 void __fastcall exchange_float_machine_stack(int first, int second) { __asm int 3 }
 MachineInstruction *__fastcall rewrite_pentium_float_store(MachineInstruction *instruction) { __asm int 3 }
 MachineInstruction *__fastcall rewrite_i486_float_pop(MachineInstruction *instruction) { __asm int 3 }
+void finish_float_stream_uses(void) { __asm int 3 }
+void __fastcall process_float_stream_label(MachineInstruction *instruction) { __asm int 3 }
+void __fastcall process_float_stream_protected_block(MachineInstruction *instruction) { __asm int 3 }
+void __fastcall process_float_stream_call(MachineInstruction *instruction) { __asm int 3 }
+void __fastcall process_float_stream_branch(MachineInstruction *instruction) { __asm int 3 }
+void __fastcall process_float_stream_return(MachineInstruction *instruction) { __asm int 3 }

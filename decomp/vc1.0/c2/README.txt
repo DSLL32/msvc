@@ -2518,3 +2518,9 @@ CPU-specific floating-store rewrite driver: checkpoint1000
 _prepare_float_stream_uses. 921 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-store-driver.json for extent union, limits and measured timings.
+
+Floating stream-use driver and motion contexts: checkpoint1003
+3 acceptances pass fresh original/native matching; current frontier
+@process_float_stream_branch@4. 924 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-stream-context.json for extent union, limits and measured timings.

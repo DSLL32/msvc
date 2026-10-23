@@ -1,0 +1,309 @@
+{
+  "checkpoint": 1003,
+  "base_commit": "91967fa",
+  "status": "floating active",
+  "source_graphs": 924,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1003,
+    "accepted_code_bytes": 275883,
+    "original_code_bytes": 399693,
+    "percentage": 69.02372570948202,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 425
+  },
+  "frontier": "@process_float_stream_branch@4",
+  "accepted_functions": [
+    {
+      "name": "_prepare_float_stream_uses",
+      "start": 232992,
+      "end": 233427
+    },
+    {
+      "name": "_initialize_float_stream_context",
+      "start": 234752,
+      "end": 234882
+    },
+    {
+      "name": "@process_float_stream_operation@4",
+      "start": 233840,
+      "end": 234055
+    }
+  ],
+  "accepted_libraries": [],
+  "reference_sequence": [
+    "cases/floating-original-1000.json",
+    "cases/floating-original-1001.json",
+    "cases/floating-original-1002.json",
+    "cases/floating-original-1003.json"
+  ],
+  "native_matches": [
+    {
+      "executable_sha256": "71c251f5134ae796c20bf0bff1d6b2c9a52ccba7c0e182473cc84579ee71b6b7",
+      "config_sha256": "7cfdad20694fba2b6a736ff7edd44341d9215ea1b7bab399e88870731146cd9b",
+      "seconds": 0.13589052017778158,
+      "logical": "_initialize_float_stream_context",
+      "matched": true,
+      "log_sha256": "e8dd4f69cdadd1e6c9a34548f1cfd0af5f8104c1e7bc060bf99a104bc0790dca",
+      "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-c_9_gtnn"
+    },
+    {
+      "executable_sha256": "d786e6148264146ec3f3983fa032a3b907abc5023a1b9baeb1b3d41b13106b96",
+      "config_sha256": "d432ce8cc1b7079dc59fe84dae3445ea556733621144633136484577d84777f0",
+      "seconds": 0.1394033608958125,
+      "logical": "@process_float_stream_operation@4",
+      "matched": true,
+      "log_sha256": "d7ac89650766e7d578daeece6ac1a96bb4c384ab83e0e65776388e9903fa0843",
+      "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-7yq77fd2"
+    },
+    {
+      "executable_sha256": "b7f6bcd94891f24a72a4100b9b9ecbd1757fa717ab97037d21d465094ec0ed28",
+      "config_sha256": "0d53053d16b1bd71988afaadbc5867bcaefdf87134a3dab169574bbda74d0015",
+      "seconds": 0.1367886858060956,
+      "logical": "@process_float_stream_branch@4",
+      "matched": true,
+      "log_sha256": "ab026bf52a316b14971bcd347b76f49df09b9406652e180fde88dd612834c14d",
+      "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-97i283ct"
+    }
+  ],
+  "native_fixtures": {
+    "method": "native application entry and captured-output check",
+    "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
+    "executable_sha256": "190114afbeeab5c1debe33a344387edfd6e99203812f4e263ea607bbf8ba84ab",
+    "trace_enabled": true,
+    "shared_hashes": {
+      "lib/recon/include/recon.h": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284",
+      "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+      "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+      "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+      "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "lib/recon/native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+      "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+      "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+      "lib/recon/src/crt.c": "1cf556f3771c59820a69a56c38e78cf95080d395f387f3e252d9be9dd100d8d3",
+      "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+      "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+      "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "lib/recon/src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+    },
+    "results": [
+      {
+        "profile": "minimal",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 270,
+        "seeded_entries": 0,
+        "output": {
+          "name": "test.obj",
+          "bytes": 286,
+          "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.015985836274921894,
+        "execution_seconds": 0.006115606985986233,
+        "check_seconds": 0.0013629412278532982,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-tjkvlvs5/minimal"
+      },
+      {
+        "profile": "hello",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 487,
+        "seeded_entries": 270,
+        "output": {
+          "name": "hello.obj",
+          "bytes": 2289,
+          "normalized_sha256": "84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.013683566823601723,
+        "execution_seconds": 0.009620617143809795,
+        "check_seconds": 0.001538943499326706,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-tjkvlvs5/hello"
+      },
+      {
+        "profile": "loops",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 77,
+        "seeded_entries": 757,
+        "output": {
+          "name": "loops.obj",
+          "bytes": 620,
+          "normalized_sha256": "cafbb33726695b60d2e92d4173682de0f4ae47c401ecfcbe3b8ce38a54568f87",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.01201242208480835,
+        "execution_seconds": 0.006963779218494892,
+        "check_seconds": 0.0011355988681316376,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-tjkvlvs5/loops"
+      },
+      {
+        "profile": "pressure",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 8,
+        "seeded_entries": 834,
+        "output": {
+          "name": "pressure.obj",
+          "bytes": 879,
+          "normalized_sha256": "692d3dbb7de8c5e16843d6f9c658bbcc9e1753cc111e281cc4c0b3ffa016a6e3",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.01195420604199171,
+        "execution_seconds": 0.008863517083227634,
+        "check_seconds": 0.001121525652706623,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-tjkvlvs5/pressure"
+      },
+      {
+        "profile": "aliasing",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 16,
+        "seeded_entries": 842,
+        "output": {
+          "name": "aliasing.obj",
+          "bytes": 600,
+          "normalized_sha256": "44bf756a158394dab84fbb60cb4ad9e686cf34ced9377cd666f1307a03f744ae",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.01220788899809122,
+        "execution_seconds": 0.006499677896499634,
+        "check_seconds": 0.0011273492127656937,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-tjkvlvs5/aliasing"
+      },
+      {
+        "profile": "floating",
+        "terminal": "@process_float_stream_branch@4",
+        "returncode": -5,
+        "application_entries": 62,
+        "seeded_entries": 858,
+        "output": null,
+        "setup_seconds": 0.012283842079341412,
+        "execution_seconds": 0.0069674476981163025,
+        "check_seconds": 0.0007574409246444702,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-tjkvlvs5/floating"
+      }
+    ],
+    "rejected": [
+      "wrong expected application entry",
+      "non-clock object corruption",
+      "changed captured IR input"
+    ],
+    "fixture_seconds": 0.29974457435309887,
+    "suite_setup_seconds": 0.13717053551226854,
+    "negative_check_seconds": 0.022075909189879894,
+    "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+  },
+  "limits": [
+    "Three whole functions preserve the computed-jump/protected-block guards, context construction and depth/peak tracking.",
+    "Original39500 allocates and clears one contextual88-byte arena4 record; unconsumed fields retain offset names rather than invented semantics.",
+    "Existing scheduling boundary access and the newly initialized active-context global share one definition; no parallel state alias introduced.",
+    "The original register-indexed map and sorted-use pointers are introduced as typed opaque handles pending their own consumers, with no copied section data.",
+    "Five complete object regressions remain exact; floating reaches the branch-use handler."
+  ],
+  "timing": {
+    "analysis_seconds": null,
+    "analysis_note": "unmeasured",
+    "measurements": {
+      "floating-stream-context-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 4.531728625297546,
+        "returncode": 0,
+        "log_sha256": "7cdb87e697bcbe85768afa2c9b582f0deb7875404fcb9ec707d7e9cd81b201f0"
+      },
+      "floating-stream-context-warnings-timing": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "float-machine",
+          "scheduler"
+        ],
+        "seconds": 1.0028405422344804,
+        "returncode": 0,
+        "log_sha256": "b8023bf0a3cc072f509f692dcaa9bb16d444f1da403354577cda7936c530cd90"
+      },
+      "floating1001-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 11.780275934375823,
+        "returncode": 0,
+        "log_sha256": "cf3130842c140555fbe87fef252347c9c90553656387e317fab835c292dfdcdc"
+      },
+      "floating-stream-context-check-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.40302636474370956,
+        "returncode": 0,
+        "log_sha256": "1bf494562b4761170b39e808dde9748004d36db6b46c6dae41d398f229995612"
+      },
+      "floating1002-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 11.949505935423076,
+        "returncode": 0,
+        "log_sha256": "8d414d8c0cff5d990674b6c11381ac5e548293b930112bdbe17542e71221f7ed"
+      },
+      "floating1003-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 11.973846326582134,
+        "returncode": 0,
+        "log_sha256": "412f39658efe87653e32a8cc9b87459729eed1e0356302744b6926398561e299"
+      }
+    }
+  }
+}

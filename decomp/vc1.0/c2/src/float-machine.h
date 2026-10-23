@@ -36,4 +36,31 @@ void pop_float_machine_stack(void);
 void __fastcall exchange_float_machine_stack(int first, int second);
 void push_float_machine_stack(void);
 void __fastcall float_register_heap_release(void *allocation);
+/* Original88-byte arena4 stream-motion record. The constructor establishes
+   the complete allocation extent; fields await their contextual consumers.
+   Scheduling shares its boundary at1c through the same active-context alias. */
+typedef struct MemoryMotionContext {
+    unsigned field00, field04, field08, field0c, field10, field14, field18;
+    MachineInstruction *boundary, *last;
+    unsigned field24, field28, field2c, field30, field34, field38, field3c;
+    unsigned order, field44;
+    int stack_depth, field4c, maximum_depth;
+    unsigned flags;
+} MemoryMotionContext;
+typedef char MemoryMotionContextSizeCheck[sizeof(MemoryMotionContext) == 88 ? 1 : -1];
+typedef struct FloatStreamUse FloatStreamUse;
+extern MemoryMotionContext *memory_motion_context, *float_stream_context;
+extern MemoryMotionContext *float_stream_first_context, *float_stream_last_context;
+extern FloatStreamUse **float_stream_register_uses, **float_stream_sorted_uses;
+extern FloatStreamUse *float_stream_uses;
+extern int float_stream_register_count, float_stream_order;
+extern MachineInstruction *float_stream_next, *float_stream_previous;
+int initialize_float_stream_context(void);
+void finish_float_stream_uses(void);
+void __fastcall process_float_stream_label(MachineInstruction *instruction);
+void __fastcall process_float_stream_protected_block(MachineInstruction *instruction);
+void __fastcall process_float_stream_call(MachineInstruction *instruction);
+void __fastcall process_float_stream_branch(MachineInstruction *instruction);
+void __fastcall process_float_stream_return(MachineInstruction *instruction);
+void __fastcall process_float_stream_operation(MachineInstruction *instruction);
 #endif
