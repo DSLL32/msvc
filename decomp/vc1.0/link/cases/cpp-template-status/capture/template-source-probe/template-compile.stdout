@@ -1,0 +1,7 @@
+template-probe.cpp
+template-probe.cpp(1) : error C2143: syntax error : missing ';' before 'template'
+template-probe.cpp(1) : error C2143: syntax error : missing ';' before '}'
+template-probe.cpp(2) : error C2143: syntax error : missing ';' before 'template'
+template-probe.cpp(2) : error C2143: syntax error : missing ';' before '}'
+template-probe.cpp(4) : error C2065: 'box' : undeclared identifier
+template-probe.cpp(4) : error C2228: left of '.get' must have class/struct/union type

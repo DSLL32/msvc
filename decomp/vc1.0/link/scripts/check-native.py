@@ -20,6 +20,9 @@ ROOT = BINARY.parents[2]
 FIXTURES = BINARY.parent / 'fixtures'
 CASES = {
     'help': None,
+    'cpp-pointer-status': (BINARY/'cases/cpp-pointer-status','dump'),
+    'cpp-template-status': (BINARY/'cases/cpp-template-status','dump'),
+    'cpp-based-vbtable': (BINARY/'cases/cpp-based-vbtable','dump'),
     'm68k-dupcon': (BINARY/'cases/m68k-dupcon','link'),
     'm68k-pcode-alias': (BINARY/'cases/m68k-pcode-alias','link'),
     'm68k-static-resources': (BINARY/'cases/m68k-static-resources','link'),

@@ -1,0 +1,62 @@
+{
+  "status": "Suggestions only; both authorized families complete, no new case started.",
+  "current": {
+    "frontiers": 767,
+    "accepted_extent_bytes": 222078,
+    "text_bytes": 281634,
+    "percent": 78.8534054837129
+  },
+  "recommendations": [
+    {
+      "rank": 1,
+      "case": "Native original-backed /dump /fpo and /dump /symbols /map on suitable captured COFF/debug image",
+      "known_uncovered_instruction_bytes": 936,
+      "functions": [
+        {
+          "name": "_dump_fpo",
+          "start": "0x344c0",
+          "bytes": 352
+        },
+        {
+          "name": "FPO helper",
+          "start": "0x34620",
+          "bytes": 255
+        },
+        {
+          "name": "_dump_symbol_map",
+          "start": "0x32fc0",
+          "bytes": 329
+        }
+      ],
+      "evidence": "Accepted dump_sections dispatches .debug$F/FPO at source625/629; accepted dump_object calls symbol map at221 when map flag set. Known CFG ranges/callers from analysis/native-body-inventory.tsv; excludes one-byte stubs and padding. Input validity must be established first."
+    },
+    {
+      "rank": 2,
+      "case": "Link /absolutesfrom: plus weak-external alias resolution corpus",
+      "known_uncovered_instruction_bytes": 1043,
+      "functions": [
+        {
+          "name": "_read_absolute_symbols",
+          "start": "0x248e0",
+          "bytes": 511
+        },
+        {
+          "name": "_process_weak_external",
+          "start": "0x23660",
+          "bytes": 405
+        },
+        {
+          "name": "_resolve_weak_externals",
+          "start": "0x24af0",
+          "bytes": 127
+        }
+      ],
+      "evidence": "Accepted options parser recognizes absolutesfrom: and link_passes calls reader when supplied. Weak-external bodies reached via COFF auxiliary records; actual valid fixtures and parser format still need original validation. Counts are known body opportunities, not promised gain."
+    }
+  ],
+  "limits": [
+    "Uncovered OMF known closure9800bytes/38bodies includes internal -g debug conversion not requested by normal public wrapper -o/-co; no claim all are public-reachable.",
+    "Remaining57-byte undecorator merge-error requires suppression flags absent from public wrapper; do not suggest ordinary name variants can reach it.",
+    "No whole-target native body percentage from partial inventory. Target code, CRT, import thunks, contextual data/alignment and unclassified bytes are separate."
+  ]
+}

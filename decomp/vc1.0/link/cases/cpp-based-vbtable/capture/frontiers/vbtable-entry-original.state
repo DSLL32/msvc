@@ -1,0 +1,19 @@
+trap cccccccb exception c0000005 esp 0029f3e8 eax 00000002 ecx 0007f2b0 edx 00000000
+stack 00 00000000
+stack 01 007d269b
+stack 02 00000000
+stack 03 00000000
+stack 04 7b6bec60
+stack 05 00000000
+stack 06 0029f41c
+stack 07 7bd20362
+stack 08 7b6bec60
+stack 09 00000000
+stack 10 00000000
+stack 11 007d0830
+stack 12 00000000
+stack 13 0029f434
+stack 14 7b630759
+stack 15 00040c5a
+stack 16 00000000
+exit 99

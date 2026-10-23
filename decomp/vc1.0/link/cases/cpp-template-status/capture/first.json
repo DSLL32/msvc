@@ -1,0 +1,47 @@
+{
+  "method": "Explicit untouched-original-only diagnostic outside fixtures",
+  "arguments": [
+    "-dump",
+    "/symbols",
+    "/undecorate",
+    "grammar.obj"
+  ],
+  "helper_exit": 0,
+  "seconds": 0.6813676171004772,
+  "state": "exit 0\n",
+  "environment": {
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib"
+  },
+  "unset": [
+    "CL",
+    "_CL_",
+    "LINK",
+    "_LINK_",
+    "MSC_CMD_FLAGS",
+    "LINK32_DB"
+  ],
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "helper_sha256": "9fc160c5a45b0fc50923414ea56e49ae9bae7829d3bf18fee6a25d374fea68ed",
+  "files": {
+    "grammar.obj": {
+      "bytes": 454,
+      "sha256": "b0f3fe90650c7d118b03634af265b058bcedef8891a8b23718e0b28a5ccffd89"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "capture.state": {
+      "bytes": 8,
+      "sha256": "5e0e6077065598e0b3b20a5d8bda3cf3d641ee1039780467e49abeed04b6903c"
+    },
+    "stdout.bin": {
+      "bytes": 1074,
+      "sha256": "ef85a547420e98cce4b6cf285bd20b7d7fd79fd9527b47a8558fd83554bbb7bd"
+    },
+    "helper.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

@@ -1,0 +1,1423 @@
+{
+  "target_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "family": "demangler",
+  "alignment_bytes": 975,
+  "extent_gap_ranges": [
+    [
+      251774,
+      251776
+    ],
+    [
+      251822,
+      251824
+    ],
+    [
+      251934,
+      251936
+    ],
+    [
+      252068,
+      252080
+    ],
+    [
+      252382,
+      252384
+    ],
+    [
+      252460,
+      252464
+    ],
+    [
+      252639,
+      252640
+    ],
+    [
+      253013,
+      253024
+    ],
+    [
+      253083,
+      253088
+    ],
+    [
+      253153,
+      253168
+    ],
+    [
+      253519,
+      253520
+    ],
+    [
+      253565,
+      253568
+    ],
+    [
+      253598,
+      253600
+    ],
+    [
+      253708,
+      253712
+    ],
+    [
+      253741,
+      253744
+    ],
+    [
+      253870,
+      253872
+    ],
+    [
+      253922,
+      253936
+    ],
+    [
+      253950,
+      253952
+    ],
+    [
+      253980,
+      253984
+    ],
+    [
+      254063,
+      254064
+    ],
+    [
+      254073,
+      254080
+    ],
+    [
+      254318,
+      254320
+    ],
+    [
+      254476,
+      254480
+    ],
+    [
+      254620,
+      254624
+    ],
+    [
+      254941,
+      254944
+    ],
+    [
+      255022,
+      255024
+    ],
+    [
+      255150,
+      255152
+    ],
+    [
+      255274,
+      255280
+    ],
+    [
+      255339,
+      255344
+    ],
+    [
+      255482,
+      255488
+    ],
+    [
+      255578,
+      255584
+    ],
+    [
+      255656,
+      255664
+    ],
+    [
+      255724,
+      255728
+    ],
+    [
+      255755,
+      255760
+    ],
+    [
+      255802,
+      255808
+    ],
+    [
+      255865,
+      255872
+    ],
+    [
+      256145,
+      256160
+    ],
+    [
+      256302,
+      256304
+    ],
+    [
+      256426,
+      256432
+    ],
+    [
+      256587,
+      256592
+    ],
+    [
+      256729,
+      256736
+    ],
+    [
+      256909,
+      256912
+    ],
+    [
+      257186,
+      257188
+    ],
+    [
+      257256,
+      257264
+    ],
+    [
+      257404,
+      257408
+    ],
+    [
+      257595,
+      257600
+    ],
+    [
+      257743,
+      257744
+    ],
+    [
+      257786,
+      257792
+    ],
+    [
+      257806,
+      257808
+    ],
+    [
+      257822,
+      257824
+    ],
+    [
+      257935,
+      257936
+    ],
+    [
+      258052,
+      258064
+    ],
+    [
+      258267,
+      258272
+    ],
+    [
+      258413,
+      258416
+    ],
+    [
+      258671,
+      258672
+    ],
+    [
+      258908,
+      258912
+    ],
+    [
+      259468,
+      259472
+    ],
+    [
+      259500,
+      259504
+    ],
+    [
+      259677,
+      259680
+    ],
+    [
+      259931,
+      259936
+    ],
+    [
+      260009,
+      260016
+    ],
+    [
+      260044,
+      260048
+    ],
+    [
+      260316,
+      260320
+    ],
+    [
+      260444,
+      260448
+    ],
+    [
+      260491,
+      260496
+    ],
+    [
+      260540,
+      260544
+    ],
+    [
+      260686,
+      260688
+    ],
+    [
+      260719,
+      260720
+    ],
+    [
+      260974,
+      260976
+    ],
+    [
+      260988,
+      260992
+    ],
+    [
+      261069,
+      261072
+    ],
+    [
+      261099,
+      261104
+    ],
+    [
+      261306,
+      261312
+    ],
+    [
+      261339,
+      261344
+    ],
+    [
+      261405,
+      261408
+    ],
+    [
+      261471,
+      261472
+    ],
+    [
+      261501,
+      261504
+    ],
+    [
+      261549,
+      261552
+    ],
+    [
+      261572,
+      261584
+    ],
+    [
+      261626,
+      261632
+    ],
+    [
+      261722,
+      261728
+    ],
+    [
+      261756,
+      261760
+    ],
+    [
+      261815,
+      261824
+    ],
+    [
+      261889,
+      261904
+    ],
+    [
+      261946,
+      261952
+    ],
+    [
+      261981,
+      261984
+    ],
+    [
+      262078,
+      262080
+    ],
+    [
+      262270,
+      262272
+    ],
+    [
+      262285,
+      262288
+    ],
+    [
+      262334,
+      262336
+    ],
+    [
+      262357,
+      262368
+    ],
+    [
+      262471,
+      262480
+    ],
+    [
+      262591,
+      262592
+    ],
+    [
+      262616,
+      262624
+    ],
+    [
+      262647,
+      262656
+    ],
+    [
+      262698,
+      262704
+    ],
+    [
+      262907,
+      262912
+    ],
+    [
+      262942,
+      262944
+    ],
+    [
+      262987,
+      262992
+    ],
+    [
+      263022,
+      263024
+    ],
+    [
+      263067,
+      263072
+    ],
+    [
+      263139,
+      263152
+    ],
+    [
+      263275,
+      263280
+    ],
+    [
+      263391,
+      263392
+    ],
+    [
+      263428,
+      263440
+    ],
+    [
+      263483,
+      263488
+    ],
+    [
+      263548,
+      263552
+    ],
+    [
+      263571,
+      263584
+    ],
+    [
+      263627,
+      263632
+    ],
+    [
+      263658,
+      263664
+    ],
+    [
+      263694,
+      263696
+    ],
+    [
+      263715,
+      263728
+    ],
+    [
+      264035,
+      264048
+    ],
+    [
+      264150,
+      264160
+    ],
+    [
+      264494,
+      264496
+    ],
+    [
+      264526,
+      264528
+    ],
+    [
+      264750,
+      264752
+    ],
+    [
+      264781,
+      264784
+    ],
+    [
+      264799,
+      264800
+    ],
+    [
+      264874,
+      264880
+    ],
+    [
+      264911,
+      264912
+    ],
+    [
+      264924,
+      264928
+    ],
+    [
+      264946,
+      264960
+    ],
+    [
+      265038,
+      265040
+    ],
+    [
+      265045,
+      265056
+    ],
+    [
+      265086,
+      265088
+    ],
+    [
+      265111,
+      265120
+    ],
+    [
+      265164,
+      265168
+    ],
+    [
+      265222,
+      265232
+    ],
+    [
+      265282,
+      265296
+    ],
+    [
+      265319,
+      265328
+    ],
+    [
+      265356,
+      265360
+    ],
+    [
+      265449,
+      265456
+    ],
+    [
+      265478,
+      265488
+    ],
+    [
+      265533,
+      265536
+    ],
+    [
+      265541,
+      265552
+    ],
+    [
+      265614,
+      265616
+    ],
+    [
+      265654,
+      265664
+    ],
+    [
+      265701,
+      265712
+    ],
+    [
+      265794,
+      265808
+    ],
+    [
+      265844,
+      265856
+    ],
+    [
+      265951,
+      265952
+    ],
+    [
+      266041,
+      266048
+    ],
+    [
+      266062,
+      266064
+    ],
+    [
+      266445,
+      266448
+    ],
+    [
+      266522,
+      266528
+    ],
+    [
+      266553,
+      266560
+    ],
+    [
+      266617,
+      266624
+    ],
+    [
+      266670,
+      266672
+    ],
+    [
+      266682,
+      266688
+    ],
+    [
+      266729,
+      266736
+    ],
+    [
+      266764,
+      266768
+    ],
+    [
+      266826,
+      266832
+    ],
+    [
+      266860,
+      266864
+    ],
+    [
+      266922,
+      266928
+    ],
+    [
+      266953,
+      266960
+    ],
+    [
+      267038,
+      267040
+    ],
+    [
+      267162,
+      267168
+    ],
+    [
+      267214,
+      267216
+    ],
+    [
+      267325,
+      267328
+    ],
+    [
+      267372,
+      267376
+    ],
+    [
+      267694,
+      267696
+    ],
+    [
+      267807,
+      267808
+    ],
+    [
+      267899,
+      267904
+    ],
+    [
+      267949,
+      267952
+    ],
+    [
+      268156,
+      268160
+    ],
+    [
+      268413,
+      268416
+    ],
+    [
+      268556,
+      268560
+    ],
+    [
+      268813,
+      268816
+    ],
+    [
+      268953,
+      268960
+    ],
+    [
+      269086,
+      269088
+    ],
+    [
+      269807,
+      269808
+    ],
+    [
+      270287,
+      270288
+    ],
+    [
+      270397,
+      270400
+    ],
+    [
+      270445,
+      270448
+    ],
+    [
+      270575,
+      270576
+    ],
+    [
+      270911,
+      270912
+    ],
+    [
+      270939,
+      270944
+    ],
+    [
+      270975,
+      270976
+    ],
+    [
+      271020,
+      271024
+    ],
+    [
+      271117,
+      271120
+    ],
+    [
+      271213,
+      271216
+    ],
+    [
+      271308,
+      271312
+    ],
+    [
+      271341,
+      271344
+    ],
+    [
+      271438,
+      271440
+    ],
+    [
+      271518,
+      271520
+    ],
+    [
+      271672,
+      271680
+    ],
+    [
+      271802,
+      271808
+    ],
+    [
+      271834,
+      271840
+    ],
+    [
+      272076,
+      272080
+    ],
+    [
+      272110,
+      272112
+    ],
+    [
+      272138,
+      272144
+    ],
+    [
+      272235,
+      272240
+    ],
+    [
+      272305,
+      272320
+    ]
+  ],
+  "extent_gap_instructions": [
+    [
+      "add",
+      "eax, 0"
+    ],
+    [
+      "lea",
+      "ebx, [ebx]"
+    ],
+    [
+      "lea",
+      "ecx, [ecx]"
+    ],
+    [
+      "lea",
+      "esp, [esp]"
+    ],
+    [
+      "mov",
+      "edi, edi"
+    ],
+    [
+      "nop",
+      ""
+    ]
+  ],
+  "method": "Static original CFG instruction-byte union of all accepted contextual demangler functions, follows both conditional edges, internal JMP tables and call fallthrough; excludes padding, inline table bytes and callee bodies. Not dynamic branch coverage. Old Ghidra one-byte seeds excluded from overlap.",
+  "functions": {
+    "_undecorate_symbol_name": {
+      "bytes": 350,
+      "start": 251712,
+      "end": 252080,
+      "internal_tables": []
+    },
+    "_demangle_symbol": {
+      "bytes": 553,
+      "start": 252080,
+      "end": 252640,
+      "internal_tables": []
+    },
+    "_demangle_name_status": {
+      "bytes": 111,
+      "start": 262480,
+      "end": 262592,
+      "internal_tables": []
+    },
+    "_demangle_name_empty": {
+      "bytes": 28,
+      "start": 261728,
+      "end": 261760,
+      "internal_tables": []
+    },
+    "_demangle_name_assign": {
+      "bytes": 80,
+      "start": 264208,
+      "end": 264288,
+      "internal_tables": []
+    },
+    "_demangle_name_assign_text": {
+      "bytes": 48,
+      "start": 264160,
+      "end": 264208,
+      "internal_tables": []
+    },
+    "_demangle_name_length": {
+      "bytes": 42,
+      "start": 262656,
+      "end": 262704,
+      "internal_tables": []
+    },
+    "_demangle_name_write": {
+      "bytes": 160,
+      "start": 262704,
+      "end": 262864,
+      "internal_tables": []
+    },
+    "_demangle_allocate": {
+      "bytes": 157,
+      "start": 261408,
+      "end": 261584,
+      "internal_tables": []
+    },
+    "_demangle_parse_declaration": {
+      "bytes": 373,
+      "start": 252640,
+      "end": 253024,
+      "internal_tables": []
+    },
+    "_demangle_prepend_text": {
+      "bytes": 42,
+      "start": 261680,
+      "end": 261728,
+      "internal_tables": []
+    },
+    "_demangle_status_node": {
+      "bytes": 37,
+      "start": 265664,
+      "end": 265712,
+      "internal_tables": []
+    },
+    "_demangle_node_initialize": {
+      "bytes": 18,
+      "start": 264928,
+      "end": 264960,
+      "internal_tables": []
+    },
+    "_demangle_name_is_empty": {
+      "bytes": 23,
+      "start": 262624,
+      "end": 262656,
+      "internal_tables": []
+    },
+    "_demangle_name_is_valid": {
+      "bytes": 24,
+      "start": 262592,
+      "end": 262624,
+      "internal_tables": []
+    },
+    "_demangle_name_copy": {
+      "bytes": 65,
+      "start": 261824,
+      "end": 261904,
+      "internal_tables": []
+    },
+    "_demangle_name_plus_text": {
+      "bytes": 73,
+      "start": 262944,
+      "end": 263024,
+      "internal_tables": []
+    },
+    "_demangle_name_plus_name": {
+      "bytes": 110,
+      "start": 263024,
+      "end": 263152,
+      "internal_tables": []
+    },
+    "_demangle_parse_operator": {
+      "bytes": 596,
+      "start": 271680,
+      "end": 272320,
+      "internal_tables": []
+    },
+    "_demangle_parse_name": {
+      "bytes": 124,
+      "start": 253024,
+      "end": 253168,
+      "internal_tables": []
+    },
+    "_demangle_parse_scope": {
+      "bytes": 534,
+      "start": 253168,
+      "end": 253712,
+      "internal_tables": []
+    },
+    "_demangle_parse_type_declaration": {
+      "bytes": 5501,
+      "start": 265856,
+      "end": 271680,
+      "internal_tables": [
+        {
+          "address": 271576,
+          "targets": [
+            267696,
+            267700,
+            267696,
+            267700,
+            267696,
+            267700,
+            267696,
+            267700,
+            267696,
+            267700,
+            267696,
+            267700,
+            267763,
+            267763,
+            267763,
+            267763,
+            267785,
+            267785,
+            267785,
+            267785,
+            267808,
+            267808,
+            267808,
+            267808
+          ]
+        },
+        {
+          "address": 271624,
+          "targets": [
+            267763,
+            267763,
+            267763,
+            267763,
+            267785,
+            267785,
+            267785,
+            267785,
+            267808,
+            267808,
+            267808,
+            267808
+          ]
+        },
+        {
+          "address": 271552,
+          "targets": [
+            267637,
+            267637,
+            267633,
+            267633,
+            267637,
+            267637,
+            267696,
+            267700,
+            267696,
+            267700,
+            267696,
+            267700,
+            267696,
+            267700,
+            267696,
+            267700,
+            267696,
+            267700,
+            267763,
+            267763,
+            267763,
+            267763,
+            267785,
+            267785,
+            267785,
+            267785,
+            267808,
+            267808,
+            267808,
+            267808
+          ]
+        },
+        {
+          "address": 271520,
+          "targets": [
+            266688,
+            266785,
+            266881,
+            266968,
+            266982,
+            266996,
+            267010,
+            267024,
+            267637,
+            267637,
+            267633,
+            267633,
+            267637,
+            267637,
+            267696,
+            267700,
+            267696,
+            267700,
+            267696,
+            267700,
+            267696,
+            267700,
+            267696,
+            267700,
+            267696,
+            267700,
+            267763,
+            267763,
+            267763,
+            267763,
+            267785,
+            267785,
+            267785,
+            267785,
+            267808,
+            267808,
+            267808,
+            267808
+          ]
+        }
+      ]
+    },
+    "_demangle_replicator_get": {
+      "bytes": 43,
+      "start": 264880,
+      "end": 264928,
+      "internal_tables": []
+    },
+    "_demangle_replicator_add": {
+      "bytes": 74,
+      "start": 264800,
+      "end": 264880,
+      "internal_tables": []
+    },
+    "_demangle_name_read_until": {
+      "bytes": 270,
+      "start": 262080,
+      "end": 262368,
+      "internal_tables": []
+    },
+    "_demangle_name_set_range": {
+      "bytes": 218,
+      "start": 264576,
+      "end": 264800,
+      "internal_tables": []
+    },
+    "_demangle_name_assign_status": {
+      "bytes": 144,
+      "start": 264416,
+      "end": 264564,
+      "internal_tables": []
+    },
+    "_demangle_char_node": {
+      "bytes": 23,
+      "start": 265296,
+      "end": 265328,
+      "internal_tables": []
+    },
+    "_demangle_text_node": {
+      "bytes": 111,
+      "start": 265360,
+      "end": 265488,
+      "internal_tables": []
+    },
+    "_demangle_text_length": {
+      "bytes": 18,
+      "start": 265776,
+      "end": 265808,
+      "internal_tables": []
+    },
+    "_demangle_copy_text": {
+      "bytes": 36,
+      "start": 265808,
+      "end": 265856,
+      "internal_tables": []
+    },
+    "_demangle_prepend_char": {
+      "bytes": 42,
+      "start": 261584,
+      "end": 261632,
+      "internal_tables": []
+    },
+    "_demangle_name_plus_char": {
+      "bytes": 73,
+      "start": 262864,
+      "end": 262944,
+      "internal_tables": []
+    },
+    "_demangle_parse_template": {
+      "bytes": 125,
+      "start": 254080,
+      "end": 254205,
+      "internal_tables": []
+    },
+    "_demangle_parse_dimension": {
+      "bytes": 205,
+      "start": 253712,
+      "end": 253936,
+      "internal_tables": []
+    },
+    "_demangle_name_append_status": {
+      "bytes": 131,
+      "start": 263904,
+      "end": 264048,
+      "internal_tables": []
+    },
+    "_demangle_name_append_name": {
+      "bytes": 118,
+      "start": 263584,
+      "end": 263728,
+      "internal_tables": []
+    },
+    "_demangle_node_wrap": {
+      "bytes": 83,
+      "start": 264960,
+      "end": 265056,
+      "internal_tables": []
+    },
+    "_demangle_node_append": {
+      "bytes": 50,
+      "start": 265232,
+      "end": 265296,
+      "internal_tables": []
+    },
+    "_demangle_reference_node": {
+      "bytes": 62,
+      "start": 265552,
+      "end": 265616,
+      "internal_tables": []
+    },
+    "_demangle_name_append_text": {
+      "bytes": 122,
+      "start": 263440,
+      "end": 263584,
+      "internal_tables": []
+    },
+    "_demangle_prepend_status": {
+      "bytes": 42,
+      "start": 261632,
+      "end": 261674,
+      "internal_tables": []
+    },
+    "_demangle_parse_data_qualifiers": {
+      "bytes": 1107,
+      "start": 260192,
+      "end": 261344,
+      "internal_tables": []
+    },
+    "_demangle_parse_vbtable_type": {
+      "bytes": 48,
+      "start": 272320,
+      "end": 272368,
+      "internal_tables": []
+    },
+    "_demangle_name_append_char": {
+      "bytes": 115,
+      "start": 263312,
+      "end": 263440,
+      "internal_tables": []
+    },
+    "_demangle_parse_data_type": {
+      "bytes": 300,
+      "start": 255344,
+      "end": 255664,
+      "internal_tables": []
+    },
+    "_demangle_parse_based": {
+      "bytes": 470,
+      "start": 254208,
+      "end": 254724,
+      "internal_tables": [
+        {
+          "address": 254688,
+          "targets": [
+            254274,
+            254293,
+            254320,
+            254372,
+            254424,
+            254480,
+            254500,
+            254549,
+            254624
+          ]
+        }
+      ]
+    },
+    "_demangle_name_character": {
+      "bytes": 55,
+      "start": 261760,
+      "end": 261824,
+      "internal_tables": []
+    },
+    "_demangle_keyword": {
+      "bytes": 61,
+      "start": 261344,
+      "end": 261408,
+      "internal_tables": []
+    },
+    "_demangle_parse_calling_convention": {
+      "bytes": 248,
+      "start": 255024,
+      "end": 255280,
+      "internal_tables": []
+    },
+    "_demangle_parse_return_type": {
+      "bytes": 59,
+      "start": 255280,
+      "end": 255344,
+      "internal_tables": []
+    },
+    "_demangle_parse_arguments": {
+      "bytes": 273,
+      "start": 255872,
+      "end": 256160,
+      "internal_tables": []
+    },
+    "_demangle_parse_throw_types": {
+      "bytes": 155,
+      "start": 256432,
+      "end": 256592,
+      "internal_tables": []
+    },
+    "_demangle_name_reference": {
+      "bytes": 103,
+      "start": 261904,
+      "end": 262016,
+      "internal_tables": []
+    },
+    "_demangle_parse_indirect_type": {
+      "bytes": 735,
+      "start": 257264,
+      "end": 258064,
+      "internal_tables": [
+        {
+          "address": 258020,
+          "targets": [
+            257799,
+            257799,
+            257808,
+            257808,
+            257838,
+            257815,
+            257824,
+            257824
+          ]
+        }
+      ]
+    },
+    "_demangle_parse_primary_type": {
+      "bytes": 186,
+      "start": 255664,
+      "end": 255872,
+      "internal_tables": []
+    },
+    "_demangle_name_text": {
+      "bytes": 62,
+      "start": 262016,
+      "end": 262080,
+      "internal_tables": []
+    },
+    "_demangle_parse_basic_type": {
+      "bytes": 584,
+      "start": 256592,
+      "end": 257264,
+      "internal_tables": [
+        {
+          "address": 257188,
+          "targets": [
+            256736,
+            256736,
+            256736,
+            256752,
+            256752,
+            256768,
+            256768,
+            256784,
+            256784,
+            256800,
+            256822,
+            256852,
+            256838,
+            256902,
+            256902,
+            256902,
+            256902
+          ]
+        }
+      ]
+    },
+    "_demangle_parse_pointer_type": {
+      "bytes": 2088,
+      "start": 258064,
+      "end": 260192,
+      "internal_tables": []
+    },
+    "_demangle_name_assign_char": {
+      "bytes": 38,
+      "start": 264112,
+      "end": 264160,
+      "internal_tables": []
+    },
+    "_demangle_node_length": {
+      "bytes": 53,
+      "start": 265056,
+      "end": 265120,
+      "internal_tables": []
+    },
+    "_demangle_node_write": {
+      "bytes": 98,
+      "start": 265120,
+      "end": 265232,
+      "internal_tables": []
+    },
+    "_demangle_char_write": {
+      "bytes": 28,
+      "start": 265328,
+      "end": 265360,
+      "internal_tables": []
+    },
+    "_demangle_text_write": {
+      "bytes": 50,
+      "start": 265488,
+      "end": 265552,
+      "internal_tables": []
+    },
+    "_demangle_reference_write": {
+      "bytes": 38,
+      "start": 265616,
+      "end": 265664,
+      "internal_tables": []
+    },
+    "_demangle_status_write": {
+      "bytes": 53,
+      "start": 265712,
+      "end": 265765,
+      "internal_tables": []
+    },
+    "_demangle_parse_argument_list": {
+      "bytes": 264,
+      "start": 256160,
+      "end": 256432,
+      "internal_tables": []
+    },
+    "_demangle_name_plus_status": {
+      "bytes": 73,
+      "start": 263232,
+      "end": 263310,
+      "internal_tables": []
+    },
+    "_demangle_read_dimension": {
+      "bytes": 130,
+      "start": 253936,
+      "end": 254080,
+      "internal_tables": []
+    },
+    "_demangle_parse_type_name": {
+      "bytes": 283,
+      "start": 254736,
+      "end": 255024,
+      "internal_tables": []
+    },
+    "_demangle_name_unsigned": {
+      "bytes": 103,
+      "start": 262368,
+      "end": 262480,
+      "internal_tables": []
+    }
+  },
+  "function_count": 71,
+  "instruction_bytes": 18899,
+  "accepted_extent_union_bytes": 20162,
+  "internal_data_bytes": 288,
+  "extent_outside_cfg_and_data": 975,
+  "unresolved_jumps": [],
+  "instruction_overlap_old_body_inventory": 18899,
+  "additional_proven_instruction_bytes_outside_old_inventory": 0
+}

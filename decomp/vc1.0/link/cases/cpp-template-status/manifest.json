@@ -1,0 +1,48 @@
+{
+  "case": "cpp-template-status",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "dump": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-dump",
+        "/symbols",
+        "/undecorate",
+        "grammar.obj"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "inputs": [
+        {
+          "path": "inputs/grammar.obj",
+          "bytes": 454,
+          "sha256": "b0f3fe90650c7d118b03634af265b058bcedef8891a8b23718e0b28a5ccffd89"
+        }
+      ],
+      "outputs": [],
+      "expected_stdout": "Microsoft (R) COFF Binary File Dumper Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n\r\nDump of file grammar.obj\r\n\r\nFile Type: COFF OBJECT\r\n\r\nSYMBOL TABLE\r\n000 00000000 (int __based(__segname(\"segment\")) * __based(__segname(\"segment\"))  quoted) SECT1 notype       External\r\n001 00000000 (?get@?$Box@H@@@QAEHXZ)          SECT1 notype       External\r\n002 00000000 (?value@@3V?Box@H@@@A)           SECT1 notype       External\r\n003 00000000 (?get@?$Box@H@@QAEHXZ)           SECT1 notype       External\r\n004 00000000 (?value@@3V?Box@H@@A)            SECT1 notype       External\r\n005 00000000 ( ?? * ??  cut)                  SECT1 notype       External\r\n006 00000000 (int  __cdecl call(void) throw( ?? )) SECT1 notype       External\r\n007 00000000 (class  ??   ??  typed)          SECT1 notype       External\r\n008 00000000 (int  __cdecl argument(int, ?? ) throw( ?? )) SECT1 notype       External\r\n009 00000000 (class  ?? ::template < ?? >  ??  bad) SECT1 notype       External\r\n\r\nSTRING TABLE size = 0xd2 bytes\r\n\r\n     Summary\r\n       .data        4\r\n",
+      "expected_stderr": ""
+    }
+  },
+  "provenance": {
+    "generator": {
+      "path": "scripts/build-undecorate-grammar-input.py",
+      "bytes": 1226,
+      "sha256": "b61f552ccd3b7264f7b3b48a1624d9dc67aeab6a987079e15eed693a8f342333"
+    },
+    "capture": "Two explicit untouched-original dump captures, exact output; no normalization.",
+    "scope": "Authored valid COFF symbols for old formatter grammar and incomplete-name states, not compiler output. CL template source probe fails and is recorded separately. Box-qualified template spellings remain decorated; incomplete template and function names render original ?? status tokens. Quoted based-segment syntax exercises native keyword19.",
+    "symbol_string_padding": "Each explicit name has four NUL bytes before next string-table entry, declared in string-table size; valid fixture input, no output padding normalization."
+  }
+}

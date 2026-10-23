@@ -1,0 +1,17 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56561730 in demangle_name_assign_status (self=0xffffcef8, unused=0x0, status=2) at src/demangle-stubs.c:3
+3	DemangleName * __fastcall demangle_name_assign_status(DemangleName *self,void *unused,int status) { __asm { int 3 } return 0; }
+#0  0x56561730 in demangle_name_assign_status (self=0xffffcef8, unused=0x0, status=2) at src/demangle-stubs.c:3
+#1  0x565615d1 in demangle_parse_type_name (result=0xffffcf4c) at src/demangle.c:1660
+#2  0x5655f985 in demangle_parse_indirect_type (result=0xffffcfb0, attributes=0) at src/demangle.c:1636
+#3  0x5655fd5b in demangle_parse_basic_type (result=0xffffd114, declarator=0xffffd054) at src/demangle.c:879
+#4  0x5655fa61 in demangle_parse_primary_type (result=0xffffd114, declarator=0xffffd054) at src/demangle.c:847
+#5  0x5655ea45 in demangle_parse_data_type (result=0xffffd114, declarator=0x565fe05b) at src/demangle.c:818
+#6  0x5655c482 in demangle_parse_type_declaration (result=0xffffd1ec, name=0xffffd1a4) at src/demangle.c:641
+#7  0x5655a7a8 in demangle_parse_declaration (result=0xffffd1ec) at src/demangle.c:187
+self = 0xffffcef8
+unused = 0x0
+status = 2

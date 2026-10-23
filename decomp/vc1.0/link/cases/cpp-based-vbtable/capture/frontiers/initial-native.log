@@ -1,0 +1,15 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565612b8 in demangle_parse_based (result=0xffffcea8) at src/demangle-stubs.c:7
+7	DemangleName * demangle_parse_based(DemangleName *result) { __asm { int 3 } return 0; }
+#0  0x565612b8 in demangle_parse_based (result=0xffffcea8) at src/demangle-stubs.c:7
+#1  0x5655e409 in demangle_parse_data_qualifiers (result=0xffffcf58, type=0xffffcfb8, indirection=42 '*', scope=0xffffcfc0, member=0) at src/demangle.c:995
+#2  0x565604a5 in demangle_parse_pointer_type (result=0xffffd114, qualifier=0xffffcfc0, declarator=0xffffcfb8, pointer=1) at src/demangle.c:1518
+#3  0x5655faa0 in demangle_parse_basic_type (result=0xffffd114, declarator=0xffffd054) at src/demangle.c:892
+#4  0x5655f691 in demangle_parse_primary_type (result=0xffffd114, declarator=0xffffd054) at src/demangle.c:847
+#5  0x5655e8e5 in demangle_parse_data_type (result=0xffffd114, declarator=0x565fe333) at src/demangle.c:818
+#6  0x5655c472 in demangle_parse_type_declaration (result=0xffffd1ec, name=0xffffd1a4) at src/demangle.c:641
+#7  0x5655a798 in demangle_parse_declaration (result=0xffffd1ec) at src/demangle.c:187
+result = 0xffffcea8

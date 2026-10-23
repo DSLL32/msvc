@@ -488,3 +488,30 @@ fixture. The first stage in cases/mac-special-undecorate-queue.json is complete;
 old __based/template/vbtable undecoration is next, with original compiler-backed
 __based and vbtable input preparation already successful. Fixtures remain native
 ELF/cached-reference only; explicit original captures/builds occur outside them.
+
+Old C++ undecoration checkpoint (approved queue complete)
+
+Three new frozen cases close compiler-produced __based/vbtable names and authored
+old-template/truncated-name inputs. The compiler rejects template source syntax;
+the formatter inputs explicitly preserve raw-name fallback, __based(NYI:*),
+quoted __segname syntax and " ?? " status markers. Seven full C helpers were
+reached; the nominated57-byte merge-error helper stays pending because all11
+native calls require flags absent from LINK's sole fixed0x800 wrapper. Ordinary
+literals remain contextual; member ABIs retain RET4/RET8 via ignored-EDX fastcall.
+
+All31 native cases/593 application entries pass. Single-sample suite1.966s
+external:1.770s loop and0.104s trace preparation. Summed setup0.377s, execution
+0.217s, oracle1.156s, trace checks0.004s (trace check is within other totals).
+The native-trace rebuild/static audit step took17.168s; canonical original-toolchain
+compilation passed earlier. Intermediate build/preparation times were not all measured. Audits pass619 graphs,
+610 callbacks,455 data definitions,773 boundaries and41 ECX cleanup checks.
+Accepted extent222078/281634=78.8534%,767 frontiers. New C++ instruction bytes955
+are distinct from1010 accepted extent bytes (36 switch table,19 alignment).
+
+cases/cpp-pointer-status/family-validation.json records evidence/timing/limits;
+reachability.json explains the pending helper. Component inventory remains
+partial:156891 accepted target instruction bytes,26904 CRT,192 import thunks,
+920 contextual inline data,1482 alignment and35689 accepted unclassified bytes.
+The unclassified portion is not all padding. Both approved families are complete;
+worker pauses. remaining.json suggests FPO/symbol-map dumping and absolute/weak
+symbol resolution as possible next public-input cases, without starting them.

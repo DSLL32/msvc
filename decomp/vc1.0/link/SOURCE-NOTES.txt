@@ -878,3 +878,26 @@ without a loader the original reserves zero prefix, while ordinary CODE reserves
 four. Loader nonstartup cases retain40. Corrected from21af7..21b4a and checked
 against full artifacts and all28 native cases. No assembly exception or shared
 shim change was needed. Known static bytes and accepted extents remain separate.
+
+Old C++ grammar checkpoint (767 frontiers)
+
+Seven whole helpers retain native C++ aggregate-result/thiscall semantics through
+cdecl or existing ignored-EDX fastcall C declarations. Assign-status preserves
+fatal precedence, clears only bits0x30 before allocating a status node, and
+retains low status on successful replacement. Plus-status copies first then
+chooses assignment for empty names or append for nonempty names. Status writer
+clamps signed capacity and emits exact four-byte " ?? " only for status2.
+
+The based parser owns its entire9-entry36-byte inline switch table; a rejected
+missing-table mask run is retained. Native quoted-segment syntax reaches lookup
+keyword19(__segname(") which was omitted from prior reconstructed lookup.
+Original compiler based/vbtable output and authored valid COFF formatter grammar
+are explicitly distinct. All31 native cases pass with exact new-case streams.
+Reachability proof leaves57-byte merge-error pending: fixed public flags0x800
+make all11 suppression-only branches false. No hypothetical API is substituted.
+
+71 accepted demangler bodies contain18899 static instruction bytes,288 inline
+data and975 alignment. All7 new bodies total955 instructions and1010 extents;
+static inventories and total .text union remain separate from dynamic coverage.
+Current union222078/281634=78.8534%; partial target/CRT/import accounting and next
+public-input opportunities are recorded under cases/cpp-pointer-status/.

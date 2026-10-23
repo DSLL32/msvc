@@ -1,0 +1,12 @@
+{
+  "original": {
+    "exit": 0,
+    "seconds": 1.4180149380117655
+  },
+  "native": {
+    "exit": 0,
+    "seconds": 0.1648817202076316
+  },
+  "logical": "_demangle_name_assign_status",
+  "partial_streams_match": true
+}

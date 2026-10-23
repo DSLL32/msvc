@@ -21,8 +21,15 @@
     },
     {
       "family": "old-cpp-undecoration",
-      "status": "original-validation",
-      "scope": "Original-valid __based/template/vbtable name grammar; known8-body1012-byte opportunity, including version-specific unsupported behavior."
+      "status": "complete",
+      "scope": "Original-valid __based/template/vbtable name grammar; known8-body1012-byte opportunity, including version-specific unsupported behavior.",
+      "cases": [
+        "cpp-based-vbtable",
+        "cpp-template-status",
+        "cpp-pointer-status"
+      ],
+      "validation": "cases/cpp-pointer-status/family-validation.json",
+      "limit": "7of8 nominated helpers reached. Remaining57-byte merge-error requires flags absent from public wrapper; stays pending."
     }
   ],
   "method": "Native i386 -O0 -g/GDB; cached-only fixtures; explicit original-only validation/capture outside fixtures; original-compiler and graph/ABI/data/boundary checks. Shared shims requested from root. Existing prefix/mapping infrastructure retained.",

@@ -1,0 +1,12 @@
+{
+  "original": {
+    "exit": 0,
+    "seconds": 1.418067503720522
+  },
+  "native": {
+    "exit": 0,
+    "seconds": 0.16485076397657394
+  },
+  "logical": "_demangle_parse_vbtable_type",
+  "partial_streams_match": true
+}

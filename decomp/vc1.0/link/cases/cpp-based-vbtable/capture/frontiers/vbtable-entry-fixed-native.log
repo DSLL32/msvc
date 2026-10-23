@@ -1,0 +1,15 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565614e8 in demangle_parse_vbtable_type (result=0xffffd134) at src/demangle-stubs.c:6
+6	DemangleName * demangle_parse_vbtable_type(DemangleName *result) { __asm { int 3 } return 0; }
+#0  0x565614e8 in demangle_parse_vbtable_type (result=0xffffd134) at src/demangle-stubs.c:6
+#1  0x5655c011 in demangle_parse_type_declaration (result=0xffffd1ec, name=0xffffd1a4) at src/demangle.c:600
+#2  0x5655a798 in demangle_parse_declaration (result=0xffffd1ec) at src/demangle.c:187
+#3  0x5655a286 in demangle_symbol (buffer=0x0, name=0x565fd691 "??_8Derived@@7B@", capacity=0, allocate=0xf7e0f410 <malloc>, release=0xf7e0fa60 <free>, flags=2048) at src/demangle.c:78
+#4  0x56559ec1 in undecorate_symbol_name (name=0x565fd691 "??_8Derived@@7B@", decorated=0 '\000') at src/demangle.c:20
+#5  0x5656cec0 in print_dump_symbol_name (stream=0x565db780 <recon_iob+32>, format=0x565b4c10 "%-32s ", symbol=0x565fdb88) at src/dump.c:850
+#6  0x5656cf61 in print_dump_symbol (symbol=0x565fdb88) at src/dump.c:910
+#7  0x5656b080 in dump_coff_symbols () at src/dump.c:871
+result = 0xffffd134

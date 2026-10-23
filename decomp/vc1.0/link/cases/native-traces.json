@@ -2,9 +2,9 @@
   "schema": 1,
   "description": "Projection of existing original-backed acceptance metadata; no recapture",
   "metadata_sha256": {
-    "functions.json": "14e60add53a68daf42930ac542530307b5c9f009fd8ffb38943585d10950bba3",
+    "functions.json": "ffe25182b40116bfbab0dcaeae814cf3936d6f5978afc12eced903b9ecb0771b",
     "runtime.json": "0ec72e80c921c13613bfc93f7da57aec764a4563629512b8ccc741479975b7d9",
-    "replay-cases.json": "bc6ebd6d74187d2f2859a66a1d16d60423f1c2439806f1fc82538989c340c0bd"
+    "replay-cases.json": "1b95fe12ccb611f2d5d6cf65b06fffd57fd9e4b720f2ad1940886449253ce951"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -1213,9 +1213,9 @@
       "implementation": "C"
     },
     "demangle_name_assign_status": {
-      "source": "src/demangle-stubs.c",
+      "source": "src/demangle.c",
       "logical": "_demangle_name_assign_status",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "demangle_name_assign_text": {
       "source": "src/demangle.c",
@@ -1268,9 +1268,9 @@
       "implementation": "C"
     },
     "demangle_name_plus_status": {
-      "source": "src/demangle-stubs.c",
+      "source": "src/demangle.c",
       "logical": "_demangle_name_plus_status",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "demangle_name_plus_text": {
       "source": "src/demangle.c",
@@ -1348,9 +1348,9 @@
       "implementation": "C"
     },
     "demangle_parse_based": {
-      "source": "src/demangle-stubs.c",
+      "source": "src/demangle.c",
       "logical": "_demangle_parse_based",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "demangle_parse_basic_type": {
       "source": "src/demangle.c",
@@ -1418,9 +1418,9 @@
       "implementation": "C"
     },
     "demangle_parse_template": {
-      "source": "src/demangle-stubs.c",
+      "source": "src/demangle.c",
       "logical": "_demangle_parse_template",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "demangle_parse_throw_types": {
       "source": "src/demangle.c",
@@ -1438,9 +1438,9 @@
       "implementation": "C"
     },
     "demangle_parse_vbtable_type": {
-      "source": "src/demangle-stubs.c",
+      "source": "src/demangle.c",
       "logical": "_demangle_parse_vbtable_type",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "demangle_prepend_char": {
       "source": "src/demangle.c",
@@ -1448,9 +1448,9 @@
       "implementation": "C"
     },
     "demangle_prepend_status": {
-      "source": "src/demangle-stubs.c",
+      "source": "src/demangle.c",
       "logical": "_demangle_prepend_status",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "demangle_prepend_text": {
       "source": "src/demangle.c",
@@ -1488,9 +1488,9 @@
       "implementation": "C"
     },
     "demangle_status_write": {
-      "source": "src/demangle-stubs.c",
+      "source": "src/demangle.c",
       "logical": "_demangle_status_write",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "demangle_symbol": {
       "source": "src/demangle.c",
@@ -4359,7 +4359,14 @@
     "resolve_mac_external",
     "resolve_mac_relocation_symbol",
     "find_mac_external_reference",
-    "record_mac_duplicate_fixups"
+    "record_mac_duplicate_fixups",
+    "demangle_parse_based",
+    "demangle_parse_vbtable_type",
+    "demangle_parse_template",
+    "demangle_status_write",
+    "demangle_name_plus_status",
+    "demangle_name_assign_status",
+    "demangle_prepend_status"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4938,9 +4945,9 @@
       }
     },
     "library-list": {
-      "first": 760,
-      "last": 760,
-      "seen_count": 586,
+      "first": 767,
+      "last": 767,
+      "seen_count": 593,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4972,9 +4979,9 @@
       }
     },
     "library-list-trimmed": {
-      "first": 760,
-      "last": 760,
-      "seen_count": 586,
+      "first": 767,
+      "last": 767,
+      "seen_count": 593,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -5008,9 +5015,9 @@
       }
     },
     "library-dump-object": {
-      "first": 760,
-      "last": 760,
-      "seen_count": 586,
+      "first": 767,
+      "last": 767,
+      "seen_count": 593,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -5053,9 +5060,9 @@
       }
     },
     "library-dump-edited": {
-      "first": 760,
-      "last": 760,
-      "seen_count": 586,
+      "first": 767,
+      "last": 767,
+      "seen_count": 593,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -5426,6 +5433,46 @@
       "expected": [
         "find_mac_external_reference",
         "record_mac_duplicate_fixups"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "cpp-based-vbtable": {
+      "first": 760,
+      "last": 762,
+      "seen_count": 586,
+      "expected": [
+        "demangle_parse_based",
+        "demangle_parse_vbtable_type"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "cpp-template-status": {
+      "first": 762,
+      "last": 766,
+      "seen_count": 588,
+      "expected": [
+        "demangle_parse_template",
+        "demangle_status_write",
+        "demangle_name_plus_status",
+        "demangle_name_assign_status"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "cpp-pointer-status": {
+      "first": 766,
+      "last": 767,
+      "seen_count": 592,
+      "expected": [
+        "demangle_prepend_status"
       ],
       "terminal": {
         "kind": "exit",

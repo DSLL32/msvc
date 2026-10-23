@@ -759,7 +759,14 @@
     "_resolve_mac_external",
     "_resolve_mac_relocation_symbol",
     "_find_mac_external_reference",
-    "_record_mac_duplicate_fixups"
+    "_record_mac_duplicate_fixups",
+    "_demangle_parse_based",
+    "_demangle_parse_vbtable_type",
+    "_demangle_parse_template",
+    "_demangle_status_write",
+    "_demangle_name_plus_status",
+    "_demangle_name_assign_status",
+    "_demangle_prepend_status"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -5714,10 +5721,11 @@
       "name": "_demangle_name_assign_status",
       "symbol": "@demangle_name_assign_status@12",
       "start": 264416,
-      "end": 264417,
-      "source": "src/demangle-stubs.c",
-      "implementation": "stub-C",
-      "abi": "native thiscall; rebuilt fastcall ECX-this/ignored EDX: DemangleName *(DemangleName *self,void *unused,int status)"
+      "end": 264564,
+      "source": "src/demangle.c",
+      "implementation": "C",
+      "abi": "native thiscall; rebuilt fastcall ECX-this/ignored EDX: DemangleName *(DemangleName *self,void *unused,int status)",
+      "evidence": "Fresh assign-entry pair matched original ECX-this/RET4 status2; final masked original/native GDB run exits0 with complete exact frozen streams. Fatal precedence and node-allocation graph recovered for whole extent."
     },
     {
       "name": "_demangle_char_node",
@@ -5779,10 +5787,11 @@
     {
       "name": "_demangle_parse_template",
       "start": 254080,
-      "end": 254081,
-      "source": "src/demangle-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl DemangleName *(DemangleName *result)"
+      "end": 254205,
+      "source": "src/demangle.c",
+      "implementation": "C",
+      "abi": "cdecl DemangleName *(DemangleName *result)",
+      "evidence": "Matched original3e080/native GDB template-scope parser. Complete125-byte cdecl body builds native template prefix and bracketed type list via existing graph. Fresh40df0/native demangle_status_write agrees output capacity4 and partial streams."
     },
     {
       "name": "_demangle_parse_dimension",
@@ -5856,10 +5865,11 @@
     {
       "name": "_demangle_prepend_status",
       "start": 261632,
-      "end": 261633,
-      "source": "src/demangle-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl DemangleName *(DemangleName *result,int status,const DemangleName *source)"
+      "end": 261674,
+      "source": "src/demangle.c",
+      "implementation": "C",
+      "abi": "cdecl DemangleName *(DemangleName *result,int status,const DemangleName *source)",
+      "evidence": "Fresh initial pair matched cdecl aggregate result/status2; final masked original/native GDB complete exact streams. Whole42-byte wrapper retains status constructor and plus-name callees."
     },
     {
       "name": "_demangle_parse_data_qualifiers",
@@ -5873,10 +5883,11 @@
     {
       "name": "_demangle_parse_vbtable_type",
       "start": 272320,
-      "end": 272321,
-      "source": "src/demangle-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl DemangleName *(DemangleName *result)"
+      "end": 272368,
+      "source": "src/demangle.c",
+      "implementation": "C",
+      "abi": "cdecl DemangleName *(DemangleName *result)",
+      "evidence": "Matched original427c0/native GDB compiler-produced Derived vbtable. Complete48-byte wrapper constructs two empty contextual names and delegates qualifier parser through original C ABI. Fresh masked-original/native GDB terminal exit0, exact2098-byte stdout/empty stderr, no normalization."
     },
     {
       "name": "_demangle_name_append_char",
@@ -5900,10 +5911,18 @@
     {
       "name": "_demangle_parse_based",
       "start": 254208,
-      "end": 254209,
-      "source": "src/demangle-stubs.c",
-      "implementation": "stub-C",
-      "abi": "cdecl DemangleName *(DemangleName *result)"
+      "end": 254724,
+      "source": "src/demangle.c",
+      "implementation": "C",
+      "abi": "cdecl DemangleName *(DemangleName *result)",
+      "text_data": [
+        {
+          "start": 254688,
+          "end": 254724,
+          "kind": "nine-entry based-form switch table"
+        }
+      ],
+      "evidence": "Matched original3e100/native GDB based pointer grammar. Complete480-byte code plus36-byte nine-entry switch table; first candidate mask exposed missing table and was rejected before acceptance. Recovered native NYI and keyword forms, status behavior and closing spelling. Fresh next427c0/native demangle_parse_vbtable_type matches compiler-generated Derived vbtable and partial streams."
     },
     {
       "name": "_demangle_name_character",
@@ -5922,7 +5941,7 @@
       "source": "src/demangle.c",
       "implementation": "C",
       "abi": "cdecl const char *(int)",
-      "evidence": "Matched3fce0..3fd20. Preserve all19 internal keyword spellings, special near-space/star omission under0x800 before general two-underscore omission. Native pointer table decoded as semantic switch literals at use; no contiguous literal-layout snapshot or padding retained. Internal callers constrain indices0..18."
+      "evidence": "Matched3fce0..3fd20. Preserve all19 internal keyword spellings, special near-space/star omission under0x800 before general two-underscore omission. Native pointer table decoded as semantic switch literals at use; no contiguous literal-layout snapshot or padding retained. Internal callers constrain indices0..18. New based grammar reveals native20th keyword19 at7f328+19*4: __segname(. Added its quote spelling from7f318; original/native quoted-based fixture checks exact rendering. Valid native caller indices0..19 covered."
     },
     {
       "name": "_demangle_name_merge_error",
@@ -6089,10 +6108,11 @@
       "name": "_demangle_status_write",
       "symbol": "@demangle_status_write@16",
       "start": 265712,
-      "end": 265713,
-      "source": "src/demangle-stubs.c",
-      "implementation": "stub-C",
-      "abi": "native thiscall char *(DemangleStatusNode *ECX,char *,int); RET8; C fastcall reserves ignored EDX"
+      "end": 265765,
+      "source": "src/demangle.c",
+      "implementation": "C",
+      "abi": "native thiscall char *(DemangleStatusNode *ECX,char *,int); RET8; C fastcall reserves ignored EDX",
+      "evidence": "Matched original40df0/native GDB status node/capacity4. Complete53-byte native ECX-this/RET8 method clamps signed length and writes exact ?? marker only for status2, preserving NULL/zero branches. Fresh40440/native demangle_name_plus_status agrees append status2 to incomplete throw text and partial streams."
     },
     {
       "name": "_demangle_parse_argument_list",
@@ -6107,10 +6127,11 @@
       "name": "_demangle_name_plus_status",
       "symbol": "@demangle_name_plus_status@16",
       "start": 263232,
-      "end": 263233,
-      "source": "src/demangle-stubs.c",
-      "implementation": "stub-C",
-      "abi": "native thiscall DemangleName *(const DemangleName *ECX,DemangleName *result,int); RET8; C fastcall reserves ignored EDX"
+      "end": 263310,
+      "source": "src/demangle.c",
+      "implementation": "C",
+      "abi": "native thiscall DemangleName *(const DemangleName *ECX,DemangleName *result,int); RET8; C fastcall reserves ignored EDX",
+      "evidence": "Fresh assign-entry pair matched next assign-status after full RET8 plus-status extent; exact partial streams. Original thiscall ECX/RET8, reconstructed ignored-EDX fastcall."
     },
     {
       "name": "_demangle_read_dimension",
@@ -8494,6 +8515,13 @@
     "m68k-pcode-alias",
     "m68k-pcode-alias",
     "m68k-dupcon",
-    "m68k-dupcon"
+    "m68k-dupcon",
+    "cpp-based-vbtable",
+    "cpp-based-vbtable",
+    "cpp-template-status",
+    "cpp-template-status",
+    "cpp-template-status",
+    "cpp-template-status",
+    "cpp-pointer-status"
   ]
 }

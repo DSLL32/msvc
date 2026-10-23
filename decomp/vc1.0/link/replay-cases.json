@@ -266,6 +266,36 @@
         "code": 0
       },
       "reason": "Fresh masked-original/native GDB terminal and full artifacts agree; cached native fixture only."
+    },
+    {
+      "case": "cpp-based-vbtable",
+      "mode": "native",
+      "status": "complete",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Fresh masked-original/native GDB complete exact output for original compiler-produced based/vbtable object."
+    },
+    {
+      "case": "cpp-template-status",
+      "mode": "native",
+      "status": "complete",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Explicit valid COFF grammar symbols and repeat original output frozen before fresh native acceptance."
+    },
+    {
+      "case": "cpp-pointer-status",
+      "mode": "native",
+      "status": "complete",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Repeated untouched-original COFF grammar input before native reconstruction acceptance."
     }
   ]
 }

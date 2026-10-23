@@ -1290,7 +1290,7 @@ DemangleName *demangle_parse_calling_convention(DemangleName *result)
     return demangle_name_copy(result,NULL,&convention);
 }
 
-/* Native keyword lookup [0003fce0,0003fd20). Internal indices0..18. */
+/* Native keyword lookup [0003fce0,0003fd20). Internal indices0..19. */
 const char *demangle_keyword(int keyword)
 {
     const char *spelling;
@@ -1314,6 +1314,7 @@ const char *demangle_keyword(int keyword)
     case 16: spelling="__saveregs"; break;
     case 17: spelling="__self"; break;
     case 18: spelling="__segment"; break;
+    case 19: spelling="__segname(\""; break;
     default: return NULL;
     }
     if ((keyword==1 || keyword==2) && (demangle_flags&0x800)) return spelling+6;
@@ -1729,4 +1730,117 @@ DemangleName *__fastcall demangle_name_unsigned(DemangleName *self,void *unused,
     } while (value);
     demangle_name_set_range(self,NULL,cursor,end-cursor);
     return self;
+}
+
+/* Original [0003e100,0003e2e0). Several old based forms deliberately retain
+   the native NYI spelling rather than invent a modern qualifier rendering. */
+DemangleName *demangle_parse_based(DemangleName *result)
+{
+    DemangleName based,name,fragment,component;
+    DemangleName *value;
+    int keyword;
+    const char *text;
+    demangle_name_text(&based,NULL,demangle_keyword(9));
+    if (!*demangle_input) demangle_name_append_status(&based,NULL,2);
+    else switch (*demangle_input++) {
+    case '0': demangle_name_append_text(&based,NULL,"void"); break;
+    case '1': demangle_name_append_text(&based,NULL,demangle_keyword(17)); break;
+    case '2': keyword=2; goto unimplemented;
+    case '3': keyword=5; goto unimplemented;
+    case '4': keyword=8; goto unimplemented;
+    case '5': return demangle_name_status(result,NULL,1);
+    case '6': keyword=18;
+unimplemented:
+        text=demangle_keyword(keyword);
+        demangle_name_text(&fragment,NULL,"NYI:");
+        value=demangle_name_plus_text(&fragment,NULL,&component,text);
+        demangle_name_append_name(&based,NULL,value);
+        break;
+    case '7':
+        demangle_parse_name(&name);
+        value=demangle_prepend_text(&fragment,demangle_keyword(19),&name);
+        value=demangle_name_plus_text(value,NULL,&component,"\")");
+        demangle_name_append_name(&based,NULL,value);
+        break;
+    case '8':
+        demangle_name_append_text(&based,NULL,"NYI:<segment-address-of-variable>");
+        break;
+    }
+    demangle_name_append_text(&based,NULL,") ");
+    return demangle_name_copy(result,NULL,&based);
+}
+
+/* Original [000427c0,000427f0), explicit aggregate result and two empty names. */
+DemangleName *demangle_parse_vbtable_type(DemangleName *result)
+{
+    DemangleName scope,type;
+    demangle_name_empty(&scope,NULL);
+    demangle_name_empty(&type,NULL);
+    demangle_parse_data_qualifiers(result,&type,0,&scope,0);
+    return result;
+}
+
+/* Original [0003e080,0003e0fd), the formatter's older template grammar. */
+DemangleName *demangle_parse_template(DemangleName *result)
+{
+    DemangleName name,declaration,arguments,open,closed;
+    DemangleName *value;
+    value=demangle_parse_name(&name);
+    demangle_prepend_text(&declaration,"template ",value);
+    if (!demangle_name_is_empty(&declaration,NULL)) {
+        value=demangle_parse_argument_list(&arguments);
+        value=demangle_prepend_char(&open,'<',value);
+        value=demangle_name_plus_char(value,NULL,&closed,'>');
+        demangle_name_append_name(&declaration,NULL,value);
+    }
+    return demangle_name_copy(result,NULL,&declaration);
+}
+
+/* Native thiscall [00040df0,00040e25); RET8 through ignored fastcall EDX. */
+char *__fastcall demangle_status_write(DemangleStatusNode *self,void *unused,
+    char *output,int capacity)
+{
+    if (self->length<capacity) capacity=self->length;
+    if (self->status==2 && output && capacity)
+        return demangle_copy_text(output," ?? ",capacity);
+    return NULL;
+}
+
+/* Native thiscall [00040440,0004048e), explicit aggregate result, RET8. */
+DemangleName *__fastcall demangle_name_plus_status(const DemangleName *self,void *unused,
+    DemangleName *result,int status)
+{
+    DemangleName copy;
+    demangle_name_copy(&copy,NULL,self);
+    if (demangle_name_is_empty(&copy,NULL)) demangle_name_assign_status(&copy,NULL,status);
+    else demangle_name_append_status(&copy,NULL,status);
+    return demangle_name_copy(result,NULL,&copy);
+}
+
+/* Native thiscall [000408e0,00040974), RET4; keep fatal error precedence. */
+DemangleName *__fastcall demangle_name_assign_status(DemangleName *self,void *unused,
+    int status)
+{
+    DemangleStatusNode *node;
+    if (status==1 || status==3) {
+        self->head=NULL;
+        if ((self->flags&15)!=3)
+            self->flags=(self->flags&~15UL)|(status&15);
+    } else if ((self->flags&15)==0 || (self->flags&15)==2) {
+        self->flags&=~0x30UL;
+        node=demangle_allocate(&demangle_heap,NULL,sizeof(*node),0);
+        self->head=node?(DemangleNode *)demangle_status_node(node,NULL,status):NULL;
+        if (!self->head) self->flags=(self->flags&~12UL)|3;
+    }
+    return self;
+}
+
+/* Original [0003fe00,0003fe2a), cdecl explicit aggregate result. */
+DemangleName *demangle_prepend_status(DemangleName *result,int status,
+    const DemangleName *source)
+{
+    DemangleName prefix;
+    demangle_name_status(&prefix,NULL,status);
+    demangle_name_plus_name(&prefix,NULL,result,source);
+    return result;
 }
