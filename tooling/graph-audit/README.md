@@ -1,7 +1,8 @@
 # Experimental graph audit
 
-Standalone Rust audit for the eight `vc1.0` reconstructions. **Not integrated into
-any reconstruction Makefile or acceptance workflow.** The executable reads files;
+Standalone Rust audit for the eight `vc1.0` reconstructions. Integration is
+coordinated per worker; preserve each project's required checks and explicit
+reference provenance. The executable reads files;
 it never invokes Python, Wine, a compiler, or a reconstructed/original executable.
 
 Build with Rust 1.88+ and a host C compiler (for Capstone):
@@ -21,6 +22,30 @@ policy. `--original`, `--rebuilt`, `--map`, `--config`, `--runtime` and
 working directory; normal build paths otherwise resolve under `--project`.
 Output is deterministic JSON on stdout; `--report PATH` additionally saves it.
 Errors go to stderr with nonzero status. Existing audit reports are never changed.
+
+## Shared build interface
+
+From a binary-root Makefile:
+
+```make
+include ../../../tooling/graph-audit/graph-audit.mk
+
+audit: $(GRAPH_AUDIT_BIN)
+	@"$(GRAPH_AUDIT_BIN)" --profile c2 --project . --repo ../../.. --discovery cfg
+```
+
+The include exports `GRAPH_AUDIT_BIN`, defines `GRAPH_AUDIT_BUILD_SCRIPT` and the
+convenience target `graph-audit-tool`, and preserves the caller's default goal.
+Its binary prerequisite tracks Rust source, embedded profile metadata and Cargo
+inputs. A successful no-op Cargo build also refreshes the binary's Make timestamp.
+
+`build-quiet.sh` works from any cwd and runs Cargo with `--quiet --release --locked`.
+Both Cargo streams go to a unique retained log under `target/build-logs/`; successful
+builds are silent. Failures print both captured streams and retain Cargo's exact
+nonzero exit status. `GRAPH_AUDIT_BUILD_LOG` optionally selects a log, relative to
+the caller's cwd; `CARGO` optionally selects the Cargo executable. The tool target
+directory is fixed to this package's `target/` for consistent include paths.
+Invoke the resulting binary directly so its actual errors/output remain visible.
 
 ## What the graph means
 
