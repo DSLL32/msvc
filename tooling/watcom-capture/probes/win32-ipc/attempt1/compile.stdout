@@ -1,0 +1,19 @@
+WATCOM C32 Optimizing Compiler  Version 10.0a
+Copyright by WATCOM International Corp. 1984, 1994. All rights reserved.
+WATCOM is a trademark of WATCOM International Corp.
+R:\toolchains\watcom10.0a\h\NT\windows.h(113): Error! E1055: Unable to open 'stdarg.h'
+R:\toolchains\watcom10.0a\h\NT\winnt.h(25): Error! E1055: Unable to open 'ctype.h'
+R:\toolchains\watcom10.0a\h\NT\winnt.h(3363): Error! E1055: Unable to open 'string.h'
+R:\toolchains\watcom10.0a\h\NT\winbase.h(2274): Error! E1127: Type required in parameter list
+R:\toolchains\watcom10.0a\h\NT\winbase.h(2274): Error! E1022: Missing or misspelled data type near 'va_list'
+R:\toolchains\watcom10.0a\h\NT\winbase.h(2285): Error! E1127: Type required in parameter list
+R:\toolchains\watcom10.0a\h\NT\winbase.h(2285): Error! E1022: Missing or misspelled data type near 'va_list'
+R:\toolchains\watcom10.0a\h\NT\winuser.h(27): Error! E1055: Unable to open 'stdarg.h'
+R:\toolchains\watcom10.0a\h\NT\winuser.h(130): Error! E1127: Type required in parameter list
+R:\toolchains\watcom10.0a\h\NT\winuser.h(130): Error! E1022: Missing or misspelled data type near 'va_list'
+R:\toolchains\watcom10.0a\h\NT\winuser.h(131): Error! E1127: Type required in parameter list
+R:\toolchains\watcom10.0a\h\NT\winuser.h(131): Error! E1022: Missing or misspelled data type near 'va_list'
+S:\watcom-capture\win32-ipc-proposal\ipc-win32-peer.c(155): Error! E1055: Unable to open 'stdio.h'
+S:\watcom-capture\win32-ipc-proposal\ipc-win32-peer.c(4): Error! E1055: Unable to open 'stdlib.h'
+S:\watcom-capture\win32-ipc-proposal\ipc-win32-peer.c(5): Error! E1055: Unable to open 'string.h'
+S:\watcom-capture\win32-ipc-proposal\ipc-win32-peer.c: 91 lines, included 43796, 0 warnings, 15 errors

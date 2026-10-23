@@ -1,0 +1,55 @@
+{
+  "scope": "Authored Win32 shared-map protocol probe only. No debug target, no original payload, no application acceptance.",
+  "plan_sha256": "33941eafb3325024b1ad842604b66c9ec3411b137d82bf65d0add8880ee4d399",
+  "source_sha256": "dd2f5e6e7b6a02fad376e540ad449ac747d5b5d00c9e17eceb02d4aed89456f9",
+  "runner_sha256": "a894ac1ae5a791ba98d515ba33bce066a2f7f85b28a01145aeff3599a57e61d4",
+  "ipc_sha256": "95ad49434a7d6da5014d72c222e305c5907dd4a260a370b781e7bd900286c7b0",
+  "commands": [
+    {
+      "name": "compile",
+      "command": [
+        "/usr/bin/wine",
+        "R:\\toolchains\\watcom10.0a\\binnt\\WCC386.EXE",
+        "-bt=nt",
+        "-3r",
+        "-od",
+        "-d2",
+        "-i=R:\\toolchains\\watcom10.0a\\h\\NT",
+        "-fo=S:\\watcom-capture\\win32-ipc-proposal\\build\\ipc-win32-peer.obj",
+        "S:\\watcom-capture\\win32-ipc-proposal\\ipc-win32-peer.c"
+      ],
+      "status": 15,
+      "elapsed_seconds": 0.35159029997885227,
+      "stdout_sha256": "584132b4c44d722c34de89ebc7870ddd0c8786c0d0a39e15471eddd9d5c7f723",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ],
+  "immutable_source_snapshots": {
+    "/root/.ai-tmp/msvc2/watcom-capture/win32-ipc-proposal/ipc-win32-peer.c": {
+      "snapshot": "/root/.ai-tmp/msvc2/watcom-capture/win32-ipc-proposal/snapshots/ipc-win32-peer.c",
+      "sha256": "dd2f5e6e7b6a02fad376e540ad449ac747d5b5d00c9e17eceb02d4aed89456f9"
+    },
+    "/root/.ai-tmp/msvc2/watcom-capture/win32-ipc-proposal/probe.py": {
+      "snapshot": "/root/.ai-tmp/msvc2/watcom-capture/win32-ipc-proposal/snapshots/probe.py",
+      "sha256": "a894ac1ae5a791ba98d515ba33bce066a2f7f85b28a01145aeff3599a57e61d4"
+    },
+    "/root/.ai-tmp/msvc2/watcom-capture/win32-ipc-proposal/peer.lnk": {
+      "snapshot": "/root/.ai-tmp/msvc2/watcom-capture/win32-ipc-proposal/snapshots/peer.lnk",
+      "sha256": "90b0dff3ff43bb2094378bb72fe05660af4aed3fa6885c6c1bac678337277182"
+    },
+    "/root/msvc2/tooling/watcom-capture/ipc.py": {
+      "snapshot": "/root/.ai-tmp/msvc2/watcom-capture/win32-ipc-proposal/snapshots/ipc.py",
+      "sha256": "95ad49434a7d6da5014d72c222e305c5907dd4a260a370b781e7bd900286c7b0"
+    },
+    "/root/.ai-tmp/msvc2/watcom-capture/win32-ipc-proposal/plan.json": {
+      "snapshot": "/root/.ai-tmp/msvc2/watcom-capture/win32-ipc-proposal/snapshots/plan.json",
+      "sha256": "33941eafb3325024b1ad842604b66c9ec3411b137d82bf65d0add8880ee4d399"
+    }
+  },
+  "host_environment": {
+    "private_path": "/root/.ai-tmp/msvc2/watcom-capture/win32-ipc-proposal/snapshots/host-environment.json",
+    "sha256": "b64af65a6e024310dc787fe51ffb107e3bd1ed7a19cdb2534ded76c19da4e949",
+    "mode": "0600"
+  },
+  "elapsed_seconds": 0.3525266395881772
+}
