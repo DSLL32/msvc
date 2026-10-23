@@ -4,7 +4,7 @@ TOOL = $(PYTHON) scripts/wine-tool.py
 TC = ../../../toolchains/1.0-nt
 RECON = ../../../lib/recon
 
-.PHONY: all clean check replay prefix win32 audit-win32 native native-check native-trace native-trace-check native-adoption-check
+.PHONY: all clean check replay prefix win32 audit-win32 native native-check native-trace native-trace-check native-adoption-check native-direct-check
 all: native-trace
 
 include ../../../tooling/graph-audit/graph-audit.mk
@@ -74,14 +74,20 @@ build/native-trace/C13232.EXE: $(NATIVE_TRACE_OBJECTS) $(NATIVE_SHIMS) $(RECON)/
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_SHIMS) $(RECON)/src/trace.c -o $@
 
 NATIVE_CASES = $(if $(filter all,$(CASE)),,$(foreach case,$(CASE),--case $(case)))
+native-direct-check: native
+	$(PYTHON) scripts/check-direct.py
+
 native-check: native
 	$(PYTHON) scripts/check-native.py $(NATIVE_CASES)
+	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-direct.py,@true)
 native-trace-check: native-trace
 	$(PYTHON) scripts/check-native.py --trace $(NATIVE_CASES)
+	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-direct.py,@true)
 
 # Private oracle mutations; no new fixture inputs or original execution.
 native-adoption-check: native-trace
 	$(PYTHON) scripts/check-native-rejections.py
+	$(PYTHON) scripts/check-direct-rejections.py
 
 # Grammar generation consumes only named source and precedence, never the PE.
 src/asm-grammar.c: src/asm-grammar.y scripts/generate-asm-grammar.py scripts/grammar.py

@@ -11,11 +11,13 @@ richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
 the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, normal/expected-error arena API prototype phases, portability-header diagnostics, explicit-base/goto traversal, typed x87/bit-scan arithmetic, generated-header shutdown failures, protocol-header parser repair, and assembler operand diagnostics/SEG.
 
-There are 867 accepted source functions and 997 accepted original entries.
-Accepted original extents cover 239135/277234 code-section bytes (86.257458%):
-218482 frontend bytes, 20467 CRT bytes and 186 import-thunk bytes. This is a
+There are 869 accepted source functions and 999 accepted original entries.
+Accepted original extents cover 239321/277234 code-section bytes (86.324549%):
+218668 frontend bytes, 20467 CRT bytes and 186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
-not branch coverage. Unvisited functions retain named trapping stubs.
+not branch coverage. Of this union,239135bytes have public-case evidence and
+186bytes are separately direct-tested unreachable assembler support. Unvisited
+functions retain named trapping stubs.
 
 Native build and checks
 -----------------------
@@ -36,11 +38,12 @@ retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
 cases/original-entry-references.json binds 46 completed phase histories to fresh
-shared-prefix original first-entry captures. All 856 accepted application entries
+shared-prefix original first-entry captures. All 856 publicly reached accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current all 46 regression receipts are in cases/asm-parser-repair/validation.json.
+current46 public plus15direct regression receipts are in
+cases/asm-direct-callbacks/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -370,3 +373,14 @@ EAX pointer identity/RET4 are independently proved. All46 native phases and69
 rejection checks pass. The generated insertion list is empty in the original;
 its two helpers remain unaccepted nonCRT support, with raw sentinel/read-only
 reference proof retained rather than forcing a public source path.
+
+Direct assembler support
+-------------------------
+cases/asm-direct-callbacks validates two generated insertion callbacks that
+the original empty table cannot reach from source. Fifteen explicit native
+units compare cached original direct-call inputs/state/diagnostics/partial
+files and actual EDX:EAX/RET/caller contract. Two bodies plus shared switch
+data add186bytes to direct-inclusive extent only; public extent is unchanged.
+Original-defined word masks and pointer owners are proved independently.
+Normal check includes these Wine-free units; native-adoption-check includes
+seven rejection controls and an original-unwritten-word positive control.

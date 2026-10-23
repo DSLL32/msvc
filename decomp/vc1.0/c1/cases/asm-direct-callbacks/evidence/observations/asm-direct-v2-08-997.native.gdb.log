@@ -1,0 +1,13 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint -1, report_asm_operand_error (code=1449295860, operand=32756) at src/asm-registers.c:201
+201	{
+
+Breakpoint -6, asm_recovery_value (token=43) at src/asm-parser.c:422
+422	    switch (token) {
+
+Breakpoint -1, report_asm_operand_error (code=1449295860, operand=32756) at src/asm-registers.c:201
+201	{
+[Inferior 1 (process 1571348) killed]

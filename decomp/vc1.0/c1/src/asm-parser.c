@@ -103,7 +103,7 @@ int parse_inline_assembler(void)
                     }
                     if (ASM_RECOVERING < 2)
                         report_asm_expected_token(ASM_LOOKAHEAD, expected);
-                    value = asm_recovery_value(expected);
+                    RECON_ASSIGN_RETURN8(value,asm_recovery_value(expected));
                     state = recovery->next_state;
                     goto push_state;
                 }
@@ -396,6 +396,50 @@ char *asm_token_names[50] = {
     "asm data type", "asm code type", "data type", "typedef name",
     "identifier", "constant", "enum member", "prefix", "opcode", "directive"
 };
+
+/* Original0x4c93b..0x4c98c, RET8. The expected token is retained in
+   the callback ABI although this diagnostic only uses the actual-token flag. */
+void __stdcall report_asm_expected_token(int actual, int expected)
+{
+    char *found, *context;
+    if (!actual) report_syntax_error(60);
+    else {
+        if (asm_current_token == AS_IDENTIFIER && current_token_value.identifier &&
+            *current_token_value.identifier)
+            found = current_token_value.identifier;
+        else found = asm_token_names[asm_current_token];
+        context = asm_error_context();
+        report_syntax_error(400,context,found);
+    }
+}
+
+/* Original0x4c98c..0x4c9c9 and the following eleven-way table.
+   Only the token-specific semantic word is written. The other word keeps
+   its automatic contents, as in the generated parser callback. */
+RECON_RETURN8_TYPE(ParserValue) __stdcall asm_recovery_value(int token)
+{
+    ParserValue value;
+    switch (token) {
+    case AS_REGISTER:
+    case AS_ASM_DATA_TYPE:
+    case AS_ASM_CODE_TYPE:
+    case AS_C_DATA_TYPE:
+    case AS_IDENTIFIER:
+    case AS_CONSTANT:
+    case AS_PREFIX:
+    case AS_OPCODE:
+    case AS_DIRECTIVE:
+        value.words.low = 0;
+        break;
+    case AS_TYPEDEF_NAME:
+        value.declaration.type = type_0000;
+        break;
+    default:
+        value.words.low = token;
+        break;
+    }
+    RECON_RETURN8(value);
+}
 
 /* Original0x4c9f5..0x4ca52, RET4. The identifier special case tests
    the parser message's first byte, not the identifier's first byte; retain

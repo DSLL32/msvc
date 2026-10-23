@@ -253,6 +253,72 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
     return SetThreadContext(thread,&context) ? 1 : -1;
 }
 
+/* Explicit debugger-only calls for support routines unreachable from source.
+   The initialized child is stopped at a real accepted marker. Only a private
+   stack and CPU call context are prepared; target globals remain untouched. */
+static DWORD direct_marker_rva, direct_target_rva, direct_arguments[2];
+static unsigned direct_count;
+static int direct_active;
+static DWORD direct_stack, direct_marker;
+static CONTEXT direct_saved;
+
+static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
+                        DWORD code, DWORD site, DWORD base, char *buffers)
+{
+    CONTEXT current;
+    DWORD words[8], got, written;
+    unsigned char *storage;
+    typedef LPVOID (WINAPI *AllocateInProcess)(HANDLE,LPVOID,DWORD,DWORD,DWORD);
+    AllocateInProcess allocate;
+    char line[512];
+    unsigned index;
+    if (!direct_marker_rva || code != EXCEPTION_BREAKPOINT ||
+        site != base + direct_marker_rva) return 0;
+    memset(&current,0,sizeof(current));
+    current.ContextFlags = CONTEXT_FULL | CONTEXT_FLOATING_POINT;
+    if (!GetThreadContext(thread,&current)) return -1;
+    if (!direct_active) {
+        direct_saved = current;
+        direct_marker = site;
+        allocate = (AllocateInProcess)GetProcAddress(GetModuleHandleA("kernel32.dll"),"VirtualAllocEx");
+        if (!allocate) return -1;
+        storage = allocate(process,0,65536,MEM_RESERVE|MEM_COMMIT,PAGE_READWRITE);
+        if (!storage) return -1;
+        direct_stack = (DWORD)storage + 65536 - 512;
+        for (index=0;index<8;++index) words[index]=0xa5a5a5a5;
+        words[0]=site;
+        for (index=0;index<direct_count;++index) words[index+1]=direct_arguments[index];
+        if (!WriteProcessMemory(process,(void *)direct_stack,words,sizeof(words),&written) || written!=sizeof(words)) return -1;
+        sprintf(line,"direct-start target %08lx marker %08lx stack %08lx count %u args %08lx %08lx\n",
+            base+direct_target_rva,site,direct_stack,direct_count,direct_arguments[0],direct_arguments[1]);
+        WriteFile(log,line,strlen(line),&written,0);
+        dump_context(process,thread,log);
+        dump_requested_memory(process,log,base);
+        dump_asm_operand(process,log,base,"direct-entry");
+        if (buffers) dump_stream_buffers(process,log,base,buffers);
+        current.Eip=base+direct_target_rva;
+        current.Esp=direct_stack;
+        if (!SetThreadContext(thread,&current)) return -1;
+        direct_active=1;
+        return 1;
+    }
+    sprintf(line,"direct-return eax %08lx edx %08lx esp %08lx expected %08lx nonvolatile %u fctrl %08lx before %08lx\n",
+        current.Eax,current.Edx,current.Esp,direct_stack+4+4*direct_count,
+        current.Ebx==direct_saved.Ebx && current.Esi==direct_saved.Esi &&
+        current.Edi==direct_saved.Edi && current.Ebp==direct_saved.Ebp,
+        current.FloatSave.ControlWord,direct_saved.FloatSave.ControlWord);
+    WriteFile(log,line,strlen(line),&written,0);
+    if (!ReadProcessMemory(process,(void *)(direct_stack+4+4*direct_count),words,16,&got) || got!=16) return -1;
+    sprintf(line,"direct-canary %08lx %08lx %08lx %08lx\n",words[0],words[1],words[2],words[3]);
+    WriteFile(log,line,strlen(line),&written,0);
+    dump_context(process,thread,log);
+    dump_requested_memory(process,log,base);
+    dump_asm_operand(process,log,base,"direct-return");
+    if (buffers) dump_stream_buffers(process,log,base,buffers);
+    TerminateProcess(process,99);
+    return 1;
+}
+
 typedef struct EntryPlan {
     unsigned long rva;
     unsigned byte;
@@ -283,6 +349,12 @@ int main(int argc, char **argv)
     DWORD flag_entry_rva = 0, flag_scanner_rva = 0, flag_parser_rva = 0, flag_symbol_rva = 0;
     unsigned callback_count = 0;
 
+    flag_option = getenv("C1_DIRECT_CALL");
+    if (flag_option) {
+        if (sscanf(flag_option,"%lx,%lx,%u,%lx,%lx",&direct_marker_rva,
+                &direct_target_rva,&direct_count,&direct_arguments[0],&direct_arguments[1]) != 5 ||
+                direct_count<1 || direct_count>2 || argc==11) return 2;
+    }
     callback_option = getenv("C1_ENUM_CALLBACK_RVA");
     if (callback_option) callback_rva = strtoul(callback_option,0,16);
     flag_option = getenv("C1_FLAG_PROBE_RVAS");
@@ -368,6 +440,9 @@ int main(int argc, char **argv)
                         failed = 7; TerminateProcess(pi.hProcess,99);
                     }
                 }
+            } else if ((flag_result = direct_event(pi.hProcess,pi.hThread,log,code,
+                        (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress,base,argc>=9?argv[8]:0)) != 0) {
+                if (flag_result < 0) { failed=9; TerminateProcess(pi.hProcess,99); }
             } else if ((flag_result = observe_flag_boundary(pi.hProcess,pi.hThread,log,code,
                         (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress,base)) != 0) {
                 if (flag_result < 0) { failed = 8; TerminateProcess(pi.hProcess,99); }

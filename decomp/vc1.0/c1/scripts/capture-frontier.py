@@ -31,6 +31,9 @@ def main():
                         help='Explicit original-only Win32 debugger executable')
     parser.add_argument('--unmasked', action='store_true')
     parser.add_argument('--stop-function',help='Explicit first-entry trap for one accepted application ABI observation')
+    parser.add_argument('--direct-function',help='Explicit debugger-only support callback after real marker; no public-reach claim')
+    parser.add_argument('--direct-arguments',nargs='+',type=lambda s:int(s,0))
+    parser.add_argument('--direct-body',action='store_true',help='Restore exactly selected candidate body/shared text for explicit direct verification')
     parser.add_argument('--trace-enum-callbacks', action='store_true',help='Explicit debugger-only all-call enum comparator proof')
     parser.add_argument('--trace-flags',help='Logical function whose full scanner/parser words are observed at entry/return')
     parser.add_argument('--trace-asm-segment',action='store_true',help='Explicit original-only segment operand entry/return ABI/state')
@@ -126,6 +129,20 @@ def main():
                 original.read(by_name[n]['start'],1)[0],n) for n in expected_entries))
         target = directory/'original-masked.exe'
         target.write_bytes(data)
+    direct = None
+    if options.direct_function:
+        assert options.stop_function and not options.unmasked and not entry_mode
+        direct = next(r for r in config['driver'] if r['name']==options.direct_function)
+        assert options.direct_arguments is not None and 1 <= len(options.direct_arguments) <= 2
+        assert all(0 <= v <= 0xffffffff for v in options.direct_arguments)
+        if options.direct_body:
+            for left,right in [[direct['start'],direct['end']]]+direct.get('shared',[]):
+                assert right-left > 1
+                a,b=original.offset(left),original.offset(right-1)+1
+                data[a:b]=original.data[a:b]
+            target.write_bytes(data)
+    else:
+        assert not options.direct_body and options.direct_arguments is None
     if options.stop_function:
         assert not options.unmasked and not entry_mode
         probe = next(r for r in config['driver'] if r['name']==options.stop_function)
@@ -151,6 +168,12 @@ def main():
     host_environment.pop('C1_TIMESTAMP_PROBE',None)
     host_environment.pop('C1_RETURN8_PROBE',None)
     host_environment.pop('C1_ASM_SEGMENT_PROBE',None)
+    host_environment.pop('C1_DIRECT_CALL',None)
+    if direct:
+        args = options.direct_arguments + [0]*(2-len(options.direct_arguments))
+        host_environment['C1_DIRECT_CALL'] = '%x,%x,%d,%x,%x'%(probe['start']-original.base,direct['start']-original.base,len(options.direct_arguments),*args)
+        host_environment['C1_ASM_OPERAND_PROBE']='1'
+
     if options.trace_asm_segment:
         host_environment['C1_ASM_SEGMENT_PROBE']='1'
         host_environment['C1_ASM_OPERAND_PROBE']='1'
@@ -197,7 +220,7 @@ def main():
         assert 'entry-divergence' not in events
     if canonical:
         shutil.copytree(work,directory/'work',copy_function=shutil.copy2)
-    receipt = dict(asm_segment_probe=options.trace_asm_segment,return8_probe=options.trace_return8,stop_function=options.stop_function,terminal_exit=terminal_exit,expected_exit=phase['expected_exit'],case=str(case), phase=options.phase, unmasked=options.unmasked,
+    receipt = dict(direct_call=dict(function=direct['name'],arguments=options.direct_arguments,body_restored=options.direct_body,public_reachability=False)if direct else None,asm_segment_probe=options.trace_asm_segment,return8_probe=options.trace_return8,stop_function=options.stop_function,terminal_exit=terminal_exit,expected_exit=phase['expected_exit'],case=str(case), phase=options.phase, unmasked=options.unmasked,
                    enum_callback_trace=options.trace_enum_callbacks,enum_callback_function=enum_callback if options.trace_enum_callbacks else None,flag_word_probe=options.trace_flags,function_finish_probe=options.trace_function_finishes,timestamp_probe=options.trace_timestamps,
                    accepted_count=len(config['accepted']), accepted_sha256=hashlib.sha256(
                        json.dumps(config['accepted']).encode()).hexdigest(),

@@ -3,9 +3,7 @@
 #include <recon.h>
 
 /* Original 0x4c93b. */
-void __stdcall report_asm_expected_token(int actual, int expected) { __asm { int 3 } }
 /* Original 0x4c98c. */
-ParserValue __stdcall asm_recovery_value(int token) { ParserValue value; __asm { int 3 } return value; }
 /* Original 0x4c9f5. */
 
 /* Original 0x4dcf4. */

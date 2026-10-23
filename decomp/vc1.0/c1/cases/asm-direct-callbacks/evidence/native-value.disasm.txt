@@ -1,0 +1,59 @@
+
+build/native/C13232.EXE:     file format elf32-i386
+
+
+Disassembly of section .text:
+
+00043520 <asm_recovery_value>:
+   43520:	55                   	push   ebp
+   43521:	89 e5                	mov    ebp,esp
+   43523:	83 ec 20             	sub    esp,0x20
+   43526:	e8 00 00 00 00       	call   4352b <asm_recovery_value+0xb>
+   4352b:	58                   	pop    eax
+   4352c:	81 c0 c9 ca 04 00    	add    eax,0x4cac9
+   43532:	89 45 e8             	mov    DWORD PTR [ebp-0x18],eax
+   43535:	8b 45 08             	mov    eax,DWORD PTR [ebp+0x8]
+   43538:	8b 45 08             	mov    eax,DWORD PTR [ebp+0x8]
+   4353b:	89 45 ec             	mov    DWORD PTR [ebp-0x14],eax
+   4353e:	83 c0 d9             	add    eax,0xffffffd9
+   43541:	83 e8 04             	sub    eax,0x4
+   43544:	72 26                	jb     4356c <asm_recovery_value+0x4c>
+   43546:	eb 00                	jmp    43548 <asm_recovery_value+0x28>
+   43548:	8b 45 ec             	mov    eax,DWORD PTR [ebp-0x14]
+   4354b:	83 e8 2b             	sub    eax,0x2b
+   4354e:	74 25                	je     43575 <asm_recovery_value+0x55>
+   43550:	eb 00                	jmp    43552 <asm_recovery_value+0x32>
+   43552:	8b 45 ec             	mov    eax,DWORD PTR [ebp-0x14]
+   43555:	83 c0 d4             	add    eax,0xffffffd4
+   43558:	83 e8 02             	sub    eax,0x2
+   4355b:	72 0f                	jb     4356c <asm_recovery_value+0x4c>
+   4355d:	eb 00                	jmp    4355f <asm_recovery_value+0x3f>
+   4355f:	8b 45 ec             	mov    eax,DWORD PTR [ebp-0x14]
+   43562:	83 c0 d1             	add    eax,0xffffffd1
+   43565:	83 e8 02             	sub    eax,0x2
+   43568:	77 21                	ja     4358b <asm_recovery_value+0x6b>
+   4356a:	eb 00                	jmp    4356c <asm_recovery_value+0x4c>
+   4356c:	c7 45 f8 00 00 00 00 	mov    DWORD PTR [ebp-0x8],0x0
+   43573:	eb 1c                	jmp    43591 <asm_recovery_value+0x71>
+   43575:	8b 4d e8             	mov    ecx,DWORD PTR [ebp-0x18]
+   43578:	8d 81 48 c0 00 00    	lea    eax,[ecx+0xc048]
+   4357e:	8b 00                	mov    eax,DWORD PTR [eax]
+   43580:	8d 89 48 c0 00 00    	lea    ecx,[ecx+0xc048]
+   43586:	89 45 fc             	mov    DWORD PTR [ebp-0x4],eax
+   43589:	eb 06                	jmp    43591 <asm_recovery_value+0x71>
+   4358b:	8b 45 08             	mov    eax,DWORD PTR [ebp+0x8]
+   4358e:	89 45 f8             	mov    DWORD PTR [ebp-0x8],eax
+   43591:	eb 00                	jmp    43593 <asm_recovery_value+0x73>
+   43593:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+   43596:	8b 4d fc             	mov    ecx,DWORD PTR [ebp-0x4]
+   43599:	89 4d f4             	mov    DWORD PTR [ebp-0xc],ecx
+   4359c:	89 45 f0             	mov    DWORD PTR [ebp-0x10],eax
+   4359f:	8b 45 f0             	mov    eax,DWORD PTR [ebp-0x10]
+   435a2:	89 45 e0             	mov    DWORD PTR [ebp-0x20],eax
+   435a5:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+   435a8:	89 45 e4             	mov    DWORD PTR [ebp-0x1c],eax
+   435ab:	8b 55 e4             	mov    edx,DWORD PTR [ebp-0x1c]
+   435ae:	8b 45 e0             	mov    eax,DWORD PTR [ebp-0x20]
+   435b1:	83 c4 20             	add    esp,0x20
+   435b4:	5d                   	pop    ebp
+   435b5:	c2 04 00             	ret    0x4

@@ -1001,7 +1001,9 @@
     "_recovery_token_value@4",
     "_recover_parser_token",
     "_report_asm_operand_error@8",
-    "_make_asm_segment_value@4"
+    "_make_asm_segment_value@4",
+    "_report_asm_expected_token@8",
+    "_asm_recovery_value@4"
   ],
   "driver": [
     {
@@ -5070,12 +5072,65 @@
     {
       "name": "_report_asm_expected_token@8",
       "start": 313659,
-      "end": 313660
+      "end": 313740,
+      "abi_inputs": [
+        {
+          "name": "actual",
+          "formal": "actual",
+          "stack_slot": 1
+        },
+        {
+          "name": "expected",
+          "formal": "expected",
+          "stack_slot": 2
+        }
+      ],
+      "abi_globals": [
+        {
+          "name": "asm_current_token",
+          "original": 373064,
+          "bytes": 1
+        },
+        {
+          "name": "asm_operand_count",
+          "original": 372772,
+          "bytes": 4
+        },
+        {
+          "name": "error_count",
+          "original": 373288,
+          "bytes": 4
+        }
+      ],
+      "reachability": "direct code-level validation only; original insertionlist sentinel prevents publicsourcepath"
     },
     {
       "name": "_asm_recovery_value@4",
       "start": 313740,
-      "end": 313741
+      "end": 313801,
+      "shared": [
+        [
+          313801,
+          313845
+        ]
+      ],
+      "abi_inputs": [
+        {
+          "name": "token",
+          "formal": "token",
+          "stack_slot": 1
+        }
+      ],
+      "reachability": "direct code-level validation only; original insertionlist sentinel prevents publicsourcepath",
+      "abi_return": {
+        "registers": [
+          "eax",
+          "edx"
+        ],
+        "stack_cleanup": 4,
+        "hidden_result_pointer": false,
+        "definedness": "Only one semantic word is written per token; exact raw instruction/table masks and owned type_0000 pointer proof at cases/asm-direct-callbacks/evidence/definedness-and-caller-proof.json"
+      }
     },
     {
       "name": "_report_asm_parser_error@4",
@@ -6082,5 +6137,14 @@
       "name": "_browser_output",
       "original": 382368
     }
-  ]
+  ],
+  "direct_cases": {
+    "asm-direct-callbacks": {
+      "accepted_from": 997,
+      "accepted_count": 999,
+      "public_reachability": false,
+      "units": 15,
+      "manifest": "cases/asm-direct-callbacks/manifest.json"
+    }
+  }
 }

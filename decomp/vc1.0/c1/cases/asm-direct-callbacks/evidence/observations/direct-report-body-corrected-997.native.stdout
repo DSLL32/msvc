@@ -1,0 +1,4 @@
+audit.c(7) : error C2400: inline syntax error in 'operand 1'; found 'newline'
+audit.c(8) : error C2400: inline syntax error in 'operand 2'; found 'newline'
+audit.c(9) : error C2400: inline syntax error in 'operand 2'; found 'newline'
+audit.c(10) : error C2400: inline syntax error in 'operand 3'; found 'newline'

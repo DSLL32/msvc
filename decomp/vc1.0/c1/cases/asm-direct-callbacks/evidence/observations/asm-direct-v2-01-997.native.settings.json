@@ -1,0 +1,22 @@
+{
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/asm-direct-v2-01-997",
+  "function": "report_asm_expected_token",
+  "arguments": [
+    34,
+    39
+  ],
+  "formals": [
+    "actual",
+    "expected"
+  ],
+  "body": true,
+  "buffered_streams": [
+    "expression_file",
+    "symbol_file",
+    "line_file",
+    "global_file",
+    "debug_file",
+    "pch_file",
+    "browser_output"
+  ]
+}

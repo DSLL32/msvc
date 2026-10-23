@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "ef379ca068f4494f9ed93726c36c0513eef1b0b337447f76e36880d3e87e6e9a",
+    "functions.json": "31309beed14ef8c05c81feec07ccda91de8d6dbf39ae37ed8473d3b41b86dbaf",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "a232c41c8b5757f8d24375c813040c38ec428f5447f7a71afda3adfe73cb5271"
+    "sha256": "ae3544fe2d6983d588b9177c145381416dbb681db1dd82e4cd6b906907d8f25d"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
@@ -227,7 +227,7 @@
     },
     "asm_recovery_value": {
       "logical": "_asm_recovery_value@4",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-parser.c"
     },
     "asm_scale_encoding": {
       "logical": "_asm_scale_encoding@4",
@@ -3023,7 +3023,7 @@
     },
     "report_asm_expected_token": {
       "logical": "_report_asm_expected_token@8",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-parser.c"
     },
     "report_asm_operand_error": {
       "logical": "_report_asm_operand_error@8",
@@ -4514,7 +4514,9 @@
     "recovery_token_value",
     "recover_parser_token",
     "report_asm_operand_error",
-    "make_asm_segment_value"
+    "make_asm_segment_value",
+    "report_asm_expected_token",
+    "asm_recovery_value"
   ],
   "excluded_accepted": {
     "CRT": [

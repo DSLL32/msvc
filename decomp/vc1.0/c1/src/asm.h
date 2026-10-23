@@ -55,7 +55,7 @@ extern AsmAddressRule asm_address_rules[32];
 #define ASM_OPERAND_CATEGORY(address_) (asm_address_rules[(address_)->address_flags & 31].category)
 extern unsigned char asm_operand_size_codes[9];
 void __stdcall report_asm_expected_token(int actual, int expected);
-ParserValue __stdcall asm_recovery_value(int token);
+RECON_RETURN8_TYPE(ParserValue) __stdcall asm_recovery_value(int token);
 void __stdcall report_asm_parser_error(char *text);
 int finish_asm_line(void);
 unsigned char read_asm_token(void);

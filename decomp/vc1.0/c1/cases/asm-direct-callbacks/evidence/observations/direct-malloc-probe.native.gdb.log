@@ -1,0 +1,8 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x3f2a0: file src/asm-registers.c, line 201.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, report_asm_operand_error (code=1449074676, operand=8180) at src/asm-registers.c:201
+201	{
+$1 = 0x5760c2b0

@@ -1,15 +1,14 @@
 {
-  "authorization": "Root approved SINGLE bounded assembler grammar-repair/operand-context expectederrorworkflow. OriginalvalidateactualLRrepairs/address-size/indexgates; optionalSEG onlynaturallysupported/coherent. Exactorderederrors/partialfiles and recovered_tail finish/browsermarker beforefreeze. Independent actualasmreturn8proof/ownership required beforepromotion.",
-  "baseline_commit": "ee52dbe7ea190924481ae6fbfc644cfb9479af0a",
-  "baseline_accepted_count": 995,
+  "authorization": "Root approved separately named direct assembler-callback code-level workflow; never claim public reachability. Real initialized marker, separate debugger-only call stack, unchanged repair table; observe input ownership/definedness and complete return/nonvolatile/global/output effects.",
+  "baseline_commit": "a54dabad3e15300236a5be88a3818a3ad7fa153f",
+  "baseline_accepted_count": 997,
   "status": "complete",
   "cases": [
     {
-      "case": "asm-parser-repair",
-      "phase": "c1",
-      "status": "complete;995 through997, fiveerrors/exactpartialfiles/recovered_tail proved"
+      "case": "asm-direct-callbacks",
+      "kind": "direct support callback validation",
+      "status": "complete;997 through999;15directunits, no public reachability"
     }
   ],
-  "adjustment": "Root approved142bytesprovisional reachedoperand44+SEG98; generated insertionhelpers/44table unacceptednonCRT support dueemptycontroltable. No forcedstate.",
-  "completion": "cases/asm-parser-repair/validation.json"
+  "completion": "cases/asm-direct-callbacks/validation.json"
 }
