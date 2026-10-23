@@ -13,5 +13,6 @@ int main(int argc,char **argv)
     if(!strcmp(argv[1],"space")) return _ismbcspace(' ')!=8;
     if(!strcmp(argv[1],"upper")) return _mbsupr(target)==NULL;
     if(!strcmp(argv[1],"pbrk")) return _mbspbrk(text,text)==NULL;
+    if(!strcmp(argv[1],"substring")) return _mbsstr(text,text)==NULL;
     return 1;
 }

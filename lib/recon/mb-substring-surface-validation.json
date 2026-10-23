@@ -1,0 +1,7 @@
+{
+  "scope": "SDK _mbsstr typed fail-closed surface for unvisited CL multiple-source branch",
+  "native_build_checks_seconds": {
+    "gcc": 1.085711951367557,
+    "clang": 1.27397714368999
+  }
+}
