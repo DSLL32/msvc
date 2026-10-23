@@ -1,0 +1,116 @@
+[
+  {
+    "function": "_c2_initialize_options",
+    "identity": {
+      "dll": "msvcrt.dll",
+      "name": "strpbrk"
+    },
+    "abi": "cdecl char *(const char *,const char *); each caller cleanup8",
+    "original": {
+      "slot": 4771984,
+      "holder": "ESI",
+      "lifetime": [
+        137991,
+        138068
+      ],
+      "lifetime_sha256": "aece40cc323fea71e1c911d05854c02d55e131cfea3d834e3df553e8fa5b34fb",
+      "instructions": [
+        {
+          "offset": 137991,
+          "bytes": "8b3590d04800"
+        },
+        {
+          "offset": 138009,
+          "bytes": "ffd683c408"
+        },
+        {
+          "offset": 138036,
+          "bytes": "ffd683c408"
+        },
+        {
+          "offset": 138063,
+          "bytes": "ffd683c408"
+        }
+      ],
+      "review": "Full bounded disassembly shows one assignment before all three calls; no holder rewrite or address escape; cdecl preserves ESI"
+    },
+    "rebuilt": {
+      "slot": 4202584,
+      "holder": "[EBP-0xc]",
+      "lifetime": [
+        212,
+        312
+      ],
+      "lifetime_sha256": "7c2ecbcae6b584f2f0a3fee0b81a07e3ba36af2e8b153609e955a2b8277d8c7b",
+      "instructions": [
+        {
+          "offset": 212,
+          "bytes": "8b0d58204000894df4"
+        },
+        {
+          "offset": 243,
+          "bytes": "ff55f483c408"
+        },
+        {
+          "offset": 274,
+          "bytes": "ff55f483c408"
+        },
+        {
+          "offset": 306,
+          "bytes": "ff55f483c408"
+        }
+      ],
+      "review": "Full401754..4017b8 reviewed after typed message cache allocation: ordinary data operands relocate; one cached [EBP-0xc] assignment, three unchanged calls/cleanup8, no overwrite or escape. Re-reviewed complete live interval after USER32 import: only qualified IAT operand changed+8; same saved holder, calls/cleanup and no overwrite/escape."
+    },
+    "scope": "Qualified slot/load/calls and manually reviewed complete live interval; Rust generic indirect edge is not import identity proof"
+  },
+  {
+    "function": "_initialize_messages",
+    "identity": {
+      "dll": "msvcrt.dll",
+      "name": "_strdup"
+    },
+    "abi": "cdecl char *(const char *); each caller cleanup4",
+    "original": {
+      "slot": 4772060,
+      "holder": "EDI",
+      "lifetime": [
+        35,
+        132
+      ],
+      "lifetime_sha256": "50391b448e1fa49fe4db7af8821084ea60d52693c0213806aa1bbfb68d32c039",
+      "instructions": [
+        {
+          "offset": 35,
+          "bytes": "8b3ddcd04800"
+        },
+        {
+          "offset": 122,
+          "bytes": "ffd783c404"
+        }
+      ],
+      "review": "Full48b72b..48b78c reviewed: EDI assigned once before recursion/loop; lookup fastcall preserves EDI; no holder overwrite or escape; one indirect strdup call and cleanup4."
+    },
+    "rebuilt": {
+      "slot": 4202588,
+      "holder": "[EBP-0x4]",
+      "lifetime": [
+        42,
+        191
+      ],
+      "lifetime_sha256": "bffa3f9427695c52d054fad7183f48b42306268d139d1430aa776895d8479d0d",
+      "instructions": [
+        {
+          "offset": 42,
+          "bytes": "a15c2040008945fc"
+        },
+        {
+          "offset": 104,
+          "bytes": "ff55fc83c404"
+        }
+      ],
+      "review": "Full401e8d..401f22 reviewed: sole [EBP-4] cached strdup store; sixrow loop/callee recursion do not overwrite/address-escape slot; one indirect call and cleanup4. Re-reviewed complete live interval after USER32 import: only qualified IAT operand changed+8; same saved holder, calls/cleanup and no overwrite/escape."
+    },
+    "scope": "Qualified slot/load/calls and manually reviewed complete live interval; Rust generic indirect edge is not import identity proof"
+  }
+]

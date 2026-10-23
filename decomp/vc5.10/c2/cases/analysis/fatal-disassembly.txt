@@ -1,0 +1,27 @@
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0048b367 <.text+0x8a367>:
+  48b367:	ff 15 fc d0 48 00    	call   DWORD PTR ds:0x48d0fc
+  48b36d:	8b 44 24 04          	mov    eax,DWORD PTR [esp+0x4]
+  48b371:	33 d2                	xor    edx,edx
+  48b373:	8d 88 e8 03 00 00    	lea    ecx,[eax+0x3e8]
+  48b379:	e8 6a 03 00 00       	call   0x48b6e8
+  48b37e:	8b 54 24 04          	mov    edx,DWORD PTR [esp+0x4]
+  48b382:	8d 4c 24 08          	lea    ecx,[esp+0x8]
+  48b386:	51                   	push   ecx
+  48b387:	50                   	push   eax
+  48b388:	52                   	push   edx
+  48b389:	68 e8 03 00 00       	push   0x3e8
+  48b38e:	e8 3d 00 00 00       	call   0x48b3d0
+  48b393:	a1 b0 7f 49 00       	mov    eax,ds:0x497fb0
+  48b398:	83 c4 10             	add    esp,0x10
+  48b39b:	40                   	inc    eax
+  48b39c:	50                   	push   eax
+  48b39d:	a3 b0 7f 49 00       	mov    ds:0x497fb0,eax
+  48b3a2:	ff 15 9c d0 48 00    	call   DWORD PTR ds:0x48d09c
+  48b3a8:	83 c4 04             	add    esp,0x4
+  48b3ab:	c3                   	ret

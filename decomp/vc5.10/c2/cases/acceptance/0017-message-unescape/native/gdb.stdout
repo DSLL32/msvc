@@ -1,0 +1,30 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+C2-SOURCE-ENTRY _c2_crt_startup 0x56557ff9
+C2-SOURCE-ENTRY _c2_set_argv 0x56558187
+C2-SOURCE-ENTRY _c2_set_default_precision 0x56558247
+C2-SOURCE-ENTRY _c2_main 0x565582c0
+C2-SOURCE-ENTRY _c2_register_exit 0x565581e9
+C2-SOURCE-ENTRY _c2_register_onexit 0x56558499
+C2-SOURCE-ENTRY @c2_read_environment@4 0x56558539
+C2-SOURCE-ENTRY _c2_initialize_options 0x565586d8
+C2-SOURCE-ENTRY _c2_next_argument 0x565589b7
+C2-SOURCE-ENTRY @c2_match_option@16 0x56558a72
+C2-SOURCE-ENTRY @c2_wildcard_match@12 0x56558fbf
+C2-SOURCE-ENTRY @c2_apply_option@12 0x56558cb1
+C2-SOURCE-ENTRY _c2_fatal 0x565590ba
+C2-SOURCE-ENTRY @lookup_message@8 0x5655916c
+C2-SOURCE-ENTRY _initialize_messages 0x565591e7
+C2-SOURCE-ENTRY @load_message@16 0x56559343
+C2-SOURCE-ENTRY @unescape_message@4 0x56559409
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+emit_diagnostic (category=1000, message=7, format=0x565737a4 <message_buffer> "unrecognized flag '%s' in '%s'", arguments=0xffffd7d4 "8\333\377\377+\300VV\364/WV\006") at src/stubs.c:139
+139	}
+eip            0x56557fcb          0x56557fcb <emit_diagnostic+59>
+emit_diagnostic + 59 in section .text of /root/msvc2/decomp/vc5.10/c2/build/native/c2
+   0x56557fca <emit_diagnostic+58>:	int3
+Last stopped for thread 1 (Thread 0xf7fc0580 (LWP 1178832)).
+	Using the running image of child process 1178832.
+Program stopped at 0x56557fca.
+It stopped with signal SIGTRAP, Trace/breakpoint trap.

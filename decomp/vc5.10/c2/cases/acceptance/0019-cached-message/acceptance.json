@@ -1,0 +1,55 @@
+{
+  "function": "@c2_get_diagnostic_string@4",
+  "match": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/cached-wrapper-original2/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/cached-wrapper-original2/graph-audit.json",
+    "matched": "@find_cached_message@4",
+    "original": "0x48b6ae",
+    "native": "find_cached_message",
+    "argument_state": "cached-message",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "find_cached_message",
+      "symbol_start": "0x3070",
+      "symbol_size": 141,
+      "static_pc": "0x30a8",
+      "int3_sites": [
+        "0x30a7"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_initialize_options",
+      "_c2_next_argument",
+      "@c2_match_option@16",
+      "@c2_wildcard_match@12",
+      "@c2_apply_option@12",
+      "_c2_fatal",
+      "@lookup_message@8",
+      "_initialize_messages",
+      "@load_message@16",
+      "@unescape_message@4",
+      "_emit_diagnostic",
+      "@c2_get_diagnostic_string@4"
+    ],
+    "candidates": [
+      "@c2_get_diagnostic_string@4"
+    ],
+    "acceptance": false
+  },
+  "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/cached-wrapper-original2",
+  "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/cached-wrapper-native2",
+  "base_configuration_sha256": "a9cc944fd94c58993cf4d9ee2711aa374a8edcca62f65c9a6cc2ba84c24dfb38",
+  "review": {
+    "approved": true,
+    "scope": "First unsupported /? diagnostic only; no second case",
+    "status": "Independently reviewed real candidate pair and all 24 negative controls; authorized first case only",
+    "review_id": "orchestrator-c2-startup-provenance-2026-10-23"
+  }
+}

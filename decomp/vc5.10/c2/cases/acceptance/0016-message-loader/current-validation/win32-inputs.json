@@ -1,0 +1,25 @@
+{
+  "mode": "original",
+  "inputs": {
+    "decomp/vc5.10/c2/Makefile": "61017b0416e725e974eaa66eb83840b83d6994663b35056dce7089ee6a0c1bf7",
+    "decomp/vc5.10/c2/src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "decomp/vc5.10/c2/src/c2.h": "f12dbe63776ad7a0244b6e2f384f9227de8955815d78ac3deeb965f19ee889e1",
+    "decomp/vc5.10/c2/src/diagnostics.c": "f0dbaf610b3254647f2fa613129afe1809301145ee9cd95e067725aba37e8c55",
+    "decomp/vc5.10/c2/src/environment.c": "44486ae38568891691c56724e46cd3a39953483faa1aee7f1834b4ebc87428f3",
+    "decomp/vc5.10/c2/src/main.c": "78c9468b641eab7e7f1af7fad938fc800b555ec8d11005c5bbcec0bfc8eef94f",
+    "decomp/vc5.10/c2/src/messages.rc": "2c5d0852b25ad0dba5048fb18634420c3fb7a7d93032187083bff0b8a443df8c",
+    "decomp/vc5.10/c2/src/onexit.c": "655604423c7d014c413f586440382adbb7651a91596121050a0e98b536d39bd2",
+    "decomp/vc5.10/c2/src/option-match.c": "1e7ba11f9961d07211e4e4a7ef6a50b361df23eae587d44678c115ba9a267a07",
+    "decomp/vc5.10/c2/src/option-table.c": "2f8ac5134d6edbfb96f270119d47e61cb23686745312a319d3eb08d2982ad0b0",
+    "decomp/vc5.10/c2/src/options.c": "ee46ca151593e3c0535aff703bc848accb39b3f7a578891175472151cd23188a",
+    "decomp/vc5.10/c2/src/precision.c": "daae70312d63b144872fb3486186501d6de76afae8c42eb0ff572c9d1da25501",
+    "decomp/vc5.10/c2/src/startup.c": "9703233f15eac9538cfb31621770ea4560e918d80b2408a5f2a3e08ac1462b88",
+    "decomp/vc5.10/c2/src/stubs.c": "b5677263a11f73c8ac14f200b3f74a6e09fa400103b99e1b65a0addc519c8262",
+    "lib/recon/include/recon.h": "c14e085e17b5d57bb7ff02a4f5caa8c4b2a39007681859cce1484b140b15af73",
+    "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "lib/recon/include/win32.h": "f86cab08a34b1bd7b0a0ad55981b8a8ea7c0791ed0cbdf730d0d52c879823e62"
+  },
+  "snapshot": "/root/msvc2/decomp/vc5.10/c2/build/provenance/original/87dacdfaa08128a15558b27d050c9b99fe0b6780de56a0021441092cc779ba93",
+  "input_set_sha256": "87dacdfaa08128a15558b27d050c9b99fe0b6780de56a0021441092cc779ba93",
+  "binary_sha256": "48ba3ed17ecb84fbf5b1fecc373154b64bebb8ac653abf1384130d97440f9873"
+}

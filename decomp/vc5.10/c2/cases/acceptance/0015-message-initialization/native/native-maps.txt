@@ -1,0 +1,24 @@
+56555000-56557000 r--p 00000000 00:8b 7893436                            /root/msvc2/decomp/vc5.10/c2/build/native/c2
+56557000-5656c000 r-xp 00002000 00:8b 7893436                            /root/msvc2/decomp/vc5.10/c2/build/native/c2
+5656c000-56572000 r--p 00017000 00:8b 7893436                            /root/msvc2/decomp/vc5.10/c2/build/native/c2
+56572000-56573000 r--p 0001c000 00:8b 7893436                            /root/msvc2/decomp/vc5.10/c2/build/native/c2
+56573000-56574000 rw-p 0001d000 00:8b 7893436                            /root/msvc2/decomp/vc5.10/c2/build/native/c2
+56574000-5657a000 rw-p 00000000 00:00 0 
+5657a000-5659b000 rw-p 00000000 00:00 0                                  [heap]
+f7d6d000-f7d90000 r--p 00000000 00:8b 4394451                            /usr/lib/i386-linux-gnu/libc.so.6
+f7d90000-f7f18000 r-xp 00023000 00:8b 4394451                            /usr/lib/i386-linux-gnu/libc.so.6
+f7f18000-f7f9d000 r--p 001ab000 00:8b 4394451                            /usr/lib/i386-linux-gnu/libc.so.6
+f7f9d000-f7f9f000 r--p 00230000 00:8b 4394451                            /usr/lib/i386-linux-gnu/libc.so.6
+f7f9f000-f7fa0000 rw-p 00232000 00:8b 4394451                            /usr/lib/i386-linux-gnu/libc.so.6
+f7fa0000-f7faa000 rw-p 00000000 00:00 0 
+f7fb6000-f7fbe000 rw-p 00000000 00:00 0 
+f7fbe000-f7fbf000 r--p 00000000 00:8b 6727889                            /root/msvc2/decomp/vc5.10/c2/build/messages.rmr
+f7fbf000-f7fc1000 rw-p 00000000 00:00 0 
+f7fc1000-f7fc5000 r--p 00000000 00:00 0                                  [vvar]
+f7fc5000-f7fc7000 r-xp 00000000 00:00 0                                  [vdso]
+f7fc7000-f7fc8000 r--p 00000000 00:8b 4394448                            /usr/lib/i386-linux-gnu/ld-linux.so.2
+f7fc8000-f7fec000 r-xp 00001000 00:8b 4394448                            /usr/lib/i386-linux-gnu/ld-linux.so.2
+f7fec000-f7ffb000 r--p 00025000 00:8b 4394448                            /usr/lib/i386-linux-gnu/ld-linux.so.2
+f7ffb000-f7ffd000 r--p 00033000 00:8b 4394448                            /usr/lib/i386-linux-gnu/ld-linux.so.2
+f7ffd000-f7ffe000 rw-p 00035000 00:8b 4394448                            /usr/lib/i386-linux-gnu/ld-linux.so.2
+fffdd000-ffffe000 rw-p 00000000 00:00 0                                  [stack]

@@ -1,0 +1,28 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+C2-SOURCE-ENTRY _c2_crt_startup 0x56558069
+C2-SOURCE-ENTRY _c2_set_argv 0x565581f7
+C2-SOURCE-ENTRY _c2_set_default_precision 0x565582b7
+C2-SOURCE-ENTRY _c2_main 0x56558330
+C2-SOURCE-ENTRY _c2_register_exit 0x56558259
+C2-SOURCE-ENTRY _c2_register_onexit 0x56558509
+C2-SOURCE-ENTRY @c2_read_environment@4 0x565585a9
+C2-SOURCE-ENTRY _c2_initialize_options 0x56558748
+C2-SOURCE-ENTRY _c2_next_argument 0x56558a27
+C2-SOURCE-ENTRY @c2_match_option@16 0x56558ae2
+C2-SOURCE-ENTRY @c2_wildcard_match@12 0x5655902f
+C2-SOURCE-ENTRY @c2_apply_option@12 0x56558d21
+C2-SOURCE-ENTRY _c2_fatal 0x5655912a
+C2-SOURCE-ENTRY @lookup_message@8 0x565591dc
+C2-SOURCE-ENTRY _initialize_messages 0x56559257
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56558037 in load_message (message=301, buffer=0x565737a4 <message_buffer> "", capacity=384, allow_missing=1) at src/stubs.c:144
+144	    __asm { int 3 }
+eip            0x56558037          0x56558037 <load_message+71>
+load_message + 71 in section .text of /root/msvc2/decomp/vc5.10/c2/build/native/c2
+   0x56558036 <load_message+70>:	int3
+Last stopped for thread 1 (Thread 0xf7fc0580 (LWP 1175375)).
+	Using the running image of child process 1175375.
+Program stopped at 0x56558036.
+It stopped with signal SIGTRAP, Trace/breakpoint trap.

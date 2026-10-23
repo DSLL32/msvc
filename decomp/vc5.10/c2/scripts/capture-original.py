@@ -64,14 +64,19 @@ def main():
     assert sha((output/'MSVCRT.DLL').read_bytes())==CANONICAL_CRT
     (output/'plan.txt').write_text(''.join('%x %x\n'%r for r in entries))
     (transport.SCRATCH/'vc5.10/c2/original').mkdir(parents=True,exist_ok=True)
-    command=['/usr/bin/wine',transport.windows(BINARY/'build/debug-run.exe'),
+    helper_inputs=json.loads((BINARY/'build/helper/input-provenance.json').read_text())
+    assert helper_inputs['binary_sha256']==sha((BINARY/'build/debug-run.exe').read_bytes())
+    shutil.copyfile(BINARY/'build/debug-run.exe',output/'capture-helper.exe')
+    shutil.copyfile(BINARY/'build/helper/input-provenance.json',output/'helper-inputs.json')
+    shutil.copytree(helper_inputs['snapshot'],output/'helper-inputs')
+    command=['/usr/bin/wine',transport.windows(output/'capture-helper.exe'),
              transport.windows(output/'C2.EXE'),transport.windows(TARGET),'/?',transport.windows(output/'plan.txt')]
     setup=time.monotonic()-begin;run=time.monotonic()
     result=subprocess.run(command,cwd=output,env=transport.environment(),capture_output=True,timeout=45)
     elapsed=time.monotonic()-run
     (output/'host.stdout').write_bytes(result.stdout);(output/'host.stderr').write_bytes(result.stderr)
     provider=output/'loaded-msvcrt.bin'
-    receipt=dict(data_model_sha256=sha((output/'data-model.json').read_bytes())if data_model else None,data_state_sha256=sha((output/'data-state.bin').read_bytes())if(output/'data-state.bin').exists()else None,explicit_child_environment=True,child_cwd='S:\\vc5.10\\c2\\original',kind='explicit-original-only',observe_messages=args.observe_messages,observe_startup=args.observe_startup,unmasked=args.unmasked,candidates=args.candidate,
+    receipt=dict(helper_inputs_sha256=sha((output/'helper-inputs.json').read_bytes()),data_model_sha256=sha((output/'data-model.json').read_bytes())if data_model else None,data_state_sha256=sha((output/'data-state.bin').read_bytes())if(output/'data-state.bin').exists()else None,explicit_child_environment=True,child_cwd='S:\\vc5.10\\c2\\original',kind='explicit-original-only',observe_messages=args.observe_messages,observe_startup=args.observe_startup,unmasked=args.unmasked,candidates=args.candidate,
                  command=command,base_configuration_sha256=sha(base_snapshot),configuration_sha256=sha(snapshot),target_sha256=sha(original),
                  executable_sha256=sha(image),debugger_sha256=sha((BINARY/'build/debug-run.exe').read_bytes()),
                  audit_receipt_sha256=sha((output/'audit-receipt.json').read_bytes()),rebuilt_sha256=sha((BINARY/'build/c2.exe').read_bytes()),

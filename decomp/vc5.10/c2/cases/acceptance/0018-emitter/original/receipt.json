@@ -1,0 +1,75 @@
+{
+  "data_model_sha256": "fd6156decdb58db7886ae294ef4eb64fa31b4b0a814500f323f79af1fccf5425",
+  "data_state_sha256": "e35beaadbf1f60dc2af677cf84e5b22cd8f39e0976401623e80f04b5baaf0462",
+  "explicit_child_environment": true,
+  "child_cwd": "S:\\vc5.10\\c2\\original",
+  "kind": "explicit-original-only",
+  "observe_messages": false,
+  "observe_startup": false,
+  "unmasked": false,
+  "candidates": [
+    "_emit_diagnostic"
+  ],
+  "command": [
+    "/usr/bin/wine",
+    "R:\\decomp\\vc5.10\\c2\\build\\debug-run.exe",
+    "S:\\vc5.10\\c2\\firstcase\\emit-original2\\C2.EXE",
+    "R:\\toolchains\\5.10\\bin\\C2.EXE",
+    "/?",
+    "S:\\vc5.10\\c2\\firstcase\\emit-original2\\plan.txt"
+  ],
+  "base_configuration_sha256": "9d8fee2cc8d8ab1332cfa388788f010c8ddb8505ec71342a925d757b1f373497",
+  "configuration_sha256": "9aabfb9661d880953cbe6da6d5219b76f2c24a83da0d17ac6ca9c8320ee5fcc2",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "executable_sha256": "dd061aaef15f44a23bd1083780e6a527a97109ff20cc0ce3008b665853205c9d",
+  "debugger_sha256": "7ad839af0d8a3b6e595ed74873f78f36d2bd4a4fa75ae65231d9cdf360eebca1",
+  "audit_receipt_sha256": "9d417cae7e6fc31269c12f82f6c4dc4e8e1cdd9b32ec21bdcd74745fb94110dc",
+  "rebuilt_sha256": "d28636d2ee5fbd9c8f0bffee42ecd728965358bdde210654d0f2265942acf13e",
+  "audit_inputs": {
+    "runtime.json": "5f2887386be0fc57a02abd7ca37a161366c6863bc56bd18ae1beef65e0272ed6",
+    "build/runtime.json": "335f114ad027d413386dcf33c0b615146404aa4803605d0af1f1db0c549d56eb",
+    "build/c2.map": "447bfbc3ccb28dc0106e9a6bf52b44496b87b2fcbe34fde9e45e3360e15069a5",
+    "build/graph-metadata.json": "21a5ae49c2758c60c3a431b07ef70a0a6a7802b79290f1b9f82faf91db20b8ed",
+    "graph-audit": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c"
+  },
+  "source_hashes": {
+    "scripts/native-host.c": "aa6f74cde7c5d8beb147daaebe0419e2b922e7a14c230aa2426fd5239d41df5e",
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/c2.h": "7ae63db46e73fe07c829bf17ef9ce72b65404051eb154f524e8a44bb96416785",
+    "src/diagnostics.c": "9f20ad77fe68222d152ff57d53ff140b4b04bf7fcc5a810f5159b989cf3432db",
+    "src/environment.c": "44486ae38568891691c56724e46cd3a39953483faa1aee7f1834b4ebc87428f3",
+    "src/main.c": "78c9468b641eab7e7f1af7fad938fc800b555ec8d11005c5bbcec0bfc8eef94f",
+    "src/messages.rc": "2c5d0852b25ad0dba5048fb18634420c3fb7a7d93032187083bff0b8a443df8c",
+    "src/onexit.c": "655604423c7d014c413f586440382adbb7651a91596121050a0e98b536d39bd2",
+    "src/option-match.c": "1e7ba11f9961d07211e4e4a7ef6a50b361df23eae587d44678c115ba9a267a07",
+    "src/option-table.c": "2f8ac5134d6edbfb96f270119d47e61cb23686745312a319d3eb08d2982ad0b0",
+    "src/options.c": "ee46ca151593e3c0535aff703bc848accb39b3f7a578891175472151cd23188a",
+    "src/precision.c": "daae70312d63b144872fb3486186501d6de76afae8c42eb0ff572c9d1da25501",
+    "src/startup.c": "9703233f15eac9538cfb31621770ea4560e918d80b2408a5f2a3e08ac1462b88",
+    "src/stubs.c": "31541ceda5cab1c88e42d89ccdff778c242f7e20fef658647b4a5a8600db3050"
+  },
+  "events_sha256": "0ef913c1de2560420a75859d864982d25060b9ee23bc58142df9c7f83f8eec46",
+  "environment": {
+    "MSC_CMD_FLAGS": null
+  },
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "execution_inputs": {
+    "child-environment-input.bin": "5af92f3ecb814199dade3b84c5806644d1ed852cfc77ae92a8114f67d2419f5a",
+    "child-command-input.bin": "af66cdb043ff166573fb3ae7515ebae2f8b8ce1999bf98f21616894003a0bc93",
+    "data-plan.txt": "019bf5fdabc06c69e8897c62d33c6d8e1bda7b6b9070e9d5bc93b8d00dde67ac"
+  },
+  "helper_status": 0,
+  "seconds": {
+    "setup": 0.10539992619305849,
+    "execution": 1.1625011088326573,
+    "total": 1.3062660554423928
+  },
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

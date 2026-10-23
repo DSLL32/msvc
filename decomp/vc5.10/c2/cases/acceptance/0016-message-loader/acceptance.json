@@ -1,0 +1,52 @@
+{
+  "function": "@load_message@16",
+  "match": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/message-load-original/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/message-load-original/graph-audit.json",
+    "matched": "@unescape_message@4",
+    "original": "0x48b7ba",
+    "native": "unescape_message",
+    "argument_state": "message-unescape",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "unescape_message",
+      "symbol_start": "0x2ff0",
+      "symbol_size": 195,
+      "static_pc": "0x3028",
+      "int3_sites": [
+        "0x3027"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_initialize_options",
+      "_c2_next_argument",
+      "@c2_match_option@16",
+      "@c2_wildcard_match@12",
+      "@c2_apply_option@12",
+      "_c2_fatal",
+      "@lookup_message@8",
+      "_initialize_messages",
+      "@load_message@16"
+    ],
+    "candidates": [
+      "@load_message@16"
+    ],
+    "acceptance": false
+  },
+  "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/message-load-original",
+  "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/message-load-native",
+  "base_configuration_sha256": "aba9a6fda1c02585e5c839ae28fe20a65b7829e1e944bf12939806d43a0676fc",
+  "review": {
+    "approved": true,
+    "scope": "First unsupported /? diagnostic only; no second case",
+    "status": "Independently reviewed real candidate pair and all 24 negative controls; authorized first case only",
+    "review_id": "orchestrator-c2-startup-provenance-2026-10-23"
+  }
+}

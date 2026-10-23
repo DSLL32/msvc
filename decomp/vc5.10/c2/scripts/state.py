@@ -114,4 +114,5 @@ def receipt_bound(receipt, snapshot, native=False):
         assert receipt['native_sha256']==sha((BINARY/'build/native/c2').read_bytes())
     else:
         assert receipt['provider_sha256']==CANONICAL_CRT
-        assert receipt['debugger_sha256']==sha((BINARY/'build/debug-run.exe').read_bytes()),'original debugger changed'
+        if 'helper_inputs_sha256'not in receipt:
+            assert receipt['debugger_sha256']==sha((BINARY/'build/debug-run.exe').read_bytes()),'historical helper not retained and current debugger changed'

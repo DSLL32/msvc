@@ -22,7 +22,15 @@
     "_c2_next_argument",
     "@c2_match_option@16",
     "@c2_wildcard_match@12",
-    "@c2_apply_option@12"
+    "@c2_apply_option@12",
+    "_c2_fatal",
+    "@lookup_message@8",
+    "_initialize_messages",
+    "@load_message@16",
+    "@unescape_message@4",
+    "_emit_diagnostic",
+    "@c2_get_diagnostic_string@4",
+    "@find_cached_message@4"
   ],
   "driver": [
     {
@@ -165,17 +173,17 @@
             "review": "Full bounded disassembly shows one assignment before all three calls; no holder rewrite or address escape; cdecl preserves ESI"
           },
           "rebuilt": {
-            "slot": 4202576,
+            "slot": 4206680,
             "holder": "[EBP-0xc]",
             "lifetime": [
               212,
               312
             ],
-            "lifetime_sha256": "b97712d02e0063e073ab472aa6cc6c7fb392fa065c51e6ca5d29f9c8ddf33522",
+            "lifetime_sha256": "d842c532a826af6b3c73c65c430d2f783d399f2787e39b72117669cd7c0311d1",
             "instructions": [
               {
                 "offset": 212,
-                "bytes": "8b0d50204000894df4"
+                "bytes": "8b0d58304000894df4"
               },
               {
                 "offset": 243,
@@ -190,7 +198,7 @@
                 "bytes": "ff55f483c408"
               }
             ],
-            "review": "Full100-byte401744..4017a8 re-reviewed after new option handler; only ordinary globals relocated, one ECX\u2192[EBP-0xc] assignment, three calls+cleanup8, no holder overwrite/escape."
+            "review": "Full401764..4017c8 reviewed after conventional getter source; only ordinary globals relocate+20, same unique cached holder and calls/cleanup8; no overwrite/escape."
           }
         }
       ]
@@ -284,6 +292,184 @@
           691
         ]
       ]
+    },
+    {
+      "name": "_c2_fatal",
+      "native": "c2_fatal",
+      "start": 4764519,
+      "end": 4764588,
+      "kind": "application",
+      "abi": "cdecl, int message and varargs",
+      "evidence": "cases/analysis/fatal-disassembly.txt; full69-byte cdecl varargs closeall/lookup/emit/incrementerror/exit body"
+    },
+    {
+      "name": "@lookup_message@8",
+      "native": "lookup_message",
+      "start": 4765416,
+      "end": 4765448,
+      "kind": "application",
+      "abi": "fastcall ECX unsigned message EDX allow_missing; no stack parameters",
+      "evidence": "cases/analysis/messages-disassembly.txt; whole32-byte fastcall initialize/cache-buffer loader wrapper"
+    },
+    {
+      "name": "_initialize_messages",
+      "native": "initialize_messages",
+      "start": 4765448,
+      "end": 4765580,
+      "kind": "application",
+      "abi": "cdecl, no parameters",
+      "evidence": "cases/analysis/messages-disassembly.txt; complete132-byte cache initializer, six contextual ID/string rows, recursion guarded before loading, strdup cached register contract separately pinned",
+      "cached_imports": [
+        {
+          "dll": "MSVCRT.dll",
+          "symbol": "_strdup",
+          "abi": "cdecl char *(const char *); each caller cleanup4",
+          "original": {
+            "slot": 4772060,
+            "holder": "EDI",
+            "lifetime": [
+              35,
+              132
+            ],
+            "lifetime_sha256": "50391b448e1fa49fe4db7af8821084ea60d52693c0213806aa1bbfb68d32c039",
+            "instructions": [
+              {
+                "offset": 35,
+                "bytes": "8b3ddcd04800"
+              },
+              {
+                "offset": 122,
+                "bytes": "ffd783c404"
+              }
+            ],
+            "review": "Full48b72b..48b78c reviewed: EDI assigned once before recursion/loop; lookup fastcall preserves EDI; no holder overwrite or escape; one indirect strdup call and cleanup4."
+          },
+          "rebuilt": {
+            "slot": 4206684,
+            "holder": "[EBP-0x4]",
+            "lifetime": [
+              42,
+              191
+            ],
+            "lifetime_sha256": "b31a848c2ddd29ef1aea1e23e50f3c56e22dd870f2e9a40f2c03b58d69e33ae1",
+            "instructions": [
+              {
+                "offset": 42,
+                "bytes": "a15c3040008945fc"
+              },
+              {
+                "offset": 104,
+                "bytes": "ff55fc83c404"
+              }
+            ],
+            "review": "Complete401e9d..401f32 reviewed after emission source data: only ordinary globals relocate, no cached holder overwrite/escape; same indirect calls/cleanup."
+          }
+        }
+      ]
+    },
+    {
+      "name": "@load_message@16",
+      "native": "load_message",
+      "start": 4765580,
+      "end": 4765626,
+      "kind": "application",
+      "abi": "fastcall ECX message EDX buffer; stack capacity and allow_missing; RET8",
+      "evidence": "cases/analysis/messages-disassembly.txt; whole46-byte resource loader, direct GetModuleHandleA(NULL)/LoadStringA and optional unescape; original ignores allow_missing but RET8 preserves ABI"
+    },
+    {
+      "name": "@unescape_message@4",
+      "native": "unescape_message",
+      "start": 4765626,
+      "end": 4765688,
+      "kind": "application",
+      "abi": "fastcall ECX mutable message buffer; no stack parameters",
+      "evidence": "cases/analysis/messages-disassembly.txt; full62-byte in-place escape converter, newline/tab escapes and literal unknown-backslash retention, returns original buffer"
+    },
+    {
+      "name": "_emit_diagnostic",
+      "native": "emit_diagnostic",
+      "start": 4764624,
+      "end": 4765030,
+      "kind": "application",
+      "abi": "cdecl int category,int message,char *format,va_list arguments",
+      "evidence": "cases/analysis/diagnostic-disassembly.txt; whole406-byte emitter, source location/recognized severity/Cnnnn/text/newline output, cached fwrite identity separately pinned",
+      "cached_imports": [
+        {
+          "dll": "MSVCRT.dll",
+          "symbol": "fwrite",
+          "abi": "cdecl size_t(const void*,size_t,size_t,FILE*); caller cleanup16",
+          "original": {
+            "slot": 4771916,
+            "holder": "ESI",
+            "lifetime": [
+              313,
+              360
+            ],
+            "lifetime_sha256": "50ce6144402eb2c2e89223f173c04a76152ca7bfda3912e14ddb385e826cf20f",
+            "instructions": [
+              {
+                "offset": 313,
+                "bytes": "8b354cd04800"
+              },
+              {
+                "offset": 331,
+                "bytes": "ffd6"
+              },
+              {
+                "offset": 355,
+                "bytes": "ffd683c410"
+              },
+              {
+                "offset": 339,
+                "bytes": "83c410"
+              }
+            ],
+            "review": "Full48b509..48b538: ESI loaded once; intervening strlen repne scans leave ESI untouched; two fwrite calls/cleanup16, no overwrite/escape. First call cleanup is after the intervening direct stderr IAT load, at48b523; second cleanup is adjacent."
+          },
+          "rebuilt": {
+            "slot": 4206676,
+            "holder": "[EBP-0x8]",
+            "lifetime": [
+              462,
+              540
+            ],
+            "lifetime_sha256": "7ecea86c2c7d22b0adc197a62babdfc8f00cfa17168fec344c1ecd876d80c987",
+            "instructions": [
+              {
+                "offset": 462,
+                "bytes": "8b0d54304000894df8"
+              },
+              {
+                "offset": 509,
+                "bytes": "ff55f883c410"
+              },
+              {
+                "offset": 534,
+                "bytes": "ff55f883c410"
+              }
+            ],
+            "review": "Full4021d0..40221e: unique cached fwrite slot store, same two cdecl calls/cleanup16, strlen scans do not change slot; no overwrite/escape."
+          }
+        }
+      ]
+    },
+    {
+      "name": "@c2_get_diagnostic_string@4",
+      "native": "c2_get_diagnostic_string",
+      "start": 4765390,
+      "end": 4765416,
+      "kind": "application",
+      "abi": "fastcall, ECX message number",
+      "evidence": "cases/analysis/messages-disassembly.txt; full26-byte cached-string wrapper, initialize/find and empty fallback"
+    },
+    {
+      "name": "@find_cached_message@4",
+      "native": "find_cached_message",
+      "start": 4765358,
+      "end": 4765390,
+      "kind": "application",
+      "abi": "fastcall ECX message ID",
+      "evidence": "cases/analysis/messages-disassembly.txt; full32-byte linear six-entry/terminator cache lookup, returns matching text or terminator NULL"
     }
   ],
   "stubs": [
@@ -458,13 +644,58 @@
       "abi": "fastcall, ECX source path EDX line"
     },
     {
-      "name": "_c2_fatal",
-      "native": "c2_fatal",
-      "start": 4764519,
-      "end": 4764520,
+      "name": "_c2_copy_arguments",
+      "native": "c2_copy_arguments",
+      "start": 4532888,
+      "end": 4532939,
       "pending_extent": true,
       "kind": "application",
-      "abi": "cdecl, int message and varargs",
+      "abi": "cdecl, no parameters; returns pointer to terminal argument slot"
+    },
+    {
+      "name": "@c2_validate_alignment@4",
+      "native": "c2_validate_alignment",
+      "start": 4533915,
+      "end": 4533924,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall, ECX alignment"
+    },
+    {
+      "name": "@c2_system_fatal@12",
+      "native": "c2_system_fatal",
+      "start": 4765320,
+      "end": 4765358,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall, ECX message EDX prefix; stack filename; RET4"
+    },
+    {
+      "name": "@parse_option_integer@4",
+      "native": "parse_option_integer",
+      "start": 4533799,
+      "end": 4533800,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall ECX integer text; no stack parameters"
+    },
+    {
+      "name": "@resolve_diagnostic_location@8",
+      "native": "resolve_diagnostic_location",
+      "start": 4413704,
+      "end": 4413705,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall ECX location EDX output filename"
+    },
+    {
+      "name": "_format_diagnostic",
+      "native": "format_diagnostic",
+      "start": 4765030,
+      "end": 4765031,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl buffer,format,varargs",
       "state": [
         {
           "original": "0x499708",
@@ -519,53 +750,16 @@
           "native": "recon_crt_newmode"
         }
       ],
-      "state_policy": "fatal-option",
-      "argv_consumed": 1
+      "state_policy": "format-prefix"
     },
     {
-      "name": "_c2_copy_arguments",
-      "native": "c2_copy_arguments",
-      "start": 4532888,
-      "end": 4532939,
+      "name": "_format_diagnostic_args",
+      "native": "format_diagnostic_args",
+      "start": 4765054,
+      "end": 4765055,
       "pending_extent": true,
       "kind": "application",
-      "abi": "cdecl, no parameters; returns pointer to terminal argument slot"
-    },
-    {
-      "name": "@c2_validate_alignment@4",
-      "native": "c2_validate_alignment",
-      "start": 4533915,
-      "end": 4533924,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall, ECX alignment"
-    },
-    {
-      "name": "@c2_get_diagnostic_string@4",
-      "native": "c2_get_diagnostic_string",
-      "start": 4765390,
-      "end": 4765416,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall, ECX message number"
-    },
-    {
-      "name": "@c2_system_fatal@12",
-      "native": "c2_system_fatal",
-      "start": 4765320,
-      "end": 4765358,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall, ECX message EDX prefix; stack filename; RET4"
-    },
-    {
-      "name": "@parse_option_integer@4",
-      "native": "parse_option_integer",
-      "start": 4533799,
-      "end": 4533800,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall ECX integer text; no stack parameters"
+      "abi": "cdecl buffer,format,va_list"
     }
   ],
   "text_data": [

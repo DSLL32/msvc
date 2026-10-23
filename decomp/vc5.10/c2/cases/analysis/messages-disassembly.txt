@@ -1,0 +1,113 @@
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0048b6e8 <.text+0x8a6e8>:
+  48b6e8:	56                   	push   esi
+  48b6e9:	57                   	push   edi
+  48b6ea:	8b f2                	mov    esi,edx
+  48b6ec:	8b f9                	mov    edi,ecx
+  48b6ee:	e8 15 00 00 00       	call   0x48b708
+  48b6f3:	ba d0 e4 49 00       	mov    edx,0x49e4d0
+  48b6f8:	8b cf                	mov    ecx,edi
+  48b6fa:	56                   	push   esi
+  48b6fb:	68 80 01 00 00       	push   0x180
+  48b700:	e8 87 00 00 00       	call   0x48b78c
+  48b705:	5f                   	pop    edi
+  48b706:	5e                   	pop    esi
+  48b707:	c3                   	ret
+  48b708:	a1 50 e6 49 00       	mov    eax,ds:0x49e650
+  48b70d:	56                   	push   esi
+  48b70e:	85 c0                	test   eax,eax
+  48b710:	75 6d                	jne    0x48b77f
+  48b712:	a1 d0 e1 49 00       	mov    eax,ds:0x49e1d0
+  48b717:	be d0 e1 49 00       	mov    esi,0x49e1d0
+  48b71c:	85 c0                	test   eax,eax
+  48b71e:	c7 05 50 e6 49 00 01 	mov    DWORD PTR ds:0x49e650,0x1
+  48b725:	00 00 00 
+  48b728:	74 55                	je     0x48b77f
+  48b72a:	57                   	push   edi
+  48b72b:	8b 3d dc d0 48 00    	mov    edi,DWORD PTR ds:0x48d0dc
+  48b731:	55                   	push   ebp
+  48b732:	53                   	push   ebx
+  48b733:	bd 1c e2 49 00       	mov    ebp,0x49e21c
+  48b738:	bb 10 e2 49 00       	mov    ebx,0x49e210
+  48b73d:	8b 0e                	mov    ecx,DWORD PTR [esi]
+  48b73f:	ba 01 00 00 00       	mov    edx,0x1
+  48b744:	e8 9f ff ff ff       	call   0x48b6e8
+  48b749:	85 c0                	test   eax,eax
+  48b74b:	75 34                	jne    0x48b781
+  48b74d:	81 3e 2d 01 00 00    	cmp    DWORD PTR [esi],0x12d
+  48b753:	75 07                	jne    0x48b75c
+  48b755:	c7 46 04 08 e2 49 00 	mov    DWORD PTR [esi+0x4],0x49e208
+  48b75c:	81 3e 2e 01 00 00    	cmp    DWORD PTR [esi],0x12e
+  48b762:	75 03                	jne    0x48b767
+  48b764:	89 6e 04             	mov    DWORD PTR [esi+0x4],ebp
+  48b767:	81 3e 2f 01 00 00    	cmp    DWORD PTR [esi],0x12f
+  48b76d:	75 03                	jne    0x48b772
+  48b76f:	89 5e 04             	mov    DWORD PTR [esi+0x4],ebx
+  48b772:	8b 46 08             	mov    eax,DWORD PTR [esi+0x8]
+  48b775:	83 c6 08             	add    esi,0x8
+  48b778:	85 c0                	test   eax,eax
+  48b77a:	75 c1                	jne    0x48b73d
+  48b77c:	5b                   	pop    ebx
+  48b77d:	5d                   	pop    ebp
+  48b77e:	5f                   	pop    edi
+  48b77f:	5e                   	pop    esi
+  48b780:	c3                   	ret
+  48b781:	50                   	push   eax
+  48b782:	ff d7                	call   edi
+  48b784:	83 c4 04             	add    esp,0x4
+  48b787:	89 46 04             	mov    DWORD PTR [esi+0x4],eax
+  48b78a:	eb e6                	jmp    0x48b772
+  48b78c:	8b 44 24 04          	mov    eax,DWORD PTR [esp+0x4]
+  48b790:	56                   	push   esi
+  48b791:	8b f2                	mov    esi,edx
+  48b793:	50                   	push   eax
+  48b794:	56                   	push   esi
+  48b795:	51                   	push   ecx
+  48b796:	6a 00                	push   0x0
+  48b798:	ff 15 20 d1 48 00    	call   DWORD PTR ds:0x48d120
+  48b79e:	50                   	push   eax
+  48b79f:	ff 15 44 d0 48 00    	call   DWORD PTR ds:0x48d044
+  48b7a5:	85 c0                	test   eax,eax
+  48b7a7:	74 0b                	je     0x48b7b4
+  48b7a9:	8b ce                	mov    ecx,esi
+  48b7ab:	e8 0a 00 00 00       	call   0x48b7ba
+  48b7b0:	5e                   	pop    esi
+  48b7b1:	c2 08 00             	ret    0x8
+  48b7b4:	33 c0                	xor    eax,eax
+  48b7b6:	5e                   	pop    esi
+  48b7b7:	c2 08 00             	ret    0x8
+  48b7ba:	8a 11                	mov    dl,BYTE PTR [ecx]
+  48b7bc:	56                   	push   esi
+  48b7bd:	84 d2                	test   dl,dl
+  48b7bf:	8b f1                	mov    esi,ecx
+  48b7c1:	8b c1                	mov    eax,ecx
+  48b7c3:	74 1e                	je     0x48b7e3
+  48b7c5:	80 fa 5c             	cmp    dl,0x5c
+  48b7c8:	75 0c                	jne    0x48b7d6
+  48b7ca:	8a 51 01             	mov    dl,BYTE PTR [ecx+0x1]
+  48b7cd:	41                   	inc    ecx
+  48b7ce:	80 fa 6e             	cmp    dl,0x6e
+  48b7d1:	75 15                	jne    0x48b7e8
+  48b7d3:	c6 01 0a             	mov    BYTE PTR [ecx],0xa
+  48b7d6:	8a 11                	mov    dl,BYTE PTR [ecx]
+  48b7d8:	88 16                	mov    BYTE PTR [esi],dl
+  48b7da:	8a 51 01             	mov    dl,BYTE PTR [ecx+0x1]
+  48b7dd:	46                   	inc    esi
+  48b7de:	41                   	inc    ecx
+  48b7df:	84 d2                	test   dl,dl
+  48b7e1:	75 e2                	jne    0x48b7c5
+  48b7e3:	c6 06 00             	mov    BYTE PTR [esi],0x0
+  48b7e6:	5e                   	pop    esi
+  48b7e7:	c3                   	ret
+  48b7e8:	80 fa 74             	cmp    dl,0x74
+  48b7eb:	75 05                	jne    0x48b7f2
+  48b7ed:	c6 01 09             	mov    BYTE PTR [ecx],0x9
+  48b7f0:	eb e4                	jmp    0x48b7d6
+  48b7f2:	c6 06 5c             	mov    BYTE PTR [esi],0x5c
+  48b7f5:	46                   	inc    esi
+  48b7f6:	eb de                	jmp    0x48b7d6

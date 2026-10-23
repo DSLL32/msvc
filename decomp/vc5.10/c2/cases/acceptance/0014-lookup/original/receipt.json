@@ -1,0 +1,75 @@
+{
+  "data_model_sha256": "fd6156decdb58db7886ae294ef4eb64fa31b4b0a814500f323f79af1fccf5425",
+  "data_state_sha256": "e35beaadbf1f60dc2af677cf84e5b22cd8f39e0976401623e80f04b5baaf0462",
+  "explicit_child_environment": true,
+  "child_cwd": "S:\\vc5.10\\c2\\original",
+  "kind": "explicit-original-only",
+  "observe_messages": false,
+  "observe_startup": false,
+  "unmasked": false,
+  "candidates": [
+    "@lookup_message@8"
+  ],
+  "command": [
+    "/usr/bin/wine",
+    "R:\\decomp\\vc5.10\\c2\\build\\debug-run.exe",
+    "S:\\vc5.10\\c2\\firstcase\\lookup-original\\C2.EXE",
+    "R:\\toolchains\\5.10\\bin\\C2.EXE",
+    "/?",
+    "S:\\vc5.10\\c2\\firstcase\\lookup-original\\plan.txt"
+  ],
+  "base_configuration_sha256": "71f3409daf6b67498d19254738f24c4c326a9c283e3cee3327c8b6afc2bbd7cf",
+  "configuration_sha256": "490d23f1314dad28a41bdf5da2b37c2e5f2e637904086a761985b3843adef48a",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "executable_sha256": "8bfb5335da674c5cd434048828be6607fd46c3a4f08b2935168ea737135ab4e0",
+  "debugger_sha256": "0f81ba28a51b697b09ac63b10b2cbbbb5e0424aa640a42ea5e73bde6d2d2a6bb",
+  "audit_receipt_sha256": "7b6bc4d038fcdfd077248df0cef0b253e3abc31114b3dd57c7e59e7ba97a6999",
+  "rebuilt_sha256": "0de9a9995ade4998d9624fd691b079d548f0264cf5716a218732144fba03739b",
+  "audit_inputs": {
+    "runtime.json": "2627d454782633528acc8c1ed1cf10a2a182098bf55d2cbc8b2b851cd7746ccc",
+    "build/runtime.json": "1810223a7c25282762a97131d8cee8f1bc466d537d0a54ba90c8e4b9a3352b6f",
+    "build/c2.map": "83a86dfa2f6c3eeb9d9fd03f68e51b31765e5cdda694a2726a55e8937999d313",
+    "build/graph-metadata.json": "99d16694da5ed1f2289941ce2fbc0c577a7d59db13a47324cd4e01b7040434e8",
+    "graph-audit": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c"
+  },
+  "source_hashes": {
+    "scripts/native-host.c": "aa6f74cde7c5d8beb147daaebe0419e2b922e7a14c230aa2426fd5239d41df5e",
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/c2.h": "3697fa301cb73f779d5a989def45b8d62f7d1d64aca05e31010a7ffde8729194",
+    "src/diagnostics.c": "8a2f4e9635a31d1af82fccebd6745e0d0bc6909fa96049fa326f7bd73cabd72c",
+    "src/environment.c": "44486ae38568891691c56724e46cd3a39953483faa1aee7f1834b4ebc87428f3",
+    "src/main.c": "78c9468b641eab7e7f1af7fad938fc800b555ec8d11005c5bbcec0bfc8eef94f",
+    "src/messages.rc": "2c5d0852b25ad0dba5048fb18634420c3fb7a7d93032187083bff0b8a443df8c",
+    "src/onexit.c": "655604423c7d014c413f586440382adbb7651a91596121050a0e98b536d39bd2",
+    "src/option-match.c": "1e7ba11f9961d07211e4e4a7ef6a50b361df23eae587d44678c115ba9a267a07",
+    "src/option-table.c": "2f8ac5134d6edbfb96f270119d47e61cb23686745312a319d3eb08d2982ad0b0",
+    "src/options.c": "ee46ca151593e3c0535aff703bc848accb39b3f7a578891175472151cd23188a",
+    "src/precision.c": "daae70312d63b144872fb3486186501d6de76afae8c42eb0ff572c9d1da25501",
+    "src/startup.c": "9703233f15eac9538cfb31621770ea4560e918d80b2408a5f2a3e08ac1462b88",
+    "src/stubs.c": "299edcf8fde18f4b32c5736a245927cd80d0bea52c62003eb8cfa6da4a6e2e56"
+  },
+  "events_sha256": "5c8089f4e56e4698a7a89950e8de38a31afae6e8d73d816d7f521e25cb50d6b2",
+  "environment": {
+    "MSC_CMD_FLAGS": null
+  },
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "execution_inputs": {
+    "child-environment-input.bin": "5af92f3ecb814199dade3b84c5806644d1ed852cfc77ae92a8114f67d2419f5a",
+    "child-command-input.bin": "af66cdb043ff166573fb3ae7515ebae2f8b8ce1999bf98f21616894003a0bc93",
+    "data-plan.txt": "019bf5fdabc06c69e8897c62d33c6d8e1bda7b6b9070e9d5bc93b8d00dde67ac"
+  },
+  "helper_status": 0,
+  "seconds": {
+    "setup": 0.10325291566550732,
+    "execution": 1.2726107751950622,
+    "total": 1.4139591651037335
+  },
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

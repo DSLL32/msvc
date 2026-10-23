@@ -115,6 +115,58 @@ static void observe(CONTEXT *context, DWORD address)
     for (i=0;i<sizeof(globals)/sizeof(globals[0]);++i)
         if (read_memory(globals[i],&value,4)) fprintf(events,"global %08lx %08lx\n",globals[i],value);
     fprintf(events,"x87-control %08lx\n", context->FloatSave.ControlWord);
+    if (address == 0x48b78c || address == 0x48b7ba || address == 0x48b3d0 || address == 0x48b6ce || address == 0x48b6ae) {
+        DWORD initialized, cache[14];
+        unsigned char buffer[384];
+        FILE *output;
+        if (!read_memory(context->Esp,stack,sizeof(stack)) || !read_memory(0x49e650,&initialized,4) || !read_memory(0x49e1d0,cache,56) || !read_memory(0x49e4d0,buffer,384)) ExitProcess(168);
+        if (address == 0x48b78c)
+            fprintf(events,"message-load id=%lu buffer=%08lx capacity=%lu allow=%lu initialized=%lu\n",context->Ecx,context->Edx,stack[1],stack[2],initialized);
+        else if (address == 0x48b7ba)
+            fprintf(events,"message-unescape buffer=%08lx initialized=%lu\n",context->Ecx,initialized);
+        if (address == 0x48b6ce || address == 0x48b6ae) fprintf(events,"cached-message id=%lu\n",context->Ecx);
+        if (address == 0x48b6ce || address == 0x48b6ae) {
+            char name[64];
+            for(i=0;i<6;++i) {
+                sprintf(name,"cache-message-%lu.bin",cache[2*i]);
+                if (!cache[2*i+1]) ExitProcess(172);
+                save_string(cache[2*i+1],name);
+            }
+        }
+        if (address == 0x48b3d0) {
+            DWORD arguments[2], unexpected;
+            char name[64];
+            if (!read_memory(stack[4],arguments,8) || !read_memory(0x49e284,&unexpected,4)) ExitProcess(170);
+            fprintf(events,"diagnostic-emit category=%lu message=%lu format=%08lx arguments=%08lx argument=%08lx unexpected=%08lx\n",stack[1],stack[2],stack[3],stack[4],arguments[0],unexpected);
+            save_string(stack[3],"diagnostic-format.bin");save_string(arguments[0],"fatal-argument.bin");save_string(arguments[1],"fatal-phase.bin");
+            for(i=0;i<6;++i) {
+                sprintf(name,"cache-message-%lu.bin",cache[2*i]);
+                if (!cache[2*i+1]) ExitProcess(171);
+                save_string(cache[2*i+1],name);
+            }
+        }
+        output=fopen("message-cache.bin","wb");if(!output)ExitProcess(169);
+        fwrite(&initialized,4,1,output);fwrite(cache,56,1,output);fwrite(buffer,384,1,output);fclose(output);
+    }
+    if (address == 0x48b708) {
+        DWORD current, unexpected;
+        if (!read_memory(0x49968c,&current,4) || !read_memory(0x49e284,&unexpected,4)) ExitProcess(167);
+        fprintf(events,"message-initialize current=%08lx unexpected=%08lx\n",current,unexpected);
+        save_string(current,"current-option.bin");
+        save_contextual_data();
+    }
+    if (address == 0x48b6e8) {
+        DWORD current, unexpected;
+        if (!read_memory(0x49968c,&current,4) || !read_memory(0x49e284,&unexpected,4)) ExitProcess(166);
+        fprintf(events,"message-lookup id=%lu allow=%lu current=%08lx unexpected=%08lx\n",context->Ecx,context->Edx,current,unexpected);
+        save_string(current,"current-option.bin");
+        save_contextual_data();
+    }
+    if (address == 0x48b566) {
+        if (!read_memory(context->Esp,stack,sizeof(stack))) ExitProcess(173);
+        fprintf(events,"format-prefix buffer=%08lx offset=%lu format=%08lx character=%lu number=%lu\n",stack[1],stack[1]-context->Esp,stack[2],stack[3],stack[4]);
+        save_string(stack[2],"format-pattern.bin");save_string(stack[1]-11,"format-prefix.bin");
+    }
     if (address == 0x48b367) {
         DWORD current, unexpected;
         if (!read_memory(context->Esp,stack,sizeof(stack)) || !read_memory(0x49968c,&current,4) || !read_memory(0x49e284,&unexpected,4)) ExitProcess(165);
@@ -150,7 +202,7 @@ static void observe(CONTEXT *context, DWORD address)
         }
         fclose(file);if(i==4096)ExitProcess(155);
     }
-    if (address == 0x452a22 || address == 0x452acb || address == 0x452bb7 || address == 0x452bd9 || address == 0x48b7f8 || address == 0x452cfe || address == 0x48b367) {
+    if (address == 0x452a22 || address == 0x452acb || address == 0x452bb7 || address == 0x452bd9 || address == 0x48b7f8 || address == 0x452cfe || address == 0x48b367 || address == 0x48b6e8 || address == 0x48b708) {
         DWORD argc, argv;
         if (!read_memory(0x49972c,&argc,4) || !read_memory(0x499728,&argv,4)) ExitProcess(151);
         fprintf(events,"command-state argc=%lu argv=%08lx input=%08lx\n",argc,argv,context->Ecx);

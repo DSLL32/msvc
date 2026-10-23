@@ -62,6 +62,13 @@ def compare(original,native,validation=None):
     assert sha((original/'events.txt').read_bytes())==receipts[0]['events_sha256'],'original events changed'
     assert sha((native/'state.json').read_bytes())==receipts[1]['state_sha256'],'native state changed'
     assert sha((original/'loaded-msvcrt.bin').read_bytes())==CANONICAL_CRT,'provider file changed'
+    if 'helper_inputs_sha256'in receipts[0]:
+        assert sha((original/'helper-inputs.json').read_bytes())==receipts[0]['helper_inputs_sha256']
+        helper=json.loads((original/'helper-inputs.json').read_text())
+        assert helper['binary_sha256']==receipts[0]['debugger_sha256']==sha((original/'capture-helper.exe').read_bytes()),'historical capture helper differs'
+        for name,digest in helper['inputs'].items():
+            assert sha((original/'helper-inputs'/name).read_bytes())==digest,'immutable controller compile input differs'
+
     expected=bytearray(masked(config,original_bytes,inventory,receipts[0]['candidates']))
     for record in config['driver']+config['support']:
         if record['name']in config['accepted']+receipts[0]['candidates']:
@@ -86,7 +93,7 @@ def compare(original,native,validation=None):
     assert len(matching)==1,'unknown original frontier'
     expected=matching[0]
     if expected['name']!='_c2_crt_startup':
-        assert expected.get('state_policy')in ('pre-main-no-arguments','main-arguments-and-initial-state','exit-callback','command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option')and expected.get('state'),'new frontier needs explicit state decoder'
+        assert expected.get('state_policy')in ('pre-main-no-arguments','main-arguments-and-initial-state','exit-callback','command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','message-load','message-unescape','diagnostic-emit','cached-message','format-prefix')and expected.get('state'),'new frontier needs explicit state decoder'
         if expected['state_policy']=='pre-main-no-arguments':
             assert expected['abi']=='cdecl, no parameters','parameter ABI has no decoder'
     for group in ('gdb_inputs','gdb_outputs'):
@@ -118,7 +125,7 @@ def compare(original,native,validation=None):
         raw={int(a,16):int(v,16)for a,v in re.findall(r'^global ([0-9a-f]+) ([0-9a-f]+)$',section[1],re.M)}
         required={view['original']:raw[int(view['original'],16)]for view in expected['state']}
         assert state['globals']==required,'frontier globals/runtime state differs'
-    if expected.get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option'):
+    if expected.get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize'):
         segment=text.rsplit('observe %08x '%address,1)[1]
         values=re.findall(r'^command-state argc=(\d+) argv=([0-9a-f]+) input=([0-9a-f]+)$',segment,re.M)
         assert len(values)==1
@@ -130,7 +137,66 @@ def compare(original,native,validation=None):
         assert state['command_state']=={'argc':2-consumed,'argv':[v.decode()for v in strings]}
         if expected['state_policy']=='environment-flags':
             assert int(values[0][2],16)==0 and state['flags']is None,'absent MSC_CMD_FLAGS input is not NULL'
+    if expected.get('state_policy')in ('message-load','message-unescape'):
+        import struct
+        loading=expected['state_policy']=='message-load'
+        if loading:
+            raw=re.findall(r'^message-load id=(\d+) buffer=([0-9a-f]+) capacity=(\d+) allow=(\d+) initialized=(\d+)$',text,re.M)
+            assert raw==[('301','0049e4d0','384','1','1')],'first recursive message load ABI differs'
+        else:
+            assert re.findall(r'^message-unescape buffer=([0-9a-f]+) initialized=(\d+)$',text,re.M)==[('0049e4d0','1')]
+        ids=[301,302,303,310,311,312,0]
+        contents=bytes(384)if loading else b'warning'+bytes(377)
+        assert (original/'message-cache.bin').read_bytes()==struct.pack('<I',1)+b''.join(struct.pack('<II',n,0)for n in ids)+contents
+        pointer=proof.symbols(BINARY/'build/native/c2',data=True)['message_buffer'][0]+int(native_proof['load_bias'],16)
+        assert state['message_load']=={'message':301 if loading else 0,'buffer':pointer,'capacity':384,'allow_missing':1,'initialized':1,'cache':[[n,0]for n in ids],'bytes':contents.hex()},'message cache/loader state differs'
+    if expected.get('state_policy')in ('diagnostic-emit','cached-message'):
+        import struct
+        raw=re.findall(r'^diagnostic-emit category=(\d+) message=(\d+) format=([0-9a-f]+) arguments=([0-9a-f]+) argument=([0-9a-f]+) unexpected=([0-9a-f]+)$',text,re.M)
+        emitting=expected['state_policy']=='diagnostic-emit'
+        if emitting:
+            assert len(raw)==1 and raw[0][:3]==('1000','7','0049e4d0')and raw[0][4]==raw[0][5],'diagnostic call ABI/aliases differ'
+        else:
+            assert re.findall(r'^cached-message id=(\d+)$',text.rsplit('observe %08x '%address,1)[1],re.M)==['303']and state['cached_message_id']==303
+        fmt=b"unrecognized flag '%s' in '%s'"
+        if emitting:
+            assert (original/'diagnostic-format.bin').read_bytes()==fmt+b'\0'
+            assert (original/'fatal-argument.bin').read_bytes()==b'/?\0'and(original/'fatal-phase.bin').read_bytes()==b'p2\0'
+        expected_cache=[[301,'warning'],[302,'error'],[303,'fatal error'],[310,'compiler generated'],[311,'compiler intermediate'],[312,'source'],[0,None]]
+        blob=(original/'message-cache.bin').read_bytes();assert len(blob)==444 and struct.unpack_from('<I',blob)[0]==1
+        pointers=[]
+        for i,(id,string)in enumerate(expected_cache):
+            actual_id,pointer=struct.unpack_from('<II',blob,4+8*i);assert actual_id==id
+            if string is None:assert pointer==0
+            else:
+                assert pointer and pointer!=0x49e4d0 and pointer not in pointers;pointers.append(pointer)
+                assert (original/('cache-message-%d.bin'%id)).read_bytes()==string.encode()+b'\0'
+        contents=fmt+bytes(384-len(fmt));assert blob[60:]==contents
+        assert state['message_cache']=={'initialized':1,'cache':expected_cache,'bytes':contents.hex()},'message cache state differs'
+        if emitting:
+            assert state['diagnostic']=={'category':1000,'message':7,'format':fmt.decode(),'format_alias':1,'argument':'/?','phase':'p2','argument_alias':1},'diagnostic call state differs'
+    if expected.get('state_policy')=='format-prefix':
+        raw=re.findall(r'^format-prefix buffer=([0-9a-f]+) offset=(\d+) format=([0-9a-f]+) character=(\d+) number=(\d+)$',text,re.M)
+        assert len(raw)==1 and raw[0][1]=='51'and raw[0][3:]==('67','1007'),'format prefix original stack ABI differs'
+        assert (original/'format-pattern.bin').read_bytes()==b' %c%d: \0'and(original/'format-prefix.bin').read_bytes()==b'fatal error\0'
+        assert state['format_prefix']=={'format':' %c%d: ','character':67,'number':1007,'output_offset':11,'prefix':b'fatal error\0'.hex()},'native prefix formatter ABI/output identity differs'
     original_overrides=native_overrides=None
+    if expected.get('state_policy')=='message-initialize':
+        raw=re.findall(r'^message-initialize current=([0-9a-f]+) unexpected=([0-9a-f]+)$',text,re.M)
+        assert len(raw)==1 and raw[0][0]==raw[0][1],'message initialization option aliases differ'
+        assert (original/'current-option.bin').read_bytes()==b'/?\0'
+        pointer=state['message_initialization']['current_pointer'];assert pointer>0
+        assert state['message_initialization']=={'current':'/?','current_alias':1,'current_pointer':pointer}
+        original_overrides={'c2_unexpected_argument':int(raw[0][0],16)}
+        native_overrides={'c2_unexpected_argument':'/?'}
+    if expected.get('state_policy')=='message-lookup':
+        raw=re.findall(r'^message-lookup id=(\d+) allow=(\d+) current=([0-9a-f]+) unexpected=([0-9a-f]+)$',text,re.M)
+        assert len(raw)==1 and int(raw[0][0])==1007 and int(raw[0][1])==0 and raw[0][2]==raw[0][3],'message lookup inputs/aliases differ'
+        assert (original/'current-option.bin').read_bytes()==b'/?\0'
+        pointer=state['lookup']['current_pointer'];assert pointer>0
+        assert state['lookup']=={'message':1007,'allow_missing':0,'current':'/?','current_alias':1,'current_pointer':pointer},'message lookup ABI differs'
+        original_overrides={'c2_unexpected_argument':int(raw[0][2],16)}
+        native_overrides={'c2_unexpected_argument':'/?'}
     if expected.get('state_policy')=='fatal-option':
         raw=re.findall(r'^fatal-option message=(\d+) argument=([0-9a-f]+) phase=([0-9a-f]+) current=([0-9a-f]+) unexpected=([0-9a-f]+)$',text,re.M)
         assert len(raw)==1 and int(raw[0][0])==7 and raw[0][1]==raw[0][3]==raw[0][4],'fatal message/argument aliases differ'
@@ -146,7 +212,7 @@ def compare(original,native,validation=None):
         assert (original/'option-value.bin').read_bytes()==b'/?\0'
         table=proof.symbols(BINARY/'build/native/c2',data=True)['c2_options'][0]+int(native_proof['load_bias'],16)
         assert state['apply']=={'option':table+52*12,'value':'/?','mode':0,'current_alias':1},'option application ABI differs'
-    if expected.get('state_policy')in ('wildcard-match','apply-option','fatal-option'):
+    if expected.get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize'):
         from data_evidence import model,plan,verify_original_state,verify_native_state
         data_model=model(config)
         assert (original/'data-plan.txt').read_text()==''.join('%08x %d\n'%(address,size)for name,address,size in plan(data_model))

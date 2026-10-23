@@ -1,0 +1,80 @@
+{
+  "data_model_sha256": "fd6156decdb58db7886ae294ef4eb64fa31b4b0a814500f323f79af1fccf5425",
+  "resource_sha256": "bba673f819e7f365e1914b6e261a33993611fa172aaf4308ae1ea330996198d8",
+  "kind": "native-linux-gdb",
+  "command": [
+    "/usr/bin/gdb",
+    "-nx",
+    "-batch",
+    "-ex",
+    "set pagination off",
+    "-ex",
+    "set confirm off",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/message-load-native/gdb-prefix.py",
+    "-ex",
+    "run /? > /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/message-load-native/stdout.bin 2> /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/message-load-native/stderr.bin",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/message-load-native/gdb-state.py",
+    "/root/msvc2/decomp/vc5.10/c2/build/native/c2"
+  ],
+  "candidates": [
+    "@load_message@16"
+  ],
+  "base_configuration_sha256": "aba9a6fda1c02585e5c839ae28fe20a65b7829e1e944bf12939806d43a0676fc",
+  "configuration_sha256": "13a59ee06164cde305be0a76edc4c97b105bf93ee768fbc1a034ddf0690b5ed8",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "native_sha256": "c7091867f54133d36c2306be69d12861ff429466184374694c867c5263d96945",
+  "rebuilt_sha256": "48ba3ed17ecb84fbf5b1fecc373154b64bebb8ac653abf1384130d97440f9873",
+  "audit_inputs": {
+    "runtime.json": "328231a9c8060ca9253039975663c1445ebf1044fb4062fe8b5fcc0b75ee4437",
+    "build/runtime.json": "fb8cbb55a5a789edeb7344da0b2350e271a41bcf03e58a9bb389e5a031c204cb",
+    "build/c2.map": "3c5067ba048a8c85d9ca893f214119f7da12bef87acf1c43dea6e0ef867d6250",
+    "build/graph-metadata.json": "15742022cfae3a990025a4b326bb9b2535c52f01b71ff6a46f02ca340ce6585b",
+    "graph-audit": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c"
+  },
+  "source_hashes": {
+    "scripts/native-host.c": "aa6f74cde7c5d8beb147daaebe0419e2b922e7a14c230aa2426fd5239d41df5e",
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/c2.h": "f12dbe63776ad7a0244b6e2f384f9227de8955815d78ac3deeb965f19ee889e1",
+    "src/diagnostics.c": "f0dbaf610b3254647f2fa613129afe1809301145ee9cd95e067725aba37e8c55",
+    "src/environment.c": "44486ae38568891691c56724e46cd3a39953483faa1aee7f1834b4ebc87428f3",
+    "src/main.c": "78c9468b641eab7e7f1af7fad938fc800b555ec8d11005c5bbcec0bfc8eef94f",
+    "src/messages.rc": "2c5d0852b25ad0dba5048fb18634420c3fb7a7d93032187083bff0b8a443df8c",
+    "src/onexit.c": "655604423c7d014c413f586440382adbb7651a91596121050a0e98b536d39bd2",
+    "src/option-match.c": "1e7ba11f9961d07211e4e4a7ef6a50b361df23eae587d44678c115ba9a267a07",
+    "src/option-table.c": "2f8ac5134d6edbfb96f270119d47e61cb23686745312a319d3eb08d2982ad0b0",
+    "src/options.c": "ee46ca151593e3c0535aff703bc848accb39b3f7a578891175472151cd23188a",
+    "src/precision.c": "daae70312d63b144872fb3486186501d6de76afae8c42eb0ff572c9d1da25501",
+    "src/startup.c": "9703233f15eac9538cfb31621770ea4560e918d80b2408a5f2a3e08ac1462b88",
+    "src/stubs.c": "b5677263a11f73c8ac14f200b3f74a6e09fa400103b99e1b65a0addc519c8262"
+  },
+  "state_sha256": "b351e4fee6d522af008f5428b4c026d6c290cfa9b132309dc991518fbd74f472",
+  "provenance_sha256": "2d17eeda7fd601cdc6a40710be0adc6f404230ba519ebc2fa5ae991807d34081",
+  "gdb_inputs": {
+    "gdb-prefix.py": "f0fdc2450691279c1893322d1fb10a122b99c23edfeb1bfd66e901d5c9c91583",
+    "gdb-state.py": "3a0356750a80c68d93e736fe22ec046ad95cdd09d5d110b255dd73decb04af3e",
+    "data-model.json": "fd6156decdb58db7886ae294ef4eb64fa31b4b0a814500f323f79af1fccf5425"
+  },
+  "gdb_outputs": {
+    "gdb.stdout": "a878bccdfe774ab445ab95dbcc6033befee226e48aa87241df2eb28ecb232723",
+    "gdb.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-maps.txt": "a9d6752b92e48ae25607869c76583e7ab6f88e305db0d3cd8c2cc15fe5111ed2"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": null
+  },
+  "helper_status": 0,
+  "seconds": {
+    "execution": 0.16905558481812477,
+    "total": 0.2582859229296446
+  },
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

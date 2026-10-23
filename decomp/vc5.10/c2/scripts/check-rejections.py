@@ -121,6 +121,48 @@ def main():
                       ('different fatal phase',lambda r:changed_fatal(r,'phase','p1')),
                       ('fatal argument loses current-input alias',lambda r:changed_fatal(r,'current_alias',0)),
                       ('fatal argument loses stored-pointer alias',lambda r:changed_fatal(r,'unexpected_alias',0))]
+    if 'lookup'in current_state:
+        def changed_lookup(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['lookup'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [('different lookup message ID',lambda r:changed_lookup(r,'message',1008)),
+                      ('different lookup missing-message policy',lambda r:changed_lookup(r,'allow_missing',1)),
+                      ('lookup loses stored option alias',lambda r:changed_lookup(r,'current_alias',0))]
+    if 'message_load'in current_state:
+        def changed_loader(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['message_load'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [('wrong resource buffer identity',lambda r:changed_loader(r,'buffer',current_state['message_load']['buffer']+1)),
+                      ('wrong resource capacity',lambda r:changed_loader(r,'capacity',383)),
+                      ('wrong recursive missing-message policy',lambda r:changed_loader(r,'allow_missing',0)),
+                      ('initializer recursion guard was not set',lambda r:changed_loader(r,'initialized',0)),
+                      ('changed uninitialized resource buffer',lambda r:changed_loader(r,'bytes','01'+current_state['message_load']['bytes'][2:]))]
+    if 'diagnostic'in current_state:
+        def changed_diagnostic(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['diagnostic'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [('wrong diagnostic category',lambda r:changed_diagnostic(r,'category',2000)),
+                      ('wrong diagnostic format',lambda r:changed_diagnostic(r,'format','changed')),
+                      ('format is not the shared message buffer',lambda r:changed_diagnostic(r,'format_alias',0)),
+                      ('diagnostic vararg loses original input alias',lambda r:changed_diagnostic(r,'argument_alias',0)),
+                      ('changed cached warning payload',lambda r:(r/'o/cache-message-301.bin').write_bytes(b'changed\0'))]
+    if 'cached_message_id'in current_state:
+        mutations.append(('different cached message ID',lambda r:mutate_state(r,'cached_message_id',302)))
+    if 'cached_message_id'in current_state:
+        def earlier_observation_only(root):
+            path=root/'o/events.txt';data=path.read_text();head,separator,tail=data.rpartition('cached-message id=303')
+            assert separator and 'cached-message id=303'in head
+            path.write_text(head+'cached-message id=302'+tail);raw_changed(root,'o','events.txt')
+        mutations.append(('earlier correct observation cannot hide wrong final trap input',earlier_observation_only))
+    if 'helper_inputs_sha256'in json_at(a.original/'receipt.json'):
+        mutations.append(('changed immutable capture helper executable',lambda r:(r/'o/capture-helper.exe').write_bytes(b'changed helper')))
+        def changed_controller(root):
+            manifest=json_at(root/'o/helper-inputs.json');name=next(n for n in manifest['inputs']if n.endswith('debug-run.c'))
+            (root/'o/helper-inputs'/name).write_bytes(b'changed controller')
+        mutations.append(('changed immutable compiled controller source',changed_controller))
+    if 'format_prefix'in current_state:
+        def changed_format(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['format_prefix'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [('wrong prefix character argument',lambda r:changed_format(r,'character',70)),
+                      ('wrong prefix number argument',lambda r:changed_format(r,'number',1008)),
+                      ('wrong output pointer within caller text',lambda r:changed_format(r,'output_offset',12))]
     if 'flags'in current_state:
         mutations.append(('NULL environment flags changed to empty string',lambda r:mutate_state(r,'flags','')))
     if 'command_state'in current_state:

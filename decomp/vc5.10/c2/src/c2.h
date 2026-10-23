@@ -9,6 +9,7 @@
 #include <math.h>
 #include <excpt.h>
 #include <io.h>
+#include <stdarg.h>
 /* This target imports the FILE array; the SDK accessor adds a graph vertex. */
 #undef _iob
 __declspec(dllimport) extern FILE _iob[];
@@ -75,6 +76,7 @@ char *c2_next_argument(void);
 int __fastcall c2_match_option(C2Option *table, char *input, char *(__cdecl *next)(void), int mode);
 void __fastcall c2_validate_alignment(char *alignment);
 char *__fastcall c2_get_diagnostic_string(int message);
+char *__fastcall find_cached_message(int message);
 void __fastcall c2_system_fatal(int message, char *prefix, char *filename);
 void c2_print_banner(void);
 FILE *__fastcall c2_open_intermediate(char *base, char *suffix, char *mode, char *description);
@@ -95,4 +97,16 @@ void c2_cleanup(void);
 BOOL WINAPI c2_console_handler(DWORD control);
 void __fastcall c2_report_internal(char *source, int line);
 void c2_fatal(int message, ...);
+char *__fastcall lookup_message(unsigned message, int allow_missing);
+typedef struct MessageEntry { unsigned id; char *text; } MessageEntry;
+extern MessageEntry messages[7];
+extern int messages_initialized;
+extern char message_buffer[384];
+void initialize_messages(void);
+char *__fastcall load_message(unsigned message, char *buffer, int capacity, int allow_missing);
+char *__fastcall unescape_message(char *buffer);
+void emit_diagnostic(int category, int message, char *format, va_list arguments);
+unsigned __fastcall resolve_diagnostic_location(unsigned location, char **file);
+void format_diagnostic(char *buffer, const char *format, ...);
+void format_diagnostic_args(char *buffer, const char *format, va_list arguments);
 #endif

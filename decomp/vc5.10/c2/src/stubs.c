@@ -101,10 +101,7 @@ void __fastcall c2_report_internal(char *source, int line)
     __asm { int 3 }
 }
 
-void c2_fatal(int message, ...)
-{
-    __asm { int 3 }
-}
+
 
 
 char **c2_copy_arguments(void)
@@ -118,11 +115,7 @@ void __fastcall c2_validate_alignment(char *alignment)
     __asm { int 3 }
 }
 
-char *__fastcall c2_get_diagnostic_string(int message)
-{
-    __asm { int 3 }
-    return NULL;
-}
+
 
 void __fastcall c2_system_fatal(int message, char *prefix, char *filename)
 {
@@ -133,4 +126,26 @@ int __fastcall parse_option_integer(char *value)
 {
     __asm { int 3 }
     return 0;
+}
+
+
+
+
+
+
+
+
+
+unsigned __fastcall resolve_diagnostic_location(unsigned location, char **file)
+{
+    __asm { int 3 }
+    return 0;
+}
+void format_diagnostic(char *buffer, const char *format, ...)
+{
+    __asm { int 3 }
+}
+void format_diagnostic_args(char *buffer, const char *format, va_list arguments)
+{
+    __asm { int 3 }
 }

@@ -25,12 +25,12 @@ build/original/input-start.json: $(PROVENANCE_ORIGINAL) scripts/build-provenance
 	$(PYTHON) scripts/build-provenance.py begin original
 build/native/%.o: src/%.c $(NATIVE_HEADERS) Makefile | build/native build/native/input-start.json
 	$(NATIVE_CC) $(NATIVE_FLAGS) -Dmain=c2_main -DRECON_NATIVE_TRACE -finstrument-functions -c $< -o $@
-build/native/c2: build/messages.rmr build/native/stubs.o build/native/startup.o build/native/precision.o build/native/main.o build/native/onexit.o build/native/environment.o build/native/options.o build/native/option-table.o build/native/option-match.o scripts/native-host.c $(NATIVE_SHIMS) $(RECON)/src/trace.c $(NATIVE_HEADERS) Makefile build/native/input-start.json
+build/native/c2: build/messages.rmr build/native/stubs.o build/native/startup.o build/native/precision.o build/native/main.o build/native/onexit.o build/native/environment.o build/native/options.o build/native/option-table.o build/native/option-match.o build/native/diagnostics.o scripts/native-host.c $(NATIVE_SHIMS) $(RECON)/src/trace.c $(NATIVE_HEADERS) Makefile build/native/input-start.json
 	$(NATIVE_CC) $(NATIVE_FLAGS) $(filter %.o,$^) scripts/native-host.c $(NATIVE_SHIMS) $(RECON)/src/trace.c -o $@
 	$(PYTHON) scripts/build-provenance.py finish native --binary $@
 ORIGINAL_CRT_FLAGS = /MD
 # The target compiler intrinsicizes strlen in option action diagnostics.
-build/option-match.obj: ORIGINAL_EXTRA_FLAGS = /Oi
+build/option-match.obj build/diagnostics.obj: ORIGINAL_EXTRA_FLAGS = /Oi
 build/precision.obj: ORIGINAL_CRT_FLAGS = /ML /Zl
 build/%.obj: src/%.c src/c2.h Makefile | build build/original/input-start.json
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /W3 $(ORIGINAL_CRT_FLAGS) $(ORIGINAL_EXTRA_FLAGS) /I$(RECON)/include /Fo$@ $<
@@ -38,13 +38,16 @@ build/messages.rmr: src/messages.rc cases/analysis/encountered-strings.json scri
 	$(PYTHON) scripts/prepare-resources.py
 build/messages.res: src/messages.rc | build
 	$(TOOL) RC.EXE /r /fo build/messages.res src/messages.rc
-build/c2.exe: build/messages.res build/stubs.obj build/startup.obj build/precision.obj build/main.obj build/onexit.obj build/environment.obj build/options.obj build/option-table.obj build/option-match.obj build/original/input-start.json
-	$(TOOL) LINK.EXE /nologo /subsystem:console /entry:mainCRTStartup /map:build/c2.map /out:$@ $(filter %.obj %.res,$^) kernel32.lib
+build/c2.exe: build/messages.res build/stubs.obj build/startup.obj build/precision.obj build/main.obj build/onexit.obj build/environment.obj build/options.obj build/option-table.obj build/option-match.obj build/diagnostics.obj build/original/input-start.json
+	$(TOOL) LINK.EXE /nologo /subsystem:console /entry:mainCRTStartup /map:build/c2.map /out:$@ $(filter %.obj %.res,$^) kernel32.lib user32.lib
 	$(PYTHON) scripts/build-provenance.py finish original --binary $@
-build/debug-run.obj: scripts/debug-run.c | build
+build/helper/input-start.json: scripts/debug-run.c Makefile $(wildcard $(RECON)/include/*.h) | build
+	$(PYTHON) scripts/build-provenance.py begin helper
+build/debug-run.obj: scripts/debug-run.c Makefile | build build/helper/input-start.json
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /W3 /ML /I$(RECON)/include /Fo$@ $<
-build/debug-run.exe: build/debug-run.obj
-	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $^
+build/debug-run.exe: build/debug-run.obj build/helper/input-start.json
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $(filter %.obj,$^)
+	$(PYTHON) scripts/build-provenance.py finish helper --binary $@
 build/runtime.json build/graph-metadata.json &: build/c2.exe build/c2.map functions.json scripts/build-index.py
 	$(PYTHON) scripts/build-index.py
 build/c2.map: build/c2.exe

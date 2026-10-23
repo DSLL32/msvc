@@ -2,12 +2,13 @@
 
 Only the first case is released: `/?`, an unsupported-option diagnostic (status
 1, empty stdout, 51 stderr bytes). The minimal intermediate-input case remains
-queued and unauthorized. Seven application functions (2044 bytes) and five CRT helpers (438 bytes) are
+queued and unauthorized. Fifteen application functions (2849 bytes) and five CRT helpers (438 bytes) are
 accepted; four identified import thunks are tracked separately. The structured
 53-row option table and its selector tables are defined at their point of use.
 The option matcher, wildcard leaf and complete option-action handler are accepted
-with their structured dispatch/classification data. The current frontier is
-`fatal(7, "/?", "p2")`; 37 negative controls verify fail-closed acceptance.
+with their structured dispatch/classification data. The fatal/resource/cache/emission paths are accepted. The current frontier is
+the prefix formatter for `C1007`. Controller executables and compiled inputs are
+frozen with new captures; final-trap observations are scoped explicitly.
 
 `make -j4 native` builds i386 Linux with shared shims; `make -j4 original`
 checks the Win32 reconstruction with the shipped compiler and `/MD` runtime.

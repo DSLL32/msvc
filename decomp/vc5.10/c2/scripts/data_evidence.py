@@ -69,6 +69,13 @@ def verify(config):
                 selector,kind,destination=struct.unpack('<III',read(start+n*12,12))
                 assert selector==ord(row['selector'])and kind==row['kind']and destination==address(row['value'])
             assert read(start+len(table['entries'])*12,12)==b'\0'*12
+        if any(r['name']=='_initialize_messages'and r['name']in config['accepted']for r in config['driver']):
+            import struct as _struct
+            table=0x49e1d0 if side=='original'else maps['_messages']
+            flag=0x49e650 if side=='original'else maps['_messages_initialized']
+            buffer=0x49e4d0 if side=='original'else maps['_message_buffer']
+            assert read(table,56)==b''.join(_struct.pack('<II',n,0)for n in (301,302,303,310,311,312,0)),'contextual message table differs'
+            assert read(flag,4)==bytes(4)and read(buffer,384)==bytes(384),'message cache initial storage differs'
         original_read=reader(TARGET)
         for row in value['objects']:
             if row['kind']=='selector':continue

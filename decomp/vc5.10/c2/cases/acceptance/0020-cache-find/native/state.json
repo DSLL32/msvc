@@ -1,0 +1,54 @@
+{
+  "function": "format_diagnostic",
+  "pc": 1448443889,
+  "signal": "Last stopped for thread 1 (Thread 0xf7fc0580 (LWP 1187852)).\n\tUsing the running image of child process 1187852.\nProgram stopped at 0x56557ff0.\nIt stopped with signal SIGTRAP, Trace/breakpoint trap.\n",
+  "backtrace": "#0  format_diagnostic (buffer=0xffffce8b \"\", format=0x5656d19a \" %c%d: \") at src/stubs.c:147\n#1  0x56559488 in emit_diagnostic (category=1000, message=7, format=0x565747ac <message_buffer> \"unrecognized flag '%s' in '%s'\", arguments=0xffffd7d4 \"6\\333\\377\\377+\\320VV\\364?WV\\006\") at src/diagnostics.c:111\n#2  0x5655919b in c2_fatal (message=7) at src/diagnostics.c:13\n#3  0x565587f2 in c2_initialize_options () at src/options.c:22\n#4  0x565583b7 in c2_main (argc=2, argv=0xffffd964, environment=0x5657bb70) at src/main.c:20\n#5  0x565581c8 in mainCRTStartup () at src/startup.c:38\n#6  0x56559ae4 in main (argc=2, argv=0xffffd964, host_environment=0xffffd970) at scripts/native-host.c:55\n",
+  "trace": [
+    "_c2_crt_startup",
+    "_c2_set_argv",
+    "_c2_set_default_precision",
+    "_c2_main",
+    "_c2_register_exit",
+    "_c2_register_onexit",
+    "@c2_read_environment@4",
+    "_c2_initialize_options",
+    "_c2_next_argument",
+    "@c2_match_option@16",
+    "@c2_wildcard_match@12",
+    "@c2_apply_option@12",
+    "_c2_fatal",
+    "@lookup_message@8",
+    "_initialize_messages",
+    "@load_message@16",
+    "@unescape_message@4",
+    "_emit_diagnostic",
+    "@c2_get_diagnostic_string@4",
+    "@find_cached_message@4"
+  ],
+  "globals": {
+    "0x499708": 4294967295,
+    "0x4996d4": 4294967295,
+    "0x49975c": 32768,
+    "0x4980d4": 0,
+    "0x499718": 0,
+    "0x499694": 1,
+    "0x4980d0": 0,
+    "0x4980cc": 0,
+    "0x7803fa88": 32768,
+    "0x7803fa94": 0,
+    "0x7803f928": 0,
+    "0x7803fa90": 1,
+    "0x7803f198": 0
+  },
+  "arguments": [
+    "/?"
+  ],
+  "MSC_CMD_FLAGS": null,
+  "format_prefix": {
+    "format": " %c%d: ",
+    "character": 67,
+    "number": 1007,
+    "output_offset": 11,
+    "prefix": "666174616c206572726f7200"
+  }
+}

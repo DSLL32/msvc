@@ -1,0 +1,654 @@
+{
+  "function": "initialize_messages",
+  "pc": 1448443935,
+  "signal": "Last stopped for thread 1 (Thread 0xf7fc0580 (LWP 1172068)).\n\tUsing the running image of child process 1172068.\nProgram stopped at 0x5655801e.\nIt stopped with signal SIGTRAP, Trace/breakpoint trap.\n",
+  "backtrace": "#0  initialize_messages () at src/stubs.c:144\n#1  0x56559255 in lookup_message (message=1007, allow_missing=0) at src/diagnostics.c:22\n#2  0x565591b0 in c2_fatal (message=7) at src/diagnostics.c:11\n#3  0x56558832 in c2_initialize_options () at src/options.c:22\n#4  0x565583f7 in c2_main (argc=2, argv=0xffffd964, environment=0x56579b70) at src/main.c:20\n#5  0x56558208 in mainCRTStartup () at src/startup.c:38\n#6  0x565593d4 in main (argc=2, argv=0xffffd964, host_environment=0xffffd970) at scripts/native-host.c:55\n",
+  "trace": [
+    "_c2_crt_startup",
+    "_c2_set_argv",
+    "_c2_set_default_precision",
+    "_c2_main",
+    "_c2_register_exit",
+    "_c2_register_onexit",
+    "@c2_read_environment@4",
+    "_c2_initialize_options",
+    "_c2_next_argument",
+    "@c2_match_option@16",
+    "@c2_wildcard_match@12",
+    "@c2_apply_option@12",
+    "_c2_fatal",
+    "@lookup_message@8"
+  ],
+  "globals": {
+    "0x499708": 4294967295,
+    "0x4996d4": 4294967295,
+    "0x49975c": 32768,
+    "0x4980d4": 0,
+    "0x499718": 0,
+    "0x499694": 1,
+    "0x4980d0": 0,
+    "0x4980cc": 0,
+    "0x7803fa88": 32768,
+    "0x7803fa94": 0,
+    "0x7803f928": 0,
+    "0x7803fa90": 1,
+    "0x7803f198": 0
+  },
+  "arguments": [
+    "/?"
+  ],
+  "MSC_CMD_FLAGS": null,
+  "command_state": {
+    "argc": 1,
+    "argv": [
+      "/?"
+    ]
+  },
+  "message_initialization": {
+    "current": "/?",
+    "current_alias": 1,
+    "current_pointer": 4294957882
+  },
+  "data_state": {
+    "options": [
+      {
+        "pattern": "-cbstring",
+        "value": 1448552192,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Gs#",
+        "value": 1448550808,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Gt#",
+        "value": 1448550812,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-G#",
+        "value": 1448550848,
+        "result": 1,
+        "kind": 35,
+        "reserved": 0
+      },
+      {
+        "pattern": "-A#",
+        "value": 1448552084,
+        "result": 1,
+        "kind": 39,
+        "reserved": 0
+      },
+      {
+        "pattern": "-O#",
+        "value": 1448551016,
+        "result": 1,
+        "kind": 35,
+        "reserved": 0
+      },
+      {
+        "pattern": "-W#",
+        "value": 1448551112,
+        "result": 1,
+        "kind": 35,
+        "reserved": 0
+      },
+      {
+        "pattern": "-db#",
+        "value": 1448552076,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-off#",
+        "value": 1448552072,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-ef#",
+        "value": 1448552196,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-f#",
+        "value": 1448552200,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Fd#",
+        "value": 1448552204,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-QIf",
+        "value": 1448552208,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-ide",
+        "value": 1448552044,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-isize#",
+        "value": 1448550816,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-il#",
+        "value": 1448550800,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-vol#",
+        "value": 1448550820,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Inl#",
+        "value": 1448552212,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-EHs",
+        "value": 1448552164,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-EHa",
+        "value": 1448552164,
+        "result": 1,
+        "kind": 5,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Loop#",
+        "value": 1448550824,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-loopopt",
+        "value": 1448552216,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-MLd",
+        "value": 1448552220,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-MDd",
+        "value": 1448552224,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-MTd",
+        "value": 1448552228,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-ML",
+        "value": 1448552232,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-MD",
+        "value": 1448552236,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-MT",
+        "value": 1448552240,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-nogen",
+        "value": 1448552244,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-basic",
+        "value": 1448552248,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-bzalign",
+        "value": 1448552252,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-ehopt",
+        "value": 1448552256,
+        "result": 1,
+        "kind": 5,
+        "reserved": 0
+      },
+      {
+        "pattern": "-noehopt",
+        "value": 1448552256,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-nolock",
+        "value": 1448552260,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-noblend",
+        "value": 1448550828,
+        "result": 1,
+        "kind": 5,
+        "reserved": 0
+      },
+      {
+        "pattern": "-p6gj",
+        "value": 1448552264,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-QIfdiv",
+        "value": 1448552268,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-QI0f",
+        "value": 1448552272,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-pr",
+        "value": 1448552276,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-FA#",
+        "value": 1448552096,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Fa#",
+        "value": 1448552124,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Fs#",
+        "value": 1448552116,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Bd",
+        "value": 1448552068,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Brepro",
+        "value": 1448552280,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Zi",
+        "value": 1448552284,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Zd",
+        "value": 1448552288,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Za",
+        "value": 1448552292,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Zl",
+        "value": 1448550832,
+        "result": 1,
+        "kind": 5,
+        "reserved": 0
+      },
+      {
+        "pattern": "-H#",
+        "value": 1448550804,
+        "result": 1,
+        "kind": 36,
+        "reserved": 0
+      },
+      {
+        "pattern": "-Fo#",
+        "value": 1448552088,
+        "result": 1,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": "-dos",
+        "value": 1448552296,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "-S",
+        "value": 1448552100,
+        "result": 1,
+        "kind": 1,
+        "reserved": 0
+      },
+      {
+        "pattern": "*",
+        "value": 1448552080,
+        "result": 6,
+        "kind": 34,
+        "reserved": 0
+      },
+      {
+        "pattern": null,
+        "value": 0,
+        "result": 0,
+        "kind": 0,
+        "reserved": 0
+      }
+    ],
+    "selectors": {
+      "c2_machine_selectors": [
+        {
+          "selector": 119,
+          "kind": 1,
+          "value": 1448552136
+        },
+        {
+          "selector": 104,
+          "kind": 1,
+          "value": 1448552140
+        },
+        {
+          "selector": 105,
+          "kind": 1,
+          "value": 1448552132
+        },
+        {
+          "selector": 102,
+          "kind": 1,
+          "value": 1448552144
+        },
+        {
+          "selector": 51,
+          "kind": 36,
+          "value": 1448550836
+        },
+        {
+          "selector": 52,
+          "kind": 36,
+          "value": 1448550836
+        },
+        {
+          "selector": 53,
+          "kind": 36,
+          "value": 1448550836
+        },
+        {
+          "selector": 54,
+          "kind": 36,
+          "value": 1448550836
+        },
+        {
+          "selector": 121,
+          "kind": 1,
+          "value": 1448552148
+        },
+        {
+          "selector": 65,
+          "kind": 1,
+          "value": 1448552152
+        },
+        {
+          "selector": 68,
+          "kind": 1,
+          "value": 1448552156
+        },
+        {
+          "selector": 84,
+          "kind": 1,
+          "value": 1448552160
+        },
+        {
+          "selector": 88,
+          "kind": 1,
+          "value": 1448552164
+        },
+        {
+          "selector": 0,
+          "kind": 0,
+          "value": 0
+        }
+      ],
+      "c2_optimizer_selectors": [
+        {
+          "selector": 97,
+          "kind": 1,
+          "value": 1448552168
+        },
+        {
+          "selector": 119,
+          "kind": 1,
+          "value": 1448552172
+        },
+        {
+          "selector": 115,
+          "kind": 5,
+          "value": 1448550840
+        },
+        {
+          "selector": 116,
+          "kind": 1,
+          "value": 1448550840
+        },
+        {
+          "selector": 103,
+          "kind": 1,
+          "value": 1448552176
+        },
+        {
+          "selector": 112,
+          "kind": 1,
+          "value": 1448552180
+        },
+        {
+          "selector": 121,
+          "kind": 1,
+          "value": 1448552184
+        },
+        {
+          "selector": 0,
+          "kind": 0,
+          "value": 0
+        }
+      ],
+      "c2_warning_selectors": [
+        {
+          "selector": 48,
+          "kind": 36,
+          "value": 1448550844
+        },
+        {
+          "selector": 49,
+          "kind": 36,
+          "value": 1448550844
+        },
+        {
+          "selector": 50,
+          "kind": 36,
+          "value": 1448550844
+        },
+        {
+          "selector": 51,
+          "kind": 36,
+          "value": 1448550844
+        },
+        {
+          "selector": 52,
+          "kind": 36,
+          "value": 1448550844
+        },
+        {
+          "selector": 88,
+          "kind": 1,
+          "value": 1448552188
+        },
+        {
+          "selector": 0,
+          "kind": 0,
+          "value": 0
+        }
+      ]
+    },
+    "objects": {
+      "c2_constant_strings": 0,
+      "c2_stack_probe_limit": 4096,
+      "c2_data_threshold": 32767,
+      "c2_alignment_options": null,
+      "c2_debug_file": null,
+      "c2_offset_file": null,
+      "c2_error_file": null,
+      "c2_source_name": null,
+      "c2_pdb_name": null,
+      "c2_force_inline_float": 0,
+      "c2_trace_enabled": 0,
+      "c2_integer_size": 4,
+      "c2_intermediate_base": "",
+      "c2_volatile_mode": 3,
+      "c2_inline_limit": 0,
+      "c2_exception_mode": 0,
+      "c2_loop_limit": 100,
+      "c2_loop_optimization": 0,
+      "c2_runtime_ml_debug": 0,
+      "c2_runtime_md_debug": 0,
+      "c2_runtime_mt_debug": 0,
+      "c2_runtime_ml": 0,
+      "c2_runtime_md": 0,
+      "c2_runtime_mt": 0,
+      "c2_no_codegen": 0,
+      "c2_basic_mode": 0,
+      "c2_zero_alignment": 0,
+      "c2_exception_optimization": 0,
+      "c2_no_lock": 0,
+      "c2_blend": 1,
+      "c2_p6_mode": 0,
+      "c2_fdiv_fix": 0,
+      "c2_no_float_inline": 0,
+      "c2_profile": 0,
+      "c2_assembly_flags": null,
+      "c2_assembly_file": null,
+      "c2_listing_file": null,
+      "c2_internal_error_active": 0,
+      "c2_reproducible": 0,
+      "c2_codeview_types": 0,
+      "c2_line_numbers": 0,
+      "c2_strict_ansi": 0,
+      "c2_default_library": 1,
+      "c2_identifier_limit": 2058,
+      "c2_output_name": null,
+      "c2_dos_messages": 0,
+      "c2_assembly_enabled": 0,
+      "c2_unexpected_argument": "/?",
+      "c2_windows_calling": 0,
+      "c2_entry_hooks": 0,
+      "c2_internal_listing": 0,
+      "c2_float_calls": 0,
+      "c2_cpu_generation": 5,
+      "c2_omit_frame_pointer": 0,
+      "c2_calling_cdecl": 0,
+      "c2_calling_stdcall": 0,
+      "c2_calling_fastcall": 0,
+      "c2_alias_optimization": 0,
+      "c2_global_optimization": 0,
+      "c2_favor_speed": 1,
+      "c2_global_optimize": 0,
+      "c2_float_precision": 0,
+      "c2_frame_optimization": 0,
+      "c2_warning_level": 1,
+      "c2_warnings_as_errors": 0
+    }
+  }
+}

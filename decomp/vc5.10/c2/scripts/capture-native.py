@@ -54,7 +54,7 @@ records=[r for r in %r if r['native']==frame.name()]
 if len(records)==1:
     for view in records[0].get('state',[]):
         info['globals'][view['original']]=int(gdb.parse_and_eval(view['native'])) & 0xffffffff
-    if records[0].get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option'):
+    if records[0].get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize'):
         ptr=gdb.parse_and_eval('c2_argv');values=[];i=0
         while int(ptr[i]):
             values.append(ptr[i].string());i+=1
@@ -62,6 +62,30 @@ if len(records)==1:
         info['command_state']={'argc':int(gdb.parse_and_eval('c2_argc')),'argv':values}
         if records[0]['state_policy']=='environment-flags':
             info['flags']=None if int(gdb.parse_and_eval('flags'))==0 else gdb.parse_and_eval('flags').string()
+    if records[0].get('state_policy')=='format-prefix':
+        arguments=gdb.parse_and_eval('(int *)((char *)&format+4)')
+        buffer=gdb.parse_and_eval('buffer')
+        origin=frame.older().read_var('text').address
+        info['format_prefix']={'format':gdb.parse_and_eval('format').string(),'character':int(arguments[0]),'number':int(arguments[1]),
+                               'output_offset':int(buffer)-int(origin),'prefix':gdb.selected_inferior().read_memory(buffer-11,12).tobytes().hex()}
+    if records[0].get('state_policy')in ('diagnostic-emit','cached-message'):
+        info['message_cache']={'initialized':int(gdb.parse_and_eval('messages_initialized')),
+                              'cache':[[int(gdb.parse_and_eval('messages[%%d].id'%%i)),gdb.parse_and_eval('messages[%%d].text'%%i).string()if int(gdb.parse_and_eval('messages[%%d].text'%%i))else None]for i in range(7)],
+                              'bytes':gdb.selected_inferior().read_memory(gdb.parse_and_eval('message_buffer'),384).tobytes().hex()}
+        if records[0]['state_policy']=='diagnostic-emit':
+            arguments=gdb.parse_and_eval('(char **)arguments')
+            info['diagnostic']={'category':int(gdb.parse_and_eval('category')),'message':int(gdb.parse_and_eval('message')),
+                                'format':gdb.parse_and_eval('format').string(),'format_alias':int(gdb.parse_and_eval('format == message_buffer')),
+                                'argument':arguments[0].string(),'phase':arguments[1].string(),
+                                'argument_alias':int(arguments[0]==gdb.parse_and_eval('c2_unexpected_argument'))}
+        else:
+            info['cached_message_id']=int(gdb.parse_and_eval('message'))
+    if records[0].get('state_policy')in ('message-load','message-unescape'):
+        info['message_load']={'message':int(gdb.parse_and_eval('message'))if records[0]['state_policy']=='message-load'else 0,'buffer':int(gdb.parse_and_eval('buffer')),
+                              'capacity':int(gdb.parse_and_eval('capacity'))if records[0]['state_policy']=='message-load'else 384,'allow_missing':int(gdb.parse_and_eval('allow_missing'))if records[0]['state_policy']=='message-load'else 1,
+                              'initialized':int(gdb.parse_and_eval('messages_initialized')),
+                              'cache':[[int(gdb.parse_and_eval('messages[%%d].id'%%i)),int(gdb.parse_and_eval('messages[%%d].text'%%i))]for i in range(7)],
+                              'bytes':gdb.selected_inferior().read_memory(gdb.parse_and_eval('message_buffer'),384).tobytes().hex()}
     if records[0].get('state_policy')=='match-option':
         info['matcher']={'table':int(gdb.parse_and_eval('table')),'input':gdb.parse_and_eval('input').string(),
                          'next':int(gdb.parse_and_eval('next')),'mode':int(gdb.parse_and_eval('mode')),
@@ -84,13 +108,22 @@ if len(records)==1:
 open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
 """ % (str(output/'native-maps.txt'),config['stubs'],str(output/'state.json'))
     if config.get('data_model'):
-        data_program="""if records and records[0].get('state_policy')in ('wildcard-match','apply-option','fatal-option'):
+        data_program="""if records and records[0].get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize'):
     if records[0]['state_policy']=='wildcard-match':
         info['wildcard']={'pattern':gdb.parse_and_eval('pattern').string(),'input':gdb.parse_and_eval('input').string(),
                       'kind':int(gdb.parse_and_eval('kind')),'current_alias':int(gdb.parse_and_eval('c2_current_option == input'))}
     if records[0]['state_policy']=='apply-option':
         info['apply']={'option':int(gdb.parse_and_eval('option')),'value':gdb.parse_and_eval('value').string(),
                        'mode':int(gdb.parse_and_eval('mode')),'current_alias':int(gdb.parse_and_eval('c2_current_option == value'))}
+    if records[0]['state_policy']=='message-initialize':
+        info['message_initialization']={'current':gdb.parse_and_eval('c2_current_option').string(),
+                                       'current_alias':int(gdb.parse_and_eval('c2_current_option == c2_unexpected_argument')),
+                                       'current_pointer':int(gdb.parse_and_eval('c2_current_option'))}
+    if records[0]['state_policy']=='message-lookup':
+        info['lookup']={'message':int(gdb.parse_and_eval('message')),'allow_missing':int(gdb.parse_and_eval('allow_missing')),
+                        'current':gdb.parse_and_eval('c2_current_option').string(),
+                        'current_alias':int(gdb.parse_and_eval('c2_current_option == c2_unexpected_argument')),
+                        'current_pointer':int(gdb.parse_and_eval('c2_current_option'))}
     if records[0]['state_policy']=='fatal-option':
         arguments=gdb.parse_and_eval('(char **)((char *)&message+4)')
         info['fatal']={'message':int(gdb.parse_and_eval('message')),'argument':arguments[0].string(),'phase':arguments[1].string(),
