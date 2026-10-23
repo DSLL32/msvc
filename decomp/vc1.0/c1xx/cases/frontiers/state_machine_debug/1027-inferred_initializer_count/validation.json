@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_inferred_initializer_count",
+    "start": 293552,
+    "end": 293582
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_validate_union_member@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.38891119975596666,
+  "total_operation_seconds": 2.9570864997804165,
+  "original_capture_seconds": 0.7662300420925021
+}

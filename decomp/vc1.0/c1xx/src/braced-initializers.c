@@ -639,3 +639,13 @@ void __stdcall finish_braced_initializer(CppSymbol *symbol)
     flush_initializer_constructors();
     finish_initializer_symbol(symbol);
 }
+
+/* Original 0x47ab0..0x47ace. Nested initializer contexts retain their
+   element counts after closing; the first nonzero count supplies the inferred
+   extent. The original scan has no additional synthetic bounds check. */
+unsigned inferred_initializer_count(void)
+{
+    unsigned index = 0;
+    while (!braced_initializers[index].offset) ++index;
+    return braced_initializers[index].offset;
+}
