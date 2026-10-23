@@ -370,3 +370,12 @@ records nine fresh controls and an upper-EAX scope control. Native index256
 executes a source INT3 before its unavailable word is read; a plain Linux probe
 links the production object and verifies SIGTRAP, corroborated by GDB. The
 Win32 boundary word's mutable alias into `union` remains unclaimed.
+
+Directive-name lookup is accepted (101 bytes), recognizing `line` as code10
+through AL with ret4. Its encountered dictionary contains29 group boundaries,
+13 suffixes and13 result bytes; both Win32 images match these typed entries.
+[Verification](cases/resources-rich-trailing-space/directive-code-verification.json)
+records ten fresh controls, an upper-EAX scope control and exact lexer entry
+inputs. Native high-character indices trap before unavailable adjacent data;
+the plain Linux probe links the production object. The next frontier is the
+zero-argument lexer, with prior token kind1, null token value and cleared modes.
