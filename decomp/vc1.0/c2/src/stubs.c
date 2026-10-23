@@ -284,7 +284,6 @@ int __fastcall is_tail_call_position(Expression *expressions, Expression *call) 
 
 
 
-unsigned __fastcall simplify_flow_regions(FlowRegion *regions) { __asm int 3 }
 
 void __fastcall refresh_region_entries(WorkItem *work) { __asm int 3 }
 
@@ -314,9 +313,6 @@ void __fastcall forget_exception_label(Function *function, SymbolHeader *label) 
 
 void __fastcall replace_flow_region_last(FlowRegion *region, WorkItem *replacement) { __asm int 3 }
 
-FlowLink *__fastcall partition_loop_predecessors(FlowLink *predecessors, WorkItem *header) { __asm int 3 }
-void __fastcall redirect_flow_label(WorkItem *work, SymbolHeader *old_label, SymbolHeader *new_label) { __asm int 3 }
-void __fastcall assign_flow_region(FlowRegion *region) { __asm int 3 }
 
 int __fastcall work_in_flow_region(WorkItem *work, FlowRegion *region) { __asm int 3 }
 
@@ -451,3 +447,4 @@ int __cdecl subtraction_overflows(unsigned left, unsigned right, int is_unsigned
 int __fastcall is_subword_mask_pattern(Node *node, unsigned mask) { __asm int 3 }
 int __fastcall simple_constant_operation_sign(Node *node) { __asm int 3 }
 Node *__fastcall reverse_subtraction_chain(Node *node, Node *right) { __asm int 3 }
+short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }

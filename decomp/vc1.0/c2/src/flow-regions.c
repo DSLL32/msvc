@@ -124,3 +124,107 @@ void __fastcall clear_flow_visit_marks(WorkItem *work)
     for (link = work->successors; link; link = link->next)
         clear_flow_visit_marks(link->work);
 }
+
+/* Original [0005b790,0005b7cb). Partition the predecessor suffix by
+   header dominance. Exchange only work pointers; link/edge flags stay put. */
+FlowLink *__fastcall partition_loop_predecessors(FlowLink *predecessors, WorkItem *header)
+{
+    FlowLink *backedges = predecessors, *link;
+    WorkItem *swap;
+    int number;
+    if (!predecessors) return 0;
+    number = header->number;
+    for (link = predecessors; link; link = link->next) {
+        if (!bitset_contains(link->work->analysis.dominators, number)) {
+            swap = backedges->work;
+            backedges->work = link->work;
+            link->work = swap;
+            backedges = backedges->next;
+        }
+    }
+    return backedges;
+}
+
+static FlowRegion *assigning_region; /* 0007bec4: recursive region assignment. */
+void __fastcall mark_flow_region(WorkItem *work);
+/* Original [0005b760,0005b77a). Mark the loop backwards from its final
+   block, then attach the preheader which bounds that predecessor traversal. */
+void __fastcall assign_flow_region(FlowRegion *region)
+{
+    assigning_region = region;
+    mark_flow_region(region->last);
+    assigning_region->entry->region = assigning_region;
+}
+
+/* Original [0005b8c0,0005b8f0). Assign each loop predecessor once,
+   stopping at the separate preheader boundary. */
+void __fastcall mark_flow_region(WorkItem *work)
+{
+    FlowLink *link;
+    if (work == assigning_region->entry || work->region == assigning_region) return;
+    work->region = assigning_region;
+    for (link = work->predecessors; link; link = link->next) mark_flow_region(link->work);
+}
+
+unsigned __fastcall compact_flow_region(FlowRegion *region);
+/* Original [0005a300,0005a32e). Compact child regions before their
+   parents and accumulate every reported graph change. */
+unsigned __fastcall simplify_flow_regions(FlowRegion *regions)
+{
+    unsigned changed = 0;
+    for (; regions; regions = regions->next) {
+        changed |= simplify_flow_regions(regions->children);
+        changed |= compact_flow_region(regions);
+    }
+    return changed;
+}
+
+int __fastcall region_is_outside(FlowRegion *candidate, FlowRegion *region);
+short __fastcall next_numbered_work(WorkItem *work);
+/* Original [0005b8f0,0005ba05). Move intervening blocks outside this
+   region after its last block, retaining explicit branches across every
+   changed adjacency and the original ordering of numbered blocks. */
+unsigned __fastcall compact_flow_region(FlowRegion *region)
+{
+    WorkItem *cursor = region->entry, *end = region->last;
+    WorkItem *first, *last, *scan, *insertion, *after;
+    short number;
+    unsigned changed = 0;
+    while (cursor != end) {
+        if (region_is_outside(cursor->next->region, region) &&
+            cursor->next->body.expressions->tree->opcode != 0x3a) {
+            first = last = cursor->next;
+            changed = 1;
+            while (region_is_outside(last->next->region, region)) last = last->next;
+            if (ensure_flow_branch(last, last->next)) last = last->next;
+            cursor->next = last->next;
+            if (cursor->next) cursor->next->previous = cursor;
+            ensure_flow_branch(cursor, first);
+            scan = end->next;
+            number = first->number;
+            while (scan) {
+                if (scan->number >= number) break;
+                if (scan->number < 0 && next_numbered_work(scan->next) > first->number) break;
+                scan = scan->next;
+            }
+            insertion = scan ? scan->previous : end;
+            after = insertion->next;
+            last->next = after;
+            if (after) after->previous = last;
+            insertion->next = first;
+            first->previous = insertion;
+            ensure_flow_branch(insertion, after);
+        }
+        cursor = cursor->next;
+    }
+    return changed;
+}
+
+/* Original [0005ba30,0005ba48). A block in a descendant region belongs
+   to this region too; an absent region is outside every enclosing loop. */
+int __fastcall region_is_outside(FlowRegion *candidate, FlowRegion *region)
+{
+    for (; candidate; candidate = candidate->parent)
+        if (candidate == region) return 0;
+    return 1;
+}

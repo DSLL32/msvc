@@ -778,7 +778,14 @@
     "@extract_negative@4",
     "@is_negatable_negative_constant@4",
     "@negate_tree_in_place@4",
-    "@remove_right_wrapper@4"
+    "@remove_right_wrapper@4",
+    "@partition_loop_predecessors@8",
+    "@redirect_flow_label@12",
+    "@assign_flow_region@4",
+    "@mark_flow_region@4",
+    "@simplify_flow_regions@4",
+    "@compact_flow_region@4",
+    "@region_is_outside@8"
   ],
   "driver": [
     {
@@ -4083,8 +4090,7 @@
     {
       "name": "@simplify_flow_regions@4",
       "start": 369408,
-      "end": 369409,
-      "provisional": true
+      "end": 369454
     },
     {
       "name": "@refresh_region_entries@4",
@@ -4339,20 +4345,17 @@
     {
       "name": "@partition_loop_predecessors@8",
       "start": 374672,
-      "end": 374673,
-      "provisional": true
+      "end": 374731
     },
     {
       "name": "@redirect_flow_label@12",
       "start": 373904,
-      "end": 373905,
-      "provisional": true
+      "end": 374020
     },
     {
       "name": "@assign_flow_region@4",
       "start": 374624,
-      "end": 374625,
-      "provisional": true
+      "end": 374650
     },
     {
       "name": "@scan_irreducible_predecessors@4",
@@ -6083,6 +6086,27 @@
       "name": "@reverse_subtraction_chain@8",
       "start": 356128,
       "end": 356129,
+      "provisional": true
+    },
+    {
+      "name": "@mark_flow_region@4",
+      "start": 374976,
+      "end": 375024
+    },
+    {
+      "name": "@compact_flow_region@4",
+      "start": 375024,
+      "end": 375301
+    },
+    {
+      "name": "@region_is_outside@8",
+      "start": 375344,
+      "end": 375368
+    },
+    {
+      "name": "@next_numbered_work@4",
+      "start": 375312,
+      "end": 375313,
       "provisional": true
     }
   ],

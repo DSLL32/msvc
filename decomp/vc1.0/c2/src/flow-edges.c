@@ -218,3 +218,30 @@ void __fastcall connect_flow_blocks(WorkItem *source, WorkItem *target)
     add_flow_successor(source, target);
     add_flow_predecessor(target, source);
 }
+
+/* Original [0005b490,0005b504). Redirect the block's terminal branch or
+   switch destinations, transferring each reference between label counters. */
+void __fastcall redirect_flow_label(WorkItem *work, SymbolHeader *old_label, SymbolHeader *new_label)
+{
+    Node *node;
+    if (!work->body.expressions) return;
+    node = last_flow_expression(work->body.expressions)->tree;
+    if (node->opcode == 0x38 || node->opcode == 0x3a) {
+        if (node->right.symbol == old_label) {
+            node->right.symbol = new_label;
+            ++((LabelSymbol *)new_label)->references;
+            --((LabelSymbol *)old_label)->references;
+        }
+        return;
+    }
+    if (node->opcode != 0x3c) return;
+    for (;;) {
+        if (node->right.symbol == old_label) {
+            node->right.symbol = new_label;
+            ++((LabelSymbol *)new_label)->references;
+            --((LabelSymbol *)old_label)->references;
+        }
+        node = node->second.node;
+        if (node->opcode == 0x4c) break;
+    }
+}

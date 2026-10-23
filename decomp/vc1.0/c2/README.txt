@@ -1960,3 +1960,15 @@ agree at partition_loop_predecessors5b790 in natural-loop graph construction.
 This records the reached control-flow prefix; not every transformation branch
 is covered and full hello output remains incomplete. See
 cases/hello-signs-and-loop-frontier.json for ordered reference evidence/timing.
+
+Natural loops: checkpoint781
+----------------------------
+Predecessor partition, terminal label redirection, recursive region assignment,
+region-tree simplification and full block-run compaction are recovered. Existing
+typed flow records preserve edge flags, label counts and signed block numbers.
+The recursive assignment has one contextual FlowRegion* global; no opaque state
+snapshots. Compaction retains its next-number helper as a named short-return trap.
+Native/original agree at reduce_flow_regions5a140.703 graph/extent checks, native
+fixtures, canonical and two modules/W3 pass. Actual block relocation and switch
+redirection bodies are not claimed covered by the current loop path. Full hello
+output remains incomplete; see cases/hello-natural-loops.json for evidence/timing.
