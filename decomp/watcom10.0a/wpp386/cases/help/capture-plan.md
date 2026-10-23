@@ -61,8 +61,12 @@ that breakpoint for the first actual payload launch proof and for subsequent
 post-relocation masking. Before transfer, retain the real register context and
 the EDI parameter block:
 program name, command tail, environment pointer, break flag and copyright
-pointer. Stub `_InvokePgm` loads AH=2, CX=CS and transfers through ESI with a far
-return frame. Verify rather than seed these values. Record the actual far-call
+pointer. The actual 1994 stub `_InvokePgm` executes PUSH CS, MOV BX,CS, MOV AH,2,
+SUB ECX,ECX, CALL ESI, RET. Payload entry therefore has AH=2, ECX=0 and BX=CS;
+only BX's low word is the selector, and full EBX no longer denotes the allocation
+base. The far return frame is eight bytes, with only the selector word of its
+CS stack slot meaningful. The later source is not authority for different
+register values. Verify rather than seed these values. Record the actual far-call
 gateway and confirm the first payload PC is allocated-base + `0x664f4`.
 Logical application IDs are payload offsets; absolute addresses remain in raw
 evidence, with pointer comparisons using independently proven owners/offsets.
@@ -117,9 +121,10 @@ headers/libraries through the shared prefix; WCC386 owns the common compile/link
 probe. WCC386's shared probe has now successfully compiled with
 `-bt=nt -3r -od -d2`, producing OMF32 and confirming the register convention;
 its receipt is under
-`/root/.ai-tmp/msvc2/watcom10.0a/wcc386/abi-probe/`. The final WLINK invocation
-and complete executable build still need verification before this Makefile
-recipe is enabled. The current `main` scaffold only traps and grants no coverage.
+`/root/.ai-tmp/msvc2/watcom10.0a/wcc386/abi-probe/`. Own complete scaffold builds
+now pass as native GCC i386 and original Watcom Win32, using patched WLINK; see
+the ignored build receipts. Original compile/link took 0.556/0.538 seconds, and
+native GDB confirms the INT3 in `main`. This grants no application coverage.
 
 After capture approval and validated transport, reference capture is explicit.
 Native fixtures only read the frozen case inputs, status, stream/artifact masters

@@ -5,11 +5,12 @@ bare-`?` baselines displayed actual help, exited 1, produced identical 6,228-byt
 stdout, empty stderr and no artifacts (0.265 seconds per execution). Raw masters
 and the full receipt are under `cases/help/reference/`; no normalization was used.
 These captures do not establish reconstructed behavior or a native fixture pass.
-`make inspect`
-validates the copied payload/stub and reports CF header/relocation facts without
-executing either. `make native`, `make original`, and `make fixtures` deliberately
-fail until their prerequisites are implemented. The `src/main.c` INT3 scaffold
-is not an accepted reconstruction or an operational test harness.
+`make inspect` validates the copied payload/stub and reports CF header/relocation
+facts without executing either. `make -j4 native original` builds the INT3 main
+scaffold as native i386 GCC ELF and original-toolchain Win32 PE. Both builds pass;
+native GDB confirms SIGTRAP in `main`, and the original PE has the inline INT3.
+The `src/main.c` scaffold grants no accepted function or case coverage.
+`make fixtures` deliberately fails until CF acceptance prerequisites are met.
 
 The program is `binb/WPP386.EXE`. Its `binnt/WPP386.EXE` PE stub loads the CF
 payload directly and supplies a DOS-register-to-Win32 service gateway. Original
@@ -53,8 +54,8 @@ OMF-to-ELF conversions or disguised extra application vertices. In particular,
 GCC `regparm(3)` is not a substitute for Watcom's EAX/EDX/EBX register convention.
 
 Remaining gates are CF layout/discovery/masking/observer integration with the
-PE-oriented graph auditor, positive library/startup provenance, and the common
-original-compiler probe. Do not silently filter application vertices. The shared
+PE-oriented graph auditor and positive library/startup provenance. Original
+compiler and linker checks now pass. Do not silently filter application vertices. The shared
 compatibility maintainer owns native host support; application code may call
 ordinary Win32/CRT APIs across the explicitly reviewed service boundary.
 The concrete capture/build proposal is in `cases/help/capture-plan.md`; it must

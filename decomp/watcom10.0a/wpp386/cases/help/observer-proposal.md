@@ -11,8 +11,9 @@ additional original invocation by itself.
 2. Stop at stub RVA `0x10763`, immediately before `_InvokePgm`. Read the allocation
    base from stub RVA `0x30004` and verify it equals EBX, while ESI equals base +
    `0x664f4` and EDX equals stub-base + `0x10788`. Retain raw CONTEXT and parameter
-   block addressed by EDI. The stub's pre-invoke ECX is not the eventual CX=CS;
-   that selector is established inside `_InvokePgm`.
+   block addressed by EDI. At this pre-invoke point EBX still is the allocation
+   base; `_InvokePgm` then overwrites BX with CS, sets AH=2 and clears ECX. The
+   full EBX at payload entry must not be classified as the allocation-base pointer.
 3. Read the full initialized payload and compare against the exact original file
    plus all decoded base relocations. Record allocation bounds/protection and
    owned pointers. Read pgmname, command tail, complete NUL-terminated environment
@@ -20,8 +21,10 @@ additional original invocation by itself.
    layout from actual memory. Do not infer the 2002 layout's additional fields
    exist in 1994 without proof.
 4. Place one temporary breakpoint at base + `0x664f4`, retain the original byte,
-   and stop at first payload entry. Record actual AH, CX, segment registers,
-   stack/far-return frame and EDI ownership. Restore that exact byte, rewind EIP
+   and stop at first payload entry. Verify AH=2, ECX=0 and BX=CS (low 16 bits),
+   record segment registers, stack/far-return frame and EDI ownership. PUSH CS
+   followed by CALL ESI creates eight bytes; only the selector word of the CS
+   slot is a meaningful formal, not its upper stack padding. Restore that exact byte, rewind EIP
    and continue the unmodified payload; this is an observer preflight, not a mask
    or an application-function reconstruction. Retain raw status/streams/artifacts
    and compare with the existing masters, with no new normalizations.

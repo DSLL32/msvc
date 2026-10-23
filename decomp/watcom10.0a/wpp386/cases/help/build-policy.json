@@ -1,5 +1,5 @@
 {
-  "status": "planned-not-enabled",
+  "status": "native-and-original-INT3-scaffold-builds-verified; application-acceptance-blocked",
   "native_abi": "GCC i386 SysV; decode actual generated formal locations",
   "original_abi": "Watcom 10.0a original ABI, checked in original-toolchain build and audit",
   "compare": "semantic formals, ownership, aliases, return values and state effects",
@@ -10,7 +10,12 @@
     "Reviewed CF graph-audit adapter retaining payload-offset identities",
     "Reviewed original CF allocation/entry/gateway observer",
     "Positively identified startup and CRT compatibility boundaries",
-    "Complete original Watcom executable link check; common compiler/OMF32 probe passed",
-    "Capture plan approval before original execution"
+    "Application acceptance approval after common controller negatives pass"
+  ],
+  "completed": [
+    "Approved two unmodified help baselines",
+    "Common compiler/OMF32 ABI probe",
+    "Own original Watcom compiler and patched-WLINK executable build",
+    "Own native GCC i386 build and GDB main SIGTRAP check"
   ]
 }
