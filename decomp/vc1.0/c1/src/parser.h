@@ -259,8 +259,8 @@ unsigned short __stdcall normalize_symbol_storage(unsigned short attributes, Fro
 void __stdcall finalize_symbol_type(CType *type, FrontendSymbol *symbol);
 TypeShape *__stdcall merge_type_shape_modifiers(TypeShape *head, TypeShape *tail);
 FrontendSymbol *__stdcall resolve_based_pointer_symbol(char *name);
-unsigned short __stdcall based_string_modifier(unsigned short kind, FrontendSymbol *symbol);
-unsigned short __stdcall based_symbol_modifier(unsigned short kind, FrontendSymbol *symbol);
+unsigned short __stdcall based_string_modifier(unsigned short kind, char *name);
+unsigned short __stdcall based_symbol_modifier(unsigned short kind, char *name);
 unsigned short __stdcall based_type_modifier(unsigned short kind);
 FrontendSymbol *finish_parameter_scope(void);
 int __stdcall classify_parameter_declarations(FrontendSymbol *parameters);

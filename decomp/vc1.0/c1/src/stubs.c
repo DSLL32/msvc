@@ -155,14 +155,8 @@ void report_ide_line(void) { __asm { int 3 } }
 
 
 
-/* Original 0x25ed0. */
-unsigned short __stdcall based_string_modifier(unsigned short kind, FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 
-/* Original 0x25f90. */
-unsigned short __stdcall based_symbol_modifier(unsigned short kind, FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 
-/* Original 0x26030. */
-unsigned short __stdcall based_type_modifier(unsigned short kind) { __asm { int 3 } return 0; }
 
 /* Original 0x262e0. */
 

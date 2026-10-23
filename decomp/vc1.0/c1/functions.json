@@ -1047,7 +1047,10 @@
     "_convert_pascal_string@4",
     "_copy_shape_prefix@16",
     "_check_declarator_prefix@8",
-    "_warn_ignored_storage_model@4"
+    "_warn_ignored_storage_model@4",
+    "_based_string_modifier@8",
+    "_based_symbol_modifier@8",
+    "_based_type_modifier@4"
   ],
   "driver": [
     {
@@ -2094,17 +2097,20 @@
     {
       "name": "_based_string_modifier@8",
       "start": 155344,
-      "end": 155345
+      "end": 155521,
+      "abi_contract": "Direct external support only: genuinely parsed named owner, kind0x800; AX16 result, stdcall RET8; public keyword producer remains unknown."
     },
     {
       "name": "_based_symbol_modifier@8",
       "start": 155536,
-      "end": 155537
+      "end": 155686,
+      "abi_contract": "Direct external support only: genuinely parsed named owner, kind0x800; AX16 result, stdcall RET8; public keyword producer remains unknown."
     },
     {
       "name": "_based_type_modifier@4",
       "start": 155696,
-      "end": 155697
+      "end": 155735,
+      "abi_contract": "Direct external support only: genuinely parsed named owner, kind0x800; AX16 result, stdcall RET4; public keyword producer remains unknown."
     },
     {
       "name": "_normalize_based_expression@4",
@@ -6594,6 +6600,13 @@
       "public_reachability": false,
       "units": 6,
       "manifest": "cases/legacy-pdb-object/manifest.json"
+    },
+    "legacy-type-support": {
+      "accepted_from": 1043,
+      "accepted_count": 1046,
+      "public_reachability": false,
+      "units": 3,
+      "manifest": "cases/legacy-type-support/manifest.json"
     }
   }
 }

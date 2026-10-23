@@ -1,0 +1,24 @@
+{
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/support-check-1jp26fzk/2",
+  "function": "based_type_modifier",
+  "arguments": [
+    2048
+  ],
+  "formals": [
+    "kind"
+  ],
+  "body": true,
+  "buffered_streams": [
+    "expression_file",
+    "symbol_file",
+    "line_file",
+    "global_file",
+    "debug_file",
+    "pch_file",
+    "browser_output"
+  ],
+  "kind": "legacy-support",
+  "marker": "finish_declarations",
+  "owner_name": "base_pointer",
+  "unit": 2
+}

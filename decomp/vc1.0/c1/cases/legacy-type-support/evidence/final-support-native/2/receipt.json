@@ -1,0 +1,154 @@
+{
+  "status": "pass",
+  "public_reachability": false,
+  "function": "based_type_modifier",
+  "arguments": [
+    2048
+  ],
+  "body": true,
+  "executable_sha256": "e6c3f1b8bc99c162f70fe606b0aa2e27e84fef6855405f4bd3b77b6b7c3c83fd",
+  "setup_seconds": 0.00754365511238575,
+  "execution_seconds": 0.16105981077998877,
+  "total_seconds": 0.18396213743835688,
+  "state": {
+    "before": {
+      "registers": {
+        "eax": 1450103456,
+        "ecx": 1449676288,
+        "edx": 109,
+        "ebx": 1450102772,
+        "esi": 1450181804,
+        "edi": 4160162656,
+        "ebp": 4289741496,
+        "esp": 4289741436,
+        "eip": 1449755296,
+        "eflags": 582,
+        "fctrl": 895
+      },
+      "owner": 1466619376,
+      "name_address": 1466594763,
+      "type": 1466619424,
+      "related": 1466616676,
+      "kind": 9,
+      "attributes": 0,
+      "references": 0,
+      "type_flags": 65,
+      "type_attributes": 16,
+      "shape_flags": 1,
+      "shape_attributes": 1,
+      "based_symbol": 0,
+      "debug_info": 1,
+      "error_count": 0,
+      "owner_name": "base_pointer",
+      "buffers": {
+        "expression_file": "004f1f80000080244f20084f020a004f01095353267100462d70002d6f004c4f11534f010a266f00308643338641002786433086212c86410026700030864102266f0030864333864104278643308642024186413a72004f010b54024f010b2972004f1247540154004f1f80000080244f20084f020a004f010d5353267300464c4f11534f010e2671003e864100266a00308641558641266c005586434c4186413a74004f010f54024f010f2974004f124754015400",
+        "symbol_file": "030172001f0001010d01010170000062696173008601000304048000017401016f00007265636f7264008603000304048000018001100d0206030174001f0001010d010d0206",
+        "line_file": "006d00000105040000a03f07006e000001050800000000000004c007097100097300",
+        "global_file": "1186032e1d30016900000000120a00737570706f72742e6300",
+        "debug_file": "0c000a000304010000000b1e05000300021000000000000010000d537570706f72745265636f7264f2f10b0602000a0000100b2e04020604110003000000036b6579060475000300040005666c616773f2f106044100030008000576616c7565f2f1",
+        "pch_file": null,
+        "browser_output": null
+      }
+    },
+    "storage": 1466798912,
+    "stack": 1466863936,
+    "arguments": [
+      2048
+    ],
+    "formals": [
+      2048
+    ],
+    "entry": {
+      "registers": {
+        "eax": 1450051584,
+        "ecx": 1449676288,
+        "edx": 109,
+        "ebx": 1450102772,
+        "esi": 1450181804,
+        "edi": 4160162656,
+        "ebp": 1466863932,
+        "esp": 1466863908,
+        "eip": 1449697242,
+        "eflags": 530,
+        "fctrl": 895
+      },
+      "owner": 1466619376,
+      "name_address": 1466594763,
+      "type": 1466619424,
+      "related": 1466616676,
+      "kind": 9,
+      "attributes": 0,
+      "references": 0,
+      "type_flags": 65,
+      "type_attributes": 16,
+      "shape_flags": 1,
+      "shape_attributes": 1,
+      "based_symbol": 0,
+      "debug_info": 1,
+      "error_count": 0,
+      "owner_name": "base_pointer",
+      "buffers": {
+        "expression_file": "004f1f80000080244f20084f020a004f01095353267100462d70002d6f004c4f11534f010a266f00308643338641002786433086212c86410026700030864102266f0030864333864104278643308642024186413a72004f010b54024f010b2972004f1247540154004f1f80000080244f20084f020a004f010d5353267300464c4f11534f010e2671003e864100266a00308641558641266c005586434c4186413a74004f010f54024f010f2974004f124754015400",
+        "symbol_file": "030172001f0001010d01010170000062696173008601000304048000017401016f00007265636f7264008603000304048000018001100d0206030174001f0001010d010d0206",
+        "line_file": "006d00000105040000a03f07006e000001050800000000000004c007097100097300",
+        "global_file": "1186032e1d30016900000000120a00737570706f72742e6300",
+        "debug_file": "0c000a000304010000000b1e05000300021000000000000010000d537570706f72745265636f7264f2f10b0602000a0000100b2e04020604110003000000036b6579060475000300040005666c616773f2f106044100030008000576616c7565f2f1",
+        "pch_file": null,
+        "browser_output": null
+      }
+    },
+    "status": "returned",
+    "after": {
+      "registers": {
+        "eax": 1449656328,
+        "ecx": 1449697216,
+        "edx": 0,
+        "ebx": 1450102772,
+        "esi": 1450181804,
+        "edi": 4160162656,
+        "ebp": 4289741496,
+        "esp": 1466863944,
+        "eip": 1449755296,
+        "eflags": 514,
+        "fctrl": 895
+      },
+      "owner": 1466619376,
+      "name_address": 1466594763,
+      "type": 1466619424,
+      "related": 1466616676,
+      "kind": 9,
+      "attributes": 0,
+      "references": 0,
+      "type_flags": 65,
+      "type_attributes": 16,
+      "shape_flags": 1,
+      "shape_attributes": 1,
+      "based_symbol": 0,
+      "debug_info": 1,
+      "error_count": 0,
+      "owner_name": "base_pointer",
+      "buffers": {
+        "expression_file": "004f1f80000080244f20084f020a004f01095353267100462d70002d6f004c4f11534f010a266f00308643338641002786433086212c86410026700030864102266f0030864333864104278643308642024186413a72004f010b54024f010b2972004f1247540154004f1f80000080244f20084f020a004f010d5353267300464c4f11534f010e2671003e864100266a00308641558641266c005586434c4186413a74004f010f54024f010f2974004f124754015400",
+        "symbol_file": "030172001f0001010d01010170000062696173008601000304048000017401016f00007265636f7264008603000304048000018001100d0206030174001f0001010d010d0206",
+        "line_file": "006d00000105040000a03f07006e000001050800000000000004c007097100097300",
+        "global_file": "1186032e1d30016900000000120a00737570706f72742e6300",
+        "debug_file": "0c000a000304010000000b1e05000300021000000000000010000d537570706f72745265636f7264f2f10b0602000a0000100b2e04020604110003000000036b6579060475000300040005666c616773f2f106044100030008000576616c7565f2f1",
+        "pch_file": null,
+        "browser_output": null
+      }
+    },
+    "canary": "a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5a5"
+  },
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f support.c -Ze -Zp8 -Gs -Fosupport.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob2 -Ot -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/support-check-1jp26fzk/2",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\legacy-type-support",
+    "RECON_TRACE_FD": "3",
+    "RECON_TRACE_FILTER": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/support-check-1jp26fzk/2/filter",
+    "RECON_TRACE_SEEN": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/support-check-1jp26fzk/2/seen"
+  }
+}

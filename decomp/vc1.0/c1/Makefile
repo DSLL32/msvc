@@ -76,21 +76,24 @@ build/native-trace/C13232.EXE: $(NATIVE_TRACE_OBJECTS) $(NATIVE_SHIMS) $(RECON)/
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_SHIMS) $(RECON)/src/trace.c -o $@
 
 NATIVE_CASES = $(if $(filter all,$(CASE)),,$(foreach case,$(CASE),--case $(case)))
-native-direct-check: native native-expression-tests native-pdb-tests
+native-direct-check: native native-trace native-expression-tests native-pdb-tests
 	$(PYTHON) scripts/check-direct.py
 	$(PYTHON) scripts/check-expression-tests.py
 	$(PYTHON) scripts/check-pdb-objects.py
+	$(PYTHON) scripts/check-support.py
 
-native-check: native native-expression-tests native-pdb-tests
+native-check: native native-trace native-expression-tests native-pdb-tests
 	$(PYTHON) scripts/check-native.py $(NATIVE_CASES)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-direct.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-expression-tests.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-pdb-objects.py,@true)
+	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-support.py,@true)
 native-trace-check: native native-trace native-expression-tests native-pdb-tests
 	$(PYTHON) scripts/check-native.py --trace $(NATIVE_CASES)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-direct.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-expression-tests.py,@true)
 	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-pdb-objects.py,@true)
+	$(if $(filter all,$(CASE)),$(PYTHON) scripts/check-support.py,@true)
 
 # Private oracle mutations; no new fixture inputs or original execution.
 native-adoption-check: native native-trace native-expression-tests native-pdb-tests native-quickc-tests

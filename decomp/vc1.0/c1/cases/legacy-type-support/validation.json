@@ -1,0 +1,128 @@
+{
+  "status": "three direct segment helpers complete",
+  "public_reachability": false,
+  "baseline_commit": "e9c7b5816bdaeb3e0b5ab7e6d512a553e311d95b",
+  "accepted_from": 1043,
+  "accepted_count": 1046,
+  "new_application_functions": 3,
+  "new_application_bytes": 366,
+  "new_CRT_functions": 0,
+  "accepted_application_functions": 902,
+  "public_application_functions": 893,
+  "direct_only_application_functions": 9,
+  "historical_CRT": {
+    "runtime_c": 10,
+    "floating_c": 1,
+    "changed": false
+  },
+  "coverage": {
+    "public_case_accepted_union_bytes": 244870,
+    "direct_only_accepted_union_bytes": 1462,
+    "direct_only_functions": [
+      "@open_program_database_object@20",
+      "@reload_program_database@4",
+      "_asm_recovery_value@4",
+      "_based_string_modifier@8",
+      "_based_symbol_modifier@8",
+      "_based_type_modifier@4",
+      "_copy_expression_tree@8",
+      "_make_reusable_zero",
+      "_report_asm_expected_token@8"
+    ],
+    "accepted_union_bytes": 246332,
+    "original_code_bytes": 277234,
+    "accepted_by_origin_bytes": {
+      "frontend_source": 223594,
+      "CRT": 22552,
+      "import_thunks": 186
+    },
+    "origin_classification": "Frontend: accepted application source. CRT: runtime.c overrides, explicit CRT variants elsewhere in source, and matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes accepted reconstruction origins, not a complete original linker map.",
+    "percent": 88.85345953238058,
+    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+  },
+  "scope": "Real parsed symbol-name/type owners at actual finish_declarations; separately owned debugger stack; no parser globals/token forcing. Keyword producer for dormant grammar remains unidentified.",
+  "proof": "Original and native real source entries, full body/state/complete files/streams, AX16 results, exact RET8/8/4, nonvolatile/x87 and canaries; original/native accepted-prefix first-entry traces.",
+  "shared_publication": "5378eb3b3",
+  "shared_final_source_catalog": "evidence/final/receipt.json",
+  "timing": {
+    "commands": [
+      {
+        "label": "build-canonical",
+        "command": [
+          "make",
+          "-j4",
+          "audit-win32",
+          "native",
+          "native-trace",
+          "native-expression-tests",
+          "native-pdb-tests"
+        ],
+        "exit": 0,
+        "seconds": 31.303829107433558
+      },
+      {
+        "label": "cached-suite",
+        "command": [
+          "make",
+          "-j4",
+          "native-trace-check"
+        ],
+        "exit": 0,
+        "seconds": 6.788984055630863
+      },
+      {
+        "label": "adoption",
+        "command": [
+          "make",
+          "-j4",
+          "native-adoption-check"
+        ],
+        "exit": 0,
+        "seconds": 9.243278884328902
+      }
+    ],
+    "public_native_phases": 56,
+    "public_native_fixture_total_seconds": 1.3273529103025794,
+    "new_direct_units": [
+      {
+        "unit": 0,
+        "status": "pass",
+        "setup_seconds": 0.007639920338988304,
+        "execution_seconds": 0.16262679267674685,
+        "checks_seconds": 0.0039466675370931625
+      },
+      {
+        "unit": 1,
+        "status": "pass",
+        "setup_seconds": 0.00739554688334465,
+        "execution_seconds": 0.16612880676984787,
+        "checks_seconds": 0.004870002157986164
+      },
+      {
+        "unit": 2,
+        "status": "pass",
+        "setup_seconds": 0.00754365511238575,
+        "execution_seconds": 0.16105981077998877,
+        "checks_seconds": 0.005373495630919933
+      }
+    ],
+    "new_direct_total_seconds": 0.7877417858690023,
+    "graph_and_new_negatives": {
+      "graph_negatives_seconds": 4.186154021881521,
+      "uninstrumented_rejection_seconds": 0.368224854581058,
+      "incorrect_reference_delta_rejected": true
+    }
+  },
+  "notes": [
+    "Earlier development native observations retain their actual executable hashes; only final receipts bind the stable published5378eb3b3 C/H catalog.",
+    "Two original raw wholebody baselines per unit are retained. Original first-entry receipts accepted one method per seeded prefix.",
+    "Three preparatory commands used the repository root instead of the binary cwd and failed before building/running anything; immediately corrected commands/logs retained in scratch. No failed reconstruction/original behavior was relabeled.",
+    "Normal public source context completed in both untouched and masked originals with identical five IR outputs; this does not establish public segment-handler reachability."
+  ],
+  "evidence_size": {
+    "ordinary_files": 306,
+    "raw_bytes": 837203,
+    "individual_gzip_bytes": 201122,
+    "binary_bundles": 0
+  }
+}

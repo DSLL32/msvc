@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c1/scripts/check-support.py", line 31, in <module>
+    if __name__=='__main__':main()
+                            ~~~~^^
+  File "/root/msvc2/decomp/vc1.0/c1/scripts/check-support.py", line 27, in main
+    check=time.perf_counter();comparison=contract.validate(original,target,plan,config);assert (target/'entries').read_text().splitlines()==[plan['function'][1:].split('@')[0]],'direct first-entry order differs'
+                                                                                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: direct first-entry order differs

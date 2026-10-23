@@ -11,16 +11,16 @@ richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
 the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, normal/expected-error arena API prototype phases, portability-header diagnostics, explicit-base/goto traversal, typed x87/bit-scan arithmetic, generated-header shutdown failures, protocol-header parser repair, assembler operand diagnostics/SEG, and standalone QuickC regions/loops/memory initialization.
 
-There are 910 accepted source functions and 1043 accepted original entries.
-Of these,899 are application functions; ten historical runtime.c bodies and
+There are 913 accepted source functions and 1046 accepted original entries.
+Of these,902 are application functions; ten historical runtime.c bodies and
 the historical __strgtold12 body in floating.c are CRT, with no application credit.
-Accepted original extents cover 245966/277234 code-section bytes (88.721441%):
-223228 application bytes,22552 CRT bytes and186 import-thunk bytes. This is a
+Accepted original extents cover 246332/277234 code-section bytes (88.853460%):
+223594 application bytes,22552 CRT bytes and186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Of this union,244870bytes have public-case evidence and
-1096 bytes have separate direct-test evidence for assembler support, expression
-templates and database object methods; no public trigger is established for
-those six functions. Unvisited
+1462 bytes have separate direct-test evidence for assembler support, expression
+templates, database object methods and legacy segment declarations; no public
+trigger is established for those nine functions. Unvisited
 functions retain named trapping stubs.
 
 Native build and checks
@@ -41,13 +41,13 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds 53 completed phase histories to fresh
-shared-prefix original first-entry captures. All 865 publicly reached accepted application entries
+cases/original-entry-references.json binds 56 completed phase histories to fresh
+shared-prefix original first-entry captures. All 893 publicly reached accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current53 public plus27 direct regression receipts are in
-cases/legacy-pdb-object/object-validation.json.
+current56 public plus30 direct regression receipts are in
+cases/legacy-type-support/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -525,3 +525,19 @@ six functions/414 bytes, with exact status0/1, complete streams/files and fresh
 entry order. No CRT/shim work or parser-global seeding is involved. The original
 rejected segment/extended-identifier trial and an initially wrong expected0 trial
 remain frozen. No public producer for dormant segment-token handlers is claimed.
+
+Direct legacy declaration support (2026-10-23)
+--------------------------------------------
+One real parsed source context supplies named base_pointer/object_base owners
+at finish_declarations. The external-unit driver runs three whole segment
+modifier helpers (366 bytes), proving actual symbol lookup/name arguments,
+reference-count deltas, based-symbol identity, AX16 results, RET8/8/4 and
+nonvolatile/stack-canary preservation. Complete files, streams and pending IR
+match the originals. No parser globals or token stream are manufactured.
+Original first-entry traps and the ordinary shared native instrumentation agree
+with each accepted prefix. scripts/check-support.py reuses the existing GDB
+owned-stack driver and cached original receipts; it never runs Wine.
+The shipped keyword table still provides no identified producer for these
+legacy segment grammar actions. Direct support is not public reachability.
+See cases/legacy-type-support/manifest.json and validation.json. No CRT code
+was reconstructed or changed.

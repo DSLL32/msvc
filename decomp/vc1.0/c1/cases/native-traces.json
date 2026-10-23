@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "db22fb71cca85c8d213c9b9b1055b69841712e5536046caf3ac6f40dbe1739e3",
+    "functions.json": "1b8dcc9d36221c841ba59dc3b27ade89b0b67bf03b37ddf8beb11c391f5e23af",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "cabbfbc901bca4b7e94f63a703cb723869721ebf8de0fb98ae7afa2ea75108e3"
+    "sha256": "6e8a3231d0ead7d0b298e228dc3b1843294de7d876b05f4f4071888a139f79b7"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
@@ -279,15 +279,15 @@
     },
     "based_string_modifier": {
       "logical": "_based_string_modifier@8",
-      "source": "src/stubs.c"
+      "source": "src/parser.c"
     },
     "based_symbol_modifier": {
       "logical": "_based_symbol_modifier@8",
-      "source": "src/stubs.c"
+      "source": "src/parser.c"
     },
     "based_type_modifier": {
       "logical": "_based_type_modifier@4",
-      "source": "src/stubs.c"
+      "source": "src/parser.c"
     },
     "begin_aggregate_initializer": {
       "logical": "_begin_aggregate_initializer@4",
@@ -4613,7 +4613,10 @@
     "convert_pascal_string",
     "copy_shape_prefix",
     "check_declarator_prefix",
-    "warn_ignored_storage_model"
+    "warn_ignored_storage_model",
+    "based_string_modifier",
+    "based_symbol_modifier",
+    "based_type_modifier"
   ],
   "excluded_accepted": {
     "CRT": [

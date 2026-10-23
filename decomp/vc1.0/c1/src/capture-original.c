@@ -537,7 +537,7 @@ static void template_process_emit(void *context,const char *bytes,unsigned lengt
     DWORD written;
     WriteFile(state->log,bytes,length,&written,0);
 }
-static unsigned template_global_type(HANDLE process,unsigned base)
+static unsigned parsed_global_symbol(HANDLE process,unsigned base,const char *wanted)
 {
     DWORD scope,buckets,symbol,fields[4],got;
     unsigned short mask;
@@ -555,11 +555,17 @@ static unsigned template_global_type(HANDLE process,unsigned base)
                 name[index]=byte;if(!byte)break;
             }
             name[sizeof(name)-1]=0;
-            if(!strcmp(name,"template_text"))return fields[3];
+            if(!strcmp(name,wanted))return symbol;
             symbol=fields[1];
         }
     }
     return 0;
+}
+static unsigned template_global_type(HANDLE process,unsigned base)
+{
+    DWORD symbol=parsed_global_symbol(process,base,"template_text"),type,got;
+    if(!symbol || !ReadProcessMemory(process,(void *)(symbol+12),&type,4,&got) || got!=4)return 0;
+    return type;
 }
 static void template_observe(unsigned base,const char *boundary)
 {
@@ -582,6 +588,26 @@ static void template_observe(unsigned base,const char *boundary)
         }
     }
     template_owners(&template_observer,boundary);
+}
+/* Minimal direct-support observations; all owners come from real declarations. */
+static int support_unit=-1;
+static DWORD support_symbol;
+static int observe_support(HANDLE process,HANDLE log,DWORD base,const char *boundary)
+{
+    DWORD fields[7],type[2],shape=0,global,debug,errors,got,written;
+    char line[512];
+    if(!support_symbol ||
+       !ReadProcessMemory(process,(void *)support_symbol,fields,sizeof(fields),&got)||got!=sizeof(fields)||
+       !ReadProcessMemory(process,(void *)fields[3],type,sizeof(type),&got)||got!=sizeof(type)||
+       !ReadProcessMemory(process,(void *)(base+0x4ff10),&global,4,&got)||got!=4||
+       !ReadProcessMemory(process,(void *)(base+0x5bb98),&debug,4,&got)||got!=4||
+       !ReadProcessMemory(process,(void *)(base+0x4b228),&errors,4,&got)||got!=4)return 0;
+    if(type[1]&&(!ReadProcessMemory(process,(void *)type[1],&shape,4,&got)||got!=4))return 0;
+    sprintf(line,"support-state %s %u %08lx %08lx %08lx %08lx %u %08lx %u %04x %04x %04x %04x %08lx %lu %lu\n",
+        boundary,support_unit,support_symbol,fields[2],fields[3],type[1],
+        fields[0]&255,fields[5],fields[6]&65535,type[0]&65535,type[0]>>16,
+        shape&65535,shape>>16,global,debug,errors);
+    return WriteFile(log,line,strlen(line),&written,0)&&written==strlen(line);
 }
 static DWORD direct_marker_rva, direct_target_rva, direct_arguments[2];
 static unsigned direct_count;
@@ -640,6 +666,13 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
             WriteFile(log,line,strlen(line),&written,0);
             template_observe(base,"before");if(template_observer.failed)return -1;
         }
+        if(support_unit>=0) {
+            DWORD name;
+            support_symbol=parsed_global_symbol(process,base,support_unit==1?"object_base":"base_pointer");
+            if(!support_symbol || !ReadProcessMemory(process,(void *)(support_symbol+8),&name,4,&got)||got!=4 ||
+               !observe_support(process,log,base,"before"))return -1;
+            if(support_unit<2)direct_arguments[1]=name;
+        }
         for (index=0;index<8;++index) words[index]=0xa5a5a5a5;
         words[0]=site;
         for (index=0;index<direct_count;++index) words[index+1]=direct_arguments[index];
@@ -674,6 +707,7 @@ static int direct_event(HANDLE process, HANDLE thread, HANDLE log,
         template_output(&template_observer,current.Eax);
         if(template_observer.failed)return -1;
     }
+    if(support_unit>=0 && !observe_support(process,log,base,"after"))return -1;
     dump_asm_operand(process,log,base,"direct-return");
     if (buffers) dump_stream_buffers(process,log,base,buffers);
     TerminateProcess(process,99);
@@ -721,7 +755,14 @@ int main(int argc, char **argv)
     if (flag_option) {
         if (sscanf(flag_option,"%lx,%lx,%u,%lx,%lx",&direct_marker_rva,
                 &direct_target_rva,&direct_count,&direct_arguments[0],&direct_arguments[1]) != 5 ||
-                direct_count>2 || (!direct_count && !getenv("C1_TEMPLATE_UNIT")) || argc==11) return 2;
+                direct_count>2 || (!direct_count && !getenv("C1_TEMPLATE_UNIT")) || (argc==11 && !getenv("C1_SUPPORT_UNIT"))) return 2;
+    }
+    flag_option=getenv("C1_SUPPORT_UNIT");
+    if(flag_option) {
+        support_unit=atoi(flag_option);
+        if(support_unit<0||support_unit>2||direct_marker_rva!=0x262c0||
+           direct_target_rva!=(support_unit==0?0x15ed0:support_unit==1?0x15f90:0x16030)||
+           direct_count!=(support_unit<2?2:1)||direct_arguments[0]!=0x800)return 2;
     }
     flag_option=getenv("C1_TEMPLATE_UNIT");
     if(flag_option) {

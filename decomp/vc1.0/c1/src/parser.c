@@ -566,12 +566,12 @@ read_action:
             if (!(right[0].type_name.type->flags & 0x80)) report_syntax_error(218);
             break;
         case 101:
-            parser_value.modifier = based_string_modifier(right[-2].type_name.type->flags, right[0].symbol);
+            parser_value.modifier = based_string_modifier(right[-2].type_name.type->flags, right[0].name);
             POP_DECLARATION();
             break;
         case 102:
             parser_value.modifier = based_symbol_modifier(
-                right[-3].type_name.type->flags, right[0].symbol);
+                right[-3].type_name.type->flags, right[0].name);
             POP_DECLARATION();
             break;
         case 103:
@@ -1914,4 +1914,74 @@ unsigned char recover_parser_token(unsigned token, ...)
         }
         current = scan_token();
     }
+}
+
+/* Original 0x25ed0..0x25f81. Legacy segment declarations accept a named
+   pointer base or an unshaped object. The grammar remains present although
+   this binary's public keyword table has no known producer for it. */
+unsigned short __stdcall based_string_modifier(unsigned short kind, char *name)
+{
+    FrontendSymbol *symbol;
+    TypeShape *shape;
+    if (!(kind & 0x800)) {
+        report_syntax_error(209);
+        return 2;
+    }
+    symbol = find_identifier_symbol(name);
+    if (!symbol) {
+        report_syntax_error(65,name);
+        return 2;
+    }
+    shape = symbol->type->related;
+    if (symbol->attributes & 2) shape = shape->related;
+    if (!shape) {
+        symbol->references += options.debug_info;
+        based_declarator_symbol = symbol;
+        return 5;
+    }
+    if ((shape->flags & 7) == 1 && !(shape->attributes & 4)) {
+        symbol->references += options.debug_info;
+        based_declarator_symbol = symbol;
+        return 7;
+    }
+    report_syntax_error(210,symbol->name);
+    return 2;
+}
+
+/* Original 0x25f90..0x26026. A based alias selects its underlying symbol;
+   ordinary objects select themselves. Type/tag entries are not bases. */
+unsigned short __stdcall based_symbol_modifier(unsigned short kind, char *name)
+{
+    FrontendSymbol *symbol;
+    unsigned short modifier;
+    if (!(kind & 0x800)) {
+        report_syntax_error(209);
+        return 2;
+    }
+    symbol = find_identifier_symbol(name);
+    if (!symbol) {
+        report_syntax_error(65,name);
+        return 2;
+    }
+    if ((symbol->kind & 31) == 6 || (symbol->kind & 31) == 7) {
+        report_syntax_error(211,name);
+        return 2;
+    }
+    if (symbol->attributes & 2) {
+        symbol = (FrontendSymbol *)symbol->type->related->field08;
+        modifier = 5;
+    } else modifier = 6;
+    symbol->references += options.debug_info;
+    based_declarator_symbol = symbol;
+    return modifier;
+}
+
+/* Original 0x26030..0x26057. */
+unsigned short __stdcall based_type_modifier(unsigned short kind)
+{
+    if (!(kind & 0x800)) {
+        report_syntax_error(209);
+        return 2;
+    }
+    return 8;
 }
