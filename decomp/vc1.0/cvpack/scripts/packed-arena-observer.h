@@ -45,6 +45,6 @@ static int rearm_packed_arena(HANDLE child,HANDLE log,HANDLE thread,DWORD addres
 static int dump_packed_arena(HANDLE child,HANDLE log,DWORD frontier)
 {
     if(!packed_arena_base)return 1;
-    if(packed_arena_step || frontier!=0x257a0)return 0;
+    if(packed_arena_step || (frontier!=0x257a0 && frontier!=0x25920))return 0;
     return packed_arena_bytes(child,log,"frontier");
 }

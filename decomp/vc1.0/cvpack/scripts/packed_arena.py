@@ -20,6 +20,7 @@ def validate(config,pe,rebuilt=None,linked=None):
     lines=(BINARY/'src/types.c').read_text().splitlines();line=p['native_allocation_line'];assert lines[line-2].strip()=='block = checked_alloc(0x3000);'and lines[line-1].strip()=='packed_type_cursor = block;','packed slab source allocation differs'
     data={r['name']:r for r in json.loads((BINARY/'data.json').read_text())}
     for name,address in(('packed_type_slots',0x350a8),('packed_type_cursor',0x350ac)):assert data[name]['original']==address and data[name]['size']==4 and data[name]['source']=='src/types.c','packed slab global owner differs'
+    if 'address_frontier'in p:assert p['address_frontier']==0x25920,'unreviewed packed-pool frontier'
     if rebuilt is not None:p['compiled']=compiled_provenance(rebuilt,linked)
     return p
 
@@ -54,9 +55,10 @@ def parse(events):
 def compare(config,pe,events,native,old_walks,new_walks,state,case,old_buffer,native_buffer):
     p=validate(config,pe)
     if not native:
-        assert not(case=='hello-debug-dll'and native_buffer and native_buffer['frontier']['name']=='convert_procedure32'),'missing packed slab observations'
+        assert not(case=='hello-debug-dll'and native_buffer and native_buffer['frontier']['name']in('convert_procedure32','address_in_module')),'missing packed slab observations'
         return
-    assert p and not native.get('error')and native['frontier']['name']=='convert_procedure32','unsupported packed slab frontier'
+    assert p and not native.get('error')and native['frontier']['name']in('convert_procedure32','address_in_module'),'unsupported packed slab frontier'
+    if native['frontier']['name']=='address_in_module':assert p['address_frontier']==0x25920,'missing packed module-address scope'
     original=parse(events);assert len(original['allocations'])==len(native['allocations'])==1 and original['frontier']and native['frontier'],'missing/extra packed slab lifetime'
     assert events.splitlines().count('packed-hash-rearm 00019c3b 00019c3e')==1,'packed pool return probe missing rearm'
     memory={}

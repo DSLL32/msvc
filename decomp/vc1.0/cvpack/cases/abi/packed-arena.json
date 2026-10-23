@@ -35,7 +35,7 @@
   "cursor": 217260,
   "allocation_return": 105531,
   "sources": {
-    "src/types.c": "c961eb87068ff2203e4b26744b08dfadb297fd7670b55774b7f93929e5ad1bfe"
+    "src/types.c": "f4ef8e0b4911f145c8b2d8b77614b4ef112060d8caca9dcdafbe4438659bcf25"
   },
   "native_allocation_line": 1789,
   "instructions": [
@@ -47,5 +47,6 @@
   ],
   "scope": "Distinct packed TypeHashEntry slab; actual used nodes in order1049,1048,1047. Nodes are contained typed fields of this one malloc12288 owner, not independent allocations. Index0..1/data4..7/next8..11 defined; reserved and unused bytes own unchanged only.",
   "data.json_sha256": "f5264f909069b6b6addadaa381ccf26238f9cc0fbf370794f8b048f1aa405dc4",
-  "walks.json_sha256": "9e8c4574a364950e57c2288a044b2e2653010d17fbb9d411d41171e686a19549"
+  "walks.json_sha256": "9e8c4574a364950e57c2288a044b2e2653010d17fbb9d411d41171e686a19549",
+  "address_frontier": 153888
 }

@@ -16,6 +16,7 @@ def validate(config,pe,rebuilt=None,linked=None):
     for filename in('data.json','walks.json'):assert hashlib.sha256((BINARY/filename).read_bytes()).hexdigest()==p[filename+'_sha256'],'symbol block registry changed'
     for r in p['instructions']:assert hashlib.sha256(pe.read(r['start'],r['end']-r['start'])).hexdigest()==r['sha256'],'symbol block constructor bytes changed'
     lines=(BINARY/'src/modules.c').read_text().splitlines();line=p['native_allocation_line'];assert lines[line-2].strip()=='result = checked_alloc(0x1fa4);'and lines[line-1].strip()=='public_symbol_available = 0x1fa4;','symbol block allocation site differs'
+    if 'address_frontier'in p:assert p['address_frontier']==0x25920,'unreviewed retained-symbol frontier'
     if rebuilt is not None:p['compiled']=compiled_provenance(rebuilt,linked)
     return p
 
@@ -67,9 +68,10 @@ def layout(blocks,groups):
 def context(config,pe,events,native,walks,state,arena):
     p=validate(config,pe)
     if not native:
-        assert state['frames'][0]!='convert_procedure32','missing mandatory retained symbol block observations'
+        assert state['frames'][0]not in('convert_procedure32','address_in_module'),'missing mandatory retained symbol block observations'
         return
-    assert p and arena and not native.get('error')and native['frontier']=='convert_procedure32','unsupported symbol block observation'
+    assert p and arena and not native.get('error')and native['frontier']in('convert_procedure32','address_in_module'),'unsupported symbol block observation'
+    if native['frontier']=='address_in_module':assert p['address_frontier']==0x25920,'missing retained-symbol module-address scope'
     original=parse(events);assert len(original['allocations'])==len(native['allocations'])==len(original['frontier'])==2,'missing retained symbol block lifetimes'
     assert events.splitlines().count('symbol-block-rearm 0001954f 00019552')==2,'symbol block birth probe not rearmed each time'
     old_blocks=[];new_blocks=[]

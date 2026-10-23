@@ -1798,3 +1798,17 @@ void __fastcall publish_packed_type(unsigned char *record, unsigned short type)
     type_hash_buckets[bucket] = node;
     ++type_hash_counts[bucket];
 }
+
+void convert_procedure32(void)
+{
+    unsigned char *type;
+    ++symbol_scope_depth;
+    if (!address_in_module(current_module, *(unsigned short *)(symbol_input+0x20),
+                           *(unsigned long *)(symbol_input+0x1c))) {
+        ++suppressed_symbol_depth;
+        *(unsigned short *)(symbol_input+2) = 8;
+        return;
+    }
+    type = symbol_input+0x22;
+    *(unsigned short *)type = convert_new_type(*(unsigned short *)type);
+}

@@ -41,6 +41,8 @@ typedef struct ModuleInfo {
     struct ModuleInfo *next;
 } ModuleInfo;
 
+unsigned short address_in_module(ModuleInfo *, unsigned short, unsigned long);
+
 typedef struct ModuleIndex {
     unsigned short module, reserved;
     unsigned long directory;

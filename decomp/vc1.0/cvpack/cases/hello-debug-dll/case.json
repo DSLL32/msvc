@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "convert_procedure32",
-    "native_function": "convert_procedure32",
+    "logical": "address_in_module",
+    "native_function": "address_in_module",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -107,7 +107,8 @@
       "publish_recursive_type",
       "hash_referenced_type",
       "publish_packed_type",
-      "convert_procedure32"
+      "convert_procedure32",
+      "address_in_module"
     ]
   },
   "complete_reference": {

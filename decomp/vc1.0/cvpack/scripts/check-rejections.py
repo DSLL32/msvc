@@ -135,6 +135,10 @@ def main():
     if packed_publication_pair.is_dir():
         from packed_publication_checks import check as check_packed_publication
         check_packed_publication(packed_publication_pair)
+    procedure_pair=BINARY/'cases/hello-debug-dll/evidence/0090-convert_procedure32'
+    if procedure_pair.is_dir():
+        from procedure_checks import check as check_procedure
+        check_procedure(procedure_pair)
     from buffer_storage_checks import check as check_buffer_storage
     buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
     if buffer_directory.is_dir():check_buffer_storage(buffer_directory)

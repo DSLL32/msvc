@@ -22,7 +22,7 @@
   },
   "native_allocation_line": 1306,
   "sources": {
-    "src/types.c": "c961eb87068ff2203e4b26744b08dfadb297fd7670b55774b7f93929e5ad1bfe",
+    "src/types.c": "f4ef8e0b4911f145c8b2d8b77614b4ef112060d8caca9dcdafbe4438659bcf25",
     "src/types.h": "8b1a7ecb12346e3b9e0faeb36411ff6f0cd7ea65be039b9652c2f91f0c5f8644"
   },
   "instructions": [
@@ -133,6 +133,12 @@
       "end": 153591,
       "sha256": "2ab7dde3ab1996a6444ba254f1a0fe560612f1d57c5d66e2dd19bde92973c502",
       "purpose": "Whole next convert_procedure32 ABI: no formal or hidden register/stack inputs; all consumed inputs loaded from contextual globals; RET0."
+    },
+    {
+      "start": 153888,
+      "end": 153980,
+      "sha256": "163a5a3b4cc8cbe799b52ff96734ba0fa757dfeab50ac7946a6ff57a58c731fe",
+      "purpose": "Nextcallee whole ABI: three caller-stack slots module32/segment low16/offset32; all incoming scratch unused before definition, RET0/AX ushort."
     }
   ],
   "defined_hash_node_ranges": [
@@ -3015,5 +3021,6 @@
         "source": 126127
       }
     ]
-  }
+  },
+  "procedure_address_frontier": 153888
 }

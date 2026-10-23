@@ -108,9 +108,9 @@
     }
   ],
   "sources": {
-    "src/types.c": "c961eb87068ff2203e4b26744b08dfadb297fd7670b55774b7f93929e5ad1bfe",
+    "src/types.c": "f4ef8e0b4911f145c8b2d8b77614b4ef112060d8caca9dcdafbe4438659bcf25",
     "src/types.h": "8b1a7ecb12346e3b9e0faeb36411ff6f0cd7ea65be039b9652c2f91f0c5f8644",
-    "src/image.h": "bbc8afde32fb7ec98e72ec04769ba3c7b38932f295146ad7e46d3a30cc0894f2"
+    "src/image.h": "5212757200cfaff70ac19f5ee4e7a04899c13040c3897bce2f9190a77a31bd33"
   },
   "scope": "Same actual module3 allocation5113. Header4; search12 yields16; then completed24-byte S_OBJNAME copy yields40. Exact first respectivecallbacks/parentframes/sourcecursor; later writes not inferred.",
   "frontiers": {
@@ -577,6 +577,21 @@
       "record_length": 53,
       "callback_index": 7,
       "kind": 517
+    },
+    "address_in_module": {
+      "original": 153888,
+      "defined": 108,
+      "input_offset": 4283,
+      "return_address": 153541,
+      "allocation_esp_delta": 20,
+      "buffer_slot": 10,
+      "input_slot": 13,
+      "record_length": 53,
+      "callback_index": 7,
+      "kind": 517,
+      "nested_returns": {
+        "5": 151922
+      }
     }
   }
 }

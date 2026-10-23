@@ -99,7 +99,7 @@ void convert_local_data32(void) { __asm { int 3 } }
 
 void convert_procedure16(void) { __asm { int 3 } }
 
-void convert_procedure32(void) { __asm { int 3 } }
+
 
 
 int link_symbol_scopes(unsigned char *symbols, unsigned long size) { __asm { int 3 } return 0; }
@@ -115,3 +115,6 @@ void release_type_data(TypeRecord *entry) { __asm { int 3 } }
 void add_derived_type(unsigned short type, unsigned short base) { __asm { int 3 } }
 
 int __fastcall compare_recursive_type(TypeRecord *entry, unsigned short type, unsigned char *record, unsigned short index) { __asm { int 3 } return 0; }
+
+unsigned short address_in_module(ModuleInfo *module, unsigned short segment, unsigned long offset)
+{ __asm { int 3 } return 0; }
