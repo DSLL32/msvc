@@ -1727,3 +1727,25 @@ unsigned short __fastcall commit_recursive_type(unsigned short type)
         record_derived_types(entry->index, *(unsigned short *)(record+6));
     return entry->index;
 }
+
+unsigned long recursive_type_slots;
+RecursiveTypeEntry *recursive_type_cursor;
+
+void __fastcall publish_recursive_type(TypeRecord *entry)
+{
+    RecursiveTypeEntry *block, *node;
+    unsigned long hash;
+    if (!recursive_type_slots) {
+        block = checked_alloc(0x3000);
+        recursive_type_cursor = block;
+        recursive_type_slots = 0x400;
+    }
+    hash = hash_recursive_type(entry);
+    --recursive_type_slots;
+    node = recursive_type_cursor++;
+    node->data = entry->data;
+    node->index = entry->index;
+    node->next = (RecursiveTypeEntry *)name_hash_buckets[hash];
+    name_hash_buckets[hash] = node;
+    ++name_hash_counts[hash];
+}

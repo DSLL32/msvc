@@ -123,6 +123,10 @@ def main():
     if recursive_publish_pair.is_dir():
         from recursive_publish_checks import check as check_recursive_publish
         check_recursive_publish(recursive_publish_pair)
+    recursive_arena_pair=BINARY/'cases/hello-debug-dll/evidence/0087-publish_recursive_type'
+    if recursive_arena_pair.is_dir():
+        from recursive_arena_checks import check as check_recursive_arena
+        check_recursive_arena(recursive_arena_pair)
     from buffer_storage_checks import check as check_buffer_storage
     buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
     if buffer_directory.is_dir():check_buffer_storage(buffer_directory)

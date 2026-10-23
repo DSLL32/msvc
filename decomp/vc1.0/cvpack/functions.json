@@ -5068,13 +5068,16 @@
       "native": "publish_recursive_type",
       "symbol": "@publish_recursive_type@4",
       "original": 105632,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        105632,
+        105743
+      ],
       "abi": "void __fastcall publish_recursive_type(TypeRecord *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0087-publish_recursive_type/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -5084,7 +5087,25 @@
           "kind": "pointer",
           "bits": 32
         }
-      ]
+      ],
+      "required_pdb_record_proof": true,
+      "required_symbol_output_observation": true,
+      "required_type_page_observation": true,
+      "required_buffer_storage_observation": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "publish_packed_type",
@@ -5656,6 +5677,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 86
+    },
+    {
+      "function": "publish_recursive_type",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 87
     }
   ],
   "support_unmasked": [
@@ -6250,11 +6277,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "7c192a0b9abb410c430d70a41c808b15db433b112642fd7771328c7ce91e4382"
+    "evidence_sha256": "f50aa11df2b824200119f58c1a07104e7ce4c601ad6f5e850f1d6f5ac1ba4396"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "60586917cc3db4f8ac5e0851906b1dca77a997ae7b7bb4345c667f8a8614d94e"
+    "evidence_sha256": "1e04c948f8fcc40ff4203334bf54308f0117715faf09eeb6c0205703eba357d3"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -6286,26 +6313,30 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "4260c401b9015bd84be0e31a1c00281051595d2c0b2391bd6c626fd087da9d3d"
+    "evidence_sha256": "b9bc826df7c24ce3bf1188c7c31c302a2de32d8fc62c6fec1de7477bbab16174"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "812323c43c8d813dfe69d5c2e59e484281ddebb5a26cb9a952e97f5a7a35b24f"
+    "evidence_sha256": "a6aa3fd6e11d212e6d9e0deee13863bfe7c5e7fb1980958e6cceab93b5cf0d2e"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
-    "evidence_sha256": "abf7eca45c57485e4d735502e893241dd28ab34335e87ccdacd712cbb20f3fa8"
+    "evidence_sha256": "8d7c16dbffc15044bfcef45a6bd154ad15b18b2912ae8eb5c7e01fa72109aea5"
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "a79332c2d7e8698fdd9a74aec469697df98b51e63b870e4cc69f961e281cc66d"
+    "evidence_sha256": "2c7ae51b53b2db8f3d0a3a3bb9417bafdcd9bb0927aa3f17631d21d99af7ac65"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
-    "evidence_sha256": "6168faf59072ad32a1885f55d7966add6e57c64a6625180f9f3f627a1d384f46"
+    "evidence_sha256": "c5bd6507ca25dfee32a182bec7232cc613c4cc696ee6426e14d45784fe1abf03"
   },
   "resolver_return_observations": {
     "evidence": "cases/abi/resolver-returns.json",
-    "evidence_sha256": "58475807aaa050b90b12fdad89bd7afd26c38904de053bd798ccc03f53e29c67"
+    "evidence_sha256": "838f502b53668b6f3ef2bdbb95c50cbcbe4272f22c25b67543902aec33084a85"
+  },
+  "recursive_arena_observations": {
+    "evidence": "cases/abi/recursive-arena.json",
+    "evidence_sha256": "de5617a8acaf1d8210aae1fabb3166284ea0835477d2599a06cf09fd6fae4024"
   }
 }

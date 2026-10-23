@@ -62,6 +62,8 @@ extern unsigned short *name_hash_counts, *type_hash_counts;
 extern void **global_symbol_hash, **public_symbol_hash, **type_hash_extra_c, **type_hash_extra_d;
 extern TypeDerivation *derived_types;
 extern unsigned short derived_type_capacity, type_page_capacity;
+extern unsigned long recursive_type_slots;
+extern RecursiveTypeEntry *recursive_type_cursor;
 extern unsigned char *type_work_a, *type_work_b;
 extern GrowingBuffer type_record_storage, type_symbol_storage;
 extern TypeRecord *empty_type;

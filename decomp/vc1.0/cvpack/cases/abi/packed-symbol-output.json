@@ -108,8 +108,8 @@
     }
   ],
   "sources": {
-    "src/types.c": "478e1859ff4f840885edf27e349251e51e0e34b955b6c5039fd37aed8b212769",
-    "src/types.h": "cdd1b4fab2d6b23173c4aa5b5fef2e3157aa6fc52334af58ef7bdd822e03fa26",
+    "src/types.c": "321db512a6f7335924d65a7d8318b617d537cd89d7ddd7f8c130119005a743c1",
+    "src/types.h": "77c8609390e2e4f6f1530e2a32b5355b89bf80580ca4364bcbd41e8fa6b10b28",
     "src/image.h": "bbc8afde32fb7ec98e72ec04769ba3c7b38932f295146ad7e46d3a30cc0894f2"
   },
   "scope": "Same actual module3 allocation5113. Header4; search12 yields16; then completed24-byte S_OBJNAME copy yields40. Exact first respectivecallbacks/parentframes/sourcecursor; later writes not inferred.",
@@ -521,6 +521,28 @@
         "25": 156937,
         "27": 153648,
         "29": 151922
+      }
+    },
+    "hash_referenced_type": {
+      "original": 116864,
+      "defined": 40,
+      "input_offset": 2227,
+      "return_address": 116640,
+      "allocation_esp_delta": 192,
+      "buffer_slot": 53,
+      "input_slot": 56,
+      "record_length": 24,
+      "callback_index": 27,
+      "kind": 4,
+      "nested_returns": {
+        "7": 105679,
+        "9": 125966,
+        "19": 126127,
+        "29": 109879,
+        "33": 159645,
+        "44": 156937,
+        "46": 153648,
+        "48": 151922
       }
     }
   }

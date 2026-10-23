@@ -1,0 +1,63 @@
+{
+  "application_functions": 87,
+  "application_bytes": 30624,
+  "next": "hash_referenced_type",
+  "source": "publish_recursive_type19ca0..19d0f: allocate1024 twelve-byte nodes when empty, hash actual record, decrement slots/advance cursor, write data/index/next then publish bucket and increment count. Original Win32 C/compiler graph retained.",
+  "ownership": "Actual malloc12288 captured at birth/frontier and source+canonical allocation-return def-use verified. Exactly one root4209 node published, globalindex1047/data actual copied root/bucketC46/nextNULL/cursor+12/slots1023. Only node0..5 and8..11 defined. Reserved6..7 and all12276 unused bytes must equal OWN birth; no cross-side padding or initialzero credit. Full slab disjoint from all other owners. Native source-line observer reads only proved requested size.",
+  "typed_state": "73 actual copies2024 defined bytes and73 pointer/index publications,71 ordinary TypeHashEntry nodes fully required with only1047/1048 pending. Page292 defined pointer bytes;12 globalcalloc16 names.59 exact provider PDB words including newly copied list4208.field134. Actual next entryECX4208/DX0; independent wholecallee ABI1c880..1c953, returnAX/RET0, no hidden argument. Caller partialhash53b5 and exact nested frames/cacheFFF fully compared.",
+  "checks": {
+    "incremental-build": {
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "native",
+        "build/debug-run.exe",
+        "graph-identities",
+        "graph-audit-tool"
+      ],
+      "status": 0,
+      "elapsed": 1.4288256857544184
+    },
+    "audit": {
+      "command": [
+        "python3",
+        "scripts/audit.py"
+      ],
+      "status": 0,
+      "elapsed": 0.5863332990556955
+    },
+    "negatives": {
+      "command": [
+        "python3",
+        "scripts/check-rejections.py"
+      ],
+      "status": 0,
+      "elapsed": 18.483353337273
+    },
+    "fixtures": {
+      "command": [
+        "python3",
+        "scripts/check-native.py"
+      ],
+      "status": 0,
+      "elapsed": 0.4282931964844465
+    }
+  },
+  "rejection_controls": 544,
+  "new_controls": 21,
+  "native_acceptance_seconds": {
+    "setup": 0.18456590175628662,
+    "execution": 0.016424168832600117,
+    "debugging": 2.39700267650187,
+    "checks": 0.017788643948733807,
+    "total": 2.615786548703909
+  },
+  "original_acceptance_seconds": {
+    "setup": 0.2646516691893339,
+    "execution": 2.487237607128918,
+    "total": 2.7757792668417096
+  },
+  "limitations": "Initial DLL case still partial; no CRT reconstruction or shared shim change. Existing guarded _sopen singleprocess scope and expanded-recursion native guards remain. Reserved/unused bytes never become application-defined by observation alone.",
+  "failed_attempt": "Native observer initially used inferred ordinal instead of actual stub formal number; fixed observer only, reran fresh native in independent workdir against unchanged fresh original; failed scratch retained."
+}

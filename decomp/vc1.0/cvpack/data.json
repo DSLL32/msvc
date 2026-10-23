@@ -1113,5 +1113,19 @@
     "original": 229916,
     "size": 4,
     "source": "src/types.c"
+  },
+  {
+    "name": "recursive_type_slots",
+    "symbol": "_recursive_type_slots",
+    "original": 217780,
+    "size": 4,
+    "source": "src/types.c"
+  },
+  {
+    "name": "recursive_type_cursor",
+    "symbol": "_recursive_type_cursor",
+    "original": 217784,
+    "size": 4,
+    "source": "src/types.c"
   }
 ]
