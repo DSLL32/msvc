@@ -1,0 +1,38 @@
+{
+  "build": {
+    "argv": [
+      "make",
+      "-j4",
+      "all",
+      "native"
+    ],
+    "elapsed_seconds": 3.22597012296319,
+    "status": 0
+  },
+  "audit": {
+    "argv": [
+      "python3",
+      "scripts/audit.py"
+    ],
+    "elapsed_seconds": 0.6260523265227675,
+    "status": 0
+  },
+  "negative_checks": {
+    "argv": [
+      "python3",
+      "scripts/check-rejections.py"
+    ],
+    "elapsed_seconds": 1.8405522275716066,
+    "status": 0
+  },
+  "native_fixtures": {
+    "argv": [
+      "python3",
+      "scripts/check-native.py",
+      "--output",
+      "/root/.ai-tmp/vc1.0-cvpack/checkpoint-12/fixtures"
+    ],
+    "elapsed_seconds": 0.16380786709487438,
+    "status": 0
+  }
+}

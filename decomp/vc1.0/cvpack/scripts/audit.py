@@ -211,6 +211,8 @@ def main():
     cached=json.loads((BINARY/'runtime.json').read_text())
     assert runtime==cached,'strict runtime identities changed'
     validate_ownership(config,original,runtime,json.loads((BINARY/'data.json').read_text()))
+    from seams import approved
+    approved(config,original,runtime)
     rebuilt_runtime=identify(args.rebuilt,{'_main':linked['_main']})
     oi=identity_table(runtime,functions)
     ri=identity_table(rebuilt_runtime,functions,linked)

@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "move_file_slot",
-    "native_function": "move_file_slot",
+    "logical": "seek_buffered_file",
+    "native_function": "seek_buffered_file",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -28,7 +28,9 @@
       "open_file",
       "find_cached_file",
       "acquire_file_slot",
-      "move_file_slot"
+      "move_file_slot",
+      "open_buffered_file",
+      "seek_buffered_file"
     ]
   },
   "complete_reference": {

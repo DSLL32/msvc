@@ -55,5 +55,6 @@ int open_mapped_file(FileSlot *,int,unsigned char);
 int open_buffered_file(FileSlot *,int,int,unsigned char);
 void move_file_slot(FileSlot *,FileSlot **,FileSlot **,FileSlot **,FileSlot **,unsigned char);
 int release_file_slot(FileSlot *);
+long seek_buffered_file(FileSlot *,long,int);
 
 #endif

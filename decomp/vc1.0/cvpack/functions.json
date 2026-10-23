@@ -515,29 +515,66 @@
       "native": "open_buffered_file",
       "symbol": "_open_buffered_file",
       "original": 171440,
-      "source": "src/stubs.c",
+      "source": "src/files.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        171440,
+        171717
+      ],
       "abi": "int open_buffered_file(FileSlot *,int,int,unsigned char)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0012-open_buffered_file/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "mode",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "permission",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 32,
+          "inactive_when": {
+            "argument": "mode",
+            "mask": 256,
+            "value": 0,
+            "evidence": "cases/abi/open-permission.json"
+          }
+        },
+        {
+          "name": "created",
+          "slot": 4,
+          "kind": "integer",
+          "bits": 8
+        }
+      ]
     },
     {
       "name": "move_file_slot",
       "native": "move_file_slot",
       "symbol": "_move_file_slot",
       "original": 174480,
-      "source": "src/stubs.c",
+      "source": "src/files.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        174480,
+        174631
+      ],
       "abi": "void move_file_slot(FileSlot *,FileSlot **,FileSlot **,FileSlot **,FileSlot **,unsigned char)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0011-move_file_slot/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -594,6 +631,41 @@
       "roots": [],
       "text_data": [],
       "parameters": []
+    },
+    {
+      "name": "seek_buffered_file",
+      "native": "seek_buffered_file",
+      "symbol": "_seek_buffered_file",
+      "original": 172528,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "long seek_buffered_file(FileSlot *,long,int)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "offset",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "origin",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
     }
   ],
   "review": {
@@ -603,11 +675,12 @@
       50
     ],
     "ten": {
-      "status": "awaiting orchestrator review",
+      "status": "passed by root; released toward50",
       "receipt": "cases/reviews/0010/review.json",
       "application_functions": 10,
       "next_stub": "move_file_slot",
-      "further_reconstruction_paused": true
+      "further_reconstruction_paused": false,
+      "approval": "Root independently read all source/layouts/proofs and reran native build, both fixtures, whole graph/ABI/data audit and32 negatives; all passed."
     }
   },
   "accepted_order": [
@@ -670,6 +743,18 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 10
+    },
+    {
+      "function": "move_file_slot",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 11
+    },
+    {
+      "function": "open_buffered_file",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 12
     }
   ],
   "support_unmasked": [
@@ -1086,6 +1171,102 @@
       "start": 182736,
       "end": 182896,
       "evidence": "cases/hello-debug-dll/evidence/0007-new_file_slot/proof.json"
+    },
+    {
+      "name": "__strdup",
+      "start": 186576,
+      "end": 186615,
+      "evidence": "cases/hello-debug-dll/evidence/0011-move_file_slot/proof.json"
+    },
+    {
+      "name": "_strlen",
+      "start": 195688,
+      "end": 195765,
+      "evidence": "cases/hello-debug-dll/evidence/0011-move_file_slot/proof.json"
+    },
+    {
+      "name": "_strcpy",
+      "start": 195540,
+      "end": 195685,
+      "evidence": "cases/hello-debug-dll/evidence/0011-move_file_slot/proof.json"
+    },
+    {
+      "name": "__open",
+      "start": 187536,
+      "end": 187568,
+      "evidence": "cases/hello-debug-dll/evidence/0012-open_buffered_file/proof.json"
+    },
+    {
+      "name": "__alloc_osfhnd",
+      "start": 188896,
+      "end": 188960,
+      "evidence": "cases/hello-debug-dll/evidence/0012-open_buffered_file/proof.json"
+    },
+    {
+      "name": "import:CreateFileA",
+      "start": 179794,
+      "end": 179800,
+      "evidence": "cases/hello-debug-dll/evidence/0012-open_buffered_file/proof.json"
+    },
+    {
+      "name": "__set_osfhnd",
+      "start": 188960,
+      "end": 189104,
+      "evidence": "cases/hello-debug-dll/evidence/0012-open_buffered_file/proof.json"
+    },
+    {
+      "name": "__stat",
+      "start": 199632,
+      "end": 200400,
+      "evidence": "cases/hello-debug-dll/evidence/0012-open_buffered_file/proof.json"
+    },
+    {
+      "name": "_strpbrk",
+      "start": 201440,
+      "end": 201502,
+      "evidence": "cases/hello-debug-dll/evidence/0012-open_buffered_file/proof.json"
+    },
+    {
+      "name": "__getdrive",
+      "start": 201504,
+      "end": 201568,
+      "evidence": "cases/hello-debug-dll/evidence/0012-open_buffered_file/proof.json"
+    },
+    {
+      "name": "import:GetCurrentDirectoryA",
+      "start": 205832,
+      "end": 205838,
+      "evidence": "cases/hello-debug-dll/evidence/0012-open_buffered_file/proof.json"
+    },
+    {
+      "name": "import:FindFirstFileA",
+      "start": 205826,
+      "end": 205832,
+      "evidence": "cases/hello-debug-dll/evidence/0012-open_buffered_file/proof.json"
+    },
+    {
+      "name": "import:FileTimeToSystemTime",
+      "start": 205814,
+      "end": 205820,
+      "evidence": "cases/hello-debug-dll/evidence/0012-open_buffered_file/proof.json"
+    },
+    {
+      "name": "___gmtotime_t",
+      "start": 196352,
+      "end": 196496,
+      "evidence": "cases/hello-debug-dll/evidence/0012-open_buffered_file/proof.json"
+    },
+    {
+      "name": "import:FindClose",
+      "start": 205808,
+      "end": 205814,
+      "evidence": "cases/hello-debug-dll/evidence/0012-open_buffered_file/proof.json"
+    },
+    {
+      "name": "__dtoxmode",
+      "start": 199408,
+      "end": 199632,
+      "evidence": "cases/hello-debug-dll/evidence/0012-open_buffered_file/proof.json"
     }
   ]
 }

@@ -1,0 +1,51 @@
+rejected: truncated RET cleanup
+rejected: truncated immediate
+rejected: missing terminal
+rejected: branch into operand
+rejected: undeclared indirect jump
+rejected: conditional outside function
+rejected: branch into text data
+rejected: unresolved application call
+rejected: CRT startup with incorrect relocated application target
+rejected: differing active create permissions
+rejected: mismatched conditional ABI mode
+verified: original guard rearmed across two successful calls
+rejected: original guard first-text before unsupported body execution
+rejected: original guard second-text before unsupported body execution
+rejected: original guard second-share before unsupported body execution
+rejected: both conditional CRT input observations false
+rejected: conditional CRT native input hash mismatch
+rejected: conditional CRT text mode
+rejected: conditional CRT other share
+rejected: conditional CRT changed entry evidence
+rejected: conditional CRT changed whole-body evidence
+rejected: conditional CRT changed CFG/callee evidence
+rejected: duplicate text-data ownership
+rejected: text-data overlaps another application body
+rejected: application code includes another function entry
+rejected: text-data masks an unreconstructed function entry
+rejected: unmask outside original file-backed code
+rejected: duplicate runtime acceptance ownership
+rejected: runtime overlaps accepted application code
+rejected: runtime unmask overlaps unrelated contextual data
+rejected: runtime alias without explicit declaration
+rejected: conditional support mutated during run
+rejected: stale original versus native conditional support
+rejected: two mutually matching stale configurations
+rejected: native/original configuration receipt mismatch
+rejected: captured original target hash mismatch
+rejected: native original-target identity mismatch
+rejected: captured masked image changed after execution
+rejected: native executable changed after execution
+rejected: changed observed object byte
+rejected: wrong observed object pointer identity
+rejected: unresolved observed object pointer
+rejected: unterminated original object list
+rejected: changed allocated filename bytes
+rejected: changed buffered page-table tag
+rejected: mapped union enters buffered observer
+rejected: conditional variant unmask through ordinary exact runtime closure
+rejected: reviewed variant unmask through exact runtime closure
+rejected: redirected application callee
+rejected: changed callee stack cleanup
+rejected: changed contextual global initializer

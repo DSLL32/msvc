@@ -1,6 +1,7 @@
 /* Cached page/file pools. Callback installation intentionally follows allocation,
    as in the original; allocation failures before that point have no handler. */
 #include <stdarg.h>
+#include <sys/stat.h>
 #include "files.h"
 #include <recon.h>
 
@@ -140,4 +141,61 @@ FileSlot *acquire_file_slot(void)
     slot = free_files;
     move_file_slot(slot, &free_files, NULL, &active_files, NULL, 0);
     return slot;
+}
+
+void move_file_slot(FileSlot *slot, FileSlot **from, FileSlot **from_tail,
+                    FileSlot **to, FileSlot **to_tail, unsigned char append)
+{
+    FileSlot *previous, *current;
+    previous = *from;
+    if (slot == previous) {
+        *from = previous->next;
+        if (from_tail && *from_tail == slot) *from_tail = NULL;
+    } else {
+        current = previous->next;
+        while (current && current != slot) {
+            previous = current;
+            current = current->next;
+        }
+        if (current) previous->next = current->next;
+        if (from_tail && *from_tail == slot) *from_tail = previous;
+    }
+    if (!*to) {
+        *to = slot;
+        slot->next = NULL;
+        if (to_tail) *to_tail = slot;
+    } else if (append) {
+        slot->next = NULL;
+        (*to_tail)->next = slot;
+        *to_tail = slot;
+    } else {
+        slot->next = *to;
+        *to = slot;
+    }
+}
+
+int open_buffered_file(FileSlot *slot, int mode, int permission, unsigned char created)
+{
+    struct _stat status;
+    int entries, i;
+    if (created) {
+        slot->source.descriptor = _open(slot->name, mode, permission);
+        if (slot->source.descriptor == -1) file_failure(15, slot->name, NULL);
+        slot->length = 0;
+        if ((slot->flags & 2) && (!(slot->flags & 3) || (slot->flags & 16)))
+            slot->contents.capacity = 0x400000UL;
+        else {
+            if (_stat(slot->name, &status) == -1) file_failure(15, slot->name, NULL);
+            slot->contents.capacity = status.st_size;
+            slot->length = status.st_size;
+        }
+        entries = (slot->contents.capacity + 4096) >> 12;
+        slot->allocated = (unsigned long)entries << 12;
+        slot->storage.pages = calloc(1, entries * sizeof(*slot->storage.pages));
+        if (!slot->storage.pages) file_failure(13, NULL, NULL);
+        if (!(slot->flags & 16) && (slot->flags & 1))
+            for (i = 0; i < entries; ++i) slot->storage.pages[i] = (Page *)1;
+    }
+    seek_buffered_file(slot, 0, 0);
+    return 0;
 }

@@ -17,6 +17,8 @@ def run_case(name, directory, debug=False):
     snapshot=directory/'configuration.json'
     snapshot.write_bytes((BINARY/'functions.json').read_bytes())
     assert json.loads(snapshot.read_text())==config,'configuration changed during native setup'
+    from seams import snapshot_policy,check_policy_snapshot
+    policy_hash=snapshot_policy(directory)
     record = case(name)
     work = directory / 'work'
     prepare(record, work)
@@ -33,7 +35,9 @@ def run_case(name, directory, debug=False):
     script.write_text('set pagination off\nset confirm off\nset startup-with-shell on\n'
         'set disable-randomization off\nset args '+' '.join(map(shlex.quote,record['argv']))+'\n'
         'break main\nrun '+' '.join(map(shlex.quote,record['argv']))+' > '+shlex.quote(str(directory/'debug-stdout'))+' 2> '+shlex.quote(str(directory/'debug-stderr'))+'\n'
-        'set argv[0] = recon_pgmptr\ncontinue\npython\n'
+        'set argv[0] = recon_pgmptr\n'
+        +('python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_sopen_observer"]('+repr(str(directory/'crt-returns.json'))+','+repr(str(directory/'debug-work'))+','+repr(str(ROOT/record['inputs'][0]['path']))+')\nend\n'if name=='hello-debug-dll'else '')+
+        'continue\npython\n'
         'import gdb,json\n'
         'current=gdb.newest_frame()\nparameters={}\n'
         'for symbol in current.block():\n'
@@ -58,6 +62,7 @@ def run_case(name, directory, debug=False):
         'fields=["_ptr","_cnt","_base","_flag","_file","_charbuf","_bufsiz","_tmpfname"]\n'
         'stream={n:int(gdb.parse_and_eval("recon_iob[1]."+n)) for n in fields}\n'
         'state={"feedback":int(gdb.parse_and_eval("feedback")),"stdout_osfile":int(gdb.parse_and_eval("recon_osfile[1]"))}\n'
+        'state["crt_errno"]=int(gdb.parse_and_eval("(int)errno"))\n'
         'globals={}\n'
         'for item in '+repr(data)+':\n'
         ' name=item["name"]\n'
@@ -70,6 +75,24 @@ def run_case(name, directory, debug=False):
         ' size=item["size"]*(int(gdb.parse_and_eval(item["count_native"])) if item.get("count_native") else 1)\n'
         ' while pointer and len(nodes)<item["limit"]:\n'
         '  raw=bytes(gdb.selected_inferior().read_memory(pointer,size));nodes.append(dict(address=pointer,bytes=raw.hex()))\n'
+        '  strings={}\n'
+        '  for offset in item.get("string_fields",[]):\n'
+        '   address=int.from_bytes(raw[offset:offset+4],"little");text=b""\n'
+        '   if address:\n'
+        '    text=gdb.Value(address).cast(gdb.lookup_type("char").pointer()).string(encoding="latin1").encode("latin1")+b"\\0"\n'
+        '    if len(text)>1024: raise RuntimeError("unbounded object string")\n'
+        '   strings[str(offset)]=dict(address=address,bytes=text.hex())\n'
+        '  if strings: nodes[-1]["strings"]=strings\n'
+        '  arrays={}\n'
+        '  for array in item.get("arrays",[]):\n'
+        '   when=array["when"];flags=int.from_bytes(raw[when["offset"]:when["offset"]+4],"little")\n'
+        '   if flags&when["mask"]!=when["value"]: continue\n'
+        '   offset=array["offset"];address=int.from_bytes(raw[offset:offset+4],"little")\n'
+        '   count=int.from_bytes(raw[array["count_offset"]:array["count_offset"]+4],"little")>>array["count_shift"]\n'
+        '   if count>array["max_count"]: raise RuntimeError("unbounded object array")\n'
+        '   payload=bytes(gdb.selected_inferior().read_memory(address,count*4)) if address else b""\n'
+        '   arrays[str(offset)]=dict(address=address,bytes=payload.hex())\n'
+        '  if arrays: nodes[-1]["arrays"]=arrays\n'
         '  pointer=0 if item["next"]==0xffffffff else int.from_bytes(raw[item["next"]:item["next"]+4],"little")\n'
         ' if pointer: raise RuntimeError("unterminated object walk: "+name)\n'
         ' walks[name]=nodes\n'
@@ -138,8 +161,10 @@ def run_case(name, directory, debug=False):
         assert sha(work/item['name'])==artifact['sha256'], 'artifact mismatch: '+item['name']
     assert sha(snapshot)==sha(BINARY/'functions.json'),'configuration changed during native run'
     assert sha(executable)==executable_hash,'native executable changed during run'
+    check_policy_snapshot(directory,policy_hash)
     return dict(case=name,terminal=expected['terminal'],status=child.returncode,function=expected.get('native_function'),
         executable_sha256=executable_hash,configuration_sha256=sha(snapshot),original_sha256=config['target']['sha256'],
+        conditional_support_sha256=policy_hash,
         process_boundary=processes.receipt(),
         seconds=dict(setup=setup,execution=execution,debugging=debugging,
                      checks=time.perf_counter()-check,total=time.perf_counter()-start))

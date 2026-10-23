@@ -1,6 +1,6 @@
 {
   "gate": 10,
-  "status": "source review passed; tooling fixes awaiting final release; reconstruction paused at ten",
+  "status": "passed by root; released toward50",
   "parent_review": "Readable Win32 C, named INT3 stubs only, contextual diagnostic table, faithful callback and varargs, full pool-state evidence passed parent source review.",
   "fixes": [
     "Corrected files_initialize ABI prose to five int parameters, one unsigned char and one callback (seven stack slots); implementation and sampled ABI unchanged. Corrected current functions.json and review summary; historical acceptance proof snapshots unchanged.",
@@ -17,5 +17,6 @@
   "native_fixture_sum_seconds": 0.04781694430857897,
   "configuration_sha256": "850fee8dc424fe36a7e203dbdd1130d2818f4de142f3a808762db42c68b4b2c8",
   "next_function": "move_file_slot (0x2a990), still a named INT3 stub",
-  "timing": "timing.json"
+  "timing": "timing.json",
+  "root_approval": "Root independently read all source/layouts/proofs and reran native build, both fixtures, whole graph/ABI/data audit and32 negatives; all passed."
 }

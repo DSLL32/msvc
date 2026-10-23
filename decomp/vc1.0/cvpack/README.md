@@ -8,12 +8,13 @@ The PE/COFF analysis reader was reused from LINK; no sibling files are changed.
 `make -j4 native check` builds/runs native i386 fixtures. `make -j4 all audit`
 also verifies original-compiler compilability. Debug with GDB against
 `build/native/CVPACK.EXE`. `/help` is complete: exact 219-byte stdout, exit 1 and
-empty stderr. Ten application functions are accepted; reconstruction is paused for the first
-orchestrator review. The independent DLL case stops at the named
-`move_file_slot` stub. CRT startup has a
+empty stderr. Twelve application functions are accepted. The first orchestrator review passed;
+work is released toward the fifty-function review. The independent DLL case stops
+at the named `seek_buffered_file` stub. CRT startup has a
 separate exact-library and observed-state proof and is counted separately.
 `audit` checks complete original/compiler CFGs and callees, RET cleanup, SEH
-roots, contextual initial data, library relocations, and 32 negative probes (including gate-review ownership and snapshot checks).
+roots, contextual initial data, library relocations, and 50 rejection checks, including ownership, snapshots, conditional ABI words and
+case-specific guarded CRT variants.
 
 `scripts/capture-original.py --case help --output ~/.ai-tmp/...` is an explicit
 original-only operation after `make build/debug-run.exe`. It creates an entirely
@@ -57,8 +58,19 @@ audits 0.53 s, rejection checks 1.55 s. Native case totals sum to 0.043 s
 (0.116 s including Python runner startup). Function-ten acceptance with fresh
 GDB state took 0.240 s natively; explicit masked-original capture took 5.72 s.
 
-The first source review passed; fixes requested before release are recorded in
+The first source review and its tooling fixes passed; the fixes are recorded in
 `cases/reviews/0010/fixes/review-fixes.json`. Acceptance now requires matching
 current candidate snapshots and target/image hashes. The audit rejects overlapping
 application code/text data/runtime ownership; same-range runtime aliases need
 explicit identities and evidence. Historical proof snapshots remain unchanged.
+
+The actual `_sopen` CRT variant has separate case-specific support in
+`runtime-support.json`, with whole body/CFG/callee proof and per-invocation
+mode/name/share/input guards. It is never an exact-LIBC identity or ordinary
+unmask range and contributes no application coverage. Explicit original-only C
+controllers verify rearming twice and denying a bad second mode/share before body
+execution; fixtures only inspect those frozen receipts. See
+`cases/runtime-variants/sopen-review.json` for scope and review. The unused optional
+permission word retains both raw observations, with strict comparison whenever
+the create bit is active. Buffered FileSlot comparisons now include allocated
+name bytes and complete tagged page tables; mapped mode remains fail-closed.

@@ -21,9 +21,33 @@
     "pointer_fields": [
       0,
       20,
-      24,
       32,
       36
+    ],
+    "string_fields": [
+      0
+    ],
+    "mode_guard": {
+      "offset": 4,
+      "mask": 8,
+      "value": 0,
+      "reason": "Only buffered FileSlot semantics reached. Mapped handle/view normalization requires a separate typed observer before acceptance."
+    },
+    "arrays": [
+      {
+        "offset": 20,
+        "count_offset": 28,
+        "count_shift": 12,
+        "max_count": 16384,
+        "when": {
+          "offset": 4,
+          "mask": 8,
+          "value": 0
+        },
+        "sentinels": [
+          1
+        ]
+      }
     ]
   },
   {
@@ -45,9 +69,33 @@
     "pointer_fields": [
       0,
       20,
-      24,
       32,
       36
+    ],
+    "string_fields": [
+      0
+    ],
+    "mode_guard": {
+      "offset": 4,
+      "mask": 8,
+      "value": 0,
+      "reason": "Only buffered FileSlot semantics reached. Mapped handle/view normalization requires a separate typed observer before acceptance."
+    },
+    "arrays": [
+      {
+        "offset": 20,
+        "count_offset": 28,
+        "count_shift": 12,
+        "max_count": 16384,
+        "when": {
+          "offset": 4,
+          "mask": 8,
+          "value": 0
+        },
+        "sentinels": [
+          1
+        ]
+      }
     ]
   },
   {
@@ -59,9 +107,33 @@
     "pointer_fields": [
       0,
       20,
-      24,
       32,
       36
+    ],
+    "string_fields": [
+      0
+    ],
+    "mode_guard": {
+      "offset": 4,
+      "mask": 8,
+      "value": 0,
+      "reason": "Only buffered FileSlot semantics reached. Mapped handle/view normalization requires a separate typed observer before acceptance."
+    },
+    "arrays": [
+      {
+        "offset": 20,
+        "count_offset": 28,
+        "count_shift": 12,
+        "max_count": 16384,
+        "when": {
+          "offset": 4,
+          "mask": 8,
+          "value": 0
+        },
+        "sentinels": [
+          1
+        ]
+      }
     ]
   }
 ]

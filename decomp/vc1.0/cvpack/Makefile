@@ -37,6 +37,10 @@ build/CVPACK.EXE: $(OBJECTS) Makefile
 build/debug-run.exe: build/debug-run.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 
+# Explicit original-only analysis probe; excluded from every fixture dependency.
+build/sopen-guard-probe.obj: scripts/sopen-guard-probe.c $(RECON)/include/recon.h | build
+	$(TOOL) CL.EXE /nologo /c /Od /G3 /I$(RECON)/include /Fo$@ $<
+
 build/native/%.o: src/%.c $(NATIVE_HEADERS) | build/native
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -finstrument-functions -c $< -o $@
 

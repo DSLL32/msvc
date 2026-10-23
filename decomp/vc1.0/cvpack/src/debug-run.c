@@ -12,6 +12,7 @@ typedef struct RuntimeRange {
 static RuntimeRange ranges[512];
 static unsigned range_count;
 static unsigned char original_bytes[65536];
+static unsigned char array_bytes[65536];
 static char object_line[131200];
 static DWORD watched_spawn, spawn_return;
 static unsigned char spawn_return_byte;
@@ -68,6 +69,161 @@ static int finish_spawn(HANDLE child, HANDLE thread, HANDLE log)
     context.Eip = spawn_return;
     spawn_return = 0;
     return SetThreadContext(thread, &context);
+}
+
+/* Case-specific original CRT observation. Not reconstruction source. */
+static DWORD sopen_start, sopen_end, sopen_offset, sopen_return, sopen_step;
+static DWORD sopen_saved_tf;
+static unsigned char sopen_return_byte;
+static char sopen_name[260], sopen_input[1024], sopen_master[1024];
+
+static int identical_files(const char *left, const char *right)
+{
+    HANDLE a, b;
+    DWORD na, nb;
+    int same = 0;
+    a = CreateFileA(left, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, 0,
+                    OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+    b = CreateFileA(right, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, 0,
+                    OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+    if (a != INVALID_HANDLE_VALUE && b != INVALID_HANDLE_VALUE) {
+        do {
+            if (!ReadFile(a, original_bytes, sizeof(original_bytes), &na, 0) ||
+                !ReadFile(b, array_bytes, sizeof(array_bytes), &nb, 0) ||
+                na != nb || memcmp(original_bytes, array_bytes, na)) break;
+            if (!na) { same = 1; break; }
+        } while (1);
+    }
+    if (a != INVALID_HANDLE_VALUE) CloseHandle(a);
+    if (b != INVALID_HANDLE_VALUE) CloseHandle(b);
+    return same;
+}
+
+static int denied_sopen(HANDLE log, const char *reason)
+{
+    char line[160];
+    DWORD written;
+    sprintf(line, "crt-denied %08lx %s\n", sopen_start, reason);
+    WriteFile(log, line, strlen(line), &written, 0);
+    return -1;
+}
+
+static int begin_sopen(HANDLE child, HANDLE original, HANDLE log, HANDLE thread)
+{
+    CONTEXT context;
+    DWORD words[5], bytes, written, i, length;
+    char name[260], line[1024];
+    unsigned char trap = 0xcc;
+    int valid_return = 0, used;
+    memset(&context, 0, sizeof(context));
+    context.ContextFlags = CONTEXT_FULL;
+    if (!GetThreadContext(thread, &context) ||
+        !ReadProcessMemory(child, (void *)context.Esp, words, sizeof(words), &bytes) ||
+        bytes != sizeof(words)) return denied_sopen(log, "entry-state");
+    for (i = 0; i < sizeof(name); ++i) {
+        if (!ReadProcessMemory(child, (void *)(words[1]+i), name+i, 1, &bytes) || bytes != 1)
+            return denied_sopen(log, "name-read");
+        if (!name[i]) break;
+    }
+    if (i == sizeof(name)) return denied_sopen(log, "name-length");
+    used = sprintf(line, "crt-entry %08lx %08lx %08lx %08lx ", sopen_start, words[2], words[3], words[4]);
+    for (i = 0; name[i]; ++i) used += sprintf(line+used, "%02x", (unsigned char)name[i]);
+    line[used++] = '\n';
+    WriteFile(log, line, used, &written, 0);
+    if (sopen_return || sopen_step || (context.EFlags & 0x100)) return denied_sopen(log, "nested-or-TF");
+    if (words[2] != 0x8002) return denied_sopen(log, "mode");
+    if (words[3] != 0x40) return denied_sopen(log, "share");
+    if (strcmp(name, sopen_name)) return denied_sopen(log, "name");
+    if (!identical_files(sopen_input, sopen_master)) return denied_sopen(log, "input");
+    for (i = 0; i < range_count; ++i)
+        if (ranges[i].start <= words[0] && words[0] < ranges[i].end) valid_return = 1;
+    if (!valid_return || !ReadProcessMemory(child, (void *)words[0], &sopen_return_byte, 1, &bytes) ||
+        bytes != 1 || sopen_return_byte == trap) return denied_sopen(log, "return-site");
+    length = sopen_end-sopen_start;
+    if (SetFilePointer(original, sopen_offset, 0, FILE_BEGIN) == 0xffffffff ||
+        !ReadFile(original, original_bytes, length, &bytes, 0) || bytes != length ||
+        original_bytes[0] != 0x83 || original_bytes[1] != 0xec || original_bytes[2] != 0x20)
+        return denied_sopen(log, "original-body");
+    if (!WriteProcessMemory(child, (void *)sopen_start, original_bytes, length, &bytes) || bytes != length ||
+        !WriteProcessMemory(child, (void *)words[0], &trap, 1, &bytes) || bytes != 1)
+        return denied_sopen(log, "restore");
+    FlushInstructionCache(child, 0, 0);
+    sopen_return = words[0];
+    sopen_step = sopen_start+3;
+    sopen_saved_tf = context.EFlags & 0x100;
+    context.Eip = sopen_start;
+    context.EFlags |= 0x100;
+    if (!SetThreadContext(thread, &context)) return denied_sopen(log, "context");
+    sprintf(line, "crt-restored %08lx %08lx\n", sopen_start, sopen_end);
+    WriteFile(log, line, strlen(line), &written, 0);
+    return 1;
+}
+
+static int rearm_sopen(HANDLE child, HANDLE log, HANDLE thread, DWORD address)
+{
+    CONTEXT context;
+    DWORD bytes, written;
+    char line[128];
+    unsigned char trap = 0xcc;
+    memset(&context, 0, sizeof(context));
+    context.ContextFlags = CONTEXT_CONTROL;
+    if (!sopen_step || address != sopen_step || !GetThreadContext(thread, &context) ||
+        context.Eip != sopen_step) return denied_sopen(log, "unexpected-step");
+    if (!WriteProcessMemory(child, (void *)sopen_start, &trap, 1, &bytes) || bytes != 1)
+        return denied_sopen(log, "rearm");
+    FlushInstructionCache(child, (void *)sopen_start, 1);
+    context.EFlags = (context.EFlags & ~0x100UL) | sopen_saved_tf;
+    if (!SetThreadContext(thread, &context)) return denied_sopen(log, "step-context");
+    sprintf(line, "crt-rearm %08lx %08lx\n", sopen_start, sopen_step);
+    WriteFile(log, line, strlen(line), &written, 0);
+    sopen_step = 0;
+    return 1;
+}
+
+static int finish_sopen(HANDLE child, HANDLE log, HANDLE thread)
+{
+    CONTEXT context;
+    DWORD bytes, written, fd, error, flags, handle, type, position;
+    HANDLE duplicate, expected;
+    BY_HANDLE_FILE_INFORMATION actual_info, expected_info;
+    char line[256];
+    int owned, input_matches;
+    memset(&context, 0, sizeof(context));
+    context.ContextFlags = CONTEXT_FULL;
+    if (sopen_step || !GetThreadContext(thread, &context)) return denied_sopen(log, "return-context");
+    fd = context.Eax;
+    if (fd >= 64 || !ReadProcessMemory(child, (void *)0x39614, &error, 4, &bytes) || bytes != 4)
+        return denied_sopen(log, "unsuccessful-return");
+    flags = 0;
+    if (!ReadProcessMemory(child, (void *)(0x39700+fd), &flags, 1, &bytes) || bytes != 1 ||
+        !ReadProcessMemory(child, (void *)(0x39740+fd*4), &handle, 4, &bytes) || bytes != 4 ||
+        !DuplicateHandle(child, (HANDLE)handle, GetCurrentProcess(), &duplicate, 0, FALSE, DUPLICATE_SAME_ACCESS))
+        return denied_sopen(log, "return-handle");
+    type = GetFileType(duplicate);
+    SetLastError(0);
+    position = SetFilePointer(duplicate, 0, 0, FILE_CURRENT);
+    if (position == 0xffffffff && GetLastError()) { CloseHandle(duplicate); return denied_sopen(log, "position"); }
+    expected = CreateFileA(sopen_input, GENERIC_READ, FILE_SHARE_READ|FILE_SHARE_WRITE, 0,
+                            OPEN_EXISTING, FILE_ATTRIBUTE_NORMAL, 0);
+    owned = expected != INVALID_HANDLE_VALUE && GetFileInformationByHandle(duplicate, &actual_info) &&
+        GetFileInformationByHandle(expected, &expected_info) &&
+        actual_info.dwVolumeSerialNumber == expected_info.dwVolumeSerialNumber &&
+        actual_info.nFileIndexHigh == expected_info.nFileIndexHigh &&
+        actual_info.nFileIndexLow == expected_info.nFileIndexLow;
+    if (expected != INVALID_HANDLE_VALUE) CloseHandle(expected);
+    CloseHandle(duplicate);
+    input_matches = identical_files(sopen_input, sopen_master);
+    sprintf(line, "crt-return %08lx fd %lu errno %lu osfile %02lx type %lu position %lu owned %u input %u\n",
+        sopen_start, fd, error, flags, type, position, owned, input_matches);
+    WriteFile(log, line, strlen(line), &written, 0);
+    if (flags != 1 || type != FILE_TYPE_DISK || position != 0 || !owned ||
+        !input_matches) return denied_sopen(log, "return-state");
+    if (!WriteProcessMemory(child, (void *)sopen_return, &sopen_return_byte, 1, &bytes) || bytes != 1)
+        return denied_sopen(log, "return-restore");
+    FlushInstructionCache(child, (void *)sopen_return, 1);
+    context.Eip = sopen_return;
+    sopen_return = 0;
+    return SetThreadContext(thread, &context) ? 1 : denied_sopen(log, "return-resume");
 }
 
 static int load_plan(char *path)
@@ -182,10 +338,14 @@ static void dump_process_arguments(HANDLE child, HANDLE log)
 
 static int dump_walks(HANDLE child, HANDLE log)
 {
-    char specifications[4096], *cursor;
+    char specifications[4096], strings[1024], arrays[2048], *cursor, *field;
+    unsigned char text[1024];
     const char *digits = "0123456789abcdef";
     DWORD root, size, next, limit, count_address, pointer, bytes, written, i, j, elements;
     int consumed, used;
+    DWORD string_root, offset, address, length;
+    DWORD count_offset, shift, maximum, flags_offset, flags_mask, flags_value, flags;
+    int field_consumed;
     if (!GetEnvironmentVariableA("CVPACK_CAPTURE_WALKS", specifications, sizeof(specifications)))
         return 1;
     cursor = specifications;
@@ -209,6 +369,64 @@ static int dump_walks(HANDLE child, HANDLE log)
             }
             object_line[used++] = '\n';
             if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
+            if (GetEnvironmentVariableA("CVPACK_CAPTURE_STRINGS", strings, sizeof(strings))) {
+                field = strings;
+                while (*field) {
+                    if (sscanf(field, "%lx:%lu%n", &string_root, &offset, &field_consumed) != 2) return 0;
+                    if (string_root == root) {
+                        if (offset+4 > size) return 0;
+                        memcpy(&address, original_bytes+offset, 4);
+                        length = 0;
+                        if (address) {
+                            do {
+                                if (length == sizeof(text) || !ReadProcessMemory(child,
+                                    (void *)(address+length), text+length, 1, &bytes) || bytes != 1) return 0;
+                            } while (text[length++]);
+                        }
+                        used = sprintf(object_line, "node-string %08lx %lu %lu %08lx ", root, i, offset, address);
+                        for (j = 0; j < length; ++j) {
+                            object_line[used++] = digits[text[j] >> 4];
+                            object_line[used++] = digits[text[j] & 15];
+                        }
+                        object_line[used++] = '\n';
+                        if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
+                    }
+                    field += field_consumed;
+                    if (*field == ',') ++field;
+                    else if (*field) return 0;
+                }
+            }
+            if (GetEnvironmentVariableA("CVPACK_CAPTURE_ARRAYS", arrays, sizeof(arrays))) {
+                field = arrays;
+                while (*field) {
+                    if (sscanf(field, "%lx:%lu:%lu:%lu:%lu:%lu:%lx:%lx%n", &string_root,
+                        &offset, &count_offset, &shift, &maximum, &flags_offset,
+                        &flags_mask, &flags_value, &field_consumed) != 8) return 0;
+                    if (string_root == root) {
+                        if (offset+4 > size || count_offset+4 > size || flags_offset+4 > size || shift > 31) return 0;
+                        memcpy(&flags, original_bytes+flags_offset, 4);
+                        if ((flags & flags_mask) == flags_value) {
+                            memcpy(&address, original_bytes+offset, 4);
+                            memcpy(&length, original_bytes+count_offset, 4);
+                            length >>= shift;
+                            if (length > maximum || length > sizeof(array_bytes)/4) return 0;
+                            length = address ? length*4 : 0;
+                            if (length && (!ReadProcessMemory(child, (void *)address, array_bytes,
+                                length, &bytes) || bytes != length)) return 0;
+                            used = sprintf(object_line, "node-array %08lx %lu %lu %08lx ", root, i, offset, address);
+                            for (j = 0; j < length; ++j) {
+                                object_line[used++] = digits[array_bytes[j] >> 4];
+                                object_line[used++] = digits[array_bytes[j] & 15];
+                            }
+                            object_line[used++] = '\n';
+                            if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
+                        }
+                    }
+                    field += field_consumed;
+                    if (*field == ',') ++field;
+                    else if (*field) return 0;
+                }
+            }
             if (next == 0xffffffff) pointer = 0;
             else {
                 if (next+4 > size) return 0;
@@ -268,6 +486,15 @@ int main(int argc, char **argv)
     sprintf(command, "\"%s\" %s", program, argv[2]);
     if (GetEnvironmentVariableA("CVPACK_CAPTURE_WATCH_SPAWN", program, sizeof(program)))
         watched_spawn = strtoul(program, 0, 16);
+    if (GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_GUARD", program, sizeof(program))) {
+        if (sscanf(program, "%lx:%lx:%lx", &sopen_start, &sopen_end, &sopen_offset) != 3 ||
+            sopen_start != 0x2dcb0 || sopen_end != 0x2e0a0 ||
+            !GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_NAME", sopen_name, sizeof(sopen_name)) ||
+            strcmp(sopen_name, "hello-debug.dll") ||
+            !GetEnvironmentVariableA("CVPACK_CAPTURE_SOPEN_INPUT", sopen_master, sizeof(sopen_master)) ||
+            strlen(argv[6])+strlen(sopen_name)+2 >= sizeof(sopen_input)) return 14;
+        sprintf(sopen_input, "%s\\%s", argv[6], sopen_name);
+    }
     strcpy(child_environment, "LIB=");
     environment_length = GetEnvironmentVariableA("LIB", child_environment+4, sizeof(child_environment)-16);
     if (!environment_length || environment_length >= sizeof(child_environment)-16) return 10;
@@ -299,6 +526,24 @@ int main(int argc, char **argv)
                 loader_break = 1;
             } else {
                 thread = event.dwThreadId == child.dwThreadId ? child.hThread : 0;
+                if (sopen_start && thread && event.u.Exception.ExceptionRecord.ExceptionCode == EXCEPTION_SINGLE_STEP) {
+                    if (rearm_sopen(child.hProcess, log, thread,
+                        (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress) < 0) return 15;
+                    ContinueDebugEvent(event.dwProcessId, event.dwThreadId, disposition);
+                    continue;
+                }
+                if (sopen_return && thread && event.u.Exception.ExceptionRecord.ExceptionCode == EXCEPTION_BREAKPOINT &&
+                    (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress == sopen_return) {
+                    if (finish_sopen(child.hProcess, log, thread) < 0) return 16;
+                    ContinueDebugEvent(event.dwProcessId, event.dwThreadId, disposition);
+                    continue;
+                }
+                if (sopen_start && thread && event.u.Exception.ExceptionRecord.ExceptionCode == EXCEPTION_BREAKPOINT &&
+                    (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress == sopen_start) {
+                    if (begin_sopen(child.hProcess, original, log, thread) < 0) return 17;
+                    ContinueDebugEvent(event.dwProcessId, event.dwThreadId, disposition);
+                    continue;
+                }
                 if (thread && spawn_return &&
                     (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress == spawn_return) {
                     if (!finish_spawn(child.hProcess, thread, log)) return 11;

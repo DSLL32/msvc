@@ -21,6 +21,24 @@ def validate_snapshot(config,current,original,native,captured,native_receipt,tar
     assert captured['executable_sha256']==sha(original/'CVPACK.EXE'),'captured masked image differs'
     assert native_receipt['executable_sha256']==sha(executable),'native executable changed since run'
 
+def compare_integer(item,descriptions,words,parameters):
+    value=words[item['slot']]
+    actual=parameters[item['name']]
+    condition=item.get('inactive_when')
+    if condition:
+        assert (BINARY/condition['evidence']).is_file(),'missing conditional ABI-state proof'
+        controlling=next(r for r in descriptions if r['name']==condition['argument'])
+        assert controlling['kind']=='integer' and controlling.get('bits',32)==32
+        old=words[controlling['slot']]&0xffffffff
+        new=parameters[controlling['name']]&0xffffffff
+        assert old==new,('conditional ABI controlling argument differs',controlling['name'],old,new)
+        if old&condition['mask']==condition['value']:
+            return dict(slot=item['slot'],original_word=value,native_word=actual&0xffffffff,
+                        condition=condition,controlling_word=old)
+    mask=(1<<item.get('bits',32))-1
+    assert value&mask==actual&mask,('ABI integer differs',item['name'],value,actual)
+    return None
+
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--function',required=True)
@@ -39,8 +57,21 @@ def main():
                       ROOT/config['target']['path'],BINARY/'build/native/CVPACK.EXE')
     assert captured['case']==native_receipt['case']==args.case
     assert captured['candidates']==[args.function]
+    assert not captured.get('guard_probe'),'guard controller evidence cannot accept application functions'
     assert native_receipt['executable_sha256']==sha(BINARY/'build/native/CVPACK.EXE')
     events=(original/'events').read_text()
+    from seams import approved,compare_returns,check_policy_snapshot
+    seam_records=approved(config,pe,json.loads((BINARY/'runtime.json').read_text()),args.case)
+    assert captured.get('conditional_runtime',[])==seam_records,'stale conditional CRT entry evidence'
+    policy=sha(BINARY/'runtime-support.json')if (BINARY/'runtime-support.json').exists()else None
+    assert captured.get('conditional_support_sha256')==native_receipt.get('conditional_support_sha256')==policy,'stale conditional CRT policy'
+    check_policy_snapshot(original,policy)
+    check_policy_snapshot(native/args.case,policy)
+    observations=native/args.case/'crt-returns.json'
+    crt_proof=compare_returns(events,json.loads(observations.read_text())if observations.exists()else [],seam_records)
+    old_work,new_work=original/'work',native/args.case/'work'
+    assert {p.name for p in old_work.iterdir()}=={p.name for p in new_work.iterdir()},'artifact set differs'
+    for path in old_work.iterdir():assert path.read_bytes()==(new_work/path.name).read_bytes(),'complete artifact bytes differ: '+path.name
     match=re.search(r'^exception ([0-9a-f]+) va ([0-9a-f]+)',events,re.M)
     completed=match is None
     assert not captured['unmasked'],'acceptance must use a masked original'
@@ -68,6 +99,9 @@ def main():
             start=int(a,16)
             memory.update((start+i,byte)for i,byte in enumerate(bytes.fromhex(value)))
     matched={}
+    if crt_proof and not completed:
+        old_errno=int.from_bytes(bytes(memory[0x39614+i]for i in range(4)),'little')
+        assert old_errno==state['state']['crt_errno'],'CRT errno differs at application boundary'
     object_proof={}
     if not completed and (BINARY/'walks.json').exists():
         specifications=json.loads((BINARY/'walks.json').read_text())
@@ -89,14 +123,15 @@ def main():
         matched[item['name']]=actual
     words={int(line.split()[1]):int(line.split()[2],16) for line in events.splitlines() if line.startswith('stack ')}
     descriptions=frontier.get('parameters',[]) if frontier else []
+    inactive={}
     assert {r['name'] for r in descriptions}==set(state['parameters']),'missing ABI parameter specification'
     for item in descriptions:
         value=words[item['slot']]
         actual=state['parameters'][item['name']]
         kind=item['kind']
         if kind=='integer':
-            mask=(1<<item.get('bits',32))-1
-            assert value&mask==actual&mask,('ABI integer differs',item['name'],value,actual)
+            proof=compare_integer(item,descriptions,words,state['parameters'])
+            if proof:inactive[item['name']]=proof
         elif kind in ('pointer','cstring'):
             assert actual['null']==(value==0)
             if value:
@@ -142,9 +177,11 @@ def main():
     directory.mkdir(parents=True,exist_ok=False)
     for name in ('events','receipt.json','stdout','stderr','runtime-plan','configuration.json'):
         shutil.copyfile(original/name,directory/('original-'+name))
-    for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr'):
+    for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr','crt-returns.json'):
         if (native/args.case/name).is_file():shutil.copyfile(native/args.case/name,directory/('native-'+name))
     shutil.copyfile(native/args.case/'configuration.json',directory/'native-configuration.json')
+    for side,source in (('original',original),('native',native/args.case)):
+        if (source/'runtime-support.json').exists():shutil.copyfile(source/'runtime-support.json',directory/(side+'-runtime-support.json'))
     shutil.copyfile(native/'receipt.json',directory/'native-receipt.json')
     proof_path=str(directory.relative_to(BINARY)/'proof.json')
     prior={(r['start'],r['end'])for r in config.get('support_unmasked',[])}
@@ -156,6 +193,8 @@ def main():
         original_frontier=address,native_frontier=frontier['native'] if frontier else 'exit',application_entries=entries,
         argc=state['argc'],argv=argv,matched_application_globals=matched,
         matched_frontier_parameters=state['parameters'],runtime_unmasked=support,
+        conditionally_inactive_parameters=inactive,
+        conditional_CRT_support=crt_proof,
         observed_objects=object_proof,
         process_boundary=native_receipt.get('process_boundary'),
         graph_ABI_data='Complete original/compiler CFG/callee/RET ABI and contextual initial data passed',

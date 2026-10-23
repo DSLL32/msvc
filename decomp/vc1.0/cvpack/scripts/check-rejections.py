@@ -7,7 +7,7 @@ from state import ROOT
 from state import BINARY
 from binary import PE
 from audit import publics,validate_ownership
-from accept import validate_snapshot
+from accept import validate_snapshot,compare_integer
 from capstone import Cs,CS_ARCH_X86,CS_MODE_32
 from pathlib import Path
 from objects import compare_walks,original_walks
@@ -17,6 +17,7 @@ import tempfile
 import copy
 import json
 from state import load,sha
+from seams import approved,validate as validate_seam,snapshot_policy,check_policy_snapshot,compare_returns,check_guard_references
 
 class Bytes:
     def __init__(self,data):self.data=data
@@ -49,7 +50,32 @@ def main():
     assert not any(r['name']=='_mainCRTStartup' and r['start']==0x2c260 for r in bad['functions'])
     print('rejected: CRT startup with incorrect relocated application target')
     config,original=load()
+    description=next(r for r in config['functions']if r['name']=='open_buffered_file')['parameters']
+    permission=next(r for r in description if r['name']=='permission')
+    if permission.get('inactive_when'):
+        assert compare_integer(permission,description,{2:0x8002,3:0},dict(mode=0x8002,permission=0xdeadbeef))
+        reject('differing active create permissions',lambda:compare_integer(permission,description,{2:0x8102,3:0},dict(mode=0x8102,permission=0x80)))
+        reject('mismatched conditional ABI mode',lambda:compare_integer(permission,description,{2:0x8002,3:0},dict(mode=0x8000,permission=0)))
     context=json.loads((BINARY/'data.json').read_text())
+    conditional=approved(config,original,good)
+    if conditional:check_guard_references()
+    for record in conditional:
+        sample='crt-entry 0002dcb0 00008002 00000040 00000000 '+b'hello-debug.dll'.hex()+'\ncrt-restored 0002dcb0 0002e0a0\ncrt-rearm 0002dcb0 0002dcb3\ncrt-return 0002dcb0 fd 3 errno 0 osfile 01 type 1 position 0 owned 1 input 1\n'
+        observed=[dict(name='hello-debug.dll',mode=0x8002,share=0x40,permission=438,**{'return':dict(descriptor=3,errno=0,osfile=1,type=1,position=0,owned=True,input_matches=True,input_sha256=record['input']['sha256'])})]
+        compare_returns(sample,observed,[record])
+        changed=copy.deepcopy(observed);changed[0]['return']['input_matches']=False
+        reject('both conditional CRT input observations false',lambda:compare_returns(sample.replace('input 1','input 0'),changed,[record]))
+        changed=copy.deepcopy(observed);changed[0]['return']['input_sha256']='0'*64
+        reject('conditional CRT native input hash mismatch',lambda:compare_returns(sample,changed,[record]))
+        for label,field,value in [('conditional CRT text mode','mode',0x4002),('conditional CRT other share','share',0x10)]:
+            changed=copy.deepcopy(record);changed['guard'][field]=value
+            reject(label,lambda changed=changed:validate_seam(config,original,good,changed))
+        changed=copy.deepcopy(record);changed['start']+=1
+        reject('conditional CRT changed entry evidence',lambda:validate_seam(config,original,good,changed))
+        changed=copy.deepcopy(record);changed['body_sha256']='0'*64
+        reject('conditional CRT changed whole-body evidence',lambda:validate_seam(config,original,good,changed))
+        changed=copy.deepcopy(record);changed['evidence_sha256']='0'*64
+        reject('conditional CRT changed CFG/callee evidence',lambda:validate_seam(config,original,good,changed))
     validate_ownership(config,original,good,context)
     ownership_mutations={}
     changed=copy.deepcopy(config)
@@ -106,6 +132,13 @@ def main():
         native=dict(configuration_sha256=sha(current),original_sha256=sha(target),executable_sha256=sha(executable))
         def snapshot(a=captured,b=native):validate_snapshot(config,current,old,new,a,b,target,executable)
         snapshot()
+        policy=directory/'runtime-support.json';policy.write_text('[]\n')
+        first=snapshot_policy(old,policy);second=snapshot_policy(new,policy)
+        check_policy_snapshot(old,first,policy);check_policy_snapshot(new,second,policy)
+        policy.write_text('[]\n\n')
+        reject('conditional support mutated during run',lambda:check_policy_snapshot(old,first,policy))
+        second=snapshot_policy(new,policy)
+        reject('stale original versus native conditional support',lambda:check_policy_snapshot(old,second,policy))
         stale=copy.deepcopy(config);stale['review']['snapshot-negative-test']=True
         for destination,receipt in ((old,captured),(new,native)):
             (destination/'configuration.json').write_text(json.dumps(stale))
@@ -136,6 +169,21 @@ def main():
     changed={'pool':[dict(address=0x9000,bytes=struct.pack('<III',7,0xffff,11).hex()),right['pool'][1]]}
     reject('unresolved observed object pointer',lambda:compare_walks(specifications,left,changed))
     reject('unterminated original object list',lambda:original_walks('walk-end 00004000 0 00001000\n',specifications))
+    # Buffered FileSlot unions: capacity is an integer, the page table contains
+    # explicit unloaded-page tag1, and name pointers own exact bounded strings.
+    description=dict(name='files',original=0x4000,pointer_fields=[0,20,32,36],string_fields=[0],
+        mode_guard=dict(offset=4,mask=8,value=0),arrays=[dict(offset=20,count_offset=28,count_shift=12,max_count=16,when=dict(offset=4,mask=8,value=0),sentinels=[1])])
+    def file_state(base):
+        raw=struct.pack('<10I',base+0x1000,3,15,4096,3,base+0x2000,0x200000,8192,0,0)
+        return dict(files=[dict(address=base,bytes=raw.hex(),strings={'0':dict(address=base+0x1000,bytes=b'hello-debug.dll\0'.hex())},arrays={'20':dict(address=base+0x2000,bytes=struct.pack('<II',1,0).hex())})])
+    left,right=file_state(0x1000),file_state(0x9000)
+    compare_walks([description],left,right)
+    changed=copy.deepcopy(right);changed['files'][0]['strings']['0']['bytes']=b'wrong-name.dll\0'.hex()
+    reject('changed allocated filename bytes',lambda:compare_walks([description],left,changed))
+    changed=copy.deepcopy(right);changed['files'][0]['arrays']['20']['bytes']=struct.pack('<II',0,0).hex()
+    reject('changed buffered page-table tag',lambda:compare_walks([description],left,changed))
+    changed=copy.deepcopy(right);raw=bytearray.fromhex(changed['files'][0]['bytes']);struct.pack_into('<I',raw,4,11);changed['files'][0]['bytes']=raw.hex()
+    reject('mapped union enters buffered observer',lambda:compare_walks([description],left,changed))
     anchors=good['callee_identity_anchors']
     if anchors:
         scratch=Path.home()/'.ai-tmp/vc1.0-cvpack'
@@ -151,6 +199,9 @@ def main():
             for anchor in anchors:
                 assert not any(r['start']<=anchor['start']<r['end'] for r in good['functions']+good['imports'])
                 assert masked.read(anchor['start'],anchor['end']-anchor['start'])==b'\xcc'*(anchor['end']-anchor['start'])
+            for record in conditional:
+                assert masked.read(record['start'],record['end']-record['start'])==b'\xcc'*(record['end']-record['start'])
+            if conditional:print('rejected: conditional variant unmask through ordinary exact runtime closure')
         print('rejected: reviewed variant unmask through exact runtime closure')
     # Mutate actual compiler output, leaving originals/source/build products intact.
     rebuilt=BINARY/'build/CVPACK.EXE'
