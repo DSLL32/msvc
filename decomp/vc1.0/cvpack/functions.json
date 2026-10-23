@@ -408,7 +408,8 @@
       "stack_cleanup": 0,
       "evidence": null,
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": []
     },
     {
       "name": "print_statistics",
@@ -5581,16 +5582,33 @@
       "native": "free_strip_records",
       "symbol": "_free_strip_records",
       "original": 170064,
-      "source": "src/stubs.c",
+      "source": "src/strip.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        170064,
+        170140
+      ],
       "abi": "void free_strip_records(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0120-free_strip_records/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "read_coff_symbol",
@@ -7178,6 +7196,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 119
+    },
+    {
+      "function": "free_strip_records",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 120
     }
   ],
   "support_unmasked": [
@@ -7788,7 +7812,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "7db2dc320cd1a9260bf0da1c09ef330bc3deeb35b308a4c8fa11e728aecde1cb"
+    "evidence_sha256": "6e375a352990418840a550b906b7ceef5e84f0dc9bfd359048bc10233ad62695"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -7864,6 +7888,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "6da63c3524b28601ca73de5eabc10dc71aaca1b96362e75f43cdb4500c02a46b"
+    "sha256": "ca570911d7be0f0e58d73baa61e778c539a0365617be92fcf1617fe3865e9a60"
   }
 }

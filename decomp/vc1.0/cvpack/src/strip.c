@@ -609,3 +609,16 @@ void write_strip_records(void)
         module = next_module;
     }
 }
+
+void free_strip_records(void)
+{
+    CoffFileName *node = strip_file_names;
+
+    while (node) {
+        strip_file_names = strip_file_names->next;
+        free(node->name);
+        free(node);
+        node = strip_file_names;
+    }
+    free(strip_section_rvas);
+}

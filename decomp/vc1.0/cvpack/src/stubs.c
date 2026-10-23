@@ -116,8 +116,3 @@ void release_type_data(TypeRecord *entry) { __asm { int 3 } }
 void add_derived_type(unsigned short type, unsigned short base) { __asm { int 3 } }
 
 int __fastcall compare_recursive_type(TypeRecord *entry, unsigned short type, unsigned char *record, unsigned short index) { __asm { int 3 } return 0; }
-
-
-
-
-void free_strip_records(void) { __asm { int 3 } }

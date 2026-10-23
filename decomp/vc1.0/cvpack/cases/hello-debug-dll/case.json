@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "free_strip_records",
-    "native_function": "free_strip_records",
+    "logical": "write_debug_directory",
+    "native_function": "write_debug_directory",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -137,7 +137,8 @@
       "publish_coff_function",
       "find_next_coff_function",
       "write_strip_records",
-      "free_strip_records"
+      "free_strip_records",
+      "write_debug_directory"
     ],
     "proof_mode": "entry-flow",
     "heap_scope": "Root streamlined routine loop: actual next entry/formals plus reached PE header globals; old module3 proof97 retained. No later symbol-heap equality claim.",
@@ -147,10 +148,7 @@
       "strip_read_offset",
       "strip_file_header"
     ],
-    "observed_walks": [
-      "strip_file_names",
-      "strip_section_rvas"
-    ]
+    "observed_walks": []
   },
   "complete_reference": {
     "path": "decomp/vc1.0/cvpack/cases/hello-debug-dll/reference/packed.dll",
