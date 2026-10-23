@@ -10,7 +10,7 @@ def main():
   destination=a.destination/side;destination.mkdir()
   for f in source.iterdir():
    if not f.is_file():continue
-   if f.suffix.lower() in ('.exe','.dll') or f.name in ('loaded-target.bin','loaded-msvcrt.bin','relocated-text.bin','loaded-c1.bin'):
+   if f.name.startswith(('compiler-data-','compiler-bss-','compiler-snapshot-')) or f.suffix.lower() in ('.exe','.dll') or f.name in ('loaded-target.bin','loaded-msvcrt.bin','relocated-text.bin','loaded-c1.bin','invoke-environment.bin','restore-original-input.bin'):
     external[side+'/'+f.name]={'path':str(f),'sha256':sha(f),'size':f.stat().st_size}
    else:shutil.copy2(f,destination/f.name)
  for name in ('trial-audit.json','trial-audit-binding.json','trial-validation.json'):

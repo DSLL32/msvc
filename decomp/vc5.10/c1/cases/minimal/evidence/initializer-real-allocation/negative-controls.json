@@ -1,0 +1,6 @@
+{
+  "status": "PASS",
+  "count": 18,
+  "command": "python3 scripts/check-state-negative.py /root/.ai-tmp/msvc2/vc5.10/c1/minimal-init-callback-001 /root/.ai-tmp/msvc2/vc5.10/c1/native-minimal-init-callback-005",
+  "scope": "targeted typed-state/field-map/allocation/frontier rejection controls"
+}

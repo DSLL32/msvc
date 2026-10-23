@@ -24,6 +24,8 @@ def inputs():
              PROJECT / "runtime-rebuilt.json", PROJECT / "build/c1.map",
              PROJECT / "build/c1.dll", PROJECT / "build/native/c1-host",
              ROOT / "toolchains/5.10/bin/C1.DLL", TOOL]
+    if candidate.get("field_map"):
+        paths.append(PROJECT / candidate["field_map"])
     return {str(path.relative_to(ROOT)): sha(path) for path in paths}
 
 

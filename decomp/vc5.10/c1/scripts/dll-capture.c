@@ -19,6 +19,9 @@ static unsigned count;
 static HANDLE threads[64];
 static DWORD thread_ids[64], thread_count;
 static int baseline, initialized, pending = -1, target_seen, crt_seen;
+static int restore_probe, restore_seeded;
+static DWORD restore_observer;
+static BYTE restore_observer_saved;
 static char target_path[MAX_PATH], crt_path[MAX_PATH];
 
 static void fail(const char *message)
@@ -126,6 +129,8 @@ static void module_loaded(DWORD address, HANDLE file)
     fflush(events);
 }
 
+static void save_remote_state(const char *, unsigned, DWORD, DWORD);
+
 static void prepare_mask(void)
 {
     BYTE *masked;
@@ -163,6 +168,15 @@ static void prepare_mask(void)
     }
     write_mem(base + code_rva, masked, code_size);
     free(masked); initialized = 1;
+    if (restore_probe) {
+        BYTE current;
+        restore_observer = base + 0x303d5;
+        restore_observer_saved = snapshot[0x303d5 - code_rva];
+        readmem(restore_observer, &current, 1);
+        if (current != restore_observer_saved) fail("restore observer outside candidate ownership");
+        patch(restore_observer, 0xcc);
+    }
+    save_remote_state("compiler-callbacks", 0, base + 0x69000, 34 * 4);
     fprintf(events, "mask snapshot=relocated-text.bin baseline=%d ranges=%u\n", baseline, count);
 }
 
@@ -177,10 +191,26 @@ static DWORD thread_error(CONTEXT *context, HANDLE thread)
     return last_error;
 }
 
+static void save_remote_state(const char *prefix, unsigned index, DWORD address, DWORD size)
+{
+    char filename[100];
+    BYTE *bytes;
+    FILE *file;
+    bytes = (BYTE *)malloc(size);
+    if (!bytes) fail("capture compiler state allocation");
+    readmem(address, bytes, size);
+    sprintf(filename, "%s-%03u.bin", prefix, index);
+    file = fopen(filename, "wb");
+    if (!file || fwrite(bytes, 1, size, file) != size) fail("capture compiler state write");
+    fclose(file);
+    free(bytes);
+}
+
 static void save_state(void)
 {
     BYTE globals[0xa4];
-    DWORD begin, first = 0;
+    DWORD begin, first = 0, saved_data;
+    unsigned index = sequence;
     char filename[80];
     FILE *state;
     readmem(base + 0x5c000, globals, sizeof(globals));
@@ -190,12 +220,81 @@ static void save_state(void)
     sprintf(filename, "state-%03u.bin", sequence++);
     state = fopen(filename, "wb");
     if (!state || fwrite(globals, 1, sizeof(globals), state) != sizeof(globals)) fail("save state");
-    fclose(state); fflush(events);
+    fclose(state);
+    save_remote_state("compiler-data", index, base + 0x5e000, 6548);
+    save_remote_state("compiler-bss", index, base + 0x50000, 0xa06c);
+    readmem(base + 0x57818, &saved_data, 4);
+    if (saved_data) save_remote_state("compiler-snapshot", index, saved_data, 6548);
+    fflush(events);
+}
+
+static void save_vector(DWORD address, DWORD count, const char *name)
+{
+    FILE *file;
+    DWORD i, pointer, length, actual=0;
+    char text[32768];
+    for (i=0;i<count;++i) { readmem(address+i*4,&pointer,4); if (!pointer) break; ++actual; }
+    file=fopen(name,"wb"); if (!file) fail("capture environment vector");
+    fwrite(&address,4,1,file); fwrite(&actual,4,1,file);
+    for (i=0;i<actual;++i) {
+        readmem(address+i*4,&pointer,4); remote_string(pointer,text,sizeof(text)); length=strlen(text)+1;
+        fwrite(&pointer,4,1,file); fwrite(&length,4,1,file); fwrite(text,1,length,file);
+    }
+    fclose(file);
+}
+static DWORD exported(DWORD module, const char *wanted)
+{
+    IMAGE_DOS_HEADER dos;
+    IMAGE_NT_HEADERS nt;
+    IMAGE_EXPORT_DIRECTORY table;
+    DWORD i, rva, address;
+    WORD ordinal;
+    char name[256];
+    readmem(module,&dos,sizeof(dos)); readmem(module+dos.e_lfanew,&nt,sizeof(nt));
+    readmem(module+nt.OptionalHeader.DataDirectory[0].VirtualAddress,&table,sizeof(table));
+    for (i=0;i<table.NumberOfNames;++i) {
+        readmem(module+(DWORD)table.AddressOfNames+i*4,&rva,4); remote_string(module+rva,name,sizeof(name));
+        if (!strcmp(name,wanted)) {
+            readmem(module+(DWORD)table.AddressOfNameOrdinals+i*2,&ordinal,2);
+            readmem(module+(DWORD)table.AddressOfFunctions+ordinal*4,&address,4); return module+address;
+        }
+    }
+    fail("missing CRT environment export"); return 0;
+}
+
+/* Explicit code-probe input: unknown original bytes stay on the ORIGINAL
+ * side only. The native probe receives just the mapped semantic fields. */
+static void seed_restore_state(void)
+{
+    BYTE *data;
+    DWORD saved, first = 0x13579bdfUL, zero = 0, count = 7;
+    DWORD callbacks[2], mode = 1, reuse = 9;
+    FILE *file;
+    data = (BYTE *)malloc(6548);
+    if (!data) fail("restore seed allocation");
+    readmem(base + 0x5e000, data, 6548);
+    memcpy(data + 0x1530, &first, 4);
+    file = fopen("restore-original-input.bin", "wb");
+    if (!file || fwrite(data, 1, 6548, file) != 6548) fail("restore seed record");
+    fclose(file);
+    saved = (DWORD)VirtualAllocEx(child, NULL, 6548, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+    if (!saved) fail("restore seed remote allocation");
+    write_mem(saved, data, 6548);
+    free(data);
+    write_mem(base + 0x57818, &saved, 4);
+    write_mem(base + 0x5f530, &zero, 4);
+    write_mem(base + 0x5781c, &count, 4);
+    callbacks[0] = base + 0x12365; callbacks[1] = base + 0x12377;
+    write_mem(base + 0x57820, callbacks, 8);
+    write_mem(base + 0x5c08c, &mode, 4);
+    write_mem(base + 0x5c064, &reuse, 4);
+    fprintf(events, "restore-seed snapshot=%08lx bytes=6548 first=%08lx count=7 mode=1 reuse=9\n", saved, first);
+    restore_seeded = 1;
 }
 
 static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
 {
-    DWORD stack[5], argument, pointer;
+    DWORD stack[5], argument, pointer, environment_address;
     FILE *saved;
     char filename[80], text[4096];
     readmem(context->Esp, stack, sizeof(stack));
@@ -205,6 +304,9 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
     fprintf(events, "last-error=%lu\n", thread_error(context, thread));
     fprintf(events, "x87-control=%04lx\n", context->FloatSave.ControlWord);
     if (address == base + 0x12229) {
+        environment_address = exported(crt_base, "_environ");
+        readmem(environment_address, &environment_address, 4);
+        save_vector(environment_address, 4096, "invoke-environment.bin");
         if (stack[1] > 256) fail("Invoke argc too large");
         for (argument = 0; argument <= stack[1]; ++argument) {
             readmem(stack[2] + argument * 4, &pointer, 4);
@@ -278,7 +380,8 @@ int main(int argc, char **argv)
     if (argc == 3 && !strcmp(argv[1], "--host")) return host(argv[2], 0);
     if (argc == 3 && !strcmp(argv[1], "--host-minimal")) return host(argv[2], 1);
     if ((argc != 6 && argc != 7) || strcmp(argv[1], "--debug")) return 2;
-    if (argc == 7 && strcmp(argv[6], "minimal")) return 2;
+    if (argc == 7 && strcmp(argv[6], "minimal") && strcmp(argv[6], "minimal-restore")) return 2;
+    restore_probe = argc == 7 && !strcmp(argv[6], "minimal-restore");
     strcpy(target_path, argv[2]); strcpy(crt_path, argv[3]);
     baseline = !strcmp(argv[4], "baseline");
     if (!baseline && strcmp(argv[4], "masked")) return 2;
@@ -318,8 +421,9 @@ int main(int argc, char **argv)
             if (!thread) fail("unknown debug thread");
             memset(&context, 0, sizeof(context)); context.ContextFlags = CONTEXT_FULL | CONTEXT_FLOATING_POINT;
             if (!GetThreadContext(thread, &context)) fail("GetThreadContext");
-            if (code == EXCEPTION_SINGLE_STEP && pending >= 0) {
-                patch(base + ranges[pending].first, 0xcc);
+            if (code == EXCEPTION_SINGLE_STEP && pending != -1) {
+                if (pending == -2) patch(restore_observer, 0xcc);
+                else patch(base + ranges[pending].first, 0xcc);
                 context.EFlags &= ~0x100; pending = -1;
                 if (!SetThreadContext(thread, &context)) fail("single step context");
             } else if (code == EXCEPTION_BREAKPOINT && return_active && address == return_address) {
@@ -337,11 +441,15 @@ int main(int argc, char **argv)
                     if (address != base + entry_rva || !crt_seen) fail("unguarded entry/provider");
                     prepare_mask();
                 }
+                if (restore_probe && !restore_seeded && address == base + 0x122a5) seed_restore_state();
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;
                 if (i < count) {
                     patch(address, ranges[i].saved); pending = i;
+                    context.EFlags |= 0x100;
+                } else if (restore_probe && address == restore_observer) {
+                    patch(address, restore_observer_saved); pending = -2;
                     context.EFlags |= 0x100;
                 } else if (baseline && address == base + entry_rva) {
                     patch(address, 0x53);

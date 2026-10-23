@@ -41,6 +41,26 @@
       "start_rva": 197465,
       "end_rva": 197513,
       "entry": 0
+    },
+    {
+      "start_rva": 74405,
+      "end_rva": 74597,
+      "entry": 1
+    },
+    {
+      "start_rva": 197513,
+      "end_rva": 197639,
+      "entry": 0
+    },
+    {
+      "start_rva": 59289,
+      "end_rva": 59318,
+      "entry": 1
+    },
+    {
+      "start_rva": 189724,
+      "end_rva": 189739,
+      "entry": 0
     }
   ],
   "functions": [
@@ -106,7 +126,41 @@
         ]
       ],
       "source": "src/exports.c",
-      "status": "trial-not-accepted"
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_compiler_pass",
+      "native_symbol": "initialize_compiler_pass",
+      "role": "application",
+      "chunks": [
+        [
+          74405,
+          74597
+        ],
+        [
+          197513,
+          197639
+        ]
+      ],
+      "source": "src/pass.c",
+      "status": "trial-not-accepted-held-for-review"
+    },
+    {
+      "name": "_allocate_compiler_memory",
+      "native_symbol": "allocate_compiler_memory",
+      "role": "application",
+      "chunks": [
+        [
+          59289,
+          59318
+        ],
+        [
+          189724,
+          189739
+        ]
+      ],
+      "source": "src/pass.c",
+      "status": "trial-not-accepted-held-for-initializer-review"
     }
   ],
   "text_data": [],
@@ -122,11 +176,11 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 74405,
-    "native_symbol": "initialize_compiler_pass",
-    "kind": "pass-initializer",
+    "rva": 74597,
+    "native_symbol": "initialize_state_12365",
+    "kind": "initialization-callback",
     "native_args": [],
-    "abi": "cdecl void, cleanup0"
+    "abi": "cdecl void callback, ret0"
   },
   "imports": [
     {
@@ -182,5 +236,18 @@
       "minimalsy"
     ],
     "status": "first-new-frontier-not-yet-accepted"
+  },
+  "field_map": "cases/minimal/field-map.json",
+  "restore_probe": {
+    "snapshot_first_call": 324508639,
+    "live_first_call": 0,
+    "cleanup_count": 7,
+    "pass_mode": 1,
+    "reuse_state": 9,
+    "callback_rvas": [
+      74597,
+      74615
+    ],
+    "post_restore_rva": 197589
   }
 }

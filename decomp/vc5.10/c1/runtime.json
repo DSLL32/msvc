@@ -1,12 +1,5 @@
 [
   {
-    "name": "_initialize_compiler_pass",
-    "start": 274801317,
-    "end": 274801318,
-    "pending_extent": true,
-    "evidence": "Unaccepted named call-entry identity only; full extent not established or unmasked."
-  },
-  {
     "name": "_main",
     "start": 274802599,
     "end": 274802600,
@@ -19,5 +12,243 @@
     "end": 274872443,
     "pending_extent": true,
     "evidence": "Unaccepted named call-entry identity only; full extent not established or unmasked."
+  },
+  {
+    "name": "_initialize_state_12365",
+    "start": 274801509,
+    "end": 274801510,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_12377",
+    "start": 274801527,
+    "end": 274801528,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_12389",
+    "start": 274801545,
+    "end": 274801546,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_123a4",
+    "start": 274801572,
+    "end": 274801573,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_123a5",
+    "start": 274801573,
+    "end": 274801574,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_123a6",
+    "start": 274801574,
+    "end": 274801575,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_123a7",
+    "start": 274801575,
+    "end": 274801576,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_1241c",
+    "start": 274801692,
+    "end": 274801693,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_1246b",
+    "start": 274801771,
+    "end": 274801772,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_124ba",
+    "start": 274801850,
+    "end": 274801851,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_12509",
+    "start": 274801929,
+    "end": 274801930,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_12558",
+    "start": 274802008,
+    "end": 274802009,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_125a7",
+    "start": 274802087,
+    "end": 274802088,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_125f6",
+    "start": 274802166,
+    "end": 274802167,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_12645",
+    "start": 274802245,
+    "end": 274802246,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_12646",
+    "start": 274802246,
+    "end": 274802247,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_12663",
+    "start": 274802275,
+    "end": 274802276,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_12664",
+    "start": 274802276,
+    "end": 274802277,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_1266f",
+    "start": 274802287,
+    "end": 274802288,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_126af",
+    "start": 274802351,
+    "end": 274802352,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_126ef",
+    "start": 274802415,
+    "end": 274802416,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_12712",
+    "start": 274802450,
+    "end": 274802451,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_1271f",
+    "start": 274802463,
+    "end": 274802464,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_1272c",
+    "start": 274802476,
+    "end": 274802477,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_12739",
+    "start": 274802489,
+    "end": 274802490,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_12746",
+    "start": 274802502,
+    "end": 274802503,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_12753",
+    "start": 274802515,
+    "end": 274802516,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_12760",
+    "start": 274802528,
+    "end": 274802529,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_1276d",
+    "start": 274802541,
+    "end": 274802542,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_1277a",
+    "start": 274802554,
+    "end": 274802555,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_1277b",
+    "start": 274802555,
+    "end": 274802556,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_1279c",
+    "start": 274802588,
+    "end": 274802589,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_initialize_state_127a6",
+    "start": 274802598,
+    "end": 274802599,
+    "pending_extent": true,
+    "evidence": "actual .initfe callback table entry; unrecovered body traps"
+  },
+  {
+    "name": "_compiler_fatal",
+    "start": 275014179,
+    "end": 275014180,
+    "pending_extent": true,
+    "evidence": "unaccepted fatal diagnostic entry; ordinary successful allocation does not reach it"
   }
 ]

@@ -18,6 +18,7 @@ def check(original, native, audit_directory=None):
     o, n = pair.checked_receipt(original), pair.checked_receipt(native)
     assert o["kind"] == "explicit-original-capture" and o["mode"] == "masked" and o["exit"] in (0, 125)
     assert n["kind"] in ("native-gdb-frontier", "native-gdb-completion")
+    assert o.get("probe", "normal") == n.get("probe", "normal")
     candidate = json.loads((original / "candidate.json").read_text())
     config = json.loads((original / "functions.json").read_text())
     assert candidate["functions"] and config["driver"], "trial itself is absent"
@@ -89,7 +90,8 @@ def check(original, native, audit_directory=None):
         assert "Breakpoint 1, " + state["symbol"] + " (" in transcript
         assert "break recon_initterm" in (native / "commands.gdb").read_text()
     else:
-        assert "Program received signal SIGTRAP" in transcript and "in " + state["symbol"] + " (" in transcript
+        assert "Program received signal SIGTRAP" in transcript
+        assert re.search(r"^(?:0x[0-9a-f]+ in )?" + re.escape(state["symbol"]) + r" \(", transcript, re.M)
     symbols = subprocess.check_output(["nm", "-S", "--defined-only", str(PROJECT / "build/native/c1-host")], text=True)
     match = re.search(r"^([0-9a-f]+) ([0-9a-f]+) [TtWw] " + re.escape(state["symbol"]) + "$", symbols, re.M)
     assert match
@@ -109,15 +111,28 @@ def check(original, native, audit_directory=None):
     assert state["module_token"] != 0
     pass_boundary = expected.get("kind") == "compiler-pass-entry"
     pass_initializer = expected.get("kind") == "pass-initializer"
-    if pass_boundary or pass_initializer:
+    compiler_allocation = expected.get("kind") == "compiler-allocation"
+    initialization_callback = expected.get("kind") == "initialization-callback"
+    compiler_flow = pass_boundary or pass_initializer or compiler_allocation or initialization_callback
+    if compiler_flow:
         case = candidate.get("case_contract") or json.loads((PROJECT / "cases/minimal/case.json").read_text())
-        pass_state = state if pass_boundary else state["caller"]
+        pass_state = state if pass_boundary else state["caller"] if pass_initializer else state["invocation"]
         if pass_initializer:
             assert state["args"] == {} and pass_state["symbol"] == "InvokeCompilerPass"
             invocations = [row for row in traps if int(row[1], 16) == 0x12229]
             assert len(invocations) == 1
             args = [int(value, 16) for value in invocations[0][2].split(",")][1:4]
             assert state["pass_mode"] == struct.unpack_from("<i", (original / ("state-%03d.bin" % int(sequence))).read_bytes(), 0x8c)[0] == 0
+        if compiler_allocation or initialization_callback:
+            if compiler_allocation:
+                assert args[0] == state["args"]["size"] == 6548
+                assert state["caller"]["symbol"] == "initialize_compiler_pass"
+            else:
+                assert state["args"] == {} and state["caller"]["symbol"] == "initialize_compiler_pass"
+            assert pass_state["symbol"] == "InvokeCompilerPass"
+            invocations = [row for row in traps if int(row[1], 16) == 0x12229]
+            assert len(invocations) == 1
+            args = [int(value, 16) for value in invocations[0][2].split(",")][1:4]
         assert args[0] == pass_state["args"]["argc"] == case["argc"]
         assert args[2] == pass_state["args"]["mode"] == case["BOOL"]
         assert pass_state["argv_terminator"] == 0
@@ -142,10 +157,10 @@ def check(original, native, audit_directory=None):
     globals_data = (original / ("state-%03d.bin" % int(sequence))).read_bytes()
     attached = struct.unpack_from("<i", globals_data, 0x90)[0]
     hook = struct.unpack_from("<I", globals_data, 0x9c)[0]
-    expected_attached = 1 if expected["native_symbol"] == "DllMain" or pass_boundary or pass_initializer else 0
+    expected_attached = 1 if expected["native_symbol"] == "DllMain" or compiler_flow else 0
     assert attached == state["crt_attached"] == expected_attached
     assert hook == state["raw_dllmain"] == 0, "nonnull callbacks need an explicit identity projection"
-    assert int(error) == state["win32_last_error"] == (0 if pass_boundary or pass_initializer else 14007)
+    assert int(error) == state["win32_last_error"] == (0 if compiler_flow else 14007)
     control = re.search(r"^trap seq=" + sequence + r" .*\nlast-error=\d+\nx87-control=([0-9a-f]+)$", raw, re.M)
     # NT stores this architectural WORD in a DWORD context field.
     assert control
@@ -160,12 +175,15 @@ def check(original, native, audit_directory=None):
         assert struct.unpack_from("<I", globals_data, 0x40)[0] == state["dll_instance"] == 0
         assert struct.unpack_from("<i", globals_data, 0xa0)[0] == state["crt_adjust_fdiv"] == 0
         assert "provider iat=0005d0e8 resolved=78001715" in raw
-    if pass_boundary or pass_initializer:
+    if compiler_flow:
         end, begin = struct.unpack_from("<2I", globals_data, 0x94)
         assert begin == end != 0 and state["onexit_begin"] == state["onexit_end"] != 0
         assert state["onexit_first"] == 0
         assert struct.unpack_from("<I", globals_data, 0x40)[0] == module_base
         assert state["dll_instance"] == state["module_token"]
+    if candidate.get("field_map"):
+        from compiler_state import validate
+        validate(original, native, state, int(sequence), module_base, candidate, expected, o.get("probe", "normal"))
     for item in candidate.get("imports", []):
         snapshot = (original / "relocated-text.bin").read_bytes()
         offset = item["start_rva"] - 0x1000
@@ -173,20 +191,22 @@ def check(original, native, audit_directory=None):
         assert item["end_rva"] - item["start_rva"] == 6
         slot = report["import_catalogs"]["original"]["slots"][str(0x10600000 + item["iat_rva"])]
         assert slot == {"dll": item["provider"], "name": "_initterm"}
+    labels = ["module identity/token", "CRT attach count", "null raw callback", "Win32 last error", "x87 control WORD"]
+    labels.append("actual pass argc/argv/BOOL and NUL terminator" if compiler_flow else "reason/reserved")
+    if candidate.get("field_map"):
+        labels += ["complete34-slot callback identity table", "modeled field map/storage nonoverlap",
+                   "typed initialized/BSS/snapshot state; other bytes UNMODELED"]
     return {"status": "fresh matching next frontier and typed CRT state",
             "trial": [f["name"] for f in candidate["functions"]],
             "frontier_rva": expected["rva"], "native_symbol": state["symbol"],
-            "state": (["module identity/token", "reason/reserved", "CRT attach count",
-                       "null raw callback", "Win32 last error"] +
-                      (["one NULL initializer slot", "128-byte onexit allocation; first NULL slot",
-                        "onexit begin/end alias", "adjust_fdiv", "pre-DllMain instance"] if import_boundary else [])),
+            "state": labels,
             "rust_checked_functions": report["checked_functions"],
             "rust_owned_original_bytes": owned["declared_code_bytes"],
             "current_auditor_sha256": binding["inputs"][tool_path],
             "current_audit_report_sha256": binding["report_sha256"],
             "execution_receipts": {"original": pair.sha(original / "receipt.json"),
                                    "native": pair.sha(native / "receipt.json")},
-            "promotion": "eligible under reviewed same-protocol lifecycle continuation"}
+            "promotion": ("held for orchestrator/root initializer review" if any("held" in f.get("status", "") for f in candidate["functions"]) else "eligible under reviewed same-protocol continuation")}
 
 
 if __name__ == "__main__":

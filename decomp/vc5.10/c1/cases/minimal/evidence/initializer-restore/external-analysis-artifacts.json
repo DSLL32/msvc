@@ -1,0 +1,142 @@
+{
+  "original/compiler-data-008.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-data-008.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-data-006.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-data-006.bin",
+    "sha256": "34ddd2bf11d395021365521922d44d27e6bfc826f3696aba605fef7e2f148457",
+    "size": 6548
+  },
+  "original/compiler-bss-005.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-bss-005.bin",
+    "sha256": "ce99a55e2ba16ad1d4e74b2b206cf0347c53271bc76ddea5a7adc2d3d50a5a24",
+    "size": 41068
+  },
+  "original/compiler-bss-002.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-bss-002.bin",
+    "sha256": "ce99a55e2ba16ad1d4e74b2b206cf0347c53271bc76ddea5a7adc2d3d50a5a24",
+    "size": 41068
+  },
+  "original/compiler-data-001.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-data-001.bin",
+    "sha256": "7f93cede3bfc311955162379e5d8e3a9a78430de4eb4149b2c11cdfba4828066",
+    "size": 6548
+  },
+  "original/loaded-target.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/loaded-target.bin",
+    "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+    "size": 565008
+  },
+  "original/compiler-snapshot-006.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-snapshot-006.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-snapshot-008.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-snapshot-008.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/MSVCRT.DLL": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/MSVCRT.DLL",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "size": 277776
+  },
+  "original/compiler-bss-003.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-bss-003.bin",
+    "sha256": "ce99a55e2ba16ad1d4e74b2b206cf0347c53271bc76ddea5a7adc2d3d50a5a24",
+    "size": 41068
+  },
+  "original/relocated-text.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/relocated-text.bin",
+    "sha256": "3de6235f0fa89b5d1977f7b582450f80ff52df025f7da8d111ff23cf8b5bb5dc",
+    "size": 322288
+  },
+  "original/compiler-data-000.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-data-000.bin",
+    "sha256": "7f93cede3bfc311955162379e5d8e3a9a78430de4eb4149b2c11cdfba4828066",
+    "size": 6548
+  },
+  "original/compiler-data-007.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-data-007.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-004.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-bss-004.bin",
+    "sha256": "ce99a55e2ba16ad1d4e74b2b206cf0347c53271bc76ddea5a7adc2d3d50a5a24",
+    "size": 41068
+  },
+  "original/dll-capture.exe": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/dll-capture.exe",
+    "sha256": "81ce24dce0f56bcfa9a60e49ea8c412361d4c8d54f7034fc835ce708af82568d",
+    "size": 14848
+  },
+  "original/compiler-snapshot-007.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-snapshot-007.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-data-004.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-data-004.bin",
+    "sha256": "7f93cede3bfc311955162379e5d8e3a9a78430de4eb4149b2c11cdfba4828066",
+    "size": 6548
+  },
+  "original/compiler-bss-007.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-bss-007.bin",
+    "sha256": "be34fcb7070eab112c2de8f16f5eec840de25c305f06b0e179780006d358b57c",
+    "size": 41068
+  },
+  "original/compiler-bss-000.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-bss-000.bin",
+    "sha256": "ce99a55e2ba16ad1d4e74b2b206cf0347c53271bc76ddea5a7adc2d3d50a5a24",
+    "size": 41068
+  },
+  "original/compiler-data-003.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-data-003.bin",
+    "sha256": "7f93cede3bfc311955162379e5d8e3a9a78430de4eb4149b2c11cdfba4828066",
+    "size": 6548
+  },
+  "original/invoke-environment.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/invoke-environment.bin",
+    "sha256": "ec8a3f94a1a5d916ef7f3da4a657ddbda0fbf871d557ef29b8233fddcb1bbbe2",
+    "size": 2787
+  },
+  "original/loaded-msvcrt.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/loaded-msvcrt.bin",
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "size": 277776
+  },
+  "original/restore-original-input.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/restore-original-input.bin",
+    "sha256": "72cbcbcc56d61f343d88f6b52aa9d09d217d46f44cffad40ba6803f0772b4b58",
+    "size": 6548
+  },
+  "original/compiler-bss-008.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-bss-008.bin",
+    "sha256": "be34fcb7070eab112c2de8f16f5eec840de25c305f06b0e179780006d358b57c",
+    "size": 41068
+  },
+  "original/compiler-bss-001.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-bss-001.bin",
+    "sha256": "ce99a55e2ba16ad1d4e74b2b206cf0347c53271bc76ddea5a7adc2d3d50a5a24",
+    "size": 41068
+  },
+  "original/compiler-data-002.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-data-002.bin",
+    "sha256": "7f93cede3bfc311955162379e5d8e3a9a78430de4eb4149b2c11cdfba4828066",
+    "size": 6548
+  },
+  "original/compiler-data-005.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-data-005.bin",
+    "sha256": "7f93cede3bfc311955162379e5d8e3a9a78430de4eb4149b2c11cdfba4828066",
+    "size": 6548
+  },
+  "original/compiler-bss-006.bin": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-restore-001/compiler-bss-006.bin",
+    "sha256": "ba46a7c1addc9ca4e63ebdb63bf7b4c1fd09d5fc5e50dc918428739e5f3e29a8",
+    "size": 41068
+  }
+}

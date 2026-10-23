@@ -1,0 +1,238 @@
+{
+  "schema": 1,
+  "policy": "Incremental typed projection approved by root; unknown original bytes remain UNMODELED and cannot be consumed before a named trap.",
+  "allocation_bytes": 6548,
+  "original_initialized_region_rva": [
+    385024,
+    391572
+  ],
+  "original_bss_region_rva": [
+    327680,
+    368748
+  ],
+  "modeled_initialized": [
+    {
+      "name": "first_call",
+      "original_rva": 390448,
+      "bytes": 4,
+      "native_field": "c1_data.first_call",
+      "native_offset": 0,
+      "default": 1,
+      "default_proof": "canonical C1.DLL initializedDWORD atRVA5f530 is1; exact targetSHA in functions.json",
+      "snapshot_original_offset": 5424,
+      "snapshot_native_offset": 0
+    }
+  ],
+  "modeled_bss": [
+    {
+      "name": "saved_data",
+      "original_rva": 358424,
+      "bytes": 4,
+      "native_field": "c1_bss.saved_data",
+      "native_offset": 0,
+      "type": "allocation identity"
+    },
+    {
+      "name": "cleanup_count",
+      "original_rva": 358428,
+      "bytes": 4,
+      "native_field": "c1_bss.cleanup_count",
+      "native_offset": 4,
+      "type": "int32"
+    },
+    {
+      "name": "cleanup_callbacks",
+      "original_rva": 358432,
+      "bytes": 128,
+      "native_field": "c1_bss.cleanup_callbacks",
+      "native_offset": 8,
+      "type": "32 function pointers; only named identities allowed"
+    }
+  ],
+  "outside_bss": [
+    {
+      "name": "reuse_state",
+      "original_rva": 376932,
+      "bytes": 4,
+      "native_field": "c1_reuse_state"
+    },
+    {
+      "name": "pass_mode",
+      "original_rva": 376972,
+      "bytes": 4,
+      "native_field": "c1_pass_mode"
+    }
+  ],
+  "callbacks": [
+    {
+      "index": 0,
+      "original_rva": 0,
+      "native_symbol": null
+    },
+    {
+      "index": 1,
+      "original_rva": 74597,
+      "native_symbol": "initialize_state_12365"
+    },
+    {
+      "index": 2,
+      "original_rva": 74615,
+      "native_symbol": "initialize_state_12377"
+    },
+    {
+      "index": 3,
+      "original_rva": 74633,
+      "native_symbol": "initialize_state_12389"
+    },
+    {
+      "index": 4,
+      "original_rva": 74660,
+      "native_symbol": "initialize_state_123a4"
+    },
+    {
+      "index": 5,
+      "original_rva": 74661,
+      "native_symbol": "initialize_state_123a5"
+    },
+    {
+      "index": 6,
+      "original_rva": 74662,
+      "native_symbol": "initialize_state_123a6"
+    },
+    {
+      "index": 7,
+      "original_rva": 74663,
+      "native_symbol": "initialize_state_123a7"
+    },
+    {
+      "index": 8,
+      "original_rva": 74780,
+      "native_symbol": "initialize_state_1241c"
+    },
+    {
+      "index": 9,
+      "original_rva": 74859,
+      "native_symbol": "initialize_state_1246b"
+    },
+    {
+      "index": 10,
+      "original_rva": 74938,
+      "native_symbol": "initialize_state_124ba"
+    },
+    {
+      "index": 11,
+      "original_rva": 75017,
+      "native_symbol": "initialize_state_12509"
+    },
+    {
+      "index": 12,
+      "original_rva": 75096,
+      "native_symbol": "initialize_state_12558"
+    },
+    {
+      "index": 13,
+      "original_rva": 75175,
+      "native_symbol": "initialize_state_125a7"
+    },
+    {
+      "index": 14,
+      "original_rva": 75254,
+      "native_symbol": "initialize_state_125f6"
+    },
+    {
+      "index": 15,
+      "original_rva": 75333,
+      "native_symbol": "initialize_state_12645"
+    },
+    {
+      "index": 16,
+      "original_rva": 75334,
+      "native_symbol": "initialize_state_12646"
+    },
+    {
+      "index": 17,
+      "original_rva": 75363,
+      "native_symbol": "initialize_state_12663"
+    },
+    {
+      "index": 18,
+      "original_rva": 75364,
+      "native_symbol": "initialize_state_12664"
+    },
+    {
+      "index": 19,
+      "original_rva": 75375,
+      "native_symbol": "initialize_state_1266f"
+    },
+    {
+      "index": 20,
+      "original_rva": 75439,
+      "native_symbol": "initialize_state_126af"
+    },
+    {
+      "index": 21,
+      "original_rva": 75503,
+      "native_symbol": "initialize_state_126ef"
+    },
+    {
+      "index": 22,
+      "original_rva": 75538,
+      "native_symbol": "initialize_state_12712"
+    },
+    {
+      "index": 23,
+      "original_rva": 75551,
+      "native_symbol": "initialize_state_1271f"
+    },
+    {
+      "index": 24,
+      "original_rva": 75564,
+      "native_symbol": "initialize_state_1272c"
+    },
+    {
+      "index": 25,
+      "original_rva": 75577,
+      "native_symbol": "initialize_state_12739"
+    },
+    {
+      "index": 26,
+      "original_rva": 75590,
+      "native_symbol": "initialize_state_12746"
+    },
+    {
+      "index": 27,
+      "original_rva": 75603,
+      "native_symbol": "initialize_state_12753"
+    },
+    {
+      "index": 28,
+      "original_rva": 75616,
+      "native_symbol": "initialize_state_12760"
+    },
+    {
+      "index": 29,
+      "original_rva": 75629,
+      "native_symbol": "initialize_state_1276d"
+    },
+    {
+      "index": 30,
+      "original_rva": 75642,
+      "native_symbol": "initialize_state_1277a"
+    },
+    {
+      "index": 31,
+      "original_rva": 75643,
+      "native_symbol": "initialize_state_1277b"
+    },
+    {
+      "index": 32,
+      "original_rva": 75676,
+      "native_symbol": "initialize_state_1279c"
+    },
+    {
+      "index": 33,
+      "original_rva": 75686,
+      "native_symbol": "initialize_state_127a6"
+    }
+  ]
+}

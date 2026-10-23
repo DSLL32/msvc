@@ -1,0 +1,29 @@
+{
+  "status": "fresh matching next frontier and typed CRT state",
+  "trial": [
+    "_c1_crt_entry@12",
+    "_c1_crt_init@12",
+    "_DllMain@12",
+    "_InvokeCompilerPass@12",
+    "_initialize_compiler_pass",
+    "_allocate_compiler_memory"
+  ],
+  "frontier_rva": 74597,
+  "native_symbol": "initialize_state_12365",
+  "state": [
+    "module identity/token",
+    "reason/reserved",
+    "CRT attach count",
+    "null raw callback",
+    "Win32 last error"
+  ],
+  "rust_checked_functions": 6,
+  "rust_owned_original_bytes": 1026,
+  "current_auditor_sha256": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c",
+  "current_audit_report_sha256": "d9756b81d7960910fe456262e51cd5c74a55e2ce9ac89d7e8047d0f22c853e4d",
+  "execution_receipts": {
+    "original": "26c761ac164c39b7e0f28b99fe47deb4af68783574c63748bb970bc4ca30d66a",
+    "native": "0341219f5ffa01d9d0ccccc417450c6b6a5da87925b34e30e110cd5c2a10924d"
+  },
+  "promotion": "held for orchestrator/root initializer review"
+}

@@ -21,7 +21,9 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--name", required=True)
     parser.add_argument("--case", choices=("lifecycle", "minimal"), default="lifecycle")
+    parser.add_argument("--restore-probe", action="store_true")
     args = parser.parse_args()
+    assert not args.restore_probe or args.case == "minimal"
     assert args.name.replace("-", "").replace("_", "").isalnum()
     output = SCRATCH / args.name
     output.mkdir(parents=True, exist_ok=False)
@@ -51,6 +53,14 @@ value={'symbol':frame.name(),'pc':int(gdb.parse_and_eval('$pc')),'args':args}
 if frame.name()=='InvokeCompilerPass':
     value['argv']=[gdb.parse_and_eval('argv[%%d]'%%i).string() for i in range(args['argc'])]
     value['argv_terminator']=int(gdb.parse_and_eval('(unsigned int)argv[%%d]'%%args['argc']))
+ancestor=frame
+while ancestor and ancestor.name()!='InvokeCompilerPass': ancestor=ancestor.older()
+value['invocation']=None
+if ancestor:
+    callargs={name:int(ancestor.read_var(name).cast(gdb.lookup_type('unsigned int'))) for name in ('argc','argv','mode')}
+    value['invocation']={'symbol':ancestor.name(),'args':callargs,
+      'argv':[ancestor.read_var('argv')[i].string() for i in range(callargs['argc'])],
+      'argv_terminator':int(ancestor.read_var('argv')[callargs['argc']].cast(gdb.lookup_type('unsigned int')))}
 caller=frame.older()
 value['caller']={'symbol':caller.name(),'args':{}}
 if caller.name()=='InvokeCompilerPass':
@@ -63,6 +73,20 @@ identity=gdb.parse_and_eval('*c1_host_identity')
 value['module_identity']={key:identity[key].string() for key in ('name','path','sha256')}
 value['module_identity']['flags']=int(identity['flags'])
 value['module_token']=int(gdb.parse_and_eval('(unsigned int)c1_host_module'))
+value['compiler_state']={
+ 'live_addresses':{'initialized':int(gdb.parse_and_eval('(unsigned int)&c1_data')),'bss':int(gdb.parse_and_eval('(unsigned int)&c1_bss'))},
+ 'initialized':{'first_call':int(gdb.parse_and_eval('c1_data.first_call'))},
+ 'bss':{'saved_data':int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data')),
+        'cleanup_count':int(gdb.parse_and_eval('c1_bss.cleanup_count')),
+        'cleanup_callbacks':[int(gdb.parse_and_eval('(unsigned int)c1_bss.cleanup_callbacks[%%d]'%%i)) for i in range(32)]},
+ 'snapshot':({'first_call':int(gdb.parse_and_eval('c1_bss.saved_data->first_call'))} if int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data')) else None),
+ 'reuse_state':int(gdb.parse_and_eval('c1_reuse_state')),
+ 'initialization_callbacks':[int(gdb.parse_and_eval('(unsigned int)c1_initialization_callbacks[%%d]'%%i)) for i in range(34)],
+ 'native_layout':{'initialized_size':int(gdb.parse_and_eval('sizeof(c1_data)')),'bss_size':int(gdb.parse_and_eval('sizeof(c1_bss)')),
+ 'first_call':int(gdb.parse_and_eval('(char*)&c1_data.first_call-(char*)&c1_data')),
+ 'saved_data':int(gdb.parse_and_eval('(char*)&c1_bss.saved_data-(char*)&c1_bss')),
+ 'cleanup_count':int(gdb.parse_and_eval('(char*)&c1_bss.cleanup_count-(char*)&c1_bss')),
+ 'cleanup_callbacks':int(gdb.parse_and_eval('(char*)&c1_bss.cleanup_callbacks-(char*)&c1_bss'))}}
 value['pass_mode']=int(gdb.parse_and_eval('c1_pass_mode'))
 value['crt_attached']=int(gdb.parse_and_eval('c1_crt_attached'))
 value['raw_dllmain']=int(gdb.parse_and_eval('(unsigned int)c1_raw_dllmain'))
@@ -80,6 +104,51 @@ open(%r,'w').write(json.dumps(value,indent=2)+'\\n')
 end
 quit
 """ % (breakpoint_command, arguments, str(output / "state.json"))
+    if candidate.get("field_map"):
+        allocation_probe = """python
+import gdb,json
+allocations=[]
+class CompilerAllocation(gdb.Breakpoint):
+    def stop(self):
+        allocations.append({'size':int(gdb.parse_and_eval('size')),'pc':int(gdb.parse_and_eval('$pc'))})
+        return False
+CompilerAllocation('allocate_compiler_memory')
+end
+"""
+        commands = commands.replace("run\nbt\npython", allocation_probe + "run\nbt\npython", 1)
+        commands = commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')" % str(output/'state.json'),
+                                    "open(%r,'w').write(json.dumps(allocations,indent=2)+'\\n')\n" % str(output/'allocation-observations.json') +
+                                    "open(%r,'w').write(json.dumps(value,indent=2)+'\\n')" % str(output/'state.json'))
+    if args.restore_probe:
+        expression = commands.split("value['compiler_state']=", 1)[1].split("\nvalue['pass_mode']", 1)[0]
+        restore_line = next(i for i, line in enumerate((PROJECT / "src/pass.c").read_text().splitlines(), 1)
+                            if "c1_reuse_state = !c1_pass_mode;" in line)
+        setup = """break initialize_compiler_pass
+run
+python
+import gdb,json
+def capture_modeled():
+    return %s
+gdb.execute('set var c1_bss.saved_data = (CompilerInitializedState *)malloc(6548)')
+gdb.execute('set var c1_bss.saved_data->first_call = 0x13579bdf')
+gdb.execute('set var c1_data.first_call = 0')
+gdb.execute('set var c1_bss.cleanup_count = 7')
+gdb.execute('set var c1_bss.cleanup_callbacks[0] = initialize_state_12365')
+gdb.execute('set var c1_bss.cleanup_callbacks[1] = initialize_state_12377')
+gdb.execute('set var c1_pass_mode = 1')
+gdb.execute('set var c1_reuse_state = 9')
+restore_observations={'before':capture_modeled()}
+end
+break %s:%d
+continue
+python
+restore_observations['post_restore']=capture_modeled()
+restore_observations['post_restore_pc']=int(gdb.parse_and_eval('$pc'))
+restore_observations['post_restore_line']=gdb.newest_frame().find_sal().line
+open(%r,'w').write(json.dumps(restore_observations,indent=2)+'\\n')
+end
+continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output / 'restore-observations.json'))
+        commands = commands.replace("run\nbt\npython", setup + "\nbt\npython", 1)
     (output / "commands.gdb").write_text(commands)
     started = time.perf_counter()
     if args.case == "minimal":
@@ -106,7 +175,8 @@ quit
         for source, target in (("trial-audit.json", "audit.json"), ("trial-audit-binding.json", "audit-binding.json")):
             (output / target).write_bytes((PROJECT / "build" / source).read_bytes())
     receipt = {"schema": 1, "kind": "native-gdb-frontier",
-               "candidate_path": "cases/" + args.case + "/candidate.json", "seconds": elapsed,
+               "candidate_path": "cases/" + args.case + "/candidate.json",
+               "probe": "restore" if args.restore_probe else "normal", "seconds": elapsed,
                "native_sha256": binary_sha,
                "rebuilt_sha256": sha(PROJECT / "build/c1.dll"),
                "candidate_sha256": sha(output / "candidate.json"),

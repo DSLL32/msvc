@@ -70,7 +70,9 @@ def main():
     parser.add_argument("mode", choices=("baseline", "masked"))
     parser.add_argument("--name", required=True, help="new scratch case directory name")
     parser.add_argument("--case", choices=("lifecycle", "minimal"), default="lifecycle")
+    parser.add_argument("--restore-probe", action="store_true")
     args = parser.parse_args()
+    assert not args.restore_probe or args.case == "minimal"
     assert args.name.replace("-", "").replace("_", "").isalnum()
     checks = preflight()
     output = SCRATCH / "vc5.10/c1" / args.name
@@ -101,7 +103,7 @@ def main():
                windows(TARGET), windows(CRT), args.mode, "ranges.txt"]
     if args.case == "minimal":
         shutil.copy2(PROJECT / "cases/minimal/inputs/test.c", output / "test.c")
-        command.append("minimal")
+        command.append("minimal-restore" if args.restore_probe else "minimal")
     started = time.perf_counter()
     with (output / "stdout.bin").open("wb") as stdout, (output / "stderr.bin").open("wb") as stderr:
         result = subprocess.run(command, cwd=output, env=environment(), stdout=stdout,
@@ -114,7 +116,8 @@ def main():
     if loaded_crt.exists():
         assert sha(loaded_crt) == CRT_HASH
     receipt = {"schema": 1, "kind": "explicit-original-capture",
-               "candidate_path": "cases/" + args.case + "/candidate.json", "mode": args.mode,
+               "candidate_path": "cases/" + args.case + "/candidate.json",
+               "probe": "restore" if args.restore_probe else "normal", "mode": args.mode,
                "command": command, "cwd": windows(output), "exit": result.returncode,
                "seconds": elapsed, "preflight": checks,
                "target_sha256": sha(TARGET), "canonical_crt_sha256": CRT_HASH,
