@@ -116,6 +116,7 @@ def main():
             assert re.search(r'^entry '+re.escape(binding['original_owner_function'])+r' rva %08x byte [0-9a-f]{2}$'%(owner_record['start']-config['target']['base']),(argument_directory/'original-events.txt').read_text(),re.M), 'actual accepted owner entry/RVA missing'
             owner=entry_native['caller_locals'][binding['native_owner_field']]
             assert owner['function']==binding['native_owner_function'] and owner['local']==binding['native_owner_local'], 'actual native owner differs'
+            assert owner.get('fields',[])==binding.get('native_owner_fields',[]), 'actual caller field differs'
             assert formal['original_raw']==binding['original_owner_value']==registers[0]['value']
             assert formal['native_raw']==binding['native_owner_value']==owner['value']
         elif binding['kind']=='pointee-word':

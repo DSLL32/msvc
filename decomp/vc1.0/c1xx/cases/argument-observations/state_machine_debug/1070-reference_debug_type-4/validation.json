@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_reference_debug_type@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1070,
+  "configuration_sha256": "9117925ed5add77a54493e60830725213bc07e210d079b37b2c7f2f359316d54",
+  "native_entry": "reference_debug_type",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 290031,
+        "original_owner_function": "_prepare_symbol_debug_type@4",
+        "native_owner_field": "caller_type",
+        "native_owner_function": "prepare_symbol_debug_type",
+        "native_owner_local": "symbol",
+        "native_owner_fields": [
+          "type"
+        ],
+        "identity": "actual caller symbol.type: MOV EAX,[EAX+12] at0x56ce6 with EAX current symbol; PUSH EAX0x56ce9/CALL0x56cea return0x56cef. Native immediate caller formal symbol selects exactly its type pointer field, offset12 independently asserted by CppSymbol ABI. One real pointer field, no recursive object inspection. EAX observer anchor is not an incoming callee ABI register.",
+        "original_owner_value": 8298252,
+        "native_owner_value": 1449262860
+      },
+      "original_raw": 8298252,
+      "native_raw": 1449262860,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      448224,
+      448598
+    ],
+    "argument_bytes": 4,
+    "proof": "SUB ESP,12/PUSH EBX/ESI/EDI then type is stack[ESP+28], ESI receives it. Volatile registers are subsequently defined by memory/callee results before use. Every return restores saved registers/frame and RET4. The shape load from type+4 precedes prototype/late NULL checks as in raw original; no claim of NULL success. Recursive type copy is12B and skips one TypeShape. Record slot stride16 with subject at4 and related index at8. No semantic incoming hidden/register input.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "f4a15121006774863b7d165dec5c8c45078c129b616dbaba2c8d9c3f3031bdb7",
+  "capture_timing": {
+    "original_capture_seconds": 0.6660527009516954,
+    "native_capture_seconds": 0.19007506221532822,
+    "total_operation_seconds": 1.127126238308847
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "04b630c27354ac77b2505833bbb9b181e904c323c524e6d0d94b881dffd15f7d",
+    "native-commands.gdb": "c4f9220f29ed5239001178935acbe9395ed7f717c479328b9d5c187e88489e88",
+    "native-gdb.log": "43a023bb2bc89cd1e599851b21b1db47b704eec4139fa60be11753fbdbeb2425",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "76fcdc117a9b61f80448728b3798f7224794d8ff2a82970b01ed68ff65f372e6",
+    "original-configuration.json": "9117925ed5add77a54493e60830725213bc07e210d079b37b2c7f2f359316d54",
+    "original-disassembly.txt": "087a835bef17db4418b36f8b4c4cbd4cc348295a25a0cff820466cc2e1ab2c8c",
+    "original-entries.plan": "8b365eaeea39b85a18708fb87d56577220d4808598db617279b76ac23ac22969",
+    "original-events.txt": "2f5a559b5e73e63cb3306a3c937fbc8403eeaab975ba7288fceeb379cf6cc852",
+    "original-ownership-caller-disassembly.txt": "9cf813f4c045dd4cc4702d06d9f8710c54ff6afeb55349c09629254f778fdd44",
+    "original-receipt.json": "cd9c6d5634cc0d69e2845ccf08a28ead01c716eb8f7999762fffd73080b58346",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "3fa48583a9aa4ee3c60105fde0b43683bbdfbe87c00c017f0135c9b16f145c2b"
+  },
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

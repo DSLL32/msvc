@@ -1,0 +1,24 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_reference_debug_type@4",
+    "start": 448224,
+    "end": 448598
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1070-reference_debug_type-4/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_base_debug_type@4",
+    "_intern_type@4",
+    "_primitive_pointer_debug_type@4",
+    "_reference_debug_type@4",
+    "_reference_function_debug_type@4",
+    "_reference_line_record_type",
+    "_reserve_debug_type@4"
+  ],
+  "next_frontier": "_base_debug_type@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4961640341207385,
+  "total_operation_seconds": 3.2697184970602393,
+  "original_capture_seconds": 0.7160448776558042
+}

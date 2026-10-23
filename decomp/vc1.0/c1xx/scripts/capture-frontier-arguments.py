@@ -95,6 +95,7 @@ def main():
             assert re.search(r'^entry '+re.escape(binding['original_owner_function'])+r' rva %08x byte [0-9a-f]{2}$' % (owner_record['start']-config['target']['base']), events, re.M), 'actual accepted owner entry/RVA missing'
             owner = checkpoint['caller_locals'][binding['native_owner_field']]
             assert owner['function'] == binding['native_owner_function'] and owner['local'] == binding['native_owner_local']
+            assert owner.get('fields', []) == binding.get('native_owner_fields', []), 'actual caller field differs'
             binding['original_owner_value'] = registers[0]['value']
             binding['native_owner_value'] = owner['value']
             assert item['original_raw'] == binding['original_owner_value']

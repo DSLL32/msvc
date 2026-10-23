@@ -47,9 +47,14 @@ def capture(directory, executable=None, breakpoint=None, expressions=None, case_
         commands += ['    result["caller_locals"] = {}']
         for key, owner in caller_locals.items():
             assert owner['frame'] == 1, 'only the immediate actual owner frame is supported'
+            fields=owner.get('fields', [])
+            assert len(fields)<=1, 'only one proved actual caller pointer field is supported'
             commands += ['    owner = gdb.newest_frame().older()',
                          '    assert owner is not None and owner.name() == '+repr(owner['function']),
-                         '    result["caller_locals"]['+repr(key)+'] = {"function": owner.name(), "local": '+repr(owner['local'])+', "value": int(owner.read_var('+repr(owner['local'])+'))}']
+                         '    owner_value = owner.read_var('+repr(owner['local'])+')']
+            for field in fields:
+                commands += ['    owner_value = owner_value['+repr(field)+']']
+            commands += ['    result["caller_locals"]['+repr(key)+'] = {"function": owner.name(), "local": '+repr(owner['local'])+', "fields": '+repr(fields)+', "value": int(owner_value)}']
     for field in config['cases'][case_name].get('buffered_streams', config['buffered_streams']):
         name = field['name'][1:]
         commands += ['    stream = gdb.parse_and_eval("'+name+'")',

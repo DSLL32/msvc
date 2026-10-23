@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "2be7062a9b317ccfbb17855ff5ac55d877d227d3eab12d659776ef8e3a328bf2",
+    "functions.json": "48001624bc33d66b2f071ddd5585019af4dde16d59ea889b9218b47f882ee1e8",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "907809e417162ca914fbf022b739024a01568a5685d27ad014bc7e8b764e5497",
-    "cases/canonical-map.txt": "9b38448e0cb1d0a44a08b78dd1daf75ae4461bd2ae1e84ecf7588cd78cffe7dc",
+    "cases/original-entry-references.json": "c4bb5a2a39ba6a6f5f336cf66ed5c4a2778c0e9836b0ad5e1455aafc31c1d55f",
+    "cases/canonical-map.txt": "dfbe7261948df037b964c83bf803a61ade9935a71e500bded4a322d4388a5a94",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1069-prepare_symbol_debug_type-4/entry-reference/original-receipt.json": "72e7751ef3bb5c2c500ea96dbdb9dc33e67cd14ac406ff4819ecd705e25ca3fd",
-    "cases/frontiers/state_machine_debug/1069-prepare_symbol_debug_type-4/entry-reference/original-events.txt": "0702cf4d06fabf2e863bafd3a9f52d99715db77f72c76e211b5dfc8dfe3d3d81",
-    "cases/frontiers/state_machine_debug/1069-prepare_symbol_debug_type-4/entry-reference/original-entries.plan": "e54fdc95a0d1a88d03df9db7934787dbb1e8037e6851d0024f30777dc53185e8"
+    "cases/frontiers/state_machine_debug/1070-reference_debug_type-4/entry-reference/original-receipt.json": "381dd78f7380306c97c778c02f01825a6828bced76b13dbc00e22b8c51c82cb1",
+    "cases/frontiers/state_machine_debug/1070-reference_debug_type-4/entry-reference/original-events.txt": "13e9910118ed04822065883efc8290b082d46ddcff995b98b842168ee06b369e",
+    "cases/frontiers/state_machine_debug/1070-reference_debug_type-4/entry-reference/original-entries.plan": "0dfae605f011675a64db204b02bdb15dee4014474982107833358642a91480c1"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -298,6 +298,10 @@
     "attach_type_shape": {
       "logical": "_attach_type_shape@8",
       "source": "src/declarations.c"
+    },
+    "base_debug_type": {
+      "logical": "_base_debug_type@4",
+      "source": "src/stubs.c"
     },
     "base_type_size": {
       "logical": "_base_type_size@8",
@@ -3971,6 +3975,10 @@
       "logical": "_primary_virtual_table@4",
       "source": "src/class-finalization.c"
     },
+    "primitive_pointer_debug_type": {
+      "logical": "_primitive_pointer_debug_type@4",
+      "source": "src/stubs.c"
+    },
     "print_declaration": {
       "logical": "_print_declaration@8",
       "source": "src/type-diagnostics.c"
@@ -4301,11 +4309,19 @@
     },
     "reference_debug_type": {
       "logical": "_reference_debug_type@4",
+      "source": "src/debug-types.c"
+    },
+    "reference_function_debug_type": {
+      "logical": "_reference_function_debug_type@4",
       "source": "src/stubs.c"
     },
     "reference_ir_symbol": {
       "logical": "_reference_ir_symbol@4",
       "source": "src/ir.c"
+    },
+    "reference_line_record_type": {
+      "logical": "_reference_line_record_type",
+      "source": "src/stubs.c"
     },
     "reference_lvalue_bindable": {
       "logical": "_reference_lvalue_bindable@8",
@@ -4581,6 +4597,10 @@
     },
     "rescan_macro_replacement": {
       "logical": "_rescan_macro_replacement",
+      "source": "src/stubs.c"
+    },
+    "reserve_debug_type": {
+      "logical": "_reserve_debug_type@4",
       "source": "src/stubs.c"
     },
     "reserve_type_diagnostic": {
@@ -6368,7 +6388,8 @@
     "equal_first_words",
     "static_member_alias",
     "equal_symbol_indices",
-    "prepare_symbol_debug_type"
+    "prepare_symbol_debug_type",
+    "reference_debug_type"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10480,7 +10501,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1070,
+      "last": 1071,
       "seen": [
         "main",
         "message_text",
@@ -11460,12 +11481,13 @@
         "static_member_alias",
         "equal_symbol_indices",
         "prepare_symbol_debug_type",
-        "reference_debug_type"
+        "reference_debug_type",
+        "base_debug_type"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_reference_debug_type@4",
-        "native": "reference_debug_type",
+        "logical": "_base_debug_type@4",
+        "native": "base_debug_type",
         "signal": 5
       }
     }

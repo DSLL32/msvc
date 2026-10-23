@@ -18,6 +18,7 @@
 #include "function-definitions.h"
 #include "unary-expressions.h"
 #include "control-ir.h"
+#include "debug-types.h"
 /* Named, unaccepted reconstruction frontiers. */
 #include "initialization.h"
 #include "inline-vector.h"
@@ -482,7 +483,11 @@ void finish_inline_function(void) { __asm { int 3 } }
 
 
 unsigned short __stdcall debug_tag_type(CppSymbol *tag) { __asm { int 3 } return 0; }
-void __stdcall reference_debug_type(CType *type) { __asm { int 3 } }
+unsigned __stdcall reserve_debug_type(unsigned char kind) { __asm { int 3 } return 0; }
+unsigned short __stdcall primitive_pointer_debug_type(CType *type) { __asm { int 3 } return 0; }
+unsigned short __stdcall base_debug_type(CType *type) { __asm { int 3 } return 0; }
+void __stdcall reference_function_debug_type(CType *type) { __asm { int 3 } }
+unsigned short __cdecl reference_line_record_type(CType *type) { __asm { int 3 } return 0; }
 void flush_debug_types(void) { __asm { int 3 } }
 
 char *__stdcall format_qualified_tag_name(char *cursor, CppSymbol *tag) { __asm { int 3 } return 0; }

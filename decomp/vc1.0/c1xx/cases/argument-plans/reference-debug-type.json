@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "function": "_reference_debug_type@4",
+  "native_entry": "reference_debug_type",
+  "argument_words": 4,
+  "ownership_register": "eax",
+  "ownership_caller_extent": [
+    355504,
+    355575
+  ],
+  "native_caller_locals": {
+    "caller_type": {
+      "frame": 1,
+      "function": "prepare_symbol_debug_type",
+      "local": "symbol",
+      "fields": [
+        "type"
+      ]
+    }
+  },
+  "native_expressions": {
+    "raw_type": "(unsigned)type"
+  },
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 290031,
+        "original_owner_function": "_prepare_symbol_debug_type@4",
+        "native_owner_field": "caller_type",
+        "native_owner_function": "prepare_symbol_debug_type",
+        "native_owner_local": "symbol",
+        "native_owner_fields": [
+          "type"
+        ],
+        "identity": "actual caller symbol.type: MOV EAX,[EAX+12] at0x56ce6 with EAX current symbol; PUSH EAX0x56ce9/CALL0x56cea return0x56cef. Native immediate caller formal symbol selects exactly its type pointer field, offset12 independently asserted by CppSymbol ABI. One real pointer field, no recursive object inspection. EAX observer anchor is not an incoming callee ABI register."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      448224,
+      448598
+    ],
+    "argument_bytes": 4,
+    "proof": "SUB ESP,12/PUSH EBX/ESI/EDI then type is stack[ESP+28], ESI receives it. Volatile registers are subsequently defined by memory/callee results before use. Every return restores saved registers/frame and RET4. The shape load from type+4 precedes prototype/late NULL checks as in raw original; no claim of NULL success. Recursive type copy is12B and skips one TypeShape. Record slot stride16 with subject at4 and related index at8. No semantic incoming hidden/register input."
+  }
+}

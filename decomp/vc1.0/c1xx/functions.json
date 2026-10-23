@@ -1074,7 +1074,8 @@
     "_equal_first_words",
     "_static_member_alias@4",
     "_equal_symbol_indices",
-    "_prepare_symbol_debug_type@4"
+    "_prepare_symbol_debug_type@4",
+    "_reference_debug_type@4"
   ],
   "driver": [
     {
@@ -5446,7 +5447,7 @@
     {
       "name": "_reference_debug_type@4",
       "start": 448224,
-      "end": 448225
+      "end": 448598
     },
     {
       "name": "_flush_debug_types",
@@ -7886,6 +7887,31 @@
       "name": "_default_constructor_closure_table",
       "start": 225664,
       "end": 225697
+    },
+    {
+      "name": "_reserve_debug_type@4",
+      "start": 450432,
+      "end": 450433
+    },
+    {
+      "name": "_primitive_pointer_debug_type@4",
+      "start": 448608,
+      "end": 448609
+    },
+    {
+      "name": "_base_debug_type@4",
+      "start": 448960,
+      "end": 448961
+    },
+    {
+      "name": "_reference_function_debug_type@4",
+      "start": 449104,
+      "end": 449105
+    },
+    {
+      "name": "_reference_line_record_type",
+      "start": 461392,
+      "end": 461422
     }
   ],
   "cases": {
@@ -8086,7 +8112,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_reference_debug_type@4",
+      "terminal": "_base_debug_type@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8109,7 +8135,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1069-prepare_symbol_debug_type-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1070-reference_debug_type-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8184,7 +8210,8 @@
         "cases/frontiers/state_machine_debug/1066-equal_first_words/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1067-static_member_alias-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1068-equal_symbol_indices/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1069-prepare_symbol_debug_type-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1069-prepare_symbol_debug_type-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1070-reference_debug_type-4/frontier-extension.json"
       ]
     }
   },
@@ -10513,6 +10540,23 @@
         {
           "name": "_constructor_closures",
           "original": 652280,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_next_debug_type_index",
+      "original": 652372,
+      "fields": [
+        {
+          "name": "_next_debug_type_index",
+          "original": 652372,
+          "bytes": 2
+        },
+        {
+          "name": "_debug_types",
+          "original": 576688,
           "bytes": 4
         }
       ]
