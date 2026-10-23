@@ -27,7 +27,7 @@ def check(original,native,require_audit=True,audit_path=None):
     registrar=trial['trial']=='_register_cleanup'
     deferred=trial['trial']=='_initialize_deferred_work'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=16,
+    s.require(deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=17,
               'no reviewed callback decoder for this function')
     index=16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
@@ -62,14 +62,15 @@ def check(original,native,require_audit=True,audit_path=None):
         path=[callback(slot) for slot in range(1,index+2)]
     else:
         path=[callback(slot) for slot in range(1,9)]
-        completed=8 if deferred else constructor_number if constructor_number else 1 if registrar else index-8
+        completed=8 if deferred or index>=16 else constructor_number if constructor_number else 1 if registrar else index-8
         for number in range(1,completed+1):
             name='initialize_output_buffer_%02d'%number
             path += [(name,records['_'+name]['start']-0x10400000),('register_cleanup',0x386ae)]
             if '_register_cleanup' not in trial['accepted']:break
             path.append(callback(8+number))
-        if deferred:
+        if deferred or index>=17:
             path += [('initialize_deferred_work',0x38904),('register_cleanup',0x386ae),callback(17)]
+            if not deferred:path += [callback(slot) for slot in range(18,index+2)]
         elif not constructor_number and not registrar:
             name='initialize_deferred_work' if index==16 else 'initialize_output_buffer_%02d'%(completed+1)
             path.append((name,records['_'+name]['start']-0x10400000))

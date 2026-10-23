@@ -100,7 +100,6 @@ void initialize_frontend_16(void)
 
 void initialize_frontend_17(void)
 {
-    __asm { int 3 }
 }
 
 void initialize_frontend_18(void)

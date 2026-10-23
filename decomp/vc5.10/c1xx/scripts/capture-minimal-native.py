@@ -141,7 +141,7 @@ end
             registration=output/('collect-'+stem+'.gdb')
             registration.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/(stem+'.json')))).replace(repr(str(output/'native-argv.bin')),repr(str(output/(stem+'-argv.bin')))))
             observer+='break register_cleanup if frontend_bss.cleanup_count==%d\ncommands\nsilent\nsource '%i+str(registration)+'\ncontinue\nend\n'
-    if trial['trial']=='_initialize_deferred_work':
+    if model['schema']>=14:
         entry=output/'collect-deferred-entry.gdb'
         entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'deferred-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'deferred-entry-argv.bin'))))
         seed='set variable frontend_bss.deferred_work=(DeferredWorkFrame *)frontend_bss.saved_state\n' if trial.get('test_deferred_seed') else ''

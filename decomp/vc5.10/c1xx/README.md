@@ -120,5 +120,5 @@ unmodeled. Its natural and nonzero/reset proofs are in
 `cases/minimal/deferred-trials.json`; schema 14 has 544 semantic BSS bytes,
 24 native padding bytes and a sizeof of 568.
 
-Current reconstruction has reached initializer 17; minimal compilation remains
+Current reconstruction has reached initializer 18; minimal compilation remains
 unfinished. The completed lifecycle fixture remains native-only (about 12 ms warm).

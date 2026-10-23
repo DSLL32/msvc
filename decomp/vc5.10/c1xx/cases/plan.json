@@ -29,7 +29,7 @@
         "/Od",
         "minimal.cpp"
       ],
-      "status": "active; callbacks 01\u201316, eight output constructors and deferred-work pointer constructor accepted; next callback 17",
+      "status": "active; callbacks 01\u201317, eight output constructors and deferred-work constructor accepted; next 40-byte callback 18 copy under separate projection review",
       "source_sha256": "deac66ccb79f6d31c0fa7d358de48e083c15c02ff50ec1ebd4b64314b9e6e196",
       "contract": "minimal/contract.json",
       "validation": "minimal/invoke-validation.json",
@@ -37,7 +37,8 @@
       "allocator_validation": "minimal/allocator-validation.json",
       "output_validation": "minimal/output08-trials.json",
       "cleanup_validation": "minimal/registration-trials.json",
-      "deferred_validation": "minimal/deferred-trials.json"
+      "deferred_validation": "minimal/deferred-trials.json",
+      "value_copy_plan": "minimal/evidence/value-copy-plan.md"
     },
     {
       "id": "cpp-basic",
