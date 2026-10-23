@@ -1,0 +1,44 @@
+{
+  "reason": "First newly traversed newline branch reads the contextual UTF16 CR literal, but its4B were missing from the earlier scanner text_data mask. Native literal was already correct.",
+  "original_target_sha256": "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0",
+  "function": "rc_scan_line_start",
+  "literal": {
+    "start": "0x2028",
+    "end": "0x202c",
+    "original_bytes": "0d000000",
+    "old_mask_bytes": "cccccccc",
+    "source": "src/preprocess-input.c: rc_write_preprocessed(L\"\\r\",2,1,rc_cpp_output_file)",
+    "caller": {
+      "rva": "0x120e5",
+      "opcodes": "682820c271",
+      "consumed_bytes": 2
+    }
+  },
+  "failed_original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/end-trial-original-01",
+  "failed_native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/end-trial-native-01",
+  "failed_gate_log": "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/end-gate01.log",
+  "metadata_fix": "functions.rc_scan_line_start.text_data=[[0x2028,0x202c]], precise shared literal outside primary code extent",
+  "app_code_credit": 0,
+  "history": "All earlier acceptance/raw evidence retained unchanged; new exact mask requires fresh pair.",
+  "corrected_original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/end-trial-original-02",
+  "old_config_sha256": "44639450d86e2ea70f9126962d780c33fa015f39b5f91ae84fc6dbf60d9759a7",
+  "new_config_sha256": "f0b7413012f9edb0cbb36eed53789235897807c31ee8cf17cdadc2b2c141d685",
+  "configuration_delta": "Only rc_scan_line_start.text_data=[[0x2028,0x202c]] added; all functions, accepted/trial names, support/import policy unchanged.",
+  "actual_readback_changed_rvas": [
+    "0x2028",
+    "0x2029",
+    "0x202a",
+    "0x202b"
+  ],
+  "new_literal_mask_bytes": "0d000000",
+  "actual_readback_delta_is_exact4bytes": true,
+  "prior_acceptance": "cases/resources-rich-trailing-space/acceptance-0042.json",
+  "prior_acceptance_sha256": "6ed7b34f83cf75aaa69757992bc810c221b4fd688e2cea9423d7a66baf797a91",
+  "prior_scope": "That case stopped at rc_handle_directive before scanner newline output. Its immutable raw/acceptance remain unchanged.",
+  "fresh_original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/end-trial-original-02",
+  "fresh_native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/end-trial-native-02",
+  "fresh_gate": "/root/.ai-tmp/msvc2/vc5.10/rcdll/end-pair-02.json",
+  "fresh_gate_sha256": "631d465a386939bf5d6d1eee04977f23b58d07603aff633e382e4c4054142328",
+  "new_literal_negative": "masked-scanner-CR-literal",
+  "current_graph_audit_sha256": "a9b6910aa2d048e91de812d6bef1427fdc5a6bf7dd5d7e42b2fc130afb3871a6"
+}

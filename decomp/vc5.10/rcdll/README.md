@@ -470,3 +470,12 @@ history is unchanged, and alternate numeric mode still traps in production code.
 records fourteen fresh controls, the actual linked-object layout/alias probe and
 renewed plain/GDB mode guard. The next end-of-directive helper receives `#line`
 and sees source cursor42/CR13 with output and directive modes1.
+
+Directive-end checking is accepted (75 bytes): context `#line`, ret4, and
+CR/LF handling advance the cursor by two bytes before normal scanning resumes.
+The next comparator has distinct owned20-byte descriptors with flags0x1003.
+[Verification](cases/resources-rich-trailing-space/expect-end-verification.json)
+records ten affected controls. The fresh pair caught an omitted scanner CR
+literal in the mask; its exact four-byte shared ownership was corrected, with
+no source change or code credit. The failed run and old acceptance remain
+unchanged; the new physical mask differs by exactly those four bytes.

@@ -59,7 +59,8 @@
     "rc_decimal_integer_kind",
     "rc_store_integer",
     "rc_intern_type",
-    "rc_read_string"
+    "rc_read_string",
+    "rc_expect_end"
   ],
   "functions": [
     {
@@ -901,7 +902,13 @@
       "end": "0x12176",
       "abi": "cdecl",
       "stack_bytes": 0,
-      "kind": "application"
+      "kind": "application",
+      "text_data": [
+        [
+          "0x2028",
+          "0x202c"
+        ]
+      ]
     },
     {
       "name": "rc_quote_source_filename",
@@ -1071,8 +1078,7 @@
       "end": "0x6cbc",
       "abi": "stdcall",
       "stack_bytes": 4,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_skip_inactive",

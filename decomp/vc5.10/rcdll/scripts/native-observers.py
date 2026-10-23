@@ -558,3 +558,21 @@ class StringReaderEntered(gdb.Breakpoint):
         entry=dict(formals=[],caller=frame.older().name(),cursor=cursor,current_word=int(gdb.parse_and_eval('*rc_source_cursor')),header_mode=int(gdb.parse_and_eval('rc_header_mode')),output_active=int(gdb.parse_and_eval('rc_cpp_active')),in_directive=int(gdb.parse_and_eval('rc_in_directive')),token_kind=int(gdb.parse_and_eval('rc_token_kind')),token_value=int(gdb.parse_and_eval('rc_token_value')),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,buffer=int(buffer.address),buffer_before=bytes(gdb.selected_inferior().read_memory(int(buffer.address),buffer.type.sizeof)).hex(),extra_before=bytes(gdb.selected_inferior().read_memory(extra_address,2)).hex(),layout=dict(buffer_bytes=buffer.type.sizeof,element_bytes=buffer[0].type.sizeof,buffer_alignment=int(buffer.address)%2,number_offset=int(gdb.parse_and_eval('rc_number_buffer'))-int(buffer.address),extra_bytes=extra.type.sizeof,extra_alignment=extra_address%2,hash_offset=int(extra['identifier']['hash'].address)-extra_address,length_offset=int(extra['identifier']['length'].address)-extra_address,string_length_offset=int(extra['string_length'].address)-extra_address))
         string_reads.append(entry);save_string_reads();StringReaderReturned(frame,entry);return False
 StringReaderEntered('rc_read_string',internal=True);save_string_reads()
+
+expected_ends=[]
+def save_expected_ends():(path.parent/'expected-ends.json').write_text(json.dumps(expected_ends,indent=2)+'\n')
+class ExpectedEndReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,cursor_after=int(gdb.parse_and_eval('rc_source_cursor')))
+        save_expected_ends();return False
+class ExpectedEndEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();word=frame.read_var('word');raw=bytearray()
+        for offset in range(257):
+            value=bytes(gdb.selected_inferior().read_memory(int(word)+2*offset,2));raw.extend(value)
+            if value==b'\0\0':break
+        else:raise AssertionError('unterminated directive-end context')
+        entry=dict(word=int(word),word_bytes=raw.hex(),formal_bytes=word.type.sizeof,entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,cursor=int(gdb.parse_and_eval('rc_source_cursor')),current_word=int(gdb.parse_and_eval('*rc_source_cursor')))
+        expected_ends.append(entry);save_expected_ends();ExpectedEndReturned(frame,entry);return False
+ExpectedEndEntered('rc_expect_end',internal=True);save_expected_ends()

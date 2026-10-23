@@ -108,11 +108,7 @@ int __cdecl rc_splice_line(void)
 
 
 
-void __stdcall rc_expect_end(const WCHAR *word)
-{
-    __asm int 3
-    
-}
+
 
 int __stdcall rc_skip_inactive(int level)
 {
