@@ -1,8 +1,9 @@
 /* Public-API capture transport, not reconstructed application code.
-   UNPROVED draft: only an authored child may be used for initial probes.
+   Authored basic transport probes passed; application admission is separate.
    Runtime policy/decoding remains in gate.py; this helper never free-runs a
    stopped application instruction. Initial OS-loader continuation requires a
-   separately checked PE-entry trap. No CF prefix operation exists yet. */
+   separately checked PE-entry trap. WCC's separately reviewed fixed loader
+   prefix may stop at its launch CALL; that operation cannot enter CF code. */
 #include <windows.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -14,7 +15,8 @@
 enum { MAP_BYTES=16384, PAYLOAD=256, MAX_PAYLOAD=4096, MAX_SEQUENCE=1000000,
        MAX_TRAPS=64, MAX_EVENTS=10000, MAX_STEPS=10000, MAX_READ=512 };
 enum { OP_EVENT=10, OP_CONTEXT=11, OP_READ=12, OP_TRAP=13, OP_CONSUME=14,
-       OP_ARM=15, OP_STEP=16, OP_LOADER=17, OP_STOP=18, OP_SELECTORS=19, OP_REGION=20 };
+       OP_ARM=15, OP_STEP=16, OP_LOADER=17, OP_STOP=18, OP_SELECTORS=19, OP_REGION=20,
+       OP_WCC_PREFIX=21 };
 typedef struct Trap { DWORD address; BYTE saved; int active; } Trap;
 static BYTE *area;
 static HANDLE map_file=INVALID_HANDLE_VALUE, map_handle, child, thread;
@@ -23,6 +25,7 @@ static FILE *log_file;
 static DEBUG_EVENT event;
 static int pending, created, entry_reached, armed, exiting, child_exit_seen;
 static int loader_break_seen;
+static int wcc_prefix, wcc_stopped;
 static DWORD child_pid, child_tid, image_base, image_size, entry_rva, entry_byte;
 static DWORD teb, entry_address, ntdll_base, ntdll_size;
 static DWORD events, steps, started, lease_tick, lease_value, seen;
@@ -205,6 +208,14 @@ static int next_event(void)
                 /* Raw full context is returned. Consumed TF is permitted only after
                    the recorded exact ARM readback; no other flags are normalized. */
                 armed=0;
+            } else if(wcc_prefix && !wcc_stopped &&
+                      event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
+                      event.u.Exception.dwFirstChance &&
+                      (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==image_base+0x10763 &&
+                      value.Eip==image_base+0x10764 && !(value.EFlags&0x100) &&
+                      trap_ready(image_base+0x10763)) {
+                wcc_stopped=1;
+                fprintf(log_file,"wcc-launch-stopped pc=%08lx cf-instructions=0\n",value.Eip);
             } else if(event.u.Exception.ExceptionRecord.ExceptionCode==EXCEPTION_BREAKPOINT &&
                       event.u.Exception.dwFirstChance &&
                       (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress==entry_address &&
@@ -265,6 +276,31 @@ static int arm(const DWORD *packet)
             before.Eip,before.Esp,before.EFlags,observed.EFlags,expected_pc,expected_sp,expected_cs);
     fflush(log_file);return 1;
 }
+static int continue_wcc_prefix(DWORD *index)
+{
+    /* Only this immutable loader's initial prefix is admitted. The controller
+       binds the file hash and compares its complete relocated code/data first.
+       No CF heap byte is patched, and the launch CALL remains unexecuted. */
+    static const BYTE entry_bytes[]={0xe9,0x75,0x06,0,0};
+    static const BYTE invoke_bytes[]={0x0e,0x66,0x8c,0xcb,0xb4,2,0x2b,0xc9,0xff,0xd6,0xc3};
+    static const BYTE launch_bytes[]={0xe8,0xad,0xf8,0xff,0xff};
+    BYTE observed[11];CONTEXT value;
+    if(!budget() || !pending || !entry_reached || armed || wcc_prefix ||
+       entry_rva!=0x10010 || image_size!=0x60000 || !context(&value) ||
+       value.Eip!=entry_address || value.EFlags&0x100 ||
+       !memory(entry_address,observed,sizeof(entry_bytes)) ||
+       memcmp(observed,entry_bytes,sizeof(entry_bytes)) ||
+       !memory(image_base+0x10015,observed,sizeof(invoke_bytes)) ||
+       memcmp(observed,invoke_bytes,sizeof(invoke_bytes)) ||
+       !memory(image_base+0x10763,observed,sizeof(launch_bytes)) ||
+       memcmp(observed,launch_bytes,sizeof(launch_bytes)) ||
+       !add_trap(image_base+0x10763,0xe8,index)) return 0;
+    wcc_prefix=1;
+    fprintf(log_file,"wcc-prefix entry=%08lx launch=%08lx\n",entry_address,image_base+0x10763);
+    fflush(log_file);
+    if(!budget() || !ContinueDebugEvent(child_pid,child_tid,DBG_CONTINUE)) return 0;
+    pending=0;return 1;
+}
 static int teardown(DWORD code)
 {
     DWORD began=GetTickCount(),actual=STILL_ACTIVE;DEBUG_EVENT drain;unsigned i;int extras_done;
@@ -324,6 +360,11 @@ static int dispatch(DWORD operation,DWORD length,DWORD *reply_length)
     MEMORY_BASIC_INFORMATION region;unsigned i;
     *reply_length=0;
     if(length>sizeof(packet)) return 0;
+    /* After a prefix has run, it can never be resumed by another RPC. Only the
+       first EVENT may receive its launch stop; afterward inspection/STOP only. */
+    if(wcc_prefix && operation!=OP_CONTEXT && operation!=OP_READ &&
+       operation!=OP_SELECTORS && operation!=OP_REGION && operation!=OP_STOP &&
+       !(operation==OP_EVENT && !wcc_stopped)) return 0;
     memcpy(packet,area+PAYLOAD,length);
     if(operation==OP_EVENT && !length) {
         if(!next_event()) return 0;
@@ -368,6 +409,9 @@ static int dispatch(DWORD operation,DWORD length,DWORD *reply_length)
         pending=0;++steps;return 1;
     }
     if(operation==OP_LOADER && !length) return continue_loader();
+    if(operation==OP_WCC_PREFIX && !length && continue_wcc_prefix(&index)) {
+        *(DWORD *)(area+PAYLOAD)=index;*reply_length=4;return 1;
+    }
     if(operation==OP_STOP && !length) return teardown(0x6000);
     return 0;
 }

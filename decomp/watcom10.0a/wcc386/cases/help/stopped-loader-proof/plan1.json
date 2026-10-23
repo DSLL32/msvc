@@ -1,0 +1,50 @@
+{
+  "scope": "One WCC fixed-loader capture stopped before CALL10763; verify actual CF allocation and all11801 relocations/full532636 initialized bytes; zero payload instructions, no application credit. Pause for user review afterward.",
+  "work": "/root/.ai-tmp/msvc2/watcom-capture/wcc-stopped-loader-runtime1",
+  "broker": "/root/.ai-tmp/msvc2/watcom-capture/wcc-stopped-loader-build1/broker.exe",
+  "maximum_helper_launches": 1,
+  "raw_arguments": "?",
+  "environment_updates": {
+    "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
+    "WINEARCH": "win32",
+    "WINEDEBUG": "-all",
+    "WATCOM": "R:\\toolchains\\watcom10.0a"
+  },
+  "environment_remove": [
+    "WCC386",
+    "WCC",
+    "INCLUDE",
+    "CL",
+    "_CL_",
+    "LINK",
+    "_LINK_",
+    "MSC_CMD_FLAGS",
+    "_MSC_IDE_FLAGS",
+    "WINEDLLOVERRIDES",
+    "WINEPATH"
+  ],
+  "bindings": {
+    "/root/msvc2/tooling/watcom-capture/win32-broker.c": "b6d84965ac942bed095c713d1a9312d2c2ad1d2eb16b99e171b708c89f6177dd",
+    "/root/msvc2/tooling/watcom-capture/broker.py": "a6de9b14ea1ab058d35dc8b8fc1399eead89026516c90fc312f87b647af9c2e7",
+    "/root/msvc2/tooling/watcom-capture/ipc.py": "95ad49434a7d6da5014d72c222e305c5907dd4a260a370b781e7bd900286c7b0",
+    "/root/msvc2/tooling/watcom-capture/cf_identity.py": "42718ef2d6297b407970ff6f27d93b2d7b200b1e704d0294b54700047b0b9e38",
+    "/root/msvc2/decomp/watcom10.0a/wcc386/scripts/stopped-loader.py": "a2cfcb664623d159b81aa80099b3ae92d52b1f5be285c9ac732fbc5288313cc0",
+    "/root/msvc2/decomp/watcom10.0a/wcc386/cases/help/stopped-loader-plan.md": "9952d3906a1c485e6a90162fa3eadba954434408d95d19284226df3dd0e407f6",
+    "/root/msvc2/toolchains/watcom10.0a/binnt/WCC386.EXE": "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d",
+    "/root/msvc2/toolchains/watcom10.0a/binb/WCC386.EXE": "c3666de94f6fa6800f452dae8acf45505ecdb62f0ade2cc27cc86c2d9e8e2b6b",
+    "/root/.ai-tmp/msvc2/watcom-capture/wcc-stopped-loader-build1/broker.exe": "6a146f560d6733d94c54dfea7860c9c45e386bd67cac40ceaa67c8b7f3421b5d",
+    "/root/.ai-tmp/msvc2/watcom-capture/wcc-stopped-loader-build1/broker.map": "6f04b1ba2e94f76e78b1fd2914ecf9e7e832a4e8ecacea10d0d845ec2f3932ff",
+    "/root/.ai-tmp/msvc2/watcom-capture/wcc-stopped-loader-build1/receipt.json": "e03bacd78aadbe5f08c4a3690181c820ae7cc042bcd4aa091198a59e046782f9"
+  },
+  "command": [
+    "python3",
+    "/root/msvc2/decomp/watcom10.0a/wcc386/scripts/stopped-loader.py",
+    "--plan",
+    "/root/.ai-tmp/msvc2/watcom-capture/wcc-stopped-loader-plan1.json"
+  ],
+  "no_auto_retry": true,
+  "helper_global_ms": 55000,
+  "lease_ms": 2000,
+  "channel_seconds": 60,
+  "review_required_before_original_launch": true
+}

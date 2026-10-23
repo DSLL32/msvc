@@ -79,6 +79,23 @@ class Broker:
     def stop(self):
         self.fixed(18,b"",0)
 
+    def wcc_prefix(self):
+        """One fixed loader prefix, ending before its CF launch CALL.
+
+        The broker permanently denies resume/trap/step operations afterward.
+        Caller must pin the original loader and verify loaded code/data first.
+        """
+        index=struct.unpack("<I",self.fixed(21,b"",4))[0]
+        event=self.event()
+        if (event["code"]!=1 or event["exception"]!=0x80000003 or
+                not event["first_chance"] or
+                event["exception_address"]!=event["base"]+0x10763):
+            raise ProtocolError("missing stopped WCC loader launch")
+        actual=self.context()
+        if actual["eip"]!=event["base"]+0x10764:
+            raise ProtocolError("WCC launch breakpoint/context mismatch")
+        return index,event,actual
+
     def flat_selectors(self,actual):
         packet=struct.unpack("<12I",self.fixed(19,b"",48));result={};proof=[]
         for index,name in enumerate(("cs","ss","ds","es")):
