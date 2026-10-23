@@ -37,7 +37,8 @@ def enum_bytes(next_function,end_function,first,current):
 
 
 def compare(original,state,trap,events):
-    collision=state['function']=='check_output_input_collision'
+    after_collision=state['function']=='open_argument_file'
+    collision=state['function']=='check_output_input_collision'or after_collision
     completed=state['function']=='LinkContext::PassOne'or collision
     sections=SECTIONS+ADDITIONAL_SECTIONS if completed else SECTIONS
     count=len(sections)
@@ -56,18 +57,31 @@ def compare(original,state,trap,events):
             assert nformals==dict(this=ncontext,stack_formals=[],other_hidden_inputs=[])
             entry,=[e for e in events if e['event']=='pass_one_entry']
             assert entry['this']==formals['this']==context and entry['stack_formals']==entry['other_hidden_inputs']==[]
-            assert trap['esp']==entry['stack_pointer']-44 and trap['stack'][0]==0x44b8d0
+            assert trap['esp']==entry['stack_pointer']-(48 if after_collision else 44)
+            assert trap['stack'][0]==(0x44b8e5 if after_collision else 0x44b8d0)
             nentry=state['pass_one_entry']
             assert nentry['this']==ncontext and nentry['stack_formals']==nentry['other_hidden_inputs']==[]
-            current=trap['collision_formals'];ncurrent=state['collision_formals']
-            lists={e['name']:e for e in events if e['event']=='argument_list'}
-            assert current['output']==trap['stack'][1]==trap['output_name_pointer']==trap['crt_argv_addresses'][3]+5
-            assert current['inputs']==trap['stack'][2]==lists['link_files']['header'][0]
-            assert ncurrent['output']==state['output_name_pointer']==state['crt_argv_addresses'][3]+5
-            assert ncurrent['inputs']==state['argument_lists']['link_files']['header'][0]
-            assert current['text']==ncurrent['text']=='hello.exe'
-            assert trap['frontier_inputs']==dict(formals=[current['output'],current['inputs']],hidden_register_inputs=[])
-            assert state['frontier_inputs']==dict(formals=[ncurrent['output'],ncurrent['inputs']],hidden_register_inputs=[])
+            if after_collision:
+                from collision_state import compare as compare_collision
+                compare_collision(original,state,trap,events)
+                current=trap['open_file_formals'];ncurrent=state['open_file_formals']
+                assert current['name']==trap['stack'][1]==trap['output_name_pointer']==trap['crt_argv_addresses'][3]+5
+                assert ncurrent['name']==state['output_name_pointer']==state['crt_argv_addresses'][3]+5
+                assert current['flags']==ncurrent['flags']==trap['stack'][2]==0x8302
+                assert current['mode']==ncurrent['mode']==trap['stack'][3]==0x180
+                assert current['text']==ncurrent['text']=='hello.exe'
+                assert trap['frontier_inputs']==dict(formals=[current[k]for k in ('name','flags','mode')],hidden_register_inputs=[])
+                assert state['frontier_inputs']==dict(formals=[ncurrent[k]for k in ('name','flags','mode')],hidden_register_inputs=[])
+            else:
+                current=trap['collision_formals'];ncurrent=state['collision_formals']
+                lists={e['name']:e for e in events if e['event']=='argument_list'}
+                assert current['output']==trap['stack'][1]==trap['output_name_pointer']==trap['crt_argv_addresses'][3]+5
+                assert current['inputs']==trap['stack'][2]==lists['link_files']['header'][0]
+                assert ncurrent['output']==state['output_name_pointer']==state['crt_argv_addresses'][3]+5
+                assert ncurrent['inputs']==state['argument_lists']['link_files']['header'][0]
+                assert current['text']==ncurrent['text']=='hello.exe'
+                assert trap['frontier_inputs']==dict(formals=[current['output'],current['inputs']],hidden_register_inputs=[])
+                assert state['frontier_inputs']==dict(formals=[ncurrent['output'],ncurrent['inputs']],hidden_register_inputs=[])
             assert trap['pass_one_flags']==state['pass_one_flags']==dict(verbose_link=0,output_file_open=0,current_image_file=-1,arch_data_ignored=0)
         else:
             assert trap['ecx']==context

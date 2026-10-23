@@ -85,7 +85,8 @@
     "_find_contribution_group@8",
     "_initialize_group_enumerator@8",
     "_next_contribution_group@4",
-    "LinkContext::PassOne"
+    "LinkContext::PassOne",
+    "_check_output_input_collision@8"
   ],
   "driver": [
     {
@@ -2417,10 +2418,9 @@
     {
       "name": "_check_output_input_collision@8",
       "start": 4593728,
-      "end": 4593729,
+      "end": 4593914,
       "source": "src/pass-one.cpp",
-      "status": "stub",
-      "pending_extent": true,
+      "status": "implemented",
       "native_symbol": "check_output_input_collision",
       "abi": "stdcall void(const char *output,InputArgument *inputs); two actual stack inputs,RET8; no hidden inputs; declarations derived from actual caller/callee inventory; formals captured when reached"
     },

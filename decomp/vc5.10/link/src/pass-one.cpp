@@ -2,6 +2,8 @@
 #include <windows.h>
 #include <stdio.h>
 #include <string.h>
+#include <stdlib.h>
+#include <mbstring.h>
 #include "link.h"
 #include "crt-imports.h"
 #include "options.h"
@@ -135,7 +137,20 @@ void RECON_THISCALL LinkContext::PassOne(void)
 
 extern "C" void __cdecl link_message(unsigned message,...) { __asm { int 3 } }
 extern "C" OutputLibrary *__stdcall create_library(const char *name,const char *path,LinkPointerList *libraries) { __asm { int 3 } return NULL; }
-extern "C" void __stdcall check_output_input_collision(const char *output,InputArgument *inputs) { __asm { int 3 } }
+extern "C" void __stdcall check_output_input_collision(const char *output,InputArgument *inputs)
+{
+    char output_path[260],input_path[260];
+    if (!_fullpath(output_path,output,259)) link_fatal(NULL,1104,output);
+    while (inputs) {
+        if (!_fullpath(input_path,inputs->name,259))
+            link_fatal(NULL,1104,inputs->name);
+        if (!_mbsicmp((const unsigned char *)output_path,(const unsigned char *)input_path)) {
+            output_file_name=NULL;
+            link_fatal(NULL,1149,output_path);
+        }
+        inputs=inputs->next;
+    }
+}
 void RECON_THISCALL LinkContext::LoadInputArgument(InputArgument *argument,OutputLibrary *library) { __asm { int 3 } }
 extern "C" void __stdcall check_input_modules(LinkContext *context,OutputLibrary *library) { __asm { int 3 } }
 extern "C" void __stdcall resolve_weak_externals(LinkContext *context,DWORD flags) { __asm { int 3 } }

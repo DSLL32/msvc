@@ -1,0 +1,129 @@
+{
+  "positive": true,
+  "inventory": {
+    "original": {
+      "cached": 3,
+      "direct": 0,
+      "unresolved": 0
+    },
+    "rebuilt": {
+      "cached": 0,
+      "direct": 3,
+      "unresolved": 0
+    }
+  },
+  "witness_binding": {
+    "provider": {
+      "qualified_import_contracts": 2,
+      "application_helper_contracts": 0,
+      "qualification": "Only required canonical-provider/SDK ABI witnesses. Unknown application calls remain barriers; no helper source/object snapshots or target CFG/dataflow walk."
+    },
+    "ordinary_function_contracts": 1,
+    "finite_application_witness_bytes": 229,
+    "normal_return_only": true
+  },
+  "contract_ablations": [
+    {
+      "label": "_link_fatal-contract-removed",
+      "rejected": true,
+      "reason": "graph-audit: original _check_output_input_collision@8 register imports: unresolved register import calls: {4593821, 4593860}"
+    },
+    {
+      "label": "_link_fatal-edi-removed",
+      "rejected": true,
+      "reason": "graph-audit: original _check_output_input_collision@8 register imports: unresolved register import calls: {4593821, 4593860}"
+    },
+    {
+      "label": "_link_fatal-ebp-removed",
+      "rejected": true,
+      "reason": "graph-audit: original _check_output_input_collision@8 register imports: unresolved register import calls: {4593821, 4593860}"
+    },
+    {
+      "label": "_fullpath-contract-removed",
+      "rejected": true,
+      "reason": "graph-audit: original _check_output_input_collision@8 register imports: unresolved register import calls: {4593821, 4593860}"
+    },
+    {
+      "label": "_fullpath-edi-removed",
+      "rejected": true,
+      "reason": "graph-audit: original _check_output_input_collision@8 register imports: unresolved register import calls: {4593821, 4593860}"
+    },
+    {
+      "label": "_fullpath-ebp-removed",
+      "rejected": true,
+      "reason": "graph-audit: original _check_output_input_collision@8 register imports: unresolved register import calls: {4593821, 4593860}"
+    },
+    {
+      "label": "_mbsicmp-contract-removed",
+      "rejected": true,
+      "reason": "graph-audit: original _check_output_input_collision@8 register imports: unresolved register import calls: {4593821, 4593860}"
+    },
+    {
+      "label": "_mbsicmp-edi-removed",
+      "rejected": true,
+      "reason": "graph-audit: original _check_output_input_collision@8 register imports: unresolved register import calls: {4593821, 4593860}"
+    },
+    {
+      "label": "_mbsicmp-ebp-removed",
+      "rejected": true,
+      "reason": "graph-audit: original _check_output_input_collision@8 register imports: unresolved register import calls: {4593821, 4593860}"
+    }
+  ],
+  "focused_witness_negatives": [
+    "wrong actual provider export",
+    "wrong SDK declaration line",
+    "wrong ordinary register mask",
+    "missing actual frame restoration",
+    "wrong helper body identity",
+    "wrong named trap stub return ABI"
+  ],
+  "negative_count": 15,
+  "command": [
+    "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+    "--profile",
+    "link",
+    "--discovery",
+    "cfg",
+    "--repo",
+    "/root/msvc2",
+    "--project",
+    "/root/msvc2/decomp/vc5.10/link",
+    "--original",
+    "/root/msvc2/toolchains/5.10/bin/LINK.EXE",
+    "--rebuilt",
+    "/root/msvc2/decomp/vc5.10/link/build/link.exe",
+    "--map",
+    "/root/msvc2/decomp/vc5.10/link/build/link.map",
+    "--config",
+    "/root/.ai-tmp/msvc2/vc5.10/link/collision-import-controls/functions.json",
+    "--runtime",
+    "/root/msvc2/decomp/vc5.10/link/runtime.json",
+    "--rebuilt-runtime",
+    "/root/msvc2/decomp/vc5.10/link/build/runtime.json",
+    "--metadata",
+    "/root/.ai-tmp/msvc2/vc5.10/link/collision-import-controls/metadata.json",
+    "--check-ret",
+    "--check-references",
+    "--check-ownership",
+    "--check-extents",
+    "--check-callbacks",
+    "--check-imports",
+    "--resolve-register-imports"
+  ],
+  "input_sha256": {
+    "/root/msvc2/tooling/graph-audit/target/release/graph-audit": "2871dfec83f97736c31e6e9b3ffaa3726d9b1f62b5d7ff087d345e77a2d0392c",
+    "/root/msvc2/toolchains/5.10/bin/LINK.EXE": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+    "/root/msvc2/decomp/vc5.10/link/build/link.exe": "48daa9fe17c03c26b7df480b4fe66f5bf598b74ef80f36dacc48fbddbb33f045",
+    "/root/msvc2/decomp/vc5.10/link/build/link.map": "9cee6b823bc89dc65f88955851741a108f74edf9eeb6fbc98520b6d0a65ae300",
+    "build/collision-trial.json": "23434d49406516f4e1ea1593cda403538c64516454c2d22f67cc8dba9d18fdf6",
+    "/root/msvc2/decomp/vc5.10/link/runtime.json": "4ed4659005dc3df4f555d8e8fe32cb54fb9db46b4807d8d2f348209a09dc7b6d",
+    "/root/msvc2/decomp/vc5.10/link/build/runtime.json": "06af390396bb50e83055ee355ef6b0ab1daebe6c8afb8671a7595c15e7cbc957",
+    "/root/msvc2/decomp/vc5.10/link/build/graph.json": "643ed153fe6d79df9d0488af44d68822b36ce9fd99c26e1efccdc628f3874f36",
+    "/root/msvc2/decomp/vc5.10/link/cases/hello-win32/collision-import-preservation.json": "c3299b4e94f5edd7cb7e299b4e407b6905b74f04d8ae4faf419d29f71d7f21c4",
+    "/root/msvc2/decomp/vc5.10/link/scripts/collision-preservation.py": "05f4f03d33c0d4744887dd8c74fde1a1db795fbc66726b7e65f439e5dfbfb161",
+    "/root/msvc2/decomp/vc5.10/link/scripts/check-collision-imports.py": "300078e142626e187bd9d911f6c0bcdd96157f07cb6b5d8b0c8edf414280e02f",
+    "/root/.ai-tmp/msvc2/vc5.10/link/collision-import-controls/functions.json": "3426a8f2a8a513e39ebd844a64f7211d2a41f3a86fa76bc540ecf459161af9c0",
+    "/root/.ai-tmp/msvc2/vc5.10/link/collision-import-controls/metadata.json": "9ff8f177910baaabe542a1d044e021b381b82b9b18024f8e268c96b5b749acb8"
+  },
+  "elapsed_seconds": 0.3259500442072749
+}

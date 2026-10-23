@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 68 application
-functions (30,702 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 69 application
+functions (30,888 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `check_output_input_collision`; hello-win32 has not completed.
+next frontier is `open_argument_file`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -401,3 +401,15 @@ COFF relocation roles, independently reviewed. Capture/audit times are
 1.530/0.666/0.925 seconds; cached native help is 66.4 ms including 3.79 ms ELF
 execution. Final evidence and retained failed-history references are under
 `frontiers/68-pass-one`; hello-win32 remains incomplete.
+
+The 186-byte output/input collision checker is accepted. Three `_fullpath`
+calls use capacity259 in two separate260-byte caller arrays; exact defined
+47/47/36-byte results and unchanged own uninitialized tails are checked. Both
+ASCII/default-C path comparisons return their actual -1/+1 values, preserve
+error state, and the helper returns with RET8. The next output-open boundary
+records all three actual arguments: `hello.exe`, flags0x8302 and mode0x180.
+Both builds, 208 state negatives and the strict82-vertex/75-return audit pass.
+Three qualified EDI/EBP preservation contracts resolve exactly three cached
+imports against three direct imports; all three contract removals, six individual
+mask-bit removals and six finite-witness controls reject. No shared shim change
+was needed. Evidence and timing are under `frontiers/69-check-output-input-collision`.

@@ -264,7 +264,7 @@ if args.frontier=='_release_memory@4':
     negative('wrong first parsed switch',lambda s:s.__setitem__('parsed_switch','00'*15))
     negative('changed context allocation state',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('wrong nologo effect',lambda s:s.__setitem__('logo_pending',1))
-if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8'):
+if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8','_open_argument_file@12'):
     negative('missing real free',lambda s:s['free_calls'].pop())
     negative('wrong freed allocation',lambda s:s['free_calls'][0].__setitem__('argument',0))
     negative('wrong freed bytes',lambda s:s['free_calls'][1].__setitem__('before','00'))
@@ -287,7 +287,7 @@ if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE
     negative('changed context own data',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('lost live filename list',lambda s:s['argument_lists']['link_files']['nodes'].pop())
     negative('wrong search result',lambda s:s['library_search_calls'][0].__setitem__('result',1))
-if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8'):
+if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8','_open_argument_file@12'):
     negative('wrong raw thiscall ECX',lambda s:s['full_link_entry'].__setitem__('this',0))
     negative('lost full-link this formal',lambda s:s['full_link_formals'].__setitem__('this',0))
     negative('wrong full-link out pointer',lambda s:s['full_link_formals'].__setitem__('pack_requested',0))
@@ -391,7 +391,7 @@ if args.frontier in ('_duplicate_link_string@4','_initialize_contribution_pools'
     negative('wrong library virtual extent',lambda s:s['virtual_alloc_calls'][5]['arguments'].__setitem__(1,8192))
     negative('new allocation not initially zero',lambda s:s['virtual_alloc_calls'][4].__setitem__('initial','01'+s['virtual_alloc_calls'][4]['initial'][2:]))
 if args.frontier in ('_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4'):
-    if args.frontier in ('_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8'):
+    if args.frontier in ('_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8','_open_argument_file@12'):
         negative('lost group enumerator output formal',lambda s:s['group_enumerator_formals'].__setitem__('enumerator',0))
         negative('lost group enumerator stack-local owner',lambda s:s['group_enumerator_formals'].__setitem__('owner_local',0))
         negative('wrong actual group enumerator section',lambda s:s['group_enumerator_formals'].__setitem__('section',0))
@@ -456,7 +456,7 @@ if args.frontier in ('_create_contribution_group@8','_find_contribution_group@8'
     negative('wrong ninth allocation input',lambda s:s['virtual_alloc_calls'][8]['arguments'].__setitem__(1,8192))
     negative('ninth allocation not initially zero',lambda s:s['virtual_alloc_calls'][8].__setitem__('initial','01'+s['virtual_alloc_calls'][8]['initial'][2:]))
 
-if args.frontier in ('LinkContext::PassOne','_check_output_input_collision@8'):
+if args.frontier in ('LinkContext::PassOne','_check_output_input_collision@8','_open_argument_file@12'):
     negative('lost actual PassOne this formal',lambda s:s['pass_one_formals'].__setitem__('this',0))
     if args.frontier=='LinkContext::PassOne':
         negative('wrong actual PassOne ECX',lambda s:s['pass_one_formals'].__setitem__('raw_ecx',0))
@@ -466,9 +466,38 @@ if args.frontier in ('LinkContext::PassOne','_check_output_input_collision@8'):
         negative('lost PassOne frontier ECX binding',lambda s:s['frontier_inputs']['hidden_register_inputs'][0].__setitem__('value',0))
     else:
         negative('wrong actual PassOne entry ECX',lambda s:s['pass_one_entry'].__setitem__('this',0))
-        negative('lost collision output formal',lambda s:s['collision_formals'].__setitem__('output',0))
-        negative('lost collision input-list formal',lambda s:s['collision_formals'].__setitem__('inputs',0))
-        negative('wrong collision output text',lambda s:s['collision_formals'].__setitem__('text','other.exe'))
+        if args.frontier=='_check_output_input_collision@8':
+            negative('lost collision output formal',lambda s:s['collision_formals'].__setitem__('output',0))
+            negative('lost collision input-list formal',lambda s:s['collision_formals'].__setitem__('inputs',0))
+            negative('wrong collision output text',lambda s:s['collision_formals'].__setitem__('text','other.exe'))
+        else:
+            negative('lost output-open name formal',lambda s:s['open_file_formals'].__setitem__('name',0))
+            negative('wrong output-open flags formal',lambda s:s['open_file_formals'].__setitem__('flags',0x8000))
+            negative('wrong output-open permission formal',lambda s:s['open_file_formals'].__setitem__('mode',0))
+            negative('wrong output-open name text',lambda s:s['open_file_formals'].__setitem__('text','other.exe'))
+            negative('collision helper did not return',lambda s:s['collision_call'].__setitem__('normal_return',False))
+            negative('wrong collision RET8',lambda s:s['collision_call'].__setitem__('return_stack',0))
+            negative('lost collision caller name owner',lambda s:s['collision_call'].__setitem__('output',0))
+            negative('lost collision caller list owner',lambda s:s['collision_call'].__setitem__('inputs',0))
+            negative('missing canonical path call',lambda s:s['collision_path_calls'].pop())
+            negative('reordered canonical path calls',lambda s:s['collision_path_calls'].reverse())
+            for index in range(3):
+                negative('wrong fullpath capacity '+str(index),lambda s,i=index:s['collision_path_calls'][i].__setitem__('capacity',260))
+                negative('lost fullpath result owner '+str(index),lambda s,i=index:s['collision_path_calls'][i].__setitem__('result',0))
+                negative('lost fullpath source owner '+str(index),lambda s,i=index:s['collision_path_calls'][i].__setitem__('name',0))
+                negative('wrong fullpath return stack '+str(index),lambda s,i=index:s['collision_path_calls'][i].__setitem__('return_stack',0))
+                negative('wrong fullpath defined bytes '+str(index),lambda s,i=index:s['collision_path_calls'][i].__setitem__('after','00'*260))
+                negative('fullpath writes own tail '+str(index),lambda s,i=index:s['collision_path_calls'][i].__setitem__('after',s['collision_path_calls'][i]['after'][:-2]+('01'if s['collision_path_calls'][i]['after'][-2:]!='01'else'02')))
+                negative('wrong fullpath caller array '+str(index),lambda s,i=index:s['collision_path_calls'][i].__setitem__('local_output',0))
+                negative('wrong fullpath errno '+str(index),lambda s,i=index:s['collision_path_calls'][i]['after_errors'].__setitem__('errno',0))
+            negative('missing path comparison',lambda s:s['collision_compare_calls'].pop())
+            negative('false path collision',lambda s:s['collision_compare_calls'][0].__setitem__('result',0))
+            negative('wrong second comparison sign',lambda s:s['collision_compare_calls'][1].__setitem__('result',-1))
+            negative('comparison lost output local',lambda s:s['collision_compare_calls'][1].__setitem__('left',0))
+            negative('comparison lost input local',lambda s:s['collision_compare_calls'][0].__setitem__('right',0))
+            negative('wrong path comparison locale',lambda s:s['collision_compare_calls'][0].__setitem__('codepage',1252))
+            negative('wrong path comparison errors',lambda s:s['collision_compare_calls'][1]['after_errors'].__setitem__('doserrno',0))
+
         negative('invented hidden collision argument',lambda s:s['frontier_inputs']['hidden_register_inputs'].append('ecx'))
         negative('swapped actual collision formals',lambda s:s['frontier_inputs']['formals'].reverse())
         negative('wrong unopened output flag',lambda s:s['pass_one_flags'].__setitem__('output_file_open',1))

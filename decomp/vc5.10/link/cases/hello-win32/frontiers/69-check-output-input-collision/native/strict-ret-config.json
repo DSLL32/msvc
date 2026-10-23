@@ -1,0 +1,4778 @@
+{
+  "schema": 1,
+  "target": {
+    "path": "toolchains/5.10/bin/LINK.EXE",
+    "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579"
+  },
+  "accepted": [
+    "_mainCRTStartup",
+    "__setargv",
+    "__matherr",
+    "__setdefaultprecision",
+    "_initialize_buffer12",
+    "_allocate_buffer12",
+    "_atexit",
+    "__onexit",
+    "_register_buffer12_cleanup",
+    "_initialize_buffer8",
+    "_allocate_buffer8",
+    "_register_buffer8_cleanup",
+    "_initialize_buffer4",
+    "_allocate_buffer4",
+    "_register_buffer4_cleanup",
+    "_initialize_timing",
+    "_setup_timing",
+    "_register_timing_cleanup",
+    "_main",
+    "_initialize_debug@8",
+    "_initialize_file_cache@16",
+    "_get_debug_flag@4",
+    "_zero_allocate@4",
+    "_new_file_record",
+    "_initialize_memory",
+    "_run_linker@8",
+    "_initialize_repro",
+    "_collect_file_arguments@16",
+    "_parse_command_line@16",
+    "_parse_argument@8",
+    "_is_libpath@4",
+    "_append_argument@8",
+    "_append_argument_record@12",
+    "_has_switch@4",
+    "_allocate_link_memory@8",
+    "LinkContext::Initialize",
+    "_create_string_table@12",
+    "_initialize_hash_table@20",
+    "_hash_allocate@16",
+    "_reserve_memory@8",
+    "_create_memory_arena@4",
+    "_allocate_memory@4",
+    "_configure_link_options@12",
+    "_parse_switch@8",
+    "_duplicate_argument@4",
+    "_linker_usage",
+    "_print_logo",
+    "_close_timing",
+    "_free_buffer4",
+    "_free_buffer8",
+    "_free_buffer12",
+    "_canonicalize_argument@8",
+    "_search_library_paths@8",
+    "_release_memory@4",
+    "_validate_debug_options@4",
+    "?FullLink@LinkContext@@QAEHPAE@Z",
+    "_initialize_output_modules@4",
+    "_duplicate_link_string@4",
+    "_initialize_contribution_pools",
+    "_allocate_virtual_memory@16",
+    "_initialize_comdats",
+    "LinkContext::InitializeSections",
+    "_create_output_section@20",
+    "_find_matching_output_section@20",
+    "_adjust_output_section_flags@12",
+    "_initialize_section_enumerator@8",
+    "_next_output_section@4",
+    "_end_section_enumerator",
+    "_resolve_output_section@4",
+    "_create_contribution_group@8",
+    "_find_contribution_group@8",
+    "_initialize_group_enumerator@8",
+    "_next_contribution_group@4",
+    "LinkContext::PassOne",
+    "_check_output_input_collision@8"
+  ],
+  "driver": [
+    {
+      "name": "_main",
+      "start": 4251280,
+      "end": 4252242,
+      "source": "src/driver.c",
+      "status": "implemented",
+      "abi": "cdecl int(int,char**,char**); original normal body+SEH filter/handler",
+      "pending_extent": false
+    },
+    {
+      "name": "_initialize_buffer12",
+      "start": 4345440,
+      "end": 4345450,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_initialize_buffer8",
+      "start": 4398448,
+      "end": 4398458,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_initialize_buffer4",
+      "start": 4398560,
+      "end": 4398570,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_initialize_timing",
+      "start": 4476512,
+      "end": 4476522,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_allocate_buffer12",
+      "start": 4345456,
+      "end": 4345494,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_buffer12_cleanup",
+      "start": 4345504,
+      "end": 4345518,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_free_buffer12",
+      "start": 4345520,
+      "end": 4345539,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)",
+      "pending_extent": false
+    },
+    {
+      "name": "_allocate_buffer8",
+      "start": 4398464,
+      "end": 4398502,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_buffer8_cleanup",
+      "start": 4398512,
+      "end": 4398526,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_free_buffer8",
+      "start": 4398528,
+      "end": 4398547,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)",
+      "pending_extent": false
+    },
+    {
+      "name": "_allocate_buffer4",
+      "start": 4398576,
+      "end": 4398614,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_buffer4_cleanup",
+      "start": 4398624,
+      "end": 4398638,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_free_buffer4",
+      "start": 4398640,
+      "end": 4398659,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)",
+      "pending_extent": false
+    },
+    {
+      "name": "_setup_timing",
+      "start": 4476528,
+      "end": 4476570,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_register_timing_cleanup",
+      "start": 4476576,
+      "end": 4476590,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_close_timing",
+      "start": 4476592,
+      "end": 4476691,
+      "source": "src/initializers.c",
+      "status": "implemented",
+      "abi": "cdecl void(void)",
+      "pending_extent": false
+    },
+    {
+      "name": "_console_control@4",
+      "start": 4250784,
+      "end": 4250817,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "console_control",
+      "pending_extent": false
+    },
+    {
+      "name": "_initialize_debug@8",
+      "start": 4280880,
+      "end": 4281071,
+      "source": "src/driver-stubs.c",
+      "status": "implemented",
+      "abi": "stdcall",
+      "native_symbol": "initialize_debug",
+      "pending_extent": false
+    },
+    {
+      "name": "_initialize_file_cache@16",
+      "start": 4240736,
+      "end": 4240919,
+      "source": "src/files.c",
+      "status": "implemented",
+      "abi": "stdcall",
+      "native_symbol": "initialize_file_cache",
+      "pending_extent": false
+    },
+    {
+      "name": "_initialize_memory",
+      "start": 4519264,
+      "end": 4519338,
+      "source": "src/memory.c",
+      "status": "implemented",
+      "abi": "cdecl",
+      "native_symbol": "initialize_memory",
+      "pending_extent": false
+    },
+    {
+      "name": "_run_linker@8",
+      "start": 4492464,
+      "end": 4494016,
+      "source": "src/link-driver.cpp",
+      "status": "implemented",
+      "abi": "stdcall",
+      "native_symbol": "run_linker",
+      "pending_extent": false
+    },
+    {
+      "name": "_run_librarian@8",
+      "start": 4443680,
+      "end": 4443681,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "run_librarian",
+      "pending_extent": true
+    },
+    {
+      "name": "_run_dumper@8",
+      "start": 4382800,
+      "end": 4383205,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "run_dumper",
+      "pending_extent": false
+    },
+    {
+      "name": "_run_editor@8",
+      "start": 4388480,
+      "end": 4388481,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "run_editor",
+      "pending_extent": true
+    },
+    {
+      "name": "_run_helper@8",
+      "start": 4252256,
+      "end": 4252337,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "run_helper",
+      "pending_extent": false
+    },
+    {
+      "name": "_save_exception@24",
+      "start": 4250832,
+      "end": 4251050,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "save_exception",
+      "pending_extent": false
+    },
+    {
+      "name": "_report_delayed_import@12",
+      "start": 4251056,
+      "end": 4251275,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "abi": "stdcall",
+      "native_symbol": "report_delayed_import",
+      "pending_extent": false
+    },
+    {
+      "name": "_print_logo",
+      "start": 4593072,
+      "end": 4593258,
+      "source": "src/driver-stubs.c",
+      "status": "implemented",
+      "abi": "cdecl",
+      "native_symbol": "print_logo",
+      "pending_extent": false,
+      "shared": [
+        [
+          4593260,
+          4593280
+        ]
+      ]
+    },
+    {
+      "name": "_get_debug_flag@4",
+      "start": 4281072,
+      "end": 4281086,
+      "source": "src/driver-stubs.c",
+      "status": "implemented",
+      "native_symbol": "get_debug_flag",
+      "abi": "stdcall"
+    },
+    {
+      "name": "_new_file_record",
+      "start": 4240992,
+      "end": 4241006,
+      "source": "src/files.c",
+      "status": "implemented",
+      "native_symbol": "new_file_record",
+      "abi": "cdecl"
+    },
+    {
+      "name": "_zero_allocate@4",
+      "start": 4521584,
+      "end": 4521618,
+      "source": "src/files.c",
+      "status": "implemented",
+      "native_symbol": "zero_allocate",
+      "abi": "stdcall"
+    },
+    {
+      "name": "_out_of_memory",
+      "start": 4391632,
+      "end": 4391648,
+      "source": "src/files.c",
+      "status": "stub",
+      "native_symbol": "out_of_memory",
+      "abi": "cdecl"
+    },
+    {
+      "name": "_linker_usage",
+      "start": 4476800,
+      "end": 4476843,
+      "source": "src/link-driver.cpp",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "linker_usage"
+    },
+    {
+      "name": "_initialize_repro",
+      "start": 4475664,
+      "end": 4475955,
+      "source": "src/reproduction.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "initialize_repro"
+    },
+    {
+      "name": "_collect_file_arguments@16",
+      "start": 4573856,
+      "end": 4573970,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "collect_file_arguments"
+    },
+    {
+      "name": "_parse_command_line@16",
+      "start": 4573984,
+      "end": 4574134,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "parse_command_line"
+    },
+    {
+      "name": "_has_switch@4",
+      "start": 4476704,
+      "end": 4476796,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "has_switch"
+    },
+    {
+      "name": "_allocate_link_memory@8",
+      "start": 4521280,
+      "end": 4521343,
+      "source": "src/memory.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "allocate_link_memory"
+    },
+    {
+      "name": "_configure_link_options@12",
+      "start": 4477232,
+      "end": 4490793,
+      "source": "src/options.cpp",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "configure_link_options",
+      "abi": "stdcall void(LinkContext*,Module*,constchar*file); stack12/RET12; body+post-RET cold tail"
+    },
+    {
+      "name": "_link_warning",
+      "start": 4391680,
+      "end": 4391681,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "link_warning"
+    },
+    {
+      "name": "_link_fatal",
+      "start": 4391472,
+      "end": 4391473,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "link_fatal"
+    },
+    {
+      "name": "_link_error",
+      "start": 4391648,
+      "end": 4391649,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "link_error"
+    },
+    {
+      "name": "_validate_debug_options@4",
+      "start": 4490800,
+      "end": 4491235,
+      "source": "src/link-driver.cpp",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "validate_debug_options"
+    },
+    {
+      "name": "_load_incremental_state@4",
+      "start": 4407024,
+      "end": 4407025,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "load_incremental_state"
+    },
+    {
+      "name": "_initialize_incremental_inputs",
+      "start": 4411712,
+      "end": 4411713,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "initialize_incremental_inputs"
+    },
+    {
+      "name": "_incremental_link@4",
+      "start": 4420608,
+      "end": 4420609,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "incremental_link"
+    },
+    {
+      "name": "_abort_incremental@4",
+      "start": 4491536,
+      "end": 4491537,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "abort_incremental"
+    },
+    {
+      "name": "_write_image_map@8",
+      "start": 4517872,
+      "end": 4517873,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "write_image_map"
+    },
+    {
+      "name": "_save_incremental_state@4",
+      "start": 4492000,
+      "end": 4492001,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "save_incremental_state"
+    },
+    {
+      "name": "_close_files",
+      "start": 4243104,
+      "end": 4243105,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "close_files"
+    },
+    {
+      "name": "_cleanup_pdb",
+      "start": 4261680,
+      "end": 4261681,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "cleanup_pdb"
+    },
+    {
+      "name": "_run_cvpack",
+      "start": 4492128,
+      "end": 4492129,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "run_cvpack"
+    },
+    {
+      "name": "_close_repro",
+      "start": 4476496,
+      "end": 4476497,
+      "source": "src/link-driver.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "close_repro"
+    },
+    {
+      "name": "LinkContext::Initialize",
+      "start": 4405200,
+      "end": 4405604,
+      "source": "src/link-driver.cpp",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "LinkContext::Initialize",
+      "symbol": "?Initialize@LinkContext@@QAEPAULinkAuxiliaryData@@H@Z",
+      "abi": "thiscall LinkAuxiliaryData*(int); ECX receiver, stack4/RET4, EAX auxiliary allocation; caller ignores result"
+    },
+    {
+      "name": "?FullLink@LinkContext@@QAEHPAE@Z",
+      "start": 4468560,
+      "end": 4475449,
+      "source": "src/full-link.cpp",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "LinkContext::FullLink",
+      "abi": "thiscall int(LinkContext *this in ECX; BYTE *pack_requested on stack); RET 4, includes cold continuation 444940..444a39"
+    },
+    {
+      "name": "_parse_switch@8",
+      "start": 4247744,
+      "end": 4248125,
+      "pending_extent": false,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "native_symbol": "parse_switch",
+      "abi": "stdcall SwitchInfo*(const char*file,const char*text); stack8/RET8"
+    },
+    {
+      "name": "_duplicate_argument@4",
+      "start": 4521680,
+      "end": 4521712,
+      "pending_extent": false,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "native_symbol": "duplicate_argument"
+    },
+    {
+      "name": "_tokenize_arguments@4",
+      "start": 4573376,
+      "end": 4573377,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "tokenize_arguments"
+    },
+    {
+      "name": "_release_memory@4",
+      "start": 4521520,
+      "end": 4521537,
+      "pending_extent": false,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "native_symbol": "release_memory"
+    },
+    {
+      "name": "_read_response_file@4",
+      "start": 4573568,
+      "end": 4573569,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "read_response_file"
+    },
+    {
+      "name": "_parse_argument@8",
+      "start": 4573056,
+      "end": 4573361,
+      "pending_extent": false,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "native_symbol": "parse_argument"
+    },
+    {
+      "name": "_is_libpath@4",
+      "start": 4573008,
+      "end": 4573053,
+      "pending_extent": false,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "native_symbol": "is_libpath"
+    },
+    {
+      "name": "_expand_wildcards@4",
+      "start": 4572336,
+      "end": 4572337,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "expand_wildcards"
+    },
+    {
+      "name": "_canonicalize_argument@8",
+      "start": 4572752,
+      "end": 4573007,
+      "pending_extent": false,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "native_symbol": "canonicalize_argument"
+    },
+    {
+      "name": "_open_argument_file@12",
+      "start": 4241392,
+      "end": 4241393,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "open_argument_file"
+    },
+    {
+      "name": "_is_archive@8",
+      "start": 4574528,
+      "end": 4574529,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "is_archive"
+    },
+    {
+      "name": "_close_argument_file@8",
+      "start": 4242704,
+      "end": 4242705,
+      "pending_extent": true,
+      "source": "src/arguments.c",
+      "status": "stub",
+      "native_symbol": "close_argument_file"
+    },
+    {
+      "name": "_append_argument@8",
+      "start": 4574368,
+      "end": 4574387,
+      "pending_extent": false,
+      "source": "src/arguments.c",
+      "status": "implemented",
+      "native_symbol": "append_argument"
+    },
+    {
+      "name": "_append_argument_record@12",
+      "start": 4574208,
+      "end": 4574283,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/arguments.c",
+      "native_symbol": "append_argument_record"
+    },
+    {
+      "name": "_allocate_incremental@4",
+      "start": 4521184,
+      "end": 4521185,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/memory.c",
+      "native_symbol": "allocate_incremental"
+    },
+    {
+      "name": "LinkContext::InitializeVxd",
+      "symbol": "?InitializeVxd@LinkContext@@QAEXXZ",
+      "start": 4602944,
+      "end": 4602945,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::InitializeVxd"
+    },
+    {
+      "name": "LinkContext::PeHeaderSize",
+      "symbol": "?PeHeaderSize@LinkContext@@QAEKPAK@Z",
+      "start": 4562176,
+      "end": 4562177,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::PeHeaderSize"
+    },
+    {
+      "name": "LinkContext::VxdHeaderSize",
+      "symbol": "?VxdHeaderSize@LinkContext@@QAEKPAK@Z",
+      "start": 4603024,
+      "end": 4603025,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::VxdHeaderSize"
+    },
+    {
+      "name": "LinkContext::PeWriteSection",
+      "symbol": "?PeWriteSection@LinkContext@@QAEXHPAX0@Z",
+      "start": 4562256,
+      "end": 4562257,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::PeWriteSection"
+    },
+    {
+      "name": "LinkContext::VxdWriteSection",
+      "symbol": "?VxdWriteSection@LinkContext@@QAEXHPAX0@Z",
+      "start": 4603088,
+      "end": 4603089,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::VxdWriteSection"
+    },
+    {
+      "name": "LinkContext::PeWriteHeaders",
+      "symbol": "?PeWriteHeaders@LinkContext@@QAEXH@Z",
+      "start": 4562288,
+      "end": 4562289,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::PeWriteHeaders"
+    },
+    {
+      "name": "LinkContext::VxdWriteHeaders",
+      "symbol": "?VxdWriteHeaders@LinkContext@@QAEXH@Z",
+      "start": 4605040,
+      "end": 4605041,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "LinkContext::VxdWriteHeaders"
+    },
+    {
+      "name": "_create_string_table@12",
+      "start": 4596256,
+      "end": 4596316,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/symbols.c",
+      "native_symbol": "create_string_table"
+    },
+    {
+      "name": "_allocate_memory@4",
+      "start": 4521552,
+      "end": 4521584,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/memory.c",
+      "native_symbol": "allocate_memory"
+    },
+    {
+      "name": "_initialize_hash_table@20",
+      "start": 4394096,
+      "end": 4394275,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/symbols.c",
+      "native_symbol": "initialize_hash_table"
+    },
+    {
+      "name": "_string_key_name@8",
+      "start": 4596448,
+      "end": 4596489,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/symbols.c",
+      "native_symbol": "string_key_name"
+    },
+    {
+      "name": "_hash_allocate@16",
+      "start": 4394032,
+      "end": 4394084,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/symbols.c",
+      "native_symbol": "hash_allocate"
+    },
+    {
+      "name": "_reserve_memory@8",
+      "start": 4519392,
+      "end": 4519482,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/memory.c",
+      "native_symbol": "reserve_memory"
+    },
+    {
+      "name": "_create_memory_arena@4",
+      "start": 4519488,
+      "end": 4519554,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/memory.c",
+      "native_symbol": "create_memory_arena"
+    },
+    {
+      "name": "_switch_number@12",
+      "start": 4248128,
+      "end": 4248180,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "switch_number",
+      "abi": "stdcall stack12/RET12"
+    },
+    {
+      "name": "_valid_section_name@4",
+      "start": 4257296,
+      "end": 4257349,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "valid_section_name",
+      "abi": "stdcall stack4/RET4"
+    },
+    {
+      "name": "_find_library@12",
+      "start": 4257360,
+      "end": 4257682,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "find_library",
+      "abi": "stdcall stack12/RET12"
+    },
+    {
+      "name": "_exclude_default_library@8",
+      "start": 4287200,
+      "end": 4287377,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "exclude_default_library",
+      "abi": "stdcall stack8/RET8"
+    },
+    {
+      "name": "_add_default_library@8",
+      "start": 4287392,
+      "end": 4287523,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "add_default_library",
+      "abi": "stdcall stack8/RET8"
+    },
+    {
+      "name": "_disallow_library@12",
+      "start": 4287536,
+      "end": 4287667,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "disallow_library",
+      "abi": "stdcall stack12/RET12"
+    },
+    {
+      "name": "_add_delay_library@4",
+      "start": 4323696,
+      "end": 4323720,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "add_delay_library",
+      "abi": "stdcall stack4/RET4"
+    },
+    {
+      "name": "_remove_delay_library@4",
+      "start": 4323728,
+      "end": 4323752,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "remove_delay_library",
+      "abi": "stdcall stack4/RET4"
+    },
+    {
+      "name": "_has_delay_library@4",
+      "start": 4324304,
+      "end": 4324331,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "has_delay_library",
+      "abi": "stdcall stack4/RET4"
+    },
+    {
+      "name": "_enable_warning_errors",
+      "start": 4390688,
+      "end": 4390696,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "enable_warning_errors",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_disable_warning@4",
+      "start": 4390896,
+      "end": 4390939,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "disable_warning",
+      "abi": "stdcall stack4/RET4"
+    },
+    {
+      "name": "_add_librarian_export@16",
+      "start": 4393504,
+      "end": 4393990,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "add_librarian_export",
+      "abi": "stdcall stack16/RET16"
+    },
+    {
+      "name": "_record_incremental_include@8",
+      "start": 4409040,
+      "end": 4409075,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "record_incremental_include",
+      "abi": "stdcall stack8/RET8"
+    },
+    {
+      "name": "_copy_repro_file@8",
+      "start": 4475968,
+      "end": 4476493,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "copy_repro_file",
+      "abi": "stdcall stack8/RET8"
+    },
+    {
+      "name": "_add_mac_data@12",
+      "start": 4514240,
+      "end": 4514527,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "add_mac_data",
+      "abi": "stdcall stack12/RET12"
+    },
+    {
+      "name": "_append_bytes@12",
+      "start": 4519136,
+      "end": 4519213,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "append_bytes",
+      "abi": "stdcall stack12/RET12"
+    },
+    {
+      "name": "_set_mac_initializer@8",
+      "start": 4526256,
+      "end": 4526424,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "set_mac_initializer",
+      "abi": "stdcall stack8/RET8"
+    },
+    {
+      "name": "_set_mac_terminator@8",
+      "start": 4526432,
+      "end": 4526600,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "set_mac_terminator",
+      "abi": "stdcall stack8/RET8"
+    },
+    {
+      "name": "_add_mac_import@16",
+      "start": 4544992,
+      "end": 4545386,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "add_mac_import",
+      "abi": "stdcall stack16/RET16"
+    },
+    {
+      "name": "_set_mac_import_versions@16",
+      "start": 4545760,
+      "end": 4546909,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "set_mac_import_versions",
+      "abi": "stdcall stack16/RET16"
+    },
+    {
+      "name": "_enable_order_file",
+      "start": 4555088,
+      "end": 4555096,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "enable_order_file",
+      "abi": "cdecl void(void)"
+    },
+    {
+      "name": "_find_argument@8",
+      "start": 4574288,
+      "end": 4574366,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "find_argument",
+      "abi": "stdcall stack8/RET8"
+    },
+    {
+      "name": "_parse_machine@8",
+      "start": 4594560,
+      "end": 4594894,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "parse_machine",
+      "abi": "stdcall stack8/RET8"
+    },
+    {
+      "name": "_record_symbol_reference@8",
+      "start": 4595824,
+      "end": 4595981,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/option-stubs.c",
+      "native_symbol": "record_symbol_reference",
+      "abi": "stdcall stack8/RET8"
+    },
+    {
+      "name": "StringTable::Lookup",
+      "start": 4595424,
+      "end": 4595473,
+      "pending_extent": false,
+      "status": "stub",
+      "source": "src/options.cpp",
+      "native_symbol": "StringTable::Lookup",
+      "symbol": "?Lookup@StringTable@@QAEPAUStringNode@@PBEPAE@Z",
+      "abi": "thiscall StringNode*(const unsigned char*,BYTE*); ECX receiver, stack8/RET8"
+    },
+    {
+      "name": "_clear_buffer@4",
+      "start": 4519216,
+      "end": 4519217,
+      "pending_extent": true,
+      "source": "src/driver-stubs.c",
+      "status": "stub",
+      "native_symbol": "clear_buffer"
+    },
+    {
+      "name": "_search_library_paths@8",
+      "start": 4572464,
+      "end": 4572742,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/arguments.c",
+      "native_symbol": "search_library_paths"
+    },
+    {
+      "name": "_supports_incremental@4",
+      "start": 4476848,
+      "end": 4476849,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "supports_incremental"
+    },
+    {
+      "name": "LinkContext::RangeCodeBytes",
+      "start": 4232256,
+      "end": 4232257,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall DWORD(this; DWORD start,DWORD limit,Contribution **last); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::RangeCodeBytes",
+      "symbol": "?RangeCodeBytes@LinkContext@@QAEKKKPAPAUContribution@@@Z"
+    },
+    {
+      "name": "_finish_alpha_branches",
+      "start": 4233424,
+      "end": 4233425,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "finish_alpha_branches"
+    },
+    {
+      "name": "_seek_file@16",
+      "start": 4243504,
+      "end": 4243505,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(int file,long offset,int origin,DWORD *upper); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "seek_file"
+    },
+    {
+      "name": "_buffered_read@12",
+      "start": 4243696,
+      "end": 4243697,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall unsigned(FileRecord *file,void *buffer,unsigned bytes); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "buffered_read"
+    },
+    {
+      "name": "_buffered_write@12",
+      "start": 4243920,
+      "end": 4243921,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall unsigned(FileRecord *file,const void *buffer,unsigned bytes); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "buffered_write"
+    },
+    {
+      "name": "_mapped_read@12",
+      "start": 4246192,
+      "end": 4246193,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall unsigned(FileRecord *file,void *buffer,unsigned bytes); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "mapped_read"
+    },
+    {
+      "name": "_mapped_write@12",
+      "start": 4246336,
+      "end": 4246337,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall unsigned(FileRecord *file,const void *buffer,unsigned bytes); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "mapped_write"
+    },
+    {
+      "name": "_record_file_access",
+      "start": 4247168,
+      "end": 4247169,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "record_file_access"
+    },
+    {
+      "name": "_map_file_range@12",
+      "start": 4247488,
+      "end": 4247489,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void *(int file,long offset,unsigned bytes); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "map_file_range"
+    },
+    {
+      "name": "_initialize_contribution_pools",
+      "start": 4252512,
+      "end": 4252578,
+      "source": "src/full-link-init.c",
+      "status": "implemented",
+      "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": false,
+      "native_symbol": "initialize_contribution_pools"
+    },
+    {
+      "name": "_initialize_output_modules@4",
+      "start": 4252592,
+      "end": 4252692,
+      "source": "src/full-link-init.c",
+      "status": "implemented",
+      "abi": "stdcall void(OutputModule **module); RET4, two complete156/68-byte records and copied names",
+      "pending_extent": false,
+      "native_symbol": "initialize_output_modules"
+    },
+    {
+      "name": "_find_contribution_group@8",
+      "start": 4253296,
+      "end": 4253437,
+      "source": "src/sections.c",
+      "status": "implemented",
+      "abi": "stdcall ContributionGroup *(OutputSection *section,const char *name); two actual stack inputs, RET8; no hidden inputs",
+      "pending_extent": false,
+      "native_symbol": "find_contribution_group"
+    },
+    {
+      "name": "_create_contribution@28",
+      "start": 4253776,
+      "end": 4253777,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall Contribution *(const char *name,DWORD bytes,DWORD flags,DWORD section_flags,OutputModule *module,SectionList *sections,LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "create_contribution"
+    },
+    {
+      "name": "_find_output_section@8",
+      "start": 4255904,
+      "end": 4255905,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall OutputSection *(const char *name,SectionList *sections); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "find_output_section"
+    },
+    {
+      "name": "_merge_section_groups@8",
+      "start": 4256464,
+      "end": 4256465,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(OutputSection *source,OutputSection *destination); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "merge_section_groups"
+    },
+    {
+      "name": "_merge_output_section@8",
+      "start": 4256656,
+      "end": 4256657,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(OutputSection *source,OutputSection *destination); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "merge_output_section"
+    },
+    {
+      "name": "_move_contribution_to_end@4",
+      "start": 4258240,
+      "end": 4258241,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(Contribution *contribution); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "move_contribution_to_end"
+    },
+    {
+      "name": "_move_group_to_end@4",
+      "start": 4258304,
+      "end": 4258305,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(ContributionGroup *group); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "move_group_to_end"
+    },
+    {
+      "name": "_initialize_section_enumerator@8",
+      "start": 4258768,
+      "end": 4258804,
+      "source": "src/sections.c",
+      "status": "implemented",
+      "abi": "stdcall void(SectionEnumerator *enumerator,SectionList *sections); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": false,
+      "native_symbol": "initialize_section_enumerator"
+    },
+    {
+      "name": "_next_output_section@4",
+      "start": 4258816,
+      "end": 4258866,
+      "source": "src/sections.c",
+      "status": "implemented",
+      "abi": "stdcall BYTE(SectionEnumerator *enumerator); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": false,
+      "native_symbol": "next_output_section"
+    },
+    {
+      "name": "_end_section_enumerator",
+      "start": 4259216,
+      "end": 4259219,
+      "source": "src/sections.c",
+      "status": "implemented",
+      "abi": "stdcall void(SectionEnumerator *enumerator); actual RET4 at40fd90 and FullLink4435a2LEA/4435a6PUSH/4435a7CALL prove one stack input; still unreconstructed",
+      "pending_extent": false,
+      "native_symbol": "end_section_enumerator",
+      "symbol": "_end_section_enumerator@4"
+    },
+    {
+      "name": "_initialize_pdb@8",
+      "start": 4281088,
+      "end": 4281089,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(BYTE mppc32_types,const char *name); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "initialize_pdb"
+    },
+    {
+      "name": "_close_pdb",
+      "start": 4281648,
+      "end": 4281649,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "close_pdb"
+    },
+    {
+      "name": "_commit_pdb",
+      "start": 4281760,
+      "end": 4281761,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "commit_pdb"
+    },
+    {
+      "name": "_initialize_pdb_image@4",
+      "start": 4282016,
+      "end": 4282017,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(const char *image); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "initialize_pdb_image"
+    },
+    {
+      "name": "_derive_pdb_name@8",
+      "start": 4284544,
+      "end": 4284545,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall char *(const char *image,const char *specified); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "derive_pdb_name"
+    },
+    {
+      "name": "_prepare_delay_imports",
+      "start": 4335488,
+      "end": 4335489,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "prepare_delay_imports"
+    },
+    {
+      "name": "_link_contribution_fatal",
+      "start": 4391536,
+      "end": 4391537,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "cdecl void(OutputModule *module,unsigned message,...); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "link_contribution_fatal"
+    },
+    {
+      "name": "_count_hash_symbols@4",
+      "start": 4395552,
+      "end": 4395553,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall unsigned(HashState *table); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "count_hash_symbols"
+    },
+    {
+      "name": "LinkContext::FoldIdenticalComdats",
+      "start": 4399024,
+      "end": 4399025,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::FoldIdenticalComdats",
+      "symbol": "?FoldIdenticalComdats@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "LinkContext::PrintFoldedComdats",
+      "start": 4402752,
+      "end": 4402753,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::PrintFoldedComdats",
+      "symbol": "?PrintFoldedComdats@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "_allocate_pdb_module_table@4",
+      "start": 4403632,
+      "end": 4403633,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(DWORD count); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "allocate_pdb_module_table"
+    },
+    {
+      "name": "_derive_old_image_name@4",
+      "start": 4406656,
+      "end": 4406657,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall char *(LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "derive_old_image_name"
+    },
+    {
+      "name": "_read_old_image@16",
+      "start": 4407664,
+      "end": 4407665,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall BYTE(const char *name,BYTE quiet,LinkContext *image,void *information); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "read_old_image"
+    },
+    {
+      "name": "_adjust_incremental_symbols@4",
+      "start": 4412176,
+      "end": 4412177,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "adjust_incremental_symbols"
+    },
+    {
+      "name": "LinkContext::CreateIncrementalContribution",
+      "start": 4412368,
+      "end": 4412369,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall Contribution *(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::CreateIncrementalContribution",
+      "symbol": "?CreateIncrementalContribution@LinkContext@@QAEPAUContribution@@XZ"
+    },
+    {
+      "name": "_write_mac_incremental_table@8",
+      "start": 4425280,
+      "end": 4425281,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(LinkContext *context,DWORD offset); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "write_mac_incremental_table"
+    },
+    {
+      "name": "_allocate_mac_incremental_table@8",
+      "start": 4428208,
+      "end": 4428209,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(DWORD count,BYTE fixed); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "allocate_mac_incremental_table"
+    },
+    {
+      "name": "LinkContext::InitializeSections",
+      "start": 4448624,
+      "end": 4449078,
+      "source": "src/section-driver.cpp",
+      "status": "implemented",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": false,
+      "native_symbol": "LinkContext::InitializeSections",
+      "symbol": "?InitializeSections@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "LinkContext::BuildDosExtension",
+      "start": 4449088,
+      "end": 4449089,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall DWORD(this; void **buffer); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::BuildDosExtension",
+      "symbol": "?BuildDosExtension@LinkContext@@QAEKPAPAX@Z"
+    },
+    {
+      "name": "LinkContext::ApplyMerges",
+      "start": 4449568,
+      "end": 4449569,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::ApplyMerges",
+      "symbol": "?ApplyMerges@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "LinkContext::PrepareMacDebugSections",
+      "start": 4449632,
+      "end": 4449633,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::PrepareMacDebugSections",
+      "symbol": "?PrepareMacDebugSections@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "LinkContext::PrepareMacRuntimeSections",
+      "start": 4449760,
+      "end": 4449761,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::PrepareMacRuntimeSections",
+      "symbol": "?PrepareMacRuntimeSections@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "LinkContext::PrepareNativeRelocations",
+      "start": 4449872,
+      "end": 4449873,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::PrepareNativeRelocations",
+      "symbol": "?PrepareNativeRelocations@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "LinkContext::CanMergeReadOnlyData",
+      "start": 4450160,
+      "end": 4450161,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall BYTE(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::CanMergeReadOnlyData",
+      "symbol": "?CanMergeReadOnlyData@LinkContext@@QAEEXZ"
+    },
+    {
+      "name": "LinkContext::MergeExceptionSections",
+      "start": 4450384,
+      "end": 4450385,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::MergeExceptionSections",
+      "symbol": "?MergeExceptionSections@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "_section_data_size@4",
+      "start": 4450576,
+      "end": 4450577,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall DWORD(OutputSection *section); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "section_data_size"
+    },
+    {
+      "name": "LinkContext::ResolveEntryPoint",
+      "start": 4450688,
+      "end": 4450689,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::ResolveEntryPoint",
+      "symbol": "?ResolveEntryPoint@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "_count_debug_modules@4",
+      "start": 4451152,
+      "end": 4451153,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall unsigned(void *libraries); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "count_debug_modules"
+    },
+    {
+      "name": "LinkContext::CountOutputSections",
+      "start": 4451280,
+      "end": 4451281,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall WORD(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::CountOutputSections",
+      "symbol": "?CountOutputSections@LinkContext@@QAEGXZ"
+    },
+    {
+      "name": "_finish_image_layout@8",
+      "start": 4451568,
+      "end": 4451569,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(LinkContext *context,void *padding); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "finish_image_layout"
+    },
+    {
+      "name": "LinkContext::PrepareSectionLayout",
+      "start": 4451984,
+      "end": 4451985,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::PrepareSectionLayout",
+      "symbol": "?PrepareSectionLayout@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "LinkContext::LayoutSections",
+      "start": 4452800,
+      "end": 4452801,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; DWORD *rva,DWORD *file_offset,DWORD *line_count); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::LayoutSections",
+      "symbol": "?LayoutSections@LinkContext@@QAEXPAK00@Z"
+    },
+    {
+      "name": "_update_gp_bounds",
+      "start": 4455968,
+      "end": 4455969,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "update_gp_bounds"
+    },
+    {
+      "name": "LinkContext::WriteSections",
+      "start": 4456704,
+      "end": 4456705,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; DWORD *line_offset); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::WriteSections",
+      "symbol": "?WriteSections@LinkContext@@QAEXPAK@Z"
+    },
+    {
+      "name": "_pad_debug_contribution@4",
+      "start": 4456928,
+      "end": 4456929,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(Contribution *contribution); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "pad_debug_contribution"
+    },
+    {
+      "name": "_align_image_base@4",
+      "start": 4457216,
+      "end": 4457217,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall DWORD(DWORD base); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "align_image_base"
+    },
+    {
+      "name": "LinkContext::ApplySectionAttributes",
+      "start": 4457824,
+      "end": 4457825,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::ApplySectionAttributes",
+      "symbol": "?ApplySectionAttributes@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "_prepare_import_sections",
+      "start": 4458032,
+      "end": 4458033,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "prepare_import_sections"
+    },
+    {
+      "name": "LinkContext::ResolveLocalImports",
+      "start": 4458800,
+      "end": 4458801,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; Contribution **contribution,IncludeSymbol **aliases); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::ResolveLocalImports",
+      "symbol": "?ResolveLocalImports@LinkContext@@QAEXPAPAUContribution@@PAPAUIncludeSymbol@@@Z"
+    },
+    {
+      "name": "LinkContext::ResolveUndefined",
+      "start": 4459344,
+      "end": 4459345,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::ResolveUndefined",
+      "symbol": "?ResolveUndefined@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "LinkContext::CollectRelocationSymbols",
+      "start": 4459456,
+      "end": 4459457,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; DWORD *first_count,void **first,DWORD *second_count,void **second); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::CollectRelocationSymbols",
+      "symbol": "?CollectRelocationSymbols@LinkContext@@QAEXPAKPAPAX01@Z"
+    },
+    {
+      "name": "LinkContext::FinalizeOrder",
+      "start": 4460304,
+      "end": 4460305,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::FinalizeOrder",
+      "symbol": "?FinalizeOrder@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "LinkContext::FinishNativeSections",
+      "start": 4461808,
+      "end": 4461809,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::FinishNativeSections",
+      "symbol": "?FinishNativeSections@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "_emit_symbol_class@8",
+      "start": 4462096,
+      "end": 4462097,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall BYTE(BYTE symbol_class,LinkOptions *options); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "emit_symbol_class"
+    },
+    {
+      "name": "LinkContext::WriteRelocationSymbols",
+      "start": 4462448,
+      "end": 4462449,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; DWORD first_count,void **first,DWORD second_count,void **second); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::WriteRelocationSymbols",
+      "symbol": "?WriteRelocationSymbols@LinkContext@@QAEXKPAPAXK0@Z"
+    },
+    {
+      "name": "LinkContext::WriteLocalImports",
+      "start": 4462928,
+      "end": 4462929,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; Contribution *contribution,IncludeSymbol **aliases); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::WriteLocalImports",
+      "symbol": "?WriteLocalImports@LinkContext@@QAEXPAUContribution@@PAPAUIncludeSymbol@@@Z"
+    },
+    {
+      "name": "_write_coff_symbols@8",
+      "start": 4463552,
+      "end": 4463553,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(LinkContext *context,DWORD image_rva); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "write_coff_symbols"
+    },
+    {
+      "name": "LinkContext::EmitDebugDirectories",
+      "start": 4464160,
+      "end": 4464161,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; DWORD start,DWORD original_offset,DWORD lines,DWORD end,DWORD line_offset); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::EmitDebugDirectories",
+      "symbol": "?EmitDebugDirectories@LinkContext@@QAEXKKKKK@Z"
+    },
+    {
+      "name": "LinkContext::FinishImage",
+      "start": 4467792,
+      "end": 4467793,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::FinishImage",
+      "symbol": "?FinishImage@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "LinkContext::PassOne",
+      "start": 4503648,
+      "end": 4504880,
+      "source": "src/pass-one.cpp",
+      "status": "implemented",
+      "abi": "thiscall void(LinkContext *this); actual ECX, no stack formals or other hidden inputs; RET0",
+      "pending_extent": false,
+      "native_symbol": "LinkContext::PassOne",
+      "symbol": "?PassOne@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "LinkContext::PassTwo",
+      "start": 4512896,
+      "end": 4512897,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::PassTwo",
+      "symbol": "?PassTwo@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "LinkContext::PrepareMacJumpTables",
+      "start": 4527856,
+      "end": 4527857,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::PrepareMacJumpTables",
+      "symbol": "?PrepareMacJumpTables@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "LinkContext::ResolveMacImports",
+      "start": 4528048,
+      "end": 4528049,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::ResolveMacImports",
+      "symbol": "?ResolveMacImports@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "LinkContext::ResolveMacExports",
+      "start": 4528272,
+      "end": 4528273,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::ResolveMacExports",
+      "symbol": "?ResolveMacExports@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "LinkContext::PrepareMacResources",
+      "start": 4528448,
+      "end": 4528449,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::PrepareMacResources",
+      "symbol": "?PrepareMacResources@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "LinkContext::PrepareMacSections",
+      "start": 4528624,
+      "end": 4528625,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::PrepareMacSections",
+      "symbol": "?PrepareMacSections@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "_set_mac_entry_point@8",
+      "start": 4530608,
+      "end": 4530609,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(StringNode *entry,LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "set_mac_entry_point"
+    },
+    {
+      "name": "_prepare_mac_resource_map",
+      "start": 4531376,
+      "end": 4531377,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "prepare_mac_resource_map"
+    },
+    {
+      "name": "_prepare_mac_data_headers@4",
+      "start": 4531472,
+      "end": 4531473,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "prepare_mac_data_headers"
+    },
+    {
+      "name": "_finish_mac_entry_point@8",
+      "start": 4532640,
+      "end": 4532641,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(StringNode *entry,LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "finish_mac_entry_point"
+    },
+    {
+      "name": "_set_mac_section_addresses@4",
+      "start": 4535200,
+      "end": 4535201,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(SectionList *sections); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "set_mac_section_addresses"
+    },
+    {
+      "name": "LinkContext::PrepareMacSymbols",
+      "start": 4544848,
+      "end": 4544849,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::PrepareMacSymbols",
+      "symbol": "?PrepareMacSymbols@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "_finish_mac_headers@4",
+      "start": 4549552,
+      "end": 4549553,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "finish_mac_headers"
+    },
+    {
+      "name": "_set_mac_symbol_addresses",
+      "start": 4550192,
+      "end": 4550193,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "set_mac_symbol_addresses"
+    },
+    {
+      "name": "_prepare_mac_debug_information@4",
+      "start": 4552576,
+      "end": 4552577,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "prepare_mac_debug_information"
+    },
+    {
+      "name": "LinkContext::PrepareAuxiliarySections",
+      "start": 4557568,
+      "end": 4557569,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::PrepareAuxiliarySections",
+      "symbol": "?PrepareAuxiliarySections@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "LinkAuxiliaryData::PrepareOutput",
+      "start": 4557696,
+      "end": 4557697,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkAuxiliaryData::PrepareOutput",
+      "symbol": "?PrepareOutput@LinkAuxiliaryData@@QAEXXZ"
+    },
+    {
+      "name": "LinkAuxiliaryData::FinishOutput",
+      "start": 4559008,
+      "end": 4559009,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; LinkContext *context); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkAuxiliaryData::FinishOutput",
+      "symbol": "?FinishOutput@LinkAuxiliaryData@@QAEXPAULinkContext@@@Z"
+    },
+    {
+      "name": "_finish_ppc_branches",
+      "start": 4563152,
+      "end": 4563153,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "finish_ppc_branches"
+    },
+    {
+      "name": "_clear_argument_list@4",
+      "start": 4574464,
+      "end": 4574465,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(InputArguments *arguments); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "clear_argument_list"
+    },
+    {
+      "name": "_apply_section_merge@4",
+      "start": 4577568,
+      "end": 4577569,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(OutputSection *section); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "apply_section_merge"
+    },
+    {
+      "name": "StringTable::SortSymbols",
+      "start": 4578208,
+      "end": 4578209,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "StringTable::SortSymbols",
+      "symbol": "?SortSymbols@StringTable@@QAEXXZ"
+    },
+    {
+      "name": "_replace_extension@8",
+      "start": 4592864,
+      "end": 4592865,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall char *(const char *file,const char *extension); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "replace_extension"
+    },
+    {
+      "name": "LinkContext::UpdateChecksum",
+      "start": 4593920,
+      "end": 4593921,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::UpdateChecksum",
+      "symbol": "?UpdateChecksum@LinkContext@@QAEXXZ"
+    },
+    {
+      "name": "_finish_symbol_tables",
+      "start": 4594512,
+      "end": 4594513,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "finish_symbol_tables"
+    },
+    {
+      "name": "_get_symbol_name@16",
+      "start": 4595072,
+      "end": 4595073,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall const char *(StringNode *symbol,const void *strings,WORD *kind,BYTE option); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "get_symbol_name"
+    },
+    {
+      "name": "StringTable::LookupSymbol",
+      "start": 4595152,
+      "end": 4595153,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall StringNode *(this; WORD kind,const char *name,BYTE *created); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "StringTable::LookupSymbol",
+      "symbol": "?LookupSymbol@StringTable@@QAEPAUStringNode@@GPBDPAE@Z"
+    },
+    {
+      "name": "StringTable::FindSymbol",
+      "start": 4595488,
+      "end": 4595489,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall StringNode *(this; const char *name); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "StringTable::FindSymbol",
+      "symbol": "?FindSymbol@StringTable@@QAEPAUStringNode@@PBD@Z"
+    },
+    {
+      "name": "_set_symbol_defined@12",
+      "start": 4595536,
+      "end": 4595537,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(StringNode *symbol,BYTE defined,StringTable *symbols); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "set_symbol_defined"
+    },
+    {
+      "name": "_initialize_comdats",
+      "start": 4599472,
+      "end": 4599483,
+      "source": "src/comdat.c",
+      "status": "implemented",
+      "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": false,
+      "native_symbol": "initialize_comdats"
+    },
+    {
+      "name": "_release_comdat_tables",
+      "start": 4599488,
+      "end": 4599489,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "release_comdat_tables"
+    },
+    {
+      "name": "_attach_comdat@12",
+      "start": 4599632,
+      "end": 4599633,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(Contribution *contribution,const char *name,BYTE linker_defined); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "attach_comdat"
+    },
+    {
+      "name": "_add_comdat_root@16",
+      "start": 4600288,
+      "end": 4600289,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(Contribution *contribution,StringNode *symbol,OutputModule *module,ComdatRoot **roots); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "add_comdat_root"
+    },
+    {
+      "name": "_add_special_comdat_roots@4",
+      "start": 4600384,
+      "end": 4600385,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(StringTable *symbols); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "add_special_comdat_roots"
+    },
+    {
+      "name": "_eliminate_unused_comdats@8",
+      "start": 4600720,
+      "end": 4600721,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "stdcall void(ComdatRoot *roots,StringTable *symbols); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "eliminate_unused_comdats"
+    },
+    {
+      "name": "_finish_comdat_elimination",
+      "start": 4600944,
+      "end": 4600945,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "finish_comdat_elimination"
+    },
+    {
+      "name": "_print_removed_comdats",
+      "start": 4601664,
+      "end": 4601665,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "cdecl void(void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "print_removed_comdats"
+    },
+    {
+      "name": "LinkContext::WriteVxdModuleTable",
+      "start": 4603696,
+      "end": 4603697,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; int file); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::WriteVxdModuleTable",
+      "symbol": "?WriteVxdModuleTable@LinkContext@@QAEXH@Z"
+    },
+    {
+      "name": "LinkContext::WriteVxdNames",
+      "start": 4604080,
+      "end": 4604081,
+      "source": "src/full-link-stubs.cpp",
+      "status": "stub",
+      "abi": "thiscall void(this; int file); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::WriteVxdNames",
+      "symbol": "?WriteVxdNames@LinkContext@@QAEXH@Z"
+    },
+    {
+      "name": "_duplicate_link_string@4",
+      "start": 4521344,
+      "end": 4521429,
+      "source": "src/full-link-init.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "duplicate_link_string",
+      "abi": "stdcall char *(const char *text); one stack input, actual RET4 paths; no hidden/register input observed in caller/callee"
+    },
+    {
+      "name": "_allocate_virtual_memory@16",
+      "start": 4519344,
+      "end": 4519388,
+      "source": "src/memory.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "allocate_virtual_memory",
+      "abi": "stdcall void *(void *address,unsigned bytes,DWORD flags,DWORD protection); four actual stack inputs, RET16; no hidden/register inputs"
+    },
+    {
+      "name": "_create_output_section@20",
+      "start": 4255632,
+      "end": 4255775,
+      "source": "src/sections.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "create_output_section",
+      "abi": "stdcall OutputSection *(OutputModule *module,const char *name,DWORD flags,SectionList *sections,IMAGE_OPTIONAL_HEADER *header); five stack inputs, RET20; no hidden inputs"
+    },
+    {
+      "name": "_create_contribution_group@8",
+      "start": 4253440,
+      "end": 4253599,
+      "source": "src/sections.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "create_contribution_group",
+      "abi": "stdcall ContributionGroup *(const char *name,OutputSection *section); two stack inputs, RET8; no hidden inputs"
+    },
+    {
+      "name": "_find_matching_output_section@20",
+      "start": 4256048,
+      "end": 4256299,
+      "source": "src/sections.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "find_matching_output_section",
+      "abi": "stdcall OutputSection *(OutputModule *module,const char *name,DWORD flags,SectionList *sections,IMAGE_OPTIONAL_HEADER *header); five stack inputs, RET20; no hidden inputs"
+    },
+    {
+      "name": "_adjust_output_section_flags@12",
+      "start": 4581408,
+      "end": 4581633,
+      "source": "src/sections.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "adjust_output_section_flags",
+      "abi": "stdcall void(DWORD *flags,const char *name,IMAGE_OPTIONAL_HEADER *header); three stack inputs, RET12; no hidden inputs"
+    },
+    {
+      "name": "_format_module_name@8",
+      "start": 4252704,
+      "end": 4252705,
+      "source": "src/sections.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "format_module_name",
+      "abi": "stdcall char *(OutputModule *module,char *name); two stack inputs, RET8; no hidden inputs"
+    },
+    {
+      "name": "_resolve_output_section@4",
+      "start": 4253216,
+      "end": 4253285,
+      "source": "src/sections.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "resolve_output_section",
+      "abi": "stdcall OutputSection *(OutputSection *section); one stack input, RET4; no hidden inputs"
+    },
+    {
+      "name": "_initialize_group_enumerator@8",
+      "start": 4258880,
+      "end": 4258914,
+      "source": "src/sections.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "initialize_group_enumerator",
+      "abi": "stdcall void(GroupEnumerator *enumerator,OutputSection *section); actual writable16-byte output and section input, RET8; no hidden inputs"
+    },
+    {
+      "name": "_next_contribution_group@4",
+      "start": 4258928,
+      "end": 4258981,
+      "source": "src/sections.c",
+      "status": "implemented",
+      "pending_extent": false,
+      "native_symbol": "next_contribution_group",
+      "abi": "stdcall BYTE(GroupEnumerator *enumerator); one actual stack input, RET4; no hidden inputs"
+    },
+    {
+      "name": "_link_message",
+      "start": 4391600,
+      "end": 4391601,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "link_message",
+      "abi": "cdecl void(unsigned message,...); actual wrapper forwards stack va_list, RET0; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_create_library@12",
+      "start": 4255184,
+      "end": 4255185,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "create_library",
+      "abi": "stdcall OutputLibrary *(const char *name,const char *path,LinkPointerList *libraries); three stack inputs,RET12; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_check_output_input_collision@8",
+      "start": 4593728,
+      "end": 4593914,
+      "source": "src/pass-one.cpp",
+      "status": "implemented",
+      "native_symbol": "check_output_input_collision",
+      "abi": "stdcall void(const char *output,InputArgument *inputs); two actual stack inputs,RET8; no hidden inputs; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "LinkContext::LoadInputArgument",
+      "start": 4495952,
+      "end": 4495953,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::LoadInputArgument",
+      "abi": "thiscall void(LinkContext *this; InputArgument *argument,OutputLibrary *library);ECX,two stack inputs,RET8; declarations derived from actual caller/callee inventory; formals captured when reached",
+      "symbol": "?LoadInputArgument@LinkContext@@QAEXPAUInputArgument@@PAUOutputLibrary@@@Z"
+    },
+    {
+      "name": "_check_input_modules@8",
+      "start": 4496112,
+      "end": 4496113,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "check_input_modules",
+      "abi": "stdcall void(LinkContext *context,OutputLibrary *library);two stack inputs,RET8; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_resolve_weak_externals@8",
+      "start": 4502688,
+      "end": 4502689,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "resolve_weak_externals",
+      "abi": "stdcall void(LinkContext *context,DWORD flags);two stack inputs,RET8; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_search_libraries@4",
+      "start": 4496272,
+      "end": 4496273,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "search_libraries",
+      "abi": "stdcall void(LinkContext *context);one stack input,RET4; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_resolve_initial_entry@4",
+      "start": 4494832,
+      "end": 4494833,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "resolve_initial_entry",
+      "abi": "stdcall BYTE(LinkContext *context);one stack input,AL result,RET4; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_infer_subsystem@4",
+      "start": 4503312,
+      "end": 4503313,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "infer_subsystem",
+      "abi": "stdcall BYTE(LinkContext *context);one stack input,AL result,all actual RET4 paths; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_infer_entry_point@4",
+      "start": 4502928,
+      "end": 4502929,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "infer_entry_point",
+      "abi": "stdcall BYTE(LinkContext *context);one stack input,AL result,all actual RET4 paths; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_process_definition_file@8",
+      "start": 4496656,
+      "end": 4496657,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "process_definition_file",
+      "abi": "stdcall BYTE(LinkContext *context,const char *name);two stack inputs,AL result (upper bits not defined),RET8; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_finalize_mac_entry@8",
+      "start": 4527344,
+      "end": 4527345,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "finalize_mac_entry",
+      "abi": "stdcall void(StringNode **entry,LinkContext *context);two stack inputs,RET8; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_set_subsystem_version@4",
+      "start": 4503504,
+      "end": 4503505,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "set_subsystem_version",
+      "abi": "stdcall void(LinkContext *context);one stack input,all actual RET4 paths; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_warn_unused_libraries@4",
+      "start": 4502592,
+      "end": 4502593,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "warn_unused_libraries",
+      "abi": "stdcall void(OutputLibrary *library);one stack input,RET4; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_warn_missing_default_libraries@4",
+      "start": 4502448,
+      "end": 4502449,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "warn_missing_default_libraries",
+      "abi": "stdcall void(LinkPointerList *libraries);one stack input,RET4; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_initialize_library_enumerator@8",
+      "start": 4258544,
+      "end": 4258545,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "initialize_library_enumerator",
+      "abi": "stdcall void(LibraryEnumerator *enumerator,OutputLibrary *first);two stack inputs,RET8; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_next_library@4",
+      "start": 4258592,
+      "end": 4258593,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "next_library",
+      "abi": "stdcall BYTE(LibraryEnumerator *enumerator);one stack input,ALresult,RET4; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_warn_unused_delay_libraries@0",
+      "start": 4324224,
+      "end": 4324225,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "warn_unused_delay_libraries",
+      "abi": "stdcall void(void);no stack/hidden inputs,RET0; declarations derived from actual caller/callee inventory; formals captured when reached"
+    }
+  ],
+  "text_data": [
+    {
+      "start": 4232232,
+      "end": 4232244,
+      "accepted": true,
+      "reason": "CRTEXE.OBJ contextual SEH scope table",
+      "evidence": "cases/runtime-entry-identity.json",
+      "sha256": "71cd0e84dd60b732f51a5f49fd8f67f26908a0567e4cbba001a09b86b89b5614"
+    },
+    {
+      "start": 4200424,
+      "end": 4200436,
+      "accepted": true,
+      "reason": "main SEH scope table: previous scope -1, filter 40e0e1, handler 40e10e",
+      "sha256": "42feff862ada3b71b3431d6e557a595dac60b8aec2f567ae008fdd500bc6c688",
+      "evidence": "original main prologue and complete SEH filter/handler disassembly"
+    },
+    {
+      "start": 4199740,
+      "end": 4199747,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Linker\\x00'",
+      "sha256": "d290aea9d523db3ae358d16a8d1114fab6159787a4c99d574d3d67b45e92746a",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199724,
+      "end": 4199740,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Library Manager\\x00'",
+      "sha256": "98d7bbb928df4e36a0cfad259cc13f08f2ba1b99b3af4263f440d8ec418a40ef",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199716,
+      "end": 4199723,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Dumper\\x00'",
+      "sha256": "936775867db1c5a7b1a773140d8f923d31b2b6f0a4a7f8f648e9acb6bd9ebb95",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199708,
+      "end": 4199715,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Editor\\x00'",
+      "sha256": "7570cbbfb02e45c2192ab3fe939ca9b1dce249927f81f47927b872c275e0d8ca",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199700,
+      "end": 4199707,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'Helper\\x00'",
+      "sha256": "1ec47ae778c26c1bc3250da6614c28b399667b10f2e03309aaaaaa8fcad5db70",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4200416,
+      "end": 4200424,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'LINK_DB\\x00'",
+      "sha256": "00400638b4d8662a9999ae2284344468ac866c959fedfcbaeab42586794bdb5a",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4200376,
+      "end": 4200416,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'\\n%s : error : Internal error during %s\\n\\x00'",
+      "sha256": "58dd088874d8129091f216f3eef59b71313ff08ab172cb5e8e1b07e9f738a19a",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4200232,
+      "end": 4200374,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'\\n  ExceptionCode            = %08lX\\n  Excepti'",
+      "sha256": "4b1e469b5cce5c8823b7491dba3fc12a8e563493eff7303b645271b5145c17c6",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4200192,
+      "end": 4200229,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'  ExceptionInformation[%2u] = %08lX\\n\\x00'",
+      "sha256": "2a2858608d2c3d96c56ed654551c05058a836e2deb30d7e68de73b77d1df24b7",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4199816,
+      "end": 4200190,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'\\nCONTEXT:\\n  Eax    = %08lX  Esp    = %08lX\\n  '",
+      "sha256": "36805a3ead385b67378328497b9c154e34ae769d573a842897e7ec13bbba4bf3",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4202228,
+      "end": 4202239,
+      "accepted": true,
+      "reason": "main ordinary string literal at its reconstructed point of use: b'SetupPhase\\x00'",
+      "sha256": "1a8cd746a5553c7dc6f70d7d46f901ab90396a3344c1713d8f00fbabb22f5e5e",
+      "evidence": "direct main immediate or typed mode/default-phase data reference"
+    },
+    {
+      "start": 4203100,
+      "end": 4203103,
+      "accepted": true,
+      "reason": "initialize_debug sscanf format literal",
+      "evidence": "direct format argument at original 415280/4152d9",
+      "sha256": "0b782fc3030dbdf3756f17e7adf2ce5808dfc513ca7589adeb679c7d25eaef6f"
+    },
+    {
+      "start": 4199572,
+      "end": 4199578,
+      "accepted": true,
+      "reason": "file-cache environment probe literal",
+      "sha256": "86bb1a20f3ae296d8b3ff86cf62f0fb21fab388a7dbc2185278e7f2fd78293cd",
+      "evidence": "direct GetModuleHandleA/GetProcAddress arguments at 40b563/40b572"
+    },
+    {
+      "start": 4199580,
+      "end": 4199593,
+      "accepted": true,
+      "reason": "file-cache environment probe literal",
+      "sha256": "d89b4bfe0229ab034c8597fbd9c4b70af3690382b8c700ec05d6923da518275c",
+      "evidence": "direct GetModuleHandleA/GetProcAddress arguments at 40b563/40b572"
+    },
+    {
+      "start": 4228368,
+      "end": 4228375,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'_LINK_\\x00'",
+      "sha256": "861668a45b2939017e7534d68749f18ef9efda299dc0bc3af864d76f6df57036",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228360,
+      "end": 4228365,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'LINK\\x00'",
+      "sha256": "1c6aceb44cb2a2757128f8dba294cf6c2aa6aab8018305a3b40db08bfe461aef",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4205360,
+      "end": 4205364,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'vxd\\x00'",
+      "sha256": "b7ca8f3c5a4f9d14a5b7942468f169e83548ca9277be22b273681c155e68c345",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4222496,
+      "end": 4222503,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'nologo\\x00'",
+      "sha256": "637847bec75326bb5aedbee72a6d54ab27a6f744552c2bd989963fb003640ca1",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228040,
+      "end": 4228049,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'PDB:NONE\\x00'",
+      "sha256": "35ff8dccfa4552ddf6261914571781155c31f4a58ec532e7f416cae02e4d72b7",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228344,
+      "end": 4228360,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'DEBUGTYPE:FIXUP\\x00'",
+      "sha256": "b686dd6cde938beb8ba28c9a0d5a07bca73aae7f89ab82edc6fa54b44975b3f3",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228324,
+      "end": 4228341,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'SUBSYSTEM:NATIVE\\x00'",
+      "sha256": "f0093f3176bd94ff847efd42f372207c1348c6d0aa256102d6e9ba2ccca9ca07",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228304,
+      "end": 4228322,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'SUBSYSTEM:CONSOLE\\x00'",
+      "sha256": "0839263ca3f8a7f5b3788ce3edbc19171ba85e2041406352abef2a81010448e2",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228284,
+      "end": 4228302,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'SUBSYSTEM:WINDOWS\\x00'",
+      "sha256": "d914f3b281fe40fc3c539cea87fff57fa40e476d92285f9446cae77535c5ee15",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4207612,
+      "end": 4207628,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'SUBSYSTEM:POSIX\\x00'",
+      "sha256": "e337d197ec1bc15cb8f068d2ccc08b441ec6977479591eed8452d4da38191bfd",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228264,
+      "end": 4228284,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'SUBSYSTEM:WINDOWSCE\\x00'",
+      "sha256": "289033954f8bae5c5bb51d9ce4288adeae47a130492baa2f60fcaf19b2f71246",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4204884,
+      "end": 4204888,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'VXD\\x00'",
+      "sha256": "6939ec1bd4035320b0bed26a1625c3540442055a71448fbc6fd991fda3489531",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4199468,
+      "end": 4199472,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'ROM\\x00'",
+      "sha256": "d43ddf525ff2f63209f5a3861e305064980c7d96553ecab3e2024810418dfb9e",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228244,
+      "end": 4228264,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'WINDOWSCE:EMULATION\\x00'",
+      "sha256": "01848e4f93a4b8e9c97c26f566c72aceaa0c9d9cfcd2056bfa6f6497466861d4",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228224,
+      "end": 4228244,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'WINDOWSCE:NOCONVERT\\x00'",
+      "sha256": "d3125c600f1da6b4d335897915ac3a9665ae7c92e1294a2727b2d3c724232062",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4228076,
+      "end": 4228084,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'PROFILE\\x00'",
+      "sha256": "64add6d5ba628476907bce37eabaa77830652f86e7f1cbfb9eeb327203c19d73",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4204668,
+      "end": 4204674,
+      "accepted": true,
+      "reason": "run_linker direct contextual string argument b'FIXED\\x00'",
+      "sha256": "5add6c1c5bb7aad84a32b01c35ebeeedd230334e8869872cffb321af5eeac063",
+      "evidence": "original complete run_linker 448cb0..4492bd disassembly"
+    },
+    {
+      "start": 4494016,
+      "end": 4494052,
+      "accepted": true,
+      "reason": "run_linker nine-entry subsystem switch table",
+      "sha256": "d800a5e4f0fde92598efaef7ec51df91ec09ff4c0e36eda63a32666672e737bf",
+      "evidence": "bounded eax=Subsystem-1 in0..8 at448e2c..448e32"
+    },
+    {
+      "start": 4225652,
+      "end": 4225663,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'LINK_REPRO\\x00'",
+      "sha256": "0044f291a74f02137d19db274de8a74f81e475b5c1c7a306c3183f525a17e28a",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4225384,
+      "end": 4225386,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'.\\x00'",
+      "sha256": "075d3ddf5a3a826e13a92288e853bc4b2cb17fb05367ae865f401a4bb11f05ce",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4225636,
+      "end": 4225652,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'LINK_REPRO_NAME\\x00'",
+      "sha256": "f886943103de3419adf94cdd306cd73090bf50de1ff56e6c1ddf362bbbf1b666",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4225624,
+      "end": 4225634,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'\\\\link.rsp\\x00'",
+      "sha256": "c03d393ef0158a769d579f61e9f90f57b1e70648f3773d2f9e97bc994d2301c2",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4213652,
+      "end": 4213655,
+      "accepted": true,
+      "reason": "initialize_repro contextual literal b'wt\\x00'",
+      "sha256": "15eec7f94fc5b359e2a9946d8603f6d2e201c84dcea1bb8fa5b8d77e12c06138",
+      "evidence": "complete original444b10..444c33 body direct argument reference"
+    },
+    {
+      "start": 4231688,
+      "end": 4231691,
+      "accepted": true,
+      "reason": "parse_argument contextual literal b'?*\\x00'",
+      "sha256": "633e7f26429008c87353e3deb50a6548e437ce98fcfed7e51ef76e6158a4f1a6",
+      "evidence": "complete original45c780..45c8b1 disassembly"
+    },
+    {
+      "start": 4231680,
+      "end": 4231685,
+      "accepted": true,
+      "reason": "parse_argument contextual literal b'.obj\\x00'",
+      "sha256": "d564b4b04cee6d2a8763f04ebb2fa40b080ec83af3d9fbc0af4d4afa5b8f04b5",
+      "evidence": "complete original45c780..45c8b1 disassembly"
+    },
+    {
+      "start": 4227552,
+      "end": 4227560,
+      "accepted": true,
+      "reason": "libpath predicate contextual prefix literal",
+      "sha256": "304d9a53460e990cb8735bd026cbedb4409cf026fded3266c76d88ca9fb4c61e",
+      "evidence": "45c751 literal and45c76b _mbsnbicmp argument"
+    },
+    {
+      "start": 4202448,
+      "end": 4202468,
+      "accepted": true,
+      "reason": "Initialize contextual IMAGE_FILE_HEADER defaults",
+      "sha256": "fc61576d401581c42b708714c15f5590135b5a8008515c81f59cf8b0bff75c8b",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4202472,
+      "end": 4202696,
+      "accepted": true,
+      "reason": "Initialize contextual IMAGE_OPTIONAL_HEADER defaults",
+      "sha256": "ceef4d4e76a60f04150b8b47789c0b172ffe5ba4b15ad4b946edd610dc9f6bf0",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4202296,
+      "end": 4202404,
+      "accepted": true,
+      "reason": "Initialize contextual typed linker option defaults",
+      "sha256": "321d7c20d5ce69afd652473c08b0f8b681d1c86b6a27974ea80b89129cd87c77",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4202408,
+      "end": 4202444,
+      "accepted": true,
+      "reason": "Initialize specified-switch defaults",
+      "sha256": "6db65fd59fd356f6729140571b5bcd6bb3b83492a16e1bf0a3884442fc3c8a0e",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4223196,
+      "end": 4223225,
+      "accepted": true,
+      "reason": "Initialize database signature literal",
+      "sha256": "a72538b0ead687ca6ce23ed2bc133db3bda48d4d7b5f6cbdbbdbb7ec6ede2eca",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4203048,
+      "end": 4203053,
+      "accepted": true,
+      "reason": "Initialize .dll extension literal",
+      "sha256": "831bc40a30efc6335070e9ae1872c6aa2df874a2c28ddbc4646a9fda2b4506d5",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4223064,
+      "end": 4223192,
+      "accepted": true,
+      "reason": "Initialize contextual DOS output-image template; typed header, output-only bootstrap and message",
+      "sha256": "7e7b7dec8f657dc691ca06c3bf23956976a3c6727e9fadb7c2bfd8df4d55246f",
+      "evidence": "complete original4337d0..433964 method data references; readable typed construction, never native executable assembly"
+    },
+    {
+      "start": 4213812,
+      "end": 4213814,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal '?'",
+      "sha256": "b813d21bdb2ae744a65ad78d0695cbf15a7750ca8a4828b4518913a26849bd05",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4228004,
+      "end": 4228010,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'align'",
+      "sha256": "d569abcc8f47c0743d719aee4175629043eb011a1bf1e6c65559b59ff51f2773",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222480,
+      "end": 4222485,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'base'",
+      "sha256": "297373ad8cebefdc9f7648df22c5316809ffa1ae8fac7f7d28ef03c85cb1e25e",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227996,
+      "end": 4228001,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal '.txt'",
+      "sha256": "f9cbcb482cb31907715e0b16c0310c3a13cd0fc92b0701f480b3cf2dd4659bfb",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227976,
+      "end": 4227994,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'base:@\".\\\\%s%s,%s\"'",
+      "sha256": "324b3d0640d3cdb766e8980e9935b204ce62a0928a609a966203f0fb702fb454",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4205648,
+      "end": 4205651,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'rt'",
+      "sha256": "f04a469196fadbe6f55ca596cbfc2ea7c7ff05ea257d50c1959b2bc00345280d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4205152,
+      "end": 4205156,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal '%li'",
+      "sha256": "445c3507486e72738146dc8495758e5b60d11eb02007153c2b5f7bf45b7c7dc7",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227968,
+      "end": 4227975,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'brepro'",
+      "sha256": "7a297b0e0bb892848fc878643361fc85061d217b98e1b1af3b2374651231a77d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227960,
+      "end": 4227968,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'comment'",
+      "sha256": "2b7ee7611fca22c02e0a837a89abe2c95ef0951ec6d9beddce2eb675ee689eca",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227948,
+      "end": 4227958,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'dbgimplib'",
+      "sha256": "fcb4e7a75d81265c01f3385714d55e9c6c567c4737bbc6db2503d5ad9c85ad27",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4212592,
+      "end": 4212598,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'debug'",
+      "sha256": "177a1b555afd40494e5cd58db6c3967b46042c609063351be9644922d3081960",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227940,
+      "end": 4227947,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'mapped'",
+      "sha256": "8199d18278f74341ae8193b1731974425c6f8ea567b5a231ad7dd76a4c16929c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227928,
+      "end": 4227938,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'notmapped'",
+      "sha256": "62a796001da6f31da385a813e940f02028edf461caed29a8fd570634950aec1c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227920,
+      "end": 4227925,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'full'",
+      "sha256": "69930da8bc5a41363d32ba24b3377e27a9b137f6e1d8ea0aba6d4c3750a0305c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227912,
+      "end": 4227920,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'partial'",
+      "sha256": "9aa33b4484ca49e1892892a39f9f4c89ff3e5e7568648ffa4009c03c9ba1b18c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227904,
+      "end": 4227912,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'minimal'",
+      "sha256": "966953f710ac89d51ee9703ac13504f3f872dd164317730d8b04b4b816cf4883",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4213604,
+      "end": 4213609,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'none'",
+      "sha256": "fdbb9db68f1db204d7823d5cbd2ff3eee530677fc945b6304356e1c6658b9ca2",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227892,
+      "end": 4227902,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'debugtype'",
+      "sha256": "9dc78926a5f1d2c7fbcfff400da9a8ac9212635db63ce17f9b7a064ba50ff5cf",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224712,
+      "end": 4224717,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'coff'",
+      "sha256": "60b4731445bdd94306b7c4331eb3984dc902ed391f36fff8eddfb5d534b5acda",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224708,
+      "end": 4224711,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'cv'",
+      "sha256": "3eeaf3ddb1601d8d01ca0bcadaa56fc0fafba4dfb4702e81107c6a1e3616d1f0",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224700,
+      "end": 4224705,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'both'",
+      "sha256": "aae2ea33ba5303dc634ce0e6afb0d30b928b14e641f6d5160ab18256f0a161c7",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4212848,
+      "end": 4212852,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'fpo'",
+      "sha256": "df6692bc4c35adaaac6649358895ff5c71a74d84f50cfda50301bf1fca71820f",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4213728,
+      "end": 4213734,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'fixup'",
+      "sha256": "33b3ac1a0829375ba8ac616522a44576dbb126a555ee86aaabd5ccbd966f0ce1",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4213680,
+      "end": 4213684,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'map'",
+      "sha256": "b05bd841612e8e14bab58c4c500b2d238f16bf548166ec95fac3e45d21c1987b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227888,
+      "end": 4227892,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'def'",
+      "sha256": "85db65e24c43b8de66c72435b845378aa7e5fcba7900bdf847dd066b9eb7e478",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224676,
+      "end": 4224689,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'def:\".\\\\%s%s\"'",
+      "sha256": "1c1a8048eb5c04f8758b751d9f7e447b2b72275a68a0d4726ce4d5e4a27f57d3",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227876,
+      "end": 4227887,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'defaultlib'",
+      "sha256": "5976ce94dc5e9a4b0261c1167d1fea1fdbafb9564b03a0512e8638b88b8a9402",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227868,
+      "end": 4227874,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'delay'",
+      "sha256": "25f636016bfc589ee20496c8891c6aebb3ab2e31f9ff00a131ab2e5372781cbd",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227860,
+      "end": 4227867,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'nobind'",
+      "sha256": "1879665a488a4b79cd61a0373f5a779165e108bba58098e4240df8be1a07874f",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227852,
+      "end": 4227859,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'unload'",
+      "sha256": "2f52621e7da8e9b89b0a5d503a68a36f6e14d2f2056fd25d8ea0d5497ce21e7f",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227840,
+      "end": 4227850,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'delayload'",
+      "sha256": "9a07f3afa0d3a1a0ac0a44a03fcda076b97828be55aeb408e44db44a5539f10a",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227828,
+      "end": 4227840,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'disallowlib'",
+      "sha256": "d3fb056836d0e1560bbb379d3c02df403c4238e30cdf0ff9e1a0cd5c83444bd4",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227824,
+      "end": 4227828,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'dll'",
+      "sha256": "9d584a04e6725df967fb1beedf058a76a2ee7985edf427e930d1144ed4a909ea",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227816,
+      "end": 4227823,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'system'",
+      "sha256": "4640409de0d747cb8301bbb401176ab3c93490258a4c5acfca3189a6686f1e08",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227808,
+      "end": 4227816,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'dllchar'",
+      "sha256": "fd50a682361f50cf643999cf507a3213f7b0000940eab85db9083619d75279e1",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227796,
+      "end": 4227805,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'x86thunk'",
+      "sha256": "817f2a9c91c0a2a3fe3ff232b749b0f81a1846d5ce12e8405e6a5672dc975116",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227788,
+      "end": 4227795,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'driver'",
+      "sha256": "6b2223c6c75d72fe4bd43ffc5a5aa427f68822c5b228e99d1e29e8fd088bb8b8",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227780,
+      "end": 4227787,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'uponly'",
+      "sha256": "1132befece120c7f085760f7b090deac29a6a2fe9a0395a5196f5b2b981002d6",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227776,
+      "end": 4227780,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'wdm'",
+      "sha256": "569674c3e18909432f0fd01c404210899e35b11eb00a305b9939b7eedefe6029",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227760,
+      "end": 4227776,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'editandcontinue'",
+      "sha256": "8c55478b4da1c0bf0c93fa580bfc4f5e8fec2109bd0654488d86b0305b6b05d5",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227748,
+      "end": 4227759,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'encpadsize'",
+      "sha256": "9fda5ab36ab82b1ad42926b4868b0334a9b8f3ef36df5e3c6208635cd09116ca",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227740,
+      "end": 4227746,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'entry'",
+      "sha256": "af81a8087ca76f9e723bb29329051299a1b55c3c50b44269e61eb24bcd42aaf5",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227732,
+      "end": 4227740,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'exetype'",
+      "sha256": "51b473bd9eac7a8068c8219191a7120f07731f551856fe4f58ad3cf55b1a2952",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227724,
+      "end": 4227732,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'dynamic'",
+      "sha256": "7def7880e134d59823b67d1b8805af3d6eb5d1c69089df7968176ade0f2f26be",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4205568,
+      "end": 4205575,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'dev386'",
+      "sha256": "7df7376132c94e5e81f3fb544561e1e7b9f74a5191b4c851f400c4041b18ee84",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227716,
+      "end": 4227723,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'export'",
+      "sha256": "cb19252e8d590a4fe23b4463dfbe8b161c13d072d65b4c081a56cb3983e5ae3d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227708,
+      "end": 4227714,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'fixed'",
+      "sha256": "f350bdc2b8eab6da871df6aff24f5410e1d8df0c1bb8a8ed5caf44a1371a96c4",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222364,
+      "end": 4222367,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'no'",
+      "sha256": "db907db790b1cdbb7c068ba83647f6599a0a182d649bb878905964a650e4f5cd",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227700,
+      "end": 4227706,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'force'",
+      "sha256": "af11d3cdc71c9b9be6788cbaed92606027d872561a9ed16846891b46820fe405",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227688,
+      "end": 4227697,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'multiple'",
+      "sha256": "6ddd18e36111d7c3301e856ab9794db81996e3113d21c3ae29a2c5826e3e7a26",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227676,
+      "end": 4227687,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'unresolved'",
+      "sha256": "085f2fb6b439ae53b2eb29b3dbe4f98b33663aa8094c992404961f26dac70990",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227664,
+      "end": 4227674,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'fullbuild'",
+      "sha256": "29de72c52ffa39d79611bb226f953bc77b28a8397c8ffbb6e06ba374d891b16b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227656,
+      "end": 4227663,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'gpsize'",
+      "sha256": "a625dc736f095fe0bde43b35e3797c3b364047fc1687965c27f303ccc2121a11",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227648,
+      "end": 4227656,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'hdrsize'",
+      "sha256": "e084464f5a0624d7e97126433704be4933c1ec6713059730c03864a1b8e9739d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222388,
+      "end": 4222393,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'heap'",
+      "sha256": "c0c802500e7bdd0d9f2ff30eeb7392c8897964cb51acbffbde6dfbcbb187236b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227640,
+      "end": 4227647,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'ignore'",
+      "sha256": "b5ef1088d357197b5397bf38393cd3de6ef2ac8015cdf3194e82665ba1419ece",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227632,
+      "end": 4227639,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'implib'",
+      "sha256": "37f75756b386204fa5f02a93d6540f72ed6e2693494e2813c8f4fe7e5b4c115b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227624,
+      "end": 4227632,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'implib:'",
+      "sha256": "07b932f60f6e487cb20d58cd7843107225dfe324f14d2ecd0e9c118fc5c2ed36",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227620,
+      "end": 4227624,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal '\".\\\\'",
+      "sha256": "66eef61535e8fcfa01e36398ce5fee84ccf2c2d6fa3b410d8219e5e27dd0c121",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4200792,
+      "end": 4200794,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal '\"'",
+      "sha256": "37aa3970b6801c9d286464f7d86e50bf41c88e54c7b4d08f3ff61935b3f59c3c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227612,
+      "end": 4227619,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'import'",
+      "sha256": "5fc2c569c38e680c102a50d3fde709f701a29a7847f038a1a6b053fcfe2b5061",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227604,
+      "end": 4227609,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'glue'",
+      "sha256": "8368f21606a40a8926ce2f034613f59efa7bb637b479214d8ca8592666f16b9a",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227600,
+      "end": 4227602,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal '1'",
+      "sha256": "e79e418e48623569d75e2a7b09ae88ed9b77b126a445b9ff9dc6989a08efa079",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227596,
+      "end": 4227600,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'lib'",
+      "sha256": "02a284a32e7da515fd28e835d8968d50675e0277e5e5a92effe858e7ef925392",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227588,
+      "end": 4227593,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'weak'",
+      "sha256": "793ab6b274e99070089a8f036162960914b5386566478da6543da512f87bf78b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224596,
+      "end": 4224607,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'currentver'",
+      "sha256": "b92c243748b1bf43ce4f0d2658363878da86f2019c8cbfb924d477b573125e96",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224584,
+      "end": 4224594,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'oldapiver'",
+      "sha256": "2e3c678f3f6a51b00dbe82cc644e33f8a86a3b3aeac90efb1769167c1507a74d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224572,
+      "end": 4224583,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'oldcodever'",
+      "sha256": "a41434da97e4baca5057b70022a03248e30aca606375dba38b8eca7c00ea9034",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227584,
+      "end": 4227586,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal '_'",
+      "sha256": "090c554bb6a344300e5690ce6f80c4ef6ee6cf5bd0fef3fde87a079dee2fa70c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227576,
+      "end": 4227584,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'include'",
+      "sha256": "d7cac338892e5c53493f6c2ce65999a9e8a00c45fcb3f6819d279e919ca53bd9",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227564,
+      "end": 4227576,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'incremental'",
+      "sha256": "3ed7a59c3876b11c208f27e3a0e80d941b7f979a8f44a2ef452e8503d476dcc3",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227560,
+      "end": 4227564,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'yes'",
+      "sha256": "357c2320b43a6c0482a5da2f108e4de667fbf36fcb00d4a8a8c1e7b47f914dd7",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222368,
+      "end": 4222386,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'largeaddressaware'",
+      "sha256": "df5ff767b6d56d177a0343d097c6945363ffe1012f4591bc35be51ecd387855c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224532,
+      "end": 4224545,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'link50compat'",
+      "sha256": "ae10ac91241687284303a320fee019390720f2b93ca8c79ba575bbca3b6036d0",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227548,
+      "end": 4227552,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'mac'",
+      "sha256": "83d9b795453c19781f134f79b7faddafd0a3217854ef2e07a4555d2f2a2e8d82",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227540,
+      "end": 4227545,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'type'",
+      "sha256": "04f69a0edb2f94586d5c7530adf4e471a14739d72addd4f09b2ba21019596682",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227532,
+      "end": 4227540,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'creator'",
+      "sha256": "c18a8ff502ed2bd777be247c9a1c8da0ec47a478928dfc8da285f5fc504ebbdc",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224488,
+      "end": 4224493,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'init'",
+      "sha256": "188bf19ddb43055ad711c808677db47b443964734bc65717fd3fd37b820e3eae",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224480,
+      "end": 4224485,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'term'",
+      "sha256": "8aa9b8549de1e366497982790a914e180aeb8afb7b8056798aa071e9fc27d132",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227524,
+      "end": 4227531,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'bundle'",
+      "sha256": "a64ea2b3ec2149702a9adb53116087ba9c791eef9159603a2d200e0de35f46b2",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227512,
+      "end": 4227521,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'nobundle'",
+      "sha256": "f185e8591a86de4e99fdfc19ecad15452babeb613e993b86bf7c9df1fb5246b0",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227500,
+      "end": 4227509,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'mfilepad'",
+      "sha256": "73f97733d5cf2dbb06342b10d6add1f0b40e4c738b0dd519266b899b3edda6f1",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227488,
+      "end": 4227499,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'nomfilepad'",
+      "sha256": "895db81684de138692251ac92a9baea9e2c3ba77836f9f68fc8555e4868e08ca",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227480,
+      "end": 4227488,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'macdata'",
+      "sha256": "5aaaf4b0dec08bfbfbb5e907bee9b44eca4fbdece4019b25cb1ed39e42edb838",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227472,
+      "end": 4227480,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'machine'",
+      "sha256": "a9077603d9ab13fb0ac6cb78ab8789af210d87804c057b10ee50691c2e7fc9bd",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224416,
+      "end": 4224468,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'IX86, ALPHA, ARM, MIPS, MIPSR41XX, PPC, SH3, or SH4'",
+      "sha256": "2501881cb082e656fc76e1ea26f2e5f71fe6bc2c274c72508ad701d08652b409",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227464,
+      "end": 4227471,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'macres'",
+      "sha256": "17b0cc7bdaf15465eaebc5e91d2491e885ecd141caca016a01ee7255f3e443ad",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227444,
+      "end": 4227464,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'resntBinaryResource'",
+      "sha256": "5ffc180554299318f5f9e9e83acab5ac5633a29adfc0d2b2b0ac703a1916d52d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227428,
+      "end": 4227441,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'map:\".\\\\%s%s\"'",
+      "sha256": "fe5635b120648b7eb751031a709c92c17214b7944a6ac22bf17ea9eec33035ed",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227420,
+      "end": 4227428,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'mapinfo'",
+      "sha256": "de3e55367f9e4a476c70b342e7d0a30c8b11ff2a2edc8fa27d4a27f0a6a5f19b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4213736,
+      "end": 4213744,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'exports'",
+      "sha256": "756bbac62fcca7689fcd15bcb1354d257aa8c71912513fce18b0590628769a94",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227412,
+      "end": 4227418,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'lines'",
+      "sha256": "311af96d255c64d07137fc952138e68ea032e0ce2a3c916b601ad02de2ef066d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227404,
+      "end": 4227411,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'fixups'",
+      "sha256": "1afec4f0ffc7b55d83f55cace556e26228b04f4d852ebf24528878399b3c0b11",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227396,
+      "end": 4227402,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'merge'",
+      "sha256": "bb3f134e05a408aed7b60c53d886a359913213f01f77cbfb7170b89245ffb173",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227384,
+      "end": 4227394,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'miscrdata'",
+      "sha256": "84be7393c497d6a1afe2832bdf955a4042563a4924832fa412c777bf30a7d49b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227368,
+      "end": 4227383,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'mppc32bittypes'",
+      "sha256": "c6e12b4c90e4e3ddb8b1a76a4811b9529b727d47e7526ead82d50e8346f9baa3",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4221056,
+      "end": 4221061,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'name'",
+      "sha256": "182da4ba21ba19c3353926df75ed3f18aabd2d126e1233a9746593b751cddee6",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227360,
+      "end": 4227368,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'newglue'",
+      "sha256": "1ae3a4f6cef98f1077f29ed95e6e8d3fc5bff6e3020d6bfeb7483625d20b2d7b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224396,
+      "end": 4224406,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'newimplib'",
+      "sha256": "aa194578369a351ad4c1ece47c4d7c5c6f268a9fc2416935e8bd06e254b585e9",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227348,
+      "end": 4227358,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'newrelocs'",
+      "sha256": "a4531a2db8c0aa94da41c6a5844c5f0cd8cd5db44fbee368a7ef901e52021a2b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224380,
+      "end": 4224393,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'nodefaultlib'",
+      "sha256": "dec732582e0765337a3868953748524b95a577fec478d48c4323d3b799105274",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227344,
+      "end": 4227348,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'nod'",
+      "sha256": "17a21625d72832cf36707983fadf6c8b2890ec8bc3ecb8df85ba47f854627db4",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227332,
+      "end": 4227344,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'nodelayload'",
+      "sha256": "586466c100dc4e2986c0cb9f2f61e1b3325a9e979b7fdb5c14268b5c8be42019",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227324,
+      "end": 4227332,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'noentry'",
+      "sha256": "95df78fa3ebcefd4bd8286aa336f28815d3b367e867e0f7bcf02dc312030d1d8",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227312,
+      "end": 4227323,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'nooptidata'",
+      "sha256": "96bb270e114e8354f6d6dee32c4e3d17fb991cc2e4c632e70dacfb369fd161d8",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227304,
+      "end": 4227311,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'nopack'",
+      "sha256": "d43a6666f56bb1d114cbb1598d01eb80c397858c5c3841d59ca93920782917f9",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227300,
+      "end": 4227304,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'opt'",
+      "sha256": "96f0e8cd380605328e1d64ebe96304732dd0f4f1a98b562df655da95f2b9e25f",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227296,
+      "end": 4227300,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'icf'",
+      "sha256": "65d24851a19edc51cd0820f048f29d29df6f78e17b2e3c3c04a371ea7e422fb9",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227288,
+      "end": 4227294,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'noicf'",
+      "sha256": "39ea288e426bd38df9c9647abd0f952070ce231da85f69295d92e5983137737a",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227280,
+      "end": 4227286,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'noref'",
+      "sha256": "cd17ac08911c83337b5e4d48e983cc49018bcf4ec217c0503ff5caa6c78bb865",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227276,
+      "end": 4227280,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'ref'",
+      "sha256": "f3096edac8e9fd4d4ffb03da2664c9c0884299580c016f37921f1974520ea0dc",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227264,
+      "end": 4227273,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'optidata'",
+      "sha256": "ce58b9b1b96a3edff208e5cab0cffccacfcd7448fc635f86237ff6856c3bea6f",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222344,
+      "end": 4222354,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'osversion'",
+      "sha256": "d8b0a50811ca0fddfd34bd9131839bab484b6cc3b68c1b6fde0d1995d5413fd0",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227260,
+      "end": 4227264,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'out'",
+      "sha256": "9fa08a0adfa661d19d078477b29d287bd556130ddbb88d8204382802869d5cff",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227244,
+      "end": 4227257,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'out:\".\\\\%s%s\"'",
+      "sha256": "a57e44754a5364e865612bab7b49f7e00a5f12df464398270d7e0137404b6252",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227240,
+      "end": 4227244,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'pdb'",
+      "sha256": "115641e55cc9fb81a4f8eb7cbbe7f769097d565f405146f1ed6eb4e0b61c2eda",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227224,
+      "end": 4227237,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'pdb:\".\\\\%s%s\"'",
+      "sha256": "0b4ff12128f5dff55d721066dd76ddd4769f4cafefbc95eb22a8314123dc0446",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227216,
+      "end": 4227224,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'pdbtype'",
+      "sha256": "ee2158c9afb62d4ce4156e114fdb890878740054dacf20ca3e079fec5cb2b8e6",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227212,
+      "end": 4227216,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'con'",
+      "sha256": "1360fa2fb09adca5ae31490aa15b1eb941be293bb48034b39c87f3a2dae50247",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227200,
+      "end": 4227212,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'consolidate'",
+      "sha256": "6e6d9c9b42a9d103fbb491135a9e4c0ec9ad151f959161f7a4e199f8c4dd03d1",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227192,
+      "end": 4227197,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'sept'",
+      "sha256": "8fb086cd3d6e038d632ed98b20f3def0b910bd351a108d13750d3193cbe5aa10",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227180,
+      "end": 4227189,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'septypes'",
+      "sha256": "9e18e8b78efe05550d4d391b8abb68fd7b5f3aa46b26863c47603195d1917a14",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227172,
+      "end": 4227180,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'profile'",
+      "sha256": "adf7e4d2568c6bda66dccb487657db7bed575c3b361df8fab0f3400263791efe",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222328,
+      "end": 4222336,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'release'",
+      "sha256": "223fd92aee4114c9131ceeb2b7a680b33667523d112ebe58199861a9ec8d8d17",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227168,
+      "end": 4227171,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 're'",
+      "sha256": "6dd31f94d0f794e32660d36d7cf8c8af400d50fb2e23146dcae0b0890447155c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227164,
+      "end": 4227168,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'rom'",
+      "sha256": "dfcf7454187a828f09768591fbc2a4602fa29c53655fe55093291ec362f9e41d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222320,
+      "end": 4222328,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'section'",
+      "sha256": "8a97e2fa206e9be0bae7abc30cfd87e62d29b0c9e985e253d2ae056a23a089ac",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222312,
+      "end": 4222318,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'stack'",
+      "sha256": "12cafa3004497abdbb5fde3c284a00d676bad3cd03ee14ae16fe7a1be897532c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227156,
+      "end": 4227161,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'stub'",
+      "sha256": "64b8608696a2615954fa5ff67610b60cc65c5bdbcfb33c516057e863312fd106",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4202212,
+      "end": 4202215,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'rb'",
+      "sha256": "ef4a3d25250e72708f6f82d59e29b96880728d971ae0b4862d37c9cd927bb082",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222300,
+      "end": 4222310,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'subsystem'",
+      "sha256": "6145686d43f4a6a437462e5b9133d66d22ccaf235ba91e697a0441536f4739a3",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222292,
+      "end": 4222300,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'console'",
+      "sha256": "77b4934366ecb91b4ba1ad57e87319d33ac558876ac0f96d46f3f9d9b701c8f7",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222284,
+      "end": 4222291,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'native'",
+      "sha256": "5b0d677c3c31c29d1ee44ada0cfa796beae3285469a0e7799c9e696515b3c830",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222276,
+      "end": 4222282,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'posix'",
+      "sha256": "294fc4f95d430352cafb2ca956bc96ba2945469a2ad91a6a83722313d3baa55d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4205560,
+      "end": 4205568,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'windows'",
+      "sha256": "0af3b079ba856a2613c10570c9141a0a8c25ccbc34927f9a336bd675a3fe7b33",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222264,
+      "end": 4222274,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'windowsce'",
+      "sha256": "aeb58c413d6237a2d668226613be98ab6b9cb8f86c431a493a4304cd93a7fdd8",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222256,
+      "end": 4222264,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'swaprun'",
+      "sha256": "a9705ffc2509330e20b07d5fd42a52c64abce62107c5e5a90ee5a236917c85e6",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222252,
+      "end": 4222255,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'cd'",
+      "sha256": "f9da4e1ef734ef4ae90b5c6b764ff245a85fc95c46a8b772cfd5d55ee1ec1d8d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222248,
+      "end": 4222252,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'net'",
+      "sha256": "529e770884e4ba60824c0449ef23df7f087a6a2f58b895d01904e07863c13431",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227148,
+      "end": 4227153,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'test'",
+      "sha256": "ceb73749c899693706ede1e30c9929b3fd5dd926163831c2fb8bd41e6efb1126",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227140,
+      "end": 4227145,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'time'",
+      "sha256": "68d981999c72f09a05600e1cfc825be16ebc49e51ceba4bc73a90a0c4c69efba",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224628,
+      "end": 4224638,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'vc6compat'",
+      "sha256": "76d9cbf9e72ff4c2a1f022d607d829c10a6af93e8b45fc205620fa6c91e8e475",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224620,
+      "end": 4224628,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'verbose'",
+      "sha256": "614be95335ee857bcf69f306d3c10e444ec9f90b973c93771b9d54f52d65a750",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222228,
+      "end": 4222236,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'version'",
+      "sha256": "51e4f61e075a2e46b61b2ecac253a0b6ccbf9aca8d1afebcb7e196f49174383b",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227128,
+      "end": 4227137,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'liborder'",
+      "sha256": "da0406a2bdce6beea270b1fcc78cddda5a09116e57995ca8f6b6ad371d520006",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227120,
+      "end": 4227127,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'before'",
+      "sha256": "37d9c830e637e2c7878943723f87aa2057db902a960353334ab23a57990e72ee",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227112,
+      "end": 4227117,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'warn'",
+      "sha256": "3e05cf706f979ec8ae089ee5b6d10e5f6f961db0b64a74b1f22664d6f56ef8a5",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224616,
+      "end": 4224619,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'WX'",
+      "sha256": "6b09f36da9f8f76113142eb90ff1feb674a678374b4ff0244553d9d8dc07e47c",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227100,
+      "end": 4227110,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'emulation'",
+      "sha256": "b9c38f0a9394b906e52a18ac2e2a032ef0e4f4628a70a6852974753b13110498",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227088,
+      "end": 4227098,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'noconvert'",
+      "sha256": "800cf6e9335487167ae3f45da26c2276af7ca82b65d2dd53561667163b879816",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222224,
+      "end": 4222227,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'ws'",
+      "sha256": "77d0998f48e904f8de6dcf3b59ad122335408a5a5c8d177fa9b826ce32e8e4c5",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4222212,
+      "end": 4222223,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'aggressive'",
+      "sha256": "d0a286bfe3c30be847a74b253adce1414aca0897ea6d747d2eae73c91d66a832",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4213556,
+      "end": 4213561,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'xoff'",
+      "sha256": "281774016580b31e7530ec35d402146ad1c8b00b2542fee60ba9e3ad2fef2397",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227080,
+      "end": 4227088,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'order:@'",
+      "sha256": "98dbbc8fd3f22a8acf651fd91c3ddd16f9c195a8d202a52274b9caf96ce099aa",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4227064,
+      "end": 4227080,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal 'order:@\".\\\\%s%s\"'",
+      "sha256": "dbd330b37f9092cfc1af1fda058d2f222e80b7ce0d5339923832087af63af35e",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4224608,
+      "end": 4224613,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal '/%s\\n'",
+      "sha256": "a3032bef3e4788316b2f46594c4a72c1ba7841ab1c2046aada9c4321e17edb61",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4202244,
+      "end": 4202247,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal ' \\t'",
+      "sha256": "451c192acc363f9450510d3b649ebe486b4158d6e0f5020eb5e6c40ba5377d44",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4202240,
+      "end": 4202241,
+      "accepted": true,
+      "reason": "configure_link_options contextual literal ''",
+      "sha256": "6e340b9cffb37a989ca544e6bb780a2c78901d3fb33738768511a30617afa01d",
+      "evidence": "Full445130..448629 dispatcher direct references; source literal at point of use; cases/help/options-literals.json"
+    },
+    {
+      "start": 4225804,
+      "end": 4227061,
+      "accepted": true,
+      "reason": "inline linker_usage puts help text",
+      "evidence": "src/link-driver.cpp: linker_usage; original PUSH407b0c at444f8e",
+      "sha256": "5fe566cb44f86fc43318743c009d000626ee9ec6c02817d4cbd0c58836d0dbd3"
+    },
+    {
+      "start": 4231980,
+      "end": 4232004,
+      "accepted": true,
+      "reason": "inline print_logo literal",
+      "evidence": "src/driver-stubs.c: print_logo; original immediate string reference",
+      "sha256": "7507dccb492743bbece4c812ad4553426c1a99f182a1b16905e60924c90ed42c"
+    },
+    {
+      "start": 4231952,
+      "end": 4231978,
+      "accepted": true,
+      "reason": "inline print_logo literal",
+      "evidence": "src/driver-stubs.c: print_logo; original immediate string reference",
+      "sha256": "cd3209fbec3b1bfcfa4bcd269e8dbf5f3130f1cbcd1f7a5022aa813e07957b5b"
+    },
+    {
+      "start": 4231928,
+      "end": 4231951,
+      "accepted": true,
+      "reason": "inline print_logo literal",
+      "evidence": "src/driver-stubs.c: print_logo; original immediate string reference",
+      "sha256": "451ec22c6212732dfd1d9b3c79354431e21e2be6a0e8049932ea20c5c86abd17"
+    },
+    {
+      "start": 4231904,
+      "end": 4231928,
+      "accepted": true,
+      "reason": "inline print_logo literal",
+      "evidence": "src/driver-stubs.c: print_logo; original immediate string reference",
+      "sha256": "e266bb8ec23e70096f47b79ed1aff0e7c7240f035c79df631d8f2d3bc3a5ec9d"
+    },
+    {
+      "start": 4231872,
+      "end": 4231904,
+      "accepted": true,
+      "reason": "inline print_logo literal",
+      "evidence": "src/driver-stubs.c: print_logo; original immediate string reference",
+      "sha256": "fb8ac401f5a64e63a21eb50a9dd2037b925d7a6ca30a48b7ca7b7f1d0348afbe"
+    },
+    {
+      "start": 4231772,
+      "end": 4231870,
+      "accepted": true,
+      "reason": "inline print_logo literal",
+      "evidence": "src/driver-stubs.c: print_logo; original immediate string reference",
+      "sha256": "24e67cdae610b31518a92464e458cf7999f985e56426e99e7da8bdd670e417eb"
+    },
+    {
+      "start": 4205732,
+      "end": 4205734,
+      "accepted": true,
+      "reason": "inline print_logo literal",
+      "evidence": "src/driver-stubs.c: print_logo; original immediate string reference",
+      "sha256": "102b51b9765a56a3e899f7cf0ee38e5251f9c503b357b330a49183eb7b155604"
+    },
+    {
+      "start": 4216240,
+      "end": 4216243,
+      "accepted": true,
+      "reason": "inline print_logo literal",
+      "evidence": "src/driver-stubs.c: print_logo; original immediate string reference",
+      "sha256": "2f3a3f9b55f5df846abf81c7d13ff74998bdda8664df664173220675150020ff"
+    },
+    {
+      "start": 4593260,
+      "end": 4593280,
+      "accepted": true,
+      "reason": "print_logo five-kind dispatch table",
+      "evidence": "src/driver-stubs.c: print_logo switch; original JMP4615bc bounded EAX0..4, five in-function targets",
+      "sha256": "e04fd6a040c8ebd778807a6d44db192b7102f0b750445db7ee8c63d7045a64ab"
+    },
+    {
+      "start": 4223472,
+      "end": 4223502,
+      "accepted": true,
+      "reason": "inline close_timing fprintf format",
+      "evidence": "src/initializers.c: close_timing; original PUSH4071f0 at444eeb",
+      "sha256": "6a5d728cc41cd399070f898eb5915f68ccc1796788ef70623d9db4dd935373d2"
+    },
+    {
+      "start": 4231676,
+      "end": 4231680,
+      "accepted": true,
+      "reason": "canonicalize_argument contextual LIB search-environment literal",
+      "evidence": "Full45c650..45c74f source call _searchenv(text,\"LIB\",found) at45c706.",
+      "sha256": "28b87d5d1864d6f81087f09ec47da6d67d58e6facac30aba559534f3d43fd9b8"
+    },
+    {
+      "start": 4228084,
+      "end": 4228088,
+      "accepted": true,
+      "reason": "validate_debug_options contextual diagnostic literal",
+      "evidence": "src/link-driver.cpp: validate_debug_options; original448630..4487e3",
+      "sha256": "4e6b35496f8ea544a79b7c68e12fcbc75c7131943469a84b64a43ba71cfbf34a"
+    },
+    {
+      "start": 4228064,
+      "end": 4228076,
+      "accepted": true,
+      "reason": "validate_debug_options contextual diagnostic literal",
+      "evidence": "src/link-driver.cpp: validate_debug_options; original448630..4487e3",
+      "sha256": "295c0e4afccaeeed3ecf3b90ecc6b7076fb6aedf7c23d33e4a7609e5d49da318"
+    },
+    {
+      "start": 4228052,
+      "end": 4228062,
+      "accepted": true,
+      "reason": "validate_debug_options contextual diagnostic literal",
+      "evidence": "src/link-driver.cpp: validate_debug_options; original448630..4487e3",
+      "sha256": "8009efe02a5fcb7f86700440a1af7e99dce490bac6824aa051f448d8a5331cfe"
+    },
+    {
+      "start": 4228036,
+      "end": 4228040,
+      "accepted": true,
+      "reason": "validate_debug_options contextual diagnostic literal",
+      "evidence": "src/link-driver.cpp: validate_debug_options; original448630..4487e3",
+      "sha256": "35ba324233a46ac741e08504f1e35030aa9694c2969527da929daa4ea026f768"
+    },
+    {
+      "start": 4228028,
+      "end": 4228034,
+      "accepted": true,
+      "reason": "validate_debug_options contextual diagnostic literal",
+      "evidence": "src/link-driver.cpp: validate_debug_options; original448630..4487e3",
+      "sha256": "e57777f30106fd72aa05abad67ebc98a7ce23c1f7bbe21c62780892fce860e2e"
+    },
+    {
+      "start": 4228020,
+      "end": 4228028,
+      "accepted": true,
+      "reason": "validate_debug_options contextual diagnostic literal",
+      "evidence": "src/link-driver.cpp: validate_debug_options; original448630..4487e3",
+      "sha256": "ae31dcb6649b12df88e5c34e4b088f2bb842a3952ca6f18bae4e861b00d7c92c"
+    },
+    {
+      "start": 4228012,
+      "end": 4228018,
+      "accepted": true,
+      "reason": "validate_debug_options contextual diagnostic literal",
+      "evidence": "src/link-driver.cpp: validate_debug_options; original448630..4487e3",
+      "sha256": "228899f35e9b735f602dab0d028cbfd02944cf3eba8e2606cba9cfaa10b69c9a"
+    },
+    {
+      "start": 4200508,
+      "end": 4200532,
+      "accepted": true,
+      "reason": "initialize_output_modules encountered name literal linker defined library",
+      "evidence": "src/full-link-init.c: initialize_output_modules; original40e3b0..40e414",
+      "sha256": "41a822e983685a23c269f0be001f481d904e09aa294bbc3bdb8849a32103575e"
+    },
+    {
+      "start": 4200532,
+      "end": 4200555,
+      "accepted": true,
+      "reason": "initialize_output_modules encountered name literal linker defined module",
+      "evidence": "src/full-link-init.c: initialize_output_modules; original40e3b0..40e414",
+      "sha256": "1167926ea93b7ad14c978e212e1af3bee86d5356bbf10ee64bd582f8e12d2bd5"
+    },
+    {
+      "start": 4202772,
+      "end": 4202776,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "a8c50a743204d2f50b029754c091ba5847b41c9a49dc7723ba2eb589b6a6588f"
+    },
+    {
+      "start": 4202768,
+      "end": 4202772,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "111689790fac1ffdbf246c7a84d6b915e20183617a82971f74e659f8ce12e23e"
+    },
+    {
+      "start": 4202788,
+      "end": 4202792,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "351e341dbcc14b6b559c3a91cee562cc4954e505a5a1a88d0512703bf9446fae"
+    },
+    {
+      "start": 4202784,
+      "end": 4202788,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "3f2742f4af9fa1b56a9f1a69762eaf7ee5978e184a688b01636dc5f900904ed6"
+    },
+    {
+      "start": 4202764,
+      "end": 4202768,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "6c5d24d685a2ed74fbdd05f813685298cc8690d152c0dd41ae5a4f0b3f54d258"
+    },
+    {
+      "start": 4202760,
+      "end": 4202764,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "a620b511e2407ec9a071ce3545a9b306ec13318e9befc597e66563dcc7e4bc89"
+    },
+    {
+      "start": 4202912,
+      "end": 4202916,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "c2f469b3490546cc8231d318b5fbe7d864e12bf7fff487cf9d10ed65f53fc26f"
+    },
+    {
+      "start": 4202916,
+      "end": 4202920,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "351e341dbcc14b6b559c3a91cee562cc4954e505a5a1a88d0512703bf9446fae"
+    },
+    {
+      "start": 4202852,
+      "end": 4202856,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "6c5d24d685a2ed74fbdd05f813685298cc8690d152c0dd41ae5a4f0b3f54d258"
+    },
+    {
+      "start": 4202848,
+      "end": 4202852,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "043fcaa73272c4e76aa846057576630108accf4efc16191216f527b57e695be2"
+    },
+    {
+      "start": 4202828,
+      "end": 4202832,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "8a0faa49de8ae17fd5753753c773964f8b81c63c9e51c49a63350f33cc7b5a0e"
+    },
+    {
+      "start": 4202836,
+      "end": 4202840,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "8a0faa49de8ae17fd5753753c773964f8b81c63c9e51c49a63350f33cc7b5a0e"
+    },
+    {
+      "start": 4202816,
+      "end": 4202820,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "cb1b9fae6d100765166dc41e2af9042fc2d841653a0c41dd8ad2656a8b02b2ac"
+    },
+    {
+      "start": 4202820,
+      "end": 4202824,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "6c5d24d685a2ed74fbdd05f813685298cc8690d152c0dd41ae5a4f0b3f54d258"
+    },
+    {
+      "start": 4202796,
+      "end": 4202800,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "6c5d24d685a2ed74fbdd05f813685298cc8690d152c0dd41ae5a4f0b3f54d258"
+    },
+    {
+      "start": 4202792,
+      "end": 4202796,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "53a2ff9a9b5ca5d2b174a30eda562527bd7273db9d824a71d8a44efc7586b266"
+    },
+    {
+      "start": 4202804,
+      "end": 4202808,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "d592ceff0db67b5e2c3966dca8bd9595623d86f299e981444cddb8bb6a888ef8"
+    },
+    {
+      "start": 4202800,
+      "end": 4202804,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "595261695850b5fc2f8fd4417f987d85c64b4a28c7781b921fed2f56762df3b7"
+    },
+    {
+      "start": 4202924,
+      "end": 4202928,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "160a1fbf09c731269028535084d1e64ef1eeb1f2b7fe454f14b08498fa4f4439"
+    },
+    {
+      "start": 4202920,
+      "end": 4202924,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "586a5d60d712182124ffe232d4a84229357f5d6cb62a12c236697919844798bb"
+    },
+    {
+      "start": 4202808,
+      "end": 4202812,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "30dde89e799431f911cb9b84d8f7cf22bb52e3d43f19090b51e68fc07621050c"
+    },
+    {
+      "start": 4202812,
+      "end": 4202816,
+      "accepted": true,
+      "reason": "InitializeSections encountered section characteristics",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "fa8175660779cc11f41a31390232e8dee3ed31a490f2441b50946e56a18b6867"
+    },
+    {
+      "start": 4202872,
+      "end": 4202876,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "e68035cbd6d8e1a9f09afeabc80fbcb4b036ad9761ef184e7216554e517101be"
+    },
+    {
+      "start": 4202880,
+      "end": 4202884,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "3e53663148169b4eeb668f6fb45d2aeb95c7891ff72d580ca44698ba75d8950c"
+    },
+    {
+      "start": 4202888,
+      "end": 4202892,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "3bcf9066e69e45bd1dd6128b53630a5baa9c7413fee3caa7fc97d9e22f3c1ba8"
+    },
+    {
+      "start": 4202896,
+      "end": 4202900,
+      "accepted": true,
+      "reason": "InitializeSections encountered section name pointer",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "962238da9f7bc7cd2da3e5949edd6098fd7e8ec4f616f68dc3c2f5ae3370f0ce"
+    },
+    {
+      "start": 4201672,
+      "end": 4201677,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .bss",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "4de72f7e851e9d117cd7979c576f033d31ab87da0fbc4bd109634d2120c4030f"
+    },
+    {
+      "start": 4203028,
+      "end": 4203035,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .sdata",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "285d79b35acd50a209eb4fe81a50c3cbefa37fbfb35849deae7cbc0274c64bc0"
+    },
+    {
+      "start": 4201692,
+      "end": 4201699,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .rdata",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "c429a2d572d864d12311b9cc26c7da3caf67ba1adeca3448e3395caa0f151aa7"
+    },
+    {
+      "start": 4201708,
+      "end": 4201714,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .data",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "c42d20717313de40aff378874f13ae688ace1266c5ca4cd675aed4718e8c1fb8"
+    },
+    {
+      "start": 4202956,
+      "end": 4202963,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .pdata",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "7ac7c29ffaeaaf1c930d118fa1b4b606346763c47f6530ab8f0a64dbf4e2a295"
+    },
+    {
+      "start": 4202996,
+      "end": 4203003,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .edata",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "9142770d1d8901cfe5816d67a3c9716b8f35bbf1d1a837711558d06f40817f39"
+    },
+    {
+      "start": 4203020,
+      "end": 4203027,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .xdata",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "48838b4e51dd9dfaa59b9093a52b27dc2e7736bce4f82bddc28d0d00b27959c8"
+    },
+    {
+      "start": 4203012,
+      "end": 4203018,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .arch",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "2b00a991c0ca68c3969af31b88fdba56602fc68d88f8dfb90396e3922dca4d2e"
+    },
+    {
+      "start": 4202928,
+      "end": 4202936,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .ppcldr",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "73e73f3397a2814a9c02a85323cd15f96a9c2969dc8aeef73ee61bf1360decad"
+    },
+    {
+      "start": 4203004,
+      "end": 4203011,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .debug",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "8f9e16c96c30f1489506aa1fd190e9d226344e175b66cbf5f9cf11deb490cf22"
+    },
+    {
+      "start": 4201800,
+      "end": 4201809,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .debug$S",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "4e1da416da9ed3db1375b08031f533c45244186ff54818bdbae2db3bf230439c"
+    },
+    {
+      "start": 4201760,
+      "end": 4201769,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .debug$T",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "9ffc654710cc7913b623cfd7ed3483a17ca46361690721a3c2d94a77dd6053ec"
+    },
+    {
+      "start": 4201772,
+      "end": 4201781,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .debug$P",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "4ef70248a7f8951743af3403023c3bf1c164f8097fa1e68423806c12fab884bc"
+    },
+    {
+      "start": 4201748,
+      "end": 4201757,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .debug$F",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "1dca3ea1bcbabcf083ded75909d0e767e91cd76aa0ad19f38892ca92b7bd2ab4"
+    },
+    {
+      "start": 4223432,
+      "end": 4223439,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .idata",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "6a92b4a566fe403f57c117cf5ecd81ced12efca7bccd10d91e8a4f2ff3478261"
+    },
+    {
+      "start": 4225268,
+      "end": 4225275,
+      "accepted": true,
+      "reason": "InitializeSections encountered section/group name .didat",
+      "evidence": "cases/hello-win32/section-initializer-analysis.json",
+      "sha256": "3728b14fb33ca3f1c86b0a1f21b0c91f594e7b08d86324900c9fb1fed705582a"
+    },
+    {
+      "start": 4202840,
+      "end": 4202844,
+      "accepted": true,
+      "reason": "adjust_output_section_flags encountered resource section-name pointer",
+      "evidence": "original45e883..45e8c9; src/sections.c adjust_output_section_flags native-subsystem resource handling",
+      "sha256": "7b35255b4b8726d1f773ab22478c12d3ccce12b6760c2243fffe79bdde4525f1"
+    },
+    {
+      "start": 4202964,
+      "end": 4202970,
+      "accepted": true,
+      "reason": "adjust_output_section_flags encountered resource section-name literal",
+      "evidence": "original45e883..45e8c9; src/sections.c adjust_output_section_flags native-subsystem resource handling",
+      "sha256": "35aa252247230a130df4e1f669e653d58e913d1792ef4864d4873fc38d023c1f"
+    },
+    {
+      "start": 4225616,
+      "end": 4225622,
+      "accepted": true,
+      "reason": "FullLink actual PassOne phase string, excluding alignment padding",
+      "sha256": "4aae86b139c1cb318218065518d8f1820e8541cb5f55117889b7c4cfdc44e42c",
+      "evidence": "cases/hello-win32/pass-one-phase-literal.json"
+    }
+  ],
+  "cases": {
+    "help": {
+      "arguments": [
+        "/?"
+      ],
+      "complete": true
+    },
+    "hello-win32": {
+      "arguments": [
+        "/nologo",
+        "/incremental:no",
+        "/out:hello.exe",
+        "hello.obj",
+        "kernel32.lib"
+      ],
+      "complete": false,
+      "manifest": "cases/hello-win32/case.json"
+    }
+  },
+  "review_gate": "approved"
+}

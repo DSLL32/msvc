@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x0804bc65 in open_argument_file (name=0xffffda39 "hello.exe", flags=33538, mode=384) at src/arguments.c:203
+203	int __stdcall open_argument_file(const char *name,int flags,int mode) { __asm { int 3 } return 0; }

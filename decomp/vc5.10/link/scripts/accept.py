@@ -186,14 +186,15 @@ def audit_trial(path):
     inputs = [tool, ROOT/'toolchains/5.10/bin/LINK.EXE', BINARY/'build/link.exe',
               BINARY/'build/link.map',path,BINARY/'runtime.json',BINARY/'build/runtime.json',BINARY/'graph.json',BINARY/'build/graph.json']
     inputs.append(strict_path)
-    inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','hello_boundary.py','mask.py','observers.py','environment_profile.py','binary.py','context_heap.py','section_state.py','group_state.py','capture_sources.py','native-completion.py','check-native.py','completion_cleanup.py','case_inputs.py']]
+    inputs += [BINARY/'scripts'/name for name in ['accept.py','boundary_state.py','hello_boundary.py','mask.py','observers.py','environment_profile.py','binary.py','context_heap.py','section_state.py','group_state.py','collision_state.py','capture_sources.py','native-completion.py','check-native.py','completion_cleanup.py','case_inputs.py']]
     cached_bodies={'_main','_initialize_debug@8','_initialize_repro','_parse_command_line@16','_has_switch@4'} & set(trial['accepted'])
     imported=copy.deepcopy(trial)
     register_candidates=[name for name in ['_configure_link_options@12','_parse_switch@8','_print_logo']if name in trial['accepted']]
     register_candidate=bool(register_candidates)
     full_link_candidate='?FullLink@LinkContext@@QAEHPAE@Z' in trial['accepted']
     pass_one_candidate='LinkContext::PassOne'in trial['accepted']
-    imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies and name not in register_candidates and not(full_link_candidate and name=='?FullLink@LinkContext@@QAEHPAE@Z')and not(pass_one_candidate and name=='LinkContext::PassOne')]
+    collision_candidate='_check_output_input_collision@8'in trial['accepted']
+    imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies and name not in register_candidates and not(full_link_candidate and name=='?FullLink@LinkContext@@QAEHPAE@Z')and not(pass_one_candidate and name=='LinkContext::PassOne')and not(collision_candidate and name=='_check_output_input_collision@8')]
     import_path=path.parent/'direct-import-config.json'
     import_path.write_text(json.dumps(imported,indent=2)+'\n')
     inputs.append(import_path)
@@ -310,6 +311,31 @@ def audit_trial(path):
         inputs += [ROOT/provider['path'],BINARY/provider['owned_receipt']]
         inputs += [BINARY/item['path']for item in provider['owned_hfile_copies']]
         inputs += [ROOT/item['path']for imported in packet['imports']for item in imported['declarations']]
+    collision_command=None
+    collision_witness=None
+    if collision_candidate:
+        import importlib
+        from binary import PE
+        collision_checker=importlib.import_module('collision-preservation')
+        collision_witness=collision_checker.check(PE(ROOT/'toolchains/5.10/bin/LINK.EXE'),
+            PE(BINARY/'build/link.exe'),(BINARY/'build/link.map').read_text())
+        collision_config=copy.deepcopy(trial);collision_config['accepted']=[collision_checker.OWNER]
+        collision_config_path=path.parent/'collision-register-import-config.json'
+        collision_config_path.write_text(json.dumps(collision_config,indent=2)+'\n')
+        collision_metadata=json.loads((BINARY/'build/graph.json').read_text())
+        collision_metadata['functions'].setdefault(collision_checker.OWNER,{})['register_imports']={'require_all_register_calls_resolved':True}
+        collision_metadata['register_imports']={'preservation_contracts':collision_checker.contracts()}
+        collision_metadata_path=path.parent/'collision-register-import-metadata.json'
+        collision_metadata_path.write_text(json.dumps(collision_metadata,indent=2)+'\n')
+        collision_command=command.copy()
+        collision_command[collision_command.index('--config')+1]=str(collision_config_path)
+        collision_command[collision_command.index('--metadata')+1]=str(collision_metadata_path)
+        collision_command+=['--check-imports','--resolve-register-imports']
+        inputs += [collision_config_path,collision_metadata_path,collision_checker.PACKET,BINARY/'scripts/collision-preservation.py']
+        packet=json.loads(collision_checker.PACKET.read_text());provider=packet['canonical_provider']
+        inputs += [ROOT/provider['path'],BINARY/provider['owned_receipt']]
+        inputs += [BINARY/item['path']for item in provider['owned_hfile_copies']]
+        inputs += [ROOT/item['path']for imported in packet['imports']for item in imported['declarations']]
     delete_support=None
     if 'import:??3@YAXPAX@Z' in trial['accepted']:
         import importlib
@@ -367,6 +393,12 @@ def audit_trial(path):
         pass_one_report=json.loads(resolved.stdout)
         pass_one_audit=dict(command=pass_one_command,witness_binding=pass_one_witness,
             inventory=pass_one_checker.check_resolution(pass_one_report),report=pass_one_report,stderr=resolved.stderr.decode())
+    collision_audit=None
+    if collision_command:
+        resolved=subprocess.run(collision_command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=True)
+        collision_report=json.loads(resolved.stdout)
+        collision_audit=dict(command=collision_command,witness_binding=collision_witness,
+            inventory=collision_checker.check_resolution(collision_report),report=collision_report,stderr=resolved.stderr.decode())
     member_pointer_contract=None
     if 'LinkContext::Initialize' in trial['accepted']:
         from member_pointers import check_static
@@ -383,7 +415,7 @@ def audit_trial(path):
     assert full_report['discovery'] == 'cfg'
     assert set(report['functions']) == set(strict['accepted']), 'strict body subset differs'
     assert set(full_report['functions']) == set(trial['accepted']), 'full trial graph subset differs'
-    return dict(elapsed_seconds=elapsed,total_elapsed_seconds=time.perf_counter()-audit_started,binding_and_setup_seconds=started-audit_started,delete_support=delete_support,register_import_audit=register_audit,full_link_import_audit=full_link_audit,pass_one_import_audit=pass_one_audit,member_pointer_contract=member_pointer_contract,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
+    return dict(elapsed_seconds=elapsed,total_elapsed_seconds=time.perf_counter()-audit_started,binding_and_setup_seconds=started-audit_started,delete_support=delete_support,register_import_audit=register_audit,full_link_import_audit=full_link_audit,pass_one_import_audit=pass_one_audit,collision_import_audit=collision_audit,member_pointer_contract=member_pointer_contract,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
                 strict_projection_excludes_only_verified_import_thunks=sorted(import_leaves & set(trial['accepted'])),
                 input_sha256_before=before, input_sha256_after=after,
                 full_report=full_report,strict_report=report,
