@@ -481,3 +481,12 @@ build/watcom-setjmp-probe: tests/watcom-setjmp-probe.c $(SOURCES) $(HEADERS) | b
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A -DRECON_NATIVE_STARTUP_WATCOM_100A_FP tests/watcom-setjmp-probe.c $(SOURCES) -o $@
 watcom-setjmp-check: build/watcom-setjmp-probe
 	$(PYTHON) tests/check-watcom-setjmp.py build/watcom-setjmp-probe
+
+.PHONY: file-retention-check
+build/file-retention-probe: tests/file-retention-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) tests/file-retention-probe.c $(SOURCES) -o $@
+build/file-retention-510: tests/file-retention-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 tests/file-retention-probe.c $(SOURCES) -o $@
+file-retention-check: build/file-retention-probe build/file-retention-510
+	$(PYTHON) tests/check-file-retention.py build/file-retention-probe
+	$(PYTHON) tests/check-file-retention.py build/file-retention-510

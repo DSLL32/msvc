@@ -1,0 +1,86 @@
+{
+  "rows": [
+    {
+      "compiler": "gcc",
+      "profile": "default",
+      "build_seconds": 1.3599213305860758,
+      "check_seconds": 0.05542782414704561,
+      "exe_sha256": "eadccb636643dff533ac84028b29abe57301ac0412f6799a5380f90d596a518f"
+    },
+    {
+      "compiler": "gcc",
+      "profile": "510",
+      "build_seconds": 1.2801163867115974,
+      "check_seconds": 0.05495100747793913,
+      "exe_sha256": "b4da2903ad56b1c0635e9e25c25ebbbaa2f05c805640d55857be7b829e35f285"
+    },
+    {
+      "compiler": "clang",
+      "profile": "default",
+      "build_seconds": 1.4302146099507809,
+      "check_seconds": 0.052100599743425846,
+      "exe_sha256": "970a8d98f3e19640d9e78aaa651e15a24bb97befc421c613c98c1c68826fa9fa"
+    },
+    {
+      "compiler": "clang",
+      "profile": "510",
+      "build_seconds": 1.4619406396523118,
+      "check_seconds": 0.053909565322101116,
+      "exe_sha256": "def1516143e3b14f4db7e77d87c34116818461a24dab9f665d6c74c92cef3b73"
+    }
+  ],
+  "inputs": {
+    "src/crt.c": "17be291c1d5e996fe94f11f9dabb5a8a67bc789b00bf20a15565a086bbdad5e6",
+    "tests/file-retention-probe.c": "64d140ca4ca09536b33ee9fda7e9183406677af94b9db864b11d82fc9450672a",
+    "tests/check-file-retention.py": "b3488fe17f2d1a0184cbfda7600863dfc699ee9bf8f10999cb4cdab98add9a5c"
+  },
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/file-retention/orchestrator-review.json",
+    "sha256": "cf3515c1a8823a802a774ccf6b0c12e53b3e7b8c815ccbe429277463cb3133bb"
+  },
+  "static_provider": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/file-retention/static-provider/proof.json",
+    "sha256": "66a446787f418e2bfb8c6d4822e42d8f5ff4e65c2d10ca57f2da3f3287c88817"
+  },
+  "native95_regression": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/file-retention-regression/receipt.json",
+    "sha256": "82295bf8fa2e60db2a19bddafd8cda3b4f3d570ca9cd1a6dfa7a7a74518d51ed",
+    "timings": [
+      {
+        "binary": "cl",
+        "build_seconds": 1.8129074834287167,
+        "fixture_wrapper_seconds": 3.3797923689708114
+      },
+      {
+        "binary": "rc",
+        "build_seconds": 2.8090573316439986,
+        "fixture_wrapper_seconds": 2.732260415330529
+      },
+      {
+        "binary": "rcpp",
+        "build_seconds": 2.3617215706035495,
+        "fixture_wrapper_seconds": 0.39297282230108976
+      }
+    ]
+  },
+  "affected_checks": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/file-retention/affected-checks.log",
+    "sha256": "408f4bcd8591160eaad308dd76b8b0eca6123309061ef66da8a0090cb6fac38e",
+    "status": "default/stdio510/ownership/fread510/zero-buffer passed"
+  },
+  "actual_c2_proofs": [
+    {
+      "path": "decomp/vc1.0/c2/cases/omf-file-retention-candidate.json",
+      "sha256": "32162daa60dc3f92df8c999c196ce5f7900e83085da0f03f5b4c59891d818238"
+    },
+    {
+      "path": "decomp/vc1.0/c2/cases/omf-write-record-abi-native-candidate/validation.json",
+      "sha256": "ca00d15a78c2a6fdcd4ad866105c7aa3e210ab1597f5fb2072d8cad6d0476516"
+    },
+    {
+      "path": "decomp/vc1.0/c2/cases/omf-write-record-abi/original-binding.json",
+      "sha256": "669b86041f62fc1f69f5df462676162400a81d21ca33d761d8f7423147f6ba0e"
+    }
+  ],
+  "scope": "Successful default openfile retains charbuf20/bufsize24 like existing510; remaining resets and failure path unchanged"
+}

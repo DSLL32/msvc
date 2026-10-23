@@ -1342,12 +1342,11 @@ WEAK ShimFILE *recon_openfile(const char *name,const char *mode,int sharing,Shim
     if (strchr(mode,'b')) flags|=0x8000;
     else if (strchr(mode,'t')) flags|=0x4000;
     fd=recon_sopen(name,flags,sharing,0666); if (fd<0) return NULL;
-#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    /* Both encountered CRT families leave these two fields untouched when a
+     * closed FILE slot is reused. Successful open resets the remaining fields,
+     * including tmpfname; a retained capacity does not imply a live buffer. */
     { int retained_size=s->_bufsiz,retained_character=s->_charbuf;
       memset(s,0,sizeof(*s)); s->_bufsiz=retained_size; s->_charbuf=retained_character; }
-#else
-    memset(s,0,sizeof(*s));
-#endif
     s->_file=fd;
     s->_flag=strchr(mode,'+')?0x80:*mode=='r'?1:2; return s;
 }

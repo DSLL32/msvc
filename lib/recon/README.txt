@@ -921,3 +921,12 @@ Indirect/bare typed calls, pointer-sized/truncated/NULL owners, every Watcom
 longjmp and generic recon_longjmp under this profile remain unsupported. This
 adds no SEH/unwind or resumed-return semantics. Watcom application reconstruction
 is paused after this bounded plumbing proof for user review and assigned cases.
+
+Successful default/510 openfile preserves a reused FILE slot's _charbuf and
+_bufsiz. The VC1 getstream/freebuf/openfile field writes independently confirm
+this existing510 behavior also applies to the reached default C2 path. Pointer,
+base and count are reset, so a retained capacity does not represent live buffer
+storage; tmpfname and other successful-open fields still reset. Failed-open
+behavior remains unchanged. Native controls cover cold slots and reused4096,
+16 and512 capacities with independent charbuf sentinels, ownership and FP state;
+the actual C2 writer-entry proof reuses its unchanged original capture.
