@@ -2000,6 +2000,44 @@ WEAK char *recon_strerror(const char *prefix)
 
 WEAK void recon_searchenv(const char *filename,const char *variable,char *output)
 {
-    (void)filename;(void)variable;(void)output;
-    recon_unsupported("unreviewed CRT _searchenv path/environment search");
+    const char *directory,*cursor;
+    char candidate[260];
+    size_t length,n;
+    ascii_multibyte_scope();
+    if (!filename || !*filename || !variable || !*variable || !output)
+        recon_unsupported("_searchenv null/empty argument");
+    for (cursor=filename;*cursor;++cursor)
+        if ((unsigned char)*cursor>=128 || strchr("\\/:;\"*?",*cursor))
+            recon_unsupported("_searchenv unreviewed filename");
+    /* The provider tries the current directory first. That missing-leaf access
+     * changes all three error slots before getenv and the successful candidate
+     * access; preserving the entry error state here would be incorrect. */
+    if (!recon_access(filename,0))
+        recon_unsupported("_searchenv current-directory success");
+    directory=recon_getenv(variable);
+    if (!directory || !*directory)
+        recon_unsupported("_searchenv unavailable environment directory");
+    for (cursor=directory;*cursor;++cursor)
+        if ((unsigned char)*cursor>=128 || *cursor==';' || *cursor=='\"')
+            recon_unsupported("_searchenv list/quote/nonASCII directory");
+    length=strlen(directory);
+    if (length<3 || !((directory[0]>='A' && directory[0]<='Z') ||
+                     (directory[0]>='a' && directory[0]<='z')) ||
+        directory[1]!=':' || (directory[2]!='\\' && directory[2]!='/'))
+        recon_unsupported("_searchenv nonabsolute directory");
+    n=strlen(filename);
+    if (length+n+2>sizeof(candidate))
+        recon_unsupported("_searchenv candidate length");
+    memcpy(candidate,directory,length);
+    if (candidate[length-1]!='\\' && candidate[length-1]!='/')
+        candidate[length++]='\\';
+    memcpy(candidate+length,filename,n+1);
+    if (!((uintptr_t)output+length+n+1<=(uintptr_t)filename ||
+          (uintptr_t)filename+n+1<=(uintptr_t)output) ||
+        !((uintptr_t)output+length+n+1<=(uintptr_t)directory ||
+          (uintptr_t)directory+strlen(directory)+1<=(uintptr_t)output))
+        recon_unsupported("_searchenv output/input overlap");
+    if (recon_access(candidate,0))
+        recon_unsupported("_searchenv unavailable candidate");
+    memcpy(output,candidate,length+n+1);
 }

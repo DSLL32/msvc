@@ -1,0 +1,16 @@
+{
+  "source_sha256": "961a348b5f1c99662526e3e0683981bbae5950bc544e9276a4c65f595dc5b6ce",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "stdout_sha256": "efecf081d579a437facced9cefb42f20cbcb8daa7ab8b3b4d9b3e535747111bd",
+  "stdout_bytes": 352,
+  "actual_CRT_LIB": "R:\\toolchains\\5.10\\lib",
+  "buffers": {
+    "output-0-1.bin": "528b143af1152eea16762b31449d93da5f9d51616a46f505c1f41e6be1b8271f",
+    "output-1-1.bin": "528b143af1152eea16762b31449d93da5f9d51616a46f505c1f41e6be1b8271f",
+    "output-0-0.bin": "528b143af1152eea16762b31449d93da5f9d51616a46f505c1f41e6be1b8271f",
+    "output-1-0.bin": "528b143af1152eea16762b31449d93da5f9d51616a46f505c1f41e6be1b8271f"
+  },
+  "original_receipt": "/root/.ai-tmp/msvc2/recon-maintenance/searchenv-original-02/receipt.json",
+  "original_receipt_sha256": "bd8f99ce51fc85313faef85e2670f28d79e9c7f5eb91460151090999222c712e",
+  "original_library_sha256_before_after": "095f231e13cb3e6a6c4913d33ca8048506011034c89774b6ba0857466abba3cf"
+}

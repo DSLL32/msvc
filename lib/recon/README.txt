@@ -619,3 +619,12 @@ leaf maps errno2/DOS2/LastError2; missing parent maps errno2/DOS3/LastError3.
 Internal Linux path-resolution errors do not leak into successful CRT calls.
 Unknown failure classes/file kinds fail closed. Other modes retain the existing
 uncharacterized behavior; this does not claim Windows write-permission coverage.
+
+_searchenv supports the reached default-C ASCII path with a missing current-
+directory basename and one unquoted absolute directory in the bound target
+CRT environment. It performs the actual filename access, environment lookup,
+candidate access and candidate copy in that order. The first missing-leaf check
+sets errno/DOS/LastError2; a later successful check preserves that result.
+Only the candidate text and NUL are written; caller buffer tails remain intact.
+Lists, quotes, unavailable candidates, current-directory successes and other
+unreviewed paths fail closed. The function does not hardcode a file or variable.

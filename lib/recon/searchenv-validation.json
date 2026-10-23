@@ -1,0 +1,28 @@
+{
+  "scope": "Reached _searchenv default-C CP0 ASCII single-unquoted-absolute-environment-directory success. Requires missing current-directory basename and existing joined candidate; unknown list/quote/failure/current-directory-success/overlap paths deny.",
+  "provider_review": {
+    "hot_rvas": "[7258,72a9)",
+    "cold_rvas": "[ebf8,ed23)",
+    "component_parser_rvas": "[256d0,2576d)",
+    "order": "_access(filename,0), getenv(variable), parse component, append actual filename, _access(candidate,0), copy candidate+NUL. The first missing access sets all error slots2; overall prestate preservation is not claimed."
+  },
+  "original_reference": "tests/searchenv-original.json;4 errno/LastError sentinel pairs, actual CRT LIB value and all260-byte buffers; source/provider/probe hashes bound.",
+  "original_seconds_build_run": 2.556128215044737,
+  "actual_target_proof": {
+    "path": "decomp/vc5.10/link/cases/hello-win32/searchenv/provider-proof.json",
+    "sha256": "4df4ea9ca5aa452d781cfc46f20cd498b06bba4839d698959540a039ad2e8c8b",
+    "capture": "/root/.ai-tmp/msvc2/vc5.10/link/hello-win32-masked-ozqr16p7"
+  },
+  "file_identity": "Actual original KERNEL32.LIB full hash before/after unchanged, recorded in reference. Native owned input full bytes unchanged; filename/variable/environment contents checked.",
+  "native_checks": {
+    "compilers": [
+      "GCC",
+      "Clang"
+    ],
+    "canonical_rows_each": 4,
+    "complete_buffer_bytes_each": 260,
+    "changed_arguments": "Different filename and different environment-variable name/directory produce their actual candidate, with owned alternate bytes unchanged.",
+    "unknown_scope_denials_each": 11,
+    "default_regression": "Default shim, _access24-row checks and strict mktemp checks pass. No broad95 repeat for this additive previously-failclosed function; the immediately preceding _access correction already passed all95."
+  }
+}

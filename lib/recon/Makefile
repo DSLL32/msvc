@@ -334,3 +334,9 @@ build/access-state-probe: tests/access-state-probe.c $(SOURCES) $(HEADERS) | bui
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 access-state-check: build/access-state-probe
 	$(PYTHON) tests/check-access-state.py build/access-state-probe
+
+.PHONY: searchenv-check
+build/searchenv-probe: tests/searchenv-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+searchenv-check: build/searchenv-probe
+	$(PYTHON) tests/check-searchenv.py build/searchenv-probe
