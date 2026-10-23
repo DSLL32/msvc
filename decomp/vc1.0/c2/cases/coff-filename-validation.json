@@ -1,0 +1,687 @@
+{
+  "cases": [
+    {
+      "emitted": -1,
+      "codeview": -1,
+      "line": -1,
+      "pending_before": 0,
+      "result": "-1 -1 -1 0 0 "
+    },
+    {
+      "emitted": -1,
+      "codeview": -1,
+      "line": -1,
+      "pending_before": 1,
+      "result": "-1 -1 -1 1 1 "
+    },
+    {
+      "emitted": -1,
+      "codeview": -1,
+      "line": -1,
+      "pending_before": 65535,
+      "result": "-1 -1 -1 65535 65535 "
+    },
+    {
+      "emitted": -1,
+      "codeview": -1,
+      "line": 0,
+      "pending_before": 0,
+      "result": "-1 -1 0 0 0 "
+    },
+    {
+      "emitted": -1,
+      "codeview": -1,
+      "line": 0,
+      "pending_before": 1,
+      "result": "-1 -1 0 1 1 "
+    },
+    {
+      "emitted": -1,
+      "codeview": -1,
+      "line": 0,
+      "pending_before": 65535,
+      "result": "-1 -1 0 65535 65535 "
+    },
+    {
+      "emitted": -1,
+      "codeview": -1,
+      "line": 1,
+      "pending_before": 0,
+      "result": "-1 -1 1 0 0 "
+    },
+    {
+      "emitted": -1,
+      "codeview": -1,
+      "line": 1,
+      "pending_before": 1,
+      "result": "-1 -1 1 1 1 "
+    },
+    {
+      "emitted": -1,
+      "codeview": -1,
+      "line": 1,
+      "pending_before": 65535,
+      "result": "-1 -1 1 65535 65535 "
+    },
+    {
+      "emitted": -1,
+      "codeview": 0,
+      "line": -1,
+      "pending_before": 0,
+      "result": "-1 0 -1 0 0 "
+    },
+    {
+      "emitted": -1,
+      "codeview": 0,
+      "line": -1,
+      "pending_before": 1,
+      "result": "-1 0 -1 1 1 "
+    },
+    {
+      "emitted": -1,
+      "codeview": 0,
+      "line": -1,
+      "pending_before": 65535,
+      "result": "-1 0 -1 65535 65535 "
+    },
+    {
+      "emitted": -1,
+      "codeview": 0,
+      "line": 0,
+      "pending_before": 0,
+      "result": "-1 0 0 0 0 "
+    },
+    {
+      "emitted": -1,
+      "codeview": 0,
+      "line": 0,
+      "pending_before": 1,
+      "result": "-1 0 0 1 1 "
+    },
+    {
+      "emitted": -1,
+      "codeview": 0,
+      "line": 0,
+      "pending_before": 65535,
+      "result": "-1 0 0 65535 65535 "
+    },
+    {
+      "emitted": -1,
+      "codeview": 0,
+      "line": 1,
+      "pending_before": 0,
+      "result": "-1 0 1 0 0 "
+    },
+    {
+      "emitted": -1,
+      "codeview": 0,
+      "line": 1,
+      "pending_before": 1,
+      "result": "-1 0 1 1 1 "
+    },
+    {
+      "emitted": -1,
+      "codeview": 0,
+      "line": 1,
+      "pending_before": 65535,
+      "result": "-1 0 1 65535 65535 "
+    },
+    {
+      "emitted": -1,
+      "codeview": 1,
+      "line": -1,
+      "pending_before": 0,
+      "result": "-1 1 -1 0 0 "
+    },
+    {
+      "emitted": -1,
+      "codeview": 1,
+      "line": -1,
+      "pending_before": 1,
+      "result": "-1 1 -1 1 1 "
+    },
+    {
+      "emitted": -1,
+      "codeview": 1,
+      "line": -1,
+      "pending_before": 65535,
+      "result": "-1 1 -1 65535 65535 "
+    },
+    {
+      "emitted": -1,
+      "codeview": 1,
+      "line": 0,
+      "pending_before": 0,
+      "result": "-1 1 0 0 0 "
+    },
+    {
+      "emitted": -1,
+      "codeview": 1,
+      "line": 0,
+      "pending_before": 1,
+      "result": "-1 1 0 1 1 "
+    },
+    {
+      "emitted": -1,
+      "codeview": 1,
+      "line": 0,
+      "pending_before": 65535,
+      "result": "-1 1 0 65535 65535 "
+    },
+    {
+      "emitted": -1,
+      "codeview": 1,
+      "line": 1,
+      "pending_before": 0,
+      "result": "-1 1 1 0 0 "
+    },
+    {
+      "emitted": -1,
+      "codeview": 1,
+      "line": 1,
+      "pending_before": 1,
+      "result": "-1 1 1 1 1 "
+    },
+    {
+      "emitted": -1,
+      "codeview": 1,
+      "line": 1,
+      "pending_before": 65535,
+      "result": "-1 1 1 65535 65535 "
+    },
+    {
+      "emitted": 0,
+      "codeview": -1,
+      "line": -1,
+      "pending_before": 0,
+      "result": "0 -1 -1 0 0 L0;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": -1,
+      "line": -1,
+      "pending_before": 1,
+      "result": "0 -1 -1 1 0 L1;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": -1,
+      "line": -1,
+      "pending_before": 65535,
+      "result": "0 -1 -1 65535 0 L65535;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": -1,
+      "line": 0,
+      "pending_before": 0,
+      "result": "0 -1 0 0 0 L0;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": -1,
+      "line": 0,
+      "pending_before": 1,
+      "result": "0 -1 0 1 0 L1;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": -1,
+      "line": 0,
+      "pending_before": 65535,
+      "result": "0 -1 0 65535 0 L65535;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": -1,
+      "line": 1,
+      "pending_before": 0,
+      "result": "0 -1 1 0 0 L0;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": -1,
+      "line": 1,
+      "pending_before": 1,
+      "result": "0 -1 1 1 0 L1;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": -1,
+      "line": 1,
+      "pending_before": 65535,
+      "result": "0 -1 1 65535 0 L65535;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": 0,
+      "line": -1,
+      "pending_before": 0,
+      "result": "0 0 -1 0 0 L0;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": 0,
+      "line": -1,
+      "pending_before": 1,
+      "result": "0 0 -1 1 0 L1;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": 0,
+      "line": -1,
+      "pending_before": 65535,
+      "result": "0 0 -1 65535 0 L65535;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": 0,
+      "line": 0,
+      "pending_before": 0,
+      "result": "0 0 0 0 0 "
+    },
+    {
+      "emitted": 0,
+      "codeview": 0,
+      "line": 0,
+      "pending_before": 1,
+      "result": "0 0 0 1 1 "
+    },
+    {
+      "emitted": 0,
+      "codeview": 0,
+      "line": 0,
+      "pending_before": 65535,
+      "result": "0 0 0 65535 65535 "
+    },
+    {
+      "emitted": 0,
+      "codeview": 0,
+      "line": 1,
+      "pending_before": 0,
+      "result": "0 0 1 0 0 L0;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": 0,
+      "line": 1,
+      "pending_before": 1,
+      "result": "0 0 1 1 0 L1;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": 0,
+      "line": 1,
+      "pending_before": 65535,
+      "result": "0 0 1 65535 0 L65535;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": 1,
+      "line": -1,
+      "pending_before": 0,
+      "result": "0 1 -1 0 0 L0;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": 1,
+      "line": -1,
+      "pending_before": 1,
+      "result": "0 1 -1 1 0 L1;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": 1,
+      "line": -1,
+      "pending_before": 65535,
+      "result": "0 1 -1 65535 0 L65535;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": 1,
+      "line": 0,
+      "pending_before": 0,
+      "result": "0 1 0 0 0 L0;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": 1,
+      "line": 0,
+      "pending_before": 1,
+      "result": "0 1 0 1 0 L1;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": 1,
+      "line": 0,
+      "pending_before": 65535,
+      "result": "0 1 0 65535 0 L65535;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": 1,
+      "line": 1,
+      "pending_before": 0,
+      "result": "0 1 1 0 0 L0;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": 1,
+      "line": 1,
+      "pending_before": 1,
+      "result": "0 1 1 1 0 L1;F;"
+    },
+    {
+      "emitted": 0,
+      "codeview": 1,
+      "line": 1,
+      "pending_before": 65535,
+      "result": "0 1 1 65535 0 L65535;F;"
+    },
+    {
+      "emitted": 1,
+      "codeview": -1,
+      "line": -1,
+      "pending_before": 0,
+      "result": "1 -1 -1 0 0 "
+    },
+    {
+      "emitted": 1,
+      "codeview": -1,
+      "line": -1,
+      "pending_before": 1,
+      "result": "1 -1 -1 1 1 "
+    },
+    {
+      "emitted": 1,
+      "codeview": -1,
+      "line": -1,
+      "pending_before": 65535,
+      "result": "1 -1 -1 65535 65535 "
+    },
+    {
+      "emitted": 1,
+      "codeview": -1,
+      "line": 0,
+      "pending_before": 0,
+      "result": "1 -1 0 0 0 "
+    },
+    {
+      "emitted": 1,
+      "codeview": -1,
+      "line": 0,
+      "pending_before": 1,
+      "result": "1 -1 0 1 1 "
+    },
+    {
+      "emitted": 1,
+      "codeview": -1,
+      "line": 0,
+      "pending_before": 65535,
+      "result": "1 -1 0 65535 65535 "
+    },
+    {
+      "emitted": 1,
+      "codeview": -1,
+      "line": 1,
+      "pending_before": 0,
+      "result": "1 -1 1 0 0 "
+    },
+    {
+      "emitted": 1,
+      "codeview": -1,
+      "line": 1,
+      "pending_before": 1,
+      "result": "1 -1 1 1 1 "
+    },
+    {
+      "emitted": 1,
+      "codeview": -1,
+      "line": 1,
+      "pending_before": 65535,
+      "result": "1 -1 1 65535 65535 "
+    },
+    {
+      "emitted": 1,
+      "codeview": 0,
+      "line": -1,
+      "pending_before": 0,
+      "result": "1 0 -1 0 0 "
+    },
+    {
+      "emitted": 1,
+      "codeview": 0,
+      "line": -1,
+      "pending_before": 1,
+      "result": "1 0 -1 1 1 "
+    },
+    {
+      "emitted": 1,
+      "codeview": 0,
+      "line": -1,
+      "pending_before": 65535,
+      "result": "1 0 -1 65535 65535 "
+    },
+    {
+      "emitted": 1,
+      "codeview": 0,
+      "line": 0,
+      "pending_before": 0,
+      "result": "1 0 0 0 0 "
+    },
+    {
+      "emitted": 1,
+      "codeview": 0,
+      "line": 0,
+      "pending_before": 1,
+      "result": "1 0 0 1 1 "
+    },
+    {
+      "emitted": 1,
+      "codeview": 0,
+      "line": 0,
+      "pending_before": 65535,
+      "result": "1 0 0 65535 65535 "
+    },
+    {
+      "emitted": 1,
+      "codeview": 0,
+      "line": 1,
+      "pending_before": 0,
+      "result": "1 0 1 0 0 "
+    },
+    {
+      "emitted": 1,
+      "codeview": 0,
+      "line": 1,
+      "pending_before": 1,
+      "result": "1 0 1 1 1 "
+    },
+    {
+      "emitted": 1,
+      "codeview": 0,
+      "line": 1,
+      "pending_before": 65535,
+      "result": "1 0 1 65535 65535 "
+    },
+    {
+      "emitted": 1,
+      "codeview": 1,
+      "line": -1,
+      "pending_before": 0,
+      "result": "1 1 -1 0 0 "
+    },
+    {
+      "emitted": 1,
+      "codeview": 1,
+      "line": -1,
+      "pending_before": 1,
+      "result": "1 1 -1 1 1 "
+    },
+    {
+      "emitted": 1,
+      "codeview": 1,
+      "line": -1,
+      "pending_before": 65535,
+      "result": "1 1 -1 65535 65535 "
+    },
+    {
+      "emitted": 1,
+      "codeview": 1,
+      "line": 0,
+      "pending_before": 0,
+      "result": "1 1 0 0 0 "
+    },
+    {
+      "emitted": 1,
+      "codeview": 1,
+      "line": 0,
+      "pending_before": 1,
+      "result": "1 1 0 1 1 "
+    },
+    {
+      "emitted": 1,
+      "codeview": 1,
+      "line": 0,
+      "pending_before": 65535,
+      "result": "1 1 0 65535 65535 "
+    },
+    {
+      "emitted": 1,
+      "codeview": 1,
+      "line": 1,
+      "pending_before": 0,
+      "result": "1 1 1 0 0 "
+    },
+    {
+      "emitted": 1,
+      "codeview": 1,
+      "line": 1,
+      "pending_before": 1,
+      "result": "1 1 1 1 1 "
+    },
+    {
+      "emitted": 1,
+      "codeview": 1,
+      "line": 1,
+      "pending_before": 65535,
+      "result": "1 1 1 65535 65535 "
+    }
+  ],
+  "initial_emitted": 1,
+  "bindings": [
+    {
+      "function": "@coff_output_function@4",
+      "storage": "emitted",
+      "original_address": "0x850c8",
+      "canonical_address": "0x9782c",
+      "original": [
+        {
+          "site": "0x6d397",
+          "mnemonic": "mov",
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x546d7",
+          "mnemonic": "mov",
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "@coff_output_function@4",
+      "storage": "pending",
+      "original_address": "0x7e8b4",
+      "canonical_address": "0x8d9b8",
+      "original": [
+        {
+          "site": "0x6d363",
+          "mnemonic": "mov",
+          "type": "memory",
+          "width": 2
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x54688",
+          "mnemonic": "movzx",
+          "type": "memory",
+          "width": 2
+        },
+        {
+          "site": "0x546b1",
+          "mnemonic": "mov",
+          "type": "memory",
+          "width": 2
+        }
+      ]
+    },
+    {
+      "function": "@coff_output_debug_pair@4",
+      "storage": "emitted",
+      "original_address": "0x850c8",
+      "canonical_address": "0x9782c",
+      "original": [
+        {
+          "site": "0x6d3b3",
+          "mnemonic": "cmp",
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x546f2",
+          "mnemonic": "cmp",
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "@coff_output_debug_pair@4",
+      "storage": "pending",
+      "original_address": "0x7e8b4",
+      "canonical_address": "0x8d9b8",
+      "original": [
+        {
+          "site": "0x6d3ce",
+          "mnemonic": "mov",
+          "type": "memory",
+          "width": 2
+        },
+        {
+          "site": "0x6d3e1",
+          "mnemonic": "mov",
+          "type": "memory",
+          "width": 2
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x54719",
+          "mnemonic": "mov",
+          "type": "memory",
+          "width": 2
+        },
+        {
+          "site": "0x5472e",
+          "mnemonic": "mov",
+          "type": "memory",
+          "width": 2
+        }
+      ]
+    }
+  ],
+  "rejected": [
+    "same-valued separate emitted storage",
+    "missing accepted def-use binding",
+    "widened pending-word store"
+  ],
+  "seconds": 0.8451512949541211,
+  "scope": "Whole original6d3b0..6d3ec versus actual C for81 guard/WORD shapes with named line/filename child mocks. Original+canonical PE initializer1 and four accepted function/storage identities, including2-byte pending reads/writes, inspected through memory/address-construction operands. No whole-image arbitrary indirect-alias proof. Real first callback guard is false; child bodies/ABIs and cold execution are not accepted by these mocks."
+}

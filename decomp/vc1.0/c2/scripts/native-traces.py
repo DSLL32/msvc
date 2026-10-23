@@ -277,6 +277,7 @@ def extend(directory, before_path, after_path, runtime_evidence=None):
         assert after['logical'] not in accepted
     case = cache['cases'][profile]
     assert case['last'] == old_count and case['terminal'] == before['logical']
+    assert not case.get('pending_abi'), 'Cannot promote while actual next-entry ABI evidence is on HOLD'
     if name in application_names:
         assert case['expected'][-1] == native_name(name)
         assert runtime_evidence is None, 'runtime evidence supplied for application acceptance'

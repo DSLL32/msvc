@@ -7,7 +7,8 @@ groups = dict(bytes=['write_listing_bytes', 'write_listing_spaces', 'pad_listing
               mnemonic=['write_instruction_mnemonic', 'write_listing_spaces'],
               operand=['write_instruction_operand'], prefix=['write_operand_prefix'],
               comment=['write_instruction_comment'],
-              comment_prefix=['write_listing_comment', 'pad_listing_column'])
+              comment_prefix=['write_listing_comment', 'pad_listing_column'],
+              displacement=['write_listing_displacement'])
 names = groups[sys.argv[2]] if len(sys.argv) > 2 else ['write_instruction_listing', 'pad_listing_column']
 for name in names:
     matches=re.findall(r'^[A-Za-z_][^\n]*\b'+name+r'\([^();{}]*\)\n\{.*?^\}',source,re.M|re.S)

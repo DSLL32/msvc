@@ -95,6 +95,15 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
     if(!strcmp(call->name,"@write_instruction_operand@12") ||
        !strcmp(call->name,"@write_operand_prefix@12"))
         dump_bytes(process,"operand_hex",call->args[1],8);
+    if(!strcmp(call->name,"_coff_output_debug_pair") ||
+       !strcmp(call->name,"@coff_output_debug_pair@4")) {
+        dump_bytes(process,"filename_hex",call->args[0],string_bytes(process,call->args[0]));
+        sprintf(line,"coff_state emitted %lu codeview %lu line %lu pending %lu source %08lx listing_source %08lx\n",
+            read_word(process,image_base+0x750c8),read_word(process,image_base+0x7313c),
+            read_word(process,image_base+0x73140),read_word(process,image_base+0x6e8b4)&65535,
+            read_word(process,image_base+0x6901c),read_word(process,image_base+0x6e8a0));
+        log_line(line);
+    }
     log_line("entry_end\n");
 }
 static void numeric_snapshot(HANDLE process,ObservedCall *call,char *stage,CONTEXT *context)

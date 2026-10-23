@@ -5,6 +5,7 @@
 #include "output.h"
 #include "records.h"
 #include "function-input.h"
+#include "control-input.h"
 #include "options.h"
 #include <recon.h>
 extern int string_blocks;
@@ -59,8 +60,8 @@ void __fastcall emit_machine_instructions(MachineInstruction *instruction)
             break;
         case 5:
             if (instruction->record.filename != listing_source_filename) {
-                source_filename = listing_source_filename = instruction->record.filename;
-                output_callbacks.debug_pair(source_filename);
+                current_source_filename = listing_source_filename = instruction->record.filename;
+                output_callbacks.debug_pair(current_source_filename);
             }
             break;
         case 7:

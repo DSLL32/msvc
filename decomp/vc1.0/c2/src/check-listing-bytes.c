@@ -26,7 +26,9 @@ int main(int argc, char **argv)
     if (argc != 5) return 2;
     for (i = 0; i < sizeof(bytes); ++i) bytes[i] = i * 13 + 7;
     listing_column = strtoul(argv[2], NULL, 0);
-#ifdef CHECK_COMMENT_PREFIX
+#if defined(CHECK_DISPLACEMENT)
+    write_listing_displacement(strtol(argv[3], NULL, 0), atoi(argv[4]));
+#elif defined(CHECK_COMMENT_PREFIX)
     if (write_listing_comment(atoi(argv[3])) != 0) abort();
 #else
     if (atoi(argv[1]))

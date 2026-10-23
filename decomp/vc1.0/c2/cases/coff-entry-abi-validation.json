@@ -1,0 +1,22 @@
+{
+  "observed_formals": 5,
+  "next_function": "@coff_begin_lines@16",
+  "function": "@coff_output_debug_pair@4",
+  "rejected": [
+    "missing filename formal",
+    "wrong filename input register",
+    "changed filename bytes",
+    "broken source alias",
+    "wrong emitted guard state",
+    "unknown hidden input",
+    "wrong callback stack cleanup",
+    "empty driver filename metadata",
+    "missing next formal",
+    "wrong next handle",
+    "wrong next line width",
+    "wrong next offset slot",
+    "unknown next hidden register"
+  ],
+  "seconds": 0.011051722802221775,
+  "scope": "Actual original/native filename, NUL bytes, source/listing aliases and known guard/stdio/x87 state. Original raw capture hashes remain immutable; legacy decoration correction preserves C identity/VA. Initial guard false, no cold-child execution claim. No Wine/compiler/native launch."
+}

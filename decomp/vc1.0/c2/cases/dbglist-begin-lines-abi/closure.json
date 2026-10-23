@@ -1,0 +1,20 @@
+{
+  "status": "CLOSED",
+  "failed": "attempt-1.json",
+  "matched": "validation.json",
+  "cause": "Primary805ec, current7901c and diagnostic85db4 filenames had wrong accepted bindings. CFBeginFunction compared generated_source, causing extra.file+aux symbols; prepare/machine stored wrong global, and callback passed primary instead of current. Existing typed storage reused with no new initialization/counter normalization.",
+  "repairs": [
+    "coff_begin_function uses source_filename805ec",
+    "prepare_source_listing writes current_source_filename7901c",
+    "emit_machine_instructions writes current_source_filename7901c and listing_source_filename7e8a0, passes actual current filename"
+  ],
+  "actual_values": [
+    10,
+    24,
+    185,
+    0
+  ],
+  "original_reused": true,
+  "reference_timing": "Original/native failed-attempt aggregate2.135845s; original/native split not measured. Corrected native-only validation times retained in checkpoint timing ledger.",
+  "matched_sha256": "7dd018d8e9fa0e8d542797d3c715ebeee75ca5645a37ece2186608b482775a0d"
+}

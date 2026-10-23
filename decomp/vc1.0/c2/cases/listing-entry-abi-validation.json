@@ -43,6 +43,6 @@
     "missing displacement hint formal",
     "changed actual displacement hint"
   ],
-  "seconds": 0.015082797035574913,
+  "seconds": 0.01437285915017128,
   "scope": "Actual original/native listing-family formals, known state and static no-hidden-input/RET evidence. First encountered inputs only, including next displacement0/hint0; no arbitrary deep pointer or branch equivalence. No Wine/compiler/native launch."
 }

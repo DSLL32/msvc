@@ -1232,7 +1232,9 @@
     "@machine_register_name@8",
     "@write_instruction_comment@4",
     "@write_listing_comment@4",
-    "@listing_data_type@4"
+    "@listing_data_type@4",
+    "@write_listing_displacement@8",
+    "@coff_output_debug_pair@4"
   ],
   "driver": [
     {
@@ -2048,10 +2050,22 @@
       "end": 445008
     },
     {
-      "name": "_coff_output_debug_pair",
+      "name": "@coff_output_debug_pair@4",
       "start": 447408,
-      "end": 447409,
-      "provisional": true
+      "end": 447468,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "filename",
+            "location": "ECX",
+            "type": "input char pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-coff-pair-abi/validation.json"
+      }
     },
     {
       "name": "_coff_output_debug_record",
@@ -8008,8 +8022,25 @@
     {
       "name": "@write_listing_displacement@8",
       "start": 174016,
-      "end": 174017,
-      "provisional": true
+      "end": 174141,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "displacement",
+            "location": "ECX",
+            "type": "signed32"
+          },
+          {
+            "name": "hint",
+            "location": "EDX",
+            "type": "signed32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-displacement-abi/validation.json"
+      }
     }
   ],
   "cases": {

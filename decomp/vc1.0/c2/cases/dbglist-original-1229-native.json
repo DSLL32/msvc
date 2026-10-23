@@ -1,0 +1,12 @@
+{
+  "logical": "_coff_output_debug_pair",
+  "matched": true,
+  "executable_sha256": "4b549593447b0f20bda16da4d2a9f08f5fff06a5fdf62521f5de0adc35d73e3c",
+  "config_sha256": "34465ca9276e2c31a33deeb1cd9b526067eb2a93bd789fb1b308b6dda711a617",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\dbglist",
+  "setup_seconds": 0.007714707404375076,
+  "execution_seconds": 0.1711962567642331,
+  "seconds": 0.1971959602087736,
+  "log_sha256": "d2ee8b9fd13fc7f69672a6767470f0eca0ffe21990d9164f82f9fb3af779facb",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/dbglist-gdb-pyacvt2n"
+}

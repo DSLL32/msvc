@@ -89,7 +89,6 @@ __declspec(naked) void mark_unwritten_symbol(void) { RECON_TRACE_NAKED_ENTRY(mar
 __declspec(naked) void end_debug_function(void) { RECON_TRACE_NAKED_ENTRY(end_debug_function) __asm int 3 }
 __declspec(naked) void begin_debug_function(void) { RECON_TRACE_NAKED_ENTRY(begin_debug_function) __asm int 3 }
 __declspec(naked) void finish_debug_module(void) { RECON_TRACE_NAKED_ENTRY(finish_debug_module) __asm int 3 }
-__declspec(naked) void coff_output_debug_pair(void) { RECON_TRACE_NAKED_ENTRY(coff_output_debug_pair) __asm int 3 }
 __declspec(naked) void coff_output_debug_record(void) { RECON_TRACE_NAKED_ENTRY(coff_output_debug_record) __asm int 3 }
 __declspec(naked) void coff_output_value(void) { RECON_TRACE_NAKED_ENTRY(coff_output_value) __asm int 3 }
 __declspec(naked) void coff_output_size(void) { RECON_TRACE_NAKED_ENTRY(coff_output_size) __asm int 3 }
@@ -151,7 +150,6 @@ unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
 int __fastcall write_demangled_listing(SymbolHeader *symbol, int first) { __asm int 3 }
 unsigned __fastcall write_listing_line(unsigned line) { __asm int 3 }
 char *__fastcall listing_size_suffix(unsigned bytes) { __asm int 3 }
-void __fastcall write_listing_displacement(long displacement, int hint) { __asm int 3 }
 void __cdecl compiler_error(unsigned code, ...) { __asm int 3 }
 void __fastcall coff_begin_lines(unsigned handle, unsigned short line,
     unsigned bytes, unsigned offset) { __asm int 3 }

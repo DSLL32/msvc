@@ -1,0 +1,281 @@
+{
+  "mapping": {
+    "0x805ec": "0x8d9c8",
+    "0x7901c": "0x8d854",
+    "0x85db4": "0x92080"
+  },
+  "bindings": [
+    {
+      "function": "_parse_options",
+      "original": [
+        {
+          "site": "0x26b3b",
+          "storage": "0x85db4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x1200c",
+          "storage": "0x92080",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "_emit_backend_work",
+      "original": [
+        {
+          "site": "0x67fd7",
+          "storage": "0x805ec",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x4f244",
+          "storage": "0x8d9c8",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x4f24e",
+          "storage": "0x8d9c8",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "_finish_global_work",
+      "original": [
+        {
+          "site": "0x6217f",
+          "storage": "0x7901c",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x29754",
+          "storage": "0x8d854",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "@emit_machine_instructions@4",
+      "original": [
+        {
+          "site": "0x6855b",
+          "storage": "0x7901c",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x52291",
+          "storage": "0x8d854",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x52296",
+          "storage": "0x8d854",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "@coff_begin_function@16",
+      "original": [
+        {
+          "site": "0x6cbdd",
+          "storage": "0x805ec",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x548dd",
+          "storage": "0x8d9c8",
+          "mnemonic": "cmp",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x548f7",
+          "storage": "0x8d9c8",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "_coff_open_module",
+      "original": [
+        {
+          "site": "0x6c843",
+          "storage": "0x85db4",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x6c888",
+          "storage": "0x805ec",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x54146",
+          "storage": "0x92080",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x54198",
+          "storage": "0x8d9c8",
+          "mnemonic": "cmp",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x541aa",
+          "storage": "0x8d9c8",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "@read_control_fields@4",
+      "original": [
+        {
+          "site": "0x4cdad",
+          "storage": "0x7901c",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x18474",
+          "storage": "0x8d854",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        },
+        {
+          "site": "0x18479",
+          "storage": "0x8d854",
+          "mnemonic": "mov",
+          "operand": 1,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "@canonicalize_tree@8",
+      "original": [
+        {
+          "site": "0x502e8",
+          "storage": "0x7901c",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x19460",
+          "storage": "0x8d854",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    },
+    {
+      "function": "@prepare_source_listing@4",
+      "original": [
+        {
+          "site": "0x28740",
+          "storage": "0x7901c",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ],
+      "canonical": [
+        {
+          "site": "0x57a13",
+          "storage": "0x8d854",
+          "mnemonic": "mov",
+          "operand": 0,
+          "type": "memory",
+          "width": 4
+        }
+      ]
+    }
+  ],
+  "option_original": "0x80884",
+  "option_canonical": "0x9242c",
+  "rejected": [
+    "same-valued separate source storage",
+    "wrong function filename domain",
+    "wrong current-source store domain"
+  ],
+  "seconds": 0.4439148297533393,
+  "scope": "Three existing distinct typed storages: primary805ec, current7901c, diagnostic85db4. Initial PE values/string and actual-f# option destination/action. All accepted original/canonical CFG instruction memory/address operands, including base/index displacement and address escape constructions, bind to the same domain sets per function. Does not prove arbitrary indirect aliases or unaccepted code. Failed begin-lines handle10/12 and callback formal pointer evidence retained separately; no handle normalization or new initialization."
+}

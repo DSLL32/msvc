@@ -64,6 +64,7 @@ def run(profile, executable, directory, cache, tracing=True, expected_override=N
     assert phase['arguments'] == [] and set(phase['environment']) == {'MSC_CMD_FLAGS'}
     case = cache['cases'][profile]
     assert not case.get('pending_runtime'), 'PENDING CRT seam; no matching application frontier yet: '+profile
+    assert not case.get('pending_abi'), 'HOLD: actual next-entry ABI inputs differ: '+str(case.get('pending_abi'))
     directory.mkdir()
     work, drive_environment = native_work(directory, phase['canonical_working_directory'])
     for source in phase['inputs']:

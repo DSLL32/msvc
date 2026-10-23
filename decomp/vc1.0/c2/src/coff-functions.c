@@ -9,13 +9,13 @@
 #include <recon.h>
 extern int codeview_debug, line_debug;
 extern int byte_block_first;
-extern char *generated_source;
+extern char *source_filename;
 unsigned next_symbol_identifier(void);
 unsigned coff_function_symbol; /* 0007e8bc: current writer symbol handle */
 unsigned coff_function_line; /* 0007e8c4 */
 unsigned short coff_has_function_lines; /* 0007e8b4 */
 unsigned coff_last_function_line; /* 0007e8b8 */
-int coff_emitted_function; /* 000850c8 */
+int coff_emitted_function = 1; /* 000850c8; original PE initial value */
 static Segment *coff_default_fpo_segment; /* 0007e8c8 */
 static char *coff_last_function_filename; /* 0007e8cc */
 Segment *coff_function_fpo_segment; /* 00079148;7914c is shared debug_symbols_segment */
@@ -42,6 +42,16 @@ void __fastcall coff_output_function(FunctionSymbol *symbol)
             symbol->symbol.field04 + symbol->code_bytes);
     }
     coff_emitted_function = 1;
+}
+/* Original6d3b0..6d3ec. A filename change before the first emitted
+   function closes its pending line marker and records the new file. */
+void __fastcall coff_output_debug_pair(char *filename)
+{
+    if (!coff_emitted_function && (codeview_debug || line_debug)) {
+        coff_line_marker(coff_has_function_lines);
+        coff_record_filename(filename);
+        coff_has_function_lines = 0;
+    }
 }
 /* Original [0006cac0,0006ccd0). Prepare the function symbol and optional
    per-function debug/FPO sections, then define its COFF entry. */
@@ -94,9 +104,9 @@ void __fastcall coff_begin_function(FunctionSymbol *symbol, char *filename, int 
         }
     }
     if (!coff_last_function_filename) {
-        if (!generated_source) coff_last_function_filename = filename;
+        if (!source_filename) coff_last_function_filename = filename;
         else {
-            left = (unsigned char *)generated_source;
+            left = (unsigned char *)source_filename;
             right = (unsigned char *)filename;
             while (*left == *right && *left) { ++left; ++right; }
             if (*left == *right) coff_last_function_filename = filename;

@@ -5,6 +5,7 @@
 #include "options.h"
 #include "output.h"
 #include "function-input.h"
+#include "control-input.h"
 #include "records.h"
 #include "instruction-encoding.h"
 #include "instruction-rewrite.h"
@@ -21,7 +22,6 @@ static long source_checkpoint_position, source_checkpoint_line; /* 0007e1d0,0007
 static long source_current_line; /* 0007e1c4 */
 static FILE *listing_source_file; /* 0007e1d8 */
 unsigned listing_column; /* 00080d40 */
-extern char *generated_source;
 /* Original28680..2875f. Collect line boundaries before printing the machine
    stream; a changed file records the preceding line as its initial boundary. */
 void __fastcall prepare_source_listing(MachineInstruction *instruction)
@@ -56,7 +56,7 @@ void __fastcall prepare_source_listing(MachineInstruction *instruction)
             if (filename != instruction->record.filename) {
                 filename = instruction->record.filename;
                 open_listing_source(filename);
-                generated_source = filename;
+                current_source_filename = filename;
             }
             current_source_location = (unsigned)-1;
             last_line = -1;
@@ -254,6 +254,24 @@ MachineInstruction *__fastcall write_instruction_listing(MachineInstruction *ins
     printf("\n");
     return last->next;
 }
+/* Original2a7c0..2a83d. Hints1/3/4 request minimum decimal precision;
+   other nonzero hints suppress the displacement, including hint2. */
+void __fastcall write_listing_displacement(long displacement, int hint)
+{
+    if (!displacement && !hint) return;
+    switch (hint) {
+    case 0:
+        listing_column += printf("%-+ld", displacement);
+        break;
+    case 1:
+        listing_column += printf("%-+.2ld", displacement);
+        break;
+    case 3: case 4:
+        listing_column += printf("%-+.4ld", displacement);
+        break;
+    }
+}
+
 /* Original29920..2995c, ten-way size table2995c..29984. Unsupported
    widths return NULL, unlike listing_data_directive's diagnostic path. */
 char *__fastcall listing_data_type(long bytes)
