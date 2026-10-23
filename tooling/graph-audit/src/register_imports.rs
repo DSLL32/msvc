@@ -26,13 +26,14 @@ pub fn strict_policy(value: &Value) -> Result<bool> {
     }
     .require_all_register_calls_resolved)
 }
-const NAMES: [&str; 3] = ["ebx", "esi", "edi"];
-type State = [Option<Identity>; 3];
+const NAMES: [&str; 4] = ["ebx", "esi", "edi", "ebp"];
+type State = [Option<Identity>; 4];
 fn tracked(r: u16) -> Option<usize> {
     match u32::from(r) {
         X86_REG_EBX | X86_REG_BX | X86_REG_BL | X86_REG_BH => Some(0),
         X86_REG_ESI | X86_REG_SI | X86_REG_SIL => Some(1),
         X86_REG_EDI | X86_REG_DI | X86_REG_DIL => Some(2),
+        X86_REG_EBP | X86_REG_BP | X86_REG_BPL => Some(3),
         _ => None,
     }
 }
@@ -41,6 +42,7 @@ fn full(r: u16) -> Option<usize> {
         X86_REG_EBX => Some(0),
         X86_REG_ESI => Some(1),
         X86_REG_EDI => Some(2),
+        X86_REG_EBP => Some(3),
         _ => None,
     }
 }
@@ -73,8 +75,8 @@ struct Configuration {
 }
 #[derive(Default)]
 pub struct Contracts {
-    functions: BTreeMap<u32, [bool; 3]>,
-    imports: BTreeMap<Identity, [bool; 3]>,
+    functions: BTreeMap<u32, [bool; 4]>,
+    imports: BTreeMap<Identity, [bool; 4]>,
 }
 impl Contracts {
     pub fn parse(
@@ -132,13 +134,13 @@ impl Contracts {
                 c.target.function.is_some() != c.target.import.is_some(),
                 "preservation target must name exactly one function/import"
             );
-            let mut mask = [false; 3];
+            let mut mask = [false; 4];
             ensure!(!c.preserves.is_empty(), "empty preservation contract");
             for r in &c.preserves {
                 let n = NAMES
                     .iter()
                     .position(|v| v == r)
-                    .context("only ebx/esi/edi preservation is supported")?;
+                    .context("only ebx/esi/edi/ebp preservation is supported")?;
                 ensure!(!mask[n], "duplicate preservation register");
                 mask[n] = true;
             }
@@ -158,7 +160,7 @@ impl Contracts {
                 out.functions
                     .entry(matches[0].start)
                     .and_modify(|old| {
-                        for n in 0..3 {
+                        for n in 0..4 {
                             old[n] &= mask[n];
                         }
                     })
@@ -173,7 +175,7 @@ impl Contracts {
         }
         Ok(out)
     }
-    fn mask(&self, i: &Inst, g: &Graph, before: &State) -> [bool; 3] {
+    fn mask(&self, i: &Inst, g: &Graph, before: &State) -> [bool; 4] {
         if let Some(id) = g.import_calls.get(&i.a) {
             self.imports.get(id).copied().unwrap_or_default()
         } else if let Some(a) = i.imm() {
@@ -185,7 +187,7 @@ impl Contracts {
                 .copied()
                 .unwrap_or_default()
         } else {
-            [false; 3]
+            [false; 4]
         }
     }
 }
@@ -215,6 +217,11 @@ fn transfer(
             out[n] = None;
         }
     }
+    // Capstone 5 omits EBP from ENTER's implicit write list. Both frame
+    // operations load/change EBP from state outside this value domain.
+    if ["enter", "leave"].contains(&i.m.as_str()) {
+        out[3] = None;
+    }
     if i.m == "mov"
         && let [(Op::Reg(dst), 4), (src, 4)] = i.ops.as_slice()
         && let Some(n) = full(*dst)
@@ -229,7 +236,7 @@ fn transfer(
     }
     if is_call(i) {
         let mask = contracts.mask(i, g, before);
-        for n in 0..3 {
+        for n in 0..4 {
             if !mask[n] {
                 out[n] = None;
             }
@@ -266,7 +273,7 @@ pub fn resolve(
             );
             let changed = if let Some(old) = incoming.get_mut(&to) {
                 let mut changed = false;
-                for n in 0..3 {
+                for n in 0..4 {
                     if old[n] != state[n] && old[n].is_some() {
                         old[n] = None;
                         changed = true;
@@ -316,4 +323,17 @@ pub fn resolve(
     }
     g.indirect = g.unresolved_tail || !g.indirect_calls.is_empty();
     Ok(report)
+}
+
+#[cfg(test)]
+mod tests {
+    #[test]
+    fn ebp_alias_family_includes_low_alias() {
+        use capstone::arch::x86::X86Reg::*;
+        for r in [X86_REG_EBP, X86_REG_BP, X86_REG_BPL] {
+            assert_eq!(super::tracked(r as u16), Some(3));
+        }
+        assert_eq!(super::full(X86_REG_BP as u16), None);
+        assert_eq!(super::full(X86_REG_BPL as u16), None);
+    }
 }

@@ -81,7 +81,7 @@ are opt-in:
 
 | Flag | Check |
 | --- | --- |
-| `--resolve-register-imports` | With `--check-imports`, conservatively resolve cached EBX/ESI/EDI import calls using the existing CFG and explicit, hash-bound callee-preservation witnesses. |
+| `--resolve-register-imports` | With `--check-imports`, conservatively resolve cached EBX/ESI/EDI/EBP import calls using the existing CFG and explicit, hash-bound callee-preservation witnesses. |
 | `--check-imports` | Compare verified DLL+name/ordinal import transfers, normalizing direct IAT calls and proven import thunks while retaining declared source/runtime vertices. Standalone profiles only. |
 | `--check-ret` | Compare RET cleanup sets, inheriting identified direct tail callees; unknown indirect tail ABIs and cycles fail. CVPACK also checks declared cleanup. |
 | `--check-references` | Compare immediate references to indexed function entries, with alias bijection. Available for the seven standalone profiles. |
@@ -140,9 +140,12 @@ remain indirect, and malformed import tables fail. This opt-in check leaves the
 default and legacy reports unchanged.
 
 `--resolve-register-imports` adds a must-value pass over those same discovered
-instructions and control-flow edges. It tracks only EBX/ESI/EDI, seeds full-width
+instructions and control-flow edges. It tracks only EBX/ESI/EDI/EBP, seeds full-width
 MOVs from verified absolute IAT slots, and copies full-width register MOVs.
 Other writes (including partial and implicit writes) clear the affected fact.
+BP/BPL aliases and frame operations such as ENTER/LEAVE invalidate EBP; saved
+register values are not recovered from the stack. Existing contracts listing
+only EBX/ESI/EDI do not authorize EBP survival across a call.
 Every entry/SEH root starts unknown; joins retain only identities agreed by all
 reachable predecessors, and loops run to a fixed point. Segmented/indexed loads,
 stack values, arbitrary pointers, register tail jumps and external RET cleanup
@@ -159,7 +162,7 @@ whose register calls must all be imports:
   "register_imports": {
     "preservation_contracts": [{
       "target": {"import": {"dll": "msvcrt.dll", "name": "_stricmp"}},
-      "preserves": ["ebx", "esi", "edi"],
+      "preserves": ["ebx", "esi", "edi", "ebp"],
       "evidence": {"path": "cases/register-preservation.json", "sha256": "<64 lowercase hex digits>"}
     }]
   },
@@ -185,7 +188,12 @@ register callsites, other unresolved calls, direct import callsites and CFG root
 Top-level `register_import_inputs` binds PE and metadata hashes plus the verified
 contracts. Strict mode rejects any unresolved register call, even when another
 call already supplies the same import or an indirect topology bit. Genuine
-callbacks stay indirect in non-strict functions. Graph equality still compares
+callbacks stay indirect in non-strict functions. For such mixed functions, the
+target checker must assert the hash-bound inventory of resolved cached-import
+sites and genuine opaque sites from this report. A lost cached-import fact can
+otherwise hide behind an existing indirect bit and an import supplied elsewhere.
+This inventory check consumes the report; it does not discover another CFG.
+Graph equality still compares
 target sets, not instruction ordering or callsite correspondence. The flag is
 optional, CFG-only, standalone-profile-only; flag-off reports are unchanged.
 

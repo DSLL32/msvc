@@ -1,0 +1,1804 @@
+{
+  "timestamp_utc": "2026-10-23T17:04:53.784512+00:00",
+  "scope": "Fourth explicit nonvolatile register EBP in existing opt-in cached-IAT must-values. Static frozen CV5 CVPACK50 graphs, no compiler/target/Wine executions. Full function graph+RET/import/reference/ownership/extents flags; main remains mixed opaque callback.",
+  "binary_sha256": "6575be33131c2194225a104d427c310eda263fccfaf075753dec62ed02612d35",
+  "unit_tests": {
+    "passed": 43,
+    "prior_passed": 39,
+    "new_test_groups": 4,
+    "clippy": "all-targets -D warnings passed"
+  },
+  "implementation_notes": [
+    "EBP/BP/BPL alias invalidation; exact full MOV IAT seeds/copies only.",
+    "Old three-register contracts do not authorize EBP survival.",
+    "Capstone5 omits ENTER EBP write; explicit ENTER/LEAVE invalidation prevents preserving an unknown frame value.",
+    "No stack-slot propagation, saved-register recovery, pointer guessing or new CFG."
+  ],
+  "cli": {
+    "scope": "Synthetic CLI contract/dataflow mutations. No compiler, target run or Wine.",
+    "binary_sha256": "6575be33131c2194225a104d427c310eda263fccfaf075753dec62ed02612d35",
+    "positive_report": {
+      "checked_accepted_extents": null,
+      "checked_functions": 1,
+      "checked_unique_accepted_extents": null,
+      "checks": [
+        "call_graph",
+        "ret_cleanup",
+        "known_imports",
+        "register_imports",
+        "extent_ownership",
+        "whole_extent_boundaries"
+      ],
+      "discovery": "cfg",
+      "functions": {
+        "_caller": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "Foo"
+            }
+          ],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {
+                "4198406": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": {
+                "4198400": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "require_all_register_calls_resolved": true
+          }
+        }
+      },
+      "import_catalogs": {
+        "original": {
+          "normalizable_thunks": 0,
+          "slots": {
+            "4198736": {
+              "dll": "msvcrt.dll",
+              "name": "Foo"
+            },
+            "4198740": {
+              "dll": "msvcrt.dll",
+              "name": "Bar"
+            }
+          }
+        },
+        "rebuilt": {
+          "normalizable_thunks": 0,
+          "slots": {
+            "4198736": {
+              "dll": "msvcrt.dll",
+              "name": "Foo"
+            },
+            "4198740": {
+              "dll": "msvcrt.dll",
+              "name": "Bar"
+            }
+          }
+        }
+      },
+      "original_accepted_graphs": null,
+      "profile": "cl",
+      "register_import_inputs": {
+        "metadata_sha256": "a9185f11abcac139828f378340802f7b495103201f9ce7645fce56cb0d683767",
+        "original_sha256": "7bbabbc8edb5a29be3372f14504039ed672c82d02fc68ff4323dc4614d26828a",
+        "preservation_contracts": [
+          {
+            "evidence": {
+              "path": "packet.json",
+              "sha256": "02de97761580dac0e017227eddc7b354187e0640b2695a382dcdcc010266f4c4"
+            },
+            "preserves": [
+              "ebx",
+              "esi",
+              "edi"
+            ],
+            "target": {
+              "import": {
+                "dll": "msvcrt.dll",
+                "name": "Foo"
+              }
+            }
+          }
+        ],
+        "rebuilt_sha256": "ef09455b753aedcd8188f11a583b03ba15413517bc6abf1507caaf2a533cfe5a"
+      }
+    },
+    "results": [
+      {
+        "case": "cached_call_equals_direct_IAT",
+        "accepted": true,
+        "seconds": 0.0034584198147058487,
+        "diagnostic": "",
+        "function": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "Foo"
+            }
+          ],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {
+                "4198406": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": {
+                "4198400": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "require_all_register_calls_resolved": true
+          }
+        }
+      },
+      {
+        "case": "explicit_preservation_repeated_calls",
+        "accepted": true,
+        "seconds": 0.002719190903007984,
+        "diagnostic": "",
+        "function": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "Foo"
+            }
+          ],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {
+                "4198406": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                },
+                "4198408": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": {
+                "4198400": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                },
+                "4198406": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "require_all_register_calls_resolved": true
+          }
+        }
+      },
+      {
+        "case": "require_import_flag",
+        "accepted": false,
+        "seconds": 0.001706850714981556,
+        "diagnostic": "error: the following required arguments were not provided:\n  --check-imports\n\nUsage: graph-audit --profile <PROFILE> --project <PROJECT> --check-imports --repo <REPO> --original <ORIGINAL> --rebuilt <REBUILT> --config <CONFIG> --runtime <RUNTIME> --rebuilt-runtime <REBUILT_RUNTIME> --metadata <METADATA> --map <MAP> --resolve-register-imports\n\nFor more information, try '--help'.",
+        "function": null
+      },
+      {
+        "case": "legacy_mode_rejects_feature",
+        "accepted": false,
+        "seconds": 0.0015134047716856003,
+        "diagnostic": "graph-audit: optional checks/metadata require --discovery cfg; legacy mode already applies exact Python preset checks",
+        "function": null
+      },
+      {
+        "case": "bypassed_seed",
+        "accepted": false,
+        "seconds": 0.002752385102212429,
+        "diagnostic": "graph-audit: original _caller register imports: unresolved register import calls: {4198408}",
+        "function": null
+      },
+      {
+        "case": "wrong_register",
+        "accepted": false,
+        "seconds": 0.002515059895813465,
+        "diagnostic": "graph-audit: original _caller register imports: unresolved register import calls: {4198406}",
+        "function": null
+      },
+      {
+        "case": "wrong_seed_IAT_identity",
+        "accepted": false,
+        "seconds": 0.0027632424607872963,
+        "diagnostic": "graph-audit: _caller import graph differs: original {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"Bar\" } }}; reconstruction {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"Foo\" } }}",
+        "function": null
+      },
+      {
+        "case": "partial_SI_write",
+        "accepted": false,
+        "seconds": 0.002707664854824543,
+        "diagnostic": "graph-audit: original _caller register imports: unresolved register import calls: {4198410}",
+        "function": null
+      },
+      {
+        "case": "implicit_ESI_write",
+        "accepted": false,
+        "seconds": 0.002611798234283924,
+        "diagnostic": "graph-audit: original _caller register imports: unresolved register import calls: {4198407}",
+        "function": null
+      },
+      {
+        "case": "unknown_import_call_barrier",
+        "accepted": false,
+        "seconds": 0.0026181861758232117,
+        "diagnostic": "graph-audit: original _caller register imports: unresolved register import calls: {4198408}",
+        "function": null
+      },
+      {
+        "case": "unknown_custom_direct_call_barrier",
+        "accepted": false,
+        "seconds": 0.0025411294773221016,
+        "diagnostic": "graph-audit: original _caller register imports: unresolved register import calls: {4198411}",
+        "function": null
+      },
+      {
+        "case": "named_direct_callee_preservation",
+        "accepted": true,
+        "seconds": 0.002696344628930092,
+        "diagnostic": "",
+        "function": {
+          "edges": [
+            "_helper"
+          ],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "Foo"
+            }
+          ],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {
+                "4198411": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": {
+                "4198405": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "require_all_register_calls_resolved": true
+          }
+        }
+      },
+      {
+        "case": "stale_witness_digest",
+        "accepted": false,
+        "seconds": 0.0025875987485051155,
+        "diagnostic": "graph-audit: stale preservation evidence SHA256: packet.json",
+        "function": null
+      },
+      {
+        "case": "absolute_witness_path",
+        "accepted": false,
+        "seconds": 0.003106045536696911,
+        "diagnostic": "graph-audit: preservation evidence must be project-relative",
+        "function": null
+      },
+      {
+        "case": "missing_witness_file",
+        "accepted": false,
+        "seconds": 0.003177015110850334,
+        "diagnostic": "graph-audit: resolve preservation evidence file: No such file or directory (os error 2)",
+        "function": null
+      },
+      {
+        "case": "unsupported_preserved_register",
+        "accepted": false,
+        "seconds": 0.0027798591181635857,
+        "diagnostic": "graph-audit: only ebx/esi/edi/ebp preservation is supported",
+        "function": null
+      },
+      {
+        "case": "missing_named_callee",
+        "accepted": false,
+        "seconds": 0.002331164665520191,
+        "diagnostic": "graph-audit: preservation function missing from verified index: _missing",
+        "function": null
+      },
+      {
+        "case": "unknown_qualified_import",
+        "accepted": false,
+        "seconds": 0.0023291856050491333,
+        "diagnostic": "graph-audit: preservation import missing from verified IAT: Identity { dll: \"other.dll\", symbol: Name { name: \"Foo\" } }",
+        "function": null
+      },
+      {
+        "case": "symlink_witness_escape",
+        "accepted": false,
+        "seconds": 0.0022744787856936455,
+        "diagnostic": "graph-audit: preservation evidence escapes project or is not a file",
+        "function": null
+      },
+      {
+        "case": "genuine_unknown_callback_stays_indirect",
+        "accepted": true,
+        "seconds": 0.003258167766034603,
+        "diagnostic": "",
+        "function": {
+          "edges": [
+            "indirect"
+          ],
+          "imports": [],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": [
+                4198400
+              ]
+            },
+            "rebuilt": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": [
+                4198400
+              ]
+            },
+            "require_all_register_calls_resolved": false
+          }
+        }
+      },
+      {
+        "case": "EBP_full_IAT_seed",
+        "accepted": true,
+        "seconds": 0.003073669970035553,
+        "diagnostic": "",
+        "function": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "Foo"
+            }
+          ],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {
+                "4198406": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": {
+                "4198400": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "require_all_register_calls_resolved": true
+          }
+        }
+      },
+      {
+        "case": "EBP_old_contract_does_not_preserve",
+        "accepted": false,
+        "seconds": 0.0029224008321762085,
+        "diagnostic": "graph-audit: original _caller register imports: unresolved register import calls: {4198408}",
+        "function": null
+      },
+      {
+        "case": "EBP_explicit_survival",
+        "accepted": true,
+        "seconds": 0.0029816869646310806,
+        "diagnostic": "",
+        "function": {
+          "edges": [],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "Foo"
+            }
+          ],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {
+                "4198406": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                },
+                "4198408": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": {
+                "4198400": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                },
+                "4198406": {
+                  "dll": "msvcrt.dll",
+                  "name": "Foo"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "require_all_register_calls_resolved": true
+          }
+        }
+      },
+      {
+        "case": "EBP_partial_BP",
+        "accepted": false,
+        "seconds": 0.003014523535966873,
+        "diagnostic": "graph-audit: original _caller register imports: unresolved register import calls: {4198410}",
+        "function": null
+      },
+      {
+        "case": "EBP_ENTER",
+        "accepted": false,
+        "seconds": 0.002913951873779297,
+        "diagnostic": "graph-audit: original _caller register imports: unresolved register import calls: {4198410}",
+        "function": null
+      },
+      {
+        "case": "EBP_LEAVE",
+        "accepted": false,
+        "seconds": 0.002934887073934078,
+        "diagnostic": "graph-audit: original _caller register imports: unresolved register import calls: {4198407}",
+        "function": null
+      },
+      {
+        "case": "EBP_unknown_callee_barrier",
+        "accepted": false,
+        "seconds": 0.0026398533955216408,
+        "diagnostic": "graph-audit: original _caller register imports: unresolved register import calls: {4198411}",
+        "function": null
+      },
+      {
+        "case": "EBP_function_pointer_return_stays_indirect",
+        "accepted": true,
+        "seconds": 0.0027367770671844482,
+        "diagnostic": "",
+        "function": {
+          "edges": [
+            "_helper",
+            "indirect"
+          ],
+          "imports": [],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": [
+                4198407
+              ]
+            },
+            "rebuilt": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": [
+                4198407
+              ]
+            },
+            "require_all_register_calls_resolved": false
+          }
+        }
+      }
+    ]
+  },
+  "corpus": {
+    "scope": "Frozen CV5 CVPACK EBP-IAT corpus and mixed-callback completeness controls.\n\nStatic scratch PE/metadata mutations only. Never builds, executes targets, uses\nWine or discovers another CFG. command.json supplies explicit frozen inputs.\n",
+    "binary_sha256": "6575be33131c2194225a104d427c310eda263fccfaf075753dec62ed02612d35",
+    "input_sha256": {
+      "original": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+      "rebuilt": "98ae72fe666cbc00c1e17f6bd93e08695df94ab0723371b7b339d4553b3f0056",
+      "map": "05cfde3f2ca7f1e6da9c749b659bf40ec309d89749d16de635f2051035a0ab3f",
+      "config": "8253b88a2cd4ad4daf0f498530fa4b5d931787be4529772aeadf75f519470182",
+      "runtime": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "rebuilt-runtime": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+      "metadata": "929f77ae917b043d179ce9924aaea4a23d3e62aeea34d01e4a07a07cb88d51db"
+    },
+    "results": [
+      {
+        "case": "full50_EBP_and_GPA_roles",
+        "common_graph_accepts": true,
+        "role_complete": true,
+        "seconds": 0.07604670897126198,
+        "diagnostic": ""
+      },
+      {
+        "case": "partial_BP_live_cache",
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "seconds": 0.009083738550543785,
+        "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}"
+      },
+      {
+        "case": "ENTER_live_EBP_cache",
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "seconds": 0.01155841164290905,
+        "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}"
+      },
+      {
+        "case": "POP_live_EBP_cache",
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "seconds": 0.00904694851487875,
+        "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}"
+      },
+      {
+        "case": "wrong_EBP_call_register",
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "seconds": 0.009566410444676876,
+        "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}"
+      },
+      {
+        "case": "wrong_EBP_IAT_identity",
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "seconds": 0.00971865002065897,
+        "diagnostic": "graph-audit: _parse_options import graph differs: original {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"exit\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"toupper\" } }}; reconstruction {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"_strcmpi\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"exit\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"toupper\" } }}"
+      },
+      {
+        "case": "branch_bypasses_cached_seeds",
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "seconds": 0.008900763466954231,
+        "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}"
+      },
+      {
+        "case": "toupper_must_preserve_EBP",
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "seconds": 0.009794461540877819,
+        "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}"
+      },
+      {
+        "case": "strcmpi_must_preserve_EBP",
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "seconds": 0.008927461691200733,
+        "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}"
+      },
+      {
+        "case": "unknown_actual_warning_callee_barrier",
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "seconds": 0.01028930302709341,
+        "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}"
+      },
+      {
+        "case": "mixed_main_cannot_require_all_imports",
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "seconds": 0.008012707345187664,
+        "diagnostic": "graph-audit: original _main register imports: unresolved register import calls: {4212732}"
+      },
+      {
+        "case": "lost_free_sites_graph_only_scope_control",
+        "common_graph_accepts": true,
+        "role_complete": false,
+        "seconds": 0.07499567326158285,
+        "diagnostic": ""
+      },
+      {
+        "case": "released_three_register_engine_cannot_resolve_EBP",
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "seconds": 0.013217547908425331,
+        "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}"
+      }
+    ],
+    "timings": {
+      "median_seconds": 0.07552602328360081,
+      "min_seconds": 0.07417755108326674,
+      "max_seconds": 0.07684376463294029,
+      "samples_seconds": [
+        0.07480570394545794,
+        0.07684376463294029,
+        0.0767776845023036,
+        0.07585230097174644,
+        0.07469481695443392,
+        0.07417755108326674,
+        0.07552602328360081
+      ]
+    },
+    "positive_report_sha256": "6fd5ce828cbf7548895f97acf4d42e4992e5fb48ecd3f51a876e1047765aad0e",
+    "checked_functions": 50,
+    "reviewed_functions": {
+      "_parse_options": {
+        "edges": [
+          "_fatal_error",
+          "_print_banner",
+          "_warning"
+        ],
+        "imports": [
+          {
+            "dll": "msvcrt.dll",
+            "name": "_strcmpi"
+          },
+          {
+            "dll": "msvcrt.dll",
+            "name": "exit"
+          },
+          {
+            "dll": "msvcrt.dll",
+            "name": "toupper"
+          }
+        ],
+        "register_imports": {
+          "original": {
+            "direct_import_calls": {
+              "4213144": {
+                "dll": "msvcrt.dll",
+                "name": "exit"
+              }
+            },
+            "other_unresolved_calls": [],
+            "resolved_register_calls": {
+              "4212989": {
+                "dll": "msvcrt.dll",
+                "name": "toupper"
+              },
+              "4213025": {
+                "dll": "msvcrt.dll",
+                "name": "_strcmpi"
+              }
+            },
+            "roots": [
+              4212928
+            ],
+            "unresolved_register_calls": []
+          },
+          "rebuilt": {
+            "direct_import_calls": {
+              "4211526": {
+                "dll": "msvcrt.dll",
+                "name": "toupper"
+              },
+              "4211601": {
+                "dll": "msvcrt.dll",
+                "name": "_strcmpi"
+              },
+              "4211744": {
+                "dll": "msvcrt.dll",
+                "name": "exit"
+              }
+            },
+            "other_unresolved_calls": [],
+            "resolved_register_calls": {},
+            "roots": [
+              4211440
+            ],
+            "unresolved_register_calls": []
+          },
+          "require_all_register_calls_resolved": true
+        }
+      },
+      "_main": {
+        "edges": [
+          "_close_file",
+          "_files_initialize",
+          "_flush_packed_file",
+          "_free_type_tables",
+          "_get_file_size",
+          "_initialize_messages",
+          "_initialize_module_pack",
+          "_initialize_type_tables",
+          "_map_file_region",
+          "_pack_module",
+          "_parse_options",
+          "_print_banner",
+          "_print_statistics",
+          "_read_image_debug",
+          "_select_input_name",
+          "_warning",
+          "_write_debug_directory",
+          "indirect"
+        ],
+        "imports": [
+          {
+            "dll": "kernel32.dll",
+            "name": "GetProcAddress"
+          },
+          {
+            "dll": "kernel32.dll",
+            "name": "LoadLibraryA"
+          },
+          {
+            "dll": "msvcrt.dll",
+            "name": "__p__pgmptr"
+          },
+          {
+            "dll": "msvcrt.dll",
+            "name": "_setmode"
+          },
+          {
+            "dll": "msvcrt.dll",
+            "name": "exit"
+          },
+          {
+            "dll": "msvcrt.dll",
+            "name": "fprintf"
+          },
+          {
+            "dll": "msvcrt.dll",
+            "name": "free"
+          }
+        ],
+        "register_imports": {
+          "original": {
+            "direct_import_calls": {
+              "4212307": {
+                "dll": "msvcrt.dll",
+                "name": "__p__pgmptr"
+              },
+              "4212344": {
+                "dll": "msvcrt.dll",
+                "name": "_setmode"
+              },
+              "4212615": {
+                "dll": "kernel32.dll",
+                "name": "LoadLibraryA"
+              },
+              "4212647": {
+                "dll": "kernel32.dll",
+                "name": "GetProcAddress"
+              },
+              "4212812": {
+                "dll": "msvcrt.dll",
+                "name": "exit"
+              },
+              "4212884": {
+                "dll": "msvcrt.dll",
+                "name": "fprintf"
+              }
+            },
+            "other_unresolved_calls": [],
+            "resolved_register_calls": {
+              "4212518": {
+                "dll": "msvcrt.dll",
+                "name": "free"
+              },
+              "4212529": {
+                "dll": "msvcrt.dll",
+                "name": "free"
+              },
+              "4212541": {
+                "dll": "msvcrt.dll",
+                "name": "free"
+              },
+              "4212553": {
+                "dll": "msvcrt.dll",
+                "name": "free"
+              },
+              "4212564": {
+                "dll": "msvcrt.dll",
+                "name": "free"
+              }
+            },
+            "roots": [
+              4212256,
+              4212841,
+              4212857
+            ],
+            "unresolved_register_calls": [
+              4212732
+            ]
+          },
+          "rebuilt": {
+            "direct_import_calls": {
+              "4208856": {
+                "dll": "msvcrt.dll",
+                "name": "__p__pgmptr"
+              },
+              "4208893": {
+                "dll": "msvcrt.dll",
+                "name": "_setmode"
+              },
+              "4209116": {
+                "dll": "msvcrt.dll",
+                "name": "free"
+              },
+              "4209131": {
+                "dll": "msvcrt.dll",
+                "name": "free"
+              },
+              "4209147": {
+                "dll": "msvcrt.dll",
+                "name": "free"
+              },
+              "4209163": {
+                "dll": "msvcrt.dll",
+                "name": "free"
+              },
+              "4209178": {
+                "dll": "msvcrt.dll",
+                "name": "free"
+              },
+              "4209238": {
+                "dll": "kernel32.dll",
+                "name": "LoadLibraryA"
+              },
+              "4209273": {
+                "dll": "kernel32.dll",
+                "name": "GetProcAddress"
+              },
+              "4209436": {
+                "dll": "msvcrt.dll",
+                "name": "exit"
+              },
+              "4209504": {
+                "dll": "msvcrt.dll",
+                "name": "fprintf"
+              }
+            },
+            "other_unresolved_calls": [
+              4209351
+            ],
+            "resolved_register_calls": {},
+            "roots": [
+              4208800,
+              4209454,
+              4209473
+            ],
+            "unresolved_register_calls": []
+          },
+          "require_all_register_calls_resolved": false
+        }
+      }
+    },
+    "register_import_inputs": {
+      "metadata_sha256": "937b28a6eacee913e17d22f528a519e7f49748a8167689ac3c0d269d0d42ef5f",
+      "original_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+      "preservation_contracts": [
+        {
+          "evidence": {
+            "path": "cases/hello-debug-dll/import-preservation.json",
+            "sha256": "1d11f8e059eef48acbc20f9fc2a4c46c8918e6c895ade42d78497f422e51c5e3"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "free"
+            }
+          }
+        },
+        {
+          "evidence": {
+            "path": "cases/hello-debug-dll/cached-import-contracts.json",
+            "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "printf"
+            }
+          }
+        },
+        {
+          "evidence": {
+            "path": "cases/hello-debug-dll/cached-import-contracts.json",
+            "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+          },
+          "preserves": [
+            "ebx"
+          ],
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "sprintf"
+            }
+          }
+        },
+        {
+          "evidence": {
+            "path": "cases/hello-debug-dll/cached-import-contracts.json",
+            "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+          },
+          "preserves": [
+            "edi",
+            "ebp"
+          ],
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "toupper"
+            }
+          }
+        },
+        {
+          "evidence": {
+            "path": "cases/hello-debug-dll/cached-import-contracts.json",
+            "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+          },
+          "preserves": [
+            "edi",
+            "ebp"
+          ],
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "_strcmpi"
+            }
+          }
+        },
+        {
+          "evidence": {
+            "path": "cases/hello-debug-dll/cached-import-contracts.json",
+            "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            }
+          }
+        },
+        {
+          "evidence": {
+            "path": "cases/hello-debug-dll/cached-import-contracts.json",
+            "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "target": {
+            "import": {
+              "dll": "msvcrt.dll",
+              "name": "malloc"
+            }
+          }
+        },
+        {
+          "evidence": {
+            "path": "cases/hello-debug-dll/cached-import-contracts.json",
+            "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+          },
+          "preserves": [
+            "edi"
+          ],
+          "target": {
+            "import": {
+              "dll": "kernel32.dll",
+              "name": "CloseHandle"
+            }
+          }
+        },
+        {
+          "evidence": {
+            "path": "cases/hello-debug-dll/cached-import-contracts.json",
+            "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+          },
+          "preserves": [
+            "ebx",
+            "esi"
+          ],
+          "target": {
+            "function": "_message_text"
+          }
+        },
+        {
+          "evidence": {
+            "path": "cases/hello-debug-dll/cached-import-contracts.json",
+            "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+          },
+          "preserves": [
+            "esi",
+            "edi",
+            "ebp"
+          ],
+          "target": {
+            "function": "_fatal_error"
+          }
+        },
+        {
+          "evidence": {
+            "path": "cases/hello-debug-dll/cached-import-contracts.json",
+            "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+          },
+          "preserves": [
+            "edi",
+            "ebp"
+          ],
+          "target": {
+            "function": "_warning"
+          }
+        },
+        {
+          "evidence": {
+            "path": "cases/hello-debug-dll/cached-import-contracts.json",
+            "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "target": {
+            "function": "_read_cached_file"
+          }
+        },
+        {
+          "evidence": {
+            "path": "cases/hello-debug-dll/cached-import-contracts.json",
+            "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "target": {
+            "function": "_tell_cached_file"
+          }
+        },
+        {
+          "evidence": {
+            "path": "cases/hello-debug-dll/cached-import-contracts.json",
+            "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+          },
+          "preserves": [
+            "esi"
+          ],
+          "target": {
+            "function": "_allocate_cleared"
+          }
+        }
+      ],
+      "rebuilt_sha256": "98ae72fe666cbc00c1e17f6bd93e08695df94ab0723371b7b339d4553b3f0056"
+    }
+  },
+  "contract_ablation": {
+    "attempts": [
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "free"
+          }
+        },
+        "common_graph_accepts": true,
+        "role_complete": false,
+        "can_remove": false,
+        "diagnostic": "",
+        "seconds": 0.0777970589697361
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "printf"
+          }
+        },
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "can_remove": false,
+        "diagnostic": "graph-audit: _print_banner indirect call topology differs",
+        "seconds": 0.011004796251654625
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "sprintf"
+          }
+        },
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "can_remove": false,
+        "diagnostic": "graph-audit: _fatal_error indirect call topology differs",
+        "seconds": 0.025565474294126034
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "toupper"
+          }
+        },
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "can_remove": false,
+        "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}",
+        "seconds": 0.00893312320113182
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "_strcmpi"
+          }
+        },
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "can_remove": false,
+        "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}",
+        "seconds": 0.011388386599719524
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "strncmp"
+          }
+        },
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "can_remove": false,
+        "diagnostic": "graph-audit: _read_image_debug import graph differs: original {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"malloc\" } }}; reconstruction {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"malloc\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"strncmp\" } }}",
+        "seconds": 0.019577774219214916
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "malloc"
+          }
+        },
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "can_remove": false,
+        "diagnostic": "graph-audit: _read_image_debug indirect call topology differs",
+        "seconds": 0.019843761809170246
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "kernel32.dll",
+            "name": "CloseHandle"
+          }
+        },
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "can_remove": false,
+        "diagnostic": "graph-audit: _create_mapping indirect call topology differs",
+        "seconds": 0.03243344463407993
+      },
+      {
+        "target": {
+          "function": "_message_text"
+        },
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "can_remove": false,
+        "diagnostic": "graph-audit: _print_banner indirect call topology differs",
+        "seconds": 0.01271496806293726
+      },
+      {
+        "target": {
+          "function": "_fatal_error"
+        },
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "can_remove": false,
+        "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}",
+        "seconds": 0.009179826825857162
+      },
+      {
+        "target": {
+          "function": "_warning"
+        },
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "can_remove": false,
+        "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}",
+        "seconds": 0.009227626025676727
+      },
+      {
+        "target": {
+          "function": "_read_cached_file"
+        },
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "can_remove": false,
+        "diagnostic": "graph-audit: _read_image_debug import graph differs: original {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"malloc\" } }}; reconstruction {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"malloc\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"strncmp\" } }}",
+        "seconds": 0.017417574301362038
+      },
+      {
+        "target": {
+          "function": "_tell_cached_file"
+        },
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "can_remove": false,
+        "diagnostic": "graph-audit: _read_image_debug indirect call topology differs",
+        "seconds": 0.018218163400888443
+      },
+      {
+        "target": {
+          "function": "_allocate_cleared"
+        },
+        "common_graph_accepts": false,
+        "role_complete": false,
+        "can_remove": false,
+        "diagnostic": "graph-audit: _read_image_debug indirect call topology differs",
+        "seconds": 0.017780499532818794
+      }
+    ],
+    "surviving": [
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "free"
+          }
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/import-preservation.json",
+          "sha256": "1d11f8e059eef48acbc20f9fc2a4c46c8918e6c895ade42d78497f422e51c5e3"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "printf"
+          }
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "sprintf"
+          }
+        },
+        "preserves": [
+          "ebx"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "toupper"
+          }
+        },
+        "preserves": [
+          "edi",
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "_strcmpi"
+          }
+        },
+        "preserves": [
+          "edi",
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "strncmp"
+          }
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "msvcrt.dll",
+            "name": "malloc"
+          }
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "import": {
+            "dll": "kernel32.dll",
+            "name": "CloseHandle"
+          }
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "function": "_message_text"
+        },
+        "preserves": [
+          "ebx",
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "function": "_fatal_error"
+        },
+        "preserves": [
+          "esi",
+          "edi",
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "function": "_warning"
+        },
+        "preserves": [
+          "edi",
+          "ebp"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "function": "_read_cached_file"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "function": "_tell_cached_file"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      },
+      {
+        "target": {
+          "function": "_allocate_cleared"
+        },
+        "preserves": [
+          "esi"
+        ],
+        "evidence": {
+          "path": "cases/hello-debug-dll/cached-import-contracts.json",
+          "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+        }
+      }
+    ],
+    "scope": "Mixed main requires all five known cached-free sites resolved plus exactly genuine GPA callback opaque; common graph target sets/indirectbit alone cannot prove this completeness."
+  },
+  "register_ablation": [
+    {
+      "target": {
+        "import": {
+          "dll": "msvcrt.dll",
+          "name": "free"
+        }
+      },
+      "removed_register": "esi",
+      "common_graph_accepts": true,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": ""
+    },
+    {
+      "target": {
+        "import": {
+          "dll": "msvcrt.dll",
+          "name": "printf"
+        }
+      },
+      "removed_register": "esi",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: _print_banner indirect call topology differs"
+    },
+    {
+      "target": {
+        "import": {
+          "dll": "msvcrt.dll",
+          "name": "sprintf"
+        }
+      },
+      "removed_register": "ebx",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: _fatal_error indirect call topology differs"
+    },
+    {
+      "target": {
+        "import": {
+          "dll": "msvcrt.dll",
+          "name": "toupper"
+        }
+      },
+      "removed_register": "edi",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}"
+    },
+    {
+      "target": {
+        "import": {
+          "dll": "msvcrt.dll",
+          "name": "toupper"
+        }
+      },
+      "removed_register": "ebp",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}"
+    },
+    {
+      "target": {
+        "import": {
+          "dll": "msvcrt.dll",
+          "name": "_strcmpi"
+        }
+      },
+      "removed_register": "edi",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}"
+    },
+    {
+      "target": {
+        "import": {
+          "dll": "msvcrt.dll",
+          "name": "_strcmpi"
+        }
+      },
+      "removed_register": "ebp",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}"
+    },
+    {
+      "target": {
+        "import": {
+          "dll": "msvcrt.dll",
+          "name": "strncmp"
+        }
+      },
+      "removed_register": "esi",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: _read_image_debug import graph differs: original {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"malloc\" } }}; reconstruction {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"malloc\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"strncmp\" } }}"
+    },
+    {
+      "target": {
+        "import": {
+          "dll": "msvcrt.dll",
+          "name": "malloc"
+        }
+      },
+      "removed_register": "esi",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: _read_image_debug indirect call topology differs"
+    },
+    {
+      "target": {
+        "import": {
+          "dll": "kernel32.dll",
+          "name": "CloseHandle"
+        }
+      },
+      "removed_register": "edi",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: _create_mapping indirect call topology differs"
+    },
+    {
+      "target": {
+        "function": "_message_text"
+      },
+      "removed_register": "ebx",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: _fatal_error import graph differs: original {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"exit\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"puts\" } }}; reconstruction {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"exit\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"puts\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"sprintf\" } }}"
+    },
+    {
+      "target": {
+        "function": "_message_text"
+      },
+      "removed_register": "esi",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: _print_banner indirect call topology differs"
+    },
+    {
+      "target": {
+        "function": "_fatal_error"
+      },
+      "removed_register": "esi",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: _read_image_debug import graph differs: original {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"malloc\" } }}; reconstruction {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"malloc\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"strncmp\" } }}"
+    },
+    {
+      "target": {
+        "function": "_fatal_error"
+      },
+      "removed_register": "edi",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}"
+    },
+    {
+      "target": {
+        "function": "_fatal_error"
+      },
+      "removed_register": "ebp",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}"
+    },
+    {
+      "target": {
+        "function": "_warning"
+      },
+      "removed_register": "edi",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}"
+    },
+    {
+      "target": {
+        "function": "_warning"
+      },
+      "removed_register": "ebp",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: original _parse_options register imports: unresolved register import calls: {4212989, 4213025}"
+    },
+    {
+      "target": {
+        "function": "_read_cached_file"
+      },
+      "removed_register": "esi",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: _read_image_debug import graph differs: original {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"malloc\" } }}; reconstruction {Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"malloc\" } }, Identity { dll: \"msvcrt.dll\", symbol: Name { name: \"strncmp\" } }}"
+    },
+    {
+      "target": {
+        "function": "_tell_cached_file"
+      },
+      "removed_register": "esi",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: _read_image_debug indirect call topology differs"
+    },
+    {
+      "target": {
+        "function": "_allocate_cleared"
+      },
+      "removed_register": "esi",
+      "common_graph_accepts": false,
+      "role_complete": false,
+      "can_remove": false,
+      "diagnostic": "graph-audit: _read_image_debug indirect call topology differs"
+    }
+  ],
+  "parity": {
+    "binary_sha256": "6575be33131c2194225a104d427c310eda263fccfaf075753dec62ed02612d35",
+    "baseline_sha256": "fc5c81f2771c5b6e488ad72529a90c862ef6744083d6e8270b88218105fa844f",
+    "reports": {
+      "cl-cfg": "a58ff5f6a8e75c1ba7409f234553265b8fdc6d0a6777f5191b36254791036cf6",
+      "cl-legacy": "f0eefcaecfe6015b45a070a6b5e8dd31a2597186e9469c2e0fb8282bfba9c86d",
+      "c1-cfg": "1c360732fca7e58687c5901263baea8147417dd0ce36fd546959a3154d555719",
+      "c1-legacy": "34a83bfa3ca6d13c3d2bdf209282dab43c10938834040908e5dbfae2020e199b",
+      "c1xx-cfg": "c93ca257abb2d8135ff6d3bf4ec9e0a0c259066701cb47081ab825124d49ce7e",
+      "c1xx-legacy": "8c0a87d13ef9c5304011476c6f5d42155050b8b98c322bfa35171f640b0be2f3",
+      "c2-cfg": "f6f423eb0bbf1d940f0ac0e825733314b4479585187f2c4676414f0cef601e53",
+      "c2-legacy": "ce689d0d5b987bf6bc2b519b46294746a6432bb7e5cc10bc87914b8eba379e49",
+      "link-cfg": "f98355d241fb8f2007441cc335c5288a7f61a0ad46a84f7d2f08bf022440b304",
+      "link-legacy": "425e8d637a1548993f2a86daa6d23b182dc20e2f0081469238bce216bf003b32",
+      "rc-cfg": "b34fcf1001c36c52a06985b7acc21a6f0cb27eb2c539d8b2957f5bfb03c2acf5",
+      "rc-legacy": "6fc182503ff615060b5b9aa3781e31852887c107312d722dfbef3d7a120d7998",
+      "rcpp-cfg": "a7ef6d843de7e89c109aae4e1ebab8e6cb454aa0340db2e78bde394b90aa858a",
+      "rcpp-legacy": "d781b810690e2b796ac4a40bab9f9fbd2297f97b12ddde33de4c85997f198d0a",
+      "cvpack-cfg": "45e2355800c14930bccd50c7a3228252cfd3057bcf51e21064d812156a870f1d",
+      "cvpack-legacy": "e8ba5ccca9663b91e6a4e17f2ffcf83322ac154e2eab8442c07866e0c9116c6a",
+      "existing_LINK_flag_on": "89479a5ae7c2cf2fda3211eafe9bd62f5fde943e7fac0217d90b687abcfb3f22"
+    }
+  },
+  "load_average": [
+    3.427734375,
+    4.4453125,
+    4.333984375
+  ],
+  "scope_warning": "Mixed main requires exact five resolved free sites plus only genuine GPA4047fc opaque. Removing free preservation can pass target-set/indirect-bit graph equality but must fail this per-site completeness gate. No broad require-all or common callback allowlist.",
+  "semantic_review": "Orchestrator/root independently approved thirteen additional callee/provider witness rows; all fourteen contracts and twenty declared preserve bits remain necessary under graph+per-site completeness. Tool verifies contained evidence SHA, not arbitrary witness semantics."
+}

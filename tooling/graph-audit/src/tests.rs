@@ -993,3 +993,70 @@ fn register_software_interrupts_do_not_preserve_cached_facts() {
     let code = [0x8b, 0x35, 0, 0x20, 0x40, 0, 0xcc, 0xff, 0xd6, 0xc3];
     assert!(register_analysis(&code, vec![0x401007], preserve_first(), true).is_err());
 }
+#[test]
+fn ebp_register_iat_seed_copy_and_explicit_preservation() {
+    let code = [0x8b, 0x2d, 0, 0x20, 0x40, 0, 0xff, 0xd5, 0xff, 0xd5, 0xc3];
+    // Existing three-register evidence does not imply EBP survival.
+    assert!(register_analysis(&code, vec![], preserve_first(), true).is_err());
+    let mut m = preserve_first();
+    m["register_imports"]["preservation_contracts"][0]["preserves"] = serde_json::json!(["ebp"]);
+    assert_eq!(
+        register_analysis(&code, vec![], m.clone(), true)
+            .unwrap()
+            .resolved_register_calls
+            .len(),
+        2
+    );
+    let copy = [0x8b, 0x1d, 0, 0x20, 0x40, 0, 0x8b, 0xeb, 0xff, 0xd5, 0xc3];
+    assert_eq!(
+        register_analysis(&copy, vec![], m, true)
+            .unwrap()
+            .resolved_register_calls
+            .len(),
+        1
+    );
+}
+#[test]
+fn ebp_partial_and_implicit_frame_writes_kill() {
+    for op in [
+        vec![0x66, 0xbd, 0, 0],
+        vec![0x5d],
+        vec![0xc9],
+        vec![0xc8, 0, 0, 0],
+        vec![0x61],
+        vec![0x8b, 0xec],
+        vec![0x95],
+    ] {
+        let mut code = vec![0x8b, 0x2d, 0, 0x20, 0x40, 0];
+        code.extend(op);
+        code.extend([0xff, 0xd5, 0xc3]);
+        assert!(
+            register_analysis(&code, vec![], serde_json::json!({}), true).is_err(),
+            "{code:x?}"
+        );
+    }
+}
+#[test]
+fn ebp_unknown_call_barrier_and_gpa_result_stays_opaque() {
+    let code = [
+        0x8b, 0x2d, 0, 0x20, 0x40, 0, 0xe8, 0xf5, 0, 0, 0, 0xff, 0xd5, 0xc3,
+    ];
+    assert!(register_analysis(&code, vec![], serde_json::json!({}), true).is_err());
+    let mut m = preserve_first();
+    m["register_imports"]["preservation_contracts"][0]["target"] =
+        serde_json::json!({"function":"_helper"});
+    m["register_imports"]["preservation_contracts"][0]["preserves"] = serde_json::json!(["ebp"]);
+    assert_eq!(
+        register_analysis(&code, vec![], m.clone(), true)
+            .unwrap()
+            .resolved_register_calls
+            .len(),
+        1
+    );
+    // A function-pointer return in EAX is not an IAT load, even when copied
+    // into a supported nonvolatile register. Mixed real callbacks stay opaque.
+    let opaque = [0xe8, 0xfb, 0, 0, 0, 0x8b, 0xe8, 0xff, 0xd5, 0xc3];
+    let report = register_analysis(&opaque, vec![], m, false).unwrap();
+    assert!(report.resolved_register_calls.is_empty());
+    assert_eq!(report.unresolved_register_calls.len(), 1);
+}

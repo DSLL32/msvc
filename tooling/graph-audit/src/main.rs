@@ -48,7 +48,7 @@ pub struct Args {
     #[arg(
         long,
         requires = "check_imports",
-        help = "Conservatively resolve EBX/ESI/EDI IAT calls with explicit callee-preservation evidence"
+        help = "Conservatively resolve EBX/ESI/EDI/EBP IAT calls with explicit callee-preservation evidence"
     )]
     pub resolve_register_imports: bool,
     #[arg(long)]

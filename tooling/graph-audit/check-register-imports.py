@@ -77,5 +77,20 @@ run('symlink_witness_escape',seed+call+ret,direct+ret,False,meta=m,error='escape
 m=base();m['functions']['_caller']['register_imports']['require_all_register_calls_resolved']=False
 r=run('genuine_unknown_callback_stays_indirect',bytes.fromhex('ffd0c3'),bytes.fromhex('ffd0c3'),meta=m)
 assert r['functions']['_caller']['edges']==['indirect']
+# Fourth-register extension: existing three-register contracts do not
+# authorize EBP survival, and frame/stack effects remain conservative.
+ebp_seed=bytes.fromhex('8b2d50114000');ebp_call=bytes.fromhex('ffd5')
+run('EBP_full_IAT_seed',ebp_seed+ebp_call+ret,direct+ret)
+run('EBP_old_contract_does_not_preserve',ebp_seed+ebp_call+ebp_call+ret,direct+direct+ret,False,error='unresolved register import calls')
+m=base();m['register_imports']['preservation_contracts'][0]['preserves']=['ebp']
+run('EBP_explicit_survival',ebp_seed+ebp_call+ebp_call+ret,direct+direct+ret,meta=m)
+for label,op in [('EBP_partial_BP',bytes.fromhex('66bd0000')),('EBP_ENTER',bytes.fromhex('c8000000')),('EBP_LEAVE',bytes.fromhex('c9'))]:
+ run(label,ebp_seed+op+ebp_call+ret,direct+ret,False,meta=m,error='unresolved register import calls')
+run('EBP_unknown_callee_barrier',ebp_seed+helper_l+ebp_call+ret,helper_r+direct+ret,False,meta=m,error='unresolved register import calls')
+m['functions']['_caller']['register_imports']['require_all_register_calls_resolved']=False
+opaque=helper_r+bytes.fromhex('8be8ffd5c3')
+r=run('EBP_function_pointer_return_stays_indirect',opaque,opaque,meta=m)
+assert r['functions']['_caller']['edges']==['_helper','indirect']
+assert not r['functions']['_caller']['register_imports']['original']['resolved_register_calls']
 a.report.write_text(json.dumps(dict(scope=__doc__,binary_sha256=sha(binary.read_bytes()),positive_report=positive,results=results),indent=2)+'\n')
 print(f'Register-IAT CLI: {len(results)} controls passed.')
