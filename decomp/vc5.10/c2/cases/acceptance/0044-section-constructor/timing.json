@@ -1,0 +1,32 @@
+{
+  "original_capture": {
+    "setup": 0.17700236570090055,
+    "execution": 1.463454658165574,
+    "total": 1.6824505580589175
+  },
+  "native_gdb_capture": {
+    "execution": 0.2529247282072902,
+    "total": 0.3383945832028985
+  },
+  "rejection_control": {
+    "control_and_rejections": 7.15603958722204
+  },
+  "fresh_rejections": 19,
+  "reused_rejections": 71,
+  "audit_seconds": 0.10444347281008959,
+  "initial_concurrent_build_wall_upper_bounds": {
+    "native": {
+      "seconds": 2.303170206025243,
+      "status": 0
+    },
+    "original": {
+      "seconds": 4.355957270599902,
+      "status": 0
+    },
+    "helper": {
+      "seconds": 4.3552191043272614,
+      "status": 0
+    }
+  },
+  "observer_correction": "First original retained at constructor-original: final command-state observation missing. Corrected helper rebuilt and original-2 freshly captured; initial failed raw remains immutable."
+}

@@ -69,3 +69,15 @@ void initialize_sections(void)
     tls_section->section_kind = 0x0b;
     tls_section->order = 7;
 }
+
+C2Section *__fastcall create_section(char *name, char *class_name, unsigned serial)
+{
+    C2Section *section = c2_allocate_node(9, 0);
+
+    section->symbol.serial = serial;
+    section->symbol.name = name;
+    section->class_name = class_name;
+    insert_symbol(&section->symbol, 0);
+    append_section(section);
+    return section;
+}

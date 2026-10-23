@@ -183,6 +183,8 @@ extern int c2_codeview_types;
 void initialize_sections(void);
 C2Section *__fastcall create_section(char *name, char *class_name, unsigned serial);
 void __fastcall initialize_section_defaults(C2Section *section);
+void __fastcall insert_symbol(C2Symbol *symbol, int local);
+void __fastcall append_section(C2Section *section);
 void c2_initialize_codegen(void);
 void c2_initialize_registers(void);
 void c2_initialize_optimizer(void);

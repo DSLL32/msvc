@@ -18,10 +18,14 @@ int __fastcall c2_open_pdb(char *name, char *object_name)
     __asm { int 3 }
     return 0;
 }
-C2Section *__fastcall create_section(char *name, char *class_name, unsigned serial)
+void __fastcall insert_symbol(C2Symbol *symbol, int local)
 {
     __asm { int 3 }
-    return NULL;
+}
+
+void __fastcall append_section(C2Section *section)
+{
+    __asm { int 3 }
 }
 
 void __fastcall initialize_section_defaults(C2Section *section)

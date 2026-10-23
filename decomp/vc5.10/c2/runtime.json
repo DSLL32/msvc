@@ -108,17 +108,25 @@
     "evidence": null
   },
   {
-    "name": "@create_section@12",
-    "start": 4322295,
-    "end": 4322296,
+    "name": "@initialize_section_defaults@4",
+    "start": 4538002,
+    "end": 4538003,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null
   },
   {
-    "name": "@initialize_section_defaults@4",
-    "start": 4538002,
-    "end": 4538003,
+    "name": "@insert_symbol@8",
+    "start": 4249000,
+    "end": 4249001,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@append_section@4",
+    "start": 4322350,
+    "end": 4322351,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

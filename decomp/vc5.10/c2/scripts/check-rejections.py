@@ -123,6 +123,20 @@ def main():
                       ('machine call-clobber register mask differs',lambda r:changed_machine_value(r,'0x495f34',7)),
                       ('machine stack alignment differs',lambda r:changed_machine_value(r,'0x49745c',4)),
                       ('earlier intrinsic observation cannot replace final frontier observation',missing_final_intrinsic_observation)]
+    if 'section_symbol'in current_state:
+        def changed_section_symbol(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['section_symbol'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        def changed_node_byte(root,index):
+            path=root/'o/section-node.bin';data=bytearray(path.read_bytes());data[index]^=1;path.write_bytes(data)
+        mutations += [('section symbol local-table selector differs',lambda r:changed_section_symbol(r,'local',1)),
+                      ('section symbol untouched tail differs',lambda r:changed_section_symbol(r,'bytes',current_state['section_symbol']['bytes'][:-2]+'01')),
+                      ('section symbol name differs',lambda r:changed_section_symbol(r,'name','_DATA')),
+                      ('section symbol class differs',lambda r:changed_section_symbol(r,'class_name','DATA')),
+                      ('section symbol name global alias differs',lambda r:changed_section_symbol(r,'name_alias',False)),
+                      ('section symbol pool allocation alias differs',lambda r:changed_section_symbol(r,'pool_offset',8)),
+                      ('section symbol premature output assignment',lambda r:changed_section_symbol(r,'initial_sections',[1]+[0]*6)),
+                      ('original section symbol serial differs',lambda r:changed_node_byte(r,40)),
+                      ('original section symbol untouched tail differs',lambda r:changed_node_byte(r,85))]
     if 'section_constructor'in current_state:
         def changed_section(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['section_constructor'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
