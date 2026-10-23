@@ -1,0 +1,35 @@
+{
+  "purpose": "unmodified original help baseline only; no masked/native function acceptance",
+  "command": [
+    "wine",
+    "R:\\toolchains\\watcom10.0a\\binnt\\WCC386.EXE",
+    "?"
+  ],
+  "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wcc386/help-baseline",
+  "environment_overrides": {
+    "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
+    "WINEDEBUG": "-all",
+    "WATCOM": "R:\\toolchains\\watcom10.0a"
+  },
+  "environment_absent": [
+    "WCC386",
+    "WCC",
+    "INCLUDE"
+  ],
+  "returncode": 1,
+  "elapsed_seconds": 0.5025022644549608,
+  "stdout_bytes": 4509,
+  "stdout_sha256": "186aa5f9fbd023f4990260953236252d628a4fa7297afb26d3adfa7d34583ccc",
+  "stderr_bytes": 0,
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "files": {
+    "stdout.bin": {
+      "bytes": 4509,
+      "sha256": "186aa5f9fbd023f4990260953236252d628a4fa7297afb26d3adfa7d34583ccc"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

@@ -1,0 +1,2 @@
+# Original stream bytes include CRLF; never convert or text-diff these masters.
+cases/help/reference/*.bin binary
