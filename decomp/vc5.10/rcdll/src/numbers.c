@@ -9,9 +9,8 @@
 #endif
 
 int rc_number_buffer_active;
-/* Address identity only. The original alternate buffer's contents and capacity
- * are not reconstructed; native execution holds before that mode can write it. */
-WCHAR rc_number_spelling_address_identity;
+/* Alternate numeric spelling starts inside the encountered string work area.
+ * Its numeric-mode behavior remains unaccepted and natively held below. */
 WCHAR *rc_number_buffer=&rc_number_spelling_address_identity;
 
 unsigned char __stdcall rc_read_number(WCHAR first)

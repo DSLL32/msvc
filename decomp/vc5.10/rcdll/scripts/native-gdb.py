@@ -50,10 +50,20 @@ def capture():
             vector=frame.read_var('arguments');arguments['argv']=[vector[n].string()for n in range(arguments['count'])]
             arguments['terminator']=int(vector[arguments['count']])
             arguments['host_callback']=int(gdb.parse_and_eval('(void *)fixture_diagnostic'))&0xffffffff
-        if name=='rc_read_string':
-            assert frame.older().name()=='rc_next_token'
+        if name in ['rc_read_string','rc_expect_end']:
             cursor=int(gdb.parse_and_eval('rc_source_cursor'))
             arguments['reader']=dict(formals=[],caller=frame.older().name(),cursor=cursor,current_word=int(gdb.parse_and_eval('*rc_source_cursor')),header_mode=int(gdb.parse_and_eval('rc_header_mode')),output_active=int(gdb.parse_and_eval('rc_cpp_active')),in_directive=int(gdb.parse_and_eval('rc_in_directive')),token_kind=int(gdb.parse_and_eval('rc_token_kind')),token_value=int(gdb.parse_and_eval('rc_token_value')))
+            if name=='rc_read_string':assert frame.older().name()=='rc_next_token'
+            else:
+                reads=json.loads((output.parent/'string-reads.json').read_text());assert len(reads)==1
+                arguments['reader']=reads[0];arguments['string_reads']=reads
+                word=frame.read_var('word');raw=bytearray()
+                for offset in range(257):
+                    value=bytes(gdb.selected_inferior().read_memory(int(word)+offset*2,2));raw.extend(value)
+                    if value==b'\0\0':break
+                else:raise AssertionError('unterminated expect-end word')
+                arguments['expect_end']=dict(pointer=int(word),bytes=raw.hex(),formal_bytes=word.type.sizeof,current_word=int(gdb.parse_and_eval('*rc_source_cursor')),cursor=int(gdb.parse_and_eval('rc_source_cursor')),output_active=int(gdb.parse_and_eval('rc_cpp_active')),in_directive=int(gdb.parse_and_eval('rc_in_directive')))
+                arguments['string_current']=dict(pointer=int(gdb.parse_and_eval('&rc_string_buffer')),payload=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_string_buffer')),4090)).hex(),extra=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_token_extra')),2)).hex())
             from importlib.machinery import SourceFileLoader
             source_observer=SourceFileLoader('native_preprocess',str(Path(os.environ['RCDLL_NATIVE_SCRIPT']).parent/'native-preprocess.py')).load_module()
             source_parent=frame.older()
@@ -63,7 +73,7 @@ def capture():
             file=gdb.parse_and_eval('rc_source_file').dereference();descriptor=int(file['_file']);handle=int(gdb.parse_and_eval('recon_osfhnd[%d]'%descriptor))-1
             arguments['source_fdinfo']=Path('/proc/%d/fdinfo/%d'%(gdb.selected_inferior().pid,handle)).read_text()
             arguments['interned_types']=json.loads((output.parent/'interned-types.json').read_text())
-            node=arguments['reader']['token_value'];arguments['integer_node']=dict(pointer=node,payload=bytes(gdb.selected_inferior().read_memory(node,20)).hex())
+            node=arguments['interned_types'][0]['node'];arguments['integer_node']=dict(pointer=node,payload=bytes(gdb.selected_inferior().read_memory(node,20)).hex())
             buckets=gdb.parse_and_eval('rc_type_buckets');arguments['type_buckets']=dict(address=int(buckets.address),bytes=buckets.type.sizeof,count=256,pointer_bytes=buckets[0].type.sizeof,payload=bytes(gdb.selected_inferior().read_memory(int(buckets.address),buckets.type.sizeof)).hex())
         jump=None
         if any(f['name']=='main' and not f.get('stub')for f in config['functions']):
@@ -97,9 +107,9 @@ def capture():
             arguments['message']=bytes(gdb.selected_inferior().read_memory(int(message),length)).hex()
         if name=='rc_message':arguments['id']=int(frame.read_var('id'))
         if name=='rc_prepare_input':arguments['path']=frame.read_var('path').string()
-        if name in ['rc_preprocess','rc_widen_arguments','rc_preprocessor_main','rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro','rc_find_macro','rc_copy_macro_text','rc_open_source','rc_refill_source','rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type','rc_read_string']:
+        if name in ['rc_preprocess','rc_widen_arguments','rc_preprocessor_main','rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro','rc_find_macro','rc_copy_macro_text','rc_open_source','rc_refill_source','rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type','rc_read_string','rc_expect_end']:
             caller=frame
-            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro','rc_find_macro','rc_copy_macro_text','rc_open_source','rc_refill_source','rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type','rc_read_string']:
+            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro','rc_find_macro','rc_copy_macro_text','rc_open_source','rc_refill_source','rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type','rc_read_string','rc_expect_end']:
                 while caller and caller.name()!='rc_preprocessor_main':caller=caller.older()
                 assert caller,'preprocessor main caller missing'
             count=int(caller.read_var('count'));preprocess_vector=caller.read_var('arguments');assert 0<count<=256
@@ -122,7 +132,7 @@ def capture():
             # descriptor numbers and CRT array slots need not equal Wine's.
             file=frees[0]['input_file']
             arguments['closed_input']=bytes(gdb.selected_inferior().read_memory(file,32)).hex()
-            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro','rc_find_macro','rc_copy_macro_text','rc_open_source','rc_refill_source','rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type','rc_read_string']:
+            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro','rc_find_macro','rc_copy_macro_text','rc_open_source','rc_refill_source','rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type','rc_read_string','rc_expect_end']:
                 from importlib.machinery import SourceFileLoader
                 observer=SourceFileLoader('native_preprocess',str(Path(os.environ['RCDLL_NATIVE_SCRIPT']).parent/'native-preprocess.py')).load_module()
                 arguments['preprocessor']=observer.capture_preprocessor(config_path.parent/'preprocess-data.json')

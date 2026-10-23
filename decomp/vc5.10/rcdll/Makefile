@@ -123,3 +123,7 @@ build/native/number-mode-boundary-host: $(NATIVE_OBJECTS) scripts/number-mode-bo
 build/native/integer-storage-boundary-host: $(NATIVE_OBJECTS) scripts/integer-storage-boundary-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/integer-storage-boundary-host.c $(NATIVE_SHIMS) -o $@
 	$(PYTHON) scripts/source-snapshot.py native build/native-integer-storage-boundary-source.json --host scripts/integer-storage-boundary-host.c
+
+build/native/string-storage-host: $(NATIVE_OBJECTS) scripts/string-storage-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/string-storage-host.c $(NATIVE_SHIMS) -o $@
+	$(PYTHON) scripts/source-snapshot.py native build/native-string-storage-source.json --host scripts/string-storage-host.c

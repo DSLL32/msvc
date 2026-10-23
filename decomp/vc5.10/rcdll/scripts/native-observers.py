@@ -544,3 +544,17 @@ class InternedTypeEntered(gdb.Breakpoint):
         entry=dict(pointer=int(arg),formal_bytes=arg.type.sizeof,object_bytes=arg.dereference().type.sizeof,entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,payload=bytes(gdb.selected_inferior().read_memory(int(arg),20)).hex(),parent=parent.name(),node=node,node_bytes=bytes(gdb.selected_inferior().read_memory(node,20)).hex(),buckets_address=int(buckets.address),buckets_bytes=buckets.type.sizeof,buckets_before=bytes(gdb.selected_inferior().read_memory(int(buckets.address),1024)).hex())
         interned_types.append(entry);save_interned_types();InternedTypeReturned(frame,entry);return False
 InternedTypeEntered('rc_intern_type',internal=True);save_interned_types()
+
+string_reads=[]
+def save_string_reads():(path.parent/'string-reads.json').write_text(json.dumps(string_reads,indent=2)+'\n')
+class StringReaderReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,cursor_after=int(gdb.parse_and_eval('rc_source_cursor')),token_value_after=int(gdb.parse_and_eval('rc_token_value')),extra_after=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_token_extra')),2)).hex(),buffer_after=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_string_buffer')),4090)).hex())
+        save_string_reads();return False
+class StringReaderEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();cursor=int(gdb.parse_and_eval('rc_source_cursor'));buffer=gdb.parse_and_eval('rc_string_buffer');extra=gdb.parse_and_eval('rc_token_extra');extra_address=int(extra.address)
+        entry=dict(formals=[],caller=frame.older().name(),cursor=cursor,current_word=int(gdb.parse_and_eval('*rc_source_cursor')),header_mode=int(gdb.parse_and_eval('rc_header_mode')),output_active=int(gdb.parse_and_eval('rc_cpp_active')),in_directive=int(gdb.parse_and_eval('rc_in_directive')),token_kind=int(gdb.parse_and_eval('rc_token_kind')),token_value=int(gdb.parse_and_eval('rc_token_value')),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,buffer=int(buffer.address),buffer_before=bytes(gdb.selected_inferior().read_memory(int(buffer.address),buffer.type.sizeof)).hex(),extra_before=bytes(gdb.selected_inferior().read_memory(extra_address,2)).hex(),layout=dict(buffer_bytes=buffer.type.sizeof,element_bytes=buffer[0].type.sizeof,buffer_alignment=int(buffer.address)%2,number_offset=int(gdb.parse_and_eval('rc_number_buffer'))-int(buffer.address),extra_bytes=extra.type.sizeof,extra_alignment=extra_address%2,hash_offset=int(extra['identifier']['hash'].address)-extra_address,length_offset=int(extra['identifier']['length'].address)-extra_address,string_length_offset=int(extra['string_length'].address)-extra_address))
+        string_reads.append(entry);save_string_reads();StringReaderReturned(frame,entry);return False
+StringReaderEntered('rc_read_string',internal=True);save_string_reads()

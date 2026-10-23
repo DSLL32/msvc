@@ -459,3 +459,14 @@ cursor16 and word114, with header/output modes0 and directive mode1.
 records eleven affected controls and the exact current input/FILE/heap state.
 Earlier number-frame storage has expired and is not reread; unchanged prefix
 controls remain bound by their prior record hashes. The comparator stays trapped.
+
+String reading is accepted (290 bytes): `resources.rc` and its NUL occupy26
+bytes, with the remaining4,064 bytes unchanged. Exact original cursor/terminator
+bounds establish a contextual2,045-WCHAR work area. A two-byte union preserves
+identifier hash/length bytes and the string-length WORD. The prior numeric
+address anchor now aliases element1024 of that area; its earlier opaque proof
+history is unchanged, and alternate numeric mode still traps in production code.
+[Verification](cases/resources-rich-trailing-space/read-string-verification.json)
+records fourteen fresh controls, the actual linked-object layout/alias probe and
+renewed plain/GDB mode guard. The next end-of-directive helper receives `#line`
+and sees source cursor42/CR13 with output and directive modes1.

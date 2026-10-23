@@ -13,7 +13,7 @@ int rc_expanding_macro,rc_in_directive,rc_in_condition_expression,rc_header_mode
 int rc_condition_state[32];
 /* The lexer starts immediately after a newline token. */
 unsigned char rc_token_kind=1;
-unsigned char rc_token_hash,rc_token_length;
+RcTokenExtra rc_token_extra;
 int rc_keep_internal_marker;
 void *rc_token_value;
 

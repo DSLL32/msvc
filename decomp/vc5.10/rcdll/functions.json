@@ -58,7 +58,8 @@
     "rc_digit_value",
     "rc_decimal_integer_kind",
     "rc_store_integer",
-    "rc_intern_type"
+    "rc_intern_type",
+    "rc_read_string"
   ],
   "functions": [
     {
@@ -1261,8 +1262,7 @@
       "end": "0x1205d",
       "abi": "cdecl",
       "stack_bytes": 0,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_read_number",
@@ -1381,6 +1381,15 @@
       "end": "0x736b",
       "abi": "stdcall",
       "stack_bytes": 8,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_escape_character",
+      "start": "0x12731",
+      "end": "0x128e9",
+      "abi": "stdcall",
+      "stack_bytes": 4,
       "kind": "application",
       "stub": true
     }

@@ -25,7 +25,7 @@ typedef struct RcIntegerToken {
     int value;
     unsigned other16;
 } RcIntegerToken;
-extern int rc_expanding_macro,rc_in_directive;
+extern int rc_expanding_macro,rc_in_directive,rc_header_mode;
 extern WCHAR rc_source_marker[];
 extern WCHAR *rc_cpp_path_characters;
 WCHAR __cdecl rc_read_nonspace(void);
@@ -45,7 +45,15 @@ void __cdecl rc_search_include_directories(void);
 UINT __cdecl rc_parse_pragma(void);
 int __stdcall rc_change_codepage(UINT);
 WCHAR __cdecl rc_get_logical_character(void);
-extern unsigned char rc_token_kind,rc_token_hash,rc_token_length;
+typedef union RcTokenExtra {
+    struct { unsigned char hash,length; } identifier;
+    unsigned short string_length;
+} RcTokenExtra;
+extern unsigned char rc_token_kind;
+extern RcTokenExtra rc_token_extra;
+#define rc_token_hash rc_token_extra.identifier.hash
+#define rc_token_length rc_token_extra.identifier.length
+#define rc_string_length rc_token_extra.string_length
 extern void *rc_token_value;
 extern RcTokenInfo rc_token_info[256];
 extern int rc_keep_internal_marker,rc_number_buffer_active;
@@ -55,13 +63,15 @@ int __cdecl rc_open_source_frame(void);
 void __stdcall rc_copy_quoted(WCHAR delimiter);
 unsigned char __cdecl rc_read_character_constant(void);
 void __cdecl rc_read_string(void);
+unsigned __stdcall rc_escape_character(unsigned character);
 unsigned char __stdcall rc_read_number(WCHAR first);
 unsigned char __stdcall rc_read_fraction(WCHAR *end);
 int __stdcall rc_match_logical_character(unsigned character);
 int __stdcall rc_read_macro_identifier(WCHAR first);
 int __stdcall rc_expand_macro(RcMacro *macro);
 extern WCHAR *rc_number_buffer;
-extern WCHAR rc_number_spelling_address_identity;
+extern WCHAR rc_string_buffer[2045];
+#define rc_number_spelling_address_identity (rc_string_buffer[1024])
 unsigned __stdcall rc_parse_integer_value(const WCHAR *text,int radix);
 unsigned char __stdcall rc_based_integer_kind(int value);
 unsigned char __stdcall rc_decimal_integer_kind(int value);

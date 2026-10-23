@@ -392,7 +392,13 @@
       "kind": "address-identity",
       "bytes": 4,
       "pointee_rva": "0x17708",
-      "identity": "rc_number_spelling_address_identity"
+      "identity": "rc_string_buffer[1024]"
+    },
+    {
+      "name": "rc_token_extra",
+      "original_rva": "0x16cd4",
+      "kind": "byte-buffer",
+      "bytes": 2
     }
   ],
   "options": {

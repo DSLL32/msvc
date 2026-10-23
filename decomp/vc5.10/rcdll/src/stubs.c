@@ -207,9 +207,10 @@ unsigned char __cdecl rc_read_character_constant(void)
     return 0;
 }
 
-void __cdecl rc_read_string(void)
+unsigned __stdcall rc_escape_character(unsigned character)
 {
     __asm int 3
+    return 0;
 }
 
 unsigned char __stdcall rc_read_fraction(WCHAR *end)

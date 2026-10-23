@@ -2,11 +2,13 @@
 #define RECON_SHIM_IMPL
 #include <stdlib.h>
 #include "directives.h"
+#include "command.h"
 #include <recon.h>
 int main(int count,char **arguments)
 {
     WCHAR source[]={L' ',0};
     if(count!=2)return 2;
+    rc_heap=recon_HeapCreate(1,0,0);
     rc_source_cursor=source;
     rc_number_buffer_active=atoi(arguments[1]);
     return rc_read_number(L'1');

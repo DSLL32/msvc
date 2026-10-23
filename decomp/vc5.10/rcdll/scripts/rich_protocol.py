@@ -437,7 +437,7 @@ def prepared_case_state(original,native,b,argv,extra_blocks=0,filename=None,outp
     filename=filename or 'resources.rc';filename_bytes=filename.encode('utf-16le');assert len(filename_bytes)<256
     assert raw_bytes(text,'prepared-filename')==bytes.fromhex(arguments['filename'])==filename_bytes+b'\0'*(514-len(filename_bytes))
     old=struct.unpack('<8I',raw_bytes(text,'prepared-closed-input'));new=struct.unpack('<8I',bytes.fromhex(arguments['closed_input']))
-    buffered_output=b['function']in ['rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type','rc_read_string']
+    buffered_output=b['function']in ['rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type','rc_read_string','rc_expect_end']
     if buffered_output:
         length=len(buffered_output_prefix(b));assert old[0]-old[2]==new[0]-new[2]==length and old[1:2]+old[3:]==new[1:2]+new[3:]==(4096-length,138,4,0,4096,0)
     else:assert old[:4]+old[5:]==new[:4]+new[5:]==(0,0,0,128 if output_open else 0,0,4096,0)and old[4]>=3 and new[4]>=3
@@ -1269,10 +1269,14 @@ def quote_source_filename_trial(original,native):
 
 
 def buffered_output_prefix(b):
-    if b['function']not in ['rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type','rc_read_string']:return '#line 1 '.encode('utf-16le')
+    if b['function']not in ['rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type','rc_read_string','rc_expect_end']:return '#line 1 '.encode('utf-16le')
     path=bytes.fromhex(b['arguments']['source_open']['path_bytes']).decode('utf-16le')
     assert path.endswith('\0')and '\0'not in path[:-1]
-    return ('#line 1 "'+path[:-1].replace('\\','\\\\')+'"\r\n').encode('utf-16le')
+    result=('#line 1 "'+path[:-1].replace('\\','\\\\')+'"\r\n').encode('utf-16le')
+    if b['function']=='rc_expect_end':
+        filename=bytes.fromhex(b['arguments']['filename']).decode('utf-16le').rstrip('\0')
+        result+=('#line 1 "'+filename.replace('\\','\\\\')+'"').encode('utf-16le')
+    return result
 
 
 def listing_marker_state(original,native,a,b):
@@ -1569,15 +1573,16 @@ def store_integer_trial(original,native):
     return proof
 
 
-def intern_type_trial(original,native):
-    config=read_configuration(original/'functions.json');assert config.get('trial_function')=='rc_intern_type'and len(config['accepted'])==54
-    a,b,proof=checkpoint(original,native,'rc_read_string',('rc_input_temporary','rc_output_temporary'))
-    assert a['words'][0]==0x71c23a8d
-    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_next_token\s*\(',(native/'gdb.stdout').read_text(),re.M)
-    assert proof['application_trace'][-1]=='rc_intern_type'
+def _intern_type_trial(original,native,stage):
+    trial,accepted,frontier,caller=('rc_intern_type',54,'rc_read_string',0x71c23a8d)if stage=='intern'else('rc_read_string',55,'rc_expect_end',0x71c26a6a)
+    config=read_configuration(original/'functions.json');assert config.get('trial_function')==trial and len(config['accepted'])==accepted
+    a,b,proof=checkpoint(original,native,frontier,('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==caller
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in '+('rc_next_token'if stage=='intern'else'rc_handle_directive')+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert proof['application_trace'][-1]==trial
     text=(original/'events.txt').read_text();args=b['arguments'];globals=args['preprocessor']['globals'];old_globals=(original/'globals.bin').read_bytes()
     input_name=raw_bytes(text,'input-temporary')[:-1].decode('ascii')
-    proof.update(wide_argument_state(original,native,a,b,filename=input_name,extra_blocks=14,output_open=True))
+    proof.update(wide_argument_state(original,native,a,b,filename=input_name if stage=='intern'else'resources.rc',extra_blocks=14,output_open=True))
     rows=args['interned_types'];assert rows==json.loads((native/'interned-types.json').read_text())and len(rows)==1;row=rows[0]
     calls=re.findall(r'^intern-entry type=([0-9a-f]+) node=([0-9a-f]+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M);returns=re.findall(r'^intern-return result=([0-9a-f]+) esp=([0-9a-f]+)$',text,re.M);assert len(calls)==len(returns)==1
     old_type,old_node,old_sp,old_caller=[int(v,16)for v in calls[0]];old_result,old_after=[int(v,16)for v in returns[0]]
@@ -1606,12 +1611,17 @@ def intern_type_trial(original,native):
     node=args['integer_node'];assert node['pointer']==row['node']and bytes.fromhex(node['payload'])==bytes(current)
     block=next(v for v in identity['blocks']if v['payload']+8==node['pointer']);assert block['owner']==identity['handle']and block['flags']==9 and block['bytes']==28 and bytes.fromhex(block['contents'])==b'\0'*8+bytes(current)
     reader=args['reader'];assert reader['formals']==[]and reader['caller']=='rc_next_token'and reader['token_kind']==7 and reader['token_value']==node['pointer']and reader['header_mode']==reader['output_active']==0 and reader['in_directive']==1
-    assert old_globals[0x144f4-0x14000]==int.from_bytes(bytes.fromhex(globals['rc_token_kind']['bytes']),'little')==7
-    assert struct.unpack_from('<I',old_globals,0x16cd0-0x14000)[0]==old_node and int.from_bytes(bytes.fromhex(globals['rc_token_value']['bytes']),'little')==node['pointer']
-    for name,rva,value in [('rc_header_mode',0x16efc,0),('rc_cpp_active',0x1811c,0),('rc_in_directive',0x18530,1)]:
+    if stage=='intern':
+        assert old_globals[0x144f4-0x14000]==int.from_bytes(bytes.fromhex(globals['rc_token_kind']['bytes']),'little')==7
+        assert struct.unpack_from('<I',old_globals,0x16cd0-0x14000)[0]==old_node and int.from_bytes(bytes.fromhex(globals['rc_token_value']['bytes']),'little')==node['pointer']
+    for name,rva,value in [('rc_header_mode',0x16efc,0),('rc_cpp_active',0x1811c,0 if stage=='intern'else 1),('rc_in_directive',0x18530,1)]:
         assert struct.unpack_from('<I',old_globals,rva-0x14000)[0]==int.from_bytes(bytes.fromhex(globals[name]['bytes']),'little')==value
     old_frame=struct.unpack_from('<9I',old_globals,0x18e80-0x14000);new_frame=struct.unpack('<9I',bytes.fromhex(globals['rc_source_frames']['bytes'])[:36])
     old_cursor=struct.unpack_from('<I',old_globals,0x18120-0x14000)[0];new_cursor=int.from_bytes(bytes.fromhex(globals['rc_source_cursor']['bytes']),'little')
+    if stage!='intern':
+        entries=re.findall(r'^string-entry cursor=([0-9a-f]+) word=(\d+) token=([0-9a-f]+) header=(\d+) active=(\d+) directive=(\d+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M);assert len(entries)==1
+        old_cursor=int(entries[0][0],16);new_cursor=reader['cursor']
+        assert int(entries[0][2],16)==old_node and entries[0][3:6]==('0','0','1')and entries[0][7]=='71c23a8d'
     assert old_cursor==old_frame[5]+16 and new_cursor==new_frame[5]+16==reader['cursor']
     source=raw_bytes(text,'string-source-block');new_source=next(v for v in identity['blocks']if v['payload']+8==new_frame[5]);assert new_source['owner']==identity['handle']and new_source['flags']==9 and new_source['bytes']==8206
     assert source==bytes.fromhex(new_source['contents'])and len(source)==8206
@@ -1623,5 +1633,47 @@ def intern_type_trial(original,native):
     assert re.findall(r'^cpp-source-position (\d+)$',text,re.M)==['6762']and re.search(r'^pos:\s*6762$',args['source_fdinfo'],re.M)
     assert b['crt_errors']==dict(errno=0,last_error=0)
     proof['type_interning']=dict(input_bytes=20,argument_bytes=4,cleanup=4,result_alias='owned24-byte entry.type at offset4; current integer node.type and returned type are identical',bucket_count=256,hash=3,before_all_null=True,changed_buckets=[3],entry_bytes=24,heap_header_bytes=8,allocation_bytes=32,defined_payload='Full allocation initially zero; next null, copied20-byte type and cleared WORD at type+16; all bytes/tails exact.',next_formals=[],next_hidden_inputs=dict(source_cursor_offset=16,current_word=word,header_mode=0,output_active=0,in_directive=1,token_kind=7,token_value='actual owned integer node7/value1/type alias'),retired_frame_scope='Previous number-parser stack is no longer live; its raw proof remains in integer-storage-verification.json. No stale stack contents asserted.',comparison_scope='No list comparison call occurs in this first empty-bucket insertion; named comparator remains trapped.')
-    proof['trial']='rc_intern_type'
+    proof['trial']=trial
+    return proof
+
+
+def intern_type_trial(original,native):
+    return _intern_type_trial(original,native,'intern')
+
+
+def read_string_trial(original,native):
+    proof=_intern_type_trial(original,native,'string')
+    a=original_raw(original);b=native_raw(native);args=b['arguments'];text=(original/'events.txt').read_text();old_globals=(original/'globals.bin').read_bytes();globals=args['preprocessor']['globals']
+    reads=args['string_reads'];assert reads==json.loads((native/'string-reads.json').read_text())and len(reads)==1;row=reads[0]
+    assert row['layout']==dict(buffer_bytes=4090,element_bytes=2,buffer_alignment=0,number_offset=2048,extra_bytes=2,extra_alignment=0,hash_offset=0,length_offset=1,string_length_offset=0)
+    before=raw_bytes(text,'string-buffer-before');after=raw_bytes(text,'string-buffer-after');expected='resources.rc\0'.encode('utf-16le')
+    assert before==bytes.fromhex(row['buffer_before'])==b'\0'*4090
+    assert after==raw_bytes(text,'string-buffer-current')==bytes.fromhex(row['buffer_after'])==expected+before[len(expected):]
+    assert row['return_esp']==row['entry_esp']+4 and row['cursor_after']==row['cursor']+len(expected)and row['token_value_after']==row['buffer']
+    entries=re.findall(r'^string-entry cursor=([0-9a-f]+) word=(\d+) token=([0-9a-f]+) header=(\d+) active=(\d+) directive=(\d+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M);returns=re.findall(r'^string-return cursor=([0-9a-f]+) token=([0-9a-f]+) esp=([0-9a-f]+)$',text,re.M)
+    assert len(entries)==len(returns)==1 and int(returns[0][0],16)==int(entries[0][0],16)+len(expected)and int(returns[0][2],16)==int(entries[0][6],16)+4 and int(returns[0][1],16)==0x71c36f08
+    assert raw_bytes(text,'string-extra-before')==bytes.fromhex(row['extra_before'])==b'\0'*2
+    assert raw_bytes(text,'string-extra-after')==raw_bytes(text,'string-extra-current')==bytes.fromhex(row['extra_after'])==struct.pack('<H',len(expected)//2)
+    current=args['string_current'];assert current==dict(pointer=row['buffer'],payload=after.hex(),extra=struct.pack('<H',len(expected)//2).hex())
+    assert old_globals[0x16f08-0x14000:0x17f02-0x14000]==after and old_globals[0x16cd4-0x14000:0x16cd6-0x14000]==bytes.fromhex(current['extra'])==bytes.fromhex(globals['rc_token_extra']['bytes'])
+    assert struct.unpack_from('<I',old_globals,0x16cd0-0x14000)[0]==0x71c36f08 and int.from_bytes(bytes.fromhex(globals['rc_token_value']['bytes']),'little')==row['buffer']
+    assert old_globals[0x144f4-0x14000]==int.from_bytes(bytes.fromhex(globals['rc_token_kind']['bytes']),'little')==3
+    assert struct.unpack_from('<I',old_globals,0x14a80-0x14000)[0]==0x71c36f08+2048 and int.from_bytes(bytes.fromhex(globals['rc_number_buffer']['bytes']),'little')==globals['rc_number_buffer']['identity_address']==row['buffer']+2048
+    assert struct.unpack_from('<I',old_globals,0x21e90-0x14000)[0]==int.from_bytes(bytes.fromhex(globals['rc_number_buffer_active']['bytes']),'little')==0
+    assert raw_bytes(text,'expect-end-word')==bytes.fromhex(args['expect_end']['bytes'])=='#line\0'.encode('utf-16le')and a['words'][1]==0x71c21350
+    end=args['expect_end'];assert end['formal_bytes']==4 and end['pointer']>0 and end['output_active']==end['in_directive']==1
+    old_cursor=struct.unpack_from('<I',old_globals,0x18120-0x14000)[0];new_cursor=int.from_bytes(bytes.fromhex(globals['rc_source_cursor']['bytes']),'little')
+    assert old_cursor==int(returns[0][0],16)and new_cursor==row['cursor_after']==end['cursor']
+    source=raw_bytes(text,'string-source-block');old_frame=struct.unpack_from('<9I',old_globals,0x18e80-0x14000);word=struct.unpack_from('<H',source,8+old_cursor-old_frame[5])[0]
+    assert end['current_word']==word
+    assert old_globals[0x18128-0x14000:0x18528-0x14000]==bytes.fromhex(globals['rc_macro_name']['bytes'])
+    output=raw_bytes(text,'cpp-output-buffer');expected_output=buffered_output_prefix(b);assert output==expected_output and bytes.fromhex(globals['rc_cpp_output_file']['file_buffer'])[:len(output)]==output
+    # Exact encountered original writers establish both aliases and inclusive bound.
+    code=(original/'relocated-text.bin').read_bytes()
+    checks={0x11f40:'bf086fc371',0x11f53:'8bdf',0x11fad:'8bc32bc724fe3df60f00007e44',0x11ffe:'6689334343',0x12042:'66832300',0x12053:'66891dd46cc371',0x3b70:'a2d46cc371',0x3b7a:'a2d56cc371'}
+    for rva,opcodes in checks.items():assert code[rva-0x1000:rva-0x1000+len(bytes.fromhex(opcodes))]==bytes.fromhex(opcodes)
+    pe=(ROOT/'toolchains/5.10/bin/RCDLL.DLL').read_bytes();at=struct.unpack_from('<I',pe,60)[0];count=struct.unpack_from('<H',pe,at+6)[0];optional=struct.unpack_from('<H',pe,at+20)[0]
+    sections=[struct.unpack_from('<8sIIII',pe,at+24+optional+40*i)for i in range(count)]
+    assert any(name.rstrip(b'\0')==b'.data'and rva+raw<=0x16f08<0x17f02<=rva+virtual for name,virtual,rva,raw,offset in sections),'string area must be wholly loader-zeroed, no initialized adjacent image bytes'
+    proof['string_reading']=dict(formals=[],cleanup=0,return_scope='void; EAX unclaimed',text='resources.rc',characters_including_NUL=len(expected)//2,source_advance_bytes=len(expected),buffer_bytes=4090,defined_write_bytes=len(expected),untouched_tail_bytes=4090-len(expected),bound=dict(last_payload_WCHAR_byte_offset=4086,last_cursor_byte_offset=4088,terminator_inclusive_last_byte=4089,storage_WCHARs=2045,derivation='Even cursor starts at base; <=0xff6 byte offset stores WORD then adds2. Overflow path does not advance cursor; final WORD at4088 requires4090 bytes.'),union=dict(bytes=2,hash_byte_offset=0,length_byte_offset=1,string_length_WORD_offset=0,after_length=13,writer_instructions={hex(k):v for k,v in checks.items()}),number_alias=dict(byte_offset=2048,element=1024,alternate_mode=0,scope='Interior address identity now uses actual encountered string array. Existing opaque-anchor raw/history unchanged; alternate numeric mode still traps, no numeric content/extent behavior accepted.'),initialization='Actual whole4090-byte original/native entry arrays zero and entire span in loader-zeroed PE.data; no adjacent initialized bytes included.',next_formal=dict(type='const WCHAR pointer',bytes=4,contents='#line',cleanup=4),next_hidden_inputs=dict(source_cursor_offset=42,current_word=word,output_active=1,in_directive=1,token_kind=3,string_length=13,token_value='same actual initialized string buffer'),output_buffer_bytes=len(output))
     return proof
