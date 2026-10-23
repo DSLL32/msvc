@@ -236,3 +236,8 @@ assignment with its four forwarded parameters, parsed option lists and error
 state intact. [Verification](cases/resources-rich/open-preprocessor-verification.json)
 records 30 fresh rejection controls and separate build/capture/audit timings.
 Macro creation and source opening remain behind named trapped callees.
+
+The character-token setter is accepted (30 bytes), matching all four control
+characters plus `$` before its character-class update. Only encountered lexical
+entries are defined and compared. [Verification](cases/resources-rich/character-token-verification.json)
+records the original byte-index behavior, 29 fresh controls and retained captures.

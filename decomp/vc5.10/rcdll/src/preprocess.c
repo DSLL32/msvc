@@ -276,3 +276,12 @@ void __stdcall rc_open_preprocessor(WCHAR *input,WCHAR *output,
     }
     rc_open_source(input,1);
 }
+
+/* Only the five character entries encountered by setup are initialized here.
+ * The remaining lexical entries are defined when their consumers are recovered. */
+unsigned short rc_character_tokens[256]={3,23,23,23,23};
+
+void __stdcall rc_set_character_token(unsigned short character,unsigned short token)
+{
+    if(character<=256) rc_character_tokens[(unsigned char)character]=token;
+}

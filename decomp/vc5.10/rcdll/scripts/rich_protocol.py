@@ -764,3 +764,22 @@ def open_preprocessor_trial(original,native):
     assert proof['application_trace'][-1]=='rc_open_preprocessor'
     proof.update(trial='rc_open_preprocessor',preprocessor=parser,character_assignment=dict(character=1,token=0x24,argument_bytes=2,callee_cleanup_bytes=8),numeric_prefix_reference=dict(path='cases/resources-rich/acceptance-0026.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0026.json'),scope='previous typed numeric/import and host-entry proofs; current parsed state,full argument allocation,trace and frontier errors are freshly checked'))
     return proof
+
+
+def character_token_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_set_character_token'and len(config['accepted'])==27
+    a,b,proof=checkpoint(original,native,'rc_set_character_class',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c2454a and a['words'][1:3]==[36,16]
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_open_preprocessor\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    text=(original/'events.txt').read_text();forwarded=list(struct.unpack('<4I',raw_bytes(text,'setup-forwarded')))
+    state,parser,text,input_name=parsed_option_state(original,native,b,forwarded);proof.update(state)
+    globals=b['arguments']['preprocessor']['globals']
+    assert bytes.fromhex(globals['rc_character_tokens']['bytes'])==struct.pack('<5H',3,36,37,38,39)
+    assert globals['rc_character_tokens[36]']['bytes']=='2800'
+    assert b['arguments']['character']==dict(character=36,flags=16,formal_bytes=dict(character=2,flags=2))
+    assert re.findall(r'^frontier-errors errno=(-?\d+) last-error=([0-9a-f]+)$',text,re.M)==[('0','00000000')]
+    assert b['crt_errors']==dict(errno=0,last_error=0)
+    assert proof['application_trace'][-1]=='rc_set_character_token'
+    proof.update(trial='rc_set_character_token',preprocessor=parser,character_tokens=dict(entries=[3,36,37,38,39],dollar=40,scope='encountered indices0..4 and36 only; other lexical entries unclaimed'),character_class_assignment=dict(character=36,flags=16,formal_bytes=2,callee_cleanup_bytes=8),setup_reference=dict(path='cases/resources-rich/acceptance-0027.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0027.json')))
+    return proof

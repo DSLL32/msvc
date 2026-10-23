@@ -29,7 +29,8 @@
     "rc_scan_options",
     "rc_apply_option",
     "rc_option_number",
-    "rc_open_preprocessor"
+    "rc_open_preprocessor",
+    "rc_set_character_token"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

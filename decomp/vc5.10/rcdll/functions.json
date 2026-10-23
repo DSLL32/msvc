@@ -30,7 +30,8 @@
     "rc_scan_options",
     "rc_apply_option",
     "rc_option_number",
-    "rc_open_preprocessor"
+    "rc_open_preprocessor",
+    "rc_set_character_token"
   ],
   "functions": [
     {
@@ -727,7 +728,7 @@
       "abi": "stdcall",
       "stack_bytes": 8,
       "kind": "application",
-      "stub": true
+      "stub": false
     },
     {
       "name": "rc_set_character_class",

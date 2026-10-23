@@ -271,6 +271,18 @@
       "original_rva": "0x18e74",
       "kind": "null-pointer",
       "bytes": 4
+    },
+    {
+      "name": "rc_character_tokens",
+      "original_rva": "0x14010",
+      "kind": "byte-buffer",
+      "bytes": 10
+    },
+    {
+      "name": "rc_character_tokens[36]",
+      "original_rva": "0x14058",
+      "kind": "byte-buffer",
+      "bytes": 2
     }
   ],
   "options": {

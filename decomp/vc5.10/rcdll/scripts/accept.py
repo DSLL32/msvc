@@ -6,12 +6,12 @@ import shutil
 from pathlib import Path
 from protocol import HERE,entry_trial_pair,crt_init_pair,dll_main_pair,rc_entry_pair,rc_main_pair,rc_initialize_pair,rc_allocate_pair,rc_is_option_pair,rc_emit_pair,rc_message_pair,rc_format_pair,sha,validation_versions
 from audit import run
-from rich_protocol import release_trial,prepare_trial,write_trial,detect_trial,unicode_trial,line_trial,prefix_trial,notify_trial,preprocess_trial,widen_trial,preprocessor_main_trial,next_argument_trial,scan_options_trial,apply_option_trial,option_number_trial,open_preprocessor_trial
+from rich_protocol import release_trial,prepare_trial,write_trial,detect_trial,unicode_trial,line_trial,prefix_trial,notify_trial,preprocess_trial,widen_trial,preprocessor_main_trial,next_argument_trial,scan_options_trial,apply_option_trial,option_number_trial,open_preprocessor_trial,character_token_trial
 p=argparse.ArgumentParser();p.add_argument('--original',type=Path,required=True);p.add_argument('--native',type=Path,required=True);p.add_argument('--check-only',action='store_true');p.add_argument('--case',choices=['help','resources-rich'],default='help')
 a=p.parse_args()
 config=json.loads((HERE/'functions.json').read_text())
 contracts={'_DllMainCRTStartup':entry_trial_pair,'_CRT_INIT':crt_init_pair,'DllMain':dll_main_pair,'RC':rc_entry_pair,'main':rc_main_pair,'rc_initialize':rc_initialize_pair,'rc_allocate':rc_allocate_pair,'rc_is_option':rc_is_option_pair,'rc_emit':rc_emit_pair,'rc_message':rc_message_pair,'rc_format':rc_format_pair}
-if a.case=='resources-rich':contracts={'rc_release':release_trial,'rc_prepare_input':prepare_trial,'rc_write_bytes':write_trial,'rc_detect_encoding':detect_trial,'rc_is_text_unicode':unicode_trial,'rc_read_wide_line':line_trial,'rc_prefix_equal':prefix_trial,'rc_notify_progress':notify_trial,'rc_preprocess':preprocess_trial,'rc_widen_arguments':widen_trial,'rc_preprocessor_main':preprocessor_main_trial,'rc_next_argument':next_argument_trial,'rc_scan_options':scan_options_trial,'rc_apply_option':apply_option_trial,'rc_option_number':option_number_trial,'rc_open_preprocessor':open_preprocessor_trial}
+if a.case=='resources-rich':contracts={'rc_release':release_trial,'rc_prepare_input':prepare_trial,'rc_write_bytes':write_trial,'rc_detect_encoding':detect_trial,'rc_is_text_unicode':unicode_trial,'rc_read_wide_line':line_trial,'rc_prefix_equal':prefix_trial,'rc_notify_progress':notify_trial,'rc_preprocess':preprocess_trial,'rc_widen_arguments':widen_trial,'rc_preprocessor_main':preprocessor_main_trial,'rc_next_argument':next_argument_trial,'rc_scan_options':scan_options_trial,'rc_apply_option':apply_option_trial,'rc_option_number':option_number_trial,'rc_open_preprocessor':open_preprocessor_trial,'rc_set_character_token':character_token_trial}
 assert config.get('trial_function') in contracts,'no implemented typed contract for this trial'
 proof=contracts[config['trial_function']](a.original,a.native)
 report=run()
