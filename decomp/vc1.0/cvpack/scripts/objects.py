@@ -158,6 +158,10 @@ def compare_walks(specifications,original,native,definitions=None,public_arena=N
             if item.get('pdb_graph'):
                 from pdb_objects import compare_node
                 pdb_evidence=compare_node(left,right,a,b,logical,original_names,native_names,pdb_consumed)
+            cache_evidence=None
+            if item.get('type_cache'):
+                from type_cache import compare as compare_type_cache
+                cache_evidence=compare_type_cache(left,right,a,b,original,native)
             arena_evidence=None
             if item.get('public_arena'):
                 from public_arena import comparison
@@ -176,6 +180,6 @@ def compare_walks(specifications,original,native,definitions=None,public_arena=N
                 from allocations import mask_undefined
                 allocation=mask_undefined(item['allocation_name'],left,right,definitions)
             assert left==right,('observed object bytes differ',name,index)
-            nodes.append(dict(bytes=len(left),nonpointer_sha256=hashlib.sha256(left).hexdigest(),pointers=pointers,arrays=arrays,descriptors=a.get('descriptors',{}),allocation=allocation,public_arena=arena_evidence,pdb_graph=pdb_evidence))
+            nodes.append(dict(bytes=len(left),nonpointer_sha256=hashlib.sha256(left).hexdigest(),pointers=pointers,arrays=arrays,descriptors=a.get('descriptors',{}),allocation=allocation,public_arena=arena_evidence,pdb_graph=pdb_evidence,type_cache=cache_evidence))
         receipt[name]=nodes
     return receipt

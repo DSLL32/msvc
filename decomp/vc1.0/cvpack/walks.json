@@ -355,7 +355,9 @@
     "original": 225632,
     "size": 2048,
     "next": 4294967295,
-    "limit": 1
+    "limit": 1,
+    "pointer_array": true,
+    "type_cache": true
   },
   {
     "name": "type_work_b",

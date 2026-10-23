@@ -224,10 +224,93 @@ void reset_type_hash(void)
     for (i = 0; i < 512; ++i) {
         entry = ((TypeCacheEntry **)type_work_a)[i];
         while (entry) {
-            entry->count = 0;
-            entry->state[1] = 0;
-            entry->state[0] = 0;
+            entry->index = 0;
+            entry->type = NULL;
+            entry->name = NULL;
             entry = entry->next;
         }
+    }
+}
+
+unsigned short extra_type_count;
+
+void index_new_types(void *types, unsigned long size,
+                     unsigned short *base, unsigned short *count)
+{
+    unsigned char *record = (unsigned char *)types+4;
+    unsigned char *end = (unsigned char *)types+size;
+    unsigned short length, kind, padding, index, relative, unused;
+    unsigned short old_kind;
+    unsigned char *name, *type, *cursor;
+    TypeRecord *entry;
+    TypeCacheEntry *cached;
+    unsigned bucket, i;
+
+    extra_type_count = 0;
+    while (record < end) {
+        if (!((unsigned long)record & 1)) {
+            length = *(unsigned short *)record+2;
+            kind = *(unsigned short *)(record+2);
+        } else {
+            length = (unsigned short)(record[0]+(record[1]<<8)+2);
+            kind = (unsigned short)(record[2]+(record[3]<<8));
+        }
+        if (kind == 7) *count += length;
+        else {
+            padding = 3-((length-1)&3);
+            *base += padding;
+            switch (kind) {
+            case 4:
+                index = *(unsigned short *)(record+4);
+                name = record+6;
+                if (index < 0x1000) break;
+                relative = index-first_user_type;
+                entry = &local_type_records[relative];
+                if (entry->flags & 0x4000) break;
+                if (!type_signature && relative == (unsigned short)(0xffff-first_user_type))
+                    entry = empty_type;
+                else if (entry->flags & 0x1000)
+                    entry = get_type_record((unsigned short)(entry->index-0x1000), &unused);
+                type = entry->data;
+                if (!type) break;
+                old_kind = *(unsigned short *)(type+2);
+                if (old_kind != 4 && old_kind != 5 && old_kind != 6 && old_kind != 7) break;
+                bucket = name[0];
+                cursor = name+1;
+                for (i = name[0]; i; --i) bucket += *cursor++;
+                bucket &= 0x1ff;
+                cached = ((TypeCacheEntry **)type_work_a)[bucket];
+                while (cached) {
+                    if (!cached->type) break;
+                    if (!strncmp(cached->name, name, name[0]+1)) {
+                        if (cached->index != index) module_type_bytes |= module_types_indexed;
+                        break;
+                    }
+                    cached = cached->next;
+                }
+                if (!cached) {
+                    cached = checked_zero(sizeof(*cached));
+                    if (!cached) fatal_error(13, NULL, NULL);
+                    cached->next = ((TypeCacheEntry **)type_work_a)[bucket];
+                    ((TypeCacheEntry **)type_work_a)[bucket] = cached;
+                }
+                cached->type = type;
+                cached->name = name;
+                cached->index = index;
+                break;
+            case 0x104: case 0x105:
+                reserve_extra_type(*(unsigned short *)(record+24), base);
+                break;
+            case 0x204: case 0x205:
+                reserve_extra_type(*(unsigned short *)(record+32), base);
+                break;
+            }
+        }
+        record += length;
+    }
+    if (module_type_bytes) {
+        reset_local_types();
+        load_type_server_records(NULL);
+        if (!previous_type_count) previous_type_count = local_type_count;
     }
 }

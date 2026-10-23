@@ -56,7 +56,6 @@ void prepare_old_types(void * types,unsigned long size) { __asm { int 3 } }
 
 void pack_old_types(void * types,CvDirectoryEntry * entry,void * module_record,ModuleInfo * module) { __asm { int 3 } }
 
-void index_new_types(void * types,unsigned long size,unsigned short * base,unsigned short * count) { __asm { int 3 } }
 
 void pack_new_types(void * types,CvDirectoryEntry * entry,ModuleInfo * module,unsigned short * base,unsigned short * count) { __asm { int 3 } }
 
@@ -77,3 +76,6 @@ void __fastcall add_old_type(const unsigned char *record, int is_new, int flag, 
 int type_server_close(TypeServer *server) { __asm { int 3 } return 0; }
 void *type_server_fill_alloc(unsigned long size, unsigned char value) { __asm { int 3 } return NULL; }
 TypeServerRecord *__stdcall type_server_record_init(TypeServerRecord *node, TypeServerRecord *next, unsigned char *record, unsigned short type) { __asm { int 3 } return NULL; }
+
+TypeRecord *get_type_record(unsigned short type, unsigned short *flag) { __asm { int 3 } return NULL; }
+void reserve_extra_type(unsigned short type, unsigned short *size) { __asm { int 3 } }

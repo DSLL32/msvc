@@ -2094,13 +2094,16 @@
       "native": "index_new_types",
       "symbol": "_index_new_types",
       "original": 150720,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        150720,
+        151447
+      ],
       "abi": "void index_new_types(void *,unsigned long,unsigned short *,unsigned short *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0061-index_new_types/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -2128,7 +2131,22 @@
           "kind": "pointer",
           "bits": 32
         }
-      ]
+      ],
+      "required_pdb_record_proof": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "pack_new_types",
@@ -3274,6 +3292,64 @@
           "bits": 16
         }
       ]
+    },
+    {
+      "name": "get_type_record",
+      "native": "get_type_record",
+      "symbol": "_get_type_record",
+      "original": 124672,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "TypeRecord *get_type_record(unsigned short,unsigned short *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "type",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 16
+        },
+        {
+          "name": "flag",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "reserve_extra_type",
+      "native": "reserve_extra_type",
+      "symbol": "_reserve_extra_type",
+      "original": 151456,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void reserve_extra_type(unsigned short,unsigned short *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "type",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 16
+        },
+        {
+          "name": "size",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
     }
   ],
   "review": {
@@ -3660,6 +3736,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 60
+    },
+    {
+      "function": "index_new_types",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 61
     }
   ],
   "support_unmasked": [
@@ -4254,11 +4336,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "e7c765162e5870abe72ff10241ba52166f94d8f821484598441ddbfb9a9e9a5b"
+    "evidence_sha256": "a062bcdd55145ec66b721191c08c51eab9f901c44f06bf3c09a69ca6db23ee5c"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "0b11de2b3f92f5e4600f054da38b45b06175d2f7513afe43886543d10c43e1c6"
+    "evidence_sha256": "500a2f851a850c83442d2d3fd9eeec119da98c88078998c4d12e082cfcc78a0f"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -4287,5 +4369,9 @@
   "module_buffer_publication": {
     "evidence": "cases/abi/module-buffer-publication.json",
     "evidence_sha256": "f103eee88494a0fc7389afe6a5b45fd5162c0f75995b104fe8ef71f4d1c523ed"
+  },
+  "type_cache_observations": {
+    "evidence": "cases/abi/type-cache.json",
+    "evidence_sha256": "11a3873c6cf30137f6147fea0dd15013ff358b26c8502c8d86c9b39772914111"
   }
 }

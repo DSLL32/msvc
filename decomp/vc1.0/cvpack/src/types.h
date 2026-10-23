@@ -27,8 +27,8 @@ typedef struct TypeRecord {
 
 /* Linked cache nodes reset between modules; later passes fill their state. */
 typedef struct TypeCacheEntry {
-    unsigned long state[2];
-    unsigned short count;
+    unsigned char *name, *type;
+    unsigned short index;
     struct TypeCacheEntry *next;
 } TypeCacheEntry;
 typedef char TypeCacheEntrySize[(sizeof(TypeCacheEntry)==16)?1:-1];
@@ -59,6 +59,8 @@ unsigned short map_primitive(unsigned short);
 unsigned short __fastcall compact_old_type(unsigned short);
 unsigned short __fastcall compact_new_type(unsigned short);
 void finish_recursive_types(void);
+TypeRecord *get_type_record(unsigned short, unsigned short *);
+void reserve_extra_type(unsigned short, unsigned short *);
 extern TypeRecord *local_type_records;
 extern unsigned short local_type_capacity;
 extern unsigned long total_local_type_bytes;

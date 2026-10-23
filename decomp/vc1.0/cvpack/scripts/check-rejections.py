@@ -67,6 +67,9 @@ def main():
     config,original=load()
     from pdb_checks import check as pdb_checks
     pdb_checks(config,original,reject)
+    from type_cache_checks import check as check_cache,compiled_checks as check_cache_compiler
+    cached=BINARY/'cases/hello-debug-dll/evidence/0061-index_new_types'
+    if cached.is_dir():check_cache(cached);check_cache_compiler()
     from native_line_rebind import validate_native_fields
     historical=BINARY/'cases/hello-debug-dll/evidence/0060-convert_new_type/native-line-rebind'
     if historical.is_dir():

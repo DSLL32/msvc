@@ -755,6 +755,26 @@ static int dump_pdb_objects(HANDLE child,HANDLE log,DWORD root,DWORD index,DWORD
         dump_pdb_object(child,log,root,index,"index-storage-0",header[21],12);
 }
 
+static int dump_type_cache(HANDLE child,HANDLE log,DWORD root,DWORD index)
+{
+    DWORD bucket,pointer,record[4],bytes,count,total=0,seen[4096],j;
+    char key[48];
+    for(bucket=0;bucket<512;++bucket) {
+        memcpy(&pointer,walk_bytes+bucket*4,4);
+        count=0;
+        while(pointer) {
+            if(total==4096 || count==4096) return 0;
+            for(j=0;j<total;++j) if(seen[j]==pointer) return 0;
+            seen[total++]=pointer;
+            if(!ReadProcessMemory(child,(void *)pointer,record,16,&bytes) || bytes!=16) return 0;
+            sprintf(key,"cache-%lu-%lu",bucket,count++);
+            if(!dump_pdb_object(child,log,root,index,key,pointer,16)) return 0;
+            pointer=record[3];
+        }
+    }
+    return 1;
+}
+
 static int dump_walks(HANDLE child, HANDLE log)
 {
     char specifications[4096], strings[1024], arrays[2048], arenas[512], *cursor, *field;
@@ -811,6 +831,7 @@ static int dump_walks(HANDLE child, HANDLE log)
             object_line[used++] = '\n';
             if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
             if (root==0x373d0 && !dump_pdb_objects(child,log,root,i,pointer)) return 0;
+            if (root==0x37160 && !dump_type_cache(child,log,root,i)) return 0;
             if (sopen_start && size == 40 && (root == 0x38d18 || root == 0x38d1c)) {
                 DWORD flags;
                 memcpy(&flags, walk_bytes+4, 4);

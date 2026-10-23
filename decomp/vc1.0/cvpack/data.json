@@ -923,5 +923,12 @@
     "original": 210384,
     "size": 2,
     "source": "src/types.c"
+  },
+  {
+    "name": "extra_type_count",
+    "symbol": "_extra_type_count",
+    "original": 209048,
+    "size": 2,
+    "source": "src/types.c"
   }
 ]

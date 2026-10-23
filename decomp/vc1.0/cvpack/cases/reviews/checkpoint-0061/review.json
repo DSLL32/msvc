@@ -1,0 +1,16 @@
+{
+  "application_functions": 61,
+  "next": "reserve_extra_type",
+  "typed_nodes": 17,
+  "scope": "Root approved reviewed allocation/return/publication and actual finite disjoint16-byte graph. No extra allocator hook needed; all initialized bytes compared, rawaddresses retained.",
+  "cache_negative_controls": 17,
+  "full_audit_seconds": 0.4302715118974447,
+  "fresh_pair_native_seconds": {
+    "setup": 0.1422402448952198,
+    "execution": 0.014899225905537605,
+    "debugging": 1.5472785718739033,
+    "checks": 0.03042376972734928,
+    "total": 1.7348480373620987
+  },
+  "proof": "cases/hello-debug-dll/evidence/0061-index_new_types/proof.json"
+}

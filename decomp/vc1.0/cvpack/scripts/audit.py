@@ -260,6 +260,8 @@ def main():
         assert set(report['functions'])==expected and report['checked_functions']==len(expected),'incomplete Rust graph report'
     text_end=max(rebuilt.base+s['rva']+s['virtual_size'] for s in rebuilt.sections if s['flags']&0x20)
     addresses=sorted(set(linked.values())|{text_end})
+    from type_cache import validate as validate_type_cache
+    validate_type_cache(config,original,rebuilt,linked)
     from module_write import validate as validate_module_write
     validate_module_write(config,original,rebuilt,linked)
     from pdb_objects import validate as validate_pdb_objects

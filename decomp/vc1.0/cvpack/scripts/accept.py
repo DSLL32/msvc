@@ -251,6 +251,7 @@ def main():
     shutil.copyfile(native/'receipt.json',directory/'native-receipt.json')
     if rebind:
         shutil.copytree(args.original_rebind.parent,directory/'native-line-rebind')
+    shutil.copyfile(BINARY/'walks.json',directory/'walks.json')
     proof_path=str(directory.relative_to(BINARY)/'proof.json')
     prior={(r['start'],r['end'])for r in config.get('support_unmasked',[])}
     for record in support:
@@ -269,6 +270,11 @@ def main():
         graph_ABI_data='Complete original/compiler CFG/callee/RET ABI and contextual initial data passed',
         seconds=native_receipt['seconds'])
     if rebind:proof['original_native_line_rebind']=dict(path='native-line-rebind/rebind.json',sha256=sha(args.original_rebind))
+    if config.get('type_cache_observations'):
+        from type_cache import validate as validate_type_cache
+        from binary import PE
+        from audit import publics
+        proof['type_cache_allocation_provenance']=validate_type_cache(config,pe,PE(BINARY/'build/CVPACK.EXE'),publics())['compiled_allocation']
     (directory/'proof.json').write_text(json.dumps(proof,indent=2)+'\n')
     function['status']='accepted';function['evidence']=proof_path
     config['accepted_order'].append(dict(function=args.function,case=args.case,kind='application',sequence=sequence))

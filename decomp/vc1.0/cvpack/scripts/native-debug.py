@@ -207,3 +207,17 @@ def capture_read_progress(source,line):
         position=int(page['position']),slot=int(slot),caller=0x2a3dd,readreturn=0x17dce if typed else 0x17e6e,destination=destination,cursor=int(page['cursor']),module=3,
         frontier=0x2a850 if typed else 0x2a120 if nested else 0x2a5c0,innerreturn=inner_return,shift=shift,nested_source_line=nested_line,
         pending=True,returned=False,native_return_pc=int(caller.pc()),native_source_line=sal.line,bytes=bytes(gdb.selected_inferior().read_memory(address,size)).hex())]
+
+
+def capture_type_cache(node):
+    raw=bytes.fromhex(node['bytes']);assert len(raw)==2048
+    objects={};seen=set()
+    for bucket in range(512):
+        pointer=int.from_bytes(raw[bucket*4:bucket*4+4],'little');index=0
+        while pointer:
+            assert pointer not in seen and len(seen)<4096,'type cache ownership cycle/limit'
+            seen.add(pointer)
+            data=bytes(gdb.selected_inferior().read_memory(pointer,16))
+            objects['cache-%d-%d'%(bucket,index)]=dict(address=pointer,bytes=data.hex())
+            pointer=int.from_bytes(data[12:16],'little');index+=1
+    if objects:node['objects']=objects

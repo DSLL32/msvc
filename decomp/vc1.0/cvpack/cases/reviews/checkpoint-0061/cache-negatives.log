@@ -1,0 +1,17 @@
+rejected: type cache unknown name owner
+rejected: type cache unknown type owner
+rejected: type cache mismatched Pascal name/index
+rejected: type cache initialized padding changed on both sides
+rejected: type cache unknown next target
+rejected: both type-cache nodes omitted
+rejected: both one cache node omitted
+rejected: both extra cache objects
+rejected: both cache cycles
+rejected: both cache duplicate bucket ownership
+rejected: native cache index differs
+rejected: cache compiled allocation wrong size
+rejected: cache compiled wrong allocation owner
+rejected: cache compiled wrong publication source
+rejected: cache compiled helper fails zero initialization
+rejected: cache allocation/publication proof omitted
+rejected: cache stale source/allocation proof
