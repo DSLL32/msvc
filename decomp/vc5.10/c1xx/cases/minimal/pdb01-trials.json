@@ -116,5 +116,35 @@
         "native_seconds": 2.08984259609133
       }
     }
-  ]
+  ],
+  "targeted_controls": {
+    "result": "PASS",
+    "count": 16,
+    "seconds": 12.085349870845675,
+    "rejected": [
+      "wrong-original-default",
+      "wrong-entry-PC",
+      "wrong-native-layout",
+      "storage-alias",
+      "false-original-return",
+      "wrong-cleanup",
+      "native-persistent-state-cleared-by-BSS",
+      "original-persistent-state-cleared-by-BSS",
+      "reset-not-cleared",
+      "changed-original-gap",
+      "missing-original-frontier",
+      "preserve-cleared",
+      "wrong-pointer-identity",
+      "scalar-as-pointer",
+      "wrong-branch-condition",
+      "missing-seed-event"
+    ],
+    "checker_sha256": "1270a42682ebd04142e6407695981bb4e066fe3c4a0d64fd952c66e5ac94abeb",
+    "decoder_sha256": "3c564bbffe2252ee7feef4ab1be887f26d5abcc1a0609f7a6b706a43e783f141",
+    "pdb_checker_sha256": "b773a05c7091ae780827f3cbc554de521b5443059443fd0995b7baf34fdb4ac4"
+  },
+  "reused_controls": {
+    "scope": "Unchanged full-mask, target/provider, raw receipt/source-content, CL argv, startup ABI and callback-prefix controller controls from output08 checkpoint; current candidate always has fresh pair and fresh applicable state controls",
+    "record": "cases/minimal/output08-trials.json"
+  }
 }
