@@ -346,6 +346,16 @@
       "start_rva": 75686,
       "end_rva": 75687,
       "entry": 1
+    },
+    {
+      "start_rva": 75687,
+      "end_rva": 75824,
+      "entry": 1
+    },
+    {
+      "start_rva": 197664,
+      "end_rva": 197691,
+      "entry": 0
     }
   ],
   "functions": [
@@ -1088,6 +1098,23 @@
         ]
       ],
       "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_main",
+      "native_symbol": "c1_main",
+      "role": "application",
+      "chunks": [
+        [
+          75687,
+          75824
+        ],
+        [
+          197664,
+          197691
+        ]
+      ],
+      "source": "src/main.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -1103,13 +1130,14 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 75687,
-    "native_symbol": "c1_main",
-    "kind": "compiler-main",
-    "native_args": [
-      "argc",
-      "argv"
-    ]
+    "rva": 75824,
+    "native_symbol": "initialize_work_buffers",
+    "kind": "main-helper",
+    "native_args": [],
+    "caller": {
+      "native_symbol": "c1_main",
+      "return_rva": 75704
+    }
   },
   "imports": [
     {
@@ -1312,9 +1340,45 @@
       "bytes": 68,
       "normal_case": false,
       "pointer_roles": "owned snapshot interior sentinels; cleared by genuine member before any semantic consumer"
+    },
+    "main_fields": {
+      "known_initialized_bytes": 52,
+      "native_initialized_size": 52,
+      "unknown_initialized_bytes": 6496,
+      "snapshot": {
+        "compiler_phase": 7,
+        "c9_il": 9,
+        "compiler_flags": 324478056,
+        "dwOemId": 1450704899,
+        "dwPageSize": 8192,
+        "lpMinimumApplicationAddress": 3000,
+        "lpMaximumApplicationAddress": 3016,
+        "dwActiveProcessorMask": 4386,
+        "dwNumberOfProcessors": 7,
+        "dwProcessorType": 586,
+        "dwAllocationGranularity": 131072,
+        "wProcessorLevel": 6,
+        "wProcessorRevision": 4660
+      },
+      "live": {
+        "compiler_phase": 11,
+        "c9_il": 13,
+        "compiler_flags": 610800471,
+        "dwOemId": 305397762,
+        "dwPageSize": 16384,
+        "lpMinimumApplicationAddress": 3500,
+        "lpMaximumApplicationAddress": 3516,
+        "dwActiveProcessorMask": 13124,
+        "dwNumberOfProcessors": 9,
+        "dwProcessorType": 486,
+        "dwAllocationGranularity": 262144,
+        "wProcessorLevel": 5,
+        "wProcessorRevision": 17185
+      },
+      "pointer_roles": "owned snapshot interior sentinels; preserved without API use or dereference before work-buffer helper"
     }
   },
-  "staging_role": "last empty initializer127a6 sole new candidate; approved PCH joint closure is accepted prefix",
+  "staging_role": "full main hot/cold candidate, actual main-entry prefix anchor then phase write to first genuine work-buffer helper",
   "registered_cleanup": [
     {
       "original_rva": 145728,

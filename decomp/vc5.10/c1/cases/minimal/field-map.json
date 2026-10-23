@@ -21,6 +21,61 @@
       "default_proof": "canonical C1.DLL initializedDWORD atRVA5f530 is1; exact targetSHA in functions.json",
       "snapshot_original_offset": 5424,
       "snapshot_native_offset": 0
+    },
+    {
+      "name": "compiler_phase",
+      "original_rva": 390104,
+      "bytes": 4,
+      "native_field": "c1_data.compiler_phase",
+      "native_offset": 4,
+      "default": 0,
+      "snapshot_original_offset": 5080,
+      "snapshot_native_offset": 4,
+      "default_proof": "canonical actual loaded compiler-data-000; C1main own operands and GetSystemInfo SDK type; page4096/granularity65536 explicit original defaults"
+    },
+    {
+      "name": "c9_il",
+      "original_rva": 389856,
+      "bytes": 4,
+      "native_field": "c1_data.c9_il",
+      "native_offset": 8,
+      "default": 0,
+      "snapshot_original_offset": 4832,
+      "snapshot_native_offset": 8,
+      "default_proof": "canonical actual loaded compiler-data-000; C1main own operands and GetSystemInfo SDK type; page4096/granularity65536 explicit original defaults"
+    },
+    {
+      "name": "compiler_flags",
+      "original_rva": 388580,
+      "bytes": 4,
+      "native_field": "c1_data.compiler_flags",
+      "native_offset": 12,
+      "default": 0,
+      "snapshot_original_offset": 3556,
+      "snapshot_native_offset": 12,
+      "default_proof": "canonical actual loaded compiler-data-000; C1main own operands and GetSystemInfo SDK type; page4096/granularity65536 explicit original defaults"
+    },
+    {
+      "name": "system_info",
+      "original_rva": 390408,
+      "bytes": 36,
+      "native_field": "c1_data.system_info",
+      "native_offset": 16,
+      "default": {
+        "dwOemId": 0,
+        "dwPageSize": 4096,
+        "lpMinimumApplicationAddress": 0,
+        "lpMaximumApplicationAddress": 0,
+        "dwActiveProcessorMask": 0,
+        "dwNumberOfProcessors": 0,
+        "dwProcessorType": 0,
+        "dwAllocationGranularity": 65536,
+        "wProcessorLevel": 0,
+        "wProcessorRevision": 0
+      },
+      "snapshot_original_offset": 5384,
+      "snapshot_native_offset": 16,
+      "default_proof": "canonical actual loaded compiler-data-000; C1main own operands and GetSystemInfo SDK type; page4096/granularity65536 explicit original defaults"
     }
   ],
   "modeled_bss": [
@@ -1299,6 +1354,36 @@
         }
       ],
       "evidence": "actual constructor zeros17DWORDs; distinct meaningful count/image/position/path/file/mapping/arena/page-table fields from own load/remap/close users; no pointed object layout claim"
+    },
+    {
+      "name": "debug_break",
+      "original_rva": 351284,
+      "bytes": 4,
+      "native_field": "c1_bss.debug_break",
+      "native_offset": 776,
+      "default": 0,
+      "type": "int32",
+      "default_proof": "canonical initial loaded BSS; own main stores argc/argv, debugBreak% option-table target"
+    },
+    {
+      "name": "command_argc",
+      "original_rva": 351288,
+      "bytes": 4,
+      "native_field": "c1_bss.command_argc",
+      "native_offset": 780,
+      "default": 0,
+      "type": "int32",
+      "default_proof": "canonical initial loaded BSS; own main stores argc/argv, debugBreak% option-table target"
+    },
+    {
+      "name": "command_argv",
+      "original_rva": 351292,
+      "bytes": 4,
+      "native_field": "c1_bss.command_argv",
+      "native_offset": 784,
+      "default": 0,
+      "type": "argv identity",
+      "default_proof": "canonical initial loaded BSS; own main stores argc/argv, debugBreak% option-table target"
     }
   ],
   "outside_bss": [
@@ -1700,7 +1785,7 @@
     "native_saved_offset": 528,
     "native_flag_offset": 536,
     "native_value_size": 8,
-    "native_bss_size": 776,
+    "native_bss_size": 788,
     "source_writer_rvas": [
       [
         12576,
@@ -1711,7 +1796,7 @@
         23897
       ]
     ],
-    "hard_frontier_rva": 75687,
+    "hard_frontier_rva": 75824,
     "policy": "reviewed specific internal transfer; tail remains UNMODELED and cannot be semantically consumed before a named trap"
   },
   "pdb_signature": {
@@ -2106,6 +2191,34 @@
       "scratch_arena": "4d3af..bb allocates32B arena then12a18 initializes;4d577 invokes arena cleanup237c6",
       "original_pages": "4d2dc assigns page table;4d617 indexes old pointed value>>16 and applies image delta",
       "mapped_pages": "4d389 assigns page table;4d5c8 indexes pointer-field address>>16 and visited bits"
+    }
+  },
+  "main_fields": {
+    "initialized_known_bytes": 52,
+    "initialized_unknown_bytes": 6496,
+    "system_info_members": {
+      "dwOemId": 0,
+      "dwPageSize": 4,
+      "lpMinimumApplicationAddress": 8,
+      "lpMaximumApplicationAddress": 12,
+      "dwActiveProcessorMask": 16,
+      "dwNumberOfProcessors": 20,
+      "dwProcessorType": 24,
+      "dwAllocationGranularity": 28,
+      "wProcessorLevel": 32,
+      "wProcessorRevision": 34
+    },
+    "system_info_original_rva": 390408,
+    "system_info_native_offset": 16,
+    "native_initialized_size": 52,
+    "native_bss_size": 788,
+    "field_evidence": {
+      "compiler_phase": "main127a9 sets1;13585 sets3;13833 and438d6/43950 consumers prove compiler-stage state",
+      "c9_il": "optionrecord62f20 string -C9IL points62f24 to5f2e0; main1280e controls compiler_flags0x2000",
+      "compiler_flags": "main12815..12828 andcold3042b toggle0x2000 according to C9IL; further bit consumers remain pending",
+      "system_info": "main127e7 pushes5f508 into KERNEL32.GetSystemInfo IAT5d1b4; canonical36-byte SDK layout and explicit initialized defaults",
+      "debug_break": "record62e6c string -debugBreak% targets5c34; main condition calls KERNEL32.DebugBreak",
+      "command_argc_argv": "main127cd/127d3 stores actualmain argc/argv;12f9d/12fac advance this commandline cursor"
     }
   }
 }

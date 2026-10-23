@@ -43,12 +43,6 @@ void *__cdecl allocate_compiler_memory(unsigned size)
     return memory;
 }
 
-int __cdecl main(int argc, char **argv)
-{
-    __asm { int 3 }
-    return 1;
-}
-
 int __cdecl cleanup_compiler_pass(void)
 {
     __asm { int 3 }

@@ -49,7 +49,7 @@ def validate(original,native,fields,state,sequence,probe,candidate,project):
  seq,esp,receiver,stack=entries[0]
  assert (int(seq)<sequence if joint else int(seq)==sequence) and int(receiver,16)==module+0x58f68 and int(stack.split(',')[0],16)==module+0x12348
  if joint:
-  if candidate['expected_frontier']['kind']=='compiler-main':assert set(state['args'])=={'argc','argv'} and candidate['expected_frontier']['rva']==0x127a7
+  if state.get('boundary_rva')==0x127a7 or candidate['expected_frontier']['kind']=='compiler-main':assert set(state['args'])=={'argc','argv'}
   else:assert state['args']=={} and candidate['expected_frontier']['rva']==0x127a6
  else:assert state['args']==dict(this=current['live_addresses']['bss']+708)
  binary=captured_native_binary(native);symbols=subprocess.check_output(['nm','-S','--defined-only',str(binary)],text=True)
@@ -115,13 +115,13 @@ def validate_member(original,native,fields,state,sequence,probe,candidate,module
   before_region=(original/('%s-%03d.bin'%(region,entry_sequence))).read_bytes()
   returned_region=(original/('%s-%03d.bin'%(region,rseq))).read_bytes()
   assert before_region==returned_region
-  expected_region=plain_globals_after_invoke_store(original,returned_region,candidate,module) if region=='state' else returned_region
+  expected_region=plain_globals_after_invoke_store(original,returned_region,candidate,module,state.get('boundary_rva')) if region=='state' else returned_region
   assert expected_region==(original/('%s-%03d.bin'%(region,sequence))).read_bytes()
  native_returns=json.loads((native/'pch-return-observations.json').read_text());assert len(native_returns)==1
  returned_native=native_returns[0]
  assert returned_native['pc']==entry['return'] and returned_native['eax']==entry['ecx'] and returned_native['esp']==entry['esp']+4 and returned_native['edi']==entry['edi']
  assert returned_native['values']==[0]*17
- native_expected=list(entry['bss_bytes']);assert len(native_expected)==776
+ native_expected=list(entry['bss_bytes']);assert len(native_expected)==fields['main_fields']['native_bss_size']
  native_expected[708:776]=[0]*68
  assert returned_native['bss_bytes']==native_expected
  if probe=='normal':

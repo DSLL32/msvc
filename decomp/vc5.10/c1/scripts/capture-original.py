@@ -110,6 +110,8 @@ def main():
         (output / "pch-state-probe.txt").write_text("58f68 44\n")
     if args.restore_probe and candidate.get("restore_probe", {}).get("pch_member"):
         (output / "pch-member-probe.txt").write_text("11e2a 58f68 44\n")
+    if args.restore_probe and field_map.get("main_fields"):
+        (output / "main-fields-probe.txt").write_text("5f3d8 5f2e0 5ede4 5f508 34 55c34\n")
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))

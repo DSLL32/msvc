@@ -131,7 +131,8 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
     compiler_allocation = expected.get("kind") == "compiler-allocation"
     initialization_callback = expected.get("kind") in ("initialization-callback", "initialization-helper")
     compiler_main = expected.get("kind") == "compiler-main"
-    compiler_flow = pass_boundary or pass_initializer or compiler_allocation or initialization_callback or compiler_main
+    main_helper = expected.get("kind") == "main-helper"
+    compiler_flow = pass_boundary or pass_initializer or compiler_allocation or initialization_callback or compiler_main or main_helper
     if compiler_flow:
         case = candidate.get("case_contract") or json.loads((PROJECT / "cases/minimal/case.json").read_text())
         pass_state = state if pass_boundary else state["caller"] if pass_initializer else state["invocation"]
@@ -146,6 +147,16 @@ def check(original, native, audit_directory=None, prospective_tail_chain=False):
             snapshot=(original/'relocated-text.bin').read_bytes()
             assert snapshot[0x1226f-0x1000]==0xe8 and 0x12274+struct.unpack_from('<i',snapshot,0x12270-0x1000)[0]==expected['rva']==0x127a7
             assert state['argv']==pass_state['argv'] and state['argv_terminator']==0
+            assert state['pass_mode']==case['BOOL']
+            args=invoke_words[1:4]
+        if main_helper:
+            assert state['caller']['symbol']=='c1_main' and state['args']=={}
+            assert state['caller']['args']=={key:pass_state['args'][key] for key in ('argc','argv')}
+            invocations=[row for row in traps if int(row[1],16)==0x12229];assert len(invocations)==1
+            invoke_words=[int(value,16) for value in invocations[0][2].split(',')]
+            assert int(words.split(',')[0],16)==module_base+0x127b8 and expected['rva']==0x12830
+            snapshot=(original/'relocated-text.bin').read_bytes()
+            assert snapshot[0x127b3-0x1000]==0xe8 and 0x127b8+struct.unpack_from('<i',snapshot,0x127b4-0x1000)[0]==expected['rva']
             assert state['pass_mode']==case['BOOL']
             args=invoke_words[1:4]
         if pass_initializer:

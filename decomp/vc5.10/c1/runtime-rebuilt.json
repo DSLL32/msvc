@@ -1,99 +1,141 @@
 [
   {
-    "name": "_main",
-    "start": 268440622,
-    "end": 268440623,
-    "pending_extent": true,
-    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
-  },
-  {
     "name": "_cleanup_compiler_pass",
-    "start": 268440639,
-    "end": 268440640,
+    "start": 268440631,
+    "end": 268440632,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_compiler_fatal",
-    "start": 268441282,
-    "end": 268441283,
+    "start": 268441266,
+    "end": 268441267,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_destroy_output_buffer_23940",
-    "start": 268441406,
-    "end": 268441407,
+    "start": 268441390,
+    "end": 268441391,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_compiler_error",
-    "start": 268441294,
-    "end": 268441295,
+    "start": 268441278,
+    "end": 268441279,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_destroy_output_buffer_23939",
-    "start": 268441512,
-    "end": 268441513,
+    "start": 268441496,
+    "end": 268441497,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_destroy_output_buffer_23932",
-    "start": 268441618,
-    "end": 268441619,
+    "start": 268441602,
+    "end": 268441603,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_destroy_output_buffer_2392b",
-    "start": 268441724,
-    "end": 268441725,
+    "start": 268441708,
+    "end": 268441709,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_destroy_output_buffer_23924",
-    "start": 268441830,
-    "end": 268441831,
+    "start": 268441814,
+    "end": 268441815,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_destroy_output_buffer_2391d",
-    "start": 268441936,
-    "end": 268441937,
+    "start": 268441920,
+    "end": 268441921,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_destroy_output_buffer_23916",
-    "start": 268442042,
-    "end": 268442043,
+    "start": 268442026,
+    "end": 268442027,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_destroy_output_buffer_238dd",
-    "start": 268442148,
-    "end": 268442149,
+    "start": 268442132,
+    "end": 268442133,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_destroy_pdb_context_238dc",
-    "start": 268442236,
-    "end": 268442237,
+    "start": 268442220,
+    "end": 268442221,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_destroy_pdb_context_238db",
-    "start": 268442324,
-    "end": 268442325,
+    "start": 268442308,
+    "end": 268442309,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_initialize_work_buffers",
+    "start": 268442878,
+    "end": 268442879,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_release_work_buffers_238da",
+    "start": 268442890,
+    "end": 268442891,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_scan_internal_switches",
+    "start": 268442902,
+    "end": 268442903,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_initialize_state_12998",
+    "start": 268442914,
+    "end": 268442915,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_initialize_compiler_arenas",
+    "start": 268442926,
+    "end": 268442927,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_parse_command_line",
+    "start": 268442938,
+    "end": 268442939,
+    "pending_extent": true,
+    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
+  },
+  {
+    "name": "_compile_translation_unit",
+    "start": 268442950,
+    "end": 268442951,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   }

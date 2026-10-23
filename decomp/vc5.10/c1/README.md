@@ -3,15 +3,15 @@
 Target: `toolchains/5.10/bin/C1.DLL`, SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`.
 The lifecycle-only first case is complete. Minimal C compilation is in progress,
-all initialization callbacks now complete and the current frontier is main127a7. The native i386
+all initialization callbacks are complete and main reaches work-buffer helper12830. The native i386
 harness and actual Win32 DLL compile the same reconstructed source; two genuine
 thiscall members and their callers use small C++ translation units. The lifecycle
 fixture resolves both compiler exports; the minimal case calls InvokeCompilerPass.
 AbortCompilerPass remains a named INT3 stub.
 
-Accepted ownership is50 application functions /1702 original bytes,2 CRT support
-functions /451 bytes and one6-byte import thunk:2159 of the `.text` virtual
-extent's322288 bytes (0.670%). That denominator includes CRT and unclassified
+Accepted ownership is51 application functions /1866 original bytes,2 CRT support
+functions /451 bytes and one6-byte import thunk:2323 of the `.text` virtual
+extent's322288 bytes (0.721%). That denominator includes CRT and unclassified
 code; it is not non-CRT coverage. The original17-DWORD PCH-context initializer
 and its tail wrapper were explicitly accepted as one ordered JOINT two-function
 closure after separate non-promotable prospective input evidence.
@@ -402,3 +402,14 @@ changes reject. The normal original capture was reused after a native-only
 build, with its historical native hash retained honestly. No original rerun
 was needed. Evidence and measured build/capture/fixture/control times are in
 `cases/minimal/evidence/last-initializer-*`.
+
+Full main is accepted (137 hot+27 cold original bytes), reaching named helper
+12830. Its new52-byte initialized projection and12-byte commandline BSS fields
+have canonical defaults, typed firstcopy and distinct nonzero restore/reset
+proofs;6496 initialized bytes remain UNMODELED. Actual main entry independently
+anchors all initialization checks before main's legitimate phase write. New
+boundary controls50/65 and core47/100 pass; see `cases/minimal/MAIN.md` and
+`evidence/main-first-helper-*`. Original/native builds3.822/1.899s, captures
+1.067/0.517s normal and1.619/1.364s restore, audit0.018s, cached lifecycle5.11ms.
+Core controls22.42/73.71s and new controls19.33/37.94s are separate from fixtures.
+A tool-only update retained an identical audit report and reused execution raw.

@@ -1,12 +1,5 @@
 [
   {
-    "name": "_main",
-    "start": 274802599,
-    "end": 274802600,
-    "pending_extent": true,
-    "evidence": "Unaccepted named call-entry identity only; full extent not established or unmasked."
-  },
-  {
     "name": "_cleanup_compiler_pass",
     "start": 274872442,
     "end": 274872443,
@@ -96,5 +89,54 @@
     "end": 274872540,
     "pending_extent": true,
     "evidence": "actual separate callee/registration callback; named INT3 only"
+  },
+  {
+    "name": "_initialize_work_buffers",
+    "start": 274802736,
+    "end": 274802737,
+    "pending_extent": true,
+    "evidence": "actual full-main call or cleanup callback identity, named INT3; no body credit"
+  },
+  {
+    "name": "_release_work_buffers_238da",
+    "start": 274872538,
+    "end": 274872539,
+    "pending_extent": true,
+    "evidence": "actual full-main call or cleanup callback identity, named INT3; no body credit"
+  },
+  {
+    "name": "_scan_internal_switches",
+    "start": 274802865,
+    "end": 274802866,
+    "pending_extent": true,
+    "evidence": "actual full-main call or cleanup callback identity, named INT3; no body credit"
+  },
+  {
+    "name": "_initialize_state_12998",
+    "start": 274803096,
+    "end": 274803097,
+    "pending_extent": true,
+    "evidence": "actual full-main call or cleanup callback identity, named INT3; no body credit"
+  },
+  {
+    "name": "_initialize_compiler_arenas",
+    "start": 274803097,
+    "end": 274803098,
+    "pending_extent": true,
+    "evidence": "actual full-main call or cleanup callback identity, named INT3; no body credit"
+  },
+  {
+    "name": "_parse_command_line",
+    "start": 274803529,
+    "end": 274803530,
+    "pending_extent": true,
+    "evidence": "actual full-main call or cleanup callback identity, named INT3; no body credit"
+  },
+  {
+    "name": "_compile_translation_unit",
+    "start": 274806004,
+    "end": 274806005,
+    "pending_extent": true,
+    "evidence": "actual full-main call or cleanup callback identity, named INT3; no body credit"
   }
 ]

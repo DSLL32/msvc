@@ -8,6 +8,10 @@
  * UNMODELED; neither zero defaults nor byte equivalence are assumed. */
 typedef struct CompilerInitializedState {
     int first_call;
+    int compiler_phase;
+    int c9_il;
+    DWORD compiler_flags;
+    SYSTEM_INFO system_info;
 } CompilerInitializedState;
 /* A context saves its current object/value together with a linked stack of
  * prior contexts. The domain of the value is not yet recovered. */
@@ -82,6 +86,9 @@ typedef struct CompilerBss {
      * are separate. No five logical fields are inferred from scalar stores. */
     BYTE empty_record_prototype[20];
     CompilerPchState pch_state;
+    int debug_break;
+    int command_argc;
+    char **command_argv;
 } CompilerBss;
 /* These session fields are outside the datafe snapshot and BSS reset.
  * Original offset0x10 is unmodeled; no provider object is dereferenced here. */
@@ -160,6 +167,13 @@ void __cdecl initialize_state_1277a(void);
 void __cdecl initialize_state_1277b(void);
 void __cdecl initialize_state_1279c(void);
 void __cdecl initialize_state_127a6(void);
+void __cdecl initialize_work_buffers(void);
+void __cdecl release_work_buffers_238da(void);
+void __cdecl scan_internal_switches(char **);
+void __cdecl initialize_state_12998(void);
+void __cdecl initialize_compiler_arenas(void);
+void __cdecl parse_command_line(int, char **);
+int __cdecl compile_translation_unit(void);
 #ifdef __cplusplus
 }
 #endif

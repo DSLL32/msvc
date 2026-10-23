@@ -9,6 +9,7 @@ import subprocess
 import time
 from provenance import freeze, native_sources, reuse_native_sources, freeze_native_binary, compiled_native_sources
 from pch_state import MEMBERS as PCH_MEMBERS
+from main_fields import SYSTEM_MEMBERS
 
 PROJECT = Path(__file__).resolve().parents[1]
 ROOT = PROJECT.parents[2]
@@ -96,6 +97,9 @@ if caller.name()=='InvokeCompilerPass':
     value['caller']['args']={name:int(caller.read_var(name).cast(gdb.lookup_type('unsigned int'))) for name in ('argc','argv','mode')}
     value['caller']['argv']=[caller.read_var('argv')[i].string() for i in range(value['caller']['args']['argc'])]
     value['caller']['argv_terminator']=int(caller.read_var('argv')[value['caller']['args']['argc']].cast(gdb.lookup_type('unsigned int')))
+if caller.name()=='c1_main':
+    value['caller']['pc']=int(caller.pc())
+    value['caller']['args']={name:int(caller.read_var(name).cast(gdb.lookup_type('unsigned int'))) for name in ('argc','argv')}
 if frame.name()=='recon_initterm':
     value['caller']['args']={name:int(caller.read_var(name).cast(gdb.lookup_type('unsigned int'))) for name in ('module','reason','reserved')}
 identity=gdb.parse_and_eval('*c1_host_identity')
@@ -108,19 +112,19 @@ value['compiler_state']={
  'output_pdb_context':{key:int(gdb.parse_and_eval(('(int)' if key=='read_mode' else '(unsigned int)')+'c1_output_pdb_context.'+key)) for key in ('database','names','types','minimal_rebuild','rebuild_state','read_mode')},
  'output_pdb_context_layout':{'address':int(gdb.parse_and_eval('(unsigned int)&c1_output_pdb_context')),'size':int(gdb.parse_and_eval('sizeof(c1_output_pdb_context)')),'members':{key:int(gdb.parse_and_eval('(char*)&c1_output_pdb_context.'+key+'-(char*)&c1_output_pdb_context')) for key in ('database','names','types','minimal_rebuild','rebuild_state','read_mode')}},
  'live_addresses':{'initialized':int(gdb.parse_and_eval('(unsigned int)&c1_data')),'bss':int(gdb.parse_and_eval('(unsigned int)&c1_bss'))},
- 'initialized':{'first_call':int(gdb.parse_and_eval('c1_data.first_call'))},
- 'bss':{'pch_state':{key:([int(gdb.parse_and_eval('(unsigned int)c1_bss.pch_state.mapping_handles[%%d]'%%i)) for i in range(6)] if key=='mapping_handles' else int(gdb.parse_and_eval(('(int)' if key in ('image_count','loaded_image_count') else '(unsigned int)')+'c1_bss.pch_state.'+key))) for key in PCH_KEYS},'empty_record_prototype':[int(gdb.parse_and_eval('c1_bss.empty_record_prototype[%%d]'%%i)) for i in range(20)],'pools':[{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.pools[%%d].'%%i+key)) for key in ('cursor','remaining','minimum_pages','arena')} for i in range(POOL_COUNT)],'pdb_signature':int(gdb.parse_and_eval('c1_bss.pdb_signature')),'literal':int(gdb.parse_and_eval('c1_bss.literal.integer')),'saved_literal':int(gdb.parse_and_eval('c1_bss.saved_literal.integer')),'saved_literal_available':int(gdb.parse_and_eval('c1_bss.saved_literal_available')),'saved_data':int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data')),
+ 'initialized':{'first_call':int(gdb.parse_and_eval('c1_data.first_call')),'compiler_phase':int(gdb.parse_and_eval('c1_data.compiler_phase')),'c9_il':int(gdb.parse_and_eval('c1_data.c9_il')),'compiler_flags':int(gdb.parse_and_eval('(unsigned int)c1_data.compiler_flags')),'system_info':{key:int(gdb.parse_and_eval('(unsigned int)c1_data.system_info.'+key)) for key in SYS_KEYS}},
+ 'bss':{'debug_break':int(gdb.parse_and_eval('c1_bss.debug_break')),'command_argc':int(gdb.parse_and_eval('c1_bss.command_argc')),'command_argv':int(gdb.parse_and_eval('(unsigned int)c1_bss.command_argv')),'pch_state':{key:([int(gdb.parse_and_eval('(unsigned int)c1_bss.pch_state.mapping_handles[%%d]'%%i)) for i in range(6)] if key=='mapping_handles' else int(gdb.parse_and_eval(('(int)' if key in ('image_count','loaded_image_count') else '(unsigned int)')+'c1_bss.pch_state.'+key))) for key in PCH_KEYS},'empty_record_prototype':[int(gdb.parse_and_eval('c1_bss.empty_record_prototype[%%d]'%%i)) for i in range(20)],'pools':[{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.pools[%%d].'%%i+key)) for key in ('cursor','remaining','minimum_pages','arena')} for i in range(POOL_COUNT)],'pdb_signature':int(gdb.parse_and_eval('c1_bss.pdb_signature')),'literal':int(gdb.parse_and_eval('c1_bss.literal.integer')),'saved_literal':int(gdb.parse_and_eval('c1_bss.saved_literal.integer')),'saved_literal_available':int(gdb.parse_and_eval('c1_bss.saved_literal_available')),'saved_data':int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data')),
         'cleanup_count':int(gdb.parse_and_eval('c1_bss.cleanup_count')),
         'cleanup_callbacks':[int(gdb.parse_and_eval('(unsigned int)c1_bss.cleanup_callbacks[%%d]'%%i)) for i in range(32)],
         'context':{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.context.'+key)) for key in ('object','value','saved_frame')},
         'current_context':{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.current_context.'+key)) for key in ('object','value','saved_frame')},
         'contexts':[{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.contexts[%%d].'%%i+key)) for key in ('object','value','saved_frame')} for i in range(6)],
         'output_buffers':[{key:int(gdb.parse_and_eval(('(int)' if key=='file_descriptor' else '(unsigned int)')+'c1_bss.output_buffers[%%d].'%%i+key)) for key in ('data','cursor','capacity','relocated','relocation_context','stream','good','mode','file_descriptor')} for i in range(BUFFER_COUNT)]},
- 'snapshot':({'first_call':int(gdb.parse_and_eval('c1_bss.saved_data->first_call'))} if int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data')) else None),
+ 'snapshot':({'first_call':int(gdb.parse_and_eval('c1_bss.saved_data->first_call')),'compiler_phase':int(gdb.parse_and_eval('c1_bss.saved_data->compiler_phase')),'c9_il':int(gdb.parse_and_eval('c1_bss.saved_data->c9_il')),'compiler_flags':int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data->compiler_flags')),'system_info':{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data->system_info.'+key)) for key in SYS_KEYS}} if int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data')) else None),
  'reuse_state':int(gdb.parse_and_eval('c1_reuse_state')),
  'pass_mode':int(gdb.parse_and_eval('c1_pass_mode')),
  'initialization_callbacks':[int(gdb.parse_and_eval('(unsigned int)c1_initialization_callbacks[%%d]'%%i)) for i in range(34)],
- 'native_layout':{'pch_state':int(gdb.parse_and_eval('(char*)&c1_bss.pch_state-(char*)&c1_bss')),'pch_state_size':int(gdb.parse_and_eval('sizeof(c1_bss.pch_state)')),'mapping_handle_count':int(gdb.parse_and_eval('sizeof(c1_bss.pch_state.mapping_handles)/sizeof(c1_bss.pch_state.mapping_handles[0])')),'pch_members':{key:int(gdb.parse_and_eval('(char*)&c1_bss.pch_state.'+key+'-(char*)&c1_bss.pch_state')) for key in PCH_KEYS},'empty_record_prototype':int(gdb.parse_and_eval('(char*)&c1_bss.empty_record_prototype-(char*)&c1_bss')),'empty_record_prototype_size':int(gdb.parse_and_eval('sizeof(c1_bss.empty_record_prototype)')),'initialized_size':int(gdb.parse_and_eval('sizeof(c1_data)')),'bss_size':int(gdb.parse_and_eval('sizeof(c1_bss)')),
+ 'native_layout':{'initialized_members':{key:int(gdb.parse_and_eval('(char*)&c1_data.'+key+'-(char*)&c1_data')) for key in ('first_call','compiler_phase','c9_il','compiler_flags','system_info')},'system_info_size':int(gdb.parse_and_eval('sizeof(c1_data.system_info)')),'system_info_members':{key:int(gdb.parse_and_eval('(char*)&c1_data.system_info.'+key+'-(char*)&c1_data.system_info')) for key in SYS_KEYS},'command_members':{key:int(gdb.parse_and_eval('(char*)&c1_bss.'+key+'-(char*)&c1_bss')) for key in ('debug_break','command_argc','command_argv')},'pch_state':int(gdb.parse_and_eval('(char*)&c1_bss.pch_state-(char*)&c1_bss')),'pch_state_size':int(gdb.parse_and_eval('sizeof(c1_bss.pch_state)')),'mapping_handle_count':int(gdb.parse_and_eval('sizeof(c1_bss.pch_state.mapping_handles)/sizeof(c1_bss.pch_state.mapping_handles[0])')),'pch_members':{key:int(gdb.parse_and_eval('(char*)&c1_bss.pch_state.'+key+'-(char*)&c1_bss.pch_state')) for key in PCH_KEYS},'empty_record_prototype':int(gdb.parse_and_eval('(char*)&c1_bss.empty_record_prototype-(char*)&c1_bss')),'empty_record_prototype_size':int(gdb.parse_and_eval('sizeof(c1_bss.empty_record_prototype)')),'initialized_size':int(gdb.parse_and_eval('sizeof(c1_data)')),'bss_size':int(gdb.parse_and_eval('sizeof(c1_bss)')),
  'pools':int(gdb.parse_and_eval('(char*)&c1_bss.pools-(char*)&c1_bss')),'pool_count':int(gdb.parse_and_eval('sizeof(c1_bss.pools)/sizeof(c1_bss.pools[0])')),'pool_size':int(gdb.parse_and_eval('sizeof(c1_bss.pools[0])')),'pool_members':{key:int(gdb.parse_and_eval('(char*)&c1_bss.pools[0].'+key+'-(char*)&c1_bss.pools[0]')) for key in ('cursor','remaining','minimum_pages','arena')},
  'pdb_signature':int(gdb.parse_and_eval('(char*)&c1_bss.pdb_signature-(char*)&c1_bss')),
  'literal':int(gdb.parse_and_eval('(char*)&c1_bss.literal-(char*)&c1_bss')),'saved_literal':int(gdb.parse_and_eval('(char*)&c1_bss.saved_literal-(char*)&c1_bss')),'saved_literal_available':int(gdb.parse_and_eval('(char*)&c1_bss.saved_literal_available-(char*)&c1_bss')),'value_size':int(gdb.parse_and_eval('sizeof(c1_bss.literal)')),
@@ -155,6 +159,7 @@ end
 quit
 """ % (breakpoint_command, arguments, str(output / "state.json"))
     if candidate.get("field_map"):
+        modeled_expression = commands.split("value['compiler_state']=", 1)[1].split("\nvalue['pass_mode']", 1)[0]
         allocation_probe = """python
 import gdb,json
 allocations=[]
@@ -165,6 +170,7 @@ class CompilerAllocation(gdb.Breakpoint):
 CompilerAllocation('allocate_compiler_memory')
 end
 """
+        allocation_probe=allocation_probe.replace('allocations=[]', 'def capture_modeled():\n    return '+modeled_expression+'\nallocations=[]')
         if field_map.get("pools"):
             symbol = field_map["pools"][0]["native_linkage_symbol"]
             table = subprocess.check_output(["nm", "-S", "--defined-only", str(binary)], text=True)
@@ -249,6 +255,35 @@ PchEntry('*0x%x')
             pch_probe=pch_probe.replace('PCH_MEMBER',str(any(row['name']=='CompilerPchState::Initialize' for row in candidate['functions']))).replace('PCH_SEED',str(bool(args.restore_probe and candidate.get('restore_probe',{}).get('pch_member'))))
             allocation_probe=allocation_probe.replace("\nend\n","\n"+pch_probe+"end\n")
             commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(pch_entries,indent=2)+'\\n')\n"%str(output/'pch-entry-observations.json')+"open(%r,'w').write(json.dumps(pch_returns,indent=2)+'\\n')\n"%str(output/'pch-return-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
+        if field_map.get('main_fields'):
+            table=subprocess.check_output(['nm','-S','--defined-only',str(binary)],text=True)
+            main_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] c1_main$',table,re.M)[1],16)
+            main_probe="""main_entries=[]
+class ActualMainEntry(gdb.Breakpoint):
+    def stop(self):
+        esp=int(gdb.parse_and_eval('$esp'))
+        words=list(struct.unpack('<3I',gdb.selected_inferior().read_memory(esp,12).tobytes()))
+        block=gdb.block_for_pc(int(gdb.parse_and_eval('$pc')))
+        while block and not block.function:block=block.superblock
+        assert block and block.function
+        formals=[{'name':symbol.name,'type':str(symbol.type)} for symbol in block if symbol.is_argument]
+        assert {row['name'] for row in formals}=={'argc','argv'}
+        assert words[1]<=256
+        vector=gdb.Value(words[2]).cast(gdb.lookup_type('char').pointer().pointer())
+        actual_argv=[vector[i].string() for i in range(words[1])]
+        terminator=int(vector[words[1]].cast(gdb.lookup_type('unsigned int')))
+        crt_state={'win32_last_error':int(gdb.parse_and_eval('last_error')),'x87_control':int(gdb.parse_and_eval('$fctrl')),
+          'crt_attached':int(gdb.parse_and_eval('c1_crt_attached')),'raw_dllmain':int(gdb.parse_and_eval('(unsigned int)c1_raw_dllmain')),
+          'onexit_begin':int(gdb.parse_and_eval('(unsigned int)c1_onexit_begin')),'onexit_end':int(gdb.parse_and_eval('(unsigned int)c1_onexit_end')),
+          'onexit_first':int(gdb.parse_and_eval('(unsigned int)*c1_onexit_begin')),'crt_adjust_fdiv':int(gdb.parse_and_eval('c1_crt_adjust_fdiv')),
+          'dll_instance':int(gdb.parse_and_eval('(unsigned int)c1_dll_instance')),'module_token':int(gdb.parse_and_eval('(unsigned int)c1_host_module'))}
+        main_entries.append({'crt_state':crt_state,'argv':actual_argv,'argv_terminator':terminator,'boundary_rva':0x127a7,'symbol':block.function.name,'pc':int(gdb.parse_and_eval('$pc')),'esp':esp,'return':words[0],
+          'args':dict(argc=words[1],argv=words[2]),'formal_inventory':formals,'compiler_state':capture_modeled()})
+        return False
+ActualMainEntry('*0x%x')
+"""%main_address
+            allocation_probe=allocation_probe.replace('\nend\n','\n'+main_probe+'end\n')
+            commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(main_entries,indent=2)+'\\n')\n"%str(output/'main-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         commands = commands.replace("run\nbt\npython", allocation_probe + "run\nbt\npython", 1)
         commands = commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')" % str(output/'state.json'),
                                     "open(%r,'w').write(json.dumps(allocations,indent=2)+'\\n')\n" % str(output/'allocation-observations.json') +
@@ -278,6 +313,18 @@ def seed_output_buffer(index):
 restore_observations={'pre_seed':capture_modeled(),'buffer_constructors':{}}
 gdb.execute('set var c1_bss.saved_data = (CompilerInitializedState *)malloc(6548)')
 gdb.execute('set var c1_bss.saved_data->first_call = 0x13579bdf')
+def seed_main_fields(prefix,which):
+    plan=MAIN_FIELDS_PLAN[which]
+    for key in ('compiler_phase','c9_il','compiler_flags'):gdb.execute('set var '+prefix+key+' = '+str(plan[key]))
+    for key in SYS_KEYS:
+        if key in ('lpMinimumApplicationAddress','lpMaximumApplicationAddress'):
+            gdb.execute('set var '+prefix+'system_info.'+key+' = (void *)((char *)c1_bss.saved_data + '+str(plan[key])+')')
+        else:gdb.execute('set var '+prefix+'system_info.'+key+' = '+str(plan[key]))
+seed_main_fields('c1_bss.saved_data->','snapshot')
+seed_main_fields('c1_data.','live')
+gdb.execute('set var c1_bss.debug_break = 17')
+gdb.execute('set var c1_bss.command_argc = 23')
+gdb.execute('set var c1_bss.command_argv = (char **)((char *)c1_bss.saved_data + 4000)')
 gdb.execute('set var c1_data.first_call = 0')
 gdb.execute('set var c1_bss.cleanup_count = 7')
 gdb.execute('set var c1_bss.cleanup_callbacks[0] = initialize_state_12365')
@@ -421,6 +468,7 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
         value_probe = "break initialize_state_12646\ncontinue\npython\n" + seed_value(value_plan["negative_source" if args.negative_value else "positive_source"], value_plan["cached_before_copy"]) + "\nrestore_observations['before_value_copy']=capture_modeled()\nrestore_observations['value_copy_pc']=int(gdb.parse_and_eval('$pc'))\nend"
         setup = setup.replace("VALUE_CALLBACK_PROBE", value_probe).replace("PDB_REUSE", str(args.pdb_reuse))
         commands = commands.replace("run\nbt\npython", setup + "\nbt\npython", 1)
+    commands=commands.replace('MAIN_FIELDS_PLAN',repr(candidate.get('restore_probe',{}).get('main_fields',{}))).replace('SYS_KEYS',repr(tuple(SYSTEM_MEMBERS)))
     commands=commands.replace("PCH_KEYS",repr(tuple(field_map.get("pch_state",{}).get("members",PCH_MEMBERS))))
     commands = commands.replace("BUFFER_COUNT", str(len(buffer_models))).replace("POOL_COUNT", str(len(field_map.get("pools", []))))
     (output / "commands.gdb").write_text(commands)

@@ -28,5 +28,5 @@
     "minimalin",
     "minimalsy"
   ],
-  "status": "50 application +2 CRT source functions accepted; initialization complete, genuine main127a7 next; minimal compilation incomplete"
+  "status": "51 application +2 CRT source functions accepted; genuine main reaches work-buffer helper12830; minimal compilation incomplete"
 }

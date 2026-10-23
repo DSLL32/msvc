@@ -56,7 +56,8 @@
     "_initialize_state_1277b",
     "_initialize_state_1279c",
     "CompilerPchState::Initialize",
-    "_initialize_state_127a6"
+    "_initialize_state_127a6",
+    "_main"
   ],
   "driver": [
     {
@@ -469,6 +470,18 @@
       "name": "_initialize_state_127a6",
       "start": 274802598,
       "end": 274802599,
+      "role": "application"
+    },
+    {
+      "name": "_main",
+      "start": 274802599,
+      "end": 274802736,
+      "code_chunks": [
+        [
+          274924576,
+          274924603
+        ]
+      ],
       "role": "application"
     }
   ],

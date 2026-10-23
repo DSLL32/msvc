@@ -36,7 +36,7 @@ def validate(original,native,fields,state,sequence,probe,candidate,project):
  assert bytes(expected)==final
  for region in ('compiler-data','compiler-snapshot','state'):
   before_region=(original/('%s-%03d.bin'%(region,before_seq))).read_bytes()
-  if region=='state':before_region=plain_globals_after_invoke_store(original,before_region,candidate,module)
+  if region=='state':before_region=plain_globals_after_invoke_store(original,before_region,candidate,module,state.get('boundary_rva'))
   assert before_region==(original/('%s-%03d.bin'%(region,sequence))).read_bytes()
  if probe=='normal':
   assert read(old)==ZERO and not (original/'prototype-probe.txt').exists() and not re.findall(r'^prototype-seed ',events,re.M)
@@ -55,4 +55,4 @@ def validate(original,native,fields,state,sequence,probe,candidate,project):
  address,size=(int(v,16) for v in re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] initialize_state_1277b$',symbols,re.M).groups())
  assert address<=obs['prototype_pc']<address+size
  before=copy.deepcopy(obs['before_prototype']);before['bss']['empty_record_prototype']=list(ZERO)
- assert native_after_invoke_store(before,candidate)==current
+ assert native_after_invoke_store(before,candidate,state.get('boundary_rva'))==current

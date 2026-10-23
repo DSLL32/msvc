@@ -1,0 +1,111 @@
+{
+  "kind": "sole-main-candidate with actual initialization-boundary and main-to-helper proof",
+  "new_function": {
+    "name": "_main",
+    "chunks": [
+      [
+        75687,
+        75824
+      ],
+      [
+        197664,
+        197691
+      ]
+    ],
+    "original_bytes": 164
+  },
+  "actual_boundaries": {
+    "initialization_complete": 75687,
+    "current_frontier": 75824,
+    "native_entry_record": "main-entry-observations.json",
+    "scope": "real PC/formals/raw cdecl argc/argv/vector/terminator/full typed state and CRT state; helper snapshot is rejected as main entry"
+  },
+  "initialized_known_bytes": 52,
+  "initialized_unmodeled_bytes": 6496,
+  "native_bss_bytes": 788,
+  "known_bss_bytes": 761,
+  "native_padding_bytes": 27,
+  "firstcopy": "actual normal original snapshot equals whole original initializer-entry data; all52 known native fields equal contextual original defaults; no native6496-byte equivalence claimed",
+  "restore": "distinct nonzero live/saved52-field values, owned pointer identities and12 nonzero commandline BSS bytes; all new snapshot fields copied/restored, BSS cleared; main overwrites only phase to1",
+  "body_import_limits": "DebugBreak typed shared surface intentionally unsupported125; -debugBreak% branch is unvisited. GetSystemInfo buffer/defaults known but actual API invocation not yet reached.",
+  "original_receipt_sha256": "c6cfc4e58d2f29441c3a44017c390cdf035a6c5abb839cd211e2df724cd77bbc",
+  "native_receipt_sha256": "b9210eec783fcf520539c8769bd830d3a1332c5acf4b4d7aa9305a30d612e1a9",
+  "checker_and_contract_hashes": {
+    "scripts/archive-evidence.py": "bf1831dbd971a9bae2dfc344859f6d3c2e5faceafefa92ef6c76e2e633622028",
+    "scripts/audit-trial.py": "2fa7a6a4efb3bc802e4745b033ed5ac9afa12651a0d33137594daea3e28fc157",
+    "scripts/buffer_state.py": "f6a07f59a4584c9ce3d80179476014988bab21642380f79525bcab6cb5723728",
+    "scripts/build-native-recorded.py": "b82f5d10fa8cdd2e8d2062ad5e0c89aabf57619f07e9502a0fe4301bc54714ea",
+    "scripts/capture-completion.py": "72c1948145ebdd693a79f0328b9b0c382a37b30fe5858cd9ea09f2132d22be4a",
+    "scripts/capture-minimal-cl.py": "baccd93f210b955128cc96245dc4dcd7d2654119926806c7412d8f80f52e9998",
+    "scripts/capture-minimal-original.py": "6ee54acec2b088ed0ff4407840f57d2ce38976140a9c3151a77aff9465ee45cf",
+    "scripts/capture-native.py": "082347017b7f36e14058a707d18624687990a9c33ba8fd7aa8b3d7e88576ed41",
+    "scripts/capture-original.py": "c9cb2679a433993427dea1bb29067a775883a0dd526cd036ce97e774b1d98978",
+    "scripts/capture_native_support.py": "f1cf7400178b5a81fbe7e07446264689a80ea64466ef6e4e0af651b3703a1262",
+    "scripts/check-compiled-build.py": "84033d4bbe7d9e2305a2dc86c9ac6509ae19cdca1a7f7d5029a91f0fc95abdf5",
+    "scripts/check-completion-negative.py": "235ba01f4e9cc846b5a90d8aba4834307e23b6d45519bb032c63cd83c32371bc",
+    "scripts/check-exports.py": "7cb836924ab8d43c329e37f6b249b0030561b93480b95b37292bd402b73b9db4",
+    "scripts/check-main-frontier-negative.py": "c02c2644f8eca02b7c3d3b6cc5445227c3a51f8ebefa6f8cab26f32f95307ff2",
+    "scripts/check-main-state-negative.py": "3c6378ad4c17958188afd7ccf6b647b3477525cc4143cada75716637eef76cc2",
+    "scripts/check-minimal-negative.py": "70751f2ffe653cf477b9a39f3707c16e269229211974c8a61ceb46b5eed54f3e",
+    "scripts/check-output-pdb-negative.py": "e7d1280e00bcd539fd8f4a82ed8cd71861f4ef698fffc2c0c4fcefb3195a0108",
+    "scripts/check-pair-negative.py": "2a2d984aba32650ac77a92e42944d19c5383eb544467b6791549ec6d03e3ff64",
+    "scripts/check-pair.py": "ac0ae3627414aa09cc87ff5a4c3505aa25a27ca9719cedfb10e57c8774fad890",
+    "scripts/check-pch-negative.py": "d334518e8ca9798b495d8feefc7f788e5576e1bb4f045d3d33f968434b776340",
+    "scripts/check-pch-prospective.py": "f1d2b4b2b529ccdf8c88cd95f555b67ea680de08b3179bfd516ef72501307d61",
+    "scripts/check-pdb-negative.py": "33a58d5ff18d137c2733cee38078c07715fae278386478cedd0b773a9d9f06c6",
+    "scripts/check-pool-negative.py": "b153a55194f4fb96adbffdbf339cb4d51058d75737f46e39e4c6cc2369cab087",
+    "scripts/check-prototype-negative.py": "a514acf18f6b7f729701d4c53f0c83fbd5ec2f3058b8829005b7e1ee110cba7e",
+    "scripts/check-signature-negative.py": "a4f0293c1925aa917ea9846154f2ca1513e7859b32ab66ecb7c9d55769ca5c97",
+    "scripts/check-source-reuse.py": "48441c232c3f2697d26c6ef63f5fc8a5626465c43dcaab2a8315dcefe48eda46",
+    "scripts/check-state-negative.py": "678c923832664a6820f440f79ac350e62bb8065e90a16904490a95a5b1fa4ff0",
+    "scripts/check-trial-negative.py": "651082a7e3332fb8cac2daafab6e0122a3f39eeaf3007dde09ff4e0295c1433b",
+    "scripts/check-trial.py": "58dfce7d1058fe372914858a3859dc4dc081923fc21d20c494519780f55b0891",
+    "scripts/check-value-negative.py": "b95c83ec0216ee350cebcc142da6130c1095b7be2c1889d970c1c27c23ceed1b",
+    "scripts/compiler_state.py": "1d226e7e32cf936864a43df23453b27a6983dba18270e6be98e78514bdf474fa",
+    "scripts/completion_state.py": "1a09ab72d67636c1123c9d97b1e1b6efd6ebe002be1bb2ba3c9e82078efa13b9",
+    "scripts/fixtures.py": "171d985c37678e9aa825e29b24ecf1f4da896073520a9cc36510a971d8db8a5c",
+    "scripts/groundwork.py": "6292beb61ea701638995b71535c8f3ad513edac304ac7fdef638deae1bf52da1",
+    "scripts/main_fields.py": "44b37b9531e69471d239b26954f87899722b17c4f810dec0d072a1f60b9ed05b",
+    "scripts/main_state.py": "58a68d5159e8fd670836fffeae7e8d13d3cdbe2d052eccb9c4de7b804abb6417",
+    "scripts/output_pdb_state.py": "1e4d0285bc682f65c30bb67782f9321833c5610f83f2798ec5075fe27c1bbee6",
+    "scripts/pass_state.py": "ce843463eb393eb0cb43edf8745d6238911a8f5ac58401880905d01a97c31fb3",
+    "scripts/pch_state.py": "87dd28ca18b8c98aea2c7b070a3a2945628e39d5d191c89e2a2b04f88cc377d9",
+    "scripts/pdb_state.py": "0c904505ca697bd527d38ef173732b7e4d5082efbeaa1d986119dba7612c79b5",
+    "scripts/pool_state.py": "9e994a285a1d38f2909504050b79bf4074a348a553987f8682b54b4d4b5a82bf",
+    "scripts/prospective.py": "1e7945552f2e4f66da1024c3aa144cba9d8a3e4220f60a3d0735856709ad56b3",
+    "scripts/prototype_state.py": "9f8ce71763f5619c63a696e8ddbb04e1f79e513d2195abee25c7b8a010aa8755",
+    "scripts/provenance.py": "61bd9c8f59f692d4b383d57bfe1be14493d10b2df46d5f8ab3aefca3d567dbfa",
+    "scripts/signature_state.py": "da8c8c6765b502174ee5f93dc95d5be1b4bd3077ac2d600940edf3df0bac69b6",
+    "scripts/update-runtime.py": "0e474747542ef3d66b5d4443a3be210dfa7fcd33a763cd084ee3ddfd6a29803d",
+    "scripts/value_state.py": "6a39daa1236f7fe800cacd908001654ac220699cabbdf2eaaea18b62758fd22e",
+    "scripts/wine-tool.py": "d67f0456918404ba130b1b7de86017130eee3392290dce7812e2c63e4e2e73b2",
+    "scripts/wine_tool_support.py": "9fcb647a065a3cd0b377e2d8d47facfd40eedf1ea648e7f6e71ae2637da670ee"
+  },
+  "fresh_core": 47,
+  "fresh_main_state": 50,
+  "controls_tool_sha256": "6575be33131c2194225a104d427c310eda263fccfaf075753dec62ed02612d35",
+  "current_auditor_sha256": "3c1e3f2ea5dc50c402381f3b0c63b7d38355d6f2525c11f5c28e16ebb9e2d83c",
+  "auditor_report_byte_identical": true,
+  "unchanged_family_negative_results_not_rerun": [
+    {
+      "path": "cases/minimal/evidence/pch-joint-normal/pch-controls.json",
+      "sha256": "2134eb2416b28c958ee77606a72fff32220015b45cfda83b7151476cb2782a20",
+      "reason": "Old PCH field/receiver/reset assertions remain; actual independent main-entry anchor now verified by new focused guards. Current positive proof still checks entire PCH entry/return and all nine pool calls."
+    }
+  ],
+  "times": {
+    "original_build": 3.822457888163626,
+    "native_recorded_build": 1.8993257721886039,
+    "original_capture": 1.0673329010605812,
+    "native_capture": 0.5169371487572789,
+    "audit": 0.018309837207198143,
+    "core_controls": 22.42212578188628,
+    "main_controls": 19.33306767512113,
+    "fixture": {
+      "setup": 0.0014762543141841888,
+      "execution": 0.0028327377513051033,
+      "checks": 0.00033448822796344757,
+      "total": 0.005111927166581154
+    }
+  }
+}

@@ -35,6 +35,7 @@ static int pdb_probe, pdb_seeded;
 static DWORD pool_objects[16];
 static unsigned pool_count;
 static int prototype_probe, prototype_seeded;
+static int main_fields_probe;
 static int pch_state_probe, pch_member_probe, pch_member_seeded, pch_return_active;
 static DWORD pch_return_address, pch_entry_esp, pch_entry_edi;
 static BYTE pch_return_saved;
@@ -457,6 +458,30 @@ static void seed_output_buffer(unsigned index, DWORD rva)
             index, rva, saved, values[3]);
 }
 
+static void seed_main_initialized(BYTE *data, DWORD saved, int snapshot_copy)
+{
+    DWORD phase = snapshot_copy ? 7 : 11;
+    DWORD c9 = snapshot_copy ? 9 : 13;
+    DWORD flags = snapshot_copy ? 0x13572468 : 0x24681357;
+    SYSTEM_INFO info;
+    if (sizeof(info) != 36) fail("SYSTEM_INFO layout");
+    memset(&info, 0, sizeof(info));
+    info.dwOemId = snapshot_copy ? 0x56780003 : 0x12340002;
+    info.dwPageSize = snapshot_copy ? 8192 : 16384;
+    info.lpMinimumApplicationAddress = (LPVOID)(saved + (snapshot_copy ? 3000 : 3500));
+    info.lpMaximumApplicationAddress = (LPVOID)(saved + (snapshot_copy ? 3016 : 3516));
+    info.dwActiveProcessorMask = snapshot_copy ? 0x1122 : 0x3344;
+    info.dwNumberOfProcessors = snapshot_copy ? 7 : 9;
+    info.dwProcessorType = snapshot_copy ? 586 : 486;
+    info.dwAllocationGranularity = snapshot_copy ? 131072 : 262144;
+    info.wProcessorLevel = (WORD)(snapshot_copy ? 6 : 5);
+    info.wProcessorRevision = (WORD)(snapshot_copy ? 0x1234 : 0x4321);
+    memcpy(data + 0x13d8, &phase, 4);
+    memcpy(data + 0x12e0, &c9, 4);
+    memcpy(data + 0xde4, &flags, 4);
+    memcpy(data + 0x1508, &info, sizeof(info));
+}
+
 /* Explicit code-probe input: unknown original bytes stay on the ORIGINAL
  * side only. The native probe receives just the mapped semantic fields. */
 static void seed_restore_state(void)
@@ -470,15 +495,29 @@ static void seed_restore_state(void)
     if (!data) fail("restore seed allocation");
     readmem(base + 0x5e000, data, 6548);
     memcpy(data + 0x1530, &first, 4);
+    saved = (DWORD)VirtualAllocEx(child, NULL, 6548, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
+    if (!saved) fail("restore seed remote allocation");
+    if (main_fields_probe) seed_main_initialized(data, saved, 1);
     file = fopen("restore-original-input.bin", "wb");
     if (!file || fwrite(data, 1, 6548, file) != 6548) fail("restore seed record");
     fclose(file);
-    saved = (DWORD)VirtualAllocEx(child, NULL, 6548, MEM_COMMIT | MEM_RESERVE, PAGE_READWRITE);
-    if (!saved) fail("restore seed remote allocation");
     write_mem(saved, data, 6548);
+    if (main_fields_probe) {
+        seed_main_initialized(data, saved, 0);
+        write_mem(base + 0x5f3d8, data + 0x13d8, 4);
+        write_mem(base + 0x5f2e0, data + 0x12e0, 4);
+        write_mem(base + 0x5ede4, data + 0xde4, 4);
+        write_mem(base + 0x5f508, data + 0x1508, 36);
+        fprintf(events, "main-fields-seed bytes=52 snapshot-phase=7 live-phase=11 snapshot=%08lx pointers=owned\n", saved);
+    }
     free(data);
     write_mem(base + 0x57818, &saved, 4);
     write_mem(base + 0x5f530, &zero, 4);
+    if (main_fields_probe) {
+        DWORD command[3];
+        command[0] = 17; command[1] = 23; command[2] = saved + 4000;
+        write_mem(base + 0x55c34, command, sizeof(command));
+    }
     write_mem(base + 0x5781c, &count, 4);
     callbacks[0] = base + 0x12365; callbacks[1] = base + 0x12377;
     write_mem(base + 0x57820, callbacks, 8);
@@ -666,6 +705,12 @@ int main(int argc, char **argv)
         if (probe) {
             if (fscanf(probe, "%lx %lx", &object, &bytes) != 2 || object != 0x58f68 || bytes != 68) fail("PCH state probe metadata");
             pch_state_probe = 1; fclose(probe);
+        }
+        probe = fopen("main-fields-probe.txt", "r");
+        if (probe) {
+            DWORD phase, c9, flags, info, known, command;
+            if (fscanf(probe, "%lx %lx %lx %lx %lx %lx", &phase, &c9, &flags, &info, &known, &command) != 6 || phase != 0x5f3d8 || c9 != 0x5f2e0 || flags != 0x5ede4 || info != 0x5f508 || known != 52 || command != 0x55c34) fail("main fields probe metadata");
+            main_fields_probe = 1; fclose(probe);
         }
         probe = fopen("pch-member-probe.txt", "r");
         if (probe) {

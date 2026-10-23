@@ -9,6 +9,8 @@ import output_pdb_state
 import pool_state
 import prototype_state
 import pch_state
+import main_fields
+import main_state
 PROJECT=Path(__file__).resolve().parents[1]
 def i32(data,offset):return struct.unpack_from('<i',data,offset)[0]
 def u32(data,offset):return struct.unpack_from('<I',data,offset)[0]
@@ -21,7 +23,7 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
   native_ranges=sorted((r['native_offset'],r['native_offset']+r['bytes']) for r in rows)
   assert all(a[1]<=b[0] for a,b in zip(native_ranges,native_ranges[1:]))
  assert fields['allocation_bytes']==6548
- assert {r['name']:(r['original_rva'],r['bytes'],r['native_offset']) for r in fields['modeled_initialized']}=={'first_call':(0x5f530,4,0)}
+ main_fields.expected_fields(fields)
  expected_bss={'saved_data':(0x57818,4,0),'cleanup_count':(0x5781c,4,4),'cleanup_callbacks':(0x57820,128,8),'context':(0x518c8,12,136),'current_context':(0x518b8,12,148),'contexts':(0x51858,72,160)}
  expected_bss.update(buffer_state.expected_fields(fields))
  expected_bss.update(value_state.expected_fields(fields,expected['rva']))
@@ -29,23 +31,28 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  expected_bss.update(pool_state.expected_fields(fields))
  expected_bss.update(prototype_state.expected_fields(fields))
  expected_bss.update(pch_state.expected_fields(fields))
+ expected_bss.update(main_fields.COMMAND)
  assert {r['name']:(r['original_rva'],r['bytes'],r['native_offset']) for r in fields['modeled_bss']}==expected_bss
  first=fields['modeled_initialized'][0]
  assert first['snapshot_original_offset']==first['original_rva']-fields['original_initialized_region_rva'][0]==0x1530
  assert first['snapshot_native_offset']==first['native_offset']==0
  assert i32((original/'compiler-data-000.bin').read_bytes(),0x1530)==first['default']==1
  current=state['compiler_state'];layout=current['native_layout']
- assert layout=={'initialized_size':4,'bss_size':544+16*len(fields['pools'])+20+68,'pch_state':708,'pch_state_size':68,'pch_members':pch_state.MEMBERS,'mapping_handle_count':6,'empty_record_prototype':688,'empty_record_prototype_size':20,'pools':544,'pool_count':len(fields['pools']),'pool_size':16,'pool_members':{'cursor':0,'remaining':4,'minimum_pages':8,'arena':12},'pdb_signature':540,'literal':520,'saved_literal':528,'saved_literal_available':536,'value_size':8,'first_call':0,'saved_data':0,'cleanup_count':4,'cleanup_callbacks':8,'context':136,'current_context':148,'contexts':160,'contexts_stride':12,'output_buffers':232,'output_buffer_count':len(fields['output_buffers']),'output_buffer_size':36,'buffer_members':{name:native for name,(original,native,size) in buffer_state.FIELDS.items()},'context_members':{'object':0,'value':4,'saved_frame':8}}
+ assert layout=={'initialized_members':{name:native for name,(rva,size,native) in main_fields.INITIALIZED.items()},'system_info_size':36,'system_info_members':main_fields.SYSTEM_MEMBERS,'command_members':{name:native for name,(rva,size,native) in main_fields.COMMAND.items()},'initialized_size':52,'bss_size':788,'pch_state':708,'pch_state_size':68,'pch_members':pch_state.MEMBERS,'mapping_handle_count':6,'empty_record_prototype':688,'empty_record_prototype_size':20,'pools':544,'pool_count':len(fields['pools']),'pool_size':16,'pool_members':{'cursor':0,'remaining':4,'minimum_pages':8,'arena':12},'pdb_signature':540,'literal':520,'saved_literal':528,'saved_literal_available':536,'value_size':8,'first_call':0,'saved_data':0,'cleanup_count':4,'cleanup_callbacks':8,'context':136,'current_context':148,'contexts':160,'contexts_stride':12,'output_buffers':232,'output_buffer_count':len(fields['output_buffers']),'output_buffer_size':36,'buffer_members':{name:native for name,(original,native,size) in buffer_state.FIELDS.items()},'context_members':{'object':0,'value':4,'saved_frame':8}}
  data=(original/('compiler-data-%03d.bin'%sequence)).read_bytes();bss=(original/('compiler-bss-%03d.bin'%sequence)).read_bytes()
  assert len(data)==6548 and len(bss)==0xa06c
- buffer_state.validate(fields,original,bss,current)
- value_state.validate(original,native,fields,state,sequence,probe,candidate,PROJECT)
- signature_state.validate(original,native,fields,state,sequence,probe,candidate,PROJECT)
- pdb_state.validate(original,native,fields,state,sequence,probe,candidate,PROJECT)
- output_pdb_state.validate(original,native,fields,state,sequence,probe,candidate,PROJECT)
- pool_state.validate(original,native,fields,state,sequence,probe,candidate,PROJECT)
- prototype_state.validate(original,native,fields,state,sequence,probe,candidate,PROJECT)
- pch_state.validate(original,native,fields,state,sequence,probe,candidate,PROJECT)
+ prefix_state,prefix_sequence=state,sequence
+ if expected['kind']=='main-helper':
+  prefix_state,prefix_sequence=main_state.boundary(original,native,state,sequence,module,candidate,probe)
+ prefix_bss=(original/('compiler-bss-%03d.bin'%prefix_sequence)).read_bytes()
+ buffer_state.validate(fields,original,prefix_bss,prefix_state['compiler_state'])
+ value_state.validate(original,native,fields,prefix_state,prefix_sequence,probe,candidate,PROJECT)
+ signature_state.validate(original,native,fields,prefix_state,prefix_sequence,probe,candidate,PROJECT)
+ pdb_state.validate(original,native,fields,prefix_state,prefix_sequence,probe,candidate,PROJECT)
+ output_pdb_state.validate(original,native,fields,prefix_state,prefix_sequence,probe,candidate,PROJECT)
+ pool_state.validate(original,native,fields,prefix_state,prefix_sequence,probe,candidate,PROJECT)
+ prototype_state.validate(original,native,fields,prefix_state,prefix_sequence,probe,candidate,PROJECT)
+ pch_state.validate(original,native,fields,prefix_state,prefix_sequence,probe,candidate,PROJECT)
  assert i32(data,0x1530)==current['initialized']['first_call']
  saved=u32(bss,0x7818);b=current['bss']
  assert bool(saved)==bool(b['saved_data'])
@@ -86,7 +93,7 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  if expected['kind']=='compiler-allocation':
   assert current['initialized']['first_call']==1
   assert saved==b['saved_data']==0 and current['snapshot'] is None
- elif expected['kind'] in ('initialization-callback','initialization-helper','compiler-main'):
+ elif expected['kind'] in ('initialization-callback','initialization-helper','compiler-main','main-helper'):
   assert current['initialized']['first_call']==0 and saved and b['saved_data']
   snapshot=(original/('compiler-snapshot-%03d.bin'%sequence)).read_bytes();assert len(snapshot)==6548
   expected_first = candidate['restore_probe']['snapshot_first_call'] if probe=='restore' else 1
@@ -95,7 +102,7 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  final_reuse=json.loads((native/'receipt.json').read_text()).get('pdb_reuse',0) if probe=='restore' else 0
  assert current['reuse_state']==final_reuse and b['cleanup_count']==len(registered)
 
- if probe=='normal' and expected['kind'] in ('initialization-callback','initialization-helper','compiler-allocation','compiler-main'):
+ if probe=='normal' and expected['kind'] in ('initialization-callback','initialization-helper','compiler-allocation','compiler-main','main-helper'):
   raw=(original/'events.txt').read_text()
   rows=re.findall(r'^trap seq=\d+ rva=0000e799 .*stack=([0-9a-f,]+)$',raw,re.M)
   assert len(rows)==1 and int(rows[0].split(',')[1],16)==6548
@@ -104,7 +111,9 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
   match=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] allocate_compiler_memory$',subprocess.check_output(['nm','-S','--defined-only',str(PROJECT/'build/native/c1-host')],text=True),re.M)
   start,size=(int(v,16) for v in match.groups());assert start<=observed[0]['pc']<start+size
  if probe=='restore':
-  validate_restore(original,native,state,sequence,module,candidate,symbols,fields)
+  validate_restore(original,native,prefix_state,prefix_sequence,module,candidate,symbols,fields)
+ if expected['kind']=='main-helper':
+  main_state.validate_writes(original,native,fields,prefix_state,state,prefix_sequence,sequence,module,candidate,probe)
 
 
 def validate_restore(original,native,state,sequence,module,candidate,symbols,fields):
