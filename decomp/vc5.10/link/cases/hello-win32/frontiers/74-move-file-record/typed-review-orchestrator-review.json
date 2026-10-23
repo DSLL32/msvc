@@ -1,0 +1,16 @@
+{
+  "status": "approved for74 ordinary promotion",
+  "manifest_sha256": "8f82211b67d4261b8eb61632e90dada503c6157102366ad56190a11e95a66e7d",
+  "acceptance_sha256": "4dd1818e45a0038dbb20b42ad8e0a456e1ed3ea1edf23633547cea338e126f71",
+  "mapped_input_sha256": "7bf7a7992c4a7b21e726e3ce081751c3e7826246ad54b7178d18ccf41b40e796",
+  "checks": [
+    "57 frozen source/snapshot and695 raw artifact bindings independently match",
+    "current exact trial reconstructed from73 prefix plus candidate; both capture bindings pass",
+    "actual entry trace/status/streams/artifacts and complete typed boundary independently pass",
+    "complete152B original body independently reviewed against readable C",
+    "full394B following owner and all9ESP operands/threeRET16 independently reviewed; thirdformal lowBYTE only, full physicalDWORD retained",
+    "independent wrongRET24/copied-head input controls reject;268 existing affected controls reviewed",
+    "87 fullgraph/80 strictRET with exact import/resolver gates remain bound"
+  ],
+  "scope": "Six real stack inputs; entire16x40B pool+64B table pre/post; correct global storage identities and owned10B name. Pending open_mapped_file receives no body credit. No forced stack-word equivalence. Existing failed observer raw remains retained."
+}
