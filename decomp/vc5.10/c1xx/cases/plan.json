@@ -3,7 +3,7 @@
   "project": "vc5.10",
   "toolchain": "5.10",
   "binary": "C1XX.DLL",
-  "state": "autonomous minimal C++ reconstruction: pool08 wrapper accepted; next callback32",
+  "state": "autonomous minimal C++ reconstruction: pool09 wrapper accepted; next callback33",
   "cases": [
     {
       "id": "dll-lifecycle-and-exports",
