@@ -905,7 +905,10 @@
     "@find_assignment_operand@8",
     "@distribute_unary_tree@4",
     "_addition_overflows",
-    "@split_register_transfer_edge@16"
+    "@split_register_transfer_edge@16",
+    "@integer_width_mask@4",
+    "@register_source_changed_between@12",
+    "@register_rematerialization@4"
   ],
   "driver": [
     {
@@ -3346,8 +3349,7 @@
     {
       "name": "@integer_width_mask@4",
       "start": 138384,
-      "end": 138385,
-      "provisional": true
+      "end": 138392
     },
     {
       "name": "@narrow_comparison_condition@4",
@@ -3410,8 +3412,7 @@
     {
       "name": "@register_source_changed_between@12",
       "start": 141888,
-      "end": 141889,
-      "provisional": true
+      "end": 142046
     },
     {
       "name": "@machine_operand_bytes@8",
@@ -6606,6 +6607,11 @@
       "start": 162816,
       "end": 162817,
       "provisional": true
+    },
+    {
+      "name": "@register_rematerialization@4",
+      "start": 187088,
+      "end": 187102
     }
   ],
   "cases": {

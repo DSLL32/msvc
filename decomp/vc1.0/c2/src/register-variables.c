@@ -96,3 +96,10 @@ RegisterVariable *__fastcall lookup_register_variable(unsigned short number, int
     if (required) compiler_internal_error("@(#)color.c:1.101", 0x797);
     return 0;
 }
+
+/* Original [0002dad0,0002dade). Required lookup retains the block identity
+   recorded by global allocation for a rematerializable register. */
+struct MachineBlockHeader *__fastcall register_rematerialization(unsigned short number)
+{
+    return lookup_register_variable(number, 1)->rematerialization;
+}

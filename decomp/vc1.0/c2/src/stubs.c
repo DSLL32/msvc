@@ -168,11 +168,9 @@ int __fastcall register_partial_write_safe(unsigned short reg) { __asm int 3 }
 #include "instruction-rewrite.h"
 int __fastcall narrow_result_safe(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall expand_constant_multiply(MachineInstruction *instruction) { __asm int 3 }
-unsigned __fastcall integer_width_mask(unsigned bytes) { __asm int 3 }
 int __fastcall narrow_comparison_condition(unsigned condition) { __asm int 3 }
 unsigned __fastcall integer_sign_bit(unsigned bytes) { __asm int 3 }
 unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
-int __fastcall register_source_changed_between(MachineInstruction *first, MachineInstruction *last, unsigned short reg) { __asm int 3 }
 unsigned __fastcall byte_register_available(unsigned short reg) { __asm int 3 }
 void __fastcall append_embedded_record(Node *node) { __asm int 3 }
 

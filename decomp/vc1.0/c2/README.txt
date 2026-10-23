@@ -2249,3 +2249,11 @@ Loop instruction selection reached: checkpoint901
 native fixtures pass. See cases/loops-global-transfers.json for extent union, limits
 and measured timing splits. Minimal/hello objects remain exact after timestamp;
 loop620-byte final object is incomplete.
+
+Register source availability and integer masks: checkpoint904
+----------------------------------------------
+3 whole functions pass fresh original/native matching; current frontier
+@instruction_precedes_region_entry@4. 826 graph checks, canonical/native/W3 and all three
+native fixtures pass. See cases/loops-source-dependencies.json for extent union, limits
+and measured timing splits. Minimal/hello objects remain exact after timestamp;
+loop620-byte final object is incomplete.

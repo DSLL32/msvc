@@ -2,6 +2,7 @@
 #include "register-use.h"
 #include "tree-rewrite.h"
 #include "algebra.h"
+#include "register-variables.h"
 #include <recon.h>
 extern int optimize_speed, cpu_model, optimization_risc;
 
@@ -1337,4 +1338,35 @@ MachineInstruction *__fastcall insert_machine_after(MachineInstruction *previous
     instruction->next->previous = instruction;
     previous->next = instruction;
     return instruction;
+}
+
+/* Original80388..8039c: masks indexed by the integer operand's byte
+   width. Zero and the unused three-byte width have no integer mask. */
+static const unsigned integer_width_masks[5] = {0, 0xff, 0xffff, 0, 0xffffffffU};
+/* Original [00021c90,00021c98). Integer operations use widths1,2 or4. */
+unsigned __fastcall integer_width_mask(unsigned bytes)
+{
+    return integer_width_masks[bytes];
+}
+
+/* Original [00022a40,00022ade). A rematerializable register retains its
+   source only when that source survives the intervening instruction stream. */
+int __fastcall register_source_changed_between(MachineInstruction *first,
+    MachineInstruction *last, unsigned short reg)
+{
+    MachineBlockHeader *block;
+    MachineInstruction *definition;
+    unsigned operation;
+    if (first->next == last) return 0;
+    block = register_rematerialization(reg);
+    if (!block) return 0;
+    definition = block->next;
+    if ((definition->next->opcode & 15) != 7) return 1;
+    operation = MACHINE_OP(definition);
+    if (operation == MC_LEA)
+        return address_changed_between(first, last, &definition->operands[1]) != 0;
+    if (operation != MC_MOV && operation != MC_MOVZX && operation != MC_MOVZXW &&
+        operation != MC_MOVSX && operation != MC_MOVSXW) return 1;
+    return operand_changed_between(first, last, &definition->operands[1],
+        MACHINE_BYTES(definition)) != 0;
 }

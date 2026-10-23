@@ -1,0 +1,9 @@
+{
+  "executable_sha256": "af78d6fde250e7efc4003557435b2a3e3934039b133b6a7e1eebd94d1b3d06a9",
+  "config_sha256": "734edc74df78a1d2b39e054e78bf1bb41d38f5278dec045f545103352f9a00bd",
+  "seconds": 0.1351849650964141,
+  "logical": "@register_rematerialization@4",
+  "matched": true,
+  "log_sha256": "3d7229d5e9edf99dd15579e84276f4795a2898c5d5486c529d5ca0c333e88a4a",
+  "directory": "/root/.ai-tmp/vc1.0-c2/loops-gdb-kvt629jx"
+}

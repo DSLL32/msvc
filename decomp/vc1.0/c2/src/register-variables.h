@@ -35,4 +35,5 @@ void __fastcall record_register_variable_range(unsigned short number, short firs
 RegisterVariable *__fastcall create_register_variable(unsigned short number);
 RegisterVariable *__fastcall new_register_variable(unsigned short number);
 RegisterVariable *__fastcall lookup_register_variable(unsigned short number, int required);
+struct MachineBlockHeader *__fastcall register_rematerialization(unsigned short number);
 #endif

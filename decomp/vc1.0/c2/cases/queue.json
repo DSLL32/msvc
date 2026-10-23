@@ -13,7 +13,7 @@
       "case": "optimizer-loops",
       "after": "hello-win32",
       "phase": "c2",
-      "status": "active; four functions accepted; constant-bit reduction next",
+      "status": "active; 904 accepted frontiers; machine-region simplification",
       "description": "Nested loops, branches, loop-carried integer values and optimizer induction/control flow",
       "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only",
       "fixture_manifest": "../fixtures/c2-optimizer-loops/manifest.json"
