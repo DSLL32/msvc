@@ -63,3 +63,19 @@ actual console/input APIs. Static analysis identifies main at VA `0x4242e0`
 called with EAX=argc and EDX=argv by CRT code at `0x438199`. Its Spawn callback
 and cleanup tail differ from the later source; names/extents and any shared
 entry tails must be proved against this binary before acceptance.
+
+A separate, explicitly approved unmasked debugger observation completed with the
+new NUL-input/regular-output transport in 3.321 seconds (2.934 seconds in the
+debugger loop), observing 1,109 import entries. Main received argc=2 and the actual
+patched path plus `?`. It opened its own executable for appended resources;
+five `wlink.hlp` searches failed. The pagination read requested one byte from NUL
+and succeeded with zero bytes. Console mode queries/changes failed; their raw
+output memory is not credited as a defined mode. No input console is needed for
+this particular help capture. These observations do not retroactively change the
+older baseline's unknown inputs or establish application acceptance.
+
+`cases/help/observer-capture-01/` retains the new receipt, exact streams and a
+clearly derived, redacted compressed event view. The complete Windows environment
+block and raw log remain private mode0600 in scratch; their identities are bound
+by the receipt. The derived view is not presented as raw evidence. Actual stdout
+matches the old baseline by hash, which is an output comparison only.
