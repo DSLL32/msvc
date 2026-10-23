@@ -24,7 +24,8 @@
     "rc_notify_progress",
     "rc_preprocess",
     "rc_widen_arguments",
-    "rc_preprocessor_main"
+    "rc_preprocessor_main",
+    "rc_next_argument"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

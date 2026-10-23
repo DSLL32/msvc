@@ -66,11 +66,6 @@ void __stdcall rc_input_warning(unsigned code)
     __asm int 3
 }
 
-WCHAR *__cdecl rc_next_argument(void)
-{
-    __asm int 3
-    return NULL;
-}
 int __stdcall rc_scan_options(const RcOption *options,WCHAR *argument,
                              RcNextArgument next,int duplicate)
 {

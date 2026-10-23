@@ -77,3 +77,13 @@ int __cdecl rc_preprocessor_main(int count,WCHAR **arguments)
     rc_close_preprocessor();
     return rc_result;
 }
+
+WCHAR *__cdecl rc_next_argument(void)
+{
+    --rc_cpp_remaining;
+    if(rc_cpp_remaining>0){
+        ++rc_cpp_arguments;
+        return *rc_cpp_arguments;
+    }
+    return NULL;
+}

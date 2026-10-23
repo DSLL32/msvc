@@ -25,7 +25,8 @@
     "rc_notify_progress",
     "rc_preprocess",
     "rc_widen_arguments",
-    "rc_preprocessor_main"
+    "rc_preprocessor_main",
+    "rc_next_argument"
   ],
   "functions": [
     {
@@ -518,7 +519,7 @@
       "abi": "cdecl",
       "stack_bytes": 0,
       "kind": "application",
-      "stub": true
+      "stub": false
     },
     {
       "name": "rc_scan_options",

@@ -370,10 +370,11 @@ static int trap(HANDLE thread,DWORD address)
             hexbytes("line-prefix",words[1],wide_string_bytes(words[1]));hexbytes("line-text",words[2],wide_string_bytes(words[2]));
             {DWORD current;readmem(base+0x16ce8,&current,4);fprintf(events,"line-current-number %lu\n",current);}
         }
-        if(address==base+0xbc80||address==base+0xbc61){
+        if(address==base+0xbc80||address==base+0xbc61||address==base+0x293e){
             DWORD pointer,count,vector,total,length;char label[80];
             if(address==base+0xbc80){count=words[1];vector=words[2];}
             else{readmem(base+0x27fb8,&count,4);readmem(base+0x27fbc,&vector,4);}
+            if(address==base+0x293e){++count;vector-=4;hexbytes("option-argument",words[2],wide_string_bytes(words[2]));}
             if(count!=20||!vector)fail("wide-preprocessor-scope");total=4*(count+1);
             fprintf(events,"wide-args %lu %08lx\n",count,vector);
             for(n=0;n<count;++n){readmem(vector+4*n,&pointer,4);length=wide_string_bytes(pointer);total+=length;sprintf(label,"wide-argv-%u",n);hexbytes(label,pointer,length);fprintf(events,"wide-pointer %u %08lx\n",n,pointer);}

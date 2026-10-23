@@ -1,0 +1,89 @@
+{
+  "function": "rc_next_argument",
+  "original_start": "0xbc61",
+  "original_end": "0xbc80",
+  "original_code_bytes": 31,
+  "abi": "cdecl0/ret0 returning WCHAR*",
+  "accepted_application_functions": 21,
+  "accepted_application_bytes": 8079,
+  "provisional_application_denominator": 66295,
+  "provisional_coverage_percent": 12.186439399653066,
+  "crt_bytes": 555,
+  "compiler_support_bytes": 47,
+  "import_thunk_bytes": 12,
+  "matched_frontier": "rc_scan_options",
+  "raw_original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/next-argument-trial-original-01",
+  "raw_native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/next-argument-trial-native-01",
+  "builds": {
+    "original": {
+      "seconds": 1.7823160970583558,
+      "status": 0
+    },
+    "native": {
+      "seconds": 1.623562010936439,
+      "status": 0
+    }
+  },
+  "original_seconds": 1.0169147420674562,
+  "native_gdb_seconds": 0.8313024723902345,
+  "audit_seconds": 0.06619557365775108,
+  "negative_controls": {
+    "fresh": 30,
+    "reused": 0,
+    "reason": "Original/native controller now observes the scanner frontier and callback ABI; changed premise reruns common controls."
+  },
+  "gate_sha256": "4bcc3e5ed09bd25038cc38bda16c09977da93b71be173e10a05bfa2d1170fc27",
+  "checker_versions": {
+    "decomp/vc5.10/rcdll/scripts/accept.py": "02616290681e1f8dec3ef63f6d47c16a5e34ade51e0789b7174f46a45aa3cd7b",
+    "decomp/vc5.10/rcdll/scripts/audit.py": "57fd11bdb9df16e8e266691fe2701da0875d526eec230a2a8b5ba78a740b3fc3",
+    "decomp/vc5.10/rcdll/scripts/cache-rich-reference.py": "1670892799170be7fa876a7eea48aa4d81357eb8e80b48ffd72282b8d06953ab",
+    "decomp/vc5.10/rcdll/scripts/capture-native.py": "fc8fb5629b1f2515eadf19201b838e83b7f4e34e3fa78375005f420b24efdfb3",
+    "decomp/vc5.10/rcdll/scripts/capture-original.py": "3c1ce31b2981afa02432957f478bc0220b5ec3ac0b826dd1519b155874d215fa",
+    "decomp/vc5.10/rcdll/scripts/check-abi.py": "83f3fffa968c62999e0272c64bf9d15a3c9626d45b93e3cb6cd9af61513b4201",
+    "decomp/vc5.10/rcdll/scripts/check-compiler-support.py": "59a4cebd7a658aa9870cfbb612bf50d919ad9f48f3d022c778c2dcd7f5bc101c",
+    "decomp/vc5.10/rcdll/scripts/check-completion.py": "c98946e5f142082737ce5bb72e47fdc6ad48430c77b55c5a2f8f93a6f121daf9",
+    "decomp/vc5.10/rcdll/scripts/check-initial.py": "f1e69f898368b7b2df6d68fbc7ee0d47f5babec355b9863a13f436335e0a0824",
+    "decomp/vc5.10/rcdll/scripts/check-plan.py": "34e66d1d7356daad243123672a2ceea8d15f4ea5a57d7bd2fe15d94a6d46320e",
+    "decomp/vc5.10/rcdll/scripts/check-rich-pair.py": "10061ba0d7e6c0602a0688543aa3ca16200eb59f4a91711e1c657fad41222bfd",
+    "decomp/vc5.10/rcdll/scripts/check-trial.py": "ea46359d73d9134a047c512e0419b6f512ef9e95dadba97e61e16b51e707f0a5",
+    "decomp/vc5.10/rcdll/scripts/compiler-frame-gdb.py": "0f2ea9470f79ff73c626dc93fd7c54d506a46d799827d739af2efac3c98f882d",
+    "decomp/vc5.10/rcdll/scripts/fixtures.py": "8039adf2390603d111d5aef75952a4959193a3b491f94e00ccf851f33cdd8847",
+    "decomp/vc5.10/rcdll/scripts/native-gdb.py": "d720662abfa2e2f546c951be6da4540d61bc2734b5aa52e96ad4c6f803bf05eb",
+    "decomp/vc5.10/rcdll/scripts/native-observers.py": "9d15142ebadad57a343e1a209752c22e7c14482cefc57f61f67d77c8ae162952",
+    "decomp/vc5.10/rcdll/scripts/native-preprocess.py": "41f8916fb8e8bd128f7ac02ed1f0ea9f225270d3c0359b443369807cec2717b2",
+    "decomp/vc5.10/rcdll/scripts/pe_inventory.py": "fb06b8d3138d32e185ad86bb5e2d3dc775bd0a304387537f8a97ae967a2c1869",
+    "decomp/vc5.10/rcdll/scripts/prepare-resources.py": "b32f452aa2534efabb780923d34675f6514c8e933ac2993896a415fb37bd24b7",
+    "decomp/vc5.10/rcdll/scripts/protocol.py": "b4937d8b12eebee778a1b38d1a571a4ea7edd1b65dfcd363c8836c40259ef0ee",
+    "decomp/vc5.10/rcdll/scripts/rich_protocol.py": "26e87f3c2dd0f0e1065378203c73f863e5bf66e4f2f11e3861fe5fd849fa3198",
+    "decomp/vc5.10/rcdll/scripts/source-snapshot.py": "c864e170725a110ad29fbc8dd9bad069b046ab30cfd9d4fadabf5e3fd0f5bd34",
+    "decomp/vc5.10/rcdll/scripts/wine-tool.py": "8bbce5c4f84dfc5eb820df7a502103009f26a89e86308bfa2eeb00d1b7e467bf",
+    "decomp/vc5.10/rcdll/data.json": "fa5c8a453d0eff8e1396f1ac6e346548b31fc4b44b4cdb8a5a43c3e48f82fbed"
+  },
+  "graph_audit_record": "audit-0023.json",
+  "help_fixture": {
+    "logical_name_aliases": {
+      "rcdll_main": "DllMain",
+      "recon_dll_entry": "_DllMainCRTStartup",
+      "rcdll_crt_init": "_CRT_INIT",
+      "rc_main": "main",
+      "rcdll_command_main": "main"
+    },
+    "case": "help",
+    "status": "pass",
+    "stdout_bytes": 589,
+    "application_entries": 9,
+    "seconds": {
+      "setup": 0.0038544796407222748,
+      "execution": 0.00311993807554245,
+      "checks": 0.0011500613763928413,
+      "total": 0.008786357007920742
+    },
+    "native_sha256": "b7a68f589259f098f85c6c75ba0633875f21b4a7d82b886f38c8b23c5f8a1459",
+    "reference_manifest_sha256": "387c741bdb3fa4d388da034d339b5d21e872667d27934bb570e03d448db05524"
+  },
+  "notes": [
+    "Remaining19/vectoradvance1 preserve all owned wide strings and complete input artifact.",
+    "Scanner receives exact -CP alias,actual typed descriptor table,cdecl0 getter pointer and duplicate0.",
+    "No new shared API behavior."
+  ]
+}

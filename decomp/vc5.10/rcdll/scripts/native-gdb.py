@@ -82,10 +82,10 @@ def capture():
             arguments['message']=bytes(gdb.selected_inferior().read_memory(int(message),length)).hex()
         if name=='rc_message':arguments['id']=int(frame.read_var('id'))
         if name=='rc_prepare_input':arguments['path']=frame.read_var('path').string()
-        if name in ['rc_preprocess','rc_widen_arguments','rc_preprocessor_main','rc_next_argument']:
-            caller=frame.older()if name=='rc_next_argument'else frame
+        if name in ['rc_preprocess','rc_widen_arguments','rc_preprocessor_main','rc_next_argument','rc_scan_options']:
+            caller=frame.older()if name in ['rc_next_argument','rc_scan_options']else frame
             count=int(caller.read_var('count'));preprocess_vector=caller.read_var('arguments');assert 0<count<=256
-            wide=name in ['rc_preprocessor_main','rc_next_argument']
+            wide=name in ['rc_preprocessor_main','rc_next_argument','rc_scan_options']
             arguments.update(count=count,argv=[]if wide else[preprocess_vector[i].string()for i in range(count)],prepared_lines=int(gdb.parse_and_eval('rc_prepared_lines')),current_line=int(gdb.parse_and_eval('rc_preparing_line')),filename=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('rc_filename')),514)).hex())
             if name=='rc_preprocess':arguments['unused']=int(frame.read_var('unused'))
             if wide:
@@ -104,10 +104,14 @@ def capture():
             # descriptor numbers and CRT array slots need not equal Wine's.
             file=frees[0]['input_file']
             arguments['closed_input']=bytes(gdb.selected_inferior().read_memory(file,32)).hex()
-            if name=='rc_next_argument':
+            if name in ['rc_next_argument','rc_scan_options']:
                 from importlib.machinery import SourceFileLoader
                 observer=SourceFileLoader('native_preprocess',str(Path(os.environ['RCDLL_NATIVE_SCRIPT']).parent/'native-preprocess.py')).load_module()
                 arguments['preprocessor']=observer.capture_preprocessor(config_path.parent/'preprocess-data.json')
+                if name=='rc_scan_options':
+                    arguments['scan']={field:int(frame.read_var(field))&0xffffffff for field in ['options','argument','next','duplicate']}
+                    arguments['scan']['argument_bytes']=observer.wide_bytes(int(frame.read_var('argument')))
+                    arguments['scan']['getter']=int(gdb.parse_and_eval('(void *)rc_next_argument'))&0xffffffff
         if name=='rc_notify_progress':
             parent=frame.older();assert parent.name()=='rc_prepare_input'
             arguments.update(kind=int(frame.read_var('kind')),value=int(frame.read_var('value')),current_line=int(gdb.parse_and_eval('rc_preparing_line')),towupper=json.loads((output.parent/'towupper.json').read_text()),prefix_results=json.loads((output.parent/'prefix-results.json').read_text()),line_format=json.loads((output.parent/'line-format.json').read_text()))

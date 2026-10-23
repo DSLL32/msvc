@@ -192,3 +192,14 @@ terminator and exact owned-allocation contents match at the preprocessor body.
 allocation, bounded original/native observation counts, 25 rejection controls
 and separate timings. Historical ANSI arguments retain their raw identities;
 only the two current temporary-path slots are mapped explicitly for this case.
+
+The embedded preprocessor entry is accepted (449 bytes), matching at its first
+argument fetch. Its 39 contextual settings, 31 option descriptors and nine nested
+letter switches agree with the original; the complete packed argument allocation
+and prepared UTF-16 input remain unchanged. [Verification](cases/resources-rich/preprocessor-main-verification.json)
+records 25 fresh rejection controls, compiler builds and split timings.
+
+The argument getter is accepted (31 bytes), matching at the option scanner with
+19 remaining arguments and the exact `-CP` alias. Its actual cdecl callback pointer,
+descriptor-table identity and duplicate flag are retained in the [verification](cases/resources-rich/next-argument-verification.json).
+Thirty fresh rejection controls cover the newly observed scanner contract.
