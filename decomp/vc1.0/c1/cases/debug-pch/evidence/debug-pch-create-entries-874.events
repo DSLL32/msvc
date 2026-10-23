@@ -1,0 +1,9 @@
+entry _finish_pch_debug_symbols rva 00026340 byte 83
+entry _hash_table_count@4 rva 00022ad0 byte 8b
+entry _initialize_hash_walk@8 rva 00022b10 byte 8b
+entry _next_hash_entry@4 rva 00022b30 byte 56
+entry _compare_legacy_enumerators rva 00038fc0 byte 8b
+entry _write_legacy_enum_members@12 rva 00038530 byte 83
+entry _write_legacy_signed_number@8 rva 00038bb0 byte 8b
+entry _finish_pch_type_records rva 00037ce0 byte c7
+exit 0

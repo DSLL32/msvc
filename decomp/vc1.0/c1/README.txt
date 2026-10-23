@@ -8,9 +8,9 @@ automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
 /O2 /Ob1 plus /Ob2 small functions with early returns, and the combined
 enum/long-record/literal/floating case.
 
-There are739 accepted source functions and862 accepted original entries.
-Accepted original extents cover221786/277234 code-section bytes (79.999567%):
-202537 frontend bytes,19075 CRT bytes and174 import-thunk bytes. This is a
+There are747 accepted source functions and874 accepted original entries.
+Accepted original extents cover222956/277234 code-section bytes (80.421593%):
+203189 frontend bytes,19587 CRT bytes and180 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Unvisited functions retain named trapping stubs.
 
@@ -32,12 +32,12 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds22 completed case histories to fresh
-shared-prefix original first-entry captures. All728 accepted application entries
+cases/original-entry-references.json binds23 completed phase histories to fresh
+shared-prefix original first-entry captures. All736 accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current all22 regression receipts are in cases/combined-types-literals/validation.json.
+current all23 regression receipts are in cases/debug-pch/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -98,7 +98,7 @@ Wrong entry order is rejected. scripts/capture-frontier.py validates the
 plan, frozen source dependencies and exact one-entry MSC_CMD_FLAGS environment.
 Full-reference captures and masked captures are explicit, never silent.
 
-Original compiler audits check739 function graphs and instruction boundaries,
+Original compiler audits check747 function graphs and instruction boundaries,
 286 state/default aliases,105 PCH roots and12 callbacks, the21-entry function
 shape cache, scalar options, pragmas, intrinsic groups and serialization data.
 The C grammar audit checks376 states,57904 actions/timings,227 productions and
@@ -130,7 +130,8 @@ cases/combined-types-literals completes the approved single combined case.
 Its original /Z7 /O2 transport and raw oracles are frozen; ten new functions
 cover floating arithmetic/comparison/conversion, richer escape/literal handling
 and a continued debug field list. Its C enum declarations lower to int and do
-not reach enum debug writers. All22 normal cases pass; no extra case is queued.
+not reach enum debug writers. That case is finished; the debug-PCH workflow
+below is now active.
 
 Shared graph audit
 ------------------
@@ -147,3 +148,14 @@ old candidate error and current validation. Historical raw evidence is unchanged
 derived entry projections pin its original receipt hashes and document the
 logical-name correction. scripts/check-graph-audit.py checks scratch mutations,
 including a regression to the old RET8 and an omitted external switch mask.
+
+Active debug-PCH workflow
+-------------------------
+cases/debug-pch is the one approved producer/consumer workflow now in progress.
+The /Z7 /Ycdebug.h producer is complete: all5 intermediates and its40167-byte
+PCH match exactly; all23 currently completed native phases pass. The consumer
+is queued next, with original /Yu transport and full outputs already frozen.
+Every enum-sort callback operand pair was observed in order on both sides,
+in addition to the ordinary original-backed first-entry trace. Debug-only
+callback observation uses explicit --trace-enum-callbacks; fixtures never run
+the original helper. No shared shim changes were needed.

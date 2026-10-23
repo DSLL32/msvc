@@ -29,6 +29,7 @@ def main():
     parser.add_argument('--debugger', required=True, type=Path,
                         help='Explicit original-only Win32 debugger executable')
     parser.add_argument('--unmasked', action='store_true')
+    parser.add_argument('--trace-enum-callbacks', action='store_true',help='Explicit debugger-only all-call enum comparator proof')
     parser.add_argument('--entry-from', type=int)
     parser.add_argument('--entry-to', type=int)
     options = parser.parse_args()
@@ -115,10 +116,17 @@ def main():
         command.append('separate-stderr')
     if entry_mode:
         command.append(wt.windows(plan))
+    host_environment = wt.environment()
+    host_environment.pop('C1_ENUM_CALLBACK_RVA',None)
+    if options.trace_enum_callbacks:
+        assert not entry_mode
+        callback = next(r for r in config['driver'] if r['name']=='_compare_legacy_enumerators')
+        assert callback['name'] in config['accepted']
+        host_environment['C1_ENUM_CALLBACK_RVA'] = '%x' % (callback['start']-original.base)
     preparation = time.perf_counter()-start
     run_start = time.perf_counter()
     with (directory/'host-stdout').open('wb') as host_out, (directory/'host-stderr').open('wb') as host_err:
-        result = subprocess.run(command, env=wt.environment(), stdout=host_out,
+        result = subprocess.run(command, env=host_environment, stdout=host_out,
                                 stderr=host_err, stdin=subprocess.DEVNULL, timeout=60)
     (directory/'capture-status.json').write_text(json.dumps(dict(
         host_exit=result.returncode,preparation_seconds=preparation,
@@ -133,6 +141,7 @@ def main():
     if canonical:
         shutil.copytree(work,directory/'work',copy_function=shutil.copy2)
     receipt = dict(case=str(case), phase=options.phase, unmasked=options.unmasked,
+                   enum_callback_trace=options.trace_enum_callbacks,
                    accepted_count=len(config['accepted']), accepted_sha256=hashlib.sha256(
                        json.dumps(config['accepted']).encode()).hexdigest(),
                    executable_sha256=sha(target), original_sha256=phase['sha256'],

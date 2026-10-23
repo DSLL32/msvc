@@ -2,6 +2,7 @@
 #include "builtins.h"
 #include "parser.h"
 #include "global-ir.h"
+#include "debug-info.h"
 #include <recon.h>
 
 SymbolScope *global_scope, *current_scope, *lookup_scope;
@@ -395,4 +396,14 @@ void __stdcall create_scope_buckets(SymbolScope *scope, FrontendSymbol *symbol)
     pool->remaining -= 64;
     pool->next += 64;
     activate_symbol_scope(scope);
+}
+
+/* Original0x36340..0x36359. Serialize the retained header declarations
+   before closing the separate PCH type sequence, unless errors occurred. */
+void finish_pch_debug_symbols(void)
+{
+    if (!error_count) {
+        serialize_scope(global_scope);
+        finish_pch_type_records();
+    }
 }

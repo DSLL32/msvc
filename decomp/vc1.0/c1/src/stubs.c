@@ -576,7 +576,6 @@ unsigned hash_symbol_index(void *key) { __asm { int 3 } return 0; }
 int hash_symbol_indices_equal(void *left, void *right) { __asm { int 3 } return 0; }
 
 /* Original 0x32ad0. */
-unsigned __stdcall hash_table_count(HashTable *table) { __asm { int 3 } return 0; }
 
 /* Original 0x40c10. */
 
@@ -814,11 +813,6 @@ unsigned short pdb_enum_type_index(FrontendSymbol *tag) { __asm { int 3 } }
 
 unsigned __stdcall serialize_legacy_symbol(unsigned char *destination, FrontendSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall add_legacy_type_fixup(FrontendSymbol *symbol, unsigned char *position, unsigned bytes) { __asm { int 3 } }
-void __stdcall initialize_hash_walk(HashWalk *walk, HashTable *table) { __asm { int 3 } }
-int __stdcall next_hash_entry(HashWalk *walk) { __asm { int 3 } return 0; }
-int __cdecl compare_legacy_enumerators(const void *left, const void *right) { __asm { int 3 } return 0; }
-unsigned __stdcall write_legacy_signed_number(unsigned char *destination, int number) { __asm { int 3 } return 0; }
-void __stdcall write_legacy_enum_members(EnumeratorSymbol **enumerators, unsigned first, unsigned limit) { __asm { int 3 } }
 
 
 
@@ -842,7 +836,6 @@ unsigned short write_codeview_signed_leaf(unsigned char *destination, int number
 
 void declare_pch_debug_library(void) { __asm { int 3 }  }
 
-void finish_pch_debug_symbols(void) { __asm { int 3 }  }
 
 void begin_browser_pch_record(void) { __asm { int 3 }  }
 

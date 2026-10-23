@@ -866,7 +866,19 @@
     "_truncate_extended",
     "_decode_escape@8",
     "_concatenate_string_literals@8",
-    "_begin_legacy_field_continuation"
+    "_begin_legacy_field_continuation",
+    "_finish_pch_debug_symbols",
+    "_hash_table_count@4",
+    "_initialize_hash_walk@8",
+    "_next_hash_entry@4",
+    "_qsort",
+    "_shortsort",
+    "_compare_legacy_enumerators",
+    "_swap",
+    "_write_legacy_enum_members@12",
+    "_write_legacy_signed_number@8",
+    "_finish_pch_type_records",
+    "import:SetEndOfFile"
   ],
   "driver": [
     {
@@ -4404,7 +4416,7 @@
     {
       "name": "_write_legacy_enum_members@12",
       "start": 296240,
-      "end": 296241
+      "end": 296580
     },
     {
       "name": "_reset_debug_type_records",
@@ -4604,7 +4616,7 @@
     {
       "name": "_finish_pch_debug_symbols",
       "start": 222016,
-      "end": 222017
+      "end": 222042
     },
     {
       "name": "_begin_browser_pch_record",
@@ -5445,22 +5457,22 @@
     {
       "name": "_initialize_hash_walk@8",
       "start": 207632,
-      "end": 207633
+      "end": 207659
     },
     {
       "name": "_next_hash_entry@4",
       "start": 207664,
-      "end": 207665
+      "end": 207747
     },
     {
       "name": "_compare_legacy_enumerators",
       "start": 298944,
-      "end": 298945
+      "end": 298963
     },
     {
       "name": "_write_legacy_signed_number@8",
       "start": 297904,
-      "end": 297905
+      "end": 297995
     },
     {
       "name": "_begin_legacy_field_continuation",
@@ -5486,6 +5498,11 @@
       "name": "_truncate_extended",
       "start": 313435,
       "end": 313476
+    },
+    {
+      "name": "_finish_pch_type_records",
+      "start": 294112,
+      "end": 294168
     }
   ],
   "cases": {
@@ -5590,6 +5607,10 @@
     "combined-types-literals": {
       "accepted_from": 852,
       "accepted_count": 862
+    },
+    "debug-pch-create": {
+      "accepted_from": 862,
+      "accepted_count": 874
     }
   },
   "buffered_streams": [

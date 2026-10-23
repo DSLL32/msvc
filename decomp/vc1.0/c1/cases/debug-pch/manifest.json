@@ -1,0 +1,194 @@
+{
+  "case": "Debug-bearing PCH creation and reuse",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "c1-create": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\debug-pch",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f producer.c -Ze -Zp8 -Gs -Foproducer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Ycdebug.h -Fpdebug.pch -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/consumer.c",
+          "bytes": 512,
+          "sha256": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/producer.c",
+          "bytes": 720,
+          "sha256": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/debug.h",
+          "bytes": 998,
+          "sha256": "4718d25835ad9ffa04ff62747a81a6f9a378d000e373cab30cb387613a13fbf4",
+          "mtime_ns": 1768480496000000000
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1-create/irgl",
+          "bytes": 462,
+          "sha256": "896de3fcb6e487ab63bf1ef28cca3004115b1ebe6c007ee1487f86938558ca89",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/c1-create/irsy",
+          "bytes": 87,
+          "sha256": "36ac6112d0029c38aad8bb0687a8a072b52b4f3f1ccc3bbb646a21b961369cd0",
+          "output_name": "irsy"
+        },
+        {
+          "path": "expected/c1-create/irex",
+          "bytes": 443,
+          "sha256": "f56bbfb71be9e9cf3e0692605596a19302fdff5fba8204ea635d4ba1562e6315",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/c1-create/irin",
+          "bytes": 26,
+          "sha256": "1ffe6fd137c8a030647b22444565a280996e59b6654e465d5f462e4bc81f5611",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/c1-create/irdb",
+          "bytes": 619,
+          "sha256": "d40478f383bb029f1d59fc9e7b6b5fbc27dd774cdd5d411e08a1e4c9c0d3f83a",
+          "output_name": "irdb"
+        },
+        {
+          "path": "expected/c1-create/debug.pch",
+          "bytes": 40167,
+          "sha256": "3336bc4295ab6dae33cc74a7d6d8dfa4dc381bc3a9ea57e4db62b1ff023730ee",
+          "output_name": "debug.pch"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /Z7 /Od /G5 /W3 /Ycdebug.h /Fpdebug.pch producer.c",
+      "transport_reference": "evidence/create.CL.receipt.json",
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+      }
+    },
+    "c1-use": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\debug-pch",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f consumer.c -Ze -Zp8 -Gs -Foconsumer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Yudebug.h -Fpdebug.pch -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "captured/producer.obj",
+          "bytes": 2988,
+          "sha256": "aa4afe47ba915b42620de050240c42629478a5b648fc17c389fe87263c08a952",
+          "mtime_ns": 1792751735768337600
+        },
+        {
+          "path": "inputs/consumer.c",
+          "bytes": 512,
+          "sha256": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "captured/debug.pch",
+          "bytes": 40167,
+          "sha256": "3336bc4295ab6dae33cc74a7d6d8dfa4dc381bc3a9ea57e4db62b1ff023730ee",
+          "mtime_ns": 1792751735536342200
+        },
+        {
+          "path": "inputs/producer.c",
+          "bytes": 720,
+          "sha256": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/debug.h",
+          "bytes": 998,
+          "sha256": "4718d25835ad9ffa04ff62747a81a6f9a378d000e373cab30cb387613a13fbf4",
+          "mtime_ns": 1768480496000000000
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1-use/irgl",
+          "bytes": 215,
+          "sha256": "2f816931208b8c4d6d2d7f42aa59edeb742fc23acb805026914d74f2517ac23e",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/c1-use/debug.pch",
+          "bytes": 40167,
+          "sha256": "3336bc4295ab6dae33cc74a7d6d8dfa4dc381bc3a9ea57e4db62b1ff023730ee",
+          "output_name": "debug.pch"
+        },
+        {
+          "path": "expected/c1-use/irsy",
+          "bytes": 108,
+          "sha256": "143d83e1e17bf597b18cb89aa3365a96f1c71d18263e69a6bcfee805cb2d07aa",
+          "output_name": "irsy"
+        },
+        {
+          "path": "expected/c1-use/irex",
+          "bytes": 1212,
+          "sha256": "ec406a9afc5b4330500afc5c0ea7ddd0a46ff7bc1003e5be937c64a95c578c42",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/c1-use/irin",
+          "bytes": 6,
+          "sha256": "d2ea64c3e89b2858b0d69bbb96e6828b88df20122c613ac568c843bce4a57429",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/c1-use/irdb",
+          "bytes": 67,
+          "sha256": "d6a295603f71bc4d5c22a5ef6db86cd06ccbb80f319b2ad9993aaf189669774c",
+          "output_name": "irdb"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /Z7 /Od /G5 /W3 /Yudebug.h /Fpdebug.pch consumer.c",
+      "transport_reference": "evidence/use.CL.receipt.json",
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+      },
+      "generated_input_dependency": {
+        "case": "debug-pch-create",
+        "output_name": "debug.pch",
+        "input_name": "debug.pch"
+      }
+    }
+  },
+  "execution": "Native-only fixture execution. Explicit original capture/build separate.",
+  "normalization": "None. Both original CL runs have identical PCH/IR bytes; consumer object remains raw captured input.",
+  "capture_policy": "Actual untouched original CL transports/full before-after inventories. Temporary relative -il prefix alone replaced with ir for standalone C1; canonical S cwd and pinned source/header/PCH/object mtimes remain exact.",
+  "workflow": "Producer emits debug.pch; consumer must use actual reconstructed producer bytes, matching captured PCH exactly.",
+  "Yd": "Not enabled: default /Z7 /Yc captures separate-debug state and /Yu restores it. /Yd would choose a different variant; no additional phase is assigned."
+}

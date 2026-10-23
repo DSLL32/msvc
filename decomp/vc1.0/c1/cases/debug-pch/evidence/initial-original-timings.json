@@ -1,0 +1,74 @@
+[
+  {
+    "name": "debug-pch-create-full-1",
+    "command": [
+      "python3",
+      "scripts/capture-frontier.py",
+      "--case",
+      "cases/debug-pch",
+      "--phase",
+      "c1-create",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-full-1",
+      "--debugger",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe",
+      "--unmasked"
+    ],
+    "seconds": 1.5043031806126237,
+    "exit": 0
+  },
+  {
+    "name": "debug-pch-use-full-1",
+    "command": [
+      "python3",
+      "scripts/capture-frontier.py",
+      "--case",
+      "cases/debug-pch",
+      "--phase",
+      "c1-use",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-use-full-1",
+      "--debugger",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe",
+      "--unmasked"
+    ],
+    "seconds": 1.3576224092394114,
+    "exit": 0
+  },
+  {
+    "name": "debug-pch-create-full-2",
+    "command": [
+      "python3",
+      "scripts/capture-frontier.py",
+      "--case",
+      "cases/debug-pch",
+      "--phase",
+      "c1-create",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-full-2",
+      "--debugger",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe",
+      "--unmasked"
+    ],
+    "seconds": 1.650921299122274,
+    "exit": 0
+  },
+  {
+    "name": "debug-pch-use-full-2",
+    "command": [
+      "python3",
+      "scripts/capture-frontier.py",
+      "--case",
+      "cases/debug-pch",
+      "--phase",
+      "c1-use",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-use-full-2",
+      "--debugger",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe",
+      "--unmasked"
+    ],
+    "seconds": 1.627351889386773,
+    "exit": 0
+  }
+]

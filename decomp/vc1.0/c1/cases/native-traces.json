@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "70230f7df9032b8fdc43c6177546331e5275fb13a3d8550e1e9d3e5d5a4812d2",
+    "functions.json": "63290db417f8289e043da99088b016578ac8b6ac68bec7b523dfce467cf45999",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "83a2020ce5d8d05b058f823f855c0d7973756adc13b5f35822512a7f2130ba3a"
+    "sha256": "ca223581e931b4066346bdc429ec2aad28c13b8e7c86c73e63140a701bddb82e"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "d5b7091c02534d404c57b3661bc1c70c86cb88db4a8df684221ed80bc7b8d921"
+    "sha256": "68d8b298c387bb430ac9cc99fbd7b1f4223f9e96a6307f615744842611761ce9"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -651,7 +651,7 @@
     },
     "compare_legacy_enumerators": {
       "logical": "_compare_legacy_enumerators",
-      "source": "src/stubs.c"
+      "source": "src/debug-legacy.c"
     },
     "compare_names_ignore_case": {
       "logical": "_compare_names_ignore_case@8",
@@ -1387,11 +1387,15 @@
     },
     "finish_pch_debug_symbols": {
       "logical": "_finish_pch_debug_symbols",
-      "source": "src/stubs.c"
+      "source": "src/scopes.c"
     },
     "finish_pch_output": {
       "logical": "_finish_pch_output",
       "source": "src/pch.c"
+    },
+    "finish_pch_type_records": {
+      "logical": "_finish_pch_type_records",
+      "source": "src/debug-legacy.c"
     },
     "finish_program_database": {
       "logical": "_finish_program_database",
@@ -1531,7 +1535,7 @@
     },
     "hash_table_count": {
       "logical": "_hash_table_count@4",
-      "source": "src/stubs.c"
+      "source": "src/hash-table.c"
     },
     "initialize_checksums": {
       "logical": "_initialize_checksums",
@@ -1559,7 +1563,7 @@
     },
     "initialize_hash_walk": {
       "logical": "_initialize_hash_walk@8",
-      "source": "src/stubs.c"
+      "source": "src/hash-table.c"
     },
     "initialize_inline_assembler": {
       "logical": "_initialize_inline_assembler",
@@ -2195,7 +2199,7 @@
     },
     "next_hash_entry": {
       "logical": "_next_hash_entry@4",
-      "source": "src/stubs.c"
+      "source": "src/hash-table.c"
     },
     "next_initializer_member": {
       "logical": "_next_initializer_member@8",
@@ -3499,7 +3503,7 @@
     },
     "write_legacy_enum_members": {
       "logical": "_write_legacy_enum_members@12",
-      "source": "src/stubs.c"
+      "source": "src/debug-legacy.c"
     },
     "write_legacy_field_list": {
       "logical": "_write_legacy_field_list@12",
@@ -3523,7 +3527,7 @@
     },
     "write_legacy_signed_number": {
       "logical": "_write_legacy_signed_number@8",
-      "source": "src/stubs.c"
+      "source": "src/debug-legacy.c"
     },
     "write_legacy_type_record": {
       "logical": "_write_legacy_type_record@4",
@@ -4290,7 +4294,15 @@
     "truncate_extended",
     "decode_escape",
     "concatenate_string_literals",
-    "begin_legacy_field_continuation"
+    "begin_legacy_field_continuation",
+    "finish_pch_debug_symbols",
+    "hash_table_count",
+    "initialize_hash_walk",
+    "next_hash_entry",
+    "compare_legacy_enumerators",
+    "write_legacy_enum_members",
+    "write_legacy_signed_number",
+    "finish_pch_type_records"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4398,7 +4410,10 @@
       "_strrchr",
       "__stricmp",
       "__strcmpi",
-      "_rename"
+      "_rename",
+      "_qsort",
+      "_shortsort",
+      "_swap"
     ],
     "import": [
       "import:GetCommandLineA",
@@ -4429,7 +4444,8 @@
       "import:FindFirstFileA",
       "import:FileTimeToSystemTime",
       "import:FindClose",
-      "import:MoveFileA"
+      "import:MoveFileA",
+      "import:SetEndOfFile"
     ]
   },
   "cases": {
@@ -5393,6 +5409,25 @@
         "decode_escape",
         "concatenate_string_literals",
         "begin_legacy_field_continuation"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "debug-pch-create": {
+      "first": 862,
+      "last": 874,
+      "seen_count": 728,
+      "expected": [
+        "finish_pch_debug_symbols",
+        "hash_table_count",
+        "initialize_hash_walk",
+        "next_hash_entry",
+        "compare_legacy_enumerators",
+        "write_legacy_enum_members",
+        "write_legacy_signed_number",
+        "finish_pch_type_records"
       ],
       "terminal": {
         "kind": "exit",

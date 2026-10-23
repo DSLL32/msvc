@@ -108,3 +108,32 @@ int hash_keys_equal(void *left, void *right)
 }
 
 typedef char HashEntry_must_be_12_bytes[(sizeof(HashEntry) == 12) ? 1 : -1];
+
+/* Original0x32ad0..0x32ad9. Count includes every entry in all buckets. */
+unsigned __stdcall hash_table_count(HashTable *table)
+{
+    return table->count;
+}
+
+/* Original0x32b10..0x32b2a. Key/value become defined on the first
+   successful advance; initialization writes only these three fields. */
+void __stdcall initialize_hash_walk(HashWalk *walk, HashTable *table)
+{
+    walk->table = table;
+    walk->entry = 0;
+    walk->bucket = 0;
+}
+
+/* Original0x32b30..0x32b82. Visit bucket chains in increasing bucket
+   order, publishing a key/value pair only when an entry is available. */
+int __stdcall next_hash_entry(HashWalk *walk)
+{
+    while (!walk->entry) {
+        if (walk->bucket >= walk->table->bucket_count) return 0;
+        walk->entry = walk->table->buckets[walk->bucket++];
+    }
+    walk->key = walk->entry->key;
+    walk->value = walk->entry->value;
+    walk->entry = walk->entry->next;
+    return 1;
+}

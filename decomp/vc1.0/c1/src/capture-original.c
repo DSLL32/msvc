@@ -71,6 +71,29 @@ static void dump_context(HANDLE process, HANDLE thread, HANDLE log)
     }
 }
 
+/* Optional debugger-only all-call proof for the enum sort callback. These
+   bytes are observations, never reconstruction data or fixture execution. */
+static int patch_debug_byte(HANDLE process, DWORD address, unsigned char byte)
+{
+    DWORD old, restored, written;
+    if (!VirtualProtectEx(process,(void *)address,1,PAGE_EXECUTE_READWRITE,&old)) return 0;
+    if (!WriteProcessMemory(process,(void *)address,&byte,1,&written) || written != 1 ||
+        !FlushInstructionCache(process,(void *)address,1)) return 0;
+    return VirtualProtectEx(process,(void *)address,1,old,&restored);
+}
+static int dump_enum_callback(HANDLE process, HANDLE log, CONTEXT *context, unsigned count)
+{
+    DWORD stack[3], left, right, a[7], b[7], got, written;
+    char line[160];
+    if (!ReadProcessMemory(process,(void *)context->Esp,stack,sizeof(stack),&got) || got != sizeof(stack) ||
+        !ReadProcessMemory(process,(void *)stack[1],&left,4,&got) || got != 4 ||
+        !ReadProcessMemory(process,(void *)stack[2],&right,4,&got) || got != 4 ||
+        !ReadProcessMemory(process,(void *)left,a,sizeof(a),&got) || got != sizeof(a) ||
+        !ReadProcessMemory(process,(void *)right,b,sizeof(b),&got) || got != sizeof(b)) return 0;
+    sprintf(line,"enum-callback %u %08lx %08lx %08lx %08lx\n",count,a[4],a[6],b[4],b[6]);
+    return WriteFile(log,line,strlen(line),&written,0);
+}
+
 typedef struct EntryPlan {
     unsigned long rva;
     unsigned byte;
@@ -93,7 +116,15 @@ int main(int argc, char **argv)
     FILE *plan;
     CONTEXT context;
     DWORD old_protection, restored_protection, site;
-    unsigned char instruction;
+    unsigned char instruction, callback_byte;
+    char *callback_option;
+    DWORD callback_rva = 0, callback_site = 0, got;
+    int callback_step = 0;
+    unsigned callback_count = 0;
+
+    callback_option = getenv("C1_ENUM_CALLBACK_RVA");
+    if (callback_option) callback_rva = strtoul(callback_option,0,16);
+    if (callback_rva && argc == 11) return 2;
 
     if (argc == 11) {
         plan = fopen(argv[10],"r");
@@ -147,6 +178,35 @@ int main(int argc, char **argv)
             code = ev.u.Exception.ExceptionRecord.ExceptionCode;
             if (code == EXCEPTION_BREAKPOINT && !loader_break) {
                 loader_break = 1;
+                if (callback_rva) {
+                    callback_site = base + callback_rva;
+                    if (!ReadProcessMemory(pi.hProcess,(void *)callback_site,&callback_byte,1,&got) || got != 1 ||
+                        callback_byte == 0xcc || !patch_debug_byte(pi.hProcess,callback_site,0xcc)) {
+                        failed = 7; TerminateProcess(pi.hProcess,99);
+                    }
+                }
+            } else if (callback_step && code == EXCEPTION_SINGLE_STEP) {
+                memset(&context,0,sizeof(context)); context.ContextFlags = CONTEXT_FULL;
+                if (!GetThreadContext(pi.hThread,&context) ||
+                    !patch_debug_byte(pi.hProcess,callback_site,0xcc)) {
+                    failed = 7; TerminateProcess(pi.hProcess,99);
+                } else {
+                    context.EFlags &= ~0x100UL;
+                    if (!SetThreadContext(pi.hThread,&context)) { failed=7; TerminateProcess(pi.hProcess,99); }
+                }
+                callback_step = 0;
+            } else if (callback_site && code == EXCEPTION_BREAKPOINT &&
+                       (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress == callback_site) {
+                memset(&context,0,sizeof(context)); context.ContextFlags = CONTEXT_FULL;
+                if (!GetThreadContext(pi.hThread,&context) ||
+                    !dump_enum_callback(pi.hProcess,log,&context,callback_count++) ||
+                    !patch_debug_byte(pi.hProcess,callback_site,callback_byte)) {
+                    failed=7; TerminateProcess(pi.hProcess,99);
+                } else {
+                    context.Eip = callback_site; context.EFlags |= 0x100;
+                    if (!SetThreadContext(pi.hThread,&context)) { failed=7; TerminateProcess(pi.hProcess,99); }
+                    callback_step = 1;
+                }
             } else if (argc == 11 && code == EXCEPTION_BREAKPOINT &&
                        next_entry < entry_count &&
                        (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress - base == entries[next_entry].rva) {

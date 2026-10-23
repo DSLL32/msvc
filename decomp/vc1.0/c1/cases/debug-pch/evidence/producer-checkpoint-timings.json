@@ -1,0 +1,43 @@
+[
+  {
+    "name": "debug-pch-874-canonical",
+    "command": [
+      "make",
+      "-j4",
+      "audit-win32"
+    ],
+    "seconds": 19.928594551049173,
+    "exit": 0
+  },
+  {
+    "name": "debug-pch-874-projection",
+    "command": [
+      "python3",
+      "scripts/native-traces.py",
+      "--write"
+    ],
+    "seconds": 0.224005158059299,
+    "exit": 0
+  },
+  {
+    "name": "debug-pch-874-entries",
+    "command": [
+      "python3",
+      "scripts/capture-frontier.py",
+      "--case",
+      "cases/debug-pch",
+      "--phase",
+      "c1-create",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-entries-874",
+      "--debugger",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe",
+      "--entry-from",
+      "862",
+      "--entry-to",
+      "874"
+    ],
+    "seconds": 1.1401432435959578,
+    "exit": 0
+  }
+]

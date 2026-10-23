@@ -508,3 +508,89 @@ void __cdecl begin_legacy_field_continuation(unsigned char kind, void *payload,
     debug_type_records[queued].index = (unsigned short)first;
     write_legacy_type_record(legacy_field_bytes + 6);
 }
+
+/* Original0x48fc0..0x48fd2. Restore enumerator declaration order by
+   symbol index, independently of signed or wide enumerator values. */
+int __cdecl compare_legacy_enumerators(const void *left, const void *right)
+{
+    const EnumeratorSymbol *a = *(EnumeratorSymbol * const *)left;
+    const EnumeratorSymbol *b = *(EnumeratorSymbol * const *)right;
+    return (int)(a->index - b->index);
+}
+
+/* Original0x48530..0x48683. Enumerators are already in declaration
+   order. Each LF_ENUMERATE carries attributes, numeric value and counted
+   name; a full list queues the remaining slice without freeing its array. */
+void __stdcall write_legacy_enum_members(EnumeratorSymbol **enumerators, int first, int limit)
+{
+    unsigned short *record = (unsigned short *)debug_record_buffer + 1;
+    unsigned short *entry;
+    EnumeratorSymbol *symbol;
+    int index, value;
+    unsigned length, padding, remaining, bytes;
+    unsigned char *tail, pad;
+    char *name_start, *name_end;
+    record[0] = 0x204;
+    legacy_field_bytes = 0;
+    for (index = first; index < limit; ++index) {
+        symbol = enumerators[index];
+        symbol->flags &= ~2;
+        for (length = 0; symbol->name[length]; ++length) ;
+        ++length;
+        padding = -legacy_field_bytes & 3;
+        tail = (unsigned char *)debug_record_buffer + legacy_field_bytes + 4;
+        pad = (unsigned char)(padding - 16);
+        for (remaining = padding; remaining; --remaining) *tail++ = pad--;
+        legacy_field_bytes += padding;
+        if (legacy_field_bytes + length + 14 > 264) {
+            begin_legacy_field_continuation(7,enumerators,index,limit);
+            return;
+        }
+        entry = (unsigned short *)((unsigned char *)debug_record_buffer + legacy_field_bytes + 4);
+        entry[0] = 0x403;
+        entry[1] = legacy_tag_auxiliary;
+        entry[1] |= 3;
+        value = (int)symbol->value;
+        if (value < 0) bytes = write_legacy_signed_number((unsigned char *)(entry + 2),value);
+        else bytes = write_legacy_unsigned_number((unsigned char *)(entry + 2),(unsigned)value);
+        name_start = (char *)(entry + 2) + bytes;
+        name_end = append_codeview_name(name_start,symbol->name);
+        legacy_field_bytes += bytes + 4 + (name_end - name_start);
+    }
+    write_legacy_type_record(legacy_field_bytes + 2);
+    free(enumerators);
+}
+
+/* Original0x48bb0..0x48c0a. Choose the smallest signed numeric leaf;
+   each return value includes its two-byte leaf tag. */
+unsigned __stdcall write_legacy_signed_number(unsigned char *destination, int number)
+{
+    if (number >= -128 && number < 128) {
+        *(unsigned short *)destination = 0x8000;
+        destination[2] = (unsigned char)number;
+        return 3;
+    }
+    if (number >= -32768 && number < 32768) {
+        *(unsigned short *)destination = 0x8001;
+        *(short *)(destination + 2) = (short)number;
+        return 4;
+    }
+    *(unsigned short *)destination = 0x8003;
+    *(int *)(destination + 2) = number;
+    return 6;
+}
+
+/* Original0x47ce0..0x47d17. End the separate PCH type range with its
+   accumulated checksum. This record itself is outside that checksum. */
+void finish_pch_type_records(void)
+{
+    unsigned short *record;
+    pch_separate_debug = 0;
+    if (!options.line_records) {
+        record = (unsigned short *)debug_record_buffer + 1;
+        record[0] = 0x14;
+        *(unsigned *)(record + 1) = pragma_record_number;
+        write_legacy_type_record(6);
+        ++next_debug_type_index;
+    }
+}

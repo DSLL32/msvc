@@ -45,8 +45,9 @@ void __stdcall write_legacy_field_list(FrontendSymbol *tag, unsigned count, int 
 unsigned __stdcall write_legacy_signed_number(unsigned char *destination, int number);
 void begin_legacy_field_continuation(unsigned char kind, void *payload, unsigned first, unsigned limit);
 void __stdcall write_legacy_argument_list(ParameterInfo *parameters);
-void __stdcall write_legacy_enum_members(EnumeratorSymbol **enumerators, unsigned first, unsigned limit);
+void __stdcall write_legacy_enum_members(EnumeratorSymbol **enumerators, int first, int limit);
 void reset_debug_type_records(void);
+void finish_pch_type_records(void);
 extern unsigned short next_debug_type_index;
 unsigned short emit_pdb_type(CType *type);
 unsigned short pdb_type_index(CType *type);

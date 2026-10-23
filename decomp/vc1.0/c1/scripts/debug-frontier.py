@@ -21,6 +21,7 @@ def main():
     parser.add_argument('--phase', default='c1')
     parser.add_argument('--directory', required=True, type=Path)
     parser.add_argument('--reference', type=Path)
+    parser.add_argument('--trace-enum-callbacks', action='store_true')
     options = parser.parse_args()
     start = time.perf_counter()
     case = options.case.resolve()
@@ -60,8 +61,12 @@ def main():
                 # Recognized original-library frontiers use an explicit native
                 # boundary breakpoint, rather than inventing an application stub.
                 runtime = json.loads((BINARY/'runtime.json').read_text())
-                expected_record = next(r for r in runtime if r['start']==address)
-                native_boundaries = {'_rename':'recon_rename','_tolower':'recon_tolower','__stat':'recon_stat','__getcwd':'recon_getcwd','_remove':'recon_remove','__dup':'recon_dup','_freopen':'recon_freopen'}
+                expected_record = next((r for r in runtime if r['start']==address),None)
+                if expected_record is None:
+                    from binary import PE
+                    from images import imports
+                    expected_record = next(r for r in imports(PE(ROOT/phase['target'])) if r['start']==address)
+                native_boundaries = {'_rename':'recon_rename','_tolower':'recon_tolower','__stat':'recon_stat','__getcwd':'recon_getcwd','_remove':'recon_remove','__dup':'recon_dup','_freopen':'recon_freopen','_qsort':'recon_qsort','_swap':'sort_swap','import:SetEndOfFile':'recon_SetEndOfFile'}
                 expected_native = native_boundaries[expected_record['name']]
                 runtime_break = 'break ' + expected_native + '\n'
 
@@ -72,6 +77,21 @@ def main():
         (directory/'stderr').write_bytes(b'')
     else:
         redirection += ' 2>'+shlex.quote(str(directory/'stderr'))
+    callback_commands = ''
+    if options.trace_enum_callbacks:
+        callback_commands = '''break compare_legacy_enumerators
+commands
+silent
+python
+import gdb,json
+pointer=gdb.lookup_type('EnumeratorSymbol').pointer().pointer()
+a=gdb.parse_and_eval('left').cast(pointer).dereference().dereference()
+b=gdb.parse_and_eval('right').cast(pointer).dereference().dereference()
+with open(%r,'a') as log: log.write(json.dumps([int(a['index']),int(a['value']),int(b['index']),int(b['value'])])+'\\n')
+end
+continue
+end
+''' % str(directory/'enum-callbacks.jsonl')
     script = '''set pagination off
 set confirm off
 set disable-randomization off
@@ -83,6 +103,13 @@ if gdb.selected_inferior().pid:
     frame=gdb.selected_frame()
     state['frontier']=frame.name()
     state['pc']=int(gdb.parse_and_eval('$pc'))
+    if state['frontier']=='recon_qsort':
+        state['qsort_contract']={
+            'count':int(gdb.parse_and_eval('count')),
+            'width':int(gdb.parse_and_eval('width')),
+            'array_nonnull':bool(int(gdb.parse_and_eval('array'))),
+            'callback_is_legacy_enumerator':int(gdb.parse_and_eval('compare'))==int(gdb.parse_and_eval('&compare_legacy_enumerators'))}
+
     while frame and len(state['frames'])<12:
         state['frames'].append(frame.name())
         frame=frame.older()
@@ -101,7 +128,7 @@ else:
     state['frontier']=None
 with open(%r,'w') as out:json.dump(state,out,indent=2)
 end
-''' % (runtime_break,redirection,names,str(directory/'state.json'))
+''' % (runtime_break+callback_commands,redirection,names,str(directory/'state.json'))
     (directory/'commands.gdb').write_text(script)
     prepared = time.perf_counter()-start
     run_start = time.perf_counter()
@@ -120,13 +147,24 @@ end
             address = int(match[1],16)+int(match[2],16)
             assert state['frontier'] == expected_native, (expected_record['name'],state['frontier'])
             state['original_logical'] = expected_record['name']
+            if expected_record['name']=='_qsort':
+                stack = {int(slot):int(value,16) for slot,value in re.findall(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)}
+                assert state['qsort_contract']==dict(count=stack[2],width=stack[3],array_nonnull=bool(stack[1]),callback_is_legacy_enumerator=True)
+                assert stack[4]==next(r['start'] for r in config['driver'] if r['name']=='_compare_legacy_enumerators')
+
             for index,name in enumerate(names):
                 line = next(line for line in events.splitlines() if line.startswith('buffer '+str(index)+' '))
                 tail = line.split(' ',3)
                 expected = None if tail[2]=='unopened' else tail[3]
                 assert state['buffers'][name] == expected, ('pending buffer differs',name)
         else:
-            assert events.strip() == 'exit 0' and state['frontier'] is None,(events,state)
+            terminal_lines = [line for line in events.splitlines() if not (options.trace_enum_callbacks and line.startswith('enum-callback '))]
+            assert terminal_lines == ['exit 0'] and state['frontier'] is None,(events,state)
+        if options.trace_enum_callbacks:
+            actual = [json.loads(line) for line in (directory/'enum-callbacks.jsonl').read_text().splitlines()]
+            observed = [[int(value,16) for value in row[1:]] for row in re.findall(r'^enum-callback (\d+) ([0-9a-f]+) ([0-9a-f]+) ([0-9a-f]+) ([0-9a-f]+)$',events,re.M)]
+            assert actual == observed and actual, ('enum callback operand order differs',observed,actual)
+            state['enum_callback_operands'] = actual
         original_receipt = json.loads((reference/'receipt.json').read_text())
         reference_work = reference/original_receipt.get('working_directory_snapshot','work')
         originals = {p.name:p.read_bytes() for p in reference_work.iterdir()}

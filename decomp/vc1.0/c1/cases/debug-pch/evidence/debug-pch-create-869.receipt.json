@@ -1,0 +1,71 @@
+{
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/debug-pch",
+  "phase": "c1-create",
+  "unmasked": false,
+  "accepted_count": 869,
+  "accepted_sha256": "83ccf887107274cdac12685106783fe45e74bae507ec4533cf6d56117781e62d",
+  "executable_sha256": "c566a26d377ee6d3ca512db7d5a41a51fb05e173fefcb04a27453d58271c3219",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "45cc03d417189b51d114ea35490a7e2005182f34f75d38b49add92010efc7b29",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f producer.c -Ze -Zp8 -Gs -Foproducer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Ycdebug.h -Fpdebug.pch -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\debug-pch",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/debug-pch",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.053290000185370445,
+  "execution_seconds": 1.6113359406590462,
+  "total_seconds": 1.6646286118775606,
+  "files": [
+    {
+      "name": "consumer.c",
+      "bytes": 512,
+      "sha256": "0153c9f936dcdff94027af587514635a27d2f385f016d5197857834867682f72"
+    },
+    {
+      "name": "debug.h",
+      "bytes": 998,
+      "sha256": "4718d25835ad9ffa04ff62747a81a6f9a378d000e373cab30cb387613a13fbf4"
+    },
+    {
+      "name": "debug.pch",
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    {
+      "name": "irdb",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irgl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irsy",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "producer.c",
+      "bytes": 720,
+      "sha256": "3399739e328d3ac9a42f4d7bb2dc45a0e60b7937f77dcfb0997d9bbafb144467"
+    }
+  ]
+}

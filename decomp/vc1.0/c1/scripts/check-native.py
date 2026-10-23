@@ -24,7 +24,8 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'automatic-pch-reuse':('automatic-pch','c1-reuse'), 'automatic-pch-changed':('automatic-pch','c1-changed'),
          'embedded-codeview':('embedded-codeview','c1'),
          'inlining-ob1':('inlining','c1-ob1'), 'inlining-ob2':('inlining','c1-ob2'),
-         'combined-types-literals':('combined-types-literals','c1')}
+         'combined-types-literals':('combined-types-literals','c1'),
+         'debug-pch-create':('debug-pch','c1-create')}
 
 
 CASE_DEPENDENCIES = {

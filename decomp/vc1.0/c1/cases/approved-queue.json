@@ -1,20 +1,25 @@
 {
-  "authorization": "User selected ONE substantial combined ordinary C case; finish it, then pause. No other case is assigned.",
-  "baseline_accepted_count": 852,
+  "authorization": "User selected ONE debug-bearing PCH create/reuse workflow. Complete both phases, then pause.",
+  "baseline_accepted_count": 862,
   "baseline_coverage": {
-    "bytes": 219435,
+    "bytes": 221786,
     "total": 277234,
-    "percent": 79.15154706854138,
+    "percent": 79.99956715265805,
     "metric": "Accepted original extent union; not branch coverage."
   },
   "cases": [
     {
-      "case": "combined-types-literals",
-      "phase": "c1",
-      "status": "complete; raw original/native files/status/streams and ordered10-entry trace match at862"
+      "case": "debug-pch",
+      "phase": "c1-create",
+      "status": "complete at874; exact PCH/IR/status/streams and callback/first-entry traces"
+    },
+    {
+      "case": "debug-pch",
+      "phase": "c1-use",
+      "status": "active next; standalone untouched originals verified twice"
     }
   ],
   "Yd": "Not selected: the standalone /Z7 types case has no PCH dependency, so /Yd would add a distinct PCH-debug case rather than validate this embedded-type writer.",
-  "status": "complete; paused for user selection",
-  "previous_completed_authorization": "User selected embedded CodeView /Z7 first, then both /Ob1 and /Ob2 bounded inlining cases. Complete these families, then pause."
+  "status": "active",
+  "previous_completed_authorization": "User selected ONE substantial combined ordinary C case; finish it, then pause. No other case is assigned."
 }

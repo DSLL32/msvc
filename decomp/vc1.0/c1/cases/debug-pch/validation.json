@@ -1,0 +1,153 @@
+{
+  "status": "producer complete; consumer queued",
+  "accepted_count": 874,
+  "source_functions": 747,
+  "state_defaults_aliases": 286,
+  "producer": {
+    "accepted_from": 862,
+    "accepted_count": 874,
+    "accepted_order": [
+      "_finish_pch_debug_symbols",
+      "_hash_table_count@4",
+      "_initialize_hash_walk@8",
+      "_next_hash_entry@4",
+      "_qsort",
+      "_shortsort",
+      "_compare_legacy_enumerators",
+      "_swap",
+      "_write_legacy_enum_members@12",
+      "_write_legacy_signed_number@8",
+      "_finish_pch_type_records",
+      "import:SetEndOfFile"
+    ],
+    "raw_pch_bytes": 40167,
+    "callback_all_calls": [
+      [
+        109,
+        70000,
+        106,
+        4294934527
+      ],
+      [
+        108,
+        7,
+        109,
+        70000
+      ],
+      [
+        107,
+        4294967293,
+        109,
+        70000
+      ],
+      [
+        107,
+        4294967293,
+        106,
+        4294934527
+      ],
+      [
+        108,
+        7,
+        107,
+        4294967293
+      ],
+      [
+        107,
+        4294967293,
+        106,
+        4294934527
+      ]
+    ],
+    "checks": [
+      {
+        "name": "debug-pch-874-canonical",
+        "command": [
+          "make",
+          "-j4",
+          "audit-win32"
+        ],
+        "seconds": 19.928594551049173,
+        "exit": 0
+      },
+      {
+        "name": "debug-pch-874-projection",
+        "command": [
+          "python3",
+          "scripts/native-traces.py",
+          "--write"
+        ],
+        "seconds": 0.224005158059299,
+        "exit": 0
+      },
+      {
+        "name": "debug-pch-874-entries",
+        "command": [
+          "python3",
+          "scripts/capture-frontier.py",
+          "--case",
+          "cases/debug-pch",
+          "--phase",
+          "c1-create",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/captures/debug-pch-create-entries-874",
+          "--debugger",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe",
+          "--entry-from",
+          "862",
+          "--entry-to",
+          "874"
+        ],
+        "seconds": 1.1401432435959578,
+        "exit": 0
+      },
+      {
+        "name": "debug-pch-874-final-projection",
+        "command": [
+          "python3",
+          "scripts/native-traces.py",
+          "--write"
+        ],
+        "seconds": 0.2551171239465475,
+        "exit": 0
+      },
+      {
+        "name": "debug-pch-874-twentythree",
+        "command": [
+          "python3",
+          "scripts/check-native.py",
+          "--trace",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/validation/debug-pch-874-twentythree"
+        ],
+        "seconds": 0.5784275159239769,
+        "exit": 0
+      }
+    ],
+    "scope": "Native PCH and all5 IR files/status/streams match fresh masked original; original first-entry order plus every comparator operand pair match."
+  },
+  "coverage": {
+    "accepted_union_bytes": 222956,
+    "original_code_bytes": 277234,
+    "accepted_by_origin_bytes": {
+      "frontend_source": 203189,
+      "CRT": 19587,
+      "import_thunks": 180
+    },
+    "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
+    "percent": 80.42159331106575,
+    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+  },
+  "CRT_seams": {
+    "qsort": "Count4,width4,nonnull array, callback logical48fc0 verified at native recon_qsort boundary; all6 callback operand pairs observed on both sides. Original QSORT.OBJ qsort/shortsort/swap identities verified by runtime catalog with relocation checks.",
+    "shortsort": "Original-only support frontier54330 observed; native common shim implements same <=8 maximum-selection branch. Application comparator traces verified rather than inferred from final sorting.",
+    "swap": "Native sort_swap matched original54390 logical boundary before unmask.",
+    "truncation": "Original import:SetEndOfFile reached through already accepted _chsize; native existing recon_SetEndOfFile boundary matched, followed by exact final file set/bytes."
+  },
+  "normalization": "None.",
+  "notes": [
+    "All captured source/header/PCH/object mtimes and canonical S paths remain exact input provenance.",
+    "Only native fixtures execute normal regression; original captures and helper compilation are explicit.",
+    "Two adapter dispatch gaps (_qsort/_swap and SetEndOfFile) were fixed after preserving failed attempt timings; no shared shim code changed."
+  ]
+}
