@@ -1,0 +1,22 @@
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0040d5a8 <.text+0xc5a8>:
+  40d5a8:	8b 41 28             	mov    eax,DWORD PTR [ecx+0x28]
+  40d5ab:	25 ff 03 00 00       	and    eax,0x3ff
+  40d5b0:	85 d2                	test   edx,edx
+  40d5b2:	75 11                	jne    0x40d5c5
+  40d5b4:	8b 14 85 6c fb 48 00 	mov    edx,DWORD PTR [eax*4+0x48fb6c]
+  40d5bb:	89 0c 85 6c fb 48 00 	mov    DWORD PTR [eax*4+0x48fb6c],ecx
+  40d5c2:	89 11                	mov    DWORD PTR [ecx],edx
+  40d5c4:	c3                   	ret
+  40d5c5:	8b 15 70 0b 49 00    	mov    edx,DWORD PTR ds:0x490b70
+  40d5cb:	56                   	push   esi
+  40d5cc:	8b 74 82 04          	mov    esi,DWORD PTR [edx+eax*4+0x4]
+  40d5d0:	89 4c 82 04          	mov    DWORD PTR [edx+eax*4+0x4],ecx
+  40d5d4:	89 31                	mov    DWORD PTR [ecx],esi
+  40d5d6:	5e                   	pop    esi
+  40d5d7:	c3                   	ret

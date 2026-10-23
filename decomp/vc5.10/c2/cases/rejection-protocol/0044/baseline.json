@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "baseline_commit": "8ec3621b",
+  "control_result": "cases/acceptance/0044-section-constructor/rejections.json",
+  "control_result_sha256": "a81e18500a1be4120a080f46eebff0884dd9f556ea128e0193bcda0c5ff3911d",
+  "checker_contracts": {
+    "scripts/accept.py": "1347fc6abd46c23cd0dfe5c525454195e70c3c98916a7611e5af9e317b1e4252",
+    "scripts/audit.py": "938cace588deae113948d5b1828155e8cd90036c737001dd05f2767ff90acc40",
+    "scripts/build-index.py": "53e385cd7636d17b660fa3ce1f38a05e9f2314db1cf4e07bf8be5dfc6f3641ce",
+    "scripts/capture-native.py": "67f0e217bbe1b1bd40ad48ffa083552350102055162b305f8b693cd057cff533",
+    "scripts/capture-original.py": "85c82b7d96b88e897569a1a977a75082f20976b0d086b3847b2c0908a52ec6e7",
+    "scripts/case_inputs.py": "13ab2ee944896ade6b46c2b2d226fd63233ea9d3191931b1d8a84ddbfaa48aa9",
+    "scripts/check-rejections.py": "d033a028384e5af61f5192992d9fd24c9ff748cbe776ea47c35e915a825e5899",
+    "scripts/compare.py": "5382d87226b4826358f46137a7b2534cdcb56f1791256c8af9f51648f99286ee",
+    "scripts/data_evidence.py": "052eba9d74cfcc70f6fe54912a76cac10e70745dd378891f12a3d10227900c8e",
+    "scripts/debug-run.c": "21be3ab6ceced041839cf29aa954c8b253f37a80919bee26c4d5c37d0b2da379",
+    "scripts/import_evidence.py": "b95bf84a6fe9a82ccc1f8450e0767f4e62da0ef396bcdb625719b500b10c768c",
+    "scripts/intrinsic_evidence.py": "89e13fbff12ec278801984bd7360b54b392cc50e332d9f449c7f8b9032ab0034",
+    "scripts/native-proof.py": "e19e267af93ff09647d31049b8cb5ade5451b22751f7902135f904c13b1e0728",
+    "scripts/state.py": "c823efddd33082153589d54de971b74d841cf14da3b3080fb9f2639d1211f34e"
+  },
+  "source_archive": "checker-contracts.tar.gz",
+  "source_archive_sha256": "cf788a41b465ee1bd4c86809e26fe96628e7ea4715f4f9c2b1a6a2404da025e0",
+  "proof_inputs": {
+    "original_receipt": "940f9417f6734970a5f5e70fe41e00bfada2ccb63fb9812e2a6bc3c61d03a852",
+    "native_receipt": "793e62c2011e0be6784e36fe4e9eb6fabbbee8581d3aa0d2818ad2b1867b3d9e"
+  },
+  "review": "Constructor44 passed19 fresh controls and reused71 reviewed unchanged ones. Snapshot hashes bind actual controls; affected/new checks run."
+}

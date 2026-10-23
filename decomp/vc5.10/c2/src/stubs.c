@@ -18,11 +18,6 @@ int __fastcall c2_open_pdb(char *name, char *object_name)
     __asm { int 3 }
     return 0;
 }
-void __fastcall insert_symbol(C2Symbol *symbol, int local)
-{
-    __asm { int 3 }
-}
-
 void __fastcall append_section(C2Section *section)
 {
     __asm { int 3 }

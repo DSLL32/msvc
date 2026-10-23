@@ -54,7 +54,8 @@
     "_c2_initialize_opcodes",
     "_c2_initialize_machine",
     "_c2_initialize_trees",
-    "@create_section@12"
+    "@create_section@12",
+    "@insert_symbol@8"
   ],
   "driver": [
     {
@@ -606,7 +607,7 @@
               38,
               154
             ],
-            "lifetime_sha256": "590cd58444dd08b0961c68203e4355c042a182d5af818b511c7e769c010cf2a0",
+            "lifetime_sha256": "e46a600cf3fa5d664987194a6b3e7e7ef990d821b26ae5c94cff67685fce441f",
             "instructions": [
               {
                 "offset": 38,
@@ -621,7 +622,7 @@
                 "bytes": "ff55f883c404"
               }
             ],
-            "review": "Complete 00402b86..00402bfa manually reviewed for symbol-reset trial: only referenced target BSS object addresses move after contextual hash-table definition; same qualified IAT load, holder lifetime, call/cleanup ABI, no overwrite/escape or branch-entry bypass."
+            "review": "Complete unchanged cached IAT lifetime reviewed against frozen44 rebuilt.exe/MAP: only c2_output_incomplete and c2_output_stream BSS operands move4bytes after local-symbol-table pointer; same byte-identical branch displacements, qualified IAT load, EBP holder, calls/cleanup, no overwrite/escape or bypass. Full diff retained numeric scratch insert-import-span-diffs.txt."
           }
         },
         {
@@ -667,7 +668,7 @@
               46,
               154
             ],
-            "lifetime_sha256": "33a3eebf0c0fd44dbdc606315fd930626d181871db4963fc1eb59256abaad191",
+            "lifetime_sha256": "504c26cbfb163b63a7fe3c742a0dce9a215e7f10e306d5c3e095db6defad47fa",
             "instructions": [
               {
                 "offset": 46,
@@ -682,7 +683,7 @@
                 "bytes": "ff55fc83c404"
               }
             ],
-            "review": "Complete 00402b8e..00402bfa manually reviewed for symbol-reset trial: only referenced target BSS object addresses move after contextual hash-table definition; same qualified IAT load, holder lifetime, call/cleanup ABI, no overwrite/escape or branch-entry bypass."
+            "review": "Complete unchanged cached IAT lifetime reviewed against frozen44 rebuilt.exe/MAP: only c2_output_incomplete and c2_output_stream BSS operands move4bytes after local-symbol-table pointer; same byte-identical branch displacements, qualified IAT load, EBP holder, calls/cleanup, no overwrite/escape or bypass. Full diff retained numeric scratch insert-import-span-diffs.txt."
           }
         }
       ]
@@ -2998,6 +2999,131 @@
         "-G5"
       ],
       "evidence": "cases/analysis/section-constructor-disassembly.txt"
+    },
+    {
+      "name": "@insert_symbol@8",
+      "native": "insert_symbol",
+      "start": 4249000,
+      "end": 4249048,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "fastcall symbolECX,localEDX; RET0",
+      "state_policy": "section-symbol",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "c2_symbol_hash_count"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        }
+      ],
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "evidence": "cases/analysis/symbol-insert-disassembly.txt"
     }
   ],
   "stubs": [
@@ -3129,14 +3255,14 @@
       "abi": "fastcall section pointerECX; RET0"
     },
     {
-      "name": "@insert_symbol@8",
-      "native": "insert_symbol",
-      "start": 4249000,
-      "end": 4249001,
+      "name": "@append_section@4",
+      "native": "append_section",
+      "start": 4322350,
+      "end": 4322351,
       "pending_extent": true,
       "kind": "application",
-      "abi": "fastcall symbolECX,localEDX; RET0",
-      "state_policy": "section-symbol",
+      "abi": "fastcall sectionECX; RET0",
+      "state_policy": "section-linked",
       "state": [
         {
           "original": "0x499708",
@@ -3251,15 +3377,6 @@
       "expected_argv": [
         "-G5"
       ]
-    },
-    {
-      "name": "@append_section@4",
-      "native": "append_section",
-      "start": 4322350,
-      "end": 4322351,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall sectionECX; RET0"
     }
   ],
   "text_data": [

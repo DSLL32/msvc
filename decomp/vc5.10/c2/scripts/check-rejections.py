@@ -123,6 +123,23 @@ def main():
                       ('machine call-clobber register mask differs',lambda r:changed_machine_value(r,'0x495f34',7)),
                       ('machine stack alignment differs',lambda r:changed_machine_value(r,'0x49745c',4)),
                       ('earlier intrinsic observation cannot replace final frontier observation',missing_final_intrinsic_observation)]
+    if 'section_linked'in current_state:
+        def changed_linked_section(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['section_linked'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        def changed_bucket(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['symbol_hash'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        def original_bucket(root):
+            path=root/'o/symbol-hash.bin';data=bytearray(path.read_bytes());data[20]^=4;path.write_bytes(data)
+        mutations += [('linked section untouched node bytes differ',lambda r:changed_linked_section(r,'bytes',current_state['section_linked']['bytes'][:-2]+'01')),
+                      ('linked section name differs',lambda r:changed_linked_section(r,'name','_DATA')),
+                      ('linked section class differs',lambda r:changed_linked_section(r,'class_name','DATA')),
+                      ('linked section global-name alias differs',lambda r:changed_linked_section(r,'name_alias',False)),
+                      ('linked section pool alias differs',lambda r:changed_linked_section(r,'pool_offset',8)),
+                      ('linked section outputs assigned prematurely',lambda r:changed_linked_section(r,'initial_sections',[1]+[0]*6)),
+                      ('linked hash wrong bucket selected',lambda r:changed_bucket(r,'section_slot',6)),
+                      ('linked hash pointer loses actual section alias',lambda r:changed_bucket(r,'section_alias',False)),
+                      ('linked hash untouched slots differ',lambda r:changed_bucket(r,'normalized_sha256','0'*64)),
+                      ('original linked bucket pointer differs',original_bucket)]
     if 'section_symbol'in current_state:
         def changed_section_symbol(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['section_symbol'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

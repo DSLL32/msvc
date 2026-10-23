@@ -7,10 +7,10 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 39 application functions (5692 bytes) and five CRT
+Current reconstruction has 40 application functions (5740 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded its complete IL header and
-now stops at symbol-hash insertion of the first section. Four import thunks (24 bytes) and contextual
-text tables (280 bytes) remain separate. The 6130 source bytes are 1.069% of
+now stops at appending the first section to the output list. Four import thunks (24 bytes) and contextual
+text tables (280 bytes) remain separate. The 6178 source bytes are 1.078% of
 573183 `.text` bytes; that denominator includes CRT/data/padding and is not
 non-CRT coverage. `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
