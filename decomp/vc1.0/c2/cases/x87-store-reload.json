@@ -1,0 +1,219 @@
+{
+  "checkpoint": 1080,
+  "base_commit": "b8c40d1",
+  "source_graphs": 1001,
+  "accepted_functions": [
+    {
+      "name": "@can_keep_float_store@12",
+      "start": 257552,
+      "end": 258348
+    },
+    {
+      "name": "@find_float_register_reload@12",
+      "start": 255072,
+      "end": 255417
+    }
+  ],
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1080,
+    "accepted_code_bytes": 298932,
+    "original_code_bytes": 399693,
+    "percentage": 74.79040163325352,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 492
+  },
+  "frontier": "@initializer_symbols_available@4",
+  "evidence": {
+    "before": "cases/x87-original-1078.json",
+    "after_store": "cases/x87-original-1079.json",
+    "after_reload": "cases/x87-original-1080.json",
+    "native": "matching -native.json",
+    "fixture": "cases/native-all-validation.json"
+  },
+  "limits": [
+    "Whole796-byte keep-store and345-byte reload scans preserve eligible instruction kinds0/8/9/10, visible-label boundaries, known-call checks, operand masks and store-only exceptions",
+    "Instruction property FM_FLOAT is the existing contextual ISA classification validated against original properties; no new data copied",
+    "Seven complete artifact cases and deep x87 expected named trap pass; x87 complete object not claimed yet"
+  ],
+  "timing": {
+    "frontier1079-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "x87",
+        "--reference",
+        "cases/x87-original-1079.json"
+      ],
+      "seconds": 0.21888395678251982,
+      "returncode": 0,
+      "log_sha256": "0de95d2b2371ddfe81da06afeafab5f49deb5d740f9b864daffc175e3ef2288b"
+    },
+    "frontier1080-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "x87",
+        "--reference",
+        "cases/x87-original-1080.json"
+      ],
+      "seconds": 0.22385025303810835,
+      "returncode": 1,
+      "log_sha256": "8ce6d1359bf6e12421aa23ac8b39851891faf3d26de78bd7818ffa847528c71e"
+    },
+    "frontier1080-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 1.657078793272376,
+      "returncode": 0,
+      "log_sha256": "6473d10369ac88364272207f0be150dff8f876d7f986930eeea95fbaeaf104df"
+    },
+    "frontier1079-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.950863719917834,
+      "returncode": 0,
+      "log_sha256": "eab7394bf40ac24b37347f8c956ac570c27bc455082c0ae0927b97e5c5486293"
+    },
+    "frontier1080-debug-corrected-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "x87",
+        "--reference",
+        "cases/x87-original-1080.json"
+      ],
+      "seconds": 0.21859299764037132,
+      "returncode": 0,
+      "log_sha256": "33cb61feb24dd2287bd092f936e237baa724be8b78ab9a0ee9c2c781d970237b"
+    },
+    "frontier1080-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 37.00027437508106,
+      "returncode": 0,
+      "log_sha256": "082f0f3f453ca0f421da71c4f3a575ec5fa3058f8340496af7d3c9852f59687a"
+    },
+    "frontier1079-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "float-machine"
+      ],
+      "seconds": 1.8020763713866472,
+      "returncode": 0,
+      "log_sha256": "8b5c111204b094924d4a2253db8183ccbeb0a3c681579b2fccae006203728792"
+    },
+    "frontier1079-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.788253286853433,
+      "returncode": 0,
+      "log_sha256": "8c208a094c3ab17d40b9ecee563e92b74ed8fe2f4f5d3db8ae4cd12cd0ea0ab4"
+    },
+    "frontier1080-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 4.82480784971267,
+      "returncode": 0,
+      "log_sha256": "96fec52aa5c94a516e275c4347b8a9fde191890deb89b14bba0595145c10e794"
+    },
+    "frontier1080-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "float-machine"
+      ],
+      "seconds": 2.2113019665703177,
+      "returncode": 0,
+      "log_sha256": "51b76243e6abc5e7542728f85e98503e7cd9d206971aab2588df3a9956807137"
+    },
+    "frontier1080-fixture-corrected-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.46553226560354233,
+      "returncode": 0,
+      "log_sha256": "1d50fcd9ad56551ad721252c38996a7319a499f6a868d76d3698848cf543fe40"
+    },
+    "frontier1080-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "x87",
+        "--receipt",
+        "cases/x87-original-1080.json"
+      ],
+      "seconds": 0.9409630419686437,
+      "returncode": 0,
+      "log_sha256": "aa6ed482b3150792bed48a5c0d800fbe9dab9a933b822a0a22dce4e6b18e3068"
+    },
+    "frontier1079-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "x87",
+        "--receipt",
+        "cases/x87-original-1079.json"
+      ],
+      "seconds": 2.0414940593764186,
+      "returncode": 0,
+      "log_sha256": "507507b688a6cfbe9778c684989f861eb6cc7b5ea20f9dc5a693bfeb3b42ec16"
+    },
+    "frontier1079-fixture-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.4412091514095664,
+      "returncode": 0,
+      "log_sha256": "1aeccc73166fe7259b91bd2d40998823936a683a358faeec532f154761ed03cb"
+    }
+  },
+  "failed_attempts": [
+    {
+      "stage": "native GDB1080 initial",
+      "reason": "Launched before combined build completed; stopped at prior reload stub in older executable. Corrected by awaiting full build, then matching GDB and rerunning native suite. Initial shell continued offline extension despite debug failure; final fresh debug and cached trace suite both pass. Subsequent dependent batches use set-e.",
+      "native_initial_result": false,
+      "final_result": true
+    }
+  ],
+  "analysis_seconds": null
+}

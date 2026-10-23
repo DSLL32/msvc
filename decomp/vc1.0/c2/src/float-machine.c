@@ -2045,3 +2045,75 @@ void finish_float_stream_uses(void)
     float_register_heap_release(float_stream_register_uses);
     reset_arena(4);
 }
+
+/* Same control-flow/visible-label limits as the original forward store
+   scan. This is an expression macro to retain the original call graph. */
+#define FM_STORE_BARRIER(i) ((FM_ELIGIBLE(i) && \
+    (FM_OPERATION(i) == MC_JCC || FM_OPERATION(i) == MC_JMP || \
+     (FM_OPERATION(i) == MC_CALL && !call_preserves_float_stack(i)) || \
+     FM_OPERATION(i) == MC_LEAVE || FM_OPERATION(i) == MC_RET)) || \
+    (FM_KIND(i) == 1 && FM_LABEL_BARRIER(i)))
+
+/* Original [0003ee10,0003f12c). Keep the value on the x87 stack until its
+   next use, except when it will only be stored again. An intervening FLD
+   is followed through to the next floating operation to recognize that
+   store-only case. The optional mode reads the precomputed bit instead. */
+int __fastcall can_keep_float_store(MachineInstruction *instruction,
+    unsigned short number, int use_summary)
+{
+    MachineInstruction *following;
+    unsigned operation;
+    int count;
+    if (use_summary == 1) return (instruction->record.float_flags & 2) >> 1;
+    for (instruction = instruction->next; instruction; instruction = instruction->next) {
+        if (FM_STORE_BARRIER(instruction)) return 0;
+        operation = FM_OPERATION(instruction);
+        count = machine_operand_counts[operation];
+        if (!FM_ELIGIBLE(instruction) || !FM_FLOAT(instruction) || !count) continue;
+        if ((instruction->operands[0].flags & 15) == OPERAND_REGISTER &&
+            (instruction->operands[0].value.reg.words.number & 0x3fff) == number)
+            return operation != MC_FST && operation != MC_FSTP;
+        if (count != 2 || (instruction->operands[1].flags & 15) != OPERAND_REGISTER ||
+            (instruction->operands[1].value.reg.words.number & 0x3fff) != number)
+            continue;
+        if (operation != MC_FLD) return 1;
+        following = instruction->next;
+        while (following) {
+            if (FM_STORE_BARRIER(following) ||
+                (FM_ELIGIBLE(following) && FM_FLOAT(following))) break;
+            following = following->next;
+        }
+        if (!following || FM_STORE_BARRIER(following)) return 1;
+        operation = FM_OPERATION(following);
+        if (operation != MC_FST && operation != MC_FSTP) return 1;
+    }
+    return 0;
+}
+
+/* Original [0003e460,0003e5b9). Find the next use of a virtual floating
+   register before a flow/visible-label boundary. A pure destination store
+   is not a reload; other destinations and any second-operand use are. */
+int __fastcall find_float_register_reload(MachineInstruction *instruction,
+    unsigned short number, MachineInstruction **reload)
+{
+    unsigned operation;
+    int count;
+    for (instruction = instruction->next; instruction; instruction = instruction->next) {
+        if (FM_STORE_BARRIER(instruction)) return 0;
+        operation = FM_OPERATION(instruction);
+        count = machine_operand_counts[operation];
+        if (!FM_ELIGIBLE(instruction) || !FM_FLOAT(instruction) || !count) continue;
+        if ((instruction->operands[0].flags & 15) == OPERAND_REGISTER &&
+            (instruction->operands[0].value.reg.words.number & 0x3fff) == number) {
+            if (operation == MC_FST || operation == MC_FSTP) return 0;
+            *reload = instruction;
+            return 1;
+        }
+        if (count == 2 && (instruction->operands[1].flags & 15) == OPERAND_REGISTER &&
+            (instruction->operands[1].value.reg.words.number & 0x3fff) == number) {
+            *reload = instruction;
+            return 1;
+        }
+    }
+    return 0;
+}

@@ -364,9 +364,7 @@ int __cdecl minimum_extended(const Extended *left, const Extended *right, Extend
 int __cdecl maximum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl absolute_extended(const Extended *number, Extended *result) { __asm int 3 }
 
-int __fastcall can_keep_float_store(MachineInstruction *instruction, unsigned short number, int use_summary) { __asm int 3 }
 int __fastcall previous_float_is_load(MachineInstruction *instruction) { __asm int 3 }
-int __fastcall find_float_register_reload(MachineInstruction *instruction, unsigned short number, MachineInstruction **reload) { __asm int 3 }
 void __fastcall save_float_machine_register(MachineInstruction *instruction, FloatMachineRegister *reg, unsigned short number, MachineInstruction *reload) { __asm int 3 }
 void __fastcall exchange_float_machine_stack(int first, int second) { __asm int 3 }
 MachineInstruction *__fastcall rewrite_pentium_float_store(MachineInstruction *instruction) { __asm int 3 }

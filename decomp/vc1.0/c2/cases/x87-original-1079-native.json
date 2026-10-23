@@ -1,0 +1,12 @@
+{
+  "logical": "@find_float_register_reload@12",
+  "matched": true,
+  "executable_sha256": "1e5168a80c162fac711da027fe6f57f55b6880de0d2405d8dba295b5248b6363",
+  "config_sha256": "57efe6072dffdbf86f50fbc7aeed165a1045e5ba3478247a5b641e3516c3a2c2",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\x87",
+  "setup_seconds": 0.006149108521640301,
+  "execution_seconds": 0.1371534625068307,
+  "seconds": 0.15246200375258923,
+  "log_sha256": "e5dc9c15ee0d0066182abd0dfde133587a5bd1602a9bff2a5ece832b9f104f7f",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/x87-gdb-6vfvhefe"
+}

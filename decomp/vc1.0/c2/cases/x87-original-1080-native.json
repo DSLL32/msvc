@@ -1,0 +1,12 @@
+{
+  "logical": "@initializer_symbols_available@4",
+  "matched": true,
+  "executable_sha256": "091c3cc701103aa3610d7a177a252cb3c2334cbbb83ea648290ca29305ce0dc0",
+  "config_sha256": "2f8742f108cc6b5cc81d0e5416103c16eb2b41ba8611d45adf555860d6729161",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\x87",
+  "setup_seconds": 0.006179654970765114,
+  "execution_seconds": 0.13443057145923376,
+  "seconds": 0.15088913403451443,
+  "log_sha256": "5f1d21cc3a6e89b5db0ab1374ea882e77b3fdf043f2579ca085fcec8913f37ac",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/x87-gdb-23tibjsa"
+}

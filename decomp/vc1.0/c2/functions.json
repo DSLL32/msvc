@@ -1082,7 +1082,9 @@
     "@available_chain_operands@8",
     "@set_generated_intrinsic_call@16",
     "@select_runtime_intrinsic@4",
-    "@lookup_runtime_intrinsic_opcode@8"
+    "@lookup_runtime_intrinsic_opcode@8",
+    "@can_keep_float_store@12",
+    "@find_float_register_reload@12"
   ],
   "driver": [
     {
@@ -7042,8 +7044,7 @@
     {
       "name": "@can_keep_float_store@12",
       "start": 257552,
-      "end": 257553,
-      "provisional": true
+      "end": 258348
     },
     {
       "name": "@float_store_value_dead@4",
@@ -7069,8 +7070,7 @@
     {
       "name": "@find_float_register_reload@12",
       "start": 255072,
-      "end": 255073,
-      "provisional": true
+      "end": 255417
     },
     {
       "name": "@save_float_machine_register@16",
