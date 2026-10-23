@@ -172,6 +172,10 @@ int main(void)
                 frontend_bss.pools[i].minimum_pages = 37;
                 frontend_bss.pools[i].arena = (struct CompilerArena *)((unsigned char *)frontend_bss.saved_state + 8);
             }
+            frontend_bss.com_initialized = 37;
+            memset(frontend_bss.generated_comment, 165, sizeof(frontend_bss.generated_comment));
+            frontend_bss.comment_value_offset = 23;
+            frontend_bss.generated_comment_length = 29;
             restore_mode = 9;
             compiler_mode = !strcmp(seed, "restore-zero") ? 0 : 3;
         }

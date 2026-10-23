@@ -1,5 +1,5 @@
 {
-  "schema": 25,
+  "schema": 26,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -1870,6 +1870,42 @@
       "native_expression": "frontend_bss.active_group",
       "original_default": 0,
       "evidence": "35b21/7091c removes list head into active+8; a0a17/a0a92 append linked groups. Original+4 tail slot and group pointees remain unmodeled."
+    },
+    {
+      "name": "com_initialized",
+      "class": "bss",
+      "original_address": 273443684,
+      "bytes": 4,
+      "native_expression": "frontend_bss.com_initialized",
+      "original_default": 0,
+      "evidence": "constructor38af9 and generated-header output/COM cleanup consumers; only encountered string extent, not original capacity"
+    },
+    {
+      "name": "generated_comment",
+      "class": "bss",
+      "original_address": 273443752,
+      "bytes": 74,
+      "native_expression": "frontend_bss.generated_comment",
+      "original_default": "74 zero bytes",
+      "evidence": "constructor38af9 and generated-header output/COM cleanup consumers; only encountered string extent, not original capacity"
+    },
+    {
+      "name": "comment_value_offset",
+      "class": "bss",
+      "original_address": 273444024,
+      "bytes": 4,
+      "native_expression": "frontend_bss.comment_value_offset",
+      "original_default": 0,
+      "evidence": "constructor38af9 and generated-header output/COM cleanup consumers; only encountered string extent, not original capacity"
+    },
+    {
+      "name": "generated_comment_length",
+      "class": "bss",
+      "original_address": 273443908,
+      "bytes": 4,
+      "native_expression": "frontend_bss.generated_comment_length",
+      "original_default": 0,
+      "evidence": "constructor38af9 and generated-header output/COM cleanup consumers; only encountered string extent, not original capacity"
     }
   ],
   "initializers": [
@@ -2091,14 +2127,15 @@
   ],
   "hard_stop": "checked_malloc is initially an INT3; after its reconstruction every unknown initializer remains a named INT3 before semantic use",
   "native_padding": {
-    "bytes": 29,
+    "bytes": 31,
     "kind": "natural C object/array alignment padding; no original semantic counterpart",
     "output_buffer_size": 36,
     "output_mapped_bytes": 33,
     "output_count": 8,
     "sentinel_size": 12,
     "sentinel_padding_bytes": 3,
-    "byte_array_alignment_bytes": 2
+    "byte_array_alignment_bytes": 2,
+    "comment_alignment_bytes": 2
   },
   "token_projection": {
     "original_payload_bytes": 40,
@@ -2328,5 +2365,13 @@
     "member_rva": 245057,
     "member_abi": "ECX this, no stack arguments, EAX this, RET0; EDI preserved",
     "pointees": "opaque until actual semantic consumer; no image/arena/page layout modeled"
+  },
+  "comment_projection": {
+    "observed_char_bytes": 74,
+    "original_capacity": "UNMODELED",
+    "prefix_length": 63,
+    "complete_length": 73,
+    "tail": "all original bytes beyond74 remain UNMODELED, guarded unchanged",
+    "pointer_content": false
   }
 }

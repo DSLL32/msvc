@@ -148,3 +148,9 @@ Callback39 is accepted as one 24-byte split wrapper:10 primary bytes plus14
 cleanup-registration bytes. Its constructor and destructor remain separate
 named traps. Three fresh pairs and six changed-boundary controls are recorded
 in `cases/minimal/comment-wrapper-trials.json`; no joint closure was needed.
+
+The generated-comment constructor is accepted separately (226 bytes). Its
+74 observed character bytes, COM flag and two lengths add86 semantic BSS bytes;
+unknown original capacity/tails remain unmodeled. Four pairs and22 new controls
+are in `cases/minimal/comment-constructor-trials.json`. Schema26 has1045 semantic
+BSS bytes and31 natural native padding bytes. The next frontier is callback40.

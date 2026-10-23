@@ -40,6 +40,11 @@ while block is not None and not block.is_global and not block.is_static:
     for symbol in block:
         if symbol.is_argument: value['args'][symbol.name]=int(frame.read_var(symbol))
     block=block.superblock
+if frame.name()=='register_cleanup' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&register_cleanup')):
+    value['args']={'cleanup':int(gdb.parse_and_eval('*(unsigned int *)($esp+4)'))}
+    value['raw_entry_abi']={'esp':value['esp'],'return_pc':int(gdb.parse_and_eval('*(unsigned int *)$esp')),'stack_arguments':[value['args']['cleanup']]}
+if frame.name()=='initialize_generated_comment' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&initialize_generated_comment')):
+    value['raw_entry_abi']={'esp':value['esp'],'return_pc':int(gdb.parse_and_eval('*(unsigned int *)$esp')),'stack_arguments':[]}
 if frame.name()=='CompilerPool::Initialize' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&_ZN12CompilerPool10InitializeEj')):
     value['args']={'this':int(gdb.parse_and_eval('(unsigned int)$ecx')),'minimum_pages':int(gdb.parse_and_eval('*(unsigned int *)($esp+4)'))}
     value['raw_entry_abi']={'ecx':value['args']['this'],'esp':value['esp'],'return_pc':int(gdb.parse_and_eval('*(unsigned int *)$esp')),'stack_argument':value['args']['minimum_pages']}
@@ -150,6 +155,12 @@ if any(f.name=='pending_group_head' for f in gdb.lookup_type('FrontendBss').fiel
     for name in ('pending_group_head','active_group'):
         value['frontend'][name]=int(gdb.parse_and_eval('(unsigned int)frontend_bss.'+name))
         value['frontend']['storage'][name]=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.'+name)),4]
+if any(f.name=='com_initialized' for f in gdb.lookup_type('FrontendBss').fields()):
+    for name in ('com_initialized','comment_value_offset','generated_comment_length'):
+        value['frontend'][name]=int(gdb.parse_and_eval('frontend_bss.'+name))
+        value['frontend']['storage'][name]=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.'+name)),4]
+    value['frontend']['generated_comment']=list(bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('(unsigned int)&frontend_bss.generated_comment')),74)))
+    value['frontend']['storage']['generated_comment']=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.generated_comment')),74]
 value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
 value['target_state']['onexit_first']=int(gdb.parse_and_eval('(unsigned int)*onexit_begin')) if value['target_state']['onexit_begin'] else None
@@ -266,6 +277,16 @@ end
         return_observer=output/'observe-pool-return.gdb'
         return_observer.write_text('python\nimport gdb\nclass PoolReturnObserver(gdb.Breakpoint):\n    def stop(self):\n        gdb.execute("source "+'+repr(str(result))+')\n        return False\npool_return_bp=PoolReturnObserver("*0x%x"%int(gdb.parse_and_eval("*(unsigned int *)$esp")),temporary=True,internal=True)\nend\n')
         observer+='break *_ZN12CompilerPool10InitializeEj\ncommands\nsilent\n'+seed+'source '+str(entry)+'\nsource '+str(return_observer)+'\ncontinue\nend\n'
+    if model['schema']>=26:
+        entry=output/'collect-comment-entry.gdb'
+        entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'comment-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'comment-entry-argv.bin'))))
+        change=''
+        if trial.get('test_comment_seed'):
+            change='set variable frontend_bss.com_initialized=37\nset variable frontend_bss.comment_value_offset=23\nset variable frontend_bss.generated_comment_length=29\npython\ngdb.selected_inferior().write_memory(int(gdb.parse_and_eval("(unsigned int)&frontend_bss.generated_comment")),bytes([165])*74)\nend\n'
+        observer+='break *initialize_generated_comment\ncommands\nsilent\n'+change+'source '+str(entry)+'\ncontinue\nend\n'
+        result=output/'collect-comment-result.gdb'
+        result.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'comment-result.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'comment-result-argv.bin'))))
+        observer+='break *register_cleanup if *(unsigned int *)($esp+4)==(unsigned int)&destroy_generated_comment\ncommands\nsilent\nsource '+str(result)+'\ncontinue\nend\n'
     if model['schema']>=25:
         entry=output/'collect-group-entry.gdb'
         entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'group-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'group-entry-argv.bin'))))

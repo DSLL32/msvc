@@ -87,6 +87,11 @@ int initialize_compiler_pass(void)
         frontend_bss.pch_context.mapped_pages = NULL;
         frontend_bss.pending_group_head = NULL;
         frontend_bss.active_group = NULL;
+        frontend_bss.com_initialized = 0;
+        for (i = 0; i < sizeof(frontend_bss.generated_comment); ++i)
+            frontend_bss.generated_comment[i] = 0;
+        frontend_bss.comment_value_offset = 0;
+        frontend_bss.generated_comment_length = 0;
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }

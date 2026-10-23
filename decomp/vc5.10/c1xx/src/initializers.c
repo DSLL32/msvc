@@ -1,3 +1,4 @@
+#include <string.h>
 #include "frontend.h"
 #include "output.h"
 #include "pdb-context.h"
@@ -173,9 +174,20 @@ void initialize_frontend_39(void)
     register_cleanup(destroy_generated_comment);
 }
 
+/* The original uses the compiler's inline string intrinsics here. */
+#ifndef RECON_NATIVE_TEST
+#pragma intrinsic(strcpy, strcat, strlen)
+#endif
 void initialize_generated_comment(void)
 {
-    __asm { int 3 }
+    frontend_bss.com_initialized = 0;
+    strcpy(frontend_bss.generated_comment, "// Created by ");
+    strcat(frontend_bss.generated_comment,
+           "Microsoft (R) C/C++ Compiler Version 11.00.7307");
+    strcat(frontend_bss.generated_comment, " (");
+    frontend_bss.comment_value_offset = strlen(frontend_bss.generated_comment);
+    strcat(frontend_bss.generated_comment, "XXXXXXXX).");
+    frontend_bss.generated_comment_length = strlen(frontend_bss.generated_comment);
 }
 
 void destroy_generated_comment(void)

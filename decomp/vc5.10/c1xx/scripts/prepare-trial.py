@@ -97,11 +97,14 @@ def prepare():
             "cases/minimal/contract.json", "cases/minimal/invoke-argv.bin", "cases/sources/minimal.cpp", "cases/minimal/state-model.json")}
     trial["test_seed"] = candidate.get("test_seed")
     trial['test_constructor_seed']=bool(candidate.get('test_constructor_seed'))
-    if trial["test_seed"] or trial_name in ('_checked_malloc','_register_cleanup','_initialize_deferred_work','CompilerPool::Initialize','_initialize_type_ranks') or (trial_name or '').startswith(('_initialize_frontend_','_initialize_output_buffer_','_initialize_pdb_context_')):
+    if trial["test_seed"] or trial_name in ('_checked_malloc','_register_cleanup','_initialize_deferred_work','CompilerPool::Initialize','_initialize_type_ranks','_initialize_generated_comment') or (trial_name or '').startswith(('_initialize_frontend_','_initialize_output_buffer_','_initialize_pdb_context_')):
         trial["validation_observers"] = [{"owner":"_initialize_compiler_pass", "original_rva":0x385be,
             "original_byte":0x89,"purpose":"observe typed copy/restore before first-flag reset"}]
     if trial_name=='CompilerPool::Initialize':
         trial['validation_observers'].append({'owner':'_initialize_frontend_24','original_rva':0x389d4,'original_byte':0xc3,'purpose':'actual pool member return-this and RET4 stack effect'})
+    trial['test_comment_seed']=bool(candidate.get('test_comment_seed'))
+    if trial['test_comment_seed']:
+        trial['auxiliary_comment_data_seed']={'owner':'_initialize_generated_comment','point':'actual constructor entry after BSS reset','com_initialized':37,'generated_comment':'74 bytes165','comment_value_offset':23,'generated_comment_length':29,'code_or_allocator_mock':False}
     trial['test_group_seed']=bool(candidate.get('test_group_seed'))
     if trial['test_group_seed']:
         trial['auxiliary_group_data_seed']={'owner':'_initialize_frontend_38','point':'actual entry after BSS reset','head':'owned snapshot+4','active':'owned snapshot+8','tail_untouched':True,'pointees_dereferenced':False,'code_or_allocator_mock':False}

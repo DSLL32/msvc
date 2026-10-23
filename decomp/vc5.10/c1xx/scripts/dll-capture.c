@@ -300,6 +300,11 @@ static void save_frontend_state(const char *suffix)
     sprintf(name, "primitive-type-rank-%s.bin", suffix); save_blob(name, data, 65);
     readmem(base + 0xc4c80, data, 69);
     sprintf(name, "complex-type-rank-%s.bin", suffix); save_blob(name, data, 69);
+    readmem(base + 0xc6b64, data, 4);
+    readmem(base + 0xc6ba8, data + 4, 74);
+    readmem(base + 0xc6cb8, data + 78, 4);
+    readmem(base + 0xc6c44, data + 82, 4);
+    sprintf(name, "generated-comment-%s.bin", suffix); save_blob(name, data, 86);
     readmem(base + 0xc6b40, data, 12);
     sprintf(name, "pending-groups-%s.bin", suffix); save_blob(name, data, 12);
     readmem(base + 0xc64b8, data, 68);
@@ -490,6 +495,10 @@ static void seed_frontend_restore(void)
     value = allocated + 44; write_mem(base + 0xc64f0, &value, 4);
     value = allocated + 48; write_mem(base + 0xc64f4, &value, 4);
     value = allocated + 52; write_mem(base + 0xc64f8, &value, 4);
+    value = 37; write_mem(base + 0xc6b64, &value, 4);
+    memset(bytes, 165, 74); write_mem(base + 0xc6ba8, bytes, 74);
+    value = 23; write_mem(base + 0xc6cb8, &value, 4);
+    value = 29; write_mem(base + 0xc6c44, &value, 4);
     value = allocated + 4; write_mem(base + 0xc6b40, &value, 4);
     value = allocated + 8; write_mem(base + 0xc6b48, &value, 4);
     value = 9; write_mem(base + 0xcb06c, &value, 4);
@@ -680,9 +689,43 @@ int main(int argc, char **argv)
                     prepare_mask();
                 }
                 if (address == base + 0x384d4) seed_frontend_restore();
+                if (address == base + 0x38af9 || address == base + 0x386ae) {
+                    DWORD caller_words[2];
+                    BYTE comment_bss[0xf69c];
+                    readmem(context.Esp, caller_words, sizeof(caller_words));
+                    if (address == base + 0x38af9 || caller_words[1] == base + 0x346d4) {
+                        if (address == base + 0x38af9 && getenv("C1XX_TEST_COMMENT")) {
+                            DWORD value; BYTE input[74];
+                            value = 37; write_mem(base + 0xc6b64, &value, 4);
+                            memset(input, 165, sizeof(input)); write_mem(base + 0xc6ba8, input, sizeof(input));
+                            value = 23; write_mem(base + 0xc6cb8, &value, 4);
+                            value = 29; write_mem(base + 0xc6c44, &value, 4);
+                            fprintf(events, "comment-seed actual-entry=00038af9 bytes=74 value=165 com=37 offset=23 length=29 code-mock=0\n");
+                        }
+                        readmem(base + 0xb9000, comment_bss, sizeof(comment_bss));
+                        save_blob(address == base + 0x38af9 ? "comment-bss-entry.bin" : "comment-bss-result.bin", comment_bss, sizeof(comment_bss));
+                    }
+                }
                 if (address == base + 0x38ae2 || address == base + 0x38aef) {
                     BYTE group_bss[0xf69c];
-                    if (address == base + 0x38ae2 && getenv("C1XX_TEST_PENDING_GROUP")) {
+                    if (address == base + 0x38af9 || address == base + 0x386ae) {
+                    DWORD caller_words[2];
+                    BYTE comment_bss[0xf69c];
+                    readmem(context.Esp, caller_words, sizeof(caller_words));
+                    if (address == base + 0x38af9 || caller_words[1] == base + 0x346d4) {
+                        if (address == base + 0x38af9 && getenv("C1XX_TEST_COMMENT")) {
+                            DWORD value; BYTE input[74];
+                            value = 37; write_mem(base + 0xc6b64, &value, 4);
+                            memset(input, 165, sizeof(input)); write_mem(base + 0xc6ba8, input, sizeof(input));
+                            value = 23; write_mem(base + 0xc6cb8, &value, 4);
+                            value = 29; write_mem(base + 0xc6c44, &value, 4);
+                            fprintf(events, "comment-seed actual-entry=00038af9 bytes=74 value=165 com=37 offset=23 length=29 code-mock=0\n");
+                        }
+                        readmem(base + 0xb9000, comment_bss, sizeof(comment_bss));
+                        save_blob(address == base + 0x38af9 ? "comment-bss-entry.bin" : "comment-bss-result.bin", comment_bss, sizeof(comment_bss));
+                    }
+                }
+                if (address == base + 0x38ae2 && getenv("C1XX_TEST_PENDING_GROUP")) {
                         DWORD owned, value;
                         readmem(base + 0xc4d50, &owned, 4);
                         if (!owned) fail("group seed needs snapshot identity");

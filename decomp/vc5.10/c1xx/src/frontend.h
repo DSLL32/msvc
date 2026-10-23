@@ -99,6 +99,11 @@ typedef struct FrontendBss {
     PchContext pch_context;
     struct PendingGroup *pending_group_head;
     struct PendingGroup *active_group;
+    int com_initialized;
+    /* The encountered 73-character value and NUL, not the original capacity. */
+    char generated_comment[74];
+    unsigned comment_value_offset;
+    unsigned generated_comment_length;
 } FrontendBss;
 
 #ifdef __cplusplus

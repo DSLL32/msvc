@@ -137,6 +137,8 @@ def main():
         environment.pop('C1XX_OBSERVE_POOL_RETURN',None)
         environment.pop('C1XX_TEST_POOL_CONSTRUCTOR',None)
         if trial['trial']=='CompilerPool::Initialize':environment['C1XX_OBSERVE_POOL_RETURN']='1'
+        environment.pop('C1XX_TEST_COMMENT',None)
+        if trial.get('test_comment_seed'):environment['C1XX_TEST_COMMENT']='1'
         environment.pop('C1XX_TEST_PENDING_GROUP',None)
         if trial.get('test_group_seed'):environment['C1XX_TEST_PENDING_GROUP']='1'
         environment.pop('C1XX_TEST_PCH',None)
