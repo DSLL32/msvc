@@ -214,7 +214,7 @@ IrToken *__stdcall member_destructor_expression(unsigned char operation, IrToken
 
 CppSymbol *__stdcall new_label(char *name) { __asm { int 3 } return 0; }
 IrToken *__stdcall new_unary_ir_expression(unsigned char operation, void *value) { __asm { int 3 } return 0; }
-unsigned __stdcall next_enumerator_value(unsigned value, char *unused_name) { __asm { int 3 } return 0; }
+
 IrToken *__stdcall operator_operand_expression(unsigned char operation, IrToken *arguments) { __asm { int 3 } return 0; }
 
 

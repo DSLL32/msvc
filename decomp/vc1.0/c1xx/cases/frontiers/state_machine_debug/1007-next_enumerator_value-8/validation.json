@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_next_enumerator_value@8",
+    "start": 191888,
+    "end": 191928
+  },
+  "distinct_direct_callees": [
+    "_compiler_warning"
+  ],
+  "next_frontier": "_end_enum_specifier",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4356718407943845,
+  "total_operation_seconds": 3.945334216579795,
+  "original_capture_seconds": 1.6692955363541842
+}

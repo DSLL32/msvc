@@ -52,3 +52,12 @@ void __stdcall declare_enumerator(char *name, CType *context, unsigned value)
     if (browser_filename && (!declaration_mode || options.option_FR))
         browser_declaration((CppSymbol *)symbol);
 }
+
+/* Original 0x2ed90..0x2edb8. Warn at the signed-int maximum,
+   retaining the unsigned increment used for enum value transport. */
+unsigned __stdcall next_enumerator_value(unsigned value, char *name)
+{
+    if (value == (unsigned)maximum_signed_int_constant)
+        compiler_warning(1, 340, name);
+    return value + 1;
+}
