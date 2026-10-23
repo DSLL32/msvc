@@ -1008,7 +1008,8 @@
     "_write_counted_ir",
     "_write_ir_short",
     "_parse_linkage@8",
-    "_find_intrinsic_index@4"
+    "_find_intrinsic_index@4",
+    "_intrinsic_enabled@4"
   ],
   "driver": [
     {
@@ -7829,7 +7830,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_intrinsic_enabled@4",
+      "terminal": "_pop_linkage",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -7852,7 +7853,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1003-find_intrinsic_index-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1004-intrinsic_enabled-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -7861,7 +7862,8 @@
         "cases/frontiers/state_machine_debug/1000-write_counted_ir/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1001-write_ir_short/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1002-parse_linkage-8/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1003-find_intrinsic_index-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1003-find_intrinsic_index-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1004-intrinsic_enabled-4/frontier-extension.json"
       ]
     }
   },
@@ -10042,6 +10044,12 @@
       "name": "_intrinsic_name_groups",
       "original": 657248,
       "bytes": 29
+    },
+    {
+      "kind": "bytes",
+      "name": "_intrinsic_rules",
+      "original": 657280,
+      "bytes": 612
     }
   ],
   "buffered_streams": [
