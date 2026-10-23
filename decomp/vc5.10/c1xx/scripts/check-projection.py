@@ -38,10 +38,12 @@ def field_map(model,observed):
            'cleanup_callbacks':(0x104c4d58,128,'bss','frontend_bss.cleanup_callbacks'),
            'restore_mode':(0x104cb06c,4,'external','restore_mode'),
            'compiler_mode':(0x104cb008,4,'external','compiler_mode')}
-    if model['schema']==2:
+    s.require(model['schema'] in (1,2,3),'unknown state-model schema')
+    if model['schema']>=2:
         known['context_stack']=(0x104ba900,12,'bss','frontend_bss.context_stack')
         s.require(observed['context_stack_fields']==['begin','end','top'],'unmodeled context stack field')
-    else:s.require(model['schema']==1,'unknown state-model schema')
+    if model['schema']>=3:
+        known['saved_context_stack']=(0x104ba8f0,12,'bss','frontend_bss.saved_context_stack')
     s.require(names==set(known),'field mapping is not the encountered typed projection')
     original=[];native=[]
     for row in model['fields']:
@@ -60,9 +62,9 @@ def field_map(model,observed):
         else:s.require(not any(a<=first<z for a,z in (model['original_initialized_region'],model['original_bss_region'])),
                        'external field aliases copied/cleared region')
     s.require(disjoint(original) and disjoint(native),'modeled fields overlap/alias storage')
-    fields=['saved_state','cleanup_count','cleanup_callbacks']+(['context_stack'] if model['schema']==2 else [])
+    fields=['saved_state','cleanup_count','cleanup_callbacks']+(['context_stack'] if model['schema']>=2 else [])+(['saved_context_stack'] if model['schema']>=3 else [])
     s.require(observed['declared_fields']=={'initialized':['first_invocation'],'bss':fields} and
-              observed['known_sizes']=={'initialized':4,'bss':148 if model['schema']==2 else 136},
+              observed['known_sizes']=={'initialized':4,'bss':136+12*(model['schema']-1)},
               'typed structs contain unmodeled/omitted storage')
     for kind in ('initialized','bss'):
         s.require(sum(row['bytes'] for row in model['fields'] if row['class']==kind)==observed['known_sizes'][kind],
@@ -341,7 +343,7 @@ def main():
     for row in packet['trials']:
         original,native=Path(row['original']),Path(row['native'])
         active=decoder
-        if json.loads((native/'trial.json').read_text())['trial']=='_initialize_frontend_01':
+        if (json.loads((native/'trial.json').read_text())['trial'] or '').startswith('_initialize_frontend_'):
             active=history.module('callback_packet','check-callback.py')
         audit=history.configure(active,original,native,saved_record=row)
         results.append(active.check(original,native,audit_path=audit))

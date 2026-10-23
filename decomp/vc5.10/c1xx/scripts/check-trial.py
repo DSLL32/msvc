@@ -50,6 +50,8 @@ def check(original, native, require_audit=True, audit_path=None):
                   '_initialize_compiler_pass':'check-projection.py',
                   '_checked_malloc':'check-projection.py',
                   '_initialize_frontend_01':'check-callback.py'}.get(candidate['trial'])
+        if (candidate['trial'] or '').startswith('_initialize_frontend_'):
+            filename='check-callback.py'
         require(filename is not None,'no reviewed decoder for this minimal-case candidate')
         spec = importlib.util.spec_from_file_location("minimal",Path(__file__).with_name(filename))
         decoder = importlib.util.module_from_spec(spec);spec.loader.exec_module(decoder)

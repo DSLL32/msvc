@@ -10,7 +10,9 @@ void initialize_frontend_01(void)
 
 void initialize_frontend_02(void)
 {
-    __asm { int 3 }
+    frontend_bss.saved_context_stack.begin = NULL;
+    frontend_bss.saved_context_stack.end = NULL;
+    frontend_bss.saved_context_stack.top = NULL;
 }
 
 void initialize_frontend_03(void)

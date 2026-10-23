@@ -25,6 +25,9 @@ int initialize_compiler_pass(void)
         frontend_bss.context_stack.begin = NULL;
         frontend_bss.context_stack.end = NULL;
         frontend_bss.context_stack.top = NULL;
+        frontend_bss.saved_context_stack.begin = NULL;
+        frontend_bss.saved_context_stack.end = NULL;
+        frontend_bss.saved_context_stack.top = NULL;
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }

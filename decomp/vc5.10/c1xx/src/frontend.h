@@ -23,6 +23,7 @@ typedef struct FrontendBss {
     int cleanup_count;
     Initializer cleanup_callbacks[32];
     FrontendContextStack context_stack;
+    FrontendContextStack saved_context_stack;
 } FrontendBss;
 
 extern FrontendData frontend_data;

@@ -1,0 +1,84 @@
+{
+  "schema": 1,
+  "trial": "_initialize_frontend_02",
+  "trials": [
+    {
+      "seed": null,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback02-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback02-native-1",
+      "original_receipt_sha256": "0e14e2780048aec33ccea5ba82965b6a539695b4ba342318e417c7088e6ecb1a",
+      "native_receipt_sha256": "9b97c377c165dcb587c625c4fad20e61f86bc4e02dec6a6e6b97a2e6501e47f8",
+      "audit": "build/audits/4985fc5ed30f761fc4c0799ddb2d3aac77ddd0758314c0bcd859051257bfeda5.json",
+      "comparison": {
+        "trial": "_initialize_frontend_02",
+        "frontier": "_initialize_frontend_03",
+        "seed": null,
+        "modeled_context_fields": 6,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 160,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "original_seconds": 0.8660950241610408,
+        "native_seconds": 0.26367319747805595
+      }
+    },
+    {
+      "seed": "restore-nonzero",
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback02-restore-nonzero-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback02-restore-nonzero-native-1",
+      "original_receipt_sha256": "83e50dbe37a70d383022a87362e775e55567bf0c76660509bacdbf4e6804f7a9",
+      "native_receipt_sha256": "65d208ec5bb943cf27e04346b37e6fb1aedd0c3c864854434e8c2fe7538d6c9a",
+      "audit": "build/audits/9dae064bb34ca31bbc50c70b628313fd06264d49d859693021a0e51611d9cd23.json",
+      "comparison": {
+        "trial": "_initialize_frontend_02",
+        "frontier": "_initialize_frontend_03",
+        "seed": "restore-nonzero",
+        "modeled_context_fields": 6,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 160,
+        "nonzero_expanded_BSS_restore_checked": true,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "original_seconds": 1.21740841306746,
+        "native_seconds": 0.2728670798242092
+      }
+    },
+    {
+      "seed": "restore-zero",
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback02-restore-zero-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback02-restore-zero-native-1",
+      "original_receipt_sha256": "3dc57a25cee3b2d87fd91ff60f67af759de05fec37248b8eb84518cbcb280848",
+      "native_receipt_sha256": "3ceec7e44f11a3a88cb248ed90ff6395ac61d9f7fb2f2e832badcd6e667a9591",
+      "audit": "build/audits/f4d48832da3e3fe852a4f8e20dff9c36556fd8443fed97bd76e0275393b358ff.json",
+      "comparison": {
+        "trial": "_initialize_frontend_02",
+        "frontier": "_initialize_frontend_03",
+        "seed": "restore-zero",
+        "modeled_context_fields": 6,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 160,
+        "nonzero_expanded_BSS_restore_checked": true,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "original_seconds": 1.0669631278142333,
+        "native_seconds": 0.24719511903822422
+      }
+    }
+  ]
+}
