@@ -1,0 +1,18 @@
+Breakpoint 1 at 0x4c49d: file src/numeric-conversion.c, line 186.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, convert_member_pointer_initializer (type=0x5662930c, expression=0x56636338) at src/numeric-conversion.c:186
+186	    CppSymbol *source_class = expression->type->related->data.tag_symbol;
+#0  convert_member_pointer_initializer (type=0x5662930c, expression=0x56636338) at src/numeric-conversion.c:186
+#1  0x565a1637 in convert_scalar_initializer (operation=1 '\001', type=0x5662930c, expression=0x56636338) at src/numeric-conversion.c:216
+#2  0x565a2244 in convert_derived_initializer (type=0x5662930c, expression=0x56636338) at src/numeric-conversion.c:353
+#3  0x56586bdc in convert_initializer (operation=126 '~', type=0x5662930c, expression=0x56636338) at src/constructor-initializers.c:707
+#4  0x56586957 in initialize_lvalue (target=0x5663634c, value=0x56636338) at src/constructor-initializers.c:419
+#5  0x5659278b in emit_initializer_assignment (target=0x5663634c, value=0x56636338) at src/object-initializers.c:421
+#6  0x565921d3 in initialize_object_value (symbol=0x5664c988, value=0x56636338) at src/object-initializers.c:303
+#7  0x56591f6e in initialize_object (symbol=0x5664c988, value=0x56636338) at src/object-initializers.c:255
+#8  0x565b4f80 in parse_translation_unit () at src/parser-declaration-actions.inc:327
+#9  0x5655e0cf in compile_translation_unit () at src/frontend.c:73
+#10 0x565588b6 in guarded_compile () at src/c1xx.c:28
+#11 0x56558884 in main (argc=1, argv=0xffffd794, environment=0xffffd79c) at src/c1xx.c:20

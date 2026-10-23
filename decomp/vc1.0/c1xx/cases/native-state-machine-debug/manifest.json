@@ -1,14 +1,14 @@
 {
   "case": "state_machine_debug",
-  "scope": "1119 accepted frontiers; explicit original-backed current partial frontend terminal",
-  "reference_receipt": "cases/frontiers/state_machine_debug/1118-equal_member_function_parameters-8/original-receipt.json",
-  "reference_receipt_sha256": "71c7e0540ed766ac79bc2ad4e5c4b7b613de28daf64d4d1072e82e12cd98acd7",
+  "scope": "1120 accepted frontiers; explicit original-backed current partial frontend terminal",
+  "reference_receipt": "cases/frontiers/state_machine_debug/1119-convert_member_pointer_initializer-8/original-receipt.json",
+  "reference_receipt_sha256": "a9fc62518dcace619bca3a91436b598a078982d35c803a796d4733cc0e4d284b",
   "reference_original_image_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
   "canonical_map": "canonical-map.txt",
-  "canonical_map_sha256": "8f1d2ec5383f3d79cca6df70e90597e353961bfe96514bb5df180c7d4ce74fba",
+  "canonical_map_sha256": "d24790c5dea505d875801377f5eae688eff57558177472354072b757395415d6",
   "terminal": {
     "kind": "frontier",
-    "logical": "_convert_member_pointer_initializer@8",
+    "logical": "_resolve_member_pointer_path@12",
     "native_signal": 5,
     "original_exception": "80000003"
   },
@@ -42,7 +42,7 @@
     }
   ],
   "normalization": "none; captured visible bytes, not unflushed CRT buffers",
-  "capture_seconds": 0.7665232587605715,
+  "capture_seconds": 0.8665920002385974,
   "dependencies": [
     {
       "path": "toolchains/1.0-nt/bin/C1.ERR",

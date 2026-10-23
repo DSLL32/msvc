@@ -176,7 +176,28 @@ int __stdcall integer_constant_overflows(unsigned short width, short target_unsi
     return 0;
 }
 
-IrToken *__stdcall convert_member_pointer_initializer(CType *type, IrToken *expression);
+IrToken *__stdcall convert_member_pointer_representation(IrToken *expression,
+    CType *type, QualifiedDeclarator *path, int forward);
+
+/* Original 0x66490..0x6650e. Equal owner classes need only a new
+   type; otherwise retain the base path and its conversion direction. */
+IrToken *__stdcall convert_member_pointer_initializer(CType *type, IrToken *expression)
+{
+    CppSymbol *source_class = expression->type->related->data.tag_symbol;
+    CppSymbol *target_class = type->related->data.tag_symbol;
+    QualifiedDeclarator *path;
+    int forward = 1;
+    if (source_class == target_class) {
+        expression->type = type;
+        return expression;
+    }
+    path = lookup_class_name(target_class, source_class->name, 1, 0x182);
+    if (!path) {
+        path = lookup_class_name(source_class, target_class->name, 1, 0x182);
+        forward = 0;
+    }
+    return convert_member_pointer_representation(expression, type, path, forward);
+}
 
 /* Original 0x65ce0..0x65db0. Prefer user-defined and class/member-pointer
    conversions before based-address handling, numeric folding or a cast node.

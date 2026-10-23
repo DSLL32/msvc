@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "function": "_convert_member_pointer_initializer@8",
+  "native_entry": "convert_member_pointer_initializer",
+  "argument_words": 4,
+  "ownership_register": "edi,esi",
+  "ownership_caller_extent": [
+    417035,
+    417066
+  ],
+  "native_caller_locals": {
+    "caller_type": {
+      "frame": 1,
+      "function": "convert_scalar_initializer",
+      "local": "type"
+    },
+    "caller_expression": {
+      "frame": 1,
+      "function": "convert_scalar_initializer",
+      "local": "expression"
+    }
+  },
+  "native_expressions": {
+    "raw_type": "(unsigned)type",
+    "raw_expression": "(unsigned)expression"
+  },
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 351530,
+        "original_owner_function": "_convert_scalar_initializer@12",
+        "native_owner_function": "convert_scalar_initializer",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "type",
+        "identity": "Actual accepted scalar initializer keeps typeESI/expressionEDI; PUSHEDI65d23/PUSHESI65d24/CALL65d25 return65d2a; native real caller formals retain same values. Contextregisters anchor owners only."
+      }
+    },
+    {
+      "name": "expression",
+      "stack_index": 1,
+      "native_field": "raw_expression",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 351530,
+        "original_owner_function": "_convert_scalar_initializer@12",
+        "native_owner_function": "convert_scalar_initializer",
+        "native_owner_field": "caller_expression",
+        "native_owner_local": "expression",
+        "identity": "Actual accepted scalar initializer keeps typeESI/expressionEDI; PUSHEDI65d23/PUSHESI65d24/CALL65d25 return65d2a; native real caller formals retain same values. Contextregisters anchor owners only."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      418960,
+      419086
+    ],
+    "argument_bytes": 8,
+    "proof": "Whole126B, SUBESP4/saveEBX/ESI/EDI/EBP16: typeESP+24/expressionESP+28, RET8/EAXexpression. Sourceowner from expression.type.related.data.tag_symbol, targetowner from type.related.data.tag_symbol. Sameowner mutates expression.type; else lookup_class_name78420/RET16 target->source then reverses direction ifNULL; final convert_member_pointer_representation4be50 whole143B/RET16 takes expression/type/QualifiedDeclaratorpath/forward (callee reads path.resolution.binding and modeltable dispatch). No incoming semanticregister/hiddeninput/uninitialized result."
+  }
+}

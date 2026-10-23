@@ -1123,7 +1123,8 @@
     "_member_pointer_owner_class@4",
     "_make_compact_method_pointer@12",
     "_classify_member_pointer_conversion@12",
-    "_equal_member_function_parameters@8"
+    "_equal_member_function_parameters@8",
+    "_convert_member_pointer_initializer@8"
   ],
   "driver": [
     {
@@ -6852,7 +6853,7 @@
     {
       "name": "_convert_member_pointer_initializer@8",
       "start": 418960,
-      "end": 418961
+      "end": 419086
     },
     {
       "name": "_try_class_pointer_initializer@8",
@@ -8226,6 +8227,11 @@
       "name": "_equal_member_function_parameters@8",
       "start": 406768,
       "end": 406941
+    },
+    {
+      "name": "_convert_member_pointer_representation@16",
+      "start": 310864,
+      "end": 310865
     }
   ],
   "cases": {
@@ -8426,7 +8432,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_convert_member_pointer_initializer@8",
+      "terminal": "_resolve_member_pointer_path@12",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8449,7 +8455,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1118-equal_member_function_parameters-8/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1119-convert_member_pointer_initializer-8/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8573,7 +8579,8 @@
         "cases/frontiers/state_machine_debug/1115-member_pointer_owner_class-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1116-make_compact_method_pointer-12/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1117-classify_member_pointer_conversion-12/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1118-equal_member_function_parameters-8/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1118-equal_member_function_parameters-8/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1119-convert_member_pointer_initializer-8/frontier-extension.json"
       ]
     }
   },

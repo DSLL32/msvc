@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_convert_member_pointer_initializer@8",
+    "start": 418960,
+    "end": 419086
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1119-convert_member_pointer_initializer-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_convert_member_pointer_representation@16",
+    "_lookup_class_name@16"
+  ],
+  "next_frontier": "_resolve_member_pointer_path@12",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5052027739584446,
+  "total_operation_seconds": 3.474330813623965,
+  "original_capture_seconds": 0.8665920002385974
+}
