@@ -13,10 +13,14 @@
 
 /* File HANDLEs encode fd+1; mapping handles own a dup of their source fd. */
 static DWORD last_error;
+typedef struct NativeResource {
+    struct NativeResource *next; DWORD kind,id,language,length; const char *text;
+} NativeResource;
 typedef struct NativeModule {
     ReconModuleSpec identity;
     char name[MAX_PATH],path[MAX_PATH],sha256[65];
     BOOL thread_calls_disabled;
+    NativeResource *resources;
 } NativeModule;
 static NativeModule native_modules[32],*primary_module;
 static unsigned module_count;
@@ -92,6 +96,77 @@ BOOL WINAPI recon_DisableThreadLibraryCalls(HMODULE handle)
     if (!module) { last_error=ERROR_MOD_NOT_FOUND; return FALSE; }
     module->thread_calls_disabled=TRUE;
     return TRUE;
+}
+
+/* Entries are supplied by a verified host adapter, never read from a PE here. */
+void recon_load_module_resources(HMODULE handle,const char *filename)
+{
+    NativeModule *module=recon_registered_module(handle);
+    unsigned char *bytes; size_t size,offset; struct stat st;
+    DWORD count,n; int fd,saved_errno=errno; DWORD saved_error=last_error;
+    if (!module || !filename) recon_unsupported("resource provider module");
+    fd=open(filename,O_RDONLY|O_CLOEXEC);
+    if (fd<0 || fstat(fd,&st)<0 || st.st_size<72 || st.st_size>1048576)
+        recon_unsupported("resource provider file");
+    size=(size_t)st.st_size;
+    bytes=mmap(NULL,size,PROT_READ,MAP_PRIVATE,fd,0); close(fd);
+    if (bytes==MAP_FAILED) recon_unsupported("resource provider mapping");
+    if (memcmp(bytes,"RMR1",4) || memcmp(bytes+8,module->sha256,64))
+        recon_unsupported("resource provider identity");
+    memcpy(&count,bytes+4,4); offset=72;
+    if (count>4096) recon_unsupported("resource provider count");
+    for (n=0;n<count;++n) {
+        DWORD kind,id,language,length; NativeResource *entry; size_t k;
+        if (size-offset<16) recon_unsupported("resource provider record");
+        memcpy(&kind,bytes+offset,4); memcpy(&id,bytes+offset+4,4);
+        memcpy(&language,bytes+offset+8,4); memcpy(&length,bytes+offset+12,4); offset+=16;
+        if ((kind!=1 && kind!=2) || language!=0x409 || length>65535 || length>size-offset)
+            recon_unsupported("resource provider encoding");
+        for (k=0;k<length;++k) if (!bytes[offset+k] || bytes[offset+k]>127)
+            recon_unsupported("resource provider non-ASCII text");
+        for (entry=module->resources;entry;entry=entry->next)
+            if (entry->kind==kind && entry->id==id && entry->language==language)
+                recon_unsupported("duplicate resource provider entry");
+        entry=mmap(NULL,sizeof(*entry),PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
+        if (entry==MAP_FAILED) recon_unsupported("resource entry allocation");
+        entry->kind=kind; entry->id=id; entry->language=language; entry->length=length;
+        entry->text=(const char *)bytes+offset; entry->next=module->resources; module->resources=entry;
+        offset+=length;
+    }
+    if (offset!=size) recon_unsupported("resource provider trailing bytes");
+    errno=saved_errno; last_error=saved_error;
+}
+
+static NativeResource *resource_entry(HMODULE handle,DWORD kind,DWORD id,DWORD language)
+{
+    NativeModule *module=handle?recon_registered_module(handle):primary_module;
+    NativeResource *entry;
+    if (!module) recon_unsupported("unregistered resource module");
+    for (entry=module->resources;entry;entry=entry->next)
+        if (entry->kind==kind && entry->id==id && entry->language==language) return entry;
+    recon_unsupported("unencountered resource entry");
+    return NULL;
+}
+
+int WINAPI recon_LoadStringA(HINSTANCE handle,UINT id,LPSTR output,int capacity)
+{
+    NativeResource *entry=resource_entry((HMODULE)handle,1,id,0x409);
+    if (!output || capacity<=0 || (DWORD)capacity<=entry->length)
+        recon_unsupported("unreviewed LoadStringA capacity");
+    memcpy(output,entry->text,entry->length); output[entry->length]=0;
+    return entry->length;
+}
+
+DWORD WINAPI recon_FormatMessageA(DWORD flags,LPCVOID source,DWORD id,DWORD language,
+                                  LPSTR output,DWORD capacity,va_list *arguments)
+{
+    NativeResource *entry;
+    if (flags!=0xa00 || (language && language!=0x409) || arguments)
+        recon_unsupported("unreviewed FormatMessageA mode");
+    entry=resource_entry((HMODULE)source,2,id,0x409);
+    if (!output || capacity<=entry->length) recon_unsupported("unreviewed FormatMessageA capacity");
+    memcpy(output,entry->text,entry->length); output[entry->length]=0;
+    return entry->length;
 }
 
 static DWORD error_code(int error)
@@ -288,6 +363,7 @@ HMODULE WINAPI recon_GetModuleHandleA(LPCSTR name)
     unsigned n;
     if (!name) return primary_module?(HMODULE)primary_module:(HMODULE)1;
     if (!strcasecmp(name,"kernel32.dll")) return (HMODULE)1;
+    if (!strcasecmp(name,"user32.dll")) return (HMODULE)2;
     for (n=0;n<module_count;++n)
         if (!strcasecmp(name,native_modules[n].name) || !strcasecmp(name,native_modules[n].path))
             return (HMODULE)(native_modules+n);
@@ -296,10 +372,15 @@ HMODULE WINAPI recon_GetModuleHandleA(LPCSTR name)
 HMODULE WINAPI recon_LoadLibraryA(LPCSTR name)
 {
     if (name && !strcasecmp(name,"kernel32.dll")) return (HMODULE)1;
+    if (name && !strcasecmp(name,"user32.dll")) return (HMODULE)2;
     last_error=ERROR_MOD_NOT_FOUND; return NULL;
 }
 FARPROC WINAPI recon_GetProcAddress(HMODULE module,LPCSTR name)
 {
+    if (module==(HMODULE)2) {
+        if (name && !strcmp(name,"LoadStringA")) return (FARPROC)recon_LoadStringA;
+        last_error=127; return NULL;
+    }
     if (module!=(HMODULE)1) { last_error=ERROR_INVALID_HANDLE; return NULL; }
     if (!strcmp(name,"CreateFileMappingA")) return (FARPROC)recon_CreateFileMappingA;
     if (!strcmp(name,"MapViewOfFile")) return (FARPROC)recon_MapViewOfFile;

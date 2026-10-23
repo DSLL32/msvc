@@ -282,3 +282,37 @@ The dedicated /root/recon_lib_maintenance agent maintains this shared layer.
 Binary workers contact it directly for shim changes and compatibility advice;
 reconstruction acceptance, boundary policy and cross-project decisions remain
 with the orchestrator.
+
+
+Canonical MSVCRT startup imports can use `recon_crt_bind_arguments(argc, argv,
+ target_environment)` in the native host before target startup. Both vectors
+must be mutable, NULL-terminated and live for the process lifetime. They are
+borrowed unchanged; target environment is independent of Linux shim settings.
+`__getmainargs` supports only the observed wildcard-zero path and leaves its
+one-DWORD startup-info input unchanged. The fmode/commode/initenv accessors
+return stable mutable state; imported app-type, newmode and matherr callback
+state remain inspectable. `_fsopen` has its SDK ABI but deliberately fails closed
+until its sharing behavior is exercised; `_tzset` uses the existing shim.
+
+Encountered resources
+---------------------
+Native hosts register their target module, then call
+`recon_load_module_resources(module, prepared_path)`. The shared Python
+`resources.write_resources(path, original_target_sha256, entries)` prepares the
+provider. Each entry has kind (`string` or `message`), numeric id, language 1033,
+and ASCII text (str or bytes). Preparation must independently validate the
+owning contextual source/cached resource and original evidence: hash, offsets,
+length, language and encoding. This provider is not a substitute for that proof.
+
+The RMR1 file contains magic, little-endian entry count, 64 ASCII owner-SHA bytes,
+then records of four little-endian DWORDs (kind1/string or2/message, id, language,
+text length) and exact logical text bytes without NUL. The host loader validates
+module identity, complete structure and EOF; native execution never reads a PE.
+
+LoadStringA handles the encountered ASCII subset and sufficient positive output
+capacity. NULL module selects the registered primary image. FormatMessageA
+supports observed flags0xA00, language0/0409 and no argument array, copying literal
+insert tokens. Both preserve LastError, errno and untouched output tails.
+Unknown entries/modes fail explicitly. USER32's LoadStringA can be resolved by
+LoadLibraryA/GetProcAddress; unrelated Wine loader LastError side effects are not
+synthesized. Resources remain local to their registered owner.

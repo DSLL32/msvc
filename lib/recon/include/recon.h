@@ -187,6 +187,8 @@ void recon_exit(int);
 int recon_host_path(const char *,char *,size_t);
 void recon_unsupported(const char *);
 
+void recon_load_module_resources(HMODULE,const char *);
+
 #define RECON_WIN32_FUNCTIONS(X) \
  X(HANDLE,CreateFileA,(LPCSTR,DWORD,DWORD,LPSECURITY_ATTRIBUTES,DWORD,DWORD,HANDLE)) \
  X(BOOL,CloseHandle,(HANDLE)) X(DWORD,GetLastError,(void)) X(void,SetLastError,(DWORD)) \
@@ -194,6 +196,8 @@ void recon_unsupported(const char *);
  X(BOOL,SetEndOfFile,(HANDLE)) X(BOOL,ReadFile,(HANDLE,LPVOID,DWORD,LPDWORD,LPVOID)) \
  X(BOOL,WriteFile,(HANDLE,LPCVOID,DWORD,LPDWORD,LPVOID)) X(BOOL,FlushFileBuffers,(HANDLE)) \
  X(HANDLE,GetStdHandle,(DWORD)) X(BOOL,SetStdHandle,(DWORD,HANDLE)) \
+ X(int,LoadStringA,(HINSTANCE,UINT,LPSTR,int)) \
+ X(DWORD,FormatMessageA,(DWORD,LPCVOID,DWORD,DWORD,LPSTR,DWORD,va_list *)) \
  X(HMODULE,GetModuleHandleA,(LPCSTR)) X(HMODULE,LoadLibraryA,(LPCSTR)) \
  X(FARPROC,GetProcAddress,(HMODULE,LPCSTR)) X(BOOL,DisableThreadLibraryCalls,(HMODULE)) \
  X(HANDLE,CreateFileMappingA,(HANDLE,LPSECURITY_ATTRIBUTES,DWORD,DWORD,DWORD,LPCSTR)) \
@@ -391,6 +395,8 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define FlushFileBuffers recon_FlushFileBuffers
 #define GetStdHandle recon_GetStdHandle
 #define SetStdHandle recon_SetStdHandle
+#define LoadStringA recon_LoadStringA
+#define FormatMessageA recon_FormatMessageA
 #define GetModuleHandleA recon_GetModuleHandleA
 #define LoadLibraryA recon_LoadLibraryA
 #define GetProcAddress recon_GetProcAddress

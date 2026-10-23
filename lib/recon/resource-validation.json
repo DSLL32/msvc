@@ -1,0 +1,25 @@
+{
+  "scope": "encountered module ASCII strings and ANSI message entries",
+  "tests": [
+    "NUL/count/tail/errno/LastError preservation",
+    "RCDLL actual full4096A5-tail original buffers",
+    "USER32 dynamic LoadStringA lookup",
+    "10 unsupported/malformed rejection controls"
+  ],
+  "timing_build_checks_seconds": {
+    "gcc": 1.748437637463212,
+    "clang": 2.2034305911511183
+  },
+  "evidence": [
+    "decomp/vc5.10/cvppack/cases/help/resources.json",
+    "decomp/vc5.10/rcdll/cases/help/message-entries.json",
+    "/root/.ai-tmp/msvc2/vc5.10/rcdll/message-api-reference"
+  ],
+  "limits": [
+    "ASCII logical text only; language0409",
+    "LoadString sufficient positive capacity only",
+    "FormatMessage flags0xA00,lang0or0409,noargument array",
+    "unknown entries explicitly unsupported",
+    "provider loader never reads PE/resources or runs helper"
+  ]
+}

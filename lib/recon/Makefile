@@ -4,7 +4,7 @@ CPPFLAGS += -DRECON_NATIVE_TEST -Iinclude -Inative
 CFLAGS += -m32 -std=gnu89 -O0 -g -Wall -Wextra
 SOURCES = src/crt.c src/win32.c src/process.c src/compat.c src/entry.c src/decimal.c
 HEADERS = $(wildcard include/*.h native/*.h native/sys/*.h)
-.PHONY: all check find-check module-check initterm-check startup-check trace-check process-check process-stream-check trace-allocation-check adoption-check clean
+.PHONY: all check find-check module-check initterm-check startup-check resource-check trace-check process-check process-stream-check trace-allocation-check adoption-check clean
 all: build/check
 build:
 	mkdir -p $@
@@ -35,6 +35,10 @@ build/check-startup: tests/check-startup.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) tests/check-startup.c $(SOURCES) -o $@
 startup-check: build/check-startup
 	$(PYTHON) tests/check-startup.py build/check-startup
+build/resource-target: tests/resource-target.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) tests/resource-target.c $(SOURCES) -o $@
+resource-check: build/resource-target
+	$(PYTHON) tests/check-resources.py build/resource-target
 build/trace-target.o: tests/trace-target.c | build
 	$(CC) -m32 -std=gnu89 -O0 -g -finstrument-functions -c $< -o $@
 build/trace-pie: build/trace-target.o src/trace.c
