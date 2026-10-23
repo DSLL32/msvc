@@ -1,0 +1,9 @@
+{
+  "status": "normal exit supported and exact application completion accepted",
+  "initial_issue": "GDB capture attempted bt after normal exit; no frame remained. No semantic mismatch.",
+  "change": "Record GDB normal-exit events and status, inspect buffers/state only on a live trap; require complete phase artifacts/streams against original durable fixture before acceptance.",
+  "acceptance": "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/validation.json",
+  "completion": "original and native exit0; four complete raw frontend artifacts exact against independent original phase",
+  "post_acceptance_documentation_issue": "Legacy README formatter tried to decode exit:0 as a native symbol after validation and acceptance had completed; replaced duplicate formatter with shared status-documentation refresh, without repeating acceptance.",
+  "references": "original-capture-3elkoqp9 remains frozen; no repeated original capture"
+}

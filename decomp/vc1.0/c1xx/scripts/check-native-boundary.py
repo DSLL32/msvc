@@ -181,12 +181,15 @@ def main():
                 assert expected in str(error),(name,str(error))
                 checks.append(dict(name=name,status='pass',rejected_because=str(error),seconds=time.perf_counter()-started))
             else:raise AssertionError(name+' accepted corrupted overlapping-copy evidence')
-    if 'virtual_diamond' in cache['cases']:
+    for case_name,entry in cache['cases'].items():
+        if case_name=='cpp_basic':continue
         wrong=json.loads(json.dumps(cache))
-        wrong['cases']['virtual_diamond']['seen'].remove('main')
-        wrong_path=directory/'missing-case-prefix.json';wrong_path.write_text(json.dumps(wrong))
-        reject('missing-case-prefix',['--trace','--trace-cache',str(wrong_path)],'application entry 0')
-        reject('partial-case-wrong-exit',['--case','virtual_diamond','--exe',str(directory/'wrong-stdout')],'expected named frontier SIGTRAP')
+        wrong['cases'][case_name]['seen'].remove('main')
+        wrong_path=directory/('missing-prefix-'+case_name+'.json');wrong_path.write_text(json.dumps(wrong))
+        reject('missing-prefix-'+case_name,['--trace','--trace-cache',str(wrong_path)],'application entry 0')
+        complete=entry['terminal']['kind']=='exit'
+        reject('wrong-terminal-'+case_name,['--case',case_name,'--exe',str(directory/('wrong-terminal' if complete else 'wrong-stdout'))],
+            'expected completed frontend exit status' if complete else 'expected named frontier SIGTRAP')
     receipt = dict(status='pass', scope='native regression-boundary fault injection; no original execution',
         negative_helper_build_seconds=build_seconds,checks=checks)
     (directory/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')

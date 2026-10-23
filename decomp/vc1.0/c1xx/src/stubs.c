@@ -79,7 +79,6 @@ void __stdcall browser_macro(MacroDefinition *definition) { __asm { int 3 } }
 unsigned char __stdcall member_pointer_is_aggregate(CType *type) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall lookup_symbol_binding(CppSymbol *symbol, CppSymbol **value) { __asm { int 3 } return 0; }
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
-int __stdcall symbol_element_size(CppSymbol *symbol) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall symbol_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void write_ir_string(char *text) { __asm { int 3 } }
 void report_ide_source(void) { __asm { int 3 } }
@@ -526,7 +525,6 @@ void __stdcall prepare_symbol_debug_type(CppSymbol *symbol) { __asm { int 3 } }
 
 char *__stdcall format_qualified_tag_name(char *cursor, CppSymbol *tag) { __asm { int 3 } return 0; }
 
-char *__stdcall mangle_number(char *cursor, unsigned value) { __asm { int 3 } return 0; }
 char *__stdcall mangle_based_symbol(char *cursor, unsigned short attributes, CppSymbol *symbol) { __asm { int 3 } return 0; }
 char *__stdcall mangle_pointer_base(char *cursor, CType *type) { __asm { int 3 } return 0; }
 char *__stdcall mangle_vcall_model(char *cursor, CppSymbol *symbol) { __asm { int 3 } return 0; }
@@ -637,4 +635,4 @@ void write_ir_double(double *value) { __asm { int 3 } }
 
 char *__stdcall mangle_function_pointer_prefix(char *cursor, CType *type) { __asm { int 3 } return 0; }
 char *__stdcall mangle_function_pointer_signature(char *cursor, CType *type) { __asm { int 3 } return 0; }
-char *__stdcall mangle_pointee_type(char *cursor, CType *type) { __asm { int 3 } return 0; }
+char *__stdcall mangle_pointee_shape(char *cursor, CType *type) { __asm { int 3 } return 0; }

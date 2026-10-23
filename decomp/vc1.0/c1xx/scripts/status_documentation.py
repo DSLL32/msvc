@@ -15,14 +15,22 @@ def refresh():
     text=re.sub(r'PARTIAL binary reconstruction: \d+ accepted frontiers, including \d+ frontend',
         'PARTIAL binary reconstruction: %d accepted frontiers, including %d frontend'%(len(config['accepted']),len(cache['accepted_application'])),text,count=1)
     name=status['active_case'];terminal=config['cases'][name]['terminal']
-    address=next((r['start'] for r in config['driver'] if r['name']==terminal),None)
-    if address is not None:
-        text=re.sub(r'virtual_diamond currently stops at _[A-Za-z_0-9@]+,\noriginal VA 0x[0-9a-f]+\.',
-            '%s currently stops at %s,\noriginal VA 0x%x.'%(name,terminal,address),text,count=1)
+    complete=[key for key,value in config['cases'].items() if value['terminal']=='exit:0']
+    description='\nComplete cases: '+', '.join(complete)+'.\n'
+    if terminal!='exit:0':
+        address=next(r['start'] for r in config['driver'] if r['name']==terminal)
+        description+='Active case %s stops at %s, original VA 0x%x.\n'%(name,terminal,address)
+    else:description+='Next: seed the next approved C++ queue case.\n'
+    text=re.sub(r'(functions and seven older CRT functions reconstructed as source\.).*?(All unimplemented callees remain meaningful named INT3 stubs\.)',
+        lambda match:match[1]+description+match[2],text,count=1,flags=re.S)
     text=re.sub(r'Accepted original extents cover \d+ / \d+ code-section bytes \([0-9.]+%\)\.',
         'Accepted original extents cover %d / %d code-section bytes (%.6f%%).'%(coverage['accepted_code_bytes'],coverage['total_executable_code_bytes'],coverage['accepted_code_percent']),text,count=1)
-    entry=cache['cases'].get('virtual_diamond')
-    if entry:
-        text=re.sub(r'then expects \d+ new application entries plus its named terminal trap\.',
-            'then expects %d new application entries plus its named terminal trap.'%(len(entry['expected'])-1),text,count=1)
+    entries=cache['cases']
+    paragraphs=[]
+    for key,entry in entries.items():
+        terminal=entry['terminal'];suffix='exit 0' if terminal['kind']=='exit' else 'its named terminal trap'
+        paragraphs.append('%s expects %d application first entries and %s.'%(key,len(entry['expected']),suffix))
+    text=re.sub(r'cpp_basic expects \d+\napplication first entries.*?(?=\n\ncases/original-entry-references)',
+        '\n'.join(paragraphs),text,count=1,flags=re.S)
+    text=re.sub(r'ordered \d+-entry acceptance provenance','ordered %d-entry acceptance provenance'%len(config['accepted']),text,count=1)
     path.write_text(text)

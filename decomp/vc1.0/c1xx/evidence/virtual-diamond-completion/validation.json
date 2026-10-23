@@ -1,0 +1,32 @@
+{
+  "status": "verified",
+  "seconds": 4.559872911311686,
+  "initial_seconds": 22.47713852673769,
+  "initial_status": 2,
+  "initial_issue": "Negative test still assumed virtual_diamond partial SIGTRAP; now verifies actual per-case terminal policy for every registered secondary case. Native complete artifacts/traces passed throughout.",
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "graph-negative-check",
+    "check",
+    "native-rejections"
+  ],
+  "coverage": {
+    "accepted_code_bytes": 235506,
+    "total_executable_code_bytes": 476418,
+    "accepted_code_percent": 49.43264108409002,
+    "accepted_frontiers": 871,
+    "source_functions": 785,
+    "accepted_source_text_and_switch_bytes": 223661,
+    "section_ranges": [
+      [
+        94208,
+        570626
+      ]
+    ]
+  },
+  "acceptance": "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/validation.json",
+  "terminal": "exit:0",
+  "artifacts": "four complete frontend files exact against fresh masked original and durable independent original phase; no normalization"
+}

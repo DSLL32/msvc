@@ -2,6 +2,18 @@
 #include "type-sizes.h"
 #include <recon.h>
 
+/* Original 0x4f2d0..0x4f321, stdcall4. Skip an indirect declaration's
+   leading shape, then ignore array dimensions to measure one scalar element. */
+int __stdcall symbol_element_size(CppSymbol *symbol)
+{
+    CType *type = symbol->type;
+    TypeShape *shape = type->related;
+    if (symbol->attributes & 2) shape = shape->related;
+    while (shape && !(shape->flags & 1)) shape = shape->related;
+    if (shape) return (int)pointer_kind_size(shape->attributes);
+    return (int)base_type_size(type->flags, cpp_context_stack->items[type->field08]);
+}
+
 /* Original 0x4f160..0x4f215. Array multiplication wraps in the original
    32-bit IMUL before its signed comparison. Recovery changes the bound to
    one while returning that already computed product. */

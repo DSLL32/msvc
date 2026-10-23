@@ -2,16 +2,16 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "de807711841bc22263aeb6fca7ad40e6216320f527d89c4b417f145157dee300",
+    "functions.json": "8c2c5db7dbdaa83b976e1174ecfafc1f36d61242e212949d8908e066c22c47a7",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "0f3f852a0a11841bcced69abd7438ff95339b57d1fca7440d77432dda0a96ff8",
-    "cases/canonical-map.txt": "8b8de9c750cdefa17fedae9cc55f997fb84d285c01a7ef3ece06c3ff95ee651d",
+    "cases/original-entry-references.json": "732c5f1efa4e4dddcf3bd47f17ebe0dd370885891e07010255c876e5c351e719",
+    "cases/canonical-map.txt": "d2275b8fbb0adbb8987c9fece8f354263382167d4dde351b474fa53c7428b5a1",
     "cases/shared-reference/cpp_basic/original-receipt.json": "c0b231bf1b4ad8c8ee582b0419697346750bcbea4484c6729dc71c7eb35ed198",
     "cases/shared-reference/cpp_basic/original-events.txt": "c211a19028f71257317cb8957e26dd76c27f60208208de53d25e18a8a5520e27",
     "cases/shared-reference/cpp_basic/original-entries.plan": "795b86f57be090ebab4b5bf36a3fe93b742ba8f9b4f29a48ba548a77d801ee07",
-    "cases/frontiers/virtual_diamond/0867-mangle_pointer_target-8/entry-reference/original-receipt.json": "53470fe1ae40944732dcfba30874e84cbb736ee47a7fa674276598f69c907dd4",
-    "cases/frontiers/virtual_diamond/0867-mangle_pointer_target-8/entry-reference/original-events.txt": "a7b0f6b17fc428ed9640f419c6096a4820987860c69a020b52db1cb2e926634d",
-    "cases/frontiers/virtual_diamond/0867-mangle_pointer_target-8/entry-reference/original-entries.plan": "7623dba5c83d5fd1e2688a9310c1eb7559d1a5743f44973bca4a3b1591053f18"
+    "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-receipt.json": "294c8ba994d7c0a2b262d0ffc64a6108626a4da6278df6f28a5943ea902eb973",
+    "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-events.txt": "8c1a3e34e895950da92b0ebff06a54961be5cf23d49f5b599b88124f0dd3b864",
+    "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-entries.plan": "e202c7c8bca59732c6060e013a983deb61c10523c9301d68ac4474dba992194f"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -2996,7 +2996,7 @@
     },
     "mangle_number": {
       "logical": "_mangle_number@8",
-      "source": "src/stubs.c"
+      "source": "src/mangling.c"
     },
     "mangle_parameter_type": {
       "logical": "_mangle_parameter_type@8",
@@ -3006,9 +3006,13 @@
       "logical": "_mangle_parameter_types@8",
       "source": "src/mangling.c"
     },
+    "mangle_pointee_shape": {
+      "logical": "_mangle_pointee_shape@8",
+      "source": "src/stubs.c"
+    },
     "mangle_pointee_type": {
       "logical": "_mangle_pointee_type@8",
-      "source": "src/stubs.c"
+      "source": "src/mangling.c"
     },
     "mangle_pointer_base": {
       "logical": "_mangle_pointer_base@8",
@@ -4520,7 +4524,7 @@
     },
     "symbol_element_size": {
       "logical": "_symbol_element_size@4",
-      "source": "src/stubs.c"
+      "source": "src/type-sizes.c"
     },
     "symbol_expression": {
       "logical": "_symbol_expression@4",
@@ -5630,7 +5634,10 @@
     "copy_virtual_thunk_key",
     "equal_virtual_thunk_keys",
     "virtual_base_table_entry_offset",
-    "mangle_pointer_target"
+    "mangle_pointer_target",
+    "mangle_pointee_type",
+    "mangle_number",
+    "symbol_element_size"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6299,7 +6306,7 @@
     },
     "virtual_diamond": {
       "first": 643,
-      "last": 868,
+      "last": 871,
       "seen": [
         "main",
         "message_text",
@@ -7078,13 +7085,14 @@
         "equal_virtual_thunk_keys",
         "virtual_base_table_entry_offset",
         "mangle_pointer_target",
-        "mangle_pointee_type"
+        "mangle_pointee_type",
+        "mangle_number",
+        "symbol_element_size"
       ],
       "terminal": {
-        "kind": "frontier",
-        "logical": "_mangle_pointee_type@8",
-        "native": "mangle_pointee_type",
-        "signal": 5
+        "kind": "exit",
+        "logical": "exit:0",
+        "status": 0
       }
     }
   }

@@ -57,8 +57,13 @@ def main():
         args.native=Path(tempfile.mkdtemp(prefix='native-frontier-',dir=CAPTURE_ROOT))
         module('c1xx_native_capture','capture-native.py').capture(args.native,case_name=args.case)
     native=json.loads((args.native/'checkpoint.json').read_text())
-    assert native['signal']==5,'native did not stop on INT3'
-    assert native['function']==trace.native_name(original['terminal']),(original['terminal'],native['function'])
+    complete=original['terminal'].startswith('exit:')
+    if complete:
+        assert original['terminal']=='exit:0','nonzero original completion is not a successful case'
+        assert native['signal']==0 and native['exit_code']==0 and native['function']=='exit:0',native
+    else:
+        assert native['signal']==5,'native did not stop on INT3'
+        assert native['function']==trace.native_name(original['terminal']),(original['terminal'],native['function'])
     events=(args.original/'events.txt').read_text()
     buffers=[m[1] for m in re.findall(r'^buffer \d+ (\d+) ([0-9a-f]*)$',events,re.M)]
     states=[int(s,16) for s in re.findall(r'^state \d+ ([0-9a-f]+)$',events,re.M)]
@@ -69,6 +74,12 @@ def main():
     expected={p.name:p.read_bytes() for p in (args.original/'case').iterdir() if p.is_file()}
     actual={p.name:p.read_bytes() for p in (args.native/'case').iterdir() if p.is_file()}
     assert expected==actual,'visible input/output files differ'
+    if complete:
+        phase=json.loads((fixture/'manifest.json').read_text())['phases']['c1']
+        for output in phase['outputs']:
+            assert expected[Path(output['path']).name]==(fixture/output['path']).read_bytes(), 'completed original phase artifact differs: '+output['path']
+        for stream in ('stdout','stderr'):
+            assert (args.original/(stream+'.bin')).read_bytes()==phase['expected_'+stream].encode('latin1'), 'completed original phase '+stream+' differs'
     audit=module('c1xx_candidate_graph','audit-graph.py')
     graph=audit.verify_candidate(args.candidate)
     left=set(graph['report']['functions'][args.candidate]['edges'])
@@ -108,12 +119,13 @@ def main():
     shutil.copyfile(snapshot,BINARY/'cases/canonical-map.txt')
     reference_path=reference/'manifest.json'
     metadata=json.loads(reference_path.read_text())
+    metadata['terminal']=(dict(kind='exit',logical='exit:0',status=0) if complete else metadata['terminal'])
     metadata['terminal']['logical']=original['terminal']
     metadata['reference_receipt']=relative(record/'original-receipt.json')
     metadata['reference_receipt_sha256']=sha(record/'original-receipt.json')
     metadata['canonical_map_sha256']=sha(snapshot)
     metadata['capture_seconds']=original['capture_seconds']
-    metadata['scope']='%d accepted frontiers; explicit original-backed current partial frontend terminal'%len(config['accepted'])
+    metadata['scope']='%d accepted frontiers; explicit original-backed %s frontend terminal'%(len(config['accepted']),'completed' if complete else 'current partial')
     for output in metadata['outputs']:
         path=reference/output['path']
         path.write_bytes(expected[output['path']])
@@ -134,30 +146,20 @@ def main():
     application_count=len(cache['accepted_application'])
     current_path=BINARY/'validation.json'
     current=json.loads(current_path.read_text())
-    current.update(active_case=args.case,status=args.case+' reconstruction in progress',complete_frontend_case=False,accepted_frontiers=len(config['accepted']),driver_functions=application_count,
+    current.update(active_case=args.case,status=args.case+(' reconstruction complete' if complete else ' reconstruction in progress'),complete_frontend_case=complete,accepted_frontiers=len(config['accepted']),driver_functions=application_count,
         reconstructed_source_functions=application_count+current['older_crt_functions'],
         current_frontier=original['terminal'],
-        original_frontier_va=hex(next(r['start'] for r in config['driver'] if r['name']==original['terminal'])),
+        original_frontier_va=None if complete else hex(next(r['start'] for r in config['driver'] if r['name']==original['terminal'])),
         current_native_application_entries=len(cache['cases'][args.case]['expected']),
         latest_verification=relative(record/'validation.json'))
-    current.setdefault('cases',{})[args.case]=dict(status='partial',frontier=original['terminal'],latest_verification=relative(record/'validation.json'))
+    current.setdefault('cases',{})[args.case]=dict(status='complete' if complete else 'partial',frontier=original['terminal'],latest_verification=relative(record/'validation.json'))
     current['graceful_pause'].update(paused=False, current_frontier=original['terminal'],
         original_va=current['original_frontier_va'])
     coverage=json.loads(subprocess.check_output([sys.executable,str(BINARY/'scripts/coverage.py')],cwd=BINARY,text=True))
     current['coverage']=coverage
     current['accepted_extent_coverage']=coverage
-    current['next_operation']='Continue '+current['current_frontier']+' reconstruction'
+    current['next_operation']='Seed the next approved C++ queue case' if complete else 'Continue '+current['current_frontier']+' reconstruction'
     current_path.write_text(json.dumps(current,indent=2)+'\n')
-    readme_path=BINARY/'README.txt'
-    readme=readme_path.read_text()
-    readme=re.sub(r'PARTIAL (?:binary )?reconstruction:\s*\d+ accepted frontiers, including\s*\d+ frontend',
-        'PARTIAL binary reconstruction: %d accepted frontiers, including %d frontend'%(len(config['accepted']),application_count),readme,count=1)
-    readme=re.sub(r'trap is _[A-Za-z_0-9@]+ at original VA 0x[0-9a-f]+\.',
-        'trap is %s at original VA %s.'%(original['terminal'],current['original_frontier_va']),readme,count=1)
-    readme=re.sub(r'all \d+ application definitions','all %d application definitions'%len(cache['application_definitions']),readme,count=1)
-    readme=re.sub(r'case expects \d+ first\nentries: \d+ accepted frontend functions plus [A-Za-z_0-9]+',
-        'case expects %d first\nentries: %d accepted frontend functions plus %s'%(len(cache['cases'][args.case]['expected']),application_count,trace.native_name(original['terminal'])),readme,count=1)
-    readme_path.write_text(readme)
     from status_documentation import refresh
     refresh()
     print(args.candidate+' -> '+original['terminal'])

@@ -24,19 +24,26 @@ def capture(directory, executable=None, breakpoint=None, expressions=None, case_
     work, drive_environment = native_work(directory, phase['canonical_working_directory'])
     for item in phase['inputs']:
         (work/Path(item['path']).name).write_bytes((fixture/item['path']).read_bytes())
-    commands = (['break '+breakpoint] if breakpoint else []) + ['run > '+str(directory/'stdout.bin')+' 2> '+str(directory/'stderr.bin'), 'bt', 'python',
-                'import gdb, json', 'result = {"buffers": [], "states": [], "function": gdb.newest_frame().name(), "signal": int(gdb.parse_and_eval("$_siginfo.si_signo"))}']
+    commands = (['break '+breakpoint] if breakpoint else []) + ['python',
+                'import gdb, json', 'exit_codes = []',
+                'gdb.events.exited.connect(lambda event: exit_codes.append(getattr(event, "exit_code", None)))',
+                'end', 'run > '+str(directory/'stdout.bin')+' 2> '+str(directory/'stderr.bin'), 'python',
+                'if exit_codes:',
+                '    assert len(exit_codes) == 1 and exit_codes[0] is not None, "missing normal exit status"',
+                '    result = {"buffers": [], "states": [], "function": "exit:" + str(exit_codes[0]), "signal": 0, "exit_code": exit_codes[0]}',
+                'else:', '    gdb.execute("bt")',
+                '    result = {"buffers": [], "states": [], "function": gdb.newest_frame().name(), "signal": int(gdb.parse_and_eval("$_siginfo.si_signo"))}']
     for key, expression in (expressions or {}).items():
-        commands += ['result['+repr(key)+'] = int(gdb.parse_and_eval('+repr(expression)+'))']
+        commands += ['    result['+repr(key)+'] = int(gdb.parse_and_eval('+repr(expression)+'))']
     for field in config['buffered_streams']:
         name = field['name'][1:]
-        commands += ['stream = gdb.parse_and_eval("'+name+'")',
-                     'length = int(stream["_ptr"]) - int(stream["_base"]) if int(stream) else 0',
-                     'result["buffers"].append(bytes(gdb.selected_inferior().read_memory(int(stream["_base"]), length)).hex() if length else "")']
+        commands += ['    stream = gdb.parse_and_eval("'+name+'")',
+                     '    length = int(stream["_ptr"]) - int(stream["_base"]) if int(stream) else 0',
+                     '    result["buffers"].append(bytes(gdb.selected_inferior().read_memory(int(stream["_base"]), length)).hex() if length else "")']
     for field in config['checkpoint_state']:
         name = field['name'][1:]
-        commands += ['value = int(gdb.parse_and_eval("*(unsigned int *)&'+name+'"))',
-                     'result["states"].append(int(value != 0) if '+str(bool(field.get('pointer')))+' else value)']
+        commands += ['    value = int(gdb.parse_and_eval("*(unsigned int *)&'+name+'"))',
+                     '    result["states"].append(int(value != 0) if '+str(bool(field.get('pointer')))+' else value)']
     commands += ['open('+repr(str(directory/'checkpoint.json'))+',"w").write(json.dumps(result, indent=2)+"\\n")', 'end']
     command_path = directory/'commands.gdb'
     command_path.write_text('\n'.join(commands)+'\n')

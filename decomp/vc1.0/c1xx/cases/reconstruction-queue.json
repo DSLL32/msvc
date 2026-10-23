@@ -5,19 +5,11 @@
   "target": "C1XX3232.EXE",
   "authorization": "User-selected autonomous queue; continue without routine confirmation",
   "current": {
-    "case": "virtual_diamond",
-    "fixture": "../fixtures/c1xx-virtual-diamond",
-    "status": "active: initializer stream drain/seek and virtual-adjustment cache/key checkpoint verified"
+    "case": "copy_assignment",
+    "fixture": "../fixtures/c1xx-copy-assignment",
+    "status": "next approved case; original phases already independently validated"
   },
   "pending": [
-    {
-      "family": "inheritance and virtual dispatch",
-      "intent": "Base/derived layouts and calls through a base pointer; include virtual bases where supported",
-      "fixture": "../fixtures/c1xx-virtual-diamond",
-      "status": "active reconstruction; fresh original/native seed matched",
-      "manifest": "../fixtures/c1xx-virtual-diamond/manifest.json",
-      "validation": "../fixtures/c1xx-virtual-diamond/validation.json"
-    },
     {
       "family": "copy construction and assignment",
       "intent": "Explicit copy constructor and assignment operator with observable field changes",
@@ -49,14 +41,24 @@
     "Use native cached fixtures and fresh original-only evidence when accepting functions",
     "Do not assume newer C++ language features"
   ],
-  "completion": "Finish existing cpp_basic first, then capture and reconstruct these families",
-  "next_case": "virtual_diamond",
+  "completion": "cpp_basic and virtual_diamond complete; continue copy/assignment, lifetime and new/delete/operator families",
+  "next_case": "copy_assignment",
   "completed": [
     {
       "case": "cpp_basic",
       "fixture": "../fixtures/c1xx-cpp-basic",
       "status": "complete",
       "checkpoint": "6b78fb6"
+    },
+    {
+      "family": "inheritance and virtual dispatch",
+      "intent": "Base/derived layouts and calls through a base pointer; include virtual bases where supported",
+      "fixture": "../fixtures/c1xx-virtual-diamond",
+      "status": "complete: exit0, four exact frontend artifacts",
+      "manifest": "../fixtures/c1xx-virtual-diamond/manifest.json",
+      "validation": "../fixtures/c1xx-virtual-diamond/validation.json",
+      "case": "virtual_diamond",
+      "verification": "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/validation.json"
     }
   ]
 }

@@ -872,7 +872,10 @@
     "_copy_virtual_thunk_key@8",
     "_equal_virtual_thunk_keys",
     "_virtual_base_table_entry_offset@12",
-    "_mangle_pointer_target@8"
+    "_mangle_pointer_target@8",
+    "_mangle_pointee_type@8",
+    "_mangle_number@8",
+    "_symbol_element_size@4"
   ],
   "driver": [
     {
@@ -6063,7 +6066,7 @@
     {
       "name": "_mangle_number@8",
       "start": 276480,
-      "end": 276481
+      "end": 276606
     },
     {
       "name": "_mangle_based_symbol@12",
@@ -7019,7 +7022,12 @@
     {
       "name": "_mangle_pointee_type@8",
       "start": 278368,
-      "end": 278369
+      "end": 278408
+    },
+    {
+      "name": "_mangle_pointee_shape@8",
+      "start": 277744,
+      "end": 277745
     }
   ],
   "cases": {
@@ -7035,8 +7043,8 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/frontiers/virtual_diamond",
       "accepted_from": 643,
-      "terminal": "_mangle_pointee_type@8",
-      "terminal_evidence": "cases/frontiers/virtual_diamond/0867-mangle_pointer_target-8/original-events.txt",
+      "terminal": "exit:0",
+      "terminal_evidence": "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/original-events.txt",
       "frontier_extensions": [
         "cases/frontiers/virtual_diamond/0855-normalize_initializer_expression-4/frontier-extension.json",
         "cases/frontiers/virtual_diamond/0856-method_alias-4/frontier-extension.json",
@@ -7050,7 +7058,10 @@
         "cases/frontiers/virtual_diamond/0864-copy_virtual_thunk_key-8/frontier-extension.json",
         "cases/frontiers/virtual_diamond/0865-equal_virtual_thunk_keys/frontier-extension.json",
         "cases/frontiers/virtual_diamond/0866-virtual_base_table_entry_offset-12/frontier-extension.json",
-        "cases/frontiers/virtual_diamond/0867-mangle_pointer_target-8/frontier-extension.json"
+        "cases/frontiers/virtual_diamond/0867-mangle_pointer_target-8/frontier-extension.json",
+        "cases/frontiers/virtual_diamond/0868-mangle_pointee_type-8/frontier-extension.json",
+        "cases/frontiers/virtual_diamond/0869-mangle_number-8/frontier-extension.json",
+        "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/frontier-extension.json"
       ]
     }
   },

@@ -636,3 +636,45 @@ char *__stdcall mangle_pointer_target(char *cursor, CType *type)
     cursor = mangle_function_pointer_prefix(cursor, type);
     return mangle_function_pointer_signature(cursor, drop_first_type_shape(type));
 }
+
+/* Original 0x43f60..0x43f87, stdcall8. An unshaped void pointee has
+   its own encoding; other pointees retain array and ordinary shape handling. */
+char *__stdcall mangle_pointee_type(char *cursor, CType *type)
+{
+    if (!type->related && (type->flags & 0x80)) {
+        *cursor++ = 'X';
+        return cursor;
+    }
+    return mangle_pointee_shape(cursor, type);
+}
+
+/* Original 0x43800..0x4387d, stdcall8. Small positive numbers use
+   decimal backreference digits; other values use A..P hexadecimal nibbles. */
+char *__stdcall mangle_number(char *cursor, unsigned value)
+{
+    unsigned mask;
+    int shift;
+    if (!value) {
+        *cursor++ = 'A';
+        *cursor++ = '@';
+        return cursor;
+    }
+    if (value <= 10) {
+        *cursor++ = (char)(value + '0' - 1);
+        return cursor;
+    }
+    mask = 0xf0000000;
+    shift = 28;
+    while (!(value & mask) && shift) {
+        shift -= 4;
+        mask >>= 4;
+    }
+    while (shift) {
+        *cursor++ = (char)(((value & mask) >> shift) + 'A');
+        shift -= 4;
+        mask >>= 4;
+    }
+    *cursor++ = (char)((value & 15) + 'A');
+    *cursor++ = '@';
+    return cursor;
+}
