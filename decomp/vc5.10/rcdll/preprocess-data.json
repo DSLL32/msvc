@@ -355,6 +355,30 @@
       "original_rva": "0x14210",
       "kind": "byte-buffer",
       "bytes": 512
+    },
+    {
+      "name": "rc_header_mode",
+      "original_rva": "0x16efc",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_in_condition_expression",
+      "original_rva": "0x18e6c",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_token_kind",
+      "original_rva": "0x144f4",
+      "kind": "integer",
+      "bytes": 1
+    },
+    {
+      "name": "rc_token_value",
+      "original_rva": "0x16cd0",
+      "kind": "null-pointer",
+      "bytes": 4
     }
   ],
   "options": {

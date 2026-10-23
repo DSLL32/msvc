@@ -49,7 +49,8 @@
     "rc_handle_directive",
     "rc_read_nonspace",
     "rc_read_identifier",
-    "rc_character_class"
+    "rc_character_class",
+    "rc_directive_code"
   ],
   "functions": [
     {
@@ -1000,7 +1001,60 @@
       "abi": "stdcall",
       "stack_bytes": 4,
       "kind": "application",
-      "stub": true
+      "text_data": [
+        [
+          "0x12f0",
+          "0x12fc"
+        ],
+        [
+          "0x12e4",
+          "0x12ee"
+        ],
+        [
+          "0x12d8",
+          "0x12e2"
+        ],
+        [
+          "0x12d0",
+          "0x12d8"
+        ],
+        [
+          "0x12c8",
+          "0x12d0"
+        ],
+        [
+          "0x12b8",
+          "0x12c6"
+        ],
+        [
+          "0x12ac",
+          "0x12b8"
+        ],
+        [
+          "0x12a0",
+          "0x12aa"
+        ],
+        [
+          "0x129c",
+          "0x12a0"
+        ],
+        [
+          "0x1290",
+          "0x129a"
+        ],
+        [
+          "0x1288",
+          "0x1290"
+        ],
+        [
+          "0x127c",
+          "0x1288"
+        ],
+        [
+          "0x1270",
+          "0x127a"
+        ]
+      ]
     },
     {
       "name": "rc_expect_end",

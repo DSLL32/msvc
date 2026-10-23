@@ -11,7 +11,8 @@
 
 int rc_expanding_macro,rc_in_directive,rc_in_condition_expression,rc_header_mode;
 int rc_condition_state[32];
-unsigned char rc_token_kind;
+/* The lexer starts immediately after a newline token. */
+unsigned char rc_token_kind=1;
 void *rc_token_value;
 /* Descriptor storage is indexed by a BYTE. No unknown description or flag is
  * available yet; diagnostic consumers require encountered rows before use. */

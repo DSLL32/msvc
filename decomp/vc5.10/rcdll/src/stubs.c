@@ -107,11 +107,6 @@ int __cdecl rc_splice_line(void)
 
 
 
-unsigned char __stdcall rc_directive_code(const WCHAR *word)
-{
-    __asm int 3
-    return 0;
-}
 
 void __stdcall rc_expect_end(const WCHAR *word)
 {
