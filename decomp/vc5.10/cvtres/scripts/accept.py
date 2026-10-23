@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from mask import BINARY,load,sha
 from evidence import bind,compare_frontier,original_raw,compare_candidate_entry,compare_message_observations
-from audit import check_source,projection,audit_hashes,audit_command,import_residual,strict_import_command
+from audit import check_source,projection,audit_hashes,audit_command,import_residual,strict_import_command,strict_import_functions
 from inputs import fingerprints
 
 def verify(config,function,original,native,audit,frozen=False):
@@ -33,10 +33,10 @@ def bind_audit(config,old,audit):
     strict_command=strict_import_command(config,audit)
     assert report.get('strict_import_command')==strict_command,'strict import invocation differs'
     if strict_command:
-        cfg,_=projection(config);cfg['accepted']=['_load_message@4']
+        cfg,_=projection(config);cfg['accepted']=strict_import_functions(config)
         assert json.loads((audit/'strict-import-config.json').read_text())==cfg
         strict=json.loads((audit/'strict-import.stdout').read_text());assert strict==report['strict_import_report']
-        assert strict['checked_functions']==1 and set(strict['functions'])=={'_load_message@4'}
+        assert strict['checked_functions']==len(cfg['accepted']) and set(strict['functions'])==set(cfg['accepted'])
         assert 'known_imports' in strict['checks']
     residual=import_residual(config)
     if residual is not None:assert json.loads((audit/'import-residual.json').read_text())==residual,'bounded import residual differs'

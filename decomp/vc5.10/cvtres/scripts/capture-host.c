@@ -69,6 +69,45 @@ static int plant_observations(HANDLE child, DWORD start, DWORD end)
     return FlushInstructionCache(child, NULL, 0);
 }
 
+static void file_state(FILE *log, HANDLE child, DWORD pointer, unsigned index, const char *prefix)
+{
+    DWORD fields[8], got, i, valid, block, slot, io[2], position;
+    HANDLE copy; PathFromHandle getpath; char path[2048];
+    if (!pointer || !ReadProcessMemory(child, (void *)pointer, fields, sizeof(fields), &got) || got != sizeof(fields)) return;
+    fprintf(log, "%sfile %u pointer %08lx raw ", prefix, index, pointer);
+    for (i = 0; i < sizeof(fields); ++i) fprintf(log, "%02x", ((unsigned char *)fields)[i]);
+    fputc('\n', log);
+    valid = fields[2] ? fields[0]-fields[2] : 0;
+    if ((fields[3]&1) && fields[1] < 65536) valid += fields[1];
+    if (valid && valid <= fields[6] && valid <= sizeof(buffer) &&
+        ReadProcessMemory(child, (void *)fields[2], buffer, valid, &got) && got == valid) {
+        fprintf(log, "%sfile-buffer %u ", prefix, index);
+        for (i = 0; i < valid; ++i) fprintf(log, "%02x", buffer[i]);
+        fputc('\n', log);
+    }
+    /* Canonical e390 MSVCRT __pioinfo: _get_osfhandle proves 36-byte entries,
+     * fd>>5 block and fd&31 slot, HANDLE at0 and osfile byte at4. */
+    if (crt_base && fields[4] < 2048 &&
+        ReadProcessMemory(child, (void *)(crt_base+0x3f460+4*(fields[4]>>5)), &block, 4, &got) && got == 4 && block) {
+        slot = block+36*(fields[4]&31);
+        if (ReadProcessMemory(child, (void *)slot, io, sizeof(io), &got) && got == sizeof(io))
+        {
+            fprintf(log, "%sfile-os %u fd %lu flags %02lx handle %08lx\n", prefix, index, fields[4], io[1]&255, io[0]);
+            if (DuplicateHandle(child, (HANDLE)io[0], GetCurrentProcess(), &copy, 0, FALSE, DUPLICATE_SAME_ACCESS)) {
+                position = SetFilePointer(copy, 0, NULL, FILE_CURRENT);
+                fprintf(log, "%sfile-position %u %lu\n", prefix, index, position);
+                getpath = (PathFromHandle)GetProcAddress(GetModuleHandleA("kernel32.dll"), "GetFinalPathNameByHandleA");
+                if (getpath && getpath(copy, path, sizeof(path), 0) && strlen(path) < sizeof(path)) {
+                    fprintf(log, "%sfile-path %u ", prefix, index);
+                    for (i = 0; path[i]; ++i) fprintf(log, "%02x", (unsigned char)path[i]);
+                    fputc('\n', log);
+                }
+                CloseHandle(copy);
+            }
+        }
+    }
+}
+
 static void trap_state(FILE *log, HANDLE child, HANDLE thread, DWORD address, const char *prefix)
 {
     CONTEXT c;
@@ -87,6 +126,22 @@ static void trap_state(FILE *log, HANDLE child, HANDLE thread, DWORD address, co
             }
             request = strchr(request, ',');
             if (request) ++request;
+        }
+    }
+    {
+        char *request = getenv("CVTRES_POINTER_STRINGS");
+        DWORD start, pointer, got; unsigned char ch;
+        while (request && *request) {
+            if (sscanf(request, "%lx", &start) != 1) break;
+            if (ReadProcessMemory(child, (void *)start, &pointer, 4, &got) && got == 4) {
+                fprintf(log, "%spointer-string %08lx ", prefix, start);
+                for (i = 0; pointer && i < 4096; ++i) {
+                    if (!ReadProcessMemory(child, (void *)(pointer+i), &ch, 1, &got) || got != 1 || !ch) break;
+                    fprintf(log, "%02x", ch);
+                }
+                fputc('\n', log);
+            }
+            request = strchr(request, ','); if (request) ++request;
         }
     }
     {
@@ -127,6 +182,15 @@ static void trap_state(FILE *log, HANDLE child, HANDLE thread, DWORD address, co
     fprintf(log, "%strap %08lx eip %08lx esp %08lx eax %08lx ecx %08lx edx %08lx\n",
             prefix, address, c.Eip, c.Esp, c.Eax, c.Ecx, c.Edx);
     if (ReadProcessMemory(child, (void *)c.Esp, words, sizeof(words), &count)) {
+        {
+            char *request = getenv("CVTRES_FILE_ARGUMENTS");
+            DWORD function, index;
+            while (request && *request) {
+                if (sscanf(request, "%lx:%lu", &function, &index) != 2 || index >= count/4-1) break;
+                if (function == address) file_state(log, child, words[index+1], index, prefix);
+                request = strchr(request, ','); if (request) ++request;
+            }
+        }
         fprintf(log, "%sstack", prefix);
         for (i = 0; i < count/4; ++i) fprintf(log, " %08lx", words[i]);
         fputc('\n', log);
@@ -161,7 +225,7 @@ int main(int argc, char **argv)
     DWORD disposition, count, i, length;
     char command[4096];
     int initial_break = 1, done = 0, result = 0;
-    if (argc != 8) return 90;
+    if (argc != 8 && argc != 9) return 90;
     {
         char *request = getenv("CVTRES_OBSERVATIONS");
         while (request && *request && observation_count < 16) {
@@ -190,7 +254,7 @@ int main(int argc, char **argv)
     if (out == INVALID_HANDLE_VALUE || err == INVALID_HANDLE_VALUE) return 95;
     memset(&si, 0, sizeof(si)); si.cb = sizeof(si); si.dwFlags = STARTF_USESTDHANDLES;
     si.hStdOutput = out; si.hStdError = err; si.hStdInput = GetStdHandle(STD_INPUT_HANDLE);
-    sprintf(command, "\"%s\" /help", argv[6]);
+    sprintf(command, "\"%s\" %s", argv[6], argc == 9 ? argv[8] : "/help");
     if (!CreateProcessA(argv[1], command, NULL, NULL, TRUE,
                         DEBUG_ONLY_THIS_PROCESS|CREATE_NO_WINDOW, NULL, argv[5], &si, &pi)) return 96;
     CloseHandle(out); CloseHandle(err);
@@ -207,6 +271,7 @@ int main(int argc, char **argv)
                     !dump_handle(event.u.CreateProcessInfo.hFile, image_path)) { result = 105; done = 1; }
             }
             if (event.u.CreateProcessInfo.hFile) CloseHandle(event.u.CreateProcessInfo.hFile);
+            if (getenv("CVTRES_OBSERVE_UNMASKED") && !plant_observations(pi.hProcess, 0, 0xffffffffUL)) { result = 113; done = 1; }
         } else if (event.dwDebugEventCode == LOAD_DLL_DEBUG_EVENT) {
             if (!loaded_file(log, event.u.LoadDll.hFile, (DWORD)event.u.LoadDll.lpBaseOfDll, argv[5])) {
                 result = 99; done = 1;
@@ -224,6 +289,10 @@ int main(int argc, char **argv)
                     DWORD observed = i, j;
                     fprintf(log, "observation %08lx\n", address);
                     trap_state(log, pi.hProcess, pi.hThread, address, "observation-");
+                    if (address == 0x0100196e || address == 0x010019f0) {
+                        CONTEXT opened; memset(&opened, 0, sizeof(opened)); opened.ContextFlags = CONTEXT_FULL;
+                        if (GetThreadContext(pi.hThread, &opened)) file_state(log, pi.hProcess, opened.Eax, 0, "opened-");
+                    }
                     SetFilePointer(original, observation_offsets[observed], NULL, FILE_BEGIN);
                     if (!ReadFile(original, buffer, 1, &count, NULL) || count != 1 ||
                         !WriteProcessMemory(pi.hProcess, (void *)address, buffer, 1, &count) || count != 1) { result = 107; done = 1; }
@@ -253,7 +322,7 @@ int main(int argc, char **argv)
                         if (!GetThreadContext(pi.hThread, &context)) { result = 101; done = 1; }
                         else {
                             fprintf(log, "entry %08lx\n", address);
-                            if (address == 0x010014a5 || address == 0x01001460 || address == 0x0100310a)
+                            if (address < 0x01003180)
                                 trap_state(log, pi.hProcess, pi.hThread, address, "entry-");
                             context.Eip = address;
                             if (!SetThreadContext(pi.hThread, &context)) { result = 102; done = 1; }

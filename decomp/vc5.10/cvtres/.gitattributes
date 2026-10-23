@@ -2,3 +2,7 @@
 cases/help/reference/*.bin binary
 cases/help/reference/*events.txt binary
 cases/help/resources/*.res binary
+cases/resources-rich/reference/*.bin binary
+cases/resources-rich/reference/*events.txt binary
+cases/resources-rich/reference/*.obj binary
+cases/resources-rich/input/*.res binary

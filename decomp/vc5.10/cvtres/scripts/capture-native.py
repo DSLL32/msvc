@@ -19,7 +19,7 @@ exe=BINARY/'build/native/CVTRES';assert exe.exists()
 assert subprocess.run(['make','-q','native'],cwd=BINARY).returncode==0,'native build is stale'
 shutil.copyfile(BINARY/'build/native/inputs.json',out/'native-build.json')
 (out/'configuration.json').write_bytes((a.configuration or (BINARY/'functions.json')).read_bytes())
-script='''import gdb,json
+script='''import gdb,json,struct,os,re
 result={"events":[]}
 def stopped(event):
  if isinstance(event,gdb.SignalEvent):result["events"].append({"signal":event.stop_signal})
@@ -33,6 +33,7 @@ def globals_state():
   address=int(value.address)
   raw=bytes(gdb.selected_inferior().read_memory(address,item["size"]))
   values[item["name"]]={"address":address,"raw_hex":raw.hex()}
+  if item["kind"]=="cstring-or-null":values[item["name"]]["cstring"]=value.string() if int(value) else None
  return values
 def crt_state():
  values={}
@@ -47,6 +48,22 @@ def crt_state():
    if record["used"]:record["buffer_hex"]=bytes(gdb.selected_inferior().read_memory(base,record["used"])).hex()
    else:record["buffer_hex"]=""
   values[item["name"]]=record
+ return values
+def parameters(frame):
+ values={}
+ for index,item in enumerate(PARAMETERS.get(frame.name(),[])):
+  value=frame.read_var(item["name"])
+  if item["kind"]!="file":values[str(index)]={"kind":item["kind"],"value":int(value)&0xffffffff};continue
+  raw=bytes(gdb.selected_inferior().read_memory(int(value),32));record={"kind":"file","pointer":int(value),"raw_hex":raw.hex()}
+  fields=struct.unpack("<8I",raw);valid=fields[0]-fields[2] if fields[2] else 0
+  if fields[3]&1 and fields[1]<65536:valid+=fields[1]
+  assert 0<=valid<=fields[6]<=4096
+  record["buffer_hex"]=bytes(gdb.selected_inferior().read_memory(fields[2],valid)).hex() if valid else ""
+  handle=int(gdb.parse_and_eval("recon_osfhnd[%d]"%fields[4]));record["os_flags"]=int(gdb.parse_and_eval("recon_osfile[%d]"%fields[4]));record["os_handle"]=handle
+  hostfd=handle-1;pid=gdb.selected_inferior().pid
+  record["path"]=os.readlink("/proc/%d/fd/%d"%(pid,hostfd))
+  record["position"]=int(re.search(r"^pos:[ \t]*([0-9]+)$",open("/proc/%d/fdinfo/%d"%(pid,hostfd)).read(),re.M)[1])
+  values[str(index)]=record
  return values
 class MessageReturn(gdb.FinishBreakpoint):
  def __init__(self,frame,id):
@@ -65,7 +82,7 @@ class Entry(gdb.Breakpoint):
   self.name=name
   super().__init__(name,internal=True)
  def stop(self):
-  frame=gdb.newest_frame();record={"function":self.name,"globals":globals_state(),"crt":crt_state()}
+  frame=gdb.newest_frame();record={"function":self.name,"globals":globals_state(),"crt":crt_state(),"parameters":parameters(frame)}
   if self.name=="main":
    record["argc"]=int(frame.read_var("argc"));argv=frame.read_var("argv")
    record["argv"]=[argv[i].string() for i in range(record["argc"])]
@@ -76,7 +93,7 @@ class Entry(gdb.Breakpoint):
    if OBSERVE:MessageReturn(frame,record["id"])
   result["entries"].append(record)
   return False
-for name in ["main","usage","load_message"]:Entry(name)
+for name in ENTRY_NAMES:Entry(name)
 if OBSERVE:ResourceCall("recon_LoadStringA",internal=True)
 gdb.execute("run")
 result["info_program"]=gdb.execute("info program",to_string=True)
@@ -90,13 +107,9 @@ try:
  frame=gdb.newest_frame();result["function"]=frame.name()
  result["pc"]=int(frame.pc());result["esp"]=int(gdb.parse_and_eval("$esp"))
  result["stack_hex"]=bytes(gdb.selected_inferior().read_memory(result["esp"],80)).hex()
+ result["parameters"]=parameters(frame)
  result["crt"]=crt_state()
- result["globals"]={}
- for item in DATA:
-  value=gdb.parse_and_eval(item["name"])
-  address=int(value.address)
-  raw=bytes(gdb.selected_inferior().read_memory(address,item["size"]))
-  result["globals"][item["name"]]={"address":address,"raw_hex":raw.hex()}
+ result["globals"]=globals_state()
 
  if frame.name()=="main":
   result["argc"]=int(frame.read_var("argc"));argv=frame.read_var("argv")
@@ -107,9 +120,12 @@ except gdb.error as error:result["frame_error"]=str(error)
 open(OUTPUT,"w").write(json.dumps(result,indent=2)+"\\n")
 '''
 config=json.loads((out/'configuration.json').read_text())
-script='OUTPUT='+repr(str(out/'state.json'))+'\nDATA='+repr(config.get('data',[]))+'\nCRT='+repr(config.get('crt_data',[]))+'\nOBSERVE='+repr(bool(config.get('observations')))+'\n'+script
+script='OUTPUT='+repr(str(out/'state.json'))+'\nDATA='+repr(config.get('data',[]))+'\nCRT='+repr(config.get('crt_data',[]))+'\nOBSERVE='+repr(bool(config.get('observations')))+'\nPARAMETERS='+repr({f['native']:f.get('parameters',[]) for f in config['functions']})+'\nENTRY_NAMES='+repr([f['native'] for f in config['functions'] if f['status']!='stub'])+'\n'+script
 (out/'observe.py').write_text(script)
-args='/help > '+shlex.quote(str(out/'stdout.bin'))+' 2> '+shlex.quote(str(out/'stderr.bin'))
+for item in config['case'].get('inputs',[]):
+ source=BINARY/item['path'];assert hashlib.sha256(source.read_bytes()).hexdigest()==item['sha256']
+ shutil.copyfile(source,out/item['name'])
+args=' '.join(shlex.quote(x) for x in config['case']['arguments'])+' > '+shlex.quote(str(out/'stdout.bin'))+' 2> '+shlex.quote(str(out/'stderr.bin'))
 canonical='R:\\toolchains\\5.10\\bin\\CVTRES.EXE'
 commands=['gdb','-q','-nx','-batch',str(exe),'-ex','set pagination off','-ex','set confirm off','-ex','set exec-wrapper /usr/bin/env -a '+shlex.quote(canonical),'-ex','set args '+args,'-ex','source '+str(out/'observe.py')]
 config=json.loads((out/'configuration.json').read_text())
@@ -134,7 +150,7 @@ setup=time.perf_counter()-start;t=time.perf_counter();r=subprocess.run(commands,
 trace.close()
 (out/'gdb.stdout').write_bytes(r.stdout);(out/'gdb.stderr').write_bytes(r.stderr)
 execution=time.perf_counter()-t
-receipt=dict(schema=1,purpose='native GDB raw state',case='help',argv=['/help'],initial=a.initial,native_sha256=sha(exe),build_snapshot_sha256=sha(out/'native-build.json'),configuration_sha256=sha(out/'configuration.json'),original_sha256=config['target']['sha256'],rebuilt_sha256=sha(BINARY/'build/CVTRES.EXE'),map_sha256=sha(BINARY/'build/cvtres.map'),gdb_status=r.returncode,raw_sha256={name:sha(out/name) for name in ['state.json','gdb.stdout','gdb.stderr','stdout.bin','stderr.bin','trace.txt','help.resources']},seconds=dict(setup=setup,execution=execution,total=time.perf_counter()-start))
+receipt=dict(schema=1,purpose='native GDB raw state',case=config['case']['id'],argv=config['case']['arguments'],initial=a.initial,native_sha256=sha(exe),build_snapshot_sha256=sha(out/'native-build.json'),configuration_sha256=sha(out/'configuration.json'),original_sha256=config['target']['sha256'],rebuilt_sha256=sha(BINARY/'build/CVTRES.EXE'),map_sha256=sha(BINARY/'build/cvtres.map'),gdb_status=r.returncode,case_inputs={item['name']:sha(out/item['name']) for item in config['case'].get('inputs',[])},artifacts={name:sha(out/name) for name in config['case'].get('artifacts',[]) if (out/name).exists()},raw_sha256={name:sha(out/name) for name in ['state.json','gdb.stdout','gdb.stderr','stdout.bin','stderr.bin','trace.txt','help.resources']},seconds=dict(setup=setup,execution=execution,total=time.perf_counter()-start))
 (out/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
 assert r.returncode==0 and (out/'state.json').is_file(),repr(r.stderr)
 print((out/'state.json').read_text())

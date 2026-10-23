@@ -53,22 +53,28 @@ def compare_frontier(config,original,native,initial=False):
             if name=='main':
                 argc=re.search(r'^argc ([0-9]+)$',text,re.M)
                 argv=[bytes.fromhex(x).decode('latin1') for x in re.findall(r'^argv [0-9]+ ([0-9a-f]*)$',text,re.M)]
-                assert argc and int(argc[1])==state['argc']==2 and len(argv)==2
-                assert argv==state['argv'] and argv[1:]==['/help'],'complete argv differs'
+                assert argc and int(argc[1])==state['argc']==len(config['case']['arguments'])+1 and len(argv)==state['argc']
+                assert argv==state['argv'] and argv[1:]==config['case']['arguments'],'complete argv differs'
             if name=='usage':assert words[1]==state['status']
             if name=='load_message':assert words[1]==state['id']
             compare_context(config,text,state)
+            if f.get('parameters'):compare_parameters(config,f,text,state,original,native)
         result=dict(kind='trap',frontier=name,original=old['address'],native_function=new['function'])
     else:
         assert not initial
-        assert old['status']==new['status']==config['case']['canonical_reference']['status']==1,'unexpected completed /help status'
+        assert old['status']==new['status']==config['case']['canonical_reference']['status'],'unexpected completed case status'
         reference=config['case']['canonical_reference']
         for label in ['stdout','stderr']:
-            master=BINARY/'cases/help/reference'/(label+'.bin')
+            master=BINARY/'cases'/config['case']['id']/'reference'/(label+'.bin')
             assert sha(master.read_bytes())==reference[label+'_sha256'] and len(master.read_bytes())==reference[label+'_size']
             assert (original/(label+'.bin')).read_bytes()==master.read_bytes(),'completed output differs from untouched canonical master'
         assert reference['target_sha256']==config['target']['sha256'] and reference['provider_sha256']==PROVIDER
         result=dict(kind='exit',status=old['status'])
+    if old['kind']=='exit':
+        for name,record in config['case']['canonical_reference'].get('artifacts',{}).items():
+            master=BINARY/'cases'/config['case']['id']/'reference'/name
+            assert sha(master.read_bytes())==record['sha256']
+            assert (original/name).read_bytes()==(native/name).read_bytes()==master.read_bytes(),'completed artifact differs: '+name
     for stream in ['stdout.bin','stderr.bin']:
         assert (original/stream).read_bytes()==(native/stream).read_bytes(),stream+' differs'
     if not initial:
@@ -97,6 +103,10 @@ def bind(config,original,native,frozen=False):
         assert snapshot==current,'candidate snapshot contents changed'
         assert receipt['original_sha256']==config['target']['sha256']==sha(TARGET.read_bytes()),'target changed'
         for name,value in receipt['raw_sha256'].items():assert sha((directory/name).read_bytes())==value,'raw observation changed: '+name
+        assert receipt['argv']==config['case']['arguments'] and receipt['case']==config['case']['id'],'case invocation differs'
+        for item in config['case'].get('inputs',[]):
+            assert receipt['case_inputs'][item['name']]==sha((directory/item['name']).read_bytes())==item['sha256'],'case input differs'
+        for name,value in receipt.get('artifacts',{}).items():assert sha((directory/name).read_bytes())==value,'case artifact changed'
     assert new['native_sha256']==sha((BINARY/'build/native/CVTRES').read_bytes()),'native changed'
     assert new['rebuilt_sha256']==sha((BINARY/'build/CVTRES.EXE').read_bytes()),'Win32 build changed'
     assert new['map_sha256']==sha((BINARY/'build/cvtres.map').read_bytes()),'Win32 MAP changed'
@@ -108,7 +118,8 @@ def bind(config,original,native,frozen=False):
             subprocess.run(['python3',str(BINARY/'scripts/prepare-resources.py'),'--output',str(provider)],cwd=BINARY,check=True,stdout=subprocess.DEVNULL)
             assert provider.read_bytes()==(native/'help.resources').read_bytes(),'native resource provider differs from verified cache'
     assert old['helper_status']==0 and not old['timed_out']
-    if (original/'capture-host-build.json').exists():verify_build_snapshot(original/'capture-host-build.json',old['helper_sha256'])
+    if (original/'capture-host-build.json').exists():verify_build_snapshot(original/'capture-host-build.json',old['helper_sha256'],old.get('compiled_snapshot_sha256',{}).get('capture-host-build.json'))
+    if (original/'capture-host.exe').exists():assert sha((original/'capture-host.exe').read_bytes())==old['helper_sha256'],'immutable capture helper changed'
     assert old['masked_sha256']==sha((original/'CVTRES.EXE').read_bytes())==old['loaded_image_hfile_sha256']==sha((original/'loaded-image.exe').read_bytes())
     assert old['provider_verified'] and old['provider_actual_hfile_sha256']==sha((original/'loaded-msvcrt.dll').read_bytes())==PROVIDER
     assert not old['unmasked'],'unmasked observation cannot accept reconstruction'
@@ -144,7 +155,12 @@ def compare_context(config,text,state,prefix='',loaded_messages=False):
     for item in config.get('data',[]):
         assert item['original'] in memory,'missing original contextual state'
         actual=bytes.fromhex(state['globals'][item['name']]['raw_hex']);expected=memory[item['original']]
-        if loaded_messages and item['name'] in ('message_library','message_loader'):
+        if item['kind']=='cstring-or-null':
+            assert bool(int.from_bytes(expected,'little'))==bool(int.from_bytes(actual,'little')),'global string pointer nullness differs'
+            if int.from_bytes(expected,'little'):
+                match=re.search(r'^'+re.escape(prefix)+r'pointer-string '+format(item['original'],'08x')+r' ([0-9a-f]*)$',text,re.M)
+                assert match and bytes.fromhex(match[1]).decode('latin1')==state['globals'][item['name']]['cstring'],'global string differs'
+        elif loaded_messages and item['name'] in ('message_library','message_loader'):
             assert int.from_bytes(expected,'little') and int.from_bytes(actual,'little'),'missing resolved message binding'
         elif item['kind']=='nullable-pointer':assert int.from_bytes(expected,'little')==int.from_bytes(actual,'little')==0,'unexpected nonnull pointer requires typed identity proof'
         else:assert actual==expected,('contextual state differs',item['name'],sha(expected),sha(actual))
@@ -181,13 +197,15 @@ def compare_candidate_entry(config,function,original,native):
         assert words;words=[int(x,16) for x in words[1].split()]
         argc=re.search(r'^entry-argc ([0-9]+)$',capsule,re.M)
         argv=[bytes.fromhex(x).decode('latin1') for x in re.findall(r'^entry-argv [0-9]+ ([0-9a-f]*)$',capsule,re.M)]
-        assert argc and int(argc[1])==entry['argc']==2 and argv==entry['argv']
+        assert argc and int(argc[1])==entry['argc']==len(config['case']['arguments'])+1 and argv==entry['argv']
+        assert argv[1:]==config['case']['arguments']
         assert (words[3]==0)==entry['envp_null']
     elif function in ('usage','load_message'):
         words=re.search(r'^entry-stack ([0-9a-f ]+)$',capsule,re.M);assert words
         words=[int(x,16) for x in words[1].split()]
         assert words[1]==entry['status' if function=='usage' else 'id']
     compare_context(config,capsule,entry,prefix='entry-')
+    if f.get('parameters'):compare_parameters(config,f,capsule,entry,original,native,prefix='entry-')
     return dict(function=function,original_entry=f['start'],native_entry=f['native'],contextual_ranges=len(config.get('data',[])),crt_ranges=len(config.get('crt_data',[])))
 
 
@@ -228,3 +246,32 @@ def compare_message_observations(config,original,native):
         assert returned['id']==id and returned['return_value']==returned['globals']['message_buffer']['address'],'native return pointer differs'
         compare_context(config,returntext,returned,prefix='observation-',loaded_messages=True)
     return dict(ids=[8003,8004],buffer_bytes=1024,callback_abi='LoadStringA(NULL,id,message_buffer,1024)',module='USER32.DLL',lookup='LoadLibraryA/GetProcAddress exact audited dataflow',observed_calls=2,observed_returns=2)
+
+
+def compare_parameters(config,function,text,state,original,native,prefix=''):
+    import struct
+    words=re.search(r'^'+re.escape(prefix)+r'stack ([0-9a-f ]+)$',text,re.M);assert words
+    words=[int(x,16) for x in words[1].split()]
+    for index,item in enumerate(function['parameters']):
+        record=state['parameters'][str(index)]
+        if item['kind']!='file':
+            assert record['value']==words[index+1],('scalar argument differs',function['name'],item['name']);continue
+        raw=re.search(r'^'+re.escape(prefix)+r'file '+str(index)+r' pointer ([0-9a-f]+) raw ([0-9a-f]+)$',text,re.M);assert raw,'missing original FILE argument'
+        assert int(raw[1],16)==words[index+1] and record['pointer'],'FILE argument identity differs'
+        left=struct.unpack('<8I',bytes.fromhex(raw[2]));right=struct.unpack('<8I',bytes.fromhex(record['raw_hex']))
+        assert left[1]==right[1] and left[3:]==right[3:],('FILE scalar state differs',item['name'],left,right)
+        assert bool(left[0])==bool(right[0]) and bool(left[2])==bool(right[2]),'FILE buffer nullness differs'
+        assert (left[0]-left[2] if left[2] else 0)==(right[0]-right[2] if right[2] else 0),'FILE buffer cursor differs'
+        pending=re.search(r'^'+re.escape(prefix)+r'file-buffer '+str(index)+r' ([0-9a-f]+)$',text,re.M)
+        assert (pending[1] if pending else '')==record['buffer_hex'],'FILE valid buffer contents differ'
+        osstate=re.search(r'^'+re.escape(prefix)+r'file-os '+str(index)+r' fd ([0-9]+) flags ([0-9a-f]+) handle ([0-9a-f]+)$',text,re.M);assert osstate
+        assert int(osstate[1])==right[4] and int(osstate[2],16)==record['os_flags'],'FILE descriptor flags differ'
+        assert int(osstate[3],16) not in (0,0xffffffff) and record['os_handle'] not in (0,-1),'invalid FILE OS handle'
+        position=re.search(r'^'+re.escape(prefix)+r'file-position '+str(index)+r' ([0-9]+)$',text,re.M);assert position
+        assert int(position[1])==record['position'],'FILE physical position differs'
+        path=re.search(r'^'+re.escape(prefix)+r'file-path '+str(index)+r' ([0-9a-f]+)$',text,re.M);assert path
+        path=bytes.fromhex(path[1]).decode('latin1');name=path.replace('\\','/').rsplit('/',1)[1]
+        assert name in [v['name'] for v in config['case'].get('inputs',[])]+config['case'].get('artifacts',[]),'unknown FILE identity'
+        assert Path(record['path']).resolve()==(native/name).resolve(),'native FILE is not exact case file'
+        scratch=Path.home()/'.ai-tmp/msvc2';expected='S:\\'+str((original/name).relative_to(scratch)).replace('/','\\')
+        assert path.removeprefix('\\\\?\\').lower()==expected.lower(),'original FILE is not exact case file'

@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "state": "original-validated-awaiting-native-fsopen",
+  "invocation": {
+    "id": "resources-rich",
+    "arguments": [
+      "/nologo",
+      "/machine:ix86",
+      "/readonly",
+      "/out:rich.obj",
+      "rich.res"
+    ],
+    "inputs": [
+      {
+        "name": "rich.res",
+        "path": "cases/resources-rich/input/rich.res",
+        "sha256": "ad4feb23c9a981122246969f9bdaf8bf9a4978cd722f50a67b1e8884835b9318"
+      }
+    ],
+    "artifacts": [
+      "rich.obj"
+    ],
+    "canonical_reference": {
+      "status": 0,
+      "stdout_size": 0,
+      "stderr_size": 0,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+      "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "capture_receipt_sha256": "312f09782c291d1f04d059205edac339cbe9bc5ad52f8b50a022b5e8a7eec119",
+      "artifacts": {
+        "rich.obj": {
+          "sha256": "3af7e7f765a324544dc48a63e6007f69928bf4833241ba8128d0270e05109d07",
+          "bytes": 5080
+        }
+      },
+      "normalization": [],
+      "repeat_capture": "/root/.ai-tmp/msvc2/vc5.10/cvtres/resources-rich-master-02"
+    }
+  },
+  "original_evidence": {
+    "master": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cvtres/resources-rich-master-01/receipt.json",
+      "sha256": "312f09782c291d1f04d059205edac339cbe9bc5ad52f8b50a022b5e8a7eec119",
+      "seconds": {
+        "setup": 0.04351009987294674,
+        "execution": 0.594967819750309,
+        "total": 0.6530256578698754
+      }
+    },
+    "repeat": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cvtres/resources-rich-master-02/receipt.json",
+      "sha256": "22f24a64b247e9e53d789b53015ed380fc9090507cb1bc5aac78259d51aaa46e",
+      "seconds": {
+        "setup": 0.04299664869904518,
+        "execution": 0.6088782614096999,
+        "total": 0.666468164883554
+      }
+    },
+    "first_frontier": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cvtres/resources-rich-initial-original/receipt.json",
+      "sha256": "c5cffeb3c12d92fe169e2b26a31ed647e17a6b2a5dd17546a2eb05f32a4a630a",
+      "seconds": {
+        "setup": 0.0480012409389019,
+        "execution": 0.656358209438622,
+        "total": 0.720365958288312
+      }
+    },
+    "fsopen_diagnostic": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cvtres/resources-rich-fsopen-original/receipt.json",
+      "sha256": "84c7a446ca1344e346e08dbed3101a99ce7854fb1fec0e920643118b00546ca9",
+      "seconds": {
+        "setup": 0.04332477692514658,
+        "execution": 0.6978147113695741,
+        "total": 0.7604599324986339
+      }
+    }
+  },
+  "next_frontier": {
+    "name": "seek_file",
+    "address": 16784118,
+    "abi": "long __stdcall seek_file(FILE*,long,int)",
+    "cleanup": 12,
+    "arguments": [
+      "verified input FILE",
+      "0",
+      "SEEK_END=2"
+    ]
+  },
+  "native_boundary": {
+    "api": "_fsopen",
+    "provider": "shared maintainer",
+    "input_mode": "rb",
+    "input_sharing": 32,
+    "output_mode": "wb",
+    "output_sharing": 16,
+    "observed_input_file": {
+      "flag": 1,
+      "fd": 3,
+      "osflags": 1,
+      "position": 0
+    },
+    "observed_output_file": {
+      "flag": 2,
+      "fd": 4,
+      "osflags": 1,
+      "position": 0
+    }
+  },
+  "normalization": []
+}

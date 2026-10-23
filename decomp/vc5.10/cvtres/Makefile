@@ -4,7 +4,7 @@ include ../../../tooling/graph-audit/graph-audit.mk
 RECON := ../../../lib/recon
 NATIVE_CC ?= clang
 NATIVE_FLAGS := -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie
-NATIVE_CPPFLAGS := -DRECON_DEFAULT_FMODE=0 -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
+NATIVE_CPPFLAGS := -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_DEFAULT_FMODE=0 -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
 SOURCES := $(wildcard src/*.c)
 HEADERS := $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h)
 NATIVE_OBJECTS := $(patsubst src/%.c,build/native/%.o,$(SOURCES))

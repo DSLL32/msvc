@@ -213,7 +213,21 @@
       "cleanup": 12,
       "abi": "long __stdcall seek_file(FILE*,long,int)",
       "status": "stub",
-      "source": "src/stubs.c"
+      "source": "src/stubs.c",
+      "parameters": [
+        {
+          "name": "file",
+          "kind": "file"
+        },
+        {
+          "name": "offset",
+          "kind": "long"
+        },
+        {
+          "name": "origin",
+          "kind": "int"
+        }
+      ]
     },
     {
       "name": "convert_resources",
@@ -227,14 +241,36 @@
       "source": "src/stubs.c",
       "ret_sites": [
         16789320
+      ],
+      "parameters": [
+        {
+          "name": "input",
+          "kind": "file"
+        },
+        {
+          "name": "output",
+          "kind": "file"
+        },
+        {
+          "name": "size",
+          "kind": "unsigned"
+        },
+        {
+          "name": "writable",
+          "kind": "int"
+        },
+        {
+          "name": "timestamp",
+          "kind": "unsigned"
+        }
       ]
     }
   ],
   "data": [
     {
-      "name": "resource_object_header",
+      "name": "target_machine",
       "original": 16794944,
-      "size": 20,
+      "size": 2,
       "kind": "bytes"
     },
     {
@@ -247,13 +283,13 @@
       "name": "input_name",
       "original": 16796068,
       "size": 4,
-      "kind": "nullable-pointer"
+      "kind": "cstring-or-null"
     },
     {
       "name": "output_name",
       "original": 16796076,
       "size": 4,
-      "kind": "nullable-pointer"
+      "kind": "cstring-or-null"
     },
     {
       "name": "verbose",
@@ -280,7 +316,7 @@
       "kind": "bytes"
     },
     {
-      "name": "rewrite_input",
+      "name": "writable_resources",
       "original": 16793616,
       "size": 4,
       "kind": "bytes"
@@ -311,19 +347,41 @@
     }
   ],
   "case": {
-    "id": "help",
+    "id": "resources-rich",
     "arguments": [
-      "/help"
+      "/nologo",
+      "/machine:ix86",
+      "/readonly",
+      "/out:rich.obj",
+      "rich.res"
+    ],
+    "inputs": [
+      {
+        "name": "rich.res",
+        "path": "cases/resources-rich/input/rich.res",
+        "sha256": "ad4feb23c9a981122246969f9bdaf8bf9a4978cd722f50a67b1e8884835b9318"
+      }
+    ],
+    "artifacts": [
+      "rich.obj"
     ],
     "canonical_reference": {
-      "status": 1,
-      "stdout_size": 360,
+      "status": 0,
+      "stdout_size": 0,
       "stderr_size": 0,
-      "stdout_sha256": "4eb5be93146b1109671b4ca94f07803b216ffdd16ea9633efce6f9a91564e8ff",
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
       "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
       "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
-      "capture_receipt_sha256": "c9a333c04554b54bb8faac7768784d7f6605e82d26191a337bfe7ae644466485"
+      "capture_receipt_sha256": "312f09782c291d1f04d059205edac339cbe9bc5ad52f8b50a022b5e8a7eec119",
+      "artifacts": {
+        "rich.obj": {
+          "sha256": "3af7e7f765a324544dc48a63e6007f69928bf4833241ba8128d0270e05109d07",
+          "bytes": 5080
+        }
+      },
+      "normalization": [],
+      "repeat_capture": "/root/.ai-tmp/msvc2/vc5.10/cvtres/resources-rich-master-02"
     }
   },
   "crt_data": [
@@ -358,18 +416,12 @@
   ],
   "observations": [
     {
-      "address": 16782448,
-      "kind": "message-return",
-      "id": 8003
+      "address": 16783726,
+      "kind": "input-open-return"
     },
     {
-      "address": 16782467,
-      "kind": "message-return",
-      "id": 8004
-    },
-    {
-      "address": 16789859,
-      "kind": "resource-call"
+      "address": 16783856,
+      "kind": "output-open-return"
     }
   ]
 }

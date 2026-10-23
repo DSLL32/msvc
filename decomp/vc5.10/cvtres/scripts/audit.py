@@ -79,8 +79,11 @@ def audit_command(config,out):
        '--runtime',str(paths['runtime']),'--rebuilt-runtime',str(paths['rebuilt_runtime']),
        '--metadata',str(paths['metadata']),'--check-ret','--check-references','--check-ownership','--check-extents','--check-accepted-extents']
 
+def strict_import_functions(config):
+    return [f['symbol'] for f in config['functions'] if f['status'] in ('accepted','candidate') and f['name'] not in ('main','usage') and not f.get('import_certificate')]
+
 def strict_import_command(config,out):
-    if not any(f['name']=='load_message' and f['status'] in ('accepted','candidate') for f in config['functions']):return None
+    if not strict_import_functions(config):return None
     command=audit_command(config,out)
     command[command.index('--config')+1]=str(out/'strict-import-config.json')
     return command+['--check-imports']
@@ -103,7 +106,7 @@ def graph(config,out):
     if residual is not None:(out/'import-residual.json').write_text(json.dumps(residual,indent=2)+'\n')
     strict_command=strict_import_command(config,out)
     if strict_command:
-        strict_cfg=dict(cfg,accepted=['_load_message@4']);(out/'strict-import-config.json').write_text(json.dumps(strict_cfg,indent=2)+'\n')
+        strict_cfg=dict(cfg,accepted=strict_import_functions(config));(out/'strict-import-config.json').write_text(json.dumps(strict_cfg,indent=2)+'\n')
     command=audit_command(config,out)
     before=audit_hashes(config,out);sources=fingerprints();engine=time.perf_counter()
     r=subprocess.run(command,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
@@ -112,7 +115,7 @@ def graph(config,out):
         strict=subprocess.run(strict_command,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
         (out/'strict-import.stdout').write_bytes(strict.stdout);(out/'strict-import.stderr').write_bytes(strict.stderr)
         assert strict.returncode==0,strict.stderr.decode()
-        strict=json.loads(strict.stdout);assert strict['checked_functions']==1
+        strict=json.loads(strict.stdout);assert strict['checked_functions']==len(strict_import_functions(config))
     engine_seconds=time.perf_counter()-engine
     after=audit_hashes(config,out)
     assert before==after and sources==fingerprints(),'audit inputs changed during execution'

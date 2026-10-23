@@ -1,0 +1,8 @@
+{
+  "schema": 1,
+  "producer_capture": "/root/.ai-tmp/msvc2/vc5.10/rcdll/resources-rich-baseline-01",
+  "producer_receipt_sha256": "1d520e6f2d0c2b5240a65a9dae657aa01686305179bc6d36defa0d8de4e76eb7",
+  "input_sha256": "ad4feb23c9a981122246969f9bdaf8bf9a4978cd722f50a67b1e8884835b9318",
+  "input_bytes": 3672,
+  "note": "Fresh VC5 original RC/RCDLL output; source theme only originated in VC1. No VC1 output reused."
+}

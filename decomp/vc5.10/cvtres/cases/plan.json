@@ -1,9 +1,9 @@
 {
   "schema": 1,
-  "state": "first-case-complete-paused",
+  "state": "resource-case-authorized-ongoing",
   "target": "toolchains/5.10/bin/CVTRES.EXE",
   "release_conditions": [
-    "First /help explicitly released and completed; further cases require orchestrator release"
+    "All VC5 workers authorized to resume first substantive cases"
   ],
   "accepted_functions": 3,
   "coverage": null,
@@ -38,8 +38,8 @@
       "purpose": "resource .res to COFF conversion including ordinal/string resource identifiers, languages, menus, dialogs, strings, icons and raw data",
       "source_seed": "resources-rich/source",
       "input_generation": "Explicit original RC capture owned by RC worker; consume result read-only and record source/hash",
-      "original_groundwork": "Source-only seed; no conversion reference captured",
-      "acceptance_reference": "not captured",
+      "original_groundwork": "Fresh VC5 producer input and two identical original CVTRES COFF masters validated; typed FILE caller evidence captured",
+      "acceptance_reference": "resources-rich/reference",
       "source_provenance": "Source/assets only copied from sibling rc/cases/resources-rich/source, seeded there from vc1.0 RC inputs; no outputs/traces copied",
       "source_sha256": {
         "assets/messages.bin": "27fbf6c0451b6521d19618032f26de4be6ae744c37082ec0917aa4afe89efccc",
@@ -52,7 +52,7 @@
         "resource.h": "8928ffb8acb0481e8775ca63dc0104143af852929b71c6459fd6889f4f93d8d8",
         "resources.rc": "47f13f702adfbcfc05a40ab9ce1a27cb22730e33f888be81e276ac424dc41881"
       },
-      "state": "not-authorized"
+      "state": "original-validated-awaiting-native-fsopen"
     }
   ],
   "proposed_followups": [

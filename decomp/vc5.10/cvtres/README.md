@@ -1,7 +1,7 @@
 # CVTRES 5.00.1668.1
 
-First case `/help` is complete; reconstruction is paused before resource
-conversion. It returns 1, writes exactly 360 stdout bytes and no stderr, matching
+First case `/help` is complete. The authorized rich-resource conversion case is
+prepared and original-validated; native `_fsopen` support is being added centrally. It returns 1, writes exactly 360 stdout bytes and no stderr, matching
 the untouched canonical original. Three application functions are accepted:
 `main` (1,447 bytes), `usage` (69), and `load_message` (107).
 
@@ -49,4 +49,5 @@ entries are cross-checked before the shared native provider is encoded.
 
 See `cases/help/` for canonical outputs, acceptance proofs, negative checks and
 timings. PE/ELF/build artifacts and full capture snapshots remain in build/shared
-scratch. The source-only `cases/resources-rich/` seed is not an executed case.
+scratch. The `cases/resources-rich/` input is fresh VC5 RC output with a producer receipt.
+Its original conversion passes twice byte-for-byte; native reconstruction is ongoing.
