@@ -63,7 +63,8 @@
     "read_module_source_lines",
     "map_type_index",
     "compact_type_index",
-    "scan_module_symbols"
+    "scan_module_symbols",
+    "add_symbol_segment"
   ],
   "functions": [
     {
@@ -2152,8 +2153,11 @@
       "symbol": "_add_symbol_segment",
       "native_symbol": "add_symbol_segment",
       "original": 4237104,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4237104,
+        4237196
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -2171,7 +2175,8 @@
           ],
           "native_pointee_width": 2
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0058-add-symbol-segment/promotion.json"
     },
     {
       "name": "has_symbol_segment",

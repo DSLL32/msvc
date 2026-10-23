@@ -46,6 +46,7 @@ int insert_public_symbol(unsigned char *record, SymbolKeyProc key);
 void decode_legacy_lines(void *lines, unsigned size);
 void rewrite_legacy_lines(void *lines, CodeViewDirectoryEntry *entry, void *module_buffer, ModuleInfo *info);
 extern unsigned short symbol_segment_count;
+extern unsigned short symbol_segments[255];
 void scan_module_symbols(void *lines, unsigned size, unsigned short *symbols, unsigned short *references);
 void add_symbol_segment(unsigned short segment, unsigned short *symbols);
 int has_symbol_segment(unsigned short segment);

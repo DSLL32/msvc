@@ -6,6 +6,18 @@
 #pragma intrinsic(memcpy, memcmp)
 
 unsigned short symbol_segment_count;
+unsigned short symbol_segments[255];
+
+/* Reserve a segment-change record once per segment [0040a730,0040a78c). */
+void add_symbol_segment(unsigned short segment, unsigned short *symbols)
+{
+    if (!has_symbol_segment(segment)) {
+        *symbols += 13;
+        symbol_segments[symbol_segment_count++] = segment;
+        if (symbol_segment_count > 254)
+            fatal_error(1015, module_name(current_module_info), NULL);
+    }
+}
 
 void scan_module_symbols(void *lines, unsigned size, unsigned short *symbols,
                          unsigned short *references)

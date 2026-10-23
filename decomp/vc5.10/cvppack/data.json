@@ -1022,5 +1022,11 @@
     "original": 4272746,
     "size": 2,
     "kind": "integer"
+  },
+  {
+    "name": "symbol_segments",
+    "original": 4271712,
+    "size": 510,
+    "kind": "bytes"
   }
 ]

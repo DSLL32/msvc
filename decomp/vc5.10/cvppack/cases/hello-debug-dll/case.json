@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0057-scan-module-symbols/original",
-  "reference_receipt_sha256": "b373c96489e0f0da3430eac3d731a5afe45a040224b6243807e5e1d655802903",
+  "reference": "cases/hello-debug-dll/evidence/0058-add-symbol-segment/original",
+  "reference_receipt_sha256": "8876eb23bd25c84cc5459125a1ec173e401352ff2410e315a3134cee02f64307",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -63,6 +63,7 @@
     "map_type_index",
     "compact_type_index",
     "scan_module_symbols",
-    "add_symbol_segment"
+    "add_symbol_segment",
+    "has_symbol_segment"
   ]
 }
