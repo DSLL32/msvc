@@ -370,6 +370,13 @@ static int trap(HANDLE thread,DWORD address)
             hexbytes("line-prefix",words[1],wide_string_bytes(words[1]));hexbytes("line-text",words[2],wide_string_bytes(words[2]));
             {DWORD current;readmem(base+0x16ce8,&current,4);fprintf(events,"line-current-number %lu\n",current);}
         }
+        if(address==base+0x10913){
+            DWORD pointer;char label[80];
+            if(words[1]!=20||words[2]!=base+0x25590)fail("widen-call-scope");
+            fprintf(events,"widen-args %lu %08lx\n",words[1],words[2]);
+            for(n=0;n<words[1];++n){readmem(words[2]+4*n,&pointer,4);sprintf(label,"widen-argv-%u",n);hexbytes(label,pointer,string_bytes(pointer));}
+            hexbytes("prepared-closed-input",line_file,32);readmem(base+0x149c4,&pointer,4);hexbytes("prepared-filename",pointer,514);
+        }
         if(address==base+0x9041){
             hexbytes("line-input-state",words[4],32);
             fprintf(events,"line-input-args capacity=%lu wide=%lu\n",words[2],words[3]);

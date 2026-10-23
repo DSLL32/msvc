@@ -1,5 +1,6 @@
 #include "rcdll.h"
 #include "command.h"
+#include "preprocess.h"
 #include <recon.h>
 
 /* Named, ABI-correct INT3 stubs. None is accepted reconstruction. */
@@ -13,11 +14,6 @@ void __stdcall rc_fatal(char *message)
     __asm int 3
 }
 long __stdcall rc_seek(FILE *file, long offset, int origin)
-{
-    __asm int 3
-    return 0;
-}
-int __stdcall rc_preprocess(int count, char **arguments, int unused)
 {
     __asm int 3
     return 0;
@@ -68,4 +64,15 @@ void __stdcall rc_input_fatal(unsigned code)
 void __stdcall rc_input_warning(unsigned code)
 {
     __asm int 3
+}
+
+WCHAR **__stdcall rc_widen_arguments(int count,char **arguments)
+{
+    __asm int 3
+    return NULL;
+}
+int __cdecl rc_preprocessor_main(int count,WCHAR **arguments)
+{
+    __asm int 3
+    return 0;
 }

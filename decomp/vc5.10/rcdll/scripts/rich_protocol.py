@@ -424,20 +424,11 @@ def prefix_trial(original,native):
     return proof
 
 
-def notify_trial(original,native):
-    config=read_configuration(original/'functions.json')
-    assert config.get('trial_function')=='rc_notify_progress'and len(config['accepted'])==18
-    a,b,proof=checkpoint(original,native,'rc_preprocess',('rc_input_temporary','rc_output_temporary'))
-    assert a['words'][0]==0x71c28359 and a['words'][1:4]==[20,0x71c45590,0]
-    assert re.search(r'^#1\s+0x[0-9a-f]+ in rcdll_command_main\s*\(',(native/'gdb.stdout').read_text(),re.M)
+
+def prepared_case_state(original,native,b,argv):
     text=(original/'events.txt').read_text();arguments=b['arguments'];source=(original/'source/resources.rc').read_bytes()
-    assert arguments['count']==20 and arguments['unused']==0
-    assert re.findall(r'^preprocessor-args (\d+) ([0-9a-f]+) (\d+)$',text,re.M)==[('20','71c45590','0')]
-    assert re.findall(r'^preprocessor-count (\d+)$',text,re.M)==['20']
-    argv=[raw_bytes(text,'preprocessor-argv-%d'%i)[:-1].decode('ascii')for i in range(20)]
-    assert arguments['argv']==argv
+    assert arguments['count']==20 and arguments['argv']==argv
     assert arguments['prepared_lines']==len(source.splitlines())==126 and arguments['current_line']==0
-    assert re.findall(r'^prepared-lines (\d+) current=(\d+)$',text,re.M)==[('126','0')]
     raw=(original/'globals.bin').read_bytes()
     assert struct.unpack_from('<I',raw,0x29458-0x14000)[0]==126 and struct.unpack_from('<I',raw,0x16ce8-0x14000)[0]==0
     assert raw_bytes(text,'prepared-filename')==bytes.fromhex(arguments['filename'])=='resources.rc'.encode('utf-16le')+b'\0'*(514-24)
@@ -457,6 +448,41 @@ def notify_trial(original,native):
         block=next(block for block in blocks if block['payload']+8==pointer)
         assert block['owner']==identity['handle']and block['flags']==9 and block['bytes']==size
         assert bytes.fromhex(block['contents'])==raw_bytes(text,label)
+    return dict(lines=126,current_line=0,artifact=artifact,closed_input=True)
+
+
+def notify_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_notify_progress'and len(config['accepted'])==18
+    a,b,proof=checkpoint(original,native,'rc_preprocess',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c28359 and a['words'][1:4]==[20,0x71c45590,0]
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rcdll_command_main\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    text=(original/'events.txt').read_text();assert b['arguments']['unused']==0
+    assert re.findall(r'^preprocessor-args (\d+) ([0-9a-f]+) (\d+)$',text,re.M)==[('20','71c45590','0')]
+    assert re.findall(r'^preprocessor-count (\d+)$',text,re.M)==['20']
+    assert re.findall(r'^prepared-lines (\d+) current=(\d+)$',text,re.M)==[('126','0')]
+    argv=[raw_bytes(text,'preprocessor-argv-%d'%i)[:-1].decode('ascii')for i in range(20)]
+    prepared=prepared_case_state(original,native,b,argv)
     assert proof['application_trace'][-1]=='rc_notify_progress'
-    proof.update(trial='rc_notify_progress',notification=dict(window=None,interval=64,no_callback=True),prepared=dict(lines=126,current_line=0,artifact=artifact,closed_input=True),preprocessor=dict(count=20,argv=argv,unused=0))
+    proof.update(trial='rc_notify_progress',notification=dict(window=None,interval=64,no_callback=True),prepared=prepared,preprocessor=dict(count=20,argv=argv,unused=0))
+    return proof
+
+
+def preprocess_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_preprocess'and len(config['accepted'])==19
+    a,b,proof=checkpoint(original,native,'rc_widen_arguments',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][:7]==[0x71c28b7f,20,0x71c45590,0x71c28359,20,0x71c45590,0]
+    gdb=(native/'gdb.stdout').read_text()
+    frames=[]
+    for number,name in [(0,'rc_widen_arguments'),(1,'rc_preprocess')]:
+        matches=re.findall(r'^#'+str(number)+r'\s+0x[0-9a-f]+ in '+name+r' \(count=20, arguments=(0x[0-9a-f]+)(?: <[^>]+>)?'+(', unused=0'if number==1 else'')+r'\)',gdb,re.M)
+        assert len(matches)==1;frames.append(matches[0])
+    assert frames[0]==frames[1],'argument-vector pointer was not forwarded'
+    text=(original/'events.txt').read_text()
+    assert re.findall(r'^widen-args (\d+) ([0-9a-f]+)$',text,re.M)==[('20','71c45590')]
+    argv=[raw_bytes(text,'widen-argv-%d'%i)[:-1].decode('ascii')for i in range(20)]
+    prepared=prepared_case_state(original,native,b,argv)
+    assert proof['application_trace'][-1]=='rc_preprocess'
+    proof.update(trial='rc_preprocess',prepared=prepared,forwarded=dict(count=20,argv=argv,original_pointer=0x71c45590,native_pointer=frames[0],unused_outer_slot=0,callee='rc_widen_arguments'))
     return proof

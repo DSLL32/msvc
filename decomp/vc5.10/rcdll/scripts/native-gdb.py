@@ -82,9 +82,10 @@ def capture():
             arguments['message']=bytes(gdb.selected_inferior().read_memory(int(message),length)).hex()
         if name=='rc_message':arguments['id']=int(frame.read_var('id'))
         if name=='rc_prepare_input':arguments['path']=frame.read_var('path').string()
-        if name=='rc_preprocess':
+        if name in ['rc_preprocess','rc_widen_arguments']:
             count=int(frame.read_var('count'));preprocess_vector=frame.read_var('arguments');assert 0<count<=256
-            arguments.update(count=count,argv=[preprocess_vector[i].string()for i in range(count)],unused=int(frame.read_var('unused')),prepared_lines=int(gdb.parse_and_eval('rc_prepared_lines')),current_line=int(gdb.parse_and_eval('rc_preparing_line')),filename=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('rc_filename')),514)).hex())
+            arguments.update(count=count,argv=[preprocess_vector[i].string()for i in range(count)],prepared_lines=int(gdb.parse_and_eval('rc_prepared_lines')),current_line=int(gdb.parse_and_eval('rc_preparing_line')),filename=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('rc_filename')),514)).hex())
+            if name=='rc_preprocess':arguments['unused']=int(frame.read_var('unused'))
             frees=json.loads((output.parent/'locals.json').read_text());assert frees[-1]['operation']=='free'
             # Revisit the actual FILE pointer observed at the first line read;
             # descriptor numbers and CRT array slots need not equal Wine's.

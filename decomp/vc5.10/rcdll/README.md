@@ -7,9 +7,9 @@ and `_CRT_INIT`. Historical logical names are mapped by bounded aliases without
 editing raw evidence; [naming verification](cases/help/conventional-entry-names.json)
 records unchanged ABIs and function extents.
 
-Seventeen application functions (7,412 original code bytes), two embedded CRT functions
+Eighteen application functions (7,440 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. The rich case
-currently matches at the next named trap, `rc_preprocess`.
+currently matches at the next named trap, `rc_widen_arguments`.
 
 `make -j4 native` builds the instrumented Linux i386 static DLL host.
 `make -j4 fixtures` compares cached original output, callback effects and application
@@ -84,7 +84,7 @@ is checked separately.
 ## Counts, timing and future inputs
 
 The provisional Ghidra inventory discovers 299 application functions / 66,295 code
-bytes. Current accepted application extent coverage is 11.18% (17 functions). This denominator
+bytes. Current accepted application extent coverage is 11.22% (18 functions). This denominator
 is analysis discovery, not a claim that every remaining original extent has passed
 an ownership audit. [Inventory](cases/function-inventory.json) excludes separately
 identified embedded CRT and import thunks; switch/literal data is excluded from
@@ -179,3 +179,9 @@ versions finish all 126 input lines and match at `rc_preprocess`, including the
 complete 6,762-byte UTF-16 intermediate file, 20 arguments, restored codepage and
 closed input FILE. [Verification](cases/resources-rich/notify-verification.json)
 records 25 rejection controls and timings; window-callback behavior is unexercised.
+
+The 28-byte preprocessor wrapper is accepted. Its original stdcall-three-slot
+interface forwards the same count and vector to the argument-widening helper,
+then returns the named preprocessor body's result. [Verification](cases/resources-rich/preprocess-verification.json)
+retains the unchanged intermediate artifact, typed forwarding proof and 24
+rejection controls.

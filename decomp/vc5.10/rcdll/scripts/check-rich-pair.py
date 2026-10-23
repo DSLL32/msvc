@@ -6,9 +6,9 @@ from pathlib import Path
 import shutil
 import tempfile
 from protocol import HERE,sha
-from rich_protocol import release_entry,release_trial,prepare_trial,write_trial,detect_trial,unicode_trial,line_trial,prefix_trial,notify_trial
-p=argparse.ArgumentParser();p.add_argument('--original',required=True,type=Path);p.add_argument('--native',required=True,type=Path);p.add_argument('--output',type=Path);p.add_argument('--stage',choices=['entry','trial','prepare','write','detect','unicode','line','prefix','notify'],default='trial')
-a=p.parse_args();validate={'entry':release_entry,'trial':release_trial,'prepare':prepare_trial,'write':write_trial,'detect':detect_trial,'unicode':unicode_trial,'line':line_trial,'prefix':prefix_trial,'notify':notify_trial}[a.stage];proof=validate(a.original,a.native);controls=[]
+from rich_protocol import release_entry,release_trial,prepare_trial,write_trial,detect_trial,unicode_trial,line_trial,prefix_trial,notify_trial,preprocess_trial
+p=argparse.ArgumentParser();p.add_argument('--original',required=True,type=Path);p.add_argument('--native',required=True,type=Path);p.add_argument('--output',type=Path);p.add_argument('--stage',choices=['entry','trial','prepare','write','detect','unicode','line','prefix','notify','preprocess'],default='trial')
+a=p.parse_args();validate={'entry':release_entry,'trial':release_trial,'prepare':prepare_trial,'write':write_trial,'detect':detect_trial,'unicode':unicode_trial,'line':line_trial,'prefix':prefix_trial,'notify':notify_trial,'preprocess':preprocess_trial}[a.stage];proof=validate(a.original,a.native);controls=[]
 with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/rcdll')as scratch:
     old=Path(scratch)/'original';new=Path(scratch)/'native'
     shutil.copytree(a.original,old);shutil.copytree(a.native,new)
@@ -101,6 +101,14 @@ with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/ms
         reject('wrong-preprocessor-count','native','snapshot.json',snapshot(lambda v:v['arguments'].update(count=19)))
         reject('wrong-preprocessor-unused','native','snapshot.json',snapshot(lambda v:v['arguments'].update(unused=1)))
         reject('wrong-preprocessor-argv','native','snapshot.json',snapshot(lambda v:v['arguments']['argv'].pop()))
+        reject('wrong-prepared-total','native','snapshot.json',snapshot(lambda v:v['arguments'].update(prepared_lines=125)))
+        reject('wrong-current-line','native','snapshot.json',snapshot(lambda v:v['arguments'].update(current_line=126)))
+        reject('wrong-filename','native','snapshot.json',snapshot(lambda v:v['arguments'].update(filename='00'*514)))
+        reject('input-not-closed','native','snapshot.json',snapshot(lambda v:v['arguments'].update(closed_input='00'*32)))
+        reject('unproved-window-callback','native','snapshot.json',snapshot(lambda v:v['globals'].update(rc_window='01000000')))
+    if a.stage=='preprocess':
+        reject('wrong-forwarded-count','native','snapshot.json',snapshot(lambda v:v['arguments'].update(count=19)))
+        reject('wrong-forwarded-argv','native','snapshot.json',snapshot(lambda v:v['arguments']['argv'].pop()))
         reject('wrong-prepared-total','native','snapshot.json',snapshot(lambda v:v['arguments'].update(prepared_lines=125)))
         reject('wrong-current-line','native','snapshot.json',snapshot(lambda v:v['arguments'].update(current_line=126)))
         reject('wrong-filename','native','snapshot.json',snapshot(lambda v:v['arguments'].update(filename='00'*514)))

@@ -1,0 +1,61 @@
+{
+  "function": "rc_preprocess",
+  "original_start": "0x8b72",
+  "original_end": "0x8b8e",
+  "original_code_bytes": 28,
+  "abi": "stdcall3/ret12; ignored thirdslot",
+  "accepted_application_functions": 18,
+  "accepted_application_bytes": 7440,
+  "provisional_application_denominator": 66295,
+  "provisional_coverage_percent": 11.222565804359304,
+  "crt_bytes": 555,
+  "compiler_support_bytes": 47,
+  "import_thunk_bytes": 12,
+  "matched_frontier": "rc_widen_arguments",
+  "raw_original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/preprocess-trial-original-01",
+  "raw_native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/preprocess-trial-native-01",
+  "builds": {
+    "original": {
+      "seconds": 3.4860473666340113,
+      "status": 0
+    },
+    "native": {
+      "seconds": 1.8380313981324434,
+      "status": 0
+    }
+  },
+  "original_seconds": 1.4180366806685925,
+  "native_gdb_seconds": 0.7584350351244211,
+  "audit_seconds": 0.060833266004920006,
+  "audit_engine_sha256": "fc5c81f2771c5b6e488ad72529a90c862ef6744083d6e8270b88218105fa844f",
+  "negative_controls": 24,
+  "gate_sha256": "24979eac0e1fe1847d9addeb0ade7dd54ce338bb33123fa6423b9d39031e0963",
+  "graph_audit_record": "audit-0020.json",
+  "help_fixture": {
+    "logical_name_aliases": {
+      "rcdll_main": "DllMain",
+      "recon_dll_entry": "_DllMainCRTStartup",
+      "rcdll_crt_init": "_CRT_INIT",
+      "rc_main": "main",
+      "rcdll_command_main": "main"
+    },
+    "case": "help",
+    "status": "pass",
+    "stdout_bytes": 589,
+    "application_entries": 9,
+    "seconds": {
+      "setup": 0.003818698227405548,
+      "execution": 0.003771374002099037,
+      "checks": 0.0014091525226831436,
+      "total": 0.009761643595993519
+    },
+    "native_sha256": "64fffef9d533b1daa53dbafcd67d22987d35249834b3ebbb341347b8ad44bafc",
+    "reference_manifest_sha256": "387c741bdb3fa4d388da034d339b5d21e872667d27934bb570e03d448db05524"
+  },
+  "notes": [
+    "Raw original stack and both actual native GDB frames prove same count20 and argument-vector pointer forwarded into widening.",
+    "Outer stdcall thirdslot0 retained and ignored; final return comes from named cdecl preprocessor body.",
+    "Full6762-byte prepared input and all current globals/argv/environment/artifacts remain unchanged.",
+    "Shared Rust default fc5c81f release consumed; no original run was performed solely for static-tool publication."
+  ]
+}

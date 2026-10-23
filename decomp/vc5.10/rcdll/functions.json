@@ -22,7 +22,8 @@
     "rc_is_text_unicode",
     "rc_read_wide_line",
     "rc_prefix_equal",
-    "rc_notify_progress"
+    "rc_notify_progress",
+    "rc_preprocess"
   ],
   "functions": [
     {
@@ -326,7 +327,7 @@
       "abi": "stdcall",
       "stack_bytes": 12,
       "kind": "application",
-      "stub": true
+      "stub": false
     },
     {
       "name": "rc_initialize_resource",
@@ -483,6 +484,24 @@
       "abi": "stdcall",
       "stack_bytes": 12,
       "stub": false
+    },
+    {
+      "name": "rc_widen_arguments",
+      "start": "0x10913",
+      "end": "0x109b2",
+      "kind": "application",
+      "abi": "stdcall",
+      "stack_bytes": 8,
+      "stub": true
+    },
+    {
+      "name": "rc_preprocessor_main",
+      "start": "0xbc80",
+      "end": "0xbe41",
+      "kind": "application",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "stub": true
     }
   ],
   "loader_text_metadata": [
