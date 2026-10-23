@@ -334,3 +334,11 @@ native cases and canonical graph/extent/ABI checks pass,13 output cases
 complete; dbglist reaches write_codeview_function69650. Original/W3 builds
 pass.169new extent bytes; code-extent coverage is in
 cases/dbglist-line-end-checkpoint.json with split measured timing/limits.
+
+Checkpoint1239 adds216-byte CodeView procedure records,28-byte address-pair
+relocations and207-byte recursive lexical-scope output.450 packed-record and
+48 recursive-chain controls match original/canonical C. Actual pointer/scalar
+inputs and shared scope-head aliases match;13 finished native output cases
+stay exact, dbglist reaches write_debug_symbol69930. Whole function graphs,
+extents, ABI and original/W3 builds pass.451new code-extent bytes and timing
+limits/failed host gate are recorded in cases/dbglist-procedure-checkpoint.json.

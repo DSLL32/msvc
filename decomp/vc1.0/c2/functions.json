@@ -1240,7 +1240,10 @@
     "@coff_record_line@8",
     "@coff_line_marker@4",
     "@coff_end_lines@8",
-    "@end_debug_function@4"
+    "@end_debug_function@4",
+    "@write_codeview_function@4",
+    "@coff_output_size@8",
+    "@write_debug_scopes@4"
   ],
   "driver": [
     {
@@ -2132,10 +2135,28 @@
       "end": 448134
     },
     {
-      "name": "_coff_output_size",
+      "name": "@coff_output_size@8",
       "start": 448144,
-      "end": 448145,
-      "provisional": true
+      "end": 448172,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "displacement",
+            "location": "ECX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "symbol",
+            "location": "EDX",
+            "type": "SymbolHeader pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-coff-size-abi/validation.json",
+        "observed_legacy_logical": "_coff_output_size"
+      }
     },
     {
       "name": "_coff_finish_module",
@@ -8161,13 +8182,49 @@
     {
       "name": "@write_codeview_function@4",
       "start": 431696,
-      "end": 431697,
-      "provisional": true
+      "end": 431912,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "FunctionSymbol pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-write-codeview-function-abi/validation.json"
+      }
     },
     {
       "name": "@write_debug_scopes@4",
       "start": 431488,
-      "end": 431489,
+      "end": 431695,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "FunctionSymbol pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-write-debug-scopes-abi/validation.json"
+      }
+    },
+    {
+      "name": "@write_debug_symbol@4",
+      "start": 432432,
+      "end": 432433,
+      "provisional": true
+    },
+    {
+      "name": "@write_codeview_block@12",
+      "start": 432928,
+      "end": 432929,
       "provisional": true
     }
   ],

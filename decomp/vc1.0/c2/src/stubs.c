@@ -86,12 +86,11 @@ __declspec(naked) void output_noop_value(void) { RECON_TRACE_NAKED_ENTRY(output_
 unsigned __fastcall output_noop_relocation(Initializer *initializer, SymbolHeader *symbol, Segment *segment) { __asm int 3 }
 __declspec(naked) void output_noop_record(void) { RECON_TRACE_NAKED_ENTRY(output_noop_record) __asm int 3 }
 __declspec(naked) void mark_unwritten_symbol(void) { RECON_TRACE_NAKED_ENTRY(mark_unwritten_symbol) __asm int 3 }
-void __fastcall write_codeview_function(FunctionSymbol *symbol) { __asm int 3 }
-void __fastcall write_debug_scopes(FunctionSymbol *symbol) { __asm int 3 }
+void __fastcall write_debug_symbol(SymbolHeader *symbol) { __asm int 3 }
+void __fastcall write_codeview_block(FunctionSymbol *symbol, unsigned offset, unsigned bytes) { __asm int 3 }
 __declspec(naked) void begin_debug_function(void) { RECON_TRACE_NAKED_ENTRY(begin_debug_function) __asm int 3 }
 __declspec(naked) void finish_debug_module(void) { RECON_TRACE_NAKED_ENTRY(finish_debug_module) __asm int 3 }
 __declspec(naked) void coff_output_value(void) { RECON_TRACE_NAKED_ENTRY(coff_output_value) __asm int 3 }
-__declspec(naked) void coff_output_size(void) { RECON_TRACE_NAKED_ENTRY(coff_output_size) __asm int 3 }
 __declspec(naked) void omf_output_symbol(void) { RECON_TRACE_NAKED_ENTRY(omf_output_symbol) __asm int 3 }
 __declspec(naked) void omf_select_segment(void) { RECON_TRACE_NAKED_ENTRY(omf_select_segment) __asm int 3 }
 __declspec(naked) void omf_output_data(void) { RECON_TRACE_NAKED_ENTRY(omf_output_data) __asm int 3 }

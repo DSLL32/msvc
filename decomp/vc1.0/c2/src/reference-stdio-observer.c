@@ -105,8 +105,13 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         log_line(line);
     }
     if(!strcmp(call->name,"_end_debug_function") ||
-       !strcmp(call->name,"@end_debug_function@4")) {
-        DWORD symbol=call->args[0],function=read_word(process,image_base+0x731b4);
+       !strcmp(call->name,"@end_debug_function@4") ||
+       !strcmp(call->name,"@write_codeview_function@4") ||
+       !strcmp(call->name,"@write_debug_scopes@4") ||
+       !strcmp(call->name,"_coff_output_size") ||
+       !strcmp(call->name,"@coff_output_size@8")) {
+        DWORD symbol=call->args[strstr(call->name,"coff_output_size")?1:0];
+        DWORD function=read_word(process,image_base+0x731b4);
         dump_bytes(process,"symbol_hex",symbol,84);
         dump_bytes(process,"symbol_name_hex",read_word(process,symbol+16),
             string_bytes(process,read_word(process,symbol+16)));
@@ -114,6 +119,11 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
             read_word(process,image_base+0x731ac),function,read_word(process,function+36));
         log_line(line);
         dump_bytes(process,"function_hex",function,44);
+        if(!strcmp(call->name,"@write_debug_scopes@4")) {
+            DWORD cursor=read_word(process,image_base+0x6e8ac);
+            sprintf(line,"scope_cursor %08lx\n",cursor);log_line(line);
+            if(cursor)dump_bytes(process,"scope_cursor_hex",cursor,24);
+        }
     }
     log_line("entry_end\n");
 }

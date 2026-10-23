@@ -54,7 +54,7 @@ void initialize_output_callbacks(void)
     output_callbacks.absolute_reference = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
     output_callbacks.address = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
     output_callbacks.relative_reference = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
-    output_callbacks.size = (OutputRoutine)output_noop_value;
+    output_callbacks.size = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
     output_callbacks.debug_pair = (void (__fastcall *)(char *))output_noop_pair;
     output_callbacks.debug_record = (void (__fastcall *)(unsigned, unsigned))output_noop_debug;
     output_callbacks.finish_module = (OutputRoutine)output_noop;
@@ -73,7 +73,7 @@ void initialize_output_callbacks(void)
     output_callbacks.absolute_reference = coff_output_bytes;
     output_callbacks.address = coff_output_address;
     output_callbacks.relative_reference = coff_output_offset;
-    output_callbacks.size = (OutputRoutine)coff_output_size;
+    output_callbacks.size = coff_output_size;
     output_callbacks.finish_module = (OutputRoutine)coff_finish_module;
     output_callbacks.relocation = coff_output_relocation;
     output_callbacks.record = (void (__fastcall *)(ModuleDirective *))coff_output_record;
@@ -95,7 +95,7 @@ void initialize_output_callbacks(void)
     output_callbacks.absolute_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_bytes;
     output_callbacks.address = (void (__fastcall *)(unsigned, SymbolHeader *))output_noop_value;
     output_callbacks.relative_reference = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_offset;
-    output_callbacks.size = (OutputRoutine)omf_output_size;
+    output_callbacks.size = (void (__fastcall *)(unsigned, SymbolHeader *))omf_output_size;
     output_callbacks.finish_module = (OutputRoutine)omf_finish_module;
     output_callbacks.relocation = omf_output_relocation;
     output_callbacks.record = (void (__fastcall *)(ModuleDirective *))omf_output_record;

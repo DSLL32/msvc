@@ -37,7 +37,7 @@
         ],
         [
           {
-            "site": "0x56c9d",
+            "site": "0x56f79",
             "cleanup": 8
           }
         ]
@@ -72,7 +72,7 @@
         ],
         [
           {
-            "site": "0x54807",
+            "site": "0x54ab3",
             "cleanup": 0
           }
         ]
@@ -103,7 +103,7 @@
         ],
         [
           {
-            "site": "0x56b36",
+            "site": "0x56e12",
             "cleanup": 0
           }
         ]
@@ -128,7 +128,7 @@
         ],
         [
           {
-            "site": "0x56a1e",
+            "site": "0x56cfa",
             "cleanup": 0
           }
         ]
@@ -159,7 +159,7 @@
         ],
         [
           {
-            "site": "0x56a6a",
+            "site": "0x56d46",
             "cleanup": 0
           }
         ]
@@ -185,7 +185,91 @@
         ],
         [
           {
-            "site": "0x53f85",
+            "site": "0x53f89",
+            "cleanup": 0
+          }
+        ]
+      ]
+    },
+    {
+      "function": "@write_codeview_function@4",
+      "formals": [
+        {
+          "name": "symbol",
+          "location": "ECX",
+          "type": "FunctionSymbol pointer",
+          "original": 8066692,
+          "native": 1449314136
+        }
+      ],
+      "returns": [
+        [
+          {
+            "site": "0x69727",
+            "cleanup": 0
+          }
+        ],
+        [
+          {
+            "site": "0x54289",
+            "cleanup": 0
+          }
+        ]
+      ]
+    },
+    {
+      "function": "@coff_output_size@8",
+      "formals": [
+        {
+          "name": "displacement",
+          "location": "ECX",
+          "type": "unsigned32",
+          "value": 4294967264
+        },
+        {
+          "name": "symbol",
+          "location": "EDX",
+          "type": "SymbolHeader pointer",
+          "original": 8066692,
+          "native": 1449314136
+        }
+      ],
+      "returns": [
+        [
+          {
+            "site": "0x6d6ab",
+            "cleanup": 0
+          }
+        ],
+        [
+          {
+            "site": "0x552e9",
+            "cleanup": 0
+          }
+        ]
+      ]
+    },
+    {
+      "function": "@write_debug_scopes@4",
+      "formals": [
+        {
+          "name": "symbol",
+          "location": "ECX",
+          "type": "FunctionSymbol pointer",
+          "original": 8066692,
+          "native": 1449314136
+        }
+      ],
+      "returns": [
+        [
+          {
+            "site": "0x6964e",
+            "cleanup": 0
+          }
+        ],
+        [
+          {
+            "site": "0x540c3",
             "cleanup": 0
           }
         ]
@@ -227,8 +311,23 @@
     "@end_debug_function@4: broken symbol alias",
     "@end_debug_function@4: changed parent storage",
     "@end_debug_function@4: unknown pointer input",
-    "@end_debug_function@4: wrong symbol name"
+    "@end_debug_function@4: wrong symbol name",
+    "@write_codeview_function@4: missing pointer formal",
+    "@write_codeview_function@4: broken symbol alias",
+    "@write_codeview_function@4: changed parent storage",
+    "@write_codeview_function@4: unknown pointer input",
+    "@write_codeview_function@4: wrong symbol name",
+    "@coff_output_size@8: missing pointer formal",
+    "@coff_output_size@8: broken symbol alias",
+    "@coff_output_size@8: changed parent storage",
+    "@coff_output_size@8: unknown pointer input",
+    "@coff_output_size@8: wrong symbol name",
+    "@write_debug_scopes@4: missing pointer formal",
+    "@write_debug_scopes@4: broken symbol alias",
+    "@write_debug_scopes@4: changed parent storage",
+    "@write_debug_scopes@4: unknown pointer input",
+    "@write_debug_scopes@4: wrong symbol name"
   ],
-  "seconds": 0.2638633456081152,
+  "seconds": 0.2912909612059593,
   "scope": "All actual scalar formals, no-hidden-input proof, immutable original raw binding and original/canonical CFG RET cleanup. Legacy logical spelling only allowed by explicit same-VA callback correction metadata. No blanket unvisited input equivalence."
 }

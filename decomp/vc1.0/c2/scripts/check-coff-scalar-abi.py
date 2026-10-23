@@ -40,29 +40,41 @@ for name in ['@coff_begin_lines@16','@coff_output_debug_record@8','@coff_record_
         except(AssertionError,KeyError):rejected.append(name+': '+label)
         else:raise AssertionError('Accepted bad actual COFF ABI: '+label)
 # The CodeView callback consumes one pointer, not an address-valued scalar.
-row=next(r for r in config['driver']if r['name']=='@end_debug_function@4');path=Path(row['abi']['entry_observation']);receipt=json.loads(path.read_text());binding=json.loads(path.with_name('original-binding.json').read_text())
-assert binding==receipt['binding']and all(sha(path.parent/n)==digest for n,digest in binding['files'].items())
-def validate_pointer(r):
-    assert r['matched']and r['function']==row['name']and r['original_va']=='0x69250'and r['observed_legacy_logical']==row['abi']['observed_legacy_logical']
-    assert r['hidden_inputs']==[]and r['callee_stack_cleanup']==0 and r['no_hidden_inputs_proof']
-    assert [{k:p[k]for k in ['name','location','type']}for p in r['formals']]==row['abi']['parameters']
-    formal=r['formals'][0];assert formal['original']==r['original_aliases']['current_symbol']and formal['native']==r['native']['current_symbol']==r['native']['pointer']and formal['original']and formal['native']
-    projection=r['symbol_projection'];assert projection==dict(kind=4,storage=0x50,attributes=24657,identifier=117,offset=0,code_bytes=185,prologue=9,epilogue=180)
-    import struct
-    for data in [bytes.fromhex(r['original_symbol_hex']),bytes.fromhex(r['native']['symbol_hex'])]:
-        assert len(data)==84 and data[12]==4 and struct.unpack_from('<I',data,36)[0]==projection['attributes']
-    for data,pointer,scope in [(r['original_function_hex'],formal['original'],r['original_aliases']['scope']),(r['native']['function_hex'],formal['native'],r['native']['scope'])]:
-        raw=bytes.fromhex(data);assert len(raw)==44 and struct.unpack_from('<I',raw,4)[0]==pointer and struct.unpack_from('<I',raw,36)[0]==scope and scope
-    assert r['name_hex']==r['native']['symbol_name_hex']==b'_transform_debug_record\0'.hex()
-    assert r['native']['stdout']=={k:v for k,v in r['original_stdout'].items()if k not in ['counter','cursor','value','position']}
-    assert {k:r['native'][k]for k in ['column','cw','sw']}=={k:r['original_state'][k]for k in ['column','cw','sw']}
-validate_pointer(receipt);returns=[]
-for image,records in [(pe,left),(canonical,right)]:
-    record=next(r for r in records if r['name']==row['name']);g.edges(image,records,record);sites=[dict(site=hex(a),cleanup=int(op,0)if op else 0)for a,size,mn,op in decoders[-1].visited.values()if mn.split()[-1]=='ret'];assert sites and all(s['cleanup']==0 for s in sites);returns.append(sites)
-checked.append(dict(function=row['name'],formals=receipt['formals'],returns=returns))
-for label,change in [('missing pointer formal',lambda r:r.update(formals=[])),('broken symbol alias',lambda r:r['native'].update(current_symbol=0)),('changed parent storage',lambda r:r['symbol_projection'].update(storage=0x30)),('unknown pointer input',lambda r:r.update(hidden_inputs=['EDX unknown'])),('wrong symbol name',lambda r:r.update(name_hex='00'))]:
-    bad=copy.deepcopy(receipt);change(bad)
-    try:validate_pointer(bad)
-    except(AssertionError,KeyError,IndexError):rejected.append(row['name']+': '+label)
-    else:raise AssertionError('Accepted bad pointer ABI: '+label)
+for pointer_name in ['@end_debug_function@4','@write_codeview_function@4','@coff_output_size@8','@write_debug_scopes@4']:
+    row=next(r for r in config['driver']if r['name']==pointer_name);path=Path(row['abi']['entry_observation']);receipt=json.loads(path.read_text());binding=json.loads(path.with_name('original-binding.json').read_text())
+    assert binding==receipt['binding']and all(sha(path.parent/n)==digest for n,digest in binding['files'].items())
+    def validate_pointer(r):
+        assert r['matched']and r['function']==row['name']and r['original_va']==hex(row['start'])and r['observed_legacy_logical']==row['abi'].get('observed_legacy_logical')
+        assert r['hidden_inputs']==[]and r['callee_stack_cleanup']==0 and r['no_hidden_inputs_proof']
+        assert [{k:p[k]for k in ['name','location','type']}for p in r['formals']]==row['abi']['parameters']
+        formal=r['formals'][-1]
+        if pointer_name=='@coff_output_size@8':
+            raw=int((path.parent/'original.txt').read_text().splitlines()[0].split()[5],16)
+            assert r['formals'][0]['value']==r['native']['displacement']==raw==4294967264
+        assert formal['original']==r['original_aliases']['current_symbol']and formal['native']==r['native']['current_symbol']==r['native']['pointer']and formal['original']and formal['native']
+        projection=r['symbol_projection'];expected=dict(kind=4,storage=0x50,attributes=24657,identifier=117,offset=0,code_bytes=185,prologue=9,epilogue=180)
+        if pointer_name!='@end_debug_function@4':expected['type']=4099
+        assert projection==expected
+        import struct
+        for data in [bytes.fromhex(r['original_symbol_hex']),bytes.fromhex(r['native']['symbol_hex'])]:
+            assert len(data)==84 and data[12]==4 and struct.unpack_from('<I',data,36)[0]==projection['attributes']
+        for data,pointer,scope in [(r['original_function_hex'],formal['original'],r['original_aliases']['scope']),(r['native']['function_hex'],formal['native'],r['native']['scope'])]:
+            raw=bytes.fromhex(data);assert len(raw)==44 and struct.unpack_from('<I',raw,4)[0]==pointer and struct.unpack_from('<I',raw,36)[0]==scope and scope
+        if pointer_name=='@write_debug_scopes@4':
+            observed=r['scope_input'];assert observed['original_cursor']==r['original_aliases']['scope']and observed['native_cursor']==r['native']['scope']==r['native']['cursor']
+            assert observed['projection']==dict(depth=0,start=0,end=0,records=True,parent=False,next=True)
+            for key in ['original_hex','native_hex']:
+                raw=bytes.fromhex(observed[key]);assert len(raw)==24 and raw[:12]==bytes(12)and struct.unpack_from('<I',raw,12)[0]and struct.unpack_from('<I',raw,16)[0]==0 and struct.unpack_from('<I',raw,20)[0]
+        assert r['name_hex']==r['native']['symbol_name_hex']==b'_transform_debug_record\0'.hex()
+        assert r['native']['stdout']=={k:v for k,v in r['original_stdout'].items()if k not in ['counter','cursor','value','position']}
+        assert {k:r['native'][k]for k in ['column','cw','sw']}=={k:r['original_state'][k]for k in ['column','cw','sw']}
+    validate_pointer(receipt);returns=[]
+    for image,records in [(pe,left),(canonical,right)]:
+        record=next(r for r in records if r['name']==row['name']);g.edges(image,records,record);sites=[dict(site=hex(a),cleanup=int(op,0)if op else 0)for a,size,mn,op in decoders[-1].visited.values()if mn.split()[-1]=='ret'];assert sites and all(s['cleanup']==0 for s in sites);returns.append(sites)
+    checked.append(dict(function=row['name'],formals=receipt['formals'],returns=returns))
+    for label,change in [('missing pointer formal',lambda r:r.update(formals=[])),('broken symbol alias',lambda r:r['native'].update(current_symbol=0)),('changed parent storage',lambda r:r['symbol_projection'].update(storage=0x30)),('unknown pointer input',lambda r:r.update(hidden_inputs=['EDX unknown'])),('wrong symbol name',lambda r:r.update(name_hex='00'))]:
+        bad=copy.deepcopy(receipt);change(bad)
+        try:validate_pointer(bad)
+        except(AssertionError,KeyError,IndexError):rejected.append(row['name']+': '+label)
+        else:raise AssertionError('Accepted bad pointer ABI: '+label)
 Path('cases/coff-scalar-abi-validation.json').write_text(json.dumps(dict(checked=checked,rejected=rejected,seconds=time.perf_counter()-started,scope='All actual scalar formals, no-hidden-input proof, immutable original raw binding and original/canonical CFG RET cleanup. Legacy logical spelling only allowed by explicit same-VA callback correction metadata. No blanket unvisited input equivalence.'),indent=2)+'\n');print(sum(len(r['formals'])for r in checked),'actual scalar formals and',len(rejected),'rejections pass')

@@ -247,6 +247,13 @@ void __fastcall coff_output_offset(unsigned offset, SymbolHeader *symbol)
     unsigned position = coff_section_position(coff_selected_section);
     coff_add_relocation(symbol->identifier, offset + position, symbol->field14, 0x14);
 }
+/* Original6d690..6d6ac. The CodeView address pair needs SECREL followed
+   by SECTION, four bytes later; displacement arithmetic is modulo32 bits. */
+void __fastcall coff_output_size(unsigned displacement, SymbolHeader *symbol)
+{
+    coff_output_typed_reference(displacement, symbol, 11);
+    coff_output_typed_reference(displacement + 4, symbol, 10);
+}
 
 /* Original [0006d4f0,0006d50b). Local COMDAT data uses SECREL (11);
    other absolute addresses use i386 DIR32 (6). */
