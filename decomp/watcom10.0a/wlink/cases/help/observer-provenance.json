@@ -1,0 +1,20 @@
+{
+  "purpose": "new target-scoped unmasked WLINK observer; not WLIB persistent guard and not application acceptance",
+  "borrowed_pattern_source": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/startup-diagnostic/helper-build-v3/diagnose-startup.c",
+  "borrowed_source_sha256": "bb2d7176ba54d76367d0de370220516657c8b26a59580eb644a58d53aed37eb0",
+  "borrowed_scope": [
+    "public Win32 debugger event loop",
+    "ReadProcessMemory/WriteProcessMemory with protection/ICache handling",
+    "owned-only timeout cleanup",
+    "module export-name discovery and initial loader breakpoint classification"
+  ],
+  "new_scope": [
+    "FF25 actual-IAT JMP persistent breakpoint rearm",
+    "actual stdcall entry/return stack matching",
+    "actual API arguments, defined outputs and raw uncredited output snapshots",
+    "native semantic main arguments",
+    "TF arm readback and consumed-TF exact-JMP state checks"
+  ],
+  "runtime_proof": "not yet established; authored probes require review before execution",
+  "shared_production_files_modified": false
+}

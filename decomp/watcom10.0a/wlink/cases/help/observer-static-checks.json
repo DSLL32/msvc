@@ -1,0 +1,37 @@
+{
+  "scope": "native i386 C bookkeeping controls only; no CPU-step or original runtime proof",
+  "checks": 31,
+  "command": [
+    "cc",
+    "-m32",
+    "-std=c89",
+    "-Wall",
+    "-Wextra",
+    "-Werror",
+    "-I../../../lib/recon/include",
+    "scripts/observer-state.c",
+    "scripts/test-observer-state.c",
+    "-o",
+    "build/observer/state-check"
+  ],
+  "sources": {
+    "observer-state.c": "ecf617f9e83086ef4b15f00bf5f5d89fdcef67d1c317be40346f21ded49ff0f1",
+    "observer-state.h": "6ad7cc06210133e97a80c13d6d29d5babe3fc9724706a4dac3fe1f8e64299224",
+    "test-observer-state.c": "e26c24584f80274cd6ea1337a7e3d0806bd2e17f457bf161f4fe6b5d624bb201",
+    "observer-config.py": "cb2947ac1cc8e20890b90c9f98b97f733b276e26a85264c347432834282805e1"
+  },
+  "native_binary_sha256": "699bca5e429ece14b6f4039fa98f48428ca6afd3cf09c8863b43dda489f42cd5",
+  "thunk_config_sha256": "ea46eaa75cfb3d1d2930e98fcac498b06d7d9552b27f750479d32ac5d632faf3",
+  "thunk_count": 30,
+  "authored_runtime": "not run; awaiting source/probe review",
+  "failed_builds": [
+    {
+      "path": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-build-02/receipt.json",
+      "reason": "child EXE exports caused default import-library filename to collide with DLL input import library; fixed separate DLL .lib name"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-build-03/receipt.json",
+      "reason": "child EXE exports caused default import-library filename to collide with DLL input import library; fixed separate DLL .lib name"
+    }
+  ]
+}

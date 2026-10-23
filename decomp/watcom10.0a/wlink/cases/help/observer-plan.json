@@ -1,8 +1,8 @@
 {
-  "status": "proposal only; requires orchestrator review before any Wine execution",
+  "status": "target-scoped implementation and authored controls prepared; original runtime still requires review",
   "purpose": "observe the actual startup-to-main seam and pagination/input behavior of the already captured unmasked patched '?' case; no application acceptance or CRT exemption",
-  "helper_owner": "/root/watcom10_orchestrator/wlib",
-  "transport": "reuse the reviewed common Win32 debug helper; do not create a second debugger",
+  "helper_owner": "/root/watcom10_orchestrator/wlink",
+  "transport": "target-scoped extension borrowing only immutable reviewed WLIBv3 public debugger patterns; provenance in observer-provenance.json, no productionguard edits",
   "case": {
     "image": "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE",
     "sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
@@ -52,14 +52,15 @@
     ],
     "definedness": "capture raw pre/post output memory but credit only API-defined writes; no zero-filling failed-call outputs, pointer seeding or unknown-register normalization",
     "bounds": "main argc at most4096 and string/block reads at most1MiB per object; at most4096 selected import events; exceeding limits or unreadable ownership is HOLD, not truncation acceptance",
-    "unknowns": "any new console/input dependency, untracked thread ownership, unknown callback or unsupported debugger event is held for review; no guessed getch/EOF response"
+    "unknowns": "nested API frame is held when encountered; outer API/callback may already have effects. Unknown successful GetProcAddress resolution, RtlUnwind, new thread/trap/event are held; no guessed getch/EOF response."
   },
-  "breakpoint_protocol": "authenticate exact image; save each software-breakpoint byte, account for exception EIP, restore and single-step the displaced instruction, preserve per-thread temporary return ownership and original register/flag state; unsupported forwarding, recursion or concurrent return-site ambiguity must HOLD",
+  "breakpoint_protocol": "authenticate canonical six-byte FF25 thunks/actual IAT; trap thunk, capture actual stdcall frame and one-shot caller return, restore FF, request/readbackTF1; step real JMP and require first-chance same-thread SINGLE_STEP at actual expected IAT destination with TF0, exact RF/all other flags/all GP/segments/ESP; rearm thunk, clear/readback context. Actual return verifies stdcall cleanup/EAX/output. Nested API frames, role overlaps, changed IAT/destination, threads or ambiguous events HOLD.",
   "artifacts": "raw helper/debuggee streams, actual event log, private raw environment, complete case-directory before/after inventory, actual observed file dependency identities, all input/helper hashes and elapsed setup/execution/check times",
   "excluded_claims": [
     "unobserved file reads are not a complete dependency trace",
     "known CRT source similarity does not authorize restoring an unidentified code interval",
     "this unmasked observer run does not prove masked replay or accept a reconstructed application function",
     "the existing four-site GS patch does not establish arbitrary far-pointer equivalence"
-  ]
+  ],
+  "scope_limit": "DEBUG_ONLY_THIS_PROCESS covers only the owned debuggee; no descendant-process or application-acceptance guarantee"
 }

@@ -1,0 +1,254 @@
+{
+  "purpose": "target-scoped unmasked diagnostic observer only; no application function acceptance",
+  "capture_sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
+  "image_base": 4194304,
+  "image_size": 524288,
+  "entry_rva": 214614,
+  "main_rva": 148192,
+  "entry_first_byte": 233,
+  "main_first_byte": 184,
+  "main_kind": 1,
+  "absolute_code_iat_references": "exactly one per import, its canonical FF25 operand; no full computed-address graph claim",
+  "thunks": [
+    {
+      "rva": 235226,
+      "iat_rva": 393424,
+      "argc": 0,
+      "name": "GetCurrentProcessId",
+      "noreturn": false,
+      "original_bytes": "ff25d0004600"
+    },
+    {
+      "rva": 235232,
+      "iat_rva": 393472,
+      "argc": 2,
+      "name": "LocalAlloc",
+      "noreturn": false,
+      "original_bytes": "ff2500014600"
+    },
+    {
+      "rva": 235238,
+      "iat_rva": 393388,
+      "argc": 1,
+      "name": "DeleteFileA",
+      "noreturn": false,
+      "original_bytes": "ff25ac004600"
+    },
+    {
+      "rva": 235244,
+      "iat_rva": 393456,
+      "argc": 1,
+      "name": "GetStdHandle",
+      "noreturn": false,
+      "original_bytes": "ff25f0004600"
+    },
+    {
+      "rva": 235250,
+      "iat_rva": 393492,
+      "argc": 2,
+      "name": "SetStdHandle",
+      "noreturn": false,
+      "original_bytes": "ff2514014600"
+    },
+    {
+      "rva": 235256,
+      "iat_rva": 393460,
+      "argc": 1,
+      "name": "GetTimeZoneInformation",
+      "noreturn": false,
+      "original_bytes": "ff25f4004600"
+    },
+    {
+      "rva": 235262,
+      "iat_rva": 393444,
+      "argc": 1,
+      "name": "GetLocalTime",
+      "noreturn": false,
+      "original_bytes": "ff25e4004600"
+    },
+    {
+      "rva": 235268,
+      "iat_rva": 393396,
+      "argc": 3,
+      "name": "FileTimeToDosDateTime",
+      "noreturn": false,
+      "original_bytes": "ff25b4004600"
+    },
+    {
+      "rva": 235274,
+      "iat_rva": 393400,
+      "argc": 2,
+      "name": "FileTimeToLocalFileTime",
+      "noreturn": false,
+      "original_bytes": "ff25b8004600"
+    },
+    {
+      "rva": 235280,
+      "iat_rva": 393440,
+      "argc": 0,
+      "name": "GetLastError",
+      "noreturn": false,
+      "original_bytes": "ff25e0004600"
+    },
+    {
+      "rva": 235286,
+      "iat_rva": 393464,
+      "argc": 0,
+      "name": "GetVersion",
+      "noreturn": false,
+      "original_bytes": "ff25f8004600"
+    },
+    {
+      "rva": 235292,
+      "iat_rva": 393432,
+      "argc": 0,
+      "name": "GetEnvironmentStrings",
+      "noreturn": false,
+      "original_bytes": "ff25d8004600"
+    },
+    {
+      "rva": 235298,
+      "iat_rva": 393428,
+      "argc": 0,
+      "name": "GetCurrentThreadId",
+      "noreturn": false,
+      "original_bytes": "ff25d4004600"
+    },
+    {
+      "rva": 235304,
+      "iat_rva": 393392,
+      "argc": 1,
+      "name": "ExitProcess",
+      "noreturn": true,
+      "original_bytes": "ff25b0004600"
+    },
+    {
+      "rva": 235310,
+      "iat_rva": 393416,
+      "argc": 0,
+      "name": "GetCommandLineA",
+      "noreturn": false,
+      "original_bytes": "ff25c8004600"
+    },
+    {
+      "rva": 235316,
+      "iat_rva": 393484,
+      "argc": 2,
+      "name": "SetConsoleMode",
+      "noreturn": false,
+      "original_bytes": "ff250c014600"
+    },
+    {
+      "rva": 235322,
+      "iat_rva": 393420,
+      "argc": 2,
+      "name": "GetConsoleMode",
+      "noreturn": false,
+      "original_bytes": "ff25cc004600"
+    },
+    {
+      "rva": 235328,
+      "iat_rva": 393436,
+      "argc": 1,
+      "name": "GetFileType",
+      "noreturn": false,
+      "original_bytes": "ff25dc004600"
+    },
+    {
+      "rva": 235334,
+      "iat_rva": 393476,
+      "argc": 5,
+      "name": "ReadFile",
+      "noreturn": false,
+      "original_bytes": "ff2504014600"
+    },
+    {
+      "rva": 235340,
+      "iat_rva": 393496,
+      "argc": 5,
+      "name": "WriteFile",
+      "noreturn": false,
+      "original_bytes": "ff2518014600"
+    },
+    {
+      "rva": 235346,
+      "iat_rva": 393488,
+      "argc": 4,
+      "name": "SetFilePointer",
+      "noreturn": false,
+      "original_bytes": "ff2510014600"
+    },
+    {
+      "rva": 235352,
+      "iat_rva": 393380,
+      "argc": 1,
+      "name": "CloseHandle",
+      "noreturn": false,
+      "original_bytes": "ff25a4004600"
+    },
+    {
+      "rva": 235358,
+      "iat_rva": 393384,
+      "argc": 7,
+      "name": "CreateFileA",
+      "noreturn": false,
+      "original_bytes": "ff25a8004600"
+    },
+    {
+      "rva": 235364,
+      "iat_rva": 393448,
+      "argc": 3,
+      "name": "GetModuleFileNameA",
+      "noreturn": false,
+      "original_bytes": "ff25e8004600"
+    },
+    {
+      "rva": 235370,
+      "iat_rva": 393452,
+      "argc": 2,
+      "name": "GetProcAddress",
+      "noreturn": false,
+      "original_bytes": "ff25ec004600"
+    },
+    {
+      "rva": 235376,
+      "iat_rva": 393468,
+      "argc": 1,
+      "name": "LoadLibraryA",
+      "noreturn": false,
+      "original_bytes": "ff25fc004600"
+    },
+    {
+      "rva": 235382,
+      "iat_rva": 393480,
+      "argc": 4,
+      "name": "RtlUnwind",
+      "noreturn": true,
+      "original_bytes": "ff2508014600"
+    },
+    {
+      "rva": 235388,
+      "iat_rva": 393404,
+      "argc": 1,
+      "name": "FindClose",
+      "noreturn": false,
+      "original_bytes": "ff25bc004600"
+    },
+    {
+      "rva": 235394,
+      "iat_rva": 393412,
+      "argc": 2,
+      "name": "FindNextFileA",
+      "noreturn": false,
+      "original_bytes": "ff25c4004600"
+    },
+    {
+      "rva": 235400,
+      "iat_rva": 393408,
+      "argc": 2,
+      "name": "FindFirstFileA",
+      "noreturn": false,
+      "original_bytes": "ff25c0004600"
+    }
+  ]
+}
