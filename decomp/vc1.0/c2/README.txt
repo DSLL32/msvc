@@ -2422,3 +2422,9 @@ Floating register declarations and expression-depth ordering: checkpoint961
 _finish_target_expression. 882 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-depth.json for extent union, limits and measured timings.
+
+Target expression hook and temporary stack operands: checkpoint964
+3 acceptances pass fresh original/native matching; current frontier
+@record_x87_node@4. 885 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-target.json for extent union, limits and measured timings.

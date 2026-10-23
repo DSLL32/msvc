@@ -88,7 +88,6 @@ Node *__fastcall lift_right_unary(Node *node) { __asm int 3 }
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 #include "work-prepare.h"
 void __fastcall prepare_generated_intrinsic(Node *node, int mode) { __asm int 3 }
-void finish_target_expression(void) { __asm int 3 }
 #include "instruction-selection.h"
 void __fastcall peephole_selected_block(MachineBlockHeader *block, int global) { __asm int 3 }
 void __fastcall read_qualified_symbol(SymbolHeader *symbol, int arena) { __asm int 3 }
@@ -170,7 +169,6 @@ void __fastcall arrange_x87_left(Node *node) { __asm int 3 }
 MachineOperand *__fastcall emit_register_barrier(MachineOperand *operand, unsigned type) { __asm int 3 }
 unsigned short __fastcall select_conditional_value(Node *node) { __asm int 3 }
 void mark_x87_call_result(void) { __asm int 3 }
-MachineOperand *__fastcall frame_temporary_operand(SymbolHeader *temporary, unsigned offset) { __asm int 3 }
 MachineOperand *__fastcall immediate_operand(unsigned value) { __asm int 3 }
 void __fastcall spill_x87_for_node(Node *node) { __asm int 3 }
 SymbolHeader *__fastcall floating_constant_symbol(Node *constant) { __asm int 3 }
@@ -395,4 +393,3 @@ int __cdecl divide_extended(const Extended *left, const Extended *right, Extende
 int __cdecl minimum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl maximum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl absolute_extended(const Extended *number, Extended *result) { __asm int 3 }
-int __fastcall function_float_stack_depth(FunctionSymbol *symbol) { __asm int 3 }

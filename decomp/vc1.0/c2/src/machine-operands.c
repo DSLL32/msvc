@@ -212,3 +212,10 @@ void __fastcall release_machine_address(MachineAddress *address)
     address->first.next = free_machine_addresses;
     free_machine_addresses = address;
 }
+
+/* Original [0001a1a0,0001a1b2). A stack temporary's address retains
+   both its symbol identity and its byte displacement relative to EBP. */
+MachineOperand *__fastcall frame_temporary_operand(SymbolHeader *temporary, unsigned offset)
+{
+    return new_operand(OPERAND_BASED, REG_EBP, offset, temporary);
+}

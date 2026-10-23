@@ -468,3 +468,19 @@ void __fastcall lower_float_expression(Node *node)
     }
     if (node->info.words.identifier >= 8) node->info.words.identifier = 8;
 }
+
+/* Original [00026e00,00026e01). Target expression hook is empty. */
+void finish_target_expression(void)
+{
+}
+
+/* First encountered field of optional function+2c target information.
+   The remaining record is not read or allocated by this accessor. */
+typedef struct FunctionFloatStackDepth { short maximum_depth; } FunctionFloatStackDepth;
+/* Original [00027b60,00027b74). Unknown callees conservatively need
+   all eight x87 stack entries; recorded depth is a signed word. */
+int __fastcall function_float_stack_depth(FunctionSymbol *symbol)
+{
+    FunctionFloatStackDepth *information = (FunctionFloatStackDepth *)symbol->field2c;
+    return information ? information->maximum_depth : 8;
+}

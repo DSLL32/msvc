@@ -965,7 +965,10 @@
     "@release_allocation_range@4",
     "@record_float_register@8",
     "@float_register_heap_allocate@4",
-    "@lower_float_expression@4"
+    "@lower_float_expression@4",
+    "_finish_target_expression",
+    "@function_float_stack_depth@4",
+    "@frame_temporary_operand@8"
   ],
   "driver": [
     {
@@ -3057,8 +3060,7 @@
     {
       "name": "_finish_target_expression",
       "start": 159232,
-      "end": 159233,
-      "provisional": true
+      "end": 159233
     },
     {
       "name": "@prepare_generated_intrinsic@8",
@@ -3536,8 +3538,7 @@
     {
       "name": "@frame_temporary_operand@8",
       "start": 106912,
-      "end": 106913,
-      "provisional": true
+      "end": 106930
     },
     {
       "name": "@immediate_operand@4",
@@ -6851,8 +6852,7 @@
     {
       "name": "@function_float_stack_depth@4",
       "start": 162656,
-      "end": 162657,
-      "provisional": true
+      "end": 162676
     }
   ],
   "cases": {
