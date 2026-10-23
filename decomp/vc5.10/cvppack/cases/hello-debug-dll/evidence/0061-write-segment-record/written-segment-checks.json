@@ -1,0 +1,35 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "count": 5,
+  "rejected": [
+    {
+      "name": "length",
+      "diagnostic": "initialized symbol output prefix differs"
+    },
+    {
+      "name": "kind",
+      "diagnostic": "initialized symbol output prefix differs"
+    },
+    {
+      "name": "offset",
+      "diagnostic": "initialized symbol output prefix differs"
+    },
+    {
+      "name": "segment",
+      "diagnostic": "initialized symbol output prefix differs"
+    },
+    {
+      "name": "padding",
+      "diagnostic": "initialized symbol output prefix differs"
+    }
+  ],
+  "initialized_prefix": 16,
+  "native_owned_tail_change_allowed": true,
+  "real_empty_callback_formals": [],
+  "original_receipt_sha256": "fcee7ec97d9fff77f5b6df75714244c008586e59bf6c6a6cf3faa95b7f04d694",
+  "native_receipt_sha256": "c909820201ccf3b7007377f15f1b20ed9457f7aa94979ba7cd101075faa9c095",
+  "checker_sha256": "d08f60d70400516ff8b732bd424cf3923a277706571c6b3889a07fc65c886574",
+  "decoder_sha256": "3d3abb3d2e4feae070bc40c3227431748387ba899b5985c082ce6af35c6bb17c",
+  "seconds": 1.1153024295344949
+}

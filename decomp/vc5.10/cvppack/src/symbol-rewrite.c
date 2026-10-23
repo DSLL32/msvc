@@ -8,6 +8,17 @@
 unsigned char *symbol_input, *symbol_output;
 unsigned discard_symbol_depth, packed_symbol_bytes;
 
+/* Emit a segment-change symbol [0040df30,0040df5a). */
+unsigned short write_segment_record(unsigned char *buffer, unsigned short segment)
+{
+    *(unsigned short *)(buffer + 8) = segment;
+    *(unsigned short *)buffer = 10;
+    *(unsigned short *)(buffer + 2) = 5;
+    *(unsigned *)(buffer + 4) = 0;
+    buffer[10] = buffer[11] = 0;
+    return 12;
+}
+
 /* The ordered kind dispatch is program data, including the final default row. */
 SymbolRewriteEntry symbol_rewriters[39] = {
     { 0x1006, 0, rewrite_bp_relative_symbol },

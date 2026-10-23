@@ -66,7 +66,8 @@
     "scan_module_symbols",
     "add_symbol_segment",
     "has_symbol_segment",
-    "rewrite_module_symbols"
+    "rewrite_module_symbols",
+    "write_segment_record"
   ],
   "functions": [
     {
@@ -2407,8 +2408,11 @@
       "symbol": "_write_segment_record",
       "native_symbol": "write_segment_record",
       "original": 4251440,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4251440,
+        4251482
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -2426,7 +2430,8 @@
           "kind": "integer",
           "native_width": 2
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0061-write-segment-record/promotion.json"
     },
     {
       "name": "link_symbol_scopes",

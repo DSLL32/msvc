@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0060-rewrite-module-symbols/original",
-  "reference_receipt_sha256": "d64a35f2ff4a5ec23ae17b080f2cf3186e4a1d7489c43f99543049983cb59d75",
+  "reference": "cases/hello-debug-dll/evidence/0061-write-segment-record/original",
+  "reference_receipt_sha256": "fcee7ec97d9fff77f5b6df75714244c008586e59bf6c6a6cf3faa95b7f04d694",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -66,6 +66,7 @@
     "add_symbol_segment",
     "has_symbol_segment",
     "rewrite_module_symbols",
-    "write_segment_record"
+    "write_segment_record",
+    "rewrite_object_name_symbol"
   ]
 }

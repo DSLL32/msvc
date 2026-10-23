@@ -28,7 +28,6 @@ void prepare_precompiled_types(ModuleInfo *info) { __asm { int 3 } }
 void decode_legacy_lines(void *lines, unsigned size) { __asm { int 3 } }
 void rewrite_legacy_lines(void *lines, CodeViewDirectoryEntry *entry, void *module_buffer, ModuleInfo *info) { __asm { int 3 } }
 void read_type_database(const char *path) { __asm { int 3 } }
-unsigned short write_segment_record(unsigned char *buffer, unsigned short segment) { __asm { int 3 } return 0; }
 int link_symbol_scopes(unsigned char *buffer, unsigned size) { __asm { int 3 } return 0; }
 void record_symbol_references(unsigned char *buffer, unsigned size, unsigned short module) { __asm { int 3 } }
 void enter_symbol_scope(void) { __asm { int 3 } }
