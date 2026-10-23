@@ -416,7 +416,15 @@ static int trap(HANDLE thread,DWORD address)
             readmem(c.Ebp-4,&count,4);if(count>256)fail("preprocessor-count");
             fprintf(events,"preprocessor-count %lu\n",count);
             for(n=0;n<count;++n){readmem(base+0x25590+4*n,&pointer,4);sprintf(label,"preprocessor-argv-%u",n);hexbytes(label,pointer,string_bytes(pointer));}
-            hexbytes("prepare-path",words[1],string_bytes(words[1]));
+            if(address==base+0x856c)hexbytes("prepare-path",words[1],string_bytes(words[1]));
+            else{
+                DWORD total,current,pointer;
+                if(words[1]!=count||words[2]!=base+0x25590||words[3]!=0)fail("preprocess-call-scope");
+                fprintf(events,"preprocessor-args %lu %08lx %lu\n",words[1],words[2],words[3]);
+                readmem(base+0x29458,&total,4);readmem(base+0x16ce8,&current,4);fprintf(events,"prepared-lines %lu current=%lu\n",total,current);
+                if(!line_file)fail("prepared-file-checkpoint");hexbytes("prepared-closed-input",line_file,32);
+                readmem(base+0x149c4,&pointer,4);hexbytes("prepared-filename",pointer,514);
+            }
         }
         {
             FILE *state;

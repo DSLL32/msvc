@@ -1,0 +1,62 @@
+{
+  "function": "rc_notify_progress",
+  "original_start": "0x8c70",
+  "original_end": "0x8c9e",
+  "original_code_bytes": 46,
+  "abi": "stdcall2/ret8; void",
+  "accepted_application_functions": 17,
+  "accepted_application_bytes": 7412,
+  "provisional_application_denominator": 66295,
+  "provisional_coverage_percent": 11.180330341654726,
+  "crt_bytes": 555,
+  "compiler_support_bytes": 47,
+  "import_thunk_bytes": 12,
+  "matched_frontier": "rc_preprocess",
+  "raw_original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/notify-trial-original-01",
+  "raw_native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/notify-trial-native-02",
+  "builds": {
+    "original": {
+      "seconds": 3.0991949792951345,
+      "status": 0
+    },
+    "native": {
+      "seconds": 1.7614695467054844,
+      "status": 0
+    }
+  },
+  "original_seconds": 0.7160035781562328,
+  "native_gdb_seconds": 0.7680399706587195,
+  "audit_seconds": 0.06009124964475632,
+  "audit_engine_sha256": "fc5c81f2771c5b6e488ad72529a90c862ef6744083d6e8270b88218105fa844f",
+  "negative_controls": 25,
+  "gate_sha256": "1cfe9d37892f829cb29a48b38c362e827046df90760dc6ec6c7ef41827bd1bbe",
+  "graph_audit_record": "audit-0019.json",
+  "help_fixture": {
+    "logical_name_aliases": {
+      "rcdll_main": "DllMain",
+      "recon_dll_entry": "_DllMainCRTStartup",
+      "rcdll_crt_init": "_CRT_INIT",
+      "rc_main": "main",
+      "rcdll_command_main": "main"
+    },
+    "case": "help",
+    "status": "pass",
+    "stdout_bytes": 589,
+    "application_entries": 9,
+    "seconds": {
+      "setup": 0.003744174726307392,
+      "execution": 0.003097793087363243,
+      "checks": 0.0011456059291958809,
+      "total": 0.008612344041466713
+    },
+    "native_sha256": "9f08c58899ce6eb9d076aa10684cc482f1d5200603cf8a8111816107267ec711",
+    "reference_manifest_sha256": "387c741bdb3fa4d388da034d339b5d21e872667d27934bb570e03d448db05524"
+  },
+  "notes": [
+    "NULL window observed on both sides; no window callback or SendMessage behavior claimed.",
+    "All126source lines prepared; current-line global reset0,original codepage restored1252 and input FILE closed.",
+    "Complete6762-byte UTF16 temporary file matches before embedded preprocessor entry; all20argv strings,actual vector and unused0 preserved.",
+    "Native closed FILE is revisited using its actual captured first-read pointer,not an assumed CRT slot/descriptor.",
+    "Failed native01 GDB serialization capture is retained; native02 alone supplies accepted proof. Original was not rerun for that observer-only correction."
+  ]
+}

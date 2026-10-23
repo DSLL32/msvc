@@ -140,7 +140,7 @@ class LocalEntered(gdb.Breakpoint):
         if len(local_records)>=2:return False
         self.enabled=False
         record=dict(operation=self.operation)
-        if self.operation=='allocate':record.update(flags=int(frame.read_var('flags')),bytes=int(frame.read_var('bytes')))
+        if self.operation=='allocate':record.update(flags=int(frame.read_var('flags')),bytes=int(frame.read_var('bytes')),input_file=int(caller.read_var('file')))
         else:
             pointer=int(frame.read_var('memory'));record.update(pointer=pointer,contents=bytes(gdb.selected_inferior().read_memory(pointer,4177)).hex())
         LocalReturned(frame,record);return False

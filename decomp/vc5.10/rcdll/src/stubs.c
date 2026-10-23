@@ -57,10 +57,6 @@ WCHAR *__stdcall rc_skip_white(WCHAR *text,int terminate)
     __asm int 3
     return NULL;
 }
-void __stdcall rc_notify_progress(WPARAM kind,LPARAM value)
-{
-    __asm int 3
-}
 void __stdcall rc_input_error(unsigned code)
 {
     __asm int 3

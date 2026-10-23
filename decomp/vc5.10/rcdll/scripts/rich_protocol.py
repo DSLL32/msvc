@@ -422,3 +422,41 @@ def prefix_trial(original,native):
     assert proof['application_trace'][-1]=='rc_prefix_equal'
     proof.update(trial='rc_prefix_equal',comparison=dict(result=0,towupper=[(114,82),(35,35)],abi='16-bit CRT argument/result; raw upper EAX bits not value'),line_format=dict(number=1,result=9,bytes=formatted.hex(),tail='each caller retains its own unwritten stack bytes'),progress=dict(kind=1,value=64,current_line=63,output_buffer_bytes=3776,input_buffer_bytes=2928))
     return proof
+
+
+def notify_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_notify_progress'and len(config['accepted'])==18
+    a,b,proof=checkpoint(original,native,'rc_preprocess',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c28359 and a['words'][1:4]==[20,0x71c45590,0]
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rcdll_command_main\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    text=(original/'events.txt').read_text();arguments=b['arguments'];source=(original/'source/resources.rc').read_bytes()
+    assert arguments['count']==20 and arguments['unused']==0
+    assert re.findall(r'^preprocessor-args (\d+) ([0-9a-f]+) (\d+)$',text,re.M)==[('20','71c45590','0')]
+    assert re.findall(r'^preprocessor-count (\d+)$',text,re.M)==['20']
+    argv=[raw_bytes(text,'preprocessor-argv-%d'%i)[:-1].decode('ascii')for i in range(20)]
+    assert arguments['argv']==argv
+    assert arguments['prepared_lines']==len(source.splitlines())==126 and arguments['current_line']==0
+    assert re.findall(r'^prepared-lines (\d+) current=(\d+)$',text,re.M)==[('126','0')]
+    raw=(original/'globals.bin').read_bytes()
+    assert struct.unpack_from('<I',raw,0x29458-0x14000)[0]==126 and struct.unpack_from('<I',raw,0x16ce8-0x14000)[0]==0
+    assert raw_bytes(text,'prepared-filename')==bytes.fromhex(arguments['filename'])=='resources.rc'.encode('utf-16le')+b'\0'*(514-24)
+    old=struct.unpack('<8I',raw_bytes(text,'prepared-closed-input'));new=struct.unpack('<8I',bytes.fromhex(arguments['closed_input']))
+    assert old[:4]+old[5:]==new[:4]+new[5:]==(0,0,0,0,0,4096,0)and old[4]>=3 and new[4]>=3
+    assert b['globals']['rc_window']=='00000000','this case cannot invoke an unproved window callback'
+    input_temporary=raw_bytes(text,'input-temporary')[:-1].decode('ascii');output_temporary=raw_bytes(text,'output-temporary')[:-1].decode('ascii')
+    assert argv[:4]==['RCPP','-CP','1252','-f']and argv[4]==input_temporary and argv[5:7]==['-g',output_temporary]
+    receipt=json.loads((original/'receipt.json').read_text());temporary=input_temporary.rsplit('\\',1)[-1]
+    artifact=receipt['case_files'][temporary]
+    assert artifact==dict(bytes=6762,sha256='3e1e06b1f0652c2ad397213fcd2a2d91f940a865d1dda5633330b2c096e6f8ed')
+    assert (original/'source'/temporary).read_bytes().startswith('#line 1"resources.rc"\r\n'.encode('utf-16le'))
+    assert output_temporary.rsplit('\\',1)[-1]not in receipt['case_files']
+    identity=b['heap_identity'];blocks=identity['blocks'];assert len(blocks)==3
+    for field,label,size in [('rc_include_paths','include-current-block',528),('rc_input_temporary','input-temporary-block',268),('rc_output_temporary','output-temporary-block',268)]:
+        pointer=int.from_bytes(bytes.fromhex(b['globals'][field]),'little')
+        block=next(block for block in blocks if block['payload']+8==pointer)
+        assert block['owner']==identity['handle']and block['flags']==9 and block['bytes']==size
+        assert bytes.fromhex(block['contents'])==raw_bytes(text,label)
+    assert proof['application_trace'][-1]=='rc_notify_progress'
+    proof.update(trial='rc_notify_progress',notification=dict(window=None,interval=64,no_callback=True),prepared=dict(lines=126,current_line=0,artifact=artifact,closed_input=True),preprocessor=dict(count=20,argv=argv,unused=0))
+    return proof

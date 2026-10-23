@@ -82,6 +82,14 @@ def capture():
             arguments['message']=bytes(gdb.selected_inferior().read_memory(int(message),length)).hex()
         if name=='rc_message':arguments['id']=int(frame.read_var('id'))
         if name=='rc_prepare_input':arguments['path']=frame.read_var('path').string()
+        if name=='rc_preprocess':
+            count=int(frame.read_var('count'));preprocess_vector=frame.read_var('arguments');assert 0<count<=256
+            arguments.update(count=count,argv=[preprocess_vector[i].string()for i in range(count)],unused=int(frame.read_var('unused')),prepared_lines=int(gdb.parse_and_eval('rc_prepared_lines')),current_line=int(gdb.parse_and_eval('rc_preparing_line')),filename=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('rc_filename')),514)).hex())
+            frees=json.loads((output.parent/'locals.json').read_text());assert frees[-1]['operation']=='free'
+            # Revisit the actual FILE pointer observed at the first line read;
+            # descriptor numbers and CRT array slots need not equal Wine's.
+            file=frees[0]['input_file']
+            arguments['closed_input']=bytes(gdb.selected_inferior().read_memory(file,32)).hex()
         if name=='rc_notify_progress':
             parent=frame.older();assert parent.name()=='rc_prepare_input'
             arguments.update(kind=int(frame.read_var('kind')),value=int(frame.read_var('value')),current_line=int(gdb.parse_and_eval('rc_preparing_line')),towupper=json.loads((output.parent/'towupper.json').read_text()),prefix_results=json.loads((output.parent/'prefix-results.json').read_text()),line_format=json.loads((output.parent/'line-format.json').read_text()))

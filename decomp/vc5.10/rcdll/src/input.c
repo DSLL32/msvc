@@ -196,3 +196,9 @@ int __stdcall rc_prefix_equal(const WCHAR *prefix,const WCHAR *text)
     }
     return -1;
 }
+
+void __stdcall rc_notify_progress(WPARAM kind,LPARAM value)
+{
+    if(rc_window&&SendMessageA(rc_window,0x420,kind,value))
+        rc_fatal("\n");
+}

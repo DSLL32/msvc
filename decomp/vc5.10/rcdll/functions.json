@@ -21,7 +21,8 @@
     "rc_detect_encoding",
     "rc_is_text_unicode",
     "rc_read_wide_line",
-    "rc_prefix_equal"
+    "rc_prefix_equal",
+    "rc_notify_progress"
   ],
   "functions": [
     {
@@ -439,7 +440,13 @@
       "abi": "stdcall",
       "stack_bytes": 8,
       "kind": "application",
-      "stub": true
+      "stub": false,
+      "text_data": [
+        [
+          "0x11fc",
+          "0x11fe"
+        ]
+      ]
     },
     {
       "name": "rc_input_error",
