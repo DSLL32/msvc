@@ -1,0 +1,47 @@
+
+build/c1.exe:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0003b5de <.text+0x2a5de>:
+   3b5de:	55                   	push   ebp
+   3b5df:	8b ec                	mov    ebp,esp
+   3b5e1:	83 ec 0c             	sub    esp,0xc
+   3b5e4:	53                   	push   ebx
+   3b5e5:	56                   	push   esi
+   3b5e6:	57                   	push   edi
+   3b5e7:	8b 45 08             	mov    eax,DWORD PTR [ebp+0x8]
+   3b5ea:	89 45 f4             	mov    DWORD PTR [ebp-0xc],eax
+   3b5ed:	e9 3b 00 00 00       	jmp    0x3b62d
+   3b5f2:	a1 b8 ac 06 00       	mov    eax,ds:0x6acb8
+   3b5f7:	89 45 fc             	mov    DWORD PTR [ebp-0x4],eax
+   3b5fa:	e9 54 00 00 00       	jmp    0x3b653
+   3b5ff:	c7 45 f8 00 00 00 00 	mov    DWORD PTR [ebp-0x8],0x0
+   3b606:	e9 48 00 00 00       	jmp    0x3b653
+   3b60b:	c7 45 f8 00 00 00 00 	mov    DWORD PTR [ebp-0x8],0x0
+   3b612:	8a 45 08             	mov    al,BYTE PTR [ebp+0x8]
+   3b615:	88 45 f8             	mov    BYTE PTR [ebp-0x8],al
+   3b618:	e9 36 00 00 00       	jmp    0x3b653
+   3b61d:	8a 45 08             	mov    al,BYTE PTR [ebp+0x8]
+   3b620:	88 45 f8             	mov    BYTE PTR [ebp-0x8],al
+   3b623:	e9 2b 00 00 00       	jmp    0x3b653
+   3b628:	e9 26 00 00 00       	jmp    0x3b653
+   3b62d:	83 7d f4 02          	cmp    DWORD PTR [ebp-0xc],0x2
+   3b631:	0f 84 d4 ff ff ff    	je     0x3b60b
+   3b637:	83 7d f4 65          	cmp    DWORD PTR [ebp-0xc],0x65
+   3b63b:	0f 84 be ff ff ff    	je     0x3b5ff
+   3b641:	81 7d f4 8a 00 00 00 	cmp    DWORD PTR [ebp-0xc],0x8a
+   3b648:	0f 84 a4 ff ff ff    	je     0x3b5f2
+   3b64e:	e9 ca ff ff ff       	jmp    0x3b61d
+   3b653:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+   3b656:	8b 55 fc             	mov    edx,DWORD PTR [ebp-0x4]
+   3b659:	e9 00 00 00 00       	jmp    0x3b65e
+   3b65e:	5f                   	pop    edi
+   3b65f:	5e                   	pop    esi
+   3b660:	5b                   	pop    ebx
+   3b661:	c9                   	leave
+   3b662:	c2 04 00             	ret    0x4
+   3b665:	90                   	nop
+   3b666:	90                   	nop
+   3b667:	90                   	nop

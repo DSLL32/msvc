@@ -151,6 +151,8 @@ static int dump_function_symbol(HANDLE process, HANDLE log, const char *boundary
     }
     return WriteFile(log,line,strlen(line),&written,0);
 }
+static int return8_probe;
+
 static int dump_flag_words(HANDLE process, HANDLE log, const char *boundary)
 {
     DWORD scanner, parser, got, written;
@@ -179,6 +181,11 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
     memset(&context,0,sizeof(context)); context.ContextFlags = CONTEXT_FULL;
     if (!GetThreadContext(thread,&context)) return -1;
     if (site == flag_entry) {
+        if (return8_probe) {
+            if (!ReadProcessMemory(process,(void *)context.Esp,arguments,sizeof(arguments),&got) || got != sizeof(arguments)) return -1;
+            sprintf(line,"return8-entry %u %08lx %08lx\n",flag_count,context.Esp,arguments[1]);
+            if (!WriteFile(log,line,strlen(line),&written,0)) return -1;
+        }
         if (timestamp_probe) {
             if (!ReadProcessMemory(process,(void *)context.Esp,arguments,sizeof(arguments),&got) || got != sizeof(arguments)) return -1;
             timestamp_handle = arguments[1]; timestamp_pointer = arguments[2];
@@ -193,6 +200,10 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
         flag_step = 1;
         context.EFlags |= 0x100;
     } else {
+        if (return8_probe) {
+            sprintf(line,"return8-finish %u %08lx %08lx %08lx\n",flag_count,context.Esp,context.Eax,context.Edx);
+            if (!WriteFile(log,line,strlen(line),&written,0)) return -1;
+        }
         if (timestamp_probe) {
             if (!ReadProcessMemory(process,(void *)timestamp_pointer,&timestamp,4,&got) || got != 4) return -1;
             sprintf(line,"source-timestamp %u %lu %lu %lu\n",flag_count,timestamp_handle,context.Eax,timestamp);
@@ -246,6 +257,8 @@ int main(int argc, char **argv)
     flag_option = getenv("C1_FUNCTION_SYMBOL_RVA");
     if (flag_option) flag_symbol_rva = strtoul(flag_option,0,16);
     if (flag_symbol_rva && !flag_entry_rva) return 2;
+    return8_probe = getenv("C1_RETURN8_PROBE") != 0;
+    if (return8_probe && !flag_entry_rva) return 2;
     timestamp_probe = getenv("C1_TIMESTAMP_PROBE") != 0;
     if (timestamp_probe && !flag_entry_rva) return 2;
 

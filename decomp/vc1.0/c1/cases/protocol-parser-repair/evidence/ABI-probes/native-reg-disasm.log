@@ -1,0 +1,27 @@
+
+native-reg:     file format elf32-i386
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+00001290 <return_pair>:
+    1290:	55                   	push   ebp
+    1291:	89 e5                	mov    ebp,esp
+    1293:	83 ec 08             	sub    esp,0x8
+    1296:	8b 45 08             	mov    eax,DWORD PTR [ebp+0x8]
+    1299:	8b 45 08             	mov    eax,DWORD PTR [ebp+0x8]
+    129c:	89 45 f8             	mov    DWORD PTR [ebp-0x8],eax
+    129f:	c7 45 fc 88 77 66 55 	mov    DWORD PTR [ebp-0x4],0x55667788
+    12a6:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+    12a9:	8b 55 fc             	mov    edx,DWORD PTR [ebp-0x4]
+    12ac:	83 c4 08             	add    esp,0x8
+    12af:	5d                   	pop    ebp
+    12b0:	c2 04 00             	ret    0x4
+
+Disassembly of section .fini:

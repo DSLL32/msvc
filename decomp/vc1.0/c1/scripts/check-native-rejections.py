@@ -428,6 +428,28 @@ def main():
     rejects('generated-incomplete-captured-header-presence', 'complete file set differs',
             lambda:checker.validate_artifacts(incomplete_header,generated_fixture,incomplete_phase))
 
+    _, repaired = checker.run_case('protocol-parser-repair', executable, directory, (cache,filter_path))
+    repair_fixture = checker.BINARY/'cases/protocol-parser-repair'
+    repair_phase = json.loads((repair_fixture/'manifest.json').read_text())['phases']['c1']
+    repair_messages = repair_phase['expected_stdout'].encode('latin1')
+    rejects('parser-repair-unexpected-success', 'native status',
+            lambda:checker.validate_result('protocol-parser-repair',0,repair_messages,b'',repair_phase))
+    rejects('parser-repair-missing-first-name-argument', 'stdout differs',
+            lambda:checker.validate_result('protocol-parser-repair',4,
+                repair_messages.replace(b"'export_route' is followed by 'stray'",b"'stray' is followed by ''"),b'',repair_phase))
+    recovered = bytearray((repaired/'audit.sbr').read_bytes())
+    assert recovered.count(b'recovered_tail\0') == 1 and recovered[-1] == 14
+    recovered[recovered.index(b'recovered_tail\0')] = ord('x')
+    (repaired/'audit.sbr').write_bytes(recovered)
+    rejects('parser-repair-recovered-tail-browser-record', 'output bytes differ: audit.sbr',
+            lambda:checker.validate_artifacts(repaired,repair_fixture,repair_phase))
+    wrong = copy.deepcopy(cache)
+    wrong['cases']['protocol-parser-repair']['expected'][:2] = list(reversed(wrong['cases']['protocol-parser-repair']['expected'][:2]))
+    private_root = directory/'wrong-parser-repair-entry-order'
+    private_root.mkdir()
+    rejects('parser-repair-historical-entry-order', 'native trace protocol-parser-repair index 0: expected',
+            lambda:checker.run_case('protocol-parser-repair', executable, private_root, (wrong,filter_path)))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

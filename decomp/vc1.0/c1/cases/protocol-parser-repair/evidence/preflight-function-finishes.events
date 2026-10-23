@@ -1,0 +1,17 @@
+flag-words 0 entry 00080000 00008000
+function-symbol 0 entry 07 01 0000006a 00000080 compiled_prefix
+flag-words 0 finish 00000000 00008000
+function-symbol 0 finish absent
+flag-words 1 entry 00080000 00008000
+function-symbol 1 entry 07 01 00000073 00000080 packet_extent
+flag-words 1 finish 00000000 00008000
+function-symbol 1 finish absent
+flag-words 2 entry 00080000 00008000
+function-symbol 2 entry 07 81 00000079 00000080 codec
+flag-words 2 finish 00000000 00008000
+function-symbol 2 finish absent
+flag-words 3 entry 00080000 00008000
+function-symbol 3 entry 07 01 0000007b 00000080 recovered_tail
+flag-words 3 finish 00000000 00008000
+function-symbol 3 finish absent
+exit 4

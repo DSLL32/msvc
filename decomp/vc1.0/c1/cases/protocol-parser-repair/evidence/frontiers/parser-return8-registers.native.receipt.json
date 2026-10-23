@@ -1,0 +1,32 @@
+{
+  "status": "pass",
+  "seconds": 0.13518326915800571,
+  "original_entry": [
+    [
+      2752016,
+      130
+    ]
+  ],
+  "original_finish": [
+    [
+      2752024,
+      1073680514,
+      2752192
+    ]
+  ],
+  "native": {
+    "entry": {
+      "esp": 4292601932,
+      "token": 130
+    },
+    "esp": 4292601940,
+    "eax": 1449451394,
+    "edx": 1449451508,
+    "caller": "parse_translation_unit"
+  },
+  "defined_payload_mask": [
+    "eax & 0xff =130"
+  ],
+  "uncompared_payload": "Original locals leave upper EAX bytes and EDX unspecified for insertedsemicolon130. Rawvalues retained, no invented initialization or artifact normalization.",
+  "stack_contract": "Original/native entry ESP\u2192caller return ESP difference8: returnaddress4 plus stdcall4; no hidden outputpointer."
+}

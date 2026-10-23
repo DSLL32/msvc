@@ -1,0 +1,4 @@
+caller.c
+caller.c(13) : error C2400: inline syntax error in 'operand 1'; found ','
+caller.c(14) : error C2400: inline syntax error in 'operand 1'; found ','
+callee.c

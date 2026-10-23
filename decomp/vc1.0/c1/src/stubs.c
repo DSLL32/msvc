@@ -143,10 +143,10 @@ void report_ide_line(void) { __asm { int 3 } }
 /* Original 0x21b00. */
 
 /* Original 0x22b70. */
-void __stdcall report_expected_token(unsigned char actual, int expected) { __asm { int 3 } }
+
 
 /* Original 0x22cc6. */
-ParserValue __stdcall recovery_token_value(int token) { ParserValue value; __asm { int 3 } return value; }
+
 
 /* Original 0x22d42. */
 
@@ -155,7 +155,7 @@ ParserValue __stdcall recovery_token_value(int token) { ParserValue value; __asm
 
 
 /* Original 0x22f72. */
-unsigned char recover_parser_token(unsigned char token, ...) { __asm { int 3 } return 0; }
+
 
 /* Original 0x230c0. */
 

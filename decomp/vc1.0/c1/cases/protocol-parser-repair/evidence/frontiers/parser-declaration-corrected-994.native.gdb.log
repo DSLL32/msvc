@@ -1,0 +1,7 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x4987: file src/stubs.c, line 158.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, recover_parser_token (token=2 '\002') at src/stubs.c:158
+158	unsigned char recover_parser_token(unsigned char token, ...) { __asm { int 3 } return 0; }

@@ -1,6 +1,7 @@
 /* Translation-unit LR driver and C grammar semantic actions.
    Original function 0x23192..0x25dd3; semantic callees remain named traps
    until reached independently by the differential reconstruction. */
+#include <stdarg.h>
 #include "parser.h"
 #include "source-input.h"
 #include "global-ir.h"
@@ -144,7 +145,7 @@ read_action:
                     }
                     if (parser_recovery_count <= 1)
                         report_expected_token((unsigned char)parser_lookahead, i);
-                    parser_value = recovery_token_value(i);
+                    RECON_ASSIGN_RETURN8(parser_value,recovery_token_value(i));
                     state = repair->next_state;
                     goto push_state;
                 }
@@ -274,8 +275,8 @@ read_action:
                         else report_syntax_error(280, current_token_value.identifier);
                     } else if (has_function)
                         report_syntax_error(281, symbol->name, current_token_value.identifier);
-                    else report_syntax_error(282, current_token_value.identifier);
-                } else report_syntax_error(282, current_token_value.identifier);
+                    else report_syntax_error(282, symbol->name, current_token_value.identifier);
+                } else report_syntax_error(282, symbol->name, current_token_value.identifier);
                 parser_lookahead = recover_parser_token((unsigned char)parser_lookahead,
                     TOK_SEMICOLON, TOK_LEFT_BRACE, 1);
                 if (parser_lookahead == TOK_LEFT_BRACE) {
@@ -1815,4 +1816,88 @@ void __stdcall emit_named_label(char *name)
         report_syntax_error(45, name);
     }
     emit_code_label(make_ir_leaf(TOK_IDENTIFIER, label, 0));
+}
+
+/* Original0x22b70..0x22cc6. Name both sides of a yacc token repair;
+   a suppressed declaration diagnostic must not mutate its depth state. */
+void __stdcall report_expected_token(int actual, int expected)
+{
+    if (parser_flags & 0x2000) return;
+    if (!actual) report_syntax_error(60);
+    else if (actual == TOK_IDENTIFIER) {
+        if (current_token_value.identifier)
+            report_syntax_error(146,token_names[expected],current_token_value.identifier);
+        else report_syntax_error(145,token_names[expected]);
+    } else if (actual == TOK_TYPE)
+        report_syntax_error(144,token_names[expected],token_names[current_token_code]);
+    else if (actual == TOK_TYPEDEF_NAME)
+        report_syntax_error(144,token_names[expected],last_lookup_symbol->name);
+    else report_syntax_error(143,token_names[expected],token_names[actual]);
+    if (expected == TOK_RIGHT_PAREN) {
+        if (!declaration_depth) declaration_depth = 1;
+    } else declaration_depth = 0;
+}
+
+/* Original0x22cc6..0x22d42. Only the grammar-specified payload is set;
+   unused semantic-value words and bytes retain their automatic contents.
+   Native-only return transport preserves the independently proved EDX:EAX
+   ABI when the host compiler classifies the nested union as indirect. */
+RECON_RETURN8_TYPE(ParserValue) __stdcall recovery_token_value(int token)
+{
+    ParserValue value;
+    switch (token) {
+    case TOK_TYPE:
+        value.declaration.type = type_0000;
+        break;
+    case TOK_CONSTANT:
+        value.words.low = 0;
+        break;
+    case TOK_IDENTIFIER:
+        value.words.low = 0;
+        value.bytes[0] = (unsigned char)token;
+        break;
+    default:
+        value.bytes[0] = (unsigned char)token;
+        break;
+    }
+    RECON_RETURN8(value);
+}
+
+/* Original0x22f72..0x230c0. Ignore stop tokens inside balanced parentheses
+   or braces. Each fresh top-level scan reuses the sentinel-terminated list. */
+unsigned char recover_parser_token(unsigned token, ...)
+{
+    int braces = 0, parentheses = 0;
+    unsigned current = token, stop;
+    va_list arguments;
+    for (;;) {
+        if (!braces && !parentheses) {
+            va_start(arguments,token);
+            do {
+                stop = va_arg(arguments,unsigned);
+                if (current == stop) {
+                    va_end(arguments);
+                    return (unsigned char)current;
+                }
+            } while (stop != 1);
+            va_end(arguments);
+        }
+        switch (current) {
+        case TOK_LEFT_BRACE: ++braces; break;
+        case TOK_RIGHT_BRACE: --braces; break;
+        case TOK_LEFT_PAREN: ++parentheses; break;
+        case TOK_RIGHT_PAREN: --parentheses; break;
+        case TOK_NONE: return 1;
+        case TOK_END_OF_FILE:
+            fatal_error(4);
+            return 1;
+        case TOK_SEMICOLON:
+            release_arena(2);
+            /* The discarded literal workspace is reset here as well. */
+        case TOK_STRING:
+            text_work_cursor = expression_storage;
+            break;
+        }
+        current = scan_token();
+    }
 }

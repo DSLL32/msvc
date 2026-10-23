@@ -92,6 +92,7 @@ def main():
             if expected_record:
                 expected_native = {'__unlink':'recon_unlink'}.get(expected_record['name'],
                     re.sub(r'@\d+$','',expected_record['name'][1:]))
+                runtime_break = 'break ' + expected_native + '\n'
             else:
                 # Recognized original-library frontiers use an explicit native
                 # boundary breakpoint, rather than inventing an application stub.
@@ -105,6 +106,7 @@ def main():
                 expected_native = native_boundaries[expected_record['name']]
                 runtime_break = 'break ' + expected_native + '\n'
 
+    abi_inputs = expected_record.get('abi_inputs',[]) if expected_record else []
     alias_stderr = phase.get('stdio', {}).get('stderr_to_stdout', False)
     redirection = '>'+shlex.quote(str(directory/'stdout'))
     if alias_stderr:
@@ -193,6 +195,15 @@ if gdb.selected_inferior().pid:
             'array_nonnull':bool(int(gdb.parse_and_eval('array'))),
             'callback_is_legacy_enumerator':int(gdb.parse_and_eval('compare'))==int(gdb.parse_and_eval('&compare_legacy_enumerators'))}
 
+    state['abi_inputs']=[]
+    for item in %r:
+        slot=item['stack_slot']
+        value=struct.unpack('<I',bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('$ebp'))+4*(slot+1),4)))[0]
+        row=dict(name=item['name'],stack_slot=slot,value=value)
+        if item.get('formal'):
+            row['formal_value']=int(gdb.parse_and_eval(item['formal'])) & 0xffffffff
+            assert row['formal_value']==value,('native formal/ABI slot differs',row)
+        state['abi_inputs'].append(row)
     while frame and len(state['frames'])<12:
         state['frames'].append(frame.name())
         frame=frame.older()
@@ -211,7 +222,7 @@ else:
     state['frontier']=None
 with open(%r,'w') as out:json.dump(state,out,indent=2)
 end
-''' % (runtime_break+callback_commands+flag_commands,redirection,names,str(directory/'state.json'))
+''' % (runtime_break+callback_commands+flag_commands,redirection,abi_inputs,names,str(directory/'state.json'))
     (directory/'commands.gdb').write_text(script)
     prepared = time.perf_counter()-start
     run_start = time.perf_counter()
@@ -230,6 +241,10 @@ end
             address = int(match[1],16)+int(match[2],16)
             assert state['frontier'] == expected_native, (expected_record['name'],state['frontier'])
             state['original_logical'] = expected_record['name']
+            original_stack={int(slot):int(value,16)for slot,value in re.findall(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)}
+            for item in state['abi_inputs']:
+                assert item['value']==original_stack[item['stack_slot']],('original/native ABI input differs',item,original_stack[item['stack_slot']])
+            if abi_inputs: state['abi_inputs_original_match']=True
             if expected_record['name']=='_qsort':
                 stack = {int(slot):int(value,16) for slot,value in re.findall(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)}
                 assert state['qsort_contract']==dict(count=stack[2],width=stack[3],array_nonnull=bool(stack[1]),callback_is_legacy_enumerator=True)

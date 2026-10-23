@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "fcbf73fd2f9942f52851c61ba6b92e11bad7b17cedc333b5d0c7e9622b30601b",
+    "functions.json": "472de3cc6fb0710d75e215ea358d1859cb6bbaa10257db6b893f5f4e705d06f2",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "0bb46bc45bda2c6111453a695040d20799409fda8cb4fc30ab4b3fda3e708774"
+    "sha256": "4d285c523263ed16628fb4589ca0ee8c719de3b21b4a8dde5f88080884b6fee6"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "7be9f78f08542275319329c632085fceee3dfc8fc78d54bc1b0d435b3675bc86"
+    "sha256": "289b6208836851352c47e68e956b301723ff6b2e03f54b2d346a0d3d056a0d87"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -2927,7 +2927,7 @@
     },
     "recover_parser_token": {
       "logical": "_recover_parser_token",
-      "source": "src/stubs.c"
+      "source": "src/parser.c"
     },
     "recover_special_character": {
       "logical": "_recover_special_character",
@@ -2943,7 +2943,7 @@
     },
     "recovery_token_value": {
       "logical": "_recovery_token_value@4",
-      "source": "src/stubs.c"
+      "source": "src/parser.c"
     },
     "reference_identifier_symbol": {
       "logical": "_reference_identifier_symbol@4",
@@ -3051,7 +3051,7 @@
     },
     "report_expected_token": {
       "logical": "_report_expected_token@8",
-      "source": "src/stubs.c"
+      "source": "src/parser.c"
     },
     "report_fatal": {
       "logical": "_report_fatal",
@@ -4509,7 +4509,10 @@
     "close_source_inputs",
     "cleanup_failed_compilation",
     "discard_browser_output",
-    "macro_scan_error"
+    "macro_scan_error",
+    "report_expected_token",
+    "recovery_token_value",
+    "recover_parser_token"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5988,6 +5991,20 @@
       "terminal": {
         "kind": "exit",
         "code": 1
+      }
+    },
+    "protocol-parser-repair": {
+      "first": 992,
+      "last": 995,
+      "seen_count": 851,
+      "expected": [
+        "report_expected_token",
+        "recovery_token_value",
+        "recover_parser_token"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 4
       }
     }
   }

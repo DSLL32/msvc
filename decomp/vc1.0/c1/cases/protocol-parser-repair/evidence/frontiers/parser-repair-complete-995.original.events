@@ -1,0 +1,4 @@
+entry _report_expected_token@8 rva 00012b70 byte 55
+entry _recovery_token_value@4 rva 00012cc6 byte 55
+entry _recover_parser_token rva 00012f72 byte 55
+exit 4

@@ -1,0 +1,50 @@
+[
+  {
+    "name": "native-build",
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "seconds": 1.8593376828357577,
+    "exit": 0,
+    "compiled_source_snapshot": "/root/.ai-tmp/msvc2/vc1.0/c1/parser-repair-992-compiled-shared-inputs.json",
+    "compiled_source_snapshot_sha256": "d1e4eb7789397b0387f93820078eb789d1b96deeb731a416b12d18a4550019d1",
+    "compiled_inputs_stable": true
+  },
+  {
+    "name": "original-capture",
+    "command": [
+      "python3",
+      "scripts/capture-frontier.py",
+      "--case",
+      "cases/protocol-parser-repair",
+      "--phase",
+      "c1",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/parser-repair-992",
+      "--debugger",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+    ],
+    "seconds": 1.7974928179755807,
+    "exit": 0
+  },
+  {
+    "name": "native-frontier",
+    "command": [
+      "python3",
+      "scripts/debug-frontier.py",
+      "--case",
+      "cases/protocol-parser-repair",
+      "--phase",
+      "c1",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/validation/parser-repair-992",
+      "--reference",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/parser-repair-992"
+    ],
+    "seconds": 0.23297895304858685,
+    "exit": 0
+  }
+]

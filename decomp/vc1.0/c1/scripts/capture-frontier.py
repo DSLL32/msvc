@@ -30,8 +30,10 @@ def main():
     parser.add_argument('--debugger', required=True, type=Path,
                         help='Explicit original-only Win32 debugger executable')
     parser.add_argument('--unmasked', action='store_true')
+    parser.add_argument('--stop-function',help='Explicit first-entry trap for one accepted application ABI observation')
     parser.add_argument('--trace-enum-callbacks', action='store_true',help='Explicit debugger-only all-call enum comparator proof')
     parser.add_argument('--trace-flags',help='Logical function whose full scanner/parser words are observed at entry/return')
+    parser.add_argument('--trace-return8',action='store_true',help='Explicit original-only recovery-value register/stack observation')
     parser.add_argument('--trace-timestamps',action='store_true',help='Observe source descriptor metadata adapter return and output timestamp')
     parser.add_argument('--trace-function-finishes',action='store_true',help='Observe current function symbol at finish entry and caller return')
     parser.add_argument('--entry-from', type=int)
@@ -46,6 +48,9 @@ def main():
     if options.trace_timestamps:
         assert options.trace_flags is None and not options.trace_function_finishes
         options.trace_flags = '_get_file_timestamp@8'
+    if options.trace_return8:
+        assert options.unmasked and options.trace_flags is None
+        options.trace_flags = '_recovery_token_value@4'
     start = time.perf_counter()
     spec = importlib.util.spec_from_file_location('c1_original_tool',Path(__file__).with_name('wine-tool.py'))
     wt = importlib.util.module_from_spec(spec)
@@ -117,6 +122,12 @@ def main():
                 original.read(by_name[n]['start'],1)[0],n) for n in expected_entries))
         target = directory/'original-masked.exe'
         target.write_bytes(data)
+    if options.stop_function:
+        assert not options.unmasked and not entry_mode
+        probe = next(r for r in config['driver'] if r['name']==options.stop_function)
+        assert probe['name'] in config['accepted']
+        data[original.offset(probe['start'])] = 0xcc
+        target.write_bytes(data)
     flags = phase['environment']['MSC_CMD_FLAGS'].format(
         bin=wt.windows(wt.TC/'bin'), include=wt.windows(wt.TC/'include'))
     buffers = ','.join('%x'%(r['original']-original.base) for r in config['buffered_streams'])
@@ -134,6 +145,8 @@ def main():
     host_environment.pop('C1_FLAG_PROBE_RVAS',None)
     host_environment.pop('C1_FUNCTION_SYMBOL_RVA',None)
     host_environment.pop('C1_TIMESTAMP_PROBE',None)
+    host_environment.pop('C1_RETURN8_PROBE',None)
+    if options.trace_return8:host_environment['C1_RETURN8_PROBE']='1'
     if options.trace_timestamps: host_environment['C1_TIMESTAMP_PROBE']='1'
     if options.trace_function_finishes:
         assert original.read(0x2b148,10)==bytes.fromhex('c70540b1050000000000')
@@ -141,7 +154,7 @@ def main():
     if options.trace_flags:
         assert not entry_mode and not options.trace_enum_callbacks
         probe = next(r for r in config['driver'] if r['name']==options.trace_flags)
-        assert probe['name'] in config['accepted']
+        assert probe['name'] in config['accepted'] or (options.trace_return8 and options.unmasked)
         # Identity derived and checked against raw operand bytes by audit-flags.py.
         host_environment['C1_FLAG_PROBE_RVAS'] = '%x,%x,%x' % (probe['start']-original.base,0x6bb44-original.base,0x6bb48-original.base)
     if options.trace_enum_callbacks:
@@ -171,7 +184,7 @@ def main():
         assert 'entry-divergence' not in events
     if canonical:
         shutil.copytree(work,directory/'work',copy_function=shutil.copy2)
-    receipt = dict(terminal_exit=terminal_exit,expected_exit=phase['expected_exit'],case=str(case), phase=options.phase, unmasked=options.unmasked,
+    receipt = dict(return8_probe=options.trace_return8,stop_function=options.stop_function,terminal_exit=terminal_exit,expected_exit=phase['expected_exit'],case=str(case), phase=options.phase, unmasked=options.unmasked,
                    enum_callback_trace=options.trace_enum_callbacks,enum_callback_function=enum_callback if options.trace_enum_callbacks else None,flag_word_probe=options.trace_flags,function_finish_probe=options.trace_function_finishes,timestamp_probe=options.trace_timestamps,
                    accepted_count=len(config['accepted']), accepted_sha256=hashlib.sha256(
                        json.dumps(config['accepted']).encode()).hexdigest(),

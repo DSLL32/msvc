@@ -1,0 +1,10 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5664798a in recovery_token_value (token=130) at src/stubs.c:149
+149	ParserValue __stdcall recovery_token_value(int token) { ParserValue value; __asm { int 3 } return value; }
+Python Exception <class 'AssertionError'>: ('native formal/ABI slot differs', {'name': 'token', 'stack_slot': 1, 'value': 4292595328, 'formal_value': 130})
+/root/.ai-tmp/msvc2/vc1.0/c1/validation/parser-recovery-hidden-pointer-negative/commands.gdb:53: Error in sourced command file:
+Error occurred in Python: ('native formal/ABI slot differs', {'name': 'token', 'stack_slot': 1, 'value': 4292595328, 'formal_value': 130})

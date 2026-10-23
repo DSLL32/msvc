@@ -1,0 +1,61 @@
+
+build/native/C13232.EXE:     file format elf32-i386
+
+
+Disassembly of section .init:
+
+Disassembly of section .plt:
+
+Disassembly of section .plt.got:
+
+Disassembly of section .text:
+
+000395f0 <recovery_token_value>:
+   395f0:	55                   	push   ebp
+   395f1:	89 e5                	mov    ebp,esp
+   395f3:	83 ec 10             	sub    esp,0x10
+   395f6:	e8 00 00 00 00       	call   395fb <recovery_token_value+0xb>
+   395fb:	58                   	pop    eax
+   395fc:	81 c0 f9 59 05 00    	add    eax,0x559f9
+   39602:	89 45 f0             	mov    DWORD PTR [ebp-0x10],eax
+   39605:	8b 45 08             	mov    eax,DWORD PTR [ebp+0x8]
+   39608:	89 45 f4             	mov    DWORD PTR [ebp-0xc],eax
+   3960b:	89 45 f8             	mov    DWORD PTR [ebp-0x8],eax
+   3960e:	8b 45 0c             	mov    eax,DWORD PTR [ebp+0xc]
+   39611:	8b 45 0c             	mov    eax,DWORD PTR [ebp+0xc]
+   39614:	89 45 fc             	mov    DWORD PTR [ebp-0x4],eax
+   39617:	83 e8 02             	sub    eax,0x2
+   3961a:	74 3c                	je     39658 <recovery_token_value+0x68>
+   3961c:	eb 00                	jmp    3961e <recovery_token_value+0x2e>
+   3961e:	8b 45 fc             	mov    eax,DWORD PTR [ebp-0x4]
+   39621:	83 e8 65             	sub    eax,0x65
+   39624:	74 27                	je     3964d <recovery_token_value+0x5d>
+   39626:	eb 00                	jmp    39628 <recovery_token_value+0x38>
+   39628:	8b 45 fc             	mov    eax,DWORD PTR [ebp-0x4]
+   3962b:	2d 8a 00 00 00       	sub    eax,0x8a
+   39630:	75 36                	jne    39668 <recovery_token_value+0x78>
+   39632:	eb 00                	jmp    39634 <recovery_token_value+0x44>
+   39634:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+   39637:	8b 55 f0             	mov    edx,DWORD PTR [ebp-0x10]
+   3963a:	8d 8a 48 c0 00 00    	lea    ecx,[edx+0xc048]
+   39640:	8b 09                	mov    ecx,DWORD PTR [ecx]
+   39642:	8d 92 48 c0 00 00    	lea    edx,[edx+0xc048]
+   39648:	89 48 04             	mov    DWORD PTR [eax+0x4],ecx
+   3964b:	eb 23                	jmp    39670 <recovery_token_value+0x80>
+   3964d:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+   39650:	c7 00 00 00 00 00    	mov    DWORD PTR [eax],0x0
+   39656:	eb 18                	jmp    39670 <recovery_token_value+0x80>
+   39658:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+   3965b:	c7 00 00 00 00 00    	mov    DWORD PTR [eax],0x0
+   39661:	8b 4d 0c             	mov    ecx,DWORD PTR [ebp+0xc]
+   39664:	88 08                	mov    BYTE PTR [eax],cl
+   39666:	eb 08                	jmp    39670 <recovery_token_value+0x80>
+   39668:	8b 45 f4             	mov    eax,DWORD PTR [ebp-0xc]
+   3966b:	8b 4d 0c             	mov    ecx,DWORD PTR [ebp+0xc]
+   3966e:	88 08                	mov    BYTE PTR [eax],cl
+   39670:	8b 45 f8             	mov    eax,DWORD PTR [ebp-0x8]
+   39673:	83 c4 10             	add    esp,0x10
+   39676:	5d                   	pop    ebp
+   39677:	c2 08 00             	ret    0x8
+
+Disassembly of section .fini:

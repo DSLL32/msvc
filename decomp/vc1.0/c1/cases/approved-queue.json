@@ -1,19 +1,15 @@
 {
-  "authorization": "Root approved SINGLE generated-header ingestion failure/shutdown workflow: missing generated.h then incomplete functionlike macro atEOF. Exactoriginalfatal order/status/partialIR/browser/absence, no runtime/recovery claim/privateflags/signals.",
-  "baseline_commit": "38030f837e7f4a9ee0b8237068481e0e27be4537",
-  "baseline_accepted_count": 985,
+  "authorization": "Root approved one bounded protocol-header parser-repair workflow with exact expectederror/partialfiles and recovered_tail finalization+browsermarker proven beforefreeze. No forced paths/backend/runtime claim.",
+  "baseline_commit": "fc014e52234751d21fbc13dd5b5a36c1ae03ee9a",
+  "baseline_accepted_count": 992,
   "status": "complete",
   "cases": [
     {
-      "case": "generated-header-failures",
-      "phase": "c1-missing",
-      "status": "complete;985 through991, C1083/C1exit1/exactpartialfiles"
-    },
-    {
-      "case": "generated-header-failures",
-      "phase": "c1-incomplete",
-      "status": "complete;991 through992, C1057/C1exit1/exactpartialfiles"
+      "case": "protocol-parser-repair",
+      "phase": "c1",
+      "status": "complete;992 through995, fourerrors/exactpartialfiles/recovered_tail proved"
     }
   ],
-  "completion": "cases/generated-header-failures/validation.json"
+  "ABI_requirement": "Before recovery_token_value acceptance prove originalMSVC/rebuilt/native two-word EDX:EAX return, RET cleanup and caller slots; narrow native flag scope ifneeded.",
+  "completion": "cases/protocol-parser-repair/validation.json"
 }

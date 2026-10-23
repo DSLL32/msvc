@@ -1,0 +1,35 @@
+{
+  "status": "pass",
+  "original_entry": "0x22cc6",
+  "rebuilt_entry": "0x3b4d6",
+  "native_flag_scope": "No special flag: ineffectivecandidate removed. Shared993c9e39 return8transport applies only to recovery_token_value declaration/definition and one parser.c caller.",
+  "inventory": [
+    "recovery_token_value(int): ParserValue8; definition+onlycaller src/parser.c",
+    "asm_recovery_value(int): ParserValue8; definitionasm-stubs.c/callerasm-parser.c bothunreached and unchanged"
+  ],
+  "input": [
+    {
+      "name": "token",
+      "stack_slot": 1,
+      "value": 130,
+      "formal_value": 130
+    }
+  ],
+  "return_registers": [
+    "eax",
+    "edx"
+  ],
+  "cleanup": 4,
+  "hidden_pointer": false,
+  "actual_register_proof": "validation/parser-return8-registers/receipt.json",
+  "undefined_payload": "Original insertedsemicolon130 defines lowbyte82; remaining bytes are automatic contents and not initialized or normalized.",
+  "files": {
+    "native-helper-return8.disasm.txt": "faff4cbf6baefd55e56359d00878abd724348e898e30dd0b69106f05c2d16990",
+    "rebuilt-helper.disasm.txt": "9dd23b67595ecaccdaaf1e93db8be387784bdaec4108eb873d42fc43700455f0",
+    "original-caller.disasm.txt": "a658816af9832763c4e88f9228cd1ca503635d90837109aa34aa6b285871a7c5",
+    "rebuilt-helper-return8.disasm.txt": "a6bec4b0bdf71694b550f13d56a6ba94fe69391698ef2234304e1ad46682a478",
+    "native-helper.disasm.txt": "f856b3339abf8f4aec43dcfec4f53face8695676fc71ecf393efda7044805d7d",
+    "native-caller.disasm.txt": "01baf682f70e08b3ddd5cd8f506c36765996357c523abb92c8c50319932cd913",
+    "original-helper.disasm.txt": "639bdb1aef7632867dd5e69c7715ba29db2070b5a14e7c23405fab227345684e"
+  }
+}

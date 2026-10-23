@@ -996,7 +996,10 @@
     "_close_source_inputs",
     "_cleanup_failed_compilation",
     "_discard_browser_output",
-    "_macro_scan_error@4"
+    "_macro_scan_error@4",
+    "_report_expected_token@8",
+    "_recovery_token_value@4",
+    "_recover_parser_token"
   ],
   "driver": [
     {
@@ -1904,12 +1907,41 @@
     {
       "name": "_report_expected_token@8",
       "start": 142192,
-      "end": 142193
+      "end": 142534,
+      "abi_inputs": [
+        {
+          "name": "actual",
+          "formal": "actual",
+          "stack_slot": 1
+        },
+        {
+          "name": "expected",
+          "formal": "expected",
+          "stack_slot": 2
+        }
+      ]
     },
     {
       "name": "_recovery_token_value@4",
       "start": 142534,
-      "end": 142535
+      "end": 142658,
+      "abi_inputs": [
+        {
+          "name": "token",
+          "formal": "token",
+          "stack_slot": 1
+        }
+      ],
+      "abi_return": {
+        "registers": [
+          "eax",
+          "edx"
+        ],
+        "bytes": 8,
+        "stack_cleanup": 4,
+        "hidden_result_pointer": false,
+        "note": "Original22d30..22d41. Defined payload depends on token; preserve unspecified local bytes without invented zeroing."
+      }
     },
     {
       "name": "_report_parser_error@4",
@@ -1924,7 +1956,26 @@
     {
       "name": "_recover_parser_token",
       "start": 143218,
-      "end": 143219
+      "end": 143552,
+      "abi_inputs": [
+        {
+          "name": "token",
+          "formal": "token",
+          "stack_slot": 1
+        },
+        {
+          "name": "stop_semicolon",
+          "stack_slot": 2
+        },
+        {
+          "name": "stop_brace",
+          "stack_slot": 3
+        },
+        {
+          "name": "sentinel",
+          "stack_slot": 4
+        }
+      ]
     },
     {
       "name": "_finish_external_declaration@4",
@@ -5953,6 +6004,11 @@
       "accepted_from": 991,
       "accepted_count": 992,
       "expected_exit": 1
+    },
+    "protocol-parser-repair": {
+      "accepted_from": 992,
+      "accepted_count": 995,
+      "expected_exit": 4
     }
   },
   "buffered_streams": [

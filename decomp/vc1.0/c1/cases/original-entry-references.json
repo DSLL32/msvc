@@ -176,6 +176,10 @@
     "generated-header-incomplete": {
       "receipt": "cases/generated-header-failures/evidence/generated-incomplete-complete-992.receipt.json",
       "sha256": "30c866c90f0f7a2a5adda41f41baab00e6593002b41809ec8a476ee87cea25fc"
+    },
+    "protocol-parser-repair": {
+      "receipt": "cases/protocol-parser-repair/evidence/parser-repair-complete-995.receipt.json",
+      "sha256": "3113cd13ffa092a56783094a745d8ee0e98a67019c6035b2b9377c18a2508ac2"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."
