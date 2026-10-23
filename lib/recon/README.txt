@@ -382,3 +382,12 @@ Unvisited CL multibyte parser imports `_mbsncmp`, `_mbsinc`, `_mbccpy` and
 The native mbstring.h/mbctype.h overlays add no guessed codepage behavior.
 Standard access-violation/stack-overflow constants are available for readable
 original SEH filters; this adds no native exception execution support.
+
+The encountered RC private heap supports HeapCreate(1,0,0) and successful
+HeapAlloc(owner,9,528). A native opaque handle owns typed `native_heaps` records;
+each block records owner, flags, requested size, payload and actual mapped size.
+GDB can inspect these without calls. The requested528bytes are initially zero;
+allocator metadata/page padding are outside application byte ownership. Original
+errno and LastError are preserved on the observed successful paths. Other
+owners/options/sizes/failure/free/destroy modes fail explicitly pending evidence.
+The unvisited SendMessageA branch has the SDK ABI and an unsupported body.

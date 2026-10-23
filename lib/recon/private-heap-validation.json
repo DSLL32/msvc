@@ -1,0 +1,23 @@
+{
+  "scope": "opaque private HeapCreate1/0/0 and zeroed HeapAlloc9/528 successful calls",
+  "original_evidence": [
+    "/root/.ai-tmp/msvc2/vc5.10/rcdll/heap-caller-reference",
+    "/root/.ai-tmp/msvc2/vc5.10/rcdll/heap-api-reference"
+  ],
+  "tests": [
+    "actual four528byte original buffers",
+    "errno0/111 and LastError0/sentinel preserve",
+    "typed native_heaps owner/requested_size/flags/mapping_size/payload GDB inspection",
+    "7 unsupported owner/flags/size/free/destroy/message controls"
+  ],
+  "native_build_checks_seconds": {
+    "gcc": 0.96843830216676,
+    "clang": 1.2160788271576166
+  },
+  "limits": [
+    "exact observed successful options/flags/size only",
+    "requested528 bytes distinct from host page mapping capacity",
+    "unknown OOM/exception/thread/free/destroy behavior unsupported",
+    "no process heap implementation changed"
+  ]
+}

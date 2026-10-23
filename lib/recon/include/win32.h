@@ -14,6 +14,8 @@
 #define TRUE 1
 #define FALSE 0
 #define MAX_PATH 260
+#define HEAP_NO_SERIALIZE 1
+#define HEAP_ZERO_MEMORY 8
 #define CONST const
 #define VOID void
 #define min(a,b) ((a)<(b)?(a):(b))
@@ -24,6 +26,8 @@ typedef unsigned short USHORT;
 typedef unsigned long DWORD;
 typedef long LONG;
 typedef short SHORT;
+typedef unsigned int WPARAM;
+typedef long LPARAM,LRESULT;
 typedef int BOOL;
 typedef unsigned int UINT;
 typedef void *HANDLE, *HMODULE, *HINSTANCE, *HWND, *HGLOBAL, *LPVOID;
@@ -259,9 +263,9 @@ typedef struct _FPO_DATA {
 #define IMAGE_RESOURCE_NAME_IS_STRING 0x80000000
 #define IMAGE_RESOURCE_DATA_IS_DIRECTORY 0x80000000
 
-#endif
-
 #ifndef EXCEPTION_ACCESS_VIOLATION
 #define EXCEPTION_ACCESS_VIOLATION 0xc0000005UL
 #define EXCEPTION_STACK_OVERFLOW 0xc00000fdUL
+#endif
+
 #endif
