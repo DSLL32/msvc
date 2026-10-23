@@ -618,6 +618,42 @@ void WINAPI recon_GetSystemTime(SYSTEMTIME *out)
     out->wYear=tm.tm_year+1900; out->wMonth=tm.tm_mon+1; out->wDay=tm.tm_mday; out->wDayOfWeek=tm.tm_wday;
     out->wHour=tm.tm_hour; out->wMinute=tm.tm_min; out->wSecond=tm.tm_sec;
 }
+BOOL WINAPI recon_SystemTimeToFileTime(const SYSTEMTIME *input,FILETIME *output)
+{
+    static const unsigned short cumulative[12]={0,31,59,90,120,151,181,212,243,273,304,334};
+    static const unsigned char month_days[12]={31,28,31,30,31,30,31,31,30,31,30,31};
+    unsigned year,month,limit,leap; uint64_t days,ticks;
+    if (!input || !output) recon_unsupported("SystemTimeToFileTime null argument");
+    year=input->wYear; month=input->wMonth;
+    if (year<1601 || year>9999 || !month || month>12 || input->wHour>23 ||
+        input->wMinute>59 || input->wSecond>59 || input->wMilliseconds>999)
+        recon_unsupported("SystemTimeToFileTime unreviewed date range");
+    leap=!(year%4) && ((year%100) || !(year%400));
+    limit=month_days[month-1]+(month==2 && leap);
+    if (!input->wDay || input->wDay>limit) recon_unsupported("SystemTimeToFileTime invalid date");
+    days=(uint64_t)(year-1601)*365+(year-1)/4-(year-1)/100+(year-1)/400-388;
+    days+=cumulative[month-1]+(month>2 && leap)+input->wDay-1;
+    ticks=(((days*24+input->wHour)*60+input->wMinute)*60+input->wSecond)*10000000;
+    ticks+=(uint64_t)input->wMilliseconds*10000;
+    output->dwLowDateTime=(DWORD)ticks; output->dwHighDateTime=(DWORD)(ticks>>32);
+    return TRUE;
+}
+BOOL WINAPI recon_SetFileTime(HANDLE handle,const FILETIME *creation,const FILETIME *access,const FILETIME *write_time)
+{
+    uint64_t ticks,seconds; struct timespec times[2]; struct stat st; int fd,saved_errno=errno;
+    DWORD saved_error=last_error;
+    if (creation || access || !write_time) recon_unsupported("SetFileTime last-write-only scope");
+    ticks=((uint64_t)write_time->dwHighDateTime<<32)|write_time->dwLowDateTime;
+    if (ticks<116444736000000000ULL) recon_unsupported("SetFileTime pre-Unix range");
+    ticks-=116444736000000000ULL; seconds=ticks/10000000;
+    if (seconds>0x7fffffffU) recon_unsupported("SetFileTime unreviewed native time range");
+    fd=handle_fd(handle);
+    if (fd<0 || fstat(fd,&st) || !S_ISREG(st.st_mode)) recon_unsupported("SetFileTime regular success");
+    times[0].tv_sec=0; times[0].tv_nsec=UTIME_OMIT;
+    times[1].tv_sec=(time_t)seconds; times[1].tv_nsec=(long)(ticks%10000000)*100;
+    if (futimens(fd,times)) recon_unsupported("SetFileTime uncharacterized failure");
+    errno=saved_errno; last_error=saved_error; return TRUE;
+}
 void WINAPI recon_GetLocalTime(SYSTEMTIME *out)
 {
     struct tm tm; time_t now=recon_time(NULL);

@@ -1,0 +1,7 @@
+{
+  "scope": "Valid Gregorian UTC1601..9999 conversion and reached lastwrite-only regular file1970..2038 success; unknown/error modes unsupported",
+  "native_build_checks_seconds": {
+    "gcc": 1.0606770273298025,
+    "clang": 1.291975480504334
+  }
+}

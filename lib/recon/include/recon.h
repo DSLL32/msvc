@@ -242,6 +242,8 @@ void recon_load_system_profile(const char *,const char *);
  X(void,GetSystemInfo,(LPSYSTEM_INFO)) X(void,GlobalMemoryStatus,(LPMEMORYSTATUS)) \
  X(DWORD,GetTickCount,(void)) \
  X(DWORD,GetModuleFileNameA,(HMODULE,LPSTR,DWORD)) X(DWORD,GetVersion,(void)) \
+ X(BOOL,SystemTimeToFileTime,(const SYSTEMTIME *,FILETIME *)) \
+ X(BOOL,SetFileTime,(HANDLE,const FILETIME *,const FILETIME *,const FILETIME *)) \
  X(void,GetSystemTime,(SYSTEMTIME *)) X(void,ExitProcess,(UINT)) \
  X(LPVOID,VirtualAlloc,(LPVOID,DWORD,DWORD,DWORD)) X(BOOL,VirtualFree,(LPVOID,DWORD,DWORD)) \
  X(HLOCAL,LocalAlloc,(UINT,DWORD)) X(HLOCAL,LocalFree,(HLOCAL)) \
@@ -473,6 +475,8 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define GetTickCount recon_GetTickCount
 #define GetModuleFileNameA recon_GetModuleFileNameA
 #define GetVersion recon_GetVersion
+#define SystemTimeToFileTime recon_SystemTimeToFileTime
+#define SetFileTime recon_SetFileTime
 #define GetSystemTime recon_GetSystemTime
 #define ExitProcess recon_ExitProcess
 #define VirtualAlloc recon_VirtualAlloc

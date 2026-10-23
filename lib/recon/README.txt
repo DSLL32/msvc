@@ -475,3 +475,10 @@ FlushViewOfFile accepts only the exact registered base with zero size, preservin
 observed errors without persisting private image memory. Other image pointers
 remain unsupported. This reproduces LINK's actual successful global-record flush;
 its earlier static invalid-address prediction was superseded by real evidence.
+
+SystemTimeToFileTime supports valid Gregorian UTC dates (1601..9999), preserving
+100ns epoch arithmetic and observed errors. SetFileTime supports the encountered
+valid regular file, NULL creation/access and last-write-only timestamp in the
+native 1970..2038 range; actual filesystem mtime is changed and atime preserved.
+Unknown/invalid dates, other update modes and failures remain unsupported. Tests
+compare original UTC/epoch/leap conversions and actual last-write file metadata.
