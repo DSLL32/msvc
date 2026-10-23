@@ -1,0 +1,7 @@
+{
+  "scope": "Opt-in RECON_CRT_PROFILE_MSVCRT_510; canonical setvbuf/freebuf transitions only, default VC1 unchanged",
+  "native_build_checks_seconds": {
+    "gcc": 1.032732523046434,
+    "clang": 1.2288511777296662
+  }
+}

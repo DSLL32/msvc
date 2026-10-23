@@ -596,8 +596,14 @@ WEAK void recon_getbuf(ShimFILE *s)
 }
 WEAK void recon_freebuf(ShimFILE *s)
 {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    if (!(s->_flag&0x83) || !(s->_flag&8)) return;
+    free(s->_base);
+    s->_base=s->_ptr=NULL; s->_cnt=0; s->_flag&=~0x408;
+#else
     if (s->_flag&8) free(s->_base);
     s->_base=s->_ptr=NULL; s->_cnt=0; s->_flag&=~8;
+#endif
 }
 int recon_flush(ShimFILE *s)
 {
@@ -757,11 +763,27 @@ WEAK int recon_fclose(ShimFILE *s)
 }
 WEAK int recon_setvbuf(ShimFILE *s,char *buffer,int mode,size_t size)
 {
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    int saved_errno=errno; DWORD saved_error=recon_GetLastError();
+    if (mode!=4 && (size<2 || size>0x7fffffffU || (mode!=0 && mode!=0x40))) return -1;
+    size&=~(size_t)1;
+    if (recon_flush(s)) recon_unsupported("MSVCRT510 setvbuf flush failure");
+    recon_freebuf(s); s->_flag&=~0x3d0c;
+    if (mode==4) { s->_base=(char *)&s->_charbuf; s->_bufsiz=2; s->_flag|=4; }
+    else {
+        s->_base=buffer?buffer:malloc(size);
+        if (!s->_base) recon_unsupported("MSVCRT510 setvbuf allocation failure");
+        s->_bufsiz=size; s->_flag|=buffer?0x500:0x408;
+    }
+    s->_ptr=s->_base; s->_cnt=0;
+    errno=saved_errno; recon_SetLastError(saved_error); return 0;
+#else
     recon_flush(s); recon_freebuf(s);
     if (mode==4) { s->_base=(char *)&s->_charbuf; s->_bufsiz=2; s->_flag|=4; }
     else if (!size || (mode!=0 && mode!=0x40)) return -1;
     else { s->_base=buffer?buffer:malloc(size); if (!s->_base) return -1; s->_bufsiz=size; s->_flag|=buffer?0x100:8; }
     s->_ptr=s->_base; s->_cnt=0; return 0;
+#endif
 }
 WEAK long recon_ftell(ShimFILE *s)
 {

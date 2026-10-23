@@ -445,3 +445,11 @@ FlushViewOfFile supports an exact registered mapping base and zero-byte request,
 flushing the registry's complete mapped length. Both preserve observed errno and
 LastError on success; unknown handles/ranges/failures remain unsupported. A real
 2MB original/native mapping-write probe checks streams, bytes and persistence.
+
+Opt-in RECON_CRT_PROFILE_MSVCRT_510 selects reviewed canonical dynamic-CRT
+setvbuf/freebuf transitions. Buffered sizes round even; explicit owned/user
+buffers carry0x408/0x500, unbuffered mode carries4. Invalid mode/size returns
+before mutation. Freebuf clears0x408 and pointers only for active owned buffers.
+Default VC1 behavior is unchanged. Successful observed mode transitions preserve
+errno/LastError; flush/allocation failure remains unsupported. Bind this opt-in
+to the canonical MSVCRT provider and build receipt, not tool version guesses.
