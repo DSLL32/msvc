@@ -300,3 +300,15 @@ pass, plus all10 original size dispatch destinations. All14 native cases pass.
 20 actual listing-family/next-boundary formals are observed. Next displacement
 input0/hint0 leaves nonzero formatting unexercised; debug artifacts still pending.
 See cases/dbglist-comment-checkpoint.json for scope, failures and split timings.
+
+Checkpoint1230: write_listing_displacement (125 bytes) and typed fastcall
+coff_output_debug_pair(char*) (60 bytes) accepted. Its first guard is false;
+child-mocked shape probes do not claim execution of cold children. All four
+actual next coff_begin_lines inputs, defined listing buffer and x87 state match.
+A handle10/12 mismatch exposed wrong uses of the existing primary/current/
+diagnostic filename globals. Data identity proof, failed attempts and timing
+ledger: cases/dbglist-coff-filename-checkpoint.json. Original850c8 starts1;
+this is PE data, not synthetic seeding. All14 native cases and canonical
+graph/extent/ABI/negatives pass;13 finish and dbglist stops at begin-lines.
+Coverage333620/399693=83.4691% is accepted code extent, not branch coverage.
+Canonical/W3 builds pass. No target-local CRT was added.

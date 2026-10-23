@@ -1,0 +1,25 @@
+{
+  "command": [
+    "python3",
+    "scripts/observe-scalar-entry.py",
+    "--function",
+    "@coff_begin_lines@16",
+    "--parameter",
+    "handle:unsigned32",
+    "--parameter",
+    "line:unsigned16",
+    "--parameter",
+    "bytes:unsigned32",
+    "--parameter",
+    "offset:unsigned32",
+    "--stack-cleanup",
+    "8",
+    "--no-hidden-inputs-proof",
+    "Original6eca0..6ed9d consumes ECX handle, DX lower-word line, entryESP+4 bytes and entryESP+8 offset; saved GPRs assigned before use, RET8 at6ed9a. Upper EDX bits are not input: BX captures only DX and downstream section argument also consumes DX only. No hidden entry/output pointers; local auxiliary output slot is internal.",
+    "--receipt",
+    "cases/dbglist-begin-lines-abi"
+  ],
+  "seconds": 2.1358451461419463,
+  "returncode": 1,
+  "log_sha256": "d7cc868fdbeee790ff4aa8bbc7a424a56175adcf1469a22233066c6a0c5f0f66"
+}

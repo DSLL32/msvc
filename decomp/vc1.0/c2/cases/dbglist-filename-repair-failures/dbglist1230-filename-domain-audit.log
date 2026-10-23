@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/check-source-filename-storage.py", line 10, in <module>
+    for a in [0x805ec,0x7901c]:assert word(pe,a)==word(canonical,mapping[a])==0
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

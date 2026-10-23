@@ -1,0 +1,10 @@
+{
+  "command": [
+    "python3",
+    "scripts/observe-coff-filename.py",
+    "--native-only"
+  ],
+  "seconds": 0.5049189869314432,
+  "returncode": 1,
+  "log_sha256": "0ca454a3c3a355fe85a82137aa60faf85eed97028bf9c53295891c9194e5edf1"
+}
