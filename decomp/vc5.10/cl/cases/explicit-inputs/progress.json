@@ -1,5 +1,5 @@
 {
-  "state": "held-native-shared-API-gap",
+  "state": "completed",
   "accepted": [
     {
       "order": 1,
@@ -63,5 +63,6 @@
   },
   "owner": "/root/recon_lib_maintenance",
   "capture_reuse": "Later public-pass promotions changed the accepted mask; a fresh linker-argument candidate original is required. Old raw evidence remains unchanged.",
-  "grammar_correction": "Lowercase ba/bc/bx are unrecognized public words, suppressed by help. This case proves explicit input and linker forwarding only; public pass options have a separate case."
+  "grammar_correction": "Lowercase ba/bc/bx are unrecognized public words, suppressed by help. This case proves explicit input and linker forwarding only; public pass options have a separate case.",
+  "completion": "completed.json"
 }

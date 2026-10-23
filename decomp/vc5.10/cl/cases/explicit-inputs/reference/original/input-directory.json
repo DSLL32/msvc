@@ -1,0 +1,49 @@
+{
+  "entries": [
+    {
+      "name": "CL.EXE",
+      "bytes": 46080,
+      "sha256": "f0116492db1bd421ee60a64b7c821a141e7e1fa45ce97b86cb6e001d6ae6883c"
+    },
+    {
+      "name": "MSPDB50.DLL",
+      "bytes": 167424,
+      "sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+    },
+    {
+      "name": "MSVCRT.DLL",
+      "bytes": 277776,
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    {
+      "name": "config.json",
+      "bytes": 79358,
+      "sha256": "13d72a49663b3944dd7b95302353253cece07745ed5578471474feda532919af"
+    },
+    {
+      "name": "dependency-observer.inc",
+      "bytes": 18357,
+      "sha256": "a210b0e0fca930003b0a780ae6d9ea7534fe0323df84c5445c3e231c95a80806"
+    },
+    {
+      "name": "entries.txt",
+      "bytes": 2041,
+      "sha256": "7cef5de551f49ec66a6a4a53f373a6ce8cbad0b2dff06dd86b57e9e1e865ba8d"
+    },
+    {
+      "name": "export-reader.h",
+      "bytes": 4858,
+      "sha256": "64ffe9f75692ee7ac2790d9d8a8e8f5e128189837fda814316446bcd81af7607"
+    },
+    {
+      "name": "reference-debugger.c",
+      "bytes": 38561,
+      "sha256": "321e1f14b3f0ff7219b647405f1de5ac0fa0d5ba42105873136d64d8846caf8a"
+    },
+    {
+      "name": "reference-debugger.exe",
+      "bytes": 88064,
+      "sha256": "fa6caed228c54f8e48cec019ba675f23f80682b07b66c8c70ec95f56749eea59"
+    }
+  ]
+}

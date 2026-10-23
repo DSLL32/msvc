@@ -1,0 +1,1 @@
+{"result": "PASS", "negatives": 8, "controls": ["original: args null pointer", "original: index null pointer", "original: actual index word", "original: actual current option bytes", "native: args null pointer", "native: index null pointer", "native: actual index word", "native: actual current option bytes"]}

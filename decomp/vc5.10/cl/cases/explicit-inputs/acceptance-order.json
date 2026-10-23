@@ -41,6 +41,16 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/object-input-1/pair.json",
         "sha256": "af45fcea54fc310556b0f1767c452009f104a1b4e2c91befbb2333b5f955a5f3"
       }
+    },
+    {
+      "order": 5,
+      "candidate": "_link_arguments",
+      "class": "application",
+      "extent_bytes": 123,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2/pair.json",
+        "sha256": "d3154432b66f188ea594e4d9a6163eb64ffcf162919f541dca225ece059c1f38"
+      }
     }
   ]
 }

@@ -1,0 +1,136 @@
+{
+  "candidate": "_link_arguments",
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "native_sha256": "3ceae978f3ccc17085e6f03daecc19b7d9a0f47b26b729ece1ab520c55b18f42",
+  "rebuilt_sha256": "10942508a79c7ec1db44311f4ff19f8dd81d6d5dcf8aa9220abe9beff5477c9f",
+  "trial_mask_sha256": "f0116492db1bd421ee60a64b7c821a141e7e1fa45ce97b86cb6e001d6ae6883c",
+  "platform": "native",
+  "trial_identity": "05c05e847cabe7dede82e8fedf140ce48078608379fcccde2cb17db539423755",
+  "config_snapshot": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/config.json",
+    "sha256": "13d72a49663b3944dd7b95302353253cece07745ed5578471474feda532919af"
+  },
+  "case": "explicit-inputs",
+  "arguments": [
+    "/nologo",
+    "/Tcpretend.c",
+    "/Tppretend.cpp",
+    "/Topretend.obj",
+    "/ba1",
+    "/bc12",
+    "/bx1.pre",
+    "/?",
+    "/link",
+    "/DEBUG"
+  ],
+  "files": {
+    "stdout": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/stdout.bin",
+      "sha256": "5b8a5b4f29a78454f1a650cb40dc7000b467474006846a241f117352ffb55950"
+    },
+    "stderr": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "state": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/state.json",
+      "sha256": "a0b7756395d886390ecb97a2e6e573d10560219dd5615fc13a5d752abc859731"
+    },
+    "trace": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/trace.txt",
+      "sha256": "c1d69024586b213ae51cc67e412bd73a37e359798e19f40da52ab9574a70965b"
+    },
+    "debugger": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/debugger.txt",
+      "sha256": "b662b4245074dd81e8f1dbb58931d9d041706bc07119f583bb448156f4da8b5f"
+    },
+    "raw:trace-filter.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/trace-filter.txt",
+      "sha256": "42776cb1a62fc38f0ab2121c372807a8ee76ab14fda446553aab6a20277b6f00"
+    },
+    "raw:trace-seen.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/trace-seen.txt",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "raw:exec-wrapper.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/exec-wrapper.py",
+      "sha256": "8fe565f562e96e6dc735df7763442c2e6cec3d2f46e3f338d614ae873356aa56"
+    },
+    "resource_provider": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/resources.bin",
+      "sha256": "77cb3323180d6cf309d20cfa0c5cb10d76874dfc42d36178e2933521879c4eee"
+    },
+    "raw:debugger.txt": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/debugger.txt",
+      "sha256": "b662b4245074dd81e8f1dbb58931d9d041706bc07119f583bb448156f4da8b5f"
+    },
+    "raw:terminal-status.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/terminal-status.bin",
+      "sha256": "8f0a730dd635deccc1abbb229b4bb149195393caedd10e26c2607267fe7e8d1c"
+    },
+    "raw:status_reader.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/status_reader.py",
+      "sha256": "c024324ec793ad97838fbc040b5d6c2873422764441611bd3918d3e0e3397a65"
+    },
+    "raw:native-process.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/native-process.json",
+      "sha256": "f4d9e4eb55957a27f5fec76e3127a3b083de62da1200e8e216c5d30c33143112"
+    },
+    "raw:native-build.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/native-build.json",
+      "sha256": "7d902cbdcbd60858604d96f7b9029c9875086b2c015de6bb41d6be91c0478cfb"
+    },
+    "raw:native_status.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/native_status.py",
+      "sha256": "fdf1eb0fa5783d22b94db7efa9a74de7bdb61b1ad2af54eb04f1faaf909cfd4d"
+    },
+    "raw:gdb_capture.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/gdb_capture.py",
+      "sha256": "dc82481c50011e51978ccd914e76c8c92f6bf7596ee43c8a31fba7bf945fea97"
+    },
+    "raw:gdb-capture.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/gdb-capture.py",
+      "sha256": "5288f4342cebdae77cbfa98a1caaf58d8b341508c861839d8827dbf7dc3a50b5"
+    },
+    "raw:entry-profile.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/entry-profile.json",
+      "sha256": "6cd9b15a4aa06c4f7881fbb970ecb567f17f0baa034dab477fee9ad5ab51d40f"
+    },
+    "raw:mktemp-expected.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/mktemp-expected.json",
+      "sha256": "c8d9bf7143dc979256351b729f409dac5f3e951a56770e2a4132583a77e72295"
+    },
+    "raw:mktemp-receipt.bin": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/mktemp-receipt.bin",
+      "sha256": "51917e17c7fa3a34fa0b78d49992c6c92990167e9d60df194dfb82ac1a706586"
+    },
+    "raw:mktemp_reader.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/mktemp_reader.py",
+      "sha256": "5fb2415fea5b0d1ac7c851a79e3e9594e8b70208232c23882dee3c9fa80b7570"
+    },
+    "raw:native-mktemp-gdb.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/native-mktemp-gdb.json",
+      "sha256": "f5de213d80a91f07e5c4596c54a51cb4824684245ce3487576c313f36dd08bfa"
+    },
+    "raw:native-entry-errors.json": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/native-entry-errors.json",
+      "sha256": "8637302e2e8c63263020e019a2cc09122e542516c1dcd5a41ea051b7c9d7f60d"
+    },
+    "raw:gdb_entry.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/gdb_entry.py",
+      "sha256": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb"
+    },
+    "raw:gdb-entry.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/gdb-entry.py",
+      "sha256": "4043eb8777d7358f69da58aaec647c4043adbc107155d890c43239e0ba387155"
+    },
+    "raw:gdb_mktemp.py": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/gdb_mktemp.py",
+      "sha256": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f"
+    }
+  },
+  "native_build": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/link-arguments-2-native/native-build.json",
+    "sha256": "7d902cbdcbd60858604d96f7b9029c9875086b2c015de6bb41d6be91c0478cfb"
+  }
+}

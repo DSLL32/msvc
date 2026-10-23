@@ -105,7 +105,8 @@
     "_cpp_input",
     "_object_input",
     "_enable_pass",
-    "_set_pass_suffix"
+    "_set_pass_suffix",
+    "_link_arguments"
   ],
   "driver": [
     {

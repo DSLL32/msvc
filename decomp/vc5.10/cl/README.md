@@ -14,8 +14,8 @@ acceptance journal for the measured evidence.
 
 Help, usage, response/options, the genuine minimal-C compile and an intentional
 unknown-option diagnostic and public preprocessor/pass controls are complete.
-There are now 93 accepted application functions /16,056 original extent bytes
-(84.23% of whole `.text`); the non-CRT
+There are now 94 accepted application functions /16,179 original extent bytes
+(84.88% of whole `.text`); the non-CRT
 denominator remains unclassified. The response-file/options/help case adds five driver functions with 56 actual
 entries, its own cached streams/input/trace and a ~31ms native fixture. The compile executes 75
 distinct application entries, produces the exact 275-byte object and `test.c`
@@ -47,10 +47,13 @@ optional leading argument file to `.pre`. A read-only snapshot at the real
 help entry compares all five pass records and their bounded strings/aliases;
 38 mutation controls pass. The native fixture takes about 30 ms, and all six
 cached cases take 1.84 seconds. Explicit C/C++/object input wrappers and their
-shared filename helper are also reconstructed. Their separate forwarding case
-is held at the shared `_mbsstr` implementation; its original already exits via
-help before executing a compiler or linker. No completion credit is claimed
-for that held case or its pending linker-argument handler.
+shared filename helper and linker forwarding are also complete. Their separate
+case exits via help before executing a compiler or linker. Shared revision
+`094d818f` supplies the strictly guarded CP0 ASCII `_mbsstr` call reached by
+multiple-input output naming; no target workaround is used. All seven cached
+native fixtures pass in 1.95 seconds. The forwarding fixture takes about 29 ms,
+including 4 ms execution. Earlier unsupported-API denial evidence is retained
+separately and receives no acceptance credit.
 
 The first extension lookup exposed an incorrect provisional table left unvisited
 by help. The corrected ten extension/category/pass-list records and terminator,

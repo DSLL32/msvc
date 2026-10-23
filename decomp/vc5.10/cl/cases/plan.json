@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "public-pass-completed;explicit-input-shim-held",
+  "state": "macro-language-conflict-active",
   "acceptance_enabled": true,
   "blocked_by": [],
   "themes": [
@@ -85,6 +85,19 @@
       ],
       "source": null,
       "from_vc1": "Authored actual5.10 public grammar: /E generates internalbd/ba, /Bp1 generatesbx; no sourcefile/dependency needed before verifiedhelp."
+    },
+    {
+      "id": "macro-language-conflict",
+      "arguments": [
+        "/nologo",
+        "/D_MT",
+        "/MD",
+        "/TC",
+        "/TP",
+        "/?"
+      ],
+      "source": null,
+      "from_vc1": "Authored public 5.10 macro/default preservation and language-switch conflict; no prior oracle reused."
     }
   ],
   "notes": [
@@ -96,7 +109,7 @@
     "explicit-inputs originalcompletedhelp0, butlowercaseba/bc/bx wereunknown; retain unchanged as input/linkcase, publicpassoptions are separate."
   ],
   "groundwork_capture": "original-probes/host-contract-2/manifest.json",
-  "authorized_case": "preprocessor-pass-options",
+  "authorized_case": "macro-language-conflict",
   "authorized_queue": [
     "help",
     "minimal-c",
@@ -104,7 +117,8 @@
     "usage",
     "unknown-option",
     "explicit-inputs",
-    "preprocessor-pass-options"
+    "preprocessor-pass-options",
+    "macro-language-conflict"
   ],
   "next_case_gate": "Orchestrator approved response-file/options/help followed by diagnostics after minimal compile completion; no new successful dependency boundary authorized.",
   "completed_cases": [
@@ -113,6 +127,7 @@
     "response-options",
     "usage",
     "unknown-option",
-    "preprocessor-pass-options"
+    "preprocessor-pass-options",
+    "explicit-inputs"
   ]
 }

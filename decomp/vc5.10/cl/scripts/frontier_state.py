@@ -62,6 +62,7 @@ PARAMETERS={
  'find_last_separator':[('text','string'),('separators','string')],
  'unlink_option':[('head','option_head'),('option','option')],
  'copy_option':[('option','option')],
+ 'option_conflict':[('id','unsigned'),('old','option'),('replacement','option')],
  'define_macro':[('args','vector'),('index','index_pointer')],
  'link_arguments':[('args','vector'),('index','index_pointer')],
  'c_input':[('args','vector'),('index','index_pointer')],
