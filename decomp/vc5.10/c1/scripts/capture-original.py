@@ -71,8 +71,10 @@ def main():
     parser.add_argument("--name", required=True, help="new scratch case directory name")
     parser.add_argument("--case", choices=("lifecycle", "minimal"), default="lifecycle")
     parser.add_argument("--restore-probe", action="store_true")
+    parser.add_argument("--negative-value", action="store_true", help="labeled negative signed-value auxiliary input")
     args = parser.parse_args()
     assert not args.restore_probe or args.case == "minimal"
+    assert not args.negative_value or args.restore_probe
     assert args.name.replace("-", "").replace("_", "").isalnum()
     checks = preflight()
     output = SCRATCH / "vc5.10/c1" / args.name
@@ -83,6 +85,12 @@ def main():
         probes = field_map.get("output_buffers", [])
         (output / "output-buffers.txt").write_text("".join("%x %x %x\n" %
             (row["original_object_rva"], row["constructor_rva"], row["destructor_rva"]) for row in probes))
+        if args.restore_probe and field_map.get("value_copy"):
+            plan = candidate["restore_probe"]["value_copy"]
+            values = [plan["before_clear_source"], plan["before_clear_cached"],
+                      plan["negative_source" if args.negative_value else "positive_source"], plan["cached_before_copy"]]
+            words = [word for value in values for word in (value & 0xffffffff, (value >> 32) & 0xffffffff)]
+            (output / "value-probe.txt").write_text(" ".join("%x" % word for word in words + [plan["flag_before"]]) + "\n")
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))
@@ -122,7 +130,8 @@ def main():
         assert sha(loaded_crt) == CRT_HASH
     receipt = {"schema": 1, "kind": "explicit-original-capture",
                "candidate_path": "cases/" + args.case + "/candidate.json",
-               "probe": "restore" if args.restore_probe else "normal", "mode": args.mode,
+               "probe": "restore" if args.restore_probe else "normal",
+               "value_copy_sign": ("negative" if args.negative_value else "positive") if args.restore_probe else None, "mode": args.mode,
                "command": command, "cwd": windows(output), "exit": result.returncode,
                "seconds": elapsed, "preflight": checks,
                "target_sha256": sha(TARGET), "canonical_crt_sha256": CRT_HASH,

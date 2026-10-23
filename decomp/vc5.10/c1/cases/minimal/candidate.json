@@ -226,6 +226,11 @@
       "start_rva": 75333,
       "end_rva": 75334,
       "entry": 1
+    },
+    {
+      "start_rva": 75334,
+      "end_rva": 75363,
+      "entry": 1
     }
   ],
   "functions": [
@@ -673,7 +678,20 @@
         ]
       ],
       "source": "src/initializers.c",
-      "status": "sole-new-candidate"
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_12646",
+      "native_symbol": "initialize_state_12646",
+      "role": "application",
+      "chunks": [
+        [
+          75334,
+          75363
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "held-for-value-projection-review"
     }
   ],
   "text_data": [],
@@ -688,8 +706,8 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 75334,
-    "native_symbol": "initialize_state_12646",
+    "rva": 75363,
+    "native_symbol": "initialize_state_12663",
     "kind": "initialization-callback",
     "native_args": [],
     "abi": "cdecl void callback, cleanup0"
@@ -819,9 +837,20 @@
       "mode_base": 165,
       "descriptor_base": 57,
       "normal_case": false
+    },
+    "value_copy": {
+      "before_clear_source": -154024284667738249,
+      "before_clear_cached": 3694171492931080482,
+      "positive_source": 1234605616436508552,
+      "negative_source": -77162851027281784,
+      "cached_before_copy": 6153737367135073092,
+      "flag_before": 165,
+      "flag_after": 1,
+      "entry_rva": 75334,
+      "normal_case": false
     }
   },
-  "staging_role": "initialize_state_12645 is the only new function",
+  "staging_role": "Value-copy callback is sole trial candidate; promotion held for concrete root/orchestrator review",
   "registered_cleanup": [
     {
       "original_rva": 145728,

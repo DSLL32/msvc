@@ -1,8 +1,10 @@
-# Proposed limited projection for callback12646 — not accepted
+# Held value-copy trial12646 — concrete review packet
 
 The callback at RVA12646..12663 sets BYTE55100 to1 and copies24 original
-BSS bytes from518a0..518b8 to55108..55120. The current buffer queue precedes
-this function; it remains a named INT3 stub. No value-copy source is implemented.
+BSS bytes from518a0..518b8 to55108..55120. The buffer queue and empty callback12645 are accepted. The readable trial body
+is compiled in both native and original targets, but remains unaccepted pending
+this concrete review. Durable functions.json still contains30 source functions
+and1788 original bytes; the trial has31 source functions and1817 bytes.
 
 Writer evidence from the canonical C1.DLL:
 
@@ -18,23 +20,22 @@ Writer evidence from the canonical C1.DLL:
 - No direct disassembled reference to518b4 was found. That is insufficient to
   label it padding; all16 bytes beyond the known integer remain UNMODELED.
 
-The proposed reconstructed type contains only `__int64 integer`, with source
+The reconstructed trial type contains only `__int64 integer`, with source
 and cached instances in typed CompilerBss plus the actual availability BYTE.
-The callback’s proposed body preserves flag-before-copy order:
+The callback’s body preserves flag-before-copy order:
 
 ```c
 c1_bss.saved_literal_available = 1;
 c1_bss.saved_literal = c1_bss.literal;
 ```
 
-Proposed original field map (native offsets/sizeof verified from the real builds
-when a trial is authorized, never guessed):
+Original field map and measured native layout (GDB, actual ELF):
 
 | Field | Original RVA | Bytes | Default proof |
 | --- | ---: | ---: | --- |
-| literal.integer | 518a0 | 8 | loaded first BSS raw snapshot |
-| saved_literal.integer | 55108 | 8 | loaded first BSS raw snapshot |
-| saved_literal_available | 55100 | 1 | loaded first BSS raw snapshot |
+| literal.integer | 518a0 | 8 | loaded first BSS raw snapshot; native offset520 |
+| saved_literal.integer | 55108 | 8 | loaded first BSS raw snapshot; native offset528 |
+| saved_literal_available | 55100 | 1 | loaded first BSS raw snapshot; native offset536 |
 
 This is a17-byte semantic refinement, not equivalence of either24-byte object.
 Original source/destination24-byte records are retained in the complete private
@@ -48,15 +49,47 @@ consumes them; CompilerState restore only clears/copies its currently typed
 fields. An unknown consumer, serialization, hash, comparison or external escape
 would require modeling it before that function can be unmasked.
 
-Proposed independent auxiliary proof: seed nonzero signed64 source and a
-different nonzero destination plus a nonzero flag before repeat-pass clearing;
-verify all three fields become zero while the saved allocation is retained.
-At the real callback entry, seed source0x1122334455667788 and a distinct cached
-integer, then execute actual original/native callback bodies and compare cached
-integer, unchanged source and flag1 at the next named trap. Original-only full
-24-byte copying may be observed, but no16-byte native equivalence is claimed.
-Field nonoverlap, object identity, width, signedness, actual copy order, snapshot
-reset/restore and explicit unknown-consumer rejection remain required.
+The actual native value type is8 bytes; CompilerBss is540 bytes. Its513
+modeled original bytes plus27 natural C padding bytes account for that size;
+no original object gap appears as native storage.
+
+Fresh paired evidence lives in `evidence/value-copy-normal/`,
+`evidence/value-copy-positive-aux/` and `evidence/value-copy-negative-aux/`.
+All three pairs reach named INT3 callback12663. Rust audits the exact immutable
+31-function trial (1817 original owned bytes), including the candidate body,
+using published graph-audit90f7ef6d (SHAfc5c81f2...). Actual target/provider
+loaded-file hashes, effective masks, original relocated snapshots, actual ELF,
+compiled-source contents and both complete original24-byte records at every
+boundary are bound in receipts and external artifact manifests.
+
+The normal case copies zero numeric prefixes and sets flag1. The explicitly
+labeled auxiliary probes independently seed source0x1122334455667788 and
+source-0x112233445566778 at the real callback entry, with different cached
+integer0x5566778811223344 and flag165. Genuine original/native callback bodies
+produce the matching signed cached value and flag1, leave source unchanged,
+and preserve every adjacent modeled field, pointer identity and registered
+cleanup callback. Before repeat-pass clearing both probes seed another negative
+source and nonzero cached value/flag, then prove that all three modeled fields
+clear to zero while the saved allocation is retained. Every intervening context
+and buffer-constructor observation also verifies these value fields stay zero.
+The original helper writes only the known8+8+1 bytes; its16-byte tails are never
+seeded or sent to native execution. Full original-to-original24-byte copying is
+checked separately, without any native tail-equivalence claim.
+
+To reproduce validation without Wine, from this binary folder run:
+
+```
+python3 scripts/check-trial.py ~/.ai-tmp/msvc2/vc5.10/c1/minimal-value-normal-001 ~/.ai-tmp/msvc2/vc5.10/c1/native-minimal-value-normal-001
+python3 scripts/check-trial.py ~/.ai-tmp/msvc2/vc5.10/c1/minimal-value-positive-aux-001 ~/.ai-tmp/msvc2/vc5.10/c1/native-minimal-value-positive-aux-001
+python3 scripts/check-trial.py ~/.ai-tmp/msvc2/vc5.10/c1/minimal-value-negative-aux-001 ~/.ai-tmp/msvc2/vc5.10/c1/native-minimal-value-negative-aux-001
+```
+
+Each evidence folder includes generic and focused semantic rejection results.
+The focused controls alter signed high/low words, source/destination/flag,
+width/alias/defaults, actual original copy, seed inputs/order, callback PC,
+neighbor state and the explicit unmodeled-tail/hard-frontier metadata. Raw
+artifacts are rehashed when testing semantics, so rejection is not merely a
+file-hash mismatch. Native regressions remain cached and Wine-free.
 
 Canonical target SHA256:
 7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d.

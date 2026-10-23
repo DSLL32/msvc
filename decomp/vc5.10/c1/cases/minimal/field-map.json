@@ -817,6 +817,33 @@
       "native_offset": 516,
       "default": 0,
       "default_proof": "first raw loaded BSS snapshot; constructor125fd explicitly initializes this field"
+    },
+    {
+      "name": "literal.integer",
+      "original_rva": 333984,
+      "bytes": 8,
+      "native_field": "c1_bss.literal.integer",
+      "native_offset": 520,
+      "default": 0,
+      "default_proof": "actual first loaded BSS snapshot, checked fieldwise; no surrounding-byte default assumed"
+    },
+    {
+      "name": "saved_literal.integer",
+      "original_rva": 348424,
+      "bytes": 8,
+      "native_field": "c1_bss.saved_literal.integer",
+      "native_offset": 528,
+      "default": 0,
+      "default_proof": "actual first loaded BSS snapshot, checked fieldwise; no surrounding-byte default assumed"
+    },
+    {
+      "name": "saved_literal_available",
+      "original_rva": 348416,
+      "bytes": 1,
+      "native_field": "c1_bss.saved_literal_available",
+      "native_offset": 536,
+      "default": 0,
+      "default_proof": "actual first loaded BSS snapshot, checked fieldwise; no surrounding-byte default assumed"
     }
   ],
   "outside_bss": [
@@ -1206,5 +1233,30 @@
       "destructor_rva": 145629,
       "destructor_native_symbol": "destroy_output_buffer_238dd"
     }
-  ]
+  ],
+  "value_copy": {
+    "original_source_rva": 333984,
+    "original_destination_rva": 348424,
+    "original_record_bytes": 24,
+    "modeled_integer_bytes": 8,
+    "unmodeled_tail_bytes": 16,
+    "flag_rva": 348416,
+    "native_literal_offset": 520,
+    "native_saved_offset": 528,
+    "native_flag_offset": 536,
+    "native_value_size": 8,
+    "native_bss_size": 540,
+    "source_writer_rvas": [
+      [
+        12576,
+        12583
+      ],
+      [
+        23852,
+        23897
+      ]
+    ],
+    "hard_frontier_rva": 75363,
+    "policy": "root permits this specific internal transfer subject to concrete source/paired packet review before promotion; tail stays UNMODELED"
+  }
 }

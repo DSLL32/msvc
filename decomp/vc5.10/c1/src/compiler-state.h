@@ -29,6 +29,11 @@ typedef struct CompilerOutputBuffer {
     unsigned char mode;
     int file_descriptor;
 } CompilerOutputBuffer;
+/* Recovered numeric alternative only. Other original value-record members
+ * remain UNMODELED and must be recovered before any semantic consumer. */
+typedef struct CompilerValue {
+    __int64 integer;
+} CompilerValue;
 typedef struct CompilerBss {
     CompilerInitializedState *saved_data;
     int cleanup_count;
@@ -37,6 +42,9 @@ typedef struct CompilerBss {
     CompilerContextState current_context;
     CompilerContextState contexts[6];
     CompilerOutputBuffer output_buffers[8];
+    CompilerValue literal;
+    CompilerValue saved_literal;
+    unsigned char saved_literal_available;
 } CompilerBss;
 extern CompilerInitializedState c1_data;
 extern CompilerBss c1_bss;

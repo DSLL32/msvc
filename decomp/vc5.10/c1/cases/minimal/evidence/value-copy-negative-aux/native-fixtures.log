@@ -1,0 +1,2 @@
+python3 scripts/fixtures.py
+{"case": "dll-lifecycle-and-exports", "status": "PASS", "native_only": true, "seconds": {"setup": 0.0015257662162184715, "execution": 0.0018541030585765839, "checks": 0.00024387706071138382, "total": 0.0040068114176392555}, "application_trace": ["DllMain"], "original_target_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"}

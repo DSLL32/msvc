@@ -22,9 +22,11 @@ def main():
     parser.add_argument("--name", required=True)
     parser.add_argument("--case", choices=("lifecycle", "minimal"), default="lifecycle")
     parser.add_argument("--restore-probe", action="store_true")
+    parser.add_argument("--negative-value", action="store_true", help="labeled negative signed-value auxiliary input")
     parser.add_argument("--reuse-build-from", type=Path, help="prior verified capture of the same ELF and owned sources")
     args = parser.parse_args()
     assert not args.restore_probe or args.case == "minimal"
+    assert not args.negative_value or args.restore_probe
     assert args.name.replace("-", "").replace("_", "").isalnum()
     output = SCRATCH / args.name
     output.mkdir(parents=True, exist_ok=False)
@@ -85,7 +87,7 @@ value['module_token']=int(gdb.parse_and_eval('(unsigned int)c1_host_module'))
 value['compiler_state']={
  'live_addresses':{'initialized':int(gdb.parse_and_eval('(unsigned int)&c1_data')),'bss':int(gdb.parse_and_eval('(unsigned int)&c1_bss'))},
  'initialized':{'first_call':int(gdb.parse_and_eval('c1_data.first_call'))},
- 'bss':{'saved_data':int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data')),
+ 'bss':{'literal':int(gdb.parse_and_eval('c1_bss.literal.integer')),'saved_literal':int(gdb.parse_and_eval('c1_bss.saved_literal.integer')),'saved_literal_available':int(gdb.parse_and_eval('c1_bss.saved_literal_available')),'saved_data':int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data')),
         'cleanup_count':int(gdb.parse_and_eval('c1_bss.cleanup_count')),
         'cleanup_callbacks':[int(gdb.parse_and_eval('(unsigned int)c1_bss.cleanup_callbacks[%%d]'%%i)) for i in range(32)],
         'context':{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.context.'+key)) for key in ('object','value','saved_frame')},
@@ -97,6 +99,7 @@ value['compiler_state']={
  'pass_mode':int(gdb.parse_and_eval('c1_pass_mode')),
  'initialization_callbacks':[int(gdb.parse_and_eval('(unsigned int)c1_initialization_callbacks[%%d]'%%i)) for i in range(34)],
  'native_layout':{'initialized_size':int(gdb.parse_and_eval('sizeof(c1_data)')),'bss_size':int(gdb.parse_and_eval('sizeof(c1_bss)')),
+ 'literal':int(gdb.parse_and_eval('(char*)&c1_bss.literal-(char*)&c1_bss')),'saved_literal':int(gdb.parse_and_eval('(char*)&c1_bss.saved_literal-(char*)&c1_bss')),'saved_literal_available':int(gdb.parse_and_eval('(char*)&c1_bss.saved_literal_available-(char*)&c1_bss')),'value_size':int(gdb.parse_and_eval('sizeof(c1_bss.literal)')),
  'first_call':int(gdb.parse_and_eval('(char*)&c1_data.first_call-(char*)&c1_data')),
  'saved_data':int(gdb.parse_and_eval('(char*)&c1_bss.saved_data-(char*)&c1_bss')),
  'cleanup_count':int(gdb.parse_and_eval('(char*)&c1_bss.cleanup_count-(char*)&c1_bss')),
@@ -182,6 +185,7 @@ for i in range(6):
     gdb.execute('set var c1_bss.contexts[%%d].value = %%d'%%(i,31+i))
     gdb.execute('set var c1_bss.contexts[%%d].saved_frame = (void *)c1_bss.saved_data'%%i)
 for i in range(BUFFER_COUNT): seed_output_buffer(i)
+VALUE_BEFORE_CLEAR
 gdb.execute('set var c1_pass_mode = 1')
 gdb.execute('set var c1_reuse_state = 9')
 restore_observations['before']=capture_modeled()
@@ -222,6 +226,7 @@ restore_observations['before_contexts_callback']=capture_modeled()
 restore_observations['contexts_callback_pc']=int(gdb.parse_and_eval('$pc'))
 end
 BUFFER_CONSTRUCTOR_PROBES
+VALUE_CALLBACK_PROBE
 python
 open(%r,'w').write(json.dumps(restore_observations,indent=2)+'\\n')
 end
@@ -232,6 +237,14 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
             buffer_probes.append("break %s\ncontinue\npython\nseed_output_buffer(%d)\nrestore_observations['buffer_constructors'][%r]={'before':capture_modeled(),'pc':int(gdb.parse_and_eval('$pc'))}\nend" %
                                  (model["constructor_native_symbol"], index, str(rva)))
         setup = setup.replace("BUFFER_CONSTRUCTOR_PROBES", "\n".join(buffer_probes))
+        value_plan = candidate["restore_probe"]["value_copy"]
+        def seed_value(source, cached):
+            return "\n".join("gdb.execute(%r)" % ("set var c1_bss." + field + " = " + str(value))
+                             for field, value in [("literal.integer", source), ("saved_literal.integer", cached),
+                                                  ("saved_literal_available", value_plan["flag_before"])])
+        setup = setup.replace("VALUE_BEFORE_CLEAR", seed_value(value_plan["before_clear_source"], value_plan["before_clear_cached"]))
+        value_probe = "break initialize_state_12646\ncontinue\npython\n" + seed_value(value_plan["negative_source" if args.negative_value else "positive_source"], value_plan["cached_before_copy"]) + "\nrestore_observations['before_value_copy']=capture_modeled()\nrestore_observations['value_copy_pc']=int(gdb.parse_and_eval('$pc'))\nend"
+        setup = setup.replace("VALUE_CALLBACK_PROBE", value_probe)
         commands = commands.replace("run\nbt\npython", setup + "\nbt\npython", 1)
     commands = commands.replace("BUFFER_COUNT", str(len(buffer_models)))
     (output / "commands.gdb").write_text(commands)
@@ -261,7 +274,8 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
             (output / target).write_bytes((PROJECT / "build" / source).read_bytes())
     receipt = {"schema": 1, "kind": "native-gdb-frontier",
                "candidate_path": "cases/" + args.case + "/candidate.json",
-               "probe": "restore" if args.restore_probe else "normal", "seconds": elapsed,
+               "probe": "restore" if args.restore_probe else "normal",
+               "value_copy_sign": ("negative" if args.negative_value else "positive") if args.restore_probe else None, "seconds": elapsed,
                "native_sha256": binary_sha, "build_source_reuse": source_reuse,
                "rebuilt_sha256": sha(PROJECT / "build/c1.dll"),
                "candidate_sha256": sha(output / "candidate.json"),

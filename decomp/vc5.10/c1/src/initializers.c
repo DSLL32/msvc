@@ -91,7 +91,8 @@ void __cdecl initialize_state_12645(void)
 
 void __cdecl initialize_state_12646(void)
 {
-    __asm { int 3 }
+    c1_bss.saved_literal_available = 1;
+    c1_bss.saved_literal = c1_bss.literal;
 }
 
 void __cdecl initialize_state_12663(void)
