@@ -9,6 +9,11 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
+    ("_source_replay_stack",0x5b574,4),
+    ("_source_buffer_cursor",0x6bffc,4),
+    ("_pch_dependency_stack",0x6de18,4),
+    ("_pch_event_buffer",0x5b56c,4),
+    ("_pch_rebuild_reason",0x6de2c,4),
     ('_unprintable_declaration_type', 0x6d9e8, 4),
     ('_declaration_text_is_function', 0x6d9f0, 4),
     ('_declaration_text_pool', 0x5fd10, 512),
@@ -292,7 +297,7 @@ def read(image, address, size):
 
 forward, backward = {}, {}
 def check(name, old, new, size):
-    if name == '_source_filename':
+    if name in ('_source_filename','_source_buffer_cursor'):
         assert struct.unpack('<I', read(original, old, 4))[0] == 0x5d5bc
         assert struct.unpack('<I', read(rebuilt, new, 4))[0] == names['_token_buffer']
     elif name == '_debug_index_cursor':

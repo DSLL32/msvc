@@ -32,3 +32,12 @@ fixture runs never invoke that debugger, Wine or any original target.
 Each of the three frontend phases passes two independent untouched original
 runs with pinned mtimes and stdio alias. This family follows prototypes in the
 approved queue; source bodies are reconstructed only as their frontiers are met.
+
+Intermediate checkpoint:813 accepted entries /702 source functions. Twelve
+fresh producer observations match through candidate validation, event capture,
+conditional spelling/replay and include dependency records; the current named
+frontier is pch_file_mtime at0x45350. Original build/graph/grammar audits and279
+state aliases/defaults pass, together with all fifteen completed native cases.
+The original status consumer establishes that this helper reads st_mtime at
++28 in the36-byte CRT _stat record. Shared native support is being extended;
+this checkpoint does not yet claim completion of any automatic-PCH phase.

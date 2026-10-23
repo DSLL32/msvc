@@ -381,10 +381,108 @@
       }
     }
   },
-  "status": "original CL capture and two independent original C1 replays raw exact; approved queued case",
+  "status": "active reconstruction; original-backed producer reaches file-mtime helper at813accepted entries",
   "capture": {
     "provenance": "Untouched CL child _spawnvpe transport captured in C1 private scratch/prefix; helper source read-only from CL. C2/LINK references are not queued.",
     "helper_source": "decomp/vc1.0/cl/src/capture-run.c"
   },
-  "input_metadata_provenance": "Automatic PCH records header mtime as a32-bit Unix-second value: original capture0x6adafe16 equals case.h mtime. Recreating inputs at a later mtime changed only that byte range in state.pch. Preserve captured input mtimes; no output normalization."
+  "input_metadata_provenance": "Automatic PCH records header mtime as a32-bit Unix-second value: original capture0x6adafe16 equals case.h mtime. Recreating inputs at a later mtime changed only that byte range in state.pch. Preserve captured input mtimes; no output normalization.",
+  "reconstruction": {
+    "accepted_from": 802,
+    "accepted_count": 813,
+    "acceptance_order": [
+      "_begin_automatic_pch",
+      "_begin_pch_rebuild",
+      "_write_pch_record_header",
+      "_process_pch_string_event@12",
+      "_pch_record_string",
+      "_capture_directive_text",
+      "_pch_find_conditional",
+      "_write_pch_event_stack@12",
+      "_replay_pch_directive",
+      "_pch_resolve_condition@4",
+      "_pch_record_include@4"
+    ],
+    "frontier_observations": [
+      {
+        "accepted_count": 802,
+        "logical": "_begin_automatic_pch",
+        "original_receipt": "evidence/create-frontier-802-original.receipt.json",
+        "native_receipt": "evidence/create-frontier-802-native.receipt.json"
+      },
+      {
+        "accepted_count": 803,
+        "logical": "_begin_pch_rebuild",
+        "original_receipt": "evidence/create-frontier-803-original.receipt.json",
+        "native_receipt": "evidence/create-frontier-803-native.receipt.json"
+      },
+      {
+        "accepted_count": 804,
+        "logical": "_write_pch_record_header",
+        "original_receipt": "evidence/create-frontier-804-original.receipt.json",
+        "native_receipt": "evidence/create-frontier-804-native.receipt.json"
+      },
+      {
+        "accepted_count": 805,
+        "logical": "_process_pch_string_event@12",
+        "original_receipt": "evidence/create-frontier-805-original.receipt.json",
+        "native_receipt": "evidence/create-frontier-805-native.receipt.json"
+      },
+      {
+        "accepted_count": 806,
+        "logical": "_pch_record_string",
+        "original_receipt": "evidence/create-frontier-806-original.receipt.json",
+        "native_receipt": "evidence/create-frontier-806-native.receipt.json"
+      },
+      {
+        "accepted_count": 807,
+        "logical": "_capture_directive_text",
+        "original_receipt": "evidence/create-frontier-807-original.receipt.json",
+        "native_receipt": "evidence/create-frontier-807-native.receipt.json"
+      },
+      {
+        "accepted_count": 808,
+        "logical": "_pch_find_conditional",
+        "original_receipt": "evidence/create-frontier-808-original.receipt.json",
+        "native_receipt": "evidence/create-frontier-808-native.receipt.json"
+      },
+      {
+        "accepted_count": 809,
+        "logical": "_write_pch_event_stack@12",
+        "original_receipt": "evidence/create-frontier-809-original.receipt.json",
+        "native_receipt": "evidence/create-frontier-809-native.receipt.json"
+      },
+      {
+        "accepted_count": 810,
+        "logical": "_replay_pch_directive",
+        "original_receipt": "evidence/create-frontier-810-original.receipt.json",
+        "native_receipt": "evidence/create-frontier-810-native.receipt.json"
+      },
+      {
+        "accepted_count": 811,
+        "logical": "_pch_resolve_condition@4",
+        "original_receipt": "evidence/create-frontier-811-original.receipt.json",
+        "native_receipt": "evidence/create-frontier-811-native.receipt.json"
+      },
+      {
+        "accepted_count": 812,
+        "logical": "_pch_record_include@4",
+        "original_receipt": "evidence/create-frontier-812-original.receipt.json",
+        "native_receipt": "evidence/create-frontier-812-native.receipt.json"
+      },
+      {
+        "accepted_count": 813,
+        "logical": "_pch_file_mtime@4",
+        "original_receipt": "evidence/create-frontier-813-original.receipt.json",
+        "native_receipt": "evidence/create-frontier-813-native.receipt.json"
+      }
+    ],
+    "current_frontier": {
+      "logical": "_pch_file_mtime@4",
+      "original_va": 283472
+    },
+    "logical_renames": {
+      "_pch_macro_defined@4": "_pch_file_mtime@4"
+    }
+  }
 }

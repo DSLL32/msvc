@@ -105,7 +105,8 @@ def run_case(name, executable, directory, traces=None, dependency=None):
     for item in phase['inputs']:
         data = captured(fixture/item['path'], item)
         basename = Path(item['path']).name
-        if name == 'pch-use' and basename == 'state.pch':
+        generated_input = phase.get('generated_input_dependency')
+        if (name == 'pch-use' and basename == 'state.pch') or (generated_input and basename == generated_input['input_name']):
             assert dependency is not None, 'PCH consumer requires actual producer output'
             generated = dependency.read_bytes()
             assert generated == data, 'generated PCH differs from captured dependency'

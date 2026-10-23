@@ -1,0 +1,48 @@
+{
+  "buffers": {
+    "expression_file": "00",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "1186032e1d30016900000000",
+    "debug_file": null,
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "capture_directive_text",
+    "preprocess_directive",
+    "begin_source_line",
+    "scan_source_token",
+    "scan_token",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "frontier": "capture_directive_text",
+  "pc": 1448840500,
+  "label_stack_count": 0,
+  "scanner_flags": 65536,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_capture_directive_text",
+  "fresh_original_match": true,
+  "preparation_seconds": 0.003651505336165428,
+  "execution_seconds": 0.14557256177067757,
+  "total_seconds": 0.15153233148157597,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -YXcase.h -Fpstate.pch -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_N": "/root/.ai-tmp/vc1.0-c1/automatic-pch-c1-create-native-807",
+    "RECON_CANONICAL_CWD": "N:\\auto-pch"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); automatic-PCH status writes via C1 stderr observed on CL stdout. Preserve descriptor alias without output normalization."
+  },
+  "executable_sha256": "e302417a5c1561e60d5abef74397686ee42b271bbaedabf71c088cf8d8764845"
+}

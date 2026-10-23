@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "cb8e50d7049ea3eddd4df76ae8eb6e74e149bd4ceb5d7ecf72e4b85b13756f7e",
+    "functions.json": "5e73a4d1cf93def445659084394df9ad933b2f9c82eadde28a6b02499100cc79",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "23225f8bee9fcc6f6e2fa42aaba4516d88d8cf3d0eb9eb688b8ae05a21f388ea"
+    "sha256": "c18740bbd5f4a0135a912b6eb32e006fcf32eeb61fe6376518a837e83e30930c"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -275,7 +275,7 @@
     },
     "begin_automatic_pch": {
       "logical": "_begin_automatic_pch",
-      "source": "src/stubs.c"
+      "source": "src/pch-auto.c"
     },
     "begin_browser_output": {
       "logical": "_begin_browser_output",
@@ -332,6 +332,10 @@
     "begin_parameter_list": {
       "logical": "_begin_parameter_list@4",
       "source": "src/parser.c"
+    },
+    "begin_pch_rebuild": {
+      "logical": "_begin_pch_rebuild",
+      "source": "src/pch-auto.c"
     },
     "begin_program_database": {
       "logical": "_begin_program_database",
@@ -447,7 +451,7 @@
     },
     "capture_directive_text": {
       "logical": "_capture_directive_text",
-      "source": "src/stubs.c"
+      "source": "src/preprocessor-directives.c"
     },
     "change_function_reference_kind": {
       "logical": "_change_function_reference_kind@8",
@@ -636,6 +640,10 @@
     "compare_prototype_parameter_types": {
       "logical": "_compare_prototype_parameter_types@8",
       "source": "src/stubs.c"
+    },
+    "compare_work_stack": {
+      "logical": "_compare_work_stack@12",
+      "source": "src/pch-auto.c"
     },
     "compatible_base_type_flags": {
       "logical": "_compatible_base_type_flags@8",
@@ -2341,17 +2349,17 @@
       "logical": "_parse_translation_unit",
       "source": "src/parser.c"
     },
-    "pch_find_conditional": {
-      "logical": "_pch_find_conditional",
+    "pch_file_mtime": {
+      "logical": "_pch_file_mtime@4",
       "source": "src/stubs.c"
     },
-    "pch_macro_defined": {
-      "logical": "_pch_macro_defined@4",
-      "source": "src/stubs.c"
+    "pch_find_conditional": {
+      "logical": "_pch_find_conditional",
+      "source": "src/pch-auto.c"
     },
     "pch_record_include": {
       "logical": "_pch_record_include@4",
-      "source": "src/stubs.c"
+      "source": "src/pch-auto.c"
     },
     "pch_record_macro": {
       "logical": "_pch_record_macro@12",
@@ -2359,7 +2367,7 @@
     },
     "pch_record_string": {
       "logical": "_pch_record_string",
-      "source": "src/stubs.c"
+      "source": "src/pch-auto.c"
     },
     "pch_replay_mismatch": {
       "logical": "_pch_replay_mismatch",
@@ -2367,7 +2375,7 @@
     },
     "pch_resolve_condition": {
       "logical": "_pch_resolve_condition@4",
-      "source": "src/stubs.c"
+      "source": "src/pch-auto.c"
     },
     "pch_skip_include": {
       "logical": "_pch_skip_include@4",
@@ -2591,7 +2599,7 @@
     },
     "process_pch_string_event": {
       "logical": "_process_pch_string_event@12",
-      "source": "src/stubs.c"
+      "source": "src/pch-auto.c"
     },
     "process_pragma": {
       "logical": "_process_pragma",
@@ -2872,6 +2880,10 @@
     "replace_outer_type_shape": {
       "logical": "_replace_outer_type_shape@16",
       "source": "src/types.c"
+    },
+    "replay_pch_directive": {
+      "logical": "_replay_pch_directive",
+      "source": "src/pch-auto.c"
     },
     "report_asm_expected_token": {
       "logical": "_report_asm_expected_token@8",
@@ -3451,7 +3463,7 @@
     },
     "write_pch_event_stack": {
       "logical": "_write_pch_event_stack@12",
-      "source": "src/stubs.c"
+      "source": "src/pch-auto.c"
     },
     "write_pch_pages": {
       "logical": "_write_pch_pages",
@@ -3459,7 +3471,7 @@
     },
     "write_pch_record_header": {
       "logical": "_write_pch_record_header",
-      "source": "src/stubs.c"
+      "source": "src/pch-auto.c"
     },
     "write_pdb_member": {
       "logical": "_write_pdb_member",
@@ -4154,7 +4166,18 @@
     "build_storage_text",
     "append_storage_attributes",
     "end_declaration_text",
-    "skip_declaration_tokens"
+    "skip_declaration_tokens",
+    "begin_automatic_pch",
+    "begin_pch_rebuild",
+    "write_pch_record_header",
+    "process_pch_string_event",
+    "pch_record_string",
+    "capture_directive_text",
+    "pch_find_conditional",
+    "write_pch_event_stack",
+    "replay_pch_directive",
+    "pch_resolve_condition",
+    "pch_record_include"
   ],
   "excluded_accepted": {
     "CRT": [

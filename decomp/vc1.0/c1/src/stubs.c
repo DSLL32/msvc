@@ -42,7 +42,7 @@ void __stdcall grow_vector(Vector *vector) { __asm { int 3 } }
 /* Original 0x213f0. */
 
 /* Original 0x45880. */
-void begin_automatic_pch(void) { __asm { int 3 } }
+
 
 /* Original 0x47450. */
 
@@ -438,13 +438,13 @@ void __stdcall cache_parameter_bytes(FrontendSymbol *symbol) { __asm { int 3 } }
 
 
 
-void capture_directive_text(void) { __asm { int 3 } }
-
-int pch_find_conditional(void) { __asm { int 3 } return 0; }
 
 
 
-int __stdcall pch_resolve_condition(int condition) { __asm { int 3 } return 0; }
+
+
+
+
 
 
 
@@ -458,10 +458,10 @@ void warn_ignored_token(void) { __asm { int 3 } }
 
 
 
-void __stdcall pch_record_include(char *name_end) { __asm { int 3 } }
 
-void pch_record_string(unsigned kind, unsigned value, char *text) { __asm { int 3 } }
-int __stdcall pch_macro_defined(char *name) { __asm { int 3 } return 0; }
+
+
+int __stdcall pch_file_mtime(char *name) { __asm { int 3 } return 0; }
 int pch_replay_mismatch(void) { __asm { int 3 } return 0; }
 
 
@@ -615,7 +615,7 @@ void __stdcall report_type_conflict(unsigned code, FrontendSymbol *symbol, char 
 
 int __stdcall is_function_pointer_type(CType *type) { __asm { int 3 } return 0; }
 
-int __stdcall process_pch_string_event(unsigned kind, unsigned value, char *text) { __asm { int 3 } return 0; }
+
 
 
 
@@ -867,7 +867,7 @@ void begin_browser_pch_record(void) { __asm { int 3 }  }
 
 
 
-unsigned __stdcall write_pch_event_stack(WorkingStack *stack, FILE *file, unsigned *checksum) { __asm { int 3 } return 0; }
+
 
 
 
@@ -933,4 +933,3 @@ void restore_pch_separate_debug(void) { __asm { int 3 } }
 
 
 /* Original0x44e40. */
-void write_pch_record_header(unsigned kind, unsigned value, unsigned bytes) { __asm { int 3 } }

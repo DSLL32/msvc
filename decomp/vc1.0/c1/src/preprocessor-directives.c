@@ -8,6 +8,7 @@
 #include "lexer.h"
 #include "parser.h"
 #include "control-ir.h"
+#include "literal-names.h"
 #include <recon.h>
 
 /* Conditional-compilation state, shared with source/include restoration. */
@@ -810,4 +811,40 @@ void undefine_source_macro(void)
     if (previous) previous->next = definition->next;
     else *bucket = definition->next;
     if (browser_filename) browser_macro_reference(definition);
+}
+
+/* Original0x202c0..0x2039d; dispatch data0x203a0..0x203c3.
+   Save directive spelling with collapsed space outside quoted text, retaining
+   escapes and the newline for automatic-PCH conditional dependency matching. */
+void capture_directive_text(void)
+{
+    unsigned char character = skip_directive_space();
+    int quote = 0;
+    reset_work_stack(pch_dependency_stack);
+    for (;;) {
+        switch (character_class[character]) {
+        case CC_SPACE: case CC_CARRIAGE_RETURN:
+space:
+            if (quote) break;
+            character = skip_directive_space();
+            if (character_class[character] != CC_NEWLINE)
+                put_initializer_byte(' ',pch_dependency_stack);
+            continue;
+        case CC_SLASH:
+            if (skip_source_comment()) goto space;
+            break;
+        case CC_ESCAPE_OR_END:
+            put_initializer_byte((signed char)character,pch_dependency_stack);
+            character = (unsigned char)*source_text_cursor++;
+            break;
+        case CC_NEWLINE:
+            put_initializer_byte((signed char)character,pch_dependency_stack);
+            --source_text_cursor;
+            return;
+        case CC_APOSTROPHE: quote = quote == 2 ? 0 : 2; break;
+        case CC_QUOTE: quote = quote == 1 ? 0 : 1; break;
+        }
+        put_initializer_byte((signed char)character,pch_dependency_stack);
+        character = (unsigned char)*source_text_cursor++;
+    }
 }

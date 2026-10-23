@@ -44,7 +44,7 @@ int __stdcall pch_skip_include(char *filename)
             pch_record_cursor = (PchRecord *)((char *)(pch_record_cursor + 1) +
                                             pch_record_cursor->payload_bytes);
             if (pch_record_cursor->kind != 5) return 1;
-            if (pch_macro_defined((char *)(pch_record_cursor + 1)) != pch_record_cursor->value) {
+            if (pch_file_mtime((char *)(pch_record_cursor + 1)) != pch_record_cursor->value) {
                 pch_macro_changed = 1;
                 if (pch_rebuild_on_macro_change) return pch_replay_mismatch();
             }

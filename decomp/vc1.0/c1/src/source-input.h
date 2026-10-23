@@ -40,4 +40,5 @@ void browser_include_begin(void);
 void browser_open_file(void);
 void browser_close_file(void);
 void report_ide_file_end(void);
+extern WorkingStack *source_replay_stack;
 #endif

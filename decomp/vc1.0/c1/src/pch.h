@@ -15,7 +15,7 @@ extern unsigned short pch_include_page_count;
 extern int pch_macro_changed, pch_rebuild_on_macro_change;
 void pch_record_string(unsigned kind, unsigned value, char *text);
 int __stdcall process_pch_string_event(unsigned kind, unsigned value, char *text);
-int __stdcall pch_macro_defined(char *name);
+int __stdcall pch_file_mtime(char *name);
 int pch_replay_mismatch(void);
 extern PchSettingsImage saved_pch_settings;
 extern PchCompilerImage pch_compiler_image;
@@ -29,7 +29,7 @@ extern int default_thread_storage;
 short __stdcall vector_count(Vector *vector);
 Vector *__stdcall copy_vector(Vector *source, int arena,
                               void *(__stdcall *copy_item)(void *, int));
-unsigned __stdcall write_pch_event_stack(WorkingStack *stack, FILE *file, unsigned *checksum);
+unsigned short __stdcall write_pch_event_stack(WorkingStack *stack, FILE *file, WorkingStack *destination);
 void declare_pch_debug_library(void);
 void finish_pch_debug_symbols(void);
 void begin_browser_pch_record(void);
@@ -49,4 +49,10 @@ void __stdcall restore_pch_browser_name(char *filename);
 void __stdcall restore_pch_debug_state(char *object_name);
 void __stdcall reference_pch_debug_library(char *name);
 void restore_pch_separate_debug(void);
+extern WorkingStack *pch_dependency_stack;
+extern PchRecord *pch_event_buffer;
+extern char *pch_rebuild_reason;
+void begin_pch_rebuild(void);
+void replay_pch_directive(void);
+int __stdcall compare_work_stack(WorkingStack *stack, void *bytes, unsigned count);
 #endif

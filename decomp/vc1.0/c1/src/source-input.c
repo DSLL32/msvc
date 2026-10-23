@@ -17,6 +17,7 @@ int source_handle = -1; /* original 0x6a7d8 */
    occupy subsequent windows until an include needs that portion. */
 char source_storage[3 * 4099]; /* original first guard at 0x60838 */
 char *source_text_cursor; /* original 0x5b14c */
+WorkingStack *source_replay_stack; /* original0x5b574, distinct from compiler_stack */
 unsigned source_line_number; /* original 0x5b238 */
 int conditional_depth = -1; /* original 0x6bf74 */
 long browser_saved_position; /* original 0x6ddfc */
@@ -29,7 +30,7 @@ int __stdcall open_source_file(char *filename, int mode)
     char *buffer, *cursor;
     long offset;
     if (mode == 2)
-        reset_work_stack(compiler_stack);
+        reset_work_stack(source_replay_stack);
     else if (!filename)
         source_handle = _fileno(stdin);
     else {
@@ -87,7 +88,7 @@ int __stdcall open_source_file(char *filename, int mode)
                 parent->buffer[0x1000] = 0;
             }
             if (parent->input_kind == 2)
-                seek_work_stack(compiler_stack, offset, 0);
+                seek_work_stack(source_replay_stack, offset, 0);
             else
                 _lseek(parent->handle, offset, 0);
         }
@@ -173,7 +174,7 @@ int fill_source_buffer(void)
     buffer[-2] = cursor[-3];
     source_text_cursor = buffer;
     if (input->input_kind)
-        bytes = read_work_stack(compiler_stack, buffer, input->capacity);
+        bytes = read_work_stack(source_replay_stack, buffer, input->capacity);
     else
         bytes = _read(source_handle, buffer, input->capacity);
     input = active_input;

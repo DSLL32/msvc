@@ -806,7 +806,18 @@
     "_build_storage_text@8",
     "_append_storage_attributes@8",
     "_end_declaration_text",
-    "_skip_declaration_tokens"
+    "_skip_declaration_tokens",
+    "_begin_automatic_pch",
+    "_begin_pch_rebuild",
+    "_write_pch_record_header",
+    "_process_pch_string_event@12",
+    "_pch_record_string",
+    "_capture_directive_text",
+    "_pch_find_conditional",
+    "_write_pch_event_stack@12",
+    "_replay_pch_directive",
+    "_pch_resolve_condition@4",
+    "_pch_record_include@4"
   ],
   "driver": [
     {
@@ -1013,7 +1024,7 @@
     {
       "name": "_begin_automatic_pch",
       "start": 284800,
-      "end": 284801
+      "end": 285492
     },
     {
       "name": "_begin_debug_info",
@@ -2772,12 +2783,18 @@
     {
       "name": "_capture_directive_text",
       "start": 131776,
-      "end": 131777
+      "end": 131998,
+      "shared": [
+        [
+          132000,
+          132036
+        ]
+      ]
     },
     {
       "name": "_pch_find_conditional",
       "start": 283136,
-      "end": 283137
+      "end": 283466
     },
     {
       "name": "_evaluate_preprocessor_expression",
@@ -2792,7 +2809,7 @@
     {
       "name": "_pch_resolve_condition@4",
       "start": 282960,
-      "end": 282961
+      "end": 283053
     },
     {
       "name": "_skip_inactive_directives@4",
@@ -2862,15 +2879,15 @@
     {
       "name": "_pch_record_include@4",
       "start": 283808,
-      "end": 283809
+      "end": 283833
     },
     {
       "name": "_pch_record_string",
       "start": 282240,
-      "end": 282241
+      "end": 282304
     },
     {
-      "name": "_pch_macro_defined@4",
+      "name": "_pch_file_mtime@4",
       "start": 283472,
       "end": 283473
     },
@@ -3352,7 +3369,7 @@
     {
       "name": "_process_pch_string_event@12",
       "start": 282304,
-      "end": 282305
+      "end": 282499
     },
     {
       "name": "_select_macro_argument@4",
@@ -4562,7 +4579,7 @@
     {
       "name": "_write_pch_event_stack@12",
       "start": 172192,
-      "end": 172193
+      "end": 172323
     },
     {
       "name": "_vector_count@4",
@@ -5196,7 +5213,7 @@
     {
       "name": "_write_pch_record_header",
       "start": 282176,
-      "end": 282177
+      "end": 282227
     },
     {
       "name": "_new_declaration_text",
@@ -5303,6 +5320,21 @@
       "name": "_append_storage_attributes@8",
       "start": 272512,
       "end": 272685
+    },
+    {
+      "name": "_begin_pch_rebuild",
+      "start": 283840,
+      "end": 284126
+    },
+    {
+      "name": "_replay_pch_directive",
+      "start": 283056,
+      "end": 283134
+    },
+    {
+      "name": "_compare_work_stack@12",
+      "start": 172336,
+      "end": 172337
     }
   ],
   "cases": {
