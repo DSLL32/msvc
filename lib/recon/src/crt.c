@@ -2121,23 +2121,29 @@ WEAK WCHAR *recon_wcscat(WCHAR *out,const WCHAR *text)
 }
 WEAK int recon_swprintf(WCHAR *out,const WCHAR *format,...)
 {
-    static const WCHAR line_format[]={'#','l','i','n','e',' ','%','d','\r','\n',0};
+    static const WCHAR line_prefix[]={'#','l','i','n','e',' ','%','d'};
+    const WCHAR *suffix;
     WCHAR digits[10],*end=out;
     unsigned value,n=0,i;
     int number;
     va_list args;
     if (!out || !format || recon_lc_handle[2] || recon_lc_codepage)
         recon_unsupported("legacy UTF16 swprintf outside default-C scope");
-    for (i=0;i<sizeof(line_format)/sizeof(line_format[0]);++i)
-        if (format[i]!=line_format[i])
+    for (i=0;i<sizeof(line_prefix)/sizeof(line_prefix[0]);++i)
+        if (format[i]!=line_prefix[i])
             recon_unsupported("unreviewed legacy UTF16 swprintf format");
+    if (!((format[8]==' ' && !format[9]) ||
+          (format[8]=='\r' && format[9]=='\n' && !format[10])))
+        recon_unsupported("unreviewed legacy UTF16 swprintf suffix");
+    suffix=format+8;
     va_start(args,format);number=va_arg(args,int);va_end(args);
-    for (i=0;i<6;++i) *end++=line_format[i];
+    for (i=0;i<6;++i) *end++=format[i];
     value=(unsigned)number;
     if (number<0) { *end++='-';value=0u-value; }
     do { digits[n++]=(WCHAR)('0'+value%10);value/=10; } while (value);
     while (n) *end++=digits[--n];
-    *end++='\r';*end++='\n';*end=0;
+    while (*suffix) *end++=*suffix++;
+    *end=0;
     return (int)(end-out);
 }
 WEAK int recon_iswctype(WCHAR character,WCHAR mask)

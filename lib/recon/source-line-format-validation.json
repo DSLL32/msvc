@@ -1,0 +1,38 @@
+{
+  "scope": "Second encountered exact legacy UTF16 swprintf template L\"#line %d \" alongside previously proved CRLF form; default-C signed32/sufficient-capacity only, unknown grammar/locales denied.",
+  "original": {
+    "bounded_receipt": "/root/.ai-tmp/msvc2/vc5.10/rcdll/source-line-format-probe-original-01/receipt.json",
+    "bounded_receipt_sha256": "a45d08005703b45c2783f37baf2de89d16172e565c0599cdb168e6df1563af18",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "proof": "Actual loaded CRT/probe hFiles verified,24 signed32 boundary/error sentinel rows/full25x8196B buffers; independently verified every raw inventory hash/text/NUL/untouchedtail.",
+    "record": "tests/source-line-format-original.json",
+    "actual_events": "/root/.ai-tmp/msvc2/vc5.10/rcdll/emit-line-trial-original-01/events.txt",
+    "actual_events_sha256": "6b72b821bac9a41411b91076b643a3fed611f6b9d2df2815b9deaf1b3d09be6c",
+    "actual_contract": "Exact20-byte template/#line1space/argument1/result8;1024B destination before/after retains bytes18..1023, errno0/Last0 unchanged; next write(dest,16,1,outputFILE) ownership/formals retained."
+  },
+  "implementation": "Validate all8 prefix WCHARs then exactlyspace/NUL orCRLF/NUL. Reuse actual signed32 conversion, copy actual validated suffix and NUL. Unknown formats/locales/NULL output fail. No host wchar32 formatter or cached final output.",
+  "checks": {
+    "gcc_clang": "OldCRLF24 rows/all25buffers+4 denials and newspace24 rows/all25buffers+6 denials pass independently for both compilers.",
+    "immutable_binaries": {
+      "gcc-new": "c69d5daffaecff00e738a3593cb3dab3612666f59ac481f8a18658bbdac94a65",
+      "gcc-old": "3af760affc02b0c483f4439a277fe14ce8ca19ace97d19a37b0feec190e6da99",
+      "clang-new": "3d6527165f52f6880fe8a143d31409a749238b1e290506201d1ea84d4a79ad5b",
+      "clang-old": "88709d6fc640a0cbbb4fbf72175682aae687c0433ee94b0ccf08692edf7afdc2"
+    },
+    "actual_native_pair": {
+      "gate": "/root/.ai-tmp/msvc2/vc5.10/rcdll/analysis/emit-line-gate.json",
+      "gate_sha256": "7ab656734a4ea0ac028f42023fc1f57694fd617ac3a430a90afa9eb079a49658",
+      "result": "RCDLL independently matched native02 to retained original01: exact entire1024B scratch/result8/errors/ownership/four write formals at next frontier;13 fresh format/write controls pass. No original recapture for shared-only edit."
+    },
+    "independent_review": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/rcdll/source-line-format-orchestrator-review.json",
+      "sha256": "b99979b4249f11cddd2ea408b8ffdc4ff3f8bd642f4c1f9a5598c877c3297457",
+      "result": "Parent inspected minimal exact grammar/default-C signed32 code and independently verified raw provider/inventory/stdout/all25 buffers; reran four immutable old/new GCC+Clang24-row/25buffer controls with4/6 denials."
+    }
+  },
+  "limits": [
+    "Only the two exact encountered formats; no general swprintf/Unicode/NLS/capacity support.",
+    "No additional function graph/application coverage from shared provider.",
+    "Existing original/reference bytes retained and only native reobserved."
+  ]
+}

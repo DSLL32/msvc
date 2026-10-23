@@ -392,3 +392,9 @@ build/fread-profile-probe: tests/fread-profile-probe.c $(SOURCES) $(HEADERS) | b
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 fread-profile-check: build/fread-profile-probe
 	$(PYTHON) tests/check-fread-profile.py build/fread-profile-probe
+
+.PHONY: source-line-format-check
+build/source-line-format-probe: tests/source-line-format-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -fshort-wchar $< $(SOURCES) -o $@
+source-line-format-check: build/source-line-format-probe
+	$(PYTHON) tests/check-source-line-format.py build/source-line-format-probe

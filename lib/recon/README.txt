@@ -795,3 +795,10 @@ VC1/default fread implementation is unchanged. The current proof binds ordinary
 binary file reads, owned/initialized FILE buffers, direct/buffered/remainder/EOF
 and partial-item behavior with zero entry errors; unobserved argument, I/O error
 and environment variants do not acquire a broader equality claim.
+
+Legacy UTF16 source-line formatting additionally accepts the separately observed
+exact L"#line %d " template alongside L"#line %d\r\n". Only those two complete
+prefix/suffix forms pass. The signed32 argument is formatted into the caller's
+UTF16 buffer, then its actual validated suffix/NUL are written. Default-C scope,
+count excluding NUL, untouched buffer tails and measured error preservation are
+retained. No additional formatting grammar, locale or capacity mode is enabled.
