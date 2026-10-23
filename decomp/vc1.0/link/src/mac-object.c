@@ -9,6 +9,19 @@
 #include <recon.h>
 
 MacSymbolReference *mac_symbol_references;
+
+/* Original [00039130,00039174). */
+void record_mac_symbol_reference(unsigned long symbol,Section *section,unsigned long flags)
+{
+    MacSymbolReference *reference=&mac_symbol_references[symbol];
+    if (!reference->section) {
+        reference->section=section;
+        reference->flags|=flags;
+        return;
+    }
+    if (reference->section!=section && section) flags|=0x40000000;
+    reference->flags|=flags;
+}
 extern SymbolTable *mac_symbol_table;
 extern void **mac_object_symbols;
 extern MacFixupList mac_data_references;
@@ -85,7 +98,35 @@ void finalize_mac_fixups(void)
     write_mac_jump_table();
 }
 External *resolve_mac_external(External *external) { __asm { int 3 } }
-void append_mac_jump_entry(External *external,unsigned short section,unsigned long offset) { __asm { int 3 } }
+/* Original [00036f30,0003706b). */
+void append_mac_jump_entry(External *external,unsigned short section,unsigned long offset)
+{
+    MacJumpList *list;
+    if (external) {
+        if (!(external->flags&0x80000000) && mac_loader_present)
+            list=&mac_far_jump_lists[section];
+        else list=&mac_near_jump_lists[section];
+    } else if (!(offset&0x80000000) && mac_loader_present) {
+        list=&mac_far_jump_lists[section];
+    } else {
+        offset&=0x7fffffff;
+        list=&mac_near_jump_lists[section];
+    }
+    if (!mac_loader_present) offset-=4;
+    if (!list->capacity) {
+        list->capacity=10;
+        list->entries=malloc(80);
+        if (!list->entries) fatal_message(NULL,5,"");
+        list->count=0;
+    } else if (list->count==list->capacity) {
+        list->capacity+=10;
+        list->entries=realloc(list->entries,list->capacity*sizeof(MacJumpEntry));
+        if (!list->entries) fatal_message(NULL,5,"");
+    }
+    list->entries[list->count].external=external;
+    list->entries[list->count].offset=offset;
+    ++list->count;
+}
 /* Original [00037100,00037178). */
 void finalize_mac_jump_list(unsigned short section,MacJumpList *lists)
 {
@@ -101,10 +142,6 @@ void finalize_mac_jump_list(unsigned short section,MacJumpList *lists)
             list->entries[index].external->mac_jump_offset=offset;
 }
 int compare_mac_jump_entries(const void *left,const void *right) { __asm { int 3 } }
-#define MAC_BIG_LONG(x) (((unsigned long)(x)>>24)|(((unsigned long)(x)&0xff0000)>>8)| \
-    (((unsigned long)(x)&0xff00)<<8)|((unsigned long)(x)<<24))
-#define MAC_BIG_SHORT(x) ((unsigned short)(((unsigned short)(x)>>8)|((unsigned short)(x)<<8)))
-
 /* Original [00036300,00036742).  CODE resources have a four-byte header;
  * nonstartup resources with a loader use its forty-byte extended header. */
 void write_mac_loader_prologue(Contribution *contribution)
@@ -224,7 +261,19 @@ void write_mac_jump_table(void)
         }
     }
 }
-void write_mac_far_jump(unsigned short resource,unsigned long offset) { __asm { int 3 } }
+typedef struct MacFarJumpRecord {
+    unsigned short resource,opcode;
+    unsigned long offset;
+} MacFarJumpRecord;
+MacFarJumpRecord mac_far_jump_record={0,0xf0a9,0};
+
+/* Original [00036970,000369ba), mutable eight-byte loader jump record. */
+void write_mac_far_jump(unsigned short resource,unsigned long offset)
+{
+    mac_far_jump_record.resource=MAC_BIG_SHORT(resource);
+    mac_far_jump_record.offset=MAC_BIG_LONG(offset);
+    write_file(output_file,&mac_far_jump_record,sizeof(mac_far_jump_record));
+}
 void write_mac_near_jump(unsigned short resource,unsigned long offset) { __asm { int 3 } }
 
 /* Original [00039930,00039a2b). */
@@ -274,6 +323,39 @@ MacDataReferenceBlock mac_data_reference_blocks;
 MacDataReferenceBlock *mac_data_reference_read_block=&mac_data_reference_blocks;
 MacDataReference *mac_data_reference_read_records;
 unsigned long mac_data_reference_read_index,mac_data_reference_resolved;
+MacDataReferenceBlock *mac_data_reference_write_block=&mac_data_reference_blocks;
+MacDataReference *mac_data_reference_write_record;
+unsigned long mac_data_reference_write_index;
+
+/* Original [000372a0,000373d3).  Blocks hold341 twelve-byte records in
+ * the original4096-byte allocation. Only the head tracks total capacity. */
+void record_mac_data_reference(Contribution *contribution,unsigned long offset,unsigned long symbol)
+{
+    if (!mac_data_reference_blocks.capacity) {
+        mac_data_reference_write_block->records=malloc(4096);
+        if (!mac_data_reference_write_block->records) fatal_message(NULL,5,"");
+        mac_data_reference_write_block->capacity=341;
+        mac_data_reference_write_block->count=0;
+        goto new_block;
+    }
+    if (mac_data_reference_blocks.count==mac_data_reference_blocks.capacity) {
+        mac_data_reference_blocks.capacity+=341;
+        mac_data_reference_write_block->next=malloc(sizeof(MacDataReferenceBlock));
+        if (!mac_data_reference_write_block->next) fatal_message(NULL,5,"");
+        mac_data_reference_write_block=mac_data_reference_write_block->next;
+        mac_data_reference_write_block->records=malloc(4096);
+        if (!mac_data_reference_write_block->records) fatal_message(NULL,5,"");
+new_block:
+        mac_data_reference_write_block->next=NULL;
+        mac_data_reference_write_index=0;
+        mac_data_reference_write_record=mac_data_reference_write_block->records;
+    }
+    mac_data_reference_write_record->offset=offset;
+    mac_data_reference_write_record->contribution=contribution;
+    mac_data_reference_write_record->target.symbol_index=symbol;
+    ++mac_data_reference_blocks.count;
+    ++mac_data_reference_write_record;
+}
 
 /* Original [000373e0,0003747b).  This cursor persists across input modules;
  * the final record word changes from a local symbol index to an External. */
@@ -299,6 +381,37 @@ void process_mac_object_symbols(SymbolTable *table,PIMAGE_SYMBOL symbols,char *s
         ++mac_data_reference_read_index;
     }
     mac_data_reference_resolved=mac_data_reference_blocks.count;
+}
+
+/* Original [00037480,0003754f).  Pending code-pointer references choose
+ * the source resource's data or code fixup list by destination group. */
+void initialize_mac_loader(void)
+{
+    MacDataReferenceBlock *block=&mac_data_reference_blocks;
+    MacDataReference *reference=block->records;
+    MacFixupList *list;
+    Contribution *contribution;
+    unsigned long index,in_block=0;
+    unsigned short resource;
+    if (mac_code_section_count>999) fatal_message(NULL,4,"");
+    for (index=0;index<mac_data_reference_blocks.count;++index) {
+        if (in_block==341) {
+            free(block->records);
+            block=block->next;
+            in_block=0;
+            reference=block->records;
+        }
+        contribution=reference->contribution;
+        resource=(unsigned short)contribution->group->section->mac_resource_id;
+        if (reference->target.external &&
+            reference->target.external->owner.contribution->group!=contribution->group)
+            list=&mac_section_data_fixups[resource];
+        else
+            list=&mac_section_code_fixups[resource];
+        append_mac_fixup(list,contribution,reference->offset);
+        ++reference;
+        ++in_block;
+    }
 }
 
 typedef struct MacExternalReference {

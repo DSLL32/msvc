@@ -1,4 +1,4 @@
-The368-byte input is generated explicitly by scripts/build-m68k-input.py
+The 368-byte input is generated explicitly by scripts/build-m68k-input.py
 --variant reloc-loader. It has three CODE sections, initialized data, five
 external symbols including ___Init32BitLoadSeg, and four native M68K relocations:
 CTOT16(type8), CTOABSC32(type11), CTOABSD32(type10), DTOABSD32(type4).
@@ -19,3 +19,15 @@ section bytes show patched operands, A5 jump-table slots, code/data fixup stream
 loader prologues and resource map. The manifest retains all bytes and section
 inspection. No padding/path/output-order normalization or Mac runtime claim.
 Fixture execution never invokes Wine, original LINK or a PE helper/child.
+
+Reconstruction complete: thirteen further C functions close the four-relocation
+case, including the full m68k backend and its signed-value classifier. Fresh
+masked-original/native-GDB runs agree through exit 0 and the full frozen artifact.
+All 23 native trace/output/artifact cases pass with 566 application first entries.
+Canonical original-toolchain compilation and graph/ABI/data/boundary audits pass.
+See validation.json for times and raw evidence hashes, body-inventory.json for
+the complete Mac static CFG accounting, and components.json for partial target,
+CRT, import, inline-data and alignment accounting. This is not branch coverage.
+
+Both selected disassembly stages and both Mac inputs are complete. remaining.json
+contains unexecuted next-case suggestions; no additional scenario is assigned.

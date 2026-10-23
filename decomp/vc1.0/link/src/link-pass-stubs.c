@@ -7,7 +7,6 @@ void sort_externals(SymbolTable *table) { __asm { int 3 } }
 void read_absolute_symbols(const char *file,External **sorted,SymbolTable *table) { __asm { int 3 } }
 void resolve_entry_symbol(SymbolTable *table) { __asm { int 3 } }
 void finalize_mac_debug(void) { __asm { int 3 } }
-void initialize_mac_loader(void) { __asm { int 3 } }
 void write_mac_debug(Image *image) { __asm { int 3 } }
 void write_mac_swapper(void) { __asm { int 3 } }
 void dump_symbols(SymbolTable *table) { __asm { int 3 } }
@@ -31,8 +30,6 @@ void end_comdat_edge_enumerator(ComdatEdgeEnumerator *scan) { __asm { int 3 }  }
 
 void end_comdat_root_enumerator(ComdatRootEnumerator *scan) { __asm { int 3 }  }
 
-void build_mac_section_fixups(Section *section,Image *image) { __asm { int 3 } }
-unsigned long size_mac_section_fixups(Section *section,unsigned long file) { __asm { int 3 } return 0; }
 
 
 void adjust_rom_section_header(Section *section,IMAGE_SECTION_HEADER *header,Image *image) { __asm { int 3 } }

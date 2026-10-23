@@ -4022,5 +4022,29 @@
     "name": "mac_jump_extra_offsets",
     "size": 1,
     "owner": "src/mac-object.c"
+  },
+  {
+    "address": 519680,
+    "name": "mac_data_reference_write_block",
+    "size": 4,
+    "owner": "src/mac-object.c"
+  },
+  {
+    "address": 453884,
+    "name": "mac_data_reference_write_record",
+    "size": 4,
+    "owner": "src/mac-object.c"
+  },
+  {
+    "address": 453888,
+    "name": "mac_data_reference_write_index",
+    "size": 4,
+    "owner": "src/mac-object.c"
+  },
+  {
+    "address": 519664,
+    "name": "mac_far_jump_record",
+    "size": 8,
+    "owner": "src/mac-object.c"
   }
 ]

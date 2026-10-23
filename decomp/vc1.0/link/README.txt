@@ -388,3 +388,32 @@ instruction boundaries and38 ECX cleanup checks. Commands remain make -j4 check
 for captured-only native regression and explicit make -j4 audit for original
 compiler compatibility. Detailed timing and original/GDB evidence are in
 cases/m68k-minimal/validation.json. The frozen m68k-reloc-loader case is next.
+
+Mac relocation/loader checkpoint
+
+The queued 368-byte object now closes through thirteen more C functions. Its
+CTOT16, CTOABSC32, CTOABSD32 and DTOABSD32 relocations produce the original A5
+thunks, patched code/data, compressed fixups, loader prologues and resource map.
+Fresh masked-original/native-GDB runs exit 0 and match the exact frozen 2 MB
+artifact after only the COFF timestamp is ignored. The full backend and classifier
+retain their other static branches; this case does not claim to exercise them.
+
+All 23 native cases pass with 566 application first entries. After the shared
+getcwd addition, the final native/native-trace build takes 6.336s and the final
+single-sample suite takes 1.388s externally (1.214s loop,0.091s trace preparation;
+summed setup0.298s,execution0.183s,oracles0.720s,trace checks0.003s). The prior
+pre-header-change run is retained, not hidden as a timing replacement. Canonical
+build/audit takes16.071s;592 calls,583 callbacks,449 contextual data definitions,
+746 instruction boundaries and38 ECX cleanup checks pass.
+
+Current accepted extent is217053/281634=77.0692%,740 frontiers. All39 accepted Mac
+bodies have13203 genuine CFG instruction bytes,268 inline data and137 alignment.
+Augmenting the older partial inventory with Mac/disassembler CFG evidence proves
+150529 accepted target-body bytes,26904 CRT bytes and192 import-thunk bytes;
+38655 accepted extent bytes remain unclassified after separately identifying420
+inline-data and353 alignment bytes. Unclassified bytes are not all padding, and
+these partial inventories provide no whole-target body percentage.
+
+See cases/m68k-reloc-loader/validation.json,body-inventory.json and components.json.
+The authorized code disassembly, richer x86 and Macintosh stages are complete.
+No further case is running; remaining.json records suggestions for user selection.

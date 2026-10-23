@@ -28,3 +28,13 @@ Remaining-code recommendations in cases/remaining-after-omf-undecorate.json
 are analysis only. No further public-input scenarios were executed or queued.
 The OMF debug conversion closure includes internal -g behavior that the public
 LINK wrapper does not select; it cannot be advertised as ordinary input gains.
+
+Current augmented checkpoint is cases/m68k-reloc-loader/components.json.
+Reproduce it with scripts/measure-disassembler.py --family macintosh --output
+cases/m68k-reloc-loader/body-inventory.json, then scripts/measure-components.py
+--cfg-body-report cases/disassembler-x86-rich/body-inventory.json
+--cfg-body-report cases/m68k-reloc-loader/body-inventory.json --output
+cases/m68k-reloc-loader/components.json. These read-only tools execute no target.
+The two CFG reports add 5734 genuine instruction bytes absent from the old body
+inventory and separately establish 420 inline-data/353 alignment bytes. Their
+partial component totals still do not supply a complete target-body denominator.

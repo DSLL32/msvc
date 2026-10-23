@@ -13,7 +13,7 @@
     },
     {
       "case": "macintosh-m68k-coff",
-      "status": "in-progress",
+      "status": "complete",
       "scope": "Inspect documented target format and native machine/relocation/loader paths, obtain valid minimal object(s), capture successful original linking first; reconstruct only reached loader/relocation/resource graph.",
       "cases": [
         {
@@ -23,7 +23,7 @@
         },
         {
           "case": "m68k-reloc-loader",
-          "status": "original-validated-next",
+          "status": "complete",
           "manifest": "cases/m68k-reloc-loader/manifest.json"
         }
       ]

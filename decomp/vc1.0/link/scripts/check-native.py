@@ -21,6 +21,7 @@ FIXTURES = BINARY.parent / 'fixtures'
 CASES = {
     'help': None,
     'm68k-minimal': (BINARY/'cases/m68k-minimal','link'),
+    'm68k-reloc-loader': (BINARY/'cases/m68k-reloc-loader','link'),
     'dump-disasm-x86-rich': (BINARY/'cases/disassembler-x86-rich', 'dump'),
     'dump-disasm-code': (BINARY/'cases/disassembler-code', 'dump'),
     'dump-disasm-data': (BINARY/'cases/disassembler-data', 'dump'),

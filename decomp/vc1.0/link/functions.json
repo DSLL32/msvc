@@ -726,7 +726,20 @@
     "_write_mac_jump_table",
     "_write_mac_resources",
     "_find_mac_contribution_external",
-    "_write_mac_loader_prologue"
+    "_write_mac_loader_prologue",
+    "_record_mac_symbol_reference",
+    "_record_mac_data_reference",
+    "_append_mac_fixup",
+    "_initialize_mac_loader",
+    "_build_mac_section_fixups",
+    "_sort_mac_section_fixups",
+    "_sort_mac_fixup_list",
+    "_compare_mac_fixup_offsets",
+    "_size_mac_section_fixups",
+    "_append_mac_jump_entry",
+    "_write_mac_far_jump",
+    "_apply_m68k_relocations",
+    "_validate_mac_relocation_value"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1719,10 +1732,11 @@
     {
       "name": "_initialize_mac_loader",
       "start": 226432,
-      "end": 226433,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(void)"
+      "end": 226639,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Complete207-byte pending-reference distribution; original section-count bound,341-record blocks and destination-group comparison select code/data fixup lists. Fresh37550 build_mac_section_fixups native/original .text2 layout and streams agree."
     },
     {
       "name": "_finalize_mac_debug",
@@ -2389,11 +2403,18 @@
     {
       "name": "_apply_m68k_relocations",
       "start": 228992,
-      "end": 228993,
-      "implementation": "stub-C",
-      "source": "src/machine-stubs.c",
+      "end": 232520,
+      "implementation": "C",
+      "source": "src/m68k-relocations.c",
       "abi": "cdecl void(Contribution *contribution,void *data,PIMAGE_SYMBOL symbols,Image *image)",
-      "evidence": "Fourth relocation callback argument recovered as current Image pointer from write_contribution1d530; backend still a pending trap."
+      "evidence": "Complete49-way C backend; original code37e80..38b81 plus196-byte switch table38b84..38c48 recovered. Big-endian fields, A5/PC/profile/paired/duplicate/pcode branches and named helper graph preserved; common Image arg unused. Fresh38ff0 validator native/original first relocation/value40/standalone0 matches. Actual exercised relocation branches remain pending helpers/final artifact validation.",
+      "text_data": [
+        {
+          "start": 232324,
+          "end": 232520,
+          "kind": "49-entry relocation switch jump table"
+        }
+      ]
     },
     {
       "name": "_seek_buffered_file",
@@ -2696,26 +2717,29 @@
     {
       "name": "_append_mac_fixup",
       "start": 225664,
-      "end": 225665,
-      "implementation": "stub-C",
-      "source": "src/object-stubs.c",
-      "abi": "cdecl void(MacFixupList *list,Contribution *contribution,unsigned long offset)"
+      "end": 225945,
+      "implementation": "C",
+      "source": "src/mac-fixups.c",
+      "abi": "cdecl void(MacFixupList *list,Contribution *contribution,unsigned long offset)",
+      "evidence": "Complete281-byte512-record block append with head aggregate capacity/count, tail local used index, original failure branches. Fresh37480 loader fixup initializer native/original agrees after allfour input relocations loaded and pending symbol resolved."
     },
     {
       "name": "_record_mac_symbol_reference",
       "start": 233776,
-      "end": 233777,
-      "implementation": "stub-C",
-      "source": "src/object-stubs.c",
-      "abi": "cdecl void(unsigned long symbol,Section *section,unsigned long flags)"
+      "end": 233844,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(unsigned long symbol,Section *section,unsigned long flags)",
+      "evidence": "Complete68-byte no-callee flags/Section merge with null/different-section behavior. Fresh372a0 queued Mac data reference native/original contribution/offset2/symbol3 agrees, after CTOT16 helper reference(symbol2,flagsC0000000)."
     },
     {
       "name": "_record_mac_data_reference",
       "start": 225952,
-      "end": 225953,
-      "implementation": "stub-C",
-      "source": "src/object-stubs.c",
-      "abi": "cdecl void(Contribution *contribution,unsigned long offset,unsigned long symbol)"
+      "end": 226259,
+      "implementation": "C",
+      "source": "src/mac-object.c",
+      "abi": "cdecl void(Contribution *contribution,unsigned long offset,unsigned long symbol)",
+      "evidence": "Complete307-byte cdecl12-byte pending-reference append; original4096-byte block allocation,341-record growth, head totals/tail cursor and failure graph preserved. Fresh37180 append_mac_fixup native/original offset8 matches after queued symbol3 offset2."
     },
     {
       "name": "_next_coff_symbol",
@@ -3367,18 +3391,20 @@
     {
       "name": "_build_mac_section_fixups",
       "start": 226640,
-      "end": 226641,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(Section *section,Image *image)"
+      "end": 226891,
+      "implementation": "C",
+      "source": "src/mac-fixups.c",
+      "abi": "cdecl void(Section *section,Image *image)",
+      "evidence": "Complete251-byte code/data per-resource offset adjustment in512-record blocks, discarded sentinel and sort callee retained. Fresh37650 sort_mac_section_fixups resource2 native/original matches."
     },
     {
       "name": "_size_mac_section_fixups",
       "start": 227040,
-      "end": 227041,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl unsigned long(Section *section,unsigned long file)"
+      "end": 227324,
+      "implementation": "C",
+      "source": "src/mac-fixups.c",
+      "abi": "cdecl unsigned long(Section *section,unsigned long file)",
+      "evidence": "Complete284-byte per-resource stream output and big-endian header offsets; original data/code write order and seek graph preserved. Fresh36f30 append_mac_jump_entry native/original _helper section2 offset40 agrees."
     },
     {
       "name": "_compare_sections_by_rva",
@@ -7511,11 +7537,11 @@
     {
       "name": "_sort_mac_fixup_list",
       "start": 236656,
-      "end": 236657,
-      "implementation": "stub-C",
+      "end": 236826,
+      "implementation": "C",
       "source": "src/mac-fixups.c",
       "abi": "cdecl void(MacFixupList *)",
-      "evidence": "Named original Mac fixup table callee; body masked."
+      "evidence": "Complete170-byte flatten/sort: calloc aggregate records, inline copies of512/full-tail counts, original record frees and qsort comparator preserved. Fresh370a0 comparator native/original count2 qsort frontier matches."
     },
     {
       "name": "_write_mac_fixup_list",
@@ -7538,11 +7564,11 @@
     {
       "name": "_append_mac_jump_entry",
       "start": 225072,
-      "end": 225073,
-      "implementation": "stub-C",
+      "end": 225387,
+      "implementation": "C",
       "source": "src/mac-object.c",
       "abi": "cdecl void(External *,unsigned short,unsigned long)",
-      "evidence": "Named Mac final jump-table callee; body remains masked."
+      "evidence": "Complete315-byte near/far list selection, loader offset policy and WORD10-entry growth with malloc/realloc failure graph. Fresh36970 far jump emitter native/original resource2 offset40 agrees; each reached list has one entry so comparator remains masked."
     },
     {
       "name": "_finalize_mac_jump_list",
@@ -7574,11 +7600,11 @@
     {
       "name": "_write_mac_far_jump",
       "start": 223600,
-      "end": 223601,
-      "implementation": "stub-C",
+      "end": 223674,
+      "implementation": "C",
       "source": "src/mac-object.c",
       "abi": "cdecl void(unsigned short,unsigned long)",
-      "evidence": "Named original Mac jump instruction emitter; body remains masked."
+      "evidence": "Complete74-byte mutable typed loader record emitter; original opcodeA9F0 initializer and single8-byte file call preserved. Fresh37e80 apply_m68k_relocations native/original first CTOT16 relocation matches inputs and partial streams."
     },
     {
       "name": "_write_mac_near_jump",
@@ -7588,6 +7614,67 @@
       "source": "src/mac-object.c",
       "abi": "cdecl void(unsigned short,unsigned long)",
       "evidence": "Named original Mac jump instruction emitter; body remains masked."
+    },
+    {
+      "name": "_sort_mac_section_fixups",
+      "start": 226896,
+      "end": 227028,
+      "implementation": "C",
+      "source": "src/mac-fixups.c",
+      "abi": "cdecl void(unsigned short)",
+      "evidence": "Complete132-byte capacity-dependent code/data sort wrapper; qsort vs flatten original threshold512, comparator identity and per-resource order preserved. Fresh39c70 flatten/sort native/original matches .text2 data-fixup list."
+    },
+    {
+      "name": "_compare_mac_fixup_offsets",
+      "start": 225440,
+      "end": 225475,
+      "implementation": "C",
+      "source": "src/mac-fixups.c",
+      "abi": "cdecl int(const void *,const void *)",
+      "evidence": "Complete35-byte no-callee unsigned offset comparator, preserving -1/0/1. Fresh376e0 size_mac_section_fixups native/original .text2/file724 agrees after sorting offsets2,8."
+    },
+    {
+      "name": "_resolve_mac_relocation_symbol",
+      "start": 233328,
+      "end": 233329,
+      "implementation": "stub-C",
+      "source": "src/m68k-relocations.c",
+      "abi": "cdecl void(External **,PIMAGE_SYMBOL *,unsigned short,Contribution *)",
+      "evidence": "Named original relocation helper; body remains masked."
+    },
+    {
+      "name": "_validate_mac_relocation_value",
+      "start": 233456,
+      "end": 233744,
+      "implementation": "C",
+      "source": "src/m68k-relocations.c",
+      "abi": "cdecl void(PIMAGE_RELOCATION,unsigned long,unsigned char)",
+      "evidence": "Complete199-byte classifier plus72-byte18-entry switch table; original signed value reclassification of12/25..29 and standalone A5 diagnostic recovered. Fresh masked-original/native GDB completes allfour relocations exit0; exact115-byte stdout/empty stderr and full2MB artifact match frozen reference except identified PE timestamp.",
+      "text_data": [
+        {
+          "start": 233672,
+          "end": 233744,
+          "kind": "18-entry relocation reclassification switch"
+        }
+      ]
+    },
+    {
+      "name": "_find_mac_static_jump",
+      "start": 228768,
+      "end": 228769,
+      "implementation": "stub-C",
+      "source": "src/m68k-relocations.c",
+      "abi": "cdecl unsigned long(unsigned short,PIMAGE_SYMBOL,unsigned char)",
+      "evidence": "Named original relocation helper; body remains masked."
+    },
+    {
+      "name": "_apply_mac_special_relocation",
+      "start": 232528,
+      "end": 232529,
+      "implementation": "stub-C",
+      "source": "src/m68k-relocations.c",
+      "abi": "cdecl void(unsigned char *,const char *,PIMAGE_SYMBOL,Contribution *,External *)",
+      "evidence": "Named original relocation helper; body remains masked."
     }
   ],
   "c_stub_references": [
@@ -8320,6 +8407,19 @@
     "m68k-minimal",
     "m68k-minimal",
     "m68k-minimal",
-    "m68k-minimal"
+    "m68k-minimal",
+    "m68k-reloc-loader",
+    "m68k-reloc-loader",
+    "m68k-reloc-loader",
+    "m68k-reloc-loader",
+    "m68k-reloc-loader",
+    "m68k-reloc-loader",
+    "m68k-reloc-loader",
+    "m68k-reloc-loader",
+    "m68k-reloc-loader",
+    "m68k-reloc-loader",
+    "m68k-reloc-loader",
+    "m68k-reloc-loader",
+    "m68k-reloc-loader"
   ]
 }

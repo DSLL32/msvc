@@ -817,3 +817,13 @@ Typed Mac records are defined with their users; no section snapshots or lifted
 assembly are used. The complete functions retain branches not yet exercised;
 the relocation/loader fixture remains the next ordered acceptance segment.
 See cases/m68k-minimal/validation.json; no full target-body denominator claimed.
+
+Mac relocation/loader closure:13 more reached C functions, full original output
+and exit0,23 native cases/566 entries, all canonical audits pass. Union217053/
+281634=77.0692%,740 frontiers. Both queued Mac inputs and both disassembly stages
+are complete; worker pauses after this checkpoint. Full m68k switch/validation
+bodies are readable C; only the four input relocation kinds and reached helpers
+are dynamically claimed.39 Mac CFG bodies total13203 instruction/268 inline-data/
+137 alignment bytes. Augmented partial accepted components:150529 native target,
+26904 CRT,192 imports,420 inline-data,353 alignment,38655 unclassified bytes.
+See cases/m68k-reloc-loader/{validation,body-inventory,components,remaining}.json.

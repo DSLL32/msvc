@@ -2,9 +2,9 @@
   "schema": 1,
   "description": "Projection of existing original-backed acceptance metadata; no recapture",
   "metadata_sha256": {
-    "functions.json": "0e4203479b66b85b20cd4ee2d003c122cbb4b01f3acf3e59487a4de41d592dbe",
+    "functions.json": "7d7ef962571e3c03273b45e564b7bce38d671357e4bd788b7d179ef08760509d",
     "runtime.json": "0ec72e80c921c13613bfc93f7da57aec764a4563629512b8ccc741479975b7d9",
-    "replay-cases.json": "f1a73ca9b0e278806d07af13de92fd5a8de5c9f4251de2eb3629c7f8f3d932ec"
+    "replay-cases.json": "51e31bfcc5aeb86b09044704e2b999dc50c296c8767c300f8b7231c50760d37a"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -98,14 +98,14 @@
       "implementation": "C"
     },
     "append_mac_fixup": {
-      "source": "src/object-stubs.c",
+      "source": "src/mac-fixups.c",
       "logical": "_append_mac_fixup",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "append_mac_jump_entry": {
       "source": "src/mac-object.c",
       "logical": "_append_mac_jump_entry",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "append_text": {
       "source": "src/text-buffer.c",
@@ -123,8 +123,13 @@
       "implementation": "C"
     },
     "apply_m68k_relocations": {
-      "source": "src/machine-stubs.c",
+      "source": "src/m68k-relocations.c",
       "logical": "_apply_m68k_relocations",
+      "implementation": "C"
+    },
+    "apply_mac_special_relocation": {
+      "source": "src/m68k-relocations.c",
+      "logical": "_apply_mac_special_relocation",
       "implementation": "stub-C"
     },
     "apply_opcode": {
@@ -188,9 +193,9 @@
       "implementation": "C"
     },
     "build_mac_section_fixups": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/mac-fixups.c",
       "logical": "_build_mac_section_fixups",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "cache_closed_file": {
       "source": "src/files.c",
@@ -316,6 +321,11 @@
       "source": "src/mac-object.c",
       "logical": "_compare_mac_external_names",
       "implementation": "stub-C"
+    },
+    "compare_mac_fixup_offsets": {
+      "source": "src/mac-fixups.c",
+      "logical": "_compare_mac_fixup_offsets",
+      "implementation": "C"
     },
     "compare_mac_jump_entries": {
       "source": "src/mac-object.c",
@@ -1847,6 +1857,11 @@
       "logical": "_find_mac_resource_type",
       "implementation": "C"
     },
+    "find_mac_static_jump": {
+      "source": "src/m68k-relocations.c",
+      "logical": "_find_mac_static_jump",
+      "implementation": "stub-C"
+    },
     "find_module": {
       "source": "src/modules.c",
       "logical": "_find_module",
@@ -2053,9 +2068,9 @@
       "implementation": "C"
     },
     "initialize_mac_loader": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/mac-object.c",
       "logical": "_initialize_mac_loader",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "initialize_mac_object_symbols": {
       "source": "src/mac-object.c",
@@ -3043,9 +3058,9 @@
       "implementation": "C"
     },
     "record_mac_data_reference": {
-      "source": "src/object-stubs.c",
+      "source": "src/mac-object.c",
       "logical": "_record_mac_data_reference",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "record_mac_duplicate_fixups": {
       "source": "src/mac-object.c",
@@ -3068,9 +3083,9 @@
       "implementation": "C"
     },
     "record_mac_symbol_reference": {
-      "source": "src/object-stubs.c",
+      "source": "src/mac-object.c",
       "logical": "_record_mac_symbol_reference",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "record_map_relocation": {
       "source": "src/map-file.c",
@@ -3190,6 +3205,11 @@
     "resolve_mac_external": {
       "source": "src/mac-object.c",
       "logical": "_resolve_mac_external",
+      "implementation": "stub-C"
+    },
+    "resolve_mac_relocation_symbol": {
+      "source": "src/m68k-relocations.c",
+      "logical": "_resolve_mac_relocation_symbol",
       "implementation": "stub-C"
     },
     "resolve_section": {
@@ -3343,9 +3363,9 @@
       "implementation": "C"
     },
     "size_mac_section_fixups": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/mac-fixups.c",
       "logical": "_size_mac_section_fixups",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "size_x87_dword": {
       "source": "src/disassembler.c",
@@ -3395,11 +3415,16 @@
     "sort_mac_fixup_list": {
       "source": "src/mac-fixups.c",
       "logical": "_sort_mac_fixup_list",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "sort_mac_resource_ids": {
       "source": "src/mac-sections.c",
       "logical": "_sort_mac_resource_ids",
+      "implementation": "C"
+    },
+    "sort_mac_section_fixups": {
+      "source": "src/mac-fixups.c",
+      "logical": "_sort_mac_section_fixups",
       "implementation": "C"
     },
     "sort_sections_by_rva": {
@@ -3521,6 +3546,11 @@
       "source": "src/object-stubs.c",
       "logical": "_validate_mac_code_relocation",
       "implementation": "stub-C"
+    },
+    "validate_mac_relocation_value": {
+      "source": "src/m68k-relocations.c",
+      "logical": "_validate_mac_relocation_value",
+      "implementation": "C"
     },
     "validate_machine": {
       "source": "src/machine.c",
@@ -3650,7 +3680,7 @@
     "write_mac_far_jump": {
       "source": "src/mac-object.c",
       "logical": "_write_mac_far_jump",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "write_mac_fixup_list": {
       "source": "src/mac-fixups.c",
@@ -4286,7 +4316,20 @@
     "write_mac_jump_table",
     "write_mac_resources",
     "find_mac_contribution_external",
-    "write_mac_loader_prologue"
+    "write_mac_loader_prologue",
+    "record_mac_symbol_reference",
+    "record_mac_data_reference",
+    "append_mac_fixup",
+    "initialize_mac_loader",
+    "build_mac_section_fixups",
+    "sort_mac_section_fixups",
+    "sort_mac_fixup_list",
+    "compare_mac_fixup_offsets",
+    "size_mac_section_fixups",
+    "append_mac_jump_entry",
+    "write_mac_far_jump",
+    "apply_m68k_relocations",
+    "validate_mac_relocation_value"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4865,9 +4908,9 @@
       }
     },
     "library-list": {
-      "first": 727,
-      "last": 727,
-      "seen_count": 553,
+      "first": 740,
+      "last": 740,
+      "seen_count": 566,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4899,9 +4942,9 @@
       }
     },
     "library-list-trimmed": {
-      "first": 727,
-      "last": 727,
-      "seen_count": 553,
+      "first": 740,
+      "last": 740,
+      "seen_count": 566,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4935,9 +4978,9 @@
       }
     },
     "library-dump-object": {
-      "first": 727,
-      "last": 727,
-      "seen_count": 553,
+      "first": 740,
+      "last": 740,
+      "seen_count": 566,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4980,9 +5023,9 @@
       }
     },
     "library-dump-edited": {
-      "first": 727,
-      "last": 727,
-      "seen_count": 553,
+      "first": 740,
+      "last": 740,
+      "seen_count": 566,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -5254,6 +5297,30 @@
         "write_mac_resources",
         "find_mac_contribution_external",
         "write_mac_loader_prologue"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "m68k-reloc-loader": {
+      "first": 727,
+      "last": 740,
+      "seen_count": 553,
+      "expected": [
+        "record_mac_symbol_reference",
+        "record_mac_data_reference",
+        "append_mac_fixup",
+        "initialize_mac_loader",
+        "build_mac_section_fixups",
+        "sort_mac_section_fixups",
+        "sort_mac_fixup_list",
+        "compare_mac_fixup_offsets",
+        "size_mac_section_fixups",
+        "append_mac_jump_entry",
+        "write_mac_far_jump",
+        "apply_m68k_relocations",
+        "validate_mac_relocation_value"
       ],
       "terminal": {
         "kind": "exit",

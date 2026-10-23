@@ -4,9 +4,6 @@
 #include <recon.h>
 
 void validate_mac_code_relocation(unsigned short type) { __asm { int 3 } }
-void append_mac_fixup(MacFixupList *list,Contribution *contribution,unsigned long offset) { __asm { int 3 } }
-void record_mac_symbol_reference(unsigned long symbol,Section *section,unsigned long flags) { __asm { int 3 } }
-void record_mac_data_reference(Contribution *contribution,unsigned long offset,unsigned long symbol) { __asm { int 3 } }
 
 void process_mac_static_symbol(Contribution *contribution,PIMAGE_SYMBOL symbol,unsigned long index) { __asm { int 3 } }
 void format_input_reference(char *display,const char *library,const char *file) { __asm { int 3 } }

@@ -206,6 +206,16 @@
         "code": 0
       },
       "reason": "Fresh masked-original/native-GDB exit0 and full streams/artifact comparison pass; regression launches only native ELF against frozen references."
+    },
+    {
+      "case": "m68k-reloc-loader",
+      "mode": "native",
+      "status": "complete",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Fresh masked-original/native GDB terminal, exact streams and full2MB artifact match; fixture uses native ELF and frozen references only."
     }
   ]
 }

@@ -9,6 +9,8 @@ from indexes import indexes, imports
 
 parser = argparse.ArgumentParser(description=__doc__)
 parser.add_argument('--output', type=Path)
+parser.add_argument('--cfg-body-report',type=Path,action='append',default=[],
+                    help='augment partial inventory with checked contextual CFG reports')
 args = parser.parse_args()
 original, _, config, records, _ = indexes()
 inventory = Path('analysis/native-body-inventory.tsv')
@@ -56,12 +58,43 @@ for entry, function in functions.items():
         (native_body if entry < crt_start else crt_body).update(function['body'])
 crt_body -= import_body
 native_body -= crt_body | import_body
-classified = native_body | crt_body | import_body
+cfg_bodies,cfg_data,cfg_alignment=set(),set(),set()
+cfg_entries=set()
+cfg_reports=[]
+drivers={record['name']:record for record in config['driver']}
+for path in args.cfg_body_report:
+    report=json.loads(path.read_text())
+    assert report.get('target_sha256',config['target']['sha256'])==config['target']['sha256']
+    extents,inline,alignment=set(),set(),set()
+    for name,function in report['functions'].items():
+        record=drivers[name]
+        assert name in config['accepted']
+        assert (record['start'],record['end'])==(function['start'],function['end'])
+        cfg_entries.add(record['start'])
+        extents.update(range(record['start'],record['end']))
+        for start,end in record.get('shared',[]):
+            extents.update(range(start,end));inline.update(range(start,end))
+        for table in function['internal_tables']:
+            inline.update(range(table['address'],table['address']+4*len(table['targets'])))
+    for start,end in report['extent_gap_ranges']:alignment.update(range(start,end))
+    body=extents-inline-alignment
+    assert len(body)==report['instruction_bytes'] and body<=accepted
+    assert not report['unresolved_jumps']
+    cfg_bodies.update(body);cfg_data.update(inline);cfg_alignment.update(alignment)
+    cfg_reports.append(dict(path=str(path),sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
+                           functions=report['function_count'],instruction_bytes=len(body)))
+native_body=(native_body|cfg_bodies)-cfg_data-cfg_alignment
+assert not (native_body&crt_body or cfg_data&cfg_alignment or cfg_bodies&import_body)
+classified = native_body | crt_body | import_body | cfg_data | cfg_alignment
 components = []
-for name, body in [('known target-body inventory', native_body),
+groups=[('known target-body inventory', native_body),
                    ('known CRT-body inventory', crt_body),
-                   ('IAT import thunk bodies', import_body),
-                   ('unclassified: uninventoried bodies, inline data and padding', all_text - classified)]:
+                   ('IAT import thunk bodies', import_body)]
+if cfg_reports:
+    groups += [('verified contextual inline data',cfg_data),
+               ('verified contextual alignment',cfg_alignment)]
+groups += [('unclassified: uninventoried bodies, inline data and padding', all_text - classified)]
+for name, body in groups:
     body = body & all_text
     component = dict(name=name, total_bytes=len(body), accepted_bytes=len(body & accepted),
                      remaining_bytes=len(body - accepted))
@@ -108,7 +141,8 @@ report = dict(
            'All one-byte entries are excluded. Native/CRT partition uses the layout boundary at verified '
            'mainCRTStartup 0x509d0, not complete library provenance. Imports are IAT-resolving FF25 thunks. '
            'Unclassified includes accepted bodies absent from this old inventory, inline data and padding; '
-           'it is not all padding. This is not branch coverage or a complete body denominator.',
+           'it is not all padding. Optional contextual CFG reports add verified instruction/data/alignment '
+           'sets and retain their hashes. This is not branch coverage or a complete body denominator.',
     target_sha256=hashlib.sha256(original.data).hexdigest(),
     inventory_sha256=hashlib.sha256(inventory.read_bytes()).hexdigest(),
     accepted_frontiers=len(config['accepted']), total_text_bytes=len(all_text),
@@ -117,10 +151,13 @@ report = dict(
     body_function_counts=dict(target=sum(entry < crt_start and entry not in import_starts for entry in functions),
                               crt_non_import=sum(entry >= crt_start and entry not in import_starts for entry in functions),
                               import_thunks=len(import_records)),
+    cfg_augmentations=cfg_reports,
+    cfg_instruction_bytes_outside_old_inventory=len(cfg_bodies-set().union(*(function['body'] for function in functions.values()))),
+    known_target_function_entries_with_cfg=len({entry for entry in functions if entry<crt_start and entry not in import_starts}|cfg_entries),
     accepted_extent_regions=[dict(region='before verified CRT 0x509d0', accepted_bytes=len({byte for byte in accepted & all_text if byte < crt_start})),
                              dict(region='CRT region including IAT thunks', accepted_bytes=len({byte for byte in accepted & all_text if byte >= crt_start}))],
     remaining_components=remaining,
     limits='Remaining closures are analysis opportunities, not promised gains. OMF closure includes internal -g '
-           'debug conversion, while normal LINK wrapper requests only -o/-co. No additional cases were executed.')
+           'debug conversion, while normal LINK wrapper requests only -o/-co. This accounting executes no target.')
 if args.output:
     args.output.write_text(json.dumps(report, indent=2) + '\n')

@@ -1,0 +1,1760 @@
+{
+  "status": "complete",
+  "terminal": {
+    "kind": "exit",
+    "code": 0
+  },
+  "accepted_functions": [
+    {
+      "name": "_record_mac_symbol_reference",
+      "start": 233776,
+      "end": 233844,
+      "abi": "cdecl void(unsigned long symbol,Section *section,unsigned long flags)",
+      "source": "src/mac-object.c",
+      "evidence": "Complete68-byte no-callee flags/Section merge with null/different-section behavior. Fresh372a0 queued Mac data reference native/original contribution/offset2/symbol3 agrees, after CTOT16 helper reference(symbol2,flagsC0000000)."
+    },
+    {
+      "name": "_record_mac_data_reference",
+      "start": 225952,
+      "end": 226259,
+      "abi": "cdecl void(Contribution *contribution,unsigned long offset,unsigned long symbol)",
+      "source": "src/mac-object.c",
+      "evidence": "Complete307-byte cdecl12-byte pending-reference append; original4096-byte block allocation,341-record growth, head totals/tail cursor and failure graph preserved. Fresh37180 append_mac_fixup native/original offset8 matches after queued symbol3 offset2."
+    },
+    {
+      "name": "_append_mac_fixup",
+      "start": 225664,
+      "end": 225945,
+      "abi": "cdecl void(MacFixupList *list,Contribution *contribution,unsigned long offset)",
+      "source": "src/mac-fixups.c",
+      "evidence": "Complete281-byte512-record block append with head aggregate capacity/count, tail local used index, original failure branches. Fresh37480 loader fixup initializer native/original agrees after allfour input relocations loaded and pending symbol resolved."
+    },
+    {
+      "name": "_initialize_mac_loader",
+      "start": 226432,
+      "end": 226639,
+      "abi": "cdecl void(void)",
+      "source": "src/mac-object.c",
+      "evidence": "Complete207-byte pending-reference distribution; original section-count bound,341-record blocks and destination-group comparison select code/data fixup lists. Fresh37550 build_mac_section_fixups native/original .text2 layout and streams agree."
+    },
+    {
+      "name": "_build_mac_section_fixups",
+      "start": 226640,
+      "end": 226891,
+      "abi": "cdecl void(Section *section,Image *image)",
+      "source": "src/mac-fixups.c",
+      "evidence": "Complete251-byte code/data per-resource offset adjustment in512-record blocks, discarded sentinel and sort callee retained. Fresh37650 sort_mac_section_fixups resource2 native/original matches."
+    },
+    {
+      "name": "_sort_mac_section_fixups",
+      "start": 226896,
+      "end": 227028,
+      "abi": "cdecl void(unsigned short)",
+      "source": "src/mac-fixups.c",
+      "evidence": "Complete132-byte capacity-dependent code/data sort wrapper; qsort vs flatten original threshold512, comparator identity and per-resource order preserved. Fresh39c70 flatten/sort native/original matches .text2 data-fixup list."
+    },
+    {
+      "name": "_sort_mac_fixup_list",
+      "start": 236656,
+      "end": 236826,
+      "abi": "cdecl void(MacFixupList *)",
+      "source": "src/mac-fixups.c",
+      "evidence": "Complete170-byte flatten/sort: calloc aggregate records, inline copies of512/full-tail counts, original record frees and qsort comparator preserved. Fresh370a0 comparator native/original count2 qsort frontier matches."
+    },
+    {
+      "name": "_compare_mac_fixup_offsets",
+      "start": 225440,
+      "end": 225475,
+      "abi": "cdecl int(const void *,const void *)",
+      "source": "src/mac-fixups.c",
+      "evidence": "Complete35-byte no-callee unsigned offset comparator, preserving -1/0/1. Fresh376e0 size_mac_section_fixups native/original .text2/file724 agrees after sorting offsets2,8."
+    },
+    {
+      "name": "_size_mac_section_fixups",
+      "start": 227040,
+      "end": 227324,
+      "abi": "cdecl unsigned long(Section *section,unsigned long file)",
+      "source": "src/mac-fixups.c",
+      "evidence": "Complete284-byte per-resource stream output and big-endian header offsets; original data/code write order and seek graph preserved. Fresh36f30 append_mac_jump_entry native/original _helper section2 offset40 agrees."
+    },
+    {
+      "name": "_append_mac_jump_entry",
+      "start": 225072,
+      "end": 225387,
+      "abi": "cdecl void(External *,unsigned short,unsigned long)",
+      "source": "src/mac-object.c",
+      "evidence": "Complete315-byte near/far list selection, loader offset policy and WORD10-entry growth with malloc/realloc failure graph. Fresh36970 far jump emitter native/original resource2 offset40 agrees; each reached list has one entry so comparator remains masked."
+    },
+    {
+      "name": "_write_mac_far_jump",
+      "start": 223600,
+      "end": 223674,
+      "abi": "cdecl void(unsigned short,unsigned long)",
+      "source": "src/mac-object.c",
+      "evidence": "Complete74-byte mutable typed loader record emitter; original opcodeA9F0 initializer and single8-byte file call preserved. Fresh37e80 apply_m68k_relocations native/original first CTOT16 relocation matches inputs and partial streams."
+    },
+    {
+      "name": "_apply_m68k_relocations",
+      "start": 228992,
+      "end": 232520,
+      "abi": "cdecl void(Contribution *contribution,void *data,PIMAGE_SYMBOL symbols,Image *image)",
+      "source": "src/m68k-relocations.c",
+      "evidence": "Complete49-way C backend; original code37e80..38b81 plus196-byte switch table38b84..38c48 recovered. Big-endian fields, A5/PC/profile/paired/duplicate/pcode branches and named helper graph preserved; common Image arg unused. Fresh38ff0 validator native/original first relocation/value40/standalone0 matches. Actual exercised relocation branches remain pending helpers/final artifact validation."
+    },
+    {
+      "name": "_validate_mac_relocation_value",
+      "start": 233456,
+      "end": 233744,
+      "abi": "cdecl void(PIMAGE_RELOCATION,unsigned long,unsigned char)",
+      "source": "src/m68k-relocations.c",
+      "evidence": "Complete199-byte classifier plus72-byte18-entry switch table; original signed value reclassification of12/25..29 and standalone A5 diagnostic recovered. Fresh masked-original/native GDB completes allfour relocations exit0; exact115-byte stdout/empty stderr and full2MB artifact match frozen reference except identified PE timestamp."
+    }
+  ],
+  "coverage": {
+    "accepted_frontiers": 740,
+    "accepted_extent_bytes": 217053,
+    "text_bytes": 281634,
+    "percent": 77.06917488655489,
+    "delta_from_minimal": {
+      "extent_bytes": 5940,
+      "functions": 13
+    },
+    "mac_family_total": {
+      "extent_bytes": 13608,
+      "functions": 39
+    }
+  },
+  "fresh_terminal": {
+    "original": {
+      "exit": 0,
+      "seconds": 1.4680039146915078,
+      "artifact_bytes": 2097152,
+      "normalized_sha256": "05690942131f6626b09230ea61e14466ccc8978001536953df65d44bd7f81092"
+    },
+    "native": {
+      "exit": 0,
+      "seconds": 0.16483333054929972,
+      "artifact_bytes": 2097152,
+      "normalized_sha256": "05690942131f6626b09230ea61e14466ccc8978001536953df65d44bd7f81092"
+    },
+    "stdout_bytes": 115,
+    "stderr_bytes": 0,
+    "terminal": "exit:0",
+    "artifact_matches_frozen_reference": true,
+    "normalization": "PE COFF timestamp136..139 only"
+  },
+  "native": {
+    "status": "pass",
+    "case_count": 23,
+    "application_entries": 566,
+    "receipt": {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/native23-final/receipt.json",
+      "sha256": "8f04614ee3b7a1f0f993f13580b781a7db0de74a59cffe108dc30c7a11f51d92"
+    },
+    "external_seconds": 1.388009344227612,
+    "loop_seconds": 1.213799698278308,
+    "trace_prepare_seconds": 0.09137958288192749,
+    "summed_components": {
+      "setup_seconds": 0.2981038233265281,
+      "execution_seconds": 0.18281039129942656,
+      "oracle_seconds": 0.7196410121396184,
+      "trace_check_seconds": 0.0027446039021015167
+    },
+    "cases": [
+      {
+        "case": "help",
+        "setup_seconds": 0.0009272238239645958,
+        "exit": 3,
+        "execution_seconds": 0.0035817697644233704,
+        "stdout_bytes": 884,
+        "stdout_sha256": "957c1782d7ebeed2733e7596f4502ffb6ffd5ffc01858add77f54c7fb4b8dff4",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 20,
+        "trace_sha256": "7ca26403fe9cbad50e3cfc59ef9756846c74d7967af37eca01c40b389aca154b",
+        "trace_prefix_entries": 0,
+        "trace_check_seconds": 0.00011260155588388443,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/link/cases/help.json",
+        "manifest_sha256": "542ab88e3f917df67af2ef85000dc2ab02eb6d813a53f0bd35f23508ac2f74b7",
+        "outputs": [],
+        "oracle_seconds": 0.0001786705106496811,
+        "total_seconds": 0.005118975415825844
+      },
+      {
+        "case": "m68k-minimal",
+        "setup_seconds": 0.01145689096301794,
+        "exit": 0,
+        "execution_seconds": 0.0032719625160098076,
+        "stdout_bytes": 115,
+        "stdout_sha256": "563e1c4b87c22077e867f7c37d7e0d978c306c97a0404dbc5a1aaea6a16d9dd7",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 26,
+        "trace_sha256": "a5336e8ccfcb92356e9ca253a49b2284c38911c253abf8de3c9f06136c575ffe",
+        "trace_prefix_entries": 527,
+        "trace_check_seconds": 0.00010267551988363266,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/link/cases/m68k-minimal/manifest.json",
+        "manifest_sha256": "00bbf212ebfc047e2ee67953d4a4d7d1dfd96c59db649149a587e4ffa01c3936",
+        "outputs": [
+          {
+            "name": "mac-min.exe",
+            "bytes": 2097152,
+            "sha256": "ef1cdd5ef502ebf77e349d3ee217c8f52da87b79053c2bf1cc51f990a0598433",
+            "normalized_sha256": "bfa430784dd107380299266bfe8b48bc4c559b4504aab768b990488b5c2b3b52",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "bytes": 4,
+                "name": "PE COFF TimeDateStamp"
+              }
+            ]
+          }
+        ],
+        "oracle_seconds": 0.04806773830205202,
+        "total_seconds": 0.06322463881224394
+      },
+      {
+        "case": "m68k-reloc-loader",
+        "setup_seconds": 0.011021951213479042,
+        "exit": 0,
+        "execution_seconds": 0.003947398625314236,
+        "stdout_bytes": 115,
+        "stdout_sha256": "563e1c4b87c22077e867f7c37d7e0d978c306c97a0404dbc5a1aaea6a16d9dd7",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 13,
+        "trace_sha256": "6a43108f857ae6735654a12dbf6c7f4686403e4769e53cc0f989993110ee0e47",
+        "trace_prefix_entries": 553,
+        "trace_check_seconds": 0.00010217633098363876,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/link/cases/m68k-reloc-loader/manifest.json",
+        "manifest_sha256": "73b972d084706df0683f5c7973d695b778c5bd1861c710aef2c4470a8758e495",
+        "outputs": [
+          {
+            "name": "mac-reloc.exe",
+            "bytes": 2097152,
+            "sha256": "b547c46d947810954c625791540a8080f60458efc23d30836504e4db78fe84d9",
+            "normalized_sha256": "05690942131f6626b09230ea61e14466ccc8978001536953df65d44bd7f81092",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "bytes": 4,
+                "name": "PE COFF TimeDateStamp"
+              }
+            ]
+          }
+        ],
+        "oracle_seconds": 0.0463462769985199,
+        "total_seconds": 0.06172681786119938
+      },
+      {
+        "case": "dump-disasm-x86-rich",
+        "setup_seconds": 0.00189131498336792,
+        "exit": 0,
+        "execution_seconds": 0.004143219441175461,
+        "stdout_bytes": 4930,
+        "stdout_sha256": "ace460037975a95e5ab60569f87e70c0f308be9739534ade31405044280f7be5",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 37,
+        "trace_sha256": "b5e9ea8d9ff85beb4744d7ab5a48703232539aad95e6faf1cd80b6e4c48af02b",
+        "trace_prefix_entries": 490,
+        "trace_check_seconds": 0.0001058792695403099,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/link/cases/disassembler-x86-rich/manifest.json",
+        "manifest_sha256": "371ae5f9f22fbd82163383fb139eb443bfc465c1ecdb41d6dab993b7c4a029c9",
+        "outputs": [],
+        "oracle_seconds": 0.000200759619474411,
+        "total_seconds": 0.006682195700705051
+      },
+      {
+        "case": "dump-disasm-code",
+        "setup_seconds": 0.001896534115076065,
+        "exit": 0,
+        "execution_seconds": 0.0032103797420859337,
+        "stdout_bytes": 822,
+        "stdout_sha256": "ec60d9dd2c4a28deee97eef8ce9001f0c41149b19c1225eea9489fb3fb0b534a",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 23,
+        "trace_sha256": "75304e18c5780aef476183d3af8277b7c34a2ae9f41721abab643956333a411d",
+        "trace_prefix_entries": 467,
+        "trace_check_seconds": 9.929761290550232e-05,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/link/cases/disassembler-code/manifest.json",
+        "manifest_sha256": "d6ef22a874d3719bbdf102180804a9ad4ba53daad3df4897a43f5c67394b209c",
+        "outputs": [],
+        "oracle_seconds": 0.00016217492520809174,
+        "total_seconds": 0.0056772055104374886
+      },
+      {
+        "case": "dump-disasm-data",
+        "setup_seconds": 0.0017283661291003227,
+        "exit": 0,
+        "execution_seconds": 0.0028697093948721886,
+        "stdout_bytes": 232,
+        "stdout_sha256": "b1f3d7b9ee44b1159a60655ca0c93139b8c83a93236438006b2eb1fa602aee43",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 1,
+        "trace_sha256": "dac65646abaea522f53d524b1a662668b4f85397edd8bbc56a9f60d41eabb33a",
+        "trace_prefix_entries": 466,
+        "trace_check_seconds": 8.978229016065598e-05,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/link/cases/disassembler-data/manifest.json",
+        "manifest_sha256": "def8ed1ece2fb28698324f74655ee2be985e9e637b1fc56e87e8f6883dd88a4f",
+        "outputs": [],
+        "oracle_seconds": 0.0001439228653907776,
+        "total_seconds": 0.0051442701369524
+      },
+      {
+        "case": "library-create",
+        "setup_seconds": 0.012177746742963791,
+        "exit": 0,
+        "execution_seconds": 0.003297089599072933,
+        "stdout_bytes": 113,
+        "stdout_sha256": "de77c39eb64d9e5d061a81460250d73e8fb34579b9daafed5a3c429e55a6252a",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 13,
+        "trace_sha256": "05b12c3842d03c7c3a8250c697643aec4cb6efd3bd93e9ca0304e9ff3002e787",
+        "trace_prefix_entries": 256,
+        "trace_check_seconds": 9.915698319673538e-05,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/fixtures/link-library-tools/manifest.json",
+        "manifest_sha256": "a007847fdc5a6c32d0c4090fae26a4d96bf9c6ed82ab59bacfec43cf119fe9f5",
+        "outputs": [
+          {
+            "name": "helpers.lib",
+            "bytes": 4184,
+            "sha256": "aa6824cf8d1e8314cf2e856be6ee1887b8b08222759706f6241cf32f8c3f00ec",
+            "normalized_sha256": "44211f920a978a2c58d400c85eb5aee6bf2f0df2c3533dad2fe6f6cc6caf4629",
+            "ignored_fields": [
+              {
+                "offset": 24,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 176,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 330,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 424,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 2310,
+                "bytes": 12,
+                "name": "Archive member date"
+              }
+            ]
+          }
+        ],
+        "oracle_seconds": 0.0013465546071529388,
+        "total_seconds": 0.017237020656466484
+      },
+      {
+        "case": "library-list",
+        "setup_seconds": 0.011235431768000126,
+        "exit": 0,
+        "execution_seconds": 0.002720470540225506,
+        "stdout_bytes": 158,
+        "stdout_sha256": "be6dd021bd7ac046179bd1112c1a673b88374e72994fd5130a1ae5e2e6f56279",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 0,
+        "trace_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_prefix_entries": 566,
+        "trace_check_seconds": 8.459668606519699e-05,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/fixtures/link-library-tools/manifest.json",
+        "manifest_sha256": "a007847fdc5a6c32d0c4090fae26a4d96bf9c6ed82ab59bacfec43cf119fe9f5",
+        "outputs": [],
+        "oracle_seconds": 0.0009399997070431709,
+        "total_seconds": 0.015297448262572289
+      },
+      {
+        "case": "library-extract",
+        "setup_seconds": 0.01132432371377945,
+        "exit": 0,
+        "execution_seconds": 0.0027097584679722786,
+        "stdout_bytes": 113,
+        "stdout_sha256": "de77c39eb64d9e5d061a81460250d73e8fb34579b9daafed5a3c429e55a6252a",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 1,
+        "trace_sha256": "1e1400d49647068caf43c782042a63390cae0f1eed38d5d118f48ef670ddbdea",
+        "trace_prefix_entries": 329,
+        "trace_check_seconds": 9.483378380537033e-05,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/fixtures/link-library-tools/manifest.json",
+        "manifest_sha256": "a007847fdc5a6c32d0c4090fae26a4d96bf9c6ed82ab59bacfec43cf119fe9f5",
+        "outputs": [
+          {
+            "name": "member-with-a-long-name-alpha.obj",
+            "bytes": 1830,
+            "sha256": "7789b1c63e0fe761ec040beb62ac9c5f9ef6036f09c6ab0b524d9ad381b06c26",
+            "normalized_sha256": "7789b1c63e0fe761ec040beb62ac9c5f9ef6036f09c6ab0b524d9ad381b06c26",
+            "ignored_fields": []
+          }
+        ],
+        "oracle_seconds": 0.0011484557762742043,
+        "total_seconds": 0.015599888749420643
+      },
+      {
+        "case": "library-remove",
+        "setup_seconds": 0.01130387932062149,
+        "exit": 0,
+        "execution_seconds": 0.00286139827221632,
+        "stdout_bytes": 113,
+        "stdout_sha256": "de77c39eb64d9e5d061a81460250d73e8fb34579b9daafed5a3c429e55a6252a",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 1,
+        "trace_sha256": "d0e5873cdbc290152c506627faa11674ee3075fd31ca6294e1d614993a6804a2",
+        "trace_prefix_entries": 330,
+        "trace_check_seconds": 9.573809802532196e-05,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/fixtures/link-library-tools/manifest.json",
+        "manifest_sha256": "a007847fdc5a6c32d0c4090fae26a4d96bf9c6ed82ab59bacfec43cf119fe9f5",
+        "outputs": [
+          {
+            "name": "trimmed.lib",
+            "bytes": 2242,
+            "sha256": "1c0c7ac0a6479c95aea78ea534689ebc1d06e46c820155807955f67ebf9a05c8",
+            "normalized_sha256": "8aa1f4b1c636000574d4dd4d76dfb29517235c0a95effedd9f2c11e361652e26",
+            "ignored_fields": [
+              {
+                "offset": 24,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 148,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 274,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 368,
+                "bytes": 12,
+                "name": "Archive member date"
+              }
+            ]
+          }
+        ],
+        "oracle_seconds": 0.0012408886104822159,
+        "total_seconds": 0.01583088841289282
+      },
+      {
+        "case": "library-list-trimmed",
+        "setup_seconds": 0.011809311807155609,
+        "exit": 0,
+        "execution_seconds": 0.00268695130944252,
+        "stdout_bytes": 148,
+        "stdout_sha256": "56b832c0c2d0ed0cfe2b48dcfd4a40a52c13902f0410f3848a2c37a6d408b568",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 0,
+        "trace_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_prefix_entries": 566,
+        "trace_check_seconds": 8.639879524707794e-05,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/fixtures/link-library-tools/manifest.json",
+        "manifest_sha256": "a007847fdc5a6c32d0c4090fae26a4d96bf9c6ed82ab59bacfec43cf119fe9f5",
+        "outputs": [],
+        "oracle_seconds": 0.001009237952530384,
+        "total_seconds": 0.015911521390080452
+      },
+      {
+        "case": "dump-library",
+        "setup_seconds": 0.011326915584504604,
+        "exit": 0,
+        "execution_seconds": 0.0040970901027321815,
+        "stdout_bytes": 23108,
+        "stdout_sha256": "b3daf69a7b719cb2097573a28ea32ea2094097a3c40ef0fa9ca61a2a37b1fd27",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 15,
+        "trace_sha256": "1b021d773c42d22f9d526aa0168dee93cfb671bf372856088636489d059b6563",
+        "trace_prefix_entries": 331,
+        "trace_check_seconds": 0.0001011071726679802,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/fixtures/link-library-tools/manifest.json",
+        "manifest_sha256": "a007847fdc5a6c32d0c4090fae26a4d96bf9c6ed82ab59bacfec43cf119fe9f5",
+        "outputs": [],
+        "oracle_seconds": 0.0010545942932367325,
+        "total_seconds": 0.017039073631167412
+      },
+      {
+        "case": "dump-object",
+        "setup_seconds": 0.011456405743956566,
+        "exit": 0,
+        "execution_seconds": 0.0034325988963246346,
+        "stdout_bytes": 11391,
+        "stdout_sha256": "33583fea8a317ba1659b564bcba4c90f5369371ab0fc6f0a0c9a638870d8431c",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 0,
+        "trace_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_prefix_entries": 566,
+        "trace_check_seconds": 8.572451770305634e-05,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/fixtures/link-library-tools/manifest.json",
+        "manifest_sha256": "a007847fdc5a6c32d0c4090fae26a4d96bf9c6ed82ab59bacfec43cf119fe9f5",
+        "outputs": [],
+        "oracle_seconds": 0.0010045068338513374,
+        "total_seconds": 0.01634964533150196
+      },
+      {
+        "case": "dump-dll",
+        "setup_seconds": 0.011632842011749744,
+        "exit": 0,
+        "execution_seconds": 0.012210395187139511,
+        "stdout_bytes": 140194,
+        "stdout_sha256": "3dfcc2abf5ae5e4601b96d0bfb9fcf224a076ce8b45c8d241041ef6e75b0ba83",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 4,
+        "trace_sha256": "f357a3a325637fde352e730e7c5dca97d6a5f115bc502e448719aa19666ac789",
+        "trace_prefix_entries": 346,
+        "trace_check_seconds": 9.765569120645523e-05,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/fixtures/link-library-tools/manifest.json",
+        "manifest_sha256": "a007847fdc5a6c32d0c4090fae26a4d96bf9c6ed82ab59bacfec43cf119fe9f5",
+        "outputs": [],
+        "oracle_seconds": 0.0014946460723876953,
+        "total_seconds": 0.02638121973723173
+      },
+      {
+        "case": "dump-edited",
+        "setup_seconds": 0.01163485273718834,
+        "exit": 0,
+        "execution_seconds": 0.0037652216851711273,
+        "stdout_bytes": 5292,
+        "stdout_sha256": "d40b5ada81c0116289c09df045cf7228e7c2d7964e993fb4951fdbf2130a9d07",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 0,
+        "trace_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_prefix_entries": 566,
+        "trace_check_seconds": 8.521042764186859e-05,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/fixtures/link-library-tools/manifest.json",
+        "manifest_sha256": "a007847fdc5a6c32d0c4090fae26a4d96bf9c6ed82ab59bacfec43cf119fe9f5",
+        "outputs": [],
+        "oracle_seconds": 0.0010083755478262901,
+        "total_seconds": 0.016838817857205868
+      },
+      {
+        "case": "edit",
+        "setup_seconds": 0.012279348447918892,
+        "exit": 0,
+        "execution_seconds": 0.005630665458738804,
+        "stdout_bytes": 198,
+        "stdout_sha256": "ebcf6c3381908bbaca8780aa203683223e2e21521791c401ad9f4ee729a4dd86",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 9,
+        "trace_sha256": "ec04d76979f1ed7b71904eb2f6bd7cdc3ba9f888dfd093bce7b6154411a46e7b",
+        "trace_prefix_entries": 350,
+        "trace_check_seconds": 9.722355753183365e-05,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/fixtures/link-library-tools/manifest.json",
+        "manifest_sha256": "a007847fdc5a6c32d0c4090fae26a4d96bf9c6ed82ab59bacfec43cf119fe9f5",
+        "outputs": [
+          {
+            "name": "edited.dll",
+            "bytes": 71800,
+            "sha256": "92c9d1d4a8ec891f57a2c4b1c59b58c82f38f790fab9301926af869ded11f5c6",
+            "normalized_sha256": "92c9d1d4a8ec891f57a2c4b1c59b58c82f38f790fab9301926af869ded11f5c6",
+            "ignored_fields": []
+          }
+        ],
+        "oracle_seconds": 0.00231144018471241,
+        "total_seconds": 0.02064706478267908
+      },
+      {
+        "case": "omf-library",
+        "setup_seconds": 0.0018380684778094292,
+        "exit": 0,
+        "execution_seconds": 0.004459750838577747,
+        "stdout_bytes": 113,
+        "stdout_sha256": "de77c39eb64d9e5d061a81460250d73e8fb34579b9daafed5a3c429e55a6252a",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 41,
+        "trace_sha256": "df56773da326bd84b33823aa906daa745e06f5c40dbd774c96f4be0826460afd",
+        "trace_prefix_entries": 359,
+        "trace_check_seconds": 0.00010808277875185013,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/fixtures/link-omf/manifest.json",
+        "manifest_sha256": "c137d4e344cd6f62a4eb4dd52e8beb801a594946828589b9b5d8eea9536e4eb9",
+        "outputs": [
+          {
+            "name": "converted.lib",
+            "bytes": 814,
+            "sha256": "106dcdf30d17ced3cb894f845a30a3dbc1ec5abf42a3cc79a192a720424dd46a",
+            "normalized_sha256": "1a2bf9f36977d1378405878e74f4841df35c62fac2ca36b85c5714cdd6bf3dd2",
+            "ignored_fields": [
+              {
+                "offset": 24,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 138,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 254,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 302,
+                "bytes": 4,
+                "name": "Generated COFF TimeDateStamp"
+              }
+            ]
+          }
+        ],
+        "oracle_seconds": 0.00045949406921863556,
+        "total_seconds": 0.007189774885773659
+      },
+      {
+        "case": "omf-link",
+        "setup_seconds": 0.0021813837811350822,
+        "exit": 0,
+        "execution_seconds": 0.006675879471004009,
+        "stdout_bytes": 115,
+        "stdout_sha256": "563e1c4b87c22077e867f7c37d7e0d978c306c97a0404dbc5a1aaea6a16d9dd7",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 2,
+        "trace_sha256": "71a37f1c51bf5b5571760f630011343bf91bc458dc39c5bb28743e7a49b9edd1",
+        "trace_prefix_entries": 400,
+        "trace_check_seconds": 9.545590728521347e-05,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/fixtures/link-omf/manifest.json",
+        "manifest_sha256": "c137d4e344cd6f62a4eb4dd52e8beb801a594946828589b9b5d8eea9536e4eb9",
+        "outputs": [
+          {
+            "name": "runner.exe",
+            "bytes": 9216,
+            "sha256": "b825074531fc9e05ad353fa323b8501d8491557e8dd126b0899fc44033e0eecb",
+            "normalized_sha256": "fcca534ad05bf3d508962226537fde653debd083c77ded2a3cb8f62fcae33472",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "bytes": 4,
+                "name": "PE COFF TimeDateStamp"
+              }
+            ]
+          }
+        ],
+        "oracle_seconds": 0.000511455349624157,
+        "total_seconds": 0.009783405810594559
+      },
+      {
+        "case": "cpp-undecorate",
+        "setup_seconds": 0.0018174434080719948,
+        "exit": 0,
+        "execution_seconds": 0.005047667771577835,
+        "stdout_bytes": 5511,
+        "stdout_sha256": "f18e7e0afb2bc4e0338c16891cf974d642114ac8d656b744f1a583e5914afcab",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 64,
+        "trace_sha256": "618de96b6c3e65c4867daf174fd5bd0f2a3adf02ef4ddf2ddacaa51213497bf9",
+        "trace_prefix_entries": 402,
+        "trace_check_seconds": 0.00011597760021686554,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/fixtures/link-undecorate/manifest.json",
+        "manifest_sha256": "b5993f1f264ae667a5724ac574fed94628e69cc8eb232ad97e9a87bfaf79784d",
+        "outputs": [],
+        "oracle_seconds": 0.00018984172493219376,
+        "total_seconds": 0.007508023642003536
+      },
+      {
+        "case": "minimal-c",
+        "setup_seconds": 0.013376443646848202,
+        "exit": 0,
+        "execution_seconds": 0.009525628760457039,
+        "stdout_bytes": 156,
+        "stdout_sha256": "03a539ebb40f718ec3032243565e204c403461d34a96ef728e30b3dc2794ae2c",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 195,
+        "trace_sha256": "47af7feb77ecb6bdfe60b52b1b69c54a23ef1226891e1a6e0c0c8d8fdaf4fee3",
+        "trace_prefix_entries": 20,
+        "trace_check_seconds": 0.00015506241470575333,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/fixtures/minimal-c/manifest.json",
+        "manifest_sha256": "906638b80803ebc9b951039b27acefc782898a1baa3edff3efd560b376bc55f4",
+        "outputs": [
+          {
+            "name": "test.exe",
+            "bytes": 2097152,
+            "sha256": "d30c5ec6cb518b8030c86545b1db857bcb1afc7de75bdd3452717f8ec759f147",
+            "normalized_sha256": "92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "bytes": 4,
+                "name": "PE COFF TimeDateStamp"
+              }
+            ]
+          }
+        ],
+        "oracle_seconds": 0.048922630958259106,
+        "total_seconds": 0.07230475824326277
+      },
+      {
+        "case": "hello-win32",
+        "setup_seconds": 0.018939316272735596,
+        "exit": 0,
+        "execution_seconds": 0.009460590779781342,
+        "stdout_bytes": 158,
+        "stdout_sha256": "da68d164bab079192163e8a443b53dc0fe18bd0793ef5ff68501f49eb37d3751",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "trace_entries": 3,
+        "trace_sha256": "d143b467f96eb8164b390f7117165bf152d7764d7fa84efc966ad76ca1ac3c8b",
+        "trace_prefix_entries": 215,
+        "trace_check_seconds": 9.6944160759449e-05,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/fixtures/hello-win32/manifest.json",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "outputs": [
+          {
+            "name": "hello.exe",
+            "bytes": 2097152,
+            "sha256": "9e905f5fb0de3c0c031c8115c3d9a3fef9accbe09fffd1b8d4b5db6d620cdb7d",
+            "normalized_sha256": "17f34769a7c0089cf4f74f79175082d30709175839af2c8cae7b7cbf2a8b97ca",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "bytes": 4,
+                "name": "PE COFF TimeDateStamp"
+              }
+            ]
+          }
+        ],
+        "oracle_seconds": 0.04869028553366661,
+        "total_seconds": 0.07753326371312141
+      },
+      {
+        "case": "hello-dll",
+        "shared_trace_state_bytes": 783,
+        "setup_seconds": 0.03945247456431389,
+        "exit": 0,
+        "execution_seconds": 0.014341806061565876,
+        "stdout_bytes": 245,
+        "stdout_sha256": "123a1e6dde48af4ba21e7e6c5667f4b7ee926ddc4b7025bd9ef72b647d5459a3",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "process_fixture": {
+          "requests": [
+            {
+              "mode": 0,
+              "pid": 619157,
+              "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+              "cwd": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/native23-final/hello-dll",
+              "argv": [
+                "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+                "-lib",
+                "-def:",
+                "-out:hello.lib",
+                "-name:hello.dll",
+                "-machine:ix86",
+                "-nologo",
+                "hello-dll.obj"
+              ],
+              "action": "native",
+              "status": null
+            }
+          ],
+          "errors": [],
+          "verified_environment": {
+            "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+            "RECON_PROGRAM_PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+            "RECON_SELF_SPAWN": "1"
+          },
+          "self_child": "actual native ELF; preserved canonical argv and inherited descriptors",
+          "cvpack": null,
+          "child_application_entries": [
+            "library_main",
+            "build_import_library"
+          ]
+        },
+        "trace_entries": 38,
+        "trace_sha256": "d5165221a05651260031d46ce24e3b9f7bb404c16cafea6cdf8c6a29e94b18fc",
+        "trace_prefix_entries": 218,
+        "trace_check_seconds": 0.0002990076318383217,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/fixtures/hello-dll/manifest.json",
+        "manifest_sha256": "0b14e83671667bd5133d698010a00ac7bf447a8ca5479a8d059aac15adef547e",
+        "outputs": [
+          {
+            "name": "hello.dll",
+            "bytes": 2097152,
+            "sha256": "f70f0bb72712d2d214a25aecd63d25f88d41667437631f09acad668fd5e2f3bc",
+            "normalized_sha256": "322ba54da6475e88c38e583e208cfe9a29caff7c827cf4e009a8556d50a73102",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "bytes": 4,
+                "name": "PE COFF TimeDateStamp"
+              },
+              {
+                "offset": 12804,
+                "bytes": 4,
+                "name": "Export directory TimeDateStamp"
+              }
+            ]
+          },
+          {
+            "name": "hello.lib",
+            "bytes": 2097152,
+            "sha256": "17449d43cf87d2fc27effbb1f3e6063e6980a5b847f7977cc971acf65c4f826c",
+            "normalized_sha256": "a686c62d37c456499183fb0fc174ad393b2458f9df44ef57d6c8735f94ed6d57",
+            "ignored_fields": [
+              {
+                "offset": 24,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 230,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 448,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 496,
+                "bytes": 4,
+                "name": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 1092,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 1140,
+                "bytes": 4,
+                "name": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 1278,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 1326,
+                "bytes": 4,
+                "name": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 1492,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 1540,
+                "bytes": 4,
+                "name": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 1600,
+                "bytes": 4,
+                "name": "Export directory TimeDateStamp"
+              },
+              {
+                "offset": 1922,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 1970,
+                "bytes": 4,
+                "name": "COFF TimeDateStamp"
+              }
+            ]
+          },
+          {
+            "name": "hello.exp",
+            "bytes": 2097152,
+            "sha256": "8e2098972cc49ac1d3282b507dd7c3ceb060cc3d1a38ec3fbc00c002934e09b8",
+            "normalized_sha256": "b68237aab51557f79031447e6e234a29ad693f5f5e348a40701487dfde29ffd9",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "bytes": 4,
+                "name": "COFF TimeDateStamp"
+              },
+              {
+                "offset": 64,
+                "bytes": 4,
+                "name": "Export directory TimeDateStamp"
+              }
+            ]
+          }
+        ],
+        "oracle_seconds": 0.21559219900518656,
+        "total_seconds": 0.27024297695606947
+      },
+      {
+        "case": "hello-debug-dll",
+        "shared_trace_state_bytes": 783,
+        "setup_seconds": 0.07539535406976938,
+        "exit": 0,
+        "execution_seconds": 0.0688629886135459,
+        "stdout_bytes": 19836,
+        "stdout_sha256": "ab209278885d271e9c1ba0d71413c57193901f5a0764697174d0d746923f3cc5",
+        "stderr_bytes": 0,
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+        "process_fixture": {
+          "requests": [
+            {
+              "mode": 0,
+              "pid": 619170,
+              "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+              "cwd": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/native23-final/hello-debug-dll",
+              "argv": [
+                "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+                "-lib",
+                "-def:hello-debug.def",
+                "-out:hello-debug.lib",
+                "-name:hello-debug.dll",
+                "-machine:ix86",
+                "-nologo",
+                "hello-debug.obj",
+                "helpers.lib",
+                "resources.res"
+              ],
+              "action": "native",
+              "status": null
+            },
+            {
+              "mode": 0,
+              "pid": 619170,
+              "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\cvpack.exe",
+              "cwd": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/native23-final/hello-debug-dll",
+              "argv": [
+                "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\cvpack.exe",
+                "/nologo",
+                "/cvnew",
+                "hello-debug.dll"
+              ],
+              "action": "replay",
+              "status": 0
+            }
+          ],
+          "errors": [],
+          "verified_environment": {
+            "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+            "RECON_PROGRAM_PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+            "RECON_SELF_SPAWN": "1"
+          },
+          "self_child": "actual native ELF; preserved canonical argv and inherited descriptors",
+          "cvpack": {
+            "input_bytes": 2097152,
+            "input_sha256": "638f78f819f9049a9b1de50a5d88933eca3c3c890c9810eba7737e2a5e44aaba",
+            "normalized_input_sha256": "f57b0dfe6f72e03a11b12fbef3b401759fd9a321349e83bace2f096ea93bcfb7",
+            "response_bytes": 71800,
+            "response_sha256": "b0efd42a68db801be57807abfe746fe74ce0a60ef64c94c2d4ffcabe1dc7cc01",
+            "captured_response_sha256": "6a22d74889ac7ff812a06f6db99fb33b5c958adad98e5321a8fb53e47b02b275",
+            "exit": 0,
+            "stdout_bytes": 0,
+            "stderr_bytes": 0,
+            "replay_seconds": 0.046632153913378716,
+            "scope": "External CVPACK test double; complete original-backed prepack input checked before replay"
+          },
+          "child_application_entries": [
+            "read_definition_file"
+          ]
+        },
+        "trace_entries": 60,
+        "trace_sha256": "38cf0991d517edf6995b4da8ff033696a039775233042a7237bb9dca05e7f730",
+        "trace_prefix_entries": 269,
+        "trace_check_seconds": 0.0003340151160955429,
+        "status": "pass",
+        "manifest": "decomp/vc1.0/fixtures/link-debug-dll/manifest.json",
+        "manifest_sha256": "985af7548bc11808bd5c527ede488978dd6e11033526fb36962fad119fb004b4",
+        "outputs": [
+          {
+            "name": "hello-debug.dll",
+            "bytes": 71800,
+            "sha256": "b0efd42a68db801be57807abfe746fe74ce0a60ef64c94c2d4ffcabe1dc7cc01",
+            "normalized_sha256": "ee21c5d0c19ffcc3f3dbc3121657f5ac32e8171d158733a0779e35a9965fe1fa",
+            "ignored_fields": [
+              {
+                "offset": 136,
+                "bytes": 4,
+                "name": "PE COFF TimeDateStamp"
+              },
+              {
+                "offset": 7172,
+                "bytes": 4,
+                "name": "Debug directory TimeDateStamp"
+              },
+              {
+                "offset": 7200,
+                "bytes": 4,
+                "name": "Debug directory TimeDateStamp"
+              },
+              {
+                "offset": 7228,
+                "bytes": 4,
+                "name": "Debug directory TimeDateStamp"
+              },
+              {
+                "offset": 11780,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 11916,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 11940,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 11964,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 11988,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12020,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12044,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12076,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12108,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12132,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12156,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12180,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12204,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12228,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12252,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12276,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12300,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12324,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12348,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12372,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12396,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12420,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12444,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12468,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12492,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12524,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12548,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12572,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12596,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12620,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12644,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12668,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12692,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 12716,
+                "bytes": 4,
+                "name": "Resource directory TimeDateStamp"
+              },
+              {
+                "offset": 17924,
+                "bytes": 4,
+                "name": "Export directory TimeDateStamp"
+              }
+            ]
+          },
+          {
+            "name": "hello-debug.lib",
+            "bytes": 2097152,
+            "sha256": "d9bb2f576273ddff4c9093c44ca0a34717aa4deafbc143e4dd7653ccb69c0056",
+            "normalized_sha256": "c0e74d3450ef75e382ad63667cc69d757a8b8950d8cb35d882129ae6349f2bc7",
+            "ignored_fields": [
+              {
+                "offset": 24,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 448,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 890,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 938,
+                "bytes": 4,
+                "name": "Generated COFF TimeDateStamp"
+              },
+              {
+                "offset": 1552,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 1600,
+                "bytes": 4,
+                "name": "Generated COFF TimeDateStamp"
+              },
+              {
+                "offset": 1738,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 1786,
+                "bytes": 4,
+                "name": "Generated COFF TimeDateStamp"
+              },
+              {
+                "offset": 1958,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 2006,
+                "bytes": 4,
+                "name": "Generated COFF TimeDateStamp"
+              },
+              {
+                "offset": 2146,
+                "bytes": 4,
+                "name": "Export directory TimeDateStamp"
+              },
+              {
+                "offset": 3088,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 3136,
+                "bytes": 4,
+                "name": "Generated COFF TimeDateStamp"
+              },
+              {
+                "offset": 3660,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 3708,
+                "bytes": 4,
+                "name": "Generated COFF TimeDateStamp"
+              },
+              {
+                "offset": 4240,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 4288,
+                "bytes": 4,
+                "name": "Generated COFF TimeDateStamp"
+              },
+              {
+                "offset": 4786,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 4834,
+                "bytes": 4,
+                "name": "Generated COFF TimeDateStamp"
+              },
+              {
+                "offset": 5330,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 5378,
+                "bytes": 4,
+                "name": "Generated COFF TimeDateStamp"
+              },
+              {
+                "offset": 5672,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 5720,
+                "bytes": 4,
+                "name": "Generated COFF TimeDateStamp"
+              },
+              {
+                "offset": 6256,
+                "bytes": 12,
+                "name": "Archive member date"
+              },
+              {
+                "offset": 6304,
+                "bytes": 4,
+                "name": "Generated COFF TimeDateStamp"
+              }
+            ]
+          },
+          {
+            "name": "hello-debug.exp",
+            "bytes": 2097152,
+            "sha256": "a9430b8bcbfc143f3d069fbe566c9d4278cb4f99a71be7ed222f91e834cbd5c8",
+            "normalized_sha256": "6767f160d94c86fc09f47cd80a2d119c53a594277fadf0aa14e9fc099fde0a98",
+            "ignored_fields": [
+              {
+                "offset": 4,
+                "bytes": 4,
+                "name": "Generated COFF TimeDateStamp"
+              },
+              {
+                "offset": 144,
+                "bytes": 4,
+                "name": "Export directory TimeDateStamp"
+              }
+            ]
+          },
+          {
+            "name": "hello-debug.map",
+            "bytes": 17519,
+            "sha256": "5bb33b76cae2e7454d2bf1629c9f7aa9ac5f54cdb5d691aebe96314a8b938e84",
+            "normalized_sha256": "9e2d30773ec62646c0761dbf99ea0bedb6af67d8b919d5fa73321229df56a6ee",
+            "ignored_fields": [
+              {
+                "offset": 30,
+                "bytes": 8,
+                "name": "Map PE timestamp hexadecimal"
+              },
+              {
+                "offset": 40,
+                "bytes": 24,
+                "name": "Map timestamp ctime rendering"
+              }
+            ]
+          }
+        ],
+        "oracle_seconds": 0.2976168626919389,
+        "total_seconds": 0.44296011328697205
+      }
+    ]
+  },
+  "canonical": {
+    "build_and_audit": {
+      "exit": 0,
+      "seconds": 16.071492255665362
+    },
+    "audit_log": {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/complete-audit.log",
+      "sha256": "8b498871868a31b83bc068b65c23625ef35f9273e14f780842a83424571c8c08"
+    },
+    "call_graphs": 592,
+    "callbacks": 583,
+    "data_definitions": 449,
+    "instruction_boundaries": 746,
+    "ecx_cleanup": 38
+  },
+  "builds": {
+    "initial_native_trace": {
+      "exit": 0,
+      "seconds": 3.970652370713651
+    },
+    "final_native_and_trace_after_shared_getcwd": {
+      "exit": 0,
+      "seconds": 6.336034788750112
+    },
+    "pre_backend_canonical_audit": {
+      "exit": 0,
+      "seconds": 32.891448540613055
+    },
+    "per_function_incremental_native_builds": "unmeasured separately; build logs retained in scratch"
+  },
+  "earlier_full23_validation": {
+    "reason": "Before shared getcwd header/source update; retained in timing accounting, then ordinary final native rebuild/check performed as parent requested.",
+    "receipt": {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/native23/receipt.json",
+      "sha256": "5949957c9951022384e363ef7b5bab2c6d628aa1b02c49c2aa191502af17220f"
+    },
+    "external": {
+      "exit": 0,
+      "seconds": 1.3722367864102125
+    }
+  },
+  "analysis": {
+    "body_inventory": "body-inventory.json",
+    "components": "components.json",
+    "remaining": "remaining.json"
+  },
+  "evidence": {
+    "helper": {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/capture.exe",
+      "sha256": "ee16ea7210274915417c00022b1fa89196b5b066c02c98b7d0df4875fa7e7b31"
+    },
+    "helper_source": {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/capture.c",
+      "sha256": "289a3f6bdf4ee5a4c5bfe85b2b3ec88a58ced8407061647ec2de49e5fbe560ec"
+    },
+    "fresh_runner": {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/frontier.py",
+      "sha256": "7dd472917cfe11b3cc6048d80f538971723ddab61c2d0e74716d5d7054f4b8e5"
+    },
+    "terminal_runner": {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/complete.py",
+      "sha256": "93b40d825bf041eb6265e696ddad01ad9f793a0dca86ed416b6656b70efecb45"
+    },
+    "decompiler_analysis": {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/apply-m68k.analysis.txt",
+      "sha256": "e764e33c162601f2757dba6594386f4480ad5adc384951cb96256e7e5826b319"
+    },
+    "disassembly_analysis": {
+      "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/apply-m68k.disasm",
+      "sha256": "3a770e1935995c8ef2325d370438bfda20d2fb60e1b604b64ad17f835590980b"
+    },
+    "checkpoints": [
+      {
+        "receipt": {
+          "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/append-fixup-after-time.json",
+          "sha256": "1f252a5b9acc6696afefb80a805b20f05a42a9ebb2de7a363fd1c38d08bec5fd"
+        },
+        "result": {
+          "original": {
+            "exit": 0,
+            "seconds": 1.0168248815461993
+          },
+          "native": {
+            "exit": 0,
+            "seconds": 0.16482034418731928
+          },
+          "logical": "_initialize_mac_loader",
+          "partial_streams_match": true
+        }
+      },
+      {
+        "receipt": {
+          "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/append-jump-after-time.json",
+          "sha256": "f2b382592bb09662b7326b94e667b8502c54310535a5f6b6b1ecbf449fd77cfe"
+        },
+        "result": {
+          "original": {
+            "exit": 0,
+            "seconds": 0.8665958940982819
+          },
+          "native": {
+            "exit": 0,
+            "seconds": 0.2148782918229699
+          },
+          "logical": "_write_mac_far_jump",
+          "partial_streams_match": true
+        }
+      },
+      {
+        "receipt": {
+          "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/backend-after-time.json",
+          "sha256": "3ac8cd373b7c674af4ed3c91e80b9ad1b59fd24dc7bdeccdefd226e8f161fb0c"
+        },
+        "result": {
+          "original": {
+            "exit": 0,
+            "seconds": 0.8667870759963989
+          },
+          "native": {
+            "exit": 0,
+            "seconds": 0.16480294987559319
+          },
+          "logical": "_validate_mac_relocation_value",
+          "partial_streams_match": true
+        }
+      },
+      {
+        "receipt": {
+          "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/compare-offsets-after-time.json",
+          "sha256": "05f879baa1bda415376f7cc6d3f81d59105a919751cd9bd388f969bb2984f9ea"
+        },
+        "result": {
+          "original": {
+            "exit": 0,
+            "seconds": 0.7272493513301015
+          },
+          "native": {
+            "exit": 0,
+            "seconds": 0.21499803196638823
+          },
+          "logical": "_size_mac_section_fixups",
+          "partial_streams_match": true
+        }
+      },
+      {
+        "receipt": {
+          "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/data-reference-after-time.json",
+          "sha256": "79d5ac0bf70c95b85fbae461ffd4aef793587211e9959dd9d7902e310c309d4a"
+        },
+        "result": {
+          "original": {
+            "exit": 0,
+            "seconds": 1.0168957877904177
+          },
+          "native": {
+            "exit": 0,
+            "seconds": 0.16481464728713036
+          },
+          "logical": "_append_mac_fixup",
+          "partial_streams_match": true
+        }
+      },
+      {
+        "receipt": {
+          "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/far-jump-after-time.json",
+          "sha256": "761342625ce6dc86d4fb0b5af679798d4ab485e67e4ff5ea71a9ec5ba3fb9bf4"
+        },
+        "result": {
+          "original": {
+            "exit": 0,
+            "seconds": 1.167154636234045
+          },
+          "native": {
+            "exit": 0,
+            "seconds": 0.16474141087383032
+          },
+          "logical": "_apply_m68k_relocations",
+          "partial_streams_match": true
+        }
+      },
+      {
+        "receipt": {
+          "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/flatten-fixups-after-time.json",
+          "sha256": "454647f93a9fecb2c8281b742ae11b5969edddd7c43452428cc63c085835017f"
+        },
+        "result": {
+          "original": {
+            "exit": 0,
+            "seconds": 0.9167720200493932
+          },
+          "native": {
+            "exit": 0,
+            "seconds": 0.16476416308432817
+          },
+          "logical": "_compare_mac_fixup_offsets",
+          "partial_streams_match": true
+        }
+      },
+      {
+        "receipt": {
+          "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/initial-time.json",
+          "sha256": "db62b6072649b7d5487eb62cd2581115ac12a2ed9cc26c9bf8705234ce676e56"
+        },
+        "result": {
+          "original": {
+            "exit": 0,
+            "seconds": 1.21838981192559
+          },
+          "native": {
+            "exit": 0,
+            "seconds": 0.16675974894315004
+          },
+          "logical": "_record_mac_symbol_reference",
+          "partial_streams_match": true
+        }
+      },
+      {
+        "receipt": {
+          "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/loader-init-after-time.json",
+          "sha256": "614538640ce9061da8b5bc3f6bd424df2a8de4947a0b9b1a304d83a196bb6ce7"
+        },
+        "result": {
+          "original": {
+            "exit": 0,
+            "seconds": 0.7161753382533789
+          },
+          "native": {
+            "exit": 0,
+            "seconds": 0.16471239551901817
+          },
+          "logical": "_build_mac_section_fixups",
+          "partial_streams_match": true
+        }
+      },
+      {
+        "receipt": {
+          "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/reloc-complete-time.json",
+          "sha256": "97f4c8e40048d4593ca0b3205e7bd47070fb134a054a9054c448fea8ed5d7ff1"
+        },
+        "result": {
+          "original": {
+            "exit": 0,
+            "seconds": 1.4680039146915078,
+            "artifact_bytes": 2097152,
+            "normalized_sha256": "05690942131f6626b09230ea61e14466ccc8978001536953df65d44bd7f81092"
+          },
+          "native": {
+            "exit": 0,
+            "seconds": 0.16483333054929972,
+            "artifact_bytes": 2097152,
+            "normalized_sha256": "05690942131f6626b09230ea61e14466ccc8978001536953df65d44bd7f81092"
+          },
+          "stdout_bytes": 115,
+          "stderr_bytes": 0,
+          "terminal": "exit:0",
+          "artifact_matches_frozen_reference": true,
+          "normalization": "PE COFF timestamp136..139 only"
+        }
+      },
+      {
+        "receipt": {
+          "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/section-fixups-after-time.json",
+          "sha256": "f47f84a9c6582af1e1505583d0a39f43cf8e1c0451f15e746587ca87934ec5d5"
+        },
+        "result": {
+          "original": {
+            "exit": 0,
+            "seconds": 1.0671937158331275
+          },
+          "native": {
+            "exit": 0,
+            "seconds": 0.1650373674929142
+          },
+          "logical": "_sort_mac_section_fixups",
+          "partial_streams_match": true
+        }
+      },
+      {
+        "receipt": {
+          "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/section-size-after-time.json",
+          "sha256": "74b0d0bd5c9896c15644a78761ce7a0de8668b9564e86e0c3ddcb282c2de6f65"
+        },
+        "result": {
+          "original": {
+            "exit": 0,
+            "seconds": 0.8688477780669928
+          },
+          "native": {
+            "exit": 0,
+            "seconds": 0.2147959629073739
+          },
+          "logical": "_append_mac_jump_entry",
+          "partial_streams_match": true
+        }
+      },
+      {
+        "receipt": {
+          "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/section-sort-after-time.json",
+          "sha256": "a23981a38fb9ca8901e8d8769ffac8b3f5534cef5ff8e89e2c30f35a4a888523"
+        },
+        "result": {
+          "original": {
+            "exit": 0,
+            "seconds": 0.7183125093579292
+          },
+          "native": {
+            "exit": 0,
+            "seconds": 0.2150330226868391
+          },
+          "logical": "_sort_mac_fixup_list",
+          "partial_streams_match": true
+        }
+      },
+      {
+        "receipt": {
+          "path": "/root/.ai-tmp/vc1.0-link/m68k-reloc-loader/symbol-reference-after-time.json",
+          "sha256": "7910402f5704dbe25a9873cc051d4df74a31b5b5133f11165ad9ba6ee8a9de58"
+        },
+        "result": {
+          "original": {
+            "exit": 0,
+            "seconds": 1.0166958570480347
+          },
+          "native": {
+            "exit": 0,
+            "seconds": 0.16477548144757748
+          },
+          "logical": "_record_mac_data_reference",
+          "partial_streams_match": true
+        }
+      }
+    ],
+    "raw_logs": "Raw .state/.log/.gdb, streams, independent side directories and all incremental build logs retained under scratch."
+  },
+  "shared_native_sources": [
+    {
+      "path": "../../../lib/recon/src/compat.c",
+      "sha256": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e"
+    },
+    {
+      "path": "../../../lib/recon/src/crt.c",
+      "sha256": "4be31e907a70597b1281f38a56b05ccf594106b401ae98982fd7015a1cae5879"
+    },
+    {
+      "path": "../../../lib/recon/src/decimal.c",
+      "sha256": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4"
+    },
+    {
+      "path": "../../../lib/recon/src/entry.c",
+      "sha256": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e"
+    },
+    {
+      "path": "../../../lib/recon/src/process.c",
+      "sha256": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3"
+    },
+    {
+      "path": "../../../lib/recon/src/trace.c",
+      "sha256": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328"
+    },
+    {
+      "path": "../../../lib/recon/src/win32.c",
+      "sha256": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+    },
+    {
+      "path": "../../../lib/recon/include/recon.h",
+      "sha256": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284"
+    }
+  ],
+  "scope": [
+    "Only13 newly reached C functions accepted;39 Mac family total.",
+    "Actual native CTOT16/CTOABSC32/CTOABSD32/DTOABSD32 operations, two runtime data fixups, A5 jump entries and40-byte loader headers are exercised. Other complete backend branches are static reconstruction, not dynamic coverage.",
+    "All23 native fixtures consume frozen references exclusively; no fixture Wine/original/generated-PE execution.",
+    "Fresh original masking and original compiler are explicit diagnostics outside fixtures. Final native fixture build uses current shared getcwd addition; canonical source was unchanged by that native-only addition.",
+    "Full2MB artifacts and exact streams/status compare; only structurally identified PE timestamp136..139 ignored. No Mac runtime execution claim.",
+    "Complete authorized three-stage queue; no extra case executed after closure."
+  ]
+}
