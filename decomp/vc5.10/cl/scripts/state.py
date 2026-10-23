@@ -75,14 +75,20 @@ def native_main(directory):
     return fields,['native-crt.json','argv.bin','environment.bin','pgmptr.bin','debugger.txt','gdb-capture.py']
 
 
-def project(platform,directory):
+def basic_project(platform,directory):
     directory=Path(directory)
     terminal_file=directory/('events.txt' if platform=='original' else 'debugger.txt')
     text=terminal_file.read_text() if terminal_file.exists() else ''
     completed=(not re.search(r'^trap ',text,re.M) and re.search(r'^exit .*status=0$',text,re.M)) if platform=='original' else 'NATIVE_COMPLETION_STATUS=0\n' in text
     if completed:
+        inputs=[terminal_file.name]
+        if platform=='native':
+            from native_status import read
+            posix=re.findall(r'^NATIVE_POSIX_STATUS=(\d+)$',text,re.M)
+            assert len(posix)==1 and read(directory,int(posix[0]))==0
+            inputs+=['terminal-status.bin','status_reader.py','native-process.json','native-build.json','native_status.py','gdb_capture.py','gdb-capture.py']
         return {'projection':'cl-help-completion-v1','fields':{'status':0},'decoder_sha256':sha(Path(__file__)),
-            'raw_inputs':{terminal_file.name:sha(terminal_file)}}
+            'raw_inputs':{name:sha(directory/name)for name in inputs}}
     if (directory/'frontier-memory.json').exists():
         from frontier_state import decode
         return decode(directory,platform)
@@ -90,3 +96,23 @@ def project(platform,directory):
     return {'projection':PROJECTION,'fields':fields,
         'decoder_sha256':sha(Path(__file__)),
         'raw_inputs':{name:sha(directory/name)for name in inputs}}
+
+
+def project(platform,directory):
+    directory=Path(directory);result=basic_project(platform,directory)
+    observed=(directory/'mktemp-before.bin').exists() if platform=='original' else (directory/'mktemp-expected.json').exists()
+    if observed:
+        import mktemp_state
+        result['fields']['temporary_name_boundary']=getattr(mktemp_state,platform)(directory)
+        result['projection']+='; temporary-name-boundary-v1'
+        result['boundary_decoder_sha256']=sha(Path(mktemp_state.__file__))
+        if platform=='original':
+            names=['capture.json','loaded-msvcrt.bin','input-directory.json','main-entry-context.bin',
+                'mktemp-events.txt','mktemp-before.bin','mktemp-after.bin']
+            names += ['mktemp-'+phase+'-'+kind+'.bin'for phase in ('entry','before','after')for kind in ('teb','ptd','tls-index')]
+            names += [r['name']for r in json.loads((directory/'input-directory.json').read_text())['entries']]
+        else:
+            names=['mktemp-expected.json','mktemp-receipt.bin','mktemp_reader.py','native-mktemp-gdb.json',
+                'native-entry-errors.json','native-process.json','native-build.json','gdb_entry.py','gdb-entry.py','gdb_mktemp.py','entry-profile.json','debugger.txt']
+        result['raw_inputs'].update({name:sha(directory/name)for name in names})
+    return result

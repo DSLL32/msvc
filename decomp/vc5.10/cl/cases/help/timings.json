@@ -1,0 +1,295 @@
+{
+  "schema": 1,
+  "native_fixture_first_build": {
+    "schema": 1,
+    "case": "help",
+    "passed": true,
+    "full_dword_status": 0,
+    "application_entries": 50,
+    "stdout_bytes": 3976,
+    "stderr_bytes": 141,
+    "mktemp_calls": 1,
+    "native_sha256": "a96638be66199a3f7e0e672e28ea57b7394666d4b899f0c03bf0d2235bb2079a",
+    "seconds": {
+      "build": 2.100428349338472,
+      "setup": 0.001774475909769535,
+      "execution": 0.00802177470177412,
+      "checks": 0.0009187338873744011,
+      "total": 2.1311428053304553
+    }
+  },
+  "native_fixture_incremental": {
+    "schema": 1,
+    "case": "help",
+    "passed": true,
+    "full_dword_status": 0,
+    "application_entries": 50,
+    "stdout_bytes": 3976,
+    "stderr_bytes": 141,
+    "mktemp_calls": 1,
+    "native_sha256": "a96638be66199a3f7e0e672e28ea57b7394666d4b899f0c03bf0d2235bb2079a",
+    "seconds": {
+      "build": 0.0068633416667580605,
+      "setup": 0.0016838228330016136,
+      "execution": 0.007967107929289341,
+      "checks": 0.0006317952647805214,
+      "total": 0.02846719603985548
+    }
+  },
+  "fresh_trial": {
+    "audit_seconds": 0.3478707391768694,
+    "original_setup_seconds": 0.014111091382801533,
+    "original_reference_seconds": 1.903040673583746,
+    "native_gdb_seconds": 0.18073841743171215,
+    "note": "Final native-only proof explicitly reuses the unchanged original; original reference time is its historical measured invocation."
+  },
+  "original_toolchain_full_recompile": {
+    "parallel_jobs": 4,
+    "process_calls": 11,
+    "sum_process_seconds": 7.627684757113457,
+    "observed_process_span_seconds": 3.174774408340454,
+    "note": "Ten CL invocations and one LINK; span derives from tool-receipt end times and measured duration, excluding unmeasured make setup/check overhead. Parallel durations are not fixture time.",
+    "receipts": [
+      {
+        "command": [
+          "/usr/bin/wine",
+          "R:\\toolchains\\5.10\\bin\\CL.EXE",
+          "/nologo",
+          "/c",
+          "/Od",
+          "/G3",
+          "/MD",
+          "/I../../../lib/recon/include",
+          "/Fobuild/arguments.obj",
+          "src/arguments.c"
+        ],
+        "seconds": 0.66624865680933,
+        "status": 0,
+        "receipt": {
+          "path": "/root/msvc2/decomp/vc5.10/cl/build/timings/original-1792767692894342170-1277570.json",
+          "sha256": "38e2fe143981f6bfeaddf0f7c18dd8c5e5ba1535c188e4bef953ba55e0571043"
+        },
+        "finish_epoch_ns": 1792767692894342170
+      },
+      {
+        "command": [
+          "/usr/bin/wine",
+          "R:\\toolchains\\5.10\\bin\\CL.EXE",
+          "/nologo",
+          "/c",
+          "/Od",
+          "/G3",
+          "/MD",
+          "/I../../../lib/recon/include",
+          "/Fobuild/console.obj",
+          "src/console.c"
+        ],
+        "seconds": 0.6661966135725379,
+        "status": 0,
+        "receipt": {
+          "path": "/root/msvc2/decomp/vc5.10/cl/build/timings/original-1792767692951457288-1277610.json",
+          "sha256": "9898d4ddd8bea1420b9ffd03dd53a9734596e4593c47456caa233c67986bb226"
+        },
+        "finish_epoch_ns": 1792767692951457288
+      },
+      {
+        "command": [
+          "/usr/bin/wine",
+          "R:\\toolchains\\5.10\\bin\\CL.EXE",
+          "/nologo",
+          "/c",
+          "/Od",
+          "/G3",
+          "/MD",
+          "/I../../../lib/recon/include",
+          "/Fobuild/driver.obj",
+          "src/driver.c"
+        ],
+        "seconds": 0.6160128936171532,
+        "status": 0,
+        "receipt": {
+          "path": "/root/msvc2/decomp/vc5.10/cl/build/timings/original-1792767693032164166-1277626.json",
+          "sha256": "bd556d06f148621a83d08d6c8bb8e405bff2fad116ed584c61bdd01ce508e5b2"
+        },
+        "finish_epoch_ns": 1792767693032164166
+      },
+      {
+        "command": [
+          "/usr/bin/wine",
+          "R:\\toolchains\\5.10\\bin\\CL.EXE",
+          "/nologo",
+          "/c",
+          "/Od",
+          "/G3",
+          "/MD",
+          "/I../../../lib/recon/include",
+          "/Fobuild/filenames.obj",
+          "src/filenames.c"
+        ],
+        "seconds": 0.6661561718210578,
+        "status": 0,
+        "receipt": {
+          "path": "/root/msvc2/decomp/vc5.10/cl/build/timings/original-1792767693082307221-1277627.json",
+          "sha256": "6f68d32ab08ae31edfc3d355cb7ab4b635507f65508f03060f10b4a9952eb35f"
+        },
+        "finish_epoch_ns": 1792767693082307221
+      },
+      {
+        "command": [
+          "/usr/bin/wine",
+          "R:\\toolchains\\5.10\\bin\\CL.EXE",
+          "/nologo",
+          "/c",
+          "/Od",
+          "/G3",
+          "/MD",
+          "/I../../../lib/recon/include",
+          "/Fobuild/frontiers.obj",
+          "src/frontiers.c"
+        ],
+        "seconds": 0.6663186252117157,
+        "status": 0,
+        "receipt": {
+          "path": "/root/msvc2/decomp/vc5.10/cl/build/timings/original-1792767693618367955-1277644.json",
+          "sha256": "6e967f19004258e452f54964f8bb4a0f3ffbbdbc2ee73a773b9981d8e965f925"
+        },
+        "finish_epoch_ns": 1792767693618367955
+      },
+      {
+        "command": [
+          "/usr/bin/wine",
+          "R:\\toolchains\\5.10\\bin\\CL.EXE",
+          "/nologo",
+          "/c",
+          "/Od",
+          "/G3",
+          "/MD",
+          "/I../../../lib/recon/include",
+          "/Fobuild/main.obj",
+          "src/main.c"
+        ],
+        "seconds": 0.6661132080480456,
+        "status": 0,
+        "receipt": {
+          "path": "/root/msvc2/decomp/vc5.10/cl/build/timings/original-1792767693671335599-1277646.json",
+          "sha256": "71519c1b66c5d9fe002f968541a6f69902165ff3d13a7405abbed1aa4491dc07"
+        },
+        "finish_epoch_ns": 1792767693671335599
+      },
+      {
+        "command": [
+          "/usr/bin/wine",
+          "R:\\toolchains\\5.10\\bin\\CL.EXE",
+          "/nologo",
+          "/c",
+          "/Od",
+          "/G3",
+          "/MD",
+          "/I../../../lib/recon/include",
+          "/Fobuild/messages.obj",
+          "src/messages.c"
+        ],
+        "seconds": 0.6659933049231768,
+        "status": 0,
+        "receipt": {
+          "path": "/root/msvc2/decomp/vc5.10/cl/build/timings/original-1792767693744913003-1277648.json",
+          "sha256": "2e4c7900f188525063700108d13d3e70df4c3ed6cc1f0526dc19fa8016f2cf64"
+        },
+        "finish_epoch_ns": 1792767693744913003
+      },
+      {
+        "command": [
+          "/usr/bin/wine",
+          "R:\\toolchains\\5.10\\bin\\CL.EXE",
+          "/nologo",
+          "/c",
+          "/Od",
+          "/G3",
+          "/MD",
+          "/I../../../lib/recon/include",
+          "/Fobuild/options.obj",
+          "src/options.c"
+        ],
+        "seconds": 0.7160760769620538,
+        "status": 0,
+        "receipt": {
+          "path": "/root/msvc2/decomp/vc5.10/cl/build/timings/original-1792767693845295216-1277650.json",
+          "sha256": "999c5df6e2becf3bbbaa4a0cc7a4d7e416fc505527ce9a0860a61440a499eae0"
+        },
+        "finish_epoch_ns": 1792767693845295216
+      },
+      {
+        "command": [
+          "/usr/bin/wine",
+          "R:\\toolchains\\5.10\\bin\\CL.EXE",
+          "/nologo",
+          "/c",
+          "/Od",
+          "/G3",
+          "/MD",
+          "/I../../../lib/recon/include",
+          "/Fobuild/rules.obj",
+          "src/rules.c"
+        ],
+        "seconds": 0.665862231515348,
+        "status": 0,
+        "receipt": {
+          "path": "/root/msvc2/decomp/vc5.10/cl/build/timings/original-1792767694339785299-1277660.json",
+          "sha256": "57320aa9280c2c8fd272c4f44fc1e8417d667a3ecc168671678362a7de9f0e27"
+        },
+        "finish_epoch_ns": 1792767694339785299
+      },
+      {
+        "command": [
+          "/usr/bin/wine",
+          "R:\\toolchains\\5.10\\bin\\CL.EXE",
+          "/nologo",
+          "/c",
+          "/Od",
+          "/G3",
+          "/MD",
+          "/I../../../lib/recon/include",
+          "/Fobuild/settings.obj",
+          "src/settings.c"
+        ],
+        "seconds": 0.7158372448757291,
+        "status": 0,
+        "receipt": {
+          "path": "/root/msvc2/decomp/vc5.10/cl/build/timings/original-1792767694436454973-1277662.json",
+          "sha256": "47f7cb721dafc0a5aabce548fb310015b008013298d2c6d6a144847218189764"
+        },
+        "finish_epoch_ns": 1792767694436454973
+      },
+      {
+        "command": [
+          "/usr/bin/wine",
+          "R:\\toolchains\\5.10\\bin\\LINK.EXE",
+          "/nologo",
+          "/subsystem:console",
+          "/map:build/cl.map",
+          "/out:build/cl.exe",
+          "build/arguments.obj",
+          "build/console.obj",
+          "build/driver.obj",
+          "build/filenames.obj",
+          "build/frontiers.obj",
+          "build/main.obj",
+          "build/messages.obj",
+          "build/options.obj",
+          "build/rules.obj",
+          "build/settings.obj",
+          "../../../toolchains/5.10/lib/SETARGV.OBJ",
+          "../../../toolchains/5.10/lib/USER32.LIB",
+          "build/messages.res"
+        ],
+        "seconds": 0.916869729757309,
+        "status": 0,
+        "receipt": {
+          "path": "/root/msvc2/decomp/vc5.10/cl/build/timings/original-1792767695402867959-1277675.json",
+          "sha256": "04cd3d97349507e30c2c794a9d8d22e898f8dd02a41fdbb2c3ddc14bc373e3fa"
+        },
+        "finish_epoch_ns": 1792767695402867959
+      }
+    ]
+  }
+}

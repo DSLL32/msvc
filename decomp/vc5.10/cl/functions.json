@@ -60,7 +60,9 @@
     "_expand_filename",
     "_file_basename",
     "_set_output_option",
-    "_prepare_environment"
+    "_prepare_environment",
+    "_join_text",
+    "_show_help"
   ],
   "driver": [
     {
@@ -232,10 +234,14 @@
     {
       "name": "_show_help",
       "start": 4215461,
-      "end": 4215462,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "show_help"
+      "end": 4215604,
+      "pending_extent": false,
+      "state": "reconstructed; pending fresh proof",
+      "native_symbol": "show_help",
+      "evidence": {
+        "kind": "readable function reconstruction",
+        "source": "src/messages.c"
+      }
     },
     {
       "name": "_allocate",
@@ -879,6 +885,14 @@
         "kind": "readable function reconstruction",
         "source": "src/filenames.c"
       }
+    },
+    {
+      "name": "_console_rows",
+      "native_symbol": "console_rows",
+      "start": 4216854,
+      "end": 4216855,
+      "pending_extent": true,
+      "state": "named INT3 frontier"
     }
   ],
   "runtime": [

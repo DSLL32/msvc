@@ -1,57 +1,86 @@
 {
-  "schema": 1,
-  "state": "first help case reconstruction in progress",
-  "accepted_application_functions": 48,
-  "accepted_support_records": 15,
-  "trial_candidate": "_join_text",
-  "verified_support_closure": {
-    "records": 9,
-    "extent_bytes": 440,
-    "source_credit": false
-  },
-  "raw_pair": {
-    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/crt-gate-frozen-d56/pair.json",
-    "sha256": "7da001c39f89588c4088c687a2c62ee0814338a233fbe4b9239370e6c03f3398"
-  },
-  "canonical_loaded_msvcrt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
-  "checks": {
-    "exact_runtime_source_and_relocations": "scripts/identify-runtime.py",
-    "mask": "scripts/mask.py",
-    "current_graph_input_binding": "scripts/audit.py",
-    "typed_raw_state_decoder": "scripts/state.py",
-    "acceptance_protocol": "scripts/accept.py",
-    "negative_protocol_controls": 27,
-    "review_only_validation": "First CRT closure independently approved and promoted; subsequent functions use fresh candidate-inclusive proof.",
-    "immutable_native_build_provenance": "scripts/native-build.py content-addressed compiled bytes/object receipts; shared revision c4fd2ba4",
-    "grammar": "174 option rules plus31 driver settings across original/rebuilt/native; six semantic negative controls.",
-    "native_entry_profile": "cases/help/entry-profile.json; actual GDB errno0/doserrno0/LastError2/CW639 verified"
-  },
-  "native_entry_flags": [
-    "RECON_NATIVE_ENTRY_CONTROLFP_53",
-    "RECON_DEFAULT_FMODE=0"
+  "schema": 2,
+  "state": "first help case completed",
+  "arguments": [
+    "/?"
   ],
-  "raw_original_reference_seconds": 2.0459201419726014,
-  "native_gdb_seconds": 0.15808856301009655,
-  "audit_seconds": 0.007358340546488762,
-  "case_limit": "Help first, freeze for independent review; genuine minimal-C compile follows approved dependency contract.",
-  "previous_raw_pair": {
-    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/crt-gate-final-2/pair-current-audit.json",
-    "sha256": "e584382ac35189176cf8e887b22d25bf2cb9933ecefa84d0985f827a48acf612"
-  },
-  "original_reuse": "Original raw capture and observation are unchanged; this native-only rebuild uses explicitly pinned shared sources.",
-  "reached_support_records": 1,
-  "closure_support_records": 8,
-  "approval": "Parent independently validated frozen-d56 pair and 25 protocol negatives; authorized promotion of exact 440-byte CRT closure, no application source credit.",
-  "accepted_application_extent_bytes": 7968,
+  "accepted_application_functions": 50,
+  "accepted_application_extent_bytes": 8175,
   "text_extent_bytes": 19062,
-  "current_frontier": "_find_last_separator",
-  "main_trial": "/root/.ai-tmp/msvc2/vc5.10/cl/main-trial-2/pair-seh.json",
-  "main_state_correction": "show_commands initialized to 1; initial mismatching raw capture preserved",
+  "exact_non_crt_denominator": null,
+  "selected_support_records_including_closure": 15,
   "accepted_support_extent_bytes": 476,
-  "current_pair": "/root/.ai-tmp/msvc2/vc5.10/cl/apply-extension-1/pair.json",
-  "current_hold": "Native temporary-name strict template/suffix, one-call inventory, collision/error contract pending shared maintainer; original candidate reaches show_help.",
-  "last_accepted_pair": {
-    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/prepare-environment-1/pair.json",
-    "sha256": "453b43cb9ad64c8bd3c6cc292f1c663185492126ec4e7a74757201b7db32d2d0"
+  "support_source_credit": false,
+  "startup_closure": {
+    "records": 9,
+    "bytes": 440,
+    "trace_reached_initial_boundary_records": 1,
+    "other_verified_support_records": 8,
+    "source_credit": false,
+    "approved_pair": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/crt-gate-frozen-d56/pair.json",
+      "sha256": "7da001c39f89588c4088c687a2c62ee0814338a233fbe4b9239370e6c03f3398"
+    },
+    "approval": "Parent independently validated frozen-d56 pair and 25 protocol negatives; authorized promotion of exact 440-byte CRT closure, no application source credit."
+  },
+  "final_proof": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/help-final-review/pair.json",
+    "sha256": "4d60b2ef9d5797a6939702e4ffa5a27d7efb0b8f47d7828ed66292a81f159bab"
+  },
+  "artifact_snapshot": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/completed-help-final/manifest.json",
+    "sha256": "7d8fcde8f265d3b68d38ae00fb2864db98eb20f071ef29675b33a6d9d3671e01"
+  },
+  "native_fixture_seconds": {
+    "build": 0.0068633416667580605,
+    "setup": 0.0016838228330016136,
+    "execution": 0.007967107929289341,
+    "checks": 0.0006317952647805214,
+    "total": 0.02846719603985548
+  },
+  "fresh_trial_seconds": {
+    "audit_seconds": 0.3478707391768694,
+    "original_setup_seconds": 0.014111091382801533,
+    "original_reference_seconds": 1.903040673583746,
+    "native_gdb_seconds": 0.18073841743171215,
+    "note": "Final native-only proof explicitly reuses the unchanged original; original reference time is its historical measured invocation."
+  },
+  "shared_revision": "6f61ec34",
+  "checks": {
+    "candidate_inclusive_full_mask": true,
+    "graph_passes": [
+      "full_support",
+      "strict_ret",
+      "qualified_imports"
+    ],
+    "acceptance_protocol_negative_controls": 27,
+    "temporary_boundary_mutation_controls": 13,
+    "three_image_option_rules": 174,
+    "three_image_driver_settings": 31,
+    "typed_table_negative_controls": 6,
+    "encountered_resource_strings": 74,
+    "original_compiler": "11.00.7022 /MD, RC resources embedded",
+    "native_fixture": "Direct native i386 Linux, regular streams, traces, PID-owned full DWORD status and strict mktemp receipt; no Wine/Windows helper."
+  },
+  "next_case": {
+    "id": "minimal-c",
+    "authorized": true,
+    "condition": "Independent completed-help review passed. Capture actual minimal-C entry/inputs and complete strict C1 DLL/C2 process contracts before replaying dependencies."
+  },
+  "remaining_gaps": [
+    "Console paging remains a named console_rows frontier; no console case claimed.",
+    "Unknown DLL/PDB/process dependencies fail; no native Wine/Windows helper.",
+    "Unvisited codepage/multibyte/import behavior remains explicitly unsupported."
+  ],
+  "independent_review": {
+    "state": "passed",
+    "by": "/root/vc510_orchestrator",
+    "at_utc": "2026-10-23T15:12:46.248333+00:00",
+    "checks": [
+      "review.py current accepted _show_help final proof",
+      "direct native fixture:50 entries,fullDWORD0,3976/141 bytes,one strict mktemp",
+      "13 original/native boundary semantic mutation controls"
+    ],
+    "review_window_released": true
   }
 }

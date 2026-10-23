@@ -14,6 +14,11 @@ ROOT=PROJECT.parents[2]
 sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
 
 
+def rc_literal(text):
+    # This RC grammar represents embedded quotes by doubling them.
+    return '"'+json.dumps(text,ensure_ascii=True)[1:-1].replace('\\"','""')+'"'
+
+
 def extract(identifier):
     pe=PE(ROOT/'toolchains/5.10/bin/CL.EXE')
     root=pe.offset(pe.base+struct.unpack_from('<I',pe.data,pe.optional+112)[0])
@@ -45,8 +50,9 @@ def encounter(identifier,capture):
         'target_sha256':sha(ROOT/'toolchains/5.10/bin/CL.EXE'),'resources':[]}
     assert identifier not in {r['id']for r in evidence['resources']},'resource already defined'
     item=extract(identifier)
-    item['encounter']={'state_path':str(capture/'state.json'),'state_sha256':sha(capture/'state.json'),
-        'context_sha256':sha(capture/'context.bin'),'memory_sha256':sha(capture/'frontier-memory.json')}
+    item['encounter']={'state_path':str(capture/'state.json'),'state_sha256':sha(capture/'state.json')}
+    for role,name in [('context','context.bin'),('entry_context','main-entry-context.bin'),('memory','frontier-memory.json')]:
+        if (capture/name).exists():item['encounter'][role+'_sha256']=sha(capture/name)
     if actual_call:
         sequence=int(actual_call[1]);before=capture/('resource-%04d-before.bin'%sequence);after=capture/('resource-%04d-after.bin'%sequence)
         initial=before.read_bytes();final=after.read_bytes();text=item['text'].encode('ascii')
@@ -56,7 +62,7 @@ def encounter(identifier,capture):
     evidence['resources'].append(item)
     path.write_text(json.dumps(evidence,indent=2)+'\n')
     rc='/* Encountered CL diagnostic/help string resources. */\nLANGUAGE 9, 1\nSTRINGTABLE\nBEGIN\n'
-    for item in evidence['resources']:rc+='    %d %s\n'%(item['id'],json.dumps(item['text'],ensure_ascii=True))
+    for item in evidence['resources']:rc+='    %d %s\n'%(item['id'],rc_literal(item['text']))
     (PROJECT/'src/messages.rc').write_text(rc+'END\n')
     print('defined encountered string',identifier,repr(item['text']))
 
@@ -64,8 +70,8 @@ def encounter(identifier,capture):
 def provider_bytes():
     proof=json.loads((PROJECT/'cases/help/resources.json').read_text())
     assert proof['target_sha256']==sha(ROOT/'toolchains/5.10/bin/CL.EXE')
-    literals={int(identifier):json.loads('"'+text+'"') for identifier,text in
-        re.findall(r'^\s*(\d+)\s+"((?:[^"\\]|\\.)*)"\s*$',(PROJECT/'src/messages.rc').read_text(),re.M)}
+    literals={int(identifier):json.loads('"'+text.replace('""','\\"')+'"') for identifier,text in
+        re.findall(r'^\s*(\d+)\s+"((?:[^"\\]|\\.|"")*)"\s*$',(PROJECT/'src/messages.rc').read_text(),re.M)}
     entries=[]
     for item in proof['resources']:
         assert extract(item['id'])=={key:value for key,value in item.items()if key!='encounter'},'resource source bytes/identity changed'

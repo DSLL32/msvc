@@ -10,7 +10,10 @@ def capture(directory):
     try:frame=gdb.newest_frame()
     except gdb.error:frame=None
     if frame is None:
-        print('NATIVE_COMPLETION_STATUS='+str(int(gdb.parse_and_eval('$_exitcode'))))
+        posix=int(gdb.parse_and_eval('$_exitcode'))
+        print('NATIVE_POSIX_STATUS='+str(posix))
+        from native_status import read
+        print('NATIVE_COMPLETION_STATUS='+str(read(directory,posix,verify_release=False)))
         return
     print('NATIVE_FRONTIER_SYMBOL='+frame.name())
     if frame.name()!='main':

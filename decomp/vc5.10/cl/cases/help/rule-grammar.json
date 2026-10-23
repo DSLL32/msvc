@@ -104,9 +104,11 @@
       {
         "name": "bil",
         "action": 3,
-        "target": "ir_prefix",
+        "target": "driver_storage.temporary",
         "original_target": 4232696,
-        "target_kind": "char * storage"
+        "target_kind": "char * storage",
+        "target_symbol": "driver_storage",
+        "target_offset": 32
       },
       {
         "name": "bm",

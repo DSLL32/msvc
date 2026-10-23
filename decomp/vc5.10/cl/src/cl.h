@@ -59,6 +59,7 @@ typedef struct InputKind {
     char *suffix;
     unsigned flags;
 } InputKind;
+extern Driver driver_storage;
 extern Driver *driver;
 extern Option *unrecognized_options, *free_options;
 extern int source_count;
@@ -143,6 +144,7 @@ void enable_dll(Option *);
 void prepare_environment(Driver *);
 char *join_text(char *, char *);
 void show_help(void);
+int console_rows(void);
 void *allocate(unsigned);
 char *append_text(char *, const char *);
 void warning(unsigned, ...);

@@ -1,0 +1,26 @@
+{
+  "kind": "accepted original function extents, not branch/instruction coverage",
+  "denominator": {
+    "section": ".text",
+    "virtual_bytes": 19062,
+    "exact_non_crt_bytes": null
+  },
+  "application": {
+    "functions": 50,
+    "extent_bytes": 8175,
+    "first_case_reached_entries": 50,
+    "percent_of_whole_text": 42.88637079005351
+  },
+  "support": {
+    "selected_records": 15,
+    "extent_bytes": 476,
+    "source_credit": false,
+    "dynamic_reached_count": null,
+    "note": "Verified startup/archive/import closure; support selection does not claim each record dynamically ran.",
+    "top_level_accepted_vertices": 7,
+    "startup_closure_records": 9,
+    "startup_closure_bytes": 440,
+    "additional_import_leaves": 6,
+    "additional_import_bytes": 36
+  }
+}

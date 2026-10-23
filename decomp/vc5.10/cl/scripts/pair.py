@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Explicit fresh original/native CRT trial; prepare evidence, never accept it."""
 import argparse
+import copy
 import hashlib
 import importlib.util
 import json
@@ -21,9 +22,13 @@ sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def binding(path):return {'path':str(path),'sha256':sha(path)}
 
 
-def run(name,label,reuse_original=None):
+def run(name,label,reuse_original=None,reverify_accepted=False):
     assert name.startswith('_'),'explicit indexed candidate required'
-    base=json.loads((PROJECT/'functions.json').read_text());trial=trial_config(base,name)
+    index=json.loads((PROJECT/'functions.json').read_text());base=copy.deepcopy(index)
+    if reverify_accepted:
+        assert name in base['accepted'],'cannot reverify an unaccepted candidate'
+        base['accepted'].remove(name)
+    trial=trial_config(base,name)
     work=SCRATCH/label
     assert not work.exists(),'fresh trial label required'
     work.mkdir(parents=True);config=work/'trial.json';config.write_text(json.dumps(trial,indent=2)+'\n')
@@ -36,15 +41,22 @@ def run(name,label,reuse_original=None):
         receipt=json.loads((observed/'capture.json').read_text())
         assert json.loads((observed/'config.json').read_text())==trial,'reused original has different trial'
     projection=project('original',observed)
+    original_state=observed/'state.json'
     if reuse_original is None:
-        (observed/'state.json').write_text(json.dumps(projection,indent=2)+'\n')
-    else:assert json.loads((observed/'state.json').read_text())==projection
+        original_state.write_text(json.dumps(projection,indent=2)+'\n')
+    elif json.loads(original_state.read_text())!=projection:
+        # Additional typed fields may be decoded from already captured raw
+        # bytes. Preserve every old projection and create a versioned product.
+        payload=json.dumps(projection,indent=2)+'\n'
+        original_state=observed/('state-derived-'+hashlib.sha256(payload.encode()).hexdigest()[:16]+'.json')
+        if original_state.exists():assert original_state.read_text()==payload
+        else:original_state.write_text(payload)
     spec=importlib.util.spec_from_file_location('native_main_capture',PROJECT/'scripts/native-main.py')
     native=importlib.util.module_from_spec(spec);spec.loader.exec_module(native)
     native_dir=SCRATCH/(label+'-native');native.capture(observed,native_dir)
     native_state=project('native',native_dir)
     assert projection['fields']==native_state['fields'],'original/native state differs; both raw captures retained'
-    assert base==json.loads((PROJECT/'functions.json').read_text()),'accepted index changed during trial'
+    assert index==json.loads((PROJECT/'functions.json').read_text()),'accepted index changed during trial'
     expected={'candidate':name,'target_sha256':receipt['target_sha256'],
         'native_sha256':sha(PROJECT/'build/native-trace/CL.EXE'),'rebuilt_sha256':sha(PROJECT/'build/cl.exe'),
         'trial_mask_sha256':receipt['original_mask_sha256']}
@@ -56,10 +68,11 @@ def run(name,label,reuse_original=None):
         result['original_reuse']={'capture':binding(observed/'capture.json'),
             'reason':'Native-only rebuild/recapture after shared-source update; original target, candidate, mask and raw state unchanged.'}
     for platform,directory in (('original',observed),('native',native_dir)):
-        if platform=='original' and reuse_original is not None and (directory/'observation.json').exists():
+        if platform=='original' and reuse_original is not None and original_state.name=='state.json' and (directory/'observation.json').exists():
             result[platform]=binding(directory/'observation.json')
             continue
         files={role:binding(directory/name)for role,name in [('stdout','stdout.bin'),('stderr','stderr.bin'),('state','state.json')]}
+        if platform=='original':files['state']=binding(original_state)
         files['trace']=binding(directory/'trace.txt')
         if platform=='original':
             files['entry_guards']=binding(directory/'entries.txt')
@@ -94,4 +107,5 @@ if __name__=='__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--candidate',required=True);parser.add_argument('--label',required=True)
     parser.add_argument('--reuse-original',type=Path,help='Explicit native-only retry, preserving the original raw capture and observation')
-    args=parser.parse_args();run(args.candidate,args.label,args.reuse_original)
+    parser.add_argument('--reverify-accepted',action='store_true',help='Prepare a review-only proof of the current accepted trial; never modify its index')
+    args=parser.parse_args();run(args.candidate,args.label,args.reuse_original,args.reverify_accepted)

@@ -1,22 +1,28 @@
 # CL.EXE 5.10 reconstruction
 
-The current `/?` case is in progress, with 48 accepted application functions
-(7,968 original bytes) and 476 separately counted CRT/import support bytes.
-The whole `.text` denominator is 19,062 bytes; a complete non-CRT denominator is
-not yet classified. Current trial: `join_text`; its native acceptance waits for the shared strict
-`_mktemp` response contract. The latest original reaches `show_help`.
-`cases/help/acceptance-order.json` records promotion order and paired receipts.
-After help is verified and its binaries/proofs frozen for independent review,
-the authorized queue continues to genuine minimal-C compilation. Its in-process
-frontend and child-process boundaries require fresh captures and strict native
-response replay before implementation; unknown dependencies remain failures.
+The `/?` case is complete: 50 reconstructed application functions, 8,175 original
+extent bytes (42.89% of the 19,062-byte `.text`). A complete non-CRT denominator
+is not yet classified. The 15 startup/import support records restore another
+476 bytes and receive no application source credit.
+
+The native-only fixture takes about 28 ms including an incremental build, with
+about 8 ms in the executable. It compares all 50 application entries, 3,976 stdout
+bytes, 141 stderr bytes, full DWORD status0, and the strict temporary-name call's
+input/output/alias/error state. Standard streams use regular files, matching the
+original capture. See `cases/help/{completed,coverage,timings}.json` and the
+acceptance journal for the measured evidence.
+
+Help artifacts are frozen and independently verified. The authorized next case is a
+genuine minimal-C compile. Its in-process frontend and backend child boundaries
+require complete captured response contracts; unknown dependencies fail.
 
 Fresh trials compare candidate-inclusive masked originals against native i386
 `-O0 -g` builds: named frontier, decoded parameters/driver state, streams and
 first-entry trace. The shared Rust tool audits graph/ABI/references/ownership and
 extents, with narrowly verified import leaves separated from strict RET checks.
-All 174 structured option rules, their terminator and five real callbacks are
-also compared across original, rebuilt Win32 and native images. Compiler-generated
+All 174 structured option rules, their terminator and five real callbacks, plus
+31 driver settings and the driver-member storage alias, are compared across
+original, rebuilt Win32 and native images. Compiler-generated
 text tables have explicit bounded metadata. Native source builds use immutable
 content-addressed provenance and a pinned shared-library revision.
 The captured help entry profile restores errno0/doserrno0/LastError2 in the
@@ -31,8 +37,8 @@ the original RC and prepared for native use from the same payloads.
 
 `make -j4 native native-trace` builds Linux binaries. `original` explicitly uses
 Wine; `audit` is separate. `check` tests masking, current named traps, acceptance
-negatives and grammar controls. `fixtures` remains fail-closed until help
-completes. Native-only corrections explicitly reuse unchanged original captures;
+negatives and grammar controls. `fixtures` runs the completed help case directly on Linux with cached references,
+shared PID-owned status/API receipts, and no Windows child or Wine. Native-only corrections explicitly reuse unchanged original captures;
 failed captures and old decoder/build receipts remain intact. Earlier groundwork
 below is historical; accepted references use the shipped canonical MSVCRT.
 

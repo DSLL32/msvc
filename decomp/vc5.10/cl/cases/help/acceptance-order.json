@@ -528,6 +528,26 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/prepare-environment-1/pair.json",
         "sha256": "453b43cb9ad64c8bd3c6cc292f1c663185492126ec4e7a74757201b7db32d2d0"
       }
+    },
+    {
+      "order": 50,
+      "candidate": "_join_text",
+      "class": "application",
+      "extent_bytes": 64,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/join-text-3/pair.json",
+        "sha256": "cc75addd9a23c515a7f10020f9414f98e8969b0189e816424f44b63848090423"
+      }
+    },
+    {
+      "order": 51,
+      "candidate": "_show_help",
+      "class": "application",
+      "extent_bytes": 143,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/show-help-2/pair.json",
+        "sha256": "4229a50f27637f073f81d3ec8b50d8a142c1642c2fa45d7a1994f6db1e1df65d"
+      }
     }
   ]
 }

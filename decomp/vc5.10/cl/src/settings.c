@@ -8,7 +8,7 @@ typedef struct DriverOption {
     void *target;
 } DriverOption;
 
-char *object_name, *image_name, *ir_prefix, *map_name, *pdb_name, *browser_name;
+char *object_name, *image_name, *map_name, *pdb_name, *browser_name;
 int map_requested, bk_requested, reproducible, timing_requested, bz_requested;
 int minimal_rebuild, allow_pch, is_dll;
 int first_option_pass = 1;
@@ -24,7 +24,7 @@ DriverOption driver_options[] = {
     { "bc", 4, (void *)toggle_pass },
     { "bd", 4, (void *)disable_pass },
     { "bE", 9, &default_c_language }, { "bh", 9, &help_requested },
-    { "bil", 3, &ir_prefix }, { "bm", 9, &map_requested },
+    { "bil", 3, &driver_storage.temporary }, { "bm", 9, &map_requested },
     { "bo", 12, (void *)set_output_option },
     { "bx", 12, (void *)set_pass_suffix },
     { "bp", 12, (void *)set_pass_name },

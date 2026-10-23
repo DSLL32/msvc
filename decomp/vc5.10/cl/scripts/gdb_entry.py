@@ -10,3 +10,5 @@ def capture(directory):
         'errno':'(int)errno','doserrno':'recon_doserrno',
         'last_error':'last_error','x87_control_word':'$fctrl'}.items()}
     (Path(directory)/'native-entry-errors.json').write_text(json.dumps(values,indent=2)+'\n')
+    (Path(directory)/'native-process.json').write_text(json.dumps({'pid':gdb.selected_inferior().pid})+'\n')
+    print('NATIVE_PROCESS_PID='+str(gdb.selected_inferior().pid))

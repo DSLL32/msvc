@@ -76,7 +76,7 @@ def main():
     expected = Path('cases/inventory.json')
     if args.check:
         assert json.loads(expected.read_text()) == record, 'PE inventory changed'
-        print('CL5.10 inventory verified; no reconstruction or coverage claimed')
+        print('CL5.10 inventory verified')
     else:
         print(json.dumps(record, indent=2))
 

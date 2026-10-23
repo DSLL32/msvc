@@ -4,7 +4,7 @@ TC = ../../../toolchains/5.10
 RECON = ../../../lib/recon
 NATIVE_CC ?= clang
 # Freeze the shared release actually compiled, independently of concurrent WIP.
-RECON_SHARED_REVISION ?= c4fd2ba4
+RECON_SHARED_REVISION ?= 6f61ec34
 export RECON_SHARED_REVISION
 NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -DRECON_NATIVE_TEST -DRECON_NATIVE_ENTRY_CONTROLFP_53 -DRECON_DEFAULT_FMODE=0 -I$(RECON)/include -I$(RECON)/native
 NATIVE_SHIMS = $(filter-out $(RECON)/src/trace.c,$(wildcard $(RECON)/src/*.c))
@@ -61,8 +61,7 @@ check: inspect native
 	$(PYTHON) scripts/check-acceptance.py
 	$(PYTHON) scripts/check-rules.py
 fixtures:
-	@echo 'No completed help fixture yet; fail closed.' >&2
-	@exit 2
+	$(PYTHON) scripts/fixtures.py
 
 # Explicit original-only debugger, never a native fixture prerequisite.
 build/reference-debugger.obj: scripts/reference-debugger.c | build

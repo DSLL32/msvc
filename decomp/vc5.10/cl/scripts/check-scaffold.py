@@ -34,9 +34,9 @@ for mutation in ('unknown-accepted','missing-evidence','outside-code','overlap')
 try:validate(config,{},'_main')
 except AssertionError as error:assert 'review' in str(error)
 else:raise AssertionError('acceptance bypassed review')
-result=subprocess.run(['gdb','-q','-nx','-batch','-ex','set pagination off','-ex','run /?',
-    '-ex','info symbol $eip-1','--args',str(PROJECT/'build/native/CL.EXE')],capture_output=True,text=True,timeout=20,
+result=subprocess.run(['gdb','-q','-nx','-batch','-ex','set pagination off','-ex','tbreak *main','-ex','run /?',
+    '-ex','info symbol $pc','--args',str(PROJECT/'build/native/CL.EXE')],capture_output=True,text=True,timeout=20,
     env={**os.environ,'CL_ENTRY_PROFILE':'help-canonical-msvcrt-v1'})
 names=['main']+[r.get('native_symbol','') for r in config['driver']]
-assert 'SIGTRAP' in result.stdout and any(name and name in result.stdout for name in names),result.stdout+result.stderr
-print('zero acceptance: executable sections entirely INT3; data unchanged; five negative checks and current native named frontier pass')
+assert 'Temporary breakpoint 1, main' in result.stdout,result.stdout+result.stderr
+print('zero acceptance: executable sections entirely INT3; data unchanged; five negative checks and native target main breakpoint pass')

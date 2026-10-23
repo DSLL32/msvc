@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "help-in-progress-next-compile-authorized",
+  "state": "help-completed-minimal-c-authorized",
   "acceptance_enabled": true,
   "blocked_by": [],
   "themes": [
@@ -42,10 +42,13 @@
     "Root released autonomous continuation beyond help; minimal-C follows the completed, frozen help review window and an explicit dependency-boundary plan."
   ],
   "groundwork_capture": "original-probes/host-contract-2/manifest.json",
-  "authorized_case": "help",
+  "authorized_case": "minimal-c",
   "authorized_queue": [
     "help",
     "minimal-c"
   ],
-  "next_case_gate": "Finish and freeze help for independent review; propose actual frontend DLL and backend child boundary before implementing new dependency replay."
+  "next_case_gate": "Independent help review passed; actual minimal-C entry/input and complete DLL/process response contracts required.",
+  "completed_cases": [
+    "help"
+  ]
 }

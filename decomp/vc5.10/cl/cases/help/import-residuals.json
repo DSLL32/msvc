@@ -383,6 +383,37 @@
       "lifetime_evidence": "This frame-pointer-free body loads EBP from the qualified _mbsinc IAT slot and preserves it through the last-character loop and its backedge until the epilogue restores it.",
       "reconstructed_source": "src/settings.c typed multibyte calls; /Od emits direct IAT calls.",
       "tool_limitation": "Cached register import identity remains an explicit byte-bound manual residual; generic indirect graph edges are not qualification proof."
+    },
+    {
+      "function": "_show_help",
+      "identity": {
+        "dll": "msvcrt.dll",
+        "name": "getchar"
+      },
+      "iat": 4235932,
+      "register": "esi",
+      "load": 4215500,
+      "calls": [
+        4215553
+      ],
+      "instruction_sites": [
+        {
+          "address": 4215500,
+          "bytes": "8b359ca24000"
+        },
+        {
+          "address": 4215553,
+          "bytes": "ffd6"
+        }
+      ],
+      "inspected_lifetime_span": {
+        "start": 4215500,
+        "end": 4215600,
+        "sha256": "13cd8537501551ed48a9aab1dd5f92b1a5c124bc3ac814d8a71db3bf2a144c7c"
+      },
+      "lifetime_evidence": "ESI loads getchar once; no ESI writes occur across the help/pagination loops or cdecl load_string/write_message calls until its epilogue restore. The getchar loop backedge keeps the same qualified slot.",
+      "reconstructed_source": "src/messages.c getchar() is a real CRT function in the original /MD header; /Od emits a direct IAT call.",
+      "tool_limitation": "Qualified cached-register import identity is retained as this exact byte-bound residual, not inferred from a generic indirect edge."
     }
   ]
 }

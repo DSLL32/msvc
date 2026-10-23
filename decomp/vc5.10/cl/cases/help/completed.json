@@ -1,0 +1,38 @@
+{
+  "schema": 1,
+  "state": "completed",
+  "metrics": "coverage.json",
+  "timings": "timings.json",
+  "artifact_snapshot": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/completed-help-final/manifest.json",
+    "sha256": "7d8fcde8f265d3b68d38ae00fb2864db98eb20f071ef29675b33a6d9d3671e01"
+  },
+  "review_command": "python3 scripts/review.py _show_help /root/.ai-tmp/msvc2/vc5.10/cl/help-final-review/pair.json",
+  "checks": {
+    "candidate_inclusive_full_mask": true,
+    "graph_passes": [
+      "full_support",
+      "strict_ret",
+      "qualified_imports"
+    ],
+    "acceptance_protocol_negative_controls": 27,
+    "temporary_boundary_mutation_controls": 13,
+    "three_image_option_rules": 174,
+    "three_image_driver_settings": 31,
+    "typed_table_negative_controls": 6,
+    "encountered_resource_strings": 74,
+    "original_compiler": "11.00.7022 /MD, RC resources embedded",
+    "native_fixture": "Direct native i386 Linux, regular streams, traces, PID-owned full DWORD status and strict mktemp receipt; no Wine/Windows helper."
+  },
+  "independent_review": {
+    "state": "passed",
+    "by": "/root/vc510_orchestrator",
+    "at_utc": "2026-10-23T15:12:46.248333+00:00",
+    "checks": [
+      "review.py current accepted _show_help final proof",
+      "direct native fixture:50 entries,fullDWORD0,3976/141 bytes,one strict mktemp",
+      "13 original/native boundary semantic mutation controls"
+    ],
+    "review_window_released": true
+  }
+}

@@ -6,10 +6,6 @@ void show_usage(void) {
     __asm int 3
 
 } /* 00402b8a */
-void show_help(void) {
-    __asm int 3
-
-} /* 004052a5 */
 char * append_text(char *out, const char *text) {
     __asm int 3
     return NULL;
@@ -118,3 +114,7 @@ void set_pass_name(Option *option) { __asm int 3 }
 void undefine_defaults(Option *option) { __asm int 3 }
 
 void enable_dll(Option *option) { __asm int 3 }
+
+int console_rows(void) { __asm int 3
+    return 0;
+}

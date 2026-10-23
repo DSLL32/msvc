@@ -85,8 +85,8 @@ def verify(project=PROJECT,root=ROOT):
     assert hashlib.sha256(original.read(settings['start'],32*12)).hexdigest()==settings['record_bytes_sha256']
     expected_settings=[{key:row[key]for key in ('name','action','target')}for row in rows]
     assert decode_settings(original,settings['start'],{r['original_target']:r['target']for r in rows})==expected_settings
-    assert decode_settings(rebuilt,public['_driver_options'],{public['_'+r['target']]:r['target']for r in rows})==expected_settings,'rebuilt driver-setting tags/storage/callback identities differ'
-    assert decode_settings(native,native.symbols['driver_options'],{native.symbols[r['target']]:r['target']for r in rows})==expected_settings,'native driver-setting tags/storage/callback identities differ'
+    assert decode_settings(rebuilt,public['_driver_options'],{public['_'+r.get('target_symbol',r['target'])]+r.get('target_offset',0):r['target']for r in rows})==expected_settings,'rebuilt driver-setting tags/storage/callback identities differ'
+    assert decode_settings(native,native.symbols['driver_options'],{native.symbols[r.get('target_symbol',r['target'])]+r.get('target_offset',0):r['target']for r in rows})==expected_settings,'native driver-setting tags/storage/callback identities differ'
     for row in rows:assert row['target_kind']=={1:'int storage',2:'int storage',3:'char * storage',4:'cdecl void(Option *) callback'}[row['action']&7]
     return {'driver_settings':{'records':31,'decoded_sha256':hashlib.sha256(json.dumps(expected_settings,sort_keys=True).encode()).hexdigest()},'records':174,'record_size':20,'terminator':'five zero words',
         'decoded_sha256':hashlib.sha256(json.dumps(expected,sort_keys=True).encode()).hexdigest(),

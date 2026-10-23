@@ -111,3 +111,20 @@ int format_number(unsigned value, char *out, unsigned base)
     }
     return length;
 }
+
+/* 004052a5..00405334 */
+void show_help(void)
+{
+    int rows, id, ch;
+    rows = _isatty(1) ? console_rows() - 1 : 0x7fffffff;
+    if (rows < 1)
+        rows = 1;
+    for (id = 501; id < 573; ++id) {
+        if (id != 501 && (id - 501) % rows == 0) {
+            write_message(1, load_string(313));
+            do { ch = getchar(); } while (ch != '\n' && ch != EOF);
+        }
+        write_message(1, load_string(id));
+    }
+    exit(0);
+}

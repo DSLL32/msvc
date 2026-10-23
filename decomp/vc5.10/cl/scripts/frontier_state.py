@@ -195,8 +195,10 @@ def snapshot(read,context):
     fields['globals']={name:memory.words(context['globals'][name],1)[0] for name in SCALARS}
     for name in POINTERS:
         pointer=memory.words(context['globals'][name],1)[0]
+        if name=='driver':driver_address=pointer
         fields['globals'][name]={'object_name':memory.string,'image_name':memory.string,'ir_prefix':memory.string,'map_name':memory.string,'pdb_name':memory.string,'browser_name':memory.string,'free_options':memory.freelist,'driver':memory.driver,'unrecognized_options':memory.options,
             'source_language':memory.string,'format_buffer':memory.string}[name](pointer)
+    assert context['globals']['ir_prefix']==driver_address+32,'driver temporary/IR-prefix storage alias differs'
     return fields
 
 
@@ -231,7 +233,7 @@ def capture_original(directory,address,stack,process):
 def capture_native(directory,gdb):
     frame=gdb.newest_frame();symbol=frame.name();inferior=gdb.selected_inferior();ranges=[]
     context={'symbol':symbol,'arguments':[int(frame.read_var(name))&0xffffffff for name,kind in PARAMETERS[symbol]],
-        'globals':{name:int(gdb.parse_and_eval('(unsigned)&'+name)) for name in [*SCALARS,*POINTERS]}}
+        'globals':{name:int(gdb.parse_and_eval('(unsigned)&'+('driver_storage.temporary' if name=='ir_prefix' else name))) for name in [*SCALARS,*POINTERS]}}
     context['rule_base']=int(gdb.parse_and_eval('(unsigned)option_rules'))
     context['crt_mb']={name:int(gdb.parse_and_eval(expression)) for name,expression in
         [('codepage','recon_mb_codepage'),('mb_cur_max','recon_mb_cur_max')]}
