@@ -1,0 +1,42 @@
+{
+  "schema": 1,
+  "candidate": "reset_type_name_cache",
+  "original": 4245344,
+  "previous_hypothesis_name": "build_type_record_index",
+  "accepted_functions": 52,
+  "application_extent_bytes": 13958,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 22.275063036609108,
+  "qualification": "Accepted application extents / whole text, not non-CRT or branch coverage.",
+  "fresh": {
+    "candidate_pair": true,
+    "strict_graph": true,
+    "ebp_import_removal_control": true,
+    "original_cached_free_site": 4245379
+  },
+  "reused": {
+    "type_state_contract": "cases/hello-debug-dll/evidence/0051-initialize-module-type-storage/type-record-state-checks.json",
+    "sha256": "4721dcef44a5a170ec5d19d016ff2479496f93db8a94fba5a55cde0b71378ebb",
+    "reason": "Same decoder, inputs and table lifetime; fresh pair rechecks all336records and capacities. No new type-state schema."
+  },
+  "ordinary_return_assumption": "Canonical free preserves EBP through its known ordinary CRT/Win32 callees; provider wrapper never writes EBP. No dependency-internal reconstruction is claimed.",
+  "limitation": "This genuine case executes the empty cache traversal; free remains statically audited and can execute when later name-cache construction is reached.",
+  "original_sources_match_native": true,
+  "seconds": {
+    "trial": {
+      "original_build": 4.072983237914741,
+      "native_build": 1.9674265049397945,
+      "graph_tool_build": 0.03191656805574894,
+      "original_capture": 3.4384872997179627,
+      "native_capture": 0.5668397173285484,
+      "pair_check": 0.36635314393788576
+    },
+    "import_negative": 0.10910915117710829,
+    "fixture": {
+      "preparation": 0.0025517242029309273,
+      "execution": 0.5136582031846046,
+      "checks": 0.004093969240784645,
+      "total": 0.6749717192724347
+    }
+  }
+}

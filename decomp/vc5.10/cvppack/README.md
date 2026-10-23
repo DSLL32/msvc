@@ -165,3 +165,13 @@ next frontier is the original 0x40c760 routine. This first-module table contract
 fails closed on a reused table until its new lifetime/state is observed.
 See `cases/hello-debug-dll/evidence/0051-initialize-module-type-storage/function-review.json`
 for exact fresh/reused provenance and split timings.
+
+Routine 0x40c760 is now `reset_type_name_cache`: it frees counted names and
+clears record/index associations while retaining each bucket chain. Its former
+index-builder name was an analysis hypothesis; historical raw remains unchanged.
+The genuine first-module case currently traverses an empty cache. Its complete
+original/rebuilt import graph still requires the actual EBP-cached free call;
+a new narrowly scoped provider/SDK witness and single-fact removal control
+prove that requirement. There are now 52 accepted application functions and
+13,958 extent bytes (22.28% with the same qualification); the next frontier is
+`read_module_lines`. No reconstructed MSPDB call has been traversed.
