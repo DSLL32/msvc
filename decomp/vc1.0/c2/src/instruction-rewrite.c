@@ -1370,3 +1370,35 @@ int __fastcall register_source_changed_between(MachineInstruction *first,
     return operand_changed_between(first, last, &definition->operands[1],
         MACHINE_BYTES(definition)) != 0;
 }
+
+/* Original [000218f0,000219c7). Search a bounded shift/add multiplication
+   recipe, then replace this immediate IMUL with the selected sequence. */
+int __fastcall expand_constant_multiply(MachineInstruction *instruction)
+{
+    char recipe[20];
+    int temporary = 0, cost = 30000, budget, maximum;
+    unsigned value, magnitude, length;
+    if (((instruction->opcode >> 8) & 255) != MC_IMUL2 ||
+        (instruction->operands[1].flags & 15) != OPERAND_IMMEDIATE)
+        compiler_internal_error("@(#)peeps.c:1.148", 0x109a);
+    value = instruction->operands[1].value.constant;
+    magnitude = (int)value < 0 ? 0U - value : value;
+    maximum = constant_multiply_budget(magnitude);
+    budget = maximum - 1;
+    if (!choose_multiply_recipe(magnitude, 0, &budget, &cost, &temporary, recipe)) return 0;
+    if (budget >= maximum)
+        compiler_internal_error("@(#)peeps.c:1.148", 0x10a5);
+    for (length = 0; recipe[length]; ++length) {}
+    if (length >= sizeof(recipe))
+        compiler_internal_error("@(#)peeps.c:1.148", 0x10a6);
+    emit_multiply_recipe(instruction, temporary, recipe);
+    return 1;
+}
+
+/* Original [000254a0,000254b3). Native IMUL cost bound for a constant. */
+int __fastcall constant_multiply_budget(unsigned magnitude)
+{
+    int bits = integer_log2(magnitude);
+    if (bits < 3) bits = 3;
+    return bits + 6;
+}

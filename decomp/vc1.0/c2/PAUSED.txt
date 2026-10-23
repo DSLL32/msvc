@@ -1,6 +1,7 @@
-C2 ACTIVE: register-pressure stress at917 acceptances/839 source functions.
-Fresh matching frontier simple_constant_operation_sign56e80; BEFORE cases/pressure-initial.json.
-Loop stress620-byte output COMPLETE, plus minimal and hello completed objects exact.
-Accepted extent246671/399693=61.7151163518%, not branch coverage.
-Original captures and all4 native fixtures pass. Continue pressure, then aliasing/floating queue.
-No shim requests.
+C2 ACTIVE: approved nested-loop stress at920 acceptances/842 source graphs.
+Matching original/native frontier @choose_multiply_recipe@24.
+Extent union247055/399693=61.8111900884%, not branch coverage.
+Minimal+hello+loops completed object regressions pass; loop620-byte object incomplete.
+Next reference BEFORE cases/pressure-original-920.json.
+Then remaining approved stress in cases/queue.json.
+Canonical/W3, audit and native fixtures pass; no shim requests.

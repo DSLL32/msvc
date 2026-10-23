@@ -921,7 +921,10 @@
     "@byte_register_available@4",
     "@merge_jump_diamond@12",
     "@insert_pentium_stall@4",
-    "@move_instruction_into_pentium_gap@16"
+    "@move_instruction_into_pentium_gap@16",
+    "@simple_constant_operation_sign@4",
+    "@expand_constant_multiply@4",
+    "@constant_multiply_budget@4"
   ],
   "driver": [
     {
@@ -3341,8 +3344,7 @@
     {
       "name": "@expand_constant_multiply@4",
       "start": 137456,
-      "end": 137457,
-      "provisional": true
+      "end": 137671
     },
     {
       "name": "@find_flags_use@4",
@@ -6145,8 +6147,7 @@
     {
       "name": "@simple_constant_operation_sign@4",
       "start": 355968,
-      "end": 355969,
-      "provisional": true
+      "end": 356118
     },
     {
       "name": "@reverse_subtraction_chain@8",
@@ -6701,6 +6702,23 @@
       "name": "@update_pentium_gap_history@12",
       "start": 290928,
       "end": 290929,
+      "provisional": true
+    },
+    {
+      "name": "@constant_multiply_budget@4",
+      "start": 152736,
+      "end": 152755
+    },
+    {
+      "name": "@choose_multiply_recipe@24",
+      "start": 151552,
+      "end": 151553,
+      "provisional": true
+    },
+    {
+      "name": "@emit_multiply_recipe@12",
+      "start": 150768,
+      "end": 150769,
       "provisional": true
     }
   ],

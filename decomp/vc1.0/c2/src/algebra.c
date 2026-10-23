@@ -844,3 +844,31 @@ Node *__fastcall remove_left_wrapper(Node *node)
     release_node(left);
     return node;
 }
+
+/* Original [00056e80,00056f16). Report the sign of a constant multiplier,
+   divisor or shift count only when the original cheap-operation rules hold. */
+int __fastcall simple_constant_operation_sign(Node *node)
+{
+    int value, sign;
+    unsigned magnitude;
+    if (node->second.node->opcode != 0x33 ||
+        !constant_as_integer(node->second.node, &value)) return 0;
+    magnitude = value < 0 ? 0U - (unsigned)value : (unsigned)value;
+    if (!magnitude) return 0;
+    sign = value > 0 ? 1 : -1;
+    switch (node->opcode) {
+    case 4:
+        if (magnitude == 1) return sign;
+        if ((node->attributes.words.type & 0x300) &&
+            (!(magnitude & (magnitude - 1)) || (int)magnitude <= 16)) return sign;
+        break;
+    case 5:
+        if (magnitude == 1 || ((node->attributes.words.type & 0x300) &&
+            !(magnitude & (magnitude - 1)))) return sign;
+        break;
+    case 7:
+        if ((int)magnitude <= 16) return sign;
+        break;
+    }
+    return 0;
+}

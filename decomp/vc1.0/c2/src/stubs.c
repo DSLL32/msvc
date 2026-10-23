@@ -167,7 +167,6 @@ int __fastcall register_partial_write_safe(unsigned short reg) { __asm int 3 }
 
 #include "instruction-rewrite.h"
 int __fastcall narrow_result_safe(MachineInstruction *instruction) { __asm int 3 }
-int __fastcall expand_constant_multiply(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall narrow_comparison_condition(unsigned condition) { __asm int 3 }
 unsigned __fastcall integer_sign_bit(unsigned bytes) { __asm int 3 }
 unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
@@ -379,7 +378,6 @@ Node *__fastcall push_unary_into_left(Node *node) { __asm int 3 }
 Node *__fastcall push_unary_into_right(Node *node) { __asm int 3 }
 int __cdecl subtraction_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
 int __fastcall is_subword_mask_pattern(Node *node, unsigned mask) { __asm int 3 }
-int __fastcall simple_constant_operation_sign(Node *node) { __asm int 3 }
 short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
 void remove_region_blocks(void) { __asm int 3 }
 void __fastcall remove_region_block(WorkItem *work) { __asm int 3 }
@@ -415,3 +413,5 @@ void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned sh
 int __fastcall diamond_register_constraint(unsigned short number, MachineInstruction *first, MachineInstruction *last, unsigned bytes) { __asm int 3 }
 void fill_previous_pentium_gap(void) { __asm int 3 }
 void __fastcall update_pentium_gap_history(MachineInstruction *last, MachineInstruction *first, MachineInstruction *second) { __asm int 3 }
+int __fastcall choose_multiply_recipe(unsigned magnitude, unsigned depth, int *budget, int *cost, int *temporary, char *recipe) { __asm int 3 }
+void __fastcall emit_multiply_recipe(MachineInstruction *instruction, int temporary, char *recipe) { __asm int 3 }

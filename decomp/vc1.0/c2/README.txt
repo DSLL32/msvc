@@ -2302,3 +2302,11 @@ original C2 matches879-byte pipeline output after timestamp only.
 Fresh original/native first frontier is simple_constant_operation_sign56e80.
 All4 native fixtures pass (three completed output oracles and this named trap).
 See cases/pressure-registration.json and ../fixtures/c2-optimizer-register-pressure.
+
+Constant-operation costs and multiply expansion entry: checkpoint920
+-----------------------------------------------------
+3 whole functions pass fresh original/native matching; current frontier
+@choose_multiply_recipe@24. 842 graph checks, canonical/native/W3 and all four
+native fixtures pass. See cases/pressure-multiply-entry.json for extent union, limits
+and measured timing splits. Minimal/hello/loops objects remain exact after timestamp;
+pressure879-byte final object is incomplete.

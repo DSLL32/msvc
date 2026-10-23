@@ -48,4 +48,7 @@ MachineInstruction *__fastcall previous_machine_operation(MachineInstruction *in
 int __fastcall memory_displacements_overlap(MachineOperand *left, unsigned left_bytes, MachineOperand *right, unsigned right_bytes);
 int __fastcall operands_overlap_storage(MachineOperand *left, unsigned left_bytes,
     MachineOperand *right, unsigned right_bytes);
+int __fastcall constant_multiply_budget(unsigned magnitude);
+int __fastcall choose_multiply_recipe(unsigned magnitude, unsigned depth, int *budget, int *cost, int *temporary, char *recipe);
+void __fastcall emit_multiply_recipe(MachineInstruction *instruction, int temporary, char *recipe);
 #endif

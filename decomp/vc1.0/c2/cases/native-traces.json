@@ -2,7 +2,7 @@
   "schema": 1,
   "description": "Cached original application-entry projection; no capture or Wine",
   "metadata_sha256": {
-    "functions.json": "4ff57bc3cbf70b2a28c6a61df34957c6b0b2996bcfb3de7005cc15e00652371a",
+    "functions.json": "9c8a0cb015ca3f17af6c6e5c183cc4798dfc4ca6c49ef9cdbb3c4fa3ea7b8e58",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -437,6 +437,10 @@
     "choose_memory_split_register": {
       "logical": "@choose_memory_split_register@8",
       "source": "src/physical-rewrite.c"
+    },
+    "choose_multiply_recipe": {
+      "logical": "@choose_multiply_recipe@24",
+      "source": "src/stubs.c"
     },
     "choose_pentium_instruction": {
       "logical": "@choose_pentium_instruction@4",
@@ -978,6 +982,10 @@
       "logical": "@constant_fits_type@8",
       "source": "src/global-tree.c"
     },
+    "constant_multiply_budget": {
+      "logical": "@constant_multiply_budget@4",
+      "source": "src/instruction-rewrite.c"
+    },
     "consume_string": {
       "logical": "@consume_string@4",
       "source": "src/options.c"
@@ -1194,6 +1202,10 @@
       "logical": "_emit_machine_operation",
       "source": "src/machine-operations.c"
     },
+    "emit_multiply_recipe": {
+      "logical": "@emit_multiply_recipe@12",
+      "source": "src/stubs.c"
+    },
     "emit_pending_symbols": {
       "logical": "@emit_pending_symbols@4",
       "source": "src/symbol-output.c"
@@ -1300,7 +1312,7 @@
     },
     "expand_constant_multiply": {
       "logical": "@expand_constant_multiply@4",
-      "source": "src/stubs.c"
+      "source": "src/instruction-rewrite.c"
     },
     "expand_inline_calls": {
       "logical": "@expand_inline_calls@4",
@@ -3996,7 +4008,7 @@
     },
     "simple_constant_operation_sign": {
       "logical": "@simple_constant_operation_sign@4",
-      "source": "src/stubs.c"
+      "source": "src/algebra.c"
     },
     "simplify_branch": {
       "logical": "@simplify_branch@4",
@@ -21856,7 +21868,216 @@
           "check_seconds": 0.006346975453197956,
           "total_seconds": 1.277951056137681
         }
-      }
+      },
+      "extensions": [
+        {
+          "accepted_function": "@simple_constant_operation_sign@4",
+          "accepted_kind": "application",
+          "previous_logical": "@simple_constant_operation_sign@4",
+          "original_extent": [
+            "0x56e80",
+            "0x56f16"
+          ],
+          "before": {
+            "path": "cases/pressure-initial.json",
+            "sha256": "ea0f50c3b9d9d9cbe26c1e9c65926b49b20a360f88396b7eb0d422ff530ce1f6",
+            "capture": {
+              "label": "pressure-initial",
+              "profile": "pressure",
+              "accepted": 917,
+              "events": "exception 80000003 rva 00046e80 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "ef4bcd53d299e2d024781d96e6365d3ab03f13efa36db8adbcf1ede9b68e8322",
+              "config_sha256": "4ff57bc3cbf70b2a28c6a61df34957c6b0b2996bcfb3de7005cc15e00652371a",
+              "manifest_sha256": "745822ed87f4bc7e8165f557f5d70459debd83d0f9385f04d26857c35ccd0f90",
+              "inputs": {
+                "c2/irex": "29b39b6ed50c9b9edef83fb24398bfd1ff25a8a676da9be24906bc78a38d9d9b",
+                "c2/irsy": "ddaaba7fd137e2188bff4c06fa6ecc5f80e1aa410d45f5cd9a5ca5daf7e45607",
+                "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+                "c2/irgl": "c76370a41a5b5c900fde6cdbcf62fe3338f35b1ba44c48fe53f77af3c313b1b5"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f pressure.c -W 1 -dos -Fopressure.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-pressure-ed44q_16",
+              "logical": "@simple_constant_operation_sign@4",
+              "original_va": "0x56e80",
+              "setup_seconds": 0.19871813151985407,
+              "execution_seconds": 1.072885550558567,
+              "check_seconds": 0.006346975453197956,
+              "total_seconds": 1.277951056137681
+            }
+          },
+          "after": {
+            "path": "cases/pressure-original-918.json",
+            "sha256": "f8149e7298e084acc87eccaccc54d4075fd76728b909dae4bf624870535cc065",
+            "capture": {
+              "label": "pressure-original-918",
+              "profile": "pressure",
+              "accepted": 918,
+              "events": "exception 80000003 rva 000118f0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "b2b97d00219a127d1d5b8a7a1992ce37fc5b349ba609753e3a804c55630c1cfd",
+              "config_sha256": "fbcf9f35d884cef844ece06e8d89b2e3d1ef3337fbd57670812756f1d6366f0c",
+              "manifest_sha256": "745822ed87f4bc7e8165f557f5d70459debd83d0f9385f04d26857c35ccd0f90",
+              "inputs": {
+                "c2/irex": "29b39b6ed50c9b9edef83fb24398bfd1ff25a8a676da9be24906bc78a38d9d9b",
+                "c2/irsy": "ddaaba7fd137e2188bff4c06fa6ecc5f80e1aa410d45f5cd9a5ca5daf7e45607",
+                "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+                "c2/irgl": "c76370a41a5b5c900fde6cdbcf62fe3338f35b1ba44c48fe53f77af3c313b1b5"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f pressure.c -W 1 -dos -Fopressure.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-pressure-zdpudhvy",
+              "logical": "@expand_constant_multiply@4",
+              "original_va": "0x218f0",
+              "setup_seconds": 0.2003804435953498,
+              "execution_seconds": 1.299693568609655,
+              "check_seconds": 0.006517082452774048,
+              "total_seconds": 1.506591536104679
+            }
+          }
+        },
+        {
+          "accepted_function": "@expand_constant_multiply@4",
+          "accepted_kind": "application",
+          "previous_logical": "@expand_constant_multiply@4",
+          "original_extent": [
+            "0x218f0",
+            "0x219c7"
+          ],
+          "before": {
+            "path": "cases/pressure-original-918.json",
+            "sha256": "f8149e7298e084acc87eccaccc54d4075fd76728b909dae4bf624870535cc065",
+            "capture": {
+              "label": "pressure-original-918",
+              "profile": "pressure",
+              "accepted": 918,
+              "events": "exception 80000003 rva 000118f0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "b2b97d00219a127d1d5b8a7a1992ce37fc5b349ba609753e3a804c55630c1cfd",
+              "config_sha256": "fbcf9f35d884cef844ece06e8d89b2e3d1ef3337fbd57670812756f1d6366f0c",
+              "manifest_sha256": "745822ed87f4bc7e8165f557f5d70459debd83d0f9385f04d26857c35ccd0f90",
+              "inputs": {
+                "c2/irex": "29b39b6ed50c9b9edef83fb24398bfd1ff25a8a676da9be24906bc78a38d9d9b",
+                "c2/irsy": "ddaaba7fd137e2188bff4c06fa6ecc5f80e1aa410d45f5cd9a5ca5daf7e45607",
+                "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+                "c2/irgl": "c76370a41a5b5c900fde6cdbcf62fe3338f35b1ba44c48fe53f77af3c313b1b5"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f pressure.c -W 1 -dos -Fopressure.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-pressure-zdpudhvy",
+              "logical": "@expand_constant_multiply@4",
+              "original_va": "0x218f0",
+              "setup_seconds": 0.2003804435953498,
+              "execution_seconds": 1.299693568609655,
+              "check_seconds": 0.006517082452774048,
+              "total_seconds": 1.506591536104679
+            }
+          },
+          "after": {
+            "path": "cases/pressure-original-919.json",
+            "sha256": "318ee4fdc6e0a8d05cd5758197a5f3c8abb6d21a4a850e2647cd4add6dede00b",
+            "capture": {
+              "label": "pressure-original-919",
+              "profile": "pressure",
+              "accepted": 919,
+              "events": "exception 80000003 rva 000154a0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "82265df49766a0bafeaa0e269f6c48daeb49949556d20ee2be5d2cede156efd2",
+              "config_sha256": "671be4dc47e18cac1ab32c870039add461b2d2647fc05649f37cc13c2313d14e",
+              "manifest_sha256": "745822ed87f4bc7e8165f557f5d70459debd83d0f9385f04d26857c35ccd0f90",
+              "inputs": {
+                "c2/irex": "29b39b6ed50c9b9edef83fb24398bfd1ff25a8a676da9be24906bc78a38d9d9b",
+                "c2/irsy": "ddaaba7fd137e2188bff4c06fa6ecc5f80e1aa410d45f5cd9a5ca5daf7e45607",
+                "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+                "c2/irgl": "c76370a41a5b5c900fde6cdbcf62fe3338f35b1ba44c48fe53f77af3c313b1b5"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f pressure.c -W 1 -dos -Fopressure.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-pressure-s4uzu2uc",
+              "logical": "@constant_multiply_budget@4",
+              "original_va": "0x254a0",
+              "setup_seconds": 0.20302056800574064,
+              "execution_seconds": 1.2691189059987664,
+              "check_seconds": 0.006158892996609211,
+              "total_seconds": 1.4782988261431456
+            }
+          }
+        },
+        {
+          "accepted_function": "@constant_multiply_budget@4",
+          "accepted_kind": "application",
+          "previous_logical": "@constant_multiply_budget@4",
+          "original_extent": [
+            "0x254a0",
+            "0x254b3"
+          ],
+          "before": {
+            "path": "cases/pressure-original-919.json",
+            "sha256": "318ee4fdc6e0a8d05cd5758197a5f3c8abb6d21a4a850e2647cd4add6dede00b",
+            "capture": {
+              "label": "pressure-original-919",
+              "profile": "pressure",
+              "accepted": 919,
+              "events": "exception 80000003 rva 000154a0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "82265df49766a0bafeaa0e269f6c48daeb49949556d20ee2be5d2cede156efd2",
+              "config_sha256": "671be4dc47e18cac1ab32c870039add461b2d2647fc05649f37cc13c2313d14e",
+              "manifest_sha256": "745822ed87f4bc7e8165f557f5d70459debd83d0f9385f04d26857c35ccd0f90",
+              "inputs": {
+                "c2/irex": "29b39b6ed50c9b9edef83fb24398bfd1ff25a8a676da9be24906bc78a38d9d9b",
+                "c2/irsy": "ddaaba7fd137e2188bff4c06fa6ecc5f80e1aa410d45f5cd9a5ca5daf7e45607",
+                "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+                "c2/irgl": "c76370a41a5b5c900fde6cdbcf62fe3338f35b1ba44c48fe53f77af3c313b1b5"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f pressure.c -W 1 -dos -Fopressure.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-pressure-s4uzu2uc",
+              "logical": "@constant_multiply_budget@4",
+              "original_va": "0x254a0",
+              "setup_seconds": 0.20302056800574064,
+              "execution_seconds": 1.2691189059987664,
+              "check_seconds": 0.006158892996609211,
+              "total_seconds": 1.4782988261431456
+            }
+          },
+          "after": {
+            "path": "cases/pressure-original-920.json",
+            "sha256": "527f613501323b1eed56ecdd815482bc5628a39906495031ae2a466dbc27582e",
+            "capture": {
+              "label": "pressure-original-920",
+              "profile": "pressure",
+              "accepted": 920,
+              "events": "exception 80000003 rva 00015000 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "81229747bd4e1adc5b88a8a931585b23dfa652da9d43b07bb840919a877596ad",
+              "config_sha256": "9c8a0cb015ca3f17af6c6e5c183cc4798dfc4ca6c49ef9cdbb3c4fa3ea7b8e58",
+              "manifest_sha256": "745822ed87f4bc7e8165f557f5d70459debd83d0f9385f04d26857c35ccd0f90",
+              "inputs": {
+                "c2/irex": "29b39b6ed50c9b9edef83fb24398bfd1ff25a8a676da9be24906bc78a38d9d9b",
+                "c2/irsy": "ddaaba7fd137e2188bff4c06fa6ecc5f80e1aa410d45f5cd9a5ca5daf7e45607",
+                "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+                "c2/irgl": "c76370a41a5b5c900fde6cdbcf62fe3338f35b1ba44c48fe53f77af3c313b1b5"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f pressure.c -W 1 -dos -Fopressure.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-pressure-7_re0mu4",
+              "logical": "@choose_multiply_recipe@24",
+              "original_va": "0x25000",
+              "setup_seconds": 0.20763216074556112,
+              "execution_seconds": 0.9281050655990839,
+              "check_seconds": 0.006970026530325413,
+              "total_seconds": 1.1427076868712902
+            }
+          }
+        }
+      ]
     }
   },
   "cases": {
@@ -23754,7 +23975,7 @@
     },
     "pressure": {
       "first": 917,
-      "last": 917,
+      "last": 920,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -24592,9 +24813,12 @@
         "move_instruction_into_pentium_gap"
       ],
       "expected": [
-        "simple_constant_operation_sign"
+        "simple_constant_operation_sign",
+        "expand_constant_multiply",
+        "constant_multiply_budget",
+        "choose_multiply_recipe"
       ],
-      "terminal": "@simple_constant_operation_sign@4",
+      "terminal": "@choose_multiply_recipe@24",
       "terminal_kind": "application",
       "returncode": -5
     }
