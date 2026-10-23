@@ -491,7 +491,6 @@ void reset_debug_type_records(void) { __asm { int 3 } }
 void __stdcall emit_debug_array_type(CType *type, unsigned short base_index) { __asm { int 3 } }
 void __stdcall emit_debug_function_type(CType *type, unsigned short return_index, unsigned short argument_count) { __asm { int 3 } }
 void __stdcall emit_debug_bit_field(CppSymbol *field) { __asm { int 3 } }
-void __stdcall emit_debug_method_list(struct OverloadSet *overloads) { __asm { int 3 } }
 void __stdcall emit_debug_field_list_chunk(CppSymbol **members, int first, int limit) { __asm { int 3 } }
 
 char *__stdcall format_qualified_tag_name(char *cursor, CppSymbol *tag) { __asm { int 3 } return 0; }

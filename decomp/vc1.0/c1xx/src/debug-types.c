@@ -16,6 +16,66 @@ unsigned debug_type_capacity; /* original 0xa25bc */
 unsigned short debug_field_properties; /* original 0xa25c4 */
 DebugTypeFixup *debug_type_fixups; /* original 0xa25b0 */
 
+/* Original 0x6fab0..0x6fc6d. Omit trivial implicit special members
+   and retain per-overload access, virtual, pure and static attributes. */
+void __stdcall emit_debug_method_list(OverloadSet *overloads)
+{
+    unsigned char *leaf = debug_record_buffer + 2, *field;
+    CppSymbol *function, *next, *owner;
+    unsigned length = 0, pad, left;
+    unsigned short properties;
+    *(unsigned short *)leaf = 0x207;
+#ifdef RECON_NATIVE_TEST
+    /* NULL skips every writer of the original entryESP-8 cursor. */
+    if (!overloads) { __asm { int 3 } }
+#endif
+    if (overloads) {
+        function = overloads->functions;
+        owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+        if ((overloads->name == name_ctor &&
+             (owner->detail.class_info->trivial_special_members & 3) == 3) ||
+            (overloads->name == name_assignment &&
+             (owner->detail.class_info->trivial_special_members & 4)) ||
+            (overloads->name == name_dtor &&
+             (owner->detail.class_info->trivial_special_members & 8))) next = 0;
+        else next = function;
+    }
+    while (next) {
+        function = next;
+        next = function->next;
+        if (function->name == name_ctor) {
+            if (function->cpp.parts.member_flags & 0x20) {
+                owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+                if (owner->detail.class_info->trivial_special_members & 2) continue;
+            }
+            if (function->cpp.parts.member_flags & 0x10) {
+                owner = cpp_context_stack->items[function->auxiliary.declaring_class];
+                if (owner->detail.class_info->trivial_special_members & 1) continue;
+            }
+        }
+        pad = (-length) & 3;
+        field = leaf + length + 2;
+        for (left = pad; left; --left) *field++ = (unsigned char)(0xf0 + left);
+        length += pad;
+        properties = (debug_field_properties & ~3) | (function->flags & 3);
+        *(unsigned short *)(field + 2) = function->type->debug_index;
+        length += 4;
+        if (function->storage[1] & 2) {
+            if (function->cpp.parts.member_flags & 2)
+                properties = (properties & ~0x18) | 4;
+            else {
+                properties = (properties & ~0xc) | 0x10;
+                *(unsigned *)(field + 4) = function->detail.virtual_table_offset;
+                length += 4;
+            }
+        } else if ((function->storage[0] & 7) == 3)
+            properties = (properties & ~0x14) | 8;
+        else properties &= ~0x1c;
+        *(unsigned short *)field = properties;
+    }
+    emit_debug_type_record(length + 2);
+}
+
 /* Original 0x6fc70..0x6fcf5. Two four-bit near32 method descriptors
    share each byte; an odd last entry keeps a zero low nibble. */
 void __stdcall emit_debug_vshape(CppSymbol *tag)

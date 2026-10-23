@@ -107,6 +107,7 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
         unsigned selected = ownership_register == 7 ? 4 : ownership_register;
         for (;;) {
             switch (selected) {
+            case 8: register_name = "edx"; value = context_read ? context.Edx : 0; break;
             case 6: register_name = "esp"; value = context_read ? context.Esp : 0; break;
             case 5: register_name = "ebp"; value = context_read ? context.Ebp : 0; break;
             case 4: register_name = "eax"; value = context_read ? context.Eax : 0; break;
@@ -157,7 +158,8 @@ int main(int argc, char **argv)
         else if (strcmp(argument_option, "4")) return 2;
     }
     if (ownership_option) {
-        if (!strcmp(ownership_option, "eax,esp")) ownership_register = 7;
+        if (!strcmp(ownership_option, "edx")) ownership_register = 8;
+        else if (!strcmp(ownership_option, "eax,esp")) ownership_register = 7;
         else if (!strcmp(ownership_option, "esp")) ownership_register = 6;
         else if (!strcmp(ownership_option, "ebp")) ownership_register = 5;
         else if (!strcmp(ownership_option, "eax")) ownership_register = 4;

@@ -1,0 +1,10 @@
+Breakpoint 1 at 0x43389: file src/debug-types.c, line 22.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, emit_debug_method_list (overloads=0x56639fcc) at src/debug-types.c:22
+22	{
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+emit_debug_method_list (overloads=0x0) at src/debug-types.c:32
+32	    if (overloads) {
