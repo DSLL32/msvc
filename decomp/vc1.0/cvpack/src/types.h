@@ -62,7 +62,7 @@ void finish_recursive_types(void);
 TypeRecord *get_type_record(unsigned short, unsigned short *);
 int __fastcall find_named_type(TypeRecord *, TypeCacheEntry **, int);
 void __fastcall queue_type_match(unsigned short, TypeCacheEntry *);
-void __fastcall compact_pointer(TypeRecord *);
+unsigned char __fastcall compact_pointer(TypeRecord *);
 unsigned short __fastcall compact_type_list(unsigned short, unsigned short);
 unsigned short intern_type(TypeRecord *, unsigned short);
 void __fastcall store_type(TypeRecord *);

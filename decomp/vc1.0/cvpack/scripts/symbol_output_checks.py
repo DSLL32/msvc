@@ -150,3 +150,21 @@ def check_pointer(pair):
     deny('pointer compact wrong native active type',lambda:run(n=changed))
     changed=copy.deepcopy(rows);raw=bytearray.fromhex(changed[0]['postbytes']);raw[40]^=1;changed[0]['postbytes']=raw.hex()
     deny('pointer compact changed own undefined output tail',lambda:run(n=changed))
+
+
+def check_type_list(pair):
+    pair=Path(pair);config,pe=load();events=(pair/'original-events').read_text();state=json.loads((pair/'native-gdb.json').read_text());rows=json.loads((pair/'native-symbol-output.json').read_text())
+    spec=json.loads((pair/'walks.json').read_text());old=original_walks(events,spec)
+    def run(e=events,n=rows):return compare(config,pe,e,n,old,state['walks'],True,state)
+    assert run()['defined']==40
+    def deny(label,action):
+        try:action()
+        except (AssertionError,KeyError):print('rejected:',label);return
+        raise AssertionError('accepted invalid '+label)
+    for slot,address in[(0,0x26cfa),(9,0x2711d),(15,0x26a7a),(24,0x26509),(26,0x25830),(28,0x25172)]:
+        deny('type-list wrong nested return '+str(slot),lambda slot=slot,address=address:run(events.replace('stack %d %08x'%(slot,address),'stack %d %08x'%(slot,address+1))))
+    changed=copy.deepcopy(rows);changed[0]['nested_callers'].reverse()
+    deny('type-list wrong native frame chain',lambda:run(n=changed))
+    for key in('type_index','list_index','list_count'):
+        changed=copy.deepcopy(rows);changed[0][key]+=1
+        deny('type-list wrong actual '+key,lambda:run(n=changed))

@@ -729,3 +729,74 @@ matched:
 #undef COMPACT_FIELD
 #undef NOTE_RECURSIVE
 }
+
+/* The file's CodeView type signature selects its old/new index converter. */
+typedef unsigned short (__fastcall *TypeConverter)(unsigned short);
+TypeConverter type_converters[2] = { compact_old_type, compact_new_type };
+
+unsigned char __fastcall compact_pointer(TypeRecord *entry)
+{
+    TypeConverter convert;
+    unsigned char *record;
+    unsigned short offset, converted;
+    unsigned int mode, kind;
+#ifdef RECON_NATIVE_TEST
+    if (type_signature >= 2) __asm { int 3 }
+#endif
+    convert = type_converters[type_signature];
+    converted = convert(*(unsigned short *)(entry->data+6));
+    *(unsigned short *)(entry->data+6) = converted;
+    record = entry->data+2;
+    if (recursive_type_reference) {
+#ifdef RECON_NATIVE_TEST
+        if (entry->recursive_count >= 12) __asm { int 3 }
+#endif
+        entry->recursive_offsets[entry->recursive_count++] = 6;
+    }
+    mode = record[2] >> 5;
+    if (!mode) {
+        kind = record[2]&0x1f;
+        if (kind >= 4 && kind <= 7) {
+            switch (*(unsigned short *)(record+8)) {
+            case 2: offset = 12; break;
+            case 0x100: offset = 14; break;
+            case 0x101: case 0x102: offset = 16; break;
+            case 0x200: offset = 16; break;
+            case 0x201: case 0x202: offset = 18; break;
+            default:
+                /* Original offset remains uninitialized for unknown records. */
+#ifdef RECON_NATIVE_TEST
+                __asm { int 3 }
+#endif
+                break;
+            }
+            converted = convert(*(unsigned short *)(entry->data+offset));
+            *(unsigned short *)(entry->data+offset) = converted;
+            if (recursive_type_reference) {
+#ifdef RECON_NATIVE_TEST
+                if (entry->recursive_count >= 12) __asm { int 3 }
+#endif
+                entry->recursive_offsets[entry->recursive_count++] = (unsigned char)offset;
+            }
+        } else if (kind == 8) {
+            converted = convert(*(unsigned short *)(record+6));
+            *(unsigned short *)(entry->data+8) = converted;
+            if (recursive_type_reference) {
+#ifdef RECON_NATIVE_TEST
+                if (entry->recursive_count >= 12) __asm { int 3 }
+#endif
+                entry->recursive_offsets[entry->recursive_count++] = 8;
+            }
+        }
+    } else if (mode == 2 || mode == 3) {
+        converted = convert(*(unsigned short *)(record+6));
+        *(unsigned short *)(entry->data+8) = converted;
+        if (recursive_type_reference) {
+#ifdef RECON_NATIVE_TEST
+            if (entry->recursive_count >= 12) __asm { int 3 }
+#endif
+            entry->recursive_offsets[entry->recursive_count++] = 8;
+        }
+    }
+    return (unsigned char)entry->recursive_count;
+}

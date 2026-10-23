@@ -1,0 +1,21 @@
+{
+  "application_functions": 70,
+  "next": "compact_type_list",
+  "source": "Whole pointer compactor27100..27296; original AL return is lowbyte recursive_count, now recovered signature. Actual38210 table holds compact_old_type/compact_new_type fastcall converters; original/canonical/native identities audited without pointer-byte normalization.",
+  "frontier": "Procedure4133 list4115/count1 reached inside pointer4134; exact26cfa/2711d/26a7a/26509/25830/25172 returns, observed outer saved recordlength, original40-word stack transport and native owning frame chain. Same5113 packed output40 definedbytes/raw-own-tail.",
+  "limitations": "Original unknown based-pointer recordkind leaves offset local uninitialized; Win32 source preserves this, native guard traps before consuming it. Native also rejects converter index>=2 and recursive-offset capacity overflow. Current kind10 path reaches none of these; no edge probe or unsupported path credit.",
+  "rejection_controls": 299,
+  "new_controls": 13,
+  "final_check_seconds": {
+    "audit": 0.4789135754108429,
+    "negatives": 6.487071629613638,
+    "fixtures": 0.37735085748136044
+  },
+  "native_acceptance_seconds": {
+    "setup": 0.1530960537493229,
+    "execution": 0.015867318958044052,
+    "debugging": 1.8910102294757962,
+    "checks": 0.01637241430580616,
+    "total": 2.0763506684452295
+  }
+}

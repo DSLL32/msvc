@@ -1,0 +1,3 @@
+help exit {'setup': 0.13755202665925026, 'execution': 0.009839702397584915, 'debugging': 0, 'checks': 0.0043829092755913734, 'total': 0.1517785182222724}
+hello-debug-dll trap {'setup': 0.11620831396430731, 'execution': 0.015019110403954983, 'debugging': 0, 'checks': 0.013661731034517288, 'total': 0.14489261526614428}
+/root/.ai-tmp/vc1.0-cvpack/native-1792771192255507602/receipt.json

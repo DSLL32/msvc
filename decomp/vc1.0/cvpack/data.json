@@ -1017,5 +1017,16 @@
     "size": 2,
     "source": "src/types.c",
     "provenance": "Earliest unresolved active type group root."
+  },
+  {
+    "name": "type_converters",
+    "symbol": "_type_converters",
+    "original": 229904,
+    "size": 8,
+    "source": "src/types.c",
+    "kind": "callback-table",
+    "stride": 4,
+    "pointer_offset": 0,
+    "provenance": "Two fastcall ushort index converters: old259c0,new26520; indexed by actual type_signature. Fully typed original/canonical/native function identities."
   }
 ]

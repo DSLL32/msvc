@@ -40,11 +40,21 @@
       "start": 158323,
       "end": 158335,
       "bytes": "8bcee886060000e9fe040000"
+    },
+    {
+      "start": 160000,
+      "end": 160029,
+      "bytes": "83ec04535657558bf1a1dc3503008b3c85108203008b06668b4806ffd7"
+    },
+    {
+      "start": 158914,
+      "end": 158970,
+      "bytes": "668b4904e855f8ffff8b0e6689410483c10266833dd035030000740f33c0668b4608c644060c0466ff4608668b5106668b4908e8a6050000"
     }
   ],
   "sources": {
-    "src/types.c": "e27b482102a6b5952fc73d024fb720eb0c7b6245f1fb918707967d3ee19b282c",
-    "src/types.h": "e2ebe6aca6601b985ae576dbe8ac3c48002808797467caca2170960b4dd156d6",
+    "src/types.c": "e0525b3a50f1ad451cc1333d7f70f7f29c20452d18a1f960b4d42bdf2733013c",
+    "src/types.h": "0d6aaa01ea68c9ea0e8f987a0ef68987f6b4750b5123c6f4960ce086c3be6d28",
     "src/image.h": "3db3018bf316e791bb96d567eaf5c092bfb0e3b71254ab77d84e6f68b73e2e96"
   },
   "scope": "Same actual module3 allocation5113. Header4; search12 yields16; then completed24-byte S_OBJNAME copy yields40. Exact first respectivecallbacks/parentframes/sourcecursor; later writes not inferred.",
@@ -130,6 +140,28 @@
         "9": 156937,
         "11": 153648,
         "13": 151922
+      }
+    },
+    "compact_type_list": {
+      "original": 160416,
+      "defined": 40,
+      "input_offset": 202,
+      "return_address": 158970,
+      "allocation_esp_delta": 112,
+      "buffer_slot": 33,
+      "input_slot": 36,
+      "record_length": 28,
+      "callback_index": 27,
+      "kind": 4,
+      "type_index": 4133,
+      "list_index": 4115,
+      "list_count": 1,
+      "nested_returns": {
+        "9": 160029,
+        "15": 158330,
+        "24": 156937,
+        "26": 153648,
+        "28": 151922
       }
     }
   }

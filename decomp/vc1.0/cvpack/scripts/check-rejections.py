@@ -71,6 +71,9 @@ def main():
     config,original=load()
     from pdb_checks import check as pdb_checks
     pdb_checks(config,original,reject)
+    from symbol_output_checks import check_type_list
+    list_symbols=BINARY/'cases/hello-debug-dll/evidence/0070-compact_pointer'
+    if list_symbols.is_dir():check_type_list(list_symbols)
     from symbol_output_checks import check_pointer
     pointer_symbols=BINARY/'cases/hello-debug-dll/evidence/0069-compact_new_type'
     if pointer_symbols.is_dir():check_pointer(pointer_symbols)
@@ -90,6 +93,13 @@ def main():
     packed=BINARY/'cases/hello-debug-dll/evidence/0064-pack_new_types'
     if packed.is_dir():check_symbol_output(packed)
     from callback_table import describe as callback_description,check_rebuilt as check_callbacks
+    converters=next((r for r in context if r['name']=='type_converters'),None)
+    if converters:
+        symbols=publics();raw=PE(target).read(converters['original'],8);new=PE(BINARY/'build/CVPACK.EXE').read(symbols[converters['symbol']],8)
+        check_callbacks(converters,raw,new,configuration['functions'],symbols)
+        reject('type converter table reversed targets',lambda:check_callbacks(converters,raw,new[4:]+new[:4],configuration['functions'],symbols))
+        reject('type converter table truncated',lambda:check_callbacks(converters,raw,new[:4],configuration['functions'],symbols))
+        reject('type converter unreviewed stride',lambda:callback_description(dict(converters,stride=8),raw,configuration['functions']))
     table=next((r for r in context if r.get('kind')=='callback-table'),None)
     if table:
         original_table=PE(target).read(table['original'],table['size']);symbols=publics();rebuilt_table=PE(BINARY/'build/CVPACK.EXE').read(symbols[table['symbol']],table['size'])
