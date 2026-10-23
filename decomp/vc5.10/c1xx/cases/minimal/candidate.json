@@ -57,7 +57,8 @@
     "_initialize_frontend_32",
     "_initialize_frontend_33",
     "_initialize_frontend_34",
-    "_initialize_type_ranks"
+    "_initialize_type_ranks",
+    "_initialize_frontend_35"
   ],
   "trial": null,
   "ranges": [
@@ -492,7 +493,13 @@
       "start_rva": 232043,
       "end_rva": 232118,
       "entry": 1
+    },
+    {
+      "owner": "_initialize_frontend_35",
+      "start_rva": 232118,
+      "end_rva": 232119,
+      "entry": 1
     }
   ],
-  "stage": "_initialize_type_ranks accepted; next frontier _initialize_frontend_35"
+  "stage": "_initialize_frontend_35 accepted; next frontier _initialize_frontend_36"
 }

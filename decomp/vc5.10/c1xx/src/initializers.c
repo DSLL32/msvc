@@ -151,7 +151,6 @@ void initialize_frontend_34(void)
 
 void initialize_frontend_35(void)
 {
-    __asm { int 3 }
 }
 
 void initialize_frontend_36(void)

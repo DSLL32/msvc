@@ -31,7 +31,7 @@ def check(original,native,require_audit=True,audit_path=None):
     pdb_number=2 if trial['trial']=='_initialize_pdb_context_02' else 1
     deferred=trial['trial']=='_initialize_deferred_work'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=34,
+    s.require(rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=35,
               'no reviewed callback decoder for this function')
     index=34 if rank_helper else 24 if pool_member else 21+pdb_number if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
@@ -88,9 +88,9 @@ def check(original,native,require_audit=True,audit_path=None):
         elif not constructor_number and not registrar:
             name='initialize_deferred_work' if index==16 else 'initialize_output_buffer_%02d'%(completed+1)
             path.append((name,records['_'+name]['start']-0x10400000))
-    if index==34:
+    if index>=34:
         path.append(('initialize_type_ranks',0x38a6b))
-        if rank_helper:path.append(callback(35))
+        if '_initialize_type_ranks' in trial['accepted']:path += [callback(slot) for slot in range(35,index+2)]
     expected += [(str((7 if seed else 8)+i),'%08x'%rva) for i,(_,rva) in enumerate(path)]
     final='%03d'%int(expected[-1][0]);frontier=path[-1][0]
     expected_frontier=expected[-1][1]
@@ -173,7 +173,7 @@ def check(original,native,require_audit=True,audit_path=None):
         def ready(suffix):
             blob=(original/('type-ranks-ready-'+suffix+'.bin')).read_bytes();s.require(len(blob)==4,'missing raw rank-ready field');return struct.unpack('<I',blob)[0]
         s.require(ready('000')==0 and ready('006')==pre['frontend']['type_ranks_initialized']==(37 if seed else 0),'rank-ready initial/nonzero state differs')
-        s.require(ready('phase')==phase['frontend']['type_ranks_initialized']==0 and ready(final)==state['frontend']['type_ranks_initialized']==(1 if rank_helper else 0),'rank-ready escaped BSS reset or changed before helper')
+        s.require(ready('phase')==phase['frontend']['type_ranks_initialized']==0 and ready(final)==state['frontend']['type_ranks_initialized']==(1 if '_initialize_type_ranks' in trial['accepted'] else 0),'rank-ready escaped BSS reset or changed before helper')
     if model['schema']>=22:
         spec=importlib.util.spec_from_file_location('type_rank_state',Path(__file__).with_name('type_rank_state.py'));ranks=importlib.util.module_from_spec(spec);spec.loader.exec_module(ranks)
         ranks.check(s,original,native,trial,text,pre,phase,state,seed,final,symbols,traps)

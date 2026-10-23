@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "trial": "_initialize_frontend_35",
+  "trials": [
+    {
+      "seed": null,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-empty35-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-empty35-native-1",
+      "original_receipt_sha256": "9a5cfc6d3764a1af6e29ca3a436dab9057b125a2a99e38b0658ad7a1bd404d72",
+      "native_receipt_sha256": "63a5ac92f421714b6cca17f5ae11f16a922151b3e6212eb6efbba3cf3af8c070",
+      "audit": "build/audits/314d5a2e6a28526fbb45228349ef20d498f65e99303b2d778163a05db91a5e74.json",
+      "comparison": {
+        "trial": "_initialize_frontend_35",
+        "frontier": "_initialize_frontend_36",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 863,
+        "native_bss_size": 892,
+        "native_c_padding_bytes": 29,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8431,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 3.3226254396140575,
+        "native_seconds": 4.381725427694619
+      }
+    }
+  ],
+  "fresh_trace_controls": {
+    "result": "PASS",
+    "trial": "_initialize_frontend_35",
+    "count": 3,
+    "seconds": 4.268136762082577,
+    "rejected": [
+      "missing-original-empty-entry",
+      "missing-native-empty-entry",
+      "false-frontier-PC"
+    ]
+  },
+  "provenance_sha256": {
+    "scripts/check-empty-negative.py": "aa301cc38d3a9a6d54857a81a11409ac9987b0719c66d0ddb7dc36926425204a",
+    "scripts/check-callback.py": "48c8b4802c6fbc1cf6ef5e7b7519c3aa61bbcd653344ca9d3da496aa28592ddf",
+    "scripts/capture-minimal-native.py": "3dfc00a2e1aa3dc6f121610602e3fe7f85b550b97b07f5f64172047f6b0f661e",
+    "cases/minimal/state-model.json": "c9a61ba904caa441e2aef26770719596d222c6fa545ee4d1703c409795f9a480",
+    "cases/minimal/contract.json": "91cdf96319801664dfe5dd853873bb4cdc57a20019147a3105ba6b3b0b7f588f"
+  },
+  "prior_state_checkpoint_sha256": "d21617270334aa96857d3cf86f381a48f162ee8d389afbff3b666d6776d09213",
+  "observed_inputs": {
+    "candidate": "cdecl void(void), single original RET reads no input",
+    "next_callback36": "cdecl void(void), XOR EAX then fixed20-byte zero stores, no incoming values read"
+  }
+}
