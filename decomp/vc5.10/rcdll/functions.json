@@ -63,7 +63,8 @@
     "rc_expect_end",
     "rc_equal_type",
     "rc_parse_angle_name",
-    "rc_search_include_directories"
+    "rc_search_include_directories",
+    "rc_scan_comment"
   ],
   "functions": [
     {
@@ -943,8 +944,7 @@
       "end": "0x12a2b",
       "abi": "cdecl",
       "stack_bytes": 0,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_splice_line",
@@ -1402,6 +1402,24 @@
       "end": "0x128e9",
       "abi": "stdcall",
       "stack_bytes": 4,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_skip_block_comment",
+      "start": "0x12a2b",
+      "end": "0x12a9b",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_skip_line_comment",
+      "start": "0x70ce",
+      "end": "0x7100",
+      "abi": "cdecl",
+      "stack_bytes": 0,
       "kind": "application",
       "stub": true
     }

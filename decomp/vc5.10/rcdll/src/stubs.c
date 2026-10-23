@@ -94,11 +94,6 @@ int __stdcall rc_macro_text_differs(const WCHAR *value,const WCHAR *prior,unsign
 
 
 
-int __cdecl rc_scan_comment(void)
-{
-    __asm int 3
-    return 0;
-}
 int __cdecl rc_splice_line(void)
 {
     __asm int 3
@@ -242,3 +237,13 @@ unsigned char __stdcall rc_unsigned_integer_kind(unsigned value)
 }
 
 
+
+void __cdecl rc_skip_block_comment(void)
+{
+    __asm int 3
+}
+
+void __cdecl rc_skip_line_comment(void)
+{
+    __asm int 3
+}

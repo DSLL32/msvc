@@ -67,6 +67,8 @@ unsigned __stdcall rc_escape_character(unsigned character);
 unsigned char __stdcall rc_read_number(WCHAR first);
 unsigned char __stdcall rc_read_fraction(WCHAR *end);
 int __stdcall rc_match_logical_character(unsigned character);
+void __cdecl rc_skip_block_comment(void);
+void __cdecl rc_skip_line_comment(void);
 int __stdcall rc_read_macro_identifier(WCHAR first);
 int __stdcall rc_expand_macro(RcMacro *macro);
 extern WCHAR *rc_number_buffer;

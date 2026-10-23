@@ -62,7 +62,8 @@
     "rc_expect_end",
     "rc_equal_type",
     "rc_parse_angle_name",
-    "rc_search_include_directories"
+    "rc_search_include_directories",
+    "rc_scan_comment"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

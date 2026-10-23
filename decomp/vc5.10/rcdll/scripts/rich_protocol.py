@@ -1841,11 +1841,12 @@ def angle_name_trial(original,native):
     proof['trial']='rc_parse_angle_name';return proof
 
 
-def include_search_trial(original,native):
-    config=read_configuration(original/'functions.json');assert config.get('trial_function')=='rc_search_include_directories'and len(config['accepted'])==59
-    a,b,proof=checkpoint(original,native,'rc_scan_comment',('rc_input_temporary','rc_output_temporary'))
-    assert a['words'][0]==0x71c3216d and re.search(r'^#1\s+0x[0-9a-f]+ in rc_scan_line_start\s*\(',(native/'gdb.stdout').read_text(),re.M)
-    assert proof['application_trace'][-1]=='rc_search_include_directories'
+def _include_search_checkpoint(original,native,comment=False):
+    trial='rc_scan_comment'if comment else'rc_search_include_directories';frontier='rc_match_logical_character'if comment else'rc_scan_comment';caller='rc_scan_comment'if comment else'rc_scan_line_start'
+    config=read_configuration(original/'functions.json');assert config.get('trial_function')==trial and len(config['accepted'])==(60 if comment else 59)
+    a,b,proof=checkpoint(original,native,frontier,('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==(0x71c32a09 if comment else 0x71c3216d)and re.search(r'^#1\s+0x[0-9a-f]+ in '+caller+r'\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert proof['application_trace'][-1]==trial
     text=(original/'events.txt').read_text();args=b['arguments'];old_globals=(original/'globals.bin').read_bytes();globals=args['preprocessor']['globals'];calls=args['include_opens']
     assert calls==json.loads((native/'include-opens.json').read_text())and len(calls)==4
     entries=re.findall(r'^search-open attempt=(\d+) index=(\d+) path=([0-9a-f]+) first=(\d+) esp=([0-9a-f]+) errno=(\d+) last-error=([0-9a-f]+)$',text,re.M)
@@ -1860,7 +1861,9 @@ def include_search_trial(original,native):
             attempt,result,after,errno_value,error=returns[index];assert int(attempt)==index and int(result,16)==row['result']==0 and int(after,16)==int(sp,16)+8 and row['return_esp']==row['entry_esp']+12
             assert int(errno_value)==row['errno_after']==2 and int(error,16)==row['last_error_after']==2
         else:assert not any(key in row for key in ['result','return_esp','errno_after','last_error_after']),'fourth open is genuinely pending at a child frontier, not a matching unchecked result'
-    c=args['comment'];assert c['formals']==[]and c['caller']=='rc_scan_line_start'and c['depth']==1 and re.findall(r'^comment-depth (\d+)$',text,re.M)==['1']
+    c=args['comment'];assert c['formals']==([dict(name='character',value=42,bytes=4)]if comment else[])and c['caller']==caller and c['depth']==1
+    if comment:assert args['character_match']==dict(character=42,formal_bytes=4,stack_slot_bytes=4,comparison_bits=32)and a['words'][1]==42
+    assert re.findall(r'^comment-depth (\d+)$',text,re.M)==['1']
     old=struct.unpack('<9I',raw_bytes(text,'comment-frame'));new=struct.unpack('<9I',bytes.fromhex(c['frame']));old_parent=struct.unpack('<9I',raw_bytes(text,'comment-parent-frame'));new_parent=struct.unpack('<9I',bytes.fromhex(c['parent_frame']))
     assert tuple(old[i]for i in [0,2,6,7,8])==tuple(new[i]for i in [0,2,6,7,8])==(4098,1,4098,1,0)
     assert old[4]-old_parent[5]==new[4]-new_parent[5]==106 and old[4]>old_parent[5]>0
@@ -1901,4 +1904,14 @@ def include_search_trial(original,native):
     assert offset<size and matches==[expected_guard]and expected_guard[-1]==0xcc
     proof['reused_marker_guard']=dict(record='cases/resources-rich-trailing-space/include-marker-boundary.json',sha256=sha(HERE/'cases/resources-rich-trailing-space/include-marker-boundary.json'),same_compiled_source_sha256=new_source['contents'][key]['sha256'],current_ELF_guard_offset=offset,current_ELF_guard_bytes=expected_guard.hex(),scope='Unchanged marker-length premise; original guard plain/GDB tests reused, current source and actual production ELF guard independently checked.')
     proof['include_search']=dict(paths=expected_paths,indices=[99,98,97,96],failed_returns=3,successful_open_pending_at_verified_child=True,physical_open_formals=dict(path_pointer_bytes=4,first_bytes=4,cleanup=8),initialized_path_span_bytes=len(path),source_depth=1,decoded_source_bytes=8196,source_terminator_bytes=2,current_source_offset=2,current_word=42,source_file=dict(descriptor=6,capacity=4096,initialized_buffer_bytes=512,consumed_bytes=2,remaining_bytes=510,position=4608,unwritten_tail_bytes=3584,unwritten_tail_scope='Retained raw, not compared or claimed initialized'),next_formals=[],next_hidden_inputs='Actual source cursor points to star42 in owned initialized8198B UTF16 header buffer; source frame/encoding/FILE and parser globals retained. Whole scan-comment body delegates through the existing cursor; no additional register/out-pointer input identified.',return_scope='Search and fourth rc_open_source have not returned; actual matching nonempty rc_scan_comment child frontier proves progress. No None result is accepted.',pending_output_defined_bytes=defined,shared_boundary='Canonical WCHAR16 wcschr; only needle lowWORD is consumed from4B slot, original upper16 bits unobserved/unclaimed.',literal_bytes=6,literal_code_credit=0)
-    proof['trial']='rc_search_include_directories';return proof
+    if comment:
+        proof['include_search']['next_formals']=[dict(name='character',value=42,bytes=4)]
+        proof['include_search']['return_scope']='Search and fourth open remain pending; their progress is verified at the nested matcher child. Neither a search nor dispatcher return is claimed.'
+        proof['comment_dispatch']=dict(formals=[],return_scope='Not yet returned: first matcher call is the actual nonempty child frontier.',next_formals=[dict(name='character',value=42,formal_bytes=4,stack_slot_bytes=4,comparison_bits=32)],next_hidden_inputs=dict(source_cursor_offset=2,current_word=struct.unpack_from('<H',expected_source,10)[0],ownership='Same initialized source frame and decoded storage; matcher reads complete32-bit formal and existing cursor, no additional register/out-pointer inputs found.'),return_to_original='0x71c32a09',native_caller='rc_scan_comment')
+    proof['trial']=trial;return proof
+
+def include_search_trial(original,native):
+    return _include_search_checkpoint(original,native)
+
+def scan_comment_trial(original,native):
+    return _include_search_checkpoint(original,native,comment=True)
