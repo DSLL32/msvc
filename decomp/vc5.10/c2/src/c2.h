@@ -127,7 +127,23 @@ extern C2Real c2_real_zero, c2_real_one, c2_real_two;
 void c2_real_from_int(int *input, C2Real *output);
 void store_extended(void); /* Private ABI: ESI destination, incoming ST(0). */
 void c2_initialize_constants(void);
-void c2_initialize_opcodes(void);
+#define C2_INTRINSIC_COUNT 344
+typedef struct C2Intrinsic {
+    unsigned short result_type, reserved_type;
+    char *commands, *runtime_name;
+    unsigned char flags, argument_signature;
+    unsigned short reserved_flags;
+} C2Intrinsic;
+typedef struct C2IntrinsicInitializer {
+    short number;
+    unsigned short result_type;
+    char *commands, *runtime_name;
+    unsigned char flags, argument_signature;
+} C2IntrinsicInitializer;
+typedef char C2IntrinsicSizeCheck[sizeof(C2Intrinsic) == 16 ? 1 : -1];
+typedef char C2IntrinsicInitializerSizeCheck[sizeof(C2IntrinsicInitializer) == 16 ? 1 : -1];
+extern C2Intrinsic intrinsics[C2_INTRINSIC_COUNT];
+void initialize_intrinsics(void);
 void c2_initialize_machine(void);
 void c2_initialize_trees(void);
 void c2_initialize_codegen(void);

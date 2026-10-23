@@ -1,0 +1,28 @@
+{
+  "schema": 1,
+  "baseline_commit": "06d5c26d",
+  "control_result": "cases/acceptance/0040-extended-store/rejections.json",
+  "control_result_sha256": "aa59604d94489f86b51f1710b1984ccbd212a18d72a177a87b101bd3d1928e97",
+  "checker_contracts": {
+    "scripts/state.py": "c823efddd33082153589d54de971b74d841cf14da3b3080fb9f2639d1211f34e",
+    "scripts/audit.py": "938cace588deae113948d5b1828155e8cd90036c737001dd05f2767ff90acc40",
+    "scripts/native-proof.py": "e19e267af93ff09647d31049b8cb5ade5451b22751f7902135f904c13b1e0728",
+    "scripts/compare.py": "f9e68dadd6fd3dcafe8e0a4a1815b7e1950292bc2c1093507976e54f248637fe",
+    "scripts/capture-original.py": "a4632e7bda0773dcfa37c4fbb9375bea685a7ab664db6a532ac5bf630ce85829",
+    "scripts/capture-native.py": "0aa12fac9235cb2f4cba9701ab3ccbd899a735a08ebac2ec667ee401f1593bff",
+    "scripts/check-rejections.py": "6b9281e8c248a90c0f18c5db3137a15f5ae5d3af74b5d35c8b1b66eae8a1c7b4",
+    "scripts/import_evidence.py": "b95bf84a6fe9a82ccc1f8450e0767f4e62da0ef396bcdb625719b500b10c768c",
+    "scripts/data_evidence.py": "aacbff00f4b8824b69ae8ed7cd26612b1c82f3a0e95afca3c73a900d3b2049c1",
+    "scripts/case_inputs.py": "13ab2ee944896ade6b46c2b2d226fd63233ea9d3191931b1d8a84ddbfaa48aa9",
+    "scripts/accept.py": "1023c0427d107f4216891b7e0b45cfde1903beb6fb9326a0c3b9ac6531fa4727",
+    "scripts/debug-run.c": "dad53be154ab2f74987443b7c6b337c7506201bd3cf2888f33a81971041a144c",
+    "scripts/build-index.py": "53e385cd7636d17b660fa3ce1f38a05e9f2314db1cf4e07bf8be5dfc6f3641ce"
+  },
+  "source_archive": "checker-contracts.tar.gz",
+  "source_archive_sha256": "f5786888f1a1585308b84de191efd37a5192ed5ac47e1fd33102f33bb72576e3",
+  "proof_inputs": {
+    "original_receipt": "9af6f7af02274c98160132f2dd925b1387401d1281a688c98912ba3cd5302100",
+    "native_receipt": "b5779ccfda1146584f99ef927a8f792fc981bea450bd9d46e3f0af79616d6607"
+  },
+  "review": "Full74-control run passed against real store40 pair. Parent approved reuse of unchanged protocol premises; affected/new-state controls remain mandatory. This is an explicit reviewed baseline, not permission to skip changed transport/checker contracts."
+}

@@ -35,6 +35,9 @@ def main():
     output=args.output.resolve();output.mkdir(parents=True,exist_ok=False)
     (output/'base_configuration.json').write_bytes(base_snapshot)
     (output/'configuration.json').write_bytes(snapshot)
+    if config.get('intrinsic_model'):
+        data=(BINARY/config['intrinsic_model']).read_bytes();assert sha(data)==config['intrinsic_model_sha256']
+        (output/'intrinsic-model.json').write_bytes(data)
     from data_evidence import model,plan
     data_model=model(config)
     if data_model:

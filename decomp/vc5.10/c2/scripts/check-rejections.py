@@ -7,14 +7,18 @@ import re
 import shutil
 import tempfile
 import time
+import tarfile
 from accept import preflight
-from state import sha
+from state import BINARY, sha
 
 
 def main():
     begin=time.monotonic()
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--function',required=True);p.add_argument('--original',type=Path,required=True);p.add_argument('--native',type=Path,required=True);p.add_argument('--validation',type=Path)
+    p.add_argument('--reviewed-baseline',type=Path,help='reuse only previously passed controls after reviewing unchanged protocol premises')
+    p.add_argument('--affected',help='also rerun previously passed controls matching this expression')
+    p.add_argument('--review-note',help='record why the reused protocol/control implementations remain applicable')
     a=p.parse_args()
     control=preflight(a.function,a.original,a.native,a.validation)
     passed=[]
@@ -109,6 +113,29 @@ def main():
         mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
                       ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
                       ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if 'intrinsic_table'in current_state:
+        def changed_intrinsic(root,index,key,value):
+            path=root/'n/state.json';state=json_at(path);state['intrinsic_table'][index][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        def shortened_intrinsics(root):
+            path=root/'n/state.json';state=json_at(path);state['intrinsic_table'].pop();write_json(path,state);raw_changed(root,'n','state.json')
+        def wrong_original_intrinsic_tail(root):
+            path=root/'o/intrinsic-table.bin';data=bytearray(path.read_bytes());data[-1]=1;path.write_bytes(data)
+        def wrong_intrinsic_static_receipt(root):
+            path=audit_directory(root)/'data-evidence.json';data=json_at(path);data['intrinsics']['text_identities']=121;write_json(path,data)
+            path=audit_path(root);receipt=json_at(path);receipt['data_evidence_sha256']=sha((audit_directory(root)/'data-evidence.json').read_bytes());write_json(path,receipt);bind_audit(root)
+        mutations += [('intrinsic result type differs',lambda r:changed_intrinsic(r,3,'result_type',0x4008)),
+                      ('intrinsic runtime flags differ',lambda r:changed_intrinsic(r,340,'flags',0)),
+                      ('intrinsic argument signature differs',lambda r:changed_intrinsic(r,23,'argument_signature',0)),
+                      ('intrinsic command recipe bytes differ',lambda r:changed_intrinsic(r,3,'commands_bytes','4400')),
+                      ('intrinsic FF runtime alias separator differs',lambda r:changed_intrinsic(r,23,'runtime_name_bytes','616d6f6400666d6f6400')),
+                      ('intrinsic shared runtime address differs',lambda r:changed_intrinsic(r,4,'runtime_name',current_state['intrinsic_table'][4]['runtime_name']+4)),
+                      ('intrinsic distinct empty addresses collapsed',lambda r:changed_intrinsic(r,7,'runtime_name',current_state['intrinsic_table'][0]['commands'])),
+                      ('intrinsic reserved type field overwritten',lambda r:changed_intrinsic(r,0,'reserved_type',1)),
+                      ('intrinsic reserved tail field overwritten',lambda r:changed_intrinsic(r,343,'reserved_flags',1)),
+                      ('intrinsic final default row omitted',shortened_intrinsics),
+                      ('original intrinsic final reserved byte changed',wrong_original_intrinsic_tail),
+                      ('intrinsic model capture changed',lambda r:(r/'n/intrinsic-model.json').write_bytes(b'{}')),
+                      ('intrinsic static field/alias receipt differs',wrong_intrinsic_static_receipt)]
     if 'extended_results'in current_state:
         def changed_extended_results(root,change):
             path=root/'n/state.json';state=json_at(path);change(state['extended_results']);write_json(path,state);raw_changed(root,'n','state.json')
@@ -375,6 +402,25 @@ def main():
             ('native SIGTRAP cannot stand for completion',lambda r:native_event(r,lambda t:t+'SIGTRAP\n')),
             ('candidate omitted from both otherwise matching terminal traces',omit_candidate),
         ]
+    reuse=None;reused=[]
+    if a.reviewed_baseline:
+        assert a.review_note,'baseline reuse requires the concrete reviewed scope'
+        baseline=json_at(a.reviewed_baseline)
+        result_path=BINARY/baseline['control_result'];assert sha(result_path.read_bytes())==baseline['control_result_sha256']
+        prior=json_at(result_path);assert prior['count']==len(prior['rejected'])and not prior['accepted']
+        archive=a.reviewed_baseline.parent/baseline['source_archive'];assert sha(archive.read_bytes())==baseline['source_archive_sha256']
+        with tarfile.open(archive,'r:gz')as source:
+            actual={member.name:sha(source.extractfile(member).read())for member in source.getmembers()}
+        assert actual==baseline['checker_contracts'],'baseline checker/contract snapshot changed'
+        selected=[]
+        for name,change in mutations:
+            if name not in prior['rejected']or (a.affected and re.search(a.affected,name,re.I)):selected.append((name,change))
+            else:reused.append(name)
+        mutations=selected
+        reuse={'baseline':str(a.reviewed_baseline.resolve()),'baseline_sha256':sha(a.reviewed_baseline.read_bytes()),
+            'baseline_control_result_sha256':baseline['control_result_sha256'],'baseline_checker_contracts':actual,
+            'current_checker_contracts':{name:sha((BINARY/name).read_bytes())for name in actual},
+            'baseline_proof_inputs':baseline['proof_inputs'],'review':a.review_note,'reused':reused,'count':len(reused)}
     with tempfile.TemporaryDirectory(prefix='candidate-negatives-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c2')as scratch:
         for index,(name,change)in enumerate(mutations):
             root=Path(scratch)/str(index);shutil.copytree(a.original,root/'o');shutil.copytree(a.native,root/'n')
@@ -385,6 +431,8 @@ def main():
             try:preflight(a.function,root/'o',root/'n',root/'v/receipt.json'if a.validation else None)
             except (AssertionError,KeyError,ValueError):passed.append(name)
             else:raise AssertionError('negative accepted: '+name)
-    print(json.dumps({'function':a.function,'count':len(passed),'rejected':passed,'control_frontier':control[1]['matched'],'accepted':False,'seconds':{'control_and_rejections':time.monotonic()-begin}},indent=2))
+    print(json.dumps({'function':a.function,'count':len(passed),'rejected':passed,'control_frontier':control[1]['matched'],'accepted':False,
+        'current_proof_inputs':{'original_receipt':sha((a.original/'receipt.json').read_bytes()),'native_receipt':sha((a.native/'receipt.json').read_bytes())},
+        'reuse':reuse,'seconds':{'control_and_rejections':time.monotonic()-begin}},indent=2))
 
 if __name__=='__main__':main()

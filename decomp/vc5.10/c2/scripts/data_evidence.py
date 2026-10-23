@@ -50,6 +50,8 @@ def plan(value):
 def verify(config):
     value=model(config)
     if value is None:return None
+    from intrinsic_evidence import verify as verify_intrinsics
+    intrinsics=verify_intrinsics(config)
     maps={m[1]:int(m[2],16)for m in re.finditer(r'^\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})',(BINARY/'build/c2.map').read_text(),re.M)}
     node_sizes=[]
     if '@c2_node_size@4'in config['accepted']:
@@ -107,7 +109,7 @@ def verify(config):
             else:assert cstring(read,actual)==cstring(original_read,row['initial'])
     return {'model_sha256':sha((BINARY/config['data_model']).read_bytes()),'option_records':53,
             'selector_records':sum(len(t['entries'])for t in value['selectors']),
-            'objects':len(value['objects']),'node_size_dispatch':node_sizes,'sides':['original PE','rebuilt Win32 PE'],
+            'objects':len(value['objects']),'node_size_dispatch':node_sizes,'intrinsics':intrinsics,'sides':['original PE','rebuilt Win32 PE'],
             'checks':['pattern text','destination logical aliases','result/kind/record ABI','selector contents','initial scalar/string values']}
 
 

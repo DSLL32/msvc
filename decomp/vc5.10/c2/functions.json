@@ -50,7 +50,8 @@
     "@c2_pool_allocate@8",
     "_c2_initialize_constants",
     "_c2_real_from_int",
-    "_store_extended"
+    "_store_extended",
+    "_c2_initialize_opcodes"
   ],
   "driver": [
     {
@@ -199,7 +200,7 @@
               212,
               312
             ],
-            "lifetime_sha256": "42abc7c0370bd377cc18911de8fc8809f0e83373c561967c7bca3a36e0db055a",
+            "lifetime_sha256": "53d68d103e0ee036a7a0f509825229dc7f015eaa4f04b2f7afc49eea660567e1",
             "instructions": [
               {
                 "offset": 212,
@@ -371,7 +372,7 @@
               42,
               191
             ],
-            "lifetime_sha256": "2f83505db1e1fcd01952595efad9825b27305eb3090db76a67f6dd669c0811ee",
+            "lifetime_sha256": "826b8db5ea0cb5b7ec34fcc8fcee6d18663dabb27ed8bbc642b6480dfeec6cc4",
             "instructions": [
               {
                 "offset": 42,
@@ -453,7 +454,7 @@
               462,
               540
             ],
-            "lifetime_sha256": "5c5c4ca5df1c87b80fa25ec48afda7399c2e625f00ea9f6ce5aaf13554e809cf",
+            "lifetime_sha256": "3a7abbb97cfc2322fde86cb6969f69d90e1cedb23df4b8c0e7e9a7e89bbe0218",
             "instructions": [
               {
                 "offset": 462,
@@ -602,7 +603,7 @@
               38,
               154
             ],
-            "lifetime_sha256": "f664c93e6451cec8b79805ff3dc22fb972d5313baae7439b81c00775e938aa50",
+            "lifetime_sha256": "227c2fb9b0fde4f6f67ef52fb4a77fc3e31016083a73964f2c2df744a3ccaf5b",
             "instructions": [
               {
                 "offset": 38,
@@ -663,7 +664,7 @@
               46,
               154
             ],
-            "lifetime_sha256": "112c0ec44d97df509467c7d831ef5d143bce49ba531eacc83c023be64b4b43cc",
+            "lifetime_sha256": "366c8179a26c6611b566e4270d9e914b209c0f36eda6c22388e7395408f24057",
             "instructions": [
               {
                 "offset": 46,
@@ -1441,7 +1442,7 @@
               6,
               198
             ],
-            "lifetime_sha256": "4465f2fd728fd960dce1271a8ae76c9a69d14b5c607744599ca79de7215e2819"
+            "lifetime_sha256": "36ee1829d64329ebc25bb044cf28dbe5e1f83e46d3b265d7bbfed25ca08dbdfb"
           }
         }
       ]
@@ -1631,7 +1632,7 @@
               6,
               377
             ],
-            "lifetime_sha256": "10ae3df6acf4ad8b0a235e3e14564cc3d1d0598fa89a73601d3b8d6751fd80ef"
+            "lifetime_sha256": "fda9c0595e3893873ba113eb74dee69cc29fbb226771409c47580cf8a8f6851a"
           }
         }
       ]
@@ -2508,32 +2509,13 @@
         "-G5"
       ],
       "evidence": "cases/analysis/extended-int-disassembly.txt"
-    }
-  ],
-  "stubs": [
-    {
-      "name": "_c2_math_error",
-      "native": "c2_math_error",
-      "start": 4484380,
-      "end": 4484383,
-      "abi": "cdecl, one pointer parameter",
-      "kind": "crt-source"
-    },
-    {
-      "name": "_c2_print_banner",
-      "native": "c2_print_banner",
-      "start": 4738355,
-      "end": 4738356,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
     },
     {
       "name": "_c2_initialize_opcodes",
-      "native": "c2_initialize_opcodes",
+      "native": "initialize_intrinsics",
       "start": 4534439,
-      "end": 4534440,
-      "pending_extent": true,
+      "end": 4534522,
+      "pending_extent": false,
       "kind": "application",
       "abi": "cdecl, no parameters",
       "state_policy": "extended-results",
@@ -2638,7 +2620,29 @@
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
-      ]
+      ],
+      "symbol": "_initialize_intrinsics",
+      "evidence": "cases/analysis/intrinsics-disassembly.txt",
+      "requires_intrinsic_model": "cases/analysis/intrinsic-descriptions.json"
+    }
+  ],
+  "stubs": [
+    {
+      "name": "_c2_math_error",
+      "native": "c2_math_error",
+      "start": 4484380,
+      "end": 4484383,
+      "abi": "cdecl, one pointer parameter",
+      "kind": "crt-source"
+    },
+    {
+      "name": "_c2_print_banner",
+      "native": "c2_print_banner",
+      "start": 4738355,
+      "end": 4738356,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
     },
     {
       "name": "_c2_initialize_machine",
@@ -2647,7 +2651,110 @@
       "end": 4534523,
       "pending_extent": true,
       "kind": "application",
-      "abi": "cdecl, no parameters"
+      "abi": "cdecl, no parameters",
+      "state_policy": "intrinsics-initialized",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "c2_symbol_hash_count"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        }
+      ],
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ]
     },
     {
       "name": "_c2_initialize_trees",
@@ -2901,5 +3008,7 @@
   "trial": [],
   "pending_data": [],
   "data_model": "cases/analysis/options-model.json",
-  "retain_capture_binaries": true
+  "retain_capture_binaries": true,
+  "intrinsic_model": "cases/analysis/intrinsic-descriptions.json",
+  "intrinsic_model_sha256": "25d11bf5efdc2a531cbe21a5c751728c1997d0593ecfb13793beab80c5d57d4f"
 }

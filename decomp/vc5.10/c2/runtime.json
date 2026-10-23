@@ -16,14 +16,6 @@
     "evidence": null
   },
   {
-    "name": "_c2_initialize_opcodes",
-    "start": 4534439,
-    "end": 4534440,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_c2_initialize_machine",
     "start": 4534522,
     "end": 4534523,

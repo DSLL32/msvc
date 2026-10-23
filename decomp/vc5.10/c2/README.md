@@ -7,10 +7,10 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 35 application functions (5103 bytes) and five CRT
+Current reconstruction has 36 application functions (5186 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded its complete IL header and
-now stops at opcode initialization. Four import thunks (24 bytes) and contextual
-text tables (280 bytes) remain separate. The 5541 source bytes are 0.967% of
+now stops at machine initialization. Four import thunks (24 bytes) and contextual
+text tables (280 bytes) remain separate. The 5624 source bytes are 0.981% of
 573183 `.text` bytes; that denominator includes CRT/data/padding and is not
 non-CRT coverage. `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -101,3 +101,9 @@ Source entry names are `main` and `mainCRTStartup`. Explicit driver `symbol`
 aliases preserve earlier logical graph/trace names without modifying historical
 captures. Only target native translation units alias `main` to `c2_main`; the
 Linux host retains its own `main`. See `cases/analysis/naming-aliases.json`.
+
+Unchanged protocol mutation controls may reuse a reviewed immutable baseline;
+new or affected state checks still run with every reconstruction. The intrinsic
+initializer checkpoint ran17 fresh controls and reused60 unchanged ones in
+5.415s; its receipt lists both proof inputs and checker/contract hashes. The
+previous complete74-control store checkpoint took21.022s.

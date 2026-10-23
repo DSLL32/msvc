@@ -44,7 +44,7 @@ def main():
         if side=='original':files += [p.name for p in source.glob('cache-message-*.bin')]+[p.name for p in source.glob('diagnostic-format.bin')]
         files += [p.name for p in source.glob('artifact-*.bin')]
         if side=='original':files += [p.name for p in source.glob('intermediate-*.bin')]
-        if side=='original':files += [name for name in ('runtime-original.json','runtime-rebuilt.json','graph-metadata.json','pool-block.bin','pool-descriptors.bin','real-records.bin','extended-destination.bin','x87-state.bin','extended-after.bin','x87-after.bin','x87-final.bin')if(source/name).exists()]
+        if side=='original':files += [name for name in ('runtime-original.json','runtime-rebuilt.json','graph-metadata.json','pool-block.bin','pool-descriptors.bin','real-records.bin','extended-destination.bin','x87-state.bin','extended-after.bin','x87-after.bin','x87-final.bin','intrinsic-model.json','intrinsic-table.bin')if(source/name).exists()]
         for name in files:shutil.copyfile(source/name,destination/name)
     def archive_inputs(directory,manifest,destination):
         with destination.open('wb')as raw,gzip.GzipFile(filename='',fileobj=raw,mode='wb',mtime=0)as compressed,tarfile.open(fileobj=compressed,mode='w')as archive:
@@ -53,6 +53,7 @@ def main():
                 info=tarfile.TarInfo(name);info.size=len(data);info.mode=0o644;info.mtime=0
                 archive.addfile(info,io.BytesIO(data))
     if(a.native/'data-model.json').exists():shutil.copyfile(a.native/'data-model.json',a.proof/'native/data-model.json')
+    if(a.native/'intrinsic-model.json').exists():shutil.copyfile(a.native/'intrinsic-model.json',a.proof/'native/intrinsic-model.json')
     if(a.original/'helper-inputs.json').exists():
         shutil.copyfile(a.original/'helper-inputs.json',a.proof/'original/helper-inputs.json')
         archive_inputs(a.original/'helper-inputs',json.loads((a.original/'helper-inputs.json').read_text()),a.proof/'original/helper-inputs.tar.gz')

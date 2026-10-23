@@ -1,0 +1,42 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+C2-PROCESS-INPUT {"MSC_CMD_FLAGS": "-il .\\a01068 -f numeric-control-flow.c -W 1 -dos -Fonumeric-control-flow.obj -ML -Fdvc50.idb -Bd -Gs4096 -Gy -G5 ", "arguments": []}
+C2-SOURCE-ENTRY _c2_crt_startup 0x56558d09
+C2-SOURCE-ENTRY _c2_set_argv 0x56558e97
+C2-SOURCE-ENTRY _c2_set_default_precision 0x56558f57
+C2-SOURCE-ENTRY _c2_main 0x56558fd0
+C2-SOURCE-ENTRY _c2_register_exit 0x56558ef9
+C2-SOURCE-ENTRY _c2_register_onexit 0x565591a9
+C2-SOURCE-ENTRY @c2_read_environment@4 0x565592e9
+C2-SOURCE-ENTRY _c2_copy_arguments 0x56559237
+C2-SOURCE-ENTRY _c2_initialize_options 0x56559488
+C2-SOURCE-ENTRY _c2_next_argument 0x56559767
+C2-SOURCE-ENTRY @c2_match_option@16 0x56559892
+C2-SOURCE-ENTRY @c2_apply_option@12 0x56559ad1
+C2-SOURCE-ENTRY @parse_option_integer@4 0x56559ed9
+C2-SOURCE-ENTRY @c2_validate_alignment@4 0x56559819
+C2-SOURCE-ENTRY @c2_open_intermediate@16 0x5655a01e
+C2-SOURCE-ENTRY _c2_read_header 0x5655a147
+C2-SOURCE-ENTRY _c2_read_il_byte 0x5655a3a7
+C2-SOURCE-ENTRY _c2_read_il_word 0x5655a457
+C2-SOURCE-ENTRY _c2_read_il_long 0x5655a567
+C2-SOURCE-ENTRY _c2_reset_symbol_table 0x5655b477
+C2-SOURCE-ENTRY _c2_create_type_table 0x5655b4f7
+C2-SOURCE-ENTRY @c2_allocate_node@8 0x5655b84c
+C2-SOURCE-ENTRY @c2_node_size@4 0x5655b779
+C2-SOURCE-ENTRY @c2_pool_allocate@8 0x5655b56c
+C2-SOURCE-ENTRY _c2_initialize_constants 0x5655b9a7
+C2-SOURCE-ENTRY _c2_real_from_int 0x5655b8fe
+C2-SOURCE-ENTRY _store_extended 0x5655b951
+C2-SOURCE-ENTRY _c2_initialize_opcodes 0x5655ba57
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+c2_initialize_machine () at src/stubs.c:24
+24	}
+eip            0x5655890f          0x5655890f <c2_initialize_machine+47>
+c2_initialize_machine + 47 in section .text of /root/msvc2/decomp/vc5.10/c2/build/native/c2
+   0x5655890e <c2_initialize_machine+46>:	int3
+Last stopped for thread 1 (Thread 0xf7fc0580 (LWP 1398521)).
+	Using the running image of child process 1398521.
+Program stopped at 0x5655890e.
+It stopped with signal SIGTRAP, Trace/breakpoint trap.

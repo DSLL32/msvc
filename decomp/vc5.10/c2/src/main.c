@@ -27,7 +27,7 @@ int main(int argc, char **argv, char **environment)
         c2_reset_symbol_table();
         c2_types = c2_create_type_table();
         c2_initialize_constants();
-        c2_initialize_opcodes();
+        initialize_intrinsics();
         c2_initialize_machine();
         c2_initialize_trees();
         c2_initialize_codegen();
