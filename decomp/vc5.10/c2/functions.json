@@ -58,7 +58,8 @@
     "@insert_symbol@8",
     "@append_section@4",
     "@initialize_section_defaults@4",
-    "_c2_initialize_codegen"
+    "_c2_initialize_codegen",
+    "@read_symbols@4"
   ],
   "driver": [
     {
@@ -207,7 +208,7 @@
               212,
               312
             ],
-            "lifetime_sha256": "e5bb2b9e47403b2f3e739b87583e3e15add609f5a606f15dfd013885a27c0571",
+            "lifetime_sha256": "b479ffad960a3f0b44432bc2701a7041de03254254bd9b37bed065fb17f2fbaf",
             "instructions": [
               {
                 "offset": 212,
@@ -226,7 +227,7 @@
                 "bytes": "ff55f483c408"
               }
             ],
-            "review": "Complete 00401734..00401798 manually reviewed for symbol-reset trial: only referenced target BSS object addresses move after contextual hash-table definition; same qualified IAT load, holder lifetime, call/cleanup ABI, no overwrite/escape or branch-entry bypass."
+            "review": "Entire prior48/current49 interval reviewed: only named target BSS operands relocate after contextual scope/debug globals. Qualified IAT seed/stack-holder/calls/cleanup and relative branches byte-identical, no overwrite/escape/bypass. Full immutable-image diff read-symbols-import-diff.txt."
           }
         }
       ]
@@ -610,7 +611,7 @@
               38,
               154
             ],
-            "lifetime_sha256": "e3bc9c158046448ca31fa012c3a28a153779051e0498c2ccc348cdf4ad3f4232",
+            "lifetime_sha256": "4d07fdd836bc19c505966b0195369663c24c33df23da7171435b57e4683cc0c5",
             "instructions": [
               {
                 "offset": 38,
@@ -625,7 +626,7 @@
                 "bytes": "ff55f883c404"
               }
             ],
-            "review": "Reviewed entire prior47/current48 interval: only qualified fwrite/fclose IAT MOV absolute operand relocated after direct fclose use; same exact EBP holder lifetime, calls/cleanup, relative branches, no overwrite/escape/bypass. Current import catalog proves actual DLL/name. Frozen diff global-wrapper-import-diff.txt."
+            "review": "Entire prior48/current49 interval reviewed: only named target BSS operands relocate after contextual scope/debug globals. Qualified IAT seed/stack-holder/calls/cleanup and relative branches byte-identical, no overwrite/escape/bypass. Full immutable-image diff read-symbols-import-diff.txt."
           }
         },
         {
@@ -671,7 +672,7 @@
               46,
               154
             ],
-            "lifetime_sha256": "185c850e1560ed3927d0e3f27262b0f8273a0a0978e5eb3951c8fe34d61f584e",
+            "lifetime_sha256": "87e4dcd9dae6db71389aaa3c7bed4b9aee3f34f8aa6515ff2d20fd42934cce28",
             "instructions": [
               {
                 "offset": 46,
@@ -686,7 +687,7 @@
                 "bytes": "ff55fc83c404"
               }
             ],
-            "review": "Reviewed entire prior47/current48 interval: only qualified fwrite/fclose IAT MOV absolute operand relocated after direct fclose use; same exact EBP holder lifetime, calls/cleanup, relative branches, no overwrite/escape/bypass. Current import catalog proves actual DLL/name. Frozen diff global-wrapper-import-diff.txt."
+            "review": "Entire prior48/current49 interval reviewed: only named target BSS operands relocate after contextual scope/debug globals. Qualified IAT seed/stack-holder/calls/cleanup and relative branches byte-identical, no overwrite/escape/bypass. Full immutable-image diff read-symbols-import-diff.txt."
           }
         }
       ]
@@ -1444,12 +1445,12 @@
                 "bytes": "ff55f883c404"
               }
             ],
-            "review": "Complete 0040217e..0040223e manually reviewed for symbol-reset trial: only referenced target BSS object addresses move after contextual hash-table definition; same qualified IAT load, holder lifetime, call/cleanup ABI, no overwrite/escape or branch-entry bypass.",
+            "review": "Entire prior48/current49 interval reviewed: only named target BSS operands relocate after contextual scope/debug globals. Qualified IAT seed/stack-holder/calls/cleanup and relative branches byte-identical, no overwrite/escape/bypass. Full immutable-image diff read-symbols-import-diff.txt.",
             "lifetime": [
               6,
               198
             ],
-            "lifetime_sha256": "154ec11fec3b4705e74ca479b7218ceb573e9992c6c71785327e55601ce9d98f"
+            "lifetime_sha256": "0e56c6bf85f6693518d79f874c4291f2e2784f8169862907a7a8a2833a6672c7"
           }
         }
       ]
@@ -1634,12 +1635,12 @@
                 "bytes": "ff55f883c404"
               }
             ],
-            "review": "Complete 00402248..004023bb manually reviewed for symbol-reset trial: only referenced target BSS object addresses move after contextual hash-table definition; same qualified IAT load, holder lifetime, call/cleanup ABI, no overwrite/escape or branch-entry bypass.",
+            "review": "Entire prior48/current49 interval reviewed: only named target BSS operands relocate after contextual scope/debug globals. Qualified IAT seed/stack-holder/calls/cleanup and relative branches byte-identical, no overwrite/escape/bypass. Full immutable-image diff read-symbols-import-diff.txt.",
             "lifetime": [
               6,
               377
             ],
-            "lifetime_sha256": "0a9740fbc953b10714fce6c2784aaf1ef6a1693da6a9c46355a962f94b11edf5"
+            "lifetime_sha256": "a48c9bcfff820164d9a9e19eb4752d7390251d96bb26a7b83b2fa508c0d823e7"
           }
         }
       ]
@@ -1823,7 +1824,7 @@
         },
         {
           "original": "0x48fb68",
-          "native": "c2_symbol_hash_count"
+          "native": "(unsigned long)global_scope.previous"
         }
       ],
       "expected_argv": [
@@ -1919,7 +1920,7 @@
         },
         {
           "original": "0x48fb68",
-          "native": "c2_symbol_hash_count"
+          "native": "(unsigned long)global_scope.previous"
         }
       ],
       "expected_argv": [
@@ -2016,7 +2017,7 @@
         },
         {
           "original": "0x48fb68",
-          "native": "c2_symbol_hash_count"
+          "native": "(unsigned long)global_scope.previous"
         },
         {
           "original": "0x491040",
@@ -2147,7 +2148,7 @@
         },
         {
           "original": "0x48fb68",
-          "native": "c2_symbol_hash_count"
+          "native": "(unsigned long)global_scope.previous"
         },
         {
           "original": "0x491040",
@@ -2266,7 +2267,7 @@
         },
         {
           "original": "0x48fb68",
-          "native": "c2_symbol_hash_count"
+          "native": "(unsigned long)global_scope.previous"
         },
         {
           "original": "0x491040",
@@ -2379,7 +2380,7 @@
         },
         {
           "original": "0x48fb68",
-          "native": "c2_symbol_hash_count"
+          "native": "(unsigned long)global_scope.previous"
         },
         {
           "original": "0x491040",
@@ -2492,7 +2493,7 @@
         },
         {
           "original": "0x48fb68",
-          "native": "c2_symbol_hash_count"
+          "native": "(unsigned long)global_scope.previous"
         },
         {
           "original": "0x491040",
@@ -2605,7 +2606,7 @@
         },
         {
           "original": "0x48fb68",
-          "native": "c2_symbol_hash_count"
+          "native": "(unsigned long)global_scope.previous"
         },
         {
           "original": "0x491040",
@@ -2720,7 +2721,7 @@
         },
         {
           "original": "0x48fb68",
-          "native": "c2_symbol_hash_count"
+          "native": "(unsigned long)global_scope.previous"
         },
         {
           "original": "0x491040",
@@ -2840,7 +2841,7 @@
         },
         {
           "original": "0x48fb68",
-          "native": "c2_symbol_hash_count"
+          "native": "(unsigned long)global_scope.previous"
         },
         {
           "original": "0x491040",
@@ -2966,7 +2967,7 @@
         },
         {
           "original": "0x48fb68",
-          "native": "c2_symbol_hash_count"
+          "native": "(unsigned long)global_scope.previous"
         },
         {
           "original": "0x491040",
@@ -3091,7 +3092,7 @@
         },
         {
           "original": "0x48fb68",
-          "native": "c2_symbol_hash_count"
+          "native": "(unsigned long)global_scope.previous"
         },
         {
           "original": "0x491040",
@@ -3216,7 +3217,7 @@
         },
         {
           "original": "0x48fb68",
-          "native": "c2_symbol_hash_count"
+          "native": "(unsigned long)global_scope.previous"
         },
         {
           "original": "0x491040",
@@ -3341,7 +3342,7 @@
         },
         {
           "original": "0x48fb68",
-          "native": "c2_symbol_hash_count"
+          "native": "(unsigned long)global_scope.previous"
         },
         {
           "original": "0x491040",
@@ -3466,7 +3467,7 @@
         },
         {
           "original": "0x48fb68",
-          "native": "c2_symbol_hash_count"
+          "native": "(unsigned long)global_scope.previous"
         },
         {
           "original": "0x491040",
@@ -3503,6 +3504,157 @@
       ],
       "symbol": "_read_global_symbols",
       "evidence": "cases/analysis/read-global-symbols-disassembly.txt"
+    },
+    {
+      "name": "@read_symbols@4",
+      "native": "read_symbols",
+      "start": 4326292,
+      "end": 4327018,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "fastcall nullable scopeECX; no stack args RET0; result ignored by reachedcaller",
+      "state_policy": "global-symbols",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        }
+      ],
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "code_chunks": [
+        [
+          4628747,
+          4628851
+        ]
+      ],
+      "shared": [
+        [
+          4327020,
+          4327064
+        ],
+        [
+          4327072,
+          4327095
+        ]
+      ],
+      "evidence": "cases/analysis/read-symbols-disassembly.txt",
+      "rebuilt_text_data_offsets": [
+        [
+          1096,
+          1140
+        ],
+        [
+          1140,
+          1163
+        ]
+      ]
     }
   ],
   "stubs": [
@@ -3616,14 +3768,23 @@
       "abi": "fastcall ECX PDB filename EDX object filename; int result; no stack parameters"
     },
     {
-      "name": "@read_symbols@4",
-      "native": "read_symbols",
-      "start": 4326292,
-      "end": 4326293,
+      "name": "@function_retains_symbols@8",
+      "native": "function_retains_symbols",
+      "start": 4347234,
+      "end": 4347235,
       "pending_extent": true,
       "kind": "application",
-      "abi": "fastcall nullable scopeECX; no stack args RET0; result ignored by reachedcaller",
-      "state_policy": "global-symbols",
+      "abi": "fastcall functionECX conditionalEDX; int result RET0"
+    },
+    {
+      "name": "@read_symbol@4",
+      "native": "read_symbol",
+      "start": 4327095,
+      "end": 4327096,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall retain_localsECX; symbol pointerEAX RET0",
+      "state_policy": "symbol-record",
       "state": [
         {
           "original": "0x499708",
@@ -3703,7 +3864,7 @@
         },
         {
           "original": "0x48fb68",
-          "native": "c2_symbol_hash_count"
+          "native": "(unsigned long)global_scope.previous"
         },
         {
           "original": "0x491040",
@@ -3732,12 +3893,90 @@
         {
           "original": "0x49745c",
           "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4973d4",
+          "native": "(unsigned long)pending_functions"
+        },
+        {
+          "original": "0x4973f0",
+          "native": "(unsigned long)pending_insertion"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
         }
       ],
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
       ]
+    },
+    {
+      "name": "@lookup_symbol@8",
+      "native": "lookup_symbol",
+      "start": 4350333,
+      "end": 4350334,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall scopeECX serialEDX; symbol pointerEAX RET0"
+    },
+    {
+      "name": "@put_symbol@8",
+      "native": "put_symbol",
+      "start": 4359656,
+      "end": 4359657,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall scopeECX symbolEDX; pointer result provisional/unused by reachedcaller; RET0"
+    },
+    {
+      "name": "@queue_symbol_debug@4",
+      "native": "queue_symbol_debug",
+      "start": 4325189,
+      "end": 4325190,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall symbolECX; RET0"
+    },
+    {
+      "name": "@update_symbol_storage@4",
+      "native": "update_symbol_storage",
+      "start": 4359139,
+      "end": 4359140,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall symbolECX; result ignored by reachedcaller; RET0"
+    },
+    {
+      "name": "@reserve_symbol_storage@4",
+      "native": "reserve_symbol_storage",
+      "start": 4251079,
+      "end": 4251080,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall symbolECX; scalar result provisional/unused by reachedcaller; RET0"
+    },
+    {
+      "name": "@record_filename@4",
+      "native": "record_filename",
+      "start": 4534992,
+      "end": 4534993,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall symbolECX; result ignored by reachedcaller; RET0"
     }
   ],
   "text_data": [
@@ -3796,6 +4035,22 @@
       "kind": "jump-table",
       "owner": "@c2_node_size@4",
       "evidence": "cases/analysis/node-size-disassembly.txt: bounded kind-1 <=15 indexes16 DWORD targets"
+    },
+    {
+      "name": "read-symbols-jump-targets",
+      "start": 4327020,
+      "end": 4327064,
+      "owner": "@read_symbols@4",
+      "kind": "switch-targets",
+      "evidence": "cases/analysis/read-symbols-disassembly.txt"
+    },
+    {
+      "name": "read-symbols-kind-classes",
+      "start": 4327072,
+      "end": 4327095,
+      "owner": "@read_symbols@4",
+      "kind": "switch-classes",
+      "evidence": "cases/analysis/read-symbols-disassembly.txt"
     }
   ],
   "support": [

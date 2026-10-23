@@ -1,0 +1,15 @@
+{
+  "original_previous": "0x48fb68",
+  "original_buckets": "0x48fb6c",
+  "buckets": 1024,
+  "encountered_extent_bytes": 4100,
+  "source": "C2ScopeHash global_scope with previous pointer followed by1024 C2Symbol* buckets",
+  "historical_name": "c2_symbol_hash_count was an early placeholder for previous; original first word reset zero and read_symbols passes complete scope at48fb68. Historical captures and nativeELF snapshots remain unchanged. Current canonical views explicitly use (unsigned long)global_scope.previous.",
+  "proof": "cases/acceptance/0049-symbol-records",
+  "evidence": [
+    "Original reset40d4e8 writesfirstword0 and clears1024 pointers",
+    "Original read_symbols4203e7 passes48fb68 as scope to table operations",
+    "Original insert_symbol40d5c5 local scopes access buckets atbase+4",
+    "Fresh raw symbol-scope.bin retainsall4100 contiguous bytes; native typedsizeof4100/offsetof4 and actual caller tablealias match"
+  ]
+}

@@ -1,0 +1,18 @@
+{
+  "original_capture": {
+    "setup": 0.17817674856632948,
+    "execution": 0.9222861956804991,
+    "total": 1.1421809066087008
+  },
+  "native_gdb_capture": {
+    "execution": 0.2878369763493538,
+    "total": 0.3981086229905486
+  },
+  "rejection_control": {
+    "control_and_rejections": 5.759207635186613
+  },
+  "fresh_rejections": 17,
+  "reused_rejections": 99,
+  "audit_seconds": 0.1050872066989541,
+  "builds": "Original/native make-j4 builds and helperbuild passed; their elapsed times were not measured for49. Build logs retained in numeric scratch; no reporting-only rebuild."
+}

@@ -18,7 +18,47 @@ int __fastcall c2_open_pdb(char *name, char *object_name)
     __asm { int 3 }
     return 0;
 }
-void __fastcall read_symbols(C2SymbolScope *scope)
+int __fastcall function_retains_symbols(C2FunctionSymbol *symbol, int conditional)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+C2Symbol *__fastcall read_symbol(int retain_locals)
+{
+    __asm { int 3 }
+    return NULL;
+}
+
+C2Symbol *__fastcall lookup_symbol(C2ScopeHash *scope, unsigned serial)
+{
+    __asm { int 3 }
+    return NULL;
+}
+
+C2Symbol *__fastcall put_symbol(C2ScopeHash *scope, C2Symbol *symbol)
+{
+    __asm { int 3 }
+    return NULL;
+}
+
+void __fastcall queue_symbol_debug(C2Symbol *symbol)
+{
+    __asm { int 3 }
+}
+
+void __fastcall update_symbol_storage(C2Symbol *symbol)
+{
+    __asm { int 3 }
+}
+
+unsigned __fastcall reserve_symbol_storage(C2Symbol *symbol)
+{
+    __asm { int 3 }
+    return 0;
+}
+
+void __fastcall record_filename(C2Symbol *symbol)
 {
     __asm { int 3 }
 }

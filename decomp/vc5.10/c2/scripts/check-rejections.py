@@ -123,6 +123,23 @@ def main():
                       ('machine call-clobber register mask differs',lambda r:changed_machine_value(r,'0x495f34',7)),
                       ('machine stack alignment differs',lambda r:changed_machine_value(r,'0x49745c',4)),
                       ('earlier intrinsic observation cannot replace final frontier observation',missing_final_intrinsic_observation)]
+    if 'symbol_record_input'in current_state:
+        def changed_record_input(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['symbol_record_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        def changed_raw_scope(root,index):
+            path=root/'o/symbol-scope.bin';data=bytearray(path.read_bytes());data[index]^=1;path.write_bytes(data)
+        def changed_dispatch(root):
+            path=audit_directory(root)/'data-evidence.json';data=json_at(path);data['symbol_dispatch'][0]['blocks']=10;write_json(path,data)
+            path=audit_path(root);receipt=json_at(path);receipt['data_evidence_sha256']=sha((audit_directory(root)/'data-evidence.json').read_bytes());write_json(path,receipt);bind_audit(root)
+        mutations += [('symbol record retain-locals flag differs',lambda r:changed_record_input(r,'retain_locals',1)),
+                      ('symbol record caller scope is not NULL',lambda r:changed_record_input(r,'caller_null_scope',False)),
+                      ('symbol record caller retention differs',lambda r:changed_record_input(r,'caller_retention',1)),
+                      ('symbol record scope loses actual global-table alias',lambda r:changed_record_input(r,'global_scope_alias',False)),
+                      ('symbol record scope omits previous pointer',lambda r:changed_record_input(r,'scope_bytes',4096)),
+                      ('symbol record buckets start at wrong offset',lambda r:changed_record_input(r,'bucket_offset',0)),
+                      ('raw original scope previous pointer changed',lambda r:changed_raw_scope(r,0)),
+                      ('raw original scope final bucket byte changed',lambda r:changed_raw_scope(r,4099)),
+                      ('symbol dispatch content proof changed with matching receipt hash',changed_dispatch)]
     if 'global_symbols_input'in current_state:
         def changed_global_input(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['global_symbols_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

@@ -1,0 +1,162 @@
+[
+  {
+    "name": "_c2_math_error",
+    "start": 4198400,
+    "end": 4198414,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_c2_print_banner",
+    "start": 4198414,
+    "end": 4198426,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_c2_initialize_registers",
+    "start": 4198620,
+    "end": 4198632,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_c2_initialize_optimizer",
+    "start": 4198632,
+    "end": 4198644,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_c2_compile_unit",
+    "start": 4198644,
+    "end": 4198656,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_c2_finalize_output",
+    "start": 4198656,
+    "end": 4198668,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_c2_flush_debug",
+    "start": 4198668,
+    "end": 4198680,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_c2_console_handler@4",
+    "start": 4198680,
+    "end": 4198696,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@c2_report_internal@8",
+    "start": 4198696,
+    "end": 4198719,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@c2_system_fatal@12",
+    "start": 4198719,
+    "end": 4198744,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@resolve_diagnostic_location@8",
+    "start": 4198744,
+    "end": 4198784,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@c2_open_pdb@8",
+    "start": 4198426,
+    "end": 4198451,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@function_retains_symbols@8",
+    "start": 4198451,
+    "end": 4198476,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@read_symbol@4",
+    "start": 4198476,
+    "end": 4198496,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@lookup_symbol@8",
+    "start": 4198496,
+    "end": 4198521,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@put_symbol@8",
+    "start": 4198521,
+    "end": 4198546,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@queue_symbol_debug@4",
+    "start": 4198546,
+    "end": 4198564,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@update_symbol_storage@4",
+    "start": 4198564,
+    "end": 4198582,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@reserve_symbol_storage@4",
+    "start": 4198582,
+    "end": 4198602,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@record_filename@4",
+    "start": 4198602,
+    "end": 4198620,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  }
+]

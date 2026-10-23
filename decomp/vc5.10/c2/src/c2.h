@@ -100,8 +100,8 @@ long c2_read_il_long(void);
 int __fastcall c2_open_pdb(char *name, char *object_name);
 void c2_reset_symbol_table(void);
 typedef struct C2Symbol C2Symbol;
-extern unsigned c2_symbol_hash_count;
-extern C2Symbol *c2_symbol_hash[1024];
+typedef struct C2ScopeHash C2ScopeHash;
+extern C2ScopeHash global_scope;
 void *c2_create_type_table(void);
 void *__fastcall c2_allocate_node(signed char kind, int pool);
 unsigned __fastcall c2_node_size(int kind);
@@ -149,18 +149,27 @@ extern unsigned selected_save_register_mask, call_clobbered_register_mask;
 extern int stack_alignment, c2_cpu_generation;
 void initialize_machine_registers(void);
 typedef struct C2SectionContext C2SectionContext;
+typedef struct C2SymbolScope C2SymbolScope;
 
 #pragma pack(2)
 struct C2Symbol {
     C2Symbol *hash_next;
     signed char kind;
-    unsigned char pending05[19];
+    unsigned char pending05[15];
+    unsigned flags;
     char *name;
     unsigned char pending1c[8];
     C2SectionContext *context;
     unsigned serial;
     unsigned char pending2c[6];
 };
+struct C2ScopeHash {
+    C2ScopeHash *previous;
+    C2Symbol *buckets[1024];
+};
+typedef char C2ScopeHashSizeCheck[sizeof(C2ScopeHash) == 4100 ? 1 : -1];
+typedef char C2ScopeHashBucketsCheck[offsetof(C2ScopeHash, buckets) == 4 ? 1 : -1];
+
 typedef struct C2Section {
     C2Symbol symbol;
     struct C2Section *next;
@@ -172,7 +181,48 @@ typedef struct C2Section {
     unsigned order;
     unsigned pending52;
 } C2Section;
+typedef struct C2FunctionSymbol {
+    C2Symbol symbol;
+    unsigned char pending32[4];
+    unsigned attributes;
+    unsigned char pending3a[5];
+    signed char scope_line;
+    unsigned char pending40[22];
+    long input_order;
+    unsigned source_file;
+    unsigned char pending5e[8];
+    struct C2FunctionSymbol *pending_next;
+    unsigned pending6a;
+} C2FunctionSymbol;
+typedef struct C2DebugLink {
+    struct C2DebugLink *next;
+    C2Symbol *symbol;
+} C2DebugLink;
+typedef struct C2DebugScope {
+    short line;
+    unsigned short pending02;
+    unsigned start, end;
+    C2DebugLink *records;
+    struct C2DebugScope *parent, *next;
+} C2DebugScope;
+typedef struct C2SymbolListScope {
+    C2DebugLink *records;
+    struct C2SymbolListScope *child, *parent;
+} C2SymbolListScope;
+struct C2SymbolScope {
+    C2FunctionSymbol *symbol;
+    unsigned char pending04[12];
+    C2ScopeHash *symbols;
+    unsigned char pending14[12];
+    C2DebugScope *debug_scope;
+};
 #pragma pack()
+typedef char C2FunctionSymbolSizeCheck[sizeof(C2FunctionSymbol) == 110 ? 1 : -1];
+typedef char C2FunctionSymbolOrderCheck[offsetof(C2FunctionSymbol, input_order) == 0x56 ? 1 : -1];
+typedef char C2FunctionSymbolNextCheck[offsetof(C2FunctionSymbol, pending_next) == 0x66 ? 1 : -1];
+typedef char C2DebugScopeSizeCheck[sizeof(C2DebugScope) == 24 ? 1 : -1];
+typedef char C2SymbolScopeHashCheck[offsetof(C2SymbolScope, symbols) == 16 ? 1 : -1];
+typedef char C2SymbolScopeDebugCheck[offsetof(C2SymbolScope, debug_scope) == 32 ? 1 : -1];
 typedef char C2SectionSizeCheck[sizeof(C2Section) == 86 ? 1 : -1];
 typedef char C2SectionAlignmentCheck[offsetof(C2Section, alignment) == 0x3e ? 1 : -1];
 typedef char C2SectionOrderCheck[offsetof(C2Section, order) == 0x4e ? 1 : -1];
@@ -189,9 +239,16 @@ C2Section *__fastcall initialize_section_defaults(C2Section *section);
 extern unsigned default_section_alignment;
 void __fastcall insert_symbol(C2Symbol *symbol, int local);
 void __fastcall append_section(C2Section *section);
-typedef struct C2SymbolScope C2SymbolScope;
 void read_global_symbols(void);
 void __fastcall read_symbols(C2SymbolScope *scope);
+int __fastcall function_retains_symbols(C2FunctionSymbol *symbol, int conditional);
+C2Symbol *__fastcall read_symbol(int retain_locals);
+C2Symbol *__fastcall lookup_symbol(C2ScopeHash *scope, unsigned serial);
+C2Symbol *__fastcall put_symbol(C2ScopeHash *scope, C2Symbol *symbol);
+void __fastcall queue_symbol_debug(C2Symbol *symbol);
+void __fastcall update_symbol_storage(C2Symbol *symbol);
+unsigned __fastcall reserve_symbol_storage(C2Symbol *symbol);
+void __fastcall record_filename(C2Symbol *symbol);
 void c2_initialize_registers(void);
 void c2_initialize_optimizer(void);
 void c2_compile_unit(void);

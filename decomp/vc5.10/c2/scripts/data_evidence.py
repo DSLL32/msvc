@@ -75,6 +75,19 @@ def verify(config):
                     source=struct.unpack('<I',read(target+6,4))[0]
                     assert cstring(read,source)==r'E:\utc\src\\P2\p2symtab.c','node-size invalid-kind source differs'
             node_sizes.append({'side':side,'table':table,'sha256':sha(read(table,64)),'cases':sizes})
+    symbol_dispatch=[]
+    if '@read_symbols@4'in config['accepted']:
+        classes=bytes([0,10,1,2,3,10,4,4,5,10,6,10,7,10,10,10,10,8,10,10,10,9,9])
+        original_targets=[0x420415,0x4204df,0x4204c1,0x4204df,0x4204df,0x4203f0,0x42058f,0x4205ae,0x420611,0x420506,0x46a15f]
+        rebuilt_offsets=[0xc5,0x1d8,0x1e8,0x1d8,0x1d8,0x2aa,0x2e6,0x314,0x39a,0x3a7,0x3ac]
+        for side,path in [('original',TARGET),('rebuilt',BINARY/'build/c2.exe')]:
+            read=reader(path);start=0x420394 if side=='original'else maps['@read_symbols@4']
+            targets_address,classes_address=(0x42066c,0x4206a0)if side=='original'else(start+0x448,start+0x474)
+            targets=struct.unpack('<11I',read(targets_address,44))
+            expected=original_targets if side=='original'else[start+n for n in rebuilt_offsets]
+            assert list(targets)==expected,'symbol reader case target identities differ'
+            assert read(classes_address,23)==classes,'symbol reader kind/class mapping differs'
+            symbol_dispatch.append({'side':side,'targets':targets_address,'target_sha256':sha(read(targets_address,44)),'classes':classes_address,'class_sha256':sha(classes),'kinds':23,'blocks':11})
     for side,path in [('original',TARGET),('rebuilt',BINARY/'build/c2.exe')]:
         read=reader(path)
         def address(name):
@@ -109,7 +122,7 @@ def verify(config):
             else:assert cstring(read,actual)==cstring(original_read,row['initial'])
     return {'model_sha256':sha((BINARY/config['data_model']).read_bytes()),'option_records':53,
             'selector_records':sum(len(t['entries'])for t in value['selectors']),
-            'objects':len(value['objects']),'node_size_dispatch':node_sizes,'intrinsics':intrinsics,'sides':['original PE','rebuilt Win32 PE'],
+            'objects':len(value['objects']),'node_size_dispatch':node_sizes,'symbol_dispatch':symbol_dispatch,'intrinsics':intrinsics,'sides':['original PE','rebuilt Win32 PE'],
             'checks':['pattern text','destination logical aliases','result/kind/record ABI','selector contents','initial scalar/string values']}
 
 

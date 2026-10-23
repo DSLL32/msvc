@@ -100,9 +100,65 @@
     "evidence": null
   },
   {
-    "name": "@read_symbols@4",
-    "start": 4326292,
-    "end": 4326293,
+    "name": "@function_retains_symbols@8",
+    "start": 4347234,
+    "end": 4347235,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@read_symbol@4",
+    "start": 4327095,
+    "end": 4327096,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@lookup_symbol@8",
+    "start": 4350333,
+    "end": 4350334,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@put_symbol@8",
+    "start": 4359656,
+    "end": 4359657,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@queue_symbol_debug@4",
+    "start": 4325189,
+    "end": 4325190,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@update_symbol_storage@4",
+    "start": 4359139,
+    "end": 4359140,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@reserve_symbol_storage@4",
+    "start": 4251079,
+    "end": 4251080,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@record_filename@4",
+    "start": 4534992,
+    "end": 4534993,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null
