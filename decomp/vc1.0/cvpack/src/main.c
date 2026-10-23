@@ -76,7 +76,7 @@ int main(int argc, char **argv, char **environment)
             for (count = 0; source[count]; ++count) {}
             _write(2, source, count);
         }
-        free_type_tables();
+        write_packed_debug();
         close_file(input_file, 1);
         if (checksum_required && update_image_checksum(temporary, 0, 0))
             warning(10, NULL, NULL);

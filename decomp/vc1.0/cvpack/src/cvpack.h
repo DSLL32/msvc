@@ -32,7 +32,7 @@ int pack_module(unsigned short);
 unsigned short strip_debug(int);
 void finalize_types(void);
 void build_source_file_index(void);
-void free_type_tables(void);
+void write_packed_debug(void);
 int update_image_checksum(const char *, unsigned long, unsigned char);
 
 #endif

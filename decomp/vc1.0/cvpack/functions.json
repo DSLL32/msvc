@@ -462,20 +462,37 @@
       }
     },
     {
-      "name": "free_type_tables",
-      "native": "free_type_tables",
-      "symbol": "_free_type_tables",
+      "name": "write_packed_debug",
+      "native": "write_packed_debug",
+      "symbol": "_write_packed_debug",
       "original": 131232,
-      "source": "src/stubs.c",
+      "source": "src/output.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
-      "abi": "void free_type_tables(void)",
+      "status": "accepted",
+      "extent": [
+        131232,
+        134315
+      ],
+      "abi": "void write_packed_debug(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0127-write_packed_debug/proof.json",
       "roots": [],
       "text_data": [],
-      "parameters": []
+      "parameters": [],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "update_image_checksum",
@@ -6705,6 +6722,168 @@
           }
         ]
       }
+    },
+    {
+      "name": "initialize_output",
+      "native": "initialize_output",
+      "symbol": "_initialize_output",
+      "original": 163984,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void initialize_output(int)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "write_output",
+      "native": "write_output",
+      "symbol": "_write_output",
+      "original": 164080,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned short write_output(const void *,unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "flush_output",
+      "native": "flush_output",
+      "symbol": "_flush_output",
+      "original": 164336,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned short flush_output(int)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "write_subsection",
+      "native": "write_subsection",
+      "symbol": "_write_subsection",
+      "original": 134320,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void write_subsection(unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "write_global_publics",
+      "native": "write_global_publics",
+      "symbol": "_write_global_publics",
+      "original": 112336,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void write_global_publics(CvDirectoryEntry *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "write_global_symbols",
+      "native": "write_global_symbols",
+      "symbol": "_write_global_symbols",
+      "original": 113168,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void write_global_symbols(CvDirectoryEntry *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "write_static_symbols",
+      "native": "write_static_symbols",
+      "symbol": "_write_static_symbols",
+      "original": 121536,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void write_static_symbols(CvDirectoryEntry *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "write_packed_types",
+      "native": "write_packed_types",
+      "symbol": "_write_packed_types",
+      "original": 134848,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned long write_packed_types(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "write_old_packed_types",
+      "native": "write_old_packed_types",
+      "symbol": "_write_old_packed_types",
+      "original": 122720,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned long write_old_packed_types(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "compare_output_directory",
+      "native": "compare_output_directory",
+      "symbol": "_compare_output_directory",
+      "original": 135968,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int __cdecl compare_output_directory(const void *,const void *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "left",
+          "slot": 1,
+          "kind": "directory-key"
+        },
+        {
+          "name": "right",
+          "slot": 2,
+          "kind": "directory-key"
+        }
+      ]
     }
   ],
   "review": {
@@ -7487,6 +7666,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 126
+    },
+    {
+      "function": "write_packed_debug",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 127
     }
   ],
   "support_unmasked": [
@@ -8097,7 +8282,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "318092f0ef7db13f5018be31147af4b716c81f0edebd06a16b060e6452f7170a"
+    "evidence_sha256": "4141e600ef09ff82d87392ca0bfdab48b9cb43c792ebef18accef856e7983e35"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -8141,7 +8326,7 @@
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "b8d78c63344930365da41bd99bb4c180010cab305d6b61e28952305afa9a10b9"
+    "evidence_sha256": "75d8b4a50347fe19e6171a7fd86fbe14b45bda264ce49ce17a9d208b8a759f8a"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
@@ -8153,15 +8338,15 @@
   },
   "recursive_arena_observations": {
     "evidence": "cases/abi/recursive-arena.json",
-    "evidence_sha256": "0b833f19bf892db5b6dd88d7a7d8d5746ad1d26c16847f460347adf5edc53e85"
+    "evidence_sha256": "9864e581597c028babdc5b5670fd59ef245a0ade619f92ad3c07f71ab3034249"
   },
   "packed_arena_observations": {
     "evidence": "cases/abi/packed-arena.json",
-    "evidence_sha256": "ffd5c97abd84c01547ddca577b8ead770c154e6f005b93be9270be6c054b6d6b"
+    "evidence_sha256": "dd4cffead82074d8b6a5a149f733b423e987a7d0f5bb02b5bca451c47ce026c4"
   },
   "symbol_block_observations": {
     "evidence": "cases/abi/symbol-blocks.json",
-    "evidence_sha256": "a350c0c7e2e0c9029afa59244e8090c8408359959f6f9ed02d10d5b5681e7487"
+    "evidence_sha256": "3e6369e9aac60e2ba6b95281490ed0818bdf5849b8d9e7b6b9022b6192b26d04"
   },
   "module_address_observations": {
     "evidence": "cases/abi/module-address.json",
@@ -8173,6 +8358,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "7bbd08fba346a2e2f0a0b3dd8c344fca2a9d229a842ccb1c460fe13a20bc90f4"
+    "sha256": "a97478486ce07dcb5868ca56a136e9a4c35cd7d1763bb67c7ed58a9d3a44753b"
   }
 }

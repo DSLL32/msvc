@@ -1267,5 +1267,54 @@
     "original": 208916,
     "size": 4,
     "source": "src/modules.c"
+  },
+  {
+    "name": "output_buffer",
+    "symbol": "_output_buffer",
+    "original": 210368,
+    "size": 4,
+    "source": "src/output.c"
+  },
+  {
+    "name": "output_capacity",
+    "symbol": "_output_capacity",
+    "original": 210372,
+    "size": 4,
+    "source": "src/output.c"
+  },
+  {
+    "name": "output_used",
+    "symbol": "_output_used",
+    "original": 210376,
+    "size": 4,
+    "source": "src/output.c"
+  },
+  {
+    "name": "output_handle",
+    "symbol": "_output_handle",
+    "original": 210380,
+    "size": 4,
+    "source": "src/output.c"
+  },
+  {
+    "name": "packed_signature",
+    "symbol": "_packed_signature",
+    "original": 227408,
+    "size": 8,
+    "source": "src/output.c"
+  },
+  {
+    "name": "source_line_bytes",
+    "symbol": "_source_line_bytes",
+    "original": 227476,
+    "size": 4,
+    "source": "src/output.c"
+  },
+  {
+    "name": "packed_file_size",
+    "symbol": "_packed_file_size",
+    "original": 210476,
+    "size": 4,
+    "source": "src/output.c"
   }
 ]

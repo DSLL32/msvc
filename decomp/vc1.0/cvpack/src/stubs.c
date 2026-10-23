@@ -3,6 +3,7 @@
 #include "image.h"
 #include "pdb.h"
 #include "strip.h"
+#include "output.h"
 #include <recon.h>
 
 void warning(int code, const char *first, const char *second) { __asm { int 3 } }
@@ -14,7 +15,16 @@ int close_file(int handle, unsigned char release) { __asm { int 3 } return 0; }
 void *type_scratch(unsigned long size) { __asm { int 3 } return NULL; }
 
 
-void free_type_tables(void) { __asm { int 3 } }
+void initialize_output(int handle) { __asm { int 3 } }
+unsigned short write_output(const void *buffer,unsigned short size) { __asm { int 3 } return 0; }
+unsigned short flush_output(int handle) { __asm { int 3 } return 0; }
+void write_subsection(unsigned long index) { __asm { int 3 } }
+void write_global_publics(CvDirectoryEntry *entry,unsigned long offset) { __asm { int 3 } }
+void write_global_symbols(CvDirectoryEntry *entry,unsigned long offset) { __asm { int 3 } }
+void write_static_symbols(CvDirectoryEntry *entry,unsigned long offset) { __asm { int 3 } }
+unsigned long write_packed_types(void) { __asm { int 3 } return 0; }
+unsigned long write_old_packed_types(void) { __asm { int 3 } return 0; }
+int __cdecl compare_output_directory(const void *left,const void *right) { __asm { int 3 } return 0; }
 int update_image_checksum(const char *name, unsigned long length, unsigned char read_only)
 { __asm { int 3 } return 0; }
 
