@@ -17,6 +17,7 @@ import time
 from case_paths import paths, CAPTURE_ROOT, canonical_parts, SCRATCH
 from binary import PE
 from win32_indexes import imports, mask, logical
+from argument_words import observation as argument_observation
 
 BINARY = Path(__file__).resolve().parents[1]
 
@@ -28,6 +29,8 @@ def main():
     parser.add_argument('--entry-plan', action='store_true', help='capture and assert the accepted application first-entry sequence')
     parser.add_argument('--candidate', help='explicit proposed function to unmask for fresh acceptance evidence')
     parser.add_argument('--pending-accepted', type=Path, help='explicit proposed prefix additions for a runtime boundary chain')
+    parser.add_argument('--argument-words', type=int, choices=(4, 6), default=4,
+        help='explicit raw stack-word count for a proved current ABI; default remains four')
     parser.add_argument('--observe-state', action='append', default=[], metavar='NAME=VA',
         help='explicit diagnostic-only extra original DWORD observation; never a fixture oracle')
     args = parser.parse_args()
@@ -103,7 +106,9 @@ def main():
                ','.join('%x:%s' % (s['original'] - image.base, 'p' if s.get('pointer') else 'v') for s in config['checkpoint_state']+observations)]
     if args.entry_plan: command.append(tool.windows(directory/'entries.plan'))
     started = time.perf_counter()
-    subprocess.run(command, env=tool.environment(), check=True, timeout=90,
+    environment = tool.environment()
+    environment['C1XX_CAPTURE_ARGUMENT_WORDS'] = str(args.argument_words)
+    subprocess.run(command, env=environment, check=True, timeout=90,
                    stdin=subprocess.DEVNULL, stdout=subprocess.DEVNULL, stderr=subprocess.DEVNULL)
     capture_seconds=time.perf_counter()-started
     shutil.copytree(work,directory/'case')
@@ -114,6 +119,10 @@ def main():
         capture_seconds=capture_seconds, original_sha256=config['target']['sha256'],
         outputs={p.name: dict(bytes=p.stat().st_size, sha256=hashlib.sha256(p.read_bytes()).hexdigest()) for p in work.iterdir() if p.is_file()})
     receipt['canonical_working_directory']=canonical
+    events = (directory/'events.txt').read_text()
+    if re.search(r'^argument ', events, re.M):
+        receipt['argument_observation'] = argument_observation(events, args.argument_words)
+    receipt['observer_sha256'] = hashlib.sha256((BINARY/'build/debug-run.exe').read_bytes()).hexdigest()
     if observations:
         states=re.findall(r'^state \d+ ([0-9a-f]+)$',(directory/'events.txt').read_text(),re.M)
         assert len(states)==len(config['checkpoint_state'])+len(observations)

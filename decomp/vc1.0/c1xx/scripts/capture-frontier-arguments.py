@@ -1,8 +1,8 @@
 """Explicit C1XX entry-argument observations, outside native fixtures.
 
 Plans contain only reviewed stack words and scalar/static-object identities.
-The existing original observer exposes four words; unsupported transport holds
-this operation rather than guessing registers or recursively dumping objects.
+The original observer defaults to four words, with an explicit six-word option.
+Unsupported transport holds rather than guessing registers or dumping objects.
 """
 import argparse
 import hashlib
@@ -14,6 +14,7 @@ import shutil
 import subprocess
 import sys
 import time
+from argument_words import observation as argument_observation
 
 BINARY = Path(__file__).resolve().parents[1]
 
@@ -33,8 +34,13 @@ def main():
     name = config['cases'][args.case]['terminal']
     assert plan['function'] == name
     assert not plan['register_inputs'] and not plan['hidden_inputs'] and not plan['unknown_inputs'], 'unsupported ABI transport holds acceptance'
-    assert all(0 <= item['stack_index'] < 4 for item in plan['formals']), 'original observer exposes only four stack words'
-    original = Path(subprocess.check_output([sys.executable, str(BINARY/'scripts/capture-original.py'), '--case', args.case], cwd=BINARY, text=True).strip().splitlines()[-1]).parent
+    requested_words = plan.get('argument_words', 4)
+    assert requested_words in (4, 6)
+    assert all(0 <= item['stack_index'] < requested_words for item in plan['formals']), 'formal exceeds requested original stack words'
+    command = [sys.executable, str(BINARY/'scripts/capture-original.py'), '--case', args.case, '--argument-words', str(requested_words)]
+    for item in plan.get('original_observations', []):
+        command += ['--observe-state', item['name']+'='+hex(item['original'])]
+    original = Path(subprocess.check_output(command, cwd=BINARY, text=True).strip().splitlines()[-1]).parent
     out = BINARY/'cases/argument-observations'/args.case/('%04d-' % len(config['accepted']) + re.sub(r'[^A-Za-z_0-9-]', '-', name.lstrip('_@')))
     out.mkdir(parents=True, exist_ok=False)
     spec = importlib.util.spec_from_file_location('frontier_argument_native', BINARY/'scripts/capture-native.py')
@@ -47,6 +53,12 @@ def main():
     assert checkpoint['function'] == plan['native_entry']
     assert checkpoint['declared_arguments'] == sorted(item['name'] for item in plan['formals'])
     words = {int(i): int(v, 16) for i, v in re.findall(r'^argument (\d+) ([0-9a-f]+)$', events, re.M)}
+    observed_words = argument_observation(events, requested_words)
+    assert observed_words == receipt['argument_observation']
+    anchors = {item['name']: item for item in receipt.get('diagnostic_observations', [])}
+    states = [int(s, 16) for s in re.findall(r'^state \d+ ([0-9a-f]+)$', events, re.M)]
+    for requirement in plan.get('state_requirements', []):
+        assert states[requirement['index']] == checkpoint[requirement['native_field']] == requirement['equals']
     for item in plan['formals']:
         item['original_raw'] = words[item['stack_index']]
         item['native_raw'] = checkpoint[item['native_field']]
@@ -60,10 +72,18 @@ def main():
             binding['native_object_address'] = checkpoint[binding['native_anchor_field']]
             assert item['original_raw'] - binding['original_object'] == binding['offset']
             assert item['native_raw'] - binding['native_object_address'] == binding['offset']
+        elif binding['kind'] == 'pointer-alias':
+            anchor = anchors[binding['original_anchor_name']]
+            assert anchor['original'] == binding['original_anchor_address']
+            binding['original_anchor_value'] = anchor['value']
+            binding['native_anchor_value'] = checkpoint[binding['native_anchor_field']]
+            assert item['original_raw'] == binding['original_anchor_value']
+            assert item['native_raw'] == binding['native_anchor_value']
         else:
             raise AssertionError('unsupported logical argument binding: '+item['name'])
         item['result'] = 'match'
-    assert [int(s, 16) for s in re.findall(r'^state \d+ ([0-9a-f]+)$', events, re.M)] == checkpoint['states']
+    assert states[:len(config['checkpoint_state'])] == checkpoint['states']
+    assert len(states) == len(config['checkpoint_state']) + len(anchors)
     assert [m[1] for m in re.findall(r'^buffer \d+ (\d+) ([0-9a-f]*)$', events, re.M)] == checkpoint['buffers']
     for filename in ('receipt.json', 'events.txt', 'configuration.json', 'stdout.bin', 'stderr.bin'):
         shutil.copyfile(original/filename, out/('original-'+filename))
@@ -75,6 +95,8 @@ def main():
     shutil.copyfile(args.plan, out/'plan.json')
     plan['abi_analysis']['original_target_sha256'] = receipt['original_sha256']
     proof = dict(schema=1, status='match', function=name, case=args.case, accepted_before=len(config['accepted']), configuration_sha256=sha(BINARY/'functions.json'), native_entry=plan['native_entry'], declared_formal_count=len(plan['formals']), formals=plan['formals'], register_inputs=[], hidden_inputs=[], unknown_inputs=[], abi_analysis=plan['abi_analysis'], native_executable_sha256=sha(BINARY/'build/native/C1XX3232.EXE'), capture_timing=dict(original_capture_seconds=receipt['capture_seconds'], native_capture_seconds=json.loads((out/'native-timing.json').read_text())['total_seconds'], total_operation_seconds=time.perf_counter()-started), evidence_sha256={p.name:sha(p) for p in sorted(out.iterdir()) if p.is_file()})
+    proof['argument_observation'] = observed_words
+    proof['state_requirements'] = plan.get('state_requirements', [])
     (out/'validation.json').write_text(json.dumps(proof, indent=2)+'\n')
     print(out/'validation.json')
 

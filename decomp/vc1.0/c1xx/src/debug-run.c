@@ -48,9 +48,10 @@ static void dump_stream_buffers(HANDLE process, HANDLE log, DWORD base, char *rv
 /* Compare selected semantic state while the child is stopped. Pointer
    fields report nullness, so addresses need not match between linked images. */
 static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
-    DWORD base, char *specifications)
+    DWORD base, char *specifications, unsigned argument_words)
 {
     DWORD address, value, got, written, index = 0;
+    unsigned actual = 0, context_read;
     CONTEXT context;
     char *next, mode, line[128];
     while (*specifications) {
@@ -70,20 +71,28 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
     }
     context.ContextFlags = CONTEXT_CONTROL;
     value = got = 0;
-    if (!GetThreadContext(thread, &context) ||
+    context_read = GetThreadContext(thread, &context);
+    if (!context_read ||
         !ReadProcessMemory(process, (void *)context.Esp, &value, 4, &got) || got != 4)
         sprintf(line, "caller unreadable\n");
     else sprintf(line, "caller %08lx\n", value - base);
     WriteFile(log, line, strlen(line), &written, 0);
     /* Raw ABI evidence for newly reached runtime boundaries. Do not infer
        argument meaning from these words without inspecting the call site. */
-    for (index = 0; index < 4; ++index) {
+    for (index = 0; index < argument_words; ++index) {
         value = got = 0;
-        if (!ReadProcessMemory(process, (void *)(context.Esp + 4 + 4 * index), &value, 4, &got) || got != 4)
+        if (!context_read || !ReadProcessMemory(process,
+                (void *)(context.Esp + 4 + 4 * index), &value, 4, &got) || got != 4)
             sprintf(line, "argument %lu unreadable\n", index);
-        else sprintf(line, "argument %lu %08lx\n", index, value);
+        else {
+            ++actual;
+            sprintf(line, "argument %lu %08lx\n", index, value);
+        }
         WriteFile(log, line, strlen(line), &written, 0);
     }
+    sprintf(line, "argument-words requested %u actual %u context %u\n",
+        argument_words, actual, context_read != 0);
+    WriteFile(log, line, strlen(line), &written, 0);
 }
 
 typedef struct EntryPlan {
@@ -109,6 +118,14 @@ int main(int argc, char **argv)
     CONTEXT context;
     DWORD old_protection, restored_protection, site;
     unsigned char instruction;
+    unsigned argument_words = 4;
+    char *argument_option = getenv("C1XX_CAPTURE_ARGUMENT_WORDS");
+
+    /* This is observer configuration, not a debugged-program argument. */
+    if (argument_option) {
+        if (!strcmp(argument_option, "6")) argument_words = 6;
+        else if (strcmp(argument_option, "4")) return 2;
+    }
 
     if (argc == 12) {
         plan = fopen(argv[11], "r");
@@ -212,7 +229,7 @@ int main(int argc, char **argv)
                 if (argc >= 10)
                     dump_stream_buffers(pi.hProcess, log, base, argv[9]);
                 if (argc >= 11)
-                    dump_checkpoint_state(pi.hProcess, pi.hThread, log, base, argv[10]);
+                    dump_checkpoint_state(pi.hProcess, pi.hThread, log, base, argv[10], argument_words);
                 TerminateProcess(pi.hProcess, 99);
 #endif
             }

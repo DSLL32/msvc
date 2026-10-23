@@ -1,0 +1,149 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_declare_friend_member@24",
+  "case": "state_machine_debug",
+  "accepted_before": 1056,
+  "configuration_sha256": "74f00fad5bfeabcb41117747ae9710c3144e933b7b4f88692382b145e6ac688d",
+  "native_entry": "declare_friend_member",
+  "declared_formal_count": 6,
+  "formals": [
+    {
+      "name": "context",
+      "stack_index": 0,
+      "native_field": "raw_context",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 608508,
+        "native_anchor_field": "context_base",
+        "offset": 8,
+        "object": "declaration_spec_storage[1]",
+        "native_object_address": 1449159136
+      },
+      "original_raw": 608516,
+      "native_raw": 1449159144,
+      "result": "match"
+    },
+    {
+      "name": "member",
+      "stack_index": 1,
+      "native_field": "raw_member",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "parser_member",
+        "original_anchor_address": 573936,
+        "native_anchor_field": "parser_member",
+        "identity": "active parser semantic symbol; parser reduction84 supplies parser_value.symbol to declare_class_member, which forwards it here without copying in this mode",
+        "original_anchor_value": 8303300,
+        "native_anchor_value": 1449263812
+      },
+      "original_raw": 8303300,
+      "native_raw": 1449263812,
+      "result": "match"
+    },
+    {
+      "name": "qualified",
+      "stack_index": 2,
+      "native_field": "raw_qualified",
+      "binding": {
+        "kind": "null-pointer"
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    },
+    {
+      "name": "owner",
+      "stack_index": 3,
+      "native_field": "raw_owner",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "class_owner",
+        "original_anchor_address": 573948,
+        "native_anchor_field": "class_owner",
+        "identity": "class_contexts[0].symbol; matching checkpoint current_class_context=0 is required",
+        "original_anchor_value": 8301700,
+        "native_anchor_value": 1449262212
+      },
+      "original_raw": 8301700,
+      "native_raw": 1449262212,
+      "result": "match"
+    },
+    {
+      "name": "storage",
+      "stack_index": 4,
+      "native_field": "storage_fields",
+      "binding": {
+        "kind": "scalar",
+        "bits": 24,
+        "fields": [
+          "StorageSpec.flags: unsigned short",
+          "StorageSpec.extended: unsigned char"
+        ],
+        "unused_padding": "byte3 has no declared field. The entire storage formal is unused by this function; compare all three declared bytes nevertheless."
+      },
+      "original_raw": 1056,
+      "native_raw": 1056,
+      "result": "match"
+    },
+    {
+      "name": "pure",
+      "stack_index": 5,
+      "native_field": "pure",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32,
+        "type": "int"
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      195600,
+      195979
+    ],
+    "argument_bytes": 24,
+    "proof": "PUSH EBX/ESI/EDI; incoming context/member/qualified/owner read from adjusted ESP+0x10/+0x14/+0x18/+0x1c, and pure from ESP+0x24. Fifth stack word (adjusted ESP+0x20) is unused. RET24 at0x2fc8c,0x2fcda,0x2fd88. All incoming volatile registers are dead before semantic use; ESI/EBX/EDI are saved then loaded from formals. The ECX LEA at0x2fc54 is dead at normalize_symbol_type: that callee loads CX from symbol storage at0x52ad0 and fully redefines ECX at0x52b38 before full-width use. No hidden/register argument. Parent-approved explicit six-word read binds each formal and real fixed-image aliases, without recursive object reads.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "56a51155b10751439b8fac5f935c30dd3419bbe495e6032a0575f836f3e5dbc9",
+  "capture_timing": {
+    "original_capture_seconds": 1.1171282334253192,
+    "native_capture_seconds": 0.17799838911741972,
+    "total_operation_seconds": 1.5178202372044325
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "aceb6b7e3e00e0bf15334e4fc70b6888dfabe8de3fd78af67f466d7270917e2d",
+    "native-commands.gdb": "0ff4ffc67109a383aed5803f0156828b3573466213967f1ae09aa23dbcdc3bcd",
+    "native-gdb.log": "deaf135b5a17c24c1749556a6dc81bc73ceed8cc6e79d16c8cd9225177088a1d",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "211422587ff229183c27b7d802979065a2476224c6a06c1a0c827aeae306c13a",
+    "original-configuration.json": "74f00fad5bfeabcb41117747ae9710c3144e933b7b4f88692382b145e6ac688d",
+    "original-disassembly.txt": "c8977d333125ca6ad588a71f854f6ded02ece030d5782ac754c94cc34c3d53db",
+    "original-events.txt": "f95efad32e002132ab207acdc8e3ee7defe97a28f8fa106f18b6b3a4d4f40f56",
+    "original-receipt.json": "d904b0f71518149becdbdc736373db6f7bbb6c08f15067cdd3acf42146e5a4c1",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "cba32eb9600404f5d3d0a67bf40723c4fdc09f149271a48e0667dfdb3c0cf12e"
+  },
+  "argument_observation": {
+    "requested_words": 6,
+    "actual_words": 6,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": [
+    {
+      "index": 4,
+      "native_field": "class_index",
+      "equals": 0
+    }
+  ]
+}

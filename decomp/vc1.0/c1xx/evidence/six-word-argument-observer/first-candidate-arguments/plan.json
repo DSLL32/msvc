@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "function": "_declare_friend_member@24",
+  "native_entry": "declare_friend_member",
+  "argument_words": 6,
+  "original_observations": [
+    {
+      "name": "parser_member",
+      "original": 573936
+    },
+    {
+      "name": "class_owner",
+      "original": 573948
+    }
+  ],
+  "state_requirements": [
+    {
+      "index": 4,
+      "native_field": "class_index",
+      "equals": 0
+    }
+  ],
+  "native_expressions": {
+    "raw_context": "(unsigned)context",
+    "context_base": "(unsigned)&declaration_spec_storage[0]",
+    "raw_member": "(unsigned)member",
+    "parser_member": "(unsigned)parser_value.symbol",
+    "raw_qualified": "(unsigned)qualified",
+    "raw_owner": "(unsigned)owner",
+    "class_owner": "(unsigned)class_contexts[current_class_context].symbol",
+    "class_index": "current_class_context",
+    "storage_fields": "(unsigned)storage.flags | ((unsigned)storage.extended << 16)",
+    "pure": "pure"
+  },
+  "formals": [
+    {
+      "name": "context",
+      "stack_index": 0,
+      "native_field": "raw_context",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 608508,
+        "native_anchor_field": "context_base",
+        "offset": 8,
+        "object": "declaration_spec_storage[1]"
+      }
+    },
+    {
+      "name": "member",
+      "stack_index": 1,
+      "native_field": "raw_member",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "parser_member",
+        "original_anchor_address": 573936,
+        "native_anchor_field": "parser_member",
+        "identity": "active parser semantic symbol; parser reduction84 supplies parser_value.symbol to declare_class_member, which forwards it here without copying in this mode"
+      }
+    },
+    {
+      "name": "qualified",
+      "stack_index": 2,
+      "native_field": "raw_qualified",
+      "binding": {
+        "kind": "null-pointer"
+      }
+    },
+    {
+      "name": "owner",
+      "stack_index": 3,
+      "native_field": "raw_owner",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "class_owner",
+        "original_anchor_address": 573948,
+        "native_anchor_field": "class_owner",
+        "identity": "class_contexts[0].symbol; matching checkpoint current_class_context=0 is required"
+      }
+    },
+    {
+      "name": "storage",
+      "stack_index": 4,
+      "native_field": "storage_fields",
+      "binding": {
+        "kind": "scalar",
+        "bits": 24,
+        "fields": [
+          "StorageSpec.flags: unsigned short",
+          "StorageSpec.extended: unsigned char"
+        ],
+        "unused_padding": "byte3 has no declared field. The entire storage formal is unused by this function; compare all three declared bytes nevertheless."
+      }
+    },
+    {
+      "name": "pure",
+      "stack_index": 5,
+      "native_field": "pure",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32,
+        "type": "int"
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      195600,
+      195979
+    ],
+    "argument_bytes": 24,
+    "proof": "PUSH EBX/ESI/EDI; incoming context/member/qualified/owner read from adjusted ESP+0x10/+0x14/+0x18/+0x1c, and pure from ESP+0x24. Fifth stack word (adjusted ESP+0x20) is unused. RET24 at0x2fc8c,0x2fcda,0x2fd88. All incoming volatile registers are dead before semantic use; ESI/EBX/EDI are saved then loaded from formals. The ECX LEA at0x2fc54 is dead at normalize_symbol_type: that callee loads CX from symbol storage at0x52ad0 and fully redefines ECX at0x52b38 before full-width use. No hidden/register argument. Parent-approved explicit six-word read binds each formal and real fixed-image aliases, without recursive object reads."
+  }
+}

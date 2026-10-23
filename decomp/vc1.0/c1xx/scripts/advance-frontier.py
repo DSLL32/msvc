@@ -67,6 +67,17 @@ def main():
     cleanup=re.search(r'@(\d+)$',args.candidate)
     if cleanup: assert argument_proof['abi_analysis']['argument_bytes']==int(cleanup.group(1)), 'argument bytes differ from function ABI'
     assert not argument_proof['register_inputs'] and not argument_proof['hidden_inputs'], 'add explicit reached register/hidden input observations before acceptance'
+    if 'argument_observation' in argument_proof:
+        from argument_words import observation as observe_argument_words
+        observed = observe_argument_words((argument_directory/'original-events.txt').read_text(), argument_proof['argument_observation']['requested_words'])
+        assert observed == argument_proof['argument_observation'] == entry_original['argument_observation']
+        assert all(formal['stack_index'] < observed['actual_words'] for formal in argument_proof['formals'])
+    else:
+        assert all(formal['stack_index'] < 4 for formal in argument_proof['formals']), 'six-word ABI requires explicit count/read receipt'
+    anchors = {item['name']: item for item in entry_original.get('diagnostic_observations', [])}
+    original_states = [int(value, 16) for value in re.findall(r'^state \d+ ([0-9a-f]+)$', (argument_directory/'original-events.txt').read_text(), re.M)]
+    for requirement in argument_proof.get('state_requirements', []):
+        assert original_states[requirement['index']] == entry_native[requirement['native_field']] == requirement['equals']
     words=dict((int(index),int(value,16)) for index,value in re.findall(r'^argument (\d+) ([0-9a-f]+)$',(argument_directory/'original-events.txt').read_text(),re.M))
     for formal in argument_proof['formals']:
         assert formal['original_raw']==words[formal['stack_index']]
@@ -81,6 +92,11 @@ def main():
         elif binding['kind']=='scalar':
             mask=(1<<binding['bits'])-1
             assert formal['original_raw']&mask==formal['native_raw']&mask
+        elif binding['kind']=='pointer-alias':
+            anchor=anchors[binding['original_anchor_name']]
+            assert anchor['original']==binding['original_anchor_address']
+            assert formal['original_raw']==binding['original_anchor_value']==anchor['value']
+            assert formal['native_raw']==binding['native_anchor_value']==entry_native[binding['native_anchor_field']]
         else:
             raise AssertionError('unbound actual argument holds acceptance: '+formal['name'])
     if args.original is None:

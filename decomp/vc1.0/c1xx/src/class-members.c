@@ -9,6 +9,55 @@ void __stdcall check_missing_defaults(DefaultArgument *defaults, unsigned count,
 #define CLASS_CONTEXT (class_contexts[current_class_context])
 #define CLASS_TAG (CLASS_CONTEXT.symbol)
 
+/* Original 0x2fc10..0x2fd8b. The by-value storage argument is present in
+   the ABI but unused here; qualified declarations take storage from context. */
+void __stdcall declare_friend_member(DeclarationType *context, CppSymbol *member,
+    QualifiedDeclarator *qualified, CppSymbol *owner, StorageSpec storage, int pure)
+{
+    QualifiedDeclarator *resolved;
+    short declaring_class;
+    int diagnostic;
+
+    if (!context) return;
+    if (pure) report_syntax_error(254, member->name);
+    if (qualified) {
+        member->storage[0] = context->storage[0];
+        member->storage[1] = context->storage[1];
+        member->storage[2] = context->storage[2];
+        normalize_symbol_type(context->type, member);
+        if ((member->kind & 31) != 7) {
+            report_syntax_error(63, format_symbol_name(
+                (CppSymbol *)qualified->resolution->binding->target));
+            unwind_qualified_scopes(1);
+            return;
+        }
+        resolved = (QualifiedDeclarator *)resolve_declaration_alias(
+            (CppSymbol *)qualified, member);
+        member = resolved ? (CppSymbol *)resolved->resolution->binding->target : 0;
+        if (!member || (member->kind & 31) != 7) {
+            report_syntax_error(245, format_symbol_name(
+                (CppSymbol *)qualified->resolution->binding->target));
+            unwind_qualified_scopes(1);
+            return;
+        }
+    } else {
+        member->kind = 1;
+        member = apply_declaration_type(context, member);
+        if (!member || (member->declaration_flags & 2)) return;
+    }
+    if (member->declaration_flags & 0x3000) {
+        declaring_class = member->auxiliary.declaring_class;
+        if (!declaring_class || cpp_context_stack->items[declaring_class] == owner) {
+            if (!declaring_class)
+                member->auxiliary.declaring_class = owner->detail.class_info->type_index;
+            diagnostic = (member->declaration_flags & 0x1000) ? 633 : 256;
+            report_syntax_error(diagnostic, format_symbol_name(member));
+        } else record_friend(owner, context, member);
+    } else record_friend(owner, context, member);
+    if (qualified) unwind_qualified_scopes(1);
+    if (browser_filename) browser_friend_reference(member);
+}
+
 /* Original 0x2f230..0x2fa55. Pure-specifier markers use kind 19 until this
    routine restores the ordinary declarator kind. Qualifiers remain separate
    from the member being resolved and from any existing overload set. */

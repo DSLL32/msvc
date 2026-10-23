@@ -311,8 +311,6 @@ void __stdcall browser_friend_reference(CppSymbol *symbol) { __asm { int 3 } }
 void __stdcall validate_anonymous_aggregate(DeclarationType *type) { __asm { int 3 } }
 void __stdcall declare_anonymous_aggregate(CType *type) { __asm { int 3 } }
 
-void __stdcall declare_friend_member(DeclarationType *context, CppSymbol *member,
-    QualifiedDeclarator *qualified, CppSymbol *owner, StorageSpec storage, int pure) { __asm { int 3 } }
 void __stdcall apply_member_access_declaration(CppSymbol *owner, QualifiedDeclarator *qualified) { __asm { int 3 } }
 
 void __stdcall inherit_class_dll_storage(DeclarationType *context, CppSymbol *member) { __asm { int 3 } }

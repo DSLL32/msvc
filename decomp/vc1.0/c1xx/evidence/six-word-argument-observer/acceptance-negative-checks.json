@@ -1,0 +1,14 @@
+[
+  {
+    "test": "missing-count",
+    "status": "rejected before fresh original invocation",
+    "seconds": 0.09200074337422848,
+    "message": "AssertionError: six-word ABI requires explicit count/read receipt"
+  },
+  {
+    "test": "short-count",
+    "status": "rejected before fresh original invocation",
+    "seconds": 0.0960801150649786,
+    "message": "AssertionError: missing or short original argument observation"
+  }
+]
