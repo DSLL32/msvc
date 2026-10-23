@@ -8,3 +8,4 @@ cases/help/main-source-01/*.log binary
 cases/help/main-observer-build-01/*.log binary
 cases/help/main-prefix-01/*.bin binary
 cases/help/main-prefix-01/native-trace/*.bin binary
+cases/help/spawn-prefix-01/*.bin binary
