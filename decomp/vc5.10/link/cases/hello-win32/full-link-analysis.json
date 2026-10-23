@@ -1,0 +1,1348 @@
+{
+  "status": "analysis only; FullLink remains a named INT3 stub and is not accepted",
+  "target_sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+  "name": "LinkContext::FullLink",
+  "start": 4468560,
+  "end": 4475449,
+  "bytes": 6889,
+  "code_sha256": "8d2238cfd1fc0cd2334eb914d4f306d293b3c29ee9debf892feab8263080e043",
+  "abi": "thiscall int(BYTE*): actual ECX receiver, one stack out-pointer, RET4 at44493d",
+  "cold_tail": {
+    "start": 4475200,
+    "end": 4475449,
+    "incoming_branch": 4470307,
+    "returns_to": [
+      4470419,
+      4470426
+    ],
+    "qualification": "Not a new function; consumes live EBP receiver and original stack frame after the primary return block."
+  },
+  "initial_inputs": "Accepted boundary49 records actual receiver, output pointer/owner and raw uninitialized output byte; full context/heap/queues/globals remain checked.",
+  "instruction_count_linear_analysis": 2085,
+  "calls_linear_analysis": [
+    {
+      "site": 4468587,
+      "operand": "0x40e3b0",
+      "target": 4252592,
+      "known_logical_name": null
+    },
+    {
+      "site": 4468592,
+      "operand": "0x40e360",
+      "target": 4252512,
+      "known_logical_name": null
+    },
+    {
+      "site": 4468634,
+      "operand": "0x462eb0",
+      "target": 4599472,
+      "known_logical_name": null
+    },
+    {
+      "site": 4468641,
+      "operand": "0x43e170",
+      "target": 4448624,
+      "known_logical_name": null
+    },
+    {
+      "site": 4468801,
+      "operand": "0x40e850",
+      "target": 4253776,
+      "known_logical_name": null
+    },
+    {
+      "site": 4468848,
+      "operand": "0x462f50",
+      "target": 4599632,
+      "known_logical_name": null
+    },
+    {
+      "site": 4468865,
+      "operand": "0x44b860",
+      "target": 4503648,
+      "known_logical_name": null
+    },
+    {
+      "site": 4468892,
+      "operand": "0x416080",
+      "target": 4284544,
+      "known_logical_name": null
+    },
+    {
+      "site": 4468910,
+      "operand": "0x415300",
+      "target": 4281088,
+      "known_logical_name": null
+    },
+    {
+      "site": 4468931,
+      "operand": "0x4156a0",
+      "target": 4282016,
+      "known_logical_name": null
+    },
+    {
+      "site": 4468946,
+      "operand": "0x433d80",
+      "target": 4406656,
+      "known_logical_name": null
+    },
+    {
+      "site": 4468975,
+      "operand": "0x434170",
+      "target": 4407664,
+      "known_logical_name": null
+    },
+    {
+      "site": 4468990,
+      "operand": "DWORD PTR ds:0x401270"
+    },
+    {
+      "site": 4469006,
+      "operand": "0x44fe30",
+      "target": 4521520,
+      "known_logical_name": "_release_memory@4"
+    },
+    {
+      "site": 4469042,
+      "operand": "0x4614e0",
+      "target": 4592864,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469058,
+      "operand": "DWORD PTR ds:0x401128"
+    },
+    {
+      "site": 4469088,
+      "operand": "0x430230",
+      "target": 4391472,
+      "known_logical_name": "_link_fatal"
+    },
+    {
+      "site": 4469098,
+      "operand": "0x440560",
+      "target": 4457824,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469114,
+      "operand": "0x451940",
+      "target": 4528448,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469196,
+      "operand": "0x40f0a0",
+      "target": 4255904,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469206,
+      "operand": "0x43e910",
+      "target": 4450576,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469221,
+      "operand": "0x430230",
+      "target": 4391472,
+      "known_logical_name": "_link_fatal"
+    },
+    {
+      "site": 4469236,
+      "operand": "0x43e910",
+      "target": 4450576,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469263,
+      "operand": "0x430300",
+      "target": 4391680,
+      "known_logical_name": "_link_warning"
+    },
+    {
+      "site": 4469285,
+      "operand": "0x461dd0",
+      "target": 4595152,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469317,
+      "operand": "0x430270",
+      "target": 4391536,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469340,
+      "operand": "0x461f50",
+      "target": 4595536,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469393,
+      "operand": "0x461dd0",
+      "target": 4595152,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469425,
+      "operand": "0x430270",
+      "target": 4391536,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469448,
+      "operand": "0x461f50",
+      "target": 4595536,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469516,
+      "operand": "0x461dd0",
+      "target": 4595152,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469548,
+      "operand": "0x430270",
+      "target": 4391536,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469571,
+      "operand": "0x461f50",
+      "target": 4595536,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469644,
+      "operand": "0x43e980",
+      "target": 4450688,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469729,
+      "operand": "0x461d80",
+      "target": 4595072,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469750,
+      "operand": "DWORD PTR ds:0x401278"
+    },
+    {
+      "site": 4469856,
+      "operand": "0x430300",
+      "target": 4391680,
+      "known_logical_name": "_link_warning"
+    },
+    {
+      "site": 4469875,
+      "operand": "0x455950",
+      "target": 4544848,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469882,
+      "operand": "0x4517b0",
+      "target": 4528048,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469889,
+      "operand": "0x451890",
+      "target": 4528272,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469906,
+      "operand": "0x440930",
+      "target": 4458800,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469913,
+      "operand": "0x440b50",
+      "target": 4459344,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469950,
+      "operand": "0x440bc0",
+      "target": 4459456,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469961,
+      "operand": "0x45dba0",
+      "target": 4578208,
+      "known_logical_name": null
+    },
+    {
+      "site": 4469997,
+      "operand": "0x430230",
+      "target": 4391472,
+      "known_logical_name": "_link_fatal"
+    },
+    {
+      "site": 4470035,
+      "operand": "0x430230",
+      "target": 4391472,
+      "known_logical_name": "_link_fatal"
+    },
+    {
+      "site": 4470063,
+      "operand": "0x430300",
+      "target": 4391680,
+      "known_logical_name": "_link_warning"
+    },
+    {
+      "site": 4470100,
+      "operand": "0x430300",
+      "target": 4391680,
+      "known_logical_name": "_link_warning"
+    },
+    {
+      "site": 4470110,
+      "operand": "0x43e520",
+      "target": 4449568,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470135,
+      "operand": "0x40fbd0",
+      "target": 4258768,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470145,
+      "operand": "0x40fc00",
+      "target": 4258816,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470159,
+      "operand": "0x45d920",
+      "target": 4577568,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470169,
+      "operand": "0x40fc00",
+      "target": 4258816,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470183,
+      "operand": "0x40fd90",
+      "target": 4259216,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470220,
+      "operand": "DWORD PTR ds:0x401248"
+    },
+    {
+      "site": 4470248,
+      "operand": "0x430300",
+      "target": 4391680,
+      "known_logical_name": "_link_warning"
+    },
+    {
+      "site": 4470295,
+      "operand": "0x440630",
+      "target": 4458032,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470315,
+      "operand": "0x4519f0",
+      "target": 4528624,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470322,
+      "operand": "0x4516f0",
+      "target": 4527856,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470329,
+      "operand": "0x43e560",
+      "target": 4449632,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470336,
+      "operand": "0x43e5e0",
+      "target": 4449760,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470354,
+      "operand": "0x40f2d0",
+      "target": 4256464,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470373,
+      "operand": "0x40f2d0",
+      "target": 4256464,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470391,
+      "operand": "0x40e670",
+      "target": 4253296,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470414,
+      "operand": "0x40f390",
+      "target": 4256656,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470421,
+      "operand": "0x440f10",
+      "target": 4460304,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470428,
+      "operand": "0x458b00",
+      "target": 4557568,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470500,
+      "operand": "0x40e850",
+      "target": 4253776,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470548,
+      "operand": "0x462f50",
+      "target": 4599632,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470625,
+      "operand": "0x40e850",
+      "target": 4253776,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470673,
+      "operand": "0x462f50",
+      "target": 4599632,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470760,
+      "operand": "0x40e850",
+      "target": 4253776,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470808,
+      "operand": "0x462f50",
+      "target": 4599632,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470863,
+      "operand": "0x40e850",
+      "target": 4253776,
+      "known_logical_name": null
+    },
+    {
+      "site": 4470911,
+      "operand": "0x462f50",
+      "target": 4599632,
+      "known_logical_name": null
+    },
+    {
+      "site": 4471088,
+      "operand": "esi"
+    },
+    {
+      "site": 4471126,
+      "operand": "0x40e850",
+      "target": 4253776,
+      "known_logical_name": null
+    },
+    {
+      "site": 4471175,
+      "operand": "0x462f50",
+      "target": 4599632,
+      "known_logical_name": null
+    },
+    {
+      "site": 4471193,
+      "operand": "0x43ebd0",
+      "target": 4451280,
+      "known_logical_name": null
+    },
+    {
+      "site": 4471213,
+      "operand": "0x4353d0",
+      "target": 4412368,
+      "known_logical_name": null
+    },
+    {
+      "site": 4471239,
+      "operand": "0x40f9c0",
+      "target": 4258240,
+      "known_logical_name": null
+    },
+    {
+      "site": 4471251,
+      "operand": "0x40f9c0",
+      "target": 4258240,
+      "known_logical_name": null
+    },
+    {
+      "site": 4471262,
+      "operand": "0x40f9c0",
+      "target": 4258240,
+      "known_logical_name": null
+    },
+    {
+      "site": 4471277,
+      "operand": "0x40fa00",
+      "target": 4258304,
+      "known_logical_name": null
+    },
+    {
+      "site": 4471289,
+      "operand": "0x43e340",
+      "target": 4449088,
+      "known_logical_name": null
+    },
+    {
+      "site": 4471312,
+      "operand": "DWORD PTR ds:0x401154"
+    },
+    {
+      "site": 4471340,
+      "operand": "DWORD PTR ds:0x401120"
+    },
+    {
+      "site": 4471356,
+      "operand": "DWORD PTR ds:0x47f14c"
+    },
+    {
+      "site": 4471591,
+      "operand": "0x430300",
+      "target": 4391680,
+      "known_logical_name": "_link_warning"
+    },
+    {
+      "site": 4471613,
+      "operand": "0x440300",
+      "target": 4457216,
+      "known_logical_name": null
+    },
+    {
+      "site": 4471713,
+      "operand": "0x4631e0",
+      "target": 4600288,
+      "known_logical_name": null
+    },
+    {
+      "site": 4471728,
+      "operand": "0x44fe30",
+      "target": 4521520,
+      "known_logical_name": "_release_memory@4"
+    },
+    {
+      "site": 4471795,
+      "operand": "0x4631e0",
+      "target": 4600288,
+      "known_logical_name": null
+    },
+    {
+      "site": 4471881,
+      "operand": "0x461f20",
+      "target": 4595488,
+      "known_logical_name": null
+    },
+    {
+      "site": 4471900,
+      "operand": "0x4631e0",
+      "target": 4600288,
+      "known_logical_name": null
+    },
+    {
+      "site": 4471965,
+      "operand": "0x461f20",
+      "target": 4595488,
+      "known_logical_name": null
+    },
+    {
+      "site": 4471984,
+      "operand": "0x4631e0",
+      "target": 4600288,
+      "known_logical_name": null
+    },
+    {
+      "site": 4471996,
+      "operand": "0x463240",
+      "target": 4600384,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472025,
+      "operand": "0x463390",
+      "target": 4600720,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472030,
+      "operand": "0x463470",
+      "target": 4600944,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472044,
+      "operand": "0x463740",
+      "target": 4601664,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472061,
+      "operand": "0x431fb0",
+      "target": 4399024,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472077,
+      "operand": "0x432e40",
+      "target": 4402752,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472084,
+      "operand": "0x43ee90",
+      "target": 4451984,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472121,
+      "operand": "0x409440",
+      "target": 4232256,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472257,
+      "operand": "0x409440",
+      "target": 4232256,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472293,
+      "operand": "0x43f1c0",
+      "target": 4452800,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472307,
+      "operand": "0x43fe20",
+      "target": 4455968,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472451,
+      "operand": "0x456e30",
+      "target": 4550192,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472463,
+      "operand": "0x4533a0",
+      "target": 4535200,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472505,
+      "operand": "0x40c030",
+      "target": 4243504,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472537,
+      "operand": "0x40ce80",
+      "target": 4247168,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472560,
+      "operand": "0x40cb40",
+      "target": 4246336,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472567,
+      "operand": "0x40c1d0",
+      "target": 4243920,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472591,
+      "operand": "0x40ce80",
+      "target": 4247168,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472617,
+      "operand": "0x40cb40",
+      "target": 4246336,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472631,
+      "operand": "0x40c1d0",
+      "target": 4243920,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472659,
+      "operand": "0x40c030",
+      "target": 4243504,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472679,
+      "operand": "0x40ce80",
+      "target": 4247168,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472709,
+      "operand": "0x40cb40",
+      "target": 4246336,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472716,
+      "operand": "0x40c1d0",
+      "target": 4243920,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472726,
+      "operand": "0x44fe30",
+      "target": 4521520,
+      "known_logical_name": "_release_memory@4"
+    },
+    {
+      "site": 4472821,
+      "operand": "0x4401e0",
+      "target": 4456928,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472852,
+      "operand": "0x40c030",
+      "target": 4243504,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472864,
+      "operand": "0x440100",
+      "target": 4456704,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472900,
+      "operand": "0x463f30",
+      "target": 4603696,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472913,
+      "operand": "0x4640b0",
+      "target": 4604080,
+      "known_logical_name": null
+    },
+    {
+      "site": 4472968,
+      "operand": "0x40ce80",
+      "target": 4247168,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473086,
+      "operand": "0x44fe70",
+      "target": 4521584,
+      "known_logical_name": "_zero_allocate@4"
+    },
+    {
+      "site": 4473160,
+      "operand": "0x40ce80",
+      "target": 4247168,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473183,
+      "operand": "0x40cb40",
+      "target": 4246336,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473190,
+      "operand": "0x40c1d0",
+      "target": 4243920,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473200,
+      "operand": "0x44f530",
+      "target": 4519216,
+      "known_logical_name": "_clear_buffer@4"
+    },
+    {
+      "site": 4473249,
+      "operand": "0x40ce80",
+      "target": 4247168,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473271,
+      "operand": "0x40cb40",
+      "target": 4246336,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473278,
+      "operand": "0x40c1d0",
+      "target": 4243920,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473331,
+      "operand": "0x40ce80",
+      "target": 4247168,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473354,
+      "operand": "0x40cb40",
+      "target": 4246336,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473361,
+      "operand": "0x40c1d0",
+      "target": 4243920,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473386,
+      "operand": "0x43eb50",
+      "target": 4451152,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473402,
+      "operand": "0x44fe70",
+      "target": 4521584,
+      "known_logical_name": "_zero_allocate@4"
+    },
+    {
+      "site": 4473480,
+      "operand": "0x40b7f0",
+      "target": 4241392,
+      "known_logical_name": "_open_argument_file@12"
+    },
+    {
+      "site": 4473498,
+      "operand": "0x40cfc0",
+      "target": 4247488,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473517,
+      "operand": "0x44fe50",
+      "target": 4521552,
+      "known_logical_name": "_allocate_memory@4"
+    },
+    {
+      "site": 4473546,
+      "operand": "0x40c030",
+      "target": 4243504,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473567,
+      "operand": "0x40ce80",
+      "target": 4247168,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473594,
+      "operand": "0x40cab0",
+      "target": 4246192,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473613,
+      "operand": "0x40c0f0",
+      "target": 4243696,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473650,
+      "operand": "0x40cfc0",
+      "target": 4247488,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473720,
+      "operand": "0x40c030",
+      "target": 4243504,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473750,
+      "operand": "0x40ce80",
+      "target": 4247168,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473781,
+      "operand": "0x40cb40",
+      "target": 4246336,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473795,
+      "operand": "0x40c1d0",
+      "target": 4243920,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473809,
+      "operand": "0x44fe30",
+      "target": 4521520,
+      "known_logical_name": "_release_memory@4"
+    },
+    {
+      "site": 4473824,
+      "operand": "0x40bd10",
+      "target": 4242704,
+      "known_logical_name": "_close_argument_file@8"
+    },
+    {
+      "site": 4473872,
+      "operand": "0x462ec0",
+      "target": 4599488,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473899,
+      "operand": "0x44fd40",
+      "target": 4521280,
+      "known_logical_name": "_allocate_link_memory@8"
+    },
+    {
+      "site": 4473917,
+      "operand": "0x4331b0",
+      "target": 4403632,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473953,
+      "operand": "0x44fd40",
+      "target": 4521280,
+      "known_logical_name": "_allocate_link_memory@8"
+    },
+    {
+      "site": 4473978,
+      "operand": "0x4391b0",
+      "target": 4428208,
+      "known_logical_name": null
+    },
+    {
+      "site": 4473991,
+      "operand": "0x458b80",
+      "target": 4557696,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474005,
+      "operand": "0x4524b0",
+      "target": 4531376,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474017,
+      "operand": "0x4521b0",
+      "target": 4530608,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474023,
+      "operand": "0x452510",
+      "target": 4531472,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474029,
+      "operand": "0x457780",
+      "target": 4552576,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474040,
+      "operand": "DWORD PTR ds:0x401060"
+    },
+    {
+      "site": 4474092,
+      "operand": "edi"
+    },
+    {
+      "site": 4474145,
+      "operand": "edi"
+    },
+    {
+      "site": 4474157,
+      "operand": "DWORD PTR ds:0x40123c"
+    },
+    {
+      "site": 4474178,
+      "operand": "0x44dc80",
+      "target": 4512896,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474195,
+      "operand": "0x441950",
+      "target": 4462928,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474232,
+      "operand": "0x441770",
+      "target": 4462448,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474251,
+      "operand": "0x4590a0",
+      "target": 4559008,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474267,
+      "operand": "0x4414f0",
+      "target": 4461808,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474302,
+      "operand": "0x438640",
+      "target": 4425280,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474317,
+      "operand": "0x456bb0",
+      "target": 4549552,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474330,
+      "operand": "0x4529a0",
+      "target": 4532640,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474340,
+      "operand": "0x45cd00",
+      "target": 4574464,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474350,
+      "operand": "0x45cd00",
+      "target": 4574464,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474360,
+      "operand": "0x45cd00",
+      "target": 4574464,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474414,
+      "operand": "0x40c030",
+      "target": 4243504,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474425,
+      "operand": "0x441bc0",
+      "target": 4463552,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474475,
+      "operand": "0x441e20",
+      "target": 4464160,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474486,
+      "operand": "0x43ecf0",
+      "target": 4451568,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474492,
+      "operand": "0x44fe30",
+      "target": 4521520,
+      "known_logical_name": "_release_memory@4"
+    },
+    {
+      "site": 4474657,
+      "operand": "0x442c50",
+      "target": 4467792,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474773,
+      "operand": "DWORD PTR ds:0x47eed0"
+    },
+    {
+      "site": 4474788,
+      "operand": "0x4098d0",
+      "target": 4233424,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474802,
+      "operand": "0x45a0d0",
+      "target": 4563152,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474829,
+      "operand": "0x430230",
+      "target": 4391472,
+      "known_logical_name": "_link_fatal"
+    },
+    {
+      "site": 4474854,
+      "operand": "0x461900",
+      "target": 4593920,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474877,
+      "operand": "0x431220",
+      "target": 4395552,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474895,
+      "operand": "0x441610",
+      "target": 4462096,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474907,
+      "operand": "0x441610",
+      "target": 4462096,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474926,
+      "operand": "0x435310",
+      "target": 4412176,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474931,
+      "operand": "0x461b50",
+      "target": 4594512,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474945,
+      "operand": "0x40bd10",
+      "target": 4242704,
+      "known_logical_name": "_close_argument_file@8"
+    },
+    {
+      "site": 4474959,
+      "operand": "0x4155a0",
+      "target": 4281760,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474964,
+      "operand": "0x415530",
+      "target": 4281648,
+      "known_logical_name": null
+    },
+    {
+      "site": 4474981,
+      "operand": "ebx"
+    },
+    {
+      "site": 4475022,
+      "operand": "edi"
+    },
+    {
+      "site": 4475076,
+      "operand": "edi"
+    },
+    {
+      "site": 4475088,
+      "operand": "DWORD PTR ds:0x40123c"
+    },
+    {
+      "site": 4475097,
+      "operand": "ebx"
+    },
+    {
+      "site": 4475157,
+      "operand": "edi"
+    },
+    {
+      "site": 4475169,
+      "operand": "DWORD PTR ds:0x40123c"
+    },
+    {
+      "site": 4475267,
+      "operand": "0x40f2d0",
+      "target": 4256464,
+      "known_logical_name": null
+    },
+    {
+      "site": 4475295,
+      "operand": "0x40f2d0",
+      "target": 4256464,
+      "known_logical_name": null
+    },
+    {
+      "site": 4475302,
+      "operand": "0x440f10",
+      "target": 4460304,
+      "known_logical_name": null
+    },
+    {
+      "site": 4475328,
+      "operand": "0x43e650",
+      "target": 4449872,
+      "known_logical_name": null
+    },
+    {
+      "site": 4475335,
+      "operand": "0x422780",
+      "target": 4335488,
+      "known_logical_name": null
+    },
+    {
+      "site": 4475342,
+      "operand": "0x43e770",
+      "target": 4450160,
+      "known_logical_name": null
+    },
+    {
+      "site": 4475387,
+      "operand": "0x40f390",
+      "target": 4256656,
+      "known_logical_name": null
+    },
+    {
+      "site": 4475394,
+      "operand": "0x43e850",
+      "target": 4450384,
+      "known_logical_name": null
+    },
+    {
+      "site": 4475439,
+      "operand": "0x40f390",
+      "target": 4256656,
+      "known_logical_name": null
+    }
+  ],
+  "qualification": "Linear objdump listing is disassembly analysis only, not graph acceptance or reconstruction source. Canonical common CFG/qualified import/RET/ownership comparison remains mandatory for eventual candidate.",
+  "first_reached_callee": {
+    "address": 4252592,
+    "provisional_name": "initialize_modules",
+    "abi": "stdcall void(Module**), RET4 at40e411",
+    "caller_instruction": "PUSH47f028 at442f5c; CALL40e3b0 at442f6b",
+    "pointer_role": "Global output-module pointer address; initial state must be freshly observed before promotion."
+  },
+  "second_callee": {
+    "address": 4252512,
+    "provisional_name": "initialize_contribution_pools",
+    "abi": "cdecl void(void), RET at40e3a1",
+    "static_behavior": "Calls allocate_pages twice for4000 and20000 bytes; stores pool heads/capacity/initialized state. Not reconstructed or accepted."
+  },
+  "decompiler_analysis": {
+    "project": "/root/.ai-tmp/msvc2/vc5.10/link/ghidra/project/link510.gpr",
+    "output": "/root/.ai-tmp/msvc2/vc5.10/link/ghidra/full-link-observed-thiscall-analysis.txt",
+    "sha256": "45956ae00a3beb1930e228675e9d3243e6dff40a36efd20c547ed65caf08e916",
+    "signature": "int __thiscall(void *this,BYTE *pack_requested)",
+    "analysis_seconds": 80,
+    "scope": "Read-only original analysis. Decompiler has imperfect downstream ABI/stack recovery, including an apparent unaff_retaddr alias; actual original instructions and accepted raw boundary49 override its inferred expressions. This text is never compiled or treated as a reconstructed implementation."
+  },
+  "phase_mapping": [
+    {
+      "start": 4468560,
+      "end": 4468853,
+      "role": "Output-module and contribution-pool setup, COMDAT initialization, initial section setup and debug-directory contribution"
+    },
+    {
+      "start": 4468853,
+      "end": 4469096,
+      "role": "Pass1, conditional PDB setup, stale incremental-file handling and optional map output"
+    },
+    {
+      "start": 4469096,
+      "end": 4469894,
+      "role": "Section attributes, GP/Mac special symbols, entrypoint validation and platform setup"
+    },
+    {
+      "start": 4469894,
+      "end": 4470426,
+      "role": "Local imports/retained relocations, undefined/duplicate checks, section merge directives; normal PE branch includes cold444940..444a39"
+    },
+    {
+      "start": 4470426,
+      "end": 4471282,
+      "role": "Debug subsections, Mac resource contributions, section count and incremental grouping"
+    },
+    {
+      "start": 4471282,
+      "end": 4472276,
+      "role": "DOS/PE header sizing, timestamp, image base/alignment, root marking and instruction-range thunk decisions"
+    },
+    {
+      "start": 4472276,
+      "end": 4473877,
+      "role": "Final section layout, GP/Mac addresses, DOS/stub and section header emission, padding and resource copies"
+    },
+    {
+      "start": 4473877,
+      "end": 4474166,
+      "role": "COMDAT finalization, debug/incremental bookkeeping and inline Pass1 timing"
+    },
+    {
+      "start": 4474166,
+      "end": 4474657,
+      "role": "Pass2, local imports/relocations/auxiliary tables, debug output and final headers"
+    },
+    {
+      "start": 4474657,
+      "end": 4475197,
+      "role": "Final output state, pack-request out-byte, header callback, checksum, close, PDB completion and inline timing"
+    }
+  ]
+}
