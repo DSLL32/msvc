@@ -1,6 +1,115 @@
 {
-  "status": "untouched original validated twice; reconstruction queued",
-  "normalization": "None; all streams and complete artifact sets raw exact.",
-  "input_transport": "Actual original CL child argv/environment and full before/after inventories retained in evidence.",
-  "Yd": "Omitted: this is standalone embedded /Z7, without a PCH dependency."
+  "status": "both complete",
+  "accepted_count": 852,
+  "new_functions": 0,
+  "accepted_ranges": {
+    "inlining-ob1": {
+      "accepted_from": 852,
+      "accepted_count": 852
+    },
+    "inlining-ob2": {
+      "accepted_from": 852,
+      "accepted_count": 852
+    }
+  },
+  "coverage": {
+    "accepted_union_bytes": 219435,
+    "original_code_bytes": 277234,
+    "accepted_by_origin_bytes": {
+      "frontend_source": 200186,
+      "CRT": 19075,
+      "import_thunks": 174
+    },
+    "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
+    "percent": 79.15154706854138,
+    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+  },
+  "original_entry_capture_commands": [
+    {
+      "name": "ob1-complete-852",
+      "command": [
+        "python3",
+        "scripts/capture-frontier.py",
+        "--case",
+        "cases/inlining",
+        "--phase",
+        "c1-ob1",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/ob1-complete-852",
+        "--debugger",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe",
+        "--entry-from",
+        "852",
+        "--entry-to",
+        "852"
+      ],
+      "seconds": 1.61403077095747,
+      "exit": 0
+    },
+    {
+      "name": "ob2-complete-852",
+      "command": [
+        "python3",
+        "scripts/capture-frontier.py",
+        "--case",
+        "cases/inlining",
+        "--phase",
+        "c1-ob2",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/captures/ob2-complete-852",
+        "--debugger",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe",
+        "--entry-from",
+        "852",
+        "--entry-to",
+        "852"
+      ],
+      "seconds": 1.612210432998836,
+      "exit": 0
+    }
+  ],
+  "fresh_matches": [
+    "evidence/inline-start-852.native.receipt.json",
+    "evidence/inline-ob2-start-852.native.receipt.json"
+  ],
+  "final_suite": "../embedded-codeview/evidence/final-twentyone.native.receipt.json",
+  "final_checks": [
+    {
+      "name": "selected-final-projection",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 0.21692335233092308,
+      "exit": 0
+    },
+    {
+      "name": "selected-final-twentyone",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/validation/selected-final-twentyone"
+      ],
+      "seconds": 0.5578886587172747,
+      "exit": 0
+    },
+    {
+      "name": "selected-final-negatives",
+      "command": [
+        "python3",
+        "scripts/check-native-rejections.py"
+      ],
+      "seconds": 0.3305513747036457,
+      "exit": 0
+    }
+  ],
+  "notes": [
+    "Both /O2 /Ob1 and /O2 /Ob2 are supported original CL transports. Two untouched standalone runs per phase and fresh masked-original/native completion prove complete raw outputs/status/streams.",
+    "No new functions are reached. The ordinary inline-candidate selection and IR serialization paths were already reconstructed; irgl differs between Ob1 and Ob2 as captured.",
+    "The remaining provisional inline-query helpers are gated by normalized_Ol && options.option_qc. Their earlier estimated3KiB band is not reached by these ordinary /Ob1-/Ob2 cases. No additional Quick Compiler case is assigned.",
+    "Original first-entry captures seed all852 accepted entries and assert no unexpected application entry, then exit0. Normal native regressions do not invoke Wine."
+  ]
 }

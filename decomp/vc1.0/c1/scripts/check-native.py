@@ -21,7 +21,9 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'do-while':('do-while','c1'), 'seh':('seh','c1'), 'inline-asm':('inline-asm','c1'), 'browser':('browser','c1'),
          'preprocessor-E':('preprocessor','c1-E'), 'preprocessor-EP':('preprocessor','c1-EP'),
          'preprocessor-P':('preprocessor','c1-P'), 'comments':('comments','c1'), 'prototypes':('prototypes','c1'), 'automatic-pch-create':('automatic-pch','c1-create'),
-         'automatic-pch-reuse':('automatic-pch','c1-reuse'), 'automatic-pch-changed':('automatic-pch','c1-changed')}
+         'automatic-pch-reuse':('automatic-pch','c1-reuse'), 'automatic-pch-changed':('automatic-pch','c1-changed'),
+         'embedded-codeview':('embedded-codeview','c1'),
+         'inlining-ob1':('inlining','c1-ob1'), 'inlining-ob2':('inlining','c1-ob2')}
 
 
 CASE_DEPENDENCIES = {

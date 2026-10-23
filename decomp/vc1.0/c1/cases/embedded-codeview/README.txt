@@ -10,7 +10,13 @@ selected because this standalone case does not use a precompiled header.
 
 The source covers recursive/nested records, a union, signed/wide enum values,
 arrays, bitfields, a packed record, qualified pointers and function pointers.
-validation.json records the current accepted range, matched frontier, audit
-results and measured build/reference/native time. The completed normal suite
-has18 cases; this case joins that suite only after reaching exact completion.
+The case is complete at852 accepted entries:19 new whole source functions.
+All five raw outputs match, including643-byte embedded type data. The full
+normal suite now has21 cases. validation.json records the accepted order,
+fresh masked-original/native evidence, graph/state/grammar audits and measured
+build/reference/native time, including failed shared-startup attempts.
 Original capture is explicit and separate. Native fixtures never invoke Wine.
+
+The signed/wide enum constants occur in source, but no enum-typed object forces
+an enum debug record. Enum-member serialization remains a named trapping path;
+this source case does not claim that unvisited branch is verified.

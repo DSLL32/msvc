@@ -72,6 +72,18 @@
     "automatic-pch-changed": {
       "receipt": "cases/automatic-pch/evidence/changed-complete-833.receipt.json",
       "sha256": "30ef8a03f1895fd1f0637d79fb76ebb14bee9b09e10a3c57cc304cfabdef52d9"
+    },
+    "embedded-codeview": {
+      "receipt": "cases/embedded-codeview/evidence/codeview-complete-852.receipt.json",
+      "sha256": "217e00a392d398b4decb67abb2bf5eeb6c4c21197de5e307044a7fe8039f7781"
+    },
+    "inlining-ob1": {
+      "receipt": "cases/inlining/evidence/ob1-complete-852.receipt.json",
+      "sha256": "f14784b235b14965235f02793818e0f3f9f0fe02e32e6cdeb03c45f130d49e82"
+    },
+    "inlining-ob2": {
+      "receipt": "cases/inlining/evidence/ob2-complete-852.receipt.json",
+      "sha256": "ca94292537f0e3d529218db9c2b6835332d3578e911c7dbe18074ece7ec2ab14"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

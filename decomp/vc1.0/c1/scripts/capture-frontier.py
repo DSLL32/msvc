@@ -106,7 +106,7 @@ def main():
     flags = phase['environment']['MSC_CMD_FLAGS'].format(
         bin=wt.windows(wt.TC/'bin'), include=wt.windows(wt.TC/'include'))
     buffers = ','.join('%x'%(r['original']-original.base) for r in config['buffered_streams'])
-    command = ['wine', str(options.debugger.resolve()), wt.windows(target), '',
+    command = ['wine', wt.windows(options.debugger.resolve()), wt.windows(target), '',
                wt.windows(directory/'stdout'), wt.windows(directory/'stderr'),
                wt.windows(directory/'events'), canonical or wt.windows(work), 'MSC_CMD_FLAGS='+flags, buffers]
     if phase.get('stdio', {}).get('stderr_to_stdout'):
@@ -117,15 +117,14 @@ def main():
         command.append(wt.windows(plan))
     preparation = time.perf_counter()-start
     run_start = time.perf_counter()
-    result = subprocess.run(command, env=wt.environment(), stdout=subprocess.PIPE,
-                            stderr=subprocess.PIPE, stdin=subprocess.DEVNULL, timeout=60)
-    (directory/'host-stdout').write_bytes(result.stdout)
-    (directory/'host-stderr').write_bytes(result.stderr)
+    with (directory/'host-stdout').open('wb') as host_out, (directory/'host-stderr').open('wb') as host_err:
+        result = subprocess.run(command, env=wt.environment(), stdout=host_out,
+                                stderr=host_err, stdin=subprocess.DEVNULL, timeout=60)
     (directory/'capture-status.json').write_text(json.dumps(dict(
         host_exit=result.returncode,preparation_seconds=preparation,
         execution_seconds=time.perf_counter()-run_start,total_seconds=time.perf_counter()-start,
         wine_prefix=str(wt.PREFIX),target_sha256=sha(target)),indent=2)+'\n')
-    assert result.returncode == 0, result.stderr.decode('latin1')
+    assert result.returncode == 0, (directory/'host-stderr').read_text(encoding='latin1')
     if entry_mode:
         events = (directory/'events').read_text()
         entries = [line.split()[1] for line in events.splitlines() if line.startswith('entry ')]

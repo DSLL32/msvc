@@ -845,7 +845,18 @@
     "_queue_debug_record@4",
     "_write_legacy_qualified_type@4",
     "_emit_function_debug_type@4",
-    "_prepare_legacy_argument_types@4"
+    "_prepare_legacy_argument_types@4",
+    "_write_legacy_type_record@4",
+    "_write_legacy_pointer_type@8",
+    "_write_legacy_record_type@12",
+    "_write_legacy_unsigned_number@8",
+    "_write_legacy_array_type@8",
+    "_write_legacy_argument_list@4",
+    "_write_legacy_function_type@12",
+    "_write_legacy_field_list@12",
+    "_reset_debug_type_records",
+    "_emit_member_padding@4",
+    "_write_legacy_bitfield_type@4"
   ],
   "driver": [
     {
@@ -3952,7 +3963,7 @@
     {
       "name": "_emit_member_padding@4",
       "start": 193808,
-      "end": 193809
+      "end": 193850
     },
     {
       "name": "_make_initializer_lvalue@4",
@@ -4337,17 +4348,17 @@
     {
       "name": "_write_legacy_pointer_type@8",
       "start": 294176,
-      "end": 294177
+      "end": 294630
     },
     {
       "name": "_write_legacy_array_type@8",
       "start": 294640,
-      "end": 294641
+      "end": 294708
     },
     {
       "name": "_write_legacy_function_type@12",
       "start": 296736,
-      "end": 296737
+      "end": 296823
     },
     {
       "name": "_write_legacy_qualified_type@4",
@@ -4355,34 +4366,34 @@
       "end": 297173
     },
     {
-      "name": "_write_legacy_enum_type@4",
+      "name": "_write_legacy_bitfield_type@4",
       "start": 296176,
-      "end": 296177
+      "end": 296234
     },
     {
       "name": "_write_legacy_record_type@12",
       "start": 294720,
-      "end": 294721
+      "end": 295540
     },
     {
       "name": "_write_legacy_field_list@12",
       "start": 295680,
-      "end": 295681
+      "end": 296168
     },
     {
       "name": "_write_legacy_argument_list@4",
       "start": 296832,
-      "end": 296833
+      "end": 296960
     },
     {
-      "name": "_write_legacy_argument_slice@12",
+      "name": "_write_legacy_enum_members@12",
       "start": 296240,
       "end": 296241
     },
     {
       "name": "_reset_debug_type_records",
       "start": 293504,
-      "end": 293505
+      "end": 293594
     },
     {
       "name": "_pdb_primitive_pointer_index",
@@ -5393,12 +5404,52 @@
     {
       "name": "_write_legacy_type_record@4",
       "start": 297184,
-      "end": 297185
+      "end": 297458
     },
     {
       "name": "_prepare_legacy_argument_types@4",
       "start": 292944,
       "end": 293044
+    },
+    {
+      "name": "_serialize_legacy_symbol@8",
+      "start": 298080,
+      "end": 298081
+    },
+    {
+      "name": "_add_legacy_type_fixup@12",
+      "start": 298256,
+      "end": 298257
+    },
+    {
+      "name": "_write_legacy_unsigned_number@8",
+      "start": 298000,
+      "end": 298080
+    },
+    {
+      "name": "_initialize_hash_walk@8",
+      "start": 207632,
+      "end": 207633
+    },
+    {
+      "name": "_next_hash_entry@4",
+      "start": 207664,
+      "end": 207665
+    },
+    {
+      "name": "_compare_legacy_enumerators",
+      "start": 298944,
+      "end": 298945
+    },
+    {
+      "name": "_write_legacy_signed_number@8",
+      "start": 297904,
+      "end": 297905
+    },
+    {
+      "name": "_begin_legacy_field_continuation",
+      "start": 295552,
+      "end": 295553
     }
   ],
   "cases": {
@@ -5487,6 +5538,18 @@
     "automatic-pch-changed": {
       "accepted_from": 832,
       "accepted_count": 833
+    },
+    "embedded-codeview": {
+      "accepted_from": 833,
+      "accepted_count": 852
+    },
+    "inlining-ob1": {
+      "accepted_from": 852,
+      "accepted_count": 852
+    },
+    "inlining-ob2": {
+      "accepted_from": 852,
+      "accepted_count": 852
     }
   },
   "buffered_streams": [

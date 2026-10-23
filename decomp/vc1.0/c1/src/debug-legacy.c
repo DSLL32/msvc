@@ -3,6 +3,8 @@
 #include "debug-info.h"
 #include "parser.h"
 #include "codeview-types.h"
+#include "literal-names.h"
+#include "hash-table.h"
 #include <recon.h>
 
 /* Original0x47790..0x477fc. Tags use the shared symbol queue; the
@@ -147,4 +149,341 @@ unsigned char __stdcall prepare_legacy_argument_types(ParameterInfo *parameters)
         debug_type_records[record].value.pointer = parameters;
     }
     return count;
+}
+
+LegacyTypeFixup *legacy_type_fixups; /* original0x6e070 */
+
+/* Original0x488e0..0x489f1. Pad and length-prefix the type, retaining
+   symbolic relocation records between any raw byte spans. */
+void __stdcall write_legacy_type_record(int bytes)
+{
+    unsigned char *base = (unsigned char *)debug_record_buffer;
+    unsigned char *cursor, *tail;
+    unsigned padding, remaining;
+    unsigned char pad;
+    int length, gap;
+    if (bytes > 4096) fatal_error(1,pch_diagnostic_name,2626);
+    padding = -(bytes + 2) & 3;
+    tail = base + bytes + 2;
+    pad = (unsigned char)(padding - 16);
+    for (remaining = padding; remaining; --remaining) *tail++ = pad--;
+    length = bytes + padding;
+    *(unsigned short *)debug_record_buffer = (unsigned short)length;
+    if (pch_separate_debug)
+        pragma_record_number = checksum_bytes((unsigned char *)debug_record_buffer,
+            3,pragma_record_number);
+    cursor = base;
+    if (!legacy_type_fixups) write_debug_record(11,debug_record_buffer);
+    else {
+        do {
+            gap = legacy_type_fixups->offset - (cursor - (unsigned char *)debug_record_buffer);
+            if (gap) write_debug_record(3,gap,cursor);
+            write_debug_record(2,legacy_type_fixups->symbol,legacy_type_fixups->bytes);
+            cursor += gap + legacy_type_fixups->bytes;
+            legacy_type_fixups = legacy_type_fixups->next;
+        } while (legacy_type_fixups);
+        gap = (unsigned char *)debug_record_buffer + length + 2 - cursor;
+        if (gap) write_debug_record(3,gap,cursor);
+    }
+    debug_type_bytes += length + 2;
+}
+
+/* Pointer encodings indexed by the frontend's four ordinary models. */
+unsigned char legacy_pointer_models[4] = { 0, 10, 11, 2 }; /* original0x6e078 */
+
+/* Original0x47d20..0x47ee5. Ordinary models fit the pointer attributes;
+   based models append an embedded symbol or a symbolic IR relocation. */
+void __stdcall write_legacy_pointer_type(CType *type, unsigned short nested)
+{
+    unsigned short *record = (unsigned short *)debug_record_buffer + 1;
+    TypeShape *shape = type->related;
+    unsigned short attributes = shape->attributes;
+    unsigned model, kind, bytes = 0;
+    FrontendSymbol *based;
+    record[0] = 2;
+    record[1] = 0;
+    record[1] &= ~31;
+    record[2] = nested;
+    if (attributes & 0x1000) record[1] |= 0x400;
+    if (attributes & 0x2000) record[1] |= 0x200;
+    if (!(attributes & 12)) {
+        model = attributes & 15;
+        record[1] = (record[1] & ~31) | (legacy_pointer_models[model] & 31);
+        kind = shape->flags & 7;
+        if (!model && kind) {
+            if (kind < 3)
+                record[1] = (record[1] & ~31) | ((options.option_M & 2) ? 11 : 10);
+            else if (kind <= 4)
+                record[1] = (record[1] & ~31) | ((options.option_M & 1) ? 11 : 10);
+        }
+    } else if (attributes & 4) {
+        based = (FrontendSymbol *)shape->field08;
+        switch (attributes & 7) {
+        case 4:
+            record[1] = (record[1] & ~31) | 8;
+            record[3] = 3;
+            *((unsigned char *)(record + 3) + 2) = 0;
+            bytes = 3;
+            break;
+        case 5:
+            if ((based->kind & 31) == 13) {
+                if (based->index == 6) {
+                    record[1] = (record[1] & ~31) | 5;
+                    record[3] = 7;
+                    record[4] = 2;
+                    record[5] = 0;
+                    record[6] = 27;
+                    *((unsigned char *)(record + 3) + 8) = 0;
+                    bytes = 9;
+                } else {
+                    record[1] = (record[1] & ~31) | 3;
+                    bytes = 4;
+                    add_legacy_type_fixup(based,(unsigned char *)(record + 3),4);
+                }
+            } else {
+                record[1] = (record[1] & ~31) | 4;
+                bytes = serialize_legacy_symbol((unsigned char *)(record + 3),based);
+            }
+            break;
+        case 6:
+            record[1] = (record[1] & ~31) | 7;
+            bytes = serialize_legacy_symbol((unsigned char *)(record + 3),based);
+            break;
+        case 7:
+            record[1] = (record[1] & ~31) | 5;
+            bytes = serialize_legacy_symbol((unsigned char *)(record + 3),based);
+            break;
+        }
+    } else if (attributes & 8) record[1] = (record[1] & ~31) | 9;
+    write_legacy_type_record(bytes + 6);
+}
+
+/* Original0x47f40..0x48273. The member count is known before the
+   field list is emitted, so its index is reserved in a later queue record. */
+void __stdcall write_legacy_record_type(FrontendSymbol *tag,
+    unsigned short fields, unsigned short auxiliary)
+{
+    unsigned short *record = (unsigned short *)debug_record_buffer + 1;
+    unsigned short flags = tag->type->flags;
+    unsigned queued, bytes, count;
+    int length;
+    char *name_start, *name_end;
+    HashWalk walk;
+    EnumeratorSymbol **enumerators;
+    record[1] = fields;
+    if (flags == 0x402) {
+        record[0] = 5;
+        record[5] = 0;
+        record[3] = auxiliary;
+        if (!(tag->flags & 1)) {
+            record[2] = 0;
+            record[3] |= 0x80;
+        } else {
+            record[3] = (record[3] & ~1) | (top_packing(packing_stack)->alignment == 1);
+            record[2] = next_debug_type_index;
+            queued = queue_debug_record(2);
+            debug_type_records[queued].value.symbol = tag;
+            debug_type_records[queued].index = 0;
+        }
+        record[4] = 0;
+        record[3] = (record[3] & ~8) | ((tag->metadata.tag.flags & 2) ? 8 : 0);
+        bytes = write_legacy_unsigned_number((unsigned char *)(record + 6),tag->detail.value);
+        name_start = (char *)(record + 6) + bytes;
+        name_end = append_codeview_name(name_start,tag->name);
+        length = 12 + bytes + (name_end - name_start);
+    } else if (flags == 0x404) {
+        record[0] = 6;
+        record[3] = auxiliary;
+        if (!(tag->flags & 1)) {
+            record[2] = 0;
+            record[3] |= 0x80;
+        } else {
+            record[2] = next_debug_type_index;
+            queued = queue_debug_record(2);
+            debug_type_records[queued].value.symbol = tag;
+            debug_type_records[queued].index = 0;
+        }
+        record[3] = (record[3] & ~1) | (top_packing(packing_stack)->alignment == 1);
+        record[3] = (record[3] & ~8) | ((tag->metadata.tag.flags & 2) ? 8 : 0);
+        bytes = write_legacy_unsigned_number((unsigned char *)(record + 4),tag->detail.value);
+        name_start = (char *)(record + 4) + bytes;
+        name_end = append_codeview_name(name_start,tag->name);
+        length = 8 + bytes + (name_end - name_start);
+    } else if (flags & 0x200) {
+        record[0] = 7;
+        record[4] = auxiliary;
+        if (!(tag->flags & 1)) {
+            record[3] = 0;
+            record[4] |= 0x80;
+            record[2] = 0;
+        } else {
+            record[3] = next_debug_type_index;
+            record[2] = legacy_primitive_type_index((flags & ~0x200) | 0x64);
+            queued = queue_debug_record(7);
+            debug_type_records[queued].index = fields;
+            enumerators = malloc((unsigned)fields * sizeof(EnumeratorSymbol *));
+            debug_type_records[queued].value.pointer = enumerators;
+            if (!enumerators) fatal_error(60);
+            debug_type_records[queued].auxiliary = 0;
+            initialize_hash_walk(&walk,tag->associated.enumerators);
+            count = 0;
+            while (next_hash_entry(&walk)) enumerators[count++] = walk.value;
+            qsort(enumerators,fields,sizeof(EnumeratorSymbol *),compare_legacy_enumerators);
+        }
+        record[4] = (record[4] & ~8) | ((tag->metadata.tag.flags & 2) ? 8 : 0);
+        name_start = (char *)(record + 5);
+        name_end = append_codeview_name(name_start,tag->name);
+        length = 10 + (name_end - name_start);
+    }
+    write_legacy_type_record(length);
+}
+
+/* Original0x48c10..0x48c5f. Values below LF_NUMERIC are immediate;
+   larger values carry an unsigned16- or unsigned32-bit numeric leaf. */
+unsigned __stdcall write_legacy_unsigned_number(unsigned char *destination,
+    unsigned number)
+{
+    if (number < 0x8000) {
+        *(unsigned short *)destination = (unsigned short)number;
+        return 2;
+    }
+    if (number < 0x10000) {
+        *(unsigned short *)destination = 0x8002;
+        *(unsigned short *)(destination + 2) = (unsigned short)number;
+        return 4;
+    }
+    *(unsigned short *)destination = 0x8004;
+    *(unsigned *)(destination + 2) = number;
+    return 6;
+}
+
+/* Original0x47ef0..0x47f33. Arrays carry their element index, an
+   integer index type, byte size, and the empty counted name. */
+void __stdcall write_legacy_array_type(CType *type, unsigned short nested)
+{
+    unsigned short *record = (unsigned short *)debug_record_buffer + 1;
+    unsigned bytes;
+    record[0] = 3;
+    record[1] = nested;
+    record[2] = CV_SHORT;
+    bytes = write_legacy_unsigned_number((unsigned char *)(record + 3),type_size(type));
+    *((unsigned char *)(record + 3) + bytes) = 0;
+    write_legacy_type_record(bytes + 7);
+}
+
+/* Original0x48780..0x487ff. A void sentinel has zero arguments;
+   null entries otherwise retain the zero index used for ellipsis. */
+void __stdcall write_legacy_argument_list(ParameterInfo *parameters)
+{
+    unsigned short *record = (unsigned short *)debug_record_buffer + 1;
+    unsigned count = 0, index;
+    record[0] = 0x201;
+    if (parameters->types[0] != type_0080) count = (unsigned char)parameters->count;
+    record[1] = (unsigned short)count;
+    if (!count) {
+        write_legacy_type_record(4);
+        return;
+    }
+    for (index = 0; index < count; ++index)
+        record[index + 2] = parameters->types[index] ?
+            (unsigned short)parameters->types[index]->field0c : 0;
+    write_legacy_type_record(count * 2 + 4);
+}
+
+/* Original0x48720..0x48776. Function records distinguish the byte
+   convention from the argument count and queued parameter-list index. */
+void __stdcall write_legacy_function_type(CType *type, unsigned short result,
+    unsigned short count)
+{
+    unsigned short *record = (unsigned short *)debug_record_buffer + 1;
+    ParameterInfo *parameters = (ParameterInfo *)type->related->field08;
+    record[0] = 8;
+    record[1] = result;
+    *((unsigned char *)(record + 2)) = (unsigned char)codeview_calling_convention(type->related->attributes);
+    *((unsigned char *)(record + 2) + 1) = 0;
+    record[3] = count;
+    record[4] = (unsigned short)parameters->auxiliary;
+    write_legacy_type_record(10);
+}
+
+unsigned legacy_field_bytes; /* original0x5b250 */
+
+/* Original0x48300..0x484e7. Fields are aligned relative to the first
+   member entry. A full264-byte list links to a newly queued continuation. */
+void __stdcall write_legacy_field_list(FrontendSymbol *tag, unsigned count, int mode)
+{
+    unsigned short *record = (unsigned short *)debug_record_buffer + 1;
+    unsigned short *entry;
+    FrontendSymbol *member;
+    unsigned seen = 0, kind, length, padding, remaining, bytes, queued;
+    int include, offset;
+    unsigned char *tail, pad;
+    char *name_start, *name_end;
+    legacy_field_bytes = 0;
+    record[0] = 0x204;
+    for (member = tag->associated.members; member; member = member->next) {
+        kind = member->kind & 31;
+        include = kind == 4 && member->name == name_unnamed &&
+            (member->type->flags & 0x200);
+        if (!include)
+            include = member->name && member->name != name_unnamed &&
+                member->name != name_alignment &&
+                (!kind || kind > 13 || kind == 5 || member->type);
+        if (!include) continue;
+        if (count <= seen) {
+            for (length = 0; member->name[length]; ++length) ;
+            ++length;
+            padding = -legacy_field_bytes & 3;
+            tail = (unsigned char *)debug_record_buffer + 4 + legacy_field_bytes;
+            pad = (unsigned char)(padding - 16);
+            for (remaining = padding; remaining; --remaining) *tail++ = pad--;
+            legacy_field_bytes += padding;
+            if (legacy_field_bytes + length + 16 > 264) {
+                begin_legacy_field_continuation(2,tag,seen,(unsigned)mode & 0xffff);
+                return;
+            }
+            entry = (unsigned short *)((unsigned char *)debug_record_buffer + 4 + legacy_field_bytes);
+            entry[0] = 0x406;
+            entry[2] = legacy_tag_auxiliary;
+            entry[2] |= 3;
+            if (kind == 2) {
+                entry[1] = next_debug_type_index;
+                queued = queue_debug_record(1);
+                debug_type_records[queued].value.symbol = member;
+            } else entry[1] = (unsigned short)member->type->field0c;
+            offset = (int)member->detail.value;
+            if (offset < 0) bytes = write_legacy_signed_number((unsigned char *)(entry + 3),offset);
+            else bytes = write_legacy_unsigned_number((unsigned char *)(entry + 3),(unsigned)offset);
+            name_start = (char *)(entry + 3) + bytes;
+            name_end = append_codeview_name(name_start,member->name);
+            legacy_field_bytes += bytes + 6 + (name_end - name_start);
+        }
+        ++seen;
+    }
+    write_legacy_type_record(legacy_field_bytes + 2);
+}
+
+/* Original0x47a80..0x47ad9. Its compare/set sequence selects128
+   as the shrink limit, retaining smaller allocations and clearing count. */
+void reset_debug_type_records(void)
+{
+    if (debug_type_record_capacity > 128) {
+        debug_type_record_capacity = 128;
+        debug_type_records = realloc(debug_type_records,128 * sizeof(DebugTypeRecord));
+        if (!debug_type_records) fatal_error(60);
+    }
+    debug_type_record_count = 0;
+}
+
+/* Original 0x484f0..0x48529. Bitfield width and starting bit follow
+   the LF_BITFIELD leaf, followed by the underlying primitive index. */
+void __stdcall write_legacy_bitfield_type(FrontendSymbol *member)
+{
+    unsigned short *record = (unsigned short *)debug_record_buffer + 1;
+    unsigned char *bits = (unsigned char *)(record + 1);
+    record[0] = 0x206;
+    bits[0] = member->metadata.bitfield.width;
+    bits[1] = member->metadata.bitfield.offset;
+    record[2] = legacy_primitive_type_index(member->type->flags);
+    write_legacy_type_record(6);
 }

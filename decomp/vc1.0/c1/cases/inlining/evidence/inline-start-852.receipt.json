@@ -1,0 +1,56 @@
+{
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/inlining",
+  "phase": "c1-ob1",
+  "unmasked": false,
+  "accepted_count": 852,
+  "accepted_sha256": "48eb0bab159b639e51e44ee5af6875876b76e27105947c1f2bb5dafac9cd1279",
+  "executable_sha256": "39794ca48b0b098d3c8aad174a3b64c6ac438d845e0b422e8916811403948fda",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "45cc03d417189b51d114ea35490a7e2005182f34f75d38b49add92010efc7b29",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f inline.c -Ze -Zp8 -Foinline.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Gs -Gf -Og -Oi -Ot -Oy -Ob1 -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\captures\\inline-start-852\\work",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); original child _spawnvpe transport and stream slices captured."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/captures/inline-start-852/work",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.051643725484609604,
+  "execution_seconds": 1.3422155482694507,
+  "total_seconds": 1.393861343152821,
+  "files": [
+    {
+      "name": "inline.c",
+      "bytes": 498,
+      "sha256": "984872fb17245353e5fdcfeddcba3b4fee384e658199574ebc6c21def25aa907"
+    },
+    {
+      "name": "irex",
+      "bytes": 1369,
+      "sha256": "1ba8627d9d725cc691c3acb63c0acdc311996458acc0e608f60d286dde6b2a2e"
+    },
+    {
+      "name": "irgl",
+      "bytes": 162,
+      "sha256": "6393f872cee0b4515a2ffe0c5333e7f8ee3543676e4a0a41e37f011422827421"
+    },
+    {
+      "name": "irin",
+      "bytes": 15,
+      "sha256": "17998068ba1f79dc225ef1cc6e3268d15874083a8d0d6e916a0b55df851fe0f2"
+    },
+    {
+      "name": "irsy",
+      "bytes": 223,
+      "sha256": "fd486854ec29a29bcad36d3341a6df210041f1d79ad3fb72e5274c77580d8979"
+    }
+  ]
+}

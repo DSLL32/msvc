@@ -714,7 +714,6 @@ void __stdcall emit_runtime_initializer(IrToken *value) { __asm { int 3 } }
 
 
 
-void __stdcall emit_member_padding(FrontendSymbol *member) { __asm { int 3 } }
 
 void __stdcall emit_inline_memory_initializer(unsigned operation, IrToken *target, IrToken *value, IrToken *bytes) { __asm { int 3 } }
 
@@ -818,16 +817,14 @@ int __stdcall is_pointer_based_shape(TypeShape *shape) { __asm { int 3 } }
 
 unsigned short pdb_enum_type_index(FrontendSymbol *tag) { __asm { int 3 } }
 
-void __stdcall write_legacy_pointer_type(CType *type, unsigned short nested) { __asm { int 3 } }
-void __stdcall write_legacy_array_type(CType *type, unsigned short nested) { __asm { int 3 } }
-void __stdcall write_legacy_function_type(CType *type, unsigned short result, unsigned short arguments) { __asm { int 3 } }
-void __stdcall write_legacy_type_record(int bytes) { __asm { int 3 } }
-void __stdcall write_legacy_enum_type(FrontendSymbol *tag) { __asm { int 3 } }
-void __stdcall write_legacy_record_type(FrontendSymbol *tag, unsigned short fields, unsigned short auxiliary) { __asm { int 3 } }
-void __stdcall write_legacy_field_list(FrontendSymbol *tag, unsigned count, int mode) { __asm { int 3 } }
-void __stdcall write_legacy_argument_list(ParameterInfo *parameters) { __asm { int 3 } }
-void __stdcall write_legacy_argument_slice(CType **parameters, unsigned first, unsigned limit) { __asm { int 3 } }
-void reset_debug_type_records(void) { __asm { int 3 } }
+unsigned __stdcall serialize_legacy_symbol(unsigned char *destination, FrontendSymbol *symbol) { __asm { int 3 } return 0; }
+void __stdcall add_legacy_type_fixup(FrontendSymbol *symbol, unsigned char *position, unsigned bytes) { __asm { int 3 } }
+void __stdcall initialize_hash_walk(HashWalk *walk, HashTable *table) { __asm { int 3 } }
+int __stdcall next_hash_entry(HashWalk *walk) { __asm { int 3 } return 0; }
+int __cdecl compare_legacy_enumerators(const void *left, const void *right) { __asm { int 3 } return 0; }
+unsigned __stdcall write_legacy_signed_number(unsigned char *destination, int number) { __asm { int 3 } return 0; }
+void begin_legacy_field_continuation(unsigned char kind, void *payload, unsigned first, unsigned limit) { __asm { int 3 } }
+void __stdcall write_legacy_enum_members(EnumeratorSymbol **enumerators, unsigned first, unsigned limit) { __asm { int 3 } }
 
 
 

@@ -1,0 +1,20 @@
+entry _find_expression_type_base@4 rva 0002d500 byte 8b
+entry _primitive_debug_index@4 rva 00037790 byte 8b
+entry _legacy_primitive_type_index@4 rva 000376f0 byte 66
+entry _primitive_pointer_debug_index@4 rva 00037630 byte 56
+entry _queue_debug_record@4 rva 000379e0 byte 56
+entry _write_legacy_qualified_type@4 rva 00038800 byte 53
+entry _emit_function_debug_type@4 rva 00037800 byte 53
+entry _prepare_legacy_argument_types@4 rva 00037850 byte 53
+entry _write_legacy_type_record@4 rva 000388e0 byte 53
+entry _write_legacy_pointer_type@8 rva 00037d20 byte 56
+entry _write_legacy_record_type@12 rva 00037f40 byte 83
+entry _write_legacy_unsigned_number@8 rva 00038c10 byte 8b
+entry _write_legacy_array_type@8 rva 00037ef0 byte 56
+entry _write_legacy_argument_list@4 rva 00038780 byte 56
+entry _write_legacy_function_type@12 rva 00038720 byte 56
+entry _write_legacy_field_list@12 rva 00038300 byte 83
+entry _reset_debug_type_records rva 00037a80 byte a1
+entry _emit_member_padding@4 rva 0001f510 byte 8b
+entry _write_legacy_bitfield_type@4 rva 000384f0 byte 56
+exit 0

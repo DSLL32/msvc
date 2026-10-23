@@ -11,18 +11,19 @@
     {
       "case": "embedded-codeview",
       "phase": "c1",
-      "status": "active; independent untouched original output bytes verified twice"
+      "status": "complete; raw artifacts/status/streams/first-entry trace match at852"
     },
     {
       "case": "inlining",
       "phase": "c1-ob1",
-      "status": "queued after embedded CodeView; independent original verified twice"
+      "status": "complete; fresh original/native and cached raw artifacts/trace match; no new function"
     },
     {
       "case": "inlining",
       "phase": "c1-ob2",
-      "status": "queued after Ob1; independent original verified twice"
+      "status": "complete; fresh original/native and cached raw artifacts/trace match; no new function"
     }
   ],
-  "Yd": "Not selected: the standalone /Z7 types case has no PCH dependency, so /Yd would add a distinct PCH-debug case rather than validate this embedded-type writer."
+  "Yd": "Not selected: the standalone /Z7 types case has no PCH dependency, so /Yd would add a distinct PCH-debug case rather than validate this embedded-type writer.",
+  "status": "complete; paused for user selection"
 }

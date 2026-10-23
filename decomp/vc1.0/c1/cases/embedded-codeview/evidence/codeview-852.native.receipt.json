@@ -1,0 +1,21 @@
+{
+  "buffers": {},
+  "frames": [],
+  "frontier": null,
+  "fresh_original_match": true,
+  "preparation_seconds": 0.003454684279859066,
+  "execution_seconds": 0.13667714968323708,
+  "total_seconds": 0.1420541638508439,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f types.c -Ze -Zp8 -Gs -Fotypes.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); original child _spawnvpe transport and stream slices captured."
+  },
+  "executable_sha256": "c4e40a2effa0dbb0fb455a1cc38beb1c1bbc8ef43265d0818efe8c66b4dc75fc"
+}

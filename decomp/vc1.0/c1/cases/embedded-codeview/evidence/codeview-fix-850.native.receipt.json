@@ -1,0 +1,47 @@
+{
+  "buffers": {
+    "expression_file": "004f1f80000080244f020a004f01125353267900462d78002d77004c4f11532677003086433386411827864333a6410028000030a641267800308641044186413a7a0054024f0112297a004f124754015400",
+    "symbol_file": "03017a001f0001010d010101780000616d6f756e74008601000304048000017401017700006e6f6465008613000304048000018001100d0206",
+    "line_file": "097900007c00000305726f6f740007",
+    "global_file": "1186032e1d30016900000000120a0074797065732e630002007c0025008206000204058080050001",
+    "debug_file": "0c000a000304010000000b060100010002100b0602000a0000100b160500060009100000000000002800044e6f6465f3f2f10b0602000a0002100b12060003000a1000000800064e756d626572f10b0a0300740011000c0000f10b0a0102020001107400f2f10b0a080074000000020006100b0602000a0007100b6a04020604031003000000046e657874f3f2f10604700403000400046e616d65f3f2f10604740003000800057368616465f2f106040410030010000576616c7565f2f106040510030018000b636f6f7264696e617465730604081003002400097472616e73666f726df2f10b320402060474000300000007696e746567657206042200030000000462697473f3f2f10604410003000000047265616cf3f2f1",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "emit_member_padding",
+    "next_initializer_member",
+    "advance_initializer",
+    "emit_initializer",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "frontier": "emit_member_padding",
+  "pc": 1449443687,
+  "label_stack_count": 0,
+  "scanner_flags": 1048576,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_emit_member_padding@4",
+  "fresh_original_match": true,
+  "preparation_seconds": 0.003685561940073967,
+  "execution_seconds": 0.14650522079318762,
+  "total_seconds": 0.15232699736952782,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f types.c -Ze -Zp8 -Gs -Fotypes.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); original child _spawnvpe transport and stream slices captured."
+  },
+  "executable_sha256": "ff06da65997ce77ceb2c0eed73ce6ffcf0668068c8a831e1717a529b4cf2055c"
+}

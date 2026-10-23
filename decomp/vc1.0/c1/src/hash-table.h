@@ -28,4 +28,13 @@ int hash_symbol_indices_equal(void *left, void *right);
 extern unsigned (__cdecl *hash_functions[])(void *);
 extern int (__cdecl *hash_equal_functions[])(void *, void *);
 unsigned __stdcall hash_table_count(HashTable *table);
+typedef struct HashWalk {
+    HashTable *table;
+    HashEntry *entry;
+    unsigned bucket;
+    void *key, *value;
+} HashWalk;
+typedef char HashWalk_size[sizeof(HashWalk) == 20 ? 1 : -1];
+void __stdcall initialize_hash_walk(HashWalk *walk, HashTable *table);
+int __stdcall next_hash_entry(HashWalk *walk);
 #endif

@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "d21066370c1790b1a805fcdb0d0b3aa1c67e5670de130e9b97f94f170e35c52f",
+    "functions.json": "40583ebd41de7e2a1886b6a15eb0c6134fa8decf479c2e7443b0cb83cec460d0",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "064b48b8ea878d6912decf8f2bb0eb4afbd3c8441e73377c31200d8babb6b4df"
+    "sha256": "3f5020d5e1dbfca4afa3207bcdc76d4d2561b92e60ac0cd1b736e69d699a40e8"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "5cf6fc6016c6772d9472485d8409092c40d6bb64ab26d98af7661a49722fb2bb"
+    "sha256": "49064fd408745fe0115d9689727f6545d25f0601ccfd3578d5c14bfe0acf8db7"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -48,6 +48,10 @@
     "add_enumerator": {
       "logical": "_add_enumerator@12",
       "source": "src/declarations.c"
+    },
+    "add_legacy_type_fixup": {
+      "logical": "_add_legacy_type_fixup@12",
+      "source": "src/stubs.c"
     },
     "add_member_offset": {
       "logical": "_add_member_offset@8",
@@ -323,6 +327,10 @@
     },
     "begin_inline_region": {
       "logical": "_begin_inline_region@4",
+      "source": "src/stubs.c"
+    },
+    "begin_legacy_field_continuation": {
+      "logical": "_begin_legacy_field_continuation",
       "source": "src/stubs.c"
     },
     "begin_macro_replacement": {
@@ -636,6 +644,10 @@
     "compare_filenames": {
       "logical": "_compare_filenames",
       "source": "src/pch.c"
+    },
+    "compare_legacy_enumerators": {
+      "logical": "_compare_legacy_enumerators",
+      "source": "src/stubs.c"
     },
     "compare_names_ignore_case": {
       "logical": "_compare_names_ignore_case@8",
@@ -1027,7 +1039,7 @@
     },
     "emit_member_padding": {
       "logical": "_emit_member_padding@4",
-      "source": "src/stubs.c"
+      "source": "src/initializers.c"
     },
     "emit_memory_initializer_call": {
       "logical": "_emit_memory_initializer_call@8",
@@ -1536,6 +1548,10 @@
     "initialize_global_scope": {
       "logical": "_initialize_global_scope",
       "source": "src/scopes.c"
+    },
+    "initialize_hash_walk": {
+      "logical": "_initialize_hash_walk@8",
+      "source": "src/stubs.c"
     },
     "initialize_inline_assembler": {
       "logical": "_initialize_inline_assembler",
@@ -2164,6 +2180,10 @@
     "next_argument": {
       "logical": "_next_argument",
       "source": "src/arguments.c"
+    },
+    "next_hash_entry": {
+      "logical": "_next_hash_entry@4",
+      "source": "src/stubs.c"
     },
     "next_initializer_member": {
       "logical": "_next_initializer_member@8",
@@ -3003,7 +3023,7 @@
     },
     "reset_debug_type_records": {
       "logical": "_reset_debug_type_records",
-      "source": "src/stubs.c"
+      "source": "src/debug-legacy.c"
     },
     "reset_inline_function_state": {
       "logical": "_reset_inline_function_state",
@@ -3136,6 +3156,10 @@
     "serialize_browser_record": {
       "logical": "_serialize_browser_record@8",
       "source": "src/browser.c"
+    },
+    "serialize_legacy_symbol": {
+      "logical": "_serialize_legacy_symbol@8",
+      "source": "src/stubs.c"
     },
     "serialize_scope": {
       "logical": "_serialize_scope@4",
@@ -3447,31 +3471,31 @@
     },
     "write_legacy_argument_list": {
       "logical": "_write_legacy_argument_list@4",
-      "source": "src/stubs.c"
-    },
-    "write_legacy_argument_slice": {
-      "logical": "_write_legacy_argument_slice@12",
-      "source": "src/stubs.c"
+      "source": "src/debug-legacy.c"
     },
     "write_legacy_array_type": {
       "logical": "_write_legacy_array_type@8",
-      "source": "src/stubs.c"
+      "source": "src/debug-legacy.c"
     },
-    "write_legacy_enum_type": {
-      "logical": "_write_legacy_enum_type@4",
+    "write_legacy_bitfield_type": {
+      "logical": "_write_legacy_bitfield_type@4",
+      "source": "src/debug-legacy.c"
+    },
+    "write_legacy_enum_members": {
+      "logical": "_write_legacy_enum_members@12",
       "source": "src/stubs.c"
     },
     "write_legacy_field_list": {
       "logical": "_write_legacy_field_list@12",
-      "source": "src/stubs.c"
+      "source": "src/debug-legacy.c"
     },
     "write_legacy_function_type": {
       "logical": "_write_legacy_function_type@12",
-      "source": "src/stubs.c"
+      "source": "src/debug-legacy.c"
     },
     "write_legacy_pointer_type": {
       "logical": "_write_legacy_pointer_type@8",
-      "source": "src/stubs.c"
+      "source": "src/debug-legacy.c"
     },
     "write_legacy_qualified_type": {
       "logical": "_write_legacy_qualified_type@4",
@@ -3479,11 +3503,19 @@
     },
     "write_legacy_record_type": {
       "logical": "_write_legacy_record_type@12",
+      "source": "src/debug-legacy.c"
+    },
+    "write_legacy_signed_number": {
+      "logical": "_write_legacy_signed_number@8",
       "source": "src/stubs.c"
     },
     "write_legacy_type_record": {
       "logical": "_write_legacy_type_record@4",
-      "source": "src/stubs.c"
+      "source": "src/debug-legacy.c"
+    },
+    "write_legacy_unsigned_number": {
+      "logical": "_write_legacy_unsigned_number@8",
+      "source": "src/debug-legacy.c"
     },
     "write_literal_initializer": {
       "logical": "_write_literal_initializer@12",
@@ -4221,7 +4253,18 @@
     "queue_debug_record",
     "write_legacy_qualified_type",
     "emit_function_debug_type",
-    "prepare_legacy_argument_types"
+    "prepare_legacy_argument_types",
+    "write_legacy_type_record",
+    "write_legacy_pointer_type",
+    "write_legacy_record_type",
+    "write_legacy_unsigned_number",
+    "write_legacy_array_type",
+    "write_legacy_argument_list",
+    "write_legacy_function_type",
+    "write_legacy_field_list",
+    "reset_debug_type_records",
+    "emit_member_padding",
+    "write_legacy_bitfield_type"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5254,6 +5297,56 @@
       "expected": [
         "rewind_source_file"
       ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "embedded-codeview": {
+      "first": 833,
+      "last": 852,
+      "seen_count": 699,
+      "expected": [
+        "find_expression_type_base",
+        "primitive_debug_index",
+        "legacy_primitive_type_index",
+        "primitive_pointer_debug_index",
+        "queue_debug_record",
+        "write_legacy_qualified_type",
+        "emit_function_debug_type",
+        "prepare_legacy_argument_types",
+        "write_legacy_type_record",
+        "write_legacy_pointer_type",
+        "write_legacy_record_type",
+        "write_legacy_unsigned_number",
+        "write_legacy_array_type",
+        "write_legacy_argument_list",
+        "write_legacy_function_type",
+        "write_legacy_field_list",
+        "reset_debug_type_records",
+        "emit_member_padding",
+        "write_legacy_bitfield_type"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "inlining-ob1": {
+      "first": 852,
+      "last": 852,
+      "seen_count": 718,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "inlining-ob2": {
+      "first": 852,
+      "last": 852,
+      "seen_count": 718,
+      "expected": [],
       "terminal": {
         "kind": "exit",
         "code": 0

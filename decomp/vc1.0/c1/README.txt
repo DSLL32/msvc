@@ -1,14 +1,15 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Eighteen cases are complete: minimal C, optimized Win32 hello, DLL,
+Twenty-one cases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
-and automatic-PCH creation, reuse and changed-macro rebuild.
+automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
+and /O2 /Ob1 plus /Ob2 small functions with early returns.
 
-There are710 accepted source functions and833 accepted original entries.
-Accepted original extents cover215743/277234 code-section bytes (77.819820%):
-196494 frontend bytes,19075 CRT bytes and174 import-thunk bytes. This is a
+There are729 accepted source functions and852 accepted original entries.
+Accepted original extents cover219435/277234 code-section bytes (79.151547%):
+200186 frontend bytes,19075 CRT bytes and174 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Unvisited functions retain named trapping stubs.
 
@@ -30,12 +31,12 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds18 completed case histories to fresh
-shared-prefix original first-entry captures. All699 accepted application entries
+cases/original-entry-references.json binds21 completed case histories to fresh
+shared-prefix original first-entry captures. All718 accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current all18 regression receipts are in cases/automatic-pch/validation.json.
+current all21 regression receipts are in cases/embedded-codeview/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -59,6 +60,9 @@ prototypes               -     -     -     -  stdout360
 automatic-pch-create    179    67     6    77  state.pch38021
 automatic-pch-reuse     999    67     6    85  stdout26; state.pch unchanged
 automatic-pch-changed   179    67     6    77  state.pch38022
+embedded-codeview     1196   177    74   332  irdb643
+inlining-ob1          1369   223    15   162
+inlining-ob2          1369   223    15   162
 
 All primary intermediates match raw bytes. Numeric stderr retains the captured
 line24 C4069 CRLF warning. Only identified timestamp DWORDs at irdb+14 and

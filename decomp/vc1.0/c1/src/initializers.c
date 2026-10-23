@@ -348,14 +348,14 @@ int __stdcall descend_initializer_target(IrToken *value)
     return 1;
 }
 
-/* Original 0x308d0..0x3096a. Skip unnamed padding members, flushing
+/* Original 0x308d0..0x3096a. Skip alignment padding members, flushing
    a pending bitfield unit before the padding record. */
 FrontendSymbol *__stdcall next_initializer_member(FrontendSymbol *container, FrontendSymbol *member)
 {
     unsigned kind;
     while (member) {
         kind = member->kind & 0x1f;
-        if (kind < 1 || kind > 13 || kind == 5 || member->name != name_unnamed) return member;
+        if (kind < 1 || kind > 13 || kind == 5 || member->name != name_alignment) return member;
         if (!(member->attributes & 0x1800)) {
             if (initializer_bitfield_active) {
                 constant_one = initializer_bitfield_value;
@@ -916,4 +916,13 @@ void begin_nested_initializer(void)
     }
     initializer_frame->flags = 1;
     if (is_scalar_initializer_symbol(initializer_frame->symbol)) initializer_frame->flags |= 4;
+}
+
+/* Original 0x2f510..0x2f539. An alignment member reserves bytes in
+   static initialization without treating the marker as a typed member. */
+void __stdcall emit_member_padding(FrontendSymbol *member)
+{
+    constant_one = member->detail.value;
+    if (!(scanner_flags & 0x200000)) emit_initializer_constant(0);
+    initializer_offset += constant_one;
 }

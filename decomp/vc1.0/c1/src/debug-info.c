@@ -354,14 +354,14 @@ void flush_debug_types(void)
         case 1:
             symbol = record->value.symbol;
             kind = symbol->kind & 0x1f;
-            if (kind == 2) write_legacy_enum_type(symbol);
+            if (kind == 2) write_legacy_bitfield_type(symbol);
             else if (kind == 4)
                 write_legacy_record_type(symbol, record->index, (unsigned short)record->auxiliary);
             break;
         case 2: write_legacy_field_list(record->value.symbol, record->index, 0); break;
         case 3: write_legacy_argument_list((ParameterInfo *)record->value.pointer); break;
         case 7:
-            write_legacy_argument_slice((CType **)record->value.pointer, record->auxiliary, record->index);
+            write_legacy_enum_members((EnumeratorSymbol **)record->value.pointer, record->auxiliary, record->index);
             break;
         }
     }
