@@ -67,12 +67,44 @@ positively identified service boundary, not a waiver for unknown payload code.
 Capture reached six-register/flags input and result, pointer-owned bytes,
 handle/file/stream changes and errors before replacing a particular service.
 
-Mandatory controller negatives include an unlisted direct target, an indirect
-target, an escaped fallthrough, an unmatched return, and an unlisted callback.
-Each must stop before a target-side marker changes. Wrong relocation bytes,
-wrong image base, missing trap installation or unowned data writes must also
-reject. These controls precede any application acceptance. Native fixture runs
-use cached evidence and never invoke this original-only controller.
+The first implementation has an empty OS-operation free-run allowlist. A new
+service, syscall, exception/unwind path or callback registration stops for review.
+Adding an operation requires a precise target/argument contract proving it cannot
+call application code, or an exhaustive set of actual callback targets trapped
+before the call. An API name alone is insufficient. The controller tracks every
+thread ID and debug event. A second thread or child process causes HOLD before
+continuation; it must not silently run while the selected thread is stepped.
+Unsupported asynchronous behavior is not made equivalent by freezing threads
+and pretending the case completed.
+
+Use decoded, byte-bound instruction descriptors from approved function CFGs;
+do not guess x86 instruction lengths. Before continuing, validate current PC,
+bytes and ownership, then enable TF on the sole approved thread. A single-step
+event observes the next PC before its first instruction executes. Changes that
+can clear/suppress TF (such as POPF, IRET or loading SS) are unsupported unless
+an independently verified destination-trap protocol covers them. An unexpected
+exception, event, PC or missing single-step result stops the capture.
+
+Record each actual CALL's return PC, stack pointer, operand size, meaningful
+arguments, expected cleanup and selector, within the observed TEB stack bounds.
+Before RET, verify the popped return bytes belong to that live call frame,
+the target equals the recorded continuation, and immediate cleanup matches its
+proved ABI. A foreign return address or unowned cleanup span rejects even if it
+falls within accepted code. For the launch `push CS; call ESI` sequence, retain
+the actual eight-byte far frame: DWORD return offset and a selector stack slot
+whose low WORD is meaningful. Validate the matching RETF's eight-byte removal
+and CS restoration; do not compare undefined high selector-slot bits or treat
+the far frame as a near CALL. Seed this frame from observed launch evidence.
+
+Mandatory controller negatives cover taken and not-taken conditional branches,
+LOOP counter edges, an unlisted direct target, a register-indirect target, an
+indirect memory target with wrong base ownership, a tail jump, escaped
+fallthrough, foreign return/cleanup, wrong far selector, and an asynchronous
+thread/callback. Each must stop before a target-side marker changes. Wrong
+relocation bytes, wrong image base, missing trap installation, TF suppression
+or unowned data writes must also reject. These controls precede any application
+acceptance. Native fixture runs use cached evidence and never invoke this
+original-only controller.
 
 ## First application/native build
 
@@ -93,5 +125,6 @@ Shared FILE support needs an explicit Watcom profile: the shipped stdio FILE is
 packed to one byte and 26 bytes, unlike the existing 32-byte MSVC layout. No raw
 casts or target-local FILE compatibility should bypass the shared maintainer.
 Likewise startup/command-tail/environment/stream identity needs a proved shared
-contract before entry-state equivalence is claimed. Build targets remain blocked
-until these prerequisites have a concrete implementation and review.
+contract before entry-state equivalence is claimed. Native and original stub
+build targets now pass; application acceptance remains blocked until these
+protocol prerequisites have a concrete implementation and review.

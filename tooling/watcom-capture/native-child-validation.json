@@ -1,0 +1,129 @@
+{
+  "scope": "actual authored native i386 child only; Win32 transport still unproved",
+  "controls": [
+    {
+      "name": "direct-call",
+      "gate": "frontier-before-transfer",
+      "marker_before": 0,
+      "marker_after_deliberate_gate_bypass": 1
+    },
+    {
+      "name": "tail-jump",
+      "gate": "frontier-before-transfer",
+      "marker_before": 0,
+      "marker_after_deliberate_gate_bypass": 1
+    },
+    {
+      "name": "conditional-taken",
+      "gate": "frontier-before-transfer",
+      "marker_before": 0,
+      "marker_after_deliberate_gate_bypass": 1
+    },
+    {
+      "name": "conditional-not-taken",
+      "gate": "frontier-before-transfer",
+      "marker_before": 0,
+      "marker_after_deliberate_gate_bypass": 1
+    },
+    {
+      "name": "loop-taken",
+      "gate": "frontier-before-transfer",
+      "marker_before": 0,
+      "marker_after_deliberate_gate_bypass": 1
+    },
+    {
+      "name": "loop-not-taken",
+      "gate": "frontier-before-transfer",
+      "marker_before": 0,
+      "marker_after_deliberate_gate_bypass": 1
+    },
+    {
+      "name": "loop-wraparound",
+      "gate": "frontier-before-transfer",
+      "marker_before": 0,
+      "marker_after_deliberate_gate_bypass": 1
+    },
+    {
+      "name": "indirect-register",
+      "gate": "frontier-before-transfer",
+      "marker_before": 0,
+      "marker_after_deliberate_gate_bypass": 1
+    },
+    {
+      "name": "indirect-memory-unowned-base",
+      "gate": "HOLD: unowned memory read/write at 0x804c020",
+      "marker_before": 0,
+      "marker_after_deliberate_gate_bypass": 1
+    },
+    {
+      "name": "foreign-return",
+      "gate": "HOLD: foreign return target",
+      "marker_before": 0,
+      "marker_after_deliberate_gate_bypass": 1
+    },
+    {
+      "name": "push-read-only-stack",
+      "gate": "HOLD: implicit access outside readable/writable owned stack",
+      "marker_before": 0,
+      "marker_after_deliberate_gate_bypass": 1
+    },
+    {
+      "name": "pop-outside-stack",
+      "gate": "HOLD: live stack pointer outside observed stack",
+      "marker_before": 0,
+      "marker_after_deliberate_gate_bypass": 1
+    },
+    {
+      "name": "TF-clearing-popfd",
+      "gate": "HOLD: unapproved trap, far/service or TF/implicit-stack operation",
+      "marker_before": 0,
+      "marker_after_deliberate_gate_bypass": 1
+    },
+    {
+      "name": "unowned-data-write",
+      "marker_before": 0,
+      "marker_after_deliberate_gate_bypass": 1
+    },
+    {
+      "name": "actual-guarded-call-entry",
+      "actual_stack_push": 4,
+      "target_byte_not_executed": true,
+      "marker_after_deliberate_gate_bypass": 1
+    },
+    {
+      "name": "actual-near-call-return",
+      "shadow_frames_remaining": 0,
+      "marker_before_return": 0
+    },
+    {
+      "name": "actual-far-return",
+      "actual_stack_pop": 8,
+      "raw_selector_slot": "0xabcd0023"
+    }
+  ],
+  "control_count": 17,
+  "owned_pid": 1751405,
+  "all_passed": true,
+  "application_acceptance": false,
+  "build_seconds": 0.05891818180680275,
+  "gdb_setup_execution_checks_seconds": 0.3149904366582632,
+  "command": [
+    "gcc",
+    "-m32",
+    "-O0",
+    "-g",
+    "-fno-pie",
+    "-no-pie",
+    "/root/msvc2/tooling/watcom-capture/tests/gate-child.c",
+    "-o",
+    "/root/.ai-tmp/msvc2/watcom-capture/child-controls-o8at8x2_/gate-child"
+  ],
+  "logs": "/root/.ai-tmp/msvc2/watcom-capture/child-controls-o8at8x2_",
+  "gate_sha256": "67a8b94e1d3d14e00d6f11e9f0290d8628d6915130e9d13edd27a7ed33c48177",
+  "checker_sha256": "5036f399335f5fc7b23d112a21452e97a0d7bd07a628497aa73191fecadd9495",
+  "gdb_controls_sha256": "6ec6c568dc1d0d9c372d9c91b7f150c7927c4ea254ad4f91e2edc4a337010652",
+  "child_source_sha256": "d7617c76b44de02755dabaaa49ac536b9e5187ed4c6223c3dbc04a97f145b547",
+  "binary_sha256": "3e4b72b9736486381248bd9ae3a01fc170878cca6cb976aed2de8399582c58fc",
+  "owned_child_termination_confirmed": true,
+  "debugger_exit_status": 0
+}

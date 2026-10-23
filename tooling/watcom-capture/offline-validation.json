@@ -1,0 +1,250 @@
+{
+  "scope": "offline gate controls only; no debugger/child/app acceptance",
+  "capstone": "5.0.7",
+  "controls": [
+    {
+      "name": "linear-step-observed",
+      "result": "pass"
+    },
+    {
+      "name": "unclassified-entry",
+      "result": "frontier-before-transfer"
+    },
+    {
+      "name": "direct-call-missing-target",
+      "result": "frontier-before-transfer"
+    },
+    {
+      "name": "escaped-fallthrough",
+      "result": "frontier-before-transfer"
+    },
+    {
+      "name": "tail-jump-missing-target",
+      "result": "frontier-before-transfer"
+    },
+    {
+      "name": "indirect-register-missing-target",
+      "result": "frontier-before-transfer"
+    },
+    {
+      "name": "external-service-is-not-application-frontier",
+      "result": "rejected",
+      "reason": "external transfer requires a proved service boundary"
+    },
+    {
+      "name": "indirect-memory-wrong-base-owner",
+      "result": "rejected",
+      "reason": "unowned memory read/write at 0x3100"
+    },
+    {
+      "name": "conditional-taken",
+      "result": "frontier-before-transfer"
+    },
+    {
+      "name": "conditional-not-taken",
+      "result": "frontier-before-transfer"
+    },
+    {
+      "name": "loop-counter-2",
+      "result": "frontier-before-transfer"
+    },
+    {
+      "name": "loop-counter-1",
+      "result": "frontier-before-transfer"
+    },
+    {
+      "name": "loop-counter-0",
+      "result": "frontier-before-transfer"
+    },
+    {
+      "name": "near-call-live-return-frame",
+      "result": "pass"
+    },
+    {
+      "name": "foreign-return",
+      "result": "rejected",
+      "reason": "foreign return target"
+    },
+    {
+      "name": "return-wrong-cleanup",
+      "result": "rejected",
+      "reason": "return shape, live slot or cleanup mismatch"
+    },
+    {
+      "name": "return-without-call",
+      "result": "rejected",
+      "reason": "return without a live call frame"
+    },
+    {
+      "name": "push-read-only-stack",
+      "result": "rejected",
+      "reason": "implicit access outside readable/writable owned stack"
+    },
+    {
+      "name": "call-slot-unowned",
+      "result": "rejected",
+      "reason": "unowned memory read/write at 0x87fc"
+    },
+    {
+      "name": "push-overlaps-code",
+      "result": "rejected",
+      "reason": "application store overlaps owned instruction bytes"
+    },
+    {
+      "name": "pop-from-owned-global-outside-stack",
+      "result": "rejected",
+      "reason": "live stack pointer outside observed stack"
+    },
+    {
+      "name": "far-return-selector-padding-unread",
+      "result": "pass"
+    },
+    {
+      "name": "foreign-far-selector",
+      "result": "rejected",
+      "reason": "foreign far return selector"
+    },
+    {
+      "name": "TF-clearing-popfd",
+      "result": "rejected",
+      "reason": "unapproved trap, far/service or TF/implicit-stack operation"
+    },
+    {
+      "name": "TF-suppressing-SS-load",
+      "result": "rejected",
+      "reason": "segment change can invalidate flat memory or suppress TF"
+    },
+    {
+      "name": "unproved-far-service-call",
+      "result": "rejected",
+      "reason": "unapproved indirect far/service transfer"
+    },
+    {
+      "name": "changed-relocated-instruction",
+      "result": "rejected",
+      "reason": "relocated instruction bytes changed"
+    },
+    {
+      "name": "unowned-data-store",
+      "result": "rejected",
+      "reason": "unowned memory read/write at 0x3100"
+    },
+    {
+      "name": "self-modifying-code-store",
+      "result": "rejected",
+      "reason": "application store overlaps owned instruction bytes"
+    },
+    {
+      "name": "unproved-GS-base",
+      "result": "rejected",
+      "reason": "unproved segment/TLS memory base"
+    },
+    {
+      "name": "FS-selector-does-not-prove-flat-base",
+      "result": "rejected",
+      "reason": "unproved segment/TLS memory base"
+    },
+    {
+      "name": "changed-flat-selector",
+      "result": "rejected",
+      "reason": "unproved segment/TLS memory base"
+    },
+    {
+      "name": "async-thread",
+      "result": "rejected",
+      "reason": "unapproved thread, callback, exception or debug event"
+    },
+    {
+      "name": "callback-debug-event",
+      "result": "rejected",
+      "reason": "unapproved thread, callback, exception or debug event"
+    },
+    {
+      "name": "unexpected-exception",
+      "result": "rejected",
+      "reason": "unapproved thread, callback, exception or debug event"
+    },
+    {
+      "name": "missed-single-step-event",
+      "result": "rejected",
+      "reason": "observed instruction transfer differs from plan"
+    },
+    {
+      "name": "instruction-budget",
+      "result": "rejected",
+      "reason": "capture instruction budget exhausted"
+    },
+    {
+      "name": "deadline-every-plan",
+      "result": "rejected",
+      "reason": "capture event/deadline budget exhausted"
+    },
+    {
+      "name": "event-budget-every-observation",
+      "result": "rejected",
+      "reason": "capture event/deadline budget exhausted"
+    },
+    {
+      "name": "missing-observation",
+      "result": "rejected",
+      "reason": "previous instruction has no observed result"
+    },
+    {
+      "name": "guarded-frontier-actual-entry-shape",
+      "result": "pass"
+    },
+    {
+      "name": "cannot-run-unknown-frontier-body",
+      "result": "rejected",
+      "reason": "frontier entry is stopped; no function body is authorized"
+    },
+    {
+      "name": "missing-real-target-trap",
+      "result": "rejected",
+      "reason": "target trap was not actually installed"
+    },
+    {
+      "name": "frontier-wrong-prebyte",
+      "result": "rejected",
+      "reason": "target trap lacks verified prebytes/write/flush proof"
+    },
+    {
+      "name": "frontier-failed-write",
+      "result": "rejected",
+      "reason": "target trap lacks verified prebytes/write/flush proof"
+    },
+    {
+      "name": "frontier-failed-flush",
+      "result": "rejected",
+      "reason": "target trap lacks verified prebytes/write/flush proof"
+    },
+    {
+      "name": "frontier-no-real-call-push",
+      "result": "rejected",
+      "reason": "actual frontier target/SP/CS differs from guarded transfer"
+    },
+    {
+      "name": "frontier-foreign-call-return",
+      "result": "rejected",
+      "reason": "actual frontier CALL return slot differs"
+    },
+    {
+      "name": "frontier-wrong-CS",
+      "result": "rejected",
+      "reason": "actual frontier target/SP/CS differs from guarded transfer"
+    },
+    {
+      "name": "frontier-unexpected-breakpoint-instead-of-step",
+      "result": "rejected",
+      "reason": "unapproved thread, callback, exception or debug event"
+    },
+    {
+      "name": "unknown-return-is-HOLD-not-new-function",
+      "result": "rejected",
+      "reason": "return continuation is not proved code"
+    }
+  ],
+  "gate_sha256": "67a8b94e1d3d14e00d6f11e9f0290d8628d6915130e9d13edd27a7ed33c48177",
+  "checker_sha256": "6885ba7ee164d6c30744a38cc4077c93ec2322d47798772d55ad6c2d9a2b0238",
+  "control_count": 51
+}

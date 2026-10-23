@@ -1,0 +1,29 @@
+{
+  "scope": "Independent orchestrator offline/native-child only; no Win32/app acceptance",
+  "source_hashes": {
+    "tooling/watcom-capture/gate.py": "67a8b94e1d3d14e00d6f11e9f0290d8628d6915130e9d13edd27a7ed33c48177",
+    "tooling/watcom-capture/check-gate.py": "6885ba7ee164d6c30744a38cc4077c93ec2322d47798772d55ad6c2d9a2b0238",
+    "tooling/watcom-capture/check-child.py": "5036f399335f5fc7b23d112a21452e97a0d7bd07a628497aa73191fecadd9495",
+    "tooling/watcom-capture/child_controls.py": "6ec6c568dc1d0d9c372d9c91b7f150c7927c4ea254ad4f91e2edc4a337010652",
+    "tooling/watcom-capture/tests/gate-child.c": "d7617c76b44de02755dabaaa49ac536b9e5187ed4c6223c3dbc04a97f145b547"
+  },
+  "unchanged_during_review": true,
+  "results": [
+    {
+      "name": "check-gate",
+      "returncode": 0,
+      "elapsed": 0.13685766980051994,
+      "controls": 51,
+      "all_passed": true,
+      "owned_child_termination_confirmed": null
+    },
+    {
+      "name": "check-child",
+      "returncode": 0,
+      "elapsed": 0.43065192084759474,
+      "controls": 17,
+      "all_passed": true,
+      "owned_child_termination_confirmed": true
+    }
+  ]
+}
