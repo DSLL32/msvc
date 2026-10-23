@@ -57,7 +57,8 @@
     "@create_section@12",
     "@insert_symbol@8",
     "@append_section@4",
-    "@initialize_section_defaults@4"
+    "@initialize_section_defaults@4",
+    "_c2_initialize_codegen"
   ],
   "driver": [
     {
@@ -454,17 +455,17 @@
             "review": "Full48b509..48b538: ESI loaded once; intervening strlen repne scans leave ESI untouched; two fwrite calls/cleanup16, no overwrite/escape. First call cleanup is after the intervening direct stderr IAT load, at48b523; second cleanup is adjacent."
           },
           "rebuilt": {
-            "slot": 4210800,
+            "slot": 4210820,
             "holder": "[EBP-0x8]",
             "lifetime": [
               462,
               540
             ],
-            "lifetime_sha256": "5756bcaaf7677900ca818cdb057b3646241740226e8fb939ff782607b3604476",
+            "lifetime_sha256": "850ae992e83bd6fc9370991f934e0cfbdf4f0c8c16a156e841d99e87b9c0be42",
             "instructions": [
               {
                 "offset": 462,
-                "bytes": "8b0d70404000894df8"
+                "bytes": "8b0d84404000894df8"
               },
               {
                 "offset": 509,
@@ -475,7 +476,7 @@
                 "bytes": "ff55f883c410"
               }
             ],
-            "review": "Complete 00402590..004025de manually reviewed for byte-reader trial: same holder/call/cleanup ABI and no escape/overwrite; imported IAT slot relocates after _filbuf addition."
+            "review": "Reviewed entire prior47/current48 interval: only qualified fwrite/fclose IAT MOV absolute operand relocated after direct fclose use; same exact EBP holder lifetime, calls/cleanup, relative branches, no overwrite/escape/bypass. Current import catalog proves actual DLL/name. Frozen diff global-wrapper-import-diff.txt."
           }
         }
       ]
@@ -609,7 +610,7 @@
               38,
               154
             ],
-            "lifetime_sha256": "e46a600cf3fa5d664987194a6b3e7e7ef990d821b26ae5c94cff67685fce441f",
+            "lifetime_sha256": "e3bc9c158046448ca31fa012c3a28a153779051e0498c2ccc348cdf4ad3f4232",
             "instructions": [
               {
                 "offset": 38,
@@ -624,7 +625,7 @@
                 "bytes": "ff55f883c404"
               }
             ],
-            "review": "Complete unchanged cached IAT lifetime reviewed against frozen44 rebuilt.exe/MAP: only c2_output_incomplete and c2_output_stream BSS operands move4bytes after local-symbol-table pointer; same byte-identical branch displacements, qualified IAT load, EBP holder, calls/cleanup, no overwrite/escape or bypass. Full diff retained numeric scratch insert-import-span-diffs.txt."
+            "review": "Reviewed entire prior47/current48 interval: only qualified fwrite/fclose IAT MOV absolute operand relocated after direct fclose use; same exact EBP holder lifetime, calls/cleanup, relative branches, no overwrite/escape/bypass. Current import catalog proves actual DLL/name. Frozen diff global-wrapper-import-diff.txt."
           }
         },
         {
@@ -664,17 +665,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4210820,
+            "slot": 4210812,
             "holder": "[EBP-0x4]",
             "lifetime": [
               46,
               154
             ],
-            "lifetime_sha256": "504c26cbfb163b63a7fe3c742a0dce9a215e7f10e306d5c3e095db6defad47fa",
+            "lifetime_sha256": "185c850e1560ed3927d0e3f27262b0f8273a0a0978e5eb3951c8fe34d61f584e",
             "instructions": [
               {
                 "offset": 46,
-                "bytes": "8b0d84404000894dfc"
+                "bytes": "8b0d7c404000894dfc"
               },
               {
                 "offset": 89,
@@ -685,7 +686,7 @@
                 "bytes": "ff55fc83c404"
               }
             ],
-            "review": "Complete unchanged cached IAT lifetime reviewed against frozen44 rebuilt.exe/MAP: only c2_output_incomplete and c2_output_stream BSS operands move4bytes after local-symbol-table pointer; same byte-identical branch displacements, qualified IAT load, EBP holder, calls/cleanup, no overwrite/escape or bypass. Full diff retained numeric scratch insert-import-span-diffs.txt."
+            "review": "Reviewed entire prior47/current48 interval: only qualified fwrite/fclose IAT MOV absolute operand relocated after direct fclose use; same exact EBP holder lifetime, calls/cleanup, relative branches, no overwrite/escape/bypass. Current import catalog proves actual DLL/name. Frozen diff global-wrapper-import-diff.txt."
           }
         }
       ]
@@ -3376,32 +3377,13 @@
         "-G5"
       ],
       "evidence": "cases/analysis/section-defaults-disassembly.txt"
-    }
-  ],
-  "stubs": [
-    {
-      "name": "_c2_math_error",
-      "native": "c2_math_error",
-      "start": 4484380,
-      "end": 4484383,
-      "abi": "cdecl, one pointer parameter",
-      "kind": "crt-source"
-    },
-    {
-      "name": "_c2_print_banner",
-      "native": "c2_print_banner",
-      "start": 4738355,
-      "end": 4738356,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
     },
     {
       "name": "_c2_initialize_codegen",
-      "native": "c2_initialize_codegen",
+      "native": "read_global_symbols",
       "start": 4534958,
-      "end": 4534959,
-      "pending_extent": true,
+      "end": 4534992,
+      "pending_extent": false,
       "kind": "application",
       "abi": "cdecl, no parameters",
       "state_policy": "sections-initialized",
@@ -3518,7 +3500,28 @@
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
-      ]
+      ],
+      "symbol": "_read_global_symbols",
+      "evidence": "cases/analysis/read-global-symbols-disassembly.txt"
+    }
+  ],
+  "stubs": [
+    {
+      "name": "_c2_math_error",
+      "native": "c2_math_error",
+      "start": 4484380,
+      "end": 4484383,
+      "abi": "cdecl, one pointer parameter",
+      "kind": "crt-source"
+    },
+    {
+      "name": "_c2_print_banner",
+      "native": "c2_print_banner",
+      "start": 4738355,
+      "end": 4738356,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
     },
     {
       "name": "_c2_initialize_registers",
@@ -3611,6 +3614,130 @@
       "pending_extent": true,
       "kind": "application",
       "abi": "fastcall ECX PDB filename EDX object filename; int result; no stack parameters"
+    },
+    {
+      "name": "@read_symbols@4",
+      "native": "read_symbols",
+      "start": 4326292,
+      "end": 4326293,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall nullable scopeECX; no stack args RET0; result ignored by reachedcaller",
+      "state_policy": "global-symbols",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "c2_symbol_hash_count"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        }
+      ],
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ]
     }
   ],
   "text_data": [

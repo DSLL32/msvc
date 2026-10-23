@@ -30,7 +30,7 @@ int main(int argc, char **argv, char **environment)
         initialize_intrinsics();
         initialize_machine_registers();
         initialize_sections();
-        c2_initialize_codegen();
+        read_global_symbols();
         c2_initialize_registers();
         c2_initialize_optimizer();
         c2_set_argv();

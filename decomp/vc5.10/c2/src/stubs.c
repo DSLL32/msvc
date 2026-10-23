@@ -18,7 +18,7 @@ int __fastcall c2_open_pdb(char *name, char *object_name)
     __asm { int 3 }
     return 0;
 }
-void c2_initialize_codegen(void)
+void __fastcall read_symbols(C2SymbolScope *scope)
 {
     __asm { int 3 }
 }

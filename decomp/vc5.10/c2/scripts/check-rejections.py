@@ -123,6 +123,15 @@ def main():
                       ('machine call-clobber register mask differs',lambda r:changed_machine_value(r,'0x495f34',7)),
                       ('machine stack alignment differs',lambda r:changed_machine_value(r,'0x49745c',4)),
                       ('earlier intrinsic observation cannot replace final frontier observation',missing_final_intrinsic_observation)]
+    if 'global_symbols_input'in current_state:
+        def changed_global_input(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['global_symbols_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        def changed_original_scope(root):
+            path=root/'o/events.txt';data=path.read_text();at=data.rfind('observe %08x '%int(control[1]['original'],16));assert at>=0
+            data=data[:at]+data[at:].replace('global-symbols-input scope=00000000','global-symbols-input scope=00000001');path.write_text(data);raw_changed(root,'o','events.txt')
+        mutations += [('global symbol reader scope is not NULL',lambda r:changed_global_input(r,'null_scope',False)),
+                      ('global symbol reader active stream differs',lambda r:changed_global_input(r,'active_globals_alias',False)),
+                      ('raw original global reader scope differs',changed_original_scope)]
     if 'sections'in current_state:
         def changed_sections(root,change):
             path=root/'n/state.json';state=json_at(path);change(state['sections']);write_json(path,state);raw_changed(root,'n','state.json')

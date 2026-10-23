@@ -33,3 +33,10 @@ long c2_read_il_long(void)
     value.bytes[3] = (unsigned char)IL_GETC(refill);
     return value.number;
 }
+
+void read_global_symbols(void)
+{
+    c2_current_il = c2_globals_input;
+    read_symbols(NULL);
+    fclose(c2_globals_input);
+}

@@ -16,14 +16,6 @@
     "evidence": null
   },
   {
-    "name": "_c2_initialize_codegen",
-    "start": 4534958,
-    "end": 4534959,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_c2_initialize_registers",
     "start": 4535034,
     "end": 4535035,
@@ -103,6 +95,14 @@
     "name": "@c2_open_pdb@8",
     "start": 4765792,
     "end": 4765793,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@read_symbols@4",
+    "start": 4326292,
+    "end": 4326293,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

@@ -1,0 +1,31 @@
+{
+  "original_capture": {
+    "setup": 0.1816968135535717,
+    "execution": 0.8697232473641634,
+    "total": 1.0921234684064984
+  },
+  "native_gdb_capture": {
+    "execution": 0.27482018526643515,
+    "total": 0.3544830782338977
+  },
+  "rejection_control": {
+    "control_and_rejections": 2.774470974691212
+  },
+  "fresh_rejections": 8,
+  "reused_rejections": 102,
+  "audit_seconds": 0.10535465367138386,
+  "builds": {
+    "native": {
+      "seconds": 2.3314211182296276,
+      "status": 0
+    },
+    "original": {
+      "seconds": 4.263925756327808,
+      "status": 0
+    },
+    "helper": {
+      "seconds": 1.1520204236730933,
+      "status": 0
+    }
+  }
+}
