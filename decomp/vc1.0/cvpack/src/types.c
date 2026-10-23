@@ -1844,3 +1844,47 @@ void end_symbol_block(void)
         --suppressed_symbol_depth;
     }
 }
+
+/* CV symbol scope links are offsets from the start of the symbol stream.
+   S_END closes the active scope. Search records then chain top-level procedures. */
+int link_symbol_scopes(unsigned char *symbols, unsigned long size)
+{
+    unsigned char *cursor, *end, *search, *first, *last;
+    unsigned long parent;
+    unsigned short kind;
+
+    parent = 0;
+    search = symbols+4;
+    end = symbols+size;
+    for (cursor = search; cursor < end; cursor += *(unsigned short *)cursor+2) {
+        kind = *(unsigned short *)(cursor+2);
+        if (kind == 6) {
+            unsigned char *scope = symbols+parent;
+            *(unsigned long *)(scope+8) = cursor-symbols;
+            parent = *(unsigned long *)(scope+4);
+        } else if ((kind >= 0x104 && kind <= 0x108) ||
+                   (kind >= 0x204 && kind <= 0x208)) {
+            *(unsigned long *)(cursor+4) = parent;
+            parent = cursor-symbols;
+        }
+    }
+    first = search;
+    while (first < end && *(unsigned short *)(first+2) == 5)
+        first += *(unsigned short *)first+2;
+    while (search < end && *(unsigned short *)(search+2) == 5) {
+        last = search;
+        for (cursor = first; cursor < end; cursor += *(unsigned short *)cursor+2) {
+            kind = *(unsigned short *)(cursor+2);
+            if ((kind >= 0x104 && kind <= 0x106) ||
+                (kind >= 0x204 && kind <= 0x206)) {
+                if (!*(unsigned long *)(cursor+8)) return 0;
+                if (*(unsigned short *)(last+2) == 5)
+                    *(unsigned long *)(last+4) = cursor-symbols;
+                else *(unsigned long *)(last+12) = cursor-symbols;
+                last = cursor;
+            }
+        }
+        search += *(unsigned short *)search+2;
+    }
+    return 1;
+}

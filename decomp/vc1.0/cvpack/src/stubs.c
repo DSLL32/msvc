@@ -102,7 +102,7 @@ void convert_procedure16(void) { __asm { int 3 } }
 
 
 
-int link_symbol_scopes(unsigned char *symbols, unsigned long size) { __asm { int 3 } return 0; }
+
 void record_symbol_offsets(unsigned char *symbols, unsigned long size, unsigned short module) { __asm { int 3 } }
 
 void __fastcall queue_type_match(unsigned short type, TypeCacheEntry *named) { __asm { int 3 } }

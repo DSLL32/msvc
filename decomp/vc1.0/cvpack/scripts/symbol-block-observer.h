@@ -37,7 +37,7 @@ static int rearm_symbol_block(HANDLE child,HANDLE log,HANDLE thread,DWORD addres
 static int dump_symbol_blocks(HANDLE child,HANDLE log,DWORD frontier)
 {
     DWORD i;if(!symbol_block_count)return 1;
-    if(symbol_block_step || (frontier!=0x257a0 && frontier!=0x25920 && frontier!=0x254f0 && frontier!=0x25530 && frontier!=0x25480 && frontier!=0x1bd60) || symbol_block_count!=2)return 0;
+    if(symbol_block_step || (frontier!=0x257a0 && frontier!=0x25920 && frontier!=0x254f0 && frontier!=0x25530 && frontier!=0x25480 && frontier!=0x1bd60 && frontier!=0x1d840) || symbol_block_count!=2)return 0;
     for(i=0;i<symbol_block_count;++i)if(!symbol_block_bytes(child,log,"frontier",i))return 0;
     return 1;
 }

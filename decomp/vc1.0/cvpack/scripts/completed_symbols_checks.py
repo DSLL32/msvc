@@ -6,8 +6,6 @@ from state import load,BINARY
 from binary import PE
 from audit import publics
 from objects import original_walks,pointer_identity
-from allocations import context
-from read_progress import compare as progress_compare
 from module_address_returns import compare as module_compare,parse as module_parse
 from symbol_output import compare as symbol_compare
 from completed_symbol_input import compare,validate
@@ -17,9 +15,8 @@ def check(directory):
     modules=json.loads((directory/'native-module-address.json').read_text());original=module_parse(events)
     assert len(module_compare(config,pe,events,modules,old,new,'hello-debug-dll'))==3
     symbol=symbol_compare(config,pe,events,json.loads((directory/'native-symbol-output.json').read_text()),old,new,True,state)
-    frontier=next(r for r in config['functions']if r['name']=='link_symbol_scopes')
-    progress=progress_compare(config,pe,events,json.loads((directory/'native-read-progress.json').read_text()),frontier,state)
-    definitions=context(config,pe,events,state,frontier,'hello-debug-dll',json.loads((directory/'native-read-returns.json').read_text()),progress)
+    accepted=json.loads((directory/'proof.json').read_text())
+    definitions={'type_data':accepted['observed_objects']['type_data'][0]['allocation']}
     left=old['type_data'][0]['address']+4746;right=new['type_data'][0]['address']+4746
     def run(change):
         args=copy.deepcopy([config,pe,'symbol_input',left,right,old,new,state,definitions,events,symbol]);change(args);return compare(*args)
@@ -54,4 +51,26 @@ def check(directory):
     code=list(Cs(CS_ARCH_X86,CS_MODE_32).disasm(rebuilt.read(linked['_pack_new_types'],0x500),linked['_pack_new_types']));call=next(i for i,r in enumerate(code)if r.mnemonic=='call'and r.op_str=='0x%x'%linked['_link_symbol_scopes'])
     for instruction,label in((code[call-7],'completed cursor write targets wrong global'),(code[call-2],'completed scope ABI size uses wrong local')):
         altered=copy.deepcopy(rebuilt);raw=bytearray(altered.data);offset=altered.offset(instruction.address);raw[offset+len(instruction.bytes)-1]^=4;altered.data=bytes(raw)
+        reject(label,lambda:validate(config,pe,altered,linked))
+
+
+def check_scope_links(directory):
+    from scope_links import compare as compare_links
+    config,pe=load();p=json.loads((BINARY/config['symbol_output_observations']['evidence']).read_text())
+    rows=json.loads((Path(directory)/'native-symbol-output.json').read_text());assert len(rows)==1 and rows[0]['frontier']=='record_symbol_offsets'
+    after=bytes.fromhex(rows[0]['postbytes']);compare_links(p,after)
+    def reject(label,action):
+        try:action()
+        except(AssertionError,KeyError,IndexError):print('rejected:',label)
+        else:raise AssertionError('accepted '+label)
+    for at,value,label in((8,0,'missing search first-procedure link'),(112,1,'invented Paint parent'),(116,604,'wrong Paint end scope'),(120,496,'skipped HelloMain next link'),(304,292,'wrong HelloMain end'),(308,0,'missing DllMain next link'),(504,0,'unclosed DllMain scope'),(520,1,'unrelated defined procedure byte changed')):
+        raw=bytearray(after);raw[at:at+4]=value.to_bytes(4,'little')
+        reject('both scope outputs '+label,lambda:compare_links(p,raw))
+    wrong=copy.deepcopy(p);wrong['scope_link_writes']['writes'][0][2]=296
+    reject('scope link preimage-policy target widened',lambda:compare_links(wrong,after))
+    rebuilt=PE(BINARY/'build/CVPACK.EXE');linked=publics();validate(config,pe,rebuilt,linked)
+    from capstone import Cs,CS_ARCH_X86,CS_MODE_32
+    code=list(Cs(CS_ARCH_X86,CS_MODE_32).disasm(rebuilt.read(linked['_pack_new_types'],0x500),linked['_pack_new_types']));call=next(i for i,r in enumerate(code)if r.mnemonic=='call'and r.op_str=='0x%x'%linked['_record_symbol_offsets'])
+    for ins,label in((code[call-5],'successor module loaded from wrong formal'),(code[call-2],'successor size loaded from wrong local')):
+        altered=copy.deepcopy(rebuilt);raw=bytearray(altered.data);offset=altered.offset(ins.address);raw[offset+len(ins.bytes)-1]^=4;altered.data=bytes(raw)
         reject(label,lambda:validate(config,pe,altered,linked))

@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "link_symbol_scopes",
-    "native_function": "link_symbol_scopes",
+    "logical": "record_symbol_offsets",
+    "native_function": "record_symbol_offsets",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -112,7 +112,8 @@
       "convert_bp_relative32",
       "convert_register_symbol",
       "end_symbol_block",
-      "link_symbol_scopes"
+      "link_symbol_scopes",
+      "record_symbol_offsets"
     ]
   },
   "complete_reference": {

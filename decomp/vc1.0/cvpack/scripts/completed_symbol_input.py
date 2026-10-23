@@ -6,13 +6,18 @@ def validate(config,original,rebuilt=None,linked=None):
     ref=config['symbol_output_observations'];path=BINARY/ref['evidence']
     assert hashlib.sha256(path.read_bytes()).hexdigest()==ref['evidence_sha256'],'stale completed cursor proof'
     p=json.loads(path.read_text())['completed_input']
-    assert {k:v for k,v in p.items()if k not in('original_loop','scope')}==dict(global_name='symbol_input',owner='type_data',extent=4746,offset=4746,frontier=0x1bd60,caller_return=0x25238,identity_only=True),'unreviewed one-past cursor identity'
+    assert {k:v for k,v in p.items()if k not in('original_loop','scope','successors','successor_call')}==dict(global_name='symbol_input',owner='type_data',extent=4746,offset=4746,frontier=0x1bd60,caller_return=0x25238,identity_only=True),'unreviewed one-past cursor identity'
+    assert p['successors']==[dict(original=0x1d840,native='record_symbol_offsets',caller_return=0x25277)],'unreviewed one-past successor'
+    r=p['successor_call'];assert r['start']==0x25262 and r['end']==0x2527a and original.read(r['start'],r['end']-r['start']).hex()==r['bytes'],'completed cursor successor call changed'
     r=p['original_loop'];assert r['start']==0x2520a and r['end']==0x25238 and original.read(r['start'],r['end']-r['start']).hex()==r['bytes'],'completed cursor original loop changed'
     assert original.read(0x2520a,0x19)==bytes.fromhex('8bc525ffff00000105e4350300391de43503000f82d4feffff'),'completed cursor original add/test differs'
     if rebuilt is not None:
         from capstone import Cs,CS_ARCH_X86,CS_MODE_32
         code=list(Cs(CS_ARCH_X86,CS_MODE_32).disasm(rebuilt.read(linked['_pack_new_types'],0x500),linked['_pack_new_types']))
         call=next(i for i,r in enumerate(code)if r.mnemonic=='call'and r.op_str=='0x%x'%linked['_link_symbol_scopes'])
+        successor=next(i for i,r in enumerate(code)if r.mnemonic=='call'and r.op_str=='0x%x'%linked['_record_symbol_offsets'])
+        assert code[successor-5].bytes==bytes.fromhex('8b4510')and code[successor-4].bytes==bytes.fromhex('668b00')and code[successor-3].bytes==bytes.fromhex('50'),'completed successor module argument differs'
+        assert code[successor-2].bytes==code[call-2].bytes and code[successor-1].bytes==code[call-1].bytes,'completed successor output/size arguments differ'
         cursor=linked['_symbol_input'].to_bytes(4,'little');output=linked['_symbol_output'].to_bytes(4,'little')
         assert code[call-5].bytes==b'\xa1'+output and code[call-4].bytes[:2]==b'\x2b\x45','completed cursor output subtraction differs'
         size_slot=code[call-3].bytes;assert size_slot[:2]==b'\x89\x45'and code[call-2].bytes==b'\xff\x75'+size_slot[2:],'completed cursor size argument def-use differs'
@@ -24,8 +29,10 @@ def validate(config,original,rebuilt=None,linked=None):
 
 def compare(config,pe,name,old_pointer,new_pointer,old,new,state,definitions,events,symbol_proof):
     p=validate(config,pe)
-    assert name==p['global_name']and state['frames'][0]=='link_symbol_scopes','one-past cursor outside exact global/frontier'
-    assert re.search(r'^exception 80000003 va 0001bd60 ',events,re.M),'one-past original frontier differs'
+    profiles=[dict(native='link_symbol_scopes',original=p['frontier']),*p['successors']]
+    profile=next((r for r in profiles if r['native']==state['frames'][0]),None)
+    assert name==p['global_name']and profile,'one-past cursor outside exact global/frontier'
+    assert re.search(r'^exception 80000003 va %08x '%profile['original'],events,re.M),'one-past original frontier differs'
     definition=definitions[p['owner']]
     assert definition['size']==p['extent']and definition['defined_ranges']==[[0,4746]],'one-past allocation lacks complete requested/read extent'
     assert definition['write_evidence']==[dict(site=0x17dc9,offset=0,length=4746)],'one-past allocation defining read differs'
