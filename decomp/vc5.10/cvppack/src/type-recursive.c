@@ -76,3 +76,25 @@ unsigned __fastcall intern_recursive_type(unsigned index)
     }
     return record->mapped_index;
 }
+
+/* Remember a recursive type before following its references [0040c080,0040c0f8). */
+unsigned recursive_nodes_remaining;
+RecursiveTypeNode *recursive_node_cursor;
+
+void __fastcall mark_recursive_type(TypeRecord *record)
+{
+    unsigned bucket;
+    RecursiveTypeNode *node;
+    if (!recursive_nodes_remaining) {
+        recursive_node_cursor = allocate_bytes(0x3000);
+        recursive_nodes_remaining = 1024;
+    }
+    bucket = hash_recursive_type(record);
+    --recursive_nodes_remaining;
+    node = recursive_node_cursor++;
+    node->data = record->data;
+    node->index = record->mapped_index;
+    node->next = ((RecursiveTypeNode **)type_table_primary)[bucket];
+    ((RecursiveTypeNode **)type_table_primary)[bucket] = node;
+    ++((unsigned short *)type_table_primary_counts)[bucket];
+}

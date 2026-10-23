@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0082-intern-recursive-type-declarations/original",
-  "reference_receipt_sha256": "18472da0074575bb5730a60abb115f57080857431b178916f498088df3b889cc",
+  "reference": "cases/hello-debug-dll/evidence/0083-mark-recursive-type/original",
+  "reference_receipt_sha256": "5c5103e50b22280c2fe4599a2893340b99eea8ab0c7a3ef8be73ebd8c9abd7ab",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -88,6 +88,7 @@
     "resolve_recursive_type",
     "hash_recursive_type",
     "intern_recursive_type",
-    "mark_recursive_type"
+    "mark_recursive_type",
+    "hash_type_reference"
   ]
 }

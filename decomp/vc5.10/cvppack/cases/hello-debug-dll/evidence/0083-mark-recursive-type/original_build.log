@@ -1,0 +1,8 @@
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/stubs.obj src/stubs.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-recursive.obj src/type-recursive.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /Fobuild/debug-run.obj scripts/debug-run.c
+type-recursive.c
+stubs.c
+debug-run.c
+python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /map:build/cvpack.map /out:build/CVPACK.EXE build/diagnostics.obj build/files.obj build/global-symbols.obj build/global-types.obj build/image.obj build/input.obj build/legacy-types.obj build/main.obj build/messages.obj build/modern-types.obj build/module-types.obj build/options.obj build/pack.obj build/primitive-types.obj build/publics.obj build/stubs.obj build/symbol-handlers.obj build/symbol-rewrite.obj build/symbol-scan.obj build/type-arena.obj build/type-hash.obj build/type-intern.obj build/type-lists.obj build/type-names.obj build/type-pointers.obj build/type-recursive-hash.obj build/type-recursive.obj build/type-references.obj build/types.obj build/resources.res
+python3 scripts/wine-tool.py LINK.EXE /nologo /subsystem:console /out:build/debug-run.exe build/debug-run.obj

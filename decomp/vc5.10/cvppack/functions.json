@@ -88,7 +88,8 @@
     "add_type_reference",
     "resolve_recursive_type",
     "hash_recursive_type",
-    "intern_recursive_type"
+    "intern_recursive_type",
+    "mark_recursive_type"
   ],
   "functions": [
     {
@@ -3129,8 +3130,11 @@
       "source_name": "mark_recursive_type",
       "native_symbol": "mark_recursive_type",
       "original": 4243584,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4243584,
+        4243704
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -3141,7 +3145,8 @@
           "count": "type_record_count",
           "native_pointee_width": 32
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0083-mark-recursive-type/promotion.json"
     },
     {
       "name": "index_recursive_type",

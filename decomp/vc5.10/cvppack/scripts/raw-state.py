@@ -534,6 +534,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
         return row['bytes'][offset:offset+length]
     typed_records_checked=0
     extended_references_checked=0
+    recursive_type_nodes_checked=0
     cached_type_names_checked=0
     globals_checked = []
     for item in data:
@@ -547,7 +548,36 @@ def compare(config,data,events,native,artifacts=None,views=None):
             for index in range(count):
                 linked(int.from_bytes(raw[index*4:index*4+4],'little'),int.from_bytes(actual[index*4:index*4+4],'little'),shape)
         elif item['kind'] == 'pointer':
-            if item.get('interned_types'):
+            if item.get('recursive_types'):
+                address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
+                if pair(address,other):
+                    assert image_aliases[address]==other and image_sizes[address]==16384,'recursive-type bucket allocation differs'
+                    left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
+                    assert len(left)==len(right)==16384,'incomplete recursive-type bucket observation'
+                    counts=original['memory'][global_integer('type_table_primary_counts')]
+                    assert len(counts)==8192,'incomplete recursive-type bucket counts'
+                    records=original['memory'][global_integer('type_records')];visited=set()
+                    for offset in range(0,16384,4):
+                        source=int.from_bytes(left[offset:offset+4],'little');destination=int.from_bytes(right[offset:offset+4],'little');count=0
+                        while source or destination:
+                            assert source and destination and source not in visited and len(visited)<4096,'recursive-type node NULL/identity/chain differs'
+                            visited.add(source);pair(source,destination);count+=1
+                            owners=[base for base,size in image_sizes.items() if size==0x3000 and base<=source and source+12<=base+size and (source-base)%12==0]
+                            assert len(owners)==1,'recursive-type node has no actual pool ownership'
+                            owner=owners[0]
+                            assert destination==image_aliases[owner]+source-owner,'recursive-type pool/offset alias differs'
+                            a=original['memory'][source];b=bytes.fromhex(native['memory'][str(destination)])
+                            assert len(a)==len(b)==12,'incomplete initialized recursive-type node'
+                            index=int.from_bytes(a[4:8],'little')
+                            assert a[4:8]==b[4:8] and 0x1000<=index<global_integer('next_global_type'),'recursive-type index differs'
+                            payload=int.from_bytes(a[:4],'little');actual_payload=int.from_bytes(b[:4],'little')
+                            arena_payload(payload,actual_payload)
+                            matches=[records[i:i+32] for i in range(0,global_integer('type_record_count')*32,32) if int.from_bytes(records[i:i+4],'little')==payload and int.from_bytes(records[i+4:i+8],'little')==index]
+                            assert matches and any(int.from_bytes(row[14:16],'little')==offset//4 for row in matches),'recursive-type record/hash bucket differs'
+                            source=int.from_bytes(a[8:12],'little');destination=int.from_bytes(b[8:12],'little')
+                            used_uninitialized.add(owner);recursive_type_nodes_checked+=1
+                        assert count==int.from_bytes(counts[offset//2:offset//2+2],'little'),'recursive-type bucket count differs'
+            elif item.get('interned_types'):
                 address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
                 if pair(address,other):
                     assert image_aliases[address]==other and image_sizes[address]==16384,'interned-type bucket allocation differs'
@@ -720,7 +750,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
                     assert len(owners)==1,'arena cursor ownership differs'
                     owner=owners[0];row=next(row for row in data if row['name']==spec['remaining'])
                     remaining=int.from_bytes(original['memory'][row['original']],'little')
-                    assert address-owner+remaining==spec['size'] and other==image_aliases[owner]+address-owner,'arena cursor/capacity/offset differs'
+                    assert address-owner+remaining*spec.get('remaining_element_size',1)==spec['size'] and other==image_aliases[owner]+address-owner,'arena cursor/capacity/offset differs'
                     used_uninitialized.add(owner)
             elif item.get('module_buffer'):
                 module_buffer(int.from_bytes(raw,'little'),int.from_bytes(actual,'little'))
@@ -825,4 +855,4 @@ def compare(config,data,events,native,artifacts=None,views=None):
             parameters[item['name']]=native_parameters[item['name']]=dict(null=True)
     assert parameters == native_parameters, ('typed ABI arguments differ',parameters,native_parameters)
     if original_calls:assert original['last_error']==native['last_error'],'frontier LastError differs'
-    return dict(parameters=parameters,caller_state=caller_state,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)
+    return dict(parameters=parameters,caller_state=caller_state,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)

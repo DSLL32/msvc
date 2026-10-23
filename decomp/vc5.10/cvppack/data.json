@@ -295,9 +295,7 @@
     "original": 4271328,
     "size": 4,
     "kind": "pointer",
-    "blob": {
-      "size": 16384
-    }
+    "recursive_types": true
   },
   {
     "name": "type_table_primary_counts",
@@ -1142,5 +1140,22 @@
     "original": 4272760,
     "size": 4,
     "kind": "integer"
+  },
+  {
+    "name": "recursive_nodes_remaining",
+    "original": 4270500,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "recursive_node_cursor",
+    "original": 4270780,
+    "size": 4,
+    "kind": "pointer",
+    "interior_allocation": {
+      "size": 12288,
+      "remaining": "recursive_nodes_remaining",
+      "remaining_element_size": 12
+    }
   }
 ]

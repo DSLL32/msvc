@@ -459,6 +459,16 @@ def capture(configuration,data_file,output):
             assert 0<=capacity<=512 and capacity%512==0,'global block inventory needs an explicit contract'
             if capacity:
                 block=int.from_bytes(slots[:4],'little');memory[str(block)]=bytes(inferior.read_memory(block,2048)).hex()
+        if item.get('recursive_types'):
+            root=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')
+            if root:
+                heads=bytes(inferior.read_memory(root,16384));memory[str(root)]=heads.hex();seen=set()
+                for offset in range(0,16384,4):
+                    head=int.from_bytes(heads[offset:offset+4],'little')
+                    while head:
+                        assert head not in seen and len(seen)<4096,'recursive-type chain is cyclic/unbounded'
+                        seen.add(head);node=bytes(inferior.read_memory(head,12));memory[str(head)]=node.hex()
+                        head=int.from_bytes(node[8:12],'little')
         if item.get('interned_types'):
             root=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')
             if root:

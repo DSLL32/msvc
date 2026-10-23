@@ -395,6 +395,25 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
             }
         }
     }
+    /* Encountered recursive-type heads and initialized 12-byte pool nodes. */
+    if (full_graphs && read_bytes(process, 0x412ce0, &value, 4) && value) {
+        DWORD bucket, node, fields[3], seen[4096], visited = 0, k;
+        memory(log, process, value, 16384);
+        for (bucket = 0; bucket < 4096; ++bucket) {
+            if (!read_bytes(process, value + bucket * 4, &node, 4)) {
+                fprintf(log, "blob-observation-failed\n"); return;
+            }
+            while (node) {
+                for (k = 0; k < visited; ++k) if (seen[k] == node) break;
+                if (k < visited || visited == 4096 || !read_bytes(process, node, fields, sizeof(fields))) {
+                    fprintf(log, "blob-observation-failed\n"); return;
+                }
+                seen[visited++] = node;
+                memory(log, process, node, sizeof(fields));
+                node = fields[2];
+            }
+        }
+    }
     /* Encountered counted-name cache: 512 heads, 20-byte nodes and separately
      * allocated length-prefixed names. Type payloads belong to captured segments. */
     if (full_graphs) {
