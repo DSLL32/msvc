@@ -241,3 +241,8 @@ The character-token setter is accepted (30 bytes), matching all four control
 characters plus `$` before its character-class update. Only encountered lexical
 entries are defined and compared. [Verification](cases/resources-rich/character-token-verification.json)
 records the original byte-index behavior, 29 fresh controls and retained captures.
+
+The character-class setter is accepted (30 bytes). The `$` class becomes16 and
+execution reaches hashing `CASE_FROM_COMMAND`, with the entire macro buffer and
+explicit definition-list cursor matching. [Verification](cases/resources-rich/character-class-verification.json)
+records 29 fresh controls and separate build/capture/audit timings.

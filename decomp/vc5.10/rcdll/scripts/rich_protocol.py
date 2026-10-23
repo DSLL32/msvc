@@ -783,3 +783,27 @@ def character_token_trial(original,native):
     assert proof['application_trace'][-1]=='rc_set_character_token'
     proof.update(trial='rc_set_character_token',preprocessor=parser,character_tokens=dict(entries=[3,36,37,38,39],dollar=40,scope='encountered indices0..4 and36 only; other lexical entries unclaimed'),character_class_assignment=dict(character=36,flags=16,formal_bytes=2,callee_cleanup_bytes=8),setup_reference=dict(path='cases/resources-rich/acceptance-0027.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0027.json')))
     return proof
+
+
+def character_class_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_set_character_class'and len(config['accepted'])==28
+    a,b,proof=checkpoint(original,native,'rc_hash_macro_name',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c245e0 and a['words'][1]==0x71c38128
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_open_preprocessor\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    text=(original/'events.txt').read_text();forwarded=list(struct.unpack('<4I',raw_bytes(text,'setup-forwarded')))
+    assert forwarded[2]==0x71c344f8+4+97*4 and b['arguments']['setup_iteration']==97
+    forwarded[2]=0x71c344f8 # The original reuses its parameter slot for the live list cursor.
+    state,parser,text,input_name=parsed_option_state(original,native,b,forwarded);proof.update(state)
+    globals=b['arguments']['preprocessor']['globals']
+    assert bytes.fromhex(globals['rc_character_tokens']['bytes'])==struct.pack('<5H',3,36,37,38,39)
+    assert globals['rc_character_tokens[36]']['bytes']=='2800'and globals['rc_character_classes[36]']['bytes']=='1000'
+    name=b['arguments']['macro_name'];expected=('CASE_FROM_COMMAND'+'\0').encode('utf-16le')
+    assert raw_bytes(text,'macro-hash-name')==bytes.fromhex(name['bytes'])==expected
+    assert name['pointer']==globals['rc_macro_name']['address']
+    assert bytes.fromhex(globals['rc_macro_name']['bytes'])==expected+b'\0'*(1024-len(expected))
+    assert re.findall(r'^frontier-errors errno=(-?\d+) last-error=([0-9a-f]+)$',text,re.M)==[('0','00000000')]
+    assert b['crt_errors']==dict(errno=0,last_error=0)
+    assert proof['application_trace'][-1]=='rc_set_character_class'
+    proof.update(trial='rc_set_character_class',preprocessor=parser,character_classes=dict(dollar=16,scope='encountered dollar entry only; other lexical entries unclaimed'),macro_name='CASE_FROM_COMMAND',definition_cursor=dict(index=97,original_parameter_reused=True,native_local_index=97),token_reference=dict(path='cases/resources-rich/acceptance-0028.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0028.json')))
+    return proof

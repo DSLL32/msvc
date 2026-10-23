@@ -283,6 +283,12 @@
       "original_rva": "0x14058",
       "kind": "byte-buffer",
       "bytes": 2
+    },
+    {
+      "name": "rc_character_classes[36]",
+      "original_rva": "0x14258",
+      "kind": "byte-buffer",
+      "bytes": 2
     }
   ],
   "options": {

@@ -128,6 +128,7 @@ def capture():
                     parent=frame.older();assert parent.name()=='rc_open_preprocessor'
                     arguments['open']={field:int(parent.read_var(field))&0xffffffff for field in ['input','output','defines','undefines']}
                     arguments['macro_name']=dict(pointer=int(frame.read_var('name')),bytes=observer.wide_bytes(int(frame.read_var('name'))))
+                    arguments['setup_iteration']=int(parent.read_var('i'))
                 if name in ['rc_set_character_token','rc_set_character_class']:
                     parent=frame.older();assert parent.name()=='rc_open_preprocessor'
                     arguments['open']={field:int(parent.read_var(field))&0xffffffff for field in ['input','output','defines','undefines']}

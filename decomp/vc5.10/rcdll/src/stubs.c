@@ -71,10 +71,6 @@ int __stdcall rc_match_option(const WCHAR *pattern,const WCHAR *argument)
     __asm int 3
     return 0;
 }
-void __stdcall rc_set_character_class(unsigned short character,unsigned short flags)
-{
-    __asm int 3
-}
 unsigned char __stdcall rc_hash_macro_name(const WCHAR *name)
 {
     __asm int 3

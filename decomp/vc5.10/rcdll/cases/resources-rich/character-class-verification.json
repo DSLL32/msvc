@@ -1,0 +1,63 @@
+{
+  "function": "rc_set_character_class",
+  "original_start": "0x26f8",
+  "original_end": "0x2716",
+  "original_code_bytes": 30,
+  "abi": "stdcall2/ret8;two unsigned16 formals",
+  "accepted_application_functions": 27,
+  "accepted_application_bytes": 9482,
+  "provisional_application_denominator": 66295,
+  "provisional_coverage_percent": 14.302737763028887,
+  "denominator_scope": "provisional Ghidra application ownership; separate CRT555/import12/compiler47 bytes excluded",
+  "matched_frontier": "rc_hash_macro_name",
+  "raw_original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/character-class-trial-original-01",
+  "raw_native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/character-class-trial-native-02",
+  "builds": {
+    "original": {
+      "seconds": 3.950238486751914,
+      "status": 0
+    },
+    "native": {
+      "seconds": 1.9721513204276562,
+      "status": 0
+    }
+  },
+  "original_seconds": 1.6685594217851758,
+  "native_gdb_seconds": 0.8522339854389429,
+  "audit_seconds": 0.0761758228763938,
+  "negative_controls": {
+    "fresh": 29,
+    "reused": 0,
+    "reason": "New frontier/typed cursor contract; common controls rerun."
+  },
+  "gate_sha256": "c630967cf21b3c4db8425628dac36d9ff2b6b41d07a952505fc49f83e10ebf63",
+  "graph_audit_record": "audit-0029.json",
+  "help_fixture": {
+    "logical_name_aliases": {
+      "rcdll_main": "DllMain",
+      "recon_dll_entry": "_DllMainCRTStartup",
+      "rcdll_crt_init": "_CRT_INIT",
+      "rc_main": "main",
+      "rcdll_command_main": "main"
+    },
+    "case": "help",
+    "status": "pass",
+    "stdout_bytes": 589,
+    "application_entries": 9,
+    "seconds": {
+      "setup": 0.003904527984559536,
+      "execution": 0.0022101448848843575,
+      "checks": 0.0011639026924967766,
+      "total": 0.00789452251046896
+    },
+    "native_sha256": "3c8d3afc5d6f378cc3546e01915fe708fd42ed0667cfab9e8fa6b2927d297950",
+    "reference_manifest_sha256": "387c741bdb3fa4d388da034d339b5d21e872667d27934bb570e03d448db05524"
+  },
+  "notes": [
+    "Dollar class becomes16; only encountered class entry is claimed.",
+    "First macro name CASE_FROM_COMMAND matches complete1024-byte buffer and its global alias.",
+    "Original reuses its defines parameter slot as item97 cursor; native local i97 maps the same live list element explicitly.",
+    "First native snapshot lacked local i; native-only recapture adds it while retaining unchanged original raw evidence.",
+    "DLL/export ABI and help fixture pass."
+  ]
+}
