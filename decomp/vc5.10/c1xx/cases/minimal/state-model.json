@@ -1126,6 +1126,42 @@
       "native_expression": "frontend_bss.pools[4].arena",
       "original_default": 0,
       "evidence": "Actual callback38a12 ECX receiver; shared four-field class and fresh per-instance ABI/state proof"
+    },
+    {
+      "name": "pool_06.cursor",
+      "class": "bss",
+      "original_address": 273417568,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pools[5].cursor",
+      "original_default": 0,
+      "evidence": "Actual callback38a1f ECX receiver; shared four-field class and fresh per-instance ABI/state proof"
+    },
+    {
+      "name": "pool_06.remaining",
+      "class": "bss",
+      "original_address": 273417572,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pools[5].remaining",
+      "original_default": 0,
+      "evidence": "Actual callback38a1f ECX receiver; shared four-field class and fresh per-instance ABI/state proof"
+    },
+    {
+      "name": "pool_06.minimum_pages",
+      "class": "bss",
+      "original_address": 273417576,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pools[5].minimum_pages",
+      "original_default": 0,
+      "evidence": "Actual callback38a1f ECX receiver; shared four-field class and fresh per-instance ABI/state proof"
+    },
+    {
+      "name": "pool_06.arena",
+      "class": "bss",
+      "original_address": 273417580,
+      "bytes": 4,
+      "native_expression": "frontend_bss.pools[5].arena",
+      "original_default": 0,
+      "evidence": "Actual callback38a1f ECX receiver; shared four-field class and fresh per-instance ABI/state proof"
     }
   ],
   "initializers": [
@@ -1398,14 +1434,15 @@
     "count": 2
   },
   "pool_projection": {
-    "count": 5,
+    "count": 6,
     "native_size": 16,
     "original_bases": [
       273418952,
       273413552,
       273417368,
       273412624,
-      273417960
+      273417960,
+      273417568
     ],
     "types": [
       "pointer",

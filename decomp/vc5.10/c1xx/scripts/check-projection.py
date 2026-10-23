@@ -81,7 +81,7 @@ def field_map(model,observed):
         for field,offset in zip(('database','names','types','minimal_rebuild','stream_state','read_mode'),(0,4,8,12,20,24)):
             known['output_pdb_context.'+field]=(0x104cb050+offset,4,'external','output_pdb_context.'+field)
     if model['schema']>=19:
-        pool_bases=[0x104c0ac8,0x104bf5b0,0x104c0498,0x104bf210,0x104c06e8];pool_count=model['pool_projection']['count']
+        pool_bases=[0x104c0ac8,0x104bf5b0,0x104c0498,0x104bf210,0x104c06e8,0x104c0560];pool_count=model['pool_projection']['count']
         s.require(1<=pool_count<=len(pool_bases) and model['pool_projection']=={'count':pool_count,'native_size':16,'original_bases':pool_bases[:pool_count],'types':['pointer','u32','u32','pointer']},'unreviewed pool object mapping')
         for number,base in enumerate(pool_bases[:pool_count]):
             for i,field in enumerate(('cursor','remaining','minimum_pages','arena')):known['pool_%02d.'%(number+1)+field]=(base+i*4,4,'bss','frontend_bss.pools[%d].'%number+field)

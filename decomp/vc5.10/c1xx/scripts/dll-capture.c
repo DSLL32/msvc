@@ -281,6 +281,8 @@ static void save_frontend_state(const char *suffix)
     sprintf(name, "pool-04-%s.bin", suffix); save_blob(name, data, 16);
     readmem(base + 0xc06e8, data, 16);
     sprintf(name, "pool-05-%s.bin", suffix); save_blob(name, data, 16);
+    readmem(base + 0xc0560, data, 16);
+    sprintf(name, "pool-06-%s.bin", suffix); save_blob(name, data, 16);
     readmem(base + 0xc0ac8, data, 16);
     sprintf(name, "pool-01-%s.bin", suffix); save_blob(name, data, 16);
     readmem(base + 0xc0834, data, 4);
@@ -412,6 +414,10 @@ static void seed_frontend_restore(void)
     value = 23; write_mem(base + 0xc06ec, &value, 4);
     value = 37; write_mem(base + 0xc06f0, &value, 4);
     value = allocated + 8; write_mem(base + 0xc06f4, &value, 4);
+    value = allocated + 4; write_mem(base + 0xc0560, &value, 4);
+    value = 23; write_mem(base + 0xc0564, &value, 4);
+    value = 37; write_mem(base + 0xc0568, &value, 4);
+    value = allocated + 8; write_mem(base + 0xc056c, &value, 4);
     value = 9; write_mem(base + 0xcb06c, &value, 4);
     value = !strcmp(seed, "restore-zero") ? 0 : 3; write_mem(base + 0xcb008, &value, 4);
     fprintf(events, "restore-seed mode=%s allocation=%08lx bytes=8520 cleanup-count=32 mocked-cleanup-callback=_initialize_frontend_01 slots=32\n", seed, allocated);
