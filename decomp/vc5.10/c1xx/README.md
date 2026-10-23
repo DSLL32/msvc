@@ -13,11 +13,11 @@ compares its graph/ABI/imports using the shared Rust auditor. Audit/build target
 may use Wine explicitly; fixture dependencies do not. Fixtures inspect the
 already-built Win32 DLL's exports without executing it.
 
-Accepted code is **69 application functions (2,913 bytes)**, **two historical CRT
+Accepted code is **70 application functions (2,989 bytes)**, **two historical CRT
 support functions (451 bytes)** and **one linker-generated import thunk (6 bytes)**.
-The 3,370 accepted code bytes are 0.4486% of the 751,216-byte code extent; this is not
+The 3,446 accepted code bytes are 0.4587% of the 751,216-byte code extent; this is not
 a non-CRT coverage percentage. The real minimal compilation remains unfinished,
-stopping in the separate default-arena initializer before its first member call.
+stopping in the genuine arena reservation member with its receiver and both inputs observed.
 
 ## Target and ABI
 
@@ -234,3 +234,11 @@ once for this new state group; earlier unchanged protocol controls are reused.
 Schema31 has1373 semantic BSS bytes+31 padding; initialized8371 bytes remain
 unmodeled. `cases/minimal/environment-trials.json` records the observations,
 build timings and the12.59ms native-only completed lifecycle fixture.
+
+The76-byte default-arena selector is accepted separately. Its fresh pair reaches
+CompilerArena::Reserve for arena0 with the actual descriptor0 and NULL address;
+raw ECX, both stack inputs, complete member formals and actual callers match.
+Eleven new affected ABI controls pass in34.65s; the unchanged nine-arena reset
+campaign is referenced with its input hash. `cases/minimal/default-arena-trial.json`
+records the8.58s original and4.80s native observations. No member body or return
+behavior is accepted by this selector proof.

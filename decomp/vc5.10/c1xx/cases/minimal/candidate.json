@@ -74,7 +74,8 @@
     "_initialize_intermediate_files",
     "_process_early_option",
     "_initialize_frontend_hook",
-    "_initialize_compiler_environment"
+    "_initialize_compiler_environment",
+    "_initialize_default_arena"
   ],
   "trial": null,
   "ranges": [
@@ -654,7 +655,19 @@
       "start_rva": 467280,
       "end_rva": 467295,
       "entry": 0
+    },
+    {
+      "owner": "_initialize_default_arena",
+      "start_rva": 233011,
+      "end_rva": 233072,
+      "entry": 1
+    },
+    {
+      "owner": "_initialize_default_arena",
+      "start_rva": 467295,
+      "end_rva": 467310,
+      "entry": 0
     }
   ],
-  "stage": "_initialize_compiler_environment accepted; next frontier _initialize_default_arena"
+  "stage": "_initialize_default_arena accepted; next frontier CompilerArena::Reserve"
 }

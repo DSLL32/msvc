@@ -25,13 +25,27 @@ def check(s,d,original,native,trial,text,pre,phase,state,seed,final,symbols,trap
     entry=json.loads((native/'arena-entry.json').read_text());start,size=[int(v,16) for v in re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] initialize_compiler_environment$',symbols,re.M).groups()]
     helper,helper_size=[int(v,16) for v in re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] initialize_default_arena$',symbols,re.M).groups()]
     require(entry['symbol']=='initialize_compiler_environment' and entry['pc']==start and entry['args']=={} and entry['raw_entry_abi']['stack_arguments']==[],'not actual no-argument wrapper entry')
-    require(state['symbol']=='initialize_default_arena' and helper<state['pc']<helper+helper_size and d.elf_byte(native,state['pc']-1)==0xcc and state['args']=={},'not genuine named helper INT3')
-    # The stub's INT3 follows ordinary compiler setup; the actual caller frame
-    # supplies its saved return address, not an invented source line/address.
-    ret=int(state['caller_return_pc']);require(start<ret<start+size,'pending helper caller ownership differs')
-    code=bytes(d.elf_byte(native,ret-5+i) for i in range(5));require(code[0]==0xe8 and ret+struct.unpack_from('<i',code,1)[0]==helper,'not actual native wrapper-to-helper CALL')
-    old_entry=next(row for row in traps if row[1]=='00038df1');old_final=next(row for row in traps if row[1]=='00038e33')
-    require(int(old_entry[2].split(',')[0],16)==0x10438c4d and int(old_final[2].split(',')[0],16)==0x10438df9,'original noarg wrapper/helper caller differs')
+    member_pending='_initialize_default_arena' in trial['accepted']
+    if not member_pending:
+        require(state['symbol']=='initialize_default_arena' and helper<state['pc']<helper+helper_size and d.elf_byte(native,state['pc']-1)==0xcc and state['args']=={},'not genuine named helper INT3')
+        ret=int(state['caller_return_pc']);require(start<ret<start+size,'pending helper caller ownership differs')
+        code=bytes(d.elf_byte(native,ret-5+i) for i in range(5));require(code[0]==0xe8 and ret+struct.unpack_from('<i',code,1)[0]==helper,'not actual native wrapper-to-helper CALL')
+    else:
+        member=json.loads((native/'arena-member-entry.json').read_text())
+        member_start,member_size=[int(v,16) for v in re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] _ZN13CompilerArena7ReserveEPK15ArenaDescriptorPh$',symbols,re.M).groups()]
+        wanted={'this':entry['frontend']['storage']['arenas'][0],'descriptor':entry['frontend']['storage']['arena_descriptors'][0],'address':0}
+        require(member['symbol']==state['symbol']=='CompilerArena::Reserve' and member['pc']==member_start and member['args']==state['args']==wanted,'actual pending member formals/receiver/descriptor identity differ')
+        require([row['name'] for row in member['formal_inventory']]==['this','descriptor','address'],'thiscall formal inventory is incomplete')
+        require(member['raw_entry_abi']['ecx']==wanted['this'] and member['raw_entry_abi']['stack_arguments']==[wanted['descriptor'],0],'native raw ECX/stack2 differ')
+        ret=member['raw_entry_abi']['return_pc'];require(helper<ret<helper+helper_size and state['caller_return_pc']==ret,'native member caller differs')
+        code=bytes(d.elf_byte(native,ret-5+i) for i in range(5));require(code[0]==0xe8 and ret+struct.unpack_from('<i',code,1)[0]==member_start,'not actual native helper-to-member CALL')
+        old_member=re.findall(r'^trap seq=\d+ rva=00038e70 .*ecx=(\w+) edi=\w+ stack=([0-9a-f,]+)$',text,re.M);require(len(old_member)==1,'missing original member ECX/stack witness')
+        ecx,stack=old_member[0];words=[int(v,16) for v in stack.split(',')]
+        require(int(ecx,16)==0x104c6500 and words[:3]==[0x10438e67,0x104d5af8,0],'original member receiver/descriptor/address/caller differ')
+        require(member['frontend']==entry['frontend']==state['frontend'] and member['target_state']==state['target_state'],'member entry observation mutated target state')
+        require((original/'arena-bss-member-frontier.bin').read_bytes()==(original/'arena-bss-frontier.bin').read_bytes(),'default-arena selection mutated original BSS')
+    old_entry=next(row for row in traps if row[1]=='00038df1');old_helper=next(row for row in traps if row[1]=='00038e33')
+    require(int(old_entry[2].split(',')[0],16)==0x10438c4d and int(old_helper[2].split(',')[0],16)==0x10438df9,'original noarg wrapper/helper caller differs')
     require(entry['frontend']==state['frontend'] and entry['target_state']==state['target_state'],'pre-loop wrapper mutated modeled state')
     require((original/'arena-bss-entry.bin').read_bytes()==(original/'arena-bss-frontier.bin').read_bytes() and len((original/'arena-bss-entry.bin').read_bytes())==0xf69c,'pre-loop wrapper mutated any original BSS byte')
     suffix='%03d'%int(old_entry[0])

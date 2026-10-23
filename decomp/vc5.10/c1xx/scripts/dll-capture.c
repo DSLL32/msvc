@@ -936,6 +936,13 @@ int main(int argc, char **argv)
                     readmem(base + 0xb9000, action_bss, sizeof(action_bss));
                     save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
                 }
+                if (address == base + 0x38e70) {
+                    BYTE *member_bss = (BYTE *)malloc(0xf69c);
+                    if (!member_bss) fail("allocate arena member BSS observation");
+                    readmem(base + 0xb9000, member_bss, 0xf69c);
+                    save_blob("arena-bss-member-frontier.bin", member_bss, 0xf69c);
+                    free(member_bss);
+                }
                 if (address == base + 0x38df1 || address == base + 0x38e33) {
                     BYTE *arena_bss = (BYTE *)malloc(0xf69c);
                     if (!arena_bss) fail("allocate arena BSS observation");
@@ -994,6 +1001,13 @@ int main(int argc, char **argv)
                     }
                     readmem(base + 0xb9000, action_bss, sizeof(action_bss));
                     save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
+                }
+                if (address == base + 0x38e70) {
+                    BYTE *member_bss = (BYTE *)malloc(0xf69c);
+                    if (!member_bss) fail("allocate arena member BSS observation");
+                    readmem(base + 0xb9000, member_bss, 0xf69c);
+                    save_blob("arena-bss-member-frontier.bin", member_bss, 0xf69c);
+                    free(member_bss);
                 }
                 if (address == base + 0x38df1 || address == base + 0x38e33) {
                     BYTE *arena_bss = (BYTE *)malloc(0xf69c);

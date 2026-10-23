@@ -28,7 +28,13 @@ extern "C" void initialize_compiler_environment(void)
 
 extern "C" void initialize_default_arena(void)
 {
-    __asm { int 3 }
+    unsigned i;
+    for (i = 0; i < 9; ++i) {
+        if (arena_descriptors[i].flags & 1) {
+            if (!frontend_bss.arenas[i].Reserve(&arena_descriptors[i], NULL))
+                report_compiler_error(60);
+        }
+    }
 }
 
 int RECON_THISCALL CompilerArena::Reserve(const ArenaDescriptor *descriptor,

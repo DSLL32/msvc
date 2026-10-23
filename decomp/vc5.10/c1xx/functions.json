@@ -77,7 +77,8 @@
     "_initialize_intermediate_files",
     "_process_early_option",
     "_initialize_frontend_hook",
-    "_initialize_compiler_environment"
+    "_initialize_compiler_environment",
+    "_initialize_default_arena"
   ],
   "driver": [
     {
@@ -890,10 +891,15 @@
     {
       "name": "_initialize_default_arena",
       "start": 272862771,
-      "end": 272862772,
+      "end": 272862832,
       "source": "src/arenas.cpp",
-      "pending_extent": true,
-      "abi": "cdecl0"
+      "abi": "cdecl0",
+      "code_chunks": [
+        [
+          273097055,
+          273097070
+        ]
+      ]
     },
     {
       "name": "CompilerArena::Reserve",
@@ -4170,6 +4176,57 @@
         "nonzero_seed_scope": "typed pointer identities and exact scalar17",
         "original_seconds": 8.483362592756748,
         "native_seconds": 4.750722483731806
+      }
+    },
+    {
+      "name": "_initialize_default_arena",
+      "classification": "application source",
+      "source": "src/arenas.cpp",
+      "source_sha256": "01634c5972c382c6f010a9c164a1b6059bc1603c380636f53f0b3fcd346745f6",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-default-arena-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-default-arena-native-1",
+      "original_receipt_sha256": "c7a692ebf4049b33fdc08c9aa5149f48be818fb6c37db1d6f082c251dcfd138f",
+      "native_receipt_sha256": "47131def07ffa3f88b40f7a8eaf3b876473d8c480015cfca71d28e01dedfab63",
+      "trial_sha256": "d0958bd05b132c503ddd0ac3e76a6830518154a0f0c39ba33010eb41c236781b",
+      "audit_sha256": "943c68c5cce8d822bd6e1fb3403864ea801fc4d2003d1efa5b23d25cfe6369f1",
+      "code_chunks": [
+        [
+          233011,
+          233072
+        ],
+        [
+          467295,
+          467310
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_default_arena",
+        "frontier": "CompilerArena::Reserve",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1373,
+        "native_bss_size": 1404,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 8.580417471937835,
+        "native_seconds": 4.795937810093164
       }
     }
   ],
