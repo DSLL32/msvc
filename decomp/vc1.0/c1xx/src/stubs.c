@@ -154,7 +154,6 @@ CppSymbol *__stdcall create_initializer_temporary(unsigned char storage, CType *
 void __stdcall record_initialized_temporary(CppSymbol *symbol, CType *type) { __asm { int 3 } }
 IrToken *__stdcall materialize_call_result(IrToken *call) { __asm { int 3 } return 0; }
 
-void __stdcall concatenate_strings(ParserValue *destination, ParserValue *source) { __asm { int 3 } }
 void __stdcall record_conditional_cleanup(IrToken *expression) { __asm { int 3 } }
 CppSymbol * __stdcall find_copy_constructor(CType *type) { __asm { int 3 } return 0; }
 IrToken * __stdcall construct_copy_initializer(CppSymbol *constructor, CType *type, IrToken *expression) { __asm { int 3 } return 0; }

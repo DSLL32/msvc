@@ -1,0 +1,70 @@
+{
+  "schema": 1,
+  "function": "_concatenate_strings@8",
+  "native_entry": "concatenate_strings",
+  "argument_words": 4,
+  "ownership_register": "esi,eax",
+  "ownership_caller_extent": [
+    170741,
+    170754
+  ],
+  "native_caller_locals": {
+    "caller_destination": {
+      "frame": 1,
+      "function": "parse_translation_unit",
+      "local": "string_destination"
+    },
+    "caller_source": {
+      "frame": 1,
+      "function": "parse_translation_unit",
+      "local": "right"
+    }
+  },
+  "native_expressions": {
+    "raw_destination": "(unsigned)destination",
+    "raw_source": "(unsigned)source"
+  },
+  "formals": [
+    {
+      "name": "destination",
+      "stack_index": 0,
+      "native_field": "raw_destination",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 105218,
+        "original_owner_function": "_parse_translation_unit",
+        "native_owner_function": "parse_translation_unit",
+        "native_owner_field": "caller_destination",
+        "native_owner_local": "string_destination",
+        "identity": "Actual parser332 keeps ESIright/PUSHESI29af5; loads prior semanticexpression[ESI-8]29af6/add12actualIrToken.value29af9/PUSHEAX29afc/CALL29afd return29b02. Native real string_destination computes identicaltypedembeddedvalueaddress and rightactualsource; no recursivefielddump/frozenheapaddress/staticowner."
+      }
+    },
+    {
+      "name": "source",
+      "stack_index": 1,
+      "native_field": "raw_source",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 105218,
+        "original_owner_function": "_parse_translation_unit",
+        "native_owner_function": "parse_translation_unit",
+        "native_owner_field": "caller_source",
+        "native_owner_local": "right",
+        "identity": "Actual parser332 keeps ESIright/PUSHESI29af5; loads prior semanticexpression[ESI-8]29af6/add12actualIrToken.value29af9/PUSHEAX29afc/CALL29afd return29b02. Native real string_destination computes identicaltypedembeddedvalueaddress and rightactualsource; no recursivefielddump/frozenheapaddress/staticowner."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      151760,
+      151927
+    ],
+    "argument_bytes": 8,
+    "proof": "Whole167B/saveEBXESIEDIEBP16:destinationESP+20/sourceESP+24,RET8/void. Initialdestinationlength minus width1or2,sourcebytecount capturedbeforewarn/helper;32bitunsignedendpoint comparison againstexistingexpression_storage+2048 allowsend equality, overflowwarn1/9returnswithoutmutation. Widthmismatchwarn1/14thenstorelow16total, Pascalflag2 setsPthenrereadsflagbeforefinish_pascal_literal248b0/RET4, reloadactualtextpointersafterhelper andforwardcopy originalREPcount. No handwrittenmemcpy/helpervertex/newdata/hiddenregisterinputs. Actual caller computesdestination from right[-1].expression.value+12, semanticname string_destination is thatrealcomputedlocal, not extraownerstorage; actualsource right pointer."
+  }
+}

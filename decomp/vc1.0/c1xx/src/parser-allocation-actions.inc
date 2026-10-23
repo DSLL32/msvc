@@ -35,7 +35,8 @@
             parser_value.expression->tail.word = right[0].words.high;
             break;
         case 332:
-            concatenate_strings((ParserValue *)&right[-1].expression->value, &right[0]);
+            string_destination = (ParserValue *)&right[-1].expression->value;
+            concatenate_strings(string_destination, right);
             break;
         case 333:
             new_array_bound = 0;

@@ -1,0 +1,71 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+000250d0 <.text+0xe0d0>:
+   250d0:	53                   	push   ebx
+   250d1:	56                   	push   esi
+   250d2:	57                   	push   edi
+   250d3:	55                   	push   ebp
+   250d4:	8b 7c 24 14          	mov    edi,DWORD PTR [esp+0x14]
+   250d8:	33 f6                	xor    esi,esi
+   250da:	66 8b 4f 06          	mov    cx,WORD PTR [edi+0x6]
+   250de:	66 83 e1 01          	and    cx,0x1
+   250e2:	66 8b 77 04          	mov    si,WORD PTR [edi+0x4]
+   250e6:	66 83 f9 01          	cmp    cx,0x1
+   250ea:	1b c0                	sbb    eax,eax
+   250ec:	83 c0 02             	add    eax,0x2
+   250ef:	2b f0                	sub    esi,eax
+   250f1:	8b 44 24 18          	mov    eax,DWORD PTR [esp+0x18]
+   250f5:	33 db                	xor    ebx,ebx
+   250f7:	66 8b 58 04          	mov    bx,WORD PTR [eax+0x4]
+   250fb:	8d 2c 1e             	lea    ebp,[esi+ebx*1]
+   250fe:	8b 07                	mov    eax,DWORD PTR [edi]
+   25100:	03 c5                	add    eax,ebp
+   25102:	3d 08 cc 08 00       	cmp    eax,0x8cc08
+   25107:	76 17                	jbe    0x25120
+   25109:	6a 09                	push   0x9
+   2510b:	6a 01                	push   0x1
+   2510d:	e8 9e e2 04 00       	call   0x733b0
+   25112:	83 c4 08             	add    esp,0x8
+   25115:	5d                   	pop    ebp
+   25116:	5f                   	pop    edi
+   25117:	5e                   	pop    esi
+   25118:	5b                   	pop    ebx
+   25119:	c2 08 00             	ret    0x8
+   2511c:	8d 64 24 00          	lea    esp,[esp+0x0]
+   25120:	8b 44 24 18          	mov    eax,DWORD PTR [esp+0x18]
+   25124:	66 8b 40 06          	mov    ax,WORD PTR [eax+0x6]
+   25128:	66 25 01 00          	and    ax,0x1
+   2512c:	66 3b c1             	cmp    ax,cx
+   2512f:	74 0c                	je     0x2513d
+   25131:	6a 0e                	push   0xe
+   25133:	6a 01                	push   0x1
+   25135:	e8 76 e2 04 00       	call   0x733b0
+   2513a:	83 c4 08             	add    esp,0x8
+   2513d:	66 89 6f 04          	mov    WORD PTR [edi+0x4],bp
+   25141:	f6 47 06 02          	test   BYTE PTR [edi+0x6],0x2
+   25145:	74 11                	je     0x25158
+   25147:	8b 07                	mov    eax,DWORD PTR [edi]
+   25149:	c6 00 50             	mov    BYTE PTR [eax],0x50
+   2514c:	f6 47 06 02          	test   BYTE PTR [edi+0x6],0x2
+   25150:	74 06                	je     0x25158
+   25152:	57                   	push   edi
+   25153:	e8 58 f7 ff ff       	call   0x248b0
+   25158:	8b 3f                	mov    edi,DWORD PTR [edi]
+   2515a:	8b 44 24 18          	mov    eax,DWORD PTR [esp+0x18]
+   2515e:	03 fe                	add    edi,esi
+   25160:	8b 30                	mov    esi,DWORD PTR [eax]
+   25162:	8b cb                	mov    ecx,ebx
+   25164:	c1 e9 02             	shr    ecx,0x2
+   25167:	f3 a5                	rep movs DWORD PTR es:[edi],DWORD PTR ds:[esi]
+   25169:	8b cb                	mov    ecx,ebx
+   2516b:	83 e1 03             	and    ecx,0x3
+   2516e:	f3 a4                	rep movs BYTE PTR es:[edi],BYTE PTR ds:[esi]
+   25170:	5d                   	pop    ebp
+   25171:	5f                   	pop    edi
+   25172:	5e                   	pop    esi
+   25173:	5b                   	pop    ebx
+   25174:	c2 08 00             	ret    0x8

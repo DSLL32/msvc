@@ -6,6 +6,30 @@
 #include <stdlib.h>
 #include <recon.h>
 
+/* Original 0x250d0..0x25177. Replace the first literal's terminator
+   with the next literal, preserving the destination's width and Pascal form. */
+void __stdcall concatenate_strings(ParserValue *destination, ParserValue *source)
+{
+    int offset = destination->string.length - ((destination->string.flags & 1) ? 2 : 1);
+    unsigned bytes = source->string.length;
+    unsigned length = offset + bytes;
+    unsigned char *out, *in;
+    if ((unsigned)destination->string.text + length > (unsigned)(expression_storage + 2048)) {
+        compiler_warning(1, 9);
+        return;
+    }
+    if ((source->string.flags & 1) != (destination->string.flags & 1))
+        compiler_warning(1, 14);
+    destination->string.length = (unsigned short)length;
+    if (destination->string.flags & 2) {
+        destination->string.text[0] = 'P';
+        if (destination->string.flags & 2) finish_pascal_literal(destination);
+    }
+    out = (unsigned char *)destination->string.text + offset;
+    in = (unsigned char *)source->string.text;
+    while (bytes--) *out++ = *in++;
+}
+
 /* Original 0x25900..0x25c2c. Escape values are words: narrow numeric
    escapes sign-extend their byte, while wide escapes retain all sixteen bits. */
 unsigned short __stdcall decode_literal_escape(unsigned char character, int wide)

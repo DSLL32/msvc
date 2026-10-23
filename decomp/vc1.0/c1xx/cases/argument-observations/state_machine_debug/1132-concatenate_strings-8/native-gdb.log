@@ -1,0 +1,11 @@
+Breakpoint 1 at 0x421be: file src/literals.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, concatenate_strings (destination=0x56637820, source=0x5660f04c <parser_stacks+536>) at src/literals.c:13
+13	    int offset = destination->string.length - ((destination->string.flags & 1) ? 2 : 1);
+#0  concatenate_strings (destination=0x56637820, source=0x5660f04c <parser_stacks+536>) at src/literals.c:13
+#1  0x565ba035 in parse_translation_unit () at src/parser-allocation-actions.inc:39
+#2  0x5655dfef in compile_translation_unit () at src/frontend.c:73
+#3  0x565588b6 in guarded_compile () at src/c1xx.c:28
+#4  0x56558884 in main (argc=1, argv=0xffffd7b4, environment=0xffffd7bc) at src/c1xx.c:20

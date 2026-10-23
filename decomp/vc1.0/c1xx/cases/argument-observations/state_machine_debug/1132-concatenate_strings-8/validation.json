@@ -1,0 +1,95 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_concatenate_strings@8",
+  "case": "state_machine_debug",
+  "accepted_before": 1132,
+  "configuration_sha256": "4713ca742310cd930d471b48c50d2f30c94c32cc095d37847d8f737d89671470",
+  "native_entry": "concatenate_strings",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "destination",
+      "stack_index": 0,
+      "native_field": "raw_destination",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 105218,
+        "original_owner_function": "_parse_translation_unit",
+        "native_owner_function": "parse_translation_unit",
+        "native_owner_field": "caller_destination",
+        "native_owner_local": "string_destination",
+        "identity": "Actual parser332 keeps ESIright/PUSHESI29af5; loads prior semanticexpression[ESI-8]29af6/add12actualIrToken.value29af9/PUSHEAX29afc/CALL29afd return29b02. Native real string_destination computes identicaltypedembeddedvalueaddress and rightactualsource; no recursivefielddump/frozenheapaddress/staticowner.",
+        "original_owner_value": 8364632,
+        "native_owner_value": 1449359392
+      },
+      "original_raw": 8364632,
+      "native_raw": 1449359392,
+      "result": "match"
+    },
+    {
+      "name": "source",
+      "stack_index": 1,
+      "native_field": "raw_source",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 105218,
+        "original_owner_function": "_parse_translation_unit",
+        "native_owner_function": "parse_translation_unit",
+        "native_owner_field": "caller_source",
+        "native_owner_local": "right",
+        "identity": "Actual parser332 keeps ESIright/PUSHESI29af5; loads prior semanticexpression[ESI-8]29af6/add12actualIrToken.value29af9/PUSHEAX29afc/CALL29afd return29b02. Native real string_destination computes identicaltypedembeddedvalueaddress and rightactualsource; no recursivefielddump/frozenheapaddress/staticowner.",
+        "original_owner_value": 610396,
+        "native_owner_value": 1449193548
+      },
+      "original_raw": 610396,
+      "native_raw": 1449193548,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      151760,
+      151927
+    ],
+    "argument_bytes": 8,
+    "proof": "Whole167B/saveEBXESIEDIEBP16:destinationESP+20/sourceESP+24,RET8/void. Initialdestinationlength minus width1or2,sourcebytecount capturedbeforewarn/helper;32bitunsignedendpoint comparison againstexistingexpression_storage+2048 allowsend equality, overflowwarn1/9returnswithoutmutation. Widthmismatchwarn1/14thenstorelow16total, Pascalflag2 setsPthenrereadsflagbeforefinish_pascal_literal248b0/RET4, reloadactualtextpointersafterhelper andforwardcopy originalREPcount. No handwrittenmemcpy/helpervertex/newdata/hiddenregisterinputs. Actual caller computesdestination from right[-1].expression.value+12, semanticname string_destination is thatrealcomputedlocal, not extraownerstorage; actualsource right pointer.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "8b5eee3230deb9169f49067ff8c468a994ffc8fe85f9f15593493b65636a4d36",
+  "capture_timing": {
+    "original_capture_seconds": 1.3177400762215257,
+    "native_capture_seconds": 0.18275941535830498,
+    "total_operation_seconds": 1.7828230652958155
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "04dc6930b5b483ed5a6c5b37ea955096937a22a2e92ecf4e2e54fcb3f571c474",
+    "native-commands.gdb": "11a3b5726d58017c8ee933242e428cca7efb5f41be7e1c7849b6393147831c51",
+    "native-gdb.log": "10958934c939ee53bd9de92998164dff5014bc7b314bb8d72d4c4af6b1459873",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "b2e358a6d9f6b801d412d6380ce852dcbd87982e12dcda4fd9bdae0367be5c6a",
+    "original-configuration.json": "4713ca742310cd930d471b48c50d2f30c94c32cc095d37847d8f737d89671470",
+    "original-disassembly.txt": "898170deeb369bccb078465d1f7ab0d550e948fcd4ab520dca9467324f0936e7",
+    "original-entries.plan": "370c711dccbb5b7397929f7868231d8379173ff12fc5f749b725f67b72b94d54",
+    "original-events.txt": "5250e42ba86eb4243c91b1df75c2e0169d0760abef95acfc2c132600d87e5a02",
+    "original-ownership-caller-disassembly.txt": "2bfa0b84335ce254fd384ecb82455cfec84d1ff959318b1b9a2196a0dc1e5189",
+    "original-receipt.json": "0919dad741d8d5a6a2efaab4c0e48970492f12c7bdc68e92836db89877430ea1",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "bbe0ff7c7fb818ef7de5194862a07f616499d17c9a95f151f2b67bc9b66a189a"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}
