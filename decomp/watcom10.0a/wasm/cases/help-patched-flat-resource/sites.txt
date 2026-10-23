@@ -1,0 +1,8 @@
+10010 pe_entry e9
+1070a observe_module_filename_return 89
+1111c observe_CreateFileA ff
+10763 cf_launch e8
+11146 guard_final_exit ff
+cf:cb28 main 53
+cf:16710 guard_owner_begin 53
+cf:1e520 guard_reader_entry 51

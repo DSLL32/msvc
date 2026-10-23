@@ -1,0 +1,131 @@
+{
+  "schema": 1,
+  "case": "help-patched-flat-resource",
+  "status": "SOURCE AND COMMAND REVIEW PENDING; no original execution",
+  "argv": [
+    "/usr/bin/wine",
+    "S:\\watcom10.0a\\wlib\\helper-06-cf-file-phases\\diagnose-startup.exe",
+    "R:\\toolchains\\watcom10.0a\\.patched\\binnt\\WASM.EXE",
+    "/?",
+    "S:\\watcom10.0a\\wasm\\help-patched-flat-resource\\reference",
+    "S:\\watcom10.0a\\wasm\\help-patched-flat-resource\\reference\\stdout.bin",
+    "S:\\watcom10.0a\\wasm\\help-patched-flat-resource\\reference\\stderr.bin",
+    "S:\\watcom10.0a\\wasm\\help-patched-flat-resource\\reference\\events.txt",
+    "R:\\decomp\\watcom10.0a\\wasm\\cases\\help-patched-flat-resource\\sites.txt",
+    "30000",
+    "@R:\\decomp\\watcom10.0a\\wasm\\cases\\help-patched-flat-resource\\stdin.bin",
+    "R:\\decomp\\watcom10.0a\\wasm\\cases\\help-patched-flat-resource\\reads.txt",
+    "S:\\watcom10.0a\\wasm\\help\\diagnostic\\cf-proof.txt",
+    "R:\\decomp\\watcom10.0a\\wasm\\cases\\help-patched-flat-resource\\persistent-guard.txt"
+  ],
+  "host_cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wasm/help-patched-flat-resource/reference",
+  "child_windows_cwd": "S:\\watcom10.0a\\wasm\\help-patched-flat-resource\\reference",
+  "host_environment": {
+    "HOME": "/root",
+    "PATH": "/usr/bin:/bin",
+    "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
+    "WINEARCH": "win32",
+    "WINEDEBUG": "-all",
+    "LANG": "C",
+    "LC_ALL": "C",
+    "TZ": "UTC0"
+  },
+  "host_environment_is_allowlist": true,
+  "Windows_environment": "not observed by this helper; no full environment equivalence claim",
+  "target_program_argument": "/?",
+  "regular_input": {
+    "path": "/root/msvc2/decomp/watcom10.0a/wasm/cases/help-patched-flat-resource/stdin.bin",
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "helper_mode": "@existing regular file, actual GetFileType must be FILE_TYPE_DISK=1"
+  },
+  "helper": {
+    "path": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/helper-06-cf-file-phases/diagnose-startup.exe",
+    "sha256": "1426da5991f706b02ad945f0e9cd5200a052b8aacaf24960e8edb7d7c20552b5",
+    "frozen_packet": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/cf-file-observer-proposal/frozen-review-packet.json",
+    "frozen_packet_sha256": "0b2e8fe33c0946d26d8da579f60be94c3470497134c83b9d6e2d444c4bf08b93",
+    "source": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/cf-file-observer-proposal/diagnose-startup.c",
+    "source_sha256": "22677185610863de52c62da2d151828d4b00d95f46c89b7c31927b605b4156ef",
+    "header": "/root/msvc2/decomp/watcom10.0a/wlib/scripts/resource-guard.h",
+    "header_sha256": "a0c5d2d2c69308aa607dda424e69bb162be47f1d39ae897772f6d1bfc2a1f0d0",
+    "build_receipt": "/root/.ai-tmp/msvc2/watcom10.0a/wlib/helper-06-cf-file-phases/receipt.json",
+    "build_receipt_sha256": "314013151e79d854e76fdd44751f9ab173b7dfe952dbcbc7ba9e0ff467c92dad",
+    "same_guard_policy_proof": "WLIB authored-v4 13 Win32 controls and 198 native policy checks; new helper adds reviewed one CF observation rearm and proved normal-owned-exit cleanup"
+  },
+  "targets": {
+    "loader": "/root/msvc2/toolchains/watcom10.0a/.patched/binnt/WASM.EXE",
+    "loader_sha256": "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d",
+    "payload": "/root/msvc2/toolchains/watcom10.0a/.patched/binb/WASM.EXE",
+    "payload_sha256": "f7189b9de3de853139d381816ab5ed9aefdd6a4fd988e29a023f1f5fbd640de9",
+    "raw_payload": "/root/msvc2/toolchains/watcom10.0a/binb/WASM.EXE",
+    "raw_payload_sha256": "a79e0dc11a26b098728aa988cfc974113e7ac5d28c81baded1f077ed27be0513",
+    "resource_tail_offset": "0x2a482",
+    "resource_tail_bytes": 8482,
+    "resource_tail_sha256": "e80d7dcf783fa2b76b83700ca59c303f05878017b45891e2a004eeef4849b933"
+  },
+  "inputs": [
+    {
+      "path": "/root/msvc2/decomp/watcom10.0a/wasm/cases/help-patched-flat-resource/sites.txt",
+      "sha256": "774bb176b036ebb52b5f58e4d8a2621af839730e55b388cd4119f0b8e450c5bb",
+      "bytes": 209
+    },
+    {
+      "path": "/root/msvc2/decomp/watcom10.0a/wasm/cases/help-patched-flat-resource/reads.txt",
+      "sha256": "699b2736b08247b060ef432df3b72270419d4a828335bce99648dbf5e2a8df15",
+      "bytes": 12
+    },
+    {
+      "path": "/root/msvc2/decomp/watcom10.0a/wasm/cases/help-patched-flat-resource/persistent-guard.txt",
+      "sha256": "617119c75654081f8ea9bfd00dbf59333281ece91c5ca3597bfe67d7b18586da",
+      "bytes": 50
+    },
+    {
+      "path": "/root/msvc2/decomp/watcom10.0a/wasm/cases/help-patched-flat-resource/stdin.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/watcom10.0a/wasm/help/diagnostic/cf-proof.txt",
+      "sha256": "43009444eb80ade3c9e45986a98cf0b0443be8d11d5aa8979c859875b5e852d4",
+      "bytes": 33548
+    }
+  ],
+  "CF_proof_input_reuse": "Only the immutable numeric relocation input is reused. All 2915 raw values were checked against this exact patched payload during preparation; the new process must verify every actual relocated DWORD afresh before CF breakpoint installation. No old execution evidence is relabeled.",
+  "guard_profile": {
+    "domain": "CF offsets from observed allocation base; no page alignment assumed",
+    "owner_entry_rva": "0x16710",
+    "owner_first_opcode": "53 PUSH EBX",
+    "owner_caller_return_rva": "0x1681f",
+    "actual_object": "PrintfUsage fixed SUB ESP128 at167e4; at MsgGet entry EDX==ESP+4 and return[ESP]==base+1681f",
+    "capacity": 128,
+    "reader_entry_rva": "0x1e520",
+    "reader_first_opcode": "51 PUSH ECX",
+    "reader_return_rva": "0x1e6fe",
+    "reader_return_first_opcode": "83",
+    "reader_far_formals": "entry ESP+4 pointer DWORD, ESP+8 selector low WORD, ESP+12 capacity DWORD; upper selector padding is not a formal",
+    "require": "Every invocation selector==actual DS and GS equals actual initial GS; one expected thread, active exact owned pointer/capacity/caller, exact return lifetimes and ARM/readback/DB/rearm context checks",
+    "max_calls": 4096,
+    "unknowns": "Fail closed on non-DS, other owner/pointer/capacity/thread, unexpected exception/TF/GP/selector state, missing guards, or incomplete exit. No retry or fallback."
+  },
+  "observations": {
+    "module_filename": "PE1070a after real GetModuleFileNameA; actual EAX length/current ESP buffer",
+    "CF_launch": "PE10763: actual allocation slot30004, entry30000, ESI==base+1da16, all2915 base additions; actual EDI fields program0, command tail1, env2, break3, copyright4; only the first two pointed strings are observed",
+    "main_arguments": "CFcb28 actual argc EAX and argv EDX, every actual argv string",
+    "file_phases": "CreateFileA at PE1111c: loader-open plus exactly one rearmed first-postlaunch-open after validated CF launch. Log actual caller return, all7 arguments and complete filename. Do not call second open resource without actual path/caller evidence.",
+    "final_exit": "PE11146 guard_final_exit captures actual ExitProcess stack status, all guards armed/no active owner/reader/step; actual EXIT_PROCESS event must be continued, handle signaled within1000ms and actual status equal event status"
+  },
+  "deadline": {
+    "helper_target_ms": 30000,
+    "checked_each_debug_event_and_wait_iteration": true,
+    "host_outer_seconds": 45,
+    "owned_cleanup_only": "On timeout/error terminate only this helper-owned child and drain actual EXIT_PROCESS; never stop shared wineserver. Missing actual exit confirmation is HOLD."
+  },
+  "result_policy": {
+    "first_capture_only": true,
+    "preserve_all_failed_evidence": true,
+    "outputs": "Raw child stdout/stderr and ordinary source/path/hash-bound receipt/events; compress logs only if useful, no archive rebundling or common helper duplication",
+    "reference_status": "New explicit patched-path case; retain actual program/module/argv/resource paths without normalization or relabeling old baseline",
+    "application_acceptance": "zero; no application masking or function reconstruction acceptance",
+    "runtime_permission": "Parent/root approval of this exact frozen helper and command still required"
+  }
+}
