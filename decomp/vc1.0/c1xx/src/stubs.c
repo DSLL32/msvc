@@ -667,5 +667,7 @@ int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3
 int __cdecl equal_word_triplets(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_word_pairs(void *left, void *right) { __asm { int 3 } return 0; }
 void __stdcall shift_inherited_virtual_table(VirtualTable *table, BaseClassLink *base, unsigned displacement) { __asm { int 3 } }
-void __stdcall merge_virtual_base_group(Vector *groups, VirtualTableGroup *group, CppSymbol *tag, BaseClassLink *base) { __asm { int 3 } }
 VirtualTableGroup *__stdcall copy_inherited_virtual_group(VirtualTableGroup *group, BaseClassLink *base, int arena) { __asm { int 3 } return 0; }
+void __stdcall merge_virtual_group_entries(CppSymbol *tag, VirtualTableGroup *destination, VirtualTableGroup *source) { __asm { int 3 } }
+void __stdcall release_virtual_group(VirtualTableGroup *group) { __asm { int 3 } }
+int __stdcall layout_anonymous_data(CType *type) { __asm { int 3 } return 0; }

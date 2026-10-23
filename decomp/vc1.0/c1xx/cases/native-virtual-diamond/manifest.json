@@ -1,14 +1,14 @@
 {
   "case": "virtual_diamond",
-  "scope": "708 accepted frontiers; explicit original-backed current partial frontend terminal",
-  "reference_receipt": "cases/virtual-diamond-frontiers/0707-prepare_inherited_virtual_table-12/original-receipt.json",
-  "reference_receipt_sha256": "d3b362a99431b692dd61e742db81b04c17a0d88ae3e54006bf8cc6194428c852",
+  "scope": "718 accepted frontiers; explicit original-backed current partial frontend terminal",
+  "reference_receipt": "cases/virtual-diamond-frontiers/0717-shift_virtual_base_group-12/original-receipt.json",
+  "reference_receipt_sha256": "e941ea096a6ca0da8bf6185a55b083a2e1373cc788c4556ebe2c06d2855001a8",
   "reference_original_image_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
   "canonical_map": "canonical-map.txt",
-  "canonical_map_sha256": "16805011df19ef7144a3e74de88c80a0bbb3f489a2595b99ed216183c5fd18f9",
+  "canonical_map_sha256": "6e95af55f408207981db4dce60ad783e1d6887e2d23d15a9e4bca879b90b235e",
   "terminal": {
     "kind": "frontier",
-    "logical": "_merge_virtual_base_group@16",
+    "logical": "_shift_inherited_virtual_table@12",
     "native_signal": 5,
     "original_exception": "80000003"
   },
@@ -37,7 +37,7 @@
     }
   ],
   "normalization": "none; captured visible bytes, not unflushed CRT buffers",
-  "capture_seconds": 2.671513967216015,
+  "capture_seconds": 4.826080395840108,
   "dependencies": [
     {
       "path": "toolchains/1.0-nt/bin/C1.ERR",

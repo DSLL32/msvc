@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.035201385617256,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-inherits-virtual-base-vtordisp-named-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 4.511872168630362,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-inherits-virtual-base-vtordisp-named-canonical.log"
+  }
+]

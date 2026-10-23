@@ -65,10 +65,10 @@ typedef struct VirtualTable {
 } VirtualTable;
 typedef struct VirtualTableGroup {
     CppSymbol *tag;
-    unsigned field04, field08, field0c, field10;
+    unsigned object_offset, field08, field0c, field10;
     Vector *tables, *base_tables;
     unsigned char flags, reserved_flags[3];
-    unsigned field20;
+    unsigned has_vtordisp;
 } VirtualTableGroup;
 typedef char VirtualEntrySizeMustBe16[(sizeof(VirtualEntry) == 16) ? 1 : -1];
 typedef char VirtualTableSizeMustBe56[(sizeof(VirtualTable) == 56) ? 1 : -1];
@@ -79,10 +79,11 @@ typedef char VirtualTableOwnersOffsetMustBe52[(offsetof(VirtualTable, shared_own
 typedef char VirtualTableCountOffsetMustBe16[(offsetof(VirtualTable, entry_count) == 16) ? 1 : -1];
 typedef char VirtualTableEntriesOffsetMustBe24[(offsetof(VirtualTable, entries) == 24) ? 1 : -1];
 typedef char VirtualTableGroupTagOffsetMustBe0[(offsetof(VirtualTableGroup, tag) == 0) ? 1 : -1];
+typedef char VirtualTableGroupOffsetOffsetMustBe4[(offsetof(VirtualTableGroup, object_offset) == 4) ? 1 : -1];
 typedef char VirtualTableGroupFlagsOffsetMustBe28[(offsetof(VirtualTableGroup, flags) == 28) ? 1 : -1];
 typedef char VirtualTableGroupSizeMustBe36[(sizeof(VirtualTableGroup) == 36) ? 1 : -1];
 typedef char VirtualTableGroupBaseTablesOffsetMustBe24[(offsetof(VirtualTableGroup, base_tables) == 24) ? 1 : -1];
-typedef char VirtualTableGroupContextOffsetMustBe32[(offsetof(VirtualTableGroup, field20) == 32) ? 1 : -1];
+typedef char VirtualTableGroupContextOffsetMustBe32[(offsetof(VirtualTableGroup, has_vtordisp) == 32) ? 1 : -1];
 typedef char VirtualTableGroupTablesOffsetMustBe20[(offsetof(VirtualTableGroup, tables) == 20) ? 1 : -1];
 /* The final four class-info bytes pack availability/access/ambiguity bits
    for special members, followed by copy/assignment cv qualification. */

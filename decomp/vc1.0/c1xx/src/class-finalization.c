@@ -3,6 +3,7 @@
 #include "class-finalization.h"
 #include "class-type-sets.h"
 #include "class-members.h"
+#include "member-access.h"
 #include "global-ir.h"
 #include "cpp-context.h"
 #include "constructor-initializers.h"
@@ -294,7 +295,7 @@ void __stdcall resolve_function_virtual_overrides(CppSymbol *member, CppSymbol *
     for (;;) {
         while (table_index < tables->count) {
             table = tables->items[table_index++];
-            resolve_table_override(member, table, tag, (char)(group && group->field20));
+            resolve_table_override(member, table, tag, (char)(group && group->has_vtordisp));
         }
         if (group_index >= groups->count) break;
         group = groups->items[group_index++];
@@ -1129,4 +1130,221 @@ void __stdcall prepare_inherited_virtual_table(VirtualTable *table,
     table->unshared_owner = cpp_context_stack->items[base->context_index];
     table->inheritance_path = base;
     table->source_table = original;
+}
+
+VirtualTableGroup *__stdcall find_virtual_base_group(CppSymbol *tag, Vector *groups);
+void __stdcall shift_virtual_base_group(VirtualTableGroup *group,
+    BaseClassLink *base, unsigned unused_offset);
+void __stdcall merge_virtual_group_entries(CppSymbol *tag,
+    VirtualTableGroup *destination, VirtualTableGroup *source);
+void __stdcall release_virtual_group(VirtualTableGroup *group);
+int __stdcall needs_virtual_base_vtordisp(CppSymbol *tag, CppSymbol *base_tag);
+int __stdcall track_empty_base_layout(CppSymbol *base_tag, CppSymbol *tag);
+int __stdcall layout_anonymous_data(CType *type);
+
+/* Original 0x7a090..0x7a122. A virtual base shared by two paths retains
+   one group: adjust and merge the duplicate's entries, then release its
+   temporary tables. A first occurrence allocates its object/vtordisp space. */
+void __stdcall merge_virtual_base_group(Vector *groups, VirtualTableGroup *group,
+    CppSymbol *tag, BaseClassLink *base)
+{
+    VirtualTableGroup *existing = find_virtual_base_group(group->tag, groups);
+    unsigned offset;
+    if (existing) {
+        shift_virtual_base_group(group, base, existing->object_offset);
+        merge_virtual_group_entries(tag, existing, group);
+        release_virtual_group(group);
+        return;
+    }
+    group->has_vtordisp = needs_virtual_base_vtordisp(tag, group->tag);
+    if (track_empty_base_layout(group->tag, tag) || group->has_vtordisp)
+        layout_anonymous_data(builtin_integer_type());
+    offset = layout_data_member(group->tag);
+    group->object_offset = offset;
+    shift_virtual_base_group(group, base, offset);
+    append_vector(groups, group);
+}
+
+/* Original 0x7a220..0x7a267. Virtual bases are shared by canonical tag
+   identity. Return the first matching group in signed-short vector order. */
+VirtualTableGroup *__stdcall find_virtual_base_group(CppSymbol *tag, Vector *groups)
+{
+    short index = 0;
+    VirtualTableGroup *group;
+    while (index < groups->count) {
+        group = groups->items[index++];
+        if (group->tag == tag) return group;
+    }
+    return 0;
+}
+
+int __stdcall inherits_virtual_base_vtordisp(CppSymbol *tag, CppSymbol *base_tag);
+int __stdcall has_non_destructor_virtual_functions(CppSymbol *tag);
+int __stdcall has_implicit_lifetime_members(CppSymbol *tag);
+int __stdcall class_allows_vtordisp(CppSymbol *tag);
+int __stdcall has_construction_virtual_override(CppSymbol *tag, CppSymbol *base_tag);
+
+/* Original 0x7aff0..0x7b05e. An inherited slot remains required even
+   with vtordisp generation suppressed. New slots depend on virtual overrides
+   and the derived class's construction/destruction requirements. */
+int __stdcall needs_virtual_base_vtordisp(CppSymbol *tag, CppSymbol *base_tag)
+{
+    if (inherits_virtual_base_vtordisp(tag, base_tag)) return 1;
+    if (suppress_vtordisp) return 0;
+    if (!has_non_destructor_virtual_functions(base_tag)) return 0;
+    if (has_implicit_lifetime_members(tag)) return 0;
+    if (!class_allows_vtordisp(tag)) return 0;
+    return has_construction_virtual_override(tag, base_tag);
+}
+
+/* Original 0x7b160..0x7b1e6. Any visible direct base may already carry
+   this virtual base's displacement slot, regardless of the current pragma. */
+int __stdcall inherits_virtual_base_vtordisp(CppSymbol *tag, CppSymbol *base_tag)
+{
+    BaseClassLink *base = (BaseClassLink *)tag->auxiliary.scope_members, *next;
+    CppSymbol *direct_tag;
+    VirtualTableGroup *group;
+    while (base) {
+        next = (BaseClassLink *)base->next;
+        if ((base->kind & 31) == 15 && !(base->flags & 0x80)) {
+            direct_tag = cpp_context_stack->items[base->context_index];
+            group = find_virtual_base_group(base_tag,
+                direct_tag->detail.class_info->virtual_table_groups);
+            if (group && group->has_vtordisp) return 1;
+        }
+        base = next;
+    }
+    return 0;
+}
+
+/* Original 0x7b060..0x7b151. Inspect ordinary vftables, then each
+   virtual-base group's dispatch tables. The 0x2000 declaration flag denotes
+   a destructor, which alone does not require a construction displacement. */
+int __stdcall has_non_destructor_virtual_functions(CppSymbol *tag)
+{
+    Vector *tables = tag->detail.class_info->virtual_tables;
+    Vector *groups = tag->detail.class_info->virtual_table_groups;
+    VirtualTableGroup *group;
+    VirtualTable *table;
+    short table_index = 0, group_index = 0;
+    int entry_index;
+    for (;;) {
+        while (table_index < tables->count) {
+            table = tables->items[table_index++];
+            for (entry_index = 0; entry_index < table->entry_count; ++entry_index)
+                if (!(table->entries[entry_index].dispatch.function->declaration_flags & 0x2000))
+                    return 1;
+        }
+        if (group_index >= groups->count) return 0;
+        group = groups->items[group_index++];
+        tables = group->tables;
+        table_index = 0;
+    }
+}
+
+/* Original 0x7b1f0..0x7b21c. Construction and destruction must each
+   be trivial or supplied by the implicit-member requirements. */
+int __stdcall has_implicit_lifetime_members(CppSymbol *tag)
+{
+    ClassInfo *info = tag->detail.class_info;
+    if ((info->trivial_special_members & 1) ||
+        (info->implicit_member_requirements & 1)) {
+        if ((info->trivial_special_members & 8) ||
+            (info->implicit_member_requirements & 8)) return 1;
+    }
+    return 0;
+}
+
+/* Original 0x7b220..0x7b237. Layout attribute0x100 excludes the tag
+   from new vtordisp storage. Return a complete 32-bit Boolean value. */
+int __stdcall class_allows_vtordisp(CppSymbol *tag)
+{
+    return (tag->attributes & 0x100) ? 0 : 1;
+}
+
+/* Original 0x7b240..0x7b3e5. Search the derived overload sets for a
+   non-destructor method matching one of the virtual base's dispatch entries.
+   The original inlines the parameter/this comparisons and calls only the
+   separate return-type compatibility predicate. */
+int __stdcall has_construction_virtual_override(CppSymbol *tag, CppSymbol *base_tag)
+{
+    CppSymbol *member, *next_member, *function, *next_function, *inherited;
+    Vector *tables;
+    VirtualTable *table;
+    TypeShape *shape, *inherited_shape;
+    FunctionParameters *parameters, *inherited_parameters;
+    CType *type, *inherited_type, *this_type, *inherited_this;
+    short table_index;
+    int entry_index;
+    for (member = tag->auxiliary.scope_members; member; member = next_member) {
+        next_member = member->next;
+        if ((member->kind & 31) != 17 || (member->flags & 0x80)) continue;
+        for (function = ((OverloadSet *)member)->functions; function;
+                function = next_function) {
+            next_function = function->next;
+            if ((function->declaration_flags & 0x2000) ||
+                (function->cpp.parts.member_flags & 4)) continue;
+            tables = base_tag->detail.class_info->virtual_tables;
+            table_index = 0;
+            while (table_index < tables->count) {
+                table = tables->items[table_index++];
+                for (entry_index = 0; entry_index < table->entry_count; ++entry_index) {
+                    inherited = table->entries[entry_index].dispatch.function;
+                    if (function->name != inherited->name) continue;
+                    type = function->type;
+                    inherited_type = inherited->type;
+                    shape = type->related;
+                    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+                    inherited_shape = inherited_type->related;
+                    if (inherited_shape && !(inherited_shape->flags & 0x77))
+                        inherited_shape = inherited_shape->related;
+                    parameters = shape->data.parameters;
+                    inherited_parameters = inherited_shape->data.parameters;
+                    if (parameters->declarations != inherited_parameters->declarations) continue;
+                    this_type = parameters->associated_type;
+                    inherited_this = inherited_parameters->associated_type;
+                    if ((inherited_type->attributes ^ type->attributes) & 7) continue;
+                    if ((inherited_this->related->attributes ^ this_type->related->attributes) & 7)
+                        continue;
+                    if ((inherited_this->attributes ^ this_type->attributes) & 0x3000) continue;
+                    if (compatible_override_return(type, inherited_type)) return 1;
+                }
+            }
+        }
+    }
+    return 0;
+}
+
+/* Original 0x7a140..0x7a19b. Adjacent empty-base properties determine
+   whether another storage unit is needed. Always retain the current base
+   and copy only its trailing-empty flag into the derived class. */
+int __stdcall track_empty_base_layout(CppSymbol *base_tag, CppSymbol *tag)
+{
+    int separate = 0;
+    unsigned char flags;
+    if (previous_base_class && (previous_base_class->detail.class_info->flags & 8) &&
+        (base_tag->detail.class_info->flags & 4)) separate = 1;
+    previous_base_class = base_tag;
+    flags = tag->detail.class_info->flags;
+    tag->detail.class_info->flags = flags ^
+        ((base_tag->detail.class_info->flags ^ flags) & 8);
+    return separate;
+}
+
+/* Original 0x7a1a0..0x7a217. Adjust both table families by the group's
+   stored offset, then combine path access. The third stack slot is present
+   in callers and RET12 but is never read by this original body. */
+void __stdcall shift_virtual_base_group(VirtualTableGroup *group,
+    BaseClassLink *base, unsigned unused_offset)
+{
+    Vector *tables;
+    short index;
+    int family;
+    for (family = 0; family < 2; ++family) {
+        tables = family ? group->base_tables : group->tables;
+        index = 0;
+        while (index < tables->count)
+            shift_inherited_virtual_table(tables->items[index++], base, group->object_offset);
+    }
+    group->flags = combine_member_access(group->flags, (unsigned char)(base->flags & 3));
 }

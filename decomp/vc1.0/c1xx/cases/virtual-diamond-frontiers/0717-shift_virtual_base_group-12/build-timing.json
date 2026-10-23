@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 1.8205688009038568,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-shift-virtual-base-group-declared-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 6.8775480017066,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-shift-virtual-base-group-declared-canonical.log"
+  }
+]

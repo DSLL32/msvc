@@ -911,7 +911,7 @@ int __stdcall next_virtual_base_search(VirtualBaseSearch *search)
     if (search->active && search->index < search->groups->count) {
         search->group = search->groups->items[search->index++];
         search->tag = search->group->tag;
-        search->field14 = search->group->field04;
+        search->field14 = search->group->object_offset;
         return 1;
     }
     return 0;

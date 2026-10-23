@@ -678,7 +678,7 @@ void __stdcall emit_vtordisp_initializers(CppSymbol *tag, int initialize)
     index = 0;
     while (index < groups->count) {
         group = groups->items[index++];
-        if (group->field20) {
+        if (group->has_vtordisp) {
             if (!initialize) value = make_integer_constant(0);
             else value = make_vtordisp_value(tag, group);
             path = make_vtordisp_qualifier_path(tag, group);

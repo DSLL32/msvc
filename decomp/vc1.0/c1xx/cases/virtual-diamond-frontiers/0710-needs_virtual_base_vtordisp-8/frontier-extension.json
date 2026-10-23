@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 710,
+  "accepted": "_needs_virtual_base_vtordisp@8",
+  "terminal": "_inherits_virtual_base_vtordisp@8",
+  "original_capture": "cases/virtual-diamond-frontiers/0710-needs_virtual_base_vtordisp-8/original-receipt.json",
+  "original_capture_sha256": "c434d3e4606009648b7a426ae0792b38e2394b46bf7bad43d7f98ff218df9ef3",
+  "original_events": "cases/virtual-diamond-frontiers/0710-needs_virtual_base_vtordisp-8/original-events.txt",
+  "original_events_sha256": "44a8aafd741e91cd1c332aa259c5a17ea971141b14ee79d2cbd63febfd1aed2d",
+  "original_configuration": "cases/virtual-diamond-frontiers/0710-needs_virtual_base_vtordisp-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

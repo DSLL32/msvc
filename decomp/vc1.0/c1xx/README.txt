@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 708 accepted frontiers, including 616 frontend
+PARTIAL binary reconstruction: 718 accepted frontiers, including 626 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1577,3 +1577,26 @@ Combined measured wall:4.842415seconds.
 
 Accepted extent union209366/476418bytes is43.945863%, not branch coverage.
 virtual_diamond remains incomplete at merge_virtual_base_group0x7a090.
+
+Virtual-base eligibility checkpoint:718 accepted frontiers,633 source functions.
+Ten whole functions beyond257caf5 merge shared virtual-base groups and determine
+new/inherited vtordisp requirements. The predicate checks inherited slots first,
+then suppression, non-destructor virtual entries, lifetime traits, layout
+attributes and actual derived overrides. The overload scan preserves canonical
+name/parameter/this comparisons and its separate return-type predicate.
+
+Group object_offset at+4 and has_vtordisp at+32 now have contextual names and
+layout assertions. The group adjustment body retains its unused third stack
+argument and uses the group's stored offset, exactly as the original does.
+Anonymous storage and other unreached callees remain named traps. An unused
+preparatory draft build was removed before acceptance; its elapsed cost and a
+missing-declaration build retry are recorded explicitly with frontier0717.
+
+Every0708through0717 acceptance matches fresh original/native traps, four pending
+buffers, fourteen state values, streams and visible files. Completed cpp_basic
+remains raw byte-exact. Full633-function graph, contextual data/defaults/callback
+identities, both grammars, both cached native cases and25negative checks pass.
+Combined measured wall:4.781096seconds.
+
+Accepted extent union210776/476418bytes is44.241821%, not branch coverage.
+virtual_diamond remains incomplete at shift_inherited_virtual_table0x79f50.

@@ -1,0 +1,18 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655b7a8 in class_allows_vtordisp (tag=0x565ef74c) at src/stubs.c:676
+676	int __stdcall class_allows_vtordisp(CppSymbol *tag) { __asm { int 3 } return 0; }
+#0  0x5655b7a8 in class_allows_vtordisp (tag=0x565ef74c) at src/stubs.c:676
+#1  0x565aec95 in needs_virtual_base_vtordisp (tag=0x565ef74c, base_tag=0x565ef0ec) at src/class-finalization.c:1195
+#2  0x565ae980 in merge_virtual_base_group (groups=0x565ff0d0, group=0x565ff24c, tag=0x565ef74c, base=0x565ef7d0) at src/class-finalization.c:1158
+#3  0x565ad532 in complete_direct_base_layout (base=0x565ef7d0, tag=0x565ef74c) at src/class-finalization.c:1011
+#4  0x565acaf5 in complete_base_class_layout (tag=0x565ef74c) at src/class-finalization.c:219
+#5  0x565ac88c in complete_class_virtual_layout (tag=0x565ef74c) at src/class-finalization.c:188
+#6  0x565abae4 in finalize_class_virtual_tables (tag=0x565ef74c) at src/class-finalization.c:178
+#7  0x565ab67e in end_class_specifier () at src/class-finalization.c:30
+#8  0x565964a3 in parse_translation_unit () at src/parser-declaration-actions.inc:166
+#9  0x5655deb6 in compile_translation_unit () at src/frontend.c:75
+#10 0x565587d6 in guarded_compile () at src/c1xx.c:28
+#11 0x565587a4 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20

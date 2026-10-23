@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_has_implicit_lifetime_members@4",
+    "start": 504304,
+    "end": 504349
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_class_allows_vtordisp@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.3526246463879943,
+  "total_operation_seconds": 7.311768791638315,
+  "original_capture_seconds": 4.67730304505676
+}

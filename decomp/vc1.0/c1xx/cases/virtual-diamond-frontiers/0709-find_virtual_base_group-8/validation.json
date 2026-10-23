@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_find_virtual_base_group@8",
+    "start": 500256,
+    "end": 500328
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_needs_virtual_base_vtordisp@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.35035495460033417,
+  "total_operation_seconds": 6.929758187383413,
+  "original_capture_seconds": 4.42589841876179
+}

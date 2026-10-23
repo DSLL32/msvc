@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_has_construction_virtual_override@8",
+    "start": 504384,
+    "end": 504806
+  },
+  "distinct_direct_callees": [
+    "_compatible_override_return@8"
+  ],
+  "next_frontier": "_track_empty_base_layout@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.35839207377284765,
+  "total_operation_seconds": 7.484021017327905,
+  "original_capture_seconds": 4.876536158844829
+}
