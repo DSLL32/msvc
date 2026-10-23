@@ -15,6 +15,7 @@
 #include "object-initializers.h"
 #include "macros.h"
 #include "type-sizes.h"
+#include "special-member-lookup.h"
 #include <recon.h>
 
 CType *__stdcall runtime_callback_type(unsigned short pointer_attributes,
@@ -1504,4 +1505,11 @@ CppSymbol *__stdcall lookup_source_conversion_function(CType *type, CppSymbol *t
         if (function) return function;
     }
     return 0;
+}
+
+/* Original 0x38760..0x38775. Ordinary destruction uses the interned
+   __dtor identifier without an additional candidate predicate. */
+CppSymbol *__stdcall lookup_destructor_member(CType *type)
+{
+    return lookup_special_member(type, name_dtor, 0);
 }

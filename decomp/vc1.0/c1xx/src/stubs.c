@@ -194,7 +194,7 @@ void increment_expression_record_depth(void) { __asm { int 3 } }
 
 
 void __stdcall initialize_element(IrToken *value, int mode) { __asm { int 3 } }
-CppSymbol *__stdcall lookup_destructor_member(CType *type) { __asm { int 3 } return 0; }
+
 IrToken *__stdcall initialize_allocated_scalar(IrToken *object, IrToken *initializer) { __asm { int 3 } return 0; }
 
 
