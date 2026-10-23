@@ -18,7 +18,8 @@ views={side:{p.name:p.read_bytes() for p in (pair/side).glob(pattern)} for side,
 spec=importlib.util.spec_from_file_location('raw_state',BINARY/'scripts/raw-state.py');decoder=importlib.util.module_from_spec(spec);spec.loader.exec_module(decoder)
 def compare(state,raw=events):return decoder.compare(config,data,raw,state,artifacts,views)
 baseline=compare(native)
-if pair.name.startswith('0075-'):expected_used,expected_slots=368,9
+if pair.name.startswith('0076-'):expected_used,expected_slots=876,18
+elif pair.name.startswith('0075-'):expected_used,expected_slots=368,9
 elif pair.name.startswith('0074-'):expected_used,expected_slots=328,7
 elif pair.name.startswith('0073-'):expected_used,expected_slots=144,4
 else:expected_used,expected_slots=40,2
@@ -64,8 +65,9 @@ reject('wrong-interned-payload-alias',lambda s:word(s,node,4,payload+1),'type pa
 reject('lost-dispatch-index-storage-alias',lambda s:globalword(s,'symbol_rewriters',304,0x1000),'symbol callback kind/reserved differs')
 if expected_slots>=4:
  root=int.from_bytes(bytes.fromhex(native['globals']['type_positions']),'little');heads=bytes.fromhex(native['memory'][str(root)])
- populated=[int.from_bytes(heads[offset:offset+4],'little') for offset in range(0,2048,4) if any(heads[offset:offset+4])];assert len(populated)==(2 if expected_slots>=7 else 1)
- cached=populated[0];cache=struct.unpack('<5I',bytes.fromhex(native['memory'][str(cached)]));assert cache[2:]==(0x1003,0,0)
+ populated=[int.from_bytes(heads[offset:offset+4],'little') for offset in range(0,2048,4) if any(heads[offset:offset+4])];assert len(populated)==(5 if expected_slots>=18 else 2 if expected_slots>=7 else 1)
+ cached=next(node for node in populated if bytes.fromhex(native['memory'][str(int.from_bytes(bytes.fromhex(native['memory'][str(node)])[:4],'little'))])==b'\x07tagRECT')
+ cache=struct.unpack('<5I',bytes.fromhex(native['memory'][str(cached)]));assert cache[2:]==(0x1003,0,0)
  assert bytes.fromhex(native['memory'][str(cache[0])])==b'\x07tagRECT'
  def wrong_name_owner(state):
   word(state,cached,0,cache[0]+1)
@@ -80,6 +82,10 @@ if expected_slots>=4:
  else:
   reject('lost-public-scope-depth',lambda s:globalword(s,'public_scope_depth',0,2),'application global differs')
   reject('wrong-discard-scope-depth',lambda s:globalword(s,'discard_symbol_depth',0,1),'application global differs')
+if pair.name.startswith('0076-'):
+ assert native['globals']['module_type_low']=='02000000' and native['globals']['current_module_flags']=='00000000'
+ assert bytes.fromhex(native['memory'][str(payload)])[368:380]==bytes.fromhex('0a000210011000000a000000')
+ reject('zeroed-pointer-referent-from-wrong-mapper-selector',lambda s:word(s,payload,372,0),'initialized arena payload bytes differ')
 if native['function']=='compact_legacy_pointer':
  assert baseline['parameters']==dict(record=dict(root='type_records',index=14))
  reject('wrong-pointer-record-index',lambda s:s['parameters']['record'].update(index=15),'typed ABI arguments differ')

@@ -81,7 +81,8 @@
     "lookup_named_type",
     "find_local_named_type",
     "record_base_classes",
-    "leave_symbol_scope"
+    "leave_symbol_scope",
+    "compact_legacy_pointer"
   ],
   "functions": [
     {
@@ -1989,8 +1990,11 @@
       "source_name": "compact_legacy_pointer",
       "native_symbol": "compact_legacy_pointer",
       "original": 4209296,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4209296,
+        4209627
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -2001,7 +2005,18 @@
           "count": "type_record_count",
           "native_pointee_width": 32
         }
-      ]
+      ],
+      "text_data": [
+        [
+          4209628,
+          4209653
+        ],
+        [
+          4209656,
+          4209682
+        ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0076-compact-pointer-types-corrected-selector/promotion.json"
     },
     {
       "name": "match_forward_type",

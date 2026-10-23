@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "candidate": "compact_legacy_pointer",
+  "accepted_functions": 76,
+  "application_extent_bytes": 24137,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 38.51935782451885,
+  "qualification": "Application extents / whole text, not non-CRT or branch coverage.",
+  "source_extent": [
+    4209296,
+    4209627
+  ],
+  "associated_text_data": [
+    [
+      4209628,
+      4209653
+    ],
+    [
+      4209656,
+      4209682
+    ]
+  ],
+  "source_review": [
+    "Dispatch through actual module_type_low mapper, rewrite referent+4 and pending reference byte4.",
+    "Modes2/3 rewrite containing type+12; based-type8 does likewise; embedded based-symbol4..7 selects original16/18/20 offsets and appends pending offset.",
+    "Return low byte of16-bit reference count, genuine single-ECX fastcall and RET0.",
+    "Fresh pair caught mistaken current_module_flags selector before acceptance; corrected module_type_low and matched original pointer referent1001 at packed arena offset372."
+  ],
+  "executed_scope": "Genuine modern pointers progress to UDT rewriting,18global types/876definedarenaB/5globalcache names. Based-symbol fallback remains unvisited.",
+  "fresh_pair": true,
+  "next_frontier": "rewrite_type_name_symbol",
+  "fresh_negative_count": 37,
+  "native_limitation": {
+    "scope": "Unsupported embedded based-symbol kind only",
+    "original": "Unwritten offset WORD read at403b76; PUSH ECX reserves slot holding incoming pointer bits.",
+    "native": "__builtin_debugtrap before consuming offset; no invented zero or pointer-bit transport.",
+    "policy": "Orchestrator explicitly approved original-bug/native-hold policy, CVTRES precedent.",
+    "test": "pointer-gap-check.json",
+    "equivalence_claim": false
+  },
+  "affected_controls": {
+    "type-arena-state-checks.json": {
+      "path": "type-arena-state-checks.json",
+      "sha256": "d42c296d6deafef5baa639c3946316145dae67f90ef3214f88bd91ba9313c7f8"
+    },
+    "pointer-gap-check.json": {
+      "path": "pointer-gap-check.json",
+      "sha256": "be93cae022223980eff70683956f93b561b9fa9047aae907651bf06948f8957d"
+    },
+    "import-sidecar-checks.json": {
+      "path": "import-sidecar-checks.json",
+      "sha256": "2c331289577f339adf8ec4c14bfedb677ae6bc6d7cdcdbddcce6c9e1ba9b49a4"
+    },
+    "help-protocol-report.json": {
+      "path": "help-protocol-report.json",
+      "sha256": "e12bf27bbc86485970f4e0ffa7a1285122a4df7375cc9897ea0f3c8ba43d2945"
+    }
+  },
+  "reused_controls": {
+    "read-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0071-match-forward-type/read-state-checks.json",
+      "sha256": "1ba19573dd3b3b7982aeef2b9ff1434fdd616a5511356eda9db244d4ed90d29b"
+    },
+    "initialized-storage-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0071-match-forward-type/initialized-storage-checks.json",
+      "sha256": "699c47129ead5613f30de8b942068bafc181f9ccd256f0baeb82bcc5339a1f5c"
+    },
+    "type-record-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0071-match-forward-type/type-record-state-checks.json",
+      "sha256": "c00410ded5b389615d34b7498eed2837b01ea94f3fba9a3a0b1fa76e54dc44aa"
+    },
+    "abi-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0071-match-forward-type/abi-state-checks.json",
+      "sha256": "702a6801ab297d3736bfc72e61a6d2ee0b12d8707bd7bd85ba55bf497f944bd5"
+    }
+  },
+  "original_reuse": {
+    "path": "cases/hello-debug-dll/evidence/0076-compact-pointer-types/original",
+    "receipt_sha256": "bab07855573956853ef29d4560024d66eb1029bcec07ca1d5a785a00b68a1657",
+    "reason": "Target/mask/candidate/config/execution inputs unchanged. Both corrected Win32 and native rebuilt; native-only fresh capture and strict bound current audit sidecar."
+  },
+  "seconds": {
+    "original_trial": "Failed first pair timings retained in individual capture receipts/build logs.",
+    "native_refresh": {
+      "native_capture": 0.7719595246016979,
+      "candidate_audit": 1.0614097099751234,
+      "pair_check": 0.8323853090405464
+    },
+    "arena_controls": 4.3101604003459215,
+    "sidecar_controls": 3.6286930115893483,
+    "gap_control": {
+      "build": 1.6804757518693805,
+      "total": 1.8260885393247008
+    },
+    "fixtures": {
+      "hello-debug-dll": {
+        "preparation": 0.002545654773712158,
+        "execution": 0.6788845239207149,
+        "checks": 0.0051276059821248055,
+        "total": 1.008291338570416
+      },
+      "help": {
+        "preparation": 0.0026842793449759483,
+        "execution": 0.004400880075991154,
+        "checks": 0.002871572971343994,
+        "total": 0.015288243070244789
+      }
+    },
+    "protocol": {
+      "native_capture": 0.13877794239670038,
+      "candidate_audit": 0.46154223941266537,
+      "pair_check": 0.16072218492627144,
+      "negative_checks": 1.4776635812595487
+    }
+  }
+}

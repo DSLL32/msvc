@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0075-leave-symbol-scope-typed-pointer/original",
-  "reference_receipt_sha256": "f0e6847e72e79a4ad08f01f9324d838d49238c3ea1446ae7b16677a238d21d5d",
+  "reference": "cases/hello-debug-dll/evidence/0076-compact-pointer-types-corrected-selector/original",
+  "reference_receipt_sha256": "bab07855573956853ef29d4560024d66eb1029bcec07ca1d5a785a00b68a1657",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -81,6 +81,7 @@
     "find_local_named_type",
     "record_base_classes",
     "leave_symbol_scope",
-    "compact_legacy_pointer"
+    "compact_legacy_pointer",
+    "rewrite_type_name_symbol"
   ]
 }

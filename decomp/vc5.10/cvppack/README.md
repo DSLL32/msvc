@@ -6,9 +6,9 @@ Target: `toolchains/5.10/bin/CVPACK.EXE`; the requested folder spelling is
 
 `/help` is complete: status 1, 193 stdout bytes, no stderr, six application
 entries. The genuine embedded-CodeView `hello-debug-dll` case is in progress at
-`compact_legacy_pointer`, after packing nine global types. There are 75
-accepted application functions / 23,806 extent bytes, plus 685 associated switch-data
-bytes. This is 37.99% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
+`rewrite_type_name_symbol`, after packing eighteen global types. There are 76
+accepted application functions / 24,137 extent bytes, plus 736 associated switch-data
+bytes. This is 38.52% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
 it is neither non-CRT nor executed-branch coverage. Four CRT bodies (400 bytes)
 and four import thunks (24 bytes) remain separate support.
 
@@ -48,12 +48,17 @@ master are specific to this toolchain; no VC1 output is reused.
 
 The current prefix compares 336 type records and all 384,000 initialized table
 bytes, buffer/record aliases, actual reads and allocations, complete mapped-file
-contents, defined symbol/source-module buffers, and 49 owned counted type-name
+contents, defined symbol/source-module buffers, and 52 owned counted type-name
 cache nodes with their bucket/segment aliases, plus initialized arena prefixes,
 global pointer slots and interned-node ownership. The default dispatch row and
 next global index share their original storage, with actual DWARF offset proof. Uninitialized allocation tails
 remain native owned; explicit positive controls permit changing them. The first
 module's type-table contract fails closed on reuse until that lifetime is observed.
+
+The pointer compactor preserves an original unwritten-offset path for unsupported
+embedded symbol kinds. Native execution traps before that unvalidated read; a
+focused native control verifies it. Recognized offsets and current pointers run
+normally. This limitation has no unsupported-path equivalence claim.
 
 The reviewed MSPDB WidenTi case provider is outside application coverage and has
 not yet been traversed by the reconstruction. It enforces 21 actual lifetimes,
