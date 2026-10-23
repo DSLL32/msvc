@@ -44,7 +44,7 @@ def decode(events):
             directory_allocation['size']=int(line.split()[1])
         elif line.startswith('directory-allocation-return '):
             directory_allocation['address']=int(line.split()[1],16)
-        elif line.startswith('blob-observation-failed'):raise AssertionError('incomplete initialized allocation observation')
+        elif line.startswith(('blob-observation-failed','public-node-observation-failed')):raise AssertionError('incomplete initialized allocation observation')
         elif line.startswith('file-read-call '):
             _,file,buffer,size,pc,position=line.split()
             file_reads.append(dict(file=int(file),buffer=int(buffer,16),size=int(size),pc=int(pc,16),entry_position=int(position),entry_last_error=last_error))
@@ -659,17 +659,26 @@ def compare(config,data,events,native,artifacts=None,views=None):
             elif item.get('public_buckets'):
                 address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
                 if pair(address,other):
+                    # Earlier public-only captures predate the complete cleared-allocator inventory.
+                    if any(row['name']=='global_symbol_count' for row in data):
+                        assert image_aliases[address]==other and image_sizes[address]==16384,'symbol bucket allocation ownership/capacity differs'
                     left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
-                    assert len(left)==len(right)==4096*4
+                    assert len(left)==len(right)==4096*4,'incomplete symbol bucket observation'
+                    visited=set()
                     for offset in range(0,len(left),4):
                         source=int.from_bytes(left[offset:offset+4],'little');destination=int.from_bytes(right[offset:offset+4],'little')
-                        while pair(source,destination):
+                        while source or destination:
+                            assert source and destination and source not in visited and len(visited)<512,'symbol node NULL/identity/chain differs'
+                            visited.add(source);pair(source,destination)
                             owners=[base for base,size in image_sizes.items() if size==0x1fa4 and base<=source<base+size]
                             assert len(owners)==1,'public node has no actual arena ownership'
                             owner=owners[0];assert destination==image_aliases[owner]+source-owner,'public node arena/offset differs'
                             a=original['memory'][source];b=bytes.fromhex(native['memory'][str(destination)])
-                            assert len(a)==len(b)==18+int.from_bytes(a[16:18],'little') and source+len(a)<=owner+image_sizes[owner]
+                            assert 20<=len(a)==len(b)==18+int.from_bytes(a[16:18],'little')<=1042 and source+len(a)<=owner+image_sizes[owner],'incomplete or unowned initialized symbol node extent'
                             assert a[4:]==b[4:],'initialized public node header/record/padding differs'
+                            assert int.from_bytes(a[4:8],'little')%4096==offset//4,'symbol node hash/bucket differs'
+                            name=16+int.from_bytes(a[12:14],'little')
+                            assert 20<=name<len(a) and name+1+a[name]<=len(a),'symbol node counted name exceeds initialized record'
                             source=int.from_bytes(a[:4],'little');destination=int.from_bytes(b[:4],'little')
             elif item.get('written_allocation'):
                 spec=item['written_allocation'];owned=[row for row in original['image_allocations'] if row['site']==spec['site']]

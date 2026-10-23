@@ -315,9 +315,12 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
     }
     if (full_graphs && symbol_output_base)
         memory(log, process, symbol_output_base, symbol_output_capacity);
-    if (full_graphs && read_bytes(process, 0x412cf4, &value, 4) && value) {
+    if (full_graphs) {
+      DWORD table;
+      for (table = 0; table < 2; ++table) {
         DWORD bucket, node, next_node, visited;
         WORD length;
+        if (!read_bytes(process, 0x412cf0 + table * 4, &value, 4) || !value) continue;
         memory(log, process, value, 4096 * 4);
         for (bucket = 0; bucket < 4096; ++bucket) {
             if (!read_bytes(process, value + bucket * 4, &node, 4)) continue;
@@ -330,6 +333,7 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
             }
             if (node) fprintf(log, "public-node-observation-failed\n");
         }
+      }
     }
     /* Chained type arenas: capture full capacities, compare only used prefixes. */
     if (full_graphs) {

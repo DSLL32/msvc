@@ -329,9 +329,7 @@
     "original": 4271344,
     "size": 4,
     "kind": "pointer",
-    "blob": {
-      "size": 16384
-    }
+    "public_buckets": true
   },
   {
     "name": "type_table_global",
@@ -1132,5 +1130,17 @@
     "global_type_blocks": {
       "initialized_prefix": true
     }
+  },
+  {
+    "name": "global_symbol_bytes",
+    "original": 4281088,
+    "size": 4,
+    "kind": "integer"
+  },
+  {
+    "name": "global_symbol_count",
+    "original": 4272760,
+    "size": 4,
+    "kind": "integer"
   }
 ]

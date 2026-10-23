@@ -83,7 +83,8 @@
     "record_base_classes",
     "leave_symbol_scope",
     "compact_legacy_pointer",
-    "rewrite_type_name_symbol"
+    "rewrite_type_name_symbol",
+    "insert_global_symbol"
   ],
   "functions": [
     {
@@ -2953,8 +2954,11 @@
       "source_name": "insert_global_symbol",
       "native_symbol": "insert_global_symbol",
       "original": 4248624,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4248624,
+        4249074
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -2974,10 +2978,7 @@
           "original": 4247376
         }
       ],
-      "abi_tail_extent": {
-        "evidence": "cases/hello-debug-dll/insert-global-symbol-tail-extent.json",
-        "sha256": "d22d2accd51fae6e3db549d122720e97558b697b6d0a698f7ae138baf267c8cb"
-      }
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0078-insert-global-symbol/promotion.json"
     }
   ],
   "support_unmasked": [
