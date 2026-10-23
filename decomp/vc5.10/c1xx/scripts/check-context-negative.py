@@ -22,7 +22,7 @@ def main():
     row=next(row for row in packet['trials'] if row['seed']=='restore-nonzero');original,native=Path(row['original']),Path(row['native'])
     audit=history.configure(callback,original,native,saved_record=row);callback.check(original,native,audit_path=audit)
     fields=json.loads((native/'state.json').read_text())['frontend']
-    field='saved_context_stack' if 'saved_context_stack' in fields else 'context_stack'
+    field='nested_context_stacks' if 'nested_context_stacks' in fields else 'saved_context_stack' if 'saved_context_stack' in fields else 'context_stack'
     cases=('missing-nonzero-prestate','uncleared-new-field','changed-original-prestate','final-context-nonzero','wrong-context-layout','wrong-callback-PC','missing-callback-frontier','wrong-snapshot-identity')
     for case in cases:
         with tempfile.TemporaryDirectory(prefix='context-negative-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c1xx') as temp:

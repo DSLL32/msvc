@@ -13,22 +13,25 @@ s=d.s
 
 def context(directory,suffix,name='context_stack'):
     raw=(directory/(name.replace('_','-')+'-'+suffix+'.bin')).read_bytes()
-    s.require(len(raw)==12,'missing raw original context fields')
-    return list(struct.unpack('<3I',raw))
+    count=27 if name=='nested_context_stacks' else 3
+    s.require(len(raw)==4*count,'missing raw original context fields')
+    return list(struct.unpack('<%dI'%count,raw))
 
 
 def check(original,native,require_audit=True,audit_path=None):
     o,n,trial,text,state=s.pair(original,native)
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(match is not None and 1<=int(match[1])<=2,'no reviewed callback decoder for this function')
+    s.require(match is not None and 1<=int(match[1])<=3,'no reviewed callback decoder for this function')
     index=int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
               trial.get('test_seed') in (None,'restore-nonzero','restore-zero') and
               'auxiliary_mock' not in trial,'wrong context initializer trial')
     seed=trial.get('test_seed');final='%03d'%((7 if seed else 8)+index)
     model=json.loads((native/'state-model.json').read_text())
-    s.require(model['schema'] in (2,3),'context fields omitted from typed snapshot/BSS model')
+    s.require(model['schema'] in (2,3,4),'context fields omitted from typed snapshot/BSS model')
     context_names=['context_stack']+(['saved_context_stack'] if model['schema']>=3 else [])
+    if model['schema']>=4:context_names.append('nested_context_stacks')
+    counts={name:27 if name=='nested_context_stacks' else 3 for name in context_names}
     pre=json.loads((native/'pre.json').read_text());phase=json.loads((native/'phase.json').read_text())
     for snapshot in (pre,phase,state):d.field_map(model,snapshot['frontend'])
     slots=d.callback_table(model,original,native,state)
@@ -53,7 +56,7 @@ def check(original,native,require_audit=True,audit_path=None):
     match=re.search(r'^([0-9a-f]+) ([0-9a-f]+) [Tt] '+frontier+'$',symbols,re.M)
     s.require(match is not None,'missing native callback02 symbol');start,size=[int(word,16) for word in match.groups()]
     s.require(start<state['pc']<=start+size and d.elf_byte(native,state['pc']-1)==0xcc,'false native callback INT3 PC')
-    s.require(all(context(original,'000',name)==[0]*3 for name in context_names) and d.original_fields(original,'000')=={
+    s.require(all(context(original,'000',name)==[0]*counts[name] for name in context_names) and d.original_fields(original,'000')=={
         'first_invocation':1,'saved_state':0,'cleanup_count':0,'restore_mode':0,'cleanup_callbacks':[0]*32},
         'original context/default field evidence differs')
     before=d.original_fields(original,'006');phase_old=d.original_fields(original,'phase');after=d.original_fields(original,final)
@@ -61,8 +64,8 @@ def check(original,native,require_audit=True,audit_path=None):
     if seed:
         s.require(before['first_invocation']==0 and before['saved_state'] and before['cleanup_count']==32 and
                   before['cleanup_callbacks']==[0x10438610]*32 and before['restore_mode']==9 and
-                  all(context(original,'006',name)==[before['saved_state']]*3 and
-                      pre['frontend'][name]==[pre['frontend']['saved_state']]*3 for name in context_names) and
+                  all(context(original,'006',name)==[before['saved_state']]*counts[name] and
+                      pre['frontend'][name]==[pre['frontend']['saved_state']]*counts[name] for name in context_names) and
                   pre['frontend']['cleanup_callbacks']==[slots[1]]*32 and pre['frontend']['cleanup_count']==32 and
                   pre['frontend']['restore_mode']==9 and pre['frontend']['saved_first']==17,
                   'nonzero expanded BSS prestate is missing')
@@ -71,7 +74,7 @@ def check(original,native,require_audit=True,audit_path=None):
     else:
         s.require(before['first_invocation']==pre['frontend']['first_invocation']==1 and
                   before['saved_state']==pre['frontend']['saved_state']==0 and
-                  all(context(original,'006',name)==pre['frontend'][name]==[0]*3 for name in context_names),
+                  all(context(original,'006',name)==pre['frontend'][name]==[0]*counts[name] for name in context_names),
                   'fresh context initial state differs')
         s.require(int(traps[6][2].split(',')[1],16)==8520,'actual allocator request differs')
     for suffix,old,current,flag in (('phase',phase_old,phase,copied),(final,after,state,0)):
@@ -79,7 +82,7 @@ def check(original,native,require_audit=True,audit_path=None):
         s.require(old['first_invocation']==value['first_invocation']==flag and old['saved_state'] and value['saved_state'] and
                   old['cleanup_count']==value['cleanup_count']==0 and old['cleanup_callbacks']==value['cleanup_callbacks']==[0]*32 and
                   old['restore_mode']==value['restore_mode']==wanted and value['saved_first']==copied and
-                  all(context(original,suffix,name)==value[name]==[0]*3 for name in context_names),
+                  all(context(original,suffix,name)==value[name]==[0]*counts[name] for name in context_names),
                   'typed copy/expanded BSS clear/context initializer result differs')
         raw=(original/('frontend-snapshot-'+suffix+'.bin')).read_bytes()
         s.require(len(raw)==8520 and struct.unpack_from('<I',raw,0x17e0)[0]==copied,'complete original snapshot missing')
@@ -98,7 +101,7 @@ def check(original,native,require_audit=True,audit_path=None):
               {int(word,16)&0xffff for word in re.findall(r'^control-word=(\w+)$',text,re.M)}=={0x27f},'original caller state changed')
     if require_audit:s.audit(trial,audit_path)
     return {'trial':trial['trial'],'frontier':'_'+frontier,'seed':seed,
-            'modeled_context_fields':3*len(context_names),'original_default_context':[0,0,0],
+            'modeled_context_fields':sum(counts.values()),'original_default_context':[0,0,0],
             'typed_bss_bytes':state['frontend']['known_sizes']['bss'],
             'nonzero_expanded_BSS_restore_checked':bool(seed),'original_unmodeled_snapshot_bytes':8516,
             'native_snapshot_byte_equivalence_claimed':False,'whole_mask_bytes_checked':751216,

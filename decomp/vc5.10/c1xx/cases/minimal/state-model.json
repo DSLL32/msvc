@@ -1,5 +1,5 @@
 {
-  "schema": 3,
+  "schema": 4,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -78,6 +78,15 @@
       "native_expression": "frontend_bss.saved_context_stack",
       "original_default": "3 NULL pointers",
       "evidence": "callback38622 zeros3DWORD, follows same context-stack object layout as callback38610"
+    },
+    {
+      "name": "nested_context_stacks",
+      "class": "bss",
+      "original_address": 273393752,
+      "bytes": 108,
+      "native_expression": "frontend_bss.nested_context_stacks",
+      "original_default": "9 contexts, each3NULL pointers",
+      "evidence": "callback38634 loops9 objects, stride12, stores0 at each offset0/4/8"
     }
   ],
   "initializers": [

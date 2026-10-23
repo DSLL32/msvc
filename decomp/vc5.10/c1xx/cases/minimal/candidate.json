@@ -11,7 +11,8 @@
     "_initialize_compiler_pass",
     "_checked_malloc",
     "_initialize_frontend_01",
-    "_initialize_frontend_02"
+    "_initialize_frontend_02",
+    "_initialize_frontend_03"
   ],
   "trial": null,
   "ranges": [
@@ -98,7 +99,13 @@
       "start_rva": 230946,
       "end_rva": 230964,
       "entry": 1
+    },
+    {
+      "owner": "_initialize_frontend_03",
+      "start_rva": 230964,
+      "end_rva": 230991,
+      "entry": 1
     }
   ],
-  "stage": "_initialize_frontend_02 accepted; next frontier _initialize_frontend_03"
+  "stage": "_initialize_frontend_03 accepted; next frontier _initialize_frontend_04"
 }

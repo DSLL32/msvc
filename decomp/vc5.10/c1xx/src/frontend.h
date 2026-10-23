@@ -24,6 +24,7 @@ typedef struct FrontendBss {
     Initializer cleanup_callbacks[32];
     FrontendContextStack context_stack;
     FrontendContextStack saved_context_stack;
+    FrontendContextStack nested_context_stacks[9];
 } FrontendBss;
 
 extern FrontendData frontend_data;

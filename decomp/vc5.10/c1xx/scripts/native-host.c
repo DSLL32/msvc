@@ -104,6 +104,11 @@ int main(void)
             frontend_bss.saved_context_stack.begin = frontend_bss.saved_state;
             frontend_bss.saved_context_stack.end = frontend_bss.saved_state;
             frontend_bss.saved_context_stack.top = frontend_bss.saved_state;
+            for (i = 0; i < 9; ++i) {
+                frontend_bss.nested_context_stacks[i].begin = frontend_bss.saved_state;
+                frontend_bss.nested_context_stacks[i].end = frontend_bss.saved_state;
+                frontend_bss.nested_context_stacks[i].top = frontend_bss.saved_state;
+            }
             restore_mode = 9;
             compiler_mode = !strcmp(seed, "restore-zero") ? 0 : 3;
         }

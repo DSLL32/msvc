@@ -14,7 +14,8 @@
     "_initialize_compiler_pass",
     "_checked_malloc",
     "_initialize_frontend_01",
-    "_initialize_frontend_02"
+    "_initialize_frontend_02",
+    "_initialize_frontend_03"
   ],
   "driver": [
     {
@@ -98,8 +99,8 @@
     {
       "name": "_initialize_frontend_03",
       "start": 272860724,
-      "end": 272860725,
-      "pending_extent": true,
+      "end": 272860751,
+      "pending_extent": false,
       "source": "src/initializers.c",
       "abi": "cdecl0"
     },
@@ -786,6 +787,42 @@
         "whole_mask_bytes_checked": 751216,
         "original_seconds": 0.8660950241610408,
         "native_seconds": 0.26367319747805595
+      }
+    },
+    {
+      "name": "_initialize_frontend_03",
+      "classification": "application source",
+      "source": "src/initializers.c",
+      "source_sha256": "842da439edb9a20adf8a07d33858d3597d82af3c0132b75c40889d9c94fc0dc1",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback03-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback03-native-1",
+      "original_receipt_sha256": "bea070fb98a5468b17620d68418ff679f5da0c1c65d13457040b36d33ff17941",
+      "native_receipt_sha256": "744aeaf6f775223533a969c1f991fcaf0528528ecae0217b2372f57c95f3e6f0",
+      "trial_sha256": "15d08f789e7ae02a72c5ac3c19eb3b109b47624201ea43eb02634f48e319db2b",
+      "audit_sha256": "d0051cd582e2e13c256993156f82a0bded0ccdec1df2d9e3de8ee75cff6f4537",
+      "code_chunks": [
+        [
+          230964,
+          230991
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_frontend_03",
+        "frontier": "_initialize_frontend_04",
+        "seed": null,
+        "modeled_context_fields": 33,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 268,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "original_seconds": 1.2680143872275949,
+        "native_seconds": 0.2550430065020919
       }
     }
   ],

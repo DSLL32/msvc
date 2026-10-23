@@ -17,7 +17,12 @@ void initialize_frontend_02(void)
 
 void initialize_frontend_03(void)
 {
-    __asm { int 3 }
+    unsigned i;
+    for (i = 0; i < 9; ++i) {
+        frontend_bss.nested_context_stacks[i].begin = NULL;
+        frontend_bss.nested_context_stacks[i].end = NULL;
+        frontend_bss.nested_context_stacks[i].top = NULL;
+    }
 }
 
 void initialize_frontend_04(void)
