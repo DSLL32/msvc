@@ -1,0 +1,285 @@
+{
+  "feature": "Legacy buffered flush state transitions",
+  "original_evidence": {
+    "binary": "toolchains/1.0-nt/bin/C1XX3232.EXE",
+    "sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+    "fflush": "0x834b0..0x834f7",
+    "flush": "0x83500..0x8356b",
+    "method": "Read-only original disassembly and C1XX explicit original/native FILE observation",
+    "observed_before": {
+      "descriptor": 5,
+      "flags": 138,
+      "count": 3779,
+      "used": 317,
+      "size": 4096
+    },
+    "original_after": {
+      "descriptor": 5,
+      "flags": 136,
+      "count": 0,
+      "used": 0,
+      "size": 4096,
+      "return": 0
+    },
+    "old_native_after": {
+      "flags": 138,
+      "count": 0,
+      "used": 0,
+      "return": 0
+    }
+  },
+  "checks": [
+    "positive update-stream write clears write mode",
+    "internal buffer-full flush preserves following bytes",
+    "repeat write and read-after-flush",
+    "empty flush retains write mode",
+    "failed flush preserves write mode/sets error and resets pointer/count",
+    "both read/write bits or absent buffered flag skips write",
+    "caller-owned buffer remains write-only after successful flush"
+  ],
+  "results": [
+    {
+      "label": "gcc-build",
+      "command": [
+        "gcc",
+        "-DRECON_NATIVE_TEST",
+        "-Iinclude",
+        "-Inative",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "tests/check.c",
+        "src/crt.c",
+        "src/win32.c",
+        "src/process.c",
+        "src/compat.c",
+        "src/entry.c",
+        "src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/recon-flush/check-gcc"
+      ],
+      "seconds": 0.8738518450409174,
+      "status": 0,
+      "log": "/root/.ai-tmp/recon-flush/gcc-build.log"
+    },
+    {
+      "label": "gcc-shared-check",
+      "command": [
+        "/root/.ai-tmp/recon-flush/check-gcc"
+      ],
+      "seconds": 0.004113491624593735,
+      "status": 0,
+      "log": "/root/.ai-tmp/recon-flush/gcc-shared-check.log"
+    },
+    {
+      "label": "clang-build",
+      "command": [
+        "clang",
+        "-DRECON_NATIVE_TEST",
+        "-Iinclude",
+        "-Inative",
+        "-m32",
+        "-std=gnu89",
+        "-O0",
+        "-g",
+        "-Wall",
+        "-Wextra",
+        "tests/check.c",
+        "src/crt.c",
+        "src/win32.c",
+        "src/process.c",
+        "src/compat.c",
+        "src/entry.c",
+        "src/decimal.c",
+        "-o",
+        "/root/.ai-tmp/recon-flush/check-clang"
+      ],
+      "seconds": 1.1395090660080314,
+      "status": 0,
+      "log": "/root/.ai-tmp/recon-flush/clang-build.log"
+    },
+    {
+      "label": "clang-shared-check",
+      "command": [
+        "/root/.ai-tmp/recon-flush/check-clang"
+      ],
+      "seconds": 0.004845302551984787,
+      "status": 0,
+      "log": "/root/.ai-tmp/recon-flush/clang-shared-check.log"
+    },
+    {
+      "label": "c1-build",
+      "command": [
+        "make",
+        "-j4",
+        "native-trace"
+      ],
+      "seconds": 1.2566252704709768,
+      "status": 0,
+      "log": "/root/.ai-tmp/recon-flush/c1-build.log"
+    },
+    {
+      "label": "c1-fixtures",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace"
+      ],
+      "seconds": 0.4834328508004546,
+      "status": 0,
+      "log": "/root/.ai-tmp/recon-flush/c1-fixtures.log"
+    },
+    {
+      "label": "cl-build",
+      "command": [
+        "make",
+        "-j4",
+        "native-trace"
+      ],
+      "seconds": 1.5116717545315623,
+      "status": 0,
+      "log": "/root/.ai-tmp/recon-flush/cl-build.log"
+    },
+    {
+      "label": "cl-fixtures",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace"
+      ],
+      "seconds": 2.7008435539901257,
+      "status": 0,
+      "log": "/root/.ai-tmp/recon-flush/cl-fixtures.log"
+    },
+    {
+      "label": "rc-build",
+      "command": [
+        "make",
+        "-j4",
+        "native-trace"
+      ],
+      "seconds": 2.425536329858005,
+      "status": 0,
+      "log": "/root/.ai-tmp/recon-flush/rc-build.log"
+    },
+    {
+      "label": "rc-fixtures",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace"
+      ],
+      "seconds": 2.161050579510629,
+      "status": 0,
+      "log": "/root/.ai-tmp/recon-flush/rc-fixtures.log"
+    },
+    {
+      "label": "rcpp-build",
+      "command": [
+        "make",
+        "-j4",
+        "native-trace",
+        "build/native-trace/option-check",
+        "build/native-trace/classifier-check",
+        "build/native-trace/message-check"
+      ],
+      "seconds": 2.1817047465592623,
+      "status": 0,
+      "log": "/root/.ai-tmp/recon-flush/rcpp-build.log"
+    },
+    {
+      "label": "rcpp-fixtures",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace"
+      ],
+      "seconds": 0.4767284085974097,
+      "status": 0,
+      "log": "/root/.ai-tmp/recon-flush/rcpp-fixtures.log"
+    },
+    {
+      "label": "link-build",
+      "command": [
+        "make",
+        "-j4",
+        "native-trace"
+      ],
+      "seconds": 1.1816041013225913,
+      "status": 0,
+      "log": "/root/.ai-tmp/recon-flush/link-build.log"
+    },
+    {
+      "label": "link-fixtures",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace"
+      ],
+      "seconds": 1.4022000320255756,
+      "status": 0,
+      "log": "/root/.ai-tmp/recon-flush/link-fixtures.log"
+    }
+  ],
+  "scope": "Shared checks plus all five idle binaries native trace/status/stream/artifact suites. Active C1XX/C2 workers verify their own current checkpoints. No Wine or reference recapture.",
+  "source_sha256": {
+    "src/crt.c": "1cf556f3771c59820a69a56c38e78cf95080d395f387f3e252d9be9dd100d8d3",
+    "tests/check.c": "78acd7a789171f2d32cb807e1b74b490b20fc5c517ae4ab4b0521f6ade2417f5"
+  },
+  "corrected_boundary": {
+    "scope": "explicit fflush boundary; not application acceptance",
+    "target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+    "configuration_sha256": "171afe70c0c64b04eeda40ee16c5e4c6ee9e7651611225a1358e3bc3599d8bb7",
+    "accepted_before": 634,
+    "original": {
+      "result": 0,
+      "return_va": 475940,
+      "before": {
+        "descriptor": 5,
+        "flags": 138,
+        "count": 3779,
+        "used": 317,
+        "size": 4096
+      },
+      "after": {
+        "descriptor": 5,
+        "flags": 136,
+        "count": 0,
+        "used": 0,
+        "size": 4096
+      }
+    },
+    "native": {
+      "before": {
+        "descriptor": 5,
+        "flags": 138,
+        "count": 3779,
+        "used": 317,
+        "size": 4096
+      },
+      "after": {
+        "descriptor": 5,
+        "flags": 136,
+        "count": 0,
+        "used": 0,
+        "size": 4096
+      },
+      "result": 0,
+      "caller": "close_intermediate"
+    },
+    "original_seconds": 3.82265233900398,
+    "native_seconds": 0.1557670747861266,
+    "receipt_sha256": "7242ae297510b8cab4611be48a717a5e33b7212b812882da79a3700929686e57"
+  },
+  "idle_suite_cases": {
+    "c1": 13,
+    "cl": 57,
+    "rc": 18,
+    "rcpp": 20,
+    "link": 23
+  },
+  "idle_fixture_seconds": 7.224255424924195
+}

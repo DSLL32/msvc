@@ -213,6 +213,11 @@ can supply a captured six-character suffix; otherwise mktemp uses the original
 PID-derived naming and collision sequence. RECON_NAMED_PIPE_ROOT maps simple
 Windows pipe names to prepared native FIFOs.
 
+Buffered flushes preserve the old CRT's observable FILE state: a successful
+positive write clears write mode on update streams; every flush resets the
+buffer pointer/count, including failed writes. Internal buffer-full output
+resumes write mode before appending the next byte.
+
 RECON_LOCAL_CLOCK=YYYY-MM-DDTHH:MM:SS.mmm/step_ms supplies an advancing local
 calendar clock for CL timing fixtures, using reconstructed timezone/DST hooks.
 RECON_FIXED_TIME and RECON_FIXED_MILLISECONDS provide fixed clock inputs.

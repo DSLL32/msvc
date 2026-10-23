@@ -101,6 +101,40 @@ int main(void)
     stream=fopen("N:\\compat.txt","rb"); assert(stream);
     assert(fread(bytes,1,sizeof(bytes),stream)==6 && !memcmp(bytes,"prefix",6));
     assert(fclose(stream)==0);
+    stream=fopen("N:\\flush.bin","w+b"); assert(stream);
+    assert(setvbuf(stream,NULL,0,4)==0);
+    assert(fwrite("abcdef",1,6,stream)==6);
+    assert(fflush(stream)==0 && !(stream->_flag&2));
+    assert(stream->_ptr==stream->_base && stream->_cnt==0);
+    assert(fwrite("gh",1,2,stream)==2 && fflush(stream)==0 && !(stream->_flag&2));
+    /* Empty flushes retain write mode; only an actual write clears it. */
+    stream->_flag|=2;
+    assert(fflush(stream)==0 && (stream->_flag&2));
+    stream->_flag&=~2;
+    assert(fseek(stream,0,SEEK_SET)==0);
+    assert(fread(bytes,1,sizeof(bytes),stream)==8 && !memcmp(bytes,"abcdefgh",8));
+    assert(fclose(stream)==0 && remove("N:\\flush.bin")==0);
+    {
+        ShimFILE synthetic;
+        char buffer[4]={'x',0,0,0};
+        memset(&synthetic,0,sizeof(synthetic));
+        synthetic._base=buffer; synthetic._ptr=buffer+1; synthetic._cnt=3;
+        synthetic._flag=0x8a; synthetic._file=-1;
+        assert(_flush(&synthetic)==EOF && synthetic._flag==0xaa);
+        assert(synthetic._ptr==buffer && synthetic._cnt==0);
+        /* Both mode bits set, or no buffered-storage flag: no write occurs. */
+        synthetic._flag=0x8b; synthetic._ptr=buffer+1; synthetic._cnt=3;
+        assert(_flush(&synthetic)==0 && synthetic._flag==0x8b);
+        assert(synthetic._ptr==buffer && synthetic._cnt==0);
+        synthetic._flag=2; synthetic._ptr=buffer+1; synthetic._cnt=3;
+        assert(_flush(&synthetic)==0 && synthetic._flag==2);
+        assert(synthetic._ptr==buffer && synthetic._cnt==0);
+        stream=fopen("N:\\flush.bin","wb"); assert(stream);
+        assert(setvbuf(stream,buffer,0,sizeof(buffer))==0);
+        assert(fwrite("xy",1,2,stream)==2 && fflush(stream)==0);
+        assert(stream->_flag==0x102 && stream->_ptr==buffer && stream->_cnt==0);
+        assert(fclose(stream)==0 && remove("N:\\flush.bin")==0);
+    }
     file=CreateFileA("N:\\mapped.bin",GENERIC_READ|GENERIC_WRITE,0,NULL,CREATE_ALWAYS,FILE_ATTRIBUTE_NORMAL,NULL);
     assert(file!=INVALID_HANDLE_VALUE);
     mapping=CreateFileMappingA(file,NULL,PAGE_READWRITE,0,8192,NULL); assert(mapping);

@@ -326,12 +326,13 @@ WEAK void recon_freebuf(ShimFILE *s)
 }
 int recon_flush(ShimFILE *s)
 {
-    int size;
-    if ((s->_flag&2) && s->_base && s->_ptr>s->_base) {
+    int size,result=0;
+    if ((s->_flag&3)==2 && (s->_flag&0x108) && s->_base && s->_ptr>s->_base) {
         size=s->_ptr-s->_base;
-        if (recon_write(s->_file,s->_base,size)!=size) { s->_flag|=0x20; return EOF; }
+        if (recon_write(s->_file,s->_base,size)!=size) { s->_flag|=0x20; result=EOF; }
+        else if (s->_flag&0x80) s->_flag&=~2;
     }
-    s->_ptr=s->_base; s->_cnt=0; return 0;
+    s->_ptr=s->_base; s->_cnt=0; return result;
 }
 int recon_fflush(ShimFILE *s)
 {
@@ -366,6 +367,7 @@ int recon_fputc(int c,ShimFILE *s)
         return recon_write(s->_file,&byte,1)==1?byte:EOF;
     if (!s->_base) recon_getbuf(s);
     if (s->_ptr==s->_base+s->_bufsiz && recon_flush(s)) return EOF;
+    s->_flag|=2;
     *s->_ptr++=byte;
     /* _cnt is observable to the reconstructed CRT. */
     s->_cnt=s->_bufsiz-(s->_ptr-s->_base);
