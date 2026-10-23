@@ -1,0 +1,507 @@
+{
+  "status": "complete; next authorized case G3 deep-call rematerialization",
+  "checkpoint": 1107,
+  "source_graphs": 1028,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1107,
+    "accepted_code_bytes": 305779,
+    "original_code_bytes": 399693,
+    "percentage": 76.50346641047004,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 512
+  },
+  "delta_from1103": {
+    "functions": 4,
+    "code_bytes": 1270
+  },
+  "expected": {
+    "path": "cases/joins87-original-1107/joins87.obj",
+    "name": "joins87.obj",
+    "bytes": 1972,
+    "sha256": "42ff958064560b3bb8a26239f79a4bfb7a6cf29e8ac59619ec7d490718d474bc",
+    "normalized_sha256": "8b2e931cded2afc72dce92f255151f4e00fe7c201d625115671723f5df70c223",
+    "ignored_timestamp": [
+      4,
+      4
+    ]
+  },
+  "functions": [
+    {
+      "name": "@exchange_scheduled_float_stack@4",
+      "start": 289296,
+      "end": 289458
+    },
+    {
+      "name": "@previous_float_is_load@4",
+      "start": 258416,
+      "end": 258533
+    },
+    {
+      "name": "@arrange_scheduled_float_inputs@4",
+      "start": 288496,
+      "end": 289288
+    },
+    {
+      "name": "@arrange_scheduled_float_operands@4",
+      "start": 289472,
+      "end": 289671
+    }
+  ],
+  "evidence": {
+    "initial": "cases/joins87-original-1103.json",
+    "final": "cases/joins87-original-1107.json",
+    "abi": "cases/joins87-abi-validation.json",
+    "slot_aliases": "cases/scheduler-stack-alias-validation.json",
+    "native": "cases/native-all-validation.json"
+  },
+  "limits": [
+    "Scheduled exchange and whole input/operand arrangement now execute in this target case; no claim that every permutation/branch executes.",
+    "Original1..8 exchange contract retained, using typed reset/resident-use and serial aliases at slot8. Independent native O0 synthetic test covers all1..8 plus exact original0..7 operand bytes; synthetic slot8 evidence is distinct from case execution.",
+    "Six popping opcode reversals reuse independently verified contextual x87_arithmetic_forms; previous-FLD scan reuses independently verified raw ISA floating-property classification.",
+    "No shared shim changes. Captures and canonical compile use shared Wine prefix; eleven fixtures remain native-only."
+  ],
+  "timing": {
+    "frontier1104-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.2209487920627,
+      "returncode": 0,
+      "log_sha256": "4064ab7e54c6068be8bca58d3f6fcb36755ec997f6c742db51f357ac2cf31095"
+    },
+    "frontier1104-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 37.31521817203611,
+      "returncode": 0,
+      "log_sha256": "7efe2cc2a538e3b8fdabf02bf8874782b952ffa6c1601435e97e1cbe88b44717"
+    },
+    "frontier1104-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5000851610675454,
+      "returncode": 0,
+      "log_sha256": "6999aaad15ba3e554c66592cdb8e79b1ef2dd598f0798ed3b0ad81228768fef9"
+    },
+    "frontier1104-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "joins87",
+        "--reference",
+        "cases/joins87-original-1104.json"
+      ],
+      "seconds": 0.21254418790340424,
+      "returncode": 0,
+      "log_sha256": "8a1dbd08930fe77a4029ada77538c7160083300c8789648c6db2ad48b44a8ade"
+    },
+    "frontier1104-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "joins87",
+        "--receipt",
+        "cases/joins87-original-1104.json"
+      ],
+      "seconds": 1.9960101237520576,
+      "returncode": 0,
+      "log_sha256": "aa5ed4c911291e87b4b3f6bd81aaa24d8ea20a8198030d4fbec293566897361a"
+    },
+    "frontier1105-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.2284539602696896,
+      "returncode": 0,
+      "log_sha256": "04bca047e5f99b578f757cc6329476395d1004958b765f97845436fe0dcc0010"
+    },
+    "frontier1105-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.5632607666775584,
+      "returncode": 0,
+      "log_sha256": "eab7394bf40ac24b37347f8c956ac570c27bc455082c0ae0927b97e5c5486293"
+    },
+    "frontier1105-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5683171031996608,
+      "returncode": 0,
+      "log_sha256": "5496286850efc710385431575cd0c90ff1a7308da3c40fdd9f3063f30a4f294c"
+    },
+    "frontier1105-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "joins87",
+        "--reference",
+        "cases/joins87-original-1105.json"
+      ],
+      "seconds": 0.23551728390157223,
+      "returncode": 0,
+      "log_sha256": "159d8885c64328c0527e6d3cce002ed301c904f31f889bb3db2929d591ac605e"
+    },
+    "frontier1105-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "joins87",
+        "--receipt",
+        "cases/joins87-original-1105.json"
+      ],
+      "seconds": 1.9503772761672735,
+      "returncode": 0,
+      "log_sha256": "355c11c2d0fa1312e3781af1e8951a4ebe6cc1a2f495fadef3806c15611680c0"
+    },
+    "frontier1106-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.2305012540891767,
+      "returncode": 0,
+      "log_sha256": "9caaa3018ec63ac7b744b0ab5ca9d62d5c07af4a1ba6e5530af9727edc7f2015"
+    },
+    "frontier1106-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.3586497008800507,
+      "returncode": 0,
+      "log_sha256": "d6d424235edc3b127d7092c1dba5402ff1584a2d6691d4f619e33aef72a343be"
+    },
+    "frontier1106-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5104204155504704,
+      "returncode": 0,
+      "log_sha256": "47c421b82ae8237289d72dc65dd06f3cf4f55edc6e83c4fc0074d29794640a6f"
+    },
+    "frontier1106-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "joins87",
+        "--reference",
+        "cases/joins87-original-1106.json"
+      ],
+      "seconds": 0.22405386064201593,
+      "returncode": 0,
+      "log_sha256": "0b1ba0a2cd74791b6e7a526b4fac94c878a41197176a1a66824b0df6ccf94b5c"
+    },
+    "frontier1106-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "joins87",
+        "--receipt",
+        "cases/joins87-original-1106.json"
+      ],
+      "seconds": 1.3168274853378534,
+      "returncode": 0,
+      "log_sha256": "813575f798e5762c19ba8cc37075e6c5bc0aef45110a58bec2c857ab1889d2b0"
+    },
+    "frontier1107-audit-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "audit",
+        "coverage"
+      ],
+      "seconds": 2.2637200467288494,
+      "returncode": 0,
+      "log_sha256": "e7ad3b84b283af7d5c3cc054b517d9392a05f225d8d8d51a27dab135bbfb6700"
+    },
+    "frontier1107-build-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "win32",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 2.729538700543344,
+      "returncode": 0,
+      "log_sha256": "d6d424235edc3b127d7092c1dba5402ff1584a2d6691d4f619e33aef72a343be"
+    },
+    "frontier1107-check-timing": {
+      "command": [
+        "make",
+        "-j4",
+        "check"
+      ],
+      "seconds": 0.5882684215903282,
+      "returncode": 0,
+      "log_sha256": "1c84786142817fe8364430888d814eef727c44ec7f264fb62d6448cb410a9677"
+    },
+    "frontier1107-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "joins87",
+        "--receipt",
+        "cases/joins87-original-1107.json"
+      ],
+      "seconds": 1.9760369937866926,
+      "returncode": 0,
+      "log_sha256": "48dc3a128d324bfce3924447f019a9e3974d340b13ec5095c6b6f8092ceb4f5a"
+    },
+    "frontier1107-warnings-timing": {
+      "command": [
+        "python3",
+        "scripts/check-canonical-warnings.py",
+        "scheduler",
+        "float-machine"
+      ],
+      "seconds": 5.052185346372426,
+      "returncode": 0,
+      "log_sha256": "8063ffd8abd2450ba62fbf2993e5ad3cd020be12629d5aa513077fdd6bf7deef"
+    },
+    "joins87-capture-corrected-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-stress.py",
+        "--fixture",
+        "../fixtures/c2-g5-x87-joins",
+        "--stem",
+        "joins87",
+        "--case",
+        "joins87",
+        "--flags",
+        "/Oi",
+        "/O2",
+        "/Ob0",
+        "/G5"
+      ],
+      "seconds": 5.297023251652718,
+      "returncode": 0,
+      "log_sha256": "5fe3539a3fb1a468cb0fe2fd565df3960c0d568eb52a172d830e693f1270b754"
+    },
+    "joins87-capture-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-stress.py",
+        "--fixture",
+        "../fixtures/c2-g5-x87-joins",
+        "--stem",
+        "joins87",
+        "--case",
+        "joins87",
+        "--flags",
+        "/Oi",
+        "/O2",
+        "/Ob0",
+        "/G5"
+      ],
+      "seconds": 0.08058828581124544,
+      "returncode": 1,
+      "log_sha256": "283ca369dbf8b8c5479214b4cfbf0a08d74de57bf941b3cd109ec27ad9c32dfe"
+    },
+    "joins87-initial-debug-timing": {
+      "command": [
+        "python3",
+        "scripts/debug-frontier.py",
+        "--profile",
+        "joins87",
+        "--reference",
+        "cases/joins87-original-1103.json"
+      ],
+      "seconds": 0.22808179911226034,
+      "returncode": 0,
+      "log_sha256": "81f0f36b62c16febacb26381530c225440d2783a92be7055d7dc62bb58bcb187"
+    },
+    "joins87-initial-reference-timing": {
+      "command": [
+        "python3",
+        "scripts/capture-original.py",
+        "--profile",
+        "joins87",
+        "--receipt",
+        "cases/joins87-original-1103.json"
+      ],
+      "seconds": 1.697853242047131,
+      "returncode": 0,
+      "log_sha256": "b151b6664e27fbfec28f6470b553cbd36d51e3b2becb81ee8b98c2af12e38fb7"
+    },
+    "joins87-slot-alias-data-corrected-timing": {
+      "command": [
+        "python3",
+        "scripts/check-scheduler-stack-aliases.py"
+      ],
+      "seconds": 0.24578882101923227,
+      "returncode": 0,
+      "log_sha256": "ea5602a662df6848d23f02e9ad3090f5f8efd9a4a7f5945c56e24a29ac9a279a"
+    },
+    "joins87-slot-alias-data-timing": {
+      "command": [
+        "python3",
+        "scripts/check-scheduler-stack-aliases.py"
+      ],
+      "seconds": 0.22961148992180824,
+      "returncode": 1,
+      "log_sha256": "cc02d80b34e65f04f68f087a639f571ba3574727b02846a8efc2bc58d0383043"
+    }
+  },
+  "reference_phases": [
+    {
+      "path": "cases/joins87-original-1103.json",
+      "setup_seconds": 0.2206035116687417,
+      "execution_seconds": 1.38154701795429,
+      "check_seconds": 0.02680867351591587,
+      "total_seconds": 1.6289595989510417
+    },
+    {
+      "path": "cases/joins87-original-1104.json",
+      "setup_seconds": 0.227908780798316,
+      "execution_seconds": 1.6741666151210666,
+      "check_seconds": 0.024356589652597904,
+      "total_seconds": 1.9264324652031064
+    },
+    {
+      "path": "cases/joins87-original-1105.json",
+      "setup_seconds": 0.225955025292933,
+      "execution_seconds": 1.6306007821112871,
+      "check_seconds": 0.02328130044043064,
+      "total_seconds": 1.8798374580219388
+    },
+    {
+      "path": "cases/joins87-original-1106.json",
+      "setup_seconds": 0.22450684662908316,
+      "execution_seconds": 0.997120919637382,
+      "check_seconds": 0.02569016069173813,
+      "total_seconds": 1.24731838516891
+    },
+    {
+      "path": "cases/joins87-original-1107.json",
+      "setup_seconds": 0.22601030208170414,
+      "execution_seconds": 1.651932424865663,
+      "check_seconds": 0.026988990604877472,
+      "total_seconds": 1.9049320928752422
+    }
+  ],
+  "native_timing": {
+    "fixture_seconds": 0.4817864615470171,
+    "suite_setup_seconds": 0.1471637999638915,
+    "negative_check_seconds": 0.024032906629145145,
+    "cases": [
+      {
+        "profile": "minimal",
+        "setup_seconds": 0.023689174093306065,
+        "execution_seconds": 0.0074362000450491905,
+        "check_seconds": 0.001857866533100605
+      },
+      {
+        "profile": "hello",
+        "setup_seconds": 0.019521264359354973,
+        "execution_seconds": 0.01171171199530363,
+        "check_seconds": 0.001935020089149475
+      },
+      {
+        "profile": "loops",
+        "setup_seconds": 0.017882224172353745,
+        "execution_seconds": 0.007326912134885788,
+        "check_seconds": 0.0014854641631245613
+      },
+      {
+        "profile": "pressure",
+        "setup_seconds": 0.017040463164448738,
+        "execution_seconds": 0.009846563450992107,
+        "check_seconds": 0.0013322299346327782
+      },
+      {
+        "profile": "aliasing",
+        "setup_seconds": 0.016246161423623562,
+        "execution_seconds": 0.0071981921792030334,
+        "check_seconds": 0.0013442952185869217
+      },
+      {
+        "profile": "floating",
+        "setup_seconds": 0.015729798935353756,
+        "execution_seconds": 0.0075908927246928215,
+        "check_seconds": 0.0014404375106096268
+      },
+      {
+        "profile": "i386",
+        "setup_seconds": 0.014839394949376583,
+        "execution_seconds": 0.010050184093415737,
+        "check_seconds": 0.001259664073586464
+      },
+      {
+        "profile": "x87",
+        "setup_seconds": 0.014403141103684902,
+        "execution_seconds": 0.00672430545091629,
+        "check_seconds": 0.0011235876008868217
+      },
+      {
+        "profile": "i486",
+        "setup_seconds": 0.013240296393632889,
+        "execution_seconds": 0.00739001389592886,
+        "check_seconds": 0.0011167563498020172
+      },
+      {
+        "profile": "combined",
+        "setup_seconds": 0.013605422340333462,
+        "execution_seconds": 0.01697169430553913,
+        "check_seconds": 0.0011163465678691864
+      },
+      {
+        "profile": "joins87",
+        "setup_seconds": 0.012747366912662983,
+        "execution_seconds": 0.012484193779528141,
+        "check_seconds": 0.0011135023087263107
+      }
+    ]
+  },
+  "timing_limits": [
+    "Combined canonical/native build37.315s included shared dependency rebuild and is unsplit. Later incremental builds2.36\u20132.73s. Interactive analysis/editing not measured. Wrapper/phase timings overlap and must not be summed.",
+    "First capture0.081s failed because source was accidentally written under an extra binary-local decomp subtree; moved to authorized fixture location before successful5.297s capture. No valid evidence was overwritten.",
+    "First alias probe0.230s compile failed due to probe-only error callback prototype; corrected to actual char*/unsigned declaration and passed0.246s. Reconstruction source was unchanged."
+  ]
+}

@@ -309,9 +309,6 @@ int __fastcall stack_copy_operand_changed(MachineInstruction *first, MachineInst
 void __fastcall retarget_comparison_branch(MachineInstruction *target, MachineInstruction *branch, MachineInstruction *load, int mode) { __asm int 3 }
 void __fastcall register_machine_label(MachineInstruction *instruction) { __asm int 3 }
 
-int __fastcall arrange_scheduled_float_inputs(MachineInstruction *instruction) { __asm int 3 }
-void __fastcall exchange_scheduled_float_stack(int slot) { __asm int 3 }
-void __fastcall arrange_scheduled_float_operands(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall pair_pentium_fallthrough_jump(MachineInstruction *jump, MachineInstruction **middle) { __asm int 3 }
 void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, MachineInstruction *middle) { __asm int 3 }
 void __fastcall coff_write_word(unsigned short value) { __asm int 3 }
@@ -351,7 +348,6 @@ int __cdecl minimum_extended(const Extended *left, const Extended *right, Extend
 int __cdecl maximum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl absolute_extended(const Extended *number, Extended *result) { __asm int 3 }
 
-int __fastcall previous_float_is_load(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall save_float_machine_register(MachineInstruction *instruction, FloatMachineRegister *reg, unsigned short number, MachineInstruction *reload) { __asm int 3 }
 MachineInstruction *__fastcall rewrite_pentium_float_store(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall process_float_stream_protected_block(MachineInstruction *instruction) { __asm int 3 }

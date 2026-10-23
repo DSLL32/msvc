@@ -6,6 +6,7 @@
 #include "register-use.h"
 #include "function-input.h"
 #include "float-machine.h"
+#include "float-peepholes.h"
 #include "intrinsic-selection.h"
 #include <stdlib.h>
 #include <recon.h>
@@ -2406,8 +2407,13 @@ int __fastcall instruction_float_not_ready(MachineInstruction *instruction)
 /* Original82e28..82e68 rows are copied by slot; their addresses never
    escape. Keep the eight-byte operand encoding explicit and contextual. */
 #define SCHEDULER_STACK_OPERAND(operand,slot) do { \
-    (operand).flags = OPERAND_REGISTER; \
-    (operand).value.constant = REG_ST0 + (slot); \
+    if ((slot) == 8) { \
+        (operand).flags = float_motion_reset_word; \
+        (operand).value.constant = (unsigned)float_stream_uses; \
+    } else { \
+        (operand).flags = OPERAND_REGISTER; \
+        (operand).value.constant = REG_ST0 + (slot); \
+    } \
 } while (0)
 /* Original [00045930,00045e51). Apply the chosen x87 operation to the
    current logical stack, repairing physical operands after reordering. */
@@ -2892,4 +2898,156 @@ int __fastcall generic_operand_size_cost(MachineOperand *operand)
         break;
     }
     return cost;
+}
+
+/* Original [00046a10,00046ab2). Insert an FXCH after the issue cursor
+   and exchange logical stack identities. The original permits slot8:
+   operand row8 aliases82e68/reset and82e6c/resident head, and value slot8
+   aliases7c338/serial. Express those exact live aliases without C array
+   overrun; ordinary operand rows0..7 are synthesized as typed operands. */
+void __fastcall exchange_scheduled_float_stack(int slot)
+{
+    MachineInstruction *instruction;
+    int top, value;
+    if (slot < 1 || slot > 8)
+        compiler_internal_error("@(#)schedp5u.c:1.0", 0xa65);
+    instruction = new_machine_instruction(0);
+    instruction->record.scheduling = new_instruction_schedule();
+    instruction->opcode = (instruction->opcode & 0xffff5fffUL) | 0x5f00;
+    instruction->opcode = (instruction->opcode & 0xffffff8fUL) | 0x80;
+    if (slot == 8) {
+        instruction->operands[0].flags = float_motion_reset_word;
+        instruction->operands[0].value.constant = (unsigned)float_stream_uses;
+    } else {
+        SCHEDULER_STACK_OPERAND(instruction->operands[0], slot);
+    }
+    instruction->next = scheduler_cursor->next;
+    instruction->previous = scheduler_cursor;
+    scheduler_cursor->next = instruction;
+    instruction->next->previous = instruction;
+    scheduler_cursor = instruction;
+    top = scheduler_float_values[0];
+    scheduler_float_positions[top] = slot;
+    value = slot == 8 ? scheduler_float_serial : scheduler_float_values[slot];
+    scheduler_float_positions[value] = 0;
+    scheduler_float_values[0] = value;
+    if (slot == 8) scheduler_float_serial = top;
+    else scheduler_float_values[slot] = top;
+}
+
+/* Original [000466f0,00046a08). Put the input identities in the physical
+   order needed by a floating operation. Popping arithmetic may reverse
+   direction or target another stack slot instead of emitting exchanges.
+   The six reversal DWORDs82f60..82f78 are the shared typed ISA forms. */
+int __fastcall arrange_scheduled_float_inputs(MachineInstruction *instruction)
+{
+    InstructionSchedule *info = instruction->record.scheduling;
+    int first = info->float_inputs[0], second = info->float_inputs[1];
+    int slot, position;
+    unsigned operation = (instruction->opcode >> 8) & 255;
+    int popping = operation >= MC_FADDP && operation <= MC_FDIVRP;
+    if (!second || (operation != MC_CALL &&
+        ((slot = (instruction->operands[0].value.reg.words.number & 0x3fff) - REG_ST0),
+         (slot == 8 ? scheduler_float_serial : scheduler_float_values[slot]) == -1))) {
+        exchange_scheduled_float_stack(scheduler_float_positions[first]);
+        if (((instruction->opcode >> 8) & 255) == MC_CALL) return 0;
+        slot = (instruction->operands[0].value.reg.words.number & 0x3fff) - REG_ST0;
+        if (slot < 2) return 0;
+        if (!second) {
+            position = scheduler_float_positions[first];
+            if (position == 8) scheduler_float_serial = -1;
+            else scheduler_float_values[position] = -1;
+            scheduler_float_positions[first] = -1;
+        } else {
+            scheduler_float_positions[first] = slot;
+            if (slot == 8) scheduler_float_serial = first;
+            else scheduler_float_values[slot] = first;
+        }
+        scheduler_float_values[0] = -1;
+        return 1;
+    }
+    if (scheduler_float_values[1] == first && scheduler_float_values[0] == second) {
+        if (popping)
+            instruction->opcode = (instruction->opcode & ~0xff00UL) |
+                (x87_arithmetic_forms[operation - MC_FADDP].right_popping << 8);
+        else exchange_scheduled_float_stack(1);
+        return 0;
+    }
+    if (scheduler_float_values[0] == second) {
+        if (popping) {
+            instruction->opcode = (instruction->opcode & ~0xff00UL) |
+                (x87_arithmetic_forms[operation - MC_FADDP].right_popping << 8);
+            SCHEDULER_STACK_OPERAND(instruction->operands[0], scheduler_float_positions[first]);
+            return 1;
+        }
+        exchange_scheduled_float_stack(1);
+        exchange_scheduled_float_stack(scheduler_float_positions[first]);
+        return 0;
+    }
+    if (scheduler_float_values[0] == first) {
+        if (popping) goto rewrite_popping_destination;
+        exchange_scheduled_float_stack(1);
+        exchange_scheduled_float_stack(scheduler_float_positions[second]);
+        exchange_scheduled_float_stack(1);
+        return 0;
+    }
+    if (scheduler_float_values[1] == second) {
+        exchange_scheduled_float_stack(scheduler_float_positions[first]);
+        return 0;
+    }
+    if (scheduler_float_values[1] == first) {
+        exchange_scheduled_float_stack(scheduler_float_positions[second]);
+        if (popping)
+            instruction->opcode = (instruction->opcode & ~0xff00UL) |
+                (x87_arithmetic_forms[operation - MC_FADDP].right_popping << 8);
+        else exchange_scheduled_float_stack(1);
+        return 0;
+    }
+    if (popping) {
+        exchange_scheduled_float_stack(scheduler_float_positions[first]);
+        goto rewrite_popping_destination;
+    }
+    exchange_scheduled_float_stack(scheduler_float_positions[second]);
+    exchange_scheduled_float_stack(1);
+    exchange_scheduled_float_stack(scheduler_float_positions[first]);
+    return 0;
+
+rewrite_popping_destination:
+    SCHEDULER_STACK_OPERAND(instruction->operands[0], scheduler_float_positions[second]);
+    first = instruction->record.scheduling->float_inputs[0];
+    second = instruction->record.scheduling->float_inputs[1];
+    position = scheduler_float_positions[second];
+    scheduler_float_positions[first] = position;
+    if (position == 8) scheduler_float_serial = first;
+    else scheduler_float_values[position] = first;
+    scheduler_float_positions[second] = -1;
+    scheduler_float_values[0] = -1;
+    return 1;
+}
+
+/* Original [00046ac0,00046b87). Repair ordinary two-input x87 operands,
+   retaining the existing top when possible and otherwise exchanging the
+   first input into ST0. A second input already at ST0 uses the opposite
+   operand order directly. */
+void __fastcall arrange_scheduled_float_operands(MachineInstruction *instruction)
+{
+    InstructionSchedule *info = instruction->record.scheduling;
+    int first = info->float_inputs[0], second = info->float_inputs[1];
+    int slot;
+    if (scheduler_float_values[0] == first) {
+        SCHEDULER_STACK_OPERAND(instruction->operands[1], scheduler_float_positions[second]);
+        return;
+    }
+    slot = (instruction->operands[1].value.reg.words.number & 0x3fff) - REG_ST0;
+    if (second && (slot == 8 ? scheduler_float_serial : scheduler_float_values[slot]) != second) {
+        if (scheduler_float_positions[second] == 0) {
+            SCHEDULER_STACK_OPERAND(instruction->operands[0], scheduler_float_positions[first]);
+            SCHEDULER_STACK_OPERAND(instruction->operands[1], 0);
+            return;
+        }
+        exchange_scheduled_float_stack(scheduler_float_positions[first]);
+        SCHEDULER_STACK_OPERAND(instruction->operands[1], scheduler_float_positions[second]);
+        return;
+    }
+    exchange_scheduled_float_stack(scheduler_float_positions[first]);
 }

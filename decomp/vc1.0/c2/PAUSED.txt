@@ -1,6 +1,3 @@
-C2 paused: all approved cases, including combined optimizer, complete.
-Checkpoint1103 accepted frontiers /1024 whole source graphs.
-Coverage304509/399693 code bytes (76.1857225% extent union, not branch coverage).
-Ten exact native object/status/stream/entry regressions and required audits pass.
-See cases/combined-completion.json and cases/queue.json for evidence/timings and unstarted proposals.
-No commands in flight, no pending reconstruction edits/checks. Resume only on explicit assigned next case.
+C2 active: G5 x87 joins complete at1107; proceeding to authorized G3 deeper-call rematerialization.
+Original G3 pipeline and standalone backend inputs/oracle already frozen.
+See cases/joins87-completion.json and cases/queue.json. No unrelated case started.

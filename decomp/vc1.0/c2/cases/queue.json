@@ -1,5 +1,5 @@
 {
-  "active": null,
+  "active": "g3-deep-rematerialization",
   "queued": [
     {
       "case": "hello-win32",
@@ -220,6 +220,57 @@
         ],
         "normalized_sha256": "b8b7867d8ca53daad37fb68781b9a5738ca2b4387691b7d265b3113de5924e56"
       }
+    },
+    {
+      "case": "g5-x87-joins",
+      "profile": "joins87",
+      "status": "complete",
+      "flags": [
+        "/Oi",
+        "/O2",
+        "/Ob0",
+        "/G5"
+      ],
+      "fixture_manifest": "../fixtures/c2-g5-x87-joins/manifest.json",
+      "expected_output": {
+        "path": "expected/joins87.obj",
+        "bytes": 1972,
+        "sha256": "a8e72a9b4b2eb916e452ed6d2f6027f956b6ab6ffe929d67683dbce329717200",
+        "output_name": "joins87.obj",
+        "ignored_fields": [
+          {
+            "offset": 4,
+            "bytes": 4,
+            "name": "COFF TimeDateStamp"
+          }
+        ],
+        "normalized_sha256": "8b2e931cded2afc72dce92f255151f4e00fe7c201d625115671723f5df70c223"
+      }
+    },
+    {
+      "case": "g3-deep-rematerialization",
+      "profile": "remat386",
+      "status": "queued",
+      "flags": [
+        "/O1",
+        "/Ob0",
+        "/G3"
+      ],
+      "fixture_manifest": "../fixtures/c2-g3-deep-rematerialization/manifest.json",
+      "expected_output": {
+        "path": "expected/remat386.obj",
+        "bytes": 1009,
+        "sha256": "f9814fafac22c88f04755cd9808a180b09c9e183f29ca1591464e00f9a9a10d7",
+        "output_name": "remat386.obj",
+        "ignored_fields": [
+          {
+            "offset": 4,
+            "bytes": 4,
+            "name": "COFF TimeDateStamp"
+          }
+        ],
+        "normalized_sha256": "8db2f39e2b4fc3d205ec8c92f622e175dc3b0c2f3ce66c3298f37097f6aab8d1"
+      }
     }
   ],
   "completed": [
@@ -302,9 +353,17 @@
       "exit": 0,
       "object_bytes": 2125,
       "normalized_sha256": "b8b7867d8ca53daad37fb68781b9a5738ca2b4387691b7d265b3113de5924e56"
+    },
+    {
+      "case": "g5-x87-joins",
+      "accepted_frontiers": 1107,
+      "reconstructed_functions": 1028,
+      "exit": 0,
+      "object_bytes": 1972,
+      "normalized_sha256": "8b2e931cded2afc72dce92f255151f4e00fe7c201d625115671723f5df70c223"
     }
   ],
-  "status": "All approved cases complete; paused awaiting user choice",
+  "status": "Authorized G5 branch joins first, then G3 deeper-call rematerialization; pause after both",
   "next_case_proposals": [
     {
       "case": "G3 rematerialization across deep calls",

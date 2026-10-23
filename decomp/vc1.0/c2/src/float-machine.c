@@ -2157,3 +2157,17 @@ void __fastcall process_float_stream_return(MachineInstruction *instruction)
     close_float_stream_context();
     start_float_stream_context(instruction->next, 0);
 }
+
+/* Original [0003f170,0003f1e5). Skip non-floating records backwards;
+   a stack-preserving floating call also stops the search, but only an
+   actual FLD at that first floating operation is considered a load. */
+int __fastcall previous_float_is_load(MachineInstruction *instruction)
+{
+    MachineInstruction *previous;
+    for (previous = instruction->previous; previous; previous = previous->previous) {
+        if (FM_ELIGIBLE(previous) && (FM_FLOAT(previous) ||
+            (FM_OPERATION(previous) == MC_CALL && call_preserves_float_stack(previous))))
+            return FM_OPERATION(previous) == MC_FLD;
+    }
+    return 0;
+}

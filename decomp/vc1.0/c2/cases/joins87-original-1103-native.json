@@ -1,0 +1,12 @@
+{
+  "logical": "@exchange_scheduled_float_stack@4",
+  "matched": true,
+  "executable_sha256": "72532195f48941dd1f1f63c96779981dd4a57190b992ce2e38a7111ad85741de",
+  "config_sha256": "43ddeed473cd716064a763064cd03dc7250408de2de7e0d6cfd0f073c87d3515",
+  "canonical_working_directory": "S:\\vc1.0\\c2\\joins87",
+  "setup_seconds": 0.00621437095105648,
+  "execution_seconds": 0.14003431238234043,
+  "seconds": 0.1586545081809163,
+  "log_sha256": "45ad8a8ef64cd2b0db61528987b9b6e741232a32a3a53658714e458d40891c65",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c2/joins87-gdb-tr5oz75z"
+}

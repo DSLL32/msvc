@@ -49,6 +49,7 @@ audit-data: build/c2.exe native
 	$(PYTHON) scripts/check-intrinsic-descriptors.py
 	$(PYTHON) scripts/check-runtime-intrinsic-data.py
 	$(PYTHON) scripts/check-conditional-opcodes.py
+	$(PYTHON) scripts/check-scheduler-stack-aliases.py
 
 
 hello-frontier hello-check hello-replay: native-trace

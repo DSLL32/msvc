@@ -1,0 +1,50 @@
+{
+  "method": "Actual source body and operand macro compiled native i386 O0; original eight operand rows plus explicit synthetic live slot8 alias sentinels",
+  "original_operand_rows": [
+    "0x82e28",
+    "0x82e68"
+  ],
+  "slot8_aliases": [
+    "0x82e68 float_motion_reset_word",
+    "0x82e6c float_stream_uses",
+    "0x7c338 scheduler_float_serial"
+  ],
+  "slots_checked": [
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "operand_rows_checked": [
+    0,
+    1,
+    2,
+    3,
+    4,
+    5,
+    6,
+    7,
+    8
+  ],
+  "checks": [
+    "operand byte layout",
+    "logical identities and inverse positions",
+    "serial alias mutation",
+    "FXCH opcode/width",
+    "linked insertion and scheduling record"
+  ],
+  "source_sha256": "4ebf3d587efb84b0963003dbdf8347c5f07370d5428918666be43dd286cee41d",
+  "probe_sha256": "80a9a489f95d2d25204202ef2cf5525f887755114995e0c77ddd18d25bded6d8",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "bytes_compared": 392,
+  "limits": "Synthetic slot8 test is distinct from fresh target-case execution; original diagnostic1..8 contract retained.",
+  "timing": {
+    "build_seconds": 0.17908169515430927,
+    "execution_seconds": 0.001232166774570942,
+    "total_seconds": 0.1857017744332552
+  }
+}

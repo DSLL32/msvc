@@ -1107,7 +1107,11 @@
     "@emit_register_barrier@8",
     "@select_conditional_carry_value@12",
     "@generic_instruction_size_cost@4",
-    "@generic_operand_size_cost@4"
+    "@generic_operand_size_cost@4",
+    "@exchange_scheduled_float_stack@4",
+    "@previous_float_is_load@4",
+    "@arrange_scheduled_float_inputs@4",
+    "@arrange_scheduled_float_operands@4"
   ],
   "driver": [
     {
@@ -7064,8 +7068,7 @@
     {
       "name": "@previous_float_is_load@4",
       "start": 258416,
-      "end": 258417,
-      "provisional": true
+      "end": 258533
     },
     {
       "name": "@initialize_float_register_home@8",
@@ -7391,20 +7394,17 @@
     {
       "name": "@arrange_scheduled_float_inputs@4",
       "start": 288496,
-      "end": 288497,
-      "provisional": true
+      "end": 289288
     },
     {
       "name": "@exchange_scheduled_float_stack@4",
       "start": 289296,
-      "end": 289297,
-      "provisional": true
+      "end": 289458
     },
     {
       "name": "@arrange_scheduled_float_operands@4",
       "start": 289472,
-      "end": 289473,
-      "provisional": true
+      "end": 289671
     },
     {
       "name": "@widen_instruction_encoding@8",
@@ -7546,6 +7546,12 @@
       "accepted_from": 1089,
       "fixture_manifest": "../fixtures/c2-combined-optimizer/manifest.json",
       "fixture_manifest_sha256": "bec8250d3c2be0f64b6607221ea91745c3dece88531cecf5b36183be47b8a04b"
+    },
+    "joins87": {
+      "arguments": "",
+      "accepted_from": 1103,
+      "fixture_manifest": "../fixtures/c2-g5-x87-joins/manifest.json",
+      "fixture_manifest_sha256": "aa7b1d5bc47182b3e329318a846c718081fe860ae747171d652f511471bff8ae"
     }
   },
   "crt_defaults": {

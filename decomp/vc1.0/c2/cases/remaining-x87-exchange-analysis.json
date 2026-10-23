@@ -1,5 +1,5 @@
 {
-  "status": "analysis only; helpers remain unaccepted named traps",
+  "status": "exchange accepted1104, input arrangement1106, operand arrangement1107; G5 joins complete",
   "exchange_extent": [
     "0x46a10",
     "0x46ab2"
@@ -26,5 +26,6 @@
     }
   ],
   "future_requirement": "Represent slot8 using explicit named typed aliases, preserving original access widths and address identity; avoid C array out-of-bounds. No implementation or acceptance here.",
-  "execution_limit": "Completed floating case never entered this helper."
+  "execution_limit": "Scheduled exchange/arrangement execute in G5 joins; individual slot8 execution not established. Independent synthetic compiled-source probe covers alias semantics.",
+  "validation": "cases/scheduler-stack-alias-validation.json"
 }

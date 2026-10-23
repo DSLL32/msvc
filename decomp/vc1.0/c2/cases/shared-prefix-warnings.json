@@ -2,24 +2,14 @@
   "modules": [
     {
       "module": "scheduler",
-      "seconds": 2.5651352712884545,
+      "seconds": 2.6120458180084825,
       "returncode": 0
     },
     {
-      "module": "intrinsic-selection",
-      "seconds": 2.4466803316026926,
-      "returncode": 0
-    },
-    {
-      "module": "machine-operands",
-      "seconds": 2.2826460329815745,
-      "returncode": 0
-    },
-    {
-      "module": "value-selection",
-      "seconds": 1.340133267454803,
+      "module": "float-machine",
+      "seconds": 2.3900971869006753,
       "returncode": 0
     }
   ],
-  "seconds": 8.635041756555438
+  "seconds": 5.002432718873024
 }

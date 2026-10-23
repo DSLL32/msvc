@@ -1,7 +1,7 @@
 C23232.EXE reconstruction, vc1.0 / original1.0-nt toolchain
 
-Current checkpoint:1103 accepted frontiers and1024 reconstructed source functions.
-Accepted original code extents cover304509/399693 bytes (76.185723%). This is
+Current checkpoint:1107 accepted frontiers and1028 reconstructed source functions.
+Accepted original code extents cover305779/399693 bytes (76.503467%). This is
 an extent union of source, shared text data, CRT and import thunks, clipped to
 original VirtualSize (raw-size fallback when zero), not branch coverage.
 
@@ -15,9 +15,9 @@ check/replay and named-profile checks run native i386 -O0 -g only. They compare
 cached original first-entry traces, status, streams and complete object bytes.
 Unknown process dependencies fail; no fixture invokes Wine or refreshes original
 references. Only identified COFF timestamp bytes4..7 are normalized. The suite
-contains ten complete objects: minimal286, hello2289, loops620, pressure879,
-aliasing600, floating979, i386572, deep x87947, i486883 and combined2125 bytes.
-All approved cases are complete; reconstruction is paused. See cases/queue.json,
+contains eleven complete objects: minimal286, hello2289, loops620, pressure879,
+aliasing600, floating979, i386572, deep x87947, i486883, combined2125 and G5 joins1972 bytes.
+The authorized G3 deeper-call rematerialization case is next. See cases/queue.json,
 cases/combined-completion.json and cases/native-all-validation.json.
 
 Original builds and explicit captures use the repository shared prefix
@@ -70,7 +70,7 @@ Unvisited generated-call metadata, x87 input arrangement/exchange (including the
 original slot1..8 alias contract), and i386 rematerialization cost remain traps.
 The completed /O1 /G3 input did not reach that anticipated cost function.
 
-No further cases are authorized. Shared lib/recon/
+Additional cases require the orchestrating agent's review. Shared lib/recon/
 changes belong to its dedicated maintainer. See cases/shared-prefix-validation.json
 for migration timings, negative checks and exact scope.
 
@@ -114,3 +114,9 @@ graph/coverage2.202s, contextual data2.036s, rejection suite15.720s and selected
 original /W3 checks8.684s. Build phases and analysis are not inferred; complete
 attempt/repeat and capture setup/execution/check timing is retained in
 cases/combined-completion.json. No follow-on case has started.
+
+G5 branch joins complete at1107: scheduled FXCH162 bytes, prior-load scan117,
+input arrangement792 and ordinary operand arrangement199. All eleven whole
+objects pass; see cases/joins87-completion.json for timings and slot8 proof
+limits. Synthetic all-slot checking preserves named live aliases without C
+array overruns or a tighter diagnostic range.
