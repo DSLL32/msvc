@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 932,
+  "accepted": "_evaluate_integer_constant@4",
+  "terminal": "_check_static_initializer@8",
+  "original_capture": "cases/frontiers/stack_lifetime/0932-evaluate_integer_constant-4/original-receipt.json",
+  "original_capture_sha256": "c6a0dd6bdc0f45c18f4b65d23060188240bc4fcfd6786ae1d87e11abc143e747",
+  "original_events": "cases/frontiers/stack_lifetime/0932-evaluate_integer_constant-4/original-events.txt",
+  "original_events_sha256": "3205a17b9c6ca8497714370aada91b75573c80f4388c95b5eb84bb906f108a34",
+  "original_configuration": "cases/frontiers/stack_lifetime/0932-evaluate_integer_constant-4/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

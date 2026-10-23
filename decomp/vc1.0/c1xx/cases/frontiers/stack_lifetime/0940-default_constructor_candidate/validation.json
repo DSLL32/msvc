@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_default_constructor_candidate",
+    "start": 229200,
+    "end": 229218
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_is_void_parameter_constructor@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2885868828743696,
+  "total_operation_seconds": 3.782123966142535,
+  "original_capture_seconds": 1.8196532856673002
+}

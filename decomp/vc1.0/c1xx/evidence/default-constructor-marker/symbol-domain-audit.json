@@ -1,0 +1,70 @@
+{
+  "scope": "accepted constructor/default marker producers and consumers only",
+  "layout_assertion": "CppSymbol.cpp.parts.member_flags ==offset50",
+  "mask": 16,
+  "old_source_error_functions": [
+    "default_constructor_candidate",
+    "is_void_parameter_constructor"
+  ],
+  "remaining_low_flags_marker_tests": 0,
+  "functions": [
+    {
+      "function": "classify_constructor",
+      "start": 197168,
+      "end": 197471,
+      "marker_operand_lines": [
+        "   30242:\t80 4e 32 10          \tor     BYTE PTR [esi+0x32],0x10",
+        "   3026e:\t8a 46 32             \tmov    al,BYTE PTR [esi+0x32]",
+        "   30273:\t88 46 32             \tmov    BYTE PTR [esi+0x32],al",
+        "   30278:\t88 46 32             \tmov    BYTE PTR [esi+0x32],al",
+        "   30298:\t80 4e 32 10          \tor     BYTE PTR [esi+0x32],0x10",
+        "   302ec:\t80 4e 32 20          \tor     BYTE PTR [esi+0x32],0x20",
+        "   30356:\t80 4e 32 20          \tor     BYTE PTR [esi+0x32],0x20"
+      ],
+      "finding": "Existing typed member_flags reads/writes use offset50; no sibling low_flags typo found in constructor/default predicates. create_implicit_special_member separately stores member kind atoffset48, asoriginal3751c."
+    },
+    {
+      "function": "inspect_declared_special_members",
+      "start": 223968,
+      "end": 224449,
+      "marker_operand_lines": [
+        "   36bfc:\tf6 40 32 10          \ttest   BYTE PTR [eax+0x32],0x10",
+        "   36c19:\t8a 40 32             \tmov    al,BYTE PTR [eax+0x32]"
+      ],
+      "finding": "Existing typed member_flags reads/writes use offset50; no sibling low_flags typo found in constructor/default predicates. create_implicit_special_member separately stores member kind atoffset48, asoriginal3751c."
+    },
+    {
+      "function": "create_implicit_special_member",
+      "start": 226512,
+      "end": 227114,
+      "marker_operand_lines": [
+        "   37501:\t80 4e 32 01          \tor     BYTE PTR [esi+0x32],0x1",
+        "   3750c:\t8a 4e 32             \tmov    cl,BYTE PTR [esi+0x32]",
+        "   37515:\t88 46 32             \tmov    BYTE PTR [esi+0x32],al",
+        "   37542:\t80 4e 32 10          \tor     BYTE PTR [esi+0x32],0x10",
+        "   3755a:\t80 4e 32 20          \tor     BYTE PTR [esi+0x32],0x20",
+        "   3759e:\t80 4e 32 40          \tor     BYTE PTR [esi+0x32],0x40"
+      ],
+      "finding": "Existing typed member_flags reads/writes use offset50; no sibling low_flags typo found in constructor/default predicates. create_implicit_special_member separately stores member kind atoffset48, asoriginal3751c."
+    },
+    {
+      "function": "declare_default_constructor_closures",
+      "start": 225392,
+      "end": 225649,
+      "marker_operand_lines": [
+        "   37121:\tf6 43 32 10          \ttest   BYTE PTR [ebx+0x32],0x10"
+      ],
+      "finding": "Existing typed member_flags reads/writes use offset50; no sibling low_flags typo found in constructor/default predicates. create_implicit_special_member separately stores member kind atoffset48, asoriginal3751c."
+    },
+    {
+      "function": "constructor_member_initializers",
+      "start": 221072,
+      "end": 222148,
+      "marker_operand_lines": [
+        "   360da:\tf6 40 32 20          \ttest   BYTE PTR [eax+0x32],0x20",
+        "   36379:\t8a 48 32             \tmov    cl,BYTE PTR [eax+0x32]"
+      ],
+      "finding": "Existing typed member_flags reads/writes use offset50; no sibling low_flags typo found in constructor/default predicates. create_implicit_special_member separately stores member kind atoffset48, asoriginal3751c."
+    }
+  ]
+}

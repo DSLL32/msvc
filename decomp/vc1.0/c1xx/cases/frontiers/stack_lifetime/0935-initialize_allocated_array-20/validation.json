@@ -1,0 +1,26 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_initialize_allocated_array@20",
+    "start": 327728,
+    "end": 328064
+  },
+  "distinct_direct_callees": [
+    "_capture_allocation_pointer@8",
+    "_clone_expression@8",
+    "_convert_initializer@12",
+    "_guard_allocation_result@8",
+    "_has_trivial_class_constructor@4",
+    "_make_array_constructor_call@12",
+    "_make_size_constant@4",
+    "_new_left_typed_expression@12",
+    "_new_right_typed_expression@12",
+    "_type_size@4"
+  ],
+  "next_frontier": "_has_trivial_class_constructor@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.25079421047121286,
+  "total_operation_seconds": 2.7330073695629835,
+  "original_capture_seconds": 0.9166544070467353
+}

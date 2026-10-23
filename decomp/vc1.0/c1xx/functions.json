@@ -936,7 +936,17 @@
     "_invoke_user_conversion@12",
     "_mangle_referenced_type@8",
     "_mangle_pointee_shape@8",
-    "_mangle_tag_name@8"
+    "_mangle_tag_name@8",
+    "_evaluate_integer_constant@4",
+    "_check_static_initializer@8",
+    "_parameter_reference_type@4",
+    "_initialize_allocated_array@20",
+    "_has_trivial_class_constructor@4",
+    "_make_array_constructor_call@12",
+    "_make_array_constructor_address@4",
+    "_find_default_constructor@4",
+    "_default_constructor_candidate",
+    "_is_void_parameter_constructor@4"
   ],
   "driver": [
     {
@@ -2689,7 +2699,7 @@
     {
       "name": "_evaluate_integer_constant@4",
       "start": 243904,
-      "end": 243905
+      "end": 244005
     },
     {
       "name": "_insert_current_scope_symbol@4",
@@ -4445,7 +4455,7 @@
     {
       "name": "_parameter_reference_type@4",
       "start": 388976,
-      "end": 388977
+      "end": 389230
     },
     {
       "name": "_based_type_expression@4",
@@ -5607,7 +5617,7 @@
     {
       "name": "_check_static_initializer@8",
       "start": 284720,
-      "end": 284721
+      "end": 285326
     },
     {
       "name": "_begin_runtime_initializer@4",
@@ -5722,7 +5732,7 @@
     {
       "name": "_initialize_allocated_array@20",
       "start": 327728,
-      "end": 327729
+      "end": 328064
     },
     {
       "name": "_has_special_member_model@8",
@@ -7274,6 +7284,51 @@
       "name": "_mangle_array_type@8",
       "start": 278688,
       "end": 278689
+    },
+    {
+      "name": "_has_trivial_class_constructor@4",
+      "start": 228096,
+      "end": 228136
+    },
+    {
+      "name": "_make_array_constructor_call@12",
+      "start": 228864,
+      "end": 228980
+    },
+    {
+      "name": "_make_array_constructor_address@4",
+      "start": 228992,
+      "end": 229138
+    },
+    {
+      "name": "_find_default_constructor@4",
+      "start": 229232,
+      "end": 229256
+    },
+    {
+      "name": "_is_void_parameter_constructor@4",
+      "start": 229264,
+      "end": 229333
+    },
+    {
+      "name": "_make_vector_helper_call@20",
+      "start": 233088,
+      "end": 233089
+    },
+    {
+      "name": "_require_default_constructor_closure@4",
+      "start": 225840,
+      "end": 225841
+    },
+    {
+      "name": "_make_constructor_access_probe@4",
+      "start": 229152,
+      "end": 229153
+    },
+    {
+      "name": "_default_constructor_candidate",
+      "start": 229200,
+      "end": 229218
     }
   ],
   "cases": {
@@ -7380,6 +7435,27 @@
         "cases/frontiers/copy_assignment/0929-mangle_referenced_type-8/frontier-extension.json",
         "cases/frontiers/copy_assignment/0930-mangle_pointee_shape-8/frontier-extension.json",
         "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/frontier-extension.json"
+      ]
+    },
+    "stack_lifetime": {
+      "fixture": "../fixtures/c1xx-stack-lifetime",
+      "native_reference": "cases/native-stack-lifetime",
+      "frontiers": "cases/frontiers/stack_lifetime",
+      "accepted_from": 932,
+      "terminal": "_make_constructor_access_probe@4",
+      "terminal_evidence": "cases/frontiers/stack_lifetime/0941-is_void_parameter_constructor-4/original-events.txt",
+      "original_seed": "cases/stack_lifetime-seed",
+      "frontier_extensions": [
+        "cases/frontiers/stack_lifetime/0932-evaluate_integer_constant-4/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0933-check_static_initializer-8/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0934-parameter_reference_type-4/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0935-initialize_allocated_array-20/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0936-has_trivial_class_constructor-4/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0937-make_array_constructor_call-12/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0938-make_array_constructor_address-4/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0939-find_default_constructor-4/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0940-default_constructor_candidate/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0941-is_void_parameter_constructor-4/frontier-extension.json"
       ]
     }
   },

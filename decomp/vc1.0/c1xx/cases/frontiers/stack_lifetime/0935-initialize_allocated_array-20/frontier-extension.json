@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 935,
+  "accepted": "_initialize_allocated_array@20",
+  "terminal": "_has_trivial_class_constructor@4",
+  "original_capture": "cases/frontiers/stack_lifetime/0935-initialize_allocated_array-20/original-receipt.json",
+  "original_capture_sha256": "a2152e7f0961fdd4640309ef0aae1fd77959d054244cb99967123d6583c2c7f8",
+  "original_events": "cases/frontiers/stack_lifetime/0935-initialize_allocated_array-20/original-events.txt",
+  "original_events_sha256": "82644c47dce69afaa847596e43caabc8d6b473bbc8c99c4e3ddf734f204646e7",
+  "original_configuration": "cases/frontiers/stack_lifetime/0935-initialize_allocated_array-20/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

@@ -4,9 +4,44 @@
 #include "class-members.h"
 #include "global-ir.h"
 #include "special-members.h"
+#include "type-sizes.h"
+#include "initialization.h"
+#include "function-definitions.h"
+#include "expression-preparation.h"
+#include "return-statements.h"
 #include <recon.h>
 
 CppSymbol *allocation_base_symbol; /* original 0xa0d18: based allocation context */
+
+/* Original 0x50030..0x5017f, stdcall 20. A heap array may store a
+   count cookie and guard a captured allocation pointer; an existing stack
+   array only requires its construction expression. */
+IrToken *__stdcall initialize_allocated_array(IrToken *object, int allocated,
+    unsigned prefix_bytes, IrToken *element_count, int element_bytes)
+{
+    IrToken *saved, *construction = 0, *size;
+    if (!object || !element_count) return object;
+    if (has_trivial_class_constructor(object->type) &&
+        (!allocated || !prefix_bytes)) return object;
+    if (allocated) capture_allocation_pointer(&saved, &object);
+    if (prefix_bytes) {
+        type_size(type_4064_first);
+        type_size(type_4044);
+        element_count = new_right_typed_expression(0x3d,
+            clone_expression(object, 0), element_count);
+        size = make_size_constant(prefix_bytes);
+        size->type = type_4064_first;
+        object = new_left_typed_expression(0x5a, object, size);
+    }
+    element_count = convert_initializer(0x6e, type_0064, element_count);
+    if (!has_trivial_class_constructor(object->type))
+        construction = make_array_constructor_call(clone_expression(object, 0),
+            element_bytes, element_count);
+    if (!allocated) return construction;
+    object = new_right_typed_expression(0x40,
+        construction ? construction : element_count, object);
+    return guard_allocation_result(saved, object);
+}
 
 /* Original [0x4f8f0,0x4fef4), including all allocation and supplied-object
    branches. Argument lists retain their circular head links while synthetic

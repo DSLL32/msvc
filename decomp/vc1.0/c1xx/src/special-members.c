@@ -434,6 +434,14 @@ void __stdcall declare_deleting_destructors(CppSymbol *tag)
     }
 }
 
+/* Original 0x37b00..0x37b27, stdcall 4. Bit zero summarizes a
+   trivial default constructor independently of the available member models. */
+int __stdcall has_trivial_class_constructor(CType *type)
+{
+    CppSymbol *tag = cpp_context_stack->items[type->field08];
+    return (tag->detail.class_info->trivial_special_members & 1) ? 1 : 0;
+}
+
 /* Original 0x37b30..0x37b3e. Constructor availability in the type's model. */
 int __stdcall has_class_initialization(CType *type)
 {

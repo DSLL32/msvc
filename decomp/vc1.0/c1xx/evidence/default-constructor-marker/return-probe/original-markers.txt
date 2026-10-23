@@ -1,0 +1,9 @@
+entry callback symbol 007ea420 flags48 01 flags50 21
+result callback low 01 member 21 value 0 caller 00037d84
+entry callback symbol 007ea2d4 flags48 00 flags50 01
+result callback low 00 member 01 value 0 caller 00037d84
+entry callback symbol 007ea23c flags48 00 flags50 11
+result callback low 00 member 11 value 1 caller 00037d84
+entry checker symbol 007ea23c flags48 00 flags50 11
+result checker low 00 member 11 value 1 caller 00037e95
+terminal make_constructor_access_probe

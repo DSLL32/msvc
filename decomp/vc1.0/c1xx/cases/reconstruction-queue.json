@@ -7,16 +7,28 @@
   "current": {
     "case": "stack_lifetime",
     "fixture": "../fixtures/c1xx-stack-lifetime",
-    "status": "root approved unchanged original-validated source; ready to seed after exact shared-refresh regressions"
+    "status": "active; initial original/native frontier exact",
+    "expected_destructor_order": [
+      3,
+      2,
+      1,
+      42,
+      41,
+      40,
+      6
+    ],
+    "expected_program_status": 0,
+    "seed": "cases/stack_lifetime-seed/validation.json"
   },
   "pending": [
     {
       "family": "destruction and stack lifetime",
       "intent": "Explicit destructors, nested automatic objects and return/scope cleanup",
       "fixture": "../fixtures/c1xx-stack-lifetime",
-      "status": "original phases independently verified; reconstruction pending",
+      "status": "active original/native seeded reconstruction",
       "manifest": "../fixtures/c1xx-stack-lifetime/manifest.json",
-      "validation": "../fixtures/c1xx-stack-lifetime/validation.json"
+      "validation": "../fixtures/c1xx-stack-lifetime/validation.json",
+      "case": "stack_lifetime"
     },
     {
       "family": "new/delete and overloaded operators",

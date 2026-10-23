@@ -126,7 +126,50 @@ int __stdcall validate_expression_symbol(CppSymbol *symbol)
     return 1;
 }
 
-CType *__stdcall parameter_reference_type(IrToken *reference);
+/* Original 0x5ef70..0x5f06d, stdcall 4. Convert an array/reference
+   expression to its argument pointer model, retaining based-symbol context.
+   The original pushes &base before normalizing attributes and leaves it on
+   the stack as the fourth argument to replace_first_type_shape. */
+CType *__stdcall parameter_reference_type(IrToken *reference)
+{
+    IrToken *base_expression, *call;
+    CppSymbol *symbol, *base;
+    TypeShape *shape;
+    unsigned short attributes;
+    if (reference->kind == 0x59) {
+        call = reference->value.pointer;
+        if (call->kind == 0x7a && !call->type->related)
+            compiler_warning(options.configuration.extensions_enabled ? 4 : 1, 0xdf);
+    }
+    if ((reference->flags & 7) == 5) return reference->type;
+    symbol = find_expression_symbol(reference);
+    if (symbol) {
+        if (symbol->attributes & 2) {
+            shape = symbol->type->related;
+            if (!(shape->flags & 0x77) && (shape->attributes & 4)) {
+                attributes = shape->attributes;
+                base = shape->data.based_symbol;
+                goto replace;
+            }
+        }
+        attributes = symbol->type->attributes;
+        base = reference->type->related->data.based_symbol;
+    } else {
+        base_expression = find_expression_type_base(reference);
+        if (base_expression && base_expression->type &&
+            (shape = base_expression->type->related) != 0 &&
+            (shape->flags & 0x77) != 2) {
+            attributes = shape->attributes;
+            base = shape->data.based_symbol;
+        } else {
+            base = reference->type->related->data.based_symbol;
+            attributes = reference->type->attributes;
+        }
+    }
+replace:
+    attributes = normalize_type_attributes(1, attributes);
+    return replace_first_type_shape(reference->type, 1, attributes & 15, &base);
+}
 IrToken *__stdcall based_type_expression(CType *type);
 
 /* Original 0x61380..0x614f7. Preserve a qualified wrapper in the operand

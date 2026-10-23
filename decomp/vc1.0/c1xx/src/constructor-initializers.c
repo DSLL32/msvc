@@ -13,7 +13,52 @@
 #include "unary-expressions.h"
 #include "call-expressions.h"
 #include "object-initializers.h"
+#include "macros.h"
 #include <recon.h>
+
+CType *__stdcall runtime_callback_type(unsigned short pointer_attributes,
+    unsigned short function_attributes);
+
+/* Original 0x37e80..0x37f11, stdcall 4. A constructor with default
+   arguments needs a generated no-argument closure before it can serve as a
+   vector callback. Access is probed through a typed null object first. */
+IrToken *__stdcall make_array_constructor_address(CType *type)
+{
+    CppSymbol *constructor = find_default_constructor(type);
+    TypeShape *shape;
+    IrToken *reference;
+    unsigned short pointer_attributes, function_attributes;
+    if (!is_void_parameter_constructor(constructor))
+        constructor = require_default_constructor_closure(constructor);
+    defer_generated_member(constructor);
+    shape = constructor->type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    make_constructor_access_probe(shape->data.parameters->associated_type);
+    shape = constructor->type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    pointer_attributes = shape->data.parameters->associated_type->related->attributes & 7;
+    function_attributes = (constructor->type->related->attributes & 7) | 0x70;
+    reference = symbol_reference(constructor);
+    reference->type = runtime_callback_type(pointer_attributes, function_attributes);
+    return reference;
+}
+
+/* Original 0x37e00..0x37e73, stdcall 12. Array construction calls
+   the vector helper with a callable constructor address. Virtual-base
+   construction selects the helper carrying the extra most-derived argument. */
+IrToken *__stdcall make_array_constructor_call(IrToken *object, int element_bytes,
+    IrToken *element_count)
+{
+    CType *type = object->type;
+    CppSymbol *tag = cpp_context_stack->items[type->field08];
+    IrToken *constructor = make_array_constructor_address(type), *helper;
+    int virtual_bases = 0;
+    if (tag->detail.class_info->flags & 0x10)
+        virtual_bases = is_void_parameter_constructor(find_default_constructor(type)) != 0;
+    helper = identifier_expression(virtual_bases ? name_vector_ctor_vb : name_vector_ctor);
+    return make_vector_helper_call(object, element_bytes, element_count,
+        constructor, helper);
+}
 
 /* Original 0x64660..0x646eb, stdcall12. Reference binding carries
    normalized pointer distance, with a minimum nonexact rank of two. */

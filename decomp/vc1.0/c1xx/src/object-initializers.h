@@ -37,6 +37,16 @@ IrToken *__stdcall initialize_allocated_class(int allocated, CppSymbol *tag,
     IrToken *object, IrToken *arguments);
 IrToken *__stdcall initialize_allocated_array(IrToken *object, int allocated,
     unsigned prefix_bytes, IrToken *element_count, int element_bytes);
+int __stdcall has_trivial_class_constructor(CType *type);
+IrToken *__stdcall make_array_constructor_call(IrToken *object, int element_bytes,
+    IrToken *element_count);
+IrToken *__stdcall make_array_constructor_address(CType *type);
+CppSymbol *__stdcall require_default_constructor_closure(CppSymbol *constructor);
+IrToken *__stdcall make_constructor_access_probe(CType *object_type);
+CppSymbol *__stdcall find_default_constructor(CType *type);
+int __stdcall is_void_parameter_constructor(CppSymbol *function);
+IrToken *__stdcall make_vector_helper_call(IrToken *object, int element_bytes,
+    IrToken *element_count, IrToken *function, IrToken *helper);
 void __stdcall finish_local_static_initialization(CppSymbol *symbol);
 void __stdcall begin_initializer_function(CppSymbol *symbol);
 void __stdcall guard_local_static_initialization(CppSymbol *symbol);

@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_is_void_parameter_constructor@4",
+    "start": 229264,
+    "end": 229333
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_make_constructor_access_probe@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2925335392355919,
+  "total_operation_seconds": 1.7148294998332858,
+  "original_capture_seconds": 0.8163171177729964,
+  "correction_evidence": "evidence/default-constructor-marker/analysis.json"
+}

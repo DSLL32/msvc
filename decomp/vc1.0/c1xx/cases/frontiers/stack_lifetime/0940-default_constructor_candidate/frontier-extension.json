@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 940,
+  "accepted": "_default_constructor_candidate",
+  "terminal": "_is_void_parameter_constructor@4",
+  "original_capture": "cases/frontiers/stack_lifetime/0940-default_constructor_candidate/original-receipt.json",
+  "original_capture_sha256": "00a043063df86e414cc89d74cae67f7dbd892494e86e4bdd625a04d81d6204be",
+  "original_events": "cases/frontiers/stack_lifetime/0940-default_constructor_candidate/original-events.txt",
+  "original_events_sha256": "a9dbc659d2460ffffded58032686dea0be25840b8868dde646de41f6d37f3d59",
+  "original_configuration": "cases/frontiers/stack_lifetime/0940-default_constructor_candidate/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

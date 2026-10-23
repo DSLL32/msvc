@@ -1,0 +1,13 @@
+{
+  "status": "resolved: corrected actual predicate arguments/returns and exact downstream candidate pair",
+  "candidate": "_is_void_parameter_constructor@4",
+  "accepted_predecessor": "_default_constructor_candidate",
+  "error": "BYTE[symbol+0x32] was read as cpp.parts.low_flags(offset48) instead of cpp.parts.member_flags(offset50)",
+  "observed": "Native lookup returnedNULL and is_void_parameter_constructor faulted; original next trap make_constructor_access_probe. Earlier shared14state/pending-buffer comparisons did not observe the lookup return pointer.",
+  "correction": "Both marker tests use member_flags and compile-time nested offset50 assertion; no ABI/call graph change. Reuse unchanged frozen original proposal; rebuild and capture native again.",
+  "return_probe": "return-probe/receipt.json",
+  "scope_audit": "symbol-domain-audit.json",
+  "accepted_verification": "cases/frontiers/stack_lifetime/0941-is_void_parameter_constructor-4/validation.json",
+  "original_reuse": "Both frozen original candidate and explicit return observer have configSHA74c0501f849e15f82b870140588ae921aba1ba9814223624c8bf9bf054ec11dc, same target and unchanged lifetime source/input hashes; observer rows identify same three constructor candidates and checker invocation; old raw original candidate retained unchanged.",
+  "observer_build_timing": "Separate original-toolchain make build/reference-constructor-observer.exe passed; wall time not measured as one interval. Probe execution and corrected native/canonical builds have separate measured receipts."
+}

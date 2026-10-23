@@ -184,7 +184,6 @@ void end_seh_finally(void) { __asm { int 3 } }
 void end_seh_try(void) { __asm { int 3 } }
 void end_switch_statement(void) { __asm { int 3 } }
 void end_while_statement(void) { __asm { int 3 } }
-unsigned __stdcall evaluate_integer_constant(IrToken *expression) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall find_label(char *name) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall select_allocation_function(unsigned short flags, CppSymbol *functions) { __asm { int 3 } return 0; }
 void finish_conditional_branch(void) { __asm { int 3 } }
@@ -196,11 +195,12 @@ CppSymbol *__stdcall lookup_destructor_member(CType *type) { __asm { int 3 } ret
 IrToken *__stdcall initialize_allocated_scalar(IrToken *object, IrToken *initializer) { __asm { int 3 } return 0; }
 void __stdcall capture_allocation_pointer(IrToken **saved, IrToken **object) { __asm { int 3 } }
 IrToken *__stdcall guard_allocation_result(IrToken *saved, IrToken *object) { __asm { int 3 } return 0; }
-IrToken *__stdcall initialize_allocated_array(IrToken *object, int allocated,
-    unsigned prefix_bytes, IrToken *element_count, int element_bytes) { __asm { int 3 } return 0; }
+CppSymbol *__stdcall require_default_constructor_closure(CppSymbol *constructor) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_constructor_access_probe(CType *object_type) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_vector_helper_call(IrToken *object, int element_bytes,
+    IrToken *element_count, IrToken *function, IrToken *helper) { __asm { int 3 } return 0; }
 void __stdcall finish_local_static_initialization(CppSymbol *symbol) { __asm { int 3 } }
 unsigned short __stdcall fit_string_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } return 0; }
-int __stdcall check_static_initializer(CppSymbol *symbol, IrToken **value) { __asm { int 3 } return 0; }
 void __stdcall begin_initializer_function(CppSymbol *symbol) { __asm { int 3 } }
 CppSymbol *__stdcall create_generated_object(unsigned char storage, CType *type) { __asm { int 3 } return 0; }
 void __stdcall emit_runtime_symbol_initializer(CppSymbol *symbol, IrToken *value) { __asm { int 3 } }
@@ -428,7 +428,6 @@ IrToken *most_derived_expression(void) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall enumerator_expression(CppSymbol *symbol) { __asm { int 3 } return 0; }
 
-CType *__stdcall parameter_reference_type(IrToken *reference) { __asm { int 3 } return 0; }
 IrToken *__stdcall based_type_expression(CType *type) { __asm { int 3 } return 0; }
 
 

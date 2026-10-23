@@ -7,6 +7,25 @@
 #include "class-members.h"
 #include <recon.h>
 
+/* Original 0x3b8c0..0x3b924, stdcall 4. Enum constants share the
+   integral payload representation. Error recovery distinguishes a missing
+   expression, a nonconstant expression and a nonintegral constant. */
+unsigned __stdcall evaluate_integer_constant(IrToken *expression)
+{
+    if (!expression) {
+        report_syntax_error(0x38);
+        return 0;
+    }
+    expression = fold_symbol_constant(expression);
+    if ((expression->flags & 7) != 3) {
+        report_syntax_error(0x39);
+        return 1;
+    }
+    if (expression->type->flags & 0x240) return expression->value.integer;
+    report_syntax_error(0x3a);
+    return 0;
+}
+
 /* Original 0x2c600..0x2c71f; seven-way dispatch at 0x2c720..0x2c73c.
    Floating payloads are pointers to their separately saved values. */
 IrToken *__stdcall new_literal_constant(unsigned char kind, void *value)

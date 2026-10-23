@@ -68,6 +68,9 @@ build/reference-copy-observer.exe: build/reference-copy-observer.obj
 build/reference-scope-observer.obj: src/reference-scope-observer.c src/debug-run.c
 build/reference-scope-observer.exe: build/reference-scope-observer.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
+build/reference-constructor-observer.obj: src/reference-constructor-observer.c src/debug-run.c
+build/reference-constructor-observer.exe: build/reference-constructor-observer.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 build/reference-capture-driver.exe: build/reference-capture-driver.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 build/reference-run-phase.exe: build/reference-run-phase.obj

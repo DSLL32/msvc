@@ -1,0 +1,26 @@
+[
+  {
+    "kind": "callback",
+    "low": 1,
+    "member": 33,
+    "value": 0
+  },
+  {
+    "kind": "callback",
+    "low": 0,
+    "member": 1,
+    "value": 0
+  },
+  {
+    "kind": "callback",
+    "low": 0,
+    "member": 17,
+    "value": 1
+  },
+  {
+    "kind": "checker",
+    "low": 0,
+    "member": 17,
+    "value": 1
+  }
+]

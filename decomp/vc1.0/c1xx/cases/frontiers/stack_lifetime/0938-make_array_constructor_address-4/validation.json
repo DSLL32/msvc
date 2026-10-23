@@ -1,0 +1,23 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_array_constructor_address@4",
+    "start": 228992,
+    "end": 229138
+  },
+  "distinct_direct_callees": [
+    "_defer_generated_member@4",
+    "_find_default_constructor@4",
+    "_is_void_parameter_constructor@4",
+    "_make_constructor_access_probe@4",
+    "_require_default_constructor_closure@4",
+    "_runtime_callback_type@8",
+    "_symbol_reference@4"
+  ],
+  "next_frontier": "_find_default_constructor@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.27490455098450184,
+  "total_operation_seconds": 3.2224234538152814,
+  "original_capture_seconds": 1.367082548327744
+}

@@ -2,7 +2,38 @@
 #include "special-member-lookup.h"
 #include "class-lookup.h"
 #include "cpp-context.h"
+#include "initialization.h"
 #include <recon.h>
+
+typedef char ConstructorMarkerOffsetMustBe50[
+    (offsetof(CppSymbol, cpp) + offsetof(CppSymbolState, parts) +
+     offsetof(CppSymbolStateParts, member_flags) == 50) ? 1 : -1];
+
+/* Original 0x37f50..0x37f61, cdecl predicate supplied to lookup. */
+int default_constructor_candidate(CppSymbol *candidate)
+{
+    return (candidate->cpp.parts.member_flags & 0x10) >> 4;
+}
+
+/* Original 0x37f90..0x37fd4, stdcall 4. A default-call candidate
+   needs no closure when its sole declaration parameter is canonical void. */
+int __stdcall is_void_parameter_constructor(CppSymbol *function)
+{
+    TypeShape *shape;
+    DeclarationParameterInfo *parameters;
+    if (!(function->cpp.parts.member_flags & 0x10)) return 0;
+    shape = function->type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    parameters = shape->data.parameters->declarations;
+    return parameters->count == 1 && parameters->types[0] == type_0080;
+}
+
+/* Original 0x37f70..0x37f87, stdcall 4. The ordinary special-member
+   search retains only constructors carrying the default-call marker. */
+CppSymbol *__stdcall find_default_constructor(CType *type)
+{
+    return lookup_special_member(type, name_ctor, default_constructor_candidate);
+}
 
 /* Original 0x38780..0x38794, stdcall4. Preserve the independent
    vector deleting destructor lookup entry and its shared interned name. */

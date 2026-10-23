@@ -7,6 +7,7 @@
 #include "source-input.h"
 #include "initialization.h"
 #include "class-finalization.h"
+#include "initializer-records.h"
 #include <recon.h>
 
 IrToken *initializer_end_label; /* original 0x91588: optional final branch label */
@@ -18,6 +19,62 @@ unsigned initializer_runtime_start; /* original 0x91594: offset before runtime f
 int initializer_value_error_reported; /* original 0xa0a84 */
 unsigned initializer_constructor_offset; /* original 0xa0a88 */
 unsigned initializer_constructor_count; /* original 0xa0a8c */
+
+/* Original 0x45830..0x45a8d, stdcall 8. Static data permits constants
+   and representable symbol addresses, but rejects runtime-only storage and
+   incompatible reference/member/based-pointer initialization. */
+int __stdcall check_static_initializer(CppSymbol *symbol, IrToken **value)
+{
+    CppSymbol *address = 0, *tag, *base;
+    TypeShape *shape, *base_shape;
+    unsigned kind = symbol->kind & 0x1f, address_kind;
+    int offset = 0, direct_constant = 0;
+    if (((*value)->flags & 7) == 5) {
+        if (kind < 1 || kind > 13 || kind == 5 || !symbol->type)
+            direct_constant = 1;
+        else {
+            tag = cpp_context_stack->items[symbol->type->field08];
+            if (!tag || !(tag->declaration_flags & 0x1000)) direct_constant = 1;
+        }
+    }
+    if (!is_character_array_initializer(symbol, *value) &&
+        can_initialize(strip_based_shape(symbol->type), *value))
+        *value = convert_initializer(0x7e, symbol->type, *value);
+    if (!*value) return 0;
+    if ((*value)->type != symbol->type) {
+        shape = symbol->type->related;
+        if (shape && !(shape->flags & 0x77)) shape = shape->related;
+        if (shape) {
+            if (shape->flags & 0x30) return 0;
+            if (shape->flags & 0x40) return 0;
+            if ((shape->flags & 1) && (shape->attributes & 7) == 5) {
+                base = shape->data.based_symbol;
+                base_shape = base->type->related;
+                if (base_shape && !(base_shape->flags & 0x77))
+                    base_shape = base_shape->related;
+                if (base_shape && !((*value)->flags & 0x80) &&
+                    (((*value)->flags & 7) != 3 ||
+                     ((*value)->type->flags & 0x2fdf) != 0x64)) return 0;
+            }
+        }
+    }
+    if (direct_constant || ((*value)->flags & 7) == 3) return 1;
+    if (!find_initializer_address(*value, &address, &offset)) return 0;
+    if (address) {
+        address_kind = address->kind & 0x1f;
+        if (address_kind == 13 && address->index == 6) return 0;
+        shape = address->type->related;
+        if (shape && !(shape->flags & 0x77) &&
+            (((CppSymbol *)shape->data.based_symbol)->kind & 0x1f) != 13)
+            return 0;
+        if ((address->storage[0] & 7) == 4 &&
+            (kind == 3 || kind == 2 || (symbol->storage[0] & 7) == 3))
+            return 0;
+        if ((address->storage[2] & 2) && address_kind != 7) return 0;
+        if ((address->storage[2] & 4) && !(address->storage[2] & 8)) return 0;
+    }
+    return 1;
+}
 LocalStaticGuardState *active_local_static_guard = &local_static_guard; /* original 0x9fc88 */
 IrToken *local_static_guard_label; /* original 0x91580 */
 
