@@ -765,7 +765,14 @@
     "@take_left_operand@4",
     "@strip_integer_cast@4",
     "@reduce_additive_chain@4",
-    "@fold_address_offset@4"
+    "@fold_address_offset@4",
+    "@factor_common_operator@12",
+    "@factor_compatible_operator@12",
+    "@simplify_global_conversion@4",
+    "@narrow_binary_conversion@8",
+    "@constant_fits_type@8",
+    "@lift_left_unary@4",
+    "@fold_integer_node@4"
   ],
   "driver": [
     {
@@ -2655,8 +2662,7 @@
     {
       "name": "@fold_integer_node@4",
       "start": 357104,
-      "end": 357105,
-      "provisional": true
+      "end": 358056
     },
     {
       "name": "@is_nonnull_address@4",
@@ -2747,8 +2753,7 @@
     {
       "name": "@lift_left_unary@4",
       "start": 348880,
-      "end": 348881,
-      "provisional": true
+      "end": 348917
     },
     {
       "name": "@remove_left_wrapper@4",
@@ -2793,14 +2798,12 @@
     {
       "name": "@factor_common_operator@12",
       "start": 351040,
-      "end": 351041,
-      "provisional": true
+      "end": 351576
     },
     {
       "name": "@factor_compatible_operator@12",
       "start": 351584,
-      "end": 351585,
-      "provisional": true
+      "end": 351753
     },
     {
       "name": "@distribute_constant@8",
@@ -3895,8 +3898,7 @@
     {
       "name": "@simplify_global_conversion@4",
       "start": 347728,
-      "end": 347729,
-      "provisional": true
+      "end": 348272
     },
     {
       "name": "@distribute_unary_tree@4",
@@ -3968,8 +3970,7 @@
     {
       "name": "@narrow_binary_conversion@8",
       "start": 348736,
-      "end": 348737,
-      "provisional": true
+      "end": 348872
     },
     {
       "name": "@push_unary_below_conversion@4",
@@ -6024,6 +6025,47 @@
       "name": "@constant_assignment_value@4",
       "start": 336880,
       "end": 336981
+    },
+    {
+      "name": "@combine_factor_constants@12",
+      "start": 352224,
+      "end": 352225,
+      "provisional": true
+    },
+    {
+      "name": "@adjust_factor_constant@12",
+      "start": 352592,
+      "end": 352593,
+      "provisional": true
+    },
+    {
+      "name": "@push_unary_into_left@4",
+      "start": 348544,
+      "end": 348545,
+      "provisional": true
+    },
+    {
+      "name": "@push_unary_into_right@4",
+      "start": 348688,
+      "end": 348689,
+      "provisional": true
+    },
+    {
+      "name": "@constant_fits_type@8",
+      "start": 348976,
+      "end": 349197
+    },
+    {
+      "name": "_addition_overflows",
+      "start": 465406,
+      "end": 465407,
+      "provisional": true
+    },
+    {
+      "name": "_subtraction_overflows",
+      "start": 465466,
+      "end": 465467,
+      "provisional": true
     }
   ],
   "cases": {

@@ -1,0 +1,24 @@
+{
+  "label": "constant-fits-after",
+  "accepted": 766,
+  "logical": "@lift_left_unary@4",
+  "original_va": "0x552d0",
+  "events": "exception 80000003 rva 000452d0 base 00010000 first 1\nexit 99\n",
+  "setup_seconds": 0.1829000385478139,
+  "execution_check_seconds": 1.2819777252152562,
+  "total_seconds": 1.4648782648146152,
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "masked_sha256": "b41fe6755a8433a95d10d92885fafc035020b868236e05be4f145c524cff2e0c",
+  "config_sha256": "e37ace8d19546d65e008d079a0780ed308e53ad1c1b3eda4f8029789cc4628e7",
+  "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+  "inputs": {
+    "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+    "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+    "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+    "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+  },
+  "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/constant-fits-after"
+}

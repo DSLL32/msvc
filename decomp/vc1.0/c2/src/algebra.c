@@ -405,3 +405,13 @@ Node *__fastcall strip_integer_cast(Node *node)
     }
     return node;
 }
+
+/* Original [000552d0,000552f5). Lift a conversion from the left operand
+   around the binary operation, retyping both levels through the builder. */
+Node *__fastcall lift_left_unary(Node *node)
+{
+    Node *left;
+    tree_changed = 1;
+    left = node->left.node;
+    return build_tree("PPLYLY", left->left.node, node->second.node, node, left);
+}

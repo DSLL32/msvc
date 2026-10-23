@@ -564,3 +564,207 @@ Node *__fastcall fold_address_offset(Node *node)
     }
     return node;
 }
+
+unsigned __fastcall combine_factor_constants(Node *operation, unsigned first, unsigned second);
+Node *__fastcall operator_identity_node(Node *operation, Node *type_source);
+/* Original [00055b40,00055d58). Factor compatible constant operators out
+   of an associative left chain. An optional unary shell is ignored while
+   matching, but remains represented in the rewritten tree. */
+int __fastcall factor_common_operator(Node *node, unsigned opcode, int implicit)
+{
+    Node *right_root, *right_factor, *right_constant, *left_factor, *left_constant;
+    Node **left_chain, **left_slot;
+    unsigned right_bits, left_bits, combined;
+    int right_integer, left_integer;
+    while (node->opcode == 0x34) node = node->left.node;
+    right_root = node->second.node;
+    right_factor = right_root;
+    if (right_factor->opcode == (unsigned)implicit) right_factor = right_factor->left.node;
+    if (right_factor->opcode != opcode) return 0;
+    right_constant = right_factor->second.node;
+    if (!constant_as_integer(right_constant, &right_integer)) return 0;
+    right_bits = (unsigned)right_integer;
+    left_chain = &node->left.node;
+    for (;;) {
+        left_slot = (*left_chain)->opcode == node->opcode ?
+            &(*left_chain)->second.node : left_chain;
+        left_factor = *left_slot;
+        if (left_factor->opcode == (unsigned)implicit) left_factor = left_factor->left.node;
+        if (left_factor->opcode == opcode) {
+            left_constant = left_factor->second.node;
+            if (constant_as_integer(left_constant, &left_integer)) {
+                left_bits = (unsigned)left_integer;
+                if (can_combine_constants(right_factor, right_bits, left_bits)) {
+                    build_tree("PPPNYPNYL", node->left.node, *left_slot, right_root,
+                               node->opcode, left_constant, opcode, node);
+                    combined = combine_factor_constants(right_factor, right_bits, left_bits);
+                    right_factor->second.node = typed_integer_node(right_constant, combined);
+                    left_factor->opcode = 0x34;
+                    *left_slot = operator_identity_node(node, *left_slot);
+                    release_node(right_constant);
+                    factor_common_operator(node->second.node->left.node, opcode, implicit);
+                    tree_changed = 1;
+                    return 1;
+                }
+                if (can_combine_constants(right_factor, left_bits, right_bits)) {
+                    build_tree("PPPNYPNYL", node->left.node, *left_slot, right_root,
+                               node->opcode, right_constant, opcode, node);
+                    combined = combine_factor_constants(right_factor, left_bits, right_bits);
+                    left_factor->second.node = typed_integer_node(left_constant, combined);
+                    right_factor->opcode = 0x34;
+                    *left_slot = operator_identity_node(node, *left_slot);
+                    release_node(left_constant);
+                    factor_common_operator(node, opcode, implicit);
+                    tree_changed = 1;
+                    return 1;
+                }
+            }
+        }
+        if (left_slot == left_chain) return 0;
+        left_chain = &(*left_chain)->left.node;
+    }
+}
+
+int __fastcall adjust_factor_constant(Node *node, Node *factor, unsigned *value);
+/* Original [00055d60,00055e09). Express a scalar constant through a
+   matching left-side operator before applying ordinary common factoring. */
+int __fastcall factor_compatible_operator(Node *node, unsigned opcode, int implicit)
+{
+    Node *chain, *candidate, *factor;
+    unsigned adjusted;
+    if (node->second.node->opcode == 0x33) {
+        chain = node->left.node;
+        for (;;) {
+            candidate = chain->opcode == node->opcode ? chain->second.node : chain;
+            factor = candidate;
+            if (factor->opcode == (unsigned)implicit) factor = factor->left.node;
+            if (factor->opcode == opcode && factor->second.node->opcode == 0x33 &&
+                (factor->second.node->attributes.words.type & 0x300) &&
+                adjust_factor_constant(node, factor, &adjusted)) {
+                release_node(node->second.node);
+                node->second.node = build_tree("PCNY", typed_integer_node(factor, adjusted),
+                                              factor->second.node, opcode);
+                break;
+            }
+            if (candidate == chain) break;
+            chain = chain->left.node;
+        }
+    }
+    return factor_common_operator(node, opcode, implicit);
+}
+
+Node *__fastcall push_unary_into_left(Node *node);
+Node *__fastcall push_unary_into_right(Node *node);
+/* Original [00054e50,00055070), including the13-entry opcode table.
+   Distribute narrowing conversions where operand representations permit it;
+   preserve pointer selectors and address leaves across conditional choices. */
+Node *__fastcall simplify_global_conversion(Node *node)
+{
+    Node *operand, *inner, *choices;
+    unsigned short target, source;
+    for (;;) {
+        operand = node->left.node;
+        target = node->attributes.words.type;
+        source = operand->attributes.words.type;
+        switch (operand->opcode) {
+        case 0x34:
+            inner = operand->left.node;
+            if (target == 0x404 && source == 0x408 &&
+                inner->attributes.words.type == 0x808 &&
+                (node_shapes[inner->opcode] & NODE_ADDITIVE)) {
+                if (inner->left.node->attributes.words.type & 0xc00)
+                    node->left.node = push_unary_into_left(operand);
+                else node->left.node = push_unary_into_right(operand);
+                continue;
+            }
+            break;
+        case 2: case 3:
+            if (target == 0x404 && source == 0x408) {
+                if (operand->left.node->attributes.words.type & 0xc00)
+                    return push_unary_into_left(node);
+                return push_unary_into_right(node);
+            }
+            if ((target & 0x300) && (source & 0x300) &&
+                (source & 255) >= (target & 255) &&
+                (operand->left.node->attributes.words.type & 0x300))
+                return distribute_unary_tree(node);
+            break;
+        case 4: case 7: case 0xb: case 0xc: case 0xd:
+            if ((target & 0x300) && (source & 0x300) &&
+                (source & 255) >= (target & 255)) return distribute_unary_tree(node);
+            break;
+        case 8:
+            if ((source & 0xc00) && (source & 255) >= (target & 255))
+                return push_unary_below_conversion(node);
+            /* Fall through: ordinary integral unary conversion. */
+        case 9: case 0xe:
+            if ((target & 0x300) && (source & 0x300) &&
+                (source & 255) >= (target & 255)) {
+                if (operand->opcode == 9) return push_unary_into_left(node);
+                return push_unary_below_conversion(node);
+            }
+            break;
+        case 0x42: case 0x43:
+            choices = operand->opcode == 0x42 ? operand->second.node : operand;
+            if (choices->second.node->opcode == 0x26 || choices->left.node->opcode == 0x26)
+                return node;
+            if ((source & 255) >= (target & 255)) {
+                if (operand->opcode == 0x42) return push_unary_into_right(node);
+                return distribute_unary_tree(node);
+            }
+            break;
+        case 0x68:
+            if (target & 0xc00) {
+                if (target == 0x404) return take_left_operand(remove_left_wrapper(node));
+                operand->attributes.words.type = target;
+                return take_left_operand(node);
+            }
+            break;
+        }
+        return node;
+    }
+}
+
+int __fastcall constant_fits_type(Node *node, unsigned short type);
+/* Original [00055240,000552c8). Narrow a binary operator beside a left
+   conversion when the constant or converted right operand admits that width. */
+Node *__fastcall narrow_binary_conversion(Node *node, unsigned short type)
+{
+    Node *right = node->second.node;
+    if (right->opcode == 0x33) {
+        if (node->opcode == 0xb && (node->attributes.words.type & 0x100) &&
+            !constant_fits_type(right, type)) type = (unsigned short)((type & 255) | 0x200);
+        if (constant_fits_type(right, type)) {
+            node->second.node = convert_node_type(right, type);
+            return lift_left_unary(node);
+        }
+    }
+    if (right->opcode == 0x34) {
+        right = right->left.node;
+        if (right->attributes.words.type == type) return lift_both_unary(node);
+        if (right->opcode == 0x34 && right->left.node->attributes.words.type == type)
+            return lift_both_unary(node);
+    }
+    return node;
+}
+
+/* Original [00055330,0005540d). Test representability before narrowing
+   integral constants, retaining their signed/unsigned32 interpretation. */
+int __fastcall constant_fits_type(Node *node, unsigned short type)
+{
+    unsigned value = node->left.value;
+    if (node->opcode != 0x33) return 0;
+    switch (type) {
+    case 0x101: return (unsigned)(int)(signed char)value == value;
+    case 0x102: return (unsigned)(int)(short)value == value;
+    case 0x104:
+        return (int)value >= 0 || (node->attributes.words.type & 0x100) != 0;
+    case 0x201: return (value & 255) == value;
+    case 0x202: return (value & 0xffff) == value;
+    case 0x204:
+        return (int)value >= 0 || (node->attributes.words.type & 0x200) != 0;
+    default:
+        compiler_internal_error("@(#)optimize.c:1.144", 0x2e1);
+        return compare_extended(1, (Extended *)((char *)node->left.pointer + 12), &extended_zero);
+    }
+}

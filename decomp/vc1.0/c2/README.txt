@@ -1936,3 +1936,15 @@ addresses of the same symbol. Native/original agree at factor_common_operator
 55b40.683 graph/extent checks, native fixtures, canonical and two modules/W3 pass.
 Factor rewrite bodies are not claimed covered without an independent observation.
 Full hello object remains incomplete; see cases/hello-additive-address.json.
+
+Factoring/conversion checkpoint768
+----------------------------------
+Common and compatible operator factoring, conversion distribution, binary
+narrowing, constant representability and left-conversion lifting are recovered.
+The integer folder handles modulo32 arithmetic, explicit signed operations,
+target normalization, flags and original warning calls; overflow helpers retain
+individual cdecl named traps. Both13-entry text dispatch tables are included in
+precise extents. Native/original agree at rewrite_shift_as_multiply55e90;690 graph
+checks, native cases, canonical and three modules/W3 pass. This establishes the
+reached prefix, not every factoring/overflow branch. Full hello object remains
+incomplete. See cases/hello-factor-conversion.json for provenance and timing.
