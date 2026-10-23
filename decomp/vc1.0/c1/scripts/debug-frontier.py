@@ -101,7 +101,7 @@ def main():
                     from binary import PE
                     from images import imports
                     expected_record = next(r for r in imports(PE(ROOT/phase['target'])) if r['start']==address)
-                native_boundaries = {'_rename':'recon_rename','_tolower':'recon_tolower','__stat':'recon_stat','__fstat':'recon_fstat','__getcwd':'recon_getcwd','_remove':'recon_remove','__dup':'recon_dup','_freopen':'recon_freopen','_qsort':'recon_qsort','_swap':'sort_swap','import:SetEndOfFile':'recon_SetEndOfFile'}
+                native_boundaries = {'_rename':'recon_rename','_tolower':'recon_tolower','__strerror':'recon_strerror','__stat':'recon_stat','__fstat':'recon_fstat','__getcwd':'recon_getcwd','_remove':'recon_remove','__dup':'recon_dup','_freopen':'recon_freopen','_qsort':'recon_qsort','_swap':'sort_swap','import:SetEndOfFile':'recon_SetEndOfFile'}
                 expected_native = native_boundaries[expected_record['name']]
                 runtime_break = 'break ' + expected_native + '\n'
 

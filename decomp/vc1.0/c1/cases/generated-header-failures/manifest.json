@@ -1,0 +1,164 @@
+{
+  "case": "Generated-header ingestion failures and fatal shutdown",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "c1-missing": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\generated-header-failures",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f audit.c -Ze -Zp8 -Gs -Foaudit.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR audit.sbr -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/audit.c",
+          "bytes": 153,
+          "sha256": "1103f563b820048a97010ec8902cc228ff0c2ca6d935616c782c5b914a2819ff"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/missing/irdb",
+          "bytes": 10,
+          "sha256": "3db5535bebb2e31c6202f3ea04b2b506726f087e15f00683d74c273fafd4e2d8",
+          "output_name": "irdb"
+        },
+        {
+          "path": "expected/missing/irex",
+          "bytes": 893,
+          "sha256": "b2a9ad4cce95c6403a54b60ed8738db04f0963ff51292a2f2cddd176a117c8e4",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/missing/irgl",
+          "bytes": 23,
+          "sha256": "ffb46c2aca14e0ea446f4e1a8cb58a5b41a5a85bf9f0aee1498307fcd9602de0",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/missing/irin",
+          "bytes": 3,
+          "sha256": "78a65bedbf44a8dae4437a12156dd6bf026eb0504287d4385cd62ec69ed7c967",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/missing/irsy",
+          "bytes": 34,
+          "sha256": "de3b137d28f0d9d9154e59551272b8607a6701b50411dcf562a838c8c95cc95e",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 1,
+      "expected_stdout": "audit.c(6) : fatal error C1083: Cannot open include file: 'generated.h': No such file or directory\r\n\r\n",
+      "expected_stderr": "",
+      "expected_absent_outputs": [
+        "audit.obj",
+        "audit.exe",
+        "audit.sbr",
+        "msvc.pdb",
+        "generated.h",
+        "audit.sbt"
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /FRaudit.sbr /Z7 /Od /G5 /W4 audit.c",
+      "transport_reference": "evidence/missing.CL.receipt.json",
+      "expected_function_finishes": [
+        "compiled_prefix"
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Actual CL prepare_execution aliases fd2 to fd1 before C1; child intervals isolate fatal diagnostic from CL source banner."
+      }
+    },
+    "c1-incomplete": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\generated-header-failures",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f audit.c -Ze -Zp8 -Gs -Foaudit.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR audit.sbr -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/audit.c",
+          "bytes": 153,
+          "sha256": "1103f563b820048a97010ec8902cc228ff0c2ca6d935616c782c5b914a2819ff"
+        },
+        {
+          "path": "inputs/generated.h",
+          "bytes": 60,
+          "sha256": "00a148409059f91bece37d634a1a27ea9c56cc82631a3dd131848226ee1ae27f"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/incomplete/irdb",
+          "bytes": 10,
+          "sha256": "3db5535bebb2e31c6202f3ea04b2b506726f087e15f00683d74c273fafd4e2d8",
+          "output_name": "irdb"
+        },
+        {
+          "path": "expected/incomplete/irex",
+          "bytes": 893,
+          "sha256": "b2a9ad4cce95c6403a54b60ed8738db04f0963ff51292a2f2cddd176a117c8e4",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/incomplete/irgl",
+          "bytes": 23,
+          "sha256": "ffb46c2aca14e0ea446f4e1a8cb58a5b41a5a85bf9f0aee1498307fcd9602de0",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/incomplete/irin",
+          "bytes": 3,
+          "sha256": "78a65bedbf44a8dae4437a12156dd6bf026eb0504287d4385cd62ec69ed7c967",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/incomplete/irsy",
+          "bytes": 34,
+          "sha256": "de3b137d28f0d9d9154e59551272b8607a6701b50411dcf562a838c8c95cc95e",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 1,
+      "expected_stdout": "generated.h(2) : fatal error C1057: unexpected end of file in macro expansion\r\n",
+      "expected_stderr": "",
+      "expected_absent_outputs": [
+        "audit.obj",
+        "audit.exe",
+        "audit.sbr",
+        "msvc.pdb",
+        "audit.sbt"
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /FRaudit.sbr /Z7 /Od /G5 /W4 audit.c",
+      "transport_reference": "evidence/incomplete.CL.receipt.json",
+      "expected_function_finishes": [
+        "compiled_prefix"
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Actual CL prepare_execution aliases fd2 to fd1 before C1; child intervals isolate fatal diagnostic from CL source banner."
+      }
+    }
+  },
+  "execution": "Native-only fixtures. Original transport captures/builds explicit outside fixtures.",
+  "normalization": "None.",
+  "capture_policy": "Two actual CL child captures per phase, same audit.c and missing then incomplete generated.h. Complete input/partial output sets, exact fatal order/CRLF, C1exit1 and CLexit2. Only relative temporary prefix changes to ir.",
+  "runtime": "Expected frontend failures. No backend invocation, recovered-tail or program-runtime success claim."
+}

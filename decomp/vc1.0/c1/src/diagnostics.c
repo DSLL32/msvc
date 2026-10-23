@@ -2,6 +2,8 @@
 #include <stdarg.h>
 #include <ctype.h>
 #include <stdlib.h>
+#include <string.h>
+#include <io.h>
 #include "diagnostics.h"
 #include "pragma.h"
 #include "source-input.h"
@@ -349,4 +351,46 @@ void report_syntax_error_arguments(unsigned code, char *arguments)
     note_browser_error();
     ++error_count;
     if (error_count > 100) fatal_error(3,100);
+}
+
+/* Original0x4aa90..0x4aac9. This fixed three-slot wrapper supplies the
+   CRT error string as the fourth argument to the fatal formatter. */
+void report_fatal(unsigned code, char *kind, char *filename)
+{
+    char *reason;
+    if (!filename) filename = "";
+    if (!kind) kind = "";
+    reason = _strerror(0);
+    fatal_error(code, kind, filename, reason);
+}
+
+unsigned fatal_error_depth; /* original0x68348 */
+
+/* Original0x4aad0..0x4ab8a. A nested fatal bypasses the message catalog
+   and writes its short fallback, including the terminating byte. */
+unsigned fatal_error(unsigned code, ...)
+{
+    unsigned length, i;
+    char *format;
+    va_list arguments;
+    if (++fatal_error_depth == 1) {
+        close_source_inputs();
+        cleanup_failed_compilation();
+        format = diagnostic_format(code + 1000);
+        va_start(arguments,code);
+        emit_diagnostic(1000,code,format,arguments);
+        va_end(arguments);
+    } else {
+        length = 0;
+        while (fatal_error_label[length]) {
+            diagnostic_message_buffer[length] = fatal_error_label[length];
+            ++length;
+        }
+        for (i=0;i<10;++i)
+            diagnostic_message_buffer[length+i] = " C1063:\r\n"[i];
+        _write(1,diagnostic_message_buffer,length+10);
+    }
+    ++error_count;
+    exit(error_count);
+    return error_count;
 }

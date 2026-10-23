@@ -9,6 +9,7 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
+    ("_fatal_error_depth",0x68348,4),
     ("_asm_code_alignment",0x5b020,2),
     ("_symbol_aliases",0x6ce74,4),
     ("_legacy_field_bytes",0x5b250,4),

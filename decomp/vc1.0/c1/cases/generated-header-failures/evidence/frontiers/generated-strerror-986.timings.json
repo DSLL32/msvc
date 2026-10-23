@@ -1,0 +1,50 @@
+[
+  {
+    "name": "native-build",
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "seconds": 7.456255001947284,
+    "exit": 0,
+    "compiled_source_snapshot": "/root/.ai-tmp/msvc2/vc1.0/c1/generated-strerror-986-compiled-shared-inputs.json",
+    "compiled_source_snapshot_sha256": "e20d64d75dc97c67acdc1c082a918a65b114dc4c9da1b0453ad6c213dce1bfb3",
+    "compiled_inputs_stable": true
+  },
+  {
+    "name": "original-capture",
+    "command": [
+      "python3",
+      "scripts/capture-frontier.py",
+      "--case",
+      "cases/generated-header-failures",
+      "--phase",
+      "c1-missing",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/generated-strerror-986",
+      "--debugger",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+    ],
+    "seconds": 1.7677849335595965,
+    "exit": 0
+  },
+  {
+    "name": "native-frontier",
+    "command": [
+      "python3",
+      "scripts/debug-frontier.py",
+      "--case",
+      "cases/generated-header-failures",
+      "--phase",
+      "c1-missing",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/validation/generated-strerror-986",
+      "--reference",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/generated-strerror-986"
+    ],
+    "seconds": 0.23908403143286705,
+    "exit": 0
+  }
+]

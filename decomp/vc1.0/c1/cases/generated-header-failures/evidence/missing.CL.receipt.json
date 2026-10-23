@@ -1,0 +1,88 @@
+{
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc1.0\\c1\\tools\\capture-cl.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "/nologo /c /FRaudit.sbr /Z7 /Od /G5 /W4 audit.c",
+    "S:\\vc1.0\\c1\\transport\\generated-header-failures-missing-second\\stdout",
+    "S:\\vc1.0\\c1\\transport\\generated-header-failures-missing-second\\stderr",
+    "S:\\vc1.0\\c1\\transport\\generated-header-failures-missing-second\\events",
+    "S:\\vc1.0\\c1\\generated-header-failures",
+    "S:\\vc1.0\\c1\\transport\\generated-header-failures-missing-second\\config.txt",
+    "ordinary",
+    "S:\\vc1.0\\c1\\transport\\generated-header-failures-missing-second"
+  ],
+  "CL_arguments": "/nologo /c /FRaudit.sbr /Z7 /Od /G5 /W4 audit.c",
+  "helper_source": "decomp/vc1.0/cl/src/capture-run.c",
+  "helper_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+  "helper_sha256": "b80b97201ce6f78fccc165200f844db467639e38e02f01523cdf68cecdc6683c",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "cwd": "S:\\vc1.0\\c1\\generated-header-failures",
+  "environment": {
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib"
+  },
+  "host_exit": 0,
+  "execution_seconds": 2.369768815115094,
+  "children": [
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\000432 -f audit.c -Ze -Zp8 -Gs -Foaudit.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR audit.sbr -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I R:\\toolchains\\1.0-nt\\include "
+      ]
+    }
+  ],
+  "C1_boundary_file_sets": {
+    "001-before": [
+      {
+        "name": "audit.c",
+        "bytes": 153,
+        "sha256": "1103f563b820048a97010ec8902cc228ff0c2ca6d935616c782c5b914a2819ff",
+        "mtime_ns": 1792776144097028300
+      }
+    ],
+    "001-after": [
+      {
+        "name": "000432db",
+        "bytes": 10,
+        "sha256": "3db5535bebb2e31c6202f3ea04b2b506726f087e15f00683d74c273fafd4e2d8",
+        "mtime_ns": 1792776146408982600
+      },
+      {
+        "name": "000432ex",
+        "bytes": 893,
+        "sha256": "b2a9ad4cce95c6403a54b60ed8738db04f0963ff51292a2f2cddd176a117c8e4",
+        "mtime_ns": 1792776146408982600
+      },
+      {
+        "name": "000432gl",
+        "bytes": 23,
+        "sha256": "ffb46c2aca14e0ea446f4e1a8cb58a5b41a5a85bf9f0aee1498307fcd9602de0",
+        "mtime_ns": 1792776146408982600
+      },
+      {
+        "name": "000432in",
+        "bytes": 3,
+        "sha256": "78a65bedbf44a8dae4437a12156dd6bf026eb0504287d4385cd62ec69ed7c967",
+        "mtime_ns": 1792776146408982600
+      },
+      {
+        "name": "000432sy",
+        "bytes": 34,
+        "sha256": "de3b137d28f0d9d9154e59551272b8607a6701b50411dcf562a838c8c95cc95e",
+        "mtime_ns": 1792776146408982600
+      },
+      {
+        "name": "audit.c",
+        "bytes": 153,
+        "sha256": "1103f563b820048a97010ec8902cc228ff0c2ca6d935616c782c5b914a2819ff",
+        "mtime_ns": 1792776144097028300
+      }
+    ]
+  }
+}

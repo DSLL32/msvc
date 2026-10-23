@@ -10,6 +10,7 @@ typedef struct DiagnosticMessagePosition {
 extern DiagnosticMessagePosition diagnostic_message_positions[20];
 void format_text_arguments(char *destination, char *format, char *arguments);
 extern FILE *diagnostic_message_file;
+extern unsigned fatal_error_depth;
 extern char diagnostic_message_buffer[256];
 char *__stdcall parse_diagnostic_code(char *text, int *code);
 void __stdcall remember_diagnostic_position(long offset, unsigned code);

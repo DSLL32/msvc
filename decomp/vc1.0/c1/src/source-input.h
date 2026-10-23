@@ -29,6 +29,7 @@ extern FILE *browser_output;
 char *__stdcall copy_string(char *text, int arena);
 char *normalize_input_name(char *filename);
 void release_input_handle(void);
+void close_source_inputs(void);
 void rewind_source_file(void);
 int __stdcall open_input_handle(char *filename);
 extern unsigned scanner_flags;

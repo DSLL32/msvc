@@ -399,6 +399,35 @@ def main():
     rejects('typed-x87-historical-entry-order', 'native trace typed-x87-bitscan index 0: expected',
             lambda:checker.run_case('typed-x87-bitscan', executable, private_root, (wrong,filter_path)))
 
+    generated_fixture = checker.BINARY/'cases/generated-header-failures'
+    generated_manifest = json.loads((generated_fixture/'manifest.json').read_text())
+    _, missing_header = checker.run_case('generated-header-missing', executable, directory, (cache,filter_path))
+    missing_phase = generated_manifest['phases']['c1-missing']
+    missing_message = missing_phase['expected_stdout'].encode('latin1')
+    rejects('generated-missing-unexpected-success', 'native status',
+            lambda:checker.validate_result('generated-header-missing',0,missing_message,b'',missing_phase))
+    assert missing_message.endswith(b'\r\n\r\n')
+    rejects('generated-missing-strerror-final-newline', 'stdout differs',
+            lambda:checker.validate_result('generated-header-missing',1,missing_message[:-2],b'',missing_phase))
+    (missing_header/'audit.sbt').write_bytes(b'')
+    rejects('generated-missing-discarded-browser-temporary', 'forbidden output exists: audit.sbt',
+            lambda:checker.validate_artifacts(missing_header,generated_fixture,missing_phase))
+    _, incomplete_header = checker.run_case('generated-header-incomplete', executable, directory, (cache,filter_path))
+    incomplete_phase = generated_manifest['phases']['c1-incomplete']
+    incomplete_message = incomplete_phase['expected_stdout'].encode('latin1')
+    rejects('generated-incomplete-invocation-line', 'stdout differs',
+            lambda:checker.validate_result('generated-header-incomplete',1,
+                incomplete_message.replace(b'generated.h(2)',b'generated.h(3)'),b'',incomplete_phase))
+    partial_ir = bytearray((incomplete_header/'irex').read_bytes())
+    partial_ir[-1] ^= 1
+    (incomplete_header/'irex').write_bytes(partial_ir)
+    rejects('generated-incomplete-full-partial-expression-file', 'output bytes differ: irex',
+            lambda:checker.validate_artifacts(incomplete_header,generated_fixture,incomplete_phase))
+    (incomplete_header/'irex').write_bytes((generated_fixture/'expected/incomplete/irex').read_bytes())
+    (incomplete_header/'generated.h').unlink()
+    rejects('generated-incomplete-captured-header-presence', 'complete file set differs',
+            lambda:checker.validate_artifacts(incomplete_header,generated_fixture,incomplete_phase))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

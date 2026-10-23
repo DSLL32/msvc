@@ -24,7 +24,7 @@
 void compiler_signal(int signal_number) { __asm { int 3 } }
 
 void initialize_japanese_characters(void) { __asm { int 3 } }
-void fatal_error(unsigned code, ...) { __asm { int 3 } }
+
 
 void clear_packing(PackingEntry *entry) { __asm { int 3 } }
 
@@ -85,7 +85,7 @@ void report_error(unsigned code, ...) { __asm { int 3 } }
 void initialize_inline_queries(void) { __asm { int 3 } }
 
 /* Original 0x4aa90. */
-void report_fatal(unsigned code, ...) { __asm { int 3 } }
+
 
 /* Original 0x1bf70. */
 
@@ -469,7 +469,7 @@ void report_ide_file_end(void) { __asm { int 3 } }
 
 
 
-void __stdcall macro_scan_error(unsigned code) { __asm { int 3 } }
+
 
 
 
@@ -898,3 +898,5 @@ IrToken *__stdcall make_symbol_ir_leaf(unsigned char kind, FrontendSymbol *symbo
 
 /* Original 0x26180. Self-based conversion source validation. */
 void __stdcall validate_self_based_source(IrToken *value) { __asm { int 3 } }
+
+/* Fatal shutdown entries, named before their first accepted caller. */

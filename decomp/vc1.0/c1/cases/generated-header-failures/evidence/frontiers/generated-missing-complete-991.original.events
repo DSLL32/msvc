@@ -1,0 +1,6 @@
+entry _report_fatal rva 0003aa90 byte 56
+entry _fatal_error rva 0003aad0 byte 56
+entry _close_source_inputs rva 0000b970 byte a1
+entry _cleanup_failed_compilation rva 00033e80 byte e8
+entry _discard_browser_output rva 00017490 byte 81
+exit 1

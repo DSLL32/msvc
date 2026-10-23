@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <io.h>
 #include "initialization.h"
+#include "browser.h"
 #include <recon.h>
 
 WorkingStack *compiler_stack; /* original 0x5f4f4, also initializer buffer */
@@ -239,4 +240,12 @@ void initialize_frontend(void)
         initialize_translation_state();
     }
     define_command_line_macros(options.defines);
+}
+
+/* Original0x43e80..0x43e94. Fatal cleanup retains the PCH and browser
+   cleanup entries as separate calls, in that order. */
+void cleanup_failed_compilation(void)
+{
+    cleanup_precompiled_files();
+    if (browser_filename) discard_browser_output();
 }

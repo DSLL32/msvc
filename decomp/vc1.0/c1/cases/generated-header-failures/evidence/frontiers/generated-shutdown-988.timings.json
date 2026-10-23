@@ -1,0 +1,50 @@
+[
+  {
+    "name": "native-build",
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "seconds": 7.315321804024279,
+    "exit": 0,
+    "compiled_source_snapshot": "/root/.ai-tmp/msvc2/vc1.0/c1/generated-shutdown-988-compiled-shared-inputs.json",
+    "compiled_source_snapshot_sha256": "9870e5914ed2446a6f91712e5a83b96aede9e98f3b9f6a8f47bb0d459027b24e",
+    "compiled_inputs_stable": true
+  },
+  {
+    "name": "original-capture",
+    "command": [
+      "python3",
+      "scripts/capture-frontier.py",
+      "--case",
+      "cases/generated-header-failures",
+      "--phase",
+      "c1-missing",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/generated-shutdown-988",
+      "--debugger",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+    ],
+    "seconds": 0.8295346880331635,
+    "exit": 0
+  },
+  {
+    "name": "native-frontier",
+    "command": [
+      "python3",
+      "scripts/debug-frontier.py",
+      "--case",
+      "cases/generated-header-failures",
+      "--phase",
+      "c1-missing",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/validation/generated-shutdown-988",
+      "--reference",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/generated-shutdown-988"
+    ],
+    "seconds": 0.2347511351108551,
+    "exit": 0
+  }
+]

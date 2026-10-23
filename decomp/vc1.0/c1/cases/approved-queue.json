@@ -1,14 +1,19 @@
 {
-  "authorization": "Root approved coherent typed x87/integer bit-scan checksum /Z7 /Od /G5 /W4; original fullcompile/link/runtime0 and completeactualtransport before acceptance. Nonzero bit scans and balancedx87stack; no extra intrinsic/CRT claim.",
-  "baseline_commit": "d5ee05993d47e025b54247c5235317ec0e11cea2",
-  "baseline_accepted_count": 982,
+  "authorization": "Root approved SINGLE generated-header ingestion failure/shutdown workflow: missing generated.h then incomplete functionlike macro atEOF. Exactoriginalfatal order/status/partialIR/browser/absence, no runtime/recovery claim/privateflags/signals.",
+  "baseline_commit": "38030f837e7f4a9ee0b8237068481e0e27be4537",
+  "baseline_accepted_count": 985,
   "status": "complete",
   "cases": [
     {
-      "case": "typed-x87-bitscan",
-      "phase": "c1",
-      "status": "complete;982 through985, originalruntime0/fiveexactIRfiles/silentstreams"
+      "case": "generated-header-failures",
+      "phase": "c1-missing",
+      "status": "complete;985 through991, C1083/C1exit1/exactpartialfiles"
+    },
+    {
+      "case": "generated-header-failures",
+      "phase": "c1-incomplete",
+      "status": "complete;991 through992, C1057/C1exit1/exactpartialfiles"
     }
   ],
-  "completion": "cases/typed-x87-bitscan/validation.json"
+  "completion": "cases/generated-header-failures/validation.json"
 }

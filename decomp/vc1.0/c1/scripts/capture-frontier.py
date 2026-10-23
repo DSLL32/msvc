@@ -176,7 +176,7 @@ def main():
                    accepted_count=len(config['accepted']), accepted_sha256=hashlib.sha256(
                        json.dumps(config['accepted']).encode()).hexdigest(),
                    executable_sha256=sha(target), original_sha256=phase['sha256'],
-                   debugger_sha256=sha(options.debugger), child_arguments=[],
+                   debugger_sha256=sha(options.debugger), debugger_memory_request=host_environment.get("C1_READ_MEMORY"), child_arguments=[],
                    child_environment={'MSC_CMD_FLAGS':flags},
                    child_working_directory=canonical or wt.windows(work),
                    child_stdio=phase.get('stdio', {'stderr_to_stdout':False}),

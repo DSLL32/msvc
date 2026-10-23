@@ -168,6 +168,14 @@
     "typed-x87-bitscan": {
       "receipt": "cases/typed-x87-bitscan/evidence/typed-x87-complete-985.receipt.json",
       "sha256": "ab4d0a3db1b07a482a8f17e94efa5b1bc01ed2c7d133793f4f415ad5f4c4acd9"
+    },
+    "generated-header-missing": {
+      "receipt": "cases/generated-header-failures/evidence/generated-missing-complete-991.receipt.json",
+      "sha256": "d8d92a3ef7cfff44bed5e0731b207c4e42bbd90bbd26733090792dec332f5ace"
+    },
+    "generated-header-incomplete": {
+      "receipt": "cases/generated-header-failures/evidence/generated-incomplete-complete-992.receipt.json",
+      "sha256": "30c866c90f0f7a2a5adda41f41baab00e6593002b41809ec8a476ee87cea25fc"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

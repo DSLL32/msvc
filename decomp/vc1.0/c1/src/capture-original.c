@@ -45,6 +45,33 @@ static void dump_stream_buffers(HANDLE process, HANDLE log, DWORD base, char *rv
     }
 }
 
+/* Optional explicit raw-memory observation for a reached CRT/state seam.
+   The request is debugger input, never child input or fixture behavior. */
+static void dump_requested_memory(HANDLE process, HANDLE log, DWORD base)
+{
+    char *request = getenv("C1_READ_MEMORY"), *next, line[600];
+    unsigned char bytes[256];
+    static char digits[] = "0123456789abcdef";
+    DWORD rva, count, got, written;
+    unsigned i, length;
+    if (!request) return;
+    while (*request) {
+        rva = strtoul(request,&next,16);
+        if (next == request || *next != ':') return;
+        count = strtoul(next+1,&next,16);
+        if (!count || count > sizeof(bytes)) return;
+        if (!ReadProcessMemory(process,(void *)(base+rva),bytes,count,&got) || got != count) return;
+        length = sprintf(line,"memory %08lx %lu ",rva,count);
+        for (i=0;i<count;++i) {
+            line[length++] = digits[bytes[i] >> 4];
+            line[length++] = digits[bytes[i] & 15];
+        }
+        line[length++] = '\n';
+        WriteFile(log,line,length,&written,0);
+        request = *next == ',' ? next+1 : next;
+    }
+}
+
 /* Keep caller/register evidence for diagnosing a logical-trap divergence. */
 static void dump_context(HANDLE process, HANDLE thread, HANDLE log)
 {
@@ -355,6 +382,7 @@ int main(int argc, char **argv)
                         base, ev.u.Exception.dwFirstChance);
                 WriteFile(log, line, strlen(line), &written, 0);
                 dump_context(pi.hProcess, pi.hThread, log);
+                dump_requested_memory(pi.hProcess,log,base);
                 if (argc >= 9) dump_stream_buffers(pi.hProcess, log, base, argv[8]);
                 TerminateProcess(pi.hProcess, 99);
             }

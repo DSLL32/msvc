@@ -185,7 +185,7 @@ void initialize_japanese_characters(void);
 Vector *__stdcall new_vector(short capacity, int arena);
 char *next_argument(void);
 int match_option(OptionRule *rules, char *argument, char *(*next)(void), int copy);
-void fatal_error(unsigned code, ...);
+unsigned fatal_error(unsigned code, ...);
 void finalize_options(void);
 void compiler_warning(unsigned category, unsigned code, ...);
 int effective_warning_level(unsigned level, unsigned code);

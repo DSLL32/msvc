@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "253b2f1fa2aeacd05eadde818b5d9d4f15fdc2c1eb645e4ad987c362ab505de4",
+    "functions.json": "fcbf73fd2f9942f52851c61ba6b92e11bad7b17cedc333b5d0c7e9622b30601b",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "b726cde02467da7df34360451e63ae993db158766800c73115eae5125e959f77"
+    "sha256": "0bb46bc45bda2c6111453a695040d20799409fda8cb4fc30ab4b3fda3e708774"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "4bb4a4a85c72f3a2279aabdd17a6112957c83836ea33f53a3453093d10d80aa1"
+    "sha256": "7be9f78f08542275319329c632085fceee3dfc8fc78d54bc1b0d435b3675bc86"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -597,6 +597,10 @@
       "logical": "_classify_void_pointer_conversion@12",
       "source": "src/conversions.c"
     },
+    "cleanup_failed_compilation": {
+      "logical": "_cleanup_failed_compilation",
+      "source": "src/initialization.c"
+    },
     "cleanup_precompiled_files": {
       "logical": "_cleanup_precompiled_files",
       "source": "src/intermediate.c"
@@ -623,6 +627,10 @@
     },
     "close_source_file": {
       "logical": "_close_source_file",
+      "source": "src/source-input.c"
+    },
+    "close_source_inputs": {
+      "logical": "_close_source_inputs",
       "source": "src/source-input.c"
     },
     "codeview_calling_convention": {
@@ -957,6 +965,10 @@
       "logical": "_disable_keyword@4",
       "source": "src/keywords.c"
     },
+    "discard_browser_output": {
+      "logical": "_discard_browser_output",
+      "source": "src/browser.c"
+    },
     "discard_line_comment": {
       "logical": "_discard_line_comment",
       "source": "src/lexer.c"
@@ -1215,7 +1227,7 @@
     },
     "fatal_error": {
       "logical": "_fatal_error",
-      "source": "src/stubs.c"
+      "source": "src/diagnostics.c"
     },
     "fill_source_buffer": {
       "logical": "_fill_source_buffer",
@@ -1843,7 +1855,7 @@
     },
     "macro_scan_error": {
       "logical": "_macro_scan_error@4",
-      "source": "src/stubs.c"
+      "source": "src/macro-expand.c"
     },
     "main": {
       "logical": "_main",
@@ -3043,7 +3055,7 @@
     },
     "report_fatal": {
       "logical": "_report_fatal",
-      "source": "src/stubs.c"
+      "source": "src/diagnostics.c"
     },
     "report_function_operand": {
       "logical": "_report_function_operand@8",
@@ -4491,7 +4503,13 @@
     "same_based_pointer_base",
     "asm_operand_has_type_flags",
     "swap_asm_pointer_slots",
-    "asm_operand_accepts_size"
+    "asm_operand_accepts_size",
+    "report_fatal",
+    "fatal_error",
+    "close_source_inputs",
+    "cleanup_failed_compilation",
+    "discard_browser_output",
+    "macro_scan_error"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4603,7 +4621,8 @@
       "_qsort",
       "_shortsort",
       "_swap",
-      "__fstat"
+      "__fstat",
+      "__strerror"
     ],
     "import": [
       "import:GetCommandLineA",
@@ -5941,6 +5960,34 @@
       "terminal": {
         "kind": "exit",
         "code": 0
+      }
+    },
+    "generated-header-missing": {
+      "first": 985,
+      "last": 991,
+      "seen_count": 845,
+      "expected": [
+        "report_fatal",
+        "fatal_error",
+        "close_source_inputs",
+        "cleanup_failed_compilation",
+        "discard_browser_output"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 1
+      }
+    },
+    "generated-header-incomplete": {
+      "first": 991,
+      "last": 992,
+      "seen_count": 850,
+      "expected": [
+        "macro_scan_error"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 1
       }
     }
   }

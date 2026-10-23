@@ -564,3 +564,11 @@ void __stdcall append_macro_string(int delimiter, char *text)
         *macro_expansion_next++ = *text++;
     }
 }
+
+/* Original0x1e100..0x1e11a. Attribute an unterminated expansion to the
+   saved invocation line before entering the common fatal path. */
+void __stdcall macro_scan_error(unsigned code)
+{
+    source_line_number = macro_definition_line;
+    fatal_error(code);
+}

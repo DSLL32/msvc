@@ -1,0 +1,5 @@
+3aa90 56 _report_fatal
+3aad0 56 _fatal_error
+b970 a1 _close_source_inputs
+33e80 e8 _cleanup_failed_compilation
+17490 81 _discard_browser_output

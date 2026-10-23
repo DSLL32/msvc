@@ -1,0 +1,50 @@
+[
+  {
+    "name": "native-build",
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "seconds": 0.020771212875843048,
+    "exit": 0,
+    "compiled_source_snapshot": "/root/.ai-tmp/msvc2/vc1.0/c1/generated-missing-stable-985-compiled-shared-inputs.json",
+    "compiled_source_snapshot_sha256": "5f7d70d845d93d4ba657d260cabe27c52da16449cfb23ab9002978c18940bebd",
+    "compiled_inputs_stable": true
+  },
+  {
+    "name": "original-capture",
+    "command": [
+      "python3",
+      "scripts/capture-frontier.py",
+      "--case",
+      "cases/generated-header-failures",
+      "--phase",
+      "c1-missing",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/generated-missing-stable-985",
+      "--debugger",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+    ],
+    "seconds": 1.6991144176572561,
+    "exit": 0
+  },
+  {
+    "name": "native-frontier",
+    "command": [
+      "python3",
+      "scripts/debug-frontier.py",
+      "--case",
+      "cases/generated-header-failures",
+      "--phase",
+      "c1-missing",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/validation/generated-missing-stable-985",
+      "--reference",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/generated-missing-stable-985"
+    ],
+    "seconds": 0.23038494680076838,
+    "exit": 0
+  }
+]

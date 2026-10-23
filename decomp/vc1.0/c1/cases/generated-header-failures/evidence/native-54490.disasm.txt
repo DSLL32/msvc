@@ -1,0 +1,81 @@
+
+/root/msvc2/toolchains/1.0-nt/bin/C13232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00054490 <.text+0x3d490>:
+   54490:	56                   	push   esi
+   54491:	57                   	push   edi
+   54492:	c6 05 50 89 06 00 00 	mov    BYTE PTR ds:0x68950,0x0
+   54499:	8b 7c 24 0c          	mov    edi,DWORD PTR [esp+0xc]
+   5449d:	0b ff                	or     edi,edi
+   5449f:	74 53                	je     0x544f4
+   544a1:	80 3f 00             	cmp    BYTE PTR [edi],0x0
+   544a4:	74 4e                	je     0x544f4
+   544a6:	b9 ff ff ff ff       	mov    ecx,0xffffffff
+   544ab:	2b c0                	sub    eax,eax
+   544ad:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+   544af:	f7 d1                	not    ecx
+   544b1:	2b f9                	sub    edi,ecx
+   544b3:	8b f7                	mov    esi,edi
+   544b5:	8b d1                	mov    edx,ecx
+   544b7:	bf 50 89 06 00       	mov    edi,0x68950
+   544bc:	b9 ff ff ff ff       	mov    ecx,0xffffffff
+   544c1:	2b c0                	sub    eax,eax
+   544c3:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+   544c5:	4f                   	dec    edi
+   544c6:	8b ca                	mov    ecx,edx
+   544c8:	c1 e9 02             	shr    ecx,0x2
+   544cb:	f3 a5                	rep movs DWORD PTR es:[edi],DWORD PTR ds:[esi]
+   544cd:	8b ca                	mov    ecx,edx
+   544cf:	83 e1 03             	and    ecx,0x3
+   544d2:	f3 a4                	rep movs BYTE PTR es:[edi],BYTE PTR ds:[esi]
+   544d4:	ba 24 3a 07 00       	mov    edx,0x73a24
+   544d9:	bf 50 89 06 00       	mov    edi,0x68950
+   544de:	b9 ff ff ff ff       	mov    ecx,0xffffffff
+   544e3:	2b c0                	sub    eax,eax
+   544e5:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+   544e7:	4f                   	dec    edi
+   544e8:	66 8b 02             	mov    ax,WORD PTR [edx]
+   544eb:	66 89 07             	mov    WORD PTR [edi],ax
+   544ee:	8a 42 02             	mov    al,BYTE PTR [edx+0x2]
+   544f1:	88 47 02             	mov    BYTE PTR [edi+0x2],al
+   544f4:	83 3d cc 39 07 00 00 	cmp    DWORD PTR ds:0x739cc,0x0
+   544fb:	7c 13                	jl     0x54510
+   544fd:	a1 cc 39 07 00       	mov    eax,ds:0x739cc
+   54502:	39 05 a8 76 07 00    	cmp    DWORD PTR ds:0x776a8,eax
+   54508:	7e 06                	jle    0x54510
+   5450a:	eb 09                	jmp    0x54515
+   5450c:	8d 64 24 00          	lea    esp,[esp+0x0]
+   54510:	a1 a8 76 07 00       	mov    eax,ds:0x776a8
+   54515:	8b 3c 85 f8 75 07 00 	mov    edi,DWORD PTR [eax*4+0x775f8]
+   5451c:	b9 ff ff ff ff       	mov    ecx,0xffffffff
+   54521:	2b c0                	sub    eax,eax
+   54523:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+   54525:	f7 d1                	not    ecx
+   54527:	2b f9                	sub    edi,ecx
+   54529:	8b f7                	mov    esi,edi
+   5452b:	8b d1                	mov    edx,ecx
+   5452d:	bf 50 89 06 00       	mov    edi,0x68950
+   54532:	b9 ff ff ff ff       	mov    ecx,0xffffffff
+   54537:	2b c0                	sub    eax,eax
+   54539:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+   5453b:	4f                   	dec    edi
+   5453c:	8b ca                	mov    ecx,edx
+   5453e:	c1 e9 02             	shr    ecx,0x2
+   54541:	f3 a5                	rep movs DWORD PTR es:[edi],DWORD PTR ds:[esi]
+   54543:	8b ca                	mov    ecx,edx
+   54545:	83 e1 03             	and    ecx,0x3
+   54548:	f3 a4                	rep movs BYTE PTR es:[edi],BYTE PTR ds:[esi]
+   5454a:	bf 50 89 06 00       	mov    edi,0x68950
+   5454f:	b9 ff ff ff ff       	mov    ecx,0xffffffff
+   54554:	2b c0                	sub    eax,eax
+   54556:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+   54558:	66 a1 28 3a 07 00    	mov    ax,ds:0x73a28
+   5455e:	66 89 47 ff          	mov    WORD PTR [edi-0x1],ax
+   54562:	b8 50 89 06 00       	mov    eax,0x68950
+   54567:	5f                   	pop    edi
+   54568:	5e                   	pop    esi
+   54569:	c3                   	ret
+   5456a:	8d 9b 00 00 00 00    	lea    ebx,[ebx+0x0]

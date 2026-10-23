@@ -1,0 +1,5 @@
+flag-words 0 entry 00080000 00008000
+function-symbol 0 entry 07 01 0000006a 00000080 compiled_prefix
+flag-words 0 finish 00000000 00008000
+function-symbol 0 finish absent
+exit 1

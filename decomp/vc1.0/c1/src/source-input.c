@@ -378,3 +378,13 @@ int __stdcall get_file_timestamp(int handle, long *timestamp)
     *timestamp = info.st_mtime;
     return 1;
 }
+
+/* Original0x1b970..0x1b9a8. Fatal input shutdown consumes the active
+   stack without returning its records to the normal free list. */
+void close_source_inputs(void)
+{
+    while (active_input) {
+        if (active_input->handle != -1) _close(active_input->handle);
+        active_input = active_input->next;
+    }
+}

@@ -42,6 +42,7 @@ void __stdcall prepare_browser_anonymous_record(BrowserRecord *record);
 void __stdcall make_browser_temporary_name(char *name);
 void write_browser_header(void);
 void browser_error_record(void);
+void discard_browser_output(void);
 void note_browser_error(void);
 unsigned char __stdcall read_browser_record(BrowserRecord *record);
 char *read_browser_string(void);

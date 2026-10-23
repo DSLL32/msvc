@@ -498,3 +498,13 @@ void browser_error_record(void)
 {
     write_browser_record(14,0);
 }
+
+/* Original0x27490..0x274e8. A fatal frontend failure discards the staged
+   browser file rather than publishing a partial final browser database. */
+void discard_browser_output(void)
+{
+    char temporary[256];
+    make_browser_temporary_name(temporary);
+    if (fclose(browser_output) || _unlink(temporary))
+        report_fatal(83,message_text(340),options.option_Fr);
+}

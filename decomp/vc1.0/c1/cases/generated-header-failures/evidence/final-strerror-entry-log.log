@@ -1,0 +1,9 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x715b9: file ../../../lib/recon/src/crt.c, line 1961.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, recon_strerror (prefix=0x0) at ../../../lib/recon/src/crt.c:1961
+1961	    if (errno!=ENOENT || (prefix && *prefix))
+$1 = 2
+$2 = 0x0
