@@ -97,7 +97,7 @@ def load(directory):
 
 def check_runtime_evidence(path, name, before, record):
     """Validate an explicit library seam observation; never execute a reference."""
-    from binary import PE, COFF, archive
+    from binary import PE, COFF, archive, u32
     evidence = json.loads(path.read_text())
     assert evidence['logical'] == name
     assert evidence['before_config_sha256'] == before['config_sha256']
@@ -109,17 +109,37 @@ def check_runtime_evidence(path, name, before, record):
     data = next(data for obj, data in archive(library) if obj == record['object'])
     assert hashlib.sha256(data).hexdigest() == identity['object_sha256']
     text = next(s for s in COFF(data).sections if s['flags'] & 0x20)
-    assert not text['relocs'], 'this seam evidence requires a relocation-free CRT body'
     original = PE(BINARY.parents[2]/'toolchains/1.0-nt/bin/C23232.EXE')
     assert hashlib.sha256(original.data).hexdigest() == before['target_sha256']
-    assert bytes(original.read(record['start'], record['end']-record['start'])) == text['data']
+    linked = bytes(original.read(record['start'], record['end']-record['start']))
+    assert len(linked) == len(text['data']) == identity['exact_text_bytes']
     assert hashlib.sha256(text['data']).hexdigest() == identity['text_sha256']
-    assert len(text['data']) == identity['exact_text_bytes']
-    assert name == '_strncmp', 'new CRT seams require their own observation validator'
-    left, right = evidence['observed_original'], evidence['observed_native']
-    assert {k:left[k] for k in ('left_hex','right_hex','count')} == {k:right[k] for k in ('left_hex','right_hex','count')}
-    assert evidence['caller_result_use'] == 'zero/nonzero'
-    assert (left['result'] == 0) == (right['result'] == 0), 'CRT caller predicate differs'
+    if name == '_strncmp':
+        assert not text['relocs'] and linked == text['data']
+        left, right = evidence['observed_original'], evidence['observed_native']
+        assert {k:left[k] for k in ('left_hex','right_hex','count')} == {k:right[k] for k in ('left_hex','right_hex','count')}
+        assert evidence['caller_result_use'] == 'zero/nonzero'
+        assert (left['result'] == 0) == (right['result'] == 0), 'CRT caller predicate differs'
+    elif name == '_fread':
+        assert hashlib.sha256(linked).hexdigest() == identity['linked_text_sha256']
+        runtime = {r['name']:r for r in (json.loads((BINARY/'runtime.json').read_text())+json.loads((BINARY/'functions.json').read_text())['driver'])}
+        compared = bytearray(linked)
+        relocations = []
+        for offset, symbol, kind in text['relocs']:
+            assert kind == 20 and symbol['name'] in runtime
+            target = (record['start']+offset+4+u32(linked,offset)) & 0xffffffff
+            assert target == runtime[symbol['name']]['start']
+            relocations.append(dict(offset=offset,symbol=symbol['name'],kind=kind,target=target))
+            compared[offset:offset+4] = text['data'][offset:offset+4]
+        assert bytes(compared) == text['data']
+        assert relocations == identity['relocations']
+        left, right = evidence['observed_original'], evidence['observed_native']
+        assert left == right
+        assert (left['size'],left['count'],left['result']) == (12,1,1)
+        assert len(bytes.fromhex(left['bytes_hex'])) == 12
+        assert evidence['caller_result_use'] == 'ignored; complete 12-byte destination is copied to Extended return value'
+    else:
+        raise AssertionError('new CRT seams require their own observation validator')
     return dict(path=str(path), sha256=sha(path), evidence=evidence)
 
 
@@ -142,7 +162,7 @@ def extend(directory, before_path, after_path, runtime_evidence=None):
     # only the decoration changes, never the function being accepted.
     assert native_name(before['logical']) == native_name(name), 'wrong original entry before acceptance'
     drivers = {r['name']:r for r in config['driver']}
-    runtime = {r['name']:r for r in json.loads((BINARY/'runtime.json').read_text())}
+    runtime = {r['name']:r for r in (json.loads((BINARY/'runtime.json').read_text())+json.loads((BINARY/'functions.json').read_text())['driver'])}
     records = dict(runtime, **drivers)
     application_names = set(drivers)-CRT
     assert name in records, 'unknown accepted original function'

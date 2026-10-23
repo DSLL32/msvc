@@ -41,11 +41,8 @@ void __fastcall release_initializer(Initializer *initializer) { __asm int 3 }
 short __fastcall input_counted_string(char *buffer, unsigned limit) { __asm int 3 }
 int compare_extended(unsigned operation, const Extended *left, const Extended *right) { __asm int 3 }
 Node *__fastcall intern_typed_label(Function *function, Node *node) { __asm int 3 }
-Extended __stdcall input_extended(void) { __asm int 3 }
 DoubleBits input_double_bits(void) { __asm int 3 }
-int extended_format(const Extended *number) { __asm int 3 }
 int extended_to_float(const Extended *number, float *result) { __asm int 3 }
-int extended_to_double(const Extended *number, DoubleBits *result) { __asm int 3 }
 void float_to_extended(const float *number, Extended *result) { __asm int 3 }
 void double_to_extended(const DoubleBits *number, Extended *result) { __asm int 3 }
 TemporarySymbol *__fastcall create_temporary(ScopeHash *scope, unsigned type, long size,

@@ -2385,3 +2385,16 @@ object oracles pass; four malformed completion receipts rejected.
 Accepted extent union252947/399693=63.2853214842%, not branch coverage.
 See cases/aliasing-completion.json for provenance, limits and measured timing.
 Final approved queue item: independent original x87 arithmetic/conversion capture.
+
+Floating input and x87 conversion boundary: checkpoint946
+5 acceptances pass fresh original/native matching; current frontier
+_double_to_extended. 867 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-input.json for extent union, limits and measured timings.
+
+Floating x87 ABI exceptions: src/extended.c extended_to_double uses m80
+loads and raw-ST0/ST1 call/store bridge; check_extended_range uses only x87
+primitives in asm, retaining integer control flow in C. Original MSVC1.0
+has sizeof(long double)==8, so ordinary C cannot express this representation.
+Fread CRT seam identity/observations are cases/floating-crt-fread.json; seven
+negative/positive checks are cases/floating-fread-evidence-validation.json.

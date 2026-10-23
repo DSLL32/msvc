@@ -1,0 +1,393 @@
+{
+  "checkpoint": 946,
+  "base_commit": "f8836a3",
+  "status": "floating active",
+  "source_graphs": 867,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 946,
+    "accepted_code_bytes": 253481,
+    "original_code_bytes": 399693,
+    "percentage": 63.41892402418856,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 383
+  },
+  "frontier": "_double_to_extended",
+  "accepted_functions": [
+    {
+      "name": "_input_extended@0",
+      "start": 458688,
+      "end": 458744
+    },
+    {
+      "name": "_extended_format",
+      "start": 463232,
+      "end": 463253
+    },
+    {
+      "name": "_extended_to_double",
+      "start": 463604,
+      "end": 463639
+    },
+    {
+      "name": "_check_extended_range",
+      "start": 464517,
+      "end": 464587
+    }
+  ],
+  "accepted_libraries": [
+    "_fread"
+  ],
+  "reference_sequence": [
+    "cases/floating-initial.json",
+    "cases/floating-original-942.json",
+    "cases/floating-original-943.json",
+    "cases/floating-original-944.json",
+    "cases/floating-original-945.json",
+    "cases/floating-original-946.json"
+  ],
+  "native_matches": [
+    {
+      "logical": "_fread",
+      "matched": true,
+      "kind": "runtime-library entry observation, not named application trap",
+      "evidence": "cases/floating-crt-fread.json",
+      "executable_sha256": "4cc7bfca801911629e5a52c9c5ed84e61dbb08862f07d42af0dd478511e11066",
+      "config_sha256": "d3e7ab5a35a2ebd99b760feaaed5baa80d2222b68285bd0d5759e9685c9fc073",
+      "limits": [
+        "CRT/library acceptance, not reconstructed application source",
+        "First 12-byte record only; no claim of exhaustive fread error/EOF behavior",
+        "Restores the complete indexed352-byte linked library extent, with both relocation targets verified separately"
+      ]
+    },
+    {
+      "executable_sha256": "4cc7bfca801911629e5a52c9c5ed84e61dbb08862f07d42af0dd478511e11066",
+      "config_sha256": "cdc18690dcbae8442273c6cb4b36e486788b9f75c8e106613867e276902a55bd",
+      "seconds": 0.13356654811650515,
+      "logical": "_extended_format",
+      "matched": true,
+      "log_sha256": "188a4c08d2676aa984d0ebd27a38e989e102d10d8c9f39138802d1763b96a3c2",
+      "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-fyvbe6r4"
+    },
+    {
+      "executable_sha256": "7823c6bcc8932337d01146650b1db7e4a2013ce15a24837af4fc4746723f0d68",
+      "config_sha256": "b751c6714506d2f95d0485970284c8bb660c7ae618cb96ca8098a247bfa08a67",
+      "seconds": 0.13425265718251467,
+      "logical": "_extended_to_double",
+      "matched": true,
+      "log_sha256": "039da28ed5b1d0b3e306eb4e5e41cd8ccff4fa325c4ea95a11b15fccf35ec48f",
+      "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-9ytx19f0"
+    },
+    {
+      "executable_sha256": "bd5efaa9b6e4433b2b86997db6fc2bed347a37a7a79cd489c5c1030a3c3fa7ac",
+      "config_sha256": "6156d253a96ee32090c20e5be51e419ba782fb4469afb5759c2cbb491b9bb0a0",
+      "seconds": 0.13474573101848364,
+      "logical": "_check_extended_range",
+      "matched": true,
+      "log_sha256": "36f88106073c5ee9fc700d8cfde3d1116ffa209dcea70d4087ff1e369e1a85c7",
+      "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-xizpkp8g"
+    },
+    {
+      "executable_sha256": "4f395c892bdf5e79221559159b2caa185a5d11cb603e15c9402972eafeffa226",
+      "config_sha256": "7e0079e8a3a91aec622300fc91efba6810ba1caa09e95da934da6743c7ed9ca4",
+      "seconds": 0.13196778111159801,
+      "logical": "_double_to_extended",
+      "matched": true,
+      "log_sha256": "d0e38f25da2254f6a2236b6d14429ce5ec8e0bc1af46f258630f480126c32baa",
+      "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-lgnd8ahc"
+    }
+  ],
+  "native_fixtures": {
+    "method": "native application entry and captured-output check",
+    "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
+    "executable_sha256": "e956918ff71b253a9cfbffe6181b65f277a495798fd552fcc78c4e378a5fe396",
+    "trace_enabled": true,
+    "shared_hashes": {
+      "lib/recon/include/recon.h": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284",
+      "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+      "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+      "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+      "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "lib/recon/native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+      "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+      "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+      "lib/recon/src/crt.c": "1cf556f3771c59820a69a56c38e78cf95080d395f387f3e252d9be9dd100d8d3",
+      "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+      "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+      "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "lib/recon/src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+    },
+    "results": [
+      {
+        "profile": "minimal",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 270,
+        "seeded_entries": 0,
+        "output": {
+          "name": "test.obj",
+          "bytes": 286,
+          "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.018046720884740353,
+        "execution_seconds": 0.006231566891074181,
+        "check_seconds": 0.001449895091354847,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-1d540g4b/minimal"
+      },
+      {
+        "profile": "hello",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 487,
+        "seeded_entries": 270,
+        "output": {
+          "name": "hello.obj",
+          "bytes": 2289,
+          "normalized_sha256": "84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.014210987836122513,
+        "execution_seconds": 0.011096879839897156,
+        "check_seconds": 0.0016325023025274277,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-1d540g4b/hello"
+      },
+      {
+        "profile": "loops",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 77,
+        "seeded_entries": 757,
+        "output": {
+          "name": "loops.obj",
+          "bytes": 620,
+          "normalized_sha256": "cafbb33726695b60d2e92d4173682de0f4ae47c401ecfcbe3b8ce38a54568f87",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.013576443307101727,
+        "execution_seconds": 0.010544241406023502,
+        "check_seconds": 0.001278245821595192,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-1d540g4b/loops"
+      },
+      {
+        "profile": "pressure",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 8,
+        "seeded_entries": 834,
+        "output": {
+          "name": "pressure.obj",
+          "bytes": 879,
+          "normalized_sha256": "692d3dbb7de8c5e16843d6f9c658bbcc9e1753cc111e281cc4c0b3ffa016a6e3",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.013262301683425903,
+        "execution_seconds": 0.012680492363870144,
+        "check_seconds": 0.0012938771396875381,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-1d540g4b/pressure"
+      },
+      {
+        "profile": "aliasing",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 16,
+        "seeded_entries": 842,
+        "output": {
+          "name": "aliasing.obj",
+          "bytes": 600,
+          "normalized_sha256": "44bf756a158394dab84fbb60cb4ad9e686cf34ced9377cd666f1307a03f744ae",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.012522444128990173,
+        "execution_seconds": 0.009551798924803734,
+        "check_seconds": 0.0010446980595588684,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-1d540g4b/aliasing"
+      },
+      {
+        "profile": "floating",
+        "terminal": "_double_to_extended",
+        "returncode": -5,
+        "application_entries": 5,
+        "seeded_entries": 858,
+        "output": null,
+        "setup_seconds": 0.010814088396728039,
+        "execution_seconds": 0.003842407837510109,
+        "check_seconds": 0.0006865905597805977,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-1d540g4b/floating"
+      }
+    ],
+    "rejected": [
+      "wrong expected application entry",
+      "non-clock object corruption",
+      "changed captured IR input"
+    ],
+    "fixture_seconds": 0.3208018783479929,
+    "suite_setup_seconds": 0.147224604152143,
+    "negative_check_seconds": 0.02030535228550434,
+    "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+  },
+  "limits": [
+    "Four whole application functions and one indexed352-byte CRT body; CRT acceptance separated from application code",
+    "Only the observed fread size12/count1/result1 and complete destination record are asserted; return is ignored by caller, not exhaustive CRT coverage",
+    "New asm in src/extended.c is restricted to unexpressible80-bit/raw-x87 ABI primitives; check_extended_range sign and result control flow remain C",
+    "Original magnitude bound8614a..86154 is contextual ten-byte typed data; no neighboring section copied",
+    "Shared scratch8616c..86174 aliases sign/status and rounded float/double storage; reserved word not independently read",
+    "fread observation initial2.802s attempt completed both executions then failed identity lookup because filbuf is an application override; reused original/native logs after correcting combined identity lookup, no rerun, per-step timing unmeasured",
+    "Seven seam validation checks reject changed bytes/result/size/relocation/body/caller use"
+  ],
+  "timing": {
+    "analysis_seconds": null,
+    "analysis_note": "unmeasured",
+    "measurements": {
+      "floating946-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.2825164441019297,
+        "returncode": 0,
+        "log_sha256": "6c1bfaae52a96b7f9f46382ea862b2ef1c60311602892ee29e6d9af3cbca2f2b"
+      },
+      "floating-fread-observer-compile-timing": {
+        "command": [
+          "python3",
+          "scripts/wine-tool.py",
+          "CL.EXE",
+          "/nologo",
+          "/I../../../lib/recon/include",
+          "/c",
+          "/O1",
+          "/G3",
+          "/FoZ:\\root\\.ai-tmp\\vc1.0-c2\\optimizer-queue\\fread-observer.obj",
+          "src/reference-fread-observer.c"
+        ],
+        "seconds": 2.0621372405439615,
+        "returncode": 0,
+        "log_sha256": "6e456c085e4395029fcc405bb630188f78ef3c3fa016c4f39b6775fdc1edab0d"
+      },
+      "floating-input-check-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.42436904087662697,
+        "returncode": 0,
+        "log_sha256": "c3cb3f6d02495193017a469975dd07a8254e6fb646dd56bb406dab07141c87a0"
+      },
+      "floating-fread-observation-timing": {
+        "command": [
+          "python3",
+          "scripts/capture-fread-seam.py"
+        ],
+        "seconds": 2.802498584613204,
+        "returncode": 1,
+        "log_sha256": "1975c13bd57630db617701e7cfbef336a023a4aee63448f29101cb35847e5210"
+      },
+      "floating-capture-timing": {
+        "command": [
+          "python3",
+          "scripts/capture-stress.py",
+          "--fixture",
+          "../fixtures/c2-optimizer-floating-point",
+          "--stem",
+          "floating"
+        ],
+        "seconds": 6.083334244787693,
+        "returncode": 0,
+        "log_sha256": "ddeb595deb41d727a0ab43daeae53e2c7e2436cf2045cae321e8b297a9e9aaec"
+      },
+      "floating942-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.486140307970345,
+        "returncode": 0,
+        "log_sha256": "5b89a6f050be1d7b75a9e6d886ecddc93e012e54a1364403a6ad802ba9c5c79d"
+      },
+      "floating944-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.34204968996346,
+        "returncode": 0,
+        "log_sha256": "f4d43cff3015855f1de3b28e44f8898f4a5e6652a80c15b9ddc562454a4a0d9e"
+      },
+      "floating-input-warnings-timing": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "input",
+          "extended"
+        ],
+        "seconds": 1.320156174711883,
+        "returncode": 0,
+        "log_sha256": "85262ee3c48a88c1f62f7549e2367a6067dc6dc2a6c53e11ab2f667737a75fb3"
+      },
+      "floating-input-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 4.196663745678961,
+        "returncode": 0,
+        "log_sha256": "740158a54f0caef123432b73df9e5f59baa3c985b5e2aab26e1f85bd22ec9876"
+      },
+      "floating945-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 24.845379658974707,
+        "returncode": 0,
+        "log_sha256": "32539f4ebd20f202414cc47ae034aceea1404d6940024906ec367b23d9e75b91"
+      }
+    }
+  }
+}

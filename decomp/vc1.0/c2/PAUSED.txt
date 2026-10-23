@@ -1,6 +1,7 @@
-C2 ACTIVE: aliasing COMPLETE at941 acceptances/863 source graphs.
-Extent union252947/399693=63.2853214842%, not branch coverage.
-Five completed object oracles exact after timestamp only: minimal,hello,loops,pressure,aliasing.
-Final approved queue item: original floating-point capture and reconstruction.
-Canonical/W3, graph/mask audits and all5 native fixtures pass.
-No shim requests. See cases/aliasing-completion.json and queue.json.
+C2 ACTIVE: final approved x87 stress at946 acceptances/867 source graphs.
+Matching original/native frontier _double_to_extended.
+Extent union253481/399693=63.4189240242%, not branch coverage.
+Five completed object regressions pass; floating979-byte object incomplete.
+Next reference BEFORE cases/floating-original-946.json.
+After floating completion PAUSE: no additional cases authorized.
+Canonical/W3, audit and native fixtures pass; no shim requests.

@@ -1,0 +1,11 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x69012: file ../../../lib/recon/src/crt.c, line 386.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, recon_fread (p=0xffffdb00, size=12, count=1, s=0x565e1e58 <recon_iob+96>) at ../../../lib/recon/src/crt.c:386
+386	    size_t n,total=size*count; int c;
+0x5655a5ed in input_extended () at src/input.c:123
+123	    fread(&result, sizeof(result), 1, input_file);
+Value returned is $1 = 1
+FREAD_OBSERVATION {"size": 12, "count": 1, "result": 1, "bytes_hex": "0000000000000080fd3f0800"}

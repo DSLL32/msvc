@@ -114,3 +114,12 @@ short input_compact_short(void)
     result.bytes[1] = (unsigned char)getc(input_file);
     return result.value;
 }
+
+/* Original [0006ffc0,0006fff8): the tagged ten-byte x87 value is read
+   as its complete twelve-byte intermediate representation. */
+Extended __stdcall input_extended(void)
+{
+    Extended result;
+    fread(&result, sizeof(result), 1, input_file);
+    return result;
+}

@@ -40,9 +40,10 @@
       "case": "optimizer-floating-point",
       "after": "optimizer-aliasing",
       "phase": "c2",
-      "status": "active; independent original capture next",
+      "status": "active; original/native initial frontier input_extended matched",
       "description": "x87 conversions and arithmetic, floating scheduling and late store movement",
-      "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only"
+      "capture_policy": "Capture source, original CL/frontend args/environment/dependencies, four actual C2 IR inputs and original backend output separately from fixtures; do not depend on reconstructed C1/C1XX; fixtures use captured references/native only",
+      "fixture_manifest": "../fixtures/c2-optimizer-floating-point/manifest.json"
     }
   ],
   "completed": [

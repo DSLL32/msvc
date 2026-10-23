@@ -945,7 +945,12 @@
     "@register_block_interval_contains@8",
     "@record_rematerialized_registers@8",
     "@find_evictable_machine_region@8",
-    "@infer_scheduled_address_symbol@8"
+    "@infer_scheduled_address_symbol@8",
+    "_input_extended@0",
+    "_fread",
+    "_extended_format",
+    "_extended_to_double",
+    "_check_extended_range"
   ],
   "driver": [
     {
@@ -2281,8 +2286,7 @@
     {
       "name": "_input_extended@0",
       "start": 458688,
-      "end": 458689,
-      "provisional": true
+      "end": 458744
     },
     {
       "name": "_input_double_bits",
@@ -2293,8 +2297,7 @@
     {
       "name": "_extended_format",
       "start": 463232,
-      "end": 463233,
-      "provisional": true
+      "end": 463253
     },
     {
       "name": "_extended_to_float",
@@ -2305,8 +2308,7 @@
     {
       "name": "_extended_to_double",
       "start": 463604,
-      "end": 463605,
-      "provisional": true
+      "end": 463639
     },
     {
       "name": "_float_to_extended",
@@ -6780,6 +6782,11 @@
       "start": 246896,
       "end": 246897,
       "provisional": true
+    },
+    {
+      "name": "_check_extended_range",
+      "start": 464517,
+      "end": 464587
     }
   ],
   "cases": {
@@ -6813,6 +6820,12 @@
       "accepted_from": 925,
       "fixture_manifest": "../fixtures/c2-optimizer-aliasing/manifest.json",
       "fixture_manifest_sha256": "03c1806403ee70df3b6ae45d2c23fc36d525c7cb39aca64c424211e88c31cefe"
+    },
+    "floating": {
+      "arguments": "",
+      "accepted_from": 941,
+      "fixture_manifest": "../fixtures/c2-optimizer-floating-point/manifest.json",
+      "fixture_manifest_sha256": "d7f09728782bb85c019fce0d65f461693d8ac5561d3e388c534f4ea87558b870"
     }
   },
   "crt_defaults": {

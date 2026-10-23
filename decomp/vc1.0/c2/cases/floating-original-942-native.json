@@ -1,0 +1,13 @@
+{
+  "logical": "_fread",
+  "matched": true,
+  "kind": "runtime-library entry observation, not named application trap",
+  "evidence": "cases/floating-crt-fread.json",
+  "executable_sha256": "4cc7bfca801911629e5a52c9c5ed84e61dbb08862f07d42af0dd478511e11066",
+  "config_sha256": "d3e7ab5a35a2ebd99b760feaaed5baa80d2222b68285bd0d5759e9685c9fc073",
+  "limits": [
+    "CRT/library acceptance, not reconstructed application source",
+    "First 12-byte record only; no claim of exhaustive fread error/EOF behavior",
+    "Restores the complete indexed352-byte linked library extent, with both relocation targets verified separately"
+  ]
+}
