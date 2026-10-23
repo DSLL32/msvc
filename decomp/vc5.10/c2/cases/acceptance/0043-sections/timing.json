@@ -1,0 +1,18 @@
+{
+  "original_capture": {
+    "setup": 0.17412559036165476,
+    "execution": 0.7700999723747373,
+    "total": 0.9860195778310299
+  },
+  "native_gdb_capture": {
+    "execution": 0.25329635106027126,
+    "total": 0.3612944521009922
+  },
+  "rejection_control": {
+    "control_and_rejections": 4.380416555330157
+  },
+  "fresh_rejections": 12,
+  "reused_rejections": 77,
+  "audit": 0.1014125719666481,
+  "builds": "Original/native builds passed before fresh capture; separate build times not retained for this candidate."
+}

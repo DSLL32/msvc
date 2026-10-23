@@ -12,6 +12,7 @@
 #include <stdarg.h>
 #include <ctype.h>
 #include <errno.h>
+#include <stddef.h>
 /* This target imports the FILE array; the SDK accessor adds a graph vertex. */
 #undef _iob
 __declspec(dllimport) extern FILE _iob[];
@@ -147,7 +148,41 @@ void initialize_intrinsics(void);
 extern unsigned selected_save_register_mask, call_clobbered_register_mask;
 extern int stack_alignment, c2_cpu_generation;
 void initialize_machine_registers(void);
-void c2_initialize_trees(void);
+#pragma pack(2)
+struct C2Symbol {
+    C2Symbol *hash_next;
+    signed char kind;
+    unsigned char pending05[19];
+    char *name;
+    unsigned char pending1c[8];
+    void *context;
+    unsigned serial;
+    unsigned char pending2c[6];
+};
+typedef struct C2Section {
+    C2Symbol symbol;
+    struct C2Section *next;
+    char *class_name;
+    unsigned pending3a;
+    unsigned alignment;
+    unsigned char attribute, combine, section_kind;
+    unsigned char pending45[9];
+    unsigned order;
+    unsigned pending52;
+} C2Section;
+#pragma pack()
+typedef char C2SectionSizeCheck[sizeof(C2Section) == 86 ? 1 : -1];
+typedef char C2SectionAlignmentCheck[offsetof(C2Section, alignment) == 0x3e ? 1 : -1];
+typedef char C2SectionOrderCheck[offsetof(C2Section, order) == 0x4e ? 1 : -1];
+extern C2Section *code_section, *data_section, *const_section, *bss_section;
+extern C2Section *debug_symbols_section, *debug_types_section, *tls_section;
+extern char *code_section_name, *data_section_name, *const_section_name;
+extern char *bss_section_name, *tls_section_name;
+extern void *section_context;
+extern int c2_codeview_types;
+void initialize_sections(void);
+C2Section *__fastcall create_section(char *name, char *class_name, unsigned serial);
+void __fastcall initialize_section_defaults(C2Section *section);
 void c2_initialize_codegen(void);
 void c2_initialize_registers(void);
 void c2_initialize_optimizer(void);

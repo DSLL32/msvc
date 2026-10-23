@@ -117,12 +117,23 @@ def main():
         def changed_machine_value(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['globals'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
         def missing_final_intrinsic_observation(root):
-            path=root/'o/events.txt';data=path.read_text();at=data.rfind('observe 0045312c ');assert at>=0
+            path=root/'o/events.txt';data=path.read_text();at=data.rfind('observe %08x '%int(control[1]['original'],16));assert at>=0
             data=data[:at]+re.sub(r'^intrinsics-initialized .+\n','',data[at:],flags=re.M);path.write_text(data);raw_changed(root,'o','events.txt')
         mutations += [('machine selected-save register mask differs',lambda r:changed_machine_value(r,'0x491074',0xc8)),
                       ('machine call-clobber register mask differs',lambda r:changed_machine_value(r,'0x495f34',7)),
                       ('machine stack alignment differs',lambda r:changed_machine_value(r,'0x49745c',4)),
                       ('earlier intrinsic observation cannot replace final frontier observation',missing_final_intrinsic_observation)]
+    if 'section_constructor'in current_state:
+        def changed_section(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['section_constructor'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [('section constructor name differs',lambda r:changed_section(r,'name','_DATA')),
+                      ('section constructor class differs',lambda r:changed_section(r,'class_name','DATA')),
+                      ('section constructor serial differs',lambda r:changed_section(r,'serial',2)),
+                      ('section constructor name loses global alias',lambda r:changed_section(r,'name_alias',False)),
+                      ('section constructor initial output globals differ',lambda r:changed_section(r,'initial_sections',[1]+[0]*6)),
+                      ('original section constructor name bytes differ',lambda r:(r/'o/section-name.bin').write_bytes(b'_DATA\0')),
+                      ('original section constructor class bytes differ',lambda r:(r/'o/section-class.bin').write_bytes(b'DATA\0')),
+                      ('original section constructor output globals differ',lambda r:(r/'o/section-globals.bin').write_bytes(b'\1'+b'\0'*27))]
     if 'intrinsic_table'in current_state:
         def changed_intrinsic(root,index,key,value):
             path=root/'n/state.json';state=json_at(path);state['intrinsic_table'][index][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

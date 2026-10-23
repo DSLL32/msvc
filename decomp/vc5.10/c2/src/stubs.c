@@ -18,7 +18,13 @@ int __fastcall c2_open_pdb(char *name, char *object_name)
     __asm { int 3 }
     return 0;
 }
-void c2_initialize_trees(void)
+C2Section *__fastcall create_section(char *name, char *class_name, unsigned serial)
+{
+    __asm { int 3 }
+    return NULL;
+}
+
+void __fastcall initialize_section_defaults(C2Section *section)
 {
     __asm { int 3 }
 }

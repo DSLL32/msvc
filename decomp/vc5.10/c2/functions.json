@@ -52,7 +52,8 @@
     "_c2_real_from_int",
     "_store_extended",
     "_c2_initialize_opcodes",
-    "_c2_initialize_machine"
+    "_c2_initialize_machine",
+    "_c2_initialize_trees"
   ],
   "driver": [
     {
@@ -201,7 +202,7 @@
               212,
               312
             ],
-            "lifetime_sha256": "6ede087b095fdd24cc83eba219872eb754a47e2469f3fb7882f5053b3d1db798",
+            "lifetime_sha256": "e5bb2b9e47403b2f3e739b87583e3e15add609f5a606f15dfd013885a27c0571",
             "instructions": [
               {
                 "offset": 212,
@@ -604,7 +605,7 @@
               38,
               154
             ],
-            "lifetime_sha256": "125bfb009ece9b0f6c3cba0ef23312714140bfc32d624e1475d9836649328bb7",
+            "lifetime_sha256": "590cd58444dd08b0961c68203e4355c042a182d5af818b511c7e769c010cf2a0",
             "instructions": [
               {
                 "offset": 38,
@@ -665,7 +666,7 @@
               46,
               154
             ],
-            "lifetime_sha256": "1d1a8acdcf51298c6d2f19c07fe0803321561cd6aa13518018445d64b6385031",
+            "lifetime_sha256": "33a3eebf0c0fd44dbdc606315fd930626d181871db4963fc1eb59256abaad191",
             "instructions": [
               {
                 "offset": 46,
@@ -1443,7 +1444,7 @@
               6,
               198
             ],
-            "lifetime_sha256": "8945d97113e479c7131cbf75a8e9495209cd56004d6770f1a7510b8bf499d88c"
+            "lifetime_sha256": "154ec11fec3b4705e74ca479b7218ceb573e9992c6c71785327e55601ce9d98f"
           }
         }
       ]
@@ -1633,7 +1634,7 @@
               6,
               377
             ],
-            "lifetime_sha256": "9b1e794dacdfb4b7a1c9135b1faff00c064aa0595daedc723a280b76fd07cc0d"
+            "lifetime_sha256": "0a9740fbc953b10714fce6c2784aaf1ef6a1693da6a9c46355a962f94b11edf5"
           }
         }
       ]
@@ -2745,32 +2746,13 @@
         ]
       ],
       "evidence": "cases/analysis/machine-init-disassembly.txt"
-    }
-  ],
-  "stubs": [
-    {
-      "name": "_c2_math_error",
-      "native": "c2_math_error",
-      "start": 4484380,
-      "end": 4484383,
-      "abi": "cdecl, one pointer parameter",
-      "kind": "crt-source"
-    },
-    {
-      "name": "_c2_print_banner",
-      "native": "c2_print_banner",
-      "start": 4738355,
-      "end": 4738356,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
     },
     {
       "name": "_c2_initialize_trees",
-      "native": "c2_initialize_trees",
+      "native": "initialize_sections",
       "start": 4534572,
-      "end": 4534573,
-      "pending_extent": true,
+      "end": 4534958,
+      "pending_extent": false,
       "kind": "application",
       "abi": "cdecl, no parameters",
       "state_policy": "machine-initialized",
@@ -2887,7 +2869,28 @@
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
-      ]
+      ],
+      "symbol": "_initialize_sections",
+      "evidence": "cases/analysis/sections-disassembly.txt"
+    }
+  ],
+  "stubs": [
+    {
+      "name": "_c2_math_error",
+      "native": "c2_math_error",
+      "start": 4484380,
+      "end": 4484383,
+      "abi": "cdecl, one pointer parameter",
+      "kind": "crt-source"
+    },
+    {
+      "name": "_c2_print_banner",
+      "native": "c2_print_banner",
+      "start": 4738355,
+      "end": 4738356,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
     },
     {
       "name": "_c2_initialize_codegen",
@@ -2989,6 +2992,139 @@
       "pending_extent": true,
       "kind": "application",
       "abi": "fastcall ECX PDB filename EDX object filename; int result; no stack parameters"
+    },
+    {
+      "name": "@create_section@12",
+      "native": "create_section",
+      "start": 4322295,
+      "end": 4322296,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall nameECX,classEDX,serialstack DWORD; pointer result, RET4",
+      "state_policy": "section-constructor",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "c2_symbol_hash_count"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        }
+      ],
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ]
+    },
+    {
+      "name": "@initialize_section_defaults@4",
+      "native": "initialize_section_defaults",
+      "start": 4538002,
+      "end": 4538003,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall section pointerECX; RET0"
     }
   ],
   "text_data": [

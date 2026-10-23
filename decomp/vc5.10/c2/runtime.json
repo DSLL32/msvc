@@ -16,14 +16,6 @@
     "evidence": null
   },
   {
-    "name": "_c2_initialize_trees",
-    "start": 4534572,
-    "end": 4534573,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_c2_initialize_codegen",
     "start": 4534958,
     "end": 4534959,
@@ -111,6 +103,22 @@
     "name": "@c2_open_pdb@8",
     "start": 4765792,
     "end": 4765793,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@create_section@12",
+    "start": 4322295,
+    "end": 4322296,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@initialize_section_defaults@4",
+    "start": 4538002,
+    "end": 4538003,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

@@ -1,0 +1,118 @@
+{
+  "case_id": "numeric-control-flow",
+  "case_inputs": {
+    "a01068ex": "83f26fe13a042a6e5d7139babe23634230edd2fdf4199bebf8b9effcbe29e67a",
+    "a01068gl": "c38e259adbc644283c8f2b9431df0832c17dc74729cdd890df7afd1541c74f7b",
+    "a01068in": "0bbcf997e2cac60b2509b03e4fce81e88a8625eb1952fd1097fc727f83c70b7c",
+    "a01068sy": "7c82aa3c8e48c34374fe30020c45baf03f0784991935a2b8a46f85596af79176",
+    "numeric-control-flow.c": "408a915312a72cbb496a884d696f84e70fb4c8850d50e4697e1d482e5cb7a7d4"
+  },
+  "artifacts": [
+    {
+      "output_name": "numeric-control-flow.obj",
+      "present": false
+    }
+  ],
+  "helper_inputs_sha256": "b21bc7c19ac384e78ab1c3b960c880adf9279dac2b62fec2dfa7154b7197fe3f",
+  "data_model_sha256": "fd6156decdb58db7886ae294ef4eb64fa31b4b0a814500f323f79af1fccf5425",
+  "data_state_sha256": "1e96ce1442f8a4f2a4369a7176f199da3803434c20dcfcfcc99f7fd08411a660",
+  "explicit_child_environment": true,
+  "child_cwd": "S:\\vc5.10\\c2\\numeric-control-flow\\original-work",
+  "kind": "explicit-original-only",
+  "observe_messages": false,
+  "observe_startup": false,
+  "unmasked": false,
+  "candidates": [
+    "_c2_initialize_trees"
+  ],
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc5.10\\c2\\numeric-control-flow\\sections-original\\capture-helper.exe",
+    "S:\\vc5.10\\c2\\numeric-control-flow\\sections-original\\C2.EXE",
+    "R:\\toolchains\\5.10\\bin\\C2.EXE",
+    "",
+    "S:\\vc5.10\\c2\\numeric-control-flow\\sections-original\\plan.txt",
+    "S:\\vc5.10\\c2\\numeric-control-flow\\sections-original\\requested-environment.bin",
+    "S:\\vc5.10\\c2\\numeric-control-flow\\original-work"
+  ],
+  "base_configuration_sha256": "69227f74da60b64edc3fb17652e0d72bb38d0f556568a417f226ab3c6ec00c63",
+  "configuration_sha256": "eb44dd4c4918b7c6a3939d34e66bbe0892a3695b3980e2b87e9d1438e0616c86",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "executable_sha256": "d0651491e56c5d1b797b67bd28440c847399c793033de4c93f865b5e71d6ace7",
+  "debugger_sha256": "c58140458f9fa74acaf09878799e7f6b637c10c6b34ee3b420a9be1e14817465",
+  "rebuilt_snapshot_sha256": "6906e09e37644e5931726f0b2d7211e5a8745273b3869976d6efb9a2d5bc5d3b",
+  "rebuilt_map_snapshot_sha256": "7eee15239e649c952e55fba154942d1a449d138238c531e62c5fa25e528d373c",
+  "static_input_snapshots": {
+    "runtime-original.json": {
+      "input": "runtime.json",
+      "sha256": "fa8d031b4464cba2214b551cc36ed2c8263498f97bab3e2f6a26ccee3b3d81ba"
+    },
+    "runtime-rebuilt.json": {
+      "input": "build/runtime.json",
+      "sha256": "06ac581281020b767a800a3a9b54603f749614d17a76a08737fc10833b969833"
+    },
+    "graph-metadata.json": {
+      "input": "build/graph-metadata.json",
+      "sha256": "fabaee79e14e28b9f62ddcf1b2e39f3059a93d48154da101bacd3b1b309e5430"
+    }
+  },
+  "audit_receipt_sha256": "9cb089c704f73c56192dbbfbe231b57cd13695fbfdfe0c4f2836c6e8c437a003",
+  "rebuilt_sha256": "6906e09e37644e5931726f0b2d7211e5a8745273b3869976d6efb9a2d5bc5d3b",
+  "audit_inputs": {
+    "runtime.json": "fa8d031b4464cba2214b551cc36ed2c8263498f97bab3e2f6a26ccee3b3d81ba",
+    "build/runtime.json": "06ac581281020b767a800a3a9b54603f749614d17a76a08737fc10833b969833",
+    "build/c2.map": "7eee15239e649c952e55fba154942d1a449d138238c531e62c5fa25e528d373c",
+    "build/graph-metadata.json": "fabaee79e14e28b9f62ddcf1b2e39f3059a93d48154da101bacd3b1b309e5430",
+    "graph-audit": "fc5c81f2771c5b6e488ad72529a90c862ef6744083d6e8270b88218105fa844f"
+  },
+  "source_hashes": {
+    "scripts/native-host.c": "06bb0be767661a9b93ee74bb44b6c3f55c1ca114f0988dfa40911a0e04a25259",
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/c2.h": "3729a18197941b5c1e951332e56901a49487e38359d467ab33b6999ed9a66da7",
+    "src/cleanup.c": "ade05818abf0d7dae3de9cdadc21230199beb44759ca8b9a67e98155650cbf5a",
+    "src/constants.c": "b15da6f76b83a5504621b849605f7b3a69a9064befb4083bd9388e8c344e30b6",
+    "src/diagnostics.c": "95c93ae8c982b7d0f86c5827de2609f74d5586844560869de470a93fcc371fdd",
+    "src/environment.c": "eb7ec037cd1193bdd340a3423461a3fee04d2142c0247d7892747f4a2c0f8cc7",
+    "src/il-files.c": "58a7ac5d8f13c7dda8d1dc913562dda04a48633c46c8b2b9573c91d2a226259c",
+    "src/il-input.c": "a1bea9f0ed0ec951b88dbae03613156b57206fcbfbeb30bd50b2cddd93a2ca47",
+    "src/integer-option.c": "88278a1164a17a3a538e614bed713a66d91bef094a140237feed18084e06906a",
+    "src/intrinsics.c": "5c7b33b8f4309a5f52f06ffa39ef7400a64ffde859ec5015192e45bc821915fe",
+    "src/machine-init.c": "b1146313f5683f5014b5d0893e3e766824678334907dd476ef59f4da98663c20",
+    "src/main.c": "020033dc2e64421cb75a4f0b4c5f8a076a05f0ad410389454e91d54705881e00",
+    "src/messages.rc": "2c5d0852b25ad0dba5048fb18634420c3fb7a7d93032187083bff0b8a443df8c",
+    "src/nodes.c": "952bd3622f0c4ac09094157026ab2cd7ab3e5b891e40c33f6a40f98b17214c4c",
+    "src/onexit.c": "655604423c7d014c413f586440382adbb7651a91596121050a0e98b536d39bd2",
+    "src/option-match.c": "1e7ba11f9961d07211e4e4a7ef6a50b361df23eae587d44678c115ba9a267a07",
+    "src/option-table.c": "2f8ac5134d6edbfb96f270119d47e61cb23686745312a319d3eb08d2982ad0b0",
+    "src/options.c": "9dcb15481f9116e3c301e09c7f2aef04237aeed52bed08a4e7accee6de341ccb",
+    "src/precision.c": "daae70312d63b144872fb3486186501d6de76afae8c42eb0ff572c9d1da25501",
+    "src/sections.c": "959f5abf8d1a92ae6aa95cf276c9db3d0b8d614fbafe2f3414ecd9e7de24a47c",
+    "src/startup.c": "9703233f15eac9538cfb31621770ea4560e918d80b2408a5f2a3e08ac1462b88",
+    "src/stubs.c": "faab075f3656f086e0031b189f985955803c090963795a224b205c7db02ba842",
+    "src/symbols.c": "ca1e65a8fb493133e6746d35d2fae05e585806effdc11964edd8e20e4be7bebd"
+  },
+  "events_sha256": "d55cc143fdaa193bd88697a904ab20b7dbc1911e54e3ee40d883944fbf5dae8d",
+  "environment": {
+    "MSC_CMD_FLAGS": "-il .\\a01068 -f numeric-control-flow.c -W 1 -dos -Fonumeric-control-flow.obj -ML -Fdvc50.idb -Bd -Gs4096 -Gy -G5 "
+  },
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "execution_inputs": {
+    "child-environment-input.bin": "4b7aec9e20f9354d5788aeccf96821a9a53a7d8a0de26caaa3473bfc72df4105",
+    "child-command-input.bin": "439a3ce5ba3cf93d8b3bc3dbfd81a6f1727a833d79651d988df83dcc16783b61",
+    "data-plan.txt": "019bf5fdabc06c69e8897c62d33c6d8e1bda7b6b9070e9d5bc93b8d00dde67ac"
+  },
+  "helper_status": 0,
+  "seconds": {
+    "setup": 0.17412559036165476,
+    "execution": 0.7700999723747373,
+    "total": 0.9860195778310299
+  },
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

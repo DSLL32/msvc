@@ -29,7 +29,7 @@ int main(int argc, char **argv, char **environment)
         c2_initialize_constants();
         initialize_intrinsics();
         initialize_machine_registers();
-        c2_initialize_trees();
+        initialize_sections();
         c2_initialize_codegen();
         c2_initialize_registers();
         c2_initialize_optimizer();
