@@ -796,3 +796,17 @@ void begin_for_condition(void)
         begin_for_condition_region();
     }
 }
+
+/* Original 0x3fdc0..0x3fdf9. The condition evaluation has its own
+   sixteen-byte paired delimiter, independent of the outer loop record. */
+void begin_for_condition_region(void)
+{
+    FrontendRecord record;
+    record.kind = 0x26;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+}
