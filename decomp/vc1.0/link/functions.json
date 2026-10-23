@@ -783,7 +783,11 @@
     "_omf_record_lines",
     "_omf_append_function_auxiliary",
     "_omf_append_line",
-    "_omf_queue_line"
+    "_omf_queue_line",
+    "_expand_wildcards",
+    "__find",
+    "import:FindNextFileA",
+    "_expand_hash"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1209,10 +1213,11 @@
     {
       "name": "_expand_wildcards",
       "start": 132656,
-      "end": 132657,
-      "implementation": "stub-C",
-      "source": "src/argument-stubs.c",
-      "abi": "cdecl void(const char *)"
+      "end": 132832,
+      "implementation": "C",
+      "source": "src/arguments.c",
+      "abi": "cdecl void(const char *)",
+      "evidence": "Fresh original/nativeGDB20630 match onordinary originalCL objects/relativeunit?.obj. Completeprefix/basenamecopy, bracketedoutput, retainedCRT_find enumeration and ordinaryrecursiveclassification; noorderingnormalization."
     },
     {
       "name": "_is_library_file",
@@ -2911,10 +2916,11 @@
     {
       "name": "_expand_hash",
       "start": 157792,
-      "end": 157793,
-      "implementation": "stub-C",
-      "source": "src/object-stubs.c",
-      "abi": "cdecl void(HashTable *table,void *context)"
+      "end": 158224,
+      "implementation": "C",
+      "source": "src/symbols.c",
+      "abi": "cdecl void(HashTable *table,void *context)",
+      "evidence": "Whole 0x26860..0x26a10 decoded; original/native matched first entry and partial streams, large-symbols-wildcards-expand_hash-t_bjc2c1."
     },
     {
       "name": "_allocate_pool_block",
@@ -8605,6 +8611,10 @@
     "omf-records-library",
     "omf-records-library",
     "omf-records-library",
-    "omf-records-library"
+    "omf-records-library",
+    "large-symbols-wildcards",
+    "large-symbols-wildcards",
+    "large-symbols-wildcards",
+    "large-symbols-wildcards"
   ]
 }

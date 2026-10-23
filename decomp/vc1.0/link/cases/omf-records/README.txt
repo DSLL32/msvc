@@ -38,4 +38,5 @@ All36native cases pass610application entries after the correction. Canonical
 original-toolchain compile and636graph/627callback/790boundary/41ECX audits pass.
 Accepted extent is226143/281634=80.2968%,784frontiers. body-inventory.json
 separates genuine original instructions from extent padding; not branch coverage.
-The approved large-defined-external/wildcard family remains next in the queue.
+The following approved large-defined-external/wildcard family is now complete;
+see cases/large-symbols-wildcards/validation.json for the newer checkpoint.

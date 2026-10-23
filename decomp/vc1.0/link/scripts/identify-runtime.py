@@ -101,6 +101,11 @@ if len(sys.argv) == 1:
                             evidence='equivalent register allocation; manually disassembled'))
 if len(sys.argv)==1:
     records=[r for r in records if not (r['name']=='_memcpy' and r['start']==0x52b90)]
+# _find is a complete byte-exact shipped CRT match, including imported call
+# relocations. Native correspondence is at this CRT boundary, not each IAT thunk.
+for r in records:
+    if r['name']=='__find':
+        r['evidence']='byte-exact shipped _SETARGV.OBJ; Find* relocations verified; native CRT-boundary differential proof in lib/recon/find-validation.json'
 records.sort(key=lambda r:r['start'])
 Path(sys.argv[2] if len(sys.argv) > 2 else 'runtime.json').write_text(json.dumps(records, indent=2)+'\n')
 print('%d runtime functions identified, %d bytes' %

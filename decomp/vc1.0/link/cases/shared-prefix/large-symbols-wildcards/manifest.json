@@ -1,0 +1,83 @@
+{
+  "case": "large-symbols-wildcards",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "reference": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-link",
+        "/nodefaultlib",
+        "/entry:entry",
+        "/subsystem:console",
+        "/out:large.exe",
+        "/map:large.map",
+        "unit?.obj"
+      ],
+      "canonical_working_directory": "S:\\vc1.0\\link\\large-symbols-wildcards",
+      "inputs": [
+        {
+          "path": "../../large-symbols-wildcards/inputs/unit0.obj",
+          "bytes": 74276,
+          "sha256": "da2736f682ad08d6b2b21bd3d6d5d21a72814ba7fe2d059e25d09f0d3dee4beb"
+        },
+        {
+          "path": "../../large-symbols-wildcards/inputs/unit1.obj",
+          "bytes": 73978,
+          "sha256": "b8220c03cf9f82a9a57de9f9622b23e7f378ff691111ce9eb2b8006555dd4e25"
+        }
+      ],
+      "outputs": [
+        {
+          "output_name": "large.exe",
+          "artifact_kind": "plain-pe",
+          "bytes": 2097152,
+          "sha256": "3b3aeee3fe976a7c7c06d47315e74456d0fa75d53f4885ef70fbc45972a2cee7",
+          "normalized_sha256": "1f356aa3bcdf7c85b3efa570b493acd361ff402cde9ebf245a9fe120ebf8e81e",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            }
+          ],
+          "path": "expected/large.exe"
+        },
+        {
+          "output_name": "large.map",
+          "artifact_kind": "map",
+          "bytes": 287196,
+          "sha256": "cb62043114d9889a100f2ae5489a26db2151ceda5a4b30ce732d1bb868b61da2",
+          "normalized_sha256": "31e31f2651b2c7ba2b8ec1b5012164b8879a3712d24400ae8f672be62f871bee",
+          "ignored_fields": [
+            {
+              "offset": 24,
+              "bytes": 8,
+              "name": "Map PE timestamp hexadecimal"
+            },
+            {
+              "offset": 34,
+              "bytes": 24,
+              "name": "Map timestamp ctime rendering"
+            }
+          ],
+          "path": "expected/large.map"
+        }
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "[ unit0.obj unit1.obj ] Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n",
+      "expected_stderr": ""
+    }
+  }
+}

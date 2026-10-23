@@ -253,12 +253,19 @@
       "manifest_path": "cases/shared-prefix/omf-records-library/manifest.json",
       "manifest_sha256": "1286a7322bc68eeb2097d520b89f1c9b02450fc87f0d9d8407626b96a3adbd9c",
       "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "large-symbols-wildcards": {
+      "receipt_path": "cases/shared-prefix/large-symbols-wildcards/capture/receipt.json",
+      "receipt_sha256": "579a70f928d3722f6393095b77a5b225119383291352af0748dded224ca955f4",
+      "manifest_path": "cases/shared-prefix/large-symbols-wildcards/manifest.json",
+      "manifest_sha256": "f3ba5c9b55ddd7459ded26d59952468051dc48e36bb5ea9d654619a63ea4b7d8",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
     }
   },
   "metadata_sha256": {
-    "functions.json": "8793da70a80e00b55164f7c5231d14d5ecb2969b80620834b609c35b8cba745f",
-    "runtime.json": "0ec72e80c921c13613bfc93f7da57aec764a4563629512b8ccc741479975b7d9",
-    "replay-cases.json": "53830b5d5eb8ae041495c551e6e614241000ab257211106900757bcf0d5825ba"
+    "functions.json": "9010e16fb9d5f80d454f11c223ac0b31aad6f21f06073642680c28b9f222551f",
+    "runtime.json": "0cd6b61b5dcee06e3ee5bc870634b94be341fdde6185b4816d577e0879b9685c",
+    "replay-cases.json": "faba1418438a375d8739b748a5ff03df37336422464a6585f5d06016a84fd9fd"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -2002,14 +2009,14 @@
       "implementation": "C"
     },
     "expand_hash": {
-      "source": "src/object-stubs.c",
+      "source": "src/symbols.c",
       "logical": "_expand_hash",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "expand_wildcards": {
-      "source": "src/argument-stubs.c",
+      "source": "src/arguments.c",
       "logical": "_expand_wildcards",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "external_referenced_by": {
       "source": "src/symbols.c",
@@ -4657,7 +4664,9 @@
     "omf_record_lines",
     "omf_append_function_auxiliary",
     "omf_append_line",
-    "omf_queue_line"
+    "omf_queue_line",
+    "expand_wildcards",
+    "expand_hash"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4802,7 +4811,8 @@
       "_rewind",
       "_fwrite",
       "__heap_expand_block",
-      "_memmove"
+      "_memmove",
+      "__find"
     ],
     "import": [
       "import:GetCommandLineA",
@@ -4836,7 +4846,8 @@
       "import:WaitForSingleObject",
       "import:GetExitCodeProcess",
       "import:GlobalAlloc",
-      "import:DeleteFileA"
+      "import:DeleteFileA",
+      "import:FindNextFileA"
     ]
   },
   "cases": {
@@ -5834,6 +5845,19 @@
         "omf_append_function_auxiliary",
         "omf_append_line",
         "omf_queue_line"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "large-symbols-wildcards": {
+      "first": 784,
+      "last": 788,
+      "seen_count": 610,
+      "expected": [
+        "expand_wildcards",
+        "expand_hash"
       ],
       "terminal": {
         "kind": "exit",

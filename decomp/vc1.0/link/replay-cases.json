@@ -351,6 +351,15 @@
         "code": 0
       },
       "reason": "Original-backed COMDEF/backpatch/LINNUM/LPUBDEF library conversion; native cached regressions"
+    },
+    {
+      "case": "large-symbols-wildcards",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "4096 original-compiled definitions through relative wildcard; native cached regressions"
     }
   ]
 }

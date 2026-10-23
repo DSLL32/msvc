@@ -922,3 +922,23 @@ input. No data exclusion or pointer normalization. Seven new functions contain
 native cases/600 app entries and graph/data/ABI/boundary audits pass. Pending
 shared-prefix migration will regenerate active path-dependent refs explicitly;
 old raw captures must not be relabeled.
+
+Wildcard/hash checkpoint788 (both selected families complete)
+
+4096 ordinary original-CL definitions pass through relative unit?.obj. Fresh
+masked-original/native GDB entries match expand_wildcards20630..206e0 and
+expand_hash26860..26a10; final original has no traps. Full frozen executable and
+map match natively. The hash split is a stable partition, with segmented-directory
+allocation, incremental bucket count and original capacity flag preserved.
+Only2application bodies/591instruction bytes+17alignment are new; __find is a
+144-byte relocation-verified shipped CRT body, and FindNextFileA a6-byte import.
+Native Find* correspondence is intentionally at _find, backed by the shared
+maintainer's30-row differential proof; no per-import GDB claim or application
+credit. The other Find* imports had already been accepted.
+
+Canonical build plus Rust639graph/794original791rebuilt extent and retained
+629callback/453data/41ECX checks pass. All37native cases pass612app entries in
+2.375s external, excluding builds; new case0.216s. Coverage is226901/281634=
+80.5659%,788frontiers. See cases/large-symbols-wildcards/validation.json for exact
+components, clocks, rejected subsystem probe, GDB and original capture receipts.
+Remaining scenarios are analysis suggestions only; the approved queue is paused.

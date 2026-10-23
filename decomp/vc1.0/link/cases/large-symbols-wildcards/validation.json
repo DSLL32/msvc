@@ -1,0 +1,396 @@
+{
+  "status": "pass",
+  "family": "4096 defined external symbols and relative wildcard inputs",
+  "frontiers_before": 784,
+  "frontiers_after": 788,
+  "application_functions": 2,
+  "new_application_instruction_bytes": 591,
+  "new_application_alignment_bytes": 17,
+  "runtime_functions": 1,
+  "runtime_instruction_bytes": 143,
+  "runtime_alignment_bytes": 1,
+  "new_import_thunks": 1,
+  "new_import_bytes": 6,
+  "extent_before": 226143,
+  "extent_after": 226901,
+  "text_bytes": 281634,
+  "percent": 80.56591178621899,
+  "original_validation": {
+    "status": "pass",
+    "runs": [
+      "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/large-symbols-wildcards/original-4p2swftp/receipt.json",
+      "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/large-symbols-wildcards/original-8ujlijxt/receipt.json"
+    ],
+    "arguments": [
+      "-link",
+      "/nodefaultlib",
+      "/entry:entry",
+      "/subsystem:console",
+      "/out:large.exe",
+      "/map:large.map",
+      "unit?.obj"
+    ],
+    "streams_exact": true,
+    "outputs": [
+      {
+        "output_name": "large.exe",
+        "artifact_kind": "plain-pe",
+        "bytes": 2097152,
+        "sha256": "3b3aeee3fe976a7c7c06d47315e74456d0fa75d53f4885ef70fbc45972a2cee7",
+        "normalized_sha256": "1f356aa3bcdf7c85b3efa570b493acd361ff402cde9ebf245a9fe120ebf8e81e",
+        "ignored_fields": [
+          {
+            "offset": 136,
+            "bytes": 4,
+            "name": "PE COFF TimeDateStamp"
+          }
+        ]
+      },
+      {
+        "output_name": "large.map",
+        "artifact_kind": "map",
+        "bytes": 287196,
+        "sha256": "cb62043114d9889a100f2ae5489a26db2151ceda5a4b30ce732d1bb868b61da2",
+        "normalized_sha256": "31e31f2651b2c7ba2b8ec1b5012164b8879a3712d24400ae8f672be62f871bee",
+        "ignored_fields": [
+          {
+            "offset": 24,
+            "bytes": 8,
+            "name": "Map PE timestamp hexadecimal"
+          },
+          {
+            "offset": 34,
+            "bytes": 24,
+            "name": "Map timestamp ctime rendering"
+          }
+        ]
+      }
+    ]
+  },
+  "frontier_comparisons": [
+    {
+      "logical": "expand_hash",
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/large-symbols-wildcards-expand_hash-t_bjc2c1/receipt.json",
+      "sha256": "b1dd36d400ae978f889924e17ae830bc2d7a4e6ca43411ef5d495131c56b146e",
+      "parallel_seconds": 1.6175222313031554,
+      "physical_partial_streams_exact": true
+    },
+    {
+      "logical": "expand_wildcards",
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/large-symbols-wildcards-expand_wildcards-ag242xg7/receipt.json",
+      "sha256": "6bb7bcabcf5a2a405c71f1d04c09ee7cb215a06ea5a52fcc98cf7660d4bf892a",
+      "parallel_seconds": 1.5662576640024781,
+      "physical_partial_streams_exact": true
+    },
+    {
+      "logical": "recon_find",
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/large-symbols-wildcards-recon_find-emmsvgo7/receipt.json",
+      "sha256": "2c717f951942bfe39e50b6e45d0d15d8449905695b4d9a0a3762e77fbbd1f6a6",
+      "parallel_seconds": 1.774871727451682,
+      "physical_partial_streams_exact": true
+    }
+  ],
+  "final_masked_original": {
+    "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/large-symbols-wildcards/masked-jffzplc6/receipt.json",
+    "seconds": 0.7553379321470857,
+    "summary": {
+      "event": "summary",
+      "root_exit": 0,
+      "failed": 0,
+      "packers": 0,
+      "packer_stdout_start": 0,
+      "packer_stdout_end": 0,
+      "packer_stderr_start": 0,
+      "packer_stderr_end": 0
+    }
+  },
+  "fresh_original_trace": {
+    "receipt": "cases/shared-prefix/large-symbols-wildcards/capture/receipt.json",
+    "sha256": "579a70f928d3722f6393095b77a5b225119383291352af0748dded224ca955f4",
+    "expected": [
+      "expand_wildcards",
+      "expand_hash"
+    ],
+    "observed": [
+      "expand_wildcards",
+      "expand_hash"
+    ],
+    "execution_seconds": 1.9203785555437207,
+    "total_seconds": 2.065198827534914
+  },
+  "crt_boundary": {
+    "original": "__find@0x52640..0x526d0",
+    "native": "weak recon_find in shared lib/recon",
+    "scope": "Native correspondence is at _find, not a per-import GDB match; zero application credit for CRT/imports",
+    "library": "Byte-exact shipped LIBC.LIB startup\\obj\\i386\\_SETARGV.OBJ with all Find* relocations validated in both canonical images",
+    "shared_proof": "lib/recon/find-validation.json",
+    "shared_proof_sha256": "9d3f8263ff6b2afa50fd4860ffa15debd06d424711258936800449c5bc25e8bf",
+    "proof": "30 raw differential rows preserve persistent pointer, filename/order, errno/LastError, failed-search replacement and close/exhaustion. Fresh current-case GDB entry/partial streams and full executable/map/status/streams also match.",
+    "imports": [
+      {
+        "name": "FindFirstFileA",
+        "start": "0x5b21e",
+        "end": "0x5b224",
+        "abi": "stdcall HANDLE(LPCSTR,LPWIN32_FIND_DATAA), ret8 in SDK implementation",
+        "status": "previously accepted"
+      },
+      {
+        "name": "FindNextFileA",
+        "start": "0x5b218",
+        "end": "0x5b21e",
+        "abi": "stdcall BOOL(HANDLE,LPWIN32_FIND_DATAA), ret8 in SDK implementation",
+        "status": "new; reached original context eip0x5b219 from _find",
+        "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/large-symbols-wildcards/masked-zv7hmvqt/receipt.json"
+      },
+      {
+        "name": "FindClose",
+        "start": "0x5b212",
+        "end": "0x5b218",
+        "abi": "stdcall BOOL(HANDLE), ret4 in SDK implementation",
+        "status": "previously accepted"
+      }
+    ],
+    "mask_policy": "Only verified reached accepted import thunks are restored; every unexpected import remains INT3; no extra public Find* shims"
+  },
+  "native_gdb": {
+    "post_split_log": "/root/.ai-tmp/msvc2/vc1.0/link/hash-post-analysis/post.log",
+    "sha256": "b0b316cda399984a19d78d13afd40a4bb16ad8fee598f8199c3ace613e4f0bcc",
+    "before": {
+      "next_split": 0,
+      "base_buckets": 1024,
+      "bucket_count": 1024,
+      "element_count": 3073,
+      "split_count": 0
+    },
+    "after": {
+      "next_split": 1,
+      "base_buckets": 1024,
+      "bucket_count": 1025,
+      "element_count": 3073,
+      "split_count": 1
+    },
+    "seconds": "unmeasured; native state inspection only"
+  },
+  "build": {
+    "command": [
+      "make",
+      "-j4",
+      "native-trace",
+      "all",
+      "audit"
+    ],
+    "seconds": 27.168152444064617,
+    "status": 0
+  },
+  "audits": {
+    "graphs": 639,
+    "evidenced_runtime": 10,
+    "original_extent_records": 794,
+    "rebuilt_extent_records": 791,
+    "unique_original_extents": 789,
+    "unique_rebuilt_extents": 788,
+    "callback_sets": 629,
+    "data_definitions": 453,
+    "ecx_cleanups": 41,
+    "graph_receipt": "cases/graph-audit-validation.json"
+  },
+  "native": {
+    "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/native/native-check-ssyuzmme/receipt.json",
+    "sha256": "75b12b8a428785621548ac68fc289035c4a41e4e68e583a5d4616385e6fc8784",
+    "case_count": 37,
+    "application_entries": 612,
+    "external_seconds": 2.3748678490519524,
+    "internal_case_loop_seconds": 2.148400575853884,
+    "trace_prepare_seconds": 0.14139268174767494,
+    "summed_components": {
+      "setup_seconds": 0.43843307811766863,
+      "execution_seconds": 0.3624918917194009,
+      "oracle_seconds": 1.3262564754113555,
+      "trace_check_seconds": 0.004336618818342686
+    },
+    "new_case": {
+      "case": "large-symbols-wildcards",
+      "setup_seconds": 0.013639720156788826,
+      "exit": 0,
+      "execution_seconds": 0.13751988299190998,
+      "stdout_bytes": 139,
+      "stdout_sha256": "dd47b36dca0e219fc8112109525e56ac9f848129d3bbab81229f9281bc43956e",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "trace_entries": 2,
+      "trace_sha256": "13c4e985342423548c1c6f6088757a13ee50c6a1b13b62bc27d9434e504dfd70",
+      "trace_prefix_entries": 610,
+      "trace_check_seconds": 0.00012915395200252533,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/link/cases/shared-prefix/large-symbols-wildcards/manifest.json",
+      "manifest_sha256": "f3ba5c9b55ddd7459ded26d59952468051dc48e36bb5ea9d654619a63ea4b7d8",
+      "outputs": [
+        {
+          "name": "large.exe",
+          "bytes": 2097152,
+          "sha256": "08f4d08efdbc77b9bbac99d95c811680b13908a86d99e6d51c666c31dd97e350",
+          "normalized_sha256": "1f356aa3bcdf7c85b3efa570b493acd361ff402cde9ebf245a9fe120ebf8e81e",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            }
+          ]
+        },
+        {
+          "name": "large.map",
+          "bytes": 287196,
+          "sha256": "8836a7101118daaf4460572eec07358b7257c21b3d131257a1d96a5dd933a97a",
+          "normalized_sha256": "31e31f2651b2c7ba2b8ec1b5012164b8879a3712d24400ae8f672be62f871bee",
+          "ignored_fields": [
+            {
+              "offset": 24,
+              "bytes": 8,
+              "name": "Map PE timestamp hexadecimal"
+            },
+            {
+              "offset": 34,
+              "bytes": 24,
+              "name": "Map timestamp ctime rendering"
+            }
+          ]
+        }
+      ],
+      "oracle_seconds": 0.063793801702559,
+      "total_seconds": 0.2156789107248187
+    }
+  },
+  "negative_checks": [
+    {
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/native/reference-rejections-p4l2mm4y/receipt.json",
+      "tests": 6,
+      "seconds": 0.14607006683945656
+    },
+    {
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/native/boundary-rejections-m9obcfq4/receipt.json",
+      "tests": 2,
+      "seconds": "unmeasured; host-only rejection checks"
+    },
+    {
+      "receipt": "cases/graph-audit-validation.json",
+      "tests": 4,
+      "scope": "Scratch PE/canonical metadata mutations never execute"
+    }
+  ],
+  "timing_limits": "Single samples, not benchmark medians. Canonical/native-trace build+audit was one concurrent make invocation and is unsplit. Original compiler/captures are explicit outside fixtures. Native suite launches only ELF and uses frozen references. Original attempt sum counts accepted, rejected and frontier captures and excludes the separate fresh entry-trace capture; overlapping side elapsed times are not summed as wall time.",
+  "queue": "Both authorized families complete; paused before any further case",
+  "original_compiler_input_build": {
+    "command": [
+      "wine",
+      "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+      "/nologo",
+      "/c",
+      "/O2",
+      "/G5",
+      "unit0.c",
+      "unit1.c"
+    ],
+    "cwd": "S:\\vc1.0\\link\\large-symbols-build",
+    "prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+    "exit": 0,
+    "seconds": 3.2213557735085487
+  },
+  "additional_uninstrumented_build": {
+    "command": [
+      "make",
+      "-j4",
+      "native"
+    ],
+    "seconds": 3.6151318261399865,
+    "status": 0
+  },
+  "focused_uninstrumented_native": {
+    "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/native/native-check-32rhtwit/receipt.json",
+    "seconds": 0.20929190050810575
+  },
+  "earlier_native_build": {
+    "command": [
+      "make",
+      "-j4",
+      "native"
+    ],
+    "exit": 0,
+    "seconds": 3.6042744405567646
+  },
+  "explicit_original_attempts": [
+    {
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/large-symbols-wildcards/masked-5gpsl57b/receipt.json",
+      "mode": "masked",
+      "accepted_count": 787,
+      "seconds": 1.0818935502320528,
+      "root_exit": 999,
+      "failed": 10
+    },
+    {
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/large-symbols-wildcards/masked-f_3g5dpm/receipt.json",
+      "mode": "masked",
+      "accepted_count": 785,
+      "seconds": 1.6507117915898561,
+      "root_exit": 999,
+      "failed": 10
+    },
+    {
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/large-symbols-wildcards/masked-jffzplc6/receipt.json",
+      "mode": "masked",
+      "accepted_count": 788,
+      "seconds": 0.7553379321470857,
+      "root_exit": 0,
+      "failed": 0
+    },
+    {
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/large-symbols-wildcards/masked-tv0zjtf4/receipt.json",
+      "mode": "masked",
+      "accepted_count": 787,
+      "seconds": 1.4804549310356379,
+      "root_exit": 999,
+      "failed": 10
+    },
+    {
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/large-symbols-wildcards/masked-y7orrkv8/receipt.json",
+      "mode": "masked",
+      "accepted_count": 784,
+      "seconds": 1.4395895097404718,
+      "root_exit": 999,
+      "failed": 10
+    },
+    {
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/large-symbols-wildcards/masked-zv7hmvqt/receipt.json",
+      "mode": "masked",
+      "accepted_count": 786,
+      "seconds": 1.5627215960994363,
+      "root_exit": 999,
+      "failed": 10
+    },
+    {
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/large-symbols-wildcards/original-4p2swftp/receipt.json",
+      "mode": "original",
+      "accepted_count": 784,
+      "seconds": 1.5304960068315268,
+      "root_exit": 0,
+      "failed": 0
+    },
+    {
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/large-symbols-wildcards/original-8ujlijxt/receipt.json",
+      "mode": "original",
+      "accepted_count": 784,
+      "seconds": 1.4109048442915082,
+      "root_exit": 0,
+      "failed": 0
+    },
+    {
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/large-symbols-wildcards/original-seg76uq6/receipt.json",
+      "mode": "original",
+      "accepted_count": 784,
+      "seconds": 1.5691281631588936,
+      "root_exit": 23,
+      "failed": 0
+    }
+  ],
+  "original_attempt_execution_seconds_sum": 12.48123832512647
+}

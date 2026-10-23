@@ -104,6 +104,56 @@ void **find_hash_entry(const char *key,HashTable *table,unsigned char insert,
     return &node->value;
 }
 
+/* Split one bucket into the next segment, retaining each chain's order. */
+void expand_hash(HashTable *table,void *context)
+{
+    unsigned long old_bucket,new_index,new_bucket;
+    HashSegment *old_segment,*new_segment;
+    HashNode *node,*previous=NULL,*tail=NULL;
+    if (table->directory_capacity*table->buckets_per_segment<=
+        table->next_split+table->base_buckets) {
+        set_hash_flags(table,get_hash_flags(table)|1);
+        return;
+    }
+    ++table->split_count;
+    old_segment=table->directory[table->next_split/table->buckets_per_segment];
+    old_bucket=table->next_split%table->buckets_per_segment;
+    new_index=table->next_split+table->base_buckets;
+    if (!(new_index%table->buckets_per_segment)) {
+        table->directory[new_index/table->buckets_per_segment]=
+            calloc(1,sizeof(HashSegment));
+        if (!table->directory[new_index/table->buckets_per_segment])
+            out_of_memory();
+        table->directory[new_index/table->buckets_per_segment]->buckets=
+            calloc(table->buckets_per_segment,sizeof(HashNode *));
+        if (!table->directory[new_index/table->buckets_per_segment]->buckets)
+            out_of_memory();
+    }
+    new_segment=table->directory[new_index/table->buckets_per_segment];
+    new_bucket=new_index%table->buckets_per_segment;
+    if (++table->next_split==table->base_buckets) {
+        table->base_buckets*=2;
+        table->next_split=0;
+    }
+    ++table->bucket_count;
+    node=old_segment->buckets[old_bucket];
+    new_segment->buckets[new_bucket]=NULL;
+    while (node) {
+        if (hash_bucket(table->key(node->value,context),table)==new_index) {
+            if (!tail) new_segment->buckets[new_bucket]=node;
+            else tail->next=node;
+            if (!previous) old_segment->buckets[old_bucket]=node->next;
+            else previous->next=node->next;
+            tail=node;
+            node=node->next;
+            tail->next=NULL;
+        } else {
+            previous=node;
+            node=node->next;
+        }
+    }
+}
+
 /* Linear hashing splits buckets gradually as the table grows. */
 unsigned long hash_bucket(const char *key,HashTable *table)
 {

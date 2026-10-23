@@ -333,7 +333,8 @@
     "start": 337472,
     "end": 337616,
     "object": "startup\\obj\\i386\\_SETARGV.OBJ",
-    "library": "LIBC.LIB"
+    "library": "LIBC.LIB",
+    "evidence": "byte-exact shipped _SETARGV.OBJ; Find* relocations verified; native CRT-boundary differential proof in lib/recon/find-validation.json"
   },
   {
     "name": "_strrchr",

@@ -1,0 +1,92 @@
+{
+  "status": "Analysis suggestions only; both selected families complete, no further case begun",
+  "accepted_frontiers": 788,
+  "accepted_extent_bytes": 226901,
+  "text_bytes": 281634,
+  "extent_percent": 80.56591178621899,
+  "evidence": "analysis/native-body-inventory.tsv and cases/large-symbols-wildcards/components.json; genuine non-one-byte original instruction ranges excluding accepted extents, CRT/imports and padding",
+  "recommendations": [
+    {
+      "rank": 1,
+      "name": "Valid legacy Win16 resource conversion",
+      "suggested_case": "Original-validate a small Win16 .res with ordinary bitmap/menu/dialog or string resources and link it with an existing i386 object; capture complete artifacts before reconstruction.",
+      "known_uncovered_instruction_bytes": 461,
+      "functions": [
+        {
+          "entry": "0x440a0",
+          "name": "_convert_legacy_resource",
+          "known_instruction_bytes": 461
+        }
+      ],
+      "native_caller": "Accepted convert_resource_file@0x432d0 dispatch in resources.c selects this when the input lacks the Win32 resource header.",
+      "limits": "Additional format-specific callees absent from this partial inventory may be reached; 187fatal-message and22OOM bytes are excluded from the ordinary-success estimate."
+    },
+    {
+      "rank": 2,
+      "name": "Ordinary OMF iterated-data and executable-comment records",
+      "suggested_case": "Original-validate nested LIDATA with repeated data plus COMENT class0xa4 executable strings; convert through normal -lib/-link wrapper and compare complete COFF/archive/image bytes.",
+      "known_uncovered_instruction_bytes": 475,
+      "functions": [
+        {
+          "entry": "0x46df0",
+          "name": "iterated-data expansion helper",
+          "known_instruction_bytes": 294
+        },
+        {
+          "entry": "0x48ba0",
+          "name": "_omf_write_comment_data",
+          "known_instruction_bytes": 181
+        }
+      ],
+      "native_callers": [
+        "Accepted read_omf_records selects pending omf_record_iterated_data@0x45e00 for0xa2 records; its recursive child starts0x46df0.",
+        "Accepted omf_record_modend@0x460b0 calls omf_write_comment_data when accepted COMENT parser has accumulated executable strings."
+      ],
+      "limits": "The LIDATA record handler is absent from the old body inventory and is additional to475known bytes. Ordinary success excludes error/OOM bodies. Actual record semantics and reachability must be validated against untouched original first."
+    }
+  ],
+  "partial_component_counts": [
+    {
+      "name": "known target-body inventory",
+      "total_bytes": 177619,
+      "accepted_bytes": 163686,
+      "remaining_bytes": 13933
+    },
+    {
+      "name": "known CRT-body inventory",
+      "total_bytes": 37088,
+      "accepted_bytes": 27047,
+      "remaining_bytes": 10041
+    },
+    {
+      "name": "IAT import thunk bodies",
+      "total_bytes": 348,
+      "accepted_bytes": 198,
+      "remaining_bytes": 150
+    },
+    {
+      "name": "verified contextual inline data",
+      "total_bytes": 1784,
+      "accepted_bytes": 1784,
+      "remaining_bytes": 0
+    },
+    {
+      "name": "verified contextual alignment",
+      "total_bytes": 2546,
+      "accepted_bytes": 2546,
+      "remaining_bytes": 0
+    },
+    {
+      "name": "unclassified: uninventoried bodies, inline data and padding",
+      "total_bytes": 62249,
+      "accepted_bytes": 31640,
+      "remaining_bytes": 30609
+    }
+  ],
+  "limits": [
+    "Known target-body inventory has13933unaccepted bytes, including7936in the OMF conversion closure, much of which is internal -g/debug not selected by public -o/-co wrappers.",
+    "393known Mac closure bytes and57undecorator suppression-only bytes remain; public reachability is not promised.",
+    "Remaining10041known CRT bytes and150import bytes are not target-application gains. Unclassified30609bytes combine uninventoried bodies/data/padding, never all padding.",
+    "No full-target99percent or branch-coverage claim. Stop here until user selects further work."
+  ]
+}

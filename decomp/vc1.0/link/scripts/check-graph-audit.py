@@ -89,7 +89,7 @@ def main():
     assert frozen==hashes(),'Canonical audit inputs changed'
     receipt=dict(status='pass',flags=FLAGS,tool_sha256=hashlib.sha256(TOOL.read_bytes()).hexdigest(),
                  canonical_inputs=frozen,tests=results,scope='Host-only original/rebuilt PE metadata audits; scratch mutations never execute',
-                 native_regression='cases/omf-records/validation.json:36cases/610entries; source/runtime unchanged during host-audit adoption',
+                 native_regression='Cached native regression receipt is recorded in the current completed family validation.json; this host-only audit does not execute fixtures',
                  negative_design_note='First exploratory RETmutation targeted unaccepted control_handler and was outside audited scope; corrected to an accepted callee-cleanup routine.',
                  timings='Single samples include process startup, index loading and output; builds/native suite/original captures excluded')
     (directory/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')

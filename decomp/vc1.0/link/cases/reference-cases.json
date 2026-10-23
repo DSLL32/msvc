@@ -106,5 +106,8 @@
   },
   "omf-records-library": {
     "directory": "cases/shared-prefix/omf-records-library"
+  },
+  "large-symbols-wildcards": {
+    "directory": "cases/shared-prefix/large-symbols-wildcards"
   }
 }

@@ -236,3 +236,30 @@ void clear_argument_list(ArgumentList *list)
     }
 }
 
+
+/* CRT startup file enumerator retained as a distinct library vertex. */
+extern char *__cdecl _find(const char *pattern);
+#pragma intrinsic(strcpy)
+/* Expand one relative/qualified wildcard operand [00020630,000206e0). */
+void expand_wildcards(const char *pattern)
+{
+    char path[_MAX_PATH],*end=path,*filename=path;
+    const char *scan=pattern;
+    char *found;
+    while (*scan) {
+        *end++=*scan;
+        if (*scan=='\\' || *scan=='/') filename=end;
+        ++scan;
+    }
+    *end=0;
+    printf("[ ");
+    found=_find(pattern);
+    while (found) {
+        strcpy(filename,found);
+        printf("%s ",found);
+        classify_argument(path,1);
+        found=_find(NULL);
+    }
+    printf("] ");
+}
+#pragma function(strcpy)
