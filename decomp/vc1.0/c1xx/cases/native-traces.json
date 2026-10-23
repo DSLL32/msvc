@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "c35defc76283670e1c3a69d38f56b2e891d25d1093475be7a871880c0668492b",
+    "functions.json": "6092f38ca1566f3558f03f017e85f81f91238369b20a83e21d0131624f5865de",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "7b95b8004b5c333102dad88e044eaab555b73d5c54bfa5dec5c67579d3193f6d",
-    "cases/canonical-map.txt": "1747bc0aac3a464737d64143794ec2aec1fdedabebdecb9488d13ad61d710ca3",
+    "cases/original-entry-references.json": "7e5ae9d09d05e3805636b73a16422b34cfca6c65bd95b2193ee2c429d312ab3c",
+    "cases/canonical-map.txt": "5dcfb3cdb509b0df578b63a6ab9e89c0be3c3fb55b8c9a9d967cb885dc06147c",
     "cases/shared-reference/cpp_basic/original-receipt.json": "c0b231bf1b4ad8c8ee582b0419697346750bcbea4484c6729dc71c7eb35ed198",
     "cases/shared-reference/cpp_basic/original-events.txt": "c211a19028f71257317cb8957e26dd76c27f60208208de53d25e18a8a5520e27",
     "cases/shared-reference/cpp_basic/original-entries.plan": "795b86f57be090ebab4b5bf36a3fe93b742ba8f9b4f29a48ba548a77d801ee07",
@@ -15,9 +15,9 @@
     "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/entry-reference/original-receipt.json": "95bec537e2dc9e24ed52278445c795650669f259c303b5fd623daeaa2ee1663a",
     "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/entry-reference/original-events.txt": "39da0c728c9a3cc0e550edff49d28f1d34b0b17f63f149b04e1cec24864b68b1",
     "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/entry-reference/original-entries.plan": "0f61dfc9058b40b2510dd9ad3b749aa500a68c1a04a9f80eef61b2b2c328cc94",
-    "cases/frontiers/stack_lifetime/0960-finish_conditional_branch/entry-reference/original-receipt.json": "ee119d861d4b736aeb4b36b582cef985dddf4f1fc03eabf18d0b368c3eed26d2",
-    "cases/frontiers/stack_lifetime/0960-finish_conditional_branch/entry-reference/original-events.txt": "9ee5f9b36d99bf23652ffec240a9a5a3cee55b31b276559d6416d5e14e36d46e",
-    "cases/frontiers/stack_lifetime/0960-finish_conditional_branch/entry-reference/original-entries.plan": "4e951aa1b9879bc0ced3c4b5a1166204afe1ce2c4805c7ffdf6860e49ff6ebfb"
+    "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-receipt.json": "c96405bad006bb3fd9f900a346c2d788eb6906b74f281ddbf6e3032440b280f5",
+    "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-events.txt": "9e35a24f4e53f4b7b0219bec08cb63897a7eca106f3d009663ffb919319a941f",
+    "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-entries.plan": "a5f1b84b7a83babbd447d32cf9a76cf4fa037e529269692bfe6ac29127e5c35d"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -3118,11 +3118,11 @@
     },
     "mangle_function_pointer_prefix": {
       "logical": "_mangle_function_pointer_prefix@8",
-      "source": "src/stubs.c"
+      "source": "src/mangling.c"
     },
     "mangle_function_pointer_signature": {
       "logical": "_mangle_function_pointer_signature@8",
-      "source": "src/stubs.c"
+      "source": "src/mangling.c"
     },
     "mangle_function_terminator": {
       "logical": "_mangle_function_terminator@8",
@@ -5957,7 +5957,9 @@
     "cast_expression",
     "end_while_statement",
     "end_while_body",
-    "finish_conditional_branch"
+    "finish_conditional_branch",
+    "mangle_function_pointer_prefix",
+    "mangle_function_pointer_signature"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -8269,7 +8271,7 @@
     },
     "stack_lifetime": {
       "first": 932,
-      "last": 961,
+      "last": 963,
       "seen": [
         "main",
         "message_text",
@@ -9141,13 +9143,13 @@
         "end_while_statement",
         "end_while_body",
         "finish_conditional_branch",
-        "mangle_function_pointer_prefix"
+        "mangle_function_pointer_prefix",
+        "mangle_function_pointer_signature"
       ],
       "terminal": {
-        "kind": "frontier",
-        "logical": "_mangle_function_pointer_prefix@8",
-        "native": "mangle_function_pointer_prefix",
-        "signal": 5
+        "kind": "exit",
+        "logical": "exit:0",
+        "status": 0
       }
     }
   }

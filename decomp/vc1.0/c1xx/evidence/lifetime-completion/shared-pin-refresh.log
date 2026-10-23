@@ -1,0 +1,1 @@
+python3 scripts/shared_build_inputs.py --pin-commit "410fea959714b77efb2e45161f83e7c82857ca03" --makefile build/shared-inputs.mk

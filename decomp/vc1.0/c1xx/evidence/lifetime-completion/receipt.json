@@ -1,0 +1,70 @@
+{
+  "status": "passed",
+  "case": "stack_lifetime",
+  "terminal": "exit:0",
+  "verification": "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/validation.json",
+  "first_frontier": 961,
+  "last_frontier": 962,
+  "coverage": {
+    "accepted_code_bytes": 250912,
+    "total_executable_code_bytes": 476418,
+    "accepted_code_percent": 52.666356015095985,
+    "accepted_frontiers": 963,
+    "source_functions": 877,
+    "accepted_source_text_and_switch_bytes": 239067,
+    "section_ranges": [
+      [
+        94208,
+        570626
+      ]
+    ],
+    "native_limitations": [
+      {
+        "function": "_begin_implicit_statement_scope@4",
+        "original": [
+          157520,
+          157666
+        ],
+        "condition": "parser_lookahead != -1",
+        "behavior": "explicit native-only INT3; unsupported original caller-derived stale-stack-byte path",
+        "win32": "original-style uninitialized unsigned char token retained",
+        "authorization": "User explicitly selected faithful Win32 source bug plus unsupported native-path trap",
+        "evidence": "evidence/implicit-scope-lookahead/analysis.json",
+        "coverage_note": "accepted original extent does not claim native malformed-input-path equivalence"
+      },
+      {
+        "function": "_multiplication_overflows@16",
+        "original": [
+          477232,
+          477505
+        ],
+        "condition": "!unsigned_arithmetic && ((int)left>0)!=((int)right>0) && bytes not in {1,2,4}",
+        "behavior": "explicit native-only INT3; unsupported original unwritten-threshold path for malformed/internal type widths",
+        "win32": "original uninitialized threshold switch fallback retained",
+        "authorization": "Root approved preserving Win32 source bug with exact native unsupported-path trap; no universal caller invariant claimed",
+        "evidence": "evidence/multiply-boundary/receipt.json",
+        "coverage_note": "accepted extent will not claim malformed/internal unsupported-width native equivalence"
+      }
+    ]
+  },
+  "shared_pin": {
+    "schema": 1,
+    "commit": "410fea959714b77efb2e45161f83e7c82857ca03",
+    "tree": "c8e4b0ef2e74ceea54bf6f96f439f6ec950df61c",
+    "verification": "Explicit reviewed committed slice; refresh invoked with --pin-commit",
+    "policy": "Deliberate committed-source reference; ignore evolving shared worktree contents until explicitly refreshed",
+    "previous_references": [
+      {
+        "commit": "23dd0e2aa23bacb970408dad7168a2479fa8a4be",
+        "tree": "35875f48d7bdba1ac878fd9416d58c000a009a5c"
+      },
+      {
+        "commit": "499e1fe81eed52a6807d1577468b73d5b6df0898",
+        "tree": "6836ab62e54629bcaadf01017b51b99ce0d4e369"
+      }
+    ]
+  },
+  "timing": "timing.json",
+  "scope": "Four completed native cases match frozen traces/status/streams/all4 intermediate files. Shared pin deliberately refreshed at substantial boundary after maintainer review; no original recapture solely for shim refresh.",
+  "native_limitations": "Two documented unsupported paths remain outside equivalence claims."
+}

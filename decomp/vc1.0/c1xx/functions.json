@@ -965,7 +965,9 @@
     "_cast_expression@8",
     "_end_while_statement",
     "_end_while_body",
-    "_finish_conditional_branch"
+    "_finish_conditional_branch",
+    "_mangle_function_pointer_prefix@8",
+    "_mangle_function_pointer_signature@8"
   ],
   "driver": [
     {
@@ -7102,12 +7104,12 @@
     {
       "name": "_mangle_function_pointer_prefix@8",
       "start": 276912,
-      "end": 276913
+      "end": 277054
     },
     {
       "name": "_mangle_function_pointer_signature@8",
       "start": 277136,
-      "end": 277137
+      "end": 277182
     },
     {
       "name": "_mangle_pointee_type@8",
@@ -7511,8 +7513,8 @@
       "native_reference": "cases/native-stack-lifetime",
       "frontiers": "cases/frontiers/stack_lifetime",
       "accepted_from": 932,
-      "terminal": "_mangle_function_pointer_prefix@8",
-      "terminal_evidence": "cases/frontiers/stack_lifetime/0960-finish_conditional_branch/original-events.txt",
+      "terminal": "exit:0",
+      "terminal_evidence": "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/original-events.txt",
       "original_seed": "cases/stack_lifetime-seed",
       "frontier_extensions": [
         "cases/frontiers/stack_lifetime/0932-evaluate_integer_constant-4/frontier-extension.json",
@@ -7543,7 +7545,9 @@
         "cases/frontiers/stack_lifetime/0957-cast_expression-8/frontier-extension.json",
         "cases/frontiers/stack_lifetime/0958-end_while_statement/frontier-extension.json",
         "cases/frontiers/stack_lifetime/0959-end_while_body/frontier-extension.json",
-        "cases/frontiers/stack_lifetime/0960-finish_conditional_branch/frontier-extension.json"
+        "cases/frontiers/stack_lifetime/0960-finish_conditional_branch/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0961-mangle_function_pointer_prefix-8/frontier-extension.json",
+        "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/frontier-extension.json"
       ]
     }
   },

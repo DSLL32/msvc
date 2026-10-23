@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 961,
+  "accepted": "_mangle_function_pointer_prefix@8",
+  "terminal": "_mangle_function_pointer_signature@8",
+  "original_capture": "cases/frontiers/stack_lifetime/0961-mangle_function_pointer_prefix-8/original-receipt.json",
+  "original_capture_sha256": "f8b757a70ee513030f2a220f13b71c4925518a13ac4f12a6ad1a68d85a18dd91",
+  "original_events": "cases/frontiers/stack_lifetime/0961-mangle_function_pointer_prefix-8/original-events.txt",
+  "original_events_sha256": "4cfa99a3df5a1a22e4134c2c52c1a093da379213c492159721366f50ea6adac4",
+  "original_configuration": "cases/frontiers/stack_lifetime/0961-mangle_function_pointer_prefix-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

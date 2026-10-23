@@ -24,11 +24,11 @@
     "plan_sha256": "0f61dfc9058b40b2510dd9ad3b749aa500a68c1a04a9f80eef61b2b2c328cc94"
   },
   "stack_lifetime": {
-    "receipt": "cases/frontiers/stack_lifetime/0960-finish_conditional_branch/entry-reference/original-receipt.json",
-    "receipt_sha256": "ee119d861d4b736aeb4b36b582cef985dddf4f1fc03eabf18d0b368c3eed26d2",
-    "events": "cases/frontiers/stack_lifetime/0960-finish_conditional_branch/entry-reference/original-events.txt",
-    "events_sha256": "9ee5f9b36d99bf23652ffec240a9a5a3cee55b31b276559d6416d5e14e36d46e",
-    "plan": "cases/frontiers/stack_lifetime/0960-finish_conditional_branch/entry-reference/original-entries.plan",
-    "plan_sha256": "4e951aa1b9879bc0ced3c4b5a1166204afe1ce2c4805c7ffdf6860e49ff6ebfb"
+    "receipt": "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-receipt.json",
+    "receipt_sha256": "c96405bad006bb3fd9f900a346c2d788eb6906b74f281ddbf6e3032440b280f5",
+    "events": "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-events.txt",
+    "events_sha256": "9e35a24f4e53f4b7b0219bec08cb63897a7eca106f3d009663ffb919319a941f",
+    "plan": "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/entry-reference/original-entries.plan",
+    "plan_sha256": "a5f1b84b7a83babbd447d32cf9a76cf4fa037e529269692bfe6ac29127e5c35d"
   }
 }

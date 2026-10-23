@@ -1,18 +1,18 @@
 {
-  "accepted_frontiers": 961,
-  "driver_functions": 868,
+  "accepted_frontiers": 963,
+  "driver_functions": 870,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 875,
-  "current_frontier": "_mangle_function_pointer_prefix@8",
-  "original_frontier_va": "0x439b0",
+  "reconstructed_source_functions": 877,
+  "current_frontier": "exit:0",
+  "original_frontier_va": null,
   "graceful_pause": {
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_mangle_function_pointer_prefix@8",
-    "original_va": "0x439b0"
+    "current_frontier": "exit:0",
+    "original_va": null
   },
-  "current_native_application_entries": 30,
+  "current_native_application_entries": 31,
   "active_queue": [
     "finish cpp_basic",
     "inheritance and virtual dispatch",
@@ -20,12 +20,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 250724,
+    "accepted_code_bytes": 250912,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 52.62689486963129,
-    "accepted_frontiers": 961,
-    "source_functions": 875,
-    "accepted_source_text_and_switch_bytes": 238879,
+    "accepted_code_percent": 52.666356015095985,
+    "accepted_frontiers": 963,
+    "source_functions": 877,
+    "accepted_source_text_and_switch_bytes": 239067,
     "section_ranges": [
       [
         94208,
@@ -62,12 +62,12 @@
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 250724,
+    "accepted_code_bytes": 250912,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 52.62689486963129,
-    "accepted_frontiers": 961,
-    "source_functions": 875,
-    "accepted_source_text_and_switch_bytes": 238879,
+    "accepted_code_percent": 52.666356015095985,
+    "accepted_frontiers": 963,
+    "source_functions": 877,
+    "accepted_source_text_and_switch_bytes": 239067,
     "section_ranges": [
       [
         94208,
@@ -103,10 +103,10 @@
       }
     ]
   },
-  "complete_frontend_case": false,
+  "complete_frontend_case": true,
   "active_case": "stack_lifetime",
-  "status": "stack_lifetime reconstruction in progress",
-  "latest_verification": "cases/frontiers/stack_lifetime/0960-finish_conditional_branch/validation.json",
+  "status": "stack_lifetime reconstruction complete",
+  "latest_verification": "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/validation.json",
   "cases": {
     "cpp_basic": {
       "status": "complete",
@@ -123,12 +123,12 @@
       "latest_verification": "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/validation.json"
     },
     "stack_lifetime": {
-      "status": "partial",
-      "frontier": "_mangle_function_pointer_prefix@8",
-      "latest_verification": "cases/frontiers/stack_lifetime/0960-finish_conditional_branch/validation.json"
+      "status": "complete",
+      "frontier": "exit:0",
+      "latest_verification": "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/validation.json"
     }
   },
-  "next_operation": "Continue _mangle_function_pointer_prefix@8 reconstruction",
+  "next_operation": "Seed the next approved C++ queue case",
   "latest_checkpoint_checks": "evidence/initializer-thunk-cache-checkpoint.json",
   "native_limitations": [
     {

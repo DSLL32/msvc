@@ -7,29 +7,9 @@
   "current": {
     "case": "stack_lifetime",
     "fixture": "../fixtures/c1xx-stack-lifetime",
-    "status": "active; initial original/native frontier exact",
-    "expected_destructor_order": [
-      3,
-      2,
-      1,
-      42,
-      41,
-      40,
-      6
-    ],
-    "expected_program_status": 0,
-    "seed": "cases/stack_lifetime-seed/validation.json"
+    "status": "complete; next reviewed allocation/deallocation case pending seed"
   },
   "pending": [
-    {
-      "family": "destruction and stack lifetime",
-      "intent": "Explicit destructors, nested automatic objects and return/scope cleanup",
-      "fixture": "../fixtures/c1xx-stack-lifetime",
-      "status": "active original/native seeded reconstruction",
-      "manifest": "../fixtures/c1xx-stack-lifetime/manifest.json",
-      "validation": "../fixtures/c1xx-stack-lifetime/validation.json",
-      "case": "stack_lifetime"
-    },
     {
       "family": "new/delete and overloaded operators",
       "intent": "Allocation/deallocation, class construction/destruction and supported operator overloads",
@@ -46,8 +26,8 @@
     "Do not assume newer C++ language features",
     "At each substantial case boundary, review newer verified committed lib/recon fixes with its maintainer and deliberately refresh the shared-build pin where applicable"
   ],
-  "completion": "cpp_basic, virtual_diamond and copy_assignment complete; continue reviewed lifetime then new/delete cases",
-  "next_case": "stack_lifetime",
+  "completion": "cpp_basic, virtual_diamond, copy_assignment and stack_lifetime complete; reviewed new/delete case next",
+  "next_case": "new_delete",
   "completed": [
     {
       "case": "cpp_basic",
@@ -74,6 +54,22 @@
       "validation": "../fixtures/c1xx-copy-assignment/validation.json",
       "case": "copy_assignment",
       "verification": "cases/frontiers/copy_assignment/0931-mangle_tag_name-8/validation.json"
+    },
+    {
+      "case": "stack_lifetime",
+      "family": "destruction and stack lifetime",
+      "fixture": "../fixtures/c1xx-stack-lifetime",
+      "status": "complete: exit0, four exact frontend artifacts and streams",
+      "verification": "cases/frontiers/stack_lifetime/0962-mangle_function_pointer_signature-8/validation.json",
+      "expected_destructor_order": [
+        3,
+        2,
+        1,
+        42,
+        41,
+        40,
+        6
+      ]
     }
   ],
   "after_selected_queue": {

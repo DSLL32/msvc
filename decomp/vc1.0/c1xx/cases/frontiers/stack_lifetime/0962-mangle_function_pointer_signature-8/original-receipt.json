@@ -1,0 +1,107 @@
+{
+  "case": "stack_lifetime",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 962,
+  "terminal": "exit:0",
+  "candidate": "_mangle_function_pointer_signature@8",
+  "pending_accepted": [],
+  "configuration_sha256": "3a9f4e93024e39c4958d3b3d6a770e94179ec98442cf5560a3a055b00c7db6b6",
+  "capture_seconds": 1.8191373031586409,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irex": {
+      "bytes": 2702,
+      "sha256": "f6d948cbc517c3566f13a1df9b2451054257df16f2bfbb18566ea1eb2808f838"
+    },
+    "irin": {
+      "bytes": 36,
+      "sha256": "e98ddae89eb4e1b96a3856c5b501c21d4a14c237cf4a3a95388d683b0da3b41b"
+    },
+    "lifetime.cpp": {
+      "bytes": 886,
+      "sha256": "84d31216f585ba33ed70036832830c1c7f912fa891f8a673664b7f15c1f41310"
+    },
+    "irgl": {
+      "bytes": 479,
+      "sha256": "2cebb29f1ed21fe211610ab5f527549d492847ec9bfa1feeea360d769db3e033"
+    },
+    "irsy": {
+      "bytes": 592,
+      "sha256": "9b65adedb5f6dae204b82477e7269995e2dc92d5606a20dd1bef2074acccd27e"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\stack-lifetime",
+  "first_entry_projection": {
+    "accepted_first": 932,
+    "accepted_last": 963,
+    "accepted_prefix_sha256": "33818aaa23b12ea058fd40f8d5db5f4295aeae4bd34ba19849c30b9a2b3c45ac",
+    "expected": [
+      "_evaluate_integer_constant@4",
+      "_check_static_initializer@8",
+      "_parameter_reference_type@4",
+      "_initialize_allocated_array@20",
+      "_has_trivial_class_constructor@4",
+      "_make_array_constructor_call@12",
+      "_make_array_constructor_address@4",
+      "_find_default_constructor@4",
+      "_default_constructor_candidate",
+      "_is_void_parameter_constructor@4",
+      "_make_constructor_access_probe@4",
+      "_make_vector_helper_call@20",
+      "_multiplication_overflows@16",
+      "_make_array_destructor_call@4",
+      "_make_vector_destructor_call@16",
+      "_make_array_destructor_address@4",
+      "_lookup_complete_object_destructor@4",
+      "_begin_while_condition",
+      "_begin_while_condition_region",
+      "_emit_conditional_branch@12",
+      "_push_loop_label@8",
+      "_begin_while_body",
+      "_end_while_condition_region",
+      "_clear_reference_cache@4",
+      "_validate_call_arguments@16",
+      "_cast_expression@8",
+      "_end_while_statement",
+      "_end_while_body",
+      "_finish_conditional_branch",
+      "_mangle_function_pointer_prefix@8",
+      "_mangle_function_pointer_signature@8"
+    ],
+    "observed": [
+      "_evaluate_integer_constant@4",
+      "_check_static_initializer@8",
+      "_parameter_reference_type@4",
+      "_initialize_allocated_array@20",
+      "_has_trivial_class_constructor@4",
+      "_make_array_constructor_call@12",
+      "_make_array_constructor_address@4",
+      "_find_default_constructor@4",
+      "_default_constructor_candidate",
+      "_is_void_parameter_constructor@4",
+      "_make_constructor_access_probe@4",
+      "_make_vector_helper_call@20",
+      "_multiplication_overflows@16",
+      "_make_array_destructor_call@4",
+      "_make_vector_destructor_call@16",
+      "_make_array_destructor_address@4",
+      "_lookup_complete_object_destructor@4",
+      "_begin_while_condition",
+      "_begin_while_condition_region",
+      "_emit_conditional_branch@12",
+      "_push_loop_label@8",
+      "_begin_while_body",
+      "_end_while_condition_region",
+      "_clear_reference_cache@4",
+      "_validate_call_arguments@16",
+      "_cast_expression@8",
+      "_end_while_statement",
+      "_end_while_body",
+      "_finish_conditional_branch",
+      "_mangle_function_pointer_prefix@8",
+      "_mangle_function_pointer_signature@8"
+    ],
+    "events_sha256": "9e35a24f4e53f4b7b0219bec08cb63897a7eca106f3d009663ffb919319a941f",
+    "plan_sha256": "a5f1b84b7a83babbd447d32cf9a76cf4fa037e529269692bfe6ac29127e5c35d"
+  }
+}

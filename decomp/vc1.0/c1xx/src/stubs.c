@@ -595,8 +595,6 @@ void write_ir_short(short *value) { __asm { int 3 } }
 void write_ir_float(float *value) { __asm { int 3 } }
 void write_ir_double(double *value) { __asm { int 3 } }
 
-char *__stdcall mangle_function_pointer_prefix(char *cursor, CType *type) { __asm { int 3 } return 0; }
-char *__stdcall mangle_function_pointer_signature(char *cursor, CType *type) { __asm { int 3 } return 0; }
 char *__stdcall mangle_array_type(char *cursor, CType *type) { __asm { int 3 } return 0; }
 
 IrToken *__stdcall retain_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }

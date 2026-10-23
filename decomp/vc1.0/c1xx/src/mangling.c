@@ -660,6 +660,41 @@ char *__stdcall mangle_table_scope_path(char *cursor, CppSymbol *symbol)
     return cursor;
 }
 
+/* Original 0x43a90..0x43abd, stdcall8. A function pointer's
+   stripped descriptor has the same convention, return and parameter encodings
+   as an ordinary function, followed by its common signature terminator. */
+char *__stdcall mangle_function_pointer_signature(char *cursor, CType *type)
+{
+    cursor = mangle_calling_convention(cursor, type->related);
+    cursor = mangle_type(cursor, type, 0);
+    cursor = mangle_parameter_types(cursor, type);
+    return mangle_function_terminator(cursor, type);
+}
+
+/* Original 0x439b0..0x43a3d, stdcall8. Function and member-function
+   pointers carry the distance/based form before their signature. A member
+   pointer also names its declaring class with a terminating scope separator. */
+char *__stdcall mangle_function_pointer_prefix(char *cursor, CType *type)
+{
+    TypeShape *shape = type->related;
+    unsigned short kind = shape->flags & 0x77;
+    unsigned char code = 0;
+    if (kind != 3 && kind != 0x20 && kind != 0x44) return cursor;
+    if (shape->attributes & 12) code = 4;
+    if (shape->flags & 0x20) code |= 2;
+    if (code < 4) *cursor++ = (char)(code + '6');
+    else {
+        *cursor++ = '_';
+        *cursor++ = (char)(code + 'A');
+    }
+    if (shape->flags & 0x20) {
+        cursor = mangle_symbol_scope(cursor, shape->data.tag_symbol);
+        *cursor++ = '@';
+    }
+    if (code & 4) return mangle_pointer_base(cursor, type);
+    return cursor;
+}
+
 /* Original 0x43ef0..0x43f51, stdcall8. Data pointers carry their
    qualifier prefix; function/member pointers carry a function prefix and
    the stripped function descriptor's full signature. */
