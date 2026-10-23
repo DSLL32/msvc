@@ -29,13 +29,13 @@
         "/Od",
         "minimal.cpp"
       ],
-      "status": "active; callbacks01\u201310, first two output constructors and cleanup registrar accepted; next third output constructor",
+      "status": "active; callbacks01\u201310, first three output constructors and cleanup registrar accepted; next callback11",
       "source_sha256": "deac66ccb79f6d31c0fa7d358de48e083c15c02ff50ec1ebd4b64314b9e6e196",
       "contract": "minimal/contract.json",
       "validation": "minimal/invoke-validation.json",
       "initializer_review": "minimal/initializer-review.json",
       "allocator_validation": "minimal/allocator-validation.json",
-      "output_validation": "minimal/output02-trials.json",
+      "output_validation": "minimal/output03-trials.json",
       "cleanup_validation": "minimal/registration-trials.json"
     },
     {

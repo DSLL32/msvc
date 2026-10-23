@@ -119,3 +119,10 @@ is represented. `cases/minimal/output02-trials.json` retains a natural pair
 and two explicitly auxiliary nonzero constructor/reset pairs. All18encountered
 output fields, two destructor registrations and both mode-dependent reset paths
 agree. Ten output and ten context divergence controls reject altered evidence.
+
+Schema8 adds the third output object at its independently observed storage.
+All27known output fields and three ordered cleanup registrations agree in the
+natural pair and both auxiliary nonzero reset modes. The packet is
+`cases/minimal/output03-trials.json`;375semantic BSS bytes and9native padding
+bytes are accounted separately. The common decoder still validates frozen
+first/second-object packets without changing or rerunning their raw evidence.

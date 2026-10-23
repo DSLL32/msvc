@@ -120,35 +120,25 @@ end
         allocation=output/'collect-allocation-entry.gdb'
         allocation.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'allocation-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'allocation-entry-argv.bin'))))
         observer+='break checked_malloc\ncommands\nsilent\nsource '+str(allocation)+'\ncontinue\nend\n'
-    if trial['trial'] in ('_initialize_output_buffer_01','_register_cleanup','_initialize_frontend_09','_initialize_output_buffer_02','_initialize_frontend_10'):
-        entry=output/'collect-constructor-entry.gdb'
-        entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'constructor-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'constructor-entry-argv.bin'))))
+    model=json.loads((output/'state-model.json').read_text())
+    for i in range(model.get('native_padding',{}).get('output_count',0)):
+        number=i+1;name='initialize_output_buffer_%02d'%number
+        stem='constructor-entry' if number==1 else 'constructor%02d-entry'%number
+        entry=output/('collect-'+stem+'.gdb')
+        entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/(stem+'.json')))).replace(repr(str(output/'native-argv.bin')),repr(str(output/(stem+'-argv.bin')))))
         change=''
-        if trial.get('test_constructor_seed') and trial['trial']=='_initialize_output_buffer_01':
+        if trial.get('test_constructor_seed') and trial['trial']=='_'+name:
             assignments={'data':'(unsigned char *)frontend_bss.saved_state','cursor':'(unsigned char *)frontend_bss.saved_state+4',
                 'capacity':'64','relocation':'(OutputRelocation)frontend_initializers[1]',
                 'relocation_context':'(unsigned char *)frontend_bss.saved_state+8','file':'(void *)((unsigned char *)frontend_bss.saved_state+12)',
                 'ok':'53','descriptor':'37','mode':'23'}
-            change=''.join('set variable frontend_bss.output_buffers[0].'+name+'='+expression+'\n' for name,expression in assignments.items())
-        observer+='break *initialize_output_buffer_01\ncommands\nsilent\n'+change+'source '+str(entry)+'\ncontinue\nend\n'
-    if trial['trial'] in ('_register_cleanup','_initialize_frontend_09','_initialize_output_buffer_02','_initialize_frontend_10'):
-        entry=output/'collect-registration-entry.gdb'
-        entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'registration-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'registration-entry-argv.bin'))))
-        observer+='break register_cleanup if frontend_bss.cleanup_count==0\ncommands\nsilent\nsource '+str(entry)+'\ncontinue\nend\n'
-    if trial['trial'] in ('_initialize_output_buffer_02','_initialize_frontend_10'):
-        entry=output/'collect-constructor02-entry.gdb'
-        entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'constructor02-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'constructor02-entry-argv.bin'))))
-        change=''
-        if trial.get('test_constructor_seed'):
-            assignments={'data':'(unsigned char *)frontend_bss.saved_state','cursor':'(unsigned char *)frontend_bss.saved_state+4',
-                'capacity':'64','relocation':'(OutputRelocation)frontend_initializers[1]',
-                'relocation_context':'(unsigned char *)frontend_bss.saved_state+8','file':'(void *)((unsigned char *)frontend_bss.saved_state+12)',
-                'ok':'53','descriptor':'37','mode':'23'}
-            change=''.join('set variable frontend_bss.output_buffers[1].'+name+'='+expression+'\n' for name,expression in assignments.items())
-        observer+='break *initialize_output_buffer_02\ncommands\nsilent\n'+change+'source '+str(entry)+'\ncontinue\nend\n'
-        registration=output/'collect-registration02-entry.gdb'
-        registration.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'registration02-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'registration02-entry-argv.bin'))))
-        observer+='break register_cleanup if frontend_bss.cleanup_count==1\ncommands\nsilent\nsource '+str(registration)+'\ncontinue\nend\n'
+            change=''.join('set variable frontend_bss.output_buffers[%d].'%i+field+'='+expression+'\n' for field,expression in assignments.items())
+        observer+='break *'+name+'\ncommands\nsilent\n'+change+'source '+str(entry)+'\ncontinue\nend\n'
+        if '_register_cleanup' in trial['accepted']:
+            stem='registration-entry' if number==1 else 'registration%02d-entry'%number
+            registration=output/('collect-'+stem+'.gdb')
+            registration.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/(stem+'.json')))).replace(repr(str(output/'native-argv.bin')),repr(str(output/(stem+'-argv.bin')))))
+            observer+='break register_cleanup if frontend_bss.cleanup_count==%d\ncommands\nsilent\nsource '%i+str(registration)+'\ncontinue\nend\n'
     if trial.get('validation_observers'):
         phase=output/'collect-phase.gdb'
         phase.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'phase.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'phase-argv.bin'))))
