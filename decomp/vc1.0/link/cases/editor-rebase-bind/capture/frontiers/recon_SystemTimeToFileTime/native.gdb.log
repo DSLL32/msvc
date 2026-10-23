@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x65d00: file ../../../lib/recon/src/win32.c, line 624.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, recon_SystemTimeToFileTime (input=0x565e7bec <editor_workspace>, output=0xffffd98f) at ../../../lib/recon/src/win32.c:624
+624	{
+NATIVE_MATCH recon_SystemTimeToFileTime
+0xffffd1ec:	0x5656a76d	0xffffd220	0xffffd218	0x00000004
+0xffffd1fc:	0x566106a0	0x56610650
+#0  recon_SystemTimeToFileTime (input=0x565e7bec <editor_workspace>, output=0xffffd98f) at ../../../lib/recon/src/win32.c:624
+#1  0x5656a76d in bind_imports (image=0x565e7bec <editor_workspace>) at src/editor-bind.c:210
+#2  0x56569d47 in bind_main (argc=1, argv=0x56610640, environment=0x0) at src/editor-bind.c:59
+#3  0x56567dd1 in editor_main (argc=3, argv=0xffffd774) at src/editor.c:93
+#4  0x56559e8d in main (argc=3, argv=0xffffd774) at src/link.c:72

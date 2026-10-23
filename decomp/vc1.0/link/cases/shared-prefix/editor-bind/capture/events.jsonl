@@ -1,0 +1,9 @@
+{"event":"create","pid":1216,"parent":500,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -edit /bind:path=. client.exe"}
+{"event":"entry","pid":1216,"rva":257376,"name":"bind_main","crt_errno":0}
+{"event":"entry","pid":1216,"rva":260224,"name":"map_bind_image","crt_errno":0}
+{"event":"entry","pid":1216,"rva":259392,"name":"bind_imports","crt_errno":0}
+{"event":"entry","pid":1216,"rva":259168,"name":"mapped_bound_rva","crt_errno":0}
+{"event":"entry","pid":1216,"rva":258928,"name":"load_bind_image","crt_errno":0}
+{"event":"entry","pid":1216,"rva":258160,"name":"resolve_bound_import","crt_errno":0}
+{"event":"exit","pid":1216,"code":0,"packer":0}
+{"event":"summary","root_exit":0,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

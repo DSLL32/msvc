@@ -1,0 +1,82 @@
+{
+  "status": "pass",
+  "runs": [
+    {
+      "command": [
+        "wine",
+        "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+        "-link",
+        "/nologo",
+        "/dll",
+        "/entry:DllMain",
+        "/base:0x600000",
+        "/out:provider.dll",
+        "/implib:provider.lib",
+        "/nodefaultlib",
+        "provider.obj"
+      ],
+      "cwd": "S:\\vc1.0\\link\\editor-rebase-bind-mapped-build",
+      "environment": {
+        "LIB": "R:\\toolchains\\1.0-nt\\lib",
+        "LINK32_DB": null
+      },
+      "exit": 0,
+      "seconds": 1.6817780630663037
+    },
+    {
+      "command": [
+        "wine",
+        "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+        "-link",
+        "/nologo",
+        "/entry:main",
+        "/subsystem:console",
+        "/base:0x400000",
+        "/out:client.exe",
+        "/nodefaultlib",
+        "client.obj",
+        "provider.lib"
+      ],
+      "cwd": "S:\\vc1.0\\link\\editor-rebase-bind-mapped-build",
+      "environment": {
+        "LIB": "R:\\toolchains\\1.0-nt\\lib",
+        "LINK32_DB": null
+      },
+      "exit": 0,
+      "seconds": 1.1169658936560154
+    }
+  ],
+  "inputs_reused_from_original_CL": "setup.json",
+  "outputs": [
+    {
+      "name": "provider.exp",
+      "bytes": 2097152,
+      "sha256": "2fd69d7d06b62d7cfce009ee0349523fbb553c9101e64626ca48a0eb98eb1711"
+    },
+    {
+      "name": "provider.dll",
+      "bytes": 2097152,
+      "sha256": "30e5323dc6e29e6fc9286e1e48ee25bf0d025b85528773ceb32e5fd1b5346d1d"
+    },
+    {
+      "name": "client.obj",
+      "bytes": 622,
+      "sha256": "0ad691a3fa6a3fd4f8c632b956433fc325be48c7c0537feb5058cfdc80ea371b"
+    },
+    {
+      "name": "provider.obj",
+      "bytes": 884,
+      "sha256": "ab30d7526183fa12d9c11500c886d4db5f4006ebda19d6ebadb86e1707788945"
+    },
+    {
+      "name": "client.exe",
+      "bytes": 2097152,
+      "sha256": "2c92f7b485af6f6c475315024749fe605a123402c1e5687ab609a24816c2783a"
+    },
+    {
+      "name": "provider.lib",
+      "bytes": 2097152,
+      "sha256": "995ef641232634fb7b0bff514b87098f551e8a8d8500ef50d14fe003e7348297"
+    }
+  ]
+}

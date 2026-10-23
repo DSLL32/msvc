@@ -1,0 +1,3 @@
+{"event":"create","pid":992,"parent":1732,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -edit /rebase:base=0x500000 client.exe"}
+{"event":"context","pid":992,"eip":329793,"esp":2750836,"eax":1048576,"ecx":2750872,"edx":0,"stack":[322552,0,9175040,1048576,9177620,2750976,447600,2,328697,9175040,2097152,2750916,2750912,4,5,98,1,0,9175168,72,0,327085,447600,5242880],"crt_errno":0}
+{"event":"summary","root_exit":999,"failed":10,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

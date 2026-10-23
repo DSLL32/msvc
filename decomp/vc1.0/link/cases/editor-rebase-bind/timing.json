@@ -1,0 +1,477 @@
+{
+  "scope": "Measured execution/checkpoints only; analysis/source recovery walltime unmeasured.",
+  "before_output_only": {
+    "receipt": "cases/editor-rebase-bind/native-before-oracle.json",
+    "cases": [
+      {
+        "case": "editor-rebase",
+        "setup_seconds": 0.040460522286593914,
+        "execution_seconds": 0.014198733493685722,
+        "oracle_seconds": 1.8339026467874646,
+        "total_seconds": 1.8889313880354166
+      },
+      {
+        "case": "editor-bind",
+        "setup_seconds": 1.8321549240499735,
+        "execution_seconds": 0.011476066894829273,
+        "oracle_seconds": 1.8408705154433846,
+        "total_seconds": 3.684834450483322
+      },
+      {
+        "case": "editor-release",
+        "setup_seconds": 1.8286002343520522,
+        "execution_seconds": 0.01094017643481493,
+        "oracle_seconds": 1.8220664532855153,
+        "total_seconds": 3.6619452191516757
+      }
+    ],
+    "internal_seconds": 9.236713977530599,
+    "external_seconds": "unmeasured; original invocation was not externally timed"
+  },
+  "after_output_only": {
+    "receipt": "cases/editor-rebase-bind/native-after-oracle.json",
+    "cases": [
+      {
+        "case": "editor-rebase",
+        "setup_seconds": 0.039944034069776535,
+        "execution_seconds": 0.03174497466534376,
+        "oracle_seconds": 0.12877254094928503,
+        "total_seconds": 0.2008276153355837
+      },
+      {
+        "case": "editor-bind",
+        "setup_seconds": 0.1457444503903389,
+        "execution_seconds": 0.010346399620175362,
+        "oracle_seconds": 0.1319459667429328,
+        "total_seconds": 0.288374881260097
+      },
+      {
+        "case": "editor-release",
+        "setup_seconds": 0.14407127909362316,
+        "execution_seconds": 0.011177465319633484,
+        "oracle_seconds": 0.12901956122368574,
+        "total_seconds": 0.2846037382259965
+      },
+      {
+        "case": "editor-release-compact",
+        "setup_seconds": 0.011213668622076511,
+        "execution_seconds": 0.0017992239445447922,
+        "oracle_seconds": 0.08139194454997778,
+        "total_seconds": 0.0946896430104971
+      }
+    ],
+    "internal_seconds": 0.8695340929552913,
+    "external": {
+      "status": 0,
+      "seconds": 0.9519529603421688,
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--case",
+        "editor-release",
+        "--case",
+        "editor-release-compact"
+      ]
+    }
+  },
+  "compact_before_output_only": {
+    "receipt": "cases/editor-rebase-bind/compact-before-oracle.json",
+    "case": {
+      "case": "editor-release-compact",
+      "setup_seconds": 0.011365845799446106,
+      "execution_seconds": 0.0023359516635537148,
+      "oracle_seconds": 1.1753986245021224,
+      "total_seconds": 1.189400083385408
+    }
+  },
+  "after_trace_suite": {
+    "receipt": "cases/editor-rebase-bind/native-final.json",
+    "external": {
+      "stage": "suite",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace"
+      ],
+      "seconds": 3.467288877815008,
+      "status": 0
+    },
+    "internal_seconds": 3.2104111295193434,
+    "trace_prepare_seconds": 0.16206379234790802,
+    "new_cases": [
+      {
+        "case": "editor-rebase",
+        "setup_seconds": 0.04030585289001465,
+        "execution_seconds": 0.06036579702049494,
+        "oracle_seconds": 0.12824911437928677,
+        "trace_check_seconds": 0.00011385977268218994,
+        "total_seconds": 0.229533432982862
+      },
+      {
+        "case": "editor-bind",
+        "setup_seconds": 0.14458936732262373,
+        "execution_seconds": 0.012351258657872677,
+        "oracle_seconds": 0.12954186834394932,
+        "trace_check_seconds": 0.00010344944894313812,
+        "total_seconds": 0.28692594822496176
+      },
+      {
+        "case": "editor-release",
+        "setup_seconds": 0.14483393263071775,
+        "execution_seconds": 0.012108499184250832,
+        "oracle_seconds": 0.12783782184123993,
+        "trace_check_seconds": 8.885469287633896e-05,
+        "total_seconds": 0.2851978661492467
+      },
+      {
+        "case": "editor-release-compact",
+        "setup_seconds": 0.011514123529195786,
+        "execution_seconds": 0.0038533583283424377,
+        "oracle_seconds": 0.08426160737872124,
+        "trace_check_seconds": 8.819717913866043e-05,
+        "total_seconds": 0.10004466399550438
+      }
+    ]
+  },
+  "checksum_scalar_array_comparison": "cases/editor-rebase-bind/checksum-oracle-validation.json",
+  "dominant_cost": "Before, scalar Python rawchecksum/normalization consumed~1.83s/stage and preceding-input validation another~1.83s in bind/release setup. DirectELF10\u201314ms; noGDBinfixture. Array sums are mathematically equivalent independent oracle (~8\u201310ms vs~286\u2013300ms per2MB call); positive/rawchecksum and compactdefect checks unchanged.",
+  "fresh_original_entry_segments": [
+    {
+      "case": "editor-rebase",
+      "receipt": "cases/shared-prefix/editor-rebase/capture/receipt.json",
+      "receipt_sha256": "491375f50100e1db824712657ef49a0bf4609b6846a6b0c34ef9e9e74a2392df",
+      "execution_seconds": 1.2131678769364953,
+      "total_seconds": 1.384437195956707,
+      "entries": [
+        "rebase_main",
+        "map_rebase_image",
+        "relocate_rebase_image",
+        "mapped_image_directory",
+        "mapped_image_headers",
+        "mapped_rebase_rva",
+        "checksum_mapped_image",
+        "checksum_words"
+      ],
+      "terminal": {
+        "event": "summary",
+        "root_exit": 0,
+        "failed": 0,
+        "packers": 0,
+        "packer_stdout_start": 0,
+        "packer_stdout_end": 0,
+        "packer_stderr_start": 0,
+        "packer_stderr_end": 0
+      }
+    },
+    {
+      "case": "editor-bind",
+      "receipt": "cases/shared-prefix/editor-bind/capture/receipt.json",
+      "receipt_sha256": "21440e995d0d441f4771a308f05f8033fe77225375700b373be8f4f4d616219b",
+      "execution_seconds": 1.423875774256885,
+      "total_seconds": 1.605678747408092,
+      "entries": [
+        "bind_main",
+        "map_bind_image",
+        "bind_imports",
+        "mapped_bound_rva",
+        "load_bind_image",
+        "resolve_bound_import"
+      ],
+      "terminal": {
+        "event": "summary",
+        "root_exit": 0,
+        "failed": 0,
+        "packers": 0,
+        "packer_stdout_start": 0,
+        "packer_stdout_end": 0,
+        "packer_stderr_start": 0,
+        "packer_stderr_end": 0
+      }
+    },
+    {
+      "case": "editor-release",
+      "receipt": "cases/shared-prefix/editor-release/capture/receipt.json",
+      "receipt_sha256": "712a72ec40f2b432adfe6cf36e0d41518c90433dc0bb036532efdb14e45e6be7",
+      "execution_seconds": 1.6097489958629012,
+      "total_seconds": 1.7776872906833887,
+      "entries": [],
+      "terminal": {
+        "event": "summary",
+        "root_exit": 0,
+        "failed": 0,
+        "packers": 0,
+        "packer_stdout_start": 0,
+        "packer_stdout_end": 0,
+        "packer_stderr_start": 0,
+        "packer_stderr_end": 0
+      }
+    },
+    {
+      "case": "editor-release-compact",
+      "receipt": "cases/shared-prefix/editor-release-compact/capture/receipt.json",
+      "receipt_sha256": "6711b7fdddcc6da5777963f51c5b7f20ad1b022f6cac9028c3d56ef7f06f0244",
+      "execution_seconds": 1.752878101542592,
+      "total_seconds": 1.8955737687647343,
+      "entries": [],
+      "terminal": {
+        "event": "summary",
+        "root_exit": 0,
+        "failed": 0,
+        "packers": 0,
+        "packer_stdout_start": 0,
+        "packer_stdout_end": 0,
+        "packer_stderr_start": 0,
+        "packer_stderr_end": 0
+      }
+    }
+  ],
+  "per_frontier_parallel_seconds": 37.403542968444526,
+  "per_frontier_note": "Parallel originalmasked/nativeGDB acceptance, separately from fixtures/builds; strtoxl is proved at publicCRTboundary rather than nativehelper.",
+  "native_api_gdb_seconds": 0.23169039748609066,
+  "native_api_gdb_receipt": "cases/editor-rebase-bind/capture/native-bind-apis/receipt.json",
+  "builds": [
+    {
+      "status": 0,
+      "seconds": 7.834950271062553,
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "all",
+        "audit"
+      ]
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace"
+      ],
+      "seconds": 6.473037496209145,
+      "status": 0
+    },
+    {
+      "status": 0,
+      "seconds": 3.9788474859669805,
+      "command": [
+        "make",
+        "-j4",
+        "native"
+      ]
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "all",
+        "audit"
+      ],
+      "seconds": 0.9892532313242555,
+      "status": 2
+    },
+    {
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "audit"
+      ],
+      "seconds": 25.81482708733529,
+      "status": 0
+    }
+  ],
+  "unmeasured": [
+    "Negative host guards without explicit stopwatch",
+    "Failed builds/captures without a durable timing file",
+    "Overall interactive analysis/source-recovery elapsed time"
+  ],
+  "original_setup_builds": {
+    "compile_and_compact_setup": [
+      {
+        "command": [
+          "wine",
+          "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+          "/nologo",
+          "/c",
+          "/O2",
+          "/G5",
+          "provider.c",
+          "client.c"
+        ],
+        "cwd": "S:\\vc1.0\\link\\editor-rebase-bind-build",
+        "environment": {
+          "LIB": "R:\\toolchains\\1.0-nt\\lib",
+          "LINK32_DB": "27"
+        },
+        "exit": 0,
+        "seconds": 3.360811984166503
+      },
+      {
+        "command": [
+          "wine",
+          "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+          "-link",
+          "/nologo",
+          "/dll",
+          "/entry:DllMain",
+          "/base:0x600000",
+          "/out:provider.dll",
+          "/implib:provider.lib",
+          "/nodefaultlib",
+          "provider.obj"
+        ],
+        "cwd": "S:\\vc1.0\\link\\editor-rebase-bind-build",
+        "environment": {
+          "LIB": "R:\\toolchains\\1.0-nt\\lib",
+          "LINK32_DB": "27"
+        },
+        "exit": 0,
+        "seconds": 1.78476401604712
+      },
+      {
+        "command": [
+          "wine",
+          "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+          "-link",
+          "/nologo",
+          "/entry:main",
+          "/subsystem:console",
+          "/base:0x400000",
+          "/out:client.exe",
+          "/nodefaultlib",
+          "client.obj",
+          "provider.lib"
+        ],
+        "cwd": "S:\\vc1.0\\link\\editor-rebase-bind-build",
+        "environment": {
+          "LIB": "R:\\toolchains\\1.0-nt\\lib",
+          "LINK32_DB": "27"
+        },
+        "exit": 0,
+        "seconds": 1.2963226614519954
+      }
+    ],
+    "mapped_setup": [
+      {
+        "command": [
+          "wine",
+          "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+          "-link",
+          "/nologo",
+          "/dll",
+          "/entry:DllMain",
+          "/base:0x600000",
+          "/out:provider.dll",
+          "/implib:provider.lib",
+          "/nodefaultlib",
+          "provider.obj"
+        ],
+        "cwd": "S:\\vc1.0\\link\\editor-rebase-bind-mapped-build",
+        "environment": {
+          "LIB": "R:\\toolchains\\1.0-nt\\lib",
+          "LINK32_DB": null
+        },
+        "exit": 0,
+        "seconds": 1.6817780630663037
+      },
+      {
+        "command": [
+          "wine",
+          "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+          "-link",
+          "/nologo",
+          "/entry:main",
+          "/subsystem:console",
+          "/base:0x400000",
+          "/out:client.exe",
+          "/nodefaultlib",
+          "client.obj",
+          "provider.lib"
+        ],
+        "cwd": "S:\\vc1.0\\link\\editor-rebase-bind-mapped-build",
+        "environment": {
+          "LIB": "R:\\toolchains\\1.0-nt\\lib",
+          "LINK32_DB": null
+        },
+        "exit": 0,
+        "seconds": 1.1169658936560154
+      }
+    ]
+  },
+  "canonical_after_main": {
+    "command": [
+      "make",
+      "-j4",
+      "all",
+      "audit"
+    ],
+    "seconds": 25.81482708733529,
+    "status": 0
+  },
+  "initial_trace_suite": {
+    "receipt": "cases/editor-rebase-bind/native-initial-final.json",
+    "external": {
+      "status": 0,
+      "seconds": 3.5252740615978837,
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace"
+      ]
+    },
+    "internal_seconds": 3.2649006145074964,
+    "trace_prepare_seconds": 0.1649537794291973,
+    "new_cases": [
+      {
+        "case": "editor-rebase",
+        "setup_seconds": 0.04154743254184723,
+        "execution_seconds": 0.061043196357786655,
+        "oracle_seconds": 0.13098990079015493,
+        "trace_check_seconds": 0.00011929962784051895,
+        "total_seconds": 0.23418481647968292
+      },
+      {
+        "case": "editor-bind",
+        "setup_seconds": 0.14699316024780273,
+        "execution_seconds": 0.012659321539103985,
+        "oracle_seconds": 0.13143013510853052,
+        "trace_check_seconds": 0.00011261086910963058,
+        "total_seconds": 0.29154676012694836
+      },
+      {
+        "case": "editor-release",
+        "setup_seconds": 0.1459423005580902,
+        "execution_seconds": 0.012766668573021889,
+        "oracle_seconds": 0.13038218580186367,
+        "trace_check_seconds": 9.726732969284058e-05,
+        "total_seconds": 0.2895256457850337
+      },
+      {
+        "case": "editor-release-compact",
+        "setup_seconds": 0.012502850964665413,
+        "execution_seconds": 0.004139292053878307,
+        "oracle_seconds": 0.08226005174219608,
+        "trace_check_seconds": 9.245052933692932e-05,
+        "total_seconds": 0.0993242310360074
+      }
+    ]
+  },
+  "final_frozen_build": {
+    "stage": "build",
+    "command": [
+      "make",
+      "-j4",
+      "all",
+      "audit",
+      "native",
+      "native-trace"
+    ],
+    "seconds": 29.37230448331684,
+    "status": 0
+  },
+  "source_snapshot": "cases/editor-rebase-bind/build-source-snapshot.json",
+  "dependency_rebuild_reason": "Shared defaultC/standard-descriptor/multibyte support changed after initial build. Final before/after source hashes held identical during29.372s build+3.467s44-case run; maintainer held mutation then released. Not a timing-only repetition."
+}

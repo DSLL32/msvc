@@ -741,7 +741,8 @@
     "start": 343904,
     "end": 344496,
     "object": "convert\\obj\\i386\\STRTOL.OBJ",
-    "library": "LIBC.LIB"
+    "library": "LIBC.LIB",
+    "evidence": "byte-exact shipped STRTOL.OBJ, relocation targets verified; native correspondence at public strtoul only, explicit nonempty base16/input/result/end-pointer/errno inventory in cases/editor-rebase-bind/capture/strtoul-boundary"
   },
   {
     "name": "_strtol",
@@ -755,7 +756,8 @@
     "start": 344528,
     "end": 344560,
     "object": "convert\\obj\\i386\\STRTOL.OBJ",
-    "library": "LIBC.LIB"
+    "library": "LIBC.LIB",
+    "evidence": "byte-exact shipped STRTOL.OBJ, relocation targets verified; native correspondence at public strtoul only, explicit nonempty base16/input/result/end-pointer/errno inventory in cases/editor-rebase-bind/capture/strtoul-boundary"
   },
   {
     "name": "_strstr",

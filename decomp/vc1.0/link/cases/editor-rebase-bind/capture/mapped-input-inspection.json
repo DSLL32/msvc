@@ -1,0 +1,136 @@
+{
+  "client.exe": {
+    "bytes": 2097152,
+    "image_base": 4194304,
+    "timestamp": 1792757835,
+    "checksum": 0,
+    "independently_computed_checksum": 2143557,
+    "stack_reserve": 1048576,
+    "stack_commit": 4096,
+    "relocations": [
+      {
+        "type": 3,
+        "rva": 4097,
+        "file_offset": 1025,
+        "value": 4206640
+      },
+      {
+        "type": 3,
+        "rva": 4105,
+        "file_offset": 1033,
+        "value": 4202500
+      },
+      {
+        "type": 3,
+        "rva": 8196,
+        "file_offset": 1540,
+        "value": 4202496
+      }
+    ],
+    "imports": [
+      {
+        "dll": "provider.dll",
+        "names": [
+          "imported_value"
+        ],
+        "iat_values": [
+          12358
+        ],
+        "timestamp": 0,
+        "forwarder_chain": 0
+      }
+    ],
+    "exports": [],
+    "sections": [
+      {
+        "name": ".text",
+        "virtual_size": 16,
+        "rva": 4096,
+        "size": 512,
+        "offset": 1024
+      },
+      {
+        "name": ".data",
+        "virtual_size": 8,
+        "rva": 8192,
+        "size": 512,
+        "offset": 1536
+      },
+      {
+        "name": ".idata",
+        "virtual_size": 88,
+        "rva": 12288,
+        "size": 512,
+        "offset": 2048
+      },
+      {
+        "name": ".reloc",
+        "virtual_size": 58,
+        "rva": 16384,
+        "size": 512,
+        "offset": 2560
+      }
+    ]
+  },
+  "provider.dll": {
+    "bytes": 2097152,
+    "image_base": 6291456,
+    "timestamp": 1792757834,
+    "checksum": 0,
+    "independently_computed_checksum": 2152974,
+    "stack_reserve": 1048576,
+    "stack_commit": 4096,
+    "relocations": [
+      {
+        "type": 3,
+        "rva": 4097,
+        "file_offset": 1025,
+        "value": 6299652
+      },
+      {
+        "type": 3,
+        "rva": 8196,
+        "file_offset": 1540,
+        "value": 6299648
+      }
+    ],
+    "imports": [],
+    "exports": [
+      {
+        "name": "imported_value",
+        "rva": 4096,
+        "ordinal": 1
+      }
+    ],
+    "sections": [
+      {
+        "name": ".text",
+        "virtual_size": 32,
+        "rva": 4096,
+        "size": 512,
+        "offset": 1024
+      },
+      {
+        "name": ".data",
+        "virtual_size": 8,
+        "rva": 8192,
+        "size": 512,
+        "offset": 1536
+      },
+      {
+        "name": ".edata",
+        "virtual_size": 78,
+        "rva": 12288,
+        "size": 512,
+        "offset": 2048
+      },
+      {
+        "name": ".reloc",
+        "virtual_size": 54,
+        "rva": 16384,
+        "size": 512,
+        "offset": 2560
+      }
+    ]
+  }
+}

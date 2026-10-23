@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x55de0: file src/link-pass-stubs.c, line 33.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, checksum_mapped_image (image=0x565e3be4 <rebase_workspace>, size=5242880, previous=0xffffd17c, checksum=0xffffd28c) at src/link-pass-stubs.c:33
+33	PIMAGE_NT_HEADERS checksum_mapped_image(void *image,unsigned long size,unsigned long *previous,unsigned long *checksum) { __asm { int 3 } return 0; }
+NATIVE_MATCH checksum_mapped_image
+0xffffd0fc:	0x56569494	0xf7b6d000	0x00200000	0xffffd12c
+0xffffd10c:	0xffffd128	0x5660b520
+#0  checksum_mapped_image (image=0x565e3be4 <rebase_workspace>, size=5242880, previous=0xffffd17c, checksum=0xffffd28c) at src/link-pass-stubs.c:33
+#1  0x56569494 in relocate_rebase_image (image=0x565e3be4 <rebase_workspace>, base=5242880, delta=0xffffd17c) at src/editor-rebase.c:232
+#2  0x56568b1f in rebase_main (argc=1, argv=0x5660c64c, environment=0x0) at src/editor-rebase.c:97
+#3  0x56567986 in editor_main (argc=3, argv=0xffffd774) at src/editor.c:71
+#4  0x56559e6d in main (argc=3, argv=0xffffd774) at src/link.c:72

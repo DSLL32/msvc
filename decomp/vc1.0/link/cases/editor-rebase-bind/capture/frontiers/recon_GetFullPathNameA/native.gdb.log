@@ -1,0 +1,13 @@
+Breakpoint 1 at 0x64350: file ../../../lib/recon/src/win32.c, line 746.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, recon_GetFullPathNameA (name=0x1 <error: Cannot access memory at address 0x1>, capacity=1449178700, output=0x0, basename=0xf7ffdbf0) at ../../../lib/recon/src/win32.c:746
+746	{
+NATIVE_MATCH recon_GetFullPathNameA
+0xffffd14c:	0x56568a00	0xffffd984	0x00000104	0xffffd180
+0xffffd15c:	0xffffd28c	0x00000003
+#0  recon_GetFullPathNameA (name=0x1 <error: Cannot access memory at address 0x1>, capacity=1449178700, output=0x0, basename=0xf7ffdbf0) at ../../../lib/recon/src/win32.c:746
+#1  0x56568a00 in rebase_main (argc=1, argv=0x5660b64c, environment=0x0) at src/editor-rebase.c:87
+#2  0x56567976 in editor_main (argc=3, argv=0xffffd774) at src/editor.c:71
+#3  0x56559e5d in main (argc=3, argv=0xffffd774) at src/link.c:72

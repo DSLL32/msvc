@@ -1,0 +1,6 @@
+{
+  "status": "Valid original behavior with logical-size checksum/physical-growth defect; explicit regression variant",
+  "reason": "Original mapped EDIT extends buffered3072-byte input to2MB while retaining checksum derived from logical3072. Preserve complete physical output bytes; independently require stored checksum over3072 and explicit mismatch against full2MB. No padding/checksum normalization.",
+  "original_input_transport": "Original setup explicitly used LINK32_DB27; raw input paths in historical receipts are unchanged provenance, owned retained input bytes are now below this directory.",
+  "reclassification": "Initial probe was excluded from positive whole-file-checksum claim. Its valid original defect is now checked separately; raw captures/inputs unchanged."
+}

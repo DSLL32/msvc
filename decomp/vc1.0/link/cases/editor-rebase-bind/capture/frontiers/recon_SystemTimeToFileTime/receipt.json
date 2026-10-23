@@ -1,0 +1,59 @@
+{
+  "status": "pass",
+  "logical": "recon_SystemTimeToFileTime",
+  "original_address": "0x5b1dc",
+  "original_directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/editor-bind/masked-rnmsn7cj",
+  "native_directory": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/editor-bind-recon_SystemTimeToFileTime-1_a64rtb",
+  "native_context": {
+    "event": "context",
+    "pid": 488,
+    "eip": 373213,
+    "esp": 2751080,
+    "eax": 2751128,
+    "ecx": 2751088,
+    "edx": 1703961,
+    "stack": [
+      325690,
+      2751128,
+      2751144,
+      2897883,
+      8061016,
+      8198112,
+      2752156,
+      339284,
+      497480,
+      4294967295,
+      2751216,
+      0,
+      657386,
+      1507333,
+      1638413,
+      56754202,
+      776,
+      2897872,
+      78,
+      88,
+      4294967295,
+      4,
+      9177092,
+      2751092
+    ],
+    "crt_errno": 0
+  },
+  "seconds": 1.4983718674629927,
+  "parallel_sides": true,
+  "partial_streams_exact": true,
+  "typed_rom_fixups": null,
+  "caller_edge": {
+    "caller": "bind_imports",
+    "original_caller_extent": [
+      324928,
+      325760
+    ],
+    "original_return": 325690,
+    "original_call": 325685,
+    "callee": 373212,
+    "reviewed_earlier_callers": [],
+    "observed_earlier_callers": []
+  }
+}

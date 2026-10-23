@@ -1,0 +1,7 @@
+Breakpoint 1 at 0x4370
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, 0xf7dbdd80 in strtoul () from /lib/i386-linux-gnu/libc.so.6
+0x565687b8 in rebase_main (argc=2, argv=0x5660b5f8, environment=0x0) at src/editor-rebase.c:50
+50	                    rebase_initial_base=strtoul(*++argv,&end,16);

@@ -1,0 +1,59 @@
+{
+  "status": "pass",
+  "logical": "recon_LocalFree",
+  "original_address": "0x5b1c4",
+  "original_directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/editor-bind/masked-l1c79yd5",
+  "native_directory": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/editor-bind-recon_LocalFree-mrfui5db",
+  "native_context": {
+    "event": "context",
+    "pid": 1936,
+    "eip": 373189,
+    "esp": 2751084,
+    "eax": 2900240,
+    "ecx": 2751076,
+    "edx": 1265,
+    "stack": [
+      325723,
+      2900240,
+      2897883,
+      8061016,
+      8198112,
+      2752156,
+      339284,
+      497480,
+      4294967295,
+      2751216,
+      0,
+      657386,
+      1507333,
+      1703949,
+      851968,
+      187539408,
+      31286002,
+      78,
+      88,
+      4294967295,
+      4,
+      9177092,
+      2751092,
+      9177088
+    ],
+    "crt_errno": 0
+  },
+  "seconds": 1.7437013061717153,
+  "parallel_sides": true,
+  "partial_streams_exact": true,
+  "typed_rom_fixups": null,
+  "caller_edge": {
+    "caller": "bind_imports",
+    "original_caller_extent": [
+      324928,
+      325760
+    ],
+    "original_return": 325723,
+    "original_call": 325718,
+    "callee": 373188,
+    "reviewed_earlier_callers": [],
+    "observed_earlier_callers": []
+  }
+}

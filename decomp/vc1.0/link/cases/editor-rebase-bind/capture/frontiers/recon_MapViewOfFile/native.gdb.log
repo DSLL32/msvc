@@ -1,0 +1,16 @@
+Breakpoint 1 at 0x62d10: file ../../../lib/recon/src/win32.c, line 454.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+NATIVE_REVIEWED_EARLIER map_file
+NATIVE_REVIEWED_EARLIER map_file
+
+Breakpoint 1, recon_MapViewOfFile (handle=0xffffd990, access=1449012188, high=0, low=4294955676, bytes=3) at ../../../lib/recon/src/win32.c:454
+454	{
+NATIVE_MATCH recon_MapViewOfFile
+0xffffd11c:	0x56569089	0x5660a510	0x00000002	0x00000000
+0xffffd12c:	0x00000000	0x00000000
+#0  recon_MapViewOfFile (handle=0xffffd990, access=1449012188, high=0, low=4294955676, bytes=3) at ../../../lib/recon/src/win32.c:454
+#1  0x56569089 in map_rebase_image (name=0xffffd990 "client.exe", image=0x565e2bdc <rebase_workspace>, read_only=0) at src/editor-rebase.c:157
+#2  0x56568a5f in rebase_main (argc=1, argv=0x5660b63c, environment=0x0) at src/editor-rebase.c:91
+#3  0x56567976 in editor_main (argc=3, argv=0xffffd784) at src/editor.c:71
+#4  0x56559e5d in main (argc=3, argv=0xffffd784) at src/link.c:72

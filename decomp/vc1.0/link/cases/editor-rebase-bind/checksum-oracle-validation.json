@@ -1,0 +1,230 @@
+{
+  "status": "pass",
+  "bounded": [
+    {
+      "bytes": 512,
+      "kind": "zero",
+      "checksum": 881
+    },
+    {
+      "bytes": 512,
+      "kind": "carry",
+      "checksum": 881
+    },
+    {
+      "bytes": 512,
+      "kind": "random",
+      "checksum": 881
+    },
+    {
+      "bytes": 513,
+      "kind": "zero",
+      "checksum": 882
+    },
+    {
+      "bytes": 513,
+      "kind": "carry",
+      "checksum": 1137
+    },
+    {
+      "bytes": 513,
+      "kind": "random",
+      "checksum": 1007
+    },
+    {
+      "bytes": 514,
+      "kind": "zero",
+      "checksum": 883
+    },
+    {
+      "bytes": 514,
+      "kind": "carry",
+      "checksum": 883
+    },
+    {
+      "bytes": 514,
+      "kind": "random",
+      "checksum": 21221
+    },
+    {
+      "bytes": 515,
+      "kind": "zero",
+      "checksum": 884
+    },
+    {
+      "bytes": 515,
+      "kind": "carry",
+      "checksum": 1139
+    },
+    {
+      "bytes": 515,
+      "kind": "random",
+      "checksum": 44145
+    },
+    {
+      "bytes": 1023,
+      "kind": "zero",
+      "checksum": 1392
+    },
+    {
+      "bytes": 1023,
+      "kind": "carry",
+      "checksum": 1647
+    },
+    {
+      "bytes": 1023,
+      "kind": "random",
+      "checksum": 8090
+    },
+    {
+      "bytes": 1024,
+      "kind": "zero",
+      "checksum": 1393
+    },
+    {
+      "bytes": 1024,
+      "kind": "carry",
+      "checksum": 1393
+    },
+    {
+      "bytes": 1024,
+      "kind": "random",
+      "checksum": 62045
+    },
+    {
+      "bytes": 3071,
+      "kind": "zero",
+      "checksum": 3440
+    },
+    {
+      "bytes": 3071,
+      "kind": "carry",
+      "checksum": 3695
+    },
+    {
+      "bytes": 3071,
+      "kind": "random",
+      "checksum": 42069
+    },
+    {
+      "bytes": 3072,
+      "kind": "zero",
+      "checksum": 3441
+    },
+    {
+      "bytes": 3072,
+      "kind": "carry",
+      "checksum": 3441
+    },
+    {
+      "bytes": 3072,
+      "kind": "random",
+      "checksum": 11948
+    },
+    {
+      "bytes": 4095,
+      "kind": "zero",
+      "checksum": 4464
+    },
+    {
+      "bytes": 4095,
+      "kind": "carry",
+      "checksum": 4719
+    },
+    {
+      "bytes": 4095,
+      "kind": "random",
+      "checksum": 53738
+    },
+    {
+      "bytes": 4096,
+      "kind": "zero",
+      "checksum": 4465
+    },
+    {
+      "bytes": 4096,
+      "kind": "carry",
+      "checksum": 4465
+    },
+    {
+      "bytes": 4096,
+      "kind": "random",
+      "checksum": 66020
+    },
+    {
+      "bytes": 4097,
+      "kind": "zero",
+      "checksum": 4466
+    },
+    {
+      "bytes": 4097,
+      "kind": "carry",
+      "checksum": 4721
+    },
+    {
+      "bytes": 4097,
+      "kind": "random",
+      "checksum": 68468
+    }
+  ],
+  "actual_images": [
+    {
+      "path": "cases/editor-rebase-bind/inputs/client.exe",
+      "sha256": "2c92f7b485af6f6c475315024749fe605a123402c1e5687ab609a24816c2783a",
+      "bytes": 2097152,
+      "checksum": 2143557,
+      "scalar_seconds": 0.2898520976305008,
+      "array_seconds": 0.009947597980499268
+    },
+    {
+      "path": "cases/editor-rebase-bind/inputs/provider.dll",
+      "sha256": "30e5323dc6e29e6fc9286e1e48ee25bf0d025b85528773ceb32e5fd1b5346d1d",
+      "bytes": 2097152,
+      "checksum": 2152974,
+      "scalar_seconds": 0.286474316380918,
+      "array_seconds": 0.009584876708686352
+    },
+    {
+      "path": "cases/editor-rebase-bind/expected/rebase/client.exe",
+      "sha256": "c3b8813808646f8da33ae36e1ba26a03bdfe5f07577f074e9c981108252f0341",
+      "bytes": 2097152,
+      "checksum": 2151839,
+      "scalar_seconds": 0.3000661674886942,
+      "array_seconds": 0.008475614711642265
+    },
+    {
+      "path": "cases/editor-rebase-bind/expected/bind/client.exe",
+      "sha256": "895858816357cf2683a2238f51c3b1511c700f3b82e891c32ae815fecf7248ac",
+      "bytes": 2097152,
+      "checksum": 2126047,
+      "scalar_seconds": 0.2982526132836938,
+      "array_seconds": 0.008549634367227554
+    },
+    {
+      "path": "cases/editor-rebase-bind/expected/release/client.exe",
+      "sha256": "bed3100b82de74d5068311c5bd1c858487a593c0e1f244dfcb037f32ae3699d3",
+      "bytes": 2097152,
+      "checksum": 2134255,
+      "scalar_seconds": 0.28612338192760944,
+      "array_seconds": 0.008435185998678207
+    },
+    {
+      "path": "cases/editor-rebase-bind/capture/compact-input-probe/release-1/client.exe",
+      "sha256": "87c205db9297495c19ec307aa8c8d930f226829120f8372562e9f58e3856d276",
+      "bytes": 2097152,
+      "checksum": 2132418,
+      "scalar_seconds": 0.2859340254217386,
+      "array_seconds": 0.009691404178738594
+    },
+    {
+      "path": "cases/editor-rebase-bind/capture/compact-input-probe/inputs/bound/client.exe",
+      "sha256": "a9109e41a5704d7ab8e693d4b1e0d8015943c86506d33f0350ef80aca4f44c07",
+      "bytes": 3072,
+      "checksum": 30130,
+      "scalar_seconds": 0.0004461091011762619,
+      "array_seconds": 2.5002285838127136e-05
+    }
+  ],
+  "original_executions": 0,
+  "scope": "Independent artifact oracle only; reconstruction checksum C unchanged"
+}

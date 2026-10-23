@@ -1,0 +1,167 @@
+{
+  "status": "pass",
+  "flags": [
+    "--include-evidenced-runtime",
+    "--check-accepted-extents",
+    "--check-ret",
+    "--check-references",
+    "--check-ownership",
+    "--check-extents"
+  ],
+  "tool_sha256": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c",
+  "canonical_inputs": {
+    "functions.json": "af96877f7abcff36d9b0d3d3c9538ecaae2d2beda2eb6c145af761083be894bd",
+    "runtime.json": "46333e1ea9d4668441051c017a3fb344cf0679622388d8868b97cfdb7bf521b5",
+    "build/runtime.json": "5c0e844e16303cc344a7b01df7a63e4fd56de62eac8a37c65818868cdcbd68d5",
+    "build/link.exe": "071c9e9e52b9e2626454134b532739d8a71fb562ea47077b2afede4a83e12e53",
+    "build/link.map": "c6c6adaaa68774fc9c8a95578e4d80376a0a65f9216eb33b000f123c10ed9b97"
+  },
+  "raw_receipt": {
+    "path": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-iehrhn3d/receipt.json",
+    "sha256": "929fa3a28e891e2058d90fbc3d64291968765cf3cff40e64d864ca3f60dbabb7"
+  },
+  "tests": [
+    {
+      "test": "python-reference",
+      "status": "pass",
+      "exit": 0,
+      "seconds": 12.217441177926958,
+      "command": [
+        "python3",
+        "scripts/audit-graph.py"
+      ],
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-iehrhn3d/python-reference.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-iehrhn3d/python-reference.stderr"
+    },
+    {
+      "test": "rust-positive",
+      "status": "pass",
+      "exit": 0,
+      "seconds": 1.34820400737226,
+      "command": [
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "--profile",
+        "link",
+        "--repo",
+        "/root/msvc2",
+        "--project",
+        "/root/msvc2/decomp/vc1.0/link",
+        "--include-evidenced-runtime",
+        "--check-accepted-extents",
+        "--check-ret",
+        "--check-references",
+        "--check-ownership",
+        "--check-extents"
+      ],
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-iehrhn3d/rust-positive.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-iehrhn3d/rust-positive.stderr"
+    },
+    {
+      "test": "wrong-driver-call",
+      "status": "rejected",
+      "exit": 1,
+      "seconds": 0.630477131344378,
+      "command": [
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "--profile",
+        "link",
+        "--repo",
+        "/root/msvc2",
+        "--project",
+        "/root/msvc2/decomp/vc1.0/link",
+        "--include-evidenced-runtime",
+        "--check-accepted-extents",
+        "--check-ret",
+        "--check-references",
+        "--check-ownership",
+        "--check-extents",
+        "--rebuilt",
+        "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-iehrhn3d/wrong-driver-call.exe"
+      ],
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-iehrhn3d/wrong-driver-call.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-iehrhn3d/wrong-driver-call.stderr"
+    },
+    {
+      "test": "wrong-runtime-call",
+      "status": "rejected",
+      "exit": 1,
+      "seconds": 0.7898976253345609,
+      "command": [
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "--profile",
+        "link",
+        "--repo",
+        "/root/msvc2",
+        "--project",
+        "/root/msvc2/decomp/vc1.0/link",
+        "--include-evidenced-runtime",
+        "--check-accepted-extents",
+        "--check-ret",
+        "--check-references",
+        "--check-ownership",
+        "--check-extents",
+        "--rebuilt",
+        "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-iehrhn3d/wrong-runtime-call.exe"
+      ],
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-iehrhn3d/wrong-runtime-call.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-iehrhn3d/wrong-runtime-call.stderr"
+    },
+    {
+      "test": "wrong-ret-cleanup",
+      "status": "rejected",
+      "exit": 1,
+      "seconds": 0.8253206238150597,
+      "command": [
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "--profile",
+        "link",
+        "--repo",
+        "/root/msvc2",
+        "--project",
+        "/root/msvc2/decomp/vc1.0/link",
+        "--include-evidenced-runtime",
+        "--check-accepted-extents",
+        "--check-ret",
+        "--check-references",
+        "--check-ownership",
+        "--check-extents",
+        "--rebuilt",
+        "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-iehrhn3d/wrong-ret.exe"
+      ],
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-iehrhn3d/wrong-ret-cleanup.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-iehrhn3d/wrong-ret-cleanup.stderr",
+      "mutation": {
+        "function": "_mapped_image_headers@4",
+        "address": 121096,
+        "original_cleanup": 4,
+        "changed_cleanup": 8,
+        "scope": "Genuine soleRET4 in table-free accepted stdcall helper"
+      }
+    },
+    {
+      "test": "split-runtime-tail-instruction",
+      "status": "rejected",
+      "exit": 1,
+      "seconds": 0.8029115088284016,
+      "command": [
+        "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+        "--profile",
+        "link",
+        "--repo",
+        "/root/msvc2",
+        "--project",
+        "/root/msvc2/decomp/vc1.0/link",
+        "--include-evidenced-runtime",
+        "--check-accepted-extents",
+        "--check-ret",
+        "--check-references",
+        "--check-ownership",
+        "--check-extents",
+        "--runtime",
+        "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-iehrhn3d/split-runtime-instruction.json"
+      ],
+      "stdout": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-iehrhn3d/split-runtime-tail-instruction.stdout",
+      "stderr": "/root/.ai-tmp/msvc2/vc1.0/link/audit-adoption/verified-iehrhn3d/split-runtime-tail-instruction.stderr"
+    }
+  ]
+}

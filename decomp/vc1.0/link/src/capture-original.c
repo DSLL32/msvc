@@ -10,7 +10,7 @@ typedef LONG (WINAPI *QueryProcess)(HANDLE,ULONG,void *,ULONG,ULONG *);
 typedef struct BasicInfo { LONG status; void *peb; ULONG affinity; LONG priority; ULONG pid,parent; } BasicInfo;
 typedef struct String32 { unsigned short length,maximum; void *buffer; } String32;
 typedef struct Process { DWORD pid,parent,base; HANDLE handle; int active,target,packer,loader,copy; DWORD copy_output,copy_error; } Process;
-typedef struct Thread { DWORD pid,tid; HANDLE handle; int active; } Thread;
+typedef struct Thread { DWORD pid,tid,teb; HANDLE handle; int active; } Thread;
 typedef struct Entry { DWORD rva; unsigned byte,seen; char name[128]; } Entry;
 static Process processes[64];
 static Thread threads[256];
@@ -100,6 +100,100 @@ static int write_code(Process *process,DWORD rva,const void *data,DWORD size)
         WriteProcessMemory(process->handle,where,(void *)data,size,&written) && written==size &&
         FlushInstructionCache(process->handle,where,size) &&
         VirtualProtectEx(process->handle,where,size,old,&restored);
+}
+
+/* Explicit first-call analysis of the resolved OS relocation primitive. */
+static DWORD relocation_page,relocation_entries,relocation_pointer,relocation_delta,relocation_stack;
+static unsigned short relocation_words[256];
+static void relocation_sample(Process *process,CONTEXT *context,DWORD site)
+{
+    DWORD args[4],got,value,procedure,n;
+    if (site==0x50379) {
+        if (!ReadProcessMemory(process->handle,(void *)context->Esp,args,16,&got) || got!=16 || args[1]>256) return;
+        relocation_page=args[0];relocation_entries=args[1];relocation_pointer=args[2];
+        relocation_delta=args[3];relocation_stack=context->Esp;
+        if (!ReadProcessMemory(process->handle,(void *)relocation_pointer,relocation_words,relocation_entries*2,&got) || got!=relocation_entries*2) return;
+        if (!ReadProcessMemory(process->handle,(void *)0x6d468,&procedure,4,&got) || got!=4) return;
+        fprintf(log_file,"{\"event\":\"relocation-primitive-before\",\"procedure\":%lu,\"page\":%lu,\"array\":%lu,\"count\":%lu,\"delta\":%lu,\"esp\":%lu,\"records\":[",
+            procedure,relocation_page,relocation_pointer,relocation_entries,relocation_delta,relocation_stack);
+    } else if (site==0x5037f) {
+        fprintf(log_file,"{\"event\":\"relocation-primitive-after\",\"result\":%lu,\"result_array_offset\":%lu,\"stack_cleanup\":%lu,\"records\":[",
+            context->Eax,context->Eax-relocation_pointer,context->Esp-relocation_stack);
+    } else return;
+    for (n=0;n<relocation_entries;++n) {
+        value=0;
+        if ((relocation_words[n]>>12)==3 &&
+            (!ReadProcessMemory(process->handle,(void *)(relocation_page+(relocation_words[n]&0xfff)),&value,4,&got) || got!=4)) return;
+        fprintf(log_file,"%s{\"word\":%u,\"type\":%u,\"offset\":%u,\"value\":%lu}",n?",":"",
+            relocation_words[n],relocation_words[n]>>12,relocation_words[n]&0xfff,value);
+    }
+    fprintf(log_file,"]}\n");fflush(log_file);
+}
+
+/* One public base16 conversion in the frozen REBASE argument inventory. */
+static DWORD strtoul_input,strtoul_end_location,strtoul_input_length;
+static void strtoul_sample(Process *process,CONTEXT *context,DWORD site)
+{
+    DWORD args[4],got,end,n;
+    char number[64];
+    if (site==0x541d0) {
+        if (!ReadProcessMemory(process->handle,(void *)context->Esp,args,16,&got) || got!=16) return;
+        strtoul_input=args[1];strtoul_end_location=args[2];
+        for(n=0;n<63;++n) {
+            if (!ReadProcessMemory(process->handle,(void *)(strtoul_input+n),number+n,1,&got) || got!=1) return;
+            if (!number[n]) break;
+        }
+        if(n==63)return;
+        strtoul_input_length=n;
+        fprintf(log_file,"{\"event\":\"strtoul-before\",\"input\":");quoted(number);
+        fprintf(log_file,",\"base\":%lu,\"end_pointer_present\":%d}\n",args[3],strtoul_end_location!=0);
+    } else if (site==0x4ff96) {
+        if (!ReadProcessMemory(process->handle,(void *)strtoul_end_location,&end,4,&got) || got!=4) return;
+        fprintf(log_file,"{\"event\":\"strtoul-after\",\"result\":%lu,\"end_offset\":%lu,\"end_points_into_input\":%d}\n",
+            context->Eax,end-strtoul_input,end>=strtoul_input && end<=strtoul_input+strtoul_input_length);
+    }
+    fflush(log_file);
+}
+
+/* Explicit editor API observations; no oracle/fixture calls this capture helper. */
+static DWORD bind_api_args[4],bind_api_stack;
+static void bind_api_sample(Process *process,Thread *thread,CONTEXT *context,DWORD site)
+{
+    DWORD error=0xffffffffUL,crt_errno=0xffffffffUL,got,i,count=0;
+    unsigned short system_time[8];
+    DWORD file_time[2];
+    const char *name=NULL;
+    int before=0;
+    switch(site) {
+    case 0x4f81f:name="FlushViewOfFile";before=1;count=2;break;
+    case 0x4f824:name="FlushViewOfFile";break;
+    case 0x4f828:name="GetSystemTime";before=1;count=1;break;
+    case 0x4f82d:name="GetSystemTime";break;
+    case 0x4f835:name="SystemTimeToFileTime";before=1;count=2;break;
+    case 0x4f83a:name="SystemTimeToFileTime";break;
+    case 0x4f84d:name="SetFileTime";before=1;count=4;break;
+    case 0x4f852:name="SetFileTime";break;
+    default:return;
+    }
+    if(before) {
+        memset(bind_api_args,0,sizeof(bind_api_args));
+        if(!ReadProcessMemory(process->handle,(void *)context->Esp,bind_api_args,count*4,&got) || got!=count*4)return;
+        bind_api_stack=context->Esp;
+    }
+    if(!ReadProcessMemory(process->handle,(void *)(thread->teb+0x34),&error,4,&got) || got!=4)return;
+    if(!ReadProcessMemory(process->handle,(void *)0x852d8,&crt_errno,4,&got) || got!=4)return;
+    fprintf(log_file,"{\"event\":\"editor-api\",\"name\":");quoted(name);
+    fprintf(log_file,",\"before\":%d,\"result\":%lu,\"errno\":%lu,\"last_error\":%lu,\"cleanup\":%lu,\"args\":[",before,context->Eax,crt_errno,error,context->Esp-bind_api_stack);
+    for(i=0;i<4;++i)fprintf(log_file,"%s%lu",i?",":"",bind_api_args[i]);
+    fprintf(log_file,"]");
+    if((site==0x4f82d || site==0x4f835) && ReadProcessMemory(process->handle,(void *)bind_api_args[0],system_time,16,&got) && got==16) {
+        fprintf(log_file,",\"system_time\":[");
+        for(i=0;i<8;++i)fprintf(log_file,"%s%u",i?",":"",system_time[i]);
+        fprintf(log_file,"]");
+    }
+    if((site==0x4f83a || site==0x4f84d || site==0x4f852) && ReadProcessMemory(process->handle,(void *)bind_api_args[site==0x4f83a?1:3],file_time,8,&got) && got==8)
+        fprintf(log_file,",\"file_time\":[%lu,%lu]",file_time[0],file_time[1]);
+    fprintf(log_file,"}\n");fflush(log_file);
 }
 
 static void context_log(Process *process,HANDLE thread)
@@ -249,12 +343,14 @@ int main(int argc,char **argv)
             for(n=0;n<256 && threads[n].active;++n);
             if(n==256){failed=7;break;}
             threads[n].pid=event.dwProcessId;threads[n].tid=event.dwThreadId;
+            threads[n].teb=(DWORD)event.u.CreateProcessInfo.lpThreadLocalBase;
             threads[n].handle=event.u.CreateProcessInfo.hThread;threads[n].active=1;
             if(event.u.CreateProcessInfo.hFile)CloseHandle(event.u.CreateProcessInfo.hFile);
         } else if (event.dwDebugEventCode==CREATE_THREAD_DEBUG_EVENT) {
             for(n=0;n<256 && threads[n].active;++n);
             if(n==256){failed=7;break;}
             threads[n].pid=event.dwProcessId;threads[n].tid=event.dwThreadId;
+            threads[n].teb=(DWORD)event.u.CreateThread.lpThreadLocalBase;
             threads[n].handle=event.u.CreateThread.hThread;threads[n].active=1;
         } else if (event.dwDebugEventCode==EXIT_THREAD_DEBUG_EVENT) {
             if(thread){CloseHandle(thread->handle);thread->active=0;}
@@ -285,6 +381,9 @@ int main(int argc,char **argv)
                 parent_errno=0xffffffffUL;
                 ReadProcessMemory(process->handle,(void *)0x852d8,&parent_errno,4,&got);
                 fprintf(log_file,",\"crt_errno\":%lu}\n",parent_errno);fflush(log_file);
+                relocation_sample(process,&context,site);
+                strtoul_sample(process,&context,site);
+                bind_api_sample(process,thread,&context,site);
             } else {failed=10;context_log(process,thread->handle);break;}
         } else if(event.dwDebugEventCode==EXIT_PROCESS_DEBUG_EVENT) {
             if(!process){failed=7;break;}

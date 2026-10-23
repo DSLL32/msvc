@@ -994,3 +994,55 @@ external. Whole original seven-entry trace, allfive outputs and streams match.
 230971/281634=82.0110%,809frontiers. See cases/rom-local-imports/validation.json.
 Next root-approved single substantial public workflow: EDIT rebase/bind/release,
 with genuinely relocated EXE and pinned local DLL; original validation first.
+
+Public EDIT checkpoint835 (current)
+
+809→835:14 application functions/6541 actual CFG instructions,112 switch bytes,
+227 alignment; two shipped CRT functions624extent bytes and tenIATthunks60bytes
+are separate support. Acceptedunion238535/281634=84.6968%, not branch coverage.
+Exact source layouts: RebaseImage32(file8/base12/headers16/cache20/count24/first28),
+BoundImage36(file12/base16/headers20/cache24/count28/first32). Original6d470storage
+is a typed36-byte union, each driver clears its own view. BIND listhead is8bytes.
+Canonical compiler assertions/data/callback/graph audits prove the physical layout.
+SEH secondary roots50750/50756 and4f773/4f780 come from original scope tables
+79758/79748; static whole-function reconstruction does not claim native fault paths.
+
+Rebase main4fbe0, map50520, relocate502f0, RVA50260; generic PE helpers50770/50790;
+checksum4ebd0/50840; bind main4ed60, map4f880, importwalk4f540, RVA4f460,
+cache4f370, resolve4f070. Unknown original identifiers have contextual source names.
+Header helper deliberately returns the original input for non-MZ; directory caller
+has no invented NULL guard. Relocation count0 preserves the original non-advance.
+BIND resolver preserves16-bit ordinals/hint scan, strict forwarder range/chain and
+original unassigned ordinal-verbose hint; current positive case takes named hint.
+Original ntdll primitive resolves; internal50430fallback stays trapped.
+
+Original caller-qualified static mapping edges share native API implementations
+with earlier accepted GPA callers. Observers require exact original direct CALL/
+return in the accepted caller plus actual native immediate caller; missing/stale/
+wrong/GPA-only/both-empty observations reject, no partial-stream exclusion. Shipped
+CRT strtoul/strtoxl support uses exact original/canonical bodies/graph and an explicit
+nonempty native public-call input/base/result/endptr/errno inventory, no native
+internal-helper ABI claim. All prior source graph vertices remain distinct.
+
+BIND FlushViewOfFile actually receives loaded .bss globalVA6d470 (ImageBase10000,
+RVA5d470) and succeeds; the initial static failure prediction was corrected from
+fresh original observations before implementation. A native-only outside-graph
+host unit binds exact SHA/coordinates/36-byte owner to &editor_workspace. APIstate
+GDB checks use cached originals, verify all four observed pairs and actual mtime.
+Original tools/PE programs never run inside a fixture. Actual native outputs feed
+subsequent stages with full independent checksum/normalized-input validation.
+
+Four new original entry segments are8/6/0/0 application entries and full outputs
+match prior repeated frozen originals. Complete44-case native suite passes646
+entries3.467s external;676Rustgraphs,663callbacks,472data,41ECX pass. Failed predicted
+frontier, native alias stop, input-expectation and macro observers are retained,
+with no false acceptance. Negative graph fixture now mutates genuine RET4, avoiding
+inline switch data that CFG correctly excludes. Exact compact-input3072→2MB defect
+is its own successful regression, with raw physical bytes and wrong-full-checksum
+behavior required. Whole-file-positive checksum claims remain separate.
+
+The pure checker checksum oracle optimization is outside reconstruction source:
+array word summation matches the retained scalar algorithm over odd/even/carry/
+random and all actual images. Old9.237s three-stage fixture costs were Python
+oracles, not ELF execution; output-only after.201/.288/.285s, compact.095s, with
+all splits/timing limitations in cases/editor-rebase-bind/timing.json.

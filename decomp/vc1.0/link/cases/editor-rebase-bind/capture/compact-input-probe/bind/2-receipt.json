@@ -1,0 +1,43 @@
+{
+  "mode": "original",
+  "analysis_samples": [],
+  "case": "editor-bind",
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "root_exit": 0,
+    "failed": 0,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "3df19d71d6522fa4de148526708b08706c2f5e6e47aecd989fb4df21b88735cb",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 809,
+  "accepted_sha256": "c3779de05fc7f5df78ece40efb77a151e102fe9ee8ed764db5821f56c806ce8b",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": null,
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\editor-bind",
+    "TEMP": "S:\\vc1.0\\link\\editor-bind"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-edit /bind:path=. client.exe",
+    "S:\\vc1.0\\link\\new-captures\\editor-bind\\original-f7_zfvz1\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\editor-bind\\original-f7_zfvz1\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\editor-bind\\original-f7_zfvz1\\events.jsonl",
+    "S:\\vc1.0\\link\\editor-bind",
+    "S:\\vc1.0\\link\\new-captures\\editor-bind\\original-f7_zfvz1\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\editor-bind\\original-f7_zfvz1\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\editor-bind\\original-f7_zfvz1\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\editor-bind\\original-f7_zfvz1\\after.dll",
+    "-"
+  ],
+  "seconds": 1.1444559944793582
+}

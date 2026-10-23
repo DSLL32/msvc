@@ -1,0 +1,59 @@
+{
+  "case": "editor-release-compact",
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-editor.py",
+    "sha256": "63c5463bd3853fa3802990d09bb89bdf064a7277b03e844b09f90085a6457819"
+  },
+  "phases": {
+    "reference": {
+      "arguments": [
+        "-edit",
+        "/stack:0x200000,0x3000",
+        "/release",
+        "client.exe"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "expected_exit": 0,
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "canonical_working_directory": "S:\\vc1.0\\link\\editor-release-compact",
+      "inputs": [
+        {
+          "path": "../../capture/compact-input-probe/inputs/bound/client.exe",
+          "bytes": 3072,
+          "sha256": "a9109e41a5704d7ab8e693d4b1e0d8015943c86506d33f0350ef80aca4f44c07"
+        },
+        {
+          "path": "../../capture/compact-input-probe/inputs/provider.dll",
+          "bytes": 3072,
+          "sha256": "6da78d775037c0d4c58ac6e9dd09ea9e86f0c86f499164dbee53787291368eba"
+        }
+      ],
+      "outputs": [
+        {
+          "output_name": "client.exe",
+          "artifact_kind": "compact-release-defect",
+          "path": "../../capture/compact-input-probe/release-1/client.exe",
+          "bytes": 2097152,
+          "sha256": "87c205db9297495c19ec307aa8c8d930f226829120f8372562e9f58e3856d276",
+          "ignored_fields": [],
+          "normalized_sha256": "87c205db9297495c19ec307aa8c8d930f226829120f8372562e9f58e3856d276"
+        },
+        {
+          "output_name": "provider.dll",
+          "artifact_kind": "raw",
+          "path": "../../capture/compact-input-probe/inputs/provider.dll",
+          "bytes": 3072,
+          "sha256": "6da78d775037c0d4c58ac6e9dd09ea9e86f0c86f499164dbee53787291368eba",
+          "ignored_fields": [],
+          "normalized_sha256": "6da78d775037c0d4c58ac6e9dd09ea9e86f0c86f499164dbee53787291368eba"
+        }
+      ],
+      "expected_stdout": "Microsoft (R) COFF Binary File Editor Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n\r\n",
+      "expected_stderr": ""
+    }
+  }
+}

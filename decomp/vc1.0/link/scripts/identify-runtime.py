@@ -106,6 +106,8 @@ if len(sys.argv)==1:
 for r in records:
     if r['name']=='__find':
         r['evidence']='byte-exact shipped _SETARGV.OBJ; Find* relocations verified; native CRT-boundary differential proof in lib/recon/find-validation.json'
+    if r['name'] in ('_strtoul','_strtoxl'):
+        r['evidence']='byte-exact shipped STRTOL.OBJ, relocation targets verified; native correspondence at public strtoul only, explicit nonempty base16/input/result/end-pointer/errno inventory in cases/editor-rebase-bind/capture/strtoul-boundary'
     if r['name']=='_system':
         r['evidence']='byte-exact shipped SYSTEM.OBJ with relocation targets verified; fresh native/original system boundary, errno0 entry/return, exact pinned cmdcopy responses in cases/rom-local-imports'
 records.sort(key=lambda r:r['start'])

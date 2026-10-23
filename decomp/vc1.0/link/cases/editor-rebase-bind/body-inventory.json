@@ -1,0 +1,330 @@
+{
+  "target_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "family": "editor",
+  "alignment_bytes": 227,
+  "extent_gap_ranges": [
+    [
+      322661,
+      322672
+    ],
+    [
+      323466,
+      323472
+    ],
+    [
+      323497,
+      323504
+    ],
+    [
+      323516,
+      323520
+    ],
+    [
+      323689,
+      323696
+    ],
+    [
+      324031,
+      324032
+    ],
+    [
+      324079,
+      324080
+    ],
+    [
+      324316,
+      324320
+    ],
+    [
+      324348,
+      324352
+    ],
+    [
+      324393,
+      324400
+    ],
+    [
+      324453,
+      324464
+    ],
+    [
+      324559,
+      324560
+    ],
+    [
+      324670,
+      324672
+    ],
+    [
+      324701,
+      324704
+    ],
+    [
+      324750,
+      324752
+    ],
+    [
+      324833,
+      324848
+    ],
+    [
+      325406,
+      325408
+    ],
+    [
+      325497,
+      325504
+    ],
+    [
+      325749,
+      325760
+    ],
+    [
+      325951,
+      325952
+    ],
+    [
+      326237,
+      326240
+    ],
+    [
+      326372,
+      326384
+    ],
+    [
+      327244,
+      327248
+    ],
+    [
+      327373,
+      327376
+    ],
+    [
+      327515,
+      327520
+    ],
+    [
+      327673,
+      327680
+    ],
+    [
+      327691,
+      327696
+    ],
+    [
+      327707,
+      327712
+    ],
+    [
+      327738,
+      327744
+    ],
+    [
+      328175,
+      328176
+    ],
+    [
+      328334,
+      328336
+    ],
+    [
+      328417,
+      328432
+    ],
+    [
+      328619,
+      328624
+    ],
+    [
+      328734,
+      328736
+    ],
+    [
+      328746,
+      328752
+    ],
+    [
+      329259,
+      329264
+    ],
+    [
+      329517,
+      329520
+    ],
+    [
+      329572,
+      329584
+    ],
+    [
+      329611,
+      329616
+    ],
+    [
+      329755,
+      329760
+    ],
+    [
+      329787,
+      329792
+    ],
+    [
+      330188,
+      330192
+    ]
+  ],
+  "extent_gap_instructions": [
+    [
+      "add",
+      "eax, 0"
+    ],
+    [
+      "lea",
+      "ebx, [ebx]"
+    ],
+    [
+      "lea",
+      "ecx, [ecx]"
+    ],
+    [
+      "lea",
+      "esp, [esp]"
+    ],
+    [
+      "mov",
+      "edi, edi"
+    ],
+    [
+      "nop",
+      ""
+    ]
+  ],
+  "method": "Static original CFG instruction-byte union of all accepted contextual editor functions, follows both conditional edges, internal JMP tables and call fallthrough; excludes padding, inline table bytes and callee bodies. Not dynamic branch coverage. Old Ghidra one-byte seeds excluded from overlap.",
+  "functions": {
+    "_rebase_main": {
+      "bytes": 1516,
+      "start": 326624,
+      "end": 328288,
+      "internal_tables": [
+        {
+          "address": 328176,
+          "targets": [
+            327504,
+            327474,
+            327474,
+            327520,
+            327588,
+            327680,
+            327474,
+            327474,
+            327474,
+            327474,
+            327474,
+            327474,
+            327474,
+            327696,
+            327474,
+            327474,
+            327474,
+            327474,
+            327474,
+            327474,
+            327712,
+            327474,
+            327474,
+            327744,
+            327474,
+            327752,
+            327474,
+            327828
+          ]
+        }
+      ]
+    },
+    "_bind_main": {
+      "bytes": 760,
+      "start": 322912,
+      "end": 323696,
+      "internal_tables": []
+    },
+    "_checksum_mapped_image": {
+      "bytes": 149,
+      "start": 322512,
+      "end": 322672,
+      "internal_tables": []
+    },
+    "_map_rebase_image": {
+      "bytes": 572,
+      "start": 328992,
+      "end": 329584,
+      "internal_tables": []
+    },
+    "_relocate_rebase_image": {
+      "bytes": 307,
+      "start": 328432,
+      "end": 328752,
+      "internal_tables": []
+    },
+    "_mapped_image_directory@16": {
+      "bytes": 166,
+      "start": 329616,
+      "end": 329792,
+      "internal_tables": []
+    },
+    "_mapped_rebase_rva": {
+      "bytes": 127,
+      "start": 328288,
+      "end": 328432,
+      "internal_tables": []
+    },
+    "_mapped_image_headers@4": {
+      "bytes": 27,
+      "start": 329584,
+      "end": 329616,
+      "internal_tables": []
+    },
+    "_checksum_words": {
+      "bytes": 396,
+      "start": 329792,
+      "end": 330192,
+      "internal_tables": []
+    },
+    "_map_bind_image": {
+      "bytes": 608,
+      "start": 325760,
+      "end": 326384,
+      "internal_tables": []
+    },
+    "_bind_imports": {
+      "bytes": 812,
+      "start": 324928,
+      "end": 325760,
+      "internal_tables": []
+    },
+    "_mapped_bound_rva": {
+      "bytes": 127,
+      "start": 324704,
+      "end": 324848,
+      "internal_tables": []
+    },
+    "_load_bind_image": {
+      "bytes": 234,
+      "start": 324464,
+      "end": 324704,
+      "internal_tables": []
+    },
+    "_resolve_bound_import": {
+      "bytes": 740,
+      "start": 323696,
+      "end": 324464,
+      "internal_tables": []
+    }
+  },
+  "function_count": 14,
+  "instruction_bytes": 6541,
+  "accepted_extent_union_bytes": 6880,
+  "internal_data_bytes": 112,
+  "extent_outside_cfg_and_data": 227,
+  "unresolved_jumps": [],
+  "instruction_overlap_old_body_inventory": 1724,
+  "additional_proven_instruction_bytes_outside_old_inventory": 4817
+}

@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x148c0: file src/edit-stubs.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, checksum_words (initial=4155953152, words=0x200000, count=4294955340) at src/edit-stubs.c:13
+13	unsigned long checksum_words(unsigned long initial,const unsigned short *words,unsigned long count) { __asm { int 3 } return 0; }
+NATIVE_MATCH checksum_words
+0xffffd0ec:	0x565674b5	0x00000000	0xf7b6d000	0x00100000
+0xffffd0fc:	0x39884940	0x00000000
+#0  checksum_words (initial=4155953152, words=0x200000, count=4294955340) at src/edit-stubs.c:13
+#1  0x565674b5 in checksum_mapped_image (image=0xf7b6d000, size=2097152, previous=0xffffd14c, checksum=0xffffd148) at src/checksum.c:24
+#2  0x565695a4 in relocate_rebase_image (image=0x565e3be4 <rebase_workspace>, base=5242880, delta=0xffffd19c) at src/editor-rebase.c:232
+#3  0x56568c2f in rebase_main (argc=1, argv=0x5660c62c, environment=0x0) at src/editor-rebase.c:97
+#4  0x56567a96 in editor_main (argc=3, argv=0xffffd794) at src/editor.c:71

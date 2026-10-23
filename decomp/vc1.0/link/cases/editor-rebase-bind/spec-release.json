@@ -1,0 +1,35 @@
+{
+  "case": "editor-release",
+  "arguments": [
+    "-edit",
+    "/stack:0x200000,0x3000",
+    "/release",
+    "client.exe"
+  ],
+  "inputs": [
+    {
+      "path": "cases/editor-rebase-bind/inputs/bound/client.exe",
+      "bytes": 2097152,
+      "sha256": "895858816357cf2683a2238f51c3b1511c700f3b82e891c32ae815fecf7248ac"
+    },
+    {
+      "path": "cases/editor-rebase-bind/inputs/provider.dll",
+      "bytes": 2097152,
+      "sha256": "30e5323dc6e29e6fc9286e1e48ee25bf0d025b85528773ceb32e5fd1b5346d1d"
+    }
+  ],
+  "environment": {
+    "LIB": "{lib}"
+  },
+  "expected_exit": 0,
+  "outputs": [
+    {
+      "output_name": "client.exe",
+      "artifact_kind": "edited-pe"
+    },
+    {
+      "output_name": "provider.dll",
+      "artifact_kind": "raw"
+    }
+  ]
+}

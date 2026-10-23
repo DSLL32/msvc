@@ -1,0 +1,50 @@
+{
+  "status": "Proposed next SINGLE substantial case; not started/authorized yet",
+  "family": "Legal i386 operand/system/x87 disassembly corpus",
+  "public_command": [
+    "-dump",
+    "/disasm",
+    "decoder-corpus.obj"
+  ],
+  "input_plan": "One original-CL-compiled COFF with ordinary byte/word/general/segment register operands, ALU/shift groups, far loads/transfers, legal386system/control/debug instructions and additional x87 register/memory forms. Do not execute privileged code. Inline-assembler source/provenance and narrowly necessary fixture-only emit bytes stay separate from reconstruction source.",
+  "known_remaining_entry_cfg_bytes": 4938,
+  "known_remaining_vertices": 85,
+  "evidence": "cases/editor-rebase-bind/remaining-disassembler.json",
+  "limits": "4938bytes/85vertices is actual conservative entry-CFG analysis, not accepted extent or promised legal-case reachability. Some handlers are reserved/invalid; legal instructions only for the main positive case, no malformed replacement or forced internal-g. Complete extent/ABI/data/calls must be recovered after each actual matched entry. Existing partial old inventory omitted these one-byte seeds, so its disassembler remaining0 is not completeness.",
+  "examples": [
+    {
+      "function": "_decode_op_4b670",
+      "feature": "byteALU immediate group80"
+    },
+    {
+      "function": "_decode_op_4b6d0",
+      "feature": "byte shift/rotate groupsC0/D0/D2"
+    },
+    {
+      "function": "_decode_op_4d640",
+      "feature": "MOV88 byte-register operand"
+    },
+    {
+      "function": "_decode_op_4dc70",
+      "feature": "MOVB2 immediateDL"
+    },
+    {
+      "function": "_decode_op_4d520",
+      "feature": "0F control-register operands"
+    },
+    {
+      "function": "_decode_op_4b820",
+      "feature": "0F01system group"
+    }
+  ],
+  "original_validation": "Original compile/capture outside fixtures, twice exact status/streams/disassembly before freezing, capture correct opcode/operand boundaries. Freeze source/object/hash/args/env/fullstdout, independently decode fixture instruction bytes for provenance, then reconstruct actual reached graph natively with GDB and fixed references. No reexec originals in regressions.",
+  "other_remaining": {
+    "known_target_instruction_bytes": 9597,
+    "unclassified_unaccepted_bytes": 24132,
+    "omf_known_closure_bytes": 7367,
+    "omf_limit": "Includes internal-g debug conversion not publicly reached by normal wrapper; needs genuine feature analysis, not dismissal asCRT",
+    "demangler_known_bytes": 57,
+    "mac_known_closure_bytes": 393
+  },
+  "request": "Root review/adjustment and authorization after current scoped checkpoint; do not start an unassigned campaign."
+}

@@ -5,27 +5,28 @@ period Win32 C preserving individual graph vertices and calling conventions.
 Pending functions are named INT3 stubs. There are no assembly ABI exceptions,
 lifted implementation blocks or copied original data sections.
 
-Current checkpoint: 809 accepted frontiers, 230971/281634 accepted .text bytes
-(82.0110%). This union includes contextual inline data and alignment; it is not
-branch coverage. The partial checked inventory distinguishes167420 accepted
-application instruction bytes,27209 CRT instructions,198 import-thunk bytes,
-1784 inline-data bytes,2706 alignment bytes and31654 accepted unclassified bytes.
-Unclassified bytes are not all padding. cases/rom-local-imports/components.json
+Current checkpoint:835 accepted frontiers,238535/281634 accepted .text bytes
+(84.6968%). This union includes contextual inline data and alignment; it is not
+branch coverage. The partial checked inventory distinguishes173961 accepted
+application instruction bytes,27808 CRT instructions,258 import-thunk bytes,
+1896 inline-data bytes,2933 alignment bytes and31679 accepted unclassified bytes.
+Unclassified bytes are not all padding. cases/editor-rebase-bind/components.json
 records the partial accounting; it is not a full application-body denominator.
 
-The40 completed native cases cover help; minimal console/GUI/DLL linking;
+The44 completed native cases cover help; minimal console/GUI/DLL linking;
 archive creation/list/extract/remove; COFF/archive/PE/FPO/symbol-map dumps; PE
-editing; ordinary OMF conversion/linking; old C++ undecoration; x86 disassembly;
-Macintosh linking/relocations/debug/swapper/static/resource/pcode paths; DEF
-handlers; and absolute/weak externals. Exact phase arguments and environment,
-immutable inputs, streams, outputs and clock rules are in cases/shared-prefix/.
-Only these fresh shared-prefix references are active. Earlier accepted-body,
-ABI/state, CFG and rejected semantic-defect evidence remains historical analysis.
-Both selected Win16-resource and ordinary OMF LIDATA/EXESTR families are complete.
-The combined ROM/local-import/duplicate-warning/MAP/LINK_REPRO case also passes;
-its seven application functions and corrected BaseFixup layout are documented in
-cases/rom-local-imports. Root approved the next public EDIT rebase/bind/release
-workflow for original validation. No reachability is inferred from percentage.
+editing/rebase/bind/release; ordinary OMF conversion/linking; old C++ undecoration;
+x86 disassembly; Macintosh linking/relocations/debug/swapper/static/resource/pcode
+paths; DEF handlers; absolute/weak externals; Win16 resources; and ROM/reproduction.
+Exact arguments/environment, immutable inputs, streams, outputs and clock rules
+are in cases/shared-prefix/. Only these fresh shared-prefix references are active.
+Earlier acceptance/state/CFG and rejected-defect evidence remains analysis.
+The public EDIT workflow now chains actual native rebase→bind→release artifacts
+against a pinned local DLL, with independently valid whole-file checksums. The
+separate compact-input variant preserves the original logical-size checksum/
+physical-growth defect byte-for-byte. See cases/editor-rebase-bind/validation.json.
+Further cases proceed one substantial root-reviewed workflow at a time under
+user-authorized autonomous continuation; no reachability is inferred from percent.
 
 Native build, fixtures and GDB
 
@@ -37,21 +38,26 @@ Run from this binary root:
     python3 scripts/check-native-boundary.py
     python3 scripts/check-native-rejections.py
     python3 scripts/check-native-repro.py
+    python3 scripts/check-editor-flow.py
+    python3 scripts/check-editor-checksum.py
+    python3 scripts/check-module-memory.py
     gdb --args build/native/LINK.EXE /?
 
-check/replay execute the instrumented i386 ELF against all40 cached originals.
+check/replay execute the instrumented i386 ELF against all44 cached originals.
 They never invoke Wine, original executables, PE helpers or automatic capture.
 Clang flags are -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g.
 The same src/ reconstruction files build both ELF and Win32; shared lib/recon C
-sources compile directly at final link, without a static archive. Only app
+sources compile directly at final link, without a static archive. The native-only
+scripts/native-module.c host unit registers the proved36-byte loaded workspace;
+it is uninstrumented and is never compiled into the Win32 target. Only app
 objects are instrumented. src/runtime.c, CRT/import/shim functions are excluded.
 recon.h is last in each source/header include list and is empty for Win32.
 
 scripts/native-traces.py validates every native application definition, including
 unreconstructed stubs, against functions.json. It projects the original accepted
 history, excludes CRT/imports, seeds each case's accepted application prefix and
-binds each sequence to fresh original capture receipts/events. All39 cases check
-625 new application entries; zero-new-entry cases reject unexpected first entries.
+binds each sequence to fresh original capture receipts/events. All44 cases check
+646 new application entries; zero-new-entry cases reject unexpected first entries.
 Synchronous native LINK selfchildren share seen-state and retain original argv.
 Missing/stale references, undefined paths and unexpected child invocations fail.
 
@@ -85,11 +91,11 @@ These commands use Wine outside fixture execution:
     python3 scripts/capture-shared.py --case help --output-root <new-reference-folder>
 
 The original compiler/linker build remains the default target. Static checks
-use the shared Rust CFG engine for660 source/runtime graphs, including11
+use the shared Rust CFG engine for676 source/runtime graphs, including13
 evidenced runtime vertices, with return-cleanup, function-reference, application-
-ownership and whole-extent checks. All815original/812rebuilt accepted extent
-records (unique810/809) receive boundary checks. Retained Python checks cover
-649callback sets,455contextual data definitions and41ECX-member return cleanups.
+ownership and whole-extent checks. All841original/838rebuilt accepted extent
+records (unique836/835) receive boundary checks. Retained Python checks cover
+663callback sets,472contextual data definitions and41ECX-member return cleanups.
 The quiet incremental Cargo helper builds once; audit invokes the executable
 directly, preserving its JSON output/errors. No cargo run or Wine is introduced
 by this host tool. See cases/graph-audit-validation.json and the explicit
@@ -145,3 +151,52 @@ compiled by original CL and a relative unit?.obj operand. Further cases proceed 
 autonomous continuation. Known-body estimates are opportunities, not branch-coverage or
 99% promises. SOURCE-NOTES.txt retains historical checkpoints; current metadata
 supersedes them.
+
+Public EDIT rebase/bind/release checkpoint835
+
+Four frozen cases add14 application functions,6541 instruction bytes,112 switch
+bytes and227 alignment bytes. The two624-byte shipped strtoul/strtoxl extents and
+ten6-byte IAT thunks are separate support, with zero application credit. C source
+retains distinct32-byte REBASE and36-byte BIND layouts in one contextual union;
+compiler assertions and original reader/writer displacements prove cache fields.
+Fresh masked-original/native GDB stops preserve complete physical partial streams.
+Actual static IAT callers are mandatory when native APIs also serve earlier GPA
+calls; nonempty public strtoul input/result/endptr/errno inventory proves the CRT
+boundary without claiming native internal-helper ABI equivalence.
+
+Original setup builds real relocatable/importing EXE and exporting provider DLL.
+Repeated original public phases prove3HIGHLOW words rebased+100000, preferredbase
+400000→500000, actual IAT3046→601000/provider timestamp/forwarderchainffffffff,
+then stack reserve200000/commit3000. The combined-mode probe exits after REBASE;
+it is retained as actual original early-exit behavior, not BIND/release coverage.
+Every positive raw2MB checksum is checked independently before normalizing only
+COFF TimeDateStamp136..139 and recomputing its derived checksum. Native later
+stages consume actual prior outputs, validating full normalized input bytes first.
+The compact3072-byte original input grows2MB while keeping a checksum over3072;
+that explicit fourth case requires full physical bytes exact, no ignored fields,
+a valid logical3072 checksum and an explicit whole-physical-file mismatch.
+
+The original resolves ntdll!LdrProcessRelocationBlock successfully; its observed
+stdcall4HIGHLOW/ABSOLUTE boundary is shared support. The internal fallback remains
+trapped. BIND's actual FlushViewOfFile receives its loaded .bss workspace, not the
+file view, and returns success. Host-only registration binds exact target SHA,
+ImageBase10000, VA6d470/RVA5d470 and36-byte owned typed global; unknown ranges fail.
+Native GDB independently verifies pre/post errors, successful API results, UTC
+SYSTEMTIME→FILETIME conversion and actual last-write file time against cached
+original observations. SearchPath fallback, error helpers, SEH faults and unentered
+ordinal/forwarder/verbose branches are not claimed dynamically exercised.
+
+All44 native cases/646 application entries pass3.467s external (3.210s case loop),
+including both zero-entry variants. Canonical -j4 build/native trace/static checks
+pass in29.372s:676Rust graphs,663callbacks,472data definitions and41ECX routines.
+The true RET4 mutation negative rejects after fixing a test generator that had
+mistaken inline switch bytes for RET. Raw failed observer/test attempts remain
+explicit in validation.json. No reconstruction divergence was hidden.
+
+Initial output-only three-stage9.237s was dominated by scalar Python checksum
+checks (~1.83s/stage and again in prior-input setup), with directELF10–14ms.
+The independent oracle now uses little-endian array word sums, checked against
+its retained scalar algorithm on33bounded odd/even/random/carry images plus seven
+actual images. Raw checksum/defect semantics are unchanged. Focused output-only
+after timing is.201/.288/.285s, compact.095s; full splits and measured/unmeasured
+build/capture/debugger phases are in cases/editor-rebase-bind/timing.json.

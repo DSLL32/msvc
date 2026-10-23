@@ -1,0 +1,43 @@
+{
+  "mode": "masked",
+  "analysis_samples": [],
+  "case": "editor-rebase",
+  "helper_exit": 10,
+  "summary": {
+    "event": "summary",
+    "root_exit": 999,
+    "failed": 10,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "55c06325ae8dbd2623e5a40e94a98f686d3d02eb807b753fe3ddfdcf626c0743",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 816,
+  "accepted_sha256": "0b725c90a29b157374b51c6322d5c1b973f46f53d27c146dfbfe561658677d48",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": null,
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\editor-rebase",
+    "TEMP": "S:\\vc1.0\\link\\editor-rebase"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-edit /rebase:base=0x500000 client.exe",
+    "S:\\vc1.0\\link\\new-captures\\editor-rebase\\masked-zw0b12zf\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\editor-rebase\\masked-zw0b12zf\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\editor-rebase\\masked-zw0b12zf\\events.jsonl",
+    "S:\\vc1.0\\link\\editor-rebase",
+    "S:\\vc1.0\\link\\new-captures\\editor-rebase\\masked-zw0b12zf\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\editor-rebase\\masked-zw0b12zf\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\editor-rebase\\masked-zw0b12zf\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\editor-rebase\\masked-zw0b12zf\\after.dll",
+    "-"
+  ],
+  "seconds": 1.5147436680272222
+}

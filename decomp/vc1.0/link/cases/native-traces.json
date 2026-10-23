@@ -281,12 +281,40 @@
       "manifest_path": "cases/shared-prefix/rom-local-imports/manifest.json",
       "manifest_sha256": "b3a72e56245155ade649a61d024f4fe2459b003796ee4c47b69fd597fd61e500",
       "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "editor-rebase": {
+      "receipt_path": "cases/shared-prefix/editor-rebase/capture/receipt.json",
+      "receipt_sha256": "491375f50100e1db824712657ef49a0bf4609b6846a6b0c34ef9e9e74a2392df",
+      "manifest_path": "cases/shared-prefix/editor-rebase/manifest.json",
+      "manifest_sha256": "f3d512d9c3f89ea38e3cfb584ab8a069edac9bf21d9f6edc14e7995b8c56b403",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "editor-bind": {
+      "receipt_path": "cases/shared-prefix/editor-bind/capture/receipt.json",
+      "receipt_sha256": "21440e995d0d441f4771a308f05f8033fe77225375700b373be8f4f4d616219b",
+      "manifest_path": "cases/shared-prefix/editor-bind/manifest.json",
+      "manifest_sha256": "a75681aec161cd223ea6a2ea6bb46accd9f233697906e97b39b026aa96a5f2ca",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "editor-release": {
+      "receipt_path": "cases/shared-prefix/editor-release/capture/receipt.json",
+      "receipt_sha256": "712a72ec40f2b432adfe6cf36e0d41518c90433dc0bb036532efdb14e45e6be7",
+      "manifest_path": "cases/shared-prefix/editor-release/manifest.json",
+      "manifest_sha256": "b3e1710e1df10e08c4902e466fe4dcda55099bf7791cd706f0e9b8d139d86a7a",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "editor-release-compact": {
+      "receipt_path": "cases/shared-prefix/editor-release-compact/capture/receipt.json",
+      "receipt_sha256": "6711b7fdddcc6da5777963f51c5b7f20ad1b022f6cac9028c3d56ef7f06f0244",
+      "manifest_path": "cases/shared-prefix/editor-release-compact/manifest.json",
+      "manifest_sha256": "8daf1bc2e302f6038c89b9addc1a1823b10fd092ea3aa86b14edfda5ede526c4",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
     }
   },
   "metadata_sha256": {
-    "functions.json": "a7315db8b9f64c726fc2e6885fd803f2cdc04671fa6e36892ee3d3154e578952",
-    "runtime.json": "4cb6c3bdc9a1aad6009aebfbd20b2f4d3959406cc49ab2950b8d3305c0842470",
-    "replay-cases.json": "99e1b3806b9184c4dcb90e61a9bd459a0516fe5277fe9fcc7ca455325644f2c8"
+    "functions.json": "af96877f7abcff36d9b0d3d3c9538ecaae2d2beda2eb6c145af761083be894bd",
+    "runtime.json": "46333e1ea9d4668441051c017a3fb344cf0679622388d8868b97cfdb7bf521b5",
+    "replay-cases.json": "f7bade90b6a7ab60b6674749500219287af4782bc42f850cbb5386c00a8d543e"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -454,10 +482,15 @@
       "logical": "_begin_library",
       "implementation": "C"
     },
+    "bind_imports": {
+      "source": "src/editor-bind.c",
+      "logical": "_bind_imports",
+      "implementation": "C"
+    },
     "bind_main": {
-      "source": "src/edit-stubs.c",
+      "source": "src/editor-bind.c",
       "logical": "_bind_main",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "build_archive_header": {
       "source": "src/import-archive.c",
@@ -490,9 +523,14 @@
       "implementation": "C"
     },
     "checksum_mapped_image": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/checksum.c",
       "logical": "_checksum_mapped_image",
-      "implementation": "stub-C"
+      "implementation": "C"
+    },
+    "checksum_words": {
+      "source": "src/checksum.c",
+      "logical": "_checksum_words",
+      "implementation": "C"
     },
     "choose_file_page": {
       "source": "src/files.c",
@@ -1939,10 +1977,20 @@
       "logical": "_edit_section",
       "implementation": "stub-C"
     },
+    "editor_bind_error": {
+      "source": "src/edit-stubs.c",
+      "logical": "_editor_bind_error",
+      "implementation": "stub-C"
+    },
     "editor_main": {
       "source": "src/editor.c",
       "logical": "_editor_main",
       "implementation": "C"
+    },
+    "editor_rebase_error": {
+      "source": "src/edit-stubs.c",
+      "logical": "_editor_rebase_error",
+      "implementation": "stub-C"
     },
     "emit_base_relocations": {
       "source": "src/base-relocations.c",
@@ -2078,6 +2126,11 @@
       "source": "src/symbols.c",
       "logical": "_external_referenced_by",
       "implementation": "C"
+    },
+    "fallback_process_relocations": {
+      "source": "src/edit-stubs.c",
+      "logical": "_fallback_process_relocations@16",
+      "implementation": "stub-C"
     },
     "fatal_message": {
       "source": "src/diagnostics.c",
@@ -2529,6 +2582,11 @@
       "logical": "_linker_main",
       "implementation": "C"
     },
+    "load_bind_image": {
+      "source": "src/editor-bind.c",
+      "logical": "_load_bind_image",
+      "implementation": "C"
+    },
     "load_next_default_library": {
       "source": "src/options.c",
       "logical": "_load_next_default_library",
@@ -2569,14 +2627,44 @@
       "logical": "_make_section_header",
       "implementation": "C"
     },
+    "map_bind_image": {
+      "source": "src/editor-bind.c",
+      "logical": "_map_bind_image",
+      "implementation": "C"
+    },
     "map_file": {
       "source": "src/files.c",
       "logical": "_map_file",
       "implementation": "C"
     },
+    "map_rebase_image": {
+      "source": "src/editor-rebase.c",
+      "logical": "_map_rebase_image",
+      "implementation": "C"
+    },
+    "mapped_bound_rva": {
+      "source": "src/editor-bind.c",
+      "logical": "_mapped_bound_rva",
+      "implementation": "C"
+    },
+    "mapped_image_directory": {
+      "source": "src/editor-rebase.c",
+      "logical": "_mapped_image_directory@16",
+      "implementation": "C"
+    },
+    "mapped_image_headers": {
+      "source": "src/editor-rebase.c",
+      "logical": "_mapped_image_headers@4",
+      "implementation": "C"
+    },
     "mapped_output_pointer": {
       "source": "src/files.c",
       "logical": "_mapped_output_pointer",
+      "implementation": "C"
+    },
+    "mapped_rebase_rva": {
+      "source": "src/editor-rebase.c",
+      "logical": "_mapped_rebase_rva",
       "implementation": "C"
     },
     "mark_explicit_export_ordinals": {
@@ -3390,9 +3478,9 @@
       "implementation": "stub-C"
     },
     "rebase_main": {
-      "source": "src/edit-stubs.c",
+      "source": "src/editor-rebase.c",
       "logical": "_rebase_main",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "recognize_input_file": {
       "source": "src/pass-one.c",
@@ -3509,6 +3597,11 @@
       "logical": "_release_text",
       "implementation": "C"
     },
+    "relocate_rebase_image": {
+      "source": "src/editor-rebase.c",
+      "logical": "_relocate_rebase_image",
+      "implementation": "C"
+    },
     "remove_library_member": {
       "source": "src/library.c",
       "logical": "_remove_library_member",
@@ -3537,6 +3630,11 @@
     "reserve_text": {
       "source": "src/text-buffer.c",
       "logical": "_reserve_text",
+      "implementation": "C"
+    },
+    "resolve_bound_import": {
+      "source": "src/editor-bind.c",
+      "logical": "_resolve_bound_import",
       "implementation": "C"
     },
     "resolve_comdat_edges": {
@@ -4772,7 +4870,21 @@
     "format_undefined_references",
     "adjust_rom_section_header",
     "emit_rom_relocations",
-    "close_trace_file"
+    "close_trace_file",
+    "rebase_main",
+    "map_rebase_image",
+    "relocate_rebase_image",
+    "mapped_image_directory",
+    "mapped_image_headers",
+    "mapped_rebase_rva",
+    "checksum_mapped_image",
+    "checksum_words",
+    "bind_main",
+    "map_bind_image",
+    "bind_imports",
+    "mapped_bound_rva",
+    "load_bind_image",
+    "resolve_bound_import"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4919,7 +5031,9 @@
       "__heap_expand_block",
       "_memmove",
       "__find",
-      "_system"
+      "_system",
+      "_strtoul",
+      "_strtoxl"
     ],
     "import": [
       "import:GetCommandLineA",
@@ -4954,7 +5068,17 @@
       "import:GetExitCodeProcess",
       "import:GlobalAlloc",
       "import:DeleteFileA",
-      "import:FindNextFileA"
+      "import:FindNextFileA",
+      "import:GetFullPathNameA",
+      "import:CreateFileMappingA",
+      "import:MapViewOfFile",
+      "import:GetFileSize",
+      "import:FlushViewOfFile",
+      "import:UnmapViewOfFile",
+      "import:LocalAlloc",
+      "import:SystemTimeToFileTime",
+      "import:SetFileTime",
+      "import:LocalFree"
     ]
   },
   "cases": {
@@ -6019,6 +6143,62 @@
         "emit_rom_relocations",
         "close_trace_file"
       ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "editor-rebase": {
+      "first": 809,
+      "last": 825,
+      "seen_count": 632,
+      "expected": [
+        "rebase_main",
+        "map_rebase_image",
+        "relocate_rebase_image",
+        "mapped_image_directory",
+        "mapped_image_headers",
+        "mapped_rebase_rva",
+        "checksum_mapped_image",
+        "checksum_words"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "editor-bind": {
+      "first": 825,
+      "last": 835,
+      "seen_count": 640,
+      "expected": [
+        "bind_main",
+        "map_bind_image",
+        "bind_imports",
+        "mapped_bound_rva",
+        "load_bind_image",
+        "resolve_bound_import"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "editor-release": {
+      "first": 835,
+      "last": 835,
+      "seen_count": 646,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "editor-release-compact": {
+      "first": 835,
+      "last": 835,
+      "seen_count": 646,
+      "expected": [],
       "terminal": {
         "kind": "exit",
         "code": 0

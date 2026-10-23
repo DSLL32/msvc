@@ -1,0 +1,43 @@
+{
+  "mode": "masked",
+  "analysis_samples": [],
+  "case": "editor-bind",
+  "helper_exit": 10,
+  "summary": {
+    "event": "summary",
+    "root_exit": 999,
+    "failed": 10,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "a6403544bb9e5c52cbf814f2cb1b747355238042a88ccb0b25361fbd12313116",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 831,
+  "accepted_sha256": "1ae47baf9f9c77c1f9a75b6ea070c1636561f3875d2c57b2586165bcdfbeafe1",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": null,
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\editor-bind",
+    "TEMP": "S:\\vc1.0\\link\\editor-bind"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-edit /bind:path=. client.exe",
+    "S:\\vc1.0\\link\\new-captures\\editor-bind\\masked-zgedn5j7\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\editor-bind\\masked-zgedn5j7\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\editor-bind\\masked-zgedn5j7\\events.jsonl",
+    "S:\\vc1.0\\link\\editor-bind",
+    "S:\\vc1.0\\link\\new-captures\\editor-bind\\masked-zgedn5j7\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\editor-bind\\masked-zgedn5j7\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\editor-bind\\masked-zgedn5j7\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\editor-bind\\masked-zgedn5j7\\after.dll",
+    "-"
+  ],
+  "seconds": 1.6475892178714275
+}

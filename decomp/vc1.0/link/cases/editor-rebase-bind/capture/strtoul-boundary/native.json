@@ -1,0 +1,14 @@
+{
+  "before": {
+    "input": "0x500000",
+    "base": 16,
+    "end_pointer_present": true,
+    "errno": 0
+  },
+  "after": {
+    "result": 5242880,
+    "end_offset": 8,
+    "end_points_into_input": true,
+    "errno": 0
+  }
+}

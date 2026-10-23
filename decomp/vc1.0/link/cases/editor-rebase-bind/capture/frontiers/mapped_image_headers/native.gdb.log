@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x14650: file src/edit-stubs.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, mapped_image_headers (base=0xf7b6d000) at src/edit-stubs.c:13
+13	PIMAGE_NT_HEADERS WINAPI mapped_image_headers(void *base) { __asm { int 3 } return NULL; }
+NATIVE_MATCH mapped_image_headers
+0xffffd0cc:	0x565694fb	0xf7b6d000	0xffffd93c	0xffffd108
+0xffffd0dc:	0x565b7260	0x5660b520
+#0  mapped_image_headers (base=0xf7b6d000) at src/edit-stubs.c:13
+#1  0x565694fb in mapped_image_directory (base=0xf7b6d000, mapped=0 '\000', entry=5, size=0xffffd134) at src/editor-rebase.c:243
+#2  0x56569325 in relocate_rebase_image (image=0x565e3be4 <rebase_workspace>, base=5242880, delta=0xffffd17c) at src/editor-rebase.c:209
+#3  0x56568b1f in rebase_main (argc=1, argv=0x5660c64c, environment=0x0) at src/editor-rebase.c:97
+#4  0x56567986 in editor_main (argc=3, argv=0xffffd774) at src/editor.c:71

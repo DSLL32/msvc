@@ -82,7 +82,20 @@ def validate_output(work, fixture, record, parser):
                 normalized_sha256=sha(normalized), ignored_fields=expected_fields)
 
 
-def run_case(name, executable, directory, parser, state, tracing=None):
+def preceding_input(item,fixture,parser,completed,state):
+    incoming=item['from_case'];source_case=incoming['case'];output_name=incoming['output_name']
+    assert completed is not None and source_case in completed, 'Missing successful preceding native stage: '+source_case
+    preceding=completed[source_case]
+    actual=(preceding['work']/output_name).read_bytes()
+    assert sha(actual)==preceding['outputs'][output_name]['sha256'], 'Preceding native artifact changed after validation'
+    proof=validate_output(preceding['work'],fixture,dict(item,output_name=output_name),parser)
+    state.setdefault('native_input_flow',[]).append(dict(source_case=source_case,output_name=output_name,
+        bytes=len(actual),sha256=sha(actual),normalized_sha256=proof['normalized_sha256'],
+        source='actual preceding native output; no frozen input replacement'))
+    return actual
+
+
+def run_case(name, executable, directory, parser, state, tracing=None, completed=None):
     start = time.perf_counter()
     case_directory = directory / name
     fixture, phase_name = CASES[name]
@@ -111,6 +124,8 @@ def run_case(name, executable, directory, parser, state, tracing=None):
         env[key] = value.replace('{lib}', LIBRARY)
     for item in phase['inputs']:
         data = captured(fixture / item['path'], item)
+        if item.get('from_case'):
+            data=preceding_input(item,fixture,parser,completed,state)
         target = work / Path(item['path']).name
         assert not target.exists(), 'duplicate input basename'
         target.write_bytes(data)
@@ -211,6 +226,8 @@ def run_case(name, executable, directory, parser, state, tracing=None):
         assert result.stderr == phase['expected_stderr'].encode('latin1'), 'stderr differs'
         outputs = [validate_output(work, fixture, item, parser)
                    for item in phase.get('outputs', [])]
+    if completed is not None:
+        completed[name]=dict(work=work,outputs={item['name']:item for item in outputs})
     return dict(case=name, status='pass', exit=result.returncode,
                 manifest=str(metadata_path.relative_to(ROOT)),
                 manifest_sha256=sha(metadata_path.read_bytes()),
@@ -219,6 +236,23 @@ def run_case(name, executable, directory, parser, state, tracing=None):
                 outputs=outputs, setup_seconds=setup, execution_seconds=run_seconds,
                 oracle_seconds=time.perf_counter()-check_start,
                 total_seconds=time.perf_counter()-start)
+
+
+def ordered_cases(selected):
+    """Resolve only declared native artifact predecessors; never capture references."""
+    result=[];visiting=set()
+    def add(name):
+        assert name in CASES, 'Unknown native input dependency: '+name
+        if name in result:return
+        assert name not in visiting, 'Cyclic native stage dependency'
+        visiting.add(name)
+        fixture,phase_name=CASES[name]
+        phase=json.loads((fixture/'manifest.json').read_text())['phases'][phase_name]
+        for item in phase['inputs']:
+            if item.get('from_case'):add(item['from_case']['case'])
+        visiting.remove(name);result.append(name)
+    for name in selected:add(name)
+    return result
 
 
 def main():
@@ -260,11 +294,12 @@ def main():
                        trace_cache=str(options.trace_cache),
                        trace_cache_sha256=sha(options.trace_cache.read_bytes()))
     start = time.perf_counter()
-    for name in options.case or CASES:
+    completed={}
+    for name in ordered_cases(options.case or CASES):
         case_start = time.perf_counter()
         result = dict(case=name)
         try:
-            result.update(run_case(name, executable, directory, parser, result, tracing))
+            result.update(run_case(name, executable, directory, parser, result, tracing,completed))
         except Exception as error:
             result.update(status='fail', error=str(error),
                           total_seconds=time.perf_counter()-case_start)

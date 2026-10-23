@@ -1,0 +1,110 @@
+{
+  "status": "pass",
+  "runs": [
+    {
+      "command": [
+        "wine",
+        "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+        "/nologo",
+        "/c",
+        "/O2",
+        "/G5",
+        "provider.c",
+        "client.c"
+      ],
+      "cwd": "S:\\vc1.0\\link\\editor-rebase-bind-build",
+      "environment": {
+        "LIB": "R:\\toolchains\\1.0-nt\\lib",
+        "LINK32_DB": "27"
+      },
+      "exit": 0,
+      "seconds": 3.360811984166503
+    },
+    {
+      "command": [
+        "wine",
+        "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+        "-link",
+        "/nologo",
+        "/dll",
+        "/entry:DllMain",
+        "/base:0x600000",
+        "/out:provider.dll",
+        "/implib:provider.lib",
+        "/nodefaultlib",
+        "provider.obj"
+      ],
+      "cwd": "S:\\vc1.0\\link\\editor-rebase-bind-build",
+      "environment": {
+        "LIB": "R:\\toolchains\\1.0-nt\\lib",
+        "LINK32_DB": "27"
+      },
+      "exit": 0,
+      "seconds": 1.78476401604712
+    },
+    {
+      "command": [
+        "wine",
+        "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+        "-link",
+        "/nologo",
+        "/entry:main",
+        "/subsystem:console",
+        "/base:0x400000",
+        "/out:client.exe",
+        "/nodefaultlib",
+        "client.obj",
+        "provider.lib"
+      ],
+      "cwd": "S:\\vc1.0\\link\\editor-rebase-bind-build",
+      "environment": {
+        "LIB": "R:\\toolchains\\1.0-nt\\lib",
+        "LINK32_DB": "27"
+      },
+      "exit": 0,
+      "seconds": 1.2963226614519954
+    }
+  ],
+  "outputs": [
+    {
+      "name": "provider.exp",
+      "bytes": 388,
+      "sha256": "dcce0a9580e49511d6b3aa5b83fef49858f0571ca0318d18462a4e2b600d5b54"
+    },
+    {
+      "name": "provider.dll",
+      "bytes": 3072,
+      "sha256": "6da78d775037c0d4c58ac6e9dd09ea9e86f0c86f499164dbee53787291368eba"
+    },
+    {
+      "name": "client.exe",
+      "bytes": 3072,
+      "sha256": "6353046c6f20a6ced8ab7b199f28ad19a44d86711e7688b4ff63a7552c316543"
+    },
+    {
+      "name": "client.obj",
+      "bytes": 622,
+      "sha256": "0ad691a3fa6a3fd4f8c632b956433fc325be48c7c0537feb5058cfdc80ea371b"
+    },
+    {
+      "name": "provider.c",
+      "bytes": 224,
+      "sha256": "9ade2af497bd8102aad9f19d67f50d3e877b01af3c4768c03e415be95303709d"
+    },
+    {
+      "name": "provider.lib",
+      "bytes": 2552,
+      "sha256": "4281a5a32fa5bc9686416161d83a381fb399de525ff1be0eaf1efaf88bcfee5e"
+    },
+    {
+      "name": "client.c",
+      "bytes": 164,
+      "sha256": "05d530cb80d4c07d3c89a6f915eedd82c9791c033b5d0274c93926cb08a2c4fa"
+    },
+    {
+      "name": "provider.obj",
+      "bytes": 884,
+      "sha256": "ab30d7526183fa12d9c11500c886d4db5f4006ebda19d6ebadb86e1707788945"
+    }
+  ]
+}

@@ -1,0 +1,7 @@
+{"event":"create","pid":1112,"parent":1900,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -edit /rebase:base=0x500000 client.exe"}
+{"event":"entry","pid":1112,"rva":278992,"name":"analysis_strtoul_entry","crt_errno":0}
+{"event":"strtoul-before","input":"0x500000","base":16,"end_pointer_present":1}
+{"event":"entry","pid":1112,"rva":262038,"name":"analysis_strtoul_return","crt_errno":0}
+{"event":"strtoul-after","result":5242880,"end_offset":8,"end_points_into_input":1}
+{"event":"exit","pid":1112,"code":0,"packer":0}
+{"event":"summary","root_exit":0,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

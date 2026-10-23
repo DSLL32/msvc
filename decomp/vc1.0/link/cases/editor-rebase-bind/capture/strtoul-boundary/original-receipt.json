@@ -1,0 +1,46 @@
+{
+  "mode": "original",
+  "analysis_samples": [
+    "0x541d0:analysis_strtoul_entry",
+    "0x4ff96:analysis_strtoul_return"
+  ],
+  "case": "editor-rebase",
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "root_exit": 0,
+    "failed": 0,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "b45189c41dcb5b028ac54428b185bb888045e1642395a59d3c808aa40f83a8bd",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 810,
+  "accepted_sha256": "7cf02dcf7102326ca0ce9016bf5993c90686af1158905e8882ed20faa4a19a45",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": null,
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\editor-rebase",
+    "TEMP": "S:\\vc1.0\\link\\editor-rebase"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-edit /rebase:base=0x500000 client.exe",
+    "S:\\vc1.0\\link\\new-captures\\editor-rebase\\original-51fdayle\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\editor-rebase\\original-51fdayle\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\editor-rebase\\original-51fdayle\\events.jsonl",
+    "S:\\vc1.0\\link\\editor-rebase",
+    "S:\\vc1.0\\link\\new-captures\\editor-rebase\\original-51fdayle\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\editor-rebase\\original-51fdayle\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\editor-rebase\\original-51fdayle\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\editor-rebase\\original-51fdayle\\after.dll",
+    "-"
+  ],
+  "seconds": 1.3120240224525332
+}

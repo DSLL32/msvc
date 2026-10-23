@@ -118,5 +118,17 @@
   },
   "rom-local-imports": {
     "directory": "cases/shared-prefix/rom-local-imports"
+  },
+  "editor-rebase": {
+    "directory": "cases/shared-prefix/editor-rebase"
+  },
+  "editor-bind": {
+    "directory": "cases/shared-prefix/editor-bind"
+  },
+  "editor-release": {
+    "directory": "cases/shared-prefix/editor-release"
+  },
+  "editor-release-compact": {
+    "directory": "cases/shared-prefix/editor-release-compact"
   }
 }

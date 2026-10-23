@@ -1,5 +1,5 @@
 {
-  "status": "Current three families complete; root approved next single public editor workflow for original validation",
+  "status": "All approved families complete; preparing next single substantial case for root review",
   "baseline": {
     "commit": "b8a6dd9b",
     "frontiers": 788,
@@ -39,8 +39,16 @@
     {
       "order": 4,
       "name": "editor-rebase-bind-release",
-      "status": "approved; original validation next after ROM checkpoint",
-      "scope": "Original-linked EXE with actual address relocations and actual import/export against pinned local DLL; public EDIT rebase0x500000, bind:path=., release. Freeze each stage, disclose external helpers before scope expansion."
+      "status": "complete",
+      "scope": "Original-linked EXE with actual address relocations and actual import/export against pinned local DLL; public EDIT rebase0x500000, bind:path=., release. Freeze each stage, disclose external helpers before scope expansion.",
+      "positive_inputs": "Original default-mapped2MB EXE and local provider DLL with actual HIGHLOW relocations/import/export",
+      "preserved_variant": "Original3072byte buffered setup input grows to2MB under EDIT release; checksum reflects logical3072, not wholefile. Exact semantic variant retained without normalization.",
+      "stage_flow": "Native bind/release consume actual preceding native outputs, with full normalized-byte input validation; no frozen replacement.",
+      "functions": 14,
+      "runtime_functions": 2,
+      "import_thunks": 10,
+      "receipt": "cases/editor-rebase-bind/validation.json",
+      "native_cases": 4
     }
   ],
   "methodology": "Explicit shared R:/S: original capture before acceptance, native cached regressions only, full artifacts and graph/ABI/data preservation"

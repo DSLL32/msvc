@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x15930: file src/edit-stubs.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, load_bind_image (name=0x565e6bec <editor_workspace> "") at src/edit-stubs.c:13
+13	BoundImage *load_bind_image(const char *name) { __asm { int 3 } return NULL; }
+NATIVE_MATCH load_bind_image
+0xffffd21c:	0x5656a439	0xf7b6d838	0x565e6bec	0x00000001
+0xffffd22c:	0xffffd288	0x00000000
+#0  load_bind_image (name=0x565e6bec <editor_workspace> "") at src/edit-stubs.c:13
+#1  0x5656a439 in bind_imports (image=0x565e6bec <editor_workspace>) at src/editor-bind.c:158
+#2  0x56569d47 in bind_main (argc=1, argv=0x5660f610, environment=0x0) at src/editor-bind.c:59
+#3  0x56567dd1 in editor_main (argc=3, argv=0xffffd7a4) at src/editor.c:93
+#4  0x56559e8d in main (argc=3, argv=0xffffd7a4) at src/link.c:72

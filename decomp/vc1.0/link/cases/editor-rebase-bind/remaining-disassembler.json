@@ -1,0 +1,854 @@
+{
+  "method": "Static entry-CFG decode bounded by next known application entry; follows direct intra-bound branches and call fallthrough, stops RET; does not claim complete function extent where indirect/outside edges exist. Excludes padding and all one-byte placeholder extents. Analysis only, no acceptance.",
+  "functions": [
+    {
+      "name": "_decode_op_4b650",
+      "entry": 308816,
+      "conservative_next_known_entry": 308848,
+      "decoded_instruction_bytes": 20,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        337783
+      ]
+    },
+    {
+      "name": "_decode_op_4b670",
+      "entry": 308848,
+      "conservative_next_known_entry": 308896,
+      "decoded_instruction_bytes": 42,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        308560
+      ]
+    },
+    {
+      "name": "_decode_op_4b6d0",
+      "entry": 308944,
+      "conservative_next_known_entry": 308992,
+      "decoded_instruction_bytes": 42,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        308560
+      ]
+    },
+    {
+      "name": "_decode_op_4b730",
+      "entry": 309040,
+      "conservative_next_known_entry": 309088,
+      "decoded_instruction_bytes": 42,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        308560
+      ]
+    },
+    {
+      "name": "_decode_op_4b760",
+      "entry": 309088,
+      "conservative_next_known_entry": 309136,
+      "decoded_instruction_bytes": 42,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        308560
+      ]
+    },
+    {
+      "name": "_decode_op_4b790",
+      "entry": 309136,
+      "conservative_next_known_entry": 309184,
+      "decoded_instruction_bytes": 42,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        308560
+      ]
+    },
+    {
+      "name": "_decode_op_4b7c0",
+      "entry": 309184,
+      "conservative_next_known_entry": 309232,
+      "decoded_instruction_bytes": 42,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        308560
+      ]
+    },
+    {
+      "name": "_decode_op_4b7f0",
+      "entry": 309232,
+      "conservative_next_known_entry": 309280,
+      "decoded_instruction_bytes": 42,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        308560
+      ]
+    },
+    {
+      "name": "_decode_op_4b820",
+      "entry": 309280,
+      "conservative_next_known_entry": 309328,
+      "decoded_instruction_bytes": 42,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        308560
+      ]
+    },
+    {
+      "name": "_decode_op_4b850",
+      "entry": 309328,
+      "conservative_next_known_entry": 309376,
+      "decoded_instruction_bytes": 42,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        308560
+      ]
+    },
+    {
+      "name": "_decode_op_4b960",
+      "entry": 309600,
+      "conservative_next_known_entry": 309648,
+      "decoded_instruction_bytes": 42,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4b9c0",
+      "entry": 309696,
+      "conservative_next_known_entry": 309744,
+      "decoded_instruction_bytes": 33,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        309504
+      ]
+    },
+    {
+      "name": "_decode_op_4b9f0",
+      "entry": 309744,
+      "conservative_next_known_entry": 309776,
+      "decoded_instruction_bytes": 25,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4ba10",
+      "entry": 309776,
+      "conservative_next_known_entry": 309840,
+      "decoded_instruction_bytes": 50,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4ba70",
+      "entry": 309872,
+      "conservative_next_known_entry": 309904,
+      "decoded_instruction_bytes": 32,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4ba90",
+      "entry": 309904,
+      "conservative_next_known_entry": 309952,
+      "decoded_instruction_bytes": 41,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4bac0",
+      "entry": 309952,
+      "conservative_next_known_entry": 309984,
+      "decoded_instruction_bytes": 32,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4bae0",
+      "entry": 309984,
+      "conservative_next_known_entry": 310032,
+      "decoded_instruction_bytes": 43,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4bb10",
+      "entry": 310032,
+      "conservative_next_known_entry": 310096,
+      "decoded_instruction_bytes": 50,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4bb50",
+      "entry": 310096,
+      "conservative_next_known_entry": 310160,
+      "decoded_instruction_bytes": 50,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4bb90",
+      "entry": 310160,
+      "conservative_next_known_entry": 310224,
+      "decoded_instruction_bytes": 50,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4bbd0",
+      "entry": 310224,
+      "conservative_next_known_entry": 310288,
+      "decoded_instruction_bytes": 50,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4bc10",
+      "entry": 310288,
+      "conservative_next_known_entry": 310352,
+      "decoded_instruction_bytes": 50,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4bc50",
+      "entry": 310352,
+      "conservative_next_known_entry": 310416,
+      "decoded_instruction_bytes": 50,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4bc90",
+      "entry": 310416,
+      "conservative_next_known_entry": 310480,
+      "decoded_instruction_bytes": 50,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4bcd0",
+      "entry": 310480,
+      "conservative_next_known_entry": 310544,
+      "decoded_instruction_bytes": 50,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4bd10",
+      "entry": 310544,
+      "conservative_next_known_entry": 310592,
+      "decoded_instruction_bytes": 35,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        308672
+      ]
+    },
+    {
+      "name": "_decode_op_4bd40",
+      "entry": 310592,
+      "conservative_next_known_entry": 310640,
+      "decoded_instruction_bytes": 35,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        308672
+      ]
+    },
+    {
+      "name": "_decode_op_4bd70",
+      "entry": 310640,
+      "conservative_next_known_entry": 310688,
+      "decoded_instruction_bytes": 35,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        308672
+      ]
+    },
+    {
+      "name": "_decode_op_4be00",
+      "entry": 310784,
+      "conservative_next_known_entry": 310832,
+      "decoded_instruction_bytes": 35,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        308672
+      ]
+    },
+    {
+      "name": "_decode_op_4be90",
+      "entry": 310928,
+      "conservative_next_known_entry": 311040,
+      "decoded_instruction_bytes": 105,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4bf70",
+      "entry": 311152,
+      "conservative_next_known_entry": 311264,
+      "decoded_instruction_bytes": 98,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4bfe0",
+      "entry": 311264,
+      "conservative_next_known_entry": 311392,
+      "decoded_instruction_bytes": 111,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4c060",
+      "entry": 311392,
+      "conservative_next_known_entry": 311424,
+      "decoded_instruction_bytes": 30,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        337783
+      ]
+    },
+    {
+      "name": "_decode_op_4c0b0",
+      "entry": 311472,
+      "conservative_next_known_entry": 311520,
+      "decoded_instruction_bytes": 48,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4c140",
+      "entry": 311616,
+      "conservative_next_known_entry": 311664,
+      "decoded_instruction_bytes": 43,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4c170",
+      "entry": 311664,
+      "conservative_next_known_entry": 311712,
+      "decoded_instruction_bytes": 43,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4c1a0",
+      "entry": 311712,
+      "conservative_next_known_entry": 311888,
+      "decoded_instruction_bytes": 160,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4c3d0",
+      "entry": 312272,
+      "conservative_next_known_entry": 312384,
+      "decoded_instruction_bytes": 106,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4c4c0",
+      "entry": 312512,
+      "conservative_next_known_entry": 312624,
+      "decoded_instruction_bytes": 107,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        337783
+      ]
+    },
+    {
+      "name": "_decode_op_4c530",
+      "entry": 312624,
+      "conservative_next_known_entry": 312736,
+      "decoded_instruction_bytes": 107,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        337783
+      ]
+    },
+    {
+      "name": "_decode_op_4c6d0",
+      "entry": 313040,
+      "conservative_next_known_entry": 313104,
+      "decoded_instruction_bytes": 59,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        312736
+      ]
+    },
+    {
+      "name": "_decode_op_4c710",
+      "entry": 313104,
+      "conservative_next_known_entry": 313168,
+      "decoded_instruction_bytes": 59,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        312736
+      ]
+    },
+    {
+      "name": "_decode_op_4c830",
+      "entry": 313392,
+      "conservative_next_known_entry": 313616,
+      "decoded_instruction_bytes": 214,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        307664,
+        308240
+      ]
+    },
+    {
+      "name": "_decode_op_4c910",
+      "entry": 313616,
+      "conservative_next_known_entry": 313664,
+      "decoded_instruction_bytes": 36,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        311520,
+        312960
+      ]
+    },
+    {
+      "name": "_decode_op_4c940",
+      "entry": 313664,
+      "conservative_next_known_entry": 313712,
+      "decoded_instruction_bytes": 36,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        311424,
+        312960
+      ]
+    },
+    {
+      "name": "_decode_op_4c970",
+      "entry": 313712,
+      "conservative_next_known_entry": 313872,
+      "decoded_instruction_bytes": 74,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        312736,
+        337783
+      ]
+    },
+    {
+      "name": "_decode_op_4ca60",
+      "entry": 313952,
+      "conservative_next_known_entry": 314048,
+      "decoded_instruction_bytes": 94,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        312736,
+        337783
+      ]
+    },
+    {
+      "name": "_decode_op_4cdf0",
+      "entry": 314864,
+      "conservative_next_known_entry": 315008,
+      "decoded_instruction_bytes": 139,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        308560,
+        308816
+      ]
+    },
+    {
+      "name": "_decode_op_4d4e0",
+      "entry": 316640,
+      "conservative_next_known_entry": 316656,
+      "decoded_instruction_bytes": 16,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4d510",
+      "entry": 316688,
+      "conservative_next_known_entry": 316704,
+      "decoded_instruction_bytes": 16,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4d520",
+      "entry": 316704,
+      "conservative_next_known_entry": 316768,
+      "decoded_instruction_bytes": 61,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4d560",
+      "entry": 316768,
+      "conservative_next_known_entry": 316832,
+      "decoded_instruction_bytes": 61,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4d5a0",
+      "entry": 316832,
+      "conservative_next_known_entry": 316896,
+      "decoded_instruction_bytes": 61,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4d5e0",
+      "entry": 316896,
+      "conservative_next_known_entry": 316992,
+      "decoded_instruction_bytes": 91,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4d640",
+      "entry": 316992,
+      "conservative_next_known_entry": 317072,
+      "decoded_instruction_bytes": 71,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4d690",
+      "entry": 317072,
+      "conservative_next_known_entry": 317168,
+      "decoded_instruction_bytes": 96,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4d810",
+      "entry": 317456,
+      "conservative_next_known_entry": 317520,
+      "decoded_instruction_bytes": 58,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        317264
+      ]
+    },
+    {
+      "name": "_decode_op_4d850",
+      "entry": 317520,
+      "conservative_next_known_entry": 317600,
+      "decoded_instruction_bytes": 63,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        317264
+      ]
+    },
+    {
+      "name": "_decode_op_4d8a0",
+      "entry": 317600,
+      "conservative_next_known_entry": 317648,
+      "decoded_instruction_bytes": 42,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        317264
+      ]
+    },
+    {
+      "name": "_decode_op_4d8d0",
+      "entry": 317648,
+      "conservative_next_known_entry": 317696,
+      "decoded_instruction_bytes": 42,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        317264
+      ]
+    },
+    {
+      "name": "_decode_op_4d900",
+      "entry": 317696,
+      "conservative_next_known_entry": 317744,
+      "decoded_instruction_bytes": 42,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        317264
+      ]
+    },
+    {
+      "name": "_decode_op_4d930",
+      "entry": 317744,
+      "conservative_next_known_entry": 317792,
+      "decoded_instruction_bytes": 42,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        317264
+      ]
+    },
+    {
+      "name": "_decode_op_4d960",
+      "entry": 317792,
+      "conservative_next_known_entry": 317840,
+      "decoded_instruction_bytes": 42,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        317264
+      ]
+    },
+    {
+      "name": "_decode_op_4d990",
+      "entry": 317840,
+      "conservative_next_known_entry": 317904,
+      "decoded_instruction_bytes": 52,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        309504,
+        309552,
+        311472
+      ]
+    },
+    {
+      "name": "_decode_op_4d9d0",
+      "entry": 317904,
+      "conservative_next_known_entry": 317952,
+      "decoded_instruction_bytes": 42,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        312960
+      ]
+    },
+    {
+      "name": "_decode_op_4da00",
+      "entry": 317952,
+      "conservative_next_known_entry": 318000,
+      "decoded_instruction_bytes": 41,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": [
+        310032,
+        312960
+      ]
+    },
+    {
+      "name": "_decode_op_4da30",
+      "entry": 318000,
+      "conservative_next_known_entry": 318064,
+      "decoded_instruction_bytes": 60,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4da70",
+      "entry": 318064,
+      "conservative_next_known_entry": 318128,
+      "decoded_instruction_bytes": 60,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4dab0",
+      "entry": 318128,
+      "conservative_next_known_entry": 318192,
+      "decoded_instruction_bytes": 60,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4daf0",
+      "entry": 318192,
+      "conservative_next_known_entry": 318256,
+      "decoded_instruction_bytes": 60,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4db30",
+      "entry": 318256,
+      "conservative_next_known_entry": 318320,
+      "decoded_instruction_bytes": 60,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4db70",
+      "entry": 318320,
+      "conservative_next_known_entry": 318384,
+      "decoded_instruction_bytes": 60,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4dbb0",
+      "entry": 318384,
+      "conservative_next_known_entry": 318448,
+      "decoded_instruction_bytes": 60,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4dbf0",
+      "entry": 318448,
+      "conservative_next_known_entry": 318512,
+      "decoded_instruction_bytes": 60,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4dc30",
+      "entry": 318512,
+      "conservative_next_known_entry": 318576,
+      "decoded_instruction_bytes": 60,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4dc70",
+      "entry": 318576,
+      "conservative_next_known_entry": 318640,
+      "decoded_instruction_bytes": 60,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4dcb0",
+      "entry": 318640,
+      "conservative_next_known_entry": 318704,
+      "decoded_instruction_bytes": 60,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4dcf0",
+      "entry": 318704,
+      "conservative_next_known_entry": 318768,
+      "decoded_instruction_bytes": 60,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4dd30",
+      "entry": 318768,
+      "conservative_next_known_entry": 318832,
+      "decoded_instruction_bytes": 60,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4dd70",
+      "entry": 318832,
+      "conservative_next_known_entry": 318896,
+      "decoded_instruction_bytes": 60,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4de00",
+      "entry": 318976,
+      "conservative_next_known_entry": 319040,
+      "decoded_instruction_bytes": 57,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4df20",
+      "entry": 319264,
+      "conservative_next_known_entry": 319312,
+      "decoded_instruction_bytes": 43,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4df50",
+      "entry": 319312,
+      "conservative_next_known_entry": 319392,
+      "decoded_instruction_bytes": 77,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    },
+    {
+      "name": "_decode_op_4dfa0",
+      "entry": 319392,
+      "conservative_next_known_entry": 319472,
+      "decoded_instruction_bytes": 77,
+      "unknown_jumps": [],
+      "external_jumps": [],
+      "calls": []
+    }
+  ],
+  "decoded_instruction_bytes": 4938,
+  "function_count": 85,
+  "with_unknown_jumps": 0
+}

@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "positive": "Actual independently valid timestamp variant passed through unchanged, distinct from frozen input",
+  "rejected": [
+    "missing_predecessor",
+    "changed_after_validation",
+    "different_serialized_input",
+    "unknown_dependency",
+    "dependency_cycle"
+  ],
+  "seconds": "unmeasured; host-only guards"
+}

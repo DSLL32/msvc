@@ -65,20 +65,20 @@ def main():
     run('wrong-driver-call',command+['--rebuilt',str(path)],False)
     path=wrong_call('_doexit','wrong-runtime-call.exe')
     run('wrong-runtime-call',command+['--rebuilt',str(path)],False)
-    ret=None
-    for record in new:
-        if record['name'] not in config['accepted']:continue
-        candidate=next((i for i in decoder.disasm(rebuilt.read(record['start'],record['end']-record['start']),record['start'])
-                        if i.mnemonic=='ret' and i.size==3 and int(i.op_str,0)),None)
-        if candidate is not None:
-            ret=candidate
-            break
-    assert ret is not None, 'No accepted callee-cleanup routine'
+    # This accepted stdcall helper has one actualRET4 and no inline table.
+    # A linear search across arbitrary extents can mistake switch data for RET.
+    return_record=next(r for r in new if r['name']=='_mapped_image_headers@4')
+    assert return_record['name'] in config['accepted']
+    candidates=[i for i in decoder.disasm(rebuilt.read(return_record['start'],return_record['end']-return_record['start']),return_record['start'])
+                if i.mnemonic=='ret']
+    assert len(candidates)==1 and candidates[0].size==3 and int(candidates[0].op_str,0)==4
+    ret=candidates[0]
     data=bytearray(rebuilt.data)
     struct.pack_into('<H',data,rebuilt.offset(ret.address)+1,int(ret.op_str,0)+4)
     path=directory/'wrong-ret.exe'
     path.write_bytes(data)
     run('wrong-ret-cleanup',command+['--rebuilt',str(path)],False)
+    results[-1]['mutation']=dict(function=return_record['name'],address=ret.address,original_cleanup=4,changed_cleanup=8,scope='Genuine soleRET4 in table-free accepted stdcall helper')
     runtime=json.loads((BINARY/'runtime.json').read_text())
     record=next(r for r in runtime if r['name']=='_mainCRTStartup')
     last=next(i for i in reversed(list(decoder.disasm(original.read(record['start'],record['end']-record['start']),record['start']))) if i.size>1)

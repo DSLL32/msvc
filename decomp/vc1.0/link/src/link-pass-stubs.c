@@ -23,11 +23,3 @@ void end_comdat_edge_enumerator(ComdatEdgeEnumerator *scan) { __asm { int 3 }  }
 
 
 void end_comdat_root_enumerator(ComdatRootEnumerator *scan) { __asm { int 3 }  }
-
-
-
-
-
-
-
-PIMAGE_NT_HEADERS checksum_mapped_image(void *image,unsigned long size,unsigned long *previous,unsigned long *checksum) { __asm { int 3 } return 0; }

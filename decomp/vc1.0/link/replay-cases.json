@@ -387,6 +387,44 @@
         "code": 0
       },
       "reason": "ROM COFF plus local dllimport, duplicate warning, MAP and captured LINK_REPRO copies"
+    },
+    {
+      "case": "editor-rebase",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Original-backed ordered EDIT image mutation/checksum workflow"
+    },
+    {
+      "case": "editor-bind",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Original-backed ordered EDIT image mutation/checksum workflow"
+    },
+    {
+      "case": "editor-release",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Original-backed ordered EDIT image mutation/checksum workflow",
+      "accepted_prefix": 835
+    },
+    {
+      "case": "editor-release-compact",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Original valid compact-input physical-growth/logical-checksum defect, full bytes exact",
+      "accepted_prefix": 835
     }
   ]
 }

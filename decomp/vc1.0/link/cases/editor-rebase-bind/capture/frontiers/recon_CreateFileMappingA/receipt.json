@@ -1,0 +1,57 @@
+{
+  "status": "pass",
+  "logical": "recon_CreateFileMappingA",
+  "original_address": "0x5b1be",
+  "original_directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/editor-rebase/masked-q56ym4p_",
+  "native_directory": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/editor-rebase-recon_CreateFileMappingA-9hmy91ro",
+  "native_context": {
+    "event": "context",
+    "pid": 820,
+    "eip": 373183,
+    "esp": 2750824,
+    "eax": 4,
+    "ecx": 2883584,
+    "edx": 2884320,
+    "stack": [
+      329151,
+      68,
+      0,
+      4,
+      0,
+      0,
+      0,
+      5,
+      98,
+      1,
+      2752156,
+      339284,
+      497496,
+      4294967295,
+      2750916,
+      5,
+      98,
+      1,
+      268435455,
+      344550,
+      1,
+      2750852,
+      4,
+      4
+    ],
+    "crt_errno": 0
+  },
+  "seconds": 1.6435912866145372,
+  "parallel_sides": true,
+  "partial_streams_exact": true,
+  "typed_rom_fixups": null,
+  "caller_edge": {
+    "caller": "map_rebase_image",
+    "original_caller_extent": [
+      328992,
+      329584
+    ],
+    "original_return": 329151,
+    "original_call": 329146,
+    "callee": 373182
+  }
+}

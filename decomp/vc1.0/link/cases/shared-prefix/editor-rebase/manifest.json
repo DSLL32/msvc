@@ -1,0 +1,66 @@
+{
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-editor.py",
+    "sha256": "63c5463bd3853fa3802990d09bb89bdf064a7277b03e844b09f90085a6457819"
+  },
+  "case": "editor-rebase",
+  "phases": {
+    "reference": {
+      "arguments": [
+        "-edit",
+        "/rebase:base=0x500000",
+        "client.exe"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "expected_exit": 0,
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "canonical_working_directory": "S:\\vc1.0\\link\\editor-rebase",
+      "inputs": [
+        {
+          "path": "../../editor-rebase-bind/inputs/client.exe",
+          "bytes": 2097152,
+          "sha256": "2c92f7b485af6f6c475315024749fe605a123402c1e5687ab609a24816c2783a"
+        },
+        {
+          "path": "../../editor-rebase-bind/inputs/provider.dll",
+          "bytes": 2097152,
+          "sha256": "30e5323dc6e29e6fc9286e1e48ee25bf0d025b85528773ceb32e5fd1b5346d1d"
+        }
+      ],
+      "outputs": [
+        {
+          "output_name": "client.exe",
+          "artifact_kind": "edited-pe",
+          "path": "expected/client.exe",
+          "bytes": 2097152,
+          "sha256": "4885a369663db706729c6413d3e8bd4043a40c67557fe8ccd27474312a130478",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            }
+          ],
+          "normalized_sha256": "edff96f3fd0319cb9f38d37060da675b347f998f1a4a04caa05350baa47f70c1"
+        },
+        {
+          "output_name": "provider.dll",
+          "artifact_kind": "raw",
+          "path": "expected/provider.dll",
+          "bytes": 2097152,
+          "sha256": "30e5323dc6e29e6fc9286e1e48ee25bf0d025b85528773ceb32e5fd1b5346d1d",
+          "ignored_fields": [],
+          "normalized_sha256": "30e5323dc6e29e6fc9286e1e48ee25bf0d025b85528773ceb32e5fd1b5346d1d"
+        }
+      ],
+      "expected_stdout": "Microsoft (R) COFF Binary File Editor Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n\r\nREBASE: Total Size of mapping 0x00010000\r\nREBASE: Range 0x00500000 - 0x00510000\r\n",
+      "expected_stderr": ""
+    }
+  },
+  "source_reference": "decomp/vc1.0/link/cases/editor-rebase-bind/stages/rebase",
+  "migration": "Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged"
+}

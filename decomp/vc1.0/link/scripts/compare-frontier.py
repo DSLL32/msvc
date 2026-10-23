@@ -5,6 +5,7 @@ from concurrent.futures import ThreadPoolExecutor
 import hashlib
 import json
 import os
+import re
 from pathlib import Path
 import shutil
 import shlex
@@ -19,6 +20,8 @@ def main():
     ap.add_argument('--spec',type=Path,required=True)
     ap.add_argument('--function',required=True)
     ap.add_argument('--address',type=lambda s:int(s,0),required=True)
+    ap.add_argument('--caller',help='Require this accepted direct caller when native API aliases have earlier GPA calls')
+    ap.add_argument('--earlier-caller',action='append',default=[],help='Explicit reviewed accepted GPA caller that may run before the direct thunk')
     args=ap.parse_args()
     spec=json.loads(args.spec.read_text())
     parent=SCRATCH/'vc1.0/link/frontiers'
@@ -59,6 +62,32 @@ open(%r,'w').write(json.dumps(state,indent=2)+'\\n')
 end
 """ % str(state_path)
         script.write_text(script.read_text().replace('quit\n',commands+'quit\n'))
+    caller_record=None
+    assert not args.earlier_caller or args.caller, 'Earlier caller requires a candidate caller'
+    if args.caller:
+        config=json.loads((BINARY/'functions.json').read_text())
+        candidates=[r for r in config['driver'] if r['name'][1:].split('@')[0]==args.caller]
+        assert len(candidates)==1 and candidates[0]['name'] in config['accepted'], 'Caller must be a known accepted application'
+        caller_record=candidates[0]
+        for name in args.earlier_caller:
+            previous=[r for r in config['driver'] if r['name'][1:].split('@')[0]==name]
+            assert name!=args.caller and len(previous)==1 and previous[0]['name'] in config['accepted'] and previous[0]['implementation']=='C', 'Earlier GPA caller must be reviewed and accepted'
+        setup="""python
+import gdb
+class QualifiedBreakpoint(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame().older()
+        if frame is None or frame.name() is None:
+            raise gdb.GdbError('Missing native API caller')
+        if frame.name()==%r:return True
+        if frame.name() in %r:
+            gdb.write('NATIVE_REVIEWED_EARLIER '+frame.name()+'\\n')
+            return False
+        raise gdb.GdbError('Unexpected native API caller: '+frame.name())
+QualifiedBreakpoint(%r)
+end
+""" % (args.caller,args.earlier_caller,'*'+args.function)
+        script.write_text(script.read_text().replace('break *'+args.function+'\n',setup))
     def original():
         return subprocess.run(['python3',str(BINARY/'scripts/capture-case.py'),'--spec',str(args.spec.resolve()),'--mode','masked'],cwd=BINARY,stdout=subprocess.PIPE,stderr=subprocess.STDOUT,timeout=55)
     def native():
@@ -81,6 +110,18 @@ end
     assert b'NATIVE_MATCH '+args.function.encode() in native_result.stdout
     for key in ('stdout','stderr'):
         assert (output/('native.'+key)).read_bytes()==(original_directory/(key+'.bin')).read_bytes(),key+' partial stream differs'
+    caller_proof=None
+    if caller_record:
+        observed=re.findall(rb'^#1\s+(?:0x[0-9a-f]+\s+in\s+)?([A-Za-z_][A-Za-z_0-9]*)\s*\(',native_result.stdout,re.M)
+        assert len(observed)==1 and observed[0].decode()==args.caller, 'Missing/unexpected actual native caller'
+        actual_caller=observed[0].decode()
+        import importlib.util
+        module_spec=importlib.util.spec_from_file_location('frontier_call_edge',BINARY/'scripts/call-edge.py')
+        module=importlib.util.module_from_spec(module_spec);module_spec.loader.exec_module(module)
+        from binary import PE
+        caller_proof=module.validate(context,args.address,caller_record,PE(ROOT/'toolchains/1.0-nt/bin/LINK.EXE'),actual_caller)
+        caller_proof['reviewed_earlier_callers']=args.earlier_caller
+        caller_proof['observed_earlier_callers']=re.findall(r'^NATIVE_REVIEWED_EARLIER (\w+)$',native_result.stdout.decode(),re.M)
     typed_state=None
     if args.function=='emit_rom_relocations':
         original_state=next(event for event in events if event['event']=='rom_fixups')
@@ -90,7 +131,7 @@ end
                          original=original_state,native=native_state,
                          unconsumed='Record+4 has no proved reader/writer semantics; never compared or serialized. Type padding+2 likewise not a live field.')
         (output/'rom-fixups-comparison.json').write_text(json.dumps(typed_state,indent=2)+'\n')
-    receipt=dict(status='pass',logical=args.function,original_address=hex(args.address),original_directory=str(original_directory),native_directory=str(output),native_context=context,seconds=time.perf_counter()-start,parallel_sides=True,partial_streams_exact=True,typed_rom_fixups=typed_state)
+    receipt=dict(status='pass',logical=args.function,original_address=hex(args.address),original_directory=str(original_directory),native_directory=str(output),native_context=context,seconds=time.perf_counter()-start,parallel_sides=True,partial_streams_exact=True,typed_rom_fixups=typed_state,caller_edge=caller_proof)
     (output/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
     print(output/'receipt.json')
 if __name__=='__main__':main()

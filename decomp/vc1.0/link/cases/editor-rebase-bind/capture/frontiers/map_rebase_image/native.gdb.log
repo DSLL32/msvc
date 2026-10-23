@@ -1,0 +1,13 @@
+Breakpoint 1 at 0x13f40: file src/edit-stubs.c, line 10.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, map_rebase_image (name=0x1 <error: Cannot access memory at address 0x1>, image=0x5660b63c, read_only=0) at src/edit-stubs.c:10
+10	int map_rebase_image(const char *name,RebaseImage *image,int read_only) { __asm { int 3 } return 0; }
+NATIVE_MATCH map_rebase_image
+0xffffd15c:	0x56568a5f	0xffffd99c	0x565e2bdc	0x00000000
+0xffffd16c:	0xffffd29c	0x00000003
+#0  map_rebase_image (name=0x1 <error: Cannot access memory at address 0x1>, image=0x5660b63c, read_only=0) at src/edit-stubs.c:10
+#1  0x56568a5f in rebase_main (argc=1, argv=0x5660b63c, environment=0x0) at src/editor-rebase.c:90
+#2  0x56567976 in editor_main (argc=3, argv=0xffffd784) at src/editor.c:71
+#3  0x56559e5d in main (argc=3, argv=0xffffd784) at src/link.c:72

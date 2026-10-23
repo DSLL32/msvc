@@ -808,7 +808,33 @@
     "_format_undefined_references",
     "_adjust_rom_section_header",
     "_emit_rom_relocations",
-    "_close_trace_file"
+    "_close_trace_file",
+    "_rebase_main",
+    "_strtoul",
+    "_strtoxl",
+    "import:GetFullPathNameA",
+    "_map_rebase_image",
+    "import:CreateFileMappingA",
+    "import:MapViewOfFile",
+    "_relocate_rebase_image",
+    "_mapped_image_directory@16",
+    "_mapped_image_headers@4",
+    "_mapped_rebase_rva",
+    "import:GetFileSize",
+    "_checksum_mapped_image",
+    "_checksum_words",
+    "import:FlushViewOfFile",
+    "import:UnmapViewOfFile",
+    "_bind_main",
+    "_map_bind_image",
+    "import:LocalAlloc",
+    "_bind_imports",
+    "_mapped_bound_rva",
+    "_load_bind_image",
+    "_resolve_bound_import",
+    "import:SystemTimeToFileTime",
+    "import:SetFileTime",
+    "import:LocalFree"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -4905,18 +4931,26 @@
     {
       "name": "_rebase_main",
       "start": 326624,
-      "end": 326625,
-      "implementation": "stub-C",
-      "source": "src/edit-stubs.c",
-      "abi": "cdecl int(int,char **,char **)"
+      "end": 328288,
+      "implementation": "C",
+      "source": "src/editor-rebase.c",
+      "abi": "cdecl int(int,char **,char **)",
+      "shared": [
+        [
+          328176,
+          328288
+        ]
+      ],
+      "evidence": "Whole4fbe0..50260 decoded including28-entry switch; fresh matching original/native entry and partialstreams. Public option driver, mapping/relocation children,64KB layout accounting, ordinary CRT exit and contextual ntdll callback retained."
     },
     {
       "name": "_bind_main",
       "start": 322912,
-      "end": 322913,
-      "implementation": "stub-C",
-      "source": "src/edit-stubs.c",
-      "abi": "cdecl int(int,char **,char **)"
+      "end": 323696,
+      "implementation": "C",
+      "source": "src/editor-bind.c",
+      "abi": "cdecl int(int,char **,char **)",
+      "evidence": "Whole4ed60..4f070 decoded; fresh matching editor-bind-bind_main-l5pnb47f entry/partialstreams. Option parsing, shared union workspace, mapped-image checksum, allocation ownership and process termination preserved."
     },
     {
       "name": "_parse_reserve_commit",
@@ -4938,10 +4972,11 @@
     {
       "name": "_checksum_mapped_image",
       "start": 322512,
-      "end": 322513,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl PIMAGE_NT_HEADERS(void *,unsigned long,unsigned long *,unsigned long *)"
+      "end": 322672,
+      "implementation": "C",
+      "source": "src/checksum.c",
+      "abi": "cdecl PIMAGE_NT_HEADERS(void *,unsigned long,unsigned long *,unsigned long *)",
+      "evidence": "Whole4ebd0..4ec70 decoded; fresh matching entry checksum_mapped_image-cqzjdooj.16-bit checksum-field subtraction retains borrow, pointer optionality and original unguarded in-place output."
     },
     {
       "name": "_lookup_diagnostic_text",
@@ -7967,6 +8002,155 @@
       "implementation": "C",
       "abi": "cdecl unsigned long(unsigned long offset)",
       "evidence": "Whole46df0..46f20 decoded; fresh matching original/native entry and streams.16/32-bit signed repetition test, recursive ftell/fseek replay and remaining-byte restoration recovered."
+    },
+    {
+      "name": "_map_rebase_image",
+      "start": 328992,
+      "end": 329584,
+      "implementation": "C",
+      "source": "src/editor-rebase.c",
+      "abi": "cdecl int(const char *,RebaseImage *,int)",
+      "evidence": "Whole50520..50770 decoded including SEH filter/handler. Fresh matching original/native entry and partialstreams; file/mapping ownership, DOS/PE/optional/system checks and cached section state preserved. Native valid-input path only, no native SEH fault claim.",
+      "cfg_entries": [
+        329552,
+        329558
+      ],
+      "cfg_entries_evidence": {
+        "scope_table": 497496,
+        "record": [
+          4294967295,
+          329552,
+          329558
+        ],
+        "meaning": "Original SEH scope filter and handler static roots, not dynamically exercised fault branches"
+      }
+    },
+    {
+      "name": "_relocate_rebase_image",
+      "start": 328432,
+      "end": 328752,
+      "implementation": "C",
+      "source": "src/editor-rebase.c",
+      "abi": "cdecl int(RebaseImage *,unsigned long,long *)",
+      "evidence": "Whole502f0..50430 decoded; actual fresh matching original/native entry after separately matching both new static mapping IAT thunks. Mapped relocation iteration, resolved stdcall OS primitive, invalid-header marker,32-bit time/checksum and flush retained; count0 native loop behavior preserved. Earlier predicted frontier rejected and body kept stub until actual match."
+    },
+    {
+      "name": "_fallback_process_relocations@16",
+      "start": 328752,
+      "end": 328753,
+      "implementation": "stub-C",
+      "source": "src/edit-stubs.c",
+      "abi": "stdcall unsigned short *(void *,unsigned long,unsigned short *,long)"
+    },
+    {
+      "name": "_editor_rebase_error",
+      "start": 165792,
+      "end": 165793,
+      "implementation": "stub-C",
+      "source": "src/edit-stubs.c",
+      "abi": "cdecl void(const char *,const void *)"
+    },
+    {
+      "name": "_mapped_image_directory@16",
+      "start": 329616,
+      "end": 329792,
+      "implementation": "C",
+      "source": "src/editor-rebase.c",
+      "abi": "stdcall void *(void *,unsigned char,unsigned short,unsigned long *)",
+      "evidence": "Whole50790..50840 decoded; fresh paired entry editor-rebase-mapped_image_directory-5ofluy9a. Raw section translation uses SizeOfRawData; original unguarded header helper result retained."
+    },
+    {
+      "name": "_mapped_rebase_rva",
+      "start": 328288,
+      "end": 328432,
+      "implementation": "C",
+      "source": "src/editor-rebase.c",
+      "abi": "cdecl void *(unsigned long,RebaseImage *)",
+      "evidence": "Whole50260..502f0 decoded; fresh matching entry mapped_rebase_rva-qvnt78p6. First/cache pointers independently proved at workspace+28/+20; raw-size section bounds and cache update retained."
+    },
+    {
+      "name": "_mapped_image_headers@4",
+      "start": 329584,
+      "end": 329616,
+      "implementation": "C",
+      "source": "src/editor-rebase.c",
+      "abi": "stdcall PIMAGE_NT_HEADERS(void *)",
+      "evidence": "Whole50770..50790 decoded including5-byte alignment; fresh matching entry editor-rebase-mapped_image_headers-5f2idgqb. Non-MZ input returns original pointer, invalid PE signature returnsNULL; stdcall ret4."
+    },
+    {
+      "name": "_checksum_words",
+      "start": 329792,
+      "end": 330192,
+      "implementation": "C",
+      "source": "src/checksum.c",
+      "abi": "cdecl unsigned long(unsigned long,const unsigned short *,unsigned long)",
+      "evidence": "Whole50840..509d0 decoded; fresh matching entry checksum_words-kshf__vl. Readable32-bit end-around-carry DWORD/WORD accumulation preserves initial value, alignment/tail, wrapped count shift and final16-bit folds; original unrolling has no callees."
+    },
+    {
+      "name": "_map_bind_image",
+      "start": 325760,
+      "end": 326384,
+      "implementation": "C",
+      "source": "src/editor-bind.c",
+      "abi": "cdecl int(const char *,BoundImage *,int,int)",
+      "evidence": "Whole4f880..4faf0 decoded; fresh matching map_bind_image-29pwbzrv. Single search retry, mapped handle ownership, distinct cleanup order, original two version comparisons and36-byte cached BoundImage offsets preserved. Search fallback remains unexercised."
+    },
+    {
+      "name": "_bind_imports",
+      "start": 324928,
+      "end": 325760,
+      "implementation": "C",
+      "source": "src/editor-bind.c",
+      "abi": "cdecl void(BoundImage *)",
+      "evidence": "Whole4f540..4f880 decoded including resolver SEH filter/handler; fresh matching bind_imports-8uubx1os. Export-table checks, stale timestamp test, separately allocated bound thunks/forwarder chain, actual module-workspace flush and filetime calls retained. Native valid-input path only.",
+      "cfg_entries": [
+        325491,
+        325504
+      ],
+      "cfg_entries_evidence": {
+        "scope_table": 497480,
+        "record": [
+          4294967295,
+          325491,
+          325504
+        ],
+        "meaning": "Original SEH scope filter and handler static roots, not dynamically exercised fault branches"
+      }
+    },
+    {
+      "name": "_editor_bind_error",
+      "start": 165712,
+      "end": 165713,
+      "implementation": "stub-C",
+      "source": "src/edit-stubs.c",
+      "abi": "cdecl void(const char *,const void *)"
+    },
+    {
+      "name": "_mapped_bound_rva",
+      "start": 324704,
+      "end": 324848,
+      "implementation": "C",
+      "source": "src/editor-bind.c",
+      "abi": "cdecl void *(unsigned long,BoundImage *)",
+      "evidence": "Whole4f460..4f4f0 decoded; fresh matching mapped_bound_rva-k1xm9eoa. Distinct BoundImage cached section+24/first section+32 recovered from reader and independently asserted; raw-size bounds/error ABI preserved."
+    },
+    {
+      "name": "_load_bind_image",
+      "start": 324464,
+      "end": 324704,
+      "implementation": "C",
+      "source": "src/editor-bind.c",
+      "abi": "cdecl BoundImage *(const char *)",
+      "evidence": "Whole4f370..4f460 decoded; fresh matching load_bind_image-vyi6o92o. Case-insensitive list lookup,36-byte zeroed nodes, owned copied name, read-only DLL mapping and intrusive tail insertion; original failure leaks retained."
+    },
+    {
+      "name": "_resolve_bound_import",
+      "start": 323696,
+      "end": 324464,
+      "implementation": "C",
+      "source": "src/editor-bind.c",
+      "abi": "cdecl int(const unsigned long *,BoundImage *,unsigned long *,unsigned long *,BoundImage *,IMAGE_EXPORT_DIRECTORY *,unsigned long **)",
+      "evidence": "Whole4f070..4f370 decoded; fresh matching resolve_bound_import-is4ylorp. Export name/hint fallback scan and16-bit ordinal arithmetic, preferred address calculation, strict forwarder range and chain retained. Original ordinal verbose hint remains uninitialized/unexercised, no invented zero. Current case dynamically resolves actual named import by matching hint."
     }
   ],
   "c_stub_references": [
@@ -8781,6 +8965,32 @@
     "rom-local-imports",
     "rom-local-imports",
     "rom-local-imports",
-    "rom-local-imports"
+    "rom-local-imports",
+    "editor-rebase",
+    "editor-rebase",
+    "editor-rebase",
+    "editor-rebase",
+    "editor-rebase",
+    "editor-rebase",
+    "editor-rebase",
+    "editor-rebase",
+    "editor-rebase",
+    "editor-rebase",
+    "editor-rebase",
+    "editor-rebase",
+    "editor-rebase",
+    "editor-rebase",
+    "editor-rebase",
+    "editor-rebase",
+    "editor-bind",
+    "editor-bind",
+    "editor-bind",
+    "editor-bind",
+    "editor-bind",
+    "editor-bind",
+    "editor-bind",
+    "editor-bind",
+    "editor-bind",
+    "editor-bind"
   ]
 }

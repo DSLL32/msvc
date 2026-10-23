@@ -1,0 +1,19 @@
+{
+  "positive": {
+    "status": "pass",
+    "original_va": 447600,
+    "original_rva": 382064,
+    "bytes": 36,
+    "section": ".bss"
+  },
+  "rejected": [
+    "VA_as_RVA",
+    "wrong_base",
+    "consistently_shifted_coordinates",
+    "wrong_extent",
+    "wrong_owner",
+    "wrong_original",
+    "wrong_host"
+  ],
+  "seconds": "unmeasured; host-only static guards"
+}

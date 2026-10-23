@@ -1,0 +1,13 @@
+Breakpoint 1 at 0x650b0: file ../../../lib/recon/src/win32.c, line 609.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, recon_LocalAlloc (flags=1, bytes=1449186848) at ../../../lib/recon/src/win32.c:609
+609	{
+NATIVE_MATCH recon_LocalAlloc
+0xffffd2ac:	0x56569ce2	0x00000040	0x0000000b	0x00000000
+0xffffd2bc:	0x00000000	0x0000000c
+#0  recon_LocalAlloc (flags=1, bytes=1449186848) at ../../../lib/recon/src/win32.c:609
+#1  0x56569ce2 in bind_main (argc=1, argv=0x5660d620, environment=0x0) at src/editor-bind.c:57
+#2  0x56567db1 in editor_main (argc=3, argv=0xffffd7a4) at src/editor.c:93
+#3  0x56559e6d in main (argc=3, argv=0xffffd7a4) at src/link.c:72

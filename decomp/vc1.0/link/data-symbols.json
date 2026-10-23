@@ -4140,5 +4140,108 @@
     "string_pointers": [
       0
     ]
+  },
+  {
+    "address": 447036,
+    "name": "editor_image_name",
+    "size": 4,
+    "owner": "src/editor-rebase.c"
+  },
+  {
+    "address": 447040,
+    "name": "rebase_extract_debug",
+    "size": 4,
+    "owner": "src/editor-rebase.c"
+  },
+  {
+    "address": 447044,
+    "name": "rebase_coffbase_stream",
+    "size": 4,
+    "owner": "src/editor-rebase.c"
+  },
+  {
+    "address": 447048,
+    "name": "rebase_show_all",
+    "size": 4,
+    "owner": "src/editor-rebase.c"
+  },
+  {
+    "address": 447052,
+    "name": "rebase_protect_system",
+    "size": 4,
+    "owner": "src/editor-rebase.c"
+  },
+  {
+    "address": 447056,
+    "name": "rebase_sum_only",
+    "size": 4,
+    "owner": "src/editor-rebase.c"
+  },
+  {
+    "address": 447060,
+    "name": "rebase_down",
+    "size": 4,
+    "owner": "src/editor-rebase.c"
+  },
+  {
+    "address": 447064,
+    "name": "rebase_total_size",
+    "size": 4,
+    "owner": "src/editor-rebase.c"
+  },
+  {
+    "address": 447068,
+    "name": "editor_usage_requested",
+    "size": 4,
+    "owner": "src/editor-rebase.c"
+  },
+  {
+    "address": 447332,
+    "name": "rebase_symbol_directory",
+    "size": 260,
+    "owner": "src/editor-rebase.c"
+  },
+  {
+    "address": 447592,
+    "name": "rebase_relocation_processor",
+    "size": 4,
+    "owner": "src/editor-rebase.c"
+  },
+  {
+    "address": 447596,
+    "name": "rebase_initial_base",
+    "size": 4,
+    "owner": "src/editor-rebase.c"
+  },
+  {
+    "address": 447600,
+    "name": "editor_workspace",
+    "size": 36,
+    "owner": "src/editor-rebase.c",
+    "evidence": "Same6d470 backing storage: REBASE32-byte view and BIND36-byte view; contextual union with independently asserted field offsets, each driver clears its own view only."
+  },
+  {
+    "address": 447636,
+    "name": "bind_images",
+    "size": 8,
+    "owner": "src/editor-bind.c"
+  },
+  {
+    "address": 447644,
+    "name": "bind_show_imports",
+    "size": 4,
+    "owner": "src/editor-bind.c"
+  },
+  {
+    "address": 447648,
+    "name": "bind_read_only",
+    "size": 4,
+    "owner": "src/editor-bind.c"
+  },
+  {
+    "address": 447652,
+    "name": "bind_search_path",
+    "size": 4,
+    "owner": "src/editor-bind.c"
   }
 ]

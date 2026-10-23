@@ -3,7 +3,7 @@ TOOL = $(PYTHON) scripts/wine-tool.py
 TC = ../../../toolchains/1.0-nt
 RECON = ../../../lib/recon
 HEADERS = $(filter-out src/omf.h src/demangle.h,$(wildcard src/*.h)) $(RECON)/include/recon.h
-OBJECTS = $(addprefix build/,$(addsuffix .obj,link demangle demangle-stubs omf omf-stubs checksum editor edit-stubs dump disassembler disassembly-output opcode-table disassembler-stubs dump-stubs resources resource-legacy codeview debug-symbols map-file definition-file definition-stubs stubs driver files runtime crt-anchors linker repro image symbols external-output section-layout base-relocations arguments options exports export-directives export-resolution export-object library library-output library-options library-stubs import-library import-library-stubs import-archive import-members imports ordering parse-switch usage dos-stub link-pass pass-one pass-two machine i386-relocations m68k-relocations archive coff-io object mac-object mac-debug comdat comdat-selection arena modules mac-sections mac-fixups text-buffer diagnostics argument-stubs files-stubs module-stubs driver-stubs machine-stubs pass-stubs object-stubs option-stubs link-pass-stubs pass-two-stubs))
+OBJECTS = $(addprefix build/,$(addsuffix .obj,link demangle demangle-stubs omf omf-stubs checksum editor editor-rebase editor-bind edit-stubs dump disassembler disassembly-output opcode-table disassembler-stubs dump-stubs resources resource-legacy codeview debug-symbols map-file definition-file definition-stubs stubs driver files runtime crt-anchors linker repro image symbols external-output section-layout base-relocations arguments options exports export-directives export-resolution export-object library library-output library-options library-stubs import-library import-library-stubs import-archive import-members imports ordering parse-switch usage dos-stub link-pass pass-one pass-two machine i386-relocations m68k-relocations archive coff-io object mac-object mac-debug comdat comdat-selection arena modules mac-sections mac-fixups text-buffer diagnostics argument-stubs files-stubs module-stubs driver-stubs machine-stubs pass-stubs object-stubs option-stubs link-pass-stubs pass-two-stubs))
 
 .PHONY: all clean check prefix replay audit native native-check native-trace native-trace-check
 all: build/link.exe
@@ -101,6 +101,7 @@ NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g
 NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
 NATIVE_OBJECTS = $(patsubst build/%.obj,build/native/%.o,$(OBJECTS))
 NATIVE_HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h)
+NATIVE_HOST = scripts/native-module.c
 NATIVE_SHIMS = $(filter-out $(RECON)/src/trace.c,$(wildcard $(RECON)/src/*.c))
 
 native: build/native/LINK.EXE
@@ -111,8 +112,8 @@ build/native:
 build/native/%.o: src/%.c $(NATIVE_HEADERS) | build/native
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
 
-build/native/LINK.EXE: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HEADERS) Makefile
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) -o $@
+build/native/LINK.EXE: $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) $(NATIVE_HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) $(NATIVE_SHIMS) $(NATIVE_HOST) -o $@
 
 native-check: native
 	$(PYTHON) scripts/check-native.py
@@ -133,8 +134,8 @@ build/native-trace/%.o: src/%.c $(NATIVE_HEADERS) | build/native-trace
 build/native-trace/runtime.o: src/runtime.c $(NATIVE_HEADERS) | build/native-trace
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -c $< -o $@
 
-build/native-trace/LINK.EXE: $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HEADERS) Makefile
-	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) -o $@
+build/native-trace/LINK.EXE: $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) $(NATIVE_HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_TRACE_OBJECTS) $(NATIVE_TRACE_SHIMS) $(NATIVE_HOST) -o $@
 
 native-trace-check: native-trace
 	$(PYTHON) scripts/check-native.py --trace
