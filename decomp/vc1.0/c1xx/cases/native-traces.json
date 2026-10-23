@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "764349ac2f1b8fcecb52c700e77147ea9f4b05983758d1da20f2adc9def8a89e",
+    "functions.json": "c7636f48bb9f8a5e1ceb3d12abc051b956b67b9f4cdaffe0d9529c4062ac60fb",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "9b0f9b5e0e1584e548177c2f88343941e8dabe783d238e2f1b7775830d15e66e",
-    "cases/canonical-map.txt": "3d7d244e892b2ec874a3dd72329cb3b72cf9b311da155034d7c9fceb19a880c2",
+    "cases/original-entry-references.json": "66bd1bc43f65528cf489aad947d09f170b1d48b9354f388381330e5d1fa36003",
+    "cases/canonical-map.txt": "8acb7acd2cccfa3cf0a6178f7567ca35bbb544d2a20c96d4e92d9cff23c31892",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -44,9 +44,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1106-prepend_type_diagnostic_char-8/entry-reference/original-receipt.json": "60cba6a13ec934620e96bf05dbcb4c2ad6075864b7cd8d68c074bc53ebc137b3",
-    "cases/frontiers/state_machine_debug/1106-prepend_type_diagnostic_char-8/entry-reference/original-events.txt": "c1990541a2c043a1fd70a716c1d13f2008833123e9a7223456a9449d14fb2cf8",
-    "cases/frontiers/state_machine_debug/1106-prepend_type_diagnostic_char-8/entry-reference/original-entries.plan": "839acdc9a76ad3122c33bda7d0b15d554866f0845409f1d29e56c3c4aab1619e"
+    "cases/frontiers/state_machine_debug/1107-prepend_type_diagnostic-8/entry-reference/original-receipt.json": "dcec85484ee6cc6d0f0085c172444d665756c9ba8adadd6b5b5045590ba5298a",
+    "cases/frontiers/state_machine_debug/1107-prepend_type_diagnostic-8/entry-reference/original-events.txt": "8c8c8f1c2c800199f101bf0d7d00785a0c2feec16215032c6159f4e8075c01c6",
+    "cases/frontiers/state_machine_debug/1107-prepend_type_diagnostic-8/entry-reference/original-entries.plan": "2fef3bbe331384303858010324cb14c5167a7c4d1547e1c37057c5a77d3dd3e1"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -4083,7 +4083,7 @@
     },
     "prepend_type_diagnostic": {
       "logical": "_prepend_type_diagnostic@8",
-      "source": "src/stubs.c"
+      "source": "src/type-diagnostics.c"
     },
     "prepend_type_diagnostic_char": {
       "logical": "_prepend_type_diagnostic_char@8",
@@ -6586,7 +6586,8 @@
     "equal_inline_vectors",
     "pad_debug_field",
     "format_pointer_declarator",
-    "prepend_type_diagnostic_char"
+    "prepend_type_diagnostic_char",
+    "prepend_type_diagnostic"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10699,7 +10700,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1107,
+      "last": 1108,
       "seen": [
         "main",
         "message_text",
@@ -11715,12 +11716,13 @@
         "pad_debug_field",
         "format_pointer_declarator",
         "prepend_type_diagnostic_char",
-        "prepend_type_diagnostic"
+        "prepend_type_diagnostic",
+        "resolve_member_pointer_class"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_prepend_type_diagnostic@8",
-        "native": "prepend_type_diagnostic",
+        "logical": "_resolve_member_pointer_class@8",
+        "native": "resolve_member_pointer_class",
         "signal": 5
       }
     }

@@ -440,6 +440,20 @@ short __stdcall format_declarator_shapes(short text, TypeShape *shape)
     return text;
 }
 
+/* Original 0x678a0..0x678de. Reserve before the spelling and copy
+   backward from the former boundary; an empty prefix leaves it untouched. */
+void __stdcall prepend_type_diagnostic(short text, char *value)
+{
+    unsigned length = 0;
+    char *cursor, *source;
+    while (value[length]) ++length;
+    if (length) {
+        cursor = reserve_type_diagnostic_bytes(text, 0, length);
+        source = value + length - 1;
+        do { *cursor-- = *source--; } while (--length);
+    }
+}
+
 /* Original 0x67860..0x67878. Reserve one byte before the current
    diagnostic spelling, then publish only the supplied character's low byte. */
 void __stdcall prepend_type_diagnostic_char(short text, int character)

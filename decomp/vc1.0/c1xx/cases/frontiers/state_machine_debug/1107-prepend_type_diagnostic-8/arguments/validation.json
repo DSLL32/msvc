@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_prepend_type_diagnostic@8",
+  "case": "state_machine_debug",
+  "accepted_before": 1107,
+  "configuration_sha256": "2819bcb299aea80d0883fd32cb175ab671dbdf46162dee90c147f2d1ab9b1db2",
+  "native_entry": "prepend_type_diagnostic",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "text",
+      "stack_index": 0,
+      "native_field": "raw_text",
+      "binding": {
+        "kind": "scalar",
+        "bits": 16
+      },
+      "original_raw": 8257722,
+      "native_raw": 186,
+      "result": "match"
+    },
+    {
+      "name": "value",
+      "stack_index": 1,
+      "native_field": "raw_value",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "convention_empty_text",
+        "original_anchor_address": 663252,
+        "native_anchor_field": "convention_empty_text",
+        "identity": "Actual current callback input is existing calling-convention table entry5 text, originally pointerfield a1ea8+5*8+4=a1ed4. Fresh original/native static table field aliases bind the exact empty-string source; no named string object invented or new memory transport. Originalcaller67e45 indexedload/67e51PUSH/callbackCALL67e57 return67e59.",
+        "original_anchor_value": 663204,
+        "native_anchor_value": 1449024776
+      },
+      "original_raw": 663204,
+      "native_raw": 1449024776,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      424096,
+      424158
+    ],
+    "argument_bytes": 8,
+    "proof": "SaveESI/EDI8B: textWORDESP+12,valueESP+16; RET8, void semanticreturn. Scan NUL without modifying source, iflen0return; otherwise reserve_type_diagnostic_bytes68aa0(text,0,len) returns former leftboundary, copylenbytes backward excludingNUL. One independently mappedcallee, no incominghidden/registerinput. Existing callingconvention table exact row5 and literal bytes already encountered/audited; freshalias actualargptr proves currentinput.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "c5bf4edb17dcbd78166c09b7e93a85b114129c06a9065c0d222e4a1e922b4d59",
+  "capture_timing": {
+    "original_capture_seconds": 1.518520874902606,
+    "native_capture_seconds": 0.18169718701392412,
+    "total_operation_seconds": 2.016819514334202
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "e6f0c16cecae8c8a09fb841e83610e0b12b1f7d925c2d96e5e89820360a6acb4",
+    "native-commands.gdb": "4df8b6a62ac07b204604e318f68923b8eb078810cc1938c2755ea364f0ec53b5",
+    "native-gdb.log": "5f8f66e524125c99775f751cd19504e59309bc3aa7f27bc06e6da0fde428f7f1",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "aefe368b7c4aeac9be7e37a819094c645bdbca73d2a6703821a552be83789392",
+    "original-configuration.json": "2819bcb299aea80d0883fd32cb175ab671dbdf46162dee90c147f2d1ab9b1db2",
+    "original-disassembly.txt": "f6ba53bd5e16fc743dbb2099646f5729f5b12b1dc48dd3161409345cc77af542",
+    "original-events.txt": "d1b9868c5460dc5066fce118ce37343c662068e629349e03b4558ac3198e786a",
+    "original-receipt.json": "7a70713a28f4f8bbdfd41822be1ed6dcfdd986f5fa2e91662be6338f88cb1045",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "afd8162ad6dd181779259fb514684772b34c370093979e74995c00134d691a42"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

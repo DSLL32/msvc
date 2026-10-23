@@ -1,0 +1,11 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655949a in resolve_member_pointer_class (result=0xffffd6b4, name=0x56627168) at src/stubs.c:223
+223	void __stdcall resolve_member_pointer_class(CppSymbol **result, QualifiedDeclarator *name) { __asm { int 3 } }
+#0  0x5655949a in resolve_member_pointer_class (result=0xffffd6b4, name=0x56627168) at src/stubs.c:223
+#1  0x565b4871 in parse_translation_unit () at src/parser-declarator-actions.inc:25
+#2  0x5655e06f in compile_translation_unit () at src/frontend.c:73
+#3  0x565588b6 in guarded_compile () at src/c1xx.c:28
+#4  0x56558884 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20
