@@ -1,0 +1,59 @@
+{
+  "schema": 1,
+  "function": "_emit_debug_pointer_type@8",
+  "native_entry": "emit_debug_pointer_type",
+  "argument_words": 4,
+  "ownership_register": "ebp",
+  "ownership_caller_extent": [
+    450688,
+    451175
+  ],
+  "native_caller_locals": {
+    "caller_type": {
+      "frame": 1,
+      "function": "flush_debug_types",
+      "local": "type"
+    }
+  },
+  "native_expressions": {
+    "raw_type": "(unsigned)type",
+    "raw_base": "(unsigned short)base_index"
+  },
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebp",
+        "original_caller_rva": 385310,
+        "original_owner_function": "_flush_debug_types",
+        "native_owner_field": "caller_type",
+        "native_owner_function": "flush_debug_types",
+        "native_owner_local": "type",
+        "identity": "Actual queued CType: accepted caller MOV EBP,[ECX+4]0x6e0d0 where ECX is live debug queue slot, then PUSH EBP0x6e118/CALL0x6e119 return0x6e11e. Original EBP is the semantic CType value, distinct from native EBP/frame-pointer machinery; native immediate caller actual type local is observed instead. EBP is ownership anchor only, not hidden callee ABI input."
+      }
+    },
+    {
+      "name": "base_index",
+      "stack_index": 1,
+      "native_field": "raw_base",
+      "binding": {
+        "kind": "scalar",
+        "bits": 16
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      451392,
+      451970
+    ],
+    "argument_bytes": 8,
+    "proof": "Four saved registers; type stack[ESP+20], base_index lowWORD stack[ESP+24], RET8 at0x6e57f. No incoming register/hidden callee input. Ownership EBP observed from original CONTEXT_CONTROL|CONTEXT_INTEGER success only; native pointer binds actual caller local type. All pointer/reference/member/based variants recovered including special register-index6 payload. Model table4B0xa25b8 indexed attributes&15 only after exclusions attrs&0xc, hence0..3. Distinct direct callees0x6db20 debug_tag_type,0x70420 queue_debug_type_fixup,0x70370 encode_debug_based_symbol,0x6ffd0 emit_debug_type_record independently resolved."
+  }
+}

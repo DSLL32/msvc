@@ -1,0 +1,18 @@
+Breakpoint 1 at 0x37b6e: file src/debug-types.c, line 26.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, emit_debug_pointer_type (type=0x56622f8c, base_index=4096) at src/debug-types.c:26
+26	    TypeShape *shape = type->related;
+#0  emit_debug_pointer_type (type=0x56622f8c, base_index=4096) at src/debug-types.c:26
+#1  0x5658e733 in flush_debug_types () at src/debug-types.c:453
+#2  0x565a4792 in prepare_symbol_debug_type (symbol=0x566490c4) at src/symbol-output.c:15
+#3  0x565a4ed3 in emit_symbol_declaration (symbol=0x566490c4) at src/symbol-output.c:148
+#4  0x565a57f9 in serialize_scope (scope=0x56649140) at src/function-finalization.c:137
+#5  0x565a55dd in finish_function_output () at src/function-finalization.c:92
+#6  0x565a53d2 in finish_function_body (recovering=0) at src/function-finalization.c:54
+#7  0x565a51d4 in end_function_definition () at src/function-finalization.c:22
+#8  0x565b09d4 in parse_translation_unit () at src/parser-declaration-actions.inc:30
+#9  0x5655e15f in compile_translation_unit () at src/frontend.c:73
+#10 0x565588a6 in guarded_compile () at src/c1xx.c:28
+#11 0x56558874 in main (argc=1, argv=0xffffd7a4, environment=0xffffd7ac) at src/c1xx.c:20

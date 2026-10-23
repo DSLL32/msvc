@@ -25,6 +25,8 @@ typedef struct DebugTypeFixup {
 } DebugTypeFixup;
 typedef char DebugTypeFixupSizeMustBe16[(sizeof(DebugTypeFixup) == 16) ? 1 : -1];
 extern DebugTypeFixup *debug_type_fixups;
+void __stdcall queue_debug_type_fixup(CppSymbol *symbol, unsigned char *location, unsigned bytes);
+unsigned __stdcall encode_debug_based_symbol(unsigned char *destination, CppSymbol *symbol);
 unsigned __stdcall update_checksum(unsigned char *bytes, unsigned count, unsigned checksum);
 extern DebugTypeRecord *debug_types;
 extern unsigned short next_debug_type_index;

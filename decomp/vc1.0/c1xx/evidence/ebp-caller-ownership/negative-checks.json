@@ -1,0 +1,14 @@
+[
+  {
+    "test": "missing-ebp-anchor",
+    "status": "rejected before original invocation",
+    "seconds": 0.1158659104257822,
+    "message": "AssertionError: missing actual owner register anchor"
+  },
+  {
+    "test": "wrong-native-type-owner",
+    "status": "rejected before original invocation",
+    "seconds": 0.10100519377738237,
+    "message": "AssertionError"
+  }
+]

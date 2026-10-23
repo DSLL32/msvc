@@ -1,0 +1,1 @@
+The indexed read0x6e50a uses shape.attributes&15. Prior TEST BL,0x0c at0x6e3d9 branches away for either based bit4/8. Only low-nibble0..3 reaches table, whose exact4B at0xa25b8 are00 0a 0b 02. Following debug_type_capacity global0xa25bc is independent and not lookup data.

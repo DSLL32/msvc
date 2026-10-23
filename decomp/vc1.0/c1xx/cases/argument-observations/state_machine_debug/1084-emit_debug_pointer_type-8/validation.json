@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_emit_debug_pointer_type@8",
+  "case": "state_machine_debug",
+  "accepted_before": 1084,
+  "configuration_sha256": "2848102768cf7dc1b9b739caebd4e0f872da45b77f5f774e0905b3f60c457c73",
+  "native_entry": "emit_debug_pointer_type",
+  "declared_formal_count": 2,
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "ebp",
+        "original_caller_rva": 385310,
+        "original_owner_function": "_flush_debug_types",
+        "native_owner_field": "caller_type",
+        "native_owner_function": "flush_debug_types",
+        "native_owner_local": "type",
+        "identity": "Actual queued CType: accepted caller MOV EBP,[ECX+4]0x6e0d0 where ECX is live debug queue slot, then PUSH EBP0x6e118/CALL0x6e119 return0x6e11e. Original EBP is the semantic CType value, distinct from native EBP/frame-pointer machinery; native immediate caller actual type local is observed instead. EBP is ownership anchor only, not hidden callee ABI input.",
+        "original_owner_value": 8302476,
+        "native_owner_value": 1449275276
+      },
+      "original_raw": 8302476,
+      "native_raw": 1449275276,
+      "result": "match"
+    },
+    {
+      "name": "base_index",
+      "stack_index": 1,
+      "native_field": "raw_base",
+      "binding": {
+        "kind": "scalar",
+        "bits": 16
+      },
+      "original_raw": 4096,
+      "native_raw": 4096,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      451392,
+      451970
+    ],
+    "argument_bytes": 8,
+    "proof": "Four saved registers; type stack[ESP+20], base_index lowWORD stack[ESP+24], RET8 at0x6e57f. No incoming register/hidden callee input. Ownership EBP observed from original CONTEXT_CONTROL|CONTEXT_INTEGER success only; native pointer binds actual caller local type. All pointer/reference/member/based variants recovered including special register-index6 payload. Model table4B0xa25b8 indexed attributes&15 only after exclusions attrs&0xc, hence0..3. Distinct direct callees0x6db20 debug_tag_type,0x70420 queue_debug_type_fixup,0x70370 encode_debug_based_symbol,0x6ffd0 emit_debug_type_record independently resolved.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "5c20ce59e85051cfb2071d53d4f80b5d6d6a4fb4d8b42ba2f601b2ebb25f6afb",
+  "capture_timing": {
+    "original_capture_seconds": 1.6187495607882738,
+    "native_capture_seconds": 0.177959474734962,
+    "total_operation_seconds": 2.0960134379565716
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "c7dd28b43608ac1b684f246b362052665ea46d6fe320c6b221c05f44ea2c15df",
+    "native-commands.gdb": "564acabf1751b3ba87b677ade5a0a9784474343e11bda8e2be3f7a6d91390e68",
+    "native-gdb.log": "439427b6bdf612e2730ea4652772468947ffcefa8386208b816830276cc1dceb",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "4f63588d1d3787ae49cd3bb0f2711a9271f31678a906a0a94197f75518b93fbb",
+    "original-configuration.json": "2848102768cf7dc1b9b739caebd4e0f872da45b77f5f774e0905b3f60c457c73",
+    "original-disassembly.txt": "76e4edb1c75affd43f954885a43a81ba1f9a44fb72039a4844095ddc895d3c74",
+    "original-entries.plan": "71683fff22b92661458d03ff28b1e996439d6b2c7cb87cd4755797c42428d226",
+    "original-events.txt": "628c134c3fb74e6031539747e7d31e61a922383f2e358c3ab808576874554e54",
+    "original-ownership-caller-disassembly.txt": "b70ae58c367e7975e72c96a5626d3e0271a86c22400e1337fdd59377653e187f",
+    "original-receipt.json": "a1323d7f9e03793d2587b5717be2d0a1e0b55a2251971ba6413a8202a5102a45",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "d68a8a1b30b59980a52183556ffc648b0ca07e7eb02b05d94425239f27a14cba"
+  },
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

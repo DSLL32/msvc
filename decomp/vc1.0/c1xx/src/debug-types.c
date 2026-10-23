@@ -15,6 +15,91 @@ unsigned debug_type_capacity; /* original 0xa25bc */
 unsigned short debug_field_properties; /* original 0xa25c4 */
 DebugTypeFixup *debug_type_fixups; /* original 0xa25b0 */
 
+/* Explicit pointer distances: default, near32, far32 and far16. Only
+   indices0..3 reach this table: based attributes4/8 take another branch. */
+unsigned char cv_pointer_models[4] = { 0, 10, 11, 2 }; /* original0xa25b8 */
+
+/* Original 0x6e340..0x6e582. Pointer leaves include references,
+   member pointers, qualifiers and the segmented based-pointer variants. */
+void __stdcall emit_debug_pointer_type(CType *type, unsigned short base_index)
+{
+    TypeShape *shape = type->related;
+    unsigned short flags = shape->flags, attributes = shape->attributes;
+    unsigned char *leaf = debug_record_buffer + 2;
+    CppSymbol *symbol;
+    unsigned extra = 0, model, category;
+    *(unsigned short *)leaf = 2;
+    *(unsigned short *)(leaf + 2) = 0;
+    *(unsigned short *)(leaf + 4) = base_index;
+    if (flags & 0x40) leaf[2] = (leaf[2] & 0x1f) | 0x20;
+    else if (flags & 0x30) {
+        leaf[2] = (leaf[2] & 0x1f) | ((flags & 0x10) ? 0x40 : 0x60);
+        *(unsigned short *)(leaf + 6) = debug_tag_type(shape->data.tag_symbol);
+        *(unsigned short *)(leaf + 8) = 0;
+        extra = 4;
+    } else leaf[2] &= 0x1f;
+    if (attributes & 0x1000) leaf[3] |= 4;
+    if (attributes & 0x2000) leaf[3] |= 2;
+    if (attributes & 12) {
+        if (attributes & 4) {
+            symbol = shape->data.based_symbol;
+            switch (attributes & 7) {
+            case 4:
+                leaf[2] = (leaf[2] & 0xe8) | 8;
+                *(unsigned short *)(leaf + 6) = 3;
+                leaf[8] = 0;
+                extra = 3;
+                break;
+            case 5:
+                if ((symbol->kind & 31) == 13) {
+                    if (symbol->index == 6) {
+                        leaf[2] = (leaf[2] & 0xe5) | 5;
+                        *(unsigned short *)(leaf + 6) = 7;
+                        *(unsigned short *)(leaf + 8) = 2;
+                        *(unsigned short *)(leaf + 10) = 0;
+                        *(unsigned short *)(leaf + 12) = 0x1b;
+                        leaf[14] = 0;
+                        extra = 9;
+                    } else {
+                        leaf[2] = (leaf[2] & 0xe3) | 3;
+                        extra = 4;
+                        queue_debug_type_fixup(symbol, leaf + 6, extra);
+                    }
+                } else {
+                    leaf[2] = (leaf[2] & 0xe4) | 4;
+                    extra = encode_debug_based_symbol(leaf + 6, symbol);
+                }
+                break;
+            case 6:
+                leaf[2] = (leaf[2] & 0xe7) | 7;
+                extra = encode_debug_based_symbol(leaf + 6, symbol);
+                break;
+            case 7:
+                leaf[2] = (leaf[2] & 0xe5) | 5;
+                extra = encode_debug_based_symbol(leaf + 6, symbol);
+                break;
+            }
+        } else if (attributes & 8) leaf[2] = (leaf[2] & 0xe9) | 9;
+    } else {
+        model = cv_pointer_models[attributes & 15];
+        leaf[2] = (leaf[2] & ~31) | model;
+        if (!(attributes & 15)) {
+            category = flags & 0x77;
+            switch (category) {
+            case 1: case 2: case 0x10: case 0x40:
+                model = (options.configuration.option_M & 2) ? 11 : 10;
+                leaf[2] = (leaf[2] & ~31) | model;
+                break;
+            case 3: case 4: case 0x20:
+                model = (options.configuration.option_M & 1) ? 11 : 10;
+                leaf[2] = (leaf[2] & ~31) | model;
+                break;
+            }
+        }
+    }
+    emit_debug_type_record(extra + 6);
+}
+
 /* Original 0x6ffd0..0x700e3. Align the leaf and serialize it, splitting
    literal runs around any symbol fixups queued by the leaf writer. */
 void __stdcall emit_debug_type_record(int length)
