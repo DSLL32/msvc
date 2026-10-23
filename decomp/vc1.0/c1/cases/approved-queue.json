@@ -1,38 +1,28 @@
 {
-  "authorization": "User approved all three next families after completed776-entry checkpoint. Complete in order; no extra cases.",
-  "baseline_accepted_count": 776,
+  "authorization": "User selected embedded CodeView /Z7 first, then both /Ob1 and /Ob2 bounded inlining cases. Complete these families, then pause.",
+  "baseline_accepted_count": 833,
   "baseline_coverage": {
-    "bytes": 207208,
+    "bytes": 215743,
     "total": 277234,
-    "percent": 74.74119336012177,
-    "metric": "accepted original extent union, not branch coverage"
+    "percent": 77.81982007978819,
+    "metric": "Accepted original extent union; not branch coverage."
   },
   "cases": [
     {
-      "case": "comments",
+      "case": "embedded-codeview",
       "phase": "c1",
-      "status": "complete; raw exact; registered native case"
+      "status": "active; independent untouched original output bytes verified twice"
     },
     {
-      "case": "prototypes",
-      "phase": "c1",
-      "status": "complete;360stdout bytes raw exact; registered native case"
+      "case": "inlining",
+      "phase": "c1-ob1",
+      "status": "queued after embedded CodeView; independent original verified twice"
     },
     {
-      "case": "automatic-pch",
-      "phase": "c1-create",
-      "status": "complete; raw exact; registered native case"
-    },
-    {
-      "case": "automatic-pch",
-      "phase": "c1-reuse",
-      "status": "complete; raw exact; registered native case"
-    },
-    {
-      "case": "automatic-pch",
-      "phase": "c1-changed",
-      "status": "complete; raw exact; registered native case"
+      "case": "inlining",
+      "phase": "c1-ob2",
+      "status": "queued after Ob1; independent original verified twice"
     }
   ],
-  "terminal": "All approved families complete; pause before additional cases."
+  "Yd": "Not selected: the standalone /Z7 types case has no PCH dependency, so /Yd would add a distinct PCH-debug case rather than validate this embedded-type writer."
 }

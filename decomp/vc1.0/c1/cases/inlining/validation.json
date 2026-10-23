@@ -1,0 +1,6 @@
+{
+  "status": "untouched original validated twice; reconstruction queued",
+  "normalization": "None; all streams and complete artifact sets raw exact.",
+  "input_transport": "Actual original CL child argv/environment and full before/after inventories retained in evidence.",
+  "Yd": "Omitted: this is standalone embedded /Z7, without a PCH dependency."
+}

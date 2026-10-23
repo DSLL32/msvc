@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "29df593f8ea3c50a46ec0e8d22e47f0cc58cba7ab8a932a55acf49a09a23116c",
+    "functions.json": "d21066370c1790b1a805fcdb0d0b3aa1c67e5670de130e9b97f94f170e35c52f",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "28af91613b1e342587452add23a76775c84160611fc83b3632e3e0b5e98eef33"
+    "sha256": "064b48b8ea878d6912decf8f2bb0eb4afbd3c8441e73377c31200d8babb6b4df"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
@@ -979,7 +979,7 @@
     },
     "emit_function_debug_type": {
       "logical": "_emit_function_debug_type@4",
-      "source": "src/stubs.c"
+      "source": "src/debug-legacy.c"
     },
     "emit_initializer": {
       "logical": "_emit_initializer@4",
@@ -1227,7 +1227,7 @@
     },
     "find_expression_type_base": {
       "logical": "_find_expression_type_base@4",
-      "source": "src/stubs.c"
+      "source": "src/expressions.c"
     },
     "find_hash_entry": {
       "logical": "_find_hash_entry@12",
@@ -1708,6 +1708,10 @@
     "leave_except_filter": {
       "logical": "_leave_except_filter",
       "source": "src/seh.c"
+    },
+    "legacy_primitive_type_index": {
+      "logical": "_legacy_primitive_type_index@4",
+      "source": "src/debug-legacy.c"
     },
     "link_parameter_after": {
       "logical": "_link_parameter_after@8",
@@ -2545,6 +2549,10 @@
       "logical": "_prepare_initializer_symbol@4",
       "source": "src/initializers.c"
     },
+    "prepare_legacy_argument_types": {
+      "logical": "_prepare_legacy_argument_types@4",
+      "source": "src/debug-legacy.c"
+    },
     "prepare_named_function_call": {
       "logical": "_prepare_named_function_call@4",
       "source": "src/expressions.c"
@@ -2587,11 +2595,11 @@
     },
     "primitive_debug_index": {
       "logical": "_primitive_debug_index@4",
-      "source": "src/stubs.c"
+      "source": "src/debug-legacy.c"
     },
     "primitive_pointer_debug_index": {
       "logical": "_primitive_pointer_debug_index@4",
-      "source": "src/stubs.c"
+      "source": "src/debug-legacy.c"
     },
     "print_function_declaration": {
       "logical": "_print_function_declaration@8",
@@ -2679,7 +2687,7 @@
     },
     "queue_debug_record": {
       "logical": "_queue_debug_record@4",
-      "source": "src/stubs.c"
+      "source": "src/debug-legacy.c"
     },
     "quote_macro_filename": {
       "logical": "_quote_macro_filename@8",
@@ -3467,10 +3475,14 @@
     },
     "write_legacy_qualified_type": {
       "logical": "_write_legacy_qualified_type@4",
-      "source": "src/stubs.c"
+      "source": "src/debug-legacy.c"
     },
     "write_legacy_record_type": {
       "logical": "_write_legacy_record_type@12",
+      "source": "src/stubs.c"
+    },
+    "write_legacy_type_record": {
+      "logical": "_write_legacy_type_record@4",
       "source": "src/stubs.c"
     },
     "write_literal_initializer": {
@@ -4201,7 +4213,15 @@
     "pch_replay_mismatch",
     "effective_warning_level",
     "pragma_message",
-    "rewind_source_file"
+    "rewind_source_file",
+    "find_expression_type_base",
+    "primitive_debug_index",
+    "legacy_primitive_type_index",
+    "primitive_pointer_debug_index",
+    "queue_debug_record",
+    "write_legacy_qualified_type",
+    "emit_function_debug_type",
+    "prepare_legacy_argument_types"
   ],
   "excluded_accepted": {
     "CRT": [

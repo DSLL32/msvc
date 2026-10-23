@@ -9,6 +9,7 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
+    ("_debug_type_record_capacity",0x6e07c,4),
     ("_automatic_pch_header",0x67370,56),
     ("_source_replay_stack",0x5b574,4),
     ("_source_buffer_cursor",0x6bffc,4),
@@ -421,7 +422,7 @@ for index in range(6):
     for column, value in enumerate(values):
         assert value == struct.unpack('<I', read(original, 0x6f2e8 + column*24 + index*4, 4))[0], ('integer limit', index, column)
 
-for name, address, count in [('_pdb_floating_codes',0x6e140,12), ('_pdb_natural_unsigned_codes',0x6e158,12), ('_pdb_natural_signed_codes',0x6e170,12), ('_pdb_explicit_unsigned_codes',0x6e188,12), ('_pdb_signed_pointer_codes',0x6e1a0,12)]:
+for name, address, count in [('_legacy_floating_codes',0x6e088,12), ('_legacy_natural_unsigned_codes',0x6e0a0,12), ('_legacy_natural_signed_codes',0x6e0b8,12), ('_legacy_explicit_unsigned_codes',0x6e0d0,12), ('_legacy_explicit_signed_codes',0x6e0e8,10), ('_pdb_floating_codes',0x6e140,12), ('_pdb_natural_unsigned_codes',0x6e158,12), ('_pdb_natural_signed_codes',0x6e170,12), ('_pdb_explicit_unsigned_codes',0x6e188,12), ('_pdb_signed_pointer_codes',0x6e1a0,12)]:
     assert read(original,address,2*count) == read(rebuilt,names[name],2*count), name
 
 print('105 PCH root identities, 12 PCH graph callbacks and the 21-entry shape-cache boundary match.')

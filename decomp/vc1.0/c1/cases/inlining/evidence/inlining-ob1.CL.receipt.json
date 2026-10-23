@@ -1,0 +1,86 @@
+{
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc1.0\\c1\\tools\\capture-cl.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "/nologo /c /O2 /Ob1 /G5 /W3 inline.c",
+    "S:\\vc1.0\\c1\\transport\\inlining-ob1-final2\\stdout",
+    "S:\\vc1.0\\c1\\transport\\inlining-ob1-final2\\stderr",
+    "S:\\vc1.0\\c1\\transport\\inlining-ob1-final2\\events",
+    "S:\\vc1.0\\c1\\inlining-ob1",
+    "S:\\vc1.0\\c1\\transport\\inlining-ob1-final2\\config.txt",
+    "ordinary",
+    "S:\\vc1.0\\c1\\transport\\inlining-ob1-final2"
+  ],
+  "CL_arguments": "/nologo /c /O2 /Ob1 /G5 /W3 inline.c",
+  "helper_source": "decomp/vc1.0/cl/src/capture-run.c",
+  "helper_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+  "helper_sha256": "b80b97201ce6f78fccc165200f844db467639e38e02f01523cdf68cecdc6683c",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "cwd": "S:\\vc1.0\\c1\\inlining-ob1",
+  "environment": {
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib"
+  },
+  "host_exit": 0,
+  "execution_seconds": 2.620667307637632,
+  "children": [
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\000428 -f inline.c -Ze -Zp8 -Foinline.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Gs -Gf -Og -Oi -Ot -Oy -Ob1 -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include "
+      ]
+    },
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c23232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il .\\000428 -f inline.c -dos -Foinline.obj -ML -Gs4096 -Gy -G5 -W 3 "
+      ]
+    }
+  ],
+  "C1_boundary_file_sets": {
+    "before": [
+      {
+        "name": "inline.c",
+        "bytes": 498,
+        "sha256": "984872fb17245353e5fdcfeddcba3b4fee384e658199574ebc6c21def25aa907"
+      }
+    ],
+    "after": [
+      {
+        "name": "000428ex",
+        "bytes": 1369,
+        "sha256": "1ba8627d9d725cc691c3acb63c0acdc311996458acc0e608f60d286dde6b2a2e"
+      },
+      {
+        "name": "000428gl",
+        "bytes": 162,
+        "sha256": "6393f872cee0b4515a2ffe0c5333e7f8ee3543676e4a0a41e37f011422827421"
+      },
+      {
+        "name": "000428in",
+        "bytes": 15,
+        "sha256": "17998068ba1f79dc225ef1cc6e3268d15874083a8d0d6e916a0b55df851fe0f2"
+      },
+      {
+        "name": "000428sy",
+        "bytes": 223,
+        "sha256": "fd486854ec29a29bcad36d3341a6df210041f1d79ad3fb72e5274c77580d8979"
+      },
+      {
+        "name": "inline.c",
+        "bytes": 498,
+        "sha256": "984872fb17245353e5fdcfeddcba3b4fee384e658199574ebc6c21def25aa907"
+      }
+    ]
+  }
+}

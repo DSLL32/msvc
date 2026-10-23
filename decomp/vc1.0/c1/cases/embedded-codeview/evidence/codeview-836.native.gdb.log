@@ -1,0 +1,7 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5660f267 in primitive_pointer_debug_index (type=0x574ed7c0) at src/stubs.c:816
+816	unsigned short __stdcall primitive_pointer_debug_index(CType *type) { __asm { int 3 } }

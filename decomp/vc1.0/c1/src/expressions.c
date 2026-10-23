@@ -1314,3 +1314,30 @@ FrontendSymbol *__stdcall find_expression_symbol(IrToken *expression)
         }
     }
 }
+
+/* Original0x3d500..0x3d575. Retain the expression that supplies the
+   address model through member/index wrappers and conditional arms. */
+IrToken *__stdcall find_expression_type_base(IrToken *expression)
+{
+    ExpressionNode *node;
+    for (;;) {
+        node = (ExpressionNode *)expression;
+        switch (expression->kind) {
+        case TOK_IDENTIFIER: case TOK_CAST: return expression;
+        case TOK_ARROW: return node->value.children.left;
+        case TOK_COLON:
+            expression = node->value.children.right->type == expression->type ?
+                node->value.children.right : node->value.children.left;
+            break;
+        case TOK_LEFT_BRACKET: case TOK_MEMBER: case TOK_LEFT_PAREN:
+            expression = node->value.children.left;
+            break;
+        case TOK_BASED_REFERENCE:
+            expression = node->value.children.left;
+            if (expression->kind == TOK_DEREFERENCE)
+                expression = ((ExpressionNode *)expression)->value.children.left;
+            break;
+        default: return 0;
+        }
+    }
+}

@@ -1,0 +1,123 @@
+{
+  "case": "inlining",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "c1-ob1": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f inline.c -Ze -Zp8 -Foinline.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Gs -Gf -Og -Oi -Ot -Oy -Ob1 -D_M_IX86=500 -G4 -W 3 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/inline.c",
+          "bytes": 498,
+          "sha256": "984872fb17245353e5fdcfeddcba3b4fee384e658199574ebc6c21def25aa907"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1-ob1/irex",
+          "bytes": 1369,
+          "sha256": "1ba8627d9d725cc691c3acb63c0acdc311996458acc0e608f60d286dde6b2a2e",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/c1-ob1/irgl",
+          "bytes": 162,
+          "sha256": "6393f872cee0b4515a2ffe0c5333e7f8ee3543676e4a0a41e37f011422827421",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/c1-ob1/irin",
+          "bytes": 15,
+          "sha256": "17998068ba1f79dc225ef1cc6e3268d15874083a8d0d6e916a0b55df851fe0f2",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/c1-ob1/irsy",
+          "bytes": 223,
+          "sha256": "fd486854ec29a29bcad36d3341a6df210041f1d79ad3fb72e5274c77580d8979",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /O2 /Ob1 /G5 /W3 inline.c",
+      "transport_reference": "evidence/inlining-ob1.CL.receipt.json",
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); original child _spawnvpe transport and stream slices captured."
+      }
+    },
+    "c1-ob2": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f inline.c -Ze -Zp8 -Foinline.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Gs -Gf -Og -Oi -Ot -Oy -Ob2 -D_M_IX86=500 -G4 -W 3 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/inline.c",
+          "bytes": 498,
+          "sha256": "984872fb17245353e5fdcfeddcba3b4fee384e658199574ebc6c21def25aa907"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1-ob2/irex",
+          "bytes": 1369,
+          "sha256": "1ba8627d9d725cc691c3acb63c0acdc311996458acc0e608f60d286dde6b2a2e",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/c1-ob2/irgl",
+          "bytes": 162,
+          "sha256": "c24ba54a0f40ff19967942025f976900b6b6a94cf0a4d16cedd995a26d6d7d6e",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/c1-ob2/irin",
+          "bytes": 15,
+          "sha256": "17998068ba1f79dc225ef1cc6e3268d15874083a8d0d6e916a0b55df851fe0f2",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/c1-ob2/irsy",
+          "bytes": 223,
+          "sha256": "fd486854ec29a29bcad36d3341a6df210041f1d79ad3fb72e5274c77580d8979",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /O2 /Ob2 /G5 /W3 inline.c",
+      "transport_reference": "evidence/inlining-ob2.CL.receipt.json",
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); original child _spawnvpe transport and stream slices captured."
+      }
+    }
+  },
+  "execution": "Native-only fixture execution; explicit untouched-original captures are separate.",
+  "capture_policy": "Actual original CL child argv/environment and complete before/after file sets captured. The temporary relative -il prefix alone is changed to ir for independent C1 replay; expected contents must remain raw exact.",
+  "normalization": "None."
+}

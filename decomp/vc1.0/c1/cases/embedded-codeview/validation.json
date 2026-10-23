@@ -1,0 +1,458 @@
+{
+  "status": "active; fresh masked-original/native frontier write_legacy_type_record@4",
+  "completed_cases": 18,
+  "accepted_count": 841,
+  "source_functions": 718,
+  "state_defaults_aliases": 281,
+  "accepted_range": {
+    "accepted_from": 833,
+    "accepted_count": 841
+  },
+  "accepted_order": [
+    "_find_expression_type_base@4",
+    "_primitive_debug_index@4",
+    "_legacy_primitive_type_index@4",
+    "_primitive_pointer_debug_index@4",
+    "_queue_debug_record@4",
+    "_write_legacy_qualified_type@4",
+    "_emit_function_debug_type@4",
+    "_prepare_legacy_argument_types@4"
+  ],
+  "current_frontier": {
+    "logical": "_write_legacy_type_record@4",
+    "original": 297184,
+    "reference": "evidence/codeview-841.receipt.json",
+    "native": "evidence/codeview-841.native.receipt.json"
+  },
+  "coverage": {
+    "accepted_union_bytes": 216846,
+    "original_code_bytes": 277234,
+    "accepted_by_origin_bytes": {
+      "frontend_source": 197597,
+      "CRT": 19075,
+      "import_thunks": 174
+    },
+    "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
+    "percent": 78.21767892826998,
+    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
+  },
+  "independent_original": "Two untouched standalone C1 replays match actual original CL C1 outputs byte for byte; both full stream/file sets are frozen in evidence.",
+  "normalization": "None.",
+  "original_build_and_regressions": [
+    {
+      "name": "codeview-841-canonical",
+      "command": [
+        "make",
+        "-j2",
+        "audit-win32"
+      ],
+      "seconds": 9.808418919332325,
+      "exit": 0
+    },
+    {
+      "name": "codeview-841-projection",
+      "command": [
+        "python3",
+        "scripts/native-traces.py",
+        "--write"
+      ],
+      "seconds": 0.2301251506432891,
+      "exit": 0
+    },
+    {
+      "name": "codeview-841-eighteen",
+      "command": [
+        "python3",
+        "scripts/check-native.py",
+        "--trace",
+        "--directory",
+        "/root/.ai-tmp/msvc2/vc1.0/c1/validation/codeview-841-eighteen"
+      ],
+      "seconds": 0.5545929791405797,
+      "exit": 0
+    }
+  ],
+  "function_acceptance_timing": [
+    [
+      {
+        "name": "native-build",
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 1.666280711069703,
+        "exit": 0
+      },
+      {
+        "name": "original-capture",
+        "command": [
+          "python3",
+          "scripts/capture-frontier.py",
+          "--case",
+          "cases/embedded-codeview",
+          "--phase",
+          "c1",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/captures/codeview-834",
+          "--debugger",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+        ],
+        "seconds": 5.078848615288734,
+        "exit": 0
+      },
+      {
+        "name": "native-frontier",
+        "command": [
+          "python3",
+          "scripts/debug-frontier.py",
+          "--case",
+          "cases/embedded-codeview",
+          "--phase",
+          "c1",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/validation/codeview-834",
+          "--reference",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/captures/codeview-834"
+        ],
+        "seconds": 0.23099802434444427,
+        "exit": 0
+      }
+    ],
+    [
+      {
+        "name": "native-build",
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 6.826262088492513,
+        "exit": 0
+      },
+      {
+        "name": "original-capture",
+        "command": [
+          "python3",
+          "scripts/capture-frontier.py",
+          "--case",
+          "cases/embedded-codeview",
+          "--phase",
+          "c1",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/captures/codeview-835",
+          "--debugger",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+        ],
+        "seconds": 1.1105535700917244,
+        "exit": 0
+      },
+      {
+        "name": "native-frontier",
+        "command": [
+          "python3",
+          "scripts/debug-frontier.py",
+          "--case",
+          "cases/embedded-codeview",
+          "--phase",
+          "c1",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/validation/codeview-835",
+          "--reference",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/captures/codeview-835"
+        ],
+        "seconds": 0.22151184640824795,
+        "exit": 0
+      }
+    ],
+    [
+      {
+        "name": "native-build",
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 6.925672946497798,
+        "exit": 0
+      },
+      {
+        "name": "original-capture",
+        "command": [
+          "python3",
+          "scripts/capture-frontier.py",
+          "--case",
+          "cases/embedded-codeview",
+          "--phase",
+          "c1",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/captures/codeview-836",
+          "--debugger",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+        ],
+        "seconds": 4.960566572844982,
+        "exit": 0
+      },
+      {
+        "name": "native-frontier",
+        "command": [
+          "python3",
+          "scripts/debug-frontier.py",
+          "--case",
+          "cases/embedded-codeview",
+          "--phase",
+          "c1",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/validation/codeview-836",
+          "--reference",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/captures/codeview-836"
+        ],
+        "seconds": 0.22110777255147696,
+        "exit": 0
+      }
+    ],
+    [
+      {
+        "name": "native-build",
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 1.6741257347166538,
+        "exit": 0
+      },
+      {
+        "name": "original-capture",
+        "command": [
+          "python3",
+          "scripts/capture-frontier.py",
+          "--case",
+          "cases/embedded-codeview",
+          "--phase",
+          "c1",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/captures/codeview-837",
+          "--debugger",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+        ],
+        "seconds": 1.5953180138021708,
+        "exit": 0
+      },
+      {
+        "name": "native-frontier",
+        "command": [
+          "python3",
+          "scripts/debug-frontier.py",
+          "--case",
+          "cases/embedded-codeview",
+          "--phase",
+          "c1",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/validation/codeview-837",
+          "--reference",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/captures/codeview-837"
+        ],
+        "seconds": 0.21521690301597118,
+        "exit": 0
+      }
+    ],
+    [
+      {
+        "name": "native-build",
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 1.6345719182863832,
+        "exit": 0
+      },
+      {
+        "name": "original-capture",
+        "command": [
+          "python3",
+          "scripts/capture-frontier.py",
+          "--case",
+          "cases/embedded-codeview",
+          "--phase",
+          "c1",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/captures/codeview-838",
+          "--debugger",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+        ],
+        "seconds": 5.222991215996444,
+        "exit": 0
+      },
+      {
+        "name": "native-frontier",
+        "command": [
+          "python3",
+          "scripts/debug-frontier.py",
+          "--case",
+          "cases/embedded-codeview",
+          "--phase",
+          "c1",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/validation/codeview-838",
+          "--reference",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/captures/codeview-838"
+        ],
+        "seconds": 0.22264646645635366,
+        "exit": 0
+      }
+    ],
+    [
+      {
+        "name": "native-build",
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 6.704856147989631,
+        "exit": 0
+      },
+      {
+        "name": "original-capture",
+        "command": [
+          "python3",
+          "scripts/capture-frontier.py",
+          "--case",
+          "cases/embedded-codeview",
+          "--phase",
+          "c1",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/captures/codeview-839",
+          "--debugger",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+        ],
+        "seconds": 1.9859814830124378,
+        "exit": 0
+      },
+      {
+        "name": "native-frontier",
+        "command": [
+          "python3",
+          "scripts/debug-frontier.py",
+          "--case",
+          "cases/embedded-codeview",
+          "--phase",
+          "c1",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/validation/codeview-839",
+          "--reference",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/captures/codeview-839"
+        ],
+        "seconds": 0.21938130538910627,
+        "exit": 0
+      }
+    ],
+    [
+      {
+        "name": "native-build",
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 6.7664722157642245,
+        "exit": 0
+      },
+      {
+        "name": "original-capture",
+        "command": [
+          "python3",
+          "scripts/capture-frontier.py",
+          "--case",
+          "cases/embedded-codeview",
+          "--phase",
+          "c1",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/captures/codeview-840",
+          "--debugger",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+        ],
+        "seconds": 5.932306156493723,
+        "exit": 0
+      },
+      {
+        "name": "native-frontier",
+        "command": [
+          "python3",
+          "scripts/debug-frontier.py",
+          "--case",
+          "cases/embedded-codeview",
+          "--phase",
+          "c1",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/validation/codeview-840",
+          "--reference",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/captures/codeview-840"
+        ],
+        "seconds": 0.2270472925156355,
+        "exit": 0
+      }
+    ],
+    [
+      {
+        "name": "native-build",
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace"
+        ],
+        "seconds": 1.6874464433640242,
+        "exit": 0
+      },
+      {
+        "name": "original-capture",
+        "command": [
+          "python3",
+          "scripts/capture-frontier.py",
+          "--case",
+          "cases/embedded-codeview",
+          "--phase",
+          "c1",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/captures/codeview-841",
+          "--debugger",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+        ],
+        "seconds": 6.281911862082779,
+        "exit": 0
+      },
+      {
+        "name": "native-frontier",
+        "command": [
+          "python3",
+          "scripts/debug-frontier.py",
+          "--case",
+          "cases/embedded-codeview",
+          "--phase",
+          "c1",
+          "--directory",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/validation/codeview-841",
+          "--reference",
+          "/root/.ai-tmp/msvc2/vc1.0/c1/captures/codeview-841"
+        ],
+        "seconds": 0.2221306897699833,
+        "exit": 0
+      }
+    ]
+  ],
+  "notes": [
+    "Separate legacy primitive tables are recovered as logical width/type-code mappings. The signed-width table ends after ten words, before unrelated string data.",
+    "The original and native graph/state/grammar audits and all18 completed cases pass at this checkpoint. Embedded CodeView remains pending; inlining is queued.",
+    "Initial host PIPE logging timed out after the child had exited; file logging fixed the capture harness. Provisional captures with stale unrelated object input were explicitly superseded by clean transport runs before fixture freezing. Those diagnostics/build/analysis times were not all separately measured."
+  ]
+}

@@ -837,7 +837,15 @@
     "_pch_replay_mismatch",
     "_effective_warning_level",
     "_pragma_message@4",
-    "_rewind_source_file"
+    "_rewind_source_file",
+    "_find_expression_type_base@4",
+    "_primitive_debug_index@4",
+    "_legacy_primitive_type_index@4",
+    "_primitive_pointer_debug_index@4",
+    "_queue_debug_record@4",
+    "_write_legacy_qualified_type@4",
+    "_emit_function_debug_type@4",
+    "_prepare_legacy_argument_types@4"
   ],
   "driver": [
     {
@@ -3734,7 +3742,7 @@
     {
       "name": "_find_expression_type_base@4",
       "start": 251136,
-      "end": 251137
+      "end": 251254
     },
     {
       "name": "_find_inline_parameter_slot@12",
@@ -4274,22 +4282,22 @@
     {
       "name": "_primitive_pointer_debug_index@4",
       "start": 292400,
-      "end": 292401
+      "end": 292579
     },
     {
       "name": "_primitive_debug_index@4",
       "start": 292752,
-      "end": 292753
+      "end": 292861
     },
     {
       "name": "_queue_debug_record@4",
       "start": 293344,
-      "end": 293345
+      "end": 293498
     },
     {
       "name": "_emit_function_debug_type@4",
       "start": 292864,
-      "end": 292865
+      "end": 292943
     },
     {
       "name": "_pdb_type_index",
@@ -4344,7 +4352,7 @@
     {
       "name": "_write_legacy_qualified_type@4",
       "start": 296960,
-      "end": 296961
+      "end": 297173
     },
     {
       "name": "_write_legacy_enum_type@4",
@@ -5376,6 +5384,21 @@
       "name": "_rewind_source_file",
       "start": 112160,
       "end": 112256
+    },
+    {
+      "name": "_legacy_primitive_type_index@4",
+      "start": 292592,
+      "end": 292743
+    },
+    {
+      "name": "_write_legacy_type_record@4",
+      "start": 297184,
+      "end": 297185
+    },
+    {
+      "name": "_prepare_legacy_argument_types@4",
+      "start": 292944,
+      "end": 293044
     }
   ],
   "cases": {

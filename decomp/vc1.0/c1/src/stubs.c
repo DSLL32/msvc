@@ -691,7 +691,6 @@ CType * __stdcall change_function_reference_kind(CType *type, int kind) { __asm 
 /* Original 0x40160. */
 /* Original 0x2c450. */
 /* Original 0x3d500. */
-IrToken * __stdcall find_expression_type_base(IrToken *expression) { __asm { int 3 } return 0; }
 /* Original 0x2ee64. */
 int __stdcall find_inline_parameter_slot(unsigned *slots, unsigned count, unsigned symbol_index) { __asm { int 3 } return 0; }
 /* Original 0x3c1b0. */
@@ -814,10 +813,6 @@ void __fastcall destroy_pdb_buffer_list(PdbBufferList *self) { __asm { int 3 } }
 
 int __stdcall is_pointer_based_shape(TypeShape *shape) { __asm { int 3 } }
 
-unsigned short __stdcall primitive_pointer_debug_index(CType *type) { __asm { int 3 } }
-unsigned short __stdcall primitive_debug_index(CType *type) { __asm { int 3 } }
-unsigned __stdcall queue_debug_record(unsigned char kind) { __asm { int 3 } }
-void __stdcall emit_function_debug_type(CType *type) { __asm { int 3 } }
 
 
 
@@ -826,7 +821,7 @@ unsigned short pdb_enum_type_index(FrontendSymbol *tag) { __asm { int 3 } }
 void __stdcall write_legacy_pointer_type(CType *type, unsigned short nested) { __asm { int 3 } }
 void __stdcall write_legacy_array_type(CType *type, unsigned short nested) { __asm { int 3 } }
 void __stdcall write_legacy_function_type(CType *type, unsigned short result, unsigned short arguments) { __asm { int 3 } }
-void __stdcall write_legacy_qualified_type(CType *type) { __asm { int 3 } }
+void __stdcall write_legacy_type_record(int bytes) { __asm { int 3 } }
 void __stdcall write_legacy_enum_type(FrontendSymbol *tag) { __asm { int 3 } }
 void __stdcall write_legacy_record_type(FrontendSymbol *tag, unsigned short fields, unsigned short auxiliary) { __asm { int 3 } }
 void __stdcall write_legacy_field_list(FrontendSymbol *tag, unsigned count, int mode) { __asm { int 3 } }

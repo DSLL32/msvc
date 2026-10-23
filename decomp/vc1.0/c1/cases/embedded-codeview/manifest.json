@@ -1,0 +1,72 @@
+{
+  "case": "embedded-codeview",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "c1": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f types.c -Ze -Zp8 -Gs -Fotypes.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/types.c",
+          "bytes": 1147,
+          "sha256": "9b6dca5c9481e403429e7b8c290f637458b7f9e4049bd09e034f102bba126a18"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1/irdb",
+          "bytes": 643,
+          "sha256": "f5c55c5b62da4b32801102d30d9868089bd5e7f9d52c1253c7bbb6e19d16e2c7",
+          "output_name": "irdb"
+        },
+        {
+          "path": "expected/c1/irex",
+          "bytes": 1196,
+          "sha256": "8ffaaa82423b1015edbf09d4327836b648b1b24b3b6e12274beffe663e305f25",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/c1/irgl",
+          "bytes": 332,
+          "sha256": "95a8065819efd0a06a291355aa63d42a332450aee22c749e201a416d0aa7a634",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/c1/irin",
+          "bytes": 74,
+          "sha256": "dc0ce5f2c18c811088dacb6ed08474b927bdaa69f82d2cd6928789969f10779a",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/c1/irsy",
+          "bytes": 177,
+          "sha256": "728862bc5ac8d8be1b3bca0813a63ecaefd94a299b012af6a6dc6156633c0864",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /Z7 /Od /G5 /W3 types.c",
+      "transport_reference": "evidence/embedded-codeview.CL.receipt.json",
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); original child _spawnvpe transport and stream slices captured."
+      }
+    }
+  },
+  "execution": "Native-only fixture execution; explicit untouched-original captures are separate.",
+  "capture_policy": "Actual original CL child argv/environment and complete before/after file sets captured. The temporary relative -il prefix alone is changed to ir for independent C1 replay; expected contents must remain raw exact.",
+  "normalization": "None."
+}

@@ -1,5 +1,5 @@
 {
-  "authorization": "Suggestions only; approved queue complete. No further case assigned.",
+  "authorization": "User selected the first two families; see approved-queue.json. The literals/floating suggestion remains unassigned.",
   "remaining_original_code_extent_bytes": 61491,
   "metric": "Remaining code-section bytes outside accepted extent union, including unknown application and runtime code; not branch coverage.",
   "suggestions": [
