@@ -1,7 +1,7 @@
 {
   "schema": 1,
-  "commit": "410fea959714b77efb2e45161f83e7c82857ca03",
-  "tree": "c8e4b0ef2e74ceea54bf6f96f439f6ec950df61c",
+  "commit": "6f61ec34eb71e071c747feda82e663e589fff9ef",
+  "tree": "e632207f009cd5e0ca6159be1c818cb0a5d9a327",
   "verification": "Explicit reviewed committed slice; refresh invoked with --pin-commit",
   "policy": "Deliberate committed-source reference; ignore evolving shared worktree contents until explicitly refreshed",
   "previous_references": [
@@ -12,6 +12,10 @@
     {
       "commit": "499e1fe81eed52a6807d1577468b73d5b6df0898",
       "tree": "6836ab62e54629bcaadf01017b51b99ce0d4e369"
+    },
+    {
+      "commit": "410fea959714b77efb2e45161f83e7c82857ca03",
+      "tree": "c8e4b0ef2e74ceea54bf6f96f439f6ec950df61c"
     }
   ]
 }
