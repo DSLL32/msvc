@@ -1,0 +1,35 @@
+{
+  "utc": "2026-10-23T21:52:45.905203+00:00",
+  "disposition": "PASS fatal89B completedcase status2 and new ordinary evidence retention; promotion conditional onlyonpublishednewauditor currentstaticrevalidation",
+  "pair_sha256": "4f0e258307f0d78b8b9df8d74286f168ade40d2407c92d8fdb33bee134627151",
+  "current_fatal_trial_review_only": "PASS independentaccept --review-only undercertifiedeb2tool beforepublication",
+  "protocol_review_sha256": "4c300740605a5ae85bb6c304abb0d3c4bc03072769f9cc45299801a283366ce7",
+  "actual_completion": {
+    "status_dword": 2,
+    "application_entries": 56,
+    "stdout_bytes": 0,
+    "stderr_bytes": 139,
+    "strict_mktemp_calls": 1
+  },
+  "control_receipts": "Actual13nonzero/35unchangedprotocol/resource303+2003 controls reviewed fromworker;13 independently reran on actualearlierrawpair. ExactfullDWORD/POSIX/helper distinction retained.",
+  "ordinary_retention_review": {
+    "manifest_sha256": "147050d1c321af0c8e943a6554c4be77c8fd76cb4edaea4654bbb50192ce50f7",
+    "records_verified": 208,
+    "owned_payload_bytes": 1685353,
+    "record_kinds": {
+      "owned": 136,
+      "owned_case_reference": 62,
+      "existing_repo_original": 9,
+      "pinned_auditor_source": 1
+    },
+    "reference_records_verified": 57,
+    "relative_symlinks_verified_inside_repo": 4,
+    "active_bound_input_missing_guard": "present and reviewed; missingabsolute hashbound inputs nowdeny",
+    "existing_archives": "unchanged; noCAS or historyrewrite"
+  },
+  "retention_source_sha256": {
+    "scripts/retain-completion.py": "736c049c037c043a6fde9eed61242135a6c7ee710ed7f3b2104947e63ba328b2",
+    "scripts/prepare-driver-reference.py": "271ff2e9bed0c6f8242daff9a8891d41211f8ba57a03059f061b4bef62a8103a"
+  },
+  "limits": "Graph toolpublication requires a separate currentstaticsidecar/strictaudit pass beforepromotion; same original/native sourceexecutioninputs require no newWine/nativecapture. Oldeb2receipt and owned sourceproof remainhistorical, not relabeled. Futurecaseinput/passqueue approved aftercommit."
+}

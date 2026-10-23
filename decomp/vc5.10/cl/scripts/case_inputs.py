@@ -7,6 +7,11 @@ import re
 PROJECT=Path(__file__).resolve().parents[1]
 
 
+def target_status(status):
+    assert type(status)is int and 0<=status<=0xffffffff and status not in (0x7001,0x7003),'invalid/reserved target status'
+    return status
+
+
 def load(name):
     plan=json.loads((PROJECT/'cases/plan.json').read_text())
     assert name in plan['authorized_queue'],'case is not authorized'
@@ -18,7 +23,10 @@ def load(name):
         path=PROJECT/'cases'/theme['source']
         inputs.append({'name':path.name,'source':str(path.relative_to(PROJECT)),
             'bytes':path.stat().st_size,'sha256':hashlib.sha256(path.read_bytes()).hexdigest()})
-    return {'case':name,'arguments':theme['arguments'],'inputs':inputs}
+    result={'case':name,'arguments':theme['arguments'],'inputs':inputs}
+    if 'expected_status'in theme:
+        result['expected_status']=target_status(theme['expected_status'])
+    return result
 
 
 def copy_inputs(case,directory):

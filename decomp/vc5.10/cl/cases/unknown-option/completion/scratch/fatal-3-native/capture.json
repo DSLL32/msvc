@@ -1,0 +1,155 @@
+{
+  "platform": "native",
+  "case": "unknown-option",
+  "arguments": [
+    "/nologo",
+    "/unknown-reconstruction-option"
+  ],
+  "inputs": [],
+  "expected_status": 2,
+  "native_sha256": "ece600e1b0de660f62bba83b4a2633f974785e6646bc13c1da1a53205f833ebc",
+  "rebuilt_sha256": "814a7a0a12237745f54d7ab6829c6f63b923fe5d318e14bcfe832ca702b13187",
+  "config_sha256": "28c29345797208da02042d1fcf82079b067ae686b403e724ac0c3771d9cd067e",
+  "native_build": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/fatal-3-native/native-build.json",
+    "sha256": "ff36a61045a4797160abe3c75025c72123988329e4c5d4558061d739fea45f35"
+  },
+  "controller_sha256": "f5394242a35d5c3326f638ace6d29aa256743ef2fb41e5a97a65b21efbde1b52",
+  "gdb_status": 0,
+  "seconds": 0.2142355376854539,
+  "controller_error": null,
+  "files": {
+    "completion_state.py": {
+      "sha256": "73b7881b78fba4cf1bc4f283115dd759527ec1a3be24fa9a89af418899fb0b5e",
+      "bytes": 4509
+    },
+    "gdb_entry.py": {
+      "sha256": "97ca1f25ded811ed7a46f261bc310e9984b561e01f198e92f6916740ebd617fb",
+      "bytes": 794
+    },
+    "status_reader.py": {
+      "sha256": "c024324ec793ad97838fbc040b5d6c2873422764441611bd3918d3e0e3397a65",
+      "bytes": 1105
+    },
+    "native-mktemp-gdb.json": {
+      "sha256": "65ae7b9a706aacef6eeca8a5f2453a2e291e580d9b9403d6cd05cbf54911ec5b",
+      "bytes": 381
+    },
+    "gdb_mktemp.py": {
+      "sha256": "2aa63fb944583676a81ae35e401ada40e40a1da4975925112dba9d42e533115f",
+      "bytes": 1855
+    },
+    "trace.txt": {
+      "sha256": "e8f13e37b4665aa11df6fefaa39fb11410605703365cd160712f0a53d36f93e0",
+      "bytes": 780
+    },
+    "streams-entry-iob.bin": {
+      "sha256": "857892a18fa8b727eeb046ea8e1664b97de8deacd31de8edbbd0ee7edaf2e8e8",
+      "bytes": 96
+    },
+    "mktemp_reader.py": {
+      "sha256": "5fb2415fea5b0d1ac7c851a79e3e9594e8b70208232c23882dee3c9fa80b7570",
+      "bytes": 2081
+    },
+    "native-process.json": {
+      "sha256": "bf92125323307a91be03230b0df352d4832be45705fe967ea1cfc378dab24102",
+      "bytes": 17
+    },
+    "gdb-capture.py": {
+      "sha256": "200d96931ccc4f73eeef11c5a6c9f4ed8b867d8a41bf9af09efbc76806785dc9",
+      "bytes": 165
+    },
+    "native-build.json": {
+      "sha256": "ff36a61045a4797160abe3c75025c72123988329e4c5d4558061d739fea45f35",
+      "bytes": 16586
+    },
+    "trace-filter.txt": {
+      "sha256": "c7eac69af5dc9970e8987178c719051e005d8b98738017701c60f71f722063e7",
+      "bytes": 1175
+    },
+    "state.json": {
+      "sha256": "9ce3f9537b580bb0ecdaba746a655d5d4fa4ffadf762b0e1448df14e0dc7a779",
+      "bytes": 2521
+    },
+    "exec-wrapper.py": {
+      "sha256": "d2301fc7c7bfe4f08fc0bf66842458b7516d8fd14b127938e93fd2d576b2a0aa",
+      "bytes": 727
+    },
+    "gdb_exit.py": {
+      "sha256": "b30633ad55b81e4e74480a540d290dab5593a5fd36d2a0d21043ef8387c1da38",
+      "bytes": 856
+    },
+    "entry-profile.json": {
+      "sha256": "f89763258f54f833456276c33f177cc2bab8dc53fdbf999479007e22f85b27a5",
+      "bytes": 1041
+    },
+    "resources.bin": {
+      "sha256": "77cb3323180d6cf309d20cfa0c5cb10d76874dfc42d36178e2933521879c4eee",
+      "bytes": 5533
+    },
+    "terminal-status.bin": {
+      "sha256": "230572a05c6c72dd16caecaddbc450dc088223997867383a622b543a1093f860",
+      "bytes": 24
+    },
+    "frontier_state.py": {
+      "sha256": "7826893a867fb6e3d447bc6c9dcbbcd7e9002c641d349974b626f51a16409de8",
+      "bytes": 36342
+    },
+    "gdb_unlink.py": {
+      "sha256": "2fa9dbee7218868fa084513dade40a59d22f6db1203a33896e5c5a4150d8798f",
+      "bytes": 1922
+    },
+    "streams-entry.json": {
+      "sha256": "6c68b3dc03a2a3daa38942d10dc7d9d5cdf0a2bb8114c2d38ce140720f0c3407",
+      "bytes": 1035
+    },
+    "config.json": {
+      "sha256": "28c29345797208da02042d1fcf82079b067ae686b403e724ac0c3771d9cd067e",
+      "bytes": 70966
+    },
+    "stdout.bin": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "gdb_capture.py": {
+      "sha256": "dc82481c50011e51978ccd914e76c8c92f6bf7596ee43c8a31fba7bf945fea97",
+      "bytes": 2245
+    },
+    "gdb_streams.py": {
+      "sha256": "5362777b723bca072f787a40e8feb9e1df693287428438cdd473298766243de5",
+      "bytes": 2190
+    },
+    "native-entry-errors.json": {
+      "sha256": "d778c37b03dd16b3bb2864d5a04f1bcb5ba9ab356604846b209790105192662c",
+      "bytes": 80
+    },
+    "mktemp-expected.json": {
+      "sha256": "8b9489b2b6679ced183302ffcaaed83a8334f84fd165b7b103d20c588470a541",
+      "bytes": 409
+    },
+    "trace-seen.txt": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "debugger.txt": {
+      "sha256": "456b62e33cf9279ef96bd24a2c7784f1e2886093cd58840eb28730409d170481",
+      "bytes": 461
+    },
+    "gdb-entry.py": {
+      "sha256": "05b91be375b05f3164fff5a38f6f91b10e6011dd6d054aa05c757b54efbbb407",
+      "bytes": 422
+    },
+    "stderr.bin": {
+      "sha256": "c59ff632161dc817cc5581252a7ce0fb0da3f4024bd6d648796e6401045d73ec",
+      "bytes": 139
+    },
+    "mktemp-receipt.bin": {
+      "sha256": "8f13801e180ac7efd523b9761364b9996713871bd477c65c4f7d6f1b242eefdf",
+      "bytes": 568
+    },
+    "native_status.py": {
+      "sha256": "fdf1eb0fa5783d22b94db7efa9a74de7bdb61b1ad2af54eb04f1faaf909cfd4d",
+      "bytes": 1072
+    }
+  }
+}

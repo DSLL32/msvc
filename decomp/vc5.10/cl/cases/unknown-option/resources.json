@@ -1,0 +1,86 @@
+{
+  "schema": 1,
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "resources": [
+    {
+      "id": 302,
+      "language": 1033,
+      "type": 6,
+      "record_file_offset": 34384,
+      "length_utf16": 27,
+      "utf16le": "43006f006d006d0061006e00640020006c0069006e00650020007700610072006e0069006e006700200044002500640020003a002000",
+      "text": "Command line warning D%d : ",
+      "codepage": 0,
+      "encounter": {
+        "state_path": "/root/.ai-tmp/msvc2/vc5.10/cl/warning-1-original/state.json",
+        "state_sha256": "2bc98d50125d3fc19fc1fa56ced5d6d2e80091f7a36782b5bde96899557d0f8f",
+        "context_sha256": "9f87f99fd669392ca1c9885dd7e9a5dbeabc53a614765ac25d1f621032d57b19",
+        "entry_context_sha256": "6ad84c3afbb6f06d917c563eb0fba2f91afe19998aab86eda9fd401823284474",
+        "memory_sha256": "78137919f6f19a71fd85d9e9074b52513bfffe8a2fc15fa7dd7bf9cca3e7913c",
+        "api_events_sha256": "1bed0e36da6d3ebaeb0bb3ec4ca95a2af8254a3129532100dade91cb40d7b9ed",
+        "sequence": 1,
+        "before_sha256": "5341e6b2646979a70e57653007a1f310169421ec9bdd9f1a5648f75ade005af1",
+        "after_sha256": "09f70f071f13d8e332ae6577e959a78a44f4609495466c173ac68ccd38738b01"
+      }
+    },
+    {
+      "id": 4002,
+      "language": 1033,
+      "type": 6,
+      "record_file_offset": 44980,
+      "length_utf16": 28,
+      "utf16le": "690067006e006f00720069006e006700200075006e006b006e006f0077006e0020006f007000740069006f006e0020002700250073002700",
+      "text": "ignoring unknown option '%s'",
+      "codepage": 0,
+      "encounter": {
+        "state_path": "/root/.ai-tmp/msvc2/vc5.10/cl/warning-1-original/state.json",
+        "state_sha256": "2bc98d50125d3fc19fc1fa56ced5d6d2e80091f7a36782b5bde96899557d0f8f",
+        "context_sha256": "9f87f99fd669392ca1c9885dd7e9a5dbeabc53a614765ac25d1f621032d57b19",
+        "entry_context_sha256": "6ad84c3afbb6f06d917c563eb0fba2f91afe19998aab86eda9fd401823284474",
+        "memory_sha256": "78137919f6f19a71fd85d9e9074b52513bfffe8a2fc15fa7dd7bf9cca3e7913c",
+        "api_events_sha256": "1bed0e36da6d3ebaeb0bb3ec4ca95a2af8254a3129532100dade91cb40d7b9ed",
+        "sequence": 2,
+        "before_sha256": "09f70f071f13d8e332ae6577e959a78a44f4609495466c173ac68ccd38738b01",
+        "after_sha256": "1946d5990f0e8ebe0d0aac8a99d3dc6fab687def0c901f41fb467ee98cbc8e26"
+      }
+    },
+    {
+      "id": 303,
+      "language": 1033,
+      "type": 6,
+      "record_file_offset": 34440,
+      "length_utf16": 25,
+      "utf16le": "43006f006d006d0061006e00640020006c0069006e00650020006500720072006f007200200044002500640020003a002000",
+      "text": "Command line error D%d : ",
+      "codepage": 0,
+      "encounter": {
+        "state_path": "/root/.ai-tmp/msvc2/vc5.10/cl/fatal-1-original/state.json",
+        "state_sha256": "8b1bfced266a74aa2cc34226e8a93dae8130e3bbb4c58973456c3df741d969db",
+        "entry_context_sha256": "87cc99cdedf716e34e255068795fcf2af32c8a7b32b1620234928d4ce7985874",
+        "api_events_sha256": "ef6f22a4df73e0c4e98f02c53c449dd931c945b8089b2f8df3a11789ecc10150",
+        "sequence": 3,
+        "before_sha256": "1946d5990f0e8ebe0d0aac8a99d3dc6fab687def0c901f41fb467ee98cbc8e26",
+        "after_sha256": "c048266f128ce2a61a99252d50b6181d840b4417cd3ee887c17caac9d1063ad9"
+      }
+    },
+    {
+      "id": 2003,
+      "language": 1033,
+      "type": 6,
+      "record_file_offset": 43502,
+      "length_utf16": 23,
+      "utf16le": "6d0069007300730069006e006700200073006f0075007200630065002000660069006c0065006e0061006d006500",
+      "text": "missing source filename",
+      "codepage": 0,
+      "encounter": {
+        "state_path": "/root/.ai-tmp/msvc2/vc5.10/cl/fatal-1-original/state.json",
+        "state_sha256": "8b1bfced266a74aa2cc34226e8a93dae8130e3bbb4c58973456c3df741d969db",
+        "entry_context_sha256": "87cc99cdedf716e34e255068795fcf2af32c8a7b32b1620234928d4ce7985874",
+        "api_events_sha256": "ef6f22a4df73e0c4e98f02c53c449dd931c945b8089b2f8df3a11789ecc10150",
+        "sequence": 4,
+        "before_sha256": "c048266f128ce2a61a99252d50b6181d840b4417cd3ee887c17caac9d1063ad9",
+        "after_sha256": "579216eb1f0214dff081b5ab0a85ca033e875f8fa99a5778431e2dc534401c38"
+      }
+    }
+  ]
+}

@@ -159,6 +159,7 @@ void delete_options(Option *);
 void delete_option(Option *);
 void option_conflict(unsigned, Option *, Option *);
 int write_message(int, const char *, ...);
+int vwrite_message(int, const char *, va_list);
 char *load_string(unsigned);
 char *format_message(unsigned *, const char *, va_list);
 int format_number(unsigned, char *, unsigned);

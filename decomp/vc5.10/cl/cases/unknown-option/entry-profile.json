@@ -1,0 +1,30 @@
+{
+  "id": "unknown-option-canonical-msvcrt-v1",
+  "case": "unknown-option",
+  "arguments": [
+    "/nologo",
+    "/unknown-reconstruction-option"
+  ],
+  "inputs": [],
+  "expected_status": 2,
+  "state": {
+    "errno": 0,
+    "doserrno": 0,
+    "last_error": 0,
+    "x87_control_word": 639
+  },
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "evidence": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/unknown-option-initial/capture.json",
+    "sha256": "d1fe7a547c56c8494d78f9d3762c3913e1bdf6ac0dc9dcce2c2cd65e9da4c5bb"
+  },
+  "environment": {
+    "CL": null,
+    "_CL_": null,
+    "INCLUDE": "R:\\toolchains\\5.10\\include",
+    "TMP": ".",
+    "PATH": "R:\\toolchains\\5.10\\bin;C:\\windows\\system32;C:\\windows;C:\\windows\\system32\\wbem;C:\\windows\\system32\\WindowsPowershell\\v1.0"
+  },
+  "approval": "Existing capturedcase entry profile; explicit unknown-option target inputs, no target/API reseeding."
+}

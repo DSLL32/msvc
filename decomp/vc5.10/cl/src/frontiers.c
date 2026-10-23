@@ -2,14 +2,6 @@
 #include "cl.h"
 #include <recon.h>
 
-void warning(unsigned id, ...) {
-    __asm int 3
-
-} /* 004053ba */
-void fatal(unsigned id, ...) {
-    __asm int 3
-
-} /* 00405361 */
 unsigned file_timestamp(Driver *state) { __asm int 3
     return 0;
 }

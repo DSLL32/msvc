@@ -96,7 +96,10 @@
     "_set_pass_name",
     "_undefine_defaults",
     "_enable_dll",
-    "_show_usage"
+    "_show_usage",
+    "_warning",
+    "_vwrite_message",
+    "_fatal"
   ],
   "driver": [
     {
@@ -326,10 +329,43 @@
     {
       "name": "_warning",
       "start": 4215738,
-      "end": 4215739,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "warning"
+      "end": 4215805,
+      "pending_extent": false,
+      "state": "implemented; fresh warning trial pending",
+      "native_symbol": "warning",
+      "source": "src/messages.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "id",
+            "type": "unsigned"
+          },
+          {
+            "name": "...",
+            "type": "variadic",
+            "scope": "Actual typed tail decoded from encountered target message text; id4002 consumes onechar*."
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete67B body fetchesid and firstvariadicslot; no hidden incomingregs."
+      },
+      "input_observation": {
+        "kind": "actual matching warning initial frontier",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/unknown-option-initial",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/unknown-option-initial-native-2",
+        "scope": "Actual id4002 +onechar* /unknown-reconstruction-option; typed tail from exact originalresource format, no undefinedextra slots."
+      },
+      "evidence": {
+        "kind": "complete67B warning body",
+        "range": [
+          "0x4053ba",
+          "0x4053fd"
+        ],
+        "behavior": "Print resource302 prefix withid, forward originalvariableargumentpointer to vwrite_message for actualmessageid, printnewline."
+      }
     },
     {
       "name": "_release",
@@ -345,10 +381,43 @@
     {
       "name": "_fatal",
       "start": 4215649,
-      "end": 4215650,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "fatal"
+      "end": 4215738,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "fatal",
+      "source": "src/messages.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "id",
+            "type": "unsigned"
+          },
+          {
+            "name": "...",
+            "type": "variadic",
+            "scope": "Only resource-consumed tail observed; actual2003 format consumeszero tailwords."
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Full89B EBPbody readsid, forwards caller firstvariadic slot; nohiddenincomingregisters."
+      },
+      "evidence": {
+        "kind": "complete89B fatal diagnostic wrapper",
+        "range": [
+          "0x405361",
+          "0x4053ba"
+        ],
+        "behavior": "id0 maps2000; resource303 prefix withactualid, messageformat through vwrite, newline, driver_exit2."
+      },
+      "input_observation": {
+        "kind": "matching actual fatal frontier aftervwritecandidate",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/vwrite-message-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/vwrite-message-2-native",
+        "scope": "actualid2003, no consumed variadicpayload; zero-tail decoder doesnotreadundefined slots."
+      }
     },
     {
       "name": "_prepare_execution",
@@ -1539,6 +1608,51 @@
         "hidden_register_arguments": [],
         "callee_stack_cleanup": 0,
         "evidence": "Complete41-byte body reads sole Job* stack input; returns intrusive nodes atJob+12, saves/restoresESI, assigns ECX/EDX/EAX before use."
+      }
+    },
+    {
+      "name": "_vwrite_message",
+      "start": 4215346,
+      "end": 4215385,
+      "pending_extent": false,
+      "state": "implemented; fresh trial pending",
+      "native_symbol": "vwrite_message",
+      "source": "src/messages.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "int",
+        "stack_arguments": [
+          {
+            "name": "fd",
+            "type": "int"
+          },
+          {
+            "name": "text",
+            "type": "const char *"
+          },
+          {
+            "name": "args",
+            "type": "va_list",
+            "scope": "Actual formatterconsumed tail +callerfirstvariadicslot alias required."
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete39B EBPframe code reads3args; formatterthenqualifiedCRT_write returnsint inEAX."
+      },
+      "evidence": {
+        "kind": "complete39B variadic output wrapper",
+        "range": [
+          "0x405232",
+          "0x405259"
+        ],
+        "behavior": "format_message receives length outpointer, actualtext andcaller va_list; qualified MSVCRT!_write receives fd/buffer/length; return CRTwrite count. Original reuses consumed argsparameter slot forlength; source uses local typed length without observable aliaschange."
+      },
+      "input_observation": {
+        "kind": "fresh matching warning candidate frontier",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/warning-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/warning-3-native",
+        "scope": "fd2, actual id4002format, originalfirstvariadicslot alias andoneconsumedchar*; no opaque unobserved inputs."
       }
     }
   ],

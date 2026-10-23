@@ -1,6 +1,6 @@
 {
   "schema": 1,
-  "state": "usage-completed-diagnostics-next",
+  "state": "driver-option-queue-approved",
   "acceptance_enabled": true,
   "blocked_by": [],
   "themes": [
@@ -47,6 +47,16 @@
       "arguments": [],
       "source": null,
       "from_vc1": "authored5.10 noarguments usage path; no oracle copied"
+    },
+    {
+      "id": "unknown-option",
+      "arguments": [
+        "/nologo",
+        "/unknown-reconstruction-option"
+      ],
+      "source": null,
+      "expected_status": 2,
+      "from_vc1": "authored intentional warning4002 then fatal2003; no reused oracle. Expected2 follows actual fatal body push2\u2192driver_exit."
     }
   ],
   "notes": [
@@ -57,18 +67,20 @@
     "Root released autonomous continuation beyond help; minimal-C follows the completed, frozen help review window and an explicit dependency-boundary plan."
   ],
   "groundwork_capture": "original-probes/host-contract-2/manifest.json",
-  "authorized_case": "usage",
+  "authorized_case": "unknown-option",
   "authorized_queue": [
     "help",
     "minimal-c",
     "response-options",
-    "usage"
+    "usage",
+    "unknown-option"
   ],
   "next_case_gate": "Orchestrator approved response-file/options/help followed by diagnostics after minimal compile completion; no new successful dependency boundary authorized.",
   "completed_cases": [
     "help",
     "minimal-c",
     "response-options",
-    "usage"
+    "usage",
+    "unknown-option"
   ]
 }

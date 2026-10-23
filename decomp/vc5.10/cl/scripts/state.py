@@ -79,15 +79,21 @@ def basic_project(platform,directory):
     directory=Path(directory)
     terminal_file=directory/('events.txt' if platform=='original' else 'debugger.txt')
     text=terminal_file.read_text() if terminal_file.exists() else ''
-    completed=(not re.search(r'^trap ',text,re.M) and re.search(r'^exit .*status=0$',text,re.M)) if platform=='original' else 'NATIVE_COMPLETION_STATUS=0\n' in text
+    from case_inputs import load
+    metadata=directory/('capture.json'if platform=='original'else'entry-profile.json')
+    case=load(json.loads(metadata.read_text())['case'])if metadata.exists()else load('help')
+    expected=case.get('expected_status',0)
+    exits=re.findall(r'^exit .*status=(\d+)$',text,re.M)if platform=='original'else re.findall(r'^NATIVE_COMPLETION_STATUS=(\d+)$',text,re.M)
+    completed=bool(exits)and not re.search(r'^trap |^NATIVE_FRONTIER_SYMBOL=',text,re.M)
     if completed:
+        assert exits==[str(expected)],'target exit differs from explicit case expectation'
         inputs=[terminal_file.name]
         if platform=='native':
             from native_status import read
             posix=re.findall(r'^NATIVE_POSIX_STATUS=(\d+)$',text,re.M)
-            assert len(posix)==1 and read(directory,int(posix[0]))==0
-            inputs+=['terminal-status.bin','status_reader.py','native-process.json','native-build.json','native_status.py','gdb_capture.py','gdb-capture.py']
-        return {'projection':('cl-case-completion-v1'if(directory/'case-inputs.json').exists()else'cl-help-completion-v1'),'fields':{'status':0},'decoder_sha256':sha(Path(__file__)),
+            assert len(posix)==1 and read(directory,int(posix[0]))==expected
+            inputs+=['terminal-status.bin','status_reader.py','native-process.json','native-build.json','native_status.py','gdb_capture.py','gdb-capture.py','entry-profile.json']
+        return {'projection':('cl-help-completion-v1'if case['case']=='help'else'cl-case-completion-v1'),'fields':{'status':expected},'decoder_sha256':sha(Path(__file__)),
             'raw_inputs':{name:sha(directory/name)for name in inputs}}
     if (directory/'frontier-memory.json').exists():
         from frontier_state import decode
@@ -153,7 +159,7 @@ def project(platform,directory):
         result['raw_inputs'].update({name:sha(directory/name)for name in names})
         if (directory/'streams-entry.json').exists():
             import streams_state
-            phases=('entry',) if result['fields'].get('status')==0 else ('entry','frontier')
+            phases=('entry',) if 'status'in result['fields'] else ('entry','frontier')
             result['fields']['streams']={phase:getattr(streams_state,platform)(directory,phase)
                 for phase in phases}
             names=[]
@@ -184,7 +190,7 @@ def project(platform,directory):
                 assert sha(directory/'loaded-mspdb50.bin')==declarations()['provider_sha256']
                 names=['mre-calls.txt','events.txt','loaded-mspdb50.bin']
             else:
-                phase='entry' if result['fields'].get('status')==0 else 'frontier'
+                phase='entry' if 'status'in result['fields'] else 'frontier'
                 record=json.loads((directory/('streams-'+phase+'.json')).read_text());assert record['mre_calls']==0
                 names=['streams-'+phase+'.json','gdb_streams.py']
             result['fields']['external_mre_calls']=0

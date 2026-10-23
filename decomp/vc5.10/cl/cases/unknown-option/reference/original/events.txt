@@ -1,0 +1,91 @@
+child-environment TMP=. TEMP=.
+create event=1 base=00400000 entry=004058e0
+loaded-file loaded-target.bin bytes=46080
+mre-guard site=00403597 iat=0040a300
+mre-guard site=004035c1 iat=0040a314
+mre-guard site=004035ca iat=0040a304
+mre-guard site=00403686 iat=0040a308
+mre-guard site=004036b9 iat=0040a30c
+mre-guard site=004036e2 iat=0040a310
+mre-guard site=0040375c iat=0040a300
+mre-guard site=0040378c iat=0040a314
+mre-guard site=004037b4 iat=0040a2fc
+mre-guard site=00403801 iat=0040a2f8
+mre-guard site=00403818 iat=0040a2f8
+mre-guard site=00403877 iat=0040a308
+mre-guard site=004038e4 iat=0040a30c
+mre-guard site=0040390c iat=0040a310
+module event=2 name=ntdll.dll base=7bcf0000 preferred=7bcf0000 timestamp=685cf020 size=002fe000
+module event=3 name=KERNEL32.dll base=7bb70000 preferred=7bb70000 timestamp=685cf020 size=0016f000
+module event=4 name=kernelbase.dll base=7b600000 preferred=7b600000 timestamp=685cf020 size=00551000
+module event=5 name=user32.dll base=7a1d0000 preferred=7a1d0000 timestamp=685cf020 size=004d4000
+module event=6 name=zlib1.dll base=7a190000 preferred=7a190000 timestamp=6793da7c size=0002a000
+module event=7 name=MSVCRT.dll base=78000000 preferred=78000000 timestamp=345ebc2c size=00048000
+loaded-file loaded-msvcrt.bin bytes=277776
+module event=8 name=advapi32.dll base=7b500000 preferred=7b500000 timestamp=685cf020 size=000ef000
+module event=9 name=sechost.dll base=7b1a0000 preferred=7b1a0000 timestamp=685cf020 size=00070000
+module event=10 name=ucrtbase.dll base=7ae50000 preferred=7ae50000 timestamp=685cf020 size=00337000
+module event=11 name=gdi32.dll base=7a6c0000 preferred=7a6c0000 timestamp=685cf020 size=00248000
+module event=12 name=win32u.dll base=7a140000 preferred=7a140000 timestamp=685cf020 size=00040000
+module event=13 name=mspdb50.dll base=10300000 preferred=10300000 timestamp=32f1504d size=0002a000
+loaded-file loaded-mspdb50.bin bytes=167424
+module event=14 name=<no-exports> base=10000000 preferred=10000000 timestamp=22f65fc1 size=00081000
+module event=16 name=<no-exports> base=10000000 preferred=10000000 timestamp=22f65fc1 size=00081000
+module event=18 name=imm32.dll base=78640000 preferred=78640000 timestamp=685cf020 size=00067000
+entry event=20 address=00401743 name=main
+entry event=21 address=004057b4 name=install_control_handler
+entry event=22 address=00404cd1 name=split_arguments
+entry event=23 address=00402136 name=count_arguments
+entry event=24 address=004023bb name=program_name
+entry event=25 address=004022e9 name=initialize_driver
+entry event=26 address=00402de5 name=program_directory
+entry event=27 address=004054c5 name=duplicate
+entry event=28 address=0040214f name=has_nologo
+entry event=29 address=00401aed name=parse_arguments
+entry event=30 address=00402006 name=find_special
+entry event=31 address=00402110 name=has_prefix
+entry event=32 address=00401be7 name=match_option
+entry event=33 address=00401e64 name=find_rule
+entry event=34 address=004013ef name=match_pattern
+entry event=35 address=00401205 name=read_option
+entry event=36 address=00401392 name=new_option
+entry event=37 address=00405495 name=allocate
+entry event=38 address=00401664 name=append_option
+entry event=39 address=00401552 name=expand_options
+entry event=40 address=004049c6 name=skip_space
+entry event=41 address=0040148d name=expand_word
+entry event=42 address=004049f0 name=append_literal
+entry event=43 address=00401ed0 name=detach_options
+entry event=44 address=00401e1b name=delete_options
+entry event=45 address=00401677 name=options_match
+entry event=46 address=00401118 name=validate_value
+entry event=47 address=00404fee name=format_number
+entry event=48 address=00401e35 name=delete_option
+entry event=49 address=004054b2 name=release
+entry event=50 address=0040203f name=apply_special
+entry event=51 address=00401440 name=expand_alternative
+entry event=52 address=00402af4 name=apply_extension
+entry event=53 address=00404c94 name=find_last_separator
+entry event=54 address=00402c2c name=define_macro
+entry event=55 address=0040250a name=undefine_macro
+entry event=56 address=00404a14 name=append_escaped
+entry event=57 address=00402933 name=finish_options
+entry event=58 address=00402ab5 name=has_any_option
+entry event=59 address=00401f91 name=unlink_option
+entry event=60 address=00402849 name=prepare_inputs
+entry event=61 address=004010d8 name=option_for_pass
+entry event=62 address=00404587 name=expand_filename
+entry event=63 address=0040490d name=file_basename
+entry event=64 address=00402594 name=set_output_option
+entry event=65 address=00402319 name=prepare_environment
+entry event=66 address=00404aa4 name=join_text
+entry event=69 address=004053ba name=warning
+entry event=70 address=00405334 name=load_string
+entry event=73 address=00405069 name=write_message
+entry event=74 address=00405092 name=format_message
+entry event=77 address=00405232 name=vwrite_message
+entry event=78 address=00405361 name=fatal
+entry event=83 address=00404fda name=driver_exit
+entry event=84 address=00404ed1 name=cleanup_files
+entry event=85 address=00404f6f name=delete_temporary
+exit event=86 status=2

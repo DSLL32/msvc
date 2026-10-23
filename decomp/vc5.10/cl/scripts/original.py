@@ -137,7 +137,14 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
     (directory/'capture.json').write_text(json.dumps(receipt,indent=2)+'\n')
     print(json.dumps({'path':str(directory),'status':result.returncode,'loaded_msvcrt_sha256':receipt['loaded_msvcrt_sha256'],'timing':receipt['timing']}),flush=True)
     assert controller_error is None,'original decoder failed; raw evidence preserved: '+str(controller_error)
-    assert result.returncode==0,'original capture failed; raw evidence preserved'
+    if result.returncode:
+        # The debugger deliberately returns the child's normal status. Its
+        # private errors lack this exact sole normal-exit event and no-trap
+        # condition; preserve them as controller failures.
+        import re
+        events=(directory/'events.txt').read_text()
+        exits=re.findall(r'^exit .*status=(\d+)$',events,re.M)
+        assert result.returncode==(case.get('expected_status',0)&255) and exits==[str(case.get('expected_status',0))]and not re.search(r'^trap ',events,re.M),'original capture failed; raw evidence preserved'
     # Paired PE/ELF/source hashes above are historical bookkeeping, not inputs
     # to this original process. Current pair assembly binds native/audit inputs.
     assert receipt['loaded_target_sha256']==receipt['original_mask_sha256'],'actual loaded target differs from trial mask'

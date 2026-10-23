@@ -46,7 +46,7 @@ def checked_file(entry):
 
 def reconstruction_capture(capture):
     assert capture.get('baseline') is False and not capture.get('dependency_analysis'), 'analysis/reference baseline cannot be used as fresh reconstruction acceptance'
-    assert capture['controller_error'] is None and capture['helper_status'] == 0, 'original capture did not succeed'
+    assert capture['controller_error'] is None and capture['helper_status'] in (0,capture.get('expected_status',0)&255), 'original capture did not succeed'
     if capture.get('dependency_response'):
         assert capture['case']=='minimal-c' and not capture.get('dependency_complete'), 'ambiguous dependency response mode'
         marker=b'CL_DEPENDENCY_RESPONSE_V1\n'
@@ -83,6 +83,7 @@ def observation(entry,trial,expected):
             assert capture['target_sha256']==expected['target_sha256'] and capture['original_mask_sha256']==expected['trial_mask_sha256'], 'original execution receipt image differs'
             assert capture['config_sha256']==digest(config_path), 'original execution receipt trial differs'
             assert capture['case']==raw['case'] and capture['arguments']==raw['arguments'], 'original execution receipt case differs'
+            assert capture.get('expected_status',0)==case.get('expected_status',0),'original case status contract differs'
         assert {'events','loaded_msvcrt'}<=files.keys()
         assert digest(files['loaded_msvcrt'])==CRT_SHA,'noncanonical actually loaded original CRT'
         if 'loaded_target' in files:assert digest(files['loaded_target'])==expected['trial_mask_sha256'],'actual loaded image differs from trial mask'
@@ -94,13 +95,15 @@ def observation(entry,trial,expected):
         exits=re.findall(r'^exit .*status=(\d+)$',text,re.M)
         if traps:
             assert len(traps)==1,'ambiguous original frontier'
+            if capture_entry:assert capture['helper_status']==0,'trap controller did not succeed'
             address=int(traps[0],16)
             matches=[r['name'] for r in trial['driver']+trial.get('runtime',[]) if r['start']==address]
             assert len(matches)==1,'unknown or ambiguous original logical frontier'
             outcome={'kind':'trap','logical_frontier':matches[0]}
         else:
-            assert exits==['0'],'original did not complete successfully'
-            outcome={'kind':'completed','status':0}
+            assert exits==[str(case.get('expected_status',0))],'original exit differs from declared case status'
+            if capture_entry:assert capture['helper_status']==(case.get('expected_status',0)&255),'helper status differs from normal target exit'
+            outcome={'kind':'completed','status':case.get('expected_status',0)}
     else:
         assert raw['platform']=='native' and 'debugger' in files
         if 'resource_provider' in files:
@@ -115,8 +118,8 @@ def observation(entry,trial,expected):
             assert len(matches)==1,'unknown or ambiguous native logical frontier'
             outcome={'kind':'trap','logical_frontier':matches[0]}
         else:
-            assert 'NATIVE_COMPLETION_STATUS=0\n' in text,'native did not complete successfully'
-            outcome={'kind':'completed','status':0}
+            assert 'NATIVE_COMPLETION_STATUS='+str(case.get('expected_status',0))+'\n'in text,'native exit differs from declared case status'
+            outcome={'kind':'completed','status':case.get('expected_status',0)}
     assert 'trace' in files,'missing first-entry trace'
     trace=files['trace'].read_text().splitlines()
     allowed={r['native_symbol']:r for r in trial['driver'] if r['name'] in trial['accepted']}
@@ -225,6 +228,7 @@ def validate(base,receipt,name,project=PROJECT,root=ROOT,review_only=False):
     assert outcome['kind']=='completed' or outcome['logical_frontier']!=name,'candidate never executed beyond its entry trap'
     if outcome['kind']=='completed':
         reference=json.loads((project/'cases'/expected.get('case','help')/'reference/manifest.json').read_text())
+        assert reference.get('status',0)==outcome['status'],'reference target status differs'
         assert original[1]==reference['streams'],'completed streams differ from canonical original'
     return trial
 

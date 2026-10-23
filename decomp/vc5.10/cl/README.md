@@ -12,9 +12,10 @@ input/output/alias/error state. Standard streams use regular files, matching the
 original capture. See `cases/help/{completed,coverage,timings}.json` and the
 acceptance journal for the measured evidence.
 
-Both help and the genuine minimal-C compile are complete. There are now 83
-accepted application functions /15,559 original extent bytes (81.62% of whole
-`.text`); the non-CRT denominator remains unclassified. The response-file/options/help case adds five driver functions with 56 actual
+Help, usage, response/options, the genuine minimal-C compile and an intentional
+unknown-option diagnostic are complete. There are now 87 accepted application
+functions /15,793 original extent bytes (82.85% of whole `.text`); the non-CRT
+denominator remains unclassified. The response-file/options/help case adds five driver functions with 56 actual
 entries, its own cached streams/input/trace and a ~31ms native fixture. The compile executes 75
 distinct application entries, produces the exact 275-byte object and `test.c`
 line, then removes all temporary IR and exits0. Source still compiles with
@@ -28,6 +29,17 @@ minimal executable takes about 64 ms and help about 4 ms, with setup/checks spli
 `cases/minimal-c/reference/`, and the full final proof is archived separately.
 Minimal-C has a separately captured errno0/doserrno0/LastError0 entry profile.
 Its source bytes, arguments and entry state are part of every comparison.
+
+The unknown-option case reconstructs warning, variadic message output and fatal
+diagnostics. It matches 56 application entries, 139 stderr bytes and the intended
+full DWORD status 2. Thirteen focused controls reject wrong expectations,
+duplicate completion markers and status 258 with the same Unix low byte.
+Its Linux fixture takes about 31 ms, including 8 ms execution; all five fixtures
+take 1.75 seconds. New evidence is ordinary files under
+`cases/unknown-option/{reference,completion,completion-current-audit}/`, with
+hash references to existing repository originals and pinned auditor sources.
+The previous evidence archives remain unchanged. Fifteen separately selected
+CRT/import-support records cover 476 bytes and receive no application credit.
 
 The first extension lookup exposed an incorrect provisional table left unvisited
 by help. The corrected ten extension/category/pass-list records and terminator,

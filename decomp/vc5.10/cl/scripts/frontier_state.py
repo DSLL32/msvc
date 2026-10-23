@@ -84,6 +84,8 @@ PARAMETERS={
  'file_name':[('out','output_buffer'),('name','string')],
  'file_directory':[('out','output_buffer'),('name','string')],
  'make_map_name':[('out','output_buffer'),('name','string')],
+ 'vwrite_message':[('fd','signed'),('text','string'),('args','diagnostic_arguments')],
+ 'warning':[('id','unsigned')], 'fatal':[('id','unsigned')],
  'show_help':[], 'allocate':[('bytes','unsigned')],
  'append_text':[('out','output_buffer'),('text','string')],
  'join_text':[('left','string'),('right','string')],
@@ -246,6 +248,9 @@ class Memory:
             name,pattern=self.words(value,2)
             return {'name':self.string(name),'pattern':self.string(pattern)}
         if kind=='unread_pending':return {'role':'caller-local PendingWork','payload':'unconsumed: both minimal-rebuild guards are false'}
+        if kind=='diagnostic_arguments':
+            assert value,'null diagnostic varargs slot'
+            return {'nonnull':True}
         if kind=='unsigned':return value
         if kind=='signed':return struct.unpack('<i',struct.pack('<I',value))[0]
         assert kind!='pointer','opaque pointer input requires an explicit pointee/alias contract'
@@ -260,6 +265,18 @@ def snapshot(read,context):
         for (name,kind),value in zip(parameters,context['arguments'])}}
     if symbol=='append_text' and not context['arguments'][1]:
         fields['parameters']['out']=memory.string(context['arguments'][0])
+    if symbol=='vwrite_message':
+        caller=context['diagnostic_caller']
+        assert context['arguments'][2]==caller['args_address'],'diagnostic va_list is not caller firstvariadic slot'
+        assert caller['name']in ('warning','fatal')
+        types=format_types(fields['parameters']['text'])
+        values=memory.words(context['arguments'][2],len(types))if types else ()
+        fields['variable_arguments']=[memory.value(kind,value)for kind,value in zip(types,values)]
+        fields['diagnostic_caller']={'name':caller['name'],'id':caller['id'],'first_variadic_slot_alias':True}
+    if symbol in ('warning','fatal'):
+        types=format_types(context['diagnostic_format']);values=context['varargs']
+        assert len(types)==len(values)
+        fields['variable_arguments']=[memory.value(kind,value)for kind,value in zip(types,values)]
     if symbol in ('write_message','format_message'):
         types=format_types(memory.string(context['arguments'][1]))
         if symbol=='format_message':values=memory.words(context['arguments'][2],len(types))
@@ -367,6 +384,17 @@ def original_context(directory,address,stack):
     if symbol=='delete_temporary':context['temporary_suffixes_address']=0x406300
     if symbol=='run_passes':context['callbacks']={'final_pass':next(row['start']for row in index['driver']if row['name']=='_final_pass')}
     if symbol=='write_message':context['varargs']=list(stack[3:])
+    if symbol=='vwrite_message':
+        raw=(directory/'context.bin').read_bytes();sp=struct.unpack_from('<I',raw,196)[0]
+        if stack[0]==0x4053eb:caller,slot,arg='warning',5,sp+24
+        elif stack[0]==0x40539f:caller,slot,arg='fatal',6,sp+28
+        else:raise AssertionError('unknown diagnostic forwarding caller')
+        context['diagnostic_caller']={'name':caller,'id':stack[slot],'args_address':arg}
+    if symbol in ('warning','fatal'):
+        from resources import extract
+        identifier=stack[1]or(2000 if symbol=='fatal'else 0)
+        context['diagnostic_format']=extract(identifier)['text']
+        context['varargs']=list(stack[2:2+len(format_types(context['diagnostic_format']))])
     if (directory/'mb-state.bin').exists():
         mb=(directory/'mb-state.bin').read_bytes();crt=(directory/'crt-state.bin').read_bytes()
         assert len(mb)==261 and all(not flag&4 for flag in mb[5:133]),'unreviewed ASCII lead-byte state'
@@ -461,6 +489,17 @@ def capture_native(directory,gdb):
             'environment_slot':'recon_crt_environment','initenv_slot':'recon_crt_initenv',
             'os_environment_slot':'recon_crt_os_environment'}.items()}
         context['crt_addresses']['initial_pctype']=value('(unsigned)(character_flags+1)')
+    if symbol=='vwrite_message':
+        caller=frame.older();assert caller.name()in ('warning','fatal')
+        context['diagnostic_caller']={'name':caller.name(),'id':int(caller.read_var('id'))&0xffffffff,
+            'args_address':int(caller.read_var('id').address)+4}
+    if symbol in ('warning','fatal'):
+        identifier=context['arguments'][0]or(2000 if symbol=='fatal'else 0)
+        formats=json.loads((directory/'diagnostic-formats.json').read_text())
+        context['diagnostic_format']=formats['formats'][str(identifier)]
+        slot=int(frame.read_var('id').address)+4
+        count=len(format_types(context['diagnostic_format']))
+        context['varargs']=list(struct.unpack('<%dI'%count,bytes(inferior.read_memory(slot,4*count))))if count else []
     if symbol=='write_message':
         # The i386 cdecl variable arguments follow the final named parameter.
         slot=int(frame.read_var('text').address)+4
@@ -481,6 +520,15 @@ def decode(directory,platform):
         assert len(addresses)==1
         stack=struct.unpack_from('<16I',(directory/'context.bin').read_bytes(),204)
         assert raw['context']==original_context(directory,int(addresses[0],16),stack),'frontier context not derived from raw original trap/stack'
+    if raw['context']['symbol']in ('warning','fatal'):
+        from resources import extract
+        identifier=raw['context']['arguments'][0]or(2000 if raw['context']['symbol']=='fatal'else 0)
+        text=extract(identifier)['text']
+        assert raw['context']['diagnostic_format']==text,'diagnostic argument types differ from target resource'
+        if platform=='native':
+            formats=json.loads((directory/'diagnostic-formats.json').read_text())
+            config=json.loads((directory/'config.json').read_text())
+            assert formats=={'target_sha256':config['target']['sha256'],'formats':{str(identifier):text}}
     def read(address,length):
         item=next(ranges);data=bytes.fromhex(item['data'])
         assert item['address']==address and len(data)==length,'frontier memory transcript differs from explicit decoder requests'
@@ -490,6 +538,7 @@ def decode(directory,platform):
     raw_names=((['frontier-memory.json','context.bin','events.txt','mb-state.bin','crt-state.bin'] if (directory/'mb-state.bin').exists() else ['frontier-memory.json','context.bin','events.txt']) if platform=='original' else ['frontier-memory.json','debugger.txt','gdb-capture.py','gdb_capture.py','frontier_state.py'])
     if platform=='original' and 'compiler_module'in raw['context']:
         raw_names+=['observer/loaded-c1.bin','loaded-msvcrt.bin','observer/events.txt','observer/frontier-crt-words.bin','capture.json']
+    if platform=='native'and raw['context']['symbol']in ('warning','fatal'):raw_names+=['diagnostic-formats.json','config.json']
     return {'projection':PROJECTION,'fields':fields,
         'decoder_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
         'raw_inputs':{name:hashlib.sha256((directory/name).read_bytes()).hexdigest()for name in raw_names}}

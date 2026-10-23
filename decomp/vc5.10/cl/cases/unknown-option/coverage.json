@@ -1,0 +1,19 @@
+{
+  "application_functions": 87,
+  "application_original_extent_bytes": 15793,
+  "whole_text_virtual_bytes": 19062,
+  "application_extents_over_whole_text_percent": 82.85069772321897,
+  "denominator_qualification": "Whole text includes CRT/import support; non-CRT denominator not completelyclassified. This is acceptedextentcoverage, not branchcoverage.",
+  "support": {
+    "selected_records": 15,
+    "extent_bytes": 476,
+    "source_credit": false,
+    "dynamic_reached_count": null,
+    "note": "Verified startup/archive/import closure; support selection does not claim each record dynamically ran.",
+    "top_level_accepted_vertices": 7,
+    "startup_closure_records": 9,
+    "startup_closure_bytes": 440,
+    "additional_import_leaves": 6,
+    "additional_import_bytes": 36
+  }
+}

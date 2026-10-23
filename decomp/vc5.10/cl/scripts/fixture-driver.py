@@ -82,7 +82,7 @@ with tempfile.TemporaryDirectory(prefix='fixture-driver-',dir=scratch) as work:
             process.wait(timeout=10);execution=time.perf_counter()-execution
         checks=time.perf_counter()
         status=terminal.read(process.pid,process.returncode)
-        assert status==master['reference_status']==0,'full DWORD status differs'
+        assert status==master['reference_status']==case.get('expected_status',0),'full DWORD status differs'
         observation=None
         if temporary is not None:
             observation=temporary.read(process.pid)

@@ -76,5 +76,9 @@ BEGIN
     570 "/MT link with LIBCMT.LIB                 /MTd link with LIBCMTD.LIB debug lib\n"
     571 "/LD Create .DLL                          /F<num> set stack size\n"
     572 "/LDd Create .DLL debug libary            /link [linker options and libraries]\n"
+    302 "Command line warning D%d : "
+    4002 "ignoring unknown option '%s'"
+    303 "Command line error D%d : "
+    2003 "missing source filename"
     305 "usage: cl [ option... ] filename... [ /link linkoption... ]\n"
 END

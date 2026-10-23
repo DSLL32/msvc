@@ -30,6 +30,15 @@ int write_message(int fd, const char *text, ...)
     return _write(fd, message, length);
 }
 
+/* 00405232..00405259: the caller already supplies the variadic argument list. */
+int vwrite_message(int fd, const char *text, va_list args)
+{
+    unsigned length;
+    char *message;
+    message = format_message(&length, text, args);
+    return _write(fd, message, length);
+}
+
 /* Shared expandable output buffer, 00405092..00405232. */
 unsigned message_capacity = 2048;
 unsigned char *format_buffer;
@@ -135,4 +144,29 @@ void show_usage(void)
     show_banner(0);
     write_message(1, load_string(305));
     exit(0);
+}
+
+/* 004053ba..004053fd: command-line warning prefix, formatted body and newline. */
+void warning(unsigned id, ...)
+{
+    va_list args;
+    write_message(2, load_string(302), id);
+    va_start(args, id);
+    vwrite_message(2, load_string(id), args);
+    va_end(args);
+    write_message(2, "\n");
+}
+
+/* 00405361..004053ba: zero selects the out-of-memory diagnostic. */
+void fatal(unsigned id, ...)
+{
+    va_list args;
+    if (!id)
+        id = 2000;
+    write_message(2, load_string(303), id);
+    va_start(args, id);
+    vwrite_message(2, load_string(id), args);
+    va_end(args);
+    write_message(2, "\n");
+    driver_exit(2);
 }

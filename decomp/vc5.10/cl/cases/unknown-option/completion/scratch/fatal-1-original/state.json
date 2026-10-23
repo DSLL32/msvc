@@ -1,0 +1,62 @@
+{
+  "projection": "cl-case-completion-v1; temporary-name-boundary-v1",
+  "fields": {
+    "status": 2,
+    "temporary_name_boundary": {
+      "entry": {
+        "errno": 0,
+        "doserrno": 0,
+        "last_error": 0,
+        "x87_control_word": 639
+      },
+      "calls": [
+        {
+          "template": ".\\XXXXXX",
+          "result": ".\\a01780",
+          "result_alias": true,
+          "before": {
+            "errno": 0,
+            "doserrno": 0,
+            "last_error": 0
+          },
+          "after": {
+            "errno": 0,
+            "doserrno": 2,
+            "last_error": 2
+          }
+        }
+      ]
+    }
+  },
+  "decoder_sha256": "0b6c29a77573dffa2e71897257d4872cf37f3727a2e63841c94745a52f3d41f4",
+  "raw_inputs": {
+    "events.txt": "c7cec4a2a61618c0b7f68d3bee7694afe410794a1f3671dfaafa335059a6a408",
+    "capture.json": "603d1dc8125dab6bddb52835be061b40fd925fb49faed477b8b30625b9a60e92",
+    "loaded-msvcrt.bin": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "input-directory.json": "1980999bd8bea086095cc466b922b7f4252a671297d335a525bacd45bd2e449b",
+    "main-entry-context.bin": "87cc99cdedf716e34e255068795fcf2af32c8a7b32b1620234928d4ce7985874",
+    "mktemp-events.txt": "b4f5cee26392808d1fd2e77a55036a8cf680d10d5cb083dc2d788d1bf78e467d",
+    "mktemp-before.bin": "e126b1eba52faccd6a3fc442136b3d13ba181f9d979d92af52a3eecdc856e260",
+    "mktemp-after.bin": "80f08255eb1b11e153210c912f4d5bbc825d0a281829545b498c4ecf0582f9e5",
+    "mktemp-entry-teb.bin": "1b04d36395198916cb08666031742e0c47c0445b678e0eefb6d919a43b4569a8",
+    "mktemp-entry-ptd.bin": "28a23e6c1a10c02538caf31893a9587c8571dfc252e6cc5ec6185d62aaf60384",
+    "mktemp-entry-tls-index.bin": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+    "mktemp-before-teb.bin": "ed4eceb0a7a9e410082e75700ff17f678f7aee30acf4bf05dde7d3266d5f836c",
+    "mktemp-before-ptd.bin": "28a23e6c1a10c02538caf31893a9587c8571dfc252e6cc5ec6185d62aaf60384",
+    "mktemp-before-tls-index.bin": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+    "mktemp-after-teb.bin": "1945a4f308034a5bf3e500d35a92b9206e53238bcc9471e3a249e9e794694751",
+    "mktemp-after-ptd.bin": "f9f81abf87d4a92a0d68e794843f282ffb71846c3144de3b19e96e9f3d0d5197",
+    "mktemp-after-tls-index.bin": "67abdd721024f0ff4e0b3f4c2fc13bc5bad42d0b7851d456d88d203d15aaa450",
+    "CL.EXE": "8867a624969fc5c85745704f407d5f997350a83defdc69beb38bfe0df24bd427",
+    "MSPDB50.DLL": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+    "MSVCRT.DLL": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "config.json": "28c29345797208da02042d1fcf82079b067ae686b403e724ac0c3771d9cd067e",
+    "dependency-observer.inc": "a210b0e0fca930003b0a780ae6d9ea7534fe0323df84c5445c3e231c95a80806",
+    "entries.txt": "a06e0e3ebbe542f6ddff76c0cf556a9ba866a6f16095324b2c411c37d22290dc",
+    "export-reader.h": "64ffe9f75692ee7ac2790d9d8a8e8f5e128189837fda814316446bcd81af7607",
+    "reference-debugger.c": "3087bc1152a78467692dc3b3f00b6bb1704ca8085ced7e77866fdad335d638e8",
+    "reference-debugger.exe": "12fbcae314ed4a76155882ea970feee126e8d1a2e222fc5af249200c1e78c71c"
+  },
+  "wrapper_decoder_sha256": "0b6c29a77573dffa2e71897257d4872cf37f3727a2e63841c94745a52f3d41f4",
+  "boundary_decoder_sha256": "f511a6930b4596644e6cd9332a3e28d435abaa11747302d51854c982f9bcf303"
+}

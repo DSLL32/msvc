@@ -67,6 +67,14 @@ def capture(original,directory):
         env['RECON_DRIVE_S']=str(directory/'drive-s');env['RECON_DRIVE_R']=str(ROOT)
         c_drive=prepare_c_drive(original,directory)
         if c_drive is not None:env['RECON_DRIVE_C']=str(c_drive)
+    frontier_path=original/'frontier-memory.json'
+    if frontier_path.exists():
+        stopped=json.loads(frontier_path.read_text())['context']
+        if stopped['symbol']in ('warning','fatal'):
+            from resources import extract
+            identifier=stopped['arguments'][0]or(2000 if stopped['symbol']=='fatal'else 0)
+            text=extract(identifier)['text'];assert text==stopped['diagnostic_format']
+            (directory/'diagnostic-formats.json').write_text(json.dumps({'target_sha256':json.loads((directory/'config.json').read_text())['target']['sha256'],'formats':{str(identifier):text}},indent=2)+'\n')
     provider=None
     if receipt.get('dependency_response'):
         from dependency_provider import Provider
@@ -137,7 +145,7 @@ def capture(original,directory):
         assert build_bytes==build_path.read_bytes(),'native build receipt changed during capture'
         verify_native_build(build,binary_before,PROJECT)
         if resource_before is not None:assert resource_before==sha(directory/'resources.bin'),'native resource input changed during capture'
-        assert (b'SIGTRAP' in result.stdout and b'NATIVE_FRONTIER_SYMBOL=' in result.stdout) or b'NATIVE_COMPLETION_STATUS=0\n' in result.stdout,'native did not reach a frontier or successful completion'
+        assert (b'SIGTRAP' in result.stdout and b'NATIVE_FRONTIER_SYMBOL=' in result.stdout) or ('NATIVE_COMPLETION_STATUS='+str(case.get('expected_status',0))+'\n').encode()in result.stdout,'native did not reach a frontier or successful completion'
         projection=project('native',directory)
         (directory/'state.json').write_text(json.dumps(projection,indent=2)+'\n')
     except Exception as failure:
