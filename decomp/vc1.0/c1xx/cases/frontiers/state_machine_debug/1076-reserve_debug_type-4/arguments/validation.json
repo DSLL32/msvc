@@ -1,0 +1,66 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_reserve_debug_type@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1076,
+  "configuration_sha256": "634d250b404f465cb7183b5d278888d6fb9088110f1de4b8eb84341d7197f8fb",
+  "native_entry": "reserve_debug_type",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "kind",
+      "stack_index": 0,
+      "native_field": "kind",
+      "binding": {
+        "kind": "scalar",
+        "bits": 8,
+        "type": "unsigned char deferred CodeView record kind",
+        "unused_stack_bytes": "Upper24 stack bits are not consumed: original MOV DL,[ESP+8] after PUSH ESI reads only the actual byte formal."
+      },
+      "original_raw": 1,
+      "native_raw": 1,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      450432,
+      450585
+    ],
+    "argument_bytes": 4,
+    "proof": "Save ESI; ESI loaded from global count, counters incremented, queue allocated/grown through original malloc/realloc; kind read as BYTE at adjustedESP+8, stored slot+0. EAX returns original count and RET4 at0x6e016. All volatile registers derive globals/calls or kind load before use. No incoming hidden/register argument. Other record fields/padding are deliberately not initialized or observed.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "cf754553cacee644a2f4a444d7f1c8633cc6b29fdd7606173363144b0600b586",
+  "capture_timing": {
+    "original_capture_seconds": 0.7161799054592848,
+    "native_capture_seconds": 0.2508325045928359,
+    "total_operation_seconds": 1.2532475981861353
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "6bebe9591fbc317f3eca250ce69fac9ccef58eeafd3238b488c2a76cbf6391e6",
+    "native-commands.gdb": "c43d18dd1bfe03a69d68ff3608cd5c19fd6339b9b9b6367bb123078dba2f8b65",
+    "native-gdb.log": "8c870a98ba980b67531e411e2712ccb07ed6808fac3ad8b134afad6f5369bd98",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "a499ebd980913a62b8b3e2f95aeb6ed10a5945b60088cc3e782530a6188a67dc",
+    "original-configuration.json": "634d250b404f465cb7183b5d278888d6fb9088110f1de4b8eb84341d7197f8fb",
+    "original-disassembly.txt": "35c3a472d9fac5823173011f6ead05ce09de84f13912db64f7eb18a5b441d271",
+    "original-events.txt": "d4dc7beb15885dee194ca2bd699f8d27d79bfdfdc80ced9673f034fa75f8ff01",
+    "original-receipt.json": "f0d84fbf19fc963025bb9594cb4e8d48eb71e82872ac1bed6cd9da228ed3d301",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "2f28f5900b2345d6cc2db1ca776c61887643b0004b458e4837125b9a4bb43dbe"
+  },
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

@@ -1,0 +1,21 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655a218 in class_virtual_table_group_count (tag=0x56620c84) at src/stubs.c:488
+488	short __stdcall class_virtual_table_group_count(CppSymbol *tag) { __asm { int 3 } return 0; }
+#0  0x5655a218 in class_virtual_table_group_count (tag=0x56620c84) at src/stubs.c:488
+#1  0x5658ce2c in debug_tag_type (tag=0x56620c84) at src/debug-types.c:64
+#2  0x5658d8f7 in base_debug_type (type=0x5662199c) at src/debug-types.c:251
+#3  0x5658d280 in reference_debug_type (type=0x5662199c) at src/debug-types.c:307
+#4  0x5658d174 in reference_debug_type (type=0x56621938) at src/debug-types.c:284
+#5  0x565a3527 in prepare_symbol_debug_type (symbol=0x56647044) at src/symbol-output.c:14
+#6  0x565a3c73 in emit_symbol_declaration (symbol=0x56647044) at src/symbol-output.c:148
+#7  0x565a4599 in serialize_scope (scope=0x566470c0) at src/function-finalization.c:137
+#8  0x565a437d in finish_function_output () at src/function-finalization.c:92
+#9  0x565a4172 in finish_function_body (recovering=0) at src/function-finalization.c:54
+#10 0x565a3f74 in end_function_definition () at src/function-finalization.c:22
+#11 0x565af774 in parse_translation_unit () at src/parser-declaration-actions.inc:30
+#12 0x5655e14f in compile_translation_unit () at src/frontend.c:73
+#13 0x565588a6 in guarded_compile () at src/c1xx.c:28
+#14 0x56558874 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

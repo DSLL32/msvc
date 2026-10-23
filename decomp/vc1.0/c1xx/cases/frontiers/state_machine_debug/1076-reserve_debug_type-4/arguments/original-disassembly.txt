@@ -1,0 +1,50 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0006df80 <.text+0x56f80>:
+   6df80:	56                   	push   esi
+   6df81:	8b 35 c0 25 0a 00    	mov    esi,DWORD PTR ds:0xa25c0
+   6df87:	ff 05 c0 25 0a 00    	inc    DWORD PTR ds:0xa25c0
+   6df8d:	66 ff 05 54 f4 09 00 	inc    WORD PTR ds:0x9f454
+   6df94:	83 3d bc 25 0a 00 00 	cmp    DWORD PTR ds:0xa25bc,0x0
+   6df9b:	75 23                	jne    0x6dfc0
+   6df9d:	c7 05 bc 25 0a 00 80 	mov    DWORD PTR ds:0xa25bc,0x80
+   6dfa4:	00 00 00 
+   6dfa7:	68 00 08 00 00       	push   0x800
+   6dfac:	e8 6f 26 01 00       	call   0x80620
+   6dfb1:	83 c4 04             	add    esp,0x4
+   6dfb4:	a3 b0 cc 08 00       	mov    ds:0x8ccb0,eax
+   6dfb9:	0b c0                	or     eax,eax
+   6dfbb:	75 44                	jne    0x6e001
+   6dfbd:	eb 38                	jmp    0x6dff7
+   6dfbf:	90                   	nop
+   6dfc0:	a1 bc 25 0a 00       	mov    eax,ds:0xa25bc
+   6dfc5:	39 05 c0 25 0a 00    	cmp    DWORD PTR ds:0xa25c0,eax
+   6dfcb:	76 34                	jbe    0x6e001
+   6dfcd:	c1 e8 02             	shr    eax,0x2
+   6dfd0:	40                   	inc    eax
+   6dfd1:	01 05 bc 25 0a 00    	add    DWORD PTR ds:0xa25bc,eax
+   6dfd7:	a1 bc 25 0a 00       	mov    eax,ds:0xa25bc
+   6dfdc:	c1 e0 04             	shl    eax,0x4
+   6dfdf:	50                   	push   eax
+   6dfe0:	a1 b0 cc 08 00       	mov    eax,ds:0x8ccb0
+   6dfe5:	50                   	push   eax
+   6dfe6:	e8 25 56 01 00       	call   0x83610
+   6dfeb:	83 c4 08             	add    esp,0x8
+   6dfee:	a3 b0 cc 08 00       	mov    ds:0x8ccb0,eax
+   6dff3:	0b c0                	or     eax,eax
+   6dff5:	75 0a                	jne    0x6e001
+   6dff7:	6a 3c                	push   0x3c
+   6dff9:	e8 82 52 00 00       	call   0x73280
+   6dffe:	83 c4 04             	add    esp,0x4
+   6e001:	8b c6                	mov    eax,esi
+   6e003:	c1 e0 04             	shl    eax,0x4
+   6e006:	8b 0d b0 cc 08 00    	mov    ecx,DWORD PTR ds:0x8ccb0
+   6e00c:	8a 54 24 08          	mov    dl,BYTE PTR [esp+0x8]
+   6e010:	88 14 08             	mov    BYTE PTR [eax+ecx*1],dl
+   6e013:	8b c6                	mov    eax,esi
+   6e015:	5e                   	pop    esi
+   6e016:	c2 04 00             	ret    0x4

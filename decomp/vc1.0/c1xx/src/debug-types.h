@@ -18,6 +18,7 @@ typedef char DebugTypeRecordRelatedOffsetMustBe8[(offsetof(DebugTypeRecord, rela
 extern DebugTypeRecord *debug_types;
 extern unsigned short next_debug_type_index;
 extern unsigned debug_type_count;
+extern unsigned debug_type_capacity;
 extern unsigned short debug_field_properties;
 unsigned __stdcall reserve_debug_type(unsigned char kind);
 unsigned short __stdcall primitive_pointer_debug_type(CType *type);

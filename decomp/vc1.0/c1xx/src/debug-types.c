@@ -1,4 +1,5 @@
 /* CodeView type references and deferred type records. */
+#include <stdlib.h>
 #include "debug-types.h"
 #include "symbol-output.h"
 #include "cpp-context.h"
@@ -7,7 +8,27 @@
 DebugTypeRecord *debug_types; /* original 0x8ccb0 */
 unsigned short next_debug_type_index = 0x1000; /* original 0x9f454 */
 unsigned debug_type_count; /* original 0xa25c0 */
+unsigned debug_type_capacity; /* original 0xa25bc */
 unsigned short debug_field_properties; /* original 0xa25c4 */
+
+/* Original 0x6df80..0x6e019. Allocate queue space without initializing
+   fields owned by each producer; only the kind byte is common to all slots. */
+unsigned __stdcall reserve_debug_type(unsigned char kind)
+{
+    unsigned index = debug_type_count++;
+    ++next_debug_type_index;
+    if (!debug_type_capacity) {
+        debug_type_capacity = 128;
+        debug_types = malloc(128 * sizeof(DebugTypeRecord));
+        if (!debug_types) fatal_error(60);
+    } else if (debug_type_count > debug_type_capacity) {
+        debug_type_capacity += (debug_type_capacity >> 2) + 1;
+        debug_types = realloc(debug_types, debug_type_capacity * sizeof(DebugTypeRecord));
+        if (!debug_types) fatal_error(60);
+    }
+    debug_types[index].kind = kind;
+    return index;
+}
 
 /* Original 0x6db20..0x6dd7e. Assign the tag index before descending into
    bases/members, then count the fields its deferred class record will emit. */

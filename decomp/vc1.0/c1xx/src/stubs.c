@@ -487,7 +487,6 @@ unsigned short __cdecl line_record_tag_type(CppSymbol *tag) { __asm { int 3 } re
 unsigned __stdcall hash_table_count(HashTable *table) { __asm { int 3 } return 0; }
 short __stdcall class_virtual_table_group_count(CppSymbol *tag) { __asm { int 3 } return 0; }
 unsigned __stdcall count_debug_methods(struct OverloadSet *overloads, unsigned short *field_properties) { __asm { int 3 } return 0; }
-unsigned __stdcall reserve_debug_type(unsigned char kind) { __asm { int 3 } return 0; }
 void __stdcall reference_function_debug_type(CType *type) { __asm { int 3 } }
 unsigned short __cdecl reference_line_record_type(CType *type) { __asm { int 3 } return 0; }
 void reset_debug_type_records(void) { __asm { int 3 } }

@@ -1080,7 +1080,8 @@
     "_primitive_debug_type@4",
     "_flush_debug_types",
     "_primitive_pointer_debug_type@4",
-    "_debug_tag_type@4"
+    "_debug_tag_type@4",
+    "_reserve_debug_type@4"
   ],
   "driver": [
     {
@@ -7902,7 +7903,7 @@
     {
       "name": "_reserve_debug_type@4",
       "start": 450432,
-      "end": 450433
+      "end": 450585
     },
     {
       "name": "_primitive_pointer_debug_type@4",
@@ -8218,7 +8219,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_reserve_debug_type@4",
+      "terminal": "_class_virtual_table_group_count@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8241,7 +8242,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1075-debug_tag_type-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1076-reserve_debug_type-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8322,7 +8323,8 @@
         "cases/frontiers/state_machine_debug/1072-primitive_debug_type-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1073-flush_debug_types/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1074-primitive_pointer_debug_type-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1075-debug_tag_type-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1075-debug_tag_type-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1076-reserve_debug_type-4/frontier-extension.json"
       ]
     }
   },
@@ -10723,6 +10725,18 @@
           "name": "_debug_field_properties",
           "original": 665028,
           "bytes": 2
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_debug_type_capacity",
+      "original": 665020,
+      "fields": [
+        {
+          "name": "_debug_type_capacity",
+          "original": 665020,
+          "bytes": 4
         }
       ]
     }
