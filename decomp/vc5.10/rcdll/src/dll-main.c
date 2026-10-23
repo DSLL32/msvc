@@ -4,7 +4,7 @@
 HINSTANCE dll_instance;
 
 /* Application DllMain, original RVA8b29..8b46. */
-BOOL WINAPI rcdll_main(HINSTANCE instance, DWORD reason, LPVOID reserved)
+BOOL WINAPI DllMain(HINSTANCE instance, DWORD reason, LPVOID reserved)
 {
     if (reason == DLL_PROCESS_ATTACH) {
         dll_instance = instance;

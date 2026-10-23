@@ -11,7 +11,7 @@ BOOL WINAPI rcdll_crt_init(HINSTANCE, DWORD, LPVOID);
 extern HINSTANCE dll_instance;
 extern int dll_attach_count;
 extern BOOL (WINAPI *dll_raw_main)(HINSTANCE, DWORD, LPVOID);
-BOOL WINAPI rcdll_main(HINSTANCE, DWORD, LPVOID);
+BOOL WINAPI DllMain(HINSTANCE, DWORD, LPVOID);
 extern HWND rc_window;
 extern RC_DIAGNOSTIC rc_diagnostic;
 extern RC_RESOURCE rc_resource;

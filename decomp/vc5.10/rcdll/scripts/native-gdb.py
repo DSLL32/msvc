@@ -3,10 +3,13 @@ import gdb
 import hashlib
 import json
 import os
+import sys
 from pathlib import Path
 output=Path(os.environ['RCDLL_NATIVE_SNAPSHOT'])
 config_path=Path(os.environ['RCDLL_NATIVE_CONFIG'])
-config=json.loads(config_path.read_text())
+sys.path.insert(0,str(Path(os.environ['RCDLL_NATIVE_SCRIPT']).parent))
+from protocol import read_configuration
+config=read_configuration(config_path)
 def capture():
     try:
         frame=gdb.newest_frame()
@@ -24,7 +27,7 @@ def capture():
         gdb.execute('info address '+name)
         registers={n:int(gdb.parse_and_eval('$'+n))&0xffffffff for n in ['eip','esp','ebp','eax','ecx','edx','ebx','esi','edi']}
         arguments={'result':int(frame.read_var('result'))} if complete else {}
-        if name in ['recon_dll_entry','rcdll_main','rcdll_crt_init']:
+        if name in ['recon_dll_entry','DllMain','rcdll_crt_init']:
             arguments={n:int(frame.read_var(n))&0xffffffff for n in ['instance','reason','reserved']}
         globals={}
         for item in json.loads((config_path.parent/'data.json').read_text()):

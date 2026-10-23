@@ -11,6 +11,22 @@ ROOT=HERE.parents[2]
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 NATIVE_PROOF_IMAGE=None
 def native_image():return NATIVE_PROOF_IMAGE or HERE/'build/native/rcdll-host'
+# Naming compatibility only: historical raw captures/receipts retain their names.
+LOGICAL_NAME_ALIASES={'rcdll_main':'DllMain'}
+def logical_name(name):return LOGICAL_NAME_ALIASES.get(name,name)
+def logical_trace(text):return [logical_name(name)for name in text.splitlines()]
+def normalize_configuration(raw):
+    # Return a separate logical view; never rewrite the frozen configuration.
+    config=json.loads(json.dumps(raw))
+    for function in config['functions']:
+        if function['name'] in LOGICAL_NAME_ALIASES:
+            assert int(function['start'],16)==0x8b29 and function['abi']=='stdcall' and function['stack_bytes']==12
+        function['name']=logical_name(function['name'])
+    config['accepted']=[logical_name(name)for name in config['accepted']]
+    if config.get('trial_function'):config['trial_function']=logical_name(config['trial_function'])
+    return config
+def read_configuration(path):return normalize_configuration(json.loads(path.read_text()))
+
 def candidate():
     # Execution identity is separate from checker versions: validator-only edits
     # can recheck retained raw observations without another original invocation.
@@ -48,7 +64,7 @@ def original_raw(snapshot,complete=False):
     masked=(snapshot/'masked-text.bin').read_bytes()
     expected=bytearray(b'\xcc'*len(relocated))
     for start,end in [(0x1000,0x114c),(0x12e2c,0x13371)]:expected[start-0x1000:end-0x1000]=relocated[start-0x1000:end-0x1000]
-    active=json.loads((snapshot/'functions.json').read_text())
+    active=read_configuration(snapshot/'functions.json')
     for function in active['functions']:
         if function['name'] in active['accepted']+[active.get('trial_function')]:
             start,end=int(function['start'],16),int(function['end'],16)
@@ -69,7 +85,7 @@ def original_raw(snapshot,complete=False):
         return dict(kind='completion',status=0)
     assert len(match)==1,'need exactly one raw-derived original frontier'
     rva=int(match[0],16)
-    config=json.loads((snapshot/'functions.json').read_text())
+    config=read_configuration(snapshot/'functions.json')
     functions=[f for f in config['functions'] if int(f['start'],16)==rva]
     assert len(functions)==1,'unindexed original frontier'
     stack=re.findall(r'^stack((?: [0-9a-f]{8}){12})$',text,re.M)
@@ -106,6 +122,7 @@ def native_raw(snapshot):
         kind,offset,start,_,filesize=struct.unpack_from('<IIIII',binary,phoff+size*index)
         if kind==1 and start<=elf_pc-1<start+filesize:loaded.append(binary[offset+elf_pc-1-start])
     assert loaded==[0xcc],'raw GDB PC does not follow an INT3 in current ELF bytes'
+    raw['function']=logical_name(raw['function'])
     return raw
 
 def initial_pair(original,native):
@@ -122,7 +139,7 @@ def initial_pair(original,native):
 def entry_trial_pair(original,native):
     """First source body: only argument forwarding and two read-only globals."""
     a=original_raw(original);b=native_raw(native)
-    config=json.loads((original/'functions.json').read_text())
+    config=read_configuration(original/'functions.json')
     assert config.get('trial_function')=='recon_dll_entry' and config['accepted']==[]
     assert a['function']==b['function']=='rcdll_crt_init' and a['rva']==int(b['rva'],16)==0x12bb0
     module=b['module']
@@ -174,10 +191,10 @@ def lifecycle_arguments(original,native,a,b):
 
 def crt_init_pair(original,native):
     a=original_raw(original);b=native_raw(native)
-    config=json.loads((original/'functions.json').read_text())
+    config=read_configuration(original/'functions.json')
     assert config.get('trial_function')=='rcdll_crt_init'
     assert config['accepted']==['recon_dll_entry']
-    assert a['function']==b['function']=='rcdll_main' and a['rva']==int(b['rva'],16)==0x8b29
+    assert a['function']==b['function']=='DllMain' and a['rva']==int(b['rva'],16)==0x8b29
     arguments=lifecycle_arguments(original,native,a,b)
     raw=(original/'globals.bin').read_bytes();matched={}
     assert (native/'data.json').read_bytes()==(HERE/'data.json').read_bytes()
@@ -201,15 +218,15 @@ def crt_init_pair(original,native):
     assert int.from_bytes(bytes.fromhex(b['globals']['dll_exit_end']),'little')==new['end']
     assert re.findall(r'^entry ([0-9a-f]+)$',text,re.M)==['00012d20','00012bb0','00012e26']
     for stream in ['stdout.bin','stderr.bin']:assert (original/stream).read_bytes()==(native/stream).read_bytes()==b''
-    return dict(trial='rcdll_crt_init',matched_frontier='rcdll_main',arguments=arguments,globals=matched,exit_vector=dict(request_bytes=128,logical_cursor=0,first_callback=None,unwritten_tail='unread in this case; no callbacks registered'),application_functions=0,crt_support_functions=2,import_boundaries=1)
+    return dict(trial='rcdll_crt_init',matched_frontier='DllMain',arguments=arguments,globals=matched,exit_vector=dict(request_bytes=128,logical_cursor=0,first_callback=None,unwritten_tail='unread in this case; no callbacks registered'),application_functions=0,crt_support_functions=2,import_boundaries=1)
 
 def _rc_host_pair(original,native,stage):
     a=original_raw(original);b=native_raw(native)
-    config=json.loads((original/'functions.json').read_text())
+    config=read_configuration(original/'functions.json')
     prefix=['recon_dll_entry','rcdll_crt_init']
-    expected='RC' if stage=='rcdll_main' else 'rc_main'
-    expected_rva=0x8b46 if stage=='rcdll_main' else 0x7443
-    assert config.get('trial_function')==stage and config['accepted']==prefix+([] if stage=='rcdll_main' else ['rcdll_main'])
+    expected='RC' if stage=='DllMain' else 'rc_main'
+    expected_rva=0x8b46 if stage=='DllMain' else 0x7443
+    assert config.get('trial_function')==stage and config['accepted']==prefix+([] if stage=='DllMain' else ['DllMain'])
     assert a['function']==b['function']==expected and a['rva']==int(b['rva'],16)==expected_rva
     text=(original/'events.txt').read_text();module=b['module'];raw=(original/'globals.bin').read_bytes()
     bases=re.findall(r'^module RCDLL.dll actual=([0-9a-f]+) ',text,re.M)
@@ -241,7 +258,7 @@ def _rc_host_pair(original,native,stage):
     for field in ['base','end']:
         assert int.from_bytes(bytes.fromhex(b['globals']['dll_exit_'+field]),'little')==new[field]
     args=b['arguments'];words=a['words']
-    if stage=='rcdll_main':
+    if stage=='DllMain':
         assert words[0]==0x010011fd and words[1]==args['window']==0 and words[2]==args['unused']==0
         assert words[3]==0x01001100 and args['diagnostic']==args['host_callback']!=0
         assert words[4]==args['resource']==0 and words[5]==args['count']==2
@@ -260,11 +277,11 @@ def _rc_host_pair(original,native,stage):
     assert argv==args['argv'] and argv[0]==paths[0].rsplit('\\',1)[0]+'\\RC.EXE' and argv[1]=='/help'
     assert re.findall(r'^argument-count (\d+)$',text,re.M)==['2']
     assert re.findall(r'^argv-terminator ([0-9a-f]+)$',text,re.M)==['00000000'] and args['terminator']==0
-    assert re.findall(r'^entry ([0-9a-f]+)$',text,re.M)==['00012d20','00012bb0','00012e26','00008b29']+([] if stage=='rcdll_main' else ['00008b46'])
+    assert re.findall(r'^entry ([0-9a-f]+)$',text,re.M)==['00012d20','00012bb0','00012e26','00008b29']+([] if stage=='DllMain' else ['00008b46'])
     for stream in ['stdout.bin','stderr.bin']:assert (original/stream).read_bytes()==(native/stream).read_bytes()==b''
-    return dict(trial=stage,matched_frontier=expected,module=module,globals=matched,export_arguments=dict(window=0,unused=0,diagnostic='verified RC.EXE stdcall callback / native fixture_diagnostic',resource=None,count=2,argv=argv),application_functions=1 if stage=='rcdll_main' else 2,crt_support_functions=2,import_boundaries=1)
+    return dict(trial=stage,matched_frontier=expected,module=module,globals=matched,export_arguments=dict(window=0,unused=0,diagnostic='verified RC.EXE stdcall callback / native fixture_diagnostic',resource=None,count=2,argv=argv),application_functions=1 if stage=='DllMain' else 2,crt_support_functions=2,import_boundaries=1)
 
-def dll_main_pair(original,native):return _rc_host_pair(original,native,"rcdll_main")
+def dll_main_pair(original,native):return _rc_host_pair(original,native,"DllMain")
 def rc_entry_pair(original,native):return _rc_host_pair(original,native,"RC")
 
 def help_state(original,native,a,b):
@@ -302,9 +319,9 @@ def help_state(original,native,a,b):
 
 def rc_main_pair(original,native):
     a=original_raw(original);b=native_raw(native)
-    config=json.loads((original/'functions.json').read_text())
+    config=read_configuration(original/'functions.json')
     assert config.get('trial_function')=='rc_main'
-    assert config['accepted']==['recon_dll_entry','rcdll_crt_init','rcdll_main','RC']
+    assert config['accepted']==['recon_dll_entry','rcdll_crt_init','DllMain','RC']
     assert a['function']==b['function']=='rc_initialize' and a['rva']==int(b['rva'],16)==0x84c4
     assert a['words'][0]==0x71c2747a
     assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_main\s*\(',(native/'gdb.stdout').read_text(),re.M)
@@ -334,9 +351,9 @@ def rc_main_pair(original,native):
 
 def rc_initialize_pair(original,native):
     a=original_raw(original);b=native_raw(native)
-    config=json.loads((original/'functions.json').read_text())
+    config=read_configuration(original/'functions.json')
     assert config.get('trial_function')=='rc_initialize'
-    assert config['accepted']==['recon_dll_entry','rcdll_crt_init','rcdll_main','RC','rc_main']
+    assert config['accepted']==['recon_dll_entry','rcdll_crt_init','DllMain','RC','rc_main']
     assert a['function']==b['function']=='rc_allocate' and a['rva']==int(b['rva'],16)==0x109b2
     assert a['words'][0]==0x71c274b7 and a['words'][1]==b['arguments']['bytes']==520
     assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_main\s*\(',(native/'gdb.stdout').read_text(),re.M)
@@ -381,9 +398,9 @@ def help_allocation(original,b,global_name='globals.bin'):
     return dict(original_heap=old_heap,native_heap=new_heap,bytes=528,target_header_bytes=8,buffer_bytes=520,flags=9,zeroed=True)
 
 def rc_allocate_pair(original,native):
-    a=original_raw(original);b=native_raw(native);config=json.loads((original/'functions.json').read_text())
+    a=original_raw(original);b=native_raw(native);config=read_configuration(original/'functions.json')
     assert config.get('trial_function')=='rc_allocate'
-    assert config['accepted']==['recon_dll_entry','rcdll_crt_init','rcdll_main','RC','rc_main','rc_initialize']
+    assert config['accepted']==['recon_dll_entry','rcdll_crt_init','DllMain','RC','rc_main','rc_initialize']
     assert a['function']==b['function']=='rc_is_option' and a['rva']==int(b['rva'],16)==0x10c4c
     assert a['words'][0]==0x71c274dc and a['words'][1]&255==b['arguments']['value']==ord('/')
     assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_main\s*\(',(native/'gdb.stdout').read_text(),re.M)
@@ -395,7 +412,7 @@ def rc_allocate_pair(original,native):
 HELP_PREFIX=[0x12d20,0x12bb0,0x12e26,0x8b29,0x8b46,0x7443,0x12de0,0x84c4,0x109b2,0x10c4c,0x8bcd,0x2c64,0x2c98]
 
 def rc_is_option_pair(original,native):
-    a=original_raw(original);b=native_raw(native);config=json.loads((original/'functions.json').read_text())
+    a=original_raw(original);b=native_raw(native);config=read_configuration(original/'functions.json')
     assert config.get('trial_function')=='rc_is_option' and len(config['accepted'])==7
     assert a['function']==b['function']=='rc_emit' and a['rva']==int(b['rva'],16)==0x8bcd
     assert a['words'][0]==0x71c27a82 and a['words'][1]==0x71c211fc
@@ -416,7 +433,7 @@ def callbacks(directory):
     return result
 
 def rc_emit_pair(original,native):
-    a=original_raw(original);b=native_raw(native);config=json.loads((original/'functions.json').read_text())
+    a=original_raw(original);b=native_raw(native);config=read_configuration(original/'functions.json')
     assert config.get('trial_function')=='rc_emit' and len(config['accepted'])==8
     assert a['function']==b['function']=='rc_message' and a['rva']==int(b['rva'],16)==0x2c64
     assert a['words'][0]==0x71c27a96 and a['words'][1]==b['arguments']['id']==10001
@@ -428,7 +445,7 @@ def rc_emit_pair(original,native):
     return dict(trial='rc_emit',matched_frontier='rc_message',globals=matched,allocation=allocation,callbacks=effects,message_id=10001,application_functions=7,crt_support_functions=2,import_boundaries=2)
 
 def rc_message_pair(original,native):
-    a=original_raw(original);b=native_raw(native);config=json.loads((original/'functions.json').read_text())
+    a=original_raw(original);b=native_raw(native);config=read_configuration(original/'functions.json')
     assert config.get('trial_function')=='rc_message' and len(config['accepted'])==9
     assert a['function']==b['function']=='rc_format' and a['rva']==int(b['rva'],16)==0x2c98
     assert a['words'][:6]==[0x71c27aa2,0x71c38660,2048,0x71c35ca0,0x71c214f8,1472]
@@ -470,7 +487,7 @@ def native_completion(snapshot):
 
 def rc_format_pair(original,native):
     original_raw(original,complete=True);b=native_completion(native)
-    config=json.loads((original/'functions.json').read_text())
+    config=read_configuration(original/'functions.json')
     assert config.get('trial_function')=='rc_format' and len(config['accepted'])==10
     text=(original/'events.txt').read_text();raw=(original/'completion-globals.bin').read_bytes();module=b['module']
     paths=re.findall(r'^module-path target (.+)$',text,re.M)
@@ -515,7 +532,7 @@ def rc_format_pair(original,native):
     trace=[int(v,16)for v in re.findall(r'^entry ([0-9a-f]+)$',text,re.M)];assert trace==HELP_PREFIX
     functions={int(f['start'],16):f for f in config['functions']}
     app=[functions[rva]['name']for rva in trace if rva in functions and functions[rva]['kind']=='application']
-    assert (native/'trace.txt').read_text().splitlines()==app and len(app)==9
+    assert logical_trace((native/'trace.txt').read_text())==app and len(app)==9
     assert (original/'stdout.bin').read_bytes()==(native/'stdout.bin').read_bytes()
     assert sha(original/'stdout.bin')=='e5220dc952d908c903a0aae287e9ab3d5a35872aef56f593f3ad2568441423a1'
     assert (original/'stderr.bin').read_bytes()==(native/'stderr.bin').read_bytes()==b''

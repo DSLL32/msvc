@@ -18,7 +18,7 @@ BOOL WINAPI recon_dll_entry(HINSTANCE instance, DWORD reason, LPVOID reserved)
         if (!result)
             return FALSE;
     }
-    result = rcdll_main(instance, reason, reserved);
+    result = DllMain(instance, reason, reserved);
     if (reason == DLL_PROCESS_ATTACH && !result)
         rcdll_crt_init(instance, DLL_PROCESS_DETACH, reserved);
     if (reason == DLL_PROCESS_DETACH || reason == DLL_THREAD_DETACH) {

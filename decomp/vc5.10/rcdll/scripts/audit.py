@@ -6,10 +6,11 @@ import json
 from pathlib import Path
 import subprocess
 import time
-from protocol import HERE, ROOT, candidate, sha
+from protocol import HERE, ROOT, candidate, sha, normalize_configuration
 
 ENGINE=ROOT/'tooling/graph-audit/target/release/graph-audit'
 def prepare(config,out):
+    config=normalize_configuration(config)
     trial=config.get('trial_function')
     accepted=config['accepted']+([trial] if trial else [])
     assert len(accepted)==len(set(accepted))

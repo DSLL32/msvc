@@ -6,7 +6,7 @@
   "accepted": [
     "recon_dll_entry",
     "rcdll_crt_init",
-    "rcdll_main",
+    "DllMain",
     "RC",
     "rc_main",
     "rc_initialize",
@@ -27,7 +27,7 @@
       "stub": false
     },
     {
-      "name": "rcdll_main",
+      "name": "DllMain",
       "start": "0x8b29",
       "end": "0x8b46",
       "abi": "stdcall",

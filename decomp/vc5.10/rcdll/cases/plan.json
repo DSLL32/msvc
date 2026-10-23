@@ -5,7 +5,7 @@
   "accepted_functions": [
     "recon_dll_entry",
     "rcdll_crt_init",
-    "rcdll_main",
+    "DllMain",
     "RC",
     "rc_main",
     "rc_initialize",

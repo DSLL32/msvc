@@ -14,7 +14,7 @@ def main():
     a=p.parse_args();out=a.output.resolve()
     if out.exists():p.error('output must be new')
     out.mkdir(parents=True)
-    from protocol import candidate,validation_versions
+    from protocol import candidate,validation_versions,read_configuration
     selected=a.configuration or HERE/'functions.json'
     execution=candidate();execution['files']['decomp/vc5.10/rcdll/functions.json']=sha(selected)
     (out/'candidate.json').write_text(json.dumps(execution,indent=2)+'\n')
@@ -30,7 +30,7 @@ def main():
     else:env.pop('RCDLL_NEGATIVE_MODULE_SHA',None)
     for k in ['WINEPREFIX','WINEARCH','WINEDLLOVERRIDES','WINEPATH']:env.pop(k,None)
     command=['gdb','--batch','-q',str(native),'-ex','set pagination off','-ex','handle SIGTRAP stop print nopass','-ex','set breakpoint pending on','-ex','source '+str(HERE/'scripts/native-observers.py'),'-ex','run '+str(out/'events.txt')+' > '+str(out/'stdout.bin')+' 2> '+str(out/'stderr.bin'),'-ex','source '+str(HERE/'scripts/native-gdb.py')]
-    active=json.loads(config.read_text());names=[f['name']for f in active['functions']if f['kind']=='application' and f['name'] in active['accepted']+[active.get('trial_function')]]
+    active=read_configuration(config);names=[f['name']for f in active['functions']if f['kind']=='application' and f['name'] in active['accepted']+[active.get('trial_function')]]
     (out/'trace-filter.txt').write_text(''.join(name+'\n'for name in names));(out/'trace-seen.txt').write_text('')
     with (out/'trace.txt').open('wb') as trace:
         env.update(RECON_TRACE_FD=str(trace.fileno()),RECON_TRACE_FILTER=str(out/'trace-filter.txt'),RECON_TRACE_SEEN=str(out/'trace-seen.txt'))

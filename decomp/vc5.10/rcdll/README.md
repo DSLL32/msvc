@@ -2,6 +2,12 @@
 
 Target: `toolchains/5.10/bin/RCDLL.DLL` (the toolchain contains no RCDLL.EXE).
 The first `RC` export `/help` case is complete and this worker is paused.
+The conventional application entry is `DllMain` (stdcall, three slots); the
+CRT wrapper and its PE entry symbol remain unchanged. Historical captures retain
+`rcdll_main`; runner/audit adapters explicitly map that one old logical name to
+`DllMain` without editing raw evidence. [Naming verification](cases/help/naming-cleanup.json)
+records the rebuilds and unchanged historical file hashes.
+
 Nine application functions (4,626 original code bytes), two embedded CRT functions
 (555 bytes), and two import-thunk boundaries have been accepted. Only help has
 been exercised dynamically; other command paths retain named, ABI-correct traps.

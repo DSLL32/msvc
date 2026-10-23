@@ -7,7 +7,7 @@ from pathlib import Path
 import subprocess
 import tempfile
 import time
-from protocol import HERE,ROOT,callbacks,sha
+from protocol import HERE,ROOT,callbacks,sha,logical_trace,LOGICAL_NAME_ALIASES
 
 def run():
     started=time.perf_counter();reference=HERE/'cases/help/reference'
@@ -31,13 +31,13 @@ def run():
         assert result.returncode==manifest['status']==0,'native status differs'
         assert result.stdout==(reference/'stdout.bin').read_bytes(),'stdout differs'
         assert result.stderr==(reference/'stderr.bin').read_bytes(),'stderr differs'
-        assert (out/'trace.txt').read_bytes()==(reference/'trace.txt').read_bytes(),'application entry trace differs'
+        assert logical_trace((out/'trace.txt').read_text())==logical_trace((reference/'trace.txt').read_text()),'application entry trace differs'
         assert callbacks(out)==json.loads((reference/'callbacks.json').read_text()),'diagnostic callback effects differ'
         events=(out/'events.txt').read_text().splitlines()
         assert events[0:2]==['attach','export-call RC 0 0 callback 0 2']
         assert events[-3:]==['export-return 0','detach','detach-return 1']
         checks=time.perf_counter()-before
-    report=dict(case='help',status='pass',stdout_bytes=len(result.stdout),application_entries=len(names),seconds=dict(setup=setup,execution=execution,checks=checks,total=time.perf_counter()-started),native_sha256=sha(native),reference_manifest_sha256=sha(reference/'manifest.json'))
+    report=dict(logical_name_aliases=LOGICAL_NAME_ALIASES,case='help',status='pass',stdout_bytes=len(result.stdout),application_entries=len(names),seconds=dict(setup=setup,execution=execution,checks=checks,total=time.perf_counter()-started),native_sha256=sha(native),reference_manifest_sha256=sha(reference/'manifest.json'))
     (HERE/'build/fixture-timing.json').write_text(json.dumps(report,indent=2)+'\n')
     return report
 if __name__=='__main__':print(json.dumps(run(),indent=2))
