@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 745,
+  "accepted": "_grow_inline_vector",
+  "terminal": "_resize_permanent@12",
+  "original_capture": "cases/virtual-diamond-frontiers/0745-grow_inline_vector/original-receipt.json",
+  "original_capture_sha256": "abc3c08b7914d493ab36d41c5c5846cf793aee9711576aea6f763f1cc22ab23e",
+  "original_events": "cases/virtual-diamond-frontiers/0745-grow_inline_vector/original-events.txt",
+  "original_events_sha256": "91709968f7c937dd3fdeba4fc4c6801b2a954def472408de9a5991cb7fba9fba",
+  "original_configuration": "cases/virtual-diamond-frontiers/0745-grow_inline_vector/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

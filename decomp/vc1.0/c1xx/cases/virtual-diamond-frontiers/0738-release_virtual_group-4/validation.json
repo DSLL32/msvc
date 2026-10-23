@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_release_virtual_group@4",
+    "start": 495616,
+    "end": 495699
+  },
+  "distinct_direct_callees": [
+    "_release_virtual_table@4"
+  ],
+  "next_frontier": "_virtual_base_entry_byte_offset@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.36423388961702585,
+  "total_operation_seconds": 5.6036368710920215,
+  "original_capture_seconds": 2.8724650144577026
+}

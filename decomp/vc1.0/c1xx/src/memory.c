@@ -201,3 +201,24 @@ void *__stdcall allocate_zeroed(unsigned bytes)
     for (i = 0; i < bytes; ++i) block[i] = 0;
     return block;
 }
+
+unsigned __stdcall minimum_unsigned(unsigned left, unsigned right);
+
+/* Original 0x6adb0..0x6ade5. Permanent resizing allocates a new block
+   and retains the old one. Copy only the smaller size through the original
+   separate unsigned-minimum helper, then return the new allocation. */
+void *__stdcall resize_permanent(void *block, unsigned old_bytes, unsigned new_bytes)
+{
+    unsigned char *copy = allocate_permanent(new_bytes);
+    unsigned bytes = minimum_unsigned(new_bytes, old_bytes), index;
+    for (index = 0; index < bytes; ++index)
+        copy[index] = ((unsigned char *)block)[index];
+    return copy;
+}
+
+/* Original 0x6ad30..0x6ad40. Retain the native unsigned comparison
+   and its separate two-slot helper ABI. */
+unsigned __stdcall minimum_unsigned(unsigned left, unsigned right)
+{
+    return right < left ? right : left;
+}

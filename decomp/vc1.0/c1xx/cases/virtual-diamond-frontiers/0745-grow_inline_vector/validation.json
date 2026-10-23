@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_grow_inline_vector",
+    "start": 320464,
+    "end": 320518
+  },
+  "distinct_direct_callees": [
+    "_inline_vector_bytes",
+    "_resize_permanent@12"
+  ],
+  "next_frontier": "_resize_permanent@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.40329638216644526,
+  "total_operation_seconds": 7.324227656237781,
+  "original_capture_seconds": 4.626138607040048
+}

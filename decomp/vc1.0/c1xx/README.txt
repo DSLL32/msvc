@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 738 accepted frontiers, including 646 frontend
+PARTIAL binary reconstruction: 748 accepted frontiers, including 656 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1645,3 +1645,25 @@ checks pass. Combined measured wall: 4.826083 seconds.
 
 Accepted extent union 213128/476418 bytes is 44.735505%, not branch coverage.
 virtual_diamond remains incomplete at release_virtual_group 0x79000.
+
+Inline-pointer growth checkpoint: 748 accepted frontiers, 663 source functions.
+Ten whole functions beyond 744ceae release temporary groups, compute vbtable
+byte indices, collapse conflict vectors, compare owner vectors and grow sorted
+inline pointer sets. Their search orders low twelve address bits, then scans
+an equal-key group for full identity; missing pointers insert at the lower
+bound. The optional result-position store precedes the final count reload.
+
+The growth wrapper stores its signed-short capacity before separate new/old
+size queries. Permanent resize allocates a new block and copies the smaller
+size through a distinct unsigned-minimum helper, retaining old arena storage.
+All these function boundaries and cdecl/stdcall pointer-return ABIs remain
+separate; no source implementation uses generated assembly.
+
+Every 0738 through 0747 acceptance matches fresh original/native traps, four
+pending buffers, fourteen state values, streams and visible files. Completed
+cpp_basic remains raw byte-exact. Full 663-function graph, contextual data/defaults/
+callback identities, both grammars, both cached native cases and 25 negative
+checks pass. Combined measured wall: 4.964778 seconds.
+
+Accepted extent union 213747/476418 bytes is 44.865433%, not branch coverage.
+virtual_diamond remains incomplete at make_table_qualifier_path 0x7b9e0.

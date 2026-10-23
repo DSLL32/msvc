@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 743,
+  "accepted": "_add_inline_pointer",
+  "terminal": "_locate_inline_pointer",
+  "original_capture": "cases/virtual-diamond-frontiers/0743-add_inline_pointer/original-receipt.json",
+  "original_capture_sha256": "dba82047403f47910a9d7308178faacb6e6931d5dd2d8389924d8b817035a26b",
+  "original_events": "cases/virtual-diamond-frontiers/0743-add_inline_pointer/original-events.txt",
+  "original_events_sha256": "8e9b639404bfd83f4d1c4969d7104028d4579245e7621fd5e61861c67d32d643",
+  "original_configuration": "cases/virtual-diamond-frontiers/0743-add_inline_pointer/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

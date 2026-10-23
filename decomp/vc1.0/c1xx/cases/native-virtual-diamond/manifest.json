@@ -1,14 +1,14 @@
 {
   "case": "virtual_diamond",
-  "scope": "738 accepted frontiers; explicit original-backed current partial frontend terminal",
-  "reference_receipt": "cases/virtual-diamond-frontiers/0737-class_derives_from-8/original-receipt.json",
-  "reference_receipt_sha256": "632d7fdc5211e2f9e43df0fcf18811babea0adbfb2d4bd1943253c7d3d62abc8",
+  "scope": "748 accepted frontiers; explicit original-backed current partial frontend terminal",
+  "reference_receipt": "cases/virtual-diamond-frontiers/0747-minimum_unsigned-8/original-receipt.json",
+  "reference_receipt_sha256": "244aca87911e1ce532c0ef2fcaa8e4abb89dff1b4f57e4481364210aa4181634",
   "reference_original_image_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
   "canonical_map": "canonical-map.txt",
-  "canonical_map_sha256": "557003ec249c8dc1d269ba2e2fe20f5aefc0c8510dbc7c5eb98a90767c52fd47",
+  "canonical_map_sha256": "4cefde22fb0a9cb8d1feea60915bdae2bbeac6f95f9ea96f168517c35bc57a92",
   "terminal": {
     "kind": "frontier",
-    "logical": "_release_virtual_group@4",
+    "logical": "_make_table_qualifier_path@8",
     "native_signal": 5,
     "original_exception": "80000003"
   },
@@ -37,7 +37,7 @@
     }
   ],
   "normalization": "none; captured visible bytes, not unflushed CRT buffers",
-  "capture_seconds": 4.7271461840718985,
+  "capture_seconds": 4.425557631999254,
   "dependencies": [
     {
       "path": "toolchains/1.0-nt/bin/C1.ERR",

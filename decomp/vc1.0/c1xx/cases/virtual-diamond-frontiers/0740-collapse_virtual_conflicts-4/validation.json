@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_collapse_virtual_conflicts@4",
+    "start": 494928,
+    "end": 494951
+  },
+  "distinct_direct_callees": [
+    "_first_vector_item@4"
+  ],
+  "next_frontier": "_equal_vectors@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.3857090836390853,
+  "total_operation_seconds": 7.116952617652714,
+  "original_capture_seconds": 4.476372611708939
+}

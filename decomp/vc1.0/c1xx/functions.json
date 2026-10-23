@@ -742,7 +742,17 @@
     "_add_direct_this_displacement@8",
     "_merge_virtual_group_entries@12",
     "_merge_virtual_entry@8",
-    "_class_derives_from@8"
+    "_class_derives_from@8",
+    "_release_virtual_group@4",
+    "_virtual_base_entry_byte_offset@8",
+    "_collapse_virtual_conflicts@4",
+    "_equal_vectors@8",
+    "_vector_used_bytes@4",
+    "_add_inline_pointer",
+    "_locate_inline_pointer",
+    "_grow_inline_vector",
+    "_resize_permanent@12",
+    "_minimum_unsigned@8"
   ],
   "driver": [
     {
@@ -3665,7 +3675,7 @@
     {
       "name": "_add_inline_pointer",
       "start": 320576,
-      "end": 320577
+      "end": 320707
     },
     {
       "name": "_remove_type_set",
@@ -3950,12 +3960,12 @@
     {
       "name": "_collapse_virtual_conflicts@4",
       "start": 494928,
-      "end": 494929
+      "end": 494951
     },
     {
       "name": "_equal_vectors@8",
       "start": 322400,
-      "end": 322401
+      "end": 322466
     },
     {
       "name": "_copy_vector_elements@12",
@@ -6042,7 +6052,7 @@
     {
       "name": "_vector_used_bytes@4",
       "start": 321904,
-      "end": 321905
+      "end": 321917
     },
     {
       "name": "_matches_virtual_override@12",
@@ -6317,7 +6327,7 @@
     {
       "name": "_release_virtual_group@4",
       "start": 495616,
-      "end": 495617
+      "end": 495699
     },
     {
       "name": "_needs_virtual_base_vtordisp@8",
@@ -6382,7 +6392,7 @@
     {
       "name": "_virtual_base_entry_byte_offset@8",
       "start": 494640,
-      "end": 494641
+      "end": 494667
     },
     {
       "name": "_copy_virtual_group@8",
@@ -6408,6 +6418,21 @@
       "name": "_vector_contains@8",
       "start": 322304,
       "end": 322305
+    },
+    {
+      "name": "_locate_inline_pointer",
+      "start": 321008,
+      "end": 321159
+    },
+    {
+      "name": "_resize_permanent@12",
+      "start": 437680,
+      "end": 437734
+    },
+    {
+      "name": "_minimum_unsigned@8",
+      "start": 437552,
+      "end": 437569
     }
   ],
   "cases": {
@@ -6533,7 +6558,7 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/virtual-diamond-frontiers",
       "accepted_from": 643,
-      "terminal": "_release_virtual_group@4",
+      "terminal": "_make_table_qualifier_path@8",
       "frontier_extensions": [
         "cases/virtual-diamond-frontiers/0643-complete_declaration-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0644-add_storage_specifier-16/frontier-extension.json",
@@ -6629,9 +6654,19 @@
         "cases/virtual-diamond-frontiers/0734-add_direct_this_displacement-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0735-merge_virtual_group_entries-12/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0736-merge_virtual_entry-8/frontier-extension.json",
-        "cases/virtual-diamond-frontiers/0737-class_derives_from-8/frontier-extension.json"
+        "cases/virtual-diamond-frontiers/0737-class_derives_from-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0738-release_virtual_group-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0739-virtual_base_entry_byte_offset-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0740-collapse_virtual_conflicts-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0741-equal_vectors-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0742-vector_used_bytes-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0743-add_inline_pointer/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0744-locate_inline_pointer/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0745-grow_inline_vector/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0746-resize_permanent-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0747-minimum_unsigned-8/frontier-extension.json"
       ],
-      "terminal_evidence": "cases/virtual-diamond-frontiers/0737-class_derives_from-8/original-events.txt",
+      "terminal_evidence": "cases/virtual-diamond-frontiers/0747-minimum_unsigned-8/original-events.txt",
       "original_seed": "cases/virtual_diamond-seed"
     }
   },

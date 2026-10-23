@@ -179,3 +179,25 @@ Vector *__stdcall copy_vector_with_spare(Vector *vector, int arena)
 {
     return copy_vector_with_extra(vector, 1, arena);
 }
+
+/* Original 0x4eb60..0x4eba1. Arena/capacity are irrelevant to vector
+   equality. Preserve the separate used-byte getter before comparing contents. */
+int __stdcall equal_vectors(Vector *left, Vector *right)
+{
+    unsigned bytes, index;
+    unsigned char *left_bytes, *right_bytes;
+    if (left->count != right->count) return 0;
+    left_bytes = (unsigned char *)left->items;
+    right_bytes = (unsigned char *)right->items;
+    bytes = vector_used_bytes(left);
+    for (index = 0; index < bytes; ++index)
+        if (left_bytes[index] != right_bytes[index]) return 0;
+    return 1;
+}
+
+/* Original 0x4e970..0x4e97c. Counts are signed shorts; conversion to
+   unsigned before shifting preserves the native32-bit wrap for all values. */
+unsigned __stdcall vector_used_bytes(Vector *vector)
+{
+    return (unsigned)vector->count << 2;
+}

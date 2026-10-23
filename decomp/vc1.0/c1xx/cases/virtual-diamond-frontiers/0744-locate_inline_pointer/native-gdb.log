@@ -1,0 +1,18 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565589c8 in grow_inline_vector (vector=0x565f2bec) at src/stubs.c:66
+66	InlineVector *grow_inline_vector(InlineVector *vector) { __asm { int 3 } return 0; }
+#0  0x565589c8 in grow_inline_vector (vector=0x565f2bec) at src/stubs.c:66
+#1  0x565b22ca in defer_generated_member (member=0x565f1590) at src/special-members.c:480
+#2  0x5657ff7c in require_class_member_definitions (tag=0x565f10ec, name=0x565ea6e3 "__delDtor") at src/constructor-initializers.c:190
+#3  0x5657fea3 in require_deleting_destructor (tag=0x565f10ec) at src/constructor-initializers.c:177
+#4  0x5657fa44 in prepare_class_initialization (tag=0x565f10ec) at src/constructor-initializers.c:170
+#5  0x5657f139 in emit_constructor_initializers (tag=0x565f10ec, initializers=0x566011b8) at src/constructor-initializers.c:38
+#6  0x5658d946 in enter_compound_scope () at src/statement-scopes.c:46
+#7  0x5658d6f6 in begin_compound_statement () at src/statement-scopes.c:13
+#8  0x565992c5 in parse_translation_unit () at src/parser-statement-actions.inc:8
+#9  0x5655dd56 in compile_translation_unit () at src/frontend.c:75
+#10 0x565587e6 in guarded_compile () at src/c1xx.c:28
+#11 0x565587b4 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20

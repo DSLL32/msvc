@@ -1646,3 +1646,34 @@ void __stdcall merge_virtual_entry(VirtualEntry *destination, VirtualEntry *sour
             append_vector(conflicts, source->dispatch.function);
     }
 }
+
+/* Original 0x79000..0x79052. The vectors and group belong to arenas;
+   release only the heap tables stored in each of their two families. */
+void __stdcall release_virtual_group(VirtualTableGroup *group)
+{
+    Vector *tables;
+    short index;
+    int family;
+    for (family = 0; family < 2; ++family) {
+        tables = family ? group->base_tables : group->tables;
+        index = 0;
+        while (index < tables->count)
+            release_virtual_table(tables->items[index++]);
+    }
+}
+
+/* Original 0x78c30..0x78c4a. Generic entries occupy 16 bytes internally;
+   the emitted vbtable uses integer-sized slots, queried by its own getter. */
+unsigned __stdcall virtual_base_entry_byte_offset(VirtualEntry *entry, VirtualTable *table)
+{
+    int index = entry - table->entries;
+    return virtual_base_entry_width() * index;
+}
+
+/* Original 0x78d50..0x78d66. Collapse an arena-owned conflict vector
+   to its first function while preserving every flag except the vector tag. */
+void __stdcall collapse_virtual_conflicts(VirtualEntry *entry)
+{
+    entry->dispatch.function = first_vector_item((Vector *)entry->dispatch.function);
+    entry->dispatch.flags &= ~4U;
+}

@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_locate_inline_pointer",
+    "start": 321008,
+    "end": 321159
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_grow_inline_vector",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.3929709428921342,
+  "total_operation_seconds": 7.349906771443784,
+  "original_capture_seconds": 4.676280910149217
+}

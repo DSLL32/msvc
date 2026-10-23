@@ -42,7 +42,6 @@ void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
 void fatal_error(unsigned code, ...) { __asm { int 3 } }
 void clear_packing(PackingEntry *entry) { __asm { int 3 } }
-unsigned __stdcall vector_used_bytes(Vector *vector) { __asm { int 3 } return 0; }
 void compiler_warning(int level, unsigned code, ...) { __asm { int 3 } }
 void preprocess_translation_unit(void) { __asm { int 3 } }
 void __stdcall record_string_literal(IrToken *token) { __asm { int 3 } }
@@ -64,7 +63,6 @@ void report_error(unsigned code, ...) { __asm { int 3 } }
 void begin_browser_output(void) { __asm { int 3 } }
 void initialize_inline_queries(void) { __asm { int 3 } }
 void report_fatal(unsigned code, ...) { __asm { int 3 } }
-InlineVector *grow_inline_vector(InlineVector *vector) { __asm { int 3 } return 0; }
 void __stdcall prepare_pch_output(char *filename) { __asm { int 3 } }
 void report_syntax_error(unsigned code, ...) { __asm { int 3 } }
 void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
@@ -392,7 +390,6 @@ void browser_end_tag(void) { __asm { int 3 } }
 void emit_deferred_class_terminator(void) { __asm { int 3 } }
 
 int type_set_contains(TypeSet *set, CType *type) { __asm { int 3 } return 0; }
-InlineVector *add_inline_pointer(InlineVector *vector, void *pointer) { __asm { int 3 } return 0; }
 TypeSet *remove_type_set(TypeSet *set, CType *type) { __asm { int 3 } return 0; }
 CType *__stdcall canonical_conversion_type(CppSymbol *function) { __asm { int 3 } return 0; }
 int equal_inline_vectors(InlineVector *left, InlineVector *right) { __asm { int 3 } return 0; }
@@ -424,9 +421,7 @@ short __stdcall format_function_parameters(short text, FunctionParameters *param
 
 
 
-void __stdcall collapse_virtual_conflicts(VirtualEntry *entry) { __asm { int 3 } }
 
-int __stdcall equal_vectors(Vector *left, Vector *right) { __asm { int 3 } return 0; }
 
 
 
@@ -657,6 +652,4 @@ int __cdecl equal_declaration_indices(void *left, void *right) { __asm { int 3 }
 int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_word_triplets(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_word_pairs(void *left, void *right) { __asm { int 3 } return 0; }
-void __stdcall release_virtual_group(VirtualTableGroup *group) { __asm { int 3 } }
-unsigned __stdcall virtual_base_entry_byte_offset(VirtualEntry *entry, VirtualTable *table) { __asm { int 3 } return 0; }
 int __stdcall vector_contains(Vector *vector, void *item) { __asm { int 3 } return 0; }
