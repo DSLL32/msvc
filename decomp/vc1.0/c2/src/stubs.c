@@ -302,7 +302,6 @@ MachineInstruction *__fastcall find_transfer_call_boundary(MachineInstruction *t
 
 int __fastcall close_machine_region(MachineFlowRegion *parent, MachineFlowRegion *region) { __asm int 3 }
 MachineFlowRegion *__fastcall process_special_machine_region_reference(MachineFlowRegion *region, SymbolHeader *label) { __asm int 3 }
-void rewrite_float_machine_data(void) { __asm int 3 }
 void prepare_float_stream_uses(void) { __asm int 3 }
 void __fastcall prepare_machine_region_transform(MachineFlowRegion *region) { __asm int 3 }
 void __fastcall prepare_region_insertion(MachineFlowRegion *region) { __asm int 3 }
@@ -396,3 +395,5 @@ int __fastcall previous_float_is_load(MachineInstruction *instruction) { __asm i
 int __fastcall find_float_register_reload(MachineInstruction *instruction, unsigned short number, MachineInstruction **reload) { __asm int 3 }
 void __fastcall save_float_machine_register(MachineInstruction *instruction, FloatMachineRegister *reg, unsigned short number, MachineInstruction *reload) { __asm int 3 }
 void __fastcall exchange_float_machine_stack(int first, int second) { __asm int 3 }
+MachineInstruction *__fastcall rewrite_pentium_float_store(MachineInstruction *instruction) { __asm int 3 }
+MachineInstruction *__fastcall rewrite_i486_float_pop(MachineInstruction *instruction) { __asm int 3 }

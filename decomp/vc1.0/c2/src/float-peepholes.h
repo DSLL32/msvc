@@ -19,4 +19,6 @@ int __fastcall can_reuse_float_load_width(MachineInstruction *instruction, unsig
 int __fastcall combine_float_store_load(MachineInstruction *first, MachineInstruction *last);
 int __fastcall fold_float_compare_store(MachineInstruction *instruction, MachineInstruction *branch);
 void __fastcall fold_previous_float_load(MachineInstruction *first, MachineInstruction *last);
+MachineInstruction *__fastcall rewrite_pentium_float_store(MachineInstruction *instruction);
+MachineInstruction *__fastcall rewrite_i486_float_pop(MachineInstruction *instruction);
 #endif

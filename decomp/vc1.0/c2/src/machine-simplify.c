@@ -6,6 +6,7 @@
 #include "register-variables.h"
 #include "temporaries.h"
 #include "instruction-rewrite.h"
+#include "float-peepholes.h"
 #include <recon.h>
 extern int optimize_precision, cpu_model, optimization_immediate_registers;
 unsigned short immediate_register_cutoff; /* 0007e2ac */
@@ -210,4 +211,23 @@ next_candidate:
 /* Original [00066e20,00066e30). This build retains an empty pass hook. */
 void finish_tree_optimization(void)
 {
+}
+
+/* Original [00035920,000359a7). Protected blocks disable these store
+   rewrites. Pentium non-popping stores and earlier-CPU popping stores have
+   separate helpers, each returning the final instruction to scan past. */
+void rewrite_float_machine_data(void)
+{
+    MachineInstruction *instruction;
+    unsigned kind, operation;
+    int protected_block = 0;
+    for (instruction = machine_instructions; instruction; instruction = instruction->next) {
+        kind = instruction->opcode & 15;
+        if (kind == 7) protected_block = (((MachineBlockHeader *)instruction)->flags & 3) != 0;
+        if ((kind == 0 || kind == 8 || kind == 9 || kind == 10) && !protected_block) {
+            operation = (instruction->opcode >> 8) & 255;
+            if (operation == MC_FST && cpu_model == 5) instruction = rewrite_pentium_float_store(instruction);
+            else if (operation == MC_FSTP && cpu_model != 5) instruction = rewrite_i486_float_pop(instruction);
+        }
+    }
 }

@@ -1003,7 +1003,8 @@
     "@intrinsic_float_cleanup_count@4",
     "_exclude_float_machine_registers",
     "_release_float_machine_data",
-    "@float_register_heap_release@4"
+    "@float_register_heap_release@4",
+    "_rewrite_float_machine_data"
   ],
   "driver": [
     {
@@ -5222,8 +5223,7 @@
     {
       "name": "_rewrite_float_machine_data",
       "start": 219424,
-      "end": 219425,
-      "provisional": true
+      "end": 219559
     },
     {
       "name": "_prepare_float_stream_uses",
@@ -7051,6 +7051,18 @@
       "name": "@float_register_heap_release@4",
       "start": 234736,
       "end": 234746
+    },
+    {
+      "name": "@rewrite_pentium_float_store@4",
+      "start": 232160,
+      "end": 232161,
+      "provisional": true
+    },
+    {
+      "name": "@rewrite_i486_float_pop@4",
+      "start": 231440,
+      "end": 231441,
+      "provisional": true
     }
   ],
   "cases": {

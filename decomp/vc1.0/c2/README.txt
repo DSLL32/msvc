@@ -2512,3 +2512,9 @@ Floating virtual-register exclusion and cleanup: checkpoint999
 _rewrite_float_machine_data. 920 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-data-cleanup.json for extent union, limits and measured timings.
+
+CPU-specific floating-store rewrite driver: checkpoint1000
+1 acceptances pass fresh original/native matching; current frontier
+_prepare_float_stream_uses. 921 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-store-driver.json for extent union, limits and measured timings.
