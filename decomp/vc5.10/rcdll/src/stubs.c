@@ -110,11 +110,6 @@ int __cdecl rc_splice_line(void)
     return 0;
 }
 
-WCHAR __cdecl rc_read_nonspace(void)
-{
-    __asm int 3
-    return 0;
-}
 
 void __stdcall rc_read_identifier(WCHAR character)
 {
@@ -204,4 +199,9 @@ WCHAR __cdecl rc_get_logical_character(void)
 {
     __asm int 3
     return 0;
+}
+
+void __cdecl rc_resume_input(void)
+{
+    __asm int 3
 }

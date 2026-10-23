@@ -347,3 +347,10 @@ VC5 code-page pragma branches behind named helpers.
 records five fresh controls and the separately restored 14-entry switch table.
 Unencountered diagnostic token-descriptor slots are unavailable storage
 placeholders; their zeros are not valid descriptors or compared target data.
+
+The nonspace reader is accepted (97 bytes), returning the actual UTF-16 `l`
+from the prepared `#line` directive. Its caller and next identifier formal agree
+on the 16-bit value, four-byte stack slot and advanced source cursor.
+[Verification](cases/resources-rich-trailing-space/read-nonspace-verification.json)
+records five fresh controls and separate build/capture/audit timings.
+Comment, splice and input-resumption helpers remain named traps.

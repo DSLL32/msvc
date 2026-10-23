@@ -19,6 +19,7 @@ extern int rc_expanding_macro,rc_in_directive;
 extern WCHAR rc_source_marker[];
 extern WCHAR *rc_cpp_path_characters;
 WCHAR __cdecl rc_read_nonspace(void);
+void __cdecl rc_resume_input(void);
 void __stdcall rc_read_identifier(WCHAR);
 unsigned char __stdcall rc_directive_code(const WCHAR *);
 void __stdcall rc_expect_end(const WCHAR *);

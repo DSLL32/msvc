@@ -46,7 +46,8 @@
     "rc_character_token",
     "rc_list_macro",
     "rc_scan_line_start",
-    "rc_handle_directive"
+    "rc_handle_directive",
+    "rc_read_nonspace"
   ],
   "functions": [
     {
@@ -981,8 +982,7 @@
       "end": "0x12afc",
       "abi": "cdecl",
       "stack_bytes": 0,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_read_identifier",
@@ -1114,6 +1114,15 @@
       "name": "rc_get_logical_character",
       "start": "0x12b67",
       "end": "0x12ba8",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_resume_input",
+      "start": "0x6135",
+      "end": "0x624c",
       "abi": "cdecl",
       "stack_bytes": 0,
       "kind": "application",
