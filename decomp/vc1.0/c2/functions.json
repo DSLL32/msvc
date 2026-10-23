@@ -955,7 +955,10 @@
     "_compare_extended",
     "@simplify_reciprocal@4",
     "@extract_reciprocal@4",
-    "@copy_factor_exponent@4"
+    "@copy_factor_exponent@4",
+    "@fold_floating_node@4",
+    "_add_extended",
+    "_normalize_extended"
   ],
   "driver": [
     {
@@ -2828,8 +2831,7 @@
     {
       "name": "@fold_floating_node@4",
       "start": 356512,
-      "end": 356513,
-      "provisional": true
+      "end": 357089
     },
     {
       "name": "@fold_integer_node@4",
@@ -6787,6 +6789,52 @@
       "name": "_check_extended_range",
       "start": 464517,
       "end": 464587
+    },
+    {
+      "name": "_add_extended",
+      "start": 463253,
+      "end": 463332
+    },
+    {
+      "name": "_subtract_extended",
+      "start": 463332,
+      "end": 463333,
+      "provisional": true
+    },
+    {
+      "name": "_multiply_extended",
+      "start": 463411,
+      "end": 463412,
+      "provisional": true
+    },
+    {
+      "name": "_divide_extended",
+      "start": 463490,
+      "end": 463491,
+      "provisional": true
+    },
+    {
+      "name": "_maximum_extended",
+      "start": 464122,
+      "end": 464123,
+      "provisional": true
+    },
+    {
+      "name": "_minimum_extended",
+      "start": 464020,
+      "end": 464021,
+      "provisional": true
+    },
+    {
+      "name": "_absolute_extended",
+      "start": 464224,
+      "end": 464225,
+      "provisional": true
+    },
+    {
+      "name": "_normalize_extended",
+      "start": 464417,
+      "end": 464513
     }
   ],
   "cases": {

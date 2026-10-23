@@ -135,3 +135,71 @@ int compare_extended(unsigned operation, const Extended *left, const Extended *r
     else relation = 2;
     return (relation & (unsigned short)operation) != 0;
 }
+
+/* Original [00071195,000711e4). C selects the combined format tag;
+   m80 arithmetic and the ESI/ST0 normalizer call require the private bridge. */
+int __cdecl add_extended(const Extended *left, const Extended *right, Extended *result)
+{
+    unsigned format;
+    int range_error;
+    __asm {
+        mov esi, left
+        mov edi, right
+        fld tbyte ptr [esi]
+        fld tbyte ptr [edi]
+        faddp st(1), st(0)
+    }
+    format = left->format | right->format;
+    result->format = (format & 2) ? 10 : ((format & 8) ? 8 : 4);
+    __asm {
+        mov esi, result
+        call normalize_extended
+        mov range_error, eax
+    }
+    return range_error;
+}
+
+/* Original single range bound [00086140,0008614a); only ten bytes
+   participate, independently of the contextual C structure's final word. */
+static const Extended single_conversion_limit = {0xffffffffUL, 0xffffff7fUL, 0x407e, 0};
+extern int optimize_precision;
+
+/* Original [00071621,00071681), followed by the already accepted
+   store_extended tail. ESI/ST0 input cannot be expressed in C; format
+   selection and optional rounding policy are otherwise ordinary C. */
+int normalize_extended(void)
+{
+    Extended *number;
+    int range_error = 0;
+    __asm mov number, esi
+    if (number->format == 4) {
+        __asm {
+            fld tbyte ptr single_conversion_limit
+            call check_extended_range
+            mov range_error, eax
+        }
+        if (optimize_precision) {
+            __asm {
+                fstp dword ptr extended_scratch
+                fld dword ptr extended_scratch
+            }
+        }
+    } else if (number->format != 10) {
+        __asm {
+            fld tbyte ptr double_conversion_limit
+            call check_extended_range
+            mov range_error, eax
+        }
+        if (optimize_precision) {
+            __asm {
+                fstp qword ptr extended_scratch
+                fld qword ptr extended_scratch
+            }
+        }
+    }
+    __asm {
+        mov esi, number
+        call store_extended
+    }
+    return range_error;
+}

@@ -2,10 +2,14 @@
   "schema": 1,
   "description": "Cached original application-entry projection; no capture or Wine",
   "metadata_sha256": {
-    "functions.json": "cb839f14f56a70517fc816737c0206527b6b26198ea599d5e4423a09e5ace3c2",
+    "functions.json": "9dcbe53f723cc94beb68b5babba0cb4b411f76088cb1537a9aa40128dc95e165",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
+    "absolute_extended": {
+      "logical": "_absolute_extended",
+      "source": "src/stubs.c"
+    },
     "activate_scope": {
       "logical": "@activate_scope@4",
       "source": "src/symbols.c"
@@ -25,6 +29,10 @@
     "add_expression_use": {
       "logical": "@add_expression_use@8",
       "source": "src/work-optimizer.c"
+    },
+    "add_extended": {
+      "logical": "_add_extended",
+      "source": "src/extended.c"
     },
     "add_flow_predecessor": {
       "logical": "@add_flow_predecessor@8",
@@ -1138,6 +1146,10 @@
       "logical": "@distribute_unary_tree@4",
       "source": "src/global-tree.c"
     },
+    "divide_extended": {
+      "logical": "_divide_extended",
+      "source": "src/stubs.c"
+    },
     "double_to_extended": {
       "logical": "_double_to_extended",
       "source": "src/extended.c"
@@ -1664,7 +1676,7 @@
     },
     "fold_floating_node": {
       "logical": "@fold_floating_node@4",
-      "source": "src/stubs.c"
+      "source": "src/tree-optimizer.c"
     },
     "fold_integer_comparison": {
       "logical": "@fold_integer_comparison@4",
@@ -2454,6 +2466,10 @@
       "logical": "@materialize_region_value@4",
       "source": "src/region-motion.c"
     },
+    "maximum_extended": {
+      "logical": "_maximum_extended",
+      "source": "src/stubs.c"
+    },
     "memory_displacements_overlap": {
       "logical": "@memory_displacements_overlap@16",
       "source": "src/instruction-uses.c"
@@ -2486,6 +2502,10 @@
       "logical": "@merge_sorted_lists@12",
       "source": "src/linked-lists.c"
     },
+    "minimum_extended": {
+      "logical": "_minimum_extended",
+      "source": "src/stubs.c"
+    },
     "move_data_blocks_to_end": {
       "logical": "@move_data_blocks_to_end@4",
       "source": "src/jump-threading.c"
@@ -2493,6 +2513,10 @@
     "move_instruction_into_pentium_gap": {
       "logical": "@move_instruction_into_pentium_gap@16",
       "source": "src/scheduler.c"
+    },
+    "multiply_extended": {
+      "logical": "_multiply_extended",
+      "source": "src/stubs.c"
     },
     "narrow_binary_conversion": {
       "logical": "@narrow_binary_conversion@8",
@@ -2721,6 +2745,10 @@
     "normalize_assembly_flow_symbol": {
       "logical": "@normalize_assembly_flow_symbol@8",
       "source": "src/stubs.c"
+    },
+    "normalize_extended": {
+      "logical": "_normalize_extended",
+      "source": "src/extended.c"
     },
     "normalize_flow_targets": {
       "logical": "@normalize_flow_targets@4",
@@ -4213,6 +4241,10 @@
     "subtract_bitset": {
       "logical": "@subtract_bitset@8",
       "source": "src/bitsets.c"
+    },
+    "subtract_extended": {
+      "logical": "_subtract_extended",
+      "source": "src/stubs.c"
     },
     "subtraction_overflows": {
       "logical": "_subtraction_overflows",
@@ -24428,6 +24460,213 @@
               "total_seconds": 1.629084120504558
             }
           }
+        },
+        {
+          "accepted_function": "@fold_floating_node@4",
+          "accepted_kind": "application",
+          "previous_logical": "@fold_floating_node@4",
+          "original_extent": [
+            "0x570a0",
+            "0x572e1"
+          ],
+          "before": {
+            "path": "cases/floating-original-951.json",
+            "sha256": "753ae2bbe88f2500413bb2407dc6f1f941fb49fcff7cb6ffc4f4b45c500aecb5",
+            "capture": {
+              "label": "floating-original-951",
+              "profile": "floating",
+              "accepted": 951,
+              "events": "exception 80000003 rva 000470a0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "82fea112f4f1beeeb021456e077db7a1f8bacee511d7a41bd04b49f9787b6cb8",
+              "config_sha256": "cb839f14f56a70517fc816737c0206527b6b26198ea599d5e4423a09e5ace3c2",
+              "manifest_sha256": "d7f09728782bb85c019fce0d65f461693d8ac5561d3e388c534f4ea87558b870",
+              "inputs": {
+                "c2/irex": "125e4057157688e434f4f21c464164db9d207a118b92996632f186fd7b5e7b04",
+                "c2/irsy": "7994183937be12fe68eaf2b8a573fe2c5cc8623369301de04f65a3bd5191cd36",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "cb12f519aafaf20546a9b1328c16656c6188efd43cd1c8fa36bf096753ec7a2b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating.c -W 1 -dos -Fofloating.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-floating-etcew0vw",
+              "logical": "@fold_floating_node@4",
+              "original_va": "0x570a0",
+              "setup_seconds": 0.20466851443052292,
+              "execution_seconds": 1.4179173847660422,
+              "check_seconds": 0.006497424095869064,
+              "total_seconds": 1.629084120504558
+            }
+          },
+          "after": {
+            "path": "cases/floating-original-952.json",
+            "sha256": "af87e01f9bc98306ab51545cdd3387aac2c93ea68818a13c061b37cb3f2e76e7",
+            "capture": {
+              "label": "floating-original-952",
+              "profile": "floating",
+              "accepted": 952,
+              "events": "exception 80000003 rva 00061195 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "c0904e629d93559d97784bcd39e14943170cf11d64d0026bfbca237f3a940d2f",
+              "config_sha256": "bf9c22b85855e1a4dae027fbd9e1c57be6ec2757af135792e9515ae5d2f989a0",
+              "manifest_sha256": "d7f09728782bb85c019fce0d65f461693d8ac5561d3e388c534f4ea87558b870",
+              "inputs": {
+                "c2/irex": "125e4057157688e434f4f21c464164db9d207a118b92996632f186fd7b5e7b04",
+                "c2/irsy": "7994183937be12fe68eaf2b8a573fe2c5cc8623369301de04f65a3bd5191cd36",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "cb12f519aafaf20546a9b1328c16656c6188efd43cd1c8fa36bf096753ec7a2b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating.c -W 1 -dos -Fofloating.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-floating-yt6nwhh0",
+              "logical": "_add_extended",
+              "original_va": "0x71195",
+              "setup_seconds": 0.20287836994975805,
+              "execution_seconds": 1.2814559759572148,
+              "check_seconds": 0.006640962325036526,
+              "total_seconds": 1.4909759182482958
+            }
+          }
+        },
+        {
+          "accepted_function": "_add_extended",
+          "accepted_kind": "application",
+          "previous_logical": "_add_extended",
+          "original_extent": [
+            "0x71195",
+            "0x711e4"
+          ],
+          "before": {
+            "path": "cases/floating-original-952.json",
+            "sha256": "af87e01f9bc98306ab51545cdd3387aac2c93ea68818a13c061b37cb3f2e76e7",
+            "capture": {
+              "label": "floating-original-952",
+              "profile": "floating",
+              "accepted": 952,
+              "events": "exception 80000003 rva 00061195 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "c0904e629d93559d97784bcd39e14943170cf11d64d0026bfbca237f3a940d2f",
+              "config_sha256": "bf9c22b85855e1a4dae027fbd9e1c57be6ec2757af135792e9515ae5d2f989a0",
+              "manifest_sha256": "d7f09728782bb85c019fce0d65f461693d8ac5561d3e388c534f4ea87558b870",
+              "inputs": {
+                "c2/irex": "125e4057157688e434f4f21c464164db9d207a118b92996632f186fd7b5e7b04",
+                "c2/irsy": "7994183937be12fe68eaf2b8a573fe2c5cc8623369301de04f65a3bd5191cd36",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "cb12f519aafaf20546a9b1328c16656c6188efd43cd1c8fa36bf096753ec7a2b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating.c -W 1 -dos -Fofloating.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-floating-yt6nwhh0",
+              "logical": "_add_extended",
+              "original_va": "0x71195",
+              "setup_seconds": 0.20287836994975805,
+              "execution_seconds": 1.2814559759572148,
+              "check_seconds": 0.006640962325036526,
+              "total_seconds": 1.4909759182482958
+            }
+          },
+          "after": {
+            "path": "cases/floating-original-953.json",
+            "sha256": "cb9f1909f7aab0c6b360cd29c0d421b437b50ca021ba978170c11d00b43fae90",
+            "capture": {
+              "label": "floating-original-953",
+              "profile": "floating",
+              "accepted": 953,
+              "events": "exception 80000003 rva 00061621 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "9ad008a5c75b1682463fd4f9fc7761a648c75a03d256e4fd514d0075d8be6f1b",
+              "config_sha256": "efb5a39bc48d0abf45b5e5b12b055a32e031fca084f8d074c00cee29efd6acd9",
+              "manifest_sha256": "d7f09728782bb85c019fce0d65f461693d8ac5561d3e388c534f4ea87558b870",
+              "inputs": {
+                "c2/irex": "125e4057157688e434f4f21c464164db9d207a118b92996632f186fd7b5e7b04",
+                "c2/irsy": "7994183937be12fe68eaf2b8a573fe2c5cc8623369301de04f65a3bd5191cd36",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "cb12f519aafaf20546a9b1328c16656c6188efd43cd1c8fa36bf096753ec7a2b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating.c -W 1 -dos -Fofloating.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-floating-psnx81mh",
+              "logical": "_normalize_extended",
+              "original_va": "0x71621",
+              "setup_seconds": 0.20579263754189014,
+              "execution_seconds": 1.3018800858408213,
+              "check_seconds": 0.006551275961101055,
+              "total_seconds": 1.514224486425519
+            }
+          }
+        },
+        {
+          "accepted_function": "_normalize_extended",
+          "accepted_kind": "application",
+          "previous_logical": "_normalize_extended",
+          "original_extent": [
+            "0x71621",
+            "0x71681"
+          ],
+          "before": {
+            "path": "cases/floating-original-953.json",
+            "sha256": "cb9f1909f7aab0c6b360cd29c0d421b437b50ca021ba978170c11d00b43fae90",
+            "capture": {
+              "label": "floating-original-953",
+              "profile": "floating",
+              "accepted": 953,
+              "events": "exception 80000003 rva 00061621 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "9ad008a5c75b1682463fd4f9fc7761a648c75a03d256e4fd514d0075d8be6f1b",
+              "config_sha256": "efb5a39bc48d0abf45b5e5b12b055a32e031fca084f8d074c00cee29efd6acd9",
+              "manifest_sha256": "d7f09728782bb85c019fce0d65f461693d8ac5561d3e388c534f4ea87558b870",
+              "inputs": {
+                "c2/irex": "125e4057157688e434f4f21c464164db9d207a118b92996632f186fd7b5e7b04",
+                "c2/irsy": "7994183937be12fe68eaf2b8a573fe2c5cc8623369301de04f65a3bd5191cd36",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "cb12f519aafaf20546a9b1328c16656c6188efd43cd1c8fa36bf096753ec7a2b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating.c -W 1 -dos -Fofloating.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-floating-psnx81mh",
+              "logical": "_normalize_extended",
+              "original_va": "0x71621",
+              "setup_seconds": 0.20579263754189014,
+              "execution_seconds": 1.3018800858408213,
+              "check_seconds": 0.006551275961101055,
+              "total_seconds": 1.514224486425519
+            }
+          },
+          "after": {
+            "path": "cases/floating-original-954.json",
+            "sha256": "a17ab2ae0d07ffa81c631e48c2d3db9abd68f71cafc81a7d5cf92230853d8a14",
+            "capture": {
+              "label": "floating-original-954",
+              "profile": "floating",
+              "accepted": 954,
+              "events": "exception 80000003 rva 000611e4 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "5b61fe3388ba1180536de7ca4ee788630c5ad17e4a94155810993a99a55b8846",
+              "config_sha256": "9dcbe53f723cc94beb68b5babba0cb4b411f76088cb1537a9aa40128dc95e165",
+              "manifest_sha256": "d7f09728782bb85c019fce0d65f461693d8ac5561d3e388c534f4ea87558b870",
+              "inputs": {
+                "c2/irex": "125e4057157688e434f4f21c464164db9d207a118b92996632f186fd7b5e7b04",
+                "c2/irsy": "7994183937be12fe68eaf2b8a573fe2c5cc8623369301de04f65a3bd5191cd36",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "cb12f519aafaf20546a9b1328c16656c6188efd43cd1c8fa36bf096753ec7a2b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating.c -W 1 -dos -Fofloating.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-floating-ztvc0eg7",
+              "logical": "_subtract_extended",
+              "original_va": "0x711e4",
+              "setup_seconds": 0.20852312073111534,
+              "execution_seconds": 1.074500280432403,
+              "check_seconds": 0.006302122958004475,
+              "total_seconds": 1.2893260959535837
+            }
+          }
         }
       ]
     }
@@ -28049,7 +28288,7 @@
     },
     "floating": {
       "first": 941,
-      "last": 951,
+      "last": 954,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -28920,9 +29159,12 @@
         "simplify_reciprocal",
         "extract_reciprocal",
         "copy_factor_exponent",
-        "fold_floating_node"
+        "fold_floating_node",
+        "add_extended",
+        "normalize_extended",
+        "subtract_extended"
       ],
-      "terminal": "@fold_floating_node@4",
+      "terminal": "_subtract_extended",
       "terminal_kind": "application",
       "returncode": -5
     }

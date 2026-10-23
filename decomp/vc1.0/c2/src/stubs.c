@@ -82,7 +82,6 @@ unsigned short __fastcall value_node_type(short kind, unsigned bytes) { __asm in
 void __fastcall refresh_tree_references(Node *node) { __asm int 3 }
 Node *__fastcall fold_integer_comparison(Node *node) { __asm int 3 }
 Node *__fastcall fold_floating_comparison(Node *node) { __asm int 3 }
-Node *__fastcall fold_floating_node(Node *node) { __asm int 3 }
 #include "algebra.h"
 int __fastcall is_nonnegative_tree(Node *node) { __asm int 3 }
 Node *__fastcall lift_right_unary(Node *node) { __asm int 3 }
@@ -395,3 +394,9 @@ int __fastcall i386_instruction_cost(MachineInstruction *instruction) { __asm in
 int __fastcall register_has_region_uses(unsigned short number, MachineFlowRegion *regions) { __asm int 3 }
 int __fastcall find_forward_scheduled_symbol(SymbolHeader **symbol, MachineInstruction *boundary, unsigned short number) { __asm int 3 }
 MachineInstruction *__fastcall find_prior_scheduled_definition(unsigned short number, MachineInstruction *boundary) { __asm int 3 }
+int __cdecl subtract_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
+int __cdecl multiply_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
+int __cdecl divide_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
+int __cdecl minimum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
+int __cdecl maximum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
+int __cdecl absolute_extended(const Extended *number, Extended *result) { __asm int 3 }

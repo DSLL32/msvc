@@ -2,6 +2,7 @@
 #include "tree-input.h"
 #include "expression-fields.h"
 #include "algebra.h"
+#include "records.h"
 #include <recon.h>
 int tree_changed; /* 00083154 */
 extern int default_integer_bytes;
@@ -217,4 +218,69 @@ unsigned __fastcall sort_commutative_operands(Node *node, unsigned left_key, uns
         return left_key;
     }
     return right_key;
+}
+
+/* Original floating binary dispatch [000835e8,00083618). Six semantic
+   operator/callee pairs; the following diagnostic string is not a sentinel.
+   Only these valid fold operators may index this private dispatch. */
+typedef struct FloatingFoldOperation {
+    unsigned opcode;
+    int (__cdecl *evaluate)(const Extended *, const Extended *, Extended *);
+} FloatingFoldOperation;
+static const FloatingFoldOperation floating_fold_operations[] = {
+    {2, add_extended}, {3, subtract_extended}, {4, multiply_extended},
+    {5, divide_extended}, {0xae, maximum_extended}, {0xaf, minimum_extended}
+};
+
+/* Original [000570a0,000572e1), including discontiguous opcode branches.
+   Exponentiation uses repeated squaring through the normal tree builder;
+   divide-by-zero retains the original warning and multiplication fallback. */
+Node *__fastcall fold_floating_node(Node *node)
+{
+    Node *left, *right, *result;
+    Extended number;
+    int exponent;
+    unsigned index;
+    switch (node->opcode) {
+    case 0x34:
+        return fold_constant_conversion(node);
+    case 8:
+        return build_tree("PPOLF", typed_integer_node(node, 0), node->left.node, 3, node);
+    case 0xaa:
+        return build_tree("PPOLF", typed_integer_node(node, 1), node->left.node, 5, node);
+    case 7:
+        left = node->left.node;
+        right = node->second.node;
+        if (!constant_as_integer(right, &exponent) || exponent < 0 ||
+            (is_constant_value(left, 0) && exponent == 0)) return node;
+        result = typed_integer_node(left, 1);
+        while (exponent) {
+            if (exponent & 1) result = build_tree("CPNYF", left, result, 4);
+            left = build_tree("CPNYF", left, left, 4);
+            exponent >>= 1;
+        }
+        node->left.node = left;
+        goto finished;
+    case 0x84:
+        absolute_extended(node->left.node->left.pointer, &number);
+        break;
+    default:
+        if (node->opcode == 5 &&
+            compare_extended(1, node->second.node->left.pointer, &extended_zero)) {
+            compiler_warning(3, 0x2d3);
+            node->opcode = 4;
+        }
+        for (index = 0; index < sizeof(floating_fold_operations)/sizeof(floating_fold_operations[0]); ++index)
+            if (floating_fold_operations[index].opcode == node->opcode) break;
+        if (index == sizeof(floating_fold_operations)/sizeof(floating_fold_operations[0])) {
+            __asm int 3
+        }
+        if ((*floating_fold_operations[index].evaluate)(node->left.node->left.pointer,
+                 node->second.node->left.pointer, &number)) compiler_warning(2, 0x2f4);
+        break;
+    }
+    result = intern_leaf(0x33, 0, node->attributes.words.type, (unsigned)&number);
+finished:
+    if (result != node) release_tree(node);
+    return result;
 }

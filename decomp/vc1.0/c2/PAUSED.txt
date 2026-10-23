@@ -1,7 +1,7 @@
-C2 ACTIVE: final approved x87 stress at951 acceptances/872 source graphs.
-Matching original/native frontier @fold_floating_node@4.
-Extent union254055/399693=63.5625342450%, not branch coverage.
+C2 ACTIVE: final approved x87 stress at954 acceptances/875 source graphs.
+Matching original/native frontier _subtract_extended.
+Extent union254807/399693=63.7506786459%, not branch coverage.
 Five completed object regressions pass; floating979-byte object incomplete.
-Next reference BEFORE cases/floating-original-951.json.
+Next reference BEFORE cases/floating-original-954.json.
 After floating completion PAUSE: no additional cases authorized.
 Canonical/W3, audit and native fixtures pass; no shim requests.

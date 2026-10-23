@@ -2404,3 +2404,9 @@ Floating comparisons and reciprocal tree normalization: checkpoint951
 @fold_floating_node@4. 872 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-reciprocal.json for extent union, limits and measured timings.
+
+Whole floating constant folder and format normalizer: checkpoint954
+3 acceptances pass fresh original/native matching; current frontier
+_subtract_extended. 875 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-folder.json for extent union, limits and measured timings.
