@@ -1118,7 +1118,8 @@
     "_query_inheritance_model@4",
     "_infer_inheritance_model@4",
     "_class_has_zero_base_offsets@4",
-    "_member_pointer_expression@4"
+    "_member_pointer_expression@4",
+    "_member_pointer_inheritance_model@4"
   ],
   "driver": [
     {
@@ -4876,7 +4877,7 @@
     {
       "name": "_member_pointer_inheritance_model@4",
       "start": 302608,
-      "end": 302609
+      "end": 302627
     },
     {
       "name": "_expression_type_alignment@4",
@@ -8411,7 +8412,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_member_pointer_inheritance_model@4",
+      "terminal": "_member_pointer_owner_class@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8434,7 +8435,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1113-member_pointer_expression-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1114-member_pointer_inheritance_model-4/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8553,7 +8554,8 @@
         "cases/frontiers/state_machine_debug/1110-query_inheritance_model-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1111-infer_inheritance_model-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1112-class_has_zero_base_offsets-4/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1113-member_pointer_expression-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1113-member_pointer_expression-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1114-member_pointer_inheritance_model-4/frontier-extension.json"
       ]
     }
   },

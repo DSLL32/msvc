@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "function": "_member_pointer_inheritance_model@4",
+  "native_entry": "member_pointer_inheritance_model",
+  "argument_words": 4,
+  "ownership_register": "edi",
+  "ownership_caller_extent": [
+    303464,
+    303478
+  ],
+  "native_caller_locals": {
+    "caller_type": {
+      "frame": 1,
+      "function": "member_pointer_expression",
+      "local": "type"
+    }
+  },
+  "native_expressions": {
+    "raw_type": "(unsigned)type"
+  },
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 237942,
+        "original_owner_function": "_member_pointer_expression@4",
+        "native_owner_function": "member_pointer_expression",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "type",
+        "identity": "Accepted member-pointer caller retains actual interned type in EDI, PUSHEDI4a170/CALL4a171 return4a176; native actual type local owner, no static slot/frozen heap address."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      302608,
+      302627
+    ],
+    "argument_bytes": 4,
+    "proof": "Whole19B loads typeESP+4, pushes to owner-class extractor4dfe0/RET4, pushes returned tag to model query49e30/RET4, returns full defined modelEAX0..7 (query AND EAX7) withRET4. No incoming semantic register/hidden inputs."
+  }
+}

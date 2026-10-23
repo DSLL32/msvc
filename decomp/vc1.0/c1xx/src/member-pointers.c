@@ -22,6 +22,13 @@ IrToken *__stdcall make_virtual_data_member_pointer(CType *type, IrToken *offset
 IrToken *__stdcall make_general_data_member_pointer(CType *type, IrToken *offset,
     int vbptr_offset, IrToken *vbtable_offset);
 
+/* Original 0x49e10..0x49e23. Resolve the class embedded in the
+   member-pointer type and obtain its fixed inheritance representation. */
+unsigned __stdcall member_pointer_inheritance_model(CType *type)
+{
+    return member_pointer_class_kind(member_pointer_owner_class(type));
+}
+
 /* Original 0x49fc0..0x4a1f7. Construct the expression using the class's
    fixed compact, virtual-base or general member-pointer representation. */
 IrToken *__stdcall member_pointer_expression(QualifiedDeclarator *qualifier)

@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_member_pointer_inheritance_model@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1114,
+  "configuration_sha256": "38413e5438fdefdd8430a31b1af44c4f2d394c37923e461e02e3cafc557abfae",
+  "native_entry": "member_pointer_inheritance_model",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 237942,
+        "original_owner_function": "_member_pointer_expression@4",
+        "native_owner_function": "member_pointer_expression",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "type",
+        "identity": "Accepted member-pointer caller retains actual interned type in EDI, PUSHEDI4a170/CALL4a171 return4a176; native actual type local owner, no static slot/frozen heap address.",
+        "original_owner_value": 8311596,
+        "native_owner_value": 1449300780
+      },
+      "original_raw": 8311596,
+      "native_raw": 1449300780,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      302608,
+      302627
+    ],
+    "argument_bytes": 4,
+    "proof": "Whole19B loads typeESP+4, pushes to owner-class extractor4dfe0/RET4, pushes returned tag to model query49e30/RET4, returns full defined modelEAX0..7 (query AND EAX7) withRET4. No incoming semantic register/hidden inputs.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "0ea8c396a448d9d55c3c2dc8adc02d13931b1f882537ea236fb7febe71c34dfa",
+  "capture_timing": {
+    "original_capture_seconds": 1.618660219013691,
+    "native_capture_seconds": 0.1896118586882949,
+    "total_operation_seconds": 2.096778078004718
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "74f37b07045c7e5bb7d4d0f3eba8e9fae0268bb58d30484195f9e23532039143",
+    "native-commands.gdb": "c7fac161b7f93adb7b2229c64fa0138e827e7bba1081f9dc5873e9a944c50767",
+    "native-gdb.log": "791db18290d3329379223c9b913a0a0d224664c4d2e958c45a66490d23d246b8",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "7be14115db06d8722a79303cddd0af9475ee6a73c48b98f014188a5f1b049340",
+    "original-configuration.json": "38413e5438fdefdd8430a31b1af44c4f2d394c37923e461e02e3cafc557abfae",
+    "original-disassembly.txt": "5fe20ad3efbd22d07e9f60540544bfddc73f9ca5f415f51f2d9724332ce633db",
+    "original-entries.plan": "cd41ee2b491226d2fabba9c51fb683f6c69acc53c35ea8ecef6fd3c5e04b3194",
+    "original-events.txt": "af2669e98ab00de47856c9a3d84ef60448238d48741eaca0b814444e56a76c05",
+    "original-ownership-caller-disassembly.txt": "85ee7758ad715ebc644c7cd2925e007d248f844df7239ac7d06f2dfaac151403",
+    "original-receipt.json": "2c27471403da3d1f29c0cfafb79f9db53c7e4f4d40f0f9f66fe8f380cb4a7be8",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "50ac030c042e90a1fff8f21f5ac3c7436e69351ca1e01e91bec62c1b124968f5"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}
