@@ -124,3 +124,66 @@ next_option:;
     }
     return 0;
 }
+
+void __stdcall rc_apply_option(const RcOption *option,WCHAR *operand,int duplicate)
+{
+    RcOptionList *list;
+    RcLetterOption *letter;
+    WCHAR *copy;
+    unsigned message;
+
+    switch(option->action){
+    case 1:
+        *(int *)option->destination=1;
+        break;
+    case 5:
+        *(int *)option->destination=0;
+        break;
+    case 0x23:
+        for(;*operand;++operand){
+            letter=option->destination;
+            while(letter->letter&&(WCHAR)letter->letter!=*operand) ++letter;
+            if(letter->letter){
+                if(letter->action==1) *letter->destination=1;
+                else if(letter->action==5) *letter->destination=0;
+            }
+            if(!letter->letter){
+                rc_error_template=rc_message(1048);
+                rc_format(rc_error_text,2048,rc_error_template,(unsigned)*operand,
+                          rc_cpp_option_argument);
+                rc_input_fatal(1048);
+            }
+        }
+        break;
+    case 0x24:
+        *(int *)option->destination=rc_option_number(operand);
+        break;
+    case 0x26:
+        list=option->destination;
+        if(list->remaining>0){
+            if(duplicate) operand=_wcsdup(operand);
+            --list->remaining;
+            list->items[list->remaining]=operand;
+            break;
+        }
+        message=1047;
+        rc_error_template=rc_message(message);
+        rc_format(rc_error_text,2048,rc_error_template,option->pattern,operand);
+fatal_option:
+        rc_input_fatal(message);
+        break;
+    case 0x27:
+        if(*(int *)option->destination){
+            copy=_wcsdup(option->pattern);
+            copy[wcslen(copy)-1]=0;
+            message=1000;
+            rc_error_template=rc_message(message);
+            goto fatal_option;
+        }
+        /* The first occurrence stores its operand like an ordinary string. */
+    case 0x22:
+        if(duplicate) operand=_wcsdup(operand);
+        *(WCHAR **)option->destination=operand;
+        break;
+    }
+}

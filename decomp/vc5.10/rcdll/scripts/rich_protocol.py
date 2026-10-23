@@ -653,3 +653,23 @@ def scan_options_trial(original,native):
     assert proof['application_trace'][-1]=='rc_scan_options'
     proof.update(trial='rc_scan_options',preprocessor=parser,option=dict(index=3,pattern='-CP#',action=0x24,keep_scanning=1,operand='1252',duplicate=0,callback_consumed_slots=1))
     return proof
+
+
+def apply_option_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_apply_option'and len(config['accepted'])==24
+    a,b,proof=checkpoint(original,native,'rc_option_number',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c22aca
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_apply_option\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    state=wide_argument_state(original,native,a,b);proof.update(state)
+    parser=preprocessor_state(original,native,b,state,18,2)
+    number=b['arguments']['number'];text=(original/'events.txt').read_text();parent=number['parent']
+    old_pointer=int(re.findall(r'^wide-pointer 2 ([0-9a-f]+)$',text,re.M)[0],16)
+    wanted=('1252'+'\0').encode('utf-16le')
+    assert a['words'][1]==old_pointer and number['operand']==parent['operand']==b['arguments']['wide_vector'][2]['pointer']
+    assert raw_bytes(text,'number-operand')==bytes.fromhex(number['operand_bytes'])==wanted
+    assert re.findall(r'^number-parent ([0-9a-f]+) ([0-9a-f]+) (\d+)$',text,re.M)==[('71c34eb4','%08x'%old_pointer,'0')]
+    assert parent['option']==b['arguments']['preprocessor']['tables']['options']['address']+3*12 and parent['duplicate']==0
+    assert proof['application_trace'][-1]=='rc_apply_option'
+    proof.update(trial='rc_apply_option',preprocessor=parser,numeric=dict(argument='1252',abi='stdcall1/ret4',descriptor_index=3,action=0x24,duplicate=0,pointer_alias='packed argv[2]'))
+    return proof

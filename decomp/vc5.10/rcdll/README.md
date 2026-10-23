@@ -209,3 +209,8 @@ through the real getter callback, and matches at the independently trapped optio
 dispatcher. [Verification](cases/resources-rich/scan-options-verification.json)
 records the exact descriptor/operand aliases, remaining count, 30 fresh rejection
 controls and separate timings.
+
+The option dispatcher is accepted (405 bytes), matching the numeric helper's
+exact `1252` operand and descriptor ownership. [Verification](cases/resources-rich/apply-option-verification.json)
+records 29 fresh rejection controls. Unvisited `_wcsdup` branches use a typed
+fail-closed shared import; numeric CRT behavior is still independently gated.

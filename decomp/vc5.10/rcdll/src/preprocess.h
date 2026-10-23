@@ -34,6 +34,7 @@ WCHAR *__cdecl rc_next_argument(void);
 int __stdcall rc_scan_options(const RcOption *,WCHAR *,RcNextArgument,int);
 void __stdcall rc_apply_option(const RcOption *,WCHAR *,int);
 int __stdcall rc_match_option(const WCHAR *,const WCHAR *);
+int __stdcall rc_option_number(WCHAR *);
 void __stdcall rc_open_preprocessor(WCHAR *,WCHAR *,RcOptionList *,RcOptionList *);
 void __cdecl rc_run_preprocessor(void);
 void __cdecl rc_close_preprocessor(void);

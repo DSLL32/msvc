@@ -1,0 +1,17 @@
+{
+  "raw_source": "/root/.ai-tmp/msvc2/vc5.10/rcdll/wcstol-api-probe-01",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "probe_sha256": "dc30e3f486523520b8a4a487001886dd39c221cfc2523c4f32894cfa681ef272",
+  "rows": 52,
+  "buffer_bytes": 128,
+  "scope": "cdecl wcstol UTF16/base10/NULL end-pointer; immutable input and error effects",
+  "files": {
+    "compiled-source.c": "581c51414234cf8bf5e6a7b69abb732e2be83f9a23408fe1cb923c55c18d737f",
+    "receipt.json": "86e5478caa553a363e23f2abd4c5d6d413771e824743fef5af3562decd099096",
+    "helper-compiled-source.json": "6ae68e8404dee8afb6a837b41444c169a191e2fadf97e1c77543bee179eba00e",
+    "wcstol-inputs.bin": "25a256b3bdeae139a3fd910ec6dcc05ab956535f5ad9de27b982d5059ab3e5d1",
+    "stdout.bin": "47c8d30ba8a6c3f549b427375f666a34c292392a80e154eb721fe1e2f5d41960",
+    "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "events.txt": "617fa372f30c3920fada1594732820cac77d97963a4c765d06c805706db4d32c"
+  }
+}

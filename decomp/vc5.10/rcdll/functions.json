@@ -27,7 +27,8 @@
     "rc_widen_arguments",
     "rc_preprocessor_main",
     "rc_next_argument",
-    "rc_scan_options"
+    "rc_scan_options",
+    "rc_apply_option"
   ],
   "functions": [
     {
@@ -583,7 +584,7 @@
       "abi": "stdcall",
       "stack_bytes": 12,
       "kind": "application",
-      "stub": true
+      "stub": false
     },
     {
       "name": "rc_match_option",
@@ -591,6 +592,15 @@
       "end": "0x2c64",
       "abi": "stdcall",
       "stack_bytes": 8,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_option_number",
+      "start": "0x2b84",
+      "end": "0x2c0b",
+      "abi": "stdcall",
+      "stack_bytes": 4,
       "kind": "application",
       "stub": true
     }

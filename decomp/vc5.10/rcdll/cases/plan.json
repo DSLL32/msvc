@@ -26,7 +26,8 @@
     "rc_widen_arguments",
     "rc_preprocessor_main",
     "rc_next_argument",
-    "rc_scan_options"
+    "rc_scan_options",
+    "rc_apply_option"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

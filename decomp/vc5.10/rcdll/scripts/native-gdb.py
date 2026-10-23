@@ -82,9 +82,9 @@ def capture():
             arguments['message']=bytes(gdb.selected_inferior().read_memory(int(message),length)).hex()
         if name=='rc_message':arguments['id']=int(frame.read_var('id'))
         if name=='rc_prepare_input':arguments['path']=frame.read_var('path').string()
-        if name in ['rc_preprocess','rc_widen_arguments','rc_preprocessor_main','rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option']:
+        if name in ['rc_preprocess','rc_widen_arguments','rc_preprocessor_main','rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number']:
             caller=frame
-            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option']:
+            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number']:
                 while caller and caller.name()!='rc_preprocessor_main':caller=caller.older()
                 assert caller,'preprocessor main caller missing'
             count=int(caller.read_var('count'));preprocess_vector=caller.read_var('arguments');assert 0<count<=256
@@ -107,7 +107,7 @@ def capture():
             # descriptor numbers and CRT array slots need not equal Wine's.
             file=frees[0]['input_file']
             arguments['closed_input']=bytes(gdb.selected_inferior().read_memory(file,32)).hex()
-            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option']:
+            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number']:
                 from importlib.machinery import SourceFileLoader
                 observer=SourceFileLoader('native_preprocess',str(Path(os.environ['RCDLL_NATIVE_SCRIPT']).parent/'native-preprocess.py')).load_module()
                 arguments['preprocessor']=observer.capture_preprocessor(config_path.parent/'preprocess-data.json')
@@ -118,6 +118,9 @@ def capture():
                 if name=='rc_apply_option':
                     arguments['apply']={field:int(frame.read_var(field))&0xffffffff for field in ['option','operand','duplicate']}
                     arguments['apply']['operand_bytes']=observer.wide_bytes(int(frame.read_var('operand')))
+                if name=='rc_option_number':
+                    parent=frame.older();assert parent.name()=='rc_apply_option'
+                    arguments['number']=dict(operand=int(frame.read_var('operand')),operand_bytes=observer.wide_bytes(int(frame.read_var('operand'))),parent={field:int(parent.read_var(field))&0xffffffff for field in ['option','operand','duplicate']})
         if name=='rc_notify_progress':
             parent=frame.older();assert parent.name()=='rc_prepare_input'
             arguments.update(kind=int(frame.read_var('kind')),value=int(frame.read_var('value')),current_line=int(gdb.parse_and_eval('rc_preparing_line')),towupper=json.loads((output.parent/'towupper.json').read_text()),prefix_results=json.loads((output.parent/'prefix-results.json').read_text()),line_format=json.loads((output.parent/'line-format.json').read_text()))

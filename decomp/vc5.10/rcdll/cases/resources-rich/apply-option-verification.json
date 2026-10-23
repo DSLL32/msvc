@@ -1,0 +1,91 @@
+{
+  "function": "rc_apply_option",
+  "original_start": "0x29ef",
+  "original_end": "0x2b84",
+  "original_code_bytes": 405,
+  "abi": "stdcall3/ret12",
+  "accepted_application_functions": 23,
+  "accepted_application_bytes": 8661,
+  "provisional_application_denominator": 66295,
+  "provisional_coverage_percent": 13.064333660155366,
+  "crt_bytes": 555,
+  "compiler_support_bytes": 47,
+  "import_thunk_bytes": 12,
+  "matched_frontier": "rc_option_number",
+  "raw_original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/apply-option-trial-original-01",
+  "raw_native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/apply-option-trial-native-01",
+  "builds": {
+    "original": {
+      "seconds": 4.616718699224293,
+      "status": 0
+    },
+    "native": {
+      "seconds": 1.9616003166884184,
+      "status": 0
+    }
+  },
+  "original_seconds": 1.467989201657474,
+  "native_gdb_seconds": 0.8511529639363289,
+  "audit_seconds": 0.07083215191960335,
+  "negative_controls": {
+    "fresh": 29,
+    "reused": 0,
+    "reason": "Typed numeric-helper controller contract and shared import surface changed; common controls rerun."
+  },
+  "gate_sha256": "c92ce471419df3d550b7802cb4724f76d2b8252b161312861c983e4df2801c10",
+  "checker_versions": {
+    "decomp/vc5.10/rcdll/scripts/accept.py": "e413147714187713db74d720492e45c195027e3eb1122339e4584866e1fd46f8",
+    "decomp/vc5.10/rcdll/scripts/audit.py": "57fd11bdb9df16e8e266691fe2701da0875d526eec230a2a8b5ba78a740b3fc3",
+    "decomp/vc5.10/rcdll/scripts/cache-rich-reference.py": "1670892799170be7fa876a7eea48aa4d81357eb8e80b48ffd72282b8d06953ab",
+    "decomp/vc5.10/rcdll/scripts/capture-native.py": "fc8fb5629b1f2515eadf19201b838e83b7f4e34e3fa78375005f420b24efdfb3",
+    "decomp/vc5.10/rcdll/scripts/capture-original.py": "3c1ce31b2981afa02432957f478bc0220b5ec3ac0b826dd1519b155874d215fa",
+    "decomp/vc5.10/rcdll/scripts/check-abi.py": "83f3fffa968c62999e0272c64bf9d15a3c9626d45b93e3cb6cd9af61513b4201",
+    "decomp/vc5.10/rcdll/scripts/check-compiler-support.py": "59a4cebd7a658aa9870cfbb612bf50d919ad9f48f3d022c778c2dcd7f5bc101c",
+    "decomp/vc5.10/rcdll/scripts/check-completion.py": "c98946e5f142082737ce5bb72e47fdc6ad48430c77b55c5a2f8f93a6f121daf9",
+    "decomp/vc5.10/rcdll/scripts/check-initial.py": "f1e69f898368b7b2df6d68fbc7ee0d47f5babec355b9863a13f436335e0a0824",
+    "decomp/vc5.10/rcdll/scripts/check-plan.py": "34e66d1d7356daad243123672a2ceea8d15f4ea5a57d7bd2fe15d94a6d46320e",
+    "decomp/vc5.10/rcdll/scripts/check-rich-pair.py": "092ded83987b1b29d9137a4c10a8075635a82d88edf443ec4a14c8494cdf2f74",
+    "decomp/vc5.10/rcdll/scripts/check-trial.py": "ea46359d73d9134a047c512e0419b6f512ef9e95dadba97e61e16b51e707f0a5",
+    "decomp/vc5.10/rcdll/scripts/compiler-frame-gdb.py": "0f2ea9470f79ff73c626dc93fd7c54d506a46d799827d739af2efac3c98f882d",
+    "decomp/vc5.10/rcdll/scripts/fixtures.py": "8039adf2390603d111d5aef75952a4959193a3b491f94e00ccf851f33cdd8847",
+    "decomp/vc5.10/rcdll/scripts/native-gdb.py": "54c8f6fb60232ab0b68d610d802c81b57f59fad0582e5d772df649d6aa7d7836",
+    "decomp/vc5.10/rcdll/scripts/native-observers.py": "9d15142ebadad57a343e1a209752c22e7c14482cefc57f61f67d77c8ae162952",
+    "decomp/vc5.10/rcdll/scripts/native-preprocess.py": "41f8916fb8e8bd128f7ac02ed1f0ea9f225270d3c0359b443369807cec2717b2",
+    "decomp/vc5.10/rcdll/scripts/pe_inventory.py": "fb06b8d3138d32e185ad86bb5e2d3dc775bd0a304387537f8a97ae967a2c1869",
+    "decomp/vc5.10/rcdll/scripts/prepare-resources.py": "b32f452aa2534efabb780923d34675f6514c8e933ac2993896a415fb37bd24b7",
+    "decomp/vc5.10/rcdll/scripts/protocol.py": "b4937d8b12eebee778a1b38d1a571a4ea7edd1b65dfcd363c8836c40259ef0ee",
+    "decomp/vc5.10/rcdll/scripts/rich_protocol.py": "76529be5d6a871ac76891c2d8470f9d8f34133f821f7708331bcd4c4848b4781",
+    "decomp/vc5.10/rcdll/scripts/source-snapshot.py": "c864e170725a110ad29fbc8dd9bad069b046ab30cfd9d4fadabf5e3fd0f5bd34",
+    "decomp/vc5.10/rcdll/scripts/wine-tool.py": "8bbce5c4f84dfc5eb820df7a502103009f26a89e86308bfa2eeb00d1b7e467bf",
+    "decomp/vc5.10/rcdll/data.json": "fa5c8a453d0eff8e1396f1ac6e346548b31fc4b44b4cdb8a5a43c3e48f82fbed"
+  },
+  "graph_audit_record": "audit-0025.json",
+  "help_fixture": {
+    "logical_name_aliases": {
+      "rcdll_main": "DllMain",
+      "recon_dll_entry": "_DllMainCRTStartup",
+      "rcdll_crt_init": "_CRT_INIT",
+      "rc_main": "main",
+      "rcdll_command_main": "main"
+    },
+    "case": "help",
+    "status": "pass",
+    "stdout_bytes": 589,
+    "application_entries": 9,
+    "seconds": {
+      "setup": 0.0038468167185783386,
+      "execution": 0.0026063797995448112,
+      "checks": 0.0011756094172596931,
+      "total": 0.00836973637342453
+    },
+    "native_sha256": "d3201de52800f4f9ea036443301a3c7604e3ee10d4ff9c63234e5cb9e29910c2",
+    "reference_manifest_sha256": "387c741bdb3fa4d388da034d339b5d21e872667d27934bb570e03d448db05524"
+  },
+  "notes": [
+    "Full original branch structure is readable C:scalar/string/numeric/list/letter/unique assignments and original diagnostic argument lists.",
+    "Fresh pair matches numeric helper operand and owner alias1252; parser state is unchanged before numeric conversion.",
+    "Shared9beb44af supplies typed fail125 _wcsdup/wcstol; unvisited duplicate branches have no behavioral claim.",
+    "The original capture was retained across the native-only shared declaration build; compiled-source content snapshots record each actual header.",
+    "Canonical52-row wcstol probe is recorded separately; numeric helper remains trapped,so no wcstol behavior accepted."
+  ]
+}

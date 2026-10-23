@@ -66,9 +66,10 @@ void __stdcall rc_input_warning(unsigned code)
     __asm int 3
 }
 
-void __stdcall rc_apply_option(const RcOption *option,WCHAR *operand,int duplicate)
+int __stdcall rc_option_number(WCHAR *operand)
 {
     __asm int 3
+    return 0;
 }
 int __stdcall rc_match_option(const WCHAR *pattern,const WCHAR *argument)
 {

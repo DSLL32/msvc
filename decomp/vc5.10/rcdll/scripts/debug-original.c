@@ -13,7 +13,7 @@
 typedef struct Range { DWORD start,end,kind; } Range;
 typedef struct Point { DWORD at; BYTE original; int active,kind; } Point;
 static HANDLE child,threads[64];
-static DWORD thread_ids[64],thread_count,base,exe_base,initial_teb,target_loader_entry;
+static DWORD thread_ids[64],thread_count,base,exe_base,initial_teb,target_loader_entry,crt_base;
 static FILE *events;
 static BYTE snapshot[TEXT_SIZE],masked[TEXT_SIZE],globals[87148];
 static Range ranges[MAX_RANGES];
@@ -40,6 +40,19 @@ static void readmem(DWORD at,void *data,DWORD size)
 {
     DWORD got;
     if(!ReadProcessMemory(child,(void *)at,data,size,&got)||got!=size) fail("read");
+}
+static DWORD crt_errno_value(void)
+{
+    DWORD index,context,value;
+    /* Canonical MSVCRT _errno (RVA6436) returns _getptd (RVA15c3)+8. That
+     * provider's _getptd reads its TLS index at RVA3d004 through TlsGetValue.
+     * Inspect the existing i386 TEB slot without calling into the child. */
+    if(!crt_base)fail("errno-provider");
+    readmem(crt_base+0x3d004,&index,4);
+    if(index>=64)fail("errno-tls-expansion-unobserved");
+    readmem(initial_teb+0xe10+4*index,&context,4);
+    if(!context)fail("errno-thread-context");
+    readmem(context+8,&value,4);return value;
 }
 static void writebytes(DWORD at,const void *data,DWORD size)
 {
@@ -149,7 +162,7 @@ static void load(DWORD at,HANDLE file)
         name[sizeof(name)-1]=0;
     }
     fprintf(events,"module %s actual=%08lx preferred=%08lx entry=%08lx size=%08lx\n",name,at,nt.OptionalHeader.ImageBase,nt.OptionalHeader.AddressOfEntryPoint,nt.OptionalHeader.SizeOfImage);
-    if(!_stricmp(name,"MSVCRT.dll"))save_file(file,"loaded-crt.bin");
+    if(!_stricmp(name,"MSVCRT.dll")){crt_base=at;save_file(file,"loaded-crt.bin");}
     if(!_stricmp(name,"RCDLL.dll")){
         BYTE byte;
         if(base||nt.OptionalHeader.ImageBase!=0x71c20000||nt.OptionalHeader.AddressOfEntryPoint!=TARGET_ENTRY||nt.OptionalHeader.SizeOfImage!=TARGET_SIZE)fail("target-identity");
@@ -210,6 +223,7 @@ static void snapshot_and_mask(void)
         for(n=0;n<range_count;++n)if(ranges[n].kind)point(base+ranges[n].start,2);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x12df0&&ranges[n].end==0x12e1f&&!ranges[n].kind)point(base+0x12df0,28);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x10bcf&&ranges[n].kind){point(base+0x10bf3,40);point(base+0x10bff,40);point(base+0x8765,42);point(base+0x894f,43);}
+        for(n=0;n<range_count;++n)if(ranges[n].start==0x2b84&&ranges[n].kind)point(base+0x2bc1,45);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x9041&&ranges[n].kind){point(base+0x90e5,33);point(base+0x9182,35);point(base+0x873e,37);}
         for(n=0;n<range_count;++n)if(ranges[n].start==0x8c9e&&ranges[n].kind){point(base+0x8ea2,30);point(base+0x108e7,32);}
         for(n=0;n<range_count;++n)if(ranges[n].start==0x12bb0 && ranges[n].kind)point(base+0x12c30,11);
@@ -334,6 +348,14 @@ static int trap(HANDLE thread,DWORD address)
         }else if(p->kind==43){
             readmem(c.Esp,words,12);line_format_pointer=words[0];fprintf(events,"line-format-number %ld\n",(long)words[2]);hexbytes("line-format-template",words[1],wide_string_bytes(words[1]));hexbytes("line-format-before",line_format_pointer,8196);point(base+0x8955,44);
         }else if(p->kind==44){fprintf(events,"line-format-result %ld\n",(long)c.Eax);hexbytes("line-format-after",line_format_pointer,8196);
+        }else if(p->kind==45){
+            DWORD error;readmem(c.Esp,words,12);readmem(initial_teb+0x34,&error,4);
+            if(words[1]||words[2]!=10)fail("number-conversion-scope");
+            fprintf(events,"number-conversion end=%08lx base=%lu last-error=%08lx errno=%ld\n",words[1],words[2],error,(long)crt_errno_value());
+            hexbytes("number-conversion-input",words[0],wide_string_bytes(words[0]));point(base+0x2bc7,46);
+        }else if(p->kind==46){
+            DWORD error;readmem(initial_teb+0x34,&error,4);
+            fprintf(events,"number-conversion-result %ld last-error=%08lx errno=%ld\n",(long)c.Eax,error,(long)crt_errno_value());
         }else if(p->kind==29){
             fprintf(events,"compiler-probe-return eax=%08lx esp=%08lx ecx=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx\n",c.Eax,c.Esp,c.Ecx,c.Ebx,c.Esi,c.Edi,c.Ebp);
             if(c.Esp!=probe_context.Esp+4-probe_context.Eax||c.Eax!=probe_return||c.Ecx!=probe_context.Ecx||c.Ebx!=probe_context.Ebx||c.Esi!=probe_context.Esi||c.Edi!=probe_context.Edi||c.Ebp!=probe_context.Ebp)fail("compiler-probe-return");
@@ -374,12 +396,17 @@ static int trap(HANDLE thread,DWORD address)
             hexbytes("line-prefix",words[1],wide_string_bytes(words[1]));hexbytes("line-text",words[2],wide_string_bytes(words[2]));
             {DWORD current;readmem(base+0x16ce8,&current,4);fprintf(events,"line-current-number %lu\n",current);}
         }
-        if(address==base+0xbc80||address==base+0xbc61||address==base+0x293e||address==base+0x29ef){
+        if(address==base+0xbc80||address==base+0xbc61||address==base+0x293e||address==base+0x29ef||address==base+0x2b84){
             DWORD pointer,count,vector,total,length;char label[80];
             if(address==base+0xbc80){count=words[1];vector=words[2];}
             else{count=cpp_count;vector=cpp_vector;}
             if(address==base+0x293e)hexbytes("option-argument",words[2],wide_string_bytes(words[2]));
             if(address==base+0x29ef){hexbytes("option-operand",words[2],wide_string_bytes(words[2]));hexbytes("option-descriptor",words[1],12);}
+            if(address==base+0x2b84){
+                DWORD parent[3];readmem(c.Ebp+8,parent,12);
+                fprintf(events,"number-parent %08lx %08lx %lu\n",parent[0],parent[1],parent[2]);
+                hexbytes("number-operand",words[1],wide_string_bytes(words[1]));
+            }
             if(count!=20||!vector)fail("wide-preprocessor-scope");total=4*(count+1);
             fprintf(events,"wide-args %lu %08lx\n",count,vector);
             for(n=0;n<count;++n){readmem(vector+4*n,&pointer,4);length=wide_string_bytes(pointer);total+=length;sprintf(label,"wide-argv-%u",n);hexbytes(label,pointer,length);fprintf(events,"wide-pointer %u %08lx\n",n,pointer);}
