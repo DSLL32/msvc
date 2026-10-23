@@ -39,5 +39,5 @@ crossing code/data declaration. Ten direct exact-table controls reject range,
 entry/root, owner, target, snapshot/readback and padding changes; remaining fresh
 controls cover actual parser ABI/settings and each live/saved/restored int.
 
-Promotion is HELD pending the orchestrator's first text-data transport review.
-No new application coverage has been granted by this packet.
+Independent first text-data transport review PASSED; the genuine natural pair
+promotes216application code bytes. The16data bytes have zero code credit.

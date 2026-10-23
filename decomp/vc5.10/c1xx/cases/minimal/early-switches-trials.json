@@ -207,7 +207,7 @@
       ]
     }
   ],
-  "status": "PENDING orchestrator first text-data/controller review; candidate not accepted",
+  "status": "accepted after independent first shared-text-data/controller review; natural pair only is promotion input",
   "code": {
     "logical_functions": 1,
     "primary_bytes": 132,
@@ -430,5 +430,9 @@
     "scripts/early_switch_probe.py": "ec5f1f28b8b159dee3f12cbd99b0322be3c6fe4d71a73e38573b1ccc86775620",
     "scripts/early_switches_state.py": "aae6be4b6cfb22f0354a7ce3ab70bbf08736846c9bd367d63474d4c29c82a082",
     "scripts/check-early-switches-negative.py": "d3d2d9d85e2d09f2c68f218828e446dabc0c9a09ddc2bbff70b3e43abee81101"
+  },
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/c1xx/early-switches-orchestrator-review.json",
+    "sha256": "695970c69dfa828469de36f8dab9272ff4bd38778533fa6167b6277f8ccf4ff1"
   }
 }

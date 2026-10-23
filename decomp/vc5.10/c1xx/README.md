@@ -13,11 +13,11 @@ compares its graph/ABI/imports using the shared Rust auditor. Audit/build target
 may use Wine explicitly; fixture dependencies do not. Fixtures inspect the
 already-built Win32 DLL's exports without executing it.
 
-Accepted code is **66 application functions (2,615 bytes)**, **two historical CRT
+Accepted code is **67 application functions (2,831 bytes)**, **two historical CRT
 support functions (451 bytes)** and **one linker-generated import thunk (6 bytes)**.
-The 3,072 accepted bytes are 0.4089% of the 751,216-byte code extent; this is not
+The 3,288 accepted code bytes are 0.4377% of the 751,216-byte code extent; this is not
 a non-CRT coverage percentage. The real minimal compilation remains unfinished,
-stopping in the first internal-switch parser.
+stopping in the subsequent empty initialization hook.
 
 ## Target and ABI
 
@@ -202,3 +202,11 @@ real parser call is the captured argv[1] string "-il" and state0. The caller/arg
 identity, formals and unchanged original/native state pass17 fresh controls in
 `cases/minimal/early-options-trial.json`. Getenv and environment tokenization are
 unexecuted beyond this frontier; tokenizer/table consumers remain pending.
+
+The internal-switch parser is accepted after independent first-table review:
+216code bytes, with its16-byte .text jump table separately owned/restored as data
+and six padding bytes still masked. All25 actual argv calls/returns, three new
+int fields/defaults and nonzero snapshot/restore pairs pass32 targeted controls
+plus3 common Rust ownership denials. See `cases/minimal/early-switches-trials.json`.
+Initialized projection is149 semantic bytes+51native padding;8371original bytes
+remain unmodeled. Parser promotion adds no data bytes to code coverage.

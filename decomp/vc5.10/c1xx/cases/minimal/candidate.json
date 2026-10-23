@@ -71,9 +71,10 @@
     "_main",
     "_initialize_work_buffers",
     "_reserve_work_buffer",
-    "_initialize_intermediate_files"
+    "_initialize_intermediate_files",
+    "_process_early_option"
   ],
-  "trial": "_process_early_option",
+  "trial": null,
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -635,5 +636,5 @@
       "kind": "text_data"
     }
   ],
-  "stage": "_initialize_intermediate_files accepted; next frontier _process_early_option"
+  "stage": "_process_early_option accepted; next frontier _initialize_frontend_hook"
 }
