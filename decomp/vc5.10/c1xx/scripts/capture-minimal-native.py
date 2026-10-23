@@ -265,7 +265,23 @@ end
     if model['schema']>=24:
         entry=output/'collect-pch-entry.gdb'
         entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'pch-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'pch-entry-argv.bin'))))
-        observer+='break *_ZN10PchContext10InitializeEv\ncommands\nsilent\nsource '+str(entry)+'\ncontinue\nend\n'
+        change=''
+        if trial.get('test_pch_seed'):
+            change='python\nowned=int(gdb.parse_and_eval("(unsigned int)frontend_bss.saved_state"))\n'
+            offset=0
+            for name,kind in model['pch_projection']['fields']:
+                if name in ('image_count','stored_file_position','file_offset','loaded_image_count'):expression=str({'image_count':17,'stored_file_position':23,'file_offset':-11,'loaded_image_count':29}[name])
+                else:offset+=4;expression='owned+%d'%offset
+                change+='value=gdb.parse_and_eval("frontend_bss.pch_context.'+name+'")\nvalue.assign(gdb.Value('+expression+').cast(value.type))\n'
+            change+='end\n'
+        ret_observer=''
+        if trial.get('ordered_closure'):
+            result=output/'collect-pch-return.gdb'
+            result.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'pch-return.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'pch-return-argv.bin'))))
+            ret_script=output/'observe-pch-return.gdb'
+            ret_script.write_text('python\nimport gdb\nclass PchReturnObserver(gdb.Breakpoint):\n    def stop(self):\n        gdb.execute("source "+'+repr(str(result))+')\n        return False\npch_return_bp=PchReturnObserver("*0x%x"%int(gdb.parse_and_eval("*(unsigned int *)$esp")),temporary=True,internal=True)\nend\n')
+            ret_observer='source '+str(ret_script)+'\n'
+        observer+='break *_ZN10PchContext10InitializeEv\ncommands\nsilent\n'+change+'source '+str(entry)+'\n'+ret_observer+'continue\nend\n'
     if trial.get('validation_observers'):
         phase=output/'collect-phase.gdb'
         phase.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'phase.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'phase-argv.bin'))))

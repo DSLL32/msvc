@@ -30,35 +30,45 @@ def main():
         raise ValueError("trial is not exactly one new function")
     cfg["accepted"] = trial["accepted"]
     cfg["status"] = "autonomous minimal C++ reconstruction active" if trial["case"] == "minimal" else "lifecycle reconstruction active"
-    source = "src/dllmain.c" if trial["trial"] == "_DllMain@12" else "src/startup.c"
-    classification = "application source" if trial["trial"] == "_DllMain@12" else "target CRT support source"
-    if trial["trial"].startswith("import:"):
-        source = "src/c1xx.h"
-        classification = "linker-generated import thunk; ordinary external declaration"
-    if trial["case"] == "minimal":
-        source = next(row["source"] for row in cfg["driver"] if row["name"] == trial["trial"])
-        classification = "application source"
-    cfg.setdefault("acceptances", []).append({
-        "name": trial["trial"], "classification": classification,
-        "source": source, "source_sha256": sha(PROJECT / source),
-        "original_capture": str(args.original), "native_capture": str(args.native),
-        "original_receipt_sha256": sha(args.original / "receipt.json"),
-        "native_receipt_sha256": sha(args.native / "receipt.json"),
-        "trial_sha256": sha(args.original / "trial.json"),
-        "audit_sha256": sha(PROJECT / "build/audit-proof.json"),
-        "code_chunks": [[row["start_rva"], row["end_rva"]] for row in trial["ranges"]
-                        if row["owner"] == trial["trial"]],
-        "comparison": result,
-    })
+    names = trial.get("ordered_closure", [trial["trial"]])
+    if "ordered_closure" in trial:
+        if names != ['_initialize_frontend_37', 'PchContext::Initialize'] or candidate.get('ordered_closure') != names or len(candidate['accepted']) != 57:
+            raise ValueError('not the reviewed bounded ordered PCH closure')
+    for name in names:
+        source = "src/dllmain.c" if name == "_DllMain@12" else "src/startup.c"
+        classification = "application source" if name == "_DllMain@12" else "target CRT support source"
+        if name.startswith("import:"):
+            source = "src/c1xx.h"
+            classification = "linker-generated import thunk; ordinary external declaration"
+        if trial["case"] == "minimal":
+            source = next(row["source"] for row in cfg["driver"] if row["name"] == name)
+            classification = "application source"
+        record = {
+            "name": name, "classification": classification,
+            "source": source, "source_sha256": sha(PROJECT / source),
+            "original_capture": str(args.original), "native_capture": str(args.native),
+            "original_receipt_sha256": sha(args.original / "receipt.json"),
+            "native_receipt_sha256": sha(args.native / "receipt.json"),
+            "trial_sha256": sha(args.original / "trial.json"),
+            "audit_sha256": sha(PROJECT / "build/audit-proof.json"),
+            "code_chunks": [[row["start_rva"], row["end_rva"]] for row in trial["ranges"] if row["owner"] == name],
+            "comparison": result,
+        }
+        if 'ordered_closure' in trial:
+            record['promotion_kind'] = 'reviewed ordered JOINT two-body closure; not a historical single-function proof'
+            record['ordered_closure'] = names
+        cfg.setdefault("acceptances", []).append(record)
     candidate["accepted"] = list(cfg["accepted"])
     candidate["trial"] = None
+    candidate.pop("ordered_closure", None)
+    candidate.pop("prospective_only", None)
     candidate["stage"] = trial["trial"] + " accepted; next frontier " + result["frontier"]
     for path, value in ((PROJECT / "functions.json", cfg),
                         (PROJECT / candidate_path, candidate)):
         temporary = path.with_suffix(path.suffix + ".tmp")
         temporary.write_text(json.dumps(value, indent=2) + "\n")
         temporary.replace(path)
-    print(json.dumps({"accepted": trial["trial"], "accepted_count": len(cfg["accepted"])}))
+    print(json.dumps({"accepted": trial["trial"], "accepted_count": len(cfg["accepted"]), "promoted_functions": names}))
 
 
 if __name__ == "__main__":

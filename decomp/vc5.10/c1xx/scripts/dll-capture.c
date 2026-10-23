@@ -12,6 +12,9 @@ static FILE *events;
 static DWORD base, entry_rva, code_rva, code_size, image_size;
 static DWORD crt_base, return_address, return_reason;
 static BYTE return_saved;
+static DWORD pch_return_address;
+static BYTE pch_return_saved;
+static int pch_return_active;
 static int return_active, restore_observer, pool_return_observer;
 static BYTE restore_observer_byte;
 static DWORD aux_old_base, aux_new_base;
@@ -649,6 +652,17 @@ int main(int argc, char **argv)
                 patch(address, restore_observer_byte); restore_observer = 0;
                 context.Eip = address;
                 if (!SetThreadContext(thread, &context)) fail("restore observer context");
+            } else if (code == EXCEPTION_BREAKPOINT && pch_return_active && address == pch_return_address) {
+                BYTE pch_bss[0xf69c];
+                fprintf(events, "pch-return pc=%08lx eax=%08lx esp=%08lx edi=%08lx\n", address, context.Eax, context.Esp, context.Edi);
+                fprintf(events, "last-error=%lu\n", thread_error(&context, thread));
+                fprintf(events, "control-word=%04lx\n", context.FloatSave.ControlWord);
+                save_frontend_state("pch-return");
+                readmem(base + 0xb9000, pch_bss, sizeof(pch_bss));
+                save_blob("pch-bss-return.bin", pch_bss, sizeof(pch_bss));
+                patch(address, pch_return_saved); pch_return_active = 0;
+                context.Eip = address;
+                if (!SetThreadContext(thread, &context)) fail("PCH return context");
             } else if (code == EXCEPTION_BREAKPOINT && pool_return_observer && address == base + 0x389d4) {
                 fprintf(events, "pool-return rva=000389d4 eax=%08lx esp=%08lx\n", context.Eax, context.Esp);
                 save_frontend_state("pool-return");
@@ -662,6 +676,44 @@ int main(int argc, char **argv)
                     prepare_mask();
                 }
                 if (address == base + 0x384d4) seed_frontend_restore();
+                if (address == base + 0x3bd41) {
+                    BYTE pch_bss[0xf69c];
+                    if (getenv("C1XX_TEST_PCH")) {
+                        DWORD owned, values[17];
+                        readmem(base + 0xc4d50, &owned, 4);
+                        if (!owned || context.Ecx != base + 0xc64b8) fail("PCH seed receiver/allocation");
+                        values[0] = 17;
+                        values[1] = owned + 4;
+                        values[2] = owned + 8;
+                        values[3] = 23;
+                        values[4] = owned + 12;
+                        values[5] = -11;
+                        values[6] = owned + 16;
+                        values[7] = owned + 20;
+                        values[8] = owned + 24;
+                        values[9] = owned + 28;
+                        values[10] = owned + 32;
+                        values[11] = owned + 36;
+                        values[12] = owned + 40;
+                        values[13] = 29;
+                        values[14] = owned + 44;
+                        values[15] = owned + 48;
+                        values[16] = owned + 52;
+                        write_mem(base + 0xc64b8, values, sizeof(values));
+                        fprintf(events, "pch-seed actual-entry=0003bd41 bytes=68 receiver-unchanged=1 code-mock=0\n");
+                    }
+                    if (getenv("C1XX_OBSERVE_PCH_RETURN")) {
+                        if (pch_return_active) fail("duplicate PCH return observer");
+                        readmem(context.Esp, &pch_return_address, 4);
+                        if (pch_return_address != base + 0x385f3) fail("PCH inherited return PC");
+                        readmem(pch_return_address, &pch_return_saved, 1);
+                        if (pch_return_saved != 0xeb || snapshot[0x385f3-code_rva] != 0xeb) fail("PCH return instruction");
+                        patch(pch_return_address, 0xcc); pch_return_active = 1;
+                        fprintf(events, "pch-return-observer actual-caller=%08lx byte=eb armed-at-member-entry=1\n", pch_return_address);
+                    }
+                    readmem(base + 0xb9000, pch_bss, sizeof(pch_bss));
+                    save_blob("pch-bss-entry.bin", pch_bss, sizeof(pch_bss));
+                }
                 if (address == base + 0x38ab7 || address == base + 0x38ad8) {
                     BYTE bss[0xf69c]; unsigned k;
                     if (address == base + 0x38ab7 && getenv("C1XX_TEST_PROTOTYPE")) {

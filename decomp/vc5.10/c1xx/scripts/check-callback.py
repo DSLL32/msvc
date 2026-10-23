@@ -159,7 +159,7 @@ def check(original,native,require_audit=True,audit_path=None):
               'original opaque snapshot copy/restore differs')
     s.require('restore-phase rva=000385be\n' in text and trial['validation_observers']==[{
         'owner':'_initialize_compiler_pass','original_rva':0x385be,'original_byte':0x89,
-        'purpose':'observe typed copy/restore before first-flag reset'}]+([{'owner':'_initialize_frontend_24','original_rva':0x389d4,'original_byte':0xc3,'purpose':'actual pool member return-this and RET4 stack effect'}] if pool_member else []),'undeclared phase observer')
+        'purpose':'observe typed copy/restore before first-flag reset'}]+([{'owner':'_initialize_frontend_24','original_rva':0x389d4,'original_byte':0xc3,'purpose':'actual pool member return-this and RET4 stack effect'}] if pool_member else [])+([{'owner':'_initialize_compiler_pass','original_rva':0x385f3,'original_byte':0xeb,'purpose':'actual PCH member return to inherited caller, RET0 and EDI preservation','activation':'armed only at actual member entry'}] if trial.get('ordered_closure') else []),'undeclared phase observer')
     for snapshot in (pre,phase,state):
         s.require(snapshot['target_state']['process_attached']==1 and snapshot['target_state']['last_error']==203 and
                   snapshot['control_word']==0x27f and snapshot['target_state']['compiler_mode']==(0 if not seed or seed=='restore-zero' else 3),

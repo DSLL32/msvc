@@ -73,14 +73,15 @@ def main():
     report = json.loads(result.stdout)
     if hashlib.sha256(graph.read_bytes()).hexdigest() != auditor_sha:
         raise SystemExit("auditor changed during execution")
-    if trial["trial"] and not trial["trial"].startswith("import:"):
+    for candidate_name in trial.get("ordered_closure", [trial["trial"]] if trial["trial"] else []):
+        if candidate_name.startswith("import:"):continue
         runtime = json.loads((BASE / "runtime.json").read_text())
-        record = next(row for row in runtime + cfg["driver"] if row["name"] == trial["trial"])
+        record = next(row for row in runtime + cfg["driver"] if row["name"] == candidate_name)
         chunks = [[record["start"], record["end"]]] + record.get("code_chunks", [])
         owned = report.get("owned_code_chunks", {}).get("original", {}).get("functions", {})
-        if owned.get(trial["trial"]) != chunks:
+        if owned.get(candidate_name) != chunks:
             raise SystemExit("graph auditor did not prove exact candidate code-chunk ownership")
-        if trial["trial"] not in report.get("functions", {}):
+        if candidate_name not in report.get("functions", {}):
             raise SystemExit("actual candidate is absent from graph comparison")
     if "import:_initterm" in trial["accepted"]:
         verify_initializer_thunk(report, cfg)

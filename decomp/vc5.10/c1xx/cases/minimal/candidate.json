@@ -512,8 +512,17 @@
       "start_rva": 232152,
       "end_rva": 232162,
       "entry": 1
+    },
+    {
+      "owner": "PchContext::Initialize",
+      "start_rva": 245057,
+      "end_rva": 245075,
+      "entry": 1
     }
   ],
   "stage": "_initialize_frontend_36 accepted; next frontier _initialize_frontend_37",
-  "prospective_only": true
+  "ordered_closure": [
+    "_initialize_frontend_37",
+    "PchContext::Initialize"
+  ]
 }

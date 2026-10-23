@@ -102,6 +102,12 @@ def prepare():
             "original_byte":0x89,"purpose":"observe typed copy/restore before first-flag reset"}]
     if trial_name=='CompilerPool::Initialize':
         trial['validation_observers'].append({'owner':'_initialize_frontend_24','original_rva':0x389d4,'original_byte':0xc3,'purpose':'actual pool member return-this and RET4 stack effect'})
+    trial['test_pch_seed']=bool(candidate.get('test_pch_seed'))
+    if trial['test_pch_seed']:
+        if not closure:raise ValueError('PCH constructor data auxiliary requires declared joint closure')
+        trial['auxiliary_pch_data_seed']={'owner':'PchContext::Initialize','point':'actual member entry after BSS reset','receiver_unchanged':True,'scalars':{'image_count':17,'stored_file_position':23,'file_offset':-11,'loaded_image_count':29},'pointer_fields':'owned snapshot interiors +4..+52, never dereferenced','code_or_allocator_mock':False}
+    if closure:
+        trial['validation_observers'].append({'owner':'_initialize_compiler_pass','original_rva':0x385f3,'original_byte':0xeb,'purpose':'actual PCH member return to inherited caller, RET0 and EDI preservation','activation':'armed only at actual member entry'})
     trial['test_prototype_seed']=bool(candidate.get('test_prototype_seed'))
     if trial['test_prototype_seed']:
         trial['auxiliary_prototype_data_seed']={'owner':'_initialize_frontend_36','point':'actual entry before target body, after BSS reset','bytes':20,'values':'1..20','code_or_allocator_mock':False}

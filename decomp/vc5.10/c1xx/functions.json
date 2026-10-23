@@ -740,10 +740,9 @@
       "symbol": "?Initialize@PchContext@@QAEPAU1@XZ",
       "native_symbol": "_ZN10PchContext10InitializeEv",
       "start": 272874817,
-      "end": 272874818,
+      "end": 272874835,
       "source": "src/pch.cpp",
-      "abi": "thiscall0",
-      "pending_extent": true
+      "abi": "thiscall0"
     }
   ],
   "status": "autonomous minimal C++ reconstruction active",
