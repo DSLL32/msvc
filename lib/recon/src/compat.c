@@ -6,6 +6,15 @@
 #include <sys/time.h>
 #include <recon.h>
 
+/* Qualified public MSPDB import: build/link surface only. Its provider's
+ * hashing/result/state behavior has not been accepted at a reached call. */
+__attribute__((weak)) unsigned long __cdecl recon_mspdb_SigForPbCb(
+    const void *bytes,long byte_count,unsigned long signature)
+{
+    (void)bytes;(void)byte_count;(void)signature;
+    recon_unsupported("unreviewed MSPDB SigForPbCb");return 0;
+}
+
 /* Distinct Watcom CRT boundaries. Only the explicit first-WLIB-main empty
  * target namespace heap check below has an established success contract. */
 ReconWatcomFirstMainHeap recon_watcom_first_main_heap;

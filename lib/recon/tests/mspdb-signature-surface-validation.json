@@ -1,0 +1,25 @@
+{
+  "scope": "Build-only qualified MSPDB50 SigForPbCb readonlyvoid*/signedlong/ulong cdecl32 surface; target call always125, no hash/provider success or dependency reconstruction",
+  "probes": [
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/mspdb-signature-surface/gcc",
+      "sha256": "5334f7cd7a7621161bd4d2df44b363ba322757a7d076b3f3ea15f9be8551dd7e",
+      "returncode": 125
+    },
+    {
+      "binary": "/root/.ai-tmp/msvc2/recon-maintenance/mspdb-signature-surface/clang",
+      "sha256": "2fee89c00c151ebff9d5cdc762884c5dc5071ee463721c7d4e9963c229aa311f",
+      "returncode": 125
+    }
+  ],
+  "packets": [
+    {
+      "path": "decomp/vc5.10/c1/cases/minimal/evidence/command-line-imports.json",
+      "sha256": "76d2db6ced3411dda695c7e234bf1a71fe90e40c5f659e72970dac4432b4be21"
+    },
+    {
+      "path": "decomp/vc5.10/c1xx/cases/minimal/mspdb-signature-boundary.json",
+      "sha256": "cbe63a2b31c56cc679ead211140d427b11f3d5a8281d751ffd696bb1c94b29a7"
+    }
+  ]
+}

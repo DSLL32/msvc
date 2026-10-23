@@ -136,6 +136,7 @@ typedef struct ReconCrtLocaleProfile {
 } ReconCrtLocaleProfile;
 void recon_crt_apply_locale_profile(const ReconCrtLocaleProfile *);
 char *recon_setlocale(int,const char *);
+unsigned long __cdecl recon_mspdb_SigForPbCb(const void *,long,unsigned long);
 extern char *recon_pgmptr,*recon_aenvptr;
 extern long recon_timezone;
 extern int recon_daylight;
@@ -402,6 +403,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define __try if (1)
 #define __except(filter) else if (0)
 #define FILE ShimFILE
+#define SigForPbCb recon_mspdb_SigForPbCb
 #define setlocale recon_setlocale
 #define wcscmp recon_wcscmp
 #define wcschr recon_wcschr
