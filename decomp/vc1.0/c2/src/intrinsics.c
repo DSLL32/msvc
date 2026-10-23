@@ -10,7 +10,7 @@ enum { INTRINSIC_SQRT_FLOAT = 92, INTRINSIC_SQRT_DOUBLE = 93,
     INTRINSIC_ATAN2_FLOAT = 132, INTRINSIC_ATAN2_DOUBLE = 133,
     INTRINSIC_STRING_COPY = 164, INTRINSIC_STRING_COMPARE = 165, INTRINSIC_STRING_LENGTH = 167,
     INTRINSIC_AGGREGATE_COPY = 172, INTRINSIC_AGGREGATE_FILL = 173,
-    INTRINSIC_POWER_DOUBLE = 174 };
+    INTRINSIC_POWER_DOUBLE = 174, INTRINSIC_AGGREGATE_VALUE = 179 };
 
 Node *current_intrinsic; /* original0007b9b4 */
 /* Original83f98..83fb8: square root reached after binary power lowering. */
@@ -50,6 +50,10 @@ const IntrinsicDescription string_compare_intrinsic = { 0x404, 0, "vE0E1", "", 0
 /* Original84448..84458: strlen's pointer argument normalization, reverse
    argument-list recipe and retained first argument. Empty runtime name. */
 const IntrinsicDescription string_length_intrinsic = { 0x404, 0, "vE0", "", 0x40 };
+/* Original84508..84518: the aggregate-value intrinsic used while passing
+   and returning Packet records. Normalize its arguments and retain the first
+   address tree; no scalar type override or signature flags are present. */
+const IntrinsicDescription aggregate_value_intrinsic = { 0, 0, "nE0", "", 0 };
 /* An explicit data frontier, not a substitute implementation for another
    intrinsic. Inline INT3 is the intentional unreconstructed-data trap; keeping
    this dispatch inline introduces no nonoriginal function/call edge. */
@@ -69,6 +73,7 @@ const IntrinsicDescription string_length_intrinsic = { 0x404, 0, "vE0", "", 0x40
     case INTRINSIC_AGGREGATE_COPY: (description) = &aggregate_copy_intrinsic; break; \
     case INTRINSIC_AGGREGATE_FILL: (description) = &aggregate_fill_intrinsic; break; \
     case INTRINSIC_POWER_DOUBLE: (description) = &power_double_intrinsic; break; \
+    case INTRINSIC_AGGREGATE_VALUE: (description) = &aggregate_value_intrinsic; break; \
     default: __asm { int 3 } \
         (description) = 0; break; \
     } \

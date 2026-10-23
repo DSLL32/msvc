@@ -30,7 +30,7 @@ def main():
     args = parser.parse_args()
     assert re.fullmatch('[a-z][a-z0-9_-]*', args.case)
     assert re.fullmatch('[a-z][a-z0-9_]*', args.stem)
-    assert all(flag in {'/Od','/O1','/O2','/Oi','/Ob0','/G3','/G4','/G5'} for flag in args.flags)
+    assert all(flag in {'/Od','/O1','/O2','/Oi','/Ob0','/Ob1','/Ob2','/G3','/G4','/G5'} for flag in args.flags)
     fixture = args.fixture.resolve()
     assert fixture.is_relative_to(idx.wt.ROOT/'decomp/vc1.0/fixtures')
     assert args.replace or not (fixture/'manifest.json').exists()

@@ -1,10 +1,30 @@
 {
   "modules": [
     {
-      "module": "physical-allocation",
-      "seconds": 1.1164313750341535,
+      "module": "tree-lowering",
+      "seconds": 2.342305020429194,
+      "returncode": 0
+    },
+    {
+      "module": "tree-types",
+      "seconds": 2.0791539065539837,
+      "returncode": 0
+    },
+    {
+      "module": "temporaries",
+      "seconds": 1.9774577021598816,
+      "returncode": 0
+    },
+    {
+      "module": "inline-candidates",
+      "seconds": 1.258633304387331,
+      "returncode": 0
+    },
+    {
+      "module": "intrinsics",
+      "seconds": 1.1485936073586345,
       "returncode": 0
     }
   ],
-  "seconds": 1.1166367242112756
+  "seconds": 8.806673490442336
 }

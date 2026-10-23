@@ -274,13 +274,29 @@
     },
     {
       "case": "inline-records",
-      "status": "approved; source/original eligibility validation next",
+      "status": "active; original inliner eligibility reached new_inline_site",
       "flags": [
         "/O2",
         "/Ob2",
         "/G5"
       ],
-      "description": "Small static scalar/pointer/struct-return helpers with nested repeated calls, side-effecting arguments, bitfield updates and dense switch; freeze only after original support/eligibility validation"
+      "description": "Small static scalar/pointer/struct-return helpers with nested repeated calls, side-effecting arguments, bitfield updates and dense switch; freeze only after original support/eligibility validation",
+      "profile": "inlrec",
+      "fixture_manifest": "../fixtures/c2-inline-records/manifest.json",
+      "expected_output": {
+        "path": "expected/inlrec.obj",
+        "bytes": 1554,
+        "sha256": "821f69ce74e28ad4a3eb20d8a63fce3d9e65d6b8560e49c64026537e350ad467",
+        "output_name": "inlrec.obj",
+        "ignored_fields": [
+          {
+            "offset": 4,
+            "bytes": 4,
+            "name": "COFF TimeDateStamp"
+          }
+        ],
+        "normalized_sha256": "cf8da121524ed69c6564373078cc43e866ad4d93fc5e74dc679a844eac03256a"
+      }
     }
   ],
   "completed": [

@@ -1112,7 +1112,11 @@
     "@previous_float_is_load@4",
     "@arrange_scheduled_float_inputs@4",
     "@arrange_scheduled_float_operands@4",
-    "@i386_instruction_cost@4"
+    "@i386_instruction_cost@4",
+    "@lower_bitfield_reference@4",
+    "@aligned_value_size@4",
+    "@new_storage_reference@4",
+    "@new_inline_site@16"
   ],
   "driver": [
     {
@@ -2633,8 +2637,7 @@
     {
       "name": "@lower_bitfield_reference@4",
       "start": 364720,
-      "end": 364721,
-      "provisional": true
+      "end": 364932
     },
     {
       "name": "@release_tree@4",
@@ -2701,8 +2704,7 @@
     {
       "name": "@new_storage_reference@4",
       "start": 361920,
-      "end": 361921,
-      "provisional": true
+      "end": 361961
     },
     {
       "name": "@can_repeat_tree@4",
@@ -2755,8 +2757,7 @@
     {
       "name": "@aligned_value_size@4",
       "start": 361584,
-      "end": 361585,
-      "provisional": true
+      "end": 361688
     },
     {
       "name": "@trees_equal@12",
@@ -2921,8 +2922,7 @@
     {
       "name": "@new_inline_site@16",
       "start": 415376,
-      "end": 415377,
-      "provisional": true
+      "end": 415454
     },
     {
       "name": "@free_arena_blocks@4",
@@ -7558,6 +7558,12 @@
       "accepted_from": 1107,
       "fixture_manifest": "../fixtures/c2-g3-deep-rematerialization/manifest.json",
       "fixture_manifest_sha256": "516f773622e1c3739ee4355fc3939eddef2037a5c730bbbf2dd235fd69e191c1"
+    },
+    "inlrec": {
+      "arguments": "",
+      "accepted_from": 1108,
+      "fixture_manifest": "../fixtures/c2-inline-records/manifest.json",
+      "fixture_manifest_sha256": "edaa340f7d23a74129445bc6ffe20a3c741d3307f7d1f8a9ac853606f1628138"
     }
   },
   "crt_defaults": {

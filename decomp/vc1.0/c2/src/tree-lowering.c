@@ -373,3 +373,37 @@ unsigned __fastcall map_assignment_opcode(unsigned opcode, int reverse)
     compiler_internal_error("@(#)misc.c:1.100", 0x109);
     return 1;
 }
+
+/* Original [000590b0,00059184). Lower a bitfield read to its containing
+   storage conversion followed by shifts, with unsigned fields masked and
+   signed fields sign-extended by the final arithmetic right shift. The
+   builder recipe reuses the released field/range nodes in the original
+   order; save constant values before returning those nodes to the pool. */
+void __fastcall lower_bitfield_reference(Node *node)
+{
+    Node *field = node->left.node;
+    Node *range = field->second.node;
+    Node *value;
+    unsigned bits = (node->attributes.words.type & 255) * 8;
+    unsigned width, offset, shift;
+    if ((node->attributes.words.type & 0xff00) == 0x200) {
+        value = range->second.node;
+        width = value->left.value;
+        shift = ~0U >> ((32 - width) & 31);
+        release_node(value);
+        value = typed_integer_node(node, shift);
+        build_tree("POLfPOLYPOLY", field->left.node, 0x30, range, node,
+            range->left.node, 0xa, field, value, 0xb, node);
+    } else {
+        value = range->second.node;
+        width = value->left.value;
+        release_node(value);
+        value = range->left.node;
+        offset = value->left.value;
+        release_node(value);
+        shift = bits - width;
+        value = typed_integer_node(node, shift);
+        build_tree("POLfPOLYPOLY", field->left.node, 0x30, range, node,
+            typed_integer_node(node, shift - offset), 9, field, value, 0xa, node);
+    }
+}

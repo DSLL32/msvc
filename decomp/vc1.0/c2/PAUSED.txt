@@ -1,5 +1,3 @@
-C2 active: G5 joins and G3 deeper-call cases complete at1108.
-Root reviewed/authorized next single /O2 /Ob2 /G5 inliner/bitfield/dense-switch case.
-Draft/validate original inline eligibility before freezing; preserve hidden structure-return ABI.
-See cases/remat386-completion.json, remaining-code-inventory.json and queue.json.
-No unrelated case authorized.
+C2 active: approved /O2 /Ob2 /G5 inline-records case at1112 accepted functions.
+Current matching frontier format_function_name4df70; new_inline_site and hidden-return setup recovered.
+See cases/inlrec-first-checkpoint.json and queue.json. Continue this case, then review next proposal with root.

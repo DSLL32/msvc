@@ -108,6 +108,15 @@
         "0x8a0f0"
       ],
       "extent_bytes": 16
+    },
+    {
+      "name": "aggregate_value_intrinsic",
+      "id": 179,
+      "addresses": [
+        "0x84508",
+        "0x8a110"
+      ],
+      "extent_bytes": 16
     }
   ],
   "operator_map": {
@@ -133,7 +142,7 @@
     ]
   },
   "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-  "rebuilt_sha256": "9eb02e64ad78680641eca75d57675a5fa6894650fb7c8a978c9413d504806a54",
+  "rebuilt_sha256": "c4a99d95ad738308057a07e685d1e30cb56ad6a44a83926a1499890926feb98a",
   "executes_wine": false,
   "address_identity": "Interpreter does not expose descriptor addresses or perform arithmetic between descriptors"
 }

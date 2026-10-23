@@ -51,22 +51,18 @@ char *__fastcall format_function_name(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl ide_message(int code, ...) { __asm int 3 }
 void __fastcall set_warning_override(short number, signed char level) { __asm int 3 }
 void __fastcall prepare_inline_function(Function *function) { __asm int 3 }
-Node *__fastcall new_storage_reference(unsigned bytes) { __asm int 3 }
 Node *__fastcall simplify_short_circuit(Node *node, Node *parent) { __asm int 3 }
 Node *__fastcall lift_left_sequence(Node *node) { __asm int 3 }
 Node *__fastcall lift_right_sequence(Node *node) { __asm int 3 }
-unsigned __fastcall aligned_value_size(Node *node) { __asm int 3 }
 int __fastcall assign_parameter_register(unsigned *used, Node *argument, int convention) { __asm int 3 }
 Node *__fastcall discard_sequence_tail(Node *node) { __asm int 3 }
 Node *__fastcall rewrite_short_circuit(Node *node) { __asm int 3 }
 Node *__fastcall materialize_expression(Node *node) { __asm int 3 }
 Node *__fastcall extract_assembly_labels(Node *node) { __asm int 3 }
-void __fastcall lower_bitfield_reference(Node *node) { __asm int 3 }
 Node *__fastcall lower_target_address(Node *node) { __asm int 3 }
 void __fastcall lower_bitfield_assignment(Node *node) { __asm int 3 }
 void __fastcall finish_inline_function(Function *function) { __asm int 3 }
 #include "inline-calls.h"
-InlineSite *__fastcall new_inline_site(Node *call, Node *parent, Expression *expression, unsigned flags) { __asm int 3 }
 InlineBinding *__fastcall bind_inline_arguments(Function *function, Node *entry, Node *call) { __asm int 3 }
 void __fastcall check_inline_argument_aliases(InlineBinding *bindings) { __asm int 3 }
 int __fastcall analyze_inline_returns(Expression *entry, InlineBinding *bindings) { __asm int 3 }

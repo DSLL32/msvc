@@ -1,7 +1,7 @@
 C23232.EXE reconstruction, vc1.0 / original1.0-nt toolchain
 
-Current checkpoint:1108 accepted frontiers and1029 reconstructed source functions.
-Accepted original code extents cover306487/399693 bytes (76.680602%). This is
+Current checkpoint:1112 accepted frontiers and1033 reconstructed source functions.
+Accepted original code extents cover306922/399693 bytes (76.789436%). This is
 an extent union of source, shared text data, CRT and import thunks, clipped to
 original VirtualSize (raw-size fallback when zero), not branch coverage.
 
@@ -127,3 +127,9 @@ objects pass; cases/remat386-completion.json records complete timings,
 unsplit rebuilds, failures and proof scope. The remaining-code inventory
 separates provisional driver entries, library/import identities and unclassified
 code/data/alignment; it does not attribute unknown bytes to application C.
+
+The reviewed /O2 /Ob2 /G5 inline-records case is active at1112. Original
+candidate creation is confirmed by explicit entry probe; bitfield reads,
+aggregate argument sizing/storage and candidate construction now match.
+Twelve complete native objects plus the thirteenth named frontier pass.
+See cases/inlrec-first-checkpoint.json for data-frontier and timing limits.

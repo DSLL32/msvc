@@ -106,5 +106,14 @@
     "commands": "vE0E1",
     "runtime_name": "",
     "flags": 64
+  },
+  {
+    "id": 179,
+    "name": "aggregate_value_intrinsic",
+    "original": "0x84508",
+    "result_type": 0,
+    "commands": "nE0",
+    "runtime_name": "",
+    "flags": 0
   }
 ]

@@ -62,3 +62,19 @@ void __fastcall scan_inline_candidates(InlineSite **sites, Expression *expressio
     *sites = site;
     ++*count;
 }
+
+/* Original [00065690,000656de). Reuse a detached candidate record or
+   allocate its native20-byte shape in arena4, then record this call site. */
+InlineSite *__fastcall new_inline_site(Node *call, Node *parent,
+    Expression *expression, unsigned flags)
+{
+    InlineSite *site = free_inline_sites;
+    if (site) free_inline_sites = site->next;
+    else site = arena_alloc(4, sizeof(*site));
+    site->next = 0;
+    site->call = call;
+    site->parent = parent;
+    site->expression = expression;
+    site->flags = flags;
+    return site;
+}

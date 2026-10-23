@@ -410,3 +410,28 @@ int __fastcall find_tree_opcode(Node *node)
         node = node->second.node;
     }
 }
+
+/* Original [00058470,000584d8). Argument wrappers inherit their value's
+   storage size. Aggregate-value/copy records carry an explicit size tree;
+   ordinary records use aggregate info or the scalar type's low byte. */
+unsigned __fastcall aligned_value_size(Node *node)
+{
+    extern int default_segment_alignment;
+    unsigned size, intrinsic;
+    while (node->opcode == 0x55) node = node->left.node;
+    if (node->opcode == 0x40) {
+        intrinsic = node->left.node->left.value;
+        if (intrinsic == 0xb3 || intrinsic == 0xde) {
+            size = node->second.node->second.node->left.node->left.value;
+            goto align_size;
+        }
+        if (intrinsic == 0xdf) {
+            size = node->second.node->left.node->left.value;
+            goto align_size;
+        }
+    }
+    size = node->attributes.words.type == 0x8000 ? node->info.value :
+        node->attributes.words.type & 255;
+align_size:
+    return (size + default_segment_alignment - 1) & ~(default_segment_alignment - 1);
+}

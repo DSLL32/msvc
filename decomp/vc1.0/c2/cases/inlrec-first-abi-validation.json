@@ -1,0 +1,80 @@
+{
+  "method": "CFG traversal of original/canonical machine RET operands; jump-table data not decoded as instructions",
+  "checkpoint": 1112,
+  "accepted_slice": [
+    1108,
+    1112
+  ],
+  "checked": [
+    {
+      "name": "@lower_bitfield_reference@4",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x59126",
+          "stack_bytes": 0
+        },
+        {
+          "address": "0x59183",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x1f12f",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@aligned_value_size@4",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x584d7",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x1c9df",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@new_storage_reference@4",
+      "callee_stack_bytes": 0,
+      "original": [
+        {
+          "address": "0x585e8",
+          "stack_bytes": 0
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x1d92b",
+          "stack_bytes": 0
+        }
+      ]
+    },
+    {
+      "name": "@new_inline_site@16",
+      "callee_stack_bytes": 8,
+      "original": [
+        {
+          "address": "0x656db",
+          "stack_bytes": 8
+        }
+      ],
+      "canonical": [
+        {
+          "address": "0x1d7fb",
+          "stack_bytes": 8
+        }
+      ]
+    }
+  ],
+  "seconds": 0.2526301573961973,
+  "return_width_evidence": "Bitfield lowering is void; alignment returns EAX unsigned, storage/site constructors return EAX pointers. Original/canonical ECX/EDX fastcall cleanup matches, with RET8 for the four-argument site constructor."
+}

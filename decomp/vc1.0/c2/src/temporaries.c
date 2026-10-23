@@ -2,6 +2,7 @@
 #include "tree-rewrite.h"
 #include "expression-fields.h"
 #include "frame.h"
+#include "machine.h"
 #include <recon.h>
 extern int default_segment_alignment;
 TemporaryRegister *temporary_registers;
@@ -41,4 +42,15 @@ TemporaryRegister *__fastcall new_temporary_descriptor(unsigned bytes)
     temporary->bytes = bytes;
     temporary->kind = 19;
     return temporary;
+}
+
+/* Original [000585c0,000585e9). An aggregate return buffer has generated
+   automatic storage with alignment4, then an interned pointer reference.
+   Preserve the fifth cdecl leaf argument even with a descriptor supplied. */
+Node *__fastcall new_storage_reference(unsigned bytes)
+{
+    BackendSymbol *__fastcall new_generated_storage(unsigned kind, unsigned bytes,
+        unsigned short storage, int local, unsigned char alignment, unsigned short flags);
+    BackendSymbol *storage = new_generated_storage(6, bytes, 1, 1, 4, 0);
+    return intern_leaf(0x26, 0, (SymbolHeader *)storage, 0, 0x404);
 }
