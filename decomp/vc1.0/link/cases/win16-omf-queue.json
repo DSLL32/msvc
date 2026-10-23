@@ -1,0 +1,25 @@
+{
+  "status": "Family1 complete, family2 next",
+  "baseline": {
+    "commit": "b8a6dd9b",
+    "frontiers": 788,
+    "extent_bytes": 226901,
+    "text_bytes": 281634,
+    "percent": 80.56591178621899
+  },
+  "ordered_families": [
+    {
+      "order": 1,
+      "name": "legacy-win16-resources",
+      "status": "complete",
+      "functions": 10,
+      "receipt": "cases/legacy-win16-resources/validation.json"
+    },
+    {
+      "order": 2,
+      "name": "omf-lidata-exestr",
+      "status": "queued; no internal-g reachability assumption"
+    }
+  ],
+  "methodology": "Explicit shared R:/S: original capture before acceptance, native cached regressions only, full artifacts and graph/ABI/data preservation"
+}

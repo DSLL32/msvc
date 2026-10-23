@@ -1,0 +1,163 @@
+{
+  "case": "legacy-win16-resources",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "reference": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-link",
+        "/nodefaultlib",
+        "/entry:main",
+        "/subsystem:console",
+        "/out:legacy.exe",
+        "/map:legacy.map",
+        "test.obj",
+        "legacy.res"
+      ],
+      "canonical_working_directory": "S:\\vc1.0\\link\\legacy-win16-resources",
+      "inputs": [
+        {
+          "path": "../../legacy-win16-resources/inputs/legacy.res",
+          "bytes": 382,
+          "sha256": "adf5d4c27ee1640d6b19bab9b7f2be76123b8a238ee244d28eeb102d77f9b65b"
+        },
+        {
+          "path": "../../legacy-win16-resources/inputs/test.obj",
+          "bytes": 286,
+          "sha256": "6c454d6cb96e2a4e1f87aa17311541ca7090b63554efda3044c53c854592599c"
+        }
+      ],
+      "outputs": [
+        {
+          "output_name": "legacy.exe",
+          "artifact_kind": "resource-pe",
+          "bytes": 2097152,
+          "sha256": "701ec4c2c00e3393699269009f4e11fe3ae2af91e76fc74a39f5387b0a9b4952",
+          "normalized_sha256": "b5f6d3757f97c1cc5ec77e5bf01d454ea191497e81df94fd680f5dcd3e0180be",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            },
+            {
+              "offset": 1028,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1100,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1124,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1148,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1172,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1196,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1220,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1244,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1268,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1292,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1316,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1340,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1364,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1388,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1412,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            }
+          ],
+          "path": "expected/legacy.exe"
+        },
+        {
+          "output_name": "legacy.map",
+          "artifact_kind": "map",
+          "bytes": 531,
+          "sha256": "39d501cba185f15ffbed5804cba55911c6ddbf794650a3d1d70e587e805047ae",
+          "normalized_sha256": "01a738317af2cb4cb412b335b6b11c762885ed28e78e4bf173ba8c75521ed22e",
+          "ignored_fields": [
+            {
+              "offset": 25,
+              "bytes": 8,
+              "name": "Map PE timestamp hexadecimal"
+            },
+            {
+              "offset": 35,
+              "bytes": 24,
+              "name": "Map timestamp ctime rendering"
+            }
+          ],
+          "path": "expected/legacy.map"
+        }
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n",
+      "expected_stderr": ""
+    }
+  },
+  "artifact_parser": {
+    "path": "scripts/artifacts-resources.py",
+    "sha256": "a4cd8686adf1b291d5e7ef5e76cfac127e41b4dc2e4fd283dba8391ce123b2a8"
+  }
+}

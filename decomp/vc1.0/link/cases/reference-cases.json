@@ -109,5 +109,8 @@
   },
   "large-symbols-wildcards": {
     "directory": "cases/shared-prefix/large-symbols-wildcards"
+  },
+  "legacy-win16-resources": {
+    "directory": "cases/shared-prefix/legacy-win16-resources"
   }
 }

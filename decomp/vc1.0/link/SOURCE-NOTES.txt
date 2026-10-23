@@ -942,3 +942,17 @@ Canonical build plus Rust639graph/794original791rebuilt extent and retained
 80.5659%,788frontiers. See cases/large-symbols-wildcards/validation.json for exact
 components, clocks, rejected subsystem probe, GDB and original capture receipts.
 Remaining scenarios are analysis suggestions only; the approved queue is paused.
+
+Win16-resource checkpoint798
+
+Two untouched originals validate382bytes of Win16 bitmap/menu/dialog/string/
+accelerator/raw/named resources, then freeze full2MBPE andmap. Ten fresh matched
+entries close dispatcher440a0 plus converted menus/dialogs/strings/accelerators
+and byte/Unicode/ordinal/alignment helpers. The typed16-entry callback table at
+7ff98 is recovered contextually; unentered debug printers remain stubs. Packed
+13/14-byte input and18-byte output templates preserve original field/cursor
+layout. Fixed-count Unicode cursor advancement retains the native byte rule.
+38native cases/622app entries pass2.380s external; original compiler plus649
+Rustgraphs/639callback/454data/41ECX checks pass.1979instruction bytes+101padding
+extend accepted union to228981/281634=81.3045%,798frontiers. No CRT/import gain.
+See cases/legacy-win16-resources/validation.json. OMF LIDATA/EXESTR remains next.

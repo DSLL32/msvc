@@ -1,0 +1,39 @@
+{
+  "case": "legacy-win16-resources",
+  "arguments": [
+    "-link",
+    "/nodefaultlib",
+    "/entry:main",
+    "/subsystem:console",
+    "/out:legacy.exe",
+    "/map:legacy.map",
+    "test.obj",
+    "legacy.res"
+  ],
+  "inputs": [
+    {
+      "path": "cases/legacy-win16-resources/inputs/legacy.res",
+      "bytes": 382,
+      "sha256": "adf5d4c27ee1640d6b19bab9b7f2be76123b8a238ee244d28eeb102d77f9b65b"
+    },
+    {
+      "path": "cases/legacy-win16-resources/inputs/test.obj",
+      "bytes": 286,
+      "sha256": "6c454d6cb96e2a4e1f87aa17311541ca7090b63554efda3044c53c854592599c"
+    }
+  ],
+  "environment": {
+    "LIB": "{lib}"
+  },
+  "expected_exit": 0,
+  "outputs": [
+    {
+      "output_name": "legacy.exe",
+      "artifact_kind": "resource-pe"
+    },
+    {
+      "output_name": "legacy.map",
+      "artifact_kind": "map"
+    }
+  ]
+}

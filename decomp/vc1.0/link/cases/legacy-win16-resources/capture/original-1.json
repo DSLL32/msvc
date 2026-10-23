@@ -1,0 +1,41 @@
+{
+  "mode": "original",
+  "case": "legacy-win16-resources",
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "root_exit": 0,
+    "failed": 0,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "22600bfeaded2ab3eb50d4d01591c9707754c9923d19dde2b1dfe8b3f3842f2d",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 788,
+  "accepted_sha256": "9fdc8186222fe64ec29c4be5db247b5d745ac8b47e6cfb5ea36678bd56158b8e",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": null,
+    "TMP": "S:\\vc1.0\\link\\legacy-win16-resources",
+    "TEMP": "S:\\vc1.0\\link\\legacy-win16-resources"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-link /nodefaultlib /entry:main /subsystem:console /out:legacy.exe /map:legacy.map test.obj legacy.res",
+    "S:\\vc1.0\\link\\new-captures\\legacy-win16-resources\\original-zvz9fmsn\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\legacy-win16-resources\\original-zvz9fmsn\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\legacy-win16-resources\\original-zvz9fmsn\\events.jsonl",
+    "S:\\vc1.0\\link\\legacy-win16-resources",
+    "S:\\vc1.0\\link\\new-captures\\legacy-win16-resources\\original-zvz9fmsn\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\legacy-win16-resources\\original-zvz9fmsn\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\legacy-win16-resources\\original-zvz9fmsn\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\legacy-win16-resources\\original-zvz9fmsn\\after.dll",
+    "-"
+  ],
+  "seconds": 1.0828691069036722
+}

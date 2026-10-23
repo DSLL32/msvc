@@ -1,0 +1,20 @@
+ legacy
+
+ Timestamp is 6adb3bc5 (Fri Oct 23 03:49:41 2026)
+
+ Preferred load address is 00010000
+
+ Start         Length     Name                   Class
+ 0001:00000000 00000012H .text                   CODE
+ 0002:00000000 0000022cH .rsrc$01                DATA
+ 0002:00000230 000001bcH .rsrc$02                DATA
+
+  Address         Publics by Value              Rva+Base   Lib:Object
+
+ 0001:00000000       _main                      00011000 f test.obj
+
+ entry point at        0001:00000000
+
+ Static symbols
+
+

@@ -4098,5 +4098,38 @@
     "name": "mac_native_symbol",
     "size": 18,
     "owner": "src/m68k-relocations.c"
+  },
+  {
+    "address": 524184,
+    "name": "legacy_resource_types",
+    "size": 256,
+    "owner": "src/resource-legacy.c",
+    "string_pointers": [
+      0,
+      16,
+      32,
+      48,
+      64,
+      80,
+      96,
+      112,
+      128,
+      144,
+      160,
+      176,
+      192,
+      208,
+      224,
+      240
+    ],
+    "function_pointers": [
+      68,
+      72,
+      84,
+      88,
+      100,
+      104,
+      148
+    ]
   }
 ]

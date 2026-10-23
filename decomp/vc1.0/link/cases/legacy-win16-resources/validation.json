@@ -1,0 +1,253 @@
+{
+  "status": "pass",
+  "family": "legacy Win16 resource conversion",
+  "baseline_frontiers": 788,
+  "frontiers": 798,
+  "extent_before": 226901,
+  "extent_after": 228981,
+  "text_bytes": 281634,
+  "percent": 81.30445897867446,
+  "new_application_functions": 10,
+  "new_instruction_bytes": 1979,
+  "new_alignment_bytes": 101,
+  "new_runtime_or_import_acceptances": 0,
+  "original_repeat_validation": "cases/legacy-win16-resources/capture/original-validation.json",
+  "frontier_comparisons": [
+    {
+      "logical": "convert_legacy_accelerators",
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/legacy-win16-resources-convert_legacy_accelerators-5rblf6yj/receipt.json",
+      "sha256": "a76392b686997aa74a269f71678826e4d73fbbbeb3d622d0dc691ebe7163709a",
+      "parallel_seconds": 1.7229839703068137,
+      "partial_streams_exact": true
+    },
+    {
+      "logical": "convert_legacy_dialog",
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/legacy-win16-resources-convert_legacy_dialog-dn_6fmiy/receipt.json",
+      "sha256": "a27b28ec5368b3d9a8e3fd398ee8a7d963308c5f317b4c98b619ccdf5f776737",
+      "parallel_seconds": 1.734595000743866,
+      "partial_streams_exact": true
+    },
+    {
+      "logical": "convert_legacy_menu",
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/legacy-win16-resources-convert_legacy_menu-wovbh9o3/receipt.json",
+      "sha256": "64c981b0ad44e139bb48b80ed8da4e57d3d0e075ec8b17fb23f5ebfcf618e2c1",
+      "parallel_seconds": 1.489293915219605,
+      "partial_streams_exact": true
+    },
+    {
+      "logical": "convert_legacy_resource",
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/legacy-win16-resources-convert_legacy_resource-r0e8szbw/receipt.json",
+      "sha256": "b5e385078848d8d2938cb80941a5485fc069ab8c2e688e957c2dbda26d4e8c34",
+      "parallel_seconds": 1.777453894726932,
+      "partial_streams_exact": true
+    },
+    {
+      "logical": "convert_legacy_strings",
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/legacy-win16-resources-convert_legacy_strings-dbjze_rs/receipt.json",
+      "sha256": "4d9cbf8c3965d6a000909a4f4ee9bdbae4b482b402eed22a3f22671bbf5104e7",
+      "parallel_seconds": 0.9040691209957004,
+      "partial_streams_exact": true
+    },
+    {
+      "logical": "resource_align_dword",
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/legacy-win16-resources-resource_align_dword-yh280tu8/receipt.json",
+      "sha256": "dcf9621277f6da1e5b60f634bdacb4d6377ba81bd28bf4a204cfafe629d67364",
+      "parallel_seconds": 0.7818728731945157,
+      "partial_streams_exact": true
+    },
+    {
+      "logical": "resource_align_word",
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/legacy-win16-resources-resource_align_word-uo7amutm/receipt.json",
+      "sha256": "8a981f26d16c5c9b41179553a59e21b2940d434cad11da9c31bb42586de85213",
+      "parallel_seconds": 1.4231971623376012,
+      "partial_streams_exact": true
+    },
+    {
+      "logical": "resource_copy_bytes",
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/legacy-win16-resources-resource_copy_bytes-yx8w3b0_/receipt.json",
+      "sha256": "85ac4c00cb975e9454a7f1546f9964410304325cb8c589e1315c0417b67c54f5",
+      "parallel_seconds": 1.7172691402956843,
+      "partial_streams_exact": true
+    },
+    {
+      "logical": "resource_copy_identifier",
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/legacy-win16-resources-resource_copy_identifier-ahm76s6y/receipt.json",
+      "sha256": "a63eb9b30c23414de3dfcd2179f289500f6a41b280c33b1b6239ec696f9bec05",
+      "parallel_seconds": 0.7398807592689991,
+      "partial_streams_exact": true
+    },
+    {
+      "logical": "resource_copy_unicode",
+      "receipt": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/legacy-win16-resources-resource_copy_unicode-wo35pvu5/receipt.json",
+      "sha256": "06b1bc22de1a87685435a434d2e1d9c1896823b13d03d5980a1100294769c209",
+      "parallel_seconds": 1.3065081732347608,
+      "partial_streams_exact": true
+    }
+  ],
+  "final_masked_original": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/legacy-win16-resources/masked-x322w2ci/receipt.json",
+  "fresh_original_entry_receipt": "cases/shared-prefix/legacy-win16-resources/capture/receipt.json",
+  "build": {
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace",
+      "all",
+      "audit"
+    ],
+    "seconds": 27.28039458114654,
+    "status": 0
+  },
+  "audits": {
+    "graphs": 649,
+    "callback_sets": 639,
+    "contextual_data": 454,
+    "ecx_cleanups": 41,
+    "raw_original_extent_records": 804,
+    "raw_rebuilt_extent_records": 801
+  },
+  "native": {
+    "raw_receipt": "/root/.ai-tmp/msvc2/vc1.0/link/native/native-check-q2jql68t/receipt.json",
+    "sha256": "7e5880d309fc5aaf1239981a293621f8c9726eb04cf480e57ac444aa4c2150c9",
+    "cases": 38,
+    "application_entries": 622,
+    "external_seconds": 2.380176516249776,
+    "internal_case_loop_seconds": 2.1507089994847775,
+    "trace_prepare_seconds": 0.145031426101923,
+    "summed_components": {
+      "setup_seconds": 0.45638351514935493,
+      "execution_seconds": 0.361476113088429,
+      "oracle_seconds": 1.3104750085622072,
+      "trace_check_seconds": 0.00445743091404438
+    },
+    "new_case": {
+      "case": "legacy-win16-resources",
+      "setup_seconds": 0.011340024881064892,
+      "exit": 0,
+      "execution_seconds": 0.006309132091701031,
+      "stdout_bytes": 115,
+      "stdout_sha256": "563e1c4b87c22077e867f7c37d7e0d978c306c97a0404dbc5a1aaea6a16d9dd7",
+      "stderr_bytes": 0,
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "trace_entries": 10,
+      "trace_sha256": "ea75513ac1c5c135e75c1d401651d7d670f29b4380b0f67226369dca5a298786",
+      "trace_prefix_entries": 612,
+      "trace_check_seconds": 0.00010426901280879974,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/link/cases/shared-prefix/legacy-win16-resources/manifest.json",
+      "manifest_sha256": "b7e47dde54858245a2ae63ce3e83142b3286ba09a9cf93278f5002afd96e98f8",
+      "outputs": [
+        {
+          "name": "legacy.exe",
+          "bytes": 2097152,
+          "sha256": "d95fd8cdc6123fcd1cc7ad3834598a0e8824c6fddae1d0e47ce3f8136e09e5b6",
+          "normalized_sha256": "b5f6d3757f97c1cc5ec77e5bf01d454ea191497e81df94fd680f5dcd3e0180be",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            },
+            {
+              "offset": 1028,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1100,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1124,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1148,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1172,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1196,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1220,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1244,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1268,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1292,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1316,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1340,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1364,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1388,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            },
+            {
+              "offset": 1412,
+              "bytes": 4,
+              "name": "Resource directory TimeDateStamp"
+            }
+          ]
+        },
+        {
+          "name": "legacy.map",
+          "bytes": 531,
+          "sha256": "b4b23c4b9c2fb6f13f0f851ae220c08bb59bc93a9784ea5b9e7568c4d715426c",
+          "normalized_sha256": "01a738317af2cb4cb412b335b6b11c762885ed28e78e4bf173ba8c75521ed22e",
+          "ignored_fields": [
+            {
+              "offset": 25,
+              "bytes": 8,
+              "name": "Map PE timestamp hexadecimal"
+            },
+            {
+              "offset": 35,
+              "bytes": 24,
+              "name": "Map timestamp ctime rendering"
+            }
+          ]
+        }
+      ],
+      "oracle_seconds": 0.04433346726000309,
+      "total_seconds": 0.06241010967642069
+    }
+  },
+  "timing_limits": "Single measured final build/suite samples. Earlier per-frontier native rebuilds and host analysis are unmeasured. Original captures and GDB pair times are separate and outside fixture execution.",
+  "queue": "Family1 complete; ordinary OMF LIDATA/EXESTR is next, with no internal-g claim"
+}

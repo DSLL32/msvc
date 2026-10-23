@@ -787,7 +787,17 @@
     "_expand_wildcards",
     "__find",
     "import:FindNextFileA",
-    "_expand_hash"
+    "_expand_hash",
+    "_convert_legacy_resource",
+    "_convert_legacy_menu",
+    "_resource_copy_bytes",
+    "_resource_copy_unicode",
+    "_resource_align_word",
+    "_convert_legacy_dialog",
+    "_resource_copy_identifier",
+    "_resource_align_dword",
+    "_convert_legacy_strings",
+    "_convert_legacy_accelerators"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -4424,10 +4434,11 @@
     {
       "name": "_convert_legacy_resource",
       "start": 278688,
-      "end": 278689,
-      "implementation": "stub-C",
-      "source": "src/pass-stubs.c",
-      "abi": "cdecl int(int input,int output,ResourceRecord *record,unsigned short type,unsigned short name)"
+      "end": 279152,
+      "implementation": "C",
+      "source": "src/resource-legacy.c",
+      "abi": "cdecl int(int input,int output,ResourceRecord *record,unsigned short type,unsigned short name)",
+      "evidence": "Whole dispatcher440a0..44270; fresh native/original entry and partial streams match legacy-win16-resources-convert_legacy_resource-r0e8szbw; typed16-entry callback table recovered."
     },
     {
       "name": "_resource_write",
@@ -7822,6 +7833,111 @@
       "implementation": "C",
       "abi": "cdecl void(OmfLineList*,unsigned long,unsigned short)",
       "evidence": "Fresh48430/nativequeue match. Full12-byte allocation, nullable head/tail update,WORDcount and native OOMvertex; serializedlinepadding staysunwritten asoriginal."
+    },
+    {
+      "name": "_resource_align_word",
+      "start": 279152,
+      "end": 279184,
+      "implementation": "C",
+      "source": "src/resource-legacy.c",
+      "abi": "cdecl void(unsigned char **)",
+      "evidence": "Whole44270..44290 decoded; fresh original/native entry and streams match."
+    },
+    {
+      "name": "_resource_align_dword",
+      "start": 279184,
+      "end": 279232,
+      "implementation": "C",
+      "source": "src/resource-legacy.c",
+      "abi": "cdecl void(unsigned char **)",
+      "evidence": "Whole44290..442c0 decoded; fresh original/native entry and streams match. Byte zero-fill to DWORD boundary."
+    },
+    {
+      "name": "_resource_copy_bytes",
+      "start": 279232,
+      "end": 279360,
+      "implementation": "C",
+      "source": "src/resource-legacy.c",
+      "abi": "cdecl void(unsigned char **,const unsigned char **,unsigned long)",
+      "evidence": "Whole442c0..44340 decoded; fresh matching original/native entry and physical streams. String and fixed-byte copies are native compiler intrinsics."
+    },
+    {
+      "name": "_resource_copy_unicode",
+      "start": 279360,
+      "end": 279504,
+      "implementation": "C",
+      "source": "src/resource-legacy.c",
+      "abi": "cdecl void(unsigned char **,const unsigned char **,unsigned long)",
+      "evidence": "Whole44340..443d0 decoded; original/native first entry and partial streams match. Fixed-count path retains original byte cursor increment rather than doubling."
+    },
+    {
+      "name": "_resource_copy_identifier",
+      "start": 279600,
+      "end": 279696,
+      "implementation": "C",
+      "source": "src/resource-legacy.c",
+      "abi": "cdecl void(unsigned char **,const unsigned char **)",
+      "evidence": "Whole44430..44490 decoded; fresh native/original entry and streams match. Ordinal markerFFFF and terminated Unicode/name alignment preserved."
+    },
+    {
+      "name": "_convert_legacy_accelerators",
+      "start": 279696,
+      "end": 279824,
+      "implementation": "C",
+      "source": "src/resource-legacy.c",
+      "abi": "cdecl unsigned long(const unsigned char *,unsigned long,unsigned char *)",
+      "evidence": "Whole44490..44510 decoded; fresh original/native entry and partial streams match. Fivebyte Win16 records expand to four WORDs with zero padding."
+    },
+    {
+      "name": "_convert_legacy_menu",
+      "start": 279824,
+      "end": 279984,
+      "implementation": "C",
+      "source": "src/resource-legacy.c",
+      "abi": "cdecl unsigned long(const unsigned char *,unsigned long,unsigned char *)",
+      "evidence": "Full44510..445b0 decoded; fresh original/native matched first entry and physical partial streams."
+    },
+    {
+      "name": "_convert_legacy_dialog",
+      "start": 279984,
+      "end": 280752,
+      "implementation": "C",
+      "source": "src/resource-legacy.c",
+      "abi": "cdecl unsigned long(const unsigned char *,unsigned long,unsigned char *)",
+      "evidence": "Whole445b0..448b0 decoded; fresh original/native entry and streams match. Packed Win16/Win32 template headers and control fields recovered; original cursor alignment/extra-byte rules preserved."
+    },
+    {
+      "name": "_convert_legacy_strings",
+      "start": 280880,
+      "end": 280992,
+      "implementation": "C",
+      "source": "src/resource-legacy.c",
+      "abi": "cdecl unsigned long(const unsigned char *,unsigned long,unsigned char *)",
+      "evidence": "Whole44930..449a0 decoded; fresh matching original/native entry and partial streams. Counted BYTEstrings to WORDlength/WCHAR payload, native warning path preserved."
+    },
+    {
+      "name": "_display_legacy_strings",
+      "start": 281088,
+      "end": 281089,
+      "implementation": "stub-C",
+      "source": "src/resource-legacy.c",
+      "abi": "cdecl void(const unsigned char *,unsigned long)"
+    },
+    {
+      "name": "_display_legacy_menu",
+      "start": 281312,
+      "end": 281313,
+      "implementation": "stub-C",
+      "source": "src/resource-legacy.c",
+      "abi": "cdecl void(const unsigned char *,unsigned long)"
+    },
+    {
+      "name": "_display_legacy_dialog",
+      "start": 281696,
+      "end": 281697,
+      "implementation": "stub-C",
+      "source": "src/resource-legacy.c",
+      "abi": "cdecl void(const unsigned char *,unsigned long)"
     }
   ],
   "c_stub_references": [
@@ -8615,6 +8731,16 @@
     "large-symbols-wildcards",
     "large-symbols-wildcards",
     "large-symbols-wildcards",
-    "large-symbols-wildcards"
+    "large-symbols-wildcards",
+    "legacy-win16-resources",
+    "legacy-win16-resources",
+    "legacy-win16-resources",
+    "legacy-win16-resources",
+    "legacy-win16-resources",
+    "legacy-win16-resources",
+    "legacy-win16-resources",
+    "legacy-win16-resources",
+    "legacy-win16-resources",
+    "legacy-win16-resources"
   ]
 }

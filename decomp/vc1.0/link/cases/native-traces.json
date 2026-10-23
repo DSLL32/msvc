@@ -260,12 +260,19 @@
       "manifest_path": "cases/shared-prefix/large-symbols-wildcards/manifest.json",
       "manifest_sha256": "f3ba5c9b55ddd7459ded26d59952468051dc48e36bb5ea9d654619a63ea4b7d8",
       "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "legacy-win16-resources": {
+      "receipt_path": "cases/shared-prefix/legacy-win16-resources/capture/receipt.json",
+      "receipt_sha256": "e116a3a01889c63d2bee30ca25e3be3cb2948a42ee0f41d5a4f10e943717815a",
+      "manifest_path": "cases/shared-prefix/legacy-win16-resources/manifest.json",
+      "manifest_sha256": "b7e47dde54858245a2ae63ce3e83142b3286ba09a9cf93278f5002afd96e98f8",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
     }
   },
   "metadata_sha256": {
-    "functions.json": "9010e16fb9d5f80d454f11c223ac0b31aad6f21f06073642680c28b9f222551f",
+    "functions.json": "504fe7b6f64e06f5c637bdeec9c6a6adfbfa65a1aa9c053068e47d3689eefa41",
     "runtime.json": "0cd6b61b5dcee06e3ee5bc870634b94be341fdde6185b4816d577e0879b9685c",
-    "replay-cases.json": "faba1418438a375d8739b748a5ff03df37336422464a6585f5d06016a84fd9fd"
+    "replay-cases.json": "5d26c5a270dea2605efca43b7eb92d2aecda4adfbd8ed689fa1a77c444a9ba8c"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -623,10 +630,30 @@
       "logical": "_control_handler@4",
       "implementation": "C"
     },
+    "convert_legacy_accelerators": {
+      "source": "src/resource-legacy.c",
+      "logical": "_convert_legacy_accelerators",
+      "implementation": "C"
+    },
+    "convert_legacy_dialog": {
+      "source": "src/resource-legacy.c",
+      "logical": "_convert_legacy_dialog",
+      "implementation": "C"
+    },
+    "convert_legacy_menu": {
+      "source": "src/resource-legacy.c",
+      "logical": "_convert_legacy_menu",
+      "implementation": "C"
+    },
     "convert_legacy_resource": {
-      "source": "src/pass-stubs.c",
+      "source": "src/resource-legacy.c",
       "logical": "_convert_legacy_resource",
-      "implementation": "stub-C"
+      "implementation": "C"
+    },
+    "convert_legacy_strings": {
+      "source": "src/resource-legacy.c",
+      "logical": "_convert_legacy_strings",
+      "implementation": "C"
     },
     "convert_object": {
       "source": "src/pass-one.c",
@@ -1782,6 +1809,21 @@
       "source": "src/disassembler.c",
       "logical": "_disassemble_section",
       "implementation": "C"
+    },
+    "display_legacy_dialog": {
+      "source": "src/resource-legacy.c",
+      "logical": "_display_legacy_dialog",
+      "implementation": "stub-C"
+    },
+    "display_legacy_menu": {
+      "source": "src/resource-legacy.c",
+      "logical": "_display_legacy_menu",
+      "implementation": "stub-C"
+    },
+    "display_legacy_strings": {
+      "source": "src/resource-legacy.c",
+      "logical": "_display_legacy_strings",
+      "implementation": "stub-C"
     },
     "driver_usage": {
       "source": "src/stubs.c",
@@ -3513,9 +3555,34 @@
       "logical": "_resolve_weak_externals",
       "implementation": "C"
     },
+    "resource_align_dword": {
+      "source": "src/resource-legacy.c",
+      "logical": "_resource_align_dword",
+      "implementation": "C"
+    },
+    "resource_align_word": {
+      "source": "src/resource-legacy.c",
+      "logical": "_resource_align_word",
+      "implementation": "C"
+    },
     "resource_allocate": {
       "source": "src/resources.c",
       "logical": "_resource_allocate",
+      "implementation": "C"
+    },
+    "resource_copy_bytes": {
+      "source": "src/resource-legacy.c",
+      "logical": "_resource_copy_bytes",
+      "implementation": "C"
+    },
+    "resource_copy_identifier": {
+      "source": "src/resource-legacy.c",
+      "logical": "_resource_copy_identifier",
+      "implementation": "C"
+    },
+    "resource_copy_unicode": {
+      "source": "src/resource-legacy.c",
+      "logical": "_resource_copy_unicode",
       "implementation": "C"
     },
     "resource_error_prefix": {
@@ -4666,7 +4733,17 @@
     "omf_append_line",
     "omf_queue_line",
     "expand_wildcards",
-    "expand_hash"
+    "expand_hash",
+    "convert_legacy_resource",
+    "convert_legacy_menu",
+    "resource_copy_bytes",
+    "resource_copy_unicode",
+    "resource_align_word",
+    "convert_legacy_dialog",
+    "resource_copy_identifier",
+    "resource_align_dword",
+    "convert_legacy_strings",
+    "convert_legacy_accelerators"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5858,6 +5935,27 @@
       "expected": [
         "expand_wildcards",
         "expand_hash"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "legacy-win16-resources": {
+      "first": 788,
+      "last": 798,
+      "seen_count": 612,
+      "expected": [
+        "convert_legacy_resource",
+        "convert_legacy_menu",
+        "resource_copy_bytes",
+        "resource_copy_unicode",
+        "resource_align_word",
+        "convert_legacy_dialog",
+        "resource_copy_identifier",
+        "resource_align_dword",
+        "convert_legacy_strings",
+        "convert_legacy_accelerators"
       ],
       "terminal": {
         "kind": "exit",
