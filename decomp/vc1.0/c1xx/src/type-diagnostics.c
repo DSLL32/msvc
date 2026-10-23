@@ -5,6 +5,7 @@
 #include "type-diagnostics-internal.h"
 #include "function-definitions.h"
 #include "lexer.h"
+#include "inline-capture.h"
 #include <recon.h>
 
 TypeDiagnosticStorage type_diagnostic_storage; /* original 0x90f54, slots start 0x90f64 */
@@ -221,4 +222,71 @@ short __stdcall format_declarator(CppSymbol *symbol, CType *type)
     append_type_diagnostic(text, type_diagnostic_text(shape));
     release_type_diagnostic(shape);
     return text;
+}
+
+/* Original 0x67f50..0x68137. Format a declaration's name, scope,
+   constructor/destructor or conversion-operator spelling, followed by the
+   pointer/array/function shapes supplied by the requested type. */
+short __stdcall format_declarator_shape(CppSymbol *symbol, CType *type)
+{
+    short text = reserve_type_diagnostic();
+    TypeShape *shape;
+    CType *conversion_type;
+    CppSymbol *owner;
+    unsigned kind;
+    if (symbol) {
+        kind = symbol->kind & 31;
+        if (kind == 7) {
+            shape = symbol->type->related;
+            if (!(shape->flags & 0x77))
+                text = format_shape_attributes(text, append_type_diagnostic,
+                    shape->attributes, shape->data.based_symbol, 0);
+            if (shape && !(shape->flags & 0x77)) shape = shape->related;
+            text = format_shape_attributes(text, append_type_diagnostic,
+                shape->attributes, based_symbol, shape);
+        } else
+            text = format_shape_attributes(text, append_type_diagnostic,
+                symbol->type->attributes, based_symbol, 0);
+        if (symbol->name != name_formal) {
+            if ((symbol->declaration_flags & 0x400) || kind == 3) {
+                if (format_enclosing_declarator_scope(text, 0))
+                    append_type_diagnostic(text, "::");
+            }
+            if (kind != 6 && kind != 7)
+                append_type_diagnostic(text, symbol->name);
+            else {
+                if (symbol->declaration_flags & 0x2000)
+                    append_type_diagnostic_char(text, '~');
+                if (symbol->declaration_flags & 0x3000) {
+                    owner = cpp_context_stack->items[symbol->auxiliary.declaring_class];
+                    if (owner) append_type_diagnostic(text, owner->name);
+                } else if (symbol->cpp.parts.token == 1)
+                    append_type_diagnostic(text, symbol->name);
+                else if (symbol->declaration_flags & 0x4000) {
+                    conversion_type = strip_based_shape(symbol->type);
+                    if (printing_inline_declaration) {
+                        append_type_diagnostic(text, "operator\"");
+                        append_type_diagnostic(text, symbol->name);
+                        append_type_diagnostic(text, "\"(void)");
+                    } else {
+                        append_type_diagnostic(text, "operator`");
+                        append_type_diagnostic(text, type_diagnostic_text(
+                            format_declarator(0, drop_first_type_shape(conversion_type))));
+                        append_type_diagnostic(text, "'(void)");
+                    }
+                    shape = symbol->type->related;
+                    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+                    format_this_qualifiers(text, shape->data.parameters->associated_type);
+                    return text;
+                } else {
+                    append_type_diagnostic(text, "operator ");
+                    append_type_diagnostic(text, symbol->name);
+                }
+            }
+        }
+    }
+    if (!type) return text;
+    shape = type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    return format_declarator_shapes(text, shape);
 }

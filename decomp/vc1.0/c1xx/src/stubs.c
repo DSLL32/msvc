@@ -47,7 +47,6 @@
 #include "initializer-records.h"
 #include "call-expressions.h"
 #include "text-format.h"
-#include "type-diagnostics-internal.h"
 #include "directives-internal.h"
 #include "literals-internal.h"
 #include "type-diagnostics-internal.h"
@@ -624,5 +623,9 @@ unsigned remaining_braced_initializer_bytes(void) { __asm { int 3 } return 0; }
 IrToken *__stdcall wrap_default_argument_symbols(IrToken *expression, ExpressionSymbolList *symbols) { __asm { int 3 } return 0; }
 IrToken *__stdcall wrap_default_argument_members(IrToken *expression, MemberReferenceGroup *groups) { __asm { int 3 } return 0; }
 void __stdcall format_declaration_base_type(short text, CType *type) { __asm { int 3 } }
-short __stdcall format_declarator_shape(CppSymbol *symbol, CType *type) { __asm { int 3 } return 0; }
 void __stdcall release_type_diagnostic(short text) { __asm { int 3 } }
+short __stdcall format_shape_attributes(short text, TypeDiagnosticWriter writer, unsigned short attributes, void *base, TypeShape *shape) { __asm { int 3 } return 0; }
+int __stdcall format_enclosing_declarator_scope(short text, int mode) { __asm { int 3 } return 0; }
+void __stdcall append_type_diagnostic_char(short text, int character) { __asm { int 3 } }
+void __stdcall format_this_qualifiers(short text, CType *type) { __asm { int 3 } }
+short __stdcall format_declarator_shapes(short text, TypeShape *shape) { __asm { int 3 } return 0; }

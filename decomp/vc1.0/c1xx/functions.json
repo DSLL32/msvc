@@ -1046,7 +1046,8 @@
     "_collect_member_references@8",
     "_print_inline_declaration@8",
     "_print_declaration@8",
-    "_format_declarator@8"
+    "_format_declarator@8",
+    "_format_declarator_shape@8"
   ],
   "driver": [
     {
@@ -7781,12 +7782,37 @@
     {
       "name": "_format_declarator_shape@8",
       "start": 425808,
-      "end": 425809
+      "end": 426295
     },
     {
       "name": "_release_type_diagnostic@4",
       "start": 428560,
       "end": 428561
+    },
+    {
+      "name": "_format_shape_attributes@20",
+      "start": 425488,
+      "end": 425489
+    },
+    {
+      "name": "_format_enclosing_declarator_scope@8",
+      "start": 425040,
+      "end": 425041
+    },
+    {
+      "name": "_append_type_diagnostic_char@8",
+      "start": 424064,
+      "end": 424065
+    },
+    {
+      "name": "_format_this_qualifiers@8",
+      "start": 429136,
+      "end": 429137
+    },
+    {
+      "name": "_format_declarator_shapes@8",
+      "start": 426304,
+      "end": 426305
     }
   ],
   "cases": {
@@ -7987,7 +8013,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_format_declarator_shape@8",
+      "terminal": "_format_shape_attributes@20",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8010,7 +8036,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1041-format_declarator-8/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1042-format_declarator_shape-8/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8057,7 +8083,8 @@
         "cases/frontiers/state_machine_debug/1038-collect_member_references-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1039-print_inline_declaration-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1040-print_declaration-8/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1041-format_declarator-8/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1041-format_declarator-8/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1042-format_declarator_shape-8/frontier-extension.json"
       ]
     }
   },
