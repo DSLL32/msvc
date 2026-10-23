@@ -1,0 +1,5 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x5f31c: file src/debug-info.c, line 1004.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+[Inferior 1 (process 1202060) exited normally]

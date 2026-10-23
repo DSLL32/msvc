@@ -1,27 +1,33 @@
 {
-  "authorization": "Root approved one successful relocatable-record arena unit with supported __based declarations/conversions; validate originals first, complete its reached frontend paths, then propose the next substantial case.",
-  "baseline_accepted_count": 913,
+  "authorization": "Root approved one /Zi PCH debug-database/library-binding producer+consumer workflow after arena commit; validate public /Yl and complete original link/runtime before freezing.",
+  "baseline_commit": "f751e99dc0c685a61ae6eface4b4098bee2311d8",
+  "baseline_accepted_count": 921,
   "baseline_coverage": {
-    "accepted_union_bytes": 228920,
+    "accepted_union_bytes": 230056,
     "original_code_bytes": 277234,
     "accepted_by_origin_bytes": {
-      "frontend_source": 209153,
+      "frontend_source": 210289,
       "CRT": 19587,
       "import_thunks": 180
     },
     "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
-    "percent": 82.57284460059012,
+    "percent": 82.9826067509757,
     "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
   },
   "cases": [
     {
-      "case": "based-record-arena",
-      "phase": "c1",
-      "status": "complete; 913 through 921; exact five raw files and all 28 phase regressions"
+      "case": "pdb-pch-binding",
+      "phase": "c1-create",
+      "status": "complete;921 through929; exact PCH/five IR/PDB with proven signature clock only"
+    },
+    {
+      "case": "pdb-pch-binding",
+      "phase": "c1-use",
+      "depends_on": "c1-create actual PCH/PDB state",
+      "status": "complete;929 through931; actual native producer PCH/PDB chain and frozen original backend object"
     }
   ],
-  "Yd": "Not selected: the standalone /Z7 types case has no PCH dependency, so /Yd would add a distinct PCH-debug case rather than validate this embedded-type writer.",
   "status": "complete",
-  "previous_completed_authorization": "Ordinary malformed-C diagnostic/recovery case completed at82d2bd31, eight functions and exact expected exit6; flag repairs independently proved without function credit.",
-  "completion": "cases/based-record-arena/validation.json"
+  "previous_completed_authorization": "Named-base arena completed f751e99d; eight functions/1136 extent bytes; 28 native phases.",
+  "completion": "cases/pdb-pch-binding/validation.json"
 }

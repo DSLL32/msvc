@@ -1,0 +1,60 @@
+{
+  "buffers": {
+    "expression_file": "004f0101",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "1186032e1d30016900000000",
+    "debug_file": "0c000a000304010000000b321600bc60db6a0000000024533a5c7663312e305c63315c7064622d7063682d62696e64696e675c6d7376632e706462f3f2f1",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "copy_bytes_end",
+    "declare_pch_debug_library",
+    "finish_pch_output",
+    "close_source_file",
+    "scan_source_token",
+    "scan_token",
+    "read_parser_token",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "exit": null,
+  "frontier": "copy_bytes_end",
+  "pc": 1448546286,
+  "label_stack_count": 0,
+  "scanner_flags": 2048,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_copy_bytes_end@12",
+  "fresh_original_match": true,
+  "reference_clock_observation": {
+    "source": "/root/.ai-tmp/msvc2/vc1.0/c1/captures/pdb-pch-include-922/work/msvc.pdb",
+    "offset": 48,
+    "value": 1792762044,
+    "meaning": "Observed original database creation time; raw artifact comparison retained."
+  },
+  "preparation_seconds": 0.005370870232582092,
+  "execution_seconds": 0.144915078766644,
+  "total_seconds": 0.15268164779990911,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f producer.c -Ze -Zp8 -Gs -Foproducer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zi -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Ycbinding.h -YlBindingArchive -Fpbinding.pch -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/pdb-pch-include-922",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\pdb-pch-binding",
+    "RECON_FIXED_TIME": "1792762044"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+  },
+  "executable_sha256": "292eb586ab27d7c4ca5029ad6f3418e6abbe56d5115778798665aab4814e6ff0"
+}

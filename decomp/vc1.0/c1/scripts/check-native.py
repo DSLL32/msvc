@@ -30,10 +30,13 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'inline-asm-rich':('inline-asm-rich','c1'),
          'storage-pragmas':('storage-pragmas','c1'),
          'diagnostic-recovery':('diagnostic-recovery','c1'),
-         'based-record-arena':('based-record-arena','c1')}
+         'based-record-arena':('based-record-arena','c1'),
+         'pdb-pch-binding-create':('pdb-pch-binding','c1-create'),
+         'pdb-pch-binding-use':('pdb-pch-binding','c1-use')}
 
 
 CASE_DEPENDENCIES = {
+    'pdb-pch-binding-use':('pdb-pch-binding-create','binding.pch'),
     'pch-use':('pch-create','state.pch'),
     'debug-pch-use':('debug-pch-create','debug.pch'),
     'automatic-pch-reuse':('automatic-pch-create','state.pch'),
@@ -113,6 +116,11 @@ def validate_artifacts(work, fixture, phase):
     return outputs
 
 
+def validate_generated_signature(work, signature):
+    assert struct.unpack_from('<I', (work/'msvc.pdb').read_bytes(), 48)[0] == signature, 'consumer database signature changed'
+    assert struct.unpack_from('<I', (work/'irdb').read_bytes(), 14)[0] == signature, 'consumer reference signature changed'
+
+
 def validate_result(name, returncode, stdout, stderr, phase):
     assert returncode == phase['expected_exit'], ('native status',name,returncode)
     assert stdout == phase['expected_stdout'].encode('latin1'), 'stdout differs: '+name
@@ -141,6 +149,20 @@ def run_case(name, executable, directory, traces=None, dependency=None):
                    include=windows(ROOT/'toolchains/1.0-nt/include')),
                RECON_PROGRAM_PATH=windows(ROOT/'toolchains/1.0-nt/bin/C13232.EXE'))
     env.update(path_environment)
+    generated_inputs = phase.get('generated_input_dependencies', [])
+    generated_contract = None
+    generated_signature = None
+    if generated_inputs:
+        assert dependency is not None, 'consumer requires actual producer state'
+        producer_case = generated_inputs[0]['case']
+        assert CASE_DEPENDENCIES[name][0] == producer_case
+        producer_phase = metadata['phases'][phase['producer_phase']]
+        # This also proves the complete captured C2 input contract before
+        # exposing its frozen producer.obj response to the frontend consumer.
+        generated_contract = validate_artifacts(dependency.parent, fixture, producer_phase)
+        assert phase['captured_backend_dependency']['input_outputs'] == [
+            row['output_name'] for row in producer_phase['outputs']]
+        assert phase['captured_backend_dependency']['object_input'] == 'producer.obj'
     for item in phase['inputs']:
         data = captured(fixture/item['path'], item)
         basename = Path(item['path']).name
@@ -151,6 +173,20 @@ def run_case(name, executable, directory, traces=None, dependency=None):
             assert dependency is not None, 'PCH consumer requires actual producer output'
             generated = dependency.read_bytes()
             assert generated == data, 'generated PCH differs from captured dependency'
+            data = generated
+        for generated_input in generated_inputs:
+            if basename != generated_input['input_name']:
+                continue
+            assert generated_input['case'] == CASE_DEPENDENCIES[name][0]
+            generated = (dependency.parent/generated_input['output_name']).read_bytes()
+            assert len(generated) == len(data), 'generated dependency size differs'
+            clock_offset = generated_input.get('clock_offset')
+            if clock_offset is None:
+                assert generated == data, 'generated PCH differs from captured dependency'
+            else:
+                assert basename == 'msvc.pdb' and clock_offset == 48
+                assert generated[:48] + generated[52:] == data[:48] + data[52:], 'generated database differs outside signature'
+                generated_signature = struct.unpack_from('<I', generated, 48)[0]
             data = generated
         target = work/basename
         assert not target.exists(), 'duplicate input basename'
@@ -213,9 +249,13 @@ def run_case(name, executable, directory, traces=None, dependency=None):
                      trace_sha256=sha(raw), shared_state_bytes=32+len(cache['application_definitions']))
     validate_result(name,result.returncode,result.stdout,result.stderr,phase)
     outputs = validate_artifacts(work, fixture, phase)
+    if generated_signature is not None:
+        validate_generated_signature(work, generated_signature)
     state.update(status='pass', manifest=str(manifest.relative_to(ROOT)),
                  manifest_sha256=sha(manifest.read_bytes()), outputs=outputs,
                  generated_dependency=(str(dependency) if dependency else None),
+                 generated_input_contract=generated_contract,
+                 generated_input_signature=generated_signature,
                  oracle_seconds=time.perf_counter()-checks,
                  total_seconds=time.perf_counter()-start)
     (case_root/'receipt.json').write_text(json.dumps(state,indent=2)+'\n')

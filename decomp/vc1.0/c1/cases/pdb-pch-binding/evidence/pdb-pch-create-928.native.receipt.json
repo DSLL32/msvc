@@ -1,0 +1,61 @@
+{
+  "buffers": {
+    "expression_file": "004f0101",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "1186032e1d30016900000000",
+    "debug_file": "0c000a000304010000000b321600de61db6a0000000024533a5c7663312e305c63315c7064622d7063682d62696e64696e675c6d7376632e706462f3f2f1",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "write_codeview_symbol",
+    "pdb_pointer_type_index",
+    "pdb_shape_type_index",
+    "pdb_type_index",
+    "write_pdb_member",
+    "build_pdb_field_list",
+    "pdb_field_list_index",
+    "pdb_complete_record_type_index",
+    "debug_symbol_type_index",
+    "emit_symbol_declaration",
+    "serialize_scope",
+    "finish_pch_debug_symbols"
+  ],
+  "exit": null,
+  "frontier": "write_codeview_symbol",
+  "pc": 1448771498,
+  "label_stack_count": 0,
+  "scanner_flags": 2048,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_write_codeview_symbol",
+  "fresh_original_match": true,
+  "reference_clock_observation": {
+    "source": "/root/.ai-tmp/msvc2/vc1.0/c1/captures/pdb-pch-create-928/work/msvc.pdb",
+    "offset": 48,
+    "value": 1792762334,
+    "meaning": "Observed original database creation time; raw artifact comparison retained."
+  },
+  "preparation_seconds": 0.005197792313992977,
+  "execution_seconds": 0.15506627317517996,
+  "total_seconds": 0.16293913405388594,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f producer.c -Ze -Zp8 -Gs -Foproducer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zi -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Ycbinding.h -YlBindingArchive -Fpbinding.pch -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/pdb-pch-create-928",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\pdb-pch-binding",
+    "RECON_FIXED_TIME": "1792762334"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+  },
+  "executable_sha256": "5aba2aed8a7c5a1ce167407810740c8ca2789371b28832dc9911b39a68bc88a2"
+}

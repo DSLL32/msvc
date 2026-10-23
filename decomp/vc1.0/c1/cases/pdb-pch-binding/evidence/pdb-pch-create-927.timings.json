@@ -1,0 +1,47 @@
+[
+  {
+    "name": "native-build",
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "seconds": 1.7447913931682706,
+    "exit": 0
+  },
+  {
+    "name": "original-capture",
+    "command": [
+      "python3",
+      "scripts/capture-frontier.py",
+      "--case",
+      "cases/pdb-pch-binding",
+      "--phase",
+      "c1-create",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/pdb-pch-create-927",
+      "--debugger",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+    ],
+    "seconds": 1.1389036932960153,
+    "exit": 0
+  },
+  {
+    "name": "native-frontier",
+    "command": [
+      "python3",
+      "scripts/debug-frontier.py",
+      "--case",
+      "cases/pdb-pch-binding",
+      "--phase",
+      "c1-create",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/validation/pdb-pch-create-927",
+      "--reference",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/pdb-pch-create-927"
+    ],
+    "seconds": 0.2373095005750656,
+    "exit": 0
+  }
+]

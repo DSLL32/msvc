@@ -1,0 +1,95 @@
+{
+  "status": "pass",
+  "phases": [
+    {
+      "phase": "c1-create",
+      "status": "pass",
+      "files": [
+        {
+          "name": "irdb",
+          "bytes": 63,
+          "changed_byte_offsets": [
+            14
+          ]
+        },
+        {
+          "name": "irex",
+          "bytes": 1177,
+          "changed_byte_offsets": []
+        },
+        {
+          "name": "irgl",
+          "bytes": 611,
+          "changed_byte_offsets": []
+        },
+        {
+          "name": "irin",
+          "bytes": 34,
+          "changed_byte_offsets": []
+        },
+        {
+          "name": "irsy",
+          "bytes": 132,
+          "changed_byte_offsets": []
+        },
+        {
+          "name": "binding.pch",
+          "bytes": 39884,
+          "changed_byte_offsets": []
+        },
+        {
+          "name": "msvc.pdb",
+          "bytes": 958,
+          "changed_byte_offsets": [
+            48
+          ]
+        }
+      ]
+    },
+    {
+      "phase": "c1-use",
+      "status": "pass",
+      "files": [
+        {
+          "name": "irdb",
+          "bytes": 63,
+          "changed_byte_offsets": [
+            14
+          ]
+        },
+        {
+          "name": "irex",
+          "bytes": 1585,
+          "changed_byte_offsets": []
+        },
+        {
+          "name": "irgl",
+          "bytes": 262,
+          "changed_byte_offsets": []
+        },
+        {
+          "name": "irin",
+          "bytes": 60,
+          "changed_byte_offsets": []
+        },
+        {
+          "name": "irsy",
+          "bytes": 193,
+          "changed_byte_offsets": []
+        },
+        {
+          "name": "binding.pch",
+          "bytes": 39884,
+          "changed_byte_offsets": []
+        },
+        {
+          "name": "msvc.pdb",
+          "bytes": 968,
+          "changed_byte_offsets": [
+            48
+          ]
+        }
+      ]
+    }
+  ]
+}

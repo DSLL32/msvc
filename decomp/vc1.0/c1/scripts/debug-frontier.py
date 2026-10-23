@@ -24,7 +24,10 @@ def main():
     parser.add_argument('--trace-flags',help='Logical function to observe at entry/return')
     parser.add_argument('--trace-function-finishes',action='store_true')
     parser.add_argument('--trace-enum-callbacks', action='store_true')
+    parser.add_argument('--enum-callback-function', choices=['legacy','pdb'], default='legacy')
     options = parser.parse_args()
+    enum_callback = '_compare_pdb_enumerators' if options.enum_callback_function == 'pdb' else '_compare_legacy_enumerators'
+    assert options.enum_callback_function == 'legacy' or options.trace_enum_callbacks
     if options.trace_function_finishes:
         assert options.trace_flags is None
         options.trace_flags = '_finish_function_definition'
@@ -49,6 +52,29 @@ def main():
                MSC_CMD_FLAGS=phase['environment']['MSC_CMD_FLAGS'].format(
                    bin=windows(ROOT/'toolchains/1.0-nt/bin'), include=windows(ROOT/'toolchains/1.0-nt/include')))
     env.update(path_environment)
+    # Match the observed external clock input, retaining raw pending-buffer and
+    # file equality. This is limited to cases whose database-signature writer
+    # and companion field have independent original instruction provenance.
+    clock_observation = None
+    if options.reference and phase.get('reference_clock'):
+        clock = phase['reference_clock']
+        assert clock == dict(file='msvc.pdb', offset=48, bytes=4,
+                             companion_file='irdb', companion_offset=14)
+        reference = options.reference.resolve()
+        ref_receipt = json.loads((reference/'receipt.json').read_text())
+        ref_work = reference/ref_receipt.get('working_directory_snapshot','work')
+        database = ref_work/clock['file']
+        if database.exists():
+            import struct
+            raw = database.read_bytes()
+            assert len(raw) >= 52
+            signature = struct.unpack_from('<I',raw,48)[0]
+            companion = ref_work/clock['companion_file']
+            if companion.exists() and companion.stat().st_size >= 18:
+                assert struct.unpack_from('<I',companion.read_bytes(),14)[0] == signature
+            env['RECON_FIXED_TIME'] = str(signature)
+            clock_observation = dict(source=str(database), offset=48,
+                                     value=signature, meaning='Observed original database creation time; raw artifact comparison retained.')
     names = [r['name'][1:] for r in config['buffered_streams']]
     expected_record = None
     expected_native = None
@@ -84,7 +110,7 @@ def main():
         redirection += ' 2>'+shlex.quote(str(directory/'stderr'))
     callback_commands = ''
     if options.trace_enum_callbacks:
-        callback_commands = '''break compare_legacy_enumerators
+        callback_commands = '''break %s
 commands
 silent
 python
@@ -96,7 +122,7 @@ with open(%r,'a') as log: log.write(json.dumps([int(a['index']),int(a['value']),
 end
 continue
 end
-''' % str(directory/'enum-callbacks.jsonl')
+''' % (enum_callback[1:],str(directory/'enum-callbacks.jsonl'))
     flag_commands = ''
     if options.trace_flags:
         probe_name = re.sub(r'@\d+$','',options.trace_flags[1:])
@@ -239,6 +265,7 @@ end
         assert (reference/'stdout').read_bytes() == (directory/'stdout').read_bytes(), 'stdout differs at frontier'
         assert (reference/'stderr').read_bytes() == (directory/'stderr').read_bytes(), 'stderr differs at frontier'
         state['fresh_original_match'] = True
+    state['reference_clock_observation'] = clock_observation
     state.update(preparation_seconds=prepared,execution_seconds=execution,total_seconds=time.perf_counter()-start,
                  environment=env,stdio=phase.get('stdio', {'stderr_to_stdout':False}),executable_sha256=hashlib.sha256((BINARY/'build/native/C13232.EXE').read_bytes()).hexdigest())
     (directory/'receipt.json').write_text(json.dumps(state,indent=2)+'\n')

@@ -1,0 +1,93 @@
+{
+  "buffers": {},
+  "frames": [],
+  "exit": 0,
+  "frontier": null,
+  "enum_callback_operands": [
+    [
+      108,
+      13,
+      106,
+      4294934527
+    ],
+    [
+      107,
+      4294967289,
+      108,
+      13
+    ],
+    [
+      110,
+      2147483664,
+      108,
+      13
+    ],
+    [
+      109,
+      70000,
+      110,
+      2147483664
+    ],
+    [
+      108,
+      13,
+      106,
+      4294934527
+    ],
+    [
+      107,
+      4294967289,
+      108,
+      13
+    ],
+    [
+      109,
+      70000,
+      108,
+      13
+    ],
+    [
+      108,
+      13,
+      106,
+      4294934527
+    ],
+    [
+      107,
+      4294967289,
+      108,
+      13
+    ],
+    [
+      107,
+      4294967289,
+      106,
+      4294934527
+    ]
+  ],
+  "fresh_original_match": true,
+  "reference_clock_observation": {
+    "source": "/root/.ai-tmp/msvc2/vc1.0/c1/captures/pdb-pch-adjusted-create-callbacks/work/msvc.pdb",
+    "offset": 48,
+    "value": 1792763115,
+    "meaning": "Observed original database creation time; raw artifact comparison retained."
+  },
+  "preparation_seconds": 0.005301773548126221,
+  "execution_seconds": 0.15824007522314787,
+  "total_seconds": 0.16830981243401766,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f producer.c -Ze -Zp8 -Gs -Foproducer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zi -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Ycbinding.h -YlBindingArchive -Fpbinding.pch -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2",
+    "RECON_DRIVE_S": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/pdb-pch-adjusted-create-callbacks",
+    "RECON_CANONICAL_CWD": "S:\\vc1.0\\c1\\pdb-pch-binding",
+    "RECON_FIXED_TIME": "1792763115"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+  },
+  "executable_sha256": "6d34b6db099fe9f448d8dad4bef712c7317a2a564ecdd487de2956902b5a2071"
+}

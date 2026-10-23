@@ -1,0 +1,3 @@
+entry _reference_pch_debug_library@4 rva 00038a90 byte 53
+entry _assign_unpooled_literal_segment@8 rva 00030490 byte 83
+exit 0

@@ -1,0 +1,40 @@
+{
+  "status": "pass",
+  "files": [
+    {
+      "name": "irdb",
+      "bytes": 63,
+      "sha256": "63f871bfdad3c82d19168d53f7c013745a35281ced61c6baec95d470d37e1baf"
+    },
+    {
+      "name": "irex",
+      "bytes": 1585,
+      "sha256": "7f589531f5f9bbba5678c7cfd229f9705d099e6ffcf638e89c01d1d695e1c648"
+    },
+    {
+      "name": "irgl",
+      "bytes": 262,
+      "sha256": "02a4bc2a4071341ba3be7b57819766dbaac99c08d3ac78077dc779646e2a2893"
+    },
+    {
+      "name": "irin",
+      "bytes": 60,
+      "sha256": "1ad33bef1fd6691ca33e78429b55ac833f464090614ab210e9e1f3bb0c91be06"
+    },
+    {
+      "name": "irsy",
+      "bytes": 193,
+      "sha256": "58d2c71b54ccaf5c69e75b055a7ae230511e1cab9dbae013ffde0b854b0201c7"
+    },
+    {
+      "name": "binding.pch",
+      "bytes": 39884,
+      "sha256": "eafab8a8cb7814613ae4e8e5b97bcbc92447cb1230cac1780251b0436abe3213"
+    },
+    {
+      "name": "msvc.pdb",
+      "bytes": 968,
+      "sha256": "0558c502d2f57d7223d59693096476ad78700738ee09370dadafa3a836203202"
+    }
+  ]
+}

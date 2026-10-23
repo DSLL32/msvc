@@ -1,0 +1,172 @@
+{
+  "status": "passed",
+  "executable": "/root/msvc2/decomp/vc1.0/c1/build/native-trace/C13232.EXE",
+  "executable_sha256": "22c28379435828dc779450052f7bbd040d9c3de867c233fe7ed75c8562c69c70",
+  "trace": true,
+  "trace_prepare_seconds": 0.12235946301370859,
+  "cases": [
+    {
+      "case": "pdb-pch-binding-create",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/pdb-pch-final-chain/pdb-pch-binding-create/vc1.0/c1/pdb-pch-binding",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.007996737025678158,
+      "execution_seconds": 0.009590737521648407,
+      "application_entries": 8,
+      "accepted_prefix": 783,
+      "trace_sha256": "e0a7f372560292bde54187b9b7f1d2acefafc1ca3bd05aeb2a8a01d7d9bf740c",
+      "shared_state_bytes": 934,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/pdb-pch-binding/manifest.json",
+      "manifest_sha256": "a6c9c9b93c04cf143b15ce10206df3ce096656a988d19f575b1f26e218abcbc8",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 63,
+          "sha256": "0aa1402161e29dcf03016160f32d542d390c69e274709d5425610bc1679d9875"
+        },
+        {
+          "name": "irex",
+          "bytes": 1177,
+          "sha256": "2646facbf8e5401a776abb8a861107ad084bf6e1b0abd4e620ce9754cb85c750"
+        },
+        {
+          "name": "irgl",
+          "bytes": 611,
+          "sha256": "bdc21f5859b34c1728668053636f37eeea8a4b857b9040a1ca3e975cacb193c7"
+        },
+        {
+          "name": "irin",
+          "bytes": 34,
+          "sha256": "e5c563aa3f5a41dd7d65f86dd5701b165db694c7a94be7067ef672d8a4f56c1c"
+        },
+        {
+          "name": "irsy",
+          "bytes": 132,
+          "sha256": "1ef64d61d8cd0eb8b229a8159a3835dcc316f55eb11edf722cadfc09ca7501ce"
+        },
+        {
+          "name": "binding.pch",
+          "bytes": 39884,
+          "sha256": "eafab8a8cb7814613ae4e8e5b97bcbc92447cb1230cac1780251b0436abe3213"
+        },
+        {
+          "name": "msvc.pdb",
+          "bytes": 958,
+          "sha256": "82f5a5b58ab924bf6e57eaf125cd7b189cc2fb19539018f0b040c49c1848c181"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.004317321814596653,
+      "total_seconds": 0.022761217318475246
+    },
+    {
+      "case": "pdb-pch-binding-use",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/pdb-pch-final-chain/pdb-pch-binding-use/vc1.0/c1/pdb-pch-binding",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.012218440882861614,
+      "execution_seconds": 0.007169933989644051,
+      "application_entries": 2,
+      "accepted_prefix": 791,
+      "trace_sha256": "5e899c16c3b032a76f43e83f687b626444b26a60d7b909e2edd93cc280a30f66",
+      "shared_state_bytes": 934,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/pdb-pch-binding/manifest.json",
+      "manifest_sha256": "a6c9c9b93c04cf143b15ce10206df3ce096656a988d19f575b1f26e218abcbc8",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 63,
+          "sha256": "7007729637e6d4e81514ba5b7c8780a87ef5fa155936a416d4f813f31bd82456"
+        },
+        {
+          "name": "irex",
+          "bytes": 1585,
+          "sha256": "7f589531f5f9bbba5678c7cfd229f9705d099e6ffcf638e89c01d1d695e1c648"
+        },
+        {
+          "name": "irgl",
+          "bytes": 262,
+          "sha256": "02a4bc2a4071341ba3be7b57819766dbaac99c08d3ac78077dc779646e2a2893"
+        },
+        {
+          "name": "irin",
+          "bytes": 60,
+          "sha256": "1ad33bef1fd6691ca33e78429b55ac833f464090614ab210e9e1f3bb0c91be06"
+        },
+        {
+          "name": "irsy",
+          "bytes": 193,
+          "sha256": "58d2c71b54ccaf5c69e75b055a7ae230511e1cab9dbae013ffde0b854b0201c7"
+        },
+        {
+          "name": "binding.pch",
+          "bytes": 39884,
+          "sha256": "eafab8a8cb7814613ae4e8e5b97bcbc92447cb1230cac1780251b0436abe3213"
+        },
+        {
+          "name": "msvc.pdb",
+          "bytes": 968,
+          "sha256": "161fb79104c741dd4885196168a439b54d68efe4c537f651e201a4e530cfb28a"
+        }
+      ],
+      "generated_dependency": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/pdb-pch-final-chain/pdb-pch-binding-create/vc1.0/c1/pdb-pch-binding/binding.pch",
+      "generated_input_contract": [
+        {
+          "name": "irdb",
+          "bytes": 63,
+          "sha256": "0aa1402161e29dcf03016160f32d542d390c69e274709d5425610bc1679d9875"
+        },
+        {
+          "name": "irex",
+          "bytes": 1177,
+          "sha256": "2646facbf8e5401a776abb8a861107ad084bf6e1b0abd4e620ce9754cb85c750"
+        },
+        {
+          "name": "irgl",
+          "bytes": 611,
+          "sha256": "bdc21f5859b34c1728668053636f37eeea8a4b857b9040a1ca3e975cacb193c7"
+        },
+        {
+          "name": "irin",
+          "bytes": 34,
+          "sha256": "e5c563aa3f5a41dd7d65f86dd5701b165db694c7a94be7067ef672d8a4f56c1c"
+        },
+        {
+          "name": "irsy",
+          "bytes": 132,
+          "sha256": "1ef64d61d8cd0eb8b229a8159a3835dcc316f55eb11edf722cadfc09ca7501ce"
+        },
+        {
+          "name": "binding.pch",
+          "bytes": 39884,
+          "sha256": "eafab8a8cb7814613ae4e8e5b97bcbc92447cb1230cac1780251b0436abe3213"
+        },
+        {
+          "name": "msvc.pdb",
+          "bytes": 958,
+          "sha256": "82f5a5b58ab924bf6e57eaf125cd7b189cc2fb19539018f0b040c49c1848c181"
+        }
+      ],
+      "generated_input_signature": 1792763291,
+      "oracle_seconds": 0.004210544750094414,
+      "total_seconds": 0.024298952892422676
+    }
+  ],
+  "fixture_total_seconds": 0.04706017021089792,
+  "execution_policy": "Only native i386 ELF; immutable reference metadata/bytes; no Wine or original execution.",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/pdb-pch-final-chain"
+}

@@ -1,0 +1,16 @@
+python3 scripts/dependencies.py
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/stubs.c -o build/native/stubs.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/declarations.c -o build/native/declarations.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -DRECON_NATIVE_TRACE -finstrument-functions -c src/stubs.c -o build/native-trace/stubs.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -DRECON_NATIVE_TRACE -finstrument-functions -c src/declarations.c -o build/native-trace/declarations.o
+src/declarations.c:2337:18: error: incompatible integer to pointer conversion assigning to 'CType *' (aka 'struct CType *') from 'int' [-Wint-conversion]
+ 2337 |     symbol->type = prepend_expression_type_shape(symbol->type, 0, attributes, &section);
+      |                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+make: *** [Makefile:66: build/native/declarations.o] Error 1
+make: *** Waiting for unfinished jobs....
+src/declarations.c:2337:18: error: incompatible integer to pointer conversion assigning to 'CType *' (aka 'struct CType *') from 'int' [-Wint-conversion]
+ 2337 |     symbol->type = prepend_expression_type_shape(symbol->type, 0, attributes, &section);
+      |                  ^ ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+1 error generated.
+make: *** [Makefile:70: build/native-trace/declarations.o] Error 1

@@ -1,0 +1,159 @@
+{
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc1.0\\c1\\tools\\capture-cl.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "/nologo /c /Zi /Od /G5 /W3 /Yubinding.h /Fpbinding.pch consumer.c",
+    "S:\\vc1.0\\c1\\transport\\pdb-pch-binding-second-use\\stdout",
+    "S:\\vc1.0\\c1\\transport\\pdb-pch-binding-second-use\\stderr",
+    "S:\\vc1.0\\c1\\transport\\pdb-pch-binding-second-use\\events",
+    "S:\\vc1.0\\c1\\pdb-pch-binding",
+    "S:\\vc1.0\\c1\\transport\\pdb-pch-binding-second-use\\config.txt",
+    "ordinary",
+    "S:\\vc1.0\\c1\\transport\\pdb-pch-binding-second-use"
+  ],
+  "CL_arguments": "/nologo /c /Zi /Od /G5 /W3 /Yubinding.h /Fpbinding.pch consumer.c",
+  "helper_source": "decomp/vc1.0/cl/src/capture-run.c",
+  "helper_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+  "helper_sha256": "b80b97201ce6f78fccc165200f844db467639e38e02f01523cdf68cecdc6683c",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "cwd": "S:\\vc1.0\\c1\\pdb-pch-binding",
+  "environment": {
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib"
+  },
+  "host_exit": 0,
+  "execution_seconds": 2.8656035345047712,
+  "children": [
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\000592 -f consumer.c -Ze -Zp8 -Gs -Foconsumer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zi -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Yubinding.h -Fpbinding.pch -I R:\\toolchains\\1.0-nt\\include "
+      ]
+    },
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c23232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il .\\000592 -f consumer.c -Gs4096 -dos -Foconsumer.obj -ML -Zi -G5 -W 3 "
+      ]
+    }
+  ],
+  "input_mtime_ns": 1768480496000000000,
+  "C1_boundary_file_sets": {
+    "001-before": [
+      {
+        "name": "binding.h",
+        "bytes": 1212,
+        "sha256": "a52ecb24360ecc8f7d746d8798d54e86323da7690c7f6195b9713ba09c83a644",
+        "mtime_ns": 1768480496000000000
+      },
+      {
+        "name": "binding.pch",
+        "bytes": 39896,
+        "sha256": "b93c859787dd5daf59c135a0592f08b6273d4b9d15ddb934ceb60eafd19ed144",
+        "mtime_ns": 1792761733565212200
+      },
+      {
+        "name": "consumer.c",
+        "bytes": 857,
+        "sha256": "339819188bcf76523e1837b4cdfe6c5fbb6823b2856cb706cf1f7c89d57417af",
+        "mtime_ns": 1768480496000000000
+      },
+      {
+        "name": "msvc.pdb",
+        "bytes": 958,
+        "sha256": "7f345a90399e3201398eeb891badf8887751386735b30086e70a7ab0b613b172",
+        "mtime_ns": 1792761733565212200
+      },
+      {
+        "name": "producer.c",
+        "bytes": 1187,
+        "sha256": "6d8df2931395fe64406bc22509243b93e440a172965a17ec8d0147cce7df93c3",
+        "mtime_ns": 1768480496000000000
+      },
+      {
+        "name": "producer.obj",
+        "bytes": 3178,
+        "sha256": "4382228e062882a7cbb3385e2f625768db4c62cc7fb02ce5c884f7487fff6e00",
+        "mtime_ns": 1792761734053202600
+      }
+    ],
+    "001-after": [
+      {
+        "name": "000592db",
+        "bytes": 63,
+        "sha256": "5ae3d4fd5857e7738de916b9e3e616e73822ed0dd0715c8f75dc048af8c34946",
+        "mtime_ns": 1792761736369157000
+      },
+      {
+        "name": "000592ex",
+        "bytes": 1585,
+        "sha256": "7f589531f5f9bbba5678c7cfd229f9705d099e6ffcf638e89c01d1d695e1c648",
+        "mtime_ns": 1792761736369157000
+      },
+      {
+        "name": "000592gl",
+        "bytes": 262,
+        "sha256": "b1cd111951823148273424b1d39baeb3742838f18b6daa32443ca4ab7c1a565c",
+        "mtime_ns": 1792761736369157000
+      },
+      {
+        "name": "000592in",
+        "bytes": 60,
+        "sha256": "1ad33bef1fd6691ca33e78429b55ac833f464090614ab210e9e1f3bb0c91be06",
+        "mtime_ns": 1792761736369157000
+      },
+      {
+        "name": "000592sy",
+        "bytes": 193,
+        "sha256": "ece382d67048648f1f41aa92ee978d20e764cb26ae052604b0723c7fd3ff17f3",
+        "mtime_ns": 1792761736369157000
+      },
+      {
+        "name": "binding.h",
+        "bytes": 1212,
+        "sha256": "a52ecb24360ecc8f7d746d8798d54e86323da7690c7f6195b9713ba09c83a644",
+        "mtime_ns": 1768480496000000000
+      },
+      {
+        "name": "binding.pch",
+        "bytes": 39896,
+        "sha256": "b93c859787dd5daf59c135a0592f08b6273d4b9d15ddb934ceb60eafd19ed144",
+        "mtime_ns": 1792761733565212200
+      },
+      {
+        "name": "consumer.c",
+        "bytes": 857,
+        "sha256": "339819188bcf76523e1837b4cdfe6c5fbb6823b2856cb706cf1f7c89d57417af",
+        "mtime_ns": 1768480496000000000
+      },
+      {
+        "name": "msvc.pdb",
+        "bytes": 968,
+        "sha256": "06c6988b39b85999232f750cace10052dfb44a0d2fb56578a958cc80fc49d63f",
+        "mtime_ns": 1792761736369157000
+      },
+      {
+        "name": "producer.c",
+        "bytes": 1187,
+        "sha256": "6d8df2931395fe64406bc22509243b93e440a172965a17ec8d0147cce7df93c3",
+        "mtime_ns": 1768480496000000000
+      },
+      {
+        "name": "producer.obj",
+        "bytes": 3178,
+        "sha256": "4382228e062882a7cbb3385e2f625768db4c62cc7fb02ce5c884f7487fff6e00",
+        "mtime_ns": 1792761734053202600
+      }
+    ]
+  }
+}

@@ -1,0 +1,319 @@
+{
+  "case": "PDB-bearing PCH library-binding producer and consumer",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "c1-create": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\pdb-pch-binding",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f producer.c -Ze -Zp8 -Gs -Foproducer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zi -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Ycbinding.h -YlBindingArchive -Fpbinding.pch -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/binding.h",
+          "bytes": 1171,
+          "sha256": "7ce2b1664fc9265f1d0f4325c503ae23dcbf0c8481f2470b03f4200b80ba3acd",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/consumer.c",
+          "bytes": 857,
+          "sha256": "339819188bcf76523e1837b4cdfe6c5fbb6823b2856cb706cf1f7c89d57417af",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "inputs/producer.c",
+          "bytes": 1187,
+          "sha256": "6d8df2931395fe64406bc22509243b93e440a172965a17ec8d0147cce7df93c3",
+          "mtime_ns": 1768480496000000000
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1-create/irdb",
+          "bytes": 63,
+          "sha256": "1d7665d3772166d1e452c375463dc92a6c73b976592fa792709c728e08a39d33",
+          "output_name": "irdb",
+          "ignored_fields": [
+            {
+              "offset": 14,
+              "bytes": 4,
+              "name": "PDB database creation signature timestamp"
+            }
+          ],
+          "normalized_sha256": "c2d461580eebe467710d307ca0356014522df704aadd4ba980b7e1b4925f6da6"
+        },
+        {
+          "path": "expected/c1-create/irex",
+          "bytes": 1177,
+          "sha256": "2646facbf8e5401a776abb8a861107ad084bf6e1b0abd4e620ce9754cb85c750",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/c1-create/irgl",
+          "bytes": 611,
+          "sha256": "bdc21f5859b34c1728668053636f37eeea8a4b857b9040a1ca3e975cacb193c7",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/c1-create/irin",
+          "bytes": 34,
+          "sha256": "e5c563aa3f5a41dd7d65f86dd5701b165db694c7a94be7067ef672d8a4f56c1c",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/c1-create/irsy",
+          "bytes": 132,
+          "sha256": "1ef64d61d8cd0eb8b229a8159a3835dcc316f55eb11edf722cadfc09ca7501ce",
+          "output_name": "irsy"
+        },
+        {
+          "path": "expected/c1-create/binding.pch",
+          "bytes": 39884,
+          "sha256": "eafab8a8cb7814613ae4e8e5b97bcbc92447cb1230cac1780251b0436abe3213",
+          "output_name": "binding.pch"
+        },
+        {
+          "path": "expected/c1-create/msvc.pdb",
+          "bytes": 958,
+          "sha256": "64254d249eba648f9ea10e99f4ebac952d733701fb2bb0a5dc2ee5f66fe62bd9",
+          "output_name": "msvc.pdb",
+          "ignored_fields": [
+            {
+              "offset": 48,
+              "bytes": 4,
+              "name": "PDB database creation signature timestamp"
+            }
+          ],
+          "normalized_sha256": "a2d37c9bbf2600b3ea16ce09f4629afba818f88cbc5515e3702d056e771c5d4e"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "expected_absent_outputs": [
+        "consumer.obj",
+        "binding.exe",
+        "producer.obj"
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /Zi /Od /G5 /W3 /Ycbinding.h /YlBindingArchive /Fpbinding.pch producer.c",
+      "transport_reference": "evidence/create.CL.receipt.json",
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+      },
+      "cross_output_checks": [
+        {
+          "kind": "equal-u32",
+          "left": {
+            "file": "msvc.pdb",
+            "offset": 48
+          },
+          "right": {
+            "file": "irdb",
+            "offset": 14
+          },
+          "meaning": "Raw database creation signature and companion reference agree before normalization."
+        }
+      ],
+      "reference_clock": {
+        "file": "msvc.pdb",
+        "offset": 48,
+        "bytes": 4,
+        "companion_file": "irdb",
+        "companion_offset": 14
+      }
+    },
+    "c1-use": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\pdb-pch-binding",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f consumer.c -Ze -Zp8 -Gs -Foconsumer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zi -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Yubinding.h -Fpbinding.pch -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/binding.h",
+          "bytes": 1171,
+          "sha256": "7ce2b1664fc9265f1d0f4325c503ae23dcbf0c8481f2470b03f4200b80ba3acd",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "captured/binding.pch",
+          "bytes": 39884,
+          "sha256": "eafab8a8cb7814613ae4e8e5b97bcbc92447cb1230cac1780251b0436abe3213",
+          "mtime_ns": 1792762736789341900
+        },
+        {
+          "path": "inputs/consumer.c",
+          "bytes": 857,
+          "sha256": "339819188bcf76523e1837b4cdfe6c5fbb6823b2856cb706cf1f7c89d57417af",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "captured/msvc.pdb",
+          "bytes": 958,
+          "sha256": "64254d249eba648f9ea10e99f4ebac952d733701fb2bb0a5dc2ee5f66fe62bd9",
+          "mtime_ns": 1792762736789341900
+        },
+        {
+          "path": "inputs/producer.c",
+          "bytes": 1187,
+          "sha256": "6d8df2931395fe64406bc22509243b93e440a172965a17ec8d0147cce7df93c3",
+          "mtime_ns": 1768480496000000000
+        },
+        {
+          "path": "captured/producer.obj",
+          "bytes": 3178,
+          "sha256": "5db35cf4579a401dd125863f6c7c5e0a0709b525378d548fdc54481936bf1b3d",
+          "mtime_ns": 1792762737069336300
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1-use/irdb",
+          "bytes": 63,
+          "sha256": "63f871bfdad3c82d19168d53f7c013745a35281ced61c6baec95d470d37e1baf",
+          "output_name": "irdb",
+          "ignored_fields": [
+            {
+              "offset": 14,
+              "bytes": 4,
+              "name": "PDB database creation signature timestamp"
+            }
+          ],
+          "normalized_sha256": "f9c4941cb98f147a20865e2ddf128e7fbc3f4a6907e17f5762d942ed9f9f2194"
+        },
+        {
+          "path": "expected/c1-use/irex",
+          "bytes": 1585,
+          "sha256": "7f589531f5f9bbba5678c7cfd229f9705d099e6ffcf638e89c01d1d695e1c648",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/c1-use/irgl",
+          "bytes": 262,
+          "sha256": "02a4bc2a4071341ba3be7b57819766dbaac99c08d3ac78077dc779646e2a2893",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/c1-use/irin",
+          "bytes": 60,
+          "sha256": "1ad33bef1fd6691ca33e78429b55ac833f464090614ab210e9e1f3bb0c91be06",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/c1-use/irsy",
+          "bytes": 193,
+          "sha256": "58d2c71b54ccaf5c69e75b055a7ae230511e1cab9dbae013ffde0b854b0201c7",
+          "output_name": "irsy"
+        },
+        {
+          "path": "expected/c1-use/binding.pch",
+          "bytes": 39884,
+          "sha256": "eafab8a8cb7814613ae4e8e5b97bcbc92447cb1230cac1780251b0436abe3213",
+          "output_name": "binding.pch"
+        },
+        {
+          "path": "expected/c1-use/msvc.pdb",
+          "bytes": 968,
+          "sha256": "0558c502d2f57d7223d59693096476ad78700738ee09370dadafa3a836203202",
+          "output_name": "msvc.pdb",
+          "ignored_fields": [
+            {
+              "offset": 48,
+              "bytes": 4,
+              "name": "PDB database creation signature timestamp"
+            }
+          ],
+          "normalized_sha256": "a56031de19295c8e8d2a4c799695f9d0a9bc830de8ec17afecc39f9970a930e7"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "expected_absent_outputs": [
+        "consumer.obj",
+        "binding.exe"
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /Zi /Od /G5 /W3 /Yubinding.h /Fpbinding.pch consumer.c",
+      "transport_reference": "evidence/use.CL.receipt.json",
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+      },
+      "cross_output_checks": [
+        {
+          "kind": "equal-u32",
+          "left": {
+            "file": "msvc.pdb",
+            "offset": 48
+          },
+          "right": {
+            "file": "irdb",
+            "offset": 14
+          },
+          "meaning": "Raw database creation signature and companion reference agree before normalization."
+        }
+      ],
+      "generated_input_dependencies": [
+        {
+          "case": "pdb-pch-binding-create",
+          "output_name": "binding.pch",
+          "input_name": "binding.pch",
+          "clock_offset": null
+        },
+        {
+          "case": "pdb-pch-binding-create",
+          "output_name": "msvc.pdb",
+          "input_name": "msvc.pdb",
+          "clock_offset": 48
+        }
+      ],
+      "reference_clock": {
+        "file": "msvc.pdb",
+        "offset": 48,
+        "bytes": 4,
+        "companion_file": "irdb",
+        "companion_offset": 14
+      },
+      "producer_phase": "c1-create",
+      "captured_backend_dependency": {
+        "input_outputs": [
+          "irdb",
+          "irex",
+          "irgl",
+          "irin",
+          "irsy",
+          "binding.pch",
+          "msvc.pdb"
+        ],
+        "object_input": "producer.obj",
+        "reference": "evidence/transport/adjusted-second-create/002-before and002-after; native producer frontend bytes must satisfy the full captured input contract before exposing frozen original backend object. No native C2 invoked."
+      }
+    }
+  },
+  "execution": "Native fixtures only; explicit original capture/build separate.",
+  "capture_policy": "Actual untouched original CL child argv/environment and complete before/after file sets for two complete producer/consumer captures. Relative -il alone replaced by ir for independent C1. Canonical S cwd, exact header/PCH/PDB/object mtimes and actual input database preserved.",
+  "normalization": "Only database creation signature DWORD at msvc.pdb+48 and companion irdb+14. PCH/all other bytes remain exact; raw cross-output equality checked first.",
+  "Yd": "Not used; actual supported /Zi /Yc /Yl producer and /Yu consumer select the public library-binding workflow.",
+  "backend": "Untouched original compile/link/runtime is preflight evidence; no C2/LINK reconstruction assigned.",
+  "preflight_limitation": "evidence/probes/packing-freelist preserves original pack(push/pop) variant with unrelocated retired packing pointers; current pack(2)/pack() source explicitly recaptured. No pointer normalization or compiler-state repair."
+}

@@ -1,0 +1,5 @@
+38a00 53 _declare_pch_debug_library
+39a20 83 _pdb_complete_enum_type_index
+39960 56 _pdb_enum_type_index
+3a3d0 8b _write_codeview_signed_leaf
+3a490 56 _write_codeview_symbol

@@ -1,0 +1,30 @@
+
+../../../toolchains/1.0-nt/bin/C13232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0001e830 <.text+0x7830>:
+   1e830:	56                   	push   esi
+   1e831:	a1 60 b6 06 00       	mov    eax,ds:0x6b660
+   1e836:	50                   	push   eax
+   1e837:	e8 74 65 02 00       	call   0x44db0
+   1e83c:	a1 60 b6 06 00       	mov    eax,ds:0x6b660
+   1e841:	50                   	push   eax
+   1e842:	e8 09 fc ff ff       	call   0x1e450
+   1e847:	83 c4 04             	add    esp,0x4
+   1e84a:	8b f0                	mov    esi,eax
+   1e84c:	0b f6                	or     esi,esi
+   1e84e:	74 1a                	je     0x1e86a
+   1e850:	56                   	push   esi
+   1e851:	e8 5a 65 02 00       	call   0x44db0
+   1e856:	8d 46 08             	lea    eax,[esi+0x8]
+   1e859:	83 38 00             	cmp    DWORD PTR [eax],0x0
+   1e85c:	74 06                	je     0x1e864
+   1e85e:	50                   	push   eax
+   1e85f:	e8 4c 65 02 00       	call   0x44db0
+   1e864:	8b 36                	mov    esi,DWORD PTR [esi]
+   1e866:	0b f6                	or     esi,esi
+   1e868:	75 e6                	jne    0x1e850
+   1e86a:	5e                   	pop    esi
+   1e86b:	c3                   	ret

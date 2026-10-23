@@ -1,6 +1,7 @@
 /* CodeView debug-type and program-database initialization. */
 #include <time.h>
 #include <stdarg.h>
+#include <stdlib.h>
 #include "control-ir.h"
 #include "literal-names.h"
 #include "debug-info.h"
@@ -910,4 +911,139 @@ void finish_program_database(void)
             report_syntax_error(471, database_path);
         program_database = 0;
     }
+}
+
+/* Original 0x49a20..0x49b20. The full enum record has a distinct cache
+   from its named forward reference; anonymous types use the completed index. */
+unsigned short pdb_complete_enum_type_index(FrontendSymbol *tag)
+{
+    unsigned short *record = (unsigned short *)pdb_record_cursor;
+    unsigned short properties = codeview_default_attributes;
+    unsigned short flags = (tag->type->flags & ~0x200) | 0x64;
+    unsigned short fields, underlying, length;
+    if (tag->metadata.tag.debug_index) return tag->metadata.tag.debug_index;
+    if (!(unsigned short)tag->type->field0c && tag->name != name_unnamed)
+        pdb_enum_type_index(tag);
+    if (!(tag->flags & 1)) return 0;
+    tag->flags &= ~2;
+    fields = pdb_enum_field_list(tag);
+    underlying = pdb_primitive_type_index(flags);
+    record[0] = 7;
+    record[1] = (unsigned short)hash_table_count(tag->associated.enumerators);
+    record[2] = underlying;
+    record[3] = fields;
+    record[4] = (properties & ~8) | ((tag->metadata.tag.flags & 2) ? 8 : 0);
+    length = copy_codeview_name((char *)record + 10, tag->name);
+    tag->metadata.tag.debug_index = intern_pdb_record((unsigned short)(length + 10));
+    if (tag->name == name_unnamed)
+        *(unsigned short *)&tag->type->field0c = tag->metadata.tag.debug_index;
+    return tag->metadata.tag.debug_index;
+}
+
+/* Original 0x49960..0x49a15. Named enum tags first reserve a forward
+   record; the complete definition is emitted independently. */
+unsigned short pdb_enum_type_index(FrontendSymbol *tag)
+{
+    CType *type = tag->type;
+    unsigned short *record = (unsigned short *)pdb_record_cursor;
+    unsigned short properties, length;
+    if ((unsigned short)type->field0c) return (unsigned short)type->field0c;
+    if (tag->name == name_unnamed) {
+        *(unsigned short *)&type->field0c = pdb_complete_enum_type_index(tag);
+        return (unsigned short)tag->type->field0c;
+    }
+    tag->flags &= ~2;
+    record[0] = 7;
+    record[1] = record[2] = record[3] = 0;
+    properties = codeview_default_attributes | 0x80;
+    record[4] = (properties & ~8) | ((tag->metadata.tag.flags & 2) ? 8 : 0);
+    length = copy_codeview_name((char *)record + 10, tag->name);
+    *(unsigned short *)&tag->type->field0c = intern_pdb_record((unsigned short)(length + 10));
+    return (unsigned short)tag->type->field0c;
+}
+
+/* Original 0x49b20..0x49c83. Hash order is not declaration order:
+   sort the enum symbols before emitting the LF_FIELDLIST members. */
+unsigned short pdb_enum_field_list(FrontendSymbol *tag)
+{
+    unsigned count = hash_table_count(tag->associated.enumerators), i;
+    EnumeratorSymbol **enumerators = malloc(count * sizeof(EnumeratorSymbol *));
+    EnumeratorSymbol *symbol;
+    HashWalk walk;
+    unsigned char *record, *member;
+    unsigned short bytes = 0, value_bytes, name_bytes;
+    if (!enumerators) fatal_error(60);
+    initialize_hash_walk(&walk, tag->associated.enumerators);
+    for (i = 0; i < count; ++i) {
+        next_hash_entry(&walk);
+        enumerators[i] = walk.value;
+    }
+    qsort(enumerators, count, sizeof(EnumeratorSymbol *), compare_pdb_enumerators);
+    record = pdb_record_cursor;
+    *(unsigned short *)record = 0x204;
+    for (i = 0; i < count; ++i) {
+        symbol = enumerators[i];
+        member = record + bytes + 2;
+        symbol->flags &= ~2;
+        *(unsigned short *)member = 0x403;
+        *(unsigned short *)(member + 2) = codeview_default_attributes | 3;
+        value_bytes = write_codeview_signed_number(member + 4, (int)symbol->value);
+        name_bytes = copy_codeview_name((char *)member + value_bytes + 4, symbol->name);
+        bytes = (unsigned short)(bytes + value_bytes + name_bytes + 4);
+        bytes += pad_codeview_record(record + bytes + 2, bytes);
+        check_pdb_record_size((unsigned)bytes + 2);
+    }
+    free(enumerators);
+    return intern_pdb_record((unsigned short)(bytes + 2));
+}
+
+/* Original 0x49c90..0x49ca3. The PDB writer owns a separate callback
+   with the same declaration-index ordering as the older debug writer. */
+int __cdecl compare_pdb_enumerators(const void *left, const void *right)
+{
+    const EnumeratorSymbol *a = *(EnumeratorSymbol * const *)left;
+    const EnumeratorSymbol *b = *(EnumeratorSymbol * const *)right;
+    return (int)(a->index - b->index);
+}
+
+/* Original 0x4a3d0..0x4a423. Negative enum values and offsets retain
+   their signed width in the database numeric-leaf representation. */
+unsigned short write_codeview_signed_leaf(unsigned char *destination, int number)
+{
+    if (number >= -128 && number <= 127) {
+        *(unsigned short *)destination = 0x8000;
+        destination[2] = (unsigned char)number;
+        return 3;
+    }
+    if (number >= -32768 && number <= 32767) {
+        *(unsigned short *)destination = 0x8001;
+        *(short *)(destination + 2) = (short)number;
+        return 4;
+    }
+    *(unsigned short *)destination = 0x8003;
+    *(int *)(destination + 2) = number;
+    return 6;
+}
+
+/* Original 0x4a490..0x4a51b. A based-pointer leaf embeds its base
+   symbol, including the cached type index and relocation placeholders. */
+unsigned short write_codeview_symbol(unsigned char *destination, FrontendSymbol *symbol)
+{
+    unsigned storage = symbol->storage[0] & 7;
+    unsigned short *record = (unsigned short *)destination;
+    unsigned short length;
+    if (storage == 4 || storage == 5) {
+        record[1] = 0x200;
+        *(unsigned *)(destination + 4) = 0;
+        record[4] = (unsigned short)symbol->type->field0c;
+        length = (unsigned short)(copy_codeview_name((char *)destination + 10, symbol->name) + 10);
+    } else {
+        record[1] = storage == 3 ? 0x201 : 0x202;
+        *(unsigned *)(destination + 4) = 0;
+        record[4] = 0;
+        record[5] = (unsigned short)symbol->type->field0c;
+        length = (unsigned short)(copy_codeview_name((char *)destination + 12, symbol->name) + 12);
+    }
+    record[0] = length;
+    return length;
 }

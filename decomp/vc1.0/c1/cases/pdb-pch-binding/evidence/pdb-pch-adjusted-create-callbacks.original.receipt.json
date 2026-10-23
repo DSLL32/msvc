@@ -1,0 +1,87 @@
+{
+  "terminal_exit": 0,
+  "expected_exit": 0,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/pdb-pch-binding",
+  "phase": "c1-create",
+  "unmasked": false,
+  "enum_callback_trace": true,
+  "enum_callback_function": "_compare_pdb_enumerators",
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "accepted_count": 931,
+  "accepted_sha256": "3f9cd734b81c5832fe7dfb3b57ba413c06a4e9a1a39133d53bb98e4cab22b5f0",
+  "executable_sha256": "ba8f110977a048992f6c596b192580465c631a91f3ccf9d18f517eff03937039",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "a9359cefdfad0dfa84f977c621687613ea218dfcff950d8cf525cec9f83d0ee7",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f producer.c -Ze -Zp8 -Gs -Foproducer.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Zi -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -Ycbinding.h -YlBindingArchive -Fpbinding.pch -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\pdb-pch-binding",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual child _spawnvpe transport captured."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/pdb-pch-binding",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.05293085239827633,
+  "execution_seconds": 1.8732133395969868,
+  "total_seconds": 1.9261467726901174,
+  "files": [
+    {
+      "name": "binding.h",
+      "bytes": 1171,
+      "sha256": "7ce2b1664fc9265f1d0f4325c503ae23dcbf0c8481f2470b03f4200b80ba3acd"
+    },
+    {
+      "name": "binding.pch",
+      "bytes": 39884,
+      "sha256": "eafab8a8cb7814613ae4e8e5b97bcbc92447cb1230cac1780251b0436abe3213"
+    },
+    {
+      "name": "consumer.c",
+      "bytes": 857,
+      "sha256": "339819188bcf76523e1837b4cdfe6c5fbb6823b2856cb706cf1f7c89d57417af"
+    },
+    {
+      "name": "irdb",
+      "bytes": 63,
+      "sha256": "848bde8a44f60276a42773c36f5b09218781fa316d4530718185c25e2db1ff8a"
+    },
+    {
+      "name": "irex",
+      "bytes": 1177,
+      "sha256": "2646facbf8e5401a776abb8a861107ad084bf6e1b0abd4e620ce9754cb85c750"
+    },
+    {
+      "name": "irgl",
+      "bytes": 611,
+      "sha256": "bdc21f5859b34c1728668053636f37eeea8a4b857b9040a1ca3e975cacb193c7"
+    },
+    {
+      "name": "irin",
+      "bytes": 34,
+      "sha256": "e5c563aa3f5a41dd7d65f86dd5701b165db694c7a94be7067ef672d8a4f56c1c"
+    },
+    {
+      "name": "irsy",
+      "bytes": 132,
+      "sha256": "1ef64d61d8cd0eb8b229a8159a3835dcc316f55eb11edf722cadfc09ca7501ce"
+    },
+    {
+      "name": "msvc.pdb",
+      "bytes": 958,
+      "sha256": "d280741ec10f13d53706ba2f7671b9a983da1daceb842e965956537e9a8c5b65"
+    },
+    {
+      "name": "producer.c",
+      "bytes": 1187,
+      "sha256": "6d8df2931395fe64406bc22509243b93e440a172965a17ec8d0147cce7df93c3"
+    }
+  ]
+}

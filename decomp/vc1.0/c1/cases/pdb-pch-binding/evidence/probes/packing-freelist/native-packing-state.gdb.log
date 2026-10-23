@@ -1,0 +1,28 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x13558: file src/pch-relocate.c, line 139.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, relocate_pch_state () at src/pch-relocate.c:139
+139	    mark_pch_graph();
+$1 = (unsigned char *) 0x565fb000 ""
+$2 = (SymbolScope *) 0x56601818
+$3 = {next = 0x0, parent = 0x0, buckets = 0x5660182c, bucket_mask = 1023, flags = 0, field10 = 0}
+0x565fb000:	0x00000000	0x565fb00c	0x56603cd8	0x00000000
+0x565fb010:	0x00000008	0x00000000	0x00000000	0x00000000
+0x565fb020:	0x00000000	0x00000000	0x00000000	0x565fd2e9
+0x56603cd0:	0x00000000	0x00000470	0x00000000	0x00000002
+0x56603ce0:	0x565fd7b0	0x00004104	0x00000000	0x565fd7c4
+0x56603cf0:	0x56603d14	0x00000076	0x00000000	0x00000000
+0x56603d00:	0x00000000	0x00000008	0x00021018	0x56603d38
+$4 = {kind = 65 'A', flags = 0 '\000', field02 = 4112, next = 0x56602b64, name = 0x0, type = 0x470, index = 0, attributes = 2, references = 55216, storage = "_V\004", field1d = 65 'A', field1e = 0, detail = {intrinsic = {operation = 0, flags = 0}, value = 0, text = 0x0, parameter_next = 0x0}, metadata = {value = 1449121732, segment = {kind = 196 '\304', reserved = "\327_V"}, tag = {debug_index = 55236, alignment = 95 '_', flags = 86 'V'}, bitfield = {offset = 196 '\304', width = 215 '\327', reserved = 22111}}, associated = {members = 0x56603d14, initializer = 0x56603d14, enumerators = 0x56603d14}}
+#0  relocate_pch_state () at src/pch-relocate.c:139
+#1  0x56563cae in finish_pch_output () at src/pch.c:137
+#2  0x565841df in close_source_file () at src/source-input.c:253
+#3  0x5658571d in scan_source_token () at src/lexer.c:202
+#4  0x5658484a in scan_token () at src/lexer.c:25
+#5  0x56587fa0 in read_parser_token () at src/lexer.c:443
+#6  0x5658a039 in parse_translation_unit () at src/parser.c:112
+#7  0x5655e686 in compile_translation_unit () at src/frontend.c:83
+#8  0x56559876 in guarded_compile () at src/c1.c:29
+#9  0x5655983e in main (argc=1, argv=0xffffdc64, envp=0xffffdc6c) at src/c1.c:21

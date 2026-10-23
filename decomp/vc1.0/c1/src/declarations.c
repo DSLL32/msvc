@@ -3,6 +3,7 @@
 #include "global-ir.h"
 #include "pragma.h"
 #include "asm.h"
+#include "expressions.h"
 #include <recon.h>
 
 int default_thread_storage; /* original 0x6bc44 */
@@ -2324,4 +2325,15 @@ FrontendSymbol *__stdcall make_implicit_declaration(char *name, unsigned char ne
     found_scope_depth = nesting;
     insert_scope_symbol(nesting ? current_scope : global_scope,symbol);
     return symbol;
+}
+
+/* Original 0x40490..0x404d8, RET8. Unpooled section literals use a
+   transient expression shape rather than a permanent qualified type. */
+void __stdcall assign_unpooled_literal_segment(FrontendSymbol *symbol, FrontendSymbol *segment)
+{
+    FrontendSymbol *section = segment;
+    unsigned short attributes = 5;
+    symbol->attributes |= 2;
+    if ((symbol->kind & 31) == 7) attributes = symbol->type->attributes;
+    symbol->type = prepend_expression_type_shape(symbol->type, 0, attributes, &section);
 }

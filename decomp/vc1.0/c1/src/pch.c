@@ -11,6 +11,7 @@
 #include "lexer.h"
 #include "preprocessor.h"
 #include "literal-names.h"
+#include "parser.h"
 #include <recon.h>
 
 PchRecord *pch_record_cursor; /* original 0x5b568 */
@@ -298,4 +299,70 @@ int __stdcall pch_record_macro(char *name, char *replacement, int parameter_coun
         }
         record = (PchRecord *)((char *)(record + 1) + record->payload_bytes);
     }
+}
+
+/* Original 0x48a00..0x48a8d. A public /Yl identifier becomes an external
+   symbol in the producer object; consumers request it through .drectve. */
+void declare_pch_debug_library(void)
+{
+    const char *prefix = "__@@_PchDebugInfoLibrary_";
+    unsigned length;
+    unsigned char *end;
+    FrontendSymbol *symbol;
+    for (length = 0; prefix[length]; ++length) ;
+    end = copy_bytes_end(text_work_cursor, prefix, length + 1);
+    for (length = 0; pch_object_name[length]; ++length) ;
+    copy_bytes_end(end - 1, pch_object_name, length + 1);
+    symbol = make_implicit_declaration(intern_identifier((char *)text_work_cursor), 0);
+    symbol->storage[0] = (current_storage[0] & ~7) | 2;
+    symbol->storage[1] = current_storage[1];
+    symbol->storage[2] = current_storage[2];
+    ++symbol->references;
+}
+
+/* Original 0x18c40..0x18c64, RET12. Unlike memcpy, this forward copy
+   returns one byte past the copied range, including a copied terminator. */
+unsigned char *__stdcall copy_bytes_end(unsigned char *destination,
+                                       const void *source, unsigned bytes)
+{
+    const unsigned char *next = source;
+    while (bytes) {
+        *destination++ = *next++;
+        --bytes;
+    }
+    return destination;
+}
+
+/* Original 0x48a90..0x48ba3, RET4. Pull in the producer's /Yl symbol
+   through a linker directive while preserving the current data segment. */
+void __stdcall reference_pch_debug_library(char *name)
+{
+    const char *directive = "-INCLUDE:_";
+    const char *prefix = "__@@_PchDebugInfoLibrary_";
+    unsigned directive_bytes, prefix_bytes, length;
+    unsigned char *end;
+    FrontendSymbol *saved_segment = default_data_segment, *symbol;
+    ArenaPool *pool = &compiler_arena.pools[2];
+    IrToken *token;
+    for (prefix_bytes = 0; prefix[prefix_bytes]; ++prefix_bytes) ;
+    for (directive_bytes = 0; directive[directive_bytes]; ++directive_bytes) ;
+    end = copy_bytes_end(text_work_cursor, directive, directive_bytes);
+    end = copy_bytes_end(end, prefix, prefix_bytes + 1);
+    for (length = 0; name[length]; ++length) ;
+    end = copy_bytes_end(end - 1, name, length + 1);
+    if (pool->remaining < (int)sizeof(IrToken)) refill_arena(&compiler_arena, pool);
+    token = (IrToken *)pool->next;
+    pool->remaining -= sizeof(IrToken);
+    pool->next += sizeof(IrToken);
+    token->flags = 5;
+    token->kind = 3;
+    token->value.text = (char *)text_work_cursor;
+    token->length = (unsigned short)(end - text_work_cursor);
+    assign_string_type(token);
+    symbol = find_identifier_symbol(intern_identifier((char *)text_work_cursor + directive_bytes));
+    if (symbol) symbol->flags |= 2;
+    default_data_segment = declare_named_entity(intern_identifier(".drectve"), name_unnamed, 1, 2);
+    materialize_string_literal(token);
+    global_expression_scope_active = 1;
+    default_data_segment = saved_segment;
 }

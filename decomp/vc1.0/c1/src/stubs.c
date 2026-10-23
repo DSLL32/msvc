@@ -692,7 +692,7 @@ void __stdcall type_warning(unsigned level, unsigned code, CType *type) { __asm 
 
 
 
-void __stdcall assign_unpooled_literal_segment(FrontendSymbol *symbol, FrontendSymbol *segment) { __asm { int 3 } }
+
 
 
 
@@ -805,7 +805,7 @@ void __fastcall destroy_pdb_buffer_list(PdbBufferList *self) { __asm { int 3 } }
 
 
 
-unsigned short pdb_enum_type_index(FrontendSymbol *tag) { __asm { int 3 } }
+
 
 
 void __stdcall add_legacy_type_fixup(FrontendSymbol *symbol, unsigned char *position, unsigned bytes) { __asm { int 3 } }
@@ -819,18 +819,18 @@ void __stdcall add_legacy_type_fixup(FrontendSymbol *symbol, unsigned char *posi
 
 
 void __stdcall materialize_based_symbol(FrontendSymbol *symbol) { __asm { int 3 } }
-unsigned short write_codeview_symbol(unsigned char *destination, FrontendSymbol *symbol) { __asm { int 3 } }
-
-
-unsigned short pdb_complete_enum_type_index(FrontendSymbol *tag) { __asm { int 3 } }
 
 
 
 
-unsigned short write_codeview_signed_leaf(unsigned char *destination, int number) { __asm { int 3 } }
 
 
-void declare_pch_debug_library(void) { __asm { int 3 }  }
+
+
+
+
+
+
 
 
 void begin_browser_pch_record(void) { __asm { int 3 }  }
@@ -886,7 +886,7 @@ void begin_browser_pch_record(void) { __asm { int 3 }  }
 void __stdcall restore_pch_browser_name(char *filename) { __asm { int 3 } }
 
 
-void __stdcall reference_pch_debug_library(char *name) { __asm { int 3 } }
+
 
 void restore_pch_separate_debug(void) { __asm { int 3 } }
 

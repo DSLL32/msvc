@@ -35,7 +35,10 @@ def main():
     parser.add_argument('--trace-function-finishes',action='store_true',help='Observe current function symbol at finish entry and caller return')
     parser.add_argument('--entry-from', type=int)
     parser.add_argument('--entry-to', type=int)
+    parser.add_argument('--enum-callback-function', choices=['legacy','pdb'], default='legacy')
     options = parser.parse_args()
+    enum_callback = '_compare_pdb_enumerators' if options.enum_callback_function == 'pdb' else '_compare_legacy_enumerators'
+    assert options.enum_callback_function == 'legacy' or options.trace_enum_callbacks
     if options.trace_function_finishes:
         assert options.trace_flags is None
         options.trace_flags = '_finish_function_definition'
@@ -137,7 +140,7 @@ def main():
         host_environment['C1_FLAG_PROBE_RVAS'] = '%x,%x,%x' % (probe['start']-original.base,0x6bb44-original.base,0x6bb48-original.base)
     if options.trace_enum_callbacks:
         assert not entry_mode
-        callback = next(r for r in config['driver'] if r['name']=='_compare_legacy_enumerators')
+        callback = next(r for r in config['driver'] if r['name']==enum_callback)
         assert callback['name'] in config['accepted']
         host_environment['C1_ENUM_CALLBACK_RVA'] = '%x' % (callback['start']-original.base)
     preparation = time.perf_counter()-start
@@ -163,7 +166,7 @@ def main():
     if canonical:
         shutil.copytree(work,directory/'work',copy_function=shutil.copy2)
     receipt = dict(terminal_exit=terminal_exit,expected_exit=phase['expected_exit'],case=str(case), phase=options.phase, unmasked=options.unmasked,
-                   enum_callback_trace=options.trace_enum_callbacks,flag_word_probe=options.trace_flags,function_finish_probe=options.trace_function_finishes,
+                   enum_callback_trace=options.trace_enum_callbacks,enum_callback_function=enum_callback if options.trace_enum_callbacks else None,flag_word_probe=options.trace_flags,function_finish_probe=options.trace_function_finishes,
                    accepted_count=len(config['accepted']), accepted_sha256=hashlib.sha256(
                        json.dumps(config['accepted']).encode()).hexdigest(),
                    executable_sha256=sha(target), original_sha256=phase['sha256'],

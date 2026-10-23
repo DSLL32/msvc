@@ -32,6 +32,7 @@ Vector *__stdcall copy_vector(Vector *source, int arena,
                               void *(__stdcall *copy_item)(void *, int));
 unsigned short __stdcall write_pch_event_stack(WorkingStack *stack, FILE *file, WorkingStack *destination);
 void declare_pch_debug_library(void);
+unsigned char *__stdcall copy_bytes_end(unsigned char *destination, const void *source, unsigned bytes);
 void finish_pch_debug_symbols(void);
 void begin_browser_pch_record(void);
 extern int pch_replace_expression;

@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "67c14a72de0c72bd9194f88fad4096f3a79f16f9aab883bf62cb08d9e7236495",
+    "functions.json": "f1dae50651bbf40ccf5407ba10ee75385fd8f6049080bd942617c0e5ea111a5d",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "53865feb9a6086bba5bcce29d063cde2cdc4855477019707a55053de3c5c9929"
+    "sha256": "51502776171fad4656b1e3cd0d1043e8259af03f62c3729a5d567a8878807590"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "c07f6bd3503a06bc07af5b203f4091c72c5c42bc29f0738de2e62565aa841e09"
+    "sha256": "2ad2c79d764770a4c947d53adf629baf585f995a9458537cd9fa54d08af26d1b"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -259,7 +259,7 @@
     },
     "assign_unpooled_literal_segment": {
       "logical": "_assign_unpooled_literal_segment@8",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "attach_function_parameters": {
       "logical": "_attach_function_parameters@8",
@@ -661,6 +661,10 @@
       "logical": "_compare_names_ignore_case@8",
       "source": "src/asm-mnemonics.c"
     },
+    "compare_pdb_enumerators": {
+      "logical": "_compare_pdb_enumerators",
+      "source": "src/debug-info.c"
+    },
     "compare_prototype_parameter_types": {
       "logical": "_compare_prototype_parameter_types@8",
       "source": "src/stubs.c"
@@ -781,6 +785,10 @@
       "logical": "_copy_browser_name",
       "source": "src/browser.c"
     },
+    "copy_bytes_end": {
+      "logical": "_copy_bytes_end@12",
+      "source": "src/pch.c"
+    },
     "copy_codeview_name": {
       "logical": "_copy_codeview_name",
       "source": "src/debug-info.c"
@@ -871,7 +879,7 @@
     },
     "declare_pch_debug_library": {
       "logical": "_declare_pch_debug_library",
-      "source": "src/stubs.c"
+      "source": "src/pch.c"
     },
     "declare_symbol": {
       "logical": "_declare_symbol@8",
@@ -2491,15 +2499,19 @@
     },
     "pdb_complete_enum_type_index": {
       "logical": "_pdb_complete_enum_type_index",
-      "source": "src/stubs.c"
+      "source": "src/debug-info.c"
     },
     "pdb_complete_record_type_index": {
       "logical": "_pdb_complete_record_type_index",
       "source": "src/debug-info.c"
     },
+    "pdb_enum_field_list": {
+      "logical": "_pdb_enum_field_list",
+      "source": "src/debug-info.c"
+    },
     "pdb_enum_type_index": {
       "logical": "_pdb_enum_type_index",
-      "source": "src/stubs.c"
+      "source": "src/debug-info.c"
     },
     "pdb_field_list_index": {
       "logical": "_pdb_field_list_index",
@@ -2919,7 +2931,7 @@
     },
     "reference_pch_debug_library": {
       "logical": "_reference_pch_debug_library@4",
-      "source": "src/stubs.c"
+      "source": "src/pch.c"
     },
     "refill_arena": {
       "logical": "_refill_arena@8",
@@ -3459,7 +3471,7 @@
     },
     "write_codeview_signed_leaf": {
       "logical": "_write_codeview_signed_leaf",
-      "source": "src/stubs.c"
+      "source": "src/debug-info.c"
     },
     "write_codeview_signed_number": {
       "logical": "_write_codeview_signed_number",
@@ -3467,7 +3479,7 @@
     },
     "write_codeview_symbol": {
       "logical": "_write_codeview_symbol",
-      "source": "src/stubs.c"
+      "source": "src/debug-info.c"
     },
     "write_counted_ir": {
       "logical": "_write_counted_ir",
@@ -4401,7 +4413,17 @@
     "is_pointer_based_shape",
     "classify_unsigned_integer",
     "serialize_legacy_symbol",
-    "check_based_pointer_conversion"
+    "check_based_pointer_conversion",
+    "declare_pch_debug_library",
+    "copy_bytes_end",
+    "pdb_complete_enum_type_index",
+    "pdb_enum_type_index",
+    "pdb_enum_field_list",
+    "compare_pdb_enumerators",
+    "write_codeview_signed_leaf",
+    "write_codeview_symbol",
+    "reference_pch_debug_library",
+    "assign_unpooled_literal_segment"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5629,6 +5651,38 @@
         "classify_unsigned_integer",
         "serialize_legacy_symbol",
         "check_based_pointer_conversion"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "pdb-pch-binding-create": {
+      "first": 921,
+      "last": 929,
+      "seen_count": 783,
+      "expected": [
+        "declare_pch_debug_library",
+        "copy_bytes_end",
+        "pdb_complete_enum_type_index",
+        "pdb_enum_type_index",
+        "pdb_enum_field_list",
+        "compare_pdb_enumerators",
+        "write_codeview_signed_leaf",
+        "write_codeview_symbol"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "pdb-pch-binding-use": {
+      "first": 929,
+      "last": 931,
+      "seen_count": 791,
+      "expected": [
+        "reference_pch_debug_library",
+        "assign_unpooled_literal_segment"
       ],
       "terminal": {
         "kind": "exit",

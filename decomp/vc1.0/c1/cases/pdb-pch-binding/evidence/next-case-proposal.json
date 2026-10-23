@@ -1,0 +1,60 @@
+{
+  "status": "approved by root for next single case after PDB-PCH checkpoint",
+  "case": "legacy-callback-adapter",
+  "flags": "/Z7 /Od /G5 /W4",
+  "features": [
+    "Compatible old-style definitions with default promotions and narrow parameters",
+    "Nested function-pointer typedefs/redeclarations",
+    "Explicit indirect calls and register-qualified parameters",
+    "Opaque void* callback roundtrip only if untouched compiler accepts and checksum runs successfully",
+    "Parameter-array adjustment if coherent and independently reached"
+  ],
+  "targets": [
+    {
+      "name": "compatible_parameter_types",
+      "original": "0x2b420",
+      "analyzed_body_bytes": 265,
+      "caller_gate": "parser.c1279: prototype vs old-style definition parameter types differ"
+    },
+    {
+      "name": "compare_prototype_parameter_types",
+      "original": "0x3efc0",
+      "analyzed_body_bytes": 372,
+      "caller_gate": "conversions.c127: nested function-type parameter comparison"
+    },
+    {
+      "name": "is_function_pointer_type",
+      "original": "0x34f80",
+      "analyzed_body_bytes": 35,
+      "caller_gate": "declarations.c1387: outermost nested callback type merge"
+    },
+    {
+      "name": "function_designator_type",
+      "original": "0x402b0",
+      "analyzed_body_bytes": 39,
+      "caller_gate": "calls.c18 or expressions.c732: raw function designator from explicit indirection"
+    },
+    {
+      "name": "warn_void_function_pointer",
+      "original": "0x3e730",
+      "analyzed_body_bytes": 41,
+      "caller_gate": "conversions.c37: ordinary void*/function-pointer assignment extension"
+    },
+    {
+      "name": "conversion_diagnostic",
+      "original": "0x3c380",
+      "analyzed_body_bytes": 146,
+      "caller_gate": "ordinary conversion warning branches"
+    }
+  ],
+  "additional_target": {
+    "name": "define_register_parameter",
+    "original": "0x2ad40",
+    "extent": "pending full original recovery; no credit before proof",
+    "gate": "parser.c1342 storage class5/6 for declared register parameter"
+  },
+  "analysis_total_bytes": 898,
+  "metric": "Sum of analyzed instruction body ranges for six candidates, not promised reachability or accepted extent credit.",
+  "validation": "Untouched original public options/source preflight and linked silent checksum; preserve intentional warnings and failed compatibility probes, full CL child transport/input/output sets, then native-only fixtures/fresh masked original pairs and current compiler/graph/state/ABI checks. No injected internal flags.",
+  "approval": "Root approved one coherent ordinary successful callback adapter case after current PDB checkpoint; void* roundtrip conditional on original acceptance/runtime, narrow/default/register parameters and nested pointers/explicit calls included."
+}

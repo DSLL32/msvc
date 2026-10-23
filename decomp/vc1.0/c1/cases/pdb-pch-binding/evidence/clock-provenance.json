@@ -1,0 +1,26 @@
+{
+  "target_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "contract": "Original48ff8 calls time(0), passes result into open_program_database/create_program_database; original17300 constructor stores signature into header timestamp at file+48, read back by program_database_signature and embedded by write_program_database_reference at irdb+14. Existing PDB open preserves input header/signature. Independently established by numeric-varargs original-native writer reconstruction; raw current disassembly retained here.",
+  "instructions": [
+    {
+      "path": "clock-open.disassembly.txt",
+      "start": "0x48fe0",
+      "end": "0x4907c",
+      "sha256": "c95c8fdfdf02fce5912fe2842e5feef8de418de2d32519feaf448df60218304f"
+    },
+    {
+      "path": "signature-write.disassembly.txt",
+      "start": "0x17300",
+      "end": "0x17385",
+      "sha256": "af7eeaf851dcfd85834593b9fc0993d71186b31d1e3a998c5c9be7dfd021bde8"
+    },
+    {
+      "path": "signature-read.disassembly.txt",
+      "start": "0x17fc0",
+      "end": "0x17fc8",
+      "sha256": "6d110d753a9a3c9be0a9d560c74781e1036ce6f3c58a87a8bacb7f72d7bcb5db"
+    }
+  ],
+  "repeated_originals": "repeated-original-captures.json",
+  "native_clock": "Fresh pairs record original header DWORD and RECON_FIXED_TIME to retain raw buffers/files. Cached fixtures normalize only these two proven fields after raw equality. Consumer propagates actual producer signature unchanged."
+}

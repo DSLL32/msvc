@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Check native C1 oracle failures using private copies of existing case data."""
 import copy
+import struct
 import importlib.util
 import json
 from pathlib import Path
@@ -171,6 +172,33 @@ def main():
     (arena/'irex').write_bytes(expression)
     rejects('based-expression-stream-byte', 'output bytes differ: irex',
             lambda:checker.validate_artifacts(arena,arena_fixture,arena_phase))
+
+    _, binding_producer = checker.run_case('pdb-pch-binding-create', executable, directory)
+    binding_originals = {name:(binding_producer/name).read_bytes() for name in ['binding.pch','msvc.pdb','irex']}
+    for name in ['binding.pch','msvc.pdb','irex']:
+        altered = bytearray(binding_originals[name])
+        altered[-1] ^= 1
+        (binding_producer/name).write_bytes(altered)
+        private_root = directory/('bad-binding-'+name)
+        private_root.mkdir()
+        rejects('pdb-binding-producer-'+name, 'output bytes differ: '+name,
+                lambda:checker.run_case('pdb-pch-binding-use', executable, private_root,
+                                        dependency=binding_producer/'binding.pch'))
+        assert not (private_root/'pdb-pch-binding-use/execution.json').exists(), 'consumer ran with bad producer contract'
+        (binding_producer/name).write_bytes(binding_originals[name])
+    missing_root = directory/'missing-binding-producer'
+    missing_root.mkdir()
+    rejects('pdb-binding-missing-producer', 'consumer requires actual producer state',
+            lambda:checker.run_case('pdb-pch-binding-use', executable, missing_root))
+    _, binding_consumer = checker.run_case('pdb-pch-binding-use', executable, directory,
+                                          dependency=binding_producer/'binding.pch')
+    signature = struct.unpack_from('<I',binding_originals['msvc.pdb'],48)[0]
+    for name,offset in [('msvc.pdb',48),('irdb',14)]:
+        altered = bytearray((binding_consumer/name).read_bytes())
+        struct.pack_into('<I',altered,offset,signature ^ 1)
+        (binding_consumer/name).write_bytes(altered)
+    rejects('pdb-binding-clock-propagation', 'consumer database signature changed',
+            lambda:checker.validate_generated_signature(binding_consumer, signature))
 
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,

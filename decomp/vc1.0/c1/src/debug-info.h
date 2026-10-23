@@ -77,6 +77,8 @@ unsigned short pdb_enum_type_index(FrontendSymbol *tag);
 unsigned short pdb_record_type_index(FrontendSymbol *tag);
 unsigned short pdb_complete_record_type_index(FrontendSymbol *tag);
 unsigned short pdb_complete_enum_type_index(FrontendSymbol *tag);
+unsigned short pdb_enum_field_list(FrontendSymbol *tag);
+int __cdecl compare_pdb_enumerators(const void *left, const void *right);
 unsigned short pdb_field_list_index(FrontendSymbol *tag, unsigned *count, unsigned short *properties);
 unsigned short build_pdb_field_list(unsigned pass, FrontendSymbol *tag, unsigned *count, unsigned short *properties);
 unsigned short write_pdb_member(unsigned pass, FrontendSymbol *member, unsigned char *destination);

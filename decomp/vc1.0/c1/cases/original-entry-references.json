@@ -112,6 +112,14 @@
     "based-record-arena": {
       "receipt": "cases/based-record-arena/evidence/based-complete-921.receipt.json",
       "sha256": "7b0cdcb42e4db58e99d54f533d3ca990022868d279b1d057c5e8bfb589b1395d"
+    },
+    "pdb-pch-binding-create": {
+      "receipt": "cases/pdb-pch-binding/evidence/final-create-entries.receipt.json",
+      "sha256": "b4c17fa9805afb9c6936c6be554fe581a638d65b8d0da6717713e185fe32e28d"
+    },
+    "pdb-pch-binding-use": {
+      "receipt": "cases/pdb-pch-binding/evidence/final-use-entries.receipt.json",
+      "sha256": "2a0ef2fa25e29bc0d44db6e349ad31166666c1bd2688b554f880934361d0a6e2"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

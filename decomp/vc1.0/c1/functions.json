@@ -925,7 +925,17 @@
     "_is_pointer_based_shape@4",
     "_classify_unsigned_integer@4",
     "_serialize_legacy_symbol@8",
-    "_check_based_pointer_conversion@12"
+    "_check_based_pointer_conversion@12",
+    "_declare_pch_debug_library",
+    "_copy_bytes_end@12",
+    "_pdb_complete_enum_type_index",
+    "_pdb_enum_type_index",
+    "_pdb_enum_field_list",
+    "_compare_pdb_enumerators",
+    "_write_codeview_signed_leaf",
+    "_write_codeview_symbol",
+    "_reference_pch_debug_library@4",
+    "_assign_unpooled_literal_segment@8"
   ],
   "driver": [
     {
@@ -3893,7 +3903,7 @@
     {
       "name": "_assign_unpooled_literal_segment@8",
       "start": 263312,
-      "end": 263313
+      "end": 263384
     },
     {
       "name": "_emit_literal_initializer@8",
@@ -4408,7 +4418,7 @@
     {
       "name": "_pdb_enum_type_index",
       "start": 301408,
-      "end": 301409
+      "end": 301589
     },
     {
       "name": "_pdb_record_type_index",
@@ -4573,7 +4583,7 @@
     {
       "name": "_write_codeview_symbol",
       "start": 304272,
-      "end": 304273
+      "end": 304411
     },
     {
       "name": "_pdb_complete_record_type_index",
@@ -4583,7 +4593,7 @@
     {
       "name": "_pdb_complete_enum_type_index",
       "start": 301600,
-      "end": 301601
+      "end": 301856
     },
     {
       "name": "_pdb_field_list_index",
@@ -4623,7 +4633,7 @@
     {
       "name": "_write_codeview_signed_leaf",
       "start": 304080,
-      "end": 304081
+      "end": 304163
     },
     {
       "name": "_remove_pdb_type_qualifiers",
@@ -4658,7 +4668,7 @@
     {
       "name": "_declare_pch_debug_library",
       "start": 297472,
-      "end": 297473
+      "end": 297613
     },
     {
       "name": "_finish_pch_debug_symbols",
@@ -4904,7 +4914,7 @@
     {
       "name": "_reference_pch_debug_library@4",
       "start": 297616,
-      "end": 297617
+      "end": 297891
     },
     {
       "name": "_restore_pch_separate_debug",
@@ -5627,6 +5637,21 @@
       "name": "_validate_self_based_source@4",
       "start": 156032,
       "end": 156033
+    },
+    {
+      "name": "_copy_bytes_end@12",
+      "start": 101440,
+      "end": 101476
+    },
+    {
+      "name": "_pdb_enum_field_list",
+      "start": 301856,
+      "end": 302211
+    },
+    {
+      "name": "_compare_pdb_enumerators",
+      "start": 302224,
+      "end": 302243
     }
   ],
   "cases": {
@@ -5756,6 +5781,14 @@
     "based-record-arena": {
       "accepted_from": 913,
       "accepted_count": 921
+    },
+    "pdb-pch-binding-create": {
+      "accepted_from": 921,
+      "accepted_count": 929
+    },
+    "pdb-pch-binding-use": {
+      "accepted_from": 929,
+      "accepted_count": 931
     }
   },
   "buffered_streams": [

@@ -1,0 +1,48 @@
+
+/root/msvc2/decomp/vc1.0/c1/../../../toolchains/1.0-nt/bin/C13232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00048fe0 <.text+0x31fe0>:
+   48fe0:	83 3d 3c e1 06 00 00 	cmp    DWORD PTR ds:0x6e13c,0x0
+   48fe7:	0f 85 8e 00 00 00    	jne    0x4907b
+   48fed:	83 3d e0 bb 06 00 00 	cmp    DWORD PTR ds:0x6bbe0,0x0
+   48ff4:	75 12                	jne    0x49008
+   48ff6:	6a 00                	push   0x0
+   48ff8:	e8 c3 b3 00 00       	call   0x543c0
+   48ffd:	83 c4 04             	add    esp,0x4
+   49000:	50                   	push   eax
+   49001:	68 bc e1 06 00       	push   0x6e1bc
+   49006:	eb 07                	jmp    0x4900f
+   49008:	6a 01                	push   0x1
+   4900a:	68 c0 e1 06 00       	push   0x6e1c0
+   4900f:	68 4c bc 06 00       	push   0x6bc4c
+   49014:	e8 57 eb fc ff       	call   0x17b70
+   49019:	83 c4 0c             	add    esp,0xc
+   4901c:	a3 3c e1 06 00       	mov    ds:0x6e13c,eax
+   49021:	83 3d 3c e1 06 00 00 	cmp    DWORD PTR ds:0x6e13c,0x0
+   49028:	75 16                	jne    0x49040
+   4902a:	68 4c bc 06 00       	push   0x6bc4c
+   4902f:	68 d6 01 00 00       	push   0x1d6
+   49034:	e8 97 19 00 00       	call   0x4a9d0
+   49039:	83 c4 08             	add    esp,0x8
+   4903c:	c3                   	ret
+   4903d:	8d 49 00             	lea    ecx,[ecx+0x0]
+   49040:	e8 cb 00 00 00       	call   0x49110
+   49045:	6a 0c                	push   0xc
+   49047:	e8 44 fd ff ff       	call   0x48d90
+   4904c:	83 c4 04             	add    esp,0x4
+   4904f:	6a 0a                	push   0xa
+   49051:	e8 3a fd ff ff       	call   0x48d90
+   49056:	a1 40 b2 05 00       	mov    eax,ds:0x5b240
+   4905b:	83 c4 04             	add    esp,0x4
+   4905e:	c7 00 01 00 00 00    	mov    DWORD PTR [eax],0x1
+   49064:	a1 40 b2 05 00       	mov    eax,ds:0x5b240
+   49069:	50                   	push   eax
+   4906a:	6a 04                	push   0x4
+   4906c:	6a 03                	push   0x3
+   4906e:	e8 1d fd ff ff       	call   0x48d90
+   49073:	83 c4 0c             	add    esp,0xc
+   49076:	e8 05 00 00 00       	call   0x49080
+   4907b:	c3                   	ret
