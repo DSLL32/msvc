@@ -7,6 +7,16 @@ C2FunctionSymbol *pending_functions;
 C2FunctionSymbol **pending_insertion;
 C2Symbol *global_special_symbols;
 unsigned current_source_file = (unsigned)-1;
+C2Filename *filenames;
+
+void __fastcall record_filename(C2Symbol *symbol)
+{
+    C2Filename *file = c2_pool_allocate(0, sizeof(C2Filename));
+    file->serial = symbol->serial;
+    file->name = symbol->name;
+    file->next = filenames;
+    filenames = file;
+}
 
 void __fastcall read_symbols(C2SymbolScope *scope)
 {

@@ -234,6 +234,11 @@ typedef struct C2DebugLink {
     struct C2DebugLink *next;
     C2Symbol *symbol;
 } C2DebugLink;
+typedef struct C2Filename {
+    unsigned serial;
+    char *name;
+    struct C2Filename *next;
+} C2Filename;
 typedef struct C2DebugScope {
     short line;
     unsigned short pending02;
@@ -261,6 +266,7 @@ typedef char C2BlockSymbolSizeCheck[sizeof(C2BlockSymbol) == 64 ? 1 : -1];
 typedef char C2FunctionSymbolOrderCheck[offsetof(C2FunctionSymbol, input_order) == 0x56 ? 1 : -1];
 typedef char C2FunctionSymbolNextCheck[offsetof(C2FunctionSymbol, pending_next) == 0x66 ? 1 : -1];
 typedef char C2DebugScopeSizeCheck[sizeof(C2DebugScope) == 24 ? 1 : -1];
+typedef char C2FilenameSizeCheck[sizeof(C2Filename) == 12 ? 1 : -1];
 typedef char C2SymbolScopeHashCheck[offsetof(C2SymbolScope, symbols) == 16 ? 1 : -1];
 typedef char C2SymbolScopeDebugCheck[offsetof(C2SymbolScope, debug_scope) == 32 ? 1 : -1];
 typedef char C2SectionSizeCheck[sizeof(C2Section) == 86 ? 1 : -1];
@@ -305,6 +311,7 @@ void __fastcall queue_symbol_debug(C2Symbol *symbol);
 void __fastcall update_symbol_storage(C2Symbol *symbol);
 unsigned __fastcall reserve_symbol_storage(C2Symbol *symbol);
 void __fastcall record_filename(C2Symbol *symbol);
+extern C2Filename *filenames;
 void c2_initialize_registers(void);
 void c2_initialize_optimizer(void);
 void c2_compile_unit(void);

@@ -78,6 +78,9 @@ def verify(config):
     symbol_dispatch=[]
     record_dispatch=[]
     name_dispatch=[]
+    if '@record_filename@4'in config['accepted']:
+        assert reader(TARGET)(0x4973b8,4)==bytes(4),'original filename registry initial pointer differs'
+        assert reader(BINARY/'build/c2.exe')(maps['_filenames'],4)==bytes(4),'rebuilt filename registry initial pointer differs'
     if '@intern_symbol_name@12'in config['accepted']:
         record=next(r for r in config['driver']if r['name']=='@intern_symbol_name@12')
         raw=(BINARY/record['name_model']).read_bytes();assert sha(raw)==record['name_model_sha256'],'name model differs'

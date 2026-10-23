@@ -148,14 +148,6 @@
     "evidence": null
   },
   {
-    "name": "@record_filename@4",
-    "start": 4534992,
-    "end": 4534993,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_input_compact_signed",
     "start": 4325621,
     "end": 4325622,

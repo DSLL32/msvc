@@ -123,6 +123,32 @@ def main():
                       ('machine call-clobber register mask differs',lambda r:changed_machine_value(r,'0x495f34',7)),
                       ('machine stack alignment differs',lambda r:changed_machine_value(r,'0x49745c',4)),
                       ('earlier intrinsic observation cannot replace final frontier observation',missing_final_intrinsic_observation)]
+    if 'symbol_type_input'in current_state:
+        def changed_type_input(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['symbol_type_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+            path=root/'n/gdb.stdout';raw=path.read_text();raw=re.sub(r'^C2-SYMBOL-TYPE-INPUT .*$',lambda m:'C2-SYMBOL-TYPE-INPUT '+json.dumps(state['symbol_type_input'],sort_keys=True),raw,flags=re.M);path.write_text(raw)
+            path=root/'n/receipt.json';receipt=json_at(path);receipt['gdb_outputs']['gdb.stdout']=sha((root/'n/gdb.stdout').read_bytes());write_json(path,receipt)
+        def changed_type_raw(root,name,index):
+            path=root/'o'/name;data=bytearray(path.read_bytes());data[index]^=1;path.write_bytes(data)
+        mutations += [('type reader omits actual symbol formal',lambda r:changed_type_input(r,'formals',[])),
+                      ('type reader actual symbol pool offset differs',lambda r:changed_type_input(r,'symbol_offset',552)),
+                      ('type reader loses actual caller-symbol alias',lambda r:changed_type_input(r,'caller_symbol_alias',False)),
+                      ('type reader caller record kind differs',lambda r:changed_type_input(r,'caller_kind',4)),
+                      ('type reader caller retention differs',lambda r:changed_type_input(r,'retain_locals',1)),
+                      ('type reader function record fields differ',lambda r:changed_type_input(r,'symbol_bytes','00'*110)),
+                      ('type reader filename registry head offset differs',lambda r:changed_type_input(r,'filename_offset',540)),
+                      ('type reader filename registry serial differs',lambda r:changed_type_input(r,'filename_serial',85)),
+                      ('type reader filename name alias differs',lambda r:changed_type_input(r,'filename_name_offset',516)),
+                      ('type reader filename list termination differs',lambda r:changed_type_input(r,'filename_next_null',False)),
+                      ('type reader filename and template names lose shared pointer',lambda r:changed_type_input(r,'filename_name_alias',False)),
+                      ('type reader filename record extent differs',lambda r:changed_type_input(r,'filename_size',16)),
+                      ('type reader input scratch residual bytes cleared',lambda r:changed_type_input(r,'input_bytes',(b'mix_unsigned\0'+bytes(2045)).hex())),
+                      ('type reader raw filename serial differs',lambda r:changed_type_raw(r,'filename-node.bin',0)),
+                      ('type reader raw filename name pointer differs',lambda r:changed_type_raw(r,'filename-node.bin',4)),
+                      ('type reader raw filename next pointer differs',lambda r:changed_type_raw(r,'filename-node.bin',8)),
+                      ('type reader raw current record kind differs',lambda r:changed_type_raw(r,'function-symbol.bin',4)),
+                      ('type reader raw current record untouched tail differs',lambda r:changed_type_raw(r,'function-symbol.bin',109)),
+                      ('type reader rounded function padding differs',lambda r:changed_type_raw(r,'pool-block.bin',659))]
     if 'filename_input'in current_state:
         def changed_filename_input(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['filename_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
