@@ -96,7 +96,6 @@ Node *__fastcall fold_floating_node(Node *node) { __asm int 3 }
 Node *__fastcall fold_integer_node(Node *node) { __asm int 3 }
 #include "algebra.h"
 int __fastcall integer_type_limit(Node *node, int limit) { __asm int 3 }
-Node *__fastcall strip_integer_cast(Node *node) { __asm int 3 }
 int __fastcall rewrite_shift_as_multiply(Node *node) { __asm int 3 }
 Node *__fastcall fold_absorbing_constant(Node *node, int value) { __asm int 3 }
 int __fastcall reduce_constant_bits(Node *node, Node *parent) { __asm int 3 }
@@ -108,7 +107,6 @@ int __fastcall negate_tree_in_place(Node **node) { __asm int 3 }
 int __fastcall constant_as_integer(Node *node, int *value) { __asm int 3 }
 Node *__fastcall lift_left_unary(Node *node) { __asm int 3 }
 Node *__fastcall remove_left_wrapper(Node *node) { __asm int 3 }
-Node *__fastcall take_left_operand(Node *node) { __asm int 3 }
 Node *__fastcall lift_unary_operand(Node *node, unsigned opcode) { __asm int 3 }
 Node *__fastcall remove_right_wrapper(Node *node) { __asm int 3 }
 Node *__fastcall simplify_masked_tree(Node *node, unsigned mask) { __asm int 3 }
@@ -116,7 +114,6 @@ unsigned __fastcall shift_discard_mask(Node *node) { __asm int 3 }
 int __fastcall factor_common_operator(Node *node, unsigned opcode, int implicit) { __asm int 3 }
 int __fastcall factor_compatible_operator(Node *node, unsigned opcode, int implicit) { __asm int 3 }
 int __fastcall distribute_constant(Node *node, unsigned opcode) { __asm int 3 }
-int __fastcall conversion_loses_value(unsigned short source, unsigned short target) { __asm int 3 }
 int __fastcall lower_far_pointer_cast(Node *node) { __asm int 3 }
 #include "work-prepare.h"
 void __fastcall prepare_generated_intrinsic(Node *node, int mode) { __asm int 3 }
@@ -266,13 +263,11 @@ Node *__fastcall simplify_global_conversion(Node *node) { __asm int 3 }
 Node *__fastcall distribute_unary_tree(Node *node) { __asm int 3 }
 int __fastcall is_negatable_negative_constant(Node *node) { __asm int 3 }
 
-void __fastcall reduce_additive_chain(Node *node) { __asm int 3 }
 void __fastcall reduce_multiplicative_chain(Node *node) { __asm int 3 }
 void __fastcall reduce_bitwise_terms(Node *node, unsigned identity) { __asm int 3 }
 void __fastcall factor_bitwise_chain(Node *node, unsigned opcode) { __asm int 3 }
 
 
-Node *__fastcall fold_address_offset(Node *node) { __asm int 3 }
 void __fastcall combine_complementary_masks(Node *node) { __asm int 3 }
 void __fastcall cancel_unary_factors(Node *node, unsigned unary, unsigned combine) { __asm int 3 }
 

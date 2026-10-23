@@ -760,7 +760,12 @@
     "_new_internal_label",
     "@reassociate_right_chain@4",
     "@rotate_left_chain@16",
-    "@sort_commutative_operands@12"
+    "@sort_commutative_operands@12",
+    "@conversion_loses_value@8",
+    "@take_left_operand@4",
+    "@strip_integer_cast@4",
+    "@reduce_additive_chain@4",
+    "@fold_address_offset@4"
   ],
   "driver": [
     {
@@ -2678,8 +2683,7 @@
     {
       "name": "@strip_integer_cast@4",
       "start": 355200,
-      "end": 355201,
-      "provisional": true
+      "end": 355235
     },
     {
       "name": "@typed_integer_node@8",
@@ -2755,8 +2759,7 @@
     {
       "name": "@take_left_operand@4",
       "start": 348592,
-      "end": 348593,
-      "provisional": true
+      "end": 348615
     },
     {
       "name": "@lift_unary_operand@8",
@@ -2808,8 +2811,7 @@
     {
       "name": "@conversion_loses_value@8",
       "start": 349200,
-      "end": 349201,
-      "provisional": true
+      "end": 349261
     },
     {
       "name": "@lower_far_pointer_cast@4",
@@ -3911,8 +3913,7 @@
     {
       "name": "@reduce_additive_chain@4",
       "start": 349984,
-      "end": 349985,
-      "provisional": true
+      "end": 350687
     },
     {
       "name": "@reduce_multiplicative_chain@4",
@@ -3940,8 +3941,7 @@
     {
       "name": "@fold_address_offset@4",
       "start": 351984,
-      "end": 351985,
-      "provisional": true
+      "end": 352214
     },
     {
       "name": "@combine_complementary_masks@4",

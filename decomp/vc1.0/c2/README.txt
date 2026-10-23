@@ -1924,3 +1924,15 @@ preserve comparison direction. Original/native agree at conversion_loses_value
 pass. Transformation branches are not claimed covered merely by function entry.
 Full hello object remains incomplete. See cases/hello-conditional-ordering.json
 for ordered references, build/declaration fixes, data provenance and timing.
+
+Additive/address checkpoint761
+-------------------------------
+Cast-boundary detection, redundant unary-shell removal and same-width integral
+cast inspection are recovered. The whole additive-chain reducer searches typed
+operand slots for repeated factors, keeping negation/pointer and exact-divisor
+conditions; unreached children remain named traps. Address folding combines
+symbol-relative displacements, reassociates additive shells and subtracts two
+addresses of the same symbol. Native/original agree at factor_common_operator
+55b40.683 graph/extent checks, native fixtures, canonical and two modules/W3 pass.
+Factor rewrite bodies are not claimed covered without an independent observation.
+Full hello object remains incomplete; see cases/hello-additive-address.json.

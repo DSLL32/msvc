@@ -450,3 +450,117 @@ Node *__fastcall finish_global_node(Node *node)
     }
     return node;
 }
+
+/* Original [00055720,000559df). Search additive and multiplicative left
+   spines for a common factor, allowing negation and an exact constant divisor.
+   Rewrite one matching pair per call; the enclosing optimizer repeats passes. */
+void __fastcall reduce_additive_chain(Node *node)
+{
+    Node **right_root, **right_sign, **right_factor = 0, **right_value;
+    Node **left_root, **left_chain, **left_term, **left_sign;
+    Node **left_factor = 0, **left_value, **saved_factor;
+    Node *factor, *replacement;
+    int right_divisor, left_divisor;
+    while (node->opcode == 0x34) node = node->left.node;
+    right_root = &node->second.node;
+    right_sign = right_root;
+    if ((*right_root)->opcode == 8) right_sign = &(*right_root)->left.node;
+    for (;;) {
+        if ((*right_sign)->opcode != 9) {
+            right_factor = (*right_sign)->opcode == 4 ?
+                &(*right_sign)->second.node : right_sign;
+            right_value = right_factor;
+            if ((*right_factor)->opcode == 7 &&
+                constant_as_integer((*right_factor)->second.node, &right_divisor))
+                right_value = &(*right_factor)->left.node;
+            if ((*right_value)->opcode != 0x33) {
+                left_root = &node->left.node;
+                left_chain = left_root;
+                for (;;) {
+                    left_term = (*left_chain)->opcode == 2 ?
+                        &(*left_chain)->second.node : left_chain;
+                    left_sign = left_term;
+                    if ((*left_term)->opcode == 8) left_sign = &(*left_term)->left.node;
+                    for (;;) {
+                        if ((*left_sign)->opcode != 9) {
+                            left_factor = (*left_sign)->opcode == 4 ?
+                                &(*left_sign)->second.node : left_sign;
+                            left_value = left_factor;
+                            if ((*left_factor)->opcode == 7 &&
+                                constant_as_integer((*left_factor)->second.node, &left_divisor))
+                                left_value = &(*left_factor)->left.node;
+                            if (trees_equal(*left_value, *right_value, 1)) goto combine;
+                        }
+                        if (left_factor == left_sign) break;
+                        left_sign = &(*left_sign)->left.node;
+                    }
+                    if (left_term == left_chain) break;
+                    left_chain = &(*left_chain)->left.node;
+                }
+            }
+        }
+        if (right_factor == right_sign) return;
+        right_sign = &(*right_sign)->left.node;
+    }
+combine:
+    if (((*left_value)->attributes.words.type & 0xc00) &&
+        ((left_sign != left_term) == (right_sign != right_root))) return;
+    if (right_value != right_factor &&
+        (left_value == left_factor || right_divisor > left_divisor)) {
+        right_value = left_value;
+        saved_factor = left_factor;
+        left_factor = right_factor;
+        right_factor = saved_factor;
+    }
+    factor = *right_factor;
+    if (trees_equal(*left_factor, factor, 1)) {
+        release_tree(*left_factor);
+        replacement = typed_integer_node(factor, 1);
+    } else {
+        if (!(node_shapes[(*left_factor)->opcode] & NODE_HAS_SECOND)) return;
+        if (right_value == right_factor) right_divisor = 1;
+        else constant_as_integer((*right_factor)->second.node, &right_divisor);
+        left_factor = &(*left_factor)->second.node;
+        replacement = build_tree("PPNY", *left_factor,
+            typed_integer_node(factor, (unsigned)right_divisor), 3);
+    }
+    *left_factor = replacement;
+    *right_factor = typed_integer_node(factor, 1);
+    build_tree("PPYPYNYPNYL", *left_root, *left_term, *right_root, 2, factor, 4, node);
+    *left_term = typed_integer_node(factor, 0);
+    if ((*right_sign)->opcode == 4) reduce_additive_chain((*right_root)->left.node);
+    tree_changed = 1;
+}
+
+/* Original [00055ef0,00055fd6). Fold constant pointer displacements
+   into symbol-address leaves, or subtract two addresses of the same symbol. */
+Node *__fastcall fold_address_offset(Node *node)
+{
+    Node *left = node->left.node, *right = node->second.node, *value;
+    unsigned displacement;
+    if (right->opcode == 0x33) {
+        if (left->opcode == 0x26) {
+            displacement = right->left.value;
+            if (node->opcode != 2) displacement = 0 - displacement;
+            value = intern_leaf(0x26, left->attributes.words.flags,
+                left->right.symbol, left->left.value + displacement, 0x404);
+            release_tree(node);
+            tree_changed = 1;
+            return value;
+        }
+        if ((node_shapes[left->opcode] & NODE_ADDITIVE) &&
+            left->second.node->opcode == 0x26) {
+            node->opcode = node->opcode == left->opcode ? 2 : 3;
+            build_tree("PPPLL", left->left.node, left->second.node, right, node, left);
+            left->second.node = fold_address_offset(left->second.node);
+            return left;
+        }
+    }
+    if (node->opcode == 3 && left->opcode == 0x26 && right->opcode == 0x26 &&
+        left->right.symbol == right->right.symbol) {
+        value = integer_node(left->left.value - right->left.value, 0x104);
+        release_tree(node);
+        return value;
+    }
+    return node;
+}

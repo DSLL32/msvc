@@ -366,3 +366,42 @@ int __fastcall is_constant_value(Node *node, int value)
     integer_to_extended(&value, &number);
     return compare_extended(1, node->left.pointer, &number);
 }
+
+/* Original [00055410,0005544d). Test whether the candidate representation
+   crosses the width or floating-format boundaries used by cast elimination. */
+int __fastcall conversion_loses_value(unsigned short source, unsigned short target)
+{
+    if (source == target) return 0;
+    if ((target & 255) > (source & 255)) return 1;
+    if (source & 0x1000) {
+        if ((target & 0xf00) && (target & 255) == (source & 255)) return 1;
+        if (target & 0x1000) return 1;
+    }
+    return 0;
+}
+
+/* Original [000551b0,000551c7). Remove a redundant unary shell. */
+Node *__fastcall take_left_operand(Node *node)
+{
+    Node *left;
+    tree_changed = 1;
+    left = node->left.node;
+    release_node(node);
+    return left;
+}
+
+/* Original [00056b80,00056ba3). Ignore one same-width integral/pointer
+   cast while inspecting arithmetic; keep all floating representation casts. */
+Node *__fastcall strip_integer_cast(Node *node)
+{
+    Node *operand;
+    unsigned short type, operand_type;
+    if (node->opcode == 0x34) {
+        operand = node->left.node;
+        type = node->attributes.words.type;
+        operand_type = operand->attributes.words.type;
+        if ((type & 255) == (operand_type & 255) &&
+            (type & 0xf00) && (operand_type & 0xf00)) return operand;
+    }
+    return node;
+}
