@@ -269,3 +269,85 @@ MachineOperand *__fastcall select_replicated_fill_operand(Node *value, unsigned 
     }
     return result;
 }
+
+extern int optimize_speed, cpu_model;
+/* Original [0001d670,0001da89). Select short unrolled transfers or REP
+   string operations, then emit byte/word remainders and restore direction.
+   Nine fixed fastcall arguments: seven stack words, original RET1c. */
+void __fastcall select_block_operation(unsigned constant_count, MachineOperand *count,
+    MachineOperand *source, MachineOperand *destination, int wide, unsigned short type,
+    int fill, int remainder, int direction)
+{
+    unsigned units = constant_count, opcode = fill ? MC_STOS : MC_MOVS;
+    unsigned short unit_type = wide ? 0x104 : type;
+    unsigned offset = 0, step, i;
+    int direct = optimize_speed && cpu_model > 3;
+    int unrolled;
+    MachineOperand *physical_source;
+    if (wide) units >>= ((type & 255) == 1 ? 2 : 1);
+    if (constant_count && units <= (fill ? 5U : 4U)) {
+        if (direction == -1 && !direct) emit_machine_operation(MC_STD, 0);
+        unrolled = 1;
+        if (!direct) {
+            emit_machine_operation(MC_MOV, 0x104, &operand_edi, destination);
+            physical_source = fill ? &operand_eax : &operand_esi;
+            emit_machine_operation(MC_MOV, 0x104, physical_source, source);
+        }
+        step = (unit_type & 255U) * (unsigned)direction;
+        for (i = 0; i < units; ++i) {
+            if (direct) emit_explicit_block_transfer(fill, source, destination, unit_type, offset);
+            else emit_machine_operation(opcode, unit_type);
+            offset += step;
+        }
+        offset = direct ? (unit_type & 255U) * units : 0;
+    } else {
+        if (direction == -1) emit_machine_operation(MC_STD, 0);
+        unrolled = 0;
+        emit_machine_operation(MC_MOV, 0x104, &operand_edi, destination);
+        destination = &operand_edi;
+        physical_source = fill ? &operand_eax : &operand_esi;
+        emit_machine_operation(MC_MOV, 0x104, physical_source, source);
+        source = physical_source;
+        emit_machine_operation(MC_MOV, 0x104, &operand_ecx, count);
+        if (wide && !constant_count)
+            emit_machine_operation(MC_SHR, 0x104, &operand_ecx,
+                new_operand(OPERAND_IMMEDIATE, 0, (type & 255) == 1 ? 2 : 1, 0));
+        emit_machine_operation(MC_REP, 0);
+        emit_machine_operation(opcode, unit_type);
+    }
+    if (!wide) goto done;
+    if ((type & 255) == 1) {
+        if (!constant_count) {
+            if (!remainder) goto done;
+            emit_machine_operation(MC_MOV, 0x104, &operand_ecx, count);
+            emit_machine_operation(MC_AND, 0x104, &operand_ecx,
+                new_operand(OPERAND_IMMEDIATE, 0, 3, 0));
+            emit_machine_operation(MC_REP, 0);
+            emit_machine_operation(opcode, type);
+        } else {
+            if (constant_count & 2) {
+                if (direct && unrolled) {
+                    emit_explicit_block_transfer(fill, source, destination, 0x102, offset);
+                    offset += 2;
+                } else emit_machine_operation(opcode, 0x102);
+            }
+            if (constant_count & 1) {
+                if (direct && unrolled)
+                    emit_explicit_block_transfer(fill, source, destination, 0x101, offset);
+                else emit_machine_operation(opcode, 0x101);
+            }
+        }
+    } else if (!constant_count) {
+        if (!remainder) goto done;
+        /* The carry from count's earlier SHR identifies the residual word. */
+        emit_machine_operation(MC_ADC, 0x104, &operand_ecx, &operand_ecx);
+        emit_machine_operation(MC_REP, 0);
+        emit_machine_operation(opcode, type);
+    } else if (constant_count & 1) {
+        if (direct && unrolled)
+            emit_explicit_block_transfer(fill, source, destination, 0x102, offset);
+        else emit_machine_operation(opcode, 0x102);
+    }
+done:
+    if (direction == -1 && (!unrolled || !direct)) emit_machine_operation(MC_CLD, 0);
+}

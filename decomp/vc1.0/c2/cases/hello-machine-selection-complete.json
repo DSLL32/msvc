@@ -1,0 +1,354 @@
+{
+  "checkpoint": 819,
+  "base_commit": "901186d",
+  "status": "active; WinMain selected and locally finished; structured machine regions next",
+  "accepted_functions": [
+    {
+      "name": "@register_mentioned_between@12",
+      "start": 139488,
+      "end": 139579
+    },
+    {
+      "name": "@replace_machine_region_suffix@12",
+      "start": 297184,
+      "end": 297238
+    },
+    {
+      "name": "@select_block_operation@36",
+      "start": 120432,
+      "end": 121481
+    }
+  ],
+  "source_graphs": 741,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 819,
+    "accepted_code_bytes": 225400,
+    "original_code_bytes": 399693,
+    "percentage": 56.39328184381513,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 290
+  },
+  "current_frontier": {
+    "name": "@finish_closed_machine_region@8",
+    "original_va": "0x48690"
+  },
+  "validation": {
+    "canonical_build": "pass",
+    "W3": "intrinsic-selection/instruction-uses/machine-analysis clean",
+    "graph_extent_mask": "pass",
+    "native_fixtures": {
+      "method": "native application entry and captured-output check",
+      "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
+      "executable_sha256": "f74ced5db009262f3ec786c614e0797d2488be9b8b3fe6f7eddb5e8efbc764f5",
+      "trace_enabled": true,
+      "shared_hashes": {
+        "lib/recon/include/recon.h": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284",
+        "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+        "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+        "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+        "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+        "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+        "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+        "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+        "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+        "lib/recon/native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+        "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+        "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+        "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+        "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+        "lib/recon/src/crt.c": "1cf556f3771c59820a69a56c38e78cf95080d395f387f3e252d9be9dd100d8d3",
+        "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+        "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+        "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+        "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+        "lib/recon/src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+      },
+      "results": [
+        {
+          "profile": "minimal",
+          "terminal": "exit:0",
+          "returncode": 0,
+          "application_entries": 270,
+          "seeded_entries": 0,
+          "output": {
+            "name": "test.obj",
+            "bytes": 286,
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_timestamp": [
+              4,
+              4
+            ]
+          },
+          "setup_seconds": 0.018498949706554413,
+          "execution_seconds": 0.007279152050614357,
+          "check_seconds": 0.0017087915912270546,
+          "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-84zyd281/minimal"
+        },
+        {
+          "profile": "hello",
+          "terminal": "@finish_closed_machine_region@8",
+          "returncode": -5,
+          "application_entries": 467,
+          "seeded_entries": 270,
+          "output": null,
+          "setup_seconds": 0.01277464535087347,
+          "execution_seconds": 0.010498587973415852,
+          "check_seconds": 0.0011025946587324142,
+          "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-84zyd281/hello"
+        }
+      ],
+      "rejected": [
+        "wrong expected application entry",
+        "non-clock object corruption",
+        "changed captured IR input"
+      ],
+      "fixture_seconds": 0.22497083339840174,
+      "suite_setup_seconds": 0.13776359148323536,
+      "negative_check_seconds": 0.02534681372344494,
+      "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+    }
+  },
+  "reference_evidence": [
+    {
+      "path": "cases/hello-original-817.json",
+      "sha256": "e868ad7e3cdcc2baa5a20970d44f1b48a35b0b01065a3ddafcee7351974eba87",
+      "capture": {
+        "label": "block-operation-after",
+        "accepted": 817,
+        "logical": "@register_mentioned_between@12",
+        "original_va": "0x220e0",
+        "events": "exception 80000003 rva 000120e0 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.19021950010210276,
+        "execution_check_seconds": 0.8364033820107579,
+        "total_seconds": 1.0266233636066318,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "adb1d94bcf99a0fbe376a310b92911813ee210d17169b6dcb878bdd2a64a041f",
+        "config_sha256": "f1e7e26dfe7ef7f6872bcb24c4b82065f47ae902400f427f13ea0dc520f3bee7",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/block-operation-after"
+      },
+      "native": {
+        "executable_sha256": "4d32f22d7b8f4b8f8520fae727b9919db7585a838fb473a3530906ad448231d8",
+        "config_sha256": "f1e7e26dfe7ef7f6872bcb24c4b82065f47ae902400f427f13ea0dc520f3bee7",
+        "seconds": 0.15157535951584578,
+        "logical": "@register_mentioned_between@12",
+        "matched": true,
+        "log_sha256": "017e6bd3ab8947d614dd3283eeb1f62f2d9b4656fda4e9e18a1fcdc603b83dd6"
+      },
+      "before": "cases/hello-original-816-corrected.json"
+    },
+    {
+      "path": "cases/hello-original-818.json",
+      "sha256": "5c5fc29b175dec28b0466aaff12ea32a734b83c1455d77fbc5edc2b0f6352cea",
+      "capture": {
+        "label": "register-between-after",
+        "accepted": 818,
+        "logical": "@replace_machine_region_suffix@12",
+        "original_va": "0x488e0",
+        "events": "exception 80000003 rva 000388e0 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.19744810927659273,
+        "execution_check_seconds": 1.0857003787532449,
+        "total_seconds": 1.2831489676609635,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "ec9e7c26d3526ab9857c88077b818ff73d94bf390ebe368114dad058cac50603",
+        "config_sha256": "01ce863b0be7412c90a0b3011ecbaecd196c5e62edf96a2c083dcfa3dcebdc92",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/register-between-after"
+      },
+      "native": {
+        "executable_sha256": "5bd9cafab5ca08ca1c5ef6e2c244d6043ae321861f5c6e9d63ff2f5d2de10cf0",
+        "config_sha256": "01ce863b0be7412c90a0b3011ecbaecd196c5e62edf96a2c083dcfa3dcebdc92",
+        "seconds": 0.14710121508687735,
+        "logical": "@replace_machine_region_suffix@12",
+        "matched": true,
+        "log_sha256": "b59787e3f323faabfe43dd69ff35897691d93ead05e445a7083ac4bb0248b008"
+      }
+    },
+    {
+      "path": "cases/hello-original-819.json",
+      "sha256": "4cb048ac74f39151d4acc9a9d0bb08fe9cb92501096019ac5f538d8b4bfe7cf0",
+      "capture": {
+        "label": "machine-region-suffix-after",
+        "accepted": 819,
+        "logical": "@finish_closed_machine_region@8",
+        "original_va": "0x48690",
+        "events": "exception 80000003 rva 00038690 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.2104902509599924,
+        "execution_check_seconds": 1.3654619976878166,
+        "total_seconds": 1.5759533122181892,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "27b256b510e27b5be3d624bf73e72a7371b09474270da3461c13369d792c0a62",
+        "config_sha256": "8df5b6e72abaceb7a9820dc124cc29ee10af0f221c3fdbc1a94a9307abdd176a",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/machine-region-suffix-after"
+      },
+      "native": {
+        "executable_sha256": "60fb8925165405dba60e416fa795b9f372579f6c7e228b74714dbf34d9957a4c",
+        "config_sha256": "8df5b6e72abaceb7a9820dc124cc29ee10af0f221c3fdbc1a94a9307abdd176a",
+        "seconds": 0.14812203869223595,
+        "logical": "@finish_closed_machine_region@8",
+        "matched": true,
+        "log_sha256": "da952636c89ef0094b2059c7b2788cb1f42372f11d8edc5466147d1e9ee1b12f"
+      }
+    }
+  ],
+  "data_provenance": {
+    "block_emission": "Existing typed physical operands and named machine opcode enum only; no new table/global data. Original9argument fastcall usesRET1c at1da86..1da89.",
+    "selection_policy": "Existing optimize_speed806a8 and cpu_model806a4 select explicit unrolling for short constants; full REP/string and remainder paths retained.",
+    "region_suffix": "Existing96-byte MachineFlowRegion parent/next/children links; replace at matching node pointer and adopt all inserted siblings.",
+    "register_interval": "Existing instruction opcode kind and instruction_mentions_register graph vertex; labels block replacement; interval excludes endpoints."
+  },
+  "shape_proof": "All182 original node-shape words at857b8: original bit0100 equals contextual NODE_VALUE_EXPRESSION; zero mismatches. Source flags deliberately use semantic name, not original packed mask.",
+  "limits": [
+    "Hello uses REP nine dword stores for36-byte fill and passes instruction finishing into machine region construction. Cached control-flow match does not yet establish final object equality.",
+    "Explicit short unrolling retains separate emit_explicit_block_transfer20bytefastcall stub; unvisited direct/reverse and residual-byte paths remain unclaimed.",
+    "Machine region suffix append executes; replacing a nonempty suffix not independently established.",
+    "Full hello object remains incomplete."
+  ],
+  "timing": {
+    "analysis_seconds": null,
+    "analysis_note": "unmeasured",
+    "build_audit_fixtures": {
+      "block-emission-check-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.31122902408242226,
+        "returncode": 0,
+        "log_sha256": "3c7f2331bc536a5af263ed1e4d91984b4c5966a0370ab55bf0b62bd65ecdf842"
+      },
+      "register-between-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.3422260880470276,
+        "returncode": 0,
+        "log_sha256": "9524b096f5c50288a222f8ef0f3c31e92e87066945434d5d4b666beb30de60a3"
+      },
+      "block-and-region-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 3.773743606172502,
+        "returncode": 0,
+        "log_sha256": "054d5ee5070cc6ae3f20a2e1fdc963bd43f5ab774ea32c9668c2bd1608cf66db"
+      },
+      "block-operation-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 9.742899084463716,
+        "returncode": 0,
+        "log_sha256": "0e901ad52835e25312685b3a465e4a6d02d8289df1cca7dcd9b5ccc21d5b1ccb"
+      },
+      "block-emission-warnings-timing": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "intrinsic-selection"
+        ],
+        "seconds": 1.2005024552345276,
+        "returncode": 0,
+        "log_sha256": "eb225612a3cd04aaac122e3c8aeff5899d6bf4751958ea9591842426d000cee7"
+      },
+      "block-emission-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 3.68679565936327,
+        "returncode": 0,
+        "log_sha256": "5a3e7969fcc51a69c1e72408c1b0e0c495e94cd76f91a4d72696cc7950bd4e83"
+      },
+      "block-and-region-warnings-timing": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "intrinsic-selection",
+          "instruction-uses",
+          "machine-analysis"
+        ],
+        "seconds": 1.0110985366627574,
+        "returncode": 0,
+        "log_sha256": "c24d45cdcfd8456fde15a4c7b3aad1c5053741260a95d14ba3c97e9d75ac87c3"
+      },
+      "machine-region-suffix-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.1535130608826876,
+        "returncode": 0,
+        "log_sha256": "14a660de557d8bd4128df14b33f95903e6d84bfd470173aa70ba377f7278fb85"
+      },
+      "block-and-region-check-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.3256622590124607,
+        "returncode": 0,
+        "log_sha256": "02bb38be6fef8337392a234785ad4175eeef6a9c1c4e36d40ccbd6cd5b245039"
+      }
+    },
+    "notes": [
+      "Original capture/setup and native GDB elapsed phases retained individually above.",
+      "New helper declaration caused9.743s mixed native/canonical build, incremental2.2\u20132.4s unsplit. Three-moduleW3 elapsed1.011s. Native fixtures never invoke Wine."
+    ]
+  }
+}

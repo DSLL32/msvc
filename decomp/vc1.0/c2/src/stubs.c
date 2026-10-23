@@ -186,7 +186,6 @@ unsigned __fastcall integer_width_mask(unsigned bytes) { __asm int 3 }
 int __fastcall narrow_comparison_condition(unsigned condition) { __asm int 3 }
 unsigned __fastcall integer_sign_bit(unsigned bytes) { __asm int 3 }
 unsigned __fastcall integer_width_bits(unsigned bytes) { __asm int 3 }
-int __fastcall register_mentioned_between(MachineInstruction *first, MachineInstruction *last, unsigned short reg) { __asm int 3 }
 int __fastcall register_source_changed_between(MachineInstruction *first, MachineInstruction *last, unsigned short reg) { __asm int 3 }
 unsigned __fastcall byte_register_available(unsigned short reg) { __asm int 3 }
 void __fastcall append_embedded_record(Node *node) { __asm int 3 }
@@ -362,7 +361,6 @@ MachineInstruction *__fastcall find_transfer_call_boundary(MachineInstruction *t
 
 int __fastcall memory_displacements_overlap(MachineOperand *left, unsigned left_bytes, MachineOperand *right, unsigned right_bytes) { __asm int 3 }
 void __fastcall analyze_machine_regions(MachineFlowRegion *region, unsigned flags) { __asm int 3 }
-void __fastcall replace_machine_region_suffix(MachineFlowRegion *parent, MachineFlowRegion *before, MachineFlowRegion *regions) { __asm int 3 }
 int __fastcall close_machine_region(MachineFlowRegion *parent, MachineFlowRegion *region) { __asm int 3 }
 void __fastcall finish_closed_machine_region(MachineFlowRegion *region, MachineFlowRegion *parent) { __asm int 3 }
 MachineFlowRegion *__fastcall process_special_machine_region_reference(MachineFlowRegion *region, SymbolHeader *label) { __asm int 3 }
@@ -469,6 +467,5 @@ unsigned short __fastcall select_intrinsic_aa_ab(Node *node, int mode) { __asm i
 unsigned short __fastcall select_runtime_intrinsic(Node *node) { __asm int 3 }
 int __fastcall intrinsic_float_cleanup_count(FunctionSymbol *symbol) { __asm int 3 }
 SymbolHeader *__fastcall lookup_external_name(char *name) { __asm int 3 }
-void __fastcall select_block_operation(unsigned constant_count, MachineOperand *count,
-    MachineOperand *source, MachineOperand *destination, int wide, unsigned short type,
-    int fill, int remainder, int direction) { __asm int 3 }
+void __fastcall emit_explicit_block_transfer(int fill, MachineOperand *source,
+    MachineOperand *destination, unsigned short type, unsigned offset) { __asm int 3 }

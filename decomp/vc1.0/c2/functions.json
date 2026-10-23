@@ -820,7 +820,10 @@
     "_release_region_motion",
     "@select_intrinsic@4",
     "@select_intrinsic_block@12",
-    "@select_replicated_fill_operand@12"
+    "@select_replicated_fill_operand@12",
+    "@select_block_operation@36",
+    "@register_mentioned_between@12",
+    "@replace_machine_region_suffix@12"
   ],
   "driver": [
     {
@@ -3315,8 +3318,7 @@
     {
       "name": "@register_mentioned_between@12",
       "start": 139488,
-      "end": 139489,
-      "provisional": true
+      "end": 139579
     },
     {
       "name": "@fold_lea_address@12",
@@ -5075,8 +5077,7 @@
     {
       "name": "@replace_machine_region_suffix@12",
       "start": 297184,
-      "end": 297185,
-      "provisional": true
+      "end": 297238
     },
     {
       "name": "@add_machine_region_reference@12",
@@ -6412,7 +6413,12 @@
     {
       "name": "@select_block_operation@36",
       "start": 120432,
-      "end": 120433,
+      "end": 121481
+    },
+    {
+      "name": "@emit_explicit_block_transfer@20",
+      "start": 121488,
+      "end": 121489,
       "provisional": true
     }
   ],

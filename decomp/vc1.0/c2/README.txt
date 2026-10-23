@@ -2051,3 +2051,14 @@ pass. Unchanged audit caught a split finalRET4 operand; its two missing bytes
 were restored, the corrected mask freshly captured, and both receipts retained.
 Dynamic replication and other intrinsic families remain unvisited; full hello
 object incomplete. See cases/hello-block-intrinsics.json for evidence/timings.
+
+WinMain selection passed: checkpoint819
+---------------------------------------
+The whole block emitter chooses explicit unrolling or REP and preserves all
+count/remainder/direction paths. Hello selects its36-byte zero fill as nine
+dword stores. The open register-use interval check and structured-region suffix
+adoption are recovered; WinMain now passes instruction selection/finishing and
+native/original agree at finish_closed_machine_region48690.741 graph checks,
+canonical/three modules-W3 and native fixtures pass. Explicit/reverse short
+transfers remain unvisited named child traps. Final hello object incomplete;
+see cases/hello-machine-selection-complete.json for evidence/timings.

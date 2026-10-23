@@ -15,4 +15,6 @@ MachineOperand *__fastcall select_replicated_fill_operand(Node *value, unsigned 
 void __fastcall select_block_operation(unsigned constant_count, MachineOperand *count,
     MachineOperand *source, MachineOperand *destination, int wide, unsigned short type,
     int fill, int remainder, int direction);
+void __fastcall emit_explicit_block_transfer(int fill, MachineOperand *source,
+    MachineOperand *destination, unsigned short type, unsigned offset);
 #endif

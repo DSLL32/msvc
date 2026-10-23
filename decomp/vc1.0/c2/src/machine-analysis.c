@@ -227,3 +227,17 @@ int __fastcall count_region_label_references(MachineFlowRegion *region, SymbolHe
     }
     return (int)count;
 }
+
+/* Original [000488e0,00048916). Replace the suffix beginning at before
+   (or append when before is null), then adopt every inserted sibling. */
+void __fastcall replace_machine_region_suffix(MachineFlowRegion *parent,
+    MachineFlowRegion *before, MachineFlowRegion *regions)
+{
+    MachineFlowRegion *previous = parent->children, *region;
+    if (previous == before) parent->children = regions;
+    else {
+        while (previous->next != before) previous = previous->next;
+        previous->next = regions;
+    }
+    for (region = regions; region; region = region->next) region->parent = parent;
+}

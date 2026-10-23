@@ -604,3 +604,20 @@ MachineInstruction *__fastcall find_carry_flag_use(MachineInstruction *instructi
     }
     return 0;
 }
+
+/* Original [000220e0,0002213b). The open interval excludes both ends;
+   a label conservatively blocks replacement, while only machine instruction
+   kinds0/8/9/10 can otherwise mention the queried register. */
+int __fastcall register_mentioned_between(MachineInstruction *first, MachineInstruction *last,
+    unsigned short reg)
+{
+    MachineInstruction *instruction;
+    unsigned kind;
+    for (instruction = first->next; instruction != last; instruction = instruction->next) {
+        kind = instruction->opcode & 15;
+        if (kind == 1) return 1;
+        if ((kind == 0 || (kind >= 8 && kind <= 10)) && instruction_mentions_register(instruction, reg))
+            return 1;
+    }
+    return 0;
+}
