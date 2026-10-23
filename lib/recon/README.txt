@@ -454,3 +454,10 @@ before mutation. Freebuf clears0x408 and pointers only for active owned buffers.
 Default VC1 behavior is unchanged. Successful observed mode transitions preserve
 errno/LastError; flush/allocation failure remains unsupported. Bind this opt-in
 to the canonical MSVCRT provider and build receipt, not tool version guesses.
+
+LocalAlloc/LocalFree support the encountered fixed LMEM_ZEROINIT positive-size
+allocation and same-owner successful free. Every requested byte is zeroed;
+native_local_memory records base, requested size and flags for typed inspection.
+Successful free returns NULL and both calls preserve observed errno/LastError.
+Movable/unknown flags, zero size, unowned/double free and allocation failure are
+explicitly unsupported; physical allocator capacity is not target-owned data.

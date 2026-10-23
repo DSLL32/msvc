@@ -31,7 +31,7 @@ typedef unsigned int WPARAM;
 typedef long LPARAM,LRESULT;
 typedef int BOOL;
 typedef unsigned int UINT;
-typedef void *HANDLE, *HMODULE, *HINSTANCE, *HWND, *HGLOBAL, *LPVOID;
+typedef void *HANDLE, *HMODULE, *HINSTANCE, *HWND, *HGLOBAL, *HLOCAL, *LPVOID;
 typedef const void *LPCVOID;
 typedef char *LPSTR;
 typedef const char *LPCSTR;
@@ -128,6 +128,8 @@ struct UnicodeString;
 #define STD_INPUT_HANDLE ((DWORD)-10)
 #define STD_OUTPUT_HANDLE ((DWORD)-11)
 #define STD_ERROR_HANDLE ((DWORD)-12)
+#define LMEM_FIXED 0
+#define LMEM_ZEROINIT 0x40
 #define GMEM_FIXED 0
 #define GMEM_ZEROINIT 0x40
 #define ERROR_SUCCESS 0

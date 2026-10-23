@@ -238,6 +238,7 @@ void recon_load_system_profile(const char *,const char *);
  X(DWORD,GetModuleFileNameA,(HMODULE,LPSTR,DWORD)) X(DWORD,GetVersion,(void)) \
  X(void,GetSystemTime,(SYSTEMTIME *)) X(void,ExitProcess,(UINT)) \
  X(LPVOID,VirtualAlloc,(LPVOID,DWORD,DWORD,DWORD)) X(BOOL,VirtualFree,(LPVOID,DWORD,DWORD)) \
+ X(HLOCAL,LocalAlloc,(UINT,DWORD)) X(HLOCAL,LocalFree,(HLOCAL)) \
  X(HGLOBAL,GlobalAlloc,(UINT,DWORD)) X(HGLOBAL,GlobalFree,(HGLOBAL)) \
  X(int,MultiByteToWideChar,(UINT,DWORD,LPCSTR,int,LPWSTR,int)) \
  X(int,WideCharToMultiByte,(UINT,DWORD,LPCWSTR,int,LPSTR,int,LPCSTR,BOOL *)) \
@@ -468,6 +469,8 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define ExitProcess recon_ExitProcess
 #define VirtualAlloc recon_VirtualAlloc
 #define VirtualFree recon_VirtualFree
+#define LocalAlloc recon_LocalAlloc
+#define LocalFree recon_LocalFree
 #define GlobalAlloc recon_GlobalAlloc
 #define GlobalFree recon_GlobalFree
 #define MultiByteToWideChar recon_MultiByteToWideChar

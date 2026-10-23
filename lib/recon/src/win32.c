@@ -600,6 +600,33 @@ BOOL WINAPI recon_VirtualFree(LPVOID address,DWORD bytes,DWORD kind)
     }
     last_error=ERROR_INVALID_PARAMETER; return FALSE;
 }
+typedef struct NativeLocalMemory {
+    struct NativeLocalMemory *next;
+    HLOCAL memory; DWORD requested_size,flags;
+} NativeLocalMemory;
+static NativeLocalMemory *native_local_memory;
+HLOCAL WINAPI recon_LocalAlloc(UINT flags,DWORD bytes)
+{
+    NativeLocalMemory *entry; void *memory; int saved_errno=errno;
+    DWORD saved_error=last_error;
+    if (flags!=LMEM_ZEROINIT || !bytes) recon_unsupported("LocalAlloc fixed zero-init scope");
+    memory=calloc(1,bytes);
+    if (!memory) recon_unsupported("LocalAlloc uncharacterized allocation failure");
+    entry=mmap(NULL,sizeof(*entry),PROT_READ|PROT_WRITE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
+    if (entry==MAP_FAILED) recon_unsupported("LocalAlloc ownership record");
+    entry->memory=memory; entry->requested_size=bytes; entry->flags=flags;
+    entry->next=native_local_memory; native_local_memory=entry;
+    errno=saved_errno; last_error=saved_error; return memory;
+}
+HLOCAL WINAPI recon_LocalFree(HLOCAL memory)
+{
+    NativeLocalMemory **link,*entry; int saved_errno=errno; DWORD saved_error=last_error;
+    for (link=&native_local_memory;(entry=*link)!=NULL;link=&entry->next) if (entry->memory==memory) {
+        *link=entry->next; free(memory); munmap(entry,sizeof(*entry));
+        errno=saved_errno; last_error=saved_error; return NULL;
+    }
+    recon_unsupported("LocalFree unowned memory"); return memory;
+}
 HGLOBAL WINAPI recon_GlobalAlloc(UINT flags,DWORD bytes)
 {
     if (flags&~GMEM_ZEROINIT) { last_error=ERROR_NOT_SUPPORTED; return NULL; }
