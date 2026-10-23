@@ -569,6 +569,13 @@ def preprocessor_state(original,native,b,state,remaining,advance):
         if row['kind']=='wide-vector':
             assert int.from_bytes(old,'little')==state['widened']['original_base']+4*advance
             assert int.from_bytes(new,'little')==state['widened']['native_base']+4*advance
+        elif row['kind']=='packed-argument':
+            left=int.from_bytes(old,'little');right=int.from_bytes(new,'little')
+            assert bool(left)==bool(right)
+            if left:
+                offset=left-state['widened']['original_base']
+                assert 0<=offset<state['widened']['allocation_bytes']-8
+                assert right==state['widened']['native_base']+offset
         elif row['kind']=='wide-string':
             assert bytes.fromhex(actual['text'])==wide(int.from_bytes(old,'little'))
         else:assert old==new,'preprocessor global differs: '+row['name']
@@ -620,4 +627,29 @@ def next_argument_trial(original,native):
     assert a['words'][4]==scan['duplicate']==0
     assert proof['application_trace'][-1]=='rc_next_argument'
     proof.update(trial='rc_next_argument',preprocessor=parser,scanner=dict(argument='-CP',duplicate=0,getter='rc_next_argument',getter_abi='cdecl0 returning WCHAR*',table='rc_cpp_options'))
+    return proof
+
+
+def scan_options_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_scan_options'and len(config['accepted'])==23
+    a,b,proof=checkpoint(original,native,'rc_apply_option',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c229e0
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_scan_options\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    state=wide_argument_state(original,native,a,b);proof.update(state)
+    parser=preprocessor_state(original,native,b,state,18,2)
+    apply=b['arguments']['apply'];text=(original/'events.txt').read_text()
+    wide_vector=b['arguments']['wide_vector'];wanted=('1252'+'\0').encode('utf-16le')
+    assert raw_bytes(text,'option-operand')==bytes.fromhex(apply['operand_bytes'])==wanted
+    table=b['arguments']['preprocessor']['tables']['options']
+    assert a['words'][1]==0x71c34e90+3*12 and apply['option']==table['address']+3*12
+    assert a['words'][2]==int(re.findall(r'^wide-pointer 2 ([0-9a-f]+)$',text,re.M)[0],16)
+    assert apply['operand']==wide_vector[2]['pointer']
+    assert a['words'][3]==apply['duplicate']==0
+    row=table['rows'][3];assert (row['action'],row['keep'],row['pattern'])==(0x24,1,('-CP#'+'\0').encode('utf-16le').hex())
+    assert raw_bytes(text,'option-descriptor')==bytes.fromhex((original/'globals.bin').read_bytes()[0x14e90-0x14000+36:0x14e90-0x14000+48].hex())
+    pointer=b['arguments']['preprocessor']['globals']['rc_cpp_option_argument']['bytes']
+    assert int.from_bytes(bytes.fromhex(pointer),'little')==wide_vector[1]['pointer']
+    assert proof['application_trace'][-1]=='rc_scan_options'
+    proof.update(trial='rc_scan_options',preprocessor=parser,option=dict(index=3,pattern='-CP#',action=0x24,keep_scanning=1,operand='1252',duplicate=0,callback_consumed_slots=1))
     return proof

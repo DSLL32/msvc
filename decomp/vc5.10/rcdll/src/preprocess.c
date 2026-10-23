@@ -10,6 +10,7 @@
 
 int rc_cpp_remaining,rc_cpp_active;
 WCHAR **rc_cpp_arguments,*rc_cpp_bad_argument;
+WCHAR *rc_cpp_option_argument;
 
 int __stdcall rc_preprocess(int count,char **arguments,int unused)
 {
@@ -86,4 +87,40 @@ WCHAR *__cdecl rc_next_argument(void)
         return *rc_cpp_arguments;
     }
     return NULL;
+}
+
+int __stdcall rc_scan_options(const RcOption *options,WCHAR *argument,
+                             RcNextArgument next,int duplicate)
+{
+    const WCHAR *pattern;
+    WCHAR *operand;
+
+    if(!argument) return 0;
+    rc_cpp_option_argument=argument;
+    for(;options->action;++options){
+        pattern=options->pattern;
+        operand=argument;
+        for(;;){
+            if(!*pattern){
+                if(*operand) goto next_option;
+                operand=(options->action&0x20)?next():NULL;
+                break;
+            }
+            if(*pattern==L'#'){
+                if(!*operand) operand=next();
+                break;
+            }
+            if(*pattern==L'*'){
+                if(*operand&&rc_match_option(pattern,operand)) break;
+                goto next_option;
+            }
+            if(*pattern!=*operand) goto next_option;
+            ++pattern;
+            ++operand;
+        }
+        rc_apply_option(options,operand,duplicate);
+        return options->keep_scanning;
+next_option:;
+    }
+    return 0;
 }

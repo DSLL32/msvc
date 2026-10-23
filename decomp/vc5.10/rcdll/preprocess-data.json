@@ -235,6 +235,12 @@
       "original_rva": "0x14828",
       "kind": "option-list",
       "bytes": 404
+    },
+    {
+      "name": "rc_cpp_option_argument",
+      "original_rva": "0x15c98",
+      "kind": "packed-argument",
+      "bytes": 4
     }
   ],
   "options": {

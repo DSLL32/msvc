@@ -66,8 +66,11 @@ void __stdcall rc_input_warning(unsigned code)
     __asm int 3
 }
 
-int __stdcall rc_scan_options(const RcOption *options,WCHAR *argument,
-                             RcNextArgument next,int duplicate)
+void __stdcall rc_apply_option(const RcOption *option,WCHAR *operand,int duplicate)
+{
+    __asm int 3
+}
+int __stdcall rc_match_option(const WCHAR *pattern,const WCHAR *argument)
 {
     __asm int 3
     return 0;

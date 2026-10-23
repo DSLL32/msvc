@@ -203,3 +203,9 @@ The argument getter is accepted (31 bytes), matching at the option scanner with
 19 remaining arguments and the exact `-CP` alias. Its actual cdecl callback pointer,
 descriptor-table identity and duplicate flag are retained in the [verification](cases/resources-rich/next-argument-verification.json).
 Thirty fresh rejection controls cover the newly observed scanner contract.
+
+The option scanner is accepted (177 bytes). It selects `-CP#`, consumes `1252`
+through the real getter callback, and matches at the independently trapped option
+dispatcher. [Verification](cases/resources-rich/scan-options-verification.json)
+records the exact descriptor/operand aliases, remaining count, 30 fresh rejection
+controls and separate timings.

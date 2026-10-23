@@ -27,6 +27,7 @@ static DWORD heap_allocation_size;
 static DWORD character_pointer;
 static CONTEXT probe_context;
 static DWORD probe_return,cpinfo_pointer,cpinfo_error,local_pointer,local_bytes,line_file,line_format_pointer,towupper_value;
+static DWORD cpp_count,cpp_vector;
 static unsigned heap_limit=1,free_limit,character_limit,heap_observed,free_observed,characters_observed;
 
 static void fail(const char *what)
@@ -254,7 +255,10 @@ static int trap(HANDLE thread,DWORD address)
                     else {unsigned k;writebytes(address,snapshot+TARGET_ENTRY-TEXT_RVA,1);for(k=0;k<point_count;++k)if(points[k].active&&points[k].kind==2&&points[k].at==address)points[k].active=0;fprintf(events,"entry %08lx\n",TARGET_ENTRY);}
                 }
             }
-        }else if(p->kind==2){fprintf(events,"entry %08lx\n",address-base);if(address==base+0x8b46)export_inputs(&c);}
+        }else if(p->kind==2){
+            fprintf(events,"entry %08lx\n",address-base);if(address==base+0x8b46)export_inputs(&c);
+            if(address==base+0xbc80){readmem(c.Esp,words,12);cpp_count=words[1];cpp_vector=words[2];}
+        }
         else if(p->kind==3){
             export_inputs(&c);
         }else if(p->kind==4){fprintf(events,"export-result %ld\n",(long)c.Eax);if(export_vector)vector_state("after");}
@@ -370,11 +374,12 @@ static int trap(HANDLE thread,DWORD address)
             hexbytes("line-prefix",words[1],wide_string_bytes(words[1]));hexbytes("line-text",words[2],wide_string_bytes(words[2]));
             {DWORD current;readmem(base+0x16ce8,&current,4);fprintf(events,"line-current-number %lu\n",current);}
         }
-        if(address==base+0xbc80||address==base+0xbc61||address==base+0x293e){
+        if(address==base+0xbc80||address==base+0xbc61||address==base+0x293e||address==base+0x29ef){
             DWORD pointer,count,vector,total,length;char label[80];
             if(address==base+0xbc80){count=words[1];vector=words[2];}
-            else{readmem(base+0x27fb8,&count,4);readmem(base+0x27fbc,&vector,4);}
-            if(address==base+0x293e){++count;vector-=4;hexbytes("option-argument",words[2],wide_string_bytes(words[2]));}
+            else{count=cpp_count;vector=cpp_vector;}
+            if(address==base+0x293e)hexbytes("option-argument",words[2],wide_string_bytes(words[2]));
+            if(address==base+0x29ef){hexbytes("option-operand",words[2],wide_string_bytes(words[2]));hexbytes("option-descriptor",words[1],12);}
             if(count!=20||!vector)fail("wide-preprocessor-scope");total=4*(count+1);
             fprintf(events,"wide-args %lu %08lx\n",count,vector);
             for(n=0;n<count;++n){readmem(vector+4*n,&pointer,4);length=wide_string_bytes(pointer);total+=length;sprintf(label,"wide-argv-%u",n);hexbytes(label,pointer,length);fprintf(events,"wide-pointer %u %08lx\n",n,pointer);}

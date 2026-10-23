@@ -26,7 +26,8 @@
     "rc_preprocess",
     "rc_widen_arguments",
     "rc_preprocessor_main",
-    "rc_next_argument"
+    "rc_next_argument",
+    "rc_scan_options"
   ],
   "functions": [
     {
@@ -528,7 +529,25 @@
       "abi": "stdcall",
       "stack_bytes": 16,
       "kind": "application",
-      "stub": true
+      "stub": false,
+      "text_data": [
+        [
+          "0x1e0c",
+          "0x1e16"
+        ],
+        [
+          "0x1e04",
+          "0x1e0c"
+        ],
+        [
+          "0x1dfc",
+          "0x1e02"
+        ],
+        [
+          "0x1df0",
+          "0x1dfa"
+        ]
+      ]
     },
     {
       "name": "rc_open_preprocessor",
@@ -554,6 +573,24 @@
       "end": "0x478b",
       "abi": "cdecl",
       "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_apply_option",
+      "start": "0x29ef",
+      "end": "0x2b84",
+      "abi": "stdcall",
+      "stack_bytes": 12,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_match_option",
+      "start": "0x2c0b",
+      "end": "0x2c64",
+      "abi": "stdcall",
+      "stack_bytes": 8,
       "kind": "application",
       "stub": true
     }
