@@ -16,6 +16,8 @@ image_allocations=[]
 checked_allocations=[]
 cleared_allocations=[]
 module_allocations=[]
+lookup_calls=[]
+lookup_stack=[]
 live_mappings={}
 def install(configuration):
     config=json.loads(Path(configuration).read_text())
@@ -163,6 +165,28 @@ def install(configuration):
                 record=dict(size=size,entry_index=(entry-root)//12);(module_allocations if owner.name()=='initialize_single_module' else subsection_allocations).append(record)
             AllocationReturned(record);return False
     AllocationEntered()
+
+    if config.get('observe_global_type_lookup'):
+        class LookupReturned(gdb.FinishBreakpoint):
+            def __init__(self,record,output):
+                self.record,self.output=record,output
+                super().__init__(gdb.newest_frame(),internal=True)
+            def stop(self):
+                assert lookup_stack and lookup_stack[-1] is self.record,'lookup return nesting differs'
+                lookup_stack.pop()
+                self.record.update(result=int(self.return_value)&0xffffffff,
+                    output=int.from_bytes(bytes(gdb.selected_inferior().read_memory(self.output,4)),'little'))
+                return False
+        class LookupEntered(gdb.Breakpoint):
+            def __init__(self):super().__init__('lookup_global_type',internal=True)
+            def stop(self):
+                frame=gdb.newest_frame();output=frame.read_var('from_global')
+                record=dict(index=int(frame.read_var('index')),depth=len(lookup_stack),
+                    parent_argument_alias=bool(lookup_stack and int(output)==lookup_stack[-1]['argument_address']),
+                    argument_address=int(output.address))
+                lookup_calls.append(record);lookup_stack.append(record)
+                LookupReturned(record,int(output));return False
+        LookupEntered()
 
 
 def capture(configuration,data_file,output):
@@ -354,6 +378,8 @@ def capture(configuration,data_file,output):
     state['image_allocations']=image_allocations
     state['checked_allocations']=checked_allocations
     state['cleared_allocations']=cleared_allocations
+    state['lookup_type_calls']=lookup_calls
+    state['lookup_type_active_depth']=len(lookup_stack)
     state['module_allocations']=module_allocations
     state['globals']={item['name']:bytes(inferior.read_memory(gdb.parse_and_eval('&('+item.get('native_expression',item['name'])+')'),item['size'])).hex() for item in data}
     if any(item.get('function_table') for item in data):

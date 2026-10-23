@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0085-index-recursive-type-dword-output/original",
-  "reference_receipt_sha256": "84bda61425d59fbff1c49977750aa796008522f6be898046b005e3dc81e61644",
+  "reference": "cases/hello-debug-dll/evidence/0086-lookup-global-type-arena-contract/original",
+  "reference_receipt_sha256": "5ede7d65b0ea1cf57a996c970fb6c90e0b7ca2158b61cabdc159d50e5954c14a",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -91,6 +91,7 @@
     "mark_recursive_type",
     "hash_type_reference",
     "index_recursive_type",
-    "lookup_global_type"
+    "lookup_global_type",
+    "compare_recursive_type"
   ]
 }

@@ -51,7 +51,6 @@ void *resize_bytes(void *buffer, unsigned size) { __asm { int 3 } return NULL; }
 
 
 
-TypeRecord *lookup_global_type(unsigned index, unsigned *from_global) { __asm { int 3 } return NULL; }
 void convert_legacy_record(unsigned index) { __asm { int 3 } }
 void __fastcall associate_forward_type(unsigned index, CachedTypeName *record) { __asm { int 3 } }
 void append_type_field_list(unsigned char *field, TypeRecord *record) { __asm { int 3 } }

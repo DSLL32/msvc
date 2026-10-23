@@ -6,9 +6,9 @@ Target: `toolchains/5.10/bin/CVPACK.EXE`; the requested folder spelling is
 
 `/help` is complete: status 1, 193 stdout bytes, no stderr, six application
 entries. The genuine embedded-CodeView `hello-debug-dll` case is in progress at
-`index_recursive_type`, after resolving recursive references. There are 84
-accepted application functions / 26,486 extent bytes, plus 752 associated switch-data
-bytes. This is 41.81% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
+`compare_recursive_type`, after resolving aliased global records. There are 86
+accepted application functions / 26,707 extent bytes, plus 752 associated switch-data
+bytes. This is 42.62% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
 it is neither non-CRT nor executed-branch coverage. Four CRT bodies (400 bytes)
 and four import thunks (24 bytes) remain separate support.
 
@@ -48,7 +48,7 @@ master are specific to this toolchain; no VC1 output is reused.
 
 The current prefix compares 336 type records and all 384,000 initialized table
 bytes, buffer/record aliases, actual reads and allocations, complete mapped-file
-contents, defined symbol/source-module buffers, and 55 owned counted type-name
+contents, defined symbol/source-module buffers, and 83 owned counted type-name
 cache nodes with their bucket/segment aliases, plus initialized arena prefixes,
 global pointer slots and direct/pool interned-node ownership. Lookup outputs use actual DWORD caller storage; the recursive-reference helper shares its saved DWORD/WORD local through an explicit union. Earlier byte-schema scaffolds were rejected before the callee executed. Local/global symbol hash heads
 retain their actual shared public-arena nodes, full initialized records/padding
@@ -81,5 +81,5 @@ Each accepted function's `evidence/*/function-review.json` or `validation.json`
 records fresh/reused controls and separate build/capture/check/fixture times.
 Historical raw is never relabeled; incomplete and superseded trials retain their
 status. Current native help runs in roughly 15 ms; the partial debug fixture is
-about 0.8 s including GDB. Completion will use native entry traces, exact streams,
+about 1.2 s including GDB. Completion will use native entry traces, exact streams,
 status and the cached NB11 master without launching Wine.

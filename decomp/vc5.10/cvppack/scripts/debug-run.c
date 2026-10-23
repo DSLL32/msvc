@@ -35,6 +35,7 @@ static DWORD blob_count_address[64],blob_element_size[64],blob_count_width[64];
 static DWORD widen_output, widen_object, widen_arguments[4];
 static DWORD widen_capacities[2];
 static DWORD symbol_output_base, symbol_output_capacity;
+static DWORD lookup_frames[64][3], lookup_depth;
 static int read_bytes(HANDLE process, DWORD address, void *data, DWORD size);
 
 static void configure(void)
@@ -543,6 +544,26 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         cleared_addresses[cleared_count] = context->Eax;
         cleared_sizes[cleared_count++] = cleared_pending;
         fprintf(log, "cleared-allocation-return %08lx\n", context->Eax);
+    }
+    if (entry == 0x402c24) {
+        DWORD args[3];
+        if (lookup_depth == 64 || !read_bytes(process, context->Esp, args, sizeof(args)))
+            fprintf(log, "lookup-type-failed\n");
+        else {
+            fprintf(log, "lookup-type-entry %lu %lu %08lx %08lx\n", lookup_depth,
+                    args[1], args[2], context->Esp);
+            lookup_frames[lookup_depth][0] = args[1];
+            lookup_frames[lookup_depth][1] = args[2];
+            lookup_frames[lookup_depth++][2] = context->Esp;
+        }
+    } else if (entry == 0x402c4e || entry == 0x402c8c) {
+        DWORD output;
+        if (!lookup_depth || !read_bytes(process, lookup_frames[lookup_depth-1][1], &output, 4))
+            fprintf(log, "lookup-type-failed\n");
+        else {
+            --lookup_depth;
+            fprintf(log, "lookup-type-return %lu %08lx %08lx\n", lookup_depth, context->Eax, output);
+        }
     }
     widen_state(log, process, context, entry);
 }

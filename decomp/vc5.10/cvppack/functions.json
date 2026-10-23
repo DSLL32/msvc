@@ -91,7 +91,8 @@
     "intern_recursive_type",
     "mark_recursive_type",
     "hash_type_reference",
-    "index_recursive_type"
+    "index_recursive_type",
+    "lookup_global_type"
   ],
   "functions": [
     {
@@ -1977,8 +1978,11 @@
       "source_name": "lookup_global_type",
       "native_symbol": "lookup_global_type",
       "original": 4205600,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4205600,
+        4205710
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -1998,7 +2002,8 @@
           "original_delta": 36,
           "initialized": false
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0086-lookup-global-type-arena-contract/promotion.json"
     },
     {
       "name": "convert_legacy_record",
@@ -3085,8 +3090,10 @@
         {
           "name": "other_data",
           "slot": 1,
-          "kind": "unobserved-pointer",
-          "native_pointee_width": 1
+          "kind": "arena-type-record",
+          "native_pointee_width": 1,
+          "arena": "type_large_arena",
+          "index_parameter": "other_index"
         },
         {
           "name": "other_index",
@@ -3422,5 +3429,6 @@
       "count_member": "size"
     }
   ],
-  "require_native_argument_inventory": true
+  "require_native_argument_inventory": true,
+  "observe_global_type_lookup": true
 }

@@ -1,0 +1,6 @@
+{
+  "schema": 1,
+  "promoted": false,
+  "reason": "Next frontier provisional unobserved-pointer contract rejected; no promotion.",
+  "corrected_pair": "0086-lookup-global-type-arena-contract"
+}

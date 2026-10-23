@@ -78,6 +78,20 @@ def decode(events):
             all_strings[int(location,16)]=raw
     for call in file_calls:call['pathname']=all_strings[call.pop('pointer')]
 
+    lookup_calls=[];lookup_stack=[]
+    for line in lines:
+        if line.startswith('lookup-type-failed'):raise AssertionError('incomplete global-type lookup observation')
+        if line.startswith('lookup-type-entry '):
+            _,depth,argument,output,stack=line.split();depth=int(depth);output=int(output,16);stack=int(stack,16)
+            assert depth==len(lookup_stack),'lookup entry nesting differs'
+            row=dict(depth=depth,index=int(argument),parent_argument_alias=bool(lookup_stack and output==lookup_stack[-1]['stack']+8),stack=stack)
+            if depth:assert row['parent_argument_alias'],'original recursive lookup output does not alias parent argument'
+            lookup_calls.append(row);lookup_stack.append(row)
+        elif line.startswith('lookup-type-return '):
+            _,depth,result,output=line.split();depth=int(depth)
+            assert lookup_stack and depth==len(lookup_stack)-1,'lookup return nesting differs'
+            lookup_stack.pop().update(result=int(result,16),output=int(output,16))
+
     registers = None
     for line in lines[index+1:]:
         if line.startswith('registers '):
@@ -103,7 +117,7 @@ def decode(events):
     assert registers and len(registers) == 8
     stack = memory[registers[-1]]
     assert len(stack) == 128
-    return dict(address=address,memory=memory,strings=strings,
+    return dict(address=address,memory=memory,strings=strings,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),
                 registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations,cleared_allocations=cleared_allocations)
 
 
@@ -461,8 +475,10 @@ def compare(config,data,events,native,artifacts=None,views=None):
         assert len(left)==len(right)==length and left==right,'complete initialized module payload differs'
         pair(address,other)
     def linked(address,other,shape):
+        count=0
         while pair(address,other):
-            assert len(aliases)<=512,'unbounded object graph'
+            count+=1
+            assert count<=128,'unbounded linked object chain'
             left=original['memory'][address];right=bytes.fromhex(native['memory'][str(other)])
             assert len(left)==len(right)==shape['size']
             offset=shape['link'];assert 0<=offset<=shape['size']-4
@@ -891,4 +907,21 @@ def compare(config,data,events,native,artifacts=None,views=None):
             parameters[item['name']]=native_parameters[item['name']]=dict(null=True)
     assert parameters == native_parameters, ('typed ABI arguments differ',parameters,native_parameters)
     if original_calls:assert original['last_error']==native['last_error'],'frontier LastError differs'
-    return dict(parameters=parameters,caller_state=caller_state,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)
+    lookup_calls_checked=0
+    if config.get('observe_global_type_lookup'):
+        assert original['lookup_active_depth']==native['lookup_type_active_depth']==0,'unfinished global-type lookup observation'
+        before=original['lookup_calls'];after=native['lookup_type_calls']
+        assert before and len(before)==len(after),'global-type lookup call inventory differs'
+        root=global_integer('type_records');count=global_integer('type_record_count')
+        other=int.from_bytes(bytes.fromhex(native['globals']['type_records']),'little')
+        sentinel=global_integer('empty_type_record')
+        actual_sentinel=int.from_bytes(bytes.fromhex(native['globals']['empty_type_record']),'little')
+        for left,right in zip(before,after):
+            assert all(left[key]==right[key] for key in ('depth','index','parent_argument_alias','output')),'global-type lookup ABI/output sequence differs'
+            result=left['result'];actual_result=right['result']
+            if result==sentinel:assert actual_result==actual_sentinel,'global-type lookup sentinel return differs'
+            else:
+                offset=result-root
+                assert 0<=offset<count*32 and offset%32==0 and actual_result==other+offset,'global-type lookup returned record identity differs'
+            lookup_calls_checked+=1
+    return dict(parameters=parameters,caller_state=caller_state,globals=globals_checked,lookup_type_calls_checked=lookup_calls_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,extended_type_references_checked=extended_references_checked,recursive_type_nodes_checked=recursive_type_nodes_checked,interned_type_nodes_checked=interned_type_nodes_checked,pooled_interned_nodes_checked=pooled_interned_nodes_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)

@@ -1,0 +1,9 @@
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/stubs.obj src/stubs.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /I../../../lib/recon/include /Fobuild/type-lookup.obj src/type-lookup.c
+python3 scripts/wine-tool.py CL.EXE /nologo /c /MD /Od /W3 /Fobuild/debug-run.obj scripts/debug-run.c
+debug-run.c
+type-lookup.c
+stubs.c
+src/type-lookup.c(9) : error C2065: 'module_type_low' : undeclared identifier
+make: *** [Makefile:28: build/type-lookup.obj] Error 2
+make: *** Waiting for unfinished jobs....
