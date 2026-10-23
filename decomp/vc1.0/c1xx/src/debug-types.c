@@ -15,6 +15,21 @@ unsigned debug_type_capacity; /* original 0xa25bc */
 unsigned short debug_field_properties; /* original 0xa25c4 */
 DebugTypeFixup *debug_type_fixups; /* original 0xa25b0 */
 
+/* Original 0x6fd00..0x6fd86. Pair near/far forms of the compiler's
+   calling conventions, retaining the dedicated syscall code. */
+unsigned debug_calling_convention(unsigned short attributes)
+{
+    unsigned far_pointer = (attributes & 7) != 1;
+    switch (attributes & 0x70) {
+    case 0: case 0x10: return far_pointer;
+    case 0x20: case 0x30: return 2 + far_pointer;
+    case 0x40: return 4 + far_pointer;
+    case 0x50: case 0x60: return 7 + far_pointer;
+    case 0x70: return 11;
+    }
+    return 15;
+}
+
 /* Original 0x6fdf0..0x6fe78. Member-function leaves carry the owner,
    optional this type, argument-list index and signed this adjustment. */
 void __stdcall emit_debug_member_function_type(CType *type,

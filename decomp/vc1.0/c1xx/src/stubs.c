@@ -624,4 +624,3 @@ int compare_debug_symbol_indices(const void *left, const void *right) { __asm { 
 unsigned __stdcall update_checksum(unsigned char *bytes, unsigned count, unsigned checksum) { __asm { int 3 } return 0; }
 void __stdcall queue_debug_type_fixup(CppSymbol *symbol, unsigned char *location, unsigned bytes) { __asm { int 3 } }
 unsigned __stdcall encode_debug_based_symbol(unsigned char *destination, CppSymbol *symbol) { __asm { int 3 } return 0; }
-unsigned debug_calling_convention(unsigned short attributes) { __asm { int 3 } return 0; }

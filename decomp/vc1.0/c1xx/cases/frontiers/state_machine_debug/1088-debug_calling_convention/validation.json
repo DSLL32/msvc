@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_debug_calling_convention",
+    "start": 457984,
+    "end": 458118
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1088-debug_calling_convention/arguments/validation.json",
+  "distinct_direct_callees": [],
+  "next_frontier": "_emit_debug_field_list@12",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.511216452345252,
+  "total_operation_seconds": 4.06721262075007,
+  "original_capture_seconds": 1.5179609889164567
+}
