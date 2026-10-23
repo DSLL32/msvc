@@ -22,7 +22,7 @@ sha=lambda p:hashlib.sha256(Path(p).read_bytes()).hexdigest()
 def binding(path):return {'path':str(path),'sha256':sha(path)}
 
 
-def run(name,label,reuse_original=None,reverify_accepted=False,case_name='help'):
+def run(name,label,reuse_original=None,reverify_accepted=False,case_name='help',dependency_response=False):
     assert name.startswith('_'),'explicit indexed candidate required'
     index=json.loads((PROJECT/'functions.json').read_text());base=copy.deepcopy(index)
     if reverify_accepted:
@@ -35,18 +35,19 @@ def run(name,label,reuse_original=None,reverify_accepted=False,case_name='help')
     report=work/'audit.json';assert audit(config,report)==0
     graph=json.loads(report.with_suffix('.receipt.json').read_text())
     if reuse_original is None:
-        observed,receipt=original.capture(label+'-original',config,case_name=case_name)
+        observed,receipt=original.capture(label+'-original',config,case_name=case_name,dependency_response=dependency_response)
     else:
         observed=Path(reuse_original).resolve()
         receipt=json.loads((observed/'capture.json').read_text())
         assert json.loads((observed/'config.json').read_text())==trial,'reused original has different trial'
+        assert bool(receipt.get('dependency_response'))==dependency_response,'reused original response mode differs'
     reconstruction_capture(receipt)
     assert receipt['case']==case_name,'reused original belongs to a different case'
     projection=project('original',observed)
     original_state=observed/'state.json'
     if reuse_original is None:
         original_state.write_text(json.dumps(projection,indent=2)+'\n')
-    elif json.loads(original_state.read_text())!=projection:
+    elif not original_state.exists() or json.loads(original_state.read_text())!=projection:
         # Additional typed fields may be decoded from already captured raw
         # bytes. Preserve every old projection and create a versioned product.
         payload=json.dumps(projection,indent=2)+'\n'
@@ -73,8 +74,8 @@ def run(name,label,reuse_original=None,reverify_accepted=False,case_name='help')
         if platform=='original' and reuse_original is not None and original_state.name=='state.json' and (directory/'observation.json').exists():
             result[platform]=binding(directory/'observation.json')
             continue
-        files={role:binding(directory/name)for role,name in [('stdout','stdout.bin'),('stderr','stderr.bin'),('state','state.json')]}
-        if platform=='original':files['state']=binding(original_state)
+        files={role:binding(directory/name)for role,name in [('stdout','stdout.bin'),('stderr','stderr.bin')]}
+        files['state']=binding(original_state if platform=='original' else directory/'state.json')
         files['trace']=binding(directory/'trace.txt')
         if platform=='original':
             files['entry_guards']=binding(directory/'entries.txt')
@@ -114,4 +115,5 @@ if __name__=='__main__':
     parser.add_argument('--reuse-original',type=Path,help='Explicit native-only retry, preserving the original raw capture and observation')
     parser.add_argument('--reverify-accepted',action='store_true',help='Prepare a review-only proof of the current accepted trial; never modify its index')
     parser.add_argument('--case',default='help')
-    args=parser.parse_args();run(args.candidate,args.label,args.reuse_original,args.reverify_accepted,args.case)
+    parser.add_argument('--dependency-response',action='store_true',help='Capture the actual C1 response during this fresh masked candidate trial')
+    args=parser.parse_args();run(args.candidate,args.label,args.reuse_original,args.reverify_accepted,args.case,args.dependency_response)

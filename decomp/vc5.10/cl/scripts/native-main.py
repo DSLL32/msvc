@@ -67,6 +67,13 @@ def capture(original,directory):
         env['RECON_DRIVE_S']=str(directory/'drive-s');env['RECON_DRIVE_R']=str(ROOT)
         c_drive=prepare_c_drive(original,directory)
         if c_drive is not None:env['RECON_DRIVE_C']=str(c_drive)
+    provider=None
+    if receipt.get('dependency_response'):
+        from dependency_provider import Provider
+        provider=Provider(original,directory)
+        env.update(provider.environment())
+        for name in ('dependency_provider.py','dependency_response.py','dependency_native.py','dependency_wire.py'):
+            shutil.copyfile(PROJECT/'scripts'/name,directory/name)
     temporary=None
     if (original/'mktemp-before.bin').exists():
         from mktemp_state import original as temporary_state
@@ -114,11 +121,15 @@ def capture(original,directory):
     wrapper.chmod(0o755)
     commands[commands.index('set exec-wrapper /usr/bin/env')]='set exec-wrapper '+str(wrapper)
     started=time.perf_counter()
-    result=subprocess.run(commands,env=env,cwd=directory,capture_output=True,stdin=subprocess.DEVNULL,timeout=25)
+    result=subprocess.run(commands,env=env,cwd=directory,capture_output=True,stdin=subprocess.DEVNULL,timeout=25,
+        pass_fds=(provider.fileno(),)if provider is not None else())
     elapsed=time.perf_counter()-started
     (directory/'debugger.txt').write_bytes(result.stdout+result.stderr)
     error=None;projection=None
     try:
+        if provider is not None:
+            pid=json.loads((directory/'native-process.json').read_text())['pid']
+            provider.finish(pid)
         assert (directory/'native-entry-errors.json').is_file(),'native entry state capture failed'
         assert binary_before==sha(PROJECT/'build/native-trace/CL.EXE') and rebuilt_before==sha(PROJECT/'build/cl.exe'),'paired executable changed during native capture'
         assert build_bytes==build_path.read_bytes(),'native build receipt changed during capture'
@@ -129,11 +140,14 @@ def capture(original,directory):
         (directory/'state.json').write_text(json.dumps(projection,indent=2)+'\n')
     except Exception as failure:
         error=repr(failure);(directory/'controller-error.txt').write_text(error+'\n')
+    finally:
+        if provider is not None:provider.close()
     (directory/'capture.json').write_text(json.dumps({'platform':'native',**case,'native_sha256':binary_before,
         'rebuilt_sha256':rebuilt_before,'config_sha256':sha(directory/'config.json'),
         'native_build':{'path':str(directory/'native-build.json'),'sha256':sha(directory/'native-build.json')},
         'controller_sha256':sha(Path(__file__)),'gdb_status':result.returncode,'seconds':elapsed,'controller_error':error,
-        'files':{p.name:{'sha256':sha(p),'bytes':p.stat().st_size}for p in directory.iterdir()if p.is_file()}},indent=2)+'\n')
+        'files':{p.relative_to(directory).as_posix():{'sha256':sha(p),'bytes':p.stat().st_size}
+                 for p in (directory.rglob('*')if provider is not None else directory.iterdir())if p.is_file()}},indent=2)+'\n')
     assert error is None,'native capture failed; raw receipt preserved: '+str(error)
     print(json.dumps({'directory':str(directory),'seconds':elapsed,
         'frontier':projection['fields'].get('frontier'),'status':projection['fields'].get('status')}))

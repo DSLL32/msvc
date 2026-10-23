@@ -101,6 +101,26 @@ def basic_project(platform,directory):
 def project(platform,directory):
     directory=Path(directory);result=basic_project(platform,directory)
     result['wrapper_decoder_sha256']=sha(Path(__file__))
+    response_mode=((directory/'dependency-native.json').exists() if platform=='native' else
+        ((directory/'capture.json').exists() and json.loads((directory/'capture.json').read_text()).get('dependency_response',False))or
+        ((directory/'dependency-observer.txt').exists() and (directory/'dependency-observer.txt').read_bytes()==b'CL_DEPENDENCY_RESPONSE_V1\n'))
+    if response_mode:
+        import dependency_provider,dependency_response,dependency_native,dependency_wire
+        if platform=='native':
+            result['fields']['dependency']=dependency_provider.verify(directory)
+            paths=[directory/name for name in ('dependency-response.json','dependency-config.bin','dependency-native.json',
+                'dependency_provider.py','dependency_response.py','dependency_native.py','dependency_wire.py')]
+            paths+=list((directory/'dependency-native').glob('*.bin'))
+            paths += [p for p in (directory/'dependency-response').rglob('*')if p.is_file()]
+            paths += [directory/name for name in result['fields']['dependency']['outputs']]
+        else:
+            response=dependency_response.decode(directory)
+            result['fields']['dependency']=dependency_provider.summary(response)
+            capture=json.loads((directory/'capture.json').read_text())
+            paths=[directory/name for name in capture['files']]+[directory/'capture.json']
+        result['raw_inputs'].update({p.relative_to(directory).as_posix():sha(p)for p in paths})
+        result['dependency_decoders']={module.__name__:sha(Path(module.__file__))for module in
+            (dependency_provider,dependency_response,dependency_native,dependency_wire)}
     if (directory/'dependency-inputs.json').exists():
         from case_inputs import verify_dependencies
         proof=verify_dependencies(directory);result['fields']['compiler_inputs']=proof

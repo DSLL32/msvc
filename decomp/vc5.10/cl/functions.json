@@ -84,7 +84,8 @@
     "_quoted_length",
     "_expanded_length",
     "_quote_argument",
-    "_append_text"
+    "_append_text",
+    "_execute_pass"
   ],
   "driver": [
     {

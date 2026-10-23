@@ -221,6 +221,16 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/append-text-2/pair.json",
         "sha256": "b345b3e05e1aeffd273575d46c39959356951a724486dc4af0389d4abbbaa85d"
       }
+    },
+    {
+      "order": 23,
+      "candidate": "_execute_pass",
+      "class": "application",
+      "extent_bytes": 679,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/execute-pass-provider-5/pair.json",
+        "sha256": "ee195eec78bef61313be14a6abeb73ee749ae28ccc60f112d09746666a0b4741"
+      }
     }
   ]
 }

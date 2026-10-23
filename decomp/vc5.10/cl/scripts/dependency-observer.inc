@@ -60,7 +60,7 @@ static void dependency_files(const char *phase)
 }
 static void dependency_state(const char *phase,DWORD teb,DWORD tid,CONTEXT *context,HANDLE input,HANDLE out,HANDLE err)
 {
-    DWORD words[32],pointers[64],pointer,i,j,stack[16],environment;
+    DWORD words[32],pointers[64],pointer,i,j,stack[16],environment,execution[5];
     BYTE parameters[96],mb[261],ctype[514],lowio[1152],iob[640];
     DWORD peb,process_parameters,ptr,base,flags,count,capacity,length;
     char name[MAX_PATH],path[MAX_PATH];FILE *file;
@@ -90,6 +90,10 @@ static void dependency_state(const char *phase,DWORD teb,DWORD tid,CONTEXT *cont
     words[17]=peb;words[18]=process_parameters;words[19]=environment;
     words[20]=dependency_argv;words[21]=dependency_pass;words[22]=dependency_c1;
     dependency_save(phase,"crt-words.bin",words,sizeof(words));
+    memory(target_base+0x97a8,execution,12);
+    memory(target_base+0x9020,execution+3,4);
+    memory(execution[3]+8,execution+4,4);
+    dependency_save(phase,"execution-words.bin",execution,sizeof(execution));
     sprintf(name,"observer\\%s-crt-environment.bin",phase);raw_vector(name,words[1],-1);
     if (dependency_argv) { sprintf(name,"observer\\%s-caller-argv.bin",phase);raw_vector(name,dependency_argv,-1); }
     if (dependency_pass) { memory(dependency_pass,stack,36);dependency_save(phase,"caller-pass.bin",stack,36); }

@@ -1,10 +1,10 @@
 {
   "case": "minimal-c",
-  "state": "driver-prefix-in-progress",
-  "checkpoint": "1ee87018 accepted implementation; separate dependency analysis and unaccepted dispatcher preparation",
-  "next_frontier": "execute_pass",
-  "accepted_application_functions": 72,
-  "accepted_application_extent_bytes": 12914,
+  "state": "C1-dispatch-accepted",
+  "checkpoint": "execute_pass promoted after independent native provider review",
+  "next_frontier": "unload_pass",
+  "accepted_application_functions": 73,
+  "accepted_application_extent_bytes": 13593,
   "whole_text_virtual_bytes": 19062,
   "non_crt_denominator": "not yet fully classified",
   "separate_CRT_import_support_records": 15,
@@ -273,19 +273,35 @@
         "original_execution": 4.93146675825119,
         "native_gdb": 0.21024955715984106
       }
+    },
+    {
+      "candidate": "_execute_pass",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/execute-pass-provider-5/pair.json",
+        "sha256": "ee195eec78bef61313be14a6abeb73ee749ae28ccc60f112d09746666a0b4741"
+      },
+      "owned_archive": "execute-pass-proof.tar.gz",
+      "seconds": {
+        "audit": 0.5610654931515455,
+        "original_setup": 0.024559175595641136,
+        "original_execution": 26.472755413502455,
+        "native_gdb": 0.3174100937321782,
+        "parallel_original_and_native_build": 5.283340688794851
+      }
     }
   ],
-  "checks": "Fresh candidate proofs, full/strict RET/qualified import audits with explicit cached-register supplements,30 refreshed acceptance negatives and current timed affected-state controls in argument-controls.json pass. Native-only help fixture26.84ms total/3.73ms execution.",
-  "dependency_boundaries": "C1 DLL and C2 child remain closed pending complete observable response contracts; no native Wine/helper execution.",
-  "observed_gap": "C1 leaves CP1252/en-US shared CRT state. Shared module exports/lifetime, scoped locale, bound _putenv and complete child response semantics remain under implementation; native successes stay closed.",
+  "checks": "Fresh candidate-inclusive C1 boundary proof;35 affected raw-response/effect/inventory/GDB negatives,27 synthetic parser/transport controls,35 acceptance protocol controls,9 cached-import resolver controls. Timed cached native help fixture36.80ms total/7.99ms execution.",
+  "dependency_boundaries": "C1 Invoke success is case-bound through shared module/locale/environment APIs and strict owned native response replay. First accepted dispatcher trial stops at unload_pass. C2/complete compile success remains closed pending fresh corresponding response/broker proof.",
+  "observed_gap": "No remaining C1-first-frontier shared gap. Shared RSP2 child state/OS-namespace support f33047c7 is ready for the next boundary; binary adapter and fresh masked unload/C2 proof still required.",
   "current_review": {
-    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/append-text-2/pair.json",
-    "sha256": "b345b3e05e1aeffd273575d46c39959356951a724486dc4af0389d4abbbaa85d",
-    "scope": "All72 accepted app bodies audited; actual26-token execute_pass argv, contiguous live storage and pass/name/environment aliases match. Original append-text-1 raw reused after shared-only ASCII span implementation and raw-derived alias projection; no original replay for those retries."
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/execute-pass-provider-5/orchestrator-review.json",
+    "sha256": "461131c390d473121f88ecaa2a92e2a63a8374bdf95f53d3f4454928aa9a7cda",
+    "scope": "Actual masked C1 invocation and native independent post-call frontier: argc26/BOOL1/RET12, all caller namespace/table/FILE/alias state and four complete IR effects. No C2 completion credit."
   },
   "shared_gap_resolution": {
     "_mbclen": "Fresh original quoted-length-2 path/error proof; native denial retained, then5f724e69 CP0/ASCII support and native-only retry passed.",
     "_mbsspn": "Fresh original append-text-1 include-path/space-tab/error pre/post proof; native denial retained, theneace7509 support and native-only retry passed."
   },
-  "dependency_observation": "dependency-boundary-2.json"
+  "dependency_observation": "dependency-boundary-2.json",
+  "whole_text_extent_percent": 71.30941139439723
 }

@@ -26,6 +26,7 @@ PARAMETERS={
  'write_message':[('fd','signed'),('text','string')], 'finish_options':[],
  'final_pass':[('state','driver')],
  'execute_pass':[('mode','signed'),('pass','pass'),('name','string'),('environment','string'),('args','vector')],
+ 'unload_pass':[('pass','pass')],
  'quoted_length':[('text','string')],
  'quote_argument':[('out','output_buffer'),('text','string')],
  'expanded_length':[('text','string'),('state','driver')],
@@ -193,10 +194,17 @@ class Memory:
         rows=[]
         for i in range(5):
             v=self.words(address+36*i,9)
-            assert not any(v[5:8]),'compiler DLL/entry slots require an explicit module/export identity decoder'
+            module=invoke=abort=None
+            if any(v[5:8]):
+                identity=getattr(self,'compiler_module',None)
+                assert identity is not None and i==1,'unknown compiler DLL/entry slots'
+                assert v[5:8]==tuple(identity[name]for name in ('module','invoke','abort')),'compiler DLL/cache identities differ'
+                module={'name':'C1.DLL','sha256':identity['sha256'],'state':'loaded'}
+                invoke={'name':'_InvokeCompilerPass@12','ordinal':2,'stdcall_bytes':12}
+                abort={'name':'_AbortCompilerPass@4','ordinal':1,'stdcall_bytes':4}
             rows.append({'name':self.string(v[0]),'path':self.string(v[1]),
                 'environment':self.string(v[2]),'prefix':struct.pack('<I',v[3]).split(b'\0')[0].decode('latin1'),
-                'flags':v[4],'module':None,'invoke':None,'abort':None,'options':self.string(v[8])})
+                'flags':v[4],'module':module,'invoke':invoke,'abort':abort,'options':self.string(v[8])})
         return rows
     def value(self,kind,value):
         # Reached release calls in help own strdup-created option strings.
@@ -242,6 +250,7 @@ class Memory:
 
 def snapshot(read,context):
     memory=Memory(read,context['rule_base'],context.get('compiler_passes_address'));memory.callbacks=context.get('callbacks',{});symbol=context['symbol'];parameters=PARAMETERS[symbol]
+    memory.compiler_module=context.get('compiler_module')
     assert len(parameters)==len(context['arguments'])
     fields={'frontier':symbol,'parameters':{name:memory.value(kind,value)
         for (name,kind),value in zip(parameters,context['arguments'])}}
@@ -263,6 +272,18 @@ def snapshot(read,context):
     assert context['globals']['ir_prefix']==driver_address+32,'driver temporary/IR-prefix storage alias differs'
     if 'compiler_passes_address' in context:
         fields['compiler_passes']=memory.passes(context['compiler_passes_address'])
+    if symbol=='unload_pass':
+        record=context['arguments'][0];base=context['compiler_passes_address']
+        assert record==base+36 and memory.word_reads[(driver_address,11)][2]==record,'unload pass/current-driver alias differs'
+        identity=context['compiler_module']
+        assert identity['sha256']=='7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d'
+        assert identity['provider_state']==3,'unload frontier is not a live loaded module'
+        addresses=context['execution_addresses']
+        interrupted,active,running=[memory.words(addresses[name],1)[0]for name in ('interrupted','active_pass','pass_running')]
+        assert interrupted==0 and active==record and running==0,'post-Invoke execution state differs'
+        fields['execution_aliases']={'pass_index':1,'pass_is_current':True,'active_pass_is_current':True,
+                                    'interrupted':interrupted,'pass_running':running}
+        fields['dependency_crt']=dependency_crt(memory,context['crt_addresses'])
     if symbol=='execute_pass':
         mode,record,name,environment,argv=context['arguments']
         base=context['compiler_passes_address'];assert base<=record<base+180 and (record-base)%36==0
@@ -284,6 +305,34 @@ def snapshot(read,context):
     return fields
 
 
+def dependency_crt(memory,addresses):
+    scalar_names=('fmode','commode','mb_cur_max','mb_codepage','lc_codepage')
+    result={name:memory.words(addresses[name],1)[0]for name in scalar_names}
+    result['lc_handles']=list(memory.words(addresses['lc_handles'],6))
+    result['mbctype_hex']=memory.read(addresses['mbctype'],257).hex()
+    pctype=memory.words(addresses['pctype_slot'],1)[0]
+    assert pctype and pctype!=addresses['initial_pctype'],'dependency pctype allocation transition missing'
+    result['ctype_hex']=memory.read(pctype-2,514).hex()
+    current=memory.words(addresses['environment_slot'],1)[0]
+    initial=memory.words(addresses['initenv_slot'],1)[0]
+    assert current and initial and current!=initial,'dependency CRT vector ownership transition missing'
+    result['environment']=memory.vector(current);result['initial_environment']=memory.vector(initial)
+    assert result['environment']==result['initial_environment'],'unexpected first-Invoke namespace mutation'
+    assert set(memory.vector_slots[current]).isdisjoint(memory.vector_slots[initial]),'initial environment strings were not copied'
+    result['environment_vector_moved']=True;result['initial_strings_copied']=True
+    os_pointer=memory.words(addresses['os_environment_slot'],1)[0]
+    assert os_pointer,'unbound dependency OS namespace'
+    os_bytes=bytearray();previous=None
+    for i in range(65536):
+        unit=memory.read(os_pointer+2*i,2);os_bytes+=unit
+        if unit==previous==b'\0\0':break
+        previous=unit
+    else:raise AssertionError('unterminated dependency OS namespace')
+    text=os_bytes.decode('utf-16le');assert '\0\0' not in text[:-2]
+    result['os_environment']=text[:-2].split('\0')
+    return result
+
+
 def original_context(directory,address,stack):
     index=json.loads((directory/'config.json').read_text())
     record=next(r for r in index['driver'] if r['start']==address)
@@ -296,6 +345,40 @@ def original_context(directory,address,stack):
         mb=(directory/'mb-state.bin').read_bytes();crt=(directory/'crt-state.bin').read_bytes()
         assert len(mb)==261 and all(not flag&4 for flag in mb[5:133]),'unreviewed ASCII lead-byte state'
         context['crt_mb']={'codepage':struct.unpack_from('<I',mb)[0],'mb_cur_max':struct.unpack_from('<I',crt,12)[0]}
+    if symbol=='unload_pass':
+        import re
+        from binary import PE
+        from dependency_packet import exports,C1_SHA
+        from mktemp_state import CRT_SHA
+        capture=json.loads((directory/'capture.json').read_text()) if (directory/'capture.json').exists() else None
+        # During the stopped-process capture its receipt is not written yet;
+        # actual loaded hFile copies and observer events are already frozen.
+        if capture is not None:
+            assert capture['dependency_response'] and not capture['baseline'] and not capture['dependency_analysis']
+        c1_path=directory/'observer/loaded-c1.bin';crt_path=directory/'loaded-msvcrt.bin'
+        assert hashlib.sha256(c1_path.read_bytes()).hexdigest()==C1_SHA
+        assert hashlib.sha256(crt_path.read_bytes()).hexdigest()==CRT_SHA
+        c1=PE(c1_path);crt=PE(crt_path);ce=exports(c1);crte=exports(crt)
+        events=(directory/'observer/events.txt').read_text()
+        loaded=re.findall(r'^c1-load event=(\d+) base=10600000 entry=1061202a entry_byte=53$',events,re.M)
+        assert len(loaded)==1 and not re.search(r'^module-unload .*base=10600000$',events,re.M)
+        words=struct.unpack('<32I',(directory/'observer/frontier-crt-words.bin').read_bytes())
+        assert words[0]==crt.base==0x78000000 and words[22]==c1.base==0x10600000
+        assert words[21]==stack[1]==0x4090cc
+        context['crt_mb']={'codepage':words[6],'mb_cur_max':words[5]}
+        assert ce['_InvokeCompilerPass@12']=={'ordinal':2,'rva':0x12229}
+        assert ce['_AbortCompilerPass@4']=={'ordinal':1,'rva':0x43975}
+        context['compiler_module']={'sha256':C1_SHA,'module':c1.base,'invoke':c1.base+0x12229,
+                                    'abort':c1.base+0x43975,'provider_state':3}
+        context['execution_addresses']={'interrupted':0x4097a8,'active_pass':0x4097ac,'pass_running':0x4097b0}
+        addresses={name:crt.base+crte[export]['rva']for name,export in {
+            'fmode':'_fmode','commode':'_commode','mb_cur_max':'__mb_cur_max',
+            'lc_codepage':'__lc_codepage','lc_handles':'__lc_handle',
+            'pctype_slot':'_pctype','environment_slot':'_environ'}.items()}
+        addresses.update(mb_codepage=crt.base+0x3f1c0,mbctype=crt.base+0x3f1c8,
+            initenv_slot=crt.base+0x3fde8,os_environment_slot=words[18]+0x48,
+            initial_pctype=struct.unpack('<I',crt.read(addresses['pctype_slot'],4))[0])
+        context['crt_addresses']=addresses
     return context
 
 
@@ -322,6 +405,27 @@ def capture_native(directory,gdb):
     if symbol=='run_passes':context['callbacks']={'final_pass':int(gdb.parse_and_eval('(unsigned)final_pass'))}
     context['crt_mb']={name:int(gdb.parse_and_eval(expression)) for name,expression in
         [('codepage','recon_mb_codepage'),('mb_cur_max','recon_mb_cur_max')]}
+    if symbol=='unload_pass':
+        value=lambda expression:int(gdb.parse_and_eval(expression))&0xffffffff
+        context['compiler_module']={'sha256':gdb.parse_and_eval('((NativeModule *)cl_c1_module)->sha256').string(),
+            'module':value('(unsigned)cl_c1_module'),'invoke':value('(unsigned)invoke_compiler_pass'),
+            'abort':value('(unsigned)abort_compiler_pass'),
+            'provider_state':value('((NativeModule *)cl_c1_module)->provider_state')}
+        assert value('((NativeModule *)cl_c1_module)->export_count')==2
+        for index,name,ordinal,callback in ((0,'_InvokeCompilerPass@12',2,'invoke_compiler_pass'),
+                                             (1,'_AbortCompilerPass@4',1,'abort_compiler_pass')):
+            expression='((NativeModule *)cl_c1_module)->exports[%d]'%index
+            assert gdb.parse_and_eval(expression+'.name').string()==name
+            assert value(expression+'.ordinal')==ordinal and value(expression+'.lookups')==1
+            assert value('(unsigned)'+expression+'.address')==value('(unsigned)'+callback)
+        context['execution_addresses']={name:value('(unsigned)&'+name)for name in ('interrupted','active_pass','pass_running')}
+        context['crt_addresses']={name:value('(unsigned)&'+expression)for name,expression in {
+            'fmode':'recon_fmode','commode':'recon_commode','mb_cur_max':'recon_mb_cur_max',
+            'mb_codepage':'recon_mb_codepage','lc_codepage':'recon_lc_codepage',
+            'lc_handles':'recon_lc_handle','mbctype':'recon_mbctype','pctype_slot':'recon_pctype',
+            'environment_slot':'recon_crt_environment','initenv_slot':'recon_crt_initenv',
+            'os_environment_slot':'recon_crt_os_environment'}.items()}
+        context['crt_addresses']['initial_pctype']=value('(unsigned)(character_flags+1)')
     if symbol=='write_message':
         # The i386 cdecl variable arguments follow the final named parameter.
         slot=int(frame.read_var('text').address)+4
@@ -348,7 +452,9 @@ def decode(directory,platform):
         return data
     fields=snapshot(read,raw['context'])
     assert next(ranges,None) is None,'unused frontier memory capture'
+    raw_names=((['frontier-memory.json','context.bin','events.txt','mb-state.bin','crt-state.bin'] if (directory/'mb-state.bin').exists() else ['frontier-memory.json','context.bin','events.txt']) if platform=='original' else ['frontier-memory.json','debugger.txt','gdb-capture.py','gdb_capture.py','frontier_state.py'])
+    if platform=='original' and 'compiler_module'in raw['context']:
+        raw_names+=['observer/loaded-c1.bin','loaded-msvcrt.bin','observer/events.txt','observer/frontier-crt-words.bin','capture.json']
     return {'projection':PROJECTION,'fields':fields,
         'decoder_sha256':hashlib.sha256(Path(__file__).read_bytes()).hexdigest(),
-        'raw_inputs':{name:hashlib.sha256((directory/name).read_bytes()).hexdigest() for name in
-            ((['frontier-memory.json','context.bin','events.txt','mb-state.bin','crt-state.bin'] if (directory/'mb-state.bin').exists() else ['frontier-memory.json','context.bin','events.txt']) if platform=='original' else ['frontier-memory.json','debugger.txt','gdb-capture.py','gdb_capture.py','frontier_state.py'])}}
+        'raw_inputs':{name:hashlib.sha256((directory/name).read_bytes()).hexdigest()for name in raw_names}}

@@ -15,8 +15,13 @@ acceptance journal for the measured evidence.
 Help artifacts are frozen and independently verified. The authorized next case is a
 genuine minimal-C compile. Its in-process frontend and backend child boundaries
 require complete captured response contracts; unknown dependencies fail.
-The driver prefix has added twenty-two functions with fresh candidate-inclusive
-proofs; it currently traps at `execute_pass` with the verified 26-argument C1 invocation.
+The compile case has added twenty-three functions with fresh candidate-inclusive
+proofs: 73 application functions /13,593 original extent bytes in total (71.31%
+of whole `.text`). It now reaches `unload_pass` after the verified 26-argument
+C1 invocation. The native host validates the complete call inputs and replays
+four captured IR files plus the observed CRT locale/error effects. GDB independently
+compares module/export caches, environment ownership, complete character tables
+and streams at that frontier. C2 remains closed until its fresh boundary is ready.
 Minimal-C has a separately captured errno0/doserrno0/LastError0 entry profile.
 Its source bytes, arguments and entry state are part of every comparison.
 
@@ -133,7 +138,8 @@ MSC_CMD_FLAGS input separately.
 
 Static evidence is the original full dispatch body `0040550d..004057b3`, unload
 helper `004054ec..0040550c`, and control handler `004057c2..004057fd`.
-These addresses are analysis locations, not accepted reconstructions.
+The dispatcher is accepted; unload/control-handler locations remain analysis
+evidence until their own fresh function proofs pass.
 
 * Dispatch tests pass flags bit 2. When set, it calls `LoadLibraryA(pass_path)`
   at `0040563d`; it resolves `_InvokeCompilerPass@12` from literal `00408524`
@@ -165,7 +171,7 @@ logic, exported wrapper initialization and cleanup. Those routines belong to
 those DLL targets. CL must not invent copies of them or count a host adapter as
 DLL reconstruction.
 
-## Proposed workflow, awaiting approval
+## Dependency response boundary
 
 The initial minimal-C dependency observation is recorded in
 `cases/minimal-c/dependency-boundary.json`; the completed observation is in
@@ -175,11 +181,13 @@ four IR inputs, successful C2 return with its object, and normal CL exit.
 C1 leaves shared CRT code page 1252 and the
 en-US character table active after unloading; it also changes LastError2 to0.
 The next missing-file lookup restores LastError2. These are required observable
-effects, not target-side state overrides. The native DLL/child success boundaries
-remain closed pending the shared/provider implementation and fresh candidate
-proof. The dispatcher source is implemented and builds with both compilers,
-but remains unaccepted; its dependency APIs fail closed. This analysis adds no
-accepted code.
+effects, not target-side state overrides. The first C1 success boundary is now approved and exercised during a fresh
+candidate-inclusive masked dispatcher trial. It stops at the genuine `unload_pass`
+frontier. That raw capture, actual native request/effect/GDB proof, compiler-source
+snapshots and independent review are archived unchanged in
+`cases/minimal-c/execute-pass-proof.tar.gz`, with a member/hash index alongside it.
+The 35 affected original/native/effect/GDB mutation controls pass. The C2 response
+still requires its own fresh proof; the unmasked analyses add no code credit.
 
 `scripts/dependency_packet.py` freezes a recursive immutable raw manifest and
 decodes those observations. `scripts/check-dependency-packet.py MANIFEST` runs
@@ -199,10 +207,11 @@ needed for this first host design.
 
 For CL-only native fixtures, capture the C1/C1XX in-process call's complete inputs,
 status, streams and filesystem effects at the real export call boundary and
-replay them strictly. Capture C2/LINK child boundaries likewise. Existing shared
-`LoadLibrary` support covers kernel32 exports only; root and the recon maintainer
-must choose an explicit target-module registry or a precise CL call-site seam.
-Unknown modules/exports/calls must fail. All fixture execution stays native-only;
+replay them strictly. Capture C2/LINK child boundaries likewise. The shared
+module registry supplies the verified C1 identity, exact export names/ordinals and
+one load/free lease. Typed host callbacks remain outside CL's function graph;
+target source retains the original Win32 APIs and indirect export call.
+Unknown modules, exports, calls, arguments and state fail closed. All fixture execution stays native-only;
 new reference capture remains an explicit separate operation under Wine.
 
 Original DLL masking needs a loader-aware debugger, not simply an on-disk INT3

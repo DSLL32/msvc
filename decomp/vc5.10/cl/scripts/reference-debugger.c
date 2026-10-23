@@ -624,6 +624,13 @@ int main(int argc,char **argv)
                     error_state(teb,event.dwThreadId,"frontier");fflush(mktemp_events);
                     stream_state(teb,"frontier",input,out,err);
                 }
+                /* At this reached frontier execute_pass still owns its live
+                 * argv storage. Later frontiers must not read those arguments
+                 * after final_pass has released them. */
+                if (dependency_response && address==target_base+0x54ec) {
+                    if (stack[1]!=dependency_pass) return 111;
+                    dependency_state("frontier",teb,event.dwThreadId,&context,input,out,err);
+                }
                 if (address!=target_base+0x1743 && address!=target_base+0x58e0)
                     frontier_requests(address,stack);
                 TerminateProcess(child,0x7001);

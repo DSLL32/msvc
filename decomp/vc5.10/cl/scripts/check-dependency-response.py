@@ -1,0 +1,143 @@
+#!/usr/bin/env python3
+"""Check actual masked response/native effect proof and affected negatives.
+
+Mutations are applied to this worker's capture files and immediately restored.
+No reconstruction, reference executable, or subprocess is run by these checks.
+"""
+import argparse
+import copy
+import hashlib
+import json
+from pathlib import Path
+import struct
+import time
+
+from dependency_provider import verify, encoded
+from dependency_response import decode as original_decode
+from dependency_native import decode as request_decode
+from check_dependency_payload import payload
+from frontier_state import decode as frontier_decode, snapshot
+
+
+def run(original,native):
+    started=time.perf_counter()
+    response=original_decode(original)
+    actual=verify(native)
+    expected=frontier_decode(original,'original')['fields']
+    assert frontier_decode(native,'native')['fields']==expected
+    assert expected['frontier']=='unload_pass' and len(actual['outputs'])==4
+    request_path=native/'dependency-native/request-2-2.bin'
+    attempted=native/'dependency-native/attempt-2-2.bin'
+    receipt_path=native/'dependency-native.json'
+    passed=[]
+    def negative(label,changes):
+        originals={path:(path.read_bytes() if path.exists() else None)for path in changes}
+        try:
+            for path,change in changes.items():
+                value=change(originals[path])
+                if value is None:path.unlink()
+                else:path.write_bytes(value)
+            try:verify(native)
+            except (AssertionError,ValueError,KeyError,FileNotFoundError,struct.error):passed.append(label)
+            else:raise AssertionError('native effect proof accepted mutation: '+label)
+        finally:
+            for path,value in originals.items():
+                if value is None:
+                    if path.exists():path.unlink()
+                else:path.write_bytes(value)
+    def request_negative(label,change):
+        fields=request_decode(request_path.read_bytes());change(fields);value=payload(fields)
+        def receipt_change(data):
+            result=json.loads(data)
+            item={'kind':2,'pid':result['pid'],'bytes':len(value),'sha256':hashlib.sha256(value).hexdigest()}
+            result['requests'][2]=item;result['attempts'][2]=dict(item)
+            return encoded(result)
+        negative(label,{request_path:lambda unused:value,attempted:lambda unused:value,receipt_path:receipt_change})
+    def original_negative(label,changes,receipt_change=None):
+        receipt=original/'capture.json';before=receipt.read_bytes()
+        originals={name:(original/name).read_bytes()for name in changes}
+        try:
+            capture=json.loads(before)
+            for name,change in changes.items():
+                value=change(originals[name]);(original/name).write_bytes(value)
+                capture['files'][name]={'bytes':len(value),'sha256':hashlib.sha256(value).hexdigest()}
+            if receipt_change:receipt_change(capture)
+            receipt.write_bytes(encoded(capture))
+            try:original_decode(original)
+            except (AssertionError,ValueError,KeyError,FileNotFoundError,struct.error):passed.append(label)
+            else:raise AssertionError('masked response accepted mutation: '+label)
+        finally:
+            for name,value in originals.items():(original/name).write_bytes(value)
+            receipt.write_bytes(before)
+    def integer(value,offset,number):
+        changed=bytearray(value);struct.pack_into('<I',changed,offset,number);return bytes(changed)
+    original_negative('analysis cannot authorize native response',{},lambda c:c.update(baseline=True,dependency_analysis=True))
+    original_negative('response controller must use masked launch',{},lambda c:c['command'].__setitem__(-2,'0'))
+    original_negative('different actual loaded C1',{'observer/loaded-c1.bin':lambda b:b[:-1]+bytes([b[-1]^1])})
+    original_negative('actual original BOOL differs',{'observer/invoke-before-stack.bin':lambda b:integer(b,8,0)})
+    original_negative('actual original execution globals differ',{'observer/invoke-before-execution-words.bin':lambda b:integer(b,0,1)})
+    original_negative('actual original argument bytes differ',{'observer/invoke-before-caller-argv.bin':lambda b:b.replace(b'test.c',b'jest.c')})
+    original_negative('actual original next frontier differs',{'events.txt':lambda b:b.replace(b'address=004054ec',b'address=004054ed')})
+    original_negative('actual original IR copies disagree',{'observer/c1-output/'+next(iter(response['outputs'])):lambda b:b+b'x'})
+    original_negative('unobserved extra Invoke',{'observer/events.txt':lambda b:b+b'invoke-call argc=26 argv=00000001 last=1 function=10612229 esp=0031f574\n'})
+    original_negative('wrong controlled stop status',{'events.txt':lambda b:b.replace(b'status=28673',b'status=0')})
+    request_negative('actual BOOL argument changed',lambda f:f.update(last=0))
+    request_negative('actual frontend input changed',lambda f:f['argv']['strings'].__setitem__(4,'other.c'))
+    request_negative('actual argv pointer alias changed',lambda f:f['argv']['pointers'].__setitem__(1,1))
+    request_negative('actual error input changed',lambda f:f.update(last_error=0))
+    request_negative('actual FP control changed',lambda f:f.update(controlfp=0))
+    request_negative('actual target current-pass alias changed',lambda f:f.update(pass_is_current=0))
+    request_negative('actual cached export changed',lambda f:f.update(invoke_is_c1=0))
+    request_negative('actual loader lease changed',lambda f:f.update(provider_state=5))
+    request_negative('actual environment entries reordered',lambda f:f['environment']['strings'].reverse())
+    request_negative('actual initial string was not copied',lambda f:f['environment']['pointers'].__setitem__(0,f['initial_environment']['pointers'][0]))
+    request_negative('actual OS namespace changed',lambda f:f['os_environment'].update(bytes='00000000'))
+    request_negative('actual FILE storage alias changed',lambda f:f['file_words'].__setitem__(0,1))
+    request_negative('actual extra open descriptor',lambda f:f['open_descriptors'].append(3))
+    artifact=native/next(iter(response['outputs']))
+    negative('replayed IR byte differs',{artifact:lambda b:b+ b'x'})
+    negative('replayed IR missing',{artifact:lambda b:None})
+    prefix=response['invoke_argv'][2][2:]
+    negative('extra intermediate artifact',{native/(prefix+'unknown'):lambda b:b'extra'})
+    negative('C2 ran before frontier',{native/'test.obj':lambda b:b'unexpected'})
+    negative('source changed after callback',{native/'test.c':lambda b:b+'x'.encode()})
+    negative('actual configuration changed',{native/'dependency-config.bin':lambda b:b[:-1]+bytes([b[-1]^1])})
+    def missing(data):
+        result=json.loads(data);result['requests'].pop();result['attempts'].pop();return encoded(result)
+    negative('missing actual Invoke inventory',{receipt_path:missing})
+    def changed_pid(data):
+        result=json.loads(data);result['pid']+=1
+        for name in ('requests','attempts'):
+            for item in result[name]:item['pid']=result['pid']
+        return encoded(result)
+    process=native/'native-process.json'
+    negative('mutually changed PID metadata',{receipt_path:changed_pid,
+        process:lambda b:encoded({'pid':json.loads(b)['pid']+1})})
+    # Replay the independent GDB memory transcript against altered target bytes.
+    raw=json.loads((native/'frontier-memory.json').read_text());backing={}
+    for item in raw['ranges']:
+        for index,byte in enumerate(bytes.fromhex(item['data'])):
+            address=item['address']+index
+            assert address not in backing or backing[address]==byte
+            backing[address]=byte
+    def memory_negative(label,address,value):
+        changed=backing.copy()
+        for index,byte in enumerate(value):changed[address+index]=byte
+        try:fields=snapshot(lambda a,n:bytes(changed[a+i]for i in range(n)),raw['context'])
+        except (AssertionError,KeyError):passed.append(label);return
+        assert fields!=expected,'independent GDB decoder accepted changed state: '+label
+        passed.append(label)
+    context=raw['context'];crt=context['crt_addresses'];module=context['compiler_passes_address']+36
+    memory_negative('post-Invoke cached module differs',module+20,struct.pack('<I',0))
+    memory_negative('post-Invoke active pass differs',context['execution_addresses']['active_pass'],struct.pack('<I',0))
+    memory_negative('post-Invoke codepage reset',crt['mb_codepage'],struct.pack('<I',0))
+    memory_negative('post-Invoke ctype byte differs',struct.unpack('<I',bytes(backing[crt['pctype_slot']+i]for i in range(4)))[0],b'\xff')
+    assert verify(native)==actual,'mutations were not fully restored'
+    print(json.dumps({'result':'PASS','actual_next_frontier':'unload_pass','IR_files':4,
+                      'negatives':len(passed),'seconds':time.perf_counter()-started}))
+
+
+if __name__=='__main__':
+    parser=argparse.ArgumentParser(description=__doc__)
+    parser.add_argument('original',type=Path);parser.add_argument('native',type=Path)
+    args=parser.parse_args();run(args.original,args.native)
