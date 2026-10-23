@@ -83,3 +83,13 @@ a narrow debugger ABI probe, not reconstructed application implementation.
 Receipts and raw evidence are in `cases/help/guard-probes/authored-v4/`.
 Patched WLIB/WASM execution requires separate review; these probes grant no
 application-function acceptance.
+
+
+Subsequent separately approved guarded patched-copy captures are retained in
+`cases/patched-minus-question/` (diagnostic exit 1) and `cases/patched-help/`
+(bare `?`, help exit 0), with two identical stream/status results per input.
+The frozen helper observed real exit debug events but did not check the normal
+ContinueDebugEvent result or a signaled handle; those receipts claim only the
+observed events. Any future cleanup hardening is versioned separately.
+`capture-reviewed-help.py` and `repeat-reviewed-case.py` are explicit original-only
+reference tools, never fixture dependencies or authorization to recapture.

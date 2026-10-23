@@ -92,3 +92,18 @@ The reference resource reader in
 chunking, string selection, bounded byte copies and final NUL. This supports
 source correlation, not wholesale acceptance. WRes support logic is not assumed
 to be CRT merely because it is in a library.
+
+
+The approved separate patched `-?` diagnostic now completes normally and
+reproducibly: actual target exit 1, 234 stdout bytes, empty stderr, no artifacts.
+Both runs guarded four reader calls, four RET12/owner returns and eight TF rearms;
+initial GS `0x63` and DS `0x2b` remained intact. Actual argv0 and first resource
+self-open both named the patched EXE. Launcher times were 0.816 and 0.867 seconds.
+`cases/patched-minus-question/capture-summary.json` retains exact streams/events
+and patch provenance. These are unmasked references with zero app acceptance.
+A separately approved bare `?` help case then completed twice with exit 0 and
+identical 1,870-byte stdout, empty stderr and no artifacts. Each guarded 32 reader
+calls and 64 rearms. Times were 0.616 and 0.866 seconds; evidence is retained in
+`cases/patched-help/capture-summary.json`. Both cases observed actual exit debug
+events; the frozen helper did not verify a signaled process handle on normal
+exit, and these receipts make no such claim. No functions are accepted yet.
