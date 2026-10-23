@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 53 application
-functions (27,797 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 54 application
+functions (27,841 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `allocate_virtual_memory`; hello-win32 has not completed.
+next frontier is `initialize_comdats`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -261,3 +261,11 @@ allocator has all four actual formals captured as NULL,4000,0x3000,4, and no hid
 register inputs. Both pool pointers, capacity and ready flag remain zero at this
 call. Both builds,100 fresh semantic negatives and the strict66-vertex/59-return
 audit pass. Timing and exact raw evidence are under frontiers/53-contribution-pools.
+
+The 44-byte application VirtualAlloc wrapper is accepted, retaining its normal
+return and allocation-failure callee. Both actual pool calls bind all four inputs,
+normal RET16 cleanup and returned owners. Complete4000/20000-byte buffers are
+zero-filled, distinct from the other live allocations, with capacity500 and ready1.
+All eight original/native VirtualAlloc calls are checked in order.102 fresh
+semantic negatives and the strict67-vertex/60-return audit pass; timing is under
+frontiers/54-virtual-memory. No new shared shim was needed.

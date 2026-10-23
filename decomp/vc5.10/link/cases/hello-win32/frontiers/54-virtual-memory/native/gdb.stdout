@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x080580ec in initialize_comdats () at src/full-link-stubs.cpp:102
+102	extern "C" void __cdecl initialize_comdats(void) { __asm { int 3 } }

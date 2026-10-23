@@ -1,0 +1,122 @@
+[
+  {
+    "project_path": "build/driver.obj",
+    "snapshot": "full-link-proof/build/driver.obj",
+    "sha256": "6112b5d43eb39a871c99b87c31e6bc84ce7cdc7600bd528071f99cc5cd542cc0"
+  },
+  {
+    "project_path": "build/driver-stubs.obj",
+    "snapshot": "full-link-proof/build/driver-stubs.obj",
+    "sha256": "e1763100c5648ca48e84622ad9fd3b1c4f55c1c5eb10039f619fc3f1075aed5f"
+  },
+  {
+    "project_path": "build/reproduction.obj",
+    "snapshot": "full-link-proof/build/reproduction.obj",
+    "sha256": "d94eba2fe4f2657852481d11534d815b994d49fdb5bd514f5461b9659c339448"
+  },
+  {
+    "project_path": "build/arguments.obj",
+    "snapshot": "full-link-proof/build/arguments.obj",
+    "sha256": "de39018103da493aa8e08c9f91901dc0b8cb6db7c75256565c2af66525b4c443"
+  },
+  {
+    "project_path": "scripts/member_pointers.py",
+    "snapshot": "full-link-proof/scripts/member_pointers.py",
+    "sha256": "bbd773c89dc73685884ea25df72472315ade3b4804bdc59adfdda5252e3cfab9"
+  },
+  {
+    "project_path": "cases/hello-win32/full-link-audit-trial/metadata.json",
+    "snapshot": "full-link-proof/cases/hello-win32/full-link-audit-trial/metadata.json",
+    "sha256": "ddb6e018cc42f35892767a94e4fdc1ea973940cd0e322b631298da9c68919de5"
+  },
+  {
+    "project_path": "cases/hello-win32/full-link-import-preservation.json",
+    "snapshot": "full-link-proof/cases/hello-win32/full-link-import-preservation.json",
+    "sha256": "4ee09081bb55e12f71bc390b47d8673c48ba047002f159d4ebeb3eb0212e0985"
+  },
+  {
+    "project_path": "scripts/full-link-preservation.py",
+    "snapshot": "full-link-proof/scripts/full-link-preservation.py",
+    "sha256": "120aeca79d08ed28362b276edbc0f06b52612c6d07e96b952f3005f7b19f7684"
+  },
+  {
+    "project_path": "cases/hello-win32/full-link-closed-slot.json",
+    "snapshot": "full-link-proof/cases/hello-win32/full-link-closed-slot.json",
+    "sha256": "32e6da8b0cb65b30c57f22ac7052d2acdf4cf80de84218fdd648e7a42eacb264"
+  },
+  {
+    "project_path": "build/capture-help.obj",
+    "snapshot": "full-link-proof/build/capture-help.obj",
+    "sha256": "0c96314f14d2c8cd1a4486eaaeaafd785d7f719437aa12fcac762461202dde08"
+  },
+  {
+    "project_path": "build/delete-probe.obj",
+    "snapshot": "full-link-proof/build/delete-probe.obj",
+    "sha256": "07debf701ae24b05c465ea8652a75cf923a666816a838e16cee18b093828da08"
+  },
+  {
+    "project_path": "build/files.obj",
+    "snapshot": "full-link-proof/build/files.obj",
+    "sha256": "700ab3d3a57698c0209b2650bc0cb147845751643a39a4e57d40a3a71effcd0f"
+  },
+  {
+    "project_path": "build/full-link-init.obj",
+    "snapshot": "full-link-proof/build/full-link-init.obj",
+    "sha256": "95db7b171fb28f0f6cd427905fd9c21510daf73ccf42c8449c3ba09e8135fce6"
+  },
+  {
+    "project_path": "build/full-link-stubs.obj",
+    "snapshot": "full-link-proof/build/full-link-stubs.obj",
+    "sha256": "ffa673b36aba275c2ccef65d365e65b4badc5dd45605dfb007012dbe751671ee"
+  },
+  {
+    "project_path": "build/full-link.obj",
+    "snapshot": "full-link-proof/build/full-link.obj",
+    "sha256": "b9750a9308013a0389f5bab97e74b840dcc36dde1eb3e9fcda255566f3e6821e"
+  },
+  {
+    "project_path": "build/host.obj",
+    "snapshot": "full-link-proof/build/host.obj",
+    "sha256": "a8bd1680eaa412146de2d174ca69bc80a4bd97a5ea64a96848bcca67bac18b5e"
+  },
+  {
+    "project_path": "build/initializers.obj",
+    "snapshot": "full-link-proof/build/initializers.obj",
+    "sha256": "e6720f22a359b1ff400b2868b83578a9265632724f0c27dd701fae4df229c60c"
+  },
+  {
+    "project_path": "build/link-driver.obj",
+    "snapshot": "full-link-proof/build/link-driver.obj",
+    "sha256": "65e68c5d2ef8049a5a69cd7fa42ab15fa82f605439090cfe52f5c3d17f16414c"
+  },
+  {
+    "project_path": "build/memory.obj",
+    "snapshot": "full-link-proof/build/memory.obj",
+    "sha256": "30fcb6852def603985d655a1aa2a43aec5e5b69b35d3e4d9af9b064340156390"
+  },
+  {
+    "project_path": "build/operator-delete-alias.obj",
+    "snapshot": "full-link-proof/build/operator-delete-alias.obj",
+    "sha256": "05508704607d4839933a8c41deb4157fecfc1c3b04aad6c2a7b3af57d1eb7727"
+  },
+  {
+    "project_path": "build/operator-new-alias.obj",
+    "snapshot": "full-link-proof/build/operator-new-alias.obj",
+    "sha256": "00459865d4e67076c729d219c445861b3a3bc7f5514fde312d56243c9abc8bd3"
+  },
+  {
+    "project_path": "build/option-stubs.obj",
+    "snapshot": "full-link-proof/build/option-stubs.obj",
+    "sha256": "344ae02949e821a02ebff3dad531efde83d57558ca317bae1b9c9cc44bf2299d"
+  },
+  {
+    "project_path": "build/options.obj",
+    "snapshot": "full-link-proof/build/options.obj",
+    "sha256": "a12a78a9ea2708276cede777d118d7e8dc954bbba40dd1638056d72dfe2f26af"
+  },
+  {
+    "project_path": "build/symbols.obj",
+    "snapshot": "full-link-proof/build/symbols.obj",
+    "sha256": "e5624238f6bb4e4ec6c48eb80feb6560e49c654757f20b6c5ed007a895aaffe7"
+  }
+]

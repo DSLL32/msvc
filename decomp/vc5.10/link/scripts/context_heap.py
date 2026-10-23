@@ -7,7 +7,7 @@ from member_pointers import CONTRACTS,project
 def words(data):return struct.unpack('<%dI'%(len(data)//4),data)
 
 
-def compare(original,state,trap,configuration_context=None,additional_arenas=()):
+def compare(original,state,trap,configuration_context=None,additional_arenas=(),additional_allocations=()):
     context=trap['stack'][1] if configuration_context is None else configuration_context
     ncontext=state['context_this']
     assert context and ncontext==state['caller_context'] and ncontext
@@ -67,6 +67,11 @@ def compare(original,state,trap,configuration_context=None,additional_arenas=())
         native_ranges.extend([(arena['native_arena'],16),(arena['native_base'],arena['bytes'])])
         expected_virtual.append(dict(arguments=[0,arena['bytes'],0x3000,4],result=arena['native_base'],initial=bytes(arena['bytes']).hex()))
         original_bases.append(arena['original_base'])
+    for allocation in additional_allocations:
+        original_ranges.append((allocation['original_base'],allocation['bytes']))
+        native_ranges.append((allocation['native_base'],allocation['bytes']))
+        expected_virtual.append(dict(arguments=[0,allocation['bytes'],0x3000,4],result=allocation['native_base'],initial=bytes(allocation['bytes']).hex()))
+        original_bases.append(allocation['original_base'])
     for offset,(expected,nexpected) in roles.items():
         assert expected and nexpected
         assert struct.unpack_from('<I',data,offset)[0]==expected
@@ -90,7 +95,9 @@ def compare(original,state,trap,configuration_context=None,additional_arenas=())
         assert len(observations)==2*len(expected_virtual)
         for index,(base,expected)in enumerate(zip(original_bases,expected_virtual)):
             call,returned=observations[2*index:2*index+2]
-            assert [call['site'],returned['site']]==[0x44f659,0x44f65f]
+            first_extra=len(expected_virtual)-len(additional_allocations)
+            sites=additional_allocations[index-first_extra]['sites']if index>=first_extra else [0x44f659,0x44f65f]
+            assert [call['site'],returned['site']]==sites
             assert call['index']==returned['index']==index
             assert call['arguments']==returned['arguments']==expected['arguments']
             assert returned['eax']==base

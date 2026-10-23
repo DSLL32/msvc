@@ -122,7 +122,7 @@ def compare_release(original, state, trap, completed_options=False):
 def compare_configured(original,state,trap,events,canonical,search):
     """All formal inputs of validate_debug_options and real option-copy frees."""
     context=trap['validation_context']
-    full_link=state['function']in ('LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory')
+    full_link=state['function']in ('LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats')
     assert context==trap['configuration_context']
     if not full_link:assert context==trap['stack'][1]
     assert state['validation_arguments']==dict(context=state['context_this'])
@@ -140,7 +140,7 @@ def compare_configured(original,state,trap,events,canonical,search):
     assert state['incremental_enabled']==0 and (original/'incremental-enabled.bin').read_bytes()==b'\0'
     assert state['logo_pending']==0 and (original/'logo-pending.bin').read_bytes()==b'\0'
     source=state['duplicate_calls']
-    assert len(source)==(7 if state['function']in ('initialize_contribution_pools','allocate_virtual_memory')else 5) and len(state['free_calls'])==3
+    assert len(source)==(7 if state['function']in ('initialize_contribution_pools','allocate_virtual_memory','initialize_comdats')else 5) and len(state['free_calls'])==3
     assert source[:2]==[
         dict(text='hello.obj',input=state['crt_argv_addresses'][4],result=canonical[0]['result']),
         dict(text=canonical[1]['text'],input=search['output'],result=canonical[1]['result'])]
@@ -168,8 +168,8 @@ def compare_configured(original,state,trap,events,canonical,search):
     assert struct.unpack_from('<I',bytes.fromhex(state['link_context']),0x150)[0]==0
     assert bytes.fromhex(state['link_context'])[0x124]==1
     from context_heap import compare
-    additional=compare_output_modules(original,state,trap,events)if state['function']in ('duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory')else []
-    compare(original,state,trap,configuration_context=context,additional_arenas=additional)
+    additional=compare_output_modules(original,state,trap,events)if state['function']in ('duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats')else []
+    compare(original,state,trap,configuration_context=context,additional_arenas=additional,additional_allocations=compare_section_pools(original,state,trap,events)if state['function']=='initialize_comdats'else [])
     if full_link:
         formals=trap['full_link_formals'];native=state['full_link_formals'];entry=state['full_link_entry']
         if state['function']=='LinkContext::FullLink':
@@ -198,7 +198,7 @@ def compare_configured(original,state,trap,events,canonical,search):
 
 def compare_output_modules(original,state,trap,events):
     """Actual new text argument plus two complete allocated records/pages."""
-    completed=state['function']in ('initialize_contribution_pools','allocate_virtual_memory')
+    completed=state['function']in ('initialize_contribution_pools','allocate_virtual_memory','initialize_comdats')
     if completed:
         formals=[0,4000,0x3000,4]if state['function']=='allocate_virtual_memory'else []
         assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
@@ -288,3 +288,28 @@ def compare_output_modules(original,state,trap,events):
         assert raw==nraw==bytes(4096)
         additional.append(dict(original_arena=original_arena,native_arena=native['address'],original_base=arena[3],native_base=nheader[3],bytes=4096))
     return additional
+
+
+def compare_section_pools(original,state,trap,events):
+    left=trap['module_section_pools'];right=state['module_section_pools']
+    assert right['module_section_capacity']==500 and right['module_section_pools_ready']==1
+    assert (original/'section-capacity.bin').read_bytes()==struct.pack('<I',500)
+    assert (original/'section-pools-ready.bin').read_bytes()==b'\1'
+    assert (original/'comdat-root.bin').read_bytes()==bytes(4)
+    calls=[e for e in events if e['event']=='section_allocation_observation']
+    assert len(calls)==4 and len(state['virtual_memory_calls'])==2
+    result=[]
+    for index,(key,member,size)in enumerate([('map','module_section_map',4000),('headers','module_section_headers',20000)]):
+        pointer=left[key];native=right[member];assert pointer and native
+        assert (original/('section-'+key+'-global.bin')).read_bytes()==struct.pack('<I',pointer)
+        assert (original/('section-'+key+'.bin')).read_bytes()==bytes.fromhex(state['module_section_bytes'][index])==bytes(size)
+        before,after=calls[index*2:index*2+2];arguments=[0,size,0x3000,4]
+        assert before['kind']==after['kind']==index and(before['before'],after['before'])==(1,0)
+        assert (before['site'],after['site'])==[(0x40e36e,0x40e373),(0x40e386,0x40e38b)][index]
+        assert before['arguments']==after['arguments']==arguments
+        assert before['stack']==before['entry_stack']==after['entry_stack']and after['stack']==before['stack']+16
+        assert after['eax']==pointer
+        call=state['virtual_memory_calls'][index]
+        assert call['arguments']==arguments and call['return_stack']==call['entry_stack']+20 and call['result']==native
+        result.append(dict(original_base=pointer,native_base=native,bytes=size,sites=[0x44f5c5,0x44f5cb]))
+    return result

@@ -69,6 +69,7 @@ MemoryArena *__stdcall create_memory_arena(unsigned bytes)
 
 void *__stdcall allocate_virtual_memory(void *address,unsigned bytes,DWORD flags,DWORD protection)
 {
-    __asm { int 3 }
-    return NULL;
+    void *memory=VirtualAlloc(address,bytes,flags,protection);
+    if (!memory) out_of_memory();
+    return memory;
 }

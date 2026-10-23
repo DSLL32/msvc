@@ -70,7 +70,8 @@
     "?FullLink@LinkContext@@QAEHPAE@Z",
     "_initialize_output_modules@4",
     "_duplicate_link_string@4",
-    "_initialize_contribution_pools"
+    "_initialize_contribution_pools",
+    "_allocate_virtual_memory@16"
   ],
   "driver": [
     {
@@ -2291,10 +2292,10 @@
     {
       "name": "_allocate_virtual_memory@16",
       "start": 4519344,
-      "end": 4519345,
+      "end": 4519388,
       "source": "src/memory.c",
-      "status": "stub",
-      "pending_extent": true,
+      "status": "implemented",
+      "pending_extent": false,
       "native_symbol": "allocate_virtual_memory",
       "abi": "stdcall void *(void *address,unsigned bytes,DWORD flags,DWORD protection); four actual stack inputs, RET16; no hidden/register inputs"
     }
