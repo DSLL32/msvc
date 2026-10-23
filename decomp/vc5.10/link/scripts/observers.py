@@ -24,4 +24,5 @@ def plan(accepted):
     if '_create_memory_arena@4' in accepted:result += [(0x4f659,'observe:virtual_call'),(0x4f65f,'observe:virtual_return')]
     if '_parse_switch@8' in accepted:result += [(0xd149,'observe:parser_alloc_call'),(0xd14e,'observe:parser_alloc_return')]
     if '_duplicate_argument@4' in accepted:result.append((0x451ab,'observe:duplicate_return'))
+    if '_close_timing' in accepted:result.append((0x44eb6,'observe:timing_end'))
     return result

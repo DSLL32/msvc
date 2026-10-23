@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": "_close_timing",
+  "application_functions": 42,
+  "application_extent_bytes": 19615,
+  "function_extent_bytes": 99,
+  "original": "/root/.ai-tmp/msvc2/vc5.10/link/masked-61p25a_s",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/link/native-c72h9qpj",
+  "typed_negatives_fresh": 94,
+  "clock_contract": "Actual end GetTickCount return equals stored end_tick on each side; identified clock values may differ between processes.",
+  "pending_stdout_bytes": 1257,
+  "printed_stdout_bytes": 123,
+  "timing_seconds": {
+    "parallel_original_native_build": 1.4103578552603722,
+    "original_reference": 0.9360425733029842,
+    "native_capture": 0.2315440196543932,
+    "whole_audit": 0.32730270735919476
+  },
+  "acceptance": "cases/help/frontiers/42-close-timing/validation.json"
+}

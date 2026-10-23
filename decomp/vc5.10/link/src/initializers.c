@@ -85,4 +85,14 @@ void __cdecl register_timing_cleanup(void)
 {
     atexit(close_timing);
 }
-void __cdecl close_timing(void) { __asm { int 3 } }
+void __cdecl close_timing(void)
+{
+    DWORD elapsed;
+    timing.end_tick=GetTickCount();
+    elapsed=timing.end_tick-timing.start_tick;
+    if (timing.display) {
+        fprintf(timing.output,"Final: Total time = %d.%03ds\n",elapsed/1000,elapsed%1000);
+        fflush(timing.output);
+    }
+    timing.display=0;
+}

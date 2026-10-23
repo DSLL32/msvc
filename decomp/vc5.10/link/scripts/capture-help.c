@@ -233,15 +233,15 @@ static int snapshot(DWORD address)
             }
         }
     }
-    if(address==base+0x45130 || ((address==base+0xd0c0 || address==base+0x4fed0 || address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0) && configuration_context)) {
+    if(address==base+0x45130 || ((address==base+0xd0c0 || address==base+0x4fed0 || address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0 || address==base+0x31e30 || address==base+0x31dc0 || address==base+0x24eb0) && configuration_context)) {
         pointer=address==base+0x45130?stack[1]:configuration_context;
         if(!save_memory(pointer,664,"link-context.bin") || !save_context_heap(pointer))return 0;
     }
-    if(address==base+0x4fed0 || address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0) {
-        if(!parser_allocation || (address!=base+0x44eb0 && context.Ebp!=parser_allocation) || !save_memory(parser_allocation,parser_allocation_bytes,"parsed-switch.bin"))return 0;
+    if(address==base+0x4fed0 || address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0 || address==base+0x31e30 || address==base+0x31dc0 || address==base+0x24eb0) {
+        if(!parser_allocation || (address!=base+0x44eb0 && address!=base+0x31e30 && address!=base+0x31dc0 && address!=base+0x24eb0 && context.Ebp!=parser_allocation) || !save_memory(parser_allocation,parser_allocation_bytes,"parsed-switch.bin"))return 0;
     }
-    if((address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0) && (!duplicate_result || !save_memory(duplicate_result,2,"duplicated-option.bin")))return 0;
-    if(address==base+0x44eb0) {
+    if((address==base+0x44f80 || address==base+0x615b0 || address==base+0x44eb0 || address==base+0x31e30 || address==base+0x31dc0 || address==base+0x24eb0) && (!duplicate_result || !save_memory(duplicate_result,2,"duplicated-option.bin")))return 0;
+    if(address==base+0x44eb0 || address==base+0x31e30 || address==base+0x31dc0 || address==base+0x24eb0) {
         DWORD file_state[8];
         if(!ReadProcessMemory(process,(void *)(crt_base+0x3f590),file_state,sizeof(file_state),&got)||got!=sizeof(file_state) ||
            file_state[0]<file_state[2] || file_state[0]-file_state[2]>file_state[6] ||
@@ -387,6 +387,8 @@ int main(int argc, char **argv)
                             fprintf(events,",\"requested\":");quoted(requested);
                         }
                         fprintf(events,"}\n");
+                    } else if(!strcmp(entries[index].name,"observe:timing_end")) {
+                        fprintf(events,"{\"event\":\"timing_end\",\"site\":%lu,\"tick\":%lu}\n",site,context.Eax);
                     } else if(!strcmp(entries[index].name,"observe:duplicate_return")) {
                         duplicate_result=context.Eax;
                         fprintf(events,"{\"event\":\"duplicate_return\",\"site\":%lu,\"result\":%lu}\n",site,duplicate_result);

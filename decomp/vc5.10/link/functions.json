@@ -57,7 +57,8 @@
     "_parse_switch@8",
     "_duplicate_argument@4",
     "_linker_usage",
-    "_print_logo"
+    "_print_logo",
+    "_close_timing"
   ],
   "driver": [
     {
@@ -194,8 +195,9 @@
       "start": 4476592,
       "end": 4476691,
       "source": "src/initializers.c",
-      "status": "stub",
-      "abi": "cdecl void(void)"
+      "status": "implemented",
+      "abi": "cdecl void(void)",
+      "pending_extent": false
     },
     {
       "name": "_console_control@4",
@@ -2835,6 +2837,14 @@
       "reason": "print_logo five-kind dispatch table",
       "evidence": "src/driver-stubs.c: print_logo switch; original JMP4615bc bounded EAX0..4, five in-function targets",
       "sha256": "e04fd6a040c8ebd778807a6d44db192b7102f0b750445db7ee8c63d7045a64ab"
+    },
+    {
+      "start": 4223472,
+      "end": 4223502,
+      "accepted": true,
+      "reason": "inline close_timing fprintf format",
+      "evidence": "src/initializers.c: close_timing; original PUSH4071f0 at444eeb",
+      "sha256": "6a5d728cc41cd399070f898eb5915f68ccc1796788ef70623d9db4dd935373d2"
     }
   ],
   "cases": {
