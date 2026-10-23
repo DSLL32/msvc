@@ -3,6 +3,7 @@
 #include <stdarg.h>
 #include <sys/stat.h>
 #include "files.h"
+#include "image.h"
 #include <recon.h>
 
 Page *free_pages, *used_pages, *newest_page, *oldest_page;
@@ -302,4 +303,50 @@ void touch_page(Page *page)
     page->newer = NULL;
     newest_page->newer = page;
     newest_page = page;
+}
+
+long seek_file(int handle, long offset, int origin)
+{
+    FileSlot *slot = file_slots[handle];
+    if (slot->flags & 8) return seek_mapped_file(slot, offset, origin);
+    return seek_buffered_file(slot, offset, origin);
+}
+
+int read_file(int handle, void *buffer, unsigned long size)
+{
+    FileSlot *slot = file_slots[handle];
+    if (slot->flags & 8) return read_mapped_file(slot, buffer, size);
+    return read_buffered_file(slot, buffer, size);
+}
+
+int read_buffered_file(FileSlot *slot, void *buffer, unsigned long size)
+{
+    unsigned long remaining;
+    long copied;
+    unsigned long i;
+    unsigned char *destination = buffer;
+    if (slot->cursor.page->position+size > slot->contents.capacity)
+        size = slot->contents.capacity-slot->cursor.page->position;
+    remaining = size;
+    while (remaining) {
+        if (slot->cursor.page->flags & 8) read_file_page(slot);
+        copied = slot->cursor.page->limit-slot->cursor.page->position;
+        if (copied >= (long)remaining) copied = remaining;
+        for (i = 0; i < (unsigned long)copied; ++i)
+            destination[i] = slot->cursor.page->cursor[i];
+        slot->cursor.page->position += copied;
+        slot->cursor.page->cursor += copied;
+        if (slot->cursor.page->position == slot->cursor.page->limit)
+            advance_file_page(slot);
+        remaining -= copied;
+        destination += copied;
+    }
+    return size;
+}
+
+long tell_file(int handle)
+{
+    FileSlot *slot = file_slots[handle];
+    if (slot->flags & 8) return slot->cursor.position;
+    return slot->cursor.page->position;
 }

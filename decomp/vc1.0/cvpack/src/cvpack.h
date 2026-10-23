@@ -10,7 +10,7 @@
 #include <recon.h>
 
 extern int show_logo, banner_pending, cvnew, feedback, pcode;
-extern unsigned char mapped_io, debug_present;
+extern unsigned char mapped_io, is_pe_image;
 extern int input_file, already_packed, checksum_required;
 extern unsigned short module_count, statistics_enabled;
 extern int verbose, strip_symbols, minimum_types;
@@ -27,7 +27,7 @@ void files_initialize(int, int, int, int, int, unsigned char,
 int open_file(const char *, int, ...);
 int close_file(int, unsigned char);
 void initialize_type_tables(void);
-void compact_types(void);
+void read_image_debug(void);
 void pack_module(unsigned short);
 void strip_debug(int);
 void write_debug_directory(void);

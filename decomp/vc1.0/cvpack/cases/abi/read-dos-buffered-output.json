@@ -1,0 +1,34 @@
+{
+  "owner": "read_image_debug",
+  "local": "dos",
+  "size": 64,
+  "offset": 0,
+  "return_slots": [
+    {
+      "slot": 0,
+      "address": 173100
+    },
+    {
+      "slot": 4,
+      "address": 127636
+    }
+  ],
+  "esp_offset": 148,
+  "callsite": {
+    "start": 127618,
+    "end": 127636,
+    "sha256": "ee07cbf5dba73d6cf73654d4e4caed708f1f52f0712e08d414676f7aa69db468"
+  },
+  "frame": {
+    "start": 127568,
+    "end": 127582,
+    "allocation": 5252,
+    "sha256": "97d7d821a9e6dcddba1f33ff3f084b6c31282a056812aa4e9f206a114f575e90"
+  },
+  "explanation": "LEA EAX,[ESP+74h] precedes four pushes (64, buffer, handle, CALL return). At read_file entry buffer=ESP+84h. The 64-byte IMAGE_DOS_HEADER is inside the original1484h caller allocation; native debug symbols identify the same typed dos object. Initial bytes are raw undefined output storage; retained independently, never compared as defined input. read_file pushes three forwarded arguments then CALL, adding16bytes. Its buffered-call return2a42c and the original outer return at stack slot4 are both required.",
+  "wrapper": {
+    "start": 173056,
+    "end": 173100,
+    "sha256": "5f9f9f130e60818edfe908dc8c0b3305b1d935ace9c52f22f51562f072da6b67"
+  }
+}

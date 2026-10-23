@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "checked_alloc",
-    "native_function": "checked_alloc",
+    "logical": "read_subsection",
+    "native_function": "read_subsection",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -38,7 +38,17 @@
       "initialize_type_tables",
       "checked_zero",
       "initialize_buffer",
-      "checked_alloc"
+      "checked_alloc",
+      "read_image_debug",
+      "seek_file",
+      "read_file",
+      "read_buffered_file",
+      "tell_file",
+      "read_cv_signature",
+      "read_new_directory",
+      "compare_directory",
+      "initialize_modules",
+      "read_subsection"
     ]
   },
   "complete_reference": {

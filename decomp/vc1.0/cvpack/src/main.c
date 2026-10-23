@@ -4,7 +4,7 @@
 
 int show_logo = 1, banner_pending = 1, cvnew = 1;
 int feedback, pcode, input_file, already_packed, checksum_required;
-unsigned char mapped_io, debug_present;
+unsigned char mapped_io, is_pe_image;
 unsigned short module_count, statistics_enabled;
 char executable_name[260];
 void *directory_data, *module_data, *type_data, *symbol_data, *line_data;
@@ -60,10 +60,10 @@ int main(int argc, char **argv, char **environment)
             fatal_error(input_file == -1 ? 15 : 16, executable_name, NULL);
         }
         initialize_type_tables();
-        compact_types();
+        read_image_debug();
         if (!already_packed)
             for (module = 0; module < module_count; ++module) pack_module(module);
-        if (debug_present && cvnew) strip_debug(input_file);
+        if (is_pe_image && cvnew) strip_debug(input_file);
         free(directory_data);
         free(line_data);
         free(symbol_data);

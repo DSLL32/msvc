@@ -212,6 +212,8 @@ def main():
     rebuilt=PE(args.rebuilt)
     assert original.base+original.entry==config['target']['entry']
     functions=config['functions']
+    from reads import validate as validate_reads
+    validate_reads(config,original)
     assert len({r['name'] for r in functions})==len(functions)
     assert len({r['original'] for r in functions})==len(functions)
     runtime=identify(ROOT/config['target']['path'],{'_main':config['target']['application_main']})
@@ -235,6 +237,9 @@ def main():
     addresses=sorted(set(linked.values())|{text_end})
     checked=0
     for record in functions:
+        from stack_output import validate as validate_output
+        for parameter in record.get('parameters',[]):
+            if parameter['kind']=='stack-output':validate_output(parameter,original)
         assert record['status'] in ('stub','candidate','accepted')
         assert record['kind']=='application'
         source=BINARY/record['source']

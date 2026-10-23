@@ -52,3 +52,45 @@ def install_sopen_observer(output,work,master):
             return False
     Entered()
     save()
+
+
+def install_read_observer(output,sites):
+    events=[];output=Path(output)
+    by_line={r['native_line']:r for r in sites}
+    def save():output.write_text(json.dumps(events,indent=2)+'\n')
+    def state(handle):
+        slot=gdb.parse_and_eval('file_slots[%d]'%handle).dereference()
+        assert not(int(slot['flags'])&8),'unobserved mapped read'
+        fd=int(slot['source']['descriptor']);assert 0<=fd<int(gdb.parse_and_eval('recon_nhandle'))
+        host=int(gdb.parse_and_eval('recon_osfhnd[%d]'%fd))-1
+        info=Path('/proc/%d/fdinfo/%d'%(gdb.selected_inferior().pid,host)).read_text()
+        position=int(next(line.split()[1]for line in info.splitlines()if line.startswith('pos:')))
+        return int(slot['cursor']['page'].dereference()['position']),fd,int(gdb.parse_and_eval('recon_osfile[%d]'%fd)),position
+    class Returned(gdb.FinishBreakpoint):
+        def __init__(self,entry):self.entry=entry;super().__init__(gdb.newest_frame(),internal=True)
+        def stop(self):
+            try:
+                position,fd,flags,host_position=state(self.entry['handle'])
+                self.entry.update(returned=int(self.return_value),errno=int(gdb.parse_and_eval('(int)errno')),position=position,descriptor_return=fd,osfile=flags,host_position=host_position,
+                    postbytes=bytes(gdb.selected_inferior().read_memory(self.entry['address'],self.entry['count'])).hex())
+                save();return False
+            except Exception as error:self.entry['error']=str(error);save();return True
+    class Entered(gdb.Breakpoint):
+        def __init__(self):super().__init__('read_file',internal=True)
+        def stop(self):
+            try:
+                f=gdb.newest_frame();caller=f.older()
+                site=by_line[gdb.find_pc_line(int(caller.pc())-1).line]
+                if caller.name()!=site.get('owner','read_image_debug'):raise RuntimeError('unobserved read caller')
+                handle=int(f.read_var('handle'));address=int(f.read_var('buffer'));count=int(f.read_var('size'))
+                local=gdb.parse_and_eval(site['native_local'])if site.get('global_buffer')else caller.read_var(site['native_local'])
+                if site.get('heap_buffer'):
+                    assert int(local)==address and count==int(gdb.parse_and_eval(site['count_global']))*site['element_size'],'unidentified read heap allocation'
+                else:assert int(local.address)==address and local.type.sizeof==count==site['size'],'unidentified read output local'
+                assert 0<=count<=4096
+                position,fd,flags,host_position=state(handle)
+                entry=dict(site=site['call'],handle=handle,address=address,count=count,entry_errno=int(gdb.parse_and_eval('(int)errno')),entry_position=position,descriptor=fd,entry_osfile=flags,entry_host_position=host_position,
+                    native_return_pc=int(caller.pc()),prebytes=bytes(gdb.selected_inferior().read_memory(address,count)).hex())
+                events.append(entry);save();Returned(entry);return False
+            except Exception as error:events.append(dict(error=str(error)));save();return True
+    Entered();save()

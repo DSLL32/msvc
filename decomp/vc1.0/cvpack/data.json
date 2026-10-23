@@ -63,8 +63,8 @@
     "source": "src/main.c"
   },
   {
-    "name": "debug_present",
-    "symbol": "_debug_present",
+    "name": "is_pe_image",
+    "symbol": "_is_pe_image",
     "original": 227416,
     "size": 1,
     "source": "src/main.c"
@@ -420,5 +420,209 @@
     "original": 210388,
     "size": 4,
     "source": "src/types.c"
+  },
+  {
+    "name": "debug_bytes_read",
+    "original": 209576,
+    "size": 4,
+    "symbol": "_debug_bytes_read"
+  },
+  {
+    "name": "optional_header_offset",
+    "original": 210468,
+    "size": 4,
+    "symbol": "_optional_header_offset"
+  },
+  {
+    "name": "section_header_offset",
+    "original": 210472,
+    "size": 4,
+    "symbol": "_section_header_offset"
+  },
+  {
+    "name": "original_file_size",
+    "original": 210480,
+    "size": 4,
+    "symbol": "_original_file_size"
+  },
+  {
+    "name": "cv_version",
+    "original": 210484,
+    "size": 2,
+    "symbol": "_cv_version"
+  },
+  {
+    "name": "debug_section_offset",
+    "original": 227484,
+    "size": 4,
+    "symbol": "_debug_section_offset"
+  },
+  {
+    "name": "debug_directory_offset",
+    "original": 227492,
+    "size": 4,
+    "symbol": "_debug_directory_offset"
+  },
+  {
+    "name": "cv_file_offset",
+    "original": 208900,
+    "size": 4,
+    "symbol": "_cv_file_offset"
+  },
+  {
+    "name": "directory_size",
+    "original": 209000,
+    "size": 4,
+    "symbol": "_directory_size"
+  },
+  {
+    "name": "module_size",
+    "original": 209004,
+    "size": 4,
+    "symbol": "_module_size"
+  },
+  {
+    "name": "type_size",
+    "original": 209008,
+    "size": 4,
+    "symbol": "_type_size"
+  },
+  {
+    "name": "symbol_size",
+    "original": 209012,
+    "size": 4,
+    "symbol": "_symbol_size"
+  },
+  {
+    "name": "global_symbol_size",
+    "original": 209016,
+    "size": 4,
+    "symbol": "_global_symbol_size"
+  },
+  {
+    "name": "directory_capacity",
+    "original": 209020,
+    "size": 4,
+    "symbol": "_directory_capacity"
+  },
+  {
+    "name": "module_capacity",
+    "original": 209024,
+    "size": 4,
+    "symbol": "_module_capacity"
+  },
+  {
+    "name": "type_capacity",
+    "original": 209028,
+    "size": 4,
+    "symbol": "_type_capacity"
+  },
+  {
+    "name": "symbol_capacity",
+    "original": 209032,
+    "size": 4,
+    "symbol": "_symbol_capacity"
+  },
+  {
+    "name": "global_symbol_blocks",
+    "original": 209036,
+    "size": 4,
+    "symbol": "_global_symbol_blocks"
+  },
+  {
+    "name": "global_symbol_block",
+    "original": 209040,
+    "size": 2,
+    "symbol": "_global_symbol_block"
+  },
+  {
+    "name": "global_symbol_block_count",
+    "original": 209044,
+    "size": 2,
+    "symbol": "_global_symbol_block_count"
+  },
+  {
+    "name": "cv_signature",
+    "symbol": "_cv_signature",
+    "original": 210496,
+    "size": 4
+  },
+  {
+    "name": "cv_directory_header",
+    "symbol": "_cv_directory_header",
+    "original": 227456,
+    "size": 16
+  },
+  {
+    "name": "cv_directory_offset",
+    "symbol": "_cv_directory_offset",
+    "original": 208904,
+    "size": 4
+  },
+  {
+    "name": "directory_entries",
+    "symbol": "_directory_entries",
+    "original": 208920,
+    "size": 4
+  },
+  {
+    "name": "directory_entry_count",
+    "symbol": "_directory_entry_count",
+    "original": 209564,
+    "size": 4
+  },
+  {
+    "name": "directory_order",
+    "symbol": "_directory_order",
+    "original": 227824,
+    "size": 1156
+  },
+  {
+    "name": "module_index",
+    "symbol": "_module_index",
+    "original": 227480,
+    "size": 4
+  },
+  {
+    "name": "module_list",
+    "symbol": "_module_list",
+    "original": 227472,
+    "size": 4
+  },
+  {
+    "name": "libraries",
+    "symbol": "_libraries",
+    "original": 227424,
+    "size": 4
+  },
+  {
+    "name": "segment_map",
+    "symbol": "_segment_map",
+    "original": 227428,
+    "size": 4
+  },
+  {
+    "name": "segment_names",
+    "symbol": "_segment_names",
+    "original": 227432,
+    "size": 4
+  },
+  {
+    "name": "libraries_size",
+    "symbol": "_libraries_size",
+    "original": 227436,
+    "size": 4
+  },
+  {
+    "name": "segment_map_size",
+    "symbol": "_segment_map_size",
+    "original": 227440,
+    "size": 4
+  },
+  {
+    "name": "segment_names_size",
+    "symbol": "_segment_names_size",
+    "original": 227444,
+    "size": 4
   }
 ]

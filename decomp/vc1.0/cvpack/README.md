@@ -8,12 +8,12 @@ The PE/COFF analysis reader was reused from LINK; no sibling files are changed.
 `make -j4 native check` builds/runs native i386 fixtures. `make -j4 all audit`
 also verifies original-compiler compilability. Debug with GDB against
 `build/native/CVPACK.EXE`. `/help` is complete: exact 219-byte stdout, exit 1 and
-empty stderr. Twenty application functions are accepted. The first orchestrator review passed;
+empty stderr. Thirty application functions are accepted. The first orchestrator review passed;
 work is released toward the fifty-function review. The independent DLL case stops
-at the named `checked_alloc` stub. CRT startup has a
+at the named `read_subsection` stub. CRT startup has a
 separate exact-library and observed-state proof and is counted separately.
 `audit` checks complete original/compiler CFGs and callees, RET cleanup, SEH
-roots, contextual initial data, library relocations, and 56 rejection checks, including ownership, snapshots, conditional ABI words and
+roots, contextual initial data, library relocations, and 70 rejection checks, including ownership, snapshots, conditional ABI words and
 case-specific guarded CRT variants.
 
 `scripts/capture-original.py --case help --output ~/.ai-tmp/...` is an explicit
@@ -80,3 +80,10 @@ Descriptor observers avoid inferior calls; full page, typed pool, name, page-tab
 and type-buffer state is compared. DLL references are now owned immutable copies.
 See `cases/reviews/checkpoint-0020/`; the shared Wine pre-startup timeout was
 preserved separately and the fresh retry passed.
+
+Checkpoint thirty covers PE/CodeView headers, the directory reader/sorter and
+module-table setup. Per-read original CALL/return breakpoints and native GDB
+observers compare return counts, errno, file positions and every defined byte
+before the caller consumes it. Typed stack-output identity keeps raw undefined
+precontents separately; short reads preserve each side's own untouched tail.
+`cases/reviews/checkpoint-0030/` records fresh timings.

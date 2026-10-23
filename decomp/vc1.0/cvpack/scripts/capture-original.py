@@ -95,6 +95,14 @@ def main():
         bias=original.offset(main_record['original'])
         image[bias:bias+len(body)]=body
         masked.write_bytes(image)
+    from reads import validate as validate_reads
+    read_sites=validate_reads(config,original)if args.case=='hello-debug-dll'else []
+    if read_sites:
+        image=bytearray(masked.read_bytes())
+        for site in read_sites:
+            image[original.offset(site['call'])]=0xcc
+            image[original.offset(site['returned'])]=0xcc
+        masked.write_bytes(image)
     env=tool.environment()
     from seams import approved
     seam_records=approved(config,original,json.loads((BINARY/'runtime.json').read_text()),args.case)
@@ -103,13 +111,15 @@ def main():
         env['CVPACK_CAPTURE_SOPEN_GUARD']='%x:%x:%x'%(seam['start'],seam['end'],original.offset(seam['start']))
         env['CVPACK_CAPTURE_SOPEN_NAME']=seam['guard']['name']
         env['CVPACK_CAPTURE_SOPEN_INPUT']=tool.windows(ROOT/seam['input']['path'])
+    env['CVPACK_CAPTURE_READS']=','.join('%x:%x'%(r['call'],r['returned'])for r in read_sites)
     env.pop('_MSC_IDE_FLAGS',None)
     env['CVPACK_CAPTURE_ARGV0']=tool.windows(ROOT/config['target']['path'])
     env['CVPACK_CAPTURE_INSPECT']=','.join(args.inspect)
     walks=json.loads((BINARY/'walks.json').read_text()) if (BINARY/'walks.json').exists() else []
     env['CVPACK_CAPTURE_WALKS']=','.join('%x:%d:%d:%d:%x'%(r['original'],r['size'],r['next'],r['limit'],r.get('count_original',0)) for r in walks)
+    env['CVPACK_CAPTURE_OUTPUTS']=','.join('%x:%d:%d'%(r['original'],p['slot'],json.loads((BINARY/p['evidence']).read_text())['size'])for r in config['functions']for p in r.get('parameters',[])if p['kind']=='stack-output')
     env['CVPACK_CAPTURE_STRINGS']=','.join('%x:%d'%(r['original'],offset)for r in walks for offset in r.get('string_fields',[]))
-    env['CVPACK_CAPTURE_ARRAYS']=','.join('%x:%d:%d:%d:%d:%d:%x:%x'%(r['original'],a['offset'],a['count_offset'],a['count_shift'],a['max_count'],a['when']['offset'],a['when']['mask'],a['when']['value'])for r in walks for a in r.get('arrays',[]))
+    env['CVPACK_CAPTURE_ARRAYS']=','.join('%x:%d:%d:%d:%d:%d:%x:%x:%d'%(r['original'],a['offset'],a.get('count_offset',0xffffffff),a.get('count_shift',0),a['max_count'],a['when']['offset'],a['when']['mask'],a['when']['value'],a.get('element_size',4))for r in walks for a in r.get('arrays',[]))
     if args.inspect_context:
         context=json.loads((BINARY/'data.json').read_text())
         requests=[*args.inspect,*['%x:%d'%(r['original'],r['size']) for r in context]]

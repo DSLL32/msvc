@@ -312,17 +312,20 @@
       "naming_evidence": "Whole body initializes compactor tables and empty type; earlier unaccepted stub label read_debug_directory was provisional. Address/ABI/graph unchanged."
     },
     {
-      "name": "compact_types",
-      "native": "compact_types",
-      "symbol": "_compact_types",
+      "name": "read_image_debug",
+      "native": "read_image_debug",
+      "symbol": "_read_image_debug",
       "original": 127568,
-      "source": "src/stubs.c",
+      "source": "src/image.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
-      "abi": "void compact_types(void)",
+      "status": "accepted",
+      "extent": [
+        127568,
+        129883
+      ],
+      "abi": "void read_image_debug(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0022-read_image_debug/proof.json",
       "roots": [],
       "text_data": []
     },
@@ -890,13 +893,16 @@
       "native": "checked_alloc",
       "symbol": "_checked_alloc",
       "original": 127024,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        127024,
+        127062
+      ],
       "abi": "void *checked_alloc(unsigned long)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0021-checked_alloc/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -934,6 +940,616 @@
         },
         {
           "name": "size",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "seek_file",
+      "native": "seek_file",
+      "symbol": "_seek_file",
+      "original": 172768,
+      "source": "src/files.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        172768,
+        172816
+      ],
+      "abi": "long seek_file(int,long,int)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0023-seek_file/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "handle",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "offset",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "origin",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "read_file",
+      "native": "read_file",
+      "symbol": "_read_file",
+      "original": 173056,
+      "source": "src/files.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        173056,
+        173104
+      ],
+      "abi": "int read_file(int,void *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0024-read_file/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "handle",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "buffer",
+          "slot": 2,
+          "kind": "stack-output",
+          "size_argument": "size",
+          "evidence": "cases/abi/read-dos-output.json",
+          "evidence_sha256": "e1f8535f70bfbb42884e24d6cd43785616da599ea093b36149028945ba0aa8ec"
+        },
+        {
+          "name": "size",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "tell_file",
+      "native": "tell_file",
+      "symbol": "_tell_file",
+      "original": 173104,
+      "source": "src/files.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        173104,
+        173131
+      ],
+      "abi": "long tell_file(int)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0026-tell_file/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "handle",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "write_file",
+      "native": "write_file",
+      "symbol": "_write_file",
+      "original": 173680,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int write_file(int,const void *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "handle",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "buffer",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "size",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "truncate_file",
+      "native": "truncate_file",
+      "symbol": "_truncate_file",
+      "original": 170912,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int truncate_file(int,long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "handle",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "size",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "read_cv_signature",
+      "native": "read_cv_signature",
+      "symbol": "_read_cv_signature",
+      "original": 134608,
+      "source": "src/image.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        134608,
+        134845
+      ],
+      "abi": "unsigned short read_cv_signature(void)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0027-read_cv_signature/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "read_old_directory",
+      "native": "read_old_directory",
+      "symbol": "_read_old_directory",
+      "original": 136192,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void read_old_directory(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "read_new_directory",
+      "native": "read_new_directory",
+      "symbol": "_read_new_directory",
+      "original": 136512,
+      "source": "src/image.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        136512,
+        136831
+      ],
+      "abi": "void read_new_directory(int)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0028-read_new_directory/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "unpacked",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "initialize_modules",
+      "native": "initialize_modules",
+      "symbol": "_initialize_modules",
+      "original": 129888,
+      "source": "src/image.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        129888,
+        130726
+      ],
+      "abi": "void initialize_modules(void)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0030-initialize_modules/proof.json",
+      "roots": [],
+      "text_data": [
+        [
+          130728,
+          130916
+        ]
+      ],
+      "parameters": [],
+      "switches": {
+        "129978": [
+          130004,
+          130048,
+          130080,
+          130102,
+          129985,
+          130128,
+          129985,
+          129985,
+          130149,
+          129985,
+          129985,
+          129985,
+          129985,
+          129985,
+          129985,
+          129985,
+          129985,
+          129985,
+          129985,
+          129985,
+          129985,
+          129985,
+          129985,
+          129985,
+          129985,
+          129985,
+          129985,
+          129985,
+          129985,
+          129985,
+          129985,
+          130176,
+          130080,
+          130048,
+          130048,
+          130102,
+          129985,
+          130149,
+          130149,
+          130128,
+          129985,
+          129985,
+          129985,
+          129985,
+          130192,
+          130213,
+          130240
+        ]
+      },
+      "switch_tables": [
+        {
+          "start": 130728,
+          "targets": [
+            130004,
+            130048,
+            130080,
+            130102,
+            129985,
+            130128,
+            129985,
+            129985,
+            130149,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            129985,
+            130176,
+            130080,
+            130048,
+            130048,
+            130102,
+            129985,
+            130149,
+            130149,
+            130128,
+            129985,
+            129985,
+            129985,
+            129985,
+            130192,
+            130213,
+            130240
+          ]
+        }
+      ],
+      "compiler_switch_counts": [
+        47
+      ],
+      "alignment_padding": [
+        [
+          130171,
+          130176
+        ]
+      ]
+    },
+    {
+      "name": "read_packed_modules",
+      "native": "read_packed_modules",
+      "symbol": "_read_packed_modules",
+      "original": 137024,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void read_packed_modules(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "seek_mapped_file",
+      "native": "seek_mapped_file",
+      "symbol": "_seek_mapped_file",
+      "original": 174928,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "long seek_mapped_file(FileSlot *,long,int)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "offset",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "origin",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "read_mapped_file",
+      "native": "read_mapped_file",
+      "symbol": "_read_mapped_file",
+      "original": 175024,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int read_mapped_file(FileSlot *,void *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "buffer",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "size",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "read_buffered_file",
+      "native": "read_buffered_file",
+      "symbol": "_read_buffered_file",
+      "original": 172880,
+      "source": "src/files.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        172880,
+        173054
+      ],
+      "abi": "int read_buffered_file(FileSlot *,void *,unsigned long)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0025-read_buffered_file/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "buffer",
+          "slot": 2,
+          "kind": "stack-output",
+          "size_argument": "size",
+          "evidence": "cases/abi/read-dos-buffered-output.json",
+          "evidence_sha256": "dc040fd99d7a7546ae214ce0a0b9b3fbbce6c739bab53c6124766ef1a0f6fa0a"
+        },
+        {
+          "name": "size",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "advance_file_page",
+      "native": "advance_file_page",
+      "symbol": "_advance_file_page",
+      "original": 173504,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void advance_file_page(FileSlot *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "slot",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "compare_directory",
+      "native": "compare_directory",
+      "symbol": "_compare_directory",
+      "original": 136096,
+      "source": "src/image.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        136096,
+        136185
+      ],
+      "abi": "int __cdecl compare_directory(const void *,const void *)",
+      "stack_cleanup": 0,
+      "evidence": "cases/hello-debug-dll/evidence/0029-compare_directory/proof.json",
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "first",
+          "slot": 1,
+          "kind": "pointer"
+        },
+        {
+          "name": "second",
+          "slot": 2,
+          "kind": "pointer"
+        }
+      ]
+    },
+    {
+      "name": "read_subsection",
+      "native": "read_subsection",
+      "symbol": "_read_subsection",
+      "original": 130928,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void read_subsection(const CvDirectoryEntry *,unsigned char **,unsigned long *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "entry",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "data",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "size",
+          "slot": 3,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "find_module",
+      "native": "find_module",
+      "symbol": "_find_module",
+      "original": 131088,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "ModuleInfo *find_module(unsigned short,int)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "number",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 16
+        },
+        {
+          "name": "create",
           "slot": 2,
           "kind": "integer",
           "bits": 32
@@ -1076,6 +1692,66 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 20
+    },
+    {
+      "function": "checked_alloc",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 21
+    },
+    {
+      "function": "read_image_debug",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 22
+    },
+    {
+      "function": "seek_file",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 23
+    },
+    {
+      "function": "read_file",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 24
+    },
+    {
+      "function": "read_buffered_file",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 25
+    },
+    {
+      "function": "tell_file",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 26
+    },
+    {
+      "function": "read_cv_signature",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 27
+    },
+    {
+      "function": "read_new_directory",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 28
+    },
+    {
+      "function": "compare_directory",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 29
+    },
+    {
+      "function": "initialize_modules",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 30
     }
   ],
   "support_unmasked": [
@@ -1618,6 +2294,40 @@
       "start": 199294,
       "end": 199300,
       "evidence": "cases/hello-debug-dll/evidence/0016-read_file_page/proof.json"
+    },
+    {
+      "name": "__chkstk",
+      "start": 186128,
+      "end": 186173,
+      "evidence": "cases/hello-debug-dll/evidence/0022-read_image_debug/proof.json"
+    },
+    {
+      "name": "_strncmp",
+      "start": 183360,
+      "end": 183417,
+      "evidence": "cases/hello-debug-dll/evidence/0026-tell_file/proof.json"
+    },
+    {
+      "name": "_qsort",
+      "start": 184848,
+      "end": 185216,
+      "evidence": "cases/hello-debug-dll/evidence/0028-read_new_directory/proof.json"
+    },
+    {
+      "name": "_swap",
+      "start": 185312,
+      "end": 185360,
+      "evidence": "cases/hello-debug-dll/evidence/0028-read_new_directory/proof.json"
+    },
+    {
+      "name": "_shortsort",
+      "start": 185216,
+      "end": 185312,
+      "evidence": "cases/hello-debug-dll/evidence/0029-compare_directory/proof.json"
     }
-  ]
+  ],
+  "read_observations": {
+    "evidence": "cases/abi/image-reads.json",
+    "evidence_sha256": "e8a21d500d88d499100c4a9eccd6ffcdae33a0530b03c0595510f02cdd459b7e"
+  }
 }

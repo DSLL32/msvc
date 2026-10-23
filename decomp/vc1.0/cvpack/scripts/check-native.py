@@ -31,12 +31,15 @@ def run_case(name, directory, debug=False):
     debug=debug and expected['terminal']=='trap'
     data=json.loads((BINARY/'data.json').read_text())
     walks=json.loads((BINARY/'walks.json').read_text()) if (BINARY/'walks.json').exists() else []
+    from reads import validate as validate_reads
+    read_sites=validate_reads(config,original)if name=='hello-debug-dll'else []
     canonical='Z:'+str(ROOT/config['target']['path']).replace('/','\\')
     script.write_text('set pagination off\nset confirm off\nset startup-with-shell on\n'
         'set disable-randomization off\nset args '+' '.join(map(shlex.quote,record['argv']))+'\n'
         'break main\nrun '+' '.join(map(shlex.quote,record['argv']))+' > '+shlex.quote(str(directory/'debug-stdout'))+' 2> '+shlex.quote(str(directory/'debug-stderr'))+'\n'
         'set argv[0] = recon_pgmptr\n'
         +('python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_sopen_observer"]('+repr(str(directory/'crt-returns.json'))+','+repr(str(directory/'debug-work'))+','+repr(str(ROOT/record['inputs'][0]['path']))+')\nend\n'if name=='hello-debug-dll'else '')+
+        ('python\nimport runpy\nrunpy.run_path('+repr(str(BINARY/'scripts/native-debug.py'))+')["install_read_observer"]('+repr(str(directory/'read-returns.json'))+','+repr(read_sites)+')\nend\n'if read_sites else '')+
         'continue\npython\n'
         'import gdb,json\n'
         'current=gdb.newest_frame()\nparameters={}\n'
@@ -51,6 +54,18 @@ def run_case(name, directory, debug=False):
         '    if address<=int(value)<address+item["size"]: parameters[symbol.name]["global"]=dict(name=item["name"],offset=int(value)-address)\n'
         '   if int(value) and value.type.target().strip_typedefs().code==gdb.TYPE_CODE_FUNC: parameters[symbol.name]["function"]=gdb.block_for_pc(int(value)).function.name\n'
         '  else: parameters[symbol.name]=int(value)\n'
+        'frontier=next(r for r in '+repr(config['functions'])+' if r["native"]==current.name())\n'
+        'for description in frontier.get("parameters",[]):\n'
+        ' if description["kind"]!="stack-output": continue\n'
+        ' proof=json.load(open('+repr(str(BINARY))+'+"/"+description["evidence"]))\n'
+        ' owner=current.older()\n'
+        ' while owner and owner.name()!=proof["owner"]: owner=owner.older()\n'
+        ' if not owner: raise RuntimeError("missing output owner")\n'
+        ' local=owner.read_var(proof["local"]); address=int(local.address); argument=parameters[description["name"]]\n'
+        ' if argument["address"]!=address+proof["offset"] or local.type.sizeof!=proof["size"]: raise RuntimeError("wrong output local")\n'
+        ' argument["local_address"]=address\n'
+        ' argument["local"]=dict(owner=owner.name(),name=proof["local"],size=int(local.type.sizeof),offset=proof["offset"])\n'
+        ' argument["prebytes"]=bytes(gdb.selected_inferior().read_memory(argument["address"],proof["size"])).hex()\n'
         'frames=[]\nf=gdb.newest_frame()\n'
         'while f:\n frames.append(f.name()); f=f.older()\n'
         'f=gdb.newest_frame()\n'
@@ -92,9 +107,9 @@ def run_case(name, directory, debug=False):
         '   when=array["when"];flags=int.from_bytes(raw[when["offset"]:when["offset"]+4],"little")\n'
         '   if flags&when["mask"]!=when["value"]: continue\n'
         '   offset=array["offset"];address=int.from_bytes(raw[offset:offset+4],"little")\n'
-        '   count=int.from_bytes(raw[array["count_offset"]:array["count_offset"]+4],"little")>>array["count_shift"]\n'
+        '   count=array["fixed_count"] if "fixed_count" in array else int.from_bytes(raw[array["count_offset"]:array["count_offset"]+4],"little")>>array["count_shift"]\n'
         '   if count>array["max_count"]: raise RuntimeError("unbounded object array")\n'
-        '   payload=bytes(gdb.selected_inferior().read_memory(address,count*4)) if address else b""\n'
+        '   payload=bytes(gdb.selected_inferior().read_memory(address,count*array.get("element_size",4))) if address else b""\n'
         '   arrays[str(offset)]=dict(address=address,bytes=payload.hex())\n'
         '  if arrays: nodes[-1]["arrays"]=arrays\n'
         '  if item.get("file_descriptor"):\n'

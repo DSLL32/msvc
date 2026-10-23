@@ -69,6 +69,9 @@ def main():
     check_policy_snapshot(native/args.case,policy)
     observations=native/args.case/'crt-returns.json'
     crt_proof=compare_returns(events,json.loads(observations.read_text())if observations.exists()else [],seam_records)
+    from reads import validate as validate_reads,compare as compare_reads
+    read_sites=validate_reads(config,pe)if args.case=='hello-debug-dll'else []
+    read_proof=compare_reads(events,json.loads((native/args.case/'read-returns.json').read_text()),read_sites)if read_sites else []
     old_work,new_work=original/'work',native/args.case/'work'
     assert {p.name for p in old_work.iterdir()}=={p.name for p in new_work.iterdir()},'artifact set differs'
     for path in old_work.iterdir():assert path.read_bytes()==(new_work/path.name).read_bytes(),'complete artifact bytes differ: '+path.name
@@ -151,6 +154,9 @@ def main():
         if kind=='integer':
             proof=compare_integer(item,descriptions,words,state['parameters'])
             if proof:inactive[item['name']]=proof
+        elif kind=='stack-output':
+            from stack_output import compare as compare_output
+            inactive[item['name']]=compare_output(item,descriptions,words,state['parameters'],events,pe)
         elif kind in ('pointer','cstring'):
             assert actual['null']==(value==0)
             if value:
@@ -196,7 +202,7 @@ def main():
     directory.mkdir(parents=True,exist_ok=False)
     for name in ('events','receipt.json','stdout','stderr','runtime-plan','configuration.json'):
         shutil.copyfile(original/name,directory/('original-'+name))
-    for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr','crt-returns.json'):
+    for name in ('gdb.json','gdb.stdout','gdb.stderr','commands.gdb','trace','stdout','stderr','crt-returns.json','read-returns.json'):
         if (native/args.case/name).is_file():shutil.copyfile(native/args.case/name,directory/('native-'+name))
     shutil.copyfile(native/args.case/'configuration.json',directory/'native-configuration.json')
     for side,source in (('original',original),('native',native/args.case)):
@@ -214,6 +220,7 @@ def main():
         matched_frontier_parameters=state['parameters'],runtime_unmasked=support,
         conditionally_inactive_parameters=inactive,
         conditional_CRT_support=crt_proof,
+        read_return_observations=read_proof,
         observed_objects=object_proof,
         process_boundary=native_receipt.get('process_boundary'),
         graph_ABI_data='Complete original/compiler CFG/callee/RET ABI and contextual initial data passed',

@@ -1,0 +1,155 @@
+{
+  "owner": "read_image_debug",
+  "callee": "read_file",
+  "sites": [
+    {
+      "call": 127631,
+      "returned": 127636,
+      "call_bytes": "e86cb10000",
+      "return_bytes": "83c40c",
+      "native_line": 46,
+      "native_local": "dos",
+      "size": 64
+    },
+    {
+      "call": 127737,
+      "returned": 127742,
+      "call_bytes": "e802b10000",
+      "return_bytes": "83c40c",
+      "native_line": 51,
+      "native_local": "signature",
+      "size": 4
+    },
+    {
+      "call": 127767,
+      "returned": 127772,
+      "call_bytes": "e8e4b00000",
+      "return_bytes": "83c40c",
+      "native_line": 52,
+      "native_local": "file",
+      "size": 20
+    },
+    {
+      "call": 127832,
+      "returned": 127837,
+      "call_bytes": "e8a3b00000",
+      "return_bytes": "83c40c",
+      "native_line": 55,
+      "native_local": "optional",
+      "size": 224
+    },
+    {
+      "call": 128003,
+      "returned": 128008,
+      "call_bytes": "e8f8af0000",
+      "return_bytes": "83c40c",
+      "native_line": 65,
+      "native_local": "file",
+      "size": 20
+    },
+    {
+      "call": 128068,
+      "returned": 128073,
+      "call_bytes": "e8b7af0000",
+      "return_bytes": "83c40c",
+      "native_line": 68,
+      "native_local": "optional",
+      "size": 224
+    },
+    {
+      "call": 128224,
+      "returned": 128229,
+      "call_bytes": "e81baf0000",
+      "return_bytes": "83c40c",
+      "native_line": 79,
+      "native_local": "section",
+      "size": 40
+    },
+    {
+      "call": 128442,
+      "returned": 128447,
+      "call_bytes": "e841ae0000",
+      "return_bytes": "83c40c",
+      "native_line": 94,
+      "native_local": "section",
+      "size": 40
+    },
+    {
+      "call": 128649,
+      "returned": 128654,
+      "call_bytes": "e872ad0000",
+      "return_bytes": "83c40c",
+      "native_line": 109,
+      "native_local": "debug",
+      "size": 28
+    },
+    {
+      "call": 128833,
+      "returned": 128838,
+      "call_bytes": "e8baac0000",
+      "return_bytes": "83c40c",
+      "native_line": 122,
+      "native_local": "length",
+      "size": 4
+    },
+    {
+      "call": 129267,
+      "returned": 129272,
+      "call_bytes": "e808ab0000",
+      "return_bytes": "83c40c",
+      "native_line": 146,
+      "native_local": "buffer",
+      "size": 4096
+    },
+    {
+      "call": 134621,
+      "returned": 134626,
+      "call_bytes": "e81e960000",
+      "return_bytes": "83c40c",
+      "owner": "read_cv_signature",
+      "native_line": 199,
+      "native_local": "cv_signature",
+      "global_buffer": true,
+      "size": 4
+    },
+    {
+      "call": 136530,
+      "returned": 136535,
+      "call_bytes": "e8a98e0000",
+      "return_bytes": "83c40c",
+      "owner": "read_new_directory",
+      "native_line": 222,
+      "native_local": "cv_directory_offset",
+      "global_buffer": true,
+      "size": 4
+    },
+    {
+      "call": 136589,
+      "returned": 136594,
+      "call_bytes": "e86e8e0000",
+      "return_bytes": "83c40c",
+      "owner": "read_new_directory",
+      "native_line": 224,
+      "native_local": "cv_directory_header",
+      "global_buffer": true,
+      "size": 16
+    },
+    {
+      "call": 136693,
+      "returned": 136698,
+      "call_bytes": "e8068e0000",
+      "return_bytes": "83c40c",
+      "owner": "read_new_directory",
+      "native_line": 229,
+      "native_local": "directory_entries",
+      "global_buffer": true,
+      "size": 0,
+      "heap_buffer": true,
+      "count_global": "directory_entry_count",
+      "element_size": 12
+    }
+  ],
+  "scope": "Synchronous buffered disk reads of the approved independent DLL; raw pre/post buffers retained. Defined output extent is max(return,0), bounded by requested count; unwritten bytes must equal their own entry bytes. No equality claim for unrelated undefined input bytes.",
+  "source": "src/image.c",
+  "source_sha256": "43e28a10b8c658faa5b798bafe69e4f59119693bd1fe52d590f7a59a57e82ab3"
+}

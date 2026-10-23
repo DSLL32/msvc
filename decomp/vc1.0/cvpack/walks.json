@@ -372,6 +372,42 @@
     "limit": 1,
     "pointer_fields": [
       0
+    ],
+    "arrays": [
+      {
+        "offset": 0,
+        "fixed_count": 6,
+        "element_size": 1,
+        "pointers": false,
+        "max_count": 6,
+        "when": {
+          "offset": 24,
+          "mask": 0,
+          "value": 0
+        }
+      }
     ]
+  },
+  {
+    "name": "directory_entries",
+    "original": 208920,
+    "size": 12,
+    "count_native": "directory_entry_count",
+    "count_original": 209564,
+    "next": 4294967295,
+    "limit": 256
+  },
+  {
+    "name": "module_index",
+    "original": 227480,
+    "size": 12,
+    "count_native": "module_count",
+    "count_original": 227448,
+    "next": 4294967295,
+    "limit": 256,
+    "pointer_stride": {
+      "start": 8,
+      "stride": 12
+    }
   }
 ]

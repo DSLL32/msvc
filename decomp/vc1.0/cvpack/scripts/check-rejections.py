@@ -54,7 +54,36 @@ def main():
     assert any(r['name']=='_mainCRTStartup' and r['start']==0x2c260 for r in good['functions'])
     assert not any(r['name']=='_mainCRTStartup' and r['start']==0x2c260 for r in bad['functions'])
     print('rejected: CRT startup with incorrect relocated application target')
+    binary_spec=[dict(name='record',size=4,pointer_fields=[0],arrays=[dict(offset=0,fixed_count=6,max_count=6,element_size=1,pointers=False,when=dict(offset=0,mask=0,value=0))])]
+    old_binary={'record':[dict(address=0x100,bytes=(0x200).to_bytes(4,'little').hex(),arrays={'0':dict(address=0x200,bytes='060001020000')})]}
+    new_binary=copy.deepcopy(old_binary);new_binary['record'][0]['address']=0x300;new_binary['record'][0]['bytes']=(0x400).to_bytes(4,'little').hex();new_binary['record'][0]['arrays']['0']['address']=0x400
+    compare_walks(binary_spec,old_binary,new_binary)
+    changed=copy.deepcopy(new_binary);changed['record'][0]['arrays']['0']['bytes']='060001020001'
+    reject('binary record differing trailing NUL byte',lambda:compare_walks(binary_spec,old_binary,changed))
+    changed=copy.deepcopy(new_binary);changed['record'][0]['arrays']['0']['bytes']='0600'
+    reject('binary record truncated after embedded NUL',lambda:compare_walks(binary_spec,old_binary,changed))
     config,original=load()
+    from stack_output import compare as compare_output,validate as validate_output
+    outputs=next(r for r in config['functions']if r['name']=='read_file')['parameters']
+    output=next(r for r in outputs if r['name']=='buffer')
+    if output['kind']=='stack-output':
+        proof=json.loads((BINARY/output['evidence']).read_text())
+        words={0:proof['return_slots'][0]['address'],1:0,2:0x1000+proof['esp_offset'],3:64}
+        parameters=dict(handle=0,size=64,buffer=dict(null=False,address=0x4000,local_address=0x4000,local=dict(owner='read_image_debug',name='dos',size=64,offset=0),prebytes='cc'*64))
+        events='registers eax 00000000 esp 00001000 eip 0002a401\noutput-buffer %08x '%words[2]+'00'*64+'\n'
+        compare_output(output,outputs,words,parameters,events,original)
+        changed=copy.deepcopy(parameters);changed['buffer']['address']+=4
+        reject('stack output native raw pointer differs from local',lambda:compare_output(output,outputs,words,changed,events,original))
+        changed=copy.deepcopy(parameters);changed['buffer']['local']['name']='file'
+        reject('stack output points to different native local',lambda:compare_output(output,outputs,words,changed,events,original))
+        changed=dict(words);changed[2]+=4
+        reject('stack output original pointer differs from reviewed local',lambda:compare_output(output,outputs,changed,parameters,events,original))
+        changed=dict(words);changed[0]+=1
+        reject('stack output unknown caller return',lambda:compare_output(output,outputs,changed,parameters,events,original))
+        changed=copy.deepcopy(parameters);changed['size']=65
+        reject('stack output count exceeds typed local',lambda:compare_output(output,outputs,words,changed,events,original))
+        changed=copy.deepcopy(output);changed['evidence_sha256']='0'*64
+        reject('stack output stale frame/callsite proof',lambda:validate_output(changed,original))
     description=next(r for r in config['functions']if r['name']=='open_buffered_file')['parameters']
     permission=next(r for r in description if r['name']=='permission')
     if permission.get('inactive_when'):
@@ -81,6 +110,22 @@ def main():
         reject('conditional CRT changed whole-body evidence',lambda:validate_seam(config,original,good,changed))
         changed=copy.deepcopy(record);changed['evidence_sha256']='0'*64
         reject('conditional CRT changed CFG/callee evidence',lambda:validate_seam(config,original,good,changed))
+    if config.get('read_observations'):
+        from reads import validate as validate_reads,compare as compare_reads
+        sites=validate_reads(config,original);site=sites[0]
+        sample=('read-entry %08x 0 00004000 4 0 0 3 01 4096 aabbccdd\nread-rearm %08x 0002a400\nread-return %08x 2 0 2 3 01 4096 0600ccdd\nread-rearm %08x %08x\n')%(site['call'],site['call'],site['call'],site['returned'],site['returned']+3)
+        observed=[dict(site=site['call'],handle=0,address=0x5000,count=4,entry_errno=0,entry_position=0,descriptor=3,entry_osfile=1,entry_host_position=4096,prebytes='eeee1234',returned=2,errno=0,position=2,descriptor_return=3,osfile=1,host_position=4096,postbytes='06001234')]
+        compare_reads(sample,observed,sites)
+        reject('missing per-read observations',lambda:compare_reads('',[],sites))
+        reject('missing read breakpoint rearm',lambda:compare_reads(sample.replace('read-rearm %08x 0002a400\n'%site['call'],''),observed,sites))
+        changed=copy.deepcopy(observed);changed[0]['postbytes']='07001234'
+        reject('defined read output differs',lambda:compare_reads(sample,changed,sites))
+        changed=copy.deepcopy(observed);changed[0]['postbytes']='06001235'
+        reject('short read altered undefined tail',lambda:compare_reads(sample,changed,sites))
+        changed=copy.deepcopy(observed);changed[0]['returned']=3
+        reject('read return count differs',lambda:compare_reads(sample,changed,sites))
+        changed=copy.deepcopy(observed);changed[0]['host_position']+=1
+        reject('read underlying descriptor position differs',lambda:compare_reads(sample,changed,sites))
     validate_ownership(config,original,good,context)
     ownership_mutations={}
     changed=copy.deepcopy(config)

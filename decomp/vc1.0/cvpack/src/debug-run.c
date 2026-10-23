@@ -282,11 +282,18 @@ static int load_plan(char *path)
     return 1;
 }
 
+typedef struct ReadSite { DWORD call, returned; } ReadSite;
+static ReadSite read_sites[32];
+static DWORD read_site_count, read_step_site, read_step_address, read_saved_tf;
+static DWORD read_active_site, read_address, read_size, read_handle;
+static unsigned char read_step_byte, read_before[4096];
+
 static int restore_runtime(HANDLE child, HANDLE original, HANDLE log,
                            HANDLE thread, DWORD address)
 {
     unsigned i;
-    DWORD bytes, length, written;
+    DWORD bytes, length, written, j;
+    unsigned char trap = 0xcc;
     CONTEXT context;
     char line[128];
     for (i = 0; i < range_count; ++i) {
@@ -296,6 +303,12 @@ static int restore_runtime(HANDLE child, HANDLE original, HANDLE log,
             !ReadFile(original, original_bytes, length, &bytes, 0) || bytes != length ||
             !WriteProcessMemory(child, (void *)address, original_bytes, length, &bytes) ||
             bytes != length) return -1;
+        for (j = 0; j < read_site_count; ++j) {
+            if (address <= read_sites[j].call && read_sites[j].returned < address+length) {
+                if (!WriteProcessMemory(child, (void *)read_sites[j].call, &trap, 1, &bytes) || bytes != 1 ||
+                    !WriteProcessMemory(child, (void *)read_sites[j].returned, &trap, 1, &bytes) || bytes != 1) return -1;
+            }
+        }
         FlushInstructionCache(child, (void *)address, length);
         memset(&context, 0, sizeof(context));
         context.ContextFlags = CONTEXT_CONTROL;
@@ -361,6 +374,119 @@ static void dump_inspections(HANDLE child, HANDLE log)
     }
 }
 
+/* Typed header reads observed before and immediately after the original call. */
+
+static int read_state(HANDLE child, DWORD handle, DWORD *position, DWORD *fd, DWORD *flags, DWORD *host_position)
+{
+    DWORD table, slot, page, raw_handle, bytes;
+    HANDLE duplicate;
+    if (handle >= 64 || !ReadProcessMemory(child, (void *)0x33000, &table, 4, &bytes) || bytes != 4 ||
+        !ReadProcessMemory(child, (void *)(table+handle*4), &slot, 4, &bytes) || bytes != 4 ||
+        !ReadProcessMemory(child, (void *)(slot+4), flags, 4, &bytes) || bytes != 4 || (*flags & 8) ||
+        !ReadProcessMemory(child, (void *)(slot+16), fd, 4, &bytes) || bytes != 4 || *fd >= 64 ||
+        !ReadProcessMemory(child, (void *)(slot+32), &page, 4, &bytes) || bytes != 4 || !page ||
+        !ReadProcessMemory(child, (void *)(page+12), position, 4, &bytes) || bytes != 4 ||
+        !ReadProcessMemory(child, (void *)(0x39740+*fd*4), &raw_handle, 4, &bytes) || bytes != 4)
+        return 0;
+    *flags = 0;
+    if (!ReadProcessMemory(child, (void *)(0x39700+*fd), flags, 1, &bytes) || bytes != 1 ||
+        !DuplicateHandle(child, (HANDLE)raw_handle, GetCurrentProcess(), &duplicate, 0, FALSE, DUPLICATE_SAME_ACCESS)) return 0;
+    SetLastError(0);
+    *host_position = SetFilePointer(duplicate, 0, 0, FILE_CURRENT);
+    CloseHandle(duplicate);
+    return *host_position != 0xffffffff || !GetLastError();
+}
+
+static int observe_read(HANDLE child, HANDLE thread, HANDLE log, DWORD address)
+{
+    CONTEXT context;
+    DWORD i, words[3], bytes, written, error, position, fd, flags, host_position;
+    unsigned char byte, expected[5];
+    int before, used;
+    for (i = 0; i < read_site_count; ++i) {
+        before = read_sites[i].call == address;
+        if (!before && read_sites[i].returned != address) continue;
+        if (read_step_site) return -1;
+        memset(&context, 0, sizeof(context)); context.ContextFlags = CONTEXT_FULL;
+        if (!GetThreadContext(thread, &context) || (context.EFlags & 0x100) ||
+            !ReadProcessMemory(child, (void *)context.Esp, words, sizeof(words), &bytes) || bytes != sizeof(words) ||
+            !ReadProcessMemory(child, (void *)0x39614, &error, 4, &bytes) || bytes != 4) return -1;
+        if (before) {
+            if (read_active_site || words[2] > sizeof(read_before) || !words[2]) return -1;
+            read_active_site = address; read_handle = words[0]; read_address = words[1]; read_size = words[2];
+            if (!ReadProcessMemory(child, (void *)read_address, read_before, read_size, &bytes) || bytes != read_size ||
+                !read_state(child, read_handle, &position, &fd, &flags, &host_position)) return -1;
+            used = sprintf(object_line, "read-entry %08lx %lu %08lx %lu %lu %ld %lu %02lx %lu ",
+                address, read_handle, read_address, read_size, error, (long)position, fd, flags, host_position);
+            for (i = 0; i < read_size; ++i) used += sprintf(object_line+used, "%02x", read_before[i]);
+            byte = 0xe8;
+            read_step_address = 0x2a400; /* CALL's single-step arrives at read_file. */
+        } else {
+            if (read_active_site != read_sites[i].call || words[0] != read_handle || words[1] != read_address || words[2] != read_size ||
+                (long)context.Eax < -1 || (long)context.Eax > (long)read_size ||
+                !ReadProcessMemory(child, (void *)read_address, array_bytes, read_size, &bytes) || bytes != read_size ||
+                !read_state(child, read_handle, &position, &fd, &flags, &host_position)) return -1;
+            used = sprintf(object_line, "read-return %08lx %ld %lu %ld %lu %02lx %lu ",
+                read_active_site, (long)context.Eax, error, (long)position, fd, flags, host_position);
+            for (i = 0; i < read_size; ++i) used += sprintf(object_line+used, "%02x", array_bytes[i]);
+            read_active_site = 0;
+            byte = 0x83; read_step_address = address+3;
+        }
+        object_line[used++] = '\n';
+        if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used ||
+            !ReadProcessMemory(child, (void *)(address+1), expected, before ? 4 : 2, &bytes) || bytes != (before ? 4 : 2) ||
+            (!before && (expected[0] != 0xc4 || expected[1] != 0x0c)) ||
+            !WriteProcessMemory(child, (void *)address, &byte, 1, &bytes) || bytes != 1) return -1;
+        FlushInstructionCache(child, (void *)address, 1);
+        read_step_site = address; read_step_byte = byte; read_saved_tf = context.EFlags & 0x100;
+        context.Eip = address; context.EFlags |= 0x100;
+        return SetThreadContext(thread, &context) ? 1 : -1;
+    }
+    return 0;
+}
+
+static int rearm_read(HANDLE child, HANDLE thread, HANDLE log, DWORD address)
+{
+    CONTEXT context;
+    DWORD bytes, written;
+    unsigned char trap = 0xcc;
+    char line[160];
+    memset(&context, 0, sizeof(context));context.ContextFlags = CONTEXT_CONTROL;
+    if (!read_step_site || address != read_step_address || !GetThreadContext(thread, &context) ||
+        context.Eip != read_step_address || !WriteProcessMemory(child, (void *)read_step_site, &trap, 1, &bytes) || bytes != 1) return -1;
+    FlushInstructionCache(child, (void *)read_step_site, 1);
+    context.EFlags = (context.EFlags & ~0x100UL) | read_saved_tf;
+    if (!SetThreadContext(thread, &context)) return -1;
+    sprintf(line, "read-rearm %08lx %08lx\n", read_step_site, read_step_address);
+    WriteFile(log, line, strlen(line), &written, 0);
+    read_step_site = read_step_address = 0;
+    return 1;
+}
+
+static int dump_output_buffers(HANDLE child, HANDLE log, DWORD entry, DWORD *words)
+{
+    char specifications[2048], *cursor;
+    DWORD address, slot, size, bytes, written, i;
+    int consumed, used;
+    if (!GetEnvironmentVariableA("CVPACK_CAPTURE_OUTPUTS", specifications, sizeof(specifications))) return 1;
+    cursor = specifications;
+    while (*cursor) {
+        if (sscanf(cursor, "%lx:%lu:%lu%n", &address, &slot, &size, &consumed) != 3) return 0;
+        if (address == entry) {
+            if (slot > 15 || !size || size > 1024 ||
+                !ReadProcessMemory(child, (void *)words[slot], original_bytes, size, &bytes) || bytes != size) return 0;
+            used = sprintf(object_line, "output-buffer %08lx ", words[slot]);
+            for (i = 0; i < size; ++i) used += sprintf(object_line+used, "%02x", original_bytes[i]);
+            object_line[used++] = '\n';
+            if (!WriteFile(log, object_line, used, &written, 0) || written != (DWORD)used) return 0;
+        }
+        cursor += consumed;
+        if (*cursor == ',') ++cursor;
+        else if (*cursor) return 0;
+    }
+    return 1;
+}
+
 static void dump_process_arguments(HANDLE child, HANDLE log)
 {
     DWORD arguments[3], bytes;
@@ -379,7 +505,7 @@ static int dump_walks(HANDLE child, HANDLE log)
     DWORD root, size, next, limit, count_address, pointer, bytes, written, i, j, elements;
     int consumed, used;
     DWORD string_root, offset, address, length;
-    DWORD count_offset, shift, maximum, flags_offset, flags_mask, flags_value, flags;
+    DWORD count_offset, shift, maximum, flags_offset, flags_mask, flags_value, flags, element_size;
     int field_consumed;
     if (!GetEnvironmentVariableA("CVPACK_CAPTURE_WALKS", specifications, sizeof(specifications)))
         return 1;
@@ -439,18 +565,21 @@ static int dump_walks(HANDLE child, HANDLE log)
             if (GetEnvironmentVariableA("CVPACK_CAPTURE_ARRAYS", arrays, sizeof(arrays))) {
                 field = arrays;
                 while (*field) {
-                    if (sscanf(field, "%lx:%lu:%lu:%lu:%lu:%lu:%lx:%lx%n", &string_root,
+                    if (sscanf(field, "%lx:%lu:%lu:%lu:%lu:%lu:%lx:%lx:%lu%n", &string_root,
                         &offset, &count_offset, &shift, &maximum, &flags_offset,
-                        &flags_mask, &flags_value, &field_consumed) != 8) return 0;
+                        &flags_mask, &flags_value, &element_size, &field_consumed) != 9) return 0;
                     if (string_root == root) {
-                        if (offset+4 > size || count_offset+4 > size || flags_offset+4 > size || shift > 31) return 0;
+                        if (offset > size-4 || (count_offset != 0xffffffff && count_offset > size-4) || flags_offset > size-4 || shift > 31 || (element_size != 1 && element_size != 4)) return 0;
                         memcpy(&flags, original_bytes+flags_offset, 4);
                         if ((flags & flags_mask) == flags_value) {
                             memcpy(&address, original_bytes+offset, 4);
-                            memcpy(&length, original_bytes+count_offset, 4);
-                            length >>= shift;
-                            if (length > maximum || length > sizeof(array_bytes)/4) return 0;
-                            length = address ? length*4 : 0;
+                            if (count_offset == 0xffffffff) length = maximum;
+                            else {
+                                memcpy(&length, original_bytes+count_offset, 4);
+                                length >>= shift;
+                            }
+                            if (length > maximum || length > sizeof(array_bytes)/element_size) return 0;
+                            length = address ? length*element_size : 0;
                             if (length && (!ReadProcessMemory(child, (void *)address, array_bytes,
                                 length, &bytes) || bytes != length)) return 0;
                             used = sprintf(object_line, "node-array %08lx %lu %lu %08lx ", root, i, offset, address);
@@ -535,6 +664,17 @@ int main(int argc, char **argv)
             strlen(argv[6])+strlen(sopen_name)+2 >= sizeof(sopen_input)) return 14;
         sprintf(sopen_input, "%s\\%s", argv[6], sopen_name);
     }
+    if (GetEnvironmentVariableA("CVPACK_CAPTURE_READS", program, sizeof(program))) {
+        char *cursor = program;
+        int consumed;
+        while (*cursor) {
+            if (read_site_count == 32 || sscanf(cursor, "%lx:%lx%n", &read_sites[read_site_count].call,
+                &read_sites[read_site_count].returned, &consumed) != 2) return 18;
+            ++read_site_count; cursor += consumed;
+            if (*cursor == ',') ++cursor;
+            else if (*cursor) return 18;
+        }
+    }
     strcpy(child_environment, "LIB=");
     environment_length = GetEnvironmentVariableA("LIB", child_environment+4, sizeof(child_environment)-16);
     if (!environment_length || environment_length >= sizeof(child_environment)-16) return 10;
@@ -566,6 +706,19 @@ int main(int argc, char **argv)
                 loader_break = 1;
             } else {
                 thread = event.dwThreadId == child.dwThreadId ? child.hThread : 0;
+                if (read_step_site && thread && event.u.Exception.ExceptionRecord.ExceptionCode == EXCEPTION_SINGLE_STEP) {
+                    if (rearm_read(child.hProcess, thread, log, (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress) < 0) return 19;
+                    ContinueDebugEvent(event.dwProcessId, event.dwThreadId, disposition);
+                    continue;
+                }
+                if (read_site_count && thread && event.u.Exception.ExceptionRecord.ExceptionCode == EXCEPTION_BREAKPOINT) {
+                    restored = observe_read(child.hProcess, thread, log, (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress);
+                    if (restored < 0) return 20;
+                    if (restored) {
+                        ContinueDebugEvent(event.dwProcessId, event.dwThreadId, disposition);
+                        continue;
+                    }
+                }
                 if (sopen_start && thread && event.u.Exception.ExceptionRecord.ExceptionCode == EXCEPTION_SINGLE_STEP) {
                     if (rearm_sopen(child.hProcess, log, thread,
                         (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress) < 0) return 15;
@@ -623,6 +776,7 @@ int main(int argc, char **argv)
                         }
                     }
                 }
+                if (!dump_output_buffers(child.hProcess, log, (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress, words)) return 15;
                 dump_process_arguments(child.hProcess, log);
                 dump_inspections(child.hProcess, log);
                 if (!dump_walks(child.hProcess, log)) return 13;

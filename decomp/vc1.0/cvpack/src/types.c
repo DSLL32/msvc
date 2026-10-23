@@ -54,3 +54,10 @@ void initialize_buffer(GrowingBuffer *buffer, unsigned long size)
     for (i = 0; i < 6; ++i) words[i] = 0;
     buffer->block_size = size;
 }
+
+void *checked_alloc(unsigned long size)
+{
+    void *data = malloc(size);
+    if (!data) fatal_error(13, NULL, NULL);
+    return data;
+}

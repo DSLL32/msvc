@@ -2,7 +2,7 @@ PYTHON ?= python3
 RECON = ../../../lib/recon
 TOOL = $(PYTHON) scripts/wine-tool.py
 SOURCES = $(filter-out src/debug-run.c,$(wildcard src/*.c))
-HEADERS = src/cvpack.h $(RECON)/include/recon.h
+HEADERS = src/cvpack.h src/image.h $(RECON)/include/recon.h
 OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES))
 NATIVE_CC ?= clang
 NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g

@@ -96,9 +96,14 @@ def compare_walks(specifications,original,native):
                 entries=[]
                 for raw,payload in ((left,old),(right,new)):
                     assert int.from_bytes(raw[offset:offset+4],'little')==payload['address']
-                    count=int.from_bytes(raw[description['count_offset']:description['count_offset']+4],'little')>>description['count_shift']
+                    count=description['fixed_count']if 'fixed_count'in description else int.from_bytes(raw[description['count_offset']:description['count_offset']+4],'little')>>description['count_shift']
                     assert count<=description['max_count']
-                    assert len(bytes.fromhex(payload['bytes']))==(count*4 if payload['address']else 0)
+                    assert len(bytes.fromhex(payload['bytes']))==(count*description.get('element_size',4)if payload['address']else 0)
+                if not description.get('pointers',True):
+                    assert old['bytes']==new['bytes'],('binary array contents differ',name,index,offset)
+                    arrays[str(offset)]=dict(bytes=len(bytes.fromhex(old['bytes'])),sha256=hashlib.sha256(bytes.fromhex(old['bytes'])).hexdigest())
+                    continue
+                assert description.get('element_size',4)==4
                 for entry in range(0,len(old['bytes'])//2,4):
                     values=[int.from_bytes(bytes.fromhex(payload['bytes'])[entry:entry+4],'little')for payload in (old,new)]
                     identities=[('sentinel',value)if value in description.get('sentinels',[])else logical(value,space)for value,space in zip(values,(original_names,native_names))]
@@ -106,6 +111,8 @@ def compare_walks(specifications,original,native):
                     entries.append(identities[0])
                 arrays[str(offset)]=entries
             fields=list(range(0,len(left),4)) if item.get('pointer_array') else item.get('pointer_fields',[])
+            if item.get('pointer_stride'):
+                stride=item['pointer_stride'];fields=list(range(stride['start'],len(left),stride['stride']))
             pointers={}
             for offset in fields:
                 old=int.from_bytes(left[offset:offset+4],'little')
