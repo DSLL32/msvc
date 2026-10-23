@@ -57,6 +57,6 @@ unsigned char __stdcall rc_based_integer_kind(int value);
 unsigned char __stdcall rc_decimal_integer_kind(int value);
 unsigned char __stdcall rc_long_integer_kind(int value);
 unsigned char __stdcall rc_unsigned_integer_kind(unsigned value);
-void * __stdcall rc_store_integer(unsigned short token,const unsigned *value);
+void * __stdcall rc_store_integer(unsigned token,const unsigned *value);
 int __stdcall rc_digit_value(int character);
 #endif

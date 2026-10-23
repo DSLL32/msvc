@@ -242,12 +242,6 @@ unsigned char __stdcall rc_based_integer_kind(int value)
     return 0;
 }
 
-unsigned char __stdcall rc_decimal_integer_kind(int value)
-{
-    __asm int 3
-    return 0;
-}
-
 unsigned char __stdcall rc_long_integer_kind(int value)
 {
     __asm int 3
@@ -260,7 +254,7 @@ unsigned char __stdcall rc_unsigned_integer_kind(unsigned value)
     return 0;
 }
 
-void * __stdcall rc_store_integer(unsigned short token,const unsigned *value)
+void * __stdcall rc_store_integer(unsigned token,const unsigned *value)
 {
     __asm int 3
     return 0;

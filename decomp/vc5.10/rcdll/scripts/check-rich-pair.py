@@ -8,9 +8,9 @@ import shutil
 import tempfile
 import time
 from protocol import HERE,sha
-from rich_protocol import release_entry,release_trial,prepare_trial,write_trial,detect_trial,unicode_trial,line_trial,prefix_trial,notify_trial,preprocess_trial,widen_trial,preprocessor_main_trial,next_argument_trial,scan_options_trial,apply_option_trial,option_number_trial,open_preprocessor_trial,character_token_trial,character_class_trial,macro_hash_trial,define_macro_trial,find_macro_trial,copy_macro_trial,open_source_trial,refill_source_trial,duplicate_source_name_trial,emit_source_line_trial,write_preprocessed_trial,quote_source_filename_trial,character_token_lookup_trial,list_macro_trial,scan_line_start_trial,handle_directive_trial,read_nonspace_trial,read_identifier_trial,character_class_lookup_trial,directive_code_trial,next_token_trial,read_number_trial,logical_character_trial,integer_value_trial,digit_value_trial
-p=argparse.ArgumentParser();p.add_argument('--original',required=True,type=Path);p.add_argument('--native',required=True,type=Path);p.add_argument('--output',type=Path);p.add_argument('--stage',choices=['entry','trial','prepare','write','detect','unicode','line','prefix','notify','preprocess','widen','preprocessor-main','next-argument','scan-options','apply-option','option-number','open-preprocessor','character-token','character-class','macro-hash','define-macro','find-macro','copy-macro','open-source','refill-source','duplicate-source-name','emit-source-line','write-preprocessed','quote-source-filename','character-token-lookup','list-macro','scan-line-start','handle-directive','read-nonspace','read-identifier','character-class-lookup','directive-code','next-token','read-number','logical-character','integer-value','digit-value'],default='trial')
-a=p.parse_args();started=time.perf_counter();validate={'entry':release_entry,'trial':release_trial,'prepare':prepare_trial,'write':write_trial,'detect':detect_trial,'unicode':unicode_trial,'line':line_trial,'prefix':prefix_trial,'notify':notify_trial,'preprocess':preprocess_trial,'widen':widen_trial,'preprocessor-main':preprocessor_main_trial,'next-argument':next_argument_trial,'scan-options':scan_options_trial,'apply-option':apply_option_trial,'option-number':option_number_trial,'open-preprocessor':open_preprocessor_trial,'character-token':character_token_trial,'character-class':character_class_trial,'macro-hash':macro_hash_trial,'define-macro':define_macro_trial,'find-macro':find_macro_trial,'copy-macro':copy_macro_trial,'open-source':open_source_trial,'refill-source':refill_source_trial,'duplicate-source-name':duplicate_source_name_trial,'emit-source-line':emit_source_line_trial,'write-preprocessed':write_preprocessed_trial,'quote-source-filename':quote_source_filename_trial,'character-token-lookup':character_token_lookup_trial,'list-macro':list_macro_trial,'scan-line-start':scan_line_start_trial,'handle-directive':handle_directive_trial,'read-nonspace':read_nonspace_trial,'read-identifier':read_identifier_trial,'character-class-lookup':character_class_lookup_trial,'directive-code':directive_code_trial,'next-token':next_token_trial,'read-number':read_number_trial,'logical-character':logical_character_trial,'integer-value':integer_value_trial,'digit-value':digit_value_trial}[a.stage];proof=validate(a.original,a.native);controls=[];scope_controls=[]
+from rich_protocol import release_entry,release_trial,prepare_trial,write_trial,detect_trial,unicode_trial,line_trial,prefix_trial,notify_trial,preprocess_trial,widen_trial,preprocessor_main_trial,next_argument_trial,scan_options_trial,apply_option_trial,option_number_trial,open_preprocessor_trial,character_token_trial,character_class_trial,macro_hash_trial,define_macro_trial,find_macro_trial,copy_macro_trial,open_source_trial,refill_source_trial,duplicate_source_name_trial,emit_source_line_trial,write_preprocessed_trial,quote_source_filename_trial,character_token_lookup_trial,list_macro_trial,scan_line_start_trial,handle_directive_trial,read_nonspace_trial,read_identifier_trial,character_class_lookup_trial,directive_code_trial,next_token_trial,read_number_trial,logical_character_trial,integer_value_trial,digit_value_trial,decimal_kind_trial
+p=argparse.ArgumentParser();p.add_argument('--original',required=True,type=Path);p.add_argument('--native',required=True,type=Path);p.add_argument('--output',type=Path);p.add_argument('--stage',choices=['entry','trial','prepare','write','detect','unicode','line','prefix','notify','preprocess','widen','preprocessor-main','next-argument','scan-options','apply-option','option-number','open-preprocessor','character-token','character-class','macro-hash','define-macro','find-macro','copy-macro','open-source','refill-source','duplicate-source-name','emit-source-line','write-preprocessed','quote-source-filename','character-token-lookup','list-macro','scan-line-start','handle-directive','read-nonspace','read-identifier','character-class-lookup','directive-code','next-token','read-number','logical-character','integer-value','digit-value','decimal-kind'],default='trial')
+a=p.parse_args();started=time.perf_counter();validate={'entry':release_entry,'trial':release_trial,'prepare':prepare_trial,'write':write_trial,'detect':detect_trial,'unicode':unicode_trial,'line':line_trial,'prefix':prefix_trial,'notify':notify_trial,'preprocess':preprocess_trial,'widen':widen_trial,'preprocessor-main':preprocessor_main_trial,'next-argument':next_argument_trial,'scan-options':scan_options_trial,'apply-option':apply_option_trial,'option-number':option_number_trial,'open-preprocessor':open_preprocessor_trial,'character-token':character_token_trial,'character-class':character_class_trial,'macro-hash':macro_hash_trial,'define-macro':define_macro_trial,'find-macro':find_macro_trial,'copy-macro':copy_macro_trial,'open-source':open_source_trial,'refill-source':refill_source_trial,'duplicate-source-name':duplicate_source_name_trial,'emit-source-line':emit_source_line_trial,'write-preprocessed':write_preprocessed_trial,'quote-source-filename':quote_source_filename_trial,'character-token-lookup':character_token_lookup_trial,'list-macro':list_macro_trial,'scan-line-start':scan_line_start_trial,'handle-directive':handle_directive_trial,'read-nonspace':read_nonspace_trial,'read-identifier':read_identifier_trial,'character-class-lookup':character_class_lookup_trial,'directive-code':directive_code_trial,'next-token':next_token_trial,'read-number':read_number_trial,'logical-character':logical_character_trial,'integer-value':integer_value_trial,'digit-value':digit_value_trial,'decimal-kind':decimal_kind_trial}[a.stage];proof=validate(a.original,a.native);controls=[];scope_controls=[]
 with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/rcdll')as scratch:
     old=Path(scratch)/'original';new=Path(scratch)/'native'
     shutil.copytree(a.original,old);shutil.copytree(a.native,new)
@@ -29,7 +29,7 @@ with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/ms
         def apply(path):
             value=json.loads(path.read_text());change(value);path.write_text(json.dumps(value))
         return apply
-    if a.stage not in ['emit-source-line','write-preprocessed','quote-source-filename','character-token-lookup','list-macro','scan-line-start','handle-directive','read-nonspace','read-identifier','character-class-lookup','directive-code','next-token','read-number','logical-character','integer-value','digit-value']:
+    if a.stage not in ['emit-source-line','write-preprocessed','quote-source-filename','character-token-lookup','list-macro','scan-line-start','handle-directive','read-nonspace','read-identifier','character-class-lookup','directive-code','next-token','read-number','logical-character','integer-value','digit-value','decimal-kind']:
         reject('wrong-callee','native','snapshot.json',snapshot(lambda v:v.update(function='Handler')))
         reject('missing-native-int3','native','snapshot.json',snapshot(lambda v:v.update(executed_byte='90')))
         reject('changed-current-argv','native','snapshot.json',snapshot(lambda v:v['export_vector'][2].update(text='wrong')))
@@ -323,6 +323,16 @@ with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/ms
         reject('wrong-directive-word-bytes','native','snapshot.json',snapshot(lambda v:v['arguments']['directive_word'].update(bytes='0000')))
         reject('wrong-directive-word-width','native','snapshot.json',snapshot(lambda v:v['arguments']['directive_word'].update(formal_bytes=2)))
         reject('wrong-directive-entry-flag','native','snapshot.json',snapshot(lambda v:v['arguments']['preprocessor']['globals']['rc_in_directive'].update(bytes='00000000')))
+    if a.stage=='decimal-kind':
+        reject('wrong-decimal-kind-return','native','snapshot.json',snapshot(lambda v:v['arguments']['integer_kinds'][0].update(result=8)))
+        reject('wrong-decimal-kind-AL','native','integer-kinds.json',snapshot(lambda v:v[0].update(raw_eax=v[0]['raw_eax']^1)))
+        reject('wrong-decimal-kind-cleanup','native','snapshot.json',snapshot(lambda v:v['arguments']['integer_kinds'][0].update(return_esp=0)))
+        reject('wrong-store-token','native','snapshot.json',snapshot(lambda v:v['arguments']['store'].update(token=8)))
+        reject('wrong-store-token-slot','native','snapshot.json',snapshot(lambda v:v['arguments']['store']['formal_bytes'].update(token=1)))
+        reject('wrong-store-value-owner','native','snapshot.json',snapshot(lambda v:v['arguments']['store'].update(value=0)))
+        reject('wrong-store-initialized-input','native','snapshot.json',snapshot(lambda v:v['arguments']['store'].update(payload='00000000')))
+        reject('wrong-store-read-extent','native','snapshot.json',snapshot(lambda v:v['arguments']['store'].update(initialized_bytes=8)))
+        reject('wrong-original-kind-return','original','events.txt',lambda p:p.write_text(p.read_text().replace('integer-kind-return value=7','integer-kind-return value=8')))
     if a.stage=='digit-value':
         reject('wrong-digit-return','native','digit-values.json',snapshot(lambda v:v[0].update(result=0)))
         reject('wrong-digit-return-stack','native','snapshot.json',snapshot(lambda v:v['arguments']['digit_values'][0].update(return_esp=0)))
@@ -402,7 +412,7 @@ with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/ms
         reject('wrong-character-width','native','snapshot.json',snapshot(lambda v:v['arguments']['character']['formal_bytes'].update(character=4)))
         reject('wrong-forwarded-output','native','snapshot.json',snapshot(lambda v:v['arguments']['open'].update(output=0)))
         reject('wrong-setup-errors','native','snapshot.json',snapshot(lambda v:v['crt_errors'].update(errno=2)))
-    if a.stage not in ['emit-source-line','write-preprocessed','quote-source-filename','character-token-lookup','list-macro','scan-line-start','handle-directive','read-nonspace','read-identifier','character-class-lookup','directive-code','next-token','read-number','logical-character','integer-value','digit-value']:
+    if a.stage not in ['emit-source-line','write-preprocessed','quote-source-filename','character-token-lookup','list-macro','scan-line-start','handle-directive','read-nonspace','read-identifier','character-class-lookup','directive-code','next-token','read-number','logical-character','integer-value','digit-value','decimal-kind']:
         reject('wrong-allocation-owner','native','snapshot.json',snapshot(lambda v:v['heap_identity']['blocks'][0].update(owner=0)))
         reject('wrong-registered-module','native','snapshot.json',snapshot(lambda v:v['module'].update(sha256='0'*64)))
         reject('wrong-codepage','native','snapshot.json',snapshot(lambda v:v['globals'].update(rc_codepage='00000000')))
@@ -441,6 +451,20 @@ with tempfile.TemporaryDirectory(prefix='rich-gate-',dir=Path.home()/'.ai-tmp/ms
         (new/'snapshot.json').write_text(json.dumps(state));refresh(new,'snapshot.json')
         (new/'logical-reads.json').write_text(json.dumps(records));refresh(new,'logical-reads.json')
         validate(old,new);scope_controls.append('unclaimed-return-upper-EAX-bits-ignored')
+        for name,value in saved.items():(new/name).write_bytes(value)
+        validate(old,new)
+    if a.stage=='decimal-kind':
+        saved={name:(new/name).read_bytes()for name in ['snapshot.json','integer-kinds.json','receipt.json']}
+        state=json.loads(saved['snapshot.json']);records=json.loads(saved['integer-kinds.json'])
+        for rows in [state['arguments']['integer_kinds'],records]:
+            for row in rows:row['raw_eax']=0xa5a50000|row['result']
+        (new/'snapshot.json').write_text(json.dumps(state));refresh(new,'snapshot.json')
+        (new/'integer-kinds.json').write_text(json.dumps(records));refresh(new,'integer-kinds.json')
+        validate(old,new);scope_controls.append('unclaimed-kind-return-upper-EAX-ignored')
+        for name,value in saved.items():(new/name).write_bytes(value)
+        state=json.loads(saved['snapshot.json']);state['arguments']['store']['token']=0xa5a50007
+        (new/'snapshot.json').write_text(json.dumps(state));refresh(new,'snapshot.json')
+        validate(old,new);scope_controls.append('valid-numeric-token-unused-upper24-ignored')
         for name,value in saved.items():(new/name).write_bytes(value)
         validate(old,new)
 if a.stage=='emit-source-line':
@@ -491,6 +515,9 @@ if a.stage=='integer-value':
 if a.stage=='digit-value':
     reused=HERE/'cases/resources-rich-trailing-space/integer-value-verification.json';record=json.loads(reused.read_text())
     proof['reused_controls']=dict(record=str(reused.relative_to(HERE)),sha256=sha(reused),names=record['fresh_negative_names']+record['negative_controls']['reused']['names'],checker_and_contract_versions=record['validation_versions'],earlier_prefix=record['negative_controls']['reused'],reason='Unchanged full32-bit digit input/parent accumulator and raw-derived quote/source/transport positively rechecked. Fresh controls cover completed digit+integer returns/cleanup and next integer-kind formal/local initialized storage.')
+if a.stage=='decimal-kind':
+    reused=HERE/'cases/resources-rich-trailing-space/digit-value-verification.json';record=json.loads(reused.read_text())
+    proof['reused_controls']=dict(record=str(reused.relative_to(HERE)),sha256=sha(reused),names=record['fresh_negative_names']+record['negative_controls']['reused']['names'],checker_and_contract_versions=record['validation_versions'],earlier_prefix=record['negative_controls']['reused'],reason='Unchanged completed digit/integer returns and input/source/transport positively rechecked. New controls cover AL kind result, physical32-bit storage token with proven low8 consumption, and bounded initialized value pointer.')
 proof['scope_controls']=scope_controls
 proof['negative_controls']=controls
 proof['elapsed_seconds']=time.perf_counter()-started

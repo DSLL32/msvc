@@ -55,7 +55,8 @@
     "rc_read_number",
     "rc_get_logical_character",
     "rc_parse_integer_value",
-    "rc_digit_value"
+    "rc_digit_value",
+    "rc_decimal_integer_kind"
   ],
   "functions": [
     {
@@ -1328,8 +1329,7 @@
       "end": "0x126cb",
       "abi": "stdcall",
       "stack_bytes": 4,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_long_integer_kind",

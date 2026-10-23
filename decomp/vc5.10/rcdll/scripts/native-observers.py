@@ -514,3 +514,18 @@ class DigitValueEntered(gdb.Breakpoint):
         digit_values.append(entry);save_digit_values();DigitValueReturned(frame,entry);return False
 IntegerConversionEntered('rc_parse_integer_value',internal=True);save_integer_conversions()
 DigitValueEntered('rc_digit_value',internal=True);save_digit_values()
+
+
+integer_kinds=[]
+def save_integer_kinds():(path.parent/'integer-kinds.json').write_text(json.dumps(integer_kinds,indent=2)+'\n')
+class DecimalIntegerKindReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(gdb.parse_and_eval('$eax'))&255,raw_eax=int(gdb.parse_and_eval('$eax'))&0xffffffff,return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff)
+        save_integer_kinds();return False
+class DecimalIntegerKindEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();value=frame.read_var('value')
+        entry=dict(value=int(value),formal_bytes=value.type.sizeof,entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff)
+        integer_kinds.append(entry);save_integer_kinds();DecimalIntegerKindReturned(frame,entry);return False
+DecimalIntegerKindEntered('rc_decimal_integer_kind',internal=True);save_integer_kinds()

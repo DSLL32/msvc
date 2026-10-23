@@ -432,3 +432,12 @@ remain uninitialized and unclaimed.
 [Verification](cases/resources-rich-trailing-space/digit-value-verification.json)
 records nine fresh return/cleanup/formal/storage controls and separate timings.
 The full digit body preserves the alphabetic UTF16/towupper path.
+
+Decimal integer-kind selection is accepted (28 bytes): value1 returns AL7
+with ret4. The signed comparison and wrapping magnitude behavior are retained.
+[Verification](cases/resources-rich-trailing-space/decimal-kind-verification.json)
+records nine fresh controls and independent upper-EAX/token-spill scope controls.
+The next storage function receives a physical four-byte token and a pointer to
+four initialized value bytes in an eight-byte local. Valid numeric codes consume
+only the token low byte; both raw DWORDs remain recorded, with no padding seeded.
+Storage remains trapped; its full raw fallback needs its own guarded proof.
