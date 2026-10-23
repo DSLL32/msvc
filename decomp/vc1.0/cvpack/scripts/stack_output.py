@@ -12,11 +12,16 @@ def validate(item,pe):
         r=proof[part];assert hashlib.sha256(pe.read(r['start'],r['end']-r['start'])).hexdigest()==r['sha256'],'changed stack-output instruction evidence'
     if proof.get('location')=='allocation':
         a=proof['allocation']
-        assert (proof['owner'],proof['local'],proof['size'],proof['base_register'])==('collect_strip_records','record',28,'ebx'),'unreviewed constructor allocation output'
+        assert (proof['owner'],proof['local'],proof['size'])==('collect_strip_records','record',28),'unreviewed constructor allocation output'
         assert a==dict(size=28,callee=0x2cfb0,call=0x2844d,returned=0x28452,argument=0x2844b,carrier=0x28455),'unreviewed allocation birth/lifetime'
         assert pe.read(a['argument'],2)==b'\x6a\x1c'and pe.read(a['carrier'],2)==b'\x8b\xd8','allocation size/carrier def-use changed'
         assert pe.read(a['call'],1)==b'\xe8'and a['returned']+int.from_bytes(pe.read(a['call']+1,4),'little',signed=True)==a['callee'],'allocation callee changed'
-        assert proof['return_slots']==[dict(slot=0,address=0x2848c)],'unreviewed allocation constructor caller'
+        if proof['base_register']=='ebx':
+            assert proof['return_slots']==[dict(slot=0,address=0x2848c)],'unreviewed allocation constructor caller'
+        else:
+            assert proof['base_register']=='esi' and proof['return_slots']==[dict(slot=0,address=0x28d16),dict(slot=82,address=0x2848c)],'unreviewed forwarded allocation caller'
+            assert pe.read(0x28cb9,7)==bytes.fromhex('8bb42440010000')and pe.read(0x28d10,1)==b'\x56','constructor allocation forwarding changed'
+            assert proof['mode']=='input' and proof['defined_bytes']==28 and proof['initial_bytes']=='00'*28,'unproved constructor initialized state'
     else:
         assert proof.get('location','stack')=='stack','unknown typed output location'
         local_offset=proof['esp_offset']-proof['frame'].get('entry_bias',0)
@@ -44,11 +49,14 @@ def compare(item,descriptions,words,parameters,events,pe):
     defined=None
     if proof.get('mode')=='input':
         old=bytes.fromhex(match[1]);new=bytes.fromhex(actual['prebytes'])
-        if 'defined_bytes'in proof:
+        if proof.get('defined_cstring'):
+            assert b'\0'in old and b'\0'in new,'unterminated typed string input'
+            defined=old.index(0)+1;actual_length=new.index(0)+1
+        elif 'defined_bytes'in proof:
             defined=actual_length=proof['defined_bytes'];assert defined==proof['size'],'fixed input definition exceeds typed local'
         else:
             r=proof['defined_length'];defined=int.from_bytes(old[r['offset']:r['offset']+r['width']],'little')+r['bias']
             actual_length=int.from_bytes(new[r['offset']:r['offset']+r['width']],'little')+r['bias']
-        assert defined==actual_length and 4<=defined<=proof['size'],'invalid defined stack input length'
+        assert defined==actual_length and 1<=defined<=proof['size'],'invalid defined stack input length'
         assert old[:defined]==new[:defined],'defined stack input bytes differ'
     return dict(defined_input_bytes=defined,original_address=value,native_address=actual['address'],typed_local=actual['local'],original_undefined_bytes=match[1],native_undefined_bytes=actual['prebytes'])

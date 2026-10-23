@@ -5948,13 +5948,16 @@
       "native": "read_coff_file_name",
       "symbol": "_read_coff_file_name",
       "original": 166208,
-      "source": "src/stubs.c",
+      "source": "src/strip.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        166208,
+        166282
+      ],
       "abi": "unsigned short read_coff_file_name(char *,unsigned long)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0108-read_coff_file_name/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -5971,7 +5974,21 @@
           "kind": "integer",
           "bits": 32
         }
-      ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "set_coff_function_name",
@@ -5986,7 +6003,23 @@
       "stack_cleanup": 0,
       "evidence": null,
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "record",
+          "slot": 1,
+          "kind": "stack-input",
+          "evidence": "cases/abi/set-coff-name-record-input.json",
+          "evidence_sha256": "65af0b3433fc744774a00f8622a226cb424e0d753963d3ead2e811f680c094e0"
+        },
+        {
+          "name": "filename",
+          "slot": 2,
+          "kind": "stack-input",
+          "evidence": "cases/abi/set-coff-name-string-input.json",
+          "evidence_sha256": "c3b5353a59613e4347bfcc2f3f61ac8a2b49fd7293061281c3ca0a7ffd32c416"
+        }
+      ]
     },
     {
       "name": "assign_coff_function_module",
@@ -6715,6 +6748,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 107
+    },
+    {
+      "function": "read_coff_file_name",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 108
     }
   ],
   "support_unmasked": [
@@ -7313,7 +7352,7 @@
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "2069451f8c3fe24ada08f08185e5ed16ded754d4b56bd91699b20ca0eba6a3e4"
+    "evidence_sha256": "47f31ee482a80ebaf0b901f6111ca1f9c8eaf55f65f454efd885e25e86764f97"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -7389,6 +7428,6 @@
   },
   "scalar_block_observations": {
     "path": "cases/abi/scalar-block.json",
-    "sha256": "405fd61ab7e757d661e1ba401c9920df55a579cf4a0394e7bbf288585caf5423"
+    "sha256": "ce674791d12e21574b08a25e8707d9c9526f6a8515b61c1f8693d7ea0f349e4c"
   }
 }

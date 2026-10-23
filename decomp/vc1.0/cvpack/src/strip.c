@@ -283,3 +283,18 @@ unsigned short fill_coff_function(CoffFunction *record, const CoffSymbol *symbol
     set_coff_function_offset(record, offset);
     return 1;
 }
+
+unsigned short read_coff_file_name(char *filename, unsigned long index)
+{
+    CoffFileName *node = strip_file_names, *selected = node;
+    unsigned long i;
+
+    while (node->symbol <= index) {
+        selected = node;
+        node = node->next;
+        if (!node) break;
+    }
+    for (i = 0; selected->name[i]; ++i) filename[i] = selected->name[i];
+    filename[i] = 0;
+    return 1;
+}

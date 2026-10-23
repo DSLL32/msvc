@@ -133,7 +133,7 @@ void read_coff_function_lines(CoffFunction *record,CoffFunction *previous,unsign
 void set_coff_function_end(CoffFunction *record,unsigned long end) { __asm { int 3 } }
 CoffFunction *publish_coff_function(CoffFunction *record) { __asm { int 3 } return NULL; }
 
-unsigned short read_coff_file_name(char *filename,unsigned long index) { __asm { int 3 } return 0; }
+
 void set_coff_function_name(CoffFunction *record,const char *filename) { __asm { int 3 } }
 void assign_coff_function_module(CoffFunction *record,unsigned short section,unsigned long offset) { __asm { int 3 } }
 void set_coff_function_section(CoffFunction *record,unsigned short section) { __asm { int 3 } }
