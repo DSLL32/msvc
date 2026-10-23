@@ -52,7 +52,8 @@
     "rc_character_class",
     "rc_directive_code",
     "rc_next_token",
-    "rc_read_number"
+    "rc_read_number",
+    "rc_get_logical_character"
   ],
   "functions": [
     {
@@ -1193,8 +1194,7 @@
       "end": "0x12ba8",
       "abi": "cdecl",
       "stack_bytes": 0,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_resume_input",

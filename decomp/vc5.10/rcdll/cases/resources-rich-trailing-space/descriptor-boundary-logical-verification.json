@@ -1,0 +1,56 @@
+{
+  "status": "pass",
+  "kind": "descriptor",
+  "function": "rc_next_token",
+  "scope": "Native source INT3 stops the declared unsupported input before its unavailable data read. Authentic Win32 body is unchanged; unavailable alias/data remains unclaimed.",
+  "plain_runs": [
+    {
+      "argument": "7",
+      "status": 0,
+      "stdout": "393420370a",
+      "stderr": "",
+      "seconds": 0.004013669677078724
+    },
+    {
+      "argument": "128",
+      "status": -5,
+      "stdout": "",
+      "stderr": "",
+      "seconds": 0.003363298252224922
+    }
+  ],
+  "gdb": {
+    "status": 0,
+    "target_exit": null,
+    "signal": "SIGTRAP",
+    "argument_value": 128,
+    "guard_offset": 5017,
+    "seconds": 0.1318058343604207
+  },
+  "production_guard": {
+    "function": "0x7560",
+    "offset": 5017,
+    "same_compiled_object": true,
+    "guard_bytes": "0000833cc8007504cc"
+  },
+  "files": {
+    "target.o": "27f4ba1b6a844ca325d809c77827aee39648a6328866022362aece9c17fd514b",
+    "gdb.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "gdb.stdout": "83e85d9c3761ef6600c967a52c7dee9300430e1ab554a59070fc1ae9f2430378",
+    "probe-disassembly.txt": "89513b39697cd66dbabafb306d93ee535f1457be0bb769eaa2f9b751ca197209",
+    "compiled-source.json": "3d5aa09c87fe4851149a06ec99b00c573936eec5dde476fb26c8bc61ac96a203",
+    "probe.elf": "8587440543489c646f01cad89a79f1beb05cf149ae4b592b61598ba64ad6923c",
+    "production-compiled-source.json": "d70f62e1bb3e38bf275ffab537c56a32d3f7074f5ce11da904766b9a8710d601",
+    "production.elf": "c7376334a80f16469229f0aa1512b05e424a921fda387d61397cf589b872a07e"
+  },
+  "seconds": 0.22614322509616613,
+  "checker_sha256": "9d6da667367ba59a483c665c98d22135b280320e1389f97fe5688326690d9c1a",
+  "controlled_dependency": {
+    "name": "rc_read_number",
+    "localized_definition": "rc_read_number is local only in the auxiliary dependency object",
+    "source": "scripts/descriptor-boundary-host.c",
+    "known_result": 7,
+    "unknown_result": 128,
+    "scope": "Out-of-graph negative setup only, not number-parser acceptance or a target output claim."
+  }
+}

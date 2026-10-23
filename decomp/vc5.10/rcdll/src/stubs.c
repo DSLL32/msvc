@@ -174,11 +174,6 @@ int __stdcall rc_change_codepage(UINT page)
     return 0;
 }
 
-WCHAR __cdecl rc_get_logical_character(void)
-{
-    __asm int 3
-    return 0;
-}
 
 int __cdecl rc_resume_input(void)
 {

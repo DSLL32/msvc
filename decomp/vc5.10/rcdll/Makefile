@@ -108,7 +108,7 @@ build/native/directive-boundary-host: build/native/directive-names.o scripts/dir
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) build/native/directive-names.o scripts/directive-boundary-host.c $(NATIVE_SHIMS) -o $@
 	$(PYTHON) scripts/source-snapshot.py native build/native-directive-boundary-source.json --host scripts/directive-boundary-host.c
 
-# Auxiliary guard check: localize only the dependency stub being controlled.
+# Auxiliary guard check: localize only the dependency definition being controlled.
 # All target objects, including the lexer, remain the production objects.
 build/native/descriptor-number.o: build/native/numbers.o
 	objcopy --localize-symbol=rc_read_number $< $@

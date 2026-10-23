@@ -472,3 +472,18 @@ class DirectiveLookupEntered(gdb.Breakpoint):
         entry=dict(pointer=int(word),bytes=listing_wide(int(word)),formal_bytes=word.type.sizeof,entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff)
         directive_lookups.append(entry);save_directive_lookups();DirectiveLookupReturned(frame,entry);return False
 DirectiveLookupEntered('rc_directive_code',internal=True);save_directive_lookups()
+
+
+logical_reads=[]
+def save_logical_reads():(path.parent/'logical-reads.json').write_text(json.dumps(logical_reads,indent=2)+'\n')
+class LogicalCharacterReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(gdb.parse_and_eval('$eax'))&65535,raw_eax=int(gdb.parse_and_eval('$eax'))&0xffffffff,return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,cursor_after=int(gdb.parse_and_eval('rc_source_cursor')))
+        save_logical_reads();return False
+class LogicalCharacterEntered(gdb.Breakpoint):
+    def stop(self):
+        cursor=int(gdb.parse_and_eval('rc_source_cursor'));frame=gdb.newest_frame()
+        entry=dict(formals=[],cursor_before=cursor,word=int.from_bytes(bytes(gdb.selected_inferior().read_memory(cursor,2)),'little'),depth=int(gdb.parse_and_eval('rc_source_depth')),alternate_mode=int(gdb.parse_and_eval('rc_number_buffer_active')),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff)
+        logical_reads.append(entry);save_logical_reads();LogicalCharacterReturned(frame,entry);return False
+LogicalCharacterEntered('rc_get_logical_character',internal=True);save_logical_reads()

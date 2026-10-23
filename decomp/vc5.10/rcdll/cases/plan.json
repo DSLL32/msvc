@@ -51,7 +51,8 @@
     "rc_character_class",
     "rc_directive_code",
     "rc_next_token",
-    "rc_read_number"
+    "rc_read_number",
+    "rc_get_logical_character"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

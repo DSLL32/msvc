@@ -400,3 +400,20 @@ records eight fresh controls and exact initialized scratch/owner/cursor inputs.
 The alternate buffer is only an address identity, with no contents, capacity or
 data-extent credit. Native alternate mode traps before any dereference; mode0
 reaches the named reader stub. No complete integer result is claimed yet.
+
+A correction to acceptance0049's descriptive hidden-input field is recorded
+[here](cases/resources-rich-trailing-space/corrections/0049-source-word/verification.json):
+the next character is quote34, not space32. Both full raw source buffers and
+cursors were already checked; the old proof incorrectly constructed32 in its
+report. The current validator derives the word from both captured buffers.
+Old source versions, raw captures and acceptance0049 remain unchanged; its eight
+controls were rechecked against the archived ELF without running either binary.
+
+Logical-character reading is accepted (65 bytes). Its actual quote34 input and
+AX return, ret0 and two-byte cursor advance match; the number parser then
+rewinds and terminates scratch `1` before integer conversion at radix10.
+[Verification](cases/resources-rich-trailing-space/logical-character-verification.json)
+records eleven fresh controls, including raw source-word mutation with a
+matching declared word, plus an upper-EAX scope control. Descriptor guard probing
+also passes after adapting its auxiliary dependency object to the defined number
+parser. Source-boundary and splice behavior remain behind named helpers.
