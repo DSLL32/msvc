@@ -9,6 +9,7 @@ original, rebuilt, config, _, _ = indexes()
 names = publics()
 # Original locations identify semantic objects, never reconstruction storage.
 STATE = [
+    ("_asm_code_alignment",0x5b020,2),
     ("_symbol_aliases",0x6ce74,4),
     ("_legacy_field_bytes",0x5b250,4),
     ("_legacy_pointer_models",0x6e078,4),
@@ -57,7 +58,7 @@ STATE = [
     ('_asm_open_braces', 0x5b1e0, 4),
     ('_asm_address_mode', 0x5b010, 4),
     ('_asm_explicit_size', 0x5b134, 4),
-    ('_asm_data_size_codes', 0x72e70, 6),
+    ('_asm_operand_size_codes', 0x72e70, 9),
     ('_asm_operands', 0x5b028, 48),
     ('_asm_addresses', 0x5b074, 36),
     ('_asm_member_context', 0x5b130, 4),

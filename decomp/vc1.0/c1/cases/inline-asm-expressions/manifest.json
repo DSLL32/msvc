@@ -1,0 +1,78 @@
+{
+  "case": "inline-asm-expressions",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "c1": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f asm-expressions.c -Ze -Zp8 -Gs -Foasm-expressions.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/asm-expressions.c",
+          "bytes": 990,
+          "sha256": "a85d99f8f2629b45d5aa32cb5861996d1f89de382a39a257665bc458bea3cbb8"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1/irdb",
+          "bytes": 63,
+          "sha256": "44aa56d795ef9a53353bf228cd05c0beb6e9d413ae9ed96155756f6bbf50a978",
+          "output_name": "irdb"
+        },
+        {
+          "path": "expected/c1/irex",
+          "bytes": 1480,
+          "sha256": "be7a463d2c541bc877717d31aaf9ca0a30282b91fcd03de54e54f33740b5b598",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/c1/irgl",
+          "bytes": 104,
+          "sha256": "86b55a0f146adc9110d9928b72c98897a73caf1363c78f2b2aebfb45dfbb2c95",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/c1/irin",
+          "bytes": 6,
+          "sha256": "75cd2ec2239eba2bfbe4565430134f1e64bc6bab095ddac7f79c6d0d14a1abd6",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/c1/irsy",
+          "bytes": 214,
+          "sha256": "9571169b89b918e17d0c24d98c590d66450a4e8ec87df900a6ddbf830857e47d",
+          "output_name": "irsy"
+        }
+      ],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "expected_absent_outputs": [
+        "asm-expressions.obj",
+        "expressions.exe",
+        "msvc.pdb"
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /Z7 /Od /G5 /W3 asm-expressions.c",
+      "transport_reference": "evidence/asm.CL.receipt.json",
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual spawn stdout intervals isolate child warnings from CL source banner."
+      }
+    }
+  },
+  "execution": "Native-only fixtures; explicit original captures separate.",
+  "normalization": "None.",
+  "capture_policy": "Actual CL child transport and complete before/after file sets captured twice. Relative temporary prefix alone replaced by ir; all raw IR, empty streams, status and file absence are strict.",
+  "runtime": "Untouched original CL compiles/links and silent checksum exits0 for three valid array inputs. NOP emit/alignment retain safe user-mode reachable flow; SHORT branch skips only another NOP."
+}

@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "316e834f21ce73b1fb15cde85af469e969f18f49ee350f927a556f98c0a6ab76",
+    "functions.json": "c5b8dd90feb2c0a2b4611447f436f7e0fcf0777af769af304e851eb275909885",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "1d8b681afc75c0f16895b479bce13f5b0962251e4a1b01c9cb94ce018918fda4"
+    "sha256": "7af00d6de80e49eb81f59bb6462f242e8e8a3785f033bfb0493e8e17c757b901"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "433952690d56b6966ae264150cb36376750f9a1c233e60165ac91477e9d50679"
+    "sha256": "e8517b1d3dcd0ae708b02fbfd25ab316b6833825c9e2de17ce839bfc8a9e08bb"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -183,7 +183,7 @@
     },
     "apply_asm_segment": {
       "logical": "_apply_asm_segment@8",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-registers.c"
     },
     "apply_declarator_prefix": {
       "logical": "_apply_declarator_prefix@8",
@@ -775,7 +775,7 @@
     },
     "copy_asm_comment": {
       "logical": "_copy_asm_comment",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-lexer.c"
     },
     "copy_block_comment": {
       "logical": "_copy_block_comment",
@@ -1159,7 +1159,7 @@
     },
     "evaluate_asm_unary": {
       "logical": "_evaluate_asm_unary@8",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-expressions.c"
     },
     "evaluate_defined_operator": {
       "logical": "_evaluate_defined_operator@4",
@@ -1459,7 +1459,7 @@
     },
     "fits_asm_integer": {
       "logical": "_fits_asm_integer@8",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-instructions.c"
     },
     "float_to_extended": {
       "logical": "_float_to_extended",
@@ -2359,7 +2359,7 @@
     },
     "parse_asm_binary_digits": {
       "logical": "_parse_asm_binary_digits@4",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-numbers.c"
     },
     "parse_asm_statement": {
       "logical": "_parse_asm_statement",
@@ -3251,11 +3251,11 @@
     },
     "set_asm_address_operator": {
       "logical": "_set_asm_address_operator@4",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-instructions.c"
     },
     "set_asm_directive": {
       "logical": "_set_asm_directive@8",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-instructions.c"
     },
     "set_asm_operand_size": {
       "logical": "_set_asm_operand_size@4",
@@ -4436,7 +4436,14 @@
     "pop_work_list",
     "change_function_reference_kind",
     "compare_prototype_parameter_types",
-    "warn_void_function_pointer"
+    "warn_void_function_pointer",
+    "copy_asm_comment",
+    "fits_asm_integer",
+    "set_asm_directive",
+    "parse_asm_binary_digits",
+    "evaluate_asm_unary",
+    "apply_asm_segment",
+    "set_asm_address_operator"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5716,6 +5723,24 @@
         "change_function_reference_kind",
         "compare_prototype_parameter_types",
         "warn_void_function_pointer"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "inline-asm-expressions": {
+      "first": 940,
+      "last": 947,
+      "seen_count": 802,
+      "expected": [
+        "copy_asm_comment",
+        "fits_asm_integer",
+        "set_asm_directive",
+        "parse_asm_binary_digits",
+        "evaluate_asm_unary",
+        "apply_asm_segment",
+        "set_asm_address_operator"
       ],
       "terminal": {
         "kind": "exit",

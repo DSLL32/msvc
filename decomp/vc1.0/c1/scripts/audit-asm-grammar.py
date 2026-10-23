@@ -110,6 +110,8 @@ def main():
         print('76 register/operator/qualifier rows and 28 groups match.')
         assert original.read(0x731e0,92)==rebuilt.read(names['_asm_register_properties'],92), 'register properties'
         print('46 register encodings, widths and addressing properties match.')
+        assert original.read(0x72e70,9)==rebuilt.read(names['_asm_operand_size_codes'],9), 'data/code keyword operand sizes'
+        print('Nine data/code keyword operand-size encodings match.')
         assert original.read(0x73168,120)==rebuilt.read(names['_asm_operand_class_rules'],120), 'operand class rules'
         for flags in range(32):
             mode = original.read(0x73250+flags,1)[0]

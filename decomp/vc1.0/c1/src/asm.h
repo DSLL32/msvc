@@ -53,7 +53,7 @@ enum AsmOperandCategory {
 typedef struct AsmAddressRule { unsigned char mode, category; } AsmAddressRule;
 extern AsmAddressRule asm_address_rules[32];
 #define ASM_OPERAND_CATEGORY(address_) (asm_address_rules[(address_)->address_flags & 31].category)
-extern unsigned char asm_data_size_codes[6];
+extern unsigned char asm_operand_size_codes[9];
 void __stdcall report_asm_expected_token(int actual, int expected);
 ParserValue __stdcall asm_recovery_value(int token);
 void __stdcall report_asm_parser_error(char *text);
@@ -96,7 +96,7 @@ AsmExpression * __stdcall combine_asm_addresses(unsigned short operation, AsmExp
 void __stdcall set_asm_address_operator(short operation);
 char * asm_error_context(void);
 FrontendSymbol * __stdcall lookup_asm_symbol(char *name, int allow_label);
-AsmExpression * __stdcall evaluate_asm_unary(unsigned short operation, AsmExpression *value);
+AsmExpression * __stdcall evaluate_asm_unary(short operation, AsmExpression *value);
 AsmExpression * __stdcall apply_asm_segment(short segment, AsmExpression *value);
 unsigned __stdcall asm_symbol_type_size(FrontendSymbol *symbol);
 unsigned __stdcall asm_symbol_length(FrontendSymbol *symbol);

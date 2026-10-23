@@ -944,7 +944,14 @@
     "_pop_work_list@4",
     "_change_function_reference_kind@8",
     "_compare_prototype_parameter_types@8",
-    "_warn_void_function_pointer"
+    "_warn_void_function_pointer",
+    "_copy_asm_comment",
+    "_fits_asm_integer@8",
+    "_set_asm_directive@8",
+    "_parse_asm_binary_digits@4",
+    "_evaluate_asm_unary@8",
+    "_apply_asm_segment@8",
+    "_set_asm_address_operator@4"
   ],
   "driver": [
     {
@@ -4984,7 +4991,7 @@
     {
       "name": "_set_asm_directive@8",
       "start": 320585,
-      "end": 320586
+      "end": 320760
     },
     {
       "name": "_select_asm_opcode@4",
@@ -5025,7 +5032,7 @@
     {
       "name": "_set_asm_address_operator@4",
       "start": 319228,
-      "end": 319229
+      "end": 319313
     },
     {
       "name": "_asm_error_context",
@@ -5040,12 +5047,12 @@
     {
       "name": "_evaluate_asm_unary@8",
       "start": 328288,
-      "end": 328289
+      "end": 328456
     },
     {
       "name": "_apply_asm_segment@8",
       "start": 329025,
-      "end": 329026
+      "end": 329146
     },
     {
       "name": "_asm_symbol_type_size@4",
@@ -5121,7 +5128,7 @@
     {
       "name": "_copy_asm_comment",
       "start": 318565,
-      "end": 318566
+      "end": 318708
     },
     {
       "name": "_find_asm_keyword@4",
@@ -5184,7 +5191,7 @@
     {
       "name": "_fits_asm_integer@8",
       "start": 325163,
-      "end": 325164
+      "end": 325198
     },
     {
       "name": "_choose_asm_instruction_size",
@@ -5240,7 +5247,7 @@
     {
       "name": "_parse_asm_binary_digits@4",
       "start": 318049,
-      "end": 318050
+      "end": 318107
     },
     {
       "name": "_make_ir_leaf@12",
@@ -5807,6 +5814,10 @@
     "legacy-callback-adapter": {
       "accepted_from": 931,
       "accepted_count": 940
+    },
+    "inline-asm-expressions": {
+      "accepted_from": 940,
+      "accepted_count": 947
     }
   },
   "buffered_streams": [

@@ -9,7 +9,7 @@ enum ControlField {
     CONTROL_IGNORED_4, CONTROL_IGNORED_5, CONTROL_IGNORED_6,
     CONTROL_OPTIMIZATION, CONTROL_CONTEXT, CONTROL_PLMN, CONTROL_PLMF,
     CONTROL_IGNORED_11, CONTROL_COUNTED_NAME, CONTROL_FUNCTION_FLAGS,
-    CONTROL_WORD, CONTROL_IGNORED_15, CONTROL_IGNORED_16,
+    CONTROL_ASM_ALIGNMENT, CONTROL_IGNORED_15, CONTROL_IGNORED_16,
     CONTROL_IGNORED_17, CONTROL_IGNORED_18, CONTROL_IGNORED_19,
     CONTROL_OPTION_BITS, CONTROL_ALIGNMENT, CONTROL_IGNORED_22,
     CONTROL_WARNINGS
@@ -19,7 +19,7 @@ extern FrontendSymbol *record_context_symbol;
 extern unsigned pending_pragma_kind;
 extern unsigned char *pending_pragma_text;
 extern unsigned char function_control_flags;
-extern unsigned short control_word;
+extern unsigned short asm_code_alignment;
 extern unsigned control_alignment, control_alignment_mode;
 extern char asm_instruction_record[128];
 void write_counted_ir(short length, char *text);

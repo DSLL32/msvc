@@ -176,3 +176,21 @@ AsmExpression *__stdcall make_asm_stack_register(short reg, int index)
     expression->field08 = (unsigned)(int)reg;
     return expression;
 }
+
+/* Original 0x50541..0x505ba, RET8. A segment override applies to a
+   memory expression before its bracketed address has been finalized. */
+AsmExpression *__stdcall apply_asm_segment(short segment, AsmExpression *value)
+{
+    AsmAddress *address;
+    char *context;
+    if ((asm_register_properties[segment] & 0xc0) == REG_SEGMENT &&
+        !(asm_operand->address->flags & 0x3f) && !asm_brackets_used && value->kind != 3) {
+        address = asm_operand->address;
+        address->flags = (address->flags & 0xc0) | ((unsigned char)segment & 0x3f);
+        address->address_flags |= 0x10;
+    } else {
+        context = asm_error_context();
+        report_syntax_error(422, context);
+    }
+    return value;
+}

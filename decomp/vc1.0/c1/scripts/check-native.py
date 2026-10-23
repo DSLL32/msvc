@@ -33,7 +33,8 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'based-record-arena':('based-record-arena','c1'),
          'pdb-pch-binding-create':('pdb-pch-binding','c1-create'),
          'pdb-pch-binding-use':('pdb-pch-binding','c1-use'),
-         'legacy-callback-adapter':('legacy-callback-adapter','c1')}
+         'legacy-callback-adapter':('legacy-callback-adapter','c1'),
+         'inline-asm-expressions':('inline-asm-expressions','c1')}
 
 
 CASE_DEPENDENCIES = {

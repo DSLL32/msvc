@@ -154,3 +154,44 @@ AsmExpression *__stdcall evaluate_asm_binary(unsigned short operation,
     }
     return result;
 }
+
+enum AsmUnaryOperation {
+    ASM_UNARY_NOT = 9, ASM_UNARY_HIGH = 14, ASM_UNARY_LOW = 16,
+    ASM_UNARY_PLUS = 22, ASM_UNARY_MINUS = 23
+};
+
+/* Original 0x50260..0x50308, RET8. Constant-only assembler unary
+   operators preserve all untouched expression fields and wrap negation. */
+AsmExpression *__stdcall evaluate_asm_unary(short operation, AsmExpression *value)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    AsmExpression *result;
+    char *context;
+    if (value->kind) {
+        context = asm_error_context();
+        report_syntax_error(425, asm_operator_names[operation], context);
+    }
+    if (pool->remaining < (int)sizeof(AsmExpression)) refill_arena(&compiler_arena,pool);
+    result = (AsmExpression *)pool->next;
+    pool->remaining -= sizeof(AsmExpression);
+    pool->next += sizeof(AsmExpression);
+    result->kind = 0;
+    switch (operation) {
+    case ASM_UNARY_NOT:
+        result->value.integer = ~value->value.integer;
+        break;
+    case ASM_UNARY_HIGH:
+        result->value.integer = (value->value.integer >> 8) & 255;
+        break;
+    case ASM_UNARY_LOW:
+        result->value.integer = value->value.integer & 255;
+        break;
+    case ASM_UNARY_PLUS:
+        result->value.integer = value->value.integer;
+        break;
+    case ASM_UNARY_MINUS:
+        result->value.integer = 0U - value->value.integer;
+        break;
+    }
+    return result;
+}

@@ -1,0 +1,189 @@
+{
+  "status": "pass",
+  "elapsed_seconds": 0.40460101794451475,
+  "tests": [
+    {
+      "name": "intermediate-byte",
+      "status": "rejected",
+      "diagnostic": "output bytes differ: irex",
+      "seconds": 0.0002838931977748871
+    },
+    {
+      "name": "complete-file-set",
+      "status": "rejected",
+      "diagnostic": "complete file set differs",
+      "seconds": 0.00013295002281665802
+    },
+    {
+      "name": "wrong-entry-order",
+      "status": "rejected",
+      "diagnostic": "native trace minimal index 0: expected message_text, actual main",
+      "seconds": 0.007562687620520592
+    },
+    {
+      "name": "unmapped-application-definition",
+      "status": "rejected",
+      "diagnostic": "new/missing/unmapped native application definition",
+      "seconds": 0.10433547105640173
+    },
+    {
+      "name": "raw-timestamp-correlation",
+      "status": "rejected",
+      "diagnostic": "raw cross-output timestamps differ",
+      "seconds": 0.0002889959141612053
+    },
+    {
+      "name": "generated-pch-dependency",
+      "status": "rejected",
+      "diagnostic": "generated PCH differs from captured dependency",
+      "seconds": 0.0026953667402267456
+    },
+    {
+      "name": "debug-pch-generated-dependency",
+      "status": "rejected",
+      "diagnostic": "generated PCH differs from captured dependency",
+      "seconds": 0.00228907261043787
+    },
+    {
+      "name": "debug-pch-preserved-input-byte",
+      "status": "rejected",
+      "diagnostic": "output bytes differ: debug.pch",
+      "seconds": 0.0007573096081614494
+    },
+    {
+      "name": "browser-record-byte",
+      "status": "rejected",
+      "diagnostic": "output bytes differ: test.sbr",
+      "seconds": 0.0009019086137413979
+    },
+    {
+      "name": "preprocessor-line-ending-byte",
+      "status": "rejected",
+      "diagnostic": "output bytes differ: test.i",
+      "seconds": 0.000255851075053215
+    },
+    {
+      "name": "rich-assembler-expression-byte",
+      "status": "rejected",
+      "diagnostic": "output bytes differ: irex",
+      "seconds": 0.00043116137385368347
+    },
+    {
+      "name": "diagnostic-wrong-status-0",
+      "status": "rejected",
+      "diagnostic": "('native status', 'diagnostic-recovery', 0)",
+      "seconds": 1.1018477380275726e-05
+    },
+    {
+      "name": "diagnostic-wrong-status-7",
+      "status": "rejected",
+      "diagnostic": "('native status', 'diagnostic-recovery', 7)",
+      "seconds": 3.894791007041931e-06
+    },
+    {
+      "name": "diagnostic-order",
+      "status": "rejected",
+      "diagnostic": "stdout differs: diagnostic-recovery",
+      "seconds": 6.799586117267609e-06
+    },
+    {
+      "name": "missing-recovery-tail-marker",
+      "status": "rejected",
+      "diagnostic": "stdout differs: diagnostic-recovery",
+      "seconds": 5.002133548259735e-06
+    },
+    {
+      "name": "diagnostic-forbidden-object",
+      "status": "rejected",
+      "diagnostic": "forbidden output exists: recovery.obj",
+      "seconds": 5.838647484779358e-05
+    },
+    {
+      "name": "diagnostic-partial-file-byte",
+      "status": "rejected",
+      "diagnostic": "output bytes differ: irex",
+      "seconds": 0.0005448004230856895
+    },
+    {
+      "name": "success-case-still-requires-zero",
+      "status": "rejected",
+      "diagnostic": "('native status', 'minimal', 6)",
+      "seconds": 5.846843123435974e-06
+    },
+    {
+      "name": "based-debug-base-symbol-name",
+      "status": "rejected",
+      "diagnostic": "output bytes differ: irdb",
+      "seconds": 0.00027521606534719467
+    },
+    {
+      "name": "based-expression-stream-byte",
+      "status": "rejected",
+      "diagnostic": "output bytes differ: irex",
+      "seconds": 0.0004323897883296013
+    },
+    {
+      "name": "pdb-binding-producer-binding.pch",
+      "status": "rejected",
+      "diagnostic": "output bytes differ: binding.pch",
+      "seconds": 0.0031004613265395164
+    },
+    {
+      "name": "pdb-binding-producer-msvc.pdb",
+      "status": "rejected",
+      "diagnostic": "output bytes differ: msvc.pdb",
+      "seconds": 0.003445853479206562
+    },
+    {
+      "name": "pdb-binding-producer-irex",
+      "status": "rejected",
+      "diagnostic": "output bytes differ: irex",
+      "seconds": 0.0021484559401869774
+    },
+    {
+      "name": "pdb-binding-missing-producer",
+      "status": "rejected",
+      "diagnostic": "consumer requires actual producer state",
+      "seconds": 0.0013788724318146706
+    },
+    {
+      "name": "pdb-binding-clock-propagation",
+      "status": "rejected",
+      "diagnostic": "consumer database signature changed",
+      "seconds": 8.085835725069046e-05
+    },
+    {
+      "name": "legacy-callback-warning-order",
+      "status": "rejected",
+      "diagnostic": "stdout differs: legacy-callback-adapter",
+      "seconds": 6.7390501499176025e-06
+    },
+    {
+      "name": "legacy-callback-pointer-warning",
+      "status": "rejected",
+      "diagnostic": "stdout differs: legacy-callback-adapter",
+      "seconds": 3.0007213354110718e-06
+    },
+    {
+      "name": "legacy-callback-debug-type-byte",
+      "status": "rejected",
+      "diagnostic": "output bytes differ: irdb",
+      "seconds": 0.0004084315150976181
+    },
+    {
+      "name": "asm-alignment-control-word",
+      "status": "rejected",
+      "diagnostic": "output bytes differ: irex",
+      "seconds": 0.0005831476300954819
+    },
+    {
+      "name": "asm-historical-entry-order",
+      "status": "rejected",
+      "diagnostic": "native trace inline-asm-expressions index 0: expected fits_asm_integer, actual copy_asm_comment",
+      "seconds": 0.0076926397159695625
+    }
+  ],
+  "evidence": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/native-rejections-xb4mc9_a",
+  "new_fixtures": 0,
+  "policy": "Private mutations only; fixture captures unchanged; native execution only."
+}

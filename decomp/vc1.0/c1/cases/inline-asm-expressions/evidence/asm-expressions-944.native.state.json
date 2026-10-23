@@ -1,0 +1,30 @@
+{
+  "buffers": {
+    "expression_file": "004f1f80000080244f020a004f01035353266a00462d69004c4f11534f01044f01054f194f01064f01074f160808b40102900000004f01084f18044f01094f18024f010a4f160a0a01040100022a0000004f010b",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "1186032e1d30016900000000120a0061736d2d65787072657373696f6e732e6300",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "evaluate_asm_unary",
+    "parse_inline_assembler",
+    "parse_asm_statement",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "exit": null,
+  "frontier": "evaluate_asm_unary",
+  "pc": 1449299372,
+  "label_stack_count": 0,
+  "scanner_flags": 4718592,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ]
+}

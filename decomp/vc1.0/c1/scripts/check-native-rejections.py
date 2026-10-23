@@ -217,6 +217,22 @@ def main():
     rejects('legacy-callback-debug-type-byte', 'output bytes differ: irdb',
             lambda:checker.validate_artifacts(legacy,legacy_fixture,legacy_phase))
 
+    _, assembly = checker.run_case('inline-asm-expressions', executable, directory, (cache,filter_path))
+    assembly_fixture = checker.BINARY/'cases/inline-asm-expressions'
+    assembly_phase = json.loads((assembly_fixture/'manifest.json').read_text())['phases']['c1']
+    expression = bytearray((assembly/'irex').read_bytes())
+    alignment = expression.index(bytes.fromhex('4f1804'))
+    expression[alignment + 2] = 2
+    (assembly/'irex').write_bytes(expression)
+    rejects('asm-alignment-control-word', 'output bytes differ: irex',
+            lambda:checker.validate_artifacts(assembly,assembly_fixture,assembly_phase))
+    wrong = copy.deepcopy(cache)
+    wrong['cases']['inline-asm-expressions']['expected'][:2] = list(reversed(wrong['cases']['inline-asm-expressions']['expected'][:2]))
+    private_root = directory/'wrong-asm-entry-order'
+    private_root.mkdir()
+    rejects('asm-historical-entry-order', 'native trace inline-asm-expressions index 0: expected',
+            lambda:checker.run_case('inline-asm-expressions', executable, private_root, (wrong,filter_path)))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

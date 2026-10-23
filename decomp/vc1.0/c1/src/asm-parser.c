@@ -259,7 +259,7 @@ int parse_inline_assembler(void)
             ASM_RESULT(make_asm_constant(declaration_code & 15));
             break;
         case 61:
-            ASM_RESULT(make_asm_constant(asm_data_size_codes[(short)right[0].words.low - 46]));
+            ASM_RESULT(make_asm_constant(asm_operand_size_codes[(short)right[0].words.low - 46]));
             break;
         case 62:
             symbol = lookup_asm_symbol(right[0].name, 1);
@@ -298,7 +298,7 @@ int parse_inline_assembler(void)
         case 72:
             asm_explicit_size = 1;
             asm_address_mode = 0;
-            set_asm_operand_size(asm_data_size_codes[(short)right[-2].words.low - 46]);
+            set_asm_operand_size(asm_operand_size_codes[(short)right[-2].words.low - 46]);
             parser_value.words.low = right[0].words.low;
             break;
         case 73:

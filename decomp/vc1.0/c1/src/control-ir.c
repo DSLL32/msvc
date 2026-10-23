@@ -7,7 +7,6 @@ FrontendSymbol *record_context_symbol; /* original 0x6b6c4 */
 unsigned pending_pragma_kind; /* original 0x6b144 */
 unsigned char *pending_pragma_text; /* original 0x6b148 */
 unsigned char function_control_flags; /* original 0x60058 */
-unsigned short control_word; /* original 0x5b020 */
 unsigned control_alignment = 8, control_alignment_mode; /* 0x6bfa0 / 0x6bfa4 */
 /* The assembler producer owns its128-byte record in asm-output.c; this
    control writer consumes the signed count and encoded payload. */
@@ -87,8 +86,8 @@ void __stdcall record_line_information(unsigned tag)
         case CONTROL_FUNCTION_FLAGS:
             putc(function_control_flags, expression_file);
             break;
-        case CONTROL_WORD:
-            word = (short)control_word;
+        case CONTROL_ASM_ALIGNMENT:
+            word = (short)asm_code_alignment;
             if (word >= -127 && word <= 127) putc((signed char)word, expression_file);
             else { putc(0x80, expression_file); CONTROL_PUT_WORD(expression_file, word); }
             break;

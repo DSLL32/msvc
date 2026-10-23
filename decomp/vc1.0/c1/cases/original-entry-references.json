@@ -124,6 +124,10 @@
     "legacy-callback-adapter": {
       "receipt": "cases/legacy-callback-adapter/evidence/legacy-callback-complete-940.receipt.json",
       "sha256": "b0582d93eabe2b3f8d2df003dd14cd1ce4a1a354cb2d58d228bfcc293a239fba"
+    },
+    "inline-asm-expressions": {
+      "receipt": "cases/inline-asm-expressions/evidence/asm-expressions-complete-947.receipt.json",
+      "sha256": "1e149948682d90c7f5d222dcd1a31b59a3e5d17e8b8929344d40a50f65513712"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

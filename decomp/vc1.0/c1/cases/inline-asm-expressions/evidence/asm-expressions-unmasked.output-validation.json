@@ -1,0 +1,30 @@
+{
+  "status": "pass",
+  "outputs": [
+    {
+      "name": "irdb",
+      "bytes": 63,
+      "sha256": "44aa56d795ef9a53353bf228cd05c0beb6e9d413ae9ed96155756f6bbf50a978"
+    },
+    {
+      "name": "irex",
+      "bytes": 1480,
+      "sha256": "be7a463d2c541bc877717d31aaf9ca0a30282b91fcd03de54e54f33740b5b598"
+    },
+    {
+      "name": "irgl",
+      "bytes": 104,
+      "sha256": "86b55a0f146adc9110d9928b72c98897a73caf1363c78f2b2aebfb45dfbb2c95"
+    },
+    {
+      "name": "irin",
+      "bytes": 6,
+      "sha256": "75cd2ec2239eba2bfbe4565430134f1e64bc6bab095ddac7f79c6d0d14a1abd6"
+    },
+    {
+      "name": "irsy",
+      "bytes": 214,
+      "sha256": "9571169b89b918e17d0c24d98c590d66450a4e8ec87df900a6ddbf830857e47d"
+    }
+  ]
+}

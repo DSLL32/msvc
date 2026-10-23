@@ -74,3 +74,19 @@ convert:
         convert_integer_digits(token_text,end - (unsigned char *)token_text,radix);
     return token;
 }
+
+/* Original 0x4da61..0x4da9b, RET4. The suffix scanner supplies a
+   nonempty digit string; invalid digits diagnose their character and radix. */
+unsigned __stdcall parse_asm_binary_digits(char *digits)
+{
+    unsigned value = 0;
+    unsigned char character;
+    do {
+        value += value;
+        character = (unsigned char)*digits;
+        if (character == '1') value |= 1;
+        else if (character != '0') report_syntax_error(41, character, 2);
+        ++digits;
+    } while (*digits);
+    return value;
+}

@@ -1,0 +1,30 @@
+{
+  "buffers": {
+    "expression_file": "004f1f80000080244f020a004f01035353266a00462d69004c4f11534f01044f01054f194f01064f01074f160808b40102900000004f01084f18044f01094f18024f010a4f160a0a01040100022a0000004f010b4f160a0a0104010302340000004f010c4f160a0a0104010102120000004f010d4f160a0a2a04010102080000004f010e4f1607073004010301014f010f4f1607072d04010001034f01104f160a0a01040102020f0000004f01114f1607072d04010001024f01124f1610100104010612690005040000000005004f0113",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "1186032e1d30016900000000120a0061736d2d65787072657373696f6e732e6300",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "apply_asm_segment",
+    "parse_inline_assembler",
+    "parse_asm_statement",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "exit": null,
+  "frontier": "apply_asm_segment",
+  "pc": 1449303788,
+  "label_stack_count": 0,
+  "scanner_flags": 4718592,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ]
+}

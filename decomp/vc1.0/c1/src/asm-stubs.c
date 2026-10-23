@@ -13,7 +13,7 @@ void __stdcall report_asm_parser_error(char *text) { __asm { int 3 } }
 /* Original 0x4d6ce. */
 
 /* Original 0x4e449. */
-void __stdcall set_asm_directive(short directive, unsigned value) { __asm { int 3 } }
+
 /* Original 0x4de19. */
 
 /* Original 0x4fdb1. */
@@ -27,15 +27,15 @@ void __stdcall set_asm_directive(short directive, unsigned value) { __asm { int 
 /* Original 0x5010f. */
 
 /* Original 0x4defc. */
-void __stdcall set_asm_address_operator(short operation) { __asm { int 3 } }
+
 /* Original 0x4e324. */
 char * asm_error_context(void) { __asm { int 3 } return 0; }
 /* Original 0x4e290. */
 
 /* Original 0x50260. */
-AsmExpression * __stdcall evaluate_asm_unary(unsigned short operation, AsmExpression *value) { __asm { int 3 } return 0; }
+
 /* Original 0x50541. */
-AsmExpression * __stdcall apply_asm_segment(short segment, AsmExpression *value) { __asm { int 3 } return 0; }
+
 /* Original 0x4df51. */
 
 /* Original 0x4df9f. */
@@ -65,7 +65,7 @@ AsmExpression * __stdcall make_asm_segment_value(AsmExpression *value) { __asm {
 /* Original 0x4d7a1. */
 
 /* Original 0x4dc65. */
-void copy_asm_comment(void) { __asm { int 3 } }
+
 
 /* Original 0x4d98b. */
 
@@ -88,7 +88,7 @@ void copy_asm_comment(void) { __asm { int 3 } }
 
 
 /* Original 0x4f62b. */
-int __stdcall fits_asm_integer(unsigned char bits, unsigned value) { __asm { int 3 } return 0; }
+
 
 /* Original 0x4e657. */
 
@@ -113,7 +113,7 @@ void __stdcall report_asm_operand_error(unsigned code, int operand) { __asm { in
 
 
 /* Original0x4da61. */
-unsigned __stdcall parse_asm_binary_digits(char *digits) { __asm { int 3 } return 0; }
+
 
 /* Original0x3f3d0. */
 

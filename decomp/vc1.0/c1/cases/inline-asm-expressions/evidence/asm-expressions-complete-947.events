@@ -1,0 +1,8 @@
+entry _copy_asm_comment rva 0003dc65 byte 56
+entry _fits_asm_integer@8 rva 0003f62b byte 56
+entry _set_asm_directive@8 rva 0003e449 byte 0f
+entry _parse_asm_binary_digits@4 rva 0003da61 byte 56
+entry _evaluate_asm_unary@8 rva 00040260 byte 56
+entry _apply_asm_segment@8 rva 00040541 byte 53
+entry _set_asm_address_operator@4 rva 0003defc byte 66
+exit 0

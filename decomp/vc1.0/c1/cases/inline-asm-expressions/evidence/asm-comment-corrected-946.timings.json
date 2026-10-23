@@ -1,0 +1,47 @@
+[
+  {
+    "name": "native-build",
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "seconds": 7.181993326172233,
+    "exit": 0
+  },
+  {
+    "name": "original-capture",
+    "command": [
+      "python3",
+      "scripts/capture-frontier.py",
+      "--case",
+      "cases/inline-asm-expressions",
+      "--phase",
+      "c1",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/asm-comment-corrected-946",
+      "--debugger",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe"
+    ],
+    "seconds": 1.308705753646791,
+    "exit": 0
+  },
+  {
+    "name": "native-frontier",
+    "command": [
+      "python3",
+      "scripts/debug-frontier.py",
+      "--case",
+      "cases/inline-asm-expressions",
+      "--phase",
+      "c1",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/validation/asm-comment-corrected-946",
+      "--reference",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/asm-comment-corrected-946"
+    ],
+    "seconds": 0.2252644719555974,
+    "exit": 0
+  }
+]

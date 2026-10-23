@@ -1,0 +1,34 @@
+{
+  "case": "browser-pch-timestamp",
+  "status": "approved by root after current32-phase checkpoint",
+  "workflow": "One /FR+/Z7 explicit PCH producer and consumer, nested macro API and pinned-mtime __TIMESTAMP__ strings; untouched original compile/link/runtime checksum, full raw browser/PCH/IR transport, actual native producer chain with honest frozen original backend object.",
+  "known_candidate_routines": [
+    {
+      "name": "begin_browser_pch_record",
+      "start": "27680",
+      "end": "276b4",
+      "bytes": 52
+    },
+    {
+      "name": "restore_pch_browser_name",
+      "start": "27640",
+      "end": "2767d",
+      "bytes": 61
+    },
+    {
+      "name": "browser_macro_end",
+      "start": "27620",
+      "end": "2762a",
+      "bytes": 10
+    },
+    {
+      "name": "source_file_timestamp",
+      "start": "1b5b0",
+      "end": "1b5cb",
+      "bytes": 27
+    }
+  ],
+  "additional_unknown_adapter": "4be10; extent and support identity pending",
+  "reachability": "Explicit PCH mode0 plus browser starts PCH browser record; browser stream copying is only automatic mode1 so explicit consumer restores saved browser name when copied byte count is zero. __TIMESTAMP__ reaches source timestamp adapter. Nested rescan macro-end callback remains a candidate, not promised.",
+  "policy": "No broad normalization; canonical S paths and exact pinned source/header/PCH mtimes; modest known bytes accepted as concrete uncovered application seams."
+}

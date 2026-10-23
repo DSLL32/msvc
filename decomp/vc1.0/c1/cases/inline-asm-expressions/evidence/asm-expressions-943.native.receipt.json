@@ -1,0 +1,53 @@
+{
+  "buffers": {
+    "expression_file": "004f1f80000080244f020a004f01035353266a00462d69004c4f11534f01044f01054f194f01064f01074f160808b40102900000004f01084f18044f01094f18024f010a",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "1186032e1d30016900000000120a0061736d2d65787072657373696f6e732e6300",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "parse_asm_binary_digits",
+    "scan_assembler_number",
+    "scan_source_token",
+    "scan_token",
+    "read_parser_token",
+    "read_asm_token",
+    "parse_inline_assembler",
+    "parse_asm_statement",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "exit": null,
+  "frontier": "parse_asm_binary_digits",
+  "pc": 1449385432,
+  "label_stack_count": 0,
+  "scanner_flags": 4718592,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_parse_asm_binary_digits@4",
+  "fresh_original_match": true,
+  "reference_clock_observation": null,
+  "preparation_seconds": 0.0035668108612298965,
+  "execution_seconds": 0.1445457935333252,
+  "total_seconds": 0.15006932523101568,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f asm-expressions.c -Ze -Zp8 -Gs -Foasm-expressions.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual spawn stdout intervals isolate child warnings from CL source banner."
+  },
+  "executable_sha256": "80b137847cdcf44f750ddb18b92deeb4134b20063262ef287d20e6b1f3fee63f"
+}

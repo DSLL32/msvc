@@ -4,6 +4,7 @@
 #include "asm.h"
 #include "source-input.h"
 #include "builtins.h"
+#include "characters.h"
 #include <recon.h>
 
 unsigned char asm_token_classes[153] = {
@@ -309,4 +310,33 @@ unsigned char classify_asm_identifier(void)
     }
     asm_current_token = AS_IDENTIFIER;
     return AS_IDENTIFIER;
+}
+
+/* Original 0x4dc65..0x4dcf4. A semicolon comment ends before the
+   newline. /C copies it to preprocessor output, including the original
+   two-byte semicolon/NUL prefix written by the compiler. */
+void copy_asm_comment(void)
+{
+    unsigned char character;
+    if (!options.option_C) {
+        discard_line_comment();
+        return;
+    }
+    fwrite(";", 2, 1, preprocessor_stream);
+    for (;;) {
+        character = (unsigned char)*source_text_cursor++;
+        switch (character_class[character]) {
+        case CC_CARRIAGE_RETURN:
+            break;
+        case CC_ESCAPE_OR_END:
+            recover_special_character();
+            break;
+        case CC_NEWLINE:
+            --source_text_cursor;
+            return;
+        default:
+            putc(character, preprocessor_stream);
+            break;
+        }
+    }
 }

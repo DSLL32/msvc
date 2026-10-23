@@ -23,6 +23,7 @@ AsmOperand *asm_operand; /* original 0x5b000 */
 int asm_brackets_used; /* original 0x5b004 */
 short asm_operation, asm_opcode; /* original 0x5b018 / 0x5b058 */
 int asm_member_mode, asm_operand_count; /* original 0x5b01c / 0x5b024 */
+unsigned short asm_code_alignment; /* original 0x5b020 */
 unsigned asm_instruction_flags; /* original 0x5b128 */
 int asm_operand_mode; /* original 0x5b12c */
 
@@ -71,15 +72,18 @@ AsmOperand *__stdcall reset_asm_operand(int index)
 int asm_open_braces; /* original 0x5b1e0 */
 int asm_address_mode; /* original 0x5b010 */
 int asm_explicit_size; /* original 0x5b134 */
-/* Operand-size encodings indexed by the assembler's word..byte type IDs.
-   They are encodings, including the distinct six-byte FWORD code. */
-unsigned char asm_data_size_codes[6] = {
+/* Original0x72e70..0x72e79. Operand-size encodings for the data and
+   code-type keywords WORD..FAR, including the distinct six-byte FWORD code. */
+unsigned char asm_operand_size_codes[9] = {
     1, /* WORD, ID46 */
     2, /* DWORD, ID47 */
     5, /* FWORD, ID48 */
     3, /* QWORD, ID49 */
     4, /* TBYTE, ID50 */
-    0  /* BYTE, ID51 */
+    0, /* BYTE, ID51 */
+    0, /* SHORT, ID52 */
+    2, /* NEAR, ID53 */
+    5  /* FAR, ID54 */
 };
 
 /* Original 0x4dfd8..0x4e01e; dispatch table 0x4e01f..0x4e046.

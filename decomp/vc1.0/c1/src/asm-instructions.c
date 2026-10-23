@@ -545,3 +545,45 @@ unsigned normalize_asm_x87_operands(void)
     }
     return 0;
 }
+
+/* Original 0x4f62b..0x4f64e, RET8. The encoder compares signed
+   magnitudes against an x86-masked shift count. Unsigned subtraction retains
+   the original INT_MIN bit pattern without a signed-negation overflow. */
+int __stdcall fits_asm_integer(unsigned char bits, unsigned value)
+{
+    int sign = (int)value >> 31;
+    unsigned magnitude = (value ^ (unsigned)sign) - (unsigned)sign;
+    unsigned limit = 1U << (bits & 31);
+    return (int)magnitude < (int)limit;
+}
+
+/* Original 0x4e449..0x4e4f8, RET8. ALIGN and EVEN write the shared
+   alignment-control word; invalid ALIGN values retain its previous value. */
+void __stdcall set_asm_directive(short directive, unsigned value)
+{
+    if (directive == 328) {
+        if (asm_member_mode) compiler_warning(3, 404);
+        if ((int)value < 2 || (int)value > 16 || (value & (value - 1)))
+            report_syntax_error(413, interned_name);
+        else asm_code_alignment = (unsigned short)value;
+    } else if (directive == 329) {
+        if (asm_member_mode) compiler_warning(3, 404);
+        if (asm_operand_count) compiler_warning(1, 406);
+        asm_code_alignment = 2;
+    } else {
+        asm_member_mode = 0;
+        return;
+    }
+    record_line_information(24);
+    asm_member_mode = 0;
+}
+
+/* Original 0x4defc..0x4df51, RET4. The grammar supplies SHORT, NEAR
+   or FAR (IDs52..54) and records whether a PTR size was explicit. */
+void __stdcall set_asm_address_operator(short operation)
+{
+    asm_operand->size = asm_operand_size_codes[operation - 46];
+    asm_operand->flags |= 1;
+    if ((operation == 52) == asm_explicit_size)
+        compiler_warning(1, asm_explicit_size ? 410 : 411);
+}

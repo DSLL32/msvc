@@ -1,27 +1,27 @@
 {
-  "authorization": "Root approved next single successful legacy callback-adapter/checksum case after PDB checkpoint37813e21; validate public forms and intentional warnings before freezing.",
-  "baseline_commit": "37813e21495697b334cdd7f32cad93ef42cee09c",
-  "baseline_accepted_count": 931,
+  "authorization": "Root approved one successful safe inline-assembler expression/directive checksum case after legacy callback checkpoint6ccbb267. Validate public syntax and runtime first; unsupported forms remain probes.",
+  "baseline_commit": "6ccbb267474b00561ba7090eb9572fd4681da2a5",
+  "baseline_accepted_count": 940,
   "baseline_coverage": {
-    "accepted_union_bytes": 231613,
+    "accepted_union_bytes": 232855,
     "original_code_bytes": 277234,
     "accepted_by_origin_bytes": {
-      "frontend_source": 211846,
+      "frontend_source": 213088,
       "CRT": 19587,
       "import_thunks": 180
     },
     "origin_classification": "Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.",
-    "percent": 83.54422617716442,
+    "percent": 83.99222317608951,
     "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage."
   },
   "cases": [
     {
-      "case": "legacy-callback-adapter",
+      "case": "inline-asm-expressions",
       "phase": "c1",
-      "status": "complete;931 through940, five raw files/six exact warnings,31 phase regression suite"
+      "status": "complete;940 through947, five raw files/empty streams,32 phase native suite"
     }
   ],
   "status": "complete",
-  "previous_completed_authorization": "PDB-bearing PCH library binding complete37813e21;10 functions1557bytes,30 native phases.",
-  "completion": "cases/legacy-callback-adapter/validation.json"
+  "previous_completed_authorization": "Legacy callback adapter complete6ccbb267;9 functions1242bytes,31 native phases.",
+  "completion": "cases/inline-asm-expressions/validation.json"
 }
