@@ -621,3 +621,13 @@ int __fastcall register_mentioned_between(MachineInstruction *first, MachineInst
     }
     return 0;
 }
+
+/* Original [000239f0,00023a1f). Signed endpoint comparisons follow
+   modulo32 address addition; touching half-open ranges do not overlap. */
+int __fastcall memory_displacements_overlap(MachineOperand *left, unsigned left_bytes,
+    MachineOperand *right, unsigned right_bytes)
+{
+    int a = (int)left->value.address->first.displacement;
+    int b = (int)right->value.address->first.displacement;
+    return (int)((unsigned)a + left_bytes) > b && (int)((unsigned)b + right_bytes) > a;
+}

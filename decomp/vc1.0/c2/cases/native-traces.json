@@ -2,7 +2,7 @@
   "schema": 1,
   "description": "Cached original application-entry projection; no capture or Wine",
   "metadata_sha256": {
-    "functions.json": "fc783d3b3828b493feff4395674d9094a2cfdd888da472f835ed4a9a24f4b63b",
+    "functions.json": "232a7ca2c89bc16f39c2222b4669c4b892c59c88ee780d2b57407903edaf702c",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -908,7 +908,7 @@
     },
     "compare_scheduled_memory": {
       "logical": "@compare_scheduled_memory@36",
-      "source": "src/stubs.c"
+      "source": "src/scheduler.c"
     },
     "comparison_uses_intrinsic_flags": {
       "logical": "@comparison_uses_intrinsic_flags@4",
@@ -1730,6 +1730,10 @@
       "logical": "@induction_is_dead_on_exit@4",
       "source": "src/stubs.c"
     },
+    "infer_scheduled_address_symbol": {
+      "logical": "@infer_scheduled_address_symbol@8",
+      "source": "src/stubs.c"
+    },
     "initialize_allocation_live_registers": {
       "logical": "@initialize_allocation_live_registers@4",
       "source": "src/physical-conflicts.c"
@@ -2364,7 +2368,7 @@
     },
     "memory_displacements_overlap": {
       "logical": "@memory_displacements_overlap@16",
-      "source": "src/stubs.c"
+      "source": "src/instruction-uses.c"
     },
     "memory_value_node": {
       "logical": "@memory_value_node@8",
@@ -3356,7 +3360,7 @@
     },
     "release_machine_address": {
       "logical": "@release_machine_address@4",
-      "source": "src/stubs.c"
+      "source": "src/machine-operands.c"
     },
     "release_machine_instruction": {
       "logical": "@release_machine_instruction@4",
@@ -15373,6 +15377,201 @@
               "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/operand-assignment-after"
             }
           }
+        },
+        {
+          "accepted_function": "@compare_scheduled_memory@36",
+          "accepted_kind": "application",
+          "previous_logical": "@compare_scheduled_memory@36",
+          "original_extent": [
+            "0x3c000",
+            "0x3c337"
+          ],
+          "before": {
+            "path": "cases/hello-original-831.json",
+            "sha256": "c277af8ee29df09024eaae71a2e0d8aa867efda275d203144f78f7a7f3437615",
+            "capture": {
+              "label": "operand-assignment-after",
+              "accepted": 831,
+              "logical": "@compare_scheduled_memory@36",
+              "original_va": "0x3c000",
+              "events": "exception 80000003 rva 0002c000 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.19446612428873777,
+              "execution_check_seconds": 1.5003290167078376,
+              "total_seconds": 1.6947955843061209,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "c046ab06f34595e052d7250c9b4d430327a5325e8b4e19036ebe1a6c8d0aedbf",
+              "config_sha256": "fc783d3b3828b493feff4395674d9094a2cfdd888da472f835ed4a9a24f4b63b",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/operand-assignment-after"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-832.json",
+            "sha256": "08571703778e8690a246c17470a9e7a1da316f9109f643461704d56081195fd1",
+            "capture": {
+              "label": "memory-dependence-after",
+              "accepted": 832,
+              "logical": "@release_machine_address@4",
+              "original_va": "0x1a940",
+              "events": "exception 80000003 rva 0000a940 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.195034290663898,
+              "execution_check_seconds": 0.9596316330134869,
+              "total_seconds": 1.1546664256602526,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "2c0c01731d3c3f400e242a26eb05a45e93f48372704f977aebfa7faa2e4d91b8",
+              "config_sha256": "24867ec9d6dc853e1268682a2b75ddc3da9b06c69a744a9e8d2618c390dd215f",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/memory-dependence-after"
+            }
+          }
+        },
+        {
+          "accepted_function": "@release_machine_address@4",
+          "accepted_kind": "application",
+          "previous_logical": "@release_machine_address@4",
+          "original_extent": [
+            "0x1a940",
+            "0x1a94e"
+          ],
+          "before": {
+            "path": "cases/hello-original-832.json",
+            "sha256": "08571703778e8690a246c17470a9e7a1da316f9109f643461704d56081195fd1",
+            "capture": {
+              "label": "memory-dependence-after",
+              "accepted": 832,
+              "logical": "@release_machine_address@4",
+              "original_va": "0x1a940",
+              "events": "exception 80000003 rva 0000a940 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.195034290663898,
+              "execution_check_seconds": 0.9596316330134869,
+              "total_seconds": 1.1546664256602526,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "2c0c01731d3c3f400e242a26eb05a45e93f48372704f977aebfa7faa2e4d91b8",
+              "config_sha256": "24867ec9d6dc853e1268682a2b75ddc3da9b06c69a744a9e8d2618c390dd215f",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/memory-dependence-after"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-833.json",
+            "sha256": "3875d2aa2b350b0cbb9877e1cbb8d128150181567036cee8d6bba2ac6bed3701",
+            "capture": {
+              "label": "address-recycler-after",
+              "accepted": 833,
+              "logical": "@memory_displacements_overlap@16",
+              "original_va": "0x239f0",
+              "events": "exception 80000003 rva 000139f0 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.1965059069916606,
+              "execution_check_seconds": 1.2997239837422967,
+              "total_seconds": 1.496230567805469,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "a3b3ef8369c34fd0baefd21986485b42157ea1f16741e2c7f675451e1d141b94",
+              "config_sha256": "e9804a5ddc326dd3aa8b28927912ac0ca50cf1470203c170bb0cc386d6076e6e",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/address-recycler-after"
+            }
+          }
+        },
+        {
+          "accepted_function": "@memory_displacements_overlap@16",
+          "accepted_kind": "application",
+          "previous_logical": "@memory_displacements_overlap@16",
+          "original_extent": [
+            "0x239f0",
+            "0x23a1f"
+          ],
+          "before": {
+            "path": "cases/hello-original-833.json",
+            "sha256": "3875d2aa2b350b0cbb9877e1cbb8d128150181567036cee8d6bba2ac6bed3701",
+            "capture": {
+              "label": "address-recycler-after",
+              "accepted": 833,
+              "logical": "@memory_displacements_overlap@16",
+              "original_va": "0x239f0",
+              "events": "exception 80000003 rva 000139f0 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.1965059069916606,
+              "execution_check_seconds": 1.2997239837422967,
+              "total_seconds": 1.496230567805469,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "a3b3ef8369c34fd0baefd21986485b42157ea1f16741e2c7f675451e1d141b94",
+              "config_sha256": "e9804a5ddc326dd3aa8b28927912ac0ca50cf1470203c170bb0cc386d6076e6e",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/address-recycler-after"
+            }
+          },
+          "after": {
+            "path": "cases/hello-original-834.json",
+            "sha256": "7d7cee66537a08f696a3b055840a2735f7246a79226b3c9b4f5a259a5ffffd48",
+            "capture": {
+              "label": "displacement-overlap-after",
+              "accepted": 834,
+              "logical": "@scheduled_address_changed_between@16",
+              "original_va": "0x42070",
+              "events": "exception 80000003 rva 00032070 base 00010000 first 1\nexit 99\n",
+              "setup_seconds": 0.1915823956951499,
+              "execution_check_seconds": 1.3765042312443256,
+              "total_seconds": 1.5680871279910207,
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "072d192f97b40cf4b09972d6e11e264e517710580b98eb7ff3037240fc0fffef",
+              "config_sha256": "232a7ca2c89bc16f39c2222b4669c4b892c59c88ee780d2b57407903edaf702c",
+              "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+              "inputs": {
+                "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+                "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+                "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+                "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/displacement-overlap-after"
+            }
+          }
         }
       ],
       "extent_corrections": [
@@ -15847,7 +16046,7 @@
     },
     "hello": {
       "first": 352,
-      "last": 831,
+      "last": 834,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -16599,9 +16798,12 @@
         "same_machine_operand_base",
         "scheduled_memory_overlap",
         "assign_machine_operand",
-        "compare_scheduled_memory"
+        "compare_scheduled_memory",
+        "release_machine_address",
+        "memory_displacements_overlap",
+        "scheduled_address_changed_between"
       ],
-      "terminal": "@compare_scheduled_memory@36",
+      "terminal": "@scheduled_address_changed_between@16",
       "returncode": -5,
       "terminal_kind": "application"
     }

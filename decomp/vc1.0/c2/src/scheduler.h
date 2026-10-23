@@ -5,7 +5,7 @@
 /* Dependency address record consumed by407b0/41f30. Registers14/16 are
    signed short physical-register IDs; -1 denotes an absent register. */
 typedef struct SchedulerMemoryAccess {
-    struct SchedulerMemoryAccess *next;
+    SymbolHeader *origin_symbol; /* cached address-origin inference,3c000 */
     MachineInstruction *instruction;
     long displacement;
     SymbolHeader *symbol;
@@ -139,4 +139,5 @@ void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, Machi
 void __fastcall assign_machine_operand(MachineOperand *destination, MachineOperand *source);
 int __fastcall scheduled_address_changed_between(MachineInstruction *first, MachineInstruction *last,
     MachineOperand *operand, int forward);
+SymbolHeader *__fastcall infer_scheduled_address_symbol(MachineOperand *operand, int conservative);
 #endif

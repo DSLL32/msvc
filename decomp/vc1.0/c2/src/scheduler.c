@@ -4,6 +4,7 @@
 #include "instruction-selection.h"
 #include "instruction-rewrite.h"
 #include "register-use.h"
+#include "function-input.h"
 #include <stdlib.h>
 #include <recon.h>
 extern int cpu_model, optimize_speed;
@@ -794,7 +795,7 @@ void __fastcall analyze_scheduled_address(MachineInstruction *instruction,
     if (scheduler_track_registers) {
         record = arena_alloc(3, sizeof(SchedulerMemoryAccess));
         *memory = record;
-        record->next = 0; record->instruction = 0; record->displacement = 0;
+        record->origin_symbol = 0; record->instruction = 0; record->displacement = 0;
         record->symbol = 0; record->operand = 0;
         record->base_register = record->index_register = 0;
         record->width = record->flags = 0;
@@ -1763,4 +1764,101 @@ int __fastcall scheduled_memory_overlap(SchedulerMemoryAccess *first, SchedulerM
         return !scheduled_address_changed_between(first->instruction, last->instruction, first->operand, forward);
     }
     return 0;
+}
+
+/* Original [0003c000,0003c337). Test byte-range dependence between memory
+   forms. Identical bases permit a displacement proof; otherwise symbol and
+   cached origin identities provide the conservative alias decision. */
+int __fastcall compare_scheduled_memory(MachineOperand *left, unsigned left_bytes,
+    MachineOperand *right, unsigned right_bytes, int mode, int conservative,
+    int *relation, SchedulerMemoryAccess *left_memory, SchedulerMemoryAccess *right_memory)
+{
+    unsigned left_kind = left->flags & 15, right_kind = right->flags & 15, attributes;
+    SymbolHeader *left_symbol, *right_symbol, *left_origin, *right_origin;
+    MachineAddress *a = left->value.address, *b = right->value.address;
+    switch (left_kind) {
+    case OPERAND_ABSOLUTE:
+        switch (right_kind) {
+        case OPERAND_ABSOLUTE:
+            if (a->symbol != b->symbol) return 0;
+            return memory_displacements_overlap(left, left_bytes, right, right_bytes) != 0;
+        case OPERAND_BASED:
+            if ((b->base.words.number & 0x3fff) == (conservative ? REG_ESP : REG_EBP)) return 0;
+            break;
+        case OPERAND_INDEXED: break;
+        default: return 0;
+        }
+        break;
+    case OPERAND_BASED:
+        switch (right_kind) {
+        case OPERAND_ABSOLUTE:
+            if ((a->base.words.number & 0x3fff) == (conservative ? REG_ESP : REG_EBP)) return 0;
+            break;
+        case OPERAND_BASED:
+            if (a->symbol == b->symbol && a->base.words.number == b->base.words.number &&
+                !memory_displacements_overlap(left, left_bytes, right, right_bytes)) {
+                *relation = 1;
+                return 0;
+            }
+            break;
+        case OPERAND_INDEXED: break;
+        default: return 0;
+        }
+        break;
+    case OPERAND_INDEXED:
+        if (right_kind == OPERAND_INDEXED) {
+            if (a->symbol == b->symbol && a->base.words.number == b->base.words.number &&
+                a->index.words.number == b->index.words.number && !((left->flags ^ right->flags) & 0x300) &&
+                !memory_displacements_overlap(left, left_bytes, right, right_bytes)) {
+                *relation = 1;
+                return 0;
+            }
+        } else if (right_kind != OPERAND_ABSOLUTE && right_kind != OPERAND_BASED) return 0;
+        break;
+    default:
+        return 0;
+    }
+    left_symbol = a->symbol;
+    right_symbol = b->symbol;
+    if (right_symbol) {
+        if (left_symbol) return right_symbol == left_symbol;
+        if (right_symbol->kind == 0x13) return 0;
+        if (right_symbol->kind == 1) {
+            attributes = ((TemporarySymbol *)right_symbol)->attributes;
+            if (((attributes & 0x70) == 0x10 || (attributes & 0x70) == 0x30) &&
+                !(attributes & 0x2000) && !(attributes & 0x10000)) return 0;
+        }
+        if (mode) {
+            left_origin = left_memory ? left_memory->origin_symbol : 0;
+            if (!left_origin) left_origin = infer_scheduled_address_symbol(left, conservative);
+            if (!left_origin) return 1;
+            if (left_memory) left_memory->origin_symbol = left_origin;
+            if (right_symbol != left_origin) return 0;
+        }
+    } else if (left_symbol) {
+        if (left_symbol->kind == 0x13) return 0;
+        if (left_symbol->kind == 1) {
+            attributes = ((TemporarySymbol *)left_symbol)->attributes;
+            if (((attributes & 0x70) == 0x10 || (attributes & 0x70) == 0x30) &&
+                !(attributes & 0x2000) && !(attributes & 0x10000)) return 0;
+        }
+        if (mode) {
+            right_origin = right_memory ? right_memory->origin_symbol : 0;
+            if (!right_origin) right_origin = infer_scheduled_address_symbol(right, conservative);
+            if (!right_origin) return 1;
+            if (right_memory) right_memory->origin_symbol = right_origin;
+            if (right_origin != left_symbol) return 0;
+        }
+    } else if (mode) {
+        right_origin = right_memory ? right_memory->origin_symbol : 0;
+        if (!right_origin) right_origin = infer_scheduled_address_symbol(right, conservative);
+        if (!right_origin) return 1;
+        left_origin = left_memory ? left_memory->origin_symbol : 0;
+        if (!left_origin) left_origin = infer_scheduled_address_symbol(left, conservative);
+        if (!left_origin) return 1;
+        if (left_memory) left_memory->origin_symbol = left_origin;
+        if (right_memory) right_memory->origin_symbol = right_origin;
+        if (right_origin != left_origin) return 0;
+    }
+    return 1;
 }

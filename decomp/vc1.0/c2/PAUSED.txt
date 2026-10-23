@@ -1,6 +1,6 @@
 C2 ACTIVE: finish /O2 /G5 hello, then cases/queue.json optimizer stress.
-Verified831 acceptances/753 source graphs; matching compare_scheduled_memory3c000.
-WinMain post-allocation finishing passed to Pentium memory-dependence scheduling.
-Extent union227747/399693=56.9804825203%, not branch coverage.
+Verified834 acceptances/756 source graphs; matching scheduled_address_changed_between42070.
+WinMain Pentium scheduling: memory range decisions now execute.
+Extent union228631/399693=57.2016522681%, not branch coverage.
 Canonical/W3, audit and native fixtures pass; full hello incomplete.
-See cases/hello-scheduler-memory-frontier.json. No shared shim requests.
+See cases/hello-memory-range-comparison.json. No shared shim requests.

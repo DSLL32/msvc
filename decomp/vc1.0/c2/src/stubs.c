@@ -179,7 +179,6 @@ unsigned short __fastcall select_assembly_record(Node *node) { __asm int 3 }
 int __fastcall register_partial_write_safe(unsigned short reg) { __asm int 3 }
 
 #include "instruction-rewrite.h"
-void __fastcall release_machine_address(MachineAddress *address) { __asm int 3 }
 int __fastcall narrow_result_safe(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall expand_constant_multiply(MachineInstruction *instruction) { __asm int 3 }
 unsigned __fastcall integer_width_mask(unsigned bytes) { __asm int 3 }
@@ -359,7 +358,6 @@ void __fastcall mark_register_definition_ends(WorkItem *work, AllocationValue *v
 MachineInstruction *__fastcall find_transfer_call_boundary(MachineInstruction *transfer) { __asm int 3 }
 
 
-int __fastcall memory_displacements_overlap(MachineOperand *left, unsigned left_bytes, MachineOperand *right, unsigned right_bytes) { __asm int 3 }
 int __fastcall close_machine_region(MachineFlowRegion *parent, MachineFlowRegion *region) { __asm int 3 }
 MachineFlowRegion *__fastcall process_special_machine_region_reference(MachineFlowRegion *region, SymbolHeader *label) { __asm int 3 }
 void __fastcall prepare_float_machine_data(int has_protected_blocks) { __asm int 3 }
@@ -401,7 +399,6 @@ void __fastcall remove_scheduled_float_exchange(MachineInstruction *instruction)
 int __fastcall instruction_float_not_ready(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall apply_scheduled_float(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall scheduled_float_conflict(MachineInstruction *first, MachineInstruction *last, int *adjustment) { __asm int 3 }
-int __fastcall compare_scheduled_memory(MachineOperand *left, unsigned left_bytes, MachineOperand *right, unsigned right_bytes, int mode, int conservative, int *relation, SchedulerMemoryAccess *left_memory, SchedulerMemoryAccess *right_memory) { __asm int 3 }
 int __fastcall scheduled_float_latency(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall scheduler_instruction_cycles(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall pair_pentium_fallthrough_jump(MachineInstruction *jump, MachineInstruction **middle) { __asm int 3 }
@@ -470,3 +467,4 @@ int __fastcall instruction_precedes_region_entry(MachineInstruction *instruction
 unsigned __fastcall stack_adjustment_between(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 int __fastcall scheduled_address_changed_between(MachineInstruction *first, MachineInstruction *last,
     MachineOperand *operand, int forward) { __asm int 3 }
+SymbolHeader *__fastcall infer_scheduled_address_symbol(MachineOperand *operand, int conservative) { __asm int 3 }

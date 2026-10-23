@@ -835,7 +835,10 @@
     "@equivalent_stack_copy_operands@16",
     "@same_machine_operand_base@8",
     "@scheduled_memory_overlap@12",
-    "@assign_machine_operand@8"
+    "@assign_machine_operand@8",
+    "@compare_scheduled_memory@36",
+    "@release_machine_address@4",
+    "@memory_displacements_overlap@16"
   ],
   "driver": [
     {
@@ -3243,8 +3246,7 @@
     {
       "name": "@release_machine_address@4",
       "start": 108864,
-      "end": 108865,
-      "provisional": true
+      "end": 108878
     },
     {
       "name": "@insert_machine_after@8",
@@ -5037,8 +5039,7 @@
     {
       "name": "@memory_displacements_overlap@16",
       "start": 145904,
-      "end": 145905,
-      "provisional": true
+      "end": 145951
     },
     {
       "name": "@instruction_operands_equal@16",
@@ -5881,8 +5882,7 @@
     {
       "name": "@compare_scheduled_memory@36",
       "start": 245760,
-      "end": 245761,
-      "provisional": true
+      "end": 246583
     },
     {
       "name": "@gather_pentium_candidates@12",
@@ -6491,6 +6491,12 @@
       "name": "@scheduled_address_changed_between@16",
       "start": 270448,
       "end": 270449,
+      "provisional": true
+    },
+    {
+      "name": "@infer_scheduled_address_symbol@8",
+      "start": 246592,
+      "end": 246593,
       "provisional": true
     }
   ],

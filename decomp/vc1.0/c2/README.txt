@@ -2094,3 +2094,14 @@ first copier. Native/original agree at compare_scheduled_memory3c000 for two
 four-byte accesses.753 graph/extent checks, canonical/three modules-W3 and
 native fixtures pass. Comparison result/ambiguous-address branches remain
 unrecovered. Full hello object incomplete; see cases/hello-scheduler-memory-frontier.json.
+
+Memory range dependence: checkpoint834
+---------------------------------------
+The whole byte-range comparator preserves memory-kind, explicit-symbol, storage
+and cached-origin rules. SchedulerMemoryAccess's first word is now correctly a
+SymbolHeader*origin_symbol, with constructor/cache consumers accounted for.
+Address recycling and signed endpoint comparisons remain separate functions.
+Native/original agree at scheduled_address_changed_between42070 after finding
+disjoint same-base ranges.756 graph/extent checks, canonical/three modules-W3
+and native fixtures pass; origin-inference and several indexed/storage branches
+remain unvisited named traps. Full hello incomplete; see cases/hello-memory-range-comparison.json.

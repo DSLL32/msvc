@@ -204,3 +204,11 @@ void __fastcall assign_machine_operand(MachineOperand *destination, MachineOpera
         *address = *source->value.address;
     }
 }
+
+/* Original [0001a940,0001a94e). Address recycler, with a nonnull owned
+   payload supplied by release_operand_address. Allocation clears reused data. */
+void __fastcall release_machine_address(MachineAddress *address)
+{
+    address->first.next = free_machine_addresses;
+    free_machine_addresses = address;
+}
