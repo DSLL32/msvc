@@ -968,14 +968,6 @@
     "evidence": null
   },
   {
-    "name": "@initialize_coff_output@4",
-    "start": 4537434,
-    "end": 4537435,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_query_incremental_stream_size",
     "start": 4766779,
     "end": 4766780,
@@ -1059,6 +1051,54 @@
     "name": "_writer_callback_45477a",
     "start": 4540282,
     "end": 4540283,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@new_output_table@4",
+    "start": 4537717,
+    "end": 4537718,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_initialize_coff_lists",
+    "start": 4537798,
+    "end": 4537799,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@new_output_list@8",
+    "start": 4320150,
+    "end": 4320151,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_read_incremental_output",
+    "start": 4741010,
+    "end": 4741011,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_restore_incremental_output",
+    "start": 4740322,
+    "end": 4740323,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@add_output_source@4",
+    "start": 4531949,
+    "end": 4531950,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

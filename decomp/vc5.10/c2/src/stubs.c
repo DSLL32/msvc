@@ -572,11 +572,6 @@ void initialize_codeview_output(void)
     __asm { int 3 }
 }
 
-int __fastcall initialize_coff_output(C2ObjectOutput *writer)
-{
-    __asm { int 3 }
-    return 0;
-}
 unsigned query_incremental_stream_size(void)
 {
     __asm { int 3 }
@@ -601,6 +596,25 @@ void prepare_output_486e67(void) { __asm { int 3 } }
 void prepare_output_486a23(void) { __asm { int 3 } }
 void prepare_output_48710f(void) { __asm { int 3 } }
 void write_output_directives(void) { __asm { int 3 } }
-void writer_callback_41eb8a() { __asm { int 3 } }
+void *__fastcall allocate_output_bytes(unsigned bytes)
+{
+    __asm { int 3 }
+    return NULL;
+}
 void writer_callback_48511c() { __asm { int 3 } }
 void writer_callback_45477a() { __asm { int 3 } }
+
+C2OutputTable *__fastcall new_output_table(unsigned short capacity)
+{
+    __asm { int 3 }
+    return NULL;
+}
+void initialize_coff_lists(void) { __asm { int 3 } }
+C2OutputList *__fastcall new_output_list(int kind, void *context)
+{
+    __asm { int 3 }
+    return NULL;
+}
+int read_incremental_output(void) { __asm { int 3 } return 0; }
+void restore_incremental_output(void) { __asm { int 3 } }
+void __fastcall add_output_source(char *name) { __asm { int 3 } }

@@ -130,13 +130,14 @@ def main():
         mutations.append(('changed cached-import evidence with matching receipt hash',changed_residual))
     control_graph=json_at(source_audit/'graph-audit.json')
     if control_graph.get('register_import_inputs',{}).get('enabled_functions'):
-        owner=control_graph['register_import_inputs']['enabled_functions'][0]
+        enabled=control_graph['register_import_inputs']['enabled_functions']
+        owner='@read_initializer_records@4'if '@read_initializer_records@4'in enabled else enabled[0]
         def register_graph(root,change):
             path=audit_directory(root)/'graph-audit.json';graph=json_at(path);change(graph);write_json(path,graph)
             path=audit_path(root);audit=json_at(path);audit['report_sha256']=sha((audit_directory(root)/'graph-audit.json').read_bytes());write_json(path,audit);bind_audit(root)
         def resolution(graph):return graph['functions'][owner]['register_imports']
         def change_resolved(graph):
-            calls=resolution(graph)['original']['resolved_register_calls'];key=next(iter(calls));calls[key]={'dll':'msvcrt.dll','name':'malloc'}
+            calls=resolution(graph)['original']['resolved_register_calls'];key=next(iter(calls));before=calls[key];calls[key]={'dll':'msvcrt.dll','name':'malloc'if before.get('name')!='malloc'else'free'};assert calls[key]!=before,'identity mutation must actually change its selected owner'
         mutations += [
             ('register import enabled owner omitted',lambda r:register_graph(r,lambda g:g['register_import_inputs'].__setitem__('enabled_functions',[]))),
             ('register import adds unrelated owner',lambda r:register_graph(r,lambda g:g['register_import_inputs']['enabled_functions'].append('_c2_main'))),
@@ -150,6 +151,13 @@ def main():
             ('register import target input hash differs',lambda r:register_graph(r,lambda g:g['register_import_inputs'].__setitem__('original_sha256','0'*64))),
             ('register import rebuilt input hash differs',lambda r:register_graph(r,lambda g:g['register_import_inputs'].__setitem__('rebuilt_sha256','0'*64))),
         ]
+        if '@initialize_coff_output@4'in enabled:
+            def coff_resolution(graph):return graph['functions']['@initialize_coff_output@4']['register_imports']
+            def coff_identity(graph):
+                calls=coff_resolution(graph)['original']['resolved_register_calls'];key=next(iter(calls));assert calls[key]['name']=='malloc';calls[key]={'dll':'msvcrt.dll','name':'free'}
+            mutations += [('register import COFF malloc identity changed',lambda r:register_graph(r,coff_identity)),
+                ('register import COFF allocator site omitted',lambda r:register_graph(r,lambda g:coff_resolution(g)['original'].__setitem__('other_unresolved_calls',[]))),
+                ('register import COFF allocator unknown site added',lambda r:register_graph(r,lambda g:coff_resolution(g)['rebuilt']['other_unresolved_calls'].append(0x402dae)))]
     current_state=json_at(a.native/'state.json')
     if 'data_state'in current_state:
         def changed_native_table(root):

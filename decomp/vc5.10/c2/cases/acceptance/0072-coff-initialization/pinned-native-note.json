@@ -1,0 +1,6 @@
+{
+  "reason": "Preserve later fixture-only shared build; restore independently reviewed exact candidate ELF + actual compiled-input manifest for source72 promotion. No raw relabel/source/config/original execution changes.",
+  "later_fixture_elf_sha256": "70f1c1c488c6e10a242c2d0faa889973bdf6c32baaeee8bac6373947e0908a5d",
+  "restored_elf_sha256": "7821095c41093387848f31db518c908e3e4952c9616587183fef1720b46ee47f",
+  "restored_manifest_sha256": "7eca47ae989cebcdb45346388836bfe3e323912662a67f70025fd492c425b11e"
+}

@@ -20,13 +20,28 @@ ROOTS = {
     'incremental_data': (0x49e31c, 'incremental_data'),
     'directive_section': (0x4973fc, 'directive_section'),
     'fpo_section': (0x497dc0, 'fpo_section'),
-    'writer_allocator': (0x41eb8a, 'writer_callback_41eb8a'),
+    'writer_allocator': (0x41eb8a, 'allocate_output_bytes'),
     'writer_error': (0x48511c, 'writer_callback_48511c'),
     'writer_clock': (0x45477a, 'writer_callback_45477a'),
 }
 
 
-def complete_globals(read, addresses, directives=False, writer=False):
+COFF_GLOBALS = {
+    'output_allocate': (0x497d88, 4), 'output_error_handler': (0x4999f4, 4),
+    'output_clock_handler': (0x497e00, 4), 'coff_new_output': (0x497da0, 4),
+    'coff_machine': (0x497e04, 2), 'coff_source_name': (0x4999e8, 4),
+    'coff_output': (0x497e14, 4), 'coff_pending04': (0x4999ec, 4),
+    'coff_debug': (0x497ccd, 1), 'coff_table': (0x497d74, 4),
+    'coff_storage': (0x497d70, 4), 'coff_symbol_buffer': (0x497d48, 4),
+    'coff_symbol_capacity': (0x497d50, 4), 'coff_default_flags': (0x497cb0, 2),
+    'coff_flags': (0x497d9c, 2), 'coff_pending_e18': (0x497e18, 2),
+    'coff_section_count': (0x497d78, 2), 'coff_symbol_count': (0x497d6c, 4),
+    'coff_pending_c90': (0x497c90, 4), 'coff_output_list': (0x497d44, 4),
+}
+ROOTS.update({key:(value[0],key)for key,value in COFF_GLOBALS.items()})
+
+
+def complete_globals(read, addresses, directives=False, writer=False, coff=False):
     def u32(address): return struct.unpack('<I', read(address, 4))[0]
     pool_words = struct.unpack('<12I', read(addresses['pools'], 48))
     head, cursor, remaining = pool_words[:3]
@@ -190,4 +205,20 @@ def complete_globals(read, addresses, directives=False, writer=False):
             machine=0x14c, pending04=0xffffffff, debug=0,
             file_global_alias=True, output_open=1, callback_identities=targets,
             incremental_data_null=True, output_sections_null=True, pool_bytes=data.hex())
+    if coff:
+        assert writer
+        expected = dict(output_allocate=addresses['writer_allocator'],
+            output_error_handler=addresses['writer_error'], output_clock_handler=addresses['writer_clock'],
+            coff_new_output=1, coff_machine=0x14c, coff_source_name=writer_head+40,
+            coff_output=output, coff_pending04=0xffffffff, coff_debug=0, coff_pending_c90=1)
+        copied = {}
+        for key, (_, size) in COFF_GLOBALS.items():
+            actual = int.from_bytes(read(addresses[key],size),'little')
+            assert actual == expected.get(key,0), 'COFF copied/default global differs: '+key
+            copied[key] = actual
+        for key, normalized in (('output_allocate',0x50000001),
+                ('output_error_handler',0x50000002),('output_clock_handler',0x50000003),
+                ('coff_source_name',0x60000028),('coff_output',0x40000006)):
+            copied[key] = normalized
+        result['coff'] = copied
     return result

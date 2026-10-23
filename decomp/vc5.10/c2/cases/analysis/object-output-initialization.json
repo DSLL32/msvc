@@ -82,9 +82,11 @@
   "targets": [
     {
       "original": 4320138,
-      "native": "writer_callback_41eb8a",
+      "native": "allocate_output_bytes",
       "logical": "_writer_callback_41eb8a",
-      "signature": "UNRESOLVED: address store only; no body or ABI credit"
+      "signature": "fastcall unsigned bytes ECX; pointer EAX; RET0, exact 12B adapter ABI only, body still masked",
+      "abi_evidence": "cases/analysis/output-allocator-abi.json",
+      "abi_evidence_sha256": "03eb2637d826a8dc8b5099dfa24048f240f03d5a4651b0b88fcd151ac854cf60"
     },
     {
       "original": 4739356,
@@ -111,7 +113,7 @@
         4537494,
         4537519
       ],
-      "operation": "pending consumer copies record16/20/24 into globals497d88/4999f4/497e00; remains masked, no ownership/ABI/body credit"
+      "operation": "initialize_coff_output copies record16/20/24 into typed allocator497d88 and guarded pending error4999f4/clock497e00 globals"
     },
     {
       "sites": [
@@ -121,7 +123,7 @@
         4320162
       ],
       "slot": 4816264,
-      "operation": "pending consumers call allocator viaECX count; concrete callable type must be established before first such consumer acceptance"
+      "operation": "Typed allocator calls pass unsigned bytes in ECX and return pointer EAX, RET0; source72 site453cd1 follows first new_output_table frontier; allocator body remains named INT3"
     },
     {
       "slot": 4823540,
@@ -132,7 +134,7 @@
       "operation": "pending clock callback global; full argument/return/cleanup not claimed"
     }
   ],
-  "source_hold": "Only exact owner stores and named target declarations/INT3 definitions permitted. No accepted field consumer/target call/escape. Whole record may reach only typed pending initialize_coff_output entry.",
+  "source_hold": "Allocator ABI recovered separately and typed; no allocator body credit. Error/clock fields and copied globals remain stores-only; any invocation/escape requires actual signature review.",
   "original_graph": {
     "calls": [
       4198400,

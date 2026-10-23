@@ -7,12 +7,14 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 64 application functions (14554 bytes) and five CRT
-helpers (438 bytes). The numeric case has decoded its complete IL header and
-has initialized all five no-debug output sections and has reconstructed the23-kind symbol decoder; its compact signed readers and whole storage updater match, and it has consumed all global IL and initialized ten sections/seven function declarations or definitions, and has consumed the initializer stream and stops at the function-IR pipeline. Four import thunks (24 bytes) and contextual
-text tables (616 bytes) remain separate. The 14992 source bytes are 2.616% of
-573183 `.text` bytes; that denominator includes CRT/data/padding and is not
-non-CRT coverage. `cases/first-case-result.json` describes the finished first
+Current reconstruction has 67 application functions (15557 bytes) and five CRT
+helpers (438 bytes). The numeric case has decoded all global/initializer IL,
+initialized ten sections and seven function declarations or definitions, and
+entered the COFF output pipeline. It currently stops before constructing its
+paged pointer table. Four import thunks (24 bytes) and contextual text tables
+(616 bytes) remain separate. The 15995 source bytes are 2.791% of 573183 `.text`
+bytes; that denominator includes CRT/data/padding and is not non-CRT coverage.
+`cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
 
 `make -j4 native` builds i386 Linux with shared shims; `make -j4 original`
@@ -225,3 +227,18 @@ The protocol checkpoint refreshes37 controls and reuses113; its exact20 checker
 inputs now use ordinary owned files and a hash manifest. All historical archives
 remain untouched. Timing distinguishes the25.331s protocol controls,15.362s
 writer controls and0.777s ablations from capture/build/audit execution.
+
+The386-byte COFF initializer is accepted as source72. Its fresh pair passes
+actual ushort capacity300 to the next table constructor and compares all20
+copied/default globals, source/FILE aliases, and the initialized writer arena.
+The allocator callback now has its byte-proven unsigned-ECX/pointer-EAX fastcall
+signature; its separate12-byte body remains a masked named trap with zero
+credit. Error/clock callbacks and their copied globals retain stores-only guards.
+Five independently ablated ESI contracts resolve both cached malloc calls while
+keeping prior13 EBP/eight EDI claims unchanged. Proof0072 records21 fresh/132
+reused protocol controls (10.643s),34 boundary controls (25.924s), and5 ESI
+ablations (0.515s) separately from original2.885s/native0.539s capture.
+The historical free-identity negative now selects its reader owner explicitly
+and asserts a real mutation; the prior no-op test failure remains preserved.
+A later fixture-only shared rebuild is retained separately; promotion binds the
+reviewed ELF and its exact immutable compiled-input snapshot.

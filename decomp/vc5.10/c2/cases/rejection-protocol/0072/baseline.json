@@ -1,0 +1,36 @@
+{
+  "schema": 1,
+  "source_checkpoint": "cases/acceptance/0072-coff-initialization",
+  "control_result": "cases/acceptance/0072-coff-initialization/rejections.json",
+  "control_result_sha256": "c6aaca3150868e0d45c5e91bea2bf3917bcd886c6f67c2874fa65e9ba3fb8217",
+  "checker_contracts": {
+    "scripts/check-pending-metadata.py": "f497374b1e272e5162f1e4a1685edb78bef525ff5d060d519a9d8c4312810d25",
+    "scripts/compare.py": "917f9e8024d816eaaa09725d49a0cf1475d999133946d36bed3e3a240936fe22",
+    "scripts/intrinsic_evidence.py": "89e13fbff12ec278801984bd7360b54b392cc50e332d9f449c7f8b9032ab0034",
+    "scripts/reaudit-capture.py": "47db322d4f96cad39e15681be42151d6b974d95fde39007623bdb68bcacb361e",
+    "scripts/case_inputs.py": "13ab2ee944896ade6b46c2b2d226fd63233ea9d3191931b1d8a84ddbfaa48aa9",
+    "scripts/native-proof.py": "91fd879644eb159a173dade958a2f78d47ca25738ad3e3452be43757a33d7102",
+    "scripts/debug-run.c": "bf761659338f0737eebbee47af0c26608057c91310bdbded064db41b874f2385",
+    "scripts/audit.py": "b65efd1fa4753ff1007af3c6915bd9372dbc5a8d479fcfa2a14d2b05eec6b12c",
+    "scripts/check-rejections.py": "4caa2632d6d99796af69a8b50bab8d9d7a2d1a13c4f7223c54e849497cf8a3a8",
+    "scripts/capture-original.py": "85c230d10ef8c8285524c71373846a0913bc09f1e774dfe853ed3b250c78550b",
+    "scripts/capture-native.py": "43425bfd458918f6c817aefbd5862c14aeb63cba4b99cd213dc22641a7e1ba48",
+    "scripts/writer_evidence.py": "6b06e3fbbdcfbf11c1113dc476c3ed6dd792ab368396fb23cf509b40e5c9387b",
+    "scripts/accept.py": "a6b1d5cc50ca30212ae120e5f58a5cf891b17ace4a4378f35fd35f5a2000a11e",
+    "scripts/import_evidence.py": "00d384d41f63d7d7058d399fdaef731f097f7d9b695f3526549d672cc9556d72",
+    "scripts/data_evidence.py": "bff361add0b1def3f83f5e5c13a82dd6fba7ad1ea90a9ac432c06558cbeca793",
+    "scripts/pending_metadata.py": "4fb55fa9f12620145ccaf5142b9b65c355f2fd8c6e9824e0037e763ff4413634",
+    "scripts/state.py": "7f5e869a7e139e12ffad9d6968c36a87f45c688e6d047bfc8a71bfbf18ef04d6",
+    "scripts/build-index.py": "97e280740713f64c1bf1699d7e376cbea06e7d50f4c7dba7495a2eef87d1030d",
+    "scripts/globals_state.py": "a6c5f0eb00507298f82bbaf31aed9a6a874a931c88ab18a6be7a5d02fe3c6265",
+    "scripts/callback_evidence.py": "404eb248f4725d028e2d3a77654f057865d262fcaa9008f4adaad9de0938110f"
+  },
+  "source_directory": "sources",
+  "source_manifest": "source-manifest.json",
+  "source_manifest_sha256": "8252ad0cd61c9d59f224526f5e5510aa796ca3c3353c35ded3b7882354ee5361",
+  "proof_inputs": {
+    "original_receipt": "c89e79ee78d25f84acb948c065107b2bf738beecd8accdad31bfd3823ba9fe72",
+    "native_receipt": "98e18f7ed57515c6baa5571e77822fa247612ae27406f007019b0e161c0757e7"
+  },
+  "scope": "153 generic predicates:21 freshly refreshed +132 explicitly reviewed reused. Separate34 COFF boundary/compile and5 ESI controls. Historical free owner selection fixed with non-no-op assertion; three actual new COFF import/application-callback mutations added. Ordinary exact20 source inputs; no archive."
+}

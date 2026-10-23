@@ -60,10 +60,10 @@ def verify_free_provider(path, expected_sha256):
 def verify_writer_provider(packet):
     """Exact public boundaries, not a private dependency implementation."""
     import json
-    public=packet['writer_provider_evidence']
-    assert {(r['symbol'],Path(r['path']).name)for r in public}=={
+    public=packet['writer_provider_evidence']+([packet['coff_provider_evidence']]if 'coff_scope'in packet else[])
+    assert {(r['symbol'],Path(r['path']).name)for r in public}==({
         ('fopen','MSVCRT.DLL'),('fclose','MSVCRT.DLL'),
-        ('StreamQueryCb','MSPDB50.DLL'),('StreamRead','MSPDB50.DLL')}
+        ('StreamQueryCb','MSPDB50.DLL'),('StreamRead','MSPDB50.DLL')}|({('malloc','MSVCRT.DLL')}if 'coff_scope'in packet else set()))
     for row in public:
         path=ROOT/row['path']
         assert path.parent==TARGET.parent and path.name in ('MSVCRT.DLL','MSPDB50.DLL')
@@ -117,14 +117,22 @@ def verify(config,graph):
         assert result['require_all_register_calls_resolved'] is True
         for side in ('original','rebuilt'):
             observed=result[side]
-            assert not observed['unresolved_register_calls'] and not observed['other_unresolved_calls'], 'unresolved cached import transfer'
+            assert not observed['unresolved_register_calls'], 'unresolved cached import transfer'
+            base=record['start']if side=='original'else maps[record.get('symbol',record['name'])]
+            expected_other=[base+v for v in record.get('application_callback_offsets',{}).get(side,[])]
+            assert observed['other_unresolved_calls']==expected_other,'unknown non-import indirect call'
+            if expected_other:
+                assert record['name']=='@initialize_coff_output@4'and len(expected_other)==1
+                callback_slot=0x497d88 if side=='original'else maps['_output_allocate']
+                callback_read=pe_read(TARGET)if side=='original'else rebuilt
+                assert callback_read(expected_other[0],6)==b'\xff\x15'+struct.pack('<I',callback_slot),'application callback must use exact qualified allocator slot'
             assert observed['resolved_register_calls']==record['register_import_sites'][side], 'cached import site inventory differs'
             base=record['start'] if side=='original' else maps[record.get('symbol',record['name'])]
             direct={str(base+int(site)):identity for site,identity in record['direct_import_offsets'][side].items()}
             assert observed['direct_import_calls']==direct, 'direct import site inventory differs'
         if record['name']=='@read_initializer_records@4':
             verify_free_provider(BINARY/record['provider_abi_evidence'],record['provider_abi_evidence_sha256'])
-        else:assert record['name']=='_initialize_object_output','unknown resolver proof owner'
+        else:assert record['name']in ('_initialize_object_output','@initialize_coff_output@4'),'unknown resolver proof owner'
         contracts=config['register_imports']['preservation_contracts']
         paths={entry['evidence']['path'] for entry in contracts}
         assert len(paths)==1, 'reader ABI witness scope changed'
@@ -141,7 +149,16 @@ def verify(config,graph):
                 '@read_incremental_stream@8','_read_incremental_byte','_validate_incremental_options'}
             assert {v['target']['function']for v in contracts if 'edi'in v['preserves']and 'function'in v['target']}==expected_edi
             assert {v['target']['import']['name']for v in contracts if 'edi'in v['preserves']and 'import'in v['target']}=={'fopen','fclose'}
-            assert all(set(v['preserves'])<= {'ebp','edi'}for v in contracts)
+            assert all(set(v['preserves'])<= {'ebp','edi','esi'}for v in contracts)
+            if 'coff_scope'in packet:
+                expected_esi={'@c2_report_internal@8','_initialize_coff_lists','@new_output_list@8','_read_incremental_output'}
+                assert {v['target']['function']for v in contracts if 'esi'in v['preserves']and 'function'in v['target']}==expected_esi
+                assert {v['target']['import']['name']for v in contracts if 'esi'in v['preserves']and 'import'in v['target']}=={'malloc'}
+                for interval in packet['coff_scope']['pending_reader_tables']:
+                    assert sha(pe_read(TARGET)(interval['start'],interval['end']-interval['start']))==interval['sha256']
+                allocator=packet['coff_scope']['opaque_application_callback']
+                assert sha((BINARY/allocator['abi_evidence']).read_bytes())==allocator['abi_evidence_sha256']
+            else:assert not any('esi'in v['preserves']for v in contracts)
         definitions={r['name']:r for r in config['driver']+config['stubs']}
         declared={entry['target']['function'] for entry in contracts if 'function' in entry['target']}
         assert declared=={entry['function']for entry in packet['callee_preservation']}

@@ -39,7 +39,7 @@ void initialize_object_output(void)
     writer->pending04 = -1;
     writer->source_name = c2_source_name ? arena_strdup(c2_source_name, 7) : "";
     writer->output_error.target = writer_callback_48511c;
-    writer->output_allocator.target = writer_callback_41eb8a;
+    writer->output_allocator = allocate_output_bytes;
     writer->output_clock.target = writer_callback_45477a;
     writer->debug = c2_codeview_types || c2_line_numbers ? 1 : 0;
     if (!initialize_coff_output(writer))
@@ -62,4 +62,64 @@ void initialize_object_output(void)
     fpo_section = section;
     section->attribute = 1;
     write_output_directives();
+}
+
+C2OutputAllocator output_allocate;
+C2PendingCallback output_error_handler, output_clock_handler;
+int coff_new_output;
+unsigned short coff_machine;
+char *coff_source_name;
+FILE *coff_output;
+long coff_pending04;
+unsigned char coff_debug;
+C2OutputTable *coff_table;
+C2OutputStorage *coff_storage;
+void *coff_symbol_buffer;
+unsigned coff_symbol_capacity;
+unsigned short coff_default_flags, coff_flags, coff_pending_e18, coff_section_count;
+unsigned coff_symbol_count;
+int coff_pending_c90 = 1;
+C2OutputList *coff_output_list;
+
+int __fastcall initialize_coff_output(C2ObjectOutput *writer)
+{
+    if (writer->format != 1)
+        return 0;
+    coff_new_output = !deferred_compilation;
+    coff_machine = writer->machine;
+    coff_source_name = writer->source_name;
+    coff_output = writer->file;
+    coff_pending04 = writer->pending04;
+    output_allocate = writer->output_allocator;
+    output_error_handler = writer->output_error;
+    output_clock_handler = writer->output_clock;
+    coff_debug = writer->debug;
+    coff_table = new_output_table(300);
+    coff_storage = output_allocate(16);
+    if (!deferred_compilation) {
+        coff_symbol_buffer = malloc(4096);
+        if (!coff_symbol_buffer)
+            c2_report_internal("E:\\utc\\src\\\\P2\\cofflib.c", 807);
+        coff_symbol_capacity = 1023;
+    }
+    coff_pending_e18 = 0;
+    coff_section_count = 0;
+    coff_flags = coff_default_flags;
+    coff_symbol_count = 0;
+    coff_pending_c90 = 1;
+    initialize_coff_lists();
+    coff_output_list = new_output_list(1, NULL);
+    if (deferred_compilation) {
+        if (!read_incremental_output()) {
+            coff_symbol_buffer = malloc(4096);
+            if (!coff_symbol_buffer)
+                c2_report_internal("E:\\utc\\src\\\\P2\\cofflib.c", 838);
+            coff_symbol_capacity = 1023;
+        }
+    }
+    if (deferred_compilation)
+        restore_incremental_output();
+    else
+        add_output_source(coff_source_name);
+    return 1;
 }

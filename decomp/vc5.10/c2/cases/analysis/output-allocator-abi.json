@@ -1,0 +1,36 @@
+{
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "logical": "_writer_callback_41eb8a",
+  "actual_symbol": "@allocate_output_bytes@4",
+  "native": "allocate_output_bytes",
+  "original": {
+    "start": 4320138,
+    "end": 4320150,
+    "bytes": "8bd1b907000000e96a24feff",
+    "sha256": "e218fde6ce154e6d23ae10e4846f8c81f4e96b8db360e0adb47083fe3c3cfd78"
+  },
+  "abi": "fastcall unsignedbytesECX; void*EAX inheritedRET0",
+  "instructions": "MOV EDX,ECX; MOV ECX,7; JMP accepted c2_pool_allocate401000. No input memory or hiddenregister; no own stackarguments/cleanup.",
+  "tail_target": {
+    "function": "@c2_pool_allocate@8",
+    "entry": 4198400,
+    "abi": "fastcall intpoolECX unsignedbytesEDX; pointerEAX RET0"
+  },
+  "type": "void *(__fastcall *C2OutputAllocator)(unsigned bytes)",
+  "field": {
+    "writer_offset": 16,
+    "global": 4816264,
+    "source_copy_site": 4537494,
+    "global_store_site": 4537505
+  },
+  "first_calls": {
+    "source72": [
+      4537553
+    ],
+    "table_constructor": [
+      4537733,
+      4537768
+    ]
+  },
+  "scope": "Concrete callable ABI recovered from complete original12B target and acceptedtail target plus actual ECX callsites; target body still pending/masked, zero code credit. Error/clock remain provisional stores-only."
+}

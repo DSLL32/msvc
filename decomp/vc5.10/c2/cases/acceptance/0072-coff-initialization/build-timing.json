@@ -1,0 +1,17 @@
+[
+  {
+    "kind": "original",
+    "seconds": 0.005396471358835697,
+    "status": 0
+  },
+  {
+    "kind": "native",
+    "seconds": 1.7531219320371747,
+    "status": 0
+  },
+  {
+    "kind": "helper",
+    "seconds": 2.1611273949965835,
+    "status": 0
+  }
+]

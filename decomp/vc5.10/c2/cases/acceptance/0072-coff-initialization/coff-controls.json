@@ -1,0 +1,228 @@
+{
+  "positive": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/coff-init-original-2/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/coff-init-original-2/graph-audit.json",
+    "matched": "@new_output_table@4",
+    "original": "0x453d75",
+    "native": "new_output_table",
+    "argument_state": "globals-complete",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "new_output_table",
+      "symbol_start": "0x66e0",
+      "symbol_size": 91,
+      "static_pc": "0x671b",
+      "int3_sites": [
+        "0x671a"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_copy_arguments",
+      "_c2_initialize_options",
+      "_c2_next_argument",
+      "@c2_match_option@16",
+      "@c2_apply_option@12",
+      "@parse_option_integer@4",
+      "@c2_validate_alignment@4",
+      "@c2_open_intermediate@16",
+      "_c2_read_header",
+      "_c2_read_il_byte",
+      "_c2_read_il_word",
+      "_c2_read_il_long",
+      "_c2_reset_symbol_table",
+      "_c2_create_type_table",
+      "@c2_allocate_node@8",
+      "@c2_node_size@4",
+      "@c2_pool_allocate@8",
+      "_c2_initialize_constants",
+      "_c2_real_from_int",
+      "_store_extended",
+      "_c2_initialize_opcodes",
+      "_c2_initialize_machine",
+      "_c2_initialize_trees",
+      "@create_section@12",
+      "@insert_symbol@8",
+      "@append_section@4",
+      "@initialize_section_defaults@4",
+      "_c2_initialize_codegen",
+      "@read_symbols@4",
+      "@read_symbol@4",
+      "_input_varuint",
+      "@input_string@8",
+      "@intern_symbol_name@12",
+      "@arena_strdup@8",
+      "@record_filename@4",
+      "@copy_symbol_type@4",
+      "_input_type",
+      "_input_compact_signed",
+      "_input_compact_short",
+      "@update_symbol_storage@4",
+      "@lookup_global_symbol@4",
+      "_next_symbol_serial",
+      "@put_symbol@8",
+      "_c2_initialize_registers",
+      "@read_initializer_records@4",
+      "_c2_initialize_optimizer",
+      "_initialize_backend",
+      "_initialize_pass_functions",
+      "_default_runtime_library",
+      "@add_output_directive@8",
+      "_initialize_object_output",
+      "@initialize_coff_output@4"
+    ],
+    "candidates": [
+      "@initialize_coff_output@4"
+    ],
+    "acceptance": false
+  },
+  "count": 34,
+  "rejected": [
+    {
+      "control": "table actual formal omitted",
+      "reason": ""
+    },
+    {
+      "control": "table actual formal type changed",
+      "reason": ""
+    },
+    {
+      "control": "table actual capacity changed",
+      "reason": ""
+    },
+    {
+      "control": "caller writer alias lost",
+      "reason": ""
+    },
+    {
+      "control": "original actual capacity changed",
+      "reason": ""
+    },
+    {
+      "control": "copied/default global output_allocate",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global output_error_handler",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global output_clock_handler",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global coff_new_output",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global coff_machine",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global coff_source_name",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global coff_output",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global coff_pending04",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global coff_debug",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global coff_table",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global coff_storage",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global coff_symbol_buffer",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global coff_symbol_capacity",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global coff_default_flags",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global coff_flags",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global coff_pending_e18",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global coff_section_count",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global coff_symbol_count",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global coff_pending_c90",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "copied/default global coff_output_list",
+      "reason": "completed global symbols/sections/queue/arena or actualformals differ"
+    },
+    {
+      "control": "pending member target invocation",
+      "reason": "pending writer callback invocation/escape requires recovered actual signature"
+    },
+    {
+      "control": "pending member escape",
+      "reason": "pending writer callback invocation/escape requires recovered actual signature"
+    },
+    {
+      "control": "pending copied error invocation",
+      "reason": "pending copied callback invocation/escape requires recovered signature"
+    },
+    {
+      "control": "pending copied clock escape",
+      "reason": "pending copied callback invocation/escape requires recovered signature"
+    },
+    {
+      "control": "pending target direct invocation",
+      "reason": "pending writer target may only be declared, stored, or trap"
+    },
+    {
+      "control": "erased error pending signature hold",
+      "reason": "signature remains unknown"
+    },
+    {
+      "control": "typed allocator wrong convention",
+      "reason": "complete byte-proven ABI differs"
+    },
+    {
+      "control": "compile rejects output_error directcall",
+      "diagnostic_sha256": "6e11f5429a3e214a5f0a50d2faaa8fa7e7a87bc4c807dd61d480983433027a98"
+    },
+    {
+      "control": "compile rejects output_clock directcall",
+      "diagnostic_sha256": "223591de7271150b08849a8b8801c60023661527dd3d0c3d2d0ac2866d48ce8e"
+    }
+  ],
+  "seconds": 25.923734709620476,
+  "original_receipt_sha256": "c89e79ee78d25f84acb948c065107b2bf738beecd8accdad31bfd3823ba9fe72",
+  "native_receipt_sha256": "98e18f7ed57515c6baa5571e77822fa247612ae27406f007019b0e161c0757e7",
+  "checker_sha256": "13399011d5ee54aabd0614e79b520867402879aa63ccaa67baeffb82352b2b46"
+}

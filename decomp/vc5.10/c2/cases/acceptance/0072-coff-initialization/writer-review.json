@@ -1,0 +1,8 @@
+{
+  "approved": true,
+  "boundary_sha256": "aa6fd614fd97a9acf7633eef4db2dfb7b76f7cffd95dec8d95dfe9e469d93e67",
+  "scope": "Source72 typed allocator ABI/copy boundary and finite5 ESI contracts independently reviewed; pending adapter and error/clock callable/body holds retained.",
+  "review_id": "orchestrator-c2-coff72-2026-10-23",
+  "review_receipt": "/root/.ai-tmp/msvc2/vc5.10/c2/coff72-parent-review.json",
+  "review_receipt_sha256": "fb25bbf762ab6d8be526f74c7d87bf1ee903e4bac4254ce59c4e593898271353"
+}
