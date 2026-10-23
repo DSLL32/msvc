@@ -325,7 +325,7 @@ void __stdcall declare_anonymous_aggregate(CType *type) { __asm { int 3 } }
 void __stdcall declare_friend_member(DeclarationType *context, CppSymbol *member,
     QualifiedDeclarator *qualified, CppSymbol *owner, StorageSpec storage, int pure) { __asm { int 3 } }
 void __stdcall apply_member_access_declaration(CppSymbol *owner, QualifiedDeclarator *qualified) { __asm { int 3 } }
-TypeShape *__stdcall last_type_shape(TypeShape *shape) { __asm { int 3 } return 0; }
+
 void __stdcall inherit_class_dll_storage(DeclarationType *context, CppSymbol *member) { __asm { int 3 } }
 void __stdcall layout_bit_field(CppSymbol *member, char *name, unsigned short flags, int new_member) { __asm { int 3 } }
 int __stdcall validate_union_member(CppSymbol *unused_owner, CppSymbol *member) { __asm { int 3 } return 0; }

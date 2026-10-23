@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_last_type_shape@4",
+    "start": 407232,
+    "end": 407256
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_has_cv_qualifiers@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4145467886701226,
+  "total_operation_seconds": 3.833813182078302,
+  "original_capture_seconds": 1.66953229252249
+}

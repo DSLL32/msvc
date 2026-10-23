@@ -201,3 +201,11 @@ unsigned __stdcall compatible_declaration_attributes(unsigned short left,
     if (combined == 2) return (options.configuration.option_M & 2) == 2;
     return options.configuration.option_M & 4;
 }
+
+/* Original 0x636c0..0x636d8. The null chain has no final shape. */
+TypeShape *__stdcall last_type_shape(TypeShape *shape)
+{
+    if (shape)
+        while (shape->related) shape = shape->related;
+    return shape;
+}
