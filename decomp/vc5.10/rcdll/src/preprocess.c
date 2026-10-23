@@ -293,3 +293,13 @@ void __stdcall rc_set_character_class(unsigned short character,unsigned short fl
 {
     if(character<=256) rc_character_classes[character]=flags;
 }
+
+unsigned char __stdcall rc_hash_macro_name(const WCHAR *name)
+{
+    unsigned char hash=0;
+    while(*name) hash+=(unsigned char)*name++ & 0x5f;
+    return hash;
+}
+
+RcMacro *rc_macro_buckets[256];
+unsigned char rc_macro_listing_enabled;

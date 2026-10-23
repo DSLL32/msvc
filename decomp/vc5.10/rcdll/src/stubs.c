@@ -71,12 +71,7 @@ int __stdcall rc_match_option(const WCHAR *pattern,const WCHAR *argument)
     __asm int 3
     return 0;
 }
-unsigned char __stdcall rc_hash_macro_name(const WCHAR *name)
-{
-    __asm int 3
-    return 0;
-}
-void __stdcall rc_define_macro(const WCHAR *replacement,unsigned length,int parameters)
+void __stdcall rc_define_macro(const WCHAR *value,unsigned length,int parameters)
 {
     __asm int 3
 }

@@ -807,3 +807,32 @@ def character_class_trial(original,native):
     assert proof['application_trace'][-1]=='rc_set_character_class'
     proof.update(trial='rc_set_character_class',preprocessor=parser,character_classes=dict(dollar=16,scope='encountered dollar entry only; other lexical entries unclaimed'),macro_name='CASE_FROM_COMMAND',definition_cursor=dict(index=97,original_parameter_reused=True,native_local_index=97),token_reference=dict(path='cases/resources-rich/acceptance-0028.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0028.json')))
     return proof
+
+
+def macro_hash_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_hash_macro_name'and len(config['accepted'])==29
+    a,b,proof=checkpoint(original,native,'rc_define_macro',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c24634 and a['words'][2:4]==[3,0xfffffffe]
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_open_preprocessor\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    text=(original/'events.txt').read_text();forwarded=list(struct.unpack('<4I',raw_bytes(text,'setup-forwarded')))
+    assert forwarded[2]==0x71c344f8+4+97*4 and b['arguments']['setup_iteration']==97
+    forwarded[2]=0x71c344f8 # The original reuses its parameter slot for the live list cursor.
+    state,parser,text,input_name=parsed_option_state(original,native,b,forwarded);proof.update(state)
+    globals=b['arguments']['preprocessor']['globals']
+    assert bytes.fromhex(globals['rc_character_tokens']['bytes'])==struct.pack('<5H',3,36,37,38,39)
+    assert globals['rc_character_tokens[36]']['bytes']=='2800'and globals['rc_character_classes[36]']['bytes']=='1000'
+    expected=('CASE_FROM_COMMAND'+'\0').encode('utf-16le')
+    assert bytes.fromhex(globals['rc_macro_name']['bytes'])==expected+b'\0'*(1024-len(expected))
+    hash_value=sum(ord(c)&0x5f for c in 'CASE_FROM_COMMAND')&255
+    assert globals['rc_macro_hash']['bytes']==bytes([hash_value]).hex()and globals['rc_macro_name_length']['bytes']=='12000000'
+    assert globals['rc_macro_buckets']['bytes']=='00'*1024
+    value=b['arguments']['definition'];old_wide=[int(x,16)for x in re.findall(r'^wide-pointer \d+ ([0-9a-f]+)$',text,re.M)]
+    assert a['words'][1]==old_wide[19]+36
+    assert value==dict(value=b['arguments']['wide_vector'][19]['pointer']+36,length=3,parameters=-2,value_bytes='37000000',formal_bytes=dict(value=4,length=4,parameters=4))
+    assert raw_bytes(text,'macro-definition-value')==bytes.fromhex(value['value_bytes'])
+    assert re.findall(r'^frontier-errors errno=(-?\d+) last-error=([0-9a-f]+)$',text,re.M)==[('0','00000000')]
+    assert b['crt_errors']==dict(errno=0,last_error=0)
+    assert proof['application_trace'][-1]=='rc_hash_macro_name'
+    proof.update(trial='rc_hash_macro_name',preprocessor=parser,macro_hash=dict(name='CASE_FROM_COMMAND',hash=hash_value,name_length=18),definition=dict(value='7',length=3,parameters=-2,byte_cleanup=12),definition_cursor=dict(index=97,original_parameter_reused=True,native_local_index=97),class_reference=dict(path='cases/resources-rich/acceptance-0029.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0029.json')))
+    return proof

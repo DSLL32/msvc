@@ -21,6 +21,16 @@ typedef struct RcLetterOption {
     int *destination;
 } RcLetterOption;
 
+typedef struct RcMacro {
+    struct RcMacro *next;
+    WCHAR *name,*text;
+    signed char parameters;
+    unsigned char flags;
+    unsigned short reserved;
+} RcMacro;
+extern RcMacro *rc_macro_buckets[256];
+extern unsigned char rc_macro_listing_enabled;
+
 extern int rc_cpp_remaining,rc_cpp_active,rc_cpp_E,rc_cpp_P;
 extern int rc_cpp_nesting_level;
 extern int rc_cpp_extensions,rc_cpp_ZE;

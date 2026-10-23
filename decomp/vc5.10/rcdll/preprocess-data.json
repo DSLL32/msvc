@@ -289,6 +289,18 @@
       "original_rva": "0x14258",
       "kind": "byte-buffer",
       "bytes": 2
+    },
+    {
+      "name": "rc_macro_buckets",
+      "original_rva": "0x21ea0",
+      "kind": "byte-buffer",
+      "bytes": 1024
+    },
+    {
+      "name": "rc_macro_listing_enabled",
+      "original_rva": "0x25058",
+      "kind": "integer",
+      "bytes": 1
     }
   ],
   "options": {

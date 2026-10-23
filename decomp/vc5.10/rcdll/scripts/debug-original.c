@@ -440,7 +440,7 @@ static int trap(HANDLE thread,DWORD address)
             hexbytes("line-prefix",words[1],wide_string_bytes(words[1]));hexbytes("line-text",words[2],wide_string_bytes(words[2]));
             {DWORD current;readmem(base+0x16ce8,&current,4);fprintf(events,"line-current-number %lu\n",current);}
         }
-        if(address==base+0xbc80||address==base+0xbc61||address==base+0x293e||address==base+0x29ef||address==base+0x2b84||address==base+0x44fd||address==base+0x26bb||address==base+0x11b2a||address==base+0x26f8){
+        if(address==base+0xbc80||address==base+0xbc61||address==base+0x293e||address==base+0x29ef||address==base+0x2b84||address==base+0x44fd||address==base+0x26bb||address==base+0x11b2a||address==base+0x26f8||address==base+0x4c2f){
             DWORD pointer,count,vector,total,length;char label[80];
             if(address==base+0xbc80){count=words[1];vector=words[2];}
             else{count=cpp_count;vector=cpp_vector;}
@@ -452,6 +452,7 @@ static int trap(HANDLE thread,DWORD address)
                 hexbytes("number-operand",words[1],wide_string_bytes(words[1]));
             }
             if(address==base+0x26bb||address==base+0x26f8)hexbytes("setup-forwarded",c.Esp+36,16);
+            if(address==base+0x4c2f){hexbytes("setup-forwarded",c.Esp+40,16);if(words[1])hexbytes("macro-definition-value",words[1],wide_string_bytes(words[1]));}
             if(address==base+0x11b2a){hexbytes("setup-forwarded",c.Esp+32,16);hexbytes("macro-hash-name",words[1],wide_string_bytes(words[1]));}
             if(count!=20||!vector)fail("wide-preprocessor-scope");total=4*(count+1);
             fprintf(events,"wide-args %lu %08lx\n",count,vector);

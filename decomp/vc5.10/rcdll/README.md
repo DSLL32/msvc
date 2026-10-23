@@ -246,3 +246,9 @@ The character-class setter is accepted (30 bytes). The `$` class becomes16 and
 execution reaches hashing `CASE_FROM_COMMAND`, with the entire macro buffer and
 explicit definition-list cursor matching. [Verification](cases/resources-rich/character-class-verification.json)
 records 29 fresh controls and separate build/capture/audit timings.
+
+Macro-name hashing is accepted (26 bytes), matching the first definition call
+with replacement `7`, length3 and parameter kind-2. The actual AL return,
+macro buffer/length/hash and initially empty bucket table are preserved.
+[Verification](cases/resources-rich/macro-hash-verification.json) records 30 fresh
+controls, full typed frontier inputs and split timings.

@@ -82,9 +82,9 @@ def capture():
             arguments['message']=bytes(gdb.selected_inferior().read_memory(int(message),length)).hex()
         if name=='rc_message':arguments['id']=int(frame.read_var('id'))
         if name=='rc_prepare_input':arguments['path']=frame.read_var('path').string()
-        if name in ['rc_preprocess','rc_widen_arguments','rc_preprocessor_main','rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class']:
+        if name in ['rc_preprocess','rc_widen_arguments','rc_preprocessor_main','rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro']:
             caller=frame
-            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class']:
+            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro']:
                 while caller and caller.name()!='rc_preprocessor_main':caller=caller.older()
                 assert caller,'preprocessor main caller missing'
             count=int(caller.read_var('count'));preprocess_vector=caller.read_var('arguments');assert 0<count<=256
@@ -107,7 +107,7 @@ def capture():
             # descriptor numbers and CRT array slots need not equal Wine's.
             file=frees[0]['input_file']
             arguments['closed_input']=bytes(gdb.selected_inferior().read_memory(file,32)).hex()
-            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class']:
+            if name in ['rc_next_argument','rc_scan_options','rc_apply_option','rc_match_option','rc_option_number','rc_open_preprocessor','rc_set_character_token','rc_hash_macro_name','rc_set_character_class','rc_define_macro']:
                 from importlib.machinery import SourceFileLoader
                 observer=SourceFileLoader('native_preprocess',str(Path(os.environ['RCDLL_NATIVE_SCRIPT']).parent/'native-preprocess.py')).load_module()
                 arguments['preprocessor']=observer.capture_preprocessor(config_path.parent/'preprocess-data.json')
@@ -124,6 +124,13 @@ def capture():
                 if name=='rc_open_preprocessor':
                     arguments['open']={field:int(frame.read_var(field))&0xffffffff for field in ['input','output','defines','undefines']}
                     arguments['conversion']=json.loads((output.parent/'numeric-conversion.json').read_text())
+                if name=='rc_define_macro':
+                    parent=frame.older();assert parent.name()=='rc_open_preprocessor'
+                    arguments['open']={field:int(parent.read_var(field))&0xffffffff for field in ['input','output','defines','undefines']}
+                    arguments['setup_iteration']=int(parent.read_var('i'))
+                    arguments['definition']={field:int(frame.read_var(field))for field in ['value','length','parameters']}
+                    arguments['definition']['value_bytes']=observer.wide_bytes(int(frame.read_var('value')))if int(frame.read_var('value'))else None
+                    arguments['definition']['formal_bytes']={field:frame.read_var(field).type.sizeof for field in ['value','length','parameters']}
                 if name=='rc_hash_macro_name':
                     parent=frame.older();assert parent.name()=='rc_open_preprocessor'
                     arguments['open']={field:int(parent.read_var(field))&0xffffffff for field in ['input','output','defines','undefines']}
