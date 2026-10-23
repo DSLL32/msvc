@@ -122,7 +122,7 @@ def compare_release(original, state, trap, completed_options=False):
 def compare_configured(original,state,trap,events,canonical,search):
     """All formal inputs of validate_debug_options and real option-copy frees."""
     context=trap['validation_context']
-    full_link=state['function']in ('LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator')
+    full_link=state['function']in ('LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section')
     assert context==trap['configuration_context']
     if not full_link:assert context==trap['stack'][1]
     assert state['validation_arguments']==dict(context=state['context_this'])
@@ -140,7 +140,7 @@ def compare_configured(original,state,trap,events,canonical,search):
     assert state['incremental_enabled']==0 and (original/'incremental-enabled.bin').read_bytes()==b'\0'
     assert state['logo_pending']==0 and (original/'logo-pending.bin').read_bytes()==b'\0'
     source=state['duplicate_calls']
-    assert len(source)==(7 if state['function']in ('initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator')else 5) and len(state['free_calls'])==3
+    assert len(source)==(7 if state['function']in ('initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section')else 5) and len(state['free_calls'])==3
     assert source[:2]==[
         dict(text='hello.obj',input=state['crt_argv_addresses'][4],result=canonical[0]['result']),
         dict(text=canonical[1]['text'],input=search['output'],result=canonical[1]['result'])]
@@ -168,8 +168,8 @@ def compare_configured(original,state,trap,events,canonical,search):
     assert struct.unpack_from('<I',bytes.fromhex(state['link_context']),0x150)[0]==0
     assert bytes.fromhex(state['link_context'])[0x124]==1
     from context_heap import compare
-    additional=compare_output_modules(original,state,trap,events)if state['function']in ('duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator')else []
-    compare(original,state,trap,configuration_context=context,additional_arenas=additional,additional_allocations=compare_section_pools(original,state,trap,events)if state['function']in ('initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator')else [])
+    additional=compare_output_modules(original,state,trap,events)if state['function']in ('duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section')else []
+    compare(original,state,trap,configuration_context=context,additional_arenas=additional,additional_allocations=compare_section_pools(original,state,trap,events)if state['function']in ('initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section')else [])
     if full_link:
         formals=trap['full_link_formals'];native=state['full_link_formals'];entry=state['full_link_entry']
         if state['function']=='LinkContext::FullLink':
@@ -198,10 +198,10 @@ def compare_configured(original,state,trap,events,canonical,search):
 
 def compare_output_modules(original,state,trap,events):
     """Actual new text argument plus two complete allocated records/pages."""
-    completed=state['function']in ('initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator')
+    completed=state['function']in ('initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section')
     if completed:
         formals=[0,4000,0x3000,4]if state['function']=='allocate_virtual_memory'else []
-        if state['function']in ('create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator'):
+        if state['function']in ('create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section'):
             compare_section_creation(original,state,trap,events)
         else:assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
         if formals:
@@ -340,7 +340,7 @@ def compare_section_creation(original,state,trap,events):
         assert trap['frontier_inputs']==dict(formals=[lflags[k]for k in ('flags','name','header')],hidden_register_inputs=[])
         assert trap['stack'][1:4]==trap['frontier_inputs']['formals']
         assert state['frontier_inputs']==dict(formals=[rflags[k]for k in ('flags','name','header')],hidden_register_inputs=[])
-    elif state['function']=='initialize_section_enumerator':
+    elif state['function']in ('initialize_section_enumerator','next_output_section'):
         compare_section_enumerator_input(original,state,trap,events,left,right)
     else:
         assert trap['frontier_inputs']==dict(formals=[left[k]for k in keys],hidden_register_inputs=[])
@@ -360,15 +360,30 @@ def compare_section_creation(original,state,trap,events):
 
 def compare_section_enumerator_input(original,state,trap,events,left,right):
     l=trap['section_enumerator_formals'];r=state['section_enumerator_formals']
-    assert trap['frontier_inputs']==dict(formals=[l['enumerator'],l['sections']],hidden_register_inputs=[])
-    assert state['frontier_inputs']==dict(formals=[r['enumerator'],r['sections']],hidden_register_inputs=[])
-    assert trap['stack'][1:3]==[l['enumerator'],l['sections']]
-    assert l['enumerator']==trap['esp']+0x20 and l['owner_stack']==trap['esp']+0x238
-    assert l['normalized_pointer']==trap['esp']+0x1c
+    initialized=state['function']=='next_output_section'
+    assert trap['frontier_inputs']==dict(formals=[l['enumerator']]if initialized else [l['enumerator'],l['sections']],hidden_register_inputs=[])
+    assert state['frontier_inputs']==dict(formals=[r['enumerator']]if initialized else [r['enumerator'],r['sections']],hidden_register_inputs=[])
+    assert trap['stack'][1:1+len(trap['frontier_inputs']['formals'])]==trap['frontier_inputs']['formals']
+    assert l['enumerator']==trap['esp']+(0x1c if initialized else 0x20)and l['owner_stack']==trap['esp']+(0x234 if initialized else 0x238)
+    assert l['normalized_pointer']==trap['esp']+(0x18 if initialized else 0x1c)
     assert list(struct.unpack('<5I',(original/'section-lookup-inputs.bin').read_bytes()))==[left[k]for k in ('module','name','flags','sections','header')]
     assert l['sections']==left['sections']and r['sections']==right['sections']
     assert r['enumerator']==r['owner_local']and r['enumerator']
-    assert len((original/'section-enumerator-before.bin').read_bytes())==len(bytes.fromhex(r['before']))==16
+    if initialized:
+        enum_observations=[e for e in events if e['event']=='section_enum_observation']
+        assert len(enum_observations)==2 and len(state['section_enum_calls'])==1
+        call,returned=enum_observations;native=state['section_enum_calls'][0]
+        assert call['index']==returned['index']==0 and(call['before'],returned['before'])==(1,0)
+        assert (call['site'],returned['site'])==(0x40f16e,0x40f173)
+        assert call['arguments']==returned['arguments']==[l['enumerator'],l['sections']]
+        assert call['entry_stack']==returned['entry_stack']==call['stack']and returned['stack']==call['stack']+8
+        assert native['enumerator']==r['enumerator']and native['sections']==r['sections']
+        assert native['return_stack']==native['entry_stack']+12
+        assert len((original/'section-enumerator-before-0.bin').read_bytes())==len(bytes.fromhex(native['before']))==16
+        assert (original/'section-enumerator-after-0.bin').read_bytes()==(original/'section-enumerator.bin').read_bytes()==struct.pack('<4I',0x40fc00,0x40fd90,0,0)
+        expected=struct.pack('<4I',state['section_callback_addresses']['next_output_section'],state['section_callback_addresses']['end_section_enumerator'],0,0).hex()
+        assert native['after']==r['before']==expected
+    else:assert len((original/'section-enumerator-before.bin').read_bytes())==len(bytes.fromhex(r['before']))==16
     assert l['initial_value_contract']==r['initial_value_contract']=='uninitialized output record; no incoming bytes consumed'
     assert l['normalized']==r['normalized']==0xc0000080
     assert r['normalized_pointer']+4<=r['enumerator']or r['enumerator']+16<=r['normalized_pointer']

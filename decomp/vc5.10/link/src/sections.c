@@ -91,3 +91,11 @@ OutputSection *__stdcall resolve_output_section(OutputSection *section)
     __asm { int 3 }
     return NULL;
 }
+
+void __stdcall initialize_section_enumerator(SectionEnumerator *enumerator,SectionList *sections)
+{
+    enumerator->next=next_output_section;
+    enumerator->end=end_section_enumerator;
+    enumerator->current=NULL;
+    enumerator->first=sections->first;
+}
