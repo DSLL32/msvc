@@ -1250,7 +1250,9 @@
     "_begin_debug_function",
     "@listing_size_suffix@4",
     "_finish_debug_module",
-    "@write_codeview_typedef@4"
+    "@write_codeview_typedef@4",
+    "@write_codeview_local_data@4",
+    "_write_codeview_compile_record"
   ],
   "driver": [
     {
@@ -8299,8 +8301,20 @@
     {
       "name": "@write_codeview_local_data@4",
       "start": 432064,
-      "end": 432065,
-      "provisional": true
+      "end": 432255,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "symbol",
+            "location": "ECX",
+            "type": "SymbolHeader pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-codeview-local-data-abi/validation.json"
+      }
     },
     {
       "name": "@write_codeview_global_data@4",
@@ -8353,8 +8367,15 @@
     {
       "name": "_write_codeview_compile_record",
       "start": 433104,
-      "end": 433105,
-      "provisional": true
+      "end": 433238,
+      "abi": {
+        "convention": "cdecl",
+        "parameters": [],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-codeview-compile-abi/validation.json",
+        "zero_input_proof": "Whole69bd0..69c56 initializes saved GPRs from constants/named globals, consumes no incoming GPR/flags/stack/x87 values, RET0. Shared compiler_identification852b8/cpu_model806a4/floating_frontend83138 are data inputs, not register arguments."
+      }
     },
     {
       "name": "@read_codeview_initializers@4",

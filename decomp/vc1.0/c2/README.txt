@@ -373,3 +373,13 @@ record shapes pass with explicit child mocks. All14 native cases, canonical
 graph/extent/ABI and original/W3 builds pass.13 outputs remain complete; dbglist
 now reaches write_codeview_local_data697c0.302new extent bytes and detailed
 timing/limits: cases/dbglist-module-typedef-checkpoint.json.
+
+Checkpoint1248 adds191-byte local-data/TLS and134-byte S_COMPILE records.
+Actual adjustments global bucket49/member0/type4109 and defined fields/mode
+match; compiler entry has a genuine zero-input proof and reuses shared original
+852b8 compiler_identification storage.768 data-record and30 compiler-record
+controls compare packed bytes, name/counts/relocations/call order and controlled
+post-select loads; children/TLS/failure paths remain explicitly scoped. All14
+native cases and canonical graph/extent/ABI/W3 pass,13 outputs complete.
+Next db FILE-reader69ba0;325new code-extent bytes and full timing ledger in
+cases/dbglist-data-compile-checkpoint.json.

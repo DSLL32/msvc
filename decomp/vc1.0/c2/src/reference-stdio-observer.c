@@ -146,7 +146,8 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         sprintf(line,"function_flags %lu\n",read_word(process,read_word(process,image_base+0x731b4)+40));
         log_line(line);
     }
-    if(!strcmp(call->name,"@write_codeview_typedef@4")) {
+    if(!strcmp(call->name,"@write_codeview_typedef@4") ||
+       !strcmp(call->name,"@write_codeview_local_data@4")) {
         DWORD symbol=call->args[0],identifier=read_word(process,symbol+28);
         DWORD name=read_word(process,symbol+16),bucket=identifier&63,index=0;
         DWORD member=read_word(process,image_base+0x6c158+4*bucket);
@@ -156,7 +157,8 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         if(!member||index==1024)exit(270);
         dump_bytes(process,"descriptor_hex",symbol,44);
         dump_bytes(process,"descriptor_name_hex",name,string_bytes(process,name));
-        sprintf(line,"global_symbol_state bucket %lu index %lu member %08lx\n",bucket,index,member);
+        sprintf(line,"global_symbol_state bucket %lu index %lu member %08lx coff %lu byte_first %lu\n",
+            bucket,index,member,read_word(process,image_base+0x706f4),read_word(process,image_base+0x706f0));
         log_line(line);
     }
     log_line("entry_end\n");

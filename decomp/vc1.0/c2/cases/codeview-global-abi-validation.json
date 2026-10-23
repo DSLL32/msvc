@@ -1,27 +1,57 @@
 {
-  "function": "@write_codeview_typedef@4",
-  "formals": [
+  "checked": [
     {
-      "name": "symbol",
-      "location": "ECX",
-      "type": "SymbolHeader pointer",
-      "original": 8071468,
-      "native": 1449323032
+      "function": "@write_codeview_typedef@4",
+      "formals": [
+        {
+          "name": "symbol",
+          "location": "ECX",
+          "type": "SymbolHeader pointer",
+          "original": 8071468,
+          "native": 1449323032
+        }
+      ],
+      "returns": [
+        [
+          {
+            "site": "0x69d7d",
+            "cleanup": 0
+          }
+        ],
+        [
+          {
+            "site": "0x54a76",
+            "cleanup": 0
+          }
+        ]
+      ]
+    },
+    {
+      "function": "@write_codeview_local_data@4",
+      "formals": [
+        {
+          "name": "symbol",
+          "location": "ECX",
+          "type": "SymbolHeader pointer",
+          "original": 8071300,
+          "native": 1449322864
+        }
+      ],
+      "returns": [
+        [
+          {
+            "site": "0x6987e",
+            "cleanup": 0
+          }
+        ],
+        [
+          {
+            "site": "0x54bd4",
+            "cleanup": 0
+          }
+        ]
+      ]
     }
-  ],
-  "returns": [
-    [
-      {
-        "site": "0x69d7d",
-        "cleanup": 0
-      }
-    ],
-    [
-      {
-        "site": "0x549bf",
-        "cleanup": 0
-      }
-    ]
   ],
   "rejected": [
     "missing global pointer formal",
@@ -30,8 +60,15 @@
     "wrong hash bucket",
     "wrong typeWORD",
     "changed type name",
+    "unknown global hidden input",
+    "missing global pointer formal",
+    "wrong input register",
+    "broken global member identity",
+    "wrong hash bucket",
+    "wrong typeWORD",
+    "changed type name",
     "unknown global hidden input"
   ],
-  "seconds": 0.2485626144334674,
+  "seconds": 0.2995527135208249,
   "scope": "Actual typedef descriptor in closed global_scope hash bucket41/member0; consumed typeWORD/name and defined identifier/kind, stdio/x87 observed. Raw44 bytes retained. Unused value/offset/attributes/padding are not normalized or asserted equal; no function-scope alias invented. No child behavior/failure acceptance."
 }

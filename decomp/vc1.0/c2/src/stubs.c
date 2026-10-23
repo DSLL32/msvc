@@ -87,11 +87,9 @@ unsigned __fastcall output_noop_relocation(Initializer *initializer, SymbolHeade
 __declspec(naked) void output_noop_record(void) { RECON_TRACE_NAKED_ENTRY(output_noop_record) __asm int 3 }
 __declspec(naked) void mark_unwritten_symbol(void) { RECON_TRACE_NAKED_ENTRY(mark_unwritten_symbol) __asm int 3 }
 void __fastcall write_codeview_register(SymbolHeader *symbol) { __asm int 3 }
-void __fastcall write_codeview_local_data(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_codeview_global_data(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_codeview_constant(SymbolHeader *symbol) { __asm int 3 }
 void __fastcall write_codeview_block(FunctionSymbol *symbol, unsigned offset, unsigned bytes) { __asm int 3 }
-void write_codeview_compile_record(void) { __asm int 3 }
 void __fastcall read_codeview_initializers(FILE *file) { __asm int 3 }
 __declspec(naked) void coff_output_value(void) { RECON_TRACE_NAKED_ENTRY(coff_output_value) __asm int 3 }
 __declspec(naked) void omf_output_symbol(void) { RECON_TRACE_NAKED_ENTRY(omf_output_symbol) __asm int 3 }

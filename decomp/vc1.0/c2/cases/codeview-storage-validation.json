@@ -19,7 +19,7 @@
       ],
       "canonical": [
         {
-          "site": "0x54090",
+          "site": "0x54070",
           "storage": "0x8e9ec",
           "mnemonic": "mov",
           "operand": 0,
@@ -58,7 +58,7 @@
       ],
       "canonical": [
         {
-          "site": "0x53fad",
+          "site": "0x53f8d",
           "storage": "0x8e9e4",
           "mnemonic": "mov",
           "operand": 0,
@@ -66,7 +66,7 @@
           "width": 4
         },
         {
-          "site": "0x53fb2",
+          "site": "0x53f92",
           "storage": "0x8e9e4",
           "mnemonic": "cmp",
           "operand": 0,
@@ -74,7 +74,7 @@
           "width": 4
         },
         {
-          "site": "0x53fce",
+          "site": "0x53fae",
           "storage": "0x8e9e4",
           "mnemonic": "mov",
           "operand": 1,
@@ -82,7 +82,7 @@
           "width": 4
         },
         {
-          "site": "0x53fd9",
+          "site": "0x53fb9",
           "storage": "0x8e9e4",
           "mnemonic": "push",
           "operand": 0,
@@ -177,7 +177,7 @@
       ],
       "canonical": [
         {
-          "site": "0x540b3",
+          "site": "0x54093",
           "storage": "0x8e9ec",
           "mnemonic": "cmp",
           "operand": 0,
@@ -185,7 +185,7 @@
           "width": 4
         },
         {
-          "site": "0x540c5",
+          "site": "0x540a5",
           "storage": "0x8e9ec",
           "mnemonic": "mov",
           "operand": 1,
@@ -193,7 +193,7 @@
           "width": 4
         },
         {
-          "site": "0x540d0",
+          "site": "0x540b0",
           "storage": "0x8e9ec",
           "mnemonic": "mov",
           "operand": 1,
@@ -201,7 +201,7 @@
           "width": 4
         },
         {
-          "site": "0x54152",
+          "site": "0x54132",
           "storage": "0x8e9ec",
           "mnemonic": "mov",
           "operand": 1,
@@ -209,7 +209,7 @@
           "width": 4
         },
         {
-          "site": "0x54184",
+          "site": "0x54164",
           "storage": "0x8e9ec",
           "mnemonic": "mov",
           "operand": 1,
@@ -217,7 +217,7 @@
           "width": 4
         },
         {
-          "site": "0x541ab",
+          "site": "0x5418b",
           "storage": "0x8e9ec",
           "mnemonic": "mov",
           "operand": 0,
@@ -225,7 +225,7 @@
           "width": 4
         },
         {
-          "site": "0x541b8",
+          "site": "0x54198",
           "storage": "0x8e9ec",
           "mnemonic": "mov",
           "operand": 1,
@@ -233,7 +233,7 @@
           "width": 4
         },
         {
-          "site": "0x541c3",
+          "site": "0x541a3",
           "storage": "0x8e9ec",
           "mnemonic": "mov",
           "operand": 0,
@@ -296,7 +296,7 @@
       ],
       "canonical": [
         {
-          "site": "0x54420",
+          "site": "0x54400",
           "storage": "0x8e9e8",
           "mnemonic": "mov",
           "operand": 0,
@@ -304,7 +304,7 @@
           "width": 4
         },
         {
-          "site": "0x5445b",
+          "site": "0x5443b",
           "storage": "0x8e9e8",
           "mnemonic": "mov",
           "operand": 0,
@@ -312,7 +312,7 @@
           "width": 4
         },
         {
-          "site": "0x542ac",
+          "site": "0x5428c",
           "storage": "0x8e9e8",
           "mnemonic": "cmp",
           "operand": 0,
@@ -320,7 +320,7 @@
           "width": 4
         },
         {
-          "site": "0x542c7",
+          "site": "0x542a7",
           "storage": "0x8e9e8",
           "mnemonic": "mov",
           "operand": 0,
@@ -328,7 +328,7 @@
           "width": 4
         },
         {
-          "site": "0x54366",
+          "site": "0x54346",
           "storage": "0x8e9e8",
           "mnemonic": "mov",
           "operand": 0,
@@ -336,7 +336,7 @@
           "width": 4
         },
         {
-          "site": "0x54326",
+          "site": "0x54306",
           "storage": "0x8e9e8",
           "mnemonic": "cmp",
           "operand": 0,
@@ -351,6 +351,6 @@
     "missing allocation def-use",
     "short cursor access"
   ],
-  "seconds": 0.8232576493173838,
+  "seconds": 0.8317193295806646,
   "scope": "Original zero-initialized7e8ac DebugScope cursor and84ff8 allocation DWORD plus7b8ec db FILE owner bind to distinct existing typed canonical storage. All accepted CFG direct-memory/address-construction operands including displacement/base/index forms checked; byte filter only selects candidates. No arbitrary indirect alias/deep scope traversal proof. Actual entry cursor/head/override observations separate."
 }

@@ -1,0 +1,518 @@
+{
+  "cases": [
+    {
+      "input": [
+        -1,
+        -1
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100ff0200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        -1,
+        0
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100ff0000003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        -1,
+        1
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100ff0200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        -1,
+        2
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100ff0200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        -1,
+        256
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100ff0200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        0,
+        -1
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100000200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        0,
+        0
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100000000003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        0,
+        1
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100000200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        0,
+        2
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100000200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        0,
+        256
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100000200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        3,
+        -1
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100030200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        3,
+        0
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100030000003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        3,
+        1
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100030200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        3,
+        2
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100030200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        3,
+        256
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100030200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        5,
+        -1
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100050200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        5,
+        0
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100050000003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        5,
+        1
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100050200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        5,
+        2
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100050200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        5,
+        256
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100050200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        256,
+        -1
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100000200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        256,
+        0
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100000000003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        256,
+        1
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100000200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        256,
+        2
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100000200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        256,
+        256
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100000200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        257,
+        -1
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100010200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        257,
+        0
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100010000003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        257,
+        1
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100010200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        257,
+        2
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100010200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    },
+    {
+      "input": [
+        257,
+        256
+      ],
+      "output": {
+        "events": [
+          "copy_shared_compiler_string",
+          "select",
+          "data"
+        ],
+        "record": [
+          "42000100010200003b40282329204d6963726f736f667420432f432b2b20333220626974732078383620436f6d70696c65722056657273696f6e20382e30302e58585858"
+        ],
+        "segment_offset": 168
+      }
+    }
+  ],
+  "compiler_string_original": "0x852b8",
+  "compiler_string_canonical": "0x987c8",
+  "seconds": 0.823107561096549,
+  "scope": "Whole134-byte original versus actual original-compiler C.30 packed S_COMPILE records cover CPU lowBYTE/frontend nonzero-language2, shared compiler-string exact bytes+actual copy argument address, length/count/name/flags and call order/offset. Copy/output callbacks mocked, not their body acceptance. Actual entry has genuinely zero formals; real case CPU3/frontend0. Arbitrary frontend values are bounded controls, not new valid cases/coverage."
+}

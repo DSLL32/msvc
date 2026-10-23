@@ -39,7 +39,7 @@ for name,expected,name_bytes,record_index,allocation in profiles:
     for image,records in [(pe,left),(canonical,right)]:
         record=next(r for r in records if r['name']==row['name']);g.edges(image,records,record);sites=[dict(site=hex(a),cleanup=int(op,0)if op else 0)for a,size,mn,op in decoders[-1].visited.values()if mn.split()[-1]=='ret'];assert sites and all(s['cleanup']==0 for s in sites);returns.append(sites)
     checked.append(dict(function=name,formals=r['formals'],returns=returns))
-for zero_name,zero_start,zero_end in [('_begin_debug_function',0x69210,0x69249),('_finish_debug_module',0x69180,0x6920a)]:
+for zero_name,zero_start,zero_end in [('_begin_debug_function',0x69210,0x69249),('_finish_debug_module',0x69180,0x6920a),('_write_codeview_compile_record',0x69bd0,0x69c56)]:
     row=next(r for r in config['driver']if r['name']==zero_name);path=Path(row['abi']['entry_observation']);zero=json.loads(path.read_text());binding=json.loads(path.with_name('original-binding.json').read_text())
     assert all(sha(path.parent/n)==v for n,v in binding['files'].items())
     def validate_zero(r,metadata):

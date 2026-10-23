@@ -8,7 +8,7 @@
 #include <string.h>
 #include <recon.h>
 int codeview_output_started; /* original84fd8 */
-extern int optimize_global, coff_object, byte_block_first;
+extern int optimize_global, coff_object, byte_block_first, cpu_model, floating_frontend;
 DebugScope *codeview_scope_cursor; /* original7e8ac */
 unsigned codeview_allocation_class; /* original84ff8; alias dispatch override */
 FILE *codeview_type_file; /* original7b8ec; db intermediate ownership */
@@ -174,6 +174,32 @@ void write_codeview_signature(void)
 extern long il_option_flags;
 unsigned __fastcall copy_codeview_string(unsigned char *destination, char *source);
 #pragma pack(2)
+typedef struct CodeViewCompileRecord {
+    unsigned short length, kind;
+    unsigned char machine, language, flags, reserved, name[300];
+} CodeViewCompileRecord;
+#pragma pack()
+typedef char CodeViewCompileSizeCheck[sizeof(CodeViewCompileRecord) == 308 ? 1 : -1];
+/* Original69bd0..69c56. S_COMPILE uses the same original852b8 string
+   object as the COFF compiler comment; frontend8 sets language byte2. */
+void write_codeview_compile_record(void)
+{
+    CodeViewCompileRecord record;
+    char *end = compiler_identification;
+    unsigned length;
+    while (*end++) ;
+    length = (unsigned)(end - compiler_identification) + 6;
+    record.length = (unsigned short)length;
+    record.kind = 1;
+    record.machine = (unsigned char)cpu_model;
+    record.language = floating_frontend ? 2 : 0;
+    record.flags = record.reserved = 0;
+    copy_codeview_string(record.name, compiler_identification);
+    output_callbacks.select_segment(debug_symbols_segment);
+    output_callbacks.data(&record, length + 2);
+    debug_symbols_segment->symbol.field04 += length + 2;
+}
+#pragma pack(2)
 typedef struct CodeViewProcedureRecord {
     unsigned short length, kind;
     unsigned parent, end, next;
@@ -295,6 +321,36 @@ void __fastcall write_codeview_typedef(SymbolHeader *symbol)
     copy_codeview_string(record.name, name);
     output_callbacks.select_segment(debug_symbols_segment);
     output_callbacks.data(&record, length + 2);
+    debug_symbols_segment->symbol.field04 += length + 2;
+}
+#pragma pack(2)
+typedef struct CodeViewDataRecord {
+    unsigned short length, kind;
+    unsigned offset;
+    unsigned short section, type;
+    unsigned char name[296];
+} CodeViewDataRecord;
+#pragma pack()
+typedef char CodeViewDataSizeCheck[sizeof(CodeViewDataRecord) == 308 ? 1 : -1];
+/* Original697c0..6987f. Local data/TLS records share an address pair
+   with a type index; COFF retains the section-relative addend. */
+void __fastcall write_codeview_local_data(SymbolHeader *symbol)
+{
+    CodeViewDataRecord record;
+    char *name = format_function_name(symbol), *end;
+    unsigned length;
+    output_callbacks.select_segment(debug_symbols_segment);
+    end = name;
+    while (*end++) ;
+    length = (unsigned)(end - name) + 10;
+    record.length = (unsigned short)length;
+    record.kind = symbol->kind == 1 && (symbol->field0e & 0x1000) ? 0x20d : 0x201;
+    record.offset = coff_object && !byte_block_first ? symbol->field04 : 0;
+    record.section = 0;
+    record.type = ((BackendSymbol *)symbol)->field20;
+    copy_codeview_string(record.name, name);
+    output_callbacks.data(&record, length + 2);
+    output_callbacks.size(2 - length, symbol);
     debug_symbols_segment->symbol.field04 += length + 2;
 }
 /* Original69c60..69cc9. S_OBJNAME consists of the fixed header and a
