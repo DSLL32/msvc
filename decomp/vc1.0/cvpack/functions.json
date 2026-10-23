@@ -3987,13 +3987,16 @@
       "native": "find_named_type",
       "symbol": "@find_named_type@12",
       "original": 109888,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        109888,
+        110144
+      ],
       "abi": "int __fastcall find_named_type(TypeRecord *,TypeCacheEntry **,int)",
       "stack_cleanup": 4,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0077-find_named_type/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -4018,7 +4021,35 @@
           "bits": 32
         }
       ],
-      "return_bits": 32
+      "return_bits": 32,
+      "alignment_padding": [
+        [
+          110043,
+          110048
+        ]
+      ],
+      "required_pdb_record_proof": true,
+      "required_symbol_output_observation": true,
+      "required_type_page_observation": true,
+      "required_buffer_storage_observation": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      },
+      "rebuilt_extra_roots": [
+        203
+      ],
+      "rebuilt_root_reason": "VC1 /Od emits unreachable JMP after switch default return; explicitly rooted/decoded as real code, destination is already owned switch exit. No instruction or edge waiver."
     },
     {
       "name": "queue_type_match",
@@ -4428,42 +4459,6 @@
       ]
     },
     {
-      "name": "find_forward_type",
-      "native": "find_forward_type",
-      "symbol": "_find_forward_type",
-      "original": 110352,
-      "source": "src/stubs.c",
-      "kind": "application",
-      "status": "stub",
-      "extent": null,
-      "abi": "int find_forward_type(unsigned short,const unsigned char *,TypeCacheEntry **)",
-      "stack_cleanup": 0,
-      "evidence": null,
-      "roots": [],
-      "text_data": [],
-      "parameters": [
-        {
-          "name": "kind",
-          "slot": 1,
-          "kind": "integer",
-          "bits": 16
-        },
-        {
-          "name": "name",
-          "slot": 2,
-          "kind": "pointer",
-          "bits": 32
-        },
-        {
-          "name": "named",
-          "slot": 3,
-          "kind": "pointer",
-          "bits": 32
-        }
-      ],
-      "return_bits": 32
-    },
-    {
       "name": "save_type",
       "native": "save_type",
       "symbol": "@save_type@4",
@@ -4596,6 +4591,86 @@
           }
         ]
       }
+    },
+    {
+      "name": "find_local_type",
+      "native": "find_local_type",
+      "symbol": "_find_local_type",
+      "original": 110144,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int find_local_type(unsigned short,const unsigned char *,TypeCacheEntry **,int)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "kind",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 16
+        },
+        {
+          "name": "name",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "named",
+          "slot": 3,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "property",
+          "slot": 4,
+          "kind": "integer",
+          "bits": 32
+        }
+      ],
+      "return_bits": 32
+    },
+    {
+      "name": "find_global_type",
+      "native": "find_global_type",
+      "symbol": "_find_global_type",
+      "original": 110352,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int find_global_type(unsigned short,const unsigned char *,TypeCacheEntry **)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "kind",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 16
+        },
+        {
+          "name": "name",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "named",
+          "slot": 3,
+          "kind": "stack-output",
+          "bits": 32,
+          "evidence": "cases/abi/find-global-output.json",
+          "evidence_sha256": "1490a225315f7dd7c50bc629fe2b5b3f824d0ba79e826c1e7d39b946a6173c8f"
+        }
+      ],
+      "return_bits": 32
     }
   ],
   "review": {
@@ -5078,6 +5153,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 76
+    },
+    {
+      "function": "find_named_type",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 77
     }
   ],
   "support_unmasked": [
@@ -5672,11 +5753,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "da66a2b371cd036a659c1a68a789e86b966238269f31acdb4a30a5dda2a6dc49"
+    "evidence_sha256": "066c12a0e2dc16316f43c16b0b5d04a9e19c6fb060bd4b081649127bf46157a2"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "e9216c40ee8a9793dd942868cba45081edc119a5f8cae3287074bbbe3071ee8a"
+    "evidence_sha256": "0fb40674428736c18c23f1fe470dff98f4c06c8bbc457121790a3ac09c313f86"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -5708,22 +5789,22 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "ddc0a0bed60c511fdd8f824ad71818958c59b59e9a3089460f42ffe253ccba80"
+    "evidence_sha256": "82d6638aceb119bb781e75e381efc3bfa8460a98e17cba57ff26f38dd2e00c0c"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "2d0a4be0498eb0d8909c31ff1b1bedb136ea82747d25d26082a5ee2ebe12bcf7"
+    "evidence_sha256": "a8e285248574a54312f856e43fef8acb31bead0d846ce57d9f1810fd68415800"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
-    "evidence_sha256": "e5f7652f75c88a2b8e6c893a12474c6c8d8429037204c7f4502aac3b1116a977"
+    "evidence_sha256": "c4a8a8c9890c3c08387d6771dabee47bede6552ccf22e211d3f1fe5cd95ac024"
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "0f0be8284687e1101a67eec352f85402f704fa278c84a94cd931b18dfca813ae"
+    "evidence_sha256": "eb2694084a887518c6368b81f73ae537a919107d60b0a0e5e2c97d55a2d3a11f"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
-    "evidence_sha256": "325298e78a16f4bdb2e2e49a230f39b6ceef212e8d5d9fe8b2ebad3e8f837680"
+    "evidence_sha256": "a2ce4bb0f8f9ffff29817146dc1253342463abe4fd5085240cbd8dd2b12a5ff1"
   }
 }

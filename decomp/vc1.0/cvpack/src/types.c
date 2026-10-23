@@ -1066,7 +1066,7 @@ void __fastcall store_type(TypeRecord *entry)
         name = NULL;
         break;
     }
-    if (name && find_forward_type(kind, name, &named) == 3) {
+    if (name && find_global_type(kind, name, &named) == 3) {
         entry->index = named->index;
         memcpy(named->type, record, *(unsigned short *)record+2);
         entry->data = named->type;
@@ -1391,4 +1391,32 @@ void finish_recursive_types(void)
     }
     last_type_match = first_type_match = NULL;
 #undef MATCH_OFFSET
+}
+
+int __fastcall find_named_type(TypeRecord *entry, TypeCacheEntry **named, int forward)
+{
+    unsigned char *record = entry->data, *name;
+    unsigned short kind = *(unsigned short *)(record+2), properties;
+    int result;
+    switch (kind) {
+    case 4: case 5:
+        name = record+14;
+        name += *(unsigned short *)name < 0x8000 ? 2 : numeric_leaf_size(name);
+        break;
+    case 6:
+        name = record+10;
+        name += *(unsigned short *)name < 0x8000 ? 2 : numeric_leaf_size(name);
+        break;
+    case 7:
+        name = record+12;
+        break;
+    default:
+        return 0;
+    }
+    if (forward == 1) {
+        properties = *(unsigned short *)(record+(kind == 7 ? 10 : 8));
+        result = find_local_type(kind, name, named, (properties&8)>>3);
+        if (result == 1) return result;
+    }
+    return find_global_type(kind, name, named);
 }

@@ -1,0 +1,10 @@
+Breakpoint 1 at 0x6377: file src/main.c, line 13.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, main (argc=4, argv=0xffb8b7e4, environment=0xffb8b7f8) at src/main.c:13
+13	{
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565c15f9 in find_global_type (kind=5, name=0x5667abf8 "\016tagPAINTSTRUCT\361\345\005\"", named=0xffb8b060) at src/stubs.c:117
+117	int find_global_type(unsigned short kind, const unsigned char *name, TypeCacheEntry **named) { __asm { int 3 } return 0; }

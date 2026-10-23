@@ -22,8 +22,8 @@
   },
   "native_allocation_line": 1306,
   "sources": {
-    "src/types.c": "7c146fb710ee215a7842008f4367893cf6fef34722cac956f7de3fc56b825e90",
-    "src/types.h": "585f9c16118e97d08940f55956091d88dc7cfee8df2aba3881f751daee7f596a"
+    "src/types.c": "ba28f126960b8004103d6eaaf10fd6e1917d44beda79786cf8edd49faac8dabf",
+    "src/types.h": "f8948ed779128183273abae03e1ebdecac6e81a885f8727d660731504a618bd1"
   },
   "instructions": [
     {
@@ -60,6 +60,11 @@
       "start": 160000,
       "end": 160406,
       "sha256": "d8b0954356cc26aa144a98d28c60a1b15cb59e4dd73b2cb5d193513e97f272eb"
+    },
+    {
+      "start": 109888,
+      "end": 110144,
+      "sha256": "45c42ec0314a6e2f3f6ab87201a68fb0bc274bb1a89e0137ca8a90b624490ec3"
     }
   ],
   "defined_hash_node_ranges": [
@@ -123,5 +128,6 @@
         "after": 4100
       }
     ]
-  }
+  },
+  "global_lookup_frontier": 110352
 }

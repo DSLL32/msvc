@@ -80,6 +80,11 @@ def main():
     from find_named_checks import check as check_named_output
     named_pair=BINARY/'cases/hello-debug-dll/evidence/0076-finish_recursive_types'
     if named_pair.is_dir():check_named_output(named_pair)
+    global_pair=BINARY/'cases/hello-debug-dll/evidence/0077-find_named_type'
+    if global_pair.is_dir():
+        check_named_output(global_pair,function='find_global_type')
+        from named_graph_checks import check as check_named_graph
+        check_named_graph(config,original,reject)
     from buffer_storage_checks import check as check_buffer_storage
     buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
     if buffer_directory.is_dir():check_buffer_storage(buffer_directory)
