@@ -1,0 +1,6 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+/root/msvc2/decomp/vc1.0/c1/build/native/C13232.EXE: No such file or directory.
+No symbol table is loaded.  Use the "file" command.
+/root/.ai-tmp/msvc2/vc1.0/c1/validation/legacy-counted-after-modifiers/commands.gdb:13: Error in sourced command file:
+No executable file specified.
+Use the "file" or "exec-file" command.

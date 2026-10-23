@@ -1,0 +1,7 @@
+{
+  "status": "rejected by untouched original",
+  "expected_exit": 0,
+  "actual_exit": 39,
+  "capture_assertion": "original terminal status differs; raw logs/status retained; helper receipt not reached",
+  "policy": "Do not relabel these errors as a successful reference. Current source will be a separate revision."
+}

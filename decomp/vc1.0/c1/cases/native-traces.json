@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "c247d317811a92417e9a8f93bdae3ebf3072239e5359d8b95993d05dc2e20ff8",
+    "functions.json": "db22fb71cca85c8d213c9b9b1055b69841712e5536046caf3ac6f40dbe1739e3",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "31cd1299516a4acbbabce75402a74ace2a0985903bba6c77c70a13a628b58491"
+    "sha256": "cabbfbc901bca4b7e94f63a703cb723869721ebf8de0fb98ae7afa2ea75108e3"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "d755714a0d59667a0fc28bf60d6a1ead40c8e4ef9fe7f75d58f6e5b668948932"
+    "sha256": "852411c488eca4d4f829526a17c7b4ae38d70b7375976318ce8f803f5f7008ac"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -172,10 +172,6 @@
     "append_storage_attributes": {
       "logical": "_append_storage_attributes@8",
       "source": "src/declaration-text.c"
-    },
-    "append_type_shape": {
-      "logical": "_append_type_shape@8",
-      "source": "src/stubs.c"
     },
     "append_type_shapes": {
       "logical": "_append_type_shapes@8",
@@ -503,7 +499,7 @@
     },
     "check_declarator_prefix": {
       "logical": "_check_declarator_prefix@8",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "check_expression_operands": {
       "logical": "_check_expression_operands@16",
@@ -771,7 +767,7 @@
     },
     "convert_pascal_string": {
       "logical": "_convert_pascal_string@4",
-      "source": "src/stubs.c"
+      "source": "src/lexer.c"
     },
     "convert_pointer_expression": {
       "logical": "_convert_pointer_expression@8",
@@ -843,7 +839,7 @@
     },
     "copy_shape_prefix": {
       "logical": "_copy_shape_prefix@16",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "copy_string": {
       "logical": "_copy_string@8",
@@ -984,6 +980,10 @@
     "disable_keyword": {
       "logical": "_disable_keyword@4",
       "source": "src/keywords.c"
+    },
+    "disable_multibyte_identifier_bytes": {
+      "logical": "_disable_multibyte_identifier_bytes",
+      "source": "src/characters.c"
     },
     "discard_browser_output": {
       "logical": "_discard_browser_output",
@@ -1669,10 +1669,6 @@
       "logical": "_initialize_intermediate_output",
       "source": "src/builtins.c"
     },
-    "initialize_japanese_characters": {
-      "logical": "_initialize_japanese_characters",
-      "source": "src/stubs.c"
-    },
     "initialize_keyword_table": {
       "logical": "_initialize_keyword_table",
       "source": "src/keywords.c"
@@ -2235,6 +2231,10 @@
     },
     "merge_type_attributes": {
       "logical": "_merge_type_attributes@8",
+      "source": "src/types.c"
+    },
+    "merge_type_shape_modifiers": {
+      "logical": "_merge_type_shape_modifiers@8",
       "source": "src/types.c"
     },
     "merge_type_specifier": {
@@ -3527,7 +3527,7 @@
     },
     "warn_ignored_storage_model": {
       "logical": "_warn_ignored_storage_model@4",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "warn_ignored_token": {
       "logical": "_warn_ignored_token",
@@ -4607,7 +4607,13 @@
     "finish_qc_loop",
     "expand_qc_operand",
     "generate_inline_queries",
-    "free_inline_query_tables"
+    "free_inline_query_tables",
+    "disable_multibyte_identifier_bytes",
+    "merge_type_shape_modifiers",
+    "convert_pascal_string",
+    "copy_shape_prefix",
+    "check_declarator_prefix",
+    "warn_ignored_storage_model"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6234,6 +6240,34 @@
       "terminal": {
         "kind": "exit",
         "code": 0
+      }
+    },
+    "legacy-counted-records": {
+      "first": 1037,
+      "last": 1040,
+      "seen_count": 893,
+      "expected": [
+        "disable_multibyte_identifier_bytes",
+        "merge_type_shape_modifiers",
+        "convert_pascal_string"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "legacy-prefix-diagnostic": {
+      "first": 1040,
+      "last": 1043,
+      "seen_count": 896,
+      "expected": [
+        "copy_shape_prefix",
+        "check_declarator_prefix",
+        "warn_ignored_storage_model"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 1
       }
     }
   }

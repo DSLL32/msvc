@@ -216,6 +216,14 @@
     "quickc-regions": {
       "receipt": "cases/quickc-regions/evidence/entries-1037/receipt.json",
       "sha256": "c1fdc7aaa30a6a38a4b26667650f3e573319f8b9edd1cc2ca371f295e282059f"
+    },
+    "legacy-counted-records": {
+      "receipt": "cases/legacy-segment-literals/evidence/entries-primary-1040/receipt.json",
+      "sha256": "17c2f69b64bba400f139f14f96e9816282ba3e234839834b7b245ea0de27ef90"
+    },
+    "legacy-prefix-diagnostic": {
+      "receipt": "cases/legacy-segment-literals/evidence/entries-prefix-1043/receipt.json",
+      "sha256": "bde588a13a7baf7d171f3a22b1ca886c5c88cf8f0cef7ec606ad083998234ddc"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

@@ -1,8 +1,8 @@
 {
-  "authorization": "Root approved substantial standalone C1 QuickC-mode case using actual parsed -qc/-Ol/-Oe; exact untouched preflights precede normal reconstruction.",
+  "authorization": "Root-approved substantial standalone QuickC and legacy declaration/literal cases; real parsed flags, frozen originals and native-only regression.",
   "baseline_commit": "160ef1dcc8e61a9227cfdee0ffaa43102f1cec27",
   "baseline_accepted_count": 1015,
-  "status": "QuickC complete and verified; checkpoint pending",
+  "status": "QuickC committed; legacy valid/error case complete and verified",
   "cases": [
     {
       "case": "legacy-pdb-object",
@@ -18,6 +18,12 @@
       "case": "quickc-regions",
       "phase": "c1",
       "status": "22 functions/4520B, exact complete outputs and fresh original/native first-entry order"
+    },
+    {
+      "case": "legacy-segment-literals",
+      "phase": "c1",
+      "authorization": "Root approved supported revision from real parser; retain rejected v1; no invented segment/identifier state.",
+      "status": "six functions/414B, exact valid/error outputs and fresh entry order;56 public/27 direct regressions pass"
     }
   ]
 }

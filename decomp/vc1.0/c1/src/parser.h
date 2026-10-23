@@ -257,7 +257,7 @@ void report_declaration_context_error(unsigned warning, unsigned error, ...);
 void __stdcall warn_ignored_storage_model(FrontendSymbol *symbol);
 unsigned short __stdcall normalize_symbol_storage(unsigned short attributes, FrontendSymbol *symbol);
 void __stdcall finalize_symbol_type(CType *type, FrontendSymbol *symbol);
-TypeShape *__stdcall append_type_shape(TypeShape *head, TypeShape *tail);
+TypeShape *__stdcall merge_type_shape_modifiers(TypeShape *head, TypeShape *tail);
 FrontendSymbol *__stdcall resolve_based_pointer_symbol(char *name);
 unsigned short __stdcall based_string_modifier(unsigned short kind, FrontendSymbol *symbol);
 unsigned short __stdcall based_symbol_modifier(unsigned short kind, FrontendSymbol *symbol);

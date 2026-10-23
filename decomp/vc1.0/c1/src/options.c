@@ -52,7 +52,7 @@ void parse_options(int argc, char **argv)
     while (match_option(option_rules, next_argument(), next_argument, 0))
         ;
     if (options.japanese_identifiers)
-        initialize_japanese_characters();
+        disable_multibyte_identifier_bytes();
     if (options.debug_old_format) {
         options.debug_info = 1;
         options.line_records = 0;

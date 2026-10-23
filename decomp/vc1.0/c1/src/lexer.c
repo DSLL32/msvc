@@ -1587,3 +1587,12 @@ void __stdcall concatenate_string_literals(StringToken *left, StringToken *right
     }
     for (tail = bytes & 3; tail; --tail) *destination++ = *source++;
 }
+
+/* Original0x21460..0x2148f. A Pascal literal reserves its leading byte
+   and trailing terminator; conversion stores the truncated payload length. */
+void __stdcall convert_pascal_string(StringToken *string)
+{
+    unsigned short length = string->bytes - 2;
+    if (length != (unsigned char)length) compiler_warning(1, 59);
+    string->text[0] = (unsigned char)length;
+}

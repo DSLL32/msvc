@@ -1,0 +1,13 @@
+{
+  "case": "legacy-counted-records",
+  "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/legacy-both-native-trace-first/legacy-counted-records/vc1.0/c1/legacy-segment-literals",
+  "exit": 0,
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+  },
+  "stdout_bytes": 0,
+  "stderr_bytes": 0,
+  "setup_seconds": 0.0064743757247924805,
+  "execution_seconds": 0.007317253388464451
+}

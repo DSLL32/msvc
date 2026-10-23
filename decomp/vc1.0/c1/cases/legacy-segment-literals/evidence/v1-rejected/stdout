@@ -1,0 +1,40 @@
+legacy-types.h(10) : error C2061: syntax error : identifier '__segment'
+legacy-types.h(14) : error C2061: syntax error : identifier 'SelfLink'
+legacy-types.h(15) : error C2143: syntax error : missing '{' before ':'
+legacy-types.h(15) : error C2143: syntax error : missing ';' before ':'
+legacy-types.h(16) : error C2143: syntax error : missing '{' before ':'
+legacy-types.h(16) : error C2143: syntax error : missing ';' before ':'
+legacy-types.h(18) : error C2143: syntax error : missing ';' before '}'
+legacy-types.h(20) : error C2165: '_far' : cannot modify pointers to data
+legacy.c(4) : error C2282: '__segment' is followed by 'record_segment' (missing ','?)
+legacy.c(5) : error C2079: 'records' uses undefined class/struct/union 'LegacyRecord'
+legacy.c(6) : error C2061: syntax error : identifier '__segment'
+legacy.c(7) : error C2061: syntax error : identifier '__segment'
+legacy.c(13) : error C2018: unknown character '0x82'
+legacy.c(13) : error C2018: unknown character '0xa0'
+legacy.c(15) : error C2165: '_far' : cannot modify pointers to data
+legacy.c(18) : error C2039: 'flags' : is not a member of 'LegacyRecord'
+legacy.c(18) : error C2039: 'value' : is not a member of 'LegacyRecord'
+legacy.c(19) : error C2039: 'state' : is not a member of 'LegacyRecord'
+legacy.c(35) : error C2027: use of undefined type 'LegacyRecord'
+legacy.c(36) : error C2039: 'flags' : is not a member of 'LegacyRecord'
+legacy.c(37) : error C2039: 'state' : is not a member of 'LegacyRecord'
+legacy.c(38) : error C2039: 'value' : is not a member of 'LegacyRecord'
+legacy.c(39) : error C2039: 'next' : is not a member of 'LegacyRecord'
+legacy.c(39) : error C2065: 'SelfLink' : undeclared identifier
+legacy.c(39) : error C2064: term does not evaluate to a function
+legacy.c(41) : error C2065: 'record_segment' : undeclared identifier
+legacy.c(41) : warning C4013: '__segname' undefined; assuming extern returning int
+legacy.c(42) : error C2065: 'segment_head' : undeclared identifier
+legacy.c(42) : error C2061: syntax error : identifier '__segment'
+legacy.c(43) : error C2065: 'object_head' : undeclared identifier
+legacy.c(43) : error C2061: syntax error : identifier '__segment'
+legacy.c(48) : error C2165: '_far' : cannot modify pointers to data
+legacy.c(53) : error C2165: '_far' : cannot modify pointers to data
+legacy.c(55) : error C2039: 'next' : is not a member of 'LegacyRecord'
+legacy.c(55) : error C2039: 'next' : is not a member of 'LegacyRecord'
+legacy.c(59) : error C2018: unknown character '0x82'
+legacy.c(59) : error C2018: unknown character '0xa0'
+legacy.c(61) : error C2018: unknown character '0x82'
+legacy.c(61) : error C2018: unknown character '0xa0'
+legacy.c(66) : error C2152: 'initializing' : pointers to functions with different attributes

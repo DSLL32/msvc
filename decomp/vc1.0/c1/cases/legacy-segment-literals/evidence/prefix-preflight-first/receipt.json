@@ -1,0 +1,87 @@
+{
+  "restored_functions": [],
+  "pdb_cleanup_probe": false,
+  "expression_unit": null,
+  "aborted_function_probe": false,
+  "browser_limit_probe": false,
+  "declaration_scope_probe": false,
+  "complete_type_probe": false,
+  "strdup_probe": false,
+  "direct_call": null,
+  "asm_segment_probe": false,
+  "return8_probe": false,
+  "stop_function": null,
+  "terminal_exit": 1,
+  "expected_exit": 1,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/legacy-segment-literals",
+  "phase": "c1-prefix-diagnostic",
+  "unmasked": true,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 1040,
+  "accepted_sha256": "750d99f698c9c5af030ca9be036cb66dd4636a6affbf5f2c3d76b833952a222c",
+  "executable_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "8a725a90381afd9c34dfa75fac2c481a3bb284d6629bbd63637979b16cbf01f2",
+  "debugger_memory_request": "4b024:4,4b140:4,4b148:1,4b228:4,4b244:4,4ff14:4,50064:4,50228:4,50798:4,5b7f4:4,5b7f8:4,5bb44:4,5bb48:4,5ce6c:1",
+  "debugger_string_request": "4b588:100,4d5b8:100,5be68:100",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f legacy.c -Ze -Zp8 -Gs -Folegacy.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob2 -Ot -D_M_IX86=500 -G4 -W 3 -m -Zf -Jd -Oi -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\legacy-segment-literals",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/legacy-segment-literals",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.008700328879058361,
+  "execution_seconds": 1.3925688555464149,
+  "total_seconds": 1.401271096430719,
+  "files": [
+    {
+      "name": "irdb",
+      "bytes": 11,
+      "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b"
+    },
+    {
+      "name": "irex",
+      "bytes": 1244,
+      "sha256": "b3a39e766f76db0caec40d2112f18f9b2544eaf9fa4c53532e860112b4d3ff74"
+    },
+    {
+      "name": "irgl",
+      "bytes": 24,
+      "sha256": "e8bd052c566f7aa18b5a952166b3e7f4d23820f9d5cac7fac93b5ec1ff29ef07"
+    },
+    {
+      "name": "irin",
+      "bytes": 107,
+      "sha256": "0e4c410b762e6363c8294e45df6c9dcebb235dade867fc5654d909bc75c727fe"
+    },
+    {
+      "name": "irsy",
+      "bytes": 5,
+      "sha256": "d8b0954dbff07d3bb65f8ef42c093f5a6cff8c0f206da1b2e3dde58672ee9c3a"
+    },
+    {
+      "name": "legacy-types.h",
+      "bytes": 539,
+      "sha256": "f189c97dc4301e388f46d75a78e32f63833024fe95ae740ed588ead5ea41ee5c"
+    },
+    {
+      "name": "legacy.c",
+      "bytes": 2152,
+      "sha256": "93ac1dc146a09518060029f73e5c9c1196bdc6b4f10df5cb37161c7ba32c6ee2"
+    }
+  ]
+}

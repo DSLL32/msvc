@@ -1,0 +1,35 @@
+{
+  "buffers": {
+    "expression_file": "004f0102",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "1186032e1d30019700000000",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "convert_pascal_string",
+    "scan_string_literal",
+    "scan_source_token",
+    "scan_token",
+    "read_parser_token",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "exit": null,
+  "frontier": "convert_pascal_string",
+  "pc": 1449450022,
+  "abi_inputs": [],
+  "abi_globals": [],
+  "abi_strings": [],
+  "label_stack_count": 0,
+  "scanner_flags": 2048,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ]
+}

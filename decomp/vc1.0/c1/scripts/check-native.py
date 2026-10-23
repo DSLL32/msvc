@@ -56,7 +56,9 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'browser-index-limit':('browser-index-limit','c1'),
          'callback-body-recovery':('callback-body-recovery','c1'),
          'legacy-pdb-cleanup':('legacy-pdb-object','cleanup'),
-         'quickc-regions':('quickc-regions','c1')}
+         'quickc-regions':('quickc-regions','c1'),
+         'legacy-counted-records':('legacy-segment-literals','c1'),
+         'legacy-prefix-diagnostic':('legacy-segment-literals','c1-prefix-diagnostic')}
 
 
 CASE_DEPENDENCIES = {

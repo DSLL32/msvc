@@ -1,0 +1,51 @@
+{
+  "case": "Standalone legacy segment declarations and counted/extended literals",
+  "status": "untouched original preflight pending",
+  "interface": "Direct C1 parsed -m/-Zf/-Jd. No CL producer or backend compatibility claim.",
+  "phases": {
+    "c1": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\legacy-segment-literals",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f legacy.c -Ze -Zp8 -Gs -Folegacy.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob2 -Ot -D_M_IX86=500 -G4 -W 3 -m -Zf -Jd -Oi -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/legacy-types.h",
+          "bytes": 525,
+          "sha256": "973a3902f62cfa835c37efa4358569a1dc0b1e1e6efcd49efd24294cd9e35d58"
+        },
+        {
+          "path": "inputs/legacy.c",
+          "bytes": 2246,
+          "sha256": "91f4aae8c7b7f43215251c39f6e3c23067a7299a3e11f37f805dea817d291c80"
+        }
+      ],
+      "outputs": [],
+      "expected_exit": 0,
+      "expected_stdout": "",
+      "expected_stderr": "",
+      "immutable_input_names": [
+        "legacy.c",
+        "legacy-types.h"
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "expected_absent_outputs": [
+        "legacy.obj",
+        "legacy.exe"
+      ]
+    }
+  }
+}

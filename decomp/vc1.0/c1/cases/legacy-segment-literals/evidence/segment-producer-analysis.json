@@ -1,0 +1,28 @@
+{
+  "grammar_rules": {
+    "101": [
+      "(",
+      "type_name",
+      ")",
+      "identifier"
+    ],
+    "102": [
+      "(",
+      "type_name",
+      ")",
+      "&",
+      "identifier"
+    ],
+    "103": [
+      "(",
+      "type_name",
+      ")",
+      "self"
+    ]
+  },
+  "grammar_source": "src/parser-grammar.c and parser.c",
+  "keyword_source": "src/keywords.c",
+  "keyword_source_sha256": "cd2faaa74bfc71c55ca6b49314e457acbadb7785f270a6db0af999afe743d230",
+  "observation": "Shipped keyword_specs lacks segment/segname/self spellings. Untouched v1 source rejects __segment/__segname and segment-cast constructs. No public producer for the three segment-cast handlers is established; do not classify them as CRT or force parser/global tokens.",
+  "Jd_behavior": "Original2d4e0..2d4fb maps lexical lead-byte class42 to invalid23 after actual code-page ranges; it disables those identifier bytes."
+}

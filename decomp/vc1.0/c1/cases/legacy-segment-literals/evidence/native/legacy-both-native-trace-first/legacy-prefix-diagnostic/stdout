@@ -1,0 +1,2 @@
+legacy.c(8) : error C2154: 'record_base' : does not refer to a segment name
+legacy.c(8) : warning C4040: memory attribute on 'record_total' ignored

@@ -1,0 +1,4 @@
+entry _disable_multibyte_identifier_bytes rva 0001d4e0 byte 2b
+entry _merge_type_shape_modifiers@8 rva 0002fb50 byte 56
+entry _convert_pascal_string@4 rva 00011460 byte 53
+exit 0

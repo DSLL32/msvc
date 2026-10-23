@@ -181,7 +181,7 @@ void initialize_lead_bytes(void);
 void mark_lead_byte_ranges(unsigned char *ranges);
 void read_env_arguments(char *text);
 char **extend_argument_vector(void);
-void initialize_japanese_characters(void);
+void disable_multibyte_identifier_bytes(void);
 Vector *__stdcall new_vector(short capacity, int arena);
 char *next_argument(void);
 int match_option(OptionRule *rules, char *argument, char *(*next)(void), int copy);

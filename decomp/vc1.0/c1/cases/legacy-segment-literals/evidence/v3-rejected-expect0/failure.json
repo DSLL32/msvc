@@ -1,0 +1,6 @@
+{
+  "status": "original explicit scalar-base error; initial expectation wrong",
+  "expected_exit": 0,
+  "actual_exit": 1,
+  "retained_unmodified": true
+}

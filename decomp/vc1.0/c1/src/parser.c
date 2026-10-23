@@ -537,7 +537,7 @@ read_action:
             parser_value.shape = new_type_shape(0, right[0].modifier, &based_declarator_symbol);
             break;
         case 91:
-            parser_value.shape = append_type_shape(right[-1].shape,
+            parser_value.shape = merge_type_shape_modifiers(right[-1].shape,
                 new_type_shape(0, right[0].modifier, &based_declarator_symbol));
             break;
         case 92:

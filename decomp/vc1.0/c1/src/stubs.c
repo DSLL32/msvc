@@ -23,7 +23,6 @@
 /* Original 0x43ea0. */
 void compiler_signal(int signal_number) { __asm { int 3 } }
 
-void initialize_japanese_characters(void) { __asm { int 3 } }
 
 
 
@@ -333,7 +332,6 @@ unsigned short __stdcall based_type_modifier(unsigned short kind) { __asm { int 
 /* Original 0x3f820. */
 
 /* Original 0x3fb50. */
-TypeShape *__stdcall append_type_shape(TypeShape *head, TypeShape *tail) { __asm { int 3 } return 0; }
 
 /* Original 0x40560. */
 
@@ -366,10 +364,8 @@ TypeShape *__stdcall append_type_shape(TypeShape *head, TypeShape *tail) { __asm
 
 
 
-void __stdcall check_declarator_prefix(FrontendSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
 
 
-void __stdcall copy_shape_prefix(FrontendSymbol *symbol, TypeShape *shape, TypeShape **prefix, int is_typedef) { __asm { int 3 } }
 
 
 
@@ -561,7 +557,6 @@ unsigned hash_pointer_low12(void *key) { __asm { int 3 } return 0; }
 /* Original 0x285c0. */
 
 /* Original 0x33ce0. */
-void __stdcall warn_ignored_storage_model(FrontendSymbol *symbol) { __asm { int 3 } }
 
 /* Original 0x2c950. */
 
@@ -591,7 +586,6 @@ void __stdcall warn_ignored_storage_model(FrontendSymbol *symbol) { __asm { int 
 
 
 
-void __stdcall convert_pascal_string(StringToken *string) { __asm { int 3 } }
 
 /* Original 0x3c140. */
 /* Original 0x3c620. */

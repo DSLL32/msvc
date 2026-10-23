@@ -1,0 +1,4 @@
+entry _copy_shape_prefix@16 rva 00021ae0 byte 56
+entry _check_declarator_prefix@8 rva 00021b90 byte 8b
+entry _warn_ignored_storage_model@4 rva 00023ce0 byte 8b
+exit 1

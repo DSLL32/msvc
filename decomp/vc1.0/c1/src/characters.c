@@ -106,3 +106,12 @@ unsigned char character_flags[256] = {
     0, 0, 0, 0, 0, 0, 0, 0, /* 0xf0..0xf7 */
     0, 0, 0, 0, 0, 0, 0, 0, /* 0xf8..0xff */
 };
+
+/* Original0x2d4e0..0x2d4fb. Parsed -Jd disables multibyte identifier
+   lead bytes after the console code-page ranges have been installed. */
+void disable_multibyte_identifier_bytes(void)
+{
+    unsigned i;
+    for (i = 0; i < 256; ++i)
+        if (character_class[i] == CC_LEAD_BYTE) character_class[i] = CC_INVALID;
+}

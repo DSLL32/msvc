@@ -1041,7 +1041,13 @@
     "_finish_qc_loop",
     "_expand_qc_operand@4",
     "_generate_inline_queries",
-    "_free_inline_query_tables"
+    "_free_inline_query_tables",
+    "_disable_multibyte_identifier_bytes",
+    "_merge_type_shape_modifiers@8",
+    "_convert_pascal_string@4",
+    "_copy_shape_prefix@16",
+    "_check_declarator_prefix@8",
+    "_warn_ignored_storage_model@4"
   ],
   "driver": [
     {
@@ -1095,9 +1101,9 @@
       "end": 308602
     },
     {
-      "name": "_initialize_japanese_characters",
+      "name": "_disable_multibyte_identifier_bytes",
       "start": 185568,
-      "end": 185569
+      "end": 185595
     },
     {
       "name": "_next_argument",
@@ -2500,9 +2506,9 @@
       "end": 260429
     },
     {
-      "name": "_append_type_shape@8",
+      "name": "_merge_type_shape_modifiers@8",
       "start": 260944,
-      "end": 260945
+      "end": 260996
     },
     {
       "name": "_attach_type_shape@8",
@@ -2741,7 +2747,7 @@
     {
       "name": "_check_declarator_prefix@8",
       "start": 203664,
-      "end": 203665
+      "end": 203767
     },
     {
       "name": "_merge_function_shape@28",
@@ -2766,7 +2772,7 @@
     {
       "name": "_copy_shape_prefix@16",
       "start": 203488,
-      "end": 203489
+      "end": 203650
     },
     {
       "name": "_merge_scoped_declaration@8",
@@ -3948,7 +3954,7 @@
     {
       "name": "_convert_pascal_string@4",
       "start": 136288,
-      "end": 136289
+      "end": 136335
     },
     {
       "name": "_promote_integer_expression@4",
@@ -6523,6 +6529,16 @@
       "accepted_from": 1015,
       "accepted_count": 1037,
       "expected_exit": 0
+    },
+    "legacy-counted-records": {
+      "accepted_from": 1037,
+      "accepted_count": 1040,
+      "expected_exit": 0
+    },
+    "legacy-prefix-diagnostic": {
+      "accepted_from": 1040,
+      "accepted_count": 1043,
+      "expected_exit": 1
     }
   },
   "buffered_streams": [

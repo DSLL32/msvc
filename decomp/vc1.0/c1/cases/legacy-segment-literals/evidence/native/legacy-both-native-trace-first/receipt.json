@@ -1,0 +1,118 @@
+{
+  "status": "passed",
+  "executable": "/root/msvc2/decomp/vc1.0/c1/build/native-trace/C13232.EXE",
+  "executable_sha256": "f4d246e9f662a986154417d94a82b9b8b709a2ae19db61b944ce75244a4c5ed0",
+  "trace": true,
+  "trace_prepare_seconds": 0.13497607689350843,
+  "cases": [
+    {
+      "case": "legacy-counted-records",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/legacy-both-native-trace-first/legacy-counted-records/vc1.0/c1/legacy-segment-literals",
+      "exit": 0,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "stdout_bytes": 0,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.0064743757247924805,
+      "execution_seconds": 0.007317253388464451,
+      "application_entries": 3,
+      "accepted_prefix": 893,
+      "trace_sha256": "6e95f396bd413cd31fcbc14986334e618ed2976760d4952c609e824a59248f61",
+      "shared_state_bytes": 955,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/legacy-segment-literals/manifest.json",
+      "manifest_sha256": "7060c95b9954d904960273b9562a4c6121ccd8b308e78a9ba725b2f23d8d90b8",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 435,
+          "sha256": "f4a5c16bedf8360d0404fb9d6e17b39ee7127202ab39c22eb423e536dba21a82"
+        },
+        {
+          "name": "irex",
+          "bytes": 2364,
+          "sha256": "2db5f8d0adbc6352d9931e892344cb717fe15fe0740eeba9e73ca069c4aa0313"
+        },
+        {
+          "name": "irgl",
+          "bytes": 561,
+          "sha256": "4125bd33792972fa7b435de6aa4fd27c2f8f6bcf8e949c4f7a75cb2c458e81e8"
+        },
+        {
+          "name": "irin",
+          "bytes": 107,
+          "sha256": "73b338e95793dfb2545dd02b97ce14cb73c3786c8f3421005922a5c9c94b215b"
+        },
+        {
+          "name": "irsy",
+          "bytes": 480,
+          "sha256": "c848eea7f1da884c2515a43491e787ebe07c1cbd4073e2bd3ff59c0772dfb091"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.002934440039098263,
+      "total_seconds": 0.017585325986146927
+    },
+    {
+      "case": "legacy-prefix-diagnostic",
+      "work": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/legacy-both-native-trace-first/legacy-prefix-diagnostic/vc1.0/c1/legacy-segment-literals",
+      "exit": 1,
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Standalone C1 case explicitly shares both output streams; complete bytes retained."
+      },
+      "stdout_bytes": 150,
+      "stderr_bytes": 0,
+      "setup_seconds": 0.005480133928358555,
+      "execution_seconds": 0.0061614057049155235,
+      "application_entries": 3,
+      "accepted_prefix": 896,
+      "trace_sha256": "33b78ee1c1408d55421c8c922644e7ee7db739cfd9a4bd9d517e6af219a7f5a3",
+      "shared_state_bytes": 955,
+      "status": "pass",
+      "manifest": "decomp/vc1.0/c1/cases/legacy-segment-literals/manifest.json",
+      "manifest_sha256": "7060c95b9954d904960273b9562a4c6121ccd8b308e78a9ba725b2f23d8d90b8",
+      "outputs": [
+        {
+          "name": "irdb",
+          "bytes": 11,
+          "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b"
+        },
+        {
+          "name": "irex",
+          "bytes": 1244,
+          "sha256": "b3a39e766f76db0caec40d2112f18f9b2544eaf9fa4c53532e860112b4d3ff74"
+        },
+        {
+          "name": "irgl",
+          "bytes": 24,
+          "sha256": "e8bd052c566f7aa18b5a952166b3e7f4d23820f9d5cac7fac93b5ec1ff29ef07"
+        },
+        {
+          "name": "irin",
+          "bytes": 107,
+          "sha256": "0e4c410b762e6363c8294e45df6c9dcebb235dade867fc5654d909bc75c727fe"
+        },
+        {
+          "name": "irsy",
+          "bytes": 5,
+          "sha256": "d8b0954dbff07d3bb65f8ef42c093f5a6cff8c0f206da1b2e3dde58672ee9c3a"
+        }
+      ],
+      "generated_dependency": null,
+      "generated_sources": [],
+      "generated_input_contract": null,
+      "generated_input_signature": null,
+      "oracle_seconds": 0.0028321119025349617,
+      "total_seconds": 0.015287788584828377
+    }
+  ],
+  "fixture_total_seconds": 0.032873114570975304,
+  "execution_policy": "Only native i386 ELF; immutable reference metadata/bytes; no Wine or original execution.",
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/c1/validation/legacy-both-native-trace-first"
+}

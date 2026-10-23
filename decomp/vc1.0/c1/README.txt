@@ -1,7 +1,7 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Fifty-four native phases are complete: minimal C, optimized Win32 hello, DLL,
+Fifty-six native phases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
@@ -11,13 +11,13 @@ richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
 the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, normal/expected-error arena API prototype phases, portability-header diagnostics, explicit-base/goto traversal, typed x87/bit-scan arithmetic, generated-header shutdown failures, protocol-header parser repair, assembler operand diagnostics/SEG, and standalone QuickC regions/loops/memory initialization.
 
-There are 904 accepted source functions and 1037 accepted original entries.
-Of these,893 are application functions; ten historical runtime.c bodies and
+There are 910 accepted source functions and 1043 accepted original entries.
+Of these,899 are application functions; ten historical runtime.c bodies and
 the historical __strgtold12 body in floating.c are CRT, with no application credit.
-Accepted original extents cover 245552/277234 code-section bytes (88.572109%):
-222814 application bytes,22552 CRT bytes and186 import-thunk bytes. This is a
+Accepted original extents cover 245966/277234 code-section bytes (88.721441%):
+223228 application bytes,22552 CRT bytes and186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
-not branch coverage. Of this union,244456bytes have public-case evidence and
+not branch coverage. Of this union,244870bytes have public-case evidence and
 1096 bytes have separate direct-test evidence for assembler support, expression
 templates and database object methods; no public trigger is established for
 those six functions. Unvisited
@@ -516,3 +516,12 @@ Run the ordinary native fixture with make -j4 check CASE=quickc-regions. All
 fixtures use cached references; explicit capture/debug scripts remain acceptance
 analysis tools. No private prefix, original child execution, or Wine is involved
 in fixture runs. See the case validation receipt for elapsed accounting.
+
+Legacy declarations and counted literals
+-----------------------------------------
+cases/legacy-segment-literals has a valid named-base record/count-string/callback
+program and an explicit scalar-base diagnostic variant. Parsed -m/-Zf/-Jd reach
+six functions/414 bytes, with exact status0/1, complete streams/files and fresh
+entry order. No CRT/shim work or parser-global seeding is involved. The original
+rejected segment/extended-identifier trial and an initially wrong expected0 trial
+remain frozen. No public producer for dormant segment-token handlers is claimed.

@@ -1,0 +1,35 @@
+{
+  "buffers": {
+    "expression_file": "004f0102",
+    "symbol_file": "",
+    "line_file": "",
+    "global_file": "1186032e1d30019700000000",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "warn_ignored_storage_model",
+    "normalize_symbol_storage",
+    "finalize_symbol_type",
+    "declare_symbol",
+    "apply_declarator_type",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "exit": null,
+  "frontier": "warn_ignored_storage_model",
+  "pc": 1449454054,
+  "abi_inputs": [],
+  "abi_globals": [],
+  "abi_strings": [],
+  "label_stack_count": 0,
+  "scanner_flags": 2048,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ]
+}

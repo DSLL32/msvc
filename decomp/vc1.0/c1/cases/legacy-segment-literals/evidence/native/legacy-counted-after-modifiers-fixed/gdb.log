@@ -1,0 +1,7 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x4a26: file src/stubs.c, line 592.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, convert_pascal_string (string=0x566f03f4 <current_token_value>) at src/stubs.c:592
+592	void __stdcall convert_pascal_string(StringToken *string) { __asm { int 3 } }

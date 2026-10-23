@@ -1,0 +1,7 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x49e6: file src/stubs.c, line 560.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, warn_ignored_storage_model (symbol=0x5860d360) at src/stubs.c:560
+560	void __stdcall warn_ignored_storage_model(FrontendSymbol *symbol) { __asm { int 3 } }

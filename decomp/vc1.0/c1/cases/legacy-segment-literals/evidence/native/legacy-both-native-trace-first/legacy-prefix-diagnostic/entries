@@ -1,0 +1,3 @@
+copy_shape_prefix
+check_declarator_prefix
+warn_ignored_storage_model

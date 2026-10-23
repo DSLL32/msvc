@@ -1,0 +1,125 @@
+{
+  "status": "complete",
+  "baseline_commit": "bdcfb0598678fea7f755c7a652368e8954b71219",
+  "accepted_from": 1037,
+  "accepted_count": 1043,
+  "new_application_functions": 6,
+  "new_application_bytes": 414,
+  "new_CRT_functions": 0,
+  "accepted_application_functions": 899,
+  "historical_CRT": {
+    "runtime_c": 10,
+    "floating_c": 1,
+    "changed": false
+  },
+  "coverage": {
+    "public_case_accepted_union_bytes": 244870,
+    "direct_only_accepted_union_bytes": 1096,
+    "direct_only_functions": [
+      "@open_program_database_object@20",
+      "@reload_program_database@4",
+      "_asm_recovery_value@4",
+      "_copy_expression_tree@8",
+      "_make_reusable_zero",
+      "_report_asm_expected_token@8"
+    ],
+    "accepted_union_bytes": 245966,
+    "original_code_bytes": 277234,
+    "accepted_by_origin_bytes": {
+      "frontend_source": 223228,
+      "CRT": 22552,
+      "import_thunks": 186
+    },
+    "origin_classification": "Frontend: accepted application source. CRT: runtime.c overrides, explicit CRT variants elsewhere in source, and matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes accepted reconstruction origins, not a complete original linker map.",
+    "percent": 88.72144109308383,
+    "metric": "Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage.",
+    "application_only_percent_of_total_code": 80.51970537524258
+  },
+  "checks": {
+    "public_native_phases": 56,
+    "assembler_direct_units": 15,
+    "expression_direct_units": 6,
+    "PDB_direct_units": 6,
+    "original_baselines_per_phase": 2,
+    "new_original_first_entries": 6,
+    "new_native_first_entries": 6,
+    "original_compiler_graph_ABI_extents_state_grammar": "pass",
+    "graph_negative_controls": 6,
+    "existing_native_adoption_controls": "pass",
+    "native_only_fixtures": true
+  },
+  "timings": {
+    "final_commands": [
+      {
+        "label": "legacy-stable-build",
+        "command": [
+          "make",
+          "-j4",
+          "audit-win32",
+          "native",
+          "native-trace",
+          "native-expression-tests",
+          "native-pdb-tests",
+          "native-quickc-tests"
+        ],
+        "exit": 0,
+        "total_seconds": 5.722602242603898
+      },
+      {
+        "label": "legacy-stable-suite",
+        "command": [
+          "make",
+          "-j4",
+          "native-trace-check",
+          "native-adoption-check"
+        ],
+        "exit": 0,
+        "total_seconds": 7.718822740018368
+      },
+      {
+        "label": "legacy-stable-graph-controls",
+        "command": [
+          "python3",
+          "scripts/check-graph-audit.py"
+        ],
+        "exit": 0,
+        "total_seconds": 4.203309847973287
+      }
+    ],
+    "full_public_fixture_seconds": 1.196708739735186,
+    "public_trace_prepare_seconds": 0.12630770727992058,
+    "new_phases": [
+      {
+        "case": "legacy-counted-records",
+        "setup_seconds": 0.003257053904235363,
+        "execution_seconds": 0.00555474404245615,
+        "oracle_seconds": 0.0017840005457401276,
+        "total_seconds": 0.011090075597167015
+      },
+      {
+        "case": "legacy-prefix-diagnostic",
+        "setup_seconds": 0.005012352019548416,
+        "execution_seconds": 0.009120804257690907,
+        "oracle_seconds": 0.002855985425412655,
+        "total_seconds": 0.01783161051571369
+      }
+    ]
+  },
+  "shared_publication": "cabec0d10",
+  "shared_source_policy": "Published C/H held stable through final checks; exact before/after hashes retained in final-checks/legacy-stable-validation.json.",
+  "scope": "Valid named-base records/counted strings/code callbacks plus explicit invalid relative-scalar diagnostic recovery. No claim unsupported segment syntax is valid; no public producer for dormant segment handlers, no target-global/token seeding.",
+  "failure_history": [
+    "Untouched v1 rejected39 unsupported segment/far-data/extended-identifier constructs; retained raw.",
+    "Untouched v3 initially expected0, actually emits C2154/C4040 and exits1; preserved before explicit expected-error references.",
+    "Rename left two old caller names; native link failure and no-executable debug failure retained, then corrected.",
+    "Preparation script misdirected a manifest to a temporary input copy; phase lookup failed before original invocation; copy restored from unchanged frozen v2-case input and checked against its hash."
+  ],
+  "case_policy": "Single record/literal case, distinct valid and explicit expected-error phases. Successful v2 input/oracles and all rejected raw captures remain unchanged.",
+  "evidence_storage": {
+    "files": 411,
+    "raw_bytes": 1034255,
+    "individually_gzip_bytes": 274487,
+    "file_index": "evidence/files.json"
+  },
+  "final_manifest_fixture_receipt": "evidence/native/final-manifest/receipt.json"
+}

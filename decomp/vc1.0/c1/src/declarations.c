@@ -460,12 +460,12 @@ int __stdcall prepare_declarator_shapes(FrontendSymbol *symbol, CType *base,
     node = extract_declarator_prefix(*work, prefix, symbol, is_typedef);
     *work = symbol->type->related;
     if (!(base_shape->shape->flags & 7) && prefix && *prefix)
-        append_type_shape(*prefix, base_shape->shape);
+        merge_type_shape_modifiers(*prefix, base_shape->shape);
     attributes = node ? &node->attributes : &symbol->type->attributes;
     base_shape->shape = extract_base_prefix(base_shape->shape, &detached, symbol, is_typedef, attributes);
     if (node) {
         node->attributes = merge_type_attributes(node->attributes, (unsigned short)(base->attributes & 0xcfff));
-        if (detached) append_type_shape(node, detached);
+        if (detached) merge_type_shape_modifiers(node, detached);
     } else {
         symbol->type->attributes = merge_type_attributes(symbol->type->attributes, base->attributes);
         if (!*prefix && detached)
@@ -2491,4 +2491,54 @@ void __stdcall report_symbol_error(unsigned code, FrontendSymbol *symbol)
         report_syntax_error(code, symbol->name);
         symbol->flags |= 0x80;
     }
+}
+
+/* Original0x31ae0..0x31b82, four stack arguments/RET16. Retain an
+   isolated declarator-prefix copy in the temporary expression arena. */
+void __stdcall copy_shape_prefix(FrontendSymbol *symbol, TypeShape *shape,
+    TypeShape **prefix, int is_typedef)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    TypeShape *copy;
+    if (!shape || !symbol) return;
+    if (!is_typedef && (shape->flags & 7) == 4 &&
+        ((shape->attributes & 7) != 5 ||
+         (((FrontendSymbol *)shape->field08)->kind & 0x1f) != 13)) {
+        report_syntax_error(225, symbol->name);
+        return;
+    }
+    if (pool->remaining < (int)sizeof(TypeShape)) refill_arena(&compiler_arena, pool);
+    copy = (TypeShape *)pool->next;
+    pool->remaining -= sizeof(TypeShape);
+    pool->next += sizeof(TypeShape);
+    *prefix = copy;
+    *copy = *shape;
+    copy->related = 0;
+}
+
+/* Original0x31b90..0x31bf7, two stack pointers/RET8. A declarator
+   prefix carries either no segment or the actual named segment symbol. */
+void __stdcall check_declarator_prefix(FrontendSymbol *symbol, TypeShape *prefix)
+{
+    TypeShape *shape;
+    FrontendSymbol *segment;
+    unsigned char kind;
+    if (!symbol || !prefix) return;
+    if (!prefix->field08) symbol->attributes &= ~2U;
+    else {
+        symbol->attributes |= 2;
+        shape = symbol->type->related;
+        if (shape && (shape->flags & 7) == 4) {
+            segment = (FrontendSymbol *)prefix->field08;
+            kind = segment->metadata.segment.kind;
+            if (kind == 8) segment->metadata.segment.kind = 0;
+            else if (kind && kind != 2) report_syntax_error(195, segment->name);
+        }
+    }
+}
+
+/* Original0x33ce0..0x33cf7. */
+void __stdcall warn_ignored_storage_model(FrontendSymbol *symbol)
+{
+    compiler_warning(1, 40, symbol->name);
 }

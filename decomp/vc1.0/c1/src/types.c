@@ -805,3 +805,12 @@ CType *__stdcall make_pointer_base_type(unsigned short flags, unsigned short kin
         normalize_type_attributes(kind, attributes), 0));
     return intern_type(description);
 }
+
+/* Original0x3fb50..0x3fb84. This combines declarator modifiers on
+   one shape, rather than appending a shape to the related chain. */
+TypeShape *__stdcall merge_type_shape_modifiers(TypeShape *head, TypeShape *tail)
+{
+    if (!(head->attributes & 4) && (tail->attributes & 4)) head->field08 = tail->field08;
+    head->attributes = merge_type_attributes(head->attributes, tail->attributes);
+    return head;
+}
