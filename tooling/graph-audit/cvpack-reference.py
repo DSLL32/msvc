@@ -38,7 +38,9 @@ if args.prepare:
     print('Explicit frozen strict runtime identity cache captured')
     raise SystemExit(0)
 cache=json.loads(args.cache.read_text())
-assert cache['schema']==1 and cache['provenance']==provenance
+assert cache['schema']==1 and all(cache['provenance'].get(k)==v for k,v in provenance.items())
+# Adoption wrappers may additionally bind identifier sources/runtime indexes.
+# This graph-only reference checks the six required frozen input identities.
 runtime=cache['original_runtime']
 assert runtime==json.loads((project/'runtime.json').read_text())
 rebuilt=PE(rebuilt_path)
@@ -62,7 +64,11 @@ for record in functions:
     for table in record.get('switch_tables',[]):
         actual=[audit.u32(original.read(table['start']+i*4,4),0) for i in range(len(table['targets']))]
         assert actual==table['targets'],'switch targets differ'
-    a=audit.audited_graph(original,start,end,record.get('roots',()),record.get('text_data',()),switches)
+    padding=record.get('alignment_padding',())
+    extra=dict(padding=padding) if padding else {}
+    a=audit.audited_graph(original,start,end,record.get('roots',()),record.get('text_data',()),switches,**extra)
+    for begin,end_padding in padding:
+        assert not any(begin < insn.address+insn.size and insn.address < end_padding for insn in a['instructions'].values()),'reachable declared alignment padding'
     rs=linked[record['symbol']]
     re=next(address for address in addresses if address>rs)
     roots=audit.seh_roots(rebuilt,rs,re,record.get('compiler_seh_scaffolding',False))

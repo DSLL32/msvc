@@ -228,3 +228,38 @@ fn extent_only_walk_allows_fragment_end_but_never_split_operand() {
     assert!(walk(&d, &p, 0x401000, 0x401001, &options).is_ok());
     assert!(walk(&d, &p, 0x401000, 0x401002, &options).is_err());
 }
+
+#[test]
+fn declared_cvpack_alignment_requires_exact_unreachable_disjoint_bytes() {
+    let d = Decoder::new().unwrap();
+    let code = [0xc3, 0x05, 0, 0, 0, 0];
+    let pe = image(&code);
+    let options = Options {
+        strict: true,
+        ..Options::default()
+    };
+    let range = (0x401001, 0x401006);
+    assert!(crate::cvpack::audited(&d, &pe, 0x401000, 0x401006, &options, &[range]).is_ok());
+    assert!(crate::cvpack::audited(&d, &pe, 0x401000, 0x401006, &options, &[]).is_err());
+    assert!(
+        crate::cvpack::audited(&d, &pe, 0x401000, 0x401006, &options, &[range, range]).is_err()
+    );
+    let bad = image(&[0xc3, 0x05, 1, 0, 0, 0]);
+    assert!(crate::cvpack::audited(&d, &bad, 0x401000, 0x401006, &options, &[range]).is_err());
+    let rooted = Options {
+        roots: vec![range.0],
+        ..options.clone()
+    };
+    // A terminal RET follows the declared ADD so its reachability, rather than
+    // a missing terminal instruction, is the rejection reason.
+    let pe = image(&[0xc3, 0x05, 0, 0, 0, 0, 0xc3]);
+    let err = crate::cvpack::audited(&d, &pe, 0x401000, 0x401007, &rooted, &[range])
+        .err()
+        .unwrap();
+    assert!(err.to_string().contains("CFG-reachable"));
+    let data = Options {
+        data: vec![range],
+        ..options
+    };
+    assert!(crate::cvpack::audited(&d, &pe, 0x401000, 0x401007, &data, &[range]).is_err());
+}

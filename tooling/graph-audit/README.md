@@ -110,6 +110,14 @@ SHA-256, symbol mapping, declared duplicate/extent checks and relevant existing
 CRT defaults. These establish the input being audited. Runtime identification is
 not reimplemented by this graph tool.
 
+CVPACK `alignment_padding` metadata permits only explicitly declared five-byte
+`ADD EAX,0` intervals with exact original bytes `05 00 00 00 00`. Each interval
+must lie inside its function, be disjoint from text-data and other declarations,
+and remain unreachable in the final CFG including derived compiler roots. The
+original image hash binds these bytes. This is an extent-policy declaration, not
+a general permission to omit unrooted code; it is checked with `--check-extents`
+or the legacy CVPACK preset.
+
 Graph metadata is JSON, supplied through `--metadata`; RC's callback table layout
 is in `profiles/rc.json`. Example function metadata:
 

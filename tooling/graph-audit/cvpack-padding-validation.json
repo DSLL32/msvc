@@ -1,0 +1,42 @@
+{
+  "binary_sha256": "8fc8bacc8d17daa091bf3b8aaded806dc53de7861a0768c9a85d7b5dc4bc047c",
+  "checked_functions": 32,
+  "canonical_equal": true,
+  "cache_sha256": "eb056ec0995134bf235ada7ae233781697a3d49d28e1d27ea0966764ec540e29",
+  "functions_sha256": "a03888d153d06ea8131d88b296a7fc4375f5830db99f5bc2e442cc9f03b15e93",
+  "timestamp": "2026-10-23T10:28:27.416528+00:00",
+  "scope": "Current32 application functions. Exact graph/RET canonical parity with extracted Python reference; unchanged unrelated Python policy retained. Config-only mutation cache hashes refreshed explicitly; no executable or runtime identity changed.",
+  "unit_tests": 18,
+  "clippy": "all-targets -D warnings passed",
+  "negative_cases": [
+    {
+      "name": "missing_declaration",
+      "status": 1,
+      "seconds": 0.06296523101627827,
+      "error": "graph-audit: unrooted code 2a6fb: add eax, 0"
+    },
+    {
+      "name": "overlap_declaration",
+      "status": 1,
+      "seconds": 0.06139325723052025,
+      "error": "graph-audit: declared alignment padding overlaps another declaration"
+    },
+    {
+      "name": "reachable_declaration",
+      "status": 1,
+      "seconds": 0.06388290971517563,
+      "error": "graph-audit: declared alignment padding is CFG-reachable at 2a6fb"
+    }
+  ],
+  "unit_negative_cases": [
+    "missing declaration",
+    "incorrect0500000000 bytes",
+    "duplicate/overlapping declaration",
+    "reachable declaration (explicit final CFG reason)",
+    "text-data overlap"
+  ],
+  "positive_single_sample_seconds": {
+    "rust_cfg_with_ret_ownership_extents_overlap": 0.0706371832638979,
+    "extracted_python_graph_ret_ownership_reference": 0.7639635289087892
+  }
+}

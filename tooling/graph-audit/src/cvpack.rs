@@ -226,7 +226,30 @@ fn named(g: &Graph, names: &HashMap<u32, String>) -> Result<BTreeSet<String>> {
     }
     Ok(out)
 }
-fn audited(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Result<Graph> {
+pub(crate) fn audited(
+    d: &Decoder,
+    pe: &Pe,
+    start: u32,
+    end: u32,
+    options: &Options,
+    padding: &[(u32, u32)],
+) -> Result<Graph> {
+    for (index, &(a, b)) in padding.iter().enumerate() {
+        ensure!(
+            start <= a && a < b && b <= end && b - a == 5,
+            "invalid declared alignment padding {a:x}..{b:x}"
+        );
+        ensure!(
+            pe.read(a, 5)? == [0x05, 0, 0, 0, 0],
+            "declared alignment padding bytes differ at {a:x}"
+        );
+        ensure!(
+            padding[..index].iter().all(|r| !overlap((a, b), *r))
+                && options.data.iter().all(|r| !overlap((a, b), *r)),
+            "declared alignment padding overlaps another declaration"
+        );
+    }
+
     let mut g = flow::walk(d, pe, start, end, options)?;
     let covered = g
         .instructions
@@ -269,7 +292,8 @@ fn audited(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Res
                         &[0x8d, 0x9b, 0, 0, 0, 0],
                         &[0xcc]
                     ]
-                    .contains(&i.bytes.as_slice()),
+                    .contains(&i.bytes.as_slice())
+                        || padding.contains(&(cursor, i.next())),
                     "unrooted code {cursor:x}: {} {}",
                     i.m,
                     i.text
@@ -283,6 +307,16 @@ fn audited(d: &Decoder, pe: &Pe, start: u32, end: u32, options: &Options) -> Res
         let mut options = options.clone();
         options.roots.extend(extra);
         g = flow::walk(d, pe, start, end, &options)?;
+    }
+    // Check the final graph, including compiler-duplicate-jump roots discovered
+    // by the whole-body pass. A declaration cannot hide reachable instructions.
+    for &(a, b) in padding {
+        ensure!(
+            g.instructions
+                .values()
+                .all(|i| !overlap((a, b), (i.a, i.next()))),
+            "declared alignment padding is CFG-reachable at {a:x}"
+        );
     }
     Ok(g)
 }
@@ -576,7 +610,14 @@ pub fn run(a: &Args) -> Result<Value> {
             }
         }
         let l = if a.discovery == crate::Discovery::Legacy || a.check_extents {
-            audited(&d, &original, start, end, &options)?
+            audited(
+                &d,
+                &original,
+                start,
+                end,
+                &options,
+                &intervals(&r["alignment_padding"])?,
+            )?
         } else {
             flow::walk(&d, &original, start, end, &options)?
         };
@@ -618,7 +659,14 @@ pub fn run(a: &Args) -> Result<Value> {
             ..Options::default()
         };
         let right = if a.discovery == crate::Discovery::Legacy || a.check_extents {
-            audited(&d, &rebuilt, rebuilt_start, rebuilt_end, &right_options)?
+            audited(
+                &d,
+                &rebuilt,
+                rebuilt_start,
+                rebuilt_end,
+                &right_options,
+                &[],
+            )?
         } else {
             flow::walk(&d, &rebuilt, rebuilt_start, rebuilt_end, &right_options)?
         };
