@@ -1365,4 +1365,15 @@ WEAK int recon_mbsnbicmp(const unsigned char *left,const unsigned char *right,si
 WEAK unsigned char *recon_mbspbrk(const unsigned char *text,const unsigned char *accept)
 { (void)text; (void)accept; recon_unsupported("unreviewed _mbspbrk"); return NULL; }
 WEAK unsigned char *recon_mbschr(const unsigned char *text,unsigned int value)
-{ (void)text; (void)value; recon_unsupported("unreviewed _mbschr"); return NULL; }
+{
+    unsigned char byte;
+    ascii_multibyte_scope();
+    if (!text || value>127) recon_unsupported("non-ASCII/null _mbschr argument");
+    do {
+        byte=*text;
+        if (byte>127) recon_unsupported("non-ASCII _mbschr text");
+        if (byte==value) return (unsigned char *)text;
+        ++text;
+    } while (byte);
+    return NULL;
+}

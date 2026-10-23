@@ -1,0 +1,7 @@
+{
+  "scope": "CP0/SBCS/C-locale ASCII _mbschr first-match inclNUL/empty, errno/LastError unchanged",
+  "native_build_checks_seconds": {
+    "gcc": 1.0869546756148338,
+    "clang": 1.276260482147336
+  }
+}

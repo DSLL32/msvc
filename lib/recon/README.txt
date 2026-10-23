@@ -422,8 +422,7 @@ Scope requires codepage0, MB_CUR_MAX1 and C LC_CTYPE; target evidence also verif
 clear ASCII lead-byte bits. Comparisons return canonical-1/0/+1; count0 accepts
 NULL inputs. Advance includes NUL, copy changes exactly one byte including NUL.
 Unknown codepages/locales/non-ASCII fail explicitly. `_ismbcspace` uses the
-canonical mask8 for ASCII space and TAB through CR, zero otherwise; `_mbschr`
-remains unsupported. The separate `recon_mb_codepage` state is not LC_CTYPE's
+canonical mask8 for ASCII space and TAB through CR, zero otherwise. The separate `recon_mb_codepage` state is not LC_CTYPE's
 codepage and must be observed rather than inferred from MB_CUR_MAX alone.
 
 Minimal native C++ target units may include shared headers with C linkage; shared
@@ -487,7 +486,8 @@ Unknown/invalid dates, other update modes and failures remain unsupported. Tests
 compare original UTC/epoch/leap conversions and actual last-write file metadata.
 
 Default-C ASCII _mbsrchr scans through NUL and returns the last matching byte,
-including the terminating NUL or NULL when absent. It preserves errors and uses
+including the terminating NUL or NULL when absent. _mbschr returns the first
+matching byte under the same scope. Both preserve errors and use
 the existing strict codepage/locale guard. _mbspbrk and _mbsnbicmp currently have
 SDK-typed surfaces; _mbspbrk remains unsupported. _mbsnbicmp now supports
 the verified CP0/SBCS/C-locale ASCII path, folding A..Z and returning normalized
