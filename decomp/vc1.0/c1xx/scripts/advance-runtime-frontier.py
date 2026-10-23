@@ -15,7 +15,7 @@ import subprocess
 import sys
 import tempfile
 import time
-from case_paths import paths
+from case_paths import paths, CAPTURE_ROOT
 
 BINARY=Path(__file__).resolve().parents[1]
 
@@ -56,6 +56,7 @@ def main():
         if index+1<len(names):assert receipt['terminal']==names[index+1]
     assert proof['configuration_sha256']==sha(path) and proof['original_capture_sha256']==sha(args.original/'receipt.json')
     trace=module('c1xx_names','native-traces.py')
+    assert 'first_entry_projection' in originals[-1], 'final runtime capture must include accepted application entry plan'
     terminal=originals[-1]['terminal']
     complete=terminal.startswith('exit:')
     if complete:
@@ -65,7 +66,7 @@ def main():
         assert native['signal']==5 and native['function']=='recon_exit' and native['exit_code']==0
         events=(captures[0]/'events.txt').read_text()
     else:
-        native_directory=Path(tempfile.mkdtemp(prefix='native-frontier-',dir=Path.home()/'.ai-tmp/vc1.0-c1xx'))
+        native_directory=Path(tempfile.mkdtemp(prefix='native-frontier-',dir=CAPTURE_ROOT))
         native=module('c1xx_native_capture','capture-native.py').capture(native_directory,case_name=args.case)
         assert native['signal']==5 and native['function']==trace.native_name(terminal),(terminal,native['function'])
         events=(captures[-1]/'events.txt').read_text()
@@ -112,6 +113,8 @@ def main():
     shutil.copyfile(args.build_timing,base_record/'build-timing.json')
     case['terminal']=terminal;case['terminal_evidence']=relative(record/'original-events.txt')
     path.write_text(json.dumps(config,indent=2)+'\n')
+    from original_entries import register
+    register(args.case,captures[-1],base_record/'entry-reference')
     snapshot=reference/'canonical-map.txt'
     snapshot.write_text(''.join(line.rstrip()+'\n' for line in (BINARY/'build/c1xx.map').read_text().splitlines()))
     shutil.copyfile(snapshot,BINARY/'cases/canonical-map.txt')

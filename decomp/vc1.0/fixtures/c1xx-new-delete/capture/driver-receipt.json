@@ -1,21 +1,95 @@
 {
-  "command": [
-    "wine",
-    "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/capture-driver.exe",
-    "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\CL.EXE",
-    "11000",
-    "Z:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\c1xx-new-delete\\capture",
-    "Z:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\c1xx-new-delete",
-    "/nologo /Od allocation.cpp",
-    "allocation.obj"
-  ],
-  "source_sha256": "034204157e504dc31799f2bc99c51d639aac52d26b683c8980941ce7274a8ba8",
-  "seconds": 5.871796161867678,
-  "status": 0,
-  "program": {
-    "status": 0,
-    "seconds": 3.6478869253769517,
-    "stdout": "",
-    "stderr": ""
-  }
+  "case": "new-delete",
+  "operations": [
+    {
+      "operation": "driver",
+      "command": [
+        "wine",
+        "R:\\decomp\\vc1.0\\c1xx\\build\\reference-capture-driver.exe",
+        "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+        "11000",
+        "S:\\vc1.0\\c1xx\\fixture-stage\\c1xx-new-delete\\capture\\driver",
+        "S:\\vc1.0\\c1xx\\new-delete-driver",
+        "/nologo /Od allocation.cpp",
+        "allocation.obj"
+      ],
+      "cwd": "S:\\vc1.0\\c1xx\\new-delete-driver",
+      "status": 0,
+      "execution_seconds": 2.6764605958014727,
+      "stdout_sha256": "97dbfe4b44de3c3b9e48c42a5ab5f1d87b2db8c5a60b10de4c9866cb59d5ceba",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "operation": "driver-program",
+      "command": [
+        "wine",
+        "S:\\vc1.0\\c1xx\\new-delete-driver\\allocation.exe"
+      ],
+      "cwd": "S:\\vc1.0\\c1xx\\new-delete-driver",
+      "status": 0,
+      "execution_seconds": 0.9585054339841008,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "operation": "independent-c1",
+      "command": [
+        "wine",
+        "R:\\decomp\\vc1.0\\c1xx\\build\\reference-run-phase.exe",
+        "R:\\toolchains\\1.0-nt\\bin\\C1XX3232.EXE",
+        "",
+        "R:\\toolchains\\1.0-nt\\bin\\c1xx3232.exe",
+        "S:\\vc1.0\\c1xx\\new-delete"
+      ],
+      "cwd": "S:\\vc1.0\\c1xx\\new-delete",
+      "status": 0,
+      "execution_seconds": 1.233858766965568,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "operation": "independent-c2",
+      "command": [
+        "wine",
+        "R:\\decomp\\vc1.0\\c1xx\\build\\reference-run-phase.exe",
+        "R:\\toolchains\\1.0-nt\\bin\\C23232.EXE",
+        "",
+        "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+        "S:\\vc1.0\\c1xx\\new-delete-c2"
+      ],
+      "cwd": "S:\\vc1.0\\c1xx\\new-delete-c2",
+      "status": 0,
+      "execution_seconds": 1.2354945857077837,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "operation": "independent-link",
+      "command": [
+        "wine",
+        "R:\\decomp\\vc1.0\\c1xx\\build\\reference-run-phase.exe",
+        "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+        "@link.rsp",
+        "R:\\toolchains\\1.0-nt\\bin\\link.exe @link.rsp",
+        "S:\\vc1.0\\c1xx\\new-delete-link"
+      ],
+      "cwd": "S:\\vc1.0\\c1xx\\new-delete-link",
+      "status": 0,
+      "execution_seconds": 1.1381422523409128,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "operation": "independent-program",
+      "command": [
+        "wine",
+        "S:\\vc1.0\\c1xx\\new-delete-link\\allocation.exe"
+      ],
+      "cwd": "S:\\vc1.0\\c1xx\\new-delete-link",
+      "status": 0,
+      "execution_seconds": 0.8544740593060851,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
 }

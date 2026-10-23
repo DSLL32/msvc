@@ -1,7 +1,0 @@
-{
-  "status": "accepted runtime library/import identity",
-  "function": "__free_osfhnd",
-  "next_frontier": "_finish_translation_symbols",
-  "boundary_evidence": "cases/cpp-basic-frontiers/0608-close_source_file/runtime-boundary/validation.json",
-  "downstream_comparison": "cases/cpp-basic-frontiers/0608-close_source_file/validation.json"
-}

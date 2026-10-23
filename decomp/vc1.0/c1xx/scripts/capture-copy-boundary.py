@@ -1,5 +1,6 @@
 """Explicit overlapping CRT copy entry/return proof, outside cached fixtures."""
 import argparse
+import fcntl
 import importlib.util
 import json
 import os
@@ -10,7 +11,7 @@ import subprocess
 import tempfile
 import time
 from binary import PE
-from case_paths import paths
+from case_paths import paths, CAPTURE_ROOT, canonical_parts, SCRATCH, native_work
 from runtime_boundary_loader import load_boundary
 
 BINARY=Path(__file__).resolve().parents[1]
@@ -30,25 +31,32 @@ def main():
     assert before['case']==args.case and before['configuration_sha256']==sha(BINARY/'functions.json')
     identity=boundary.identities(canonical=True,names=['_memcpy'])
     original=PE(tool.TC/'bin/C1XX3232.EXE')
-    directory=Path(tempfile.mkdtemp(prefix='copy-boundary-',dir=tool.PREFIX.parent))
+    directory=Path(tempfile.mkdtemp(prefix='copy-boundary-',dir=CAPTURE_ROOT))
     plan=directory/'restore-plan.txt'
     plan.write_text(''.join('%x %x %x %s\n'%(r['record']['start'],original.offset(r['record']['start']),r['record']['end']-r['record']['start'],r['name']) for r in identity['records']))
     _,fixture,_,_=paths(config,args.case)
     phase=json.loads((fixture/'manifest.json').read_text())['phases']['c1']
+    lock=(CAPTURE_ROOT/'capture.lock').open('a'); fcntl.flock(lock,fcntl.LOCK_EX)
+    canonical=phase['canonical_working_directory']
+    original_work=SCRATCH.joinpath(*canonical_parts(canonical))
+    original_work.mkdir(parents=True,exist_ok=True)
+    for entry in original_work.iterdir():
+        assert entry.is_file() and not entry.is_symlink(),str(entry)
+        entry.unlink()
+
     flags=phase['environment']['MSC_CMD_FLAGS'].format(bin=tool.windows(tool.TC/'bin'),include=tool.windows(tool.TC/'include'))
     program=phase['command_line_template'].format(bin=tool.windows(tool.TC/'bin'))
-    def prepare(name):
-        work=directory/name;work.mkdir()
-        for item in phase['inputs']:shutil.copyfile(fixture/item['path'],work/Path(item['path']).name)
-        return work
     setup_started=time.perf_counter()
-    work=prepare('original-case')
-    command=['wine',str(BINARY/'build/reference-copy-observer.exe'),tool.windows(args.original_capture/'masked-original.exe'),'',
+    work=original_work
+    for item in phase['inputs']:shutil.copyfile(fixture/item['path'],work/Path(item['path']).name)
+    command=['wine',tool.windows(BINARY/'build/reference-copy-observer.exe'),tool.windows(args.original_capture/'masked-original.exe'),'',
         tool.windows(directory/'original-stdout.bin'),tool.windows(directory/'original-stderr.bin'),tool.windows(directory/'original-events.txt'),
-        tool.windows(work),'MSC_CMD_FLAGS='+flags,program]
+        canonical,'MSC_CMD_FLAGS='+flags,program]
     env=tool.environment();env.update(C1XX_COPY_PLAN=tool.windows(plan),C1XX_COPY_LOG=tool.windows(directory/'original-observation.txt'),C1XX_COPY_IMAGE=tool.windows(tool.TC/'bin/C1XX3232.EXE'))
     original_setup_seconds=time.perf_counter()-setup_started
     started=time.perf_counter();subprocess.run(command,env=env,check=True,timeout=90,stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL);original_seconds=time.perf_counter()-started
+    shutil.copytree(original_work,directory/'original-case')
+    fcntl.flock(lock,fcntl.LOCK_UN);lock.close()
     raw=(directory/'original-observation.txt').read_text()
     observed={k:int(re.search(r'^'+k+r' (-?\d+)$',raw,re.M)[1]) for k in ('size','delta','returned_destination')}
     observed['return_va']=int(re.search(r'^return_va ([0-9a-f]+)$',raw,re.M)[1],16)
@@ -56,7 +64,8 @@ def main():
         observed[stage]=re.search(r'^'+stage+r' (.*)$',raw,re.M)[1]
         observed[stage+'_names']=[name for _,name in re.findall(r'^'+stage+r'_name (\d+) (.*)$',raw,re.M)]
     observed['runtime_order']=re.findall(r'^runtime (\S+)$',raw,re.M)
-    setup_started=time.perf_counter();work=prepare('native-case')
+    setup_started=time.perf_counter();work,drive_environment=native_work(directory/'native-drive',canonical)
+    for item in phase['inputs']:shutil.copyfile(fixture/item['path'],work/Path(item['path']).name)
     commands=['break add_inline_pointer','run > '+str(directory/'native-stdout.bin')+' 2> '+str(directory/'native-stderr.bin'),
         'disable 1','break memmove','continue','python','import gdb,json',
         'destination=int(gdb.parse_and_eval("*(unsigned*)($esp+4)"))',
@@ -76,6 +85,7 @@ def main():
     env={k:v for k,v in os.environ.items() if not k.startswith('RECON_')}
     for name in ('CL','_CL_','LINK','_LINK_'):env.pop(name,None)
     env.update(MSC_CMD_FLAGS=flags,RECON_PROGRAM_PATH=program,TZ='PST8PDT')
+    env.update(drive_environment)
     native_setup_seconds=time.perf_counter()-setup_started
     started=time.perf_counter();result=subprocess.run(['gdb','-q','-batch','-x',str(script),'--args',str(BINARY/'build/native/C1XX3232.EXE')],env=env,cwd=work,stdin=subprocess.DEVNULL,capture_output=True,text=True,timeout=60);native_seconds=time.perf_counter()-started
     (directory/'native-gdb.log').write_text(result.stdout+result.stderr)

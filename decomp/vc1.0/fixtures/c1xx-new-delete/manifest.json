@@ -2,24 +2,22 @@
   "case": "CL.EXE /nologo /Od allocation.cpp",
   "toolchain": "1.0-nt",
   "capture": {
-    "method": "Debugger breakpoint at original CL CreateProcessA import thunk, VA 0x21000 / RVA 0x11000",
+    "method": "Fresh original CL CreateProcessA breakpoint; shared fixed R:/S: prefix",
     "CL_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
     "arguments": "/nologo /Od allocation.cpp",
     "downstream_capture_arguments": "/nologo /Od allocation.cpp",
-    "snapshot": "Intermediate files copied before C2 launch; object and response copied before LINK launch",
+    "source_sha256": "034204157e504dc31799f2bc99c51d639aac52d26b683c8980941ce7274a8ba8",
+    "inherited_working_directory": "S:\\vc1.0\\c1xx\\new-delete-driver",
     "child_current_directory_parameter": null,
-    "inherited_working_directory": "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/c1xx-new-delete",
+    "raw_boundary_files": "capture/driver/",
     "stdin": "closed",
     "compiler_environment_keys": [
       "MSC_CMD_FLAGS"
     ],
-    "source_sha256": "034204157e504dc31799f2bc99c51d639aac52d26b683c8980941ce7274a8ba8",
-    "raw_boundary_files": "capture/",
-    "program": {
-      "status": 0,
-      "seconds": 3.6478869253769517,
-      "stdout": "",
-      "stderr": ""
+    "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+    "fixed_drives": {
+      "R:": "/root/msvc2",
+      "S:": "/root/.ai-tmp/msvc2"
     },
     "timing_receipt": "capture/driver-receipt.json"
   },
@@ -32,9 +30,9 @@
         "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f allocation.cpp -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Foallocation.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Ob0 -Ot -I {include} "
       },
       "working_directory": "c1",
-      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1xx3232.exe",
-      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1xx3232.exe",
-      "captured_MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Z:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\c1xx-new-delete\\000292 -f allocation.cpp -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Foallocation.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Ob0 -Ot -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include ",
+      "captured_application": "R:\\toolchains\\1.0-nt\\bin\\c1xx3232.exe",
+      "captured_command_line": "R:\\toolchains\\1.0-nt\\bin\\c1xx3232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il S:\\vc1.0\\c1xx\\new-delete-driver\\001116 -f allocation.cpp -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Foallocation.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Ob0 -Ot -I R:\\toolchains\\1.0-nt\\include ",
       "expected_exit": 0,
       "expected_stdout": "",
       "expected_stderr": "",
@@ -85,7 +83,8 @@
           "sha256": "089a47b49ae1b1a56c9cce39b0a126ce6db0b32e5f71ade8f94a64a91f4a597a",
           "cached_path": "dependencies/NEW.H"
         }
-      ]
+      ],
+      "canonical_working_directory": "S:\\vc1.0\\c1xx\\new-delete"
     },
     "c2": {
       "target": "toolchains/1.0-nt/bin/C23232.EXE",
@@ -95,9 +94,9 @@
         "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f allocation.cpp -W 1 -G4 -Gs4096 -dos -Foallocation.obj -ML "
       },
       "working_directory": "c2",
-      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
-      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
-      "captured_MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Z:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\c1xx-new-delete\\000292 -f allocation.cpp -W 1 -G4 -Gs4096 -dos -Foallocation.obj -ML ",
+      "captured_application": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_command_line": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il S:\\vc1.0\\c1xx\\new-delete-driver\\001116 -f allocation.cpp -W 1 -G4 -Gs4096 -dos -Foallocation.obj -ML ",
       "expected_exit": 0,
       "expected_stdout": "",
       "expected_stderr": "",
@@ -127,7 +126,7 @@
         {
           "path": "expected/allocation.obj",
           "bytes": 2479,
-          "sha256": "3097dcaa0331f9eb23c7ab9f6347f53aa8352ac151f40b939c42de9acab285ed",
+          "sha256": "3617ae9501881754b78dd6244d7bd6b523226c99d52ba312afc2f0fcb1c554b4",
           "output_name": "allocation.obj",
           "ignored_fields": [
             {
@@ -147,13 +146,13 @@
           "sha256": "c0246e0cc265b95a932d82e3d2b4e2f7b42ad0f6c1aca2011524a32ab13cf1e5",
           "cached_path": "dependencies/C23.ERR"
         }
-      ]
+      ],
+      "canonical_working_directory": "S:\\vc1.0\\c1xx\\new-delete-c2"
     },
     "link": {
       "target": "toolchains/1.0-nt/bin/LINK.EXE",
       "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
       "arguments": [
-        "-link",
         "@link.rsp"
       ],
       "environment": {
@@ -168,10 +167,10 @@
         "MSC_CMD_FLAGS"
       ],
       "working_directory": "link",
-      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe",
-      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe -link @Z:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\c1xx-new-delete\\000292lk",
+      "captured_application": "R:\\toolchains\\1.0-nt\\bin\\link.exe",
+      "captured_command_line": "R:\\toolchains\\1.0-nt\\bin\\link.exe -link @S:\\vc1.0\\c1xx\\new-delete-driver\\001116lk",
       "captured_environment_parameter": null,
-      "captured_LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+      "captured_LIB": "R:\\toolchains\\1.0-nt\\lib",
       "expected_exit": 0,
       "expected_stdout": "",
       "expected_stderr": "",
@@ -179,7 +178,7 @@
         {
           "path": "link/allocation.obj",
           "bytes": 2479,
-          "sha256": "3097dcaa0331f9eb23c7ab9f6347f53aa8352ac151f40b939c42de9acab285ed"
+          "sha256": "3617ae9501881754b78dd6244d7bd6b523226c99d52ba312afc2f0fcb1c554b4"
         },
         {
           "path": "link/link.rsp",
@@ -191,7 +190,7 @@
         {
           "path": "expected/allocation.exe",
           "bytes": 2097152,
-          "sha256": "1d3faa9ed3e2d738df180d915a8ae25dbe34463847e8fc6332be6e857f8c7394",
+          "sha256": "98e27bb575309e197d61db8b29330eab6af2f4acd23047fe9e9ed264e0019d49",
           "output_name": "allocation.exe",
           "ignored_fields": [
             {
@@ -215,7 +214,8 @@
           "sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334"
         }
       ],
-      "command_line_template": "{bin}\\link.exe -link @link.rsp"
+      "command_line_template": "{bin}\\link.exe @link.rsp",
+      "canonical_working_directory": "S:\\vc1.0\\c1xx\\new-delete-link"
     }
   }
 }

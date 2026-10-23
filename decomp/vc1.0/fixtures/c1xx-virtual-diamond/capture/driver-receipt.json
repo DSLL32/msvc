@@ -1,21 +1,95 @@
 {
-  "command": [
-    "wine",
-    "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/capture-driver.exe",
-    "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\CL.EXE",
-    "11000",
-    "Z:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\c1xx-virtual-diamond\\capture",
-    "Z:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\c1xx-virtual-diamond",
-    "/nologo /Od virtual.cpp",
-    "virtual.obj"
-  ],
-  "source_sha256": "14748b78870f19f42881e05784df8218dcb0bc9f65b81f3b62f37fce5eddef67",
-  "seconds": 7.200360003858805,
-  "status": 0,
-  "program": {
-    "status": 0,
-    "seconds": 5.357247192412615,
-    "stdout": "",
-    "stderr": ""
-  }
+  "case": "virtual-diamond",
+  "operations": [
+    {
+      "operation": "driver",
+      "command": [
+        "wine",
+        "R:\\decomp\\vc1.0\\c1xx\\build\\reference-capture-driver.exe",
+        "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+        "11000",
+        "S:\\vc1.0\\c1xx\\fixture-stage\\c1xx-virtual-diamond\\capture\\driver",
+        "S:\\vc1.0\\c1xx\\virtual-diamond-driver",
+        "/nologo /Od virtual.cpp",
+        "virtual.obj"
+      ],
+      "cwd": "S:\\vc1.0\\c1xx\\virtual-diamond-driver",
+      "status": 0,
+      "execution_seconds": 2.293894491158426,
+      "stdout_sha256": "af6f70ea97b6ad98e74a0eaf4e36ac502fc62375117e52fc7d67e6b7c0f3d886",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "operation": "driver-program",
+      "command": [
+        "wine",
+        "S:\\vc1.0\\c1xx\\virtual-diamond-driver\\virtual.exe"
+      ],
+      "cwd": "S:\\vc1.0\\c1xx\\virtual-diamond-driver",
+      "status": 0,
+      "execution_seconds": 0.6642853505909443,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "operation": "independent-c1",
+      "command": [
+        "wine",
+        "R:\\decomp\\vc1.0\\c1xx\\build\\reference-run-phase.exe",
+        "R:\\toolchains\\1.0-nt\\bin\\C1XX3232.EXE",
+        "",
+        "R:\\toolchains\\1.0-nt\\bin\\c1xx3232.exe",
+        "S:\\vc1.0\\c1xx\\virtual-diamond"
+      ],
+      "cwd": "S:\\vc1.0\\c1xx\\virtual-diamond",
+      "status": 0,
+      "execution_seconds": 1.1825370360165834,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "operation": "independent-c2",
+      "command": [
+        "wine",
+        "R:\\decomp\\vc1.0\\c1xx\\build\\reference-run-phase.exe",
+        "R:\\toolchains\\1.0-nt\\bin\\C23232.EXE",
+        "",
+        "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+        "S:\\vc1.0\\c1xx\\virtual-diamond-c2"
+      ],
+      "cwd": "S:\\vc1.0\\c1xx\\virtual-diamond-c2",
+      "status": 0,
+      "execution_seconds": 1.0271864794194698,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "operation": "independent-link",
+      "command": [
+        "wine",
+        "R:\\decomp\\vc1.0\\c1xx\\build\\reference-run-phase.exe",
+        "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+        "@link.rsp",
+        "R:\\toolchains\\1.0-nt\\bin\\link.exe @link.rsp",
+        "S:\\vc1.0\\c1xx\\virtual-diamond-link"
+      ],
+      "cwd": "S:\\vc1.0\\c1xx\\virtual-diamond-link",
+      "status": 0,
+      "execution_seconds": 1.0352946249768138,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "operation": "independent-program",
+      "command": [
+        "wine",
+        "S:\\vc1.0\\c1xx\\virtual-diamond-link\\virtual.exe"
+      ],
+      "cwd": "S:\\vc1.0\\c1xx\\virtual-diamond-link",
+      "status": 0,
+      "execution_seconds": 0.7430442254990339,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
 }

@@ -1,14 +1,7 @@
 {
   "c1": {
     "status": 0,
-    "seconds": 4.44885625038296,
-    "command": [
-      "wine",
-      "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/run-phase.exe",
-      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\C1XX3232.EXE",
-      "",
-      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1xx3232.exe"
-    ],
+    "execution_seconds": 1.1574654877185822,
     "outputs": [
       {
         "file": "irex",
@@ -44,22 +37,14 @@
   },
   "c2": {
     "status": 0,
-    "seconds": 3.682866061106324,
-    "command": [
-      "wine",
-      "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/run-phase.exe",
-      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\C23232.EXE",
-      "",
-      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe"
-    ],
+    "execution_seconds": 1.2587749678641558,
     "outputs": [
       {
         "file": "copy.obj",
         "bytes": 1446,
-        "actual_sha256": "bbd78a2b0e891e967e4dec737d2afa5db40e90cba2d14613e55084687feeaf63",
+        "actual_sha256": "58026448b839f223f883e14b3b001c2fe9ac5884dca57ef7da9edbe28dad7edb",
         "differing_byte_offsets": [
-          4,
-          5
+          4
         ],
         "permitted_volatile_fields": [
           {
@@ -75,22 +60,14 @@
   },
   "link": {
     "status": 0,
-    "seconds": 3.5159984370693564,
-    "command": [
-      "wine",
-      "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/run-phase.exe",
-      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\LINK.EXE",
-      "-link @link.rsp",
-      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe -link @link.rsp"
-    ],
+    "execution_seconds": 1.0039302492514253,
     "outputs": [
       {
         "file": "copy.exe",
         "bytes": 2097152,
-        "actual_sha256": "11a392e1bd0ae96fdef9256ffd5e42895822dd4c2922758f8a34df7c366e3c88",
+        "actual_sha256": "658b6f5a2561d9b0645596264d32d8e214ed28b8efc93575b3a6f1d711c7b24a",
         "differing_byte_offsets": [
-          136,
-          137
+          136
         ],
         "permitted_volatile_fields": [
           {
@@ -106,7 +83,7 @@
   },
   "program": {
     "status": 0,
-    "seconds": 3.975991493090987,
+    "execution_seconds": 0.7451092274859548,
     "stdout": "",
     "stderr": ""
   }

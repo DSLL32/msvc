@@ -1,5 +1,6 @@
 """Explicit original/native close call observation; outside cached fixtures."""
 import argparse
+import fcntl
 import hashlib
 import importlib.util
 import json
@@ -10,6 +11,7 @@ import shutil
 import subprocess
 import tempfile
 import time
+from case_paths import paths, CAPTURE_ROOT, canonical_parts, SCRATCH, native_work
 from binary import PE
 from win32_indexes import imports
 
@@ -33,32 +35,40 @@ def main():
     records = json.loads((BINARY/'runtime.json').read_text()) + imports(original)
     names = ('__close', 'import:CloseHandle', '__free_osfhnd')
     selected = [next(r for r in records if r['name'] == name) for name in names]
-    directory = Path(tempfile.mkdtemp(prefix='close-boundary-', dir=tool.PREFIX.parent))
+    directory = Path(tempfile.mkdtemp(prefix='close-boundary-', dir=CAPTURE_ROOT))
     plan = directory/'restore-plan.txt'
     plan.write_text(''.join('%x %x %x %s\n' % (r['start'], original.offset(r['start']), r['end']-r['start'], r['name']) for r in selected))
-    fixture = BINARY.parent/'fixtures/cpp-basic'
+    _,fixture,_,_=paths(config,'cpp_basic')
     phase = json.loads((fixture/'manifest.json').read_text())['phases']['c1']
+    lock=(CAPTURE_ROOT/'capture.lock').open('a'); fcntl.flock(lock,fcntl.LOCK_EX)
+    canonical=phase['canonical_working_directory']
+    original_work=SCRATCH.joinpath(*canonical_parts(canonical))
+    original_work.mkdir(parents=True,exist_ok=True)
+    for entry in original_work.iterdir():
+        assert entry.is_file() and not entry.is_symlink(),str(entry)
+        entry.unlink()
+
     flags = phase['environment']['MSC_CMD_FLAGS'].format(bin=tool.windows(tool.TC/'bin'),include=tool.windows(tool.TC/'include'))
     program = phase['command_line_template'].format(bin=tool.windows(tool.TC/'bin'))
-    work = directory/'original-case'
-    work.mkdir()
+    work = original_work
     for item in phase['inputs']:shutil.copyfile(fixture/item['path'],work/Path(item['path']).name)
-    command = ['wine',str(BINARY/'build/reference-close-observer.exe'),tool.windows(args.original_capture/'masked-original.exe'),'',
+    command = ['wine',tool.windows(BINARY/'build/reference-close-observer.exe'),tool.windows(args.original_capture/'masked-original.exe'),'',
         tool.windows(directory/'original-stdout.bin'),tool.windows(directory/'original-stderr.bin'),tool.windows(directory/'original-events.txt'),
-        tool.windows(work),'MSC_CMD_FLAGS='+flags,program]
+        canonical,'MSC_CMD_FLAGS='+flags,program]
     env = tool.environment()
     env.update(C1XX_CLOSE_PLAN=tool.windows(plan),C1XX_CLOSE_LOG=tool.windows(directory/'original-observation.txt'),C1XX_CLOSE_IMAGE=tool.windows(tool.TC/'bin/C1XX3232.EXE'))
     started=time.perf_counter()
     subprocess.run(command,env=env,check=True,timeout=90,stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
     original_seconds=time.perf_counter()-started
+    shutil.copytree(original_work,directory/'original-case')
+    fcntl.flock(lock,fcntl.LOCK_UN);lock.close()
     observations=(directory/'original-observation.txt').read_text()
     observed={key:int(re.search(r'^'+key+r' (\d+)$',observations,re.M)[1]) for key in ('descriptor','open_flag','result','closed_flag')}
     observed['runtime_order']=re.findall(r'^runtime (\S+) argument ',observations,re.M)
     observed['return_va']=int(re.search(r'^return_va ([0-9a-f]+)$',observations,re.M)[1],16)
     assert observed['runtime_order']==list(names),observations
     assert observed['return_va']==0x1e9bc and observed['open_flag']&1 and observed['result']==0 and observed['closed_flag']==0
-    work=directory/'native-case'
-    work.mkdir()
+    work,drive_environment=native_work(directory/'native-drive',canonical)
     for item in phase['inputs']:shutil.copyfile(fixture/item['path'],work/Path(item['path']).name)
     commands=['break recon_close','run > '+str(directory/'native-stdout.bin')+' 2> '+str(directory/'native-stderr.bin'),'python','import gdb,json',
         'descriptor=int(gdb.parse_and_eval("fd"))','before=int(gdb.parse_and_eval("recon_osfile[fd]"))','end','finish','python',
@@ -68,6 +78,7 @@ def main():
     env={k:v for k,v in os.environ.items() if not k.startswith('RECON_')}
     for name in ('CL','_CL_','LINK','_LINK_'):env.pop(name,None)
     env.update(MSC_CMD_FLAGS=flags,RECON_PROGRAM_PATH=program,TZ='PST8PDT')
+    env.update(drive_environment)
     started=time.perf_counter()
     result=subprocess.run(['gdb','-q','-batch','-x',str(script),'--args',str(BINARY/'build/native/C1XX3232.EXE')],env=env,cwd=work,stdin=subprocess.DEVNULL,capture_output=True,text=True,timeout=60)
     native_seconds=time.perf_counter()-started

@@ -1,0 +1,272 @@
+Selected semantic notes from README.txt at 0812fa9.
+Unchanged analysis prose; current workflow and verification are in README.txt.
+
+The original CRT __fmode is 0x8000 at VA 0xaa3bc. BINMODE.OBJ supplies that
+same binary-default setting to this reconstruction; scripts/win32_indexes.py checks the
+original and rebuilt globals against the recorded value. The PCH configuration
+snapshot is represented by the typed CompilerConfiguration structure, with an
+asserted size of 764 bytes. Its two path buffers and known flags are named;
+remaining fields retain offsets until their consumers are reconstructed.
+
+The launcher preserves the captured argv[0] identically for both images,
+independently of the selected application image. scripts/audit-data.py checks all 98
+option rules, their target sharing and defaults, the typed configuration, 81
+language keywords, four __declspec entries and all 191 IR record schemas against the original binary.
+The older CRT _sopen, setvbuf, _freebuf, fseek, __tzset, _isindst and ftell bodies have readable C replacements;
+scripts/audit-runtime-variants.py and runtime-variants.json record their complete code
+and call/data alias correspondence with the shared older C1 variants. Assembly
+is used only as analysis input to these audits, never as generated implementation.
+
+Function signatures now intern their circular parameter-declaration types, with
+the original count-ordered bucket chain and C++ hash (including the signed
+class-context index). The function-shape builder includes implicit class types
+and pending function qualifiers. Final declaration checks retain the original
+qualified-name, browser, object/function and diagnostic branches. The shared
+0x8ccb8 flag is global_expression_scope_active, rather than a /V-only state.
+The SourceFile saved depth is conditional-directive nesting: the C++ directive
+push routine at 0x23600 increments it and checks the 32-level limit.
+
+Function-shape reconciliation includes class returns, entry-point calling
+conventions and variadic member functions. Scope lookup uses interned-name
+identity and retains the original temporary wrappers. Declaration reconciliation
+keeps const-object, extern, typedef, alias and overload branches. Overload sets
+have a separate 16-byte layout; a full declaration is 52 bytes. Default records
+retain separate declaration-order and following-parameter links. The per-scope
+qc_context and its shared current value are explicit; the latter's four initial
+bytes are audited. All unvisited callees remain named trapping stubs.
+
+The complete overloaded-operator validator includes member/arity restrictions,
+unary/postfix conversion, allocation/deallocation types and exact diagnostic
+arguments. Its three original switch tables are included in its accepted range;
+the source uses readable C switches. Runtime vector helpers retain their callback
+types and five-slot declaration ABI, including its unused fourth argument.
+The one runtime-function specification belongs to _purecall setup and is audited
+by name and attributes. The ordinary-symbol allocator preserves permanent vs
+arena allocation and the separate scope-mode byte. Twenty-one option targets,
+their aliases and initial defaults are audited; this established the original
+normalized_Gs=1 and normalized_Gn=1 defaults before frontend initialization.
+The parser uses generated logical grammar tables; no original packed parser
+tables have been imported as source.
+
+The accepted yacc extent is 0x268f0..0x2a524: code ends at 0x29fa1,
+followed by alignment and 352 switch destinations at 0x29fa4. Its C semantic
+switch retains all 285 explicit action blocks for 356 productions. Unrecovered
+callees are named traps with individually recovered stack slots, including the
+unused second enumerator argument, initializer argument and fourth segment
+argument that the decompiler omitted. ParserValue returns in EAX/EDX with the
+original eight-byte aggregate ABI under the original toolchain.
+
+Declaration flags[-1] overlap the high declaration-depth byte; both views use
+one union. Declaration specifiers and default arguments retain their preceding
+cells. Forty-nine contextual declaration-code meanings are audited separately
+from the unrelated expression entries in the original shared token vocabulary.
+Twenty-two additional state objects are audited, including the original
+text_work_cursor=expression_storage and enumerator_value=UINT_MAX defaults.
+The parser's qc-tracking condition uses existing normalized_Ol; a separate
+provisional object was rejected by the address-alias audit and removed.
+
+The literal/number workspace occupies 132 bytes, with the FILE pointer at its
+128-byte boundary. One union owns both views. The provisional current_function
+object at 0x8ccd0 is now correctly pch_mode, as proven by root-input capture
+finalization at 0x6b9b0. It is distinct from both error_count (0x8cc88) and the
+actual function_symbol (0x8c140). These defaults and aliases are audited.
+The former adjust_type_specifier stub at 0x1e7a0 has been renamed
+flush_scanned_declaration to reflect its scanner/PCH text role; its original
+four-byte argument remains unchanged.
+
+Tag allocation retains its sixteen direct/indirect call targets and caller
+insertion callback. A tag record is forty bytes; full declarations are fifty-two.
+Both share the same encountered common fields, while tags own a separate sixty-
+byte ClassInfo allocation. Compile-time size checks and original allocator
+immediates establish these layouts. Registration reserves context index zero
+for the sentinel and retains vector growth and exhaustion checks.
+
+The former parse_declarator_initializer at 0x34ea0 is actually inline-member
+capture, now capture_inline_member_declaration. Its complete body retains 22
+call targets, paged text capture, default-argument declarations, source line
+handling, synthetic special-member text and grammar recovery. All encountered
+format strings are ordinary literals at their generating branches. Its output
+FILE pointer and temporary /E state use the existing shared lexer storage.
+
+Type qualifiers preserve arrays/functions and modifier behavior. Data-member
+layout retains nine callees, struct/union size differences, bit-field flushing,
+packing, zero-size extension recovery, overflow and aggregate property copies.
+The class context now names current size, bit-field type and consumed bits;
+ClassInfo distinguishes complete-object size at +0 and nonvirtual size at +4.
+The common symbol auxiliary word names its declaring-class short when that
+variant is encountered. The native structures keep their original sizes.
+
+Alias resolution preserves qualified wrappers and updates their selected target;
+its overload helper retains the full function-list/type/default-merge ABI.
+Capture writes token records before checking delimiters. Raw EOF retains the
+capture flag, while braces, a top-level colon, semicolon, unmatched closing
+parenthesis or the explicit stop flag clear it. The 200th token sets the limit
+flag after its record is written; reserved record bytes are left untouched.
+
+Constructor prototype reconstruction now includes parameter-scope creation,
+deferred bucket allocation, parameter-chain insertion, constructor storage
+checks, modifier merging, constructor dispatch and implicit-class pointer types.
+The active parameter chain at 0x8c400 is a distinct object from the preserved
+parsed-parameter chain at 0x91168. Scope retirement and popping remain separate
+functions; deferred scope creation preserves the native high flag byte.
+
+Member-function completion through the end of the Counter member list adds
+configure_member_function, classify_constructor, overrides_virtual_member,
+validate_function_default_arguments and make_ellipsis_parameter. The dispatcher
+retains thirteen direct callees and its three-stack-slot stdcall ABI; full
+virtual lookup retains both calls, all base/table passes and the four-string
+return-type diagnostic. Virtual table entry stride, count/entry offsets, group
+vector offset and ClassInfo vector offsets are guarded in the native build.
+CppSymbol member flags and constructor qualifier bits share their original
+bytes at +0x32/+0x33. The former empty_parameter_declaration placeholder is an
+ellipsis marker allocator, with the untouched arena bytes and copied storage
+preserved rather than clearing the record. Source ranges now total 96,634
+original text/switch bytes; this is not executed-block coverage.
+
+Class completion now retains its eleven direct callees, including separate
+scope retirement/pop and final member-name indexing. The conversion-operator
+sets at ClassInfo +0x18/+0x1c were identified through the kind-17 OverloadSet,
+its declaration flag 0x4000 (grammar rule 116), and canonicalization of the
+selected conversion function's return type. Their iterators preserve untouched
+padding and result fields until advancement. Permanent inline vectors provide
+the shared representation and canonical empty-vector identity; no duplicate
+empty-set global was introduced. Empty-set sharing still calls vector release,
+which computes the original allocation size and calls the separate no-op
+release_permanent entry (RET 8), preserving both graph edges and its ABI.
+
+Virtual-layout preparation retains distinct initialization and construction
+passes. The initialization clears inherited layout flags and allocates three
+separate empty arena-two vectors for vf tables, vb tables and secondary table
+groups. Native compile-time layout checks cover their ClassInfo offsets 8, 12
+and 16, as well as conversion-set offsets 24 and 28. All original state defaults
+and aliases remain covered by scripts/audit-data.py.
+
+Native callsites at 0x3685c..0x368c1 pass seven stack slots to the completion
+helper, which returns with RET 28 at 0x369c7, 0x36a49, 0x36abf and 0x36ad9.
+The last argument is an unused count in this build, despite being omitted by the
+decompiler; the reconstruction's typed declaration/stub retains it. Diagnostics
+also retain their native class-kind/name or class-name argument lists.
+
+The declaration-inspection pass retains overload order, constructor/assignment
+counts and both child calls. Explicit member access values identify the flag
+as nonprivate (access 1 is private), correcting its earlier provisional name.
+ClassInfo's final word now has one canonical trait union for presence,
+nonprivate access, ambiguity and cv qualification. Its byte view explicitly
+retains the model -1 qualifier access to the preceding ambiguity byte.
+
+Function-definition entry is reconstructed as a whole function (0x339c0 through
+0x33ff3), preserving its 24 call targets, recovery branches, implicit object and
+structure-return parameters, storage diagnostics and browser declarations. Its
+five newly encountered shared globals retain distinct original storage and have
+checked initial values. The class's earlier declaration now passes through the
+recovered default-argument merger, compatibility dispatcher and shape-chain
+reconciler, retaining their three, seven and four native call targets.
+
+The context reset uses the existing parser initializer_list_started object at
+0xa0a24. Its reference-initialization predicate at 0x55e70 tests shape bit0x40,
+so its earlier unaccepted provisional array name is corrected to
+symbol_has_reference_shape. The distinct syntax diagnostic counter at 0x914cc
+is shared by native parser reporters and record-recovery guards; those reporters
+remain trapping stubs until reached.
+
+
+The constructor initializer's identifier expression is now reconstructed through
+symbol lookup, qualified/static/inherited resolution, symbol validation, storage
+reference construction and argument-list append. Whole functions retain their
+browser, based-pointer, permanent-storage and diagnostic branches, with named
+traps for unvisited callees. The ordinary/qualified symbol wrapper shares its
+actual CppSymbol ABI; member expressions instead consume IrToken operands.
+Compile-time assertions distinguish their type fields at offsets 12 and 4.
+
+
+The constructor initializer now passes value validation, binary/list-node
+construction, list append and frontend symbol-record detachment. Its handoff
+starts function-body output while retaining the initializer pointer for the
+subsequent body pass. Original convention/prototype/debug branches remain C,
+with named unresolved children. IrToken's final word now has typed binary-right
+and string-metadata views, preserving its 20-byte layout.
+
+
+The constructor-initializer processor now retains its whole virtual/direct-base,
+member, array and implicit-copy logic, diagnostics, access-state changes and
+class-table setup. All 20 native callees match the C graph. Its pointer-type
+helper preserves the unused stack argument and ushort result established by
+the native caller and RET 4. Class preparation and special-member definition
+traversal retain their canonical queue, overload handling and mutation order.
+The pointer set entry at 0x4e440 accepts both type and class-symbol pointers, so
+its provisional CType-only name/signature is now add_inline_pointer.
+
+
+Expression preparation now retains its diagnostic recovery, 32-byte original-CRT
+jmp_buf, deferred declaration records, temporary values, marker records and
+nesting cleanup. Its shaped-void branch retains the exact native condition.
+The shared DeclarationFrontendRecord has checked 24-byte layout and payload
+offsets. The old unaccepted report_expression_error placeholder now returns
+its recovered IrToken pointer, matching the actual native return.
+
+initialize_object_value@8 is now whole readable C for [0x462c0,0x46589),
+713 bytes. All25 distinct call targets and every original RET8/branch are
+represented;14 newly encountered callees remain named INT3 stubs. The shared
+runtime fallback offset at0x91594 is contextual data, and conversion bookkeeping
+reuses the existing integer_constant_scratch at0x912e8. No next function began.
+
+Raw initialization proves original0x9f268 is type_0064_q1000, used temporarily
+while naming the table. Original special-identifier targets select vftable or
+vbtable, and table declaration retains both kind branches and DLL storage bits.
+Every0667through0676 acceptance matches fresh original/native traps, four pending
+buffers, fourteen state values, streams and every visible file; completed
+cpp_basic remains exact. Full592-function graph, contextual defaults/data, both
+grammars, both cached cases and25negative checks pass. Measured combined wall:
+4.654033seconds.
+
+The hash and equality callback arrays are contextual named dispatch tables,
+including their original null sentinels. All ten hash and nine equality entries
+retain separate original cdecl functions; unvisited callbacks remain named traps.
+Their original/rebuilt pointer identity is now audited, alongside the existing
+data/default/alias checks. Hashing retains its full unsigned callback result;
+equality receives search key before stored key. The reached aligned-pointer
+callback hashes only aligned low-page bits.
+
+Original access arguments are full32-bit stack words, compared against zero
+before only their low bits are stored. Corrected the earlier provisional byte
+parameter in both parser entry declarations and base forwarding. The reached
+allocation proves BaseClassLink is24bytes with its char*name at+8; compile-time
+layout checks cover both original/native builds. Source preserves declaration
+arena choice, access defaults, virtual inheritance flags and browser call edge.
+
+VirtualEntry is now a16-byte union: VirtualCallEntry contains its function,
+8-byte this adjustment and flag byte; VirtualBaseEntry contains its vbptr offset
+and base-class pointer with untouched suffix workspace. Both variants and their
+field offsets have original/native compile-time checks. Their common append/copy
+functions remain whole and preserve all16bytes. Multiple native reads/writes now
+establish ClassInfo.virtual_base_pointer_offset at+44, including pointer shifting,
+table construction and base-entry initialization. The full prior function graph
+was rechecked immediately after this type refinement.
+
+Group offsets+8/+12 and pointer symbol+16 now have contextual names and both
+original/native layout checks. The inherited-access4x4matrix is defined beside
+its consumer with private/protected/public meaning; its16bytes are audited
+against the original. Group copying preserves all36bytes and honors its arena
+argument while its existing table-copy callback keeps its own distinct ABI.
+
+Fresh acceptance at the access setter first failed: the native continuation
+reached the same emit_virtual_base_initializers trap but had symbol index 210
+instead of 211 and 333 pending expression bytes instead of 343. The earlier
+begin_function_definition body incorrectly tested ClassInfo.alignment_flags
+(+50) for virtual inheritance. Original instruction 0x33c89 tests flags (+51),
+bit 0x10, before adding $initVBases. Source now uses that exact field; both
+original/native builds assert both offsets. Related alignment-field consumers
+were inspected: this constructor bit was the incorrect access.
+
+Destructor attachment preserves the driver's error_count at 0x8cc88, distinct
+from the syntax-recovery counter at 0x914cc. Its raw warning arguments and both
+scalar/array branches remain explicit. The paged text writer reuses the shared
+text-workspace cursor for its null-stack mode. Class-name enumeration shares
+existing ClassContext flags at offset29 and audits its single BSS index.
+
+Two still-unaccepted names were clarified from this caller and independent raw
+bodies: emit_version_token became materialize_string_literal, and
+parameter_stack_bytes became symbol_element_size. Both remain traps. Address
+reduction preserves wrapping offsets, '+' operand exchange and the internal
+0xa9 zero-left adjustment. Type helpers preserve permanent/interned versus
+mutable arena allocation and complete qualifier/function shape chains.

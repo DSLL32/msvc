@@ -54,7 +54,7 @@
   "completed": [
     {
       "case": "cpp_basic",
-      "fixture": "../fixtures/cpp-basic",
+      "fixture": "../fixtures/c1xx-cpp-basic",
       "status": "complete",
       "checkpoint": "6b78fb6"
     }

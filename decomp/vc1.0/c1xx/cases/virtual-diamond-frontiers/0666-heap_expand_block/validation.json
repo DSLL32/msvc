@@ -1,7 +1,0 @@
-{
-  "status": "accepted runtime library/import identity",
-  "function": "__heap_expand_block",
-  "next_frontier": "_clone_class_virtual_table@8",
-  "boundary_evidence": "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/evidence.json",
-  "downstream_comparison": "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/validation.json"
-}

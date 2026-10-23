@@ -13,7 +13,7 @@ import shutil
 import subprocess
 import sys
 import time
-from case_paths import paths
+from case_paths import paths, CAPTURE_ROOT
 
 BINARY=Path(__file__).resolve().parents[1]
 
@@ -30,9 +30,10 @@ def main():
     started=time.perf_counter()
     config_path=BINARY/'functions.json';config=json.loads(config_path.read_text())
     case,fixture,reference,frontiers=paths(config,args.case)
-    assert not case['frontier_extensions'] and case['accepted_from']==len(config['accepted'])
+    assert not case.get('frontier_extensions') and case['accepted_from']==len(config['accepted'])
     original=json.loads((args.original/'receipt.json').read_text())
     native=json.loads((args.native/'checkpoint.json').read_text())
+    assert 'first_entry_projection' in original, 'fresh original entry plan required'
     assert original['configuration_sha256']==sha(config_path)
     assert original['case']==args.case and original['candidate'] is None and original['accepted_count']==len(config['accepted'])
     assert native['signal']==5 and native['function']==re.sub(r'@\d+$','',original['terminal'][1:])
@@ -49,6 +50,8 @@ def main():
         for filename in names:shutil.copyfile(directory/filename,seed/(label+'-'+filename))
     case.update(terminal=original['terminal'],terminal_evidence=str((seed/'original-events.txt').relative_to(BINARY)),original_seed=str(seed.relative_to(BINARY)))
     config_path.write_text(json.dumps(config,indent=2)+'\n')
+    from original_entries import register
+    register(args.case,args.original,seed/'entry-reference')
     reference.mkdir(exist_ok=False)
     snapshot=reference/'canonical-map.txt';snapshot.write_text(''.join(line.rstrip()+'\n' for line in (BINARY/'build/c1xx.map').read_text().splitlines()))
     shutil.copyfile(snapshot,BINARY/'cases/canonical-map.txt')

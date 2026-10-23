@@ -9,7 +9,7 @@ import subprocess
 
 BINARY = Path(__file__).resolve().parents[1]
 CACHE = BINARY / 'cases/native-traces.json'
-REFERENCE = BINARY / 'evidence/fast-replay-verification-receipt.json'
+REFERENCE = BINARY / 'cases/original-entry-references.json'
 MAP = BINARY / 'cases/canonical-map.txt'
 
 
@@ -55,7 +55,9 @@ def project():
     runtime = {r['name'] for r in runtime_records}
     from binary import PE
     from win32_indexes import imports
-    records = {r['name']:r for r in runtime_records + imports(PE(BINARY.parents[2]/'toolchains/1.0-nt/bin/C1XX3232.EXE')) + config['driver']}
+    image=PE(BINARY.parents[2]/'toolchains/1.0-nt/bin/C1XX3232.EXE')
+    assert hashlib.sha256(image.data).hexdigest()==config['target']['sha256']
+    records = {r['name']:r for r in runtime_records + imports(image) + config['driver']}
     classified = {}
     for name in config['accepted']:
         if name in application:
@@ -70,84 +72,50 @@ def project():
     definitions={native_name(n):dict(logical=n,source=source) for n,source in application.items()}
     assert len(definitions)==len(application),'native decoration collision'
     reference=json.loads(REFERENCE.read_text())
-    original=reference['sides'][0]
-    transcript=[event['name'] for event in original['events'] if event['event']=='frontier']
     extension_files=[]
     cases={}
-
-    def verify_terminal(terminal,events_path):
-        raw=events_path.read_text()
-        event=re.search(r'^exception 80000003 rva ([0-9a-f]+) base ([0-9a-f]+) first 1$',raw,re.M)
-        if terminal.startswith('exit:'):
-            status=int(terminal.split(':')[1])
-            assert not event and not re.search(r'^exception ',raw,re.M),'exit extension contains an exception'
-            assert re.search(r'^exit '+str(status)+r'$',raw,re.M),'original terminal status differs'
-        else:
-            assert event,'original extension did not stop at a first-chance INT3'
-            assert int(event[1],16)+int(event[2],16)==records[terminal]['start']
-
+    transcript=config['accepted']
     for case_name,case in config['cases'].items():
         first=case.get('accepted_from',0)
-        if case_name=='cpp_basic':
-            original_terminal=original['terminal']
-        else:
-            assert first==len(transcript),'case prefix does not follow previous accepted history'
-            seed=BINARY/case['original_seed']
-            capture_path=seed/'original-receipt.json'
-            events_path=seed/'original-events.txt'
-            configuration_path=seed/'original-configuration.json'
-            capture=json.loads(capture_path.read_text())
-            assert capture['candidate'] is None and not capture.get('pending_accepted')
-            assert capture['case']==case_name and capture['accepted_count']==first
-            assert capture['original_sha256']==config['target']['sha256']
-            assert sha(configuration_path)==capture['configuration_sha256']
-            seed_config=json.loads(configuration_path.read_text())
-            assert seed_config['accepted']==transcript
-            assert seed_config['cases'][case_name]['fixture']==case['fixture']
-            original_terminal=capture['terminal']
-            verify_terminal(original_terminal,events_path)
-            extension_files.extend([capture_path,events_path,configuration_path])
-        for filename in case.get('frontier_extensions',[]):
-            path=BINARY/filename
-            extension=json.loads(path.read_text())
-            capture_path=BINARY/extension['original_capture']
-            events_path=BINARY/extension['original_events']
-            assert sha(capture_path)==extension['original_capture_sha256'],'original extension capture changed'
-            assert sha(events_path)==extension['original_events_sha256'],'original extension events changed'
-            capture=json.loads(capture_path.read_text())
-            assert capture.get('case','cpp_basic')==case_name
-            assert extension['accepted_before']==len(transcript)==capture['accepted_count']
-            assert extension['accepted']==original_terminal==capture['candidate']
-            assert capture['original_sha256']==config['target']['sha256']
-            assert extension['terminal']==capture['terminal']
-            verify_terminal(extension['terminal'],events_path)
-            if extension['accepted'] not in application:
-                evidence_path=BINARY/extension['runtime_evidence']
-                spec=importlib.util.spec_from_file_location('c1xx_runtime_boundary',BINARY/'scripts/runtime-boundary.py')
-                checker=importlib.util.module_from_spec(spec);spec.loader.exec_module(checker)
-                proof=checker.check(evidence_path)
-                position=proof['runtime_order'].index(extension['accepted'])
-                assert extension['accepted_before']==proof['accepted_before']+1+position
-                assert sha(evidence_path)==extension['runtime_evidence_sha256']
-                extension_files.extend([evidence_path]+[BINARY/item['path'] for item in proof['evidence_files']])
-            if 'original_configuration' in extension:
-                configuration_path=BINARY/extension['original_configuration']
-                assert sha(configuration_path)==capture['configuration_sha256']
-                captured_config=json.loads(configuration_path.read_text())
-                assert captured_config['accepted']+capture.get('pending_accepted',[])==transcript
-                extension_files.append(configuration_path)
-            transcript.append(extension['accepted'])
-            original_terminal=extension['terminal']
-            extension_files.extend([path,capture_path,events_path])
+        bundle=reference[case_name]
+        receipt_path=BINARY/bundle['receipt']
+        events_path=BINARY/bundle['events']
+        plan_path=BINARY/bundle['plan']
+        receipt=json.loads(receipt_path.read_text())
+        for field,path in [('receipt',receipt_path),('events',events_path),('plan',plan_path)]:
+            assert sha(path)==bundle[field+'_sha256'],'original entry reference changed'
+        projection=receipt['first_entry_projection']
+        last=projection['accepted_last']
+        assert projection['accepted_first']==first
+        assert projection['accepted_prefix_sha256']==hashlib.sha256(json.dumps(transcript[:last],separators=(',',':')).encode()).hexdigest()
+        expected_logical=[n for n in transcript[first:last] if n in application]
+        plan_rows=[line.split() for line in plan_path.read_text().splitlines()]
+        assert [row[2] for row in plan_rows]==expected_logical,'original entry plan identity differs'
+        for rva,byte,name in plan_rows:
+            assert int(rva,16)+image.base==records[name]['start'],'original entry plan address differs'
+            assert int(byte,16)==image.read(records[name]['start'],1)[0],'original entry restore byte differs'
+        observed_rows=re.findall(r'^entry (\S+) rva ([0-9a-f]+) byte ([0-9a-f]+)$',events_path.read_text(),re.M)
+        assert [(name,int(rva,16),int(byte,16)) for name,rva,byte in observed_rows]==[(name,int(rva,16),int(byte,16)) for rva,byte,name in plan_rows], 'original debugger entry evidence differs'
+        observed=re.findall(r'^entry (\S+) rva [0-9a-f]+ byte [0-9a-f]+$',events_path.read_text(),re.M)
+        assert observed==expected_logical==projection['observed']==projection['expected'],'original first entries differ'
+        assert receipt['original_sha256']==config['target']['sha256']
         terminal=case['terminal']
-        assert original_terminal==terminal
+        assert receipt['terminal']==terminal
+        raw=events_path.read_text()
+        if terminal.startswith('exit:'):
+            assert not re.search(r'^exception ',raw,re.M)
+            assert re.search(r'^exit '+terminal.split(':')[1]+r'$',raw,re.M)
+        else:
+            event=re.search(r'^exception 80000003 rva ([0-9a-f]+) base ([0-9a-f]+) first 1$',raw,re.M)
+            assert event and int(event[1],16)+int(event[2],16)==records[terminal]['start']
         complete=terminal.startswith('exit:')
         assert complete or terminal in application,'partial terminal must be an application stub'
-        cases[case_name]=dict(first=first,last=len(transcript),seen=project_names(transcript[:first]),
-            expected=project_names(transcript[first:])+([] if complete else [native_name(terminal)]),
+        cases[case_name]=dict(first=first,last=last,seen=project_names(transcript[:first]),
+            expected=project_names(transcript[first:last])+([] if complete else [native_name(terminal)]),
             terminal=(dict(kind='exit',logical=terminal,status=int(terminal.split(':')[1])) if complete else
                       dict(kind='frontier',logical=terminal,native=native_name(terminal),signal=5)))
-    assert transcript==config['accepted'],'original reference acceptance identity changed'
+        extension_files.extend([receipt_path,events_path,plan_path])
+    assert max(c['last'] for c in cases.values())==len(transcript)
     return dict(schema=1,scope='cached original application first entries; no capture',
         metadata_sha256={str(p.relative_to(BINARY)):sha(p) for p in
             [BINARY/'functions.json',BINARY/'runtime.json',REFERENCE,MAP]+extension_files},

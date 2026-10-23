@@ -1,0 +1,18 @@
+{
+  "cpp_basic": {
+    "receipt": "cases/shared-reference/cpp_basic/original-receipt.json",
+    "receipt_sha256": "c0b231bf1b4ad8c8ee582b0419697346750bcbea4484c6729dc71c7eb35ed198",
+    "events": "cases/shared-reference/cpp_basic/original-events.txt",
+    "events_sha256": "c211a19028f71257317cb8957e26dd76c27f60208208de53d25e18a8a5520e27",
+    "plan": "cases/shared-reference/cpp_basic/original-entries.plan",
+    "plan_sha256": "795b86f57be090ebab4b5bf36a3fe93b742ba8f9b4f29a48ba548a77d801ee07"
+  },
+  "virtual_diamond": {
+    "receipt": "cases/shared-reference/virtual_diamond/original-receipt.json",
+    "receipt_sha256": "6a28966fc9f184ac95ec2567ae4fba2f5b7087208a2523c50d4c1be955f21a87",
+    "events": "cases/shared-reference/virtual_diamond/original-events.txt",
+    "events_sha256": "05faa5c3089f992f86752bfe48200a066f941e316021eecc51952c0fd7848ce0",
+    "plan": "cases/shared-reference/virtual_diamond/original-entries.plan",
+    "plan_sha256": "04e72228827c39ec588744791441974ee04bbecc33a7827868b8511aa9114526"
+  }
+}

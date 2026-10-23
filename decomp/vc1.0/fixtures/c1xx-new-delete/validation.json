@@ -1,14 +1,7 @@
 {
   "c1": {
     "status": 0,
-    "seconds": 6.012208200059831,
-    "command": [
-      "wine",
-      "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/run-phase.exe",
-      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\C1XX3232.EXE",
-      "",
-      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1xx3232.exe"
-    ],
+    "execution_seconds": 1.233858766965568,
     "outputs": [
       {
         "file": "irex",
@@ -44,22 +37,14 @@
   },
   "c2": {
     "status": 0,
-    "seconds": 4.602101043798029,
-    "command": [
-      "wine",
-      "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/run-phase.exe",
-      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\C23232.EXE",
-      "",
-      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe"
-    ],
+    "execution_seconds": 1.2354945857077837,
     "outputs": [
       {
         "file": "allocation.obj",
         "bytes": 2479,
-        "actual_sha256": "26bef88357c089003f9a2bcc374e288e75d442629c0f148974652047d2352278",
+        "actual_sha256": "19bef0e70316ac1bfbf126bfe931ac8e77538845233d45d207d004c48e021150",
         "differing_byte_offsets": [
-          4,
-          5
+          4
         ],
         "permitted_volatile_fields": [
           {
@@ -75,22 +60,14 @@
   },
   "link": {
     "status": 0,
-    "seconds": 4.846844044514,
-    "command": [
-      "wine",
-      "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/run-phase.exe",
-      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\LINK.EXE",
-      "-link @link.rsp",
-      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe -link @link.rsp"
-    ],
+    "execution_seconds": 1.1381422523409128,
     "outputs": [
       {
         "file": "allocation.exe",
         "bytes": 2097152,
-        "actual_sha256": "4fd5edf9692e3ed3834fa402ceba6b7c284dd613636ae283b249b9b1f30ea7dd",
+        "actual_sha256": "b214a52ac22a1a518328f221753b51cc789747a0ab90ab6af4123a99144481da",
         "differing_byte_offsets": [
-          136,
-          137
+          136
         ],
         "permitted_volatile_fields": [
           {
@@ -106,7 +83,7 @@
   },
   "program": {
     "status": 0,
-    "seconds": 3.5998266749083996,
+    "execution_seconds": 0.8544740593060851,
     "stdout": "",
     "stderr": ""
   }

@@ -1,8 +1,8 @@
 {
   "case": "cpp_basic",
-  "scope": "643 accepted frontiers; explicit runtime boundary and downstream completed frontend terminal",
-  "reference_receipt": "cases/cpp-basic-frontiers/0642-import-ExitProcess/original-receipt.json",
-  "reference_receipt_sha256": "89b8e40e32802d4b0291173e1eda78da75e7cef040834f81a0d3476eb3dfb940",
+  "scope": "Fresh fixed R:/S: original first-entry capture; exact unnormalized visible files and streams",
+  "reference_receipt": "cases/shared-reference/cpp_basic/original-receipt.json",
+  "reference_receipt_sha256": "c0b231bf1b4ad8c8ee582b0419697346750bcbea4484c6729dc71c7eb35ed198",
   "reference_original_image_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
   "canonical_map": "canonical-map.txt",
   "canonical_map_sha256": "dcba6117c72a7fe0da125456630249cc97c29fc91f9652db32dddf22ee36654f",
@@ -36,7 +36,7 @@
     }
   ],
   "normalization": "none; captured visible bytes, not unflushed CRT buffers",
-  "capture_seconds": 20.618473855778575,
+  "capture_seconds": 3.872532478533685,
   "dependencies": [
     {
       "path": "toolchains/1.0-nt/bin/C1.ERR",

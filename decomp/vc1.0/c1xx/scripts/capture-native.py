@@ -5,11 +5,12 @@ This reconstruction diagnostic is separate from ordinary cached fixtures.
 import argparse
 import json
 import os
+import shutil
 from pathlib import Path
 import subprocess
 import tempfile
 import time
-from case_paths import paths
+from case_paths import paths, native_work, windows, ROOT, CAPTURE_ROOT
 
 BINARY = Path(__file__).resolve().parents[1]
 
@@ -20,8 +21,7 @@ def capture(directory, executable=None, breakpoint=None, expressions=None, case_
     _,fixture,_,_=paths(config,case_name)
     phase = json.loads((fixture/'manifest.json').read_text())['phases']['c1']
     directory.mkdir(parents=True, exist_ok=True)
-    work = directory/'case'
-    work.mkdir()
+    work, drive_environment = native_work(directory, phase['canonical_working_directory'])
     for item in phase['inputs']:
         (work/Path(item['path']).name).write_bytes((fixture/item['path']).read_bytes())
     commands = (['break '+breakpoint] if breakpoint else []) + ['run > '+str(directory/'stdout.bin')+' 2> '+str(directory/'stderr.bin'), 'bt', 'python',
@@ -43,14 +43,16 @@ def capture(directory, executable=None, breakpoint=None, expressions=None, case_
     env = {k:v for k,v in os.environ.items() if not k.startswith('RECON_')}
     for name in ('CL','_CL_','LINK','_LINK_'):
         env.pop(name, None)
-    windows_bin = r'Z:\root\msvc2\toolchains\1.0-nt\bin'
-    env['MSC_CMD_FLAGS'] = phase['environment']['MSC_CMD_FLAGS'].format(bin=windows_bin,include=r'Z:\root\msvc2\toolchains\1.0-nt\include')
+    windows_bin = windows(ROOT/'toolchains/1.0-nt/bin')
+    env['MSC_CMD_FLAGS'] = phase['environment']['MSC_CMD_FLAGS'].format(bin=windows_bin,include=windows(ROOT/'toolchains/1.0-nt/include'))
     env['RECON_PROGRAM_PATH'] = phase['command_line_template'].format(bin=windows_bin)
     env['TZ'] = 'PST8PDT'
+    env.update(drive_environment)
     prepared = time.perf_counter()
     result = subprocess.run(['gdb','-q','-batch','-x',str(command_path),'--args',
         str(executable or BINARY/'build/native/C1XX3232.EXE')],cwd=work,env=env,
         stdin=subprocess.DEVNULL,capture_output=True,text=True,timeout=60)
+    shutil.copytree(work,directory/'case')
     (directory/'gdb.log').write_text(result.stdout+result.stderr)
     timing = dict(setup_seconds=prepared-started,debugger_seconds=time.perf_counter()-prepared,
                   total_seconds=time.perf_counter()-started,returncode=result.returncode)
@@ -66,7 +68,8 @@ def main():
     parser.add_argument('--breakpoint',help='explicit runtime entry breakpoint instead of first INT3')
     parser.add_argument('--observe',action='append',default=[],metavar='NAME=EXPRESSION')
     args=parser.parse_args()
-    scratch=Path.home()/'.ai-tmp/vc1.0-c1xx'
+    scratch=CAPTURE_ROOT/'native'
+    scratch.mkdir(parents=True,exist_ok=True)
     directory=args.directory or Path(tempfile.mkdtemp(prefix='native-frontier-',dir=scratch))
     checkpoint=capture(directory,breakpoint=args.breakpoint,expressions=dict(item.split('=',1) for item in args.observe),case_name=args.case)
     print(checkpoint['function'])

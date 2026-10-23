@@ -3,6 +3,7 @@
 Reference/reconstruction tool only, outside ordinary fixture execution.
 """
 import argparse
+from case_paths import CAPTURE_ROOT
 import json
 from pathlib import Path
 import subprocess
@@ -15,7 +16,8 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('label')
     args=parser.parse_args()
-    directory=Path.home()/'.ai-tmp/vc1.0-c1xx'
+    directory=CAPTURE_ROOT
+    directory.mkdir(parents=True,exist_ok=True)
     records=[]
     receipt=directory/('queue-'+args.label+'-build.json')
     for label,command in [('native',['make','-j4','native','native-trace']),

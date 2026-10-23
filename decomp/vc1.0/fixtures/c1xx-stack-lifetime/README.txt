@@ -1,10 +1,9 @@
-Original-validated C1XX follow-on case: c1xx-stack-lifetime
+Fresh original-validated stack-lifetime fixture in the shared fixed R:/S: Wine prefix.
 
-Source and exact original driver arguments are in manifest.json. Raw child
-applications/command lines/environment blocks and all phase inputs are retained.
-Compiler phases have argv0 only and an explicit MSC_CMD_FLAGS environment.
-Independent C1XX, C2 and LINK replay passed; the generated program exits0 with
-empty streams. C1XX outputs are exact; only independently demonstrated four-byte
-COFF/PE timestamps are permitted for downstream replay. Validation JSON records
-actual differing offsets and split elapsed times. This is cached reference data;
-no fixture executes Wine. Reference registration lives in C1XX scripts/.
+Raw CL child application/command/environment bytes and phase input snapshots
+are in capture/. Compiler phases use argv0 plus explicit MSC_CMD_FLAGS.
+Independent frontend output is byte exact; downstream differences are limited
+to the separately identified four-byte COFF/PE timestamp fields. Both generated
+program invocations emit nothing and exit0. Native fixture runs never invoke
+Wine. Separate measured process times are retained in capture/driver-receipt.json
+and validation.json; helper build time is separately recorded or marked unmeasured.

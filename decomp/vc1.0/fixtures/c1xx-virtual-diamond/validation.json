@@ -1,14 +1,7 @@
 {
   "c1": {
     "status": 0,
-    "seconds": 5.675706294365227,
-    "command": [
-      "wine",
-      "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/run-phase.exe",
-      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\C1XX3232.EXE",
-      "",
-      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1xx3232.exe"
-    ],
+    "execution_seconds": 1.1825370360165834,
     "outputs": [
       {
         "file": "irex",
@@ -44,19 +37,12 @@
   },
   "c2": {
     "status": 0,
-    "seconds": 5.421449311077595,
-    "command": [
-      "wine",
-      "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/run-phase.exe",
-      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\C23232.EXE",
-      "",
-      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe"
-    ],
+    "execution_seconds": 1.0271864794194698,
     "outputs": [
       {
         "file": "virtual.obj",
         "bytes": 5673,
-        "actual_sha256": "9c39da8f1ce85acda2b071d43f7149133a1c51c98fe25663e40dce2dee57efc6",
+        "actual_sha256": "6102353d6670830d1c5e491c111bc900c79e29e9bb5aa1ac2517e15aef95b59c",
         "differing_byte_offsets": [
           4
         ],
@@ -74,19 +60,12 @@
   },
   "link": {
     "status": 0,
-    "seconds": 5.617975726723671,
-    "command": [
-      "wine",
-      "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/run-phase.exe",
-      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\LINK.EXE",
-      "-link @link.rsp",
-      "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe -link @link.rsp"
-    ],
+    "execution_seconds": 1.0352946249768138,
     "outputs": [
       {
         "file": "virtual.exe",
         "bytes": 2097152,
-        "actual_sha256": "730aceb7e81c405a609880fa90b7e6eca406f30088c8c09a887ad199c39caeda",
+        "actual_sha256": "f45d9bfed6123ca7ea3ce660c1d2b1d8da1b6bcff758604093133b0242d558fa",
         "differing_byte_offsets": [
           136
         ],
@@ -104,7 +83,7 @@
   },
   "program": {
     "status": 0,
-    "seconds": 5.296129263937473,
+    "execution_seconds": 0.7430442254990339,
     "stdout": "",
     "stderr": ""
   }

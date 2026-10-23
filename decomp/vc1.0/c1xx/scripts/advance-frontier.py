@@ -13,7 +13,7 @@ import shutil
 import subprocess
 import sys
 import time
-from case_paths import paths
+from case_paths import paths, CAPTURE_ROOT
 
 BINARY=Path(__file__).resolve().parents[1]
 
@@ -44,16 +44,17 @@ def main():
     candidate=next(r for r in config['driver'] if r['name']==args.candidate)
     assert candidate['end']>candidate['start']+1,'complete original extent required'
     if args.original is None:
-        captured=subprocess.check_output([sys.executable,str(BINARY/'scripts/capture-original.py'),'--candidate',args.candidate,'--case',args.case],cwd=BINARY,text=True)
+        captured=subprocess.check_output([sys.executable,str(BINARY/'scripts/capture-original.py'),'--candidate',args.candidate,'--case',args.case,'--entry-plan'],cwd=BINARY,text=True)
         args.original=Path(captured.strip().splitlines()[-1]).parent
     original=json.loads((args.original/'receipt.json').read_text())
+    assert 'first_entry_projection' in original, 'fresh original application entry plan required'
     assert original['configuration_sha256']==sha(config_path)
     assert original.get('case','cpp_basic')==args.case
     assert original['candidate']==args.candidate and original['accepted_count']==len(config['accepted'])
     trace=module('c1xx_frontier_names','native-traces.py')
     if args.native is None:
         import tempfile
-        args.native=Path(tempfile.mkdtemp(prefix='native-frontier-',dir=Path.home()/'.ai-tmp/vc1.0-c1xx'))
+        args.native=Path(tempfile.mkdtemp(prefix='native-frontier-',dir=CAPTURE_ROOT))
         module('c1xx_native_capture','capture-native.py').capture(args.native,case_name=args.case)
     native=json.loads((args.native/'checkpoint.json').read_text())
     assert native['signal']==5,'native did not stop on INT3'
@@ -99,6 +100,8 @@ def main():
     case['terminal_evidence']=relative(record/'original-events.txt')
     case.setdefault('frontier_extensions',[]).append(relative(extension_path))
     config_path.write_text(json.dumps(config,indent=2)+'\n')
+    from original_entries import register
+    register(args.case,args.original,record/'entry-reference')
     snapshot=reference/'canonical-map.txt'
     snapshot.write_text(''.join(line.rstrip()+'\n' for line in (BINARY/'build/c1xx.map').read_text().splitlines()))
     shutil.copyfile(snapshot,BINARY/'cases/canonical-map.txt')

@@ -1,0 +1,234 @@
+{
+  "kind": "realloc",
+  "case": "virtual_diamond",
+  "scope": "explicit realloc boundary; pointer addresses represented by named symbol identity, all remaining input bytes compared, raw prefix preserved on each side",
+  "target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "configuration_sha256": "c4f938a85ad468aab2631b61306b1d39b2067d5cca0032edadc4eaf3f0b7acd4",
+  "accepted_before": 664,
+  "runtime_order": [
+    "_realloc",
+    "__heap_expand_block"
+  ],
+  "original": {
+    "size": 48,
+    "count": 1,
+    "capacity": 3,
+    "result_nonnull": 1,
+    "return_va": 494562,
+    "before": "4ca27e00000000000000000000000000",
+    "after": "4ca27e00000000000000000000000000",
+    "before_name": "value",
+    "after_name": "value",
+    "runtime_order": [
+      "_realloc",
+      "__heap_expand_block"
+    ]
+  },
+  "native": {
+    "size": 48,
+    "count": 1,
+    "capacity": 3,
+    "result_nonnull": 1,
+    "before": "4cc25e56000000000000000000000000",
+    "after": "4cc25e56000000000000000000000000",
+    "before_name": "value",
+    "after_name": "value",
+    "caller": "grow_virtual_entries"
+  },
+  "original_capture": "/root/.ai-tmp/vc1.0-c1xx/original-capture-it6b3i0i",
+  "original_capture_sha256": "5b9a0cedfab3e4d45d987069dc797032fa3c46daaea33bca11c39be344a062f4",
+  "original_seconds": 4.4237593580037355,
+  "native_seconds": 0.17586802318692207,
+  "identity": {
+    "records": [
+      {
+        "name": "_realloc",
+        "record": {
+          "name": "_realloc",
+          "start": 538128,
+          "end": 538400,
+          "object": "heap\\obj\\i386\\REALLOC.OBJ",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "30d5b130cb8a7193fd1c284bbe987cfc43dd71812c0b7d25aab6db5e7a64aa25",
+        "member_bytes": 272,
+        "member_sha256": "fdf88f495dade7feec75f6e96c625038f05a874e2bd1ab41194c1877014cf15b",
+        "original_body_sha256": "66cd38af858905a0317bf141f15a6281566d0b6ed88beecef325d84fbb4ebd0d",
+        "relocation_identity": "exact nonrelocation bytes, named direct/indirect call edges, shared DIR32 globals and canonical public data targets",
+        "relocations": [
+          {
+            "offset": 21,
+            "symbol": "_malloc",
+            "kind": 20
+          },
+          {
+            "offset": 42,
+            "symbol": "_free",
+            "kind": 20
+          },
+          {
+            "offset": 87,
+            "symbol": "__heap_abort",
+            "kind": 20
+          },
+          {
+            "offset": 119,
+            "symbol": "__heap_expand_block",
+            "kind": 20
+          },
+          {
+            "offset": 132,
+            "symbol": "_malloc",
+            "kind": 20
+          },
+          {
+            "offset": 167,
+            "symbol": "_free",
+            "kind": 20
+          },
+          {
+            "offset": 179,
+            "symbol": "__heap_split_block",
+            "kind": 20
+          },
+          {
+            "offset": 194,
+            "symbol": "_free",
+            "kind": 20
+          },
+          {
+            "offset": 229,
+            "symbol": "__heap_split_block",
+            "kind": 20
+          },
+          {
+            "offset": 244,
+            "symbol": "_free",
+            "kind": 20
+          }
+        ],
+        "call_targets": [
+          "__heap_abort",
+          "__heap_expand_block",
+          "__heap_split_block",
+          "_free",
+          "_malloc"
+        ]
+      },
+      {
+        "name": "__heap_expand_block",
+        "record": {
+          "name": "__heap_expand_block",
+          "start": 538704,
+          "end": 538816,
+          "object": "heap\\obj\\i386\\REALLOC.OBJ",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "30d5b130cb8a7193fd1c284bbe987cfc43dd71812c0b7d25aab6db5e7a64aa25",
+        "member_bytes": 112,
+        "member_sha256": "801fe61562318e996baebd5e74403b149ba7fbb005cdef452e57e66d655ecd23",
+        "original_body_sha256": "8aca1c14ab9e5810e8f3be8b064aff5b47fc7a7515bb9dd10e8d3d3a7e28afe4",
+        "relocation_identity": "exact nonrelocation bytes, named direct/indirect call edges, shared DIR32 globals and canonical public data targets",
+        "relocations": [
+          {
+            "offset": 27,
+            "symbol": "__heap_desc",
+            "kind": 6
+          },
+          {
+            "offset": 35,
+            "symbol": "__heap_desc",
+            "kind": 6
+          },
+          {
+            "offset": 58,
+            "symbol": "__heap_desc",
+            "kind": 6
+          },
+          {
+            "offset": 66,
+            "symbol": "__heap_desc",
+            "kind": 6
+          }
+        ],
+        "call_targets": []
+      }
+    ],
+    "original_crt_globals": {
+      "__heap_desc": 699632
+    }
+  },
+  "original_observation": "evidence/runtime-analysis/realloc/original-observation.txt",
+  "native_observation": "evidence/runtime-analysis/realloc/native-observation.json",
+  "timing_notes": "Reference observer build elapsed was not measured; log retained. Initial unmatched native run and subsequent integration builds retained separately; no reruns for timing.",
+  "evidence_files": [
+    {
+      "path": "evidence/runtime-analysis/realloc/initial-unmatched-native-checkpoint.json",
+      "sha256": "4e9878432cbc78427acf00ca55d88134d747948285f292a390fd12c0df663526"
+    },
+    {
+      "path": "evidence/runtime-analysis/realloc/initial-unmatched-native-gdb.log",
+      "sha256": "681d366c425e38466e7ec58c98b85261ecbdfca5b410842234e5c8608b774d93"
+    },
+    {
+      "path": "evidence/runtime-analysis/realloc/initial-unmatched-native-timing.json",
+      "sha256": "08eaf91bd479eba3248b226aa9cca716d4443cbbb7c24c8ff1fa24e146cc2e30"
+    },
+    {
+      "path": "evidence/runtime-analysis/realloc/integration-build-timing.json",
+      "sha256": "883afa8b45e38d09f4218f18c04a516e7f1103f4214240107a7d7a610f828248"
+    },
+    {
+      "path": "evidence/runtime-analysis/realloc/native-gdb.log",
+      "sha256": "0c393797b69587e94b30df68ab4473ecd24eaaaf252fe3ef88fb4f771ad3958f"
+    },
+    {
+      "path": "evidence/runtime-analysis/realloc/native-observation.json",
+      "sha256": "04d624d5c5838dde436608963be191186c46d2a9b3586e59013c842eb10c0d66"
+    },
+    {
+      "path": "evidence/runtime-analysis/realloc/native-stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime-analysis/realloc/native-stdout.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime-analysis/realloc/native.gdb",
+      "sha256": "c3f616931a48b0843b9139d7c69c9141ae4a0321f5322af6f69e6e04c6a7ded3"
+    },
+    {
+      "path": "evidence/runtime-analysis/realloc/original-events.txt",
+      "sha256": "79045c408dec70553c0709602c9799b357bf8b3c07191975081e8d9718554ee5"
+    },
+    {
+      "path": "evidence/runtime-analysis/realloc/original-observation.txt",
+      "sha256": "ef636f12c6f00b6fd65efc01820dd0ad0330cd89e17be9224d8d45564d0bc556"
+    },
+    {
+      "path": "evidence/runtime-analysis/realloc/original-stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime-analysis/realloc/original-stdout.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime-analysis/realloc/reference-observer-build.log",
+      "sha256": "95fbbf0348c0087e8b268bb6162820e0d124d568f6ba661978027eb4b34f4708"
+    },
+    {
+      "path": "evidence/runtime-analysis/realloc/restore-plan.txt",
+      "sha256": "25a0c3f492de67c44bc75079941eef74acba55c8dd1f7d3d94d6b40b31c652a3"
+    }
+  ],
+  "historical_analysis_provenance": {
+    "commit": "0812fa9",
+    "original_path": "cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/evidence.json",
+    "original_sha256": "37ccdce5652de6bcbb55095402995fe1da1cfdd452b8914f4967754dc73ce784",
+    "scope": "Read-only CRT ABI/semantics observations; raw evidence unchanged; not a transport configuration or active frontend oracle"
+  }
+}

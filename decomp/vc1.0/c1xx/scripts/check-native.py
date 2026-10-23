@@ -15,11 +15,10 @@ import sys
 import subprocess
 import tempfile
 import time
-from case_paths import paths
+from case_paths import paths, native_work, windows, CAPTURE_ROOT
 
 BINARY = Path(__file__).resolve().parents[1]
 ROOT = BINARY.parents[2]
-FIXTURE = BINARY.parent / 'fixtures/cpp-basic'
 REFERENCE = BINARY / 'cases/native-cpp-basic'
 sys.path.insert(0, str(ROOT / 'lib/recon'))
 from spawn import SpawnBroker
@@ -60,8 +59,7 @@ def run(executable, directory, tracing, accounting, case_name='cpp_basic'):
     phase = json.loads((fixture / 'manifest.json').read_text())['phases']['c1']
     metadata_path = reference / 'manifest.json'
     metadata = json.loads(metadata_path.read_text())
-    work = directory / case_name
-    work.mkdir()
+    work, drive_environment = native_work(directory, phase['canonical_working_directory'])
     for item in phase['inputs']:
         (work / Path(item['path']).name).write_bytes(captured(fixture / item['path'], item))
     for item in metadata['outputs']:
@@ -71,10 +69,11 @@ def run(executable, directory, tracing, accounting, case_name='cpp_basic'):
     env = {k: v for k, v in os.environ.items() if not k.startswith('RECON_')}
     for name in ('CL', '_CL_', 'LINK', '_LINK_', 'MSC_CMD_FLAGS'):
         env.pop(name, None)
-    windows_bin = r'Z:\root\msvc2\toolchains\1.0-nt\bin'
+    windows_bin = windows(ROOT/'toolchains/1.0-nt/bin')
     env['MSC_CMD_FLAGS'] = phase['environment']['MSC_CMD_FLAGS'].format(
-        bin=windows_bin, include=r'Z:\root\msvc2\toolchains\1.0-nt\include')
+        bin=windows_bin, include=windows(ROOT/'toolchains/1.0-nt/include'))
     program = phase['command_line_template'].format(bin=windows_bin)
+    env.update(drive_environment)
     env.update(RECON_PROGRAM_PATH=program, TZ='PST8PDT', LC_ALL='C')
     temporary = work / 'tmp'
     temporary.mkdir()
@@ -157,7 +156,7 @@ def main():
     executable = (args.exe or BINARY / ('build/native-trace/C1XX3232.EXE' if args.trace else 'build/native/C1XX3232.EXE')).resolve()
     assert executable.read_bytes()[:5] == b'\x7fELF\x01', 'native i386 ELF required'
     resource.setrlimit(resource.RLIMIT_CORE, (0, 0))
-    scratch = Path.home() / '.ai-tmp/vc1.0-c1xx'
+    scratch = CAPTURE_ROOT/'native'
     scratch.mkdir(parents=True, exist_ok=True)
     directory = args.directory or Path(tempfile.mkdtemp(prefix='native-check-', dir=scratch))
     if args.directory:

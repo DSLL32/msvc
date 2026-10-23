@@ -1,3 +1,0 @@
-{
-  "note": "Successful preliminary build preceded explicit unsigned cast on depth addition to retain machine wrap semantics; final rebuild and comparison used unsigned-depth receipt. Both build timings retained."
-}

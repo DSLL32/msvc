@@ -1,7 +1,0 @@
-{
-  "status": "accepted runtime library/import identity",
-  "function": "_memcpy",
-  "next_frontier": "_clear_most_derived_argument@4",
-  "boundary_evidence": "cases/virtual-diamond-frontiers/0771-virtual_base_access_level-8/runtime-boundary/evidence.json",
-  "downstream_comparison": "cases/virtual-diamond-frontiers/0771-virtual_base_access_level-8/validation.json"
-}

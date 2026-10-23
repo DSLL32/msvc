@@ -1,5 +1,6 @@
 """Reject corrupted entry expectations, application mappings and native oracles."""
 import hashlib
+from case_paths import CAPTURE_ROOT
 import importlib.util
 import json
 from pathlib import Path
@@ -12,7 +13,7 @@ BINARY = Path(__file__).resolve().parents[1]
 
 
 def main():
-    directory = Path(tempfile.mkdtemp(prefix='native-rejections-', dir=Path.home()/'.ai-tmp/vc1.0-c1xx'))
+    directory = Path(tempfile.mkdtemp(prefix='native-rejections-', dir=CAPTURE_ROOT))
     checks = []
     cache = json.loads((BINARY/'cases/native-traces.json').read_text())
 
@@ -77,8 +78,9 @@ def main():
                 seconds=time.perf_counter()-started))
         else:
             raise AssertionError('custom formatter accepted as CRT '+name)
-    proof_path = BINARY/'cases/cpp-basic-frontiers/0608-close_source_file/runtime-boundary/validation.json'
-    if proof_path.exists():
+    proof_path = BINARY/'evidence/runtime-analysis/close/validation.json'
+    assert proof_path.is_file(), "missing required independent CRT boundary proof"
+    if True:
         spec = importlib.util.spec_from_file_location('c1xx_runtime_boundary',BINARY/'scripts/runtime-boundary.py')
         boundary = importlib.util.module_from_spec(spec)
         spec.loader.exec_module(boundary)
@@ -102,8 +104,9 @@ def main():
                 assert expected in str(error),(name,str(error))
                 checks.append(dict(name=name,status='pass',rejected_because=str(error) or 'observation bytes contradict claimed descriptor',seconds=time.perf_counter()-started))
             else:raise AssertionError(name+' accepted corrupted runtime evidence')
-    stream_path=BINARY/'cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/validation.json'
-    if stream_path.exists():
+    stream_path=BINARY/'evidence/runtime-analysis/flush/validation.json'
+    assert stream_path.is_file(), "missing required independent CRT boundary proof"
+    if True:
         from runtime_boundary_loader import load_boundary
         boundary=load_boundary()
         proof=boundary.check(stream_path)
@@ -121,8 +124,9 @@ def main():
                 assert expected in str(error),(name,str(error))
                 checks.append(dict(name=name,status='pass',rejected_because=str(error) or 'fflush did not successfully drain buffer',seconds=time.perf_counter()-started))
             else:raise AssertionError(name+' accepted corrupted runtime evidence')
-    exit_path=BINARY/'cases/cpp-basic-frontiers/0636-cleanup_precompiled_files/runtime-boundary/validation.json'
-    if exit_path.exists():
+    exit_path=BINARY/'evidence/runtime-analysis/exit/validation.json'
+    assert exit_path.is_file(), "missing required independent CRT boundary proof"
+    if True:
         from runtime_boundary_loader import load_boundary
         boundary=load_boundary();proof=boundary.check(exit_path)
         changes=[
@@ -138,8 +142,9 @@ def main():
                 assert expected in str(error),(name,str(error))
                 checks.append(dict(name=name,status='pass',rejected_because=str(error),seconds=time.perf_counter()-started))
             else:raise AssertionError(name+' accepted corrupted termination evidence')
-    realloc_path=BINARY/'cases/virtual-diamond-frontiers/0664-matches_virtual_override-12/runtime-boundary/evidence.json'
-    if realloc_path.exists():
+    realloc_path=BINARY/'evidence/runtime-analysis/realloc/validation.json'
+    assert realloc_path.is_file(), "missing required independent CRT boundary proof"
+    if True:
         from runtime_boundary_loader import load_boundary
         boundary=load_boundary();proof=boundary.check(realloc_path)
         changes=[
@@ -156,8 +161,9 @@ def main():
                 assert expected in str(error),(name,str(error))
                 checks.append(dict(name=name,status='pass',rejected_because=str(error) or 'raw realloc observation contradicts claimed size or preserved prefix',seconds=time.perf_counter()-started))
             else:raise AssertionError(name+' accepted corrupted reallocation evidence')
-    copy_path=BINARY/'cases/virtual-diamond-frontiers/0771-virtual_base_access_level-8/runtime-boundary/evidence.json'
-    if copy_path.exists():
+    copy_path=BINARY/'evidence/runtime-analysis/memmove/validation.json'
+    assert copy_path.is_file(), "missing required independent CRT boundary proof"
+    if True:
         from runtime_boundary_loader import load_boundary
         boundary=load_boundary();proof=boundary.check(copy_path)
         changes=[

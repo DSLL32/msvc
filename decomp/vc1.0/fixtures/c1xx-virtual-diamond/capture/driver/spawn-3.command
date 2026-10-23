@@ -1,0 +1,1 @@
+R:\toolchains\1.0-nt\bin\link.exe -link @S:\vc1.0\c1xx\virtual-diamond-driver\000588lk

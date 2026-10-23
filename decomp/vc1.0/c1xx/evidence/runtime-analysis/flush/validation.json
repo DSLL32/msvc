@@ -1,0 +1,201 @@
+{
+  "scope": "explicit fflush boundary; not application acceptance",
+  "target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "configuration_sha256": "171afe70c0c64b04eeda40ee16c5e4c6ee9e7651611225a1358e3bc3599d8bb7",
+  "accepted_before": 634,
+  "runtime_order": [
+    "_fflush"
+  ],
+  "original": {
+    "result": 0,
+    "return_va": 475940,
+    "before": {
+      "descriptor": 5,
+      "flags": 138,
+      "count": 3779,
+      "used": 317,
+      "size": 4096
+    },
+    "after": {
+      "descriptor": 5,
+      "flags": 136,
+      "count": 0,
+      "used": 0,
+      "size": 4096
+    }
+  },
+  "native": {
+    "before": {
+      "descriptor": 5,
+      "flags": 138,
+      "count": 3779,
+      "used": 317,
+      "size": 4096
+    },
+    "after": {
+      "descriptor": 5,
+      "flags": 136,
+      "count": 0,
+      "used": 0,
+      "size": 4096
+    },
+    "result": 0,
+    "caller": "close_intermediate"
+  },
+  "original_capture": "/root/.ai-tmp/vc1.0-c1xx/original-capture-9uqdvik5",
+  "original_capture_sha256": "4a236301a0d28b541f698df13d41df7e9c390b6b661c48ac116ae47391bcdfe0",
+  "original_seconds": 3.82265233900398,
+  "native_seconds": 0.1557670747861266,
+  "identity": {
+    "records": [
+      {
+        "name": "_fflush",
+        "record": {
+          "name": "_fflush",
+          "start": 537776,
+          "end": 537856,
+          "object": "stdio\\obj\\i386\\FFLUSH.OBJ",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "b631cb440ead74bb0eced1def11fb231a506ba353afe1d1fcc3c845dfaf0a9d0",
+        "member_bytes": 80,
+        "member_sha256": "266698d83238e4f6d53833cf063692780316eca0046bd8c27c1ed1003afed2d9",
+        "original_body_sha256": "9118dd9eb27c07e43c72cd8268defc8d3049af8e2379244c662db1a11bf3cee0",
+        "relocation_identity": "exact nonrelocation bytes, named direct/indirect call edges, shared DIR32 globals and canonical public data targets",
+        "relocations": [
+          {
+            "offset": 12,
+            "symbol": "_flsall",
+            "kind": 20
+          },
+          {
+            "offset": 23,
+            "symbol": "__flush",
+            "kind": 20
+          },
+          {
+            "offset": 52,
+            "symbol": "__commit",
+            "kind": 20
+          }
+        ],
+        "call_targets": [
+          "__commit",
+          "__flush",
+          "_flsall"
+        ]
+      }
+    ],
+    "original_crt_globals": {}
+  },
+  "kind": "fflush",
+  "original_observation": "evidence/runtime-analysis/flush/original-observation.txt",
+  "native_observation": "evidence/runtime-analysis/flush/native-observation.json",
+  "evidence_files": [
+    {
+      "path": "evidence/runtime-analysis/flush/original-observation.txt",
+      "sha256": "d4e48297cd13a81384e60cb0213c44aebad355d05d4a461e0f00a197649df585"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/native-observation.json",
+      "sha256": "21d9a4cd4d4e4b6d346953c0eed9ee25e40f192976bc80be773dd766d7bd83d5"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/native-gdb.log",
+      "sha256": "e75b9aec2d442be4c4af45543c482b673e1e20b3de5bf15dee779ac037c101e7"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/original-events.txt",
+      "sha256": "662ce29150bcc534429c089fa6c1394f287e57078fa4a81df05ab4d4d1e42964"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/original-stdout.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/original-stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/native-stdout.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/native-stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/restore-plan.txt",
+      "sha256": "9a03cca37f01f6d2437deffcc7933d90a83c295d80bbd47ca8f36e6346bda2d7"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/native.gdb",
+      "sha256": "10ad2eab070351f4379ef305ebd1deb6c0b1cc7bb0576bdb838d8b6a9ed9be64"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/observer-source.c",
+      "sha256": "0680f23ba1b829be83bc36b06b13fcba049390b470661284030d9ebf0954d892"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/observer-build.json",
+      "sha256": "09af81603d9cf081b1e23afd5adfc761ef31369f30b8f8fafc39ee9019fe7478"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/corrective-build-timing.json",
+      "sha256": "240b2aad7ba069fa3114a4bfe35cd55038c07455b9bb0fac32ba5a78772f1ca2"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/abi-verified-observation/receipt.json",
+      "sha256": "4049c56815cd4015ecc1dcc8d511610ca5473e2f71a327c7c879bf8f5f7e38fd"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/abi-verified-observation/original-observation.txt",
+      "sha256": "d4e48297cd13a81384e60cb0213c44aebad355d05d4a461e0f00a197649df585"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/abi-verified-observation/native-observation.json",
+      "sha256": "21d9a4cd4d4e4b6d346953c0eed9ee25e40f192976bc80be773dd766d7bd83d5"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/abi-verified-observation/native-gdb.log",
+      "sha256": "a55bf1b5babf69e5e769c4fb6c00ed47b15811a862c8bf4bb2c2b74cf6129c22"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/abi-verified-observation/original-events.txt",
+      "sha256": "662ce29150bcc534429c089fa6c1394f287e57078fa4a81df05ab4d4d1e42964"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/abi-verified-observation/original-stdout.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/abi-verified-observation/original-stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/abi-verified-observation/native-stdout.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/abi-verified-observation/native-stderr.bin",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "evidence/runtime-analysis/flush/abi-verified-observation/build-timing.json",
+      "sha256": "c0897ad0280ba6e7a0bc10d58f2163e8ab06e6b4b67e28679b0ef17515a4e2fb"
+    }
+  ],
+  "observer_exe_sha256": "68a9719a0a883726c1c40aa5409f81ee7e6dc98322d9a11fa4f2d2ddda3dc5cf",
+  "native_exe_sha256": "b94b5a5818a19605fc31822b0b0d7efb4fcb8ad2db4532e177cf10578966f833",
+  "failed_boundary_trial_seconds": null,
+  "failed_boundary_timing_scope": "not separately retained; rejected observations preserved under evidence/fflush-write-state",
+  "additional_current_build_observation": "evidence/runtime-analysis/flush/abi-verified-observation/receipt.json",
+  "current_native_observation": "evidence/runtime-analysis/flush/abi-verified-observation/native-observation.json",
+  "historical_analysis_provenance": {
+    "commit": "0812fa9",
+    "original_path": "cases/cpp-basic-frontiers/0634-close_intermediate/runtime-boundary/validation.json",
+    "original_sha256": "1406512fedd7a70108fad641ec0f136bab6a29d2719dca89ac468c80f30d21f3",
+    "scope": "Read-only CRT ABI/semantics observations; raw evidence unchanged; not a transport configuration or active frontend oracle"
+  }
+}

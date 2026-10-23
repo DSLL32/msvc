@@ -2,24 +2,22 @@
   "case": "CL.EXE /nologo /Od copy.cpp",
   "toolchain": "1.0-nt",
   "capture": {
-    "method": "Debugger breakpoint at original CL CreateProcessA import thunk, VA 0x21000 / RVA 0x11000",
+    "method": "Fresh original CL CreateProcessA breakpoint; shared fixed R:/S: prefix",
     "CL_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
     "arguments": "/nologo /Od copy.cpp",
     "downstream_capture_arguments": "/nologo /Od copy.cpp",
-    "snapshot": "Intermediate files copied before C2 launch; object and response copied before LINK launch",
+    "source_sha256": "61e1ee1752d57f547ae04afc63cab425a8ef1da1411898515f30c5024d94adb5",
+    "inherited_working_directory": "S:\\vc1.0\\c1xx\\copy-assignment-driver",
     "child_current_directory_parameter": null,
-    "inherited_working_directory": "/root/.ai-tmp/vc1.0-c1xx/follow-on-capture/c1xx-copy-assignment",
+    "raw_boundary_files": "capture/driver/",
     "stdin": "closed",
     "compiler_environment_keys": [
       "MSC_CMD_FLAGS"
     ],
-    "source_sha256": "61e1ee1752d57f547ae04afc63cab425a8ef1da1411898515f30c5024d94adb5",
-    "raw_boundary_files": "capture/",
-    "program": {
-      "status": 0,
-      "seconds": 5.264412161894143,
-      "stdout": "",
-      "stderr": ""
+    "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+    "fixed_drives": {
+      "R:": "/root/msvc2",
+      "S:": "/root/.ai-tmp/msvc2"
     },
     "timing_receipt": "capture/driver-receipt.json"
   },
@@ -32,9 +30,9 @@
         "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f copy.cpp -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Focopy.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Ob0 -Ot -I {include} "
       },
       "working_directory": "c1",
-      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1xx3232.exe",
-      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1xx3232.exe",
-      "captured_MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Z:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\c1xx-copy-assignment\\000292 -f copy.cpp -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Focopy.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Ob0 -Ot -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include ",
+      "captured_application": "R:\\toolchains\\1.0-nt\\bin\\c1xx3232.exe",
+      "captured_command_line": "R:\\toolchains\\1.0-nt\\bin\\c1xx3232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il S:\\vc1.0\\c1xx\\copy-assignment-driver\\000740 -f copy.cpp -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Focopy.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Ob0 -Ot -I R:\\toolchains\\1.0-nt\\include ",
       "expected_exit": 0,
       "expected_stdout": "",
       "expected_stderr": "",
@@ -79,7 +77,8 @@
           "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775",
           "cached_path": "dependencies/C1.ERR"
         }
-      ]
+      ],
+      "canonical_working_directory": "S:\\vc1.0\\c1xx\\copy-assignment"
     },
     "c2": {
       "target": "toolchains/1.0-nt/bin/C23232.EXE",
@@ -89,9 +88,9 @@
         "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f copy.cpp -W 1 -G4 -Gs4096 -dos -Focopy.obj -ML "
       },
       "working_directory": "c2",
-      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
-      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
-      "captured_MSC_CMD_FLAGS": "-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Z:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\c1xx-copy-assignment\\000292 -f copy.cpp -W 1 -G4 -Gs4096 -dos -Focopy.obj -ML ",
+      "captured_application": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_command_line": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "captured_MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il S:\\vc1.0\\c1xx\\copy-assignment-driver\\000740 -f copy.cpp -W 1 -G4 -Gs4096 -dos -Focopy.obj -ML ",
       "expected_exit": 0,
       "expected_stdout": "",
       "expected_stderr": "",
@@ -121,7 +120,7 @@
         {
           "path": "expected/copy.obj",
           "bytes": 1446,
-          "sha256": "2f212ad4f7e23bc777b65b1ecaed3731303cbd81dd77cf43b397c04a21600070",
+          "sha256": "fe9354d76d070b5d3647f459461715571e05796baaf431c695edf52c1f38c9a9",
           "output_name": "copy.obj",
           "ignored_fields": [
             {
@@ -141,13 +140,13 @@
           "sha256": "c0246e0cc265b95a932d82e3d2b4e2f7b42ad0f6c1aca2011524a32ab13cf1e5",
           "cached_path": "dependencies/C23.ERR"
         }
-      ]
+      ],
+      "canonical_working_directory": "S:\\vc1.0\\c1xx\\copy-assignment-c2"
     },
     "link": {
       "target": "toolchains/1.0-nt/bin/LINK.EXE",
       "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
       "arguments": [
-        "-link",
         "@link.rsp"
       ],
       "environment": {
@@ -162,10 +161,10 @@
         "MSC_CMD_FLAGS"
       ],
       "working_directory": "link",
-      "captured_application": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe",
-      "captured_command_line": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe -link @Z:\\root\\.ai-tmp\\vc1.0-c1xx\\follow-on-capture\\c1xx-copy-assignment\\000292lk",
+      "captured_application": "R:\\toolchains\\1.0-nt\\bin\\link.exe",
+      "captured_command_line": "R:\\toolchains\\1.0-nt\\bin\\link.exe -link @S:\\vc1.0\\c1xx\\copy-assignment-driver\\000740lk",
       "captured_environment_parameter": null,
-      "captured_LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+      "captured_LIB": "R:\\toolchains\\1.0-nt\\lib",
       "expected_exit": 0,
       "expected_stdout": "",
       "expected_stderr": "",
@@ -173,7 +172,7 @@
         {
           "path": "link/copy.obj",
           "bytes": 1446,
-          "sha256": "2f212ad4f7e23bc777b65b1ecaed3731303cbd81dd77cf43b397c04a21600070"
+          "sha256": "fe9354d76d070b5d3647f459461715571e05796baaf431c695edf52c1f38c9a9"
         },
         {
           "path": "link/link.rsp",
@@ -185,7 +184,7 @@
         {
           "path": "expected/copy.exe",
           "bytes": 2097152,
-          "sha256": "14b5be879bbfb66aa51b56f9562cf302c54c1f7e7da57aa139887fa1230e8fcd",
+          "sha256": "b0451a6c5eeb8ac90c9ed822bdc062b1b6a6cb61c6ee87943fdf2007ffffa7b4",
           "output_name": "copy.exe",
           "ignored_fields": [
             {
@@ -209,7 +208,8 @@
           "sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334"
         }
       ],
-      "command_line_template": "{bin}\\link.exe -link @link.rsp"
+      "command_line_template": "{bin}\\link.exe @link.rsp",
+      "canonical_working_directory": "S:\\vc1.0\\c1xx\\copy-assignment-link"
     }
   }
 }

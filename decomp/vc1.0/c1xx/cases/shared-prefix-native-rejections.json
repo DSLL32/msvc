@@ -1,0 +1,199 @@
+{
+  "status": "pass",
+  "scope": "native regression-boundary fault injection; no original execution",
+  "negative_helper_build_seconds": 0.32587410509586334,
+  "checks": [
+    {
+      "name": "wrong-entry",
+      "status": "pass",
+      "rejected_because": "application entry 0",
+      "seconds": 0.2185563575476408
+    },
+    {
+      "name": "missing-definition",
+      "status": "pass",
+      "rejected_because": "unresolved native application definition",
+      "seconds": 0.20061247237026691
+    },
+    {
+      "name": "reject-terminal",
+      "status": "pass",
+      "rejected_because": "expected completed frontend exit status",
+      "seconds": 0.0805631959810853
+    },
+    {
+      "name": "reject-stdout",
+      "status": "pass",
+      "rejected_because": "stdout differs",
+      "seconds": 0.08471163176000118
+    },
+    {
+      "name": "reject-artifact",
+      "status": "pass",
+      "rejected_because": "irex: visible bytes differ",
+      "seconds": 0.08226747810840607
+    },
+    {
+      "name": "unknown-dependency",
+      "status": "pass",
+      "rejected_because": "unexpected C1XX external dependency: unknown.exe",
+      "seconds": "not separately measured"
+    },
+    {
+      "name": "reject-formatter-as-fscanf",
+      "status": "pass",
+      "rejected_because": "original CRT call relocation differs",
+      "seconds": 0.07244508806616068
+    },
+    {
+      "name": "reject-formatter-as-fwscanf",
+      "status": "pass",
+      "rejected_because": "original CRT call relocation differs",
+      "seconds": 0.07028951495885849
+    },
+    {
+      "name": "close-return",
+      "status": "pass",
+      "rejected_because": "close boundary differs",
+      "seconds": 0.00200846791267395
+    },
+    {
+      "name": "close-failed-both",
+      "status": "pass",
+      "rejected_because": "close did not close the observed source descriptor",
+      "seconds": 0.0018626907840371132
+    },
+    {
+      "name": "close-descriptor",
+      "status": "pass",
+      "rejected_because": "observation bytes contradict claimed descriptor",
+      "seconds": 0.08191041834652424
+    },
+    {
+      "name": "close-order",
+      "status": "pass",
+      "rejected_because": "unobserved runtime boundary",
+      "seconds": 0.002008393406867981
+    },
+    {
+      "name": "close-library",
+      "status": "pass",
+      "rejected_because": "CRT library/import identity changed",
+      "seconds": 0.07707501295953989
+    },
+    {
+      "name": "close-observation",
+      "status": "pass",
+      "rejected_because": "runtime observation evidence changed",
+      "seconds": 0.07605940476059914
+    },
+    {
+      "name": "fflush-write-bit",
+      "status": "pass",
+      "rejected_because": "fflush boundary differs",
+      "seconds": 0.002124314196407795
+    },
+    {
+      "name": "fflush-stale-both",
+      "status": "pass",
+      "rejected_because": "fflush stream transition differs",
+      "seconds": 0.0019058547914028168
+    },
+    {
+      "name": "fflush-failed-both",
+      "status": "pass",
+      "rejected_because": "fflush did not successfully drain buffer",
+      "seconds": 0.0018991492688655853
+    },
+    {
+      "name": "fflush-library",
+      "status": "pass",
+      "rejected_because": "fflush library identity changed",
+      "seconds": 0.07399140577763319
+    },
+    {
+      "name": "exit-runtime-order",
+      "status": "pass",
+      "rejected_because": "unobserved termination sequence",
+      "seconds": 0.0022889068350195885
+    },
+    {
+      "name": "exit-library",
+      "status": "pass",
+      "rejected_because": "termination library identity changed",
+      "seconds": 0.08387716021388769
+    },
+    {
+      "name": "exit-observation",
+      "status": "pass",
+      "rejected_because": "termination evidence changed",
+      "seconds": 0.08390985801815987
+    },
+    {
+      "name": "realloc-library",
+      "status": "pass",
+      "rejected_because": "realloc library identity changed",
+      "seconds": 0.07853735145181417
+    },
+    {
+      "name": "realloc-observation",
+      "status": "pass",
+      "rejected_because": "realloc evidence changed",
+      "seconds": 0.07605891581624746
+    },
+    {
+      "name": "realloc-size",
+      "status": "pass",
+      "rejected_because": "raw realloc observation contradicts claimed size or preserved prefix",
+      "seconds": 0.07795700058341026
+    },
+    {
+      "name": "realloc-lost-prefix",
+      "status": "pass",
+      "rejected_because": "raw realloc observation contradicts claimed size or preserved prefix",
+      "seconds": 0.07696719374507666
+    },
+    {
+      "name": "copy-library",
+      "status": "pass",
+      "rejected_because": "copy library identity changed",
+      "seconds": 0.07416483201086521
+    },
+    {
+      "name": "copy-alias",
+      "status": "pass",
+      "rejected_because": "copy alias identity changed",
+      "seconds": 0.0769733376801014
+    },
+    {
+      "name": "copy-overlap",
+      "status": "pass",
+      "rejected_because": "copy arguments/return differ",
+      "seconds": 0.08080698922276497
+    },
+    {
+      "name": "copy-return",
+      "status": "pass",
+      "rejected_because": "copy arguments/return differ",
+      "seconds": 0.07916977722197771
+    },
+    {
+      "name": "copy-lost-prefix",
+      "status": "pass",
+      "rejected_because": "copy raw original bytes differ",
+      "seconds": 0.08048820216208696
+    },
+    {
+      "name": "missing-case-prefix",
+      "status": "pass",
+      "rejected_because": "application entry 0",
+      "seconds": 0.22107760049402714
+    },
+    {
+      "name": "partial-case-wrong-exit",
+      "status": "pass",
+      "rejected_because": "expected named frontier SIGTRAP",
+      "seconds": 0.07720743026584387
+    }
+  ]
+}

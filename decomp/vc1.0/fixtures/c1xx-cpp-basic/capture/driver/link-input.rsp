@@ -1,0 +1,4 @@
+-out:cpp-basic.exe
+-debug:none
+-nologo
+cpp-basic.obj

@@ -1,0 +1,90 @@
+{
+  "c1": {
+    "status": 0,
+    "execution_seconds": 0.8938758065924048,
+    "outputs": [
+      {
+        "file": "irex",
+        "bytes": 1136,
+        "actual_sha256": "cd3d4ab5354050a0997c10d4c43133104a2b49378c6390df6a6229b097195e10",
+        "differing_byte_offsets": [],
+        "permitted_volatile_fields": []
+      },
+      {
+        "file": "irsy",
+        "bytes": 123,
+        "actual_sha256": "22314515a46999c51e34592b941ea095e45bb4fa40ea7202290350deb43dfe01",
+        "differing_byte_offsets": [],
+        "permitted_volatile_fields": []
+      },
+      {
+        "file": "irin",
+        "bytes": 9,
+        "actual_sha256": "4938c18375af11938adc79375309ec78c88af8e28b9905fda9d127319c13b26f",
+        "differing_byte_offsets": [],
+        "permitted_volatile_fields": []
+      },
+      {
+        "file": "irgl",
+        "bytes": 137,
+        "actual_sha256": "93133cc40f9a3b727c90fc9249bbdb560914981406573bbe103f1fd88df6d90c",
+        "differing_byte_offsets": [],
+        "permitted_volatile_fields": []
+      }
+    ],
+    "stdout": "",
+    "stderr": ""
+  },
+  "c2": {
+    "status": 0,
+    "execution_seconds": 1.1606578454375267,
+    "outputs": [
+      {
+        "file": "cpp-basic.obj",
+        "bytes": 479,
+        "actual_sha256": "1c9bf04050e626b9a4cb95e883690a085fffc3380dadb23349c106188bc99eae",
+        "differing_byte_offsets": [
+          4
+        ],
+        "permitted_volatile_fields": [
+          {
+            "offset": 4,
+            "bytes": 4,
+            "name": "COFF TimeDateStamp"
+          }
+        ]
+      }
+    ],
+    "stdout": "",
+    "stderr": ""
+  },
+  "link": {
+    "status": 0,
+    "execution_seconds": 1.186625755392015,
+    "outputs": [
+      {
+        "file": "cpp-basic.exe",
+        "bytes": 2097152,
+        "actual_sha256": "430be8ff68824dd074d350c9f46fa866b1e8e32ae10f1f383b191b46326fb291",
+        "differing_byte_offsets": [
+          136
+        ],
+        "permitted_volatile_fields": [
+          {
+            "offset": 136,
+            "bytes": 4,
+            "name": "PE COFF TimeDateStamp"
+          }
+        ]
+      }
+    ],
+    "stdout": "",
+    "stderr": ""
+  },
+  "program": {
+    "status": 0,
+    "execution_seconds": 0.6704398393630981,
+    "stdout": "",
+    "stderr": ""
+  }
+}
