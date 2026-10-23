@@ -74,7 +74,8 @@
     "_allocate_virtual_memory@16",
     "_initialize_comdats",
     "LinkContext::InitializeSections",
-    "_create_output_section@20"
+    "_create_output_section@20",
+    "_find_matching_output_section@20"
   ],
   "driver": [
     {
@@ -2326,10 +2327,10 @@
     {
       "name": "_find_matching_output_section@20",
       "start": 4256048,
-      "end": 4256049,
+      "end": 4256299,
       "source": "src/sections.c",
-      "status": "stub",
-      "pending_extent": true,
+      "status": "implemented",
+      "pending_extent": false,
       "native_symbol": "find_matching_output_section",
       "abi": "stdcall OutputSection *(OutputModule *module,const char *name,DWORD flags,SectionList *sections,IMAGE_OPTIONAL_HEADER *header); five stack inputs, RET20; no hidden inputs"
     },
@@ -2342,6 +2343,26 @@
       "pending_extent": true,
       "native_symbol": "adjust_output_section_flags",
       "abi": "stdcall void(DWORD *flags,const char *name,IMAGE_OPTIONAL_HEADER *header); three stack inputs, RET12; no hidden inputs"
+    },
+    {
+      "name": "_format_module_name@8",
+      "start": 4252704,
+      "end": 4252705,
+      "source": "src/sections.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "format_module_name",
+      "abi": "stdcall char *(OutputModule *module,char *name); two stack inputs, RET8; no hidden inputs"
+    },
+    {
+      "name": "_resolve_output_section@4",
+      "start": 4253216,
+      "end": 4253217,
+      "source": "src/sections.c",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "resolve_output_section",
+      "abi": "stdcall OutputSection *(OutputSection *section); one stack input, RET4; no hidden inputs"
     }
   ],
   "text_data": [

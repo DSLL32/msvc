@@ -122,7 +122,7 @@ def compare_release(original, state, trap, completed_options=False):
 def compare_configured(original,state,trap,events,canonical,search):
     """All formal inputs of validate_debug_options and real option-copy frees."""
     context=trap['validation_context']
-    full_link=state['function']in ('LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section')
+    full_link=state['function']in ('LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags')
     assert context==trap['configuration_context']
     if not full_link:assert context==trap['stack'][1]
     assert state['validation_arguments']==dict(context=state['context_this'])
@@ -140,7 +140,7 @@ def compare_configured(original,state,trap,events,canonical,search):
     assert state['incremental_enabled']==0 and (original/'incremental-enabled.bin').read_bytes()==b'\0'
     assert state['logo_pending']==0 and (original/'logo-pending.bin').read_bytes()==b'\0'
     source=state['duplicate_calls']
-    assert len(source)==(7 if state['function']in ('initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section')else 5) and len(state['free_calls'])==3
+    assert len(source)==(7 if state['function']in ('initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags')else 5) and len(state['free_calls'])==3
     assert source[:2]==[
         dict(text='hello.obj',input=state['crt_argv_addresses'][4],result=canonical[0]['result']),
         dict(text=canonical[1]['text'],input=search['output'],result=canonical[1]['result'])]
@@ -168,8 +168,8 @@ def compare_configured(original,state,trap,events,canonical,search):
     assert struct.unpack_from('<I',bytes.fromhex(state['link_context']),0x150)[0]==0
     assert bytes.fromhex(state['link_context'])[0x124]==1
     from context_heap import compare
-    additional=compare_output_modules(original,state,trap,events)if state['function']in ('duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section')else []
-    compare(original,state,trap,configuration_context=context,additional_arenas=additional,additional_allocations=compare_section_pools(original,state,trap,events)if state['function']in ('initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section')else [])
+    additional=compare_output_modules(original,state,trap,events)if state['function']in ('duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags')else []
+    compare(original,state,trap,configuration_context=context,additional_arenas=additional,additional_allocations=compare_section_pools(original,state,trap,events)if state['function']in ('initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags')else [])
     if full_link:
         formals=trap['full_link_formals'];native=state['full_link_formals'];entry=state['full_link_entry']
         if state['function']=='LinkContext::FullLink':
@@ -198,10 +198,10 @@ def compare_configured(original,state,trap,events,canonical,search):
 
 def compare_output_modules(original,state,trap,events):
     """Actual new text argument plus two complete allocated records/pages."""
-    completed=state['function']in ('initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section')
+    completed=state['function']in ('initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags')
     if completed:
         formals=[0,4000,0x3000,4]if state['function']=='allocate_virtual_memory'else []
-        if state['function']in ('create_output_section','find_matching_output_section'):
+        if state['function']in ('create_output_section','find_matching_output_section','adjust_output_section_flags'):
             compare_section_creation(original,state,trap,events)
         else:assert trap['frontier_inputs']==state['frontier_inputs']==dict(formals=formals,hidden_register_inputs=[])
         if formals:
@@ -326,9 +326,24 @@ def compare_section_pools(original,state,trap,events):
 def compare_section_creation(original,state,trap,events):
     left=trap['section_creation_formals'];right=state['section_creation_formals']
     keys=('module','name','flags','sections','header')
-    assert trap['frontier_inputs']==dict(formals=[left[k]for k in keys],hidden_register_inputs=[])
-    assert state['frontier_inputs']==dict(formals=[right[k]for k in keys],hidden_register_inputs=[])
-    assert trap['stack'][1:6]==[left[k]for k in keys]
+    if state['function']=='adjust_output_section_flags':
+        lflags=trap['section_flag_formals'];rflags=state['section_flag_formals']
+        assert lflags['flags']==trap['stack'][1]==trap['esp']+0x20
+        assert lflags['owner_stack']==trap['esp']+0x23c
+        assert list(struct.unpack('<5I',(original/'section-lookup-inputs.bin').read_bytes()))==[left[k]for k in keys]
+        assert lflags['before']==rflags['before']==0xc0000080
+        assert (original/'section-normalized-before.bin').read_bytes()==bytes.fromhex(rflags['raw'])==struct.pack('<I',0xc0000080)
+        assert lflags['name']==left['name']and lflags['header']==left['header']
+        assert rflags['name']==right['name']and rflags['header']==right['header']
+        assert rflags['flags']==rflags['owner_local']and rflags['flags']
+        assert not state['context_this']<=rflags['flags']<state['context_this']+664
+        assert trap['frontier_inputs']==dict(formals=[lflags[k]for k in ('flags','name','header')],hidden_register_inputs=[])
+        assert trap['stack'][1:4]==trap['frontier_inputs']['formals']
+        assert state['frontier_inputs']==dict(formals=[rflags[k]for k in ('flags','name','header')],hidden_register_inputs=[])
+    else:
+        assert trap['frontier_inputs']==dict(formals=[left[k]for k in keys],hidden_register_inputs=[])
+        assert state['frontier_inputs']==dict(formals=[right[k]for k in keys],hidden_register_inputs=[])
+        assert trap['stack'][1:6]==[left[k]for k in keys]
     entry,=[e for e in events if e['event']=='section_initializer_entry']
     assert entry['this']==trap['section_initializer_this']==trap['validation_context']
     assert state['section_initializer_this']==state['context_this']

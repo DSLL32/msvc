@@ -362,7 +362,7 @@ def stopped(event):
     while configuration and configuration.name()!='configure_link_options':configuration=configuration.older()
     full_frame=frame
     while full_frame and full_frame.name()!='LinkContext::FullLink':full_frame=full_frame.older()
-    if configuration or state['function']in ('validate_debug_options','LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section'):
+    if configuration or state['function']in ('validate_debug_options','LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags'):
         receiver=(full_frame.read_var('this')if full_frame else (configuration if configuration else frame).read_var('context'))
         state['context_this']=int(receiver);state['context_vxd']=int(receiver.dereference()['is_vxd'])
         state['caller_context']=int(driver.read_var('context'))
@@ -379,7 +379,7 @@ def stopped(event):
                 arena=int(hash_state.dereference()[field]);raw=gdb.selected_inferior().read_memory(arena,16).tobytes();words=struct.unpack('<4I',raw)
                 record['arenas'].append(dict(address=arena,raw=raw.hex(),data=gdb.selected_inferior().read_memory(words[3],words[1]+words[2]).tobytes().hex()))
             state['context_heap'].append(record)
-        if state['function']in ('validate_debug_options','LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section'):
+        if state['function']in ('validate_debug_options','LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags'):
             state['validation_arguments']=dict(context=int(receiver))
             state['output_name_pointer']=int(gdb.parse_and_eval('output_file_name'))
             state['output_name']=gdb.parse_and_eval('output_file_name').string()
@@ -390,7 +390,7 @@ def stopped(event):
         if state['function']=='initialize_output_modules':
             module=frame.read_var('result')
             state['output_module_formals']=dict(module=int(module),destination_global=int(gdb.parse_and_eval('&output_module')),initial=int(module.dereference()))
-        if state['function']in ('duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section'):
+        if state['function']in ('duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags'):
             if state['function']=='duplicate_link_string':
                 initializer=frame.older();module=initializer.read_var('module');library=initializer.read_var('library');result=initializer.read_var('result');text=frame.read_var('text')
                 state['argument_detail']=dict(address=int(text),text=text.string())
@@ -398,17 +398,22 @@ def stopped(event):
                 module=gdb.parse_and_eval('output_module');library=module.dereference()['library'];result=gdb.parse_and_eval('&output_module')
                 state['frontier_inputs']=dict(formals=[int(frame.read_var(k))for k in ('address','bytes','flags','protection')]if state['function']=='allocate_virtual_memory'else [],hidden_register_inputs=[])
                 if state['function']=='allocate_virtual_memory':state['module_section_pools']={k:int(gdb.parse_and_eval(k))for k in ('module_section_map','module_section_headers','module_section_capacity','module_section_pools_ready')}
-                if state['function']in ('initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section'):
+                if state['function']in ('initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags'):
                     if state['function']=='LinkContext::InitializeSections':
                         state['comdat_arena']=int(gdb.parse_and_eval('comdat_arena'))
                         state['section_initializer_formals']=dict(this=int(frame.read_var('this')),stack_formals=[],other_hidden_inputs=[])
                     state['module_section_pools']={k:int(gdb.parse_and_eval(k))for k in ('module_section_map','module_section_headers','module_section_capacity','module_section_pools_ready')}
                     state['module_section_bytes']=[gdb.selected_inferior().read_memory(state['module_section_pools'][k],size).tobytes().hex()for k,size in [('module_section_map',4000),('module_section_headers',20000)]]
-                if state['function']in ('create_output_section','find_matching_output_section'):
+                if state['function']in ('create_output_section','find_matching_output_section','adjust_output_section_flags'):
                     keys=('module','name','flags','sections','header')
-                    state['section_creation_formals']={k:int(frame.read_var(k))for k in keys}
-                    state['section_creation_formals']['text']=frame.read_var('name').string()
+                    lookup=frame.older()if state['function']=='adjust_output_section_flags'else frame
+                    state['section_creation_formals']={k:int(lookup.read_var(k))for k in keys}
+                    state['section_creation_formals']['text']=lookup.read_var('name').string()
                     state['frontier_inputs']['formals']=[state['section_creation_formals'][k]for k in keys]
+                    if state['function']=='adjust_output_section_flags':
+                        pointer=frame.read_var('flags');local=lookup.read_var('normalized')
+                        state['section_flag_formals']=dict(flags=int(pointer),before=int(pointer.dereference()),name=int(frame.read_var('name')),header=int(frame.read_var('header')),owner_local=int(local.address),raw=gdb.selected_inferior().read_memory(int(pointer),4).tobytes().hex())
+                        state['frontier_inputs']['formals']=[state['section_flag_formals'][k]for k in ('flags','name','header')]
                     initializer=frame.older()
                     while initializer and initializer.name()!='LinkContext::InitializeSections':initializer=initializer.older()
                     assert initializer

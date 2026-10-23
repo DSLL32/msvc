@@ -34,7 +34,8 @@ struct OutputSection {
     DWORD rva, reserved08, raw_size, virtual_size, reserved14, file_offset;
     DWORD reserved1c, characteristics, original_characteristics, reserved28[2];
     WORD index, reserved32;
-    DWORD reserved34[2], reserved3c;
+    DWORD reserved34[2];
+    OutputSection *merge_target;
     ContributionGroup *groups;
     OutputSection *next;
 };
