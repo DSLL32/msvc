@@ -1,0 +1,1111 @@
+{
+  "status": "passed",
+  "functions": 110,
+  "explicit_return_cleanup_checks": 110,
+  "functions_without_return": [],
+  "rows": [
+    {
+      "name": "_main",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_install_control_handler",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_split_arguments",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_count_arguments",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_has_nologo",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_usage",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_banner",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_program_name",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_initialize_driver",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_parse_arguments",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_write_message",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_join_path",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_load_messages",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_allocate",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_copy_string",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_release",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_skip_space",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_fatal",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_warning",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_driver_exit",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_append_string",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_finish_options",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_prepare_inputs",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_prepare_execution",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_run_driver",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_program_directory",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_scan_option_kind",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_parse_attached_option",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_parse_option",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_read_response_file",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_classify_input",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_add_input",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_format_message",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_unsigned_digits",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_ide_message",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_control_handler@4",
+      "original_ret_cleanup": [
+        4
+      ],
+      "canonical_ret_cleanup": [
+        4
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_setvbuf",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "__freebuf",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_concatenate",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_search_path",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_find_rule",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_match_rule",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_read_option",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_new_item",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_append_items",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_free_items",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_expand_options",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_select_options",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_warn_override",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_option_callback_19014",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_option_callback_190d0",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_option_callback_19198",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_option_callback_1920c",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_option_callback_19228",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_validate_value",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_expand_text",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_expand_choice",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_expand_extension",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_append_optional",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_match_item",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_copy_item",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_detach_item",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_recycle_item",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_is_decimal",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_last_of",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_remove_define",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_driver_switch_17010",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_driver_switch_170a0",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_driver_switch_1713c",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_driver_switch_1719c",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_driver_switch_171fc",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_driver_switch_17274",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_driver_switch_172e4",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_driver_switch_17368",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_driver_switch_173ac",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_is_for_pass",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_expand_filename",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_filename_stem",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_output_stem",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_map_filename",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_console_rows",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "__sopen",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "__filbuf",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_new_input",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_any_match",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_run_passes",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_initialize_pass",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_compile_pass",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_link_pass",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_cleanup_files",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_initialize_ide",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_expanded_length",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_nonblank_length",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_quote_if_space",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_spawn_pass",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_start_timer",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_report_timer",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_is_space",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_write_coff_response",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_write_omf_response",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_file_message",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_write_message_list",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_diagnostic_text",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_force_input",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_ide_abort",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_ide_write",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_ide_descriptor",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "_ide_install",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "___tzset",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    },
+    {
+      "name": "__isindst",
+      "original_ret_cleanup": [
+        0
+      ],
+      "canonical_ret_cleanup": [
+        0
+      ],
+      "decorated_identity_matched": true
+    }
+  ],
+  "canonical_executable_sha256": "d87c6348b23bc0deda97765c652004070cf8ac19471a03aaa917c8f1d19b4ad7",
+  "original_target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "build_command": "make -j4 -B reference-build audit build/capture-run.exe build/pass-proxy.exe build/fail-pass.exe build/wait-pass.exe build/trace-run.exe"
+}

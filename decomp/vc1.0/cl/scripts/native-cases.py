@@ -8,8 +8,7 @@ ROOT = BINARY.parents[2]
 TC = ROOT/'toolchains/1.0-nt'
 CASES = BINARY/'cases'
 
-def windows(path):
-    return 'Z:' + str(Path(path).resolve()).replace('/', '\\')
+from case_paths import windows,canonical_cwd,host_path,native_work,SCRATCH
 
 def sha(data):
     return hashlib.sha256(data).hexdigest()
@@ -25,7 +24,7 @@ def specifications():
     return result
 
 def substitutions(case_id):
-    return dict(bin=windows(TC/'bin'), cwd='Q:\\'+case_id,
+    return dict(bin=windows(TC/'bin'), cwd=canonical_cwd(case_id),
                 proxy=windows(BINARY/'build/pass-proxy.exe'),
                 fail=windows(BINARY/'build/fail-pass.exe'),
                 wait=windows(BINARY/'build/wait-pass.exe'))
@@ -42,8 +41,10 @@ def prepare(case, work):
         target.write_bytes(text.encode('latin1'))
 
 def oracles():
-    rows = {r['id']:r for r in json.loads((CASES/'remaining/validation.json').read_text())['cases']}
-    for name in ('help','compile','hello'):
-        row = json.loads((CASES/(name+'.json')).read_text())
-        rows[name] = row
-    return rows
+    """The fresh fixed-drive original captures are the sole transport oracle."""
+    result={}
+    for case_id in specifications():
+        reference=json.loads((CASES/'native-boundaries'/(case_id+'.json')).read_text())
+        result[case_id]=dict(streams={name:reference[name] for name in ('stdout','stderr')},
+            products={name:dict(original=record) for name,record in reference['final'].items()})
+    return result

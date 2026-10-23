@@ -1,40 +1,37 @@
-Original-only CL child-boundary reference captures
+Fixed-drive original CL reference captures
 
-These 57 records are new explicit capture evidence for existing completed cases;
-they do not replace or refresh the historical case/status/stream/artifact oracles.
-The native runner checks retained final products against those frozen originals.
+All 57 records were explicitly recaptured with the shared win32 Wine prefix and
+its immutable R: repository and S: scratch drives. Original case work is
+S:\vc1.0\cl\<case>; sibling .capture outputs and per-case locks isolate work.
+TMP/TEMP are relative ".". No private prefix clone or custom drive exists.
 
-capture-native.py executes only the pinned original CL and children, under a
-private Wine prefix outside fixture runs. src/capture-run.c breaks original
-__spawnvpe entry/return at its verified code address, records actual argv/env/status,
-full before/after case trees, and child slices in separately captured output files.
-CL is synchronously blocked during each child, so stream offsets delimit child
-output. The capture helper sets Win32 TMP/TEMP explicitly to each Q: case directory;
-all generated temporary IR/response files therefore belong to the captured tree.
-A separate child-not-found capture reads original errno at 0x2847c on return (2).
+Each original run captures app entries with the same accepted prefix excluded,
+actual _spawnvpe invocation/environment, complete before/after input/output trees,
+child status and raw child streams. Whole-toolchain hashes pin transitive SDK and
+library inputs. Original helper images are captured and source-pinned; native
+fixtures do not require Win32 helper build outputs. A failed child capture reads
+actual errno from the original. The debugger validates original instruction bytes
+and restores original instructions/EIP after each one-shot application entry.
 
-The whole immutable original toolchain is pinned by toolchain.json, covering
-transitive SDK/library/tool dependencies. Full captured original helper images are
-content-addressed blobs with their helper source hashes; native fixtures need no
-Win32 build outputs. Each boundary verifies exact invocation, logical environment,
-cwd and complete input inventory before applying response file effects/status/raw
-streams. Unknown invocations or changed inputs fail. No PE is executed natively.
+The native application entry cache pins each new original proof. Fixtures verify
+invocation, exact mapped cwd and every input byte before replaying captured file
+effects/status/streams. Broker cwd is host transport; captured DOS cwd must equal
+the fixed S: name and map to that exact host directory. Unknown dependencies fail.
+The missing-child aggregate is checked as two absent native PATH probes, without
+executing a child. Native fixtures execute no Wine or PE program.
 
-One original _spawnvpe aggregate ENOENT capture becomes two native _spawnve broker
-probes (bare filename and the pinned PATH candidate). Both candidates must remain
-absent, arguments/environment/input must match, and the original response must
-have no streams or file effects. The native CRT performs its normal PATH search.
+blobs/<sha256>.gz contains captured bytes; decompression checks size and SHA256.
+Only identified COFF/PE/export/archive/map clock fields are normalized for final
+products. No path normalization or old-capture relabeling is used. Old transport
+bundles and unreferenced blobs were removed; independent semantic analysis remains.
 
-blobs/<sha256>.gz contains compressed captured bytes with deterministic gzip mtime.
-Before use, decompression validates exact length and SHA256. Only identified
-COFF/PE/export/archive/map clock fields are normalized in final artifact checks;
-per-child input/output bytes and invocation spelling otherwise match exactly.
-
-Reference capture is explicit and refuses existing records without --force:
+Explicit original-only operations, outside fixture runs:
 
     make -j4 build/capture-run.exe
-    python3 scripts/capture-native.py --case compile
+    python3 scripts/capture-native.py --case compile --force
+    python3 scripts/native-traces.py --write
 
-Native checks never import or run this capture script. The old paired-Wine fixture
-runners have been removed. See ../native-all-validation.json for successful native
-coverage, split timings, negative checks and precise remaining platform limits.
+Normal recapture checks existing streams and normalized artifacts. An explicitly
+staged path migration may use --migrate-paths --output-store <S:path>; registering
+it requires independent original entry/exit/state proofs before replacing data.
+See ../path-migration.json and ../native-all-validation.json for changes and checks.

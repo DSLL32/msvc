@@ -1,33 +1,30 @@
 #!/usr/bin/env python3
-"""Run the original NT toolchain in this reconstruction's private prefix."""
+"""Run explicit original builds using the fixed shared repository Wine prefix."""
 import os
 from pathlib import Path
 import subprocess
 import sys
+from case_paths import PREFIX,windows,SCRATCH
 
-PROJECT = Path(__file__).resolve().parents[1]
-ROOT = PROJECT.parents[2]
-TC = ROOT / 'toolchains/1.0-nt'
-PREFIX = Path.home() / '.ai-tmp/vc1.0-cl/wine'
+PROJECT=Path(__file__).resolve().parents[1]
+ROOT=PROJECT.parents[2]
+TC=ROOT/'toolchains/1.0-nt'
 
-def windows(path):
-    return 'Z:' + str(Path(path).resolve()).replace('/', '\\')
 
 def environment():
-    env = os.environ.copy()
-    env.update(WINEPREFIX=str(PREFIX), WINEARCH='win32', WINEDEBUG='-all',
-               INCLUDE=windows(TC / 'include'), LIB=windows(TC / 'lib'))
-    env['WINEPATH'] = windows(TC / 'bin')
-    env.pop('CL', None)
-    env.pop('_CL_', None)
+    env=os.environ.copy()
+    env.update(WINEPREFIX=str(PREFIX),WINEARCH='win32',WINEDEBUG='-all',
+               INCLUDE=windows(TC/'include'),LIB=windows(TC/'lib'))
+    env['WINEPATH']=windows(TC/'bin')
+    env.pop('CL',None);env.pop('_CL_',None)
     return env
 
-if __name__ == '__main__':
+
+if __name__=='__main__':
     os.chdir(PROJECT)
-    if sys.argv[1] == '--init':
-        if not (PREFIX / 'system.reg').exists():
-            PREFIX.parent.mkdir(parents=True, exist_ok=True)
-            subprocess.run(['wineboot', '-u'], env=environment(), check=True)
+    if sys.argv[1]=='--init':
+        assert (PREFIX/'system.reg').exists(),'Shared prefix is root-managed and must already exist'
+        assert (PREFIX/'dosdevices/r:').resolve()==ROOT
+        assert (PREFIX/'dosdevices/s:').resolve()==SCRATCH
         sys.exit(0)
-    sys.exit(subprocess.call(['wine', str(TC / 'bin' / sys.argv[1])] + sys.argv[2:],
-                             env=environment()))
+    sys.exit(subprocess.call(['wine',windows(TC/'bin'/sys.argv[1])]+sys.argv[2:],env=environment()))

@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """Trace candidate cases in original CL without accepting reconstruction code."""
 import argparse
+import fcntl
 import hashlib
 from importlib.machinery import SourceFileLoader
 import json
@@ -12,7 +13,7 @@ import subprocess
 wt = SourceFileLoader('wine_tool', str(Path(__file__).resolve().with_name('wine-tool.py'))).load_module()
 HERE = wt.PROJECT
 FIXTURES = HERE / 'cases/remaining'
-SCRATCH = Path.home() / '.ai-tmp/vc1.0-cl/probes'
+SCRATCH = wt.SCRATCH / 'vc1.0/cl/probes'
 
 
 def main():
@@ -20,6 +21,9 @@ def main():
     parser.add_argument('cases', nargs='*', help='case IDs; default: all candidates')
     parser.add_argument('--update', action='store_true', help='retain results for unselected cases')
     args = parser.parse_args()
+    SCRATCH.mkdir(parents=True,exist_ok=True)
+    lease=(SCRATCH/'probe.lock').open('a')
+    fcntl.flock(lease,fcntl.LOCK_EX)
     catalog = json.loads((FIXTURES / 'catalog.json').read_text())
     unknown = set(args.cases) - {case['id'] for case in catalog['cases']}
     if unknown:

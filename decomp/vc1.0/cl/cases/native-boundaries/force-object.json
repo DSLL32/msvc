@@ -1,15 +1,15 @@
 {
-  "schema": 1,
-  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "schema": 2,
+  "provenance": "Fresh original CL and child capture using fixed shared R:/S: drives; no native execution or relabeled raw data",
   "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
   "case": "force-object",
   "arguments": "/To object.blob /Feobject.exe",
   "environment": {
-    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
-    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
-    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
-    "TMP": "Q:\\force-object",
-    "TEMP": "Q:\\force-object"
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "TMP": ".",
+    "TEMP": "."
   },
   "initial": {
     "object.blob": {
@@ -17,21 +17,139 @@
       "bytes": 286
     }
   },
+  "original_entry_proof": {
+    "method": "One-shot original application entry breakpoints; accepted application prefix excluded",
+    "seen_prefix": [
+      "main",
+      "install_control_handler",
+      "split_arguments",
+      "count_arguments",
+      "has_nologo",
+      "banner",
+      "write_message",
+      "format_message",
+      "program_name",
+      "initialize_driver",
+      "program_directory",
+      "copy_string",
+      "join_path",
+      "search_path",
+      "concatenate",
+      "allocate",
+      "parse_arguments",
+      "scan_option_kind",
+      "parse_option",
+      "find_rule",
+      "match_rule",
+      "read_option",
+      "new_item",
+      "append_items",
+      "expand_options",
+      "skip_space",
+      "expand_text",
+      "append_optional",
+      "select_options",
+      "free_items",
+      "match_item",
+      "validate_value",
+      "unsigned_digits",
+      "recycle_item",
+      "release",
+      "parse_attached_option",
+      "is_decimal",
+      "expand_choice",
+      "expand_extension",
+      "last_of",
+      "option_callback_190d0",
+      "remove_define",
+      "finish_options",
+      "is_for_pass",
+      "expand_filename",
+      "filename_stem",
+      "driver_switch_171fc",
+      "driver_switch_172e4",
+      "driver_switch_17274",
+      "load_messages",
+      "console_rows",
+      "classify_input",
+      "add_input",
+      "new_input",
+      "prepare_inputs",
+      "prepare_execution",
+      "run_driver",
+      "run_passes",
+      "initialize_pass",
+      "compile_pass",
+      "expanded_length",
+      "nonblank_length",
+      "is_space",
+      "append_string",
+      "quote_if_space",
+      "spawn_pass",
+      "cleanup_files",
+      "link_pass",
+      "write_coff_response",
+      "file_message",
+      "driver_exit",
+      "detach_item",
+      "usage",
+      "option_callback_1920c",
+      "force_input",
+      "fatal",
+      "diagnostic_text",
+      "write_message_list",
+      "warning",
+      "warn_override",
+      "copy_item",
+      "driver_switch_17368",
+      "any_match",
+      "read_response_file",
+      "option_callback_19014",
+      "option_callback_19228"
+    ],
+    "plan": {
+      "control_handler": "0xafcc",
+      "driver_switch_17010": "0x7010",
+      "driver_switch_170a0": "0x70a0",
+      "driver_switch_1713c": "0x713c",
+      "driver_switch_1719c": "0x719c",
+      "driver_switch_173ac": "0x73ac",
+      "ide_abort": "0xacc7",
+      "ide_descriptor": "0xad00",
+      "ide_install": "0xae4c",
+      "ide_message": "0xad08",
+      "ide_write": "0xacd4",
+      "initialize_ide": "0xac84",
+      "map_filename": "0x9f3c",
+      "option_callback_19198": "0x9198",
+      "output_stem": "0xa2fc",
+      "report_timer": "0xabd1",
+      "start_timer": "0xabc3",
+      "write_omf_response": "0x9ae1"
+    },
+    "entries": [
+      "option_callback_19198"
+    ],
+    "events": "application-entry 00009198\nexit 00000000\n",
+    "capture_helper_sha256": "e40f18e3a94d0555660517b49de99bf19368a32538754a4ebc486b82b0724eb0",
+    "capture_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+    "case_cwd": "S:\\vc1.0\\cl\\force-object"
+  },
   "boundaries": [
     {
       "mode": 0,
-      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe",
+      "file": "R:\\toolchains\\1.0-nt\\bin\\link.exe",
       "argv": [
-        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe",
+        "R:\\toolchains\\1.0-nt\\bin\\link.exe",
         "-link",
-        "@Q:\\force-object\\000292lk"
+        "@.\\000828lk"
       ],
       "environment": null,
       "status": 0,
       "errno": 0,
-      "cwd": "Q:\\force-object",
+      "cwd": "S:\\vc1.0\\cl\\force-object",
       "before": {
-        "000292lk": {
+        "000828lk": {
           "sha256": "cfe907e4d8436f6a5d64c4b468e3a4341706f51258b845bb2a00d8bf98e2aa22",
           "bytes": 43
         },
@@ -41,7 +159,7 @@
         }
       },
       "after": {
-        "000292lk": {
+        "000828lk": {
           "sha256": "cfe907e4d8436f6a5d64c4b468e3a4341706f51258b845bb2a00d8bf98e2aa22",
           "bytes": 43
         },
@@ -50,7 +168,7 @@
           "bytes": 286
         },
         "object.exe": {
-          "sha256": "8d1d16260c0003334403c230991d92f0357c40a787b985f25a2aa6267bab48f4",
+          "sha256": "56ebfbbc4b15719906f4f8a444f12e6a3e75b2023fcac91c7164dcd38a978da4",
           "bytes": 2097152
         }
       },
@@ -67,11 +185,27 @@
   "final": {
     "object.blob": {
       "sha256": "6c454d6cb96e2a4e1f87aa17311541ca7090b63554efda3044c53c854592599c",
-      "bytes": 286
+      "bytes": 286,
+      "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+      "ignored_fields": [
+        {
+          "offset": 4,
+          "size": 4,
+          "reason": "COFF TimeDateStamp"
+        }
+      ]
     },
     "object.exe": {
-      "sha256": "8d1d16260c0003334403c230991d92f0357c40a787b985f25a2aa6267bab48f4",
-      "bytes": 2097152
+      "sha256": "56ebfbbc4b15719906f4f8a444f12e6a3e75b2023fcac91c7164dcd38a978da4",
+      "bytes": 2097152,
+      "normalized_sha256": "92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16",
+      "ignored_fields": [
+        {
+          "offset": 136,
+          "size": 4,
+          "reason": "PE COFF TimeDateStamp"
+        }
+      ]
     }
   },
   "stdout": {
@@ -82,11 +216,11 @@
     "sha256": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069",
     "bytes": 131
   },
-  "events": "exit 00000000\n",
+  "events": "application-entry 00009198\nexit 00000000\n",
   "timing": {
-    "setup_seconds": 0.004763352684676647,
-    "capture_execution_seconds": 4.216350800357759,
-    "capture_checks_seconds": 0.048760646022856236,
-    "total_seconds": 4.2698764419183135
+    "setup_seconds": 0.06843557488173246,
+    "capture_execution_seconds": 2.06284162402153,
+    "capture_checks_seconds": 0.0685479324311018,
+    "total_seconds": 2.1998269418254495
   }
 }

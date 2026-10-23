@@ -46,9 +46,14 @@ The original SEH exception handler remains outside the native platform scope.
 Generated Windows GUI/console products are compared as bytes, not executed.
 Only identified COFF/PE/export/archive/map timestamp fields are normalized.
 
-Native receipts under ~/.ai-tmp/vc1.0-cl/native-check contain per-case setup,
+Native receipts under ~/.ai-tmp/msvc2/vc1.0/cl/native-check contain per-case setup,
 execution, oracle checks and trace checks. Build and explicit capture timings
-are recorded separately. No automatic reference refresh exists.
+are recorded separately. No automatic reference refresh exists. Fixed drives R: (repository) and S:
+(shared scratch) are never remapped. Original case work is S:\vc1.0\cl\<case>;
+sibling .capture directories and per-case locks isolate concurrent work.
+TMP/TEMP are relative ".". Native runs map their own isolated S: namespace and
+validate its canonical cwd; the broker separately checks the exact host cwd.
+The shared Wine prefix is root-managed; workers never stop its server.
 
 Original-only reference operations remain explicit, outside fixture execution:
 
@@ -59,9 +64,9 @@ Original-only reference operations remain explicit, outside fixture execution:
 
 Capture requires an explicit case selection and refuses existing captures unless
 --force is supplied. It runs only the original CL and original children, checks
-the frozen historical stream/status oracles, and records inputs/outputs. The
-original toolchain build uses the private ~/.ai-tmp/vc1.0-cl/wine prefix. Static
-Win32 call-target auditing checks all 110 reconstructed source functions.
+the current original stream/status and normalized artifact oracles, and records inputs/outputs. The
+original toolchain build uses the shared ~/.ai-tmp/vc1.0-capture/wine prefix. Static
+Win32 call-target and return-cleanup ABI audits cover all 110 reconstructed source functions.
 
 src/cl.c contains main, src/driver.c argument/option processing and invocation,
 src/remaining.c diagnostics, response files, IDE callbacks, timer and OMF writer,
@@ -70,5 +75,6 @@ src/runtime.c preserves the six reached CRT differences: setvbuf,_freebuf,_sopen
 _filbuf,__tzset,_isindst. Remaining CRT behavior is supplied by shared native shims
 in Linux and the original LIBC.LIB/SETARGV.OBJ in the canonical Win32 build.
 
-The historical cases/remaining/validation.json and coverage.json are retained as
-original evidence. The former paired-Wine fixture runners have been removed.
+cases/remaining/semantic-coverage.json and coverage.json retain historical
+semantic evidence without retired transport data. Current transport oracles come
+only from fresh fixed-drive original captures. The former paired-Wine fixture runners have been removed.

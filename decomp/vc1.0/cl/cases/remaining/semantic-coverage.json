@@ -1,0 +1,437 @@
+{
+  "method": "Historical completed CL case semantics, without retired transport data; current original observations live only in ../native-boundaries",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "accepted_frontiers": 233,
+  "implemented_source_functions": 110,
+  "native_driver_functions": 104,
+  "cases": [
+    {
+      "id": "usage",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "missing-input",
+      "exit_status": 2,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "invalid-number",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "missing-option-value",
+      "exit_status": 2,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "unknown-option",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "conflicting-options",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "override-side-effects",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "incompatible-options",
+      "exit_status": 2,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "nested-response",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "missing-response",
+      "exit_status": 2,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "response-cycle",
+      "exit_status": 2,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "link-tail",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "link-attached",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "force-c",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "force-cpp",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "force-object",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "undefine-predefines",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "preprocess-stdout",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "preprocess-file",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "prototype-only",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "syntax-only",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "assembly-listing",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "required-option-present",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "required-option-missing",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "map-and-renamed-output",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "dll-output",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "dll-exp-input",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "replace-passes",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "pass-loader",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "child-failure",
+      "exit_status": 2,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "child-not-found",
+      "exit_status": 2,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "ide-feedback",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "timing",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": [
+        2026,
+        1,
+        15,
+        0
+      ]
+    },
+    {
+      "id": "two-sources",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "environment-precedence",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "include-search-list",
+      "exit_status": 2,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "include-search-expansion",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "include-unquoted-space",
+      "exit_status": 2,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "legacy-omf-selector",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "mixed-ordering",
+      "exit_status": 0,
+      "mode": null,
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "interrupt-idle",
+      "exit_status": 4,
+      "mode": "handler-idle",
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "interrupt-child",
+      "exit_status": 4,
+      "mode": "handler-child",
+      "internal_state": null,
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "internal-omf-dryrun",
+      "exit_status": 0,
+      "mode": "omf-state",
+      "internal_state": "At accepted link_pass entry, set coff_format to zero. The current pass record is retained.",
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "internal-omf-file",
+      "exit_status": 2,
+      "mode": "omf-state",
+      "internal_state": "At accepted link_pass entry, set coff_format to zero. A controlled linker returns 7 without reading the generated response, and /Bk preserves it.",
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "internal-ide-null-buffer",
+      "exit_status": 2,
+      "mode": "ide-null-buffer",
+      "internal_state": "At accepted ide_message entry, clear the installed frame-buffer pointer to exercise its registered assertion callback.",
+      "controlled_clock_calendar": null
+    },
+    {
+      "id": "timing-utc",
+      "exit_status": 0,
+      "mode": "clock",
+      "internal_state": null,
+      "controlled_clock_calendar": [
+        2026,
+        1,
+        15,
+        0
+      ]
+    },
+    {
+      "id": "timing-positive-sign",
+      "exit_status": 0,
+      "mode": "clock",
+      "internal_state": null,
+      "controlled_clock_calendar": [
+        2026,
+        1,
+        15,
+        0
+      ]
+    },
+    {
+      "id": "timing-negative-offset",
+      "exit_status": 0,
+      "mode": "clock",
+      "internal_state": null,
+      "controlled_clock_calendar": [
+        2026,
+        1,
+        15,
+        0
+      ]
+    },
+    {
+      "id": "timing-dst-start-before",
+      "exit_status": 0,
+      "mode": "clock",
+      "internal_state": null,
+      "controlled_clock_calendar": [
+        2026,
+        4,
+        5,
+        1
+      ]
+    },
+    {
+      "id": "timing-dst-start-after",
+      "exit_status": 0,
+      "mode": "clock",
+      "internal_state": null,
+      "controlled_clock_calendar": [
+        2026,
+        4,
+        5,
+        3
+      ]
+    },
+    {
+      "id": "timing-dst-end-before",
+      "exit_status": 0,
+      "mode": "clock",
+      "internal_state": null,
+      "controlled_clock_calendar": [
+        2026,
+        10,
+        25,
+        0
+      ]
+    },
+    {
+      "id": "timing-dst-end-after",
+      "exit_status": 0,
+      "mode": "clock",
+      "internal_state": null,
+      "controlled_clock_calendar": [
+        2026,
+        10,
+        25,
+        2
+      ]
+    },
+    {
+      "id": "timing-early-year",
+      "exit_status": 0,
+      "mode": "clock",
+      "internal_state": null,
+      "controlled_clock_calendar": [
+        1960,
+        7,
+        15,
+        0
+      ]
+    },
+    {
+      "id": "timing-old-april-rule",
+      "exit_status": 0,
+      "mode": "clock",
+      "internal_state": null,
+      "controlled_clock_calendar": [
+        1980,
+        4,
+        27,
+        3
+      ]
+    }
+  ]
+}

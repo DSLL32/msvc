@@ -1,15 +1,15 @@
 {
-  "schema": 1,
-  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "schema": 2,
+  "provenance": "Fresh original CL and child capture using fixed shared R:/S: drives; no native execution or relabeled raw data",
   "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
   "case": "ide-feedback",
   "arguments": "/FEEDBACK /c test.c",
   "environment": {
-    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
-    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
-    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
-    "TMP": "Q:\\ide-feedback",
-    "TEMP": "Q:\\ide-feedback"
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "TMP": ".",
+    "TEMP": "."
   },
   "initial": {
     "test.c": {
@@ -17,19 +17,141 @@
       "bytes": 26
     }
   },
+  "original_entry_proof": {
+    "method": "One-shot original application entry breakpoints; accepted application prefix excluded",
+    "seen_prefix": [
+      "main",
+      "install_control_handler",
+      "split_arguments",
+      "count_arguments",
+      "has_nologo",
+      "banner",
+      "write_message",
+      "format_message",
+      "program_name",
+      "initialize_driver",
+      "program_directory",
+      "copy_string",
+      "join_path",
+      "search_path",
+      "concatenate",
+      "allocate",
+      "parse_arguments",
+      "scan_option_kind",
+      "parse_option",
+      "find_rule",
+      "match_rule",
+      "read_option",
+      "new_item",
+      "append_items",
+      "expand_options",
+      "skip_space",
+      "expand_text",
+      "append_optional",
+      "select_options",
+      "free_items",
+      "match_item",
+      "validate_value",
+      "unsigned_digits",
+      "recycle_item",
+      "release",
+      "parse_attached_option",
+      "is_decimal",
+      "expand_choice",
+      "expand_extension",
+      "last_of",
+      "option_callback_190d0",
+      "remove_define",
+      "finish_options",
+      "is_for_pass",
+      "expand_filename",
+      "filename_stem",
+      "driver_switch_171fc",
+      "driver_switch_172e4",
+      "driver_switch_17274",
+      "load_messages",
+      "console_rows",
+      "classify_input",
+      "add_input",
+      "new_input",
+      "prepare_inputs",
+      "prepare_execution",
+      "run_driver",
+      "run_passes",
+      "initialize_pass",
+      "compile_pass",
+      "expanded_length",
+      "nonblank_length",
+      "is_space",
+      "append_string",
+      "quote_if_space",
+      "spawn_pass",
+      "cleanup_files",
+      "link_pass",
+      "write_coff_response",
+      "file_message",
+      "driver_exit",
+      "detach_item",
+      "usage",
+      "option_callback_1920c",
+      "force_input",
+      "fatal",
+      "diagnostic_text",
+      "write_message_list",
+      "warning",
+      "warn_override",
+      "copy_item",
+      "driver_switch_17368",
+      "any_match",
+      "read_response_file",
+      "option_callback_19014",
+      "option_callback_19228",
+      "option_callback_19198",
+      "driver_switch_170a0",
+      "driver_switch_1713c",
+      "driver_switch_1719c",
+      "driver_switch_17010",
+      "output_stem",
+      "map_filename",
+      "driver_switch_173ac"
+    ],
+    "plan": {
+      "control_handler": "0xafcc",
+      "ide_abort": "0xacc7",
+      "ide_descriptor": "0xad00",
+      "ide_install": "0xae4c",
+      "ide_message": "0xad08",
+      "ide_write": "0xacd4",
+      "initialize_ide": "0xac84",
+      "report_timer": "0xabd1",
+      "start_timer": "0xabc3",
+      "write_omf_response": "0x9ae1"
+    },
+    "entries": [
+      "initialize_ide",
+      "ide_install",
+      "ide_descriptor",
+      "ide_message",
+      "ide_write"
+    ],
+    "events": "application-entry 0000ac84\napplication-entry 0000ae4c\napplication-entry 0000ad00\napplication-entry 0000ad08\napplication-entry 0000acd4\nexit 00000000\n",
+    "capture_helper_sha256": "e40f18e3a94d0555660517b49de99bf19368a32538754a4ebc486b82b0724eb0",
+    "capture_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+    "case_cwd": "S:\\vc1.0\\cl\\ide-feedback"
+  },
   "boundaries": [
     {
       "mode": 0,
-      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
       "argv": [
-        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe"
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
       ],
       "environment": [
-        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Q:\\ide-feedback\\000292 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -ide -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\001412 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -ide -I R:\\toolchains\\1.0-nt\\include "
       ],
       "status": 0,
       "errno": 0,
-      "cwd": "Q:\\ide-feedback",
+      "cwd": "S:\\vc1.0\\cl\\ide-feedback",
       "before": {
         "test.c": {
           "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
@@ -37,19 +159,19 @@
         }
       },
       "after": {
-        "000292ex": {
+        "001412ex": {
           "sha256": "0d9286f298f6b7c7ed18130d6ad429da4a053b7bed65abd223c606b689e71070",
           "bytes": 866
         },
-        "000292gl": {
+        "001412gl": {
           "sha256": "97b9a9b6d3935f0bf52fc9ce60ecec9696e25f15d6776c3dee7e865db7c28e8f",
           "bytes": 50
         },
-        "000292in": {
+        "001412in": {
           "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b",
           "bytes": 3
         },
-        "000292sy": {
+        "001412sy": {
           "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671",
           "bytes": 13
         },
@@ -63,36 +185,36 @@
         "bytes": 0
       },
       "stderr": {
-        "sha256": "95416df0a1d77d4199a71138d86c8cba1b6a21bc18bf79ba4f4ca405972d96e9",
-        "bytes": 39
+        "sha256": "5b42795683016bec57a8462131d8b26c16f3ecb80cca26c3bc288c5bb7324cf5",
+        "bytes": 48
       }
     },
     {
       "mode": 0,
-      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
       "argv": [
-        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe"
+        "R:\\toolchains\\1.0-nt\\bin\\c23232.exe"
       ],
       "environment": [
-        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Q:\\ide-feedback\\000292 -f test.c -W 1 -G4 -Gs4096 -dos -Fotest.obj -ML -ide "
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il .\\001412 -f test.c -W 1 -G4 -Gs4096 -dos -Fotest.obj -ML -ide "
       ],
       "status": 0,
       "errno": 0,
-      "cwd": "Q:\\ide-feedback",
+      "cwd": "S:\\vc1.0\\cl\\ide-feedback",
       "before": {
-        "000292ex": {
+        "001412ex": {
           "sha256": "0d9286f298f6b7c7ed18130d6ad429da4a053b7bed65abd223c606b689e71070",
           "bytes": 866
         },
-        "000292gl": {
+        "001412gl": {
           "sha256": "97b9a9b6d3935f0bf52fc9ce60ecec9696e25f15d6776c3dee7e865db7c28e8f",
           "bytes": 50
         },
-        "000292in": {
+        "001412in": {
           "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b",
           "bytes": 3
         },
-        "000292sy": {
+        "001412sy": {
           "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671",
           "bytes": 13
         },
@@ -102,19 +224,19 @@
         }
       },
       "after": {
-        "000292ex": {
+        "001412ex": {
           "sha256": "0d9286f298f6b7c7ed18130d6ad429da4a053b7bed65abd223c606b689e71070",
           "bytes": 866
         },
-        "000292gl": {
+        "001412gl": {
           "sha256": "97b9a9b6d3935f0bf52fc9ce60ecec9696e25f15d6776c3dee7e865db7c28e8f",
           "bytes": 50
         },
-        "000292in": {
+        "001412in": {
           "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b",
           "bytes": 3
         },
-        "000292sy": {
+        "001412sy": {
           "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671",
           "bytes": 13
         },
@@ -123,7 +245,7 @@
           "bytes": 26
         },
         "test.obj": {
-          "sha256": "3b32a963d486c3c91fc365742e4c8f0ac9bac57f74cc9a4840148d36e7fc623e",
+          "sha256": "42b366a5232aaddfbb3e0dd0b4f6decd3f5fe4c48aff926f810dda0b99f39ad1",
           "bytes": 286
         }
       },
@@ -140,11 +262,21 @@
   "final": {
     "test.c": {
       "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
-      "bytes": 26
+      "bytes": 26,
+      "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "ignored_fields": []
     },
     "test.obj": {
-      "sha256": "3b32a963d486c3c91fc365742e4c8f0ac9bac57f74cc9a4840148d36e7fc623e",
-      "bytes": 286
+      "sha256": "42b366a5232aaddfbb3e0dd0b4f6decd3f5fe4c48aff926f810dda0b99f39ad1",
+      "bytes": 286,
+      "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+      "ignored_fields": [
+        {
+          "offset": 4,
+          "size": 4,
+          "reason": "COFF TimeDateStamp"
+        }
+      ]
     }
   },
   "stdout": {
@@ -152,14 +284,14 @@
     "bytes": 0
   },
   "stderr": {
-    "sha256": "e17832726a93c29fc44247d113c63e230e7e631de464faa9c7d5fc475f553d77",
-    "bytes": 354
+    "sha256": "a2ad07a9e9b0784723ea330a104701b31e287994c837ae00093a235ca5359d21",
+    "bytes": 363
   },
-  "events": "exit 00000000\n",
+  "events": "application-entry 0000ac84\napplication-entry 0000ae4c\napplication-entry 0000ad00\napplication-entry 0000ad08\napplication-entry 0000acd4\nexit 00000000\n",
   "timing": {
-    "setup_seconds": 0.00544853787869215,
-    "capture_execution_seconds": 6.1101567121222615,
-    "capture_checks_seconds": 0.008635077625513077,
-    "total_seconds": 6.124241718091071
+    "setup_seconds": 0.0679732384160161,
+    "capture_execution_seconds": 2.6622442873194814,
+    "capture_checks_seconds": 0.03128552623093128,
+    "total_seconds": 2.7615047404542565
   }
 }

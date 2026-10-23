@@ -21,7 +21,7 @@ def module(name):
     return importlib.machinery.SourceFileLoader('cl_'+name.replace('-','_'),str(HERE/(name+'.py'))).load_module()
 
 cases=module('native-cases');traces=module('native-traces');processes=module('native-processes');artifacts=module('native-artifacts')
-SCRATCH=Path.home()/'.ai-tmp/vc1.0-cl/native-check'
+SCRATCH=cases.SCRATCH/'vc1.0/cl/native-check'
 
 
 def execute(executable,case,environment,work,streams,pass_fds,receipt_directory):
@@ -68,32 +68,33 @@ def windows_arguments(text):
     return result
 
 
-def verify_frozen_artifacts(reference,oracle,directory):
+def verify_captured_artifacts(reference,oracle,directory):
     if 'products' in oracle:
         expected={name:row['original'] for name,row in oracle['products'].items()}
-        assert set(reference['final'])==set(expected), 'captured artifact names differ from frozen oracle'
+        assert set(reference['final'])==set(expected), 'captured artifact names differ from original capture'
     else:
         expected=oracle.get('artifacts',{})
         assert set(reference['final'])==set(reference['initial'])|set(expected), 'captured artifact names differ from historical case'
     for name,row in expected.items():
         data=processes.contents(reference['final'][name])
-        assert len(data)==row['bytes'], 'captured artifact length differs from frozen oracle: '+name
-        temporary=directory/('frozen-artifact'+Path(name).suffix)
+        assert len(data)==row['bytes'], 'captured artifact length differs from original capture: '+name
+        temporary=directory/('captured-artifact'+Path(name).suffix)
         temporary.write_bytes(data)
         normalized,_=artifacts.normalized_artifact(temporary);temporary.unlink()
-        assert cases.sha(normalized)==row['normalized_sha256'], 'captured artifact differs from frozen oracle: '+name
+        assert cases.sha(normalized)==row['normalized_sha256'], 'captured artifact differs from original capture: '+name
 
 
 def run(case,cache,trace,root):
     begin=time.perf_counter();case_id=case['id'];directory=root/case_id;directory.mkdir()
-    work=directory/case_id;cases.prepare(case,work)
+    work,namespace=cases.native_work(directory,case_id);cases.prepare(case,work)
     reference=json.loads((processes.STORE/(case_id+'.json')).read_text())
     oracle=cases.oracles()[case_id]
-    verify_frozen_artifacts(reference,oracle,directory)
+    verify_captured_artifacts(reference,oracle,directory)
     assert processes.inventory(work)==reference['initial'], 'initial case input differs from original capture'
     environment={k:v for k,v in os.environ.items() if not k.startswith('RECON_') and k not in ('CL','_CL_','_MSC_IDE_FLAGS','LINK','_LINK_','MSC_CMD_FLAGS','TMP','TEMP','TZ')}
     environment.update(reference['environment'])
-    environment.update(RECON_DRIVE_Q=str(work.parent),RECON_PROGRAM_PATH=cases.windows(cases.BINARY/'build/native-reference.exe'),LC_ALL='C',SHELL='/bin/sh',TZ=reference['environment'].get('TZ','PST8PDT'))
+    environment.update(namespace)
+    environment.update(RECON_PROGRAM_PATH=cases.windows(cases.BINARY/'build/native-reference.exe'),LC_ALL='C',SHELL='/bin/sh',TZ=reference['environment'].get('TZ','PST8PDT'))
     # Pin the original temporary basename for byte-exact invocation and trees.
     for boundary in reference['boundaries']:
         for entry in boundary.get('environment') or []:
@@ -102,7 +103,7 @@ def run(case,cache,trace,root):
                 environment['RECON_MKTEMP_SUFFIX']=match[1][-6:];break
         if 'RECON_MKTEMP_SUFFIX' not in environment:
             for argument in boundary['argv']:
-                match=re.fullmatch(r'@Q:\\[^\\]+\\([A-Za-z0-9]{6})lk',argument)
+                match=re.fullmatch(r'@(?:[.][\\/])?([A-Za-z0-9]{6})lk',argument)
                 if match:environment['RECON_MKTEMP_SUFFIX']=match[1];break
         if 'RECON_MKTEMP_SUFFIX' in environment:break
     mode=case.get('mode') or ('clock' if case_id=='timing' else None)

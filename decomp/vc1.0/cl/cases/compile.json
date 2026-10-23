@@ -12,40 +12,6 @@
     "entry": "0x1c750"
   },
   "exit_status": 0,
-  "streams": {
-    "stdout": {
-      "bytes": 164,
-      "sha256": "ac79018e3f31b6c2fe06b4718e9e6d00c289ad7e3245b47d354351c491f01ad4"
-    },
-    "stderr": {
-      "bytes": 131,
-      "sha256": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
-    }
-  },
-  "artifacts": {
-    "test.obj": {
-      "bytes": 286,
-      "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
-      "ignored_fields": [
-        {
-          "offset": 4,
-          "bytes": 4,
-          "description": "COFF TimeDateStamp"
-        }
-      ]
-    },
-    "test.exe": {
-      "bytes": 2097152,
-      "normalized_sha256": "92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16",
-      "ignored_fields": [
-        {
-          "offset": 136,
-          "bytes": 4,
-          "description": "COFF TimeDateStamp"
-        }
-      ]
-    }
-  },
   "generated_program": {
     "exit_status": 0,
     "stdout_bytes": 0,
@@ -56,17 +22,10 @@
     "C23232.EXE",
     "LINK.EXE"
   ],
-  "validation": {
-    "clean_parallel_build": "make clean && make -j2 check",
-    "trap_replay": "make replay",
-    "prior_help_frontiers": 140,
-    "new_compile_frontiers": 40,
-    "total_matching_frontiers": 180,
-    "source_functions_with_matching_callee_sets": 75,
-    "unmodified_original_streams_match": true,
-    "original_reconstruction_and_baseline_artifacts_match_except_timestamps": true,
-    "help_regression_passed": true,
-    "replay_log_sha256": "e7a8dd9020501788e4520c24059e6385b35e1d76ed371b416e577d0311b968c2",
-    "clean_build_log_sha256": "286e57d8fd3c939ce7421cf7b99c51dd7ba497a60c7d894c74f4e5a85c30f930"
+  "original_reference": "native-boundaries/compile.json",
+  "historical_acceptance": {
+    "arguments": "test.c",
+    "accepted_from": 140,
+    "accepted_count": 180
   }
 }

@@ -1,15 +1,15 @@
 {
-  "schema": 1,
-  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "schema": 2,
+  "provenance": "Fresh original CL and child capture using fixed shared R:/S: drives; no native execution or relabeled raw data",
   "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
   "case": "two-sources",
   "arguments": "call.c helper.c /Fetwo.exe",
   "environment": {
-    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
-    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
-    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
-    "TMP": "Q:\\two-sources",
-    "TEMP": "Q:\\two-sources"
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "TMP": ".",
+    "TEMP": "."
   },
   "initial": {
     "call.c": {
@@ -21,19 +21,134 @@
       "bytes": 32
     }
   },
+  "original_entry_proof": {
+    "method": "One-shot original application entry breakpoints; accepted application prefix excluded",
+    "seen_prefix": [
+      "main",
+      "install_control_handler",
+      "split_arguments",
+      "count_arguments",
+      "has_nologo",
+      "banner",
+      "write_message",
+      "format_message",
+      "program_name",
+      "initialize_driver",
+      "program_directory",
+      "copy_string",
+      "join_path",
+      "search_path",
+      "concatenate",
+      "allocate",
+      "parse_arguments",
+      "scan_option_kind",
+      "parse_option",
+      "find_rule",
+      "match_rule",
+      "read_option",
+      "new_item",
+      "append_items",
+      "expand_options",
+      "skip_space",
+      "expand_text",
+      "append_optional",
+      "select_options",
+      "free_items",
+      "match_item",
+      "validate_value",
+      "unsigned_digits",
+      "recycle_item",
+      "release",
+      "parse_attached_option",
+      "is_decimal",
+      "expand_choice",
+      "expand_extension",
+      "last_of",
+      "option_callback_190d0",
+      "remove_define",
+      "finish_options",
+      "is_for_pass",
+      "expand_filename",
+      "filename_stem",
+      "driver_switch_171fc",
+      "driver_switch_172e4",
+      "driver_switch_17274",
+      "load_messages",
+      "console_rows",
+      "classify_input",
+      "add_input",
+      "new_input",
+      "prepare_inputs",
+      "prepare_execution",
+      "run_driver",
+      "run_passes",
+      "initialize_pass",
+      "compile_pass",
+      "expanded_length",
+      "nonblank_length",
+      "is_space",
+      "append_string",
+      "quote_if_space",
+      "spawn_pass",
+      "cleanup_files",
+      "link_pass",
+      "write_coff_response",
+      "file_message",
+      "driver_exit",
+      "detach_item",
+      "usage",
+      "option_callback_1920c",
+      "force_input",
+      "fatal",
+      "diagnostic_text",
+      "write_message_list",
+      "warning",
+      "warn_override",
+      "copy_item",
+      "driver_switch_17368",
+      "any_match",
+      "read_response_file",
+      "option_callback_19014",
+      "option_callback_19228",
+      "option_callback_19198",
+      "driver_switch_170a0",
+      "driver_switch_1713c",
+      "driver_switch_1719c",
+      "driver_switch_17010",
+      "output_stem",
+      "map_filename",
+      "driver_switch_173ac",
+      "initialize_ide",
+      "ide_install",
+      "ide_descriptor",
+      "ide_message",
+      "ide_write",
+      "start_timer",
+      "report_timer",
+      "control_handler",
+      "write_omf_response",
+      "ide_abort"
+    ],
+    "plan": {},
+    "entries": [],
+    "events": "exit 00000000\n",
+    "capture_helper_sha256": "e40f18e3a94d0555660517b49de99bf19368a32538754a4ebc486b82b0724eb0",
+    "capture_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+    "case_cwd": "S:\\vc1.0\\cl\\two-sources"
+  },
   "boundaries": [
     {
       "mode": 0,
-      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
       "argv": [
-        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe"
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
       ],
       "environment": [
-        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Q:\\two-sources\\000292 -f call.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Focall.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\001492 -f call.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Focall.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I R:\\toolchains\\1.0-nt\\include "
       ],
       "status": 0,
       "errno": 0,
-      "cwd": "Q:\\two-sources",
+      "cwd": "S:\\vc1.0\\cl\\two-sources",
       "before": {
         "call.c": {
           "sha256": "5ee01786f782f3062fcaa3d314d1211cfd4a32b81cc6ce6ee2b57f31b8321e69",
@@ -45,19 +160,19 @@
         }
       },
       "after": {
-        "000292ex": {
+        "001492ex": {
           "sha256": "173da19cccbb197cd92fd12a280a592f12969f50f414320ab47d07956552215b",
           "bytes": 875
         },
-        "000292gl": {
+        "001492gl": {
           "sha256": "893dfa6fa6528900bd1f0994c97a64d59300bdfc9f003f609a47c96173fd64ff",
           "bytes": 67
         },
-        "000292in": {
+        "001492in": {
           "sha256": "78a65bedbf44a8dae4437a12156dd6bf026eb0504287d4385cd62ec69ed7c967",
           "bytes": 3
         },
-        "000292sy": {
+        "001492sy": {
           "sha256": "f8c0dbc7bd9f005cda148d73fc7d3b2837ea8301a231de12edfaff131448ea92",
           "bytes": 13
         },
@@ -81,30 +196,30 @@
     },
     {
       "mode": 0,
-      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
       "argv": [
-        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe"
+        "R:\\toolchains\\1.0-nt\\bin\\c23232.exe"
       ],
       "environment": [
-        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Q:\\two-sources\\000292 -f call.c -W 1 -G4 -Gs4096 -dos -Focall.obj -ML "
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il .\\001492 -f call.c -W 1 -G4 -Gs4096 -dos -Focall.obj -ML "
       ],
       "status": 0,
       "errno": 0,
-      "cwd": "Q:\\two-sources",
+      "cwd": "S:\\vc1.0\\cl\\two-sources",
       "before": {
-        "000292ex": {
+        "001492ex": {
           "sha256": "173da19cccbb197cd92fd12a280a592f12969f50f414320ab47d07956552215b",
           "bytes": 875
         },
-        "000292gl": {
+        "001492gl": {
           "sha256": "893dfa6fa6528900bd1f0994c97a64d59300bdfc9f003f609a47c96173fd64ff",
           "bytes": 67
         },
-        "000292in": {
+        "001492in": {
           "sha256": "78a65bedbf44a8dae4437a12156dd6bf026eb0504287d4385cd62ec69ed7c967",
           "bytes": 3
         },
-        "000292sy": {
+        "001492sy": {
           "sha256": "f8c0dbc7bd9f005cda148d73fc7d3b2837ea8301a231de12edfaff131448ea92",
           "bytes": 13
         },
@@ -118,19 +233,19 @@
         }
       },
       "after": {
-        "000292ex": {
+        "001492ex": {
           "sha256": "173da19cccbb197cd92fd12a280a592f12969f50f414320ab47d07956552215b",
           "bytes": 875
         },
-        "000292gl": {
+        "001492gl": {
           "sha256": "893dfa6fa6528900bd1f0994c97a64d59300bdfc9f003f609a47c96173fd64ff",
           "bytes": 67
         },
-        "000292in": {
+        "001492in": {
           "sha256": "78a65bedbf44a8dae4437a12156dd6bf026eb0504287d4385cd62ec69ed7c967",
           "bytes": 3
         },
-        "000292sy": {
+        "001492sy": {
           "sha256": "f8c0dbc7bd9f005cda148d73fc7d3b2837ea8301a231de12edfaff131448ea92",
           "bytes": 13
         },
@@ -139,7 +254,7 @@
           "bytes": 60
         },
         "call.obj": {
-          "sha256": "ac366b09047167158b2bcb664af9f334c4b3aaa47addba9570491e3fd9ca1f8d",
+          "sha256": "58ea7a9f522bda96e84c748e9d50f920ee86610be90add6d9c39e780f5063e93",
           "bytes": 326
         },
         "helper.c": {
@@ -158,23 +273,23 @@
     },
     {
       "mode": 0,
-      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
       "argv": [
-        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe"
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
       ],
       "environment": [
-        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Q:\\two-sources\\000292 -f helper.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fohelper.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\001492 -f helper.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fohelper.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I R:\\toolchains\\1.0-nt\\include "
       ],
       "status": 0,
       "errno": 0,
-      "cwd": "Q:\\two-sources",
+      "cwd": "S:\\vc1.0\\cl\\two-sources",
       "before": {
         "call.c": {
           "sha256": "5ee01786f782f3062fcaa3d314d1211cfd4a32b81cc6ce6ee2b57f31b8321e69",
           "bytes": 60
         },
         "call.obj": {
-          "sha256": "ac366b09047167158b2bcb664af9f334c4b3aaa47addba9570491e3fd9ca1f8d",
+          "sha256": "58ea7a9f522bda96e84c748e9d50f920ee86610be90add6d9c39e780f5063e93",
           "bytes": 326
         },
         "helper.c": {
@@ -183,19 +298,19 @@
         }
       },
       "after": {
-        "000292ex": {
+        "001492ex": {
           "sha256": "030a8fbe38e25e89cfe8dce8d946bc16158ff6fd39527ba439c43af7e9ccfa88",
           "bytes": 866
         },
-        "000292gl": {
+        "001492gl": {
           "sha256": "562ec76b9bbd0cd522e410cb651acd2d40681570a93c0837d632e82b7933373c",
           "bytes": 54
         },
-        "000292in": {
+        "001492in": {
           "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b",
           "bytes": 3
         },
-        "000292sy": {
+        "001492sy": {
           "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671",
           "bytes": 13
         },
@@ -204,7 +319,7 @@
           "bytes": 60
         },
         "call.obj": {
-          "sha256": "ac366b09047167158b2bcb664af9f334c4b3aaa47addba9570491e3fd9ca1f8d",
+          "sha256": "58ea7a9f522bda96e84c748e9d50f920ee86610be90add6d9c39e780f5063e93",
           "bytes": 326
         },
         "helper.c": {
@@ -223,30 +338,30 @@
     },
     {
       "mode": 0,
-      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
       "argv": [
-        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe"
+        "R:\\toolchains\\1.0-nt\\bin\\c23232.exe"
       ],
       "environment": [
-        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Q:\\two-sources\\000292 -f helper.c -W 1 -G4 -Gs4096 -dos -Fohelper.obj -ML "
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il .\\001492 -f helper.c -W 1 -G4 -Gs4096 -dos -Fohelper.obj -ML "
       ],
       "status": 0,
       "errno": 0,
-      "cwd": "Q:\\two-sources",
+      "cwd": "S:\\vc1.0\\cl\\two-sources",
       "before": {
-        "000292ex": {
+        "001492ex": {
           "sha256": "030a8fbe38e25e89cfe8dce8d946bc16158ff6fd39527ba439c43af7e9ccfa88",
           "bytes": 866
         },
-        "000292gl": {
+        "001492gl": {
           "sha256": "562ec76b9bbd0cd522e410cb651acd2d40681570a93c0837d632e82b7933373c",
           "bytes": 54
         },
-        "000292in": {
+        "001492in": {
           "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b",
           "bytes": 3
         },
-        "000292sy": {
+        "001492sy": {
           "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671",
           "bytes": 13
         },
@@ -255,7 +370,7 @@
           "bytes": 60
         },
         "call.obj": {
-          "sha256": "ac366b09047167158b2bcb664af9f334c4b3aaa47addba9570491e3fd9ca1f8d",
+          "sha256": "58ea7a9f522bda96e84c748e9d50f920ee86610be90add6d9c39e780f5063e93",
           "bytes": 326
         },
         "helper.c": {
@@ -264,19 +379,19 @@
         }
       },
       "after": {
-        "000292ex": {
+        "001492ex": {
           "sha256": "030a8fbe38e25e89cfe8dce8d946bc16158ff6fd39527ba439c43af7e9ccfa88",
           "bytes": 866
         },
-        "000292gl": {
+        "001492gl": {
           "sha256": "562ec76b9bbd0cd522e410cb651acd2d40681570a93c0837d632e82b7933373c",
           "bytes": 54
         },
-        "000292in": {
+        "001492in": {
           "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b",
           "bytes": 3
         },
-        "000292sy": {
+        "001492sy": {
           "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671",
           "bytes": 13
         },
@@ -285,7 +400,7 @@
           "bytes": 60
         },
         "call.obj": {
-          "sha256": "ac366b09047167158b2bcb664af9f334c4b3aaa47addba9570491e3fd9ca1f8d",
+          "sha256": "58ea7a9f522bda96e84c748e9d50f920ee86610be90add6d9c39e780f5063e93",
           "bytes": 326
         },
         "helper.c": {
@@ -293,7 +408,7 @@
           "bytes": 32
         },
         "helper.obj": {
-          "sha256": "8350e23007ff1346b2bfcbfece3205be873a9bc6449f0aa33fce2ac9a4291b41",
+          "sha256": "ddb8c515efbe04128e9aceead1092b9b73d81eea91d37000993b0d3bf4b5506a",
           "bytes": 289
         }
       },
@@ -308,18 +423,18 @@
     },
     {
       "mode": 0,
-      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe",
+      "file": "R:\\toolchains\\1.0-nt\\bin\\link.exe",
       "argv": [
-        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe",
+        "R:\\toolchains\\1.0-nt\\bin\\link.exe",
         "-link",
-        "@Q:\\two-sources\\000292lk"
+        "@.\\001492lk"
       ],
       "environment": null,
       "status": 0,
       "errno": 0,
-      "cwd": "Q:\\two-sources",
+      "cwd": "S:\\vc1.0\\cl\\two-sources",
       "before": {
-        "000292lk": {
+        "001492lk": {
           "sha256": "9668d87c98b5c0ea6b55aac44bd3d551f2dbe277c4744bf7e4502c6018b6ffe1",
           "bytes": 49
         },
@@ -328,7 +443,7 @@
           "bytes": 60
         },
         "call.obj": {
-          "sha256": "ac366b09047167158b2bcb664af9f334c4b3aaa47addba9570491e3fd9ca1f8d",
+          "sha256": "58ea7a9f522bda96e84c748e9d50f920ee86610be90add6d9c39e780f5063e93",
           "bytes": 326
         },
         "helper.c": {
@@ -336,12 +451,12 @@
           "bytes": 32
         },
         "helper.obj": {
-          "sha256": "8350e23007ff1346b2bfcbfece3205be873a9bc6449f0aa33fce2ac9a4291b41",
+          "sha256": "ddb8c515efbe04128e9aceead1092b9b73d81eea91d37000993b0d3bf4b5506a",
           "bytes": 289
         }
       },
       "after": {
-        "000292lk": {
+        "001492lk": {
           "sha256": "9668d87c98b5c0ea6b55aac44bd3d551f2dbe277c4744bf7e4502c6018b6ffe1",
           "bytes": 49
         },
@@ -350,7 +465,7 @@
           "bytes": 60
         },
         "call.obj": {
-          "sha256": "ac366b09047167158b2bcb664af9f334c4b3aaa47addba9570491e3fd9ca1f8d",
+          "sha256": "58ea7a9f522bda96e84c748e9d50f920ee86610be90add6d9c39e780f5063e93",
           "bytes": 326
         },
         "helper.c": {
@@ -358,11 +473,11 @@
           "bytes": 32
         },
         "helper.obj": {
-          "sha256": "8350e23007ff1346b2bfcbfece3205be873a9bc6449f0aa33fce2ac9a4291b41",
+          "sha256": "ddb8c515efbe04128e9aceead1092b9b73d81eea91d37000993b0d3bf4b5506a",
           "bytes": 289
         },
         "two.exe": {
-          "sha256": "0e78e524960ca2af941567b1346ce48364c482bcf0c69e65325b18a7d2afbfa7",
+          "sha256": "e4113a0fcf044dba1bfbd17542fffba2058f4e9e749318651f4d71ac78082f64",
           "bytes": 2097152
         }
       },
@@ -379,23 +494,51 @@
   "final": {
     "call.c": {
       "sha256": "5ee01786f782f3062fcaa3d314d1211cfd4a32b81cc6ce6ee2b57f31b8321e69",
-      "bytes": 60
+      "bytes": 60,
+      "normalized_sha256": "5ee01786f782f3062fcaa3d314d1211cfd4a32b81cc6ce6ee2b57f31b8321e69",
+      "ignored_fields": []
     },
     "call.obj": {
-      "sha256": "ac366b09047167158b2bcb664af9f334c4b3aaa47addba9570491e3fd9ca1f8d",
-      "bytes": 326
+      "sha256": "58ea7a9f522bda96e84c748e9d50f920ee86610be90add6d9c39e780f5063e93",
+      "bytes": 326,
+      "normalized_sha256": "6b4ed6d053358831cfda7cbb624dbaf08c99d5463dfda105d4696a600c8406de",
+      "ignored_fields": [
+        {
+          "offset": 4,
+          "size": 4,
+          "reason": "COFF TimeDateStamp"
+        }
+      ]
     },
     "helper.c": {
       "sha256": "d2ee72eea6fb9b6a2ce93777ac97e9f1d7183f9233923f434ff0d9f61a4aa9d5",
-      "bytes": 32
+      "bytes": 32,
+      "normalized_sha256": "d2ee72eea6fb9b6a2ce93777ac97e9f1d7183f9233923f434ff0d9f61a4aa9d5",
+      "ignored_fields": []
     },
     "helper.obj": {
-      "sha256": "8350e23007ff1346b2bfcbfece3205be873a9bc6449f0aa33fce2ac9a4291b41",
-      "bytes": 289
+      "sha256": "ddb8c515efbe04128e9aceead1092b9b73d81eea91d37000993b0d3bf4b5506a",
+      "bytes": 289,
+      "normalized_sha256": "47d9697e2478c21ce70abc66700eb7dce79dcfd353d0cf3303afe5c6185645e7",
+      "ignored_fields": [
+        {
+          "offset": 4,
+          "size": 4,
+          "reason": "COFF TimeDateStamp"
+        }
+      ]
     },
     "two.exe": {
-      "sha256": "0e78e524960ca2af941567b1346ce48364c482bcf0c69e65325b18a7d2afbfa7",
-      "bytes": 2097152
+      "sha256": "e4113a0fcf044dba1bfbd17542fffba2058f4e9e749318651f4d71ac78082f64",
+      "bytes": 2097152,
+      "normalized_sha256": "ffc6ad9f0148c2ee120d2fd4252d25dacac4bc9d205e7342231867bca8a2772c",
+      "ignored_fields": [
+        {
+          "offset": 136,
+          "size": 4,
+          "reason": "PE COFF TimeDateStamp"
+        }
+      ]
     }
   },
   "stdout": {
@@ -408,9 +551,9 @@
   },
   "events": "exit 00000000\n",
   "timing": {
-    "setup_seconds": 0.010823462158441544,
-    "capture_execution_seconds": 6.641614420339465,
-    "capture_checks_seconds": 0.058878461830317974,
-    "total_seconds": 6.711317569948733
+    "setup_seconds": 0.06990044843405485,
+    "capture_execution_seconds": 4.513793619349599,
+    "capture_checks_seconds": 0.08133876789361238,
+    "total_seconds": 4.6650342075154185
   }
 }

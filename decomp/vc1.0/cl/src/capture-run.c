@@ -44,6 +44,9 @@ static char capture_root[1024], work_root[1024];
 static DWORD capture_count, spawn_address, return_address, saved_out, saved_err;
 static BYTE return_byte;
 static FILE *record;
+typedef struct AppEntry { DWORD rva; BYTE byte; int active; } AppEntry;
+static AppEntry app_entries[128];
+static unsigned app_count;
 
 static void copy_tree(char *source, char *destination)
 {
@@ -103,6 +106,7 @@ int main(int argc, char **argv)
     SYSTEMTIME fixed_time;
     unsigned clock_year = 2026, clock_month = 1, clock_day = 15, clock_hour = 0;
     int thread_count = 0, t, loader_break = 0;
+    unsigned app_index;
     int mode = 0, signal_sent = 0;
     HANDLE input_read, input_write;
     BYTE trap = 0xcc;
@@ -122,6 +126,11 @@ int main(int argc, char **argv)
     if (!file) return 121;
     if (fscanf(file, "%lx %lx %lx %lx %lx %lx", &handler_rva, &running_rva, &link_rva, &coff_rva, &ide_rva, &callbacks_rva) != 6) return 121;
     fscanf(file, "%u %u %u %u", &clock_year, &clock_month, &clock_day, &clock_hour);
+    if (fscanf(file, "%u", &app_count) != 1 || app_count > 128) return 134;
+    for (app_index = 0; app_index < app_count; ++app_index) {
+        if (fscanf(file, "%lx", &app_entries[app_index].rva) != 1) return 134;
+        app_entries[app_index].active = 1;
+    }
     fclose(file);
     if (mode == 3) clock_address = (DWORD)GetProcAddress(GetModuleHandleA("kernel32.dll"), "GetLocalTime");
     events = CreateFileA(argv[5], GENERIC_WRITE, FILE_SHARE_READ, NULL, CREATE_ALWAYS, 0, NULL);
@@ -138,8 +147,8 @@ int main(int argc, char **argv)
         if (!CreatePipe(&input_read, &input_write, &security, 0)) return 129;
         startup.hStdInput = input_read;
     }
-    SetEnvironmentVariableA("TMP", argv[6]);
-    SetEnvironmentVariableA("TEMP", argv[6]);
+    SetEnvironmentVariableA("TMP", ".");
+    SetEnvironmentVariableA("TEMP", ".");
     sprintf(command, "\"%s\" %s", argv[1], argv[2]);
     if (!CreateProcessA(argv[1], command, NULL, NULL, TRUE, DEBUG_ONLY_THIS_PROCESS, NULL, argv[6], &startup, &child)) return 122;
     sprintf(ready, "%s\\child-ready", argv[6]);
@@ -173,6 +182,16 @@ int main(int argc, char **argv)
                     link_hook = 1;
                 }
             }
+            for (app_index = 0; app_index < app_count; ++app_index) {
+                AppEntry *app = &app_entries[app_index];
+                address = base + app->rva;
+                if (!ReadProcessMemory(child.hProcess, (void *)address, &app->byte, 1, &amount)) return 135;
+                if (app->byte == 0xcc) {
+                    if (link_hook && address == base + (mode == 4 ? link_rva : ide_rva)) app->byte = link_byte;
+                    else return 135;
+                }
+                if (!WriteProcessMemory(child.hProcess, (void *)address, &trap, 1, &amount)) return 135;
+            }
             spawn_address = base + 0xfc20;
             { BYTE first;
               ReadProcessMemory(child.hProcess, (void *)spawn_address, &first, 1, &amount);
@@ -199,7 +218,26 @@ int main(int argc, char **argv)
             if (t == thread_count) return 126;
             memset(&context, 0, sizeof(context));
             context.ContextFlags = CONTEXT_FULL;
-            if (code == EXCEPTION_BREAKPOINT && address == spawn_address) {
+            for (app_index = 0; app_index < app_count; ++app_index)
+                if (app_entries[app_index].active && address == base + app_entries[app_index].rva) break;
+            if (code == EXCEPTION_BREAKPOINT && app_index < app_count) {
+                AppEntry *app = &app_entries[app_index];
+                if (!GetThreadContext(threads[t].handle, &context)) return 127;
+                log_event("application-entry", app->rva);
+                if (link_hook && address == base + (mode == 4 ? link_rva : ide_rva)) {
+                    if (mode == 4) WriteProcessMemory(child.hProcess, (void *)(base + coff_rva), &zero, sizeof(zero), &amount);
+                    else {
+                        ReadProcessMemory(child.hProcess, (void *)(base + callbacks_rva), &running, sizeof(running), &amount);
+                        WriteProcessMemory(child.hProcess, (void *)(running + 12), &zero, sizeof(zero), &amount);
+                    }
+                    link_hook = 0;
+                    log_event(mode == 4 ? "internal-omf-state" : "internal-ide-null-buffer", 0);
+                }
+                WriteProcessMemory(child.hProcess, (void *)address, &app->byte, 1, &amount);
+                FlushInstructionCache(child.hProcess, (void *)address, 1);
+                context.Eip = address; app->active = 0;
+                if (!SetThreadContext(threads[t].handle, &context)) return 128;
+            } else if (code == EXCEPTION_BREAKPOINT && address == spawn_address) {
                 DWORD args[5]; char name[2048];
                 if (!GetThreadContext(threads[t].handle, &context)) return 127;
                 ReadProcessMemory(child.hProcess, (void *)context.Esp, args, sizeof(args), &amount);

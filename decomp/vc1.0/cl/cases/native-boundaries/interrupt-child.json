@@ -1,15 +1,15 @@
 {
-  "schema": 1,
-  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "schema": 2,
+  "provenance": "Fresh original CL and child capture using fixed shared R:/S: drives; no native execution or relabeled raw data",
   "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
   "case": "interrupt-child",
-  "arguments": "/B1Z:\\root\\msvc2\\decomp\\vc1.0\\cl\\build\\wait-pass.exe /c test.c",
+  "arguments": "/B1R:\\decomp\\vc1.0\\cl\\build\\wait-pass.exe /c test.c",
   "environment": {
-    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
-    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
-    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
-    "TMP": "Q:\\interrupt-child",
-    "TEMP": "Q:\\interrupt-child"
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "TMP": ".",
+    "TEMP": "."
   },
   "initial": {
     "test.c": {
@@ -17,19 +17,137 @@
       "bytes": 26
     }
   },
+  "original_entry_proof": {
+    "method": "One-shot original application entry breakpoints; accepted application prefix excluded",
+    "seen_prefix": [
+      "main",
+      "install_control_handler",
+      "split_arguments",
+      "count_arguments",
+      "has_nologo",
+      "banner",
+      "write_message",
+      "format_message",
+      "program_name",
+      "initialize_driver",
+      "program_directory",
+      "copy_string",
+      "join_path",
+      "search_path",
+      "concatenate",
+      "allocate",
+      "parse_arguments",
+      "scan_option_kind",
+      "parse_option",
+      "find_rule",
+      "match_rule",
+      "read_option",
+      "new_item",
+      "append_items",
+      "expand_options",
+      "skip_space",
+      "expand_text",
+      "append_optional",
+      "select_options",
+      "free_items",
+      "match_item",
+      "validate_value",
+      "unsigned_digits",
+      "recycle_item",
+      "release",
+      "parse_attached_option",
+      "is_decimal",
+      "expand_choice",
+      "expand_extension",
+      "last_of",
+      "option_callback_190d0",
+      "remove_define",
+      "finish_options",
+      "is_for_pass",
+      "expand_filename",
+      "filename_stem",
+      "driver_switch_171fc",
+      "driver_switch_172e4",
+      "driver_switch_17274",
+      "load_messages",
+      "console_rows",
+      "classify_input",
+      "add_input",
+      "new_input",
+      "prepare_inputs",
+      "prepare_execution",
+      "run_driver",
+      "run_passes",
+      "initialize_pass",
+      "compile_pass",
+      "expanded_length",
+      "nonblank_length",
+      "is_space",
+      "append_string",
+      "quote_if_space",
+      "spawn_pass",
+      "cleanup_files",
+      "link_pass",
+      "write_coff_response",
+      "file_message",
+      "driver_exit",
+      "detach_item",
+      "usage",
+      "option_callback_1920c",
+      "force_input",
+      "fatal",
+      "diagnostic_text",
+      "write_message_list",
+      "warning",
+      "warn_override",
+      "copy_item",
+      "driver_switch_17368",
+      "any_match",
+      "read_response_file",
+      "option_callback_19014",
+      "option_callback_19228",
+      "option_callback_19198",
+      "driver_switch_170a0",
+      "driver_switch_1713c",
+      "driver_switch_1719c",
+      "driver_switch_17010",
+      "output_stem",
+      "map_filename",
+      "driver_switch_173ac",
+      "initialize_ide",
+      "ide_install",
+      "ide_descriptor",
+      "ide_message",
+      "ide_write",
+      "start_timer",
+      "report_timer"
+    ],
+    "plan": {
+      "control_handler": "0xafcc",
+      "ide_abort": "0xacc7",
+      "write_omf_response": "0x9ae1"
+    },
+    "entries": [
+      "control_handler"
+    ],
+    "events": "child-running 00000001\napplication-entry 0000afcc\nexit 00000004\n",
+    "capture_helper_sha256": "e40f18e3a94d0555660517b49de99bf19368a32538754a4ebc486b82b0724eb0",
+    "capture_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+    "case_cwd": "S:\\vc1.0\\cl\\interrupt-child"
+  },
   "boundaries": [
     {
       "mode": 0,
-      "file": "Z:\\root\\msvc2\\decomp\\vc1.0\\cl\\build\\wait-pass.exe",
+      "file": "R:\\decomp\\vc1.0\\cl\\build\\wait-pass.exe",
       "argv": [
-        "Z:\\root\\msvc2\\decomp\\vc1.0\\cl\\build\\wait-pass.exe"
+        "R:\\decomp\\vc1.0\\cl\\build\\wait-pass.exe"
       ],
       "environment": [
-        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Q:\\interrupt-child\\000292 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\001984 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I R:\\toolchains\\1.0-nt\\include "
       ],
       "executable_input": {
-        "path": "/root/msvc2/decomp/vc1.0/cl/build/wait-pass.exe",
-        "sha256": "433c07a355d9b01a8f2e90714d1bfc5c77cbe67d94d408fb755cdad227994d5a",
+        "path": "R:\\decomp\\vc1.0\\cl\\build\\wait-pass.exe",
+        "sha256": "aaca8afa99f95ad3a19226e3afc5a36a66ab2717a01ae26c79480f3f4ca62485",
         "bytes": 2097152,
         "fixture_source": {
           "path": "src/pass-helper.c",
@@ -38,7 +156,7 @@
       },
       "status": 0,
       "errno": 0,
-      "cwd": "Q:\\interrupt-child",
+      "cwd": "S:\\vc1.0\\cl\\interrupt-child",
       "before": {
         "test.c": {
           "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
@@ -72,15 +190,21 @@
   "final": {
     "child-ready": {
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "bytes": 0
+      "bytes": 0,
+      "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ignored_fields": []
     },
     "release-pass": {
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
-      "bytes": 0
+      "bytes": 0,
+      "normalized_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "ignored_fields": []
     },
     "test.c": {
       "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
-      "bytes": 26
+      "bytes": 26,
+      "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "ignored_fields": []
     }
   },
   "stdout": {
@@ -91,11 +215,11 @@
     "sha256": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069",
     "bytes": 131
   },
-  "events": "child-running 00000001\nexit 00000004\n",
+  "events": "child-running 00000001\napplication-entry 0000afcc\nexit 00000004\n",
   "timing": {
-    "setup_seconds": 0.004904198460280895,
-    "capture_execution_seconds": 5.1625517178326845,
-    "capture_checks_seconds": 0.0391677999868989,
-    "total_seconds": 5.206625730730593
+    "setup_seconds": 0.06788642797619104,
+    "capture_execution_seconds": 1.1036095125600696,
+    "capture_checks_seconds": 0.044950379990041256,
+    "total_seconds": 1.216447708196938
   }
 }

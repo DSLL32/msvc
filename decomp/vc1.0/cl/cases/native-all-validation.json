@@ -1,15 +1,6 @@
 {
   "status": "passed",
-  "scope": "All 57 existing completed CL cases; native i386 status, raw streams, complete artifacts and cached original application first entries. No new reconstruction acceptance.",
-  "commands": {
-    "build": "make -j4 native native-trace",
-    "regression": "make -j4 check",
-    "replay": "make replay",
-    "output_only": "make native-check",
-    "reject_checks": "make native-reject-check",
-    "reference_analysis": "make -j4 reference-build audit",
-    "capture": "python3 scripts/capture-native.py --all"
-  },
+  "scope": "All 57 existing CL cases after explicit original-only fixed R:/S: recapture; maintenance only, no reconstruction acceptance",
   "results": {
     "cases": 57,
     "application_definitions": 104,
@@ -20,62 +11,815 @@
     "captured_spawnvpe_boundaries": 89,
     "replayed_spawnve_requests": 90,
     "actual_native_or_PE_children": 0,
-    "negative_checks": 5,
+    "negative_checks": 6,
     "canonical_source_functions_audited": 110,
-    "new_function_acceptances": 0
+    "return_cleanup_ABI_checks": 110,
+    "new_function_acceptances": 0,
+    "retired_private_prefixes": 5
+  },
+  "commands": {
+    "original_build": "make -j4 -B reference-build audit build/capture-run.exe build/pass-proxy.exe build/fail-pass.exe build/wait-pass.exe build/trace-run.exe",
+    "capture": "python3 scripts/capture-native.py --all --migrate-paths --output-store <S: candidate store>",
+    "native_build": "make -j4 native native-trace",
+    "native_checks": "make -j4 check native-check native-reject-check"
   },
   "executables": {
     "native": {
       "path": "build/native/CL.EXE",
-      "sha256": "34f8613575b3cb5e27dd57162178eec79a650ef7ba89b4f2e8e3d4631ccc2e39"
+      "sha256": "11dd9865e0be4dc5de0aff8e516c82d93e00c2b91c92b5821f736b02691aad03"
     },
     "native-trace": {
       "path": "build/native-trace/CL.EXE",
-      "sha256": "71ea5a27db5d8fb865707dc3e71cdf4eb1d32b04a3c9b1f15120fdd247a4dac1"
+      "sha256": "18dfde79a43c364240a8ee7d23d38659d0dee5d57147f7187e7605e176a0211b"
     }
   },
-  "cache_sha256": "2993c713877c19c3cf068efbdc76df930964f94b28a7108d84e84e0b48ccf992",
-  "timing_units": "Elapsed wall seconds, one sample with other workers active; not a repeated benchmark",
-  "timing": {
-    "clean_native_build": {
-      "command": "make -C decomp/vc1.0/cl -j4 native native-trace",
-      "status": 0,
-      "build_seconds": 1.6463457429781556,
-      "clean_scope": "Entire CL build directory; no Win32 helper/PE outputs present"
-    },
-    "trace_suite_total_seconds": 2.6768044186756015,
-    "trace_dependency_and_cache_setup_seconds": 0.28691696003079414,
+  "cache_sha256": "d1312cbc140a3325d7513815780da625a42f9030f0066eb03cc01e42f7eb3de5",
+  "timings": {
+    "units": "Elapsed wall seconds; one measured run with other workers active",
+    "original_build_and_graph_audit_seconds": 6.019627807661891,
+    "clean_native_build_seconds": 1.5765520501881838,
+    "trace_suite_seconds": 3.1517952317371964,
+    "output_suite_seconds": 3.044805253855884,
+    "negative_suite_seconds": 0.719961921684444,
+    "trace_dependency_and_cache_setup_seconds": 0.2887293351814151,
     "trace_case_components": {
-      "setup_seconds": 0.5925299720838666,
-      "execution_seconds": 1.4476127084344625,
-      "oracle_checks_seconds": 0.33616906963288784,
-      "trace_checks_seconds": 0.004522340372204781
+      "setup_seconds": 1.1220322204753757,
+      "execution_seconds": 1.4047810873016715,
+      "oracle_checks_seconds": 0.3239617124199867,
+      "trace_checks_seconds": 0.004342798143625259
     },
-    "output_only_suite_seconds": 2.5095081133767962,
-    "reject_checks_seconds": 0.7750213341787457,
-    "retained_original_capture_components": {
-      "setup_seconds": 0.2909601330757141,
-      "capture_execution_seconds": 273.2538065603003,
-      "capture_checks_seconds": 1.2036368427798152,
-      "total_seconds": 274.7484929803759
+    "original_capture_components": {
+      "setup_seconds": 3.8578840186819434,
+      "capture_execution_seconds": 133.87242245301604,
+      "capture_checks_seconds": 2.282709952443838,
+      "total_seconds": 140.01311986055225
     },
-    "capture_helper_build_seconds": null,
-    "original_compilation_seconds": null,
-    "original_incremental_audit_seconds": 0.41799216624349356
+    "prefix_retirement_seconds": 0.9885261347517371
   },
-  "timing_limits": "Retained successful capture sums exclude superseded diagnostic captures, toolchain inventory hashing and capture-helper builds. Original compile elapsed time was not measured; incremental audit timing is separate. Native setup includes frozen-reference/input verification; post-execution oracle and trace checks are split. Shared sources added afterward required a final relink; its elapsed time was not separately measured. Final traced/output receipts use the relinked executables.",
+  "timing_limits": "Case capture sums exclude the final toolchain inventory scan and registration. Native setup includes input/oracle verification; execution and post-run oracle/trace checks are separate. Default check/output/negative suites ran in parallel after a whole-build-directory clean and retirement of all obsolete CL prefixes.",
   "receipts": [
     {
-      "path": "/root/.ai-tmp/vc1.0-cl/native-check/run-8tdtisbn/receipt.json",
-      "sha256": "8e8424a3e083a322433a9117317893d1369b9cac43f359ddc6bbe460614c30b2"
+      "path": "/root/.ai-tmp/msvc2/vc1.0/cl/native-check/run-kslrcvf_/receipt.json",
+      "sha256": "f31ef13df097ada0429345ce3d57adf3adc4de0db865e4fa6ed7b760e22aae22"
     },
     {
-      "path": "/root/.ai-tmp/vc1.0-cl/native-final/output-final/receipt.json",
-      "sha256": "44ec912ebedf63a6aff11cfde32d729fcb91814a49640c0767a0fbf03434b381"
+      "path": "/root/.ai-tmp/msvc2/vc1.0/cl/native-check/run-und7s8rb/receipt.json",
+      "sha256": "f3e5ea010e57684c564df094886cb6de64cd8ea64f60b0230602848f871850d0"
     },
     {
-      "path": "/root/.ai-tmp/vc1.0-cl/native-check/reject-njouy8vj/receipt.json",
-      "sha256": "9052b0a4703a91b73e7b15c9bf17bda7bc0657fa60a836a2cbd0477b16f24b51"
+      "path": "/root/.ai-tmp/msvc2/vc1.0/cl/native-check/reject-1saeg9ms/receipt.json",
+      "sha256": "759bdd967dd884341e28fbcfdcfb508158587c8efaec8e2b46ed95aa8bd4ef9d"
+    }
+  ],
+  "prefix_retirement": {
+    "status": "passed",
+    "exact_CL_owned_prefixes": 5,
+    "active_applications_before_stop": 0,
+    "only_own_obsolete_servers_stopped": true,
+    "shared_prefix_and_drive_mappings_untouched": true,
+    "evidence": "S:\\vc1.0\\cl\\migration\\prefix-retirement.json"
+  },
+  "cases": [
+    {
+      "id": "usage",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 1,
+      "captured_child_requests": 0,
+      "timing": {
+        "setup_seconds": 0.012771544978022575,
+        "execution_seconds": 0.004846606403589249,
+        "oracle_checks_seconds": 0.0005811583250761032,
+        "trace_checks_seconds": 6.82249665260315e-05
+      }
+    },
+    {
+      "id": "missing-input",
+      "status": "passed",
+      "exit_status": 2,
+      "application_entries": 0,
+      "captured_child_requests": 0,
+      "timing": {
+        "setup_seconds": 0.011689229868352413,
+        "execution_seconds": 0.004690354689955711,
+        "oracle_checks_seconds": 0.00048277899622917175,
+        "trace_checks_seconds": 5.8581121265888214e-05
+      }
+    },
+    {
+      "id": "invalid-number",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 1,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.013188978657126427,
+        "execution_seconds": 0.016914629377424717,
+        "oracle_checks_seconds": 0.001730264164507389,
+        "trace_checks_seconds": 7.285736501216888e-05
+      }
+    },
+    {
+      "id": "missing-option-value",
+      "status": "passed",
+      "exit_status": 2,
+      "application_entries": 5,
+      "captured_child_requests": 0,
+      "timing": {
+        "setup_seconds": 0.012097579427063465,
+        "execution_seconds": 0.004699681885540485,
+        "oracle_checks_seconds": 0.0005195178091526031,
+        "trace_checks_seconds": 6.774626672267914e-05
+      }
+    },
+    {
+      "id": "unknown-option",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.013170131482183933,
+        "execution_seconds": 0.01681852526962757,
+        "oracle_checks_seconds": 0.0016626566648483276,
+        "trace_checks_seconds": 6.252434104681015e-05
+      }
+    },
+    {
+      "id": "conflicting-options",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 1,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.013228368945419788,
+        "execution_seconds": 0.016812890768051147,
+        "oracle_checks_seconds": 0.0016914382576942444,
+        "trace_checks_seconds": 7.187668234109879e-05
+      }
+    },
+    {
+      "id": "override-side-effects",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 1,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.013382991775870323,
+        "execution_seconds": 0.016873830929398537,
+        "oracle_checks_seconds": 0.0017220675945281982,
+        "trace_checks_seconds": 7.011741399765015e-05
+      }
+    },
+    {
+      "id": "incompatible-options",
+      "status": "passed",
+      "exit_status": 2,
+      "application_entries": 0,
+      "captured_child_requests": 0,
+      "timing": {
+        "setup_seconds": 0.012690210714936256,
+        "execution_seconds": 0.004539281129837036,
+        "oracle_checks_seconds": 0.00107509084045887,
+        "trace_checks_seconds": 6.153527647256851e-05
+      }
+    },
+    {
+      "id": "nested-response",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 1,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.014324113726615906,
+        "execution_seconds": 0.016860106959939003,
+        "oracle_checks_seconds": 0.003062834031879902,
+        "trace_checks_seconds": 7.35800713300705e-05
+      }
+    },
+    {
+      "id": "missing-response",
+      "status": "passed",
+      "exit_status": 2,
+      "application_entries": 0,
+      "captured_child_requests": 0,
+      "timing": {
+        "setup_seconds": 0.013434207066893578,
+        "execution_seconds": 0.004597721621394157,
+        "oracle_checks_seconds": 0.0005387105047702789,
+        "trace_checks_seconds": 5.7901255786418915e-05
+      }
+    },
+    {
+      "id": "response-cycle",
+      "status": "passed",
+      "exit_status": 2,
+      "application_entries": 0,
+      "captured_child_requests": 0,
+      "timing": {
+        "setup_seconds": 0.013719209469854832,
+        "execution_seconds": 0.004688267596065998,
+        "oracle_checks_seconds": 0.0012003490701317787,
+        "trace_checks_seconds": 6.782077252864838e-05
+      }
+    },
+    {
+      "id": "link-tail",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 1,
+      "captured_child_requests": 3,
+      "timing": {
+        "setup_seconds": 0.044739129953086376,
+        "execution_seconds": 0.03299264516681433,
+        "oracle_checks_seconds": 0.025937162339687347,
+        "trace_checks_seconds": 8.457060903310776e-05
+      }
+    },
+    {
+      "id": "link-attached",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 3,
+      "timing": {
+        "setup_seconds": 0.044990734197199345,
+        "execution_seconds": 0.033003042452037334,
+        "oracle_checks_seconds": 0.025369931012392044,
+        "trace_checks_seconds": 9.909644722938538e-05
+      }
+    },
+    {
+      "id": "force-c",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.014353035017848015,
+        "execution_seconds": 0.016922015696763992,
+        "oracle_checks_seconds": 0.0018351748585700989,
+        "trace_checks_seconds": 6.677675992250443e-05
+      }
+    },
+    {
+      "id": "force-cpp",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 1,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.013355598784983158,
+        "execution_seconds": 0.016858989372849464,
+        "oracle_checks_seconds": 0.0018210718408226967,
+        "trace_checks_seconds": 7.67270103096962e-05
+      }
+    },
+    {
+      "id": "force-object",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 1,
+      "captured_child_requests": 1,
+      "timing": {
+        "setup_seconds": 0.04513406753540039,
+        "execution_seconds": 0.0332603408023715,
+        "oracle_checks_seconds": 0.02485431730747223,
+        "trace_checks_seconds": 8.975621312856674e-05
+      }
+    },
+    {
+      "id": "undefine-predefines",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 1,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.014524493366479874,
+        "execution_seconds": 0.017054998315870762,
+        "oracle_checks_seconds": 0.0018167048692703247,
+        "trace_checks_seconds": 7.316004484891891e-05
+      }
+    },
+    {
+      "id": "preprocess-stdout",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 1,
+      "timing": {
+        "setup_seconds": 0.01494491845369339,
+        "execution_seconds": 0.008779709227383137,
+        "oracle_checks_seconds": 0.0017996560782194138,
+        "trace_checks_seconds": 6.378069519996643e-05
+      }
+    },
+    {
+      "id": "preprocess-file",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 1,
+      "timing": {
+        "setup_seconds": 0.014660523273050785,
+        "execution_seconds": 0.008845115080475807,
+        "oracle_checks_seconds": 0.0023977700620889664,
+        "trace_checks_seconds": 8.132029324769974e-05
+      }
+    },
+    {
+      "id": "prototype-only",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 1,
+      "timing": {
+        "setup_seconds": 0.013228941708803177,
+        "execution_seconds": 0.008703820407390594,
+        "oracle_checks_seconds": 0.0012164907529950142,
+        "trace_checks_seconds": 7.227528840303421e-05
+      }
+    },
+    {
+      "id": "syntax-only",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 1,
+      "timing": {
+        "setup_seconds": 0.012973867356777191,
+        "execution_seconds": 0.00871133804321289,
+        "oracle_checks_seconds": 0.0011207787320017815,
+        "trace_checks_seconds": 6.44410029053688e-05
+      }
+    },
+    {
+      "id": "assembly-listing",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 1,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.013879257254302502,
+        "execution_seconds": 0.01683638896793127,
+        "oracle_checks_seconds": 0.0023269131779670715,
+        "trace_checks_seconds": 7.079262286424637e-05
+      }
+    },
+    {
+      "id": "required-option-present",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 2,
+      "captured_child_requests": 1,
+      "timing": {
+        "setup_seconds": 0.013193401508033276,
+        "execution_seconds": 0.008784069679677486,
+        "oracle_checks_seconds": 0.001224396750330925,
+        "trace_checks_seconds": 7.591862231492996e-05
+      }
+    },
+    {
+      "id": "required-option-missing",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.01392133254557848,
+        "execution_seconds": 0.017005104571580887,
+        "oracle_checks_seconds": 0.0018622642382979393,
+        "trace_checks_seconds": 6.774440407752991e-05
+      }
+    },
+    {
+      "id": "map-and-renamed-output",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 1,
+      "captured_child_requests": 3,
+      "timing": {
+        "setup_seconds": 0.045684315264225006,
+        "execution_seconds": 0.03315898682922125,
+        "oracle_checks_seconds": 0.026326547376811504,
+        "trace_checks_seconds": 9.868945926427841e-05
+      }
+    },
+    {
+      "id": "dll-output",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 2,
+      "captured_child_requests": 3,
+      "timing": {
+        "setup_seconds": 0.09468811564147472,
+        "execution_seconds": 0.06515083089470863,
+        "oracle_checks_seconds": 0.06286121252924204,
+        "trace_checks_seconds": 8.623581379652023e-05
+      }
+    },
+    {
+      "id": "dll-exp-input",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 0,
+      "timing": {
+        "setup_seconds": 0.014651213772594929,
+        "execution_seconds": 0.004630434326827526,
+        "oracle_checks_seconds": 0.001689230091869831,
+        "trace_checks_seconds": 6.406102329492569e-05
+      }
+    },
+    {
+      "id": "replace-passes",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 1,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.013851162977516651,
+        "execution_seconds": 0.016840703785419464,
+        "oracle_checks_seconds": 0.0017967000603675842,
+        "trace_checks_seconds": 7.313862442970276e-05
+      }
+    },
+    {
+      "id": "pass-loader",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 1,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.014115395955741405,
+        "execution_seconds": 0.033041088841855526,
+        "oracle_checks_seconds": 0.0017963936552405357,
+        "trace_checks_seconds": 7.227901369333267e-05
+      }
+    },
+    {
+      "id": "child-failure",
+      "status": "passed",
+      "exit_status": 2,
+      "application_entries": 0,
+      "captured_child_requests": 1,
+      "timing": {
+        "setup_seconds": 0.013355688191950321,
+        "execution_seconds": 0.03339339606463909,
+        "oracle_checks_seconds": 0.0012595411390066147,
+        "trace_checks_seconds": 6.749015301465988e-05
+      }
+    },
+    {
+      "id": "child-not-found",
+      "status": "passed",
+      "exit_status": 2,
+      "application_entries": 0,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.013513068668544292,
+        "execution_seconds": 0.008987296372652054,
+        "oracle_checks_seconds": 0.0012681623920798302,
+        "trace_checks_seconds": 7.896590977907181e-05
+      }
+    },
+    {
+      "id": "ide-feedback",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 5,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.01419335138052702,
+        "execution_seconds": 0.01692530605942011,
+        "oracle_checks_seconds": 0.0017305323854088783,
+        "trace_checks_seconds": 6.938539445400238e-05
+      }
+    },
+    {
+      "id": "timing",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 2,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.013624715618789196,
+        "execution_seconds": 0.016950923018157482,
+        "oracle_checks_seconds": 0.0016944995149970055,
+        "trace_checks_seconds": 7.123034447431564e-05
+      }
+    },
+    {
+      "id": "two-sources",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 5,
+      "timing": {
+        "setup_seconds": 0.047102466225624084,
+        "execution_seconds": 0.0651091281324625,
+        "oracle_checks_seconds": 0.02758452296257019,
+        "trace_checks_seconds": 7.799454033374786e-05
+      }
+    },
+    {
+      "id": "environment-precedence",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.014417408965528011,
+        "execution_seconds": 0.016986357048153877,
+        "oracle_checks_seconds": 0.0018330216407775879,
+        "trace_checks_seconds": 6.943941116333008e-05
+      }
+    },
+    {
+      "id": "include-search-list",
+      "status": "passed",
+      "exit_status": 2,
+      "application_entries": 0,
+      "captured_child_requests": 1,
+      "timing": {
+        "setup_seconds": 0.014999009668827057,
+        "execution_seconds": 0.008940720930695534,
+        "oracle_checks_seconds": 0.0018675057217478752,
+        "trace_checks_seconds": 8.906424045562744e-05
+      }
+    },
+    {
+      "id": "include-search-expansion",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.017046436667442322,
+        "execution_seconds": 0.01716060284525156,
+        "oracle_checks_seconds": 0.002615491859614849,
+        "trace_checks_seconds": 6.736163049936295e-05
+      }
+    },
+    {
+      "id": "include-unquoted-space",
+      "status": "passed",
+      "exit_status": 2,
+      "application_entries": 0,
+      "captured_child_requests": 1,
+      "timing": {
+        "setup_seconds": 0.01588264759629965,
+        "execution_seconds": 0.008936777710914612,
+        "oracle_checks_seconds": 0.0018423432484269142,
+        "trace_checks_seconds": 6.405822932720184e-05
+      }
+    },
+    {
+      "id": "legacy-omf-selector",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 0,
+      "timing": {
+        "setup_seconds": 0.015912718139588833,
+        "execution_seconds": 0.004557483829557896,
+        "oracle_checks_seconds": 0.0012266458943486214,
+        "trace_checks_seconds": 6.31893053650856e-05
+      }
+    },
+    {
+      "id": "mixed-ordering",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 4,
+      "timing": {
+        "setup_seconds": 0.016193886287510395,
+        "execution_seconds": 0.03338683024048805,
+        "oracle_checks_seconds": 0.0038549164310097694,
+        "trace_checks_seconds": 0.00010342337191104889
+      }
+    },
+    {
+      "id": "interrupt-idle",
+      "status": "passed",
+      "exit_status": 4,
+      "application_entries": 0,
+      "captured_child_requests": 0,
+      "timing": {
+        "setup_seconds": 0.01694018580019474,
+        "execution_seconds": 0.008175159804522991,
+        "oracle_checks_seconds": 0.0005360515788197517,
+        "trace_checks_seconds": 5.986075848340988e-05
+      }
+    },
+    {
+      "id": "interrupt-child",
+      "status": "passed",
+      "exit_status": 4,
+      "application_entries": 1,
+      "captured_child_requests": 1,
+      "timing": {
+        "setup_seconds": 0.014364246279001236,
+        "execution_seconds": 0.033881790935993195,
+        "oracle_checks_seconds": 0.0024439580738544464,
+        "trace_checks_seconds": 8.623022586107254e-05
+      }
+    },
+    {
+      "id": "internal-omf-dryrun",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 1,
+      "captured_child_requests": 0,
+      "timing": {
+        "setup_seconds": 0.014381013810634613,
+        "execution_seconds": 0.12033508997410536,
+        "oracle_checks_seconds": 0.001422213390469551,
+        "trace_checks_seconds": 9.472202509641647e-05
+      }
+    },
+    {
+      "id": "internal-omf-file",
+      "status": "passed",
+      "exit_status": 2,
+      "application_entries": 0,
+      "captured_child_requests": 1,
+      "timing": {
+        "setup_seconds": 0.017552425153553486,
+        "execution_seconds": 0.14379653707146645,
+        "oracle_checks_seconds": 0.004163720645010471,
+        "trace_checks_seconds": 7.949396967887878e-05
+      }
+    },
+    {
+      "id": "internal-ide-null-buffer",
+      "status": "passed",
+      "exit_status": 2,
+      "application_entries": 1,
+      "captured_child_requests": 0,
+      "timing": {
+        "setup_seconds": 0.014083479531109333,
+        "execution_seconds": 0.14844539109617472,
+        "oracle_checks_seconds": 0.001970098353922367,
+        "trace_checks_seconds": 0.00014845654368400574
+      }
+    },
+    {
+      "id": "timing-utc",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.01969684101641178,
+        "execution_seconds": 0.017550251446664333,
+        "oracle_checks_seconds": 0.0027039768174290657,
+        "trace_checks_seconds": 6.618071347475052e-05
+      }
+    },
+    {
+      "id": "timing-positive-sign",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.015879166312515736,
+        "execution_seconds": 0.017160252667963505,
+        "oracle_checks_seconds": 0.0020803119987249374,
+        "trace_checks_seconds": 9.335298091173172e-05
+      }
+    },
+    {
+      "id": "timing-negative-offset",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.016264162957668304,
+        "execution_seconds": 0.017057862132787704,
+        "oracle_checks_seconds": 0.0020592734217643738,
+        "trace_checks_seconds": 8.32676887512207e-05
+      }
+    },
+    {
+      "id": "timing-dst-start-before",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.015452633611857891,
+        "execution_seconds": 0.01717794593423605,
+        "oracle_checks_seconds": 0.0020394455641508102,
+        "trace_checks_seconds": 9.046122431755066e-05
+      }
+    },
+    {
+      "id": "timing-dst-start-after",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.01570043247193098,
+        "execution_seconds": 0.017097482457756996,
+        "oracle_checks_seconds": 0.0019349800422787666,
+        "trace_checks_seconds": 6.479118019342422e-05
+      }
+    },
+    {
+      "id": "timing-dst-end-before",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.01903466507792473,
+        "execution_seconds": 0.01703255344182253,
+        "oracle_checks_seconds": 0.0019492674618959427,
+        "trace_checks_seconds": 6.370712071657181e-05
+      }
+    },
+    {
+      "id": "timing-dst-end-after",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.015468169935047626,
+        "execution_seconds": 0.017060572281479836,
+        "oracle_checks_seconds": 0.0019671497866511345,
+        "trace_checks_seconds": 6.339419633150101e-05
+      }
+    },
+    {
+      "id": "timing-early-year",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.0154621172696352,
+        "execution_seconds": 0.017161818221211433,
+        "oracle_checks_seconds": 0.0019768523052334785,
+        "trace_checks_seconds": 7.185898721218109e-05
+      }
+    },
+    {
+      "id": "timing-old-april-rule",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 0,
+      "captured_child_requests": 2,
+      "timing": {
+        "setup_seconds": 0.015075146220624447,
+        "execution_seconds": 0.017201941460371017,
+        "oracle_checks_seconds": 0.0019584419205784798,
+        "trace_checks_seconds": 7.381942123174667e-05
+      }
+    },
+    {
+      "id": "help",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 51,
+      "captured_child_requests": 0,
+      "timing": {
+        "setup_seconds": 0.014140811748802662,
+        "execution_seconds": 0.004910270683467388,
+        "oracle_checks_seconds": 0.0006835712119936943,
+        "trace_checks_seconds": 8.79187136888504e-05
+      }
+    },
+    {
+      "id": "compile",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 20,
+      "captured_child_requests": 3,
+      "timing": {
+        "setup_seconds": 0.044408963061869144,
+        "execution_seconds": 0.03317529708147049,
+        "oracle_checks_seconds": 0.021706268191337585,
+        "trace_checks_seconds": 9.079556912183762e-05
+      }
+    },
+    {
+      "id": "hello",
+      "status": "passed",
+      "exit_status": 0,
+      "application_entries": 1,
+      "captured_child_requests": 3,
+      "timing": {
+        "setup_seconds": 0.04130029212683439,
+        "execution_seconds": 0.03330452926456928,
+        "oracle_checks_seconds": 0.02326936647295952,
+        "trace_checks_seconds": 8.935481309890747e-05
+      }
     }
   ],
   "reject_checks": [
@@ -95,6 +839,11 @@
       "reason": "child complete input tree differs"
     },
     {
+      "check": "changed-child-cwd",
+      "status": "rejected",
+      "reason": "child cwd mismatch"
+    },
+    {
       "check": "changed-output-artifact",
       "status": "rejected",
       "reason": "artifact bytes differ outside identified timestamps: test.exe"
@@ -105,753 +854,9 @@
       "reason": "status differs: 0"
     }
   ],
-  "cases": [
-    {
-      "id": "usage",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 1,
-      "captured_child_requests": 0,
-      "timing": {
-        "setup_seconds": 0.005726278759539127,
-        "execution_seconds": 0.006093273870646954,
-        "oracle_checks_seconds": 0.0006793700158596039,
-        "trace_checks_seconds": 8.366256952285767e-05
-      }
-    },
-    {
-      "id": "missing-input",
-      "status": "passed",
-      "exit_status": 2,
-      "application_entries": 0,
-      "captured_child_requests": 0,
-      "timing": {
-        "setup_seconds": 0.003979690372943878,
-        "execution_seconds": 0.0046273935586214066,
-        "oracle_checks_seconds": 0.0006029894575476646,
-        "trace_checks_seconds": 6.993114948272705e-05
-      }
-    },
-    {
-      "id": "invalid-number",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 1,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.006545654498040676,
-        "execution_seconds": 0.021392863243818283,
-        "oracle_checks_seconds": 0.0020846687257289886,
-        "trace_checks_seconds": 9.386427700519562e-05
-      }
-    },
-    {
-      "id": "missing-option-value",
-      "status": "passed",
-      "exit_status": 2,
-      "application_entries": 5,
-      "captured_child_requests": 0,
-      "timing": {
-        "setup_seconds": 0.003783600404858589,
-        "execution_seconds": 0.0056064920499920845,
-        "oracle_checks_seconds": 0.0005846293643116951,
-        "trace_checks_seconds": 7.3971226811409e-05
-      }
-    },
-    {
-      "id": "unknown-option",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.004772599786520004,
-        "execution_seconds": 0.01673518307507038,
-        "oracle_checks_seconds": 0.0018236339092254639,
-        "trace_checks_seconds": 8.490495383739471e-05
-      }
-    },
-    {
-      "id": "conflicting-options",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 1,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.0048963529989123344,
-        "execution_seconds": 0.016907413490116596,
-        "oracle_checks_seconds": 0.0018492909148335457,
-        "trace_checks_seconds": 7.98860564827919e-05
-      }
-    },
-    {
-      "id": "override-side-effects",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 1,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.004877662286162376,
-        "execution_seconds": 0.01680815313011408,
-        "oracle_checks_seconds": 0.001817324198782444,
-        "trace_checks_seconds": 7.785297930240631e-05
-      }
-    },
-    {
-      "id": "incompatible-options",
-      "status": "passed",
-      "exit_status": 2,
-      "application_entries": 0,
-      "captured_child_requests": 0,
-      "timing": {
-        "setup_seconds": 0.0043195076286792755,
-        "execution_seconds": 0.004530489444732666,
-        "oracle_checks_seconds": 0.0011529503390192986,
-        "trace_checks_seconds": 6.398465484380722e-05
-      }
-    },
-    {
-      "id": "nested-response",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 1,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.006073939613997936,
-        "execution_seconds": 0.01674238219857216,
-        "oracle_checks_seconds": 0.0029388293623924255,
-        "trace_checks_seconds": 8.334498852491379e-05
-      }
-    },
-    {
-      "id": "missing-response",
-      "status": "passed",
-      "exit_status": 2,
-      "application_entries": 0,
-      "captured_child_requests": 0,
-      "timing": {
-        "setup_seconds": 0.003707706928253174,
-        "execution_seconds": 0.004514551721513271,
-        "oracle_checks_seconds": 0.0005793273448944092,
-        "trace_checks_seconds": 6.239302456378937e-05
-      }
-    },
-    {
-      "id": "response-cycle",
-      "status": "passed",
-      "exit_status": 2,
-      "application_entries": 0,
-      "captured_child_requests": 0,
-      "timing": {
-        "setup_seconds": 0.004160822369158268,
-        "execution_seconds": 0.004493187181651592,
-        "oracle_checks_seconds": 0.0011788280680775642,
-        "trace_checks_seconds": 7.168110460042953e-05
-      }
-    },
-    {
-      "id": "link-tail",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 1,
-      "captured_child_requests": 3,
-      "timing": {
-        "setup_seconds": 0.03460073284804821,
-        "execution_seconds": 0.03412278834730387,
-        "oracle_checks_seconds": 0.026631011627614498,
-        "trace_checks_seconds": 0.00010650698095560074
-      }
-    },
-    {
-      "id": "link-attached",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 3,
-      "timing": {
-        "setup_seconds": 0.03268950805068016,
-        "execution_seconds": 0.0327567420899868,
-        "oracle_checks_seconds": 0.024947183206677437,
-        "trace_checks_seconds": 9.370502084493637e-05
-      }
-    },
-    {
-      "id": "force-c",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.005231191404163837,
-        "execution_seconds": 0.01694756466895342,
-        "oracle_checks_seconds": 0.002044473774731159,
-        "trace_checks_seconds": 8.649658411741257e-05
-      }
-    },
-    {
-      "id": "force-cpp",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 1,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.011505250819027424,
-        "execution_seconds": 0.017078250646591187,
-        "oracle_checks_seconds": 0.002070249989628792,
-        "trace_checks_seconds": 0.00011190958321094513
-      }
-    },
-    {
-      "id": "force-object",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 1,
-      "captured_child_requests": 1,
-      "timing": {
-        "setup_seconds": 0.0351426787674427,
-        "execution_seconds": 0.032946839928627014,
-        "oracle_checks_seconds": 0.024830084294080734,
-        "trace_checks_seconds": 0.00010450929403305054
-      }
-    },
-    {
-      "id": "undefine-predefines",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 1,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.005221138708293438,
-        "execution_seconds": 0.01674480363726616,
-        "oracle_checks_seconds": 0.0017616627737879753,
-        "trace_checks_seconds": 8.128955960273743e-05
-      }
-    },
-    {
-      "id": "preprocess-stdout",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 1,
-      "timing": {
-        "setup_seconds": 0.005611534230411053,
-        "execution_seconds": 0.008658832870423794,
-        "oracle_checks_seconds": 0.0019445046782493591,
-        "trace_checks_seconds": 7.459893822669983e-05
-      }
-    },
-    {
-      "id": "preprocess-file",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 1,
-      "timing": {
-        "setup_seconds": 0.005787469446659088,
-        "execution_seconds": 0.008582165464758873,
-        "oracle_checks_seconds": 0.0023781629279255867,
-        "trace_checks_seconds": 6.350595504045486e-05
-      }
-    },
-    {
-      "id": "prototype-only",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 1,
-      "timing": {
-        "setup_seconds": 0.004186796955764294,
-        "execution_seconds": 0.008495127782225609,
-        "oracle_checks_seconds": 0.001133272424340248,
-        "trace_checks_seconds": 6.37248158454895e-05
-      }
-    },
-    {
-      "id": "syntax-only",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 1,
-      "timing": {
-        "setup_seconds": 0.004093468189239502,
-        "execution_seconds": 0.008420471101999283,
-        "oracle_checks_seconds": 0.001188383437693119,
-        "trace_checks_seconds": 6.492994725704193e-05
-      }
-    },
-    {
-      "id": "assembly-listing",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 1,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.005312970839440823,
-        "execution_seconds": 0.016746719367802143,
-        "oracle_checks_seconds": 0.0023865485563874245,
-        "trace_checks_seconds": 8.520763367414474e-05
-      }
-    },
-    {
-      "id": "required-option-present",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 2,
-      "captured_child_requests": 1,
-      "timing": {
-        "setup_seconds": 0.004476096481084824,
-        "execution_seconds": 0.008503708057105541,
-        "oracle_checks_seconds": 0.0011673076078295708,
-        "trace_checks_seconds": 7.292162626981735e-05
-      }
-    },
-    {
-      "id": "required-option-missing",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.004639957100152969,
-        "execution_seconds": 0.016556275077164173,
-        "oracle_checks_seconds": 0.0017365086823701859,
-        "trace_checks_seconds": 6.50668516755104e-05
-      }
-    },
-    {
-      "id": "map-and-renamed-output",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 1,
-      "captured_child_requests": 3,
-      "timing": {
-        "setup_seconds": 0.03691417258232832,
-        "execution_seconds": 0.03301279433071613,
-        "oracle_checks_seconds": 0.02622189000248909,
-        "trace_checks_seconds": 9.925663471221924e-05
-      }
-    },
-    {
-      "id": "dll-output",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 2,
-      "captured_child_requests": 3,
-      "timing": {
-        "setup_seconds": 0.08527103532105684,
-        "execution_seconds": 0.06518444046378136,
-        "oracle_checks_seconds": 0.06419864483177662,
-        "trace_checks_seconds": 0.00011520367115736008
-      }
-    },
-    {
-      "id": "dll-exp-input",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 0,
-      "timing": {
-        "setup_seconds": 0.005465109832584858,
-        "execution_seconds": 0.004574833437800407,
-        "oracle_checks_seconds": 0.0017232447862625122,
-        "trace_checks_seconds": 6.506312638521194e-05
-      }
-    },
-    {
-      "id": "replace-passes",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 1,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.004827907308936119,
-        "execution_seconds": 0.016767187044024467,
-        "oracle_checks_seconds": 0.0018323520198464394,
-        "trace_checks_seconds": 8.45193862915039e-05
-      }
-    },
-    {
-      "id": "pass-loader",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 1,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.005272498354315758,
-        "execution_seconds": 0.033122255466878414,
-        "oracle_checks_seconds": 0.0018005399033427238,
-        "trace_checks_seconds": 7.968302816152573e-05
-      }
-    },
-    {
-      "id": "child-failure",
-      "status": "passed",
-      "exit_status": 2,
-      "application_entries": 0,
-      "captured_child_requests": 1,
-      "timing": {
-        "setup_seconds": 0.004476182162761688,
-        "execution_seconds": 0.03272773791104555,
-        "oracle_checks_seconds": 0.001161973923444748,
-        "trace_checks_seconds": 6.468873471021652e-05
-      }
-    },
-    {
-      "id": "child-not-found",
-      "status": "passed",
-      "exit_status": 2,
-      "application_entries": 0,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.004587719216942787,
-        "execution_seconds": 0.008455032482743263,
-        "oracle_checks_seconds": 0.001141485758125782,
-        "trace_checks_seconds": 6.375648081302643e-05
-      }
-    },
-    {
-      "id": "ide-feedback",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 5,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.00465270783752203,
-        "execution_seconds": 0.016554580070078373,
-        "oracle_checks_seconds": 0.0017337044700980186,
-        "trace_checks_seconds": 7.298588752746582e-05
-      }
-    },
-    {
-      "id": "timing",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 2,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.004617811180651188,
-        "execution_seconds": 0.016597426496446133,
-        "oracle_checks_seconds": 0.0017295684665441513,
-        "trace_checks_seconds": 7.007364183664322e-05
-      }
-    },
-    {
-      "id": "two-sources",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 5,
-      "timing": {
-        "setup_seconds": 0.03193024732172489,
-        "execution_seconds": 0.06479604542255402,
-        "oracle_checks_seconds": 0.02560173161327839,
-        "trace_checks_seconds": 0.00010044686496257782
-      }
-    },
-    {
-      "id": "environment-precedence",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.005378687754273415,
-        "execution_seconds": 0.01673451066017151,
-        "oracle_checks_seconds": 0.0018129143863916397,
-        "trace_checks_seconds": 6.72144815325737e-05
-      }
-    },
-    {
-      "id": "include-search-list",
-      "status": "passed",
-      "exit_status": 2,
-      "application_entries": 0,
-      "captured_child_requests": 1,
-      "timing": {
-        "setup_seconds": 0.005080258473753929,
-        "execution_seconds": 0.008563406765460968,
-        "oracle_checks_seconds": 0.0018729297444224358,
-        "trace_checks_seconds": 6.35264441370964e-05
-      }
-    },
-    {
-      "id": "include-search-expansion",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.005619456991553307,
-        "execution_seconds": 0.016673925332725048,
-        "oracle_checks_seconds": 0.0024796361103653908,
-        "trace_checks_seconds": 6.391946226358414e-05
-      }
-    },
-    {
-      "id": "include-unquoted-space",
-      "status": "passed",
-      "exit_status": 2,
-      "application_entries": 0,
-      "captured_child_requests": 1,
-      "timing": {
-        "setup_seconds": 0.005202538333833218,
-        "execution_seconds": 0.008498593233525753,
-        "oracle_checks_seconds": 0.0019077211618423462,
-        "trace_checks_seconds": 6.638001650571823e-05
-      }
-    },
-    {
-      "id": "legacy-omf-selector",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 0,
-      "timing": {
-        "setup_seconds": 0.004190666601061821,
-        "execution_seconds": 0.004426306113600731,
-        "oracle_checks_seconds": 0.001203404739499092,
-        "trace_checks_seconds": 6.37965276837349e-05
-      }
-    },
-    {
-      "id": "mixed-ordering",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 4,
-      "timing": {
-        "setup_seconds": 0.005919988267123699,
-        "execution_seconds": 0.0327964061871171,
-        "oracle_checks_seconds": 0.0032431967556476593,
-        "trace_checks_seconds": 9.041652083396912e-05
-      }
-    },
-    {
-      "id": "interrupt-idle",
-      "status": "passed",
-      "exit_status": 4,
-      "application_entries": 0,
-      "captured_child_requests": 0,
-      "timing": {
-        "setup_seconds": 0.0039770519360899925,
-        "execution_seconds": 0.007863100618124008,
-        "oracle_checks_seconds": 0.0005946997553110123,
-        "trace_checks_seconds": 5.9767626225948334e-05
-      }
-    },
-    {
-      "id": "interrupt-child",
-      "status": "passed",
-      "exit_status": 4,
-      "application_entries": 1,
-      "captured_child_requests": 1,
-      "timing": {
-        "setup_seconds": 0.005058271810412407,
-        "execution_seconds": 0.032675874419510365,
-        "oracle_checks_seconds": 0.0022193249315023422,
-        "trace_checks_seconds": 7.307063788175583e-05
-      }
-    },
-    {
-      "id": "internal-omf-dryrun",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 1,
-      "captured_child_requests": 0,
-      "timing": {
-        "setup_seconds": 0.004165998660027981,
-        "execution_seconds": 0.15046759881079197,
-        "oracle_checks_seconds": 0.001280544325709343,
-        "trace_checks_seconds": 9.450223296880722e-05
-      }
-    },
-    {
-      "id": "internal-omf-file",
-      "status": "passed",
-      "exit_status": 2,
-      "application_entries": 0,
-      "captured_child_requests": 1,
-      "timing": {
-        "setup_seconds": 0.007999584078788757,
-        "execution_seconds": 0.1522254664450884,
-        "oracle_checks_seconds": 0.004191233776509762,
-        "trace_checks_seconds": 8.704233914613724e-05
-      }
-    },
-    {
-      "id": "internal-ide-null-buffer",
-      "status": "passed",
-      "exit_status": 2,
-      "application_entries": 1,
-      "captured_child_requests": 0,
-      "timing": {
-        "setup_seconds": 0.00956687331199646,
-        "execution_seconds": 0.15817095898091793,
-        "oracle_checks_seconds": 0.001258200965821743,
-        "trace_checks_seconds": 9.180605411529541e-05
-      }
-    },
-    {
-      "id": "timing-utc",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.005124995484948158,
-        "execution_seconds": 0.016726596280932426,
-        "oracle_checks_seconds": 0.0017210384830832481,
-        "trace_checks_seconds": 6.63483515381813e-05
-      }
-    },
-    {
-      "id": "timing-positive-sign",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.00462390948086977,
-        "execution_seconds": 0.01663168892264366,
-        "oracle_checks_seconds": 0.0017640423029661179,
-        "trace_checks_seconds": 6.757955998182297e-05
-      }
-    },
-    {
-      "id": "timing-negative-offset",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.0047262199223041534,
-        "execution_seconds": 0.016549576073884964,
-        "oracle_checks_seconds": 0.0018027527257800102,
-        "trace_checks_seconds": 6.814859807491302e-05
-      }
-    },
-    {
-      "id": "timing-dst-start-before",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.004730456508696079,
-        "execution_seconds": 0.016723771579563618,
-        "oracle_checks_seconds": 0.0021481774747371674,
-        "trace_checks_seconds": 8.086953312158585e-05
-      }
-    },
-    {
-      "id": "timing-dst-start-after",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.005304200574755669,
-        "execution_seconds": 0.016800441779196262,
-        "oracle_checks_seconds": 0.0019382573664188385,
-        "trace_checks_seconds": 7.66608864068985e-05
-      }
-    },
-    {
-      "id": "timing-dst-end-before",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.005285047926008701,
-        "execution_seconds": 0.016758402809500694,
-        "oracle_checks_seconds": 0.002425684593617916,
-        "trace_checks_seconds": 9.250827133655548e-05
-      }
-    },
-    {
-      "id": "timing-dst-end-after",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.007174712605774403,
-        "execution_seconds": 0.01715401839464903,
-        "oracle_checks_seconds": 0.0018365178257226944,
-        "trace_checks_seconds": 7.236748933792114e-05
-      }
-    },
-    {
-      "id": "timing-early-year",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.004908118396997452,
-        "execution_seconds": 0.016619296744465828,
-        "oracle_checks_seconds": 0.0017747730016708374,
-        "trace_checks_seconds": 6.635021418333054e-05
-      }
-    },
-    {
-      "id": "timing-old-april-rule",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 0,
-      "captured_child_requests": 2,
-      "timing": {
-        "setup_seconds": 0.004627135582268238,
-        "execution_seconds": 0.016674860380589962,
-        "oracle_checks_seconds": 0.0018341736868023872,
-        "trace_checks_seconds": 7.019378244876862e-05
-      }
-    },
-    {
-      "id": "help",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 51,
-      "captured_child_requests": 0,
-      "timing": {
-        "setup_seconds": 0.004016956314444542,
-        "execution_seconds": 0.004932409152388573,
-        "oracle_checks_seconds": 0.0008466839790344238,
-        "trace_checks_seconds": 0.00010954868048429489
-      }
-    },
-    {
-      "id": "compile",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 20,
-      "captured_child_requests": 3,
-      "timing": {
-        "setup_seconds": 0.04755061212927103,
-        "execution_seconds": 0.03330984711647034,
-        "oracle_checks_seconds": 0.027996250428259373,
-        "trace_checks_seconds": 9.098276495933533e-05
-      }
-    },
-    {
-      "id": "hello",
-      "status": "passed",
-      "exit_status": 0,
-      "application_entries": 1,
-      "captured_child_requests": 3,
-      "timing": {
-        "setup_seconds": 0.03294023033231497,
-        "execution_seconds": 0.032831646502017975,
-        "oracle_checks_seconds": 0.031360579654574394,
-        "trace_checks_seconds": 0.00010381266474723816
-      }
-    }
-  ],
   "limits": [
-    "Compiler/linker invocations replay independently captured original responses after strict complete input/invocation checks. They do not execute native C1/C2/LINK implementations.",
-    "One original aggregate missing-file spawn failure is checked as two absent native PATH probes; all candidates and input/environment must match.",
-    "Internal OMF/IDE cases apply documented GDB state inputs. Native SIGINT tests callback behavior in idle/child-running states; Windows console delivery is not asserted.",
-    "Generated Win32 products are byte-checked; Windows GUI execution and SEH fault delivery are outside native fixture scope."
+    "Original child compiler/linker responses are replayed only after exact invocation, environment, cwd and complete input checks. Native fixtures run no Wine or PE executables.",
+    "Internal OMF/IDE state inputs use GDB; native SIGINT checks idle/child-running callback behavior, not Windows console delivery.",
+    "Generated Windows products are byte-checked; Windows GUI execution and SEH fault delivery remain outside native scope."
   ]
 }

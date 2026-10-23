@@ -12,40 +12,6 @@
     "entry": "0x1c750"
   },
   "exit_status": 0,
-  "streams": {
-    "stdout": {
-      "bytes": 167,
-      "sha256": "208c60d3d67d3d5a9b0caca531f17cbc453cfd838e1051349dac67b441f11f70"
-    },
-    "stderr": {
-      "bytes": 131,
-      "sha256": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
-    }
-  },
-  "artifacts": {
-    "hello.obj": {
-      "bytes": 2289,
-      "normalized_sha256": "84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0",
-      "ignored_fields": [
-        {
-          "offset": 4,
-          "bytes": 4,
-          "description": "COFF TimeDateStamp"
-        }
-      ]
-    },
-    "hello.exe": {
-      "bytes": 2097152,
-      "normalized_sha256": "17f34769a7c0089cf4f74f79175082d30709175839af2c8cae7b7cbf2a8b97ca",
-      "ignored_fields": [
-        {
-          "offset": 136,
-          "bytes": 4,
-          "description": "COFF TimeDateStamp"
-        }
-      ]
-    }
-  },
   "gui": {
     "width": 632,
     "height": 326,
@@ -62,23 +28,12 @@
     "title": "Hello, world!",
     "painted_text": "Hello, world!",
     "close_message": "WM_CLOSE",
-    "screenshot": "build/hello-window.bmp",
-    "screenshot_sha256": "9f41ab9abaec9399f9090e2bc02513d1d1487fe553ee3cf8415dfbeb0c96aa99",
     "visual_inspection": "Centered Hello, world! text confirmed in client-area capture"
   },
-  "validation": {
-    "clean_parallel_build": "make clean && make -j2 check",
-    "trap_replay": "python3 compare.py --replay --case='/O2 /G5 hello.c'",
-    "prior_matching_frontiers": 180,
-    "new_matching_frontiers": 1,
-    "new_functions": [
-      "_detach_item"
-    ],
-    "source_functions_with_matching_callee_sets": 76,
-    "unmodified_original_streams_match": true,
-    "original_reconstruction_and_baseline_artifacts_match_except_timestamps": true,
-    "help_and_minimal_compile_regression_passed": true,
-    "clean_build_log_sha256": "99e139d6c18b65142c660a271b3967e12a518d8466ba9fce096b664270901035",
-    "replay_log_sha256": "7b5123cd0411050f3cda861fd2fc45dee02f08eb05dda4bdc77961ef128dee73"
+  "original_reference": "native-boundaries/hello.json",
+  "historical_acceptance": {
+    "arguments": "/O2 /G5 hello.c",
+    "accepted_from": 180,
+    "accepted_count": 181
   }
 }

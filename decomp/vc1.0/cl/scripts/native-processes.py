@@ -45,7 +45,11 @@ class ProcessFixture:
         assert self.count<len(self.reference['boundaries']), 'unexpected child invocation'
         expected=self.reference['boundaries'][self.count]
         assert request['mode']==expected['mode']==0, 'spawn mode mismatch'
+        assert expected['cwd']==cases.canonical_cwd(self.case['id']), 'captured DOS cwd mismatch'
+        # Broker cwd is host transport; the target _getcwd API uses canonical S:.
         assert Path(request['cwd']).resolve()==self.work.resolve(), 'child cwd mismatch'
+        namespace=self.work.parents[2]
+        assert cases.host_path(expected['cwd'],namespace).resolve()==self.work.resolve(), 'DOS cwd mapping mismatch'
         expected_file=expected['file']
         missing=expected['status']==-1
         if missing:
@@ -57,10 +61,8 @@ class ProcessFixture:
             candidates=[expected_file]+[part.strip().strip('"')+'\\'+expected_file for part in self.reference['environment']['PATH'].split(';') if part.strip()]
             assert self.missing_probe<len(candidates), 'extra missing-file probe'
             expected_file=candidates[self.missing_probe]
-            if expected_file.startswith('Z:'):
-                host=Path(expected_file[2:].replace('\\','/'))
-            elif expected_file.startswith('Q:'):
-                host=self.work.parent/expected_file[3:].replace('\\','/')
+            if ':' in expected_file:
+                host=cases.host_path(expected_file)
             else:host=self.work/expected_file
             assert host.parent.is_dir() and not any(p.name.casefold()==host.name.casefold() for p in host.parent.iterdir()), 'captured missing dependency now exists'
         assert request['file']==expected_file, 'child file mismatch: '+repr((request['file'],expected_file))
@@ -85,7 +87,7 @@ class ProcessFixture:
                 assert cases.sha(image.read_bytes())==source['sha256'], 'captured helper source changed'
                 contents(record) # The captured original helper image, never executed.
             else:
-                image=Path(record['path'])
+                image=cases.host_path(record['path'])
                 assert image.is_file() and cases.sha(image.read_bytes())==record['sha256'], 'captured child executable changed'
         assert inventory(self.work)==expected['before'], 'child complete input tree differs'
         for name in set(expected['before'])-set(expected['after']):

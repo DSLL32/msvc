@@ -1,0 +1,381 @@
+{
+  "method": "Explicit fresh original-only R:/S: child-boundary and application-entry recapture before replacing obsolete transport records; no raw capture relabeling",
+  "cases": 57,
+  "application_entries": 104,
+  "deltas": [
+    {
+      "id": "assembly-listing",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 1
+    },
+    {
+      "id": "child-failure",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "child-not-found",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "compile",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 20
+    },
+    {
+      "id": "conflicting-options",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 1
+    },
+    {
+      "id": "dll-exp-input",
+      "changed_streams": [
+        "stdout"
+      ],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "dll-output",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 2
+    },
+    {
+      "id": "environment-precedence",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "force-c",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "force-cpp",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 1
+    },
+    {
+      "id": "force-object",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 1
+    },
+    {
+      "id": "hello",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 1
+    },
+    {
+      "id": "help",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 51
+    },
+    {
+      "id": "ide-feedback",
+      "changed_streams": [
+        "stderr"
+      ],
+      "changed_artifacts": [],
+      "application_entries": 5
+    },
+    {
+      "id": "include-search-expansion",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "include-search-list",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "include-unquoted-space",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "incompatible-options",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "internal-ide-null-buffer",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 1
+    },
+    {
+      "id": "internal-omf-dryrun",
+      "changed_streams": [
+        "stdout"
+      ],
+      "changed_artifacts": [],
+      "application_entries": 1
+    },
+    {
+      "id": "internal-omf-file",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "interrupt-child",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 1
+    },
+    {
+      "id": "interrupt-idle",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "invalid-number",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 1
+    },
+    {
+      "id": "legacy-omf-selector",
+      "changed_streams": [
+        "stdout"
+      ],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "link-attached",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "link-tail",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 1
+    },
+    {
+      "id": "map-and-renamed-output",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 1
+    },
+    {
+      "id": "missing-input",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "missing-option-value",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 5
+    },
+    {
+      "id": "missing-response",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "mixed-ordering",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "nested-response",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 1
+    },
+    {
+      "id": "override-side-effects",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 1
+    },
+    {
+      "id": "pass-loader",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 1
+    },
+    {
+      "id": "preprocess-file",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "preprocess-stdout",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "prototype-only",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "replace-passes",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 1
+    },
+    {
+      "id": "required-option-missing",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "required-option-present",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 2
+    },
+    {
+      "id": "response-cycle",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "syntax-only",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "timing",
+      "changed_streams": [
+        "stdout"
+      ],
+      "changed_artifacts": [],
+      "application_entries": 2
+    },
+    {
+      "id": "timing-dst-end-after",
+      "changed_streams": [
+        "stdout"
+      ],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "timing-dst-end-before",
+      "changed_streams": [
+        "stdout"
+      ],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "timing-dst-start-after",
+      "changed_streams": [
+        "stdout"
+      ],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "timing-dst-start-before",
+      "changed_streams": [
+        "stdout"
+      ],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "timing-early-year",
+      "changed_streams": [
+        "stdout"
+      ],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "timing-negative-offset",
+      "changed_streams": [
+        "stdout"
+      ],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "timing-old-april-rule",
+      "changed_streams": [
+        "stdout"
+      ],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "timing-positive-sign",
+      "changed_streams": [
+        "stdout"
+      ],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "timing-utc",
+      "changed_streams": [
+        "stdout"
+      ],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "two-sources",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "undefine-predefines",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 1
+    },
+    {
+      "id": "unknown-option",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 0
+    },
+    {
+      "id": "usage",
+      "changed_streams": [],
+      "changed_artifacts": [],
+      "application_entries": 1
+    }
+  ],
+  "changed_raw_stream_cases": 14,
+  "changed_normalized_artifact_cases": 0,
+  "canonical_abi_validation": "canonical-abi-validation.json",
+  "all_current_native_cases_passed": true
+}

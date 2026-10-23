@@ -21,6 +21,7 @@ def main():
     changed=copy.deepcopy(registry['compile']);changed['text_files']={'test.c':'int main() { return 1; }\n'}
     variants.append(('changed-initial-input',changed,cache,'initial case input differs'))
     variants.append(('changed-child-input',dict(registry['compile']),cache,'child complete input tree differs'))
+    variants.append(('changed-child-cwd',dict(registry['compile']),cache,'child cwd mismatch'))
     variants.append(('changed-output-artifact',dict(registry['compile']),cache,'artifact bytes differ'))
     status=dict(registry['compile']);status['expected_exit']=7
     variants.append(('wrong-status',status,cache,'status differs'))
@@ -33,6 +34,11 @@ def main():
                 (self.work/'test.c').write_bytes(b'int main() { return 1; }\n')
                 return original_respond(self,request)
             check.processes.ProcessFixture.respond=changed_input
+        if name=='changed-child-cwd':
+            def changed_cwd(self,request):
+                request['cwd']=str(self.work.parent)
+                return original_respond(self,request)
+            check.processes.ProcessFixture.respond=changed_cwd
         if name=='changed-output-artifact':
             def changed_output(self):
                 original_finish(self)

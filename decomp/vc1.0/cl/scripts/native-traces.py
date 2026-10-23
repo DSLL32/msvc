@@ -44,7 +44,7 @@ def application_symbols(object_directory):
     return definitions
 
 
-def project(object_directory):
+def project(object_directory,verify_capture=True):
     config_path, runtime_path = BINARY/'functions.json', BINARY/'runtime.json'
     config = json.loads(config_path.read_text())
     runtime = {r['name'] for r in json.loads(runtime_path.read_text())}
@@ -80,7 +80,16 @@ def project(object_directory):
         case_id = record.get('catalog_id',case)
         cases[case_id] = dict(first=first,last=last,seen_count=len(projected(accepted[:first])),
                              expected=projected(accepted[first:last]),terminal=dict(kind='exit'))
-    return dict(schema=1,description='Projection of existing original-backed acceptance metadata; no recapture',
+    capture_hashes={}
+    if verify_capture:
+        for case_id,segment in cases.items():
+            reference_path=BINARY/'cases/native-boundaries'/(case_id+'.json')
+            reference=json.loads(reference_path.read_text())
+            proof=reference['original_entry_proof']
+            assert proof['seen_prefix']==projected(accepted[:segment['first']]), 'original entry prefix mismatch'
+            assert proof['entries']==segment['expected'], 'original entry capture changed'
+            capture_hashes['cases/native-boundaries/'+case_id+'.json']=sha(reference_path)
+    return dict(schema=2,original_capture_sha256=capture_hashes,description='Projection of existing original-backed acceptance metadata; no recapture',
                 metadata_sha256={'functions.json':sha(config_path),'runtime.json':sha(runtime_path)},
                 application_definitions={n:dict(source=native[n]['source'],
                     logical=next(k for k in app if native_name(k)==n),
@@ -94,6 +103,8 @@ def load(object_directory, cache_path=CACHE):
     cache = json.loads(cache_path.read_text())
     for name,digest in cache['metadata_sha256'].items():
         assert sha(BINARY/name)==digest, 'native trace cache stale: '+name
+    for name,digest in cache['original_capture_sha256'].items():
+        assert sha(BINARY/name)==digest, 'original path/entry capture changed: '+name
     definitions = application_symbols(object_directory)
     expected = {n:r['source'] for n,r in cache['application_definitions'].items()}
     assert definitions==expected, 'unresolved/new/missing native application definition'

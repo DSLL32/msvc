@@ -9,22 +9,9 @@
     "case": "/?"
   },
   "exit_status": 0,
-  "streams": {
-    "stdout": {
-      "bytes": 3192,
-      "sha256": "51f4a347b8d10b930fcba947306fb12ce0027ec7f627d5dfa82e1234ce78808c"
-    },
-    "stderr": {
-      "bytes": 131,
-      "sha256": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069"
-    }
-  },
-  "validation": {
-    "clean_parallel_build": "make clean && make -j2 check",
-    "trap_replay": "make replay",
-    "matching_trap_frontiers": 140,
-    "source_functions_with_matching_callee_sets": 55,
-    "unmodified_original_matches": true,
-    "replay_log_sha256": "8d356475be0fc27a2242a0db0a4885112dab71988b2ed4f4e1cd37febf34ad0f"
+  "original_reference": "native-boundaries/help.json",
+  "historical_acceptance": {
+    "arguments": "/?",
+    "accepted_count": 140
   }
 }

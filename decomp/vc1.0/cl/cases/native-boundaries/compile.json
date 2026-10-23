@@ -1,15 +1,15 @@
 {
-  "schema": 1,
-  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "schema": 2,
+  "provenance": "Fresh original CL and child capture using fixed shared R:/S: drives; no native execution or relabeled raw data",
   "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
   "case": "compile",
   "arguments": "test.c",
   "environment": {
-    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
-    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
-    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
-    "TMP": "Q:\\compile",
-    "TEMP": "Q:\\compile"
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "TMP": ".",
+    "TEMP": "."
   },
   "initial": {
     "test.c": {
@@ -17,19 +17,156 @@
       "bytes": 26
     }
   },
+  "original_entry_proof": {
+    "method": "One-shot original application entry breakpoints; accepted application prefix excluded",
+    "seen_prefix": [
+      "main",
+      "install_control_handler",
+      "split_arguments",
+      "count_arguments",
+      "has_nologo",
+      "banner",
+      "write_message",
+      "format_message",
+      "program_name",
+      "initialize_driver",
+      "program_directory",
+      "copy_string",
+      "join_path",
+      "search_path",
+      "concatenate",
+      "allocate",
+      "parse_arguments",
+      "scan_option_kind",
+      "parse_option",
+      "find_rule",
+      "match_rule",
+      "read_option",
+      "new_item",
+      "append_items",
+      "expand_options",
+      "skip_space",
+      "expand_text",
+      "append_optional",
+      "select_options",
+      "free_items",
+      "match_item",
+      "validate_value",
+      "unsigned_digits",
+      "recycle_item",
+      "release",
+      "parse_attached_option",
+      "is_decimal",
+      "expand_choice",
+      "expand_extension",
+      "last_of",
+      "option_callback_190d0",
+      "remove_define",
+      "finish_options",
+      "is_for_pass",
+      "expand_filename",
+      "filename_stem",
+      "driver_switch_171fc",
+      "driver_switch_172e4",
+      "driver_switch_17274",
+      "load_messages",
+      "console_rows"
+    ],
+    "plan": {
+      "add_input": "0x75dd",
+      "any_match": "0x8fd6",
+      "append_string": "0xa3c7",
+      "classify_input": "0x7557",
+      "cleanup_files": "0xa6b8",
+      "compile_pass": "0x959e",
+      "control_handler": "0xafcc",
+      "copy_item": "0x76d4",
+      "detach_item": "0x773c",
+      "diagnostic_text": "0xaa63",
+      "driver_exit": "0xa7b3",
+      "driver_switch_17010": "0x7010",
+      "driver_switch_170a0": "0x70a0",
+      "driver_switch_1713c": "0x713c",
+      "driver_switch_1719c": "0x719c",
+      "driver_switch_17368": "0x7368",
+      "driver_switch_173ac": "0x73ac",
+      "expanded_length": "0xa1d1",
+      "fatal": "0xa757",
+      "file_message": "0xa936",
+      "force_input": "0x91b4",
+      "ide_abort": "0xacc7",
+      "ide_descriptor": "0xad00",
+      "ide_install": "0xae4c",
+      "ide_message": "0xad08",
+      "ide_write": "0xacd4",
+      "initialize_ide": "0xac84",
+      "initialize_pass": "0x9306",
+      "is_space": "0xa366",
+      "link_pass": "0x9980",
+      "map_filename": "0x9f3c",
+      "new_input": "0x75ae",
+      "nonblank_length": "0xa455",
+      "option_callback_19014": "0x9014",
+      "option_callback_19198": "0x9198",
+      "option_callback_1920c": "0x920c",
+      "option_callback_19228": "0x9228",
+      "output_stem": "0xa2fc",
+      "prepare_execution": "0xb007",
+      "prepare_inputs": "0x8a85",
+      "quote_if_space": "0xa4ae",
+      "read_response_file": "0x842b",
+      "report_timer": "0xabd1",
+      "run_driver": "0x93cd",
+      "run_passes": "0x9383",
+      "spawn_pass": "0xae65",
+      "start_timer": "0xabc3",
+      "usage": "0x8f2b",
+      "warn_override": "0x7f2a",
+      "warning": "0xab77",
+      "write_coff_response": "0x9ffe",
+      "write_message_list": "0xa910",
+      "write_omf_response": "0x9ae1"
+    },
+    "entries": [
+      "classify_input",
+      "add_input",
+      "new_input",
+      "prepare_inputs",
+      "prepare_execution",
+      "run_driver",
+      "run_passes",
+      "initialize_pass",
+      "compile_pass",
+      "expanded_length",
+      "nonblank_length",
+      "is_space",
+      "append_string",
+      "quote_if_space",
+      "spawn_pass",
+      "cleanup_files",
+      "link_pass",
+      "write_coff_response",
+      "file_message",
+      "driver_exit"
+    ],
+    "events": "application-entry 00007557\napplication-entry 000075dd\napplication-entry 000075ae\napplication-entry 00008a85\napplication-entry 0000b007\napplication-entry 000093cd\napplication-entry 00009383\napplication-entry 00009306\napplication-entry 0000959e\napplication-entry 0000a1d1\napplication-entry 0000a455\napplication-entry 0000a366\napplication-entry 0000a3c7\napplication-entry 0000a4ae\napplication-entry 0000ae65\napplication-entry 0000a6b8\napplication-entry 00009980\napplication-entry 00009ffe\napplication-entry 0000a936\napplication-entry 0000a7b3\nexit 00000000\n",
+    "capture_helper_sha256": "e40f18e3a94d0555660517b49de99bf19368a32538754a4ebc486b82b0724eb0",
+    "capture_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+    "case_cwd": "S:\\vc1.0\\cl\\compile"
+  },
   "boundaries": [
     {
       "mode": 0,
-      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
       "argv": [
-        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe"
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
       ],
       "environment": [
-        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Q:\\compile\\000292 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\000292 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I R:\\toolchains\\1.0-nt\\include "
       ],
       "status": 0,
       "errno": 0,
-      "cwd": "Q:\\compile",
+      "cwd": "S:\\vc1.0\\cl\\compile",
       "before": {
         "test.c": {
           "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
@@ -69,16 +206,16 @@
     },
     {
       "mode": 0,
-      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
       "argv": [
-        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe"
+        "R:\\toolchains\\1.0-nt\\bin\\c23232.exe"
       ],
       "environment": [
-        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Q:\\compile\\000292 -f test.c -W 1 -G4 -Gs4096 -dos -Fotest.obj -ML "
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il .\\000292 -f test.c -W 1 -G4 -Gs4096 -dos -Fotest.obj -ML "
       ],
       "status": 0,
       "errno": 0,
-      "cwd": "Q:\\compile",
+      "cwd": "S:\\vc1.0\\cl\\compile",
       "before": {
         "000292ex": {
           "sha256": "0d9286f298f6b7c7ed18130d6ad429da4a053b7bed65abd223c606b689e71070",
@@ -123,7 +260,7 @@
           "bytes": 26
         },
         "test.obj": {
-          "sha256": "61fd6095aed9329f9b8d031160d03e87f1b2298f2b7b658873a85a7072bfa309",
+          "sha256": "24dfc90d7dd615cceade38eb022a7b5bc08f1aa7d758669003e5c1086dd817ad",
           "bytes": 286
         }
       },
@@ -138,16 +275,16 @@
     },
     {
       "mode": 0,
-      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe",
+      "file": "R:\\toolchains\\1.0-nt\\bin\\link.exe",
       "argv": [
-        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe",
+        "R:\\toolchains\\1.0-nt\\bin\\link.exe",
         "-link",
-        "@Q:\\compile\\000292lk"
+        "@.\\000292lk"
       ],
       "environment": null,
       "status": 0,
       "errno": 0,
-      "cwd": "Q:\\compile",
+      "cwd": "S:\\vc1.0\\cl\\compile",
       "before": {
         "000292lk": {
           "sha256": "b2a43cc5fef4ece8154d10fd1b321bcb6acdb6d4474f932e08eebc7714f40d99",
@@ -158,7 +295,7 @@
           "bytes": 26
         },
         "test.obj": {
-          "sha256": "61fd6095aed9329f9b8d031160d03e87f1b2298f2b7b658873a85a7072bfa309",
+          "sha256": "24dfc90d7dd615cceade38eb022a7b5bc08f1aa7d758669003e5c1086dd817ad",
           "bytes": 286
         }
       },
@@ -172,11 +309,11 @@
           "bytes": 26
         },
         "test.exe": {
-          "sha256": "3097b6a42b7d610c8a8527b544561a1609c7077904ec93179d73f6683d59d8d8",
+          "sha256": "d7df17a92347beab480d5ad84df581a95ee97a8fd8b61508ebfc5896e6a97871",
           "bytes": 2097152
         },
         "test.obj": {
-          "sha256": "61fd6095aed9329f9b8d031160d03e87f1b2298f2b7b658873a85a7072bfa309",
+          "sha256": "24dfc90d7dd615cceade38eb022a7b5bc08f1aa7d758669003e5c1086dd817ad",
           "bytes": 286
         }
       },
@@ -193,15 +330,33 @@
   "final": {
     "test.c": {
       "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
-      "bytes": 26
+      "bytes": 26,
+      "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "ignored_fields": []
     },
     "test.exe": {
-      "sha256": "3097b6a42b7d610c8a8527b544561a1609c7077904ec93179d73f6683d59d8d8",
-      "bytes": 2097152
+      "sha256": "d7df17a92347beab480d5ad84df581a95ee97a8fd8b61508ebfc5896e6a97871",
+      "bytes": 2097152,
+      "normalized_sha256": "92b9d5585fb0a921da34f207353ce52f4ae46d9bb59745ae994446350ebc9d16",
+      "ignored_fields": [
+        {
+          "offset": 136,
+          "size": 4,
+          "reason": "PE COFF TimeDateStamp"
+        }
+      ]
     },
     "test.obj": {
-      "sha256": "61fd6095aed9329f9b8d031160d03e87f1b2298f2b7b658873a85a7072bfa309",
-      "bytes": 286
+      "sha256": "24dfc90d7dd615cceade38eb022a7b5bc08f1aa7d758669003e5c1086dd817ad",
+      "bytes": 286,
+      "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+      "ignored_fields": [
+        {
+          "offset": 4,
+          "size": 4,
+          "reason": "COFF TimeDateStamp"
+        }
+      ]
     }
   },
   "stdout": {
@@ -212,11 +367,11 @@
     "sha256": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069",
     "bytes": 131
   },
-  "events": "exit 00000000\n",
+  "events": "application-entry 00007557\napplication-entry 000075dd\napplication-entry 000075ae\napplication-entry 00008a85\napplication-entry 0000b007\napplication-entry 000093cd\napplication-entry 00009383\napplication-entry 00009306\napplication-entry 0000959e\napplication-entry 0000a1d1\napplication-entry 0000a455\napplication-entry 0000a366\napplication-entry 0000a3c7\napplication-entry 0000a4ae\napplication-entry 0000ae65\napplication-entry 0000a6b8\napplication-entry 00009980\napplication-entry 00009ffe\napplication-entry 0000a936\napplication-entry 0000a7b3\nexit 00000000\n",
   "timing": {
-    "setup_seconds": 0.006251734681427479,
-    "capture_execution_seconds": 4.163035044446588,
-    "capture_checks_seconds": 0.0729045495390892,
-    "total_seconds": 4.242192764766514
+    "setup_seconds": 0.0687076123431325,
+    "capture_execution_seconds": 5.739815149456263,
+    "capture_checks_seconds": 0.07487066462635994,
+    "total_seconds": 5.8833972457796335
   }
 }

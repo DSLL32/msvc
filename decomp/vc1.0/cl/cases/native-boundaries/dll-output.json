@@ -1,15 +1,15 @@
 {
-  "schema": 1,
-  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "schema": 2,
+  "provenance": "Fresh original CL and child capture using fixed shared R:/S: drives; no native execution or relabeled raw data",
   "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
   "case": "dll-output",
   "arguments": "/LD /Fedemo.dll dll.c",
   "environment": {
-    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
-    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
-    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
-    "TMP": "Q:\\dll-output",
-    "TEMP": "Q:\\dll-output"
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "TMP": ".",
+    "TEMP": "."
   },
   "initial": {
     "dll.c": {
@@ -17,19 +17,138 @@
       "bytes": 163
     }
   },
+  "original_entry_proof": {
+    "method": "One-shot original application entry breakpoints; accepted application prefix excluded",
+    "seen_prefix": [
+      "main",
+      "install_control_handler",
+      "split_arguments",
+      "count_arguments",
+      "has_nologo",
+      "banner",
+      "write_message",
+      "format_message",
+      "program_name",
+      "initialize_driver",
+      "program_directory",
+      "copy_string",
+      "join_path",
+      "search_path",
+      "concatenate",
+      "allocate",
+      "parse_arguments",
+      "scan_option_kind",
+      "parse_option",
+      "find_rule",
+      "match_rule",
+      "read_option",
+      "new_item",
+      "append_items",
+      "expand_options",
+      "skip_space",
+      "expand_text",
+      "append_optional",
+      "select_options",
+      "free_items",
+      "match_item",
+      "validate_value",
+      "unsigned_digits",
+      "recycle_item",
+      "release",
+      "parse_attached_option",
+      "is_decimal",
+      "expand_choice",
+      "expand_extension",
+      "last_of",
+      "option_callback_190d0",
+      "remove_define",
+      "finish_options",
+      "is_for_pass",
+      "expand_filename",
+      "filename_stem",
+      "driver_switch_171fc",
+      "driver_switch_172e4",
+      "driver_switch_17274",
+      "load_messages",
+      "console_rows",
+      "classify_input",
+      "add_input",
+      "new_input",
+      "prepare_inputs",
+      "prepare_execution",
+      "run_driver",
+      "run_passes",
+      "initialize_pass",
+      "compile_pass",
+      "expanded_length",
+      "nonblank_length",
+      "is_space",
+      "append_string",
+      "quote_if_space",
+      "spawn_pass",
+      "cleanup_files",
+      "link_pass",
+      "write_coff_response",
+      "file_message",
+      "driver_exit",
+      "detach_item",
+      "usage",
+      "option_callback_1920c",
+      "force_input",
+      "fatal",
+      "diagnostic_text",
+      "write_message_list",
+      "warning",
+      "warn_override",
+      "copy_item",
+      "driver_switch_17368",
+      "any_match",
+      "read_response_file",
+      "option_callback_19014",
+      "option_callback_19228",
+      "option_callback_19198",
+      "driver_switch_170a0",
+      "driver_switch_1713c",
+      "driver_switch_1719c"
+    ],
+    "plan": {
+      "control_handler": "0xafcc",
+      "driver_switch_17010": "0x7010",
+      "driver_switch_173ac": "0x73ac",
+      "ide_abort": "0xacc7",
+      "ide_descriptor": "0xad00",
+      "ide_install": "0xae4c",
+      "ide_message": "0xad08",
+      "ide_write": "0xacd4",
+      "initialize_ide": "0xac84",
+      "map_filename": "0x9f3c",
+      "output_stem": "0xa2fc",
+      "report_timer": "0xabd1",
+      "start_timer": "0xabc3",
+      "write_omf_response": "0x9ae1"
+    },
+    "entries": [
+      "driver_switch_17010",
+      "output_stem"
+    ],
+    "events": "application-entry 00007010\napplication-entry 0000a2fc\nexit 00000000\n",
+    "capture_helper_sha256": "e40f18e3a94d0555660517b49de99bf19368a32538754a4ebc486b82b0724eb0",
+    "capture_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+    "case_cwd": "S:\\vc1.0\\cl\\dll-output"
+  },
   "boundaries": [
     {
       "mode": 0,
-      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
       "argv": [
-        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe"
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
       ],
       "environment": [
-        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Q:\\dll-output\\000292 -f dll.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fodll.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -D_MT -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\001188 -f dll.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fodll.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -D_MT -I R:\\toolchains\\1.0-nt\\include "
       ],
       "status": 0,
       "errno": 0,
-      "cwd": "Q:\\dll-output",
+      "cwd": "S:\\vc1.0\\cl\\dll-output",
       "before": {
         "dll.c": {
           "sha256": "98813f783e7cd62a2a0fe10b36d155b8acac0f182d11e1e9bee06b2d7103598b",
@@ -37,19 +156,19 @@
         }
       },
       "after": {
-        "000292ex": {
+        "001188ex": {
           "sha256": "43b9aa8ab81b717f66c32f7f4c223e10a213111baa590d500a6e1b0a288fb814",
           "bytes": 1055
         },
-        "000292gl": {
+        "001188gl": {
           "sha256": "4639601ae4e909db2925c33f4b6b4d5a0f36aa8903714d8c776163ce502aedcb",
           "bytes": 81
         },
-        "000292in": {
+        "001188in": {
           "sha256": "c4ae960af5e15e52f0707cf63ded71f43aabdefdc600158ca144c30b8b7615f1",
           "bytes": 6
         },
-        "000292sy": {
+        "001188sy": {
           "sha256": "ee1027870dce90da33efb1f8121062fc4d7e294c68ca9d623d49fbd9b096f359",
           "bytes": 90
         },
@@ -69,30 +188,30 @@
     },
     {
       "mode": 0,
-      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
       "argv": [
-        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23232.exe"
+        "R:\\toolchains\\1.0-nt\\bin\\c23232.exe"
       ],
       "environment": [
-        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c23.err -il Q:\\dll-output\\000292 -f dll.c -W 1 -G4 -Gs4096 -dos -Fodll.obj -MT "
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il .\\001188 -f dll.c -W 1 -G4 -Gs4096 -dos -Fodll.obj -MT "
       ],
       "status": 0,
       "errno": 0,
-      "cwd": "Q:\\dll-output",
+      "cwd": "S:\\vc1.0\\cl\\dll-output",
       "before": {
-        "000292ex": {
+        "001188ex": {
           "sha256": "43b9aa8ab81b717f66c32f7f4c223e10a213111baa590d500a6e1b0a288fb814",
           "bytes": 1055
         },
-        "000292gl": {
+        "001188gl": {
           "sha256": "4639601ae4e909db2925c33f4b6b4d5a0f36aa8903714d8c776163ce502aedcb",
           "bytes": 81
         },
-        "000292in": {
+        "001188in": {
           "sha256": "c4ae960af5e15e52f0707cf63ded71f43aabdefdc600158ca144c30b8b7615f1",
           "bytes": 6
         },
-        "000292sy": {
+        "001188sy": {
           "sha256": "ee1027870dce90da33efb1f8121062fc4d7e294c68ca9d623d49fbd9b096f359",
           "bytes": 90
         },
@@ -102,19 +221,19 @@
         }
       },
       "after": {
-        "000292ex": {
+        "001188ex": {
           "sha256": "43b9aa8ab81b717f66c32f7f4c223e10a213111baa590d500a6e1b0a288fb814",
           "bytes": 1055
         },
-        "000292gl": {
+        "001188gl": {
           "sha256": "4639601ae4e909db2925c33f4b6b4d5a0f36aa8903714d8c776163ce502aedcb",
           "bytes": 81
         },
-        "000292in": {
+        "001188in": {
           "sha256": "c4ae960af5e15e52f0707cf63ded71f43aabdefdc600158ca144c30b8b7615f1",
           "bytes": 6
         },
-        "000292sy": {
+        "001188sy": {
           "sha256": "ee1027870dce90da33efb1f8121062fc4d7e294c68ca9d623d49fbd9b096f359",
           "bytes": 90
         },
@@ -123,7 +242,7 @@
           "bytes": 163
         },
         "dll.obj": {
-          "sha256": "682c68b63398ff7dce64ee594f529f218c9325a434219bbdfe6b6ee7c7f53f70",
+          "sha256": "71d0fcd20186ad7c85b4ad8162d479a23ca94f2a17e6dca545084cd6b0ac28c0",
           "bytes": 360
         }
       },
@@ -138,18 +257,18 @@
     },
     {
       "mode": 0,
-      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe",
+      "file": "R:\\toolchains\\1.0-nt\\bin\\link.exe",
       "argv": [
-        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\link.exe",
+        "R:\\toolchains\\1.0-nt\\bin\\link.exe",
         "-link",
-        "@Q:\\dll-output\\000292lk"
+        "@.\\001188lk"
       ],
       "environment": null,
       "status": 0,
       "errno": 0,
-      "cwd": "Q:\\dll-output",
+      "cwd": "S:\\vc1.0\\cl\\dll-output",
       "before": {
-        "000292lk": {
+        "001188lk": {
           "sha256": "eaf3f35a8559b1543c56240f5ed8af3d7dc56d40d21436cc5dbc7791bd5032cd",
           "bytes": 61
         },
@@ -158,25 +277,25 @@
           "bytes": 163
         },
         "dll.obj": {
-          "sha256": "682c68b63398ff7dce64ee594f529f218c9325a434219bbdfe6b6ee7c7f53f70",
+          "sha256": "71d0fcd20186ad7c85b4ad8162d479a23ca94f2a17e6dca545084cd6b0ac28c0",
           "bytes": 360
         }
       },
       "after": {
-        "000292lk": {
+        "001188lk": {
           "sha256": "eaf3f35a8559b1543c56240f5ed8af3d7dc56d40d21436cc5dbc7791bd5032cd",
           "bytes": 61
         },
         "demo.dll": {
-          "sha256": "7916fe28c6c4c298e4e76d6ca6ea804a82e6295f50958494dada9164c0205733",
+          "sha256": "d7f98050c98083d3047afa82b38128936d167109951260ff4698c1a861ec1a3a",
           "bytes": 2097152
         },
         "demo.exp": {
-          "sha256": "805cccbb293097a0bf7dec0c4593b166b9e9238eecec41ba0e7e0d26d6afdd24",
+          "sha256": "778eaf76f9889a76b1eb7b804be33d08f9037fc44878dfe7119a99dd0d31faed",
           "bytes": 2097152
         },
         "demo.lib": {
-          "sha256": "8b487b57d594454c539d6194df8c638a3aaca3c4689ebd6c4fb9c6690d1eec94",
+          "sha256": "023274f47870dc3ff561dc86f3f062b48b2d69f96badf51cb2ed6af64d568acb",
           "bytes": 2097152
         },
         "dll.c": {
@@ -184,7 +303,7 @@
           "bytes": 163
         },
         "dll.obj": {
-          "sha256": "682c68b63398ff7dce64ee594f529f218c9325a434219bbdfe6b6ee7c7f53f70",
+          "sha256": "71d0fcd20186ad7c85b4ad8162d479a23ca94f2a17e6dca545084cd6b0ac28c0",
           "bytes": 360
         }
       },
@@ -200,24 +319,128 @@
   ],
   "final": {
     "demo.dll": {
-      "sha256": "7916fe28c6c4c298e4e76d6ca6ea804a82e6295f50958494dada9164c0205733",
-      "bytes": 2097152
+      "sha256": "d7f98050c98083d3047afa82b38128936d167109951260ff4698c1a861ec1a3a",
+      "bytes": 2097152,
+      "normalized_sha256": "ef14ed75b5c9cdd1329f36bdeddded958bd9380fde3f5d925a8e41f25f375e85",
+      "ignored_fields": [
+        {
+          "offset": 136,
+          "size": 4,
+          "reason": "PE COFF TimeDateStamp"
+        },
+        {
+          "offset": 11780,
+          "size": 4,
+          "reason": "export-directory TimeDateStamp"
+        }
+      ]
     },
     "demo.exp": {
-      "sha256": "805cccbb293097a0bf7dec0c4593b166b9e9238eecec41ba0e7e0d26d6afdd24",
-      "bytes": 2097152
+      "sha256": "778eaf76f9889a76b1eb7b804be33d08f9037fc44878dfe7119a99dd0d31faed",
+      "bytes": 2097152,
+      "normalized_sha256": "e0ae877a17b8dafbf8e6ebf9cefae4042a53c4268d37259d033fe2a0ff1ff6b4",
+      "ignored_fields": [
+        {
+          "offset": 4,
+          "size": 4,
+          "reason": "COFF TimeDateStamp"
+        },
+        {
+          "offset": 64,
+          "size": 4,
+          "reason": "export-directory TimeDateStamp"
+        }
+      ]
     },
     "demo.lib": {
-      "sha256": "8b487b57d594454c539d6194df8c638a3aaca3c4689ebd6c4fb9c6690d1eec94",
-      "bytes": 2097152
+      "sha256": "023274f47870dc3ff561dc86f3f062b48b2d69f96badf51cb2ed6af64d568acb",
+      "bytes": 2097152,
+      "normalized_sha256": "21c70f6b1ca82289dc5bea66bc371b7c80e1f62fb100b2245234b1e009943b40",
+      "ignored_fields": [
+        {
+          "offset": 24,
+          "size": 12,
+          "reason": "archive-member decimal modification timestamp"
+        },
+        {
+          "offset": 216,
+          "size": 12,
+          "reason": "archive-member decimal modification timestamp"
+        },
+        {
+          "offset": 420,
+          "size": 12,
+          "reason": "archive-member decimal modification timestamp"
+        },
+        {
+          "offset": 468,
+          "size": 4,
+          "reason": "COFF TimeDateStamp"
+        },
+        {
+          "offset": 1062,
+          "size": 12,
+          "reason": "archive-member decimal modification timestamp"
+        },
+        {
+          "offset": 1110,
+          "size": 4,
+          "reason": "COFF TimeDateStamp"
+        },
+        {
+          "offset": 1248,
+          "size": 12,
+          "reason": "archive-member decimal modification timestamp"
+        },
+        {
+          "offset": 1296,
+          "size": 4,
+          "reason": "COFF TimeDateStamp"
+        },
+        {
+          "offset": 1460,
+          "size": 12,
+          "reason": "archive-member decimal modification timestamp"
+        },
+        {
+          "offset": 1508,
+          "size": 4,
+          "reason": "COFF TimeDateStamp"
+        },
+        {
+          "offset": 1568,
+          "size": 4,
+          "reason": "export-directory TimeDateStamp"
+        },
+        {
+          "offset": 1860,
+          "size": 12,
+          "reason": "archive-member decimal modification timestamp"
+        },
+        {
+          "offset": 1908,
+          "size": 4,
+          "reason": "COFF TimeDateStamp"
+        }
+      ]
     },
     "dll.c": {
       "sha256": "98813f783e7cd62a2a0fe10b36d155b8acac0f182d11e1e9bee06b2d7103598b",
-      "bytes": 163
+      "bytes": 163,
+      "normalized_sha256": "98813f783e7cd62a2a0fe10b36d155b8acac0f182d11e1e9bee06b2d7103598b",
+      "ignored_fields": []
     },
     "dll.obj": {
-      "sha256": "682c68b63398ff7dce64ee594f529f218c9325a434219bbdfe6b6ee7c7f53f70",
-      "bytes": 360
+      "sha256": "71d0fcd20186ad7c85b4ad8162d479a23ca94f2a17e6dca545084cd6b0ac28c0",
+      "bytes": 360,
+      "normalized_sha256": "b56599c3fe4a9a90790832db77502af7d796e57ca4d74fb7713bc2b3be9cfc28",
+      "ignored_fields": [
+        {
+          "offset": 4,
+          "size": 4,
+          "reason": "COFF TimeDateStamp"
+        }
+      ]
     }
   },
   "stdout": {
@@ -228,11 +451,11 @@
     "sha256": "d4e5959da9b2f2b52f296cad1967c57119f67c79f265ef8fa7a8bdd60bbab069",
     "bytes": 131
   },
-  "events": "exit 00000000\n",
+  "events": "application-entry 00007010\napplication-entry 0000a2fc\nexit 00000000\n",
   "timing": {
-    "setup_seconds": 0.005856487900018692,
-    "capture_execution_seconds": 6.6892026690766215,
-    "capture_checks_seconds": 0.12918223068118095,
-    "total_seconds": 6.824242881499231
+    "setup_seconds": 0.06530589610338211,
+    "capture_execution_seconds": 4.020735117606819,
+    "capture_checks_seconds": 0.14999787975102663,
+    "total_seconds": 4.2360417591407895
   }
 }

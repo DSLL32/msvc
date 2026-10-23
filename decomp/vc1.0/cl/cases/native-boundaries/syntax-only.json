@@ -1,15 +1,15 @@
 {
-  "schema": 1,
-  "provenance": "Original CL.EXE and children; explicit capture; existing oracles checked without refresh",
+  "schema": 2,
+  "provenance": "Fresh original CL and child capture using fixed shared R:/S: drives; no native execution or relabeled raw data",
   "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
   "case": "syntax-only",
   "arguments": "/Zs test.c",
   "environment": {
-    "PATH": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin",
-    "INCLUDE": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\include",
-    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
-    "TMP": "Q:\\syntax-only",
-    "TEMP": "Q:\\syntax-only"
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "TMP": ".",
+    "TEMP": "."
   },
   "initial": {
     "test.c": {
@@ -17,19 +17,134 @@
       "bytes": 26
     }
   },
+  "original_entry_proof": {
+    "method": "One-shot original application entry breakpoints; accepted application prefix excluded",
+    "seen_prefix": [
+      "main",
+      "install_control_handler",
+      "split_arguments",
+      "count_arguments",
+      "has_nologo",
+      "banner",
+      "write_message",
+      "format_message",
+      "program_name",
+      "initialize_driver",
+      "program_directory",
+      "copy_string",
+      "join_path",
+      "search_path",
+      "concatenate",
+      "allocate",
+      "parse_arguments",
+      "scan_option_kind",
+      "parse_option",
+      "find_rule",
+      "match_rule",
+      "read_option",
+      "new_item",
+      "append_items",
+      "expand_options",
+      "skip_space",
+      "expand_text",
+      "append_optional",
+      "select_options",
+      "free_items",
+      "match_item",
+      "validate_value",
+      "unsigned_digits",
+      "recycle_item",
+      "release",
+      "parse_attached_option",
+      "is_decimal",
+      "expand_choice",
+      "expand_extension",
+      "last_of",
+      "option_callback_190d0",
+      "remove_define",
+      "finish_options",
+      "is_for_pass",
+      "expand_filename",
+      "filename_stem",
+      "driver_switch_171fc",
+      "driver_switch_172e4",
+      "driver_switch_17274",
+      "load_messages",
+      "console_rows",
+      "classify_input",
+      "add_input",
+      "new_input",
+      "prepare_inputs",
+      "prepare_execution",
+      "run_driver",
+      "run_passes",
+      "initialize_pass",
+      "compile_pass",
+      "expanded_length",
+      "nonblank_length",
+      "is_space",
+      "append_string",
+      "quote_if_space",
+      "spawn_pass",
+      "cleanup_files",
+      "link_pass",
+      "write_coff_response",
+      "file_message",
+      "driver_exit",
+      "detach_item",
+      "usage",
+      "option_callback_1920c",
+      "force_input",
+      "fatal",
+      "diagnostic_text",
+      "write_message_list",
+      "warning",
+      "warn_override",
+      "copy_item",
+      "driver_switch_17368",
+      "any_match",
+      "read_response_file",
+      "option_callback_19014",
+      "option_callback_19228",
+      "option_callback_19198",
+      "driver_switch_170a0",
+      "driver_switch_1713c",
+      "driver_switch_1719c",
+      "driver_switch_17010",
+      "output_stem",
+      "map_filename",
+      "driver_switch_173ac",
+      "initialize_ide",
+      "ide_install",
+      "ide_descriptor",
+      "ide_message",
+      "ide_write",
+      "start_timer",
+      "report_timer",
+      "control_handler",
+      "write_omf_response",
+      "ide_abort"
+    ],
+    "plan": {},
+    "entries": [],
+    "events": "exit 00000000\n",
+    "capture_helper_sha256": "e40f18e3a94d0555660517b49de99bf19368a32538754a4ebc486b82b0724eb0",
+    "capture_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+    "case_cwd": "S:\\vc1.0\\cl\\syntax-only"
+  },
   "boundaries": [
     {
       "mode": 0,
-      "file": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
       "argv": [
-        "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c13232.exe"
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
       ],
       "environment": [
-        "MSC_CMD_FLAGS=-ef Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\c1.err -il Q:\\syntax-only\\000296 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I Z:\\root\\msvc2\\toolchains\\1.0-nt\\include "
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\000996 -f test.c -W 1 -Ze -Zp8 -D_M_IX86=400 -G4 -Gs -Ot -Ob0 -Fotest.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -I R:\\toolchains\\1.0-nt\\include "
       ],
       "status": 0,
       "errno": 0,
-      "cwd": "Q:\\syntax-only",
+      "cwd": "S:\\vc1.0\\cl\\syntax-only",
       "before": {
         "test.c": {
           "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
@@ -37,19 +152,19 @@
         }
       },
       "after": {
-        "000296ex": {
+        "000996ex": {
           "sha256": "0d9286f298f6b7c7ed18130d6ad429da4a053b7bed65abd223c606b689e71070",
           "bytes": 866
         },
-        "000296gl": {
+        "000996gl": {
           "sha256": "97b9a9b6d3935f0bf52fc9ce60ecec9696e25f15d6776c3dee7e865db7c28e8f",
           "bytes": 50
         },
-        "000296in": {
+        "000996in": {
           "sha256": "75a8e1fec5044c324759815b5b040b07908d4432ddbe67100ea03b286b4a843b",
           "bytes": 3
         },
-        "000296sy": {
+        "000996sy": {
           "sha256": "a7f231245a77dfb06e5ce3790fcb7187f73b3a23270e5e16deaa431cfe524671",
           "bytes": 13
         },
@@ -71,7 +186,9 @@
   "final": {
     "test.c": {
       "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
-      "bytes": 26
+      "bytes": 26,
+      "normalized_sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2",
+      "ignored_fields": []
     }
   },
   "stdout": {
@@ -84,9 +201,9 @@
   },
   "events": "exit 00000000\n",
   "timing": {
-    "setup_seconds": 0.004247848875820637,
-    "capture_execution_seconds": 4.457800190895796,
-    "capture_checks_seconds": 0.005587891675531864,
-    "total_seconds": 4.467637189663947
+    "setup_seconds": 0.06715953908860683,
+    "capture_execution_seconds": 1.7742361947894096,
+    "capture_checks_seconds": 0.028624587692320347,
+    "total_seconds": 1.870021971873939
   }
 }

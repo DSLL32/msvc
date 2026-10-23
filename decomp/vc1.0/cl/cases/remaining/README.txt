@@ -11,8 +11,8 @@ make check verifies every completed case. No indexed source function is stubbed.
 coverage.json preserves the earlier original-only entry-probe observations,
 which reached 24 of the then-known 25 remaining driver entries. Further paired
 traps identified additional diagnostic, IDE and forced-input helpers and two
-older CRT routines. That historical report is discovery evidence. validation.json
-is the completed paired-case evidence; neither report is branch coverage.
+older CRT routines. That historical report is discovery evidence. semantic-coverage.json
+retains the completed case semantics; neither report is branch coverage.
 
 Run native regressions from decomp/vc1.0/cl:
 
@@ -109,8 +109,8 @@ Paired validation
 
 Each completed case compares its exit status, raw stdout/stderr, the complete
 set of input/output filenames and every product byte with the masked and
-unmodified original. validation.json records raw and normalized product hashes,
-stream contents/hashes, debugger events, and exact excluded timestamp offsets.
+unmodified original. The current ../native-boundaries records fresh original product hashes, streams,
+application entry proofs, debugger events, and identified clock fields.
 The expected nonzero statuses are intentional: diagnostic/compiler failures
 return 2; interrupt callbacks return 4. The original INCLUDE-space failure is
 preserved. The historical captures used original C1/C2/LINK children; current native
@@ -135,7 +135,7 @@ execution of the timer, timezone parser, DST logic and time conversions. Four
 clock calls must occur per two-pass case. extra.json adds UTC, signed offsets
 with minutes/seconds, April and October transition dates, a pre-1967 date, and
 the older pre-1987 April rule. These are the original CRT rules, not modern OS
-DST policy. /FEEDBACK uses identical visible Q: paths in independent prefixes.
+DST policy. /FEEDBACK uses fixed visible S: paths in isolated native namespaces.
 
 Explicit internal-state cases
 ----------------------------
