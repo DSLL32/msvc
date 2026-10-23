@@ -1,0 +1,16 @@
+[
+  {
+    "case": "help",
+    "terminal": "trap",
+    "function": "main",
+    "executable_sha256": "ad5d7916fa193f3de952d77219c2b6c727fef789d613930459d4906981886fe7",
+    "configuration_sha256": "2dd9c1ea99b8a8a5dc4dc1c5756be6b2f956351053f3dcb2257a67218813017c",
+    "seconds": {
+      "setup": 0.0022192085161805153,
+      "execution": 0.00569827388972044,
+      "debugging": 0.13644519355148077,
+      "checks": 0.0021170703694224358,
+      "total": 0.14648433588445187
+    }
+  }
+]

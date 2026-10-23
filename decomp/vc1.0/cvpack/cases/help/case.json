@@ -1,0 +1,24 @@
+{
+  "name": "help",
+  "argv": [
+    "/help"
+  ],
+  "inputs": [],
+  "current": {
+    "terminal": "trap",
+    "logical": "parse_options",
+    "native_function": "parse_options",
+    "stdout": "frontier.stdout",
+    "stderr": "frontier.stderr",
+    "application_trace": [
+      "main",
+      "parse_options"
+    ]
+  },
+  "complete_reference": {
+    "capture": "reference/capture.json",
+    "stdout": "reference/stdout",
+    "stderr": "reference/stderr",
+    "exit": 1
+  }
+}

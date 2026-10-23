@@ -1,0 +1,27 @@
+exception 80000003 va 0002c260 base 00010000 first 1
+registers eax 3fff1000 ebx 3fff1000 ecx 00000000 edx 0002c260 esi 00000000 edi 00000000 ebp 0024ff68 esp 0024ff54 eip 0002c261
+stack 0 7bb7ea40
+stack 1 3fff1000
+stack 2 7bcfce83
+stack 3 7bcfce83
+stack 4 3fff1000
+stack 5 0024ff80
+stack 6 7bcfce83
+stack 7 3fff1000
+stack 8 00000000
+stack 9 00000000
+stack 10 00000000
+stack 11 0024ffec
+stack 12 7bd31aa5
+stack 13 7bb7ea30
+stack 14 0002c260
+stack 15 3fff1000
+stack 16 ffffffff
+stack 17 7bd2b150
+stack 18 7bd31c60
+stack 19 00000000
+stack 20 0024ffec
+stack 21 3fff1000
+stack 22 00000000
+stack 23 00000000
+exit 99

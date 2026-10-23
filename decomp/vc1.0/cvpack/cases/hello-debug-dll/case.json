@@ -1,0 +1,37 @@
+{
+  "name": "hello-debug-dll",
+  "argv": [
+    "/nologo",
+    "/cvnew",
+    "hello-debug.dll"
+  ],
+  "inputs": [
+    {
+      "path": "decomp/vc1.0/link/cases/native-boundaries/hello-debug-dll/before.dll",
+      "name": "hello-debug.dll",
+      "bytes": 2097152,
+      "sha256": "81a603fcfffc6229f408dc056a54441d3806b09c8526cab8b3a1b5de74959036"
+    }
+  ],
+  "current": {
+    "terminal": "trap",
+    "logical": "parse_options",
+    "native_function": "parse_options",
+    "stdout": "frontier.stdout",
+    "stderr": "frontier.stderr",
+    "application_trace": [
+      "main",
+      "parse_options"
+    ]
+  },
+  "complete_reference": {
+    "path": "decomp/vc1.0/link/cases/native-boundaries/hello-debug-dll/after.dll",
+    "bytes": 71800,
+    "sha256": "6a22d74889ac7ff812a06f6db99fb33b5c958adad98e5321a8fb53e47b02b275",
+    "manifest": "decomp/vc1.0/link/cases/native-boundaries/hello-debug-dll/manifest.json",
+    "exit": 0,
+    "stdout": "",
+    "stderr": "",
+    "normalization": []
+  }
+}

@@ -1,0 +1,33 @@
+{
+  "case": "help",
+  "unmasked": false,
+  "command": [
+    "wine",
+    "/root/msvc2/decomp/vc1.0/cvpack/build/debug-run.exe",
+    "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\startup-help-state\\CVPACK.EXE",
+    "/help",
+    "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\startup-help-state\\stdout",
+    "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\startup-help-state\\stderr",
+    "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\startup-help-state\\events",
+    "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\startup-help-state\\work",
+    "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\startup-help-state\\runtime-plan",
+    "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\CVPACK.EXE"
+  ],
+  "original_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+  "executable_sha256": "503da558315ef47a283468b1cf9d77af302cc0b3e30c9fa8557866e21f522485",
+  "debugger_sha256": "700b8fdd173dd68c9e3d2211009c2102d854c948473286f220fd6598c895e5f6",
+  "configuration_sha256": "2dd9c1ea99b8a8a5dc4dc1c5756be6b2f956351053f3dcb2257a67218813017c",
+  "discover_runtime": true,
+  "canonical_argv0": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\CVPACK.EXE",
+  "environment": {
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib",
+    "_MSC_IDE_FLAGS": null
+  },
+  "accepted": [],
+  "seconds": {
+    "setup": 0.1090768575668335,
+    "execution": 1.5124035133048892,
+    "total": 1.6399789210408926
+  },
+  "artifacts": []
+}

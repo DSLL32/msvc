@@ -1,0 +1,128 @@
+[
+  {
+    "name": "show_logo",
+    "symbol": "_show_logo",
+    "original": 225284,
+    "size": 4,
+    "source": "src/main.c"
+  },
+  {
+    "name": "banner_pending",
+    "symbol": "_banner_pending",
+    "original": 225304,
+    "size": 4,
+    "source": "src/main.c"
+  },
+  {
+    "name": "cvnew",
+    "symbol": "_cvnew",
+    "original": 225316,
+    "size": 4,
+    "source": "src/main.c"
+  },
+  {
+    "name": "feedback",
+    "symbol": "_feedback",
+    "original": 225308,
+    "size": 4,
+    "source": "src/main.c"
+  },
+  {
+    "name": "pcode",
+    "symbol": "_pcode",
+    "original": 225300,
+    "size": 4,
+    "source": "src/main.c"
+  },
+  {
+    "name": "input_file",
+    "symbol": "_input_file",
+    "original": 209572,
+    "size": 4,
+    "source": "src/main.c"
+  },
+  {
+    "name": "already_packed",
+    "symbol": "_already_packed",
+    "original": 227420,
+    "size": 4,
+    "source": "src/main.c"
+  },
+  {
+    "name": "checksum_required",
+    "symbol": "_checksum_required",
+    "original": 227488,
+    "size": 4,
+    "source": "src/main.c"
+  },
+  {
+    "name": "mapped_io",
+    "symbol": "_mapped_io",
+    "original": 225320,
+    "size": 1,
+    "source": "src/main.c"
+  },
+  {
+    "name": "debug_present",
+    "symbol": "_debug_present",
+    "original": 227416,
+    "size": 1,
+    "source": "src/main.c"
+  },
+  {
+    "name": "module_count",
+    "symbol": "_module_count",
+    "original": 227448,
+    "size": 2,
+    "source": "src/main.c"
+  },
+  {
+    "name": "statistics_enabled",
+    "symbol": "_statistics_enabled",
+    "original": 225540,
+    "size": 2,
+    "source": "src/main.c"
+  },
+  {
+    "name": "executable_name",
+    "symbol": "_executable_name",
+    "original": 210504,
+    "size": 260,
+    "source": "src/main.c"
+  },
+  {
+    "name": "directory_data",
+    "symbol": "_directory_data",
+    "original": 208980,
+    "size": 4,
+    "source": "src/main.c"
+  },
+  {
+    "name": "module_data",
+    "symbol": "_module_data",
+    "original": 208984,
+    "size": 4,
+    "source": "src/main.c"
+  },
+  {
+    "name": "type_data",
+    "symbol": "_type_data",
+    "original": 208988,
+    "size": 4,
+    "source": "src/main.c"
+  },
+  {
+    "name": "symbol_data",
+    "symbol": "_symbol_data",
+    "original": 208992,
+    "size": 4,
+    "source": "src/main.c"
+  },
+  {
+    "name": "line_data",
+    "symbol": "_line_data",
+    "original": 208996,
+    "size": 4,
+    "source": "src/main.c"
+  }
+]

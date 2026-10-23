@@ -1,0 +1,17 @@
+{
+  "argv": [
+    "cvpack.exe",
+    "/help"
+  ],
+  "exit": 1,
+  "seconds": 4.401342896744609,
+  "original_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+  "environment_unset": [
+    "CL",
+    "_CL_",
+    "LINK",
+    "_LINK_",
+    "MSC_CMD_FLAGS"
+  ],
+  "prefix": "/root/.ai-tmp/vc1.0-capture/wine"
+}

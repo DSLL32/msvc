@@ -1,0 +1,25 @@
+{
+  "case": "help",
+  "unmasked": false,
+  "command": [
+    "wine",
+    "/root/msvc2/decomp/vc1.0/cvpack/build/debug-run.exe",
+    "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\scaffold-original-help\\CVPACK.EXE",
+    "/help",
+    "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\scaffold-original-help\\stdout",
+    "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\scaffold-original-help\\stderr",
+    "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\scaffold-original-help\\events",
+    "Z:\\root\\.ai-tmp\\vc1.0-cvpack\\scaffold-original-help\\work"
+  ],
+  "original_sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+  "executable_sha256": "503da558315ef47a283468b1cf9d77af302cc0b3e30c9fa8557866e21f522485",
+  "debugger_sha256": "35726283818cb1abf4d4b88dc8f78a908d4906029e77956461a98bc8b56ae053",
+  "configuration_sha256": "6933fdd0d033d944c9daf2533802304944d57d338abf940ebb0aea0656df544e",
+  "accepted": [],
+  "seconds": {
+    "setup": 0.005467219278216362,
+    "execution": 1.592621024698019,
+    "total": 1.6169291492551565
+  },
+  "artifacts": []
+}

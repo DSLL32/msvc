@@ -1,0 +1,21 @@
+{
+  "schema": 1,
+  "cases": [
+    {
+      "name": "help",
+      "argv": [
+        "/help"
+      ],
+      "status": "active"
+    },
+    {
+      "name": "hello-debug-dll",
+      "argv": [
+        "/nologo",
+        "/cvnew",
+        "hello-debug.dll"
+      ],
+      "status": "queued"
+    }
+  ]
+}
