@@ -255,6 +255,7 @@ static void widen_state(FILE *log, HANDLE process, CONTEXT *context, DWORD site)
             memory(log, process, widen_arguments[0], length);
         } else {
             memory(log, process, widen_arguments[0], 16);
+            if (site == 0x4102fa) memory(log, process, widen_arguments[1], widen_arguments[2]);
             if (site == 0x41031d && read_bytes(process, widen_arguments[0], description, 16)) {
                 memory(log, process, widen_arguments[1], widen_arguments[2]);
                 memory(log, process, description[2], widen_capacities[0]);

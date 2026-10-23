@@ -17,6 +17,7 @@ checked_allocations=[]
 cleared_allocations=[]
 module_allocations=[]
 widen_factory_calls=[]
+widen_query_calls=[]
 lookup_calls=[]
 lookup_stack=[]
 type_compare_calls=[]
@@ -201,6 +202,35 @@ def install(configuration):
                     entry_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")),owner='widen_subsection',local='object')
                 widen_factory_calls.append(call);WidenFactoryReturned(call);return False
         WidenFactoryEntered()
+
+    if config.get('observe_widen_query'):
+        class WidenQueryReturned(gdb.FinishBreakpoint):
+            def __init__(self,call):
+                self.call=call
+                super().__init__(gdb.newest_frame(),internal=True)
+            def stop(self):
+                call=self.call;inferior=gdb.selected_inferior()
+                call.update(result=int(self.return_value),description_after=bytes(inferior.read_memory(call['description'],16)).hex(),
+                    input_after=bytes(inferior.read_memory(call['input_address'],call['size'])).hex(),
+                    exit_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
+                assert int(gdb.parse_and_eval("'native-widen.c'::stage"))==2 and int(gdb.parse_and_eval("'native-widen.c'::cursor"))==0,'query provider lifetime/state differs'
+                return False
+        class WidenQueryEntered(gdb.Breakpoint):
+            def __init__(self):super().__init__("native-widen.c:query",internal=True)
+            def stop(self):
+                frame=gdb.newest_frame();owner=frame.older()
+                while owner is not None and owner.name()!='widen_subsection':owner=owner.older()
+                assert owner is not None
+                obj=int(frame.read_var('object'));out=int(frame.read_var('out'));source=int(frame.read_var('input'));size=int(frame.read_var('size'))
+                assert obj==int(owner.read_var('object'))==widen_factory_calls[0]['object'],'query opaque object caller/factory alias differs'
+                assert out==int(owner.read_var('output').address),'query output descriptor actual caller-local alias differs'
+                assert source==int(owner.read_var('buffer').dereference())+4 and size==int(owner.read_var('input_size')),'query input actual caller alias/extent differs'
+                inferior=gdb.selected_inferior()
+                call=dict(object=obj,description=out,input_address=source,size=size,flags=int(frame.read_var('flags')),
+                    description_before=bytes(inferior.read_memory(out,16)).hex(),input=bytes(inferior.read_memory(source,size)).hex(),
+                    entry_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
+                widen_query_calls.append(call);WidenQueryReturned(call);return False
+        WidenQueryEntered()
 
     if config.get('observe_global_type_lookup'):
         class LookupReturned(gdb.FinishBreakpoint):
@@ -395,9 +425,9 @@ def capture(configuration,data_file,output):
             while owner is not None and owner.name()!=item['owner']:owner=owner.older()
             assert owner is not None and int(owner.read_var(item['local']))==int(value),'opaque object caller-local alias differs'
             assert len(widen_factory_calls)==1 and widen_factory_calls[0]['object']==int(value),'opaque object was not returned by observed factory'
-            assert int(gdb.parse_and_eval("'native-widen.c'::stage"))==1 and int(gdb.parse_and_eval("'native-widen.c'::cursor"))==0,'opaque object provider lifetime/state differs'
+            assert int(gdb.parse_and_eval("'native-widen.c'::stage"))==item.get('native_stage',1) and int(gdb.parse_and_eval("'native-widen.c'::cursor"))==0,'opaque object provider lifetime/state differs'
             state.setdefault('widen_object_arguments',{})[item['name']]=dict(address=int(value),output_slot=int(owner.read_var(item['local']).address))
-            parameters[item['name']]=dict(provider='MSPDB50.DLL',instance=1,state='created',owner=item['owner'],local=item['local'])
+            parameters[item['name']]=dict(provider='MSPDB50.DLL',instance=1,state=item.get('state','created'),owner=item['owner'],local=item['local'])
         elif item['kind']=='caller-local-pointer':
             owner=frame.older()
             while owner is not None and owner.name()!=item['owner']:owner=owner.older()
@@ -405,7 +435,14 @@ def capture(configuration,data_file,output):
             local=owner.read_var(item['local']);address=int(value)
             assert int(local.address)==address and local.type.sizeof==item['width'],'output argument caller-local identity differs'
             parameters[item['name']]=dict(owner=item['owner'],local=item['local'],width=item['width'])
-            if item.get('initialized'):parameters[item['name']]['bytes']=bytes(inferior.read_memory(address,item['width'])).hex()
+            if item.get('initialized'):
+                raw=bytes(inferior.read_memory(address,item['width']))
+                if item.get('widen_output'):
+                    words=[int.from_bytes(raw[i:i+4],'little') for i in range(0,16,4)]
+                    assert item['width']==16 and words[2]==int(gdb.parse_and_eval('pack_buffer')) and words[3]==int(gdb.parse_and_eval('pack_fixups')),'widen output actual allocation aliases differ'
+                    assert 0<=words[0]<=int(gdb.parse_and_eval('pack_buffer_size')) and 0<=words[1]<=int(gdb.parse_and_eval('pack_fixup_count')),'widen output actual capacities exceed owned allocations'
+                    parameters[item['name']]['description']=dict(bytes=words[0],fixups=words[1],output='pack_buffer',records='pack_fixups')
+                else:parameters[item['name']]['bytes']=raw.hex()
         elif item['kind']=='function-pointer':
             assert int(value)==int(gdb.parse_and_eval('&'+item['function'])),'function-pointer argument differs'
             parameters[item['name']]=dict(function=item['function'])
@@ -456,6 +493,7 @@ def capture(configuration,data_file,output):
     state['mapping_calls']=mapping_calls
     state['file_reads']=file_reads
     state['directory_allocation']=directory_allocation
+    state['widen_query_calls']=widen_query_calls
     state['widen_factory_calls']=widen_factory_calls
     state['subsection_allocations']=subsection_allocations
     state['image_allocations']=image_allocations

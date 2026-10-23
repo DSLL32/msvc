@@ -1,0 +1,789 @@
+/* Explicit original-reference debugger. Never linked into the reconstruction. */
+#include <windows.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+
+typedef struct RestoreRange {
+    DWORD start, end, offset;
+    unsigned char reached;
+} RestoreRange;
+
+static RestoreRange ranges[256];
+static unsigned range_count;
+static unsigned char original_bytes[65536];
+static DWORD probe_sites[64] = { 0x407667, 0x407669, 0x407641, 0x407647, 0x40761f, 0x407625 };
+static char probe_names[64][64] = { "resource-call", "resource-return", "getproc-call", "getproc-return", "loadlibrary-call", "loadlibrary-return" };
+static unsigned char probe_bytes[64];
+static unsigned probe_count = 6;
+static DWORD active_teb;
+static int probes_enabled, pending_probe = -1;
+static DWORD watched_address[256], watched_size[256], watch_count;
+static DWORD argument_entry[64], argument_slot[64], argument_count;
+static char argument_kind[64];
+static DWORD argument_buffer_count[64], argument_buffer_offset[64];
+static DWORD graph_address[64], graph_size[64], graph_link[64], graph_count_address[64], graph_count;
+static DWORD graph_string[64], graph_literal[64], graph_handle[64], graph_payload[64], graph_payload_length[64];
+static DWORD file_open_arguments[7];
+static char event_path[MAX_PATH];
+static DWORD captured_views[128], captured_view_count;
+static DWORD pending_read[4];
+static int read_pending;
+static DWORD cleared_addresses[2048], cleared_sizes[2048], cleared_count, cleared_pending;
+static DWORD blob_address[64],blob_size[64],blob_pointer[64],blob_child_size[64],blob_count;
+static DWORD blob_count_address[64],blob_element_size[64],blob_count_width[64];
+static DWORD widen_output, widen_object, widen_arguments[4];
+static DWORD widen_capacities[2];
+static DWORD symbol_output_base, symbol_output_capacity;
+static DWORD lookup_frames[64][3], lookup_depth;
+static int read_bytes(HANDLE process, DWORD address, void *data, DWORD size);
+
+static void configure(void)
+{
+    char *value, *next;
+    value = getenv("VC510_CVPACK_DATA");
+    while (value && *value && watch_count < 256) {
+        if (sscanf(value, "%lx:%lu", &watched_address[watch_count], &watched_size[watch_count]) != 2) break;
+        ++watch_count;
+        next = strchr(value, ',');
+        value = next ? next + 1 : NULL;
+    }
+    value = getenv("VC510_CVPACK_ARGUMENTS");
+    while (value && *value && argument_count < 64) {
+        if (sscanf(value, "%lx:%lu:%c:%lu:%lu", &argument_entry[argument_count], &argument_slot[argument_count], &argument_kind[argument_count], &argument_buffer_count[argument_count], &argument_buffer_offset[argument_count]) != 5) break;
+        ++argument_count;
+        next = strchr(value, ',');
+        value = next ? next + 1 : NULL;
+    }
+    value = getenv("VC510_CVPACK_PROBES");
+    while (value && *value && probe_count < 64) {
+        if (sscanf(value, "%lx:%63[^,]", &probe_sites[probe_count], probe_names[probe_count]) != 2) break;
+        ++probe_count;
+        next = strchr(value, ',');
+        value = next ? next + 1 : NULL;
+    }
+    value = getenv("VC510_CVPACK_BLOBS");
+    while (value && *value && blob_count < 64) {
+        blob_pointer[blob_count] = 0xffffffffUL;
+        blob_count_width[blob_count] = 4;
+        if (sscanf(value, "%lx:%lu:%lu:%lu:%lx:%lu:%lu", &blob_address[blob_count], &blob_size[blob_count],
+                   &blob_pointer[blob_count], &blob_child_size[blob_count], &blob_count_address[blob_count], &blob_element_size[blob_count], &blob_count_width[blob_count]) < 2) break;
+        ++blob_count;
+        next = strchr(value, ',');
+        value = next ? next + 1 : NULL;
+    }
+    value = getenv("VC510_CVPACK_GRAPHS");
+    while (value && *value && graph_count < 64) {
+        graph_string[graph_count] = graph_handle[graph_count] = 0xffffffffUL;
+        graph_payload[graph_count] = graph_payload_length[graph_count] = 0xffffffffUL;
+        if (sscanf(value, "%lx:%lu:%lu:%lx:%lu:%lu:%lu:%lu:%lu", &graph_address[graph_count], &graph_size[graph_count],
+                   &graph_link[graph_count], &graph_count_address[graph_count], &graph_string[graph_count],
+                   &graph_literal[graph_count], &graph_handle[graph_count], &graph_payload[graph_count], &graph_payload_length[graph_count]) < 4) break;
+        ++graph_count;
+        next = strchr(value, ',');
+        value = next ? next + 1 : NULL;
+    }
+}
+
+static void string(FILE *log, HANDLE process, DWORD address)
+{
+    unsigned char byte;
+    unsigned i;
+    fprintf(log, "string %08lx ", address);
+    for (i = 0; i < 1024; ++i) {
+        if (!read_bytes(process, address + i, &byte, 1)) { fprintf(log, "FAILED\n"); return; }
+        fprintf(log, "%02x", byte);
+        if (!byte) { fputc('\n', log); return; }
+    }
+    fprintf(log, "UNBOUNDED\n");
+}
+
+static int read_bytes(HANDLE process, DWORD address, void *data, DWORD size)
+{
+    DWORD actual;
+    return ReadProcessMemory(process, (void *)address, data, size, &actual) && actual == size;
+}
+
+static int write_bytes(HANDLE process, DWORD address, const void *data, DWORD size)
+{
+    DWORD actual;
+    return WriteProcessMemory(process, (void *)address, (void *)data, size, &actual)
+        && actual == size && FlushInstructionCache(process, (void *)address, size);
+}
+
+static void memory(FILE *log, HANDLE process, DWORD address, DWORD size)
+{
+    unsigned char *bytes;
+    DWORD i;
+    if (size > 1048576) {
+        fprintf(log, "memory-failed %08lx %lu\n", address, size); return;
+    }
+    bytes = malloc(size ? size : 1);
+    if (!bytes || !read_bytes(process, address, bytes, size)) {
+        fprintf(log, "memory-failed %08lx %lu\n", address, size);
+        free(bytes); return;
+    }
+    fprintf(log, "memory %08lx ", address);
+    for (i = 0; i < size; ++i) fprintf(log, "%02x", bytes[i]);
+    fputc('\n', log);
+    free(bytes);
+}
+
+/* Query only a parent-owned duplicate. Child LastError is recorded before this
+ * observer executes; a zero-distance seek leaves the shared file position alone. */
+static void file_handle(FILE *log, HANDLE process, DWORD value)
+{
+    HANDLE duplicate;
+    DWORD kind, size, high, position;
+    if (!DuplicateHandle(process, (HANDLE)value, GetCurrentProcess(), &duplicate,
+                         0, FALSE, DUPLICATE_SAME_ACCESS)) {
+        fprintf(log, "file-handle-failed %08lx\n", value);
+        return;
+    }
+    kind = GetFileType(duplicate);
+    high = 0;
+    size = GetFileSize(duplicate, &high);
+    position = SetFilePointer(duplicate, 0, NULL, FILE_CURRENT);
+    fprintf(log, "file-handle %08lx %lu %lu %lu %lu\n", value, kind, size, high, position);
+    CloseHandle(duplicate);
+}
+
+/* Retain complete mapped bytes once per live view, outside the textual log. */
+static void mapped_view(FILE *log, HANDLE process, DWORD address, DWORD size)
+{
+    MEMORY_BASIC_INFORMATION information;
+    DWORD i, offset, count;
+    unsigned char block[65536];
+    char path[MAX_PATH + 40];
+    FILE *output;
+    for (i = 0; i < captured_view_count; ++i) if (captured_views[i] == address) return;
+    if (!size || size > 16 * 1024 * 1024 || captured_view_count >= 128 ||
+        VirtualQueryEx(process, (void *)address, &information, sizeof(information)) != sizeof(information)) {
+        fprintf(log, "mapped-view-failed %08lx\n", address); return;
+    }
+    i = ++captured_view_count;
+    captured_views[i - 1] = address;
+    sprintf(path, "%s-view-%lu.bin", event_path, i);
+    output = fopen(path, "wb");
+    if (!output) { fprintf(log, "mapped-view-failed %08lx\n", address); return; }
+    for (offset = 0; offset < size; offset += count) {
+        count = size - offset;
+        if (count > sizeof(block)) count = sizeof(block);
+        if (!read_bytes(process, address + offset, block, count) || fwrite(block, 1, count, output) != count) break;
+    }
+    fclose(output);
+    if (offset != size) { fprintf(log, "mapped-view-failed %08lx\n", address); return; }
+    fprintf(log, "mapped-view %08lx %lu %08lx %lu %lu %lu %lu %lu\n", address, size,
+        (DWORD)information.AllocationBase, information.RegionSize, information.Protect,
+        information.State, information.Type, i);
+}
+
+static void linked_memory(FILE *log, HANDLE process, DWORD head, DWORD size, DWORD link, DWORD text, DWORD handle, DWORD payload, DWORD payload_length)
+{
+    DWORD seen[128], count = 0, i, value;
+    while (head && count < 128) {
+        for (i = 0; i < count; ++i) if (seen[i] == head) return;
+        seen[count++] = head;
+        memory(log, process, head, size);
+        if (text <= size - 4 && read_bytes(process, head + text, &value, 4) && value)
+            string(log, process, value);
+        if (handle <= size - 4 && read_bytes(process, head + handle, &value, 4) && value)
+            file_handle(log, process, value);
+        if (size == 40 && text == 0 && handle == 16 && read_bytes(process, head + 20, &value, 4) && value) {
+            DWORD length;
+            if (read_bytes(process, head + 24, &length, 4)) mapped_view(log, process, value, length);
+        }
+        if (payload <= size - 4 && payload_length <= size - 4 &&
+            read_bytes(process, head + payload, &value, 4) && value) {
+            DWORD length;
+            if (read_bytes(process, head + payload_length, &length, 4)) memory(log, process, value, length);
+        }
+        if (size == 48 && link == 44 && payload == 12 && payload_length == 16 &&
+            read_bytes(process, head + 28, &value, 4) && value) {
+            DWORD length;
+            if (read_bytes(process, head + 32, &length, 4)) memory(log, process, value, length);
+        }
+        if (!read_bytes(process, head + link, &head, 4)) return;
+    }
+    if (head) fprintf(log, "memory-graph-unbounded\n");
+}
+
+/* These are caller-side API observations, not reconstructed dependency code.
+ * Preserve opaque object identity/vptr only; never inspect its private fields. */
+static void widen_state(FILE *log, HANDLE process, CONTEXT *context, DWORD site)
+{
+    DWORD args[4], object, table, length, description[4];
+    unsigned short record_length;
+    if (site == 0x41029c) {
+        if (!read_bytes(process, context->Esp, args, 12)) return;
+        widen_output = args[0];
+        fprintf(log, "widen create-call %08lx %lu %lu\n", args[0], args[1], args[2]);
+    } else if (site == 0x4102a2) {
+        if (!read_bytes(process, widen_output, &object, 4) || !read_bytes(process, object, &table, 4)) return;
+        fprintf(log, "widen create-return %lu %08lx %08lx\n", context->Eax, object, table);
+        memory(log, process, widen_output, 4);
+        memory(log, process, object, 4);
+        memory(log, process, table, 40);
+    } else if (site == 0x4102d5 || site == 0x4102f7 || site == 0x41031a) {
+        widen_object = context->Ecx;
+        length = site == 0x4102d5 ? 12 : 16;
+        if (!read_bytes(process, context->Esp, widen_arguments, length)) return;
+        fprintf(log, "widen method-call %u %08lx %08lx %08lx %08lx %08lx\n",
+                site == 0x4102d5 ? 12 : site == 0x4102f7 ? 32 : 36,
+                widen_object, widen_arguments[0], widen_arguments[1], widen_arguments[2],
+                site == 0x4102d5 ? 0 : widen_arguments[3]);
+        if (site == 0x4102d5) {
+            if (!read_bytes(process, widen_arguments[1], &record_length, 2)) return;
+            memory(log, process, widen_arguments[1], (DWORD)record_length + 2);
+            memory(log, process, widen_arguments[2], 4);
+        } else {
+            memory(log, process, widen_arguments[1], widen_arguments[2]);
+            memory(log, process, widen_arguments[0], 16);
+            if (site == 0x41031a && read_bytes(process, widen_arguments[0], description, 16)) {
+                widen_capacities[0] = description[0];
+                widen_capacities[1] = description[1];
+                memory(log, process, description[2], description[0]);
+                memory(log, process, description[3], description[1] * 8);
+            }
+        }
+    } else if (site == 0x4102d8 || site == 0x4102fa || site == 0x41031d) {
+        fprintf(log, "widen method-return %u %08lx %lu\n",
+                site == 0x4102d8 ? 12 : site == 0x4102fa ? 32 : 36, widen_object, context->Eax);
+        if (site == 0x4102d8) {
+            if (!read_bytes(process, widen_arguments[2], &length, 4)) return;
+            memory(log, process, widen_arguments[2], 4);
+            memory(log, process, widen_arguments[0], length);
+        } else {
+            memory(log, process, widen_arguments[0], 16);
+            if (site == 0x4102fa) memory(log, process, widen_arguments[1], widen_arguments[2]);
+            if (site == 0x41031d && read_bytes(process, widen_arguments[0], description, 16)) {
+                memory(log, process, widen_arguments[1], widen_arguments[2]);
+                memory(log, process, description[2], widen_capacities[0]);
+                memory(log, process, description[3], widen_capacities[1] * 8);
+            }
+        }
+    } else if (site == 0x4102b6) {
+        fprintf(log, "widen destroy %08lx\n", context->Ecx);
+    }
+}
+
+static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int full_graphs)
+{
+    DWORD i, j, value, count, item;
+    fprintf(log, "registers %08lx %08lx %08lx %08lx %08lx %08lx %08lx %08lx\n",
+            context->Eax, context->Ebx, context->Ecx, context->Edx,
+            context->Esi, context->Edi, context->Ebp, context->Esp);
+    memory(log, process, context->Esp, 128);
+    memory(log, process, 0x412124, 28);
+    memory(log, process, 0x412988, 12);
+    memory(log, process, 0x412588, 1024);
+    /* NT i386 TEB.LastErrorValue; TEB is supplied by the debug event, not
+     * guessed from a target allocation or read from the debugger's thread. */
+    if (active_teb && read_bytes(process, active_teb + 0x34, &value, 4))
+        fprintf(log, "last-error %lu\n", value);
+    for (i = 0; i < watch_count; ++i) memory(log, process, watched_address[i], watched_size[i]);
+    for (i = 0; full_graphs && i < graph_count; ++i) {
+        if (graph_literal[i]) value = graph_address[i];
+        else if (!read_bytes(process, graph_address[i], &value, 4)) continue;
+        if (!graph_count_address[i] && !graph_literal[i])
+            linked_memory(log, process, value, graph_size[i], graph_link[i], graph_string[i], graph_handle[i], graph_payload[i], graph_payload_length[i]);
+        else if (((count = graph_literal[i]) || read_bytes(process, graph_count_address[i], &count, 4)) && count <= 128) {
+            memory(log, process, value, count * 4);
+            for (j = 0; j < count; ++j) if (read_bytes(process, value + j * 4, &item, 4))
+                linked_memory(log, process, item, graph_size[i], graph_link[i], graph_string[i], graph_handle[i], graph_payload[i], graph_payload_length[i]);
+        }
+    }
+    for (i = 0; full_graphs && i < blob_count; ++i) {
+        if (read_bytes(process, blob_address[i], &value, 4) && value) {
+            DWORD bytes = blob_size[i];
+            if (blob_count_address[i]) {
+                count = 0;
+                if (!read_bytes(process, blob_count_address[i], &count, blob_count_width[i]) || count > 65536 / blob_element_size[i]) {
+                    fprintf(log, "blob-observation-failed\n"); continue;
+                }
+                bytes = count * blob_element_size[i];
+            }
+            memory(log, process, value, bytes);
+            if (blob_child_size[i] && blob_pointer[i] <= blob_size[i] - 4 &&
+                read_bytes(process, value + blob_pointer[i], &item, 4) && item)
+                memory(log, process, item, blob_child_size[i]);
+        }
+    }
+    /* Full defined record-table storage and the owned type segment capacity.
+     * The decoder compares only bytes initialized by clearing/actual reads. */
+    if (full_graphs && read_bytes(process, 0x4132c4, &value, 4) && value &&
+        read_bytes(process, 0x4132e0, &count, 4)) {
+        if (count > 32768) fprintf(log, "blob-observation-failed\n");
+        else {
+            DWORD entry, k, child, part;
+            unsigned char record[32];
+            memory(log, process, value, count * 32);
+            for (entry = 0; entry < count; ++entry) {
+                if (!read_bytes(process, value + entry * 32, record, 32)) {
+                    fprintf(log, "blob-observation-failed\n"); return;
+                }
+                if (!(record[29] & 1)) continue;
+                for (part = 0; part < 2; ++part) {
+                    memcpy(&child, record + (part ? 24 : 16), 4);
+                    for (k = cleared_count; k; --k) if (cleared_addresses[k-1] == child) break;
+                    if (!k || !child || !cleared_sizes[k-1] || cleared_sizes[k-1] > 65536) {
+                        fprintf(log, "blob-observation-failed\n"); return;
+                    }
+                    memory(log, process, child, cleared_sizes[k-1]);
+                }
+            }
+        }
+    }
+    if (full_graphs && read_bytes(process, 0x41564c, &value, 4) && value &&
+        read_bytes(process, value, &item, 4) && item &&
+        read_bytes(process, 0x415680, &count, 4)) {
+        if (count > 65512) count = 65512;
+        memory(log, process, item, count);
+    }
+    if (full_graphs && symbol_output_base)
+        memory(log, process, symbol_output_base, symbol_output_capacity);
+    if (full_graphs) {
+      DWORD table;
+      for (table = 0; table < 3; ++table) {
+        DWORD bucket, node, next_node, visited;
+        WORD length;
+        if (!read_bytes(process, 0x412cf0 + table * 4, &value, 4) || !value) continue;
+        memory(log, process, value, 4096 * 4);
+        for (bucket = 0; bucket < 4096; ++bucket) {
+            if (!read_bytes(process, value + bucket * 4, &node, 4)) continue;
+            visited = 0;
+            while (node && visited++ < 128) {
+                if (!read_bytes(process, node + 16, &length, 2) || length > 1024 ||
+                    !read_bytes(process, node, &next_node, 4)) { fprintf(log, "public-node-observation-failed\n"); break; }
+                memory(log, process, node, 16 + (DWORD)length + 2);
+                node = next_node;
+            }
+            if (node) fprintf(log, "public-node-observation-failed\n");
+        }
+      }
+    }
+    /* Chained type arenas: capture full capacities, compare only used prefixes. */
+    if (full_graphs) {
+        DWORD arena_addresses[2] = { 0x4132a0, 0x412d60 };
+        DWORD arena[6], block[3], node, visited, a;
+        for (a = 0; a < 2; ++a) {
+            if (!read_bytes(process, arena_addresses[a], arena, sizeof(arena))) {
+                fprintf(log, "blob-observation-failed\n"); return;
+            }
+            node = arena[5]; visited = 0;
+            while (node) {
+                if (++visited > 1024 || !read_bytes(process, node, block, sizeof(block)) ||
+                    !block[1] || !arena[0] || arena[0] > 65536) {
+                    fprintf(log, "blob-observation-failed\n"); return;
+                }
+                memory(log, process, node, sizeof(block));
+                memory(log, process, block[1], arena[0]);
+                node = block[2];
+            }
+        }
+        if (!read_bytes(process, 0x4132d8, &count, 4) || count > 512) {
+            fprintf(log, "blob-observation-failed\n"); return;
+        }
+        if (count && read_bytes(process, 0x413300, &value, 4) && value)
+            memory(log, process, value, 2048);
+        if (read_bytes(process, 0x412ce8, &value, 4) && value) {
+            DWORD bucket, node, fields[3], visited = 0;
+            memory(log, process, value, 16384);
+            for (bucket = 0; bucket < 4096; ++bucket) {
+                if (!read_bytes(process, value + bucket * 4, &node, 4)) {
+                    fprintf(log, "blob-observation-failed\n"); return;
+                }
+                while (node) {
+                    if (++visited > 4096 || !read_bytes(process, node, fields, sizeof(fields))) {
+                        fprintf(log, "blob-observation-failed\n"); return;
+                    }
+                    memory(log, process, node, sizeof(fields));
+                    node = fields[2];
+                }
+            }
+        }
+    }
+    /* Encountered recursive-type heads and initialized 12-byte pool nodes. */
+    if (full_graphs && read_bytes(process, 0x412ce0, &value, 4) && value) {
+        DWORD bucket, node, fields[3], seen[4096], visited = 0, k;
+        memory(log, process, value, 16384);
+        for (bucket = 0; bucket < 4096; ++bucket) {
+            if (!read_bytes(process, value + bucket * 4, &node, 4)) {
+                fprintf(log, "blob-observation-failed\n"); return;
+            }
+            while (node) {
+                for (k = 0; k < visited; ++k) if (seen[k] == node) break;
+                if (k < visited || visited == 4096 || !read_bytes(process, node, fields, sizeof(fields))) {
+                    fprintf(log, "blob-observation-failed\n"); return;
+                }
+                seen[visited++] = node;
+                memory(log, process, node, sizeof(fields));
+                node = fields[2];
+            }
+        }
+    }
+    /* Encountered counted-name cache: 512 heads, 20-byte nodes and separately
+     * allocated length-prefixed names. Type payloads belong to captured segments. */
+    if (full_graphs) {
+      DWORD cache;
+      for (cache = 0; cache < 2; ++cache) {
+        DWORD bucket, node, fields[5], seen[512], visited = 0, k;
+        unsigned char length;
+        if (!read_bytes(process, 0x412cd8 + cache * 4, &value, 4) || !value) continue;
+        memory(log, process, value, 512 * 4);
+        for (bucket = 0; bucket < 512; ++bucket) {
+            if (!read_bytes(process, value + bucket * 4, &node, 4)) {
+                fprintf(log, "blob-observation-failed\n"); break;
+            }
+            while (node) {
+                for (k = 0; k < visited; ++k) if (seen[k] == node) break;
+                if (k < visited || visited == 512 || !read_bytes(process, node, fields, sizeof(fields))) {
+                    fprintf(log, "blob-observation-failed\n"); return;
+                }
+                seen[visited++] = node;
+                memory(log, process, node, sizeof(fields));
+                if (fields[0]) {
+                    if (!read_bytes(process, fields[0], &length, 1)) {
+                        fprintf(log, "blob-observation-failed\n"); return;
+                    }
+                    memory(log, process, fields[0], (DWORD)length + 1);
+                }
+                node = fields[4];
+            }
+        }
+      }
+    }
+    for (i = 0; i < argument_count; ++i) if (argument_entry[i] == entry) {
+        if (!read_bytes(process, context->Esp + argument_slot[i] * 4, &value, 4)) continue;
+        if (argument_kind[i] == 'S' && value) string(log, process, value);
+        if (argument_kind[i] == 'D' && value) {
+            WORD length;
+            if (read_bytes(process, value, &length, 2) && (DWORD)length + 2 <= 512)
+                memory(log, process, value, (DWORD)length + 2);
+        }
+        if (argument_kind[i] == 'P' && value) memory(log, process, value, 4);
+        if (argument_kind[i] == 'F' && value && argument_buffer_count[i] <= 16)
+            memory(log, process, value, argument_buffer_count[i]);
+        if ((argument_kind[i] == 'B' || argument_kind[i] == 'C') && value &&
+            read_bytes(process, context->Esp + argument_buffer_count[i]*4, &count, 4)) {
+            item = value;
+            if (argument_kind[i] == 'B' && !read_bytes(process, value, &item, 4)) continue;
+            if (argument_buffer_offset[i] != 0xffffffff &&
+                !read_bytes(process, count + argument_buffer_offset[i], &count, 4)) continue;
+            if (count <= 65536) memory(log, process, item, count);
+        }
+        if (argument_kind[i] == 'A' && value) {
+            if (!read_bytes(process, context->Esp + (argument_slot[i]-1)*4, &count, 4) || count > 64) continue;
+            memory(log, process, value, (count+1)*4);
+            for (j = 0; j < count; ++j) if (read_bytes(process, value+j*4, &item, 4) && item) string(log, process, item);
+        }
+    }
+    if (entry == 0x4021bd && read_bytes(process, context->Esp, file_open_arguments, 28)) {
+        fprintf(log, "file-open-arguments");
+        for (i = 0; i < 7; ++i) fprintf(log, " %08lx", file_open_arguments[i]);
+        fputc('\n', log);
+        string(log, process, file_open_arguments[0]);
+    } else if (entry == 0x4021c3) {
+        fprintf(log, "file-open-result %08lx\n", context->Eax);
+    }
+    if (entry == 0x4024c7 || entry == 0x402504) {
+        DWORD args[6];
+        if (read_bytes(process, context->Esp, args, sizeof(args))) {
+            fprintf(log, "%s", entry == 0x4024c7 ? "mapping-create-arguments" : "view-map-arguments");
+            for (i = 0; i < 6; ++i) fprintf(log, " %08lx", args[i]);
+            fputc('\n', log);
+        }
+    } else if (entry == 0x4024cd || entry == 0x40250a || entry == 0x402516) {
+        fprintf(log, "%s %08lx\n", entry == 0x4024cd ? "mapping-create-result" :
+                entry == 0x40250a ? "view-map-result" : "mapping-close-result", context->Eax);
+    } else if (entry == 0x402514 && read_bytes(process, context->Esp, &value, 4)) {
+        fprintf(log, "mapping-close-argument %08lx\n", value);
+    }
+    if (entry == 0x401984) {
+        DWORD args[4], table, file, position;
+        if (read_pending) fprintf(log, "file-read-overlap\n");
+        if (read_bytes(process, context->Esp, args, sizeof(args)) &&
+            read_bytes(process, 0x41565c, &table, 4) &&
+            read_bytes(process, table + args[1] * 4, &file, 4) &&
+            read_bytes(process, file + 28, &position, 4)) {
+            memcpy(pending_read, args, sizeof(args)); read_pending = 1;
+            fprintf(log, "file-read-call %lu %08lx %lu %08lx %lu\n", args[1], args[2], args[3], args[0], position);
+        }
+    } else if (entry == 0x4019a3 || entry == 0x4019ac) {
+        DWORD table, file, position, n;
+        unsigned char bytes[65536];
+        if (!read_pending || context->Eax > pending_read[3] || context->Eax > sizeof(bytes) ||
+            !read_bytes(process, 0x41565c, &table, 4) ||
+            !read_bytes(process, table + pending_read[1] * 4, &file, 4) ||
+            !read_bytes(process, file + 28, &position, 4) ||
+            !read_bytes(process, pending_read[2], bytes, context->Eax)) fprintf(log, "file-read-failed\n");
+        else {
+            fprintf(log, "file-read-return %lu %lu\nfile-read-bytes ", context->Eax, position);
+            for (n = 0; n < context->Eax; ++n) fprintf(log, "%02x", bytes[n]);
+            fputc('\n', log);
+        }
+        read_pending = 0;
+    }
+    if (entry == 0x40584b && read_bytes(process, context->Esp, &value, 4))
+        fprintf(log, "directory-allocation-call %lu\n", value);
+    else if (entry == 0x405851) fprintf(log, "directory-allocation-return %08lx\n", context->Eax);
+    if ((entry == 0x40591a || entry == 0x40547c) && read_bytes(process, context->Esp, &value, 4))
+        fprintf(log, "subsection-allocation-call %08lx %lu\n", entry == 0x40547c ? context->Ebp : context->Esi, value);
+    else if (entry == 0x405920 || entry == 0x405482) fprintf(log, "subsection-allocation-return %08lx\n", context->Eax);
+    if (entry == 0x4062b0 || entry == 0x4062d3 || entry == 0x4062f7 || entry == 0x40631b || entry == 0x40639d || entry == 0x40a7d1) {
+        if (read_bytes(process, context->Esp, &value, 4)) fprintf(log, "image-allocation-call %08lx %lu\n", entry, value);
+        if (entry == 0x40a7d1) symbol_output_capacity = value;
+    } else if (entry == 0x4062b2 || entry == 0x4062d5 || entry == 0x4062f9 || entry == 0x40631d || entry == 0x40639f || entry == 0x40a7d7) {
+        fprintf(log, "image-allocation-return %08lx\n", context->Eax);
+        if (entry == 0x40a7d7) symbol_output_base = context->Eax;
+    }
+    if (entry == 0x40fb66 && read_bytes(process, context->Esp, &value, 4))
+        fprintf(log, "checked-allocation-call %lu\n", value);
+    else if (entry == 0x40fb6c) fprintf(log, "checked-allocation-return %08lx\n", context->Eax);
+    if (entry == 0x404b59 && read_bytes(process, context->Esp, &value, 4))
+        fprintf(log, "module-allocation-call %08lx %lu\n", context->Esi, value);
+    else if (entry == 0x404b5f) fprintf(log, "module-allocation-return %08lx\n", context->Eax);
+    if (entry == 0x40fb97 && read_bytes(process, context->Esp, &value, 4)) {
+        cleared_pending = value;
+        fprintf(log, "cleared-allocation-call %lu\n", value);
+    } else if (entry == 0x40fb9d) {
+        if (cleared_count == 2048) { fprintf(log, "blob-observation-failed\n"); return; }
+        cleared_addresses[cleared_count] = context->Eax;
+        cleared_sizes[cleared_count++] = cleared_pending;
+        fprintf(log, "cleared-allocation-return %08lx\n", context->Eax);
+    }
+    if (entry == 0x402c24) {
+        DWORD args[3];
+        if (lookup_depth == 64 || !read_bytes(process, context->Esp, args, sizeof(args)))
+            fprintf(log, "lookup-type-failed\n");
+        else {
+            fprintf(log, "lookup-type-entry %lu %lu %08lx %08lx\n", lookup_depth,
+                    args[1], args[2], context->Esp);
+            lookup_frames[lookup_depth][0] = args[1];
+            lookup_frames[lookup_depth][1] = args[2];
+            lookup_frames[lookup_depth++][2] = context->Esp;
+        }
+    } else if (entry == 0x402c4e || entry == 0x402c8c) {
+        DWORD output;
+        if (!lookup_depth || !read_bytes(process, lookup_frames[lookup_depth-1][1], &output, 4))
+            fprintf(log, "lookup-type-failed\n");
+        else {
+            --lookup_depth;
+            fprintf(log, "lookup-type-return %lu %08lx %08lx\n", lookup_depth, context->Eax, output);
+        }
+    }
+    if (entry == 0x408749) {
+        DWORD args[3], left, right, cursor = context->Ecx;
+        unsigned char bytes[65536];
+        if (!read_bytes(process, context->Esp, args, sizeof(args)) || args[2] > sizeof(bytes) ||
+            !read_bytes(process, context->Esp + 36, &left, 4) ||
+            !read_bytes(process, context->Esp + 44, &right, 4) ||
+            args[0] != left + cursor || args[1] != right + cursor)
+            fprintf(log, "type-compare-failed\n");
+        else {
+            fprintf(log, "type-compare-call %08lx %lu %lu ", context->Edi, cursor, args[2]);
+            if (!read_bytes(process, args[0], bytes, args[2])) fprintf(log, "FAILED");
+            else for (i = 0; i < args[2]; ++i) fprintf(log, "%02x", bytes[i]);
+            fputc(' ', log);
+            if (!read_bytes(process, args[1], bytes, args[2])) fprintf(log, "FAILED");
+            else for (i = 0; i < args[2]; ++i) fprintf(log, "%02x", bytes[i]);
+            fputc('\n', log);
+        }
+    } else if (entry == 0x40874e) fprintf(log, "type-compare-return %lu\n", context->Eax != 0);
+    widen_state(log, process, context, entry);
+}
+
+static int module(FILE *log, HANDLE process, LOAD_DLL_DEBUG_INFO *info, const char *provider)
+{
+    IMAGE_DOS_HEADER dos;
+    IMAGE_NT_HEADERS nt;
+    IMAGE_EXPORT_DIRECTORY exports;
+    DWORD base, name_address, bytes, total;
+    char name[128];
+    unsigned char block[4096];
+    HANDLE output;
+    base = (DWORD)info->lpBaseOfDll;
+    if (!read_bytes(process, base, &dos, sizeof(dos)) || dos.e_magic != IMAGE_DOS_SIGNATURE ||
+        !read_bytes(process, base + dos.e_lfanew, &nt, sizeof(nt)) ||
+        nt.Signature != IMAGE_NT_SIGNATURE) return 0;
+    name[0] = 0;
+    if (nt.OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress) {
+        if (!read_bytes(process, base + nt.OptionalHeader.DataDirectory[IMAGE_DIRECTORY_ENTRY_EXPORT].VirtualAddress,
+                        &exports, sizeof(exports))) return 0;
+        name_address = base + exports.Name;
+        if (!read_bytes(process, name_address, name, sizeof(name))) return 0;
+        name[sizeof(name)-1] = 0;
+    }
+    fprintf(log, "module %08lx %s\n", base, name);
+    if (_stricmp(name, "MSVCRT.dll")) {
+        if (_stricmp(name, "mspdb50.dll") || !getenv("VC510_CVPACK_PDB_PROVIDER")) return 1;
+        provider = getenv("VC510_CVPACK_PDB_PROVIDER");
+    }
+    if (!info->hFile || info->hFile == INVALID_HANDLE_VALUE) return 0;
+    if (SetFilePointer(info->hFile, 0, NULL, FILE_BEGIN) == 0xffffffffUL && GetLastError()) return 0;
+    output = CreateFileA(provider, GENERIC_WRITE, 0, NULL, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+    if (output == INVALID_HANDLE_VALUE) return 0;
+    total = 0;
+    for (;;) {
+        if (!ReadFile(info->hFile, block, sizeof(block), &bytes, NULL)) { CloseHandle(output); return 0; }
+        if (!bytes) break;
+        if (!WriteFile(output, block, bytes, &name_address, NULL) || name_address != bytes) {
+            CloseHandle(output); return 0;
+        }
+        total += bytes;
+    }
+    CloseHandle(output);
+    fprintf(log, "provider-bytes %lu\n", total);
+    return 1;
+}
+
+int main(int argc, char **argv)
+{
+    SECURITY_ATTRIBUTES security;
+    STARTUPINFOA startup;
+    PROCESS_INFORMATION child;
+    DEBUG_EVENT event;
+    CONTEXT context;
+    HANDLE stdout_file, stderr_file, thread;
+    HANDLE threads[64];
+    DWORD thread_tebs[64];
+    DWORD thread_ids[64], thread_count = 0;
+    FILE *log, *plan, *original;
+    DWORD address, disposition, entry, i, status, count;
+    unsigned char trap = 0xcc;
+    int initial_break = 1, done = 0, failed = 0, known;
+    char command[2048];
+    if (argc != 11) return 90;
+    configure();
+    strcpy(event_path, argv[5]);
+    log = fopen(argv[5], "wb");
+    plan = fopen(argv[7], "r");
+    original = fopen(argv[8], "rb");
+    if (!log || !plan || !original) return 91;
+    while (range_count < 256 && fscanf(plan, "%lx %lx %lx", &ranges[range_count].start,
+            &ranges[range_count].end, &ranges[range_count].offset) == 3) ++range_count;
+    fclose(plan);
+    probes_enabled = atoi(argv[10]) || probe_count > 6;
+    memset(&security, 0, sizeof(security));
+    security.nLength = sizeof(security);
+    security.bInheritHandle = TRUE;
+    stdout_file = CreateFileA(argv[3], GENERIC_WRITE, FILE_SHARE_READ, &security, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+    stderr_file = CreateFileA(argv[4], GENERIC_WRITE, FILE_SHARE_READ, &security, CREATE_NEW, FILE_ATTRIBUTE_NORMAL, NULL);
+    if (stdout_file == INVALID_HANDLE_VALUE || stderr_file == INVALID_HANDLE_VALUE) return 92;
+    memset(&startup, 0, sizeof(startup));
+    startup.cb = sizeof(startup);
+    startup.dwFlags = STARTF_USESTDHANDLES;
+    startup.hStdInput = GetStdHandle(STD_INPUT_HANDLE);
+    startup.hStdOutput = stdout_file;
+    startup.hStdError = stderr_file;
+    strcpy(command, argv[2]);
+    if (!CreateProcessA(argv[1], command, NULL, NULL, TRUE, DEBUG_ONLY_THIS_PROCESS,
+                        NULL, argv[6], &startup, &child)) return 93;
+    while (!done && WaitForDebugEvent(&event, 30000)) {
+        disposition = DBG_CONTINUE;
+        if (event.dwDebugEventCode == CREATE_PROCESS_DEBUG_EVENT) {
+            threads[thread_count] = event.u.CreateProcessInfo.hThread;
+            thread_tebs[thread_count] = (DWORD)event.u.CreateProcessInfo.lpThreadLocalBase;
+            thread_ids[thread_count++] = event.dwThreadId;
+            entry = (DWORD)event.u.CreateProcessInfo.lpStartAddress;
+            fprintf(log, "process-base %08lx entry %08lx\n", (DWORD)event.u.CreateProcessInfo.lpBaseOfImage, entry);
+            if ((DWORD)event.u.CreateProcessInfo.lpBaseOfImage != 0x400000 || entry != 0x410330) failed = 1;
+            if (event.u.CreateProcessInfo.hFile) CloseHandle(event.u.CreateProcessInfo.hFile);
+        } else if (event.dwDebugEventCode == CREATE_THREAD_DEBUG_EVENT) {
+            if (thread_count == 64) failed = 1;
+            else {
+                threads[thread_count] = event.u.CreateThread.hThread;
+                thread_tebs[thread_count] = (DWORD)event.u.CreateThread.lpThreadLocalBase;
+                thread_ids[thread_count++] = event.dwThreadId;
+            }
+        } else if (event.dwDebugEventCode == LOAD_DLL_DEBUG_EVENT) {
+            if (!module(log, child.hProcess, &event.u.LoadDll, argv[9])) failed = 1;
+            if (event.u.LoadDll.hFile) CloseHandle(event.u.LoadDll.hFile);
+        } else if (event.dwDebugEventCode == EXCEPTION_DEBUG_EVENT) {
+            address = (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress;
+            status = event.u.Exception.ExceptionRecord.ExceptionCode;
+            thread = NULL;
+            for (i = 0; i < thread_count; ++i) if (thread_ids[i] == event.dwThreadId) {
+                thread = threads[i]; active_teb = thread_tebs[i];
+            }
+            memset(&context, 0, sizeof(context));
+            context.ContextFlags = CONTEXT_FULL;
+            if (!thread || !GetThreadContext(thread, &context)) return 94;
+            if (status == EXCEPTION_SINGLE_STEP && pending_probe >= 0) {
+                context.EFlags &= ~0x100;
+                if (!write_bytes(child.hProcess, probe_sites[pending_probe], &trap, 1)) failed = 1;
+                pending_probe = -1;
+                SetThreadContext(thread, &context);
+            } else if (status == EXCEPTION_BREAKPOINT) {
+                if (initial_break && (address < 0x401000 || address >= 0x4104c6)) {
+                    initial_break = 0;
+                    if (probes_enabled) for (i = 0; i < probe_count; ++i) {
+                        if (!read_bytes(child.hProcess, probe_sites[i], &probe_bytes[i], 1) ||
+                            !write_bytes(child.hProcess, probe_sites[i], &trap, 1)) failed = 1;
+                    }
+                } else {
+                    known = 0;
+                    for (i = 0; probes_enabled && i < probe_count; ++i) if (address == probe_sites[i]) {
+                        fprintf(log, "%s %08lx eax %08lx\n", probe_names[i], address, context.Eax);
+                        state(log, child.hProcess, &context, address, 0);
+                        if (!write_bytes(child.hProcess, address, &probe_bytes[i], 1)) failed = 1;
+                        context.Eip = address;
+                        context.EFlags |= 0x100;
+                        pending_probe = i;
+                        SetThreadContext(thread, &context);
+                        known = 1;
+                    }
+                    for (i = 0; !known && i < range_count; ++i) if (ranges[i].start == address && !ranges[i].reached) {
+                        count = ranges[i].end - address;
+                        if (!count || count > sizeof(original_bytes) ||
+                            fseek(original, ranges[i].offset, SEEK_SET) ||
+                            fread(original_bytes, 1, count, original) != count ||
+                            !write_bytes(child.hProcess, address, original_bytes, count)) failed = 1;
+                        /* Restoring this function must also restore its probes,
+                         * whose bytes were still INT3 in the initial masked image. */
+                        if (probes_enabled) {
+                            unsigned p;
+                            for (p = 0; p < probe_count; ++p) if (probe_sites[p] >= address && probe_sites[p] < ranges[i].end) {
+                                if (!read_bytes(child.hProcess, probe_sites[p], &probe_bytes[p], 1) ||
+                                    !write_bytes(child.hProcess, probe_sites[p], &trap, 1)) failed = 1;
+                            }
+                        }
+                        ranges[i].reached = 1;
+                        fprintf(log, "entry %08lx\n", address);
+                        state(log, child.hProcess, &context, address, 0);
+                        context.Eip = address;
+                        SetThreadContext(thread, &context);
+                        known = 1;
+                    }
+                    if (!known) {
+                        fprintf(log, "frontier %08lx\n", address);
+                        state(log, child.hProcess, &context, address, 1);
+                        TerminateProcess(child.hProcess, 125);
+                        done = 1;
+                    }
+                }
+            } else {
+                fprintf(log, "exception %08lx %08lx first %lu\n", status, address, event.u.Exception.dwFirstChance);
+                state(log, child.hProcess, &context, address, 0);
+                TerminateProcess(child.hProcess, 126);
+                failed = 1;
+                done = 1;
+            }
+        } else if (event.dwDebugEventCode == EXIT_PROCESS_DEBUG_EVENT) {
+            fprintf(log, "exit %lu\n", event.u.ExitProcess.dwExitCode);
+            done = 1;
+        }
+        if (failed) { TerminateProcess(child.hProcess, 127); done = 1; }
+        if (!ContinueDebugEvent(event.dwProcessId, event.dwThreadId, disposition)) failed = 1;
+        fflush(log);
+    }
+    if (!done) { fprintf(log, "debug-timeout\n"); TerminateProcess(child.hProcess, 124); failed = 1; }
+    WaitForSingleObject(child.hProcess, 10000);
+    CloseHandle(child.hProcess);
+    CloseHandle(child.hThread);
+    CloseHandle(stdout_file);
+    CloseHandle(stderr_file);
+    fclose(original);
+    fclose(log);
+    return failed ? 95 : 0;
+}

@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "preserved_initial_path": "cases/hello-debug-dll/evidence/0093-query-widen",
+  "limits": [
+    "First native observer callback breakpoint used malformed linespec; failed native raw/log retained.",
+    "Native-only qualified callback linespec corrected to native-widen.c:query; next actual frontier proved emit_widen, whose older empty5-formal schema correctly rejected. No first attempt promoted."
+  ],
+  "fresh_typed_pair": "cases/hello-debug-dll/evidence/0093-query-widen-typed-emit",
+  "fresh_original_reason": "Immutable original configuration must contain actual emit5-formal/owned-description contract. Original execution mask unchanged; no old raw relabeled.",
+  "own_unwritten_output_positive": "Control supplies arbitrary synthetic bytes for otherwise uncaptured/uninitialized native pack allocations. They are not copied into real execution, matched to original padding, or treated as defined callee output."
+}

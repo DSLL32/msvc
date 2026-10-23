@@ -98,7 +98,8 @@
     "record_symbol_references",
     "record_symbol_reference",
     "rewrite_module_global_types",
-    "create_widen"
+    "create_widen",
+    "query_widen"
   ],
   "functions": [
     {
@@ -1770,8 +1771,11 @@
       "symbol": "_query_widen",
       "native_symbol": "query_widen",
       "original": 4260576,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4260576,
+        4260603
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -1811,7 +1815,8 @@
           "slot": 4,
           "kind": "integer"
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0093-query-widen-typed-emit/promotion.json"
     },
     {
       "name": "emit_widen",
@@ -1821,7 +1826,53 @@
       "status": "stub",
       "extent": null,
       "ret": 0,
-      "parameters": []
+      "parameters": [
+        {
+          "name": "object",
+          "slot": 1,
+          "kind": "widen-object",
+          "owner": "widen_subsection",
+          "local": "object",
+          "original_output_delta": 64,
+          "state": "queried",
+          "native_stage": 2
+        },
+        {
+          "name": "output",
+          "slot": 2,
+          "kind": "caller-local-pointer",
+          "owner": "widen_subsection",
+          "local": "output",
+          "width": 16,
+          "owner_return": 4215633,
+          "original_delta": 40,
+          "initialized": true,
+          "widen_output": true
+        },
+        {
+          "name": "input",
+          "slot": 3,
+          "kind": "global-buffer",
+          "allowed_globals": [
+            "type_data",
+            "symbol_data",
+            "module_data"
+          ],
+          "offset": 4,
+          "count_slot": 4,
+          "count_name": "size"
+        },
+        {
+          "name": "size",
+          "slot": 4,
+          "kind": "integer"
+        },
+        {
+          "name": "flags",
+          "slot": 5,
+          "kind": "integer"
+        }
+      ]
     },
     {
       "name": "resize_bytes",
@@ -3645,5 +3696,6 @@
       127180,
       127269
     ]
-  }
+  },
+  "observe_widen_query": true
 }
