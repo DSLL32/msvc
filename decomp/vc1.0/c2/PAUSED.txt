@@ -1,7 +1,6 @@
-C2 ACTIVE at1062 acceptances/983 source graphs.
+C2 ACTIVE at 1067 acceptances/988 source graphs.
 Approved queue: i386 integer, deep x87 stack, then i486 floating.
-Original transport/IR/object references captured for all three.
-Current matched frontier @fold_integer_comparison@4 (0x57b00).
-Six complete object regressions plus native named-stub check pass.
-Canonical/algebra W3/graph/extent audits pass. No shared requests.
-Pause only after all three selected cases complete.
+Current matched frontier @schedule_generic_instruction@4.
+Extent union 294428/399693 = 73.663537%, not branch coverage.
+Canonical/W3/audits and seven native cases pass (six complete objects).
+No shim requests. Pause only after all three selected cases complete.

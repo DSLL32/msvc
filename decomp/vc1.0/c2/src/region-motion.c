@@ -1624,3 +1624,61 @@ int __fastcall region_assignment_precedes(Node *first, Node *second)
     }
     return work_dominates_block(first_work, second_work);
 }
+
+/* Original [00060820,00060897). Retain independent copies of a nested
+   loop's counter and trip count on its parent's reusable-counter list. */
+void __fastcall save_region_counter(Node *address, Node *step, Node *assignment)
+{
+    LoopTreeRecord *record = free_loop_tree_records;
+    FlowRegion *parent;
+    if (record) free_loop_tree_records = record->next;
+    else record = arena_alloc(2, sizeof(LoopTreeRecord));
+    record->address = copy_tree(address);
+    record->step = copy_tree(step);
+    record->assignment = copy_tree(assignment);
+    record->trip_count = copy_tree(region_trip_count);
+    parent = hoist_current_region->parent;
+    record->next = parent->loop_trees;
+    parent->loop_trees = record;
+}
+
+int __cdecl multiplication_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes);
+
+/* Original [000611f0,000612ec). Check the derived bound, next increment
+   and affine adjustment in the induction's declared integer representation.
+   As in the original, a null right/factor passes the preliminary shape test;
+   the transformation's caller must supply that factor before the value read. */
+int __fastcall can_rewrite_induction_comparison(BasicInduction *induction,
+    Node *bound, Node *adjustment)
+{
+    Node *factor = induction->right;
+    unsigned short type;
+    unsigned bytes, value, step;
+    int is_unsigned;
+    if (bound->opcode != 0x33 || induction->step->opcode != 0x33 ||
+        (factor && factor->opcode != 0x33) ||
+        (adjustment->opcode != 0x33 && adjustment->opcode != 0x26)) return 0;
+    type = induction->assignment->attributes.words.type;
+    bytes = type & 255;
+    is_unsigned = !(type & 0x100);
+    value = factor->left.value;
+    if (multiplication_overflows(value, bound->left.value, is_unsigned, bytes)) return 0;
+    value *= bound->left.value;
+    step = induction->step->left.value;
+    if (addition_overflows(value, step, is_unsigned, bytes)) return 0;
+    value += step;
+    if (addition_overflows(value, adjustment->left.value, is_unsigned, bytes)) return 0;
+    return 1;
+}
+
+/* Original [000609f0,00060a22). Release each independently copied tree
+   before publishing the reusable record back to the region counter pool. */
+void __fastcall release_loop_tree_record(LoopTreeRecord *record)
+{
+    record->next = free_loop_tree_records;
+    release_tree(record->address);
+    release_tree(record->step);
+    release_tree(record->assignment);
+    release_tree(record->trip_count);
+    free_loop_tree_records = record;
+}

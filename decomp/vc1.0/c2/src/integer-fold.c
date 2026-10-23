@@ -128,3 +128,31 @@ int __cdecl addition_overflows(unsigned left, unsigned right, int is_unsigned, u
     if (is_unsigned) return mask == ~0U ? sum < left : sum > mask;
     return (~(left ^ right) & (left ^ sum) & sign) != 0;
 }
+
+extern int default_integer_bytes;
+/* Original [00057b00,00057bdc), including the six relation targets at
+   57bc4..57bdc. Unsigned four-byte/address comparisons use signed ordering,
+   exchanging the relation when the two sign bits differ. */
+Node *__fastcall fold_integer_comparison(Node *node)
+{
+    unsigned left = node->left.node->left.value;
+    unsigned right = node->second.node->left.value;
+    unsigned operation = node->opcode;
+    unsigned short type = node->attributes.words.type;
+    unsigned value = left;
+    Node *constant;
+    if ((type == 0x204 || ((type & 0xc00) && (type & 255) == 4)) &&
+        (int)(left ^ right) < 0)
+        operation = map_comparison_opcode(operation, 0);
+    switch (operation) {
+    case 0x1f: value = left == right; break;
+    case 0x20: value = left != right; break;
+    case 0x21: value = (int)left <= (int)right; break;
+    case 0x22: value = (int)left < (int)right; break;
+    case 0x23: value = (int)left >= (int)right; break;
+    case 0x24: value = (int)left > (int)right; break;
+    }
+    constant = intern_leaf(0x33, 0, default_integer_bytes | 0x100, value);
+    release_tree(node);
+    return constant;
+}

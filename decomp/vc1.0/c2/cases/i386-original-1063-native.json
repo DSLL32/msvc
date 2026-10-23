@@ -1,0 +1,9 @@
+{
+  "executable_sha256": "1f5bf969097054f1d8c771e3945b2c3007068a68b667c161068633ddca5eca85",
+  "config_sha256": "3aef02ad3575a59bec9a2845bb61d028ca940c204ca8a75acbf8b5943f6ad0d0",
+  "seconds": 0.13884135149419308,
+  "logical": "@retarget_empty_work_branch@8",
+  "matched": true,
+  "log_sha256": "0fb2669a7f173bfc41e3ab72bd40e0ea28d852c57727a81151be995fe2376c9d",
+  "directory": "/root/.ai-tmp/vc1.0-c2/i386-gdb-xk3iw_fc"
+}

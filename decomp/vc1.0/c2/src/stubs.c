@@ -81,7 +81,6 @@ void __fastcall recycle_inline_site(InlineSite *site) { __asm int 3 }
 void __fastcall recycle_inline_binding(InlineBinding *binding) { __asm int 3 }
 unsigned short __fastcall value_node_type(short kind, unsigned bytes) { __asm int 3 }
 void __fastcall refresh_tree_references(Node *node) { __asm int 3 }
-Node *__fastcall fold_integer_comparison(Node *node) { __asm int 3 }
 Node *__fastcall fold_floating_comparison(Node *node) { __asm int 3 }
 #include "algebra.h"
 int __fastcall is_nonnegative_tree(Node *node) { __asm int 3 }
@@ -262,7 +261,6 @@ void __fastcall forget_exception_label(Function *function, SymbolHeader *label) 
 
 int __fastcall available_chain_operands(Node *node, BitSet *available) { __asm int 3 }
 
-void __fastcall retarget_empty_work_branch(WorkItem *work, Node *node) { __asm int 3 }
 
 int __fastcall equal_chain_value_ids(Node *left, Node *right) { __asm int 3 }
 
@@ -344,11 +342,8 @@ short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
 void remove_region_blocks(void) { __asm int 3 }
 void __fastcall remove_region_block(WorkItem *work) { __asm int 3 }
 int __fastcall has_unblocked_derived_use(Node *node) { __asm int 3 }
-void __fastcall save_region_counter(Node *address, Node *step, Node *assignment) { __asm int 3 }
 void __fastcall insert_region_memory_operation(Expression *anchor, Node *value, Node *address,
     unsigned opcode, Node *counter, unsigned bytes, Node *assignment) { __asm int 3 }
-int __fastcall can_rewrite_induction_comparison(BasicInduction *induction, Node *bound, Node *adjustment) { __asm int 3 }
-void __fastcall release_loop_tree_record(LoopTreeRecord *record) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_a3_a4(Node *node, int mode) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_a5(Node *node) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_a6(Node *node) { __asm int 3 }
@@ -392,3 +387,5 @@ void __fastcall mark_float_branch_targets(FloatStreamBranch *branches) { __asm i
 int __fastcall can_merge_float_branch(FloatStreamBranch *branch, MachineInstruction *previous, MachineInstruction *target) { __asm int 3 }
 int __fastcall can_reuse_float_branch_target(MachineInstruction *target) { __asm int 3 }
 int inherit_float_motion_uses(void) { __asm int 3 }
+
+int __cdecl multiplication_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }

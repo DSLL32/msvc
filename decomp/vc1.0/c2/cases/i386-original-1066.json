@@ -1,0 +1,26 @@
+{
+  "label": "i386-original-1066",
+  "profile": "i386",
+  "accepted": 1066,
+  "events": "exception 80000003 rva 000509f0 base 00010000 first 1\nexit 99\n",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "masked_sha256": "3b5eef2bf6c5623bc092a75f2eddf85b57d32ed14077d7f99fb696085db8f0e9",
+  "config_sha256": "ea77d78ade244b11de32afd1addb40ba7ee17155eba2ac68618d3bd895e932ed",
+  "manifest_sha256": "80d79e6d1232fc597ba7021493941d381d211709b11fafb7f48c4c3be705ab29",
+  "inputs": {
+    "c2/irex": "7e32f215ad3cc786063200141e548ab54d675d451f079e16554c74c8a2143bcb",
+    "c2/irsy": "9524374e98cdc9bcc7ac1e45f548ba58cc0b8f19410a26e36aca55143e55abe4",
+    "c2/irin": "87ff79aafb82c994aee0847de0d77731ad9345f73beff27c5f279e7eab6ddd91",
+    "c2/irgl": "9fb7a96e237738df6a2c7257d2116b66aa32003887bcf41488f92bf5b204e1f1"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f integer386.c -W 1 -dos -Fointeger386.obj -ML -Gs4096 -Gy -G3 "
+  },
+  "directory": "/root/.ai-tmp/vc1.0-c2/original-i386-419qrd4b",
+  "logical": "@release_loop_tree_record@4",
+  "original_va": "0x609f0",
+  "setup_seconds": 0.21911015920341015,
+  "execution_seconds": 0.7135840766131878,
+  "check_seconds": 0.007105008698999882,
+  "total_seconds": 0.9397999485954642
+}

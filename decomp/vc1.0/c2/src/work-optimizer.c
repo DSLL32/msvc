@@ -3,6 +3,7 @@
 #include "options.h"
 #include "tree-input.h"
 #include "tree-rewrite.h"
+#include "flow-edges.h"
 #include <recon.h>
 extern int floating_frontend, optimize_alias, optimize_weak_inverse;
 extern void *output_state;
@@ -1160,4 +1161,25 @@ void __fastcall invalidate_work_tree(Node *node)
     invalidate_work_tree(node->left.node);
     if (node_shapes[node->opcode] & NODE_HAS_SECOND) invalidate_work_tree(node->second.node);
     node->attributes.words.flags |= 8;
+}
+
+/* Original [0005cad0,0005cb56). A folded conditional loses one edge:
+   an unconditional branch loses fall-through, an empty node loses its target.
+   Prune newly unreachable work only when its final predecessor disappeared. */
+void __fastcall retarget_empty_work_branch(WorkItem *work, Node *node)
+{
+    FlowLink *edge = work->successors;
+    WorkItem *removed = 0;
+    if (!edge || !edge->next) return;
+    if (node->opcode == 0x3a) removed = work->next;
+    else if (node->opcode == 1) {
+        for (; edge; edge = edge->next)
+            if (!(edge->flags & 1) && edge->work != work->next) break;
+        if (!edge) compiler_internal_error("@(#)nglobal.c:1.48", 0xd11);
+        removed = edge->work;
+    } else return;
+    remove_flow_reference(&work->successors, removed);
+    remove_flow_reference(&removed->predecessors, work);
+    if (removed && !removed->predecessors)
+        remove_unreachable_work(global_entry_work);
 }

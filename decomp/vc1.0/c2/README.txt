@@ -2662,3 +2662,9 @@ Current i386 case accepted the whole36-byte lift_both_unary transformation;
 original/native now match fold_integer_comparison. All six prior objects and
 new named-trap regression pass. See cases/i386-registration.json and queue.json.
 The earlier PAUSED/completion paragraphs remain historical checkpoints.
+
+CPU queue checkpoint 1067: 988 matching source graphs
+Recovered integer comparison folding, folded-branch edge cleanup and nested
+loop counter ownership/representability logic; current frontier @schedule_generic_instruction@4.
+Seven native cases pass, with six complete object oracles and one named trap.
+Original/W3 and graph/extent audits pass. See cases/i386-loop-cleanup.json for evidence/limits.
