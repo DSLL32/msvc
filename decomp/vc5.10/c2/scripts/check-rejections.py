@@ -123,6 +123,26 @@ def main():
                       ('machine call-clobber register mask differs',lambda r:changed_machine_value(r,'0x495f34',7)),
                       ('machine stack alignment differs',lambda r:changed_machine_value(r,'0x49745c',4)),
                       ('earlier intrinsic observation cannot replace final frontier observation',missing_final_intrinsic_observation)]
+    if 'filename_input'in current_state:
+        def changed_filename_input(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['filename_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+            path=root/'n/gdb.stdout';raw=path.read_text();raw=re.sub(r'^C2-FILENAME-INPUT .*$',lambda m:'C2-FILENAME-INPUT '+json.dumps(state['filename_input'],sort_keys=True),raw,flags=re.M);path.write_text(raw)
+            path=root/'n/receipt.json';receipt=json_at(path);receipt['gdb_outputs']['gdb.stdout']=sha((root/'n/gdb.stdout').read_bytes());write_json(path,receipt)
+        def changed_filename_pool(root,index):
+            path=root/'o/pool-block.bin';data=bytearray(path.read_bytes());data[index]^=1;path.write_bytes(data)
+        def changed_template_pointer(root):
+            path=root/'o/symbol-template.bin';data=bytearray(path.read_bytes());data[24]^=1;path.write_bytes(data)
+        mutations += [('filename registry omits actual symbol formal',lambda r:changed_filename_input(r,'formals',[])),
+                      ('filename registry loses actual record alias',lambda r:changed_filename_input(r,'symbol_alias',False)),
+                      ('filename copy returned wrong pool offset',lambda r:changed_filename_input(r,'name_pool_offset',516)),
+                      ('filename copy returned different text',lambda r:changed_filename_input(r,'name','wrong.c')),
+                      ('filename copy changed unrelated transient record',lambda r:changed_filename_input(r,'template_bytes','00'*64)),
+                      ('filename copy changed original source input',lambda r:changed_filename_input(r,'input_bytes','00'*2058)),
+                      ('filename copy changed decorated source input',lambda r:changed_filename_input(r,'decorated_bytes','00'*2059)),
+                      ('filename raw returned pointer alias differs',changed_template_pointer),
+                      ('filename raw allocated first byte differs',lambda r:changed_filename_pool(r,512)),
+                      ('filename raw allocated NUL differs',lambda r:changed_filename_pool(r,534)),
+                      ('filename raw rounded allocation padding differs',lambda r:changed_filename_pool(r,535))]
     if 'symbol_copy_input'in current_state:
         def changed_copy_input(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['symbol_copy_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

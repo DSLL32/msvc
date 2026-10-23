@@ -1,0 +1,13 @@
+{
+  "mode": "helper",
+  "inputs": {
+    "decomp/vc5.10/c2/Makefile": "d002e9a1e53a05389eea550700ce5b94adad73a78902271066373af477580d30",
+    "decomp/vc5.10/c2/scripts/debug-run.c": "81feb531cf7e4d7b5f83ff308ee1fa068fcafb485d77afa292fcb8dd5e58e42c",
+    "lib/recon/include/recon.h": "7ff2a4a4f2dcb725920a16c092369280f55bb77e160522683402151bd8b12cbb",
+    "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "lib/recon/include/win32.h": "30474cfc65ed0e1242514cb51d5d5e35c4d608832b177132b56b45c05080f1e4"
+  },
+  "snapshot": "/root/msvc2/decomp/vc5.10/c2/build/provenance/helper/6b85d8a01bfc8d1ad3fd3f3050c967616ad6752b4213d32a077b2b19530e2c02",
+  "input_set_sha256": "6b85d8a01bfc8d1ad3fd3f3050c967616ad6752b4213d32a077b2b19530e2c02",
+  "binary_sha256": "41c0af2f2b73b238bac0766a2b13cba5f8e30965e280139ced160f9a200c7f1e"
+}

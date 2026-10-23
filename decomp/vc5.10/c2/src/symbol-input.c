@@ -347,3 +347,10 @@ char *__fastcall intern_symbol_name(C2Symbol *symbol, char *name, int pool)
     c2_node_bytes[pool] += strlen(result);
     return arena_strdup(result, pool);
 }
+
+char *__fastcall arena_strdup(char *name, int pool)
+{
+    char *copy = c2_pool_allocate(pool, strlen(name) + 1);
+    strcpy(copy, name);
+    return copy;
+}

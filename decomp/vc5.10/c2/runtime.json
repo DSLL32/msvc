@@ -188,14 +188,6 @@
     "evidence": null
   },
   {
-    "name": "@arena_strdup@8",
-    "start": 4326224,
-    "end": 4326225,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@lookup_global_symbol@4",
     "start": 4322387,
     "end": 4322388,

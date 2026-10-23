@@ -1,0 +1,29 @@
+{
+  "schema": 1,
+  "baseline_commit": "fcf8bea1",
+  "control_result": "cases/acceptance/0053-symbol-name/rejections.json",
+  "control_result_sha256": "c3323fe5efb2fe28a86fa6612fa0ec02f58ee4b1a233f2fbc1b8e4df3477363e",
+  "checker_contracts": {
+    "scripts/accept.py": "467e9a69cc4521c5a6ef3d6b588e62c91ea2e0b03b44c1bc39ff11256317c130",
+    "scripts/audit.py": "938cace588deae113948d5b1828155e8cd90036c737001dd05f2767ff90acc40",
+    "scripts/build-index.py": "5beaace21d403b849369c992ae8ca21183d211da58aca531d0678407d124289f",
+    "scripts/capture-native.py": "31e0fe0079f9de6d793a94b59497dc9938bc3235d65e6cb5f80ecc6e8c484acc",
+    "scripts/capture-original.py": "af5c46fdd5c60a9d50a69981bdbfdf0df9abb3eef31b3cd25cc63b21f2862ec5",
+    "scripts/case_inputs.py": "13ab2ee944896ade6b46c2b2d226fd63233ea9d3191931b1d8a84ddbfaa48aa9",
+    "scripts/check-rejections.py": "eb2abe552ba693bc552421ddb2501a6a90ec4f418f896fa66119105e6003b706",
+    "scripts/compare.py": "c29b37d34eb564df2b19969993a60bb4cc9f7ba4a1299d2af17feead3dbf5377",
+    "scripts/data_evidence.py": "16cdf967cab3840d14e47c94c074d1ebbc91d3547d230478d936fdce80f27841",
+    "scripts/debug-run.c": "cda12d2d6612e227fe69e56ee2c1eebcf082d79a0442ce1a257cf2aaffc88343",
+    "scripts/import_evidence.py": "b95bf84a6fe9a82ccc1f8450e0767f4e62da0ef396bcdb625719b500b10c768c",
+    "scripts/intrinsic_evidence.py": "89e13fbff12ec278801984bd7360b54b392cc50e332d9f449c7f8b9032ab0034",
+    "scripts/native-proof.py": "91fd879644eb159a173dade958a2f78d47ca25738ad3e3452be43757a33d7102",
+    "scripts/state.py": "c823efddd33082153589d54de971b74d841cf14da3b3080fb9f2639d1211f34e"
+  },
+  "source_archive": "checker-contracts.tar.gz",
+  "source_archive_sha256": "330d26f0b7bd341a4a1da83086c7e0a2b04988a9f82e167965e491cb6ee1e517",
+  "proof_inputs": {
+    "original_receipt": "985f64a51ad83a0ba0ee1b0e2e44f374413e9a6748dd42cd7daac58107908c72",
+    "native_receipt": "e389b4c67b77503f6b950cff12aa2466b937f2a6387da8a392a091060cd80238"
+  },
+  "review": "Name53 passed22 fresh controls plus99 reviewed/reused; immutable checker/source/actual input snapshots retained. Arena54 adds actual filename symbol formal, returned pool pointer, payload/NUL/roundedpadding/cursor proof."
+}

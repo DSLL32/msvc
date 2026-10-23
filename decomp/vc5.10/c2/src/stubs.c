@@ -123,7 +123,6 @@ long input_compact_signed(void) { __asm { int 3 } return 0; }
 short input_compact_short(void) { __asm { int 3 } return 0; }
 unsigned input_extended_flags(void) { __asm { int 3 } return 0; }
 void __fastcall copy_symbol_type(C2Symbol *symbol) { __asm { int 3 } }
-char *__fastcall arena_strdup(char *name, int pool) { __asm { int 3 } return NULL; }
 C2Symbol *__fastcall lookup_global_symbol(unsigned serial) { __asm { int 3 } return NULL; }
 void __fastcall clone_alias_symbol(C2Symbol *symbol) { __asm { int 3 } }
 void __fastcall read_qualified_symbol(C2Symbol *symbol, int pool) { __asm { int 3 } }

@@ -63,7 +63,8 @@
     "@read_symbol@4",
     "_input_varuint",
     "@input_string@8",
-    "@intern_symbol_name@12"
+    "@intern_symbol_name@12",
+    "@arena_strdup@8"
   ],
   "driver": [
     {
@@ -4584,6 +4585,187 @@
       ],
       "name_model": "cases/analysis/symbol-name-model.json",
       "name_model_sha256": "1cd46a6add78630c3e0c8a750cb0764d137027cde4ad74098f44e7cbea32c2b7"
+    },
+    {
+      "name": "@arena_strdup@8",
+      "native": "arena_strdup",
+      "start": 4326224,
+      "end": 4326292,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "fastcall nameECX poolEDX; char*EAX RET0",
+      "state_policy": "symbol-name-copy",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4973d4",
+          "native": "(unsigned long)pending_functions"
+        },
+        {
+          "original": "0x4973f0",
+          "native": "(unsigned long)pending_insertion"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        }
+      ],
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "evidence": "cases/analysis/arena-string-disassembly.txt:68bytes, fastcall nameECX poolEDX; exact strlen+1 allocation thenNUL-inclusive copy, char*EAX RET0"
     }
   ],
   "stubs": [
@@ -4757,53 +4939,8 @@
       "end": 4534993,
       "pending_extent": true,
       "kind": "application",
-      "abi": "fastcall symbolECX; result ignored by reachedcaller; RET0"
-    },
-    {
-      "name": "_input_compact_signed",
-      "native": "input_compact_signed",
-      "start": 4325621,
-      "end": 4325622,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl no parameters, signed longEAX RET0"
-    },
-    {
-      "name": "_input_compact_short",
-      "native": "input_compact_short",
-      "start": 4325829,
-      "end": 4325830,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl no parameters, signed shortAX RET0"
-    },
-    {
-      "name": "_input_extended_flags",
-      "native": "input_extended_flags",
-      "start": 4763693,
-      "end": 4763694,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl no parameters, flagsEAX RET0"
-    },
-    {
-      "name": "@copy_symbol_type@4",
-      "native": "copy_symbol_type",
-      "start": 4359092,
-      "end": 4359093,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall symbolECX; result ignored by decoder; RET0"
-    },
-    {
-      "name": "@arena_strdup@8",
-      "native": "arena_strdup",
-      "start": 4326224,
-      "end": 4326225,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall nameECX poolEDX; char*EAX RET0",
-      "state_policy": "symbol-name-copy",
+      "abi": "fastcall symbolECX; result ignored by reachedcaller; RET0",
+      "state_policy": "filename-record",
       "state": [
         {
           "original": "0x499708",
@@ -4974,6 +5111,42 @@
       "expected_argv": [
         "-G5"
       ]
+    },
+    {
+      "name": "_input_compact_signed",
+      "native": "input_compact_signed",
+      "start": 4325621,
+      "end": 4325622,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl no parameters, signed longEAX RET0"
+    },
+    {
+      "name": "_input_compact_short",
+      "native": "input_compact_short",
+      "start": 4325829,
+      "end": 4325830,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl no parameters, signed shortAX RET0"
+    },
+    {
+      "name": "_input_extended_flags",
+      "native": "input_extended_flags",
+      "start": 4763693,
+      "end": 4763694,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl no parameters, flagsEAX RET0"
+    },
+    {
+      "name": "@copy_symbol_type@4",
+      "native": "copy_symbol_type",
+      "start": 4359092,
+      "end": 4359093,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall symbolECX; result ignored by decoder; RET0"
     },
     {
       "name": "@lookup_global_symbol@4",
