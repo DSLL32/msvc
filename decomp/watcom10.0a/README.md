@@ -9,6 +9,8 @@ The initial Open Watcom source release is available read-only at
 `6b9cb4438959d845a2b4dd4bf19f7908ecd608e9` (2002-05-15). It may supply source,
 names, and design context; the 1994 binaries remain authoritative for behavior,
 function boundaries, and ABIs.
+Retain applicable copyright/license notices when reusing released source and
+record its exact path, commit, and binary-specific adaptations.
 
 WLIB and WLINK are PE32 programs. WLINK reference execution uses only the
 separate `.patched/WLINK.EXE`; its GS compatibility substitutions, original and
@@ -28,11 +30,17 @@ Compare the actual service inputs, results, and effects; exclude only identified
 loader, gateway, CRT, and shim internals. Application functions and their ABIs
 remain subject to the reconstruction requirements.
 
-Initial workers are inspecting and scaffolding. Before accepting functions,
-resolve exact Watcom register conventions, native/original compiler probes,
-CF code ownership and mask handling, and graph-audit input support. GCC
-`regparm(3)` does not implement Watcom's EAX/EDX/EBX/ECX convention. No blocked
-build or unrun case counts as a successful reconstruction.
+The user explicitly permits GCC's calling convention in native Linux tests.
+Original Watcom-built Win32 reconstructions must preserve and audit the actual
+Watcom register convention, signatures, exports, and stack cleanup. Native
+observers decode GCC formals and compare semantic values and ownership with the
+original; they do not compare unlike register or stack encodings. Application
+function identities and logical call graphs remain the same in both builds.
+No per-function ABI veneers or object-format translation are required.
+
+Before accepting functions, verify original/native compiler probes, CF code
+ownership and mask handling, and graph-audit input support. A blocked build or
+unrun case does not count as a successful reconstruction.
 
 Use the shared repository Wine prefix for explicit original builds and captures.
 Cached fixtures and debugging run natively on i386 Linux, without Wine. Shared
