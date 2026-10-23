@@ -148,14 +148,6 @@
     "evidence": null
   },
   {
-    "name": "_input_compact_short",
-    "start": 4325829,
-    "end": 4325830,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_input_extended_flags",
     "start": 4763693,
     "end": 4763694,

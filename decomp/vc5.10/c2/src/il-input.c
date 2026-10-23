@@ -97,6 +97,21 @@ long input_compact_signed(void)
     return value.number;
 }
 
+/* The short form shares the signed-byte escape with the DWORD reader. */
+short input_compact_short(void)
+{
+    unsigned char first;
+    union { short number; unsigned char bytes[2]; } value;
+    int (__cdecl *refill)(FILE *) = _filbuf;
+
+    first = (unsigned char)IL_GETC(refill);
+    if (first != 0x80)
+        return (signed char)first;
+    value.bytes[0] = (unsigned char)IL_GETC(refill);
+    value.bytes[1] = (unsigned char)IL_GETC(refill);
+    return value.number;
+}
+
 unsigned short input_type(void)
 {
     unsigned char first = (unsigned char)c2_read_il_byte();

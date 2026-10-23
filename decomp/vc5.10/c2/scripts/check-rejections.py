@@ -134,7 +134,7 @@ def main():
         mutations += [formal_control,
                       ('type reader actual symbol pool offset differs',lambda r:changed_type_input(r,'symbol_offset',552)),
                       ('type reader loses actual caller-symbol alias',lambda r:changed_type_input(r,'caller_symbol_alias',False)),
-                      ('type reader caller record kind differs',lambda r:changed_type_input(r,'caller_kind',4)),
+                      ('type reader caller record kind differs',lambda r:changed_type_input(r,'caller_kind',1)),
                       ('type reader caller retention differs',lambda r:changed_type_input(r,'retain_locals',1)),
                       ('type reader function record fields differ',lambda r:changed_type_input(r,'symbol_bytes','00'*110)),
                       ('type reader filename registry head offset differs',lambda r:changed_type_input(r,'filename_offset',540)),
@@ -166,6 +166,24 @@ def main():
                           ('compact signed extended type flag differs',lambda r:changed_compact_field(r,54,0x52)),
                           ('compact signed source line differs',lambda r:changed_compact_field(r,44,1)),
                           ('compact signed source file differs',lambda r:changed_compact_field(r,90,1))]
+        if current_state['function']=='update_symbol_storage':
+            def changed_completed_field(root,index,value,size=4):
+                import struct
+                data=bytearray.fromhex(current_state['symbol_type_input']['symbol_bytes']);struct.pack_into('<H'if size==2 else'<I',data,index,value)
+                changed_type_input(root,'symbol_bytes',data.hex())
+            def wrong_storage_table(root):
+                path=root/'o/events.txt';raw=path.read_text();raw=re.sub(r'^(storage-input .* table=)[0-9a-f]+$',lambda m:m[1]+'0048fb6c',raw,flags=re.M);path.write_text(raw);raw_changed(root,'o','events.txt')
+            mutations.append(('storage updater original caller table identity differs',wrong_storage_table))
+            mutations += [('storage updater actual caller table differs',lambda r:changed_type_input(r,'caller_table_global',False)),
+                          ('storage updater completed name pool alias differs',lambda r:changed_type_input(r,'symbol_name_offset',664)),
+                          ('storage updater completed decorated name differs',lambda r:changed_type_input(r,'symbol_name','mix_unsigned')),
+                          ('short input field64 differs',lambda r:changed_completed_field(r,100,55,2)),
+                          ('short input field62 differs',lambda r:changed_completed_field(r,98,4,2)),
+                          ('short input additional flags differ',lambda r:changed_completed_field(r,106,41)),
+                          ('short input frame-pointer flag lost',lambda r:changed_completed_field(r,20,0)),
+                          ('storage updater original name pointer differs',lambda r:changed_type_raw(r,'function-symbol.bin',24)),
+                          ('storage updater copied name terminator differs',lambda r:changed_type_raw(r,'pool-block.bin',673)),
+                          ('storage updater copied name rounded padding differs',lambda r:changed_type_raw(r,'pool-block.bin',675))]
     if 'filename_input'in current_state:
         def changed_filename_input(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['filename_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
