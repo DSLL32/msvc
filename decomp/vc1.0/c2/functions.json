@@ -971,7 +971,10 @@
     "@frame_temporary_operand@8",
     "@record_x87_node@4",
     "@spill_x87_for_node@4",
-    "@floating_constant_symbol@4"
+    "@floating_constant_symbol@4",
+    "@find_floating_constant@8",
+    "@new_generated_storage@24",
+    "@create_temporary@28"
   ],
   "driver": [
     {
@@ -2234,8 +2237,7 @@
     {
       "name": "@create_temporary@28",
       "start": 320576,
-      "end": 320577,
-      "provisional": true
+      "end": 320745
     },
     {
       "name": "@release_node@4",
@@ -6857,14 +6859,12 @@
     {
       "name": "@find_floating_constant@8",
       "start": 160560,
-      "end": 160561,
-      "provisional": true
+      "end": 160622
     },
     {
       "name": "@new_generated_storage@24",
       "start": 320512,
-      "end": 320513,
-      "provisional": true
+      "end": 320566
     }
   ],
   "cases": {

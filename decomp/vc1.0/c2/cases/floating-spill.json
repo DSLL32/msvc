@@ -231,7 +231,8 @@
     "Original raw node flag0040 equals normalized NODE_INTERNED for exactlysix opcodes across all182 rows, verified against compiled native table; see floating-interned-property-proof.json",
     "Whole floating constant symbol generator27390..27519 includes4/8/10byte initializer paths; cache lookup/new generated storage children remain explicitly trapped",
     "Floating cache is typed16byte entries with owned value pointer/type/symbol and only head80adc; no surrounding data copied",
-    "Five completed objects still exact; floating979byte final oracle pending"
+    "Five completed objects still exact; floating979byte final oracle pending",
+    "W3 reported missing compiler_warning declaration; initial checkpoint source was compilable with inferred cdecl int, fix adds records.h before next acceptance and reruns W3 plus static/native checks; original return is void and unused"
   ],
   "timing": {
     "analysis_seconds": null,

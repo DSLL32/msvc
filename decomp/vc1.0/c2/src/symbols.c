@@ -4,6 +4,9 @@
 #include "functions.h"
 #include "temporaries.h"
 #include "listing.h"
+#include "function-input.h"
+#include "machine.h"
+#include "records.h"
 unsigned descriptor_bytes[7];
 static ScopeHash *symbol_iteration_scope; /*83280*/
 static int symbol_iteration_bucket; /*8327c*/
@@ -165,4 +168,41 @@ SymbolHeader *__fastcall next_scope_symbol(ScopeHash *scope, SymbolHeader *previ
         }
     }
     return 0;
+}
+
+/* Original [0004e400,0004e436). Choose the original global/local
+   scope and pass all storage, arena, alignment and attribute arguments
+   through the separately reconstructed temporary-symbol constructor. */
+BackendSymbol *__fastcall new_generated_storage(unsigned kind, unsigned bytes,
+    unsigned short storage, int local, unsigned char alignment, unsigned short flags)
+{
+    return (BackendSymbol *)create_temporary(local ? current_scope : &global_scope,
+        kind, bytes, (short)storage, (unsigned)local, (signed char)alignment, flags);
+}
+
+/* Original [0004e440,0004e4e9). Construct the original kind1 storage
+   descriptor, register its serial, then assign target segment/frame storage
+   except for automatic temporaries. The fastcall entry pops five stack args. */
+TemporarySymbol *__fastcall create_temporary(ScopeHash *scope, unsigned type, long size,
+    short storage, unsigned arena, signed char subclass, unsigned short attributes)
+{
+    TemporarySymbol *temporary = allocate_descriptor(1, arena);
+    temporary->symbol.name = 0;
+    temporary->symbol.field0d = 0x26;
+    temporary->symbol.value = size;
+    temporary->attributes = (temporary->attributes & ~15U) | (type & 15);
+    temporary->attributes &= ~0x8000U;
+    temporary->attributes = (temporary->attributes & ~0x70U) |
+                            (((unsigned)(signed char)storage << 4) & 0x70);
+    temporary->attributes = (temporary->attributes & ~0x780U) |
+                            (((unsigned)subclass << 7) & 0x780);
+    temporary->symbol.field0e = attributes;
+    temporary->symbol.identifier = next_symbol_identifier();
+    put_symbol(scope, &temporary->symbol);
+    if (storage != 3) {
+        update_symbol_storage(&temporary->symbol);
+        if (!(temporary->symbol.field0e & 0x480))
+            reserve_symbol_storage(&temporary->symbol);
+    }
+    return temporary;
 }

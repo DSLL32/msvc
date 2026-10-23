@@ -2434,3 +2434,9 @@ x87 stack bookkeeping and constant storage: checkpoint967
 @find_floating_constant@8. 888 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-spill.json for extent union, limits and measured timings.
+
+Floating constant cache and generated storage symbols: checkpoint970
+3 acceptances pass fresh original/native matching; current frontier
+@arrange_x87_left@4. 891 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-storage.json for extent union, limits and measured timings.

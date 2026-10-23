@@ -43,8 +43,6 @@ Node *__fastcall intern_typed_label(Function *function, Node *node) { __asm int 
 DoubleBits input_double_bits(void) { __asm int 3 }
 int extended_to_float(const Extended *number, float *result) { __asm int 3 }
 void float_to_extended(const float *number, Extended *result) { __asm int 3 }
-TemporarySymbol *__fastcall create_temporary(ScopeHash *scope, unsigned type, long size,
-    short storage, unsigned arena, signed char subclass, unsigned short attributes) { __asm int 3 }
 void __fastcall decode_inline_assembly(Node *node, ScopeHash *scope) { __asm int 3 }
 char *__fastcall format_function_name(SymbolHeader *symbol) { __asm int 3 }
 void __cdecl ide_message(int code, ...) { __asm int 3 }
@@ -390,5 +388,3 @@ int __cdecl divide_extended(const Extended *left, const Extended *right, Extende
 int __cdecl minimum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl maximum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl absolute_extended(const Extended *number, Extended *result) { __asm int 3 }
-SymbolHeader *__fastcall find_floating_constant(const Extended *value, unsigned short type) { __asm int 3 }
-BackendSymbol *__fastcall new_generated_storage(unsigned kind, unsigned bytes, unsigned short storage, int local, unsigned char alignment, unsigned short flags) { __asm int 3 }

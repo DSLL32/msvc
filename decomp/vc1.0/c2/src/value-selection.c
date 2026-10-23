@@ -5,6 +5,7 @@
 #include "algebra.h"
 #include "work-prepare.h"
 #include "initializers.h"
+#include "records.h"
 #include <recon.h>
 extern int optimize_precision, cpu_model, code_pointer_bytes;
 SymbolHeader *__fastcall require_external_symbol(char *name);
@@ -614,4 +615,15 @@ SymbolHeader *__fastcall floating_constant_symbol(Node *constant)
     }
     insert_initializer(block);
     return constant->right.symbol;
+}
+
+/* Original [00027330,0002736e). Cache equality is numerical x87
+   equality plus exact type, with the newest matching symbol winning. */
+SymbolHeader *__fastcall find_floating_constant(const Extended *value, unsigned short type)
+{
+    FloatingConstantEntry *entry;
+    for (entry = floating_constants; entry; entry = entry->next)
+        if (entry->type == type && compare_extended(1, value, entry->value))
+            return entry->symbol;
+    return 0;
 }
