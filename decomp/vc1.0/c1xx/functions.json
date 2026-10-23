@@ -1157,7 +1157,8 @@
     "__ld12told",
     "__RoundMan",
     "_extended_to_double",
-    "_check_extended_range"
+    "_check_extended_range",
+    "_double_to_extended"
   ],
   "driver": [
     {
@@ -5731,7 +5732,7 @@
     {
       "name": "_double_to_extended",
       "start": 478824,
-      "end": 478825
+      "end": 478858
     },
     {
       "name": "_extended_to_float",
@@ -8330,6 +8331,11 @@
       "name": "_check_extended_range",
       "start": 479397,
       "end": 479467
+    },
+    {
+      "name": "_store_extended",
+      "start": 479393,
+      "end": 479394
     }
   ],
   "cases": {
@@ -8530,7 +8536,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_double_to_extended",
+      "terminal": "_store_extended",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8553,7 +8559,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1152-check_extended_range/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1153-double_to_extended/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8711,7 +8717,8 @@
         "cases/frontiers/state_machine_debug/1149-ld12told/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1150-RoundMan/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1151-extended_to_double/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1152-check_extended_range/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1152-check_extended_range/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1153-double_to_extended/frontier-extension.json"
       ]
     }
   },

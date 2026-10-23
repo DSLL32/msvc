@@ -135,6 +135,12 @@ def main():
             assert item['native_raw'] == binding['native_owner_value'], 'native actual caller local owner differs'
             if 'original_stack_offset' in binding and name=='_resolve_member_pointer_path@12':
                 validate_member_path_output(name, item, owner)
+            elif 'original_stack_offset' in binding and name=='_double_to_extended':
+                assert offset==28 and binding['original_register']=='esp' and binding['native_owner_address'], 'wrong rounded double input stack owner'
+                assert binding['original_caller_rva']==0x64c43 and binding['original_owner_function']=='_convert_floating_literal@8'
+                assert owner['function']=='convert_floating_literal' and owner['local']=='real', 'wrong rounded double input local'
+                assert owner['value'] is None and binding['address_only'] and not binding.get('output_only'), 'only actual initialized input owner address is observed'
+                assert 'original_prestate_word_anchor' not in binding
             elif 'original_stack_offset' in binding and name=='_extended_to_double':
                 assert offset==28 and binding['original_register']=='esp' and binding['native_owner_address'], 'wrong double output stack owner'
                 assert binding['original_caller_rva']==0x64c21 and binding['original_owner_function']=='_convert_floating_literal@8'

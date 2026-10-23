@@ -1,0 +1,68 @@
+{
+  "schema": 1,
+  "function": "_double_to_extended",
+  "native_entry": "double_to_extended",
+  "argument_words": 4,
+  "ownership_register": "esp",
+  "ownership_caller_extent": [
+    478264,
+    478275
+  ],
+  "native_caller_locals": {
+    "caller_value": {
+      "frame": 1,
+      "function": "convert_floating_literal",
+      "local": "real",
+      "address_of": true,
+      "address_only": true
+    }
+  },
+  "native_expressions": {
+    "raw_value": "(unsigned)value",
+    "raw_result": "(unsigned)result",
+    "value_owner": "(unsigned)&scanned_floating_value"
+  },
+  "formals": [
+    {
+      "name": "value",
+      "stack_index": 0,
+      "native_field": "raw_value",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esp",
+        "original_stack_offset": 28,
+        "original_caller_rva": 412739,
+        "original_owner_function": "_convert_floating_literal@8",
+        "native_owner_function": "convert_floating_literal",
+        "native_owner_field": "caller_value",
+        "native_owner_local": "real",
+        "native_owner_address": true,
+        "address_only": true,
+        "identity": "Actual accepted wrapper successful extended_to_double first writes the real double local via FSTP before this branch. BaselineESP=entry-44, LEA+16 at74c38=>callerentry-28, PUSHEDIresult74c3c/PUSHEAXvalue74c3d/CALL74c3e ret74c43 gives calleeentry=callerentry-56, so actual input real address==fresh calleeESP+28. Native actual immediate caller real address; no raw frame equality or pointee prestate claim."
+      }
+    },
+    {
+      "name": "result",
+      "stack_index": 1,
+      "native_field": "raw_result",
+      "binding": {
+        "kind": "object-offset",
+        "original_object": 621480,
+        "offset": 0,
+        "native_anchor_field": "value_owner"
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      478824,
+      478858
+    ],
+    "argument_bytes": 8,
+    "convention": "cdecl",
+    "proof": "Whole34B EBPframe/value+8/result+12, plainRET/fullEAX0. FLD QWORD[*value] before result->format=8, passes destinationESI/valueST0 to actual fourbyte store tail750a1; no incominghiddenx87/GPR/CPUflags/formal. No newdata. Narrow x87/ESI bridge required by tenbyte store private ABI; ordinary C assigns format/returns0."
+  }
+}

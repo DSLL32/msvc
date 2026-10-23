@@ -1,0 +1,33 @@
+{
+  "scope": "Read-only production argument preflight with frozen original configuration; synthetic corruptions, no promotion or original execution",
+  "proof": "cases/argument-observations/state_machine_debug/1153-double_to_extended/validation.json",
+  "proof_sha256": "1df303cb9cdaffcccebf8e235d547ab614cd17b10352598168bcdc7c8fdf62e0",
+  "checks": [
+    {
+      "test": "control",
+      "result": "verified",
+      "output": "fresh application arguments verified: _double_to_extended"
+    },
+    {
+      "test": "missing-anchor",
+      "result": "held",
+      "reason": "missing actual owner register anchor"
+    },
+    {
+      "test": "wrong-offset",
+      "result": "held",
+      "reason": "original caller owner plus offset differs"
+    },
+    {
+      "test": "wrong-native-owner",
+      "result": "held",
+      "reason": "actual native owner differs"
+    },
+    {
+      "test": "read-output-prestate",
+      "result": "held",
+      "reason": "only actual initialized input owner address is observed"
+    }
+  ],
+  "elapsed_seconds": 0.15909048076719046
+}

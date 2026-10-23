@@ -498,7 +498,6 @@ void __stdcall report_conversion_rank_failure(unsigned char operation, unsigned 
 int extended_to_integer(const Extended *value, long *result) { __asm { int 3 } return 0; }
 int integer_to_extended(const long *value, Extended *result) { __asm { int 3 } return 0; }
 int unsigned_to_extended(const unsigned long *value, Extended *result) { __asm { int 3 } return 0; }
-int double_to_extended(const double *value, Extended *result) { __asm { int 3 } return 0; }
 int extended_to_float(const Extended *value, float *result) { __asm { int 3 } return 0; }
 int float_to_extended(const float *value, Extended *result) { __asm { int 3 } return 0; }
 
@@ -611,3 +610,4 @@ void __stdcall save_macro_argument_text(char *start, char *end) { __asm { int 3 
 void advance_macro_argument(void) { __asm { int 3 } }
 void browser_end_macro_expansion(void) { __asm { int 3 } }
 char *__stdcall encode_literal_name_byte(char *cursor, signed char character) { __asm { int 3 } return 0; }
+void store_extended(void) { __asm { int 3 } }

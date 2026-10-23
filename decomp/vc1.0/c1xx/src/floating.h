@@ -25,6 +25,8 @@ typedef char ExtendedRangeStateSizeMustBe6[(sizeof(ExtendedRangeState) == 6) ? 1
 extern ExtendedRangeState extended_range_state;
 /* Private ABI: ST(0) limit and ST(1) value; leaves the value in ST(0). */
 int check_extended_range(void);
+/* Private ABI: destination in ESI and value in ST(0). */
+void store_extended(void);
 extern Extended extended_zero, scanned_floating_value;
 int __stdcall convert_floating_literal(char *text, Extended *value);
 int subtract_extended(const Extended *left, const Extended *right, Extended *result);

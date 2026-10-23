@@ -113,3 +113,19 @@ int check_extended_range(void)
     }
     return (status & 0x100) != 0;
 }
+
+/* Original 0x74e68..0x74e89. The ten-byte store has private ESI/ST(0)
+   inputs, so only those transfers require assembly. */
+int double_to_extended(const double *value, Extended *result)
+{
+    __asm {
+        mov eax, value
+        fld qword ptr [eax]
+    }
+    result->format = 8;
+    __asm {
+        mov esi, result
+        call store_extended
+    }
+    return 0;
+}

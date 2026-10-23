@@ -28,7 +28,7 @@ def main():
     args=parser.parse_args()
     started=time.perf_counter()
     original=json.loads(args.proof.read_text())
-    assert original['function'] in ('_resolve_member_pointer_path@12','_extended_to_double')
+    assert original['function'] in ('_resolve_member_pointer_path@12','_extended_to_double','_double_to_extended')
     formals=[row for row in original['formals'] if row['binding']['kind']=='caller-owned-pointer']
     assert len(formals)==(2 if original['function']=='_resolve_member_pointer_path@12' else 1) and all(row['binding']['original_register']=='esp' for row in formals)
     registers=['esp']
@@ -51,7 +51,7 @@ def main():
         if name=='missing-anchor':
             receipt['ownership_register_observations']=[row for row in receipt['ownership_register_observations'] if row['register']!=registers[0]]
         if name=='wrong-offset':
-            proof['formals'][1]['binding']['original_stack_offset']+=4
+            next(row for row in proof['formals'] if row['binding']['kind']=='caller-owned-pointer')['binding']['original_stack_offset']+=4
         if name=='swapped-output-addresses':
             native=json.loads((target/'native-checkpoint.json').read_text())
             left=native['caller_locals']['caller_virtual_base'];right=native['caller_locals']['caller_displacement']
