@@ -22,3 +22,8 @@ extern "C" void __cdecl initialize_state_12712(void)
 {
     c1_bss.pools[1].Initialize(1);
 }
+
+extern "C" void __cdecl initialize_state_1271f(void)
+{
+    c1_bss.pools[2].Initialize(1);
+}

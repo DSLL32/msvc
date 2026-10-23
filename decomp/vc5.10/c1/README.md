@@ -328,3 +328,7 @@ adjacent state. Durable coverage:37 application functions /1535 bytes plus
 Pool step pool-wrapper2 is accepted, reaching1271f; 2 separately encountered pool objects
 have exact receiver/stack/return/default/nonzero reset proofs. Durable coverage:
 38 application functions /1548B +2 CRT /451B +6B import =2005B (40 source functions).
+
+Pool step pool-wrapper3 is accepted, reaching1272c; 3 separately encountered pool objects
+have exact receiver/stack/return/default/nonzero reset proofs. Durable coverage:
+39 application functions /1561B +2 CRT /451B +6B import =2018B (41 source functions).
