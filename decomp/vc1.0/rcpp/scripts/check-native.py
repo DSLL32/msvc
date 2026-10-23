@@ -37,23 +37,11 @@ def load_spec(name):
     setting=config['cases'][name]
     fixture=(BINARY/setting['fixture']).resolve()
     manifest=json.loads((fixture/'manifest.json').read_text())
-    if name=='resources-rich':
-        phase=manifest['phases']['rcpp']
-        for record in manifest['toolchain_dependencies']: checked(ROOT,record)
-        validation=json.loads((fixture/'validation.json').read_text())['phases']['rcpp']
-        assert validation['stdout_bytes']==validation['stderr_bytes']==0
-        assert (fixture/phase['stdout']).read_bytes()==(fixture/phase['stderr']).read_bytes()==b''
-        for record in manifest['source_files']: checked(fixture,record)
-        for record in phase['additional_inputs']: checked(fixture,record)
-        outputs={phase['output']['name']:checked(fixture,phase['output'])}
-        return dict(fixture=fixture,arguments=phase['arguments'],exit=phase['expected_exit'],
-                    stdout=(fixture/phase['stdout']).read_bytes(),stderr=(fixture/phase['stderr']).read_bytes(),
-                    outputs=outputs,extras={r['name']:checked(fixture,r)for r in phase['additional_inputs']})
     assert manifest['target_sha256']==config['target']['sha256']
     for record in manifest['source_inputs']: checked(fixture,record)
     for record in manifest['toolchain_dependencies']: checked(ROOT,record)
     case=next(c for c in manifest['cases']if c['id']==setting.get('manifest_case',name))
-    return dict(fixture=fixture,arguments=[a.replace('{bin}',r'T:\bin').replace('{include}',r'T:\include')for a in case['arguments']],
+    return dict(fixture=fixture,arguments=[a.replace('{bin}',r'R:\toolchains\1.0-nt\bin').replace('{include}',r'R:\toolchains\1.0-nt\include')for a in case['arguments']],
                 exit=case['expected_exit'],stdout=checked(fixture,case['stdout']),stderr=checked(fixture,case['stderr']),
                 outputs={r['output_name']:checked(fixture,r)for r in case['outputs']},extras={})
 
@@ -125,7 +113,7 @@ def run_case(name,executable,directory,tracing=None):
     inputs={p.relative_to(work).as_posix():p.read_bytes()for p in work.rglob('*')if p.is_file()}
     env={k:v for k,v in os.environ.items()if not k.startswith('RECON_')}
     for key in ('CL','_CL_','LINK','_LINK_','MSC_CMD_FLAGS'):env.pop(key,None)
-    env.update(RECON_DRIVE_T=str(ROOT/'toolchains/1.0-nt'),RECON_PROGRAM_PATH=r'T:\bin\RCPP.EXE',LC_ALL='C')
+    env.update(RECON_DRIVE_R=str(ROOT),RECON_PROGRAM_PATH=r'R:\toolchains\1.0-nt\bin\RCPP.EXE',LC_ALL='C')
     extra={};trace_file=None;entry=None
     if tracing:
         entry=tracing['cache']['cases'][name]

@@ -1,0 +1,2 @@
+warning RC4413: Cannot determine file type for 'dbcs-backslash.rc' : assuming 8-bit ascii
+dbcs-backslash.rc(1) : error RC2001: newline in constant

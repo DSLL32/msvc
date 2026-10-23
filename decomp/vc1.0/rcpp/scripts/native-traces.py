@@ -3,6 +3,7 @@
 import argparse
 import hashlib
 import json
+import os
 from pathlib import Path
 import re
 import subprocess
@@ -64,9 +65,15 @@ def project(directory):
         if case!='option-helper':
             fixture=(BINARY/cfg['cases'][case]['fixture']).resolve()
             manifest=fixture/'manifest.json'
-            metadata[str(manifest.relative_to(BINARY.parent)).replace('fixtures/','../fixtures/',1)]=sha(manifest)
+            metadata[os.path.relpath(manifest,BINARY)]=sha(manifest)
             data=json.loads(manifest.read_text())
-            if case!='resources-rich':code=next(c['expected_exit']for c in data['cases']if c['id']==case)
+            if 'cases' in data:code=next(c['expected_exit']for c in data['cases']if c['id']==case)
+            for item in data.get('original_entry_proofs',[]):
+                proof_path=fixture/item['path']
+                assert sha(proof_path)==item['sha256']
+                proof=json.loads(proof_path.read_text())
+                assert proof['expected_entries']==proof['observed_entries']==projected(accepted[first:last]),case
+                metadata[os.path.relpath(proof_path,BINARY)]=sha(proof_path)
         cases[case] = dict(first=first,last=last,seen_count=len(projected(accepted[:first])),
                           expected=projected(accepted[first:last]),terminal=dict(kind='exit',code=code))
     return dict(schema=1,description='Projection of cached original-backed acceptance history; no original execution or recapture',

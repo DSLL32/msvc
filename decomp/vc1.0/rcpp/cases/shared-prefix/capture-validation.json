@@ -1,0 +1,125 @@
+{
+  "status": "passed",
+  "capture_seconds": 57.326988437213004,
+  "cases": [
+    {
+      "case": "resources-rich",
+      "total_seconds": 3.4692629082128406,
+      "execution_seconds": 3.433184658177197,
+      "outputs_changed": [
+        "RD000360"
+      ]
+    },
+    {
+      "case": "pragma-character-float",
+      "total_seconds": 2.8832259653136134,
+      "execution_seconds": 2.8471713671460748,
+      "outputs_changed": []
+    },
+    {
+      "case": "plain-comments",
+      "total_seconds": 2.643368363380432,
+      "execution_seconds": 2.602987725287676,
+      "outputs_changed": []
+    },
+    {
+      "case": "unsigned-char",
+      "total_seconds": 3.240513521246612,
+      "execution_seconds": 3.2001017928123474,
+      "outputs_changed": []
+    },
+    {
+      "case": "packing-options",
+      "total_seconds": 3.432418384589255,
+      "execution_seconds": 3.3965990683063865,
+      "outputs_changed": []
+    },
+    {
+      "case": "error",
+      "total_seconds": 3.1655674716457725,
+      "execution_seconds": 3.122258199378848,
+      "outputs_changed": []
+    },
+    {
+      "case": "missing-include",
+      "total_seconds": 3.189106097444892,
+      "execution_seconds": 3.1444891449064016,
+      "outputs_changed": []
+    },
+    {
+      "case": "unterminated",
+      "total_seconds": 3.2669954420998693,
+      "execution_seconds": 3.234317743219435,
+      "outputs_changed": []
+    },
+    {
+      "case": "macro-arity",
+      "total_seconds": 2.834286599420011,
+      "execution_seconds": 2.7852928061038256,
+      "outputs_changed": []
+    },
+    {
+      "case": "character",
+      "total_seconds": 3.295223517343402,
+      "execution_seconds": 3.2404395788908005,
+      "outputs_changed": []
+    },
+    {
+      "case": "invalid-option",
+      "total_seconds": 2.9966556010767817,
+      "execution_seconds": 2.9417711179703474,
+      "outputs_changed": []
+    },
+    {
+      "case": "dbcs-codepage",
+      "total_seconds": 2.867014125920832,
+      "execution_seconds": 2.819917934946716,
+      "outputs_changed": []
+    },
+    {
+      "case": "dbcs-backslash",
+      "total_seconds": 3.0503348149359226,
+      "execution_seconds": 3.0168156530708075,
+      "outputs_changed": []
+    },
+    {
+      "case": "unicode-input",
+      "total_seconds": 2.7516162833198905,
+      "execution_seconds": 2.6950027188286185,
+      "outputs_changed": []
+    },
+    {
+      "case": "directive-tail",
+      "total_seconds": 3.0614730110391974,
+      "execution_seconds": 3.032554594799876,
+      "outputs_changed": []
+    },
+    {
+      "case": "oversized-macro",
+      "total_seconds": 2.535868067294359,
+      "execution_seconds": 2.519007776863873,
+      "outputs_changed": []
+    },
+    {
+      "case": "console-interrupt",
+      "total_seconds": 3.333876635879278,
+      "execution_seconds": 3.315100078471005,
+      "outputs_changed": []
+    },
+    {
+      "case": "long-suffix",
+      "total_seconds": 2.8000969234853983,
+      "execution_seconds": 2.7781300703063607,
+      "outputs_changed": []
+    },
+    {
+      "case": "unsigned-suffix",
+      "total_seconds": 2.4585108598694205,
+      "execution_seconds": 2.434633412398398,
+      "outputs_changed": []
+    }
+  ],
+  "no_normalization": true,
+  "no_implicit_fixture_recapture": true,
+  "old_raw_captures_relabelled": false
+}

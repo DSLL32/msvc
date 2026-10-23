@@ -304,6 +304,8 @@
     "paired_reconstructed_wine_runner_removed": true,
     "original_capture_target": "capture-original",
     "reconstruction_acceptance_unchanged": true,
-    "unsupported_original_state": "Windows console callback thread/read-return barrier/exclusive sharing; observable native SIGINT case passes"
+    "unsupported_original_state": "Windows console callback thread/read-return barrier/exclusive sharing; observable native SIGINT case passes",
+    "shared_prefix_migration": "cases/shared-prefix/migration-validation.json",
+    "original_prefix": "/root/.ai-tmp/vc1.0-capture/wine"
   }
 }

@@ -1,0 +1,49 @@
+{
+  "run": 1,
+  "prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "working_directory": "S:\\vc1.0\\rcpp\\macro-arity\\shared-1\\work",
+  "arguments": [
+    "-ef",
+    "R:\\toolchains\\1.0-nt\\bin\\c1.err",
+    "-f",
+    "macro-arity.rc",
+    "-g",
+    "result.i",
+    "-E"
+  ],
+  "target_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+  "execution_seconds": 1.5493212938308716,
+  "expected_entries": [
+    "rc_warning"
+  ],
+  "observed_entries": [
+    "rc_warning"
+  ],
+  "entry_method": "original one-byte entry traps, restore and EIP rewind; accepted prefix seeded",
+  "raw_evidence": [
+    {
+      "path": "evidence/1/events",
+      "bytes": 24,
+      "sha256": "4af21faadf115ff8515a140ad2c4698e6d85b8f81a043eb88296328b7d824711"
+    },
+    {
+      "path": "evidence/1/result.i",
+      "bytes": 38,
+      "sha256": "ad400917acf0eb555bba196405c13646ace891225d9bfb079f230c92fdbedd48"
+    },
+    {
+      "path": "evidence/1/stderr",
+      "bytes": 83,
+      "sha256": "f91dbfce7d44ce77316f99aa1c675191ec85e1813565892e54c6d35c2034d0be"
+    },
+    {
+      "path": "evidence/1/stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

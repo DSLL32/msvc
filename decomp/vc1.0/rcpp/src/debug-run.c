@@ -1,8 +1,11 @@
-/* Small debugger used only by the differential harness. */
+/* Explicit original-only capture debugger with optional first-entry plan. */
 #include <windows.h>
 #include <stdio.h>
 #include <string.h>
 #include <recon.h>
+
+typedef struct { DWORD rva; unsigned int byte; char name[128]; } ENTRY;
+static ENTRY entries[256];
 
 int main(int argc, char **argv)
 {
@@ -13,9 +16,21 @@ int main(int argc, char **argv)
     HANDLE out, err, log;
     DWORD base = 0, written, status, code;
     char command[2048], line[256];
-    int loader_break = 0;
+    int loader_break = 0, entry_count = 0, next_entry = 0, i;
+    FILE *plan;
+    DWORD transferred;
+    CONTEXT context;
+    BYTE trap = 0xcc, saved;
 
-    if (argc != 6 && argc != 7) return 2;
+    if (argc < 6 || argc > 8) return 2;
+    if (argc == 8) {
+        plan = fopen(argv[7], "r");
+        if (!plan) return 5;
+        while (entry_count < 256 && fscanf(plan, "%lx %x %127s",
+               &entries[entry_count].rva, &entries[entry_count].byte,
+               entries[entry_count].name) == 3) ++entry_count;
+        fclose(plan);
+    }
     memset(&si, 0, sizeof(si));
     memset(&sa, 0, sizeof(sa));
     sa.nLength = sizeof(sa);
@@ -33,7 +48,7 @@ int main(int argc, char **argv)
     si.hStdInput = GetStdHandle(STD_INPUT_HANDLE);
     sprintf(command, "\"%s\" %s", argv[1], argv[2]);
     if (!CreateProcessA(argv[1], command, 0, 0, TRUE,
-                        DEBUG_ONLY_THIS_PROCESS, 0, argc == 7 ? argv[6] : 0, &si, &pi)) {
+                        DEBUG_ONLY_THIS_PROCESS, 0, argc >= 7 ? argv[6] : 0, &si, &pi)) {
         sprintf(line, "create-error %lu\n", GetLastError());
         WriteFile(log, line, strlen(line), &written, 0);
         return 3;
@@ -51,6 +66,24 @@ int main(int argc, char **argv)
             code = ev.u.Exception.ExceptionRecord.ExceptionCode;
             if (code == EXCEPTION_BREAKPOINT && !loader_break) {
                 loader_break = 1;
+                for (i = 0; i < entry_count; ++i)
+                    if (!WriteProcessMemory(pi.hProcess, (void *)(base + entries[i].rva),
+                                            &trap, 1, &transferred)) return 6;
+                FlushInstructionCache(pi.hProcess, 0, 0);
+            } else if (code == EXCEPTION_BREAKPOINT && next_entry < entry_count &&
+                       (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress == base + entries[next_entry].rva) {
+                saved = (BYTE)entries[next_entry].byte;
+                WriteProcessMemory(pi.hProcess, (void *)(base + entries[next_entry].rva),
+                                   &saved, 1, &transferred);
+                FlushInstructionCache(pi.hProcess, 0, 0);
+                memset(&context, 0, sizeof(context));
+                context.ContextFlags = CONTEXT_CONTROL;
+                if (!GetThreadContext(pi.hThread, &context)) return 7;
+                context.Eip = base + entries[next_entry].rva;
+                if (!SetThreadContext(pi.hThread, &context)) return 8;
+                sprintf(line, "entry %s\n", entries[next_entry].name);
+                WriteFile(log, line, strlen(line), &written, 0);
+                ++next_entry;
             } else {
                 sprintf(line, "exception %08lx rva %08lx base %08lx first %lu\n",
                         code, (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress - base,

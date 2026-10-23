@@ -1,0 +1,4 @@
+entry rc_message
+entry rc_error
+entry rc_report_diagnostic
+exit 1

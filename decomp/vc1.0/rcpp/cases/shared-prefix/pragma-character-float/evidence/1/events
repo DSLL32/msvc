@@ -1,0 +1,6 @@
+entry rc_parse_pragma
+entry rc_parse_character
+entry rc_escape_value
+entry rc_append_argument
+entry rc_read_floating
+exit 0

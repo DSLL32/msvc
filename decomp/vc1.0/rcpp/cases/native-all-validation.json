@@ -1,6 +1,6 @@
 {
   "status": "passed",
-  "scope": "Native workflow adoption only; no new reconstruction, cases, original captures or frontier acceptance",
+  "scope": "Native workflow adoption and subsequent shared-prefix maintenance; no new reconstruction/frontier acceptance",
   "build": {
     "architecture": "i386",
     "debug_flags": "-O0 -g",
@@ -50,20 +50,32 @@
         "exit": 0
       }
     ],
-    "timing_caveat": "Final native build timing is an up-to-date verification. Final shared-tracer relink succeeded but elapsed build time was not measured. No clean-build timing is claimed for the final tracer."
+    "timing_caveat": "Final native build timing is an up-to-date verification. Final shared-tracer relink succeeded but elapsed build time was not measured. No clean-build timing is claimed for the final tracer.",
+    "shared_prefix_migration_build": {
+      "label": "native-build",
+      "command": [
+        "make",
+        "-j4",
+        "native",
+        "native-trace",
+        "build/native-trace/option-check",
+        "build/native-trace/classifier-check",
+        "build/native-trace/message-check"
+      ],
+      "exit": 0,
+      "seconds": 1.8258879818022251
+    }
   },
   "canonical_original_toolchain": {
+    "label": "canonical-build-and-audits",
     "command": [
       "make",
       "-j4",
-      "build/rcpp.exe",
-      "build/native-option-check.obj",
-      "build/native-message-check.obj",
-      "build/native-classifier-check.obj",
+      "win32",
       "audit"
     ],
-    "elapsed_seconds": 10.584026612341404,
-    "exit": 0
+    "exit": 0,
+    "seconds": 14.511168426834047
   },
   "canonical_checks": [
     "original compiler compiles full Win32 target and three native-probe sources",
@@ -86,23 +98,23 @@
   "receipt_files": {
     "native-validation.json": {
       "path": "cases/native-validation.json",
-      "bytes": 16169,
-      "sha256": "100c3b5ac3ba225d276344d56924ad91d00926286a52862de94246dfce3df856"
+      "bytes": 16158,
+      "sha256": "d71fb23738044944219c2f074ebbe366bb391077f935361117fba8d8f02b6231"
     },
     "native-trace-validation.json": {
       "path": "cases/native-trace-validation.json",
-      "bytes": 16185,
-      "sha256": "1b4863054804b45919050968baad18d373511a99045a667efe34c59d15ff19ea"
+      "bytes": 16186,
+      "sha256": "0df841b532b49a8439b4d61d229c2f035cdce2f3e34ece92dc8ae756f0de9e09"
     },
     "native-classifier-validation.json": {
       "path": "cases/native-classifier-validation.json",
       "bytes": 119,
-      "sha256": "0bf738b9576f7688b0b6a1227da13ef5146956f7aa789873bb78e9010731baa2"
+      "sha256": "ed5ce712d8146fc0eeddc3e0dca46682f4fa9ecc3511136c714d955183a4407e"
     },
     "native-message-validation.json": {
       "path": "cases/native-message-validation.json",
       "bytes": 205,
-      "sha256": "2c1be27df3a7cc39be592a0f98d1015d1f02c1d9b5c93dd83c923ea539a71883"
+      "sha256": "e7cb4f487cdbc6294f9b8ec4c069eba50264ffb6a6b159e99de2dcb7d35798c4"
     },
     "native-rejection-validation.json": {
       "path": "cases/native-rejection-validation.json",
@@ -111,16 +123,16 @@
     }
   },
   "trace_execution": {
-    "executable_sha256": "c5d5d5d2f021054eef22a9b06c0f04313a9d3584ef0a2899c2e48252138feecc",
-    "cache_sha256": "64f60ac1fb073bfff2614fa152641b5479766faaa44cd88b757bb32bd2299c27",
-    "preparation_seconds": 0.05403665732592344,
+    "executable_sha256": "877511a2bf0e3c4a8542137de34fbf1d452c147285344a182af156e2c790a07e",
+    "cache_sha256": "aee289030cbc0187bdf10181e927e306f969b9b025a68ffce397be885e375150",
+    "preparation_seconds": 0.05153125058859587,
     "timing_totals": {
-      "setup_seconds": 0.13370706047862768,
-      "execution_seconds": 0.12118380889296532,
-      "check_seconds": 0.03320243302732706
+      "setup_seconds": 0.13898231461644173,
+      "execution_seconds": 0.12308086361736059,
+      "check_seconds": 0.0334170451387763
     },
-    "elapsed_seconds": 0.2926298212260008,
-    "run_directory": "/root/.ai-tmp/vc1.0-rcpp/native/trace-amzwvoz5"
+    "elapsed_seconds": 0.30037492979317904,
+    "run_directory": "/root/.ai-tmp/vc1.0-rcpp/native/trace-txqasa5c"
   },
   "capture": {
     "performed": false,
@@ -182,7 +194,7 @@
     ],
     "successful_runs": 10,
     "elapsed_seconds": 2.2373424284160137,
-    "scope": "Ten fresh traced resources-rich runs after final shared tracer isolation; exact bytes and projected application entries"
+    "scope": "Historical native-adoption ten-run stability evidence before shared-prefix reference migration; current fixed-R: rich case is independently recaptured twice and native-verified"
   },
   "resolved_tooling_issue": {
     "cause": "Tracer startup allocations left tracer symbol/ELF bytes in application allocator storage read by the original partially initialized type interning logic.",
@@ -250,5 +262,13 @@
     "remaining_crt_import_bytes": 54,
     "remaining_padding_bytes": 2517
   },
-  "timing_units": "elapsed wall seconds; single samples with other workers active; setup/execution/check/capture kept separate"
+  "timing_units": "elapsed wall seconds; single samples with other workers active; setup/execution/check/capture kept separate",
+  "shared_prefix_migration": "cases/shared-prefix/migration-validation.json",
+  "original_capture_for_shared_prefix_migration": {
+    "performed": true,
+    "production_cases": 19,
+    "runs_per_case": 2,
+    "seconds": 57.326988437213004,
+    "validation": "cases/shared-prefix/migration-validation.json"
+  }
 }

@@ -1,0 +1,49 @@
+{
+  "run": 1,
+  "prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "working_directory": "S:\\vc1.0\\rcpp\\missing-include\\shared-1\\work",
+  "arguments": [
+    "-ef",
+    "R:\\toolchains\\1.0-nt\\bin\\c1.err",
+    "-f",
+    "missing-include.rc",
+    "-g",
+    "result.i",
+    "-E"
+  ],
+  "target_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+  "execution_seconds": 1.574868967756629,
+  "expected_entries": [
+    "rc_fatal"
+  ],
+  "observed_entries": [
+    "rc_fatal"
+  ],
+  "entry_method": "original one-byte entry traps, restore and EIP rewind; accepted prefix seeded",
+  "raw_evidence": [
+    {
+      "path": "evidence/1/events",
+      "bytes": 22,
+      "sha256": "cd22269c18d5ff5fb7eb393727a49c4e0743d7685e78644c2063adda78df0ecb"
+    },
+    {
+      "path": "evidence/1/result.i",
+      "bytes": 30,
+      "sha256": "37780ac926e769c7d6b3d9b1714df25965a07d0a12539058b5789015e980272d"
+    },
+    {
+      "path": "evidence/1/stderr",
+      "bytes": 90,
+      "sha256": "bf127d721b56af78fc187ae10054e5af73648778eefa976e05e01673eab33150"
+    },
+    {
+      "path": "evidence/1/stdout",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

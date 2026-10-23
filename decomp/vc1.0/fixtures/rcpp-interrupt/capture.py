@@ -7,44 +7,34 @@ import json
 import re
 import shutil
 import subprocess
-import threading
 import time
 
 HERE = Path(__file__).resolve().parent
 RCPP = HERE.parent.parent/'rcpp'
 wt = importlib.machinery.SourceFileLoader('rcpp_interrupt_wine', str(RCPP/'scripts/wine-tool.py')).load_module()
-SCRATCH = wt.PREFIX.parent/'interrupt'
-LOCK = threading.Lock()
-ARGUMENTS = '-ef T:\\bin\\c1.err -f interrupt.rc -g result.i -E'
+from case_paths import CAPTURES, capture_lock
+SCRATCH = CAPTURES/'console-interrupt'
+ARGUMENTS = '-ef '+wt.windows(wt.TC/'bin/c1.err')+' -f interrupt.rc -g result.i -E'
 
 
 def environment(label, work):
-    # Separate wineservers isolate the identically named pipes during paired
-    # runs, preserving identical input/argv/output bytes without PID rewriting.
+    # Caller holds the RCPP capture lease; never clone/remap/stop shared Wine.
     assert re.fullmatch('[a-z0-9-]+', label)
-    with LOCK:
-        prefix = SCRATCH/('wine-'+label)
-        env = wt.environment()
-        env['WINEPREFIX'] = str(prefix)
-        if not (prefix/'system.reg').exists():
-            prefix.parent.mkdir(parents=True,exist_ok=True)
-            with (SCRATCH/('wineboot-'+label+'.log')).open('wb') as log:
-                subprocess.run(['wineboot','-u'],env=env,stdout=log,stderr=log,check=True,timeout=120)
-        drive = prefix/'dosdevices/t:'
-        if not drive.is_symlink(): drive.symlink_to(wt.TC,target_is_directory=True)
-        assert drive.resolve() == wt.TC.resolve()
-        result = subprocess.run(['wineserver','-p'],env=env,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL)
-        assert result.returncode in (0,2)
+    env = wt.environment()
     env.update(TEMP=wt.windows(work),TMP=wt.windows(work))
     return env
 
 
 def execute(executable, arguments, work, stem, rvas, label):
+    with capture_lock():
+        return _execute(executable,arguments,work,stem,rvas,label)
+
+def _execute(executable, arguments, work, stem, rvas, label):
     stem,work=Path(stem).resolve(),Path(work).resolve()
     before=Path(str(stem)+'.before')
     if before.exists(): shutil.rmtree(before)
     before.mkdir(parents=True)
-    command=['wine',str(RCPP/'build/interrupt-run.exe'),wt.windows(executable),arguments,
+    command=['wine',wt.windows(RCPP/'build/interrupt-run.exe'),wt.windows(executable),arguments,
              wt.windows(str(stem)+'.stdout'),wt.windows(str(stem)+'.stderr'),
              wt.windows(str(stem)+'.events'),wt.windows(work)]
     command += ['%x'%value for value in rvas]

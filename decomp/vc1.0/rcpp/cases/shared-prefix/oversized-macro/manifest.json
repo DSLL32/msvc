@@ -1,0 +1,72 @@
+{
+  "target": "toolchains/1.0-nt/bin/RCPP.EXE",
+  "target_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+  "toolchain": "1.0-nt",
+  "normalization": "none",
+  "source_inputs": [
+    {
+      "path": "source/directive-tail.rc",
+      "bytes": 40,
+      "sha256": "20ea7eaf079f89973d8f0980aa73005aee1b4228af7091a718e47e337b4978e9"
+    },
+    {
+      "path": "source/oversized-macro.rc",
+      "bytes": 1242,
+      "sha256": "0e219926214bbcf04d85b2625dc40e6bd57f55de0ae0936f6e1e197eb9634386"
+    }
+  ],
+  "toolchain_dependencies": [
+    {
+      "path": "toolchains/1.0-nt/bin/C1.ERR",
+      "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+    }
+  ],
+  "cases": [
+    {
+      "id": "oversized-macro",
+      "arguments": [
+        "-ef",
+        "R:\\toolchains\\1.0-nt\\bin\\c1.err",
+        "-f",
+        "oversized-macro.rc",
+        "-g",
+        "result.i",
+        "-E"
+      ],
+      "expected_exit": 1,
+      "stdout": {
+        "path": "oracle/stdout.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "oracle/stderr.bin",
+        "bytes": 47,
+        "sha256": "4e3758e19fe831b715c66e6ce3889f728ef5a114ace28c99a235a53394f5ac0d"
+      },
+      "outputs": [
+        {
+          "path": "oracle/result.i",
+          "bytes": 32,
+          "sha256": "746442e1874122403ec346dfe807ca2c1083334c4fb3c68d4353e5cb6b00a868",
+          "output_name": "result.i"
+        }
+      ]
+    }
+  ],
+  "original_capture_runs": 2,
+  "original_entry_proofs": [
+    {
+      "path": "evidence/0/receipt.json",
+      "bytes": 1321,
+      "sha256": "575631e4f8b6dbdc67d3f53eef592c0f074b82276e319381dd38004141eb0502"
+    },
+    {
+      "path": "evidence/1/receipt.json",
+      "bytes": 1321,
+      "sha256": "5266f1093da3aa108cd813e5cdc65a870a46e54d641b2c3d0fb83d0a80fa3ec3"
+    }
+  ],
+  "previous_fixture": "../fixtures/rcpp-targeted",
+  "changed_output_names": []
+}

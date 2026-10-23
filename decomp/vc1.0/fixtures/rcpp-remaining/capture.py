@@ -35,7 +35,7 @@ def main():
     cases=[]
     for name in CASES:
         arguments=['-ef',r'{bin}\c1.err','-f',name+'.rc','-g','result.i','-E']
-        command=subprocess.list2cmdline([x.replace('{bin}',r'T:\bin') for x in arguments])
+        command=subprocess.list2cmdline([x.replace('{bin}',wt.windows(wt.TC/'bin')) for x in arguments])
         spec=dict(name=name,fixture=HERE,arguments=command,extra_input=None)
         outputs=[]
         for number in range(2):

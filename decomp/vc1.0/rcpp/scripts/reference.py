@@ -13,7 +13,8 @@ from binary import PE, u32
 wt = SourceFileLoader('rcpp_wine', str(Path(__file__).with_name('wine-tool.py'))).load_module()
 HERE = Path(__file__).resolve().parents[1]
 FIXTURE = HERE.parent / 'fixtures/resources-rich'
-SCRATCH = wt.PREFIX.parent
+from case_paths import CAPTURES, capture_lock
+SCRATCH = CAPTURES
 INTERRUPT = SourceFileLoader('rcpp_console_case',str(HERE.parent/'fixtures/rcpp-interrupt/capture.py')).load_module()
 
 def imports(pe):
@@ -74,11 +75,6 @@ def case_spec(name):
     cfg = json.loads(Path('functions.json').read_text())
     settings = cfg['cases'][name]
     fixture = (HERE / settings['fixture']).resolve()
-    if name == 'resources-rich':
-        return dict(name=name, fixture=fixture, arguments=settings['arguments'],
-                    expected_exit=0, stdout=fixture/'rcpp/stdout.bin',
-                    stderr=fixture/'rcpp/stderr.bin',
-                    outputs={'RD000360':fixture/'rcpp/RD000360'}, extra_input='RC000360')
     manifest = json.loads((fixture/'manifest.json').read_text())
     assert manifest['target_sha256'] == cfg['target']['sha256']
     for item in manifest['source_inputs']:
@@ -87,7 +83,7 @@ def case_spec(name):
     for item in manifest['toolchain_dependencies']:
         assert hashlib.sha256((wt.ROOT/item['path']).read_bytes()).hexdigest() == item['sha256']
     case = next(c for c in manifest['cases'] if c['id'] == name)
-    arguments = [arg.replace('{bin}', r'T:\bin').replace('{include}',r'T:\include')
+    arguments = [arg.replace('{bin}', wt.windows(wt.TC/'bin')).replace('{include}',wt.windows(wt.TC/'include'))
                  for arg in case['arguments']]
     for item in [case['stdout'],case['stderr']] + case['outputs']:
         data = (fixture/item['path']).read_bytes()
@@ -100,10 +96,14 @@ def case_spec(name):
                 interrupt=case.get('runner')=='real-console')
 
 def location(label, spec):
-    stem = SCRATCH / 'cases' / spec['name'] / label
-    return SCRATCH/'runs'/spec['name']/label, stem
+    stem = SCRATCH / spec['name'] / label / 'capture'
+    return SCRATCH/spec['name']/label/'work', stem
 
 def run(label, exe, args, spec=None):
+    with capture_lock():
+        return _run(label,exe,args,spec)
+
+def _run(label, exe, args, spec=None):
     cfg = json.loads((HERE/'functions.json').read_text())
     assert Path(exe).resolve() == (wt.ROOT/cfg['target']['path']).resolve(), 'reference runner accepts untouched original only'
     spec = case_spec('resources-rich') if spec is None else spec
@@ -114,7 +114,7 @@ def run(label, exe, args, spec=None):
         shutil.copyfile(spec['fixture']/'rcpp'/spec['extra_input'],cwd/spec['extra_input'])
     original_inputs = {p.relative_to(cwd):p.read_bytes() for p in cwd.rglob('*') if p.is_file()}
     stem.parent.mkdir(parents=True,exist_ok=True)
-    command = ['wine', 'build/debug-run.exe', wt.windows(exe), args,
+    command = ['wine', wt.windows(HERE/'build/debug-run.exe'), wt.windows(exe), args,
                wt.windows(str(stem)+'.stdout'), wt.windows(str(stem)+'.stderr'),
                wt.windows(str(stem)+'.events'), wt.windows(cwd)]
     if spec.get('interrupt'):
@@ -177,7 +177,8 @@ if __name__ == '__main__':
     report = {}
     for name in selected:
         spec = case_spec(name)
-        events = run('baseline',wt.ROOT/cfg['target']['path'],spec['arguments'],spec)
+        with capture_lock():
+            events = run('baseline',wt.ROOT/cfg['target']['path'],spec['arguments'],spec)
         report[name] = dict(exit=spec['expected_exit'],outputs=validate('baseline',spec,events),exact=True)
         print('Untouched original oracle verified: '+name,flush=True)
     Path('original-followup-replay.json').write_text(json.dumps(report,indent=2)+'\n')

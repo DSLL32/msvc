@@ -1,0 +1,330 @@
+{
+  "status": "passed",
+  "scope": "RCPP shared Wine-prefix maintenance only; no reconstruction or coverage change",
+  "prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "capture_namespace": "S:\\vc1.0\\rcpp\\<case>",
+  "capture_serialization": "RCPP capture.lock flock; shared prefix/drives/server never remapped or stopped",
+  "original_capture": {
+    "case_count": 19,
+    "runs_per_case": 2,
+    "elapsed_seconds": 57.326988437213004,
+    "cases": [
+      {
+        "case": "resources-rich",
+        "total_seconds": 3.4692629082128406,
+        "execution_seconds": 3.433184658177197,
+        "outputs_changed": [
+          "RD000360"
+        ]
+      },
+      {
+        "case": "pragma-character-float",
+        "total_seconds": 2.8832259653136134,
+        "execution_seconds": 2.8471713671460748,
+        "outputs_changed": []
+      },
+      {
+        "case": "plain-comments",
+        "total_seconds": 2.643368363380432,
+        "execution_seconds": 2.602987725287676,
+        "outputs_changed": []
+      },
+      {
+        "case": "unsigned-char",
+        "total_seconds": 3.240513521246612,
+        "execution_seconds": 3.2001017928123474,
+        "outputs_changed": []
+      },
+      {
+        "case": "packing-options",
+        "total_seconds": 3.432418384589255,
+        "execution_seconds": 3.3965990683063865,
+        "outputs_changed": []
+      },
+      {
+        "case": "error",
+        "total_seconds": 3.1655674716457725,
+        "execution_seconds": 3.122258199378848,
+        "outputs_changed": []
+      },
+      {
+        "case": "missing-include",
+        "total_seconds": 3.189106097444892,
+        "execution_seconds": 3.1444891449064016,
+        "outputs_changed": []
+      },
+      {
+        "case": "unterminated",
+        "total_seconds": 3.2669954420998693,
+        "execution_seconds": 3.234317743219435,
+        "outputs_changed": []
+      },
+      {
+        "case": "macro-arity",
+        "total_seconds": 2.834286599420011,
+        "execution_seconds": 2.7852928061038256,
+        "outputs_changed": []
+      },
+      {
+        "case": "character",
+        "total_seconds": 3.295223517343402,
+        "execution_seconds": 3.2404395788908005,
+        "outputs_changed": []
+      },
+      {
+        "case": "invalid-option",
+        "total_seconds": 2.9966556010767817,
+        "execution_seconds": 2.9417711179703474,
+        "outputs_changed": []
+      },
+      {
+        "case": "dbcs-codepage",
+        "total_seconds": 2.867014125920832,
+        "execution_seconds": 2.819917934946716,
+        "outputs_changed": []
+      },
+      {
+        "case": "dbcs-backslash",
+        "total_seconds": 3.0503348149359226,
+        "execution_seconds": 3.0168156530708075,
+        "outputs_changed": []
+      },
+      {
+        "case": "unicode-input",
+        "total_seconds": 2.7516162833198905,
+        "execution_seconds": 2.6950027188286185,
+        "outputs_changed": []
+      },
+      {
+        "case": "directive-tail",
+        "total_seconds": 3.0614730110391974,
+        "execution_seconds": 3.032554594799876,
+        "outputs_changed": []
+      },
+      {
+        "case": "oversized-macro",
+        "total_seconds": 2.535868067294359,
+        "execution_seconds": 2.519007776863873,
+        "outputs_changed": []
+      },
+      {
+        "case": "console-interrupt",
+        "total_seconds": 3.333876635879278,
+        "execution_seconds": 3.315100078471005,
+        "outputs_changed": []
+      },
+      {
+        "case": "long-suffix",
+        "total_seconds": 2.8000969234853983,
+        "execution_seconds": 2.7781300703063607,
+        "outputs_changed": []
+      },
+      {
+        "case": "unsigned-suffix",
+        "total_seconds": 2.4585108598694205,
+        "execution_seconds": 2.434633412398398,
+        "outputs_changed": []
+      }
+    ],
+    "ordinary_original_entry_trap_proofs": 18,
+    "real_console_callback_proofs": 1,
+    "normalization": "none",
+    "changed_outputs": {
+      "resources-rich": {
+        "bytes": 349826,
+        "sha256": "6adbfd90074ecf65e29578c19717b11e5691f7caa7267d4aea47006164757196"
+      }
+    },
+    "old_raw_captures_relabelled": false,
+    "shared_resource_fixture_unchanged": true
+  },
+  "timing": {
+    "build_and_initial_checks": [
+      {
+        "label": "native-build",
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "build/native-trace/option-check",
+          "build/native-trace/classifier-check",
+          "build/native-trace/message-check"
+        ],
+        "exit": 0,
+        "seconds": 1.8258879818022251
+      },
+      {
+        "label": "native-output",
+        "command": [
+          "python3",
+          "scripts/check-native.py"
+        ],
+        "exit": 0,
+        "seconds": 0.3308167904615402
+      },
+      {
+        "label": "native-trace-and-abi",
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "exit": 0,
+        "seconds": 0.733541495166719
+      },
+      {
+        "label": "negative-checks",
+        "command": [
+          "make",
+          "-j4",
+          "native-reject-check"
+        ],
+        "exit": 0,
+        "seconds": 0.1609794432297349
+      },
+      {
+        "label": "canonical-build-and-audits",
+        "command": [
+          "make",
+          "-j4",
+          "win32",
+          "audit"
+        ],
+        "exit": 0,
+        "seconds": 14.511168426834047
+      }
+    ],
+    "final_checks": [
+      {
+        "label": "final-output",
+        "exit": 0,
+        "seconds": 0.3383298059925437
+      },
+      {
+        "label": "final-trace-abi",
+        "exit": 0,
+        "seconds": 0.7246833546087146
+      },
+      {
+        "label": "final-negatives",
+        "exit": 0,
+        "seconds": 0.15650227572768927
+      }
+    ],
+    "native_preparation_seconds": 0.05153125058859587,
+    "native_fixture_totals": {
+      "setup_seconds": 0.13898231461644173,
+      "execution_seconds": 0.12308086361736059,
+      "check_seconds": 0.0334170451387763
+    },
+    "capture_setup_and_check_split": "Not separately measured; per-case total and debugger execution are recorded; capture total includes setup/checks."
+  },
+  "results": {
+    "production_cases": 19,
+    "direct_cases": 1,
+    "application_entries": 112,
+    "exact": [
+      "status",
+      "stdout",
+      "stderr",
+      "full artifact set and bytes",
+      "unchanged inputs",
+      "original-backed application first entries"
+    ],
+    "negative_checks": 5,
+    "classifier_calls": 40048,
+    "message_calls": 131080,
+    "original_toolchain_and_graph_data_boundaries": "passed"
+  },
+  "receipts": [
+    {
+      "path": "cases/native-validation.json",
+      "bytes": 16158,
+      "sha256": "d71fb23738044944219c2f074ebbe366bb391077f935361117fba8d8f02b6231"
+    },
+    {
+      "path": "cases/native-trace-validation.json",
+      "bytes": 16186,
+      "sha256": "0df841b532b49a8439b4d61d229c2f035cdce2f3e34ece92dc8ae756f0de9e09"
+    },
+    {
+      "path": "cases/native-classifier-validation.json",
+      "bytes": 119,
+      "sha256": "ed5ce712d8146fc0eeddc3e0dca46682f4fa9ecc3511136c714d955183a4407e"
+    },
+    {
+      "path": "cases/native-message-validation.json",
+      "bytes": 205,
+      "sha256": "e7cb4f487cdbc6294f9b8ec4c069eba50264ffb6a6b159e99de2dcb7d35798c4"
+    },
+    {
+      "path": "cases/native-rejection-validation.json",
+      "bytes": 586,
+      "sha256": "9871404bc5e85490bd0e22e227f15196ae0150ee7bd06b2ee3f1aa3216c8ee08"
+    },
+    {
+      "path": "cases/native-traces.json",
+      "bytes": 31912,
+      "sha256": "aee289030cbc0187bdf10181e927e306f969b9b025a68ffce397be885e375150"
+    }
+  ],
+  "retired_prefixes": [
+    {
+      "prefix": "/root/.ai-tmp/vc1.0-rcpp/wine",
+      "verified_unused": true,
+      "stopped_only_exact_owned_prefix": true,
+      "deleted": true,
+      "seconds": 0.1605296339839697
+    },
+    {
+      "prefix": "/root/.ai-tmp/vc1.0-rcpp/interrupt/wine-baseline",
+      "verified_unused": true,
+      "stopped_only_exact_owned_prefix": true,
+      "deleted": true,
+      "seconds": 0.16105981916189194
+    },
+    {
+      "prefix": "/root/.ai-tmp/vc1.0-rcpp/interrupt/wine-reconstructed",
+      "verified_unused": true,
+      "stopped_only_exact_owned_prefix": true,
+      "deleted": true,
+      "seconds": 0.16118203103542328
+    },
+    {
+      "prefix": "/root/.ai-tmp/vc1.0-rcpp/interrupt/wine-original",
+      "verified_unused": true,
+      "stopped_only_exact_owned_prefix": true,
+      "deleted": true,
+      "seconds": 0.15618763025850058
+    }
+  ],
+  "inventory": {
+    "private_prefix_dependencies_removed": true,
+    "prefix_cloning_removed": true,
+    "custom_T_drive_removed": true,
+    "no_N_drive_dependency_found": true,
+    "no_transport_bundle_found": true,
+    "historical_raw_records": "Retained unchanged outside active registrations, including independent static semantic analyses. Shared resources-rich still belongs to RC; no sibling input mutated."
+  },
+  "retained_limits": [
+    "Native console fixture reproduces observable SIGINT behavior; Windows callback OS-thread/read-return barrier/exclusive sharing state remains unsupported",
+    "User-approved individually identified embedded CRT boundary exception unchanged"
+  ],
+  "preexisting_dirty_receipts": [
+    "cases/native-classifier-validation.json",
+    "cases/native-message-validation.json",
+    "cases/native-trace-validation.json"
+  ],
+  "preexisting_dirty_receipt_handling": "Replaced only with fresh passing migration validation of the same cases; no unrelated paths staged",
+  "accepted_original_extent": {
+    "bytes": 35590,
+    "total": 40448,
+    "percentage": 87.98951740506328,
+    "branch_coverage": false
+  }
+}

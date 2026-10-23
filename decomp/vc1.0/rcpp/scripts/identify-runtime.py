@@ -26,6 +26,6 @@ for library in ('LIBC.LIB', 'LIBCMT.LIB'):
 result = dict(warning='Byte match candidates only; no automatic runtime equivalence or acceptance.',
               target_sha256='a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd',
               candidates=sorted(records, key=lambda r:(r['start'], r['library'], r['member'])))
-destination = wt.PREFIX.parent/'runtime-candidates.json'
+destination = Path.home()/'.ai-tmp/msvc2/vc1.0/rcpp/runtime-candidates.json'
 destination.write_text(json.dumps(result, indent=2)+'\n')
 print('%d candidate sections inventoried in %s' % (len(records), destination))

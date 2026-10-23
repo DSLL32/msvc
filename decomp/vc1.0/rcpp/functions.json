@@ -1276,77 +1276,79 @@
   ],
   "cases": {
     "resources-rich": {
-      "fixture": "../fixtures/resources-rich",
-      "arguments": "-f RC000360 -g RD000360 -D RC_INVOKED -pc \\:/ -E -Iinclude -IT:\\include -DCASE_FROM_COMMAND=7"
+      "fixture": "cases/shared-prefix/resources-rich",
+      "manifest_case": "resources-rich"
     },
     "pragma-character-float": {
-      "fixture": "../fixtures/rcpp-followups",
+      "fixture": "cases/shared-prefix/pragma-character-float",
       "manifest_case": "pragma-character-float"
     },
     "plain-comments": {
-      "fixture": "../fixtures/rcpp-followups",
+      "fixture": "cases/shared-prefix/plain-comments",
       "manifest_case": "plain-comments"
     },
     "unsigned-char": {
-      "fixture": "../fixtures/rcpp-followups",
+      "fixture": "cases/shared-prefix/unsigned-char",
       "manifest_case": "unsigned-char"
     },
     "packing-options": {
-      "fixture": "../fixtures/rcpp-followups",
+      "fixture": "cases/shared-prefix/packing-options",
       "manifest_case": "packing-options"
     },
     "error": {
-      "fixture": "../fixtures/rcpp-followups",
+      "fixture": "cases/shared-prefix/error",
       "manifest_case": "error"
     },
     "missing-include": {
-      "fixture": "../fixtures/rcpp-followups",
+      "fixture": "cases/shared-prefix/missing-include",
       "manifest_case": "missing-include"
     },
     "unterminated": {
-      "fixture": "../fixtures/rcpp-followups",
+      "fixture": "cases/shared-prefix/unterminated",
       "manifest_case": "unterminated"
     },
     "macro-arity": {
-      "fixture": "../fixtures/rcpp-followups",
+      "fixture": "cases/shared-prefix/macro-arity",
       "manifest_case": "macro-arity"
     },
     "character": {
-      "fixture": "../fixtures/rcpp-followups",
+      "fixture": "cases/shared-prefix/character",
       "manifest_case": "character"
     },
     "invalid-option": {
-      "fixture": "../fixtures/rcpp-followups",
+      "fixture": "cases/shared-prefix/invalid-option",
       "manifest_case": "invalid-option"
     },
     "dbcs-codepage": {
-      "fixture": "../fixtures/rcpp-followups",
+      "fixture": "cases/shared-prefix/dbcs-codepage",
       "manifest_case": "dbcs-codepage"
     },
     "dbcs-backslash": {
-      "fixture": "../fixtures/rcpp-followups",
+      "fixture": "cases/shared-prefix/dbcs-backslash",
       "manifest_case": "dbcs-backslash"
     },
     "unicode-input": {
-      "fixture": "../fixtures/rcpp-followups",
+      "fixture": "cases/shared-prefix/unicode-input",
       "manifest_case": "unicode-input"
     },
     "directive-tail": {
-      "fixture": "../fixtures/rcpp-targeted"
+      "fixture": "cases/shared-prefix/directive-tail",
+      "manifest_case": "directive-tail"
     },
     "oversized-macro": {
-      "fixture": "../fixtures/rcpp-targeted"
+      "fixture": "cases/shared-prefix/oversized-macro",
+      "manifest_case": "oversized-macro"
     },
     "console-interrupt": {
-      "fixture": "../fixtures/rcpp-interrupt",
+      "fixture": "cases/shared-prefix/console-interrupt",
       "manifest_case": "console-interrupt"
     },
     "long-suffix": {
-      "fixture": "../fixtures/rcpp-remaining",
+      "fixture": "cases/shared-prefix/long-suffix",
       "manifest_case": "long-suffix"
     },
     "unsigned-suffix": {
-      "fixture": "../fixtures/rcpp-remaining",
+      "fixture": "cases/shared-prefix/unsigned-suffix",
       "manifest_case": "unsigned-suffix"
     }
   },

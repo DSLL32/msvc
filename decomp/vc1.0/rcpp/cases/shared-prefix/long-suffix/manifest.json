@@ -1,0 +1,72 @@
+{
+  "target": "toolchains/1.0-nt/bin/RCPP.EXE",
+  "target_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+  "toolchain": "1.0-nt",
+  "normalization": "none",
+  "source_inputs": [
+    {
+      "path": "source/long-suffix.rc",
+      "bytes": 554,
+      "sha256": "26ecbe87d6a0524a42dd94814f4280e344a5a13daec009316a70174b20f597c0"
+    },
+    {
+      "path": "source/unsigned-suffix.rc",
+      "bytes": 637,
+      "sha256": "bac4964c0309006fc2f59716e481f4a12eabdd0545a39a676d8bf42e958ac77d"
+    }
+  ],
+  "toolchain_dependencies": [
+    {
+      "path": "toolchains/1.0-nt/bin/C1.ERR",
+      "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+    }
+  ],
+  "cases": [
+    {
+      "id": "long-suffix",
+      "arguments": [
+        "-ef",
+        "R:\\toolchains\\1.0-nt\\bin\\c1.err",
+        "-f",
+        "long-suffix.rc",
+        "-g",
+        "result.i",
+        "-E"
+      ],
+      "expected_exit": 0,
+      "stdout": {
+        "path": "oracle/stdout.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "oracle/stderr.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "outputs": [
+        {
+          "path": "oracle/result.i",
+          "bytes": 408,
+          "sha256": "9753e15100934044b0c138e3aa044da09924bd06f7b2ef192638296550e20977",
+          "output_name": "result.i"
+        }
+      ]
+    }
+  ],
+  "original_capture_runs": 2,
+  "original_entry_proofs": [
+    {
+      "path": "evidence/0/receipt.json",
+      "bytes": 1309,
+      "sha256": "ff048f2bab6c9ac27d75707cefb9dd3774c5018ca738356250123e28b0384d5e"
+    },
+    {
+      "path": "evidence/1/receipt.json",
+      "bytes": 1309,
+      "sha256": "b8951d3c743f9f3ab7f3a38617f9f49d9971fcf2dc508c15cf8a5fa77882ddc7"
+    }
+  ],
+  "previous_fixture": "../fixtures/rcpp-remaining",
+  "changed_output_names": []
+}

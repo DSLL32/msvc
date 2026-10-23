@@ -1,0 +1,112 @@
+{
+  "target": "toolchains/1.0-nt/bin/RCPP.EXE",
+  "target_sha256": "a66382a8fa84432a1fc380cea85fcdb3305603e5656638f1d959cdb5d25ca6dd",
+  "toolchain": "1.0-nt",
+  "normalization": "none",
+  "source_inputs": [
+    {
+      "path": "source/character.rc",
+      "bytes": 31,
+      "sha256": "774e5882cae1f1e57b9e33c636ad8ac8434fc24287169671cd048766fc79f5ac"
+    },
+    {
+      "path": "source/dbcs-backslash.rc",
+      "bytes": 33,
+      "sha256": "f4b189b72906fe34220fb2060f67ba410775bcca578f5ed515c49142dab80210"
+    },
+    {
+      "path": "source/dbcs.rc",
+      "bytes": 27,
+      "sha256": "42fe7f408dc4414c6d2aa16b39584e6cc7fcd6d1de7ca9aabe545076fe876c92"
+    },
+    {
+      "path": "source/error.rc",
+      "bytes": 33,
+      "sha256": "16fcaf1e0f795c54c5c0d8d6c02d0a3a6902a8c06da1b4ed97f3bd39af7fb092"
+    },
+    {
+      "path": "source/features.rc",
+      "bytes": 642,
+      "sha256": "1aadb3a0996336eca6d7ad6ed35e37a0d78e3a18735dc4766468354870d4f35c"
+    },
+    {
+      "path": "source/include/values.h",
+      "bytes": 60,
+      "sha256": "51f0abc937c8cd89d5ef3515b2b58830308f7b7490f02b0f8d84b8624c59a3ca"
+    },
+    {
+      "path": "source/macro-arity.rc",
+      "bytes": 36,
+      "sha256": "0db8d1f100fbe6086e81ca806de866c93cb58cccf9d6492f26f2849e1b90d714"
+    },
+    {
+      "path": "source/missing-include.rc",
+      "bytes": 29,
+      "sha256": "aa8fbb5f800939b2f57f5939ab4b3c91317e6aaf7779b90f1aba7e856a9e1019"
+    },
+    {
+      "path": "source/unterminated.rc",
+      "bytes": 25,
+      "sha256": "ad1e6d3fd79c929ed8ddd939df58c325cf8fba32fd797fedf20cf25758d72f01"
+    },
+    {
+      "path": "source/utf16.rc",
+      "bytes": 50,
+      "sha256": "c5e665ff5c7d6093df76e70c6a216c71953f73fed9c20901756f278de37123be"
+    }
+  ],
+  "toolchain_dependencies": [
+    {
+      "path": "toolchains/1.0-nt/bin/C1.ERR",
+      "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+    }
+  ],
+  "cases": [
+    {
+      "id": "error",
+      "arguments": [
+        "-ef",
+        "R:\\toolchains\\1.0-nt\\bin\\c1.err",
+        "-f",
+        "error.rc",
+        "-g",
+        "result.i",
+        "-E"
+      ],
+      "expected_exit": 1,
+      "stdout": {
+        "path": "oracle/stdout.bin",
+        "bytes": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "stderr": {
+        "path": "oracle/stderr.bin",
+        "bytes": 65,
+        "sha256": "43b477cb855a6096aa8b1b51afc69f8790ca9f09dacbf14792a35b3cec670826"
+      },
+      "outputs": [
+        {
+          "path": "oracle/result.i",
+          "bytes": 22,
+          "sha256": "509b66d48d76d3e71e8513c65f63dce23775e7d6444a821aa09e1bde072e000d",
+          "output_name": "result.i"
+        }
+      ]
+    }
+  ],
+  "original_capture_runs": 2,
+  "original_entry_proofs": [
+    {
+      "path": "evidence/0/receipt.json",
+      "bytes": 1381,
+      "sha256": "cb7b8f5069f259ec04d7fd1fa022d5b6a988794087cb1c37be3c03022c533723"
+    },
+    {
+      "path": "evidence/1/receipt.json",
+      "bytes": 1380,
+      "sha256": "6b40a0e623b8a1e91da4ac3e2a938af210d700b455a4ff9cc595eedd238c9697"
+    }
+  ],
+  "previous_fixture": "../fixtures/rcpp-followups",
+  "changed_output_names": []
+}

@@ -17,13 +17,13 @@ complete output bytes. native-check selects the output-only build. No fixture
 invokes Wine, a Windows reconstruction or an original executable. Original
 inputs/outputs are immutable references; there is no automatic recapture.
 No fields or paths are normalized. Each case receives its full source tree and
-captured argv, with T: mapped to toolchains/1.0-nt. CL/_CL_/LINK/_LINK_/MSC_CMD_FLAGS
+captured argv, with fixed R: mapped to the repository. CL/_CL_/LINK/_LINK_/MSC_CMD_FLAGS
 are cleared. Every fixture launch uses a deny-all process broker. A real native ELF self-spawn
 rejection verifies that unknown dependencies cannot execute. Stale trace metadata
 also fails.
 
 There are 19 production cases and one direct option-helper case. They retain the
-336,686-byte resources-rich result; pragma/character/float/macro/include and
+349,826-byte resources-rich result; pragma/character/float/macro/include and
 conditional cases; -P/-C/-J/-Zp/-Ze; CP932 and UTF16; warning/fatal/partial-file
 behavior; integer suffixes; and the original 0-to-46-byte interrupt output.
 The target's signed high-bit U-expression behavior, empty RC10056 message and
@@ -93,14 +93,30 @@ src/ contains readable reconstruction C/headers and native probe C. scripts/
 contains native checks and explicit original-toolchain/capture/static analysis.
 Make runs scripts from this binary root; cases/ holds new native metadata and
 receipts, build/ holds generated objects, and ~/.ai-tmp/vc1.0-rcpp holds scratch.
-The original private Wine prefix is retained for explicit toolchain operations.
+Explicit toolchain/capture operations use ~/.ai-tmp/vc1.0-capture/wine only.
+Fixed R: maps the repo; S: maps ~/.ai-tmp/msvc2. RCPP captures are isolated
+under S:\vc1.0\rcpp\<case> with an RCPP capture lease. Never remap drives
+or stop the shared server. Native fixtures have no Wine dependency.
 
 cases/native-all-validation.json summarizes adoption, build/setup/execution/check
 times, exact results, rejections and unsupported state observations. Native trace
-and output-only receipts are separate; capture time is zero because no original
-reference was refreshed. Historical original-backed reconstruction receipts and
+and output-only receipts are separate; normal native checks have zero capture time. Explicit shared-prefix migration
+capture timing is recorded separately. Historical original-backed reconstruction receipts and
 frontier acceptance order remain available in their existing metadata.
 
 After isolating shared tracer startup storage from the application allocator,
 ten fresh traced resources-rich runs passed with exact entries and output. No
 application initialization or trace-filter workaround was added.
+
+Shared-prefix maintenance
+-------------------------
+
+All 19 production references were explicitly captured twice into
+cases/shared-prefix/<case>; ordinary cases include fresh original entry-trap
+proofs, and the console case includes its real OS callback proof. Only the rich
+output changed (fixed R: header paths). No raw historical reference was relabelled.
+The shared resources-rich fixture remains untouched for RC. Old RCPP-only raw
+fixtures and independent semantic analyses remain historical evidence, outside
+the active registrations. cases/shared-prefix/migration-validation.json records
+the inventory, exact checks, split timings and retirement of four unused private
+prefixes. No application code, frontier or coverage changed.
