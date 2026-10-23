@@ -231,6 +231,16 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/execute-pass-provider-5/pair.json",
         "sha256": "ee195eec78bef61313be14a6abeb73ee749ae28ccc60f112d09746666a0b4741"
       }
+    },
+    {
+      "order": 24,
+      "candidate": "_unload_pass",
+      "class": "application",
+      "extent_bytes": 33,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/unload-pass-provider-2/pair.json",
+        "sha256": "cfef3984ac67c6e38afa0ec762b3562727d3e3896f3d41bbc54778aa873ddba8"
+      }
     }
   ]
 }

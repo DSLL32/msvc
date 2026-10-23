@@ -1,10 +1,10 @@
 {
   "case": "minimal-c",
-  "state": "C1-dispatch-accepted",
-  "checkpoint": "execute_pass promoted after independent native provider review",
-  "next_frontier": "unload_pass",
-  "accepted_application_functions": 73,
-  "accepted_application_extent_bytes": 13593,
+  "state": "C2-boundary-accepted",
+  "checkpoint": "unload_pass promoted after independent C2 provider review",
+  "next_frontier": "cleanup_files",
+  "accepted_application_functions": 74,
+  "accepted_application_extent_bytes": 13626,
   "whole_text_virtual_bytes": 19062,
   "non_crt_denominator": "not yet fully classified",
   "separate_CRT_import_support_records": 15,
@@ -288,20 +288,37 @@
         "native_gdb": 0.3174100937321782,
         "parallel_original_and_native_build": 5.283340688794851
       }
+    },
+    {
+      "candidate": "_unload_pass",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/unload-pass-provider-2/pair.json",
+        "sha256": "cfef3984ac67c6e38afa0ec762b3562727d3e3896f3d41bbc54778aa873ddba8"
+      },
+      "owned_archive": "unload-pass-proof.tar.gz",
+      "seconds": {
+        "audit": 0.5432799458503723,
+        "original_setup": 0.0246270122,
+        "original_execution": 41.6250155261,
+        "native_gdb": 0.32653802540153265,
+        "parallel_original_and_native_build": 5.103521,
+        "affected_52_controls": 12.2325175460428,
+        "independent_52_controls": 12.076918640173972
+      }
     }
   ],
-  "checks": "Fresh candidate-inclusive C1 boundary proof;35 affected raw-response/effect/inventory/GDB negatives,27 synthetic parser/transport controls,35 acceptance protocol controls,9 cached-import resolver controls. Timed cached native help fixture36.80ms total/7.99ms execution.",
-  "dependency_boundaries": "C1 Invoke success is case-bound through shared module/locale/environment APIs and strict owned native response replay. First accepted dispatcher trial stops at unload_pass. C2/complete compile success remains closed pending fresh corresponding response/broker proof.",
-  "observed_gap": "No remaining C1-first-frontier shared gap. Shared RSP2 child state/OS-namespace support f33047c7 is ready for the next boundary; binary adapter and fresh masked unload/C2 proof still required.",
+  "checks": "Fresh candidate-inclusive unload/C2 boundary;52 affected raw-response/effect/child-input/state/GDB controls pass, independently repeated. Existing unchanged protocol controls reused from execute_pass checkpoint. Cached help native fixture34.384ms total/7.997ms execution.",
+  "dependency_boundaries": "C1 Invoke/detach/release plus full synchronous C2 child request/input/status/object/error effects are accepted through strict owned native providers. The trial stops at genuine cleanup_files(preserve=1); full compile remains incomplete.",
+  "observed_gap": "No current shared gap; reconstruct driver cleanup next.",
   "current_review": {
-    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/execute-pass-provider-5/orchestrator-review.json",
-    "sha256": "461131c390d473121f88ecaa2a92e2a63a8374bdf95f53d3f4454928aa9a7cda",
-    "scope": "Actual masked C1 invocation and native independent post-call frontier: argc26/BOOL1/RET12, all caller namespace/table/FILE/alias state and four complete IR effects. No C2 completion credit."
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/unload-pass-provider-2/orchestrator-review.json",
+    "sha256": "43f2c497cf393901be08a4d417e848163d2b5d69ca70d446d5417f453e4effa7",
+    "scope": "33-byte unload function through genuine cleanup_files preserve1, including full C2 command/79 OS environment entries/IR/executable/MSVCRT/MSPDB bytes and object/error effects. No full-case completion credit."
   },
   "shared_gap_resolution": {
     "_mbclen": "Fresh original quoted-length-2 path/error proof; native denial retained, then5f724e69 CP0/ASCII support and native-only retry passed.",
     "_mbsspn": "Fresh original append-text-1 include-path/space-tab/error pre/post proof; native denial retained, theneace7509 support and native-only retry passed."
   },
   "dependency_observation": "dependency-boundary-2.json",
-  "whole_text_extent_percent": 71.30941139439723
+  "whole_text_extent_percent": 71.48253068932956
 }

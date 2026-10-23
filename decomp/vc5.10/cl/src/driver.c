@@ -10,6 +10,17 @@ static char mre_error[1024];
 int interrupted, pass_running;
 CompilerPass *active_pass;
 
+/* 004054ec..0040550d: release the loaded pass and invalidate its cached exports. */
+void unload_pass(CompilerPass *pass)
+{
+    if (pass->module) {
+        FreeLibrary(pass->module);
+        pass->module = NULL;
+        pass->invoke = NULL;
+        pass->abort = NULL;
+    }
+}
+
 /* 0040550d..004057b4: DLL passes share this process's CRT; EXEs are children. */
 int execute_pass(int mode, CompilerPass *pass, char *name, char *environment, char **args)
 {

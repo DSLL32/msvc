@@ -85,7 +85,8 @@
     "_expanded_length",
     "_quote_argument",
     "_append_text",
-    "_execute_pass"
+    "_execute_pass",
+    "_unload_pass"
   ],
   "driver": [
     {
@@ -1096,7 +1097,21 @@
       "end": 4214482,
       "pending_extent": true,
       "state": "named INT3 frontier",
-      "native_symbol": "cleanup_files"
+      "native_symbol": "cleanup_files",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "preserve",
+            "type": "int"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Caller run_jobs passes literal1 at the reached successful source-job cleanup branch; cleanup entry reads sole stack argument. Exact body reconstruction remains pending."
+      },
+      "input_observation": "Next candidate may reach this frontier; actual formal and all consumed global/list/file state must be decoded before promotion."
     },
     {
       "name": "_find_file",
@@ -1184,9 +1199,9 @@
       "name": "_unload_pass",
       "native_symbol": "unload_pass",
       "start": 4216044,
-      "end": 4216045,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
+      "end": 4216077,
+      "pending_extent": false,
+      "state": "implemented; fresh candidate acceptance pending",
       "abi": {
         "calling_convention": "cdecl",
         "return": "void",
@@ -1201,7 +1216,22 @@
         "callee_stack_cleanup": 0,
         "evidence": "Complete33-byte original body4054ec..40550d loads sole stack argument before use; ESI is saved/restored, no register input read before assignment."
       },
-      "input_observation": "Not yet reached as masked frontier. Full module/export aliases, active pass, errors/locale/FILE state decoder and fresh proof required before any promotion."
+      "input_observation": {
+        "kind": "actual preceding candidate frontier, not this function acceptance",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/execute-pass-provider-1-original",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/execute-pass-provider-5-native",
+        "owned_archive": "cases/minimal-c/execute-pass-proof.tar.gz",
+        "scope": "sole CompilerPass* formal, current/active pass aliases, actual C1 module/Invoke/Abort cache and shared CRT/OS/FILE state at unload entry are observed; no hidden register inputs."
+      },
+      "source": "src/driver.c",
+      "evidence": {
+        "kind": "complete original C body reconstruction",
+        "range": [
+          "0x4054ec",
+          "0x40550d"
+        ],
+        "behavior": "If module is nonNULL, call qualified kernel32!FreeLibrary(module), then clear module/invoke/abort. Ignore BOOL result; preserve cdecl caller cleanup and ESI."
+      }
     }
   ],
   "runtime": [

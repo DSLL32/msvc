@@ -15,13 +15,14 @@ acceptance journal for the measured evidence.
 Help artifacts are frozen and independently verified. The authorized next case is a
 genuine minimal-C compile. Its in-process frontend and backend child boundaries
 require complete captured response contracts; unknown dependencies fail.
-The compile case has added twenty-three functions with fresh candidate-inclusive
-proofs: 73 application functions /13,593 original extent bytes in total (71.31%
-of whole `.text`). It now reaches `unload_pass` after the verified 26-argument
-C1 invocation. The native host validates the complete call inputs and replays
-four captured IR files plus the observed CRT locale/error effects. GDB independently
-compares module/export caches, environment ownership, complete character tables
-and streams at that frontier. C2 remains closed until its fresh boundary is ready.
+The compile case has added twenty-four functions with fresh candidate-inclusive
+proofs: 74 application functions /13,626 original extent bytes in total (71.48%
+of whole `.text`). It now reaches `cleanup_files(preserve=1)` after the verified
+26-argument C1 invocation, unload and synchronous C2 child. Native providers
+validate complete arguments, input libraries, IR and target environment before
+replaying captured files and measured external CRT effects. GDB independently
+checks module/export caches, environment ownership, character tables, streams and
+child error effects. Cleanup and complete-case success remain pending.
 Minimal-C has a separately captured errno0/doserrno0/LastError0 entry profile.
 Its source bytes, arguments and entry state are part of every comparison.
 
@@ -138,7 +139,7 @@ MSC_CMD_FLAGS input separately.
 
 Static evidence is the original full dispatch body `0040550d..004057b3`, unload
 helper `004054ec..0040550c`, and control handler `004057c2..004057fd`.
-The dispatcher is accepted; unload/control-handler locations remain analysis
+The dispatcher and unload function are accepted; control-handler locations remain analysis
 evidence until their own fresh function proofs pass.
 
 * Dispatch tests pass flags bit 2. When set, it calls `LoadLibraryA(pass_path)`
@@ -186,8 +187,11 @@ candidate-inclusive masked dispatcher trial. It stops at the genuine `unload_pas
 frontier. That raw capture, actual native request/effect/GDB proof, compiler-source
 snapshots and independent review are archived unchanged in
 `cases/minimal-c/execute-pass-proof.tar.gz`, with a member/hash index alongside it.
-The 35 affected original/native/effect/GDB mutation controls pass. The C2 response
-still requires its own fresh proof; the unmasked analyses add no code credit.
+The C2 boundary is separately accepted with a fresh masked unload trial reaching
+`cleanup_files`. Its raw original/native response, immutable build inputs and
+independent review are in `cases/minimal-c/unload-pass-proof.tar.gz`; all 52
+affected child/effect/GDB rejection controls pass. The unmasked analyses add no
+code credit, and the compile case is not yet complete.
 
 `scripts/dependency_packet.py` freezes a recursive immutable raw manifest and
 decodes those observations. `scripts/check-dependency-packet.py MANIFEST` runs

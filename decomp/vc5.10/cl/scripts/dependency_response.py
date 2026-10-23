@@ -20,6 +20,8 @@ from mktemp_state import CRT_SHA, original_states
 PHASES = ('putenv-1-before', 'putenv-1-after', 'load-before', 'c1-entry-1',
           'load-after', 'get-invoke-before', 'get-invoke-after', 'get-abort-before',
           'get-abort-after', 'invoke-before', 'invoke-after', 'frontier')
+CHILD_PHASES=PHASES[:-1]+('free-before','c1-entry-0','free-after','putenv-2-before',
+                         'putenv-2-after','spawn-before','spawn-after','frontier')
 digest = lambda value: hashlib.sha256(value).hexdigest()
 
 
@@ -46,7 +48,11 @@ def phase_snapshot(directory, read, phase, errors):
         assert pointer and capacity >= length and len(value) == length + 2 and value[-2:] == b'\0\0'
         texts[name] = value[:-2].decode('utf-16le')
     env_pointer, env = vector(read('observer/' + phase + '-crt-environment.bin'))
-    argv_pointer, argv = vector(read('observer/' + phase + '-caller-argv.bin'))
+    if words[20]:
+        argv_pointer, argv = vector(read('observer/' + phase + '-caller-argv.bin'))
+    else:
+        assert phase=='frontier','missing live argv at a dependency call'
+        argv_pointer,argv=0,[]
     assert (env_pointer, argv_pointer) == (words[1], words[20])
     streams = json.loads(read('streams-' + phase + '.json'))
     teb, peb = read('streams-' + phase + '-teb.bin'), read('streams-' + phase + '-peb.bin')
@@ -112,7 +118,10 @@ def decode(directory):
     assert read('dependency-observer.txt') == b'CL_DEPENDENCY_RESPONSE_V1\n'
     config = json.loads(read('config.json'))
     assert digest(read('config.json')) == capture['config_sha256']
-    assert '_execute_pass' in config['accepted'] and '_unload_pass' not in config['accepted']
+    assert '_execute_pass' in config['accepted']
+    full_stage='_unload_pass'in config['accepted']
+    assert not full_stage or '_cleanup_files'not in config['accepted'],'later cleanup frontier not implemented in this response contract'
+    phases_expected=CHILD_PHASES if full_stage else PHASES
     masked = construct(config)
     assert capture['target_sha256'] == TARGET_SHA
     assert digest(masked) == capture['original_mask_sha256'] == digest(read('CL.EXE')) == digest(read('loaded-target.bin'))
@@ -132,23 +141,25 @@ def decode(directory):
         assert digest(read(item['name'])) == item['sha256'] and len(read(item['name'])) == item['bytes']
     events = read('observer/events.txt').decode('ascii')
     target_events = read('events.txt').decode('ascii')
-    assert re.findall(r'^trap .*address=([0-9a-f]{8}) ', target_events, re.M) == ['004054ec']
+    assert re.findall(r'^trap .*address=([0-9a-f]{8}) ', target_events, re.M) == ['00404ed1'if full_stage else'004054ec']
     assert re.findall(r'^exit .*status=(\d+)$', target_events, re.M) == ['28673'], 'missing controlled trap-stop exit'
     assert not re.search(r'analysis-stop|exception ', target_events)
-    assert 'analysis-stop' not in events and not re.search(r'^module-unload .*base=10600000$', events, re.M)
-    assert 'analysis-c2-completed' not in events
-    errors = original_states(directory, PHASES, 'observer/events.txt')
+    assert 'analysis-stop' not in events
+    if not full_stage:
+        assert not re.search(r'^module-unload .*base=10600000$', events, re.M)
+        assert 'analysis-c2-completed' not in events
+    errors = original_states(directory, phases_expected, 'observer/events.txt')
     phases, contexts = {}, {}
-    for name in PHASES:
+    for name in phases_expected:
         phases[name], contexts[name] = phase_snapshot(directory, read, name, errors[name])
-    assert [phases[name]['event'] for name in PHASES] == sorted(phases[name]['event'] for name in PHASES)
+    assert [phases[name]['event'] for name in phases_expected] == sorted(phases[name]['event'] for name in phases_expected)
     c1 = PE(directory / 'observer/loaded-c1.bin')
     assert c1.base == 0x10600000 and c1.entry == 0x1202a
     assert exports(c1)['_InvokeCompilerPass@12'] == {'ordinal': 2, 'rva': 0x12229}
     assert exports(c1)['_AbortCompilerPass@4'] == {'ordinal': 1, 'rva': 0x43975}
     loaded = re.findall(r'^c1-load event=(\d+) base=10600000 entry=1061202a entry_byte=53$', events, re.M)
     assert len(loaded) == 1 and phases['load-before']['event'] < int(loaded[0]) < phases['c1-entry-1']['event'] < phases['load-after']['event']
-    assert re.findall(r'^c1-entry .*reason=(\d+)', events, re.M) == ['1']
+    assert re.findall(r'^c1-entry .*reason=(\d+)', events, re.M) == (['1','0']if full_stage else['1'])
     assert struct.unpack_from('<3I', read('observer/c1-entry-1-stack.bin'), 4) == (c1.base, 1, 0)
     for name, result, cleanup in (('load', c1.base, 4), ('get-invoke', c1.base + 0x12229, 8), ('get-abort', c1.base + 0x43975, 8)):
         before, after = contexts[name + '-before'], contexts[name + '-after']
@@ -159,6 +170,7 @@ def decode(directory):
     assert read('observer/get-invoke-before-argument.bin') == b'_InvokeCompilerPass@12\0'
     assert read('observer/get-abort-before-argument.bin') == b'_AbortCompilerPass@4\0'
     before, after, frontier = [phases[name] for name in ('invoke-before', 'invoke-after', 'frontier')]
+    assert before['pass_words'][5:8]==after['pass_words'][5:8]==[c1.base,c1.base+0x12229,c1.base+0x43975]
     invocation = re.findall(r'^invoke-call argc=(\d+) argv=([0-9a-f]{8}) last=(\d+) function=([0-9a-f]{8}) esp=([0-9a-f]{8})$', events, re.M)
     assert len(invocation) == 1
     argc, argv, last, function, esp = invocation[0]
@@ -167,16 +179,17 @@ def decode(directory):
     assert struct.unpack_from('<3I', read('observer/invoke-before-stack.bin')) == (26, int(argv, 16), 1)
     assert u32(contexts['invoke-after'], 196) - int(esp, 16) == 12 and u32(contexts['invoke-after'], 176) == 0
     assert before['errors'] == {'errno': 0, 'doserrno': 2, 'last_error': 2}
-    assert after['errors'] == frontier['errors'] == {'errno': 0, 'doserrno': 2, 'last_error': 0}
+    assert after['errors'] == {'errno': 0, 'doserrno': 2, 'last_error': 0}
     assert (before['mb_codepage'], before['lc_codepage'], before['lc_handles']) == (0, 0, [0] * 6)
     assert (after['mb_codepage'], after['lc_codepage'], after['lc_handles']) == (1252, 1252, [0, 0, 1033, 0, 0, 0])
     stable = ('x87_control_word', 'fmode', 'commode', 'mb_cur_max', 'crt_environment_sha256', 'os_environment_sha256',
               'argv', 'argument_pointers', 'argument_vector', 'cwd', 'file0_2_words', 'streams', 'open_descriptors')
     assert all(before[name] == after[name] for name in stable)
-    assert all(after[name] == frontier[name] for name in (*stable, 'errors', 'mb_codepage', 'lc_codepage', 'lc_handles', 'mb_state_sha256', 'ctype_sha256', 'pass_words'))
-    assert frontier['pass_words'][5:8] == [c1.base, c1.base + 0x12229, c1.base + 0x43975]
-    stack = struct.unpack_from('<16I', read('context.bin'), 204)
-    assert stack[1] == frontier['pass_address'] == 0x4090cc
+    if not full_stage:
+        assert all(after[name] == frontier[name] for name in (*stable, 'errors', 'mb_codepage', 'lc_codepage', 'lc_handles', 'mb_state_sha256', 'ctype_sha256', 'pass_words'))
+        assert frontier['pass_words'][5:8] == [c1.base, c1.base + 0x12229, c1.base + 0x43975]
+        stack = struct.unpack_from('<16I', read('context.bin'), 204)
+        assert stack[1] == frontier['pass_address'] == 0x4090cc
     prefix = before['argv'][2]
     assert re.fullmatch(r'\.\\a0[0-9]{4}', prefix)
     assert before['argv'][0] == before['cwd'].rstrip('\\') + '\\c1.dll'
@@ -202,12 +215,17 @@ def decode(directory):
             read('environment.bin'), read('observer/' + phase + '-os-environment.bin'),
             read('observer/' + phase + '-mb-state.bin'), read('observer/' + phase + '-ctype.bin'),
             read('observer/' + phase + '-execution-words.bin'), kind)
+    if full_stage:
+        contracts[3]=expectation(phases['free-before'],read('observer/free-before-crt-environment.bin'),
+            read('environment.bin'),read('observer/free-before-os-environment.bin'),
+            read('observer/free-before-mb-state.bin'),read('observer/free-before-ctype.bin'),
+            read('observer/free-before-execution-words.bin'),3)
     ir = {Path(name).name: record for name, record in capture['files'].items() if name.startswith('observer/c1-output/')}
     assert set(ir) == {prefix[2:] + suffix for suffix in ('ex', 'gl', 'in', 'sy')}
     assert all(capture['files'][name] == record for name, record in ir.items())
-    assert not any(name.startswith('observer/c2-') for name in capture['files'])
+    if not full_stage:assert not any(name.startswith('observer/c2-') for name in capture['files'])
     assert read('stdout.bin') == b'test.c\r\n' and not read('stderr.bin')
-    return {'kind': 'fresh masked C1 response; application acceptance requires independent native frontier proof',
+    result={'kind': 'fresh masked dependency response; application acceptance requires independent native frontier proof',
             'capture_sha256': digest(capture_bytes), 'config_sha256': capture['config_sha256'],
             'mask_sha256': capture['original_mask_sha256'], 'contracts': contracts,
             'dos_cwd': before['cwd'],
@@ -216,5 +234,66 @@ def decode(directory):
             'post_mbctype_hex': read('observer/invoke-after-mb-state.bin')[4:].hex(),
             'post_ctype_hex': read('observer/invoke-after-ctype.bin').hex(),
             'lowio_flags': [read('observer/invoke-before-lowio-0.bin')[36 * index + 4] for index in range(3)],
-            'outputs': ir, 'sequence': [0, 1, 2], 'next_frontier': 'unload_pass',
+            'outputs': ir, 'sequence': [0, 1, 2,3]if full_stage else[0,1,2],
+            'next_frontier': 'cleanup_files'if full_stage else'unload_pass',
             'decoder_sha256': digest(Path(__file__).read_bytes())}
+    if full_stage:result['child']=child_response(directory,read,capture,events,phases,contexts,ir,prefix)
+    return result
+
+
+def child_response(directory,read,capture,events,phases,contexts,ir,prefix):
+    after=phases['invoke-after']
+    assert phases['free-before']['pass_words'][5:8]==after['pass_words'][5:8]
+    for phase in ('free-before','c1-entry-0','free-after'):
+        for name in ('errors','mb_codepage','lc_codepage','lc_handles','mb_state_sha256','ctype_sha256',
+                     'x87_control_word','crt_environment_sha256','os_environment_sha256','file0_2_words','streams'):
+            assert phases[phase][name]==after[name],'unreviewed detach/free effect: '+name
+    assert struct.unpack_from('<3I',read('observer/c1-entry-0-stack.bin'),4)==(0x10600000,0,0)
+    unload=re.findall(r'^module-unload event=(\d+) base=10600000$',events,re.M)
+    assert len(unload)==1 and phases['c1-entry-0']['event']<int(unload[0])<phases['free-after']['event']
+    assert u32(contexts['free-after'],176)==1 and u32(contexts['free-after'],196)-u32(contexts['free-before'],196)==4
+    expected_flags='-il %s -f test.c -W 1 -G5 -Gs4096 -dos -Fotest.obj -ML -Fdvc50.idb '%prefix
+    assert read('observer/putenv-2-before-assignment.bin')==('MSC_CMD_FLAGS='+expected_flags).encode('ascii')+b'\0'
+    old_address,old=vector(read('observer/putenv-2-before-crt-environment.bin'))
+    new_address,new=vector(read('observer/putenv-2-after-crt-environment.bin'))
+    assert old_address!=new_address and len(old)==78 and len(new)==79 and new[:78]==old
+    assert new[-1][1]==('MSC_CMD_FLAGS='+expected_flags).encode('ascii')
+    from dependency_packet import os_environment
+    old_os=read('observer/putenv-2-before-os-environment.bin')
+    new_os=read('observer/putenv-2-after-os-environment.bin')
+    assert old_os[:-2]+('MSC_CMD_FLAGS='+expected_flags+'\0\0').encode('utf-16le')==new_os
+    assert list(os_environment(new_os))[-1]=='MSC_CMD_FLAGS'
+    assert phases['putenv-2-before']['errors']==phases['putenv-2-after']['errors']=={'errno':2,'doserrno':2,'last_error':2}
+    assert u32(contexts['putenv-2-after'],176)==0 and u32(contexts['putenv-2-before'],196)==u32(contexts['putenv-2-after'],196)
+    for name in ('argv','argument_pointers','argument_vector','cwd','file0_2_words','streams','mb_state_sha256','ctype_sha256','x87_control_word'):
+        assert phases['putenv-2-before'][name]==phases['putenv-2-after'][name]
+    before,after,frontier=[phases[name]for name in ('spawn-before','spawn-after','frontier')]
+    assert before['errors']=={'errno':0,'doserrno':2,'last_error':2} and after['errors']=={'errno':0,'doserrno':0,'last_error':2}
+    assert frontier['errors']==after['errors']
+    assert u32(contexts['spawn-after'],176)==0 and u32(contexts['spawn-before'],196)==u32(contexts['spawn-after'],196)
+    mode,path,args=struct.unpack_from('<3I',read('observer/spawn-before-stack.bin'))
+    assert mode==0 and path==before['pass_words'][0] and args==before['argument_vector']
+    executable=before['cwd'].rstrip('\\')+'\\c2.exe'
+    assert before['argv']==[executable]
+    helper=read('dependency-observer.inc')
+    assert b'if (strcmp(executable,argument)) ExitProcess(107);'in helper
+    assert b'CreateFileA(executable,GENERIC_READ,FILE_SHARE_READ,NULL,OPEN_EXISTING,0,NULL)'in helper
+    assert read('observer/spawn-executable.bin')==read('C2.EXE')
+    assert digest(read('MSVCRT.DLL'))==CRT_SHA
+    assert digest(read('MSPDB50.DLL'))=='cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33'
+    assert events.count('analysis-c2-completed result=00000000 putenv_calls=2\n')==1
+    for name in ('x87_control_word','fmode','commode','mb_cur_max','mb_codepage','lc_codepage','lc_handles',
+                 'crt_environment_sha256','os_environment_sha256','mb_state_sha256','ctype_sha256','file0_2_words','streams'):
+        assert before[name]==after[name]==frontier[name],'unreviewed child/frontier state: '+name
+    assert not frontier['argv'] and frontier['argument_vector']==0 and frontier['pass_words'][5:8]==[0,0,0]
+    assert struct.unpack_from('<I',read('context.bin'),208)[0]==1,'unexpected cleanup preserve argument'
+    for name,record in ir.items():
+        assert capture['files']['observer/c2-input/'+name]==record==capture['files'][name]
+    assert read('observer/c2-output/test.obj')==read('test.obj') and len(read('test.obj'))==275
+    return {'mode':0,'executable':executable,'argv':[executable],'environment_source':'target-os',
+            'environment':new_os.decode('utf-16le')[:-2].split('\0'),'status':0,
+            'before':before['errors'],'after':after['errors'],'IR_inputs':ir,
+            'outputs':{'test.obj':capture['files']['observer/c2-output/test.obj']},
+            'executable_input':capture['files']['observer/spawn-executable.bin'],
+            'provider_inputs':{name:capture['files'][name]for name in ('MSVCRT.DLL','MSPDB50.DLL')},
+            'stdout_hex':'','stderr_hex':''}

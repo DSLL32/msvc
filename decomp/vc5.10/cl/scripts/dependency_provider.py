@@ -1,9 +1,11 @@
 """Owned native C1 response adapter. No Wine, PE execution or capture fallback."""
 import hashlib
+import importlib.util
 import json
 from pathlib import Path
 import re
 import shutil
+import subprocess
 
 from case_inputs import verify_dependencies
 from dependency_native import decode as native_decode, validate
@@ -36,11 +38,19 @@ def config_bytes(response, identity):
 
 
 class Provider:
-    def __init__(self, original, directory):
+    def __init__(self, original, directory, spawn_reader=None):
         self.directory = Path(directory).resolve()
         self.raw = self.directory / 'dependency-response' / 'original'
         copy_raw(original, self.raw)
         self.response = original_response(self.raw)
+        if 'child'in self.response:
+            # These were explicit original child-directory inputs. They remain
+            # inert PE bytes; neither the adapter nor the native shim runs them.
+            for name,expected in self.response['child']['provider_inputs'].items():
+                value=(self.raw/name).read_bytes()
+                assert expected=={'bytes':len(value),'sha256':digest(value)}
+                target=self.directory/name;assert not target.exists()
+                target.write_bytes(value)
         self.response_bytes = encoded(self.response)
         self.identity = digest(self.response_bytes)
         self.contract = self.directory / 'dependency-response.json'
@@ -50,21 +60,45 @@ class Provider:
         self.config_path.write_bytes(self.config)
         self.previous = None
         self.broker = DllBroker(self.config, self.identity, self.response['sequence'], self._callback)
+        self.spawn_broker=None
+        self.spawn_payloads=[]
+        self.spawn_observations=[]
+        if 'child'in self.response:
+            assert spawn_reader is not None,'pinned shared spawn reader required'
+            spec=importlib.util.spec_from_file_location('cl_captured_spawn',spawn_reader)
+            self.spawn_module=importlib.util.module_from_spec(spec);spec.loader.exec_module(self.spawn_module)
+            owner=self
+            class ObservedSpawn(self.spawn_module.SpawnBroker):
+                def _decode(self,payload,state_profile=False):
+                    owner.spawn_payloads.append((state_profile,payload))
+                    return owner.spawn_module.SpawnBroker._decode(payload,state_profile)
+            self.spawn_broker=ObservedSpawn(self._spawn)
 
     def environment(self):
-        return {**self.broker.environment(), 'CL_DEPENDENCY_CONFIG': str(self.config_path)}
+        result={**self.broker.environment(), 'CL_DEPENDENCY_CONFIG': str(self.config_path)}
+        if self.spawn_broker is not None:
+            result.update(self.spawn_broker.environment(),RECON_SPAWN_STATE_PROFILE='msvcrt510-wait-success-v1',RECON_SPAWN_REQUIRE_EXISTS='1')
+        return result
 
     def fileno(self):
         return self.broker.fileno()
 
-    def _inputs(self):
+    def descriptors(self):
+        return (self.fileno(),)if self.spawn_broker is None else(self.fileno(),self.spawn_broker.fileno())
+
+    def _inputs(self,after_invoke=False):
         verify_dependencies(self.directory)
         capture = json.loads((self.raw / 'capture.json').read_text())
         for item in capture['inputs']:
             data = (self.directory / item['name']).read_bytes()
             assert len(data) == item['bytes'] and digest(data) == item['sha256'], 'native source input changed'
         for name in self.response['outputs']:
-            assert Path(name).name == name and not (self.directory / name).exists(), 'unknown existing C1 output'
+            assert Path(name).name == name
+            path=self.directory/name
+            if after_invoke:
+                data=path.read_bytes()
+                assert self.response['outputs'][name]=={'bytes':len(data),'sha256':digest(data)},'C1 IR input changed'
+            else:assert not path.exists(),'unknown existing C1 output'
         for name in ('test.obj', 'vc50.pdb', 'vc50.idb'):
             assert not (self.directory / name).exists(), 'unobserved C1 case input: ' + name
 
@@ -72,7 +106,7 @@ class Provider:
         fields = native_decode(data)
         validate(fields, self.response['contracts'][kind], self.directory, self.directory / 'stdout.bin',
                  self.response['lowio_flags'], previous=self.previous)
-        self._inputs()
+        self._inputs(after_invoke=kind==3)
         if kind == 2:
             for name, expected in self.response['outputs'].items():
                 value = (self.raw / 'observer' / 'c1-output' / name).read_bytes()
@@ -83,6 +117,27 @@ class Provider:
             result = {'status': 0, 'effect': 0, 'errno': 0, 'doserrno': 0, 'last_error': 0}
         self.previous = fields
         return result
+
+    def _spawn(self,request):
+        assert not self.spawn_observations,'extra backend process invocation'
+        child=self.response['child']
+        assert request=={'mode':0,'pid':self.broker.pid,'file':child['executable'],
+            'cwd':str(self.directory),'argv':child['argv'],'environment':child['environment'],
+            'parent_state':child['before'],'environment_source':'target-os'},'unknown actual C2 invocation or complete input namespace'
+        self._inputs(after_invoke=True)
+        executable=(self.directory/'C2.EXE').read_bytes()
+        assert child['executable_input']=={'bytes':len(executable),'sha256':digest(executable)}
+        for name,expected in child['provider_inputs'].items():
+            value=(self.directory/name).read_bytes()
+            assert expected=={'bytes':len(value),'sha256':digest(value)},'backend provider input differs'
+        for name,expected in child['outputs'].items():
+            assert Path(name).name==name
+            value=(self.raw/'observer/c2-output'/name).read_bytes()
+            assert expected=={'bytes':len(value),'sha256':digest(value)}
+            with (self.directory/name).open('xb')as output:output.write(value)
+        self.spawn_observations.append(request)
+        return {'status':0,'stdout':bytes.fromhex(child['stdout_hex']),'stderr':bytes.fromhex(child['stderr_hex']),
+                'parent_state':{'before':child['before'],'after':child['after']}}
 
     def finish(self, pid):
         path = self.directory / 'dependency-native'
@@ -100,10 +155,19 @@ class Provider:
                    'controller_sha256': digest(Path(__file__).read_bytes())}
         (self.directory / 'dependency-native.json').write_bytes(encoded(receipt))
         self.broker.check(pid)
+        if self.spawn_broker is not None:
+            for index,(profile,data)in enumerate(self.spawn_payloads):
+                (path/('spawn-%d.bin'%index)).write_bytes(data)
+            (self.directory/'spawn-native.json').write_bytes(encoded({'pid':pid,
+                'requests':self.spawn_broker.requests,'errors':self.spawn_broker.errors,
+                'observations':self.spawn_observations,
+                'payloads':[{'profile':profile,'bytes':len(data),'sha256':digest(data)}for profile,data in self.spawn_payloads]}))
+            self.spawn_broker.check()
         verify(self.directory)
 
     def close(self):
         self.broker.close()
+        if self.spawn_broker is not None:self.spawn_broker.close()
 
 
 def verify(directory):
@@ -140,7 +204,8 @@ def verify(directory):
         value = (directory / name).read_bytes()
         assert expected == {'bytes': len(value), 'sha256': digest(value)}, 'actual C1 output differs'
         outputs[name] = expected
-    assert not (directory / 'test.obj').exists(), 'C2 ran before the unload frontier'
+    if 'child'in response:verify_spawn(directory,response,process['pid'])
+    else:assert not (directory / 'test.obj').exists(), 'C2 ran before the unload frontier'
     prefix=response['invoke_argv'][2][2:]
     assert {p.name for p in directory.glob(prefix+'*')}==set(response['outputs']),'unexpected C1 intermediate artifact'
     capture=json.loads((raw/'capture.json').read_text())
@@ -152,8 +217,59 @@ def verify(directory):
 
 
 def summary(response):
-    return {'kind': 'verified captured C1 Invoke response', 'calls': 1, 'status': 0,
+    result={'kind': 'verified captured C1 Invoke response', 'calls': 1, 'status': 0,
             'exports': ['_InvokeCompilerPass@12', '_AbortCompilerPass@4'],
-            'module_state': 'loaded', 'outputs': response['outputs'],
+            'module_state': 'released'if'child'in response else'loaded', 'outputs': response['outputs'],
             'argument_count': 26, 'last_pass': 1,
             'response_capture_sha256': response['capture_sha256']}
+    if 'child'in response:
+        result['child']={'calls':1,'status':0,'environment_source':'target-os',
+                         'outputs':response['child']['outputs'],'parent_state':response['child']['after']}
+    return result
+
+
+def verify_spawn(directory,response,pid):
+    child=response['child']
+    reader=directory/'spawn_reader.py'
+    revision=json.loads((directory/'native-build.json').read_text())['shared_revision']
+    root=Path(__file__).resolve().parents[4]
+    assert reader.read_bytes()==subprocess.check_output(['git','show',revision+':lib/recon/spawn.py'],cwd=root)
+    spec=importlib.util.spec_from_file_location('cl_verify_spawn',reader)
+    module=importlib.util.module_from_spec(spec);spec.loader.exec_module(module)
+    raw=json.loads((directory/'spawn-native.json').read_text())
+    assert raw['pid']==pid and not raw['errors']
+    assert len(raw['payloads'])==len(raw['observations'])==len(raw['requests'])==1
+    payload=(directory/'dependency-native/spawn-0.bin').read_bytes()
+    assert raw['payloads'][0]=={'profile':True,'bytes':len(payload),'sha256':digest(payload)}
+    actual=module.SpawnBroker._decode(payload,True)
+    expected={'mode':0,'pid':pid,'file':child['executable'],'cwd':str(directory.resolve()),
+        'argv':child['argv'],'environment':child['environment'],'parent_state':child['before'],
+        'environment_source':'target-os'}
+    assert actual==expected==raw['observations'][0],'actual complete backend request differs'
+    assert raw['requests'][0]=={**{key:value for key,value in expected.items()if key!='environment'},
+        'action':'replay','status':0,'parent_state_after':child['after']}
+    # Compare actual post-child GDB pointer words with the actual earlier Free
+    # request, not the response's expected pointer values. The initial vector
+    # remains borrowed; insertion moves only the current vector and retains its
+    # existing 78 owned strings.
+    frontier=json.loads((directory/'frontier-memory.json').read_text());memory={}
+    for item in frontier['ranges']:
+        for offset,value in enumerate(bytes.fromhex(item['data'])):
+            address=item['address']+offset
+            assert address not in memory or memory[address]==value
+            memory[address]=value
+    import struct
+    word=lambda address:struct.unpack('<I',bytes(memory[address+i]for i in range(4)))[0]
+    current=word(frontier['context']['crt_addresses']['environment_slot'])
+    previous=native_decode((directory/'dependency-native/request-3-3.bin').read_bytes())['environment']
+    assert current!=previous['address']
+    assert [word(current+4*i)for i in range(78)]==previous['pointers']
+    assert word(current+4*78) and word(current+4*78)not in previous['pointers'] and word(current+4*79)==0
+    for name,expected in child['outputs'].items():
+        value=(directory/name).read_bytes()
+        assert expected=={'bytes':len(value),'sha256':digest(value)},'actual backend output differs'
+    executable=(directory/'C2.EXE').read_bytes()
+    assert child['executable_input']=={'bytes':len(executable),'sha256':digest(executable)}
+    for name,expected in child['provider_inputs'].items():
+        value=(directory/name).read_bytes()
+        assert expected=={'bytes':len(value),'sha256':digest(value)},'backend provider input differs'

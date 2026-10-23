@@ -17,6 +17,7 @@ from dependency_response import decode as original_decode
 from dependency_native import decode as request_decode
 from check_dependency_payload import payload
 from frontier_state import decode as frontier_decode, snapshot
+from dependency_wire import string
 
 
 def run(original,native):
@@ -25,7 +26,7 @@ def run(original,native):
     actual=verify(native)
     expected=frontier_decode(original,'original')['fields']
     assert frontier_decode(native,'native')['fields']==expected
-    assert expected['frontier']=='unload_pass' and len(actual['outputs'])==4
+    assert expected['frontier']==response['next_frontier'] and len(actual['outputs'])==4
     request_path=native/'dependency-native/request-2-2.bin'
     attempted=native/'dependency-native/attempt-2-2.bin'
     receipt_path=native/'dependency-native.json'
@@ -77,10 +78,19 @@ def run(original,native):
     original_negative('actual original BOOL differs',{'observer/invoke-before-stack.bin':lambda b:integer(b,8,0)})
     original_negative('actual original execution globals differ',{'observer/invoke-before-execution-words.bin':lambda b:integer(b,0,1)})
     original_negative('actual original argument bytes differ',{'observer/invoke-before-caller-argv.bin':lambda b:b.replace(b'test.c',b'jest.c')})
-    original_negative('actual original next frontier differs',{'events.txt':lambda b:b.replace(b'address=004054ec',b'address=004054ed')})
+    frontier_address=0x404ed1 if 'child' in response else 0x4054ec
+    original_negative('actual original next frontier differs',{'events.txt':lambda b:b.replace(('address=%08x'%frontier_address).encode(),('address=%08x'%(frontier_address+1)).encode())})
     original_negative('actual original IR copies disagree',{'observer/c1-output/'+next(iter(response['outputs'])):lambda b:b+b'x'})
     original_negative('unobserved extra Invoke',{'observer/events.txt':lambda b:b+b'invoke-call argc=26 argv=00000001 last=1 function=10612229 esp=0031f574\n'})
     original_negative('wrong controlled stop status',{'events.txt':lambda b:b.replace(b'status=28673',b'status=0')})
+    if 'child' in response:
+        original_negative('actual backend wait mode differs',{'observer/spawn-before-stack.bin':lambda b:integer(b,0,1)})
+        original_negative('actual backend argv pointer differs',{'observer/spawn-before-stack.bin':lambda b:integer(b,8,1)})
+        original_negative('actual backend executable differs',{'observer/spawn-executable.bin':lambda b:b[:-1]+bytes([b[-1]^1])})
+        original_negative('actual backend output copy differs',{'observer/c2-output/test.obj':lambda b:b+b'x'})
+        original_negative('actual backend DOS error effect omitted',{'mktemp-spawn-after-ptd.bin':lambda b:integer(b,12,2)})
+        original_negative('backend assignment trailing space omitted',{'observer/putenv-2-before-assignment.bin':lambda b:b[:-2]+b'\0'})
+        original_negative('backend insertion loses old string identity',{'observer/putenv-2-after-crt-environment.bin':lambda b:integer(b,8,1)})
     request_negative('actual BOOL argument changed',lambda f:f.update(last=0))
     request_negative('actual frontend input changed',lambda f:f['argv']['strings'].__setitem__(4,'other.c'))
     request_negative('actual argv pointer alias changed',lambda f:f['argv']['pointers'].__setitem__(1,1))
@@ -99,7 +109,7 @@ def run(original,native):
     negative('replayed IR missing',{artifact:lambda b:None})
     prefix=response['invoke_argv'][2][2:]
     negative('extra intermediate artifact',{native/(prefix+'unknown'):lambda b:b'extra'})
-    negative('C2 ran before frontier',{native/'test.obj':lambda b:b'unexpected'})
+    negative('C2 output differs'if'child'in response else'C2 ran before frontier',{native/'test.obj':lambda b:b'unexpected'})
     negative('source changed after callback',{native/'test.c':lambda b:b+'x'.encode()})
     negative('actual configuration changed',{native/'dependency-config.bin':lambda b:b[:-1]+bytes([b[-1]^1])})
     def missing(data):
@@ -113,6 +123,35 @@ def run(original,native):
     process=native/'native-process.json'
     negative('mutually changed PID metadata',{receipt_path:changed_pid,
         process:lambda b:encoded({'pid':json.loads(b)['pid']+1})})
+    if 'child' in response:
+        spawn_receipt=native/'spawn-native.json'
+        spawn_payload=native/'dependency-native/spawn-0.bin'
+        for name in ('MSVCRT.DLL','MSPDB50.DLL'):
+            negative('native backend provider bytes differ: '+name,
+                     {native/name:lambda b:b[:-1]+bytes([b[-1]^1])})
+        def spawn_negative(label,change):
+            old=json.loads(spawn_receipt.read_bytes());request=copy.deepcopy(old['observations'][0]);change(request)
+            parent=request['parent_state'];environment=request['environment']
+            value=struct.pack('<iIII',request['mode'],request['pid'],len(request['argv']),len(environment))
+            value+=struct.pack('<4I',*(parent[name]for name in ('errno','doserrno','last_error')),
+                               2 if request['environment_source']=='target-os'else 0)
+            value+=string(request['file'])+string(request['cwd'])
+            value+=b''.join(string(text)for text in [*request['argv'],*environment])
+            old['payloads'][0]={'profile':True,'bytes':len(value),'sha256':hashlib.sha256(value).hexdigest()}
+            old['observations'][0]=request
+            old['requests'][0]={**{key:data for key,data in request.items()if key!='environment'},
+                'action':'replay','status':0,'parent_state_after':response['child']['after']}
+            negative(label,{spawn_payload:lambda unused:value,spawn_receipt:lambda unused:encoded(old)})
+        spawn_negative('native child executable differs',lambda r:r.update(file=r['file']+'x'))
+        spawn_negative('native child command differs',lambda r:r['argv'].append('-unexpected'))
+        spawn_negative('native child namespace order differs',lambda r:r['environment'].reverse())
+        spawn_negative('native child command flags changed',lambda r:r['environment'].__setitem__(-1,r['environment'][-1][:-1]))
+        spawn_negative('native child used host namespace',lambda r:r.update(environment_source='host'))
+        spawn_negative('native child parent error differs',lambda r:r['parent_state'].update(doserrno=0))
+        negative('native backend object missing',{native/'test.obj':lambda b:None})
+        def post_error(data):
+            value=json.loads(data);value['requests'][0]['parent_state_after']['doserrno']=2;return encoded(value)
+        negative('native child DOS error transition omitted',{spawn_receipt:post_error})
     # Replay the independent GDB memory transcript against altered target bytes.
     raw=json.loads((native/'frontier-memory.json').read_text());backing={}
     for item in raw['ranges']:
@@ -128,12 +167,12 @@ def run(original,native):
         assert fields!=expected,'independent GDB decoder accepted changed state: '+label
         passed.append(label)
     context=raw['context'];crt=context['crt_addresses'];module=context['compiler_passes_address']+36
-    memory_negative('post-Invoke cached module differs',module+20,struct.pack('<I',0))
+    memory_negative('post-Invoke cached module differs',module+20,struct.pack('<I',context['compiler_module']['module'] if 'child' in response else 0))
     memory_negative('post-Invoke active pass differs',context['execution_addresses']['active_pass'],struct.pack('<I',0))
     memory_negative('post-Invoke codepage reset',crt['mb_codepage'],struct.pack('<I',0))
     memory_negative('post-Invoke ctype byte differs',struct.unpack('<I',bytes(backing[crt['pctype_slot']+i]for i in range(4)))[0],b'\xff')
     assert verify(native)==actual,'mutations were not fully restored'
-    print(json.dumps({'result':'PASS','actual_next_frontier':'unload_pass','IR_files':4,
+    print(json.dumps({'result':'PASS','actual_next_frontier':response['next_frontier'],'IR_files':4,
                       'negatives':len(passed),'seconds':time.perf_counter()-started}))
 
 

@@ -27,6 +27,7 @@ PARAMETERS={
  'final_pass':[('state','driver')],
  'execute_pass':[('mode','signed'),('pass','pass'),('name','string'),('environment','string'),('args','vector')],
  'unload_pass':[('pass','pass')],
+ 'cleanup_files':[('preserve','signed')],
  'quoted_length':[('text','string')],
  'quote_argument':[('out','output_buffer'),('text','string')],
  'expanded_length':[('text','string'),('state','driver')],
@@ -197,7 +198,7 @@ class Memory:
             module=invoke=abort=None
             if any(v[5:8]):
                 identity=getattr(self,'compiler_module',None)
-                assert identity is not None and i==1,'unknown compiler DLL/entry slots'
+                assert identity is not None and i==1 and identity['provider_state']==3,'unknown or released compiler DLL/cache slots'
                 assert v[5:8]==tuple(identity[name]for name in ('module','invoke','abort')),'compiler DLL/cache identities differ'
                 module={'name':'C1.DLL','sha256':identity['sha256'],'state':'loaded'}
                 invoke={'name':'_InvokeCompilerPass@12','ordinal':2,'stdcall_bytes':12}
@@ -272,18 +273,21 @@ def snapshot(read,context):
     assert context['globals']['ir_prefix']==driver_address+32,'driver temporary/IR-prefix storage alias differs'
     if 'compiler_passes_address' in context:
         fields['compiler_passes']=memory.passes(context['compiler_passes_address'])
-    if symbol=='unload_pass':
-        record=context['arguments'][0];base=context['compiler_passes_address']
-        assert record==base+36 and memory.word_reads[(driver_address,11)][2]==record,'unload pass/current-driver alias differs'
+    if symbol in ('unload_pass','cleanup_files'):
+        base=context['compiler_passes_address'];index=1 if symbol=='unload_pass' else 3
+        record=base+36*index
+        if symbol=='unload_pass':assert context['arguments'][0]==record,'unload argument is not C1 pass'
+        else:assert context['arguments']==[1],'unknown successful cleanup argument'
+        assert memory.word_reads[(driver_address,11)][2]==record,'pass/current-driver alias differs'
         identity=context['compiler_module']
         assert identity['sha256']=='7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d'
-        assert identity['provider_state']==3,'unload frontier is not a live loaded module'
+        assert identity['provider_state']==(3 if index==1 else 5),'dependency module lifetime differs'
         addresses=context['execution_addresses']
         interrupted,active,running=[memory.words(addresses[name],1)[0]for name in ('interrupted','active_pass','pass_running')]
         assert interrupted==0 and active==record and running==0,'post-Invoke execution state differs'
-        fields['execution_aliases']={'pass_index':1,'pass_is_current':True,'active_pass_is_current':True,
+        fields['execution_aliases']={'pass_index':index,'pass_is_current':True,'active_pass_is_current':True,
                                     'interrupted':interrupted,'pass_running':running}
-        fields['dependency_crt']=dependency_crt(memory,context['crt_addresses'])
+        fields['dependency_crt']=dependency_crt(memory,context['crt_addresses'],after_child=index==3)
     if symbol=='execute_pass':
         mode,record,name,environment,argv=context['arguments']
         base=context['compiler_passes_address'];assert base<=record<base+180 and (record-base)%36==0
@@ -305,7 +309,7 @@ def snapshot(read,context):
     return fields
 
 
-def dependency_crt(memory,addresses):
+def dependency_crt(memory,addresses,after_child=False):
     scalar_names=('fmode','commode','mb_cur_max','mb_codepage','lc_codepage')
     result={name:memory.words(addresses[name],1)[0]for name in scalar_names}
     result['lc_handles']=list(memory.words(addresses['lc_handles'],6))
@@ -317,7 +321,11 @@ def dependency_crt(memory,addresses):
     initial=memory.words(addresses['initenv_slot'],1)[0]
     assert current and initial and current!=initial,'dependency CRT vector ownership transition missing'
     result['environment']=memory.vector(current);result['initial_environment']=memory.vector(initial)
-    assert result['environment']==result['initial_environment'],'unexpected first-Invoke namespace mutation'
+    if after_child:
+        assert len(result['environment'])==len(result['initial_environment'])+1
+        assert result['environment'][:-1]==result['initial_environment']
+        assert result['environment'][-1].startswith('MSC_CMD_FLAGS=')
+    else:assert result['environment']==result['initial_environment'],'unexpected first-Invoke namespace mutation'
     assert set(memory.vector_slots[current]).isdisjoint(memory.vector_slots[initial]),'initial environment strings were not copied'
     result['environment_vector_moved']=True;result['initial_strings_copied']=True
     os_pointer=memory.words(addresses['os_environment_slot'],1)[0]
@@ -345,7 +353,7 @@ def original_context(directory,address,stack):
         mb=(directory/'mb-state.bin').read_bytes();crt=(directory/'crt-state.bin').read_bytes()
         assert len(mb)==261 and all(not flag&4 for flag in mb[5:133]),'unreviewed ASCII lead-byte state'
         context['crt_mb']={'codepage':struct.unpack_from('<I',mb)[0],'mb_cur_max':struct.unpack_from('<I',crt,12)[0]}
-    if symbol=='unload_pass':
+    if symbol in ('unload_pass','cleanup_files'):
         import re
         from binary import PE
         from dependency_packet import exports,C1_SHA
@@ -361,15 +369,19 @@ def original_context(directory,address,stack):
         c1=PE(c1_path);crt=PE(crt_path);ce=exports(c1);crte=exports(crt)
         events=(directory/'observer/events.txt').read_text()
         loaded=re.findall(r'^c1-load event=(\d+) base=10600000 entry=1061202a entry_byte=53$',events,re.M)
-        assert len(loaded)==1 and not re.search(r'^module-unload .*base=10600000$',events,re.M)
+        assert len(loaded)==1
+        unloaded=re.findall(r'^module-unload event=(\d+) base=10600000$',events,re.M)
+        assert len(unloaded)==(0 if symbol=='unload_pass' else 1)
         words=struct.unpack('<32I',(directory/'observer/frontier-crt-words.bin').read_bytes())
         assert words[0]==crt.base==0x78000000 and words[22]==c1.base==0x10600000
-        assert words[21]==stack[1]==0x4090cc
+        assert words[21]==(0x4090cc if symbol=='unload_pass' else 0x409114)
+        if symbol=='unload_pass':assert stack[1]==words[21]
+        else:assert stack[1]==1 and words[20]==0
         context['crt_mb']={'codepage':words[6],'mb_cur_max':words[5]}
         assert ce['_InvokeCompilerPass@12']=={'ordinal':2,'rva':0x12229}
         assert ce['_AbortCompilerPass@4']=={'ordinal':1,'rva':0x43975}
         context['compiler_module']={'sha256':C1_SHA,'module':c1.base,'invoke':c1.base+0x12229,
-                                    'abort':c1.base+0x43975,'provider_state':3}
+                                    'abort':c1.base+0x43975,'provider_state':3 if symbol=='unload_pass' else 5}
         context['execution_addresses']={'interrupted':0x4097a8,'active_pass':0x4097ac,'pass_running':0x4097b0}
         addresses={name:crt.base+crte[export]['rva']for name,export in {
             'fmode':'_fmode','commode':'_commode','mb_cur_max':'__mb_cur_max',
@@ -405,7 +417,7 @@ def capture_native(directory,gdb):
     if symbol=='run_passes':context['callbacks']={'final_pass':int(gdb.parse_and_eval('(unsigned)final_pass'))}
     context['crt_mb']={name:int(gdb.parse_and_eval(expression)) for name,expression in
         [('codepage','recon_mb_codepage'),('mb_cur_max','recon_mb_cur_max')]}
-    if symbol=='unload_pass':
+    if symbol in ('unload_pass','cleanup_files'):
         value=lambda expression:int(gdb.parse_and_eval(expression))&0xffffffff
         context['compiler_module']={'sha256':gdb.parse_and_eval('((NativeModule *)cl_c1_module)->sha256').string(),
             'module':value('(unsigned)cl_c1_module'),'invoke':value('(unsigned)invoke_compiler_pass'),

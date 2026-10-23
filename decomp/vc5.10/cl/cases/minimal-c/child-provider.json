@@ -1,0 +1,38 @@
+{
+  "case": "minimal-c",
+  "candidate": "_unload_pass",
+  "original_range": [
+    "0x4054ec",
+    "0x40550d"
+  ],
+  "original_extent_bytes": 33,
+  "accepted_application_functions": 74,
+  "accepted_application_extent_bytes": 13626,
+  "whole_text_virtual_bytes": 19062,
+  "whole_text_extent_percent": 71.48253068932956,
+  "non_crt_denominator": "not fully classified",
+  "separate_support_records": 15,
+  "separate_support_bytes": 476,
+  "next_frontier": "cleanup_files",
+  "full_compile_complete": false,
+  "owned_proof_archive": "unload-pass-proof.tar.gz",
+  "owned_proof_index": "unload-pass-proof.json",
+  "shared_revision": "f33047c7",
+  "fresh_original_invocations": 1,
+  "native_captures": 2,
+  "seconds": {
+    "audit": 0.5432799458503723,
+    "original_setup": 0.0246270122,
+    "original_execution": 41.6250155261,
+    "native_gdb": 0.32653802540153265,
+    "parallel_original_and_native_build": 5.103521,
+    "affected_52_controls": 12.2325175460428,
+    "independent_52_controls": 12.076918640173972
+  },
+  "notes": [
+    "The final native-only retry aligns canonical MSVCRT/MSPDB inert child inputs and checker bindings with the unchanged original capture.",
+    "Actual native C1 detach/cache invalidation, retained locale, CRT string-pointer ownership and child error effects are independently read via GDB.",
+    "An overlapping validator read correctly rejected temporary mutation-test bytes; final sequential controls restore all bytes and acceptance passes.",
+    "Only fresh boundary proof is credited; cleanup/normal case completion remains pending."
+  ]
+}

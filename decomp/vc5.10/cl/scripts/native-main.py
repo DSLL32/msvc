@@ -70,7 +70,9 @@ def capture(original,directory):
     provider=None
     if receipt.get('dependency_response'):
         from dependency_provider import Provider
-        provider=Provider(original,directory)
+        spawn_reader=directory/'spawn_reader.py'
+        spawn_reader.write_bytes(subprocess.check_output(['git','show',build['shared_revision']+':lib/recon/spawn.py'],cwd=ROOT))
+        provider=Provider(original,directory,spawn_reader)
         env.update(provider.environment())
         for name in ('dependency_provider.py','dependency_response.py','dependency_native.py','dependency_wire.py'):
             shutil.copyfile(PROJECT/'scripts'/name,directory/name)
@@ -122,7 +124,7 @@ def capture(original,directory):
     commands[commands.index('set exec-wrapper /usr/bin/env')]='set exec-wrapper '+str(wrapper)
     started=time.perf_counter()
     result=subprocess.run(commands,env=env,cwd=directory,capture_output=True,stdin=subprocess.DEVNULL,timeout=25,
-        pass_fds=(provider.fileno(),)if provider is not None else())
+        pass_fds=provider.descriptors()if provider is not None else())
     elapsed=time.perf_counter()-started
     (directory/'debugger.txt').write_bytes(result.stdout+result.stderr)
     error=None;projection=None

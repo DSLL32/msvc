@@ -111,6 +111,10 @@ def project(platform,directory):
             paths=[directory/name for name in ('dependency-response.json','dependency-config.bin','dependency-native.json',
                 'dependency_provider.py','dependency_response.py','dependency_native.py','dependency_wire.py')]
             paths+=list((directory/'dependency-native').glob('*.bin'))
+            if (directory/'spawn-native.json').exists():
+                paths+=[directory/'spawn-native.json',directory/'spawn_reader.py']
+                paths+=[directory/name for name in result['fields']['dependency']['child']['outputs']]
+                paths+=[directory/name for name in ('MSVCRT.DLL','MSPDB50.DLL')]
             paths += [p for p in (directory/'dependency-response').rglob('*')if p.is_file()]
             paths += [directory/name for name in result['fields']['dependency']['outputs']]
         else:
