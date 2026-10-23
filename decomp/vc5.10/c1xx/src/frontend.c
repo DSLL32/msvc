@@ -89,8 +89,16 @@ int cleanup_compiler_pass(void)
     return 0;
 }
 
-int register_cleanup(Initializer cleanup)
+int report_compiler_diagnostic(int number, ...)
 {
     __asm { int 3 }
+    return 0;
+}
+
+int register_cleanup(Initializer cleanup)
+{
+    if (frontend_bss.cleanup_count >= 32)
+        report_compiler_diagnostic(1, ".\\main.c", 1977);
+    frontend_bss.cleanup_callbacks[frontend_bss.cleanup_count++] = cleanup;
     return 0;
 }

@@ -82,7 +82,7 @@ def prepare():
             "cases/minimal/contract.json", "cases/minimal/invoke-argv.bin", "cases/sources/minimal.cpp", "cases/minimal/state-model.json")}
     trial["test_seed"] = candidate.get("test_seed")
     trial['test_constructor_seed']=bool(candidate.get('test_constructor_seed'))
-    if trial["test_seed"] or trial_name == '_checked_malloc' or (trial_name or '').startswith(('_initialize_frontend_','_initialize_output_buffer_')):
+    if trial["test_seed"] or trial_name in ('_checked_malloc','_register_cleanup') or (trial_name or '').startswith(('_initialize_frontend_','_initialize_output_buffer_')):
         trial["validation_observers"] = [{"owner":"_initialize_compiler_pass", "original_rva":0x385be,
             "original_byte":0x89,"purpose":"observe typed copy/restore before first-flag reset"}]
     if trial['test_constructor_seed']:

@@ -105,3 +105,10 @@ Its compact native C object is36bytes including3bytes of natural compiler paddin
 the original259-byte intervening gap is unmodeled. Ordinary and clearly marked
 nonzero constructor/BSS-reset captures agree, with unused sentinel callback and
 owned-pointer roles stated explicitly in `cases/minimal/output01-trials.json`.
+
+Cleanup registration now preserves the full 63-byte hot/cold function and its
+variadic diagnostic boundary. The natural case registers the first destructor
+in slot0, increments the count to1 and reaches initializer09. Eight altered
+count/slot/input/state/frontier controls are rejected by
+`scripts/check-registration-negative.py`; the raw pair and audit are recorded
+in `cases/minimal/registration-trials.json`.

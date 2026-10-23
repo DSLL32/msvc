@@ -41,5 +41,6 @@ extern int restore_mode;
 extern Initializer frontend_initializers[FRONTEND_INITIALIZERS];
 void *checked_malloc(unsigned bytes);
 int report_compiler_error(int number);
+int report_compiler_diagnostic(int number, ...);
 int register_cleanup(Initializer cleanup);
 #endif
