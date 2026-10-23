@@ -57,27 +57,32 @@ void __cdecl initialize_state_1246b(void)
 
 void __cdecl initialize_state_124ba(void)
 {
-    __asm { int 3 }
+    initialize_output_buffer_124c1();
+    register_compiler_cleanup(destroy_output_buffer_2392b);
 }
 
 void __cdecl initialize_state_12509(void)
 {
-    __asm { int 3 }
+    initialize_output_buffer_12510();
+    register_compiler_cleanup(destroy_output_buffer_23924);
 }
 
 void __cdecl initialize_state_12558(void)
 {
-    __asm { int 3 }
+    initialize_output_buffer_1255f();
+    register_compiler_cleanup(destroy_output_buffer_2391d);
 }
 
 void __cdecl initialize_state_125a7(void)
 {
-    __asm { int 3 }
+    initialize_output_buffer_125ae();
+    register_compiler_cleanup(destroy_output_buffer_23916);
 }
 
 void __cdecl initialize_state_125f6(void)
 {
-    __asm { int 3 }
+    initialize_output_buffer_125fd();
+    register_compiler_cleanup(destroy_output_buffer_238dd);
 }
 
 void __cdecl initialize_state_12645(void)

@@ -1,0 +1,13 @@
+{
+  "accepted_function": "_initialize_output_buffer_12510",
+  "role": "sole-new-candidate",
+  "bytes": 58,
+  "parallel_build_seconds": 2.5190534265711904,
+  "application_bytes_after": 1093,
+  "crt_support_bytes": 451,
+  "import_bytes": 6,
+  "owned_original_bytes_after": 1550,
+  "modeled_original_bss_bytes": 397,
+  "native_bss_size": 412,
+  "unknown_state": "UNMODELED; no raw gaps or opaque placeholders"
+}

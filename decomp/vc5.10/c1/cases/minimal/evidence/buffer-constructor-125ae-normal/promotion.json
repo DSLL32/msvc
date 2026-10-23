@@ -1,0 +1,10 @@
+{
+  "accepted_function": "_initialize_output_buffer_125ae",
+  "role": "sole-new-candidate with independent nonzero proof completed",
+  "bytes": 58,
+  "application_bytes_after": 1251,
+  "crt_support_bytes": 451,
+  "import_bytes": 6,
+  "owned_original_bytes_after": 1708,
+  "negative_guard_refinement": "bss-count now changes the observed count with XOR1; fixed7 became valid as the seventh destructor was registered"
+}

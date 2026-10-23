@@ -1,0 +1,48 @@
+{
+  "status": "fresh matching next frontier and typed CRT state",
+  "trial": [
+    "_c1_crt_entry@12",
+    "_c1_crt_init@12",
+    "_DllMain@12",
+    "_InvokeCompilerPass@12",
+    "_initialize_compiler_pass",
+    "_allocate_compiler_memory",
+    "_initialize_state_12365",
+    "_initialize_state_12377",
+    "_initialize_state_12389",
+    "_initialize_state_123a4",
+    "_initialize_state_123a5",
+    "_initialize_state_123a6",
+    "_initialize_state_123a7",
+    "_initialize_output_buffer_123ae",
+    "_register_compiler_cleanup",
+    "_initialize_state_1241c",
+    "_initialize_output_buffer_12423",
+    "_initialize_state_1246b",
+    "_initialize_output_buffer_12472",
+    "_initialize_state_124ba",
+    "_initialize_output_buffer_124c1"
+  ],
+  "frontier_rva": 75017,
+  "native_symbol": "initialize_state_12509",
+  "state": [
+    "module identity/token",
+    "CRT attach count",
+    "null raw callback",
+    "Win32 last error",
+    "x87 control WORD",
+    "actual pass argc/argv/BOOL and NUL terminator",
+    "complete34-slot callback identity table",
+    "modeled field map/storage nonoverlap",
+    "typed initialized/BSS/snapshot state; other bytes UNMODELED"
+  ],
+  "rust_checked_functions": 21,
+  "rust_owned_original_bytes": 1471,
+  "current_auditor_sha256": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c",
+  "current_audit_report_sha256": "914859177d3860eadc45338044a3cc13d2771706184fe21849dbb0d0e20bc21f",
+  "execution_receipts": {
+    "original": "ddbe7f8283eb615dee1743d099521e1ba3995a0fa5889d7cd18fcdb8276acd12",
+    "native": "108819ba99dde4e6ed41bd7af24706108c3ed85ab43ba9fda3d1ee53f3fe0638"
+  },
+  "promotion": "eligible under reviewed same-protocol continuation"
+}

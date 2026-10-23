@@ -179,7 +179,7 @@ Initializer/allocator staging completed after the reviewed two-body trial:
 allocator INT3 frontier, followed by `evidence/allocator-staged-promotion/` with
 the real allocator as the only new candidate and genuine first-copy state.
 The older two-body normal/restore captures remain explicitly auxiliary evidence;
-their historical roles were not relabeled. Only four initialized bytes and 331
+their historical roles were not relabeled. Only four initialized bytes and 496
 BSS bytes are currently modeled; other compiler state remains UNMODELED. All 34
 initializer slots are represented, and execution stops at the first unreconstructed
 callback. See `cases/minimal/INITIALIZER-REVIEW.md` for the original review packet.
@@ -246,3 +246,12 @@ auxiliary capture: candidate, Win32 DLL and all owned source contents must still
 match. Shared worktree drift does not overwrite the recorded inputs. Five
 negative controls reject changed ELF/candidate/owned source and missing/corrupt
 archived content.
+
+All eight encountered output-buffer wrappers and constructors are accepted in
+separate stages. Each constructor retains a real nine-field C body and its
+object has independent nonzero reset/restore evidence. Eight real destructor
+identities are registered; no destructor body is accepted. The 496 modeled
+original BSS bytes occupy520 native bytes including24 natural padding bytes.
+The next frontier is callback12645. Original/native normal captures remain
+explicit function-acceptance work; the native lifecycle fixture uses cached
+references and never invokes Wine.

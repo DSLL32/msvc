@@ -1,0 +1,14 @@
+{
+  "accepted_function": "_initialize_output_buffer_125fd",
+  "role": "separate auxiliary nonzero constructor and typed BSS restore proofs",
+  "bytes": 58,
+  "parallel_build_seconds": 3.0846230313181877,
+  "application_bytes_after": 1330,
+  "crt_support_bytes": 451,
+  "import_bytes": 6,
+  "owned_original_bytes_after": 1787,
+  "modeled_original_bss_bytes": 496,
+  "native_bss_size": 520,
+  "unknown_state": "UNMODELED; no raw gaps or opaque placeholders",
+  "audit_refresh": "Current approved Rust release re-audit; historical execution raw unchanged and no Wine rerun"
+}

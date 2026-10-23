@@ -115,7 +115,7 @@ def main():
     elif test=='snapshot-first':c['snapshot']['first_call']=0
     elif test=='premature-snapshot':c['snapshot']={'first_call':1}
     elif test=='live-first':c['initialized']['first_call']^=1
-    elif test=='bss-count':c['bss']['cleanup_count']=7
+    elif test=='bss-count':c['bss']['cleanup_count']^=1
     elif test=='bss-callback':c['bss']['cleanup_callbacks'][0]=1
     elif test=='missing-callback-slot':c['initialization_callbacks'].pop()
     elif test=='swapped-callback':c['initialization_callbacks'][1],c['initialization_callbacks'][2]=c['initialization_callbacks'][2],c['initialization_callbacks'][1]

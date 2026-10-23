@@ -146,6 +146,81 @@
       "start_rva": 74866,
       "end_rva": 74924,
       "entry": 1
+    },
+    {
+      "start_rva": 74938,
+      "end_rva": 74945,
+      "entry": 1
+    },
+    {
+      "start_rva": 75003,
+      "end_rva": 75017,
+      "entry": 0
+    },
+    {
+      "start_rva": 74945,
+      "end_rva": 75003,
+      "entry": 1
+    },
+    {
+      "start_rva": 75017,
+      "end_rva": 75024,
+      "entry": 1
+    },
+    {
+      "start_rva": 75082,
+      "end_rva": 75096,
+      "entry": 0
+    },
+    {
+      "start_rva": 75024,
+      "end_rva": 75082,
+      "entry": 1
+    },
+    {
+      "start_rva": 75096,
+      "end_rva": 75103,
+      "entry": 1
+    },
+    {
+      "start_rva": 75161,
+      "end_rva": 75175,
+      "entry": 0
+    },
+    {
+      "start_rva": 75103,
+      "end_rva": 75161,
+      "entry": 1
+    },
+    {
+      "start_rva": 75175,
+      "end_rva": 75182,
+      "entry": 1
+    },
+    {
+      "start_rva": 75240,
+      "end_rva": 75254,
+      "entry": 0
+    },
+    {
+      "start_rva": 75182,
+      "end_rva": 75240,
+      "entry": 1
+    },
+    {
+      "start_rva": 75254,
+      "end_rva": 75261,
+      "entry": 1
+    },
+    {
+      "start_rva": 75319,
+      "end_rva": 75333,
+      "entry": 0
+    },
+    {
+      "start_rva": 75261,
+      "end_rva": 75319,
+      "entry": 1
     }
   ],
   "functions": [
@@ -430,6 +505,156 @@
         ]
       ],
       "source": "src/buffers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_124ba",
+      "native_symbol": "initialize_state_124ba",
+      "role": "application",
+      "chunks": [
+        [
+          74938,
+          74945
+        ],
+        [
+          75003,
+          75017
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_output_buffer_124c1",
+      "native_symbol": "initialize_output_buffer_124c1",
+      "role": "application",
+      "chunks": [
+        [
+          74945,
+          75003
+        ]
+      ],
+      "source": "src/buffers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_12509",
+      "native_symbol": "initialize_state_12509",
+      "role": "application",
+      "chunks": [
+        [
+          75017,
+          75024
+        ],
+        [
+          75082,
+          75096
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_output_buffer_12510",
+      "native_symbol": "initialize_output_buffer_12510",
+      "role": "application",
+      "chunks": [
+        [
+          75024,
+          75082
+        ]
+      ],
+      "source": "src/buffers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_12558",
+      "native_symbol": "initialize_state_12558",
+      "role": "application",
+      "chunks": [
+        [
+          75096,
+          75103
+        ],
+        [
+          75161,
+          75175
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_output_buffer_1255f",
+      "native_symbol": "initialize_output_buffer_1255f",
+      "role": "application",
+      "chunks": [
+        [
+          75103,
+          75161
+        ]
+      ],
+      "source": "src/buffers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_125a7",
+      "native_symbol": "initialize_state_125a7",
+      "role": "application",
+      "chunks": [
+        [
+          75175,
+          75182
+        ],
+        [
+          75240,
+          75254
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_output_buffer_125ae",
+      "native_symbol": "initialize_output_buffer_125ae",
+      "role": "application",
+      "chunks": [
+        [
+          75182,
+          75240
+        ]
+      ],
+      "source": "src/buffers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_125f6",
+      "native_symbol": "initialize_state_125f6",
+      "role": "application",
+      "chunks": [
+        [
+          75254,
+          75261
+        ],
+        [
+          75319,
+          75333
+        ]
+      ],
+      "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_output_buffer_125fd",
+      "native_symbol": "initialize_output_buffer_125fd",
+      "role": "application",
+      "chunks": [
+        [
+          75261,
+          75319
+        ]
+      ],
+      "source": "src/buffers.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -445,8 +670,8 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 74938,
-    "native_symbol": "initialize_state_124ba",
+    "rva": 75333,
+    "native_symbol": "initialize_state_12645",
     "kind": "initialization-callback",
     "native_args": [],
     "abi": "cdecl void callback, cleanup0"
@@ -578,7 +803,7 @@
       "normal_case": false
     }
   },
-  "staging_role": "initialize_output_buffer_12472 is the only new function",
+  "staging_role": "initialize_output_buffer_125fd is the only new function",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -591,6 +816,26 @@
     {
       "original_rva": 145714,
       "native_symbol": "destroy_output_buffer_23932"
+    },
+    {
+      "original_rva": 145707,
+      "native_symbol": "destroy_output_buffer_2392b"
+    },
+    {
+      "original_rva": 145700,
+      "native_symbol": "destroy_output_buffer_23924"
+    },
+    {
+      "original_rva": 145693,
+      "native_symbol": "destroy_output_buffer_2391d"
+    },
+    {
+      "original_rva": 145686,
+      "native_symbol": "destroy_output_buffer_23916"
+    },
+    {
+      "original_rva": 145629,
+      "native_symbol": "destroy_output_buffer_238dd"
     }
   ]
 }

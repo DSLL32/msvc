@@ -58,3 +58,98 @@ void __cdecl destroy_output_buffer_23932(void)
 {
     __asm { int 3 }
 }
+
+int __cdecl initialize_output_buffer_124c1(void)
+{
+    c1_bss.output_buffers[3].good = 1;
+    c1_bss.output_buffers[3].data = NULL;
+    c1_bss.output_buffers[3].cursor = NULL;
+    c1_bss.output_buffers[3].capacity = 0;
+    c1_bss.output_buffers[3].relocated = NULL;
+    c1_bss.output_buffers[3].relocation_context = NULL;
+    c1_bss.output_buffers[3].stream = NULL;
+    c1_bss.output_buffers[3].file_descriptor = -1;
+    c1_bss.output_buffers[3].mode = 0;
+    return 0;
+}
+
+void __cdecl destroy_output_buffer_2392b(void)
+{
+    __asm { int 3 }
+}
+
+int __cdecl initialize_output_buffer_12510(void)
+{
+    c1_bss.output_buffers[4].good = 1;
+    c1_bss.output_buffers[4].data = NULL;
+    c1_bss.output_buffers[4].cursor = NULL;
+    c1_bss.output_buffers[4].capacity = 0;
+    c1_bss.output_buffers[4].relocated = NULL;
+    c1_bss.output_buffers[4].relocation_context = NULL;
+    c1_bss.output_buffers[4].stream = NULL;
+    c1_bss.output_buffers[4].file_descriptor = -1;
+    c1_bss.output_buffers[4].mode = 0;
+    return 0;
+}
+
+void __cdecl destroy_output_buffer_23924(void)
+{
+    __asm { int 3 }
+}
+
+int __cdecl initialize_output_buffer_1255f(void)
+{
+    c1_bss.output_buffers[5].good = 1;
+    c1_bss.output_buffers[5].data = NULL;
+    c1_bss.output_buffers[5].cursor = NULL;
+    c1_bss.output_buffers[5].capacity = 0;
+    c1_bss.output_buffers[5].relocated = NULL;
+    c1_bss.output_buffers[5].relocation_context = NULL;
+    c1_bss.output_buffers[5].stream = NULL;
+    c1_bss.output_buffers[5].file_descriptor = -1;
+    c1_bss.output_buffers[5].mode = 0;
+    return 0;
+}
+
+void __cdecl destroy_output_buffer_2391d(void)
+{
+    __asm { int 3 }
+}
+
+int __cdecl initialize_output_buffer_125ae(void)
+{
+    c1_bss.output_buffers[6].good = 1;
+    c1_bss.output_buffers[6].data = NULL;
+    c1_bss.output_buffers[6].cursor = NULL;
+    c1_bss.output_buffers[6].capacity = 0;
+    c1_bss.output_buffers[6].relocated = NULL;
+    c1_bss.output_buffers[6].relocation_context = NULL;
+    c1_bss.output_buffers[6].stream = NULL;
+    c1_bss.output_buffers[6].file_descriptor = -1;
+    c1_bss.output_buffers[6].mode = 0;
+    return 0;
+}
+
+void __cdecl destroy_output_buffer_23916(void)
+{
+    __asm { int 3 }
+}
+
+int __cdecl initialize_output_buffer_125fd(void)
+{
+    c1_bss.output_buffers[7].good = 1;
+    c1_bss.output_buffers[7].data = NULL;
+    c1_bss.output_buffers[7].cursor = NULL;
+    c1_bss.output_buffers[7].capacity = 0;
+    c1_bss.output_buffers[7].relocated = NULL;
+    c1_bss.output_buffers[7].relocation_context = NULL;
+    c1_bss.output_buffers[7].stream = NULL;
+    c1_bss.output_buffers[7].file_descriptor = -1;
+    c1_bss.output_buffers[7].mode = 0;
+    return 0;
+}
+
+void __cdecl destroy_output_buffer_238dd(void)
+{
+    __asm { int 3 }
+}

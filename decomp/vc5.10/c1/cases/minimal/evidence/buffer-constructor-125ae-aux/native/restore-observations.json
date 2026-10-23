@@ -1,0 +1,3148 @@
+{
+  "pre_seed": {
+    "live_addresses": {
+      "initialized": 134631828,
+      "bss": 134632072
+    },
+    "initialized": {
+      "first_call": 1
+    },
+    "bss": {
+      "saved_data": 0,
+      "cleanup_count": 0,
+      "cleanup_callbacks": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "context": {
+        "object": 0,
+        "value": 0,
+        "saved_frame": 0
+      },
+      "current_context": {
+        "object": 0,
+        "value": 0,
+        "saved_frame": 0
+      },
+      "contexts": [
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        }
+      ],
+      "output_buffers": [
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        }
+      ]
+    },
+    "snapshot": null,
+    "reuse_state": 0,
+    "pass_mode": 0,
+    "initialization_callbacks": [
+      0,
+      134524480,
+      134524576,
+      134524672,
+      134524832,
+      134524896,
+      134524960,
+      134525024,
+      134525104,
+      134525184,
+      134525264,
+      134525344,
+      134525424,
+      134525504,
+      134525584,
+      134525648,
+      134525712,
+      134525776,
+      134525840,
+      134525904,
+      134525968,
+      134526032,
+      134526096,
+      134526160,
+      134526224,
+      134526288,
+      134526352,
+      134526416,
+      134526480,
+      134526544,
+      134526608,
+      134526672,
+      134526736,
+      134526800
+    ],
+    "native_layout": {
+      "initialized_size": 4,
+      "bss_size": 484,
+      "first_call": 0,
+      "saved_data": 0,
+      "cleanup_count": 4,
+      "cleanup_callbacks": 8,
+      "context": 136,
+      "current_context": 148,
+      "contexts": 160,
+      "contexts_stride": 12,
+      "output_buffers": 232,
+      "output_buffer_count": 7,
+      "output_buffer_size": 36,
+      "buffer_members": {
+        "data": 0,
+        "cursor": 4,
+        "capacity": 8,
+        "relocated": 12,
+        "relocation_context": 16,
+        "stream": 20,
+        "good": 24,
+        "mode": 28,
+        "file_descriptor": 32
+      },
+      "context_members": {
+        "object": 0,
+        "value": 4,
+        "saved_frame": 8
+      }
+    }
+  },
+  "buffer_constructors": {
+    "74670": {
+      "before": {
+        "live_addresses": {
+          "initialized": 134631828,
+          "bss": 134632072
+        },
+        "initialized": {
+          "first_call": 0
+        },
+        "bss": {
+          "saved_data": 134666192,
+          "cleanup_count": 0,
+          "cleanup_callbacks": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "context": {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          "current_context": {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          "contexts": [
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            }
+          ],
+          "output_buffers": [
+            {
+              "data": 134666192,
+              "cursor": 134666196,
+              "capacity": 47,
+              "relocated": 134524480,
+              "relocation_context": 134666192,
+              "stream": 134666200,
+              "good": 9,
+              "mode": 165,
+              "file_descriptor": 57
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            }
+          ]
+        },
+        "snapshot": {
+          "first_call": 324508639
+        },
+        "reuse_state": 0,
+        "pass_mode": 1,
+        "initialization_callbacks": [
+          0,
+          134524480,
+          134524576,
+          134524672,
+          134524832,
+          134524896,
+          134524960,
+          134525024,
+          134525104,
+          134525184,
+          134525264,
+          134525344,
+          134525424,
+          134525504,
+          134525584,
+          134525648,
+          134525712,
+          134525776,
+          134525840,
+          134525904,
+          134525968,
+          134526032,
+          134526096,
+          134526160,
+          134526224,
+          134526288,
+          134526352,
+          134526416,
+          134526480,
+          134526544,
+          134526608,
+          134526672,
+          134526736,
+          134526800
+        ],
+        "native_layout": {
+          "initialized_size": 4,
+          "bss_size": 484,
+          "first_call": 0,
+          "saved_data": 0,
+          "cleanup_count": 4,
+          "cleanup_callbacks": 8,
+          "context": 136,
+          "current_context": 148,
+          "contexts": 160,
+          "contexts_stride": 12,
+          "output_buffers": 232,
+          "output_buffer_count": 7,
+          "output_buffer_size": 36,
+          "buffer_members": {
+            "data": 0,
+            "cursor": 4,
+            "capacity": 8,
+            "relocated": 12,
+            "relocation_context": 16,
+            "stream": 20,
+            "good": 24,
+            "mode": 28,
+            "file_descriptor": 32
+          },
+          "context_members": {
+            "object": 0,
+            "value": 4,
+            "saved_frame": 8
+          }
+        }
+      },
+      "pc": 134526998
+    },
+    "74787": {
+      "before": {
+        "live_addresses": {
+          "initialized": 134631828,
+          "bss": 134632072
+        },
+        "initialized": {
+          "first_call": 0
+        },
+        "bss": {
+          "saved_data": 134666192,
+          "cleanup_count": 1,
+          "cleanup_callbacks": [
+            134527136,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "context": {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          "current_context": {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          "contexts": [
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            }
+          ],
+          "output_buffers": [
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 134666208,
+              "cursor": 134666212,
+              "capacity": 48,
+              "relocated": 134524480,
+              "relocation_context": 134666208,
+              "stream": 134666216,
+              "good": 9,
+              "mode": 166,
+              "file_descriptor": 58
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            }
+          ]
+        },
+        "snapshot": {
+          "first_call": 324508639
+        },
+        "reuse_state": 0,
+        "pass_mode": 1,
+        "initialization_callbacks": [
+          0,
+          134524480,
+          134524576,
+          134524672,
+          134524832,
+          134524896,
+          134524960,
+          134525024,
+          134525104,
+          134525184,
+          134525264,
+          134525344,
+          134525424,
+          134525504,
+          134525584,
+          134525648,
+          134525712,
+          134525776,
+          134525840,
+          134525904,
+          134525968,
+          134526032,
+          134526096,
+          134526160,
+          134526224,
+          134526288,
+          134526352,
+          134526416,
+          134526480,
+          134526544,
+          134526608,
+          134526672,
+          134526736,
+          134526800
+        ],
+        "native_layout": {
+          "initialized_size": 4,
+          "bss_size": 484,
+          "first_call": 0,
+          "saved_data": 0,
+          "cleanup_count": 4,
+          "cleanup_callbacks": 8,
+          "context": 136,
+          "current_context": 148,
+          "contexts": 160,
+          "contexts_stride": 12,
+          "output_buffers": 232,
+          "output_buffer_count": 7,
+          "output_buffer_size": 36,
+          "buffer_members": {
+            "data": 0,
+            "cursor": 4,
+            "capacity": 8,
+            "relocated": 12,
+            "relocation_context": 16,
+            "stream": 20,
+            "good": 24,
+            "mode": 28,
+            "file_descriptor": 32
+          },
+          "context_members": {
+            "object": 0,
+            "value": 4,
+            "saved_frame": 8
+          }
+        }
+      },
+      "pc": 134527206
+    },
+    "74866": {
+      "before": {
+        "live_addresses": {
+          "initialized": 134631828,
+          "bss": 134632072
+        },
+        "initialized": {
+          "first_call": 0
+        },
+        "bss": {
+          "saved_data": 134666192,
+          "cleanup_count": 2,
+          "cleanup_callbacks": [
+            134527136,
+            134527344,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "context": {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          "current_context": {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          "contexts": [
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            }
+          ],
+          "output_buffers": [
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 134666224,
+              "cursor": 134666228,
+              "capacity": 49,
+              "relocated": 134524480,
+              "relocation_context": 134666224,
+              "stream": 134666232,
+              "good": 9,
+              "mode": 167,
+              "file_descriptor": 59
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            }
+          ]
+        },
+        "snapshot": {
+          "first_call": 324508639
+        },
+        "reuse_state": 0,
+        "pass_mode": 1,
+        "initialization_callbacks": [
+          0,
+          134524480,
+          134524576,
+          134524672,
+          134524832,
+          134524896,
+          134524960,
+          134525024,
+          134525104,
+          134525184,
+          134525264,
+          134525344,
+          134525424,
+          134525504,
+          134525584,
+          134525648,
+          134525712,
+          134525776,
+          134525840,
+          134525904,
+          134525968,
+          134526032,
+          134526096,
+          134526160,
+          134526224,
+          134526288,
+          134526352,
+          134526416,
+          134526480,
+          134526544,
+          134526608,
+          134526672,
+          134526736,
+          134526800
+        ],
+        "native_layout": {
+          "initialized_size": 4,
+          "bss_size": 484,
+          "first_call": 0,
+          "saved_data": 0,
+          "cleanup_count": 4,
+          "cleanup_callbacks": 8,
+          "context": 136,
+          "current_context": 148,
+          "contexts": 160,
+          "contexts_stride": 12,
+          "output_buffers": 232,
+          "output_buffer_count": 7,
+          "output_buffer_size": 36,
+          "buffer_members": {
+            "data": 0,
+            "cursor": 4,
+            "capacity": 8,
+            "relocated": 12,
+            "relocation_context": 16,
+            "stream": 20,
+            "good": 24,
+            "mode": 28,
+            "file_descriptor": 32
+          },
+          "context_members": {
+            "object": 0,
+            "value": 4,
+            "saved_frame": 8
+          }
+        }
+      },
+      "pc": 134527414
+    },
+    "74945": {
+      "before": {
+        "live_addresses": {
+          "initialized": 134631828,
+          "bss": 134632072
+        },
+        "initialized": {
+          "first_call": 0
+        },
+        "bss": {
+          "saved_data": 134666192,
+          "cleanup_count": 3,
+          "cleanup_callbacks": [
+            134527136,
+            134527344,
+            134527552,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "context": {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          "current_context": {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          "contexts": [
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            }
+          ],
+          "output_buffers": [
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 134666240,
+              "cursor": 134666244,
+              "capacity": 50,
+              "relocated": 134524480,
+              "relocation_context": 134666240,
+              "stream": 134666248,
+              "good": 9,
+              "mode": 168,
+              "file_descriptor": 60
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            }
+          ]
+        },
+        "snapshot": {
+          "first_call": 324508639
+        },
+        "reuse_state": 0,
+        "pass_mode": 1,
+        "initialization_callbacks": [
+          0,
+          134524480,
+          134524576,
+          134524672,
+          134524832,
+          134524896,
+          134524960,
+          134525024,
+          134525104,
+          134525184,
+          134525264,
+          134525344,
+          134525424,
+          134525504,
+          134525584,
+          134525648,
+          134525712,
+          134525776,
+          134525840,
+          134525904,
+          134525968,
+          134526032,
+          134526096,
+          134526160,
+          134526224,
+          134526288,
+          134526352,
+          134526416,
+          134526480,
+          134526544,
+          134526608,
+          134526672,
+          134526736,
+          134526800
+        ],
+        "native_layout": {
+          "initialized_size": 4,
+          "bss_size": 484,
+          "first_call": 0,
+          "saved_data": 0,
+          "cleanup_count": 4,
+          "cleanup_callbacks": 8,
+          "context": 136,
+          "current_context": 148,
+          "contexts": 160,
+          "contexts_stride": 12,
+          "output_buffers": 232,
+          "output_buffer_count": 7,
+          "output_buffer_size": 36,
+          "buffer_members": {
+            "data": 0,
+            "cursor": 4,
+            "capacity": 8,
+            "relocated": 12,
+            "relocation_context": 16,
+            "stream": 20,
+            "good": 24,
+            "mode": 28,
+            "file_descriptor": 32
+          },
+          "context_members": {
+            "object": 0,
+            "value": 4,
+            "saved_frame": 8
+          }
+        }
+      },
+      "pc": 134527622
+    },
+    "75024": {
+      "before": {
+        "live_addresses": {
+          "initialized": 134631828,
+          "bss": 134632072
+        },
+        "initialized": {
+          "first_call": 0
+        },
+        "bss": {
+          "saved_data": 134666192,
+          "cleanup_count": 4,
+          "cleanup_callbacks": [
+            134527136,
+            134527344,
+            134527552,
+            134527760,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "context": {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          "current_context": {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          "contexts": [
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            }
+          ],
+          "output_buffers": [
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 134666256,
+              "cursor": 134666260,
+              "capacity": 51,
+              "relocated": 134524480,
+              "relocation_context": 134666256,
+              "stream": 134666264,
+              "good": 9,
+              "mode": 169,
+              "file_descriptor": 61
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            }
+          ]
+        },
+        "snapshot": {
+          "first_call": 324508639
+        },
+        "reuse_state": 0,
+        "pass_mode": 1,
+        "initialization_callbacks": [
+          0,
+          134524480,
+          134524576,
+          134524672,
+          134524832,
+          134524896,
+          134524960,
+          134525024,
+          134525104,
+          134525184,
+          134525264,
+          134525344,
+          134525424,
+          134525504,
+          134525584,
+          134525648,
+          134525712,
+          134525776,
+          134525840,
+          134525904,
+          134525968,
+          134526032,
+          134526096,
+          134526160,
+          134526224,
+          134526288,
+          134526352,
+          134526416,
+          134526480,
+          134526544,
+          134526608,
+          134526672,
+          134526736,
+          134526800
+        ],
+        "native_layout": {
+          "initialized_size": 4,
+          "bss_size": 484,
+          "first_call": 0,
+          "saved_data": 0,
+          "cleanup_count": 4,
+          "cleanup_callbacks": 8,
+          "context": 136,
+          "current_context": 148,
+          "contexts": 160,
+          "contexts_stride": 12,
+          "output_buffers": 232,
+          "output_buffer_count": 7,
+          "output_buffer_size": 36,
+          "buffer_members": {
+            "data": 0,
+            "cursor": 4,
+            "capacity": 8,
+            "relocated": 12,
+            "relocation_context": 16,
+            "stream": 20,
+            "good": 24,
+            "mode": 28,
+            "file_descriptor": 32
+          },
+          "context_members": {
+            "object": 0,
+            "value": 4,
+            "saved_frame": 8
+          }
+        }
+      },
+      "pc": 134527830
+    },
+    "75103": {
+      "before": {
+        "live_addresses": {
+          "initialized": 134631828,
+          "bss": 134632072
+        },
+        "initialized": {
+          "first_call": 0
+        },
+        "bss": {
+          "saved_data": 134666192,
+          "cleanup_count": 5,
+          "cleanup_callbacks": [
+            134527136,
+            134527344,
+            134527552,
+            134527760,
+            134527968,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "context": {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          "current_context": {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          "contexts": [
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            }
+          ],
+          "output_buffers": [
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 134666272,
+              "cursor": 134666276,
+              "capacity": 52,
+              "relocated": 134524480,
+              "relocation_context": 134666272,
+              "stream": 134666280,
+              "good": 9,
+              "mode": 170,
+              "file_descriptor": 62
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 0,
+              "mode": 0,
+              "file_descriptor": 0
+            }
+          ]
+        },
+        "snapshot": {
+          "first_call": 324508639
+        },
+        "reuse_state": 0,
+        "pass_mode": 1,
+        "initialization_callbacks": [
+          0,
+          134524480,
+          134524576,
+          134524672,
+          134524832,
+          134524896,
+          134524960,
+          134525024,
+          134525104,
+          134525184,
+          134525264,
+          134525344,
+          134525424,
+          134525504,
+          134525584,
+          134525648,
+          134525712,
+          134525776,
+          134525840,
+          134525904,
+          134525968,
+          134526032,
+          134526096,
+          134526160,
+          134526224,
+          134526288,
+          134526352,
+          134526416,
+          134526480,
+          134526544,
+          134526608,
+          134526672,
+          134526736,
+          134526800
+        ],
+        "native_layout": {
+          "initialized_size": 4,
+          "bss_size": 484,
+          "first_call": 0,
+          "saved_data": 0,
+          "cleanup_count": 4,
+          "cleanup_callbacks": 8,
+          "context": 136,
+          "current_context": 148,
+          "contexts": 160,
+          "contexts_stride": 12,
+          "output_buffers": 232,
+          "output_buffer_count": 7,
+          "output_buffer_size": 36,
+          "buffer_members": {
+            "data": 0,
+            "cursor": 4,
+            "capacity": 8,
+            "relocated": 12,
+            "relocation_context": 16,
+            "stream": 20,
+            "good": 24,
+            "mode": 28,
+            "file_descriptor": 32
+          },
+          "context_members": {
+            "object": 0,
+            "value": 4,
+            "saved_frame": 8
+          }
+        }
+      },
+      "pc": 134528038
+    },
+    "75182": {
+      "before": {
+        "live_addresses": {
+          "initialized": 134631828,
+          "bss": 134632072
+        },
+        "initialized": {
+          "first_call": 0
+        },
+        "bss": {
+          "saved_data": 134666192,
+          "cleanup_count": 6,
+          "cleanup_callbacks": [
+            134527136,
+            134527344,
+            134527552,
+            134527760,
+            134527968,
+            134528176,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "context": {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          "current_context": {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          "contexts": [
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            },
+            {
+              "object": 0,
+              "value": 0,
+              "saved_frame": 0
+            }
+          ],
+          "output_buffers": [
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 0,
+              "cursor": 0,
+              "capacity": 0,
+              "relocated": 0,
+              "relocation_context": 0,
+              "stream": 0,
+              "good": 1,
+              "mode": 0,
+              "file_descriptor": -1
+            },
+            {
+              "data": 134666288,
+              "cursor": 134666292,
+              "capacity": 53,
+              "relocated": 134524480,
+              "relocation_context": 134666288,
+              "stream": 134666296,
+              "good": 9,
+              "mode": 171,
+              "file_descriptor": 63
+            }
+          ]
+        },
+        "snapshot": {
+          "first_call": 324508639
+        },
+        "reuse_state": 0,
+        "pass_mode": 1,
+        "initialization_callbacks": [
+          0,
+          134524480,
+          134524576,
+          134524672,
+          134524832,
+          134524896,
+          134524960,
+          134525024,
+          134525104,
+          134525184,
+          134525264,
+          134525344,
+          134525424,
+          134525504,
+          134525584,
+          134525648,
+          134525712,
+          134525776,
+          134525840,
+          134525904,
+          134525968,
+          134526032,
+          134526096,
+          134526160,
+          134526224,
+          134526288,
+          134526352,
+          134526416,
+          134526480,
+          134526544,
+          134526608,
+          134526672,
+          134526736,
+          134526800
+        ],
+        "native_layout": {
+          "initialized_size": 4,
+          "bss_size": 484,
+          "first_call": 0,
+          "saved_data": 0,
+          "cleanup_count": 4,
+          "cleanup_callbacks": 8,
+          "context": 136,
+          "current_context": 148,
+          "contexts": 160,
+          "contexts_stride": 12,
+          "output_buffers": 232,
+          "output_buffer_count": 7,
+          "output_buffer_size": 36,
+          "buffer_members": {
+            "data": 0,
+            "cursor": 4,
+            "capacity": 8,
+            "relocated": 12,
+            "relocation_context": 16,
+            "stream": 20,
+            "good": 24,
+            "mode": 28,
+            "file_descriptor": 32
+          },
+          "context_members": {
+            "object": 0,
+            "value": 4,
+            "saved_frame": 8
+          }
+        }
+      },
+      "pc": 134528246
+    }
+  },
+  "before": {
+    "live_addresses": {
+      "initialized": 134631828,
+      "bss": 134632072
+    },
+    "initialized": {
+      "first_call": 0
+    },
+    "bss": {
+      "saved_data": 134666192,
+      "cleanup_count": 7,
+      "cleanup_callbacks": [
+        134524480,
+        134524576,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "context": {
+        "object": 134631828,
+        "value": 23,
+        "saved_frame": 134666192
+      },
+      "current_context": {
+        "object": 134631828,
+        "value": 29,
+        "saved_frame": 134666192
+      },
+      "contexts": [
+        {
+          "object": 134631828,
+          "value": 31,
+          "saved_frame": 134666192
+        },
+        {
+          "object": 134631828,
+          "value": 32,
+          "saved_frame": 134666192
+        },
+        {
+          "object": 134631828,
+          "value": 33,
+          "saved_frame": 134666192
+        },
+        {
+          "object": 134631828,
+          "value": 34,
+          "saved_frame": 134666192
+        },
+        {
+          "object": 134631828,
+          "value": 35,
+          "saved_frame": 134666192
+        },
+        {
+          "object": 134631828,
+          "value": 36,
+          "saved_frame": 134666192
+        }
+      ],
+      "output_buffers": [
+        {
+          "data": 134666192,
+          "cursor": 134666196,
+          "capacity": 47,
+          "relocated": 134524480,
+          "relocation_context": 134666192,
+          "stream": 134666200,
+          "good": 9,
+          "mode": 165,
+          "file_descriptor": 57
+        },
+        {
+          "data": 134666208,
+          "cursor": 134666212,
+          "capacity": 48,
+          "relocated": 134524480,
+          "relocation_context": 134666208,
+          "stream": 134666216,
+          "good": 9,
+          "mode": 166,
+          "file_descriptor": 58
+        },
+        {
+          "data": 134666224,
+          "cursor": 134666228,
+          "capacity": 49,
+          "relocated": 134524480,
+          "relocation_context": 134666224,
+          "stream": 134666232,
+          "good": 9,
+          "mode": 167,
+          "file_descriptor": 59
+        },
+        {
+          "data": 134666240,
+          "cursor": 134666244,
+          "capacity": 50,
+          "relocated": 134524480,
+          "relocation_context": 134666240,
+          "stream": 134666248,
+          "good": 9,
+          "mode": 168,
+          "file_descriptor": 60
+        },
+        {
+          "data": 134666256,
+          "cursor": 134666260,
+          "capacity": 51,
+          "relocated": 134524480,
+          "relocation_context": 134666256,
+          "stream": 134666264,
+          "good": 9,
+          "mode": 169,
+          "file_descriptor": 61
+        },
+        {
+          "data": 134666272,
+          "cursor": 134666276,
+          "capacity": 52,
+          "relocated": 134524480,
+          "relocation_context": 134666272,
+          "stream": 134666280,
+          "good": 9,
+          "mode": 170,
+          "file_descriptor": 62
+        },
+        {
+          "data": 134666288,
+          "cursor": 134666292,
+          "capacity": 53,
+          "relocated": 134524480,
+          "relocation_context": 134666288,
+          "stream": 134666296,
+          "good": 9,
+          "mode": 171,
+          "file_descriptor": 63
+        }
+      ]
+    },
+    "snapshot": {
+      "first_call": 324508639
+    },
+    "reuse_state": 9,
+    "pass_mode": 1,
+    "initialization_callbacks": [
+      0,
+      134524480,
+      134524576,
+      134524672,
+      134524832,
+      134524896,
+      134524960,
+      134525024,
+      134525104,
+      134525184,
+      134525264,
+      134525344,
+      134525424,
+      134525504,
+      134525584,
+      134525648,
+      134525712,
+      134525776,
+      134525840,
+      134525904,
+      134525968,
+      134526032,
+      134526096,
+      134526160,
+      134526224,
+      134526288,
+      134526352,
+      134526416,
+      134526480,
+      134526544,
+      134526608,
+      134526672,
+      134526736,
+      134526800
+    ],
+    "native_layout": {
+      "initialized_size": 4,
+      "bss_size": 484,
+      "first_call": 0,
+      "saved_data": 0,
+      "cleanup_count": 4,
+      "cleanup_callbacks": 8,
+      "context": 136,
+      "current_context": 148,
+      "contexts": 160,
+      "contexts_stride": 12,
+      "output_buffers": 232,
+      "output_buffer_count": 7,
+      "output_buffer_size": 36,
+      "buffer_members": {
+        "data": 0,
+        "cursor": 4,
+        "capacity": 8,
+        "relocated": 12,
+        "relocation_context": 16,
+        "stream": 20,
+        "good": 24,
+        "mode": 28,
+        "file_descriptor": 32
+      },
+      "context_members": {
+        "object": 0,
+        "value": 4,
+        "saved_frame": 8
+      }
+    }
+  },
+  "post_restore": {
+    "live_addresses": {
+      "initialized": 134631828,
+      "bss": 134632072
+    },
+    "initialized": {
+      "first_call": 324508639
+    },
+    "bss": {
+      "saved_data": 134666192,
+      "cleanup_count": 0,
+      "cleanup_callbacks": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "context": {
+        "object": 0,
+        "value": 0,
+        "saved_frame": 0
+      },
+      "current_context": {
+        "object": 0,
+        "value": 0,
+        "saved_frame": 0
+      },
+      "contexts": [
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        }
+      ],
+      "output_buffers": [
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        }
+      ]
+    },
+    "snapshot": {
+      "first_call": 324508639
+    },
+    "reuse_state": 9,
+    "pass_mode": 1,
+    "initialization_callbacks": [
+      0,
+      134524480,
+      134524576,
+      134524672,
+      134524832,
+      134524896,
+      134524960,
+      134525024,
+      134525104,
+      134525184,
+      134525264,
+      134525344,
+      134525424,
+      134525504,
+      134525584,
+      134525648,
+      134525712,
+      134525776,
+      134525840,
+      134525904,
+      134525968,
+      134526032,
+      134526096,
+      134526160,
+      134526224,
+      134526288,
+      134526352,
+      134526416,
+      134526480,
+      134526544,
+      134526608,
+      134526672,
+      134526736,
+      134526800
+    ],
+    "native_layout": {
+      "initialized_size": 4,
+      "bss_size": 484,
+      "first_call": 0,
+      "saved_data": 0,
+      "cleanup_count": 4,
+      "cleanup_callbacks": 8,
+      "context": 136,
+      "current_context": 148,
+      "contexts": 160,
+      "contexts_stride": 12,
+      "output_buffers": 232,
+      "output_buffer_count": 7,
+      "output_buffer_size": 36,
+      "buffer_members": {
+        "data": 0,
+        "cursor": 4,
+        "capacity": 8,
+        "relocated": 12,
+        "relocation_context": 16,
+        "stream": 20,
+        "good": 24,
+        "mode": 28,
+        "file_descriptor": 32
+      },
+      "context_members": {
+        "object": 0,
+        "value": 4,
+        "saved_frame": 8
+      }
+    }
+  },
+  "post_restore_pc": 134523967,
+  "post_restore_line": 22,
+  "before_callback": {
+    "live_addresses": {
+      "initialized": 134631828,
+      "bss": 134632072
+    },
+    "initialized": {
+      "first_call": 0
+    },
+    "bss": {
+      "saved_data": 134666192,
+      "cleanup_count": 0,
+      "cleanup_callbacks": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "context": {
+        "object": 134631828,
+        "value": 23,
+        "saved_frame": 134666192
+      },
+      "current_context": {
+        "object": 0,
+        "value": 0,
+        "saved_frame": 0
+      },
+      "contexts": [
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        }
+      ],
+      "output_buffers": [
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        }
+      ]
+    },
+    "snapshot": {
+      "first_call": 324508639
+    },
+    "reuse_state": 0,
+    "pass_mode": 1,
+    "initialization_callbacks": [
+      0,
+      134524480,
+      134524576,
+      134524672,
+      134524832,
+      134524896,
+      134524960,
+      134525024,
+      134525104,
+      134525184,
+      134525264,
+      134525344,
+      134525424,
+      134525504,
+      134525584,
+      134525648,
+      134525712,
+      134525776,
+      134525840,
+      134525904,
+      134525968,
+      134526032,
+      134526096,
+      134526160,
+      134526224,
+      134526288,
+      134526352,
+      134526416,
+      134526480,
+      134526544,
+      134526608,
+      134526672,
+      134526736,
+      134526800
+    ],
+    "native_layout": {
+      "initialized_size": 4,
+      "bss_size": 484,
+      "first_call": 0,
+      "saved_data": 0,
+      "cleanup_count": 4,
+      "cleanup_callbacks": 8,
+      "context": 136,
+      "current_context": 148,
+      "contexts": 160,
+      "contexts_stride": 12,
+      "output_buffers": 232,
+      "output_buffer_count": 7,
+      "output_buffer_size": 36,
+      "buffer_members": {
+        "data": 0,
+        "cursor": 4,
+        "capacity": 8,
+        "relocated": 12,
+        "relocation_context": 16,
+        "stream": 20,
+        "good": 24,
+        "mode": 28,
+        "file_descriptor": 32
+      },
+      "context_members": {
+        "object": 0,
+        "value": 4,
+        "saved_frame": 8
+      }
+    }
+  },
+  "callback_pc": 134524486,
+  "before_current_callback": {
+    "live_addresses": {
+      "initialized": 134631828,
+      "bss": 134632072
+    },
+    "initialized": {
+      "first_call": 0
+    },
+    "bss": {
+      "saved_data": 134666192,
+      "cleanup_count": 0,
+      "cleanup_callbacks": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "context": {
+        "object": 0,
+        "value": 0,
+        "saved_frame": 0
+      },
+      "current_context": {
+        "object": 134631828,
+        "value": 29,
+        "saved_frame": 134666192
+      },
+      "contexts": [
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        }
+      ],
+      "output_buffers": [
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        }
+      ]
+    },
+    "snapshot": {
+      "first_call": 324508639
+    },
+    "reuse_state": 0,
+    "pass_mode": 1,
+    "initialization_callbacks": [
+      0,
+      134524480,
+      134524576,
+      134524672,
+      134524832,
+      134524896,
+      134524960,
+      134525024,
+      134525104,
+      134525184,
+      134525264,
+      134525344,
+      134525424,
+      134525504,
+      134525584,
+      134525648,
+      134525712,
+      134525776,
+      134525840,
+      134525904,
+      134525968,
+      134526032,
+      134526096,
+      134526160,
+      134526224,
+      134526288,
+      134526352,
+      134526416,
+      134526480,
+      134526544,
+      134526608,
+      134526672,
+      134526736,
+      134526800
+    ],
+    "native_layout": {
+      "initialized_size": 4,
+      "bss_size": 484,
+      "first_call": 0,
+      "saved_data": 0,
+      "cleanup_count": 4,
+      "cleanup_callbacks": 8,
+      "context": 136,
+      "current_context": 148,
+      "contexts": 160,
+      "contexts_stride": 12,
+      "output_buffers": 232,
+      "output_buffer_count": 7,
+      "output_buffer_size": 36,
+      "buffer_members": {
+        "data": 0,
+        "cursor": 4,
+        "capacity": 8,
+        "relocated": 12,
+        "relocation_context": 16,
+        "stream": 20,
+        "good": 24,
+        "mode": 28,
+        "file_descriptor": 32
+      },
+      "context_members": {
+        "object": 0,
+        "value": 4,
+        "saved_frame": 8
+      }
+    }
+  },
+  "current_callback_pc": 134524582,
+  "before_contexts_callback": {
+    "live_addresses": {
+      "initialized": 134631828,
+      "bss": 134632072
+    },
+    "initialized": {
+      "first_call": 0
+    },
+    "bss": {
+      "saved_data": 134666192,
+      "cleanup_count": 0,
+      "cleanup_callbacks": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "context": {
+        "object": 0,
+        "value": 0,
+        "saved_frame": 0
+      },
+      "current_context": {
+        "object": 0,
+        "value": 0,
+        "saved_frame": 0
+      },
+      "contexts": [
+        {
+          "object": 134631828,
+          "value": 31,
+          "saved_frame": 134666192
+        },
+        {
+          "object": 134631828,
+          "value": 32,
+          "saved_frame": 134666192
+        },
+        {
+          "object": 134631828,
+          "value": 33,
+          "saved_frame": 134666192
+        },
+        {
+          "object": 134631828,
+          "value": 34,
+          "saved_frame": 134666192
+        },
+        {
+          "object": 134631828,
+          "value": 35,
+          "saved_frame": 134666192
+        },
+        {
+          "object": 134631828,
+          "value": 36,
+          "saved_frame": 134666192
+        }
+      ],
+      "output_buffers": [
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        },
+        {
+          "data": 0,
+          "cursor": 0,
+          "capacity": 0,
+          "relocated": 0,
+          "relocation_context": 0,
+          "stream": 0,
+          "good": 0,
+          "mode": 0,
+          "file_descriptor": 0
+        }
+      ]
+    },
+    "snapshot": {
+      "first_call": 324508639
+    },
+    "reuse_state": 0,
+    "pass_mode": 1,
+    "initialization_callbacks": [
+      0,
+      134524480,
+      134524576,
+      134524672,
+      134524832,
+      134524896,
+      134524960,
+      134525024,
+      134525104,
+      134525184,
+      134525264,
+      134525344,
+      134525424,
+      134525504,
+      134525584,
+      134525648,
+      134525712,
+      134525776,
+      134525840,
+      134525904,
+      134525968,
+      134526032,
+      134526096,
+      134526160,
+      134526224,
+      134526288,
+      134526352,
+      134526416,
+      134526480,
+      134526544,
+      134526608,
+      134526672,
+      134526736,
+      134526800
+    ],
+    "native_layout": {
+      "initialized_size": 4,
+      "bss_size": 484,
+      "first_call": 0,
+      "saved_data": 0,
+      "cleanup_count": 4,
+      "cleanup_callbacks": 8,
+      "context": 136,
+      "current_context": 148,
+      "contexts": 160,
+      "contexts_stride": 12,
+      "output_buffers": 232,
+      "output_buffer_count": 7,
+      "output_buffer_size": 36,
+      "buffer_members": {
+        "data": 0,
+        "cursor": 4,
+        "capacity": 8,
+        "relocated": 12,
+        "relocation_context": 16,
+        "stream": 20,
+        "good": 24,
+        "mode": 28,
+        "file_descriptor": 32
+      },
+      "context_members": {
+        "object": 0,
+        "value": 4,
+        "saved_frame": 8
+      }
+    }
+  },
+  "contexts_callback_pc": 134524678
+}

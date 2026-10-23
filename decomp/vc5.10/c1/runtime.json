@@ -14,41 +14,6 @@
     "evidence": "Unaccepted named call-entry identity only; full extent not established or unmasked."
   },
   {
-    "name": "_initialize_state_124ba",
-    "start": 274801850,
-    "end": 274801851,
-    "pending_extent": true,
-    "evidence": "actual .initfe callback table entry; unrecovered body traps"
-  },
-  {
-    "name": "_initialize_state_12509",
-    "start": 274801929,
-    "end": 274801930,
-    "pending_extent": true,
-    "evidence": "actual .initfe callback table entry; unrecovered body traps"
-  },
-  {
-    "name": "_initialize_state_12558",
-    "start": 274802008,
-    "end": 274802009,
-    "pending_extent": true,
-    "evidence": "actual .initfe callback table entry; unrecovered body traps"
-  },
-  {
-    "name": "_initialize_state_125a7",
-    "start": 274802087,
-    "end": 274802088,
-    "pending_extent": true,
-    "evidence": "actual .initfe callback table entry; unrecovered body traps"
-  },
-  {
-    "name": "_initialize_state_125f6",
-    "start": 274802166,
-    "end": 274802167,
-    "pending_extent": true,
-    "evidence": "actual .initfe callback table entry; unrecovered body traps"
-  },
-  {
     "name": "_initialize_state_12645",
     "start": 274802245,
     "end": 274802246,
@@ -213,6 +178,41 @@
     "name": "_destroy_output_buffer_23932",
     "start": 274872626,
     "end": 274872627,
+    "pending_extent": true,
+    "evidence": "separate named pending body; entry identity only"
+  },
+  {
+    "name": "_destroy_output_buffer_2392b",
+    "start": 274872619,
+    "end": 274872620,
+    "pending_extent": true,
+    "evidence": "separate named pending body; entry identity only"
+  },
+  {
+    "name": "_destroy_output_buffer_23924",
+    "start": 274872612,
+    "end": 274872613,
+    "pending_extent": true,
+    "evidence": "separate named pending body; entry identity only"
+  },
+  {
+    "name": "_destroy_output_buffer_2391d",
+    "start": 274872605,
+    "end": 274872606,
+    "pending_extent": true,
+    "evidence": "separate named pending body; entry identity only"
+  },
+  {
+    "name": "_destroy_output_buffer_23916",
+    "start": 274872598,
+    "end": 274872599,
+    "pending_extent": true,
+    "evidence": "separate named pending body; entry identity only"
+  },
+  {
+    "name": "_destroy_output_buffer_238dd",
+    "start": 274872541,
+    "end": 274872542,
     "pending_extent": true,
     "evidence": "separate named pending body; entry identity only"
   }

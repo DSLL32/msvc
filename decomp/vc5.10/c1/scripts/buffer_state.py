@@ -8,7 +8,7 @@ FIELDS = {'data': (0, 0, 4), 'cursor': (4, 4, 4), 'capacity': (8, 8, 4),
           'stream': (20, 20, 4), 'good': (24, 24, 4), 'mode': (28, 28, 1),
           'file_descriptor': (0x120, 32, 4)}
 # Encountered constructor/object/destructor identities, not section contents.
-KNOWN = [(344120, 74670, 145728), (346944, 74787, 145721), (343744, 74866, 145714)]
+KNOWN = [(344120, 74670, 145728), (346944, 74787, 145721), (343744, 74866, 145714), (346408, 74945, 145707), (347632, 75024, 145700), (346104, 75103, 145693), (345792, 75182, 145686), (343440, 75261, 145629)]
 ZERO = {name: 0 for name in FIELDS}
 INITIALIZED = dict(ZERO, good=1, file_descriptor=-1)
 
