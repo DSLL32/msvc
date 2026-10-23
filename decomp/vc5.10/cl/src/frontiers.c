@@ -44,7 +44,7 @@ BOOL WINAPI console_control_handler(DWORD event)
 
 
 
-void read_response(char *name) { __asm int 3 }
+
 
 
 void option_conflict(unsigned id, Option *old, Option *replacement) { __asm int 3 }

@@ -1,0 +1,36 @@
+{
+  "id": "response-options-canonical-msvcrt-v1",
+  "case": "response-options",
+  "arguments": [
+    "/nologo",
+    "@options.rsp"
+  ],
+  "inputs": [
+    {
+      "name": "options.rsp",
+      "source": "cases/sources/options.rsp",
+      "bytes": 68,
+      "sha256": "bbf716113d47d6f5049231a1ef2a62e043d9a998ce70dd0fe5b5d774e114c326"
+    }
+  ],
+  "target_sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "state": {
+    "errno": 0,
+    "doserrno": 0,
+    "last_error": 0,
+    "x87_control_word": 639
+  },
+  "evidence": {
+    "path": "/root/.ai-tmp/msvc2/vc5.10/cl/response-options-initial/capture.json",
+    "sha256": "731887b5072d4d560b16a96104f6172a66fceb49a6715618d38a4fe026bbf59c"
+  },
+  "environment": {
+    "CL": null,
+    "_CL_": null,
+    "INCLUDE": "R:\\toolchains\\5.10\\include",
+    "TMP": ".",
+    "PATH": "R:\\toolchains\\5.10\\bin;C:\\windows\\system32;C:\\windows;C:\\windows\\system32\\wbem;C:\\windows\\system32\\WindowsPowershell\\v1.0"
+  },
+  "approval": "Existing captured-case host entry method, outside target graph. No target or API reseeding; unknowncase/profile denied."
+}

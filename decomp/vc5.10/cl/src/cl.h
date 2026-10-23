@@ -92,6 +92,7 @@ extern Option *unrecognized_options, *free_options;
 extern int source_count;
 extern int options_after_link, link_warning;
 extern int no_logo, echo_response, help_requested, show_commands;
+extern int response_depth, response_first_line;
 extern int debug_exceptions, error_count, output_produced, default_c_language;
 extern char *source_language, *image_name;
 extern int is_dll;

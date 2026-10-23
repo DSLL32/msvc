@@ -90,7 +90,8 @@
     "_cleanup_files",
     "_delete_temporary",
     "_next_jobs",
-    "_driver_exit"
+    "_driver_exit",
+    "_read_response"
   ],
   "driver": [
     {
@@ -470,10 +471,38 @@
     {
       "name": "_read_response",
       "start": 4206992,
-      "end": 4206993,
-      "pending_extent": true,
-      "state": "named INT3 frontier",
-      "native_symbol": "read_response"
+      "end": 4207404,
+      "pending_extent": false,
+      "state": "implemented; fresh response-file trial pending",
+      "native_symbol": "read_response",
+      "source": "src/arguments.c",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "name",
+            "type": "char *"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete412B body reads sole caller-stack name; EBX/EBP/ESI/EDI assigned internally before use."
+      },
+      "input_observation": {
+        "kind": "actual matching named entry",
+        "original": "/root/.ai-tmp/msvc2/vc5.10/cl/response-options-initial",
+        "native": "/root/.ai-tmp/msvc2/vc5.10/cl/response-options-initial-native",
+        "scope": "Actual name string options.rsp, sole stackformal and no hidden inputs."
+      },
+      "evidence": {
+        "kind": "complete412-byte response parser",
+        "range": [
+          "0x403190",
+          "0x40332c"
+        ],
+        "behavior": "Bounded recursion13, text fopen/ftell/fgets/fseek growth, source-line echo, ordinary argument split/parse/free, EOF/error discrimination and close/depth cleanup. Encountered scalar initializers0 and1 from original exact data DWORDs."
+      }
     },
     {
       "name": "_classify_input",

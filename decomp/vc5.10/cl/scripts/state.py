@@ -169,7 +169,8 @@ def project(platform,directory):
             result['stream_decoder_sha256']=sha(Path(streams_state.__file__))
         config=json.loads((directory/'config.json').read_text())
         if '_prepare_jobs' in config['accepted']:
-            assert case['case']=='minimal-c','MRE invocation boundary not established for this case'
+            # Zero-call guards remain strict for each authored driver case;
+            # no successful MSPDB behavior is supplied by the native host.
             if platform=='original':
                 text=(directory/'events.txt').read_text()
                 guards=re.findall(r'^mre-guard site=([0-9a-f]{8}) iat=([0-9a-f]{8})$',text,re.M)

@@ -42,6 +42,10 @@ int __wrap_main(int argc, char **argv, char **envp)
         argc == 4 && !strcmp(argv[1],"/nologo") &&
         !strcmp(argv[2],"/c") && !strcmp(argv[3],"test.c"))
         entry_error = 0;
+    else if (profile && !strcmp(profile,"response-options-canonical-msvcrt-v1") &&
+        argc == 3 && !strcmp(argv[1],"/nologo") &&
+        !strcmp(argv[2],"@options.rsp"))
+        entry_error = 0;
     else
         recon_unsupported("unknown CL native entry profile");
     envp = cl_dependency_bind_entry(argc, argv, envp);

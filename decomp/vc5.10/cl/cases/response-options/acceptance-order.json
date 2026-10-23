@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "case": "response-options",
+  "entries": [
+    {
+      "order": 1,
+      "candidate": "_read_response",
+      "class": "application",
+      "extent_bytes": 412,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/read-response-1/pair.json",
+        "sha256": "9881d1fb01735e77706b890f6db32e06c228e7835eb3d3d1f04535d008d5fbc1"
+      }
+    }
+  ]
+}

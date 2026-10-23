@@ -476,3 +476,59 @@ char *append_text(char *out, const char *text)
         strcpy(out, text);
     return out + strlen(out);
 }
+
+/* 00403190..0040332c: response text is reparsed as ordinary driver arguments.
+ * Initial scalar values are the encountered DWORDs at00409680/00409034. */
+int response_depth;
+int response_first_line = 1;
+void read_response(char *name)
+{
+    FILE *file;
+    char *line, **args;
+    int capacity = 1024;
+    int length;
+    long position;
+    if (++response_depth > 13)
+        fatal(2035, name);
+    file = fopen(name, "r");
+    if (!file)
+        fatal(2022, name);
+    line = allocate(capacity);
+    for (;;) {
+        position = ftell(file);
+        if (!fgets(line, capacity, file))
+            break;
+        for (;;) {
+            length = strlen(line);
+            if (length != capacity - 1 || line[length - 1] == '\n')
+                break;
+            fseek(file, position, SEEK_SET);
+            capacity += capacity;
+            if (capacity <= 0)
+                fatal(2034, name);
+            release(line);
+            line = allocate(capacity);
+            if (!fgets(line, capacity, file))
+                fatal(2034, name);
+        }
+        if (line[length - 1] == '\n')
+            line[length - 1] = 0;
+        if (!no_logo) {
+            write_message(2, response_first_line ? "cl " : "   ");
+            write_message(2, "%s\n", line);
+            response_first_line = 0;
+            echo_response = 1;
+        }
+        args = split_arguments(line, 1);
+        if (args) {
+            parse_arguments(args, count_arguments(args));
+            release(args[0]);
+            release(args);
+        }
+    }
+    if (!(file->_flag & _IOEOF))
+        fatal(2034, name);
+    fclose(file);
+    release(line);
+    --response_depth;
+}

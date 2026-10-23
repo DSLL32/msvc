@@ -1,0 +1,87 @@
+{
+  "case": "response-options",
+  "state": "read-response-accepted",
+  "checkpoint": "Full412-byte response parser accepted; genuine configure_assembly Option* entry matches",
+  "accepted_application_functions": 79,
+  "accepted_application_extent_bytes": 14884,
+  "whole_text_virtual_bytes": 19062,
+  "whole_text_extent_percent": 78.08204805371945,
+  "non_crt_denominator": "not fully classified",
+  "support": {
+    "records": 15,
+    "extent_bytes": 476,
+    "application_credit": false
+  },
+  "proofs": [
+    {
+      "candidate": "_read_response",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/read-response-1/pair.json",
+        "sha256": "9881d1fb01735e77706b890f6db32e06c228e7835eb3d3d1f04535d008d5fbc1"
+      },
+      "extent_bytes": 412,
+      "seconds": {
+        "original": 0.8107564719393849,
+        "native_gdb": 0.2442808784544468,
+        "audit": 0.5659660631790757,
+        "parallel_build": 2.1815725173801184
+      },
+      "affected_negative_controls": 16
+    }
+  ],
+  "next_frontier": {
+    "name": "configure_assembly",
+    "formal": "Option *option",
+    "actual_value": "2M a",
+    "actual_option_name": "bA",
+    "origin": "Fa=response.asm",
+    "hidden_inputs": "No incoming register formal; fullbody initializes working registers before use."
+  },
+  "remaining_queue": [
+    "configure_assembly and pass/default/DLL option handlers, actual next frontier order",
+    "warning/fatal/usage diagnostics"
+  ],
+  "cached_native_regressions": {
+    "passed": true,
+    "cases": [
+      {
+        "schema": 1,
+        "case": "help",
+        "passed": true,
+        "full_dword_status": 0,
+        "application_entries": 50,
+        "stdout_bytes": 3976,
+        "stderr_bytes": 141,
+        "mktemp_calls": 1,
+        "native_sha256": "e58d46d12f8de1e71d268b0350254b2a9ae7d4516f16e2a1ab7b7c6f303fc111",
+        "seconds": {
+          "build": 0.005322183482348919,
+          "setup": 0.0017258226871490479,
+          "execution": 0.003839392215013504,
+          "checks": 0.0006412630900740623,
+          "total": 0.023840208537876606
+        }
+      },
+      {
+        "case": "minimal-c",
+        "passed": true,
+        "mode": "cached native regression; fresh GDB proof separate",
+        "application_entries": 75,
+        "status": 0,
+        "object_bytes": 275,
+        "C1_calls": 1,
+        "C2_calls": 1,
+        "mktemp_calls": 1,
+        "native_sha256": "e58d46d12f8de1e71d268b0350254b2a9ae7d4516f16e2a1ab7b7c6f303fc111",
+        "held_trial": false,
+        "seconds": {
+          "setup": 0.7622898137196898,
+          "execution": 0.06439992226660252,
+          "checks": 0.34977173153311014,
+          "total": 1.1764923930168152
+        }
+      }
+    ],
+    "total_seconds": 1.3881725892424583
+  }
+}
