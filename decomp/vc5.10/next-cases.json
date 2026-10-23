@@ -55,10 +55,16 @@
     {
       "binary": "cvtres",
       "agent": "/root/vc510_orchestrator/cvtres",
-      "next_case": "resources-rich-coff",
-      "case": "Convert the shared rich-resource .res to COFF with verified machine/read-only/output options.",
-      "contract": "Reuse immutable fresh original RC .res and producer provenance owned by RCDLL worker.",
-      "source_policy": "VC1 counterparts seed source/themes only; all references and intermediate inputs must be actual VC5.10 evidence."
+      "next_case": "resources-rich-ce",
+      "case": "Convert the same verified resource input to ARM/Windows CE COFF, exercising the observed 24bpp-to-2bpp bitmap conversion.",
+      "contract": "The separate original ARM/Windows CE reference is validated; preserve the completed x86 native regression and accept only fresh matching candidate evidence.",
+      "source_policy": "VC1 counterparts seed source/themes only; all references and intermediate inputs must be actual VC5.10 evidence.",
+      "completed_cases": [
+        "help",
+        "resources-rich"
+      ],
+      "completed_case_proof": "cvtres/cases/resources-rich/completion.json",
+      "completed_case_commit": "6b6235e3"
     },
     {
       "binary": "link",

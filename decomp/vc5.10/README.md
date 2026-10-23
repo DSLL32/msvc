@@ -120,8 +120,8 @@ entry, invocation and detach in order, plus complete pre-C2 intermediate files.
 C1 receives 27 arguments and Boolean 1 for this case. C2 receives only argv[0];
 its actual options arrive in `MSC_CMD_FLAGS`, whose exact bytes were captured.
 LINK help is also verified (DWORD status 1100, 1,430 stdout bytes). The rich-resource original conversion produces a deterministic 5,080-byte COFF
-object; its reconstructed path has now completed and is receiving final fixture
-verification. Real C/C++ compilation and debug-DLL packing are under
+object; its reconstructed path and cached native fixtures have passed independent
+verification. CVTRES now continues the validated ARM/Windows CE bitmap case. Real C/C++ compilation and debug-DLL packing are under
 reconstruction. Linked output and further dependency contracts still need
 case-specific acceptance.
 Shared Wine startup hangs interrupted those
