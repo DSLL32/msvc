@@ -371,7 +371,7 @@ int main(int argc,char **argv)
             threads[threads_count]=event.u.CreateProcessInfo.hThread;
             thread_tebs[threads_count]=(DWORD)event.u.CreateProcessInfo.lpThreadLocalBase;
             thread_ids[threads_count++]=event.dwThreadId;
-            dependency_install();
+            dependency_install(stop_at_trap);
             fprintf(events,"create event=%lu base=%08lx entry=%08lx\n",event_number,
                 target_base,(DWORD)event.u.CreateProcessInfo.lpStartAddress);
             save_file(event.u.CreateProcessInfo.hFile,"loaded-target.bin");
@@ -646,7 +646,7 @@ int main(int argc,char **argv)
             }
             fclose(events);fclose(trace);if (mktemp_events) fclose(mktemp_events);if (resource_events) fclose(resource_events);CloseHandle(out);CloseHandle(err);CloseHandle(input);
             ContinueDebugEvent(event.dwProcessId,event.dwThreadId,status);
-            return event.u.ExitProcess.dwExitCode==0x7001 || (dependency_analysis && event.u.ExitProcess.dwExitCode==0x7003) ? 0:event.u.ExitProcess.dwExitCode;
+            return event.u.ExitProcess.dwExitCode==0x7001 || (dependency_analysis && !dependency_response && event.u.ExitProcess.dwExitCode==0x7003) ? 0:event.u.ExitProcess.dwExitCode;
         }
         ContinueDebugEvent(event.dwProcessId,event.dwThreadId,status);
     }

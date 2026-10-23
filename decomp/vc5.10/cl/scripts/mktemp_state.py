@@ -81,6 +81,10 @@ def original(directory):
     if (directory/'dependency-observer.inc').exists():
         assert capture['helper_sources']['dependency-observer.inc']==sha((directory/'dependency-observer.inc').read_bytes())
         controls|={'dependency-observer.inc'}
+    if capture.get('dependency_response'):
+        assert capture['baseline'] is False and not capture['dependency_analysis']
+        assert (directory/'dependency-observer.txt').read_bytes()==b'CL_DEPENDENCY_RESPONSE_V1\n'
+        controls|={'dependency-observer.txt'}
     if (directory/'dependency-inputs.json').exists():
         from case_inputs import verify_dependencies
         proof=verify_dependencies(directory)

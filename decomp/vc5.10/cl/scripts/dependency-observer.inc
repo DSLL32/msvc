@@ -1,6 +1,7 @@
 /* Original-only analysis observer; no native fixture includes or invokes it. */
 static int dependency_analysis;
 static int dependency_complete;
+static int dependency_response;
 static FILE *dependency_events;
 static DWORD dependency_argv,dependency_pass,dependency_c1,dependency_c1_entry;
 static BYTE dependency_c1_entry_byte;
@@ -12,6 +13,7 @@ static BYTE dependency_bytes[] = {0xff,0xff,0xff,0xff,0xff,0xff,0xff};
 static BYTE dependency_after_bytes[7];
 static DWORD dependency_lengths[] = {6,2,2,3,6,6,6};
 static int dependency_pending[7];
+static int dependency_installed[7];
 
 static void dependency_save(const char *phase,const char *kind,const void *data,DWORD size)
 {
@@ -140,20 +142,26 @@ static void dependency_copy_ir(const char *folder)
     } while (FindNextFileA(search,&found));
     FindClose(search);fflush(dependency_events);
 }
-static void dependency_install(void)
+static void dependency_install(int masked)
 {
     unsigned i;BYTE call[6];char path[MAX_PATH],line[128];FILE *file;
     output_path(path,"dependency-observer.txt");file=fopen(path,"rb");if (!file) return;
     if (!fgets(line,sizeof(line),file)) ExitProcess(94);
-    if (!strcmp(line,"CL_DEPENDENCY_ANALYSIS_V2_COMPLETE\n")) dependency_complete=1;
+    if (!strcmp(line,"CL_DEPENDENCY_RESPONSE_V1\n")) { dependency_response=1;dependency_complete=1; }
+    else if (!strcmp(line,"CL_DEPENDENCY_ANALYSIS_V2_COMPLETE\n")) dependency_complete=1;
     else if (strcmp(line,"CL_DEPENDENCY_ANALYSIS_V1\n")) ExitProcess(94);
+    if (!!masked!=!!dependency_response) ExitProcess(110);
     fclose(file);dependency_analysis=1;output_path(path,"observer");CreateDirectoryA(path,NULL);
     output_path(path,"observer\\events.txt");dependency_events=fopen(path,"wb");if (!dependency_events) ExitProcess(95);
     for (i=0;i<(dependency_complete?7U:6U);++i) {
         memory(target_base+dependency_sites[i],call,dependency_lengths[i]);
+        /* A fresh masked trial must never restore an unaccepted helper body.
+         * In particular unload_pass can still be the next named frontier. */
+        if (dependency_response && call[0]==0xcc) continue;
         if (call[0]!=0xff || (i==1 || i==2 ? call[1]!=0xd7 : i==3 ? call[1]!=0x56 || call[2]!=0x18 : call[1]!=0x15)) ExitProcess(96);
         memory(target_base+dependency_sites[i]+dependency_lengths[i],dependency_after_bytes+i,1);
         patch_byte(target_base+dependency_sites[i],0xcc);
+        dependency_installed[i]=1;
     }
 }
 static void dependency_loaded(DWORD base,HANDLE file,IMAGE_NT_HEADERS *nt)
@@ -173,7 +181,7 @@ static int dependency_point(DWORD address)
     if (!dependency_analysis) return -1;
     if (address==dependency_c1_entry) return 7;
     for (i=0;i<(dependency_complete?7U:6U);++i)
-        if (address==target_base+dependency_sites[i] || (dependency_pending[i] && address==target_base+dependency_sites[i]+dependency_lengths[i])) return i;
+        if (dependency_installed[i] && (address==target_base+dependency_sites[i] || (dependency_pending[i] && address==target_base+dependency_sites[i]+dependency_lengths[i]))) return i;
     return -1;
 }
 static void dependency_trap(int point,DWORD address,DWORD teb,DWORD tid,CONTEXT *context,HANDLE input,HANDLE out,HANDLE err)

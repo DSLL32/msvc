@@ -47,6 +47,11 @@ def checked_file(entry):
 def reconstruction_capture(capture):
     assert capture.get('baseline') is False and not capture.get('dependency_analysis'), 'analysis/reference baseline cannot be used as fresh reconstruction acceptance'
     assert capture['controller_error'] is None and capture['helper_status'] == 0, 'original capture did not succeed'
+    if capture.get('dependency_response'):
+        assert capture['case']=='minimal-c' and not capture.get('dependency_complete'), 'ambiguous dependency response mode'
+        marker=b'CL_DEPENDENCY_RESPONSE_V1\n'
+        assert capture['files']['dependency-observer.txt']=={'sha256':hashlib.sha256(marker).hexdigest(),'bytes':len(marker)}, 'missing or different actual response request'
+        assert capture['command'][-2]=='1', 'response original was not launched as a masked trial'
 
 
 def observation(entry,trial,expected):

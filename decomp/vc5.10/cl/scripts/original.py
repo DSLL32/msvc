@@ -22,11 +22,22 @@ wt=importlib.util.module_from_spec(spec);spec.loader.exec_module(wt)
 sha=lambda data:hashlib.sha256(data).hexdigest()
 
 
-def capture(label,config_path,baseline=False,case_name='help',dependency_analysis=False,dependency_complete=False):
+def dependency_mode(config,baseline,case_name,analysis,complete,response):
+    assert not response or (not baseline and not analysis and not complete and case_name=='minimal-c'), 'response mode requires a separate masked minimal-C trial'
+    assert not response or '_execute_pass' in config['accepted'], 'response mode cannot patch an unaccepted dispatcher'
+    assert not analysis or (baseline and case_name=='minimal-c'), 'dependency analysis requires explicit original-only minimal-C baseline'
+    assert not complete or analysis, 'complete dependency observation requires explicit analysis mode'
+    if response:return 'CL_DEPENDENCY_RESPONSE_V1\n'
+    if analysis:return 'CL_DEPENDENCY_ANALYSIS_V2_COMPLETE\n'if complete else'CL_DEPENDENCY_ANALYSIS_V1\n'
+    return None
+
+
+def capture(label,config_path,baseline=False,case_name='help',dependency_analysis=False,dependency_complete=False,dependency_response=False):
     assert not dependency_analysis or (baseline and case_name=='minimal-c'),'dependency analysis requires explicit original-only minimal-C baseline'
     assert not dependency_complete or dependency_analysis,'complete dependency observation requires explicit analysis mode'
     start=time.perf_counter()
     config=json.loads(config_path.read_text())
+    mode=dependency_mode(config,baseline,case_name,dependency_analysis,dependency_complete,dependency_response)
     target=ROOT/config['target']['path']
     assert sha(target.read_bytes())==config['target']['sha256']
     paired={key:sha((PROJECT/path).read_bytes()) for key,path in {
@@ -48,8 +59,8 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
     image=target.read_bytes() if baseline else construct(config)
     (directory/'CL.EXE').write_bytes(image)
     (directory/'config.json').write_bytes(config_path.read_bytes())
-    if dependency_analysis:
-        (directory/'dependency-observer.txt').write_text('CL_DEPENDENCY_ANALYSIS_V2_COMPLETE\n'if dependency_complete else'CL_DEPENDENCY_ANALYSIS_V1\n')
+    if mode:
+        (directory/'dependency-observer.txt').write_text(mode)
     if not baseline or dependency_analysis:
         from binary import PE
         pe=PE(target)
@@ -108,7 +119,8 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
     (directory/'helper.stdout').write_bytes(result.stdout)
     (directory/'helper.stderr').write_bytes(result.stderr)
     loaded=directory/'loaded-msvcrt.bin'
-    receipt={'schema':1,'controller_error':controller_error,**case,'baseline':baseline,'dependency_analysis':dependency_analysis,'dependency_complete':dependency_complete,
+    captured_paths=directory.rglob('*')if dependency_response else directory.iterdir()
+    receipt={'schema':1,'controller_error':controller_error,**case,'baseline':baseline,'dependency_analysis':dependency_analysis,'dependency_complete':dependency_complete,'dependency_response':dependency_response,
         'target_sha256':sha(target.read_bytes()),'config_sha256':sha(config_path.read_bytes()),
         'original_mask_sha256':sha(image),'helper_status':result.returncode,
         'loaded_msvcrt_sha256':sha(loaded.read_bytes()) if loaded.exists() else None,
@@ -120,7 +132,7 @@ def capture(label,config_path,baseline=False,case_name='help',dependency_analysi
         'controller_source':controller_source,'helper_source':helper_source,
         'command':command,'environment':{k:env[k] for k in ('WINEPREFIX','WINEDLLOVERRIDES','INCLUDE','LIB','WINEPATH','TMP','TEMP')},
         'timing':{'setup_seconds':setup,'reference_execution_seconds':run_time},
-        'files':{p.name:{'sha256':sha(p.read_bytes()),'bytes':p.stat().st_size} for p in directory.iterdir() if p.is_file()}}
+        'files':{p.relative_to(directory).as_posix():{'sha256':sha(p.read_bytes()),'bytes':p.stat().st_size} for p in captured_paths if p.is_file()}}
     (directory/'capture.json').write_text(json.dumps(receipt,indent=2)+'\n')
     print(json.dumps({'path':str(directory),'status':result.returncode,'loaded_msvcrt_sha256':receipt['loaded_msvcrt_sha256'],'timing':receipt['timing']}),flush=True)
     assert controller_error is None,'original decoder failed; raw evidence preserved: '+str(controller_error)
@@ -140,4 +152,5 @@ if __name__=='__main__':
     parser.add_argument('--case',default='help')
     parser.add_argument('--dependency-analysis',action='store_true',help='Explicit original-only loader/Invoke observation, stopping before C2')
     parser.add_argument('--dependency-complete',action='store_true',help='Also observe both putenv calls, actual C2 return and normal CL exit')
-    args=parser.parse_args();capture(args.label,args.config,args.baseline,args.case,args.dependency_analysis,args.dependency_complete)
+    parser.add_argument('--dependency-response',action='store_true',help='Observe dependencies during a fresh masked candidate trial, preserving its real next frontier')
+    args=parser.parse_args();capture(args.label,args.config,args.baseline,args.case,args.dependency_analysis,args.dependency_complete,args.dependency_response)

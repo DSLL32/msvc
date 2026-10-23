@@ -1185,7 +1185,22 @@
       "start": 4216044,
       "end": 4216045,
       "pending_extent": true,
-      "state": "named INT3 frontier"
+      "state": "named INT3 frontier",
+      "abi": {
+        "calling_convention": "cdecl",
+        "return": "void",
+        "stack_arguments": [
+          {
+            "name": "pass",
+            "type": "CompilerPass *",
+            "reads": "module at+20; later clears module/invoke/abort fields"
+          }
+        ],
+        "hidden_register_arguments": [],
+        "callee_stack_cleanup": 0,
+        "evidence": "Complete33-byte original body4054ec..40550d loads sole stack argument before use; ESI is saved/restored, no register input read before assignment."
+      },
+      "input_observation": "Not yet reached as masked frontier. Full module/export aliases, active pass, errors/locale/FILE state decoder and fresh proof required before any promotion."
     }
   ],
   "runtime": [
