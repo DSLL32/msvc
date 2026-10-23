@@ -601,7 +601,7 @@ unsigned __stdcall decode_literal_escape(unsigned char character, int wide) { __
 IrToken *__stdcall pure_virtual_table_expression(CppSymbol *function) { __asm { int 3 } return 0; }
 
 
-void write_ir_integer(int *value) { __asm { int 3 } }
+
 
 unsigned __stdcall initializer_address_size(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void write_ir_short(short *value) { __asm { int 3 } }

@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 999,
+  "accepted": "_write_ir_integer",
+  "terminal": "_write_counted_ir",
+  "original_capture": "cases/frontiers/state_machine_debug/0999-write_ir_integer/original-receipt.json",
+  "original_capture_sha256": "1f71c158e50821f2315974fc7d0cf9742520101ef1de2d291da0660ac83181b1",
+  "original_events": "cases/frontiers/state_machine_debug/0999-write_ir_integer/original-events.txt",
+  "original_events_sha256": "9530b3b1bf842ec5a249704121aa2a23bfd4c15b3d5692f8457af60ebd5c3e0d",
+  "original_configuration": "cases/frontiers/state_machine_debug/0999-write_ir_integer/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

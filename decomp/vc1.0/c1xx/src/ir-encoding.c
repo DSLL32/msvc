@@ -26,3 +26,17 @@ void write_ir_filename(char *text)
         putc((signed char)*text, auxiliary_ir_stream);
     } while (*text++);
 }
+
+/* Original 0x73fb0..0x7410b. Signed values -127..127 occupy one
+   byte; the reserved 0x80 prefix introduces all four little-endian bytes. */
+void write_ir_integer(int *value)
+{
+    char *bytes = (char *)value;
+    unsigned index;
+    if (*value >= -127 && *value <= 127) putc(*bytes, auxiliary_ir_stream);
+    else {
+        putc(0x80, auxiliary_ir_stream);
+        for (index = 0; index < sizeof(int); ++index)
+            putc(bytes[index], auxiliary_ir_stream);
+    }
+}

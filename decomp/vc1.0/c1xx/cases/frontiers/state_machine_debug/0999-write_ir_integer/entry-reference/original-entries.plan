@@ -1,0 +1,3 @@
+5d660 83 _begin_debug_info
+604a0 83 _write_debug_record
+63fb0 56 _write_ir_integer

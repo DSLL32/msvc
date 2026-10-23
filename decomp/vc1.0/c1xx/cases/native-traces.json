@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "cb58ba59b7168be7a9f1bba88550e8e76666324341222316f9e6e88c07cad736",
+    "functions.json": "38fc2bda5f5c64791ccc2fb39217637921cef08487d766c8398a4d4cfcada9bb",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "c2aaf9da3baafdd388940ce933d0d649610db09d10076a31773931d7021e85d0",
-    "cases/canonical-map.txt": "a1e341ef8213d4ac23a9bf063561256d44ad71ff4f1db4ef5a82b27b1ce77152",
+    "cases/original-entry-references.json": "8ab26b5b91bff05d3c9336f93d7abd8cdf6fe86a1d04ef684e904b77587b0a07",
+    "cases/canonical-map.txt": "eebd8fdfc75dcf2f806bbd37129e90c2697a7697a8c74bd2273043a9ddd01f9d",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/0998-write_debug_record/entry-reference/original-receipt.json": "0a21b2409524b7d30c66477cc3f48d585ecbcaa9812e7d081e9818c4519721e8",
-    "cases/frontiers/state_machine_debug/0998-write_debug_record/entry-reference/original-events.txt": "ed4def1590bbc740aece6f14f7775a8be4b5c9b2e091c08498c1c856fdccfbdc",
-    "cases/frontiers/state_machine_debug/0998-write_debug_record/entry-reference/original-entries.plan": "78f2277fe17b4b79a28d5f07331b7475a66fb232e399e83de1cf4aa19d595829"
+    "cases/frontiers/state_machine_debug/0999-write_ir_integer/entry-reference/original-receipt.json": "1f71c158e50821f2315974fc7d0cf9742520101ef1de2d291da0660ac83181b1",
+    "cases/frontiers/state_machine_debug/0999-write_ir_integer/entry-reference/original-events.txt": "9530b3b1bf842ec5a249704121aa2a23bfd4c15b3d5692f8457af60ebd5c3e0d",
+    "cases/frontiers/state_machine_debug/0999-write_ir_integer/entry-reference/original-entries.plan": "a18dad1a134f75bb6e5f8f5ed7bcff27aeff5ad1460785691be1768ae17ab416"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -5209,7 +5209,7 @@
     },
     "write_ir_integer": {
       "logical": "_write_ir_integer",
-      "source": "src/stubs.c"
+      "source": "src/ir-encoding.c"
     },
     "write_ir_record": {
       "logical": "_write_ir_record@8",
@@ -6149,7 +6149,8 @@
     "has_single_function",
     "emit_vector_deleting_destructor_body",
     "begin_debug_info",
-    "write_debug_record"
+    "write_debug_record",
+    "write_ir_integer"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10261,7 +10262,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 999,
+      "last": 1000,
       "seen": [
         "main",
         "message_text",
@@ -11170,12 +11171,13 @@
       "expected": [
         "begin_debug_info",
         "write_debug_record",
-        "write_ir_integer"
+        "write_ir_integer",
+        "write_counted_ir"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_write_ir_integer",
-        "native": "write_ir_integer",
+        "logical": "_write_counted_ir",
+        "native": "write_counted_ir",
         "signal": 5
       }
     }
