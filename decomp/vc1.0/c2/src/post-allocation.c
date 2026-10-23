@@ -259,3 +259,17 @@ void __fastcall remember_physical_copy(PhysicalRegisterCopy **copies, MachineIns
     copy->next = *copies;
     *copies = copy;
 }
+
+/* Original [0002f110,0002f16d). Compare ESP-relative copies after
+   accounting for stack movement in the open instruction interval. */
+int __fastcall equivalent_stack_copy_operands(MachineInstruction *first, MachineOperand *first_operand,
+    MachineInstruction *last, MachineOperand *last_operand)
+{
+    unsigned kind = first_operand->flags & 15, displacement;
+    if ((kind != OPERAND_BASED && kind != OPERAND_INDEXED) ||
+        first_operand->value.address->base.words.number != REG_ESP ||
+        !same_machine_operand_base(first_operand, last_operand)) return 0;
+    displacement = (unsigned)last_operand->value.address->first.displacement -
+        stack_adjustment_between(first, last);
+    return displacement == (unsigned)first_operand->value.address->first.displacement;
+}

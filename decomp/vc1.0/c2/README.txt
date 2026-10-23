@@ -2083,3 +2083,14 @@ Native/original now agree at equivalent_stack_copy_operands2f110 in post-allocat
 finishing.749 graph/extent checks, canonical/W3 and native fixtures pass. Nested
 invariance, increment recognition and all virtual exit branches are not claimed
 covered. Full hello object incomplete; see cases/hello-region-register-analysis.json.
+
+Scheduling memory frontier: checkpoint831
+------------------------------------------
+ESP-copy equivalence and operand-base identity are recovered as distinct
+functions; the current candidate rejects before the still-trapped stack-delta
+helper. Pentium memory-dependence checking owns two typed scratch operands and
+uses a destination-first assignment helper distinct from the existing source-
+first copier. Native/original agree at compare_scheduled_memory3c000 for two
+four-byte accesses.753 graph/extent checks, canonical/three modules-W3 and
+native fixtures pass. Comparison result/ambiguous-address branches remain
+unrecovered. Full hello object incomplete; see cases/hello-scheduler-memory-frontier.json.

@@ -136,4 +136,7 @@ void __fastcall schedule_pentium_branch_edge(MachineInstruction *branch, Machine
 int __fastcall pair_pentium_fallthrough_jump(MachineInstruction *jump, MachineInstruction **middle);
 int __fastcall pair_pentium_taken_edge(MachineInstruction *branch, MachineInstruction **middle, MachineInstruction *label, int *changed);
 void __fastcall redirect_pentium_branch_labels(MachineInstruction *branch, MachineInstruction *middle);
+void __fastcall assign_machine_operand(MachineOperand *destination, MachineOperand *source);
+int __fastcall scheduled_address_changed_between(MachineInstruction *first, MachineInstruction *last,
+    MachineOperand *operand, int forward);
 #endif

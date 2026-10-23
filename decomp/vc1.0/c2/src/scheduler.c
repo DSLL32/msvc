@@ -1730,3 +1730,37 @@ void __fastcall set_scheduler_register_tracking(int enabled)
 {
     scheduler_track_registers = enabled;
 }
+
+/* Original0007e298..0007e2a8: two owned operand copies for dependence
+   comparison, with independently cloned address payloads. */
+static MachineOperand scheduled_overlap_left, scheduled_overlap_right;
+/* Original [00041f30,0004206b). Resolve each recorded memory location,
+   compare its byte range, and for an ambiguous equality additionally check
+   the scheduling path for address-register changes. */
+int __fastcall scheduled_memory_overlap(SchedulerMemoryAccess *first, SchedulerMemoryAccess *last, int forward)
+{
+    int relation = 0, result;
+    if (first->instruction == last->instruction) return 0;
+    scheduled_overlap_left.flags = scheduled_overlap_left.value.constant = 0;
+    scheduled_overlap_right.flags = scheduled_overlap_right.value.constant = 0;
+    assign_machine_operand(&scheduled_overlap_left, first->operand);
+    if (!scheduled_overlap_left.value.address->symbol)
+        scheduled_overlap_left.value.address->symbol = first->symbol;
+    scheduled_overlap_left.value.address->first.displacement = (long)
+        ((unsigned)scheduled_overlap_left.value.address->first.displacement + (unsigned)first->displacement);
+    assign_machine_operand(&scheduled_overlap_right, last->operand);
+    if (!scheduled_overlap_right.value.address->symbol)
+        scheduled_overlap_right.value.address->symbol = last->symbol;
+    scheduled_overlap_right.value.address->first.displacement = (long)
+        ((unsigned)scheduled_overlap_right.value.address->first.displacement + (unsigned)last->displacement);
+    result = compare_scheduled_memory(&scheduled_overlap_left, (unsigned char)first->width,
+        &scheduled_overlap_right, (unsigned char)last->width, 1, 1, &relation, first, last);
+    release_operand_address(&scheduled_overlap_left);
+    release_operand_address(&scheduled_overlap_right);
+    if (result == 1) return 1;
+    if (relation == 1) {
+        if (forward == 2) return 1;
+        return !scheduled_address_changed_between(first->instruction, last->instruction, first->operand, forward);
+    }
+    return 0;
+}

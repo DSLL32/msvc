@@ -1,6 +1,6 @@
 C2 ACTIVE: finish /O2 /G5 hello, then cases/queue.json optimizer stress.
-Verified827 acceptances/749 source graphs; matching equivalent_stack_copy_operands2f110.
-WinMain region analysis passed; post-allocation stack-copy finishing active.
-Extent union227073/399693=56.8118530973%, not branch coverage.
+Verified831 acceptances/753 source graphs; matching compare_scheduled_memory3c000.
+WinMain post-allocation finishing passed to Pentium memory-dependence scheduling.
+Extent union227747/399693=56.9804825203%, not branch coverage.
 Canonical/W3, audit and native fixtures pass; full hello incomplete.
-See cases/hello-region-register-analysis.json. No shared shim requests.
+See cases/hello-scheduler-memory-frontier.json. No shared shim requests.

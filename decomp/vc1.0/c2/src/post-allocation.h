@@ -21,4 +21,6 @@ int __fastcall equivalent_stack_copy_operands(MachineInstruction *first, Machine
     MachineInstruction *last, MachineOperand *last_operand);
 int __fastcall stack_copy_operand_changed(MachineInstruction *first, MachineInstruction *last,
     MachineOperand *operand, unsigned bytes);
+int __fastcall same_machine_operand_base(MachineOperand *left, MachineOperand *right);
+unsigned __fastcall stack_adjustment_between(MachineInstruction *first, MachineInstruction *last);
 #endif

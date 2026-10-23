@@ -389,7 +389,6 @@ int __fastcall choose_memory_split_register(MachineInstruction *instruction, uns
 int __fastcall operand_value_depends_on_color(MachineOperand *operand, unsigned short color) { __asm int 3 }
 
 
-int __fastcall equivalent_stack_copy_operands(MachineInstruction *first, MachineOperand *first_operand, MachineInstruction *last, MachineOperand *last_operand) { __asm int 3 }
 int __fastcall stack_copy_operand_changed(MachineInstruction *first, MachineInstruction *last, MachineOperand *operand, unsigned bytes) { __asm int 3 }
 void __fastcall retarget_comparison_branch(MachineInstruction *target, MachineInstruction *branch, MachineInstruction *load, int mode) { __asm int 3 }
 void __fastcall register_machine_label(MachineInstruction *instruction) { __asm int 3 }
@@ -402,7 +401,6 @@ void __fastcall remove_scheduled_float_exchange(MachineInstruction *instruction)
 int __fastcall instruction_float_not_ready(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall apply_scheduled_float(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall scheduled_float_conflict(MachineInstruction *first, MachineInstruction *last, int *adjustment) { __asm int 3 }
-int __fastcall scheduled_memory_overlap(SchedulerMemoryAccess *first, SchedulerMemoryAccess *last, int forward) { __asm int 3 }
 int __fastcall compare_scheduled_memory(MachineOperand *left, unsigned left_bytes, MachineOperand *right, unsigned right_bytes, int mode, int conservative, int *relation, SchedulerMemoryAccess *left_memory, SchedulerMemoryAccess *right_memory) { __asm int 3 }
 int __fastcall scheduled_float_latency(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall scheduler_instruction_cycles(MachineInstruction *instruction) { __asm int 3 }
@@ -469,3 +467,6 @@ void __fastcall emit_explicit_block_transfer(int fill, MachineOperand *source,
     MachineOperand *destination, unsigned short type, unsigned offset) { __asm int 3 }
 void __fastcall transform_machine_region_blocks(MachineFlowRegion *region) { __asm int 3 }
 int __fastcall instruction_precedes_region_entry(MachineInstruction *instruction) { __asm int 3 }
+unsigned __fastcall stack_adjustment_between(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
+int __fastcall scheduled_address_changed_between(MachineInstruction *first, MachineInstruction *last,
+    MachineOperand *operand, int forward) { __asm int 3 }

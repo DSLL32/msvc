@@ -831,7 +831,11 @@
     "@simplify_machine_region_operations@4",
     "@find_machine_region_register@12",
     "@register_is_invariant_in_regions@8",
-    "@register_dead_after_region@12"
+    "@register_dead_after_region@12",
+    "@equivalent_stack_copy_operands@16",
+    "@same_machine_operand_base@8",
+    "@scheduled_memory_overlap@12",
+    "@assign_machine_operand@8"
   ],
   "driver": [
     {
@@ -5561,8 +5565,7 @@
     {
       "name": "@equivalent_stack_copy_operands@16",
       "start": 192784,
-      "end": 192785,
-      "provisional": true
+      "end": 192877
     },
     {
       "name": "@stack_copy_operand_changed@16",
@@ -5863,8 +5866,7 @@
     {
       "name": "@scheduled_memory_overlap@12",
       "start": 270128,
-      "end": 270129,
-      "provisional": true
+      "end": 270443
     },
     {
       "name": "@scheduled_reads_first@4",
@@ -6467,6 +6469,28 @@
       "name": "@instruction_precedes_region_entry@4",
       "start": 298928,
       "end": 298929,
+      "provisional": true
+    },
+    {
+      "name": "@same_machine_operand_base@8",
+      "start": 307488,
+      "end": 307680
+    },
+    {
+      "name": "@stack_adjustment_between@8",
+      "start": 192880,
+      "end": 192881,
+      "provisional": true
+    },
+    {
+      "name": "@assign_machine_operand@8",
+      "start": 244512,
+      "end": 244586
+    },
+    {
+      "name": "@scheduled_address_changed_between@16",
+      "start": 270448,
+      "end": 270449,
       "provisional": true
     }
   ],

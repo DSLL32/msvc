@@ -156,3 +156,51 @@ unsigned __fastcall lookup_opcode(const OpcodeMap *map, unsigned opcode)
     compiler_internal_error("@(#)codegen.c:1.167", 0x8fa);
     return 0;
 }
+
+/* Original [0004b120,0004b1e0), including8 operand-kind dispatch words.
+   Compare operand identity apart from address displacement, retaining index
+   scale/segment bits only where the original indexed-address case tests them. */
+int __fastcall same_machine_operand_base(MachineOperand *left, MachineOperand *right)
+{
+    unsigned different = left->flags ^ right->flags;
+    if (different & 15) return 0;
+    switch (left->flags & 15) {
+    case OPERAND_REGISTER:
+        return left->value.reg.words.number == right->value.reg.words.number;
+    case OPERAND_IMMEDIATE:
+        return left->value.constant == right->value.constant;
+    case OPERAND_INDEXED:
+        if ((different & 0x300) ||
+            left->value.address->index.words.number != right->value.address->index.words.number)
+            return 0;
+        /* Fall through: indexed addresses also compare their base register. */
+    case OPERAND_BASED:
+        if (left->value.address->base.words.number != right->value.address->base.words.number)
+            return 0;
+        /* Fall through: all address forms compare the attached symbol. */
+    case OPERAND_ABSOLUTE:
+    case OPERAND_LABEL_ADDRESS:
+        return left->value.address->symbol == right->value.address->symbol;
+    case OPERAND_SYMBOL:
+        return left->value.symbol == right->value.symbol;
+    default:
+        return 0;
+    }
+}
+
+/* Original [0003bb20,0003bb6a). Unlike copy_machine_operand49f80, this
+   destination-first assignment releases the old owned address before cloning
+   the source. Address-bearing kinds are the encountered3..7 and12. */
+void __fastcall assign_machine_operand(MachineOperand *destination, MachineOperand *source)
+{
+    unsigned kind;
+    MachineAddress *address;
+    release_operand_address(destination);
+    *destination = *source;
+    kind = source->flags & 15;
+    if ((kind >= 3 && kind <= 7) || kind == 12) {
+        address = new_machine_address();
+        destination->value.address = address;
+        *address = *source->value.address;
+    }
+}

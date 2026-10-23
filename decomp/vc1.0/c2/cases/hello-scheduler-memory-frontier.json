@@ -1,0 +1,396 @@
+{
+  "checkpoint": 831,
+  "base_commit": "3f1cf3d",
+  "status": "active; stack-copy comparison passed; Pentium memory-dependence comparison next",
+  "accepted_functions": [
+    {
+      "name": "@equivalent_stack_copy_operands@16",
+      "start": 192784,
+      "end": 192877
+    },
+    {
+      "name": "@scheduled_memory_overlap@12",
+      "start": 270128,
+      "end": 270443
+    },
+    {
+      "name": "@same_machine_operand_base@8",
+      "start": 307488,
+      "end": 307680
+    },
+    {
+      "name": "@assign_machine_operand@8",
+      "start": 244512,
+      "end": 244586
+    }
+  ],
+  "source_graphs": 753,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 831,
+    "accepted_code_bytes": 227747,
+    "original_code_bytes": 399693,
+    "percentage": 56.980482520334355,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 301
+  },
+  "current_frontier": {
+    "name": "@compare_scheduled_memory@36",
+    "original_va": "0x3c000"
+  },
+  "validation": {
+    "canonical_build": "pass",
+    "W3": "post-allocation/machine-operands/scheduler clean",
+    "graph_extent_mask": "pass",
+    "native_fixtures": {
+      "method": "native application entry and captured-output check",
+      "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
+      "executable_sha256": "3874a0fcc5c4b27fa744387130e0fe375b1ed488123c66d8f9bd6dfc435abf96",
+      "trace_enabled": true,
+      "shared_hashes": {
+        "lib/recon/include/recon.h": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284",
+        "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+        "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+        "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+        "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+        "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+        "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+        "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+        "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+        "lib/recon/native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+        "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+        "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+        "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+        "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+        "lib/recon/src/crt.c": "1cf556f3771c59820a69a56c38e78cf95080d395f387f3e252d9be9dd100d8d3",
+        "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+        "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+        "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+        "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+        "lib/recon/src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+      },
+      "results": [
+        {
+          "profile": "minimal",
+          "terminal": "exit:0",
+          "returncode": 0,
+          "application_entries": 270,
+          "seeded_entries": 0,
+          "output": {
+            "name": "test.obj",
+            "bytes": 286,
+            "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+            "ignored_timestamp": [
+              4,
+              4
+            ]
+          },
+          "setup_seconds": 0.013272949494421482,
+          "execution_seconds": 0.005530414171516895,
+          "check_seconds": 0.001385415904223919,
+          "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-27ogmmb2/minimal"
+        },
+        {
+          "profile": "hello",
+          "terminal": "@compare_scheduled_memory@36",
+          "returncode": -5,
+          "application_entries": 479,
+          "seeded_entries": 270,
+          "output": null,
+          "setup_seconds": 0.010905327275395393,
+          "execution_seconds": 0.009346578270196915,
+          "check_seconds": 0.0009450353682041168,
+          "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-27ogmmb2/hello"
+        }
+      ],
+      "rejected": [
+        "wrong expected application entry",
+        "non-clock object corruption",
+        "changed captured IR input"
+      ],
+      "fixture_seconds": 0.19376538321375847,
+      "suite_setup_seconds": 0.12303993199020624,
+      "negative_check_seconds": 0.020732609555125237,
+      "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+    }
+  },
+  "reference_evidence": [
+    {
+      "path": "cases/hello-original-828.json",
+      "sha256": "344164200a0d8641258c36bb14dbd2e509621fcd7e9a420e1fa9f4acd241bd52",
+      "capture": {
+        "label": "stack-copy-equivalence-after",
+        "accepted": 828,
+        "logical": "@same_machine_operand_base@8",
+        "original_va": "0x4b120",
+        "events": "exception 80000003 rva 0003b120 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.19411122519522905,
+        "execution_check_seconds": 1.3677713759243488,
+        "total_seconds": 1.5618830742314458,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "7a17d4605e7c5dba130d6bda359e2c6aac535fce47d7cb209cde10ca365704f3",
+        "config_sha256": "21dd7e9b535cc8901e87638026bdbed5b5f2d3874c0ea3ab8cb3911ab6ba9eb2",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/stack-copy-equivalence-after"
+      },
+      "native": {
+        "executable_sha256": "02add3efc765f4afc0626e10f63d3c62666777fab06db40218fbf0c2e0a2fa40",
+        "config_sha256": "21dd7e9b535cc8901e87638026bdbed5b5f2d3874c0ea3ab8cb3911ab6ba9eb2",
+        "seconds": 0.1477521425113082,
+        "logical": "@same_machine_operand_base@8",
+        "matched": true,
+        "log_sha256": "39e8d9b27825eb19f6e6ce335f1cc8a51005bbd94eea786d60607d5693d3fe65"
+      }
+    },
+    {
+      "path": "cases/hello-original-829.json",
+      "sha256": "14f5f31dc51983bdd57d3f2d56c0d015869cd4b777ceb6e157e4a41bc086d953",
+      "capture": {
+        "label": "operand-base-after",
+        "accepted": 829,
+        "logical": "@scheduled_memory_overlap@12",
+        "original_va": "0x41f30",
+        "events": "exception 80000003 rva 00031f30 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.1988459788262844,
+        "execution_check_seconds": 1.2550211902707815,
+        "total_seconds": 1.4538676030933857,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "298f9a5c5ef023f1bb9659fea3cf8f94456b405fec4b79bf1a8198e979e01dfd",
+        "config_sha256": "3ded80e60ddece92701dffdc92cacb21a367b8e0616839b183acc8e1c3d0ed45",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/operand-base-after"
+      },
+      "native": {
+        "executable_sha256": "236c135133997d4fe423ec6d01ab27d8bdc866bc36183a15f0eb4338fe8951eb",
+        "config_sha256": "3ded80e60ddece92701dffdc92cacb21a367b8e0616839b183acc8e1c3d0ed45",
+        "seconds": 0.14880088530480862,
+        "logical": "@scheduled_memory_overlap@12",
+        "matched": true,
+        "log_sha256": "1b9adbd73574826f63df6726cbc13a600a0a6d748e37e80cee8fb0e73b25bf29"
+      }
+    },
+    {
+      "path": "cases/hello-original-830.json",
+      "sha256": "5ae9ffc197b7cc8547d56850a3d287c34ada41b1e5e97548acd8d9e61ed841ae",
+      "capture": {
+        "label": "scheduled-memory-overlap-after",
+        "accepted": 830,
+        "logical": "@assign_machine_operand@8",
+        "original_va": "0x3bb20",
+        "events": "exception 80000003 rva 0002bb20 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.1919036926701665,
+        "execution_check_seconds": 0.8237222954630852,
+        "total_seconds": 1.0156264174729586,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "52f56a9bab881750c3da9c271fa5da8d680a0407b3990afa1a04ea3a2fb9601c",
+        "config_sha256": "1337517c05d76566e2194a947a2708f9a20e837c7ad2c590d48c9c43a7ddb1d6",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/scheduled-memory-overlap-after"
+      },
+      "native": {
+        "executable_sha256": "b28c78978593be522760f905a3397f573c3adcb2b61d8b133df4aa87379bbd0f",
+        "config_sha256": "1337517c05d76566e2194a947a2708f9a20e837c7ad2c590d48c9c43a7ddb1d6",
+        "seconds": 0.1989879235625267,
+        "logical": "@assign_machine_operand@8",
+        "matched": true,
+        "log_sha256": "fd445b3ff8afe09b9621ffec6709e28ce96acc2b730a125dbbb1ab356324445b"
+      }
+    },
+    {
+      "path": "cases/hello-original-831.json",
+      "sha256": "c277af8ee29df09024eaae71a2e0d8aa867efda275d203144f78f7a7f3437615",
+      "capture": {
+        "label": "operand-assignment-after",
+        "accepted": 831,
+        "logical": "@compare_scheduled_memory@36",
+        "original_va": "0x3c000",
+        "events": "exception 80000003 rva 0002c000 base 00010000 first 1\nexit 99\n",
+        "setup_seconds": 0.19446612428873777,
+        "execution_check_seconds": 1.5003290167078376,
+        "total_seconds": 1.6947955843061209,
+        "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+        "masked_sha256": "c046ab06f34595e052d7250c9b4d430327a5325e8b4e19036ebe1a6c8d0aedbf",
+        "config_sha256": "fc783d3b3828b493feff4395674d9094a2cfdd888da472f835ed4a9a24f4b63b",
+        "manifest_sha256": "1847cfea92982758480cfade55abb58b09df30664fa6018f9f5798939a0645e9",
+        "inputs": {
+          "c2/irex": "6d8ecf3592f4eb421bf5c0f242bfcd8cc4522778e4701798f79c6796eaa4510a",
+          "c2/irsy": "cfdd85b09a04376067df9d6849e0c682c977b43fbd791a554e3d00375a669467",
+          "c2/irin": "eef2db4fc6cc63f5dedde697db9972dfa205e5c3db3e1a4a445f0312cb05ee50",
+          "c2/irgl": "b17279eda0148e7c58a880dddf1ee709ec7d9e9d18f3c40da46120efe621399c"
+        },
+        "environment": {
+          "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f hello.c -W 1 -dos -Fohello.obj -ML -Gs4096 -Gy -G5 "
+        },
+        "directory": "/root/.ai-tmp/vc1.0-c2/optimizer-queue/operand-assignment-after"
+      },
+      "native": {
+        "executable_sha256": "37b206888d60042581fcfc8ad034cbb88aed0d0ce2672e73b45f83b0987725a8",
+        "config_sha256": "fc783d3b3828b493feff4395674d9094a2cfdd888da472f835ed4a9a24f4b63b",
+        "seconds": 0.14682428911328316,
+        "logical": "@compare_scheduled_memory@36",
+        "matched": true,
+        "log_sha256": "c050eddbc1bc9ec9dd7f6f4cc1557691f7318c697ed99329ba4b6fc7ea25f969"
+      }
+    }
+  ],
+  "data_provenance": {
+    "overlap_operands": {
+      "7e298": "MachineOperand scheduled_overlap_left",
+      "7e2a0": "MachineOperand scheduled_overlap_right",
+      "ownership": "two independent8-byte scratch operands; address payloads cloned and released separately; fields cleared at each comparison",
+      "displacements": "Unsigned modulo32 accumulation retains original ADD/SUB behavior; symbols supplied only if copied address lacks one"
+    },
+    "base_comparison": {
+      "table": "4b1c0..4b1e0,8 entries",
+      "source": "explicit operand-kind switch; no source copy of dispatch data",
+      "semantics": "register/immediate equality, address symbol/base/index, indexed flag bits300; address displacement excluded"
+    },
+    "assignment_identity": "3bb20 destination-first assign_machine_operand releases old payload then copies/clones. Existing49f80 source-first copy_machine_operand remains distinct and unchanged. New stub initially collided by name; build rejected before capture; renamed and rebuilt."
+  },
+  "shape_proof": "All182 original node-shape words at857b8: original bit0100 equals contextual NODE_VALUE_EXPRESSION; zero mismatches. Source flags deliberately use semantic name, not original packed mask.",
+  "limits": [
+    "Current stack-copy candidate fails base comparison; unsigned stack-adjustment helper remains named unvisited trap. No claim its body recovered.",
+    "Scheduler overlap helper reaches9argument byte-range comparator with two4-byte accesses; actual overlap result and ambiguous-address path not yet recovered.",
+    "Operand-kind alternatives beyond current address cases and assignment of an already-owned payload not independently exercised.",
+    "Full hello object remains incomplete."
+  ],
+  "timing": {
+    "analysis_seconds": null,
+    "analysis_note": "unmeasured",
+    "build_audit_fixtures": {
+      "scheduler-overlap-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 3.844426461495459,
+        "returncode": 0,
+        "log_sha256": "f252f63119e44e7f4c2c79b33f439fad8e31eb314b2f55456983f44ccef416f1"
+      },
+      "scheduled-memory-overlap-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 10.158998677507043,
+        "returncode": 2,
+        "log_sha256": "9fa41a2a997417258b3fb4925ea2f9ad74fac70119c00262a737425911760f6b"
+      },
+      "scheduler-overlap-warnings-timing": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "post-allocation",
+          "machine-operands",
+          "scheduler"
+        ],
+        "seconds": 1.0416853493079543,
+        "returncode": 0,
+        "log_sha256": "22687de65d2ee4bdd570915c02efbb51fe1f151211926b63ca3d1a7dfb2a9a60"
+      },
+      "operand-assignment-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.2150933453813195,
+        "returncode": 0,
+        "log_sha256": "afb8309b3da021e5e25af9897302278a93ea7306acb5c9e7723ca9e8be1ee621"
+      },
+      "scheduler-overlap-check-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.2915670610964298,
+        "returncode": 0,
+        "log_sha256": "ff04d537e689f003f79b89bad3ef615801c9e65b3ef0201b0165a0164f38ff8a"
+      },
+      "scheduled-memory-overlap-build-fixed-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 10.13418382499367,
+        "returncode": 0,
+        "log_sha256": "f2f522d66868ab810d479f43d1de4cbb8f6fe561fb86b6885edbc9aabf4e1d1d"
+      },
+      "stack-copy-equivalence-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 9.83841816522181,
+        "returncode": 0,
+        "log_sha256": "40576ea8a8feb5646bee04452dd0c2295bedd0213b593e1db061f87307a59ef7"
+      },
+      "operand-base-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.1008797585964203,
+        "returncode": 0,
+        "log_sha256": "67bee379aeb255cfd5af6bc2b470e6a82e67856f697738952dbeab3b2b95a61b"
+      }
+    },
+    "notes": [
+      "All measured attempts retained, including duplicate-name link rejection10.159s and corrected10.134s build before capture.",
+      "Header additions trigger9.8\u201310.1s mixed native/canonical builds; incremental2.1\u20132.2s unsplit. Native checks.292s plus explicit3-moduleW3.",
+      "Original reference/setup and native GDB elapsed phases retained individually above. Fixtures never invoke Wine."
+    ]
+  }
+}
