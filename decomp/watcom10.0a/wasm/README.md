@@ -6,7 +6,7 @@ case: `/?`, with redirected output to avoid interactive help pagination.
 
 `make -j4 inspect` only reads and validates the two original files. Native,
 original-compiler and fixture targets deliberately fail until the common CF
-transport and register-ABI review is complete. There is no accepted code or
+transport and service-boundary review is complete. There is no accepted code or
 captured behavior yet.
 
 The embedded CF header is at file offset `0x50`, the MZ header size in
@@ -46,5 +46,13 @@ Application function ABIs and graph remain in scope. The user permits replacing
 the DOS-register/far-call service implementation with normal Win32/CRT calls
 through shared `lib/recon/`, after proving each selected service's contract.
 That permission does not exempt unknown helpers, handwritten CRT bodies, or
-application callbacks. Watcom's third register argument is EBX; GCC `regparm(3)`
-uses ECX and is not interchangeable. No ABI workaround is selected here.
+application callbacks. By explicit user decision, the native build may use
+ordinary GCC i386 ABIs. The original Watcom Win32 build must retain and audit
+the original Watcom ABIs, including EAX/EDX/EBX/ECX register formals. Native
+observers decode the native compiler's actual semantic arguments and pointer
+ownership; raw native/original register slots need not match. No per-function
+veneers or OMF-to-ELF transport are required.
+
+The proposed original command, capture environment, masking checkpoints and
+native build recipe are recorded in `cases/help/execution-plan.json`. CF code
+extent discovery and Watcom CRT/FILE compatibility remain review gates.

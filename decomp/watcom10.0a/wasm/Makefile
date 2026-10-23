@@ -6,8 +6,8 @@ all: inspect
 inspect:
 	$(PYTHON) scripts/inspect-image.py
 
-# These gates deliberately fail until the common Watcom ABI/CF review completes.
+# Native GCC ABIs are authorized; CF transport and CRT profiles remain gated.
 # They must not run the original compiler or reference loader implicitly.
 native win32 fixtures:
-	@echo '$@: blocked pending Watcom register ABI and CF boundary review' >&2
+	@echo '$@: blocked pending CF masking and Watcom CRT boundary review' >&2
 	@exit 2

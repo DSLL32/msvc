@@ -28,7 +28,7 @@
   ],
   "review_gates": [
     "Common CF image transport and code-extent/masking approach",
-    "Watcom EAX/EDX/EBX/ECX application ABI versus native compiler capabilities",
+    "Native GCC ABI authorized; audit original Watcom ABI in the Watcom Win32 build and decode semantic native formals separately",
     "Original Watcom NT build recipe and shipped library selection",
     "Explicit bounded CRT/Win32 service adapters approved with shared shim maintainer"
   ]

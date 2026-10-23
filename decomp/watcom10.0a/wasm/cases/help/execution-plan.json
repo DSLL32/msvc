@@ -1,0 +1,101 @@
+{
+  "schema": 1,
+  "status": "awaiting orchestrator review before original execution",
+  "original": {
+    "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wasm/help/reference",
+    "argv": [
+      "/usr/bin/wine",
+      "R:\\toolchains\\watcom10.0a\\binnt\\WASM.EXE",
+      "/?"
+    ],
+    "host_environment_allowlist": {
+      "HOME": "/root",
+      "PATH": "/usr/bin:/bin",
+      "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
+      "WINEARCH": "win32",
+      "WINEDEBUG": "-all",
+      "LANG": "C",
+      "LC_ALL": "C",
+      "TZ": "UTC0"
+    },
+    "absent_host_variables": [
+      "WASM",
+      "INCLUDE",
+      "WLANG",
+      "WATCOM",
+      "WINEPATH"
+    ],
+    "environment_evidence": "Record the complete actual Windows environment and raw command line at the loader and payload entries; Wine-generated variables are evidence, not assumed identical to this host allowlist",
+    "streams": "stdin empty regular file; stdout.bin and stderr.bin separate regular files",
+    "execution_timeout_seconds": 30,
+    "outputs": "raw streams, status, complete case-directory artifact inventory/hashes, original identities, observer receipt and elapsed phases",
+    "help_prediction": "Later source suggests exit 1 after help; no output or exit prediction is an oracle before capture"
+  },
+  "cf_capture": {
+    "shared_adapter_owner": "/root/watcom10_orchestrator/wcc386",
+    "loader_image_base": "read actual PE base, do not assume 0x400000",
+    "payload_allocation_slot_rva_in_loader": "0x30004",
+    "allocation_size": "0x2f000",
+    "post_relocation_pre_entry_loader_rva": "0x10763",
+    "payload_entry_rva": "0x1da16",
+    "main_candidate_rva": "0xcb28",
+    "entry_checks": [
+      "Observe actual base from the loader allocation slot and actual ESI call target before the payload call; require target = base + 0x1da16",
+      "Check raw initialized-image hash before relocation and all 2915 applied relocation sites against exact expected base additions",
+      "Record startup AH, ECX, CS:EDX gateway pointer and EDI startup structure with owned strings/blocks; do not compare these raw registers with native main",
+      "Keep complete payload and resource tail intact; startup clears BSS that overlaps relocation material after relocation is complete"
+    ],
+    "masking": "After load/relocation and before payload execution, mask only disassembler-proved instruction ranges and associated .text data using payload-relative IDs. Common adapter must distinguish runtime/loader from genuine application code. CF initialized bytes are not a code extent. Unknown extents or startup callbacks hold acceptance; no blanket runtime exemptions",
+    "first_frontier": "Verify payload startup transport, identify its shipped CRT entry boundary, then trap at first reached unaccepted application function. main at 0xcb28 is a static candidate, not an assumption that no application initializer runs first"
+  },
+  "service_boundary": {
+    "loader_gateway_rva": "0x10788",
+    "payload_farcall_wrapper_rva": "0x1dae9",
+    "policy": "For each reached selected service record actual function code/register inputs, output registers/carry, defined memory writes, handle/error state and ownership. Match semantic effects with shared Win32/CRT calls; do not reconstruct the loader or CRT body solely to keep an internal gateway edge",
+    "initial_expected_services": [
+      "open/read/seek/close resource executable",
+      "stdout write and terminal classification",
+      "allocation and termination"
+    ],
+    "file_gate": "No Watcom FILE profile exists. Shared maintainer identifies a packed 26-byte Watcom FILE versus existing 32-byte MSCRT ShimFILE. Preserve original API declarations/direct fields. Prove reached arguments, return/alias, every defined FILE field, live buffer bytes, descriptor position and error effects before requesting a profile; descriptor-only machinery may be reused only after actual contract matches."
+  },
+  "native": {
+    "compiler": "gcc",
+    "application_flags": [
+      "-m32",
+      "-std=gnu89",
+      "-O0",
+      "-g",
+      "-fno-inline",
+      "-fno-omit-frame-pointer",
+      "-fno-pie"
+    ],
+    "application_defines": [
+      "RECON_NATIVE_TEST"
+    ],
+    "entry_tracing": "-finstrument-functions on reconstructed application objects only; shared lib/recon sources remain uninstrumented and compile directly at final link",
+    "link_flags": [
+      "-m32",
+      "-no-pie"
+    ],
+    "abi": "GCC i386 semantic formals and return values; original Watcom Win32 target separately retains original ABI. No per-function ABI veneers",
+    "observations": "Named GDB breakpoints decode actual GCC formals, bounded owned pointee state and results. Map application IDs to original payload-relative RVAs; filter proved CRT/service entries on both sides",
+    "fixture_rule": "Only the native ELF runs during fixtures; explicit captures are separate commands and never automatic fallback"
+  },
+  "original_build": {
+    "compiler": "binnt/WCC386.EXE loading binb/WCC386.EXE",
+    "proposed_flags": [
+      "-bt=nt",
+      "-3r",
+      "-od",
+      "-d2"
+    ],
+    "libraries": [
+      "lib386/NT/CLIB3R.LIB",
+      "lib386/NT/NT.LIB"
+    ],
+    "linker": "verified patched binnt/WLINK.EXE under toolchain .patched directory",
+    "probe": "Common WCC386 probe completed: /root/.ai-tmp/msvc2/watcom10.0a/wcc386/abi-probe/receipt.json; flags -bt=nt -3r -od -d2, status 0, no warnings, 613-byte _TEXT. OMF32 confirms EAX/EDX/EBX/ECX, fifth stack argument callee RET4, 8-byte struct hidden ESI result pointer, typed callback register ABI and explicit cdecl stack cleanup. Final NT link recipe remains to be validated.",
+    "checks": "make -j4 compilation, original register/return and callback ABI audit, original-build application graph comparison using reviewed CF adapter plus target-specific checks as required"
+  }
+}
