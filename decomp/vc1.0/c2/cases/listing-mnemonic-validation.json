@@ -1,0 +1,7821 @@
+{
+  "mnemonics": [
+    {
+      "operation": "FIRST",
+      "spelling": "_first",
+      "original_pointer": "0x82ae4",
+      "canonical_pointer": "0x96c30"
+    },
+    {
+      "operation": "MOV",
+      "spelling": "mov",
+      "original_pointer": "0x82ae0",
+      "canonical_pointer": "0x96c38"
+    },
+    {
+      "operation": "ARPL",
+      "spelling": "arpl",
+      "original_pointer": "0x82ad8",
+      "canonical_pointer": "0x96c3c"
+    },
+    {
+      "operation": "BOUND",
+      "spelling": "bound",
+      "original_pointer": "0x82ad0",
+      "canonical_pointer": "0x96c44"
+    },
+    {
+      "operation": "ENTER",
+      "spelling": "enter",
+      "original_pointer": "0x82ac8",
+      "canonical_pointer": "0x96c4c"
+    },
+    {
+      "operation": "ESC",
+      "spelling": "esc",
+      "original_pointer": "0x82ac4",
+      "canonical_pointer": "0x96c54"
+    },
+    {
+      "operation": "IMUL",
+      "spelling": "imul",
+      "original_pointer": "0x82abc",
+      "canonical_pointer": "0x96c58"
+    },
+    {
+      "operation": "INT",
+      "spelling": "int",
+      "original_pointer": "0x82ab8",
+      "canonical_pointer": "0x96c60"
+    },
+    {
+      "operation": "RET",
+      "spelling": "ret",
+      "original_pointer": "0x82ab4",
+      "canonical_pointer": "0x96c64"
+    },
+    {
+      "operation": "XCHG",
+      "spelling": "xchg",
+      "original_pointer": "0x82aac",
+      "canonical_pointer": "0x96c68"
+    },
+    {
+      "operation": "IN",
+      "spelling": "in",
+      "original_pointer": "0x82aa8",
+      "canonical_pointer": "0x96c70"
+    },
+    {
+      "operation": "OUT",
+      "spelling": "out",
+      "original_pointer": "0x82aa4",
+      "canonical_pointer": "0x96c74"
+    },
+    {
+      "operation": "POP",
+      "spelling": "pop",
+      "original_pointer": "0x82aa0",
+      "canonical_pointer": "0x96c78"
+    },
+    {
+      "operation": "PUSH",
+      "spelling": "push",
+      "original_pointer": "0x82a98",
+      "canonical_pointer": "0x96c7c"
+    },
+    {
+      "operation": "CALL",
+      "spelling": "call",
+      "original_pointer": "0x82a90",
+      "canonical_pointer": "0x96c84"
+    },
+    {
+      "operation": "JCC",
+      "spelling": "_jcc",
+      "original_pointer": "0x82a88",
+      "canonical_pointer": "0x96c8c"
+    },
+    {
+      "operation": "JMP",
+      "spelling": "jmp",
+      "original_pointer": "0x82a84",
+      "canonical_pointer": "0x96c94"
+    },
+    {
+      "operation": "LDS",
+      "spelling": "lds",
+      "original_pointer": "0x82a80",
+      "canonical_pointer": "0x96c98"
+    },
+    {
+      "operation": "LEA",
+      "spelling": "lea",
+      "original_pointer": "0x82a7c",
+      "canonical_pointer": "0x96c9c"
+    },
+    {
+      "operation": "LES",
+      "spelling": "les",
+      "original_pointer": "0x82a78",
+      "canonical_pointer": "0x96ca0"
+    },
+    {
+      "operation": "LAR",
+      "spelling": "lar",
+      "original_pointer": "0x82a74",
+      "canonical_pointer": "0x96ca4"
+    },
+    {
+      "operation": "LSL",
+      "spelling": "lsl",
+      "original_pointer": "0x82a70",
+      "canonical_pointer": "0x96ca8"
+    },
+    {
+      "operation": "JCXZ",
+      "spelling": "jcxz",
+      "original_pointer": "0x82a68",
+      "canonical_pointer": "0x96cac"
+    },
+    {
+      "operation": "LOOP",
+      "spelling": "loop",
+      "original_pointer": "0x82a60",
+      "canonical_pointer": "0x96cb4"
+    },
+    {
+      "operation": "LOOPNZ",
+      "spelling": "loopnz",
+      "original_pointer": "0x82a58",
+      "canonical_pointer": "0x96cbc"
+    },
+    {
+      "operation": "LOOPZ",
+      "spelling": "loopz",
+      "original_pointer": "0x82a50",
+      "canonical_pointer": "0x96cc4"
+    },
+    {
+      "operation": "LGDT",
+      "spelling": "lgdt",
+      "original_pointer": "0x82a48",
+      "canonical_pointer": "0x96ccc"
+    },
+    {
+      "operation": "LIDT",
+      "spelling": "lidt",
+      "original_pointer": "0x82a40",
+      "canonical_pointer": "0x96cd4"
+    },
+    {
+      "operation": "SGDT",
+      "spelling": "sgdt",
+      "original_pointer": "0x82a38",
+      "canonical_pointer": "0x96cdc"
+    },
+    {
+      "operation": "SIDT",
+      "spelling": "sidt",
+      "original_pointer": "0x82a30",
+      "canonical_pointer": "0x96ce4"
+    },
+    {
+      "operation": "DEC",
+      "spelling": "dec",
+      "original_pointer": "0x82a2c",
+      "canonical_pointer": "0x96cec"
+    },
+    {
+      "operation": "DIV",
+      "spelling": "div",
+      "original_pointer": "0x82a28",
+      "canonical_pointer": "0x96cf0"
+    },
+    {
+      "operation": "IDIV",
+      "spelling": "idiv",
+      "original_pointer": "0x82a20",
+      "canonical_pointer": "0x96cf4"
+    },
+    {
+      "operation": "INC",
+      "spelling": "inc",
+      "original_pointer": "0x82a1c",
+      "canonical_pointer": "0x96cfc"
+    },
+    {
+      "operation": "MUL",
+      "spelling": "mul",
+      "original_pointer": "0x82a18",
+      "canonical_pointer": "0x96d00"
+    },
+    {
+      "operation": "NEG",
+      "spelling": "neg",
+      "original_pointer": "0x82a14",
+      "canonical_pointer": "0x96d04"
+    },
+    {
+      "operation": "NOT",
+      "spelling": "not",
+      "original_pointer": "0x82a10",
+      "canonical_pointer": "0x96d08"
+    },
+    {
+      "operation": "RCL",
+      "spelling": "rcl",
+      "original_pointer": "0x82a0c",
+      "canonical_pointer": "0x96d0c"
+    },
+    {
+      "operation": "RCR",
+      "spelling": "rcr",
+      "original_pointer": "0x82a08",
+      "canonical_pointer": "0x96d10"
+    },
+    {
+      "operation": "ROL",
+      "spelling": "rol",
+      "original_pointer": "0x82a04",
+      "canonical_pointer": "0x96d14"
+    },
+    {
+      "operation": "ROR",
+      "spelling": "ror",
+      "original_pointer": "0x82a00",
+      "canonical_pointer": "0x96d18"
+    },
+    {
+      "operation": "SAR",
+      "spelling": "sar",
+      "original_pointer": "0x829fc",
+      "canonical_pointer": "0x96d1c"
+    },
+    {
+      "operation": "SHL",
+      "spelling": "shl",
+      "original_pointer": "0x829f8",
+      "canonical_pointer": "0x96d20"
+    },
+    {
+      "operation": "SHR",
+      "spelling": "shr",
+      "original_pointer": "0x829f4",
+      "canonical_pointer": "0x96d24"
+    },
+    {
+      "operation": "ADC",
+      "spelling": "adc",
+      "original_pointer": "0x829f0",
+      "canonical_pointer": "0x96d28"
+    },
+    {
+      "operation": "ADD",
+      "spelling": "add",
+      "original_pointer": "0x829ec",
+      "canonical_pointer": "0x96d2c"
+    },
+    {
+      "operation": "AND",
+      "spelling": "and",
+      "original_pointer": "0x829e8",
+      "canonical_pointer": "0x96d30"
+    },
+    {
+      "operation": "CMP",
+      "spelling": "cmp",
+      "original_pointer": "0x829e4",
+      "canonical_pointer": "0x96d34"
+    },
+    {
+      "operation": "OR",
+      "spelling": "or",
+      "original_pointer": "0x829e0",
+      "canonical_pointer": "0x96d38"
+    },
+    {
+      "operation": "SBB",
+      "spelling": "sbb",
+      "original_pointer": "0x829dc",
+      "canonical_pointer": "0x96d3c"
+    },
+    {
+      "operation": "SUB",
+      "spelling": "sub",
+      "original_pointer": "0x829d8",
+      "canonical_pointer": "0x96d40"
+    },
+    {
+      "operation": "TEST",
+      "spelling": "test",
+      "original_pointer": "0x829d0",
+      "canonical_pointer": "0x96d44"
+    },
+    {
+      "operation": "XOR",
+      "spelling": "xor",
+      "original_pointer": "0x829cc",
+      "canonical_pointer": "0x96d4c"
+    },
+    {
+      "operation": "CMPS",
+      "spelling": "cmps",
+      "original_pointer": "0x829c4",
+      "canonical_pointer": "0x96d50"
+    },
+    {
+      "operation": "INS",
+      "spelling": "ins",
+      "original_pointer": "0x829c0",
+      "canonical_pointer": "0x96d58"
+    },
+    {
+      "operation": "LODS",
+      "spelling": "lods",
+      "original_pointer": "0x829b8",
+      "canonical_pointer": "0x96d5c"
+    },
+    {
+      "operation": "MOVS",
+      "spelling": "movs",
+      "original_pointer": "0x829b0",
+      "canonical_pointer": "0x96d64"
+    },
+    {
+      "operation": "OUTS",
+      "spelling": "outs",
+      "original_pointer": "0x829a8",
+      "canonical_pointer": "0x96d6c"
+    },
+    {
+      "operation": "SCAS",
+      "spelling": "scas",
+      "original_pointer": "0x829a0",
+      "canonical_pointer": "0x96d74"
+    },
+    {
+      "operation": "STOS",
+      "spelling": "stos",
+      "original_pointer": "0x82998",
+      "canonical_pointer": "0x96d7c"
+    },
+    {
+      "operation": "XLAT",
+      "spelling": "xlat",
+      "original_pointer": "0x82990",
+      "canonical_pointer": "0x96d84"
+    },
+    {
+      "operation": "LLDT",
+      "spelling": "lldt",
+      "original_pointer": "0x82988",
+      "canonical_pointer": "0x96d8c"
+    },
+    {
+      "operation": "LMSW",
+      "spelling": "lmsw",
+      "original_pointer": "0x82980",
+      "canonical_pointer": "0x96d94"
+    },
+    {
+      "operation": "LTR",
+      "spelling": "ltr",
+      "original_pointer": "0x8297c",
+      "canonical_pointer": "0x96d9c"
+    },
+    {
+      "operation": "SLDT",
+      "spelling": "sldt",
+      "original_pointer": "0x82974",
+      "canonical_pointer": "0x96da0"
+    },
+    {
+      "operation": "SMSW",
+      "spelling": "smsw",
+      "original_pointer": "0x8296c",
+      "canonical_pointer": "0x96da8"
+    },
+    {
+      "operation": "STR",
+      "spelling": "str",
+      "original_pointer": "0x82968",
+      "canonical_pointer": "0x96db0"
+    },
+    {
+      "operation": "VERR",
+      "spelling": "verr",
+      "original_pointer": "0x82960",
+      "canonical_pointer": "0x96db4"
+    },
+    {
+      "operation": "VERW",
+      "spelling": "verw",
+      "original_pointer": "0x82958",
+      "canonical_pointer": "0x96dbc"
+    },
+    {
+      "operation": "FADD",
+      "spelling": "fadd",
+      "original_pointer": "0x801e8",
+      "canonical_pointer": "0x96dc4"
+    },
+    {
+      "operation": "FMUL",
+      "spelling": "fmul",
+      "original_pointer": "0x801d8",
+      "canonical_pointer": "0x96dcc"
+    },
+    {
+      "operation": "FSUB",
+      "spelling": "fsub",
+      "original_pointer": "0x82950",
+      "canonical_pointer": "0x96dd4"
+    },
+    {
+      "operation": "FSUBR",
+      "spelling": "fsubr",
+      "original_pointer": "0x801e0",
+      "canonical_pointer": "0x96ddc"
+    },
+    {
+      "operation": "FDIV",
+      "spelling": "fdiv",
+      "original_pointer": "0x801d0",
+      "canonical_pointer": "0x96de4"
+    },
+    {
+      "operation": "FDIVR",
+      "spelling": "fdivr",
+      "original_pointer": "0x801c8",
+      "canonical_pointer": "0x96dec"
+    },
+    {
+      "operation": "FADDP",
+      "spelling": "faddp",
+      "original_pointer": "0x82948",
+      "canonical_pointer": "0x96df4"
+    },
+    {
+      "operation": "FMULP",
+      "spelling": "fmulp",
+      "original_pointer": "0x82940",
+      "canonical_pointer": "0x96dfc"
+    },
+    {
+      "operation": "FSUBP",
+      "spelling": "fsubp",
+      "original_pointer": "0x82938",
+      "canonical_pointer": "0x96e04"
+    },
+    {
+      "operation": "FSUBRP",
+      "spelling": "fsubrp",
+      "original_pointer": "0x82930",
+      "canonical_pointer": "0x96e0c"
+    },
+    {
+      "operation": "FDIVP",
+      "spelling": "fdivp",
+      "original_pointer": "0x82928",
+      "canonical_pointer": "0x96e14"
+    },
+    {
+      "operation": "FDIVRP",
+      "spelling": "fdivrp",
+      "original_pointer": "0x82920",
+      "canonical_pointer": "0x96e1c"
+    },
+    {
+      "operation": "FIADD",
+      "spelling": "fiadd",
+      "original_pointer": "0x82918",
+      "canonical_pointer": "0x96e24"
+    },
+    {
+      "operation": "FICOM",
+      "spelling": "ficom",
+      "original_pointer": "0x82910",
+      "canonical_pointer": "0x96e2c"
+    },
+    {
+      "operation": "FICOMP",
+      "spelling": "ficomp",
+      "original_pointer": "0x82908",
+      "canonical_pointer": "0x96e34"
+    },
+    {
+      "operation": "FIDIV",
+      "spelling": "fidiv",
+      "original_pointer": "0x82900",
+      "canonical_pointer": "0x96e3c"
+    },
+    {
+      "operation": "FIDIVR",
+      "spelling": "fidivr",
+      "original_pointer": "0x828f8",
+      "canonical_pointer": "0x96e44"
+    },
+    {
+      "operation": "FILD",
+      "spelling": "fild",
+      "original_pointer": "0x828f0",
+      "canonical_pointer": "0x96e4c"
+    },
+    {
+      "operation": "FIMUL",
+      "spelling": "fimul",
+      "original_pointer": "0x828e8",
+      "canonical_pointer": "0x96e54"
+    },
+    {
+      "operation": "FISUB",
+      "spelling": "fisub",
+      "original_pointer": "0x828e0",
+      "canonical_pointer": "0x96e5c"
+    },
+    {
+      "operation": "FISUBR",
+      "spelling": "fisubr",
+      "original_pointer": "0x828d8",
+      "canonical_pointer": "0x96e64"
+    },
+    {
+      "operation": "FIST",
+      "spelling": "fist",
+      "original_pointer": "0x828d0",
+      "canonical_pointer": "0x96e6c"
+    },
+    {
+      "operation": "FISTP",
+      "spelling": "fistp",
+      "original_pointer": "0x828c8",
+      "canonical_pointer": "0x96e74"
+    },
+    {
+      "operation": "FCOM",
+      "spelling": "fcom",
+      "original_pointer": "0x828c0",
+      "canonical_pointer": "0x96e7c"
+    },
+    {
+      "operation": "FCOMP",
+      "spelling": "fcomp",
+      "original_pointer": "0x828b8",
+      "canonical_pointer": "0x96e84"
+    },
+    {
+      "operation": "FCOMPP",
+      "spelling": "fcompp",
+      "original_pointer": "0x828b0",
+      "canonical_pointer": "0x96e8c"
+    },
+    {
+      "operation": "FXCH",
+      "spelling": "fxch",
+      "original_pointer": "0x828a8",
+      "canonical_pointer": "0x96e94"
+    },
+    {
+      "operation": "FLD",
+      "spelling": "fld",
+      "original_pointer": "0x828a4",
+      "canonical_pointer": "0x96e9c"
+    },
+    {
+      "operation": "FFREE",
+      "spelling": "ffree",
+      "original_pointer": "0x8289c",
+      "canonical_pointer": "0x96ea0"
+    },
+    {
+      "operation": "FST",
+      "spelling": "fst",
+      "original_pointer": "0x82898",
+      "canonical_pointer": "0x96ea8"
+    },
+    {
+      "operation": "FSTP",
+      "spelling": "fstp",
+      "original_pointer": "0x82890",
+      "canonical_pointer": "0x96eac"
+    },
+    {
+      "operation": "FBLD",
+      "spelling": "fbld",
+      "original_pointer": "0x82888",
+      "canonical_pointer": "0x96eb4"
+    },
+    {
+      "operation": "FLDCW",
+      "spelling": "fldcw",
+      "original_pointer": "0x82880",
+      "canonical_pointer": "0x96ebc"
+    },
+    {
+      "operation": "FLDENV",
+      "spelling": "fldenv",
+      "original_pointer": "0x82878",
+      "canonical_pointer": "0x96ec4"
+    },
+    {
+      "operation": "FRSTOR",
+      "spelling": "frstor",
+      "original_pointer": "0x82870",
+      "canonical_pointer": "0x96ecc"
+    },
+    {
+      "operation": "FSAVE",
+      "spelling": "fsave",
+      "original_pointer": "0x82868",
+      "canonical_pointer": "0x96ed4"
+    },
+    {
+      "operation": "FBSTP",
+      "spelling": "fbstp",
+      "original_pointer": "0x82860",
+      "canonical_pointer": "0x96edc"
+    },
+    {
+      "operation": "FSTCW",
+      "spelling": "fstcw",
+      "original_pointer": "0x82858",
+      "canonical_pointer": "0x96ee4"
+    },
+    {
+      "operation": "FSTENV",
+      "spelling": "fstenv",
+      "original_pointer": "0x82850",
+      "canonical_pointer": "0x96eec"
+    },
+    {
+      "operation": "FSTSW",
+      "spelling": "fstsw",
+      "original_pointer": "0x82848",
+      "canonical_pointer": "0x96ef4"
+    },
+    {
+      "operation": "FNSTCW",
+      "spelling": "fnstcw",
+      "original_pointer": "0x82840",
+      "canonical_pointer": "0x96efc"
+    },
+    {
+      "operation": "FNSTSW",
+      "spelling": "fnstsw",
+      "original_pointer": "0x82838",
+      "canonical_pointer": "0x96f04"
+    },
+    {
+      "operation": "FNSAVE",
+      "spelling": "fnsave",
+      "original_pointer": "0x82830",
+      "canonical_pointer": "0x96f0c"
+    },
+    {
+      "operation": "FNSTENV",
+      "spelling": "fnstenv",
+      "original_pointer": "0x82828",
+      "canonical_pointer": "0x96f14"
+    },
+    {
+      "operation": "FNINIT",
+      "spelling": "fninit",
+      "original_pointer": "0x82820",
+      "canonical_pointer": "0x96f1c"
+    },
+    {
+      "operation": "FNCLEX",
+      "spelling": "fnclex",
+      "original_pointer": "0x82818",
+      "canonical_pointer": "0x96f24"
+    },
+    {
+      "operation": "FNDISI",
+      "spelling": "fndisi",
+      "original_pointer": "0x82810",
+      "canonical_pointer": "0x96f2c"
+    },
+    {
+      "operation": "FNENI",
+      "spelling": "fneni",
+      "original_pointer": "0x82808",
+      "canonical_pointer": "0x96f34"
+    },
+    {
+      "operation": "F2XM1",
+      "spelling": "f2xm1",
+      "original_pointer": "0x82800",
+      "canonical_pointer": "0x96f3c"
+    },
+    {
+      "operation": "FABS",
+      "spelling": "fabs",
+      "original_pointer": "0x827f8",
+      "canonical_pointer": "0x96f44"
+    },
+    {
+      "operation": "FCHS",
+      "spelling": "fchs",
+      "original_pointer": "0x827f0",
+      "canonical_pointer": "0x96f4c"
+    },
+    {
+      "operation": "FCLEX",
+      "spelling": "fclex",
+      "original_pointer": "0x827e8",
+      "canonical_pointer": "0x96f54"
+    },
+    {
+      "operation": "FDECSTP",
+      "spelling": "fdecstp",
+      "original_pointer": "0x827e0",
+      "canonical_pointer": "0x96f5c"
+    },
+    {
+      "operation": "FDISI",
+      "spelling": "fdisi",
+      "original_pointer": "0x827d8",
+      "canonical_pointer": "0x96f64"
+    },
+    {
+      "operation": "FENI",
+      "spelling": "feni",
+      "original_pointer": "0x827d0",
+      "canonical_pointer": "0x96f6c"
+    },
+    {
+      "operation": "FINCSTP",
+      "spelling": "fincstp",
+      "original_pointer": "0x827c8",
+      "canonical_pointer": "0x96f74"
+    },
+    {
+      "operation": "FINIT",
+      "spelling": "finit",
+      "original_pointer": "0x827c0",
+      "canonical_pointer": "0x96f7c"
+    },
+    {
+      "operation": "FLDT",
+      "spelling": "_fldt",
+      "original_pointer": "0x827b8",
+      "canonical_pointer": "0x96f84"
+    },
+    {
+      "operation": "FLDZ",
+      "spelling": "fldz",
+      "original_pointer": "0x827b0",
+      "canonical_pointer": "0x96f8c"
+    },
+    {
+      "operation": "FLDPI",
+      "spelling": "fldpi",
+      "original_pointer": "0x827a8",
+      "canonical_pointer": "0x96f94"
+    },
+    {
+      "operation": "FLDL2E",
+      "spelling": "fldl2e",
+      "original_pointer": "0x827a0",
+      "canonical_pointer": "0x96f9c"
+    },
+    {
+      "operation": "FLDL2T",
+      "spelling": "fldl2t",
+      "original_pointer": "0x82798",
+      "canonical_pointer": "0x96fa4"
+    },
+    {
+      "operation": "FLDLG2",
+      "spelling": "fldlg2",
+      "original_pointer": "0x82790",
+      "canonical_pointer": "0x96fac"
+    },
+    {
+      "operation": "FLDLN2",
+      "spelling": "fldln2",
+      "original_pointer": "0x82788",
+      "canonical_pointer": "0x96fb4"
+    },
+    {
+      "operation": "FNOP",
+      "spelling": "fnop",
+      "original_pointer": "0x82780",
+      "canonical_pointer": "0x96fbc"
+    },
+    {
+      "operation": "FPATAN",
+      "spelling": "fpatan",
+      "original_pointer": "0x82778",
+      "canonical_pointer": "0x96fc4"
+    },
+    {
+      "operation": "FPREM",
+      "spelling": "fprem",
+      "original_pointer": "0x82770",
+      "canonical_pointer": "0x96fcc"
+    },
+    {
+      "operation": "FPTAN",
+      "spelling": "fptan",
+      "original_pointer": "0x82768",
+      "canonical_pointer": "0x96fd4"
+    },
+    {
+      "operation": "FRNDINT",
+      "spelling": "frndint",
+      "original_pointer": "0x82760",
+      "canonical_pointer": "0x96fdc"
+    },
+    {
+      "operation": "FSCALE",
+      "spelling": "fscale",
+      "original_pointer": "0x82758",
+      "canonical_pointer": "0x96fe4"
+    },
+    {
+      "operation": "FSETPM",
+      "spelling": "fsetpm",
+      "original_pointer": "0x82750",
+      "canonical_pointer": "0x96fec"
+    },
+    {
+      "operation": "FSQRT",
+      "spelling": "fsqrt",
+      "original_pointer": "0x82748",
+      "canonical_pointer": "0x96ff4"
+    },
+    {
+      "operation": "FTST",
+      "spelling": "ftst",
+      "original_pointer": "0x82740",
+      "canonical_pointer": "0x96ffc"
+    },
+    {
+      "operation": "FWAIT",
+      "spelling": "fwait",
+      "original_pointer": "0x82738",
+      "canonical_pointer": "0x97004"
+    },
+    {
+      "operation": "FXAM",
+      "spelling": "fxam",
+      "original_pointer": "0x82730",
+      "canonical_pointer": "0x9700c"
+    },
+    {
+      "operation": "FXTRACT",
+      "spelling": "fxtract",
+      "original_pointer": "0x82728",
+      "canonical_pointer": "0x97014"
+    },
+    {
+      "operation": "FYL2X",
+      "spelling": "fyl2x",
+      "original_pointer": "0x82720",
+      "canonical_pointer": "0x9701c"
+    },
+    {
+      "operation": "FYL2XP1",
+      "spelling": "fyl2xp1",
+      "original_pointer": "0x82718",
+      "canonical_pointer": "0x97024"
+    },
+    {
+      "operation": "FSTTP",
+      "spelling": "_fsttp",
+      "original_pointer": "0x82710",
+      "canonical_pointer": "0x9702c"
+    },
+    {
+      "operation": "FLD1",
+      "spelling": "fld1",
+      "original_pointer": "0x82708",
+      "canonical_pointer": "0x97034"
+    },
+    {
+      "operation": "AAA",
+      "spelling": "aaa",
+      "original_pointer": "0x82704",
+      "canonical_pointer": "0x9703c"
+    },
+    {
+      "operation": "AAD",
+      "spelling": "aad",
+      "original_pointer": "0x82700",
+      "canonical_pointer": "0x97040"
+    },
+    {
+      "operation": "AAM",
+      "spelling": "aam",
+      "original_pointer": "0x826fc",
+      "canonical_pointer": "0x97044"
+    },
+    {
+      "operation": "AAS",
+      "spelling": "aas",
+      "original_pointer": "0x826f8",
+      "canonical_pointer": "0x97048"
+    },
+    {
+      "operation": "CBW",
+      "spelling": "cbw",
+      "original_pointer": "0x826f4",
+      "canonical_pointer": "0x9704c"
+    },
+    {
+      "operation": "CLC",
+      "spelling": "clc",
+      "original_pointer": "0x826f0",
+      "canonical_pointer": "0x97050"
+    },
+    {
+      "operation": "CLD",
+      "spelling": "cld",
+      "original_pointer": "0x826ec",
+      "canonical_pointer": "0x97054"
+    },
+    {
+      "operation": "CLI",
+      "spelling": "cli",
+      "original_pointer": "0x826e8",
+      "canonical_pointer": "0x97058"
+    },
+    {
+      "operation": "CLTS",
+      "spelling": "clts",
+      "original_pointer": "0x826e0",
+      "canonical_pointer": "0x9705c"
+    },
+    {
+      "operation": "CMC",
+      "spelling": "cmc",
+      "original_pointer": "0x826dc",
+      "canonical_pointer": "0x97064"
+    },
+    {
+      "operation": "CWD",
+      "spelling": "cwd",
+      "original_pointer": "0x826d8",
+      "canonical_pointer": "0x97068"
+    },
+    {
+      "operation": "DAA",
+      "spelling": "daa",
+      "original_pointer": "0x826d4",
+      "canonical_pointer": "0x9706c"
+    },
+    {
+      "operation": "DAS",
+      "spelling": "das",
+      "original_pointer": "0x826d0",
+      "canonical_pointer": "0x97070"
+    },
+    {
+      "operation": "HLT",
+      "spelling": "hlt",
+      "original_pointer": "0x826cc",
+      "canonical_pointer": "0x97074"
+    },
+    {
+      "operation": "IMUL3",
+      "spelling": "_imul3",
+      "original_pointer": "0x826c4",
+      "canonical_pointer": "0x97078"
+    },
+    {
+      "operation": "INTO",
+      "spelling": "into",
+      "original_pointer": "0x826bc",
+      "canonical_pointer": "0x97080"
+    },
+    {
+      "operation": "IRET",
+      "spelling": "iret",
+      "original_pointer": "0x826b4",
+      "canonical_pointer": "0x97088"
+    },
+    {
+      "operation": "LAHF",
+      "spelling": "lahf",
+      "original_pointer": "0x826ac",
+      "canonical_pointer": "0x97090"
+    },
+    {
+      "operation": "LEAVE",
+      "spelling": "leave",
+      "original_pointer": "0x826a4",
+      "canonical_pointer": "0x97098"
+    },
+    {
+      "operation": "LJCC",
+      "spelling": "_ljcc",
+      "original_pointer": "0x8269c",
+      "canonical_pointer": "0x970a0"
+    },
+    {
+      "operation": "NOP",
+      "spelling": "nop",
+      "original_pointer": "0x82698",
+      "canonical_pointer": "0x970a8"
+    },
+    {
+      "operation": "POPA",
+      "spelling": "popa",
+      "original_pointer": "0x82690",
+      "canonical_pointer": "0x970ac"
+    },
+    {
+      "operation": "POPF",
+      "spelling": "popf",
+      "original_pointer": "0x82688",
+      "canonical_pointer": "0x970b4"
+    },
+    {
+      "operation": "PUSHA",
+      "spelling": "pusha",
+      "original_pointer": "0x82680",
+      "canonical_pointer": "0x970bc"
+    },
+    {
+      "operation": "PUSHF",
+      "spelling": "pushf",
+      "original_pointer": "0x82678",
+      "canonical_pointer": "0x970c4"
+    },
+    {
+      "operation": "SAHF",
+      "spelling": "sahf",
+      "original_pointer": "0x82670",
+      "canonical_pointer": "0x970cc"
+    },
+    {
+      "operation": "SEG",
+      "spelling": "_seg",
+      "original_pointer": "0x82668",
+      "canonical_pointer": "0x970d4"
+    },
+    {
+      "operation": "STC",
+      "spelling": "stc",
+      "original_pointer": "0x82664",
+      "canonical_pointer": "0x970dc"
+    },
+    {
+      "operation": "STD",
+      "spelling": "std",
+      "original_pointer": "0x82660",
+      "canonical_pointer": "0x970e0"
+    },
+    {
+      "operation": "STI",
+      "spelling": "sti",
+      "original_pointer": "0x8265c",
+      "canonical_pointer": "0x970e4"
+    },
+    {
+      "operation": "WAIT",
+      "spelling": "wait",
+      "original_pointer": "0x82654",
+      "canonical_pointer": "0x970e8"
+    },
+    {
+      "operation": "EMIT",
+      "spelling": "_emit",
+      "original_pointer": "0x8264c",
+      "canonical_pointer": "0x970f0"
+    },
+    {
+      "operation": "REP",
+      "spelling": "rep",
+      "original_pointer": "0x82648",
+      "canonical_pointer": "0x970f8"
+    },
+    {
+      "operation": "LOCK",
+      "spelling": "lock",
+      "original_pointer": "0x82640",
+      "canonical_pointer": "0x970fc"
+    },
+    {
+      "operation": "REPNZ",
+      "spelling": "repnz",
+      "original_pointer": "0x82638",
+      "canonical_pointer": "0x97104"
+    },
+    {
+      "operation": "REPZ",
+      "spelling": "repz",
+      "original_pointer": "0x82630",
+      "canonical_pointer": "0x9710c"
+    },
+    {
+      "operation": "EPOP",
+      "spelling": "_epop",
+      "original_pointer": "0x82628",
+      "canonical_pointer": "0x97114"
+    },
+    {
+      "operation": "EPUSH",
+      "spelling": "_epush",
+      "original_pointer": "0x82620",
+      "canonical_pointer": "0x9711c"
+    },
+    {
+      "operation": "DATA",
+      "spelling": "_data",
+      "original_pointer": "0x82618",
+      "canonical_pointer": "0x97124"
+    },
+    {
+      "operation": "RPUSH",
+      "spelling": "_rpush",
+      "original_pointer": "0x82610",
+      "canonical_pointer": "0x9712c"
+    },
+    {
+      "operation": "SCC",
+      "spelling": "_scc",
+      "original_pointer": "0x82608",
+      "canonical_pointer": "0x97134"
+    },
+    {
+      "operation": "LSS",
+      "spelling": "lss",
+      "original_pointer": "0x82604",
+      "canonical_pointer": "0x9713c"
+    },
+    {
+      "operation": "LFS",
+      "spelling": "lfs",
+      "original_pointer": "0x82600",
+      "canonical_pointer": "0x97140"
+    },
+    {
+      "operation": "LGS",
+      "spelling": "lgs",
+      "original_pointer": "0x825fc",
+      "canonical_pointer": "0x97144"
+    },
+    {
+      "operation": "IMUL2",
+      "spelling": "_imul2",
+      "original_pointer": "0x825f4",
+      "canonical_pointer": "0x97148"
+    },
+    {
+      "operation": "MOVZX",
+      "spelling": "movzx",
+      "original_pointer": "0x825ec",
+      "canonical_pointer": "0x97150"
+    },
+    {
+      "operation": "MOVZXW",
+      "spelling": "_movzxw",
+      "original_pointer": "0x825e4",
+      "canonical_pointer": "0x97158"
+    },
+    {
+      "operation": "MOVSX",
+      "spelling": "movsx",
+      "original_pointer": "0x825dc",
+      "canonical_pointer": "0x97160"
+    },
+    {
+      "operation": "MOVSXW",
+      "spelling": "_movsxw",
+      "original_pointer": "0x825d4",
+      "canonical_pointer": "0x97168"
+    },
+    {
+      "operation": "JMP3216",
+      "spelling": "_jmp3216",
+      "original_pointer": "0x825c8",
+      "canonical_pointer": "0x97170"
+    },
+    {
+      "operation": "JMP1632",
+      "spelling": "_jmp1632",
+      "original_pointer": "0x825bc",
+      "canonical_pointer": "0x9717c"
+    },
+    {
+      "operation": "BSF",
+      "spelling": "bsf",
+      "original_pointer": "0x825b8",
+      "canonical_pointer": "0x97188"
+    },
+    {
+      "operation": "BSR",
+      "spelling": "bsr",
+      "original_pointer": "0x825b4",
+      "canonical_pointer": "0x9718c"
+    },
+    {
+      "operation": "SHLD",
+      "spelling": "shld",
+      "original_pointer": "0x825ac",
+      "canonical_pointer": "0x97190"
+    },
+    {
+      "operation": "SHRD",
+      "spelling": "shrd",
+      "original_pointer": "0x825a4",
+      "canonical_pointer": "0x97198"
+    },
+    {
+      "operation": "BT",
+      "spelling": "bt",
+      "original_pointer": "0x825a0",
+      "canonical_pointer": "0x971a0"
+    },
+    {
+      "operation": "BTS",
+      "spelling": "bts",
+      "original_pointer": "0x8259c",
+      "canonical_pointer": "0x971a4"
+    },
+    {
+      "operation": "BTR",
+      "spelling": "btr",
+      "original_pointer": "0x82598",
+      "canonical_pointer": "0x971a8"
+    },
+    {
+      "operation": "BTC",
+      "spelling": "btc",
+      "original_pointer": "0x82594",
+      "canonical_pointer": "0x971ac"
+    },
+    {
+      "operation": "MOVSR",
+      "spelling": "_movsr",
+      "original_pointer": "0x8258c",
+      "canonical_pointer": "0x971b0"
+    },
+    {
+      "operation": "FUCOM",
+      "spelling": "fucom",
+      "original_pointer": "0x82584",
+      "canonical_pointer": "0x971b8"
+    },
+    {
+      "operation": "FUCOMP",
+      "spelling": "fucomp",
+      "original_pointer": "0x8257c",
+      "canonical_pointer": "0x971c0"
+    },
+    {
+      "operation": "FUCOMPP",
+      "spelling": "fucompp",
+      "original_pointer": "0x82574",
+      "canonical_pointer": "0x971c8"
+    },
+    {
+      "operation": "FPREM1",
+      "spelling": "fprem1",
+      "original_pointer": "0x8256c",
+      "canonical_pointer": "0x971d0"
+    },
+    {
+      "operation": "FSINCOS",
+      "spelling": "fsincos",
+      "original_pointer": "0x82564",
+      "canonical_pointer": "0x971d8"
+    },
+    {
+      "operation": "FSIN",
+      "spelling": "fsin",
+      "original_pointer": "0x8255c",
+      "canonical_pointer": "0x971e0"
+    },
+    {
+      "operation": "FCOS",
+      "spelling": "fcos",
+      "original_pointer": "0x82554",
+      "canonical_pointer": "0x971e8"
+    },
+    {
+      "operation": "BSWAP",
+      "spelling": "bswap",
+      "original_pointer": "0x8254c",
+      "canonical_pointer": "0x971f0"
+    },
+    {
+      "operation": "XADD",
+      "spelling": "xadd",
+      "original_pointer": "0x82544",
+      "canonical_pointer": "0x971f8"
+    },
+    {
+      "operation": "CMPXCHG",
+      "spelling": "cmpxchg",
+      "original_pointer": "0x8253c",
+      "canonical_pointer": "0x97200"
+    },
+    {
+      "operation": "INVD",
+      "spelling": "invd",
+      "original_pointer": "0x82534",
+      "canonical_pointer": "0x97208"
+    },
+    {
+      "operation": "WBINVD",
+      "spelling": "wbinvd",
+      "original_pointer": "0x8252c",
+      "canonical_pointer": "0x97210"
+    },
+    {
+      "operation": "INVLPG",
+      "spelling": "invlpg",
+      "original_pointer": "0x82524",
+      "canonical_pointer": "0x97218"
+    },
+    {
+      "operation": "CWDE",
+      "spelling": "cwde",
+      "original_pointer": "0x8251c",
+      "canonical_pointer": "0x97220"
+    },
+    {
+      "operation": "CDQ",
+      "spelling": "cdq",
+      "original_pointer": "0x82518",
+      "canonical_pointer": "0x97228"
+    },
+    {
+      "operation": "CMPS_EXPLICIT",
+      "spelling": "cmps",
+      "original_pointer": "0x829c4",
+      "canonical_pointer": "0x9722c"
+    },
+    {
+      "operation": "LODS_EXPLICIT",
+      "spelling": "lods",
+      "original_pointer": "0x829b8",
+      "canonical_pointer": "0x97234"
+    },
+    {
+      "operation": "MOVS_EXPLICIT",
+      "spelling": "movs",
+      "original_pointer": "0x829b0",
+      "canonical_pointer": "0x9723c"
+    },
+    {
+      "operation": "OUTS_EXPLICIT",
+      "spelling": "outs",
+      "original_pointer": "0x829a8",
+      "canonical_pointer": "0x97244"
+    },
+    {
+      "operation": "XLAT_EXPLICIT",
+      "spelling": "xlat",
+      "original_pointer": "0x82990",
+      "canonical_pointer": "0x9724c"
+    },
+    {
+      "operation": "EFWAIT",
+      "spelling": "_efwait",
+      "original_pointer": "0x82510",
+      "canonical_pointer": "0x97254"
+    },
+    {
+      "operation": "LAST",
+      "spelling": "_last",
+      "original_pointer": "0x82508",
+      "canonical_pointer": "0x9725c"
+    }
+  ],
+  "conditions": [
+    "o",
+    "no",
+    "b",
+    "ae",
+    "e",
+    "ne",
+    "be",
+    "a",
+    "s",
+    "ns",
+    "p",
+    "np",
+    "l",
+    "ge",
+    "le",
+    "g"
+  ],
+  "cases": [
+    {
+      "operation": "RET",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "8 1 0 0 32 0 0 7265746609"
+    },
+    {
+      "operation": "RET",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "8 1 1 0 32 0 0 7265746609"
+    },
+    {
+      "operation": "RET",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "8 1 2 0 32 0 0 7265746609"
+    },
+    {
+      "operation": "RET",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "8 2 0 0 32 0 0 7265746609"
+    },
+    {
+      "operation": "RET",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "8 2 1 0 32 0 0 7265746609"
+    },
+    {
+      "operation": "RET",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "8 2 2 0 32 0 0 7265746609"
+    },
+    {
+      "operation": "RET",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "8 4 0 0 32 0 0 72657409"
+    },
+    {
+      "operation": "RET",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "8 4 1 0 32 0 0 72657409"
+    },
+    {
+      "operation": "RET",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "8 4 2 0 32 0 0 72657409"
+    },
+    {
+      "operation": "RET",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "8 8 0 0 32 0 0 7265746609"
+    },
+    {
+      "operation": "RET",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "8 8 1 0 32 0 0 7265746609"
+    },
+    {
+      "operation": "RET",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "8 8 2 0 32 0 0 7265746609"
+    },
+    {
+      "operation": "RET",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "8 10 0 0 32 0 0 7265746609"
+    },
+    {
+      "operation": "RET",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "8 10 1 0 32 0 0 7265746609"
+    },
+    {
+      "operation": "RET",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "8 10 2 0 32 0 0 7265746609"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "15 1 0 0 32 0 0 6a6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 1,
+      "result": "15 1 0 1 32 0 0 6a6e6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 2,
+      "result": "15 1 0 2 32 0 0 6a6209"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 3,
+      "result": "15 1 0 3 32 0 0 6a616509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 4,
+      "result": "15 1 0 4 32 0 0 6a6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 5,
+      "result": "15 1 0 5 32 0 0 6a6e6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 6,
+      "result": "15 1 0 6 32 0 0 6a626509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 7,
+      "result": "15 1 0 7 32 0 0 6a6109"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 8,
+      "result": "15 1 0 8 32 0 0 6a7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 9,
+      "result": "15 1 0 9 32 0 0 6a6e7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 10,
+      "result": "15 1 0 10 32 0 0 6a7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 11,
+      "result": "15 1 0 11 32 0 0 6a6e7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 12,
+      "result": "15 1 0 12 32 0 0 6a6c09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 13,
+      "result": "15 1 0 13 32 0 0 6a676509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 14,
+      "result": "15 1 0 14 32 0 0 6a6c6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 15,
+      "result": "15 1 0 15 32 0 0 6a6709"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "15 1 1 0 32 0 0 6a6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 1,
+      "result": "15 1 1 1 32 0 0 6a6e6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 2,
+      "result": "15 1 1 2 32 0 0 6a6209"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 3,
+      "result": "15 1 1 3 32 0 0 6a616509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 4,
+      "result": "15 1 1 4 32 0 0 6a6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 5,
+      "result": "15 1 1 5 32 0 0 6a6e6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 6,
+      "result": "15 1 1 6 32 0 0 6a626509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 7,
+      "result": "15 1 1 7 32 0 0 6a6109"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 8,
+      "result": "15 1 1 8 32 0 0 6a7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 9,
+      "result": "15 1 1 9 32 0 0 6a6e7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 10,
+      "result": "15 1 1 10 32 0 0 6a7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 11,
+      "result": "15 1 1 11 32 0 0 6a6e7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 12,
+      "result": "15 1 1 12 32 0 0 6a6c09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 13,
+      "result": "15 1 1 13 32 0 0 6a676509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 14,
+      "result": "15 1 1 14 32 0 0 6a6c6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 15,
+      "result": "15 1 1 15 32 0 0 6a6709"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "15 1 2 0 32 0 0 6a6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 1,
+      "result": "15 1 2 1 32 0 0 6a6e6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 2,
+      "result": "15 1 2 2 32 0 0 6a6209"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 3,
+      "result": "15 1 2 3 32 0 0 6a616509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 4,
+      "result": "15 1 2 4 32 0 0 6a6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 5,
+      "result": "15 1 2 5 32 0 0 6a6e6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 6,
+      "result": "15 1 2 6 32 0 0 6a626509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 7,
+      "result": "15 1 2 7 32 0 0 6a6109"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 8,
+      "result": "15 1 2 8 32 0 0 6a7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 9,
+      "result": "15 1 2 9 32 0 0 6a6e7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 10,
+      "result": "15 1 2 10 32 0 0 6a7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 11,
+      "result": "15 1 2 11 32 0 0 6a6e7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 12,
+      "result": "15 1 2 12 32 0 0 6a6c09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 13,
+      "result": "15 1 2 13 32 0 0 6a676509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 14,
+      "result": "15 1 2 14 32 0 0 6a6c6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 15,
+      "result": "15 1 2 15 32 0 0 6a6709"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "15 2 0 0 32 0 0 6a6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 1,
+      "result": "15 2 0 1 32 0 0 6a6e6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 2,
+      "result": "15 2 0 2 32 0 0 6a6209"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 3,
+      "result": "15 2 0 3 32 0 0 6a616509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 4,
+      "result": "15 2 0 4 32 0 0 6a6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 5,
+      "result": "15 2 0 5 32 0 0 6a6e6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 6,
+      "result": "15 2 0 6 32 0 0 6a626509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 7,
+      "result": "15 2 0 7 32 0 0 6a6109"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 8,
+      "result": "15 2 0 8 32 0 0 6a7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 9,
+      "result": "15 2 0 9 32 0 0 6a6e7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 10,
+      "result": "15 2 0 10 32 0 0 6a7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 11,
+      "result": "15 2 0 11 32 0 0 6a6e7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 12,
+      "result": "15 2 0 12 32 0 0 6a6c09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 13,
+      "result": "15 2 0 13 32 0 0 6a676509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 14,
+      "result": "15 2 0 14 32 0 0 6a6c6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 15,
+      "result": "15 2 0 15 32 0 0 6a6709"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "15 2 1 0 32 0 0 6a6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 1,
+      "result": "15 2 1 1 32 0 0 6a6e6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 2,
+      "result": "15 2 1 2 32 0 0 6a6209"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 3,
+      "result": "15 2 1 3 32 0 0 6a616509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 4,
+      "result": "15 2 1 4 32 0 0 6a6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 5,
+      "result": "15 2 1 5 32 0 0 6a6e6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 6,
+      "result": "15 2 1 6 32 0 0 6a626509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 7,
+      "result": "15 2 1 7 32 0 0 6a6109"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 8,
+      "result": "15 2 1 8 32 0 0 6a7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 9,
+      "result": "15 2 1 9 32 0 0 6a6e7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 10,
+      "result": "15 2 1 10 32 0 0 6a7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 11,
+      "result": "15 2 1 11 32 0 0 6a6e7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 12,
+      "result": "15 2 1 12 32 0 0 6a6c09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 13,
+      "result": "15 2 1 13 32 0 0 6a676509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 14,
+      "result": "15 2 1 14 32 0 0 6a6c6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 15,
+      "result": "15 2 1 15 32 0 0 6a6709"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "15 2 2 0 32 0 0 6a6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 1,
+      "result": "15 2 2 1 32 0 0 6a6e6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 2,
+      "result": "15 2 2 2 32 0 0 6a6209"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 3,
+      "result": "15 2 2 3 32 0 0 6a616509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 4,
+      "result": "15 2 2 4 32 0 0 6a6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 5,
+      "result": "15 2 2 5 32 0 0 6a6e6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 6,
+      "result": "15 2 2 6 32 0 0 6a626509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 7,
+      "result": "15 2 2 7 32 0 0 6a6109"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 8,
+      "result": "15 2 2 8 32 0 0 6a7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 9,
+      "result": "15 2 2 9 32 0 0 6a6e7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 10,
+      "result": "15 2 2 10 32 0 0 6a7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 11,
+      "result": "15 2 2 11 32 0 0 6a6e7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 12,
+      "result": "15 2 2 12 32 0 0 6a6c09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 13,
+      "result": "15 2 2 13 32 0 0 6a676509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 14,
+      "result": "15 2 2 14 32 0 0 6a6c6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 15,
+      "result": "15 2 2 15 32 0 0 6a6709"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "15 4 0 0 32 0 0 6a6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 1,
+      "result": "15 4 0 1 32 0 0 6a6e6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 2,
+      "result": "15 4 0 2 32 0 0 6a6209"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 3,
+      "result": "15 4 0 3 32 0 0 6a616509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 4,
+      "result": "15 4 0 4 32 0 0 6a6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 5,
+      "result": "15 4 0 5 32 0 0 6a6e6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 6,
+      "result": "15 4 0 6 32 0 0 6a626509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 7,
+      "result": "15 4 0 7 32 0 0 6a6109"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 8,
+      "result": "15 4 0 8 32 0 0 6a7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 9,
+      "result": "15 4 0 9 32 0 0 6a6e7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 10,
+      "result": "15 4 0 10 32 0 0 6a7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 11,
+      "result": "15 4 0 11 32 0 0 6a6e7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 12,
+      "result": "15 4 0 12 32 0 0 6a6c09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 13,
+      "result": "15 4 0 13 32 0 0 6a676509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 14,
+      "result": "15 4 0 14 32 0 0 6a6c6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 15,
+      "result": "15 4 0 15 32 0 0 6a6709"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "15 4 1 0 32 0 0 6a6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 1,
+      "result": "15 4 1 1 32 0 0 6a6e6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 2,
+      "result": "15 4 1 2 32 0 0 6a6209"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 3,
+      "result": "15 4 1 3 32 0 0 6a616509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 4,
+      "result": "15 4 1 4 32 0 0 6a6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 5,
+      "result": "15 4 1 5 32 0 0 6a6e6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 6,
+      "result": "15 4 1 6 32 0 0 6a626509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 7,
+      "result": "15 4 1 7 32 0 0 6a6109"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 8,
+      "result": "15 4 1 8 32 0 0 6a7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 9,
+      "result": "15 4 1 9 32 0 0 6a6e7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 10,
+      "result": "15 4 1 10 32 0 0 6a7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 11,
+      "result": "15 4 1 11 32 0 0 6a6e7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 12,
+      "result": "15 4 1 12 32 0 0 6a6c09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 13,
+      "result": "15 4 1 13 32 0 0 6a676509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 14,
+      "result": "15 4 1 14 32 0 0 6a6c6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 15,
+      "result": "15 4 1 15 32 0 0 6a6709"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "15 4 2 0 32 0 0 6a6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 1,
+      "result": "15 4 2 1 32 0 0 6a6e6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 2,
+      "result": "15 4 2 2 32 0 0 6a6209"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 3,
+      "result": "15 4 2 3 32 0 0 6a616509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 4,
+      "result": "15 4 2 4 32 0 0 6a6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 5,
+      "result": "15 4 2 5 32 0 0 6a6e6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 6,
+      "result": "15 4 2 6 32 0 0 6a626509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 7,
+      "result": "15 4 2 7 32 0 0 6a6109"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 8,
+      "result": "15 4 2 8 32 0 0 6a7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 9,
+      "result": "15 4 2 9 32 0 0 6a6e7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 10,
+      "result": "15 4 2 10 32 0 0 6a7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 11,
+      "result": "15 4 2 11 32 0 0 6a6e7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 12,
+      "result": "15 4 2 12 32 0 0 6a6c09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 13,
+      "result": "15 4 2 13 32 0 0 6a676509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 14,
+      "result": "15 4 2 14 32 0 0 6a6c6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 15,
+      "result": "15 4 2 15 32 0 0 6a6709"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "15 8 0 0 32 0 0 6a6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 1,
+      "result": "15 8 0 1 32 0 0 6a6e6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 2,
+      "result": "15 8 0 2 32 0 0 6a6209"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 3,
+      "result": "15 8 0 3 32 0 0 6a616509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 4,
+      "result": "15 8 0 4 32 0 0 6a6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 5,
+      "result": "15 8 0 5 32 0 0 6a6e6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 6,
+      "result": "15 8 0 6 32 0 0 6a626509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 7,
+      "result": "15 8 0 7 32 0 0 6a6109"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 8,
+      "result": "15 8 0 8 32 0 0 6a7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 9,
+      "result": "15 8 0 9 32 0 0 6a6e7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 10,
+      "result": "15 8 0 10 32 0 0 6a7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 11,
+      "result": "15 8 0 11 32 0 0 6a6e7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 12,
+      "result": "15 8 0 12 32 0 0 6a6c09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 13,
+      "result": "15 8 0 13 32 0 0 6a676509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 14,
+      "result": "15 8 0 14 32 0 0 6a6c6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 15,
+      "result": "15 8 0 15 32 0 0 6a6709"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "15 8 1 0 32 0 0 6a6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 1,
+      "result": "15 8 1 1 32 0 0 6a6e6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 2,
+      "result": "15 8 1 2 32 0 0 6a6209"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 3,
+      "result": "15 8 1 3 32 0 0 6a616509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 4,
+      "result": "15 8 1 4 32 0 0 6a6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 5,
+      "result": "15 8 1 5 32 0 0 6a6e6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 6,
+      "result": "15 8 1 6 32 0 0 6a626509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 7,
+      "result": "15 8 1 7 32 0 0 6a6109"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 8,
+      "result": "15 8 1 8 32 0 0 6a7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 9,
+      "result": "15 8 1 9 32 0 0 6a6e7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 10,
+      "result": "15 8 1 10 32 0 0 6a7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 11,
+      "result": "15 8 1 11 32 0 0 6a6e7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 12,
+      "result": "15 8 1 12 32 0 0 6a6c09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 13,
+      "result": "15 8 1 13 32 0 0 6a676509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 14,
+      "result": "15 8 1 14 32 0 0 6a6c6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 15,
+      "result": "15 8 1 15 32 0 0 6a6709"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "15 8 2 0 32 0 0 6a6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 1,
+      "result": "15 8 2 1 32 0 0 6a6e6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 2,
+      "result": "15 8 2 2 32 0 0 6a6209"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 3,
+      "result": "15 8 2 3 32 0 0 6a616509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 4,
+      "result": "15 8 2 4 32 0 0 6a6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 5,
+      "result": "15 8 2 5 32 0 0 6a6e6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 6,
+      "result": "15 8 2 6 32 0 0 6a626509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 7,
+      "result": "15 8 2 7 32 0 0 6a6109"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 8,
+      "result": "15 8 2 8 32 0 0 6a7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 9,
+      "result": "15 8 2 9 32 0 0 6a6e7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 10,
+      "result": "15 8 2 10 32 0 0 6a7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 11,
+      "result": "15 8 2 11 32 0 0 6a6e7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 12,
+      "result": "15 8 2 12 32 0 0 6a6c09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 13,
+      "result": "15 8 2 13 32 0 0 6a676509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 14,
+      "result": "15 8 2 14 32 0 0 6a6c6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 15,
+      "result": "15 8 2 15 32 0 0 6a6709"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "15 10 0 0 32 0 0 6a6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 1,
+      "result": "15 10 0 1 32 0 0 6a6e6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 2,
+      "result": "15 10 0 2 32 0 0 6a6209"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 3,
+      "result": "15 10 0 3 32 0 0 6a616509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 4,
+      "result": "15 10 0 4 32 0 0 6a6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 5,
+      "result": "15 10 0 5 32 0 0 6a6e6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 6,
+      "result": "15 10 0 6 32 0 0 6a626509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 7,
+      "result": "15 10 0 7 32 0 0 6a6109"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 8,
+      "result": "15 10 0 8 32 0 0 6a7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 9,
+      "result": "15 10 0 9 32 0 0 6a6e7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 10,
+      "result": "15 10 0 10 32 0 0 6a7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 11,
+      "result": "15 10 0 11 32 0 0 6a6e7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 12,
+      "result": "15 10 0 12 32 0 0 6a6c09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 13,
+      "result": "15 10 0 13 32 0 0 6a676509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 14,
+      "result": "15 10 0 14 32 0 0 6a6c6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 15,
+      "result": "15 10 0 15 32 0 0 6a6709"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "15 10 1 0 32 0 0 6a6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 1,
+      "result": "15 10 1 1 32 0 0 6a6e6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 2,
+      "result": "15 10 1 2 32 0 0 6a6209"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 3,
+      "result": "15 10 1 3 32 0 0 6a616509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 4,
+      "result": "15 10 1 4 32 0 0 6a6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 5,
+      "result": "15 10 1 5 32 0 0 6a6e6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 6,
+      "result": "15 10 1 6 32 0 0 6a626509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 7,
+      "result": "15 10 1 7 32 0 0 6a6109"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 8,
+      "result": "15 10 1 8 32 0 0 6a7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 9,
+      "result": "15 10 1 9 32 0 0 6a6e7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 10,
+      "result": "15 10 1 10 32 0 0 6a7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 11,
+      "result": "15 10 1 11 32 0 0 6a6e7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 12,
+      "result": "15 10 1 12 32 0 0 6a6c09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 13,
+      "result": "15 10 1 13 32 0 0 6a676509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 14,
+      "result": "15 10 1 14 32 0 0 6a6c6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 15,
+      "result": "15 10 1 15 32 0 0 6a6709"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "15 10 2 0 32 0 0 6a6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 1,
+      "result": "15 10 2 1 32 0 0 6a6e6f09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 2,
+      "result": "15 10 2 2 32 0 0 6a6209"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 3,
+      "result": "15 10 2 3 32 0 0 6a616509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 4,
+      "result": "15 10 2 4 32 0 0 6a6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 5,
+      "result": "15 10 2 5 32 0 0 6a6e6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 6,
+      "result": "15 10 2 6 32 0 0 6a626509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 7,
+      "result": "15 10 2 7 32 0 0 6a6109"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 8,
+      "result": "15 10 2 8 32 0 0 6a7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 9,
+      "result": "15 10 2 9 32 0 0 6a6e7309"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 10,
+      "result": "15 10 2 10 32 0 0 6a7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 11,
+      "result": "15 10 2 11 32 0 0 6a6e7009"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 12,
+      "result": "15 10 2 12 32 0 0 6a6c09"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 13,
+      "result": "15 10 2 13 32 0 0 6a676509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 14,
+      "result": "15 10 2 14 32 0 0 6a6c6509"
+    },
+    {
+      "operation": "JCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 15,
+      "result": "15 10 2 15 32 0 0 6a6709"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "189 1 0 0 32 0 0 7365746f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 1,
+      "result": "189 1 0 1 32 0 0 7365746e6f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 2,
+      "result": "189 1 0 2 32 0 0 7365746209"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 3,
+      "result": "189 1 0 3 32 0 0 736574616509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 4,
+      "result": "189 1 0 4 32 0 0 7365746509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 5,
+      "result": "189 1 0 5 32 0 0 7365746e6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 6,
+      "result": "189 1 0 6 32 0 0 736574626509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 7,
+      "result": "189 1 0 7 32 0 0 7365746109"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 8,
+      "result": "189 1 0 8 32 0 0 7365747309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 9,
+      "result": "189 1 0 9 32 0 0 7365746e7309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 10,
+      "result": "189 1 0 10 32 0 0 7365747009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 11,
+      "result": "189 1 0 11 32 0 0 7365746e7009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 12,
+      "result": "189 1 0 12 32 0 0 7365746c09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 13,
+      "result": "189 1 0 13 32 0 0 736574676509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 14,
+      "result": "189 1 0 14 32 0 0 7365746c6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 15,
+      "result": "189 1 0 15 32 0 0 7365746709"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "189 1 1 0 32 0 0 7365746f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 1,
+      "result": "189 1 1 1 32 0 0 7365746e6f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 2,
+      "result": "189 1 1 2 32 0 0 7365746209"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 3,
+      "result": "189 1 1 3 32 0 0 736574616509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 4,
+      "result": "189 1 1 4 32 0 0 7365746509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 5,
+      "result": "189 1 1 5 32 0 0 7365746e6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 6,
+      "result": "189 1 1 6 32 0 0 736574626509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 7,
+      "result": "189 1 1 7 32 0 0 7365746109"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 8,
+      "result": "189 1 1 8 32 0 0 7365747309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 9,
+      "result": "189 1 1 9 32 0 0 7365746e7309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 10,
+      "result": "189 1 1 10 32 0 0 7365747009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 11,
+      "result": "189 1 1 11 32 0 0 7365746e7009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 12,
+      "result": "189 1 1 12 32 0 0 7365746c09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 13,
+      "result": "189 1 1 13 32 0 0 736574676509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 14,
+      "result": "189 1 1 14 32 0 0 7365746c6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 15,
+      "result": "189 1 1 15 32 0 0 7365746709"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "189 1 2 0 32 0 0 7365746f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 1,
+      "result": "189 1 2 1 32 0 0 7365746e6f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 2,
+      "result": "189 1 2 2 32 0 0 7365746209"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 3,
+      "result": "189 1 2 3 32 0 0 736574616509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 4,
+      "result": "189 1 2 4 32 0 0 7365746509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 5,
+      "result": "189 1 2 5 32 0 0 7365746e6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 6,
+      "result": "189 1 2 6 32 0 0 736574626509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 7,
+      "result": "189 1 2 7 32 0 0 7365746109"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 8,
+      "result": "189 1 2 8 32 0 0 7365747309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 9,
+      "result": "189 1 2 9 32 0 0 7365746e7309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 10,
+      "result": "189 1 2 10 32 0 0 7365747009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 11,
+      "result": "189 1 2 11 32 0 0 7365746e7009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 12,
+      "result": "189 1 2 12 32 0 0 7365746c09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 13,
+      "result": "189 1 2 13 32 0 0 736574676509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 14,
+      "result": "189 1 2 14 32 0 0 7365746c6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 15,
+      "result": "189 1 2 15 32 0 0 7365746709"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "189 2 0 0 32 0 0 7365746f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 1,
+      "result": "189 2 0 1 32 0 0 7365746e6f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 2,
+      "result": "189 2 0 2 32 0 0 7365746209"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 3,
+      "result": "189 2 0 3 32 0 0 736574616509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 4,
+      "result": "189 2 0 4 32 0 0 7365746509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 5,
+      "result": "189 2 0 5 32 0 0 7365746e6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 6,
+      "result": "189 2 0 6 32 0 0 736574626509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 7,
+      "result": "189 2 0 7 32 0 0 7365746109"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 8,
+      "result": "189 2 0 8 32 0 0 7365747309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 9,
+      "result": "189 2 0 9 32 0 0 7365746e7309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 10,
+      "result": "189 2 0 10 32 0 0 7365747009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 11,
+      "result": "189 2 0 11 32 0 0 7365746e7009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 12,
+      "result": "189 2 0 12 32 0 0 7365746c09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 13,
+      "result": "189 2 0 13 32 0 0 736574676509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 14,
+      "result": "189 2 0 14 32 0 0 7365746c6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 15,
+      "result": "189 2 0 15 32 0 0 7365746709"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "189 2 1 0 32 0 0 7365746f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 1,
+      "result": "189 2 1 1 32 0 0 7365746e6f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 2,
+      "result": "189 2 1 2 32 0 0 7365746209"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 3,
+      "result": "189 2 1 3 32 0 0 736574616509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 4,
+      "result": "189 2 1 4 32 0 0 7365746509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 5,
+      "result": "189 2 1 5 32 0 0 7365746e6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 6,
+      "result": "189 2 1 6 32 0 0 736574626509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 7,
+      "result": "189 2 1 7 32 0 0 7365746109"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 8,
+      "result": "189 2 1 8 32 0 0 7365747309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 9,
+      "result": "189 2 1 9 32 0 0 7365746e7309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 10,
+      "result": "189 2 1 10 32 0 0 7365747009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 11,
+      "result": "189 2 1 11 32 0 0 7365746e7009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 12,
+      "result": "189 2 1 12 32 0 0 7365746c09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 13,
+      "result": "189 2 1 13 32 0 0 736574676509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 14,
+      "result": "189 2 1 14 32 0 0 7365746c6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 15,
+      "result": "189 2 1 15 32 0 0 7365746709"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "189 2 2 0 32 0 0 7365746f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 1,
+      "result": "189 2 2 1 32 0 0 7365746e6f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 2,
+      "result": "189 2 2 2 32 0 0 7365746209"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 3,
+      "result": "189 2 2 3 32 0 0 736574616509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 4,
+      "result": "189 2 2 4 32 0 0 7365746509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 5,
+      "result": "189 2 2 5 32 0 0 7365746e6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 6,
+      "result": "189 2 2 6 32 0 0 736574626509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 7,
+      "result": "189 2 2 7 32 0 0 7365746109"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 8,
+      "result": "189 2 2 8 32 0 0 7365747309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 9,
+      "result": "189 2 2 9 32 0 0 7365746e7309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 10,
+      "result": "189 2 2 10 32 0 0 7365747009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 11,
+      "result": "189 2 2 11 32 0 0 7365746e7009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 12,
+      "result": "189 2 2 12 32 0 0 7365746c09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 13,
+      "result": "189 2 2 13 32 0 0 736574676509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 14,
+      "result": "189 2 2 14 32 0 0 7365746c6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 15,
+      "result": "189 2 2 15 32 0 0 7365746709"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "189 4 0 0 32 0 0 7365746f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 1,
+      "result": "189 4 0 1 32 0 0 7365746e6f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 2,
+      "result": "189 4 0 2 32 0 0 7365746209"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 3,
+      "result": "189 4 0 3 32 0 0 736574616509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 4,
+      "result": "189 4 0 4 32 0 0 7365746509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 5,
+      "result": "189 4 0 5 32 0 0 7365746e6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 6,
+      "result": "189 4 0 6 32 0 0 736574626509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 7,
+      "result": "189 4 0 7 32 0 0 7365746109"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 8,
+      "result": "189 4 0 8 32 0 0 7365747309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 9,
+      "result": "189 4 0 9 32 0 0 7365746e7309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 10,
+      "result": "189 4 0 10 32 0 0 7365747009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 11,
+      "result": "189 4 0 11 32 0 0 7365746e7009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 12,
+      "result": "189 4 0 12 32 0 0 7365746c09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 13,
+      "result": "189 4 0 13 32 0 0 736574676509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 14,
+      "result": "189 4 0 14 32 0 0 7365746c6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 15,
+      "result": "189 4 0 15 32 0 0 7365746709"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "189 4 1 0 32 0 0 7365746f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 1,
+      "result": "189 4 1 1 32 0 0 7365746e6f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 2,
+      "result": "189 4 1 2 32 0 0 7365746209"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 3,
+      "result": "189 4 1 3 32 0 0 736574616509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 4,
+      "result": "189 4 1 4 32 0 0 7365746509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 5,
+      "result": "189 4 1 5 32 0 0 7365746e6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 6,
+      "result": "189 4 1 6 32 0 0 736574626509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 7,
+      "result": "189 4 1 7 32 0 0 7365746109"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 8,
+      "result": "189 4 1 8 32 0 0 7365747309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 9,
+      "result": "189 4 1 9 32 0 0 7365746e7309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 10,
+      "result": "189 4 1 10 32 0 0 7365747009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 11,
+      "result": "189 4 1 11 32 0 0 7365746e7009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 12,
+      "result": "189 4 1 12 32 0 0 7365746c09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 13,
+      "result": "189 4 1 13 32 0 0 736574676509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 14,
+      "result": "189 4 1 14 32 0 0 7365746c6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 15,
+      "result": "189 4 1 15 32 0 0 7365746709"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "189 4 2 0 32 0 0 7365746f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 1,
+      "result": "189 4 2 1 32 0 0 7365746e6f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 2,
+      "result": "189 4 2 2 32 0 0 7365746209"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 3,
+      "result": "189 4 2 3 32 0 0 736574616509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 4,
+      "result": "189 4 2 4 32 0 0 7365746509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 5,
+      "result": "189 4 2 5 32 0 0 7365746e6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 6,
+      "result": "189 4 2 6 32 0 0 736574626509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 7,
+      "result": "189 4 2 7 32 0 0 7365746109"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 8,
+      "result": "189 4 2 8 32 0 0 7365747309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 9,
+      "result": "189 4 2 9 32 0 0 7365746e7309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 10,
+      "result": "189 4 2 10 32 0 0 7365747009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 11,
+      "result": "189 4 2 11 32 0 0 7365746e7009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 12,
+      "result": "189 4 2 12 32 0 0 7365746c09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 13,
+      "result": "189 4 2 13 32 0 0 736574676509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 14,
+      "result": "189 4 2 14 32 0 0 7365746c6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 15,
+      "result": "189 4 2 15 32 0 0 7365746709"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "189 8 0 0 32 0 0 7365746f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 1,
+      "result": "189 8 0 1 32 0 0 7365746e6f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 2,
+      "result": "189 8 0 2 32 0 0 7365746209"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 3,
+      "result": "189 8 0 3 32 0 0 736574616509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 4,
+      "result": "189 8 0 4 32 0 0 7365746509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 5,
+      "result": "189 8 0 5 32 0 0 7365746e6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 6,
+      "result": "189 8 0 6 32 0 0 736574626509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 7,
+      "result": "189 8 0 7 32 0 0 7365746109"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 8,
+      "result": "189 8 0 8 32 0 0 7365747309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 9,
+      "result": "189 8 0 9 32 0 0 7365746e7309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 10,
+      "result": "189 8 0 10 32 0 0 7365747009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 11,
+      "result": "189 8 0 11 32 0 0 7365746e7009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 12,
+      "result": "189 8 0 12 32 0 0 7365746c09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 13,
+      "result": "189 8 0 13 32 0 0 736574676509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 14,
+      "result": "189 8 0 14 32 0 0 7365746c6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 15,
+      "result": "189 8 0 15 32 0 0 7365746709"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "189 8 1 0 32 0 0 7365746f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 1,
+      "result": "189 8 1 1 32 0 0 7365746e6f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 2,
+      "result": "189 8 1 2 32 0 0 7365746209"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 3,
+      "result": "189 8 1 3 32 0 0 736574616509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 4,
+      "result": "189 8 1 4 32 0 0 7365746509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 5,
+      "result": "189 8 1 5 32 0 0 7365746e6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 6,
+      "result": "189 8 1 6 32 0 0 736574626509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 7,
+      "result": "189 8 1 7 32 0 0 7365746109"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 8,
+      "result": "189 8 1 8 32 0 0 7365747309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 9,
+      "result": "189 8 1 9 32 0 0 7365746e7309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 10,
+      "result": "189 8 1 10 32 0 0 7365747009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 11,
+      "result": "189 8 1 11 32 0 0 7365746e7009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 12,
+      "result": "189 8 1 12 32 0 0 7365746c09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 13,
+      "result": "189 8 1 13 32 0 0 736574676509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 14,
+      "result": "189 8 1 14 32 0 0 7365746c6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 15,
+      "result": "189 8 1 15 32 0 0 7365746709"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "189 8 2 0 32 0 0 7365746f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 1,
+      "result": "189 8 2 1 32 0 0 7365746e6f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 2,
+      "result": "189 8 2 2 32 0 0 7365746209"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 3,
+      "result": "189 8 2 3 32 0 0 736574616509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 4,
+      "result": "189 8 2 4 32 0 0 7365746509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 5,
+      "result": "189 8 2 5 32 0 0 7365746e6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 6,
+      "result": "189 8 2 6 32 0 0 736574626509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 7,
+      "result": "189 8 2 7 32 0 0 7365746109"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 8,
+      "result": "189 8 2 8 32 0 0 7365747309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 9,
+      "result": "189 8 2 9 32 0 0 7365746e7309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 10,
+      "result": "189 8 2 10 32 0 0 7365747009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 11,
+      "result": "189 8 2 11 32 0 0 7365746e7009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 12,
+      "result": "189 8 2 12 32 0 0 7365746c09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 13,
+      "result": "189 8 2 13 32 0 0 736574676509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 14,
+      "result": "189 8 2 14 32 0 0 7365746c6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 15,
+      "result": "189 8 2 15 32 0 0 7365746709"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "189 10 0 0 32 0 0 7365746f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 1,
+      "result": "189 10 0 1 32 0 0 7365746e6f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 2,
+      "result": "189 10 0 2 32 0 0 7365746209"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 3,
+      "result": "189 10 0 3 32 0 0 736574616509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 4,
+      "result": "189 10 0 4 32 0 0 7365746509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 5,
+      "result": "189 10 0 5 32 0 0 7365746e6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 6,
+      "result": "189 10 0 6 32 0 0 736574626509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 7,
+      "result": "189 10 0 7 32 0 0 7365746109"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 8,
+      "result": "189 10 0 8 32 0 0 7365747309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 9,
+      "result": "189 10 0 9 32 0 0 7365746e7309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 10,
+      "result": "189 10 0 10 32 0 0 7365747009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 11,
+      "result": "189 10 0 11 32 0 0 7365746e7009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 12,
+      "result": "189 10 0 12 32 0 0 7365746c09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 13,
+      "result": "189 10 0 13 32 0 0 736574676509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 14,
+      "result": "189 10 0 14 32 0 0 7365746c6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 15,
+      "result": "189 10 0 15 32 0 0 7365746709"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "189 10 1 0 32 0 0 7365746f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 1,
+      "result": "189 10 1 1 32 0 0 7365746e6f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 2,
+      "result": "189 10 1 2 32 0 0 7365746209"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 3,
+      "result": "189 10 1 3 32 0 0 736574616509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 4,
+      "result": "189 10 1 4 32 0 0 7365746509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 5,
+      "result": "189 10 1 5 32 0 0 7365746e6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 6,
+      "result": "189 10 1 6 32 0 0 736574626509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 7,
+      "result": "189 10 1 7 32 0 0 7365746109"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 8,
+      "result": "189 10 1 8 32 0 0 7365747309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 9,
+      "result": "189 10 1 9 32 0 0 7365746e7309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 10,
+      "result": "189 10 1 10 32 0 0 7365747009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 11,
+      "result": "189 10 1 11 32 0 0 7365746e7009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 12,
+      "result": "189 10 1 12 32 0 0 7365746c09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 13,
+      "result": "189 10 1 13 32 0 0 736574676509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 14,
+      "result": "189 10 1 14 32 0 0 7365746c6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 15,
+      "result": "189 10 1 15 32 0 0 7365746709"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "189 10 2 0 32 0 0 7365746f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 1,
+      "result": "189 10 2 1 32 0 0 7365746e6f09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 2,
+      "result": "189 10 2 2 32 0 0 7365746209"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 3,
+      "result": "189 10 2 3 32 0 0 736574616509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 4,
+      "result": "189 10 2 4 32 0 0 7365746509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 5,
+      "result": "189 10 2 5 32 0 0 7365746e6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 6,
+      "result": "189 10 2 6 32 0 0 736574626509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 7,
+      "result": "189 10 2 7 32 0 0 7365746109"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 8,
+      "result": "189 10 2 8 32 0 0 7365747309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 9,
+      "result": "189 10 2 9 32 0 0 7365746e7309"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 10,
+      "result": "189 10 2 10 32 0 0 7365747009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 11,
+      "result": "189 10 2 11 32 0 0 7365746e7009"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 12,
+      "result": "189 10 2 12 32 0 0 7365746c09"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 13,
+      "result": "189 10 2 13 32 0 0 736574676509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 14,
+      "result": "189 10 2 14 32 0 0 7365746c6509"
+    },
+    {
+      "operation": "SCC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 15,
+      "result": "189 10 2 15 32 0 0 7365746709"
+    },
+    {
+      "operation": "JCXZ",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "22 1 0 0 32 0 0 6a63787a09"
+    },
+    {
+      "operation": "JCXZ",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "22 1 1 0 32 0 0 6a63787a09"
+    },
+    {
+      "operation": "JCXZ",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "22 1 2 0 32 0 0 6a63787a09"
+    },
+    {
+      "operation": "JCXZ",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "22 2 0 0 32 0 0 6a63787a09"
+    },
+    {
+      "operation": "JCXZ",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "22 2 1 0 32 0 0 6a63787a09"
+    },
+    {
+      "operation": "JCXZ",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "22 2 2 0 32 0 0 6a63787a09"
+    },
+    {
+      "operation": "JCXZ",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "22 4 0 0 32 0 0 6a6563787a09"
+    },
+    {
+      "operation": "JCXZ",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "22 4 1 0 32 0 0 6a6563787a09"
+    },
+    {
+      "operation": "JCXZ",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "22 4 2 0 32 0 0 6a6563787a09"
+    },
+    {
+      "operation": "JCXZ",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "22 8 0 0 32 0 0 6a63787a09"
+    },
+    {
+      "operation": "JCXZ",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "22 8 1 0 32 0 0 6a63787a09"
+    },
+    {
+      "operation": "JCXZ",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "22 8 2 0 32 0 0 6a63787a09"
+    },
+    {
+      "operation": "JCXZ",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "22 10 0 0 32 0 0 6a63787a09"
+    },
+    {
+      "operation": "JCXZ",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "22 10 1 0 32 0 0 6a63787a09"
+    },
+    {
+      "operation": "JCXZ",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "22 10 2 0 32 0 0 6a63787a09"
+    },
+    {
+      "operation": "INC",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "33 1 0 0 32 0 0 696e6309"
+    },
+    {
+      "operation": "INC",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "33 1 1 0 32 0 0 6470616409"
+    },
+    {
+      "operation": "INC",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "33 1 2 0 32 0 0 696e6309"
+    },
+    {
+      "operation": "INC",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "33 2 0 0 32 0 0 696e6309"
+    },
+    {
+      "operation": "INC",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "33 2 1 0 32 0 0 6470616409"
+    },
+    {
+      "operation": "INC",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "33 2 2 0 32 0 0 696e6309"
+    },
+    {
+      "operation": "INC",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "33 4 0 0 32 0 0 696e6309"
+    },
+    {
+      "operation": "INC",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "33 4 1 0 32 0 0 6470616409"
+    },
+    {
+      "operation": "INC",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "33 4 2 0 32 0 0 696e6309"
+    },
+    {
+      "operation": "INC",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "33 8 0 0 32 0 0 696e6309"
+    },
+    {
+      "operation": "INC",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "33 8 1 0 32 0 0 6470616409"
+    },
+    {
+      "operation": "INC",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "33 8 2 0 32 0 0 696e6309"
+    },
+    {
+      "operation": "INC",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "33 10 0 0 32 0 0 696e6309"
+    },
+    {
+      "operation": "INC",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "33 10 1 0 32 0 0 6470616409"
+    },
+    {
+      "operation": "INC",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "33 10 2 0 32 0 0 696e6309"
+    },
+    {
+      "operation": "CMPS",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "53 1 0 0 30 2 0 636d70737331"
+    },
+    {
+      "operation": "CMPS",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "53 1 1 0 30 2 0 636d70737331"
+    },
+    {
+      "operation": "CMPS",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "53 1 2 0 30 2 0 636d70737331"
+    },
+    {
+      "operation": "CMPS",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "53 2 0 0 30 3 0 636d70737332"
+    },
+    {
+      "operation": "CMPS",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "53 2 1 0 30 3 0 636d70737332"
+    },
+    {
+      "operation": "CMPS",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "53 2 2 0 30 3 0 636d70737332"
+    },
+    {
+      "operation": "CMPS",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "53 4 0 0 30 5 0 636d70737334"
+    },
+    {
+      "operation": "CMPS",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "53 4 1 0 30 5 0 636d70737334"
+    },
+    {
+      "operation": "CMPS",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "53 4 2 0 30 5 0 636d70737334"
+    },
+    {
+      "operation": "CMPS",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "53 8 0 0 30 9 0 636d70737338"
+    },
+    {
+      "operation": "CMPS",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "53 8 1 0 30 9 0 636d70737338"
+    },
+    {
+      "operation": "CMPS",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "53 8 2 0 30 9 0 636d70737338"
+    },
+    {
+      "operation": "CMPS",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "53 10 0 0 31 11 0 636d7073733130"
+    },
+    {
+      "operation": "CMPS",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "53 10 1 0 31 11 0 636d7073733130"
+    },
+    {
+      "operation": "CMPS",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "53 10 2 0 31 11 0 636d7073733130"
+    },
+    {
+      "operation": "INS",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "54 1 0 0 29 2 0 696e737331"
+    },
+    {
+      "operation": "INS",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "54 1 1 0 29 2 0 696e737331"
+    },
+    {
+      "operation": "INS",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "54 1 2 0 29 2 0 696e737331"
+    },
+    {
+      "operation": "INS",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "54 2 0 0 29 3 0 696e737332"
+    },
+    {
+      "operation": "INS",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "54 2 1 0 29 3 0 696e737332"
+    },
+    {
+      "operation": "INS",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "54 2 2 0 29 3 0 696e737332"
+    },
+    {
+      "operation": "INS",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "54 4 0 0 29 5 0 696e737334"
+    },
+    {
+      "operation": "INS",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "54 4 1 0 29 5 0 696e737334"
+    },
+    {
+      "operation": "INS",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "54 4 2 0 29 5 0 696e737334"
+    },
+    {
+      "operation": "INS",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "54 8 0 0 29 9 0 696e737338"
+    },
+    {
+      "operation": "INS",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "54 8 1 0 29 9 0 696e737338"
+    },
+    {
+      "operation": "INS",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "54 8 2 0 29 9 0 696e737338"
+    },
+    {
+      "operation": "INS",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "54 10 0 0 30 11 0 696e73733130"
+    },
+    {
+      "operation": "INS",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "54 10 1 0 30 11 0 696e73733130"
+    },
+    {
+      "operation": "INS",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "54 10 2 0 30 11 0 696e73733130"
+    },
+    {
+      "operation": "LODS",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "55 1 0 0 30 2 0 6c6f64737331"
+    },
+    {
+      "operation": "LODS",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "55 1 1 0 30 2 0 6c6f64737331"
+    },
+    {
+      "operation": "LODS",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "55 1 2 0 30 2 0 6c6f64737331"
+    },
+    {
+      "operation": "LODS",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "55 2 0 0 30 3 0 6c6f64737332"
+    },
+    {
+      "operation": "LODS",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "55 2 1 0 30 3 0 6c6f64737332"
+    },
+    {
+      "operation": "LODS",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "55 2 2 0 30 3 0 6c6f64737332"
+    },
+    {
+      "operation": "LODS",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "55 4 0 0 30 5 0 6c6f64737334"
+    },
+    {
+      "operation": "LODS",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "55 4 1 0 30 5 0 6c6f64737334"
+    },
+    {
+      "operation": "LODS",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "55 4 2 0 30 5 0 6c6f64737334"
+    },
+    {
+      "operation": "LODS",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "55 8 0 0 30 9 0 6c6f64737338"
+    },
+    {
+      "operation": "LODS",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "55 8 1 0 30 9 0 6c6f64737338"
+    },
+    {
+      "operation": "LODS",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "55 8 2 0 30 9 0 6c6f64737338"
+    },
+    {
+      "operation": "LODS",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "55 10 0 0 31 11 0 6c6f6473733130"
+    },
+    {
+      "operation": "LODS",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "55 10 1 0 31 11 0 6c6f6473733130"
+    },
+    {
+      "operation": "LODS",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "55 10 2 0 31 11 0 6c6f6473733130"
+    },
+    {
+      "operation": "MOVS",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "56 1 0 0 30 2 0 6d6f76737331"
+    },
+    {
+      "operation": "MOVS",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "56 1 1 0 30 2 0 6d6f76737331"
+    },
+    {
+      "operation": "MOVS",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "56 1 2 0 30 2 0 6d6f76737331"
+    },
+    {
+      "operation": "MOVS",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "56 2 0 0 30 3 0 6d6f76737332"
+    },
+    {
+      "operation": "MOVS",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "56 2 1 0 30 3 0 6d6f76737332"
+    },
+    {
+      "operation": "MOVS",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "56 2 2 0 30 3 0 6d6f76737332"
+    },
+    {
+      "operation": "MOVS",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "56 4 0 0 30 5 0 6d6f76737334"
+    },
+    {
+      "operation": "MOVS",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "56 4 1 0 30 5 0 6d6f76737334"
+    },
+    {
+      "operation": "MOVS",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "56 4 2 0 30 5 0 6d6f76737334"
+    },
+    {
+      "operation": "MOVS",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "56 8 0 0 30 9 0 6d6f76737338"
+    },
+    {
+      "operation": "MOVS",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "56 8 1 0 30 9 0 6d6f76737338"
+    },
+    {
+      "operation": "MOVS",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "56 8 2 0 30 9 0 6d6f76737338"
+    },
+    {
+      "operation": "MOVS",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "56 10 0 0 31 11 0 6d6f7673733130"
+    },
+    {
+      "operation": "MOVS",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "56 10 1 0 31 11 0 6d6f7673733130"
+    },
+    {
+      "operation": "MOVS",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "56 10 2 0 31 11 0 6d6f7673733130"
+    },
+    {
+      "operation": "OUTS",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "57 1 0 0 30 2 0 6f7574737331"
+    },
+    {
+      "operation": "OUTS",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "57 1 1 0 30 2 0 6f7574737331"
+    },
+    {
+      "operation": "OUTS",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "57 1 2 0 30 2 0 6f7574737331"
+    },
+    {
+      "operation": "OUTS",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "57 2 0 0 30 3 0 6f7574737332"
+    },
+    {
+      "operation": "OUTS",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "57 2 1 0 30 3 0 6f7574737332"
+    },
+    {
+      "operation": "OUTS",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "57 2 2 0 30 3 0 6f7574737332"
+    },
+    {
+      "operation": "OUTS",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "57 4 0 0 30 5 0 6f7574737334"
+    },
+    {
+      "operation": "OUTS",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "57 4 1 0 30 5 0 6f7574737334"
+    },
+    {
+      "operation": "OUTS",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "57 4 2 0 30 5 0 6f7574737334"
+    },
+    {
+      "operation": "OUTS",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "57 8 0 0 30 9 0 6f7574737338"
+    },
+    {
+      "operation": "OUTS",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "57 8 1 0 30 9 0 6f7574737338"
+    },
+    {
+      "operation": "OUTS",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "57 8 2 0 30 9 0 6f7574737338"
+    },
+    {
+      "operation": "OUTS",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "57 10 0 0 31 11 0 6f757473733130"
+    },
+    {
+      "operation": "OUTS",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "57 10 1 0 31 11 0 6f757473733130"
+    },
+    {
+      "operation": "OUTS",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "57 10 2 0 31 11 0 6f757473733130"
+    },
+    {
+      "operation": "SCAS",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "58 1 0 0 30 2 0 736361737331"
+    },
+    {
+      "operation": "SCAS",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "58 1 1 0 30 2 0 736361737331"
+    },
+    {
+      "operation": "SCAS",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "58 1 2 0 30 2 0 736361737331"
+    },
+    {
+      "operation": "SCAS",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "58 2 0 0 30 3 0 736361737332"
+    },
+    {
+      "operation": "SCAS",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "58 2 1 0 30 3 0 736361737332"
+    },
+    {
+      "operation": "SCAS",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "58 2 2 0 30 3 0 736361737332"
+    },
+    {
+      "operation": "SCAS",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "58 4 0 0 30 5 0 736361737334"
+    },
+    {
+      "operation": "SCAS",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "58 4 1 0 30 5 0 736361737334"
+    },
+    {
+      "operation": "SCAS",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "58 4 2 0 30 5 0 736361737334"
+    },
+    {
+      "operation": "SCAS",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "58 8 0 0 30 9 0 736361737338"
+    },
+    {
+      "operation": "SCAS",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "58 8 1 0 30 9 0 736361737338"
+    },
+    {
+      "operation": "SCAS",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "58 8 2 0 30 9 0 736361737338"
+    },
+    {
+      "operation": "SCAS",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "58 10 0 0 31 11 0 73636173733130"
+    },
+    {
+      "operation": "SCAS",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "58 10 1 0 31 11 0 73636173733130"
+    },
+    {
+      "operation": "SCAS",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "58 10 2 0 31 11 0 73636173733130"
+    },
+    {
+      "operation": "STOS",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "59 1 0 0 30 2 0 73746f737331"
+    },
+    {
+      "operation": "STOS",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "59 1 1 0 30 2 0 73746f737331"
+    },
+    {
+      "operation": "STOS",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "59 1 2 0 30 2 0 73746f737331"
+    },
+    {
+      "operation": "STOS",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "59 2 0 0 30 3 0 73746f737332"
+    },
+    {
+      "operation": "STOS",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "59 2 1 0 30 3 0 73746f737332"
+    },
+    {
+      "operation": "STOS",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "59 2 2 0 30 3 0 73746f737332"
+    },
+    {
+      "operation": "STOS",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "59 4 0 0 30 5 0 73746f737334"
+    },
+    {
+      "operation": "STOS",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "59 4 1 0 30 5 0 73746f737334"
+    },
+    {
+      "operation": "STOS",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "59 4 2 0 30 5 0 73746f737334"
+    },
+    {
+      "operation": "STOS",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "59 8 0 0 30 9 0 73746f737338"
+    },
+    {
+      "operation": "STOS",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "59 8 1 0 30 9 0 73746f737338"
+    },
+    {
+      "operation": "STOS",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "59 8 2 0 30 9 0 73746f737338"
+    },
+    {
+      "operation": "STOS",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "59 10 0 0 31 11 0 73746f73733130"
+    },
+    {
+      "operation": "STOS",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "59 10 1 0 31 11 0 73746f73733130"
+    },
+    {
+      "operation": "STOS",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "59 10 2 0 31 11 0 73746f73733130"
+    },
+    {
+      "operation": "POPA",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "170 1 0 0 28 0 0 706f7061"
+    },
+    {
+      "operation": "POPA",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "170 1 1 0 28 0 0 706f7061"
+    },
+    {
+      "operation": "POPA",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "170 1 2 0 28 0 0 706f7061"
+    },
+    {
+      "operation": "POPA",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "170 2 0 0 28 0 0 706f7061"
+    },
+    {
+      "operation": "POPA",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "170 2 1 0 28 0 0 706f7061"
+    },
+    {
+      "operation": "POPA",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "170 2 2 0 28 0 0 706f7061"
+    },
+    {
+      "operation": "POPA",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "170 4 0 0 30 5 0 706f70617334"
+    },
+    {
+      "operation": "POPA",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "170 4 1 0 30 5 0 706f70617334"
+    },
+    {
+      "operation": "POPA",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "170 4 2 0 30 5 0 706f70617334"
+    },
+    {
+      "operation": "POPA",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "170 8 0 0 28 0 0 706f7061"
+    },
+    {
+      "operation": "POPA",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "170 8 1 0 28 0 0 706f7061"
+    },
+    {
+      "operation": "POPA",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "170 8 2 0 28 0 0 706f7061"
+    },
+    {
+      "operation": "POPA",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "170 10 0 0 28 0 0 706f7061"
+    },
+    {
+      "operation": "POPA",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "170 10 1 0 28 0 0 706f7061"
+    },
+    {
+      "operation": "POPA",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "170 10 2 0 28 0 0 706f7061"
+    },
+    {
+      "operation": "POPF",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "171 1 0 0 28 0 0 706f7066"
+    },
+    {
+      "operation": "POPF",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "171 1 1 0 28 0 0 706f7066"
+    },
+    {
+      "operation": "POPF",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "171 1 2 0 28 0 0 706f7066"
+    },
+    {
+      "operation": "POPF",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "171 2 0 0 28 0 0 706f7066"
+    },
+    {
+      "operation": "POPF",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "171 2 1 0 28 0 0 706f7066"
+    },
+    {
+      "operation": "POPF",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "171 2 2 0 28 0 0 706f7066"
+    },
+    {
+      "operation": "POPF",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "171 4 0 0 30 5 0 706f70667334"
+    },
+    {
+      "operation": "POPF",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "171 4 1 0 30 5 0 706f70667334"
+    },
+    {
+      "operation": "POPF",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "171 4 2 0 30 5 0 706f70667334"
+    },
+    {
+      "operation": "POPF",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "171 8 0 0 28 0 0 706f7066"
+    },
+    {
+      "operation": "POPF",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "171 8 1 0 28 0 0 706f7066"
+    },
+    {
+      "operation": "POPF",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "171 8 2 0 28 0 0 706f7066"
+    },
+    {
+      "operation": "POPF",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "171 10 0 0 28 0 0 706f7066"
+    },
+    {
+      "operation": "POPF",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "171 10 1 0 28 0 0 706f7066"
+    },
+    {
+      "operation": "POPF",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "171 10 2 0 28 0 0 706f7066"
+    },
+    {
+      "operation": "PUSHA",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "172 1 0 0 29 0 0 7075736861"
+    },
+    {
+      "operation": "PUSHA",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "172 1 1 0 29 0 0 7075736861"
+    },
+    {
+      "operation": "PUSHA",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "172 1 2 0 29 0 0 7075736861"
+    },
+    {
+      "operation": "PUSHA",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "172 2 0 0 29 0 0 7075736861"
+    },
+    {
+      "operation": "PUSHA",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "172 2 1 0 29 0 0 7075736861"
+    },
+    {
+      "operation": "PUSHA",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "172 2 2 0 29 0 0 7075736861"
+    },
+    {
+      "operation": "PUSHA",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "172 4 0 0 31 5 0 70757368617334"
+    },
+    {
+      "operation": "PUSHA",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "172 4 1 0 31 5 0 70757368617334"
+    },
+    {
+      "operation": "PUSHA",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "172 4 2 0 31 5 0 70757368617334"
+    },
+    {
+      "operation": "PUSHA",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "172 8 0 0 29 0 0 7075736861"
+    },
+    {
+      "operation": "PUSHA",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "172 8 1 0 29 0 0 7075736861"
+    },
+    {
+      "operation": "PUSHA",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "172 8 2 0 29 0 0 7075736861"
+    },
+    {
+      "operation": "PUSHA",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "172 10 0 0 29 0 0 7075736861"
+    },
+    {
+      "operation": "PUSHA",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "172 10 1 0 29 0 0 7075736861"
+    },
+    {
+      "operation": "PUSHA",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "172 10 2 0 29 0 0 7075736861"
+    },
+    {
+      "operation": "PUSHF",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "173 1 0 0 29 0 0 7075736866"
+    },
+    {
+      "operation": "PUSHF",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "173 1 1 0 29 0 0 7075736866"
+    },
+    {
+      "operation": "PUSHF",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "173 1 2 0 29 0 0 7075736866"
+    },
+    {
+      "operation": "PUSHF",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "173 2 0 0 29 0 0 7075736866"
+    },
+    {
+      "operation": "PUSHF",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "173 2 1 0 29 0 0 7075736866"
+    },
+    {
+      "operation": "PUSHF",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "173 2 2 0 29 0 0 7075736866"
+    },
+    {
+      "operation": "PUSHF",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "173 4 0 0 31 5 0 70757368667334"
+    },
+    {
+      "operation": "PUSHF",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "173 4 1 0 31 5 0 70757368667334"
+    },
+    {
+      "operation": "PUSHF",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "173 4 2 0 31 5 0 70757368667334"
+    },
+    {
+      "operation": "PUSHF",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "173 8 0 0 29 0 0 7075736866"
+    },
+    {
+      "operation": "PUSHF",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "173 8 1 0 29 0 0 7075736866"
+    },
+    {
+      "operation": "PUSHF",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "173 8 2 0 29 0 0 7075736866"
+    },
+    {
+      "operation": "PUSHF",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "173 10 0 0 29 0 0 7075736866"
+    },
+    {
+      "operation": "PUSHF",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "173 10 1 0 29 0 0 7075736866"
+    },
+    {
+      "operation": "PUSHF",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "173 10 2 0 29 0 0 7075736866"
+    },
+    {
+      "operation": "IMUL2",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "193 1 0 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL2",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "193 1 1 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL2",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "193 1 2 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL2",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "193 2 0 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL2",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "193 2 1 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL2",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "193 2 2 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL2",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "193 4 0 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL2",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "193 4 1 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL2",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "193 4 2 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL2",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "193 8 0 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL2",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "193 8 1 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL2",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "193 8 2 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL2",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "193 10 0 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL2",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "193 10 1 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL2",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "193 10 2 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL3",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "163 1 0 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL3",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "163 1 1 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL3",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "163 1 2 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL3",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "163 2 0 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL3",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "163 2 1 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL3",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "163 2 2 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL3",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "163 4 0 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL3",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "163 4 1 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL3",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "163 4 2 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL3",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "163 8 0 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL3",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "163 8 1 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL3",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "163 8 2 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL3",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "163 10 0 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL3",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "163 10 1 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "IMUL3",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "163 10 2 0 32 0 0 696d756c09"
+    },
+    {
+      "operation": "NOP",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "169 1 0 0 32 0 0 6e70616409"
+    },
+    {
+      "operation": "NOP",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "169 1 1 0 32 0 0 6e70616409"
+    },
+    {
+      "operation": "NOP",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "169 1 2 0 32 0 0 6e70616409"
+    },
+    {
+      "operation": "NOP",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "169 2 0 0 32 0 0 6e70616409"
+    },
+    {
+      "operation": "NOP",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "169 2 1 0 32 0 0 6e70616409"
+    },
+    {
+      "operation": "NOP",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "169 2 2 0 32 0 0 6e70616409"
+    },
+    {
+      "operation": "NOP",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "169 4 0 0 32 0 0 6e70616409"
+    },
+    {
+      "operation": "NOP",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "169 4 1 0 32 0 0 6e70616409"
+    },
+    {
+      "operation": "NOP",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "169 4 2 0 32 0 0 6e70616409"
+    },
+    {
+      "operation": "NOP",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "169 8 0 0 32 0 0 6e70616409"
+    },
+    {
+      "operation": "NOP",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "169 8 1 0 32 0 0 6e70616409"
+    },
+    {
+      "operation": "NOP",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "169 8 2 0 32 0 0 6e70616409"
+    },
+    {
+      "operation": "NOP",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "169 10 0 0 32 0 0 6e70616409"
+    },
+    {
+      "operation": "NOP",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "169 10 1 0 32 0 0 6e70616409"
+    },
+    {
+      "operation": "NOP",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "169 10 2 0 32 0 0 6e70616409"
+    },
+    {
+      "operation": "LOCK",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "182 1 0 0 29 0 0 6c6f636b5c"
+    },
+    {
+      "operation": "LOCK",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "182 1 1 0 29 0 0 6c6f636b5c"
+    },
+    {
+      "operation": "LOCK",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "182 1 2 0 29 0 0 6c6f636b5c"
+    },
+    {
+      "operation": "LOCK",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "182 2 0 0 29 0 0 6c6f636b5c"
+    },
+    {
+      "operation": "LOCK",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "182 2 1 0 29 0 0 6c6f636b5c"
+    },
+    {
+      "operation": "LOCK",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "182 2 2 0 29 0 0 6c6f636b5c"
+    },
+    {
+      "operation": "LOCK",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "182 4 0 0 29 0 0 6c6f636b5c"
+    },
+    {
+      "operation": "LOCK",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "182 4 1 0 29 0 0 6c6f636b5c"
+    },
+    {
+      "operation": "LOCK",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "182 4 2 0 29 0 0 6c6f636b5c"
+    },
+    {
+      "operation": "LOCK",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "182 8 0 0 29 0 0 6c6f636b5c"
+    },
+    {
+      "operation": "LOCK",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "182 8 1 0 29 0 0 6c6f636b5c"
+    },
+    {
+      "operation": "LOCK",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "182 8 2 0 29 0 0 6c6f636b5c"
+    },
+    {
+      "operation": "LOCK",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "182 10 0 0 29 0 0 6c6f636b5c"
+    },
+    {
+      "operation": "LOCK",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "182 10 1 0 29 0 0 6c6f636b5c"
+    },
+    {
+      "operation": "LOCK",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "182 10 2 0 29 0 0 6c6f636b5c"
+    },
+    {
+      "operation": "DATA",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "187 1 0 0 32 0 2 643109"
+    },
+    {
+      "operation": "DATA",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "187 1 1 0 32 0 2 643109"
+    },
+    {
+      "operation": "DATA",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "187 1 2 0 32 0 2 643109"
+    },
+    {
+      "operation": "DATA",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "187 2 0 0 32 0 3 643209"
+    },
+    {
+      "operation": "DATA",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "187 2 1 0 32 0 3 643209"
+    },
+    {
+      "operation": "DATA",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "187 2 2 0 32 0 3 643209"
+    },
+    {
+      "operation": "DATA",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "187 4 0 0 32 0 5 643409"
+    },
+    {
+      "operation": "DATA",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "187 4 1 0 32 0 5 643409"
+    },
+    {
+      "operation": "DATA",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "187 4 2 0 32 0 5 643409"
+    },
+    {
+      "operation": "DATA",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "187 8 0 0 32 0 9 643809"
+    },
+    {
+      "operation": "DATA",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "187 8 1 0 32 0 9 643809"
+    },
+    {
+      "operation": "DATA",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "187 8 2 0 32 0 9 643809"
+    },
+    {
+      "operation": "DATA",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "187 10 0 0 32 0 11 64313009"
+    },
+    {
+      "operation": "DATA",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "187 10 1 0 32 0 11 64313009"
+    },
+    {
+      "operation": "DATA",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "187 10 2 0 32 0 11 64313009"
+    },
+    {
+      "operation": "MOVZXW",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "195 1 0 0 32 0 0 6d6f767a7809"
+    },
+    {
+      "operation": "MOVZXW",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "195 1 1 0 32 0 0 6d6f767a7809"
+    },
+    {
+      "operation": "MOVZXW",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "195 1 2 0 32 0 0 6d6f767a7809"
+    },
+    {
+      "operation": "MOVZXW",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "195 2 0 0 32 0 0 6d6f767a7809"
+    },
+    {
+      "operation": "MOVZXW",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "195 2 1 0 32 0 0 6d6f767a7809"
+    },
+    {
+      "operation": "MOVZXW",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "195 2 2 0 32 0 0 6d6f767a7809"
+    },
+    {
+      "operation": "MOVZXW",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "195 4 0 0 32 0 0 6d6f767a7809"
+    },
+    {
+      "operation": "MOVZXW",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "195 4 1 0 32 0 0 6d6f767a7809"
+    },
+    {
+      "operation": "MOVZXW",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "195 4 2 0 32 0 0 6d6f767a7809"
+    },
+    {
+      "operation": "MOVZXW",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "195 8 0 0 32 0 0 6d6f767a7809"
+    },
+    {
+      "operation": "MOVZXW",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "195 8 1 0 32 0 0 6d6f767a7809"
+    },
+    {
+      "operation": "MOVZXW",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "195 8 2 0 32 0 0 6d6f767a7809"
+    },
+    {
+      "operation": "MOVZXW",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "195 10 0 0 32 0 0 6d6f767a7809"
+    },
+    {
+      "operation": "MOVZXW",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "195 10 1 0 32 0 0 6d6f767a7809"
+    },
+    {
+      "operation": "MOVZXW",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "195 10 2 0 32 0 0 6d6f767a7809"
+    },
+    {
+      "operation": "MOVSXW",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "197 1 0 0 32 0 0 6d6f76737809"
+    },
+    {
+      "operation": "MOVSXW",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "197 1 1 0 32 0 0 6d6f76737809"
+    },
+    {
+      "operation": "MOVSXW",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "197 1 2 0 32 0 0 6d6f76737809"
+    },
+    {
+      "operation": "MOVSXW",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "197 2 0 0 32 0 0 6d6f76737809"
+    },
+    {
+      "operation": "MOVSXW",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "197 2 1 0 32 0 0 6d6f76737809"
+    },
+    {
+      "operation": "MOVSXW",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "197 2 2 0 32 0 0 6d6f76737809"
+    },
+    {
+      "operation": "MOVSXW",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "197 4 0 0 32 0 0 6d6f76737809"
+    },
+    {
+      "operation": "MOVSXW",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "197 4 1 0 32 0 0 6d6f76737809"
+    },
+    {
+      "operation": "MOVSXW",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "197 4 2 0 32 0 0 6d6f76737809"
+    },
+    {
+      "operation": "MOVSXW",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "197 8 0 0 32 0 0 6d6f76737809"
+    },
+    {
+      "operation": "MOVSXW",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "197 8 1 0 32 0 0 6d6f76737809"
+    },
+    {
+      "operation": "MOVSXW",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "197 8 2 0 32 0 0 6d6f76737809"
+    },
+    {
+      "operation": "MOVSXW",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "197 10 0 0 32 0 0 6d6f76737809"
+    },
+    {
+      "operation": "MOVSXW",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "197 10 1 0 32 0 0 6d6f76737809"
+    },
+    {
+      "operation": "MOVSXW",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "197 10 2 0 32 0 0 6d6f76737809"
+    },
+    {
+      "operation": "MOVSR",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "208 1 0 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOVSR",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "208 1 1 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOVSR",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "208 1 2 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOVSR",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "208 2 0 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOVSR",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "208 2 1 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOVSR",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "208 2 2 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOVSR",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "208 4 0 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOVSR",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "208 4 1 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOVSR",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "208 4 2 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOVSR",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "208 8 0 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOVSR",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "208 8 1 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOVSR",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "208 8 2 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOVSR",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "208 10 0 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOVSR",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "208 10 1 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOVSR",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "208 10 2 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "REP",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "181 1 0 0 32 0 0 72657009"
+    },
+    {
+      "operation": "REP",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "181 1 1 0 32 0 0 72657009"
+    },
+    {
+      "operation": "REP",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "181 1 2 0 32 0 0 72657009"
+    },
+    {
+      "operation": "REP",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "181 2 0 0 32 0 0 72657009"
+    },
+    {
+      "operation": "REP",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "181 2 1 0 32 0 0 72657009"
+    },
+    {
+      "operation": "REP",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "181 2 2 0 32 0 0 72657009"
+    },
+    {
+      "operation": "REP",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "181 4 0 0 32 0 0 72657009"
+    },
+    {
+      "operation": "REP",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "181 4 1 0 32 0 0 72657009"
+    },
+    {
+      "operation": "REP",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "181 4 2 0 32 0 0 72657009"
+    },
+    {
+      "operation": "REP",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "181 8 0 0 32 0 0 72657009"
+    },
+    {
+      "operation": "REP",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "181 8 1 0 32 0 0 72657009"
+    },
+    {
+      "operation": "REP",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "181 8 2 0 32 0 0 72657009"
+    },
+    {
+      "operation": "REP",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "181 10 0 0 32 0 0 72657009"
+    },
+    {
+      "operation": "REP",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "181 10 1 0 32 0 0 72657009"
+    },
+    {
+      "operation": "REP",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "181 10 2 0 32 0 0 72657009"
+    },
+    {
+      "operation": "REPNZ",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "183 1 0 0 32 0 0 7265706e7a09"
+    },
+    {
+      "operation": "REPNZ",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "183 1 1 0 32 0 0 7265706e7a09"
+    },
+    {
+      "operation": "REPNZ",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "183 1 2 0 32 0 0 7265706e7a09"
+    },
+    {
+      "operation": "REPNZ",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "183 2 0 0 32 0 0 7265706e7a09"
+    },
+    {
+      "operation": "REPNZ",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "183 2 1 0 32 0 0 7265706e7a09"
+    },
+    {
+      "operation": "REPNZ",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "183 2 2 0 32 0 0 7265706e7a09"
+    },
+    {
+      "operation": "REPNZ",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "183 4 0 0 32 0 0 7265706e7a09"
+    },
+    {
+      "operation": "REPNZ",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "183 4 1 0 32 0 0 7265706e7a09"
+    },
+    {
+      "operation": "REPNZ",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "183 4 2 0 32 0 0 7265706e7a09"
+    },
+    {
+      "operation": "REPNZ",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "183 8 0 0 32 0 0 7265706e7a09"
+    },
+    {
+      "operation": "REPNZ",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "183 8 1 0 32 0 0 7265706e7a09"
+    },
+    {
+      "operation": "REPNZ",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "183 8 2 0 32 0 0 7265706e7a09"
+    },
+    {
+      "operation": "REPNZ",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "183 10 0 0 32 0 0 7265706e7a09"
+    },
+    {
+      "operation": "REPNZ",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "183 10 1 0 32 0 0 7265706e7a09"
+    },
+    {
+      "operation": "REPNZ",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "183 10 2 0 32 0 0 7265706e7a09"
+    },
+    {
+      "operation": "REPZ",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "184 1 0 0 32 0 0 7265707a09"
+    },
+    {
+      "operation": "REPZ",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "184 1 1 0 32 0 0 7265707a09"
+    },
+    {
+      "operation": "REPZ",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "184 1 2 0 32 0 0 7265707a09"
+    },
+    {
+      "operation": "REPZ",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "184 2 0 0 32 0 0 7265707a09"
+    },
+    {
+      "operation": "REPZ",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "184 2 1 0 32 0 0 7265707a09"
+    },
+    {
+      "operation": "REPZ",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "184 2 2 0 32 0 0 7265707a09"
+    },
+    {
+      "operation": "REPZ",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "184 4 0 0 32 0 0 7265707a09"
+    },
+    {
+      "operation": "REPZ",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "184 4 1 0 32 0 0 7265707a09"
+    },
+    {
+      "operation": "REPZ",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "184 4 2 0 32 0 0 7265707a09"
+    },
+    {
+      "operation": "REPZ",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "184 8 0 0 32 0 0 7265707a09"
+    },
+    {
+      "operation": "REPZ",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "184 8 1 0 32 0 0 7265707a09"
+    },
+    {
+      "operation": "REPZ",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "184 8 2 0 32 0 0 7265707a09"
+    },
+    {
+      "operation": "REPZ",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "184 10 0 0 32 0 0 7265707a09"
+    },
+    {
+      "operation": "REPZ",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "184 10 1 0 32 0 0 7265707a09"
+    },
+    {
+      "operation": "REPZ",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "184 10 2 0 32 0 0 7265707a09"
+    },
+    {
+      "operation": "MOV",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "1 1 0 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOV",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "1 1 1 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOV",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "1 1 2 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOV",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "1 2 0 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOV",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "1 2 1 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOV",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "1 2 2 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOV",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "1 4 0 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOV",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "1 4 1 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOV",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "1 4 2 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOV",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "1 8 0 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOV",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "1 8 1 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOV",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "1 8 2 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOV",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "1 10 0 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOV",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "1 10 1 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "MOV",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "1 10 2 0 32 0 0 6d6f7609"
+    },
+    {
+      "operation": "PUSH",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "13 1 0 0 32 0 0 7075736809"
+    },
+    {
+      "operation": "PUSH",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "13 1 1 0 32 0 0 7075736809"
+    },
+    {
+      "operation": "PUSH",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "13 1 2 0 32 0 0 7075736809"
+    },
+    {
+      "operation": "PUSH",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "13 2 0 0 32 0 0 7075736809"
+    },
+    {
+      "operation": "PUSH",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "13 2 1 0 32 0 0 7075736809"
+    },
+    {
+      "operation": "PUSH",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "13 2 2 0 32 0 0 7075736809"
+    },
+    {
+      "operation": "PUSH",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "13 4 0 0 32 0 0 7075736809"
+    },
+    {
+      "operation": "PUSH",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "13 4 1 0 32 0 0 7075736809"
+    },
+    {
+      "operation": "PUSH",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "13 4 2 0 32 0 0 7075736809"
+    },
+    {
+      "operation": "PUSH",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "13 8 0 0 32 0 0 7075736809"
+    },
+    {
+      "operation": "PUSH",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "13 8 1 0 32 0 0 7075736809"
+    },
+    {
+      "operation": "PUSH",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "13 8 2 0 32 0 0 7075736809"
+    },
+    {
+      "operation": "PUSH",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "13 10 0 0 32 0 0 7075736809"
+    },
+    {
+      "operation": "PUSH",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "13 10 1 0 32 0 0 7075736809"
+    },
+    {
+      "operation": "PUSH",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "13 10 2 0 32 0 0 7075736809"
+    },
+    {
+      "operation": "FADD",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "69 1 0 0 32 0 0 6661646409"
+    },
+    {
+      "operation": "FADD",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "69 1 1 0 32 0 0 6661646409"
+    },
+    {
+      "operation": "FADD",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "69 1 2 0 32 0 0 6661646409"
+    },
+    {
+      "operation": "FADD",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "69 2 0 0 32 0 0 6661646409"
+    },
+    {
+      "operation": "FADD",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "69 2 1 0 32 0 0 6661646409"
+    },
+    {
+      "operation": "FADD",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "69 2 2 0 32 0 0 6661646409"
+    },
+    {
+      "operation": "FADD",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "69 4 0 0 32 0 0 6661646409"
+    },
+    {
+      "operation": "FADD",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "69 4 1 0 32 0 0 6661646409"
+    },
+    {
+      "operation": "FADD",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "69 4 2 0 32 0 0 6661646409"
+    },
+    {
+      "operation": "FADD",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "69 8 0 0 32 0 0 6661646409"
+    },
+    {
+      "operation": "FADD",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "69 8 1 0 32 0 0 6661646409"
+    },
+    {
+      "operation": "FADD",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "69 8 2 0 32 0 0 6661646409"
+    },
+    {
+      "operation": "FADD",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "69 10 0 0 32 0 0 6661646409"
+    },
+    {
+      "operation": "FADD",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "69 10 1 0 32 0 0 6661646409"
+    },
+    {
+      "operation": "FADD",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "69 10 2 0 32 0 0 6661646409"
+    },
+    {
+      "operation": "FLD1",
+      "bytes": 1,
+      "mode": 0,
+      "condition": 0,
+      "result": "148 1 0 0 28 0 0 666c6431"
+    },
+    {
+      "operation": "FLD1",
+      "bytes": 1,
+      "mode": 1,
+      "condition": 0,
+      "result": "148 1 1 0 28 0 0 666c6431"
+    },
+    {
+      "operation": "FLD1",
+      "bytes": 1,
+      "mode": 2,
+      "condition": 0,
+      "result": "148 1 2 0 28 0 0 666c6431"
+    },
+    {
+      "operation": "FLD1",
+      "bytes": 2,
+      "mode": 0,
+      "condition": 0,
+      "result": "148 2 0 0 28 0 0 666c6431"
+    },
+    {
+      "operation": "FLD1",
+      "bytes": 2,
+      "mode": 1,
+      "condition": 0,
+      "result": "148 2 1 0 28 0 0 666c6431"
+    },
+    {
+      "operation": "FLD1",
+      "bytes": 2,
+      "mode": 2,
+      "condition": 0,
+      "result": "148 2 2 0 28 0 0 666c6431"
+    },
+    {
+      "operation": "FLD1",
+      "bytes": 4,
+      "mode": 0,
+      "condition": 0,
+      "result": "148 4 0 0 28 0 0 666c6431"
+    },
+    {
+      "operation": "FLD1",
+      "bytes": 4,
+      "mode": 1,
+      "condition": 0,
+      "result": "148 4 1 0 28 0 0 666c6431"
+    },
+    {
+      "operation": "FLD1",
+      "bytes": 4,
+      "mode": 2,
+      "condition": 0,
+      "result": "148 4 2 0 28 0 0 666c6431"
+    },
+    {
+      "operation": "FLD1",
+      "bytes": 8,
+      "mode": 0,
+      "condition": 0,
+      "result": "148 8 0 0 28 0 0 666c6431"
+    },
+    {
+      "operation": "FLD1",
+      "bytes": 8,
+      "mode": 1,
+      "condition": 0,
+      "result": "148 8 1 0 28 0 0 666c6431"
+    },
+    {
+      "operation": "FLD1",
+      "bytes": 8,
+      "mode": 2,
+      "condition": 0,
+      "result": "148 8 2 0 28 0 0 666c6431"
+    },
+    {
+      "operation": "FLD1",
+      "bytes": 10,
+      "mode": 0,
+      "condition": 0,
+      "result": "148 10 0 0 28 0 0 666c6431"
+    },
+    {
+      "operation": "FLD1",
+      "bytes": 10,
+      "mode": 1,
+      "condition": 0,
+      "result": "148 10 1 0 28 0 0 666c6431"
+    },
+    {
+      "operation": "FLD1",
+      "bytes": 10,
+      "mode": 2,
+      "condition": 0,
+      "result": "148 10 2 0 28 0 0 666c6431"
+    }
+  ],
+  "seconds": 8.572343442589045,
+  "source_sha256": "25da059a3974f3c7393b48160e24fd244009bc2fe59b83dbb92240d90e09d496",
+  "scope": "All231 typed enum-indexed spellings and16 condition spellings independently equal original/canonical linked values. Whole writer and actual relative-spacing C versus original2a140..2a36a with27-way switch data2a36c..2a3d8. Named size-suffix/data-directive children mocked, ASCII printf contract intercepted. Type/conditional/pseudo families and selected ordinary operations exercised; no child implementation, arbitrary opcode validity, printf failure or actual compile branch coverage claim.",
+  "probe_executable_sha256": "680a184bca08ca28956904ffd8250e49c821608779b1324124c4c2a15aeedc24",
+  "exact_extracted_body_sha256": "e2e5257aee59f8bca47d2618a762e3a82cea7e427320a7763e489520fd752ded",
+  "hash_note": "Pinned after the successful probe, before any further build of this probe; its current extracted C body is byte-identical to the current app definition. Other listing functions may have advanced independently."
+}

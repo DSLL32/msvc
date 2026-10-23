@@ -1,5 +1,12 @@
+C2 ACTIVE1222 accepted /1112 application graphs; matching write_instruction_operand29d00.
+331599/399693=82.963424% code-extent union, not branch coverage.
+Three whole text/special/mnemonic bodies1461B plus108B switch data; all14native cases pass(13complete+debug expectedtrap).
+All10 current listing-family formals/known implicit state observed; named children remain traps.
+See cases/dbglist-text-checkpoint.json, including failed FADD property substitution and corrected2772-shape proof.
+Continue approved debug/listing case; no new case yet.
+
 C2 ACTIVE1219 accepted /1109 application graphs; matching write_instruction_text29b30.
-330030/399693=82.570863% code-extent union, not branch coverage.
+330030/399693=82.570873% code-extent union, not branch coverage.
 Four whole listing/read/byte/spacing bodies add873bytes plus150bytes proved CRT support.
 All14 native cases pass:13complete+debug expected namedtrap; complete dbglist artifacts remain pending.
 Actual bytes/spaces/text formal inputs and known implicit state observed; see cases/dbglist-reader-checkpoint.json.

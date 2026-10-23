@@ -1223,7 +1223,10 @@
     "_strchr",
     "@write_instruction_listing@8",
     "@write_listing_bytes@12",
-    "@write_listing_spaces@4"
+    "@write_listing_spaces@4",
+    "@write_instruction_text@4",
+    "@write_special_instruction@4",
+    "@write_instruction_mnemonic@4"
   ],
   "driver": [
     {
@@ -7776,8 +7779,20 @@
     {
       "name": "@write_instruction_text@4",
       "start": 170800,
-      "end": 170801,
-      "provisional": true
+      "end": 170917,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "instruction",
+            "location": "ECX",
+            "type": "MachineInstruction pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-instruction-abi/validation.json"
+      }
     },
     {
       "name": "@write_instruction_comment@4",
@@ -7802,6 +7817,66 @@
         "callee_stack_cleanup": 0,
         "entry_observation": "cases/dbglist-bytes-abi/validation.json"
       }
+    },
+    {
+      "name": "@write_special_instruction@4",
+      "start": 173024,
+      "end": 173814,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "instruction",
+            "location": "ECX",
+            "type": "MachineInstruction pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-special-abi/validation.json"
+      }
+    },
+    {
+      "name": "@write_instruction_mnemonic@4",
+      "start": 172352,
+      "end": 172906,
+      "shared": [
+        [
+          172908,
+          173016
+        ]
+      ],
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "instruction",
+            "location": "ECX",
+            "type": "MachineInstruction pointer"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-mnemonic-abi/validation.json"
+      }
+    },
+    {
+      "name": "@write_instruction_operand@12",
+      "start": 171264,
+      "end": 171265,
+      "provisional": true
+    },
+    {
+      "name": "@machine_register_name@8",
+      "start": 219248,
+      "end": 219249,
+      "provisional": true
+    },
+    {
+      "name": "@listing_size_suffix@4",
+      "start": 174144,
+      "end": 174145,
+      "provisional": true
     }
   ],
   "cases": {

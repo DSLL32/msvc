@@ -7,6 +7,7 @@
 #include "function-input.h"
 #include "records.h"
 #include "instruction-encoding.h"
+#include "instruction-rewrite.h"
 #include "machine-layout.h"
 #include <recon.h>
 extern int dos_object;
@@ -253,6 +254,172 @@ MachineInstruction *__fastcall write_instruction_listing(MachineInstruction *ins
     printf("\n");
     return last->next;
 }
+/* Original811c0 has one pointer per MachineOpcode. No pointer identity is
+   exposed: the writer passes each selected spelling to printf("%s"). */
+const char *listing_mnemonics[MC_OPCODE_COUNT] = {
+#define MN(operation, spelling) spelling,
+#include "listing-mnemonics.def"
+#undef MN
+};
+const char *listing_condition_names[16] = {
+    "o", "no", "b", "ae", "e", "ne", "be", "a",
+    "s", "ns", "p", "np", "l", "ge", "le", "g"
+};
+
+/* Original2a140..2a36a; switch data2a36c..2a3d8. Type suffixes and
+   pseudo-operation spellings retain the original listing dialect. */
+void __fastcall write_instruction_mnemonic(MachineInstruction *instruction)
+{
+    unsigned operation = (instruction->opcode >> 8) & 255;
+    unsigned bytes = (instruction->opcode >> 4) & 15;
+    unsigned column;
+    const char *name = listing_mnemonics[operation], *suffix = NULL;
+    switch (operation) {
+    case MC_RET:
+        if (bytes != 4) suffix = "f";
+        break;
+    case MC_JCC: case MC_SCC:
+        name = operation == MC_JCC ? "j" : "set";
+        suffix = listing_condition_names[instruction->operands[1].flags & 15];
+        break;
+    case MC_JCXZ:
+        if (bytes == 4) name = "jecxz";
+        break;
+    case MC_INC:
+        if ((instruction->record.source_location & 0xe000) &&
+            (instruction->operands[0].flags & 15) == OPERAND_REGISTER)
+            name = "dpad";
+        break;
+    case MC_CMPS: case MC_INS: case MC_LODS: case MC_MOVS:
+    case MC_OUTS: case MC_SCAS: case MC_STOS:
+        suffix = listing_size_suffix(bytes);
+        break;
+    case MC_POPA: case MC_POPF: case MC_PUSHA: case MC_PUSHF:
+        if (bytes == 4) suffix = listing_size_suffix(4);
+        break;
+    case MC_IMUL3: case MC_IMUL2:
+        name = listing_mnemonics[MC_IMUL];
+        break;
+    case MC_NOP:
+        name = "npad";
+        break;
+    case MC_LOCK:
+        suffix = "\\";
+        break;
+    case MC_DATA:
+        name = listing_data_directive(bytes);
+        break;
+    case MC_MOVZXW:
+        name = listing_mnemonics[MC_MOVZX];
+        break;
+    case MC_MOVSXW:
+        name = listing_mnemonics[MC_MOVSX];
+        break;
+    case MC_MOVSR:
+        name = listing_mnemonics[MC_MOV];
+        break;
+    }
+    column = listing_column;
+    listing_column += printf("%s", name);
+    if (suffix) listing_column += printf("%s", suffix);
+    if (machine_operand_counts[operation] > 0 ||
+        (machine_selection_properties[operation] & MC_REPEAT_PREFIX) ||
+        operation == MC_NOP)
+        write_listing_spaces((int)(column - listing_column + 8));
+}
+
+/* Original2a3e0..2a6f6. These compiler forms have implicit operands or
+   carry an extra immediate/register inside their address record. */
+int __fastcall write_special_instruction(MachineInstruction *instruction)
+{
+    unsigned operation = (instruction->opcode >> 8) & 255;
+    unsigned bytes = (instruction->opcode >> 4) & 15;
+    MachineOperand *operand;
+    MachineAddress *address;
+    switch (operation) {
+    case MC_INC:
+        if (!(instruction->record.source_location & 0xe000) ||
+            (instruction->operands[0].flags & 15) != OPERAND_REGISTER)
+            return 0;
+        write_instruction_mnemonic(instruction);
+        listing_column += printf("1, %s", machine_register_name(
+            instruction->operands[0].value.reg.words.number, 4));
+        return 1;
+    case MC_FIST: case MC_FISTP: case MC_FST: case MC_FSTP:
+        write_instruction_mnemonic(instruction);
+        write_instruction_operand(instruction, &instruction->operands[0], bytes);
+        return 1;
+    case MC_FCOM: case MC_FCOMP: case MC_FLD:
+        write_instruction_mnemonic(instruction);
+        write_instruction_operand(instruction, &instruction->operands[1], bytes);
+        return 1;
+    case MC_IMUL3:
+        write_instruction_mnemonic(instruction);
+        address = instruction->operands[1].value.address;
+        listing_column += printf("%s, ", machine_register_name(
+            address->base.words.number, bytes));
+        write_instruction_operand(instruction, &instruction->operands[0], bytes);
+        if (!address->symbol) {
+            listing_column += printf(", %ld", address->first.displacement);
+        } else {
+            operand = &instruction->operands[1];
+            operand->flags = (operand->flags & ~9U) | OPERAND_LABEL_ADDRESS;
+            listing_column += printf(", ");
+            write_instruction_operand(instruction, operand, bytes);
+            operand->flags = (operand->flags & ~11U) | OPERAND_BASED;
+        }
+        return 1;
+    case MC_NOP:
+        write_instruction_mnemonic(instruction);
+        listing_column += printf("%d", bytes);
+        return 1;
+    case MC_SHLD: case MC_SHRD:
+        write_instruction_mnemonic(instruction);
+        write_instruction_operand(instruction, &instruction->operands[0], bytes);
+        operand = &instruction->operands[1];
+        if ((operand->flags & 15) == OPERAND_REGISTER) {
+            listing_column += printf(", %s, cl", machine_register_name(
+                operand->value.reg.words.number, bytes));
+        } else {
+            address = operand->value.address;
+            listing_column += printf(", %s, %d", machine_register_name(
+                address->base.words.number, bytes), address->first.displacement);
+        }
+        return 1;
+    default:
+        /* Original property bit0 classifies x87 operations. The selection
+           table uses its own normalized bits; implicit registers is a
+           different property and must not substitute for this test. */
+        if (!((operation >= MC_FADD && operation <= MC_FLD1) ||
+              (operation >= MC_FUCOM && operation <= MC_FCOS)) ||
+            machine_operand_counts[operation] != 2 ||
+            (instruction->operands[1].flags & 15) == OPERAND_REGISTER)
+            return 0;
+        write_instruction_mnemonic(instruction);
+        write_instruction_operand(instruction, &instruction->operands[1], bytes);
+        return 1;
+    }
+}
+
+/* Original29b30..29ba5. Special forms own all their text; ordinary forms
+   print the mnemonic followed by the declared machine operands. */
+void __fastcall write_instruction_text(MachineInstruction *instruction)
+{
+    int count;
+    if (write_special_instruction(instruction)) return;
+    write_instruction_mnemonic(instruction);
+    count = machine_operand_counts[(unsigned char)(instruction->opcode >> 8)];
+    if (count > 0) {
+        write_instruction_operand(instruction, &instruction->operands[0],
+            machine_operand_bytes(instruction, 0));
+        if (count > 1) {
+            listing_column += printf(", ");
+            write_instruction_operand(instruction, &instruction->operands[1],
+                machine_operand_bytes(instruction, 1));
+        }
+    }
+}
+
 /* Original29990..29a55. Unlike pad_listing_column, count is relative to
    the current column. A nonpositive count still emits one separator. */
 void __fastcall write_listing_spaces(int count)

@@ -278,3 +278,11 @@ control probes cover462 driver opcode/mode states and154 byte/spacing shapes.
 These mocked child/printf probes do not claim unvisited real-case coverage.
 See cases/dbglist-reader-checkpoint.json for raw failures, scope and all measured
 build/reference/debug/fixture/check times, including repeats.
+
+Checkpoint1222 adds the full instruction-text, special-form and mnemonic writers.
+Typed opcode spellings/condition names match every original/canonical index;
+2772 special-parent and915 mnemonic-parent shapes pass with explicit child mocks.
+The isolated FADD failure caught a wrong raw/normalized property substitution
+before acceptance. Actual operand entry includes all3 formals and alias/record/
+stdout/x87 observations. All14 native cases pass; debug artifacts remain pending.
+See cases/dbglist-text-checkpoint.json for scope, raw failures and split timings.

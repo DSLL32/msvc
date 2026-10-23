@@ -69,6 +69,12 @@ MachineInstruction *__fastcall write_instruction_listing(MachineInstruction *ins
 void __fastcall write_listing_bytes(unsigned offset, int count, unsigned char *bytes);
 void __fastcall write_listing_spaces(int count);
 void __fastcall write_instruction_text(MachineInstruction *instruction);
+int __fastcall write_special_instruction(MachineInstruction *instruction);
+void __fastcall write_instruction_mnemonic(MachineInstruction *instruction);
+void __fastcall write_instruction_operand(MachineInstruction *instruction, MachineOperand *operand, unsigned bytes);
+char *__fastcall machine_register_name(unsigned reg, unsigned bytes);
+char *__fastcall listing_size_suffix(unsigned bytes);
+char *__fastcall listing_data_directive(long bytes);
 void __fastcall write_instruction_comment(MachineInstruction *instruction);
 void __fastcall write_local_listing(SymbolHeader *symbol);
 #endif

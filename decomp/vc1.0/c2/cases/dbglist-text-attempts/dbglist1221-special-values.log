@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/check-listing-special.py", line 40, in <module>
+    assert native[index]==expected,(names[operation],mode,width,native[index],expected)
+           ^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError: ('FADD', 1, 1, '69 1 1 0 24 101 204 ', '69 1 1 1 24 101 204 M;O1:204:1;')

@@ -2,9 +2,12 @@
   "checked": [
     "@write_listing_bytes@12",
     "@write_listing_spaces@4",
-    "@write_instruction_text@4"
+    "@write_instruction_text@4",
+    "@write_special_instruction@4",
+    "@write_instruction_mnemonic@4",
+    "@write_instruction_operand@12"
   ],
-  "observed_formals": 5,
+  "observed_formals": 10,
   "rejected": [
     "empty formal metadata",
     "omitted stack byte pointer",
@@ -19,8 +22,12 @@
     "missing instruction formal",
     "unobserved instruction register",
     "changed instruction operand",
-    "broken instruction link identity"
+    "broken instruction link identity",
+    "missing operand width formal",
+    "wrong operand pointer alias",
+    "wrong actual operand width",
+    "unknown hidden operand input"
   ],
-  "seconds": 0.010359061881899834,
-  "scope": "Actual original/native byte formatter, padding and next instruction-text entry. Complete known formal observations plus static no-hidden-input/RET evidence. First instruction PUSH EBP scalar/adjacent-link projection only; no arbitrary deep pointer equivalence. No Wine/compiler/native launch."
+  "seconds": 0.01113707385957241,
+  "scope": "Actual original/native byte, spacing, instruction text/special/mnemonic and next operand entries. Complete known formal observations plus static no-hidden-input/RET evidence. First PUSH EBP scalar/adjacent-link and operand alias projection only; no arbitrary deep pointer equivalence. No Wine/compiler/native launch."
 }

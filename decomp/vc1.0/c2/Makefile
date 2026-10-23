@@ -46,7 +46,7 @@ audit-negatives: $(GRAPH_AUDIT_BIN)
 	$(PYTHON) scripts/check-numeric-support.py
 	$(PYTHON) scripts/check-input-support.py
 	$(PYTHON) scripts/check-listing-entry-abi.py
-audit-data: build/c2.exe native build/native/check-codeview-string build/native/check-coff-fill build/native/check-listing-directive build/native/check-listing-string build/native/check-assembly-instruction build/native/check-assembly-operand build/native/check-listing-float build/native/check-listing-storage build/native/check-listing-symbol build/native/check-instruction-listing build/native/check-listing-bytes
+audit-data: build/c2.exe native build/native/check-codeview-string build/native/check-coff-fill build/native/check-listing-directive build/native/check-listing-string build/native/check-assembly-instruction build/native/check-assembly-operand build/native/check-listing-float build/native/check-listing-storage build/native/check-listing-symbol build/native/check-instruction-listing build/native/check-listing-bytes build/native/check-listing-special build/native/check-listing-mnemonic
 	$(PYTHON) scripts/check-float-peephole-data.py
 	$(PYTHON) scripts/check-float-stack-effects.py
 	$(PYTHON) scripts/check-float-stack-effects.py --scheduler
@@ -74,6 +74,8 @@ audit-data: build/c2.exe native build/native/check-codeview-string build/native/
 	$(PYTHON) scripts/check-listing-symbol.py
 	$(PYTHON) scripts/check-instruction-listing.py
 	$(PYTHON) scripts/check-listing-bytes.py
+	$(PYTHON) scripts/check-listing-special.py
+	$(PYTHON) scripts/check-listing-mnemonic.py
 
 
 hello-frontier hello-check hello-replay: native-trace
@@ -209,3 +211,15 @@ build/native/listing-bytes-body.c: src/listing.c scripts/extract-listing-driver.
 
 build/native/check-listing-bytes: src/check-listing-bytes.c build/native/listing-bytes-body.c $(NATIVE_HEADERS)
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) src/check-listing-bytes.c build/native/listing-bytes-body.c -o $@
+
+build/native/listing-special-body.c: src/listing.c scripts/extract-listing-driver.py | build/native
+	$(PYTHON) scripts/extract-listing-driver.py $@ special
+
+build/native/check-listing-special: src/check-listing-special.c build/native/listing-special-body.c src/register-use.c src/machine-symbols.c $(NATIVE_HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -ffunction-sections -fdata-sections src/check-listing-special.c build/native/listing-special-body.c src/register-use.c src/machine-symbols.c -Wl,--gc-sections -o $@
+
+build/native/listing-mnemonic-body.c: src/listing.c scripts/extract-listing-driver.py | build/native
+	$(PYTHON) scripts/extract-listing-driver.py $@ mnemonic
+
+build/native/check-listing-mnemonic: src/check-listing-mnemonic.c build/native/listing-mnemonic-body.c src/listing-mnemonics.def src/register-use.c src/machine-symbols.c $(NATIVE_HEADERS)
+	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -Isrc -ffunction-sections -fdata-sections src/check-listing-mnemonic.c build/native/listing-mnemonic-body.c src/register-use.c src/machine-symbols.c -Wl,--gc-sections -o $@

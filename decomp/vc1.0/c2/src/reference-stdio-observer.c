@@ -85,8 +85,13 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
         if((long)call->args[1]<0||call->args[1]>20)exit(268);
         dump_bytes(process,"bytes_hex",call->args[2],call->args[1]);
     }
-    if(!strcmp(call->name,"@write_instruction_text@4"))
+    if(!strcmp(call->name,"@write_instruction_text@4") ||
+       !strcmp(call->name,"@write_special_instruction@4") ||
+       !strcmp(call->name,"@write_instruction_mnemonic@4") ||
+       !strcmp(call->name,"@write_instruction_operand@12"))
         dump_bytes(process,"instruction_hex",call->args[0],32);
+    if(!strcmp(call->name,"@write_instruction_operand@12"))
+        dump_bytes(process,"operand_hex",call->args[1],8);
     log_line("entry_end\n");
 }
 static void numeric_snapshot(HANDLE process,ObservedCall *call,char *stage,CONTEXT *context)

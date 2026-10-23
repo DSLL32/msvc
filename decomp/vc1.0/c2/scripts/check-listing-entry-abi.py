@@ -38,7 +38,7 @@ except(AssertionError,KeyError):rejected.append('empty driver formal metadata')
 else:raise AssertionError('Accepted empty driver ABI metadata')
 instruction=json.loads(Path('cases/dbglist-instruction-abi/validation.json').read_text())
 def validate_instruction(r):
-    assert r['matched']and r['function']=='@write_instruction_text@4'
+    assert r['matched']and r['function']in ['@write_instruction_text@4','@write_special_instruction@4','@write_instruction_mnemonic@4']
     assert len(r['formals'])==1 and r['hidden_inputs']==[]and r['callee_stack_cleanup']==0
     f=r['formals'][0];assert {k:f[k]for k in ['name','location','type']}==dict(name='instruction',location='ECX',type='MachineInstruction pointer')
     a,b=r['original_words'],r['native_words'];assert a[2:]==b[2:]==[0xd40,1,1,5,0,0]
@@ -48,10 +48,38 @@ def validate_instruction(r):
     assert {k:r['native'][k]for k in ['column','cw','sw']}==dict(column=24,cw=0x27f,sw=0)
     assert r['native']['stdout']=={k:v for k,v in r['original_stdout'].items()if k not in ['counter','cursor','value','position']}
 validate_instruction(instruction)
+instruction_receipts=[('cases/dbglist-instruction-abi/validation.json',instruction)]
+for path in ['cases/dbglist-special-abi/validation.json','cases/dbglist-mnemonic-abi/validation.json']:
+    entry=json.loads(Path(path).read_text());validate_instruction(entry);instruction_receipts.append((path,entry))
+for path,entry in instruction_receipts:
+    metadata=next(r for r in config['driver']if r['name']==entry['function'])
+    if entry['function']in config['accepted']:
+        abi=metadata['abi'];assert abi['convention']=='fastcall'and abi['hidden_inputs']==[]and abi['callee_stack_cleanup']==0
+        assert abi['parameters']==[{k:v for k,v in entry['formals'][0].items()if k in ['name','location','type']}]
+        assert abi['entry_observation']==path
 for label,change in [('missing instruction formal',lambda r:r.update(formals=[])),('unobserved instruction register',lambda r:r.update(hidden_inputs=['EDX unknown'])),('changed instruction operand',lambda r:r['native_words'].__setitem__(5,4)),('broken instruction link identity',lambda r:r['native_words'].__setitem__(0,0))]:
     bad=copy.deepcopy(instruction);change(bad)
     try:validate_instruction(bad)
     except(AssertionError,KeyError):rejected.append(label)
     else:raise AssertionError('Accepted bad instruction ABI: '+label)
-Path('cases/listing-entry-abi-validation.json').write_text(json.dumps(dict(checked=[r['function']for r in receipt['formals']]+[instruction['function']],observed_formals=5,rejected=rejected,seconds=time.perf_counter()-started,scope='Actual original/native byte formatter, padding and next instruction-text entry. Complete known formal observations plus static no-hidden-input/RET evidence. First instruction PUSH EBP scalar/adjacent-link projection only; no arbitrary deep pointer equivalence. No Wine/compiler/native launch.'),indent=2)+'\n')
-print('5 actual ABI formals, known implicit state and',len(rejected),'rejections pass')
+operand=json.loads(Path('cases/dbglist-operand-abi/validation.json').read_text())
+def validate_operand(r):
+    assert r['matched']and r['function']=='@write_instruction_operand@12'and r['hidden_inputs']==[]and r['callee_stack_cleanup']==4
+    assert [p['name']for p in r['formals']]==['instruction','operand','bytes']and [p['location']for p in r['formals']]==['ECX','EDX','entryESP+4']
+    f,o,w=r['formals'];n=r['native_operand'];assert f['original']and f['native']==r['native']['pointer']
+    assert o['original']==f['original']+16 and o['native']==f['native']+16==n['pointer']
+    assert o['original_offset_from_instruction']==o['native_offset_from_instruction']==16
+    assert o['defined_input_hex']==n['operand_hex']=='0100000005000000'and n['bytes']==w['value']==4
+    a,b=r['original_words'],r['native_words'];assert a[2:]==b[2:]==[0xd40,1,1,5,0,0]
+    assert a[:2]==[f['original']+32,f['original']-32]and b[:2]==[f['native']+32,f['native']-32]
+    assert r['original_state']==dict(column=32,cw=0x27f,sw=0,fastcall=1)
+    assert {k:r['native'][k]for k in ['column','cw','sw']}==dict(column=32,cw=0x27f,sw=0)
+    assert r['native']['stdout']=={k:v for k,v in r['original_stdout'].items()if k not in ['counter','cursor','value','position']}
+validate_operand(operand)
+for label,change in [('missing operand width formal',lambda r:r['formals'].pop()),('wrong operand pointer alias',lambda r:r['formals'][1].update(native_offset_from_instruction=24)),('wrong actual operand width',lambda r:r['native_operand'].update(bytes=8)),('unknown hidden operand input',lambda r:r.update(hidden_inputs=['ESI unknown']))]:
+    bad=copy.deepcopy(operand);change(bad)
+    try:validate_operand(bad)
+    except(AssertionError,KeyError,ValueError):rejected.append(label)
+    else:raise AssertionError('Accepted bad operand ABI: '+label)
+Path('cases/listing-entry-abi-validation.json').write_text(json.dumps(dict(checked=[r['function']for r in receipt['formals']]+[r['function']for p,r in instruction_receipts]+[operand['function']],observed_formals=7+len(instruction_receipts),rejected=rejected,seconds=time.perf_counter()-started,scope='Actual original/native byte, spacing, instruction text/special/mnemonic and next operand entries. Complete known formal observations plus static no-hidden-input/RET evidence. First PUSH EBP scalar/adjacent-link and operand alias projection only; no arbitrary deep pointer equivalence. No Wine/compiler/native launch.'),indent=2)+'\n')
+print(7+len(instruction_receipts),'actual ABI formals, known implicit state and',len(rejected),'rejections pass')
