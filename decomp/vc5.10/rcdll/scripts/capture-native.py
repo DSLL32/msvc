@@ -11,7 +11,7 @@ import time
 HERE=Path(__file__).resolve().parents[1]
 def sha(path):return hashlib.sha256(Path(path).read_bytes()).hexdigest()
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--argv0',required=True);p.add_argument('--module-path',required=True);p.add_argument('--negative-module-sha');p.add_argument('--configuration',type=Path);p.add_argument('--reference',type=Path)
+    p=argparse.ArgumentParser();p.add_argument('--output',type=Path,required=True);p.add_argument('--argv0',required=True);p.add_argument('--module-path',required=True);p.add_argument('--negative-module-sha');p.add_argument('--configuration',type=Path);p.add_argument('--reference',type=Path);p.add_argument('--original-inputs',type=Path)
     a=p.parse_args();out=a.output.resolve()
     if out.exists():p.error('output must be new')
     out.mkdir(parents=True)
@@ -36,12 +36,18 @@ def main():
         assert manifest['case']=='resources-rich'
         for name,value in manifest['files'].items():assert sha(reference/name)==value,name
         for name,info in manifest['source_inputs'].items():assert sha(HERE/'cases/resources-rich/source'/name)==info['sha256'],name
+        if a.original_inputs:
+            actual=json.loads((a.original_inputs/'receipt.json').read_text())
+            assert actual['case']=='resources-rich' and actual['args']==manifest['args']
+            for name,info in manifest['source_inputs'].items():assert actual['case_files'][name]==info,name
+            manifest=dict(manifest,child_cwd=actual['child_cwd'],argv0=actual['argv0'])
+            assert a.argv0==manifest['argv0']
         drive=out/'drive-s';relative=manifest['child_cwd'][3:].replace('\\','/')
         assert manifest['child_cwd'].startswith('S:\\vc5.10\\rcdll\\')
         cwd=drive/relative;cwd.parent.mkdir(parents=True,exist_ok=True)
         shutil.copytree(HERE/'cases/resources-rich/source',cwd)
         env.update(RECON_DRIVE_R=str(HERE.parents[2]),RECON_DRIVE_S=str(drive),RECON_CANONICAL_CWD=manifest['child_cwd'])
-        environment=(reference/'environment-utf16.bin').read_bytes().decode('utf-16le')
+        environment=((a.original_inputs or reference)/'environment-utf16.bin').read_bytes().decode('utf-16le')
         values=dict(value.split('=',1)for value in environment.rstrip('\0').split('\0')if value and not value.startswith('='))
         for name in ['INCLUDE','LIB','RCCODEPAGE']:
             if name in values:env[name]=values[name]
@@ -57,5 +63,7 @@ def main():
     (out/'gdb.stdout').write_bytes(result.stdout);(out/'gdb.stderr').write_bytes(result.stderr)
     report=dict(status=result.returncode,elapsed_seconds=elapsed,native_sha256=sha(native),candidate_sha256=sha(config),command=command,files={f.name:dict(bytes=f.stat().st_size,sha256=sha(f)) for f in out.iterdir() if f.is_file()})
     (out/'receipt.json').write_text(json.dumps(report,indent=2)+'\n')
+    if not (out/'snapshot.json').is_file():
+        print(json.dumps(dict(kind='failure',gdb_status=result.returncode,stderr=str(out/'stderr.bin'),gdb_stderr=str(out/'gdb.stderr')),indent=2));return 125
     print(json.dumps(json.loads((out/'snapshot.json').read_text()),indent=2));return result.returncode
 if __name__=='__main__':raise SystemExit(main())

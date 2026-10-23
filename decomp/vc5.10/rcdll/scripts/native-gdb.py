@@ -60,6 +60,18 @@ def capture():
                     jump=dict(legacy=legacy,opaque_setjmp3=int(entry['opaque_setjmp3']),host_bytes=bytes(gdb.selected_inferior().read_memory(int(entry['host'].address),entry['host'].type.sizeof)).hex())
                     break
                 cursor=entry['next']
+        vector=[]
+        for i in range(int(gdb.parse_and_eval('fixture_argument_count'))):
+            pointer=int(gdb.parse_and_eval('fixture_argument_vector[%d]'%i))&0xffffffff
+            storage=int(gdb.parse_and_eval('fixture_argument_storage[%d]'%i))&0xffffffff
+            size=int(gdb.parse_and_eval('fixture_argument_lengths[%d]'%i))
+            raw=bytes(gdb.selected_inferior().read_memory(storage,size)).hex()
+            vector.append(dict(pointer=pointer,storage=storage,bytes=raw,text=gdb.Value(pointer).cast(gdb.lookup_type('char').pointer()).string()))
+        if name=='rc_release':
+            pointer=int(frame.read_var('block'))&0xffffffff
+            arguments['block']=pointer
+            arguments['payload']=bytes(gdb.selected_inferior().read_memory(pointer-8,528)).hex()
+            arguments['include']=gdb.parse_and_eval('rc_include_paths').string()
         if name=='rc_allocate':arguments['bytes']=int(frame.read_var('bytes'))
         if name=='rc_is_option':arguments['value']=int(frame.read_var('value'))
         if name=='rc_emit':
@@ -92,7 +104,7 @@ def capture():
                     break
                 cursor=cursor.dereference()['next']
         heap=json.loads((output.parent/'heap.json').read_text()) if (output.parent/'heap.json').exists() else []
-        result=dict(heap_identity=heap_identity,heap=heap,diagnostic_callback=int(gdb.parse_and_eval("(void *)fixture_diagnostic"))&0xffffffff,jump=jump,exit_array=exit_array,allocations=json.loads((output.parent/'allocations.json').read_text()),module=module,globals=globals,kind='completion' if complete else 'frontier',function=name,rva=f['start'],raw_pc=pc,executed_byte=instruction.hex(),registers=registers,arguments=arguments,config_sha256=hashlib.sha256(config_path.read_bytes()).hexdigest())
+        result=dict(export_vector=vector,heap_identity=heap_identity,heap=heap,diagnostic_callback=int(gdb.parse_and_eval("(void *)fixture_diagnostic"))&0xffffffff,jump=jump,exit_array=exit_array,allocations=json.loads((output.parent/'allocations.json').read_text()),module=module,globals=globals,kind='completion' if complete else 'frontier',function=name,rva=f['start'],raw_pc=pc,executed_byte=instruction.hex(),registers=registers,arguments=arguments,config_sha256=hashlib.sha256(config_path.read_bytes()).hexdigest())
     except Exception as error:
         result=dict(kind='error',error=str(error))
     output.write_text(json.dumps(result,indent=2)+'\n')

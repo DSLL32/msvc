@@ -10,6 +10,10 @@ HINSTANCE fixture_module;
 BOOL fixture_thread_calls_disabled;
 ReconModuleSpec fixture_module_spec;
 const ReconModuleSpec *fixture_registered_identity;
+int fixture_argument_count;
+char **fixture_argument_vector;
+char *fixture_argument_storage[257];
+unsigned fixture_argument_lengths[257];
 static void bytes(const char *tag, const char *text, unsigned size)
 {
     const unsigned char *at = (const unsigned char *)text;
@@ -88,6 +92,8 @@ int main(int count, char **arguments)
     if (count==2) vector[1]=option;
     else for (i=1; i<target_count; ++i) vector[i]=arguments[i+1];
     vector[target_count]=NULL;
+    fixture_argument_count=target_count;fixture_argument_vector=vector;
+    for(i=0;i<target_count;++i){fixture_argument_storage[i]=vector[i];fixture_argument_lengths[i]=strlen(vector[i])+1;}
     fprintf(events,"attach\n"); fflush(events);
     if (!recon_dll_entry(module,DLL_PROCESS_ATTACH,&opaque_startup)) return 126;
     fixture_thread_calls_disabled = recon_module_thread_calls_disabled(module);

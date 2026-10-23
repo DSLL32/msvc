@@ -22,6 +22,7 @@ static Point points[2048];
 static unsigned point_count;
 static int baseline,guarded,ready;
 static DWORD callback_text,callback_bytes,lifecycle_reason,format_dest,format_capacity,export_count,export_vector;
+static DWORD export_storage[256],export_lengths[256];
 
 static void fail(const char *what)
 {
@@ -62,6 +63,8 @@ static void vector_state(const char *stage)
         readmem(export_vector+n*4,&pointer,4);
         fprintf(events,"export-%s-pointer %lu %08lx\n",stage,n,pointer);
         sprintf(label,"export-%s-argv-%lu",stage,n);hexbytes(label,pointer,string_bytes(pointer));
+        if(!strcmp(stage,"before")){export_storage[n]=pointer;export_lengths[n]=string_bytes(pointer);}
+        else {sprintf(label,"export-%s-storage-%lu",stage,n);hexbytes(label,export_storage[n],export_lengths[n]);}
     }
     readmem(export_vector+export_count*4,&pointer,4);
     fprintf(events,"export-%s-terminator %08lx\n",stage,pointer);fflush(events);
@@ -83,6 +86,14 @@ static void process_inputs(void)
     }
     CloseHandle(file);if(n==32768)fail("environment-limit");
     fprintf(events,"process-environment-bytes %lu\n",(n+1)*2);fflush(events);
+}
+static void export_inputs(CONTEXT *context)
+{
+    DWORD words[7];readmem(context->Esp,words,sizeof(words));
+    fprintf(events,"export-caller %08lx\n",words[0]);
+    fprintf(events,"export-args %08lx %08lx %08lx %08lx %lu %08lx\n",words[1],words[2],words[3],words[4],words[5],words[6]);
+    export_count=words[5];export_vector=words[6];
+    if(export_count>256)fail("export-argc");vector_state("before");process_inputs();
 }
 static void save_file(HANDLE input,const char *name)
 {
@@ -219,12 +230,9 @@ static int trap(HANDLE thread,DWORD address)
                     else {unsigned k;writebytes(address,snapshot+TARGET_ENTRY-TEXT_RVA,1);for(k=0;k<point_count;++k)if(points[k].active&&points[k].kind==2&&points[k].at==address)points[k].active=0;fprintf(events,"entry %08lx\n",TARGET_ENTRY);}
                 }
             }
-        }else if(p->kind==2)fprintf(events,"entry %08lx\n",address-base);
+        }else if(p->kind==2){fprintf(events,"entry %08lx\n",address-base);if(address==base+0x8b46)export_inputs(&c);}
         else if(p->kind==3){
-            readmem(c.Esp,words,7*4);
-            fprintf(events,"export-caller %08lx\n",words[0]);
-            fprintf(events,"export-args %08lx %08lx %08lx %08lx %lu %08lx\n",words[1],words[2],words[3],words[4],words[5],words[6]);
-            export_count=words[5];export_vector=words[6];if(export_count>256)fail("export-argc");vector_state("before");process_inputs();
+            export_inputs(&c);
         }else if(p->kind==4){fprintf(events,"export-result %ld\n",(long)c.Eax);if(export_vector)vector_state("after");}
         else if(p->kind==5){readmem(c.Esp,words,8);fprintf(events,"message-id %lu\n",words[1]);point(base+0x2c89,6);}
         else if(p->kind==6){
@@ -284,6 +292,12 @@ static int trap(HANDLE thread,DWORD address)
         readmem(c.Esp,words,sizeof(words));
         fprintf(events,"frontier %08lx eax=%08lx ecx=%08lx edx=%08lx ebx=%08lx esi=%08lx edi=%08lx ebp=%08lx esp=%08lx\n",address-base,c.Eax,c.Ecx,c.Edx,c.Ebx,c.Esi,c.Edi,c.Ebp,c.Esp);
         fprintf(events,"stack");for(n=0;n<12;++n)fprintf(events," %08lx",words[n]);fprintf(events,"\n");
+        if(export_vector)vector_state("frontier");
+        if(address==base+0x109fd){
+            DWORD include;readmem(base+0x25588,&include,4);
+            hexbytes("release-block",words[1]-8,528);
+            hexbytes("release-include",include,string_bytes(include));
+        }
         {
             FILE *state;
             readmem(base+0x14000,globals,sizeof(globals));
