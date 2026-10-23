@@ -98,17 +98,19 @@ int main(void)
             frontend_bss.cleanup_count = 32;
             for (i = 0; i < 32; ++i)
                 frontend_bss.cleanup_callbacks[i] = frontend_initializers[1];
-            frontend_bss.context_stack.begin = frontend_bss.saved_state;
-            frontend_bss.context_stack.end = frontend_bss.saved_state;
+            frontend_bss.context_stack.origin = frontend_bss.saved_state;
+            frontend_bss.context_stack.position = 17;
             frontend_bss.context_stack.top = frontend_bss.saved_state;
-            frontend_bss.saved_context_stack.begin = frontend_bss.saved_state;
-            frontend_bss.saved_context_stack.end = frontend_bss.saved_state;
+            frontend_bss.saved_context_stack.origin = frontend_bss.saved_state;
+            frontend_bss.saved_context_stack.position = 17;
             frontend_bss.saved_context_stack.top = frontend_bss.saved_state;
             for (i = 0; i < 9; ++i) {
-                frontend_bss.nested_context_stacks[i].begin = frontend_bss.saved_state;
-                frontend_bss.nested_context_stacks[i].end = frontend_bss.saved_state;
+                frontend_bss.nested_context_stacks[i].origin = frontend_bss.saved_state;
+                frontend_bss.nested_context_stacks[i].position = 17;
                 frontend_bss.nested_context_stacks[i].top = frontend_bss.saved_state;
             }
+            frontend_bss.source_position.origin = frontend_bss.saved_state;
+            frontend_bss.source_position.position = 17;
             restore_mode = 9;
             compiler_mode = !strcmp(seed, "restore-zero") ? 0 : 3;
         }

@@ -24,6 +24,7 @@ def main():
     fields=json.loads((native/'state.json').read_text())['frontend']
     field='nested_context_stacks' if 'nested_context_stacks' in fields else 'saved_context_stack' if 'saved_context_stack' in fields else 'context_stack'
     cases=('missing-nonzero-prestate','uncleared-new-field','changed-original-prestate','final-context-nonzero','wrong-context-layout','wrong-callback-PC','missing-callback-frontier','wrong-snapshot-identity')
+    if 'source_position' in fields:cases+=('scalar-treated-as-pointer','wrong-scalar-value')
     for case in cases:
         with tempfile.TemporaryDirectory(prefix='context-negative-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c1xx') as temp:
             root=Path(temp);o=root/'original';n=root/'native';shutil.copytree(original,o);shutil.copytree(native,n)
@@ -32,12 +33,14 @@ def main():
             elif case=='missing-callback-frontier':
                 path=o/'events.txt';path.write_text(__import__('re').sub(r'^frontier rva=\w+\n','',path.read_text(),flags=__import__('re').M));helpers.rehash(o,path.name)
             else:
-                name='pre.json' if case=='missing-nonzero-prestate' else 'phase.json' if case in ('uncleared-new-field','wrong-snapshot-identity') else 'state.json'
+                name='pre.json' if case in ('missing-nonzero-prestate','scalar-treated-as-pointer','wrong-scalar-value') else 'phase.json' if case in ('uncleared-new-field','wrong-snapshot-identity') else 'state.json'
                 def change(j):
                     if case=='missing-nonzero-prestate':j['frontend'][field]=[0,0,0]
                     elif case=='uncleared-new-field':j['frontend'][field][2]=1
                     elif case=='final-context-nonzero':j['frontend'][field][0]=1
                     elif case=='wrong-context-layout':j['frontend']['context_stack_fields'].reverse()
+                    elif case=='scalar-treated-as-pointer':j['frontend'][field][1]=j['frontend']['saved_state']
+                    elif case=='wrong-scalar-value':j['frontend']['source_position'][1]=18
                     elif case=='wrong-callback-PC':j['pc']+=1
                     else:j['frontend']['saved_state']+=4
                 helpers.edit(n/name,change);helpers.rehash(n,name)

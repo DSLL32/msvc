@@ -13,10 +13,15 @@ typedef struct FrontendData {
 
 /* A linked context stack saves the first two values in each stack frame. */
 typedef struct FrontendContextStack {
-    void *begin;
-    void *end;
+    void *origin;
+    unsigned position;
     void *top;
 } FrontendContextStack;
+
+typedef struct FrontendSourcePosition {
+    void *origin;
+    unsigned position;
+} FrontendSourcePosition;
 
 typedef struct FrontendBss {
     FrontendData *saved_state;
@@ -25,6 +30,7 @@ typedef struct FrontendBss {
     FrontendContextStack context_stack;
     FrontendContextStack saved_context_stack;
     FrontendContextStack nested_context_stacks[9];
+    FrontendSourcePosition source_position;
 } FrontendBss;
 
 extern FrontendData frontend_data;

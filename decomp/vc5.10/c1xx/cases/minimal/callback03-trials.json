@@ -80,5 +80,6 @@
         "native_seconds": 0.2718266863375902
       }
     }
-  ]
+  ],
+  "historical_type_refinement": "These frozen schema2\u20134 captures establish zeroing/reset for the middle slots. Their allocation-seeded middle values are not evidence of numeric equivalence. Schema5 callback07-trials.json captures fresh scalar17 on both sides."
 }

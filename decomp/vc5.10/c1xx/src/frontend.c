@@ -22,17 +22,19 @@ int initialize_compiler_pass(void)
         frontend_bss.cleanup_count = 0;
         for (i = 0; i < 32; ++i)
             frontend_bss.cleanup_callbacks[i] = NULL;
-        frontend_bss.context_stack.begin = NULL;
-        frontend_bss.context_stack.end = NULL;
+        frontend_bss.context_stack.origin = NULL;
+        frontend_bss.context_stack.position = 0;
         frontend_bss.context_stack.top = NULL;
-        frontend_bss.saved_context_stack.begin = NULL;
-        frontend_bss.saved_context_stack.end = NULL;
+        frontend_bss.saved_context_stack.origin = NULL;
+        frontend_bss.saved_context_stack.position = 0;
         frontend_bss.saved_context_stack.top = NULL;
         for (i = 0; i < 9; ++i) {
-            frontend_bss.nested_context_stacks[i].begin = NULL;
-            frontend_bss.nested_context_stacks[i].end = NULL;
+            frontend_bss.nested_context_stacks[i].origin = NULL;
+            frontend_bss.nested_context_stacks[i].position = 0;
             frontend_bss.nested_context_stacks[i].top = NULL;
         }
+        frontend_bss.source_position.origin = NULL;
+        frontend_bss.source_position.position = 0;
         frontend_bss.saved_state = saved;
         restore_mode = compiler_mode == 0;
     }

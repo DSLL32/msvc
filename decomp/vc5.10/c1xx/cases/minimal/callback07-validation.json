@@ -1,0 +1,55 @@
+{
+  "schema": 1,
+  "comparison": {
+    "trial": "_initialize_frontend_07",
+    "frontier": "_initialize_frontend_08",
+    "seed": null,
+    "modeled_context_fields": 35,
+    "original_default_context": [
+      0,
+      0,
+      0
+    ],
+    "typed_bss_bytes": 276,
+    "nonzero_expanded_BSS_restore_checked": false,
+    "original_unmodeled_snapshot_bytes": 8516,
+    "native_snapshot_byte_equivalence_claimed": false,
+    "whole_mask_bytes_checked": 751216,
+    "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+    "original_seconds": 1.568179925903678,
+    "native_seconds": 0.26609740778803825
+  },
+  "expanded_projection_tests": "callback07-trials.json",
+  "negative_controls": {
+    "result": "PASS",
+    "rejected": [
+      "missing-nonzero-prestate",
+      "uncleared-new-field",
+      "changed-original-prestate",
+      "final-context-nonzero",
+      "wrong-context-layout",
+      "wrong-callback-PC",
+      "missing-callback-frontier",
+      "wrong-snapshot-identity",
+      "scalar-treated-as-pointer",
+      "wrong-scalar-value"
+    ],
+    "count": 10
+  },
+  "timings": {
+    "native_build": {
+      "seconds": 1.835048733279109,
+      "exit": 0
+    },
+    "original_build": {
+      "seconds": 2.511338857933879,
+      "exit": 0
+    },
+    "audit": {
+      "seconds": 0.15534175839275122,
+      "exit": 0
+    }
+  },
+  "original_callback_code_bytes": 13,
+  "note": "Fresh pointer/u32/pointer seeds: all12position fields are scalar17 on both sides,23pointer fields use declared owned-allocation identity. New2field source position joins default/snapshot/BSS-clear tests. BSS276bytes;8516initialized bytes remain unmodeled."
+}

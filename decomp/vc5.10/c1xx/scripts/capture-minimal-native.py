@@ -53,13 +53,16 @@ value['frontend']['cleanup_callbacks']=[int(gdb.parse_and_eval('(unsigned int)fr
 value['frontend']['storage']={name:[int(gdb.parse_and_eval('(unsigned int)&'+expr)),int(gdb.parse_and_eval('sizeof('+expr+')'))] for name,expr in
     [('first_invocation','frontend_data.first_invocation'),('saved_state','frontend_bss.saved_state'),
      ('cleanup_count','frontend_bss.cleanup_count'),('cleanup_callbacks','frontend_bss.cleanup_callbacks'),('restore_mode','restore_mode'),('compiler_mode','compiler_mode')]}
-value['frontend']['context_stack']=[int(gdb.parse_and_eval('(unsigned int)frontend_bss.context_stack.'+name)) for name in ('begin','end','top')]
+value['frontend']['context_stack']=[int(gdb.parse_and_eval('(unsigned int)frontend_bss.context_stack.'+name)) for name in ('origin','position','top')]
 value['frontend']['storage']['context_stack']=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.context_stack')),12]
-value['frontend']['saved_context_stack']=[int(gdb.parse_and_eval('(unsigned int)frontend_bss.saved_context_stack.'+name)) for name in ('begin','end','top')]
+value['frontend']['saved_context_stack']=[int(gdb.parse_and_eval('(unsigned int)frontend_bss.saved_context_stack.'+name)) for name in ('origin','position','top')]
 value['frontend']['storage']['saved_context_stack']=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.saved_context_stack')),int(gdb.parse_and_eval('sizeof(frontend_bss.saved_context_stack)'))]
-value['frontend']['nested_context_stacks']=[int(gdb.parse_and_eval('(unsigned int)frontend_bss.nested_context_stacks[%d].%s'%(i,name))) for i in range(9) for name in ('begin','end','top')]
+value['frontend']['nested_context_stacks']=[int(gdb.parse_and_eval('(unsigned int)frontend_bss.nested_context_stacks[%d].%s'%(i,name))) for i in range(9) for name in ('origin','position','top')]
 value['frontend']['storage']['nested_context_stacks']=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.nested_context_stacks')),int(gdb.parse_and_eval('sizeof(frontend_bss.nested_context_stacks)'))]
 value['frontend']['context_array_count']=int(gdb.parse_and_eval('sizeof(frontend_bss.nested_context_stacks)/sizeof(frontend_bss.nested_context_stacks[0])'))
+value['frontend']['source_position']=[int(gdb.parse_and_eval('(unsigned int)frontend_bss.source_position.'+name)) for name in ('origin','position')]
+value['frontend']['storage']['source_position']=[int(gdb.parse_and_eval('(unsigned int)&frontend_bss.source_position')),int(gdb.parse_and_eval('sizeof(frontend_bss.source_position)'))]
+value['frontend']['source_position_fields']=[field.name for field in gdb.lookup_type('FrontendSourcePosition').fields()]
 value['frontend']['context_stack_fields']=[field.name for field in gdb.lookup_type('FrontendContextStack').fields()]
 value['frontend']['declared_fields']={'initialized':[field.name for field in gdb.lookup_type('FrontendData').fields()], 'bss':[field.name for field in gdb.lookup_type('FrontendBss').fields()]}
 value['frontend']['known_sizes']={'initialized':int(gdb.parse_and_eval('sizeof(FrontendData)')),'bss':int(gdb.parse_and_eval('sizeof(FrontendBss)'))}

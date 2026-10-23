@@ -13,7 +13,7 @@ s=d.s
 
 def context(directory,suffix,name='context_stack'):
     raw=(directory/(name.replace('_','-')+'-'+suffix+'.bin')).read_bytes()
-    count=27 if name=='nested_context_stacks' else 3
+    count=27 if name=='nested_context_stacks' else 2 if name=='source_position' else 3
     s.require(len(raw)==4*count,'missing raw original context fields')
     return list(struct.unpack('<%dI'%count,raw))
 
@@ -21,17 +21,21 @@ def context(directory,suffix,name='context_stack'):
 def check(original,native,require_audit=True,audit_path=None):
     o,n,trial,text,state=s.pair(original,native)
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(match is not None and 1<=int(match[1])<=6,'no reviewed callback decoder for this function')
+    s.require(match is not None and 1<=int(match[1])<=7,'no reviewed callback decoder for this function')
     index=int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
               trial.get('test_seed') in (None,'restore-nonzero','restore-zero') and
               'auxiliary_mock' not in trial,'wrong context initializer trial')
     seed=trial.get('test_seed');final='%03d'%((7 if seed else 8)+index)
     model=json.loads((native/'state-model.json').read_text())
-    s.require(model['schema'] in (2,3,4),'context fields omitted from typed snapshot/BSS model')
+    s.require(model['schema'] in (2,3,4,5),'context fields omitted from typed snapshot/BSS model')
     context_names=['context_stack']+(['saved_context_stack'] if model['schema']>=3 else [])
     if model['schema']>=4:context_names.append('nested_context_stacks')
-    counts={name:27 if name=='nested_context_stacks' else 3 for name in context_names}
+    if model['schema']>=5:context_names.append('source_position')
+    counts={name:27 if name=='nested_context_stacks' else 2 if name=='source_position' else 3 for name in context_names}
+    def seeded(name,pointer):
+        if model['schema']<5:return [pointer]*counts[name]
+        return [pointer,17] if name=='source_position' else [pointer,17,pointer]*(9 if name=='nested_context_stacks' else 1)
     pre=json.loads((native/'pre.json').read_text());phase=json.loads((native/'phase.json').read_text())
     for snapshot in (pre,phase,state):d.field_map(model,snapshot['frontend'])
     slots=d.callback_table(model,original,native,state)
@@ -64,8 +68,8 @@ def check(original,native,require_audit=True,audit_path=None):
     if seed:
         s.require(before['first_invocation']==0 and before['saved_state'] and before['cleanup_count']==32 and
                   before['cleanup_callbacks']==[0x10438610]*32 and before['restore_mode']==9 and
-                  all(context(original,'006',name)==[before['saved_state']]*counts[name] and
-                      pre['frontend'][name]==[pre['frontend']['saved_state']]*counts[name] for name in context_names) and
+                  all(context(original,'006',name)==seeded(name,before['saved_state']) and
+                      pre['frontend'][name]==seeded(name,pre['frontend']['saved_state']) for name in context_names) and
                   pre['frontend']['cleanup_callbacks']==[slots[1]]*32 and pre['frontend']['cleanup_count']==32 and
                   pre['frontend']['restore_mode']==9 and pre['frontend']['saved_first']==17,
                   'nonzero expanded BSS prestate is missing')
@@ -105,4 +109,5 @@ def check(original,native,require_audit=True,audit_path=None):
             'typed_bss_bytes':state['frontend']['known_sizes']['bss'],
             'nonzero_expanded_BSS_restore_checked':bool(seed),'original_unmodeled_snapshot_bytes':8516,
             'native_snapshot_byte_equivalence_claimed':False,'whole_mask_bytes_checked':751216,
+            'nonzero_seed_scope':'typed pointer identities and exact scalar17' if model['schema']>=5 else 'legacy zeroing/reset evidence only; not middle-scalar equivalence',
             'original_seconds':o['seconds'],'native_seconds':n['seconds']}

@@ -18,7 +18,8 @@
     "_initialize_frontend_03",
     "_initialize_frontend_04",
     "_initialize_frontend_05",
-    "_initialize_frontend_06"
+    "_initialize_frontend_06",
+    "_initialize_frontend_07"
   ],
   "driver": [
     {
@@ -134,8 +135,8 @@
     {
       "name": "_initialize_frontend_07",
       "start": 272860754,
-      "end": 272860755,
-      "pending_extent": true,
+      "end": 272860767,
+      "pending_extent": false,
       "source": "src/initializers.c",
       "abi": "cdecl0"
     },
@@ -934,6 +935,43 @@
         "whole_mask_bytes_checked": 751216,
         "original_seconds": 1.4179144157096744,
         "native_seconds": 0.254390612244606
+      }
+    },
+    {
+      "name": "_initialize_frontend_07",
+      "classification": "application source",
+      "source": "src/initializers.c",
+      "source_sha256": "797a09be611c69bed708d52b3ad45342b13e96d22a5b0d68796ed8dc7e27941b",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback07-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback07-native-1",
+      "original_receipt_sha256": "a2247d16de9e65dccc2a780d78ec6a0b770f6174ea02559291f2aab503a3478d",
+      "native_receipt_sha256": "57aaaa14f78db7bd53cf0ed82dc17154aa47f701ddaa8b51bcc8d65916ef7bf7",
+      "trial_sha256": "c3058c194b7d99d36e3e1c9ebcd8a54cee412e8698b03630329be9c6055eca44",
+      "audit_sha256": "1ebd96548298c600c70b58647eb19562da39d0d92c01606040720fa0a0fe6e45",
+      "code_chunks": [
+        [
+          230994,
+          231007
+        ]
+      ],
+      "comparison": {
+        "trial": "_initialize_frontend_07",
+        "frontier": "_initialize_frontend_08",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 276,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 1.568179925903678,
+        "native_seconds": 0.26609740778803825
       }
     }
   ],

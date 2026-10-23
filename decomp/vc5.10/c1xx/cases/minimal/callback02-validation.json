@@ -48,5 +48,6 @@
     }
   },
   "original_callback_code_bytes": 18,
-  "note": "Both context-stack objects are included in default, nonzero repeat/BSS-clear, pointer-identity and dualmode checks. Original initialized8516unknown bytes remain unmodeled."
+  "note": "Both context-stack objects are included in default, nonzero repeat/BSS-clear, pointer-identity and dualmode checks. Original initialized8516unknown bytes remain unmodeled.",
+  "historical_type_refinement": "These frozen schema2\u20134 captures establish zeroing/reset for the middle slots. Their allocation-seeded middle values are not evidence of numeric equivalence. Schema5 callback07-trials.json captures fresh scalar17 on both sides."
 }

@@ -93,3 +93,9 @@ subprocess responses. The lifecycle, Invoke, typed initializer and real allocato
 `cases/plan.json` retains source-only C++ seeds copied from vc1.0; it contains no
 old IR/oracle reuse. Original builds/captures use the shared prefix and fixed R:/S:
 drives, under `S:\vc5.10\c1xx`, with no private mappings or server operations.
+
+Consumer cross-references refine each context to pointer / unsigned position /
+stack pointer. Schema5 auxiliary seeds use scalar17 identically on both sides.
+Historical schema2–4 pointer-seeded captures establish zeroing/reset only, and
+are not evidence of numeric equivalence before clearing. Raw historical captures
+remain unchanged.

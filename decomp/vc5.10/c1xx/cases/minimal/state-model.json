@@ -1,5 +1,5 @@
 {
-  "schema": 4,
+  "schema": 5,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -67,8 +67,13 @@
       "original_address": 273393920,
       "bytes": 12,
       "native_expression": "frontend_bss.context_stack",
-      "original_default": "3 NULL pointers",
-      "evidence": "callback38610 zeros3DWORD; contextual reads use third field as linked stack frame and restore first two from frame+8/+12"
+      "original_default": "all fields zero; origin pointer, u32 position, stack pointer",
+      "evidence": "callback38610 zeros3DWORD; contextual reads use third field as linked stack frame and restore first two from frame+8/+12",
+      "component_types": [
+        "pointer",
+        "u32",
+        "pointer"
+      ]
     },
     {
       "name": "saved_context_stack",
@@ -76,8 +81,13 @@
       "original_address": 273393904,
       "bytes": 12,
       "native_expression": "frontend_bss.saved_context_stack",
-      "original_default": "3 NULL pointers",
-      "evidence": "callback38622 zeros3DWORD, follows same context-stack object layout as callback38610"
+      "original_default": "all fields zero; origin pointer, u32 position, stack pointer",
+      "evidence": "callback38622 zeros3DWORD, follows same context-stack object layout as callback38610",
+      "component_types": [
+        "pointer",
+        "u32",
+        "pointer"
+      ]
     },
     {
       "name": "nested_context_stacks",
@@ -85,8 +95,50 @@
       "original_address": 273393752,
       "bytes": 108,
       "native_expression": "frontend_bss.nested_context_stacks",
-      "original_default": "9 contexts, each3NULL pointers",
-      "evidence": "callback38634 loops9 objects, stride12, stores0 at each offset0/4/8"
+      "original_default": "all fields zero; origin pointer, u32 position, stack pointer",
+      "evidence": "callback38634 loops9 objects, stride12, stores0 at each offset0/4/8",
+      "component_types": [
+        "pointer",
+        "u32",
+        "pointer",
+        "pointer",
+        "u32",
+        "pointer",
+        "pointer",
+        "u32",
+        "pointer",
+        "pointer",
+        "u32",
+        "pointer",
+        "pointer",
+        "u32",
+        "pointer",
+        "pointer",
+        "u32",
+        "pointer",
+        "pointer",
+        "u32",
+        "pointer",
+        "pointer",
+        "u32",
+        "pointer",
+        "pointer",
+        "u32",
+        "pointer"
+      ]
+    },
+    {
+      "name": "source_position",
+      "class": "bss",
+      "original_address": 273411248,
+      "bytes": 8,
+      "native_expression": "frontend_bss.source_position",
+      "original_default": "NULL origin, zero u32 position",
+      "component_types": [
+        "pointer",
+        "u32"
+      ],
+      "evidence": "callback38652 zeros2DWORD;19d30 storeslow16 of secondfield,24042 dereferences firstfield of alternative context,881e3 copies pair"
     }
   ],
   "initializers": [
