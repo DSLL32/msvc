@@ -1,0 +1,173 @@
+{
+  "function": "parse_options",
+  "case": "help",
+  "sequence": 2,
+  "extent": [
+    95424,
+    95835
+  ],
+  "original_frontier": 126304,
+  "native_frontier": "fatal_error",
+  "application_entries": [
+    "main",
+    "parse_options",
+    "fatal_error"
+  ],
+  "argc": 2,
+  "argv": [
+    "Z:\\root\\msvc2\\toolchains\\1.0-nt\\bin\\CVPACK.EXE",
+    "help"
+  ],
+  "matched_application_globals": {
+    "show_logo": "01000000",
+    "banner_pending": "01000000",
+    "cvnew": "01000000",
+    "feedback": "00000000",
+    "pcode": "00000000",
+    "input_file": "00000000",
+    "already_packed": "00000000",
+    "checksum_required": "00000000",
+    "mapped_io": "00",
+    "debug_present": "00",
+    "module_count": "0000",
+    "statistics_enabled": "0000",
+    "executable_name": "0000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000",
+    "directory_data": {
+      "null": true
+    },
+    "module_data": {
+      "null": true
+    },
+    "type_data": {
+      "null": true
+    },
+    "symbol_data": {
+      "null": true
+    },
+    "line_data": {
+      "null": true
+    },
+    "verbose": "00000000",
+    "strip_symbols": "00000000",
+    "minimum_types": "00000000",
+    "debug_filename": {
+      "null": true
+    }
+  },
+  "matched_frontier_parameters": {
+    "code": 39,
+    "first": {
+      "null": true
+    },
+    "second": {
+      "null": true
+    }
+  },
+  "runtime_unmasked": [
+    {
+      "name": "_toupper",
+      "start": 183808,
+      "end": 184176,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "__spawnlp",
+      "start": 199376,
+      "end": 199408,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "__spawnvp",
+      "start": 200528,
+      "end": 200560,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "__spawnvpe",
+      "start": 202176,
+      "end": 202576,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "__spawnve",
+      "start": 203568,
+      "end": 204128,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "_strrchr",
+      "start": 200560,
+      "end": 200600,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "_strchr",
+      "start": 186048,
+      "end": 186086,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "__access",
+      "start": 205728,
+      "end": 205808,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "import:GetFileAttributesA",
+      "start": 205880,
+      "end": 205886,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "import:GetLastError",
+      "start": 199264,
+      "end": 199270,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "__dosmaperr",
+      "start": 194000,
+      "end": 194128,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "_free",
+      "start": 182528,
+      "end": 182624,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "__getpath",
+      "start": 204128,
+      "end": 204256,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    }
+  ],
+  "process_boundary": {
+    "requests": [
+      {
+        "mode": 0,
+        "pid": 866110,
+        "file": "qh.exe",
+        "cwd": "/root/.ai-tmp/vc1.0-cvpack/options-help-native-state/help/work",
+        "argv": [
+          "qh",
+          "-u",
+          "cvpack.exe"
+        ],
+        "action": "replay",
+        "status": -1,
+        "errno": 2
+      }
+    ],
+    "errors": []
+  },
+  "graph_ABI_data": "Complete original/compiler CFG/callee/RET ABI and contextual initial data passed",
+  "seconds": {
+    "setup": 0.002541331574320793,
+    "execution": 0.007584216073155403,
+    "debugging": 0.14151748176664114,
+    "checks": 0.002035108394920826,
+    "total": 0.153682766482234
+  }
+}

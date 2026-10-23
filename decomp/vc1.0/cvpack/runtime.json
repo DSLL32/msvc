@@ -3285,6 +3285,48 @@
       ]
     },
     {
+      "name": "_fclose",
+      "start": 188704,
+      "end": 188816,
+      "object": "stdio\\obj\\i386\\FCLOSE.OBJ",
+      "library": "LIBC.LIB",
+      "nonrelocation_bytes": 96,
+      "relocations": [
+        {
+          "offset": 38,
+          "symbol": "__flush",
+          "kind": 20,
+          "target": 195888,
+          "section": 0,
+          "value": 0
+        },
+        {
+          "offset": 49,
+          "symbol": "__freebuf",
+          "kind": 20,
+          "target": 196496,
+          "section": 0,
+          "value": 0
+        },
+        {
+          "offset": 61,
+          "symbol": "__close",
+          "kind": 20,
+          "target": 187280,
+          "section": 0,
+          "value": 0
+        },
+        {
+          "offset": 89,
+          "symbol": "_free",
+          "kind": 20,
+          "target": 182528,
+          "section": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
       "name": "_fopen",
       "start": 188864,
       "end": 188896,
@@ -6076,6 +6118,40 @@
       ]
     },
     {
+      "name": "__endstdio",
+      "start": 196128,
+      "end": 196160,
+      "object": "stdio\\obj\\i386\\FFLUSH.OBJ",
+      "library": "LIBC.LIB",
+      "nonrelocation_bytes": 20,
+      "relocations": [
+        {
+          "offset": 1,
+          "symbol": "__flushall",
+          "kind": 20,
+          "target": 196000,
+          "section": 1,
+          "value": 192
+        },
+        {
+          "offset": 7,
+          "symbol": "__exitflag",
+          "kind": 6,
+          "target": 235068,
+          "section": 0,
+          "value": 0
+        },
+        {
+          "offset": 15,
+          "symbol": "__fcloseall",
+          "kind": 20,
+          "target": 199008,
+          "section": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
       "name": "___gmtotime_t",
       "start": 196352,
       "end": 196496,
@@ -6948,6 +7024,48 @@
           "symbol": "_errno",
           "kind": 6,
           "target": 235028,
+          "section": 0,
+          "value": 0
+        }
+      ]
+    },
+    {
+      "name": "__fcloseall",
+      "start": 199008,
+      "end": 199072,
+      "object": "stdio\\obj\\i386\\CLOSEALL.OBJ",
+      "library": "LIBC.LIB",
+      "nonrelocation_bytes": 48,
+      "relocations": [
+        {
+          "offset": 3,
+          "symbol": "__iob",
+          "kind": 6,
+          "target": 234384,
+          "section": 0,
+          "value": 0
+        },
+        {
+          "offset": 11,
+          "symbol": "__lastiob",
+          "kind": 6,
+          "target": 235024,
+          "section": 0,
+          "value": 0
+        },
+        {
+          "offset": 19,
+          "symbol": "_fclose",
+          "kind": 20,
+          "target": 188704,
+          "section": 0,
+          "value": 0
+        },
+        {
+          "offset": 30,
+          "symbol": "__lastiob",
+          "kind": 6,
+          "target": 235024,
           "section": 0,
           "value": 0
         }
@@ -9200,6 +9318,9 @@
     "__except_list": [
       0
     ],
+    "__exitflag": [
+      235068
+    ],
     "__fpecode": [
       235244
     ],
@@ -9354,20 +9475,6 @@
     },
     {
       "names": [
-        "_fclose"
-      ],
-      "start": 188704,
-      "member": "stdio\\obj\\i386\\FCLOSE.OBJ",
-      "failure": {
-        "offset": 49,
-        "symbol": "__freebuf",
-        "kind": 20,
-        "actual": 196496,
-        "expected": []
-      }
-    },
-    {
-      "names": [
         "_fscanf"
       ],
       "start": 199376,
@@ -9438,20 +9545,6 @@
     },
     {
       "names": [
-        "__fcloseall"
-      ],
-      "start": 199008,
-      "member": "stdio\\obj\\i386\\CLOSEALL.OBJ",
-      "failure": {
-        "offset": 19,
-        "symbol": "_fclose",
-        "kind": 20,
-        "actual": 188704,
-        "expected": []
-      }
-    },
-    {
-      "names": [
         "__fsopen"
       ],
       "start": 188816,
@@ -9463,20 +9556,18 @@
         "actual": 196560,
         "expected": []
       }
-    },
+    }
+  ],
+  "callee_identity_anchors": [
     {
-      "names": [
-        "__endstdio"
-      ],
-      "start": 196128,
-      "member": "stdio\\obj\\i386\\FFLUSH.OBJ",
-      "failure": {
-        "offset": 15,
-        "symbol": "__fcloseall",
-        "kind": 20,
-        "actual": 199008,
-        "expected": []
-      }
+      "name": "__freebuf",
+      "start": 196496,
+      "end": 196550,
+      "bytes_sha256": "e325a15bb828e50fe14829b574ed07638647d03318107c2b2187d38b238f6047",
+      "classification": "reviewed-variant-identity-only",
+      "accepted": false,
+      "unmask": false,
+      "evidence": "cases/runtime-variants/freebuf.json"
     }
   ]
 }

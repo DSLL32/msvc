@@ -13,6 +13,8 @@ extern int show_logo, banner_pending, cvnew, feedback, pcode;
 extern unsigned char mapped_io, debug_present;
 extern int input_file, already_packed, checksum_required;
 extern unsigned short module_count, statistics_enabled;
+extern int verbose, strip_symbols, minimum_types;
+extern char *debug_filename;
 extern char executable_name[260];
 extern void *directory_data, *module_data, *type_data, *symbol_data, *line_data;
 

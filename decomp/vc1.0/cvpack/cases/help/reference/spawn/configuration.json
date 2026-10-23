@@ -1,0 +1,453 @@
+{
+  "schema": 1,
+  "target": {
+    "path": "toolchains/1.0-nt/bin/CVPACK.EXE",
+    "sha256": "2af0008a7217b20c1d161ae97ade09ef326da6418b9e1cf7f0b8a42f4d62d4a1",
+    "entry": 180832,
+    "application_main": 94208
+  },
+  "functions": [
+    {
+      "name": "cvpack_main",
+      "native": "main",
+      "symbol": "_main",
+      "original": 94208,
+      "source": "src/main.c",
+      "kind": "application",
+      "status": "accepted",
+      "extent": [
+        94208,
+        95414
+      ],
+      "abi": "int main(int, char **, char **)",
+      "stack_cleanup": 0,
+      "evidence": "cases/help/evidence/0001-main/proof.json",
+      "roots": [
+        95344,
+        95360
+      ],
+      "text_data": [],
+      "rebuilt_extra_roots": [
+        1687,
+        1758
+      ],
+      "rebuilt_root_note": "Original compiler /Od emits unreachable scope epilogue jump after SEH filter RET and scope-reset block after returning from exception handler; explicitly include both in whole-function audit."
+    },
+    {
+      "name": "parse_options",
+      "native": "parse_options",
+      "symbol": "_parse_options",
+      "original": 95424,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void parse_options(int, char **)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "print_banner",
+      "native": "print_banner",
+      "symbol": "_print_banner",
+      "original": 95936,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void print_banner(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "fatal_error",
+      "native": "fatal_error",
+      "symbol": "_fatal_error",
+      "original": 126304,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void fatal_error(int, const char *, const char *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "warning",
+      "native": "warning",
+      "symbol": "_warning",
+      "original": 126496,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void warning(int, const char *, const char *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "files_initialize",
+      "native": "files_initialize",
+      "symbol": "_files_initialize",
+      "original": 170144,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void files_initialize(int,int,int,int,int,int,unsigned char,void (*)(int,const char *,const char *))",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "open_file",
+      "native": "open_file",
+      "symbol": "_open_file",
+      "original": 171248,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int open_file(const char *,int,...)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "close_file",
+      "native": "close_file",
+      "symbol": "_close_file",
+      "original": 171728,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int close_file(int,unsigned char)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "read_debug_directory",
+      "native": "read_debug_directory",
+      "symbol": "_read_debug_directory",
+      "original": 103328,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void read_debug_directory(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "compact_types",
+      "native": "compact_types",
+      "symbol": "_compact_types",
+      "original": 127568,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void compact_types(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "pack_module",
+      "native": "pack_module",
+      "symbol": "_pack_module",
+      "original": 95984,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void pack_module(unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "strip_debug",
+      "native": "strip_debug",
+      "symbol": "_strip_debug",
+      "original": 164416,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void strip_debug(int)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "write_debug_directory",
+      "native": "write_debug_directory",
+      "symbol": "_write_debug_directory",
+      "original": 103664,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void write_debug_directory(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "print_statistics",
+      "native": "print_statistics",
+      "symbol": "_print_statistics",
+      "original": 119872,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void print_statistics(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "free_type_tables",
+      "native": "free_type_tables",
+      "symbol": "_free_type_tables",
+      "original": 131232,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void free_type_tables(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    },
+    {
+      "name": "update_image_checksum",
+      "native": "update_image_checksum",
+      "symbol": "_update_image_checksum",
+      "original": 179968,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int update_image_checksum(const char *,unsigned long,unsigned char)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": []
+    }
+  ],
+  "review": {
+    "scaffold": "passed by root: scoped scaffold checks only; acceptance requires CFG/callee/ABI/extent/data/runtime identities and negatives",
+    "application_gates": [
+      10,
+      50
+    ]
+  },
+  "accepted_order": [
+    {
+      "function": "cvpack_main",
+      "case": "help",
+      "kind": "application",
+      "sequence": 1
+    }
+  ],
+  "support_unmasked": [
+    {
+      "name": "_mainCRTStartup",
+      "start": 180832,
+      "end": 181104,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "import:GetCommandLineA",
+      "start": 199246,
+      "end": 199252,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "import:GetEnvironmentStrings",
+      "start": 199240,
+      "end": 199246,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "import:GetVersion",
+      "start": 199234,
+      "end": 199240,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "__heap_init",
+      "start": 190768,
+      "end": 190800,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "__ioinit",
+      "start": 190528,
+      "end": 190768,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "import:GetStartupInfoA",
+      "start": 199336,
+      "end": 199342,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "import:GetStdHandle",
+      "start": 199330,
+      "end": 199336,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "import:GetFileType",
+      "start": 199306,
+      "end": 199312,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "__setargv",
+      "start": 190000,
+      "end": 190176,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "import:GetModuleFileNameA",
+      "start": 199324,
+      "end": 199330,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "_parse_cmdline",
+      "start": 190176,
+      "end": 190528,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "_malloc",
+      "start": 184240,
+      "end": 184416,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "__heap_search",
+      "start": 194736,
+      "end": 195008,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "__heap_grow",
+      "start": 195008,
+      "end": 195120,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "__heap_new_region",
+      "start": 195120,
+      "end": 195264,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "import:VirtualAlloc",
+      "start": 199348,
+      "end": 199354,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "__heap_grow_region",
+      "start": 195264,
+      "end": 195456,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "__heap_addblock",
+      "start": 197440,
+      "end": 197936,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "__heap_findaddr",
+      "start": 199088,
+      "end": 199216,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "__heap_grow_emptylist",
+      "start": 190912,
+      "end": 191008,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "__before",
+      "start": 197936,
+      "end": 198080,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "__heap_split_block",
+      "start": 184416,
+      "end": 184512,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "__setenvp",
+      "start": 189792,
+      "end": 190000,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "__cinit",
+      "start": 181648,
+      "end": 181696,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "__initterm",
+      "start": 181920,
+      "end": 181968,
+      "evidence": "cases/startup/proof.json"
+    },
+    {
+      "name": "__setmode",
+      "start": 183552,
+      "end": 183712,
+      "evidence": "cases/help/evidence/0001-main/proof.json"
+    },
+    {
+      "name": "_getenv",
+      "start": 183424,
+      "end": 183552,
+      "evidence": "cases/help/evidence/0001-main/proof.json"
+    },
+    {
+      "name": "__strnicmp",
+      "start": 194448,
+      "end": 194534,
+      "evidence": "cases/help/evidence/0001-main/proof.json"
+    }
+  ]
+}

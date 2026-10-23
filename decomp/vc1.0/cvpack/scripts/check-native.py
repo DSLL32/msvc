@@ -9,6 +9,7 @@ from pathlib import Path
 import subprocess
 import time
 from state import BINARY, ROOT, load, case, prepare, sha
+from processes import Processes
 
 def run_case(name, directory, debug=False):
     start = time.perf_counter()
@@ -21,12 +22,22 @@ def run_case(name, directory, debug=False):
     script = directory/'commands.gdb'
     executable = BINARY / 'build/native/CVPACK.EXE'
     expected = record['current']
+    debug=debug and expected['terminal']=='trap'
+    data=json.loads((BINARY/'data.json').read_text())
     canonical='Z:'+str(ROOT/config['target']['path']).replace('/','\\')
     script.write_text('set pagination off\nset confirm off\nset startup-with-shell on\n'
         'set disable-randomization off\nset args '+' '.join(map(shlex.quote,record['argv']))+'\n'
         'break main\nrun '+' '.join(map(shlex.quote,record['argv']))+' > '+shlex.quote(str(directory/'debug-stdout'))+' 2> '+shlex.quote(str(directory/'debug-stderr'))+'\n'
         'set argv[0] = recon_pgmptr\ncontinue\npython\n'
         'import gdb,json\n'
+        'current=gdb.newest_frame()\nparameters={}\n'
+        'for symbol in current.block():\n'
+        ' if symbol.is_argument:\n'
+        '  value=current.read_var(symbol); kind=value.type.strip_typedefs().code\n'
+        '  if kind==gdb.TYPE_CODE_PTR:\n'
+        '   parameters[symbol.name]=dict(null=int(value)==0)\n'
+        '   if int(value) and value.type.target().strip_typedefs().code==gdb.TYPE_CODE_FUNC: parameters[symbol.name]["function"]=gdb.block_for_pc(int(value)).function.name\n'
+        '  else: parameters[symbol.name]=int(value)\n'
         'frames=[]\nf=gdb.newest_frame()\n'
         'while f:\n frames.append(f.name()); f=f.older()\n'
         'f=gdb.newest_frame()\n'
@@ -38,13 +49,19 @@ def run_case(name, directory, debug=False):
         'fields=["_ptr","_cnt","_base","_flag","_file","_charbuf","_bufsiz","_tmpfname"]\n'
         'stream={n:int(gdb.parse_and_eval("recon_iob[1]."+n)) for n in fields}\n'
         'state={"feedback":int(gdb.parse_and_eval("feedback")),"stdout_osfile":int(gdb.parse_and_eval("recon_osfile[1]"))}\n'
-        'json.dump(dict(signal=int(signal),frames=frames,argc=argc,argv=argv,stdout=stream,state=state),open('+repr(str(report))+',"w"))\n'
+        'globals={}\n'
+        'for item in '+repr(data)+':\n'
+        ' name=item["name"]\n'
+        ' value=gdb.parse_and_eval(name)\n'
+        ' if item.get("kind")=="string-pointer-array": globals[name]=[value[i].string(encoding="latin1").encode("latin1").hex() for i in range(item["size"]//4)]\n'
+        ' else: globals[name]=dict(null=int(value)==0) if value.type.strip_typedefs().code==gdb.TYPE_CODE_PTR else bytes(gdb.selected_inferior().read_memory(value.address,value.type.sizeof)).hex()\n'
+        'json.dump(dict(signal=int(signal),frames=frames,argc=argc,argv=argv,stdout=stream,state=state,parameters=parameters,globals=globals),open('+repr(str(report))+',"w"))\n'
         'end\nquit\n')
     env = os.environ.copy()
     for variable in list(env):
         if variable.startswith(('WINE','RECON_')) or variable in ('CL','_CL_','LINK','_LINK_','MSC_CMD_FLAGS','_MSC_IDE_FLAGS','LINK32_DB'):
             env.pop(variable)
-    env.update(LC_ALL='C',TZ='PST8PDT',RECON_PROGRAM_PATH=canonical,
+    env.update(LC_ALL='C',TZ='PST8PDT',RECON_PROGRAM_PATH=canonical,PATH='',
                LIB='Z:'+str(ROOT/'toolchains/1.0-nt/lib').replace('/','\\'))
     symbols=directory/'trace-filter'
     symbols.write_text(''.join(r['native']+'\n' for r in config['functions']))
@@ -55,12 +72,15 @@ def run_case(name, directory, debug=False):
     run = time.perf_counter()
     def no_core():
         resource.setrlimit(resource.RLIMIT_CORE,(0,0))
+    processes=Processes(name,work,env,expected.get('spawn_requests',0))
     with trace.open('wb') as log,stdout.open('wb') as out,stderr.open('wb') as err:
         env.update(RECON_TRACE_FD=str(log.fileno()),RECON_TRACE_FILTER=str(symbols),
                    RECON_TRACE_SEEN=str(seen))
         child=subprocess.run([canonical,*record['argv']],executable=str(executable),cwd=work,env=env,
             stdout=out,stderr=err,stdin=subprocess.DEVNULL,timeout=10,
-            pass_fds=(log.fileno(),),preexec_fn=no_core)
+            pass_fds=(log.fileno(),processes.fileno()),preexec_fn=no_core)
+    processes.close()
+    processes.check()
     execution = time.perf_counter()-run
     debug_start=time.perf_counter()
     if debug:
@@ -69,19 +89,22 @@ def run_case(name, directory, debug=False):
         # A debugger rerun starts from an independent copy of every input.
         debug_work=directory/'debug-work'
         prepare(record,debug_work)
+        debug_processes=Processes(name,debug_work,env,expected.get('spawn_requests',0))
         # GDB records frames/state; direct execution above owns fixture checks.
-        debugger=subprocess.run(['gdb','-q','-batch','-x',str(script),str(executable)],
+        debugger=subprocess.run(['/usr/bin/gdb','-q','-batch','-x',str(script),str(executable)],
             cwd=debug_work,env=env,stdin=subprocess.DEVNULL,
-            stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=30)
+            stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=30,pass_fds=(debug_processes.fileno(),))
+        debug_processes.close()
+        debug_processes.check()
         (directory/'gdb.stdout').write_bytes(debugger.stdout)
         (directory/'gdb.stderr').write_bytes(debugger.stderr)
         assert debugger.returncode==0,debugger.stdout.decode('latin1')+debugger.stderr.decode('latin1')
     debugging=time.perf_counter()-debug_start if debug else 0
     check = time.perf_counter()
-    assert expected['terminal']=='trap', 'completed fixture support will be enabled with first completed case'
-    assert child.returncode==-5,child.returncode
+    assert expected['terminal'] in ('trap','exit')
+    assert child.returncode==(-5 if expected['terminal']=='trap' else expected['exit']),child.returncode
     entries=trace.read_text().splitlines()
-    assert entries and entries[-1]==expected['native_function'],entries
+    if expected['terminal']=='trap':assert entries and entries[-1]==expected['native_function'],entries
     application={r['native'] for r in config['functions'] if r['kind']=='application'}
     assert [n for n in entries if n in application]==expected.get('application_trace',[]),entries
     if debug:
@@ -91,10 +114,13 @@ def run_case(name, directory, debug=False):
     for stream in ('stdout','stderr'):
         reference = BINARY / 'cases' / name / expected[stream]
         assert (directory/stream).read_bytes()==reference.read_bytes(), stream+' mismatch'
+    outputs={item['name']:item for item in expected.get('artifacts',[])}
     for item in record.get('inputs',[]):
-        assert sha(work/item['name'])==item['sha256'], 'unexpected artifact mutation before frontier'
-    return dict(case=name,terminal=expected['terminal'],function=expected['native_function'],
+        artifact=outputs.get(item['name'],item)
+        assert sha(work/item['name'])==artifact['sha256'], 'artifact mismatch: '+item['name']
+    return dict(case=name,terminal=expected['terminal'],status=child.returncode,function=expected.get('native_function'),
         executable_sha256=sha(executable),configuration_sha256=sha(BINARY/'functions.json'),
+        process_boundary=processes.receipt(),
         seconds=dict(setup=setup,execution=execution,debugging=debugging,
                      checks=time.perf_counter()-check,total=time.perf_counter()-start))
 
@@ -113,7 +139,7 @@ def main():
         case_directory.mkdir()
         receipts.append(run_case(name,case_directory,args.debug))
     (directory/'receipt.json').write_text(json.dumps(receipts,indent=2)+'\n')
-    print(json.dumps(receipts,indent=2))
+    for receipt in receipts:print(receipt['case'],receipt['terminal'],receipt['seconds'])
     print(directory/'receipt.json')
 
 if __name__=='__main__':

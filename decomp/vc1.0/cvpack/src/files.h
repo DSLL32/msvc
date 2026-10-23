@@ -1,0 +1,51 @@
+#ifndef CVPACK_FILES_H
+#define CVPACK_FILES_H
+#include <stddef.h>
+#include "cvpack.h"
+#include <recon.h>
+
+typedef struct Page {
+    int handle;
+    long start, limit, position, dirty_end;
+    unsigned long flags;
+    char data[4096];
+    char *cursor;
+    struct Page *next, *older, *newer;
+} Page;
+
+typedef struct FileSlot {
+    char *name;
+    unsigned long flags;
+    int handle;
+    long length;
+    union { int descriptor; HANDLE handle; } source;
+    union { Page **pages; HANDLE mapping; } storage;
+    union { unsigned long capacity; char *view; } contents;
+    unsigned long allocated;
+    union { Page *page; long position; } cursor;
+    struct FileSlot *next;
+} FileSlot;
+
+typedef HANDLE (WINAPI *CreateMapping)(HANDLE,LPSECURITY_ATTRIBUTES,DWORD,DWORD,DWORD,LPCSTR);
+typedef LPVOID (WINAPI *MapFileView)(HANDLE,DWORD,DWORD,DWORD,DWORD);
+typedef BOOL (WINAPI *UnmapFileView)(LPCVOID);
+
+typedef char PageSize[(sizeof(Page)==0x1028)?1:-1];
+typedef char PageLinkOffset[(offsetof(Page,next)==0x101c)?1:-1];
+typedef char FileSlotSize[(sizeof(FileSlot)==40)?1:-1];
+typedef char FileSlotLinkOffset[(offsetof(FileSlot,next)==36)?1:-1];
+
+extern Page *free_pages;
+extern FileSlot *free_files;
+extern FileSlot **file_slots;
+extern int file_count, page_count, file_limit, open_limit, page_limit;
+extern unsigned char mapped_files;
+extern void (*file_failure)(int,const char *,const char *);
+extern CreateMapping mapping_create;
+extern MapFileView mapping_map;
+extern UnmapFileView mapping_unmap;
+
+Page *new_page(void);
+FileSlot *new_file_slot(void);
+
+#endif

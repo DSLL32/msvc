@@ -124,5 +124,133 @@
     "original": 208996,
     "size": 4,
     "source": "src/main.c"
+  },
+  {
+    "name": "verbose",
+    "symbol": "_verbose",
+    "original": 225288,
+    "size": 4,
+    "source": "src/options.c"
+  },
+  {
+    "name": "strip_symbols",
+    "symbol": "_strip_symbols",
+    "original": 225292,
+    "size": 4,
+    "source": "src/options.c"
+  },
+  {
+    "name": "minimum_types",
+    "symbol": "_minimum_types",
+    "original": 225296,
+    "size": 4,
+    "source": "src/options.c"
+  },
+  {
+    "name": "debug_filename",
+    "symbol": "_debug_filename",
+    "original": 225324,
+    "size": 4,
+    "source": "src/options.c"
+  },
+  {
+    "name": "diagnostics",
+    "symbol": "_diagnostics",
+    "original": 232432,
+    "size": 160,
+    "source": "src/diagnostics.c",
+    "kind": "string-pointer-array",
+    "provenance": "Actual bounded indexed40-entry table shared by original warning/fatal handlers. Logical string contents matter; no pointer equality test is performed by these handlers."
+  },
+  {
+    "name": "free_pages",
+    "symbol": "_free_pages",
+    "original": 232696,
+    "size": 4,
+    "source": "src/files.c"
+  },
+  {
+    "name": "free_files",
+    "symbol": "_free_files",
+    "original": 232724,
+    "size": 4,
+    "source": "src/files.c"
+  },
+  {
+    "name": "file_slots",
+    "symbol": "_file_slots",
+    "original": 208896,
+    "size": 4,
+    "source": "src/files.c"
+  },
+  {
+    "name": "file_count",
+    "symbol": "_file_count",
+    "original": 232708,
+    "size": 4,
+    "source": "src/files.c"
+  },
+  {
+    "name": "page_count",
+    "symbol": "_page_count",
+    "original": 232720,
+    "size": 4,
+    "source": "src/files.c"
+  },
+  {
+    "name": "file_limit",
+    "symbol": "_file_limit",
+    "original": 217792,
+    "size": 4,
+    "source": "src/files.c"
+  },
+  {
+    "name": "open_limit",
+    "symbol": "_open_limit",
+    "original": 217796,
+    "size": 4,
+    "source": "src/files.c"
+  },
+  {
+    "name": "page_limit",
+    "symbol": "_page_limit",
+    "original": 232716,
+    "size": 4,
+    "source": "src/files.c"
+  },
+  {
+    "name": "mapped_files",
+    "symbol": "_mapped_files",
+    "original": 232744,
+    "size": 1,
+    "source": "src/files.c"
+  },
+  {
+    "name": "file_failure",
+    "symbol": "_file_failure",
+    "original": 232740,
+    "size": 4,
+    "source": "src/files.c"
+  },
+  {
+    "name": "mapping_create",
+    "symbol": "_mapping_create",
+    "original": 232676,
+    "size": 4,
+    "source": "src/files.c"
+  },
+  {
+    "name": "mapping_map",
+    "symbol": "_mapping_map",
+    "original": 232680,
+    "size": 4,
+    "source": "src/files.c"
+  },
+  {
+    "name": "mapping_unmap",
+    "symbol": "_mapping_unmap",
+    "original": 232684,
+    "size": 4,
+    "source": "src/files.c"
   }
 ]

@@ -2,6 +2,7 @@
 """Meaningful negative checks for acceptance/identity failure paths."""
 from graph import graph, names
 from runtime import identify
+from state import mask
 from state import ROOT
 from state import BINARY
 from binary import PE
@@ -42,6 +43,22 @@ def main():
     assert any(r['name']=='_mainCRTStartup' and r['start']==0x2c260 for r in good['functions'])
     assert not any(r['name']=='_mainCRTStartup' and r['start']==0x2c260 for r in bad['functions'])
     print('rejected: CRT startup with incorrect relocated application target')
+    anchors=good['callee_identity_anchors']
+    if anchors:
+        scratch=Path.home()/'.ai-tmp/vc1.0-cvpack'
+        scratch.mkdir(exist_ok=True,parents=True)
+        with tempfile.TemporaryDirectory(prefix='anchor-mask-',dir=scratch) as directory:
+            image=Path(directory)/'exact-closure.exe'
+            # Even unmasking EVERY exact runtime/import identity must leave a
+            # reviewed semantic variant entirely trapped, with no coverage gain.
+            closure=dict(functions=[],support_unmasked=good['functions']+good['imports'])
+            pe=PE(target)
+            mask(closure,pe,image)
+            masked=PE(image)
+            for anchor in anchors:
+                assert not any(r['start']<=anchor['start']<r['end'] for r in good['functions']+good['imports'])
+                assert masked.read(anchor['start'],anchor['end']-anchor['start'])==b'\xcc'*(anchor['end']-anchor['start'])
+        print('rejected: reviewed variant unmask through exact runtime closure')
     # Mutate actual compiler output, leaving originals/source/build products intact.
     rebuilt=BINARY/'build/CVPACK.EXE'
     if rebuilt.is_file():

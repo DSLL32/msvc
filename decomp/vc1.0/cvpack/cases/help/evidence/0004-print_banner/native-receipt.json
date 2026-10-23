@@ -1,0 +1,36 @@
+[
+  {
+    "case": "help",
+    "terminal": "exit",
+    "status": 1,
+    "function": "print_banner",
+    "executable_sha256": "10a1b7dac0bb810870785e74e15c8c2f8f193e67c4d881ff68bd30d0c66cbaec",
+    "configuration_sha256": "d03a22221cc132f70fe8dc24c82f2979cf9b37e5406eb282c80fcc0824c0ed3c",
+    "process_boundary": {
+      "requests": [
+        {
+          "mode": 0,
+          "pid": 874228,
+          "file": "qh.exe",
+          "cwd": "/root/.ai-tmp/vc1.0-cvpack/banner-help-native-complete/help/work",
+          "argv": [
+            "qh",
+            "-u",
+            "cvpack.exe"
+          ],
+          "action": "replay",
+          "status": -1,
+          "errno": 2
+        }
+      ],
+      "errors": []
+    },
+    "seconds": {
+      "setup": 0.0026769107207655907,
+      "execution": 0.007092972286045551,
+      "debugging": 0,
+      "checks": 0.0019101370126008987,
+      "total": 0.011685444042086601
+    }
+  }
+]

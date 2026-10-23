@@ -1,13 +1,9 @@
-#include "cvpack.h"
+#include "files.h"
 #include <recon.h>
 
-void parse_options(int argc, char **argv) { __asm { int 3 } }
-void print_banner(void) { __asm { int 3 } }
-void fatal_error(int code, const char *first, const char *second) { __asm { int 3 } }
 void warning(int code, const char *first, const char *second) { __asm { int 3 } }
-void files_initialize(int pages, int mapped_limit, int mapped_open,
-                      int normal_limit, int normal_open, unsigned char mapped,
-                      void (*error)(int, const char *, const char *)) { __asm { int 3 } }
+Page *new_page(void) { __asm { int 3 } return 0; }
+FileSlot *new_file_slot(void) { __asm { int 3 } return 0; }
 int open_file(const char *name, int mode, ...) { __asm { int 3 } return 0; }
 int close_file(int handle, unsigned char release) { __asm { int 3 } return 0; }
 void read_debug_directory(void) { __asm { int 3 } }

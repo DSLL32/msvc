@@ -1,0 +1,15 @@
+{
+  "schema": 1,
+  "anchors": [
+    {
+      "name": "__freebuf",
+      "start": 196496,
+      "end": 196550,
+      "bytes_sha256": "e325a15bb828e50fe14829b574ed07638647d03318107c2b2187d38b238f6047",
+      "classification": "reviewed-variant-identity-only",
+      "accepted": false,
+      "unmask": false,
+      "evidence": "cases/runtime-variants/freebuf.json"
+    }
+  ]
+}

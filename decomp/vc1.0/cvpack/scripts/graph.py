@@ -25,7 +25,7 @@ def graph(pe, start, end, data=(), roots=(), switches=None):
         following=address+instruction.size
         assert following<=end,'truncated instruction'
         for byte in range(address,following):
-            assert byte not in owners,'overlapping instructions'
+            assert byte not in owners,('overlapping instructions',hex(address),hex(byte),hex(owners[byte]))
             assert not any(a<=byte<b for a,b in data),'instruction intersects text data'
             owners[byte]=address
         instructions[address]=instruction

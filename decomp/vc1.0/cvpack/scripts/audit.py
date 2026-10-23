@@ -6,6 +6,7 @@ from pathlib import Path
 import re
 import subprocess
 from capstone import Cs,CS_ARCH_X86,CS_MODE_32
+from capstone.x86 import X86_OP_MEM,X86_OP_IMM
 from binary import PE,u32
 from graph import graph,names
 from runtime import identify
@@ -29,7 +30,7 @@ def identity_table(runtime,functions,linked=None):
         identities[address]=record['name']
     return identities
 
-def seh_roots(pe,start,end):
+def seh_roots(pe,start,end,compiler_scaffolding=False):
     """Decode the compiler's SEH scope table, not arbitrary data as code roots."""
     roots=[]
     decoder=Cs(CS_ARCH_X86,CS_MODE_32)
@@ -49,6 +50,27 @@ def seh_roots(pe,start,end):
             for address in (filter,handler):
                 if start<=address<end:roots.append(address);valid=True
             if not valid:break
+    if compiler_scaffolding and roots:
+        instructions=list(decoder.disasm(pe.read(start,end-start),start))
+        by_address={ins.address:ins for ins in instructions}
+        for root in list(roots):
+            region=[ins for ins in instructions if ins.address>=root]
+            for ins in region:
+                if ins.mnemonic=='ret':
+                    following=by_address.get(ins.address+ins.size)
+                    if following and following.mnemonic=='jmp' and re.fullmatch(r'0x[0-9a-f]+',following.op_str):
+                        target=int(following.op_str,16)
+                        assert start<=target<end
+                        roots.append(following.address)
+                    break
+                if ins.mnemonic=='jmp':
+                    following=by_address.get(ins.address+ins.size)
+                    if following and following.mnemonic=='mov' and re.fullmatch(r'dword ptr \[ebp - 0x[0-9a-f]+\], 0xffffffff',following.op_str):
+                        # /Od emits a dead reset after a returning handler. Its
+                        # exact slot/value must also be a normal scope reset.
+                        assert sum(other.bytes==following.bytes for other in instructions)>=2
+                        roots.append(following.address)
+                    break
     return sorted(set(roots))
 
 def audited_graph(pe,start,end,roots=(),data=(),switches=None):
@@ -57,6 +79,8 @@ def audited_graph(pe,start,end,roots=(),data=(),switches=None):
     covered=set()
     for address,instruction in result['instructions'].items():covered.update(range(address,address+instruction.size))
     cursor=start
+    previous=None
+    compiler_roots=[]
     while cursor<end:
         interval=next(((a,b) for a,b in data if a<=cursor<b),None)
         if interval:cursor=interval[1];continue
@@ -65,9 +89,52 @@ def audited_graph(pe,start,end,roots=(),data=(),switches=None):
         ins=item[0]
         assert cursor+ins.size<=end,'partial final instruction'
         if cursor not in covered:
-            assert ins.bytes.hex() in ('90','8bff','8d4900','8d642400','8da42400000000','8d9b00000000','cc'),('unrooted code',hex(cursor),ins.mnemonic,ins.op_str)
+            if previous and previous.mnemonic==ins.mnemonic=='jmp' and previous.op_str==ins.op_str and re.fullmatch(r'0x[0-9a-f]+',ins.op_str):
+                assert int(ins.op_str,16) in result['instructions']
+                compiler_roots.append(cursor)
+            else:
+                assert ins.bytes.hex() in ('90','8bff','8d4900','8d642400','8da42400000000','8d9b00000000','cc'),('unrooted code',hex(cursor),ins.mnemonic,ins.op_str)
+        previous=ins
         cursor+=ins.size
+    if compiler_roots:
+        result=graph(pe,start,end,data=data,roots=[*roots,*compiler_roots],switches=switches)
     return result
+
+def compiler_switches(pe,start,end,expected_counts):
+    """Recover only compiler tables with the declared source switch bound."""
+    if not expected_counts:return {},[]
+    decoder=Cs(CS_ARCH_X86,CS_MODE_32)
+    decoder.detail=True
+    cursor=start
+    recent=[]
+    switches={}
+    data=[]
+    counts=[]
+    while cursor<end:
+        table=next(((a,b) for a,b in data if a<=cursor<b),None)
+        if table:cursor=table[1];continue
+        decoded=list(decoder.disasm(pe.read(cursor,min(15,end-cursor)),cursor,count=1))
+        assert decoded,'invalid compiler instruction'
+        ins=decoded[0]
+        if ins.mnemonic=='jmp' and ins.operands[0].type==X86_OP_MEM:
+            base=ins.operands[0].mem.disp&0xffffffff
+            assert start<=base<end,'indirect jump is not a compiler text table'
+            bound=None
+            for index,prior in enumerate(recent):
+                if prior.mnemonic=='cmp' and prior.operands[-1].type==X86_OP_IMM:
+                    if any(branch.mnemonic=='ja' for branch in recent[index+1:]):
+                        bound=prior.operands[-1].imm+1
+            assert bound and 0<bound<=256,'no unsigned compiler table bound'
+            assert base+bound*4<=end,'compiler table exceeds function extent'
+            targets=[u32(pe.read(base+4*i,4),0) for i in range(bound)]
+            assert all(start<=target<end for target in targets),'compiler switch target outside function'
+            switches[ins.address]=targets
+            data.append((base,base+4*bound))
+            counts.append(bound)
+        recent=(recent+[ins])[-8:]
+        cursor+=ins.size
+    assert counts==expected_counts,('compiler/source switch bounds differ',counts,expected_counts)
+    return switches,data
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)
@@ -118,17 +185,23 @@ def main():
         a=audited_graph(original,start,end,record.get('roots',()),record.get('text_data',()),switches)
         rebuilt_start=linked[record['symbol']]
         rebuilt_end=next(address for address in addresses if address>rebuilt_start)
-        roots=seh_roots(rebuilt,rebuilt_start,rebuilt_end)
+        roots=seh_roots(rebuilt,rebuilt_start,rebuilt_end,record.get('compiler_seh_scaffolding',False))
         roots+= [rebuilt_start+offset for offset in record.get('rebuilt_extra_roots',[])]
-        rebuilt_switches={int(address):targets for address,targets in record.get('rebuilt_switches',{}).items()}
-        b=audited_graph(rebuilt,rebuilt_start,rebuilt_end,roots,record.get('rebuilt_text_data',()),rebuilt_switches)
+        rebuilt_switches,rebuilt_data=compiler_switches(rebuilt,rebuilt_start,rebuilt_end,record.get('compiler_switch_counts',[]))
+        b=audited_graph(rebuilt,rebuilt_start,rebuilt_end,roots,rebuilt_data,rebuilt_switches)
         left,right=names(a['edges'],oi),names(b['edges'],ri)
         assert left==right,(record['name'],'original only',left-right,'rebuilt only',right-left)
         assert a['returns']==b['returns']=={record['stack_cleanup']},('ABI RET cleanup differs',record['name'],a['returns'],b['returns'])
         assert record['abi'],record['name']
         checked+=1
     for record in json.loads((BINARY/'data.json').read_text()):
-        assert original.read(record['original'],record['size'])==rebuilt.read(linked[record['symbol']],record['size']),('initial data differs',record['name'])
+        if record.get('kind')=='string-pointer-array':
+            for index in range(record['size']//4):
+                a=u32(original.read(record['original']+index*4,4),0)
+                b=u32(rebuilt.read(linked[record['symbol']]+index*4,4),0)
+                assert original.string(a)==rebuilt.string(b),('contextual string differs',record['name'],index)
+        else:
+            assert original.read(record['original'],record['size'])==rebuilt.read(linked[record['symbol']],record['size']),('initial data differs',record['name'])
     for record in config.get('support_unmasked',[]):
         found=[r for r in runtime['functions']+runtime['imports'] if r['start']==record['start'] and r['end']==record['end'] and r['name']==record['name']]
         assert found,('unproven CRT/import unmask',record)

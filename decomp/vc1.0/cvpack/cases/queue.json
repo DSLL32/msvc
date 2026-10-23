@@ -6,7 +6,7 @@
       "argv": [
         "/help"
       ],
-      "status": "active"
+      "status": "complete"
     },
     {
       "name": "hello-debug-dll",
@@ -15,7 +15,7 @@
         "/cvnew",
         "hello-debug.dll"
       ],
-      "status": "queued"
+      "status": "active"
     }
   ]
 }

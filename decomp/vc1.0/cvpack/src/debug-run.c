@@ -12,6 +12,62 @@ typedef struct RuntimeRange {
 static RuntimeRange ranges[512];
 static unsigned range_count;
 static unsigned char original_bytes[65536];
+static DWORD watched_spawn, spawn_return;
+static unsigned char spawn_return_byte;
+
+static int watch_spawn(HANDLE child, HANDLE thread, HANDLE log)
+{
+    CONTEXT context;
+    DWORD arguments[24], bytes, written, i, j;
+    unsigned char byte, trap = 0xcc;
+    char line[2048];
+    int length;
+    memset(&context, 0, sizeof(context));
+    context.ContextFlags = CONTEXT_FULL;
+    if (!GetThreadContext(thread, &context) ||
+        !ReadProcessMemory(child, (void *)context.Esp, arguments, sizeof(arguments), &bytes) ||
+        bytes != sizeof(arguments)) return 0;
+    sprintf(line, "spawn-mode %lu\n", arguments[1]);
+    WriteFile(log, line, strlen(line), &written, 0);
+    for (i = 2; i < 24 && arguments[i]; ++i) {
+        length = sprintf(line, "spawn-string %lu ", i-2);
+        for (j = 0; j < 512; ++j) {
+            if (!ReadProcessMemory(child, (void *)(arguments[i]+j), &byte, 1, &bytes) || bytes != 1)
+                return 0;
+            if (!byte) break;
+            length += sprintf(line+length, "%02x", byte);
+        }
+        if (j == 512) return 0;
+        line[length++] = '\n';
+        WriteFile(log, line, length, &written, 0);
+    }
+    if (i == 24) return 0;
+    spawn_return = arguments[0];
+    if (!ReadProcessMemory(child, (void *)spawn_return, &spawn_return_byte, 1, &bytes) || bytes != 1 ||
+        !WriteProcessMemory(child, (void *)spawn_return, &trap, 1, &bytes) || bytes != 1)
+        return 0;
+    return 1;
+}
+
+static int finish_spawn(HANDLE child, HANDLE thread, HANDLE log)
+{
+    CONTEXT context;
+    DWORD old_errno, bytes, written;
+    char line[128];
+    memset(&context, 0, sizeof(context));
+    context.ContextFlags = CONTEXT_FULL;
+    if (!GetThreadContext(thread, &context) ||
+        !ReadProcessMemory(child, (void *)0x39614, &old_errno, 4, &bytes) || bytes != 4)
+        return 0;
+    sprintf(line, "spawn-return %ld errno %lu\n", (long)context.Eax, old_errno);
+    WriteFile(log, line, strlen(line), &written, 0);
+    if (!WriteProcessMemory(child, (void *)spawn_return, &spawn_return_byte, 1, &bytes) || bytes != 1)
+        return 0;
+    FlushInstructionCache(child, (void *)spawn_return, 1);
+    context.Eip = spawn_return;
+    spawn_return = 0;
+    return SetThreadContext(thread, &context);
+}
 
 static int load_plan(char *path)
 {
@@ -113,6 +169,16 @@ static void dump_inspections(HANDLE child, HANDLE log)
     }
 }
 
+static void dump_process_arguments(HANDLE child, HANDLE log)
+{
+    DWORD arguments[3], bytes;
+    arguments[0] = 0;
+    if (!ReadProcessMemory(child, (void *)0x39630, arguments+1, 4, &bytes) || bytes != 4 ||
+        !ReadProcessMemory(child, (void *)0x39634, arguments+2, 4, &bytes) || bytes != 4)
+        return;
+    dump_arguments(child, log, arguments, 3);
+}
+
 int main(int argc, char **argv)
 {
     STARTUPINFOA startup;
@@ -124,7 +190,8 @@ int main(int argc, char **argv)
     DWORD base, written, disposition, i, words[24], count;
     char command[2048], line[1024];
     int loader_break, restored;
-    char program[1024];
+    char program[1024], child_environment[2048];
+    DWORD environment_length;
     if (argc != 7 && argc != 9) return 2;
     original = INVALID_HANDLE_VALUE;
     if (argc == 9) {
@@ -153,8 +220,15 @@ int main(int argc, char **argv)
     if (!GetEnvironmentVariableA("CVPACK_CAPTURE_ARGV0", program, sizeof(program)))
         strcpy(program, argv[1]);
     sprintf(command, "\"%s\" %s", program, argv[2]);
+    if (GetEnvironmentVariableA("CVPACK_CAPTURE_WATCH_SPAWN", program, sizeof(program)))
+        watched_spawn = strtoul(program, 0, 16);
+    strcpy(child_environment, "LIB=");
+    environment_length = GetEnvironmentVariableA("LIB", child_environment+4, sizeof(child_environment)-16);
+    if (!environment_length || environment_length >= sizeof(child_environment)-16) return 10;
+    strcpy(child_environment+4+environment_length+1, "PATH=");
+    child_environment[4+environment_length+1+6] = 0;
     if (!CreateProcessA(argv[1], command, 0, 0, TRUE, DEBUG_ONLY_THIS_PROCESS,
-                         0, argv[6], &startup, &child)) return 4;
+                         child_environment, argv[6], &startup, &child)) return 4;
     base = 0;
     loader_break = 0;
     for (;;) {
@@ -179,6 +253,15 @@ int main(int argc, char **argv)
                 loader_break = 1;
             } else {
                 thread = event.dwThreadId == child.dwThreadId ? child.hThread : 0;
+                if (thread && spawn_return &&
+                    (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress == spawn_return) {
+                    if (!finish_spawn(child.hProcess, thread, log)) return 11;
+                    ContinueDebugEvent(event.dwProcessId, event.dwThreadId, disposition);
+                    continue;
+                }
+                if (thread && watched_spawn &&
+                    (DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress == watched_spawn)
+                    if (!watch_spawn(child.hProcess, thread, log)) return 12;
                 restored = 0;
                 if (thread && original != INVALID_HANDLE_VALUE &&
                     event.u.Exception.ExceptionRecord.ExceptionCode == EXCEPTION_BREAKPOINT)
@@ -207,10 +290,9 @@ int main(int argc, char **argv)
                             sprintf(line, "stack %lu %08lx\n", i, words[i]);
                             WriteFile(log, line, strlen(line), &written, 0);
                         }
-                        if ((DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress == 0x17000)
-                            dump_arguments(child.hProcess, log, words, count / 4);
                     }
                 }
+                dump_process_arguments(child.hProcess, log);
                 dump_inspections(child.hProcess, log);
                 TerminateProcess(child.hProcess, 99);
             }

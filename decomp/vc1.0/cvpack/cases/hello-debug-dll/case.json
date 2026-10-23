@@ -15,13 +15,15 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "parse_options",
-    "native_function": "parse_options",
+    "logical": "new_page",
+    "native_function": "new_page",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
       "main",
-      "parse_options"
+      "parse_options",
+      "files_initialize",
+      "new_page"
     ]
   },
   "complete_reference": {

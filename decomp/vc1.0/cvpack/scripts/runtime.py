@@ -43,6 +43,16 @@ def identify(path, application):
     text=next(s for s in pe.sections if s['name']=='.text')
     code=pe.data[text['off']:text['off']+text['virtual_size']]
     library=ROOT/'toolchains/1.0-nt/lib/LIBC.LIB'
+    anchors=[]
+    anchor_path=BINARY/'runtime-anchors.json'
+    if Path(path).resolve()==(ROOT/'toolchains/1.0-nt/bin/CVPACK.EXE').resolve() and anchor_path.exists():
+        anchors=json.loads(anchor_path.read_text())['anchors']
+        for anchor in anchors:
+            assert anchor['classification']=='reviewed-variant-identity-only'
+            assert not anchor['accepted'] and not anchor['unmask']
+            raw=pe.read(anchor['start'],anchor['end']-anchor['start'])
+            assert hashlib.sha256(raw).hexdigest()==anchor['bytes_sha256']
+            assert (BINARY/anchor['evidence']).is_file()
     candidates=[]
     for member,data in archive(library):
         obj=COFF(data)
@@ -69,6 +79,7 @@ def identify(path, application):
     while True:
         known=defaultdict(set)
         for name,address in application.items(): known[name].add(address)
+        for anchor in anchors:known[anchor['name']].add(anchor['start'])
         for candidate in candidates:
             for name in candidate['names']:known[name].add(candidate['start'])
         kept=[]
@@ -124,7 +135,7 @@ def identify(path, application):
         library_sha256=hashlib.sha256(library.read_bytes()).hexdigest(),
         functions=sorted(records,key=lambda r:(r['start'],r['name'])),imports=imported,
         global_bindings={name:sorted(addresses) for name,addresses in sorted(globals.items())},
-        rejected=rejected)
+        rejected=rejected,callee_identity_anchors=anchors)
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__)

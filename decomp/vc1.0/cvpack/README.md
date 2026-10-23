@@ -7,11 +7,12 @@ The PE/COFF analysis reader was reused from LINK; no sibling files are changed.
 
 `make -j4 native check` builds/runs native i386 fixtures. `make -j4 all audit`
 also verifies original-compiler compilability. Debug with GDB against
-`build/native/CVPACK.EXE`. The first accepted application function is main; the
-current `/help` frontier is the named `parse_options` stub. CRT startup has a
+`build/native/CVPACK.EXE`. `/help` is complete: exact 219-byte stdout, exit 1 and
+empty stderr. Five application functions are accepted; the independent DLL case
+currently stops at the named `new_page` stub. CRT startup has a
 separate exact-library and observed-state proof and is counted separately.
 `audit` checks complete original/compiler CFGs and callees, RET cleanup, SEH
-roots, contextual initial data, library relocations, and twelve negative probes.
+roots, contextual initial data, library relocations, and thirteen negative probes.
 
 `scripts/capture-original.py --case help --output ~/.ai-tmp/...` is an explicit
 original-only operation after `make build/debug-run.exe`. It creates an entirely
@@ -27,12 +28,21 @@ artifact hashes and separate setup/execution timing.
 The root Wine prefix `~/.ai-tmp/vc1.0-capture/wine` is shared by explicit user
 authorization. These scripts never initialize, remap, reset or stop it. Z: paths
 and per-run private working directories avoid changes to its persistent state.
+Existing canonical Z: references remain fixed; newer captures can use the shared
+R: repository and S: scratch mappings without remapping either drive.
 
 Initial cases: `/help` (exit 1, 219 stdout bytes), then the exact independent
 `/nologo /cvnew hello-debug.dll` process frozen by LINK. The second case reuses
-read-only prepack/packed bytes, not LINK execution. Current partial fixtures
-compare their frozen frontier; complete-output and projected entry-trace checks
-will replace that terminal assertion when each case completes.
+read-only prepack/packed bytes, not LINK execution. An independent original-only
+rerun produced the exact same 71,800-byte packed DLL without normalization.
+Partial fixtures compare their frozen frontier; completed ones compare full
+streams/artifacts and projected entry traces. `/help` attempts a missing QH.EXE;
+its exact invocation and -1/errno2 response are frozen and brokered natively.
+
+`runtime-anchors.json` contains one reviewed identity-only `_freebuf` variant:
+the original clears flag 0x8, while shipped LIBC clears 0x408. It resolves exact
+caller identities but is never an accepted/unmasked range or coverage gain. The
+mask-negative check verifies this even under the entire exact runtime closure.
 
 Root reviewed and passed the scaffold before reconstruction, with graph/ABI/data
 checks required before acceptance; those checks are now implemented. Stop for orchestrator review

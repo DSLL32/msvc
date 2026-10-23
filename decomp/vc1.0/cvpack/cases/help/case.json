@@ -5,15 +5,19 @@
   ],
   "inputs": [],
   "current": {
-    "terminal": "trap",
-    "logical": "parse_options",
-    "native_function": "parse_options",
-    "stdout": "frontier.stdout",
-    "stderr": "frontier.stderr",
+    "terminal": "exit",
+    "logical": "print_banner",
+    "native_function": "print_banner",
+    "stdout": "reference/stdout",
+    "stderr": "reference/stderr",
     "application_trace": [
       "main",
-      "parse_options"
-    ]
+      "parse_options",
+      "fatal_error",
+      "print_banner"
+    ],
+    "spawn_requests": 1,
+    "exit": 1
   },
   "complete_reference": {
     "capture": "reference/capture.json",

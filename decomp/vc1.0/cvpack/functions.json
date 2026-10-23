@@ -27,56 +27,148 @@
         95360
       ],
       "text_data": [],
-      "rebuilt_extra_roots": [
-        1687,
-        1758
-      ],
-      "rebuilt_root_note": "Original compiler /Od emits unreachable scope epilogue jump after SEH filter RET and scope-reset block after returning from exception handler; explicitly include both in whole-function audit."
+      "rebuilt_root_note": "Scope table anchors filter/handler. Include /Od post-filter RET jump and post-return handler scope-reset only after structural target/slot/value validation; all their instructions/calls remain audited.",
+      "compiler_seh_scaffolding": true
     },
     {
       "name": "parse_options",
       "native": "parse_options",
       "symbol": "_parse_options",
       "original": 95424,
-      "source": "src/stubs.c",
+      "source": "src/options.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        95424,
+        95835
+      ],
       "abi": "void parse_options(int, char **)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json",
       "roots": [],
-      "text_data": []
+      "text_data": [
+        [
+          95836,
+          95932
+        ]
+      ],
+      "switches": {
+        "95495": [
+          95523,
+          95504,
+          95504,
+          95504,
+          95540,
+          95504,
+          95504,
+          95504,
+          95504,
+          95575,
+          95504,
+          95504,
+          95504,
+          95504,
+          95635,
+          95712,
+          95504,
+          95720,
+          95504,
+          95504,
+          95728,
+          95504,
+          95504,
+          95776
+        ]
+      },
+      "switch_tables": [
+        {
+          "start": 95836,
+          "targets": [
+            95523,
+            95504,
+            95504,
+            95504,
+            95540,
+            95504,
+            95504,
+            95504,
+            95504,
+            95575,
+            95504,
+            95504,
+            95504,
+            95504,
+            95635,
+            95712,
+            95504,
+            95720,
+            95504,
+            95504,
+            95728,
+            95504,
+            95504,
+            95776
+          ]
+        }
+      ],
+      "compiler_switch_counts": [
+        24
+      ]
     },
     {
       "name": "print_banner",
       "native": "print_banner",
       "symbol": "_print_banner",
       "original": 95936,
-      "source": "src/stubs.c",
+      "source": "src/diagnostics.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        95936,
+        95981
+      ],
       "abi": "void print_banner(void)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json",
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": []
     },
     {
       "name": "fatal_error",
       "native": "fatal_error",
       "symbol": "_fatal_error",
       "original": 126304,
-      "source": "src/stubs.c",
+      "source": "src/diagnostics.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        126304,
+        126488
+      ],
       "abi": "void fatal_error(int, const char *, const char *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/help/evidence/0003-fatal_error/proof.json",
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "code",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "first",
+          "slot": 2,
+          "kind": "pointer"
+        },
+        {
+          "name": "second",
+          "slot": 3,
+          "kind": "pointer"
+        }
+      ]
     },
     {
       "name": "warning",
@@ -98,15 +190,61 @@
       "native": "files_initialize",
       "symbol": "_files_initialize",
       "original": 170144,
-      "source": "src/stubs.c",
+      "source": "src/files.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        170144,
+        170505
+      ],
       "abi": "void files_initialize(int,int,int,int,int,int,unsigned char,void (*)(int,const char *,const char *))",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0005-files_initialize/proof.json",
       "roots": [],
-      "text_data": []
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "pages",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "mapped_limit",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "mapped_open",
+          "slot": 3,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "normal_limit",
+          "slot": 4,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "normal_open",
+          "slot": 5,
+          "kind": "integer",
+          "bits": 32
+        },
+        {
+          "name": "mapped",
+          "slot": 6,
+          "kind": "integer",
+          "bits": 8
+        },
+        {
+          "name": "error",
+          "slot": 7,
+          "kind": "function"
+        }
+      ]
     },
     {
       "name": "open_file",
@@ -257,6 +395,38 @@
       "evidence": null,
       "roots": [],
       "text_data": []
+    },
+    {
+      "name": "new_page",
+      "native": "new_page",
+      "symbol": "_new_page",
+      "original": 174304,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "Page *new_page(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
+    },
+    {
+      "name": "new_file_slot",
+      "native": "new_file_slot",
+      "symbol": "_new_file_slot",
+      "original": 170512,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "FileSlot *new_file_slot(void)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": []
     }
   ],
   "review": {
@@ -272,6 +442,30 @@
       "case": "help",
       "kind": "application",
       "sequence": 1
+    },
+    {
+      "function": "parse_options",
+      "case": "help",
+      "kind": "application",
+      "sequence": 2
+    },
+    {
+      "function": "fatal_error",
+      "case": "help",
+      "kind": "application",
+      "sequence": 3
+    },
+    {
+      "function": "print_banner",
+      "case": "help",
+      "kind": "application",
+      "sequence": 4
+    },
+    {
+      "function": "files_initialize",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 5
     }
   ],
   "support_unmasked": [
@@ -448,6 +642,222 @@
       "start": 194448,
       "end": 194534,
       "evidence": "cases/help/evidence/0001-main/proof.json"
+    },
+    {
+      "name": "_toupper",
+      "start": 183808,
+      "end": 184176,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "__spawnlp",
+      "start": 199376,
+      "end": 199408,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "__spawnvp",
+      "start": 200528,
+      "end": 200560,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "__spawnvpe",
+      "start": 202176,
+      "end": 202576,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "__spawnve",
+      "start": 203568,
+      "end": 204128,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "_strrchr",
+      "start": 200560,
+      "end": 200600,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "_strchr",
+      "start": 186048,
+      "end": 186086,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "__access",
+      "start": 205728,
+      "end": 205808,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "import:GetFileAttributesA",
+      "start": 205880,
+      "end": 205886,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "import:GetLastError",
+      "start": 199264,
+      "end": 199270,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "__dosmaperr",
+      "start": 194000,
+      "end": 194128,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "_free",
+      "start": 182528,
+      "end": 182624,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "__getpath",
+      "start": 204128,
+      "end": 204256,
+      "evidence": "cases/help/evidence/0002-parse_options/proof.json"
+    },
+    {
+      "name": "_printf",
+      "start": 184176,
+      "end": 184240,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "__stbuf",
+      "start": 191216,
+      "end": 191376,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "__isatty",
+      "start": 197136,
+      "end": 197168,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "__output",
+      "start": 191456,
+      "end": 193760,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "_write_char",
+      "start": 193760,
+      "end": 193840,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "__flsbuf",
+      "start": 194144,
+      "end": 194448,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "__getbuf",
+      "start": 197312,
+      "end": 197392,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "_get_int_arg",
+      "start": 193968,
+      "end": 193984,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "_write_multi_char",
+      "start": 193840,
+      "end": 193904,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "_write_string",
+      "start": 193904,
+      "end": 193968,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "__ftbuf",
+      "start": 191376,
+      "end": 191456,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "_sprintf",
+      "start": 183248,
+      "end": 183360,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "_exit",
+      "start": 181696,
+      "end": 181728,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "_doexit",
+      "start": 181792,
+      "end": 181920,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "__endstdio",
+      "start": 196128,
+      "end": 196160,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "__flushall",
+      "start": 196000,
+      "end": 196016,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "_flsall",
+      "start": 196016,
+      "end": 196128,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "_fflush",
+      "start": 195808,
+      "end": 195888,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "__flush",
+      "start": 195888,
+      "end": 196000,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "__write",
+      "start": 181968,
+      "end": 182528,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "import:WriteFile",
+      "start": 199270,
+      "end": 199276,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "import:ExitProcess",
+      "start": 199258,
+      "end": 199264,
+      "evidence": "cases/help/evidence/0004-print_banner/proof.json"
+    },
+    {
+      "name": "__stricmp",
+      "start": 183712,
+      "end": 183779,
+      "evidence": "cases/hello-debug-dll/evidence/0005-files_initialize/proof.json"
     }
   ]
 }
