@@ -20,4 +20,6 @@ typedef struct CompilerPdbContext {
 extern CompilerPdbContext input_pdb_context;
 int initialize_pdb_context_01(void);
 void destroy_pdb_context_01(void);
+int initialize_pdb_context_02(void);
+void destroy_pdb_context_02(void);
 #endif

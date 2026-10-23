@@ -130,7 +130,8 @@ void initialize_frontend_22(void)
 
 void initialize_frontend_23(void)
 {
-    __asm { int 3 }
+    initialize_pdb_context_02();
+    register_cleanup(destroy_pdb_context_02);
 }
 
 void initialize_frontend_24(void)

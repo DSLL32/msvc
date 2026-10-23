@@ -21,3 +21,13 @@ void destroy_pdb_context_01(void)
 {
     __asm { int 3 }
 }
+
+int initialize_pdb_context_02(void)
+{
+    __asm { int 3 }
+}
+
+void destroy_pdb_context_02(void)
+{
+    __asm { int 3 }
+}

@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "trial": "_initialize_frontend_23",
+  "trials": [
+    {
+      "seed": null,
+      "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback23-original-1",
+      "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-callback23-native-1",
+      "original_receipt_sha256": "e65d79b671181ac17b1866caae400129c66e92acc3c8c314d9d5047bac8d6779",
+      "native_receipt_sha256": "3e2d52faac80c456d99042136ae7c12b088cb17c3d19ff864842953415173a1c",
+      "audit": "build/audits/c18510882ba496bc30028e64716caddebb47009f587d31e37e3f60d564354429.json",
+      "comparison": {
+        "trial": "_initialize_frontend_23",
+        "frontier": "_initialize_pdb_context_02",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 565,
+        "native_bss_size": 592,
+        "native_c_padding_bytes": 27,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8516,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 2.3699445007368922,
+        "native_seconds": 2.051840997301042
+      }
+    }
+  ]
+}
