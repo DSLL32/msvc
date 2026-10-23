@@ -705,6 +705,11 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
             stack[0], stack[1], stack[2], stack[3], stack[4]);
     fprintf(events, "last-error=%lu\n", thread_error(context, thread));
     fprintf(events, "control-word=%04lx\n", context->FloatSave.ControlWord);
+    {
+        char floating_name[64];
+        sprintf(floating_name, "x87-context-%03u.bin", sequence);
+        save_blob(floating_name, &context->FloatSave, sizeof(context->FloatSave));
+    }
     save_state();
     if (address == base + 0x384d4) invocation_arguments(context);
     if (address == base + entry_rva) {
@@ -936,6 +941,13 @@ int main(int argc, char **argv)
                     readmem(base + 0xb9000, action_bss, sizeof(action_bss));
                     save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
                 }
+                if (address == base + 0x38ed2) {
+                    BYTE *size_bss = (BYTE *)malloc(0xf69c);
+                    if (!size_bss) fail("allocate arena sizing BSS observation");
+                    readmem(base + 0xb9000, size_bss, 0xf69c);
+                    save_blob("arena-bss-size-frontier.bin", size_bss, 0xf69c);
+                    free(size_bss);
+                }
                 if (address == base + 0x38e70) {
                     BYTE *member_bss = (BYTE *)malloc(0xf69c);
                     if (!member_bss) fail("allocate arena member BSS observation");
@@ -1001,6 +1013,13 @@ int main(int argc, char **argv)
                     }
                     readmem(base + 0xb9000, action_bss, sizeof(action_bss));
                     save_blob(address == base + 0x38bea ? "action-bss-entry.bin" : "action-bss-result.bin", action_bss, sizeof(action_bss));
+                }
+                if (address == base + 0x38ed2) {
+                    BYTE *size_bss = (BYTE *)malloc(0xf69c);
+                    if (!size_bss) fail("allocate arena sizing BSS observation");
+                    readmem(base + 0xb9000, size_bss, 0xf69c);
+                    save_blob("arena-bss-size-frontier.bin", size_bss, 0xf69c);
+                    free(size_bss);
                 }
                 if (address == base + 0x38e70) {
                     BYTE *member_bss = (BYTE *)malloc(0xf69c);

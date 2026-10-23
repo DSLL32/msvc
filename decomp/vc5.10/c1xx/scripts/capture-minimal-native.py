@@ -63,7 +63,7 @@ if frame.name() in ('initialize_intermediate_files','process_early_option') and 
     formal_block=gdb.block_for_pc(value['pc'])
     while formal_block and not formal_block.function:formal_block=formal_block.superblock
     value['formal_inventory']=[{'name':item.name,'type':str(item.type)} for item in formal_block if item.is_argument] if formal_block else []
-if frame.name() in ('initialize_default_arena','CompilerArena::Reserve'):
+if frame.name() in ('initialize_default_arena','CompilerArena::Reserve','calculate_arena_reservation'):
     value['caller_return_pc']=int(frame.older().pc())
 if frame.name()=='initialize_work_buffers':
     value['caller_return_pc']=int(frame.older().pc())
@@ -87,6 +87,13 @@ if frame.name()=='CompilerArena::Reserve' and value['pc']==int(gdb.parse_and_eva
     formal_block=gdb.block_for_pc(value['pc'])
     while formal_block and not formal_block.function:formal_block=formal_block.superblock
     value['formal_inventory']=[{'name':item.name,'type':str(item.type)} for item in formal_block if item.is_argument] if formal_block else []
+if frame.name()=='calculate_arena_reservation' and value['pc']==int(gdb.parse_and_eval('(unsigned int)&calculate_arena_reservation')):
+    value['args']={'descriptor':int(gdb.parse_and_eval('*(unsigned int *)($esp+4)'))}
+    value['raw_entry_abi']={'esp':value['esp'],'return_pc':int(gdb.parse_and_eval('*(unsigned int *)$esp')),'stack_arguments':[value['args']['descriptor']]}
+    formal_block=gdb.block_for_pc(value['pc'])
+    while formal_block and not formal_block.function:formal_block=formal_block.superblock
+    value['formal_inventory']=[{'name':item.name,'type':str(item.type)} for item in formal_block if item.is_argument] if formal_block else []
+value['x87']={name:int(gdb.parse_and_eval(register)) for name,register in [('control','$fctrl'),('status','$fstat'),('tag','$ftag')]}
 value['target_state']={name:int(gdb.parse_and_eval('(unsigned int)'+name)) for name in
     ('process_attached','raw_dll_entry','dll_adjust_fdiv','dll_module','onexit_begin','onexit_end')}
 value['target_state']['last_error']=int(gdb.parse_and_eval('last_error'))
@@ -351,6 +358,10 @@ end
         return_observer=output/'observe-pool-return.gdb'
         return_observer.write_text('python\nimport gdb\nclass PoolReturnObserver(gdb.Breakpoint):\n    def stop(self):\n        gdb.execute("source "+'+repr(str(result))+')\n        return False\npool_return_bp=PoolReturnObserver("*0x%x"%int(gdb.parse_and_eval("*(unsigned int *)$esp")),temporary=True,internal=True)\nend\n')
         observer+='break *_ZN12CompilerPool10InitializeEj\ncommands\nsilent\n'+seed+'source '+str(entry)+'\nsource '+str(return_observer)+'\ncontinue\nend\n'
+    if 'CompilerArena::Reserve' in trial['accepted']:
+        entry=output/'collect-arena-size-entry.gdb'
+        entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'arena-size-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'arena-size-entry-argv.bin'))))
+        observer+='break *calculate_arena_reservation\ncommands\nsilent\nsource '+str(entry)+'\ncontinue\nend\n'
     if '_initialize_default_arena' in trial['accepted']:
         entry=output/'collect-arena-member-entry.gdb'
         entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'arena-member-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'arena-member-entry-argv.bin'))))

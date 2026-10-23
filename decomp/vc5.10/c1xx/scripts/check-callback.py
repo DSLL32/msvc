@@ -28,6 +28,7 @@ def check(original,native,require_audit=True,audit_path=None):
     allocation_candidate=trial['trial']=='_reserve_work_buffer'
     early_options_candidate=trial['trial']=='_initialize_intermediate_files'
     early_switch_candidate=trial['trial']=='_process_early_option'
+    reserve_arena_candidate=trial['trial']=='CompilerArena::Reserve'
     default_arena_candidate=trial['trial']=='_initialize_default_arena'
     environment_candidate=trial['trial']=='_initialize_compiler_environment'
     hook_candidate=trial['trial']=='_initialize_frontend_hook'
@@ -40,9 +41,9 @@ def check(original,native,require_audit=True,audit_path=None):
     pdb_number=2 if trial['trial']=='_initialize_pdb_context_02' else 1
     deferred=trial['trial']=='_initialize_deferred_work'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(default_arena_candidate or environment_candidate or hook_candidate or early_switch_candidate or early_options_candidate or allocation_candidate or work_candidate or main_candidate or comment_constructor or rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=42,
+    s.require(reserve_arena_candidate or default_arena_candidate or environment_candidate or hook_candidate or early_switch_candidate or early_options_candidate or allocation_candidate or work_candidate or main_candidate or comment_constructor or rank_helper or pool_member or pdb or deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=42,
               'no reviewed callback decoder for this function')
-    index=42 if default_arena_candidate or environment_candidate or hook_candidate or early_switch_candidate or early_options_candidate or allocation_candidate or work_candidate or main_candidate else 39 if comment_constructor else 34 if rank_helper else 24 if pool_member else 21+pdb_number if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
+    index=42 if reserve_arena_candidate or default_arena_candidate or environment_candidate or hook_candidate or early_switch_candidate or early_options_candidate or allocation_candidate or work_candidate or main_candidate else 39 if comment_constructor else 34 if rank_helper else 24 if pool_member else 21+pdb_number if pdb else 16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
               trial.get('test_seed') in (None,'restore-nonzero','restore-zero') and
               'auxiliary_mock' not in trial,'wrong context initializer trial')
@@ -118,6 +119,7 @@ def check(original,native,require_audit=True,audit_path=None):
     if '_initialize_frontend_hook' in trial['accepted']:path.append(('initialize_compiler_environment',0x38df1))
     if '_initialize_compiler_environment' in trial['accepted']:path.append(('initialize_default_arena',0x38e33))
     if '_initialize_default_arena' in trial['accepted']:path.append(('CompilerArena::Reserve',0x38e70))
+    if 'CompilerArena::Reserve' in trial['accepted']:path.append(('calculate_arena_reservation',0x38ed2))
     expected += [(str((7 if seed else 8)+i),'%08x'%rva) for i,(_,rva) in enumerate(path)]
     final='%03d'%int(expected[-1][0]);frontier=path[-1][0]
     expected_frontier=expected[-1][1]
@@ -130,7 +132,7 @@ def check(original,native,require_audit=True,audit_path=None):
         if trace_name not in trace:trace.append(trace_name)
     s.require((native/'trace.txt').read_text()==''.join(name+'\n' for name in trace),'native first-entry callback trace differs')
     registered=sum(name=='register_cleanup' for name,_ in path[:-1])
-    s.require(state['symbol']==frontier and (constructor or frontier in ('CompilerPool::Initialize','PchContext::Initialize','CompilerArena::Reserve','c1xx_main','reserve_work_buffer','initialize_intermediate_files','process_early_option') or state['args']=={}) and
+    s.require(state['symbol']==frontier and (constructor or frontier in ('CompilerPool::Initialize','PchContext::Initialize','CompilerArena::Reserve','c1xx_main','reserve_work_buffer','initialize_intermediate_files','process_early_option','calculate_arena_reservation') or state['args']=={}) and
               'Program received signal SIGTRAP' in (native/'gdb.txt').read_text(),'not a real native callback frontier')
     if frontier=='c1xx_main':
         s.require(struct.unpack_from('<I',(original/('state-'+final+'.bin')).read_bytes(),8)[0]==1,'original mode assignment before main differs')

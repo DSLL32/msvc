@@ -1,0 +1,84 @@
+{
+  "schema": 1,
+  "trial": "CompilerArena::Reserve",
+  "status": "current READY strict audit and fresh raw semantic/ABI controls passed",
+  "original": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-arena-reserve-original-1",
+  "native": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-arena-reserve-native-1",
+  "original_receipt_sha256": "f8bc66f3f4f16616023e3b89144782944fa4a650f4580640263a68d38fa8957e",
+  "native_receipt_sha256": "6bdc3a395c3bfd595c8f46956d8964854050f60cc35b1c47e99b4cb7bbecd058",
+  "comparison": {
+    "trial": "CompilerArena::Reserve",
+    "frontier": "_calculate_arena_reservation",
+    "seed": null,
+    "modeled_context_fields": 35,
+    "original_default_context": [
+      0,
+      0,
+      0
+    ],
+    "typed_bss_bytes": 1373,
+    "native_bss_size": 1404,
+    "native_c_padding_bytes": 31,
+    "output_constructor_fields_checked": 72,
+    "cleanup_registration_checked": true,
+    "nonzero_output_constructor_input_checked": false,
+    "token_semantic_bytes_checked": 17,
+    "token_pointer_arm_tested": false,
+    "token_unknown_tail_bytes_each": 32,
+    "deferred_work_pointer_checked": true,
+    "nonzero_deferred_constructor_input_checked": false,
+    "nonzero_expanded_BSS_restore_checked": false,
+    "original_unmodeled_snapshot_bytes": 8371,
+    "native_snapshot_byte_equivalence_claimed": false,
+    "whole_mask_bytes_checked": 751216,
+    "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+    "original_seconds": 10.83586094994098,
+    "native_seconds": 4.954751420766115
+  },
+  "scope": "one descriptor-pointer store then real cdecl size-calculator frontier; full member graph/RET8 already passed earlier tool, no VirtualAlloc or return runtime claim",
+  "reused_controls": [
+    {
+      "packet": "cases/minimal/environment-trials.json",
+      "sha256": "f9f7476ad842b1040fcf109cc9c791be0d2b5e00e88fdadb5643ba4108223ce6",
+      "premise": "unchanged typed layout/reset/default data and member input invariants; current fresh raw observations checked independently"
+    },
+    {
+      "packet": "cases/minimal/default-arena-trial.json",
+      "sha256": "4f9fd6f0e9dd5fd7b1ee20eda26b931f1147c2e57d778a2118ee6b535cf7ebe5",
+      "premise": "unchanged typed layout/reset/default data and member input invariants; current fresh raw observations checked independently"
+    }
+  ],
+  "x87_scope": "CW-only before calculator; actual original SW20/nativeSW0 captured and explicitly unclaimed until reviewed one-time entry profile is consumed",
+  "x87_entry_packet": {
+    "path": "cases/minimal/evidence/x87-entry-profile.json",
+    "sha256": "689370f5e5aefc05da11cae5d49fcb4ca6a1c538444105f2db83d8f4e6cd6de7"
+  },
+  "build_timing": {
+    "build/win32-provenance.json": 0.6281551914289594,
+    "build/native/provenance.json": 1.5339582823216915
+  },
+  "fresh_affected_controls": {
+    "scope": "raw semantic/ABI mutations only; strict current audit required separately before promotion",
+    "result": "PASS",
+    "count": 9,
+    "seconds": 29.237276835367084,
+    "rejected": [
+      "native-descriptor-store",
+      "native-neighbor",
+      "native-calculator-argument",
+      "native-calculator-raw",
+      "native-calculator-formal",
+      "native-calculator-caller",
+      "original-descriptor-store",
+      "original-BSS-neighbor",
+      "original-calculator-argument"
+    ],
+    "checker_sha256": "9a1f597e688d88cd5ba7a520f36a9e2d38cced21043bb415085a6279ecb69d17"
+  },
+  "current_strict_audit": {
+    "auditor_sha256": "2871dfec83f97736c31e6e9b3ffaa3726d9b1f62b5d7ff087d345e77a2d0392c",
+    "proof_sha256": "d78d746301774486c1f763c4ea134fed3dec576d49201485c5d69ad8703b1cdf",
+    "seconds": 0.09787914343178272,
+    "same_original_native_raw": true
+  }
+}

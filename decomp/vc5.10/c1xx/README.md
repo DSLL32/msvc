@@ -13,11 +13,11 @@ compares its graph/ABI/imports using the shared Rust auditor. Audit/build target
 may use Wine explicitly; fixture dependencies do not. Fixtures inspect the
 already-built Win32 DLL's exports without executing it.
 
-Accepted code is **70 application functions (2,989 bytes)**, **two historical CRT
+Accepted code is **71 application functions (3,092 bytes)**, **two historical CRT
 support functions (451 bytes)** and **one linker-generated import thunk (6 bytes)**.
-The 3,446 accepted code bytes are 0.4587% of the 751,216-byte code extent; this is not
+The 3,549 accepted code bytes are 0.4724% of the 751,216-byte code extent; this is not
 a non-CRT coverage percentage. The real minimal compilation remains unfinished,
-stopping in the genuine arena reservation member with its receiver and both inputs observed.
+stopping in the real reservation-size calculator after one descriptor-pointer store.
 
 ## Target and ABI
 
@@ -242,3 +242,16 @@ Eleven new affected ABI controls pass in34.65s; the unchanged nine-arena reset
 campaign is referenced with its input hash. `cases/minimal/default-arena-trial.json`
 records the8.58s original and4.80s native observations. No member body or return
 behavior is accepted by this selector proof.
+
+The103-byte reservation member is accepted through its first calculator call.
+Its full thiscall/RET8 graph and public VirtualAlloc edge are audited; the fresh
+dynamic pair proves only the descriptor-pointer write and actual next cdecl4
+input/caller. Nine new affected controls pass29.24s, with unchanged prior state/
+member-input controls referenced explicitly. The auditor update required only
+static re-audit,0.098s, preserving both raw executions. Original/native observations
+took10.84/4.95s. `cases/minimal/arena-reserve-trial.json` records that finite scope.
+The same original run captured the earliest full x87 context. Its originalSW20
+versus current nativeSW0 is an explicit baseline limitation; the independently
+reviewed shared empty-entry profile will be applied before lifecycle when the
+next calculator candidate consumes floating-point state. No reseeding at a
+calculator frontier or full IP/DP/empty-register-payload equivalence is claimed.

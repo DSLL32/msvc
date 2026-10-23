@@ -112,6 +112,7 @@ typedef struct CompilerArena {
     int mapped_view;
 #ifdef __cplusplus
     int RECON_THISCALL Reserve(const ArenaDescriptor *descriptor, BYTE *address);
+    void RECON_THISCALL Reset(void);
 #endif
 } CompilerArena;
 
@@ -171,6 +172,7 @@ int process_early_option(char *argument, int state);
 char *read_command_argument(char *source, char *argument, unsigned capacity);
 void initialize_compiler_environment(void);
 void initialize_default_arena(void);
+unsigned calculate_arena_reservation(const ArenaDescriptor *descriptor);
 void initialize_pool_arenas(void);
 void process_compiler_options(int argc, char **argv);
 int compile_translation_unit(void);

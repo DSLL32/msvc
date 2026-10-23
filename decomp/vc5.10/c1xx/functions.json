@@ -78,7 +78,8 @@
     "_process_early_option",
     "_initialize_frontend_hook",
     "_initialize_compiler_environment",
-    "_initialize_default_arena"
+    "_initialize_default_arena",
+    "CompilerArena::Reserve"
   ],
   "driver": [
     {
@@ -904,12 +905,17 @@
     {
       "name": "CompilerArena::Reserve",
       "start": 272862832,
-      "end": 272862833,
+      "end": 272862930,
       "source": "src/arenas.cpp",
-      "pending_extent": true,
       "abi": "thiscall8",
       "symbol": "?Reserve@CompilerArena@@QAEHPBUArenaDescriptor@@PAE@Z",
-      "native_symbol": "_ZN13CompilerArena7ReserveEPK15ArenaDescriptorPh"
+      "native_symbol": "_ZN13CompilerArena7ReserveEPK15ArenaDescriptorPh",
+      "code_chunks": [
+        [
+          273097070,
+          273097075
+        ]
+      ]
     },
     {
       "name": "_initialize_pool_arenas",
@@ -918,6 +924,24 @@
       "source": "src/arenas.cpp",
       "pending_extent": true,
       "abi": "cdecl0"
+    },
+    {
+      "name": "_calculate_arena_reservation",
+      "start": 272862930,
+      "end": 272862931,
+      "source": "src/arenas.cpp",
+      "pending_extent": true,
+      "abi": "cdecl4"
+    },
+    {
+      "name": "CompilerArena::Reset",
+      "start": 272862986,
+      "end": 272862987,
+      "source": "src/arenas.cpp",
+      "pending_extent": true,
+      "abi": "thiscall0",
+      "symbol": "?Reset@CompilerArena@@QAEXXZ",
+      "native_symbol": "_ZN13CompilerArena5ResetEv"
     }
   ],
   "status": "autonomous minimal C++ reconstruction active",
@@ -4227,6 +4251,57 @@
         "nonzero_seed_scope": "typed pointer identities and exact scalar17",
         "original_seconds": 8.580417471937835,
         "native_seconds": 4.795937810093164
+      }
+    },
+    {
+      "name": "CompilerArena::Reserve",
+      "classification": "application source",
+      "source": "src/arenas.cpp",
+      "source_sha256": "a114c7cb9395ec17701b0e6e7ddff3c4191e4f45a68a17a04fbfca2d514b39bc",
+      "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-arena-reserve-original-1",
+      "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c1xx/minimal-arena-reserve-native-1",
+      "original_receipt_sha256": "f8bc66f3f4f16616023e3b89144782944fa4a650f4580640263a68d38fa8957e",
+      "native_receipt_sha256": "6bdc3a395c3bfd595c8f46956d8964854050f60cc35b1c47e99b4cb7bbecd058",
+      "trial_sha256": "1098b9df06d397c2c4a758d3cdab0f3f161649ba81ff93a185be1d3c3c9722d1",
+      "audit_sha256": "d78d746301774486c1f763c4ea134fed3dec576d49201485c5d69ad8703b1cdf",
+      "code_chunks": [
+        [
+          233072,
+          233170
+        ],
+        [
+          467310,
+          467315
+        ]
+      ],
+      "comparison": {
+        "trial": "CompilerArena::Reserve",
+        "frontier": "_calculate_arena_reservation",
+        "seed": null,
+        "modeled_context_fields": 35,
+        "original_default_context": [
+          0,
+          0,
+          0
+        ],
+        "typed_bss_bytes": 1373,
+        "native_bss_size": 1404,
+        "native_c_padding_bytes": 31,
+        "output_constructor_fields_checked": 72,
+        "cleanup_registration_checked": true,
+        "nonzero_output_constructor_input_checked": false,
+        "token_semantic_bytes_checked": 17,
+        "token_pointer_arm_tested": false,
+        "token_unknown_tail_bytes_each": 32,
+        "deferred_work_pointer_checked": true,
+        "nonzero_deferred_constructor_input_checked": false,
+        "nonzero_expanded_BSS_restore_checked": false,
+        "original_unmodeled_snapshot_bytes": 8371,
+        "native_snapshot_byte_equivalence_claimed": false,
+        "whole_mask_bytes_checked": 751216,
+        "nonzero_seed_scope": "typed pointer identities and exact scalar17",
+        "original_seconds": 10.83586094994098,
+        "native_seconds": 4.954751420766115
       }
     }
   ],
