@@ -16,6 +16,7 @@ def validate(config,pe):
     for source,digest in proof['sources'].items():assert hashlib.sha256((BINARY/source).read_bytes()).hexdigest()==digest,'resolver output source binding differs'
     lines=(BINARY/'src/types.c').read_text().splitlines();assert lines[proof['native_line']-1].strip()=='entry = get_type_record((unsigned short)(entry->forward_index-0x1000), &unused);','resolver native caller differs'
     if 'procedure_frontier'in proof:assert proof['procedure_frontier']==dict(original=0x257a0,types=[126,124,117,120,132,129,129,113],caller_types=[4218,4210,4144,4125,4204,4217,4217,4198]),'unreviewed additional resolver inventory'
+    if 'end_frontier'in proof:assert proof['end_frontier']==dict(original=0x25480,types=[126,124,117,120,132,129,129,113,96],caller_types=[4218,4210,4144,4125,4204,4217,4217,4198,4097]),'unreviewed end-symbol resolver inventory'
     return proof
 
 def parse(events):
@@ -38,6 +39,7 @@ def compare(config,pe,events,native,old_walks,new_walks,case):
     assert proof and not native.get('error'),'resolver observer failed'
     original=parse(events);types=proof['types'];parents=proof['caller_types']
     if re.search(r'^exception 80000003 va (?:000257a0|00025920|000254f0|00025530) ',events,re.M):types=proof['procedure_frontier']['types'];parents=proof['procedure_frontier']['caller_types']
+    if re.search(r'^exception 80000003 va 00025480 ',events,re.M):types=proof['end_frontier']['types'];parents=proof['end_frontier']['caller_types']
     count=len(types);assert len(original['entries'])==len(original['returns'])==len(native['entries'])==len(native['returns'])==count,'missing/extra resolver calls or returns'
     assert events.splitlines().count('resolver-rearm 0001e700 0001e703')==count and events.splitlines().count('resolver-rearm 000265c5 000265c8')==count,'resolver per-call rearm missing'
     result=[]

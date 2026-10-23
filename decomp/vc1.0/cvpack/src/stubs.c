@@ -84,7 +84,7 @@ void convert_bp_relative16(void) { __asm { int 3 } }
 
 
 
-void convert_register_symbol(void) { __asm { int 3 } }
+
 
 void convert_constant_symbol(void) { __asm { int 3 } }
 

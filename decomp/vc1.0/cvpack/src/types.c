@@ -1824,3 +1824,14 @@ void convert_bp_relative32(void)
     type = symbol_input+8;
     *(unsigned short *)type = convert_new_type(*(unsigned short *)type);
 }
+
+void convert_register_symbol(void)
+{
+    unsigned char *type;
+    if (suppressed_symbol_depth) {
+        *(unsigned short *)(symbol_input+2) = 8;
+        if (suppressed_symbol_depth) return;
+    }
+    type = symbol_input+4;
+    *(unsigned short *)type = convert_new_type(*(unsigned short *)type);
+}

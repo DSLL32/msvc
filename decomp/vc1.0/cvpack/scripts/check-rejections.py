@@ -147,6 +147,10 @@ def main():
     if bp_relative_pair.is_dir():
         from bp_relative_checks import check as check_bp_relative
         check_bp_relative(bp_relative_pair)
+    register_symbol_pair=BINARY/'cases/hello-debug-dll/evidence/0093-convert_register_symbol'
+    if register_symbol_pair.is_dir():
+        from register_symbol_checks import check as check_register_symbol
+        check_register_symbol(register_symbol_pair)
     from buffer_storage_checks import check as check_buffer_storage
     buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
     if buffer_directory.is_dir():check_buffer_storage(buffer_directory)

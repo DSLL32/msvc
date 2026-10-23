@@ -228,6 +228,7 @@ def main():
     functions=config['functions']
     from symbol_type_fields import validate as validate_symbol_type_fields
     validate_symbol_type_fields(config,original,rebuilt,linked)
+    validate_symbol_type_fields(config,original,rebuilt,linked,'convert_register_symbol')
     from resolver_returns import validate as validate_resolver_returns
     validate_resolver_returns(config,original)
     from module_address_returns import validate as validate_module_address

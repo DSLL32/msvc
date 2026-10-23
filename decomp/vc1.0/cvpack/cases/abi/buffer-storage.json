@@ -22,7 +22,7 @@
   },
   "native_allocation_line": 1306,
   "sources": {
-    "src/types.c": "73de680739b0d4e6225f1a1ecf5436417a584a57e0d8b493b04494ddc11ab582",
+    "src/types.c": "16a808a894f547b6248942ea22a7ab6823e93f1c77a1d3fe32a59eafdc509181",
     "src/types.h": "8b1a7ecb12346e3b9e0faeb36411ff6f0cd7ea65be039b9652c2f91f0c5f8644"
   },
   "instructions": [
@@ -151,6 +151,12 @@
       "end": 152933,
       "sha256": "196cf6ec94d9e4c8e626774204e411906ab39d32755697189b15c28425ac2a97",
       "purpose": "Whole next register-symbol ABI: void/no hidden input, contextual globals loaded before use, RET0."
+    },
+    {
+      "start": 152704,
+      "end": 152737,
+      "sha256": "dafc94a15673eff4e0e656cd8d06dc97a64e831cbb102592a8b0b2b177f1fb29",
+      "purpose": "Whole next end-symbol callback ABI: void/no hidden input; contextual globals define reads, RET0."
     }
   ],
   "defined_hash_node_ranges": [
@@ -3036,5 +3042,6 @@
   },
   "procedure_address_frontier": 153888,
   "bp_frontier": 152816,
-  "register_frontier": 152880
+  "register_frontier": 152880,
+  "end_frontier": 152704
 }

@@ -351,6 +351,7 @@ def main():
     from binary import PE
     from audit import publics
     proof['symbol_type_field']=validate_symbol_type_fields(config,pe,PE(BINARY/'build/CVPACK.EXE'),publics())
+    proof['register_type_field']=validate_symbol_type_fields(config,pe,PE(BINARY/'build/CVPACK.EXE'),publics(),'convert_register_symbol')
     (directory/'proof.json').write_text(json.dumps(proof,indent=2)+'\n')
     function['status']='accepted';function['evidence']=proof_path
     config['accepted_order'].append(dict(function=args.function,case=args.case,kind='application',sequence=sequence))
