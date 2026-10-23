@@ -1,0 +1,55 @@
+{
+  "scope": "Watcom 10.0a typed fail-closed build surfaces only",
+  "rows": [
+    {
+      "compiler": "gcc",
+      "kind": "surface",
+      "build_seconds": 1.2838588552549481,
+      "execution_seconds": 0.003366217017173767,
+      "exe_sha256": "ef834f548ea482053ce95d023fbdc1bba1063eb3ecddf5ee1bbc6cacef843075",
+      "denials": 7
+    },
+    {
+      "compiler": "gcc",
+      "kind": "host",
+      "build_seconds": 1.266789223998785,
+      "execution_seconds": 0.0013320473954081535,
+      "exe_sha256": "9328e64baa8ea8ffab4fc7117e6699125d9fe67c3cdd0df17a4a61e3fd60ee00",
+      "denials": 0
+    },
+    {
+      "compiler": "clang",
+      "kind": "surface",
+      "build_seconds": 1.4154015211388469,
+      "execution_seconds": 0.0035148048773407936,
+      "exe_sha256": "fabff21b0253c9905ac5ff2df29148392fd63bc36e3333deeef54893fec771e8",
+      "denials": 7
+    },
+    {
+      "compiler": "clang",
+      "kind": "host",
+      "build_seconds": 1.3474817303940654,
+      "execution_seconds": 0.0015779146924614906,
+      "exe_sha256": "1554190f8529414ddc2a5a4e5d96b15e7f877d0fafcb75b55e679850992f4303",
+      "denials": 0
+    }
+  ],
+  "inputs": {
+    "include/recon.h": "12cf9ad20b3477ef06f06bdc5d6f5b141adfb3778fa11681ec9b10a003c011bb",
+    "native/setjmp.h": "042e72bae39e6d5ae71483c71890e556f65678b2be895f1771afa365a6b82903",
+    "native/signal.h": "ba3d6621f3f863b022f6aa9f5d6125a584d594a9f3d79ad172a6ae3f8c12a150",
+    "native/malloc.h": "2eb86ea79987793bde23d2016e7d52ad7d5c6a5818a5812f53a072d980934f21",
+    "src/compat.c": "50d9eb568e94117775ee26aeb7cd217d82f5c102665e99fceb8108c1c70a219a",
+    "tests/watcom-surface-probe.c": "cb6f93bda27c05e895b31cde8ba3ee6b4fd36ca63a0c2ac0ca67522d629f443f",
+    "tests/watcom-host-probe.c": "6f2d9154a4074702731a325051856058a506d574d9eb820c07cf4b24ab3b9d21"
+  },
+  "legacy_checks": "Default check; 8-/16-word jump storage; caller-frame setjmp3 and six denials passed",
+  "cxx_checks": "GCC and Clang C++11 header/type compile checks passed",
+  "original_scope": "Shipped Watcom 10.0a MALLOC.H/SIGNAL.H/SETJMP.H declaration and storage constants only; no original execution or success semantics claimed",
+  "headers": {
+    "toolchains/watcom10.0a/h/MALLOC.H": "d269c7807424c126231a7e2196058fd067148c4505fc29b91c0308830a941a30",
+    "toolchains/watcom10.0a/h/SIGNAL.H": "c82885ca1c80d544a05de0c654d80dfbfce24f6ceafed3a700325a801c65b3a1",
+    "toolchains/watcom10.0a/h/SETJMP.H": "d2039415d0ea2a72012b472678ea0b1e62ba5d82bd647b2ec9989b3bf9c34f3d"
+  },
+  "scratch_receipt": "/root/.ai-tmp/msvc2/recon-maintenance/watcom-surfaces/receipt.json"
+}

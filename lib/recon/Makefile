@@ -439,3 +439,12 @@ build/pointer-printf-510: tests/pointer-printf-probe.c $(SOURCES) $(HEADERS) | b
 pointer-printf-check: build/pointer-printf-probe build/pointer-printf-510
 	$(PYTHON) tests/check-pointer-printf.py build/pointer-printf-probe
 	$(PYTHON) tests/check-pointer-printf.py build/pointer-printf-510
+
+.PHONY: watcom-surface-check
+build/watcom-surface-probe: tests/watcom-surface-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A tests/watcom-surface-probe.c $(SOURCES) -o $@
+build/watcom-host-probe: tests/watcom-host-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_WATCOM_100A tests/watcom-host-probe.c $(SOURCES) -o $@
+watcom-surface-check: build/watcom-surface-probe build/watcom-host-probe
+	./build/watcom-surface-probe
+	./build/watcom-host-probe

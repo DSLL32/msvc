@@ -266,6 +266,10 @@ void recon_apply_x87_empty_entry_profile(const char *,unsigned,unsigned,unsigned
 void recon_ftime(struct _timeb *);
 typedef void (*ReconSignalHandler)(int);
 ReconSignalHandler recon_signal(int,ReconSignalHandler);
+/* Explicit Watcom surfaces only: all remain unavailable until reached proof. */
+int recon_watcom_heapchk(void),recon_watcom_nheapchk(void);
+ReconSignalHandler recon_watcom_signal(int,ReconSignalHandler);
+int recon_watcom_raise(int);
 int recon_isctype(int,int),recon_toupper(int),recon_tolower(int);
 void recon_tzset(void),recon_endstdio(void),recon_rmtmp(void);
 int recon_isindst(struct tm *);
@@ -395,7 +399,14 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _control87 recon_control87
 #define _controlfp recon_controlfp
 #define _ftime recon_ftime
+#if defined(RECON_CRT_PROFILE_WATCOM_100A)
+#define _heapchk recon_watcom_heapchk
+#define _nheapchk recon_watcom_nheapchk
+#define signal recon_watcom_signal
+#define raise recon_watcom_raise
+#else
 #define signal recon_signal
+#endif
 #undef MB_CUR_MAX
 #define MB_CUR_MAX recon_mb_cur_max
 #undef stdin

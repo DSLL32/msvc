@@ -851,3 +851,15 @@ prefixes and unproved locale/multibyte states are unsupported. Validation checks
 the entire grammar before consuming the pointer. Formats without a pointer
 conversion retain their existing formatter paths. This does not add %p handling
 to the separate sprintf implementation or claim general pointer formatting.
+
+RECON_CRT_PROFILE_WATCOM_100A exposes build-only Watcom 10.0a heap/signal/jump
+surfaces to native target translation units. _heapchk, _nheapchk, signal, raise,
+_setjmp/setjmp and longjmp all deny with status125; no heap result, registration,
+delivery or context-save/restore behavior is claimed. SIGNAL.H numbers1..12 and
+SIG_IGN/DFL/ERR tokens1/2/3 remain Watcom values. jmp_buf is13 unsigned32-bit words
+(52bytes), with no writes before denial. Host RECON_SHIM_IMPL translation units
+retain Linux signal tokens and their actual libc context. Existing MSCRT jump
+storage8/16 and signal behavior are unchanged. This supplies no Watcom FILE or
+allocator implementation. Native GCC calling conventions are intentional;
+original Watcom headers/compiler remain responsible for original ABI audits.
+Run make -j4 watcom-surface-check for the explicit target/host split and denials.

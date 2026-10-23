@@ -6,6 +6,21 @@
 #include <sys/time.h>
 #include <recon.h>
 
+/* Build surfaces for the distinct Watcom CRT. No heap, signal delivery or
+ * nonlocal-jump semantics have been established by a reached case yet. */
+int recon_watcom_heapchk(void)
+{ recon_unsupported("unreviewed Watcom _heapchk"); return 0; }
+int recon_watcom_nheapchk(void)
+{ recon_unsupported("unreviewed Watcom _nheapchk"); return 0; }
+ReconSignalHandler recon_watcom_signal(int number,ReconSignalHandler handler)
+{ (void)number; (void)handler; recon_unsupported("unreviewed Watcom signal"); return NULL; }
+int recon_watcom_raise(int number)
+{ (void)number; recon_unsupported("unreviewed Watcom raise"); return 0; }
+int recon_watcom_setjmp(unsigned int *environment)
+{ (void)environment; recon_unsupported("unreviewed Watcom _setjmp"); return 0; }
+void recon_watcom_longjmp(unsigned int *environment,int value)
+{ (void)environment; (void)value; recon_unsupported("unreviewed Watcom longjmp"); abort(); }
+
 /* These contexts are external to the 32-byte legacy object, whose address is
  * also stored as an int pointer by the C++ frontend. Addresses may be reused:
  * each new setjmp overwrites the previous saved context at that address.
