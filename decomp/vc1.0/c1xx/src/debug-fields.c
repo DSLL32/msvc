@@ -1,6 +1,8 @@
 /* CodeView field-list construction and continuation records. */
+#include <string.h>
 #include "debug-types.h"
 #include "debug-info.h"
+#include "type-diagnostics-internal.h"
 #include "class-finalization.h"
 #include "cpp-context.h"
 #include "class-lookup.h"
@@ -56,6 +58,60 @@ unsigned __stdcall debug_member_name_length(CppSymbol *symbol,
     } else name = symbol->name;
     for (length = 0; name[length]; ++length) ;
     return count + length;
+}
+
+/* Original 0x6ebe0..0x6ee4e. Write the measured Pascal-style name.
+   Ordinary members do not consume the conversion-only diagnostic handle. */
+void __stdcall write_debug_member_name(unsigned char *destination,
+    CppSymbol *symbol, unsigned length, short conversion_text, int qualified)
+{
+    char *name, *out = (char *)destination + 1;
+    unsigned prefix_length;
+    short text;
+    destination[0] = (unsigned char)length;
+    if (!(symbol->declaration_flags & 0x400)) {
+        name = symbol->name;
+        do { *out++ = *name; } while (*name++);
+        return;
+    }
+    if (qualified) {
+        begin_type_diagnostic();
+        text = reserve_type_diagnostic();
+        format_diagnostic_symbol(text,
+            cpp_context_stack->items[symbol->auxiliary.declaring_class]);
+        name = type_diagnostic_text(text) + 2;
+        while (*name) *out++ = *name++;
+        *out++ = ':';
+        *out++ = ':';
+        *out = 0;
+        end_type_diagnostic();
+    } else *out = 0;
+    if (symbol->cpp.parts.token != 1) {
+        name = "operator";
+        while (*name) *out++ = *name++;
+        *out = 0;
+        prefix_length = 8;
+        if (symbol->cpp.parts.token == 0x97 || symbol->cpp.parts.token == 0x98) {
+            *out++ = ' ';
+            *out = 0;
+            prefix_length = 9;
+        }
+        if (symbol->declaration_flags & 0x4000) {
+            *out++ = ' ';
+            *out = 0;
+            strncat((char *)destination + 1, type_diagnostic_text(conversion_text),
+                length - prefix_length - 1);
+            release_type_diagnostic(conversion_text);
+            return;
+        }
+        name = symbol->name;
+    } else if (symbol->declaration_flags & 0x1000)
+        name = ((CppSymbol *)cpp_context_stack->items[symbol->auxiliary.declaring_class])->name;
+    else if (symbol->declaration_flags & 0x2000) {
+        *out++ = '~';
+        name = ((CppSymbol *)cpp_context_stack->items[symbol->auxiliary.declaring_class])->name;
+    } else name = symbol->name;
+    do { *out++ = *name; } while (*name++);
 }
 
 /* Original0x6f480..0x6f8ec. Direct nonvirtual bases precede direct

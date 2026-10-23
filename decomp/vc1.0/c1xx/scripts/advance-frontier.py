@@ -4,6 +4,7 @@ Reconstruction/reference operation only: never imported or run by fixtures.
 Requires a completed canonical/native build and a reviewed complete extent.
 """
 import argparse
+from unused_conversion_text import validate as validate_unused_conversion_text
 import hashlib
 import importlib.util
 import json
@@ -32,6 +33,7 @@ def main():
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--case',default='cpp_basic')
     parser.add_argument('--candidate',required=True)
+    parser.add_argument('--check-arguments-only',action='store_true',help='verify fresh current argument proof without capture or promotion')
     parser.add_argument('--original',type=Path)
     parser.add_argument('--native',type=Path)
     parser.add_argument('--build-timing',type=Path)
@@ -95,6 +97,8 @@ def main():
             assert binding['native_object_address']==entry_native[binding['native_anchor_field']]
             assert formal['original_raw']-binding['original_object']==binding['offset'], 'original logical pointer offset differs'
             assert formal['native_raw']-binding['native_object_address']==binding['offset'], 'native logical pointer offset differs'
+        elif binding['kind']=='unused-conversion-text':
+            assert formal['result']==validate_unused_conversion_text(args.candidate, formal, anchors, entry_native, words)
         elif binding['kind']=='null-pointer':
             assert formal['original_raw']==formal['native_raw']==0, 'null pointer argument differs'
         elif binding['kind']=='scalar':
@@ -164,6 +168,10 @@ def main():
             assert binding['original_word']==word['value']==binding['native_word']==entry_native[binding['native_word_field']]
         else:
             raise AssertionError('unbound actual argument holds acceptance: '+formal['name'])
+    assert argument_proof.get('uncredited_unused_inputs', []) == [formal['name'] for formal in argument_proof['formals'] if formal['binding']['kind']=='unused-conversion-text'], 'uncredited unused input list differs'
+    if args.check_arguments_only:
+        print('fresh application arguments verified: '+args.candidate)
+        return
     if args.original is None:
         captured=subprocess.check_output([sys.executable,str(BINARY/'scripts/capture-original.py'),'--candidate',args.candidate,'--case',args.case,'--entry-plan'],cwd=BINARY,text=True)
         args.original=Path(captured.strip().splitlines()[-1]).parent

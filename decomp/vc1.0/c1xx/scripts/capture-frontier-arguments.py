@@ -5,6 +5,7 @@ The original observer defaults to four words, with an explicit six-word option.
 Unsupported transport holds rather than guessing registers or dumping objects.
 """
 import argparse
+from unused_conversion_text import validate as validate_unused_conversion_text
 import hashlib
 import importlib.util
 import json
@@ -71,6 +72,8 @@ def main():
         if binding['kind'] == 'scalar':
             mask = (1 << binding['bits']) - 1
             assert item['original_raw'] & mask == item['native_raw'] & mask
+        elif binding['kind'] == 'unused-conversion-text':
+            validate_unused_conversion_text(name, item, anchors, checkpoint, words)
         elif binding['kind'] == 'null-pointer':
             assert item['original_raw'] == item['native_raw'] == 0
         elif binding['kind'] == 'object-offset':
@@ -142,7 +145,7 @@ def main():
             assert binding['original_word']==binding['native_word']
         else:
             raise AssertionError('unsupported logical argument binding: '+item['name'])
-        item['result'] = 'match'
+        item['result'] = 'uncredited-unused' if binding['kind']=='unused-conversion-text' else 'match'
     assert states[:len(config['checkpoint_state'])] == checkpoint['states']
     assert len(states) == len(config['checkpoint_state']) + len(anchors)
     assert [m[1] for m in re.findall(r'^buffer \d+ (\d+) ([0-9a-f]*)$', events, re.M)] == checkpoint['buffers']
@@ -161,6 +164,7 @@ def main():
     shutil.copyfile(args.plan, out/'plan.json')
     plan['abi_analysis']['original_target_sha256'] = receipt['original_sha256']
     proof = dict(schema=1, status='match', function=name, case=args.case, accepted_before=len(config['accepted']), configuration_sha256=sha(BINARY/'functions.json'), native_entry=plan['native_entry'], declared_formal_count=len(plan['formals']), formals=plan['formals'], register_inputs=[], hidden_inputs=[], unknown_inputs=[], abi_analysis=plan['abi_analysis'], native_executable_sha256=sha(BINARY/'build/native/C1XX3232.EXE'), capture_timing=dict(original_capture_seconds=receipt['capture_seconds'], native_capture_seconds=json.loads((out/'native-timing.json').read_text())['total_seconds'], total_operation_seconds=time.perf_counter()-started), evidence_sha256={p.name:sha(p) for p in sorted(out.iterdir()) if p.is_file()})
+    proof['uncredited_unused_inputs'] = [item['name'] for item in plan['formals'] if item['result']=='uncredited-unused']
     proof['argument_observation'] = observed_words
     proof['state_requirements'] = plan.get('state_requirements', [])
     (out/'validation.json').write_text(json.dumps(proof, indent=2)+'\n')

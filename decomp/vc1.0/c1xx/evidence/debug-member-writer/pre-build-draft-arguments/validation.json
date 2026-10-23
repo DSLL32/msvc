@@ -1,0 +1,136 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_write_debug_member_name@20",
+  "case": "state_machine_debug",
+  "accepted_before": 1093,
+  "configuration_sha256": "ad68000ad202cbb2fcce09f8187b1c8863f3b337c453662f850377755d861a24",
+  "native_entry": "write_debug_member_name",
+  "declared_formal_count": 5,
+  "formals": [
+    {
+      "name": "destination",
+      "stack_index": 0,
+      "native_field": "raw_destination",
+      "binding": {
+        "kind": "pointer-alias",
+        "original_anchor_name": "buffer_owner",
+        "original_anchor_address": 576692,
+        "native_anchor_field": "buffer_owner",
+        "offset": 62,
+        "owner_bytes": 4096,
+        "identity": "Current field-list member name at actual live debug_record_buffer+62; fresh global pointer owner and complete4096B span, no frozen heap identity.",
+        "original_anchor_value": 8465420,
+        "native_anchor_value": 1449449104
+      },
+      "original_raw": 8465482,
+      "native_raw": 1449449166,
+      "result": "match"
+    },
+    {
+      "name": "symbol",
+      "stack_index": 1,
+      "native_field": "raw_symbol",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_caller_rva": 389280,
+        "original_owner_function": "_emit_debug_field_list@12",
+        "native_owner_function": "emit_debug_field_list",
+        "original_register": "eax",
+        "native_owner_field": "caller_function",
+        "native_owner_local": "functions",
+        "identity": "Actual overload functions local loaded EAX at6f091, PUSH EAX6f096/CALL6f09b, return6f0a0; fresh same-context EAX binds original actualsymbol to native immediate caller functions local.",
+        "original_owner_value": 8303640,
+        "native_owner_value": 1449280536
+      },
+      "original_raw": 8303640,
+      "native_raw": 1449280536,
+      "result": "match"
+    },
+    {
+      "name": "length",
+      "stack_index": 2,
+      "native_field": "raw_length",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      },
+      "original_raw": 7,
+      "native_raw": 7,
+      "result": "match"
+    },
+    {
+      "name": "conversion_text",
+      "stack_index": 3,
+      "native_field": "raw_conversion",
+      "binding": {
+        "kind": "unused-conversion-text",
+        "read_instruction": 453869,
+        "required_absent_flag": 16384,
+        "original_flags_anchor": "member_flags",
+        "native_flags_field": "member_flags",
+        "identity": "Explicitly uncredited unused formal: rawstack/native value recorded separately without equality. Whole rawbody has one WORDread6eced dominated by flags400, token!=1 and flags4000; fresh exactWORD flags at actualsymbol+2 excludes4000. No caller local read/initialization or undefined-data equality claim."
+      },
+      "original_raw": 129,
+      "native_raw": 0,
+      "result": "uncredited-unused"
+    },
+    {
+      "name": "qualified",
+      "stack_index": 4,
+      "native_field": "raw_qualified",
+      "binding": {
+        "kind": "scalar",
+        "bits": 32
+      },
+      "original_raw": 0,
+      "native_raw": 0,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      453600,
+      454222
+    ],
+    "argument_bytes": 20,
+    "proof": "Save4registers16B: destinationESP+14,symbol+18,length+1c,shortconversion_text+20,qualified+24; all RET20. DestinationBYTE length then payload, optional owner qualification strips diagnostictext first2bytes and appends::; operators/ctors/dtors get appropriate spelling. Only external runtime call84230 independently mapped_strncat; six alreadyaccepted diagnostic helpers. Sole conversion_text read6eced requires declflags400 and token!=1 and declflags4000, absent in fresh reachedflags. Rawbody/caller disassembly retained. No hidden/register ABIinput: EAX is caller ownership anchor only.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "8ff6f237cf4eb5cdb17f47c67378e341598f73648333350a8c69ba9825bc5c2a",
+  "capture_timing": {
+    "original_capture_seconds": 1.769039060920477,
+    "native_capture_seconds": 0.22095813136547804,
+    "total_operation_seconds": 2.2720037065446377
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "cf1030b9479da0de206995f2d5d816ab2fc19c14c80f659028168566c531f4d7",
+    "native-commands.gdb": "5863677bcf501977eb03ebd5faa760bd8966d85fc60fa76b67d50e3f4d2964d7",
+    "native-gdb.log": "4ff33df4f6b2f9021e6808178eaf717c3d1eb28b20ffb10c29bcc980db492518",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "5248f2162fa3c535abaaead72adda4ff384abe0a733e6ee35c15337eda7cfaf7",
+    "original-configuration.json": "ad68000ad202cbb2fcce09f8187b1c8863f3b337c453662f850377755d861a24",
+    "original-disassembly.txt": "41f65be3dd3b8c345d2a0cfb47863852bf14d015fd88c47a8cc2fbb7d4da9a71",
+    "original-entries.plan": "cac13f2686daa7f51c9020f334abbd4923368c2ea07a5f4ec3f05be2b9b79ac0",
+    "original-events.txt": "265ffcbf56bed6d03a97cdc0e036deaa0316a9ee16befbb0f665ee38cf6d408a",
+    "original-ownership-caller-disassembly.txt": "d8aeee9757f6459bd5aaf721b2f96f76a6aa574487062b5c3bc26ee56de6327e",
+    "original-receipt.json": "0bbaf0d76a63e070d16938f8f81f94aa158e3ed2351de65badc7ce576cae9fd4",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "3f0127cd3b4c305de77fc577d1ca80eea3f806f78e5e2d929f81a2cd7c188992"
+  },
+  "uncredited_unused_inputs": [
+    "conversion_text"
+  ],
+  "argument_observation": {
+    "requested_words": 6,
+    "actual_words": 6,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

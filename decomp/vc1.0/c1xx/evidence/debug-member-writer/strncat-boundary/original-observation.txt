@@ -1,0 +1,10 @@
+runtime _strncat
+return_va 0006ed00
+destination 00812c97
+source 008144d1
+count 3
+before_destination 6f70657261746f722000
+before_source 696e742000
+returned_destination 1
+after_destination 6f70657261746f7220696e7400
+after_source 696e742000

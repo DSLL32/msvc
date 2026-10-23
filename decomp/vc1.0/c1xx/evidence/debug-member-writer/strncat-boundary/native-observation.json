@@ -1,0 +1,15 @@
+{
+  "count": 3,
+  "returned_destination": 1,
+  "before_destination": "6f70657261746f722000",
+  "before_source": "696e742000",
+  "after_destination": "6f70657261746f7220696e7400",
+  "after_source": "696e742000",
+  "entry": "strncat@plt",
+  "entry_pc": 1448445552,
+  "entry_library": null,
+  "entry_requested": "strncat@plt",
+  "implementation_pc": 4158827040,
+  "implementation_library": "/lib/i386-linux-gnu/libc.so.6",
+  "caller": "write_debug_member_name"
+}

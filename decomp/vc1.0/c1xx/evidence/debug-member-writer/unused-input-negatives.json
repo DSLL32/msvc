@@ -1,0 +1,35 @@
+{
+  "control": "uncredited-unused",
+  "negatives": [
+    {
+      "test": "missing-flags",
+      "result": "held",
+      "reason": "'member_flags'"
+    },
+    {
+      "test": "wrong-owner-address",
+      "result": "held",
+      "reason": "flags do not belong to actual symbol argument"
+    },
+    {
+      "test": "short-read",
+      "result": "held",
+      "reason": "missing exact member flags read"
+    },
+    {
+      "test": "wrong-native-flags",
+      "result": "held",
+      "reason": "actual member flags differ"
+    },
+    {
+      "test": "consuming-condition",
+      "result": "held",
+      "reason": "conversion branch may consume this formal"
+    },
+    {
+      "test": "wrong-formal",
+      "result": "held",
+      "reason": ""
+    }
+  ]
+}

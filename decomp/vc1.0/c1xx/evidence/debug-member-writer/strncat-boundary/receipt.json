@@ -1,0 +1,106 @@
+{
+  "kind": "strncat",
+  "case": "state_machine_debug",
+  "scope": "actual conversion-name bounded append: complete destination/source strings, count, returned destination and resulting string; no CRT source reconstruction",
+  "target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "configuration_sha256": "ad68000ad202cbb2fcce09f8187b1c8863f3b337c453662f850377755d861a24",
+  "accepted_before": 1093,
+  "runtime_order": [
+    "_strncat"
+  ],
+  "original": {
+    "count": 3,
+    "returned_destination": 1,
+    "return_va": 453888,
+    "destination": 8465559,
+    "source": 8471761,
+    "before_destination": "6f70657261746f722000",
+    "before_source": "696e742000",
+    "after_destination": "6f70657261746f7220696e7400",
+    "after_source": "696e742000",
+    "runtime_order": [
+      "_strncat"
+    ]
+  },
+  "native": {
+    "count": 3,
+    "returned_destination": 1,
+    "before_destination": "6f70657261746f722000",
+    "before_source": "696e742000",
+    "after_destination": "6f70657261746f7220696e7400",
+    "after_source": "696e742000",
+    "entry": "strncat@plt",
+    "entry_pc": 1448445552,
+    "entry_library": null,
+    "entry_requested": "strncat@plt",
+    "implementation_pc": 4158827040,
+    "implementation_library": "/lib/i386-linux-gnu/libc.so.6",
+    "caller": "write_debug_member_name"
+  },
+  "original_capture": "/root/.ai-tmp/msvc2/vc1.0/c1xx/original-capture-jtxr30mz",
+  "original_capture_sha256": "01360740c4b4698c23dab8617eba5b62c3d417d15270065fb6754ad021be51f9",
+  "original_seconds": 0.7657698467373848,
+  "native_seconds": 0.14997373428195715,
+  "reused_original_observation": null,
+  "original_setup_seconds": 0.00266407523304224,
+  "native_setup_seconds": 0.0010653650388121605,
+  "identity": {
+    "records": [
+      {
+        "name": "_strncat",
+        "record": {
+          "name": "_strncat",
+          "start": 541232,
+          "end": 541282,
+          "object": "string\\obj\\i386\\STRNCAT.OBJ",
+          "library": "LIBC.LIB"
+        },
+        "library_sha256": "099882469e360dac1d1f9c3c1200b230f4d272cfc2f8add8dc3d3e9368e42334",
+        "object_sha256": "78f8161aecb17a20dd276b23d1125f0af681a035bbbb0dd7bc9402d89bbd1fea",
+        "member_bytes": 50,
+        "member_sha256": "5a6a871d7a8cbc8e39c35d83ac695eb1e16ff5e7274eb51a6407b461cedbee7f",
+        "original_body_sha256": "5a6a871d7a8cbc8e39c35d83ac695eb1e16ff5e7274eb51a6407b461cedbee7f",
+        "relocation_identity": "exact nonrelocation bytes, named direct/indirect call edges, shared DIR32 globals and canonical public data targets",
+        "relocations": [],
+        "call_targets": []
+      }
+    ],
+    "original_crt_globals": {}
+  },
+  "original_observation": "evidence/debug-member-writer/strncat-boundary/original-observation.txt",
+  "native_observation": "evidence/debug-member-writer/strncat-boundary/native-observation.json",
+  "native_commands": "evidence/debug-member-writer/strncat-boundary/native.gdb",
+  "native_debug_log": "evidence/debug-member-writer/strncat-boundary/native-gdb.log",
+  "boundary_origin_receipt": "evidence/debug-member-writer/strncat-boundary/boundary-origin-receipt.json",
+  "boundary_origin_events": "evidence/debug-member-writer/strncat-boundary/boundary-origin-events.txt",
+  "evidence_files": [
+    {
+      "path": "evidence/debug-member-writer/strncat-boundary/boundary-origin-events.txt",
+      "sha256": "9b139469b00bf82ce368a288a8e365c793f7aeb8bdf85c5e73c4506a83acbe86"
+    },
+    {
+      "path": "evidence/debug-member-writer/strncat-boundary/boundary-origin-receipt.json",
+      "sha256": "01360740c4b4698c23dab8617eba5b62c3d417d15270065fb6754ad021be51f9"
+    },
+    {
+      "path": "evidence/debug-member-writer/strncat-boundary/native-gdb.log",
+      "sha256": "4ec3bae6b7d2f0b1d8782717bc4d200dd4d58e1ad8517eac94860a64c40a755b"
+    },
+    {
+      "path": "evidence/debug-member-writer/strncat-boundary/native-observation.json",
+      "sha256": "03f74d9d74e07919125c7c391fa4c32b077a4aed928db2edb14aa182006ad590"
+    },
+    {
+      "path": "evidence/debug-member-writer/strncat-boundary/native.gdb",
+      "sha256": "d3e89443f9ef93f1eb5175e35815dace60cbc46db1a4368afc658e98c3394d87"
+    },
+    {
+      "path": "evidence/debug-member-writer/strncat-boundary/original-observation.txt",
+      "sha256": "3944962846198e756fd6be514783e4824b5c2a97b5b1c6fcd6a362c110a9f2e6"
+    },
+    {
+      "path": "evidence/debug-member-writer/strncat-boundary/restore-plan.txt",
+      "sha256": "0fe38eae008644f6b93d2962db6555ee222328680d80f2f1932597132292612f"
+    }
+  ]
+}

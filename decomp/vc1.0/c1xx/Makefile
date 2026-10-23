@@ -70,6 +70,9 @@ build/reference-empty-include-observer.exe: build/reference-empty-include-observ
 build/reference-string-observer.obj: src/reference-string-observer.c src/debug-run.c
 build/reference-string-observer.exe: build/reference-string-observer.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
+build/reference-concat-observer.obj: src/reference-concat-observer.c src/debug-run.c
+build/reference-concat-observer.exe: build/reference-concat-observer.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<
 build/reference-copy-observer.obj: src/reference-copy-observer.c src/debug-run.c
 build/reference-copy-observer.exe: build/reference-copy-observer.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $<

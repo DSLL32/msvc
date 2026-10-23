@@ -30,6 +30,7 @@ def main():
     parser.add_argument('--case',default='cpp_basic')
     parser.add_argument('--native-entry',type=Path,help='explicit GDB runtime exit-entry capture when terminal is exit')
     parser.add_argument('--candidate',required=True)
+    parser.add_argument('--argument-proof',type=Path,required=True)
     parser.add_argument('--evidence',type=Path,required=True)
     parser.add_argument('--original',type=Path,required=True)
     parser.add_argument('--runtime-captures',type=Path,required=True)
@@ -39,6 +40,7 @@ def main():
     path=BINARY/'functions.json';config=json.loads(path.read_text())
     case,fixture,reference,frontier_root=paths(config,args.case)
     candidate=args.candidate
+    subprocess.run([sys.executable,str(BINARY/'scripts/advance-frontier.py'),'--case',args.case,'--candidate',candidate,'--argument-proof',str(args.argument_proof),'--check-arguments-only'],cwd=BINARY,check=True)
     assert case['terminal']==candidate
     records=[next(r for r in config['driver'] if r['name']==candidate)]
     runtime=module('c1xx_runtime_evidence','runtime-boundary.py')
@@ -107,6 +109,7 @@ def main():
         if index:
             (record/'validation.json').write_text(json.dumps(dict(status='accepted runtime library/import identity',function=name,
                 next_frontier=receipt['terminal'],boundary_evidence=relative(evidence_path),downstream_comparison=relative(base_record/'validation.json')),indent=2)+'\n')
+    shutil.copytree(args.argument_proof.parent,base_record/'arguments')
     for filename in ('checkpoint.json','gdb.log','timing.json','stdout.bin','stderr.bin'):
         shutil.copyfile(native_directory/filename,base_record/('downstream-native-'+filename))
     import gzip
@@ -134,7 +137,7 @@ def main():
     (base_record/'native-fixture.log').write_text(fixture.stdout+fixture.stderr)
     assert fixture.returncode==0,fixture.stdout+fixture.stderr
     shutil.copyfile(Path(re.search(r'receipt: (.+)',fixture.stdout)[1]),base_record/'native-fixture-receipt.json')
-    report=dict(status='accepted',function=records[0],runtime_acceptance=names[1:],distinct_direct_callees=sorted(left),
+    report=dict(status='accepted',actual_argument_proof=relative(base_record/'arguments'/args.argument_proof.name),function=records[0],runtime_acceptance=names[1:],distinct_direct_callees=sorted(left),
         next_frontier=terminal,pending_buffers=len(buffers),checkpoint_fields=len(states),
         runtime_boundary=relative(evidence_path),fixture_seconds=time.perf_counter()-checked,
         total_operation_seconds=time.perf_counter()-started,original_capture_seconds=sum(r['capture_seconds'] for r in originals),

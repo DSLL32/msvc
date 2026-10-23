@@ -112,6 +112,8 @@ def check(path):
         return check_exit(path)
     if evidence.get('kind')=='realloc':
         return check_realloc(path)
+    if evidence.get('kind')=='strncat':
+        return check_concat(path)
     if evidence.get('kind')=='strchr':
         return check_strchr(path)
     if evidence.get('kind')=='overlap_copy':
@@ -299,4 +301,44 @@ def check_strchr(path):
     assert sha(BINARY/invocation['revalidated_receipt'])==evidence['original_capture_sha256']
     assert (BINARY/invocation['revalidated_events']).read_bytes()==(BINARY/'evidence/include-strchr-boundary/boundary-origin-events.txt').read_bytes()
     assert ('0x%x'%right['implementation_pc']) in (BINARY/evidence['native_debug_log']).read_text()
+    return evidence
+
+
+def check_concat(path):
+    """Check this reached public CRT append, without reconstructing its body."""
+    evidence=json.loads(path.read_text())
+    config=json.loads((BINARY/'functions.json').read_text())
+    assert evidence['target_sha256']==config['target']['sha256']
+    assert evidence['case']=='state_machine_debug' and evidence['runtime_order']==['_strncat']
+    assert evidence['identity']==identities(names=['_strncat']), 'strncat shipped member identity differs'
+    for item in evidence['evidence_files']:
+        assert sha(BINARY/item['path'])==item['sha256'], 'strncat boundary evidence changed'
+    raw=(BINARY/evidence['original_observation']).read_text()
+    left,right=evidence['original'],evidence['native']
+    assert json.loads((BINARY/evidence['native_observation']).read_text())==right
+    assert re.findall(r'^runtime (\S+)$',raw,re.M)==['_strncat']
+    for key in ('return_va','destination','source'):
+        assert int(re.search(r'^'+key+r' ([0-9a-f]+)$',raw,re.M)[1],16)==left[key]
+    assert left['return_va']==0x6ed00
+    assert right['caller']=='write_debug_member_name' and right['entry_requested']=='strncat@plt'
+    assert right['implementation_library'], 'actual native CRT implementation was not observed'
+    assert "break *'strncat@plt'" in (BINARY/evidence['native_commands']).read_text()
+    assert ('Breakpoint 2, 0x%x'%right['entry_pc']) in (BINARY/evidence['native_debug_log']).read_text()
+    for key in ('count','returned_destination'):
+        assert int(re.search(r'^'+key+r' (-?\d+)$',raw,re.M)[1])==left[key]==right[key]
+    assert left['returned_destination']==1 and 0<=left['count']<=255
+    for stage in ('before_destination','before_source','after_destination','after_source'):
+        assert re.search(r'^'+stage+r' (.*)$',raw,re.M)[1]==left[stage]==right[stage]
+        content=bytes.fromhex(left[stage])
+        assert 0<len(content)<=512 and content[-1]==0 and 0 not in content[:-1]
+    destination=bytes.fromhex(left['before_destination'])
+    source=bytes.fromhex(left['before_source'])
+    assert bytes.fromhex(left['after_destination'])==destination[:-1]+source[:-1][:left['count']]+b'\0'
+    assert left['after_source']==left['before_source']
+    origin=json.loads((BINARY/evidence['boundary_origin_receipt']).read_text())
+    assert origin['candidate']=='_write_debug_member_name@20' and origin['terminal']=='_strncat'
+    assert origin['configuration_sha256']==evidence['configuration_sha256']
+    assert sha(BINARY/evidence['boundary_origin_receipt'])==evidence['original_capture_sha256']
+    original_words={int(i):int(value,16) for i,value in re.findall(r'^argument (\d+) ([0-9a-f]+)$',(BINARY/evidence['boundary_origin_events']).read_text(),re.M)}
+    assert [original_words[i] for i in range(3)]==[left['destination'],left['source'],left['count']], 'observed append invocation differs from frontier'
     return evidence
