@@ -1,0 +1,567 @@
+{
+  "large-image-mapped": {
+    "runs": [
+      {
+        "path": "cases/large-image-fixups/reference/large-image-mapped/1",
+        "seconds": 0.8158355643972754,
+        "stdout_sha256": "563e1c4b87c22077e867f7c37d7e0d978c306c97a0404dbc5a1aaea6a16d9dd7",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "cases/large-image-fixups/reference/large-image-mapped/2",
+        "seconds": 1.7608673414215446,
+        "stdout_sha256": "563e1c4b87c22077e867f7c37d7e0d978c306c97a0404dbc5a1aaea6a16d9dd7",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "outputs": [
+      {
+        "output_name": "large.dll",
+        "artifact_kind": "pe-coff-fixup",
+        "bytes": 4194304,
+        "sha256": "8389aa24af2f7b409d0406dc1a3b078f75984bfa2d965f5775e31d97bb916149",
+        "normalized_sha256": "3fcc0dbc083f0615490a8b2383d284359b65c721c1b77363958942ea376767fd",
+        "timestamp_fields": [
+          {
+            "offset": 136,
+            "bytes": 4,
+            "name": "PE COFF TimeDateStamp"
+          },
+          {
+            "offset": 1540,
+            "bytes": 4,
+            "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 1"
+          },
+          {
+            "offset": 1568,
+            "bytes": 4,
+            "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 6"
+          }
+        ],
+        "repeat_changed_bytes": [
+          136,
+          1540,
+          1568
+        ]
+      },
+      {
+        "output_name": "large.map",
+        "artifact_kind": "map",
+        "bytes": 976,
+        "sha256": "efb7ee16c3fa685512f7c0a587c1218f3f0cfdd6afe17b190feb1d83c93de9da",
+        "normalized_sha256": "3acf44ea9d1889b81d3f83c0bfe288a3c2d0e8810f5ced2cfc090b1092e87381",
+        "timestamp_fields": [
+          {
+            "offset": 24,
+            "bytes": 8,
+            "name": "Map COFF timestamp hexadecimal"
+          },
+          {
+            "offset": 34,
+            "bytes": 24,
+            "name": "Map timestamp ctime rendering"
+          }
+        ],
+        "repeat_changed_bytes": [
+          30,
+          31,
+          49,
+          51,
+          52
+        ]
+      },
+      {
+        "output_name": "functions.ord",
+        "artifact_kind": "raw",
+        "bytes": 16,
+        "sha256": "b626f6cfcfca74e84dfc79edbc3aa58fd45d8560edbf1dc3d772582ba4ed8412",
+        "normalized_sha256": "b626f6cfcfca74e84dfc79edbc3aa58fd45d8560edbf1dc3d772582ba4ed8412",
+        "timestamp_fields": [],
+        "repeat_changed_bytes": []
+      }
+    ],
+    "image": {
+      "bytes": 4194304,
+      "sections": [
+        {
+          "name": ".text",
+          "virtual_size": 100,
+          "rva": 4096,
+          "bytes": 512,
+          "offset": 1024
+        },
+        {
+          "name": ".rdata",
+          "virtual_size": 252,
+          "rva": 8192,
+          "bytes": 512,
+          "offset": 1536
+        },
+        {
+          "name": ".data",
+          "virtual_size": 3145996,
+          "rva": 12288,
+          "bytes": 3146240,
+          "offset": 2048
+        },
+        {
+          "name": ".reloc",
+          "virtual_size": 7736,
+          "rva": 3162112,
+          "bytes": 8192,
+          "offset": 3148288
+        }
+      ],
+      "timestamp": 1792770169,
+      "fields": [
+        {
+          "offset": 136,
+          "bytes": 4,
+          "name": "PE COFF TimeDateStamp"
+        },
+        {
+          "offset": 1540,
+          "bytes": 4,
+          "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 1"
+        },
+        {
+          "offset": 1568,
+          "bytes": 4,
+          "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 6"
+        }
+      ],
+      "entry_rva": 4096,
+      "image_base": 4194304,
+      "stack_heap": [
+        2097152,
+        12288,
+        1048576,
+        8192
+      ],
+      "highlow_relocations": [
+        4103,
+        4124,
+        3158280
+      ],
+      "debug": [
+        {
+          "type": 1,
+          "bytes": 338,
+          "offset": 3156480,
+          "rva": 0
+        },
+        {
+          "type": 6,
+          "bytes": 36,
+          "offset": 3156856,
+          "rva": 0
+        }
+      ],
+      "fixups": [
+        [
+          6,
+          3158280,
+          12288
+        ],
+        [
+          6,
+          4103,
+          12288
+        ],
+        [
+          6,
+          4124,
+          12288
+        ]
+      ]
+    }
+  },
+  "large-image-buffered": {
+    "runs": [
+      {
+        "path": "cases/large-image-fixups/reference/large-image-buffered/1",
+        "seconds": 1.7700852891430259,
+        "stdout_sha256": "563e1c4b87c22077e867f7c37d7e0d978c306c97a0404dbc5a1aaea6a16d9dd7",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "cases/large-image-fixups/reference/large-image-buffered/2",
+        "seconds": 1.5958940982818604,
+        "stdout_sha256": "563e1c4b87c22077e867f7c37d7e0d978c306c97a0404dbc5a1aaea6a16d9dd7",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "outputs": [
+      {
+        "output_name": "large.dll",
+        "artifact_kind": "pe-coff-fixup",
+        "bytes": 3156992,
+        "sha256": "27bf463990b43891c2d36bba062c4ab7eab6ab453bd07d318de2e8aee253722d",
+        "normalized_sha256": "a9137e578051d7493c02ede99e03e0ef717dc318ef92ebcd9944a5a92c720b2e",
+        "timestamp_fields": [
+          {
+            "offset": 136,
+            "bytes": 4,
+            "name": "PE COFF TimeDateStamp"
+          },
+          {
+            "offset": 1540,
+            "bytes": 4,
+            "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 1"
+          },
+          {
+            "offset": 1568,
+            "bytes": 4,
+            "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 6"
+          }
+        ],
+        "repeat_changed_bytes": [
+          136,
+          1540,
+          1568
+        ]
+      },
+      {
+        "output_name": "large.map",
+        "artifact_kind": "map",
+        "bytes": 976,
+        "sha256": "e1133b6fb388e56a6027ea92343a37b877919d7c7fdf897c196eb03e76a93985",
+        "normalized_sha256": "3acf44ea9d1889b81d3f83c0bfe288a3c2d0e8810f5ced2cfc090b1092e87381",
+        "timestamp_fields": [
+          {
+            "offset": 24,
+            "bytes": 8,
+            "name": "Map COFF timestamp hexadecimal"
+          },
+          {
+            "offset": 34,
+            "bytes": 24,
+            "name": "Map timestamp ctime rendering"
+          }
+        ],
+        "repeat_changed_bytes": [
+          31,
+          52
+        ]
+      },
+      {
+        "output_name": "functions.ord",
+        "artifact_kind": "raw",
+        "bytes": 16,
+        "sha256": "b626f6cfcfca74e84dfc79edbc3aa58fd45d8560edbf1dc3d772582ba4ed8412",
+        "normalized_sha256": "b626f6cfcfca74e84dfc79edbc3aa58fd45d8560edbf1dc3d772582ba4ed8412",
+        "timestamp_fields": [],
+        "repeat_changed_bytes": []
+      }
+    ],
+    "image": {
+      "bytes": 3156992,
+      "sections": [
+        {
+          "name": ".text",
+          "virtual_size": 100,
+          "rva": 4096,
+          "bytes": 512,
+          "offset": 1024
+        },
+        {
+          "name": ".rdata",
+          "virtual_size": 252,
+          "rva": 8192,
+          "bytes": 512,
+          "offset": 1536
+        },
+        {
+          "name": ".data",
+          "virtual_size": 3145996,
+          "rva": 12288,
+          "bytes": 3146240,
+          "offset": 2048
+        },
+        {
+          "name": ".reloc",
+          "virtual_size": 7736,
+          "rva": 3162112,
+          "bytes": 8192,
+          "offset": 3148288
+        }
+      ],
+      "timestamp": 1792770216,
+      "fields": [
+        {
+          "offset": 136,
+          "bytes": 4,
+          "name": "PE COFF TimeDateStamp"
+        },
+        {
+          "offset": 1540,
+          "bytes": 4,
+          "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 1"
+        },
+        {
+          "offset": 1568,
+          "bytes": 4,
+          "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 6"
+        }
+      ],
+      "entry_rva": 4096,
+      "image_base": 4194304,
+      "stack_heap": [
+        2097152,
+        12288,
+        1048576,
+        8192
+      ],
+      "highlow_relocations": [
+        4103,
+        4124,
+        3158280
+      ],
+      "debug": [
+        {
+          "type": 1,
+          "bytes": 338,
+          "offset": 3156480,
+          "rva": 0
+        },
+        {
+          "type": 6,
+          "bytes": 36,
+          "offset": 3156856,
+          "rva": 0
+        }
+      ],
+      "fixups": [
+        [
+          6,
+          3158280,
+          12288
+        ],
+        [
+          6,
+          4103,
+          12288
+        ],
+        [
+          6,
+          4124,
+          12288
+        ]
+      ]
+    }
+  },
+  "large-image-dump486": {
+    "runs": [
+      {
+        "path": "cases/large-image-fixups/reference/large-image-dump486/1",
+        "seconds": 1.5023632999509573,
+        "stdout_sha256": "d41ac61c427476edac743f9ac6c35555b0844d61a6b5b5de75139c14195b1553",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      {
+        "path": "cases/large-image-fixups/reference/large-image-dump486/2",
+        "seconds": 1.2351197777315974,
+        "stdout_sha256": "d41ac61c427476edac743f9ac6c35555b0844d61a6b5b5de75139c14195b1553",
+        "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      }
+    ],
+    "outputs": []
+  },
+  "large-image-extra": {
+    "runs": [
+      {
+        "path": "cases/large-image-fixups/reference/large-image-extra/1",
+        "seconds": 1.6230244217440486
+      },
+      {
+        "path": "cases/large-image-fixups/reference/large-image-extra/2",
+        "seconds": 1.675345434807241
+      }
+    ],
+    "outputs": [
+      {
+        "output_name": "extra.dll",
+        "artifact_kind": "pe-coff-fixup",
+        "bytes": 5259776,
+        "sha256": "31f65377d5c9c8f28d95a1d00c48c976f5bca111669e40ede3610c0528c3e433",
+        "normalized_sha256": "dde7be58549df1507d96a480b1eb926a3e4226ba147f159b78c5b001ebd91c75",
+        "timestamp_fields": [
+          {
+            "offset": 136,
+            "bytes": 4,
+            "name": "PE COFF TimeDateStamp"
+          },
+          {
+            "offset": 1540,
+            "bytes": 4,
+            "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 1"
+          },
+          {
+            "offset": 1568,
+            "bytes": 4,
+            "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 6"
+          }
+        ],
+        "repeat_changed_bytes": [
+          136,
+          1540,
+          1568
+        ]
+      },
+      {
+        "output_name": "extra.map",
+        "artifact_kind": "map",
+        "bytes": 1116,
+        "sha256": "d7310fe0e69fce595dbc7da720331d933a25083edf8eebe9516ab63dee2f839a",
+        "normalized_sha256": "8cb92c3438bd13fd300fd0b2c3e5824adeafb53e3f9ded3121038727315dac49",
+        "timestamp_fields": [
+          {
+            "offset": 24,
+            "bytes": 8,
+            "name": "Map COFF timestamp hexadecimal"
+          },
+          {
+            "offset": 34,
+            "bytes": 24,
+            "name": "Map timestamp ctime rendering"
+          }
+        ],
+        "repeat_changed_bytes": [
+          30,
+          31,
+          52
+        ]
+      },
+      {
+        "output_name": "extra.ord",
+        "artifact_kind": "raw",
+        "bytes": 30,
+        "sha256": "cb1e9f8815470ffcc455456e6983c7f58432e8daa42924c000e2ab2612c249d0",
+        "normalized_sha256": "cb1e9f8815470ffcc455456e6983c7f58432e8daa42924c000e2ab2612c249d0",
+        "timestamp_fields": [],
+        "repeat_changed_bytes": []
+      }
+    ],
+    "image": {
+      "bytes": 5259776,
+      "sections": [
+        {
+          "name": ".text",
+          "virtual_size": 126,
+          "rva": 4096,
+          "bytes": 512,
+          "offset": 1024
+        },
+        {
+          "name": ".rdata",
+          "virtual_size": 252,
+          "rva": 8192,
+          "bytes": 512,
+          "offset": 1536
+        },
+        {
+          "name": ".data",
+          "virtual_size": 5243148,
+          "rva": 12288,
+          "bytes": 5243392,
+          "offset": 2048
+        },
+        {
+          "name": ".reloc",
+          "virtual_size": 12856,
+          "rva": 5259264,
+          "bytes": 13312,
+          "offset": 5245440
+        }
+      ],
+      "timestamp": 1792771102,
+      "fields": [
+        {
+          "offset": 136,
+          "bytes": 4,
+          "name": "PE COFF TimeDateStamp"
+        },
+        {
+          "offset": 1540,
+          "bytes": 4,
+          "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 1"
+        },
+        {
+          "offset": 1568,
+          "bytes": 4,
+          "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 6"
+        }
+      ],
+      "entry_rva": 4096,
+      "image_base": 4194304,
+      "stack_heap": [
+        2097152,
+        12288,
+        1048576,
+        8192
+      ],
+      "highlow_relocations": [
+        4103,
+        4124,
+        5255432
+      ],
+      "debug": [
+        {
+          "type": 1,
+          "bytes": 446,
+          "offset": 5258752,
+          "rva": 0
+        },
+        {
+          "type": 6,
+          "bytes": 36,
+          "offset": 5259272,
+          "rva": 0
+        }
+      ],
+      "fixups": [
+        [
+          6,
+          5255432,
+          12288
+        ],
+        [
+          6,
+          4103,
+          12288
+        ],
+        [
+          6,
+          4124,
+          12288
+        ]
+      ]
+    }
+  },
+  "large-image-dump486-extra": {
+    "runs": [
+      {
+        "path": "cases/large-image-fixups/reference/large-image-dump486-extra/1",
+        "seconds": 1.71245954092592
+      },
+      {
+        "path": "cases/large-image-fixups/reference/large-image-dump486-extra/2",
+        "seconds": 1.698275376111269
+      }
+    ],
+    "outputs": []
+  },
+  "large-image-standard486": {
+    "runs": [
+      {
+        "path": "cases/large-image-fixups/reference/large-image-standard486/1",
+        "seconds": 0.6885648053139448
+      },
+      {
+        "path": "cases/large-image-fixups/reference/large-image-standard486/2",
+        "seconds": 0.9884406151250005
+      }
+    ],
+    "outputs": []
+  }
+}

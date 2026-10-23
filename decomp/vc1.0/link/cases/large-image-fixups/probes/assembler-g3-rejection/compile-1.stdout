@@ -1,0 +1,4 @@
+large.c
+large.c(15) : error C2416: 'xadd' : illegal opcode for processor
+large.c(16) : error C2416: 'cmpxchg' : illegal opcode for processor
+large.c(17) : error C2416: 'cmpxchg' : illegal opcode for processor

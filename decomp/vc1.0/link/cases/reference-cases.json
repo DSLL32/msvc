@@ -136,5 +136,23 @@
   },
   "dump-disasm-x86-monitor-extra": {
     "directory": "cases/shared-prefix/dump-disasm-x86-monitor-extra"
+  },
+  "large-image-mapped": {
+    "directory": "cases/shared-prefix/large-image-mapped"
+  },
+  "large-image-buffered": {
+    "directory": "cases/shared-prefix/large-image-buffered"
+  },
+  "large-image-dump486": {
+    "directory": "cases/shared-prefix/large-image-dump486"
+  },
+  "large-image-extra": {
+    "directory": "cases/shared-prefix/large-image-extra"
+  },
+  "large-image-dump486-extra": {
+    "directory": "cases/shared-prefix/large-image-dump486-extra"
+  },
+  "large-image-standard486": {
+    "directory": "cases/shared-prefix/large-image-standard486"
   }
 }

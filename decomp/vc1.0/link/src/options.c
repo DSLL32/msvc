@@ -506,3 +506,10 @@ void exclude_all_default_libraries(const char *name,LibraryList *libraries)
     }
     if (verbose_link) fprintf(stdout,"Processed -nodefaultlib:%s\n",name);
 }
+
+/* Original [0003a710,0003a74d): reject a suffix after the base-detected value. */
+unsigned char read_switch_number(ParsedSwitch *option,unsigned short index,unsigned long *value)
+{
+    char suffix;
+    return sscanf(option->values[index].value,"%li%c",value,&suffix)==1;
+}

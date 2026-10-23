@@ -1,0 +1,27 @@
+ large
+
+ Timestamp is 6adb80a8 (Fri Oct 23 08:43:36 2026)
+
+ Preferred load address is 00400000
+
+ Start         Length     Name                   Class
+ 0001:00000000 00000064H .text                   CODE
+ 0002:00000000 00000054H .rdata                  DATA
+ 0003:00000000 0030010cH .data                   DATA
+ 0005:00000000 00000176H .debug$C                DATA
+ 0005:00000178 00000024H .debug$G                DATA
+ 0005:0000019c 00000000H .debug$H                DATA
+
+  Address         Publics by Value              Rva+Base   Lib:Object
+
+ 0001:00000000       _E@12                      00401000 f large.obj
+ 0003:00300104       _tail                      00703104   large.obj
+ 0001:00000050       _ops486                    00401050 f large.obj
+ 0003:00000000       _blob                      00403000   large.obj
+ 0003:00300108       _ptr                       00703108   large.obj
+
+ entry point at        0001:00000000
+
+ Static symbols
+
+

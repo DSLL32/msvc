@@ -1,0 +1,4 @@
+{"event":"create","pid":2076,"parent":632,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -dump /disasm large.obj"}
+{"event":"entry","pid":2076,"rva":247568,"name":"decode_op_4c710","crt_errno":0}
+{"event":"exit","pid":2076,"code":0,"packer":0}
+{"event":"summary","root_exit":0,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

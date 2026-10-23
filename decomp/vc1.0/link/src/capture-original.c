@@ -16,6 +16,7 @@ static Process processes[64];
 static Thread threads[256];
 static Entry entries[2048];
 static unsigned entry_count;
+static DWORD current_exception_code;
 static unsigned char *text;
 static DWORD text_rva,text_size;
 static FILE *log_file;
@@ -209,7 +210,7 @@ static void context_log(Process *process,HANDLE thread)
         for (n=0;n<got/4;++n) fprintf(log_file,"%s%lu",n?",":"",stack[n]);
     }
     ReadProcessMemory(process->handle,(void *)0x852d8,&crt_errno,4,&got);
-    fprintf(log_file,"],\"crt_errno\":%lu}\n",crt_errno);fflush(log_file);
+    fprintf(log_file,"],\"crt_errno\":%lu,\"exception_code\":%lu}\n",crt_errno,current_exception_code);fflush(log_file);
     if (context.Eip==0x52778) {
         DWORD saved[8],registration[4],head=0;
         if (!ReadProcessMemory(process->handle,(void *)stack[1],saved,sizeof(saved),&got) || got!=sizeof(saved)) return;
@@ -386,6 +387,7 @@ int main(int argc,char **argv)
             if(event.u.LoadDll.hFile)CloseHandle(event.u.LoadDll.hFile);
         } else if (event.dwDebugEventCode==EXCEPTION_DEBUG_EVENT) {
             code=event.u.Exception.ExceptionRecord.ExceptionCode;
+            current_exception_code=code;
             site=(DWORD)event.u.Exception.ExceptionRecord.ExceptionAddress;
             if(!process || !thread){failed=7;break;}
             if(code==EXCEPTION_BREAKPOINT && !process->loader &&

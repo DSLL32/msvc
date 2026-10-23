@@ -1,0 +1,35 @@
+Microsoft (R) COFF Binary File Dumper Version 1.00
+Copyright (C) Microsoft Corp 1992-93. All rights reserved.
+
+
+Dump of file standard486.obj
+
+File Type: COFF OBJECT
+_cmpb:
+    00000000:   55                  push    ebp
+    00000001:   8B EC               mov     ebp,esp
+    00000003:   53                  push    ebx
+    00000004:   56                  push    esi
+    00000005:   57                  push    edi
+    00000006:   0F B0 0E            cmpxchg DWORD PTR [esi],cl
+    00000009:   5F                  pop     edi
+    0000000a:   5E                  pop     esi
+    0000000b:   5B                  pop     ebx
+    0000000c:   C9                  leave
+    0000000d:   C3                  ret
+_cmpd:
+    00000000:   55                  push    ebp
+    00000001:   8B EC               mov     ebp,esp
+    00000003:   53                  push    ebx
+    00000004:   56                  push    esi
+    00000005:   57                  push    edi
+    00000006:   0F B1 06            cmpxchg DWORD PTR [esi],eax
+    00000009:   5F                  pop     edi
+    0000000a:   5E                  pop     esi
+    0000000b:   5B                  pop     ebx
+    0000000c:   C9                  leave
+    0000000d:   C3                  ret
+
+     Summary
+    .drectve       26
+       .text       1C

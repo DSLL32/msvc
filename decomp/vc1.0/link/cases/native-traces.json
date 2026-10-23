@@ -323,12 +323,54 @@
       "manifest_path": "cases/shared-prefix/dump-disasm-x86-monitor-extra/manifest.json",
       "manifest_sha256": "5b8901982cb79d6d66dd3ca732c0d44fdc7a0bf39bf0a5c03fc68a1a15756380",
       "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "large-image-mapped": {
+      "receipt_path": "cases/shared-prefix/large-image-mapped/capture/receipt.json",
+      "receipt_sha256": "6dc4c433183b2255bea5234580561b9f83894921ecb3b4574cb242245262d71b",
+      "manifest_path": "cases/shared-prefix/large-image-mapped/manifest.json",
+      "manifest_sha256": "3e3f9c7fb21a53af47433c2f9ce9e55b6bd8fd3a2e5f43e27a459ab49023e6cf",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "large-image-buffered": {
+      "receipt_path": "cases/shared-prefix/large-image-buffered/capture/receipt.json",
+      "receipt_sha256": "be17d59ed093f08c48f37047dea48e032b73cf6113a93e52fe1441f9797e4ab1",
+      "manifest_path": "cases/shared-prefix/large-image-buffered/manifest.json",
+      "manifest_sha256": "6dd508bc70997705ec4d53b1d2a390350a20945439ac03b970005686a0d35734",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "large-image-dump486": {
+      "receipt_path": "cases/shared-prefix/large-image-dump486/capture/receipt.json",
+      "receipt_sha256": "2b87bd5010e1ff725d48766ad361af646e7bc8018a1d5cdfcf657a98e06bf53f",
+      "manifest_path": "cases/shared-prefix/large-image-dump486/manifest.json",
+      "manifest_sha256": "7dc490c0c0583bef68d44c3a840bf65322ca29fbae9b7cf6c6371aec89462791",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "large-image-extra": {
+      "receipt_path": "cases/shared-prefix/large-image-extra/capture/receipt.json",
+      "receipt_sha256": "67294e9d70efee8ba607a9643c188dbb5a349585ea0ce7d8f345876d8d742d7c",
+      "manifest_path": "cases/shared-prefix/large-image-extra/manifest.json",
+      "manifest_sha256": "b15a60219a09b7eb1de96de0989076073be7400f67e2a1639e15d98f93c72a88",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "large-image-dump486-extra": {
+      "receipt_path": "cases/shared-prefix/large-image-dump486-extra/capture/receipt.json",
+      "receipt_sha256": "003ada114243546c0f025d526d6c236d061d82b71928ceac99428f5a83be3e62",
+      "manifest_path": "cases/shared-prefix/large-image-dump486-extra/manifest.json",
+      "manifest_sha256": "c8053ae72a8a3108872bb366b3d8127cfed6e4bc6f3c999aa0878e1b50f49f85",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "large-image-standard486": {
+      "receipt_path": "cases/shared-prefix/large-image-standard486/capture/receipt.json",
+      "receipt_sha256": "613132486540b5209602dd050804044c30c148d2b2c25d7fe6323432e38c36db",
+      "manifest_path": "cases/shared-prefix/large-image-standard486/manifest.json",
+      "manifest_sha256": "f91693fe086a842a8adc5eddcad76d201cfdb84c7e852850439d4edfff2e00b2",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
     }
   },
   "metadata_sha256": {
-    "functions.json": "06f4640a4b044bc28deaa950d35af4d76c89884235e77860dd90f9b5e4054ba9",
+    "functions.json": "3f7b981bf4211b614655860c6c87c3adc0a579dee84cddf56584172645065725",
     "runtime.json": "46333e1ea9d4668441051c017a3fb344cf0679622388d8868b97cfdb7bf521b5",
-    "replay-cases.json": "3f76fcc813c4af5977600e1d8920a2bfac974d1e9c2ddf89cf828ded0c09e27a"
+    "replay-cases.json": "1e0093682832808c6d02c3161f908c6dc36636c36a09df136fc76b100ae79dce"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -1202,9 +1244,9 @@
       "implementation": "C"
     },
     "decode_op_4c710": {
-      "source": "src/disassembler-stubs.c",
+      "source": "src/disassembler.c",
       "logical": "_decode_op_4c710",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "decode_op_4c830": {
       "source": "src/disassembler.c",
@@ -1317,14 +1359,14 @@
       "implementation": "C"
     },
     "decode_op_4d9d0": {
-      "source": "src/disassembler-stubs.c",
+      "source": "src/disassembler.c",
       "logical": "_decode_op_4d9d0",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "decode_op_4da00": {
-      "source": "src/disassembler-stubs.c",
+      "source": "src/disassembler.c",
       "logical": "_decode_op_4da00",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "decode_op_4da30": {
       "source": "src/disassembler.c",
@@ -1972,9 +2014,9 @@
       "implementation": "C"
     },
     "dump_symbols": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/ordering.c",
       "logical": "_dump_symbols",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "dumper_main": {
       "source": "src/dump.c",
@@ -2372,9 +2414,9 @@
       "implementation": "C"
     },
     "grow_buffered_file": {
-      "source": "src/files-stubs.c",
+      "source": "src/files.c",
       "logical": "_grow_buffered_file",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "grow_mac_code_sections": {
       "source": "src/mac-sections.c",
@@ -2382,9 +2424,9 @@
       "implementation": "C"
     },
     "grow_mapping": {
-      "source": "src/files-stubs.c",
+      "source": "src/files.c",
       "logical": "_grow_mapping",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "hash_bucket": {
       "source": "src/symbols.c",
@@ -3492,9 +3534,9 @@
       "implementation": "C"
     },
     "read_switch_number": {
-      "source": "src/option-stubs.c",
+      "source": "src/options.c",
       "logical": "_read_switch_number",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "rebase_main": {
       "source": "src/editor-rebase.c",
@@ -3507,9 +3549,9 @@
       "implementation": "C"
     },
     "record_debug_fixup": {
-      "source": "src/pass-two-stubs.c",
+      "source": "src/link-pass.c",
       "logical": "_record_debug_fixup",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "record_export_ordinal": {
       "source": "src/import-library.c",
@@ -3637,9 +3679,9 @@
       "implementation": "C"
     },
     "replace_extension": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/link-pass.c",
       "logical": "_replace_extension",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "reproduce_input": {
       "source": "src/repro.c",
@@ -3662,9 +3704,9 @@
       "implementation": "C"
     },
     "resolve_entry_symbol": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/link-pass.c",
       "logical": "_resolve_entry_symbol",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "resolve_local_imports": {
       "source": "src/imports.c",
@@ -4984,7 +5026,17 @@
     "decode_op_4c940",
     "decode_op_4d990",
     "decode_op_4c170",
-    "decode_op_4c1a0"
+    "decode_op_4c1a0",
+    "read_switch_number",
+    "replace_extension",
+    "resolve_entry_symbol",
+    "dump_symbols",
+    "grow_mapping",
+    "record_debug_fixup",
+    "decode_op_4c710",
+    "grow_buffered_file",
+    "decode_op_4d9d0",
+    "decode_op_4da00"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6403,6 +6455,80 @@
         "decode_op_4d990",
         "decode_op_4c170",
         "decode_op_4c1a0"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "large-image-mapped": {
+      "first": 918,
+      "last": 924,
+      "seen_count": 727,
+      "expected": [
+        "read_switch_number",
+        "replace_extension",
+        "resolve_entry_symbol",
+        "dump_symbols",
+        "grow_mapping",
+        "record_debug_fixup"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "large-image-buffered": {
+      "first": 924,
+      "last": 924,
+      "seen_count": 733,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "large-image-dump486": {
+      "first": 924,
+      "last": 925,
+      "seen_count": 733,
+      "expected": [
+        "decode_op_4c710"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "large-image-extra": {
+      "first": 925,
+      "last": 926,
+      "seen_count": 734,
+      "expected": [
+        "grow_buffered_file"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "large-image-dump486-extra": {
+      "first": 926,
+      "last": 926,
+      "seen_count": 735,
+      "expected": [],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "large-image-standard486": {
+      "first": 926,
+      "last": 928,
+      "seen_count": 735,
+      "expected": [
+        "decode_op_4d9d0",
+        "decode_op_4da00"
       ],
       "terminal": {
         "kind": "exit",

@@ -9,6 +9,10 @@
 typedef struct SectionDefault { char *name; unsigned long flags; } SectionDefault;
 typedef struct Fixup { unsigned long type,offset,rva; } Fixup;
 typedef struct FixupBlock { struct FixupBlock *next; Fixup records[341]; } FixupBlock;
+typedef char FixupRecordLayout[(sizeof(Fixup)==12 && offsetof(Fixup,type)==0 &&
+    offsetof(Fixup,offset)==4 && offsetof(Fixup,rva)==8)?1:-1];
+typedef char FixupBlockLayout[(sizeof(FixupBlock)==4096 &&
+    offsetof(FixupBlock,records)==4)?1:-1];
 typedef struct BaseFixup {
     unsigned short type;
     /* Original +4 slot is unconsumed by the encountered writers/readers.

@@ -443,6 +443,62 @@
         "code": 0
       },
       "reason": "Frozen legal386 diagnostic monitor disassembly; code inspected, never executed"
+    },
+    {
+      "case": "large-image-mapped",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Frozen original large-image/fixup/order workflow or legal486 inspect-only companion"
+    },
+    {
+      "case": "large-image-buffered",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Frozen original large-image/fixup/order workflow or legal486 inspect-only companion",
+      "accepted_prefix": 924
+    },
+    {
+      "case": "large-image-dump486",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Frozen original large-image/fixup/order workflow or legal486 inspect-only companion"
+    },
+    {
+      "case": "large-image-extra",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Frozen original large-image/fixup/order workflow or legal486 inspect-only companion"
+    },
+    {
+      "case": "large-image-dump486-extra",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Frozen original large-image/fixup/order workflow or legal486 inspect-only companion",
+      "accepted_prefix": 926
+    },
+    {
+      "case": "large-image-standard486",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      },
+      "reason": "Frozen original large-image/fixup/order workflow or legal486 inspect-only companion"
     }
   ]
 }

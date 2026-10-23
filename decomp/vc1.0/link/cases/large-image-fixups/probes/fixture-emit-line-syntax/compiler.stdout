@@ -1,0 +1,7 @@
+standard486.c
+standard486.c(6) : warning C4405: '_emit' : identifier is reserved word
+standard486.c(6) : error C2400: inline syntax error in 'operand 1'; found 'constant'
+standard486.c(6) : warning C4405: '_emit' : identifier is reserved word
+standard486.c(10) : warning C4405: '_emit' : identifier is reserved word
+standard486.c(10) : error C2400: inline syntax error in 'operand 1'; found 'constant'
+standard486.c(10) : warning C4405: '_emit' : identifier is reserved word

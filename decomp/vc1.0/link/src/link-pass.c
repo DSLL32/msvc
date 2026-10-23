@@ -2,6 +2,7 @@
 #include "link-pass.h"
 #include "dos-stub.h"
 #include "archive.h"
+#include "import-library.h"
 #include <recon.h>
 #pragma intrinsic(strlen,strcmp)
 SectionDefault readonly_section_defaults={".rdata",0x40000040UL};
@@ -684,4 +685,66 @@ void read_absolute_symbols(const char *file,ExternalLink *remaining,SymbolTable 
     release_coff_strings(coff_strings);
     release_coff_symbols(records);
     close_file(input_file,1);
+}
+
+/* Original [00025410,0002547e): retain drive/directory/base, replace suffix. */
+char *replace_extension(const char *name,const char *extension)
+{
+    char drive[4],directory[256],filename[256],old_extension[256],result[260];
+    _splitpath(name,drive,directory,filename,old_extension);
+    _makepath(result,drive,directory,filename,extension);
+    return duplicate_string(result);
+}
+
+/* Original [0001f480,0001f5b4): match an undecorated entry using export rules. */
+void resolve_entry_symbol(SymbolTable *table)
+{
+    SymbolTable *temporary;
+    External *external,*resolved;
+    const char *name;
+    unsigned short short_name;
+    unsigned char created,flags;
+    initialize_symbols(&temporary);
+    short_name=entry_symbol->symbol.N.Name.Short!=0;
+    if (short_name)
+        name=strncpy(short_symbol_name,(char *)&entry_symbol->symbol,8);
+    else name=table->strings.data+entry_symbol->symbol.N.Name.Long;
+    if (*name=='_') ++name;
+    external=lookup_external(temporary,short_name,name,&created,&flags);
+    set_external_defined(external,1,temporary);
+    merge_export_definitions(temporary,table,0,NULL);
+    begin_external_enumeration(temporary);
+    while ((external=next_external(temporary))!=NULL) {
+        if (!(external->flags&EXTERNAL_DEFINED) || !(external->flags&0x10)) continue;
+        short_name=external->symbol.N.Name.Short!=0;
+        if (short_name)
+            name=strncpy(short_symbol_name,(char *)&external->symbol,8);
+        else name=temporary->strings.data+external->symbol.N.Name.Long;
+        resolved=find_external(table,(unsigned char)short_name,name);
+        if (resolved) {
+            entry_symbol->flags|=EXTERNAL_IGNORED;
+            entry_symbol=resolved;
+        }
+    }
+    end_external_enumeration(temporary);
+    release_text(&temporary->strings);
+}
+
+/* Original [0001ee70,0001ef32): prepend341-record FIXUP debug blocks. */
+void record_debug_fixup(unsigned short type,unsigned long rva,unsigned long target)
+{
+    FixupBlock *block;
+    if (!fixup_blocks) fixups_in_block=341;
+    if (fixups_in_block==341) {
+        block=malloc(4096);
+        if (!block) out_of_memory();
+        block->next=fixup_blocks;
+        if (fixup_blocks) ++fixup_count;
+        fixup_blocks=block;
+        fixups_in_block=0;
+    }
+    fixup_blocks->records[fixups_in_block].type=type;
+    fixup_blocks->records[fixups_in_block].offset=rva;
+    fixup_blocks->records[fixups_in_block].rva=target;
+    ++fixups_in_block;
 }

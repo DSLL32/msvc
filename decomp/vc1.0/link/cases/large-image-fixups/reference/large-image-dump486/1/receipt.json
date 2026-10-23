@@ -1,0 +1,43 @@
+{
+  "mode": "original",
+  "analysis_samples": [],
+  "case": "large-image-dump486",
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "root_exit": 0,
+    "failed": 0,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "4519656ccdd3023a372e28cac4f42a47ec3b1f523c440ed423d94067ec88f05f",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 918,
+  "accepted_sha256": "d3afedab711c3194b3ed0cb4b1aff0f7f08865271ca1a89d106e6594bbcd86c7",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": null,
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\large-image-dump486",
+    "TEMP": "S:\\vc1.0\\link\\large-image-dump486"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-dump /disasm large.obj",
+    "S:\\vc1.0\\link\\new-captures\\large-image-dump486\\original-u2shohz_\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\large-image-dump486\\original-u2shohz_\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\large-image-dump486\\original-u2shohz_\\events.jsonl",
+    "S:\\vc1.0\\link\\large-image-dump486",
+    "S:\\vc1.0\\link\\new-captures\\large-image-dump486\\original-u2shohz_\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\large-image-dump486\\original-u2shohz_\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\large-image-dump486\\original-u2shohz_\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\large-image-dump486\\original-u2shohz_\\after.dll",
+    "-"
+  ],
+  "seconds": 1.5023632999509573
+}

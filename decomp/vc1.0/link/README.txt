@@ -5,15 +5,15 @@ period Win32 C preserving individual graph vertices and calling conventions.
 Pending functions are named INT3 stubs. There are no assembly ABI exceptions,
 lifted implementation blocks or copied original data sections.
 
-Current checkpoint:918 accepted frontiers,243585/281634 accepted .text bytes
-(86.4899%). This union includes contextual inline data and alignment; it is not
-branch coverage. The partial checked inventory distinguishes178748 accepted
+Current checkpoint:928 accepted frontiers,244771/281634 accepted .text bytes
+(86.9110%). This union includes contextual inline data and alignment; it is not
+branch coverage. The partial checked inventory distinguishes179934 accepted
 target-body instruction bytes,27995 CRT instructions,258 import-thunk bytes,
 1896 inline-data bytes,3028 alignment bytes and31660 accepted unclassified bytes.
-Unclassified bytes are not all padding. cases/disassembler-x86-monitor/components.json
+Unclassified bytes are not all padding. cases/large-image-fixups/components.json
 records the partial accounting; it is not a full application-body denominator.
 
-The46 completed native cases cover help; minimal console/GUI/DLL linking;
+The52 completed native cases cover help; minimal console/GUI/DLL linking;
 archive creation/list/extract/remove; COFF/archive/PE/FPO/symbol-map dumps; PE
 editing/rebase/bind/release; ordinary OMF conversion/linking; old C++ undecoration;
 x86 disassembly; Macintosh linking/relocations/debug/swapper/static/resource/pcode
@@ -207,3 +207,26 @@ its retained scalar algorithm on33bounded odd/even/random/carry images plus seve
 actual images. Raw checksum/defect semantics are unchanged. Focused output-only
 after timing is.201/.288/.285s, compact.095s; full splits and measured/unmeasured
 build/capture/debugger phases are in cases/editor-rebase-bind/timing.json.
+
+Large initialized-data DLL checkpoint (928 frontiers)
+
+Ten readable C functions add1186 actual instruction bytes: numeric options,
+default MAP name, undecorated stdcall entry matching, debug24 order-file rewrite,
+mapped/buffered growth, FIXUP debug records and three486 operand callbacks.
+3MB mapped4MB/buffered3156992-byte outputs and5MB buffered5259776-byte output
+match complete repeated originals, including COFF/FIXUP debug records, three
+HIGHLOW relocations, exact physical padding, MAP and rewritten .ord files.
+Only PE COFF/two debug timestamps and the MAP clock line are normalized.
+
+The original long-COFF-name diagnostic failure, obsolete inline CMPXCHG compiler
+encoding and XADD/byte-CMPXCHG display quirks are preserved. Standard486 bytes
+are explicit fixture input only, never reconstruction code or executed code.
+See cases/large-image-fixups/README.txt and its validation/timing/components JSON. All52 cached native trace/output cases pass4.109s
+external; native -j4 rebuild6.993s measured separately. Canonical compiler,
+Rust graphs, callback/data/ECX checks and mutation guards pass.
+
+    make -j4 native-trace-check
+    python3 scripts/check-large-image.py
+
+The next root-authorized workflow is public EDIT section rename/attributes;
+remaining OMF internal-g and unclassified ranges remain pending, not CRT.

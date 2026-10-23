@@ -1,0 +1,51 @@
+Microsoft (R) COFF Binary File Dumper Version 1.00
+Copyright (C) Microsoft Corp 1992-93. All rights reserved.
+
+
+Dump of file large.obj
+
+File Type: COFF OBJECT
+_E@12:
+    00000000:   55                  push    ebp
+    00000001:   8B EC               mov     ebp,esp
+    00000003:   53                  push    ebx
+    00000004:   56                  push    esi
+    00000005:   57                  push    edi
+    00000006:   A1 08 01 30 00      mov     eax,DWORD PTR ds:[00300108]
+    0000000b:   8A 00               mov     al,BYTE PTR [eax]
+    0000000d:   25 FF 00 00 00      and     eax,000000FF
+    00000012:   0B C0               or      eax,eax
+    00000014:   0F 85 1A 00 00 00   jne     00000034
+    0000001a:   81 3D 04 01 30 00   cmp     DWORD PTR ds:[00300104],13579BDF
+                DF 9B 57 13
+    00000024:   0F 85 0A 00 00 00   jne     00000034
+    0000002a:   B8 01 00 00 00      mov     eax,00000001
+    0000002f:   E9 02 00 00 00      jmp     00000036
+    00000034:   2B C0               sub     eax,eax
+    00000036:   E9 00 00 00 00      jmp     0000003B
+    0000003b:   5F                  pop     edi
+    0000003c:   5E                  pop     esi
+    0000003d:   5B                  pop     ebx
+    0000003e:   C9                  leave
+    0000003f:   C2 0C 00            ret     000C
+_ops486:
+    00000000:   55                  push    ebp
+    00000001:   8B EC               mov     ebp,esp
+    00000003:   53                  push    ebx
+    00000004:   56                  push    esi
+    00000005:   57                  push    edi
+    00000006:   0F C1 06 0F         xadd    DWORD PTR [esi],DWORD PTR [edi]
+    0000000a:   06                  push    es
+    0000000b:   0E                  push    cs
+    0000000c:   0F 07               loadall BYTE PTR [edi]
+    0000000e:   06                  push    es
+    0000000f:   5F                  pop     edi
+    00000010:   5E                  pop     esi
+    00000011:   5B                  pop     ebx
+    00000012:   C9                  leave
+    00000013:   C3                  ret
+
+     Summary
+    .drectve       26
+       .data   30010C
+       .text       56

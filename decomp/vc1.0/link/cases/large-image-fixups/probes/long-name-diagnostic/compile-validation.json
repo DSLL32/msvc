@@ -1,0 +1,97 @@
+{
+  "status": "pass",
+  "compiler_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "source_sha256": "a3fdff7367fc34be9e7244df82a2af050098808c61b4446fa14c80ddcd9237fe",
+  "runs": [
+    {
+      "command": [
+        "wine",
+        "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+        "/nologo",
+        "/c",
+        "/Od",
+        "/G4",
+        "/Gy",
+        "large.c"
+      ],
+      "status": 0,
+      "seconds": 2.125713008455932,
+      "environment": {
+        "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
+        "WINEPATH": "R:\\toolchains\\1.0-nt\\bin",
+        "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+        "LIB": "R:\\toolchains\\1.0-nt\\lib",
+        "CL": null,
+        "_CL_": null,
+        "LINK": null,
+        "_LINK_": null,
+        "MSC_CMD_FLAGS": null,
+        "LINK32_DB": null,
+        "LINK_REPRO": null
+      }
+    },
+    {
+      "command": [
+        "wine",
+        "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+        "/nologo",
+        "/c",
+        "/Od",
+        "/G4",
+        "/Gy",
+        "large.c"
+      ],
+      "status": 0,
+      "seconds": 1.7858925480395555,
+      "environment": {
+        "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
+        "WINEPATH": "R:\\toolchains\\1.0-nt\\bin",
+        "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+        "LIB": "R:\\toolchains\\1.0-nt\\lib",
+        "CL": null,
+        "_CL_": null,
+        "LINK": null,
+        "_LINK_": null,
+        "MSC_CMD_FLAGS": null,
+        "LINK32_DB": null,
+        "LINK_REPRO": null
+      }
+    }
+  ],
+  "object": {
+    "bytes": 3146735,
+    "sha256": "08ce75f693e0ddb5f64744913bea70fb9a9e5a5b4bb7fb8695fc01f7db753752"
+  },
+  "repeat": "Exact object bytes except structural COFFtimestamp4..7",
+  "sections": [
+    {
+      "name": ".drectve",
+      "size": 38,
+      "offset": 180,
+      "relocations": 0,
+      "flags": "0x100a00"
+    },
+    {
+      "name": ".data",
+      "size": 3145996,
+      "offset": 218,
+      "relocations": 1,
+      "flags": "0xc0400040"
+    },
+    {
+      "name": ".text",
+      "size": 66,
+      "offset": 3146224,
+      "relocations": 2,
+      "flags": "0x60501020"
+    },
+    {
+      "name": ".text",
+      "size": 20,
+      "offset": 3146310,
+      "relocations": 0,
+      "flags": "0x60501020"
+    }
+  ],
+  "reason_G4": "486 inspect-only XADD/CMPXCHG is rejected by G3; actual original G4processor switch used. No input code executed."
+}

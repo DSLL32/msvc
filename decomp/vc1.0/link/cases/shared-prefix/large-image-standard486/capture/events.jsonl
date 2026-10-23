@@ -1,0 +1,5 @@
+{"event":"create","pid":2056,"parent":1208,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -dump /disasm standard486.obj"}
+{"event":"entry","pid":2056,"rva":252368,"name":"decode_op_4d9d0","crt_errno":0}
+{"event":"entry","pid":2056,"rva":252416,"name":"decode_op_4da00","crt_errno":0}
+{"event":"exit","pid":2056,"code":0,"packer":0}
+{"event":"summary","root_exit":0,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

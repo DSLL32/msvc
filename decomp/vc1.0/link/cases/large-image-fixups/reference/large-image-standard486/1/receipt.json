@@ -1,0 +1,43 @@
+{
+  "mode": "original",
+  "analysis_samples": [],
+  "case": "large-image-standard486",
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "root_exit": 0,
+    "failed": 0,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "4dee17bf82508779539dc1aef6b53ec09c52dab772dca7e5b25756425fd7355b",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 926,
+  "accepted_sha256": "d11da5ce1d76d74d6f43343bd09e4773b321d602275cb3f49ce55b65fd7b76e4",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": null,
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\large-image-standard486",
+    "TEMP": "S:\\vc1.0\\link\\large-image-standard486"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-dump /disasm standard486.obj",
+    "S:\\vc1.0\\link\\new-captures\\large-image-standard486\\original-thxxm44l\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\large-image-standard486\\original-thxxm44l\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\large-image-standard486\\original-thxxm44l\\events.jsonl",
+    "S:\\vc1.0\\link\\large-image-standard486",
+    "S:\\vc1.0\\link\\new-captures\\large-image-standard486\\original-thxxm44l\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\large-image-standard486\\original-thxxm44l\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\large-image-standard486\\original-thxxm44l\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\large-image-standard486\\original-thxxm44l\\after.dll",
+    "-"
+  ],
+  "seconds": 0.6885648053139448
+}

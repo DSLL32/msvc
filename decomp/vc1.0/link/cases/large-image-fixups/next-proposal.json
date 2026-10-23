@@ -1,0 +1,40 @@
+{
+  "status": "Root-approved next single workflow; start after current scoped checkpoint",
+  "family": "Public EDIT section rename/characteristics and independent dump validation",
+  "routines": [
+    {
+      "name": "_edit_section",
+      "address": "0x28180",
+      "instruction_bytes": 1176,
+      "code_ceiling": "0x28630",
+      "inline_table": {
+        "address": "0x28630",
+        "bytes": 40,
+        "targets": [
+          "0x2830e",
+          "0x285c0",
+          "0x285d0",
+          "0x282fd",
+          "0x285f0",
+          "0x28600",
+          "0x282fd",
+          "0x28610",
+          "0x282fd",
+          "0x28620"
+        ]
+      },
+      "analysis": "Fresh static CFG from known root, both conditional edges and actual ten-target internal switch, exact instruction-byte union excluding inline data/alignment. Body omitted from old Ghidra inventory; no reachability or acceptance credit yet.",
+      "calls": [
+        "0x21830",
+        "0x218d0",
+        "0x251b0",
+        "0x3caf0",
+        "0x512b0",
+        "0x51990"
+      ]
+    }
+  ],
+  "plan": "Use the current original-backed large DLL (real data, relocations, entry/debug directories) as immutable input to coherent section-edit phases. Validate exact public /SECTION:name[=newname][,[[!]{dekprsw}][a{1248pts}]] syntax against untouched original; rename actual .data and change specific read/write/shared/discard/cache/alignment attributes on safely inspect-only copies. Dump /headers each actual edited result. Repeat originals and freeze every complete artifact/stream before native reconstruction; feed actual native prior-stage artifact to later phase. Include /release only if checksum semantics remain meaningful; no unrelated /helper.",
+  "known_application_bytes": 1176,
+  "limits": "This is one substantial body, not a promise of many functions. Existing warnings/fatal support may be reached by public meaningful diagnostics but never manufacture malformed cases for coverage. No claim that remaining OMF internal-g bodies are public, no classifying unaccounted ranges as CRT."
+}

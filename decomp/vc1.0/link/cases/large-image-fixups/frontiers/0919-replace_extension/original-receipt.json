@@ -1,0 +1,43 @@
+{
+  "mode": "masked",
+  "analysis_samples": [],
+  "case": "large-image-mapped",
+  "helper_exit": 10,
+  "summary": {
+    "event": "summary",
+    "root_exit": 999,
+    "failed": 10,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "be45ceb38c948622c80b848a0af3a684e5f64f9a3db42f2eed4b57537d2e2e68",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 919,
+  "accepted_sha256": "7bca52ec9a99fcd076c76917add6000ffb1d7d115a69fb19b4ac58d8434d1a65",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": "24",
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\large-image-mapped",
+    "TEMP": "S:\\vc1.0\\link\\large-image-mapped"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-link /dll /nodefaultlib /entry:E /out:large.dll /debug:full /debugtype:coff,fixup /map /order:@functions.ord /stack:0x200000,0x3000 /heap:0x100000,0x2000 large.obj",
+    "S:\\vc1.0\\link\\new-captures\\large-image-mapped\\masked-bpls273g\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\large-image-mapped\\masked-bpls273g\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\large-image-mapped\\masked-bpls273g\\events.jsonl",
+    "S:\\vc1.0\\link\\large-image-mapped",
+    "S:\\vc1.0\\link\\new-captures\\large-image-mapped\\masked-bpls273g\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\large-image-mapped\\masked-bpls273g\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\large-image-mapped\\masked-bpls273g\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\large-image-mapped\\masked-bpls273g\\after.dll",
+    "-"
+  ],
+  "seconds": 1.5217626867815852
+}

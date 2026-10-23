@@ -1890,3 +1890,31 @@ unsigned char *decode_op_4c1a0(unsigned char *data,int operand,
     else state->registers_read|=register_masks[DIS_REG_CS];
     return data+2;
 }
+
+/* Original [0004c710,0004c74b): XADD's second memory/register decode. */
+unsigned char *decode_op_4c710(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    unsigned char *next=decode_modrm_operand(data,operand,state);
+    DisassemblyOperand *result=&state->operands[operand-1];
+    if (result->kind==2)
+        state->registers_written|=register_masks[result->address.base];
+    return next;
+}
+
+/* Original [0004d9d0,0004d9fa): byte CMPXCHG accumulator effect. */
+unsigned char *decode_op_4d9d0(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    if (operand==1) state->registers_written|=register_masks[DIS_REG_AL];
+    else state->registers_read|=register_masks[DIS_REG_AL];
+    return decode_modrm_operand_effects(data,operand,state);
+}
+
+/* Original [0004da00,0004da29): word/dword CMPXCHG's accumulator effect. */
+unsigned char *decode_op_4da00(unsigned char *data,int operand,
+    DisassembledInstruction *state)
+{
+    decode_op_4bb10(data,operand,state);
+    return decode_modrm_operand_effects(data,operand,state);
+}

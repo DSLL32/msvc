@@ -917,7 +917,17 @@
     "_decode_op_4c940",
     "_decode_op_4d990",
     "_decode_op_4c170",
-    "_decode_op_4c1a0"
+    "_decode_op_4c1a0",
+    "_read_switch_number",
+    "_replace_extension",
+    "_resolve_entry_symbol",
+    "_dump_symbols",
+    "_grow_mapping",
+    "_record_debug_fixup",
+    "_decode_op_4c710",
+    "_grow_buffered_file",
+    "_decode_op_4d9d0",
+    "_decode_op_4da00"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1454,10 +1464,11 @@
     {
       "name": "_read_switch_number",
       "start": 239376,
-      "end": 239377,
-      "implementation": "stub-C",
-      "source": "src/option-stubs.c",
-      "abi": "cdecl unsigned char(ParsedSwitch *option,unsigned short index,unsigned long *value)"
+      "end": 239437,
+      "implementation": "C",
+      "source": "src/options.c",
+      "abi": "cdecl unsigned char(ParsedSwitch *option,unsigned short index,unsigned long *value)",
+      "evidence": "Whole61-byte3a710..3a74d body decoded; 3a74d..3a750 is alignment. Fresh original masked/native GDB first entry and exact partial streams in large-image-mapped-read_switch_number-vo4jgszr. sscanf %li%c accepts exactly one assignment, rejecting suffix; unsigned16 index, cdecl and byte result preserved."
     },
     {
       "name": "_find_library",
@@ -1606,10 +1617,11 @@
     {
       "name": "_dump_symbols",
       "start": 97760,
-      "end": 97761,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(SymbolTable *table)"
+      "end": 97947,
+      "implementation": "C",
+      "source": "src/ordering.c",
+      "abi": "cdecl void(SymbolTable *table)",
+      "evidence": "Whole187-byte17de0..17e9b body; firstentry dump_symbols fresh comparison. Original debug24 overwrites order file with address-sorted COMDAT names; inline8-byte buffer terminator retained. Invalid long-name raw offset/formatpointer bug preserved, with failed valid-original probe separate from acceptance."
     },
     {
       "name": "_apply_section_merges",
@@ -1704,10 +1716,11 @@
     {
       "name": "_resolve_entry_symbol",
       "start": 128128,
-      "end": 128129,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(SymbolTable *table)"
+      "end": 128436,
+      "implementation": "C",
+      "source": "src/link-pass.c",
+      "abi": "cdecl void(SymbolTable *table)",
+      "evidence": "Whole308-byte1f480..1f5b4 original body, full branch/call graph recovered. Fresh matching entry resolve_entry_symbol-la6bydxx. Temporary export table and original short-name buffer identity, defined+0x10 filtering, ignored old entry and strings-only release preserved."
     },
     {
       "name": "_resolve_local_imports",
@@ -1847,10 +1860,11 @@
     {
       "name": "_replace_extension",
       "start": 152592,
-      "end": 152593,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl char *(const char *name,const char *extension)"
+      "end": 152702,
+      "implementation": "C",
+      "source": "src/link-pass.c",
+      "abi": "cdecl char *(const char *name,const char *extension)",
+      "evidence": "Whole110-byte25410..2547e; trailing mov edi,edi is alignment. Fresh matching original/native GDB entry replace_extension-rmq4c9yf. Original splitpath/makepath/duplicate_string graph and 4/256/256/256/260-byte local buffers retained."
     },
     {
       "name": "_update_checksum",
@@ -2530,10 +2544,11 @@
     {
       "name": "_grow_mapping",
       "start": 251248,
-      "end": 251249,
-      "implementation": "stub-C",
+      "end": 251322,
+      "implementation": "C",
       "abi": "cdecl void(FileSlot *,long)",
-      "source": "src/files-stubs.c"
+      "source": "src/files.c",
+      "evidence": "Whole74-byte3d570..3d5ba; unmap view/close mapping before signed max(doubled capacity,requested length), remap and original failure callback retained. Fresh matching original/native GDB first entry in large-image mapped case."
     },
     {
       "name": "_create_comdat_module",
@@ -3892,10 +3907,11 @@
     {
       "name": "_record_debug_fixup",
       "start": 126576,
-      "end": 126577,
-      "implementation": "stub-C",
-      "source": "src/pass-two-stubs.c",
-      "abi": "cdecl void(unsigned short type,unsigned long rva,unsigned long target)"
+      "end": 126770,
+      "implementation": "C",
+      "source": "src/link-pass.c",
+      "abi": "cdecl void(unsigned short type,unsigned long rva,unsigned long target)",
+      "evidence": "Whole194-byte1ee70..1ef32 decoded. Fresh matching record_debug_fixup entry GDB/masked original.4-byte next pointer+34112-byte records exactly4096; original twoWORD type/reserved writes modeled uint32 assignment from ushort; reverse block list/count and originalmalloc/outofmemory graph preserved."
     },
     {
       "name": "_record_map_relocation",
@@ -4357,10 +4373,11 @@
     {
       "name": "_grow_buffered_file",
       "start": 246256,
-      "end": 246257,
-      "implementation": "stub-C",
-      "source": "src/files-stubs.c",
-      "abi": "cdecl void(FileSlot *); entry only until reached"
+      "end": 246366,
+      "implementation": "C",
+      "source": "src/files.c",
+      "abi": "cdecl void(FileSlot *); entry only until reached",
+      "evidence": "Whole110-byte3c1f0..3c25e; original signed division by4096, realloc of doubled page-pointer table, zero only new half and capacity update preserved. Fresh matching large-image-extra-grow_buffered_file-x0oove86; original initial buffered capacity4MB proved separate from mapped2MB."
     },
     {
       "name": "_acquire_file_page",
@@ -7509,11 +7526,11 @@
     {
       "name": "_decode_op_4c710",
       "start": 313104,
-      "end": 313105,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 313163,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+      "evidence": "Whole59-byte4c710..4c74b; fresh masked/native GDB entry and all224-byte decoder live state match. Calls original decode_modrm_operand on following cursor, preserving extra-byte XADD behavior and unconditional written-register effect."
     },
     {
       "name": "_decode_op_4d520",
@@ -7599,20 +7616,20 @@
     {
       "name": "_decode_op_4d9d0",
       "start": 317904,
-      "end": 317905,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 317946,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+      "evidence": "Whole42-byte4d9d0..4d9fa; fresh original/native firstentry and all224-byte decoder state. Accumulator AL mask and original fullsize ModRM helper preserved, including DWORD PTR output for legal byte CMPXCHG input."
     },
     {
       "name": "_decode_op_4da00",
       "start": 317952,
-      "end": 317953,
-      "implementation": "stub-C",
-      "source": "src/disassembler-stubs.c",
+      "end": 317993,
+      "implementation": "C",
+      "source": "src/disassembler.c",
       "abi": "cdecl unsigned char *(unsigned char *,int,DisassembledInstruction *)",
-      "evidence": "Named target in finite extended-opcode descriptors; body remains masked."
+      "evidence": "Whole41-byte4da00..4da29; fresh matching firstentry and224-byte live state in standard486-decode_op_4da00-khllf4mt. Distinct accumulator-effects and ModRM-effect original callees preserved."
     },
     {
       "name": "_decode_op_4db30",
@@ -9166,6 +9183,16 @@
     "dump-disasm-x86-monitor-extra",
     "dump-disasm-x86-monitor-extra",
     "dump-disasm-x86-monitor-extra",
-    "dump-disasm-x86-monitor-extra"
+    "dump-disasm-x86-monitor-extra",
+    "large-image-mapped",
+    "large-image-mapped",
+    "large-image-mapped",
+    "large-image-mapped",
+    "large-image-mapped",
+    "large-image-mapped",
+    "large-image-dump486",
+    "large-image-extra",
+    "large-image-standard486",
+    "large-image-standard486"
   ]
 }

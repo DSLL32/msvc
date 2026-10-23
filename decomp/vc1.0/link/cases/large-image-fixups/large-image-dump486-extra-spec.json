@@ -1,0 +1,19 @@
+{
+  "case": "large-image-dump486-extra",
+  "arguments": [
+    "-dump",
+    "/disasm",
+    "extra.obj"
+  ],
+  "environment": {
+    "LIB": "{lib}"
+  },
+  "inputs": [
+    {
+      "path": "cases/large-image-fixups/inputs/extra.obj",
+      "bytes": 5244038,
+      "sha256": "3d24fc4e1cba84c50c26725d758ce9b48fdb3eae42d3930c547b56d1c6f2b41e"
+    }
+  ],
+  "outputs": []
+}

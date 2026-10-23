@@ -1,0 +1,43 @@
+{
+  "mode": "original",
+  "analysis_samples": [],
+  "case": "large-image-extra",
+  "helper_exit": 0,
+  "summary": {
+    "event": "summary",
+    "root_exit": 0,
+    "failed": 0,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "ac58dc26bdb608268d07e71b7e92441c05d5220aed2cae4625afdf1762c09fe0",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 925,
+  "accepted_sha256": "a9d43967367e09636b82a85fafbf4048ca5a4b32b416d285964f00a0b7fac3ba",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": "24,27",
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\large-image-extra",
+    "TEMP": "S:\\vc1.0\\link\\large-image-extra"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-link /dll /nodefaultlib /entry:E /out:extra.dll /debug:full /debugtype:coff,fixup /map /order:@extra.ord /stack:0x200000,0x3000 /heap:0x100000,0x2000 extra.obj",
+    "S:\\vc1.0\\link\\new-captures\\large-image-extra\\original-kg9tr4pe\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\large-image-extra\\original-kg9tr4pe\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\large-image-extra\\original-kg9tr4pe\\events.jsonl",
+    "S:\\vc1.0\\link\\large-image-extra",
+    "S:\\vc1.0\\link\\new-captures\\large-image-extra\\original-kg9tr4pe\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\large-image-extra\\original-kg9tr4pe\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\large-image-extra\\original-kg9tr4pe\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\large-image-extra\\original-kg9tr4pe\\after.dll",
+    "-"
+  ],
+  "seconds": 1.675345434807241
+}

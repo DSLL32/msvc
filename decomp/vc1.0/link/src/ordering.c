@@ -109,3 +109,35 @@ unsigned long read_ordered_contributions(SymbolTable *symbols,Contribution ***or
     free(buffer);
     return count;
 }
+
+/* Original [00017de0,00017e9b): debug option24 replaces the order file. */
+void dump_symbols(SymbolTable *table)
+{
+    FILE *stream;
+    External **external;
+    long count;
+    char short_name[9];
+    const char *name;
+    short_name[8]=0;
+    if (!order_filename) return;
+    stream=fopen(order_filename,"wt");
+    if (!stream) order_fatal("Linker",7,order_filename);
+    external=get_externals_by_address(table);
+    count=count_externals(table);
+    while (count-->0) {
+        if ((*external)->flags&EXTERNAL_COMDAT) {
+            if ((*external)->symbol.N.Name.Short)
+                name=strncpy(short_name,(char *)&(*external)->symbol,8);
+            else {
+                /* Original diagnostic bug: uses the raw string offset as a
+                 * format pointer. The valid long-name failure is preserved
+                 * separately; no string-table correction is invented here. */
+                name=(const char *)(*external)->symbol.N.Name.Long;
+            }
+            fprintf(stream,name);
+            fprintf(stream,"\n");
+        }
+        ++external;
+    }
+    fclose(stream);
+}

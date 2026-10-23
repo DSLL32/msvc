@@ -1,0 +1,37 @@
+{
+  "runs": [
+    {
+      "command": [
+        "wine",
+        "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+        "/nologo",
+        "/c",
+        "/Od",
+        "/G4",
+        "/Gy",
+        "standard486.c"
+      ],
+      "status": 0,
+      "seconds": 0.8144082967191935,
+      "sha256": "a0ef34ef68407f3017fbe8026e892eae76eec1ac0941c4b176d126a1a511bef8"
+    },
+    {
+      "command": [
+        "wine",
+        "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+        "/nologo",
+        "/c",
+        "/Od",
+        "/G4",
+        "/Gy",
+        "standard486.c"
+      ],
+      "status": 0,
+      "seconds": 0.8545168042182922,
+      "sha256": "a0ef34ef68407f3017fbe8026e892eae76eec1ac0941c4b176d126a1a511bef8"
+    }
+  ],
+  "bytes": 426,
+  "source_sha256": "1b3fd7cd9576ce7c19f79da45a135dce886b02c4a9a68d768d4e8042308e56d1",
+  "normalization": "Only COFF timestamp4..7 differs"
+}

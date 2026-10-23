@@ -1,0 +1,145 @@
+{
+  "case": "large-image-extra",
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-large.py",
+    "sha256": "2154b62224d2af6c595334aacd13b3020528c8da015e473edad83a06589b4429"
+  },
+  "phases": {
+    "reference": {
+      "arguments": [
+        "-link",
+        "/dll",
+        "/nodefaultlib",
+        "/entry:E",
+        "/out:extra.dll",
+        "/debug:full",
+        "/debugtype:coff,fixup",
+        "/map",
+        "/order:@extra.ord",
+        "/stack:0x200000,0x3000",
+        "/heap:0x100000,0x2000",
+        "extra.obj"
+      ],
+      "environment": {
+        "LIB": "{lib}",
+        "LINK32_DB": "24,27"
+      },
+      "inputs": [
+        {
+          "path": "../inputs/extra.obj",
+          "bytes": 5244038,
+          "sha256": "3d24fc4e1cba84c50c26725d758ce9b48fdb3eae42d3930c547b56d1c6f2b41e"
+        },
+        {
+          "path": "../inputs/extra.ord",
+          "bytes": 22,
+          "sha256": "e93c2966a3d5476ff5f8a2f09370c46130b0d754bd06a4b14566bac0b48d73b6"
+        }
+      ],
+      "outputs": [
+        {
+          "output_name": "extra.dll",
+          "artifact_kind": "pe-coff-fixup",
+          "bytes": 5259776,
+          "sha256": "31f65377d5c9c8f28d95a1d00c48c976f5bca111669e40ede3610c0528c3e433",
+          "normalized_sha256": "dde7be58549df1507d96a480b1eb926a3e4226ba147f159b78c5b001ebd91c75",
+          "timestamp_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            },
+            {
+              "offset": 1540,
+              "bytes": 4,
+              "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 1"
+            },
+            {
+              "offset": 1568,
+              "bytes": 4,
+              "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 6"
+            }
+          ],
+          "repeat_changed_bytes": [
+            136,
+            1540,
+            1568
+          ],
+          "path": "../reference/large-image-extra/1/extra.dll",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            },
+            {
+              "offset": 1540,
+              "bytes": 4,
+              "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 1"
+            },
+            {
+              "offset": 1568,
+              "bytes": 4,
+              "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 6"
+            }
+          ]
+        },
+        {
+          "output_name": "extra.map",
+          "artifact_kind": "map",
+          "bytes": 1116,
+          "sha256": "d7310fe0e69fce595dbc7da720331d933a25083edf8eebe9516ab63dee2f839a",
+          "normalized_sha256": "8cb92c3438bd13fd300fd0b2c3e5824adeafb53e3f9ded3121038727315dac49",
+          "timestamp_fields": [
+            {
+              "offset": 24,
+              "bytes": 8,
+              "name": "Map COFF timestamp hexadecimal"
+            },
+            {
+              "offset": 34,
+              "bytes": 24,
+              "name": "Map timestamp ctime rendering"
+            }
+          ],
+          "repeat_changed_bytes": [
+            30,
+            31,
+            52
+          ],
+          "path": "../reference/large-image-extra/1/extra.map",
+          "ignored_fields": [
+            {
+              "offset": 24,
+              "bytes": 8,
+              "name": "Map COFF timestamp hexadecimal"
+            },
+            {
+              "offset": 34,
+              "bytes": 24,
+              "name": "Map timestamp ctime rendering"
+            }
+          ]
+        },
+        {
+          "output_name": "extra.ord",
+          "artifact_kind": "raw",
+          "bytes": 30,
+          "sha256": "cb1e9f8815470ffcc455456e6983c7f58432e8daa42924c000e2ab2612c249d0",
+          "normalized_sha256": "cb1e9f8815470ffcc455456e6983c7f58432e8daa42924c000e2ab2612c249d0",
+          "timestamp_fields": [],
+          "repeat_changed_bytes": [],
+          "path": "../reference/large-image-extra/1/extra.ord",
+          "ignored_fields": []
+        }
+      ],
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "expected_exit": 0,
+      "canonical_working_directory": "S:\\vc1.0\\link\\large-image-extra",
+      "expected_stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n",
+      "expected_stderr": ""
+    }
+  }
+}

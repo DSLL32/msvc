@@ -1,0 +1,43 @@
+{
+  "mode": "masked",
+  "analysis_samples": [],
+  "case": "large-image-mapped",
+  "helper_exit": 10,
+  "summary": {
+    "event": "summary",
+    "root_exit": 999,
+    "failed": 10,
+    "packers": 0,
+    "packer_stdout_start": 0,
+    "packer_stdout_end": 0,
+    "packer_stderr_start": 0,
+    "packer_stderr_end": 0
+  },
+  "events_sha256": "c647bb3918c5771933771f50d4d9fbec8af396e25b27d9478fe8b21a43948010",
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "accepted_count": 923,
+  "accepted_sha256": "d256c9acd64d7c157d022b51e904992206ff05ddde6a3a47f63c89e745eded4e",
+  "environment": {
+    "LIB": "R:\\toolchains\\1.0-nt\\lib",
+    "LINK32_DB": "24",
+    "LINK_REPRO": null,
+    "TMP": "S:\\vc1.0\\link\\large-image-mapped",
+    "TEMP": "S:\\vc1.0\\link\\large-image-mapped"
+  },
+  "command": [
+    "wine",
+    "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+    "-link /dll /nodefaultlib /entry:E /out:large.dll /debug:full /debugtype:coff,fixup /map /order:@functions.ord /stack:0x200000,0x3000 /heap:0x100000,0x2000 large.obj",
+    "S:\\vc1.0\\link\\new-captures\\large-image-mapped\\masked-nerwufcp\\stdout.bin",
+    "S:\\vc1.0\\link\\new-captures\\large-image-mapped\\masked-nerwufcp\\stderr.bin",
+    "S:\\vc1.0\\link\\new-captures\\large-image-mapped\\masked-nerwufcp\\events.jsonl",
+    "S:\\vc1.0\\link\\large-image-mapped",
+    "S:\\vc1.0\\link\\new-captures\\large-image-mapped\\masked-nerwufcp\\text.bin",
+    "S:\\vc1.0\\link\\new-captures\\large-image-mapped\\masked-nerwufcp\\entries.txt",
+    "S:\\vc1.0\\link\\new-captures\\large-image-mapped\\masked-nerwufcp\\before.dll",
+    "S:\\vc1.0\\link\\new-captures\\large-image-mapped\\masked-nerwufcp\\after.dll",
+    "-"
+  ],
+  "seconds": 1.5252853753045201
+}

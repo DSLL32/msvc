@@ -1047,7 +1047,7 @@ random and all actual images. Old9.237s three-stage fixture costs were Python
 oracles, not ELF execution; output-only after.201/.288/.285s, compact.095s, with
 all splits/timing limitations in cases/editor-rebase-bind/timing.json.
 
-Legal386 diagnostic monitor checkpoint918 (current)
+Legal386 diagnostic monitor checkpoint918 (historical)
 
 81 application callbacks:4787 actual CFG instruction bytes+75alignment=4862extent.
 Two separately reached shipped CRT support bodies add188extent, zero app credit:
@@ -1097,3 +1097,36 @@ is retained; latest source fingerprints are authoritative. The complete canonica
 PE is identical to the prior negative-tested artifact after only structural COFF
 timestamp, independently recovering that artifact's one recorded scratch mutation.
 No unchanged negative campaign was repeated. See capture/negative-build-equivalence.
+
+Large-image/fixup checkpoint928 (current)
+
+All ten proposed public-case functions now have fresh matched original/native
+GDB entries and complete readable C extents: read_switch_number3a710,
+replace_extension25410, resolve_entry_symbol1f480, dump_symbols17de0,
+grow_mapping3d570, record_debug_fixup1ee70, decode_op_4c710,
+grow_buffered_file3c1f0, decode_op_4d9d0 and decode_op_4da00.
+Each whole CFG is inventoried:1186 true instructions bytes, no added alignment
+or inline data;142 bytes were missing from the old partial body inventory.
+Fixup12-byte records/4096-byte blocks have canonical/native offset assertions.
+
+Repeated original full DLL/MAP/rewritten-order artifacts are frozen before
+acceptance, with exact clocks-only inventories. Buffered growth required the
+5MB companion because the original buffered starting page table covers4MB plus
+one page; its actual doubled table remains the original algorithm. Debug24
+suppresses ordinary contribution ordering and writes actual sorted COMDAT names.
+The long-name raw-offset-as-format-pointer original bug is retained separately.
+VC1/G4 itself encodes CMPXCHG as0F06/0F07; six fixture-only _emit bytes provide
+legal standard0FB0/0FB1 for actual callback reachability. XADD and byteCMPXCHG
+original display quirks are not corrected. All three decoder callbacks also have
+independent224-byte live-state entry comparisons.
+
+928frontiers/244771of281634=.869110 extent fraction. Partial instruction-body
+inventory179934accepted/188487known; CRT27995/37088, import258/348; remaining
+19127unclassified bytes are not CRT. Final52cases/737application firstentries
+pass4.109s external,3.854s internal; separate native rebuild6.993s. Canonical
+compiler and final767RustCFG graphs,754callback routines,486data and41ECX checks
+pass (counts in validation.json authoritative). Fresh graph mutation guards use
+the approved pinned baseline during shared tool publishing; no source-policy
+change. Source freeze is shared b967da90. See cases/large-image-fixups.
+Root authorized public EDIT section rename/characteristics/alignment next, based
+on newly inventoried1176-byte body28180+40-byte inline switch table.

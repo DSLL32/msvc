@@ -67,6 +67,28 @@
       "runtime_functions": 2,
       "native_cases": 2,
       "receipt": "cases/disassembler-x86-monitor/validation.json"
+    },
+    {
+      "order": 6,
+      "name": "large-image-fixups",
+      "status": "complete",
+      "approved_after": "56a6946f",
+      "scope": "Single DLL COFF/fixup/debug/order/MAP workflow with >3MB initialized data, mapped/buffered variants, legal486 inspect-only object dump; no Helper phase",
+      "known_instruction_bytes": 1186,
+      "known_functions": 10,
+      "limits": "Provisional reachability only; original-success/full-effects validation before acceptance, noCVPACK, no padding/path normalization.",
+      "functions": 10,
+      "native_cases": 6,
+      "receipt": "cases/large-image-fixups/validation.json"
+    },
+    {
+      "order": 7,
+      "name": "edit-section-attributes",
+      "status": "Authorized by root; start after large-image checkpoint",
+      "scope": "Single public EDIT /SECTION rename/characteristics/alignment workflow with independent dumps and actual native prior-stage input flow",
+      "known_instruction_bytes": 1176,
+      "known_functions": 1,
+      "proposal": "cases/large-image-fixups/next-proposal.json"
     }
   ],
   "methodology": "Explicit shared R:/S: original capture before acceptance, native cached regressions only, full artifacts and graph/ABI/data preservation"

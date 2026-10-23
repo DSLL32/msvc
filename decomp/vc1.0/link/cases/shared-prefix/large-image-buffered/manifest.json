@@ -1,0 +1,146 @@
+{
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-large.py",
+    "sha256": "2154b62224d2af6c595334aacd13b3020528c8da015e473edad83a06589b4429"
+  },
+  "case": "large-image-buffered",
+  "phases": {
+    "reference": {
+      "arguments": [
+        "-link",
+        "/dll",
+        "/nodefaultlib",
+        "/entry:E",
+        "/out:large.dll",
+        "/debug:full",
+        "/debugtype:coff,fixup",
+        "/map",
+        "/order:@functions.ord",
+        "/stack:0x200000,0x3000",
+        "/heap:0x100000,0x2000",
+        "large.obj"
+      ],
+      "environment": {
+        "LIB": "{lib}",
+        "LINK32_DB": "24,27"
+      },
+      "inputs": [
+        {
+          "path": "../../large-image-fixups/inputs/large.obj",
+          "bytes": 3146640,
+          "sha256": "3c72d7154b534ff88f2cc87856e6564caa7a47f6b688f232441e9dff48e13f74"
+        },
+        {
+          "path": "../../large-image-fixups/inputs/functions.ord",
+          "bytes": 12,
+          "sha256": "4e0204dcf5c95a7671435d3d3ab64fc7657b80ae330bc87f23e669c764261e2f"
+        }
+      ],
+      "outputs": [
+        {
+          "output_name": "large.dll",
+          "artifact_kind": "pe-coff-fixup",
+          "bytes": 3156992,
+          "sha256": "fe4098512bfc26e4a788a5641fd02225e7fd831f3ce58672528255aa19544185",
+          "normalized_sha256": "a9137e578051d7493c02ede99e03e0ef717dc318ef92ebcd9944a5a92c720b2e",
+          "timestamp_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            },
+            {
+              "offset": 1540,
+              "bytes": 4,
+              "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 1"
+            },
+            {
+              "offset": 1568,
+              "bytes": 4,
+              "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 6"
+            }
+          ],
+          "repeat_changed_bytes": [
+            136,
+            1540,
+            1568
+          ],
+          "path": "expected/large.dll",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            },
+            {
+              "offset": 1540,
+              "bytes": 4,
+              "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 1"
+            },
+            {
+              "offset": 1568,
+              "bytes": 4,
+              "name": "IMAGE_DEBUG_DIRECTORY TimeDateStamp type 6"
+            }
+          ]
+        },
+        {
+          "output_name": "large.map",
+          "artifact_kind": "map",
+          "bytes": 976,
+          "sha256": "31ef822aaf9c9341f705ec75f8cb9508b0fcc87af8651718328c04a50d4991db",
+          "normalized_sha256": "3acf44ea9d1889b81d3f83c0bfe288a3c2d0e8810f5ced2cfc090b1092e87381",
+          "timestamp_fields": [
+            {
+              "offset": 24,
+              "bytes": 8,
+              "name": "Map COFF timestamp hexadecimal"
+            },
+            {
+              "offset": 34,
+              "bytes": 24,
+              "name": "Map timestamp ctime rendering"
+            }
+          ],
+          "repeat_changed_bytes": [
+            31,
+            52
+          ],
+          "path": "expected/large.map",
+          "ignored_fields": [
+            {
+              "offset": 24,
+              "bytes": 8,
+              "name": "Map COFF timestamp hexadecimal"
+            },
+            {
+              "offset": 34,
+              "bytes": 24,
+              "name": "Map timestamp ctime rendering"
+            }
+          ]
+        },
+        {
+          "output_name": "functions.ord",
+          "artifact_kind": "raw",
+          "bytes": 16,
+          "sha256": "b626f6cfcfca74e84dfc79edbc3aa58fd45d8560edbf1dc3d772582ba4ed8412",
+          "normalized_sha256": "b626f6cfcfca74e84dfc79edbc3aa58fd45d8560edbf1dc3d772582ba4ed8412",
+          "timestamp_fields": [],
+          "repeat_changed_bytes": [],
+          "path": "expected/functions.ord",
+          "ignored_fields": []
+        }
+      ],
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "expected_exit": 0,
+      "canonical_working_directory": "S:\\vc1.0\\link\\large-image-buffered",
+      "expected_stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n",
+      "expected_stderr": ""
+    }
+  },
+  "source_reference": "decomp/vc1.0/link/cases/large-image-fixups/buffered",
+  "migration": "Fresh original execution at fixed R:/S: paths; old frozen shared references unchanged"
+}

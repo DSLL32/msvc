@@ -671,3 +671,25 @@ Page *choose_file_page(void)
     page->older=page->newer=NULL;
     return page;
 }
+
+/* Original [0003d570,0003d5ba): replace the mapping after growing capacity. */
+void grow_mapping(FileSlot *file,long length)
+{
+    long doubled;
+    mapping_unmap(file->contents.view);
+    CloseHandle(file->storage.mapping);
+    doubled=(long)(file->allocated*2);
+    file->allocated=doubled>length?doubled:length;
+    if (!map_file(file)) failure(file->name,9,(char *)length);
+}
+
+/* Original [0003c1f0,0003c25e): double the buffered file's page pointers. */
+void grow_buffered_file(FileSlot *file)
+{
+    long pages=(long)file->allocated/4096;
+    long new_pages=pages*2;
+    file->storage.pages=realloc(file->storage.pages,new_pages*sizeof(Page *));
+    if (!file->storage.pages) failure(NULL,5,"");
+    memset(file->storage.pages+pages,0,(new_pages-pages)*sizeof(Page *));
+    file->allocated=new_pages<<12;
+}

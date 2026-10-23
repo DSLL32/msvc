@@ -1,0 +1,4 @@
+{"event":"create","pid":1452,"parent":1704,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -dump /disasm standard486.obj"}
+{"event":"context","pid":1452,"eip":317953,"esp":2750844,"eax":8199972,"ecx":317952,"edx":8199971,"stack":[308641,8199972,1,8199736,81,8199972,308799,8199972,538804,8199736,8199736,532364,308641,8199971,1,8199736,6,8199736,308703,8199971,532364,8199736,319786,8199970],"crt_errno":0,"exception_code":2147483651}
+{"event":"decoder_state","words":[257,0,6,0,0,0,0,0,287,0,2,2,1,1,1,0,0,27,4294967295,1,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0],"operand":1,"cursor":2}
+{"event":"summary","root_exit":999,"failed":10,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}
