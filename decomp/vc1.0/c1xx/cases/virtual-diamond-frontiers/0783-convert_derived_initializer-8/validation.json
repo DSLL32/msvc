@@ -1,0 +1,26 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_convert_derived_initializer@8",
+    "start": 418528,
+    "end": 418953
+  },
+  "distinct_direct_callees": [
+    "_convert_based_expression@8",
+    "_convert_reference_initializer@8",
+    "_convert_scalar_initializer@12",
+    "_copy_type_description@4",
+    "_make_null_member_pointer@4",
+    "_new_cast_expression@8",
+    "_new_typed_unary_expression@12",
+    "_normalize_type_attributes@8",
+    "_qualify_based_storage@4",
+    "_replace_first_type_shape@16"
+  ],
+  "next_frontier": "_convert_class_pointer@16",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.43909386172890663,
+  "total_operation_seconds": 7.576764206402004,
+  "original_capture_seconds": 4.47799741383642
+}

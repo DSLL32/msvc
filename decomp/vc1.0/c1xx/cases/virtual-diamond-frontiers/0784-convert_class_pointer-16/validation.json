@@ -1,0 +1,21 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_convert_class_pointer@16",
+    "start": 420688,
+    "end": 421162
+  },
+  "distinct_direct_callees": [
+    "_adjust_qualified_member_object@20",
+    "_lookup_class_name@16",
+    "_new_cast_expression@8",
+    "_qualified_path_has_virtual_base@4",
+    "_report_syntax_error"
+  ],
+  "next_frontier": "_adjust_pointer_by_offset@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4378831656649709,
+  "total_operation_seconds": 8.21147034317255,
+  "original_capture_seconds": 5.026725714094937
+}

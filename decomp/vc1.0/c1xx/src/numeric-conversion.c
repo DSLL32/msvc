@@ -3,6 +3,7 @@
 #include "lexer.h"
 #include "constructor-initializers.h"
 #include "unary-expressions.h"
+#include "member-expressions.h"
 #include <limits.h>
 #include <recon.h>
 
@@ -269,4 +270,109 @@ IrToken *__stdcall try_class_pointer_initializer(CType *type, IrToken *expressio
     if (source_shape->related) return 0;
     if ((source_shape->flags & 0x77) != 1 && !(source_shape->flags & 0x40)) return 0;
     return convert_class_pointer(expression, type, source, 0);
+}
+
+IrToken *__stdcall make_null_member_pointer(CType *type);
+IrToken *__stdcall convert_reference_initializer(CType *type, IrToken *expression);
+
+/* Original 0x662e0..0x66488. Declarator-shaped initialization retains
+   its null-pointer and reference paths before selecting based/scalar/cast
+   conversion. Save the original target flag/attribute words across helpers. */
+IrToken *__stdcall convert_derived_initializer(CType *type, IrToken *expression)
+{
+    unsigned short flags = type->flags, shape_flags, attributes;
+    TypeShape *shape = type->related, *source_shape;
+    CType *source;
+    TypeDescription *description;
+    unsigned short pointer_attributes;
+    int same_base;
+    if (shape) {
+        if ((expression->flags & 0x80) && (shape->flags & 0x30) &&
+            (!expression->type || !expression->type->related ||
+             !(expression->type->related->flags & 0x30)))
+            return make_null_member_pointer(type);
+        shape_flags = shape->flags;
+        if (!(shape_flags & 0x40) && (expression->flags & 0x80)) {
+            if ((shape->attributes & 7) >= 5) {
+                description = copy_type_description(type);
+                pointer_attributes = normalize_type_attributes(1, 0);
+                expression->type = replace_first_type_shape((CType *)description, 1,
+                    pointer_attributes, 0);
+                --type_description_depth;
+            } else expression->type = type;
+            expression->flags &= ~0x80;
+            return expression;
+        }
+        attributes = shape->attributes;
+    } else {
+        shape_flags = 0;
+        attributes = 0;
+    }
+    source = expression->type;
+    source_shape = source->related;
+    same_base = !((source->flags ^ type->flags) & 0xefff) &&
+        source->field08 == type->field08;
+    if ((shape_flags & 0x77) == 0x40)
+        return convert_reference_initializer(type, expression);
+    if (!source_shape) return convert_scalar_initializer(1, type, expression);
+    if ((flags & 0x800) && !shape)
+        return new_typed_unary_expression(0x1a, type, expression);
+    if (attributes & 12)
+        return qualify_based_storage(convert_based_expression(type, expression));
+    if (!(shape_flags & 0x30) && !(source_shape->flags & 0x30) &&
+        ((flags & 0x80) || same_base))
+        return new_cast_expression(type, expression);
+    return convert_scalar_initializer(1, type, expression);
+}
+
+int __stdcall qualified_path_has_virtual_base(QualifiedDeclarator *path);
+
+/* Original 0x66b50..0x66d29. Equal class-name identities may share a
+   representation, subject to pointer-model and cv-cast rules. Other classes
+   search derived-to-base first, then base-to-derived; reverse conversion through
+   a virtual base is diagnosed before the qualified object adjustment. */
+IrToken *__stdcall convert_class_pointer(IrToken *expression, CType *type,
+    CType *source, QualifiedDeclarator *path)
+{
+    int derived_to_base;
+    if (expression->flags & 0x80) return expression;
+    if (((CppSymbol *)cpp_context_stack->items[type->field08])->name ==
+        ((CppSymbol *)cpp_context_stack->items[source->field08])->name) {
+        if ((source->related->attributes ^ type->related->attributes) & 7)
+            return new_cast_expression(type, expression);
+        if (((expression->type->attributes ^ type->attributes) & 0x3000) &&
+            (cpp_parser_flags & 2)) return new_cast_expression(type, expression);
+        expression->type = type;
+        return expression;
+    }
+    derived_to_base = 0;
+    if (!path) {
+        path = lookup_class_name(cpp_context_stack->items[source->field08],
+            ((CppSymbol *)cpp_context_stack->items[type->field08])->name, 1, 386);
+        if (path) derived_to_base = 1;
+        else {
+            path = lookup_class_name(cpp_context_stack->items[type->field08],
+                ((CppSymbol *)cpp_context_stack->items[source->field08])->name, 1, 386);
+            if (!path) {
+                report_syntax_error(519,
+                    ((CppSymbol *)cpp_context_stack->items[source->field08])->name,
+                    ((CppSymbol *)cpp_context_stack->items[type->field08])->name);
+                return expression;
+            }
+        }
+    }
+    if (!derived_to_base && qualified_path_has_virtual_base(path)) {
+        report_syntax_error(635,
+            ((CppSymbol *)cpp_context_stack->items[source->field08])->name,
+            ((CppSymbol *)cpp_context_stack->items[type->field08])->name);
+        return expression;
+    }
+    return adjust_qualified_member_object(expression, path, 1, derived_to_base, type);
+}
+
+/* Original 0x66080..0x66093. Keep this cast wrapper's own stdcall
+   entry; allocation and node initialization remain in the typed unary helper. */
+IrToken *__stdcall new_cast_expression(CType *type, IrToken *expression)
+{
+    return new_typed_unary_expression(0x6e, type, expression);
 }

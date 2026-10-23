@@ -1,0 +1,22 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655ae7b in new_cast_expression (type=0x565f6530, expression=0x56619688) at src/stubs.c:590
+590	IrToken *__stdcall new_cast_expression(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
+#0  0x5655ae7b in new_cast_expression (type=0x565f6530, expression=0x56619688) at src/stubs.c:590
+#1  0x5658b8e8 in adjust_pointer_by_offset (object=0x566195b4, displacement=0, type=0x565f6530) at src/member-expressions.c:354
+#2  0x5658b6b0 in adjust_member_binding_object (object=0x566195b4, binding=0x566195ec, pointer_conversion=1, derived_to_base=1, object_type=0x565f6530) at src/member-expressions.c:193
+#3  0x5658b53a in adjust_qualified_member_object (object=0x566195b4, member=0x56604224, pointer_conversion=1, derived_to_base=1, object_type=0x565f6530) at src/member-expressions.c:159
+#4  0x5658a045 in convert_class_pointer (expression=0x566195b4, type=0x565f6530, source=0x565f5530, path=0x56604224) at src/numeric-conversion.c:370
+#5  0x56589d61 in try_class_pointer_initializer (type=0x565f6530, expression=0x566195b4) at src/numeric-conversion.c:272
+#6  0x56589847 in convert_scalar_initializer (operation=1 '\001', type=0x565f6530, expression=0x566195b4) at src/numeric-conversion.c:196
+#7  0x5658a384 in convert_derived_initializer (type=0x565f6530, expression=0x566195b4) at src/numeric-conversion.c:325
+#8  0x56580c5c in convert_initializer (operation=1 '\001', type=0x565f6530, expression=0x566195b4) at src/constructor-initializers.c:570
+#9  0x5658323e in emit_member_and_base_destructors (tag=0x565f5444) at src/constructor-initializers.c:964
+#10 0x5658e954 in finish_function_body (recovering=0) at src/function-finalization.c:46
+#11 0x5658e7f4 in end_function_definition () at src/function-finalization.c:22
+#12 0x565986f4 in parse_translation_unit () at src/parser-declaration-actions.inc:30
+#13 0x5655dd16 in compile_translation_unit () at src/frontend.c:75
+#14 0x565587e6 in guarded_compile () at src/c1xx.c:28
+#15 0x565587b4 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20

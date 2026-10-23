@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 785,
+  "accepted": "_adjust_pointer_by_offset@12",
+  "terminal": "_new_cast_expression@8",
+  "original_capture": "cases/virtual-diamond-frontiers/0785-adjust_pointer_by_offset-12/original-receipt.json",
+  "original_capture_sha256": "cc81bb617c95a9b96d3596f26bb8d146490be1e9947165ce98a990a336ecb29e",
+  "original_events": "cases/virtual-diamond-frontiers/0785-adjust_pointer_by_offset-12/original-events.txt",
+  "original_events_sha256": "9e2f0ef5a666db9194ed7989f312fd5c63707926930e6d53a892be468c110d5e",
+  "original_configuration": "cases/virtual-diamond-frontiers/0785-adjust_pointer_by_offset-12/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

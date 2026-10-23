@@ -164,7 +164,6 @@ void __stdcall check_parameter_default(IrToken *expression, CType *type) { __asm
 void __stdcall clear_reference_cache(IrToken *expression) { __asm { int 3 } }
 void __stdcall concatenate_strings(ParserValue *destination, ParserValue *source) { __asm { int 3 } }
 void __stdcall record_conditional_cleanup(IrToken *expression) { __asm { int 3 } }
-IrToken * __stdcall convert_derived_initializer(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 CppSymbol * __stdcall find_copy_constructor(CType *type) { __asm { int 3 } return 0; }
 IrToken * __stdcall construct_copy_initializer(CppSymbol *constructor, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall declare_enumerator(char *name, CType *context, unsigned value) { __asm { int 3 } }
@@ -488,8 +487,6 @@ void __stdcall analyze_inline_parameter(CppSymbol *parameter) { __asm { int 3 } 
 
 void write_counted_ir(short length, char *text) { __asm { int 3 } }
 
-IrToken *__stdcall resolve_operator_expression(unsigned char operation, IrToken *left,
-    IrToken *right, unsigned arity, unsigned *failure) { __asm { int 3 } return 0; }
 int __stdcall report_operator_resolution_failure(unsigned char operation, unsigned char arity,
     unsigned failure, CType *left, CType *right) { __asm { int 3 } return 0; }
 
@@ -583,13 +580,11 @@ int __stdcall has_member_access_declaration(CppSymbol *owner, BaseClassLink *bas
 void __stdcall set_inherited_member_access_failure(CppSymbol *member, CppSymbol *base,
     unsigned char previous_access, unsigned char member_access, CppSymbol *previous_base) { __asm { int 3 } }
 
-IrToken *__stdcall adjust_pointer_by_offset(IrToken *object, unsigned displacement, CType *type) { __asm { int 3 } return 0; }
 
 int __stdcall has_assignment_member_model(CType *type) { __asm { int 3 } return 0; }
 void __stdcall report_conversion_rank_failure(unsigned char operation, unsigned rank,
     CType *target, CType *source) { __asm { int 3 } }
 
-IrToken *__stdcall new_cast_expression(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 int extended_to_integer(const Extended *value, long *result) { __asm { int 3 } return 0; }
 int integer_to_extended(const long *value, Extended *result) { __asm { int 3 } return 0; }
 int unsigned_to_extended(const unsigned long *value, Extended *result) { __asm { int 3 } return 0; }
@@ -629,7 +624,6 @@ int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3
 int __cdecl equal_word_triplets(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_word_pairs(void *left, void *right) { __asm { int 3 } return 0; }
 int __stdcall vector_contains(Vector *vector, void *item) { __asm { int 3 } return 0; }
-IrToken *__stdcall make_destructor_call(CppSymbol *tag, IrToken *object, int kind, int direct, int flags) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_array_destructor_call(IrToken *object) { __asm { int 3 } return 0; }
 IrToken *__stdcall convert_member_pointer_initializer(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall check_conversion_access(CppSymbol *conversion, CType *object_type) { __asm { int 3 } }
@@ -637,10 +631,17 @@ IrToken *__stdcall invoke_user_conversion(CppSymbol *conversion, IrToken *expres
 int __stdcall can_bind_conversion_reference(CType *reference, CType *value) { __asm { int 3 } return 0; }
 int __stdcall find_constructor_result_reference(IrToken *call, IrToken **reference) { __asm { int 3 } return 0; }
 void __stdcall cancel_temporary_cleanup(CppSymbol *symbol) { __asm { int 3 } }
-IrToken *__stdcall convert_class_pointer(IrToken *expression, CType *type, CType *source, QualifiedDeclarator *path) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_once_virtual_base_pointer(IrToken *object, CType *type, unsigned pointer_offset, unsigned table_offset, unsigned member_offset, CType *pointer_type, int check_null) { __asm { int 3 } return 0; }
 unsigned char *__stdcall copy_bytes_forward(unsigned char *destination, const unsigned char *source, unsigned bytes) { __asm { int 3 } return 0; }
 Extended *__stdcall save_extended_in_arena(Extended value, int arena) { __asm { int 3 } return 0; }
 void __stdcall collect_member_references(MemberReferenceGroup **groups, IrToken *expression) { __asm { int 3 } }
 ExpressionReference *__stdcall clone_expression_references(ExpressionReference *references, int arena) { __asm { int 3 } return 0; }
 unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *derived) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_null_member_pointer(CType *type) { __asm { int 3 } return 0; }
+IrToken *__stdcall convert_reference_initializer(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
+int __stdcall qualified_path_has_virtual_base(QualifiedDeclarator *path) { __asm { int 3 } return 0; }
+IrToken *__stdcall resolve_overloaded_arrow(IrToken *object) { __asm { int 3 } return 0; }
+OverloadSearch *__stdcall new_operator_search(unsigned char operation, IrToken *left, IrToken *right, CType *object_type) { __asm { int 3 } return 0; }
+int __stdcall rank_operator_operands(OverloadSearch *search, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_selected_operator_call(OverloadCandidate *candidate, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
+OverloadCandidate *__stdcall report_operator_overload_failure(OverloadSearch *search) { __asm { int 3 } return 0; }

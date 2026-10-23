@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 789,
+  "accepted": "_make_destructor_arguments@8",
+  "terminal": "_resolve_operator_expression@20",
+  "original_capture": "cases/virtual-diamond-frontiers/0789-make_destructor_arguments-8/original-receipt.json",
+  "original_capture_sha256": "28658780788bc44ffcefc3c94ee23be1d00f5d0c196d639cc3e1b3b94c9516dd",
+  "original_events": "cases/virtual-diamond-frontiers/0789-make_destructor_arguments-8/original-events.txt",
+  "original_events_sha256": "30be55d886a875d07ed4db6a67cbfca268d52edc1f7d00474c47d6aa645a640c",
+  "original_configuration": "cases/virtual-diamond-frontiers/0789-make_destructor_arguments-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

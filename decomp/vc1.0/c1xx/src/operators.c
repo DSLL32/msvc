@@ -2,6 +2,8 @@
 #include "operators.h"
 #include "keywords.h"
 #include "lexer.h"
+#include "call-expressions.h"
+#include "cpp-context.h"
 #include <recon.h>
 
 /* Original [0x61540,0x615dc). Some class operations have a builtin form
@@ -197,4 +199,81 @@ void __stdcall declare_operator_delete(unsigned short attributes)
     apply_declaration_type(&result, declaration);
     --type_description_depth;
     restore_declaration_context(saved_mode, saved_scope);
+}
+
+IrToken *__stdcall resolve_operator_overload(unsigned char operation, IrToken *left,
+    IrToken *right, unsigned arity, int diagnose, unsigned *failure);
+
+/* Original 0x77d00..0x77d22. The public expression path enables the
+   diagnostic/fallback policy while retaining the optional failure result. */
+IrToken *__stdcall resolve_operator_expression(unsigned char operation, IrToken *left,
+    IrToken *right, unsigned arity, unsigned *failure)
+{
+    return resolve_operator_overload(operation, left, right, arity, 1, failure);
+}
+
+IrToken *__stdcall resolve_overloaded_arrow(IrToken *object);
+OverloadSearch *__stdcall new_operator_search(unsigned char operation, IrToken *left,
+    IrToken *right, CType *object_type);
+int __stdcall rank_operator_operands(OverloadSearch *search, IrToken *left, IrToken *right);
+IrToken *__stdcall make_selected_operator_call(OverloadCandidate *candidate,
+    IrToken *left, IrToken *right);
+OverloadCandidate *__stdcall report_operator_overload_failure(OverloadSearch *search);
+
+/* Original 0x77aa0..0x77cf4. Postfix operators can fall back to prefix
+   overloads under extensions, with a class-name diagnostic. Other operators
+   retain their exclusions, arrow recursion, candidate-count/rank stages and
+   distinct failure codes. Failed stages retain their original cleanup policy. */
+IrToken *__stdcall resolve_operator_overload(unsigned char operation, IrToken *left,
+    IrToken *right, unsigned arity, int diagnose, unsigned *failure)
+{
+    IrToken *result;
+    OverloadSearch *search;
+    OverloadCandidate *candidate;
+    CType *object_type;
+    switch (operation) {
+    case 0x3f: case 0x59: case 0x5f: case 0x80: case 0x97: case 0x98: case 0x9d:
+        return 0;
+    case OP_POST_DECREMENT: case OP_POST_INCREMENT:
+        if (options.configuration.extensions_enabled && arity && diagnose) {
+            result = resolve_operator_overload(operation, left, operator_zero, 1, 0, 0);
+            if (result) return result;
+            result = resolve_operator_overload(operation == OP_POST_INCREMENT ?
+                OP_PRE_INCREMENT : OP_PRE_DECREMENT, left, right, 1, 0, 0);
+            if (result) {
+                compiler_warning(1, operation == OP_POST_INCREMENT ? 620 : 621,
+                    ((CppSymbol *)cpp_context_stack->items[left->type->field08])->name);
+                return result;
+            }
+        }
+        right = operator_zero;
+        break;
+    case OP_PRE_DECREMENT: case OP_PRE_INCREMENT:
+        right = 0;
+        break;
+    case OP_ARROW:
+        return resolve_overloaded_arrow(left);
+    }
+    object_type = arity ? left->type : 0;
+    search = new_operator_search(operation, left, right, object_type);
+    if (!search) {
+        if (failure) *failure = 0x2009;
+        return 0;
+    }
+    if (!validate_overload_counts(search)) {
+        if (failure) *failure = 0x2009;
+        return 0;
+    }
+    if (!rank_operator_operands(search, left, right)) {
+        if (failure) *failure = 0x200a;
+        return 0;
+    }
+    candidate = select_overload_candidate(search, failure, report_operator_overload_failure);
+    if (!candidate) {
+        if (failure && !*failure) *failure = 0x200b;
+        return 0;
+    }
+    result = make_selected_operator_call(candidate, left, right);
+    destroy_overload_search(search);
+    return result;
 }

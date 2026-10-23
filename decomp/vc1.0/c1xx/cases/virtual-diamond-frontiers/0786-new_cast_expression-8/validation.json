@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_new_cast_expression@8",
+    "start": 417920,
+    "end": 417940
+  },
+  "distinct_direct_callees": [
+    "_new_typed_unary_expression@12"
+  ],
+  "next_frontier": "_make_destructor_call@20",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4441676465794444,
+  "total_operation_seconds": 7.030286290682852,
+  "original_capture_seconds": 3.9769423874095082
+}

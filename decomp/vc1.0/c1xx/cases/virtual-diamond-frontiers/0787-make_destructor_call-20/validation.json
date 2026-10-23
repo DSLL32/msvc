@@ -1,0 +1,26 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_destructor_call@20",
+    "start": 241152,
+    "end": 241453
+  },
+  "distinct_direct_callees": [
+    "_begin_member_lookup@12",
+    "_build_call_expression@8",
+    "_capture_allocation_pointer@8",
+    "_clone_expression@8",
+    "_destructor_name@4",
+    "_expression_can_be_repeated@4",
+    "_guard_allocation_result@8",
+    "_identifier_expression@4",
+    "_make_destructor_arguments@8",
+    "_member_expression@12"
+  ],
+  "next_frontier": "_destructor_name@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4485345669090748,
+  "total_operation_seconds": 6.925850107334554,
+  "original_capture_seconds": 3.77503053098917
+}

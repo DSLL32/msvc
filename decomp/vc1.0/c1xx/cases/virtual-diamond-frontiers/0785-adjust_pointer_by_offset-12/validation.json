@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_adjust_pointer_by_offset@12",
+    "start": 202544,
+    "end": 202584
+  },
+  "distinct_direct_callees": [
+    "_make_integer_constant@4",
+    "_new_cast_expression@8",
+    "_new_left_typed_expression@12"
+  ],
+  "next_frontier": "_new_cast_expression@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4424181105569005,
+  "total_operation_seconds": 7.81014337297529,
+  "original_capture_seconds": 4.677580804564059
+}

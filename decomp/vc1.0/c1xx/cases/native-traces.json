@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "0308e822e363a3a19b47433acadcb72b39dd0e470d96d4503fe7618c248aee29",
+    "functions.json": "132f18f8167742e44c3c7decf8d1c930ef1b64a95f039a7c9368599fdf0e2025",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
     "evidence/fast-replay-verification-receipt.json": "c31482ee4affd1e136825beb31be9913d71a704a1e90d58019c14ff6aa5ee3a9",
-    "cases/canonical-map.txt": "fdc6ac326520afa810b8c2fd2632136f1e6f0d46aa117a91628a3d04bfc1d375",
+    "cases/canonical-map.txt": "bad673b76516a8b45d82020c7fd593f7593a2823abd9552ae26fa5fa00b71c38",
     "cases/object-initializer-trial/frontier-extension.json": "becd7ed4c01caf94840212178315dc3408afe064c6015a7e8bc018fc351b5e94",
     "cases/object-initializer-trial/original-after-receipt.json": "176547f9f659647df53a08f0fecd273770df2d835b4024ee89dcfc75f492ccc3",
     "cases/object-initializer-trial/original-after-events.txt": "a83f5c103dc0cb7c85479b1e6a0cbb6e65de66cf376c0cc858d2c075f45ddc17",
@@ -1004,7 +1004,43 @@
     "cases/virtual-diamond-frontiers/0782-reject_member_pointer_arithmetic-4/original-configuration.json": "233f81db16476d1a86a4472197154f41aad75a7e17df3f3363fc3284a8457bdd",
     "cases/virtual-diamond-frontiers/0782-reject_member_pointer_arithmetic-4/frontier-extension.json": "6cae65e1e1a289d5cab197f23ec1ade0ebba836124579b28eccdeeb12df015ce",
     "cases/virtual-diamond-frontiers/0782-reject_member_pointer_arithmetic-4/original-receipt.json": "b49b1e76e771f5d55b7bdbce717d8d3e3750163140f7b7316bd9d56bc91bfe15",
-    "cases/virtual-diamond-frontiers/0782-reject_member_pointer_arithmetic-4/original-events.txt": "e6388347b8e4db2e843c1d1c1d96fb266bd7bac2a3f46798d56148d0ac4ebd04"
+    "cases/virtual-diamond-frontiers/0782-reject_member_pointer_arithmetic-4/original-events.txt": "e6388347b8e4db2e843c1d1c1d96fb266bd7bac2a3f46798d56148d0ac4ebd04",
+    "cases/virtual-diamond-frontiers/0783-convert_derived_initializer-8/original-configuration.json": "2aeb8915b1bd2ccfd2e0ede0fb2f4a3a46695d8c8e421fa6cca7aa1d54f28807",
+    "cases/virtual-diamond-frontiers/0783-convert_derived_initializer-8/frontier-extension.json": "ab521e3441c85c6dacea7b1a8ff103b42bae219f6509661af53748eb29d50d09",
+    "cases/virtual-diamond-frontiers/0783-convert_derived_initializer-8/original-receipt.json": "b37b61a1b1891eb753abcfb5642fd8a57f22b6942cc7d833234150814c1c5c6f",
+    "cases/virtual-diamond-frontiers/0783-convert_derived_initializer-8/original-events.txt": "de4bb1d917b63ff87f9247051fb83469dda601f5b5a4a9356dc784e73dd09b3a",
+    "cases/virtual-diamond-frontiers/0784-convert_class_pointer-16/original-configuration.json": "3730377e51bbe9f8c8361c59ace06efdeafe0645c68061be33e2ba6046900732",
+    "cases/virtual-diamond-frontiers/0784-convert_class_pointer-16/frontier-extension.json": "2a1223bf24d41fd6301304b3bd4e2d843f095d9df7f251405d412fbaf5a929b7",
+    "cases/virtual-diamond-frontiers/0784-convert_class_pointer-16/original-receipt.json": "6bef74eca0e4c0416d640f2426243256049369eccbd778e413378ed9fee1dd31",
+    "cases/virtual-diamond-frontiers/0784-convert_class_pointer-16/original-events.txt": "c0fca7d470909a84ab21e4586698c9962af1b65e9371b220fa3df1e6a7ad28f3",
+    "cases/virtual-diamond-frontiers/0785-adjust_pointer_by_offset-12/original-configuration.json": "40bb124c3f7b42d10b3e7b52fb843a34a8ab3ee69f4827ed38b10277721b2024",
+    "cases/virtual-diamond-frontiers/0785-adjust_pointer_by_offset-12/frontier-extension.json": "c25a83c3326afb089bd10b95683a90c89590909dbaa75068dc209c67b53bbe1a",
+    "cases/virtual-diamond-frontiers/0785-adjust_pointer_by_offset-12/original-receipt.json": "cc81bb617c95a9b96d3596f26bb8d146490be1e9947165ce98a990a336ecb29e",
+    "cases/virtual-diamond-frontiers/0785-adjust_pointer_by_offset-12/original-events.txt": "9e2f0ef5a666db9194ed7989f312fd5c63707926930e6d53a892be468c110d5e",
+    "cases/virtual-diamond-frontiers/0786-new_cast_expression-8/original-configuration.json": "3808b04d53f8d167cdc7c8a5076a3342af356a353c627b49a34d558c9529b9af",
+    "cases/virtual-diamond-frontiers/0786-new_cast_expression-8/frontier-extension.json": "3e8f13302c2aa9aa4addf927e32f70875fa6ceafda8f599cae9adb605e05709a",
+    "cases/virtual-diamond-frontiers/0786-new_cast_expression-8/original-receipt.json": "03192d567d38ea9fab727b0e320db3c0252d778b3beec77a220c8d61a1fe9572",
+    "cases/virtual-diamond-frontiers/0786-new_cast_expression-8/original-events.txt": "8c520e245722f01aeeeb99ed3dc79c639717ef038d816ae992ff20f1e62c3af4",
+    "cases/virtual-diamond-frontiers/0787-make_destructor_call-20/original-configuration.json": "565999c7bcf371111b4f6d8f76337a52b60128f1d03922c71ebcf91c3979a372",
+    "cases/virtual-diamond-frontiers/0787-make_destructor_call-20/frontier-extension.json": "4f01043e1a9a9733e58db1242193fa70954d06b6682208bf909d4ae541cfb881",
+    "cases/virtual-diamond-frontiers/0787-make_destructor_call-20/original-receipt.json": "b7ddf893bb44cfca8882da1653b6c4d6a298f24662233b5b346ad18ce80d8e28",
+    "cases/virtual-diamond-frontiers/0787-make_destructor_call-20/original-events.txt": "bd20856991214219f1f19b382c2994a40a639348a24f6c57cfb07caa65d8f169",
+    "cases/virtual-diamond-frontiers/0788-destructor_name-4/original-configuration.json": "380a740a40ca2dce17856a9d603b82f7488040cf67c47f3e83c87ca98732c4f4",
+    "cases/virtual-diamond-frontiers/0788-destructor_name-4/frontier-extension.json": "3dcd7d2137d99232ad38c947c4a1536308e23e795e4e77526607050657c3a999",
+    "cases/virtual-diamond-frontiers/0788-destructor_name-4/original-receipt.json": "e4bfac500521144ff57b914be90b864b3f85526a03513301be745d394a808016",
+    "cases/virtual-diamond-frontiers/0788-destructor_name-4/original-events.txt": "89ba0aed495b7355bae890b4feb579ea930e871011d8e49d851deaa60088d439",
+    "cases/virtual-diamond-frontiers/0789-make_destructor_arguments-8/original-configuration.json": "239926bb9bfcdc2b7bdee2229ad3f0b8ad572883160b228fa87205199d80f3df",
+    "cases/virtual-diamond-frontiers/0789-make_destructor_arguments-8/frontier-extension.json": "afade4eb690773f2e2dcf63c1cd843292e51fdcc23a70fe2aadf78c34287abe0",
+    "cases/virtual-diamond-frontiers/0789-make_destructor_arguments-8/original-receipt.json": "28658780788bc44ffcefc3c94ee23be1d00f5d0c196d639cc3e1b3b94c9516dd",
+    "cases/virtual-diamond-frontiers/0789-make_destructor_arguments-8/original-events.txt": "30be55d886a875d07ed4db6a67cbfca268d52edc1f7d00474c47d6aa645a640c",
+    "cases/virtual-diamond-frontiers/0790-resolve_operator_expression-20/original-configuration.json": "027abb709907545af49472bd347f0898083465e43fa8f3233c489ad3288ebe74",
+    "cases/virtual-diamond-frontiers/0790-resolve_operator_expression-20/frontier-extension.json": "39050c5fb1fdc9b82fb343c04ae022f59287e06b44f258f6e196842af61b2fb4",
+    "cases/virtual-diamond-frontiers/0790-resolve_operator_expression-20/original-receipt.json": "7fe3791e0e3d858aee3cb69d3332f492becfcad2bfce59fd80f6927e4f2ae284",
+    "cases/virtual-diamond-frontiers/0790-resolve_operator_expression-20/original-events.txt": "52a8ed84f48fcc0cb1b3fc6bddf15aff26ae355ff9ca6c97f26268f686732a8d",
+    "cases/virtual-diamond-frontiers/0791-resolve_operator_overload-24/original-configuration.json": "a583e7091198b59cec6a05ea30d24adc13754711f908381e020d5f8d3621973d",
+    "cases/virtual-diamond-frontiers/0791-resolve_operator_overload-24/frontier-extension.json": "d019fe182ef4b298ce681c145bb484d49cdf15147d1f9d5ace3c8e8fb85dfd7e",
+    "cases/virtual-diamond-frontiers/0791-resolve_operator_overload-24/original-receipt.json": "26d739fbdc28f7f6892334d21a94442773075d9e4abbc3d32f07058f378a328a",
+    "cases/virtual-diamond-frontiers/0791-resolve_operator_overload-24/original-events.txt": "923ac074cd65831dc49dc555334403bd4bd747906ee5ea42f92ddaa5d05c7271"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1069,7 +1105,7 @@
     },
     "adjust_pointer_by_offset": {
       "logical": "_adjust_pointer_by_offset@12",
-      "source": "src/stubs.c"
+      "source": "src/member-expressions.c"
     },
     "adjust_qualified_member_object": {
       "logical": "_adjust_qualified_member_object@20",
@@ -1985,7 +2021,7 @@
     },
     "convert_class_pointer": {
       "logical": "_convert_class_pointer@16",
-      "source": "src/stubs.c"
+      "source": "src/numeric-conversion.c"
     },
     "convert_deferred_type_token": {
       "logical": "_convert_deferred_type_token@8",
@@ -1993,7 +2029,7 @@
     },
     "convert_derived_initializer": {
       "logical": "_convert_derived_initializer@8",
-      "source": "src/stubs.c"
+      "source": "src/numeric-conversion.c"
     },
     "convert_initializer": {
       "logical": "_convert_initializer@12",
@@ -2022,6 +2058,10 @@
     "convert_pointer_operands": {
       "logical": "_convert_pointer_operands@12",
       "source": "src/binary-expressions.c"
+    },
+    "convert_reference_initializer": {
+      "logical": "_convert_reference_initializer@8",
+      "source": "src/stubs.c"
     },
     "convert_scalar_initializer": {
       "logical": "_convert_scalar_initializer@12",
@@ -2282,6 +2322,10 @@
     "destroy_overload_search": {
       "logical": "_destroy_overload_search@4",
       "source": "src/call-expressions.c"
+    },
+    "destructor_name": {
+      "logical": "_destructor_name@4",
+      "source": "src/constructor-initializers.c"
     },
     "detach_expression_symbols": {
       "logical": "_detach_expression_symbols",
@@ -3743,9 +3787,13 @@
       "logical": "_make_deleting_destructors@12",
       "source": "src/special-members.c"
     },
+    "make_destructor_arguments": {
+      "logical": "_make_destructor_arguments@8",
+      "source": "src/constructor-initializers.c"
+    },
     "make_destructor_call": {
       "logical": "_make_destructor_call@20",
-      "source": "src/stubs.c"
+      "source": "src/constructor-initializers.c"
     },
     "make_ellipsis_parameter": {
       "logical": "_make_ellipsis_parameter",
@@ -3779,6 +3827,10 @@
       "logical": "_make_missing_function_declaration",
       "source": "src/stubs.c"
     },
+    "make_null_member_pointer": {
+      "logical": "_make_null_member_pointer@4",
+      "source": "src/stubs.c"
+    },
     "make_object_constructor_call": {
       "logical": "_make_object_constructor_call@28",
       "source": "src/allocation-expressions.c"
@@ -3802,6 +3854,10 @@
     "make_resolved_call": {
       "logical": "_make_resolved_call@20",
       "source": "src/call-expressions.c"
+    },
+    "make_selected_operator_call": {
+      "logical": "_make_selected_operator_call@12",
+      "source": "src/stubs.c"
     },
     "make_size_constant": {
       "logical": "_make_size_constant@4",
@@ -4105,7 +4161,7 @@
     },
     "new_cast_expression": {
       "logical": "_new_cast_expression@8",
-      "source": "src/stubs.c"
+      "source": "src/numeric-conversion.c"
     },
     "new_declarator": {
       "logical": "_new_declarator@4",
@@ -4146,6 +4202,10 @@
     "new_literal_constant": {
       "logical": "_new_literal_constant@8",
       "source": "src/constants.c"
+    },
+    "new_operator_search": {
+      "logical": "_new_operator_search@16",
+      "source": "src/stubs.c"
     },
     "new_overload_search": {
       "logical": "_new_overload_search",
@@ -4515,6 +4575,10 @@
       "logical": "_qualified_member_is_accessible@4",
       "source": "src/member-access.c"
     },
+    "qualified_path_has_virtual_base": {
+      "logical": "_qualified_path_has_virtual_base@4",
+      "source": "src/stubs.c"
+    },
     "qualifier_path_is_hidden": {
       "logical": "_qualifier_path_is_hidden@8",
       "source": "src/stubs.c"
@@ -4542,6 +4606,10 @@
     "rank_conversion_qualifiers": {
       "logical": "_rank_conversion_qualifiers@12",
       "source": "src/constructor-initializers.c"
+    },
+    "rank_operator_operands": {
+      "logical": "_rank_operator_operands@12",
+      "source": "src/stubs.c"
     },
     "rank_overload_arguments": {
       "logical": "_rank_overload_arguments@12",
@@ -4883,6 +4951,10 @@
       "logical": "_report_named_type_difference@20",
       "source": "src/stubs.c"
     },
+    "report_operator_overload_failure": {
+      "logical": "_report_operator_overload_failure@4",
+      "source": "src/stubs.c"
+    },
     "report_operator_resolution_failure": {
       "logical": "_report_operator_resolution_failure@20",
       "source": "src/stubs.c"
@@ -5009,10 +5081,18 @@
     },
     "resolve_operator_expression": {
       "logical": "_resolve_operator_expression@20",
-      "source": "src/stubs.c"
+      "source": "src/operators.c"
+    },
+    "resolve_operator_overload": {
+      "logical": "_resolve_operator_overload@24",
+      "source": "src/operators.c"
     },
     "resolve_overload_tie": {
       "logical": "_resolve_overload_tie@4",
+      "source": "src/stubs.c"
+    },
+    "resolve_overloaded_arrow": {
+      "logical": "_resolve_overloaded_arrow@4",
       "source": "src/stubs.c"
     },
     "resolve_overloaded_initializer": {
@@ -6278,7 +6358,16 @@
     "type_has_base_relation",
     "tag_has_base_relation",
     "find_named_class_binding",
-    "reject_member_pointer_arithmetic"
+    "reject_member_pointer_arithmetic",
+    "convert_derived_initializer",
+    "convert_class_pointer",
+    "adjust_pointer_by_offset",
+    "new_cast_expression",
+    "make_destructor_call",
+    "destructor_name",
+    "make_destructor_arguments",
+    "resolve_operator_expression",
+    "resolve_operator_overload"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6947,7 +7036,7 @@
     },
     "virtual_diamond": {
       "first": 643,
-      "last": 783,
+      "last": 792,
       "seen": [
         "main",
         "message_text",
@@ -7641,12 +7730,21 @@
         "tag_has_base_relation",
         "find_named_class_binding",
         "reject_member_pointer_arithmetic",
-        "convert_derived_initializer"
+        "convert_derived_initializer",
+        "convert_class_pointer",
+        "adjust_pointer_by_offset",
+        "new_cast_expression",
+        "make_destructor_call",
+        "destructor_name",
+        "make_destructor_arguments",
+        "resolve_operator_expression",
+        "resolve_operator_overload",
+        "new_operator_search"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_convert_derived_initializer@8",
-        "native": "convert_derived_initializer",
+        "logical": "_new_operator_search@16",
+        "native": "new_operator_search",
         "signal": 5
       }
     }

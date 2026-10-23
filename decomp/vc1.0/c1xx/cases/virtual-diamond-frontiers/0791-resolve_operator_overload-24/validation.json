@@ -1,0 +1,25 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_resolve_operator_overload@24",
+    "start": 490144,
+    "end": 490741
+  },
+  "distinct_direct_callees": [
+    "_compiler_warning",
+    "_destroy_overload_search@4",
+    "_make_selected_operator_call@12",
+    "_new_operator_search@16",
+    "_rank_operator_operands@12",
+    "_resolve_operator_overload@24",
+    "_resolve_overloaded_arrow@4",
+    "_select_overload_candidate@12",
+    "_validate_overload_counts@4"
+  ],
+  "next_frontier": "_new_operator_search@16",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.44512028247117996,
+  "total_operation_seconds": 7.749661601148546,
+  "original_capture_seconds": 4.677325313910842
+}

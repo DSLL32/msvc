@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_destructor_arguments@8",
+    "start": 241456,
+    "end": 241533
+  },
+  "distinct_direct_callees": [
+    "_append_expression@12",
+    "_make_integer_constant@4"
+  ],
+  "next_frontier": "_resolve_operator_expression@20",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.44676138181239367,
+  "total_operation_seconds": 7.760206755250692,
+  "original_capture_seconds": 4.5769154485315084
+}

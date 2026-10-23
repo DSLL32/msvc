@@ -5,6 +5,7 @@
 #include "operators.h"
 #include "unary-expressions.h"
 #include "return-statements.h"
+#include "numeric-conversion.h"
 #include <recon.h>
 
 IrToken *__stdcall enumerator_expression(CppSymbol *symbol);
@@ -342,4 +343,13 @@ IrToken *__stdcall make_virtual_base_displacement(IrToken *object,
     value = make_member_at_offset(value, table_offset, pointer_type);
     integer = builtin_integer_type();
     return new_typed_unary_expression(0x46, integer, value);
+}
+
+/* Original 0x31730..0x31757. The internal pointer-adjustment node
+   retains the object's type until the separate target cast is constructed. */
+IrToken *__stdcall adjust_pointer_by_offset(IrToken *object, unsigned displacement, CType *type)
+{
+    IrToken *offset = make_integer_constant(displacement);
+    IrToken *adjusted = new_left_typed_expression(0xa9, object, offset);
+    return new_cast_expression(type, adjusted);
 }

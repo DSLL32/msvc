@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.191100479103625,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-resolve-operator-overload-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 5.778190854005516,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-resolve-operator-overload-canonical.log"
+  }
+]

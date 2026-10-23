@@ -12,6 +12,7 @@
 #include "operators.h"
 #include "unary-expressions.h"
 #include "call-expressions.h"
+#include "object-initializers.h"
 #include <recon.h>
 
 typedef char InitializerClassTrivialOffsetMustBe54[
@@ -1123,4 +1124,72 @@ int __stdcall tag_has_base_relation(CppSymbol *derived, CppSymbol *base)
 {
     if (base == derived) return 1;
     return lookup_class_name(derived, base->name, 1, 0) ? 1 : 0;
+}
+
+char *__stdcall destructor_name(int kind);
+IrToken *__stdcall make_destructor_arguments(int kind, int flags);
+
+/* Original 0x3ae00..0x3af2c. Destructor variants share ordinary member
+   lookup/call binding. Deleting forms preserve a repeatable object or capture
+   it once before lookup, then guard the resulting call when required. The
+   already-bound mode is bit 0x100 of the high parser-flag word (0x9f796). */
+IrToken *__stdcall make_destructor_call(CppSymbol *tag, IrToken *object,
+    int kind, int direct, int flags)
+{
+    IrToken *saved = 0, *designator, *arguments, *result;
+    unsigned char operation;
+    int lookup_object = !(cpp_parser_flags & 0x01000000UL);
+    cpp_parser_flags &= ~0x01000000UL;
+    if (kind == 1 && !(tag->detail.class_info->flags & 0x20)) kind = 3;
+    else if (kind == 3 && (tag->detail.class_info->flags & 0x20)) kind = 2;
+    if (lookup_object) {
+        if (kind == 4 || kind == 5) {
+            if (expression_can_be_repeated(object)) saved = clone_expression(object, 0);
+            else capture_allocation_pointer(&saved, &object);
+        }
+        object = begin_member_lookup(0x5c, object, 1);
+    }
+    designator = identifier_expression(destructor_name(kind));
+    if (direct)
+        ((CppSymbol *)designator->value.pointer)->declaration_flags |= 0x800;
+    if (lookup_object) {
+        arguments = make_destructor_arguments(kind, flags);
+        operation = 0x5c;
+    } else {
+        arguments = make_destructor_arguments(kind, 0);
+        operation = class_lookup_operator;
+    }
+    result = member_expression(operation, object, designator);
+    result = build_call_expression(result, arguments);
+    if (lookup_object && (kind == 4 || kind == 5) && result && object != result)
+        result = guard_allocation_result(saved, result);
+    return result;
+}
+
+/* Original 0x385a0..0x385e7. These interned identifiers are shared
+   with member declaration and mangling, so preserve their pointer identities. */
+char *__stdcall destructor_name(int kind)
+{
+    switch (kind) {
+    case 1: case 3: return name_dtor;
+    case 2: return name_vbase_dtor;
+    case 4: return name_delete_dtor;
+    case 5: return name_vector_delete_dtor;
+    }
+    return 0;
+}
+
+/* Original 0x3af30..0x3af7c. Only deleting variants receive a flags
+   argument. The original allocates an unsigned-typed constant, then separately
+   allocates the actual integer argument; retain both allocations and that first
+   type assignment rather than folding away their arena effects. */
+IrToken *__stdcall make_destructor_arguments(int kind, int flags)
+{
+    unsigned value = (kind == 5 ? 2U : 0U) | (flags != 0);
+    IrToken *unused, *argument;
+    if (kind != 4 && kind != 5) return 0;
+    unused = make_integer_constant(value);
+    unused->type = type_4064_first;
+    argument = make_integer_constant(value);
+    return append_expression(0, argument, 2);
 }
