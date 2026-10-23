@@ -45,10 +45,10 @@ int main(int argc,char **argv)
     }
     if (!strcmp(argv[1],"redirect")) {
         fd=recon_open("redirect.bin",0x8301,0600);
-        if (fd<0 || recon_set_osfhnd(1,recon_get_osfhandle(fd))) return 91;
+        if (fd<0 || recon_free_osfhnd(1) || recon_set_osfhnd(1,recon_get_osfhandle(fd))) return 91;
     }
     if (!strcmp(argv[1],"merge") || !strcmp(argv[1],"redirect"))
-        if (recon_set_osfhnd(2,recon_get_osfhandle(1))) return 92;
+        if (recon_free_osfhnd(2) || recon_set_osfhnd(2,recon_get_osfhandle(1))) return 92;
     args[0]=!strcmp(argv[1],"self")?recon_pgmptr:
         !strcmp(argv[1],"native")?argv[0]:"external.exe";
     args[1]="child"; args[2]=NULL;

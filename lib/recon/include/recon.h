@@ -165,7 +165,7 @@ ShimFILE *recon_openfile(const char *,const char *,int,ShimFILE *);
 int recon_read(int,void *,unsigned),recon_write(int,const void *,unsigned),recon_close(int);
 long recon_lseek(int,long,int),recon_tell(int),recon_filelength(int);
 int recon_chsize(int,long),recon_access(const char *,int),recon_stat(const char *,struct recon_stat *);
-int recon_alloc_osfhnd(void),recon_set_osfhnd(int,long);
+int recon_alloc_osfhnd(void),recon_set_osfhnd(int,long),recon_free_osfhnd(int);
 long recon_get_osfhandle(int);
 void recon_dosmaperr(unsigned long),recon_getbuf(ShimFILE *),recon_freebuf(ShimFILE *);
 int recon_flush(ShimFILE *),recon_filbuf(ShimFILE *);
@@ -383,6 +383,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _stat recon_stat
 #define _alloc_osfhnd recon_alloc_osfhnd
 #define _set_osfhnd recon_set_osfhnd
+#define _free_osfhnd recon_free_osfhnd
 #define _get_osfhandle recon_get_osfhandle
 #define _dosmaperr recon_dosmaperr
 #define _getbuf recon_getbuf

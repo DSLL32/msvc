@@ -349,11 +349,11 @@ BOOL WINAPI recon_CloseHandle(HANDLE handle)
 {
     Mapping **p,*m; int fd;
     for (p=&mappings;(m=*p)!=NULL;p=&m->next) if ((HANDLE)m==handle) {
-        *p=m->next; close(m->fd); free(m); last_error=0; return TRUE;
+        *p=m->next; close(m->fd); free(m); return TRUE;
     }
     fd=handle_fd(handle); if (fd<0) return FALSE;
     if (close(fd)<0) { last_error=error_code(errno); return FALSE; }
-    last_error=0; return TRUE;
+    return TRUE;
 }
 DWORD WINAPI recon_GetFileSize(HANDLE handle,LPDWORD high)
 {

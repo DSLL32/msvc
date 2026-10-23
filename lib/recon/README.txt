@@ -492,3 +492,13 @@ the existing strict codepage/locale guard. _mbspbrk and _mbsnbicmp currently hav
 SDK-typed surfaces; _mbspbrk remains unsupported. _mbsnbicmp now supports
 the verified CP0/SBCS/C-locale ASCII path, folding A..Z and returning normalized
 -1/0/+1 within bytecount/NUL bounds (count0 returns0 before dereferencing).
+
+Lowio alloc marks the selected OS-handle slot invalid (-1) without publishing
+FOOPEN; set requires that sentinel, and free relinquishes ownership without
+closing the OS handle. For fd0..2, set/free update the Win32 standard table at
+those transitions. Close avoids double-closing an inherited stdout/stderr alias,
+then frees ownership and clears flags. Fclose retains the original FILE index
+and other untouched fields; freebuf changes only active owned buffers, and
+freopen stops after close failure. Successful CloseHandle preserves LastError.
+Original whole CRT bodies plus real closed/reopened stdout state prove this;
+focused/default/stdio/onexit/stream checks and all95 finished native cases pass.

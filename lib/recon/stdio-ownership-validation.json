@@ -1,0 +1,47 @@
+{
+  "scope": "Canonical lowio standarddescriptor ownership, retained FILE fields and successful close errors",
+  "native_build_checks_seconds": {
+    "gcc": 2.1043168352916837,
+    "clang": 2.482954090461135
+  },
+  "finished_native_regression": {
+    "status": "passed",
+    "cases": 95,
+    "receipt": "/root/.ai-tmp/msvc2/recon-maintenance/stdio-ownership-regression/receipt.json",
+    "receipt_sha256": "191a61aa64d1dd4d3e75fbcdfe3194d5bd95d32751dda49b45745e543af0a9c8",
+    "source_hashes_stable": true,
+    "shared_snapshot": "/root/.ai-tmp/msvc2/recon-maintenance/stdio-ownership-regression/shared-snapshot",
+    "runs": [
+      {
+        "binary": "cl",
+        "cases": 57,
+        "build_seconds": 1.622726378031075,
+        "fixture_wrapper_seconds": 3.2957444889470935,
+        "setup_seconds": 1.0916538201272488,
+        "execution_seconds": 1.4764094669371843,
+        "checks_seconds": 0.34114732779562473,
+        "elf_sha256": "86cef7db9d980fb169581bedd6abc6a380da577f925cbd218029ff864637de4a"
+      },
+      {
+        "binary": "rc",
+        "cases": 18,
+        "build_seconds": 2.598525890149176,
+        "fixture_wrapper_seconds": 2.4778928011655807,
+        "setup_seconds": 0.16570604778826237,
+        "execution_seconds": 2.1503925127908587,
+        "checks_seconds": 0.019770273938775063,
+        "elf_sha256": "27fad376426b08df45267613198df61cc6d44af58aa8d1a8e8757c11ec442bc2"
+      },
+      {
+        "binary": "rcpp",
+        "cases": 20,
+        "build_seconds": 2.170089179649949,
+        "fixture_wrapper_seconds": 0.38672318123281,
+        "setup_seconds": 0.1602332815527916,
+        "execution_seconds": 0.11595562752336264,
+        "checks_seconds": 0.03573992941528559,
+        "elf_sha256": "b1e50d67e0cc3cd6fe85234e110aea1fb1ca76c122caeeaae94c2fa775c0cd90"
+      }
+    ]
+  }
+}

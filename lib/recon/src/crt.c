@@ -262,13 +262,22 @@ void recon_dosmaperr(unsigned long code)
 int recon_alloc_osfhnd(void)
 {
     unsigned n;
-    for (n=0;n<recon_nhandle;++n) if (!recon_osfile[n]) { recon_osfile[n]=1; return n; }
+    for (n=0;n<recon_nhandle;++n) if (!(recon_osfile[n]&1)) { os_handles[n]=-1; return n; }
     errno=EMFILE; return -1;
 }
 int recon_set_osfhnd(int fd,long handle)
 {
-    if ((unsigned)fd>=recon_nhandle) { errno=EBADF; return -1; }
+    if ((unsigned)fd>=recon_nhandle || os_handles[fd]!=-1) { errno=EBADF; recon_doserrno=0; return -1; }
+    if (fd<3) recon_SetStdHandle((DWORD)(-10-fd),(HANDLE)handle);
     os_handles[fd]=handle; return 0;
+}
+int recon_free_osfhnd(int fd)
+{
+    if ((unsigned)fd>=recon_nhandle || !(recon_osfile[fd]&1) || os_handles[fd]==-1) {
+        errno=EBADF; recon_doserrno=0; return -1;
+    }
+    if (fd<3) recon_SetStdHandle((DWORD)(-10-fd),NULL);
+    os_handles[fd]=-1; return 0;
 }
 long recon_get_osfhandle(int fd)
 {
@@ -416,7 +425,7 @@ WEAK int recon_sopen(const char *name,int mode,int sharing,...)
     if (handle==INVALID_HANDLE_VALUE) { recon_dosmaperr(recon_GetLastError()); return -1; }
     fd=recon_alloc_osfhnd();
     if (fd<0) { recon_CloseHandle(handle); return -1; }
-    os_handles[fd]=(long)handle;
+    if (recon_set_osfhnd(fd,(long)handle)) recon_unsupported("sopen descriptor ownership");
     recon_osfile[fd]=1|((mode&0x8000)?0:(mode&0x4000 || recon_fmode!=0x8000)?0x80:0);
     if (mode&8) recon_osfile[fd]|=0x20;
     pushed_byte[fd]=-1;
@@ -454,9 +463,15 @@ int recon_chsize(int fd,long length)
 }
 int recon_close(int fd)
 {
+    DWORD error=0;
     if (!valid_descriptor(fd)) return -1;
-    if (!recon_CloseHandle((HANDLE)os_handles[fd])) { recon_dosmaperr(recon_GetLastError()); return -1; }
-    recon_osfile[fd]=0; os_handles[fd]=0; pushed_byte[fd]=-1; return 0;
+    /* Startup may intentionally give stdout and stderr the same OS HANDLE. */
+    if (!((fd==1 || fd==2) && os_handles[1]==os_handles[2])) {
+        if (!recon_CloseHandle((HANDLE)os_handles[fd])) error=recon_GetLastError();
+    }
+    recon_free_osfhnd(fd);
+    if (error) { recon_dosmaperr(error); return -1; }
+    recon_osfile[fd]=0; pushed_byte[fd]=-1; return 0;
 }
 static int read_raw(int fd,void *buffer,unsigned count)
 {
@@ -596,13 +611,13 @@ WEAK void recon_getbuf(ShimFILE *s)
 }
 WEAK void recon_freebuf(ShimFILE *s)
 {
-#ifdef RECON_CRT_PROFILE_MSVCRT_510
     if (!(s->_flag&0x83) || !(s->_flag&8)) return;
     free(s->_base);
-    s->_base=s->_ptr=NULL; s->_cnt=0; s->_flag&=~0x408;
+    s->_base=s->_ptr=NULL; s->_cnt=0;
+#ifdef RECON_CRT_PROFILE_MSVCRT_510
+    s->_flag&=~0x408;
 #else
-    if (s->_flag&8) free(s->_base);
-    s->_base=s->_ptr=NULL; s->_cnt=0; s->_flag&=~8;
+    s->_flag&=~8;
 #endif
 }
 int recon_flush(ShimFILE *s)
@@ -758,8 +773,13 @@ ShimFILE *recon_fopen(const char *name,const char *mode)
 }
 WEAK int recon_fclose(ShimFILE *s)
 {
-    int result=recon_flush(s),closed=recon_close(s->_file);
-    recon_freebuf(s); memset(s,0,sizeof(*s)); return result || closed?EOF:0;
+    int result=EOF;
+    if (!(s->_flag&0x40) && (s->_flag&0x83)) {
+        result=recon_flush(s); recon_freebuf(s);
+        if (recon_close(s->_file)<0) result=EOF;
+        else if (s->_tmpfname) free(s->_tmpfname);
+    }
+    s->_flag=0; return result;
 }
 WEAK int recon_setvbuf(ShimFILE *s,char *buffer,int mode,size_t size)
 {
@@ -1206,7 +1226,8 @@ void recon_qsort(void *array,size_t count,size_t width,int (*compare)(const void
 /* CRT variants supplied by a target override these native fallbacks. */
 ShimFILE *recon_freopen(const char *name,const char *mode,ShimFILE *stream)
 {
-    if (stream->_flag) recon_fclose(stream);
+    if ((stream->_flag&0x83) && recon_fclose(stream)==EOF) return NULL;
+    stream->_base=stream->_ptr=NULL; stream->_cnt=stream->_flag=0;
     return recon_openfile(name,mode,0x40,stream);
 }
 void recon_setbuf(ShimFILE *stream,char *buffer)
@@ -1244,7 +1265,8 @@ int recon_dup(int source)
     dest=recon_alloc_osfhnd(); if (dest<0) return -1;
     fd=dup((int)os_handles[source]-1);
     if (fd<0) { recon_osfile[dest]=0; return -1; }
-    os_handles[dest]=fd+1; recon_osfile[dest]=recon_osfile[source];
+    if (recon_set_osfhnd(dest,fd+1)) recon_unsupported("dup descriptor ownership");
+    recon_osfile[dest]=recon_osfile[source];
     return dest;
 }
 int recon_dup2(int source,int dest)
