@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 8.312174147926271,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-append-symbol-destructor-header-retry-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 9.386410228908062,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-append-symbol-destructor-header-retry-canonical.log"
+  }
+]

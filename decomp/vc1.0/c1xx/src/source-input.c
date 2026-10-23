@@ -6,6 +6,7 @@
 #include <share.h>
 #include "source-input.h"
 #include "lexer.h"
+#include "text-format.h"
 #include <recon.h>
 #undef _fileno
 
@@ -266,4 +267,25 @@ unsigned char close_source_file(void)
         open_forced_include(current_forced_source, 0);
     }
     return 1;
+}
+
+/* Original 0x1ee00..0x1eec5. Emit the current source position either to
+   the preprocessor stream or to the captured inline-member text stack. The
+   quoted filename helper returns an end pointer rather than adding a NUL. */
+void emit_line_directive(void)
+{
+    char line[16], *end;
+    unsigned length;
+    format_text(line, "#line %d ", source_line_number + 1);
+    end = quote_source_filename(token_text, source_filename);
+    length = 0;
+    while (line[length]) ++length;
+    if (!preprocessor_stream)
+        write_work_bytes(line, length, 1, compiler_stack);
+    else
+        fwrite(line, length, 1, preprocessor_stream);
+    if (!preprocessor_stream)
+        write_work_bytes(token_text, end - token_text, 1, compiler_stack);
+    else
+        fwrite(token_text, end - token_text, 1, preprocessor_stream);
 }

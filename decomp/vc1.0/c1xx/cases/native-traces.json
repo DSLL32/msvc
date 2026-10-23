@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "5ac181b0b56a8a5748c1e4c090125c6f700d33c9148d994557ea391d3964bcd7",
+    "functions.json": "aa27155a676a00e1d20860d54c2864b28e1b4265246866567dc8118c2a32a83d",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
     "evidence/fast-replay-verification-receipt.json": "c31482ee4affd1e136825beb31be9913d71a704a1e90d58019c14ff6aa5ee3a9",
-    "cases/canonical-map.txt": "633baacbdf62e0362c28a740b4dce2989316559d9f9f8277f444d87fe4b88261",
+    "cases/canonical-map.txt": "e387159f7785c4756aca6597037ace47f323887602036a1da5bebcfa386659d7",
     "cases/object-initializer-trial/frontier-extension.json": "becd7ed4c01caf94840212178315dc3408afe064c6015a7e8bc018fc351b5e94",
     "cases/object-initializer-trial/original-after-receipt.json": "176547f9f659647df53a08f0fecd273770df2d835b4024ee89dcfc75f492ccc3",
     "cases/object-initializer-trial/original-after-events.txt": "a83f5c103dc0cb7c85479b1e6a0cbb6e65de66cf376c0cc858d2c075f45ddc17",
@@ -1076,7 +1076,47 @@
     "cases/virtual-diamond-frontiers/0800-new_right_typed_expression-12/original-configuration.json": "6166327d01bf46fcdc18bd3016f2b719b91e6037a5747b35f184ec33b566a191",
     "cases/virtual-diamond-frontiers/0800-new_right_typed_expression-12/frontier-extension.json": "f591ae1570b81836c9c06176b44e07c22d4f10b4fbd6131cc0a374d040d0df8e",
     "cases/virtual-diamond-frontiers/0800-new_right_typed_expression-12/original-receipt.json": "404f32b532af7505378e2bbd841bdbd0192a3be79eec7cfa0ff27e797c02f5b6",
-    "cases/virtual-diamond-frontiers/0800-new_right_typed_expression-12/original-events.txt": "68eda5312fb39d34eab74da0489c3c1cdcc55ffa69a59a95079835a159d43bf0"
+    "cases/virtual-diamond-frontiers/0800-new_right_typed_expression-12/original-events.txt": "68eda5312fb39d34eab74da0489c3c1cdcc55ffa69a59a95079835a159d43bf0",
+    "cases/virtual-diamond-frontiers/0801-has_deferred_expression_symbols-4/original-configuration.json": "b8dffb7156c0db79512e8f7ae7e080af9bd23a6bced7f0d3428176a09082c8f8",
+    "cases/virtual-diamond-frontiers/0801-has_deferred_expression_symbols-4/frontier-extension.json": "2928eab1b589783c1efdfa3380e886ac4ae6bf5bfbb97084d90aa25a8fb0a22b",
+    "cases/virtual-diamond-frontiers/0801-has_deferred_expression_symbols-4/original-receipt.json": "558ea22e88e860b5827c6a3a576a130df010bdae10f8d4a8f92b413cb607e95d",
+    "cases/virtual-diamond-frontiers/0801-has_deferred_expression_symbols-4/original-events.txt": "a7fbf5bc7985d0d4f528c7862cf30017263b6997f59eb713602d55a048700d72",
+    "cases/virtual-diamond-frontiers/0802-convert_operand_if_needed-12/original-configuration.json": "15f1221cfc24d5a943c91683e3909de5e1c65e487fafb878874d046a7d13cae9",
+    "cases/virtual-diamond-frontiers/0802-convert_operand_if_needed-12/frontier-extension.json": "99a1a25accc129b83f75d1598d58dd04574694699240be4a54288155b5e41eec",
+    "cases/virtual-diamond-frontiers/0802-convert_operand_if_needed-12/original-receipt.json": "c41b199e5d26959f2ed4d1846a818d529020891cd3d5ab1e5a6dec741de4c49c",
+    "cases/virtual-diamond-frontiers/0802-convert_operand_if_needed-12/original-events.txt": "fbec2688ac1a9b49bd06b34a00303ca1fe53e69e9d353b7cb462eb8dabc71489",
+    "cases/virtual-diamond-frontiers/0803-append_symbol_destructor-8/original-configuration.json": "8849a4e340d79e5eea06d9c9e4f273770fc7c57adf33f6c5d55d26f3c5f51114",
+    "cases/virtual-diamond-frontiers/0803-append_symbol_destructor-8/frontier-extension.json": "4a1076745e7060e3fb9e554e4bd887ce0d6daebb74d9e3f0490fd338da07729d",
+    "cases/virtual-diamond-frontiers/0803-append_symbol_destructor-8/original-receipt.json": "2a2c2af2720bc7c63561e020f8dd25a782815168fbd1e499c8f3e570f5605afa",
+    "cases/virtual-diamond-frontiers/0803-append_symbol_destructor-8/original-events.txt": "9bbd62e5439512ada4c738794e3bf2a70d2aa38100b7b90a5e45941f2b7d84fe",
+    "cases/virtual-diamond-frontiers/0804-generated_member_model-4/original-configuration.json": "4c9b7a15a2a042d60bf79a1441aa718c29f6a55066d391a8481b61a74f1a49ec",
+    "cases/virtual-diamond-frontiers/0804-generated_member_model-4/frontier-extension.json": "b5fb698387130f32f636e8f08e2a29528957a63fdb997f767af72bbf4b913740",
+    "cases/virtual-diamond-frontiers/0804-generated_member_model-4/original-receipt.json": "0b61d597082963ff313844effbe7a475b4bb472b70a703c6cb74892037ddef83",
+    "cases/virtual-diamond-frontiers/0804-generated_member_model-4/original-events.txt": "b40241b6fc83cb2817c7cef89a4bb2ea16ba789bd8b671282a5b13f591833210",
+    "cases/virtual-diamond-frontiers/0805-write_work_character-8/original-configuration.json": "58a344cdce5e70cf7c617bdff678f086d82dc8f9b56420aeebfa886ec25144e3",
+    "cases/virtual-diamond-frontiers/0805-write_work_character-8/frontier-extension.json": "79ec4f483932d9dddbff983c80bf94d76f92bbdbc14bf4506cae41d0fc298d6e",
+    "cases/virtual-diamond-frontiers/0805-write_work_character-8/original-receipt.json": "ce53a6b77061ad7d9d82d415d4573aa102566e1e22201c86f718f307fb50abdd",
+    "cases/virtual-diamond-frontiers/0805-write_work_character-8/original-events.txt": "14aef925d5345dcad1275f073ca65f927ddecd66efa9dbc23c843e6e601a3118",
+    "cases/virtual-diamond-frontiers/0806-begin_pending_class_names/original-configuration.json": "f98543ef00392d0fde1b8a0880857a0963563aa457e717fc69bad557939ead8f",
+    "cases/virtual-diamond-frontiers/0806-begin_pending_class_names/frontier-extension.json": "542ae723d1325208a4152127d0fbcac3a14d1099309e82c93dd66128a749b2cb",
+    "cases/virtual-diamond-frontiers/0806-begin_pending_class_names/original-receipt.json": "856befce4608ed01133eb125f5b8ba63bfbed144e22bf190e2b40a55c7665ab8",
+    "cases/virtual-diamond-frontiers/0806-begin_pending_class_names/original-events.txt": "2aa60173342a345da20ec6813fe9c925ae2d9d1797438ab3bb25ad886adb48b4",
+    "cases/virtual-diamond-frontiers/0807-next_pending_class_name/original-configuration.json": "42b550081637a8ebfa80d09dd6fafd7723f1957722bb5ea9f93d3f0f04a0ff73",
+    "cases/virtual-diamond-frontiers/0807-next_pending_class_name/frontier-extension.json": "dc66dd539984c76f68bd583da47194e4a2ecad3f0d7522abbf40eab08de8e3fb",
+    "cases/virtual-diamond-frontiers/0807-next_pending_class_name/original-receipt.json": "a04414a8f4d39897b3ef666f10c41bd24d5f285ec31096f843fde13b8cd8e939",
+    "cases/virtual-diamond-frontiers/0807-next_pending_class_name/original-events.txt": "68128cd2bc249581cc366e5ac11ef99af7bc55dc6156c120d252a2a96944f463",
+    "cases/virtual-diamond-frontiers/0808-emit_line_directive/original-configuration.json": "67af9f32da483ed6cb891f59ec68eaf6cc8004126748ae7c172a66400f867dbd",
+    "cases/virtual-diamond-frontiers/0808-emit_line_directive/frontier-extension.json": "9b2976209d492138bc736010c187f02938c7a488dc122ccffcb8675edd4ea7ab",
+    "cases/virtual-diamond-frontiers/0808-emit_line_directive/original-receipt.json": "7b4aa77846bfa74f4c84f76913d66ad65731ca676b1e2d8fb166f2a94ace048b",
+    "cases/virtual-diamond-frontiers/0808-emit_line_directive/original-events.txt": "5e1fda735d19cde988413024d118e47862b6a891b1ca27e6598dfaf867727429",
+    "cases/virtual-diamond-frontiers/0809-format_text/original-configuration.json": "08e4d8059db09f0ed8ca0325cd51e8b93ba7a6aa37b45485585d82db038f156a",
+    "cases/virtual-diamond-frontiers/0809-format_text/frontier-extension.json": "cea04fcba2e7354542f7b07aee3c64e49b6a5f8f5043a5cc81fbc35c0244ff91",
+    "cases/virtual-diamond-frontiers/0809-format_text/original-receipt.json": "7bda1cec44993a17e5e2b8842aa241c8ebbb76381b30dda2c6c48e8050ea789f",
+    "cases/virtual-diamond-frontiers/0809-format_text/original-events.txt": "0654623e1054d7ca408c741bb1797f86c6f2cbfa39b0246637d89a88d8537554",
+    "cases/virtual-diamond-frontiers/0810-vformat_text/original-configuration.json": "008ce8e0f2a9940f91af296520e6c21d734a38e8770937c89335bfedb918bbae",
+    "cases/virtual-diamond-frontiers/0810-vformat_text/frontier-extension.json": "f10c6bb9a11f7bbf8599627fe5fca5b41d2be3e1d46e6780693eeb4344700e5d",
+    "cases/virtual-diamond-frontiers/0810-vformat_text/original-receipt.json": "fb22d491d9da2678a033d8534b7e54c6d9a416ee6bde0a406bbd47646ed38612",
+    "cases/virtual-diamond-frontiers/0810-vformat_text/original-events.txt": "8757db879c1606ff0dd844cf086c9bf743d9ee10074e82bf179b07528542aa49"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1229,7 +1269,7 @@
     },
     "append_symbol_destructor": {
       "logical": "_append_symbol_destructor@8",
-      "source": "src/stubs.c"
+      "source": "src/record-processing.c"
     },
     "append_vector": {
       "logical": "_append_vector@8",
@@ -1453,7 +1493,7 @@
     },
     "begin_pending_class_names": {
       "logical": "_begin_pending_class_names",
-      "source": "src/stubs.c"
+      "source": "src/inline-capture.c"
     },
     "begin_qc_control": {
       "logical": "_begin_qc_control@4",
@@ -2093,7 +2133,7 @@
     },
     "convert_operand_if_needed": {
       "logical": "_convert_operand_if_needed@12",
-      "source": "src/stubs.c"
+      "source": "src/binary-expressions.c"
     },
     "convert_pointer_operands": {
       "logical": "_convert_pointer_operands@12",
@@ -2497,7 +2537,7 @@
     },
     "emit_line_directive": {
       "logical": "_emit_line_directive",
-      "source": "src/stubs.c"
+      "source": "src/source-input.c"
     },
     "emit_member_and_base_destructors": {
       "logical": "_emit_member_and_base_destructors@4",
@@ -3151,6 +3191,10 @@
       "logical": "_format_symbol_name@4",
       "source": "src/stubs.c"
     },
+    "format_text": {
+      "logical": "_format_text",
+      "source": "src/text-format.c"
+    },
     "format_timestamp": {
       "logical": "_format_timestamp@4",
       "source": "src/macros.c"
@@ -3185,7 +3229,7 @@
     },
     "generated_member_model": {
       "logical": "_generated_member_model@4",
-      "source": "src/stubs.c"
+      "source": "src/special-members.c"
     },
     "generated_member_name": {
       "logical": "_generated_member_name@4",
@@ -3253,7 +3297,7 @@
     },
     "has_deferred_expression_symbols": {
       "logical": "_has_deferred_expression_symbols@4",
-      "source": "src/stubs.c"
+      "source": "src/expression-preparation.c"
     },
     "has_destructor_member_model": {
       "logical": "_has_destructor_member_model@4",
@@ -4345,7 +4389,7 @@
     },
     "next_pending_class_name": {
       "logical": "_next_pending_class_name",
-      "source": "src/stubs.c"
+      "source": "src/inline-capture.c"
     },
     "next_source_character": {
       "logical": "_next_source_character",
@@ -4650,6 +4694,10 @@
     "queue_closed_scope": {
       "logical": "_queue_closed_scope@4",
       "source": "src/statement-scopes.c"
+    },
+    "quote_source_filename": {
+      "logical": "_quote_source_filename@8",
+      "source": "src/stubs.c"
     },
     "rank_call_argument_count": {
       "logical": "_rank_call_argument_count@8",
@@ -5619,6 +5667,10 @@
       "logical": "_vector_used_bytes@4",
       "source": "src/vectors.c"
     },
+    "vformat_text": {
+      "logical": "_vformat_text",
+      "source": "src/text-format.c"
+    },
     "virtual_base_access_level": {
       "logical": "_virtual_base_access_level@8",
       "source": "src/member-access.c"
@@ -5717,7 +5769,7 @@
     },
     "write_work_character": {
       "logical": "_write_work_character@8",
-      "source": "src/stubs.c"
+      "source": "src/vectors.c"
     }
   },
   "accepted_application": [
@@ -6428,7 +6480,17 @@
     "is_scalar_initializer_symbol",
     "emit_initializer_assignment",
     "finish_initializer_symbol",
-    "new_right_typed_expression"
+    "new_right_typed_expression",
+    "has_deferred_expression_symbols",
+    "convert_operand_if_needed",
+    "append_symbol_destructor",
+    "generated_member_model",
+    "write_work_character",
+    "begin_pending_class_names",
+    "next_pending_class_name",
+    "emit_line_directive",
+    "format_text",
+    "vformat_text"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -7097,7 +7159,7 @@
     },
     "virtual_diamond": {
       "first": 643,
-      "last": 801,
+      "last": 811,
       "seen": [
         "main",
         "message_text",
@@ -7809,12 +7871,22 @@
         "emit_initializer_assignment",
         "finish_initializer_symbol",
         "new_right_typed_expression",
-        "has_deferred_expression_symbols"
+        "has_deferred_expression_symbols",
+        "convert_operand_if_needed",
+        "append_symbol_destructor",
+        "generated_member_model",
+        "write_work_character",
+        "begin_pending_class_names",
+        "next_pending_class_name",
+        "emit_line_directive",
+        "format_text",
+        "vformat_text",
+        "format_integer"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_has_deferred_expression_symbols@4",
-        "native": "has_deferred_expression_symbols",
+        "logical": "_format_integer",
+        "native": "format_integer",
         "signal": 5
       }
     }

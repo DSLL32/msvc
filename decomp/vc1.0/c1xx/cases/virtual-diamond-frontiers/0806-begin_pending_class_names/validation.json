@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_begin_pending_class_names",
+    "start": 209504,
+    "end": 209550
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_next_pending_class_name",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4805548246949911,
+  "total_operation_seconds": 6.682627999223769,
+  "original_capture_seconds": 3.57230066601187
+}

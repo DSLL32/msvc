@@ -363,3 +363,28 @@ IrToken *__stdcall collect_declaration_cleanup(IrToken *expression, FrontendReco
     }
     return expression;
 }
+
+/* Original 0x41e80..0x41f2a. Append one automatic object's destructor
+   while retaining the incoming expression when the function has errors. */
+IrToken *__stdcall append_symbol_destructor(IrToken *expression, CppSymbol *symbol)
+{
+    IrToken *destructor, *object;
+    CppSymbol *tag;
+    char *symbol_name, *function_name;
+    if (error_count != ir_function_error_count) return expression;
+    if (classify_incomplete_type(symbol->type) & 2) {
+        destructor = make_array_destructor_call(resolve_symbol_expression(symbol));
+    } else {
+        tag = cpp_context_stack->items[symbol->type->field08];
+        object = builtin_unary_expression(0x3a, resolve_symbol_expression(symbol));
+        destructor = make_destructor_call(tag, object, 3, 1, 0);
+    }
+    if (expression)
+        destructor = new_right_typed_expression(0x40, expression, destructor);
+    if (function_symbol->attributes & 0x100) {
+        symbol_name = format_symbol_name(symbol);
+        function_name = format_symbol_name(function_symbol);
+        compiler_warning(3, 509, function_name, symbol_name);
+    }
+    return destructor;
+}

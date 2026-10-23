@@ -631,3 +631,13 @@ void __stdcall merge_subobject_special_member(CppSymbol *tag, CppSymbol *subobje
     }
     state->fields.can_generate = 0;
 }
+
+/* Original 0x37c60..0x37c8e. A generated function's associated object
+   type carries the pointer model, after its optional outer qualifier shape. */
+int __stdcall generated_member_model(CppSymbol *function)
+{
+    TypeShape *shape = function->type->related;
+    if (shape && !(shape->flags & 0x77)) shape = shape->related;
+    return special_member_model((unsigned short)
+        (shape->data.parameters->associated_type->related->attributes & 7));
+}

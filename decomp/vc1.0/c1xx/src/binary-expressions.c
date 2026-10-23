@@ -1103,3 +1103,13 @@ int __stdcall reject_member_pointer_arithmetic(IrToken *expression)
     }
     return rejected;
 }
+
+/* Original 0x66560..0x6659b. Preserve an already matching class operand;
+   other operands, including null, go through the ordinary initializer path. */
+IrToken *__stdcall convert_operand_if_needed(unsigned char operation, CType *type, IrToken *expression)
+{
+    if (expression && (type == expression->type ||
+        same_unqualified_class_type(type, expression->type)))
+        return expression;
+    return convert_initializer(operation, type, expression);
+}

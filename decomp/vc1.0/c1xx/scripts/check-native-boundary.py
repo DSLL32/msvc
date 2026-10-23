@@ -62,6 +62,21 @@ def main():
         checks.append(dict(name='unknown-dependency',status='pass',rejected_because=str(error),seconds='not separately measured'))
     else:
         raise AssertionError('unknown dependency accepted')
+    # Tiny cdecl varargs wrappers share instructions across unrelated APIs.
+    # The custom formatter's call relocation disproves both CRT byte matches.
+    from runtime_boundary_loader import load_boundary
+    boundary = load_boundary()
+    for name in ('_fscanf', '_fwscanf'):
+        started = time.perf_counter()
+        try:
+            boundary.identities(names=(name,))
+        except AssertionError as error:
+            assert str(error) == 'original CRT call relocation differs', str(error)
+            checks.append(dict(name='reject-formatter-as-'+name.lstrip('_'),
+                status='pass', rejected_because=str(error),
+                seconds=time.perf_counter()-started))
+        else:
+            raise AssertionError('custom formatter accepted as CRT '+name)
     proof_path = BINARY/'cases/cpp-basic-frontiers/0608-close_source_file/runtime-boundary/validation.json'
     if proof_path.exists():
         spec = importlib.util.spec_from_file_location('c1xx_runtime_boundary',BINARY/'scripts/runtime-boundary.py')

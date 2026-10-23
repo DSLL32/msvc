@@ -1,0 +1,3 @@
+{
+  "note": "First two build attempts lacked public destructor prototypes; existing declarations moved from constructor-initializers.c to its header. Successful preliminary build was reviewed before capture and corrected to error_count (0x8cc88), distinct from syntax_diagnostic_count (0x914cc). Only final corrected build was compared/accepted; all measured build attempts retained."
+}

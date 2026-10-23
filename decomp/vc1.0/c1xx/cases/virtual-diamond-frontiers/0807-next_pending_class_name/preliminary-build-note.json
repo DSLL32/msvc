@@ -1,0 +1,3 @@
+{
+  "note": "Successful preliminary build was followed by explicit preservation of the name-read-before-index-increment order. Only final order build was compared; both measured builds retained."
+}

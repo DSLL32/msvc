@@ -1,0 +1,17 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56558b4a in format_text (destination=0xffffd510 "\364o]V", format=0x565c47d4 "#line %d ") at src/stubs.c:81
+81	void format_text(char *destination, char *format, ...) { __asm { int 3 } }
+#0  0x56558b4a in format_text (destination=0xffffd510 "\364o]V", format=0x565c47d4 "#line %d ") at src/stubs.c:81
+#1  0x565785f9 in emit_line_directive () at src/source-input.c:278
+#2  0x565ad9e8 in capture_inline_member_declaration (symbol=0x565f60ec, generated_kind=5, generation_context=0, pointer_kind=1) at src/inline-capture.c:80
+#3  0x565b7219 in emit_pending_runtime_functions () at src/special-members.c:514
+#4  0x565a294d in read_lexical_token () at src/lexer.c:443
+#5  0x565a0fe5 in scan_token () at src/lexer.c:226
+#6  0x565a04c5 in read_parser_token () at src/lexer.c:67
+#7  0x565997e7 in parse_translation_unit () at src/parser.c:83
+#8  0x5655dd56 in compile_translation_unit () at src/frontend.c:75
+#9  0x565587e6 in guarded_compile () at src/c1xx.c:28
+#10 0x565587b4 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20

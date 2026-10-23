@@ -1,0 +1,9 @@
+{
+  "stage": "canonical direct-call graph after exact native/original checkpoint comparisons",
+  "original_only": [],
+  "reconstruction_only": [
+    "_strlen"
+  ],
+  "correction": "inline byte-count loop preserves original in-function length scan",
+  "original_reused": "configuration hash identical; original-capture-yo07avfm reused without recapture"
+}

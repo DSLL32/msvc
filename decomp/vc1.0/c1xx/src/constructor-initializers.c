@@ -927,9 +927,6 @@ void __stdcall begin_destructor_body(CppSymbol *tag)
     }
 }
 
-IrToken *__stdcall make_destructor_call(CppSymbol *tag, IrToken *object,
-    int kind, int direct, int flags);
-IrToken *__stdcall make_array_destructor_call(IrToken *object);
 
 /* Original 0x38000..0x38188. Collect nontrivial direct-base and member
    destruction calls in declaration order, then emit them in reverse. Virtual

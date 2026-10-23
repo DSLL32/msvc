@@ -38,6 +38,7 @@ void report_ide_source_end(void);
 int __stdcall read_work_stack(WorkingStack *stack, void *buffer, unsigned bytes);
 int fill_source_buffer(void);
 void emit_line_directive(void);
+char *__stdcall quote_source_filename(char *destination, char *filename);
 void report_ide_source(void);
 void __stdcall record_line_information(unsigned flags);
 void browser_include_begin(void);

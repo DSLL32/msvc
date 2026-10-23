@@ -21,6 +21,9 @@ IrToken *__stdcall make_constructor_call(CppSymbol *tag, IrToken *object,
     IrToken *arguments, int emit, int member_subobject);
 void __stdcall emit_class_table_initializers(CppSymbol *tag, int initialize);
 int __stdcall has_class_initialization(CType *type);
+IrToken *__stdcall make_destructor_call(CppSymbol *tag, IrToken *object,
+    int kind, int direct, int flags);
+IrToken *__stdcall make_array_destructor_call(IrToken *object);
 void __stdcall require_deleting_destructor(CppSymbol *tag);
 void __stdcall require_class_member_definitions(CppSymbol *tag, char *name);
 void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols);

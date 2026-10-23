@@ -1,6 +1,8 @@
 /* Short-count pointer vectors allocated from the compiler's arenas. */
 #include <stdlib.h>
 #include "initialization.h"
+#include "lexer.h"
+#include "parser-state.h"
 #include <recon.h>
 
 /* Original 0x4e810..0x4e8cd. */
@@ -200,4 +202,34 @@ int __stdcall equal_vectors(Vector *left, Vector *right)
 unsigned __stdcall vector_used_bytes(Vector *vector)
 {
     return (unsigned)vector->count << 2;
+}
+
+/* Original 0x32700..0x32794. Working-stack pages hold 2040 data bytes,
+   a next-page link and a used-byte word. A null stack writes into the shared
+   text workspace instead, with the original 2048-byte limit. */
+int __stdcall write_work_character(int character, WorkingStack *stack)
+{
+    unsigned char *cursor, *page;
+    if (!stack) {
+        if (text_work_cursor >= expression_storage + 2048) fatal_error(64);
+        *text_work_cursor++ = (unsigned char)character;
+        return character;
+    }
+    cursor = stack->next;
+    if ((int)stack->count >= 2040) {
+        page = *(unsigned char **)(stack->read + 2040);
+        if (!page) {
+            page = malloc(2048);
+            *(unsigned char **)(page + 2040) = 0;
+            *(unsigned char **)(stack->read + 2040) = page;
+        }
+        stack->read = page;
+        cursor = stack->read;
+        *(unsigned *)(cursor + 2044) = 0;
+        stack->count = 0;
+    }
+    *cursor = (unsigned char)character;
+    ++stack->count;
+    stack->next = cursor + 1;
+    return character;
 }

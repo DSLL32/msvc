@@ -193,3 +193,26 @@ int __stdcall expression_can_be_repeated(IrToken *expression)
         expression = expression->value.pointer;
     }
 }
+
+/* Original 0x40f40..0x40fb5. A caller requesting preservation needs a
+   temporary only when deferred symbol records remain inside the requested
+   expression depth, or across all marker levels when mode bit two is set. */
+int __stdcall has_deferred_expression_symbols(unsigned mode)
+{
+    FrontendRecord *record;
+    unsigned depth;
+    unsigned char kind;
+    if (!(mode & 1)) return 0;
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 13) return 1;
+    depth = (unsigned)ir_expression_depth + 1;
+    record = ir_record_tail;
+    mode &= 2;
+    while ((mode || depth) && record) {
+        kind = record->kind & 0x3f;
+        if (kind == 13) return 1;
+        if (kind != 0x3a) return 0;
+        record = record->previous;
+        --depth;
+    }
+    return 0;
+}

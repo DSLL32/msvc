@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 801 accepted frontiers, including 708 frontend
+PARTIAL binary reconstruction: 811 accepted frontiers, including 718 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1827,3 +1827,37 @@ corrected preliminary missing-header build are retained in their receipts.
 
 Accepted extent union 222150/476418 bytes is 46.629221%, not branch coverage.
 virtual_diamond remains incomplete at has_deferred_expression_symbols 0x40f40.
+
+Deferred-text checkpoint: 811 accepted frontiers, 725 source functions. Ten
+whole functions beyond de1155b recover deferred-symbol preservation tests,
+conditional operand conversion, automatic-object destructor attachment,
+generated-member pointer models, paged character output, enclosing-class name
+enumeration, line directives and the target's own variadic text formatter.
+
+Destructor attachment preserves the driver's error_count at 0x8cc88, distinct
+from the syntax-recovery counter at 0x914cc. Its raw warning arguments and both
+scalar/array branches remain explicit. The paged text writer reuses the shared
+text-workspace cursor for its null-stack mode. Class-name enumeration shares
+existing ClassContext flags at offset29 and audits its single BSS index.
+
+The tiny format_text wrapper matched both LIBC fscanf/fwscanf instruction
+patterns, but its original relocation calls the custom formatter at 0x736f0,
+rather than the candidate members' __input/__winput targets. Both candidate
+identities are now explicitly rejected by the strict existing validator and
+two focused rejection checks. Raw wrapper bytes and relocation proof are in
+evidence/custom-formatter-identity.json. This is application reconstruction,
+not CRT coverage. The full formatter preserves c/d/x/s, F/l modifiers, literal
+fallbacks, null strings, and the original forward word-plus-byte NUL copy.
+
+All 0801 through 0810 acceptances match fresh original/native traps, four pending
+buffers, fourteen state fields, streams and visible files. Completed cpp_basic
+remains byte-exact. Preliminary missing-header builds, state/order reviews and
+the line-directive graph rejection of an extra strlen call are retained. The
+corrected line directive reuses the same frozen original capture after replacing
+that call with the original inline length scan. No acceptance was duplicated.
+
+Full canonical graph/data/default/callback/grammar audits, both cached native
+cases and 32 boundary rejection checks pass in 5.000830 seconds. Separate build,
+reference capture, native debugger and fixture timings remain in each receipt.
+Accepted extent union 223341/476418 bytes is 46.879211%, not branch coverage.
+virtual_diamond remains incomplete at format_integer 0x74380.

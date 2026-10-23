@@ -1,0 +1,68 @@
+{
+  "scope": "Custom format_text application wrapper overrides two false CRT byte-match candidates",
+  "wrapper_start": "0x736d0",
+  "wrapper_body_end": "0x736e8",
+  "body_bytes": "8d44240c508b44240c508b44240c50e80c00000083c40cc3",
+  "call_instruction": "0x736df",
+  "call_target": "0x736f0",
+  "target_role": "custom text formatter with %F/%l modifiers",
+  "candidates": [
+    {
+      "candidate": {
+        "name": "_fscanf",
+        "start": 472784,
+        "end": 472816,
+        "object": "stdio\\obj\\i386\\FSCANF.OBJ",
+        "library": "LIBC.LIB"
+      },
+      "member_sha256": "161ca5d3ae7901c3d06c3f01a38608803b32ac7cc8e04f09b7faf4a126dccaf0",
+      "relocations": [
+        {
+          "offset": 16,
+          "target": {
+            "name": "__input",
+            "value": 0,
+            "section": 0,
+            "type": 32,
+            "storage": 2
+          },
+          "kind": 20
+        }
+      ],
+      "nonrelocation_match": [
+        0
+      ]
+    },
+    {
+      "candidate": {
+        "name": "_fwscanf",
+        "start": 472784,
+        "end": 472816,
+        "object": "stdio\\obj\\i386\\FWSCANF.OBJ",
+        "library": "LIBC.LIB"
+      },
+      "member_sha256": "150c3b3a39393fefa3a60000dbb9d10f0b7038131b1618d1742da334a18afc66",
+      "relocations": [
+        {
+          "offset": 16,
+          "target": {
+            "name": "__winput",
+            "value": 0,
+            "section": 0,
+            "type": 32,
+            "storage": 2
+          },
+          "kind": 20
+        }
+      ],
+      "nonrelocation_match": [
+        0
+      ]
+    }
+  ],
+  "rejection": "runtime-boundary identities rejects both with original CRT call relocation differs",
+  "native_boundary_rejections": [
+    "reject-formatter-as-fscanf",
+    "reject-formatter-as-fwscanf"
+  ]
+}

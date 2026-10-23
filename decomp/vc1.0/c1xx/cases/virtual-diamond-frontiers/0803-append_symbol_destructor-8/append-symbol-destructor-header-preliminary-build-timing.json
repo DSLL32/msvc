@@ -1,0 +1,14 @@
+[
+  {
+    "phase": "native",
+    "seconds": 0.16955879423767328,
+    "status": 2,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-append-symbol-destructor-header-native.log"
+  }
+]

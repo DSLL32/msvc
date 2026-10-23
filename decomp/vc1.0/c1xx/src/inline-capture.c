@@ -6,6 +6,10 @@
 #include "parser.h"
 #include <recon.h>
 
+int pending_class_name_index; /* original 0x9ecd8 */
+typedef char PendingClassFlagsOffsetMustBe29[
+    (offsetof(ClassContext, flags) == 29) ? 1 : -1];
+
 #define GENERATING_MEMBER (token_allocation_flags & 0x08000000UL)
 
 /* Original 0x34ea0..0x354ea. The class parser defers inline definitions
@@ -265,4 +269,27 @@ void __stdcall flush_scanned_declaration(DeclarationType *type)
     finish_work_stack(compiler_stack);
     text_work_cursor = expression_storage;
     reset_work_stack(compiler_stack);
+}
+
+/* Original 0x33260..0x3328d. Skip only the leading class contexts whose
+   opening names have already been written into the deferred text stream. */
+void begin_pending_class_names(void)
+{
+    pending_class_name_index = 0;
+    while (pending_class_name_index <= current_class_context) {
+        if (!(class_contexts[pending_class_name_index].flags & 8)) return;
+        ++pending_class_name_index;
+    }
+}
+
+/* Original 0x33290..0x332be. Mark and return the next enclosing class
+   name in declaration order; the begin helper handles the leading skip. */
+char *next_pending_class_name(void)
+{
+    char *name;
+    if (pending_class_name_index > current_class_context) return 0;
+    class_contexts[pending_class_name_index].flags |= 8;
+    name = class_contexts[pending_class_name_index].symbol->name;
+    ++pending_class_name_index;
+    return name;
 }

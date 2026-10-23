@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 1.706056460738182,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-next-pending-class-name-order-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 6.778658187948167,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-next-pending-class-name-order-canonical.log"
+  }
+]

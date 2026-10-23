@@ -37,6 +37,7 @@
 #include "type-sizes.h"
 #include "object-initializers.h"
 #include "call-expressions.h"
+#include "text-format.h"
 #include <recon.h>
 void interrupt_compile(int signal_number) { __asm { int 3 } }
 void initialize_japanese_characters(void) { __asm { int 3 } }
@@ -78,7 +79,7 @@ int __stdcall parameter_stack_bytes(CppSymbol *symbol) { __asm { int 3 } return 
 CppSymbol *__stdcall symbol_alias(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void write_ir_string(char *text) { __asm { int 3 } }
 long __stdcall seek_work_stack(WorkingStack *stack, long offset, int origin) { __asm { int 3 } return 0; }
-void emit_line_directive(void) { __asm { int 3 } }
+char *__stdcall quote_source_filename(char *destination, char *filename) { __asm { int 3 } return 0; }
 void report_ide_source(void) { __asm { int 3 } }
 void browser_include_begin(void) { __asm { int 3 } }
 void browser_open_file(void) { __asm { int 3 } }
@@ -284,9 +285,7 @@ void report_ide_source_end(void) { __asm { int 3 } }
 void finish_pch_output(void) { __asm { int 3 } }
 void chain_initializer_function(void) { __asm { int 3 } }
 void __stdcall register_initializer_function(CppSymbol *function) { __asm { int 3 } }
-int __stdcall generated_member_model(CppSymbol *function) { __asm { int 3 } return 0; }
 void skip_source_line(void) { __asm { int 3 } }
-int __stdcall write_work_character(int character, WorkingStack *stack) { __asm { int 3 } return 0; }
 void __stdcall write_work_bytes(const void *source, unsigned bytes, unsigned count, WorkingStack *stack) { __asm { int 3 } }
 unsigned char __stdcall scan_character_literal(int wide) { __asm { int 3 } return 0; }
 void __stdcall scan_string_literal(int wide, unsigned char delimiter) { __asm { int 3 } }
@@ -341,8 +340,6 @@ void __stdcall layout_bit_field(CppSymbol *member, char *name, unsigned short fl
 int __stdcall validate_union_member(CppSymbol *unused_owner, CppSymbol *member) { __asm { int 3 } return 0; }
 void __stdcall create_static_member_alias(CppSymbol *member) { __asm { int 3 } }
 
-void begin_pending_class_names(void) { __asm { int 3 } }
-char *next_pending_class_name(void) { __asm { int 3 } return 0; }
 void __cdecl format_work_text(WorkingStack *stack, char *format, ...) { __asm { int 3 } }
 void __stdcall emit_generated_default_constructor(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
 void __stdcall emit_generated_copy_constructor(CppSymbol *symbol, int context, unsigned short kind) { __asm { int 3 } }
@@ -493,7 +490,6 @@ int __stdcall multiplication_overflows(unsigned left, unsigned right, short unsi
 int __stdcall subtraction_overflows(int left, int right, short unsigned_arithmetic, unsigned short bytes) { __asm { int 3 } return 0; }
 int compare_extended(unsigned short mask, const Extended *left, const Extended *right) { __asm { int 3 } return 0; }
 IrToken * __stdcall apply_member_pointer(IrToken *expression) { __asm { int 3 } return 0; }
-IrToken *__stdcall convert_operand_if_needed(unsigned char operation, CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall resolve_untyped_binary_operand(unsigned char operation, IrToken **operand, IrToken *other) { __asm { int 3 } }
 IrToken * __stdcall compare_member_pointer_expression(IrToken *expression) { __asm { int 3 } return 0; }
 void __stdcall report_incompatible_type_shapes(unsigned char operation, CType *target, CType *source) { __asm { int 3 } }
@@ -521,7 +517,6 @@ void __stdcall emit_default_ctor_closure_body(CppSymbol *tag) { __asm { int 3 } 
 void __stdcall emit_array_copy_initialization(CppSymbol *member, unsigned displacement, IrToken *initializers, unsigned short attributes) { __asm { int 3 } }
 void __stdcall emit_class_array_initialization(CppSymbol *member, CppSymbol *tag, IrToken *initializers, unsigned displacement, int copying, unsigned short attributes) { __asm { int 3 } }
 void __stdcall restore_expression_symbols(ExpressionSymbolList *symbols) { __asm { int 3 } }
-int __stdcall has_deferred_expression_symbols(unsigned mode) { __asm { int 3 } return 0; }
 IrToken *__stdcall new_temporary_reference(unsigned index, CType *type) { __asm { int 3 } return 0; }
 unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *source, unsigned char flags, OverloadCandidate *context) { __asm { int 3 } return 0; }
 int __stdcall has_pointer_or_member_pointer_shape(CType *type) { __asm { int 3 } return 0; }
@@ -534,7 +529,6 @@ CppSymbol *__stdcall find_source_conversion(CppSymbol *tag, CType *target, unsig
 CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *type, int mode) { __asm { int 3 } return 0; }
 
 void __stdcall resolve_goto_cleanup(FrontendRecord *from, FrontendRecord *to, int mode) { __asm { int 3 } }
-IrToken *__stdcall append_symbol_destructor(IrToken *expression, CppSymbol *symbol) { __asm { int 3 } return 0; }
 IrToken *__stdcall append_expression_destructor(IrToken *expression, IrToken *object) { __asm { int 3 } return 0; }
 FrontendRecord *__stdcall find_label_record(CppSymbol *label) { __asm { int 3 } return 0; }
 FrontendRecord *__stdcall skip_declaration_records(FrontendRecord *from) { __asm { int 3 } return 0; }
