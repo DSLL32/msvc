@@ -1,0 +1,16 @@
+{
+  "status": "planned-not-enabled",
+  "native_abi": "GCC i386 SysV; decode actual generated formal locations",
+  "original_abi": "Watcom 10.0a original ABI, checked in original-toolchain build and audit",
+  "compare": "semantic formals, ownership, aliases, return values and state effects",
+  "abi_veneers": false,
+  "omf_to_elf_translation": false,
+  "pending_gates": [
+    "Reviewed CF executable/data layout and fail-closed masking",
+    "Reviewed CF graph-audit adapter retaining payload-offset identities",
+    "Reviewed original CF allocation/entry/gateway observer",
+    "Positively identified startup and CRT compatibility boundaries",
+    "Complete original Watcom executable link check; common compiler/OMF32 probe passed",
+    "Capture plan approval before original execution"
+  ]
+}

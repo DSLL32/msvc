@@ -39,13 +39,21 @@ The help proposal uses bare `?` with redirected handles, as supported by the lat
 source; the actual 1994 behavior, paging, status and streams must be captured.
 `cases/help/case.json` records the proposal without fabricated master outputs.
 
-Pending shared decisions: CF discovery/masking/observer integration with the
-PE-oriented graph auditor; library/startup provenance; and faithful Watcom
-register ABIs in native i386 builds. GCC `regparm(3)` uses EAX/EDX/ECX, whereas
-Watcom's ordinary third register argument uses EBX. Do not substitute cdecl or
-silently filter application vertices. The shared compatibility maintainer owns
-native host support; application code may call ordinary Win32/CRT APIs across
-the explicitly reviewed service boundary.
+The user selected ordinary GCC i386 ABIs for native tests, and exact original
+Watcom ABIs for the original-toolchain build and its audit. Native observers must
+decode the actual GCC formals and compare semantic values, pointer ownership,
+aliases and effects with independently decoded original register/stack formals.
+Register locations need not match across builds. There are no ABI veneers,
+OMF-to-ELF conversions or disguised extra application vertices. In particular,
+GCC `regparm(3)` is not a substitute for Watcom's EAX/EDX/EBX register convention.
+
+Remaining gates are CF layout/discovery/masking/observer integration with the
+PE-oriented graph auditor, positive library/startup provenance, and the common
+original-compiler probe. Do not silently filter application vertices. The shared
+compatibility maintainer owns native host support; application code may call
+ordinary Win32/CRT APIs across the explicitly reviewed service boundary.
+The concrete capture/build proposal is in `cases/help/capture-plan.md`; it must
+be reviewed before reference execution or application-function acceptance.
 
 Builds will retain original Watcom compiler checks through shared Wine prefix
 `/root/.ai-tmp/vc1.0-capture/wine`, with native i386 fixtures and `make -j4`.

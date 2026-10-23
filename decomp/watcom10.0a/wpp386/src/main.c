@@ -1,6 +1,7 @@
 /* Scaffold only: no function has been reconstructed or accepted.
  * Original main candidate: CF payload RVA 0x43fef, not a PE RVA.
- * Resolve the Watcom register ABI before enabling a reconstruction build.
+ * Native tests use the GCC ABI; original builds preserve the Watcom ABI.
+ * Resolve the CF layout/transport and original compiler probe before building.
  */
 #include <recon.h>
 

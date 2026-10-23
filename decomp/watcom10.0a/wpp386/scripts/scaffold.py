@@ -80,7 +80,7 @@ def main():
     parser.add_argument("target", nargs="?")
     args = parser.parse_args()
     if args.action == "blocked":
-        print(f"{args.target}: blocked pending reviewed CF transport, Watcom ABI and compiler probe", file=sys.stderr)
+        print(f"{args.target}: blocked pending reviewed CF transport/layout, startup provenance and compiler probe; native GCC ABI selected", file=sys.stderr)
         return 2
     if args.action == "status":
         print("WPP386: scaffold only; 0 accepted functions; original execution not started")
