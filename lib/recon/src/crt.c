@@ -1668,3 +1668,8 @@ WEAK int recon_iswctype(WCHAR character,WCHAR mask)
     if (mask==4) return character>='0' && character<='9'?4:0;
     return character==' ' || (character>='\t' && character<='\r')?8:0;
 }
+
+WEAK WCHAR recon_towupper(WCHAR character)
+{
+    (void)character;recon_unsupported("unreviewed UTF16 towupper");return 0;
+}

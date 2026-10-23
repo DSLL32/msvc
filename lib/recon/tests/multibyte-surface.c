@@ -22,5 +22,6 @@ int main(int argc,char **argv)
     if(!strcmp(argv[1],"leadbyte")) return IsDBCSLeadByteEx(1252,'a');
     if(!strcmp(argv[1],"leadpage")) return IsDBCSLeadByteEx(932,'a');
     if(!strcmp(argv[1],"leadhigh")) return IsDBCSLeadByteEx(1252,0x80);
+    if(!strcmp(argv[1],"wideupper")) return towupper('a');
     return 1;
 }

@@ -25,6 +25,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <wchar.h>
+#include <wctype.h>
 #include <signal.h>
 #include <float.h>
 #include <sys/timeb.h>
@@ -194,6 +195,7 @@ size_t recon_wcslen(const WCHAR *);
 WCHAR *recon_wcscat(WCHAR *,const WCHAR *);
 int recon_swprintf(WCHAR *,const WCHAR *,...);
 int recon_iswctype(WCHAR,WCHAR);
+WCHAR recon_towupper(WCHAR);
 WCHAR *recon_wcscpy(WCHAR *,const WCHAR *),*recon_wcsncpy(WCHAR *,const WCHAR *,size_t);
 unsigned recon_control87(unsigned,unsigned),recon_controlfp(unsigned,unsigned);
 void recon_ftime(struct _timeb *);
@@ -307,6 +309,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define wcscat recon_wcscat
 #define swprintf recon_swprintf
 #define iswctype recon_iswctype
+#define towupper recon_towupper
 #define wcscpy recon_wcscpy
 #define wcsncpy recon_wcsncpy
 #define _control87 recon_control87
