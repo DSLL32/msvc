@@ -65,11 +65,16 @@
       "start": 162217,
       "end": 162493,
       "bytes": "668b54241266ff0da07e0300663915a47e0300753266c705d03503000000668b742414668935a47e03005255e8a632ffff83c408668945045d5f5e5b83c41cc38da4240000000066833da47e0300000f849200000066c705d0350300010066837c24140066a1a47e0300668945047463660bc07502eb5033d2668b15a07e03004a8d0c559c30030066a1a47e0300663901740f83e9024a66a1a47e030066390175f14ab9000000007829b89c300300668b742414663930740e83c002413bca7eeeeb108d642400668b742414668935a47e030066814d188000668b4424125d5f5e5b83c41cc39066c705d03503000000668b742414668935a47e030066834d18048bcde8cf1affff668b45045d5f5e5b83c41cc3"
+    },
+    {
+      "start": 103808,
+      "end": 103824,
+      "bytes": "83ec04535657558bd98b0be8102c0000"
     }
   ],
   "sources": {
-    "src/types.c": "6d991bd4792c2e975efbf9af85eeea7bf7cb4c47030aeff9b314f7c5f218b1c3",
-    "src/types.h": "64fde35f79b7ee6ef669b875f46271a90c1b964be2b4fa55c143da7fb841b60d",
+    "src/types.c": "54a0782c296de05889393369d44049ed8f4c480030f18213ea9b46a2d65fa641",
+    "src/types.h": "e07e9a17d5f51731b18c7b611fb91dcbf014a6c49694f93e78dadbb2cfebcfab",
     "src/image.h": "3db3018bf316e791bb96d567eaf5c092bfb0e3b71254ab77d84e6f68b73e2e96"
   },
   "scope": "Same actual module3 allocation5113. Header4; search12 yields16; then completed24-byte S_OBJNAME copy yields40. Exact first respectivecallbacks/parentframes/sourcecursor; later writes not inferred.",
@@ -199,6 +204,29 @@
         "36": 156937,
         "38": 153648,
         "40": 151922
+      }
+    },
+    "hash_type": {
+      "original": 115104,
+      "defined": 40,
+      "input_offset": 202,
+      "return_address": 103824,
+      "allocation_esp_delta": 184,
+      "buffer_slot": 51,
+      "input_slot": 54,
+      "record_length": 28,
+      "callback_index": 27,
+      "kind": 4,
+      "type_index": 4115,
+      "list_count": 1,
+      "nested_returns": {
+        "6": 162481,
+        "18": 158970,
+        "27": 160029,
+        "33": 158330,
+        "42": 156937,
+        "44": 153648,
+        "46": 151922
       }
     }
   }

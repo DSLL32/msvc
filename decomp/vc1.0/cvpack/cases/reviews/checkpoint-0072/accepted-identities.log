@@ -1,0 +1,2 @@
+python3 scripts/graph_identities.py --prepare --output build/graph-identities.json
+Prepared hash-bound strict original/compiler relocation identities

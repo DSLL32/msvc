@@ -1,0 +1,22 @@
+{
+  "application_functions": 72,
+  "next": "hash_type",
+  "source": "Whole exact-record interning19580..19764: exact byte search, reuse/release flags, forward-name replacement, new bucket allocation/publication, counts and derived-class indexing. Named real dependencies trap.",
+  "graph": "Pre-capture graph comparison rejected initial checked_zero guess: actual original calls checked_alloc12. Corrected before first capture; failed check preserved. Canonical dead for-loop backedge is an explicitly decoded extra root.",
+  "layout": "TypeRecord28 recursion storage is now an explicit12-byte union: inline bytes, or ushort-offset pointer12/reserved16/mark pointer20 for flags100. Current inline state remains byte-exact; native large-array cleanup traps pending reached ownership proof. Future TypeHashEntry12 padding2..3 is uninitialized because allocator does not zero it; no padding equality credit claimed or node lifetime observed yet.",
+  "frontier": "hash_type1c1a0 reads actual owned record4115 data; full TypeRecord/table/globals and nested19590/27ab1/26cfa/2711d/26a7a/26509/25830/25172 ownership proof. Packed5113 allocation remains40 definedbytes, own unwritten tail preserved.",
+  "rejection_controls": 324,
+  "new_controls": 12,
+  "final_check_seconds": {
+    "audit": 0.5150888953357935,
+    "negatives": 7.130164626985788,
+    "fixtures": 0.39168733544647694
+  },
+  "native_acceptance_seconds": {
+    "setup": 0.15843717195093632,
+    "execution": 0.015874735079705715,
+    "debugging": 1.753493974916637,
+    "checks": 0.029065529815852642,
+    "total": 1.9568793792277575
+  }
+}

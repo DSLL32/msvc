@@ -71,6 +71,9 @@ def main():
     config,original=load()
     from pdb_checks import check as pdb_checks
     pdb_checks(config,original,reject)
+    from symbol_output_checks import check_type_hash
+    hashed_symbols=BINARY/'cases/hello-debug-dll/evidence/0072-store_type'
+    if hashed_symbols.is_dir():check_type_hash(hashed_symbols)
     from symbol_output_checks import check_stored_list
     stored_symbols=BINARY/'cases/hello-debug-dll/evidence/0071-compact_type_list'
     if stored_symbols.is_dir():check_stored_list(stored_symbols)

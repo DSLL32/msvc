@@ -21,7 +21,14 @@ typedef struct TypeRecord {
     unsigned char *data;
     unsigned short index;
     unsigned short forward_index, recursive_count, reserved;
-    unsigned char recursive_offsets[12];
+    union {
+        unsigned char small[12];
+        struct {
+            unsigned short *offsets;
+            unsigned long reserved;
+            unsigned char *marks;
+        } large;
+    } recursion;
     unsigned short flags;
 } TypeRecord;
 
@@ -68,6 +75,12 @@ void __fastcall add_recursive_offset(TypeRecord *, unsigned short);
 void merge_field_list(unsigned char *, TypeRecord *);
 unsigned short intern_type(TypeRecord *, unsigned short);
 void __fastcall store_type(TypeRecord *);
+unsigned short __fastcall hash_type(const unsigned char *);
+void release_type_data(TypeRecord *);
+int find_forward_type(unsigned short, const unsigned char *, TypeCacheEntry **);
+void __fastcall save_type(TypeRecord *);
+void record_derived_types(unsigned short, unsigned short);
+
 void reserve_extra_type(unsigned short, unsigned short *);
 int has_extra_type(unsigned short);
 extern TypeRecord *local_type_records;

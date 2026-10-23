@@ -186,3 +186,21 @@ def check_stored_list(pair):
     for key,delta in(('type_index',1),('list_count',1),('type_record',28)):
         changed=copy.deepcopy(rows);changed[0][key]+=delta
         deny('stored-list wrong actual '+key,lambda:run(n=changed))
+
+
+def check_type_hash(pair):
+    pair=Path(pair);config,pe=load();events=(pair/'original-events').read_text();state=json.loads((pair/'native-gdb.json').read_text());rows=json.loads((pair/'native-symbol-output.json').read_text())
+    spec=json.loads((pair/'walks.json').read_text());old=original_walks(events,spec)
+    def run(e=events,n=rows):return compare(config,pe,e,n,old,state['walks'],True,state)
+    assert run()['defined']==40
+    def deny(label,action):
+        try:action()
+        except (AssertionError,KeyError):print('rejected:',label);return
+        raise AssertionError('accepted invalid '+label)
+    for slot,address in[(0,0x19590),(6,0x27ab1),(18,0x26cfa),(27,0x2711d),(33,0x26a7a),(42,0x26509),(44,0x25830),(46,0x25172)]:
+        deny('type-hash wrong nested return '+str(slot),lambda slot=slot,address=address:run(events.replace('stack %d %08x'%(slot,address),'stack %d %08x'%(slot,address+1))))
+    changed=copy.deepcopy(rows);changed[0]['nested_callers'].reverse()
+    deny('type-hash wrong native frame chain',lambda:run(n=changed))
+    for key,delta in(('list_count',1),('type_record',28),('record',1)):
+        changed=copy.deepcopy(rows);changed[0][key]+=delta
+        deny('type-hash wrong actual '+key,lambda:run(n=changed))

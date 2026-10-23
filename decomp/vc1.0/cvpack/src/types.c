@@ -500,7 +500,7 @@ unsigned short __fastcall compact_new_type(unsigned short type)
 #define ADD_RECURSIVE_OFFSET(offset) \
     do { \
         TYPE_LIMIT(entry->recursive_count < 12); \
-        entry->recursive_offsets[entry->recursive_count++] = (offset); \
+        entry->recursion.small[entry->recursive_count++] = (offset); \
     } while (0)
 
     /* These scans follow the original active path; they are not hash lookups. */
@@ -752,7 +752,7 @@ unsigned char __fastcall compact_pointer(TypeRecord *entry)
 #ifdef RECON_NATIVE_TEST
         if (entry->recursive_count >= 12) __asm { int 3 }
 #endif
-        entry->recursive_offsets[entry->recursive_count++] = 6;
+        entry->recursion.small[entry->recursive_count++] = 6;
     }
     mode = record[2] >> 5;
     if (!mode) {
@@ -777,7 +777,7 @@ unsigned char __fastcall compact_pointer(TypeRecord *entry)
 #ifdef RECON_NATIVE_TEST
                 if (entry->recursive_count >= 12) __asm { int 3 }
 #endif
-                entry->recursive_offsets[entry->recursive_count++] = (unsigned char)offset;
+                entry->recursion.small[entry->recursive_count++] = (unsigned char)offset;
             }
         } else if (kind == 8) {
             converted = convert(*(unsigned short *)(record+6));
@@ -786,7 +786,7 @@ unsigned char __fastcall compact_pointer(TypeRecord *entry)
 #ifdef RECON_NATIVE_TEST
                 if (entry->recursive_count >= 12) __asm { int 3 }
 #endif
-                entry->recursive_offsets[entry->recursive_count++] = 8;
+                entry->recursion.small[entry->recursive_count++] = 8;
             }
         }
     } else if (mode == 2 || mode == 3) {
@@ -796,7 +796,7 @@ unsigned char __fastcall compact_pointer(TypeRecord *entry)
 #ifdef RECON_NATIVE_TEST
             if (entry->recursive_count >= 12) __asm { int 3 }
 #endif
-            entry->recursive_offsets[entry->recursive_count++] = 8;
+            entry->recursion.small[entry->recursive_count++] = 8;
         }
     }
     return (unsigned char)entry->recursive_count;
@@ -1010,4 +1010,74 @@ unsigned short __fastcall compact_type_list(unsigned short type, unsigned short 
 #undef FIELD_TYPE
 #undef NOTE_LIST_RECURSIVE
 #undef LIST_LIMIT
+}
+
+/* Exact-record type buckets hold compacted indices and their stored bytes. */
+typedef struct TypeHashEntry {
+    unsigned short index, reserved;
+    unsigned char *data;
+    struct TypeHashEntry *next;
+} TypeHashEntry;
+typedef char TypeHashEntrySize[(sizeof(TypeHashEntry)==12)?1:-1];
+
+void __fastcall store_type(TypeRecord *entry)
+{
+    unsigned short bucket = hash_type(entry->data), kind;
+    TypeHashEntry *node;
+    TypeCacheEntry *named;
+    unsigned char *record, *name;
+    unsigned long length, i;
+
+    for (node = type_hash_buckets[bucket]; node; node = node->next) {
+        if (!node->data) break;
+        length = *(unsigned short *)node->data+2;
+        for (i = 0; i < length; ++i)
+            if (node->data[i] != entry->data[i]) break;
+        if (i != length) continue;
+        entry->flags |= 2;
+        entry->index = node->index;
+        if (entry->flags & 0x38) release_type_data(entry);
+        if (entry->flags & 0x100) {
+#ifdef RECON_NATIVE_TEST
+            /* Large recursive arrays require their own typed lifetime proof. */
+            __asm { int 3 }
+#endif
+            free(entry->recursion.large.offsets);
+            free(entry->recursion.large.marks);
+            entry->flags &= ~0x100;
+        }
+        return;
+    }
+    record = entry->data;
+    kind = *(unsigned short *)(record+2);
+    switch (kind) {
+    case 4: case 5:
+        name = record+14;
+        name += *(unsigned short *)name < 0x8000 ? 2 : numeric_leaf_size(name);
+        break;
+    case 6:
+        name = record+10;
+        name += *(unsigned short *)name < 0x8000 ? 2 : numeric_leaf_size(name);
+        break;
+    case 7:
+        name = record+12;
+        break;
+    default:
+        name = NULL;
+        break;
+    }
+    if (name && find_forward_type(kind, name, &named) == 3) {
+        entry->index = named->index;
+        memcpy(named->type, record, *(unsigned short *)record+2);
+        entry->data = named->type;
+    } else save_type(entry);
+    node = checked_alloc(sizeof(*node));
+    node->data = entry->data;
+    node->index = entry->index;
+    node->next = type_hash_buckets[bucket];
+    type_hash_buckets[bucket] = node;
+    ++type_hash_counts[bucket];
+    kind = *(unsigned short *)(node->data+2);
+    if ((kind == 4 || kind == 5) && !(node->data[8]&0x80))
+        record_derived_types(node->index, *(unsigned short *)(node->data+6));
 }

@@ -4206,13 +4206,16 @@
       "native": "store_type",
       "symbol": "@store_type@4",
       "original": 103808,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        103808,
+        104292
+      ],
       "abi": "void __fastcall store_type(TypeRecord *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0072-store_type/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -4222,7 +4225,27 @@
           "kind": "pointer",
           "bits": 32
         }
-      ]
+      ],
+      "required_pdb_record_proof": true,
+      "required_symbol_output_observation": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      },
+      "rebuilt_extra_roots": [
+        310
+      ],
+      "compiler_root_reason": "VC1 emits unreachable for-loop backedge after the matching-record arm returns; canonical19db8(offset136) JMP19cb1. Additional decoded root keeps complete CFG/callees without unrooted-code waiver."
     },
     {
       "name": "add_recursive_offset",
@@ -4279,6 +4302,141 @@
           "slot": 2,
           "kind": "pointer",
           "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "hash_type",
+      "native": "hash_type",
+      "symbol": "@hash_type@4",
+      "original": 115104,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned short __fastcall hash_type(const unsigned char *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "record",
+          "register": "ecx",
+          "kind": "pointer",
+          "bits": 32
+        }
+      ],
+      "return_bits": 16
+    },
+    {
+      "name": "release_type_data",
+      "native": "release_type_data",
+      "symbol": "_release_type_data",
+      "original": 117568,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void release_type_data(TypeRecord *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "entry",
+          "slot": 1,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "find_forward_type",
+      "native": "find_forward_type",
+      "symbol": "_find_forward_type",
+      "original": 110352,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int find_forward_type(unsigned short,const unsigned char *,TypeCacheEntry **)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "kind",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 16
+        },
+        {
+          "name": "name",
+          "slot": 2,
+          "kind": "pointer",
+          "bits": 32
+        },
+        {
+          "name": "named",
+          "slot": 3,
+          "kind": "pointer",
+          "bits": 32
+        }
+      ],
+      "return_bits": 32
+    },
+    {
+      "name": "save_type",
+      "native": "save_type",
+      "symbol": "@save_type@4",
+      "original": 104544,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void __fastcall save_type(TypeRecord *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "entry",
+          "register": "ecx",
+          "kind": "pointer",
+          "bits": 32
+        }
+      ]
+    },
+    {
+      "name": "record_derived_types",
+      "native": "record_derived_types",
+      "symbol": "_record_derived_types",
+      "original": 104304,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "void record_derived_types(unsigned short,unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "type",
+          "slot": 1,
+          "kind": "integer",
+          "bits": 16
+        },
+        {
+          "name": "list",
+          "slot": 2,
+          "kind": "integer",
+          "bits": 16
         }
       ]
     }
@@ -4733,6 +4891,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 71
+    },
+    {
+      "function": "store_type",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 72
     }
   ],
   "support_unmasked": [
@@ -5327,11 +5491,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "47da7377fd7cfbb03c99884bd2732f42b3d5bc9ee94aaf3f2097d56213968194"
+    "evidence_sha256": "31a62ae928b0d9a511d750dfe4b3c95058e79b05023a42d34d4f8a5251c5143c"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "edfaec92b3cf1eb82098d2d7360bb452578fde30d46031c948d91e03573f051d"
+    "evidence_sha256": "ffbae5424961e3836e8090da453727fa10398b9ae3ccbf49a1cabf4cdd4b9c61"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -5363,10 +5527,10 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "0b830c3e4fbe3f97a5d9c81cbd01c3a9b88d0df4860ab0e929ec5d4f236afac9"
+    "evidence_sha256": "a684c8df67b851f048de07f08d6db52e1b94acc609f38e0d6f07372c4160afa8"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "f05ad33052d33474582081aef5f6d9ac16a4962118c1df3c68ac6ded385bb983"
+    "evidence_sha256": "7951352050bfc4042a21467331225ea7b5f6631fe9980d6fbef0ae54584fd070"
   }
 }

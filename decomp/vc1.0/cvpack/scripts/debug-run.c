@@ -724,7 +724,7 @@ static int dump_symbol_allocation(HANDLE child,HANDLE log,DWORD frontier)
     if(frontier==0x1bee0) { defined=4;offset=4; }
     else if(frontier==0x255c0) { defined=16;offset=4; }
     else if(frontier==0x25800 || frontier==0x1b500) { defined=40;offset=28; }
-    else if(frontier==0x26520 || frontier==0x27100 || frontier==0x272a0 || frontier==0x19580) { defined=40;offset=202; }
+    else if(frontier==0x26520 || frontier==0x27100 || frontier==0x272a0 || frontier==0x19580 || frontier==0x1c1a0) { defined=40;offset=202; }
     else return 0;
     if(symbol_step || symbol_size!=5113 ||
        !ReadProcessMemory(child,(void *)0x335e4,&input,4,&bytes) || bytes!=4 || input!=symbol_input_base+offset ||
