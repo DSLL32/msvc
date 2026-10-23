@@ -1,0 +1,49 @@
+{
+  "feature": "Legacy _getcwd native shim",
+  "original_evidence": {
+    "binary": "toolchains/1.0-nt/bin/C13232.EXE",
+    "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+    "wrapper": "0x57550..0x57565",
+    "implementation": "0x57570..0x5767f",
+    "allocation": "NULL allocates max(required bytes including NUL, signed requested capacity)",
+    "small_buffer": "Non-NULL capacity below required returns NULL with errno34 (ERANGE) before copying",
+    "method": "Read-only disassembly; browser integration comparison is recorded separately by C1."
+  },
+  "checks": [
+    "native direct.h and _getcwd symbol remapping",
+    "validated drive mapping at N:\\ and N:\\browser",
+    "exact fit and destination sentinel",
+    "too-small caller buffer unchanged with ERANGE",
+    "zero/negative caller capacities",
+    "NULL allocation with zero/negative and512 capacity",
+    "stale canonical-CWD validation rejection",
+    "host-cwd Z: fallback",
+    "existing shared CRT/Win32/process checks"
+  ],
+  "results": [
+    {
+      "compiler": "gcc",
+      "build_seconds": 0.9034038344398141,
+      "run_seconds": 0.003915422596037388,
+      "status": 0,
+      "build_diagnostics": "",
+      "stdout": "",
+      "stderr": ""
+    },
+    {
+      "compiler": "clang",
+      "build_seconds": 1.1731241708621383,
+      "run_seconds": 0.004115966148674488,
+      "status": 0,
+      "build_diagnostics": "",
+      "stdout": "",
+      "stderr": ""
+    }
+  ],
+  "source_sha256": {
+    "include/recon.h": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284",
+    "native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+    "src/crt.c": "4be31e907a70597b1281f38a56b05ccf594106b401ae98982fd7015a1cae5879",
+    "tests/check.c": "6342da3b898ac7f0f533dd0182efb217b3b8abb51f19f5ca2d13d527d2986f54"
+  }
+}

@@ -111,6 +111,7 @@ int recon_remove(const char *),recon_unlink(const char *),recon_rename(const cha
 void recon_splitpath(const char *,char *,char *,char *,char *);
 void recon_makepath(char *,const char *,const char *,const char *,const char *);
 char *recon_fullpath(char *,const char *,size_t),*recon_strupr(char *),*recon_strlwr(char *);
+char *recon_getcwd(char *,int);
 char *recon_ultoa(unsigned long,char *,int),*recon_itoa(int,char *,int);
 char *recon_mktemp(char *),*recon_tempnam(const char *,const char *);
 char *recon_strcpy(char *,const char *);
@@ -272,6 +273,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _splitpath recon_splitpath
 #define _makepath recon_makepath
 #define _fullpath recon_fullpath
+#define _getcwd recon_getcwd
 #define _strupr recon_strupr
 #define _strlwr recon_strlwr
 #define _ultoa recon_ultoa

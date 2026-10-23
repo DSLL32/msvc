@@ -205,7 +205,10 @@ helpers preserve the encountered x87/12-byte formats; unusual invalid literal
 syntax and Windows best-fit character conversion are outside tested scope.
 
 RECON_CANONICAL_CWD preserves a captured absolute DOS working-directory spelling
-only after its drive mapping resolves to the actual host cwd. RECON_MKTEMP_SUFFIX
+only after its drive mapping resolves to the actual host cwd. `_getcwd` uses the
+same validated DOS path, preserves caller buffers on ERANGE, and allocates at
+least the requested capacity for a NULL buffer (zero selects the required size).
+RECON_MKTEMP_SUFFIX
 can supply a captured six-character suffix; otherwise mktemp uses the original
 PID-derived naming and collision sequence. RECON_NAMED_PIPE_ROOT maps simple
 Windows pipe names to prepared native FIFOs.

@@ -547,6 +547,25 @@ char *recon_fullpath(char *out,const char *name,size_t capacity)
     if (capacity<len+3) { errno=ERANGE; return NULL; }
     result[0]=drive; result[1]=':'; strcpy(result+2,normalized); return result;
 }
+/* VC1 _getcwd delegates to _getdcwd(0,...). A NULL destination allocates
+   at least the requested capacity, even when that capacity is zero/negative;
+   caller-owned storage is left untouched on ERANGE. */
+char *recon_getcwd(char *out,int capacity)
+{
+    char cwd[PATH_MAX];
+    size_t required,allocation;
+    if (!recon_fullpath(cwd,".",sizeof(cwd))) return NULL;
+    required=strlen(cwd)+1;
+    if (out) {
+        if (capacity<0 || (size_t)capacity<required) { errno=ERANGE; return NULL; }
+    } else {
+        allocation=capacity>0 && (size_t)capacity>required?(size_t)capacity:required;
+        out=malloc(allocation);
+        if (!out) return NULL;
+    }
+    memcpy(out,cwd,required);
+    return out;
+}
 char *recon_strupr(char *s) { char *p; for (p=s;*p;++p) *p=toupper((unsigned char)*p); return s; }
 char *recon_strlwr(char *s) { char *p; for (p=s;*p;++p) *p=tolower((unsigned char)*p); return s; }
 char *recon_ultoa(unsigned long value,char *out,int radix)

@@ -1,6 +1,7 @@
 #include <assert.h>
 #include <unistd.h>
 #include <fcntl.h>
+#include <direct.h>
 #include <recon.h>
 /* Raw POSIX probes deliberately bypass the legacy descriptor aliases. */
 #undef read
@@ -37,8 +38,29 @@ int main(void)
     assert(setenv("RECON_CANONICAL_CWD","N:\\",1)==0);
     assert(_fullpath(host,"folder\\..\\sample.txt",sizeof(host))==host);
     assert(!strcmp(host,"N:\\sample.txt"));
+    assert(_getcwd(bytes,4)==bytes && !strcmp(bytes,"N:\\"));
+    assert(mkdir("browser",0700)==0 && chdir("browser")==0);
+    assert(setenv("RECON_CANONICAL_CWD","N:\\browser",1)==0);
+    {
+        char exact[12],small[10],*allocated;
+        memset(exact,0x55,sizeof(exact));
+        assert(_getcwd(exact,11)==exact && !strcmp(exact,"N:\\browser"));
+        assert(exact[11]==0x55);
+        memset(small,0x55,sizeof(small)); errno=0;
+        assert(!_getcwd(small,sizeof(small)) && errno==ERANGE);
+        for (i=0;i<(int)sizeof(small);++i) assert(small[i]==0x55);
+        assert(!_getcwd(small,0) && errno==ERANGE);
+        assert(!_getcwd(small,-1) && errno==ERANGE);
+        allocated=_getcwd(NULL,0); assert(allocated && !strcmp(allocated,"N:\\browser")); free(allocated);
+        allocated=_getcwd(NULL,-1); assert(allocated && !strcmp(allocated,"N:\\browser")); free(allocated);
+        allocated=_getcwd(NULL,512); assert(allocated && !strcmp(allocated,"N:\\browser"));
+        allocated[511]='x'; free(allocated);
+    }
+    assert(chdir("..")==0 && rmdir("browser")==0);
+    assert(setenv("RECON_CANONICAL_CWD","N:\\",1)==0);
     assert(chdir(cwd)==0); free(cwd);
     assert(!_fullpath(host,"sample.txt",sizeof(host)) && errno==EINVAL);
+    assert(!_getcwd(host,sizeof(host)) && errno==EINVAL);
     unsetenv("RECON_CANONICAL_CWD");
     assert(recon_host_path("N:\\sample.txt",host,sizeof(host))==0);
     assert(strstr(host,"sample.txt"));
@@ -70,6 +92,7 @@ int main(void)
     qsort(items,10,sizeof(*items),compare_item);
     for (i=0;i<10;++i) assert(items[i].key==i);
     cwd=_fullpath(NULL,NULL,0); assert(cwd && strlen(cwd)>3); free(cwd);
+    assert(_getcwd(host,sizeof(host))==host && host[0]=='Z' && host[1]==':');
     stream=fopen("N:\\compat.txt","wb"); assert(stream);
     assert(setvbuf(stream,NULL,0,1)==0);
     stream->_bufsiz=0; /* VC1 setvbuf rounds a one-byte buffer down to zero. */
