@@ -991,7 +991,9 @@
     "@prepare_float_machine_data@4",
     "_initialize_float_register_homes",
     "_reset_float_register_stack",
-    "@scan_float_machine_range@8"
+    "@scan_float_machine_range@8",
+    "@prepare_float_machine_instruction@8",
+    "_push_float_machine_stack"
   ],
   "driver": [
     {
@@ -6959,8 +6961,7 @@
     {
       "name": "@prepare_float_machine_instruction@8",
       "start": 251760,
-      "end": 251761,
-      "provisional": true
+      "end": 254508
     },
     {
       "name": "@finish_float_machine_range@4",
@@ -6985,6 +6986,65 @@
       "start": 249184,
       "end": 249185,
       "provisional": true
+    },
+    {
+      "name": "@can_keep_float_store@12",
+      "start": 257552,
+      "end": 257553,
+      "provisional": true
+    },
+    {
+      "name": "@float_store_value_dead@4",
+      "start": 258544,
+      "end": 258545,
+      "provisional": true
+    },
+    {
+      "name": "@previous_float_is_load@4",
+      "start": 258416,
+      "end": 258417,
+      "provisional": true
+    },
+    {
+      "name": "@initialize_float_register_home@8",
+      "start": 258352,
+      "end": 258353,
+      "provisional": true
+    },
+    {
+      "name": "@prepare_float_register_source@8",
+      "start": 255584,
+      "end": 255585,
+      "provisional": true
+    },
+    {
+      "name": "@find_float_register_reload@12",
+      "start": 255072,
+      "end": 255073,
+      "provisional": true
+    },
+    {
+      "name": "@save_float_machine_register@16",
+      "start": 254720,
+      "end": 254721,
+      "provisional": true
+    },
+    {
+      "name": "_pop_float_machine_stack",
+      "start": 255504,
+      "end": 255505,
+      "provisional": true
+    },
+    {
+      "name": "@exchange_float_machine_stack@8",
+      "start": 255424,
+      "end": 255425,
+      "provisional": true
+    },
+    {
+      "name": "_push_float_machine_stack",
+      "start": 254592,
+      "end": 254717
     }
   ],
   "cases": {

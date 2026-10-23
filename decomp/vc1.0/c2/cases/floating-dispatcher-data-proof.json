@@ -1,0 +1,23 @@
+{
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "source_sha256": "1128d943e17ad43bac15ec2adf950e1243d003fa541594e1119ecc97fb998544",
+  "operand_view": [
+    "0x82e28",
+    "0x82e68"
+  ],
+  "popping_reversal_view": [
+    "0x82f60",
+    "0x82f78"
+  ],
+  "operand_rows": 8,
+  "reversal_rows": 6,
+  "mismatches": 0,
+  "expression_sha256": "ff2d317dc942a98c1163a0ab43042e7b72e85134e8548bef663ff74c5f99f54e",
+  "probe_sha256": "12d0eba3586202c189664321af5689ba5be9de66fa3ecc8c845fa097d524b2a7",
+  "executes_wine": false,
+  "timing": {
+    "compile_seconds": 0.17295488715171814,
+    "execution_seconds": 0.001321421004831791,
+    "total_seconds": 0.17903377674520016
+  }
+}

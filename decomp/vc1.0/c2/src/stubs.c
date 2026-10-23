@@ -392,8 +392,16 @@ int __fastcall can_split_float_transfer(MachineInstruction *load, MachineInstruc
 int __fastcall can_reuse_float_load(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall fold_previous_float_load(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 
-MachineInstruction *__fastcall prepare_float_machine_instruction(MachineInstruction *instruction, MachineInstruction **next) { __asm int 3 }
 void __fastcall finish_float_machine_range(MachineInstruction *boundary) { __asm int 3 }
 int __fastcall call_preserves_float_stack(MachineInstruction *instruction) { __asm int 3 }
 void exclude_float_machine_registers(void) { __asm int 3 }
 void release_float_machine_data(void) { __asm int 3 }
+int __fastcall can_keep_float_store(MachineInstruction *instruction, unsigned short number, int use_summary) { __asm int 3 }
+int __fastcall float_store_value_dead(MachineInstruction *instruction) { __asm int 3 }
+int __fastcall previous_float_is_load(MachineInstruction *instruction) { __asm int 3 }
+void __fastcall initialize_float_register_home(MachineOperand *home, unsigned short number) { __asm int 3 }
+int __fastcall prepare_float_register_source(MachineInstruction *instruction, int number) { __asm int 3 }
+int __fastcall find_float_register_reload(MachineInstruction *instruction, unsigned short number, MachineInstruction **reload) { __asm int 3 }
+void __fastcall save_float_machine_register(MachineInstruction *instruction, FloatMachineRegister *reg, unsigned short number, MachineInstruction *reload) { __asm int 3 }
+void pop_float_machine_stack(void) { __asm int 3 }
+void __fastcall exchange_float_machine_stack(int first, int second) { __asm int 3 }

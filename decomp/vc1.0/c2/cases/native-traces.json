@@ -2,7 +2,7 @@
   "schema": 1,
   "description": "Cached original application-entry projection; no capture or Wine",
   "metadata_sha256": {
-    "functions.json": "047616c91ab1321d66e649704d4b36785e55386d670aca3649a45337213536cd",
+    "functions.json": "aa775ffd6823ad520b8f9ece065c3e431051f666be13ff5c8e100ca10d41d483",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -385,6 +385,10 @@
     "can_keep_conditional": {
       "logical": "@can_keep_conditional@4",
       "source": "src/tree-lowering.c"
+    },
+    "can_keep_float_store": {
+      "logical": "@can_keep_float_store@12",
+      "source": "src/stubs.c"
     },
     "can_repeat_tree": {
       "logical": "@can_repeat_tree@4",
@@ -1338,6 +1342,10 @@
       "logical": "@equivalent_stack_copy_operands@16",
       "source": "src/post-allocation.c"
     },
+    "exchange_float_machine_stack": {
+      "logical": "@exchange_float_machine_stack@8",
+      "source": "src/stubs.c"
+    },
     "exclude_exception_registers": {
       "logical": "@exclude_exception_registers@4",
       "source": "src/global-registers.c"
@@ -1477,6 +1485,10 @@
     "find_flags_use": {
       "logical": "@find_flags_use@4",
       "source": "src/instruction-uses.c"
+    },
+    "find_float_register_reload": {
+      "logical": "@find_float_register_reload@12",
+      "source": "src/stubs.c"
     },
     "find_float_transfer_match": {
       "logical": "@find_float_transfer_match@4",
@@ -1677,6 +1689,10 @@
     "float_register_heap_allocate": {
       "logical": "@float_register_heap_allocate@4",
       "source": "src/global-registers.c"
+    },
+    "float_store_value_dead": {
+      "logical": "@float_store_value_dead@4",
+      "source": "src/stubs.c"
     },
     "float_to_extended": {
       "logical": "_float_to_extended",
@@ -1896,6 +1912,10 @@
     },
     "initialize_debugging": {
       "logical": "_initialize_debugging",
+      "source": "src/stubs.c"
+    },
+    "initialize_float_register_home": {
+      "logical": "@initialize_float_register_home@8",
       "source": "src/stubs.c"
     },
     "initialize_float_register_homes": {
@@ -3094,6 +3114,10 @@
       "logical": "@place_scheduled_instruction@8",
       "source": "src/scheduler.c"
     },
+    "pop_float_machine_stack": {
+      "logical": "_pop_float_machine_stack",
+      "source": "src/stubs.c"
+    },
     "preferred_reuse_colors": {
       "logical": "@preferred_reuse_colors@12",
       "source": "src/physical-rewrite.c"
@@ -3108,6 +3132,10 @@
     },
     "prepare_float_machine_instruction": {
       "logical": "@prepare_float_machine_instruction@8",
+      "source": "src/float-machine.c"
+    },
+    "prepare_float_register_source": {
+      "logical": "@prepare_float_register_source@8",
       "source": "src/stubs.c"
     },
     "prepare_float_schedule": {
@@ -3186,6 +3214,10 @@
       "logical": "@prepare_work@4",
       "source": "src/work-prepare.c"
     },
+    "previous_float_is_load": {
+      "logical": "@previous_float_is_load@4",
+      "source": "src/stubs.c"
+    },
     "previous_float_load": {
       "logical": "@previous_float_load@4",
       "source": "src/float-peepholes.c"
@@ -3221,6 +3253,10 @@
     "prune_rematerialized_variables": {
       "logical": "_prune_rematerialized_variables",
       "source": "src/physical-allocation.c"
+    },
+    "push_float_machine_stack": {
+      "logical": "_push_float_machine_stack",
+      "source": "src/float-machine.c"
     },
     "push_unary_below_conversion": {
       "logical": "@push_unary_below_conversion@4",
@@ -3957,6 +3993,10 @@
     "same_machine_operand_base": {
       "logical": "@same_machine_operand_base@8",
       "source": "src/machine-operands.c"
+    },
+    "save_float_machine_register": {
+      "logical": "@save_float_machine_register@16",
+      "source": "src/stubs.c"
     },
     "save_region_counter": {
       "logical": "@save_region_counter@12",
@@ -27044,6 +27084,144 @@
               "total_seconds": 1.5461256001144648
             }
           }
+        },
+        {
+          "accepted_function": "@prepare_float_machine_instruction@8",
+          "accepted_kind": "application",
+          "previous_logical": "@prepare_float_machine_instruction@8",
+          "original_extent": [
+            "0x3d770",
+            "0x3e22c"
+          ],
+          "before": {
+            "path": "cases/floating-original-987.json",
+            "sha256": "94f6b42c84eb7a2728b0a6a4536658e4e72452164065bd854b58736037cc7687",
+            "capture": {
+              "label": "floating-original-987",
+              "profile": "floating",
+              "accepted": 987,
+              "events": "exception 80000003 rva 0002d770 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "0d043ae4707b2c5611d783890fb5c6f46938cc66136f78a5232dbd42b3f53d86",
+              "config_sha256": "047616c91ab1321d66e649704d4b36785e55386d670aca3649a45337213536cd",
+              "manifest_sha256": "d7f09728782bb85c019fce0d65f461693d8ac5561d3e388c534f4ea87558b870",
+              "inputs": {
+                "c2/irex": "125e4057157688e434f4f21c464164db9d207a118b92996632f186fd7b5e7b04",
+                "c2/irsy": "7994183937be12fe68eaf2b8a573fe2c5cc8623369301de04f65a3bd5191cd36",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "cb12f519aafaf20546a9b1328c16656c6188efd43cd1c8fa36bf096753ec7a2b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating.c -W 1 -dos -Fofloating.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-floating-gy6hpnzu",
+              "logical": "@prepare_float_machine_instruction@8",
+              "original_va": "0x3d770",
+              "setup_seconds": 0.21140354312956333,
+              "execution_seconds": 1.3283577831462026,
+              "check_seconds": 0.006363837048411369,
+              "total_seconds": 1.5461256001144648
+            }
+          },
+          "after": {
+            "path": "cases/floating-original-988.json",
+            "sha256": "9eb797618b4e0a42c301df21b801e92cc1843cad5e81ea0640cc4e7e0c48b323",
+            "capture": {
+              "label": "floating-original-988",
+              "profile": "floating",
+              "accepted": 988,
+              "events": "exception 80000003 rva 0002e280 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "2bd68bb220f4bcb0c1ab34abb7eee1b98fd9ac93e3d99c2e9e7106e309f7443b",
+              "config_sha256": "089dfe97a9475bbaa9572db704e476771076dc0bdd8360e6d0030e781ffcd155",
+              "manifest_sha256": "d7f09728782bb85c019fce0d65f461693d8ac5561d3e388c534f4ea87558b870",
+              "inputs": {
+                "c2/irex": "125e4057157688e434f4f21c464164db9d207a118b92996632f186fd7b5e7b04",
+                "c2/irsy": "7994183937be12fe68eaf2b8a573fe2c5cc8623369301de04f65a3bd5191cd36",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "cb12f519aafaf20546a9b1328c16656c6188efd43cd1c8fa36bf096753ec7a2b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating.c -W 1 -dos -Fofloating.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-floating-6zuzcxbz",
+              "logical": "_push_float_machine_stack",
+              "original_va": "0x3e280",
+              "setup_seconds": 0.21062177699059248,
+              "execution_seconds": 1.2214470943436027,
+              "check_seconds": 0.00625856127589941,
+              "total_seconds": 1.4383279718458652
+            }
+          }
+        },
+        {
+          "accepted_function": "_push_float_machine_stack",
+          "accepted_kind": "application",
+          "previous_logical": "_push_float_machine_stack",
+          "original_extent": [
+            "0x3e280",
+            "0x3e2fd"
+          ],
+          "before": {
+            "path": "cases/floating-original-988.json",
+            "sha256": "9eb797618b4e0a42c301df21b801e92cc1843cad5e81ea0640cc4e7e0c48b323",
+            "capture": {
+              "label": "floating-original-988",
+              "profile": "floating",
+              "accepted": 988,
+              "events": "exception 80000003 rva 0002e280 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "2bd68bb220f4bcb0c1ab34abb7eee1b98fd9ac93e3d99c2e9e7106e309f7443b",
+              "config_sha256": "089dfe97a9475bbaa9572db704e476771076dc0bdd8360e6d0030e781ffcd155",
+              "manifest_sha256": "d7f09728782bb85c019fce0d65f461693d8ac5561d3e388c534f4ea87558b870",
+              "inputs": {
+                "c2/irex": "125e4057157688e434f4f21c464164db9d207a118b92996632f186fd7b5e7b04",
+                "c2/irsy": "7994183937be12fe68eaf2b8a573fe2c5cc8623369301de04f65a3bd5191cd36",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "cb12f519aafaf20546a9b1328c16656c6188efd43cd1c8fa36bf096753ec7a2b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating.c -W 1 -dos -Fofloating.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-floating-6zuzcxbz",
+              "logical": "_push_float_machine_stack",
+              "original_va": "0x3e280",
+              "setup_seconds": 0.21062177699059248,
+              "execution_seconds": 1.2214470943436027,
+              "check_seconds": 0.00625856127589941,
+              "total_seconds": 1.4383279718458652
+            }
+          },
+          "after": {
+            "path": "cases/floating-original-989.json",
+            "sha256": "6fb0e2473dbe1ad5615ff7ced129ab47a5ac02075e4c4b97c46f5fc6652fb086",
+            "capture": {
+              "label": "floating-original-989",
+              "profile": "floating",
+              "accepted": 989,
+              "events": "exception 80000003 rva 0002f1f0 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "27594c8b4c360c98526c1a6e6ffdb19f999066e408779ea5ebab914b6e10b609",
+              "config_sha256": "aa775ffd6823ad520b8f9ece065c3e431051f666be13ff5c8e100ca10d41d483",
+              "manifest_sha256": "d7f09728782bb85c019fce0d65f461693d8ac5561d3e388c534f4ea87558b870",
+              "inputs": {
+                "c2/irex": "125e4057157688e434f4f21c464164db9d207a118b92996632f186fd7b5e7b04",
+                "c2/irsy": "7994183937be12fe68eaf2b8a573fe2c5cc8623369301de04f65a3bd5191cd36",
+                "c2/irin": "2cb6a434b980acb3063cab16bb72f3a46ecf7022843a06834c0c26368946d333",
+                "c2/irgl": "cb12f519aafaf20546a9b1328c16656c6188efd43cd1c8fa36bf096753ec7a2b"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f floating.c -W 1 -dos -Fofloating.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-floating-eko5w11r",
+              "logical": "@float_store_value_dead@4",
+              "original_va": "0x3f1f0",
+              "setup_seconds": 0.21262576524168253,
+              "execution_seconds": 1.5832052789628506,
+              "check_seconds": 0.006462833844125271,
+              "total_seconds": 1.802294360473752
+            }
+          }
         }
       ]
     }
@@ -30665,7 +30843,7 @@
     },
     "floating": {
       "first": 941,
-      "last": 987,
+      "last": 989,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -31572,9 +31750,11 @@
         "initialize_float_register_homes",
         "reset_float_register_stack",
         "scan_float_machine_range",
-        "prepare_float_machine_instruction"
+        "prepare_float_machine_instruction",
+        "push_float_machine_stack",
+        "float_store_value_dead"
       ],
-      "terminal": "@prepare_float_machine_instruction@8",
+      "terminal": "@float_store_value_dead@4",
       "terminal_kind": "application",
       "returncode": -5
     }

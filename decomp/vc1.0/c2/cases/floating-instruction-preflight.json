@@ -1,0 +1,44 @@
+{
+  "function": "@prepare_float_machine_instruction@8",
+  "extent": [
+    "0x3d770",
+    "0x3e22c"
+  ],
+  "code_end": "0x3e1a1",
+  "switch_views": [
+    [
+      "0x3e1a4",
+      "0x3e1cc"
+    ],
+    [
+      "0x3e1cc",
+      "0x3e22c"
+    ]
+  ],
+  "edges": [
+    "@arena_alloc@8",
+    "@assign_machine_operand@8",
+    "@can_keep_float_store@12",
+    "@compiler_internal_error@8",
+    "@exchange_float_machine_stack@8",
+    "@find_float_register_reload@12",
+    "@float_store_value_dead@4",
+    "@initialize_float_register_home@8",
+    "@insert_machine_after@8",
+    "@intrinsic_float_cleanup_count@4",
+    "@new_machine_instruction@4",
+    "@prepare_float_register_source@8",
+    "@previous_float_is_load@4",
+    "@remove_machine_instruction@4",
+    "@save_float_machine_register@16",
+    "_pop_float_machine_stack",
+    "_push_float_machine_stack"
+  ],
+  "child_abis": {
+    "can_keep_float_store": "ECX,EDX, one stack arg; RET4",
+    "find_float_register_reload": "ECX,EDX, one stack arg; RET4",
+    "save_float_machine_register": "ECX,EDX, two stack args; RET8",
+    "other_children": "ordinary no-stack-argument RET; parameter registers per prototype"
+  },
+  "source_sha256": "1128d943e17ad43bac15ec2adf950e1243d003fa541594e1119ecc97fb998544"
+}

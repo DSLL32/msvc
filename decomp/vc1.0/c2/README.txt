@@ -2482,3 +2482,9 @@ Two-direction floating range analysis: checkpoint987
 @prepare_float_machine_instruction@8. 908 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-range-scan.json for extent union, limits and measured timings.
+
+Floating instruction rewriting and stack push: checkpoint989
+2 acceptances pass fresh original/native matching; current frontier
+@float_store_value_dead@4. 910 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-instruction-driver.json for extent union, limits and measured timings.
