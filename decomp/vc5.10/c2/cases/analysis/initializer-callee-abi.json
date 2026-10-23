@@ -2,7 +2,7 @@
   "schema": 1,
   "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
   "canonical_crt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
-  "rebuilt_sha256": "f4248fdb5091657709a4f84e92f0785c5de23b57d84e635a99c74ee5bfc815cc",
+  "rebuilt_sha256": "3947f4788c34b713e944d3294196fbb136b07ff51f905180fa2ef23c00f0744b",
   "callee_preservation": [
     {
       "function": "@new_initializer@4",
@@ -43,7 +43,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "input_varuint",
-      "rebuilt_entry": 4204895
+      "rebuilt_entry": 4204959
     },
     {
       "function": "_input_compact_signed",
@@ -61,7 +61,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "input_compact_signed",
-      "rebuilt_entry": 4205894
+      "rebuilt_entry": 4205958
     },
     {
       "function": "@read_initializer_values@4",
@@ -166,7 +166,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "c2_read_il_byte",
-      "rebuilt_entry": 4204224
+      "rebuilt_entry": 4204288
     },
     {
       "function": "@input_string@8",
@@ -189,7 +189,7 @@
       "review": "Already accepted complete typed cdecl/fastcall body and ABI; explicitly rebind full original primary/cold bytes and source symbol for its incoming nonvolatile EBP preservation.",
       "original_body_accepted": true,
       "source_symbol": "input_string",
-      "rebuilt_entry": 4205722
+      "rebuilt_entry": 4205786
     },
     {
       "function": "@lookup_source_file@8",
@@ -248,7 +248,7 @@
       "review": "Recursive callee saves incoming EBP at4523dc before loading its own free intoEBP; all returning switch cases rejoin common POPEBP45246f/RET452474. Independent rebuilt standard frame restores viaLEAVE-equivalent/POPEBP/RET.",
       "original_body_accepted": false,
       "source_symbol": "read_initializer_records",
-      "rebuilt_entry": 4206824
+      "rebuilt_entry": 4206888
     }
   ],
   "free_site": {

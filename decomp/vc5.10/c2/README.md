@@ -7,10 +7,10 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 61 application functions (13847 bytes) and five CRT
+Current reconstruction has 62 application functions (13877 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded its complete IL header and
 has initialized all five no-debug output sections and has reconstructed the23-kind symbol decoder; its compact signed readers and whole storage updater match, and it has consumed all global IL and initialized ten sections/seven function declarations or definitions, and has consumed the initializer stream and stops at the function-IR pipeline. Four import thunks (24 bytes) and contextual
-text tables (616 bytes) remain separate. The 14285 source bytes are 2.492% of
+text tables (616 bytes) remain separate. The 14315 source bytes are 2.497% of
 573183 `.text` bytes; that denominator includes CRT/data/padding and is not
 non-CRT coverage. `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -166,3 +166,13 @@ A separate actual-C condition check exercises flags0/1/-1 and rejects split
 storage and wrong-owner variants; exact PE/MAP/selector/fastcall identities and
 a fresh current-case pair received independent orchestrator review. No extra
 function or byte credit was assigned.
+
+The30-byte backend setup wrapper is accepted as source67. Its source argument
+shares the existing `-f` destination, and its opaque record result retains the
+original ECX/EAX transfer and tail ABI. The final child remains application
+code, masked and unaccepted; its complete49-byte extent supplies only RET0
+evidence. The new frontier is `initialize_pass_functions`, with unchanged
+complete state. Proof0067 records6 fresh/125 reused controls (2.936s), original
+capture2.090s and native GDB capture0.525s. Source input manifests now retain
+ordinary owned files, checked byte-for-byte, with no new compressed bundles;
+historical evidence is unchanged.

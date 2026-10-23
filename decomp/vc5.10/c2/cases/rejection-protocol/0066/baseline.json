@@ -1,0 +1,33 @@
+{
+  "schema": 1,
+  "baseline_commit": "406eb309",
+  "control_result": "cases/acceptance/0066-compile-functions/rejections.json",
+  "control_result_sha256": "927a966e890480431c199d99b4238ed49d5af7567e04221550b87a500c7e104c",
+  "checker_contracts": {
+    "scripts/accept.py": "3c6f5dfa5b6cd63cc07d82315d07cab2151865531765f2e9c44c0a86ce2bdf23",
+    "scripts/audit.py": "938cace588deae113948d5b1828155e8cd90036c737001dd05f2767ff90acc40",
+    "scripts/build-index.py": "97e280740713f64c1bf1699d7e376cbea06e7d50f4c7dba7495a2eef87d1030d",
+    "scripts/capture-native.py": "fa8cf4c607f82da87c30bce6603fc9f90b454710a1b12dc00800d5ad83565a06",
+    "scripts/capture-original.py": "c1cc26ba1f2380a53327bdde9a5583df2ad44562fe78230883119b47fb236f0b",
+    "scripts/case_inputs.py": "13ab2ee944896ade6b46c2b2d226fd63233ea9d3191931b1d8a84ddbfaa48aa9",
+    "scripts/check-rejections.py": "8d5882c1353b07a97366ba310725cf1198cf93cf545f61db24e0835364b62731",
+    "scripts/compare.py": "3d85550755be6c951f7ce63c767eaa78e88d9f6ee4ab665075b739b51770cae0",
+    "scripts/data_evidence.py": "bff361add0b1def3f83f5e5c13a82dd6fba7ad1ea90a9ac432c06558cbeca793",
+    "scripts/debug-run.c": "c9997861239a125a5724033c1b4f3fe76adc752d8a39ab0b14c7b08193b62584",
+    "scripts/import_evidence.py": "dd71475139caad0798c27b8d12bd6dc2ecb6d1c40dd95c6e93c709ac8682d5f8",
+    "scripts/intrinsic_evidence.py": "89e13fbff12ec278801984bd7360b54b392cc50e332d9f449c7f8b9032ab0034",
+    "scripts/native-proof.py": "91fd879644eb159a173dade958a2f78d47ca25738ad3e3452be43757a33d7102",
+    "scripts/state.py": "7f5e869a7e139e12ffad9d6968c36a87f45c688e6d047bfc8a71bfbf18ef04d6",
+    "scripts/globals_state.py": "fe989f8e231acc875fec69066a21f7bbbbb7060ebf571301eec5416ba32f6317",
+    "scripts/pending_metadata.py": "4fb55fa9f12620145ccaf5142b9b65c355f2fd8c6e9824e0037e763ff4413634",
+    "scripts/check-pending-metadata.py": "f497374b1e272e5162f1e4a1685edb78bef525ff5d060d519a9d8c4312810d25",
+    "scripts/reaudit-capture.py": "47db322d4f96cad39e15681be42151d6b974d95fde39007623bdb68bcacb361e"
+  },
+  "source_archive": "../../acceptance/0066-compile-functions/checker-contracts.tar.gz",
+  "source_archive_sha256": "86d649f17508d204bd16a7d7dfe5c4b6b97bbba4d2b3ca981dbaefc069ae5f7e",
+  "proof_inputs": {
+    "original_receipt": "502671bc3f520a7610cb6417d4daac4dce9bdc3f83caf431886949295749898d",
+    "native_receipt": "0380d7ae1476f602deec8181d64c6aa778649da61efeaef59dcab4c1e5105aeb"
+  },
+  "scope": "Existing immutable0066 checker archive retained by reference, no new bundle. Actual131 predicates (41fresh plus90transitivelyreviewed) cover complete backend-open contract. Any changed predicate/premise reruns; source67 only observer address addition plus ordinary-source archive layout, independently verify owned source hashes after promotion."
+}

@@ -4,9 +4,6 @@ import argparse
 import json
 from pathlib import Path
 import shutil
-import gzip
-import tarfile
-import io
 from compare import compare
 from state import BINARY, load, sha, trial_configuration
 
@@ -47,25 +44,28 @@ def main():
         if side=='original':files += [p.name for p in source.glob('intermediate-*.bin')]
         if side=='original':files += [name for name in ('runtime-original.json','runtime-rebuilt.json','graph-metadata.json','pool-block.bin','pool-descriptors.bin','real-records.bin','extended-destination.bin','x87-state.bin','extended-after.bin','x87-after.bin','x87-final.bin','intrinsic-model.json','intrinsic-table.bin','section-name.bin','section-class.bin','section-globals.bin','section-node.bin','section-list.bin','unmodeled-original-data.bin','sections.bin','section-addresses.bin','symbol-scope.bin','symbol-template.bin','symbol-name.bin','source-name-pool.bin','decorated-name.bin','function-symbol.bin','filename-node.bin','initializer-buffer.bin','backend-streams.bin')if(source/name).exists()]
         for name in files:shutil.copyfile(source/name,destination/name)
-    def archive_inputs(directory,manifest,destination):
-        with destination.open('wb')as raw,gzip.GzipFile(filename='',fileobj=raw,mode='wb',mtime=0)as compressed,tarfile.open(fileobj=compressed,mode='w')as archive:
-            for name in sorted(manifest['inputs']):
-                data=(directory/name).read_bytes();assert sha(data)==manifest['inputs'][name]
-                info=tarfile.TarInfo(name);info.size=len(data);info.mode=0o644;info.mtime=0
-                archive.addfile(info,io.BytesIO(data))
+    def preserve_inputs(directory,manifest,destination):
+        # Ordinary owned source files preserve exact compiled content while
+        # allowing Git to deduplicate unchanged shared/target source blobs.
+        destination.mkdir()
+        for name,digest in manifest['inputs'].items():
+            source=directory/name
+            assert sha(source.read_bytes())==digest
+            target=destination/name;target.parent.mkdir(parents=True,exist_ok=True)
+            shutil.copyfile(source,target)
     if(a.native/'data-model.json').exists():shutil.copyfile(a.native/'data-model.json',a.proof/'native/data-model.json')
     if(a.native/'intrinsic-model.json').exists():shutil.copyfile(a.native/'intrinsic-model.json',a.proof/'native/intrinsic-model.json')
     if(a.original/'helper-inputs.json').exists():
         shutil.copyfile(a.original/'helper-inputs.json',a.proof/'original/helper-inputs.json')
-        archive_inputs(a.original/'helper-inputs',json.loads((a.original/'helper-inputs.json').read_text()),a.proof/'original/helper-inputs.tar.gz')
-    archive_inputs(a.native/'compiled-inputs',json.loads((a.native/'compiled-inputs.json').read_text()),a.proof/'native/compiled-inputs.tar.gz')
+        preserve_inputs(a.original/'helper-inputs',json.loads((a.original/'helper-inputs.json').read_text()),a.proof/'original/helper-inputs')
+    preserve_inputs(a.native/'compiled-inputs',json.loads((a.native/'compiled-inputs.json').read_text()),a.proof/'native/compiled-inputs')
     validation_folder=a.proof/'current-validation';validation_folder.mkdir()
     shutil.copyfile(result['validation'],validation_folder/'receipt.json')
     shutil.copyfile(result['graph_report'],validation_folder/'graph-audit.json')
     shutil.copyfile(Path(result['graph_report']).parent/'import-residuals.json',validation_folder/'import-residuals.json')
     shutil.copyfile(Path(result['graph_report']).parent/'data-evidence.json',validation_folder/'data-evidence.json')
     shutil.copyfile(Path(result['graph_report']).parent/'win32-inputs.json',validation_folder/'win32-inputs.json')
-    archive_inputs(Path(result['graph_report']).parent/'win32-inputs',json.loads((Path(result['graph_report']).parent/'win32-inputs.json').read_text()),validation_folder/'win32-inputs.tar.gz')
+    preserve_inputs(Path(result['graph_report']).parent/'win32-inputs',json.loads((Path(result['graph_report']).parent/'win32-inputs.json').read_text()),validation_folder/'win32-inputs')
     for name in ('configuration.json','pending-correction.json'):
         source=Path(result['validation']).parent/name
         if source.exists(): shutil.copyfile(source,validation_folder/name)

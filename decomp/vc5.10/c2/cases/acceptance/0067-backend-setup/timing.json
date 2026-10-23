@@ -1,0 +1,35 @@
+{
+  "builds": {
+    "native": {
+      "seconds": 2.5362994223833084,
+      "status": 0
+    },
+    "original": {
+      "seconds": 5.276829587295651,
+      "status": 0
+    },
+    "helper": {
+      "seconds": 1.718453524634242,
+      "status": 0
+    },
+    "indexes": {
+      "seconds": 0.06749213486909866,
+      "status": 0
+    }
+  },
+  "original_capture": {
+    "setup": 0.26929095946252346,
+    "execution": 1.7758321426808834,
+    "total": 2.089751772582531
+  },
+  "native_capture": {
+    "execution": 0.4012018945068121,
+    "total": 0.5245772320777178
+  },
+  "audit": 0.18768749851733446,
+  "rejections": {
+    "fresh": 6,
+    "reused": 125,
+    "seconds": 2.936452648602426
+  }
+}

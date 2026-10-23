@@ -244,14 +244,6 @@
     "evidence": null
   },
   {
-    "name": "_initialize_backend",
-    "start": 4536542,
-    "end": 4536543,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_check_extended_backend",
     "start": 4766011,
     "end": 4766012,
@@ -754,5 +746,41 @@
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null
+  },
+  {
+    "name": "_initialize_pass_functions",
+    "start": 4536572,
+    "end": 4536573,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@initialize_source_output@4",
+    "start": 4537956,
+    "end": 4537957,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@prepare_function_records@4",
+    "start": 4322716,
+    "end": 4322717,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@process_records@4",
+    "start": 4322452,
+    "end": 4322501,
+    "pending_extent": false,
+    "kind": "unaccepted-application-tail-target",
+    "evidence": null,
+    "classification": "application",
+    "accepted": false,
+    "extent_evidence": "cases/analysis/backend-setup-disassembly.txt:full49B41f494..41f4c5 straight primary with calls/conditionalbranch and terminalRET0; application only extent transport, no body acceptance/unmask/credit.",
+    "provenance": "Original extent/RET evidence only; source remains INT3, no unmask or source-coverage credit"
   }
 ]

@@ -1,0 +1,22 @@
+{
+  "kind": "ordinary owned compiled-source files; exact manifests verified",
+  "inputs": {
+    "original/helper-inputs": {
+      "manifest": "original/helper-inputs.json",
+      "manifest_sha256": "1f9e44aa9a689d78242680f7814484b0d4323ffc624cbe2e3a06d85ea3dd7e2c",
+      "verified_files": 5
+    },
+    "native/compiled-inputs": {
+      "manifest": "native/compiled-inputs.json",
+      "manifest_sha256": "efef9636f09a2303729330e48704ef5bf21aced4b4696fdb990f76bc844a0d4c",
+      "verified_files": 52
+    },
+    "current-validation/win32-inputs": {
+      "manifest": "current-validation/win32-inputs.json",
+      "manifest_sha256": "e833d997f03d1281e215f12a60bee15d756b1131bf49a7824b33d72b87e5065d",
+      "verified_files": 31
+    }
+  },
+  "original_tool_bundles": 0,
+  "new_archives": 0
+}

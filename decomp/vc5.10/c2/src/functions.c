@@ -274,3 +274,12 @@ void compile_functions(void)
         finish_function();
     }
 }
+
+/* The source-name identity is shared with the existing -f option destination. */
+extern char *c2_source_name;
+void initialize_backend(void)
+{
+    initialize_pass_functions();
+    initialize_source_output(c2_source_name);
+    process_records(prepare_function_records(NULL));
+}

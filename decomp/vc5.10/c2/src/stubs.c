@@ -116,10 +116,6 @@ C2InitRecord *__fastcall queue_initializer(C2InitRecord *record) { __asm { int 3
 void __fastcall emit_initializer(C2InitRecord *record) { __asm { int 3 } }
 void __fastcall free_initializer(C2InitRecord *record) { __asm { int 3 } }
 
-void initialize_backend(void)
-{
-    __asm { int 3 }
-}
 
 int check_extended_backend(void)
 {
@@ -437,6 +433,24 @@ void __fastcall function_pass_47d1d3(C2Function *function)
 }
 
 void __fastcall function_pass_433906(C2Function *function)
+{
+    __asm { int 3 }
+}
+
+void initialize_pass_functions(void)
+{
+    __asm { int 3 }
+}
+void __fastcall initialize_source_output(char *source)
+{
+    __asm { int 3 }
+}
+C2Record *__fastcall prepare_function_records(C2Function *function)
+{
+    __asm { int 3 }
+    return NULL;
+}
+void __fastcall process_records(C2Record *records)
 {
     __asm { int 3 }
 }

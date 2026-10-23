@@ -8,6 +8,11 @@
  * original application entries without guessing their algorithms. */
 extern C2FunctionSymbol *pending_functions;
 void initialize_backend(void);
+void initialize_pass_functions(void);
+void __fastcall initialize_source_output(char *source);
+typedef struct C2Record C2Record;
+C2Record *__fastcall prepare_function_records(C2Function *function);
+void __fastcall process_records(C2Record *records);
 int check_extended_backend(void);
 unsigned short __fastcall listing_source_index(unsigned serial, unsigned source);
 int prepare_deferred_function(void);

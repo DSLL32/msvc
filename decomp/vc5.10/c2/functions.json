@@ -76,7 +76,8 @@
     "@put_symbol@8",
     "_c2_initialize_registers",
     "@read_initializer_records@4",
-    "_c2_initialize_optimizer"
+    "_c2_initialize_optimizer",
+    "_initialize_backend"
   ],
   "driver": [
     {
@@ -7279,6 +7280,194 @@
         ]
       ],
       "evidence": "cases/analysis/compile-functions-disassembly.txt:1497Bprimary+397Bcompletecold; actual controller opens ex/sy then initializes backend and iterates pending function passes. Historical logical scaffoldID retained explicitly; actualsource/MAP compile_functions, no wrapper."
+    },
+    {
+      "name": "_initialize_backend",
+      "native": "initialize_backend",
+      "start": 4536542,
+      "end": 4536572,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "cdecl void; void result; RET0",
+      "evidence": "cases/analysis/backend-setup-disassembly.txt:30B whole wrapper, three direct calls and typed ECX/EAX tail transfer to41f494; RET0 inherited from proven49B unaccepted application tail body, no unmask/credit for it.",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "state_model_sha256": "fe989f8e231acc875fec69066a21f7bbbbb7060ebf571301eec5416ba32f6317",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "backend-inputs-open"
     }
   ],
   "stubs": [
@@ -7552,194 +7741,6 @@
       "pending_extent": true,
       "kind": "application",
       "abi": "fastcall C2InitRecord*recordECX, voidRET0"
-    },
-    {
-      "name": "_initialize_backend",
-      "native": "initialize_backend",
-      "start": 4536542,
-      "end": 4536543,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl void; void result; RET0",
-      "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit.",
-      "state_policy": "globals-complete",
-      "state": [
-        {
-          "original": "0x499708",
-          "native": "(unsigned long)c2_onexit_end"
-        },
-        {
-          "original": "0x4996d4",
-          "native": "(unsigned long)c2_onexit_begin"
-        },
-        {
-          "original": "0x49975c",
-          "native": "c2_fmode"
-        },
-        {
-          "original": "0x4980d4",
-          "native": "c2_commode"
-        },
-        {
-          "original": "0x499718",
-          "native": "c2_adjust_fdiv"
-        },
-        {
-          "original": "0x499694",
-          "native": "c2_default_math_error"
-        },
-        {
-          "original": "0x4980d0",
-          "native": "c2_new_mode"
-        },
-        {
-          "original": "0x4980cc",
-          "native": "c2_wildcards"
-        },
-        {
-          "original": "0x7803fa88",
-          "native": "recon_fmode"
-        },
-        {
-          "original": "0x7803fa94",
-          "native": "recon_commode"
-        },
-        {
-          "original": "0x7803f928",
-          "native": "recon_adjust_fdiv"
-        },
-        {
-          "original": "0x7803fa90",
-          "native": "recon_crt_app_type"
-        },
-        {
-          "original": "0x7803f198",
-          "native": "recon_crt_newmode"
-        },
-        {
-          "original": "0x490b7c",
-          "native": "c2_il_extended_header"
-        },
-        {
-          "original": "0x4972f8",
-          "native": "c2_il_source_table"
-        },
-        {
-          "original": "0x497df8",
-          "native": "c2_il_symbol_count"
-        },
-        {
-          "original": "0x491050",
-          "native": "c2_il_initial_symbol_count"
-        },
-        {
-          "original": "0x497f6c",
-          "native": "c2_il_target_size"
-        },
-        {
-          "original": "0x497de8",
-          "native": "c2_il_eight_byte_target"
-        },
-        {
-          "original": "0x48fb68",
-          "native": "(unsigned long)global_scope.previous"
-        },
-        {
-          "original": "0x491040",
-          "native": "c2_node_bytes[0]"
-        },
-        {
-          "original": "0x491044",
-          "native": "c2_node_bytes[1]"
-        },
-        {
-          "original": "0x491048",
-          "native": "c2_node_bytes[2]"
-        },
-        {
-          "original": "0x49104c",
-          "native": "c2_node_bytes[3]"
-        },
-        {
-          "original": "0x491074",
-          "native": "selected_save_register_mask"
-        },
-        {
-          "original": "0x495f34",
-          "native": "call_clobbered_register_mask"
-        },
-        {
-          "original": "0x49745c",
-          "native": "stack_alignment"
-        },
-        {
-          "original": "0x4973e8",
-          "native": "(unsigned long)current_debug_scope"
-        },
-        {
-          "original": "0x490b84",
-          "native": "(unsigned long)current_symbol_list_scope"
-        },
-        {
-          "original": "0x4972fc",
-          "native": "(unsigned long)global_special_symbols"
-        },
-        {
-          "original": "0x49d634",
-          "native": "current_source_file"
-        },
-        {
-          "original": "0x49739c",
-          "native": "last_section_serial"
-        },
-        {
-          "original": "0x4973b0",
-          "native": "il_option_flags"
-        },
-        {
-          "original": "0x4973a0",
-          "native": "(unsigned long)auxiliary_prefix"
-        },
-        {
-          "original": "0x497390",
-          "native": "(unsigned long)aux_expression_file"
-        },
-        {
-          "original": "0x497380",
-          "native": "(unsigned long)aux_symbol_file"
-        },
-        {
-          "original": "0x497c6c",
-          "native": "c2_constant_strings"
-        },
-        {
-          "original": "0x4973c0",
-          "native": "c2_omit_frame_pointer"
-        },
-        {
-          "original": "0x495f1c",
-          "native": "(unsigned long)current_symbol"
-        },
-        {
-          "original": "0x490b78",
-          "native": "(unsigned long)c2_internal_listing"
-        },
-        {
-          "original": "0x4973f8",
-          "native": "(unsigned long)default_storage_section"
-        },
-        {
-          "original": "0x490b70",
-          "native": "(unsigned long)local_symbol_table"
-        }
-      ],
-      "state_model": "scripts/globals_state.py",
-      "state_model_sha256": "fe989f8e231acc875fec69066a21f7bbbbb7060ebf571301eec5416ba32f6317",
-      "expected_argc": 0,
-      "expected_argv": [
-        "-G5"
-      ],
-      "frontier_contract": "backend-inputs-open"
     },
     {
       "name": "_check_extended_backend",
@@ -8370,6 +8371,226 @@
       "kind": "application",
       "abi": "fastcall C2Function *function; void result; RET0",
       "evidence": "Controller callsite argument registers/cleanup in cases/analysis/compile-functions-disassembly.txt. Callee body pending; source remains genuine INT3, no acceptance/unmask/credit."
+    },
+    {
+      "name": "_initialize_pass_functions",
+      "native": "initialize_pass_functions",
+      "start": 4536572,
+      "end": 4536573,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl no parameters; void RET0",
+      "evidence": "Actual typed call/argument transfer in cases/analysis/backend-setup-disassembly.txt. Child remains named INT3, masked, unaccepted and zero source credit.",
+      "state_policy": "globals-complete",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        },
+        {
+          "original": "0x490b78",
+          "native": "(unsigned long)c2_internal_listing"
+        },
+        {
+          "original": "0x4973f8",
+          "native": "(unsigned long)default_storage_section"
+        },
+        {
+          "original": "0x490b70",
+          "native": "(unsigned long)local_symbol_table"
+        }
+      ],
+      "state_model": "scripts/globals_state.py",
+      "state_model_sha256": "fe989f8e231acc875fec69066a21f7bbbbb7060ebf571301eec5416ba32f6317",
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "frontier_contract": "backend-inputs-open"
+    },
+    {
+      "name": "@initialize_source_output@4",
+      "native": "initialize_source_output",
+      "start": 4537956,
+      "end": 4537957,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall sourcechar*ECX; void RET0",
+      "evidence": "Actual typed call/argument transfer in cases/analysis/backend-setup-disassembly.txt. Child remains named INT3, masked, unaccepted and zero source credit."
+    },
+    {
+      "name": "@prepare_function_records@4",
+      "native": "prepare_function_records",
+      "start": 4322716,
+      "end": 4322717,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall functionECX; record*EAX RET0",
+      "evidence": "Actual typed call/argument transfer in cases/analysis/backend-setup-disassembly.txt. Child remains named INT3, masked, unaccepted and zero source credit."
+    },
+    {
+      "name": "@process_records@4",
+      "native": "process_records",
+      "start": 4322452,
+      "end": 4322501,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall recordsECX; void RET0",
+      "evidence": "Actual typed call/argument transfer in cases/analysis/backend-setup-disassembly.txt. Child remains named INT3, masked, unaccepted and zero source credit.",
+      "extent_known_for_tail_abi": true,
+      "extent_evidence": "cases/analysis/backend-setup-disassembly.txt:full49B41f494..41f4c5 straight primary with calls/conditionalbranch and terminalRET0; application only extent transport, no body acceptance/unmask/credit."
     }
   ],
   "text_data": [
@@ -8626,7 +8847,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
+          "sha256": "5cbcb240fc2caf958a0cab2521dc900e120e296ad17507b09a4798653d7905ab"
         }
       },
       {
@@ -8638,7 +8859,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
+          "sha256": "5cbcb240fc2caf958a0cab2521dc900e120e296ad17507b09a4798653d7905ab"
         }
       },
       {
@@ -8650,7 +8871,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
+          "sha256": "5cbcb240fc2caf958a0cab2521dc900e120e296ad17507b09a4798653d7905ab"
         }
       },
       {
@@ -8662,7 +8883,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
+          "sha256": "5cbcb240fc2caf958a0cab2521dc900e120e296ad17507b09a4798653d7905ab"
         }
       },
       {
@@ -8674,7 +8895,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
+          "sha256": "5cbcb240fc2caf958a0cab2521dc900e120e296ad17507b09a4798653d7905ab"
         }
       },
       {
@@ -8686,7 +8907,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
+          "sha256": "5cbcb240fc2caf958a0cab2521dc900e120e296ad17507b09a4798653d7905ab"
         }
       },
       {
@@ -8698,7 +8919,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
+          "sha256": "5cbcb240fc2caf958a0cab2521dc900e120e296ad17507b09a4798653d7905ab"
         }
       },
       {
@@ -8710,7 +8931,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
+          "sha256": "5cbcb240fc2caf958a0cab2521dc900e120e296ad17507b09a4798653d7905ab"
         }
       },
       {
@@ -8722,7 +8943,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
+          "sha256": "5cbcb240fc2caf958a0cab2521dc900e120e296ad17507b09a4798653d7905ab"
         }
       },
       {
@@ -8734,7 +8955,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
+          "sha256": "5cbcb240fc2caf958a0cab2521dc900e120e296ad17507b09a4798653d7905ab"
         }
       },
       {
@@ -8746,7 +8967,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
+          "sha256": "5cbcb240fc2caf958a0cab2521dc900e120e296ad17507b09a4798653d7905ab"
         }
       },
       {
@@ -8758,7 +8979,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
+          "sha256": "5cbcb240fc2caf958a0cab2521dc900e120e296ad17507b09a4798653d7905ab"
         }
       },
       {
@@ -8773,7 +8994,7 @@
         ],
         "evidence": {
           "path": "cases/analysis/initializer-callee-abi.json",
-          "sha256": "8ff1ed3510e877a63f474ea131d082d94b36bfc29b8061a5f78b450b6ae8ca71"
+          "sha256": "5cbcb240fc2caf958a0cab2521dc900e120e296ad17507b09a4798653d7905ab"
         }
       }
     ]
