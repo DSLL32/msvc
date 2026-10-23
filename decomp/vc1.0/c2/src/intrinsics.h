@@ -11,11 +11,13 @@ typedef struct IntrinsicDescription {
     unsigned flags;
 } IntrinsicDescription;
 typedef char IntrinsicDescriptionSizeCheck[sizeof(IntrinsicDescription) == 16 ? 1 : -1];
-enum { INTRINSIC_SIN_FLOAT = 106, INTRINSIC_SIN_DOUBLE = 107,
+enum { INTRINSIC_SQRT_FLOAT = 92, INTRINSIC_SQRT_DOUBLE = 93,
+    INTRINSIC_SIN_FLOAT = 106, INTRINSIC_SIN_DOUBLE = 107,
     INTRINSIC_COS_FLOAT = 110, INTRINSIC_COS_DOUBLE = 111,
     INTRINSIC_ATAN2_FLOAT = 132, INTRINSIC_ATAN2_DOUBLE = 133,
     INTRINSIC_AGGREGATE_COPY = 172, INTRINSIC_AGGREGATE_FILL = 173,
     INTRINSIC_POWER_DOUBLE = 174 };
+extern const IntrinsicDescription root_float_intrinsic, root_double_intrinsic;
 extern const IntrinsicDescription sine_float_intrinsic, sine_double_intrinsic;
 extern const IntrinsicDescription cosine_float_intrinsic, cosine_double_intrinsic;
 extern const IntrinsicDescription arctangent2_float_intrinsic, arctangent2_double_intrinsic;
@@ -26,6 +28,8 @@ extern const IntrinsicDescription aggregate_copy_intrinsic, aggregate_fill_intri
    this dispatch inline introduces no nonoriginal function/call edge. */
 #define SELECT_INTRINSIC_DESCRIPTION(id, description) do { \
     switch (id) { \
+    case INTRINSIC_SQRT_FLOAT: (description) = &root_float_intrinsic; break; \
+    case INTRINSIC_SQRT_DOUBLE: (description) = &root_double_intrinsic; break; \
     case INTRINSIC_SIN_FLOAT: (description) = &sine_float_intrinsic; break; \
     case INTRINSIC_SIN_DOUBLE: (description) = &sine_double_intrinsic; break; \
     case INTRINSIC_COS_FLOAT: (description) = &cosine_float_intrinsic; break; \

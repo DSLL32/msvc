@@ -61,5 +61,23 @@
     "commands": "vb",
     "runtime_name": "fexp\u00ffpow",
     "flags": 2848
+  },
+  {
+    "id": 92,
+    "name": "root_float_intrinsic",
+    "original": "0x83f98",
+    "result_type": 4100,
+    "commands": "C",
+    "runtime_name": "sqrt",
+    "flags": 288
+  },
+  {
+    "id": 93,
+    "name": "root_double_intrinsic",
+    "original": "0x83fa8",
+    "result_type": 4104,
+    "commands": "d",
+    "runtime_name": "",
+    "flags": 288
   }
 ]

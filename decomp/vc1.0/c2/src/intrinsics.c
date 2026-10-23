@@ -5,6 +5,10 @@
 #include <recon.h>
 extern int floating_frontend;
 Node *current_intrinsic; /* original0007b9b4 */
+/* Original83f98..83fb8: square root reached after binary power lowering. */
+const IntrinsicDescription root_float_intrinsic = { 0x1004, 0, "C", "sqrt", 0x120 };
+const IntrinsicDescription root_double_intrinsic = { 0x1008, 0, "d", "", 0x120 };
+
 /* Original84078..84098: the encountered double sine descriptor redirects
    by command 'd' to the preceding scalar descriptor. Commands839c0/839c4
    and runtime name84d38 are introduced only for these two reached records. */
@@ -299,4 +303,46 @@ void __fastcall prepare_generated_intrinsic(Node *node, int mode)
     }
     symbol = (FunctionSymbol *)node->left.node->right.symbol;
     set_generated_intrinsic_call(symbol, (unsigned short)(call_flags & 7), result, arguments);
+}
+
+/* Original [00063870,00063892). Free only the original callee/argument
+   container nodes; their value trees are retained by the lowered expression. */
+void __fastcall release_intrinsic_operands(Node *node)
+{
+    Node *argument, *next;
+    release_node(node->left.node);
+    for (argument = node->second.node; argument; argument = next) {
+        next = argument->second.node;
+        release_node(argument);
+    }
+}
+
+/* Original838c8..838e0: the complete12-row intrinsic-to-tree mapping,
+   including its FF/zero terminator. The following argument-type cache is
+   a separate object and is not part of this table. */
+enum IntrinsicTreeOperation {
+    INTRINSIC_TREE_POWER = 7, INTRINSIC_TREE_ABSOLUTE = 0x84,
+    INTRINSIC_TREE_ROTATE_RIGHT = 0xac, INTRINSIC_TREE_ROTATE_LEFT = 0xad
+};
+typedef struct IntrinsicTreeOperator {
+    unsigned char intrinsic, operation;
+} IntrinsicTreeOperator;
+typedef char IntrinsicTreeOperatorSizeCheck[sizeof(IntrinsicTreeOperator) == 2 ? 1 : -1];
+static const IntrinsicTreeOperator intrinsic_tree_operators[] = {
+    {174, INTRINSIC_TREE_POWER}, {209, INTRINSIC_TREE_POWER},
+    {13, INTRINSIC_TREE_ABSOLUTE}, {14, INTRINSIC_TREE_ABSOLUTE},
+    {15, INTRINSIC_TREE_ABSOLUTE}, {16, INTRINSIC_TREE_ABSOLUTE},
+    {17, INTRINSIC_TREE_ABSOLUTE},
+    {159, INTRINSIC_TREE_ROTATE_LEFT}, {160, INTRINSIC_TREE_ROTATE_RIGHT},
+    {161, INTRINSIC_TREE_ROTATE_LEFT}, {162, INTRINSIC_TREE_ROTATE_RIGHT},
+    {255, 0}
+};
+/* Original [00063840,0006386f). An unknown ID returns the terminator's
+   zero opcode, preserving the original lookup's fallback. */
+unsigned __fastcall intrinsic_operator(unsigned intrinsic)
+{
+    unsigned index = 0;
+    while (intrinsic_tree_operators[index].intrinsic != 255 &&
+           intrinsic_tree_operators[index].intrinsic != intrinsic) ++index;
+    return intrinsic_tree_operators[index].operation;
 }

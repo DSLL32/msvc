@@ -1,0 +1,9 @@
+{
+  "executable_sha256": "80637de668f5fe1c2cff41e6606c29da68df6b9c93d1cdfeaedcf842d58fe766",
+  "config_sha256": "e61e2e277c9eaaeb4d9af905c645e47b9a52b5d75dcd647c2b8392606dd15841",
+  "seconds": 0.13862079475075006,
+  "logical": "@available_chain_operands@8",
+  "matched": true,
+  "log_sha256": "6c1bbf9545906d12cc50e569dc8a232e3415817eed6295ae43281fe1da3c1fa4",
+  "directory": "/root/.ai-tmp/vc1.0-c2/x87-gdb-tcx3ilhn"
+}

@@ -2697,3 +2697,12 @@ call child remains unvisited. Fresh matching reaches release_intrinsic_operands;
 993 graphs, eight native fixtures (seven complete objects), canonical/W3 and
 extent checks pass. See cases/x87-intrinsic-preparation.json for evidence,
 initial data-frontier failures and measured retries. No shared shim needed.
+
+Intrinsic operand and operator lowering: checkpoint1074
+The34-byte operand-container cleanup and47-byte operator lookup match fresh
+original frontiers. Their twelve-row24-byte operator map is independently
+verified through canonical COFF relocations; square-root descriptors bring the
+encountered typed math records to nine. All995 graph checks, canonical/W3 and
+eight native cases pass (seven complete objects plus the matching deep-x87
+frontier available_chain_operands). See cases/x87-operator-lowering.json.
+Shared-prefix migration is now prioritized before further reconstruction.

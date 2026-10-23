@@ -6,7 +6,7 @@
       "id": 106,
       "addresses": [
         "0x84078",
-        "0x86030"
+        "0x86050"
       ],
       "extent_bytes": 16
     },
@@ -15,7 +15,7 @@
       "id": 107,
       "addresses": [
         "0x84088",
-        "0x86040"
+        "0x86060"
       ],
       "extent_bytes": 16
     },
@@ -24,7 +24,7 @@
       "id": 110,
       "addresses": [
         "0x840b8",
-        "0x86050"
+        "0x86070"
       ],
       "extent_bytes": 16
     },
@@ -33,7 +33,7 @@
       "id": 111,
       "addresses": [
         "0x840c8",
-        "0x86060"
+        "0x86080"
       ],
       "extent_bytes": 16
     },
@@ -42,7 +42,7 @@
       "id": 132,
       "addresses": [
         "0x84218",
-        "0x86070"
+        "0x86090"
       ],
       "extent_bytes": 16
     },
@@ -51,7 +51,7 @@
       "id": 133,
       "addresses": [
         "0x84228",
-        "0x86080"
+        "0x860a0"
       ],
       "extent_bytes": 16
     },
@@ -60,11 +60,36 @@
       "id": 174,
       "addresses": [
         "0x844b8",
-        "0x86090"
+        "0x860b0"
+      ],
+      "extent_bytes": 16
+    },
+    {
+      "name": "root_float_intrinsic",
+      "id": 92,
+      "addresses": [
+        "0x83f98",
+        "0x86030"
+      ],
+      "extent_bytes": 16
+    },
+    {
+      "name": "root_double_intrinsic",
+      "id": 93,
+      "addresses": [
+        "0x83fa8",
+        "0x86040"
       ],
       "extent_bytes": 16
     }
   ],
+  "operator_map": {
+    "start": "0x838c8",
+    "end": "0x838e0",
+    "rows": 12,
+    "bytes": 24,
+    "includes_terminator": true
+  },
   "generated_inline_switch": {
     "start": "0x63ec0",
     "end": "0x63f20",
@@ -81,7 +106,7 @@
     ]
   },
   "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
-  "rebuilt_sha256": "72704882e1f3f5c8e668083be20b650d4f502db4baae4f83dbe513e7a738158a",
+  "rebuilt_sha256": "e9c1d2864d71e7a446d33074286f6a3baab363e98aac8f4159b2faed6c9d4bc4",
   "executes_wine": false,
   "address_identity": "Interpreter does not expose descriptor addresses or perform arithmetic between descriptors"
 }

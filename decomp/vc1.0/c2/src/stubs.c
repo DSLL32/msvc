@@ -329,8 +329,6 @@ void __fastcall coff_add_function_fixup(unsigned identifier, CoffRelocation *rel
 
 #include "intrinsics.h"
 void __fastcall append_intrinsic_expression(Node *expression) { __asm int 3 }
-void __fastcall release_intrinsic_operands(Node *node) { __asm int 3 }
-unsigned __fastcall intrinsic_operator(unsigned intrinsic) { __asm int 3 }
 int __fastcall adjust_factor_constant(Node *node, Node *factor, unsigned *value) { __asm int 3 }
 Node *__fastcall push_unary_into_left(Node *node) { __asm int 3 }
 Node *__fastcall push_unary_into_right(Node *node) { __asm int 3 }

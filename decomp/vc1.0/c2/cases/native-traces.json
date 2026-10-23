@@ -2,7 +2,7 @@
   "schema": 1,
   "description": "Cached original application-entry projection; no capture or Wine",
   "metadata_sha256": {
-    "functions.json": "4359c7b7cad47fee7b1b6c4a7c6546b0a0a3ed1ff6fb208e48d69a653d0f4acd",
+    "functions.json": "e61e2e277c9eaaeb4d9af905c645e47b9a52b5d75dcd647c2b8392606dd15841",
     "runtime.json": "152b2710b9e2143181444acbc7a50639ef1f90f77983d58db30674c44ac88ff2"
   },
   "application_definitions": {
@@ -2324,7 +2324,7 @@
     },
     "intrinsic_operator": {
       "logical": "@intrinsic_operator@4",
-      "source": "src/stubs.c"
+      "source": "src/intrinsics.c"
     },
     "invalidate_work_reference": {
       "logical": "@invalidate_work_reference@4",
@@ -3840,7 +3840,7 @@
     },
     "release_intrinsic_operands": {
       "logical": "@release_intrinsic_operands@4",
-      "source": "src/stubs.c"
+      "source": "src/intrinsics.c"
     },
     "release_loop_tree_record": {
       "logical": "@release_loop_tree_record@4",
@@ -33315,6 +33315,144 @@
               "total_seconds": 0.8609959669411182
             }
           }
+        },
+        {
+          "accepted_function": "@release_intrinsic_operands@4",
+          "accepted_kind": "application",
+          "previous_logical": "@release_intrinsic_operands@4",
+          "original_extent": [
+            "0x63870",
+            "0x63892"
+          ],
+          "before": {
+            "path": "cases/x87-original-1072.json",
+            "sha256": "fb46a8c90e2d172b4f629c00f6259ff44f313eee58e76ac9a633a9faf41ec27c",
+            "capture": {
+              "label": "x87-original-1072",
+              "profile": "x87",
+              "accepted": 1072,
+              "events": "exception 80000003 rva 00053870 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "85d97f1c2fc06d402776924ad749a9fb80924c10136308f121d1916bc9076abb",
+              "config_sha256": "4359c7b7cad47fee7b1b6c4a7c6546b0a0a3ed1ff6fb208e48d69a653d0f4acd",
+              "manifest_sha256": "d7c22a912e6591839698fd1707d121ac42722ace61eb23d617681308c9e34ca8",
+              "inputs": {
+                "c2/irex": "83a2663ce1022428d1529c5e46a16058bef4c3dc26754b56df1907f4c5e55884",
+                "c2/irsy": "d430f60f62b0267369a2bf72f2ef784b8a677b8e5a3f0bfe002bbd8b016a920f",
+                "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+                "c2/irgl": "e237def8092a228c3511d53f1dae8597a329c8c055b25615b15c76cd012d8151"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f stack87.c -W 1 -dos -Fostack87.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-x87-_jzlf05k",
+              "logical": "@release_intrinsic_operands@4",
+              "original_va": "0x63870",
+              "setup_seconds": 0.22533840965479612,
+              "execution_seconds": 0.6293091718107462,
+              "check_seconds": 0.006347863003611565,
+              "total_seconds": 0.8609959669411182
+            }
+          },
+          "after": {
+            "path": "cases/x87-original-1073.json",
+            "sha256": "04d8d9a9ee503897467176b54e148fd958edd2821b6b6db842363e9b74358630",
+            "capture": {
+              "label": "x87-original-1073",
+              "profile": "x87",
+              "accepted": 1073,
+              "events": "exception 80000003 rva 00053840 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "c4c0d04e29cd307e2cce65edcb96d11fde29389123cb1660b8a72946cfe551d4",
+              "config_sha256": "e763bb02b75e8e9849f1b4aeb1dbaad6d0fcef1a0d693516d4e595cdb23e5d5a",
+              "manifest_sha256": "d7c22a912e6591839698fd1707d121ac42722ace61eb23d617681308c9e34ca8",
+              "inputs": {
+                "c2/irex": "83a2663ce1022428d1529c5e46a16058bef4c3dc26754b56df1907f4c5e55884",
+                "c2/irsy": "d430f60f62b0267369a2bf72f2ef784b8a677b8e5a3f0bfe002bbd8b016a920f",
+                "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+                "c2/irgl": "e237def8092a228c3511d53f1dae8597a329c8c055b25615b15c76cd012d8151"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f stack87.c -W 1 -dos -Fostack87.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-x87-ugo_ozo6",
+              "logical": "@intrinsic_operator@4",
+              "original_va": "0x63840",
+              "setup_seconds": 0.22864502482116222,
+              "execution_seconds": 1.5900689456611872,
+              "check_seconds": 0.006471647880971432,
+              "total_seconds": 1.825186088681221
+            }
+          }
+        },
+        {
+          "accepted_function": "@intrinsic_operator@4",
+          "accepted_kind": "application",
+          "previous_logical": "@intrinsic_operator@4",
+          "original_extent": [
+            "0x63840",
+            "0x6386f"
+          ],
+          "before": {
+            "path": "cases/x87-original-1073.json",
+            "sha256": "04d8d9a9ee503897467176b54e148fd958edd2821b6b6db842363e9b74358630",
+            "capture": {
+              "label": "x87-original-1073",
+              "profile": "x87",
+              "accepted": 1073,
+              "events": "exception 80000003 rva 00053840 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "c4c0d04e29cd307e2cce65edcb96d11fde29389123cb1660b8a72946cfe551d4",
+              "config_sha256": "e763bb02b75e8e9849f1b4aeb1dbaad6d0fcef1a0d693516d4e595cdb23e5d5a",
+              "manifest_sha256": "d7c22a912e6591839698fd1707d121ac42722ace61eb23d617681308c9e34ca8",
+              "inputs": {
+                "c2/irex": "83a2663ce1022428d1529c5e46a16058bef4c3dc26754b56df1907f4c5e55884",
+                "c2/irsy": "d430f60f62b0267369a2bf72f2ef784b8a677b8e5a3f0bfe002bbd8b016a920f",
+                "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+                "c2/irgl": "e237def8092a228c3511d53f1dae8597a329c8c055b25615b15c76cd012d8151"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f stack87.c -W 1 -dos -Fostack87.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-x87-ugo_ozo6",
+              "logical": "@intrinsic_operator@4",
+              "original_va": "0x63840",
+              "setup_seconds": 0.22864502482116222,
+              "execution_seconds": 1.5900689456611872,
+              "check_seconds": 0.006471647880971432,
+              "total_seconds": 1.825186088681221
+            }
+          },
+          "after": {
+            "path": "cases/x87-original-1074.json",
+            "sha256": "942be0bcc2cef46a1fe7fb85efa70106c9202f95c30579bd49dceb81d99f676b",
+            "capture": {
+              "label": "x87-original-1074",
+              "profile": "x87",
+              "accepted": 1074,
+              "events": "exception 80000003 rva 0004c900 base 00010000 first 1\nexit 99\n",
+              "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+              "masked_sha256": "4acf0c4e24f77f8828d350ff86ca893d1fd45bd29641de50a2b5ab586cd31775",
+              "config_sha256": "e61e2e277c9eaaeb4d9af905c645e47b9a52b5d75dcd647c2b8392606dd15841",
+              "manifest_sha256": "d7c22a912e6591839698fd1707d121ac42722ace61eb23d617681308c9e34ca8",
+              "inputs": {
+                "c2/irex": "83a2663ce1022428d1529c5e46a16058bef4c3dc26754b56df1907f4c5e55884",
+                "c2/irsy": "d430f60f62b0267369a2bf72f2ef784b8a677b8e5a3f0bfe002bbd8b016a920f",
+                "c2/irin": "69c86058354dd6d2048a10cc6965e7b5b610f51740a126132e15364d13cd1e5b",
+                "c2/irgl": "e237def8092a228c3511d53f1dae8597a329c8c055b25615b15c76cd012d8151"
+              },
+              "environment": {
+                "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f stack87.c -W 1 -dos -Fostack87.obj -ML -Gs4096 -Gy -G5 "
+              },
+              "directory": "/root/.ai-tmp/vc1.0-c2/original-x87-ramxu10a",
+              "logical": "@available_chain_operands@8",
+              "original_va": "0x5c900",
+              "setup_seconds": 0.2204039040952921,
+              "execution_seconds": 1.3837009174749255,
+              "check_seconds": 0.006601251661777496,
+              "total_seconds": 1.610706471838057
+            }
+          }
         }
       ]
     }
@@ -38922,7 +39060,7 @@
     },
     "x87": {
       "first": 1071,
-      "last": 1072,
+      "last": 1074,
       "seen": [
         "main",
         "append_environment_arguments",
@@ -39914,9 +40052,11 @@
       ],
       "expected": [
         "prepare_generated_intrinsic",
-        "release_intrinsic_operands"
+        "release_intrinsic_operands",
+        "intrinsic_operator",
+        "available_chain_operands"
       ],
-      "terminal": "@release_intrinsic_operands@4",
+      "terminal": "@available_chain_operands@8",
       "terminal_kind": "application",
       "returncode": -5
     }

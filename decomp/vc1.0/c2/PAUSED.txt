@@ -1,7 +1,7 @@
-C2 ACTIVE at1072 acceptances/993 matching source graphs.
-Current deep x87 frontier @release_intrinsic_operands@4.
-Whole generated-intrinsic helper and seven encountered descriptors verified.
-Seven complete objects plus deep-x87 named-trap native fixture pass.
-Canonical/W3, graph/extent and independent contextual data checks pass.
-Next i486 case remains queued; preserve unvisited slot8 alias semantics.
-Pause after both selected remaining cases complete. No shim request.
+C2 MIGRATION PRIORITY at1074 verified acceptances/995 matching source graphs.
+Deep x87 frontier @available_chain_operands@8; no reconstruction until migration.
+Seven complete objects plus deep-x87 native named trap pass, canonical/W3 and
+full graph/extent/contextual-data checks pass.
+Migrate original builds/capture to shared prefix with fixed R:/S: mappings,
+regenerate required transport evidence and retire exact obsolete own prefix
+only after verifying no active users. Then resume deep x87 and i486 queue.

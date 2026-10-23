@@ -1076,7 +1076,9 @@
     "@choose_generic_instruction@4",
     "@gather_generic_candidates@8",
     "@select_generic_candidate@8",
-    "@prepare_generated_intrinsic@8"
+    "@prepare_generated_intrinsic@8",
+    "@release_intrinsic_operands@4",
+    "@intrinsic_operator@4"
   ],
   "driver": [
     {
@@ -6167,14 +6169,12 @@
     {
       "name": "@release_intrinsic_operands@4",
       "start": 407664,
-      "end": 407665,
-      "provisional": true
+      "end": 407698
     },
     {
       "name": "@intrinsic_operator@4",
       "start": 407616,
-      "end": 407617,
-      "provisional": true
+      "end": 407663
     },
     {
       "name": "@intrinsic_argument_width@8",
