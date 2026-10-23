@@ -24,7 +24,8 @@
     "rc_prefix_equal",
     "rc_notify_progress",
     "rc_preprocess",
-    "rc_widen_arguments"
+    "rc_widen_arguments",
+    "rc_preprocessor_main"
   ],
   "functions": [
     {
@@ -502,6 +503,57 @@
       "kind": "application",
       "abi": "cdecl",
       "stack_bytes": 0,
+      "stub": false,
+      "text_data": [
+        [
+          "0x1e18",
+          "0x1e1b"
+        ]
+      ]
+    },
+    {
+      "name": "rc_next_argument",
+      "start": "0xbc61",
+      "end": "0xbc80",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_scan_options",
+      "start": "0x293e",
+      "end": "0x29ef",
+      "abi": "stdcall",
+      "stack_bytes": 16,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_open_preprocessor",
+      "start": "0x44fd",
+      "end": "0x476f",
+      "abi": "stdcall",
+      "stack_bytes": 16,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_run_preprocessor",
+      "start": "0xbe41",
+      "end": "0xbebd",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_close_preprocessor",
+      "start": "0x476f",
+      "end": "0x478b",
+      "abi": "cdecl",
+      "stack_bytes": 0,
+      "kind": "application",
       "stub": true
     }
   ],

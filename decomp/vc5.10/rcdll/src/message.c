@@ -3,6 +3,7 @@
 #include <recon.h>
 
 char rc_message_buffer[4096];
+char *rc_error_template;
 
 char *__stdcall rc_message(DWORD id)
 {

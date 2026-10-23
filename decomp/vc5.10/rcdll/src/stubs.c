@@ -66,8 +66,27 @@ void __stdcall rc_input_warning(unsigned code)
     __asm int 3
 }
 
-int __cdecl rc_preprocessor_main(int count,WCHAR **arguments)
+WCHAR *__cdecl rc_next_argument(void)
+{
+    __asm int 3
+    return NULL;
+}
+int __stdcall rc_scan_options(const RcOption *options,WCHAR *argument,
+                             RcNextArgument next,int duplicate)
 {
     __asm int 3
     return 0;
+}
+void __stdcall rc_open_preprocessor(WCHAR *input,WCHAR *output,
+                                   RcOptionList *defines,RcOptionList *undefines)
+{
+    __asm int 3
+}
+void __cdecl rc_run_preprocessor(void)
+{
+    __asm int 3
+}
+void __cdecl rc_close_preprocessor(void)
+{
+    __asm int 3
 }

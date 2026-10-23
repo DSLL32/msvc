@@ -1,0 +1,252 @@
+{
+  "schema": 1,
+  "scope": "Encountered embedded preprocessor options and main state, not a bulk data-section model.",
+  "globals": [
+    {
+      "name": "rc_cpp_remaining",
+      "original_rva": "0x27fb8",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_arguments",
+      "original_rva": "0x27fbc",
+      "kind": "wide-vector",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_bad_argument",
+      "original_rva": "0x27fc0",
+      "kind": "null-pointer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_active",
+      "original_rva": "0x1811c",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_input",
+      "original_rva": "0x16cbc",
+      "kind": "null-pointer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_output",
+      "original_rva": "0x18e60",
+      "kind": "null-pointer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_error_template",
+      "original_rva": "0x18644",
+      "kind": "null-pointer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_path_characters",
+      "original_rva": "0x149bc",
+      "kind": "wide-string",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_include_listing",
+      "original_rva": "0x149c0",
+      "kind": "wide-string",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_pf",
+      "original_rva": "0x16cb0",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_C",
+      "original_rva": "0x1852c",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_codepage",
+      "original_rva": "0x16cb4",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_E",
+      "original_rva": "0x16cc4",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_P",
+      "original_rva": "0x16cb8",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_J",
+      "original_rva": "0x18118",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_Oi",
+      "original_rva": "0x16ca0",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_Ol",
+      "original_rva": "0x1864c",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_debug",
+      "original_rva": "0x18654",
+      "kind": "null-pointer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_xc",
+      "original_rva": "0x18650",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_H",
+      "original_rva": "0x18124",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_version",
+      "original_rva": "0x16cdc",
+      "kind": "null-pointer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_stack_checks",
+      "original_rva": "0x149cc",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_Gc",
+      "original_rva": "0x18658",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_char",
+      "original_rva": "0x149c8",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_A",
+      "original_rva": "0x16cc0",
+      "kind": "null-pointer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_Q",
+      "original_rva": "0x16ce4",
+      "kind": "null-pointer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_Fs",
+      "original_rva": "0x18e68",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_R",
+      "original_rva": "0x18528",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_extensions",
+      "original_rva": "0x149e0",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_pack",
+      "original_rva": "0x149e4",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_ZE",
+      "original_rva": "0x18534",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_Zi",
+      "original_rva": "0x18538",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_Zg",
+      "original_rva": "0x16cf0",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_ZI",
+      "original_rva": "0x16cac",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_Zc",
+      "original_rva": "0x16cc8",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_nesting_level",
+      "original_rva": "0x149d4",
+      "kind": "integer",
+      "bytes": 4
+    },
+    {
+      "name": "rc_cpp_defines",
+      "original_rva": "0x144f8",
+      "kind": "option-list",
+      "bytes": 404
+    },
+    {
+      "name": "rc_cpp_undefines",
+      "original_rva": "0x14690",
+      "kind": "option-list",
+      "bytes": 404
+    },
+    {
+      "name": "rc_cpp_includes",
+      "original_rva": "0x14828",
+      "kind": "option-list",
+      "bytes": 404
+    }
+  ],
+  "options": {
+    "name": "rc_cpp_options",
+    "original_rva": "0x14e90",
+    "rows": 31,
+    "bytes_per_row": 12
+  },
+  "letters": {
+    "name": "rc_cpp_Z_options",
+    "original_rva": "0x14e20",
+    "rows": 9,
+    "bytes_per_row": 12
+  }
+}

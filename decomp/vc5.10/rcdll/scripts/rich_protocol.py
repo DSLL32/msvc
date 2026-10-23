@@ -488,21 +488,15 @@ def preprocess_trial(original,native):
     return proof
 
 
-def widen_trial(original,native):
-    config=read_configuration(original/'functions.json')
-    assert config.get('trial_function')=='rc_widen_arguments'and len(config['accepted'])==20
-    a,b,proof=checkpoint(original,native,'rc_preprocessor_main',('rc_input_temporary','rc_output_temporary'))
-    assert a['words'][0]==0x71c28b89 and a['words'][1]==20 and a['words'][2]!=0
-    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_preprocess\s*\(',(native/'gdb.stdout').read_text(),re.M)
+def wide_argument_state(original,native,a,b):
     text=(original/'events.txt').read_text();arguments=b['arguments']
-    assert re.findall(r'^wide-args (\d+) ([0-9a-f]+)$',text,re.M)==[('20','%08x'%a['words'][2])]
     # The previously accepted forwarding boundary records this exact case's
     # ANSI vector. Only its two actual temporary paths vary between captures.
     expected=json.loads((HERE/'cases/resources-rich/acceptance-0020.json').read_text())['proof']['forwarded']['argv'][:]
     expected[4]=raw_bytes(text,'input-temporary')[:-1].decode('ascii');expected[6]=raw_bytes(text,'output-temporary')[:-1].decode('ascii')
     assert len(expected)==20 and all(value.isascii()for value in expected)
     prepared=prepared_case_state(original,native,b,expected,extra_blocks=1)
-    original_pointer=a['words'][2];native_pointer=arguments['vector_pointer'];assert native_pointer>0
+    original_pointer=int(re.findall(r'^wide-args 20 ([0-9a-f]+)$',text,re.M)[0],16);native_pointer=arguments['vector_pointer'];assert native_pointer>0
     vector=arguments['wide_vector'];assert len(vector)==20 and arguments['wide_terminator']==0
     assert re.findall(r'^wide-terminator ([0-9a-f]+)$',text,re.M)==['00000000']
     old_pointers=[int(value,16)for value in re.findall(r'^wide-pointer \d+ ([0-9a-f]+)$',text,re.M)];assert len(old_pointers)==20
@@ -534,6 +528,72 @@ def widen_trial(original,native):
     allocations=[row for row in b['heap']if row['operation']=='allocate'];assert len(allocations)==5
     last=allocations[-1];assert last['heap']==identity['handle']and last['flags']==9 and last['bytes']==size and last['result']+8==native_pointer
     assert bytes.fromhex(last['payload'])==b'\0'*size and last['last_error_before']==last['last_error_after']==0
+    return dict(prepared=prepared,widened=dict(count=20,argv=expected,allocation_bytes=size,header_bytes=8,pointer_array_bytes=84,original_base=original_pointer,native_base=native_pointer,terminator=0,normalization='only pointers into the one owned packed allocation; UTF16 bytes exact'),ansi_reference=dict(path='cases/resources-rich/acceptance-0020.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0020.json'),transport_slots=[4,6]))
+
+
+def widen_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_widen_arguments'and len(config['accepted'])==20
+    a,b,proof=checkpoint(original,native,'rc_preprocessor_main',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c28b89 and a['words'][1]==20 and a['words'][2]!=0
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_preprocess\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    proof.update(wide_argument_state(original,native,a,b))
     assert proof['application_trace'][-1]=='rc_widen_arguments'
-    proof.update(trial='rc_widen_arguments',prepared=prepared,widened=dict(count=20,argv=expected,allocation_bytes=size,header_bytes=8,pointer_array_bytes=84,original_base=original_pointer,native_base=native_pointer,terminator=0,normalization='only pointers into the one owned packed allocation; UTF16 bytes exact'),ansi_reference=dict(path='cases/resources-rich/acceptance-0020.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0020.json'),transport_slots=[4,6]))
+    proof['trial']='rc_widen_arguments'
+    return proof
+
+
+def preprocessor_main_trial(original,native):
+    config=read_configuration(original/'functions.json')
+    assert config.get('trial_function')=='rc_preprocessor_main'and len(config['accepted'])==21
+    a,b,proof=checkpoint(original,native,'rc_next_argument',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c2bce0
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_preprocessor_main\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    state=wide_argument_state(original,native,a,b);proof.update(state)
+    specification=json.loads((native/'preprocess-data.json').read_text())
+    assert sha(native/'preprocess-data.json')==sha(HERE/'preprocess-data.json')
+    observed=b['arguments']['preprocessor']
+    assert observed['schema_sha256']==sha(native/'preprocess-data.json')
+    raw=(original/'globals.bin').read_bytes();text=(original/'relocated-text.bin').read_bytes()
+    def read(rva,size):
+        data=raw if rva>=0x14000 else text
+        offset=rva-(0x14000 if rva>=0x14000 else 0x1000)
+        assert 0<=offset<=len(data)-size
+        return data[offset:offset+size]
+    def wide(pointer):
+        value=bytearray()
+        for index in range(4177):
+            word=read(pointer-0x71c20000+index*2,2);value.extend(word)
+            if word==b'\0\0':return bytes(value)
+        raise AssertionError('unterminated descriptor string')
+    addresses={0:0}
+    for row in specification['globals']:
+        rva=int(row['original_rva'],16);actual=observed['globals'][row['name']]
+        addresses[0x71c20000+rva]=actual['address']
+        old=read(rva,row['bytes']);new=bytes.fromhex(actual['bytes'])
+        assert len(new)==row['bytes']
+        if row['kind']=='wide-vector':
+            assert int.from_bytes(old,'little')==state['widened']['original_base']
+            assert int.from_bytes(new,'little')==state['widened']['native_base']
+        elif row['kind']=='wide-string':
+            assert bytes.fromhex(actual['text'])==wide(int.from_bytes(old,'little'))
+        else:assert old==new,'preprocessor global differs: '+row['name']
+    assert observed['globals']['rc_cpp_remaining']['bytes']=='14000000'
+    for key in ['options','letters']:
+        table=specification[key];rva=int(table['original_rva'],16)
+        addresses[0x71c20000+rva]=observed['tables'][key]['address']
+    for key in ['options','letters']:
+        table=specification[key];rows=observed['tables'][key]['rows'];assert len(rows)==table['rows']
+        for index,value in enumerate(rows):
+            data=read(int(table['original_rva'],16)+index*12,12)
+            if key=='options':
+                pointer,destination,keep,action,reserved=struct.unpack('<IIbBH',data)
+                assert value['pattern']==(wide(pointer).hex()if pointer else None)
+                assert (value['keep'],value['action'],value['reserved'])==(keep,action,reserved)
+            else:
+                letter,action,destination=struct.unpack('<iiI',data)
+                assert (value['letter'],value['action'])==(letter,action)
+            assert destination in addresses and value['destination']==addresses[destination]
+    assert proof['application_trace'][-1]=='rc_preprocessor_main'
+    proof.update(trial='rc_preprocessor_main',preprocessor=dict(remaining=20,vector='same owned packed wide argument vector',globals=len(specification['globals']),option_rows=31,letter_rows=9,record_bytes=12,source_schema_sha256=sha(HERE/'preprocess-data.json')))
     return proof

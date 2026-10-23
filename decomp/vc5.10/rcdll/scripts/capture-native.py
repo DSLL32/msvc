@@ -26,6 +26,7 @@ def main():
     (out/'functions.json').write_bytes(config.read_bytes())
     (out/'help-resources.bin').write_bytes((HERE/'build/help-resources.bin').read_bytes())
     (out/'data.json').write_bytes((HERE/'data.json').read_bytes())
+    (out/'preprocess-data.json').write_bytes((HERE/'preprocess-data.json').read_bytes())
     env=os.environ.copy();env.update(RCDLL_NATIVE_SNAPSHOT=str(out/'snapshot.json'),RCDLL_NATIVE_CONFIG=str(out/'functions.json'),RCDLL_NATIVE_SCRIPT=str(HERE/'scripts/native-gdb.py'),RECON_RC_ARGV0=a.argv0,RECON_RC_DLL_PATH=a.module_path,RECON_RC_RESOURCES=str(HERE/'build/help-resources.bin'))
     if a.negative_module_sha:env['RCDLL_NEGATIVE_MODULE_SHA']=a.negative_module_sha
     else:env.pop('RCDLL_NEGATIVE_MODULE_SHA',None)

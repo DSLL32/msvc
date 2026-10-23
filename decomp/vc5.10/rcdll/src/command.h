@@ -10,6 +10,7 @@ extern int rc_result;
 extern HANDLE rc_heap;
 extern char *rc_include_paths;
 extern char rc_error_text[2048];
+extern char *rc_error_template;
 extern char *rc_input_temporary;
 extern UINT rc_codepage,rc_saved_codepage;
 extern int rc_warnings;
