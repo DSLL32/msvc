@@ -1963,3 +1963,9 @@ WEAK char *recon_strerror(const char *prefix)
     memcpy(text,"No such file or directory\n",sizeof("No such file or directory\n"));
     return text;
 }
+
+WEAK void recon_searchenv(const char *filename,const char *variable,char *output)
+{
+    (void)filename;(void)variable;(void)output;
+    recon_unsupported("unreviewed CRT _searchenv path/environment search");
+}

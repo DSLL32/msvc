@@ -193,6 +193,7 @@ typedef struct ReconMktempObservation {
 extern ReconMktempObservation recon_mktemp_observation;
 char *recon_strcpy(char *,const char *);
 char *recon_getpath(const char *,char *,int);
+void recon_searchenv(const char *,const char *,char *);
 int recon_wcscmp(const WCHAR *,const WCHAR *);
 size_t recon_wcslen(const WCHAR *);
 WCHAR *recon_wcscat(WCHAR *,const WCHAR *);
@@ -457,6 +458,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define _mktemp recon_mktemp
 #define _tempnam recon_tempnam
 #define _getpath recon_getpath
+#define _searchenv recon_searchenv
 #define _isctype recon_isctype
 #define _endstdio recon_endstdio
 #define _rmtmp recon_rmtmp

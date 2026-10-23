@@ -1,0 +1,6 @@
+{
+  "scope": "SDK void_searchenv(constchar*,constchar*,char*) declaration/remap, explicit125 unsupported. No environment/pathsearch behavior supplied before encountered evidence.",
+  "original_header": "toolchains/5.10/include/STDLIB.H506",
+  "caller": "VC5LINK complete canonicalize_argument missingfile branch; existing hello.obj path does not invoke it.",
+  "checks": "GCC/Clang SDKsurface compile/link/unsupportedcall plus15 implemented positive imports."
+}

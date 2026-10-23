@@ -28,5 +28,6 @@ int main(int argc,char **argv)
     if(!strcmp(argv[1],"widedup")){WCHAR word[]={'a',0};return _wcsdup(word)==NULL;}
     if(!strcmp(argv[1],"widenumber")){WCHAR word[]={'1',0};return wcstol(word,NULL,10)!=1;}
     if(!strcmp(argv[1],"putenv")) return _putenv("MSC_CMD_FLAGS=");
+    if(!strcmp(argv[1],"searchenv")){char output[260];_searchenv("hello.obj","LIB",output);return 0;}
     return 1;
 }
