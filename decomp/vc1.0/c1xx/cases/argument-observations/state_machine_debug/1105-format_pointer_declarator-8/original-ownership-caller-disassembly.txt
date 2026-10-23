@@ -1,0 +1,112 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00068140 <.text+0x51140>:
+   68140:	83 ec 50             	sub    esp,0x50
+   68143:	53                   	push   ebx
+   68144:	56                   	push   esi
+   68145:	57                   	push   edi
+   68146:	55                   	push   ebp
+   68147:	8b 7c 24 68          	mov    edi,DWORD PTR [esp+0x68]
+   6814b:	0b ff                	or     edi,edi
+   6814d:	66 8b b4 24 64 00 00 	mov    si,WORD PTR [esp+0x64]
+   68154:	00 
+   68155:	0f 84 f7 00 00 00    	je     0x68252
+   6815b:	bb 01 00 00 00       	mov    ebx,0x1
+   68160:	66 8b 07             	mov    ax,WORD PTR [edi]
+   68163:	83 e0 77             	and    eax,0x77
+   68166:	83 f8 10             	cmp    eax,0x10
+   68169:	7f 1e                	jg     0x68189
+   6816b:	74 33                	je     0x681a0
+   6816d:	3b c3                	cmp    eax,ebx
+   6816f:	74 2f                	je     0x681a0
+   68171:	83 f8 02             	cmp    eax,0x2
+   68174:	74 60                	je     0x681d6
+   68176:	83 f8 03             	cmp    eax,0x3
+   68179:	74 25                	je     0x681a0
+   6817b:	83 f8 04             	cmp    eax,0x4
+   6817e:	0f 84 86 00 00 00    	je     0x6820a
+   68184:	e9 bf 00 00 00       	jmp    0x68248
+   68189:	83 f8 20             	cmp    eax,0x20
+   6818c:	74 12                	je     0x681a0
+   6818e:	83 f8 40             	cmp    eax,0x40
+   68191:	0f 84 a7 00 00 00    	je     0x6823e
+   68197:	83 f8 44             	cmp    eax,0x44
+   6819a:	0f 85 a8 00 00 00    	jne    0x68248
+   681a0:	57                   	push   edi
+   681a1:	56                   	push   esi
+   681a2:	e8 f9 06 00 00       	call   0x688a0
+   681a7:	8b 7f 04             	mov    edi,DWORD PTR [edi+0x4]
+   681aa:	0b ff                	or     edi,edi
+   681ac:	0f 84 a0 00 00 00    	je     0x68252
+   681b2:	f6 07 31             	test   BYTE PTR [edi],0x31
+   681b5:	74 0d                	je     0x681c4
+   681b7:	6a 20                	push   0x20
+   681b9:	56                   	push   esi
+   681ba:	e8 c1 f6 ff ff       	call   0x67880
+   681bf:	e9 84 00 00 00       	jmp    0x68248
+   681c4:	6a 29                	push   0x29
+   681c6:	56                   	push   esi
+   681c7:	e8 b4 f6 ff ff       	call   0x67880
+   681cc:	6a 28                	push   0x28
+   681ce:	56                   	push   esi
+   681cf:	e8 8c f6 ff ff       	call   0x67860
+   681d4:	eb 72                	jmp    0x68248
+   681d6:	6a 5b                	push   0x5b
+   681d8:	56                   	push   esi
+   681d9:	e8 a2 f6 ff ff       	call   0x67880
+   681de:	8b 47 08             	mov    eax,DWORD PTR [edi+0x8]
+   681e1:	0b c0                	or     eax,eax
+   681e3:	74 1b                	je     0x68200
+   681e5:	8d 4c 24 10          	lea    ecx,[esp+0x10]
+   681e9:	6a 0a                	push   0xa
+   681eb:	51                   	push   ecx
+   681ec:	50                   	push   eax
+   681ed:	e8 8e c1 00 00       	call   0x74380
+   681f2:	8d 44 24 1c          	lea    eax,[esp+0x1c]
+   681f6:	83 c4 0c             	add    esp,0xc
+   681f9:	50                   	push   eax
+   681fa:	56                   	push   esi
+   681fb:	e8 20 f6 ff ff       	call   0x67820
+   68200:	6a 5d                	push   0x5d
+   68202:	56                   	push   esi
+   68203:	e8 78 f6 ff ff       	call   0x67880
+   68208:	eb 3b                	jmp    0x68245
+   6820a:	6a 28                	push   0x28
+   6820c:	56                   	push   esi
+   6820d:	e8 6e f6 ff ff       	call   0x67880
+   68212:	66 8b 07             	mov    ax,WORD PTR [edi]
+   68215:	50                   	push   eax
+   68216:	8b 47 08             	mov    eax,DWORD PTR [edi+0x8]
+   68219:	50                   	push   eax
+   6821a:	8d 6f 08             	lea    ebp,[edi+0x8]
+   6821d:	56                   	push   esi
+   6821e:	e8 ed 03 00 00       	call   0x68610
+   68223:	6a 29                	push   0x29
+   68225:	56                   	push   esi
+   68226:	e8 55 f6 ff ff       	call   0x67880
+   6822b:	8b 45 00             	mov    eax,DWORD PTR [ebp+0x0]
+   6822e:	84 58 05             	test   BYTE PTR [eax+0x5],bl
+   68231:	75 12                	jne    0x68245
+   68233:	8b 00                	mov    eax,DWORD PTR [eax]
+   68235:	50                   	push   eax
+   68236:	56                   	push   esi
+   68237:	e8 14 0a 00 00       	call   0x68c50
+   6823c:	eb 07                	jmp    0x68245
+   6823e:	57                   	push   edi
+   6823f:	56                   	push   esi
+   68240:	e8 5b 06 00 00       	call   0x688a0
+   68245:	8b 7f 04             	mov    edi,DWORD PTR [edi+0x4]
+   68248:	0b ff                	or     edi,edi
+   6824a:	0f 85 10 ff ff ff    	jne    0x68160
+   68250:	eb 00                	jmp    0x68252
+   68252:	66 8b c6             	mov    ax,si
+   68255:	5d                   	pop    ebp
+   68256:	5f                   	pop    edi
+   68257:	5e                   	pop    esi
+   68258:	5b                   	pop    ebx
+   68259:	83 c4 50             	add    esp,0x50
+   6825c:	c2 08 00             	ret    0x8

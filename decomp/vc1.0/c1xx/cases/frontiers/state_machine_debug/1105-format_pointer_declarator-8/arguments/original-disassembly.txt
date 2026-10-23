@@ -1,0 +1,62 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+000688a0 <.text+0x518a0>:
+   688a0:	53                   	push   ebx
+   688a1:	56                   	push   esi
+   688a2:	57                   	push   edi
+   688a3:	8b 5c 24 14          	mov    ebx,DWORD PTR [esp+0x14]
+   688a7:	66 8b 7b 02          	mov    di,WORD PTR [ebx+0x2]
+   688ab:	66 f7 c7 00 10       	test   di,0x1000
+   688b0:	74 12                	je     0x688c4
+   688b2:	66 8b 74 24 10       	mov    si,WORD PTR [esp+0x10]
+   688b7:	68 24 21 0a 00       	push   0xa2124
+   688bc:	56                   	push   esi
+   688bd:	e8 de ef ff ff       	call   0x678a0
+   688c2:	eb 05                	jmp    0x688c9
+   688c4:	66 8b 74 24 10       	mov    si,WORD PTR [esp+0x10]
+   688c9:	66 f7 c7 00 20       	test   di,0x2000
+   688ce:	74 0b                	je     0x688db
+   688d0:	68 2c 21 0a 00       	push   0xa212c
+   688d5:	56                   	push   esi
+   688d6:	e8 c5 ef ff ff       	call   0x678a0
+   688db:	66 8b 03             	mov    ax,WORD PTR [ebx]
+   688de:	66 25 40 00          	and    ax,0x40
+   688e2:	66 3d 01 00          	cmp    ax,0x1
+   688e6:	1a c0                	sbb    al,al
+   688e8:	24 04                	and    al,0x4
+   688ea:	04 26                	add    al,0x26
+   688ec:	50                   	push   eax
+   688ed:	56                   	push   esi
+   688ee:	e8 6d ef ff ff       	call   0x67860
+   688f3:	f6 03 30             	test   BYTE PTR [ebx],0x30
+   688f6:	74 18                	je     0x68910
+   688f8:	68 38 21 0a 00       	push   0xa2138
+   688fd:	56                   	push   esi
+   688fe:	e8 9d ef ff ff       	call   0x678a0
+   68903:	8b 43 08             	mov    eax,DWORD PTR [ebx+0x8]
+   68906:	8b 40 08             	mov    eax,DWORD PTR [eax+0x8]
+   68909:	50                   	push   eax
+   6890a:	56                   	push   esi
+   6890b:	e8 90 ef ff ff       	call   0x678a0
+   68910:	83 3d 9c f7 09 00 00 	cmp    DWORD PTR ds:0x9f79c,0x0
+   68917:	74 17                	je     0x68930
+   68919:	53                   	push   ebx
+   6891a:	8b 43 08             	mov    eax,DWORD PTR [ebx+0x8]
+   6891d:	50                   	push   eax
+   6891e:	57                   	push   edi
+   6891f:	68 a0 78 06 00       	push   0x678a0
+   68924:	56                   	push   esi
+   68925:	e8 e6 f4 ff ff       	call   0x67e10
+   6892a:	5f                   	pop    edi
+   6892b:	5e                   	pop    esi
+   6892c:	5b                   	pop    ebx
+   6892d:	c2 08 00             	ret    0x8
+   68930:	66 8b c6             	mov    ax,si
+   68933:	5f                   	pop    edi
+   68934:	5e                   	pop    esi
+   68935:	5b                   	pop    ebx
+   68936:	c2 08 00             	ret    0x8

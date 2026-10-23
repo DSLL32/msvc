@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_format_pointer_declarator@8",
+    "start": 428192,
+    "end": 428345
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1105-format_pointer_declarator-8/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_format_shape_attributes@20",
+    "_prepend_type_diagnostic@8",
+    "_prepend_type_diagnostic_char@8"
+  ],
+  "next_frontier": "_prepend_type_diagnostic_char@8",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.5961730042472482,
+  "total_operation_seconds": 4.219117442145944,
+  "original_capture_seconds": 1.5174280041828752
+}

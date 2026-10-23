@@ -376,6 +376,24 @@ int __stdcall format_enclosing_declarator_scope(short text, int mode)
     return count != 0;
 }
 
+/* Original 0x688a0..0x68939. Prepending places the class owner
+   before a member pointer, and qualifiers after its pointer/reference mark. */
+short __stdcall format_pointer_declarator(short text, TypeShape *shape)
+{
+    unsigned short attributes = shape->attributes;
+    if (attributes & 0x1000) prepend_type_diagnostic(text, "const ");
+    if (attributes & 0x2000) prepend_type_diagnostic(text, "volatile ");
+    prepend_type_diagnostic_char(text, (shape->flags & 0x40) ? '&' : '*');
+    if (shape->flags & 0x30) {
+        prepend_type_diagnostic(text, "::");
+        prepend_type_diagnostic(text, shape->data.tag_symbol->name);
+    }
+    if (options.configuration.extensions_enabled)
+        return format_shape_attributes(text, prepend_type_diagnostic,
+            attributes, shape->data.based_symbol, shape);
+    return text;
+}
+
 /* Original 0x68140..0x6825f. Add the pointer, array and function
    portions of a declarator, inserting parentheses when a following shape
    requires them. An unhandled shape retains the original non-advancing loop. */
