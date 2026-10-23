@@ -155,6 +155,17 @@ def main():
                 data=bytearray.fromhex(current_state['symbol_type_input']['symbol_bytes']);data[54]&=0xf0
                 changed_type_input(root,'symbol_bytes',data.hex())
             mutations.append(('decoded basic type bits lost while storage bits remain',missing_decoded_type))
+        if current_state['function']=='input_compact_short':
+            def changed_compact_field(root,index,value):
+                import struct
+                data=bytearray.fromhex(current_state['symbol_type_input']['symbol_bytes']);struct.pack_into('<I',data,index,value)
+                changed_type_input(root,'symbol_bytes',data.hex())
+            mutations += [('compact signed frame size differs',lambda r:changed_compact_field(r,58,5)),
+                          ('compact signed section serial differs',lambda r:changed_compact_field(r,36,4)),
+                          ('compact signed extended DWORD input order differs',lambda r:changed_compact_field(r,86,108)),
+                          ('compact signed extended type flag differs',lambda r:changed_compact_field(r,54,0x52)),
+                          ('compact signed source line differs',lambda r:changed_compact_field(r,44,1)),
+                          ('compact signed source file differs',lambda r:changed_compact_field(r,90,1))]
     if 'filename_input'in current_state:
         def changed_filename_input(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['filename_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

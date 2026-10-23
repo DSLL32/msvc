@@ -148,14 +148,6 @@
     "evidence": null
   },
   {
-    "name": "_input_compact_signed",
-    "start": 4325621,
-    "end": 4325622,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "_input_compact_short",
     "start": 4325829,
     "end": 4325830,

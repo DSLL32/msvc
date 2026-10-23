@@ -80,6 +80,23 @@ void __fastcall input_string(char *buffer, unsigned capacity)
         c2_report_internal("E:\\utc\\src\\\\Common\\ioin.c", 0x126);
 }
 
+/* 80 escapes the signed-byte range and is followed by a complete DWORD. */
+long input_compact_signed(void)
+{
+    unsigned char first;
+    union { long number; unsigned char bytes[4]; } value;
+    int (__cdecl *refill)(FILE *) = _filbuf;
+
+    first = (unsigned char)IL_GETC(refill);
+    if (first != 0x80)
+        return (signed char)first;
+    value.bytes[0] = (unsigned char)IL_GETC(refill);
+    value.bytes[1] = (unsigned char)IL_GETC(refill);
+    value.bytes[2] = (unsigned char)IL_GETC(refill);
+    value.bytes[3] = (unsigned char)IL_GETC(refill);
+    return value.number;
+}
+
 unsigned short input_type(void)
 {
     unsigned char first = (unsigned char)c2_read_il_byte();
