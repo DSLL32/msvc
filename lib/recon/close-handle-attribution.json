@@ -1,0 +1,33 @@
+{
+  "status": "Closed without production change",
+  "finding": "Current recon_CloseHandle already preserves LastError on successful file and mapping closes. Success-clearing assignments were removed in410fea95, retained throughout current worker shared snapshots.",
+  "attribution_limit": "Historical LINK proof captures original SetEndOfFile failure1224 and subsequent successful closes retaining1224; final native ambient0 differed under an explicit no-reader/dead-state scope. Worker retained no current native close-entry1224->return0 packet and confirmed that gap. No current CloseHandle regression is established; earlier CloseHandle attribution is withdrawn. Unknown upstream cause remains unclaimed.",
+  "native_verification": {
+    "receipt": "/root/.ai-tmp/msvc2/recon-maintenance/close-handle-attribution/receipt.json",
+    "sha256": "b9e8c608062e239abe26a59de8d7227357f84f2c1c323ccc629ee01a9f6b99da",
+    "source_head": "e148b1cf5a02e3ed4ff2a927624cdd11e30a9454",
+    "win32_source_sha256": "ce21ac7a80b8d8169591196c65a77ccc0fd6a9aeec68d937375c1eff58ac88f8",
+    "checks": [
+      {
+        "compiler": "gcc",
+        "build_seconds": 1.2293916139751673,
+        "execution_seconds": 0.002079964615404606,
+        "stdout": "eight successful current file/mapping closes preserve errno/DOS/Last2-or1224 and live view bytes\n",
+        "binary_sha256": "8b8c4f8adc2c93a63f080c279b18d48d9e25ae546a37252072dea61153098fbc"
+      },
+      {
+        "compiler": "clang",
+        "build_seconds": 1.3626472791656852,
+        "execution_seconds": 0.002038853242993355,
+        "stdout": "eight successful current file/mapping closes preserve errno/DOS/Last2-or1224 and live view bytes\n",
+        "binary_sha256": "49647fcdfbee34fdb20ecb0cbd9e6a622051772a3e761d2b12204ef83179e642"
+      }
+    ],
+    "scope": "Both GCC+Clang eight file/mapping success calls with errno0/111,DOS77,Last2/1224 preserve each error slot and all4096 surviving view bytes. Exact actual C/H input hashes stable before/after and native ELFs bound; no original execution."
+  },
+  "limits": [
+    "No broad CloseHandle failure/ownership/error rule newly claimed.",
+    "Completed LINK no-reader/deadambient limitation remains truthful, with no app-case reopening, recapture or95-case replay.",
+    "No speculative SetEndOfFile/other upstream correction bundled."
+  ]
+}
