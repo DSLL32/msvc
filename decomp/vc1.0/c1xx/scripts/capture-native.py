@@ -44,7 +44,7 @@ def capture(directory, executable=None, breakpoint=None, expressions=None, case_
     for key, expression in (expressions or {}).items():
         commands += ['    result['+repr(key)+'] = int(gdb.parse_and_eval('+repr(expression)+'))']
     if x87_inputs:
-        assert (breakpoint=='check_extended_range' and x87_inputs is True) or (breakpoint=='store_extended' and x87_inputs=='single'), 'only the reached private x87 ABIs are supported'
+        assert (breakpoint=='check_extended_range' and x87_inputs is True) or (breakpoint in ('store_extended','finish_extended_arithmetic') and x87_inputs=='single'), 'only the reached private x87 ABIs are supported'
         x87_count=1 if x87_inputs=='single' else 2
         x87_names='st0' if x87_count==1 else 'st0 st1'
         commands += ['    import re',

@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_finish_extended_arithmetic",
+    "start": 479284,
+    "end": 479393
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1159-finish_extended_arithmetic/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_check_extended_range",
+    "_store_extended"
+  ],
+  "next_frontier": "_scan_character_literal@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.826251502148807,
+  "total_operation_seconds": 4.419751058332622,
+  "original_capture_seconds": 1.1674512960016727
+}

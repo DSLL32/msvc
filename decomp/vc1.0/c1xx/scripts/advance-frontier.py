@@ -73,7 +73,7 @@ def main():
     cleanup=re.search(r'@(\d+)$',args.candidate)
     if cleanup: assert argument_proof['abi_analysis']['argument_bytes']==int(cleanup.group(1)), 'argument bytes differ from function ABI'
     assert not argument_proof['hidden_inputs'], 'unobserved hidden inputs hold acceptance'
-    assert not argument_proof['register_inputs'] or ((args.candidate=='_check_extended_range' and argument_proof.get('x87_inputs')) or (args.candidate=='_store_extended' and argument_proof.get('x87_single'))), 'unsupported register ABI transport holds acceptance'
+    assert not argument_proof['register_inputs'] or ((args.candidate=='_check_extended_range' and argument_proof.get('x87_inputs')) or (args.candidate in ('_store_extended','_finish_extended_arithmetic') and argument_proof.get('x87_single'))), 'unsupported register ABI transport holds acceptance'
     if 'argument_observation' in argument_proof:
         from argument_words import observation as observe_argument_words
         observed = observe_argument_words((argument_directory/'original-events.txt').read_text(), argument_proof['argument_observation']['requested_words'])
@@ -94,8 +94,8 @@ def main():
     for requirement in argument_proof.get('state_requirements', []):
         assert original_states[requirement['index']] == entry_native[requirement['native_field']] == requirement['equals']
     if argument_proof.get('x87_inputs') or argument_proof.get('x87_single'):
-        from x87_inputs import validate_range_inputs,validate_store_inputs
-        validator=validate_store_inputs if argument_proof.get('x87_single') else validate_range_inputs
+        from x87_inputs import validate_range_inputs,validate_store_inputs,validate_finish_inputs
+        validator={'_check_extended_range':validate_range_inputs,'_store_extended':validate_store_inputs,'_finish_extended_arithmetic':validate_finish_inputs}[args.candidate]
         x87_result=validator(args.candidate,argument_proof,entry_original,(argument_directory/'original-events.txt').read_text(),entry_native,anchors,config)
         assert argument_proof['register_inputs']==x87_result['registers'], 'bound x87 formal values differ'
         assert argument_proof['x87_environment']==x87_result['environment'], 'bound x87 entry environment differs'

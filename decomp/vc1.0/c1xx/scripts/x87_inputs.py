@@ -107,3 +107,38 @@ def validate_store_inputs(name,description,receipt,events,native,anchors,config)
     pointer=copy.deepcopy(rows[0]);pointer.update(original_raw=registers[0]['value'],native_raw=native['raw_esi'],result='match')
     value=copy.deepcopy(rows[1]);value.update(original_raw=left['raw'],native_raw=right['raw'],result='match')
     return dict(registers=[pointer,value],environment=dict(original={k:old[k] for k in ['control','status','tag','top']},native={k:new[k] for k in ['control','status','tag','top']}))
+
+
+def validate_finish_inputs(name,description,receipt,events,native,anchors,config):
+    """Only the actual multiply caller's ESI/ST0 result-finishing inputs."""
+    import copy,hashlib,json
+    assert name=='_finish_extended_arithmetic' and description.get('x87_single') and not description.get('x87_inputs')
+    assert not description['formals'] and not description['hidden_inputs'] and not description['unknown_inputs']
+    rows=description['register_inputs'];assert [row['name'] for row in rows]==['esi','st0']
+    owner=description['x87_owner']
+    assert owner==dict(original_function='_multiply_extended',native_function='multiply_extended',native_local='result',native_field='caller_result',original_register='esi',original_frame_register='ebp',original_frame_offset=44,return_rva=0x64d7f), 'wrong actual arithmetic finisher owner'
+    assert receipt['terminal']==name and receipt['candidate'] is None
+    assert re.findall(r'^caller ([0-9a-f]+)$',events,re.M)==['00064d7f'], 'wrong actual finisher caller'
+    projection=receipt['ownership_entry_projection'];assert projection['observed']==projection['expected']==['_multiply_extended']
+    assert projection['events_sha256']==hashlib.sha256(events.encode()).hexdigest()
+    assert projection['accepted_prefix_sha256']==hashlib.sha256(json.dumps(config['accepted'],separators=(',',':')).encode()).hexdigest()
+    caller=next(row for row in config['driver'] if row['name']=='_multiply_extended');assert caller['name'] in config['accepted']
+    assert re.search(r'^entry _multiply_extended rva %08x byte 55$'%(caller['start']-config['target']['base']),events,re.M)
+    registers=receipt['ownership_register_observations'];assert [row['register'] for row in registers]==['esi','ebp'] and all(row['read_succeeded'] for row in registers)
+    for row in registers:assert re.findall(r'^ownership-anchor '+row['register']+r' ([0-9a-f]{8})$',events,re.M)==['%08x'%row['value']], 'raw caller owner receipt differs'
+    original_result=registers[0]['value'];assert 0<registers[1]['value']<=0xffffffff-56 and original_result==registers[1]['value']+44, 'actual original result owner differs'
+    actual_owner=native['caller_locals']['caller_result'];assert actual_owner==dict(function='multiply_extended',local='result',fields=[],value=native['raw_esi']), 'actual native ESI/result formal differ'
+    assert rows[0]['binding']==dict(kind='caller-result-pointer',original_frame_register='ebp',original_frame_offset=44,native_owner_field='caller_result')
+    assert rows[1]['binding']==dict(kind='x87-caller-arithmetic',original_instruction=0x74d47,operation='fmulp',native_function='multiply_extended'), 'wrong actual FMULP def-use'
+    state=anchors['result_format'];assert state['original']==original_result+10 and state['bytes']==state['read_bytes']==2 and state['read_succeeded'] and state['value']==native['result_format']==8, 'actual readable initialized result format differs'
+    old=original_observation(events,1);assert old==receipt['x87_inputs'], 'original raw result ST0 differs'
+    new=native['x87_inputs'];assert new['requested']==new['actual']==1 and new['context_read'] and len(new['inputs'])==1
+    for key in ['control','status','tag','top']:assert old[key]==new[key], 'finisher x87 entry environment differs: '+key
+    raw=re.findall(r'^st0\s+.*\(raw 0x([0-9a-f]{20})\)\s*$',new['raw_gdb'],re.M);assert len(raw)==1
+    left,right=old['inputs'][0],new['inputs'][0]
+    assert right['register']=='st0' and right['physical_index']==new['top'] and right['tag']==((new['tag']>>(2*new['top']))&3)!=3
+    assert right['requested_bytes']==right['read_bytes']==10 and right['read_succeeded']
+    assert left['raw']==right['raw']==bytes.fromhex(raw[0])[::-1].hex(), 'actual arithmetic result ST0 differs'
+    pointer=copy.deepcopy(rows[0]);pointer.update(original_raw=original_result,native_raw=native['raw_esi'],result='match')
+    value=copy.deepcopy(rows[1]);value.update(original_raw=left['raw'],native_raw=right['raw'],result='match')
+    return dict(registers=[pointer,value],environment=dict(original={k:old[k] for k in ['control','status','tag','top']},native={k:new[k] for k in ['control','status','tag','top']}))

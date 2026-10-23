@@ -39,7 +39,7 @@ def main():
     name = config['cases'][args.case]['terminal']
     assert plan['function'] == name
     assert not plan['hidden_inputs'] and not plan['unknown_inputs'], 'unsupported ABI transport holds acceptance'
-    assert not plan['register_inputs'] or ((name=='_check_extended_range' and plan.get('x87_inputs')) or (name=='_store_extended' and plan.get('x87_single'))), 'unsupported register ABI transport holds acceptance'
+    assert not plan['register_inputs'] or ((name=='_check_extended_range' and plan.get('x87_inputs')) or (name in ('_store_extended','_finish_extended_arithmetic') and plan.get('x87_single'))), 'unsupported register ABI transport holds acceptance'
     for formal in plan['formals']:
         if formal['binding']['kind']=='parser-context-slot':
             from parser_context_owner import STACK_BASE, STACK_ELEMENTS
@@ -80,8 +80,8 @@ def main():
         assert states[requirement['index']] == checkpoint[requirement['native_field']] == requirement['equals']
     x87_result=None
     if plan.get('x87_inputs') or plan.get('x87_single'):
-        from x87_inputs import validate_range_inputs,validate_store_inputs
-        validator=validate_store_inputs if plan.get('x87_single') else validate_range_inputs
+        from x87_inputs import validate_range_inputs,validate_store_inputs,validate_finish_inputs
+        validator={'_check_extended_range':validate_range_inputs,'_store_extended':validate_store_inputs,'_finish_extended_arithmetic':validate_finish_inputs}[name]
         x87_result=validator(name,plan,receipt,events,checkpoint,anchors,config)
     for item in plan['formals']:
         item['original_raw'] = words[item['stack_index']]

@@ -1,0 +1,49 @@
+{
+  "scope": "Whole109B private arithmetic finishing helper, existing ESI+EBP and singleST0 transport",
+  "owner": "ActualmultiplyEBP=M-4/resultM+40=>incomingESI==samecontextEBP+44; nativeactualincomingESI equals immediatecaller resultformal, no nativeframeequality",
+  "format_observation": "Probe merely found diagnosticaddress; fresh acceptance argumentpair requires readableexactWORDaddress==itsactualESI+10, value==actualnativeformat8 orHOLD. Neither probe address nor old stack is a logicalowner.",
+  "x87_environment": {
+    "original": {
+      "control": 639,
+      "status": 14336,
+      "tag": 16383,
+      "top": 7
+    },
+    "native": {
+      "control": 639,
+      "status": 14336,
+      "tag": 16383,
+      "top": 7
+    }
+  },
+  "raw_input": "ActualFMULPresult3.0 ST0:00000000000000c00040; fullcontrol/status/tags/TOP observed, no reseed/normalization",
+  "encountered_data": [
+    {
+      "name": "float_round_limit",
+      "original": 681684,
+      "bytes": 10,
+      "raw": "ffffffff7fffffff7e40"
+    },
+    {
+      "name": "double_round_limit",
+      "original": 681694,
+      "bytes": 10,
+      "raw": "fffbfffffffffffffe43"
+    },
+    {
+      "name": "extended_round_limit",
+      "original": 681704,
+      "bytes": 10,
+      "raw": "fffffffffffffffffe7f"
+    },
+    {
+      "name": "extended_workspace",
+      "original": 681738,
+      "bytes": 8,
+      "initial": "0000000000000000",
+      "alias": "Prior6Bnegative/status is exactfirst6Bmember; actualsingle/doubleprecision FSTP/FLD requires4/8Boverlay. No following controlfield/padding invented."
+    }
+  ],
+  "callee_graph": "check_extended_range plus shared store_extended, originaltail\u2192explicitCcall samefunctiongraph",
+  "credit": "One whole109B app/private supporthelper, no extra context/data credit or CRTbody"
+}

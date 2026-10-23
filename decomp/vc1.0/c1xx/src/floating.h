@@ -14,7 +14,7 @@ typedef struct ExtendedLimit {
 } ExtendedLimit;
 #pragma pack()
 typedef char ExtendedLimitSizeMustBe10[(sizeof(ExtendedLimit) == 10) ? 1 : -1];
-extern ExtendedLimit double_round_limit;
+extern ExtendedLimit double_round_limit, float_round_limit, extended_round_limit;
 #pragma pack(2)
 typedef struct ExtendedRangeState {
     int negative;
@@ -22,7 +22,16 @@ typedef struct ExtendedRangeState {
 } ExtendedRangeState;
 #pragma pack()
 typedef char ExtendedRangeStateSizeMustBe6[(sizeof(ExtendedRangeState) == 6) ? 1 : -1];
-extern ExtendedRangeState extended_range_state;
+/* The range state and precision-rounding storage intentionally overlap. */
+#pragma pack(2)
+typedef union ExtendedWorkspace {
+    ExtendedRangeState range;
+    double real;
+    float single;
+} ExtendedWorkspace;
+#pragma pack()
+typedef char ExtendedWorkspaceSizeMustBe8[(sizeof(ExtendedWorkspace) == 8) ? 1 : -1];
+extern ExtendedWorkspace extended_workspace;
 /* Private ABI: ST(0) limit and ST(1) value; leaves the value in ST(0). */
 int check_extended_range(void);
 /* Private ABI: destination in ESI and value in ST(0). */

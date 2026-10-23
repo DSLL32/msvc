@@ -1,0 +1,112 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_finish_extended_arithmetic",
+  "case": "state_machine_debug",
+  "accepted_before": 1159,
+  "configuration_sha256": "c8d4055bc86e650002c891fad8f0e6df77c453c0d45d8d1ff3f291875ca3be61",
+  "native_entry": "finish_extended_arithmetic",
+  "declared_formal_count": 0,
+  "formals": [],
+  "register_inputs": [
+    {
+      "name": "esi",
+      "binding": {
+        "kind": "caller-result-pointer",
+        "original_frame_register": "ebp",
+        "original_frame_offset": 44,
+        "native_owner_field": "caller_result"
+      },
+      "original_raw": 2948492,
+      "native_raw": 4294955992,
+      "result": "match"
+    },
+    {
+      "name": "st0",
+      "binding": {
+        "kind": "x87-caller-arithmetic",
+        "original_instruction": 478535,
+        "operation": "fmulp",
+        "native_function": "multiply_extended"
+      },
+      "original_raw": "00000000000000c00040",
+      "native_raw": "00000000000000c00040",
+      "result": "match"
+    }
+  ],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      479284,
+      479393
+    ],
+    "argument_bytes": 0,
+    "convention": "private ESI destination/ST0 value, EAXrangestatus, tailtostore",
+    "proof": "Whole109Bcode has noCformal/frame; exactESI+ST0incoming privateABI. Actualacceptedmultiply EBP=M-4, resultpointerM+40=>currentoriginalESI==samecontextEBP+44; nativeactualincomingESI mustequalreal immediatecallerresultformal. CallerFLD10Bleft/right+FMULP74d47, thenformatbitselection writesresultWORD8 andCALL74d7a ret74d7f withnointerveningx87op. One exactrawST0/fullCW/status/tags/TOP compared; dynamicdiagnosticWORDaddressdiscoveredinprobe isneveridentityoracle: freshreadmustbeactualESI+10/full2Bsuccess/actualnativeformat8 orHOLD. Format4/10/defaultdouble thresholdsselect exact10Bobjects; rangeEAX retainedthroughoptionalnormalized_Op actualsharedsingle/doubleworkspaceoverlay thenactualstoreentry. Contextualpacked8Bworkspace requiredbyreal8Boperations, preservesprior6Bnegative/statusalias, noinventedcontrolfield/padding/newCRTbody.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "9add278cc9886454edadb9d2991b3e2b528847668392512fbbd5b6e6ce2f46ae",
+  "capture_timing": {
+    "original_capture_seconds": 1.86992381606251,
+    "native_capture_seconds": 0.18974346201866865,
+    "total_operation_seconds": 2.378287272527814
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "21e5b61fcb3282dbeaee8132d4281162ee2263ff3904d568a3bb41aeb2896e00",
+    "native-commands.gdb": "5f2ecfa05fd70a34cdefa0d389f9428e46be4ad5a0fdd3763e440873f347da06",
+    "native-gdb.log": "5ab2e690b9f73d22a5050b2eb879609e770c25730c9466bbfb364ae81ab6c316",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "daa7893d7d0a526825dd2756c74508885db3bc1db9064998c223ae0f32359db4",
+    "original-configuration.json": "c8d4055bc86e650002c891fad8f0e6df77c453c0d45d8d1ff3f291875ca3be61",
+    "original-disassembly.txt": "1a1edea142a76ec8f3a46d0ed8420d2dd9aeaa00e478438119ff343a151da912",
+    "original-entries.plan": "5b3c073fde4475fe6540a75dddb23d0d21f45f770444786a91cf01018b3d0895",
+    "original-events.txt": "89db56cad716b755c10c2069d46f79448e87c43f58040c262712e5c266ae30e8",
+    "original-ownership-caller-disassembly.txt": "4b8fb3dc541a3a7719f5ec50316e6c080822ff4d224c763c235c75cf4c6a68e1",
+    "original-receipt.json": "cdc82f4e961a1e1b01133e051b996ad34da00424c77e3b44d99013dc582d6d87",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "9b9c3d6c36feb02aa3087f308d579de775f2884dff90b0c8be2b1ad84391a3dd"
+  },
+  "x87_inputs": false,
+  "x87_single": true,
+  "x87_owner": {
+    "original_function": "_multiply_extended",
+    "native_function": "multiply_extended",
+    "native_local": "result",
+    "native_field": "caller_result",
+    "original_register": "esi",
+    "original_frame_register": "ebp",
+    "original_frame_offset": 44,
+    "return_rva": 413055
+  },
+  "x87_environment": {
+    "original": {
+      "control": 639,
+      "status": 14336,
+      "tag": 16383,
+      "top": 7
+    },
+    "native": {
+      "control": 639,
+      "status": 14336,
+      "tag": 16383,
+      "top": 7
+    }
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": [
+    {
+      "index": 14,
+      "native_field": "result_format",
+      "equals": 8
+    }
+  ]
+}

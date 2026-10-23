@@ -1,0 +1,18 @@
+{
+  "scope": "Diagnostic-only address discovery, not a fresh acceptance oracle or stableidentity",
+  "path": "/root/.ai-tmp/msvc2/vc1.0/c1xx/original-capture-0vedkbi4/receipt.json",
+  "receipt_sha256": "7a655ca2ef63754c0fd3625440f5c621f1105a0a7455b646280b1b84ad0881d1",
+  "events_sha256": "63afa776e1035e34f23acdcc91bde487bee773c7537b44c2f6326b098be41641",
+  "actual_owners": [
+    {
+      "register": "esi",
+      "value": 2948492,
+      "read_succeeded": true
+    },
+    {
+      "register": "ebp",
+      "value": 2948448,
+      "read_succeeded": true
+    }
+  ]
+}

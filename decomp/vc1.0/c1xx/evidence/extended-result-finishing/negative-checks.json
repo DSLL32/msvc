@@ -1,0 +1,48 @@
+{
+  "scope": "Read-only actual production preflight plus bounded synthetic missing/swapped/short-read/wrong-owner corruptions; no original execution or promotion",
+  "proof": "cases/argument-observations/state_machine_debug/1159-finish_extended_arithmetic/validation.json",
+  "proof_sha256": "1b557f0712660df2eabb9e53e2cca57c823c7eaeaff622497f11201a50f9dbbc",
+  "checks": [
+    {
+      "test": "control",
+      "result": "verified",
+      "output": "fresh application arguments verified: _finish_extended_arithmetic"
+    },
+    {
+      "test": "missing-operand",
+      "result": "held",
+      "reason": ""
+    },
+    {
+      "test": "missing-esi",
+      "result": "held",
+      "reason": ""
+    },
+    {
+      "test": "wrong-esi",
+      "result": "held",
+      "reason": "actual native ESI/result formal differ"
+    },
+    {
+      "test": "wrong-caller-owner",
+      "result": "held",
+      "reason": "actual native ESI/result formal differ"
+    },
+    {
+      "test": "wrong-frame-anchor",
+      "result": "held",
+      "reason": "actual original result owner differs"
+    },
+    {
+      "test": "wrong-format-owner",
+      "result": "held",
+      "reason": "actual readable initialized result format differs"
+    },
+    {
+      "test": "short-format-read",
+      "result": "held",
+      "reason": "exact initialized WORD observation required"
+    }
+  ],
+  "elapsed_seconds": 0.22995851561427116
+}

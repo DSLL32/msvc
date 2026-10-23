@@ -1,6 +1,6 @@
 """Minimal native-only injected type fallback check; not an original public case.
 
-Supply the actual caller's multiply result (3.0) while that helper remains a stub,
+Inject the actual caller's defined multiply result (3.0) at that callee return,
 then test the precise type classification with genuine-frame locals and owners.
 """
 import hashlib,json,os,subprocess,tempfile,time

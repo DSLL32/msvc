@@ -80,8 +80,9 @@ int extended_to_double(const Extended *value, double *result)
     return overflow;
 }
 
-/* Original 0xa670a..0xa670f: sign and x87 comparison status. */
-ExtendedRangeState extended_range_state;
+/* Original 0xa670a..0xa6711: comparison state overlays the encountered
+   single/double precision-rounding storage. */
+ExtendedWorkspace extended_workspace;
 
 /* Original 0x750a5..0x750ea. ST(0) supplies the limit, ST(1) the
    value; the limit is popped and the signed value retained in ST(0).
@@ -90,16 +91,16 @@ ExtendedRangeState extended_range_state;
 int check_extended_range(void)
 {
     unsigned short status;
-    extended_range_state.negative = 0;
+    extended_workspace.range.negative = 0;
     __asm {
         fxch st(1)
         ftst
         fstsw status
         fwait
     }
-    extended_range_state.status = status;
+    extended_workspace.range.status = status;
     if (status & 0x100) {
-        ++extended_range_state.negative;
+        ++extended_workspace.range.negative;
         __asm { fchs }
     }
     __asm {
@@ -108,8 +109,8 @@ int check_extended_range(void)
         fstsw status
         fwait
     }
-    extended_range_state.status = status;
-    if (extended_range_state.negative) {
+    extended_workspace.range.status = status;
+    if (extended_workspace.range.negative) {
         __asm { fchs }
     }
     return (status & 0x100) != 0;
@@ -165,6 +166,49 @@ int multiply_extended(const Extended *left, const Extended *right, Extended *res
         mov esi, result
         call finish_extended_arithmetic
         mov status, eax
+    }
+    return status;
+}
+
+/* Each bound is exactly ten bytes; no representation tag or padding. */
+ExtendedLimit float_round_limit = { 0xffffffffU, 0xffffff7fU, 0x407e }; /* 0xa66d4 */
+ExtendedLimit extended_round_limit = { 0xffffffffU, 0xffffffffU, 0x7ffe }; /* 0xa66e8 */
+
+/* Original 0x75034..0x750a0, ending at the shared store entry.
+   ESI supplies the destination and ST(0) the arithmetic value. The
+   narrow blocks retain that private ABI and ten-byte scalar width;
+   range/precision selection and returned status remain ordinary C. */
+int finish_extended_arithmetic(void)
+{
+    Extended *number;
+    unsigned short format;
+    int status;
+    __asm { mov number, esi }
+    format = number->format;
+    if (format == 4) {
+        __asm { fld tbyte ptr float_round_limit }
+    } else if (format == 10) {
+        __asm { fld tbyte ptr extended_round_limit }
+    } else {
+        __asm { fld tbyte ptr double_round_limit }
+    }
+    status = check_extended_range();
+    if (format != 10 && normalized_Op) {
+        if (format == 4) {
+            __asm {
+                fstp dword ptr extended_workspace
+                fld dword ptr extended_workspace
+            }
+        } else {
+            __asm {
+                fstp qword ptr extended_workspace
+                fld qword ptr extended_workspace
+            }
+        }
+    }
+    __asm {
+        mov esi, number
+        call store_extended
     }
     return status;
 }

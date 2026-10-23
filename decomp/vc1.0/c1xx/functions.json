@@ -1163,7 +1163,8 @@
     "_save_extended_constant@4",
     "_save_extended_in_arena@16",
     "_fold_floating_binary@12",
-    "_multiply_extended"
+    "_multiply_extended",
+    "_finish_extended_arithmetic"
   ],
   "driver": [
     {
@@ -8360,7 +8361,7 @@
     {
       "name": "_finish_extended_arithmetic",
       "start": 479284,
-      "end": 479285
+      "end": 479393
     }
   ],
   "cases": {
@@ -8561,7 +8562,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_finish_extended_arithmetic",
+      "terminal": "_scan_character_literal@4",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -8584,7 +8585,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1158-multiply_extended/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1159-finish_extended_arithmetic/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -8748,7 +8749,8 @@
         "cases/frontiers/state_machine_debug/1155-save_extended_constant-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1156-save_extended_in_arena-16/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1157-fold_floating_binary-12/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1158-multiply_extended/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1158-multiply_extended/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1159-finish_extended_arithmetic/frontier-extension.json"
       ]
     }
   },
@@ -11253,14 +11255,38 @@
       ]
     },
     {
-      "name": "_extended_range_state",
+      "name": "_extended_workspace",
       "kind": "state",
       "original": 681738,
       "fields": [
         {
-          "name": "_extended_range_state",
+          "name": "_extended_workspace",
           "original": 681738,
-          "bytes": 6
+          "bytes": 8
+        }
+      ]
+    },
+    {
+      "name": "_float_round_limit",
+      "kind": "state",
+      "original": 681684,
+      "fields": [
+        {
+          "name": "_float_round_limit",
+          "original": 681684,
+          "bytes": 10
+        }
+      ]
+    },
+    {
+      "name": "_extended_round_limit",
+      "kind": "state",
+      "original": 681704,
+      "fields": [
+        {
+          "name": "_extended_round_limit",
+          "original": 681704,
+          "bytes": 10
         }
       ]
     }

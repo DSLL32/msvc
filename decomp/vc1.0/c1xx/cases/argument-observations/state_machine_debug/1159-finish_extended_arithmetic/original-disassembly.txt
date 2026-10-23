@@ -1,0 +1,30 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00075034 <.text+0x5e034>:
+   75034:	33 c0                	xor    eax,eax
+   75036:	66 83 7e 0a 04       	cmp    WORD PTR [esi+0xa],0x4
+   7503b:	74 3d                	je     0x7507a
+   7503d:	66 83 7e 0a 0a       	cmp    WORD PTR [esi+0xa],0xa
+   75042:	75 0d                	jne    0x75051
+   75044:	db 2d e8 66 0a 00    	fld    TBYTE PTR ds:0xa66e8
+   7504a:	e8 56 00 00 00       	call   0x750a5
+   7504f:	eb 50                	jmp    0x750a1
+   75051:	db 2d de 66 0a 00    	fld    TBYTE PTR ds:0xa66de
+   75057:	e8 49 00 00 00       	call   0x750a5
+   7505c:	f7 05 a4 fc 09 00 ff 	test   DWORD PTR ds:0x9fca4,0xffffffff
+   75063:	ff ff ff 
+   75066:	0f 84 35 00 00 00    	je     0x750a1
+   7506c:	dd 1d 0a 67 0a 00    	fstp   QWORD PTR ds:0xa670a
+   75072:	dd 05 0a 67 0a 00    	fld    QWORD PTR ds:0xa670a
+   75078:	eb 27                	jmp    0x750a1
+   7507a:	db 2d d4 66 0a 00    	fld    TBYTE PTR ds:0xa66d4
+   75080:	e8 20 00 00 00       	call   0x750a5
+   75085:	f7 05 a4 fc 09 00 ff 	test   DWORD PTR ds:0x9fca4,0xffffffff
+   7508c:	ff ff ff 
+   7508f:	0f 84 0c 00 00 00    	je     0x750a1
+   75095:	d9 1d 0a 67 0a 00    	fstp   DWORD PTR ds:0xa670a
+   7509b:	d9 05 0a 67 0a 00    	fld    DWORD PTR ds:0xa670a
