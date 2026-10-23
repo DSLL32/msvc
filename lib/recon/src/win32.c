@@ -834,6 +834,29 @@ void WINAPI recon_ExitProcess(UINT code) { recon_record_terminal_status(code); _
 LPVOID WINAPI recon_VirtualAlloc(LPVOID address,DWORD bytes,DWORD kind,DWORD protection)
 {
     View *v; void *result; int flags=MAP_PRIVATE|MAP_ANONYMOUS,prot;
+    if (kind&MEM_TOP_DOWN) {
+        size_t total,prefix,suffix;uintptr_t aligned;void *reservation;
+        int saved_errno=errno;DWORD saved_error=last_error;
+        /* Only opaque successful NULL reservations are proved. Host placement
+         * is not a promise of Windows' global highest-address ordering. */
+        if (address || kind!=(MEM_RESERVE|MEM_TOP_DOWN) || protection!=PAGE_READWRITE ||
+            !bytes || (bytes&4095) || bytes>SIZE_MAX-65536)
+            recon_unsupported("VirtualAlloc top-down reserve scope");
+        total=(size_t)bytes+65536;
+        reservation=mmap(NULL,total,PROT_NONE,MAP_PRIVATE|MAP_ANONYMOUS,-1,0);
+        if (reservation==MAP_FAILED || !reservation)
+            recon_unsupported("VirtualAlloc top-down unobserved allocation failure");
+        aligned=((uintptr_t)reservation+65535)&~(uintptr_t)65535;
+        prefix=aligned-(uintptr_t)reservation;suffix=total-prefix-bytes;
+        if ((prefix && munmap(reservation,prefix)) ||
+            (suffix && munmap((void *)(aligned+bytes),suffix)))
+            recon_unsupported("VirtualAlloc top-down reservation trim");
+        v=malloc(sizeof(*v));
+        if (!v) recon_unsupported("VirtualAlloc top-down ownership record");
+        v->address=(void *)aligned;v->length=bytes;v->next=allocations;allocations=v;
+        errno=saved_errno;last_error=saved_error;
+        return v->address;
+    }
     if (!bytes || (kind&~(MEM_COMMIT|MEM_RESERVE)) || !(kind&(MEM_COMMIT|MEM_RESERVE)) || (protection!=PAGE_READWRITE && protection!=PAGE_READONLY)) { last_error=ERROR_NOT_SUPPORTED; return NULL; }
     prot=(kind&MEM_COMMIT)?PROT_READ|(protection==PAGE_READWRITE?PROT_WRITE:0):PROT_NONE;
     if (address && kind==MEM_COMMIT) {

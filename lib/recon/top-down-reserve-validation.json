@@ -1,0 +1,33 @@
+{
+  "scope": "NULL reserve|topdown/PAGE_READWRITE positive page-multiple reservation only; no highest-address order claim",
+  "source_sha256": "4824c85b7503254bf4bf91ee78d5c7f80c4db838563ba2ccd2bfb6a5b2fc8ace",
+  "reference": "tests/top-down-reserve-reference.json",
+  "native": {
+    "gcc": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/top-down-reserve/gcc-reviewed",
+      "sha256": "3e4a5b770ebdab2380912ee115965fe495bce61882a9479fedd7b1729c384652",
+      "checks": "two reached sizes+page boundary, privatePROT_NONE/64K alignment/nonoverlap/threeerrors/full108Bx87/liveST0/ownership/release;9scope denials;old5MiBreserve16KiBcommit and4KiBcombined zeroed controls"
+    },
+    "clang": {
+      "path": "/root/.ai-tmp/msvc2/recon-maintenance/top-down-reserve/clang-reviewed",
+      "sha256": "6ab9e05af921e28ec2361fc5937ddf25fbece9066a5802ee2d8836ad08da326a",
+      "checks": "two reached sizes+page boundary, privatePROT_NONE/64K alignment/nonoverlap/threeerrors/full108Bx87/liveST0/ownership/release;9scope denials;old5MiBreserve16KiBcommit and4KiBcombined zeroed controls"
+    }
+  },
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/top-down-reserve/orchestrator-review.json",
+    "sha256": "0446ecec74d2d52d07232e2a4900beaf18f92a4c641dc623587ef58fd1531c15"
+  },
+  "affected_checks": [
+    "shared default",
+    "mapped-file/3controls",
+    "SYSTEM_INFO-only/16+5controls",
+    "empty-x87-entry/11controls"
+  ],
+  "integration": "C1 must refresh native normal/restore against unchanged originals before promotion; no actual pair claimed here",
+  "limitations": [
+    "No Windows highest-address ordering",
+    "No reserved-byte content or future low-bit/index consumers",
+    "Unknown combinations/failures unsupported; ordinary paths unchanged"
+  ]
+}

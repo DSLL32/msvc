@@ -830,3 +830,14 @@ Only the two-byte architectural status word changes. Native IP/DP/selectors,
 reserved transport bits and stale empty-register payload stay untouched, as do
 independent errors. It neither performs target arithmetic nor resets later state.
 Unknown/nonempty/inconsistent states and repeated application are unsupported.
+
+The reached VirtualAlloc(NULL,positive_page_multiple,MEM_RESERVE|MEM_TOP_DOWN,
+PAGE_READWRITE) subset creates a real private PROT_NONE region, trims an owned
+reservation to64KiB alignment, and registers its exact length for existing
+allocation lifetime operations. Host bookkeeping preserves independent errors
+and x87 state. Fixed addresses, commit-with-top-down, other protections/flags,
+non-page sizes/overflow and unobserved allocation failures are unsupported.
+This bounded success contract preserves the actual opaque identity/size and
+protection; it does not guarantee Windows' global highest-address ordering.
+No reserved-byte contents or future address-order/low-bit consumers are claimed.
+Ordinary VirtualAlloc paths are unchanged.

@@ -424,3 +424,9 @@ build/x87-empty-entry-probe: tests/x87-empty-entry-probe.c $(SOURCES) $(HEADERS)
 	$(CC) $(CPPFLAGS) $(CFLAGS) tests/x87-empty-entry-probe.c $(SOURCES) -o $@
 x87-empty-entry-check: build/x87-empty-entry-probe
 	$(PYTHON) tests/check-x87-empty-entry.py build/x87-empty-entry-probe
+
+.PHONY: top-down-reserve-check
+build/top-down-reserve-probe: tests/top-down-reserve-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) tests/top-down-reserve-probe.c $(SOURCES) -o $@
+top-down-reserve-check: build/top-down-reserve-probe
+	$(PYTHON) tests/check-top-down-reserve.py build/top-down-reserve-probe
