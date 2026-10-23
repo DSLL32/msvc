@@ -14,13 +14,6 @@
     "evidence": "Unaccepted named call-entry identity only; full extent not established or unmasked."
   },
   {
-    "name": "_initialize_state_123a7",
-    "start": 274801575,
-    "end": 274801576,
-    "pending_extent": true,
-    "evidence": "actual .initfe callback table entry; unrecovered body traps"
-  },
-  {
     "name": "_initialize_state_1241c",
     "start": 274801692,
     "end": 274801693,
@@ -208,5 +201,26 @@
     "end": 275014180,
     "pending_extent": true,
     "evidence": "named fatal diagnostic trap; not reached on successful allocation"
+  },
+  {
+    "name": "_initialize_pool_123ae",
+    "start": 274801582,
+    "end": 274801583,
+    "pending_extent": true,
+    "evidence": "Unaccepted named entry identity only; extent not established or unmasked."
+  },
+  {
+    "name": "_register_compiler_cleanup",
+    "start": 274801654,
+    "end": 274801655,
+    "pending_extent": true,
+    "evidence": "Unaccepted named entry identity only; extent not established or unmasked."
+  },
+  {
+    "name": "_destroy_pool_23940",
+    "start": 274872640,
+    "end": 274872641,
+    "pending_extent": true,
+    "evidence": "Unaccepted named entry identity only; extent not established or unmasked."
   }
 ]

@@ -1,0 +1,19 @@
+{
+  "accepted_function": "_initialize_state_123a7",
+  "role": "sole-new-candidate; constructor remains named trap",
+  "chunks": [
+    [
+      74663,
+      74670
+    ],
+    [
+      74728,
+      74742
+    ]
+  ],
+  "bytes": 21,
+  "application_bytes_after": 656,
+  "crt_support_bytes": 451,
+  "import_bytes": 6,
+  "owned_original_bytes_after": 1113
+}

@@ -55,3 +55,9 @@ int __cdecl cleanup_compiler_pass(void)
     __asm { int 3 }
     return 1;
 }
+
+int __cdecl register_compiler_cleanup(C1Initializer callback)
+{
+    __asm { int 3 }
+    return 0;
+}

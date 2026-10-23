@@ -58,7 +58,7 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  if expected['kind']=='compiler-allocation':
   assert current['initialized']['first_call']==1
   assert saved==b['saved_data']==0 and current['snapshot'] is None
- elif expected['kind']=='initialization-callback':
+ elif expected['kind'] in ('initialization-callback','initialization-helper'):
   assert current['initialized']['first_call']==0 and saved and b['saved_data']
   snapshot=(original/('compiler-snapshot-%03d.bin'%sequence)).read_bytes();assert len(snapshot)==6548
   expected_first = candidate['restore_probe']['snapshot_first_call'] if probe=='restore' else 1
@@ -66,7 +66,7 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  else:raise AssertionError('new state consumer requires an explicit modeled projection')
  assert current['reuse_state']==0 and b['cleanup_count']==0
 
- if probe=='normal' and expected['kind'] in ('initialization-callback','compiler-allocation'):
+ if probe=='normal' and expected['kind'] in ('initialization-callback','initialization-helper','compiler-allocation'):
   raw=(original/'events.txt').read_text()
   rows=re.findall(r'^trap seq=\d+ rva=0000e799 .*stack=([0-9a-f,]+)$',raw,re.M)
   assert len(rows)==1 and int(rows[0].split(',')[1],16)==6548

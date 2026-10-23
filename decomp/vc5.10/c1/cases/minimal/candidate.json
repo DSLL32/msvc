@@ -91,6 +91,16 @@
       "start_rva": 74662,
       "end_rva": 74663,
       "entry": 1
+    },
+    {
+      "start_rva": 74663,
+      "end_rva": 74670,
+      "entry": 1
+    },
+    {
+      "start_rva": 74728,
+      "end_rva": 74742,
+      "entry": 0
     }
   ],
   "functions": [
@@ -268,6 +278,23 @@
         ]
       ],
       "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_123a7",
+      "native_symbol": "initialize_state_123a7",
+      "role": "application",
+      "chunks": [
+        [
+          74663,
+          74670
+        ],
+        [
+          74728,
+          74742
+        ]
+      ],
+      "source": "src/initializers.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -283,11 +310,11 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 74663,
-    "native_symbol": "initialize_state_123a7",
-    "kind": "initialization-callback",
+    "rva": 74670,
+    "native_symbol": "initialize_pool_123ae",
+    "kind": "initialization-helper",
     "native_args": [],
-    "abi": "cdecl void callback, cleanup0"
+    "abi": "cdecl no arguments, cleanup0"
   },
   "imports": [
     {
@@ -408,5 +435,5 @@
       "normal_case": false
     }
   },
-  "staging_role": "Distinct empty callback 123a6 is the only new function"
+  "staging_role": "Split pool initializer wrapper is the only new function; constructor/helper and registration remain named traps"
 }

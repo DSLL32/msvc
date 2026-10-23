@@ -206,3 +206,8 @@ proofs. No later consumer has established its domain; it remains named
 The three independent one-byte callbacks at RVA123a4/123a5/123a6 are accepted
 in order, each through its own fresh matching pair and graph/ABI audit.
 They introduce no new data fields or fixture behavior.
+
+The first pool wrapper (RVA123a7) owns two chunks totaling 21 bytes. It calls
+a separate constructor and then registers the destructor; the constructor and
+registration helpers remain named traps. Fresh evidence matches the constructor
+frontier including its actual caller/return site, without consuming pool state.

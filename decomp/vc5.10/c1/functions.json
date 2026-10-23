@@ -16,7 +16,8 @@
     "_initialize_state_12389",
     "_initialize_state_123a4",
     "_initialize_state_123a5",
-    "_initialize_state_123a6"
+    "_initialize_state_123a6",
+    "_initialize_state_123a7"
   ],
   "driver": [
     {
@@ -121,6 +122,18 @@
       "name": "_initialize_state_123a6",
       "start": 274801574,
       "end": 274801575,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_123a7",
+      "start": 274801575,
+      "end": 274801582,
+      "code_chunks": [
+        [
+          274801640,
+          274801654
+        ]
+      ],
       "role": "application"
     }
   ],

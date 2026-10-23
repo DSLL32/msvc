@@ -112,7 +112,7 @@ def check(original, native, audit_directory=None):
     pass_boundary = expected.get("kind") == "compiler-pass-entry"
     pass_initializer = expected.get("kind") == "pass-initializer"
     compiler_allocation = expected.get("kind") == "compiler-allocation"
-    initialization_callback = expected.get("kind") == "initialization-callback"
+    initialization_callback = expected.get("kind") in ("initialization-callback", "initialization-helper")
     compiler_flow = pass_boundary or pass_initializer or compiler_allocation or initialization_callback
     if compiler_flow:
         case = candidate.get("case_contract") or json.loads((PROJECT / "cases/minimal/case.json").read_text())
@@ -127,6 +127,10 @@ def check(original, native, audit_directory=None):
             if compiler_allocation:
                 assert args[0] == state["args"]["size"] == 6548
                 assert state["caller"]["symbol"] == "initialize_compiler_pass"
+            elif expected.get("kind") == "initialization-helper":
+                assert expected["rva"] == 0x123ae
+                assert state["args"] == {} and state["caller"]["symbol"] == "initialize_state_123a7"
+                assert int(words.split(",")[0], 16) == module_base + 0x123ac
             else:
                 assert state["args"] == {} and state["caller"]["symbol"] == "initialize_compiler_pass"
             assert pass_state["symbol"] == "InvokeCompilerPass"

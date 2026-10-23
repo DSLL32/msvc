@@ -8,11 +8,13 @@ def rehash(d,name):
 def main():
  p=argparse.ArgumentParser();p.add_argument('original',type=Path);p.add_argument('native',type=Path);a=p.parse_args();m.check(a.original,a.native)
  restore=json.loads((a.original/'receipt.json').read_text()).get('probe')=='restore'
- allocation=json.loads((a.original/'candidate.json').read_text())['expected_frontier']['kind']=='compiler-allocation'
+ frontier_kind=json.loads((a.original/'candidate.json').read_text())['expected_frontier']['kind']
+ allocation=frontier_kind=='compiler-allocation'
  tests=['missing-frontier','candidate-only-prefix','snapshot-first','live-first','bss-count','bss-callback','missing-callback-slot','swapped-callback','snapshot-live-alias','native-layout','original-default','original-snapshot-field','field-map-overlap','field-map-alias','field-map-snapshot-offset','context-object','context-value','context-frame','original-context','current-context-object','current-context-value','current-context-frame','original-current-context','contexts-live-0','contexts-live-2','contexts-live-5','original-contexts']
  if allocation:
   tests.remove('snapshot-first');tests.remove('original-snapshot-field');tests.append('premature-snapshot')
  tests+=['missing-postpoint','restore-zero-input','restore-post-field','restore-post-count','restore-post-callback','restore-pointer-identity','restore-pc','restore-line','original-post-field','original-clear-gap','restore-context-zero-input','restore-context-object','restore-context-value','restore-context-frame','restore-pre-seed-context','callback-seed-object','callback-seed-value','callback-seed-frame','callback-seed-pc','missing-callback-seed','restore-current-zero-input','restore-current-object','restore-current-value','restore-current-frame','current-seed-object','current-seed-value','current-seed-frame','current-seed-pc','restore-contexts-seed-0','restore-contexts-seed-2','restore-contexts-seed-5','restore-contexts-post-0','restore-contexts-post-2','restore-contexts-post-5','restore-contexts-callback-0','restore-contexts-callback-2','restore-contexts-callback-5','restore-contexts-pc'] if restore else ['allocation-size','allocation-pc','original-allocation-size']
+ if frontier_kind=='initialization-helper':tests+=['wrong-helper-caller','wrong-original-helper-return']
  for test in tests:
   with tempfile.TemporaryDirectory(prefix='state-negative-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c1') as temporary:
    d=Path(temporary);o=d/'original';n=d/'native';b=d/'audit';shutil.copytree(a.original,o);shutil.copytree(a.native,n);b.mkdir()
@@ -33,10 +35,11 @@ def main():
     except (AssertionError,KeyError,ValueError):continue
     finally:compiler_state.PROJECT=previous
     raise AssertionError('accepted negative '+test)
-   elif test in ('missing-frontier','missing-postpoint','original-allocation-size','missing-callback-seed'):
+   elif test in ('missing-frontier','missing-postpoint','original-allocation-size','missing-callback-seed','wrong-original-helper-return'):
     f=o/'events.txt';r=f.read_text()
     if test=='missing-frontier':r=re.sub(r'^frontier .*\n','',r,flags=re.M)
     elif test=='missing-postpoint':r=re.sub(r'^trap seq=\d+ rva=000303d5 .*\n','',r,flags=re.M)
+    elif test=='wrong-original-helper-return':r=re.sub(r'(^trap seq=\d+ rva=000123ae .*stack=)[0-9a-f]+',r'\g<1>00000001',r,flags=re.M)
     elif test=='missing-callback-seed':r=re.sub(r'^context-seed .*\n','',r,flags=re.M)
     else:
      r=re.sub(r'(^trap seq=\d+ rva=0000e799 .*stack=[0-9a-f]+,)00001994',r'\g<1>00000004',r,flags=re.M)
@@ -79,7 +82,8 @@ def main():
     f=n/'allocation-observations.json';r=json.loads(f.read_text());r[0]['size' if test=='allocation-size' else 'pc']=4 if test=='allocation-size' else 1;f.write_text(json.dumps(r));rehash(n,f.name)
    else:
     f=n/'state.json';r=json.loads(f.read_text());c=r['compiler_state']
-    if test=='snapshot-first':c['snapshot']['first_call']=0
+    if test=='wrong-helper-caller':r['caller']['symbol']='wrong_caller'
+    elif test=='snapshot-first':c['snapshot']['first_call']=0
     elif test=='premature-snapshot':c['snapshot']={'first_call':1}
     elif test=='live-first':c['initialized']['first_call']^=1
     elif test=='bss-count':c['bss']['cleanup_count']=7
