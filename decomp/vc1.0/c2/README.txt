@@ -2233,3 +2233,11 @@ Nested-region optimization passed: checkpoint895
 native fixtures pass. See cases/loops-induction-cleanup.json for extent union, limits
 and measured timing splits. Minimal/hello objects remain exact after timestamp;
 loop620-byte final object is incomplete.
+
+Global loop expression rewriting passed: checkpoint898
+---------------------------------------
+3 whole functions pass fresh original/native matching; current frontier
+@distribute_unary_tree@4. 820 graph checks, canonical/native/W3 and all three
+native fixtures pass. See cases/loops-global-rewrite.json for extent union, limits
+and measured timing splits. Minimal/hello objects remain exact after timestamp;
+loop620-byte final object is incomplete.

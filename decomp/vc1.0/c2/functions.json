@@ -899,7 +899,10 @@
     "@induction_is_dead_on_exit@4",
     "@bitset_remove@8",
     "@remove_region_candidate@8",
-    "@remove_parent_counter_records@4"
+    "@remove_parent_counter_records@4",
+    "@materialize_numbered_tree@4",
+    "@invalidate_work_tree@4",
+    "@find_assignment_operand@8"
   ],
   "driver": [
     {
@@ -4662,8 +4665,7 @@
     {
       "name": "@invalidate_work_tree@4",
       "start": 382000,
-      "end": 382001,
-      "provisional": true
+      "end": 382054
     },
     {
       "name": "@has_no_later_work_store@4",
@@ -4763,8 +4765,7 @@
     {
       "name": "@materialize_numbered_tree@4",
       "start": 384928,
-      "end": 384929,
-      "provisional": true
+      "end": 385191
     },
     {
       "name": "@new_temporary_descriptor@4",
@@ -4828,8 +4829,7 @@
     {
       "name": "@find_assignment_operand@8",
       "start": 423968,
-      "end": 423969,
-      "provisional": true
+      "end": 424237
     },
     {
       "name": "@strip_assignment_conversion@4",

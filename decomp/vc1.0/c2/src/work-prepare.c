@@ -356,3 +356,34 @@ int __fastcall matches_assignment_load(Node *destination, Node *operand)
 {
     return operand->opcode == 0x30 && trees_equal(destination, operand->left.node, 1);
 }
+
+/* Original [00067820,0006792d). Search the associative assignment chain
+   for a same-typed load of its destination. Remember which operand matched
+   and whether an addition occurred before replacing that load by identity. */
+int __fastcall find_assignment_operand(Node *node, unsigned has_addition)
+{
+    unsigned opcode = node->opcode;
+    if (opcode == 2) has_addition = 1;
+    if (opcode != assignment_operator && !(assignment_operator == 2 && opcode == 3)) return 0;
+    if ((node_shapes[opcode] & NODE_ASSOCIATIVE) &&
+        node->second.node->attributes.words.type == assignment_node->attributes.words.type &&
+        matches_assignment_load(assignment_destination, node->second.node)) {
+        assignment_match_left = 0;
+        assignment_match = node;
+        assignment_has_addition = has_addition;
+        return 1;
+    }
+    if (node->left.node->attributes.words.type == assignment_node->attributes.words.type &&
+        matches_assignment_load(assignment_destination, node->left.node)) {
+        assignment_match_left = 1;
+        assignment_match = node;
+        assignment_has_addition = has_addition;
+        return 1;
+    }
+    if ((node_shapes[node->opcode] & NODE_ARITY) != NODE_LEAF) {
+        if (find_assignment_operand(node->left.node, has_addition)) return 1;
+        if ((node_shapes[node->opcode] & NODE_ASSOCIATIVE) &&
+            find_assignment_operand(node->second.node, has_addition)) return 1;
+    }
+    return 0;
+}

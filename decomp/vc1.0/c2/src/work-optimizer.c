@@ -1151,3 +1151,13 @@ NumberedExpression *__fastcall ensure_numbered_expression(Node *node)
     }
     return expression;
 }
+
+/* Original [0005d430,0005d466). Invalidate nonleaf work values after
+   their operands; interned and other leaves retain their shared flags. */
+void __fastcall invalidate_work_tree(Node *node)
+{
+    if ((node_shapes[node->opcode] & NODE_ARITY) == NODE_LEAF) return;
+    invalidate_work_tree(node->left.node);
+    if (node_shapes[node->opcode] & NODE_HAS_SECOND) invalidate_work_tree(node->second.node);
+    node->attributes.words.flags |= 8;
+}

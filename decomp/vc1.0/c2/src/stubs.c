@@ -299,11 +299,9 @@ int __fastcall equal_chain_value_ids(Node *left, Node *right) { __asm int 3 }
 
 
 
-void __fastcall invalidate_work_tree(Node *node) { __asm int 3 }
 
 
 
-Node *__fastcall materialize_numbered_tree(Node *node) { __asm int 3 }
 
 
 
@@ -312,7 +310,6 @@ void __fastcall split_switch_ranges(Node *ranges, unsigned cases, int count, uns
 void __fastcall emit_switch_table(Node *ranges, int count, int option1, int option2) { __asm int 3 }
 
 void __fastcall reduce_assignment_operator(Node *assignment, Node *operand, Node *load, Node *operation) { __asm int 3 }
-int __fastcall find_assignment_operand(Node *node, unsigned has_addition) { __asm int 3 }
 
 void __fastcall record_float_register(unsigned short number, SymbolHeader *symbol) { __asm int 3 }
 
