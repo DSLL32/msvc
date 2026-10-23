@@ -1,0 +1,18 @@
+{
+  "target": {
+    "path": "toolchains/watcom10.0a/binnt/WLINK.EXE",
+    "sha256": "ae8bb02cce0e92ed1a0c5c003a7312bb05f8bf3c252e1efa27a4835fb83b9ff1"
+  },
+  "driver": [
+    {
+      "name": "Spawn",
+      "symbol": "Spawn_",
+      "start": 4287804,
+      "end": 4287855
+    }
+  ],
+  "accepted": [
+    "Spawn"
+  ],
+  "analysis_only": "Select isolated source candidate for graph/ABI checks; not accepted application manifest."
+}

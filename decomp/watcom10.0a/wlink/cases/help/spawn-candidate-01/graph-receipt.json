@@ -1,0 +1,40 @@
+{
+  "argv": [
+    "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+    "--repo",
+    "/root/msvc2",
+    "--project",
+    "/root/msvc2/decomp/watcom10.0a/wlink",
+    "--profile",
+    "cl",
+    "--discovery",
+    "cfg",
+    "--map-format",
+    "watcom10",
+    "--config",
+    "/root/.ai-tmp/msvc2/watcom10.0a/wlink/spawn-candidate-01/functions-candidate.json",
+    "--runtime",
+    "/root/.ai-tmp/msvc2/watcom10.0a/wlink/spawn-candidate-01/runtime-candidate.json",
+    "--rebuilt-runtime",
+    "/root/.ai-tmp/msvc2/watcom10.0a/wlink/spawn-candidate-01/rebuilt-runtime.json",
+    "--rebuilt",
+    "/root/.ai-tmp/msvc2/watcom10.0a/wlink/spawn-candidate-01/candidate.exe",
+    "--map",
+    "/root/.ai-tmp/msvc2/watcom10.0a/wlink/spawn-candidate-01/candidate.map",
+    "--check-ret",
+    "--check-references",
+    "--check-ownership",
+    "--check-extents"
+  ],
+  "status": 0,
+  "seconds": 0.007814758457243443,
+  "scope": "Isolated Spawn candidate, strictRET/calls/references/ownership/extents; no app acceptance",
+  "bindings": {
+    "/root/.ai-tmp/msvc2/watcom10.0a/wlink/spawn-candidate-01/candidate.exe": "25c08866cb187cc0f62b1ed5d161a32745e4991dbd49f5848abcd694f0553fd6",
+    "/root/.ai-tmp/msvc2/watcom10.0a/wlink/spawn-candidate-01/candidate.map": "12417523414c75289d19be1785ba4c2ed775a537228fdd370f3f9aefccbcf3e6",
+    "/root/.ai-tmp/msvc2/watcom10.0a/wlink/spawn-candidate-01/functions-candidate.json": "a027c2011ada9b2165e3bac3e1498725678e3060e91b66604c67a69a592835fb",
+    "/root/.ai-tmp/msvc2/watcom10.0a/wlink/spawn-candidate-01/runtime-candidate.json": "a240670645e650b8bd1923ceb3f04d666a3d80a9b1a117a6fc1a1ca27a39dc0c",
+    "/root/.ai-tmp/msvc2/watcom10.0a/wlink/spawn-candidate-01/rebuilt-runtime.json": "c65122f99149b26a0ce24d110a40136d49ed0190a632145172908b9dee61b468",
+    "/root/.ai-tmp/msvc2/watcom10.0a/wlink/spawn-candidate-01/linkutil.c": "9ab4d99567532c79fa13b36da5289dbffd2421025fcd35052fffa541e2402bd4"
+  }
+}

@@ -1,0 +1,62 @@
+{
+  "status": "Proposed single original runtime, awaiting parent focused review",
+  "purpose": "Narrow ordinary first Spawn normal-_setjmp call/return, no longjmp/unwind grant",
+  "command": [
+    "wine",
+    "S:\\watcom10.0a\\wlink\\spawn-observer-source-01\\observe-spawn.exe",
+    "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE",
+    "?",
+    "S:\\watcom10.0a\\wlink\\spawn-prefix-01\\work",
+    "S:\\watcom10.0a\\wlink\\spawn-prefix-01\\stdout.bin",
+    "S:\\watcom10.0a\\wlink\\spawn-prefix-01\\stderr.bin",
+    "S:\\watcom10.0a\\wlink\\spawn-prefix-01\\events.private.txt",
+    "S:\\watcom10.0a\\wlink\\observer-static-03\\sites.txt",
+    "30000",
+    "NUL"
+  ],
+  "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/spawn-prefix-01/work",
+  "helper": {
+    "path": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/spawn-observer-source-01/observe-spawn.exe",
+    "sha256": "1814354c1017e90c2651c89f63b70cf87cb2aa7724522c82089e714563e1c17d",
+    "source_receipt_sha256": "b212a15de23bf697198b4d8490b9160e267bab852e702d33b8437d99594a6509",
+    "build_receipt_sha256": "160477e0ffb87834e981325c25a0b3d54d81f4db3f410c590443d8aa3548d3ce"
+  },
+  "target": {
+    "path": "/root/msvc2/toolchains/watcom10.0a/.patched/WLINK.EXE",
+    "sha256": "509c749b2258029a25a0071e34fa13b76a2fd4b267591a2bb12e9a7be5fd665b",
+    "pristine_sha256": "ae8bb02cce0e92ed1a0c5c003a7312bb05f8bf3c252e1efa27a4835fb83b9ff1"
+  },
+  "config": {
+    "path": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/observer-static-03/sites.txt",
+    "sha256": "ea46eaa75cfb3d1d2930e98fcac498b06d7d9552b27f750479d32ac5d632faf3"
+  },
+  "host_environment_private": {
+    "path": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/help-observer-01/host-environment.private.json",
+    "sha256": "6a7c39034cd9335ed92c5e8b3655647f1cb782aacb8d66d77ab2339ce40fe6a6",
+    "mode": "0600"
+  },
+  "packets": {
+    "decomp/watcom10.0a/wlink/cases/help/spawn-boundary-proposal.json": "af26dea0c511018451f34160e6bf8a0a0f2f391410fcf17e1da73e460e4b8f3e",
+    "decomp/watcom10.0a/wlink/scripts/spawn-prefix.h": "2edc445a288136569875c8337c239ce88b87d1edc2a8f72ac605741f2acd4f41",
+    "decomp/watcom10.0a/wlink/scripts/prepare-spawn-observer.py": "8f823058c878f648fa91b3d59b23bc3c1d7c57bb158dd4a33cabac9ebf829ba5",
+    "decomp/watcom10.0a/wlink/cases/help/main-bootstrap-proposal.json": "b4bb9d5f032a49ca2a1003ad08d830fe21b63c62d9f6811c4cd948d50ee02f6a"
+  },
+  "timeout": {
+    "helper_ms": 30000,
+    "outer_seconds": 40,
+    "cleanup": "Ownedprocess/group only, never sharedserver. Single run/no retry on unexpected. Existing helper EXIT/signaled proof required."
+  },
+  "expected": {
+    "launcher_status": 151,
+    "owned_exit": 151,
+    "actual_exit_signaled": true,
+    "next_logical_frontier": "DoLinkFromCommandLine4243c8 beforebody",
+    "normal_setjmp_verified": true,
+    "stdout_bytes": 0,
+    "stderr_bytes": 0,
+    "case_files": []
+  },
+  "evidence": "Raw events precreated0600. Durable gzip is clearly DERIVED REDACTED: replace complete environmenthex AND localframe/FPhex blocks with exact hashes/private raw path; preserve all true field/count/control-flow/verification messages. Raw neverprinted/committed. Actual failures retained.",
+  "application_acceptance": false,
+  "not_a_native_fixture": true
+}
