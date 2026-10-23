@@ -2,13 +2,11 @@
   "project": "vc5.10",
   "binary": "C2.EXE",
   "target": "toolchains/5.10/bin/C2.EXE",
-  "status": "groundwork-only",
-  "reconstruction_released": false,
-  "accepted_functions": 0,
+  "status": "first diagnostic case complete; numeric compilation next authorized",
+  "reconstruction_released": true,
+  "accepted_functions": 24,
   "gates": [
-    "root approves DLL/native-module workflow",
-    "Rust graph-audit available and reviewed",
-    "explicit root reconstruction release"
+    "First case independently reviewed and passed; root authorized substantial next compilation case"
   ],
   "capture": {
     "prefix": "~/.ai-tmp/vc1.0-capture/wine",
@@ -166,6 +164,12 @@
       "backend_inputs": [],
       "expected_object": null,
       "expected_trace": null
+    },
+    {
+      "name": "numeric-control-flow",
+      "source": "numeric-control-flow/numeric-control-flow.c",
+      "manifest": "numeric-control-flow/case.json",
+      "status": "fresh original CL inputs and standalone C2 oracle validated; native reconstruction next"
     }
   ],
   "prerequisite": "Actual 5.10 frontend IR, C2 argv and MSC_CMD_FLAGS were captured at the CL spawn boundary. Independent original backend replay and reconstruction acceptance remain pending; vc1.0 IR is not an oracle.",
@@ -203,5 +207,6 @@
     "raw_environment_assignment": "decomp/vc5.10/cl/cases/original-probes/host-contract-2/msc-cmd-flags.bin",
     "complete_pre_spawn_inputs_captured": true,
     "capture_manifest": "decomp/vc5.10/cl/cases/original-probes/host-contract-2/manifest.json"
-  }
+  },
+  "active_next_case": "numeric-control-flow"
 }

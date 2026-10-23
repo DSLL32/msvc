@@ -61,3 +61,11 @@ check fixtures: native
 capture-original-help:
 	@echo 'Use explicit capture-original.py with canonical provider; old groundwork capture is historical.' >&2
 	@exit 2
+
+build/capture/input-start.json: scripts/capture-inputs.c Makefile $(wildcard $(RECON)/include/*.h) | build
+	$(PYTHON) scripts/build-provenance.py begin capture
+build/capture-inputs.obj: scripts/capture-inputs.c Makefile | build build/capture/input-start.json
+	$(TOOL) CL.EXE /nologo /c /Od /G3 /W3 /ML /I$(RECON)/include /Fo$@ $<
+build/capture-inputs.exe: build/capture-inputs.obj build/capture/input-start.json
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $(filter %.obj,$^)
+	$(PYTHON) scripts/build-provenance.py finish capture --binary $@

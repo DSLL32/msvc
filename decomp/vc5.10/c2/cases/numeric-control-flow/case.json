@@ -1,0 +1,97 @@
+{
+  "id": "numeric-control-flow",
+  "state": "validated standalone original oracle; native reconstruction pending",
+  "release": "Root/orchestrator authorized next substantial compilation case after first completion review",
+  "source": {
+    "path": "numeric-control-flow.c",
+    "sha256": "408a915312a72cbb496a884d696f84e70fb4c8850d50e4697e1d482e5cb7a7d4",
+    "provenance": "Combines source-only loop/alias/floating themes with signed/unsigned division/shifts; all IR/output are fresh5.10 captures"
+  },
+  "cl_arguments": [
+    "/nologo",
+    "/Bd",
+    "/c",
+    "/O2",
+    "/G5",
+    "numeric-control-flow.c",
+    "/B2R:\\toolchains\\5.10\\bin\\C2.EXE"
+  ],
+  "arguments": [],
+  "canonical_argv": [
+    "R:\\toolchains\\5.10\\bin\\C2.EXE"
+  ],
+  "environment": {
+    "raw_vector": "reference/main-environment.bin",
+    "sha256": "4b7aec9e20f9354d5788aeccf96821a9a53a7d8a0de26caaa3473bfc72df4105",
+    "strings": 19,
+    "MSC_CMD_FLAGS": "-il .\\a01068 -f numeric-control-flow.c -W 1 -dos -Fonumeric-control-flow.obj -ML -Fdvc50.idb -Bd -Gs4096 -Gy -G5 "
+  },
+  "child_cwd": "S:\\vc5.10\\c2\\numeric-control-flow\\original-work",
+  "inputs": [
+    {
+      "path": "inputs/a01068ex",
+      "working_name": "a01068ex",
+      "bytes": 2940,
+      "sha256": "83f26fe13a042a6e5d7139babe23634230edd2fdf4199bebf8b9effcbe29e67a"
+    },
+    {
+      "path": "inputs/a01068gl",
+      "working_name": "a01068gl",
+      "bytes": 271,
+      "sha256": "c38e259adbc644283c8f2b9431df0832c17dc74729cdd890df7afd1541c74f7b"
+    },
+    {
+      "path": "inputs/a01068in",
+      "working_name": "a01068in",
+      "bytes": 15,
+      "sha256": "0bbcf997e2cac60b2509b03e4fce81e88a8625eb1952fd1097fc727f83c70b7c"
+    },
+    {
+      "path": "inputs/a01068sy",
+      "working_name": "a01068sy",
+      "bytes": 922,
+      "sha256": "7c82aa3c8e48c34374fe30020c45baf03f0784991935a2b8a46f85596af79176"
+    }
+  ],
+  "expected": {
+    "status": 0,
+    "stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "artifacts": [
+      {
+        "path": "reference/object.bin",
+        "output_name": "numeric-control-flow.obj",
+        "kind": "i386-coff-object",
+        "bytes": 2347,
+        "sha256": "6140f3231aed0444c80b51c0fa987867f25f24bc4662c7a3566589bd4037613a",
+        "normalize": [
+          {
+            "name": "IMAGE_FILE_HEADER.TimeDateStamp",
+            "offset": 4,
+            "bytes": 4
+          }
+        ]
+      }
+    ]
+  },
+  "proof": {
+    "pipeline_receipt_sha256": "a026a13f6b5c06ea0e97dce4256b8247ee4c3774d229306a7adf72d1b6df648f",
+    "standalone_receipt_sha256": "bc3f8810487c78b28225b38dcb94675dc5f5ca8fb7fef81c2fe4485693d0bcb8",
+    "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "actual_target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+    "argv_environment": "Byte-identical CL child and standalone C2 vectors",
+    "COFF": "Standalone matches CL pipeline outside4-byte COFF timestamp; changed isolated work directory does not change other bytes",
+    "getenv": "Actual MSC_CMD_FLAGS result aliases main environment entry+14, mutable original storage"
+  },
+  "scratch": {
+    "pipeline": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/reference-001",
+    "standalone": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/standalone-003"
+  },
+  "native_fixture": "Pending; fixtures must launch only native ELF, with frozen4IR/source/env and strict output/trace checks"
+}

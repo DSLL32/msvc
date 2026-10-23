@@ -1,0 +1,40 @@
+{
+  "kind": "explicit standalone original C2 oracle; separate mutable work directory",
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc5.10\\c2\\numeric-control-flow\\standalone-003\\capture-helper.exe",
+    "S:\\vc5.10\\c2\\numeric-control-flow\\standalone-003\\C2.EXE",
+    "R:\\toolchains\\5.10\\bin\\C2.EXE",
+    "",
+    "S:\\vc5.10\\c2\\numeric-control-flow\\standalone-003\\plan.txt",
+    "S:\\vc5.10\\c2\\numeric-control-flow\\reference-001\\c2-environment.bin",
+    "S:\\vc5.10\\c2\\numeric-control-flow\\original-work"
+  ],
+  "child_cwd": "S:\\vc5.10\\c2\\numeric-control-flow\\original-work",
+  "helper_status": 0,
+  "seconds": 1.3238474521785975,
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "helper_sha256": "54141b0929b6d7792d39d68995f917708624f7d433a4367d9aa2136e500412ed",
+  "pipeline_receipt_sha256": "a026a13f6b5c06ea0e97dce4256b8247ee4c3774d229306a7adf72d1b6df648f",
+  "files": {
+    "MSVCRT.DLL": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "main-environment.bin": "4b7aec9e20f9354d5788aeccf96821a9a53a7d8a0de26caaa3473bfc72df4105",
+    "child-command-input.bin": "439a3ce5ba3cf93d8b3bc3dbfd81a6f1727a833d79651d988df83dcc16783b61",
+    "host.stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "numeric-control-flow.obj": "6140f3231aed0444c80b51c0fa987867f25f24bc4662c7a3566589bd4037613a",
+    "stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "compiled-inputs.json": "e148125fc2eaada5d4b6732a969c29c82fdea6e32b58531193e6a06b55c8cb6c",
+    "loaded-msvcrt.bin": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "events.txt": "f091234f0f962d178cf54fb41f720d8fba61ae83f3385db02be6577af7021d32",
+    "stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "environment-flags.bin": "5a3450c82d3dba3b2d62288fe2baece06ee835e83b6d5dea8099d3b783f06949",
+    "command-argv.bin": "c9648d9b133495a9d98aaf84f4cd5363050f5a3077da2c71f02155928b076294",
+    "child-environment-input.bin": "4b7aec9e20f9354d5788aeccf96821a9a53a7d8a0de26caaa3473bfc72df4105",
+    "C2.EXE": "b0fc6de486a8065989f20ce6d648ed7a303a5cabbe9bb0e77e76b39e81dc1508",
+    "host.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.txt": "8bcceffe404bd05a84db43be4ba6e32be2b9e3eb08a488bbc252e2d3f13320da",
+    "capture-helper.exe": "54141b0929b6d7792d39d68995f917708624f7d433a4367d9aa2136e500412ed",
+    "MSPDB50.DLL": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+    "main-argv.bin": "c9648d9b133495a9d98aaf84f4cd5363050f5a3077da2c71f02155928b076294"
+  }
+}

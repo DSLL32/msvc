@@ -9,8 +9,9 @@ from state import BINARY, ROOT, sha
 
 
 def inputs(mode):
-    if mode=='helper':
-        paths=[BINARY/'scripts/debug-run.c',BINARY/'Makefile']+list((ROOT/'lib/recon/include').glob('*.h'))
+    if mode in ('helper','capture'):
+        source='debug-run.c'if mode=='helper'else'capture-inputs.c'
+        paths=[BINARY/'scripts'/source,BINARY/'Makefile']+list((ROOT/'lib/recon/include').glob('*.h'))
         return {str(p.relative_to(ROOT)):sha(p.read_bytes())for p in sorted(set(paths))if p.is_file()}
     paths=list((BINARY/'src').glob('*'))+[BINARY/'Makefile']
     if mode=='native':
@@ -21,7 +22,7 @@ def inputs(mode):
     return {str(p.relative_to(ROOT)):sha(p.read_bytes())for p in sorted(set(paths))if p.is_file()}
 
 def main():
-    p=argparse.ArgumentParser(description=__doc__);p.add_argument('stage',choices=['begin','finish']);p.add_argument('mode',choices=['native','original','helper']);p.add_argument('--binary',type=Path);a=p.parse_args()
+    p=argparse.ArgumentParser(description=__doc__);p.add_argument('stage',choices=['begin','finish']);p.add_argument('mode',choices=['native','original','helper','capture']);p.add_argument('--binary',type=Path);a=p.parse_args()
     start=BINARY/'build'/a.mode/'input-start.json'
     if a.stage=='begin':
         records=inputs(a.mode);digest=sha(json.dumps(records,sort_keys=True).encode())

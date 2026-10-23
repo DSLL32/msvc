@@ -1,0 +1,3 @@
+numeric-control-flow.c
+`R:\toolchains\5.10\bin\c1.dll -il .\a01068 -f numeric-control-flow.c -W 1 -Ze -D_MSC_EXTENSIONS -Zp8 -ZB64 -D_INTEGRAL_MAX_BITS=64 -Fonumeric-control-flow.obj -pc \:/ -Fdvc50.pdb -D_MSC_VER=1100 -D_WIN32 -nologo -Bd -Gs -Gf -Og -Oi -Ot -Oy -Ob1 -D_M_IX86=500 -G5 -I R:\toolchains\5.10\include'
+`R:\toolchains\5.10\bin\C2.EXE -il .\a01068 -f numeric-control-flow.c -W 1 -dos -Fonumeric-control-flow.obj -ML -Fdvc50.idb -Bd -Gs4096 -Gy -G5'

@@ -14,7 +14,7 @@ static DWORD entry[2048];
 static BYTE entry_byte[2048];
 static unsigned entries;
 static DWORD mainargs_slots[5];
-static DWORD message_slots[4], message_number;
+static DWORD message_slots[4], message_number, observed_environment;
 
 static int read_memory(DWORD address, void *buffer, DWORD size)
 {
@@ -227,9 +227,25 @@ static void observe(CONTEXT *context, DWORD address)
         if (!read_memory(context->Esp+4,&value,4)) ExitProcess(149);
         fprintf(events,"exit-callback %08lx\n",value);
     }
+    if (address == 0x452a22) {
+        DWORD slot=observed_environment, entry, alias=0;
+        char name[14];
+        if (!slot) ExitProcess(177);
+        for (i=0;i<4096;++i,slot+=4) {
+            if (!read_memory(slot,&entry,4)) ExitProcess(178);
+            if (!entry)break;
+            if (read_memory(entry,name,sizeof(name)) && !memcmp(name,"MSC_CMD_FLAGS=",14)) {
+                alias=context->Ecx==entry+14;
+                fprintf(events,"flags-environment entry=%08lx returned=%08lx alias=%lu\n",entry,context->Ecx,alias);
+                save_string(context->Ecx,"environment-flags.bin");
+                break;
+            }
+        }
+    }
     if (address == 0x4528b0) {
         if (!read_memory(context->Esp,stack,sizeof(stack))) ExitProcess(147);
         fprintf(events,"main-input argc=%lu argv=%08lx environment=%08lx\n",stack[1],stack[2],stack[3]);
+        observed_environment=stack[3];
         save_vector(stack[2],"main-argv.bin");
         save_vector(stack[3],"main-environment.bin");
         if (!read_memory(0x7803fde8,&value,4)) ExitProcess(148);
@@ -284,7 +300,21 @@ int main(int argc, char **argv)
     int loader_break = 0, completed = 0;
     FILE *plan;
     char child_environment[] = "PATH=R:\\toolchains\\5.10\\bin\0SystemRoot=C:\\windows\0TEMP=.\0TMP=.\0WINEDLLOVERRIDES=msvcrt=n\0WINEPATH=R:\\toolchains\\5.10\\bin\0windir=C:\\windows\0";
-    if (argc != 5) return 120;
+    char *environment=child_environment;
+    DWORD environment_size=sizeof(child_environment);
+    const char *working_directory="S:\\vc5.10\\c2\\original";
+    if (argc != 5 && argc != 7) return 120;
+    if (argc == 7) {
+        FILE *input_file=fopen(argv[5],"rb");
+        long size;
+        if(!input_file || fseek(input_file,0,SEEK_END))return 179;
+        size=ftell(input_file);
+        if(size<2 || size>65536 || fseek(input_file,0,SEEK_SET))return 180;
+        environment=(char *)malloc(size);if(!environment)return 181;
+        if(fread(environment,1,size,input_file)!=(DWORD)size || fclose(input_file))return 182;
+        if(environment[size-1] || environment[size-2])return 183;
+        environment_size=(DWORD)size;working_directory=argv[6];
+    }
     events = fopen("events.txt", "wb");
     plan = fopen(argv[4], "r");
     if (!events || !plan) return 121;
@@ -302,17 +332,18 @@ int main(int argc, char **argv)
     memset(&startup, 0, sizeof(startup)); startup.cb = sizeof(startup);
     startup.dwFlags = STARTF_USESTDHANDLES;
     startup.hStdInput = input; startup.hStdOutput = out; startup.hStdError = err;
-    sprintf(command, "\"%s\" %s", argv[2], argv[3]);
+    if(*argv[3])sprintf(command, "\"%s\" %s", argv[2], argv[3]);
+    else sprintf(command,"\"%s\"",argv[2]);
     {
         FILE *input_file = fopen("child-environment-input.bin", "wb");
         if (!input_file) return 147;
-        fwrite(child_environment, 1, sizeof(child_environment), input_file); fclose(input_file);
+        fwrite(environment, 1, environment_size, input_file); fclose(input_file);
         input_file = fopen("child-command-input.bin", "wb");
         if (!input_file) return 148;
         fwrite(command, 1, strlen(command)+1, input_file); fclose(input_file);
     }
     if (!CreateProcessA(argv[1], command, NULL, NULL, TRUE, DEBUG_ONLY_THIS_PROCESS,
-                        child_environment, "S:\\vc5.10\\c2\\original", &startup, &process)) return 122;
+                        environment, working_directory, &startup, &process)) return 122;
     child = process.hProcess;
     while (!completed && WaitForDebugEvent(&event, 30000)) {
         disposition = DBG_CONTINUE;

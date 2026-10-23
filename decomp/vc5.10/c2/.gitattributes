@@ -1,4 +1,3 @@
-# Immutable raw evidence retains original whitespace and CRLF bytes.
-cases/acceptance/** -diff -text
-cases/unsupported-help-diagnostic/*.bin -diff -text
-cases/analysis/*disassembly.txt -diff -text
+# Original streams are exact bytes, including CRLF and trailing flag spaces.
+*.bin binary
+cases/numeric-control-flow/pipeline/events.txt -whitespace
