@@ -616,8 +616,8 @@ CppSymbol * __stdcall enclosing_qualifier_class(QualifierBinding *binding) { __a
 int __stdcall resolve_member_pointer_path(QualifierBinding *path, BaseClassLink **virtual_base, int *displacement) { __asm { int 3 } return 0; }
 unsigned __stdcall class_virtual_base_pointer_offset(CppSymbol *tag) { __asm { int 3 } return 0; }
 CppSymbol * __stdcall member_pointer_virtual_function(CppSymbol *member) { __asm { int 3 } return 0; }
-IrToken * __stdcall make_compact_method_pointer(CType *type, IrToken *function, IrToken *adjustment) { __asm { int 3 } return 0; }
 IrToken * __stdcall make_virtual_method_pointer(CType *type, IrToken *function, IrToken *adjustment, BaseClassLink *virtual_base) { __asm { int 3 } return 0; }
 IrToken * __stdcall make_general_method_pointer(CType *type, IrToken *function, IrToken *adjustment, int vbptr_offset, IrToken *vbtable_offset) { __asm { int 3 } return 0; }
 IrToken * __stdcall make_virtual_data_member_pointer(CType *type, IrToken *offset, IrToken *virtual_offset) { __asm { int 3 } return 0; }
 IrToken * __stdcall make_general_data_member_pointer(CType *type, IrToken *offset, int vbptr_offset, IrToken *vbtable_offset) { __asm { int 3 } return 0; }
+IrToken *__stdcall make_multiple_inheritance_method_pointer(CType *type, IrToken *function, IrToken *adjustment) { __asm { int 3 } return 0; }

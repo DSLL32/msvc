@@ -1,0 +1,91 @@
+{
+  "schema": 1,
+  "function": "_make_compact_method_pointer@12",
+  "native_entry": "make_compact_method_pointer",
+  "argument_words": 4,
+  "ownership_register": "edi,esi,eax",
+  "ownership_caller_extent": [
+    303511,
+    303532
+  ],
+  "native_caller_locals": {
+    "caller_type": {
+      "frame": 1,
+      "function": "member_pointer_expression",
+      "local": "type"
+    },
+    "caller_function": {
+      "frame": 1,
+      "function": "member_pointer_expression",
+      "local": "expression"
+    },
+    "caller_adjustment": {
+      "frame": 1,
+      "function": "member_pointer_expression",
+      "local": "first"
+    }
+  },
+  "native_expressions": {
+    "raw_type": "(unsigned)type",
+    "raw_function": "(unsigned)function",
+    "raw_adjustment": "(unsigned)adjustment"
+  },
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 237993,
+        "original_owner_function": "_member_pointer_expression@4",
+        "native_owner_function": "member_pointer_expression",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "type",
+        "identity": "Actual accepted methodbranch typeEDI/functionexpressionESI/returnedmake_integer_constant adjustmentEAX. PUSHEAX4a1a1/PUSHESI4a1a2/PUSHEDI4a1a3/CALL4a1a4 return4a1a9; native actual caller locals bound individually. Same-context registers are ownership only, not extra ABI inputs."
+      }
+    },
+    {
+      "name": "function",
+      "stack_index": 1,
+      "native_field": "raw_function",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 237993,
+        "original_owner_function": "_member_pointer_expression@4",
+        "native_owner_function": "member_pointer_expression",
+        "native_owner_field": "caller_function",
+        "native_owner_local": "expression",
+        "identity": "Actual accepted methodbranch typeEDI/functionexpressionESI/returnedmake_integer_constant adjustmentEAX. PUSHEAX4a1a1/PUSHESI4a1a2/PUSHEDI4a1a3/CALL4a1a4 return4a1a9; native actual caller locals bound individually. Same-context registers are ownership only, not extra ABI inputs."
+      }
+    },
+    {
+      "name": "adjustment",
+      "stack_index": 2,
+      "native_field": "raw_adjustment",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 237993,
+        "original_owner_function": "_member_pointer_expression@4",
+        "native_owner_function": "member_pointer_expression",
+        "native_owner_field": "caller_adjustment",
+        "native_owner_local": "first",
+        "identity": "Actual accepted methodbranch typeEDI/functionexpressionESI/returnedmake_integer_constant adjustmentEAX. PUSHEAX4a1a1/PUSHESI4a1a2/PUSHEDI4a1a3/CALL4a1a4 return4a1a9; native actual caller locals bound individually. Same-context registers are ownership only, not extra ABI inputs."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      303712,
+      303772
+    ],
+    "argument_bytes": 12,
+    "proof": "Whole60B, PUSHESI then typeESP+8/functionESP+12/adjustmentESP+16; RET12. Full defined modelEAX from callee49e10 selects1 new_cast_expression66080/RET8,2 builder4a2a0/RET12; allothermodels return actual residual integerEAX as pointer, not an unwritten local. Allthree actual pointerformals bound separately; no hidden/register semanticinputs. Builder4a2a0 independently disassembled whole4a2a0..4a39d with type/function/adjustment slotsESP+20/24/28 after16saved andRET12."
+  }
+}

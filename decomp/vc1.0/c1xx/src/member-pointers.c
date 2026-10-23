@@ -3,8 +3,11 @@
 #include "call-expressions.h"
 #include "expression-records.h"
 #include "special-members.h"
+#include "numeric-conversion.h"
 #include <recon.h>
 
+IrToken *__stdcall make_multiple_inheritance_method_pointer(CType *type,
+    IrToken *function, IrToken *adjustment);
 CppSymbol *__stdcall enclosing_qualifier_class(QualifierBinding *binding);
 int __stdcall resolve_member_pointer_path(QualifierBinding *path,
     BaseClassLink **virtual_base, int *displacement);
@@ -21,6 +24,18 @@ IrToken *__stdcall make_virtual_data_member_pointer(CType *type, IrToken *offset
     IrToken *virtual_offset);
 IrToken *__stdcall make_general_data_member_pointer(CType *type, IrToken *offset,
     int vbptr_offset, IrToken *vbtable_offset);
+
+/* Original 0x4a260..0x4a29c. A zero-adjustment class needs only
+   the function address; multiple inheritance stores the adjustment too. */
+IrToken *__stdcall make_compact_method_pointer(CType *type, IrToken *function,
+    IrToken *adjustment)
+{
+    unsigned model = member_pointer_inheritance_model(type);
+    if (model == 1) return new_cast_expression(type, function);
+    if (model == 2)
+        return make_multiple_inheritance_method_pointer(type, function, adjustment);
+    return (IrToken *)model;
+}
 
 /* Original 0x4dfe0..0x4dff9. An optional leading qualifier precedes
    the member-pointer shape whose data holds the owner class. */

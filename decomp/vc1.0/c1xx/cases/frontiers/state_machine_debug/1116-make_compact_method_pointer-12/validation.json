@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_make_compact_method_pointer@12",
+    "start": 303712,
+    "end": 303772
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1116-make_compact_method_pointer-12/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_make_multiple_inheritance_method_pointer@12",
+    "_member_pointer_inheritance_model@4",
+    "_new_cast_expression@8"
+  ],
+  "next_frontier": "_classify_member_pointer_conversion@12",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.49879540130496025,
+  "total_operation_seconds": 3.732583934441209,
+  "original_capture_seconds": 1.1173953227698803
+}

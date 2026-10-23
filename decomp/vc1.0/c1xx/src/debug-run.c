@@ -105,7 +105,7 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
         char *register_name;
         DWORD value;
         unsigned selected = ownership_register == 7 ? 4 :
-            (ownership_register == 9 ? 3 :
+            ((ownership_register == 9 || ownership_register == 12) ? 3 :
              ((ownership_register == 10 || ownership_register == 11) ? 1 : ownership_register));
         for (;;) {
             switch (selected) {
@@ -121,10 +121,10 @@ static void dump_checkpoint_state(HANDLE process, HANDLE thread, HANDLE log,
             else sprintf(line, "ownership-anchor %s unreadable\n", register_name);
             WriteFile(log, line, strlen(line), &written, 0);
             if (ownership_register == 7 && selected == 4) { selected = 6; continue; }
-            if (ownership_register == 9 && selected == 3) { selected = 1; continue; }
+            if ((ownership_register == 9 || ownership_register == 12) && selected == 3) { selected = 1; continue; }
             if (ownership_register == 10 && selected == 1) { selected = 2; continue; }
             if (ownership_register == 10 && selected == 2) { selected = 5; continue; }
-            if (ownership_register == 11 && selected == 1) { selected = 4; continue; }
+            if ((ownership_register == 11 || ownership_register == 12) && selected == 1) { selected = 4; continue; }
             break;
         }
     }
@@ -164,7 +164,8 @@ int main(int argc, char **argv)
         else if (strcmp(argument_option, "4")) return 2;
     }
     if (ownership_option) {
-        if (!strcmp(ownership_option, "esi,eax")) ownership_register = 11;
+        if (!strcmp(ownership_option, "edi,esi,eax")) ownership_register = 12;
+        else if (!strcmp(ownership_option, "esi,eax")) ownership_register = 11;
         else if (!strcmp(ownership_option, "esi,ebx,ebp")) ownership_register = 10;
         else if (!strcmp(ownership_option, "edi,esi")) ownership_register = 9;
         else if (!strcmp(ownership_option, "edx")) ownership_register = 8;

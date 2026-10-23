@@ -1,0 +1,18 @@
+python3 scripts/dependencies.py
+python3 scripts/native-build-signature.py "build/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92" "build/native-inputs.stamp" "clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/include -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g"
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/include -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/stubs.c -o build/native/stubs.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/include -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/member-pointers.c -o build/native/member-pointers.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/include -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/stubs.c -o build/native-trace/stubs.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/include -Ibuild/shared-inputs/66b0ccad356e644927cf6666c7635134ea05bc70c7837c803ef212e42e35bd92/native -Isrc -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -finstrument-functions -c src/member-pointers.c -o build/native-trace/member-pointers.o
+src/member-pointers.c:33:src/member-pointers.c28::33 :error: 28incompatible integer to pointer conversion returning 'int' from a function with result type 'IrToken *' (aka 'struct IrToken *') [-Wint-conversion]:
+ error: incompatible integer to pointer conversion returning 'int' from a function with result type 'IrToken *' (aka 'struct IrToken *') [-Wint-conversion]
+   33 |      33  |   i f   (imfo d(emlo d=e=l  1=)=  r1e)t urrent unrenw _nceaws_tc_aesxtp_reexspsrieosns(itoynp(et,y pfeu,n cftuinocnt)i;o
+n      )| ;                           ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+      |                            ^~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+11 error error generated generated.
+.
+make: *** [Makefile:149: build/native-trace/member-pointers.o] Error 1
+make: *** Waiting for unfinished jobs....
+make: *** [Makefile:147: build/native/member-pointers.o] Error 1
+

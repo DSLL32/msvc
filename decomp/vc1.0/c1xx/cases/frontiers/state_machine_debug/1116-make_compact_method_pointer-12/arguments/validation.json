@@ -1,0 +1,115 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_make_compact_method_pointer@12",
+  "case": "state_machine_debug",
+  "accepted_before": 1116,
+  "configuration_sha256": "b8f86ed37188301d75c1176e87be03d8b5dfd9b8bd755c5f3a4b7ceecc715766",
+  "native_entry": "make_compact_method_pointer",
+  "declared_formal_count": 3,
+  "formals": [
+    {
+      "name": "type",
+      "stack_index": 0,
+      "native_field": "raw_type",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "edi",
+        "original_caller_rva": 237993,
+        "original_owner_function": "_member_pointer_expression@4",
+        "native_owner_function": "member_pointer_expression",
+        "native_owner_field": "caller_type",
+        "native_owner_local": "type",
+        "identity": "Actual accepted methodbranch typeEDI/functionexpressionESI/returnedmake_integer_constant adjustmentEAX. PUSHEAX4a1a1/PUSHESI4a1a2/PUSHEDI4a1a3/CALL4a1a4 return4a1a9; native actual caller locals bound individually. Same-context registers are ownership only, not extra ABI inputs.",
+        "original_owner_value": 8311596,
+        "native_owner_value": 1449300780
+      },
+      "original_raw": 8311596,
+      "native_raw": 1449300780,
+      "result": "match"
+    },
+    {
+      "name": "function",
+      "stack_index": 1,
+      "native_field": "raw_function",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "esi",
+        "original_caller_rva": 237993,
+        "original_owner_function": "_member_pointer_expression@4",
+        "native_owner_function": "member_pointer_expression",
+        "native_owner_field": "caller_function",
+        "native_owner_local": "expression",
+        "identity": "Actual accepted methodbranch typeEDI/functionexpressionESI/returnedmake_integer_constant adjustmentEAX. PUSHEAX4a1a1/PUSHESI4a1a2/PUSHEDI4a1a3/CALL4a1a4 return4a1a9; native actual caller locals bound individually. Same-context registers are ownership only, not extra ABI inputs.",
+        "original_owner_value": 8363304,
+        "native_owner_value": 1449353984
+      },
+      "original_raw": 8363304,
+      "native_raw": 1449353984,
+      "result": "match"
+    },
+    {
+      "name": "adjustment",
+      "stack_index": 2,
+      "native_field": "raw_adjustment",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 237993,
+        "original_owner_function": "_member_pointer_expression@4",
+        "native_owner_function": "member_pointer_expression",
+        "native_owner_field": "caller_adjustment",
+        "native_owner_local": "first",
+        "identity": "Actual accepted methodbranch typeEDI/functionexpressionESI/returnedmake_integer_constant adjustmentEAX. PUSHEAX4a1a1/PUSHESI4a1a2/PUSHEDI4a1a3/CALL4a1a4 return4a1a9; native actual caller locals bound individually. Same-context registers are ownership only, not extra ABI inputs.",
+        "original_owner_value": 8363324,
+        "native_owner_value": 1449354004
+      },
+      "original_raw": 8363324,
+      "native_raw": 1449354004,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      303712,
+      303772
+    ],
+    "argument_bytes": 12,
+    "proof": "Whole60B, PUSHESI then typeESP+8/functionESP+12/adjustmentESP+16; RET12. Full defined modelEAX from callee49e10 selects1 new_cast_expression66080/RET8,2 builder4a2a0/RET12; allothermodels return actual residual integerEAX as pointer, not an unwritten local. Allthree actual pointerformals bound separately; no hidden/register semanticinputs. Builder4a2a0 independently disassembled whole4a2a0..4a39d with type/function/adjustment slotsESP+20/24/28 after16saved andRET12.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "c17159aeabe864c9c055a3aa3af7038f62712d3b44bb53aa945002925d64f7e6",
+  "capture_timing": {
+    "original_capture_seconds": 1.6191022004932165,
+    "native_capture_seconds": 0.18538169097155333,
+    "total_operation_seconds": 2.1103309597820044
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "a8dae3a804220d6609fae669f0769823da674449d274bf25549012b516c78a72",
+    "native-commands.gdb": "ff2ba959a3d1ab26822808b3bc68bf8a5fa595e178b003bbd2b94dbc5ce6ab53",
+    "native-gdb.log": "b6a7fd6450664c74dc31f5b1e13b5867bcfc540e95b0409a4125f1a6bd90f560",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "4cd50f0256a36b88d028f6c4b9d56931a535ffa8a9570512e8a3d811585df4d6",
+    "original-configuration.json": "b8f86ed37188301d75c1176e87be03d8b5dfd9b8bd755c5f3a4b7ceecc715766",
+    "original-disassembly.txt": "87633006e9bd34bb1b382238dd13b460b14a2b9e8e1fc236775e554042ac0d8d",
+    "original-entries.plan": "cd41ee2b491226d2fabba9c51fb683f6c69acc53c35ea8ecef6fd3c5e04b3194",
+    "original-events.txt": "d6918e71b3949acd75919f476e95341f4378a56d1b53aae9e9f2963186cc2cbd",
+    "original-ownership-caller-disassembly.txt": "ceca6a4f37f23ce90cfbd2c6f1fbd6d7fc7504875b739aeca6f0813f68c48c35",
+    "original-receipt.json": "684b1d5dc8cf8b23e96d7f294377fe53f84c81c7eb77c60693d57997bc489003",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "79e6439c63dfa25c0a054ef10a1a235dffd524e5ec7af9785a0f458cc169c997"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}
