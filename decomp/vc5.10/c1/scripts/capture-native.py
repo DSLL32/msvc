@@ -79,7 +79,8 @@ value['compiler_state']={
  'bss':{'saved_data':int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data')),
         'cleanup_count':int(gdb.parse_and_eval('c1_bss.cleanup_count')),
         'cleanup_callbacks':[int(gdb.parse_and_eval('(unsigned int)c1_bss.cleanup_callbacks[%%d]'%%i)) for i in range(32)],
-        'context':{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.context.'+key)) for key in ('object','value','saved_frame')}},
+        'context':{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.context.'+key)) for key in ('object','value','saved_frame')},
+        'current_context':{key:int(gdb.parse_and_eval('(unsigned int)c1_bss.current_context.'+key)) for key in ('object','value','saved_frame')}},
  'snapshot':({'first_call':int(gdb.parse_and_eval('c1_bss.saved_data->first_call'))} if int(gdb.parse_and_eval('(unsigned int)c1_bss.saved_data')) else None),
  'reuse_state':int(gdb.parse_and_eval('c1_reuse_state')),
  'initialization_callbacks':[int(gdb.parse_and_eval('(unsigned int)c1_initialization_callbacks[%%d]'%%i)) for i in range(34)],
@@ -89,6 +90,7 @@ value['compiler_state']={
  'cleanup_count':int(gdb.parse_and_eval('(char*)&c1_bss.cleanup_count-(char*)&c1_bss')),
  'cleanup_callbacks':int(gdb.parse_and_eval('(char*)&c1_bss.cleanup_callbacks-(char*)&c1_bss')),
  'context':int(gdb.parse_and_eval('(char*)&c1_bss.context-(char*)&c1_bss')),
+ 'current_context':int(gdb.parse_and_eval('(char*)&c1_bss.current_context-(char*)&c1_bss')),
  'context_members':{key:int(gdb.parse_and_eval('(char*)&c1_bss.context.'+key+'-(char*)&c1_bss.context')) for key in ('object','value','saved_frame')}}}
 value['pass_mode']=int(gdb.parse_and_eval('c1_pass_mode'))
 value['crt_attached']=int(gdb.parse_and_eval('c1_crt_attached'))
@@ -142,6 +144,9 @@ gdb.execute('set var c1_bss.cleanup_callbacks[1] = initialize_state_12377')
 gdb.execute('set var c1_bss.context.object = &c1_data.first_call')
 gdb.execute('set var c1_bss.context.value = 23')
 gdb.execute('set var c1_bss.context.saved_frame = (void *)c1_bss.saved_data')
+gdb.execute('set var c1_bss.current_context.object = &c1_data.first_call')
+gdb.execute('set var c1_bss.current_context.value = 29')
+gdb.execute('set var c1_bss.current_context.saved_frame = (void *)c1_bss.saved_data')
 gdb.execute('set var c1_pass_mode = 1')
 gdb.execute('set var c1_reuse_state = 9')
 restore_observations['before']=capture_modeled()
@@ -161,6 +166,15 @@ gdb.execute('set var c1_bss.context.value = 23')
 gdb.execute('set var c1_bss.context.saved_frame = (void *)c1_bss.saved_data')
 restore_observations['before_callback']=capture_modeled()
 restore_observations['callback_pc']=int(gdb.parse_and_eval('$pc'))
+end
+break initialize_state_12377
+continue
+python
+gdb.execute('set var c1_bss.current_context.object = &c1_data.first_call')
+gdb.execute('set var c1_bss.current_context.value = 29')
+gdb.execute('set var c1_bss.current_context.saved_frame = (void *)c1_bss.saved_data')
+restore_observations['before_current_callback']=capture_modeled()
+restore_observations['current_callback_pc']=int(gdb.parse_and_eval('$pc'))
 open(%r,'w').write(json.dumps(restore_observations,indent=2)+'\\n')
 end
 continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output / 'restore-observations.json'))

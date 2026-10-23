@@ -78,6 +78,37 @@
           "bytes": 4
         }
       ]
+    },
+    {
+      "name": "current_context",
+      "original_rva": 334008,
+      "bytes": 12,
+      "native_field": "c1_bss.current_context",
+      "native_offset": 148,
+      "type": "object pointer, unsigned value, saved-frame pointer",
+      "default": [
+        0,
+        0,
+        0
+      ],
+      "default_proof": "first raw loaded BSS snapshot; callback12377 resets all three words; shared member4cfc and pop callers recover the saved-frame role",
+      "members": [
+        {
+          "name": "object",
+          "offset": 0,
+          "bytes": 4
+        },
+        {
+          "name": "value",
+          "offset": 4,
+          "bytes": 4
+        },
+        {
+          "name": "saved_frame",
+          "offset": 8,
+          "bytes": 4
+        }
+      ]
     }
   ],
   "outside_bss": [

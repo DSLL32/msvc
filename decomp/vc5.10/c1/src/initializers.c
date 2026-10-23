@@ -10,7 +10,9 @@ void __cdecl initialize_state_12365(void)
 
 void __cdecl initialize_state_12377(void)
 {
-    __asm { int 3 }
+    c1_bss.current_context.object = NULL;
+    c1_bss.current_context.value = 0;
+    c1_bss.current_context.saved_frame = NULL;
 }
 
 void __cdecl initialize_state_12389(void)

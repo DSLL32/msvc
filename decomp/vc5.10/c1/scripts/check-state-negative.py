@@ -9,10 +9,10 @@ def main():
  p=argparse.ArgumentParser();p.add_argument('original',type=Path);p.add_argument('native',type=Path);a=p.parse_args();m.check(a.original,a.native)
  restore=json.loads((a.original/'receipt.json').read_text()).get('probe')=='restore'
  allocation=json.loads((a.original/'candidate.json').read_text())['expected_frontier']['kind']=='compiler-allocation'
- tests=['missing-frontier','candidate-only-prefix','snapshot-first','live-first','bss-count','bss-callback','missing-callback-slot','swapped-callback','snapshot-live-alias','native-layout','original-default','original-snapshot-field','field-map-overlap','field-map-alias','field-map-snapshot-offset','context-object','context-value','context-frame','original-context']
+ tests=['missing-frontier','candidate-only-prefix','snapshot-first','live-first','bss-count','bss-callback','missing-callback-slot','swapped-callback','snapshot-live-alias','native-layout','original-default','original-snapshot-field','field-map-overlap','field-map-alias','field-map-snapshot-offset','context-object','context-value','context-frame','original-context','current-context-object','current-context-value','current-context-frame','original-current-context']
  if allocation:
   tests.remove('snapshot-first');tests.remove('original-snapshot-field');tests.append('premature-snapshot')
- tests+=['missing-postpoint','restore-zero-input','restore-post-field','restore-post-count','restore-post-callback','restore-pointer-identity','restore-pc','restore-line','original-post-field','original-clear-gap','restore-context-zero-input','restore-context-object','restore-context-value','restore-context-frame','restore-pre-seed-context','callback-seed-object','callback-seed-value','callback-seed-frame','callback-seed-pc','missing-callback-seed'] if restore else ['allocation-size','allocation-pc','original-allocation-size']
+ tests+=['missing-postpoint','restore-zero-input','restore-post-field','restore-post-count','restore-post-callback','restore-pointer-identity','restore-pc','restore-line','original-post-field','original-clear-gap','restore-context-zero-input','restore-context-object','restore-context-value','restore-context-frame','restore-pre-seed-context','callback-seed-object','callback-seed-value','callback-seed-frame','callback-seed-pc','missing-callback-seed','restore-current-zero-input','restore-current-object','restore-current-value','restore-current-frame','current-seed-object','current-seed-value','current-seed-frame','current-seed-pc'] if restore else ['allocation-size','allocation-pc','original-allocation-size']
  for test in tests:
   with tempfile.TemporaryDirectory(prefix='state-negative-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c1') as temporary:
    d=Path(temporary);o=d/'original';n=d/'native';b=d/'audit';shutil.copytree(a.original,o);shutil.copytree(a.native,n);b.mkdir()
@@ -46,10 +46,11 @@ def main():
     if test=='original-default':f=o/'compiler-data-000.bin';offset=0x1530
     elif test=='original-snapshot-field':f=o/('compiler-snapshot-%03d.bin'%last);offset=0x1530
     elif test=='original-context':f=o/('compiler-bss-%03d.bin'%last);offset=0x18c8
+    elif test=='original-current-context':f=o/('compiler-bss-%03d.bin'%last);offset=0x18b8
     else:
      post=int(re.findall(r'^trap seq=(\d+) rva=000303d5 ',raw,re.M)[0]);f=o/(('compiler-data-' if test=='original-post-field' else 'compiler-bss-')+'%03d.bin'%post);offset=0x1530 if test=='original-post-field' else 0x40
-    r=bytearray(f.read_bytes());struct.pack_into('<I',r,offset,1 if test in ('original-clear-gap','original-context') else 0);f.write_bytes(r);rehash(o,f.name)
-   elif test.startswith('restore-') or test.startswith('callback-seed-'):
+    r=bytearray(f.read_bytes());struct.pack_into('<I',r,offset,1 if test in ('original-clear-gap','original-context','original-current-context') else 0);f.write_bytes(r);rehash(o,f.name)
+   elif test.startswith('restore-') or test.startswith('callback-seed-') or test.startswith('current-seed-'):
     f=n/'restore-observations.json';r=json.loads(f.read_text());post=r['post_restore']
     if test=='restore-zero-input':r['before']['snapshot']['first_call']=0
     elif test=='restore-post-field':post['initialized']['first_call']=0
@@ -62,6 +63,10 @@ def main():
     elif test=='restore-pre-seed-context':r['pre_seed']['bss']['context']['value']=1
     elif test=='callback-seed-pc':r['callback_pc']=1
     elif test.startswith('callback-seed-'):r['before_callback']['bss']['context'][{'callback-seed-object':'object','callback-seed-value':'value','callback-seed-frame':'saved_frame'}[test]]=0
+    elif test=='restore-current-zero-input':r['before']['bss']['current_context']['value']=0
+    elif test.startswith('restore-current-'):post['bss']['current_context'][{'restore-current-object':'object','restore-current-value':'value','restore-current-frame':'saved_frame'}[test]]=1
+    elif test=='current-seed-pc':r['current_callback_pc']=1
+    elif test.startswith('current-seed-'):r['before_current_callback']['bss']['current_context'][{'current-seed-object':'object','current-seed-value':'value','current-seed-frame':'saved_frame'}[test]]=0
     elif test.startswith('restore-context-'):post['bss']['context'][{'restore-context-object':'object','restore-context-value':'value','restore-context-frame':'saved_frame'}[test]]=1
     f.write_text(json.dumps(r));rehash(n,f.name)
    elif test.startswith('allocation-'):
@@ -77,6 +82,7 @@ def main():
     elif test=='swapped-callback':c['initialization_callbacks'][1],c['initialization_callbacks'][2]=c['initialization_callbacks'][2],c['initialization_callbacks'][1]
     elif test=='snapshot-live-alias':c['bss']['saved_data']=c['live_addresses']['initialized']
     elif test=='native-layout':c['native_layout']['cleanup_callbacks']=4
+    elif test.startswith('current-context-'):c['bss']['current_context'][{'current-context-object':'object','current-context-value':'value','current-context-frame':'saved_frame'}[test]]=1
     elif test.startswith('context-'):c['bss']['context'][{'context-object':'object','context-value':'value','context-frame':'saved_frame'}[test]]=1
     f.write_text(json.dumps(r));rehash(n,f.name)
    try:m.check(o,n,b)

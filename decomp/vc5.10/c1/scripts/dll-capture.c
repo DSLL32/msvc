@@ -288,6 +288,8 @@ static void seed_restore_state(void)
     write_mem(base + 0x57820, callbacks, 8);
     context[0] = base + 0x5f530; context[1] = 23; context[2] = saved;
     write_mem(base + 0x518c8, context, sizeof(context));
+    context[1] = 29;
+    write_mem(base + 0x518b8, context, sizeof(context));
     write_mem(base + 0x5c08c, &mode, 4);
     write_mem(base + 0x5c064, &reuse, 4);
     fprintf(events, "restore-seed snapshot=%08lx bytes=6548 first=%08lx count=7 mode=1 reuse=9\n", saved, first);
@@ -296,16 +298,16 @@ static void seed_restore_state(void)
 
 /* Auxiliary callback-body check: the object/value/frame are owned typed
  * sentinels, not input to the normal compilation case. */
-static void seed_context_callback(void)
+static void seed_context_callback(DWORD rva)
 {
     DWORD context[3];
-    context[0] = base + 0x5f530; context[1] = 23;
+    context[0] = base + 0x5f530; context[1] = rva == 0x12365 ? 23 : 29;
     readmem(base + 0x57818, &context[2], 4);
     if (!context[2]) fail("context probe missing owned snapshot");
-    write_mem(base + 0x518c8, context, sizeof(context));
-    fprintf(events, "context-seed rva=00012365 object=%08lx value=23 frame=%08lx\n",
-            context[0], context[2]);
-    context_seeded = 1;
+    write_mem(base + (rva == 0x12365 ? 0x518c8 : 0x518b8), context, sizeof(context));
+    fprintf(events, "context-seed rva=%08lx object=%08lx value=%lu frame=%08lx\n",
+            rva, context[0], context[1], context[2]);
+    context_seeded |= rva == 0x12365 ? 1 : 2;
 }
 
 static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
@@ -458,7 +460,8 @@ int main(int argc, char **argv)
                     prepare_mask();
                 }
                 if (restore_probe && !restore_seeded && address == base + 0x122a5) seed_restore_state();
-                if (restore_probe && !context_seeded && address == base + 0x12365) seed_context_callback();
+                if (restore_probe && !(context_seeded & 1) && address == base + 0x12365) seed_context_callback(0x12365);
+                if (restore_probe && !(context_seeded & 2) && address == base + 0x12377) seed_context_callback(0x12377);
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;

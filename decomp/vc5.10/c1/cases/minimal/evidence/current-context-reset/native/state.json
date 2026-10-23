@@ -1,0 +1,165 @@
+{
+  "symbol": "initialize_state_12389",
+  "pc": 134524572,
+  "args": {},
+  "invocation": {
+    "symbol": "InvokeCompilerPass",
+    "args": {
+      "argc": 11,
+      "argv": 4294957272,
+      "mode": 1
+    },
+    "argv": [
+      "c1.dll",
+      "-il",
+      ".\\minimal",
+      "-f",
+      "test.c",
+      "-W",
+      "1",
+      "-G5",
+      "-Ot",
+      "-Ob0",
+      "-nologo"
+    ],
+    "argv_terminator": 0
+  },
+  "caller": {
+    "symbol": "initialize_compiler_pass",
+    "args": {}
+  },
+  "module_identity": {
+    "name": "C1.DLL",
+    "path": "R:\\toolchains\\5.10\\bin\\C1.DLL",
+    "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+    "flags": 2
+  },
+  "module_token": 134637492,
+  "compiler_state": {
+    "live_addresses": {
+      "initialized": 134631828,
+      "bss": 134632072
+    },
+    "initialized": {
+      "first_call": 0
+    },
+    "bss": {
+      "saved_data": 134666192,
+      "cleanup_count": 0,
+      "cleanup_callbacks": [
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0,
+        0
+      ],
+      "context": {
+        "object": 0,
+        "value": 0,
+        "saved_frame": 0
+      },
+      "current_context": {
+        "object": 0,
+        "value": 0,
+        "saved_frame": 0
+      }
+    },
+    "snapshot": {
+      "first_call": 1
+    },
+    "reuse_state": 0,
+    "initialization_callbacks": [
+      0,
+      134524352,
+      134524448,
+      134524544,
+      134524608,
+      134524672,
+      134524736,
+      134524800,
+      134524864,
+      134524928,
+      134524992,
+      134525056,
+      134525120,
+      134525184,
+      134525248,
+      134525312,
+      134525376,
+      134525440,
+      134525504,
+      134525568,
+      134525632,
+      134525696,
+      134525760,
+      134525824,
+      134525888,
+      134525952,
+      134526016,
+      134526080,
+      134526144,
+      134526208,
+      134526272,
+      134526336,
+      134526400,
+      134526464
+    ],
+    "native_layout": {
+      "initialized_size": 4,
+      "bss_size": 160,
+      "first_call": 0,
+      "saved_data": 0,
+      "cleanup_count": 4,
+      "cleanup_callbacks": 8,
+      "context": 136,
+      "current_context": 148,
+      "context_members": {
+        "object": 0,
+        "value": 4,
+        "saved_frame": 8
+      }
+    }
+  },
+  "pass_mode": 0,
+  "crt_attached": 1,
+  "raw_dllmain": 0,
+  "win32_last_error": 0,
+  "x87_control": 639,
+  "onexit_begin": 134661936,
+  "onexit_end": 134661936,
+  "onexit_first": 0,
+  "crt_adjust_fdiv": 0,
+  "dll_instance": 134637492,
+  "initializer_begin": 134632048,
+  "initializer_end": 134632052,
+  "initializer_slots": [
+    0
+  ]
+}

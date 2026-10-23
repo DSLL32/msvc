@@ -66,6 +66,11 @@
       "start_rva": 74597,
       "end_rva": 74615,
       "entry": 1
+    },
+    {
+      "start_rva": 74615,
+      "end_rva": 74633,
+      "entry": 1
     }
   ],
   "functions": [
@@ -178,6 +183,19 @@
         ]
       ],
       "source": "src/initializers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_12377",
+      "native_symbol": "initialize_state_12377",
+      "role": "application",
+      "chunks": [
+        [
+          74615,
+          74633
+        ]
+      ],
+      "source": "src/initializers.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -193,8 +211,8 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 74615,
-    "native_symbol": "initialize_state_12377",
+    "rva": 74633,
+    "native_symbol": "initialize_state_12389",
     "kind": "initialization-callback",
     "native_args": [],
     "abi": "cdecl void callback, cleanup0"
@@ -282,7 +300,24 @@
         0
       ],
       "normal_case": false
+    },
+    "current_context": {
+      "object": "first_call-address",
+      "value": 29,
+      "saved_frame": "owned-snapshot-allocation"
+    },
+    "current_context_callback_auxiliary": {
+      "entry_rva": 74615,
+      "object": "first_call-address",
+      "value": 29,
+      "saved_frame": "owned-snapshot-allocation",
+      "expected_result": [
+        0,
+        0,
+        0
+      ],
+      "normal_case": false
     }
   },
-  "staging_role": "First context reset is the only new function; initializer and allocator are accepted prefix"
+  "staging_role": "Current-context reset is the only new function"
 }

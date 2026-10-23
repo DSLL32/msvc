@@ -11,7 +11,8 @@
     "_InvokeCompilerPass@12",
     "_initialize_compiler_pass",
     "_allocate_compiler_memory",
-    "_initialize_state_12365"
+    "_initialize_state_12365",
+    "_initialize_state_12377"
   ],
   "driver": [
     {
@@ -86,6 +87,12 @@
       "name": "_initialize_state_12365",
       "start": 274801509,
       "end": 274801527,
+      "role": "application"
+    },
+    {
+      "name": "_initialize_state_12377",
+      "start": 274801527,
+      "end": 274801545,
       "role": "application"
     }
   ],
