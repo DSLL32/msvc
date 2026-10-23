@@ -164,6 +164,10 @@
     "explicit-base-control": {
       "receipt": "cases/explicit-base-control/evidence/explicit-base-complete-982.receipt.json",
       "sha256": "86d599b1550185113f7590dece610061c39ce6547777643e2d7955cb794237dd"
+    },
+    "typed-x87-bitscan": {
+      "receipt": "cases/typed-x87-bitscan/evidence/typed-x87-complete-985.receipt.json",
+      "sha256": "ab4d0a3db1b07a482a8f17e94efa5b1bc01ed2c7d133793f4f415ad5f4c4acd9"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

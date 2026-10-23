@@ -1,0 +1,3 @@
+typedasm.c
+typedasm.c(16) : error C2400: inline syntax error in 'operand 1'; found ','
+typedasm.c(18) : error C2400: inline syntax error in 'operand 1'; found ','

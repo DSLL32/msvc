@@ -43,7 +43,8 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'arena-api-compile':('arena-api-prototypes','c1-compile'),
          'arena-api-prototypes':('arena-api-prototypes','c1-prototypes'),
          'portability-diagnostics':('portability-diagnostics','c1'),
-         'explicit-base-control':('explicit-base-control','c1')}
+         'explicit-base-control':('explicit-base-control','c1'),
+         'typed-x87-bitscan':('typed-x87-bitscan','c1')}
 
 
 CASE_DEPENDENCIES = {

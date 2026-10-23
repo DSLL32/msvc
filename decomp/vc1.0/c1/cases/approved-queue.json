@@ -1,15 +1,14 @@
 {
-  "authorization": "Root approved SINGLE explicit-base traversal/control-flow original preflight /Z7 /Od /G5 /W4. Full untouchedcompile/link/runtime0 required before freeze; preserve failures/no privateflag or unsupportedmodel forcing. Correct provisional semantic types/name by raw fixed-entry evidence before acceptance.",
-  "baseline_commit": "fcbb1dc98869bd7d42d0c2733cd1225446fca2dc",
-  "baseline_accepted_count": 979,
+  "authorization": "Root approved coherent typed x87/integer bit-scan checksum /Z7 /Od /G5 /W4; original fullcompile/link/runtime0 and completeactualtransport before acceptance. Nonzero bit scans and balancedx87stack; no extra intrinsic/CRT claim.",
+  "baseline_commit": "d5ee05993d47e025b54247c5235317ec0e11cea2",
+  "baseline_accepted_count": 982,
   "status": "complete",
   "cases": [
     {
-      "case": "explicit-base-control",
+      "case": "typed-x87-bitscan",
       "phase": "c1",
-      "status": "complete;979 through982, originalruntime0/fiveexactIRfiles/silentstreams"
+      "status": "complete;982 through985, originalruntime0/fiveexactIRfiles/silentstreams"
     }
   ],
-  "preflight_refinement": "Nonzero and typed int* null rejectC2215. Existing raw conversion preserves marker onlyfor void* null; movedbase :> (void*)0 with outerint* cast compiles/runs0. Failed drafts/rawproof retained.",
-  "completion": "cases/explicit-base-control/validation.json"
+  "completion": "cases/typed-x87-bitscan/validation.json"
 }

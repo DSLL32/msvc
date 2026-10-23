@@ -97,14 +97,11 @@ AsmExpression * __stdcall make_asm_segment_value(AsmExpression *value) { __asm {
 /* Original 0x4eb41. */
 
 /* Original 0x4e97c. */
-void __stdcall swap_asm_pointer_slots(void **first, void **second) { __asm { int 3 } }
 
 /* Original 0x4e4f8. */
 
 /* Original 0x4f689. */
-int __stdcall asm_operand_accepts_size(AsmOperand *operand, unsigned char size) { __asm { int 3 } return 0; }
 /* Original 0x4f64e. */
-int __stdcall asm_operand_has_type_flags(AsmOperand *operand, unsigned short flags) { __asm { int 3 } return 0; }
 
 /* Original 0x4eb15. */
 void __stdcall report_asm_operand_error(unsigned code, int operand) { __asm { int 3 } }

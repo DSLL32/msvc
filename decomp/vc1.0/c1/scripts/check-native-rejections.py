@@ -379,6 +379,26 @@ def main():
     rejects('explicit-base-historical-entry-order', 'native trace explicit-base-control index 0: expected',
             lambda:checker.run_case('explicit-base-control', executable, private_root, (wrong,filter_path)))
 
+    _, typed_asm = checker.run_case('typed-x87-bitscan', executable, directory, (cache,filter_path))
+    typed_fixture = checker.BINARY/'cases/typed-x87-bitscan'
+    typed_phase = json.loads((typed_fixture/'manifest.json').read_text())['phases']['c1']
+    numeric_data = bytearray((typed_asm/'irin').read_bytes())
+    half = struct.pack('<d',0.5)
+    assert numeric_data.count(half) == 1
+    offset = numeric_data.index(half)
+    numeric_data[offset:offset+8] = struct.pack('<d',0.25)
+    (typed_asm/'irin').write_bytes(numeric_data)
+    rejects('typed-x87-floating-input-value', 'output bytes differ: irin',
+            lambda:checker.validate_artifacts(typed_asm,typed_fixture,typed_phase))
+    rejects('typed-x87-unexpected-width-warning', 'stdout differs',
+            lambda:checker.validate_result('typed-x87-bitscan',0,b'warning C4410\r\n',b'',typed_phase))
+    wrong = copy.deepcopy(cache)
+    wrong['cases']['typed-x87-bitscan']['expected'][:2] = list(reversed(wrong['cases']['typed-x87-bitscan']['expected'][:2]))
+    private_root = directory/'wrong-typed-x87-entry-order'
+    private_root.mkdir()
+    rejects('typed-x87-historical-entry-order', 'native trace typed-x87-bitscan index 0: expected',
+            lambda:checker.run_case('typed-x87-bitscan', executable, private_root, (wrong,filter_path)))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

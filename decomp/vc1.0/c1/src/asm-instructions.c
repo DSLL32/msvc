@@ -587,3 +587,34 @@ void __stdcall set_asm_address_operator(short operation)
     if ((operation == 52) == asm_explicit_size)
         compiler_warning(1, asm_explicit_size ? 410 : 411);
 }
+
+/* Original 0x4f64e..0x4f689, RET8. Explicit operand sizes and
+   unbound addresses need no inferred symbol type; otherwise require an
+   unshaped numeric type in the requested class, wider than one byte. */
+int __stdcall asm_operand_has_type_flags(AsmOperand *operand, unsigned short flags)
+{
+    CType *type;
+    if (!(operand->flags & 1) && operand->address->symbol) {
+        type = operand->address->symbol->type;
+        if (type->related || !(type->flags & flags) || (type->flags & 15) < 2)
+            return 0;
+    }
+    return 1;
+}
+
+/* Original 0x4e97c..0x4e991, RET8. Keep the three x87 operand
+   serialization views in step through the original separate swap entry. */
+void __stdcall swap_asm_pointer_slots(void **first, void **second)
+{
+    void *temporary = *first;
+    *first = *second;
+    *second = temporary;
+}
+
+/* Original 0x4f689..0x4f6ab, RET8. Only an explicit PTR size can
+   conflict with this instruction's expected operand width. */
+int __stdcall asm_operand_accepts_size(AsmOperand *operand, unsigned char size)
+{
+    if (operand->flags & 1) return operand->size == size;
+    return 1;
+}

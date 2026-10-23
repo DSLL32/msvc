@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "bc71dc03d0ef7e5157fb9e9c3c680db8674a10c69c8c9ee81e45eb45b52501ad",
+    "functions.json": "253b2f1fa2aeacd05eadde818b5d9d4f15fdc2c1eb645e4ad987c362ab505de4",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "20a918ebe7c560ee7735ebde64f45c1b07f6b3e9811b0988a1653c4a576efc6d"
+    "sha256": "b726cde02467da7df34360451e63ae993db158766800c73115eae5125e959f77"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "0c073dcdab7f36309e196a9b78b81542a06c149a33f62e435af92d5d580449c4"
+    "sha256": "4bb4a4a85c72f3a2279aabdd17a6112957c83836ea33f53a3453093d10d80aa1"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -219,11 +219,11 @@
     },
     "asm_operand_accepts_size": {
       "logical": "_asm_operand_accepts_size@8",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-instructions.c"
     },
     "asm_operand_has_type_flags": {
       "logical": "_asm_operand_has_type_flags@8",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-instructions.c"
     },
     "asm_recovery_value": {
       "logical": "_asm_recovery_value@4",
@@ -3347,7 +3347,7 @@
     },
     "swap_asm_pointer_slots": {
       "logical": "_swap_asm_pointer_slots@8",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-instructions.c"
     },
     "symbol_alias": {
       "logical": "_symbol_alias@4",
@@ -4488,7 +4488,10 @@
     "report_symbol_error",
     "make_based_address",
     "emit_named_label",
-    "same_based_pointer_base"
+    "same_based_pointer_base",
+    "asm_operand_has_type_flags",
+    "swap_asm_pointer_slots",
+    "asm_operand_accepts_size"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5920,6 +5923,20 @@
         "make_based_address",
         "emit_named_label",
         "same_based_pointer_base"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "typed-x87-bitscan": {
+      "first": 982,
+      "last": 985,
+      "seen_count": 842,
+      "expected": [
+        "asm_operand_has_type_flags",
+        "swap_asm_pointer_slots",
+        "asm_operand_accepts_size"
       ],
       "terminal": {
         "kind": "exit",

@@ -1,0 +1,31 @@
+{
+  "cwd": "S:\\vc1.0\\c1\\typed-x87-probes\\draft2",
+  "operations": [
+    {
+      "name": "compiler",
+      "command": [
+        "/usr/bin/wine",
+        "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+        "/nologo",
+        "/Z7",
+        "/Od",
+        "/G5",
+        "/W4",
+        "/Fetypedasm.exe",
+        "typedasm.c"
+      ],
+      "exit": 0,
+      "seconds": 3.0223669754341245
+    },
+    {
+      "name": "program",
+      "command": [
+        "/usr/bin/wine",
+        "S:\\vc1.0\\c1\\typed-x87-probes\\draft2\\typedasm.exe"
+      ],
+      "exit": 0,
+      "seconds": 1.1686201794072986
+    }
+  ],
+  "source_sha256": "8d76636a8c3886472d43cbcbf6a98057f998863df414acad6f94d3278ea0351c"
+}

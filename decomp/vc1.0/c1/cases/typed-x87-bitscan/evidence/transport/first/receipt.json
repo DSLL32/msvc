@@ -1,0 +1,98 @@
+{
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc1.0\\c1\\tools\\capture-cl.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "/nologo /c /Z7 /Od /G5 /W4 typedasm.c",
+    "S:\\vc1.0\\c1\\transport\\typed-x87-bitscan-first\\stdout",
+    "S:\\vc1.0\\c1\\transport\\typed-x87-bitscan-first\\stderr",
+    "S:\\vc1.0\\c1\\transport\\typed-x87-bitscan-first\\events",
+    "S:\\vc1.0\\c1\\typed-x87-bitscan",
+    "S:\\vc1.0\\c1\\transport\\typed-x87-bitscan-first\\config.txt",
+    "ordinary",
+    "S:\\vc1.0\\c1\\transport\\typed-x87-bitscan-first"
+  ],
+  "CL_arguments": "/nologo /c /Z7 /Od /G5 /W4 typedasm.c",
+  "helper_source": "decomp/vc1.0/cl/src/capture-run.c",
+  "helper_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+  "helper_sha256": "b80b97201ce6f78fccc165200f844db467639e38e02f01523cdf68cecdc6683c",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "cwd": "S:\\vc1.0\\c1\\typed-x87-bitscan",
+  "environment": {
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib"
+  },
+  "host_exit": 0,
+  "execution_seconds": 2.621382742188871,
+  "children": [
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\001744 -f typedasm.c -Ze -Zp8 -Gs -Fotypedasm.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I R:\\toolchains\\1.0-nt\\include "
+      ]
+    },
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c23232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il .\\001744 -f typedasm.c -Gs4096 -dos -Fotypedasm.obj -ML -Zi -G5 -W 4 "
+      ]
+    }
+  ],
+  "C1_boundary_file_sets": {
+    "001-before": [
+      {
+        "name": "typedasm.c",
+        "bytes": 714,
+        "sha256": "8d76636a8c3886472d43cbcbf6a98057f998863df414acad6f94d3278ea0351c",
+        "mtime_ns": 1792775317173309400
+      }
+    ],
+    "001-after": [
+      {
+        "name": "001744db",
+        "bytes": 31,
+        "sha256": "b0e195f8dce11f9b62fe34f4166852baf517ba092308be80e7426b148690fe7a",
+        "mtime_ns": 1792775319285268100
+      },
+      {
+        "name": "001744ex",
+        "bytes": 1232,
+        "sha256": "5e8ca08f73a8a49062f5c62614b975ab75a36d2e2380c27151e7db09484fec60",
+        "mtime_ns": 1792775319285268100
+      },
+      {
+        "name": "001744gl",
+        "bytes": 230,
+        "sha256": "d7c65e56b6051934ff914c90c0a1e02fc1ecb060d58a0b6ec0802a7c35a4b239",
+        "mtime_ns": 1792775319285268100
+      },
+      {
+        "name": "001744in",
+        "bytes": 78,
+        "sha256": "71e8ce1b1316542860137ad2e4afabff87bd2c55d8059613ef4e2b1a7f3fe8b2",
+        "mtime_ns": 1792775319285268100
+      },
+      {
+        "name": "001744sy",
+        "bytes": 133,
+        "sha256": "a1c8303e5d563566fb9543bc99a9d4859b8e87e835dff75bb01466bd3a782bd8",
+        "mtime_ns": 1792775319285268100
+      },
+      {
+        "name": "typedasm.c",
+        "bytes": 714,
+        "sha256": "8d76636a8c3886472d43cbcbf6a98057f998863df414acad6f94d3278ea0351c",
+        "mtime_ns": 1792775317173309400
+      }
+    ]
+  }
+}

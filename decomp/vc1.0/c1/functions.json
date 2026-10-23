@@ -986,7 +986,10 @@
     "_report_symbol_error@8",
     "_make_based_address@8",
     "_emit_named_label@4",
-    "_same_based_pointer_base@8"
+    "_same_based_pointer_base@8",
+    "_asm_operand_has_type_flags@8",
+    "_swap_asm_pointer_slots@8",
+    "_asm_operand_accepts_size@8"
   ],
   "driver": [
     {
@@ -5258,7 +5261,7 @@
     {
       "name": "_swap_asm_pointer_slots@8",
       "start": 321916,
-      "end": 321917
+      "end": 321937
     },
     {
       "name": "_resolve_asm_operand_size",
@@ -5268,12 +5271,12 @@
     {
       "name": "_asm_operand_accepts_size@8",
       "start": 325257,
-      "end": 325258
+      "end": 325291
     },
     {
       "name": "_asm_operand_has_type_flags@8",
       "start": 325198,
-      "end": 325199
+      "end": 325257
     },
     {
       "name": "_report_asm_operand_error@8",
@@ -5914,6 +5917,10 @@
     "explicit-base-control": {
       "accepted_from": 979,
       "accepted_count": 982
+    },
+    "typed-x87-bitscan": {
+      "accepted_from": 982,
+      "accepted_count": 985
     }
   },
   "buffered_streams": [

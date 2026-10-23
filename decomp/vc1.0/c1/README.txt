@@ -1,7 +1,7 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Forty-one native phases are complete: minimal C, optimized Win32 hello, DLL,
+Forty-two native phases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
@@ -9,11 +9,11 @@ automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
 enum/long-record/literal/floating case, debug-bearing PCH creation/reuse, and
 richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
-the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, normal/expected-error arena API prototype phases, portability-header diagnostics, and explicit-base/goto traversal.
+the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, normal/expected-error arena API prototype phases, portability-header diagnostics, explicit-base/goto traversal, and typed x87/bit-scan arithmetic.
 
-There are 853 accepted source functions and 982 accepted original entries.
-Accepted original extents cover 237422/277234 code-section bytes (85.639568%):
-216993 frontend bytes, 20243 CRT bytes and 186 import-thunk bytes. This is a
+There are 856 accepted source functions and 985 accepted original entries.
+Accepted original extents cover 237536/277234 code-section bytes (85.680689%):
+217107 frontend bytes, 20243 CRT bytes and 186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Unvisited functions retain named trapping stubs.
 
@@ -35,12 +35,12 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds 41 completed phase histories to fresh
-shared-prefix original first-entry captures. All 842 accepted application entries
+cases/original-entry-references.json binds 42 completed phase histories to fresh
+shared-prefix original first-entry captures. All 845 accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current all 41 regression receipts are in cases/explicit-base-control/validation.json.
+current all 42 regression receipts are in cases/typed-x87-bitscan/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -332,3 +332,12 @@ marker. Untouched checksum exits0 and all five rawIR files/streams match.
 All41 native phases,52 rejections, graph/ABI/mask/state/grammar audits pass.
 The old provisional member-expression name is corrected at fixed entry3f820
 without rewriting old raw evidence or changing its two-pointer RET8 ABI.
+
+Completed typed x87 and integer bit scans
+----------------------------------------
+cases/typed-x87-bitscan uses real typed int/double memory operands, balanced
+x87 arithmetic, nonzero bsf/bsr and two-operand imul for an exact checksum93.
+Three whole functions add114 frontend extent bytes. Untouched program exits0;
+all five rawIR files and silent streams match. All42 native phases,55
+rejections and graph/ABI/mask/state/grammar checks pass. Failed shared-source
+freeze and subsequent stable relink/revalidation remain explicit evidence.

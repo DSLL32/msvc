@@ -1,0 +1,68 @@
+{
+  "terminal_exit": 0,
+  "expected_exit": 0,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/typed-x87-bitscan",
+  "phase": "c1",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 985,
+  "accepted_sha256": "626629addebfd7b39c9c1704ff2f15095772b7ae5649f1f02bd3e1accc38f3b4",
+  "executable_sha256": "d6a17ccc2c67e73a3bf219161d14d50a114518698f334f6ca8317df1302f260e",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "0f94a06afc3e47c5fa29175d9ecd57766701f1b9e483a272aab711cee1b776a7",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f typedasm.c -Ze -Zp8 -Gs -Fotypedasm.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\captures\\typed-x87-985\\work",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual child intervals isolate silent child streams from CL source banner."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/captures/typed-x87-985/work",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.04975972045212984,
+  "execution_seconds": 1.1219473648816347,
+  "total_seconds": 1.1717094294726849,
+  "files": [
+    {
+      "name": "irdb",
+      "bytes": 31,
+      "sha256": "b0e195f8dce11f9b62fe34f4166852baf517ba092308be80e7426b148690fe7a"
+    },
+    {
+      "name": "irex",
+      "bytes": 1232,
+      "sha256": "5e8ca08f73a8a49062f5c62614b975ab75a36d2e2380c27151e7db09484fec60"
+    },
+    {
+      "name": "irgl",
+      "bytes": 230,
+      "sha256": "d7c65e56b6051934ff914c90c0a1e02fc1ecb060d58a0b6ec0802a7c35a4b239"
+    },
+    {
+      "name": "irin",
+      "bytes": 78,
+      "sha256": "71e8ce1b1316542860137ad2e4afabff87bd2c55d8059613ef4e2b1a7f3fe8b2"
+    },
+    {
+      "name": "irsy",
+      "bytes": 133,
+      "sha256": "a1c8303e5d563566fb9543bc99a9d4859b8e87e835dff75bb01466bd3a782bd8"
+    },
+    {
+      "name": "typedasm.c",
+      "bytes": 714,
+      "sha256": "8d76636a8c3886472d43cbcbf6a98057f998863df414acad6f94d3278ea0351c"
+    }
+  ]
+}
