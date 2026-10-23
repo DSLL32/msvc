@@ -287,3 +287,10 @@ CType *__stdcall transform_function_parameters(CType *type, ParameterTransform t
     --type_description_depth;
     return result;
 }
+
+/* Original 0x3ad80..0x3ad9b. Retain the parameter's declared type
+   in a deferred conversion expression attached to its default argument. */
+void __stdcall check_parameter_default(IrToken *expression, CType *type)
+{
+    expression->linkage.list_head = new_ir_expression(0x6a, expression, 0, type);
+}

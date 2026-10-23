@@ -1,0 +1,11 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56559548 in save_default_argument (expression=0x5661cf18) at src/stubs.c:229
+229	DefaultArgument *__stdcall save_default_argument(IrToken *expression) { __asm { int 3 } return 0; }
+#0  0x56559548 in save_default_argument (expression=0x5661cf18) at src/stubs.c:229
+#1  0x565ae9be in parse_translation_unit () at src/parser-declarator-actions.inc:224
+#2  0x5655e13f in compile_translation_unit () at src/frontend.c:73
+#3  0x565588a6 in guarded_compile () at src/c1xx.c:28
+#4  0x56558874 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

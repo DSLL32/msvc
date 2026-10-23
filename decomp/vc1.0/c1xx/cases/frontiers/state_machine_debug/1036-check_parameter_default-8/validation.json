@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_check_parameter_default@8",
+    "start": 241024,
+    "end": 241051
+  },
+  "distinct_direct_callees": [
+    "_new_ir_expression@16"
+  ],
+  "next_frontier": "_save_default_argument@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.43067486491054296,
+  "total_operation_seconds": 4.083585804328322,
+  "original_capture_seconds": 1.819363934919238
+}
