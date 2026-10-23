@@ -1,6 +1,7 @@
 C2 ACTIVE: finish /O2 /G5 hello, then cases/queue.json optimizer stress.
-Verified768 acceptances/690 source graphs. Current rewrite_shift_as_multiply
-0x55e90 in global tree factoring. Extent union211970/399693=53.0332029833%, not branch coverage.
+Verified774 acceptances/696 source graphs. WinMain tree optimization returned;
+matching partition_loop_predecessors0x5b790 in natural-loop construction.
+Extent union212941/399693=53.2761394370%, not branch coverage.
 Canonical/W3, graph/extent/mask and native fixtures pass; full hello incomplete.
-See cases/hello-factor-conversion.json for references/limits/timing.
-Continue shift rewrite; no shared shim requests.
+See cases/hello-signs-and-loop-frontier.json for refs/limits/timing.
+Continue loop predecessor partitioning; no shared shim requests.

@@ -772,7 +772,13 @@
     "@narrow_binary_conversion@8",
     "@constant_fits_type@8",
     "@lift_left_unary@4",
-    "@fold_integer_node@4"
+    "@fold_integer_node@4",
+    "@rewrite_shift_as_multiply@4",
+    "@combine_complementary_masks@4",
+    "@extract_negative@4",
+    "@is_negatable_negative_constant@4",
+    "@negate_tree_in_place@4",
+    "@remove_right_wrapper@4"
   ],
   "driver": [
     {
@@ -2699,8 +2705,7 @@
     {
       "name": "@rewrite_shift_as_multiply@4",
       "start": 351888,
-      "end": 351889,
-      "provisional": true
+      "end": 351969
     },
     {
       "name": "@fold_absorbing_constant@8",
@@ -2735,14 +2740,12 @@
     {
       "name": "@extract_negative@4",
       "start": 354224,
-      "end": 354225,
-      "provisional": true
+      "end": 354474
     },
     {
       "name": "@negate_tree_in_place@4",
       "start": 354480,
-      "end": 354481,
-      "provisional": true
+      "end": 354840
     },
     {
       "name": "@constant_as_integer@8",
@@ -2775,8 +2778,7 @@
     {
       "name": "@remove_right_wrapper@4",
       "start": 354880,
-      "end": 354881,
-      "provisional": true
+      "end": 354911
     },
     {
       "name": "@normalize_integer_width@8",
@@ -3909,8 +3911,7 @@
     {
       "name": "@is_negatable_negative_constant@4",
       "start": 348416,
-      "end": 348417,
-      "provisional": true
+      "end": 348489
     },
     {
       "name": "@reduce_additive_chain@4",
@@ -3948,8 +3949,7 @@
     {
       "name": "@combine_complementary_masks@4",
       "start": 350864,
-      "end": 350865,
-      "provisional": true
+      "end": 351040
     },
     {
       "name": "@cancel_unary_factors@12",
@@ -6065,6 +6065,24 @@
       "name": "_subtraction_overflows",
       "start": 465466,
       "end": 465467,
+      "provisional": true
+    },
+    {
+      "name": "@is_subword_mask_pattern@8",
+      "start": 159056,
+      "end": 159057,
+      "provisional": true
+    },
+    {
+      "name": "@simple_constant_operation_sign@4",
+      "start": 355968,
+      "end": 355969,
+      "provisional": true
+    },
+    {
+      "name": "@reverse_subtraction_chain@8",
+      "start": 356128,
+      "end": 356129,
       "provisional": true
     }
   ],

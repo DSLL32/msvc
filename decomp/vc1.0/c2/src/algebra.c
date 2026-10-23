@@ -415,3 +415,142 @@ Node *__fastcall lift_left_unary(Node *node)
     left = node->left.node;
     return build_tree("PPLYLY", left->left.node, node->second.node, node, left);
 }
+
+/* Original [00055e90,00055ee1). Express a constant left shift as a
+   multiply before common-factor analysis, looking through one negation. */
+int __fastcall rewrite_shift_as_multiply(Node *node)
+{
+    Node *count;
+    int shift;
+    unsigned multiplier = 0;
+    if (node->opcode == 8) node = node->left.node;
+    if (node->opcode != 9 || node->second.node->opcode != 0x33) return 0;
+    count = node->second.node;
+    node->opcode = 4;
+    shift = (int)count->left.value;
+    if (shift < 32) multiplier = 1U << ((unsigned)shift & 31);
+    node->second.node = typed_integer_node(node, multiplier);
+    release_node(count);
+    return 1;
+}
+
+int __fastcall is_negatable_negative_constant(Node *node);
+/* Original [000567b0,000568aa). Extract one negative sign through
+   conversions, shifts and reciprocal/product forms, mutating the owning slot. */
+int __fastcall extract_negative(Node **slot)
+{
+    Node *node;
+    unsigned value;
+    for (;;) {
+        node = *slot;
+        switch (node->opcode) {
+        case 0x34:
+            if ((node->attributes.words.type & 0x300) &&
+                (node->left.node->attributes.words.type & 255) <
+                (node->attributes.words.type & 255)) return 0;
+            /* Fall through: the sign can be inspected in the left operand. */
+        case 9: case 0xaa:
+            slot = &node->left.node;
+            break;
+        case 3:
+            if (!extract_negative(&node->left.node)) return 0;
+            node->opcode = 2;
+            tree_changed = 1;
+            return 1;
+        case 4: case 5:
+            return extract_negative(&node->left.node) || extract_negative(&node->second.node);
+        case 8:
+            return negate_tree_in_place(slot);
+        case 0x33:
+            if (is_negatable_negative_constant(node)) return negate_tree_in_place(slot);
+            if (node->attributes.words.type & 0x200) {
+                value = node->left.value;
+                if (normalize_integer_width(node, 0 - value) < value)
+                    return negate_tree_in_place(slot);
+            }
+            return 0;
+        default:
+            return 0;
+        }
+    }
+}
+
+/* Original [00055100,00055149). Prefer the shorter positive magnitude
+   when negation changes a signed constant; floating signs use extended compare. */
+int __fastcall is_negatable_negative_constant(Node *node)
+{
+    unsigned value;
+    if (node->attributes.words.type & 0x100) {
+        value = node->left.value;
+        return normalize_integer_width(node, 0 - value) < value;
+    }
+    if (node->attributes.words.type & 0x3000)
+        return compare_extended(4, node->left.pointer, &extended_zero) != 0;
+    return 0;
+}
+
+int __fastcall simple_constant_operation_sign(Node *node);
+Node *__fastcall reverse_subtraction_chain(Node *node, Node *right);
+/* Original [000568b0,00056a18). Negate an expression through its owning
+   slot, keeping conversion, unsigned division and constant-cost restrictions. */
+int __fastcall negate_tree_in_place(Node **slot)
+{
+    Node *node;
+    unsigned short type, source;
+    for (;;) {
+        node = *slot;
+        switch (node->opcode) {
+        case 0x34:
+            type = node->attributes.words.type;
+            source = node->left.node->attributes.words.type;
+            if ((type & 0x300) &&
+                (source == 0x408 || (source & 255) < (type & 255))) return 0;
+            if ((type & 0x1000) && source == 0x204) return 0;
+            /* Fall through: inspect a sign carried by the left operand. */
+        case 9: case 0xaa:
+            slot = &node->left.node;
+            break;
+        case 2: case 3:
+            if (negate_tree_in_place(&node->left.node)) {
+                node->opcode = 5 - node->opcode;
+                tree_changed = 1;
+                return 1;
+            }
+            if (node->opcode == 3 || negate_tree_in_place(&node->second.node)) {
+                reverse_subtraction_chain(node, node->second.node);
+                tree_changed = 1;
+                return 1;
+            }
+            return 0;
+        case 5:
+            if (node->attributes.words.type & 0x200) return 0;
+            /* Fall through: one negated factor reverses the result's sign. */
+        case 4:
+            if (negate_tree_in_place(&node->left.node)) return 1;
+            if (simple_constant_operation_sign(node) <= 0 &&
+                negate_tree_in_place(&node->second.node)) return 1;
+            return 0;
+        case 8:
+            *slot = take_left_operand(node);
+            tree_changed = 1;
+            return 1;
+        case 0x33:
+            *slot = build_tree("PNYF", node, 8);
+            tree_changed = 1;
+            return 1;
+        default:
+            return 0;
+        }
+    }
+}
+
+/* Original [00056a40,00056a5f). Remove a redundant unary right operand. */
+Node *__fastcall remove_right_wrapper(Node *node)
+{
+    Node *right;
+    tree_changed = 1;
+    right = node->second.node;
+    node->second.node = right->left.node;
+    release_node(right);
+    return node;
+}

@@ -768,3 +768,26 @@ int __fastcall constant_fits_type(Node *node, unsigned short type)
         return compare_extended(1, (Extended *)((char *)node->left.pointer + 12), &extended_zero);
     }
 }
+
+int __fastcall is_subword_mask_pattern(Node *node, unsigned mask);
+/* Original [00055a90,00055b40). Replace complementary masked choices
+   with an XOR/AND selection, provided its repeated base can be evaluated twice. */
+void __fastcall combine_complementary_masks(Node *node)
+{
+    Node *primary = node->left.node, *secondary = node->second.node, *swap, *base;
+    unsigned mask;
+    if (primary->opcode != 0xb || primary->second.node->opcode != 0x33 ||
+        secondary->opcode != 0xb || secondary->second.node->opcode != 0x33) return;
+    mask = primary->second.node->left.value ^ secondary->second.node->left.value;
+    if (mask != normalize_integer_width(node, ~0U)) return;
+    if (secondary->second.node->left.value > primary->second.node->left.value) {
+        swap = primary; primary = secondary; secondary = swap;
+    }
+    if (!can_repeat_tree(primary) ||
+        is_subword_mask_pattern(secondary, secondary->second.node->left.value)) return;
+    release_node(primary->second.node);
+    base = primary->left.node;
+    build_tree("PPOLPLDOL", base, secondary->left.node, 0xd, primary,
+               secondary->second.node, secondary, base, 0xd, node);
+    tree_changed = 1;
+}

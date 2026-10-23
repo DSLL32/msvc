@@ -95,18 +95,14 @@ Node *__fastcall fold_floating_comparison(Node *node) { __asm int 3 }
 Node *__fastcall fold_floating_node(Node *node) { __asm int 3 }
 #include "algebra.h"
 int __fastcall integer_type_limit(Node *node, int limit) { __asm int 3 }
-int __fastcall rewrite_shift_as_multiply(Node *node) { __asm int 3 }
 Node *__fastcall fold_absorbing_constant(Node *node, int value) { __asm int 3 }
 int __fastcall reduce_constant_bits(Node *node, Node *parent) { __asm int 3 }
 int __fastcall is_nonnegative_tree(Node *node) { __asm int 3 }
 int __fastcall can_combine_constants(Node *node, unsigned first, unsigned second) { __asm int 3 }
 int __fastcall integer_log2(unsigned value) { __asm int 3 }
-int __fastcall extract_negative(Node **node) { __asm int 3 }
-int __fastcall negate_tree_in_place(Node **node) { __asm int 3 }
 int __fastcall constant_as_integer(Node *node, int *value) { __asm int 3 }
 Node *__fastcall remove_left_wrapper(Node *node) { __asm int 3 }
 Node *__fastcall lift_unary_operand(Node *node, unsigned opcode) { __asm int 3 }
-Node *__fastcall remove_right_wrapper(Node *node) { __asm int 3 }
 Node *__fastcall simplify_masked_tree(Node *node, unsigned mask) { __asm int 3 }
 unsigned __fastcall shift_discard_mask(Node *node) { __asm int 3 }
 int __fastcall distribute_constant(Node *node, unsigned opcode) { __asm int 3 }
@@ -256,14 +252,12 @@ int extended_to_integer(const Extended *number, int *result) { __asm int 3 }
 
 Node *__fastcall simplify_reciprocal(Node *node) { __asm int 3 }
 Node *__fastcall distribute_unary_tree(Node *node) { __asm int 3 }
-int __fastcall is_negatable_negative_constant(Node *node) { __asm int 3 }
 
 void __fastcall reduce_multiplicative_chain(Node *node) { __asm int 3 }
 void __fastcall reduce_bitwise_terms(Node *node, unsigned identity) { __asm int 3 }
 void __fastcall factor_bitwise_chain(Node *node, unsigned opcode) { __asm int 3 }
 
 
-void __fastcall combine_complementary_masks(Node *node) { __asm int 3 }
 void __fastcall cancel_unary_factors(Node *node, unsigned unary, unsigned combine) { __asm int 3 }
 
 
@@ -454,3 +448,6 @@ Node *__fastcall push_unary_into_left(Node *node) { __asm int 3 }
 Node *__fastcall push_unary_into_right(Node *node) { __asm int 3 }
 int __cdecl addition_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
 int __cdecl subtraction_overflows(unsigned left, unsigned right, int is_unsigned, unsigned bytes) { __asm int 3 }
+int __fastcall is_subword_mask_pattern(Node *node, unsigned mask) { __asm int 3 }
+int __fastcall simple_constant_operation_sign(Node *node) { __asm int 3 }
+Node *__fastcall reverse_subtraction_chain(Node *node, Node *right) { __asm int 3 }

@@ -1948,3 +1948,15 @@ precise extents. Native/original agree at rewrite_shift_as_multiply55e90;690 gra
 checks, native cases, canonical and three modules/W3 pass. This establishes the
 reached prefix, not every factoring/overflow branch. Full hello object remains
 incomplete. See cases/hello-factor-conversion.json for provenance and timing.
+
+Tree optimization completed: checkpoint774
+------------------------------------------
+Constant shift multiplication, complementary-mask selection, sign extraction,
+negative-constant recognition, in-place negation and right-wrapper removal are
+recovered as whole functions. Subword-pattern/cost/reversal children remain named
+traps until reached. WinMain now passes global tree optimization and native/original
+agree at partition_loop_predecessors5b790 in natural-loop graph construction.
+696 graph/extent checks, native fixtures, canonical and two modules/W3 pass.
+This records the reached control-flow prefix; not every transformation branch
+is covered and full hello output remains incomplete. See
+cases/hello-signs-and-loop-frontier.json for ordered reference evidence/timing.
