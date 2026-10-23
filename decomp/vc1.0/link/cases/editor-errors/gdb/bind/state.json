@@ -1,0 +1,11 @@
+{
+  "formatted": [
+    {
+      "result": 40,
+      "capacity": 340,
+      "text": "Unable to locate exports in provider.dll",
+      "errno": 0
+    }
+  ],
+  "exit": 53
+}

@@ -1,0 +1,28 @@
+{
+  "status": "pass",
+  "phase": "bind",
+  "native": {
+    "formatted": [
+      {
+        "result": 40,
+        "capacity": 340,
+        "text": "Unable to locate exports in provider.dll",
+        "errno": 0
+      }
+    ],
+    "exit": 53
+  },
+  "seconds": 0.20666169468313456,
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/editor-errors-bind-gdb-njo0wfff",
+  "working_files": {
+    "provider.dll": {
+      "bytes": 2097152,
+      "sha256": "7c95e40c310bd2987f35b5fd0e887533c58e84f04367f461e72768937cee6999"
+    },
+    "client.exe": {
+      "bytes": 2097152,
+      "sha256": "c3b8813808646f8da33ae36e1ba26a03bdfe5f07577f074e9c981108252f0341"
+    }
+  },
+  "scope": "Native ELF/GDB only; exact cached original streams/status/allfiles, bounded snprintf return/defined text/errno where observed. No native internal CRT ABI or uninitialized output-tail equivalence."
+}

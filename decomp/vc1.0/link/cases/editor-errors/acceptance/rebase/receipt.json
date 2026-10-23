@@ -1,0 +1,77 @@
+{
+  "status": "pass",
+  "logical": "editor_rebase_error",
+  "original_address": "0x287a0",
+  "original_directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/editor-errors-rebase/masked-sz3q9ffc",
+  "native_directory": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/editor-errors-rebase-editor_rebase_error-ioi1_2_p",
+  "native_context": {
+    "event": "context",
+    "pid": 592,
+    "eip": 165793,
+    "esp": 2750924,
+    "eax": 2751027,
+    "ecx": 9175208,
+    "edx": 0,
+    "stack": [
+      327263,
+      544472,
+      2751027,
+      0,
+      5,
+      8198116,
+      1073676289,
+      2751104,
+      8061014,
+      5242880,
+      8192,
+      2751027,
+      2751088,
+      0,
+      0,
+      983045,
+      8198108,
+      1985755731,
+      808333667,
+      1852402780,
+      1684364395,
+      1919906921,
+      1920099629,
+      762540655
+    ],
+    "crt_errno": 0,
+    "dos_errno": 0,
+    "last_error": 0,
+    "exception_code": 2147483651
+  },
+  "seconds": 0.9457977255806327,
+  "parallel_sides": true,
+  "partial_streams_exact": true,
+  "typed_rom_fixups": null,
+  "resource_abi_state": null,
+  "editor_error_abi_state": {
+    "status": "pass",
+    "formal_slots": 2,
+    "original": {
+      "event": "editor_error_abi",
+      "logical": "editor_rebase_error",
+      "caller": 327263,
+      "formals": {
+        "format": "can't rebase; %s invalid or linked with /FIXED",
+        "value": "fixed.dll"
+      }
+    },
+    "native": {
+      "logical": "editor_rebase_error",
+      "caller_name": "rebase_main",
+      "formals": {
+        "format": "can't rebase; %s invalid or linked with /FIXED",
+        "value": "fixed.dll"
+      }
+    },
+    "scope": "All consumed cdecl formal slots, including actual input string data. These whole original bodies have no hidden/register/output formal. Nonportable raw addresses are represented only by actual pointed-to input strings; no mutable/output data is omitted."
+  },
+  "import_machine_state": null,
+  "decoder_state": null,
+  "longjmp_state": null,
+  "caller_edge": null
+}

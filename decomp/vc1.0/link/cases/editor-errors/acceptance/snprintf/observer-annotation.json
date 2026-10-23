@@ -1,0 +1,4 @@
+{
+  "raw_receipt_sha256": "fb54477733db9cf73c02620840bed32711bb257b7d8229eee944e441e0d4fd64",
+  "correction": "Raw receipt scope prose accidentally says no output formal. Its actual formals explicitly record output_is_error_message, output_extent340 and capacity340. This is a prose correction only; raw state, original and native incoming ownership evidence are unchanged. Defined result/text/NUL/errno is independently proved in snprintf/native-complete and snprintf/original; unwritten tail is not claimed."
+}

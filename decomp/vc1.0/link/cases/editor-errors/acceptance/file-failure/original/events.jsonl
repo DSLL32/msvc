@@ -1,0 +1,4 @@
+{"event":"create","pid":892,"parent":996,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -edit /section:.text,R missing.exe"}
+{"event":"context","pid":892,"eip":158481,"esp":2749792,"eax":8193920,"ecx":1,"edx":547770,"stack":[247209,0,7,8193920,8188792,32768,8060929,9110568,332254,9110568,12,8193920,8061009,342194,8193920,247070,8188792,32768,0,8060929,0,0,8060940,8061009],"crt_errno":2,"dos_errno":2,"last_error":2,"exception_code":2147483651}
+{"event":"editor_error_abi","logical":"file_failure","caller":247209,"formals":{"file":null,"message":7,"detail":"missing.exe"}}
+{"event":"summary","root_exit":999,"failed":10,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

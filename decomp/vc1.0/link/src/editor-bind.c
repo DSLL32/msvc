@@ -7,6 +7,14 @@ BoundImageList bind_images;
 int bind_read_only,bind_show_imports;
 char *bind_search_path;
 
+/* Public BIND diagnostic wrapper [00028750,00028791). */
+void editor_bind_error(const char *format,const void *value)
+{
+    char message[340];
+    _snprintf(message,sizeof(message),format,value);
+    fatal_message(program_name,0x35,message);
+}
+
 /* Original4ed60..4f070; this embedded driver terminates the process. */
 int bind_main(int argc,char **argv,char **environment)
 {

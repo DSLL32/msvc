@@ -1,0 +1,14 @@
+Breakpoint 1 at 0x2c0c0: file src/stubs.c, line 7.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, file_failure (a=0x5662b0f0 "0\305bV\001", b=32768, c=0x0) at src/stubs.c:7
+7	void file_failure(char *a,int b,char *c) { __asm { int 3 } }
+NATIVE_MATCH file_failure
+0xffffcc9c:	0x56581fa2	0x00000000	0x00000007	0x5662c530
+0xffffccac:	0x5658186a	0x565deff4
+#0  file_failure (a=0x5662b0f0 "0\305bV\001", b=32768, c=0x0) at src/stubs.c:7
+#1  0x56581fa2 in open_buffered_file (file=0x5662b0f0, mode=32768, permission=0, fresh=1 '\001') at src/files.c:392
+#2  0x56581c09 in open_file (name=0xffffd96b "missing.exe", mode=32768, permission=0) at src/files.c:157
+#3  0x5658b149 in classify_argument (text=0xffffd96b "missing.exe", copy=0 '\000') at src/arguments.c:176
+#4  0x5658b34d in collect_arguments (argc=3, argv=0xffffd764, environment=0x0) at src/arguments.c:120

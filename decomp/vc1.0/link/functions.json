@@ -941,7 +941,11 @@
     "_resource_name_to_ansi",
     "_resource_unicode_to_ansi_byte",
     "_fatal_message",
-    "__unlink"
+    "__unlink",
+    "_editor_rebase_error",
+    "__snprintf",
+    "_editor_bind_error",
+    "_file_failure"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1055,10 +1059,11 @@
     {
       "name": "_file_failure",
       "start": 158480,
-      "end": 158528,
-      "implementation": "stub-C",
-      "source": "src/stubs.c",
-      "abi": "cdecl void(char *,int,char *)"
+      "end": 158515,
+      "implementation": "C",
+      "source": "src/diagnostics.c",
+      "abi": "cdecl void(char *file,int message,char *detail); no hidden/register formals, low messageWORD consumed",
+      "evidence": "Whole35-byte original callback,13 trailing alignment bytes excluded. Complete3slot original/native frontier observesNULLfile/message7/detailmissing.exe, actual open_buffered_file indirect caller; fallbackprogramname andlowWORD fatal forwarding retained."
     },
     {
       "name": "_print_banner",
@@ -8173,10 +8178,11 @@
     {
       "name": "_editor_rebase_error",
       "start": 165792,
-      "end": 165793,
-      "implementation": "stub-C",
-      "source": "src/edit-stubs.c",
-      "abi": "cdecl void(const char *,const void *)"
+      "end": 165857,
+      "implementation": "C",
+      "source": "src/editor-rebase.c",
+      "abi": "cdecl void(const char *format,const void *value); exactly one forwarded variadic DWORD",
+      "evidence": "Whole65-byte original cdecl body; complete2slot fresh ABI match atcases/editor-errors rebase /FIXED rejection; forwardsone variadicDWORD to bounded340byte message. Originalvalidinput and exact repeated exit54/streams/rawfiles pinned beforeimplementation."
     },
     {
       "name": "_mapped_image_directory@16",
@@ -8248,10 +8254,11 @@
     {
       "name": "_editor_bind_error",
       "start": 165712,
-      "end": 165713,
-      "implementation": "stub-C",
-      "source": "src/edit-stubs.c",
-      "abi": "cdecl void(const char *,const void *)"
+      "end": 165777,
+      "implementation": "C",
+      "source": "src/editor-bind.c",
+      "abi": "cdecl void(const char *format,const void *value); exactly one forwarded variadic DWORD",
+      "evidence": "Whole65-byte original body; typed2slot matching at ordinary valid no-export DLL bind rejection, caller bind_imports; repeated original exit53/streams/all raw files pinned beforeimplementation."
     },
     {
       "name": "_mapped_bound_rva",
@@ -9253,6 +9260,10 @@
     "resource-identity-duplicate",
     "resource-identity-duplicate",
     "resource-identity-duplicate-controlled",
-    "resource-identity-duplicate-controlled"
+    "resource-identity-duplicate-controlled",
+    "editor-errors-rebase",
+    "editor-errors-rebase",
+    "editor-errors-bind",
+    "editor-errors-missing"
   ]
 }

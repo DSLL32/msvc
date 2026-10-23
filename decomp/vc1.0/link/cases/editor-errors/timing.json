@@ -1,0 +1,134 @@
+{
+  "original_setup": [
+    "cases/editor-errors/setup/receipt.json",
+    "cases/editor-errors/setup-fixed/receipt.json"
+  ],
+  "original_preflight": {
+    "rebase": [
+      1.2570688081905246,
+      1.498378119431436
+    ],
+    "bind": [
+      1.4823100045323372,
+      1.6098826173692942
+    ],
+    "missing": [
+      1.0600523874163628,
+      0.8927460191771388
+    ]
+  },
+  "fresh_acceptance": {
+    "snprintf": 1.7769403103739023,
+    "rebase": 0.9457977255806327,
+    "bind": 0.8832919606938958,
+    "file-failure": 1.5319669367745519
+  },
+  "native_complete_gdb": {
+    "native-complete": 0.19591982197016478,
+    "bind": 0.20666169468313456,
+    "missing": 0.1376178478822112
+  },
+  "final_native": {
+    "build_seconds": 7.59618653357029,
+    "external_seconds": 6.307450303807855,
+    "components": {
+      "setup_seconds": 2.097425514832139,
+      "execution_seconds": 0.7957468712702394,
+      "oracle_seconds": 3.046498625539243,
+      "trace_check_seconds": 0.007850507274270058,
+      "total_seconds": 5.974911728873849
+    },
+    "new_cases": [
+      {
+        "case": "editor-errors-rebase",
+        "setup_seconds": 0.020222125574946404,
+        "execution_seconds": 0.0057016946375370026,
+        "trace_check_seconds": 0.00010361336171627045,
+        "oracle_seconds": 0.037933592684566975,
+        "total_seconds": 0.0642917025834322
+      },
+      {
+        "case": "editor-errors-bind",
+        "setup_seconds": 0.038359953090548515,
+        "execution_seconds": 0.006266547366976738,
+        "trace_check_seconds": 0.00011854991316795349,
+        "oracle_seconds": 0.07364050671458244,
+        "total_seconds": 0.11872461438179016
+      },
+      {
+        "case": "editor-errors-missing",
+        "setup_seconds": 0.001864684745669365,
+        "execution_seconds": 0.005280504003167152,
+        "trace_check_seconds": 0.00010186433792114258,
+        "oracle_seconds": 0.00041293632239103317,
+        "total_seconds": 0.007984159514307976
+      }
+    ]
+  },
+  "audits": {
+    "canonical": {
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "audit"
+      ],
+      "seconds": 26.596424147486687,
+      "returncode": 0
+    },
+    "graph_negative": {
+      "command": [
+        "python3",
+        "scripts/check-graph-audit.py"
+      ],
+      "seconds": 18.104462816379964,
+      "returncode": 0
+    },
+    "native_negative": {
+      "command": [
+        "python3",
+        "scripts/check-native-rejections.py"
+      ],
+      "seconds": 0.27343492582440376,
+      "returncode": 0
+    },
+    "call_edges": {
+      "command": [
+        "python3",
+        "scripts/check-call-edge.py"
+      ],
+      "seconds": 0.09177671559154987,
+      "returncode": 0
+    },
+    "crt_controls": {
+      "command": [
+        "python3",
+        "scripts/check-crt-observations.py"
+      ],
+      "seconds": 0.04997298028320074,
+      "returncode": 0
+    },
+    "resource_controls": {
+      "command": [
+        "python3",
+        "scripts/check-resource-identity.py"
+      ],
+      "seconds": 0.05598555412143469,
+      "returncode": 0
+    },
+    "cross_import": {
+      "command": [
+        "python3",
+        "scripts/check-cross-import.py",
+        "--native-receipt",
+        "/root/.ai-tmp/msvc2/vc1.0/link/native/native-check-e8r_fhll/receipt.json",
+        "--run-denials",
+        "--output",
+        "cases/editor-errors/cross-import-checks.json"
+      ],
+      "seconds": 0.11678178235888481,
+      "returncode": 0
+    }
+  },
+  "limits": "Single final native sample; captures/build/GDB excluded from fixture time. Initial tool syntax/static-preflight failures retained separately, not timed as successful runs. Raw per-stage receipts retain measured totals; untimed analysis/docs unmeasured."
+}

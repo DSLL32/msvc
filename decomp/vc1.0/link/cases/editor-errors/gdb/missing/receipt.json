@@ -1,0 +1,12 @@
+{
+  "status": "pass",
+  "phase": "missing",
+  "native": {
+    "formatted": [],
+    "exit": 7
+  },
+  "seconds": 0.1376178478822112,
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/editor-errors-missing-gdb-ohvnd6v4",
+  "working_files": {},
+  "scope": "Native ELF/GDB only; exact cached original streams/status/allfiles, bounded snprintf return/defined text/errno where observed. No native internal CRT ABI or uninitialized output-tail equivalence."
+}

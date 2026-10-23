@@ -1,0 +1,24 @@
+{
+  "status": "pass",
+  "phase": "rebase",
+  "native": {
+    "formatted": [
+      {
+        "result": 53,
+        "capacity": 340,
+        "text": "can't rebase; fixed.dll invalid or linked with /FIXED",
+        "errno": 0
+      }
+    ],
+    "exit": 54
+  },
+  "seconds": 0.19591982197016478,
+  "directory": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/editor-errors-rebase-gdb-y4chv1vu",
+  "working_files": {
+    "fixed.dll": {
+      "bytes": 2097152,
+      "sha256": "ad3a95089953953b833de16bf16a1ea632622ae99a45e5b781b27c651fe43c5c"
+    }
+  },
+  "scope": "Native ELF/GDB only; exact cached original streams/status/allfiles, bounded snprintf return/defined text/errno where observed. No native internal CRT ABI or uninitialized output-tail equivalence."
+}

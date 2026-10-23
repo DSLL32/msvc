@@ -1,0 +1,13 @@
+Breakpoint 1 at 0x17580: file src/edit-stubs.c, line 9.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, editor_rebase_error (format=0x1 <error: Cannot access memory at address 0x1>, value=0x5662c67c) at src/edit-stubs.c:9
+9	void editor_rebase_error(const char *format,const void *value) { __asm { int 3 } }
+NATIVE_MATCH editor_rebase_error
+0xffffd11c:	0x5656a450	0x565c6c7d	0xffffd173	0xffffd14c
+0xffffd12c:	0xffffd25c	0x00000003
+#0  editor_rebase_error (format=0x1 <error: Cannot access memory at address 0x1>, value=0x5662c67c) at src/edit-stubs.c:9
+#1  0x5656a450 in rebase_main (argc=1, argv=0x5662c67c, environment=0x0) at src/editor-rebase.c:106
+#2  0x56568bf6 in editor_main (argc=3, argv=0xffffd744) at src/editor.c:71
+#3  0x5655aebd in main (argc=3, argv=0xffffd744) at src/link.c:72

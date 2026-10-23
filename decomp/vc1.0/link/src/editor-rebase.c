@@ -14,6 +14,15 @@ char rebase_symbol_directory[260];
 EditorWorkspace editor_workspace;
 RelocationProcessor rebase_relocation_processor;
 
+/* Public REBASE diagnostic wrapper [000287a0,000287e1). The original
+ * forwards one variadic word into its340-byte bounded message buffer. */
+void editor_rebase_error(const char *format,const void *value)
+{
+    char message[340];
+    _snprintf(message,sizeof(message),format,value);
+    fatal_message(program_name,0x36,message);
+}
+
 /* Original [0004fbe0,00050260), including the28-entry switch table. */
 int rebase_main(int argc,char **argv,char **environment)
 {

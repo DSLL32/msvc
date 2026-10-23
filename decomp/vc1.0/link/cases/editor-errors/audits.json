@@ -1,0 +1,65 @@
+{
+  "canonical": {
+    "command": [
+      "make",
+      "-j4",
+      "all",
+      "audit"
+    ],
+    "seconds": 26.596424147486687,
+    "returncode": 0
+  },
+  "graph_negative": {
+    "command": [
+      "python3",
+      "scripts/check-graph-audit.py"
+    ],
+    "seconds": 18.104462816379964,
+    "returncode": 0
+  },
+  "native_negative": {
+    "command": [
+      "python3",
+      "scripts/check-native-rejections.py"
+    ],
+    "seconds": 0.27343492582440376,
+    "returncode": 0
+  },
+  "call_edges": {
+    "command": [
+      "python3",
+      "scripts/check-call-edge.py"
+    ],
+    "seconds": 0.09177671559154987,
+    "returncode": 0
+  },
+  "crt_controls": {
+    "command": [
+      "python3",
+      "scripts/check-crt-observations.py"
+    ],
+    "seconds": 0.04997298028320074,
+    "returncode": 0
+  },
+  "resource_controls": {
+    "command": [
+      "python3",
+      "scripts/check-resource-identity.py"
+    ],
+    "seconds": 0.05598555412143469,
+    "returncode": 0
+  },
+  "cross_import": {
+    "command": [
+      "python3",
+      "scripts/check-cross-import.py",
+      "--native-receipt",
+      "/root/.ai-tmp/msvc2/vc1.0/link/native/native-check-e8r_fhll/receipt.json",
+      "--run-denials",
+      "--output",
+      "cases/editor-errors/cross-import-checks.json"
+    ],
+    "seconds": 0.11678178235888481,
+    "returncode": 0
+  }
+}

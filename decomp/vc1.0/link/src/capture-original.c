@@ -328,6 +328,47 @@ static void resource_abi_sample(Process *process,CONTEXT *context,DWORD *stack)
     fflush(log_file);
 }
 
+/* Public EDIT rejection/callback inputs: no hidden/register formals. */
+static DWORD editor_message_output,editor_message_capacity;
+static void editor_error_abi_sample(Process *process,CONTEXT *context,DWORD *stack)
+{
+    const char *logical;
+    DWORD got;char first[512],second[512];
+    if (context->Eip==0x287c6 || context->Eip==0x287c5) {
+        DWORD error;
+        memset(first,0,sizeof(first));
+        ReadProcessMemory(process->handle,(void *)editor_message_output,first,editor_message_capacity,&got);
+        ReadProcessMemory(process->handle,(void *)0x852d8,&error,4,&got);
+        fprintf(log_file,"{\"event\":\"editor_snprintf_result\",\"result\":%lu,\"errno\":%lu,\"capacity\":%lu,\"text\":",context->Eax,error,editor_message_capacity);quoted(first);fprintf(log_file,"}\n");fflush(log_file);return;
+    }
+    if (context->Eip==0x52f21 || context->Eip==0x52f20) {
+        editor_message_output=stack[1];editor_message_capacity=stack[2];
+        if (editor_message_capacity>340) return;
+        memset(first,0,sizeof(first));memset(second,0,sizeof(second));
+        ReadProcessMemory(process->handle,(void *)stack[3],first,511,&got);
+        ReadProcessMemory(process->handle,(void *)stack[4],second,511,&got);
+        fprintf(log_file,"{\"event\":\"editor_error_abi\",\"logical\":\"recon_snprintf\",\"caller\":%lu,\"formals\":{\"output_is_error_message\":%d,\"output_extent\":340,\"capacity\":%lu,\"format\":",stack[0],stack[1]==context->Esp+20 && stack[0]==0x287c5,stack[2]);quoted(first);
+        fprintf(log_file,",\"value\":");quoted(second);fprintf(log_file,"}}\n");fflush(log_file);return;
+    }
+    if (context->Eip==0x287a1 || context->Eip==0x287a0) logical="editor_rebase_error";
+    else if (context->Eip==0x28751 || context->Eip==0x28750) logical="editor_bind_error";
+    else if (context->Eip==0x26b11 || context->Eip==0x26b10) logical="file_failure";
+    else return;
+    memset(first,0,sizeof(first));memset(second,0,sizeof(second));
+    if (stack[1]) ReadProcessMemory(process->handle,(void *)stack[1],first,511,&got);
+    if (stack[logical[0]=='f'?3:2]) ReadProcessMemory(process->handle,(void *)stack[logical[0]=='f'?3:2],second,511,&got);
+    fprintf(log_file,"{\"event\":\"editor_error_abi\",\"logical\":");quoted(logical);
+    fprintf(log_file,",\"caller\":%lu,\"formals\":{",stack[0]);
+    if (logical[0]=='f') {
+        fprintf(log_file,"\"file\":");if(stack[1])quoted(first);else fprintf(log_file,"null");
+        fprintf(log_file,",\"message\":%lu,\"detail\":",stack[2]);if(stack[3])quoted(second);else fprintf(log_file,"null");
+    } else {
+        fprintf(log_file,"\"format\":");if(stack[1])quoted(first);else fprintf(log_file,"null");
+        fprintf(log_file,",\"value\":");if(stack[2])quoted(second);else fprintf(log_file,"null");
+    }
+    fprintf(log_file,"}}\n");fflush(log_file);
+}
+
 static void context_log(Process *process,HANDLE thread)
 {
     CONTEXT context;
@@ -347,6 +388,7 @@ static void context_log(Process *process,HANDLE thread)
     }
     fprintf(log_file,"],\"crt_errno\":%lu,\"dos_errno\":%lu,\"last_error\":%lu,\"exception_code\":%lu}\n",crt_errno,dos_errno,last,current_exception_code);fflush(log_file);
     resource_abi_sample(process,&context,stack);
+    editor_error_abi_sample(process,&context,stack);
     if (context.Eip==0x52778 || context.Eip==0x52777) {
         DWORD saved[8],registration[4],head=0;
         if (!ReadProcessMemory(process->handle,(void *)stack[1],saved,sizeof(saved),&got) || got!=sizeof(saved)) return;

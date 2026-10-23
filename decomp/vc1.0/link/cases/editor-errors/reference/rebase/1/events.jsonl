@@ -1,0 +1,3 @@
+{"event":"create","pid":1412,"parent":2060,"target":1,"packer":0,"image":"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE","command_line":"\"R:\\toolchains\\1.0-nt\\bin\\LINK.EXE\" -edit /rebase:base=0x500000 fixed.dll"}
+{"event":"exit","pid":1412,"code":54,"packer":0}
+{"event":"summary","root_exit":54,"failed":0,"packers":0,"packer_stdout_start":0,"packer_stdout_end":0,"packer_stderr_start":0,"packer_stderr_end":0}

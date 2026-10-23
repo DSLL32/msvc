@@ -1,0 +1,45 @@
+{
+  "case": "editor-errors-rebase",
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-editor-errors.py",
+    "sha256": "e2e52627e974743872a7caae6b68a25b7ec184b58a24c5d2ff73273d0108bc17"
+  },
+  "phases": {
+    "reference": {
+      "arguments": [
+        "-edit",
+        "/rebase:base=0x500000",
+        "fixed.dll"
+      ],
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "inputs": [
+        {
+          "path": "../../inputs/fixed.dll",
+          "bytes": 2097152,
+          "sha256": "ad3a95089953953b833de16bf16a1ea632622ae99a45e5b781b27c651fe43c5c"
+        }
+      ],
+      "outputs": [
+        {
+          "output_name": "fixed.dll",
+          "artifact_kind": "raw",
+          "path": "../../reference/rebase/1/fixed.dll",
+          "bytes": 2097152,
+          "sha256": "ad3a95089953953b833de16bf16a1ea632622ae99a45e5b781b27c651fe43c5c",
+          "ignored_fields": [],
+          "normalized_sha256": "ad3a95089953953b833de16bf16a1ea632622ae99a45e5b781b27c651fe43c5c"
+        }
+      ],
+      "expected_exit": 54,
+      "expected_stdout": "Microsoft (R) COFF Binary File Editor Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\nLINK : error LNK1151: /REBASE error : can't rebase; fixed.dll invalid or linked with /FIXED\r\n",
+      "expected_stderr": "",
+      "final_files": [
+        "fixed.dll"
+      ],
+      "canonical_working_directory": "S:\\vc1.0\\link\\editor-errors-rebase"
+    }
+  }
+}

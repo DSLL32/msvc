@@ -1,0 +1,77 @@
+{
+  "status": "pass",
+  "logical": "editor_bind_error",
+  "original_address": "0x28750",
+  "original_directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/editor-errors-bind/masked-mfefgo8e",
+  "native_directory": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/editor-errors-bind-editor_bind_error-z6d_9oqg",
+  "native_context": {
+    "event": "context",
+    "pid": 1248,
+    "eip": 165713,
+    "esp": 2751080,
+    "eax": 0,
+    "ecx": 11272320,
+    "edx": 0,
+    "stack": [
+      325136,
+      543272,
+      9177144,
+      2897883,
+      8061016,
+      8198112,
+      2752156,
+      339284,
+      497480,
+      4294967295,
+      2751216,
+      0,
+      8188784,
+      2897872,
+      0,
+      778,
+      776,
+      2897872,
+      2883584,
+      88,
+      2070106034,
+      2883584,
+      776,
+      2751092
+    ],
+    "crt_errno": 0,
+    "dos_errno": 0,
+    "last_error": 0,
+    "exception_code": 2147483651
+  },
+  "seconds": 0.8832919606938958,
+  "parallel_sides": true,
+  "partial_streams_exact": true,
+  "typed_rom_fixups": null,
+  "resource_abi_state": null,
+  "editor_error_abi_state": {
+    "status": "pass",
+    "formal_slots": 2,
+    "original": {
+      "event": "editor_error_abi",
+      "logical": "editor_bind_error",
+      "caller": 325136,
+      "formals": {
+        "format": "Unable to locate exports in %s",
+        "value": "provider.dll"
+      }
+    },
+    "native": {
+      "logical": "editor_bind_error",
+      "caller_name": "bind_imports",
+      "formals": {
+        "format": "Unable to locate exports in %s",
+        "value": "provider.dll"
+      }
+    },
+    "scope": "All consumed cdecl formal slots and actual input string data; these diagnostic wrappers/callback have no hidden/register/output formal."
+  },
+  "import_machine_state": null,
+  "decoder_state": null,
+  "longjmp_state": null,
+  "caller_edge": null
+}

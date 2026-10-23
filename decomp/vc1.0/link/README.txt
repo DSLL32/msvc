@@ -289,3 +289,16 @@ Extent247433/281634=87.8562%;16912 unaccepted unclassified bytes remain pending.
 See cases/resource-identity for typed ABI evidence, raw limitations, timings and
 negative controls. Next root-approved single workflow: public EDIT rejection of
 ordinary valid images and file failures; no forced internal OMF debug entry.
+
+Public EDIT rejection/file-failure checkpoint (946 frontiers)
+
+Three whole C bodies add165instruction bytes, while bounded _snprintf support
+adds103CRT instructions+9alignment with zero application credit. Valid /FIXED
+rebase rejection, a valid no-export provider bind rejection and ordinary absent
+file match actual original exit54/53/7, streams and complete file inventories.
+All consumed inputs/callers/output ownership and defined bounded result are
+observed; omitted/changed packets fail. All71 cached native cases/753appentries
+pass6.307s after7.596s build. Canonical compile/audits26.596s pass785CFG graphs,
+770callback sets,490data definitions and41ECX routines. Extent247710/281634 is
+87.9546%;16838 unclassified remaining bytes are not CRT. See cases/editor-errors
+for precise limits, original setup correction, negative checks and split timing.

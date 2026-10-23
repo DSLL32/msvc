@@ -1,0 +1,8 @@
+{
+  "logical": "editor_rebase_error",
+  "caller_name": "rebase_main",
+  "formals": {
+    "format": "can't rebase; %s invalid or linked with /FIXED",
+    "value": "fixed.dll"
+  }
+}

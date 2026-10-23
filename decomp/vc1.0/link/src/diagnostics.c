@@ -42,6 +42,14 @@ void fatal_message(const char *file,int message,...)
     exit(message);
 }
 
+/* File-layer failure callback [00026b10,00026b33). Only the low message
+ * WORD is consumed by the original fatal wrapper. */
+void file_failure(char *file,int message,char *detail)
+{
+    if (!file) file=program_name;
+    fatal_message(file,(unsigned short)message,detail);
+}
+
 void out_of_memory(void) { __asm { int 3 } }
 
 /* Catalog text lookup [000288a0,00028980). */

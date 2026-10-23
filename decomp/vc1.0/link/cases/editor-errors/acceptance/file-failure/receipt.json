@@ -1,0 +1,79 @@
+{
+  "status": "pass",
+  "logical": "file_failure",
+  "original_address": "0x26b10",
+  "original_directory": "/root/.ai-tmp/msvc2/vc1.0/link/new-captures/editor-errors-missing/masked-l4z653q1",
+  "native_directory": "/root/.ai-tmp/msvc2/vc1.0/link/frontiers/editor-errors-missing-file_failure-xfq7m7y2",
+  "native_context": {
+    "event": "context",
+    "pid": 892,
+    "eip": 158481,
+    "esp": 2749792,
+    "eax": 8193920,
+    "ecx": 1,
+    "edx": 547770,
+    "stack": [
+      247209,
+      0,
+      7,
+      8193920,
+      8188792,
+      32768,
+      8060929,
+      9110568,
+      332254,
+      9110568,
+      12,
+      8193920,
+      8061009,
+      342194,
+      8193920,
+      247070,
+      8188792,
+      32768,
+      0,
+      8060929,
+      0,
+      0,
+      8060940,
+      8061009
+    ],
+    "crt_errno": 2,
+    "dos_errno": 2,
+    "last_error": 2,
+    "exception_code": 2147483651
+  },
+  "seconds": 1.5319669367745519,
+  "parallel_sides": true,
+  "partial_streams_exact": true,
+  "typed_rom_fixups": null,
+  "resource_abi_state": null,
+  "editor_error_abi_state": {
+    "status": "pass",
+    "formal_slots": 3,
+    "original": {
+      "event": "editor_error_abi",
+      "logical": "file_failure",
+      "caller": 247209,
+      "formals": {
+        "file": null,
+        "message": 7,
+        "detail": "missing.exe"
+      }
+    },
+    "native": {
+      "logical": "file_failure",
+      "caller_name": "open_buffered_file",
+      "formals": {
+        "file": null,
+        "message": 7,
+        "detail": "missing.exe"
+      }
+    },
+    "scope": "All consumed cdecl formal slots and actual input string data; these diagnostic wrappers/callback have no hidden/register/output formal."
+  },
+  "import_machine_state": null,
+  "decoder_state": null,
+  "longjmp_state": null,
+  "caller_edge": null
+}

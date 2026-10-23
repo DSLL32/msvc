@@ -202,5 +202,14 @@
   },
   "resource-identity-languages-controlled": {
     "directory": "cases/shared-prefix/resource-identity-languages-controlled"
+  },
+  "editor-errors-rebase": {
+    "directory": "cases/shared-prefix/editor-errors-rebase"
+  },
+  "editor-errors-bind": {
+    "directory": "cases/shared-prefix/editor-errors-bind"
+  },
+  "editor-errors-missing": {
+    "directory": "cases/shared-prefix/editor-errors-missing"
   }
 }

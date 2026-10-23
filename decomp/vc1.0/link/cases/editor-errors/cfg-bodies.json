@@ -1,0 +1,36 @@
+{
+  "target_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "family": "editor-errors",
+  "alignment_bytes": 0,
+  "extent_gap_ranges": [],
+  "extent_gap_instructions": [],
+  "method": "Static original CFG instruction-byte union of all accepted contextual editor-errors functions, follows both conditional edges, internal JMP tables and call fallthrough; excludes padding, inline table bytes and callee bodies. Not dynamic branch coverage. Old Ghidra one-byte seeds excluded from overlap.",
+  "functions": {
+    "_file_failure": {
+      "bytes": 35,
+      "start": 158480,
+      "end": 158515,
+      "internal_tables": []
+    },
+    "_editor_rebase_error": {
+      "bytes": 65,
+      "start": 165792,
+      "end": 165857,
+      "internal_tables": []
+    },
+    "_editor_bind_error": {
+      "bytes": 65,
+      "start": 165712,
+      "end": 165777,
+      "internal_tables": []
+    }
+  },
+  "function_count": 3,
+  "instruction_bytes": 165,
+  "accepted_extent_union_bytes": 165,
+  "internal_data_bytes": 0,
+  "extent_outside_cfg_and_data": 0,
+  "unresolved_jumps": [],
+  "instruction_overlap_old_body_inventory": 100,
+  "additional_proven_instruction_bytes_outside_old_inventory": 65
+}

@@ -1,0 +1,341 @@
+{
+  "rebase": {
+    "status": "untouched-original-repeat-pass",
+    "runs": [
+      {
+        "mode": "original",
+        "analysis_samples": [],
+        "helper_sha256": "71d469aba4b7b2d31da91805f85afd7959595336fd5fe9c62a5974ea015fa220",
+        "helper_source_sha256": "9808b276e7f2d98c15d85da705f7c773cc147ba805c9a302832c753bc022e109",
+        "working_files": {
+          "fixed.dll": {
+            "bytes": 2097152,
+            "sha256": "ad3a95089953953b833de16bf16a1ea632622ae99a45e5b781b27c651fe43c5c"
+          }
+        },
+        "case": "editor-errors-rebase",
+        "helper_exit": 0,
+        "summary": {
+          "event": "summary",
+          "root_exit": 54,
+          "failed": 0,
+          "packers": 0,
+          "packer_stdout_start": 0,
+          "packer_stdout_end": 0,
+          "packer_stderr_start": 0,
+          "packer_stderr_end": 0
+        },
+        "events_sha256": "3b5196bff6590186783d80189c29d7b0b19abaf4c9484e81cba391422b268801",
+        "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+        "accepted_count": 942,
+        "accepted_sha256": "2a6f7b51ab9d5601f23cf29db80a7583edbf65ad09fdb02e7923bf37c9821aa4",
+        "environment": {
+          "LIB": "R:\\toolchains\\1.0-nt\\lib",
+          "LINK32_DB": null,
+          "LINK_REPRO": null,
+          "TMP": "S:\\vc1.0\\link\\editor-errors-rebase",
+          "TEMP": "S:\\vc1.0\\link\\editor-errors-rebase"
+        },
+        "command": [
+          "wine",
+          "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+          "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+          "-edit /rebase:base=0x500000 fixed.dll",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-rebase\\original-ac93uf1s\\stdout.bin",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-rebase\\original-ac93uf1s\\stderr.bin",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-rebase\\original-ac93uf1s\\events.jsonl",
+          "S:\\vc1.0\\link\\editor-errors-rebase",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-rebase\\original-ac93uf1s\\text.bin",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-rebase\\original-ac93uf1s\\entries.txt",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-rebase\\original-ac93uf1s\\before.dll",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-rebase\\original-ac93uf1s\\after.dll",
+          "-"
+        ],
+        "seconds": 1.2570688081905246
+      },
+      {
+        "mode": "original",
+        "analysis_samples": [],
+        "helper_sha256": "71d469aba4b7b2d31da91805f85afd7959595336fd5fe9c62a5974ea015fa220",
+        "helper_source_sha256": "9808b276e7f2d98c15d85da705f7c773cc147ba805c9a302832c753bc022e109",
+        "working_files": {
+          "fixed.dll": {
+            "bytes": 2097152,
+            "sha256": "ad3a95089953953b833de16bf16a1ea632622ae99a45e5b781b27c651fe43c5c"
+          }
+        },
+        "case": "editor-errors-rebase",
+        "helper_exit": 0,
+        "summary": {
+          "event": "summary",
+          "root_exit": 54,
+          "failed": 0,
+          "packers": 0,
+          "packer_stdout_start": 0,
+          "packer_stdout_end": 0,
+          "packer_stderr_start": 0,
+          "packer_stderr_end": 0
+        },
+        "events_sha256": "0a7e62f29f7b57954e52396ece45f7dc0c314e48b88abedbbbf0868df2ddd1de",
+        "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+        "accepted_count": 942,
+        "accepted_sha256": "2a6f7b51ab9d5601f23cf29db80a7583edbf65ad09fdb02e7923bf37c9821aa4",
+        "environment": {
+          "LIB": "R:\\toolchains\\1.0-nt\\lib",
+          "LINK32_DB": null,
+          "LINK_REPRO": null,
+          "TMP": "S:\\vc1.0\\link\\editor-errors-rebase",
+          "TEMP": "S:\\vc1.0\\link\\editor-errors-rebase"
+        },
+        "command": [
+          "wine",
+          "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+          "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+          "-edit /rebase:base=0x500000 fixed.dll",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-rebase\\original-4_7ohckw\\stdout.bin",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-rebase\\original-4_7ohckw\\stderr.bin",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-rebase\\original-4_7ohckw\\events.jsonl",
+          "S:\\vc1.0\\link\\editor-errors-rebase",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-rebase\\original-4_7ohckw\\text.bin",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-rebase\\original-4_7ohckw\\entries.txt",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-rebase\\original-4_7ohckw\\before.dll",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-rebase\\original-4_7ohckw\\after.dll",
+          "-"
+        ],
+        "seconds": 1.498378119431436
+      }
+    ],
+    "raw_outputs_exact": true,
+    "actual_file_inventory": {
+      "fixed.dll": {
+        "bytes": 2097152,
+        "sha256": "ad3a95089953953b833de16bf16a1ea632622ae99a45e5b781b27c651fe43c5c"
+      }
+    }
+  },
+  "bind": {
+    "status": "untouched-original-repeat-pass",
+    "runs": [
+      {
+        "mode": "original",
+        "analysis_samples": [],
+        "helper_sha256": "71d469aba4b7b2d31da91805f85afd7959595336fd5fe9c62a5974ea015fa220",
+        "helper_source_sha256": "9808b276e7f2d98c15d85da705f7c773cc147ba805c9a302832c753bc022e109",
+        "working_files": {
+          "client.exe": {
+            "bytes": 2097152,
+            "sha256": "c3b8813808646f8da33ae36e1ba26a03bdfe5f07577f074e9c981108252f0341"
+          },
+          "provider.dll": {
+            "bytes": 2097152,
+            "sha256": "7c95e40c310bd2987f35b5fd0e887533c58e84f04367f461e72768937cee6999"
+          }
+        },
+        "case": "editor-errors-bind",
+        "helper_exit": 0,
+        "summary": {
+          "event": "summary",
+          "root_exit": 53,
+          "failed": 0,
+          "packers": 0,
+          "packer_stdout_start": 0,
+          "packer_stdout_end": 0,
+          "packer_stderr_start": 0,
+          "packer_stderr_end": 0
+        },
+        "events_sha256": "731e2cf52847b40c18e1b580ce313e1355d20e93cfb7967c266949ac030d590d",
+        "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+        "accepted_count": 942,
+        "accepted_sha256": "2a6f7b51ab9d5601f23cf29db80a7583edbf65ad09fdb02e7923bf37c9821aa4",
+        "environment": {
+          "LIB": "R:\\toolchains\\1.0-nt\\lib",
+          "LINK32_DB": null,
+          "LINK_REPRO": null,
+          "TMP": "S:\\vc1.0\\link\\editor-errors-bind",
+          "TEMP": "S:\\vc1.0\\link\\editor-errors-bind"
+        },
+        "command": [
+          "wine",
+          "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+          "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+          "-edit /bind:path=. client.exe",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-bind\\original-jrmf9raa\\stdout.bin",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-bind\\original-jrmf9raa\\stderr.bin",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-bind\\original-jrmf9raa\\events.jsonl",
+          "S:\\vc1.0\\link\\editor-errors-bind",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-bind\\original-jrmf9raa\\text.bin",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-bind\\original-jrmf9raa\\entries.txt",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-bind\\original-jrmf9raa\\before.dll",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-bind\\original-jrmf9raa\\after.dll",
+          "-"
+        ],
+        "seconds": 1.4823100045323372
+      },
+      {
+        "mode": "original",
+        "analysis_samples": [],
+        "helper_sha256": "71d469aba4b7b2d31da91805f85afd7959595336fd5fe9c62a5974ea015fa220",
+        "helper_source_sha256": "9808b276e7f2d98c15d85da705f7c773cc147ba805c9a302832c753bc022e109",
+        "working_files": {
+          "client.exe": {
+            "bytes": 2097152,
+            "sha256": "c3b8813808646f8da33ae36e1ba26a03bdfe5f07577f074e9c981108252f0341"
+          },
+          "provider.dll": {
+            "bytes": 2097152,
+            "sha256": "7c95e40c310bd2987f35b5fd0e887533c58e84f04367f461e72768937cee6999"
+          }
+        },
+        "case": "editor-errors-bind",
+        "helper_exit": 0,
+        "summary": {
+          "event": "summary",
+          "root_exit": 53,
+          "failed": 0,
+          "packers": 0,
+          "packer_stdout_start": 0,
+          "packer_stdout_end": 0,
+          "packer_stderr_start": 0,
+          "packer_stderr_end": 0
+        },
+        "events_sha256": "578ae10c4e889cc8fe36f4797c9f74a977f2df250cd1bada8587303b25ee39ae",
+        "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+        "accepted_count": 942,
+        "accepted_sha256": "2a6f7b51ab9d5601f23cf29db80a7583edbf65ad09fdb02e7923bf37c9821aa4",
+        "environment": {
+          "LIB": "R:\\toolchains\\1.0-nt\\lib",
+          "LINK32_DB": null,
+          "LINK_REPRO": null,
+          "TMP": "S:\\vc1.0\\link\\editor-errors-bind",
+          "TEMP": "S:\\vc1.0\\link\\editor-errors-bind"
+        },
+        "command": [
+          "wine",
+          "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+          "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+          "-edit /bind:path=. client.exe",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-bind\\original-rf795e_w\\stdout.bin",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-bind\\original-rf795e_w\\stderr.bin",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-bind\\original-rf795e_w\\events.jsonl",
+          "S:\\vc1.0\\link\\editor-errors-bind",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-bind\\original-rf795e_w\\text.bin",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-bind\\original-rf795e_w\\entries.txt",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-bind\\original-rf795e_w\\before.dll",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-bind\\original-rf795e_w\\after.dll",
+          "-"
+        ],
+        "seconds": 1.6098826173692942
+      }
+    ],
+    "raw_outputs_exact": true,
+    "actual_file_inventory": {
+      "client.exe": {
+        "bytes": 2097152,
+        "sha256": "c3b8813808646f8da33ae36e1ba26a03bdfe5f07577f074e9c981108252f0341"
+      },
+      "provider.dll": {
+        "bytes": 2097152,
+        "sha256": "7c95e40c310bd2987f35b5fd0e887533c58e84f04367f461e72768937cee6999"
+      }
+    }
+  },
+  "missing": {
+    "status": "untouched-original-repeat-pass",
+    "runs": [
+      {
+        "mode": "original",
+        "analysis_samples": [],
+        "helper_sha256": "71d469aba4b7b2d31da91805f85afd7959595336fd5fe9c62a5974ea015fa220",
+        "helper_source_sha256": "9808b276e7f2d98c15d85da705f7c773cc147ba805c9a302832c753bc022e109",
+        "working_files": {},
+        "case": "editor-errors-missing",
+        "helper_exit": 0,
+        "summary": {
+          "event": "summary",
+          "root_exit": 7,
+          "failed": 0,
+          "packers": 0,
+          "packer_stdout_start": 0,
+          "packer_stdout_end": 0,
+          "packer_stderr_start": 0,
+          "packer_stderr_end": 0
+        },
+        "events_sha256": "467677f330b2272d02424d9bd166c2f0000520dce507871fb2ebe5d682b47127",
+        "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+        "accepted_count": 942,
+        "accepted_sha256": "2a6f7b51ab9d5601f23cf29db80a7583edbf65ad09fdb02e7923bf37c9821aa4",
+        "environment": {
+          "LIB": "R:\\toolchains\\1.0-nt\\lib",
+          "LINK32_DB": null,
+          "LINK_REPRO": null,
+          "TMP": "S:\\vc1.0\\link\\editor-errors-missing",
+          "TEMP": "S:\\vc1.0\\link\\editor-errors-missing"
+        },
+        "command": [
+          "wine",
+          "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+          "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+          "-edit /section:.text,R missing.exe",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-missing\\original-03qd8rhk\\stdout.bin",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-missing\\original-03qd8rhk\\stderr.bin",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-missing\\original-03qd8rhk\\events.jsonl",
+          "S:\\vc1.0\\link\\editor-errors-missing",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-missing\\original-03qd8rhk\\text.bin",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-missing\\original-03qd8rhk\\entries.txt",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-missing\\original-03qd8rhk\\before.dll",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-missing\\original-03qd8rhk\\after.dll",
+          "-"
+        ],
+        "seconds": 1.0600523874163628
+      },
+      {
+        "mode": "original",
+        "analysis_samples": [],
+        "helper_sha256": "71d469aba4b7b2d31da91805f85afd7959595336fd5fe9c62a5974ea015fa220",
+        "helper_source_sha256": "9808b276e7f2d98c15d85da705f7c773cc147ba805c9a302832c753bc022e109",
+        "working_files": {},
+        "case": "editor-errors-missing",
+        "helper_exit": 0,
+        "summary": {
+          "event": "summary",
+          "root_exit": 7,
+          "failed": 0,
+          "packers": 0,
+          "packer_stdout_start": 0,
+          "packer_stdout_end": 0,
+          "packer_stderr_start": 0,
+          "packer_stderr_end": 0
+        },
+        "events_sha256": "5c4096cad11890e6b1023bdcad73bf061dc623b9ab650d0bf4d55062164b5dca",
+        "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+        "accepted_count": 942,
+        "accepted_sha256": "2a6f7b51ab9d5601f23cf29db80a7583edbf65ad09fdb02e7923bf37c9821aa4",
+        "environment": {
+          "LIB": "R:\\toolchains\\1.0-nt\\lib",
+          "LINK32_DB": null,
+          "LINK_REPRO": null,
+          "TMP": "S:\\vc1.0\\link\\editor-errors-missing",
+          "TEMP": "S:\\vc1.0\\link\\editor-errors-missing"
+        },
+        "command": [
+          "wine",
+          "S:\\vc1.0\\link\\tooling\\capture-original.exe",
+          "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+          "-edit /section:.text,R missing.exe",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-missing\\original-0f55m7jq\\stdout.bin",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-missing\\original-0f55m7jq\\stderr.bin",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-missing\\original-0f55m7jq\\events.jsonl",
+          "S:\\vc1.0\\link\\editor-errors-missing",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-missing\\original-0f55m7jq\\text.bin",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-missing\\original-0f55m7jq\\entries.txt",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-missing\\original-0f55m7jq\\before.dll",
+          "S:\\vc1.0\\link\\new-captures\\editor-errors-missing\\original-0f55m7jq\\after.dll",
+          "-"
+        ],
+        "seconds": 0.8927460191771388
+      }
+    ],
+    "raw_outputs_exact": true,
+    "actual_file_inventory": {}
+  }
+}

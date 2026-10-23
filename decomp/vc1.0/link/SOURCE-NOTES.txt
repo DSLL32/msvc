@@ -1237,3 +1237,23 @@ All68 cached native cases/750appentries pass; original -j4 compile and781CFG,
 767callback,490data,41ECX checks and negative guards pass. Extent87.8562% remains
 separate from partial body accounting: remaining16912 unclassified bytes are not
 CRT. Detailed exact snapshots and split timings are in cases/resource-identity.
+
+Public EDIT rejection checkpoint946
+
+The two bounded diagnostic wrappers and ordinary file callback are full readable
+C functions,165actual instruction bytes. Actual cdecl arguments/callers are
+mandatory at fresh acceptance, and __snprintf observes the caller-owned340-byte
+output extent plus the consumed variadic DWORD. Independent return/text/NUL/errno
+proof does not claim unwritten tail or native private CRT graph equivalence.
+The exact shipped library graph/112-byte extent remains separate support credit.
+
+Valid /FIXED DLL setup replaces a statically rejected no-reloc assumption about
+an existing resource image's empty relocation block. Both setup variants and
+failed analysis-template syntax evidence remain truthful; no failed attempt was
+promoted. Twice originals and each actual final file inventory are frozen without
+normalization. Native GDB completion and normal cached fixtures remain separate.
+
+All71 native cases/753appentries and785CFG/770callback/490data/41ECX checks pass.
+Extent247710/281634=87.9546% is separate from instruction inventory;16838remaining
+unclassified bytes need evidence. See cases/editor-errors for immutable observer
+annotation, concrete errors, full source snapshots, timing and next proposal.

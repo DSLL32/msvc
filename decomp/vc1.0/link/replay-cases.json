@@ -662,6 +662,33 @@
       },
       "accepted_prefix": 942,
       "reason": "Original-backed named type/name/nonASCII and two languages; resource PE byte oracle and deleted temporary inventory"
+    },
+    {
+      "case": "editor-errors-rebase",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 54
+      },
+      "reason": "Root-approved valid-image EDIT semantic rejection and ordinary missing-file diagnostic; exact raw input/file effects, no timestamp/path normalization"
+    },
+    {
+      "case": "editor-errors-bind",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 53
+      },
+      "reason": "Root-approved valid-image EDIT semantic rejection and ordinary missing-file diagnostic; exact raw input/file effects, no timestamp/path normalization"
+    },
+    {
+      "case": "editor-errors-missing",
+      "mode": "native",
+      "terminal": {
+        "kind": "exit",
+        "code": 7
+      },
+      "reason": "Root-approved valid-image EDIT semantic rejection and ordinary missing-file diagnostic; exact raw input/file effects, no timestamp/path normalization"
     }
   ]
 }

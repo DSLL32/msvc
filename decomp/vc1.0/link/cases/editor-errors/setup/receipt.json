@@ -1,0 +1,143 @@
+{
+  "status": "pass",
+  "scope": "Explicit original setup outside fixtures; valid stdcall DLL entry, no exports/imports, inspect-only inputs",
+  "working_directory": "S:\\vc1.0\\link\\editor-errors-setup-4qaj_jzr",
+  "prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "runs": [
+    {
+      "command": [
+        "wine",
+        "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+        "/nologo",
+        "/c",
+        "/O2",
+        "/G5",
+        "/Foempty.obj",
+        "empty.c"
+      ],
+      "seconds": 0.9885551808401942,
+      "exit": 0,
+      "stdout": "empty.c\r\n",
+      "stderr": "",
+      "tool_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4"
+    },
+    {
+      "command": [
+        "wine",
+        "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+        "/nologo",
+        "/dll",
+        "/nodefaultlib",
+        "/entry:Empty",
+        "/out:provider.dll",
+        "empty.obj"
+      ],
+      "seconds": 0.5266364384442568,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "tool_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    {
+      "command": [
+        "wine",
+        "R:\\toolchains\\1.0-nt\\bin\\LINK.EXE",
+        "/nologo",
+        "/dll",
+        "/nodefaultlib",
+        "/entry:Empty",
+        "/out:provider.dll",
+        "empty.obj"
+      ],
+      "seconds": 0.5099090207368135,
+      "exit": 0,
+      "stdout": "",
+      "stderr": "",
+      "tool_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    }
+  ],
+  "inspection": [
+    {
+      "machine": 332,
+      "DLL": true,
+      "entry_rva": 4096,
+      "entry_bytes": "b801000000c20c00",
+      "export_directory": [
+        0,
+        0
+      ],
+      "import_directory": [
+        0,
+        0
+      ],
+      "normalized_sha256": "b854f2dfaa67a995f96c14c195ea2130d7b13e84281a4a0244551e0ac62a654a",
+      "clock": {
+        "offset": 136,
+        "bytes": 4,
+        "name": "PE COFF TimeDateStamp"
+      }
+    },
+    {
+      "machine": 332,
+      "DLL": true,
+      "entry_rva": 4096,
+      "entry_bytes": "b801000000c20c00",
+      "export_directory": [
+        0,
+        0
+      ],
+      "import_directory": [
+        0,
+        0
+      ],
+      "normalized_sha256": "b854f2dfaa67a995f96c14c195ea2130d7b13e84281a4a0244551e0ac62a654a",
+      "clock": {
+        "offset": 136,
+        "bytes": 4,
+        "name": "PE COFF TimeDateStamp"
+      }
+    }
+  ],
+  "files": {
+    "run2.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "run0.stdout": {
+      "bytes": 9,
+      "sha256": "bc5f4d06be5e04196566b0d5735280ec13eea94340c1d4dcea72c492707af2fc"
+    },
+    "empty.c": {
+      "bytes": 164,
+      "sha256": "0faba3029c225da0fe08a2a696527202f3a07f41c837127bc26ed0c92ec65771"
+    },
+    "run1.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "provider-2.dll": {
+      "bytes": 2097152,
+      "sha256": "dc123ff852917da91717858b13c6bd2e003ea90ac2cf2c2a405d337e1d1040ff"
+    },
+    "run0.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "provider-1.dll": {
+      "bytes": 2097152,
+      "sha256": "7c95e40c310bd2987f35b5fd0e887533c58e84f04367f461e72768937cee6999"
+    },
+    "run2.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "empty.obj": {
+      "bytes": 424,
+      "sha256": "25733bb28bb8385c1a746f2aa0f8fe8712f429d5fc3de858911a82810760278c"
+    },
+    "run1.stdout": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

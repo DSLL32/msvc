@@ -55,6 +55,10 @@ def main():
     resource_path=output/'native-resource-abi.json'
     if args.function in RESOURCE_ABI:
         script.write_text(script.read_text().replace('quit\n',resource_abi_commands(args.function,resource_path)+'quit\n'))
+    from editor_error_abi import LOGICAL as EDITOR_ERROR_ABI, gdb_commands as editor_error_commands
+    editor_error_path=output/'native-editor-error-abi.json'
+    if args.function in EDITOR_ERROR_ABI:
+        script.write_text(script.read_text().replace('quit\n',editor_error_commands(args.function,editor_error_path)+'quit\n'))
     if args.function=='emit_rom_relocations':
         state_path=output/'native-rom-fixups.json'
         commands="""python
@@ -184,6 +188,10 @@ end
     if args.function in RESOURCE_ABI:
         from resource_abi import compare as compare_resource_abi
         resource_abi_state=compare_resource_abi(events,json.loads(resource_path.read_text()))
+    editor_error_abi_state=None
+    if args.function in EDITOR_ERROR_ABI:
+        from editor_error_abi import compare as compare_editor_error_abi
+        editor_error_abi_state=compare_editor_error_abi(events,json.loads(editor_error_path.read_text()))
     import_machine_state=None
     if args.function=='write_helper_thunk_member':
         observations=[e for e in events if e['event']=='import_machine_state']
@@ -220,7 +228,7 @@ end
                          original=original_state,native=native_state,
                          unconsumed='Record+4 has no proved reader/writer semantics; never compared or serialized. Type padding+2 likewise not a live field.')
         (output/'rom-fixups-comparison.json').write_text(json.dumps(typed_state,indent=2)+'\n')
-    receipt=dict(status='pass',logical=args.function,original_address=hex(args.address),original_directory=str(original_directory),native_directory=str(output),native_context=context,seconds=time.perf_counter()-start,parallel_sides=True,partial_streams_exact=True,typed_rom_fixups=typed_state,resource_abi_state=resource_abi_state,import_machine_state=import_machine_state,decoder_state=decoder_state,longjmp_state=longjmp_state,caller_edge=caller_proof)
+    receipt=dict(status='pass',logical=args.function,original_address=hex(args.address),original_directory=str(original_directory),native_directory=str(output),native_context=context,seconds=time.perf_counter()-start,parallel_sides=True,partial_streams_exact=True,typed_rom_fixups=typed_state,resource_abi_state=resource_abi_state,editor_error_abi_state=editor_error_abi_state,import_machine_state=import_machine_state,decoder_state=decoder_state,longjmp_state=longjmp_state,caller_edge=caller_proof)
     (output/'receipt.json').write_text(json.dumps(receipt,indent=2)+'\n')
     print(output/'receipt.json')
 if __name__=='__main__':main()

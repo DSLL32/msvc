@@ -511,7 +511,8 @@
     "start": 339744,
     "end": 339856,
     "object": "stdio\\obj\\i386\\SNPRINTF.OBJ",
-    "library": "LIBC.LIB"
+    "library": "LIBC.LIB",
+    "evidence": "byte-exact SNPRINTF.OBJ including verified _output/_flsbuf callees; native public CRT boundary observes3fixedslots+onevariadicDWORD,340-byte caller output ownership, actual defined text/result/errno and full EDIT error files/streams in cases/editor-errors. No native internal CRT or unwritten-tail ABI claim."
   },
   {
     "name": "_rename",

@@ -477,12 +477,33 @@
       "manifest_path": "cases/shared-prefix/resource-identity-languages-controlled/manifest.json",
       "manifest_sha256": "65c6bf605fc07241ab0de005a8acfc1f057d63602f144591e087011126e56477",
       "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "editor-errors-rebase": {
+      "receipt_path": "cases/shared-prefix/editor-errors-rebase/capture/receipt.json",
+      "receipt_sha256": "9422e9de3e2ac7bebf63e966490b6346d8cd4584746c74e24339c920d7e0fbc0",
+      "manifest_path": "cases/shared-prefix/editor-errors-rebase/manifest.json",
+      "manifest_sha256": "dcd7c374bd8f900b546b089a6782a8ec1bc2dd5d15de584ba1af05fc41e06868",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "editor-errors-bind": {
+      "receipt_path": "cases/shared-prefix/editor-errors-bind/capture/receipt.json",
+      "receipt_sha256": "0681b5ec14d5ba81e25277d7efce5722af5f581e1cb92a37029984ae194cbfcd",
+      "manifest_path": "cases/shared-prefix/editor-errors-bind/manifest.json",
+      "manifest_sha256": "322a424f91d162e23d61d09241f31a1a4318e12ec6979125a1e288fc0162018a",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
+    },
+    "editor-errors-missing": {
+      "receipt_path": "cases/shared-prefix/editor-errors-missing/capture/receipt.json",
+      "receipt_sha256": "7e68ab63dd21c831be720b63af42f39be92dfa41cfe94d484d8c7fcfd8f95319",
+      "manifest_path": "cases/shared-prefix/editor-errors-missing/manifest.json",
+      "manifest_sha256": "3e5e5f4e566db6c4403ac9ad6bf8cca323ec239ffe6460c9b84130e3984a8dc1",
+      "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
     }
   },
   "metadata_sha256": {
-    "functions.json": "80b68d0113b2cd40476299d985102865c54eb2248a382e3be5a16afebcf6e99c",
-    "runtime.json": "8345ebf3f0bc089b54072511661406298c172536210a694d417e892373d4943b",
-    "replay-cases.json": "80e33fb8597d646fa46d4aece2af03374b37eeb8edd10ffa50473699fa9dadba"
+    "functions.json": "89bf274d76c8ed2342b7ae462539c859efcd03cef554da3842474a1cf20f4cb9",
+    "runtime.json": "442836d3a56268561bcd1a3b26e5c9cb489b9ec4d5dd8932797cef7d1543fce6",
+    "replay-cases.json": "91486922dffc6258e23b3a80e1828199edcad10bdabae0089d2219fa9c480dea"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -2156,9 +2177,9 @@
       "implementation": "C"
     },
     "editor_bind_error": {
-      "source": "src/edit-stubs.c",
+      "source": "src/editor-bind.c",
       "logical": "_editor_bind_error",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "editor_main": {
       "source": "src/editor.c",
@@ -2166,9 +2187,9 @@
       "implementation": "C"
     },
     "editor_rebase_error": {
-      "source": "src/edit-stubs.c",
+      "source": "src/editor-rebase.c",
       "logical": "_editor_rebase_error",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "emit_base_relocations": {
       "source": "src/base-relocations.c",
@@ -2316,9 +2337,9 @@
       "implementation": "C"
     },
     "file_failure": {
-      "source": "src/stubs.c",
+      "source": "src/diagnostics.c",
       "logical": "_file_failure",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "file_size": {
       "source": "src/files.c",
@@ -5171,7 +5192,10 @@
     "resource_error_prefix",
     "resource_name_to_ansi",
     "resource_unicode_to_ansi_byte",
-    "fatal_message"
+    "fatal_message",
+    "editor_rebase_error",
+    "editor_bind_error",
+    "file_failure"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5323,7 +5347,8 @@
       "_strtoxl",
       "_longjmp",
       "__local_unwind2",
-      "__unlink"
+      "__unlink",
+      "__snprintf"
     ],
     "import": [
       "import:GetCommandLineA",
@@ -6846,6 +6871,42 @@
       "terminal": {
         "kind": "exit",
         "code": 0
+      }
+    },
+    "editor-errors-rebase": {
+      "first": 942,
+      "last": 944,
+      "seen_count": 750,
+      "expected": [
+        "editor_rebase_error"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 54
+      }
+    },
+    "editor-errors-bind": {
+      "first": 944,
+      "last": 945,
+      "seen_count": 751,
+      "expected": [
+        "editor_bind_error"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 53
+      }
+    },
+    "editor-errors-missing": {
+      "first": 945,
+      "last": 946,
+      "seen_count": 752,
+      "expected": [
+        "file_failure"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 7
       }
     }
   }

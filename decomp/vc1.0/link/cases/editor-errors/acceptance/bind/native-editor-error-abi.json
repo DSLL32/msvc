@@ -1,0 +1,8 @@
+{
+  "logical": "editor_bind_error",
+  "caller_name": "bind_imports",
+  "formals": {
+    "format": "Unable to locate exports in %s",
+    "value": "provider.dll"
+  }
+}

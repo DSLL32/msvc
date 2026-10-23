@@ -112,6 +112,8 @@ if len(sys.argv)==1:
 # _find is a complete byte-exact shipped CRT match, including imported call
 # relocations. Native correspondence is at this CRT boundary, not each IAT thunk.
 for r in records:
+    if r['name']=='__snprintf':
+        r['evidence']='byte-exact SNPRINTF.OBJ including verified _output/_flsbuf callees; native public CRT boundary observes3fixedslots+onevariadicDWORD,340-byte caller output ownership, actual defined text/result/errno and full EDIT error files/streams in cases/editor-errors. No native internal CRT or unwritten-tail ABI claim.'
     if r['name']=='__unlink':
         r['evidence']='byte-exact UNLINK.OBJ wrapper; object-local public _remove callee identity independently matched; native public CRT boundary has actual filename/caller/result/live-error and full fatal cleanup proof in cases/resource-identity (ambient LastError explicitly not equated)'
     if r['name']=='__find':

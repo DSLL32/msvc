@@ -1,0 +1,4 @@
+Breakpoint 1 at 0x61fc0: file ../../../lib/recon/src/crt.c, line 1197.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+[Inferior 1 (process 1584231) exited with code 066]
