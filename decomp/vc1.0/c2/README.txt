@@ -1995,3 +1995,13 @@ and native agree at collect_basic_region_inductions5f070;715 graph/extent checks
 canonical/W3 and native fixtures pass, including shared flush correction3805d73.
 Actual store movement and every alias/volatile guard branch are not claimed
 covered. Full hello object remains incomplete. See cases/hello-invariant-dominance.json.
+
+Basic induction scan: checkpoint797
+----------------------------------
+Canonical store updates by an invariant increment are recognized with original
+storage, nested-region, volatility and exception-scope checks. The store-conflict
+query and numbered invariant-value lookup retain separate fastcall functions.
+Native/original agree at prepare_region_exit_motion5eab0;719 graph/extent checks,
+canonical/W3 and native fixtures pass. The induction-record allocator is still a
+named RET16 fastcall trap, unvisited by hello so far. Full hello object remains
+incomplete; see cases/hello-basic-inductions.json for references and timings.

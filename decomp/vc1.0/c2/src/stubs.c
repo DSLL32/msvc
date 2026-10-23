@@ -328,7 +328,6 @@ int __fastcall equal_chain_value_ids(Node *left, Node *right) { __asm int 3 }
 void __fastcall invalidate_work_tree(Node *node) { __asm int 3 }
 int __fastcall has_no_later_work_store(Expression *expression) { __asm int 3 }
 
-void collect_basic_region_inductions(void) { __asm int 3 }
 int prepare_region_exit_motion(void) { __asm int 3 }
 void collect_derived_region_inductions(void) { __asm int 3 }
 void combine_region_inductions(void) { __asm int 3 }
@@ -444,5 +443,6 @@ int __fastcall is_subword_mask_pattern(Node *node, unsigned mask) { __asm int 3 
 int __fastcall simple_constant_operation_sign(Node *node) { __asm int 3 }
 Node *__fastcall reverse_subtraction_chain(Node *node, Node *right) { __asm int 3 }
 short __fastcall next_numbered_work(WorkItem *work) { __asm int 3 }
-int __fastcall can_hoist_region_store(Node *node) { __asm int 3 }
 void __fastcall remove_region_candidate(Node *node, int ancestors) { __asm int 3 }
+struct BasicInduction *__fastcall new_basic_induction(Node *assignment, Node *step,
+    WorkItem *work, struct BasicInduction *parent, Node *left, Node *right) { __asm int 3 }

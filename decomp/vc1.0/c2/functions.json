@@ -797,7 +797,11 @@
     "@work_dominates_block@8",
     "@work_dominates_region_backedges@4",
     "@work_dominates_target_predecessors@8",
-    "@classify_region_invariants@4"
+    "@classify_region_invariants@4",
+    "_collect_basic_region_inductions",
+    "@work_is_outside_child_regions@4",
+    "@can_hoist_region_store@4",
+    "@is_region_invariant_value@4"
   ],
   "driver": [
     {
@@ -4636,8 +4640,7 @@
     {
       "name": "_collect_basic_region_inductions",
       "start": 389232,
-      "end": 389233,
-      "provisional": true
+      "end": 389566
     },
     {
       "name": "_prepare_region_exit_motion",
@@ -6150,8 +6153,7 @@
     {
       "name": "@can_hoist_region_store@4",
       "start": 391104,
-      "end": 391105,
-      "provisional": true
+      "end": 391164
     },
     {
       "name": "@remove_region_candidate@8",
@@ -6168,6 +6170,22 @@
       "name": "@work_dominates_target_predecessors@8",
       "start": 389952,
       "end": 390040
+    },
+    {
+      "name": "@work_is_outside_child_regions@4",
+      "start": 389856,
+      "end": 389907
+    },
+    {
+      "name": "@is_region_invariant_value@4",
+      "start": 390528,
+      "end": 390583
+    },
+    {
+      "name": "@new_basic_induction@24",
+      "start": 392304,
+      "end": 392305,
+      "provisional": true
     }
   ],
   "cases": {

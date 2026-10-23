@@ -17,4 +17,9 @@ int simplify_region_exit(void);
 void finish_region_motion(void);
 void rebuild_region_header_references(void);
 void release_region_motion(void);
+struct BasicInduction;
+int __fastcall work_is_outside_child_regions(WorkItem *work);
+int __fastcall is_region_invariant_value(Node *node);
+struct BasicInduction *__fastcall new_basic_induction(Node *assignment, Node *step,
+    WorkItem *work, struct BasicInduction *parent, Node *left, Node *right);
 #endif

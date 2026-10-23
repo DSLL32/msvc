@@ -2,6 +2,8 @@
 #include "region-motion.h"
 #include "expression-fields.h"
 #include "tree-input.h"
+#include "function-input.h"
+#include "work-prepare.h"
 #include <recon.h>
 FlowRegion *hoist_current_region; /* 0007bea8 */
 WorkItem *hoist_entry_work;  /* 0007bea0 */
@@ -167,4 +169,77 @@ int __fastcall classify_region_invariants(Node *node)
     }
     node->attributes.words.flags &= ~0x10;
     return 0;
+}
+
+/* Original0007bc2c: head of arena-4 basic/derived induction records. */
+static struct BasicInduction *basic_region_inductions;
+/* Original [0005f070,0005f1be). Recognize canonical store updates by an
+   invariant increment, excluding nested regions and restricted storage. */
+void collect_basic_region_inductions(void)
+{
+    WorkItem *work;
+    Expression *expression;
+    Node *node, *address, *value;
+    TemporarySymbol *symbol;
+    unsigned attributes;
+    basic_region_inductions = 0;
+    for (work = hoist_first_work; work != hoist_after_work; work = work->next) {
+        for (expression = work->body.expressions; expression; expression = expression->next) {
+            node = expression->tree;
+            if (node->opcode != 0x32) continue;
+            symbol = (TemporarySymbol *)node->right.symbol;
+            if (symbol && symbol->symbol.kind != 0x13) {
+                attributes = symbol->attributes;
+                if ((attributes & 0x2000) || (attributes & 15) == 6) continue;
+                if (!(node->attributes.words.flags & 1) && (attributes & 0x4000)) continue;
+            }
+            if ((node->attributes.words.flags & 0x800) ||
+                !work_is_outside_child_regions(work) || !can_hoist_region_store(node) ||
+                !is_region_invariant_value(node->left.node) ||
+                work->exception_scope != hoist_first_work->exception_scope) continue;
+            address = node->left.node;
+            value = node->second.node;
+            if ((value->opcode == 2 || value->opcode == 3) &&
+                matches_assignment_load(address, value->left.node) &&
+                is_region_invariant_value(value->second.node))
+                new_basic_induction(node, value->second.node, work, 0, 0, 0);
+            if (value->opcode == 2 && matches_assignment_load(address, value->second.node) &&
+                is_region_invariant_value(value->left.node))
+                new_basic_induction(node, value->left.node, work, 0, 0, 0);
+        }
+    }
+}
+
+/* Original [0005f2e0,0005f313). Signed block ranges of immediate nested
+   regions exclude their bodies from the enclosing basic-induction scan. */
+int __fastcall work_is_outside_child_regions(WorkItem *work)
+{
+    FlowRegion *child;
+    for (child = hoist_current_region->children; child; child = child->next)
+        if (child->header->number <= work->number && child->last->number >= work->number)
+            return 0;
+    return 1;
+}
+
+/* Original [0005f7c0,0005f7fc). The store's own canonical candidate is
+   permitted; a second candidate invalidating the same value prevents motion. */
+int __fastcall can_hoist_region_store(Node *node)
+{
+    RegionValue *candidate;
+    unsigned conflicts = 0;
+    for (candidate = hoist_current_region->candidates; candidate; candidate = candidate->next)
+        if (work_effect_invalidates_value(candidate->tree, node) && ++conflicts > 1)
+            return 0;
+    return 1;
+}
+
+/* Original [0005f580,0005f5b7). A numbered value is invariant when it
+   is a leaf, or its expression identifier was classified invariant. */
+int __fastcall is_region_invariant_value(Node *node)
+{
+    unsigned shape = node_shapes[node->opcode];
+    short identifier = node->info.words.identifier;
+    if (!(shape & NODE_VALUE_EXPRESSION) || !identifier) return 0;
+    if ((shape & NODE_ARITY) == NODE_LEAF) return 1;
+    return bitset_contains(hoist_invariant_values, identifier);
 }
