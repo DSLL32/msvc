@@ -101,7 +101,7 @@ def main():
             assert item['native_raw'] == binding['native_owner_value']
         elif binding['kind'] == 'pointee-word':
             anchor = anchors[binding['original_observation_name']]
-            assert item['original_raw'] == anchor['original'] == binding['original_pointee_address'], 'actual argument no longer names observed word'
+            assert item['original_raw'] + binding.get('word_offset', 0) == anchor['original'] == binding['original_pointee_address'], 'actual argument no longer names observed word'
             binding['original_word'] = anchor['value']
             binding['native_word'] = checkpoint[binding['native_pointee_field']]
             assert binding['original_word'] == binding['native_word']

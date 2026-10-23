@@ -127,6 +127,13 @@ int __cdecl equal_first_words(void *left, void *right)
     return *(unsigned *)left == *(unsigned *)right;
 }
 
+/* Original 0x56140..0x56156. Static-member aliases compare stable symbol
+   indices, matching the separate hash_symbol_index callback. */
+int __cdecl equal_symbol_indices(void *left, void *right)
+{
+    return ((CppSymbol *)left)->index == ((CppSymbol *)right)->index;
+}
+
 /* Original 0xa0cc8: equality callbacks indexed independently of hashing. */
 typedef int (__cdecl *EqualKeys)(void *left, void *right);
 int __cdecl equal_pointer(void *left, void *right);

@@ -120,7 +120,7 @@ def main():
             assert formal['native_raw']==binding['native_owner_value']==owner['value']
         elif binding['kind']=='pointee-word':
             anchor=anchors[binding['original_observation_name']]
-            assert formal['original_raw']==anchor['original']==binding['original_pointee_address'], 'actual argument no longer names observed word'
+            assert formal['original_raw']+binding.get('word_offset',0)==anchor['original']==binding['original_pointee_address'], 'actual argument no longer names observed word'
             assert binding['original_word']==anchor['value']==binding['native_word']==entry_native[binding['native_pointee_field']], 'observed actual input word differs'
             if binding.get('native_semantic_owner_field'):
                 assert binding['native_word']==entry_native[binding['native_semantic_owner_field']], 'semantic input owner differs'

@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_equal_symbol_indices",
+    "start": 352576,
+    "end": 352598
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1068-equal_symbol_indices/arguments/validation.json",
+  "distinct_direct_callees": [],
+  "next_frontier": "_prepare_symbol_debug_type@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.42763662431389093,
+  "total_operation_seconds": 3.243364479392767,
+  "original_capture_seconds": 0.8665620153769851
+}
