@@ -4,6 +4,11 @@ This is a reviewable plan, not an executed capture. No status, output, applicati
 extent or service-boundary equivalence is assumed. Use the common CF loader,
 masker and observer work coordinated by WCC386; do not introduce a fake PE image.
 
+The two unmodified baseline runs described below were subsequently approved and
+executed: both exit 1 with identical 6,228-byte stdout, empty stderr and no created
+files. See `reference/baseline-receipt.json`. The observer/masking phases remain
+unexecuted; `observer-proposal.md` separates the next launch-only preflight.
+
 ## Invocation and environment
 
 Create fixed empty work directory

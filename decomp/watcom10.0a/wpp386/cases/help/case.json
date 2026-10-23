@@ -1,9 +1,11 @@
 {
   "id": "help",
-  "status": "planned-not-captured",
+  "status": "unmodified-baseline-captured; reconstruction-not-started",
   "logical_target": "toolchains/watcom10.0a/binb/WPP386.EXE",
   "reference_launcher": "toolchains/watcom10.0a/binnt/WPP386.EXE",
-  "argv": ["?"],
+  "argv": [
+    "?"
+  ],
   "stdin": "empty redirected file",
   "stdout": "redirected binary capture",
   "stderr": "redirected binary capture",
@@ -18,7 +20,15 @@
     "Capture raw output twice to establish stability; normalize only independently identified clock fields.",
     "No fixture runner may launch Wine or perform a reference capture."
   ],
-  "expected_status": null,
-  "expected_artifacts": null,
-  "accepted_functions": []
+  "expected_status": 1,
+  "expected_artifacts": [],
+  "accepted_functions": [],
+  "baseline_reference": {
+    "receipt": "reference/baseline-receipt.json",
+    "stdin": "reference/stdin.bin",
+    "stdout": "reference/stdout.bin",
+    "stderr": "reference/stderr.bin",
+    "repeat_byte_identical": true,
+    "normalizations": []
+  }
 }

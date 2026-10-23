@@ -1,6 +1,11 @@
 # WPP386 10.0a
 
-Groundwork only; no original execution or accepted functions yet. `make inspect`
+Groundwork only; no accepted functions yet. Two explicitly approved unmodified
+bare-`?` baselines displayed actual help, exited 1, produced identical 6,228-byte
+stdout, empty stderr and no artifacts (0.265 seconds per execution). Raw masters
+and the full receipt are under `cases/help/reference/`; no normalization was used.
+These captures do not establish reconstructed behavior or a native fixture pass.
+`make inspect`
 validates the copied payload/stub and reports CF header/relocation facts without
 executing either. `make native`, `make original`, and `make fixtures` deliberately
 fail until their prerequisites are implemented. The `src/main.c` INT3 scaffold
@@ -35,9 +40,9 @@ The CF relocation stream has 15,085 writes in twelve groups. The original file
 also has 24 bytes after the loaded payload, containing its patch-level marker;
 these bytes are not loaded and are not counted as reconstructed data.
 
-The help proposal uses bare `?` with redirected handles, as supported by the later
-source; the actual 1994 behavior, paging, status and streams must be captured.
-`cases/help/case.json` records the proposal without fabricated master outputs.
+The help case uses bare `?` with redirected handles. Actual 1994 output confirms
+this invocation displays help without paging or input. `cases/help/case.json`
+records its captured baseline and the still-pending observer requirements.
 
 The user selected ordinary GCC i386 ABIs for native tests, and exact original
 Watcom ABIs for the original-toolchain build and its audit. Native observers must

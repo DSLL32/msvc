@@ -1,0 +1,80 @@
+{
+  "kind": "explicit-unmodified-original-baseline",
+  "accepted_functions": 0,
+  "masked": false,
+  "command_argv": [
+    "/usr/bin/wine",
+    "R:\\toolchains\\watcom10.0a\\binnt\\WPP386.EXE",
+    "?"
+  ],
+  "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wpp386/help/work",
+  "windows_cwd_expected": "S:\\watcom10.0a\\wpp386\\help\\work",
+  "host_launch_environment": {
+    "HOME": "/root",
+    "USER": "root",
+    "LOGNAME": "root",
+    "PATH": "/usr/bin:/bin",
+    "WINEPREFIX": "/root/.ai-tmp/vc1.0-capture/wine",
+    "WINEDEBUG": "-all",
+    "LC_ALL": "C",
+    "LANG": "C",
+    "TZ": "UTC",
+    "WATCOM": "R:\\toolchains\\watcom10.0a"
+  },
+  "windows_environment_observed": false,
+  "image_sha256": {
+    "binb/WPP386.EXE": "647f4e754cd27fc76b3c44a47227ae3baa4ff2e2f253a8ec27216414653b1e6f",
+    "binnt/WPP386.EXE": "8fee7d6ab3f2c06a0a874135e3898386898679e7dd53993fcc508e296364767d"
+  },
+  "capture_script_sha256": "370ea7684e45cbf8029b5dbbfff90c34153f9c74ce932b138695a0d1fe28618f",
+  "runs": [
+    {
+      "run": "reference-a",
+      "status": 1,
+      "timed_out": false,
+      "stdin": {
+        "size": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "input_inventory": [],
+      "output_inventory": [],
+      "stdout": {
+        "size": 6228,
+        "sha256": "3239e0742addd8e122125aae86ee02d9362a324203dd02f75da4b5f3bdcc14d9"
+      },
+      "stderr": {
+        "size": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "actual_1994_help_marker": true,
+      "setup_seconds": 0.0003250548616051674,
+      "execution_seconds": 0.26493688579648733,
+      "checks_seconds": 0.0007226923480629921
+    },
+    {
+      "run": "reference-b",
+      "status": 1,
+      "timed_out": false,
+      "stdin": {
+        "size": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "input_inventory": [],
+      "output_inventory": [],
+      "stdout": {
+        "size": 6228,
+        "sha256": "3239e0742addd8e122125aae86ee02d9362a324203dd02f75da4b5f3bdcc14d9"
+      },
+      "stderr": {
+        "size": 0,
+        "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+      },
+      "actual_1994_help_marker": true,
+      "setup_seconds": 0.0004298454150557518,
+      "execution_seconds": 0.2648186422884464,
+      "checks_seconds": 0.0007179854437708855
+    }
+  ],
+  "raw_runs_equal": true,
+  "normalizations": []
+}
