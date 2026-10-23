@@ -61,6 +61,13 @@ cached original references. Never silently recapture or run originals on each
 regression. Filter CRT/import/shim entries on both sides, seed accepted prefixes,
 and share seen-state across synchronous children. Retain ABI/function-graph audits.
 
+Use `tooling/graph-audit/` for function graph discovery and comparison, with the
+applicable check flags. Retain separate target-specific checks where needed;
+report common gaps to the tool maintainer and orchestrating agent.
+Build through `graph-audit.mk` or `build-quiet.sh`, then invoke the binary directly.
+Keep successful Cargo warnings/build chatter in logs; show the tool's output and
+errors, and build diagnostics if compilation fails. Do not use `cargo run` per audit.
+
 Fixtures must never invoke Wine, directly or through helpers/children. Capture
 inputs and outputs of otherwise-required Windows invocations beforehand. Verify
 invocation and complete input before replaying captured responses; unknown
