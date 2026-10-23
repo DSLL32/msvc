@@ -1,0 +1,14 @@
+:Base MSORCL10
+:Title Microsoft ODBC Driver for Oracle
+1 Overview=IDH_Overview>main
+1 Setting Up the Microsoft ODBC Driver for Oracle
+2 System Requirements=System_Requirements>main
+1 Using the Microsoft ODBC Driver for Oracle
+2 Adding and Modifying Data Sources=Adding_and_Modifying_Data_Sources>main
+2 Using the ODBC Administrator=Using_the_ODBC_Administrator>main
+2 Connecting to a Data Source=Connecting_to_a_Data_Source>main
+1 Technical Reference
+2 ODBC Conformance Levels=ODBC_Conformance_Levels>main
+2 Mapping Data Types=Mapping_Data_Types>main
+1 Error Messages
+2 Error Messages=Error_Messages>main

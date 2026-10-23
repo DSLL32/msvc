@@ -1,0 +1,42 @@
+{
+  "state": "groundwork-held",
+  "checks": [
+    {
+      "target": "inspect",
+      "status": 0,
+      "elapsed_seconds": 0.05027877353131771,
+      "expected_status": 0
+    },
+    {
+      "target": "native",
+      "status": 2,
+      "elapsed_seconds": 0.021691969595849514,
+      "expected_status": 2
+    },
+    {
+      "target": "original",
+      "status": 2,
+      "elapsed_seconds": 0.020590989850461483,
+      "expected_status": 2
+    },
+    {
+      "target": "fixtures",
+      "status": 2,
+      "elapsed_seconds": 0.021784190088510513,
+      "expected_status": 2
+    },
+    {
+      "target": "audit",
+      "status": 2,
+      "elapsed_seconds": 0.020819428376853466,
+      "expected_status": 2
+    }
+  ],
+  "python_source_files_checked": 3,
+  "inventory_matches_actual_target": true,
+  "help_probe_bytes_verified": true,
+  "functions_reconstructed": 0,
+  "functions_accepted": 0,
+  "wine_invoked_during_checks": false,
+  "shared_wine_health_hold_refused_probe_before_directory_creation": true
+}

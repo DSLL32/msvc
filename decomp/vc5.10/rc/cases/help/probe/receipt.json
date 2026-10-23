@@ -1,0 +1,26 @@
+{
+  "kind": "unmodified-original-groundwork-probe",
+  "not_reconstruction_acceptance": true,
+  "case": "help",
+  "argv": [
+    "/help"
+  ],
+  "executable_sha256": "c9f7e207bbae4be91baf6db564bd6b7f660d10287ea46302c792c3dd27b05399",
+  "rcdll_sha256": "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0",
+  "prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "cwd": "/root/.ai-tmp/msvc2/vc5.10/rc/help",
+  "elapsed_seconds": 5.582351011224091,
+  "exit_status": 0,
+  "streams": {
+    "stdout": {
+      "bytes": 589,
+      "sha256": "e5220dc952d908c903a0aae287e9ab3d5a35872aef56f593f3ad2568441423a1"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "inputs": {},
+  "output": null
+}

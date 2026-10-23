@@ -1,0 +1,319 @@
+{
+  "schema": 1,
+  "stage": "groundwork-only",
+  "target": "toolchains/5.10/bin/CVPACK.EXE",
+  "sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+  "file_size": 74240,
+  "machine": "0x14c",
+  "coff_timestamp": 861913374,
+  "characteristics": "0x10f",
+  "image_base": "0x400000",
+  "entry_rva": "0x10330",
+  "entry_va": "0x410330",
+  "subsystem": 3,
+  "resource_file_version": [
+    5,
+    0,
+    0,
+    7113
+  ],
+  "sections": [
+    {
+      "name": ".text",
+      "virtual_size": 62662,
+      "rva": 4096,
+      "raw_size": 62976,
+      "raw_offset": 1024,
+      "characteristics": "0x60000020"
+    },
+    {
+      "name": ".rdata",
+      "virtual_size": 1212,
+      "rva": 69632,
+      "raw_size": 1536,
+      "raw_offset": 64000,
+      "characteristics": "0x40000040"
+    },
+    {
+      "name": ".data",
+      "virtual_size": 15040,
+      "rva": 73728,
+      "raw_size": 1536,
+      "raw_offset": 65536,
+      "characteristics": "0xc0000040"
+    },
+    {
+      "name": ".idata",
+      "virtual_size": 1590,
+      "rva": 90112,
+      "raw_size": 2048,
+      "raw_offset": 67072,
+      "characteristics": "0xc0000040"
+    },
+    {
+      "name": ".rsrc",
+      "virtual_size": 5092,
+      "rva": 94208,
+      "raw_size": 5120,
+      "raw_offset": 69120,
+      "characteristics": "0x40000040"
+    }
+  ],
+  "imports": [
+    {
+      "dll": "mspdb50.dll",
+      "symbols": [
+        {
+          "name": "PDBOpen"
+        },
+        {
+          "name": "?fCreate@WidenTi@@SAHAAPAU1@IH@Z"
+        },
+        {
+          "name": "PDBQuerySignature"
+        },
+        {
+          "name": "PDBQueryAge"
+        },
+        {
+          "name": "PDBExportValidateInterface"
+        },
+        {
+          "name": "PDBClose"
+        },
+        {
+          "name": "PDBOpenTpi"
+        },
+        {
+          "name": "TypesQueryTiMinEx"
+        },
+        {
+          "name": "TypesQueryTiMacEx"
+        },
+        {
+          "name": "TypesQueryPbCVRecordForTiEx"
+        },
+        {
+          "name": "TypesClose"
+        }
+      ],
+      "shipped_path": "toolchains/5.10/bin/MSPDB50.DLL",
+      "shipped_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33"
+    },
+    {
+      "dll": "MSVCRT.dll",
+      "symbols": [
+        {
+          "name": "realloc"
+        },
+        {
+          "name": "_chsize"
+        },
+        {
+          "name": "calloc"
+        },
+        {
+          "name": "_close"
+        },
+        {
+          "name": "_stat"
+        },
+        {
+          "name": "_sopen"
+        },
+        {
+          "name": "free"
+        },
+        {
+          "name": "_read"
+        },
+        {
+          "name": "_lseek"
+        },
+        {
+          "name": "_write"
+        },
+        {
+          "name": "malloc"
+        },
+        {
+          "name": "memmove"
+        },
+        {
+          "name": "fprintf"
+        },
+        {
+          "name": "exit"
+        },
+        {
+          "name": "_setmode"
+        },
+        {
+          "name": "_strdup"
+        },
+        {
+          "name": "_except_handler3"
+        },
+        {
+          "name": "_strcmpi"
+        },
+        {
+          "name": "toupper"
+        },
+        {
+          "name": "printf"
+        },
+        {
+          "name": "_makepath"
+        },
+        {
+          "name": "_iob"
+        },
+        {
+          "name": "puts"
+        },
+        {
+          "name": "sprintf"
+        },
+        {
+          "name": "qsort"
+        },
+        {
+          "name": "strncmp"
+        },
+        {
+          "name": "memcmp"
+        },
+        {
+          "name": "fflush"
+        },
+        {
+          "name": "_mbsicmp"
+        },
+        {
+          "name": "_mbsnbcpy"
+        },
+        {
+          "name": "_mbsnbicmp"
+        },
+        {
+          "name": "_exit"
+        },
+        {
+          "name": "_XcptFilter"
+        },
+        {
+          "name": "__p___initenv"
+        },
+        {
+          "name": "__getmainargs"
+        },
+        {
+          "name": "_initterm"
+        },
+        {
+          "name": "__setusermatherr"
+        },
+        {
+          "name": "_adjust_fdiv"
+        },
+        {
+          "name": "__p__commode"
+        },
+        {
+          "name": "__p__fmode"
+        },
+        {
+          "name": "__set_app_type"
+        },
+        {
+          "name": "_controlfp"
+        },
+        {
+          "name": "__p__pgmptr"
+        },
+        {
+          "name": "_splitpath"
+        }
+      ],
+      "shipped_path": "toolchains/5.10/bin/MSVCRT.DLL",
+      "shipped_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "symbols": [
+        {
+          "name": "GetModuleHandleA"
+        },
+        {
+          "name": "LoadLibraryA"
+        },
+        {
+          "name": "CreateFileMappingA"
+        },
+        {
+          "name": "MapViewOfFileEx"
+        },
+        {
+          "name": "UnmapViewOfFile"
+        },
+        {
+          "name": "SetFilePointer"
+        },
+        {
+          "name": "SetEndOfFile"
+        },
+        {
+          "name": "CloseHandle"
+        },
+        {
+          "name": "CreateFileA"
+        },
+        {
+          "name": "GetProcAddress"
+        },
+        {
+          "name": "GetFileSize"
+        }
+      ],
+      "shipped_path": null,
+      "shipped_sha256": null
+    }
+  ],
+  "export_directory": {
+    "rva": 0,
+    "size": 0
+  },
+  "relocation_directory": {
+    "rva": 0,
+    "size": 0
+  },
+  "debug_directory": {
+    "rva": 0,
+    "size": 0
+  },
+  "tls_directory": {
+    "rva": 0,
+    "size": 0
+  },
+  "compiler_inputs": [
+    {
+      "path": "toolchains/5.10/bin/CL.EXE",
+      "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd"
+    },
+    {
+      "path": "toolchains/5.10/bin/C1.DLL",
+      "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"
+    },
+    {
+      "path": "toolchains/5.10/bin/C2.EXE",
+      "sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae"
+    },
+    {
+      "path": "toolchains/5.10/bin/LINK.EXE",
+      "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579"
+    }
+  ],
+  "accepted_functions": 0,
+  "reconstruction_started": false
+}

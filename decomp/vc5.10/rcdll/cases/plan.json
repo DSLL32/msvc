@@ -1,0 +1,142 @@
+{
+  "schema": 1,
+  "state": "groundwork-only",
+  "reconstruction_released": false,
+  "accepted_functions": [],
+  "target": "toolchains/5.10/bin/RCDLL.DLL",
+  "project": "vc5.10",
+  "source_seeds": [
+    {
+      "origin": "decomp/vc1.0/fixtures/resources-rich/source/assets/messages.bin",
+      "destination": "cases/resources-rich/source/assets/messages.bin",
+      "sha256": "27fbf6c0451b6521d19618032f26de4be6ae744c37082ec0917aa4afe89efccc",
+      "kind": "input-only; not a vc5.10 oracle"
+    },
+    {
+      "origin": "decomp/vc1.0/fixtures/resources-rich/source/assets/multi.ico",
+      "destination": "cases/resources-rich/source/assets/multi.ico",
+      "sha256": "4eafdacd795611297df4cd4dd5774d0955d0f12c644e1cd17d729e0e1168204d",
+      "kind": "input-only; not a vc5.10 oracle"
+    },
+    {
+      "origin": "decomp/vc1.0/fixtures/resources-rich/source/assets/pattern.bmp",
+      "destination": "cases/resources-rich/source/assets/pattern.bmp",
+      "sha256": "d28d27e861fc34d7599df0b7bb3cdd02f8ddbc985daa846f9d06a5004757904f",
+      "kind": "input-only; not a vc5.10 oracle"
+    },
+    {
+      "origin": "decomp/vc1.0/fixtures/resources-rich/source/assets/payload.bin",
+      "destination": "cases/resources-rich/source/assets/payload.bin",
+      "sha256": "20c1bef1846bc87953a2663d95185cd5e33ad97a534899ed892a02f5a1a81590",
+      "kind": "input-only; not a vc5.10 oracle"
+    },
+    {
+      "origin": "decomp/vc1.0/fixtures/resources-rich/source/assets/pointer.cur",
+      "destination": "cases/resources-rich/source/assets/pointer.cur",
+      "sha256": "38904338263e5c23802d4961ece21222b3997f466887a0fb052994d0d3794d4a",
+      "kind": "input-only; not a vc5.10 oracle"
+    },
+    {
+      "origin": "decomp/vc1.0/fixtures/resources-rich/source/include/features.h",
+      "destination": "cases/resources-rich/source/include/features.h",
+      "sha256": "7b7fb5c3c82eb19ae662105631fbd1b02a4b313b7055453249976ac7714c2070",
+      "kind": "input-only; not a vc5.10 oracle"
+    },
+    {
+      "origin": "decomp/vc1.0/fixtures/resources-rich/source/include/nested/values.h",
+      "destination": "cases/resources-rich/source/include/nested/values.h",
+      "sha256": "edcf2670a9f6af506a4ba80a5a3fab40619a765bb2d2dd50f149f9fffed5ef51",
+      "kind": "input-only; not a vc5.10 oracle"
+    },
+    {
+      "origin": "decomp/vc1.0/fixtures/resources-rich/source/resource.h",
+      "destination": "cases/resources-rich/source/resource.h",
+      "sha256": "8928ffb8acb0481e8775ca63dc0104143af852929b71c6459fd6889f4f93d8d8",
+      "kind": "input-only; not a vc5.10 oracle"
+    },
+    {
+      "origin": "decomp/vc1.0/fixtures/resources-rich/source/resources.rc",
+      "destination": "cases/resources-rich/source/resources.rc",
+      "sha256": "47f13f702adfbcfc05a40ab9ce1a27cb22730e33f888be81e276ac424dc41881",
+      "kind": "input-only; not a vc5.10 oracle"
+    },
+    {
+      "origin": "decomp/vc1.0/fixtures/rcpp-followups/source/features.rc",
+      "destination": "cases/preprocessor/source/features.rc",
+      "sha256": "1aadb3a0996336eca6d7ad6ed35e37a0d78e3a18735dc4766468354870d4f35c",
+      "kind": "input-only; not a vc5.10 oracle"
+    },
+    {
+      "origin": "decomp/vc1.0/fixtures/rcpp-followups/source/include/values.h",
+      "destination": "cases/preprocessor/source/include/values.h",
+      "sha256": "51f0abc937c8cd89d5ef3515b2b58830308f7b7490f02b0f8d84b8624c59a3ca",
+      "kind": "input-only; not a vc5.10 oracle"
+    }
+  ],
+  "cases": [
+    {
+      "id": "help",
+      "priority": 1,
+      "driver": "original RC.EXE /help; native ABI harness later",
+      "args": [
+        "/help"
+      ],
+      "reference_state": "RC worker probes original driver; no RCDLL native oracle yet"
+    },
+    {
+      "id": "resources-rich",
+      "priority": 2,
+      "source": "cases/resources-rich/source/resources.rc",
+      "args": [
+        "/r",
+        "/dCASE_FROM_COMMAND=7",
+        "/iinclude",
+        "/foresources.res",
+        "resources.rc"
+      ],
+      "reference_state": "uncaptured; VC1 source only",
+      "features": [
+        "include",
+        "macro",
+        "ifdef",
+        "if",
+        "menu",
+        "dialog",
+        "stringtable",
+        "icon",
+        "bitmap",
+        "cursor",
+        "accelerators",
+        "RCDATA",
+        "custom resource",
+        "messagetable",
+        "VERSIONINFO",
+        "languages"
+      ]
+    },
+    {
+      "id": "preprocessor",
+      "priority": 3,
+      "source": "cases/preprocessor/source/features.rc",
+      "reference_state": "analysis input only; raw token output is not a valid resource case",
+      "features": [
+        "macro expansion",
+        "conditional expressions",
+        "pragmas",
+        "line directives"
+      ]
+    }
+  ],
+  "gates": [
+    "Root approval of DLL lifecycle/ABI/state capture workflow",
+    "Rust graph-audit tool readiness and root release",
+    "Fresh original RCDLL-specific references before fixture acceptance"
+  ],
+  "environment": {
+    "wineprefix": "~/.ai-tmp/vc1.0-capture/wine",
+    "repo_drive": "R:",
+    "scratch_drive": "S:",
+    "scratch_subdir": "vc5.10/rcdll",
+    "native_fixtures_may_use_wine": false
+  }
+}

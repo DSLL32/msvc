@@ -1,0 +1,3 @@
+test.c
+`R:\toolchains\5.10\bin\c1.dll -il .\a01424 -f test.c -W 1 -Ze -D_MSC_EXTENSIONS -Zp8 -ZB64 -D_INTEGRAL_MAX_BITS=64 -D_M_IX86=500 -G5 -Gs -Ot -Ob0 -Fotest.obj -pc \:/ -Fdvc50.pdb -D_MSC_VER=1100 -D_WIN32 -nologo -Bd -I R:\toolchains\5.10\include'
+`R:\toolchains\5.10\bin\c2.exe -il .\a01424 -f test.c -W 1 -G5 -Gs4096 -dos -Fotest.obj -ML -Fdvc50.idb -Bd'

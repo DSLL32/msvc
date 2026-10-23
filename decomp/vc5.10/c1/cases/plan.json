@@ -1,0 +1,157 @@
+{
+  "schema_version": 1,
+  "project": "vc5.10",
+  "target": "toolchains/5.10/bin/C1.DLL",
+  "status": "groundwork-only",
+  "release_gates": [
+    "Agree DLL original/native lifecycle and module-relative trap identities",
+    "Rust graph audit ready and verified across existing reconstructions",
+    "Explicit orchestrator release before reconstruction"
+  ],
+  "reference_policy": "Source-only seeds; no vc1.0 artifacts, traces, IR, or expected output are 5.10 references. Freeze real CL-to-C1 invocation before acceptance.",
+  "shared_prefix": "~/.ai-tmp/vc1.0-capture/wine",
+  "scratch_windows": "S:\\vc5.10\\c1",
+  "capture_environment_to_freeze": [
+    "Actual DLL paths and hashes, provider loading and overrides",
+    "Full argc/argv passed by CL, including argv[0] and the third mode slot",
+    "Current directory, CL/INCLUDE/LIB/PATH and compiler-specific inherited variables",
+    "Descriptor aliases and complete initial case files",
+    "Output IR, streams, status, resource/PDB dependency requests",
+    "Explicit DLL process attach/export/cleanup/detach order"
+  ],
+  "cases": [
+    {
+      "order": 1,
+      "id": "minimal",
+      "status": "source-only-unvalidated",
+      "proposed_driver_argv": [
+        "/nologo",
+        "/c",
+        "test.c"
+      ],
+      "driver_argv_is_not_DLL_argv": true,
+      "inputs": [
+        {
+          "path": "cases/minimal/inputs/test.c",
+          "source": "decomp/vc1.0/fixtures/minimal-c/c1/test.c",
+          "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2"
+        }
+      ],
+      "expected": null
+    },
+    {
+      "order": 2,
+      "id": "comments",
+      "status": "source-only-unvalidated",
+      "proposed_driver_argv": [
+        "/nologo",
+        "/C",
+        "/E",
+        "test.c"
+      ],
+      "driver_argv_is_not_DLL_argv": true,
+      "inputs": [
+        {
+          "path": "cases/comments/inputs/case.h",
+          "source": "decomp/vc1.0/c1/cases/comments/inputs/c1/case.h",
+          "sha256": "e20f27e18ecc85387b6ed98747280ded9846e8b91d5fe0c8579aa104224f6612"
+        },
+        {
+          "path": "cases/comments/inputs/test.c",
+          "source": "decomp/vc1.0/c1/cases/comments/inputs/c1/test.c",
+          "sha256": "425deaa66fa8456b9a4f120307f24b9813696e647e638bdcf86a78e8cf463997"
+        }
+      ],
+      "expected": null
+    },
+    {
+      "order": 3,
+      "id": "numeric-varargs",
+      "status": "source-only-unvalidated",
+      "proposed_driver_argv": [
+        "/nologo",
+        "/c",
+        "/Zi",
+        "numeric-varargs.c"
+      ],
+      "driver_argv_is_not_DLL_argv": true,
+      "inputs": [
+        {
+          "path": "cases/numeric-varargs/inputs/numeric-varargs.c",
+          "source": "decomp/vc1.0/c1/cases/numeric-varargs/c1/numeric-varargs.c",
+          "sha256": "3e1980aab6321f276f562c3120192fd2b1efe1af286fd0daca1fd03546edcc25"
+        }
+      ],
+      "expected": null
+    },
+    {
+      "order": 4,
+      "id": "embedded-codeview",
+      "status": "source-only-unvalidated",
+      "proposed_driver_argv": [
+        "/nologo",
+        "/c",
+        "/Z7",
+        "types.c"
+      ],
+      "driver_argv_is_not_DLL_argv": true,
+      "inputs": [
+        {
+          "path": "cases/embedded-codeview/inputs/types.c",
+          "source": "decomp/vc1.0/c1/cases/embedded-codeview/inputs/types.c",
+          "sha256": "9b6dca5c9481e403429e7b8c290f637458b7f9e4049bd09e034f102bba126a18"
+        }
+      ],
+      "expected": null
+    },
+    {
+      "order": 5,
+      "id": "repeated-minimal",
+      "status": "planned-no-reference",
+      "reuses_inputs": "minimal",
+      "purpose": "Two InvokeCompilerPass calls within one attached DLL instance; prove reset/init/cleanup order separately from process lifecycle",
+      "requires": "Explicit host contract capture and approved same-process harness",
+      "expected": null
+    }
+  ],
+  "observed_minimal_bd_host_case": {
+    "manifest": "decomp/vc5.10/cl/cases/original-probes/host-contract-2/manifest.json",
+    "kind": "original-only observation; not reconstruction acceptance",
+    "argv": [
+      "R:\\toolchains\\5.10\\bin\\c1.dll",
+      "-il",
+      ".\\a01396",
+      "-f",
+      "test.c",
+      "-W",
+      "1",
+      "-Ze",
+      "-D_MSC_EXTENSIONS",
+      "-Zp8",
+      "-ZB64",
+      "-D_INTEGRAL_MAX_BITS=64",
+      "-D_M_IX86=500",
+      "-G5",
+      "-Gs",
+      "-Ot",
+      "-Ob0",
+      "-Fotest.obj",
+      "-pc",
+      "\\:/",
+      "-Fdvc50.pdb",
+      "-D_MSC_VER=1100",
+      "-D_WIN32",
+      "-nologo",
+      "-Bd",
+      "-I",
+      "R:\\toolchains\\5.10\\include"
+    ],
+    "argc": 27,
+    "boolean_argument": 1,
+    "dll_load_event": 22,
+    "attach_entry_trap_event": 23,
+    "invoke_event": 25,
+    "detach_entry_trap_event": 27,
+    "nonpreferred_base_verified": false
+  }
+}

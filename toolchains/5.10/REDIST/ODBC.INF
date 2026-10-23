@@ -1,0 +1,164 @@
+
+[Source Media Descriptions]
+	"1","ODBC 3.0","setup.exe","."
+
+[Default File Settings]
+"STF_VITAL"="YES"
+"STF_TIME"="0"
+"STF_SETTIME"="YES"
+"STF_ROOT"=""
+"STF_READONLY"=""
+"STF_OVERWRITE"="ALWAYS"
+"STF_DECOMPRESS"="YES"
+"STF_COPY"="YES"
+"STF_BACKUP"=""
+
+[MSVC42]
+"Msvcrt42"=1,msvcrt.dll,,,,1996-08-24,,,,,,,,,,266240,,,,4.0020.0000.6164,
+
+[SQL Server Demo Driver]
+"SQL65 SP1 Driver"=1,Xqlsrv32.dll,,,,1996-07-30,,,,,,sqlsrv32.dll,,,,244224,,,,2.0065.0002.0013,
+"Network"=1,dbnmpntw.dll,,,,1996-07-30,,,,,,,,,,23552,,,,1996.0007.0015.0000,
+"Driver"=1,sqlsrv32.dll,,,,1996-09-18,,,,,,sql3demo.dll,,,,350208,,,,3.0000.0000.0075,
+
+[SQL Server Driver Specific Include File]
+"odbcss.h"=1,odbcss.h,,,,1996-09-03,,,,,,,,,,18037,,,,,
+
+[MS CP Translators]
+"Code Page 437"=1,12520437.cpx,,,,1996-08-25,,,,,,,,,,2151,,,,,
+"Code Page 850"=1,12520850.cpx,,,,1996-08-25,,,,,,,,,,2233,,,,,
+"Setup"=1,mscpxl32.dll,,,,1996-09-18,,,,,,,,,,18432,,,,3.0000.0000.0075,
+
+[ODBC Test Tools]
+"gatortst"=1,gtrtst32.dll,,,,1996-10-26,,,,,,,,,,90624,,,,3.0000.0022.0025,
+"quicktest"=1,quiktest.dll,,,,1996-10-26,,,,,,,,,,154112,,,,3.0000.0022.0025,
+"gator"=1,odbcte32.exe,,,,1996-10-26,,,,,,,,,,659968,,,,3.0000.0022.0025,
+
+[ODBC Test Help]
+"gtrhelp2"=1,odbctest.cnt,,,,1996-09-14,,,,,,,,,,19944,,,,,
+"gtrhelp1"=1,odbctest.hlp,,,,1996-10-26,,,,,,,,,,57722,,,,,
+
+[Compiled Samples]
+"admndemo.exe"=1,admndemo.exe,,,,1996-10-26,,,,,,,,,,86528,,,,,
+"qurydemo.exe"=1,qurydemo.exe,,,,1996-10-28,,,,,,,,,,34816,,,,,
+"crsrdemo.exe"=1,crsrdemo.exe,,,,1996-10-26,,,,,,,,,,54784,,,,,
+
+[SQL Server Help Files]
+"SQL Server"=1,sql65.hlp,,,,1996-10-23,,,,,,drvssrvr.hlp,,,,87427,,,,,
+
+[ODBC QuickTest Sample]
+"build.bat"=1,qtbuild.bat,,,,1996-09-20,,,,,,build.bat,,,,3017,,,,,
+"makefile"=1,qtmake.mak,,,,1996-09-18,,,,,,makefile,,,,5742,,,,,
+"custom.rc"=1,custom.rc,,,,1996-08-21,,,,,,,,,,731,,,,,
+"quiktest.rc"=1,quiktest.rc,,,,1996-08-21,,,,,,,,,,1278,,,,,
+"dllstub.c"=1,dllstub.c,,,,1996-08-21,,,,,,,,,,2586,,,,,
+"custom.h"=1,custom.h,,,,1996-08-21,,,,,,,,,,738,,,,,
+"custom.c"=1,custom.c,,,,1996-08-21,,,,,,,,,,14992,,,,,
+"autotest.h"=1,autotest.h,,,,1996-08-21,,,,,,,,,,4205,,,,,
+"quiktest.h"=1,quiktest.h,,,,1996-08-21,,,,,,,,,,12374,,,,,
+"quiktest.c"=1,quiktest.c,,,,1996-09-03,,,,,,,,,,224939,,,,,
+
+[ODBC Cursor Sample]
+"build.bat"=1,crsrdemo.bat,,,,1996-10-11,,,,,,build.bat,,,,1648,,,,,
+"makefile"=1,crsrdemo.mak,,,,1996-10-11,,,,,,makefile,,,,3690,,,,,
+"frame.c"=1,frame.c,,,,1996-09-20,,,,,,,,,,16079,,,,,
+"dialogs.c"=1,cdialogs.c,,,,1996-09-05,,,,,,dialogs.c,,,,40616,,,,,
+"crsrdemo.rc"=1,crsrdemo.rc,,,,1996-10-07,,,,,,,,,,16146,,,,,
+"crsrdemo.h"=1,crsrdemo.h,,,,1996-09-20,,,,,,,,,,15263,,,,,
+"crsrdemo.c"=1,crsrdemo.c,,,,1996-09-20,,,,,,,,,,11985,,,,,
+"child.c"=1,child.c,,,,1996-09-27,,,,,,,,,,84567,,,,,
+"resource.h"=1,resource.h,,,,1996-08-24,,,,,,,,,,7208,,,,,
+"headers.h"=1,headers.h,,,,1996-08-24,,,,,,,,,,520,,,,,
+"headers.c"=1,headers.c,,,,1996-08-24,,,,,,,,,,417,,,,,
+"crsrdemo.ico"=1,crsrdemo.ico,,,,1996-08-21,,,,,,,,,,766,,,,,
+"crsrdemo.def"=1,crsrdemo.def,,,,1996-08-21,,,,,,,,,,438,,,,,
+"child.ico"=1,child.ico,,,,1996-08-21,,,,,,,,,,766,,,,,
+
+[ODBC Query Sample]
+"makefile"=1,qurymak.mak,,,,1996-10-11,,,,,,makefile,,,,2852,,,,,
+"build.bat"=1,qurybld.bat,,,,1996-10-11,,,,,,build.bat,,,,1491,,,,,
+"query.c"=1,query.c,,,,1996-10-03,,,,,,,,,,45979,,,,,
+"qurydemo.rc"=1,qurydemo.rc,,,,1996-10-07,,,,,,,,,,4362,,,,,
+"qurydemo.h"=1,qurydemo.h,,,,1996-10-03,,,,,,,,,,13583,,,,,
+"main.c"=1,main.c,,,,1996-09-17,,,,,,,,,,50216,,,,,
+"runquery.bmp"=1,runquery.bmp,,,,1996-08-21,,,,,,,,,,358,,,,,
+"qurydemo.ico"=1,qurydemo.ico,,,,1996-08-21,,,,,,,,,,766,,,,,
+"querydemo.def"=1,qurydemo.def,,,,1996-08-21,,,,,,,,,,534,,,,,
+"querywdw.ico"=1,querywdw.ico,,,,1996-08-21,,,,,,,,,,766,,,,,
+"newquery.bmp"=1,newquery.bmp,,,,1996-08-21,,,,,,,,,,358,,,,,
+
+[ODBC Admin Sample]
+"build.bat"=1,ademo.bat,,,,1996-10-11,,,,,,build.bat,,,,1602,,,,,
+"makefile"=1,ademo.mak,,,,1996-10-11,,,,,,makefile,,,,4225,,,,,
+"admndemo.def"=1,admndemo.def,,,,1996-09-17,,,,,,,,,,236,,,,,
+"results.ico"=1,results.ico,,,,1996-09-17,,,,,,,,,,766,,,,,
+"connect.ico"=1,connect.ico,,,,1996-09-17,,,,,,,,,,766,,,,,
+"admndemo.ico"=1,admndemo.ico,,,,1996-09-17,,,,,,,,,,766,,,,,
+"admndemo.dlg"=1,admndemo.dlg,,,,1996-10-07,,,,,,,,,,12416,,,,,
+"admndemo.rc"=1,admndemo.rc,,,,1996-09-17,,,,,,,,,,12834,,,,,
+"info.h"=1,info.h,,,,1996-09-17,,,,,,,,,,7000,,,,,
+"execute.h"=1,execute.h,,,,1996-09-17,,,,,,,,,,3791,,,,,
+"admndemo.h"=1,admndemo.h,,,,1996-09-17,,,,,,,,,,2173,,,,,
+"strings.h"=1,strings.h,,,,1996-09-17,,,,,,,,,,2211,,,,,
+"standard.h"=1,standard.h,,,,1996-09-17,,,,,,,,,,4339,,,,,
+"results.h"=1,results.h,,,,1996-09-17,,,,,,,,,,7067,,,,,
+"menu.h"=1,menu.h,,,,1996-09-17,,,,,,,,,,3977,,,,,
+"ini.h"=1,ini.h,,,,1996-09-17,,,,,,,,,,1446,,,,,
+"errcheck.h"=1,errcheck.h,,,,1996-09-17,,,,,,,,,,2021,,,,,
+"dialogs.h"=1,dialogs.h,,,,1996-09-17,,,,,,,,,,2604,,,,,
+"child.h"=1,child.h,,,,1996-09-17,,,,,,,,,,3597,,,,,
+"admndemo.c"=1,admndemo.c,,,,1996-10-03,,,,,,,,,,50974,,,,,
+"execute.c"=1,execute.c,,,,1996-09-20,,,,,,,,,,41473,,,,,
+"standard.c"=1,standard.c,,,,1996-09-17,,,,,,,,,,11002,,,,,
+"results.c"=1,results.c,,,,1996-09-17,,,,,,,,,,32416,,,,,
+"menu.c"=1,menu.c,,,,1996-09-17,,,,,,,,,,6514,,,,,
+"ini.c"=1,ini.c,,,,1996-09-17,,,,,,,,,,11158,,,,,
+"info.c"=1,info.c,,,,1996-09-27,,,,,,,,,,102494,,,,,
+"errcheck.c"=1,errcheck.c,,,,1996-09-20,,,,,,,,,,5774,,,,,
+"dialogs.c"=1,dialogs.c,,,,1996-09-17,,,,,,,,,,21440,,,,,
+
+[ODBC DSN Conversion Sample]
+"convdsn.c"=1,convdsn.c,,,,1996-09-11,,,,,,,,,,3540,,,,,
+"build.bat"=1,cdsnbld.bat,,,,1996-10-11,,,,,,build.bat,,,,1549,,,,,
+"makefile"=1,cdsnbld.mak,,,,1996-10-11,,,,,,makefile,,,,2198,,,,,
+
+[ODBC include files]
+"odbcinst.h"=1,odbcinst.h,,,,1996-08-21,,,,,,,,,,15315,,,,,
+"sqltypes.h"=1,sqltypes.h,,,,1996-09-03,,,,,,,,,,6621,,,,,
+"sqlucode.h"=1,sqlucode.h,,,,1996-08-21,,,,,,,,,,22822,,,,,
+"sqlext.h"=1,sqlext.h,,,,1996-09-18,,,,,,,,,,76485,,,,,
+"sql.h"=1,sql.h,,,,1996-09-03,,,,,,,,,,29810,,,,,
+
+[ODBC libraries]
+"gtrtst32.lib"=1,gtrtst32.lib,,,,1996-10-26,,,,,,,,,,21596,,,,,
+"odbccp32.lib"=1,odbccp32.lib,,,,1996-10-26,,,,,,,,,,35724,,,,,
+"odbc32.lib"=1,odbc32.lib,,,,1996-10-26,,,,,,,,,,93752,,,,,
+
+[ODBC Core Components]
+"Connection Pool Manager"=1,mtxdm.dll,,,,1996-10-23,,,,,,,,,,31232,,,,1996.0010.0023.0090,
+"Setup Thunk2"=1,ds32gt.dll,,,,1996-10-26,,,,,,,,,,5632,,,,3.0000.0022.0025,
+"Setup Thunk1"=1,ds16gt.dll,,,,1996-10-26,,,,,,,,,,4656,,,,3.0000.0022.0025,
+"ODBC Thunk2"=1,odbc32gt.dll,,,,1996-10-28,,,,,,,,,,8192,,,,3.0000.0022.0025,
+"ODBC Thunk1"=1,odbc16gt.dll,,,,1996-10-26,,,,,,,,,,26224,,,,3.0000.0022.0025,
+"Help2"=1,odbcinst.cnt,,,,1996-08-24,,,,,,,,,,244,,,,,
+"Help"=1,odbcinst.hlp,,,,1996-09-17,,,,,,,,,,26340,,,,,
+"Setup DLL"=1,odbccp32.dll,,,,1996-10-28,,,,,,,,,,93968,,,,3.0000.0022.0025,
+"ControlPanelLink"=1,odbccp32.cpl,,,,1996-10-28,,,,,,,,,,8464,,,,3.0000.0022.0025,
+"Administrator"=1,odbcad32.exe,,,,1996-10-26,,,,,,,,,,10240,,,,3.0000.0022.0025,
+"msvcrt40.dll"=1,msvcrt40.dll,,,,1996-04-11,,,,,,,,,SHARED,326656,,,,4.0010.0000.6038,
+"Trace DLL"=1,odbctrac.dll,,,,1996-10-26,,,,,,,,,,142336,,,,3.0000.0022.0025,
+"Resource DLL"=1,odbcint.dll,,,,1996-10-26,,,,,,,,,,63488,,,,3.0000.0022.0025,
+"CursorLib"=1,odbccr32.dll,,,,1996-10-28,,,,,,,,,,179200,,,,3.0000.0022.0025,
+"DriverManager"=1,odbc32.dll,,,,1996-10-28,,,,,,,,,,246544,,,,3.0000.0022.0025,
+
+[DOC]
+"Demo SQL Server contents"=1,drvssrvr.cnt,,,,1996-09-16,,,,,,,,,,226,,,,,
+"Demo SQL Server Help"=1,drvssrvr.hlp,,,,1996-09-16,,,,,,,,,,15493,,,,,
+"Samples Help Index"=1,odbcsmpl.cnt,,,,1996-09-16,,,,,,,,,,1377,,,,,
+"Samples Help"=1,odbcsmpl.hlp,,,,1996-10-08,,,,,,,,,,48610,,,,,
+"SDK Guide Index"=1,sdkguide.cnt,,,,1996-10-25,,,,,,,,,,929,,,,,
+"SDK Guide"=1,sdkguide.hlp,,,,1996-10-26,,,,,,,,,,35009,,,,,
+"Progref Index"=1,odbc.cnt,,,,1996-10-16,,,,,,,,,,39239,,,,,
+"Progref"=1,odbc.hlp,,,,1996-10-16,,,,,,,,,,1467700,,,,,
+"Readme"=1,relnotes.wri,,,,1996-10-26,,,,,,,,,,19712,,,,,
+"What is new"=1,whatsnew.wri,,,,1996-10-24,,,,,,,,,,15744,,,,,

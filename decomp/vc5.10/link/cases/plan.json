@@ -1,0 +1,82 @@
+{
+  "schema": 1,
+  "binary": "toolchains/5.10/bin/LINK.EXE",
+  "release_blockers": [
+    "root approval of DLL workflow",
+    "Rust graph audit readiness",
+    "explicit root reconstruction release"
+  ],
+  "accepted_functions": 0,
+  "reference_policy": "Only fresh 5.10 captures; source themes copied, no vc1.0 outputs/traces/oracles",
+  "cases": [
+    {
+      "id": "help",
+      "argv": [
+        "/?"
+      ],
+      "theme": "option help",
+      "source_provenance": null,
+      "state": "source-only groundwork; no reconstruction oracle",
+      "sources": []
+    },
+    {
+      "id": "hello-win32",
+      "argv": [
+        "/nologo",
+        "/incremental:no",
+        "/out:hello.exe",
+        "hello.obj"
+      ],
+      "theme": "GUI window and User32/GDI32 imports",
+      "source_provenance": "decomp/vc1.0/fixtures/hello-win32/c1/hello.c",
+      "state": "source-only groundwork; no reconstruction oracle",
+      "sources": [
+        {
+          "path": "cases/hello-win32/source/hello.c",
+          "sha256": "bf205b2bd0d9d585f98708a659449ea5d2b662ebc6c43f547b21ae6afb66c0f2"
+        }
+      ]
+    },
+    {
+      "id": "hello-dll",
+      "argv": [
+        "/nologo",
+        "/incremental:no",
+        "/dll",
+        "/out:hello.dll",
+        "hello-dll.obj"
+      ],
+      "theme": "stdcall exported GUI entry and DllMain",
+      "source_provenance": "decomp/vc1.0/fixtures/hello-dll/c1/hello-dll.c",
+      "state": "source-only groundwork; no reconstruction oracle",
+      "sources": [
+        {
+          "path": "cases/hello-dll/source/hello-dll.c",
+          "sha256": "4e75bd57e12322c38246eb2019b569f6d2943db1894bceeb3a261828adb18638"
+        }
+      ]
+    },
+    {
+      "id": "hello-debug-dll",
+      "argv": [
+        "/nologo",
+        "/incremental:no",
+        "/dll",
+        "/debug",
+        "/debugtype:cv",
+        "/pdb:none",
+        "/out:hello.dll",
+        "hello-debug.obj"
+      ],
+      "theme": "Z7 CodeView debug DLL and possible CVPACK/PDB boundary",
+      "source_provenance": "decomp/vc1.0/fixtures/link-debug-dll/sources/hello-debug.c",
+      "state": "source-only groundwork; no reconstruction oracle",
+      "sources": [
+        {
+          "path": "cases/hello-debug-dll/source/hello-debug.c",
+          "sha256": "719a0f9757ce41cdb4f6abfd8f2016f8c432bce061173b3c9b00448b80ea3c58"
+        }
+      ]
+    }
+  ]
+}

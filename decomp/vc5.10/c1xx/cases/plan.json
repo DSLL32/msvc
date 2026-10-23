@@ -1,0 +1,104 @@
+{
+  "schema": 1,
+  "project": "vc5.10",
+  "toolchain": "5.10",
+  "binary": "C1XX.DLL",
+  "state": "groundwork-only; reconstruction not authorized",
+  "cases": [
+    {
+      "id": "minimal",
+      "source": "cases/sources/minimal.cpp",
+      "theme": "Minimal C++ compile; establish DLL invocation without PDB or system headers",
+      "proposed_cl_arguments": [
+        "/nologo",
+        "/c",
+        "/TP",
+        "/Od",
+        "minimal.cpp"
+      ],
+      "status": "source-seed-only; exact pass inputs and references not captured",
+      "source_sha256": "deac66ccb79f6d31c0fa7d358de48e083c15c02ff50ec1ebd4b64314b9e6e196"
+    },
+    {
+      "id": "cpp-basic",
+      "source": "cases/sources/cpp-basic.cpp",
+      "copied_source_only_from": "decomp/vc1.0/fixtures/c1xx-cpp-basic/c1/cpp-basic.cpp",
+      "theme": "cpp basic",
+      "proposed_cl_arguments": [
+        "/nologo",
+        "/c",
+        "/TP",
+        "/Od",
+        "cpp-basic.cpp"
+      ],
+      "status": "source-seed-only; vc5.10 compatibility and pass contract not validated",
+      "source_sha256": "343b472b5648f7d4c0bfdc63ef0f9f27e4ca7ec45452a88756ef342aa3bf2b18"
+    },
+    {
+      "id": "virtual-diamond",
+      "source": "cases/sources/virtual.cpp",
+      "copied_source_only_from": "decomp/vc1.0/fixtures/c1xx-virtual-diamond/c1/virtual.cpp",
+      "theme": "virtual diamond",
+      "proposed_cl_arguments": [
+        "/nologo",
+        "/c",
+        "/TP",
+        "/Od",
+        "virtual.cpp"
+      ],
+      "status": "source-seed-only; vc5.10 compatibility and pass contract not validated",
+      "source_sha256": "14748b78870f19f42881e05784df8218dcb0bc9f65b81f3b62f37fce5eddef67"
+    },
+    {
+      "id": "copy-assignment",
+      "source": "cases/sources/copy.cpp",
+      "copied_source_only_from": "decomp/vc1.0/fixtures/c1xx-copy-assignment/c1/copy.cpp",
+      "theme": "copy assignment",
+      "proposed_cl_arguments": [
+        "/nologo",
+        "/c",
+        "/TP",
+        "/Od",
+        "copy.cpp"
+      ],
+      "status": "source-seed-only; vc5.10 compatibility and pass contract not validated",
+      "source_sha256": "61e1ee1752d57f547ae04afc63cab425a8ef1da1411898515f30c5024d94adb5"
+    },
+    {
+      "id": "stack-lifetime",
+      "source": "cases/sources/lifetime.cpp",
+      "copied_source_only_from": "decomp/vc1.0/fixtures/c1xx-stack-lifetime/c1/lifetime.cpp",
+      "theme": "stack lifetime",
+      "proposed_cl_arguments": [
+        "/nologo",
+        "/c",
+        "/TP",
+        "/Od",
+        "lifetime.cpp"
+      ],
+      "status": "source-seed-only; vc5.10 compatibility and pass contract not validated",
+      "source_sha256": "84d31216f585ba33ed70036832830c1c7f912fa891f8a673664b7f15c1f41310"
+    },
+    {
+      "id": "new-delete",
+      "source": "cases/sources/allocation.cpp",
+      "copied_source_only_from": "decomp/vc1.0/fixtures/c1xx-new-delete/c1/allocation.cpp",
+      "theme": "new delete",
+      "proposed_cl_arguments": [
+        "/nologo",
+        "/c",
+        "/TP",
+        "/Od",
+        "allocation.cpp"
+      ],
+      "status": "source-seed-only; vc5.10 compatibility and pass contract not validated",
+      "source_sha256": "034204157e504dc31799f2bc99c51d639aac52d26b683c8980941ce7274a8ba8"
+    }
+  ],
+  "release_gates": [
+    "Agree on DLL loader/init/export/cleanup and native harness workflow",
+    "Rust graph-audit tool available and approved for integration",
+    "Explicit orchestrator release before function reconstruction"
+  ],
+  "oracle_policy": "Seed source/themes only. Capture vc5.10 inputs, raw streams, output and traces explicitly; never reuse vc1.0 IR, traces, addresses or expected artifacts."
+}

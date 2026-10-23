@@ -1,0 +1,27 @@
+[ExtraFiles]
+C:\Program Files\DevStudio\VC\vcremove.inf
+C:\Program Files\DevStudio\VC\msvc-stp.log
+C:\WINDOWS\system32\autmgr32.log
+C:\Program Files\DevStudio\VC\bin\vcvars32.bat
+C:\Program Files\DevStudio\VC\bin\command.log
+C:\Program Files\DevStudio\VC\bin\hcw.ftg
+C:\Program Files\DevStudio\VC\VCRemove\vcsetup.inf
+
+[ProductKey]
+Software\Microsoft\DevStudio\5.0
+
+[ProductPath]
+C:\Program Files\DevStudio\VC\
+
+[DevStudioPath]
+C:\Program Files\DevStudio\
+
+[IntermediateFileTypes]
+.gid;.fts;.hst;.bkm;.ano;.srs;.lst;.flt;.bin;.ivk
+
+[ShortNameKey]
+MSVC50
+
+[ProgmanGroupName]
+Microsoft Visual C++ 5.0
+

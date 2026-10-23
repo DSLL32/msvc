@@ -1,0 +1,231 @@
+<!DOCTYPE HTML PUBLIC "-//IETF//DTD HTML//EN">
+<HTML>
+<HEAD><TITLE>README for Microsoft Developer Studio '97</TITLE>
+</HEAD>
+<!--DocHeaderStart-->
+<BODY BGCOLOR=#FFFFFF LINK=#0033CC LEFTMARGIN=20 TOPMARGIN=15>
+<FONT FACE="ARIAL, HELVETICA" SIZE=2>
+
+<TABLE BORDER=0 CELLPADDING=0 CELLSPACING=0 WIDTH=100%>
+<TR VALIGN=TOP>
+
+<TD>
+	<FONT FACE=ARIAL SIZE=2 COLOR=#660033>Developer Studio '97</FONT>
+<BR>
+	<FONT FACE=ARIAL SIZE=5 COLOR=#660033><B>Environment Readme</B></FONT>
+</TD>
+<TD ALIGN=RIGHT><FONT FACE=ARIAL SIZE=2>
+	
+<A HREF="readme.htm" TARGET="_top">Home</A></FONT>
+<P>
+</TD></TR>
+</TABLE>
+ 
+<!--DocHeaderEnd-->
+
+<P>
+&#169; 1997 Microsoft Corporation
+<P>
+Other product and company names herein may be the trademarks of their respective owners. 
+<P>
+This document includes updated information for Microsoft&#174; Developer Studio Environment. The information in this document and in the Help system is more up-to-date than that in the online documentation. Many of the issues outlined in this document will be corrected in upcoming releases.
+<P>
+<b>Contents</b>
+<P>
+<A HREF="environ.htm#TofC_9">ClassView and Wizard Bar 'Auto #Include' Feature May Cause Build Error (C2011: type redefinition)</A>
+<P>
+<A HREF="environ.htm#TofC_10">Using the ClassView List</A>
+<P>
+<A HREF="environ.htm#TofC_11">Files in the External Dependencies Folder (FileView) Are Not Project Files</A>
+<P>
+<A HREF="environ.htm#TofC_12">Using Icon and Toolbar Editors with Windows NT  4.0</A>
+<P>
+<A HREF="environ.htm#TofC_13">Hosting ActiveX Documents in the Developer Studio Environment</A>
+<P>
+<A HREF="environ.htm#TofC_14">Accessing Online Help Brings Up MSN Dialog Box</A>
+<P>
+<A HREF="environ.htm#TofC_15">MSDN Must Be Installed to View Visual Studio Documentation</A>
+<P>
+<A HREF="environ.htm#TofC_16">Full Debugging Support for VBScript Macros is Available for Free!</A>
+<P>
+<A HREF="environ.htm#TofC_17">Automation Issues for the Microsoft Developer Studio Environment </A>
+<P>
+<BLOCKQUOTE>
+<A HREF="environ.htm#TofC_18">Some VBScript Objects and Procedures Are Not Supported from VBScript Macros</A>
+<P>
+<A HREF="environ.htm#TofC_19">Automating Tasks, Ignore Cautionary Text in Procedure in Online Docs</A>
+<P>
+<A HREF="environ.htm#TofC_20">Additional Method for the Debugging Object, Automation</A>
+<P>
+<A HREF="environ.htm#TofC_21">Detail for MoveTo Method for the TextSelection Object, Automation</A>
+<P>
+<A HREF="environ.htm#TofC_22">IDocument should be IGenericDocument in Dual Interface Automation Sample</A>
+<P>
+<A HREF="environ.htm#TofC_23">NewWorkspace event is never fired for the Application object, Automation </A>
+<P>
+</BLOCKQUOTE>
+<P>&NBSP;
+
+<P>
+<A NAME="TofC_9"></A><!--TOC=4--><h4>
+
+ClassView and Wizard Bar 'Auto #Include' Feature May Cause Build Error (C2011: type redefinition)</h4><P>
+
+The 'Auto #Include' feature adds <b>#include</b> statements to your code when you add a function/variable through the 
+<b>ClassView</b> context menu or WizardBar, and when the function/variable is of a type class, struct, or union.  Therefore, 
+if you author code that does not have the <b>#ifndef/#endif</b> wrapper statements in your header file, there is a 
+possiblility that a build error will occur if this header file is included twice within a project.  The build error 
+is: error C2011: type redefinition.  
+
+You can solve this by adding the following lines to the top and bottom of your header file.<P>
+
+For example, if you have a file sample.h, it should look like this:<P>
+
+<PRE><font face="courier">#ifndef MYHEADER_H__
+#define MYHEADER_H__
+</font></PRE>
+<P>
+This is where all the code for sample.h is.
+ <P>
+<PRE><font face="courier">#endif // MYHEADER_H__
+</font></PRE>
+<P>
+
+<A NAME="TofC_10"></A><!--TOC=4--><h4>Using ClassView List</h4>
+<P>
+
+The ClassView list requires .h files.  If you cannot see your classes in ClassView, make sure that your header files are 
+included in the project. 
+<P>
+
+<A NAME="TofC_11"></A><!--TOC=4--><h4>Files in the External Dependencies Folder (FileView) Are Not Project Files</h4>
+<P>
+The "External Dependencies" folder (in FileView) in the Developer Studio environment lists files that are not part of the project but that are used when building your project. When performing certain project-dependent operation on a file such as using source code control, defining custom build rules, or displaying ClassView items from the header files, the file must be a part of the project. This is a change from the "Dependencies" folder behavior in Visual C++ version 4.x. 
+<P>
+To add a file to a project, moe the file (drag and drop) from the "External Dependencies" folder to anywhere in the project folders or the main project folder. 
+ <P>
+
+
+<A NAME="TofC_12"></A><!--TOC=4--><h4>Using Icon and Toolbar Editors with Windows NT v4.0</h4>
+<P>
+The Icon and Toolbar editors may show strange behavior on Microsoft Windows NT&#174; 4.0 machines running S3, ATI, 
+or Tseng Labs ET4000 video drivers.  Typically, icons and toolbar buttons will go black and certain items on the screen will 
+appear &quot;blocky.&quot;  Service Pack 2 for Windows NT 4.0 fixes this problem.  
+You can obtain the service pack via FTP from ><A HREF = ftp://ftp.microsoft.com/bussys/winnt/winnt-public/fixes>
+ftp.microsoft.com/bussys/winnt/winnt-public/fixes </A>.
+<P>
+Note: If you get a STOP error message (accessing the floppy disk drive or the CD-ROM drive) with Service Pack 2 for Windows NT 4.0, you can obtain the fix listed below or wait for the next Windows NT service pack. You can obtain the fix via FTP from ><A HREF= ftp://ftp.microsoft.com/bussys/winnt/winnt-public/fixes/usa/NT40/hotfixes-postsp2/krnl-fix>
+ftp.microsoft.com/bussys/winnt/winnt-public/fixes/usa/NT40/hotfixes-postsp2/krnl-fix </A>.
+<P>
+Note: If you get a loss of connectivity in remote access with Windows NT, and you installed the NT Service Pack 2, you can turn off the Multilinking Protocol (MP) option altogether, or acquire this fix via FTP from ><A HREF= ftp://ftp.microsoft.com/bussys/winnt/winnt-public/fixes/usa/NT40/hotfixes-postsp2/ras-fix>
+ftp.microsoft.com/bussys/winnt/winnt-public/fixes/usa/NT40/hotfixes-postsp2/ras-fix </A>.
+<P>
+
+<A NAME="TofC_13"></A><!--TOC=4--><H4>Hosting ActiveX Documents in the Developer Studio Environment</H4>
+<P>
+The Developer Studio environment can host ActiveX Documents such as Word or Excel. To open an ActiveX document, click "Other Documents" (File menu, New command). Because ActiveX documents do not all meet the same standards, they may hang the application that is  hosting them. For example, Comic Chat will hang and should not be used from inside the Developer Studio environment. Microsoft has tested many other ActiveX documents, such as the products in Microsoft Office, and verified that these do not hang the Developer Studio environment. 
+<P>
+
+<A NAME="TofC_14"></A><H4>Accessing Online Help Brings Up MSN Dialog Box</H4>
+<P>
+When accessing online Help you may get a dialog box asking about your dial-up connection for your online service provider. This occurs because Visual Studio uses the Internet Explorer (which has an option to automatically connect to the online service) to display the online documentation.  Click Cancel to dismiss the dial-up connection dialog box.  You can disable automatic dialup with the following procedure.
+<P>
+To turn off the automatic dialup:
+<OL> 
+<LI>Right-click on the Internet Explorer icon on your desktop to see the context menu. 
+<LI>Click Properties. 
+<LI>In the Properties dialog box, choose the Connection tab. 
+<LI>In the Dialing group, clear "Connect to the Internet as needed".  This will disable Auto dialup. 
+<LI>Choose Apply, then click OK.
+</OL>
+<P>
+
+<A NAME="TofC_15"></A><H4>MSDN Must Be Installed to View Visual Studio Documentation</H4>
+<P>
+Once MSDN is installed, you can find the complete set of Visual Studio documentation in the Table of Contents under the Microsoft Developer Network Visual Studio Edition node, Developer Products, Visual Studio 97.  
+<P>
+
+<A NAME="TofC_16"></A><!--TOC=4--><h4>Full Debugging Support for VBScript Macros is Available for Free!</h4>
+<P>
+Currently Visual Studio does not provide an integrated debugger to allow you to step through a VBScript macro, set breakpoints, inspect variables, etc.  However, the new Microsoft Script Debugger will have this ability.  The Microsoft Script Debugger, designed to debug VBScript code embedded in HTML pages open in the Microsoft Internet Explorer, will actually debug VBScript code running in any application, including the Visual Studio products.
+<P>
+<b>How to Get a Copy of the Microsoft Script Debugger</b>
+<P>
+Visit the VBScript home page at http://www.microsoft.com/vbscript.  From this page there will be a link to download the Microsoft Script Debugger for free.
+<P>
+<b>How to Use the Microsoft Script Debugger to Debug Your VBScript Macros</b>
+<P> <OL>
+<LI>Ensure that mdm.exe, distributed with the Microsoft Script Debugger, is running.  If it is not, you may double-click it from Explorer.
+<LI>Launch Developer Studio. 
+<LI>Be sure the VBScript macro file you wish to debug is installed.  (For more information, see "Installing VBScript Macros" in the Developer Studio Environment User's Guide.)
+<LI>Launch the Microsoft Script Debugger.
+<LI>Microsoft Script Debugger should automatically display the "Attach to Application" dialog box.  If it does not, go to the <B>File</B> menu and click <B>Attach</B>.
+<P>
+NOTE: Some prerelease versions of the Microsoft Script Debugger may not yet be able to debug processes other than Internet Explorer.  If the version of Microsoft Script Debugger that you are running does not have the <B>Attach to Application</B> dialog described above, then you will need a newer version of the Microsoft Script Debugger to debug VBScript macros in Developer Studio.
+<P>
+<LI>Choose msdev.exe from the listbox in this dialog box, and click <B>Attach</B>.
+<LI>You will now see the Project Explorer displayed, with a node for each VBScript macro file that is loaded into Developer Studio.  You may open those files within Microsoft Script Debugger by double-clicking the appropriate node.  You may then set breakpoints in those files, or alternatively, go to the <B>Debug</B> menu and click <B>Break at Next Statement</B>.  Then, the next time you run a VBScript macro from Developer Studio, that macro will pause at the breakpoints you set, or at the next instruction if you clicked <B>Break at Next Statement</B>.  You may now use the Microsoft Script Debugger to inspect variables, evaluate expressions in the Immediate Window, and look at the call stack of the paused VBScript procedures.  Consult the documentation distributed with the Microsoft Script Explorer for more information on its features.
+</OL><P>
+
+<P>
+<A NAME="TofC_17"></A><H4>Automation Issues for the Microsoft Developer Studio Environment </H4>
+
+<P>
+<A NAME="TofC_18"></A><!--TOC=4--><B>Some VBScript Objects and Procedures Are Not Supported from VBScript Macros</B>
+<P>
+The VBScript Reference lists all objects and procedures that you may access from "unsafe" VBScript hosts. VBScript macros may only use the "safe" constructs of VBScript. This means a number of objects and procedures listed in the VBScript reference will be unavailable when writing VBScript macros. The following are examples of such "unsafe" constructs:  
+<P>
+<B>CreateObject </B>function <BR>
+<B>GetObject</B> function <BR>
+<B>FileSystemObject Object</B> and all of its properties and methods <BR>
+<B>TextStream Object </B>and all of its properties and methods <BR>
+<B>Dictionary Object</B> and all of its properties and methods <BR>
+<B>File Input/Output Constants</B> <BR>
+<P>
+
+<A NAME="TofC_19"></A><!--TOC=4--><B>Automating Tasks, Ignore Cautionary Text in Procedure in Online Docs</B>
+<P>
+Disregard the Caution statement after step 5, this bracket syntax is no longer necessary. This is listed in the procedure to add a command (Developer Studio Environment User's Guide, Automating Tasks in Developer Studio, Developer Studio Add-ins, How Do I...Topics, Developer Studio Add-ins, in the topic Adding Commands to Developer Studio).  
+
+<P>
+<A NAME="TofC_20"></A><!--TOC=4--><B>Additional Method for the Debugging Object, Automation</B>
+<P>
+There is an additional method for the Debugging Object that is not represented in the online documentation (Developer Studio Environment User's Guide, Automating Tasks in Developer Studio, Reference: Developer Studio Objects, Debugger Methods category.) Break is an additional valid Debugger method: 
+<P> 
+Break Method, applies to Debugger object.  <BR>
+Syntax: object.Break <BR>
+Parameters: object: An object expression that evaluates to an object in the Applies To list.  <BR>
+Example: The following example performs the Break method. <BR>
+<PRE><font face="courier">Debugger.Break</font></PRE>
+<P>
+
+<P>
+<A NAME="TofC_21"></A><!--TOC=4--><B>Detail for MoveTo Method for the TextSelection Object, Automation</B>
+<P>
+In the Developer Studio Environment User's Guide, under the node for Automating Tasks in Developer Studio, in the section titled Reference: Developer Studio Objects, and then in the category called Methods, in the topic for MoveTo, there are two lines displaying incorrect information about using the zero value for line and/or column:
+
+"Some possible values are: 0  Does not move the insertion point; it stays on the current line/column." 
+
+Your results may differ from this explanation. To get the current line and column, try TextSelection.CurrentLine or TextSelection.Current Column. 
+<P>
+
+<P>
+<A NAME="TofC_22"></A><!--TOC=4--><B>IDocument should be IGenericDocument in Dual Interface Automation Sample</B>
+<P>
+All references to "IDocument" within the Developer Studio User's Guide should say "IGenericDocument". This error occurs in the topic "Controlling Developer Studio Objects Through Dual Interfaces" (in the Developer Studio Environment User's Guide, Automating Tasks in Developer Studio, Developer Studio Add-ins, Overview of Developer Studio Add-ins node). It also occurs in the sample listed under the "Alternating Between Dual Interfaces" title in that same topic. Please note that IDocuments (plural) is fine. 
+<P>
+
+<P>
+<A NAME="TofC_23"></A><!--TOC=4--><B>NewWorkspace event is never fired for the Application object, Automation</B>
+<P>
+You may not use a VBScript macro file, an add-in, or an out-of-process controller to respond to the NewWorkspace event on the Application object. This event is never fired, and you cannot write an event handler for it. 
+<P>
+
+
+
+<!--DocFooterStart-->
+</FONT>
+<!--DocFooterEnd-->
+</BODY></HTML>
+
+

@@ -1,0 +1,79 @@
+{
+  "status": "groundwork-only-gated",
+  "gates": [
+    "DLL workflow approved by orchestrator",
+    "Rust graph auditor ready and reviewed"
+  ],
+  "reconstructed_functions": 0,
+  "cases": [
+    {
+      "id": "help",
+      "argv": [
+        "/help"
+      ],
+      "initial": true
+    },
+    {
+      "id": "minimal",
+      "argv": [
+        "/fooutput.res",
+        "minimal.rc"
+      ],
+      "source": "minimal/source",
+      "initial": true
+    },
+    {
+      "id": "resources-rich",
+      "argv": [
+        "/fooutput.res",
+        "/iinclude",
+        "/dCASE_FROM_COMMAND=7",
+        "/iR:\\toolchains\\5.10\\include",
+        "resources.rc"
+      ],
+      "source": "resources-rich/source",
+      "source_seed": "decomp/vc1.0/fixtures/resources-rich/source",
+      "initial": true
+    }
+  ],
+  "dependency_boundary": {
+    "module": "RCDLL.dll",
+    "binding": "static import",
+    "exports": {
+      "RC": {
+        "calling_convention": "stdcall",
+        "stack_bytes": 24,
+        "arguments": [
+          "0",
+          "0",
+          "diagnostic_callback",
+          "0",
+          "argc",
+          "argv"
+        ]
+      },
+      "Handler": {
+        "calling_convention": "stdcall",
+        "stack_bytes": 4
+      }
+    },
+    "diagnostic_callback": {
+      "va": "0x01001100",
+      "calling_convention": "stdcall",
+      "stack_bytes": 12,
+      "mutable_message_argument": 3
+    }
+  },
+  "future_cases": [
+    "invalid option and missing input",
+    "preprocessor lexical/parser diagnostics with callback mutation",
+    "two resource calls in one initialized DLL lifetime, subject to DLL export contract review"
+  ],
+  "native_fixtures_ready": false,
+  "probe_readiness": {
+    "help": "unmodified original succeeds, exit0, stdout589 bytes",
+    "minimal": "timeout30s, empty streams, no artifact; shared Wine health issue unresolved",
+    "resources-rich": "source seeded; no successful new-toolchain baseline",
+    "wine_launches": "held by orchestrator pending shared health diagnosis"
+  }
+}

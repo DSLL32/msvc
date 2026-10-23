@@ -1,0 +1,14 @@
+Microsoft (R) Windows Resource To Object Converter Version 5.00.1668.1
+Copyright (C) Microsoft Corp. 1992-1997. All rights reserved.
+
+usage: CVTRES [options] ResFile
+
+   options:
+
+      /MACHINE:{IX86|ALPHA|ARM|MIPS|MIPSR41XX|PPC|SH3|SH4}
+      /NOLOGO
+      /OUT:filename
+      /READONLY
+      /VERBOSE
+      /WINDOWSCE[:{EMULATION|NOCONVERT}]
+

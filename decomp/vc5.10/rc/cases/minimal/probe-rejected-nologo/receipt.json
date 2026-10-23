@@ -1,0 +1,30 @@
+{
+  "kind": "unmodified-original-groundwork-probe",
+  "not_reconstruction_acceptance": true,
+  "case": "minimal",
+  "argv": [
+    "/nologo",
+    "/fooutput.res",
+    "minimal.rc"
+  ],
+  "executable_sha256": "c9f7e207bbae4be91baf6db564bd6b7f660d10287ea46302c792c3dd27b05399",
+  "rcdll_sha256": "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0",
+  "prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "cwd": "/root/.ai-tmp/msvc2/vc5.10/rc/minimal",
+  "elapsed_seconds": 5.8221824346110225,
+  "exit_status": 1,
+  "streams": {
+    "stdout": {
+      "bytes": 58,
+      "sha256": "7a9f4818e565250bad0557817b1f1915f3a7acd245b7d8cd47af6d2e81ff9e00"
+    },
+    "stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "inputs": {
+    "minimal.rc": "3a5127c112771585bb1a316ec06eb8b958b037f655f91ac392dc6421e135f81a"
+  },
+  "output": null
+}

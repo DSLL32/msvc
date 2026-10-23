@@ -1,0 +1,94 @@
+{
+  "schema": 1,
+  "classification": "static original analysis; no reached-path claim",
+  "binary_sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+  "dependencies": [
+    {
+      "name": "CVPACK.EXE",
+      "kind": "synchronous process",
+      "calls": [
+        {
+          "va": "0x448c74",
+          "api": "_spawnv",
+          "mode": 0,
+          "path": "sibling path built with _pgmptr/_splitpath/_makepath"
+        },
+        {
+          "va": "0x448c8e",
+          "api": "_spawnvp",
+          "mode": 0,
+          "path": "cvpack.exe",
+          "condition": "first return == -1"
+        }
+      ],
+      "argv": [
+        "cvpack",
+        "/nologo",
+        "quoted output file",
+        null
+      ],
+      "runtime_status": "not captured"
+    },
+    {
+      "name": "CVTRES.EXE",
+      "kind": "synchronous process",
+      "calls": [
+        {
+          "va": "0x41031b",
+          "api": "_spawnv",
+          "mode": 0,
+          "path": "sibling path built with _pgmptr/_splitpath/_makepath"
+        },
+        {
+          "va": "0x410339",
+          "api": "_spawnvp",
+          "mode": 0,
+          "path": "cvtres.exe",
+          "condition": "sibling path not accessible"
+        }
+      ],
+      "argv": [
+        "cvtres",
+        "machine option buffer",
+        "/nologo",
+        "/readonly",
+        "optional Windows CE flags",
+        "quoted resource input",
+        null
+      ],
+      "runtime_status": "not captured"
+    },
+    {
+      "name": "MSPDB50.DLL",
+      "kind": "in-process imported and dynamically resolved API",
+      "dynamic_library_alternative": "MSPDB41.DLL (conditional)",
+      "load_library_va": "0x415347",
+      "getproc_names": [
+        "PDBExportValidateInterface",
+        "PDBOpen"
+      ],
+      "getproc_calls": [
+        "0x41536e",
+        "0x415390"
+      ],
+      "interface_validate_call": "0x4153b1",
+      "pdb_open_call": "0x4153f5",
+      "runtime_status": "not captured"
+    },
+    {
+      "name": "MSDIS100.DLL",
+      "kind": "11 imported C++ disassembler methods/constructors",
+      "runtime_status": "not captured"
+    },
+    {
+      "name": "IMAGEHLP.DLL",
+      "kind": "4 imported checksum/bind/rebase APIs",
+      "runtime_status": "not captured"
+    }
+  ],
+  "future_native_requirements": [
+    "Strict child replay verifies argv, cwd, environment, complete inputs and all generated file effects; never Wine during fixture.",
+    "In-process PDB/disassembler APIs require typed ownership/state contract or another root-approved implementation boundary; subprocess replay does not model C++ objects.",
+    "Original dependencies must be pinned with DLL override/search order and hashes; do not accidentally measure Wine builtin CRT instead of shipped MSVCRT."
+  ]
+}

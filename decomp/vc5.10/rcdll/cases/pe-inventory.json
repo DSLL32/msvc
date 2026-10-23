@@ -1,0 +1,233 @@
+{
+  "schema": 1,
+  "status": "groundwork-only",
+  "target": "toolchains/5.10/bin/RCDLL.DLL",
+  "sha256": "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0",
+  "bytes": 108304,
+  "machine": "0x14c",
+  "characteristics": "0x2302",
+  "timestamp": 852924141,
+  "image_base": "0x71c20000",
+  "entry_rva": "0x12d20",
+  "sections": [
+    {
+      "name": ".text",
+      "rva": "0x1000",
+      "virtual_size": 74609,
+      "raw_size": 74752,
+      "raw_offset": 4096,
+      "characteristics": "0x60000020"
+    },
+    {
+      "name": ".data",
+      "rva": "0x14000",
+      "virtual_size": 87148,
+      "raw_size": 6656,
+      "raw_offset": 78848,
+      "characteristics": "0xc0000040"
+    },
+    {
+      "name": ".rsrc",
+      "rva": "0x2a000",
+      "virtual_size": 15036,
+      "raw_size": 15360,
+      "raw_offset": 85504,
+      "characteristics": "0x40000040"
+    },
+    {
+      "name": ".reloc",
+      "rva": "0x2e000",
+      "virtual_size": 6996,
+      "raw_size": 7168,
+      "raw_offset": 100864,
+      "characteristics": "0x42000040"
+    }
+  ],
+  "directories": [
+    {
+      "index": 0,
+      "rva": "0x13320",
+      "size": 81
+    },
+    {
+      "index": 1,
+      "rva": "0x12e2c",
+      "size": 80
+    },
+    {
+      "index": 2,
+      "rva": "0x2a000",
+      "size": 15036
+    },
+    {
+      "index": 3,
+      "rva": "0x0",
+      "size": 0
+    },
+    {
+      "index": 4,
+      "rva": "0x0",
+      "size": 0
+    },
+    {
+      "index": 5,
+      "rva": "0x2e000",
+      "size": 6544
+    },
+    {
+      "index": 6,
+      "rva": "0x1130",
+      "size": 28
+    },
+    {
+      "index": 7,
+      "rva": "0x0",
+      "size": 0
+    },
+    {
+      "index": 8,
+      "rva": "0x0",
+      "size": 0
+    },
+    {
+      "index": 9,
+      "rva": "0x0",
+      "size": 0
+    },
+    {
+      "index": 10,
+      "rva": "0x0",
+      "size": 0
+    },
+    {
+      "index": 11,
+      "rva": "0x218",
+      "size": 88
+    },
+    {
+      "index": 12,
+      "rva": "0x1000",
+      "size": 292
+    },
+    {
+      "index": 13,
+      "rva": "0x0",
+      "size": 0
+    },
+    {
+      "index": 14,
+      "rva": "0x0",
+      "size": 0
+    },
+    {
+      "index": 15,
+      "rva": "0x0",
+      "size": 0
+    }
+  ],
+  "tls_present": false,
+  "imports": [
+    {
+      "dll": "MSVCRT.dll",
+      "symbols": [
+        "_strdup",
+        "_makepath",
+        "_splitpath",
+        "getenv",
+        "printf",
+        "strchr",
+        "sscanf",
+        "atoi",
+        "__p__pctype",
+        "_isctype",
+        "__p___mb_cur_max",
+        "toupper",
+        "_setjmp3",
+        "wcscat",
+        "longjmp",
+        "_mktemp",
+        "_fullpath",
+        "fwrite",
+        "wcslen",
+        "towupper",
+        "_wcsicmp",
+        "_except_handler3",
+        "ftell",
+        "tmpnam",
+        "_tempnam",
+        "free",
+        "_initterm",
+        "malloc",
+        "_adjust_fdiv",
+        "_itoa",
+        "sprintf",
+        "_wcsupr",
+        "wcsncmp",
+        "wcscmp",
+        "fseek",
+        "fread",
+        "swprintf",
+        "wcschr",
+        "wcscpy",
+        "fclose",
+        "__p__iob",
+        "wcsncpy",
+        "fopen",
+        "iswctype",
+        "wcstol",
+        "_wcsdup",
+        "fgetc",
+        "remove",
+        "towlower"
+      ]
+    },
+    {
+      "dll": "USER32.dll",
+      "symbols": [
+        "CharNextA",
+        "wsprintfA",
+        "SendMessageA"
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "symbols": [
+        "GlobalFree",
+        "HeapFree",
+        "HeapAlloc",
+        "HeapReAlloc",
+        "LocalAlloc",
+        "LocalFree",
+        "GetCPInfo",
+        "DisableThreadLibraryCalls",
+        "HeapCreate",
+        "HeapDestroy",
+        "IsValidCodePage",
+        "IsDBCSLeadByteEx",
+        "MultiByteToWideChar",
+        "GetACP",
+        "WideCharToMultiByte",
+        "FormatMessageA",
+        "GlobalAlloc",
+        "GetVersion"
+      ]
+    }
+  ],
+  "exports": [
+    {
+      "name": "Handler",
+      "ordinal": 1,
+      "rva": "0x8a46",
+      "analyzed_abi": "stdcall",
+      "analyzed_stack_bytes": 4
+    },
+    {
+      "name": "RC",
+      "ordinal": 2,
+      "rva": "0x8b46",
+      "analyzed_abi": "stdcall",
+      "analyzed_stack_bytes": 24
+    }
+  ],
+  "export_basis": "objdump -p, checked against export entry and ret cleanup; signatures remain groundwork evidence"
+}

@@ -1,0 +1,78 @@
+{
+  "project": "vc5.10",
+  "phase": "groundwork-only",
+  "reconstruction_enabled": false,
+  "toolchain": "toolchains/5.10",
+  "copy": {
+    "source": "/root/scbeta-decomp/toolchains/5.10",
+    "method": "cp -arv",
+    "regular_files": 1347,
+    "symlinks": 0,
+    "verification": "All relative file paths, sizes and SHA256 values match source."
+  },
+  "targets": [
+    {
+      "folder": "c1",
+      "original": "toolchains/5.10/bin/C1.DLL",
+      "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+      "bytes": 565008,
+      "kind": "dll"
+    },
+    {
+      "folder": "c1xx",
+      "original": "toolchains/5.10/bin/C1XX.DLL",
+      "sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+      "bytes": 1051408,
+      "kind": "dll"
+    },
+    {
+      "folder": "c2",
+      "original": "toolchains/5.10/bin/C2.EXE",
+      "sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+      "bytes": 660240,
+      "kind": "exe"
+    },
+    {
+      "folder": "cl",
+      "original": "toolchains/5.10/bin/CL.EXE",
+      "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+      "bytes": 46080,
+      "kind": "exe"
+    },
+    {
+      "folder": "cvppack",
+      "original": "toolchains/5.10/bin/CVPACK.EXE",
+      "sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+      "bytes": 74240,
+      "kind": "exe"
+    },
+    {
+      "folder": "cvtres",
+      "original": "toolchains/5.10/bin/CVTRES.EXE",
+      "sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+      "bytes": 15120,
+      "kind": "exe"
+    },
+    {
+      "folder": "link",
+      "original": "toolchains/5.10/bin/LINK.EXE",
+      "sha256": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+      "bytes": 464896,
+      "kind": "exe"
+    },
+    {
+      "folder": "rcdll",
+      "original": "toolchains/5.10/bin/RCDLL.DLL",
+      "sha256": "bba1b5fa977a9130b84b710f5a5c8ccbe9a9c5043e2586ec9c1677bbad6939b0",
+      "bytes": 108304,
+      "kind": "dll"
+    },
+    {
+      "folder": "rc",
+      "original": "toolchains/5.10/bin/RC.EXE",
+      "sha256": "c9f7e207bbae4be91baf6db564bd6b7f660d10287ea46302c792c3dd27b05399",
+      "bytes": 7952,
+      "kind": "exe"
+    }
+  ]
+}

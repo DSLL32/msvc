@@ -1,0 +1,331 @@
+{
+  "schema": 1,
+  "status": "inventory-only; reconstruction not started",
+  "target": "toolchains/5.10/bin/CL.EXE",
+  "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd",
+  "bytes": 46080,
+  "machine": 332,
+  "timestamp": 853977451,
+  "image_base": 4194304,
+  "entry_rva": 22752,
+  "coff_characteristics": 271,
+  "sections": [
+    {
+      "name": ".text",
+      "rva": 4096,
+      "virtual_size": 19062,
+      "raw_offset": 1024,
+      "raw_size": 19456,
+      "characteristics": 1610612768
+    },
+    {
+      "name": ".rdata",
+      "rva": 24576,
+      "virtual_size": 9572,
+      "raw_offset": 20480,
+      "raw_size": 9728,
+      "characteristics": 1073741888
+    },
+    {
+      "name": ".data",
+      "rva": 36864,
+      "virtual_size": 2000,
+      "raw_offset": 30208,
+      "raw_size": 512,
+      "characteristics": 3221225536
+    },
+    {
+      "name": ".idata",
+      "rva": 40960,
+      "virtual_size": 1936,
+      "raw_offset": 30720,
+      "raw_size": 2048,
+      "characteristics": 1073741888
+    },
+    {
+      "name": ".rsrc",
+      "rva": 45056,
+      "virtual_size": 13004,
+      "raw_offset": 32768,
+      "raw_size": 13312,
+      "characteristics": 1073741888
+    }
+  ],
+  "imports": {
+    "USER32.dll": [
+      {
+        "name": "LoadStringA"
+      }
+    ],
+    "mspdb50.dll": [
+      {
+        "name": "_MREDrvFUpdateTargetFile@12"
+      },
+      {
+        "name": "_MREDrvFSuccessfulCompile@16"
+      },
+      {
+        "name": "_MREFOpenByName@24"
+      },
+      {
+        "name": "_MREDrvOneTimeInit@4"
+      },
+      {
+        "name": "_MREDrvFFilesOutOfDate@8"
+      },
+      {
+        "name": "_MREDrvFRelease@4"
+      },
+      {
+        "name": "_MREFClose@8"
+      },
+      {
+        "name": "_MREQueryMreDrv@8"
+      }
+    ],
+    "MSVCRT.dll": [
+      {
+        "name": "_fullpath"
+      },
+      {
+        "name": "_mbsncmp"
+      },
+      {
+        "name": "_stricmp"
+      },
+      {
+        "name": "_splitpath"
+      },
+      {
+        "name": "strchr"
+      },
+      {
+        "name": "strpbrk"
+      },
+      {
+        "name": "strtoul"
+      },
+      {
+        "name": "strcpy"
+      },
+      {
+        "name": "memmove"
+      },
+      {
+        "name": "memset"
+      },
+      {
+        "name": "strlen"
+      },
+      {
+        "name": "strncmp"
+      },
+      {
+        "name": "strcmp"
+      },
+      {
+        "name": "getenv"
+      },
+      {
+        "name": "_except_handler3"
+      },
+      {
+        "name": "isdigit"
+      },
+      {
+        "name": "memcpy"
+      },
+      {
+        "name": "fclose"
+      },
+      {
+        "name": "_mbschr"
+      },
+      {
+        "name": "strstr"
+      },
+      {
+        "name": "fgets"
+      },
+      {
+        "name": "fopen"
+      },
+      {
+        "name": "_mktemp"
+      },
+      {
+        "name": "__p__pgmptr"
+      },
+      {
+        "name": "_mbsstr"
+      },
+      {
+        "name": "_mbsinc"
+      },
+      {
+        "name": "strcat"
+      },
+      {
+        "name": "_mbsrchr"
+      },
+      {
+        "name": "exit"
+      },
+      {
+        "name": "strncpy"
+      },
+      {
+        "name": "_access"
+      },
+      {
+        "name": "fseek"
+      },
+      {
+        "name": "ftell"
+      },
+      {
+        "name": "qsort"
+      },
+      {
+        "name": "_mbslwr"
+      },
+      {
+        "name": "_exit"
+      },
+      {
+        "name": "_mbsspn"
+      },
+      {
+        "name": "_mbsupr"
+      },
+      {
+        "name": "_makepath"
+      },
+      {
+        "name": "_ismbcspace"
+      },
+      {
+        "name": "__getmainargs"
+      },
+      {
+        "name": "_mbccpy"
+      },
+      {
+        "name": "_mbclen"
+      },
+      {
+        "name": "_unlink"
+      },
+      {
+        "name": "_mbsdec"
+      },
+      {
+        "name": "_write"
+      },
+      {
+        "name": "getchar"
+      },
+      {
+        "name": "_isatty"
+      },
+      {
+        "name": "_ftime"
+      },
+      {
+        "name": "malloc"
+      },
+      {
+        "name": "free"
+      },
+      {
+        "name": "_strdup"
+      },
+      {
+        "name": "_spawnvp"
+      },
+      {
+        "name": "_errno"
+      },
+      {
+        "name": "_flushall"
+      },
+      {
+        "name": "_putenv"
+      },
+      {
+        "name": "_dup2"
+      },
+      {
+        "name": "_controlfp"
+      },
+      {
+        "name": "_XcptFilter"
+      },
+      {
+        "name": "__p___initenv"
+      },
+      {
+        "name": "_initterm"
+      },
+      {
+        "name": "__setusermatherr"
+      },
+      {
+        "name": "_adjust_fdiv"
+      },
+      {
+        "name": "__p__commode"
+      },
+      {
+        "name": "__p__fmode"
+      },
+      {
+        "name": "__set_app_type"
+      }
+    ],
+    "KERNEL32.dll": [
+      {
+        "name": "CloseHandle"
+      },
+      {
+        "name": "CreateFileA"
+      },
+      {
+        "name": "GetConsoleScreenBufferInfo"
+      },
+      {
+        "name": "GetModuleHandleA"
+      },
+      {
+        "name": "SetConsoleCtrlHandler"
+      },
+      {
+        "name": "LoadLibraryA"
+      },
+      {
+        "name": "GetProcAddress"
+      },
+      {
+        "name": "FreeLibrary"
+      }
+    ]
+  },
+  "directories": {
+    "export": {
+      "rva": 0,
+      "size": 0
+    },
+    "relocation": {
+      "rva": 0,
+      "size": 0
+    },
+    "tls": {
+      "rva": 0,
+      "size": 0
+    },
+    "delay_import": {
+      "rva": 0,
+      "size": 0
+    }
+  }
+}

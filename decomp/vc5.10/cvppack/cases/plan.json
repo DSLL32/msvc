@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "project": "vc5.10",
+  "binary_folder": "cvppack",
+  "target": "toolchains/5.10/bin/CVPACK.EXE",
+  "stage": "groundwork-only",
+  "reconstruction_authorized": false,
+  "release_requirements": ["Rust graph-audit readiness", "DLL workflow review", "root release"],
+  "ordered_cases": [
+    {
+      "id": "help",
+      "argv": ["/help"],
+      "theme_from": "decomp/vc1.0/cvpack/cases/queue.json#help",
+      "stage": "unmodified-original-probed",
+      "reference": "help/original/receipt.json",
+      "expected_original_status": 1,
+      "original_stdout_bytes": 193,
+      "original_stderr_bytes": 0,
+      "native_fixture_ready": false
+    },
+    {
+      "id": "hello-debug-dll",
+      "theme_from": "decomp/vc1.0/link/cases/native-boundaries/hello-debug-dll",
+      "source_from": "decomp/vc1.0/fixtures/hello-dll/c1/hello-dll.c",
+      "source_sha256": "4e75bd57e12322c38246eb2019b569f6d2943db1894bceeb3a261828adb18638",
+      "source": "hello-debug-dll/hello-dll.c",
+      "optional_small_typed_input": "hello-debug-dll/typed-debug-seed.c",
+      "stage": "source-only-awaiting-LINK-probe",
+      "argv": null,
+      "capture_owner": "/root/vc510_orchestrator/link",
+      "probe_questions": [
+        "Which 5.10 LINK options emit embedded CodeView suitable for CVPACK?",
+        "Does the chosen input require a companion PDB, and which PDB interfaces run?",
+        "Does LINK compact in process or invoke CVPACK, with which arguments?",
+        "Which /Z7 and /Zi inputs succeed, and does /minimum change dependencies?"
+      ],
+      "oracle": null,
+      "native_fixture_ready": false,
+      "do_not_reuse_vc1_outputs": true
+    }
+  ],
+  "future_dependency_work": {
+    "shared_maintainer": "/root/recon_lib_maintenance",
+    "PDB_support_present": false,
+    "policy_owner": "/root/vc510_orchestrator",
+    "implementation_requested": false
+  }
+}

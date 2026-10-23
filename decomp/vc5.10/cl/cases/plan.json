@@ -1,0 +1,48 @@
+{
+  "schema": 1,
+  "state": "groundwork-only",
+  "acceptance_enabled": false,
+  "blocked_by": [
+    "orchestrator DLL workflow decision",
+    "Rust graph-audit readiness",
+    "explicit start authorization"
+  ],
+  "themes": [
+    {
+      "id": "help",
+      "arguments": [
+        "/?"
+      ],
+      "source": null,
+      "from_vc1": "help theme only"
+    },
+    {
+      "id": "minimal-c",
+      "arguments": [
+        "/nologo",
+        "/c",
+        "test.c"
+      ],
+      "source": "sources/test.c",
+      "from_vc1": "minimal C theme only"
+    },
+    {
+      "id": "hello-win32",
+      "arguments": [
+        "/nologo",
+        "/O2",
+        "/G5",
+        "hello.c"
+      ],
+      "source": "sources/hello.c",
+      "from_vc1": "decomp/vc1.0/cl/cases/hello.c source only"
+    }
+  ],
+  "notes": [
+    "Fresh 5.10 references required; no vc1.0 artifacts, IR, traces, expected hashes or argument oracles reused.",
+    "First CL-only regressions must replay captured C1/C1XX export invocation effects and C2/LINK process boundaries without Wine. DLL calls are synchronous in-process boundaries, not child-process aliases.",
+    "No native build, target entry stub, mask or acceptance pipeline created in groundwork.",
+    "Minimal-C exact C1 argv/BOOL, DLL attach/detach entry observations and C2 MSC_CMD_FLAGS+IR were explicitly captured from original5.10; no reconstruction authorized."
+  ],
+  "groundwork_capture": "original-probes/host-contract-2/manifest.json"
+}

@@ -1,0 +1,181 @@
+{
+  "schema": 1,
+  "kind": "original-only DLL host and C2 boundary groundwork; not acceptance/regression oracle",
+  "status": "complete minimal host/IR observation",
+  "cwd": "S:\\vc5.10\\cl\\host-contract-2",
+  "target": {
+    "path": "toolchains/5.10/bin/CL.EXE",
+    "sha256": "aa15ed605515693292c539827ab1d8e08ce2ed5b4e1d9ac2c7f033903e6844dd"
+  },
+  "dll": {
+    "path": "toolchains/5.10/bin/C1.DLL",
+    "loaded_file_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+    "loaded_file_bytes": 565008,
+    "loaded_file_scratch_path": "/root/.ai-tmp/msvc2/vc5.10/cl/host-contract-2/loaded-c1.bin",
+    "actual_base": 274726912,
+    "preferred_base": 274726912,
+    "entry_rva": 73770,
+    "export_module_name": "c1n32_l.dll",
+    "entry_byte_before_analysis_breakpoint": 83,
+    "load_event": 22,
+    "attach_entry_event": 23,
+    "invoke_call_event": 25,
+    "detach_entry_event": 27,
+    "attach_reason": 1,
+    "detach_reason": 0,
+    "reserved": 0
+  },
+  "invoke": {
+    "argc": 27,
+    "argv": [
+      "R:\\toolchains\\5.10\\bin\\c1.dll",
+      "-il",
+      ".\\a01396",
+      "-f",
+      "test.c",
+      "-W",
+      "1",
+      "-Ze",
+      "-D_MSC_EXTENSIONS",
+      "-Zp8",
+      "-ZB64",
+      "-D_INTEGRAL_MAX_BITS=64",
+      "-D_M_IX86=500",
+      "-G5",
+      "-Gs",
+      "-Ot",
+      "-Ob0",
+      "-Fotest.obj",
+      "-pc",
+      "\\:/",
+      "-Fdvc50.pdb",
+      "-D_MSC_VER=1100",
+      "-D_WIN32",
+      "-nologo",
+      "-Bd",
+      "-I",
+      "R:\\toolchains\\5.10\\include"
+    ],
+    "boolean_argument": 1,
+    "abi": "stdcall, 12-byte callee cleanup"
+  },
+  "c2_boundary": {
+    "event": 32,
+    "mode": 0,
+    "program": "R:\\toolchains\\5.10\\bin\\c2.exe",
+    "argv": [
+      "R:\\toolchains\\5.10\\bin\\c2.exe"
+    ],
+    "environment_input": {
+      "MSC_CMD_FLAGS": "-il .\\a01396 -f test.c -W 1 -G5 -Gs4096 -dos -Fotest.obj -ML -Fdvc50.idb -Bd "
+    },
+    "raw_environment_assignment": "msc-cmd-flags.bin",
+    "ir_prefix": ".\\a01396",
+    "files_copied_before_spawn": [
+      "captured-ir/a01396ex",
+      "captured-ir/a01396gl",
+      "captured-ir/a01396in",
+      "captured-ir/a01396sy"
+    ]
+  },
+  "original_completion_status": 0,
+  "helper": {
+    "source_sha256": "043bf1562a4afede6a09e615970b8e6401ce8ce312b8313a66078524cf527c93",
+    "exe_sha256": "19f49266ae1162ce6595b07685d97dc78b3e1af6ebe4a935addd8b2953649c16",
+    "exe_scratch_path": "/root/.ai-tmp/msvc2/vc5.10/cl/host-contract-2/host-contract-probe.exe"
+  },
+  "timing": [
+    {
+      "step": "build",
+      "argv": [
+        "/usr/bin/wine",
+        "R:\\toolchains\\5.10\\bin\\CL.EXE",
+        "/nologo",
+        "/W3",
+        "/Fehost-contract-probe.exe",
+        "/Fohost-contract-probe.obj",
+        "R:\\decomp\\vc5.10\\cl\\scripts\\host-contract-probe.c"
+      ],
+      "status": 0,
+      "elapsed_seconds": 1.3443077690899372
+    },
+    {
+      "step": "capture",
+      "argv": [
+        "/usr/bin/wine",
+        "S:\\vc5.10\\cl\\host-contract-2\\host-contract-probe.exe",
+        "R:\\toolchains\\5.10\\bin\\CL.EXE",
+        "/nologo /Bd /c test.c",
+        "events.txt"
+      ],
+      "status": 0,
+      "elapsed_seconds": 1.602589774876833
+    }
+  ],
+  "limits": [
+    "Preferred-base load only: does not establish nonpreferred-base relocation ordering relative to LOAD_DLL_DEBUG_EVENT.",
+    "Only analysis breakpoints; no DLL code masking or reconstruction acceptance performed.",
+    "Actual process argv preserved as one executable argument; displayed compiler flags are not synthesized into argv.",
+    "MSC_CMD_FLAGS assignment is raw including trailing space and NUL; full remote process environment was not enumerated.",
+    "All four matching IR-prefix files were copied before continuing original _spawnvp; standalone backend replay deferred.",
+    "Loaded DLL raw hFile copy remains in scratch; exact SHA-256 matches immutable toolchain DLL."
+  ],
+  "files": {
+    "build.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "build.stdout": {
+      "bytes": 23,
+      "sha256": "f930ff8ff1fad502e904359c3b55b828da1767022691cf709ceccf5530b945b7"
+    },
+    "capture.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "capture.stdout": {
+      "bytes": 366,
+      "sha256": "7f53e154292346c29b5eaddc1ebcf3b0cded210ebbda2d2962f7ecb758ac5b68"
+    },
+    "captured-ir/a01396ex": {
+      "bytes": 1187,
+      "sha256": "fd4f39e61911a08723ecbac14167e71a66b15a3eef3ae42ae976357d756313e1"
+    },
+    "captured-ir/a01396gl": {
+      "bytes": 51,
+      "sha256": "f729055d189f26eb1ce62b5b652e779c33d56ee1781fd115dd22104d0dea6fe6"
+    },
+    "captured-ir/a01396in": {
+      "bytes": 3,
+      "sha256": "66927378719e5c868ee8b4c6182280b565e659505eaba83128ba8ef2e293c3e8"
+    },
+    "captured-ir/a01396sy": {
+      "bytes": 13,
+      "sha256": "255d67bb3e14ac12fa10c3a870b501bb40a0b99ac9e9e86b2de2c118c9ccfb7f"
+    },
+    "events.txt": {
+      "bytes": 3787,
+      "sha256": "b492ab72e4f7e613698d69fb053d0fd3f5320e0bd2641335ee2394763df8e59d"
+    },
+    "msc-cmd-flags.bin": {
+      "bytes": 92,
+      "sha256": "555259d6b4ddf9917635ada3b88bd8d23241b75b35dccd68c565afe5057e9a0a"
+    },
+    "probe-source.c": {
+      "bytes": 10619,
+      "sha256": "043bf1562a4afede6a09e615970b8e6401ce8ce312b8313a66078524cf527c93"
+    },
+    "run.json": {
+      "bytes": 1045,
+      "sha256": "61436c707c5587be025c6dd17273fdbd42df060cbbb41c9a9bb9fe2c77f041b1"
+    },
+    "test.c": {
+      "bytes": 26,
+      "sha256": "9b8044c13cc843fe16795fd957e3ede9da9c5c12f3104e538396ea98230389b2"
+    },
+    "test.obj": {
+      "bytes": 275,
+      "sha256": "ed390e76ece4088906c5da057751ac2b9846ff48d76666aebf377fc4b21bb0bf"
+    }
+  }
+}

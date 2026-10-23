@@ -1,0 +1,760 @@
+:Base odbc.hlp
+:Title ODBC 3.0 Programmer's Reference
+1 Part 1   Introduction to ODBC
+2 Organization of this Manual=odbcOrganization_of_this_Manual
+2 Audience=odbcAudience
+2 Document Conventions=odbcDocument_Conventions
+2 About the Code Examples=odbcAbout_the_Code_Examples
+2 Recommended Reading=odbcRecommended_Reading
+2 Chapter 1   Introduction
+3 Introduction=odbcIntroduction
+3 Why Was ODBC Created?=odbcWhy_Was_ODBC_Created_
+3 What is ODBC?=odbcWhat_is_ODBC_
+3 ODBC and the Standard CLI=odbcODBC_and_the_Standard_CLI
+2 Chapter 2   An Introduction to SQL and ODBC
+3 An Introduction to SQL and ODBC=odbcAn_Introduction_to_SQL_and_ODBC
+3 Structured Query Language (SQL)
+4 Structured Query Language (SQL)=odbcStructured_Query_Language__SQL_
+4 Processing an SQL Statement=odbcProcessing_an_SQL_Statement
+4 Embedded SQL
+5 Embedded SQL=odbcEmbedded_SQL
+5 Embedded SQL Example=odbcEmbedded_SQL_Example
+5 Compiling an Embedded SQL Program=odbcCompiling_an_Embedded_SQL_Program
+5 Static SQL=odbcStatic_SQL
+5 Dynamic SQL=odbcDynamic_SQL
+3 SQL Modules=odbcSQL_Modules
+3 Call-Level Interfaces=odbcCall_Level_Interfaces
+3 Database Access Architecture
+4 Database Access Architecture=odbcDatabase_Access_Architecture
+4 Network Database Access=odbcNetwork_Database_Access
+4 Standard Database Access Architectures
+5 Standard Database Access Architectures=odbcStandard_Database_Access_Architectures
+5 Standard Programming Interface=odbcStandard_Programming_Interface
+5 Standard Data Stream Protocol=odbcStandard_Data_Stream_Protocol
+5 Standard Gateway=odbcStandard_Gateway
+3 The ODBC Solution=odbcThe_ODBC_Solution
+2 Chapter 3   ODBC Architecture
+3 ODBC Architecture=odbcODBC_Architecture
+3 Applications=odbcApplications
+3 The Driver Manager=odbcThe_Driver_Manager
+3 Drivers
+4 Drivers=odbcDrivers
+4 Driver Tasks=odbcDriver_Tasks
+4 Driver Architecture
+5 Driver Architecture=odbcDriver_Architecture
+5 File-Based Drivers=odbcFile_Based_Drivers
+5 DBMS-Based Drivers=odbcDBMS_Based_Drivers
+5 Network Example=odbcNetwork_Example
+5 Other Driver Architectures=odbcOther_Driver_Architectures
+3 Data Sources
+4 Data Sources=odbcData_Sources
+4 Types of Data Sources
+5 Types of Data Sources=odbcTypes_of_Data_Sources
+5 Machine Data Sources=odbcMachine_Data_Sources
+5 File Data Sources=odbcFile_Data_Sources
+3 Using Data Sources=odbcUsing_Data_Sources
+3 Data Source Example=odbcData_Source_Example
+1 Part 2   Developing Applications and Drivers
+2 Chapter 4   ODBC Fundamentals
+3 ODBC Fundamentals=odbcODBC_Fundamentals
+3 Handles
+4 Handles=odbcHandles
+4 Environment Handles=odbcEnvironment_Handles
+4 Connection Handles=odbcConnection_Handles
+4 Statement Handles=odbcStatement_Handles
+4 Descriptor Handles=odbcDescriptor_Handles
+4 State Transitions=odbcState_Transitions
+3 Buffers
+4 Buffers=odbcBuffers
+4 Deferred Buffers=odbcDeferred_Buffers
+4 Allocating and Freeing Buffers=odbcAllocating_and_Freeing_Buffers
+4 Using Data Buffers
+5 Using Data Buffers=odbcUsing_Data_Buffers
+5 Data Buffer Type=odbcData_Buffer_Type
+5 Data Buffer Address=odbcData_Buffer_Address
+5 Data Buffer Length=odbcData_Buffer_Length
+3 Using Length/Indicator Values=odbcUsing_Length_Indicator_Values
+3 Data Length, Buffer Length, and Truncation=odbcData_Length__Buffer_Length__and_Truncation
+3 Character Data and C Strings=odbcCharacter_Data_and_C_Strings
+3 Data Types in ODBC
+4 Data Types in ODBC=odbcData_Types_in_ODBC
+4 Type Identifiers=odbcType_Identifiers
+4 SQL Data Types in ODBC
+5 SQL Data Types in ODBC=odbcSQL_Data_Types_in_ODBC
+5 SQL Type Identifiers=odbcSQL_Type_Identifiers
+5 Retrieving Data Type Information with SQLGetTypeInfo=odbcRetrieving_Data_Type_Information_with_SQLGetTypeInfo
+3 C Data Types in ODBC=odbcC_Data_Types_in_ODBC
+3 Data Type Conversions=odbcData_Type_Conversions
+3 Conformance Levels
+4 Conformance Levels=odbcConformance_Levels
+4 Interface Conformance Levels
+5 Interface Conformance Levels=odbcInterface_Conformance_Levels
+5 Core Interface Conformance=odbcCore_Interface_Conformance
+5 Level 1 Interface Conformance=odbcLevel_1_Interface_Conformance
+5 Level 2 Interface Conformance=odbcLevel_2_Interface_Conformance
+5 Function Conformance=odbcFunction_Conformance
+5 Attribute Conformance=odbcAttribute_Conformance
+5 Descriptor Field Conformance=odbcDescriptor_Field_Conformance
+3 SQL Conformance Levels=odbcSQL_Conformance_Levels
+2 Environment, Connection, and Statement Attributes=odbcEnvironment__Connection__and_Statement_Attributes
+2 Tables and Views=odbcTables_and_Views
+2 Chapter 5   Basic Application Steps
+3 Basic Application Steps=odbcBasic_Application_Steps
+3 Step 1: Connect to the Data Source=odbcStep_1__Connect_to_the_Data_Source
+3 Step 2: Initialize the Application=odbcStep_2__Initialize_the_Application
+3 Step 3: Build and Execute an SQL Statement=odbcStep_3__Build_and_Execute_an_SQL_Statement
+3 Step 4a: Fetch the Results=odbcStep_4a__Fetch_the_Results
+3 Step 4b: Fetch the Row Count=odbcStep_4b__Fetch_the_Row_Count
+3 Step 5: Commit the Transaction=odbcStep_5__Commit_the_Transaction
+3 Step 6: Disconnect from the Data Source=odbcStep_6__Disconnect_from_the_Data_Source
+2 Chapter 6   Connecting to a Data Source or Driver
+3 Connecting to a Data Source or Driver=odbcConnecting_to_a_Data_Source_or_Driver
+3 Allocating the Environment Handle=odbcAllocating_the_Environment_Handle
+3 Declaring the Application's ODBC Version=odbcDeclaring_the_Application_s_ODBC_Version
+3 Choosing a Data Source or Driver=odbcChoosing_a_Data_Source_or_Driver
+3 Allocating a Connection Handle=odbcAllocating_a_Connection_Handle
+3 Connection Attributes=odbcConnection_Attributes
+3 Establishing a Connection
+4 Establishing a Connection=odbcEstablishing_a_Connection
+4 Default Data Source=odbcDefault_Data_Source
+4 Connecting with SQLConnect=odbcConnecting_with_SQLConnect
+4 Connection String=odbcConnection_String
+4 Connecting with SQLDriverConnect
+5 Connecting with SQLDriverConnect=odbcConnecting_with_SQLDriverConnect
+5 Driver-Specific Connection Information=odbcDriver_Specific_Connection_Information
+5 Prompting the User for Connection Information=odbcPrompting_the_User_for_Connection_Information
+5 Connecting Using File Data Sources=odbcConnecting_Using_File_Data_Sources
+5 Connecting Directly to Drivers=odbcConnecting_Directly_to_Drivers
+4 Connecting with SQLBrowseConnect
+5 Connecting with SQLBrowseConnect=odbcConnecting_with_SQLBrowseConnect
+5 SQL Server Browsing Example=odbcSQL_Server_Browsing_Example
+2 Connection Pooling=odbcConnection_Pooling
+2 Disconnecting from a Data Source or Driver=odbcDisconnecting_from_a_Data_Source_or_Driver
+2 Driver Manager's Role in the Connection Process=odbcDriver_Manager_s_Role_in_the_Connection_Process
+2 Chapter 7   Catalog Functions
+3 Catalog Functions=odbcCatalog_Functions
+3 Uses of Catalog Data=odbcUses_of_Catalog_Data
+3 Catalog Functions in ODBC
+4 Catalog Functions in ODBC=odbcCatalog_Functions_in_ODBC
+4 Data Returned by Catalog Functions=odbcData_Returned_by_Catalog_Functions
+4 Arguments in Catalog Functions
+5 Arguments in Catalog Functions=odbcArguments_in_Catalog_Functions
+5 Ordinary Arguments=odbcOrdinary_Arguments
+5 Pattern Value Arguments=odbcPattern_Value_Arguments
+5 Identifier Arguments=odbcIdentifier_Arguments
+5 Value List Arguments=odbcValue_List_Arguments
+3 Schema Views=odbcSchema_Views
+2 Chapter 8   SQL Statements
+3 SQL Statements=odbcSQL_Statements
+3 Constructing SQL Statements
+4 Constructing SQL Statements=odbcConstructing_SQL_Statements
+4 Hard-Coded SQL Statements=odbcHard_Coded_SQL_Statements
+4 SQL Statements Constructed at Run Time=odbcSQL_Statements_Constructed_at_Run_Time
+4 SQL Statements Entered by the User=odbcSQL_Statements_Entered_by_the_User
+3 Interoperability of SQL Statements
+4 Interoperability of SQL Statements=odbcInteroperability_of_SQL_Statements
+4 Choosing an SQL Grammar=odbcChoosing_an_SQL_Grammar
+4 Constructing Interoperable SQL Statements
+5 Constructing Interoperable SQL Statements=odbcConstructing_Interoperable_SQL_Statements
+5 Catalog and Schema Usage=odbcCatalog_and_Schema_Usage
+5 Catalog Position=odbcCatalog_Position
+5 Quoted Identifiers=odbcQuoted_Identifiers
+5 Identifier Case=odbcIdentifier_Case
+5 Escape Sequences =odbcEscape_Sequences
+5 Literal Prefixes and Suffixes=odbcLiteral_Prefixes_and_Suffixes
+5 Parameter Markers in Procedure Calls=odbcParameter_Markers_in_Procedure_Calls
+5 DDL Statements=odbcDDL_Statements
+3 Escape Sequences
+4 Escape Sequences in ODBC=odbcEscape_Sequences_in_ODBC
+4 Date, Time, and Timestamp Literals=odbcDate__Time__and_Timestamp_Literals
+4 Datetime Interval Literals=odbcDatetime_Interval_Literals
+4 Scalar Function Calls=odbcScalar_Function_Calls
+4 LIKE Predicate Escape Character=odbcLIKE_Predicate_Escape_Character
+4 Outer Joins=odbcOuter_Joins
+4 Procedure Calls=odbcProcedure_Calls
+2 Chapter 9   Executing Statements
+3 Executing Statements=odbcExecuting_Statements
+3 Allocating a Statement Handle=odbcAllocating_a_Statement_Handle
+3 Statement Attributes=odbcStatement_Attributes
+3 Executing a Statement
+4 Executing a Statement=odbcExecuting_a_Statement
+4 Direct Execution=odbcDirect_Execution
+4 Prepared Execution=odbcPrepared_Execution
+4 Procedures
+5 Procedures=odbcProcedures
+5 When to Use Procedures=odbcWhen_to_Use_Procedures
+5 Executing Procedures=odbcExecuting_Procedures
+4 Batches of SQL Statements
+5 Batches of SQL Statements=odbcBatches_of_SQL_Statements
+5 Result-Generating and Result-Free Statements=odbcResult_Generating_and_Result_Free_Statements
+5 Executing Batches=odbcExecuting_Batches
+5 Errors and Batches=odbcErrors_and_Batches
+3 Executing Catalog Functions=odbcExecuting_Catalog_Functions
+3 Statement Parameters
+4 Statement Parameters=odbcStatement_Parameters
+4 Binding Parameters
+5 Binding Parameters=odbcBinding_Parameters
+5 Binding Parameter Markers=odbcBinding_Parameter_Markers
+5 Binding Parameters by Name (Named Parameters)=odbcBinding_Parameters_by_Name__Named_Parameters_
+5 Parameter Binding Offsets=odbcParameter_Binding_Offsets
+5 Describing Parameters=odbcDescribing_Parameters
+3 Setting Parameter Values=odbcSetting_Parameter_Values
+3 Sending Long Data=odbcSending_Long_Data
+3 Retrieving Output Parameters by SQLGetData=odbcRetrieving_Output_Parameters_by_SQLGetData
+3 Procedure Parameters=odbcProcedure_Parameters
+4 Arrays of Parameter Values
+5 Arrays of Parameter Values=odbcArrays_of_Parameter_Values
+5 Binding Arrays of Parameters=odbcBinding_Arrays_of_Parameters
+5 Using Arrays of Parameters=odbcUsing_Arrays_of_Parameters
+2 Asynchronous Execution=odbcAsynchronous_Execution
+2 Freeing a Statement Handle=odbcFreeing_a_Statement_Handle
+2 Chapter 10   Retrieving Results (Basic)
+3 Retrieving Results (Basic)=odbcRetrieving_Results__Basic_
+3 Was a Result Set Created?=odbcWas_a_Result_Set_Created_
+3 Result Set Metadata
+4 Result Set Metadata=odbcResult_Set_Metadata
+4 How is Metadata Used?=odbcHow_is_Metadata_Used_
+4 SQLDescribeCol and SQLColAttribute=odbcSQLDescribeCol_and_SQLColAttribute
+3 Binding Result Set Columns
+4 Binding Result Set Columns=odbcBinding_Result_Set_Columns
+4 Overview=odbcOverview
+4 Using SQLBindCol=odbcUsing_SQLBindCol
+3 Fetching Data
+4 Fetching Data=odbcFetching_Data
+4 Cursors=odbcCursors
+4 Fetching a Row of Data=odbcFetching_a_Row_of_Data
+4 Getting Long Data=odbcGetting_Long_Data
+2 Closing the Cursor=odbcClosing_the_Cursor
+2 Chapter 11   Retrieving Results (Advanced)
+3 Retrieving Results (Advanced)=odbcRetrieving_Results__Advanced_
+3 Column Binding Offsets=odbcColumn_Binding_Offsets
+3 Block Cursors
+4 Block Cursors=odbcBlock_Cursors
+4 Binding Columns for Use with Block Cursors
+5 Binding Columns for Use with Block Cursors=odbcBinding_Columns_for_Use_with_Block_Cursors
+5 Column-Wise Binding=odbcColumn_Wise_Binding
+5 Row-Wise Binding=odbcRow_Wise_Binding
+4 Using Block Cursors
+5 Using Block Cursors=odbcUsing_Block_Cursors
+5 Rowset Size=odbcRowset_Size
+5 Number of Rows Fetched and Status=odbcNumber_of_Rows_Fetched_and_Status
+5 SQLGetData and Block Cursors=odbcSQLGetData_and_Block_Cursors
+3 Row Status Array=odbcRow_Status_Array
+3 Scrollable Cursors
+4 Scrollable Cursors=odbcScrollable_Cursors
+4 Scrollable Cursor Types
+5 Scrollable Cursor Types=odbcScrollable_Cursor_Types
+5 Static Cursors=odbcStatic_Cursors
+5 Dynamic Cursors=odbcDynamic_Cursors
+5 Keyset-Driven Cursors=odbcKeyset_Driven_Cursors
+5 Mixed Cursors=odbcMixed_Cursors
+4 Using Scrollable Cursors
+5 Using Scrollable Cursors=odbcUsing_Scrollable_Cursors
+5 Determining Cursor Capabilities=odbcDetermining_Cursor_Capabilities
+5 Setting Up the Cursor=odbcSetting_Up_the_Cursor
+5 Cursor Characteristics and Cursor Type=odbcCursor_Characteristics_and_Cursor_Type
+5 Scrolling and Fetching Rows=odbcScrolling_and_Fetching_Rows
+3 Relative and Absolute Scrolling=odbcRelative_and_Absolute_Scrolling
+4 Bookmarks
+5 Bookmarks=odbcBookmarks
+5 Bookmark Types=odbcBookmark_Types
+5 Retrieving Bookmarks=odbcRetrieving_Bookmarks
+5 Scrolling by Bookmark=odbcScrolling_by_Bookmark
+5 Updating, Deleting, or Fetching by Bookmark=odbcUpdating__Deleting__or_Fetching_by_Bookmark
+5 Comparing Bookmarks=odbcComparing_Bookmarks
+2 The ODBC Cursor Library=odbcThe_ODBC_Cursor_Library
+2 Multiple Results=odbcMultiple_Results
+2 Chapter 12   Updating Data
+3 Updating Data=odbcUpdating_Data
+3 UPDATE, DELETE, and INSERT Statements=odbcUPDATE__DELETE__and_INSERT_Statements
+3 Positioned Update and Delete Statements=odbcPositioned_Update_and_Delete_Statements
+3 Simulating Positioned Update and Delete Statements=odbcSimulating_Positioned_Update_and_Delete_Statements
+3 Determining the Number of Affected Rows=odbcDetermining_the_Number_of_Affected_Rows
+3 Updating Data with SQLSetPos
+4 Updating Data with SQLSetPos=odbcUpdating_Data_with_SQLSetPos
+4 Updating Rows in the Rowset with SQLSetPos=odbcUpdating_Rows_in_the_Rowset_with_SQLSetPos
+4 Deleting Rows in the Rowset with SQLSetPos=odbcDeleting_Rows_in_the_Rowset_with_SQLSetPos
+3 Updating Data with SQLBulkOperations
+4 Updating Data with SQLBulkOperations=odbcUpdating_Data_with_SQLBulkOperations
+4 Updating Rows by Bookmark with SQLBulkOperations=odbcUpdating_Rows_by_Bookmark_with_SQLBulkOperations
+4 Deleting Rows by Bookmark with SQLBulkOperations=odbcDeleting_Rows_by_Bookmark_with_SQLBulkOperations
+4 Inserting Rows with SQLBulkOperations=odbcInserting_Rows_with_SQLBulkOperations
+4 Fetching Rows with SQLBulkOperations=odbcFetching_Rows_with_SQLBulkOperations
+2 Long Data and SQLSetPos and SQLBulkOperations=odbcLong_Data_and_SQLSetPos_and_SQLBulkOperations
+2 Chapter 13   Descriptors
+3 Descriptors=odbcDescriptors
+3 Types of Descriptors=odbcTypes_of_Descriptors
+3 Descriptor Fields
+4 Descriptor Fields=odbcDescriptor_Fields
+4 Record Count=odbcRecord_Count
+4 Bound Descriptor Records=odbcBound_Descriptor_Records
+4 Deferred Fields=odbcDeferred_Fields
+4 Consistency Check=odbcConsistency_Check
+3 Allocating and Freeing Descriptors
+4 Allocating and Freeing Descriptors=odbcAllocating_and_Freeing_Descriptors
+4 Implicitly Allocated Descriptors=odbcImplicitly_Allocated_Descriptors
+4 Explicitly Allocated Descriptors=odbcExplicitly_Allocated_Descriptors
+4 Initialization of Descriptor Fields=odbcInitialization_of_Descriptor_Fields
+4 Automatic Population of the IPD=odbcAutomatic_Population_of_the_IPD
+4 Freeing Descriptors=odbcFreeing_Descriptors
+3 Getting and Setting Descriptor Fields
+4 Getting and Setting Descriptor Fields=odbcGetting_and_Setting_Descriptor_Fields
+4 Obtaining Descriptor Handles=odbcObtaining_Descriptor_Handles
+4 Retrieving the Values in Descriptor Fields=odbcRetrieving_the_Values_in_Descriptor_Fields
+4 Setting Descriptor Fields=odbcSetting_Descriptor_Fields
+4 Copying Descriptors=odbcCopying_Descriptors
+4 Using Concise Functions=odbcUsing_Concise_Functions
+2 Chapter 14   Transactions
+3 Transactions=odbcTransactions
+3 Transactions in ODBC
+4 Transactions in ODBC=odbcTransactions_in_ODBC
+4 Transaction Support=odbcTransaction_Support
+4 Commit Mode
+5 Commit Mode=odbcCommit_Mode
+5 Auto-Commit Mode=odbcAuto_Commit_Mode
+5 Manual-Commit Mode=odbcManual_Commit_Mode
+5 Setting the Commit Mode=odbcSetting_the_Commit_Mode
+3 Committing and Rolling Back Transactions=odbcCommitting_and_Rolling_Back_Transactions
+3 Effect of Transactions on Cursors and Prepared Statements=odbcEffect_of_Transactions_on_Cursors_and_Prepared_Statements
+3 Transaction Isolation
+4 Transaction Isolation=odbcTransaction_Isolation
+4 Serializability=odbcSerializability
+4 Transaction Isolation Levels=odbcTransaction_Isolation_Levels
+4 Setting the Transaction Isolation Level=odbcSetting_the_Transaction_Isolation_Level
+4 Scrollable Cursors and Transaction Isolation=odbcScrollable_Cursors_and_Transaction_Isolation
+3 Concurrency Control
+4 Concurrency Control=odbcConcurrency_Control
+4 Concurrency Types=odbcConcurrency_Types
+4 Optimistic Concurrency=odbcOptimistic_Concurrency
+2 Chapter 15   Diagnostics
+3 Diagnostics=odbcDiagnostics
+3 Return Codes=odbcReturn_Codes
+3 Diagnostic Records
+4 Diagnostic Records=odbcDiagnostic_Records
+4 Header Record=odbcHeader_Record
+4 Status Records
+5 Status Records=odbcStatus_Records
+5 Sequence of Status Records=odbcSequence_of_Status_Records
+5 SQLSTATEs=odbcSQLSTATEs
+5 Diagnostic Messages=odbcDiagnostic_Messages
+2 Using SQLGetDiagRec and SQLGetDiagField=odbcUsing_SQLGetDiagRec_and_SQLGetDiagField
+3 Implementing SQLGetDiagRec and SQLGetDiagField
+4 Implementing SQLGetDiagRec and SQLGetDiagField=odbcImplementing_SQLGetDiagRec_and_SQLGetDiagField
+4 Diagnostic Handling Rules=odbcDiagnostic_Handling_Rules
+4 Role of the Driver Manager
+5 Role of the Driver Manager=odbcRole_of_the_Driver_Manager
+5 Argument Value Checks=odbcArgument_Value_Checks
+5 State Transition Checks=odbcState_Transition_Checks
+5 General Error Checks=odbcGeneral_Error_Checks
+5 Driver Manager Error and Warning Checks=odbcDriver_Manager_Error_and_Warning_Checks
+3 Role of the Driver=odbcRole_of_the_Driver
+3 Diagnostic Handling Examples
+4 Diagnostic Handling Examples=odbcDiagnostic_Handling_Examples
+4 File-Based Driver Diagnostic Example=odbcFile_Based_Driver_Diagnostic_Example
+4 DBMS-Based Driver Diagnostic Example=odbcDBMS_Based_Driver_Diagnostic_Example
+4 Gateways Diagnostic Example=odbcGateways_Diagnostic_Example
+4 Driver Manager Diagnostic Example=odbcDriver_Manager_Diagnostic_Example
+2 Chapter 16   Interoperability
+3 Interoperability=odbcInteroperability
+3 Is ODBC the Answer?=odbcIs_ODBC_the_Answer_
+3 Choosing a Level of Interoperability
+4 Choosing a Level of Interoperability=odbcChoosing_a_Level_of_Interoperability
+4 Custom Applications=odbcCustom_Applications
+4 Vertical Applications=odbcVertical_Applications
+4 Generic Applications=odbcGeneric_Applications
+2 Determining the Target DBMSs and Drivers=odbcDetermining_the_Target_DBMSs_and_Drivers
+2 Considering Database Features to Use=odbcConsidering_Database_Features_to_Use
+2 Length of the Product Cycle=odbcLength_of_the_Product_Cycle
+3 Writing an Interoperable Application
+4 Writing an Interoperable Application=odbcWriting_an_Interoperable_Application
+4 Checking Feature Support and Variability=odbcChecking_Feature_Support_and_Variability
+4 Features to Watch For
+5 Features to Watch For=odbcFeatures_to_Watch_For
+5 Version Number=odbcVersion_Number
+5 Multiple Active Statements and Connections=odbcMultiple_Active_Statements_and_Connections
+5 Transaction Support in DBMSs=odbcTransaction_Support_in_DBMSs
+5 Commit and Rollback Behavior=odbcCommit_and_Rollback_Behavior
+5 NOT NULL in CREATE TABLE Statements=odbcNOT_NULL_in_CREATE_TABLE_Statements
+5 Supported Data Types=odbcSupported_Data_Types
+5 ODBC SQL Grammar=odbcODBC_SQL_Grammar
+5 Batch Processing=odbcBatch_Processing
+2 Testing Interoperable Applications=odbcTesting_Interoperable_Applications
+2 Chapter 17   Programming Considerations
+3 Programming Considerations=odbcProgramming_Considerations
+3 Multithreading=odbcMultithreading
+3 Alignment=odbcAlignment
+3 Translation DLLs=odbcTranslation_DLLs
+3 Tracing
+4 Tracing=odbcTracing
+4 Trace DLL=odbcTrace_DLL
+4 Trace File=odbcTrace_File
+4 Enabling Tracing
+5 Enabling Tracing=odbcEnabling_Tracing
+5 Dynamic Tracing=odbcDynamic_Tracing
+2 Driver-Specific Data Types, Descriptor Types, Information Types, Diagnostic Types, and Attributes=odbcDriver_Specific_Data_Types__Descriptor_Types__Information_Types__Diagnostic_Types__and_Attributes
+3 Backward Compatibility and Standards Compliance
+4 Backward Compatibility and Standards Compliance=odbcBackward_Compatibility_and_Standards_Compliance
+4 Affected ODBC Components=odbcAffected_ODBC_Components
+4 Types of Changes=odbcTypes_of_Changes
+4 Application/Driver Compatibility
+5 Application/Driver Compatibility=odbcApplication_Driver_Compatibility
+5 Types of Applications=odbcTypes_of_Applications
+5 Types of Drivers=odbcTypes_of_Drivers
+5 Compatibility Matrix=odbcCompatibility_Matrix
+4 New Features
+5 New Features=odbcNew_Features
+5 Block Cursors, Scrollable Cursors, and Backward Compatibility for ODBC 3.0 Applications=odbcBlock_Cursors__Scrollable_Cursors__and_Backward_Compatibility_for_ODBC_30_Applications
+3 Duplicated Features=odbcDuplicated_Features
+4 Behavioral Changes
+5 Behavioral Changes=odbcBehavioral_Changes
+5 SQLSTATE Mappings=odbcSQLSTATE_Mappings
+5 Datetime Data Type Changes=odbcDatetime_Data_Type_Changes
+4 Writing ODBC 3.0 Applications
+5 Writing ODBC 3.0 Applications=odbcWriting_ODBC_3.0_Applications
+5 Mapping Replacement Functions for Backward Compatibility of Applications=odbcMapping_Replacement_Functions_for_Backward_Compatibility_of_Applications
+5 Calling SQLCloseCursor=odbcCalling_SQLCloseCursor
+5 Calling SQLGetDiagField=odbcCalling_SQLGetDiagField
+5 Calling SQLSetPos=odbcCalling_SQLSetPos
+5 Cursor Library Operations=odbcCursor_Library_Operations
+5 Mapping the Cursor Attributes1 Information Types=odbcMapping_the_Cursor_Attributes1_Information_Types
+5 SQL_NO_DATA=odbcSQL_NO_DATA
+3 Writing ODBC 3.0 Drivers=odbcWriting_ODBC_3.0_Drivers
+3 ODBC in Windows
+4 ODBC in Windows=odbcODBC_in_Windows
+4 Header Files=odbcHeader_Files
+4 CString Class=odbcCString_Class
+4 Creating and Terminating Threads=odbcCreating_and_Terminating_Threads
+1 Part 3   Installing and Configuring ODBC Software
+2 Chapter 18   Installing ODBC Components
+3 Installing ODBC Components=odbcInstalling_ODBC_Components
+3 Installation Components
+4 Installation Components=odbcInstallation_Components
+4 Setup Program=odbcSetup_Program
+4 Installer DLL=odbcInstaller_DLL
+4 Driver Setup DLL=odbcDriver_Setup_DLL
+2 Usage Counting=odbcUsage_Counting
+2 Redistributable Files=odbcRedistributable_Files
+3 Registry Entries for ODBC Components
+4 Registry Entries for ODBC Components=odbcRegistry_Entries_for_ODBC_Components
+4 ODBC Core Subkey=odbcODBC_Core_Subkey
+4 ODBC Drivers Subkey=odbcODBC_Drivers_Subkey
+4 Driver Specification Subkeys=odbcDriver_Specification_Subkeys
+4 Default Driver Subkey=odbcDefault_Driver_Subkey
+4 ODBC Translators Subkey=odbcODBC_Translators_Subkey
+4 Translator Specification Subkeys=odbcTranslator_Specification_Subkeys
+2 Chapter 19   Configuring Data Sources
+3 Configuring Data Sources=odbcConfiguring_Data_Sources
+3 Configuration Components
+4 Configuration Components=odbcConfiguration_Components
+4 Administration Program=odbcAdministration_Program
+4 The Installer DLL=odbcThe_Installer_DLL
+4 Driver Setup DLLs=odbcDriver_Setup_DLLs
+4 Translator Setup DLLs=odbcTranslator_Setup_DLLs
+3 Registry Entries for Data Sources
+4 Registry Entries for Data Sources=odbcRegistry_Entries_for_Data_Sources
+4 ODBC Data Sources Subkey=odbcODBC_Data_Sources_Subkey
+4 Data Source Specification Subkeys=odbcData_Source_Specification_Subkeys
+4 Default Subkey=odbcDefault_Subkey
+4 ODBC Subkey=odbcODBC_Subkey
+1 Part 4   API Reference
+2 Chapter 20   Function Summary
+3 Function Summary=odbcFunction_Summary
+3 ODBC Function Summary=odbcODBC_Function_Summary
+3 Setup DLL Function Summary=odbcSetup_DLL_Function_Summary
+3 Installer DLL Function Summary=odbcInstaller_DLL_Function_Summary
+3 Translation DLL Function Summary=odbcTranslation_DLL_Function_Summary
+2 Chapter 21   ODBC API Reference
+3 ODBC API Reference=odbcODBC_API_Reference
+3 SQLAllocConnect=odbcSQLAllocConnect
+3 SQLAllocEnv=odbcSQLAllocEnv
+3 SQLAllocHandle=odbcSQLAllocHandle
+3 SQLAllocStmt=odbcSQLAllocStmt
+3 SQLBindCol=odbcSQLBindCol
+3 SQLBindParameter=odbcSQLBindParameter
+3 SQLBrowseConnect=odbcSQLBrowseConnect
+3 SQLBulkOperations=odbcSQLBulkOperations
+3 SQLCancel=odbcSQLCancel
+3 SQLCloseCursor=odbcSQLCloseCursor
+3 SQLColAttribute=odbcSQLColAttribute
+3 SQLColAttributes=odbcSQLColAttributes
+3 SQLColumnPrivileges=odbcSQLColumnPrivileges
+3 SQLColumns=odbcSQLColumns
+3 SQLConnect=odbcSQLConnect
+3 SQLCopyDesc=odbcSQLCopyDesc
+3 SQLDataSources=odbcSQLDataSources
+3 SQLDescribeCol=odbcSQLDescribeCol
+3 SQLDescribeParam=odbcSQLDescribeParam
+3 SQLDisconnect=odbcSQLDisconnect
+3 SQLDriverConnect=odbcSQLDriverConnect
+3 SQLDrivers=odbcSQLDrivers
+3 SQLEndTran=odbcSQLEndTran
+3 SQLError=odbcSQLError
+3 SQLExecDirect=odbcSQLExecDirect
+3 SQLExecute=odbcSQLExecute
+3 SQLExtendedFetch=odbcSQLExtendedFetch
+3 SQLFetch=odbcSQLFetch
+3 SQLFetchScroll=odbcSQLFetchScroll
+3 SQLForeignKeys=odbcSQLForeignKeys
+3 SQLFreeConnect=odbcSQLFreeConnect
+3 SQLFreeEnv=odbcSQLFreeEnv
+3 SQLFreeHandle=odbcSQLFreeHandle
+3 SQLFreeStmt=odbcSQLFreeStmt
+3 SQLGetConnectAttr=odbcSQLGetConnectAttr
+3 SQLGetConnectOption=odbcSQLGetConnectOption
+3 SQLGetCursorName=odbcSQLGetCursorName
+3 SQLGetData=odbcSQLGetData
+3 SQLGetDescField=odbcSQLGetDescField
+3 SQLGetDescRec=odbcSQLGetDescRec
+3 SQLGetDiagField=odbcSQLGetDiagField
+3 SQLGetDiagRec=odbcSQLGetDiagRec
+3 SQLGetEnvAttr=odbcSQLGetEnvAttr
+3 SQLGetFunctions=odbcSQLGetFunctions
+3 SQLGetInfo=odbcSQLGetInfo
+3 SQLGetStmtAttr=odbcSQLGetStmtAttr
+3 SQLGetStmtOption=odbcSQLGetStmtOption
+3 SQLGetTypeInfo=odbcSQLGetTypeInfo
+3 SQLMoreResults=odbcSQLMoreResults
+3 SQLNativeSql=odbcSQLNativeSql
+3 SQLNumParams=odbcSQLNumParams
+3 SQLNumResultCols=odbcSQLNumResultCols
+3 SQLParamData=odbcSQLParamData
+3 SQLParamOptions=odbcSQLParamOptions
+3 SQLPrepare=odbcSQLPrepare
+3 SQLPrimaryKeys=odbcSQLPrimaryKeys
+3 SQLProcedureColumns=odbcSQLProcedureColumns
+3 SQLProcedures=odbcSQLProcedures
+3 SQLPutData=odbcSQLPutData
+3 SQLRowCount=odbcSQLRowCount
+3 SQLSetConnectAttr=odbcSQLSetConnectAttr
+3 SQLSetConnectOption=odbcSQLSetConnectOption
+3 SQLSetCursorName=odbcSQLSetCursorName
+3 SQLSetDescField=odbcSQLSetDescField
+3 SQLSetDescRec=odbcSQLSetDescRec
+3 SQLSetEnvAttr=odbcSQLSetEnvAttr
+3 SQLSetParam=odbcSQLSetParam
+3 SQLSetPos=odbcSQLSetPos
+3 SQLSetScrollOptions=odbcSQLSetScrollOptions
+3 SQLSetStmtAttr=odbcSQLSetStmtAttr
+3 SQLSetStmtOption=odbcSQLSetStmtOption
+3 SQLSpecialColumns=odbcSQLSpecialColumns
+3 SQLStatistics=odbcSQLStatistics
+3 SQLTablePrivileges=odbcSQLTablePrivileges
+3 SQLTables=odbcSQLTables
+3 SQLTransact=odbcSQLTransact
+2 Chapter 22   Setup DLL API Reference
+3 Setup DLL API Reference=odbcSetup_DLL_API_Reference
+3 ConfigDriver=odbcConfigDriver
+3 ConfigDSN=odbcConfigDSN
+3 ConfigTranslator=odbcConfigTranslator
+2 Chapter 23   Installer DLL API Reference
+3 Installer DLL API Reference=odbcInstaller_DLL_API_Reference
+3 SQLConfigDataSource=odbcSQLConfigDataSource
+3 SQLConfigDriver=odbcSQLConfigDriver
+3 SQLCreateDataSource=odbcSQLCreateDataSource
+3 SQLGetConfigMode=odbcSQLGetConfigMode
+3 SQLGetInstalledDrivers=odbcSQLGetInstalledDrivers
+3 SQLGetPrivateProfileString=odbcSQLGetPrivateProfileString
+3 SQLGetTranslator=odbcSQLGetTranslator
+3 SQLInstallDriverEx=odbcSQLInstallDriverEx
+3 SQLInstallDriverManager=odbcSQLInstallDriverManager
+3 SQLInstallerError=odbcSQLInstallerError
+3 SQLInstallTranslator=odbcSQLInstallTranslator
+3 SQLInstallTranslatorEx=odbcSQLInstallTranslatorEx
+3 SQLManageDataSources=odbcSQLManageDataSources
+3 SQLPostInstallerError=odbcSQLPostInstallerError
+3 SQLReadFileDSN=odbcSQLReadFileDSN
+3 SQLRemoveDefaultDataSource=odbcSQLRemoveDefaultDataSource
+3 SQLRemoveDriver=odbcSQLRemoveDriver
+3 SQLRemoveDriverManager=odbcSQLRemoveDriverManager
+3 SQLRemoveDSNFromIni=odbcSQLRemoveDSNFromIni
+3 SQLRemoveTranslator=odbcSQLRemoveTranslator
+3 SQLSetConfigMode=odbcSQLSetConfigMode
+3 SQLValidDSN=odbcSQLValidDSN
+3 SQLWriteDSNToIni=odbcSQLWriteDSNToIni
+3 SQLWriteFileDSN=odbcSQLWriteFileDSN
+3 SQLWritePrivateProfileString=odbcSQLWritePrivateProfileString
+2 Chapter 24   Translation DLL Function Reference
+3 Translation DLL Function Reference=odbcTranslation_DLL_Function_Reference
+3 SQLDataSourceToDriver=odbcSQLDataSourceToDriver
+3 SQLDriverToDataSource=odbcSQLDriverToDataSource
+1 Appendixes
+2 Appendix A   ODBC Error Codes
+3 ODBC Error Codes=odbcODBC_Error_Codes
+2 Appendix B   ODBC State Transition Tables
+3 ODBC State Transition Tables=odbcODBC_State_Transition_Tables
+3 Environment Transitions=odbcEnvironment_Transitions
+3 Connection Transitions=odbcConnection_Transitions
+3 Statement Transitions=odbcStatement_Transitions
+3 Descriptor Transitions=odbcDescriptor_Transitions
+2 Appendix C   SQL Grammar
+3 SQL Grammar=odbcSQL_Grammar
+3 SQL Minimum Grammar
+4 SQL Minimum Grammar=odbcSQL_Minimum_Grammar
+4 Elements Used in SQL Statements=odbcElements_Used_in_SQL_Statements
+4 Data Type Support=odbcData_Type_Support
+4 Parameter Data Types=odbcParameter_Data_Types
+4 Parameter Markers=odbcParameter_Markers
+3 ODBC Escape Sequences
+4 ODBC Escape Sequences=odbcODBC_Escape_Sequences
+4 Date, Time, and Timestamp Escape Sequences=odbcDate__Time__and_Timestamp_Escape_Sequences
+4 Interval Escape Sequences=odbcInterval_Escape_Sequences
+4 Like Escape Sequence=odbcLike_Escape_Sequence
+4 Outer Join Escape Sequence=odbcOuter_Join_Escape_Sequence
+4 Procedure Call Escape Sequence=odbcProcedure_Call_Escape_Sequence
+4 Scalar Function Escape Sequence=odbcScalar_Function_Escape_Sequence
+3 Literals in ODBC
+4 Literals in ODBC=odbcLiterals_in_ODBC
+4 Interval Literal Syntax=odbcInterval_Literal_Syntax
+4 Numeric Literal Syntax=odbcNumeric_Literal_Syntax
+2 List of Reserved Keywords=odbcList_of_Reserved_Keywords
+2 Appendix D   Data Types
+3 Data Types=odbcData_Types
+3 Using Data Type Identifiers=odbcUsing_Data_Type_Identifiers
+3 SQL Data Types=odbcSQL_Data_Types
+3 C Data Types
+4 C Data Types=odbcC_Data_Types
+4 64-Bit Integer Structures=odbc64_Bit_Integer_Structures
+2 Data Type Identifiers and Descriptors=odbcData_Type_Identifiers_and_Descriptors
+3 Pseudo Type Identifiers
+4 Pseudo Type Identifiers=odbcPseudo_Type_Identifiers
+4 Default C Data Types=odbcDefault_C_Data_Types
+4 Bookmark C Data Type=odbcBookmark_C_Data_Type
+4 SQL_ARD_TYPE=odbcSQL_ARD_TYPE
+2 Transferring Data in its Binary Form=odbcTransferring_Data_in_its_Binary_Form
+3 Guidelines for Interval and Numeric Data Types
+4 Guidelines for Interval and Numeric Data Types=odbcGuidelines_for_Interval_and_Numeric_Data_Types
+4 Interval Data Types
+5 Interval Data Types=odbcInterval_Data_Types
+5 C Interval Structure=odbcC_Interval_Structure
+5 Interval Data Type Precision=odbcInterval_Data_Type_Precision
+5 Interval Data Type Length=odbcInterval_Data_Type_Length
+5 Interval Literals=odbcInterval_Literals
+5 Overriding Default Leading and Seconds Precision for Interval Data Types=odbcOverriding_Default_Leading_and_Seconds_Precision_for_Interval_Data_Types
+4 Numeric Literals
+5 Numeric Literals=odbcNumeric_Literals
+5 Rules for Conversions=odbcRules_for_Conversions
+3 Overriding Default Precision and Scale for Numeric Data Types=odbcOverriding_Default_Precision_and_Scale_for_Numeric_Data_Types
+2 Constraints of the Gregorian Calendar=odbcConstraints_of_the_Gregorian_Calendar
+3 Column Size, Decimal Digits, Transfer Octet Length, and Display Size
+4 Column Size, Decimal Digits, Transfer Octet Length, and Display Size=odbcColumn_Size__Decimal_Digits__Transfer_Octet_Length__and_Display_Size
+4 Column Size=odbcColumn_Size
+4 Decimal Digits=odbcDecimal_Digits
+4 Transfer Octet Length=odbcTransfer_Octet_Length
+4 Display Size=odbcDisplay_Size
+3 Converting Data from SQL to C Data Types
+4 Converting Data from SQL to C Data Types=odbcConverting_Data_from_SQL_to_C_Data_Types
+4 SQL to C: Character=odbcSQL_to_C__Character
+4 SQL to C: Numeric=odbcSQL_to_C__Numeric
+4 SQL to C: Bit=odbcSQL_to_C__Bit
+4 SQL to C: Binary=odbcSQL_to_C__Binary
+4 SQL to C: Date=odbcSQL_to_C__Date
+4 SQL to C: Time=odbcSQL_to_C__Time
+4 SQL to C: Timestamp=odbcSQL_to_C__Timestamp
+4 SQL to C: Year-Month Intervals=odbcSQL_to_C__Year_Month_Intervals
+4 SQL to C: Day-Time Intervals=odbcSQL_to_C__Day_Time_Intervals
+4 SQL to C Data Conversion Examples=odbcSQL_to_C_Data_Conversion_Examples
+3 Converting Data from C to SQL Data Types
+4 Converting Data from C to SQL Data Types=odbcConverting_Data_from_C_to_SQL_Data_Types
+4 C to SQL: Character=odbcC_to_SQL__Character
+4 C to SQL: Numeric=odbcC_to_SQL__Numeric
+4 C to SQL: Bit=odbcC_to_SQL__Bit
+4 C to SQL: Binary=odbcC_to_SQL__Binary
+4 C to SQL: Date=odbcC_to_SQL__Date
+4 C to SQL: Time=odbcC_to_SQL__Time
+4 C to SQL: Timestamp=odbcC_to_SQL__Timestamp
+4 C to SQL: Year-Month Intervals=odbcC_to_SQL__Year_Month_Intervals
+4 C to SQL: Day-Time Intervals=odbcC_to_SQL__Day_Time_Intervals
+4 C to SQL Data Conversion Examples=odbcC_to_SQL_Data_Conversion_Examples
+2 Appendix E   Scalar Functions
+3 Scalar Functions=odbcScalar_Functions
+3 ODBC and SQL-92 Scalar Functions=odbcODBC_and_SQL_92_Scalar_Functions
+3 String Functions=odbcString_Functions
+3 Numeric Functions=odbcNumeric_Functions
+3 Time, Date, and Interval Functions=odbcTime__Date__and_Interval_Functions
+3 System Functions=odbcSystem_Functions
+3 Explicit Data Type Conversion
+4 Explicit Data Type Conversion=odbcExplicit_Data_Type_Conversion
+4 SQL-92 Cast Function=odbcSQL_92_Cast_Function
+2 Appendix F   ODBC Cursor Library
+3 ODBC Cursor Library=odbcODBC_Cursor_Library
+3 Using the ODBC Cursor Library=odbcUsing_the_ODBC_Cursor_Library
+3 Executing Positioned Update and Delete Statements=odbcExecuting_Positioned_Update_and_Delete_Statements
+3 Cursor Library Code Example=odbcCursor_Library_Code_Example
+3 Implementation Notes
+4 Implementation Notes=odbcImplementation_Notes
+4 Cursor Library Cache
+5 Cursor Library Cache=odbcCursor_Library_Cache
+5 Column Data=odbcColumn_Data
+5 Length of Column Data=odbcLength_of_Column_Data
+5 Row Status=odbcRow_Status
+5 Location of Cache=odbcLocation_of_Cache
+4 Processing SQL Statements
+5 Processing SQL Statements=odbcProcessing_SQL_Statements
+5 Processing Positioned Update and Delete Statements=odbcProcessing_Positioned_Update_and_Delete_Statements
+5 Processing SELECT FOR UPDATE Statements=odbcProcessing_SELECT_FOR_UPDATE_Statements
+5 Processing Batches of SQL Statements=odbcProcessing_Batches_of_SQL_Statements
+5 Constructing Searched Statements=odbcConstructing_Searched_Statements
+4 ODBC Functions
+5 ODBC Functions=odbcODBC_Functions
+5 ODBC Functions Executed by the Cursor Library=odbcODBC_Functions_Executed_by_the_Cursor_Library
+5 ODBC Functions Not Executed by the Cursor Library=odbcODBC_Functions_Not_Executed_by_the_Cursor_Library
+5 SQLBindCol in the Cursor Library=odbcSQLBindCol_in_the_Cursor_Library
+5 SQLBindParameter in the Cursor Library=odbcSQLBindParameter_in_the_Cursor_Library
+5 SQLBulkOperations and the Cursor Library=odbcSQLBulkOperations_and_the_Cursor_Library
+5 SQLCloseCursor in the Cursor Library=odbcSQLCloseCursor_in_the_Cursor_Library
+5 SQLEndTran in the Cursor Library=odbcSQLEndTran_in_the_Cursor_Library
+5 SQLExtendedFetch in the Cursor Library=odbcSQLExtendedFetch_in_the_Cursor_Library
+5 SQLFetch in the Cursor Library=odbcSQLFetch_in_the_Cursor_Library
+5 SQLFetchScroll in the Cursor Library=odbcSQLFetchScroll_in_the_Cursor_Library
+5 SQLFreeStmt in the Cursor Library=odbcSQLFreeStmt_in_the_Cursor_Library
+5 SQLGetData in the Cursor Library=odbcSQLGetData_in_the_Cursor_Library
+5 SQLGetDescField and SQLGetDescRec in the Cursor Library=odbcSQLGetDescField_and_SQLGetDescRec_in_the_Cursor_Library
+5 SQLGetFunctions in the Cursor Library=odbcSQLGetFunctions_in_the_Cursor_Library
+5 SQLGetInfo in the Cursor Library=odbcSQLGetInfo_in_the_Cursor_Library
+5 SQLGetStmtAttr in the Cursor Library=odbcSQLGetStmtAttr_in_the_Cursor_Library
+5 SQLGetStmtOption in the Cursor Library=odbcSQLGetStmtOption_in_the_Cursor_Library
+5 SQLNativeSql in the Cursor Library=odbcSQLNativeSql_in_the_Cursor_Library
+5 SQLRowCount in the Cursor Library=odbcSQLRowCount_in_the_Cursor_Library
+5 SQLSetConnectAttr in the Cursor Library=odbcSQLSetConnectAttr_in_the_Cursor_Library
+5 SQLSetDescField and SQLSetDescRec in the Cursor Library=odbcSQLSetDescField_and_SQLSetDescRec_in_the_Cursor_Library
+5 SQLSetEnvAttr and the Cursor Library=odbcSQLSetEnvAttr_and_the_Cursor_Library
+5 SQLSetPos in the Cursor Library=odbcSQLSetPos_in_the_Cursor_Library
+5 SQLSetScrollOptions in the Cursor Library=odbcSQLSetScrollOptions_in_the_Cursor_Library
+5 SQLSetStmtAttr in the Cursor Library=odbcSQLSetStmtAttr_in_the_Cursor_Library
+2 ODBC Cursor Library Error Codes=odbcODBC_Cursor_Library_Error_Codes
+2 Appendix G   Driver Guidelines for Backward Compatibility
+3 Driver Guidelines for Backward Compatibility=odbcDriver_Guidelines_for_Backward_Compatibility
+3 Block Cursors, Scrollable Cursors, and Backward Compatibility
+4 Block Cursors, Scrollable Cursors, and Backward Compatibility=odbcBlock_Cursors__Scrollable_Cursors__and_Backward_Compatibility
+4 What the Driver Manager Does=odbcWhat_the_Driver_Manager_Does
+4 What the Driver Does=odbcWhat_the_Driver_Does
+3 Mapping Deprecated Functions
+4 Mapping Deprecated Functions=odbcMapping_Deprecated_Functions
+4 SQLAllocConnect Mapping=odbcSQLAllocConnect_Mapping
+4 SQLAllocEnv Mapping=odbcSQLAllocEnv_Mapping
+4 SQLAllocStmt Mapping=odbcSQLAllocStmt_Mapping
+4 SQLBindParam Mapping=odbcSQLBindParam_Mapping
+4 SQLColAttributes Mapping=odbcSQLColAttributes_Mapping
+4 SQLError Mapping=odbcSQLError_Mapping
+4 SQLFreeConnect Mapping=odbcSQLFreeConnect_Mapping
+4 SQLFreeEnv Mapping=odbcSQLFreeEnv_Mapping
+4 SQLFreeStmt Mapping=odbcSQLFreeStmt_Mapping
+4 SQLGetConnectOption Mapping=odbcSQLGetConnectOption_Mapping
+4 SQLGetStmtOption Mapping=odbcSQLGetStmtOption_Mapping
+4 SQLParamOptions Mapping=odbcSQLParamOptions_Mapping
+4 SQLSetConnectOption Mapping=odbcSQLSetConnectOption_Mapping
+4 SQLSetParam Mapping=odbcSQLSetParam_Mapping
+4 SQLSetScrollOptions Mapping=odbcSQLSetScrollOptions_Mapping
+4 SQLSetStmtOption Mapping=odbcSQLSetStmtOption_Mapping
+4 SQLTransact Mapping=odbcSQLTransact_Mapping
+2 Behavioral Changes and ODBC 3.0 Drivers=odbcBehavioral_Changes_and_ODBC_3.0_Drivers
+2 Datetime Data Types=odbcDatetime_Data_Types
+2 Backward Compatibility of C Data Types=odbcBackward_Compatibility_of_C_Data_Types
+2 Fixed-Length Bookmarks=odbcFixed_Length_Bookmarks
+2 SQLGetInfo Support=odbcSQLGetInfo_Support
+2 Returning SQL_NO_DATA=odbcReturning_SQL_NO_DATA
+2 Calling SQLSetPos to Insert Data=odbcCalling_SQLSetPos_to_Insert_Data
+2 SQLInstallTranslator Mapping=odbcSQLInstallTranslator_Mapping
+2 Loading by Ordinal=odbcLoading_By_Ordinal
+1 Glossary
+2 Glossary=odbcGlossary

@@ -1,0 +1,743 @@
+{
+  "schema": 1,
+  "target": "toolchains/5.10/bin/C1XX.DLL",
+  "sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+  "size": 1051408,
+  "machine": "i386",
+  "image_base": 272629760,
+  "entry_rva": 189382,
+  "image_size": 1142784,
+  "characteristics": 8970,
+  "export_internal_name": "c1n32_l.dll",
+  "exports": [
+    {
+      "name": "_AbortCompilerPass@4",
+      "ordinal": 1,
+      "rva": 590765
+    },
+    {
+      "name": "_InvokeCompilerPass@12",
+      "ordinal": 2,
+      "rva": 230612
+    }
+  ],
+  "imports": [
+    {
+      "dll": "MSVCRT.dll",
+      "symbols": [
+        {
+          "iat_rva": 823296,
+          "name": "atol"
+        },
+        {
+          "iat_rva": 823300,
+          "name": "time"
+        },
+        {
+          "iat_rva": 823304,
+          "name": "_fstat"
+        },
+        {
+          "iat_rva": 823308,
+          "name": "ceil"
+        },
+        {
+          "iat_rva": 823312,
+          "name": "floor"
+        },
+        {
+          "iat_rva": 823316,
+          "name": "_filbuf"
+        },
+        {
+          "iat_rva": 823320,
+          "name": "_flsbuf"
+        },
+        {
+          "iat_rva": 823324,
+          "name": "ftell"
+        },
+        {
+          "iat_rva": 823328,
+          "name": "_errno"
+        },
+        {
+          "iat_rva": 823332,
+          "name": "_unlink"
+        },
+        {
+          "iat_rva": 823336,
+          "name": "setvbuf"
+        },
+        {
+          "iat_rva": 823340,
+          "name": "fopen"
+        },
+        {
+          "iat_rva": 823344,
+          "name": "fread"
+        },
+        {
+          "iat_rva": 823348,
+          "name": "fseek"
+        },
+        {
+          "iat_rva": 823352,
+          "name": "_stat"
+        },
+        {
+          "iat_rva": 823356,
+          "name": "_fullpath"
+        },
+        {
+          "iat_rva": 823360,
+          "name": "_mbsstr"
+        },
+        {
+          "iat_rva": 823364,
+          "name": "strncat"
+        },
+        {
+          "iat_rva": 823368,
+          "name": "getenv"
+        },
+        {
+          "iat_rva": 823372,
+          "name": "fclose"
+        },
+        {
+          "iat_rva": 823376,
+          "name": "fgets"
+        },
+        {
+          "iat_rva": 823380,
+          "name": "_mbctolower"
+        },
+        {
+          "iat_rva": 823384,
+          "name": "isalpha"
+        },
+        {
+          "iat_rva": 823388,
+          "name": "isalnum"
+        },
+        {
+          "iat_rva": 823392,
+          "name": "toupper"
+        },
+        {
+          "iat_rva": 823396,
+          "name": "rewind"
+        },
+        {
+          "iat_rva": 823400,
+          "name": "fflush"
+        },
+        {
+          "iat_rva": 823404,
+          "name": "_snprintf"
+        },
+        {
+          "iat_rva": 823408,
+          "name": "__unDName"
+        },
+        {
+          "iat_rva": 823412,
+          "name": "freopen"
+        },
+        {
+          "iat_rva": 823416,
+          "name": "_dup"
+        },
+        {
+          "iat_rva": 823420,
+          "name": "_strnicmp"
+        },
+        {
+          "iat_rva": 823424,
+          "name": "atoi"
+        },
+        {
+          "iat_rva": 823428,
+          "name": "_getcwd"
+        },
+        {
+          "iat_rva": 823432,
+          "name": "_sopen"
+        },
+        {
+          "iat_rva": 823436,
+          "name": "_get_osfhandle"
+        },
+        {
+          "iat_rva": 823440,
+          "name": "isdigit"
+        },
+        {
+          "iat_rva": 823444,
+          "name": "ctime"
+        },
+        {
+          "iat_rva": 823448,
+          "name": "_chsize"
+        },
+        {
+          "iat_rva": 823452,
+          "name": "rename"
+        },
+        {
+          "iat_rva": 823456,
+          "name": "remove"
+        },
+        {
+          "iat_rva": 823460,
+          "name": "realloc"
+        },
+        {
+          "iat_rva": 823464,
+          "name": "malloc"
+        },
+        {
+          "iat_rva": 823468,
+          "name": "_write"
+        },
+        {
+          "iat_rva": 823472,
+          "name": "_mbstrlen"
+        },
+        {
+          "iat_rva": 823476,
+          "name": "strerror"
+        },
+        {
+          "iat_rva": 823480,
+          "name": "_ltoa"
+        },
+        {
+          "iat_rva": 823484,
+          "name": "_ultoa"
+        },
+        {
+          "iat_rva": 823488,
+          "name": "_purecall"
+        },
+        {
+          "iat_rva": 823492,
+          "name": "_mbctype"
+        },
+        {
+          "iat_rva": 823496,
+          "name": "_ftol"
+        },
+        {
+          "iat_rva": 823500,
+          "name": "rand"
+        },
+        {
+          "iat_rva": 823504,
+          "name": "srand"
+        },
+        {
+          "iat_rva": 823508,
+          "name": "ispunct"
+        },
+        {
+          "iat_rva": 823512,
+          "name": "strrchr"
+        },
+        {
+          "iat_rva": 823516,
+          "name": "_atoldbl"
+        },
+        {
+          "iat_rva": 823520,
+          "name": "_adj_fdiv_r"
+        },
+        {
+          "iat_rva": 823524,
+          "name": "_vsnprintf"
+        },
+        {
+          "iat_rva": 823528,
+          "name": "wcslen"
+        },
+        {
+          "iat_rva": 823532,
+          "name": "wcscmp"
+        },
+        {
+          "iat_rva": 823536,
+          "name": "wcscat"
+        },
+        {
+          "iat_rva": 823540,
+          "name": "wcscpy"
+        },
+        {
+          "iat_rva": 823544,
+          "name": "swprintf"
+        },
+        {
+          "iat_rva": 823548,
+          "name": "_strdate"
+        },
+        {
+          "iat_rva": 823552,
+          "name": "_strtime"
+        },
+        {
+          "iat_rva": 823556,
+          "name": "fprintf"
+        },
+        {
+          "iat_rva": 823560,
+          "name": "_setjmp3"
+        },
+        {
+          "iat_rva": 823564,
+          "name": "longjmp"
+        },
+        {
+          "iat_rva": 823568,
+          "name": "tolower"
+        },
+        {
+          "iat_rva": 823572,
+          "name": "_initterm"
+        },
+        {
+          "iat_rva": 823576,
+          "name": "_adjust_fdiv"
+        },
+        {
+          "iat_rva": 823580,
+          "name": "??2@YAPAXI@Z"
+        },
+        {
+          "iat_rva": 823584,
+          "name": "strncpy"
+        },
+        {
+          "iat_rva": 823588,
+          "name": "qsort"
+        },
+        {
+          "iat_rva": 823592,
+          "name": "putchar"
+        },
+        {
+          "iat_rva": 823596,
+          "name": "memmove"
+        },
+        {
+          "iat_rva": 823600,
+          "name": "mbtowc"
+        },
+        {
+          "iat_rva": 823604,
+          "name": "_mbctoupper"
+        },
+        {
+          "iat_rva": 823608,
+          "name": "sprintf"
+        },
+        {
+          "iat_rva": 823612,
+          "name": "_strdup"
+        },
+        {
+          "iat_rva": 823616,
+          "name": "free"
+        },
+        {
+          "iat_rva": 823620,
+          "name": "_makepath"
+        },
+        {
+          "iat_rva": 823624,
+          "name": "_stricmp"
+        },
+        {
+          "iat_rva": 823628,
+          "name": "setlocale"
+        },
+        {
+          "iat_rva": 823632,
+          "name": "_except_handler3"
+        },
+        {
+          "iat_rva": 823636,
+          "name": "isspace"
+        },
+        {
+          "iat_rva": 823640,
+          "name": "_read"
+        },
+        {
+          "iat_rva": 823644,
+          "name": "strchr"
+        },
+        {
+          "iat_rva": 823648,
+          "name": "_access"
+        },
+        {
+          "iat_rva": 823652,
+          "name": "_iob"
+        },
+        {
+          "iat_rva": 823656,
+          "name": "_splitpath"
+        },
+        {
+          "iat_rva": 823660,
+          "name": "strncmp"
+        },
+        {
+          "iat_rva": 823664,
+          "name": "_lseek"
+        },
+        {
+          "iat_rva": 823668,
+          "name": "_close"
+        },
+        {
+          "iat_rva": 823672,
+          "name": "fputc"
+        },
+        {
+          "iat_rva": 823676,
+          "name": "fwrite"
+        },
+        {
+          "iat_rva": 823680,
+          "name": "??3@YAXPAX@Z"
+        },
+        {
+          "iat_rva": 823684,
+          "name": "_setmbcp"
+        },
+        {
+          "iat_rva": 823688,
+          "name": "_fsopen"
+        },
+        {
+          "iat_rva": 823692,
+          "name": "_futime"
+        },
+        {
+          "iat_rva": 823696,
+          "name": "_tell"
+        }
+      ]
+    },
+    {
+      "dll": "KERNEL32.dll",
+      "symbols": [
+        {
+          "iat_rva": 823704,
+          "name": "MultiByteToWideChar"
+        },
+        {
+          "iat_rva": 823708,
+          "name": "WideCharToMultiByte"
+        },
+        {
+          "iat_rva": 823712,
+          "name": "CreateFileMappingA"
+        },
+        {
+          "iat_rva": 823716,
+          "name": "CreateFileA"
+        },
+        {
+          "iat_rva": 823720,
+          "name": "VirtualProtect"
+        },
+        {
+          "iat_rva": 823724,
+          "name": "GetFileSize"
+        },
+        {
+          "iat_rva": 823728,
+          "name": "MapViewOfFileEx"
+        },
+        {
+          "iat_rva": 823732,
+          "name": "ReadFile"
+        },
+        {
+          "iat_rva": 823736,
+          "name": "SetFilePointer"
+        },
+        {
+          "iat_rva": 823740,
+          "name": "WriteFile"
+        },
+        {
+          "iat_rva": 823744,
+          "name": "UnmapViewOfFile"
+        },
+        {
+          "iat_rva": 823748,
+          "name": "GetVersion"
+        },
+        {
+          "iat_rva": 823752,
+          "name": "FormatMessageA"
+        },
+        {
+          "iat_rva": 823756,
+          "name": "GetLastError"
+        },
+        {
+          "iat_rva": 823760,
+          "name": "GetFileTime"
+        },
+        {
+          "iat_rva": 823764,
+          "name": "SetFileTime"
+        },
+        {
+          "iat_rva": 823768,
+          "name": "CreateSemaphoreA"
+        },
+        {
+          "iat_rva": 823772,
+          "name": "WaitForSingleObject"
+        },
+        {
+          "iat_rva": 823776,
+          "name": "ExitProcess"
+        },
+        {
+          "iat_rva": 823780,
+          "name": "CloseHandle"
+        },
+        {
+          "iat_rva": 823784,
+          "name": "ReleaseSemaphore"
+        },
+        {
+          "iat_rva": 823788,
+          "name": "Sleep"
+        },
+        {
+          "iat_rva": 823792,
+          "name": "RaiseException"
+        },
+        {
+          "iat_rva": 823796,
+          "name": "GetSystemInfo"
+        },
+        {
+          "iat_rva": 823800,
+          "name": "DebugBreak"
+        },
+        {
+          "iat_rva": 823804,
+          "name": "SetHandleCount"
+        },
+        {
+          "iat_rva": 823808,
+          "name": "DisableThreadLibraryCalls"
+        },
+        {
+          "iat_rva": 823812,
+          "name": "VirtualAlloc"
+        },
+        {
+          "iat_rva": 823816,
+          "name": "VirtualFree"
+        }
+      ]
+    },
+    {
+      "dll": "USER32.dll",
+      "symbols": [
+        {
+          "iat_rva": 823824,
+          "name": "LoadStringA"
+        }
+      ]
+    },
+    {
+      "dll": "mspdb50.dll",
+      "symbols": [
+        {
+          "iat_rva": 823832,
+          "name": "PDBExportValidateInterface"
+        },
+        {
+          "iat_rva": 823836,
+          "name": "?OpenEx@PDB@@SAHPAD0KJPAJQADPAPAU1@@Z"
+        },
+        {
+          "iat_rva": 823840,
+          "name": "?open@ILStore@@SAHPAUPDB@@HPAPAU1@@Z"
+        },
+        {
+          "iat_rva": 823844,
+          "name": "?open@NameMap@@SAHPAUPDB@@HPAPAU1@@Z"
+        },
+        {
+          "iat_rva": 823848,
+          "name": "TypesQueryTiForCVRecordEx"
+        },
+        {
+          "iat_rva": 823852,
+          "name": "?FOpen@MREngine@@SGHPAPAU1@PAUMreToPdb@@HH@Z"
+        },
+        {
+          "iat_rva": 823856,
+          "name": "TruncStFromSz"
+        },
+        {
+          "iat_rva": 823860,
+          "name": "SigForPbCb"
+        },
+        {
+          "iat_rva": 823864,
+          "name": "PDBQueryLastError"
+        }
+      ]
+    },
+    {
+      "dll": "ole32.dll",
+      "symbols": [
+        {
+          "iat_rva": 823872,
+          "name": "CLSIDFromString"
+        },
+        {
+          "iat_rva": 823876,
+          "name": "CoInitialize"
+        },
+        {
+          "iat_rva": 823880,
+          "name": "StringFromGUID2"
+        },
+        {
+          "iat_rva": 823884,
+          "name": "CoUninitialize"
+        }
+      ]
+    },
+    {
+      "dll": "OLEAUT32.dll",
+      "symbols": [
+        {
+          "iat_rva": 823892,
+          "ordinal": 8
+        },
+        {
+          "iat_rva": 823896,
+          "ordinal": 161
+        },
+        {
+          "iat_rva": 823900,
+          "ordinal": 164
+        },
+        {
+          "iat_rva": 823904,
+          "ordinal": 10
+        },
+        {
+          "iat_rva": 823908,
+          "ordinal": 12
+        },
+        {
+          "iat_rva": 823912,
+          "ordinal": 9
+        },
+        {
+          "iat_rva": 823916,
+          "ordinal": 6
+        }
+      ]
+    }
+  ],
+  "sections": [
+    {
+      "name": ".text",
+      "virtual_size": 751216,
+      "rva": 4096,
+      "raw_size": 751616,
+      "raw_offset": 1536,
+      "characteristics": 1610612768
+    },
+    {
+      "name": ".bssfe",
+      "virtual_size": 63136,
+      "rva": 757760,
+      "raw_size": 0,
+      "raw_offset": 0,
+      "characteristics": 3221225600
+    },
+    {
+      "name": ".rdata",
+      "virtual_size": 5476,
+      "rva": 823296,
+      "raw_size": 5632,
+      "raw_offset": 753152,
+      "characteristics": 1073741888
+    },
+    {
+      "name": ".data",
+      "virtual_size": 164,
+      "rva": 831488,
+      "raw_size": 512,
+      "raw_offset": 758784,
+      "characteristics": 3221225536
+    },
+    {
+      "name": ".datafe",
+      "virtual_size": 8524,
+      "rva": 835584,
+      "raw_size": 8704,
+      "raw_offset": 759296,
+      "characteristics": 3221225536
+    },
+    {
+      "name": ".rdatafe",
+      "virtual_size": 63169,
+      "rva": 847872,
+      "raw_size": 63488,
+      "raw_offset": 768000,
+      "characteristics": 1073741888
+    },
+    {
+      "name": ".initfe",
+      "virtual_size": 176,
+      "rva": 913408,
+      "raw_size": 512,
+      "raw_offset": 831488,
+      "characteristics": 3221225536
+    },
+    {
+      "name": ".rsrc",
+      "virtual_size": 164312,
+      "rva": 917504,
+      "raw_size": 164352,
+      "raw_offset": 832000,
+      "characteristics": 1073741888
+    },
+    {
+      "name": ".reloc",
+      "virtual_size": 54720,
+      "rva": 1085440,
+      "raw_size": 54784,
+      "raw_offset": 996352,
+      "characteristics": 1107296320
+    }
+  ],
+  "tls_directory": {
+    "rva": 0,
+    "size": 0
+  },
+  "relocation_directory": {
+    "rva": 1085440,
+    "size": 54720
+  },
+  "status": "groundwork-only; no function acceptance or executable fixtures"
+}

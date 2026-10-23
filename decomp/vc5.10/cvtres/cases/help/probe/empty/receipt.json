@@ -1,0 +1,14 @@
+{
+  "case": "empty",
+  "argv": [],
+  "status": 0,
+  "seconds": 3.5841541280969977,
+  "stdout_size": 360,
+  "stderr_size": 0,
+  "stdout_sha256": "4eb5be93146b1109671b4ca94f07803b216ffdd16ea9633efce6f9a91564e8ff",
+  "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "purpose": "original-only groundwork; not acceptance",
+  "target_sha256": "16a45886f9257d990a9478c32ee6c1cbf4ac1fbcf889e5755960539233962465",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "original_cwd": "/root/.ai-tmp/msvc2/vc5.10/cvtres/probes"
+}
