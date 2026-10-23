@@ -78,7 +78,7 @@ def decode(events):
             all_strings[int(location,16)]=raw
     for call in file_calls:call['pathname']=all_strings[call.pop('pointer')]
 
-    widen_factory_calls=[];widen_query_calls=[];module_bases={};error=None;probe_regs=None;probe_stack=None
+    widen_factory_calls=[];widen_query_calls=[];widen_emit_calls=[];module_bases={};error=None;probe_regs=None;probe_stack=None
     for ordinal,line in enumerate(lines):
         if line.startswith('module '):
             parts=line.split()
@@ -109,6 +109,17 @@ def decode(events):
             else:
                 assert widen_query_calls and widen_query_calls[-1]['object']==int(parts[3],16),'query return object/order differs'
                 widen_query_calls[-1].update(result=int(parts[4]),after=observed,exit_last_error=error,exit_esp=probe_regs[-1],exit_eax=probe_regs[0])
+        elif line.startswith(('widen method-call 36 ','widen method-return 36 ')):
+            parts=line.split();observed={}
+            for following in lines[ordinal+1:ordinal+5]:
+                if not following.startswith('memory '):break
+                _,observed_address,contents=following.split();observed[int(observed_address,16)]=bytes.fromhex(contents)
+            if parts[1]=='method-call':
+                assert probe_stack is not None and len(probe_stack)>=16,'emit actual ABI stack observation missing'
+                widen_emit_calls.append(dict(object=int(parts[3],16),description=int(parts[4],16),input_address=int(parts[5],16),size=int(parts[6],16),flags=int(parts[7],16),before=observed,entry_last_error=error,entry_esp=probe_regs[-1],entry_ecx=probe_regs[2],entry_stack_words=struct.unpack('<4I',probe_stack[:16])))
+            else:
+                assert widen_emit_calls and widen_emit_calls[-1]['object']==int(parts[3],16),'emit return object/order differs'
+                widen_emit_calls[-1].update(result=int(parts[4]),after=observed,exit_last_error=error,exit_esp=probe_regs[-1],exit_eax=probe_regs[0])
     type_compare_calls=[]
     for line in lines:
         if line.startswith('type-compare-failed'):raise AssertionError('incomplete recursive comparison observation')
@@ -160,7 +171,7 @@ def decode(events):
     assert registers and len(registers) == 8
     stack = memory[registers[-1]]
     assert len(stack) == 128
-    return dict(address=address,memory=memory,strings=strings,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
+    return dict(address=address,memory=memory,strings=strings,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
                 registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations,cleared_allocations=cleared_allocations)
 
 
@@ -205,6 +216,42 @@ def compare(config,data,events,native,artifacts=None,views=None):
             assert before['before'][descriptor]==bytes(16) and after['description_before']=='00'*16,'query initial descriptor differs'
             assert before['after'][descriptor].hex()==after['description_after'] and len(before['after'][descriptor])==16,'query full output descriptor differs'
             assert before['after'][descriptor][8:]==bytes(8),'query unexpectedly initialized output pointers'
+    if config.get('observe_widen_emit'):
+        calls=original['widen_emit_calls']
+        assert len(calls)==len(native.get('widen_emit_calls',[]))<=1,'emit lifetime inventory differs'
+        def observed_global(name):
+            row=next(row for row in data if row['name']==name)
+            return int.from_bytes(original['memory'][row['original']],'little'),int.from_bytes(bytes.fromhex(native['globals'][name]),'little')
+        for before,after in zip(calls,native['widen_emit_calls']):
+            assert len(original['widen_query_calls'])==1 and len(native['widen_query_calls'])==1,'emit missing queried object state'
+            query=original['widen_query_calls'][0];actual_query=native['widen_query_calls'][0]
+            assert before['object']==query['object'] and after['object']==actual_query['object'],'emit queried object alias differs'
+            assert before['description']==query['description'] and after['description']==actual_query['description'],'emit query descriptor alias differs'
+            assert before['input_address']==query['input_address'] and after['input_address']==actual_query['input_address'],'emit query input alias differs'
+            assert before['size']==after['size']==query['size']==actual_query['size'],'emit complete input extent differs'
+            assert before['entry_ecx']==before['object'] and before['entry_stack_words']==(before['description'],before['input_address'],before['size'],before['flags']),'emit actual ECX/stack ABI differs'
+            assert before['exit_esp']-before['entry_esp']==16 and before['exit_eax']==before['result'],'emit actual callee cleanup/result ABI differs'
+            assert before['flags']==after['flags']==0 and before['result']==after['result']==1,'emit actual flags/result differ'
+            assert before['entry_last_error']==before['exit_last_error']==after['entry_last_error']==after['exit_last_error']==0,'emit actual LastError differs'
+            description=before['description'];source=before['input_address']
+            initial=struct.unpack('<4I',before['before'][description]);actual_initial=struct.unpack('<4I',bytes.fromhex(after['description_before']))
+            final=struct.unpack('<4I',before['after'][description]);actual_final=struct.unpack('<4I',bytes.fromhex(after['description_after']))
+            assert initial[:2]==actual_initial[:2] and initial[:2]==struct.unpack('<4I',query['after'][query['description']])[:2],'emit queried capacities differ'
+            assert (initial[2],actual_initial[2])==observed_global('pack_buffer') and (initial[3],actual_initial[3])==observed_global('pack_fixups'),'emit output allocation aliases differ'
+            assert final[2:]==initial[2:] and actual_final[2:]==actual_initial[2:],'emit changed output allocation pointers'
+            assert final[:2]==actual_final[:2] and final[0]<=initial[0] and final[1]<=initial[1],'emit returned initialized counts differ'
+            assert before['before'][source]==query['before'][query['input_address']] and before['before'][source].hex()==after['input'],'emit complete initialized input differs'
+            assert before['after'][source]==before['before'][source] and after['input_after']==after['input'],'emit changed initialized input'
+            for name,index,scale in [('output',0,1),('fixups',1,8)]:
+                old_pointer=initial[index+2];new_pointer=actual_initial[index+2];capacity=initial[index]*scale;written=final[index]*scale
+                old_before=before['before'][old_pointer];old_after=before['after'][old_pointer]
+                new_before=bytes.fromhex(after[name+'_before']);new_after=bytes.fromhex(after[name+'_after'])
+                assert len(old_before)==len(old_after)==len(new_before)==len(new_after)==capacity,'emit full capacity observation differs'
+                assert old_after[:written]==new_after[:written],'emit initialized output prefix differs'
+                assert old_before[written:]==old_after[written:] and new_before[written:]==new_after[written:],'emit changed own unwritten capacity tail'
+                assert original['memory'][old_pointer]==old_after and bytes.fromhex(native['memory'][str(new_pointer)])==new_after,'live emitted scratch buffer state differs'
+            old_input,new_input=observed_global('type_data')
+            assert original['memory'][old_input][4:4+final[0]]==before['after'][initial[2]][:final[0]] and bytes.fromhex(native['memory'][str(new_input)])[4:4+final[0]]==bytes.fromhex(after['output_after'])[:final[0]],'caller copied emitted initialized bytes differ'
     parameters = {};object_parameters=[];arena_parameters=[]
     assert 'parameters' in record, 'frontier lacks explicit ABI/parameter schema'
     if config.get('require_native_argument_inventory'):

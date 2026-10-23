@@ -340,6 +340,12 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         if (count > 65512) count = 65512;
         memory(log, process, item, count);
     }
+    if (full_graphs && widen_capacities[0]) {
+        if (read_bytes(process, 0x412578, &value, 4) && value)
+            memory(log, process, value, widen_capacities[0]);
+        if (read_bytes(process, 0x41257c, &value, 4) && value)
+            memory(log, process, value, widen_capacities[1] * 8);
+    }
     if (full_graphs && symbol_output_base)
         memory(log, process, symbol_output_base, symbol_output_capacity);
     if (full_graphs) {

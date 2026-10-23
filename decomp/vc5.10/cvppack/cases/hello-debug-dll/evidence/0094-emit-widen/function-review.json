@@ -1,0 +1,109 @@
+{
+  "schema": 1,
+  "candidate": "emit_widen",
+  "source_extent": [
+    4260608,
+    4260638
+  ],
+  "accepted_functions": 94,
+  "application_extent_bytes": 28394,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 45.31294883661549,
+  "qualification": "Application extents / whole text including CRT/unknown/padding, not non-CRT or branch coverage.",
+  "associated_switch_bytes_total": 784,
+  "source_review": [
+    "Genuine minimal C++ Emit virtual slot0x24 with caller flags, objectECX and4stackarguments; wrappercdeclRET0/actualcalleeRET16 unchanged. Only opaque vptr is read by target.",
+    "Fresh original/native method records compare initialized57B input before/after, all16 descriptor bytes with allocation identities, full60B output and16B fixup capacities pre/post. Returned initialized counts57B and2fixups match.",
+    "Compare written prefixes exactly; independently require each original/native3B output capacity tail unchanged from its OWN pre-call value. No replay of original uninitialized tail values.",
+    "Live pack_buffer/pack_fixups state retains actual same allocation/complete observed capacity post-call; target copies exactly the written57B output prefix into its owned symbol input.",
+    "Next release boundary has actual one-formal cdecl pointer ABI and emitted instance1/caller-local identity. Query/provider source semantics unchanged."
+  ],
+  "fresh_pair": true,
+  "next_frontier": "release_widen",
+  "fresh_negative_count": 16,
+  "fresh_controls": {
+    "path": "emit-checks.json",
+    "sha256": "ce6fdbf907f30e693132b2d510992a53c0efef1852834ecbd90cde97d39c5308"
+  },
+  "reused_controls": {
+    "recursive-node-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0083-mark-recursive-type/recursive-node-state-checks.json",
+      "sha256": "f9707ed0369dd10721872719d775b0f4198d153f5e5d11c2605391aa92766e37"
+    },
+    "public-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0083-mark-recursive-type/public-state-checks.json",
+      "sha256": "a7d37d3571245a2d16324c9808e44f86bee83e07aafd9ac2c2f6ba7b2daf7a2f"
+    },
+    "abi-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0083-mark-recursive-type/abi-state-checks.json",
+      "sha256": "4b372e3b49e142efd9c72b01b9801970ffd3b65bf27ae62d7660c7f98fb3ee1c"
+    },
+    "type-record-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0083-mark-recursive-type/type-record-state-checks.json",
+      "sha256": "0d18d946c425c8452b36edce512a850891f6961d8c92ee309cb95bcd1e07892c"
+    },
+    "help-protocol-report.json": {
+      "path": "cases/hello-debug-dll/evidence/0083-mark-recursive-type/help-protocol-report.json",
+      "sha256": "abf0746bc1a03b8bfbee1151cac2a4f166bc99afb0eca61856f5b1d2c7042abf"
+    }
+  },
+  "prior_query_controls": {
+    "path": "cases/hello-debug-dll/evidence/0093-query-widen-typed-emit/query-checks.json",
+    "sha256": "d896301b842e7840200e941fffdc31a6b38ad3a5656e3b310f69e106d645b35e"
+  },
+  "provider_semantic_control_reuse": {
+    "path": "cases/hello-debug-dll/checkpoint50-controls/widen-provider.json",
+    "sha256": "8242fe40cb36423d7bc17016c85d34f6440d2329aacf6c1d9489ad0fb6f8c45c",
+    "scope": "Existing21-lifetime positive/full-own-tail and23 semantic negatives. Provider source is byte-identical; only new actual target import/static-member glue tested freshly.",
+    "provider_source_sha256": "5e5076d9ac9f8200f3e1b1152c8696e489802b325e51f94aeecb481498098399",
+    "compiled_source_manifest": "cases/hello-debug-dll/evidence/0050-read-new-module-types/build-source-inputs.json",
+    "compiled_source_manifest_sha256": "b8819a192654aaeb6a9afb5a3b103c40a6f35305d7f04625282e2b37729c07fe",
+    "contract_sha256": "fe1f3e3109afe67d91745ca1bfaf8f86cb2f2f51f68b5c012cf79637457407d8"
+  },
+  "reuse_scope": "16 fresh own-tail/full-capacity/input/output/ABI/schema controls, own native3B tail positive. Existing full21-lifetime provider/controller controls reused by pinned content hashes.",
+  "seconds": {
+    "original_build": 8.345328966155648,
+    "native_build": 2.762577666901052,
+    "graph_tool_build": 0.041126388125121593,
+    "original_capture": 16.524788573384285,
+    "native_capture": 1.5791856413707137,
+    "pair_check": 1.6701992731541395
+  },
+  "native_capture": {
+    "direct_execution": 0.011208288371562958,
+    "gdb_execution": 1.3769430797547102,
+    "total": 1.505839578807354
+  },
+  "original_capture": {
+    "setup": 1.135477856732905,
+    "execution": 15.011111374944448,
+    "total": 16.333077932707965
+  },
+  "native_fixtures": {
+    "help": {
+      "preparation": 0.00256135780364275,
+      "execution": 0.006513803265988827,
+      "checks": 0.002915593795478344,
+      "total": 0.01753936428576708
+    },
+    "debug": {
+      "preparation": 0.0026470795273780823,
+      "execution": 1.5995576670393348,
+      "checks": 0.0049881841987371445,
+      "total": 2.550452968105674
+    }
+  },
+  "support": {
+    "crt_bodies": 4,
+    "crt_bytes": 400,
+    "import_thunks": 5,
+    "import_thunk_bytes": 30,
+    "application_credit": 0
+  },
+  "shared_publication": {
+    "path": "shared-publication-review.json",
+    "sha256": "5cd8219aa451bbcf67fb856d736ed26f8257682969d63a9770615d31ee102702",
+    "source_bytes_unchanged": true,
+    "new_execution": false
+  }
+}

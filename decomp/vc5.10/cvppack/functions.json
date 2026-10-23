@@ -99,7 +99,8 @@
     "record_symbol_reference",
     "rewrite_module_global_types",
     "create_widen",
-    "query_widen"
+    "query_widen",
+    "emit_widen"
   ],
   "functions": [
     {
@@ -1764,7 +1765,18 @@
       "status": "stub",
       "extent": null,
       "ret": 0,
-      "parameters": []
+      "parameters": [
+        {
+          "name": "object",
+          "slot": 1,
+          "kind": "widen-object",
+          "owner": "widen_subsection",
+          "local": "object",
+          "original_output_delta": 48,
+          "state": "emitted",
+          "native_stage": 3
+        }
+      ]
     },
     {
       "name": "query_widen",
@@ -1823,8 +1835,11 @@
       "symbol": "_emit_widen",
       "native_symbol": "emit_widen",
       "original": 4260608,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4260608,
+        4260638
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -1872,7 +1887,8 @@
           "slot": 5,
           "kind": "integer"
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0094-emit-widen/promotion.json"
     },
     {
       "name": "resize_bytes",
@@ -3697,5 +3713,6 @@
       127269
     ]
   },
-  "observe_widen_query": true
+  "observe_widen_query": true,
+  "observe_widen_emit": true
 }

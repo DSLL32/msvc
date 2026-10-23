@@ -1,0 +1,31 @@
+{
+  "schema": 1,
+  "phase": "derived post-publication review; original/native raw retained unchanged",
+  "reviewed_at": "2026-10-23T22:47:30.643825+00:00",
+  "source_commits": [
+    "8c4c7610239b9783e8db16605e52dce4c54e83bd",
+    "472a2dd1fe82d6dd302dcb16e71efe223dbdf98b"
+  ],
+  "shared_sources": [
+    {
+      "path": "lib/recon/include/recon.h",
+      "sha256": "ffba274d4a4d3841c8a080490b675471ce81b60641b20b837faaff05996ce3b6",
+      "frozen_compiled_snapshot": "cases/source-content/ffba274d4a4d3841c8a080490b675471ce81b60641b20b837faaff05996ce3b6"
+    },
+    {
+      "path": "lib/recon/src/compat.c",
+      "sha256": "7c8e3b110db78bf424de56eb79e9bcd2fa62d67f1e48b14e619737366f216a74",
+      "frozen_compiled_snapshot": "cases/source-content/7c8e3b110db78bf424de56eb79e9bcd2fa62d67f1e48b14e619737366f216a74"
+    },
+    {
+      "path": "lib/recon/src/entry.c",
+      "sha256": "77d9a4253e5e5b1754f089ec744e50ba073eda22d486dfd68f50d5b1ea64030b",
+      "frozen_compiled_snapshot": "cases/source-content/77d9a4253e5e5b1754f089ec744e50ba073eda22d486dfd68f50d5b1ea64030b"
+    }
+  ],
+  "original_receipt_sha256": "663538324c1cdb0d47a99a331cde6bcd15917a4a11258c8e222d8554d033eb76",
+  "native_receipt_sha256": "eed9ee13d5b40db8c5918b9374f77242aac322b7d8452dc29ea8775e9b5ec015",
+  "original_recapture": false,
+  "native_recapture": false,
+  "approval": "Orchestrator READY: independently reviewed published heapguard/FP; final shared contents unchanged from frozen build/capture bytes. Historical capture time/source status not relabeled."
+}

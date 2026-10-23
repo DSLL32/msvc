@@ -165,7 +165,7 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
         assert definition.read_text()=='LIBRARY MSPDB50.DLL\nEXPORTS\n    '+name+'\n','factory import definition differs'
         obj=COFF((BINARY/'build/widen.obj').read_bytes())
         bodies=[s['name'] for s in obj.symbols.values() if s.get('type')==0x20 and s['section']>0]
-        assert bodies==['_create_widen','_query_widen'],'extra target C++ function vertices'
+        assert bodies==['_create_widen','_query_widen','_emit_widen'],'extra target C++ function vertices'
         imports=[s['name'] for s in obj.symbols.values() if s['name'].startswith('__imp_')]
         assert imports==['__imp_'+name],'factory target import symbol differs'
         factory_import=dict(provider_sha256=sha(provider),export=exports[0],definition_sha256=sha(definition),object_sha256=sha(BINARY/'build/widen.obj'),target_functions=bodies)

@@ -6,9 +6,9 @@ Target: `toolchains/5.10/bin/CVPACK.EXE`; the requested folder spelling is
 
 `/help` is complete: status 1, 193 stdout bytes, no stderr, six application
 entries. The genuine embedded-CodeView `hello-debug-dll` case is in progress at
-`emit_widen`, after the first genuine thiscall query. There are 93
-accepted application functions / 28,364 extent bytes, plus 784 associated switch-data
-bytes. This is 45.27% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
+`release_widen`, after the first complete emission and caller copy. There are 94
+accepted application functions / 28,394 extent bytes, plus 784 associated switch-data
+bytes. This is 45.31% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
 it is neither non-CRT nor executed-branch coverage. Four CRT bodies (400 bytes)
 and five import thunks (30 bytes) remain separate support.
 
@@ -73,7 +73,7 @@ normally. This limitation has no unsupported-path equivalence claim.
 Module source-line copies bind the complete original256B input to one allocation shared by its directory and ModuleInfo. Rewrite allocation provenance retains actual call-time operands across module-global resets and input-buffer reuse.
 
 The reviewed MSPDB WidenTi case provider is outside application coverage and has
-now supplied its first factory and query results; emit/release remain pending. It enforces 21 actual lifetimes,
+now supplied its first factory/query/emit results; release remains pending. It enforces 21 actual lifetimes,
 complete inputs/aliases/sequences/capacities and actual thiscall interfaces,
 writing only observed prefixes and preserving each native allocation's own tail.
 The unreached Record slot fails closed. See `cases/hello-debug-dll/DEPENDENCY.md`.

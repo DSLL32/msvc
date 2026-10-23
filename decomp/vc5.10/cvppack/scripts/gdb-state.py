@@ -18,6 +18,7 @@ cleared_allocations=[]
 module_allocations=[]
 widen_factory_calls=[]
 widen_query_calls=[]
+widen_emit_calls=[]
 lookup_calls=[]
 lookup_stack=[]
 type_compare_calls=[]
@@ -231,6 +232,42 @@ def install(configuration):
                     entry_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
                 widen_query_calls.append(call);WidenQueryReturned(call);return False
         WidenQueryEntered()
+
+    if config.get('observe_widen_emit'):
+        class WidenEmitReturned(gdb.FinishBreakpoint):
+            def __init__(self,call):
+                self.call=call
+                super().__init__(gdb.newest_frame(),internal=True)
+            def stop(self):
+                call=self.call;inferior=gdb.selected_inferior()
+                call.update(result=int(self.return_value),description_after=bytes(inferior.read_memory(call['description'],16)).hex(),
+                    input_after=bytes(inferior.read_memory(call['input_address'],call['size'])).hex(),
+                    output_after=bytes(inferior.read_memory(call['output_address'],call['output_capacity'])).hex(),
+                    fixups_after=bytes(inferior.read_memory(call['fixup_address'],call['fixup_capacity']*8)).hex(),
+                    exit_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
+                assert int(gdb.parse_and_eval("'native-widen.c'::stage"))==3 and int(gdb.parse_and_eval("'native-widen.c'::cursor"))==0,'emit provider lifetime/state differs'
+                return False
+        class WidenEmitEntered(gdb.Breakpoint):
+            def __init__(self):super().__init__('native-widen.c:emit',internal=True)
+            def stop(self):
+                frame=gdb.newest_frame();owner=frame.older()
+                while owner is not None and owner.name()!='widen_subsection':owner=owner.older()
+                assert owner is not None
+                obj=int(frame.read_var('object'));out=int(frame.read_var('out'));source=int(frame.read_var('input'));size=int(frame.read_var('size'))
+                assert obj==int(owner.read_var('object'))==widen_factory_calls[0]['object'],'emit opaque object caller/factory alias differs'
+                assert out==int(owner.read_var('output').address),'emit output descriptor actual caller-local alias differs'
+                assert source==int(owner.read_var('buffer').dereference())+4 and size==int(owner.read_var('input_size')),'emit input actual caller alias/extent differs'
+                inferior=gdb.selected_inferior();description=bytes(inferior.read_memory(out,16));words=[int.from_bytes(description[i:i+4],'little') for i in range(0,16,4)]
+                assert words[2]==int(gdb.parse_and_eval('pack_buffer')) and words[3]==int(gdb.parse_and_eval('pack_fixups')),'emit output actual allocation aliases differ'
+                assert words[0]<=int(gdb.parse_and_eval('pack_buffer_size')) and words[1]<=int(gdb.parse_and_eval('pack_fixup_count')),'emit capacities exceed owned allocations'
+                call=dict(object=obj,description=out,input_address=source,size=size,flags=int(frame.read_var('flags')),
+                    description_before=description.hex(),input=bytes(inferior.read_memory(source,size)).hex(),
+                    output_address=words[2],fixup_address=words[3],output_capacity=words[0],fixup_capacity=words[1],
+                    output_before=bytes(inferior.read_memory(words[2],words[0])).hex(),
+                    fixups_before=bytes(inferior.read_memory(words[3],words[1]*8)).hex(),
+                    entry_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
+                widen_emit_calls.append(call);WidenEmitReturned(call);return False
+        WidenEmitEntered()
 
     if config.get('observe_global_type_lookup'):
         class LookupReturned(gdb.FinishBreakpoint):
@@ -493,6 +530,7 @@ def capture(configuration,data_file,output):
     state['mapping_calls']=mapping_calls
     state['file_reads']=file_reads
     state['directory_allocation']=directory_allocation
+    state['widen_emit_calls']=widen_emit_calls
     state['widen_query_calls']=widen_query_calls
     state['widen_factory_calls']=widen_factory_calls
     state['subsection_allocations']=subsection_allocations
@@ -507,6 +545,11 @@ def capture(configuration,data_file,output):
     if any(item.get('function_table') for item in data):
         state['function_addresses']={row['native_symbol']:int(gdb.parse_and_eval('&'+row['native_symbol'])) for row in config['functions']}
     memory={};strings={};handles={};mapped_views={};captured_shapes={}
+    if widen_emit_calls:
+        call=widen_emit_calls[-1]
+        for name,address,count in [('pack_buffer',call['output_address'],call['output_capacity']),('pack_fixups',call['fixup_address'],call['fixup_capacity']*8)]:
+            assert address==int(gdb.parse_and_eval(name)),'live emitted scratch allocation identity differs'
+            memory[str(address)]=bytes(inferior.read_memory(address,count)).hex()
     state["last_error"]=int(gdb.parse_and_eval("'win32.c'::last_error"))
     def linked(head,shape):
         visited=set()

@@ -13,3 +13,10 @@ extern "C" int query_widen(WidenTi *object, WidenOutput *output,
 {
     return object->Query(output, input, size, 0);
 }
+
+/* Call the genuine thiscall slot0x24 [00410300,0041031e). */
+extern "C" int emit_widen(WidenTi *object, WidenOutput *output,
+                          const void *input, unsigned size, unsigned flags)
+{
+    return object->Emit(output, input, size, flags);
+}
