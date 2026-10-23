@@ -152,9 +152,8 @@ unsigned __fastcall coff_define_weak_symbol(char *name, unsigned short section,
 int __fastcall write_demangled_listing(SymbolHeader *symbol, int first) { __asm int 3 }
 int __fastcall write_listing_comment(int first) { __asm int 3 }
 unsigned __fastcall write_listing_line(unsigned line) { __asm int 3 }
-char *__fastcall machine_register_name(unsigned reg, unsigned bytes) { __asm int 3 }
 char *__fastcall listing_size_suffix(unsigned bytes) { __asm int 3 }
-void __fastcall write_instruction_operand(MachineInstruction *instruction, MachineOperand *operand, unsigned bytes) { __asm int 3 }
+void __fastcall write_listing_displacement(long displacement, int hint) { __asm int 3 }
 void __fastcall write_instruction_comment(MachineInstruction *instruction) { __asm int 3 }
 void __cdecl compiler_error(unsigned code, ...) { __asm int 3 }
 void __fastcall coff_begin_lines(unsigned handle, unsigned short line,

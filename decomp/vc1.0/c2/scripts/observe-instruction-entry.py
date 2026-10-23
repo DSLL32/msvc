@@ -8,8 +8,8 @@ started=time.perf_counter();receipt=args.receipt;receipt.mkdir()
 fixture=Path('../fixtures/c2-debug-asm-listing');phase=json.loads((fixture/'manifest.json').read_text())['phases']['c2']
 def sha(p):return hashlib.sha256(Path(p).read_bytes()).hexdigest()
 name=args.function
-assert name in ['@write_instruction_text@4','@write_special_instruction@4','@write_instruction_mnemonic@4','@write_instruction_operand@12']
-nargs=3 if name=='@write_instruction_operand@12'else 1
+assert name in ['@write_instruction_text@4','@write_special_instruction@4','@write_instruction_mnemonic@4','@write_instruction_comment@4','@write_instruction_operand@12','@write_operand_prefix@12']
+nargs=3 if name in ['@write_instruction_operand@12','@write_operand_prefix@12']else 1
 with capture_lock():
     scratch=Path(tempfile.mkdtemp(prefix='instruction-entry-original-',dir=C2_SCRATCH));work=C2_SCRATCH/'dbglist'
     for p in work.iterdir():assert p.is_file()and not p.is_symlink();p.unlink()
@@ -54,5 +54,6 @@ if nargs==3:
     assert arguments[2]==operand['bytes']==4 and raw==operand['operand_hex']=='0100000005000000'
     r['formals']+=[dict(name='operand',location='EDX',type='MachineOperand pointer',original=arguments[1],native=operand['pointer'],original_offset_from_instruction=16,native_offset_from_instruction=16,defined_input_hex=raw),dict(name='bytes',location='entryESP+4',type='unsigned32',value=4)]
     r['native_operand']=operand;r['callee_stack_cleanup']=4
-    r['scope']=r['scope'].replace('Entry consumes ECX instruction;', 'Entry consumes ECX instruction, EDX operand and entryESP+4 unsigned width;').replace('RET0 (full body analyzed separately)', 'RET4 at2a10c (full body analyzed separately)')
+    location='2a10c'if name=='@write_instruction_operand@12'else '2a7b9'
+    r['scope']=r['scope'].replace('Entry consumes ECX instruction;', 'Entry consumes ECX instruction, EDX operand and entryESP+4 unsigned width;').replace('RET0 (full body analyzed separately)', 'RET4 at'+location+' (full body analyzed separately)')
 (receipt/'validation.json').write_text(json.dumps(r,indent=2)+'\n');print('Actual instruction formal and record/state match',original_words)

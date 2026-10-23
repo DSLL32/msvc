@@ -38,18 +38,19 @@ except(AssertionError,KeyError):rejected.append('empty driver formal metadata')
 else:raise AssertionError('Accepted empty driver ABI metadata')
 instruction=json.loads(Path('cases/dbglist-instruction-abi/validation.json').read_text())
 def validate_instruction(r):
-    assert r['matched']and r['function']in ['@write_instruction_text@4','@write_special_instruction@4','@write_instruction_mnemonic@4']
+    assert r['matched']and r['function']in ['@write_instruction_text@4','@write_special_instruction@4','@write_instruction_mnemonic@4','@write_instruction_comment@4']
     assert len(r['formals'])==1 and r['hidden_inputs']==[]and r['callee_stack_cleanup']==0
     f=r['formals'][0];assert {k:f[k]for k in ['name','location','type']}==dict(name='instruction',location='ECX',type='MachineInstruction pointer')
     a,b=r['original_words'],r['native_words'];assert a[2:]==b[2:]==[0xd40,1,1,5,0,0]
     assert f['original']and f['native']==r['native']['pointer']
     assert a[:2]==[f['original']+32,f['original']-32]and b[:2]==[f['native']+32,f['native']-32]
-    assert r['original_state']==dict(column=24,cw=0x27f,sw=0,fastcall=1)
-    assert {k:r['native'][k]for k in ['column','cw','sw']}==dict(column=24,cw=0x27f,sw=0)
+    column=35 if r['function']=='@write_instruction_comment@4'else 24
+    assert r['original_state']==dict(column=column,cw=0x27f,sw=0,fastcall=1)
+    assert {k:r['native'][k]for k in ['column','cw','sw']}==dict(column=column,cw=0x27f,sw=0)
     assert r['native']['stdout']=={k:v for k,v in r['original_stdout'].items()if k not in ['counter','cursor','value','position']}
 validate_instruction(instruction)
 instruction_receipts=[('cases/dbglist-instruction-abi/validation.json',instruction)]
-for path in ['cases/dbglist-special-abi/validation.json','cases/dbglist-mnemonic-abi/validation.json']:
+for path in ['cases/dbglist-special-abi/validation.json','cases/dbglist-mnemonic-abi/validation.json','cases/dbglist-comment-abi/validation.json']:
     entry=json.loads(Path(path).read_text());validate_instruction(entry);instruction_receipts.append((path,entry))
 for path,entry in instruction_receipts:
     metadata=next(r for r in config['driver']if r['name']==entry['function'])
@@ -64,7 +65,7 @@ for label,change in [('missing instruction formal',lambda r:r.update(formals=[])
     else:raise AssertionError('Accepted bad instruction ABI: '+label)
 operand=json.loads(Path('cases/dbglist-operand-abi/validation.json').read_text())
 def validate_operand(r):
-    assert r['matched']and r['function']=='@write_instruction_operand@12'and r['hidden_inputs']==[]and r['callee_stack_cleanup']==4
+    assert r['matched']and r['function']in ['@write_instruction_operand@12','@write_operand_prefix@12']and r['hidden_inputs']==[]and r['callee_stack_cleanup']==4
     assert [p['name']for p in r['formals']]==['instruction','operand','bytes']and [p['location']for p in r['formals']]==['ECX','EDX','entryESP+4']
     f,o,w=r['formals'];n=r['native_operand'];assert f['original']and f['native']==r['native']['pointer']
     assert o['original']==f['original']+16 and o['native']==f['native']+16==n['pointer']
@@ -76,10 +77,35 @@ def validate_operand(r):
     assert {k:r['native'][k]for k in ['column','cw','sw']}==dict(column=32,cw=0x27f,sw=0)
     assert r['native']['stdout']=={k:v for k,v in r['original_stdout'].items()if k not in ['counter','cursor','value','position']}
 validate_operand(operand)
+prefix=json.loads(Path('cases/dbglist-prefix-abi/validation.json').read_text());validate_operand(prefix)
+for path,entry in [('cases/dbglist-operand-abi/validation.json',operand),('cases/dbglist-prefix-abi/validation.json',prefix)]:
+    if entry['function']in config['accepted']:
+        abi=next(r for r in config['driver']if r['name']==entry['function'])['abi']
+        assert abi['convention']=='fastcall'and abi['hidden_inputs']==[]and abi['callee_stack_cleanup']==4
+        assert abi['parameters']==[{k:v for k,v in formal.items()if k in ['name','location','type']}for formal in entry['formals']]
+        assert abi['entry_observation']==path
 for label,change in [('missing operand width formal',lambda r:r['formals'].pop()),('wrong operand pointer alias',lambda r:r['formals'][1].update(native_offset_from_instruction=24)),('wrong actual operand width',lambda r:r['native_operand'].update(bytes=8)),('unknown hidden operand input',lambda r:r.update(hidden_inputs=['ESI unknown']))]:
     bad=copy.deepcopy(operand);change(bad)
     try:validate_operand(bad)
     except(AssertionError,KeyError,ValueError):rejected.append(label)
     else:raise AssertionError('Accepted bad operand ABI: '+label)
-Path('cases/listing-entry-abi-validation.json').write_text(json.dumps(dict(checked=[r['function']for r in receipt['formals']]+[r['function']for p,r in instruction_receipts]+[operand['function']],observed_formals=7+len(instruction_receipts),rejected=rejected,seconds=time.perf_counter()-started,scope='Actual original/native byte, spacing, instruction text/special/mnemonic and next operand entries. Complete known formal observations plus static no-hidden-input/RET evidence. First PUSH EBP scalar/adjacent-link and operand alias projection only; no arbitrary deep pointer equivalence. No Wine/compiler/native launch.'),indent=2)+'\n')
-print(7+len(instruction_receipts),'actual ABI formals, known implicit state and',len(rejected),'rejections pass')
+register=json.loads(Path('cases/dbglist-register-abi/validation.json').read_text())
+def validate_register(r):
+    assert r['matched']and r['function']=='@machine_register_name@8'and r['hidden_inputs']==[]and r['callee_stack_cleanup']==0 and r['no_hidden_inputs_proof']
+    assert r['formals']==[dict(name='reg',location='ECX',type='unsigned32',value=5),dict(name='bytes',location='EDX',type='unsigned32',value=4)]
+    assert r['original_values']==r['native']['values']==[5,4]
+    assert r['original_state']==dict(column=32,cw=0x27f,sw=0,fastcall=1)
+    assert {k:r['native'][k]for k in ['column','cw','sw']}==dict(column=32,cw=0x27f,sw=0)
+    assert r['native']['stdout']=={k:v for k,v in r['original_stdout'].items()if k not in ['counter','cursor','value','position']}
+validate_register(register)
+abi=next(r for r in config['driver']if r['name']==register['function'])['abi']
+assert abi['convention']=='fastcall'and abi['hidden_inputs']==[]and abi['callee_stack_cleanup']==0
+assert abi['parameters']==[{k:v for k,v in formal.items()if k in ['name','location','type']}for formal in register['formals']]
+assert abi['entry_observation']=='cases/dbglist-register-abi/validation.json'
+for label,change in [('missing register formal',lambda r:r['formals'].pop()),('changed register width input',lambda r:r['native']['values'].__setitem__(1,2)),('missing register hidden-input proof',lambda r:r.update(no_hidden_inputs_proof=''))]:
+    bad=copy.deepcopy(register);change(bad)
+    try:validate_register(bad)
+    except(AssertionError,KeyError):rejected.append(label)
+    else:raise AssertionError('Accepted bad register ABI: '+label)
+Path('cases/listing-entry-abi-validation.json').write_text(json.dumps(dict(checked=[r['function']for r in receipt['formals']]+[r['function']for p,r in instruction_receipts]+[operand['function'],prefix['function'],register['function']],observed_formals=12+len(instruction_receipts),rejected=rejected,seconds=time.perf_counter()-started,scope='Actual original/native listing family formals, known state and static no-hidden-input/RET evidence. First PUSH EBP scalar/adjacent-link and operand alias projection plus register5/width4 only; no arbitrary deep pointer equivalence. No Wine/compiler/native launch.'),indent=2)+'\n')
+print(12+len(instruction_receipts),'actual ABI formals, known implicit state and',len(rejected),'rejections pass')

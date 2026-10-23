@@ -286,3 +286,10 @@ The isolated FADD failure caught a wrong raw/normalized property substitution
 before acceptance. Actual operand entry includes all3 formals and alias/record/
 stdout/x87 observations. All14 native cases pass; debug artifacts remain pending.
 See cases/dbglist-text-checkpoint.json for scope, raw failures and split timings.
+
+Checkpoint1225 reconstructs the complete operand/prefix/register-name bodies.
+400 operand,288 prefix and116 register lookup shapes pass;60 typed register
+entries include originalNULL slots and6 explicitly shared segment identities.
+All16 known listing-family entry formals and next comment state are observed.
+Original/W3, graph/ABI/negatives and14native cases pass; debug artifacts pending.
+See cases/dbglist-operand-checkpoint.json for limits and all measured timings.

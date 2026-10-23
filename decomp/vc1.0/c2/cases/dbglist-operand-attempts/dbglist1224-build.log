@@ -1,0 +1,22 @@
+python3 scripts/dependencies.py
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/stubs.c -o build/native/stubs.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -c src/listing.c -o build/native/listing.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -DRECON_NATIVE_TRACE -finstrument-functions -c src/stubs.c -o build/native-trace/stubs.o
+clang -DRECON_NATIVE_TEST -DRECON_DEFAULT_FMODE=0x8000 -DRECON_NATIVE_STARTUP_CONTROLFP_53 -I../../../lib/recon/include -I../../../lib/recon/native -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -DRECON_NATIVE_TRACE -finstrument-functions -c src/listing.c -o build/native-trace/listing.o
+src/listing.c:831:18: error: function declared 'fastcall' here was previously declared without calling convention
+  831 | char *__fastcall listing_data_type(long bytes);
+      |                  ^
+src/listing.c:265:45: note: previous declaration is here
+  265 |         listing_column += printf("%s PTR ", listing_data_type(bytes));
+      |                                             ^
+1 error generated.
+src/listing.c:831:18: error: function declared 'fastcall' here was previously declared without calling convention
+  831 | char *__fastcall listing_data_type(long bytes);
+      |                  ^
+src/listing.c:265:45: note: previous declaration is here
+  265 |         listing_column += printf("%s PTR ", listing_data_type(bytes));
+      |                                             ^
+make: *** [Makefile:132: build/native/listing.o] Error 1
+make: *** Waiting for unfinished jobs....
+1 error generated.
+make: *** [Makefile:134: build/native-trace/listing.o] Error 1

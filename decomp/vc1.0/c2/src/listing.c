@@ -254,6 +254,154 @@ MachineInstruction *__fastcall write_instruction_listing(MachineInstruction *ins
     printf("\n");
     return last->next;
 }
+/* Register spellings consumed by35870. The segment entries deliberately
+   share storage between the16/32-bit views, as in the original tables. */
+static char register_es[] = "es", register_cs[] = "cs";
+static char register_ss[] = "ss", register_ds[] = "ds";
+static char register_fs[] = "fs", register_gs[] = "gs";
+char *listing_registers32[14] = {
+    "eax", "ecx", "edx", "ebx", "esp", "ebp", "esi", "edi",
+    register_es, register_cs, register_ss, register_ds, register_fs, register_gs
+};
+char *listing_registers16[14] = {
+    "ax", "cx", "dx", "bx", "sp", "bp", "si", "di",
+    register_es, register_cs, register_ss, register_ds, register_fs, register_gs
+};
+char *listing_registers8[8] = { "al", "cl", "dl", "bl", "ah", "ch", "dh", "bh" };
+char *listing_system_registers[24] = {
+    "cr0", NULL, "cr2", "cr3", NULL, NULL, NULL, NULL,
+    "dr0", "dr1", "dr2", "dr3", NULL, NULL, "dr6", "dr7",
+    NULL, NULL, NULL, NULL, NULL, NULL, "tr6", "tr7"
+};
+/* Original35870..358a8. Callers supply register numbers in the selected
+   class (8 byte,14 word/dword,24 system entries); there was no range guard.
+   Zero table entries for nonexistent control/debug registers remain NULL. */
+char *__fastcall machine_register_name(unsigned reg, unsigned bytes)
+{
+    if (!bytes) return listing_system_registers[reg];
+    if (bytes == 1) return listing_registers8[reg];
+    if (bytes == 4 || bytes == 6) return listing_registers32[reg];
+    return listing_registers16[reg];
+}
+
+/* Original2a700..2a7bc. Memory operands carry a size and optional segment;
+   a one-byte symbolic branch has the explicit SHORT qualifier. */
+void __fastcall write_operand_prefix(MachineInstruction *instruction,
+    MachineOperand *operand, unsigned bytes)
+{
+    unsigned kind = operand->flags & 15;
+    unsigned operation;
+    if ((kind >= 3 && kind <= 5) || kind == 12) {
+        listing_column += printf("%s PTR ", listing_data_type(bytes));
+        if (operand->flags & 0xf0)
+            listing_column += printf("%s:", machine_register_name(
+                (operand->flags >> 4) & 15, 2));
+    } else if (kind == OPERAND_SYMBOL) {
+        operation = (instruction->opcode >> 8) & 255;
+        if ((operation == MC_JCC || operation == MC_JMP) && bytes == 1)
+            listing_column += printf("SHORT ");
+    }
+}
+
+/* Listing-only names for additional inline-assembly operand forms. */
+enum ListingOperandKind {
+    LISTING_SEGMENT_ADDRESS = 7, LISTING_RELATIVE_OFFSET = 10,
+    LISTING_SEGMENT_REGISTER = 11, LISTING_MEMORY_DISPLACEMENT = 12,
+    LISTING_NO_BASE_REGISTER = 27
+};
+
+/* Original29d00..2a10f; twelve-way kind table2a110..2a140. The prefix
+   writer owns size/segment qualifiers; this function owns the operand. */
+void __fastcall write_instruction_operand(MachineInstruction *instruction,
+    MachineOperand *operand, unsigned bytes)
+{
+    MachineAddress *address;
+    unsigned operation, hint, reg, scale;
+    write_operand_prefix(instruction, operand, bytes);
+    hint = (instruction->record.source_location >> 13) & 7;
+    switch (operand->flags & 15) {
+    case OPERAND_REGISTER:
+        operation = (instruction->opcode >> 8) & 255;
+        if (((operation >= MC_FADD && operation <= MC_FLD1) ||
+             (operation >= MC_FUCOM && operation <= MC_FCOS)) &&
+            operation != MC_FSTSW && operation != MC_FNSTSW) {
+            listing_column += printf("ST(%d)",
+                (int)operand->value.reg.words.number - REG_ST0);
+        } else {
+            listing_column += printf("%s", machine_register_name(
+                operand->value.reg.words.number, bytes));
+        }
+        break;
+    case OPERAND_IMMEDIATE:
+        listing_column += printf("%ld", (long)operand->value.constant);
+        break;
+    case OPERAND_ABSOLUTE:
+        address = operand->value.address;
+        if (address->symbol) {
+            write_listing_symbol(address->symbol);
+            write_listing_displacement(address->first.displacement, hint);
+        } else if (address->first.displacement) {
+            listing_column += printf("$+%ld", address->first.displacement);
+        } else listing_column += printf("$");
+        break;
+    case OPERAND_BASED:
+        address = operand->value.address;
+        write_listing_symbol(address->symbol);
+        listing_column += printf("[%s", machine_register_name(
+            address->base.words.number, 4));
+        write_listing_displacement(address->first.displacement, hint);
+        listing_column += printf("]");
+        break;
+    case OPERAND_INDEXED:
+        address = operand->value.address;
+        write_listing_symbol(address->symbol);
+        listing_column += printf("[");
+        reg = address->base.words.number;
+        if (reg != LISTING_NO_BASE_REGISTER)
+            listing_column += printf("%s+", machine_register_name(reg, 4));
+        listing_column += printf("%s", machine_register_name(
+            address->index.words.number, 4));
+        scale = (operand->flags >> 8) & 3;
+        if (scale) listing_column += printf("*%d", 1U << scale);
+        write_listing_displacement(address->first.displacement, hint);
+        listing_column += printf("]");
+        break;
+    case OPERAND_LABEL_ADDRESS:
+        listing_column += printf("OFFSET ");
+        if (dos_object) listing_column += printf("FLAT:");
+        address = operand->value.address;
+        if (address->symbol) write_listing_symbol(address->symbol);
+        else listing_column += printf("$");
+        write_listing_displacement(address->first.displacement, hint);
+        break;
+    case LISTING_SEGMENT_ADDRESS:
+        listing_column += printf("SEG ");
+        address = operand->value.address;
+        write_listing_symbol(address->symbol);
+        write_listing_displacement(address->first.displacement, hint);
+        break;
+    case OPERAND_SYMBOL:
+        write_listing_symbol(operand->value.symbol);
+        break;
+    case LISTING_RELATIVE_OFFSET:
+        if (operand->value.constant)
+            listing_column += printf("$+%d", (int)operand->value.constant);
+        else listing_column += printf("$");
+        break;
+    case LISTING_SEGMENT_REGISTER:
+        listing_column += printf("%s", machine_register_name(
+            operand->value.reg.words.number, 0));
+        break;
+    case LISTING_MEMORY_DISPLACEMENT:
+        address = operand->value.address;
+        if (address->symbol) {
+            write_listing_symbol(address->symbol);
+            write_listing_displacement(address->first.displacement, hint);
+        } else listing_column += printf("%ld", address->first.displacement);
+        break;
+    }
+}
+
 /* Original811c0 has one pointer per MachineOpcode. No pointer identity is
    exposed: the writer passes each selected spelling to printf("%s"). */
 const char *listing_mnemonics[MC_OPCODE_COUNT] = {

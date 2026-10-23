@@ -88,9 +88,12 @@ static void entry_snapshot(HANDLE process,ObservedCall *call,CONTEXT *context)
     if(!strcmp(call->name,"@write_instruction_text@4") ||
        !strcmp(call->name,"@write_special_instruction@4") ||
        !strcmp(call->name,"@write_instruction_mnemonic@4") ||
-       !strcmp(call->name,"@write_instruction_operand@12"))
+       !strcmp(call->name,"@write_instruction_comment@4") ||
+       !strcmp(call->name,"@write_instruction_operand@12") ||
+       !strcmp(call->name,"@write_operand_prefix@12"))
         dump_bytes(process,"instruction_hex",call->args[0],32);
-    if(!strcmp(call->name,"@write_instruction_operand@12"))
+    if(!strcmp(call->name,"@write_instruction_operand@12") ||
+       !strcmp(call->name,"@write_operand_prefix@12"))
         dump_bytes(process,"operand_hex",call->args[1],8);
     log_line("entry_end\n");
 }

@@ -1226,7 +1226,10 @@
     "@write_listing_spaces@4",
     "@write_instruction_text@4",
     "@write_special_instruction@4",
-    "@write_instruction_mnemonic@4"
+    "@write_instruction_mnemonic@4",
+    "@write_instruction_operand@12",
+    "@write_operand_prefix@12",
+    "@machine_register_name@8"
   ],
   "driver": [
     {
@@ -7863,19 +7866,98 @@
     {
       "name": "@write_instruction_operand@12",
       "start": 171264,
-      "end": 171265,
-      "provisional": true
+      "end": 172303,
+      "shared": [
+        [
+          172304,
+          172352
+        ]
+      ],
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "instruction",
+            "location": "ECX",
+            "type": "MachineInstruction pointer"
+          },
+          {
+            "name": "operand",
+            "location": "EDX",
+            "type": "MachineOperand pointer"
+          },
+          {
+            "name": "bytes",
+            "location": "entryESP+4",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 4,
+        "entry_observation": "cases/dbglist-operand-abi/validation.json"
+      }
     },
     {
       "name": "@machine_register_name@8",
       "start": 219248,
-      "end": 219249,
-      "provisional": true
+      "end": 219304,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "reg",
+            "location": "ECX",
+            "type": "unsigned32"
+          },
+          {
+            "name": "bytes",
+            "location": "EDX",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 0,
+        "entry_observation": "cases/dbglist-register-abi/validation.json"
+      }
     },
     {
       "name": "@listing_size_suffix@4",
       "start": 174144,
       "end": 174145,
+      "provisional": true
+    },
+    {
+      "name": "@write_operand_prefix@12",
+      "start": 173824,
+      "end": 174012,
+      "abi": {
+        "convention": "fastcall",
+        "parameters": [
+          {
+            "name": "instruction",
+            "location": "ECX",
+            "type": "MachineInstruction pointer"
+          },
+          {
+            "name": "operand",
+            "location": "EDX",
+            "type": "MachineOperand pointer"
+          },
+          {
+            "name": "bytes",
+            "location": "entryESP+4",
+            "type": "unsigned32"
+          }
+        ],
+        "hidden_inputs": [],
+        "callee_stack_cleanup": 4,
+        "entry_observation": "cases/dbglist-prefix-abi/validation.json"
+      }
+    },
+    {
+      "name": "@write_listing_displacement@8",
+      "start": 174016,
+      "end": 174017,
       "provisional": true
     }
   ],

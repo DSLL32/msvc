@@ -1,0 +1,519 @@
+{
+  "checkpoint": 1225,
+  "previous_checkpoint": 1222,
+  "application_graphs": 1115,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 1225,
+    "accepted_code_bytes": 332930,
+    "original_code_bytes": 399693,
+    "percentage": 83.2964300100327,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 580
+  },
+  "new_application": [
+    {
+      "name": "@write_instruction_operand@12",
+      "start": 171264,
+      "end": 172303,
+      "shared": [
+        [
+          172304,
+          172352
+        ]
+      ]
+    },
+    {
+      "name": "@write_operand_prefix@12",
+      "start": 173824,
+      "end": 174012
+    },
+    {
+      "name": "@machine_register_name@8",
+      "start": 219248,
+      "end": 219304
+    }
+  ],
+  "new_application_body_bytes": 1283,
+  "new_switch_bytes": 48,
+  "frontier": "@write_instruction_comment@4 original29bb0",
+  "checks": {
+    "native_cases": 14,
+    "complete_cases": 13,
+    "expected_named_trap_cases": 1,
+    "whole_operand_shapes": 400,
+    "whole_prefix_shapes": 288,
+    "whole_register_lookup_shapes": 116,
+    "typed_register_rows": 60,
+    "shared_segment_identities": 6,
+    "actual_entry_formals": 16,
+    "entry_rejections": 21,
+    "graph_abi_negative_checks_pass": true,
+    "original_W3_modules": [
+      "listing"
+    ],
+    "fixture_seconds": 0.5621543163433671,
+    "suite_setup_seconds": 0.15881457272917032,
+    "negative_check_seconds": 0.024533902294933796,
+    "shared_hashes": {
+      "lib/recon/include/recon.h": "7ff2a4a4f2dcb725920a16c092369280f55bb77e160522683402151bd8b12cbb",
+      "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "lib/recon/include/win32.h": "30474cfc65ed0e1242514cb51d5d5e35c4d608832b177132b56b45c05080f1e4",
+      "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+      "lib/recon/native/float.h": "6b1a1de85d42adbc8bbc3c0ed317f5a36114a104dd548e42ebfc4563bf60fb42",
+      "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "lib/recon/native/mbctype.h": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+      "lib/recon/native/mbstring.h": "ce7c483355c795650db82a8174b472747d34bd3462ba3bde375357cb28b0ec34",
+      "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "lib/recon/native/setjmp.h": "62dd5dcc70d652ad68bccd31f9c916b829b9577d0e7c8b8d0655e47cb5ab151f",
+      "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+      "lib/recon/src/compat.c": "3fd3515569a9bb8ea637cdd81359ee74724da607a06bac54d1866953b9e299a6",
+      "lib/recon/src/crt.c": "e080850bda1e2d71c8008f5ebe66e268d726cdadf9994cf8f601ae449a2d47e2",
+      "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "lib/recon/src/entry.c": "93bb510da82267823c5b3ab7056d9cc32a3ce955964109876f9be60d0e101963",
+      "lib/recon/src/process.c": "b1a4dae8f45ad5051f50acea6bb36d994e0d084c925291d46e154519e5d8f73a",
+      "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "lib/recon/src/win32.c": "7d12e267f948e6b9bfeabae190ef7d86320b56da24e8d581aecccd5b29fc62b2"
+    }
+  },
+  "evidence": [
+    "cases/dbglist-operand-abi/validation.json",
+    "cases/dbglist-prefix-abi/validation.json",
+    "cases/dbglist-register-abi/validation.json",
+    "cases/dbglist-comment-abi/validation.json",
+    "cases/listing-operand-validation.json",
+    "cases/listing-prefix-validation.json",
+    "cases/register-names-validation.json",
+    "cases/listing-entry-abi-validation.json"
+  ],
+  "failures_preserved": [
+    "Operand isolated build omitted its file-scope dos_object extern; harness-only declaration corrected.",
+    "Prefix native build rejected missing earlier fastcall declaration of listing_data_type; exported existing prototype to header before any execution."
+  ],
+  "limits": [
+    "Only the first actual register lookup(reg5,width4) is observed;116 bounded whole-body shapes cover every in-class table entry at widths0/1/2/3/4/6/8/10. Original unguarded class-domain assumption retained, no out-of-class memory semantics claim.",
+    "RegisterNULL slots are explicit original values, not guessed or unknown entries. Six shared segment identities equal original/canonical linked addresses; contextual typed storage preserves them.",
+    "Operand/prefix shape checks use explicit named child/ASCII printf mocks; they do not accept child ABIs or claim real-case execution of every branch.",
+    "All known formals/defined first PUSH EBP record, operand+16 alias, stdout and x87 state observed; next comment input at column35 matches.",
+    "Full debug .obj/.cod/.pdb completion still pending. All thirteen established completed cases retain strict artifact/stream/status oracle."
+  ],
+  "timing": {
+    "commands": [
+      {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "build/c2.exe"
+        ],
+        "seconds": 13.914631076157093,
+        "returncode": 0,
+        "log_sha256": "549113d5228acf9b144440f4f198f3b6777779018ac3324167cb9f13c7f45fc8",
+        "label": "dbglist1223-build"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1222.json",
+          "--extend-after",
+          "cases/dbglist-original-1223.json"
+        ],
+        "seconds": 0.3243735432624817,
+        "returncode": 0,
+        "log_sha256": "541b1d6bec6440d919e8b7c5ae31ed0af71d9765dd3c7ca4dd4cd20d890ae204",
+        "label": "dbglist1223-cache"
+      },
+      {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage",
+          "build/reference-stdio-observer.exe"
+        ],
+        "seconds": 3.871106126345694,
+        "returncode": 0,
+        "log_sha256": "fa0665e5a2175a8e086d3562a1def2b0e6e7546bac822787282e8a83a0e9e5b8",
+        "label": "dbglist1223-graph"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/debug-frontier.py",
+          "--profile",
+          "dbglist",
+          "--reference",
+          "cases/dbglist-original-1223.json"
+        ],
+        "seconds": 0.23503714427351952,
+        "returncode": 0,
+        "log_sha256": "7140692b333d735bf0208a76eb184914dee43fddb537d7325aacb0ded5bd0466",
+        "label": "dbglist1223-native"
+      },
+      {
+        "command": [
+          "make",
+          "-j4",
+          "build/native/check-listing-operand"
+        ],
+        "seconds": 0.3795465938746929,
+        "returncode": 0,
+        "log_sha256": "7911776d39a7a41dc28fd9697ee6f77abf3d2d046dccc64ed7ab875f3d96b605",
+        "label": "dbglist1223-operand-extern-probe-build"
+      },
+      {
+        "command": [
+          "make",
+          "-j4",
+          "build/native/check-listing-operand"
+        ],
+        "seconds": 0.6643137335777283,
+        "returncode": 2,
+        "log_sha256": "859e48e593a1dd8f080543655c3a38826c4afd43d352df14f7fb2dd82aab0ce9",
+        "label": "dbglist1223-operand-probe-build"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/check-listing-operand.py"
+        ],
+        "seconds": 4.37661299854517,
+        "returncode": 0,
+        "log_sha256": "76f83a6c63ec030f9dc9984eb16a094118aaaa4aec46f439f45424b664c6ca35",
+        "label": "dbglist1223-operand-values"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/observe-instruction-entry.py",
+          "--function",
+          "@write_operand_prefix@12",
+          "--receipt",
+          "cases/dbglist-prefix-abi"
+        ],
+        "seconds": 2.141558666713536,
+        "returncode": 0,
+        "log_sha256": "bc839e1354577a73fff9b45fa0ae0ff602f57bea9a112235f93788cbbc89b315",
+        "label": "dbglist1223-prefix-entry"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1223.json"
+        ],
+        "seconds": 1.4131140215322375,
+        "returncode": 0,
+        "log_sha256": "7b2470a339a2bc1bf68006fa91fae7697abf5129ab697cdfe5b596c6d10c0fa0",
+        "label": "dbglist1223-reference"
+      },
+      {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "build/c2.exe"
+        ],
+        "seconds": 0.7019101390615106,
+        "returncode": 2,
+        "log_sha256": "48cd8c70492933cd3fb6b4d98b9632b5fd70cff5704a0e0a9f9866c4e6dbe806",
+        "label": "dbglist1224-build"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1223.json",
+          "--extend-after",
+          "cases/dbglist-original-1224.json"
+        ],
+        "seconds": 0.32122330740094185,
+        "returncode": 0,
+        "log_sha256": "541b1d6bec6440d919e8b7c5ae31ed0af71d9765dd3c7ca4dd4cd20d890ae204",
+        "label": "dbglist1224-cache"
+      },
+      {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 3.7115060621872544,
+        "returncode": 0,
+        "log_sha256": "35743e560ec319a15a050fcc94dd7e2c44f2eff773a65131779f7752ea3beb2c",
+        "label": "dbglist1224-graph"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/debug-frontier.py",
+          "--profile",
+          "dbglist",
+          "--reference",
+          "cases/dbglist-original-1224.json"
+        ],
+        "seconds": 0.23479609284549952,
+        "returncode": 0,
+        "log_sha256": "8c8a1dbb13e4f7742a5e58d8ffa5f20c21f1c999fd869996b253331f427f2f9d",
+        "label": "dbglist1224-native"
+      },
+      {
+        "command": [
+          "make",
+          "-j4",
+          "build/native/check-listing-prefix"
+        ],
+        "seconds": 0.7165168654173613,
+        "returncode": 0,
+        "log_sha256": "18db0d237acbfe97e7ba715f2ea1f2e28f51a9b94855e04782c6be136ec60333",
+        "label": "dbglist1224-prefix-probe-build"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/check-listing-operand.py",
+          "--prefix"
+        ],
+        "seconds": 3.3713285587728024,
+        "returncode": 0,
+        "log_sha256": "ff2565fbbb33754b28c7ba0c157a0f23c337e6e2d9dc3df350e74674d5ea72e9",
+        "label": "dbglist1224-prefix-values"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1224.json"
+        ],
+        "seconds": 1.9445672016590834,
+        "returncode": 0,
+        "log_sha256": "07da4e5df6a32061157d6ac9c1d7a411adf93eb50421ea8399ac5221c2067988",
+        "label": "dbglist1224-reference"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/observe-scalar-entry.py",
+          "--function",
+          "@machine_register_name@8",
+          "--parameter",
+          "reg:unsigned32",
+          "--parameter",
+          "bytes:unsigned32",
+          "--no-hidden-inputs-proof",
+          "Original35870..358a8 reads only ECX register and EDX width; no writes/calls/stack arguments; every path RET0.",
+          "--receipt",
+          "cases/dbglist-register-abi"
+        ],
+        "seconds": 1.5606747195124626,
+        "returncode": 0,
+        "log_sha256": "5b78789be7b038687264f2290eaf3f7f004f95645c2d6d3fd0d4db36cd7fb3c4",
+        "label": "dbglist1224-register-entry"
+      },
+      {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "build/c2.exe"
+        ],
+        "seconds": 12.6278241770342,
+        "returncode": 0,
+        "log_sha256": "aa1fb4e130de06448dd16c7e7c3739b9627b3a2aa064f79ef625d5c8c353d3a6",
+        "label": "dbglist1224-type-prototype-build"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/wine-tool.py",
+          "CL.EXE",
+          "/nologo",
+          "/W3",
+          "/I../../../lib/recon/include",
+          "/c",
+          "/Od",
+          "/G3",
+          "/Fobuild/listing-w3.obj",
+          "src/listing.c"
+        ],
+        "seconds": 2.196389753371477,
+        "returncode": 0,
+        "log_sha256": "0d0db742c1f257821e8d498058c7a874b34d1660e40d21d80ec33c5109478be8",
+        "label": "dbglist1225-W3"
+      },
+      {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "build/c2.exe",
+          "build/reference-stdio-observer.exe"
+        ],
+        "seconds": 40.69594412948936,
+        "returncode": 0,
+        "log_sha256": "4457dfd09d1e0308d04c13c27e5321632e9c5458c3cfe08ad30ce6f2ef39ffa5",
+        "label": "dbglist1225-build"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/native-traces.py",
+          "--extend-before",
+          "cases/dbglist-original-1224.json",
+          "--extend-after",
+          "cases/dbglist-original-1225.json"
+        ],
+        "seconds": 0.30215569864958525,
+        "returncode": 0,
+        "log_sha256": "541b1d6bec6440d919e8b7c5ae31ed0af71d9765dd3c7ca4dd4cd20d890ae204",
+        "label": "dbglist1225-cache"
+      },
+      {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "audit-negatives",
+          "check"
+        ],
+        "seconds": 18.496854565106332,
+        "returncode": 0,
+        "log_sha256": "a9a857383717a9c0d2a29d7cd85a913828432dabc3031cff41037f0caaf057d5",
+        "label": "dbglist1225-checkpoint-check"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/observe-instruction-entry.py",
+          "--function",
+          "@write_instruction_comment@4",
+          "--receipt",
+          "cases/dbglist-comment-abi"
+        ],
+        "seconds": 1.3762959334999323,
+        "returncode": 0,
+        "log_sha256": "bc839e1354577a73fff9b45fa0ae0ff602f57bea9a112235f93788cbbc89b315",
+        "label": "dbglist1225-comment-entry"
+      },
+      {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 3.381938708946109,
+        "returncode": 0,
+        "log_sha256": "71b410caac3b3b2cd96379e5678287e5e621de6a11c6a6628e37c819ee045ec0",
+        "label": "dbglist1225-graph"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/debug-frontier.py",
+          "--profile",
+          "dbglist",
+          "--reference",
+          "cases/dbglist-original-1225.json"
+        ],
+        "seconds": 0.2247726507484913,
+        "returncode": 0,
+        "log_sha256": "5cc144c0a1603c79ba63f7fbd3d5d13326d213fd10f7f65f4af6fc430df3d8ba",
+        "label": "dbglist1225-native"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/capture-original.py",
+          "--profile",
+          "dbglist",
+          "--receipt",
+          "cases/dbglist-original-1225.json"
+        ],
+        "seconds": 2.1774781681597233,
+        "returncode": 0,
+        "log_sha256": "6a3711e22e047b7569627d7c1e38b10d2485774bb46397d29ced0834003d0d01",
+        "label": "dbglist1225-reference"
+      },
+      {
+        "command": [
+          "make",
+          "-j4",
+          "build/native/check-register-names"
+        ],
+        "seconds": 0.7658398319035769,
+        "returncode": 0,
+        "log_sha256": "afd4d9a40a5172d2484f31ae7ce504a0bd006fe512dc3bf39fba9f939bf2a20e",
+        "label": "dbglist1225-register-probe-build"
+      },
+      {
+        "command": [
+          "python3",
+          "scripts/check-register-names.py"
+        ],
+        "seconds": 1.312107472680509,
+        "returncode": 0,
+        "log_sha256": "aeb0309510cd66a2fc6e19afb2385801dd8d61c78ce88ed156cf93613488cad2",
+        "label": "dbglist1225-register-values"
+      }
+    ],
+    "original_captures": [
+      {
+        "accepted": 1223,
+        "logical": "@write_operand_prefix@12",
+        "setup_seconds": 0.23666521068662405,
+        "execution_seconds": 1.0625226479023695,
+        "check_seconds": 0.040929920971393585,
+        "total_seconds": 1.3401187611743808
+      },
+      {
+        "accepted": 1224,
+        "logical": "@machine_register_name@8",
+        "setup_seconds": 0.23614146932959557,
+        "execution_seconds": 1.6119008269160986,
+        "check_seconds": 0.026101186871528625,
+        "total_seconds": 1.8741438882425427
+      },
+      {
+        "accepted": 1225,
+        "logical": "@write_instruction_comment@4",
+        "setup_seconds": 0.23629772942513227,
+        "execution_seconds": 1.844401995651424,
+        "check_seconds": 0.0264816852286458,
+        "total_seconds": 2.1071817949414253
+      }
+    ],
+    "note": "All measured failed/repeated commands retained; overlapping commands must not be summed as wallclock. Mixed builds/check commands not split unless independent receipts give phases. Existing earlier unchanged data proofs reused; new operand/prefix/register probes are separately recorded.",
+    "unmeasured": [
+      "Analysis/reconstruction",
+      "Separate native/canonical portions of combined builds",
+      "Separate individual passes of mixed static/native checkpoint command except suite receipts"
+    ]
+  }
+}

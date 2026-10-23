@@ -5,9 +5,12 @@
     "@write_instruction_text@4",
     "@write_special_instruction@4",
     "@write_instruction_mnemonic@4",
-    "@write_instruction_operand@12"
+    "@write_instruction_comment@4",
+    "@write_instruction_operand@12",
+    "@write_operand_prefix@12",
+    "@machine_register_name@8"
   ],
-  "observed_formals": 10,
+  "observed_formals": 16,
   "rejected": [
     "empty formal metadata",
     "omitted stack byte pointer",
@@ -26,8 +29,11 @@
     "missing operand width formal",
     "wrong operand pointer alias",
     "wrong actual operand width",
-    "unknown hidden operand input"
+    "unknown hidden operand input",
+    "missing register formal",
+    "changed register width input",
+    "missing register hidden-input proof"
   ],
-  "seconds": 0.01113707385957241,
-  "scope": "Actual original/native byte, spacing, instruction text/special/mnemonic and next operand entries. Complete known formal observations plus static no-hidden-input/RET evidence. First PUSH EBP scalar/adjacent-link and operand alias projection only; no arbitrary deep pointer equivalence. No Wine/compiler/native launch."
+  "seconds": 0.012517313472926617,
+  "scope": "Actual original/native listing family formals, known state and static no-hidden-input/RET evidence. First PUSH EBP scalar/adjacent-link and operand alias projection plus register5/width4 only; no arbitrary deep pointer equivalence. No Wine/compiler/native launch."
 }

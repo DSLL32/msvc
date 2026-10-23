@@ -75,6 +75,9 @@ void __fastcall write_instruction_operand(MachineInstruction *instruction, Machi
 char *__fastcall machine_register_name(unsigned reg, unsigned bytes);
 char *__fastcall listing_size_suffix(unsigned bytes);
 char *__fastcall listing_data_directive(long bytes);
+char *__fastcall listing_data_type(long bytes);
+void __fastcall write_operand_prefix(MachineInstruction *instruction, MachineOperand *operand, unsigned bytes);
+void __fastcall write_listing_displacement(long displacement, int hint);
 void __fastcall write_instruction_comment(MachineInstruction *instruction);
 void __fastcall write_local_listing(SymbolHeader *symbol);
 #endif
