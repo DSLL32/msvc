@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_begin_for_condition",
+    "start": 261472,
+    "end": 261566
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1161-begin_for_condition/arguments/validation.json",
+  "distinct_direct_callees": [
+    "_append_frontend_record@8",
+    "_begin_for_condition_region"
+  ],
+  "next_frontier": "_begin_for_condition_region",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.804286016151309,
+  "total_operation_seconds": 4.480139218270779,
+  "original_capture_seconds": 1.2181346639990807
+}

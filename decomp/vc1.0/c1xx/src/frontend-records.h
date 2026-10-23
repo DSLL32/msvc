@@ -50,6 +50,7 @@ typedef struct LoopFrontendRecord {
 typedef char LoopFrontendRecordSizeMustBe20[(sizeof(LoopFrontendRecord) == 20) ? 1 : -1];
 typedef char LoopConditionRecordsOffsetMustBe16[(offsetof(LoopFrontendRecord, condition_records) == 16) ? 1 : -1];
 void begin_while_condition_region(void);
+void begin_for_condition_region(void);
 void end_while_condition_region(void);
 void end_while_body(void);
 typedef char BranchBoundaryRecordSizeMustBe20[(sizeof(BranchBoundaryRecord) == 20) ? 1 : -1];

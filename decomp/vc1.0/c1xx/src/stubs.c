@@ -128,7 +128,6 @@ void begin_do_condition(void) { __asm { int 3 } }
 void begin_do_statement(void) { __asm { int 3 } }
 void begin_else_body(void) { __asm { int 3 } }
 void begin_for_body(void) { __asm { int 3 } }
-void begin_for_condition(void) { __asm { int 3 } }
 void begin_for_increment(void) { __asm { int 3 } }
 
 void __stdcall begin_qc_control(unsigned char mode) { __asm { int 3 } }
@@ -608,3 +607,4 @@ void browser_end_macro_expansion(void) { __asm { int 3 } }
 char *__stdcall encode_literal_name_byte(char *cursor, signed char character) { __asm { int 3 } return 0; }
 int add_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
 int divide_extended(const Extended *left, const Extended *right, Extended *result) { __asm { int 3 } return 0; }
+void begin_for_condition_region(void) { __asm { int 3 } }

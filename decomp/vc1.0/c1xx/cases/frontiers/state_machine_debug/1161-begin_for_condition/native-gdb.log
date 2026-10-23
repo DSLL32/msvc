@@ -1,0 +1,12 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655aa94 in begin_for_condition_region () at src/stubs.c:610
+610	void begin_for_condition_region(void) { __asm { int 3 } }
+#0  0x5655aa94 in begin_for_condition_region () at src/stubs.c:610
+#1  0x565b449a in begin_for_condition () at src/frontend-records.c:796
+#2  0x565b9e01 in parse_translation_unit () at src/parser-statement-actions.inc:72
+#3  0x5655df4f in compile_translation_unit () at src/frontend.c:73
+#4  0x565588c6 in guarded_compile () at src/c1xx.c:28
+#5  0x56558894 in main (argc=1, argv=0xffffd824, environment=0xffffd82c) at src/c1xx.c:20

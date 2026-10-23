@@ -778,3 +778,21 @@ void __stdcall remove_frontend_record(FrontendRecord *record)
     if (ir_free_records) ir_free_records->next = record;
     ir_free_records = record;
 }
+
+/* Original 0x3fd60..0x3fdbd. A for-loop opens its loop record before
+   the independently paired condition-evaluation region. */
+void begin_for_condition(void)
+{
+    LoopFrontendRecord record;
+    record.header.kind = 0x25;
+    record.header.flags = 0;
+    record.header.field02 = 0;
+    record.header.sequence = 0;
+    record.header.next = 0;
+    record.header.previous = 0;
+    record.condition_records = 0;
+    if (!ir_records_suppressed) {
+        append_frontend_record(&record.header, sizeof(record));
+        begin_for_condition_region();
+    }
+}
