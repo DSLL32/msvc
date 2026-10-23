@@ -13,11 +13,11 @@ compares its graph/ABI/imports using the shared Rust auditor. Audit/build target
 may use Wine explicitly; fixture dependencies do not. Fixtures inspect the
 already-built Win32 DLL's exports without executing it.
 
-Accepted code is **68 application functions (2,832 bytes)**, **two historical CRT
+Accepted code is **69 application functions (2,913 bytes)**, **two historical CRT
 support functions (451 bytes)** and **one linker-generated import thunk (6 bytes)**.
-The 3,289 accepted code bytes are 0.4378% of the 751,216-byte code extent; this is not
+The 3,370 accepted code bytes are 0.4486% of the 751,216-byte code extent; this is not
 a non-CRT coverage percentage. The real minimal compilation remains unfinished,
-stopping in the compiler-environment initializer after the real GetSystemInfo call.
+stopping in the separate default-arena initializer before its first member call.
 
 ## Target and ABI
 
@@ -223,3 +223,14 @@ is allowed, and GlobalMemoryStatus remains denied. Three fresh pairs and23 new
 controls are in `cases/minimal/system-info-trials.json`. Original observations
 took8.43–8.64s and native GDB observations4.50–4.65s. Completed lifecycle fixtures
 remain native-only:13.03ms total,2.15ms execution. Minimal compilation continues.
+
+The81-byte environment wrapper is accepted with its full loop/member/failure
+graph, while the natural dynamic frontier is its first no-argument helper.
+Nine contextual descriptors and nine typed arena objects have exact layouts,
+original defaults, owned pointer identities and nonzero BSS reset proof.
+The first auxiliary caught missing native field clears; the rejected pair is
+preserved, and all three fresh corrected pairs pass.15 new controls take46.34s
+once for this new state group; earlier unchanged protocol controls are reused.
+Schema31 has1373 semantic BSS bytes+31 padding; initialized8371 bytes remain
+unmodeled. `cases/minimal/environment-trials.json` records the observations,
+build timings and the12.59ms native-only completed lifecycle fixture.
