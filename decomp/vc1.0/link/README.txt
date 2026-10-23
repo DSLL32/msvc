@@ -433,3 +433,34 @@ is16.786s. Coverage218415/281634=77.5528%,744 frontiers. Graph596,callback587,
 data450,boundary750 and38 ECX cleanup checks pass. See cases/definition-directives
 for frozen inputs, complete outputs, validation, CFG and partial component counts.
 The next approved family is original-validated Macintosh COFF debug and swapper.
+
+Mac COFF debug and swapper checkpoint
+
+The second approved family now completes through four contextual C functions in
+src/mac-debug.c. A derived401-byte m68k input defines ___InitSwapper and emits the
+original full COFF debug directory/symbols, Mac debug records and swapper resource.
+The captured absolute DOS output spelling is preserved using validated N: cwd
+mapping; only the three structural clock fields are normalized. There is no Mac
+runtime or CodeView-packer claim. A separately sampled uninitialized relocation
+cursor is documented with producer/non-reader/serializer evidence, never used as
+an output exclusion. Complete fresh original/native artifacts still match.
+
+All25 native cases pass with574 application first entries. Single-sample elapsed
+suite1.801s externally:1.610s loop,0.104s trace preparation; summed setup0.351s,
+execution0.197s,oracles1.047s,trace checks0.003s. The canonical original compiler,
+audits and native-trace build take14.768s. Checks pass600 graphs,591 callbacks,
+453 data definitions,754 instruction boundaries and38 ECX cleanup checks.
+
+Current extent219208/281634=77.8344%,748 frontiers. Partial body accounting proves
+154101 accepted target instruction bytes,26904 CRT bytes and192 import-thunk bytes;
+632 inline-data and482 alignment bytes are separately identified. Accepted36897
+bytes remain unclassified by the old partial inventory, not all padding. Known
+remaining target bodies occupy21212 bytes, plus30874 unclassified remaining bytes;
+these figures provide no complete native-body percentage or99% promise.
+
+See cases/m68k-debug-swapper/{validation,coverage,body-inventory,components}.json.
+Both families in cases/definition-mac-debug-queue.json are complete. Work is paused;
+remaining.json suggests original-validating Mac static/resource-ID relocations
+(1766 known bytes/10 bodies) or old C++ undecoration grammar(1012/8), with no new
+case started. Standard regression command remains make -j4 check (native ELF and
+cached references only); make -j4 audit explicitly checks original compilability.

@@ -1,9 +1,9 @@
 Source and verification notes
 
-Current checkpoint: all 18 cases complete at 640 accepted frontiers. A clean
+Historical checkpoint: all 18 cases complete at 640 accepted frontiers. A clean
 original-toolchain -j2 build, full 640-frontier replay and all 18 case regressions
 pass. Later paragraphs retain historical checkpoints; the final paragraph and
-cases/omf-undecorate-queue.json record current verification.
+cases/omf-undecorate-queue.json retain that historical verification.
 
 Program logic is C, including argument parsing, option processing, the driver,
 COMDAT allocation, mapped-file/cache handling, COFF readers, module/library and
@@ -839,3 +839,24 @@ switch, recognizes quoted names/CLASS/overlay forms, and shares a contextual
 without registering symbols, preserving the target's LNK4053 warning and token
 mutation. Allfour full bodies are C; no assembly exception was needed. Fresh
 masked-original/native GDB completion and all24 cached native cases pass.
+
+Mac debug/swapper checkpoint (748 frontiers)
+
+MacSectionDebug is a12-byte contextual packed record with type, section/resource
+WORDs, data marker and reserved WORD. Its array is malloc-allocated, not zeroed;
+the section writer initializes every emitted field. A section traversal WORD
+starts1 while the record count starts0. Debug records and the image timestamp use
+big-endian serialization; the swapper header preserves the original mixed-order
+version. Ordinary output filenames and field literals remain at use sites.
+No assembly ABI exception was needed. Full C bodies, graph/callback/data/boundary
+and ECX checks pass with the original compiler. All25 cached native cases pass.
+
+A broad sampler initially reported Section+0x20 differs. Original link_passes
+1b7fa..1b80f skips relocation-cursor initialization on Mac; write_section_headers
+226e9..22739 copies that stack value when input relocations exist. Native code
+starts the cursor0. make_section_header250f0..25183 does not read section+0x20
+and explicitly zeroes serialized relocation pointer/count at25120/2512d; the
+new37b90 debug body reads only+0,+0c,+24,+32/+33. Full reachable source field-use
+search finds only the writer; Mac relocation processing uses contribution/fixup
+records. The failed sample remains as evidence;13 defined scalars and3 counters
+match. Complete2MB output still matches after only the three identified clocks.

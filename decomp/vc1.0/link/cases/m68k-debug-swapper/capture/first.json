@@ -1,0 +1,56 @@
+{
+  "method": "Explicit untouched-original-only diagnostic outside fixtures",
+  "arguments": [
+    "-link",
+    "/machine:M68K",
+    "/nodefaultlib",
+    "/entry:main",
+    "/out:mac-debug.exe",
+    "/debug:full",
+    "/debugtype:coff",
+    "/fixed",
+    "mac-debug.obj"
+  ],
+  "helper_exit": 0,
+  "seconds": 0.910029461607337,
+  "state": "exit 0\n",
+  "environment": {
+    "LIB": "Z:\\root\\msvc2\\toolchains\\1.0-nt\\lib"
+  },
+  "unset": [
+    "CL",
+    "_CL_",
+    "LINK",
+    "_LINK_",
+    "MSC_CMD_FLAGS",
+    "LINK32_DB"
+  ],
+  "original_sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+  "helper_sha256": "9fc160c5a45b0fc50923414ea56e49ae9bae7829d3bf18fee6a25d374fea68ed",
+  "files": {
+    "mac-debug.obj": {
+      "bytes": 401,
+      "sha256": "a16ee091388d724c8fdcc0c5c22ddb0e63ce7677c2b92ef4db275c53e273089c"
+    },
+    "capture.state": {
+      "bytes": 8,
+      "sha256": "5e0e6077065598e0b3b20a5d8bda3cf3d641ee1039780467e49abeed04b6903c"
+    },
+    "helper.log": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "mac-debug.exe": {
+      "bytes": 2097152,
+      "sha256": "311e5054488e90b28e8807a05ccca8359e546d59ca83123db9d15c2d2a687313"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stdout.bin": {
+      "bytes": 115,
+      "sha256": "563e1c4b87c22077e867f7c37d7e0d978c306c97a0404dbc5a1aaea6a16d9dd7"
+    }
+  }
+}

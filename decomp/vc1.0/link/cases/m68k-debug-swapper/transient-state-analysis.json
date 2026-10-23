@@ -1,0 +1,18 @@
+{
+  "status": "13 defined scalar words and3 counters match; original failed broad14-word sampler retained",
+  "field": "Section.relocation_offset at+0x20",
+  "original": "0x1fc72",
+  "native": "0x0",
+  "provenance": "Original LINK1b7fa..1b80f skips relocation_cursor stack+28 initialization when mac_image;226e9..22739 propagates it to section+20 if input relocation_count>0. Native link_passes starts cursor0. Both preserve the actual input relocation count.",
+  "nonconsumption": "Original250f0..25183 make_section_header never reads section+20, writes serialized PointerToRelocations=0 at25120 and NumberOfRelocations=0 at2512d. Original37b90..37c7b section-debug body reads only section+0,+0c,+24,+32/+33. Full reachable source field-use search finds only writer in section-layout.c; Macintosh relocation emission uses contribution fields and Mac fixup records. No scalar or serialized output normalization.",
+  "evidence": [
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/mac-debug/section-state-original.state",
+      "sha256": "09980f3b44a540deb747bbdf549210070b3ab8005816d973d19fb3818e9ab500"
+    },
+    {
+      "path": "/root/.ai-tmp/vc1.0-link/mac-debug/section-state-native.log",
+      "sha256": "33760d714ed70ad1c558766ed789f2046e2668ffecd98c76c7ce644d4ef65bab"
+    }
+  ]
+}

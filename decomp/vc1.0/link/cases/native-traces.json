@@ -2,9 +2,9 @@
   "schema": 1,
   "description": "Projection of existing original-backed acceptance metadata; no recapture",
   "metadata_sha256": {
-    "functions.json": "e6895dc3f2eb1f7eab0c041492a815ba740479fe4a74d023cd9b593d3d6c477b",
+    "functions.json": "11605d5c262fe1b45f4c1417d16032575443a3564f3145bfa5d3b4a11a93d497",
     "runtime.json": "0ec72e80c921c13613bfc93f7da57aec764a4563629512b8ccc741479975b7d9",
-    "replay-cases.json": "b6a4c58b687136b3eadd7cfa0efa7f0c107521ba12989e8c80c3f1ed990955df"
+    "replay-cases.json": "9847a10d1e86b31c7a967e278ba95ed0289013864b0e53c45981f22103876b89"
   },
   "application_definitions": {
     "acquire_file_page": {
@@ -1788,9 +1788,9 @@
       "implementation": "C"
     },
     "finalize_mac_debug": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/mac-debug.c",
       "logical": "_finalize_mac_debug",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "finalize_mac_fixups": {
       "source": "src/mac-object.c",
@@ -3678,9 +3678,9 @@
       "implementation": "C"
     },
     "write_mac_debug": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/mac-debug.c",
       "logical": "_write_mac_debug",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "write_mac_far_jump": {
       "source": "src/mac-object.c",
@@ -3713,14 +3713,14 @@
       "implementation": "C"
     },
     "write_mac_section_debug": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/mac-debug.c",
       "logical": "_write_mac_section_debug",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "write_mac_swapper": {
-      "source": "src/link-pass-stubs.c",
+      "source": "src/mac-debug.c",
       "logical": "_write_mac_swapper",
-      "implementation": "stub-C"
+      "implementation": "C"
     },
     "write_map": {
       "source": "src/map-file.c",
@@ -4338,7 +4338,11 @@
     "read_definition_sizes",
     "read_definition_sections",
     "find_definition_attribute",
-    "read_definition_imports"
+    "read_definition_imports",
+    "finalize_mac_debug",
+    "write_mac_section_debug",
+    "write_mac_debug",
+    "write_mac_swapper"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4917,9 +4921,9 @@
       }
     },
     "library-list": {
-      "first": 744,
-      "last": 744,
-      "seen_count": 570,
+      "first": 748,
+      "last": 748,
+      "seen_count": 574,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4951,9 +4955,9 @@
       }
     },
     "library-list-trimmed": {
-      "first": 744,
-      "last": 744,
-      "seen_count": 570,
+      "first": 748,
+      "last": 748,
+      "seen_count": 574,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -4987,9 +4991,9 @@
       }
     },
     "library-dump-object": {
-      "first": 744,
-      "last": 744,
-      "seen_count": 570,
+      "first": 748,
+      "last": 748,
+      "seen_count": 574,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -5032,9 +5036,9 @@
       }
     },
     "library-dump-edited": {
-      "first": 744,
-      "last": 744,
-      "seen_count": 570,
+      "first": 748,
+      "last": 748,
+      "seen_count": 574,
       "expected": [],
       "terminal": {
         "kind": "exit",
@@ -5345,6 +5349,21 @@
         "read_definition_sections",
         "find_definition_attribute",
         "read_definition_imports"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "m68k-debug-swapper": {
+      "first": 744,
+      "last": 748,
+      "seen_count": 570,
+      "expected": [
+        "finalize_mac_debug",
+        "write_mac_section_debug",
+        "write_mac_debug",
+        "write_mac_swapper"
       ],
       "terminal": {
         "kind": "exit",

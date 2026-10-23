@@ -4080,5 +4080,23 @@
       96,
       100
     ]
+  },
+  {
+    "address": 453844,
+    "name": "mac_debug_records",
+    "size": 4,
+    "owner": "src/mac-debug.c"
+  },
+  {
+    "address": 519696,
+    "name": "mac_debug_section_index",
+    "size": 2,
+    "owner": "src/mac-debug.c"
+  },
+  {
+    "address": 519700,
+    "name": "mac_debug_record_count",
+    "size": 2,
+    "owner": "src/mac-debug.c"
   }
 ]

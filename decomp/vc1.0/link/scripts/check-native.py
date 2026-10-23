@@ -20,6 +20,7 @@ ROOT = BINARY.parents[2]
 FIXTURES = BINARY.parent / 'fixtures'
 CASES = {
     'help': None,
+    'm68k-debug-swapper': (BINARY/'cases/m68k-debug-swapper','link'),
     'definition-directives': (BINARY/'cases/definition-directives','library'),
     'm68k-minimal': (BINARY/'cases/m68k-minimal','link'),
     'm68k-reloc-loader': (BINARY/'cases/m68k-reloc-loader','link'),
@@ -125,6 +126,15 @@ def run_case(name, executable, directory, parser, state, tracing=None):
         phase = metadata['phases'][phase_name]
         parser = parser_module(fixture,metadata)
         args, expected_exit = phase['arguments'], phase['expected_exit']
+        canonical=phase.get('canonical_working_directory')
+        if canonical:
+            assert canonical.startswith('N:\\') and len(canonical.split('\\'))==2
+            root=work
+            work=root/canonical.split('\\')[-1]
+            work.mkdir()
+            env['RECON_DRIVE_N']=str(root)
+            env['RECON_CANONICAL_CWD']=canonical
+            env['RECON_PROGRAM_PATH']=str(work/'LINK.EXE')
         for key in phase.get('unset_environment', []):
             env.pop(key, None)
         for key, value in phase.get('environment', {}).items():

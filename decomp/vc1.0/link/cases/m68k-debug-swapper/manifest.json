@@ -1,0 +1,188 @@
+{
+  "case": "m68k-debug-swapper",
+  "toolchain": "1.0-nt",
+  "artifact_parser": {
+    "path": "scripts/artifacts-mac-debug.py",
+    "bytes": 1905,
+    "sha256": "dd4570b22b65a45130cc56bc77b3cd7fc2832d1712782906c433f1b8d072c84e"
+  },
+  "phases": {
+    "link": {
+      "target": "toolchains/1.0-nt/bin/LINK.EXE",
+      "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718",
+      "arguments": [
+        "-link",
+        "/machine:M68K",
+        "/nodefaultlib",
+        "/entry:main",
+        "/out:mac-debug.exe",
+        "/debug:full",
+        "/debugtype:coff",
+        "/fixed",
+        "mac-debug.obj"
+      ],
+      "canonical_working_directory": "N:\\mac-debug",
+      "environment": {
+        "LIB": "{lib}"
+      },
+      "unset_environment": [
+        "CL",
+        "_CL_",
+        "LINK",
+        "_LINK_",
+        "MSC_CMD_FLAGS",
+        "LINK32_DB"
+      ],
+      "expected_exit": 0,
+      "inputs": [
+        {
+          "path": "inputs/mac-debug.obj",
+          "bytes": 401,
+          "sha256": "a16ee091388d724c8fdcc0c5c22ddb0e63ce7677c2b92ef4db275c53e273089c"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/mac-debug.exe",
+          "output_name": "mac-debug.exe",
+          "artifact_kind": "mac-debug-pe",
+          "bytes": 2097152,
+          "sha256": "311e5054488e90b28e8807a05ccca8359e546d59ca83123db9d15c2d2a687313",
+          "normalized_sha256": "eed680eaa5da4cb3a1c0a26d84f8d3ed1adfc90e03a2fd76166beb74a942cabb",
+          "ignored_fields": [
+            {
+              "offset": 136,
+              "bytes": 4,
+              "name": "PE COFF TimeDateStamp"
+            },
+            {
+              "offset": 964,
+              "bytes": 4,
+              "name": "COFF debug directory TimeDateStamp"
+            },
+            {
+              "offset": 1142,
+              "bytes": 4,
+              "name": "Mac debug resource big-endian TimeDateStamp"
+            }
+          ]
+        }
+      ],
+      "expected_stdout": "Microsoft (R) 32-Bit Executable Linker Version 1.00\r\nCopyright (C) Microsoft Corp 1992-93. All rights reserved.\r\n\r\n",
+      "expected_stderr": ""
+    }
+  },
+  "provenance": {
+    "scratch": "/root/.ai-tmp/vc1.0-link/mac-debug-preparation",
+    "runs": [
+      {
+        "path": "capture/first.json",
+        "bytes": 1513,
+        "sha256": "f0b25d9e729d967652cfce4455fd5d35785030cba10e436674cf74b54a1f2619"
+      },
+      {
+        "path": "capture/repeat.json",
+        "bytes": 1514,
+        "sha256": "24cef5ebe76a3e84b08bcfe14af31b83f084d2886553970936070d1eef3e8cd8"
+      }
+    ],
+    "canonical_cwd": "Original captures used a private Wine N: mapping and CreateProcess current directory N:\\mac-debug. Native fixture maps its private case root to N: and validates canonical cwd before _fullpath. No path normalization.",
+    "generator": {
+      "path": "scripts/build-mac-debug-input.py",
+      "bytes": 1374,
+      "sha256": "165b802bc86655ed2942f0436a321eb3a90369f87fe6a05b65e6f81334145e34"
+    },
+    "input": "Frozen original-backed368-byte loader/relocation corpus with one additional public ___InitSwapper at section1 offset6 (existing RTS). Six symbols and unchanged four relocations. No modern generic section alignment bits.",
+    "normalization": "Repeated complete2MB files differ only in the structural PE COFF, COFF debug directory and big-endian .mscv timestamp. Each equals the image timestamp before normalization.",
+    "scope": "Link-only Macintosh resources; no Mac execution, no CodeView packing, no external process replay.",
+    "prior_path_probes": "Separate probe1/repeat Z: captures demonstrate actual path bytes; not accepted/frozen artifacts and not normalized."
+  },
+  "inspection": {
+    "symbol_table": [
+      1332,
+      8
+    ],
+    "sections": [
+      {
+        "name": ".text",
+        "rva": 776,
+        "virtual_bytes": 12,
+        "raw_bytes": 12,
+        "raw_offset": 776,
+        "hex": "000000014ead00324e754e75"
+      },
+      {
+        "name": ".text2",
+        "rva": 788,
+        "virtual_bytes": 64,
+        "raw_bytes": 64,
+        "raw_offset": 788,
+        "hex": "ffff00000000001000000001000000000000000000000038000000000000003c00000000000000004eb90000003a2039fffffff84e7500001503000000000000"
+      },
+      {
+        "name": ".text3",
+        "rva": 852,
+        "virtual_bytes": 48,
+        "raw_bytes": 48,
+        "raw_offset": 852,
+        "hex": "ffff0000000000000000000000000018000000010000002c000000000000002e000000000000000070074e7500000000"
+      },
+      {
+        "name": ".jtable",
+        "rva": 900,
+        "virtual_bytes": 48,
+        "raw_bytes": 48,
+        "raw_offset": 900,
+        "hex": "0000004000000008000000200000002000003f3c0001a9f00000ffff000000000002a9f0000000280003a9f000000028"
+      },
+      {
+        "name": ".data",
+        "rva": 948,
+        "virtual_bytes": 8,
+        "raw_bytes": 8,
+        "raw_offset": 948,
+        "hex": "0000002afffffff8"
+      },
+      {
+        "name": ".dfix",
+        "rva": 956,
+        "virtual_bytes": 4,
+        "raw_bytes": 4,
+        "raw_offset": 956,
+        "hex": "02000000"
+      },
+      {
+        "name": ".rdata",
+        "rva": 960,
+        "virtual_bytes": 168,
+        "raw_bytes": 168,
+        "raw_offset": 960,
+        "hex": "00000000b900db6a0000000001000000d700000000000000140500000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000000"
+      },
+      {
+        "name": ".swap",
+        "rva": 1128,
+        "virtual_bytes": 12,
+        "raw_bytes": 12,
+        "raw_offset": 1128,
+        "hex": "020000030000000400000040"
+      },
+      {
+        "name": ".mscv",
+        "rva": 1140,
+        "virtual_bytes": 100,
+        "raw_bytes": 100,
+        "raw_offset": 1140,
+        "hex": "00026adb00b90005434f44450001000100000000434f44450002000200000000434f4445000300030000000044415441000500000001000044415441000b0000000100004e3a5c6d61632d64656275675c6d61632d64656275672e657865000000000000"
+      },
+      {
+        "name": ".resmap",
+        "rva": 1240,
+        "virtual_bytes": 60,
+        "raw_bytes": 60,
+        "raw_offset": 1240,
+        "hex": "45444f43010045444f43020045444f43030045444f4300004154414400004154414400000000000000005041575300005643534d0000000000000000"
+      }
+    ]
+  }
+}

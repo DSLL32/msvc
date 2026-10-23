@@ -14,7 +14,7 @@ original,_,cfg,records,_=indexes();cs=Cs(CS_ARCH_X86,CS_MODE_32);cs.detail=True
 accepted=set(cfg['accepted']);bodies={};total=set();unresolved=[];extent=set();data=set()
 sources={'disassembler':('src/disassembler.c','src/disassembly-output.c'),
          'definition':('src/definition-file.c',),
-         'macintosh':('src/mac-object.c','src/mac-sections.c','src/mac-fixups.c','src/m68k-relocations.c')}
+         'macintosh':('src/mac-object.c','src/mac-sections.c','src/mac-fixups.c','src/m68k-relocations.c','src/mac-debug.c')}
 for r in cfg['driver']:
  if r['name'] not in accepted or r.get('source') not in sources[options.family]:continue
  lo,hi=r['start'],r['end'];pending=[lo];seen=set();body=set();jumps=[]

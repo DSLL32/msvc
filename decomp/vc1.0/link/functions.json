@@ -743,7 +743,11 @@
     "_read_definition_sizes",
     "_read_definition_sections",
     "_find_definition_attribute",
-    "_read_definition_imports"
+    "_read_definition_imports",
+    "_finalize_mac_debug",
+    "_write_mac_section_debug",
+    "_write_mac_debug",
+    "_write_mac_swapper"
   ],
   "target": {
     "sha256": "3a53166175a2e98179d4da41bb0f3bfafec0ecf78884441736f138c8ab4d3718"
@@ -1728,10 +1732,11 @@
     {
       "name": "_write_mac_swapper",
       "start": 223344,
-      "end": 223345,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(void)"
+      "end": 223596,
+      "implementation": "C",
+      "source": "src/mac-debug.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched original36870/native GDB swapper entry with3 Mac counters. Complete252-byte no-argument body emits original native-order version plus big-endian CODE count,jump entries and maximum segment size. Fresh masked-original/native GDB exit0 with exact115-byte stdout/empty stderr and full2MB file identical to frozen reference after only3 structural timestamps; canonical output path unchanged."
     },
     {
       "name": "_initialize_mac_loader",
@@ -1745,18 +1750,20 @@
     {
       "name": "_finalize_mac_debug",
       "start": 228208,
-      "end": 228209,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(void)"
+      "end": 228237,
+      "implementation": "C",
+      "source": "src/mac-debug.c",
+      "abi": "cdecl void(void)",
+      "evidence": "Matched original37b70/native GDB allocation entry. Complete29-byte cdecl allocation of12-byte contextual records, without clearing. Next37b90/native section-debug matches logical entry, name/pointer roles,13 defined scalar words and3 counters. Original Mac relocation cursor is an uninitialized non-consumed transient field; full failed sample and scoped reader/serializer proof retained in scratch/mac-debug/section-state-analysis.json."
     },
     {
       "name": "_write_mac_debug",
       "start": 228480,
-      "end": 228481,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(Image *image)"
+      "end": 228757,
+      "implementation": "C",
+      "source": "src/mac-debug.c",
+      "abi": "cdecl void(Image *image)",
+      "evidence": "Matched original37c80/native GDB resource writer with count5/index12/records5. Complete277-byte cdecl body writes version, big-endian image timestamp/count,12-byte records and NUL-terminated canonical DOS output filename, then frees _fullpath result. Fresh next original36870/native write_mac_swapper matches3 counters and partial streams."
     },
     {
       "name": "_initialize_mac_exports",
@@ -3466,10 +3473,11 @@
     {
       "name": "_write_mac_section_debug",
       "start": 228240,
-      "end": 228241,
-      "implementation": "stub-C",
-      "source": "src/link-pass-stubs.c",
-      "abi": "cdecl void(Section *section)"
+      "end": 228475,
+      "implementation": "C",
+      "source": "src/mac-debug.c",
+      "abi": "cdecl void(Section *section)",
+      "evidence": "Matched original37b90/native GDB .text entry. Complete235-byte code/data record classifier stores all12-byte big-endian resource fields and advances separate WORD section/record counters. Fresh next original37c80/native write_mac_debug agrees on count5,index12,records5 and partial streams."
     },
     {
       "name": "_record_mac_section_resource",
@@ -8447,6 +8455,10 @@
     "definition-directives",
     "definition-directives",
     "definition-directives",
-    "definition-directives"
+    "definition-directives",
+    "m68k-debug-swapper",
+    "m68k-debug-swapper",
+    "m68k-debug-swapper",
+    "m68k-debug-swapper"
   ]
 }
