@@ -81,11 +81,37 @@
       "result": "unclaimed; EAX ignored by CL",
       "target_iat": 4236036,
       "native_contract": "fail125 if called; no successful response authorized"
+    },
+    {
+      "name": "MREDrvFSuccessfulCompile",
+      "export": "_MREDrvFSuccessfulCompile@16",
+      "ordinal": 68,
+      "start_rva": 85704,
+      "end_rva": 85728,
+      "body_sha256": "154c909cfe93571640c3a3cf5a189a1ca5cbb443a7da31e45ab46d46b3b6b3b5",
+      "argument_bytes": 16,
+      "calling_convention": "stdcall",
+      "result": "unclaimed EAX; DWORD ABI-sized declaration, ignored by CL",
+      "target_iat": 4236028,
+      "native_contract": "fail125 if called; no successful response authorized"
+    },
+    {
+      "name": "MREDrvFUpdateTargetFile",
+      "export": "_MREDrvFUpdateTargetFile@12",
+      "ordinal": 69,
+      "start_rva": 85744,
+      "end_rva": 85764,
+      "body_sha256": "f9429c264b7f0a119f551cd43f50ca5454694beb32919938936722f676119def",
+      "argument_bytes": 12,
+      "calling_convention": "stdcall",
+      "result": "BOOL: zero/nonzero EAX consumed",
+      "target_iat": 4236024,
+      "native_contract": "fail125 if called; no successful response authorized"
     }
   ],
   "pointees": "Mre/MreDriver opaque; FFilesOutOfDate work record interpretation unclaimed beyond observed CL fields.",
   "error_buffer_proof": "MREFOpenByName forwards6 original words and its calleeRVA1204f pushes constant1024 at12089 as bounded error-buffer capacity.",
-  "case_contract": "minimal-c /nologo /c test.c, minimal_rebuild0, six original callsite guards require zero calls; native host functions fail125. No PDB behavior or runtime Wine.",
+  "case_contract": "minimal-c /nologo /c test.c, minimal_rebuild0/first_dependency_scan0. All14 original guarded callsites require zero calls; eight native typed hosts fail125. No PDB behavior/runtime Wine.",
   "first_dependency_scan": {
     "original_address": 4231192,
     "initial_dword": 1

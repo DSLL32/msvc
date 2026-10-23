@@ -18,6 +18,7 @@ from dependency_native import decode as request_decode
 from check_dependency_payload import payload
 from frontier_state import decode as frontier_decode, snapshot
 from dependency_wire import string
+from state import project as project_state
 
 
 def run(original,native):
@@ -31,14 +32,14 @@ def run(original,native):
     attempted=native/'dependency-native/attempt-2-2.bin'
     receipt_path=native/'dependency-native.json'
     passed=[]
-    def negative(label,changes):
+    def negative(label,changes,check=verify):
         originals={path:(path.read_bytes() if path.exists() else None)for path in changes}
         try:
             for path,change in changes.items():
                 value=change(originals[path])
                 if value is None:path.unlink()
                 else:path.write_bytes(value)
-            try:verify(native)
+            try:check(native)
             except (AssertionError,ValueError,KeyError,FileNotFoundError,struct.error):passed.append(label)
             else:raise AssertionError('native effect proof accepted mutation: '+label)
         finally:
@@ -54,7 +55,7 @@ def run(original,native):
             result['requests'][2]=item;result['attempts'][2]=dict(item)
             return encoded(result)
         negative(label,{request_path:lambda unused:value,attempted:lambda unused:value,receipt_path:receipt_change})
-    def original_negative(label,changes,receipt_change=None):
+    def original_negative(label,changes,receipt_change=None,check=original_decode):
         receipt=original/'capture.json';before=receipt.read_bytes()
         originals={name:(original/name).read_bytes()for name in changes}
         try:
@@ -64,7 +65,7 @@ def run(original,native):
                 capture['files'][name]={'bytes':len(value),'sha256':hashlib.sha256(value).hexdigest()}
             if receipt_change:receipt_change(capture)
             receipt.write_bytes(encoded(capture))
-            try:original_decode(original)
+            try:check(original)
             except (AssertionError,ValueError,KeyError,FileNotFoundError,struct.error):passed.append(label)
             else:raise AssertionError('masked response accepted mutation: '+label)
         finally:
@@ -78,7 +79,7 @@ def run(original,native):
     original_negative('actual original BOOL differs',{'observer/invoke-before-stack.bin':lambda b:integer(b,8,0)})
     original_negative('actual original execution globals differ',{'observer/invoke-before-execution-words.bin':lambda b:integer(b,0,1)})
     original_negative('actual original argument bytes differ',{'observer/invoke-before-caller-argv.bin':lambda b:b.replace(b'test.c',b'jest.c')})
-    frontier_address={'unload_pass':0x4054ec,'cleanup_files':0x404ed1,'delete_temporary':0x404f6f,'next_jobs':0x403709}[response['next_frontier']]
+    frontier_address={'unload_pass':0x4054ec,'cleanup_files':0x404ed1,'delete_temporary':0x404f6f,'next_jobs':0x403709,'driver_exit':0x404fda}[response['next_frontier']]
     original_negative('actual original next frontier differs',{'events.txt':lambda b:b.replace(('address=%08x'%frontier_address).encode(),('address=%08x'%(frontier_address+1)).encode())})
     original_negative('actual original IR copies disagree',{'observer/c1-output/'+next(iter(response['outputs'])):lambda b:b+b'x'})
     original_negative('unobserved extra Invoke',{'observer/events.txt':lambda b:b+b'invoke-call argc=26 argv=00000001 last=1 function=10612229 esp=0031f574\n'})
@@ -174,8 +175,14 @@ def run(original,native):
         original_negative('original removal filename differs',{'observer/unlink-1-before-filename.bin':lambda b:b.replace(b'ex',b'ey')})
         original_negative('original removal formal alias differs',{'observer/unlink-1-before-stack.bin':lambda b:integer(b,0,1)})
         original_negative('original missing-file DOS effect omitted',{'mktemp-unlink-5-after-ptd.bin':lambda b:integer(b,12,0)})
-        original_negative('original next_jobs Driver formal differs',{'context.bin':lambda b:integer(b,208,1)})
-        original_negative('original next_jobs pending caller alias differs',{'context.bin':lambda b:integer(b,212,1)})
+        original_negative('original final-frontier first formal differs',{'context.bin':lambda b:integer(b,208,1)})
+        if response['next_frontier']=='next_jobs':
+            original_negative('original next_jobs pending caller alias differs',{'context.bin':lambda b:integer(b,212,1)})
+    if response['next_frontier']=='driver_exit':
+        original_negative('original nonzero MRE inventory',{'mre-calls.txt':lambda b:b'1\n'},check=lambda p:project_state('original',p))
+        def mre_count(value):
+            fields=json.loads(value);fields['mre_calls']=1;return encoded(fields)
+        negative('native nonzero MRE inventory',{native/'streams-frontier.json':mre_count},check=lambda p:project_state('native',p))
     # Replay the independent GDB memory transcript against altered target bytes.
     raw=json.loads((native/'frontier-memory.json').read_text());backing={}
     for item in raw['ranges']:
@@ -211,6 +218,11 @@ def run(original,native):
         try:snapshot(lambda a,n:bytes(backing[a+i]for i in range(n)),changed)
         except AssertionError:passed.append('actual next_jobs caller-local pending alias differs')
         else:raise AssertionError('next_jobs caller-local alias mutation was accepted')
+    if response['next_frontier']=='driver_exit':
+        changed=copy.deepcopy(context);changed['arguments']=[1]
+        try:snapshot(lambda a,n:bytes(backing[a+i]for i in range(n)),changed)
+        except AssertionError:passed.append('actual final status argument differs')
+        else:raise AssertionError('final exit status mutation accepted')
     assert verify(native)==actual,'mutations were not fully restored'
     print(json.dumps({'result':'PASS','actual_next_frontier':response['next_frontier'],'IR_files':4,
                       'negatives':len(passed),'seconds':time.perf_counter()-started}))

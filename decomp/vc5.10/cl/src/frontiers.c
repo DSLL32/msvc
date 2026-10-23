@@ -20,7 +20,7 @@ unsigned file_timestamp(Driver *state) { __asm int 3
 Job *jobs_from_deferred(DeferredInput *inputs) { __asm int 3
     return NULL;
 }
-Job *next_jobs(Driver *state, PendingWork *pending) { __asm int 3
+DeferredInput *deferred_from_jobs(Job *jobs) { __asm int 3
     return NULL;
 }
 Job *advance_jobs(Job *jobs) { __asm int 3

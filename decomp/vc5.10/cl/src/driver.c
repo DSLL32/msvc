@@ -423,6 +423,90 @@ int run_jobs(Driver *state, Job *jobs)
     return failures;
 }
 
+/* 00403709..0040393a: drain completed work and obtain another source group. */
+Job *next_jobs(Driver *state, PendingWork *pending)
+{
+    Mre *engine;
+    MreDriver *mre;
+    int error;
+    Job *job, *jobs;
+    Input *input;
+    DeferredInput *node, *following, *retry = NULL, *tail;
+    if (!minimal_rebuild || !first_dependency_scan)
+        return NULL;
+    if (!pending->outdated && !pending->sources && !pending->compiled)
+        return NULL;
+    if (!MREFOpenByName(&engine, pdb_name, &error, mre_error, reproducible, TRUE)) {
+        warning(4028);
+        first_dependency_scan = 0;
+        return jobs_from_deferred(pending->sources);
+    }
+    MREQueryMreDrv(engine, &mre);
+    for (node = pending->outdated; node; node = following) {
+        following = node->next;
+        job = CONTAINING_RECORD(node, Job, deferred);
+        MREDrvFSuccessfulCompile(mre, job->status == 0,
+                                node->source_name, node->object_name);
+        if (job->status) {
+            node->next = pending->failed;
+            pending->failed = node;
+        } else {
+            node->next = pending->recycled;
+            pending->recycled = node;
+        }
+    }
+    pending->outdated = NULL;
+    for (node = pending->compiled; node; node = following) {
+        following = node->next;
+        job = CONTAINING_RECORD(node, Job, deferred);
+        if (!MREDrvFUpdateTargetFile(mre, node->object_name, FALSE) ||
+            (job->browser_name && !MREDrvFUpdateTargetFile(mre, job->browser_name, TRUE))) {
+            node->next = retry;
+            retry = node;
+        } else {
+            output_produced = 1;
+            input = create_input(node->object_name, 3);
+            input->next = job->input->next;
+            job->input->next = input;
+            node->next = *state->deferred_tail;
+            *state->deferred_tail = node;
+            state->deferred_tail = &node->next;
+        }
+    }
+    pending->compiled = NULL;
+    jobs = NULL;
+    if (pending->sources) {
+        jobs = jobs_from_deferred(pending->sources);
+        if (MREDrvFFilesOutOfDate(mre, pending))
+            jobs = jobs_from_deferred(pending->outdated);
+        else {
+            warning(4028);
+            first_dependency_scan = 0;
+        }
+    }
+    if (retry) {
+        if (!jobs)
+            pending->outdated = retry;
+        else {
+            if (!first_dependency_scan)
+                pending->outdated = deferred_from_jobs(jobs);
+            for (tail = pending->outdated; tail->next; tail = tail->next)
+                ;
+            tail->next = retry;
+        }
+        jobs = jobs_from_deferred(pending->outdated);
+    }
+    if (!MREDrvFRelease(mre) && first_dependency_scan) {
+        warning(4028);
+        first_dependency_scan = 0;
+    }
+    if (!MREFClose(engine, TRUE) && first_dependency_scan) {
+        warning(4028);
+        first_dependency_scan = 0;
+    }
+    return jobs;
+}
+
 /* 0040355e..00403709: optional minimal-rebuild dependency scan. */
 Job *prepare_jobs(Driver *state, Job *jobs, PendingWork *pending)
 {
@@ -446,9 +530,9 @@ Job *prepare_jobs(Driver *state, Job *jobs, PendingWork *pending)
     MREDrvOneTimeInit(mre);
     pending->outdated = NULL;
     pending->sources = NULL;
-    pending->unrecovered = 0;
+    pending->compiled = NULL;
     pending->recycled = NULL;
-    pending->unrecovered_tail = 0;
+    pending->failed = NULL;
     state->deferred_inputs = NULL;
     state->deferred_tail = &state->deferred_inputs;
     timestamp = file_timestamp(state);

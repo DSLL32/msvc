@@ -33,3 +33,11 @@ BOOL WINAPI MREFClose(Mre *owner,BOOL commit)
 {
     (void)owner;(void)commit;unavailable();return FALSE;
 }
+DWORD WINAPI MREDrvFSuccessfulCompile(MreDriver *driver,BOOL success,const char *source,const char *object)
+{
+    (void)driver;(void)success;(void)source;(void)object;unavailable();return 0;
+}
+BOOL WINAPI MREDrvFUpdateTargetFile(MreDriver *driver,const char *target,BOOL browser)
+{
+    (void)driver;(void)target;(void)browser;unavailable();return FALSE;
+}

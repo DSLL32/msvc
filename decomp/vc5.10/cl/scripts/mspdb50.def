@@ -6,3 +6,5 @@ EXPORTS
     _MREDrvFFilesOutOfDate@8 @65
     _MREDrvFRelease@4 @67
     _MREDrvOneTimeInit@4 @70
+    _MREDrvFSuccessfulCompile@16 @68
+    _MREDrvFUpdateTargetFile@12 @69

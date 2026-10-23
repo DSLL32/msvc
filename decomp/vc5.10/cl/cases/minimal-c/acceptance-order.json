@@ -261,6 +261,16 @@
         "path": "/root/.ai-tmp/msvc2/vc5.10/cl/delete-temporary-4/pair.json",
         "sha256": "3b8bfe3f41d1562f74b1d584feeb36c3c10eace2ae39ad9c64af093aefd70d8b"
       }
+    },
+    {
+      "order": 27,
+      "candidate": "_next_jobs",
+      "class": "application",
+      "extent_bytes": 561,
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/next-jobs-1/pair.json",
+        "sha256": "196ac6a61d808100751e182bf1cf31904eb5226376dfb4d2395f38b14ab0d5fb"
+      }
     }
   ]
 }

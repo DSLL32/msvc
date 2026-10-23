@@ -14,4 +14,7 @@ DECLSPEC_IMPORT void WINAPI MREDrvOneTimeInit(MreDriver *);
 DECLSPEC_IMPORT BOOL WINAPI MREDrvFFilesOutOfDate(MreDriver *, void *);
 DECLSPEC_IMPORT BOOL WINAPI MREDrvFRelease(MreDriver *);
 DECLSPEC_IMPORT BOOL WINAPI MREFClose(Mre *, BOOL);
+/* The caller ignores SuccessfulCompile's EAX; only its ABI width is known. */
+DECLSPEC_IMPORT DWORD WINAPI MREDrvFSuccessfulCompile(MreDriver *, BOOL, const char *, const char *);
+DECLSPEC_IMPORT BOOL WINAPI MREDrvFUpdateTargetFile(MreDriver *, const char *, BOOL);
 #endif

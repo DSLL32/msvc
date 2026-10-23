@@ -28,8 +28,8 @@ static FILE *mktemp_events;
 static DWORD mktemp_argument,mktemp_calls;
 static int observe_mre;
 static DWORD mre_calls;
-static DWORD mre_sites[] = { 0x3597,0x35c1,0x35ca,0x3686,0x36b9,0x36e2 };
-static DWORD mre_slots[] = { 0x40a300,0x40a314,0x40a304,0x40a308,0x40a30c,0x40a310 };
+static DWORD mre_sites[] = { 0x3597,0x35c1,0x35ca,0x3686,0x36b9,0x36e2,0x375c,0x378c,0x37b4,0x3801,0x3818,0x3877,0x38e4,0x390c };
+static DWORD mre_slots[] = { 0x40a300,0x40a314,0x40a304,0x40a308,0x40a30c,0x40a310,0x40a300,0x40a314,0x40a2fc,0x40a2f8,0x40a2f8,0x40a308,0x40a30c,0x40a310 };
 static int observe_access;
 static FILE *access_events;
 static DWORD access_calls,access_argument,access_mode;
@@ -372,8 +372,10 @@ int main(int argc,char **argv)
             if (event.u.CreateProcessInfo.hFile) CloseHandle(event.u.CreateProcessInfo.hFile);
             if (observe_mre) {
                 BYTE call[6];DWORD slot;
-                for (i=0;i<6;++i) {
-                    memory(target_base+mre_sites[i],call,sizeof(call));memcpy(&slot,call+2,4);
+                for (i=0;i<sizeof(mre_sites)/sizeof(mre_sites[0]);++i) {
+                    memory(target_base+mre_sites[i],call,sizeof(call));
+                    if (call[0]==0xcc) continue;
+                    memcpy(&slot,call+2,4);
                     if (call[0]!=0xff || call[1]!=0x15 || slot!=mre_slots[i]) return 67;
                     fprintf(events,"mre-guard site=%08lx iat=%08lx\n",target_base+mre_sites[i],slot);
                     patch_byte(target_base+mre_sites[i],0xcc);
@@ -439,7 +441,7 @@ int main(int argc,char **argv)
                 if (address==target_base+access_sites[i]) access_site=i;
                 if (access_pending==(int)i && address==target_base+access_sites[i]+(i==1 || i==2 ? 2 : 6)) { access_site=i;access_return=1; }
             }
-            if (observe_mre) for (i=0;i<6;++i)
+            if (observe_mre) for (i=0;i<sizeof(mre_sites)/sizeof(mre_sites[0]);++i)
                 if (address==target_base+mre_sites[i]) mre_site=1;
             for (i=0;i<entry_count;++i)
                 if (!entry_guards[i].seen && target_base+entry_guards[i].rva==address) guard=entry_guards+i;

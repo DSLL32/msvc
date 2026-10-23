@@ -50,7 +50,7 @@ def verify(project,root):
     native=ELF(project/'build/native-trace/CL.EXE')
     assert PE(project/'build/cl.exe').read(public['_first_dependency_scan'],4)==struct.pack('<I',flag['initial_dword'])
     assert native.read(native.symbols['first_dependency_scan'],4)==struct.pack('<I',flag['initial_dword'])
-    return {'exports':6,'calling_convention':'stdcall','native_successful_calls_authorized':0,
+    return {'exports':len(proof['exports']),'calling_convention':'stdcall','native_successful_calls_authorized':0,
         'provider_sha256':proof['provider_sha256'],'return_qualification':'OneTimeInit EAX is ignored/unclaimed; no native dependency function returns.'}
 
 

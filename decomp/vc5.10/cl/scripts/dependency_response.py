@@ -123,8 +123,9 @@ def decode(directory):
     cleanup_stage='_cleanup_files'in config['accepted']
     deletion_stage='_delete_temporary'in config['accepted']
     assert not deletion_stage or '_driver_exit'not in config['accepted'],'normal completion not implemented in this response contract'
-    next_address='00403709' if deletion_stage else '00404f6f' if cleanup_stage else '00404ed1' if full_stage else '004054ec'
-    next_frontier='next_jobs' if deletion_stage else 'delete_temporary' if cleanup_stage else 'cleanup_files' if full_stage else 'unload_pass'
+    scheduler_stage='_next_jobs'in config['accepted']
+    next_address='00404fda' if scheduler_stage else '00403709' if deletion_stage else '00404f6f' if cleanup_stage else '00404ed1' if full_stage else '004054ec'
+    next_frontier='driver_exit' if scheduler_stage else 'next_jobs' if deletion_stage else 'delete_temporary' if cleanup_stage else 'cleanup_files' if full_stage else 'unload_pass'
     phases_expected=CHILD_PHASES if full_stage else PHASES
     masked = construct(config)
     assert capture['target_sha256'] == TARGET_SHA
@@ -244,12 +245,12 @@ def decode(directory):
             'next_frontier': next_frontier,
             'decoder_sha256': digest(Path(__file__).read_bytes())}
     if full_stage:result['child']=child_response(directory,read,capture,events,phases,contexts,ir,prefix,
-                                               frontier_argument=0 if cleanup_stage else 1,deletion_stage=deletion_stage)
+                                               frontier_argument=0 if cleanup_stage else 1,deletion_stage=deletion_stage,scheduler_stage=scheduler_stage)
     if deletion_stage:result['deletions']=deletion_response(directory,read,capture,events,phases,prefix,ir)
     return result
 
 
-def child_response(directory,read,capture,events,phases,contexts,ir,prefix,frontier_argument,deletion_stage):
+def child_response(directory,read,capture,events,phases,contexts,ir,prefix,frontier_argument,deletion_stage,scheduler_stage):
     after=phases['invoke-after']
     assert phases['free-before']['pass_words'][5:8]==after['pass_words'][5:8]
     for phase in ('free-before','c1-entry-0','free-after'):
@@ -294,7 +295,9 @@ def child_response(directory,read,capture,events,phases,contexts,ir,prefix,front
                  'crt_environment_sha256','os_environment_sha256','mb_state_sha256','ctype_sha256','file0_2_words','streams'):
         assert before[name]==after[name]==frontier[name],'unreviewed child/frontier state: '+name
     assert not frontier['argv'] and frontier['argument_vector']==0 and frontier['pass_words'][5:8]==[0,0,0]
-    if deletion_stage:
+    if scheduler_stage:
+        assert u32(read('context.bin'),208)==0,'unexpected actual final status argument'
+    elif deletion_stage:
         context=read('context.bin')
         state,pending=struct.unpack_from('<II',context,208)
         assert state==0x4095d8 and pending==u32(context,180)-24,'next_jobs actual formal/caller identity differs'

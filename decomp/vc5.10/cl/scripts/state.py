@@ -170,8 +170,10 @@ def project(platform,directory):
             if platform=='original':
                 text=(directory/'events.txt').read_text()
                 guards=re.findall(r'^mre-guard site=([0-9a-f]{8}) iat=([0-9a-f]{8})$',text,re.M)
-                assert guards==[('%08x'%site,'%08x'%slot)for site,slot in
-                    [(0x403597,0x40a300),(0x4035c1,0x40a314),(0x4035ca,0x40a304),(0x403686,0x40a308),(0x4036b9,0x40a30c),(0x4036e2,0x40a310)]]
+                sites=[(0x403597,0x40a300),(0x4035c1,0x40a314),(0x4035ca,0x40a304),(0x403686,0x40a308),(0x4036b9,0x40a30c),(0x4036e2,0x40a310)]
+                if '_next_jobs'in config['accepted']:
+                    sites += [(0x40375c,0x40a300),(0x40378c,0x40a314),(0x4037b4,0x40a2fc),(0x403801,0x40a2f8),(0x403818,0x40a2f8),(0x403877,0x40a308),(0x4038e4,0x40a30c),(0x40390c,0x40a310)]
+                assert guards==[('%08x'%site,'%08x'%slot)for site,slot in sites]
                 assert 'mre-unexpected-call' not in text
                 count=(directory/'mre-calls.txt').read_text();assert count=='0\n'
                 from mre_imports import declarations

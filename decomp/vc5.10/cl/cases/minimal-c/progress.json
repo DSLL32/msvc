@@ -1,10 +1,10 @@
 {
   "case": "minimal-c",
-  "state": "temporary-removal-accepted",
-  "checkpoint": "delete_temporary accepted after canonical shared DOS-error correction",
-  "next_frontier": "next_jobs",
-  "accepted_application_functions": 76,
-  "accepted_application_extent_bytes": 13891,
+  "state": "scheduler-accepted",
+  "checkpoint": "next_jobs accepted through actual driver_exit(status0)",
+  "next_frontier": "driver_exit",
+  "accepted_application_functions": 77,
+  "accepted_application_extent_bytes": 14452,
   "whole_text_virtual_bytes": 19062,
   "non_crt_denominator": "not yet fully classified",
   "separate_CRT_import_support_records": 15,
@@ -337,11 +337,27 @@
         "affected_66_controls": 18.827822911553085
       },
       "controls": "66 refreshed removal/state/next_jobs formal controls.35 unchanged acceptance protocol controls reused with checker/accept/audit/mask hashes at prior checkpoint."
+    },
+    {
+      "candidate": "_next_jobs",
+      "receipt": {
+        "path": "/root/.ai-tmp/msvc2/vc5.10/cl/next-jobs-1/pair.json",
+        "sha256": "196ac6a61d808100751e182bf1cf31904eb5226376dfb4d2395f38b14ab0d5fb"
+      },
+      "seconds": {
+        "audit": 0.5709431944414973,
+        "original_setup": 0.02496680337935686,
+        "original_execution": 7.038122167810798,
+        "native_gdb": 0.33989944215863943,
+        "parallel_build": 4.88789024297148,
+        "affected_66_controls": 19.28388651739806
+      },
+      "controls": "66 fresh effect/exit-formal/MREcount controls plus12 genuineMRE declaration/zero-call negatives. All14 actual original callsites guarded and8 native dependency names fail125; actualcalls0."
     }
   ],
-  "checks": "Fresh107-byte helper/ABI/graph proof through actual next_jobs. Six actual removals independently compare filename/local-buffer alias/presence/status/errors;66 refreshed controls pass. Cached help28.02ms total/3.782ms execution.",
+  "checks": "Complete scheduler body/ABI/CFG/import audit plus fresh original/native driver_exit status0 frontier. Both MRE guards0; caller-local PendingWork pointer observed, undefined unused payload never read/seeded.66 affected +12 MRE controls pass.",
   "dependency_boundaries": "C1 Invoke/detach/release plus full synchronous C2 child request/input/status/object/error effects are accepted through strict owned native providers. The trial stops at genuine cleanup_files(preserve=1); full compile remains incomplete.",
-  "observed_gap": "No current shared gap. Next_jobs full body pending; retain zero-MRE-call contract and unread guarded PendingWork payload.",
+  "observed_gap": "No current shared gap. Implement20-byte final exit body; complete-case/cache/fixture validation still pending.",
   "current_review": {
     "path": "/root/.ai-tmp/msvc2/vc5.10/cl/unload-pass-provider-2/orchestrator-review.json",
     "sha256": "43f2c497cf393901be08a4d417e848163d2b5d69ca70d446d5417f453e4effa7",
@@ -353,7 +369,7 @@
     "_unlink": "Native missing st incorrectly retainedDOS0; shared5d8163a9 corrects canonical profile error mapping. Native-only retry reused unchanged valid original; all6 calls/fullfrontier match."
   },
   "dependency_observation": "dependency-boundary-2.json",
-  "whole_text_extent_percent": 72.87273108802854,
+  "whole_text_extent_percent": 75.81575910187807,
   "protocol_control_reuse": {
     "check-acceptance.py": "3ab4e2851efeb84ca50a9d4e9c3225225a5b54b787e3062ab177a771a89fe536",
     "accept.py": "2d301375fce896e990bda1f5dbc819af804ab43b935a5445f8eb153ce2e6f289",

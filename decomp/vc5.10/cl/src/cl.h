@@ -39,9 +39,9 @@ struct Job {
 };
 typedef struct PendingWork {
     DeferredInput *outdated, *sources;
-    unsigned unrecovered;
+    DeferredInput *compiled;
     DeferredInput *recycled;
-    unsigned unrecovered_tail;
+    DeferredInput *failed;
 } PendingWork;
 struct Option {
     Option *next;
@@ -195,6 +195,7 @@ unsigned file_timestamp(Driver *);
 Job *jobs_from_deferred(DeferredInput *);
 Job *prepare_jobs(Driver *, Job *, PendingWork *);
 Job *next_jobs(Driver *, PendingWork *);
+DeferredInput *deferred_from_jobs(Job *);
 int run_jobs(Driver *, Job *);
 Job *advance_jobs(Job *);
 void configure_pass(Driver *);
