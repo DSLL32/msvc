@@ -1,0 +1,56 @@
+{
+  "builds": {
+    "native": {
+      "seconds": 2.5039855130016804,
+      "status": 0
+    },
+    "original": {
+      "seconds": 2.5881536351516843,
+      "status": 0
+    },
+    "helper": {
+      "seconds": 1.6935439575463533,
+      "status": 0
+    }
+  },
+  "earlier_build_attempt": {
+    "native": {
+      "seconds": 2.565012731589377,
+      "status": 0
+    },
+    "original": {
+      "seconds": 5.594682487659156,
+      "status": 0
+    }
+  },
+  "original_capture": {
+    "setup": 0.23225506395101547,
+    "execution": 1.056635094806552,
+    "total": 1.3320248667150736
+  },
+  "native_gdb_capture": {
+    "execution": 0.29675343073904514,
+    "total": 0.39139161072671413
+  },
+  "audit_seconds": 0.14525548182427883,
+  "rejection_control": {
+    "control_and_rejections": 8.605437287129462
+  },
+  "fresh_rejections": 22,
+  "reused_rejections": 99,
+  "cached_native_fixture": {
+    "case": "unsupported-help-diagnostic",
+    "status": "PASS",
+    "application_entries": 19,
+    "stdout_bytes": 0,
+    "stderr_bytes": 51,
+    "seconds": {
+      "setup": 0.008154456503689289,
+      "execution": 0.0025317147374153137,
+      "checks": 0.0002075936645269394,
+      "total": 0.011368301697075367
+    },
+    "transport": "native ELF32 only; frozen original reference",
+    "make_total_seconds": 0.08214703667908907
+  }
+}

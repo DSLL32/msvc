@@ -1,0 +1,226 @@
+{
+  "schema": 1,
+  "functions": {
+    "_c2_crt_startup": {
+      "original": {
+        "roots": [
+          4670637,
+          4670658
+        ]
+      },
+      "rebuilt": {
+        "roots": [
+          4199275,
+          4199308
+        ]
+      },
+      "evidence": {
+        "original_scope_table": "0x48d3d0",
+        "rebuilt_scope_table": "0x4050a8",
+        "source": "explicit -1 enclosing scope, filter and handler roots from actual compiled PE scope tables"
+      }
+    },
+    "_c2_main": {
+      "original": {
+        "roots": [
+          4670693,
+          4670736
+        ]
+      },
+      "rebuilt": {
+        "roots": [
+          4199726,
+          4199789
+        ]
+      },
+      "evidence": {
+        "original_scope_table": "0x48d3c0",
+        "rebuilt_scope_table": "0x4050b8",
+        "source": "explicit -1 enclosing scope, filter and handler roots from actual compiled PE scope tables"
+      }
+    },
+    "@c2_match_option@16": {
+      "original": {
+        "text_data": [
+          [
+            4533424,
+            4533444
+          ],
+          [
+            4533456,
+            4533502
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4201308,
+            4201328
+          ],
+          [
+            4201328,
+            4201374
+          ]
+        ]
+      }
+    },
+    "@c2_apply_option@12": {
+      "original": {
+        "text_data": [
+          [
+            4533728,
+            4533760
+          ],
+          [
+            4533760,
+            4533799
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4202159,
+            4202191
+          ],
+          [
+            4202191,
+            4202230
+          ]
+        ]
+      }
+    },
+    "_format_diagnostic_args": {
+      "original": {
+        "text_data": [
+          [
+            4771504,
+            4771532
+          ],
+          [
+            4771532,
+            4771583
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4206482,
+            4206510
+          ],
+          [
+            4206510,
+            4206561
+          ]
+        ]
+      }
+    },
+    "@c2_node_size@4": {
+      "original": {
+        "text_data": [
+          [
+            4248936,
+            4249000
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4207555,
+            4207619
+          ]
+        ]
+      }
+    },
+    "@read_symbols@4": {
+      "original": {
+        "text_data": [
+          [
+            4327020,
+            4327064
+          ],
+          [
+            4327072,
+            4327095
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4209928,
+            4209972
+          ],
+          [
+            4209972,
+            4209995
+          ]
+        ]
+      }
+    },
+    "@read_symbol@4": {
+      "original": {
+        "text_data": [
+          [
+            4328984,
+            4329076
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4213306,
+            4213398
+          ]
+        ]
+      }
+    },
+    "@intern_symbol_name@12": {
+      "original": {
+        "text_data": [
+          [
+            4329420,
+            4329444
+          ],
+          [
+            4329444,
+            4329455
+          ],
+          [
+            4329456,
+            4329492
+          ],
+          [
+            4329492,
+            4329521
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4213818,
+            4213842
+          ],
+          [
+            4213842,
+            4213853
+          ],
+          [
+            4213853,
+            4213889
+          ],
+          [
+            4213889,
+            4213918
+          ]
+        ]
+      }
+    }
+  },
+  "callback_tables": []
+}

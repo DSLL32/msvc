@@ -1,0 +1,163 @@
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00420ebb <.text+0x1febb>:
+  420ebb:	53                   	push   ebx
+  420ebc:	55                   	push   ebp
+  420ebd:	56                   	push   esi
+  420ebe:	8b e9                	mov    ebp,ecx
+  420ec0:	57                   	push   edi
+  420ec1:	8b fa                	mov    edi,edx
+  420ec3:	83 c9 ff             	or     ecx,0xffffffff
+  420ec6:	33 c0                	xor    eax,eax
+  420ec8:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+  420eca:	f7 d1                	not    ecx
+  420ecc:	2b f9                	sub    edi,ecx
+  420ece:	bb 61 74 49 00       	mov    ebx,0x497461
+  420ed3:	8b c1                	mov    eax,ecx
+  420ed5:	8b f7                	mov    esi,edi
+  420ed7:	8b fb                	mov    edi,ebx
+  420ed9:	c6 05 60 74 49 00 5f 	mov    BYTE PTR ds:0x497460,0x5f
+  420ee0:	c1 e9 02             	shr    ecx,0x2
+  420ee3:	c6 05 61 74 49 00 00 	mov    BYTE PTR ds:0x497461,0x0
+  420eea:	f3 a5                	rep movs DWORD PTR es:[edi],DWORD PTR ds:[esi]
+  420eec:	8b c8                	mov    ecx,eax
+  420eee:	8a 02                	mov    al,BYTE PTR [edx]
+  420ef0:	83 e1 03             	and    ecx,0x3
+  420ef3:	3c 3f                	cmp    al,0x3f
+  420ef5:	f3 a4                	rep movs BYTE PTR es:[edi],BYTE PTR ds:[esi]
+  420ef7:	74 1a                	je     0x420f13
+  420ef9:	33 c0                	xor    eax,eax
+  420efb:	8a 45 04             	mov    al,BYTE PTR [ebp+0x4]
+  420efe:	48                   	dec    eax
+  420eff:	83 f8 0a             	cmp    eax,0xa
+  420f02:	77 4c                	ja     0x420f50
+  420f04:	33 c9                	xor    ecx,ecx
+  420f06:	8a 88 e4 0f 42 00    	mov    cl,BYTE PTR [eax+0x420fe4]
+  420f0c:	ff 24 8d cc 0f 42 00 	jmp    DWORD PTR [ecx*4+0x420fcc]
+  420f13:	8a 45 30             	mov    al,BYTE PTR [ebp+0x30]
+  420f16:	84 c0                	test   al,al
+  420f18:	75 df                	jne    0x420ef9
+  420f1a:	eb 34                	jmp    0x420f50
+  420f1c:	8a 45 30             	mov    al,BYTE PTR [ebp+0x30]
+  420f1f:	84 c0                	test   al,al
+  420f21:	0f 85 d9 95 04 00    	jne    0x46a500
+  420f27:	bb 60 74 49 00       	mov    ebx,0x497460
+  420f2c:	c6 03 24             	mov    BYTE PTR [ebx],0x24
+  420f2f:	eb 1f                	jmp    0x420f50
+  420f31:	8b 45 14             	mov    eax,DWORD PTR [ebp+0x14]
+  420f34:	83 e0 1c             	and    eax,0x1c
+  420f37:	83 f8 1c             	cmp    eax,0x1c
+  420f3a:	77 14                	ja     0x420f50
+  420f3c:	33 d2                	xor    edx,edx
+  420f3e:	8a 90 14 10 42 00    	mov    dl,BYTE PTR [eax+0x421014]
+  420f44:	ff 24 95 f0 0f 42 00 	jmp    DWORD PTR [edx*4+0x420ff0]
+  420f4b:	bb 60 74 49 00       	mov    ebx,0x497460
+  420f50:	8a 45 04             	mov    al,BYTE PTR [ebp+0x4]
+  420f53:	3c 01                	cmp    al,0x1
+  420f55:	74 04                	je     0x420f5b
+  420f57:	3c 04                	cmp    al,0x4
+  420f59:	75 08                	jne    0x420f63
+  420f5b:	8b 45 36             	mov    eax,DWORD PTR [ebp+0x36]
+  420f5e:	f6 c4 10             	test   ah,0x10
+  420f61:	75 38                	jne    0x420f9b
+  420f63:	8b fb                	mov    edi,ebx
+  420f65:	83 c9 ff             	or     ecx,0xffffffff
+  420f68:	33 c0                	xor    eax,eax
+  420f6a:	8b 54 24 14          	mov    edx,DWORD PTR [esp+0x14]
+  420f6e:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+  420f70:	8b 04 95 40 10 49 00 	mov    eax,DWORD PTR [edx*4+0x491040]
+  420f77:	f7 d1                	not    ecx
+  420f79:	49                   	dec    ecx
+  420f7a:	03 c1                	add    eax,ecx
+  420f7c:	8b cb                	mov    ecx,ebx
+  420f7e:	89 04 95 40 10 49 00 	mov    DWORD PTR [edx*4+0x491040],eax
+  420f85:	e8 c6 f3 ff ff       	call   0x420350
+  420f8a:	5f                   	pop    edi
+  420f8b:	5e                   	pop    esi
+  420f8c:	5d                   	pop    ebp
+  420f8d:	5b                   	pop    ebx
+  420f8e:	c2 04 00             	ret    0x4
+  420f91:	bb 60 74 49 00       	mov    ebx,0x497460
+  420f96:	c6 03 40             	mov    BYTE PTR [ebx],0x40
+  420f99:	eb b5                	jmp    0x420f50
+  420f9b:	8b fb                	mov    edi,ebx
+  420f9d:	83 c9 ff             	or     ecx,0xffffffff
+  420fa0:	33 c0                	xor    eax,eax
+  420fa2:	f2 ae                	repnz scas al,BYTE PTR es:[edi]
+  420fa4:	f7 d1                	not    ecx
+  420fa6:	51                   	push   ecx
+  420fa7:	8d 43 06             	lea    eax,[ebx+0x6]
+  420faa:	53                   	push   ebx
+  420fab:	50                   	push   eax
+  420fac:	ff 15 f4 d0 48 00    	call   DWORD PTR ds:0x48d0f4
+  420fb2:	8b 15 94 73 49 00    	mov    edx,DWORD PTR ds:0x497394
+  420fb8:	66 a1 98 73 49 00    	mov    ax,ds:0x497398
+  420fbe:	8b cb                	mov    ecx,ebx
+  420fc0:	83 c4 0c             	add    esp,0xc
+  420fc3:	89 11                	mov    DWORD PTR [ecx],edx
+  420fc5:	66 89 41 04          	mov    WORD PTR [ecx+0x4],ax
+  420fc9:	eb 98                	jmp    0x420f63
+  420fcb:	00 4b 0f             	add    BYTE PTR [ebx+0xf],cl
+  420fce:	42                   	inc    edx
+  420fcf:	00 1c 0f             	add    BYTE PTR [edi+ecx*1],bl
+  420fd2:	42                   	inc    edx
+  420fd3:	00 31                	add    BYTE PTR [ecx],dh
+  420fd5:	0f 42 00             	cmovb  eax,DWORD PTR [eax]
+  420fd8:	4b                   	dec    ebx
+  420fd9:	0f 42 00             	cmovb  eax,DWORD PTR [eax]
+  420fdc:	4b                   	dec    ebx
+  420fdd:	0f 42 00             	cmovb  eax,DWORD PTR [eax]
+  420fe0:	50                   	push   eax
+  420fe1:	0f 42 00             	cmovb  eax,DWORD PTR [eax]
+  420fe4:	00 05 01 02 05 05    	add    BYTE PTR ds:0x5050201,al
+  420fea:	03 03                	add    eax,DWORD PTR [ebx]
+  420fec:	05 05 04 90 4b       	add    eax,0x4b900405
+  420ff1:	0f 42 00             	cmovb  eax,DWORD PTR [eax]
+  420ff4:	91                   	xchg   ecx,eax
+  420ff5:	0f 42 00             	cmovb  eax,DWORD PTR [eax]
+  420ff8:	09 a5 46 00 09 a5    	or     DWORD PTR [ebp-0x5af6ffba],esp
+  420ffe:	46                   	inc    esi
+  420fff:	00 4b 0f             	add    BYTE PTR [ebx+0xf],cl
+  421002:	42                   	inc    edx
+  421003:	00 91 0f 42 00 91    	add    BYTE PTR [ecx-0x6effbdf1],dl
+  421009:	0f 42 00             	cmovb  eax,DWORD PTR [eax]
+  42100c:	4b                   	dec    ebx
+  42100d:	0f 42 00             	cmovb  eax,DWORD PTR [eax]
+  421010:	50                   	push   eax
+  421011:	0f 42 00             	cmovb  eax,DWORD PTR [eax]
+  421014:	00 08                	add    BYTE PTR [eax],cl
+  421016:	08 08                	or     BYTE PTR [eax],cl
+  421018:	01 08                	add    DWORD PTR [eax],ecx
+  42101a:	08 08                	or     BYTE PTR [eax],cl
+  42101c:	02 08                	add    cl,BYTE PTR [eax]
+  42101e:	08 08                	or     BYTE PTR [eax],cl
+  421020:	03 08                	add    ecx,DWORD PTR [eax]
+  421022:	08 08                	or     BYTE PTR [eax],cl
+  421024:	04 08                	add    al,0x8
+  421026:	08 08                	or     BYTE PTR [eax],cl
+  421028:	05 08 08 08 06       	add    eax,0x6080808
+  42102d:	08 08                	or     BYTE PTR [eax],cl
+  42102f:	08 07                	or     BYTE PTR [edi],al
+
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0046a500 <.text+0x69500>:
+  46a500:	33 c0                	xor    eax,eax
+  46a502:	5f                   	pop    edi
+  46a503:	5e                   	pop    esi
+  46a504:	5d                   	pop    ebp
+  46a505:	5b                   	pop    ebx
+  46a506:	c2 04 00             	ret    0x4
+  46a509:	80 7d 30 19          	cmp    BYTE PTR [ebp+0x30],0x19
+  46a50d:	0f 84 3d 6a fb ff    	je     0x420f50
+  46a513:	b9 61 74 49 00       	mov    ecx,0x497461
+  46a518:	e8 52 c4 01 00       	call   0x48696f
+  46a51d:	e9 2e 6a fb ff       	jmp    0x420f50

@@ -188,14 +188,6 @@
     "evidence": null
   },
   {
-    "name": "@intern_symbol_name@12",
-    "start": 4329147,
-    "end": 4329148,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@arena_strdup@8",
     "start": 4326224,
     "end": 4326225,
@@ -255,6 +247,14 @@
     "name": "@lookup_source_file@8",
     "start": 4766384,
     "end": 4766385,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@uppercase_symbol_name@4",
+    "start": 4745583,
+    "end": 4745584,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

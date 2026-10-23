@@ -291,6 +291,7 @@ void __fastcall input_string(char *buffer, unsigned capacity);
 void __fastcall copy_symbol_type(C2Symbol *symbol);
 char *__fastcall intern_symbol_name(C2Symbol *symbol, char *name, int pool);
 char *__fastcall arena_strdup(char *name, int pool);
+void __fastcall uppercase_symbol_name(char *name);
 C2Symbol *__fastcall lookup_global_symbol(unsigned serial);
 void __fastcall clone_alias_symbol(C2Symbol *symbol);
 void __fastcall read_qualified_symbol(C2Symbol *symbol, int pool);

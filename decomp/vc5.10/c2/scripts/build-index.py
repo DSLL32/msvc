@@ -64,6 +64,17 @@ def main():
                 'evidence':{'original_scope_table':hex(table),'rebuilt_scope_table':hex(rebuilt_table),
                             'source':'explicit -1 enclosing scope, filter and handler roots from actual compiled PE scope tables'}}
     for record in config['driver']:
+        if record.get('rebuilt_name_dispatch_offsets'):
+            assert record['name']=='@intern_symbol_name@12'
+            function=metadata['functions'].setdefault(record['name'],{})
+            function.setdefault('original',{})['text_data']=[[r['start'],r['end']]for r in config['text_data']if r.get('owner')==record['name']]
+            start=symbols[record['name']]
+            intervals=[[start+a,start+b]for a,b in record['rebuilt_name_dispatch_offsets']]
+            assert [b-a for a,b in intervals]==[24,11,36,29]
+            assert read(intervals[0][0]-3,3)==b'\xc2\x04\0','name dispatch must follow RET4'
+            for interval,count in ((intervals[0],6),(intervals[2],9)):
+                assert all(start<=target<intervals[0][0]for target in struct.unpack('<%dI'%count,read(interval[0],4*count)))
+            function.setdefault('rebuilt',{})['text_data']=intervals
         if record.get('rebuilt_dispatch_table_offsets'):
             function=metadata['functions'].setdefault(record['name'],{})
             function.setdefault('original',{})['text_data']=[[r['start'],r['end']]for r in config['text_data']if r.get('owner')==record['name']]

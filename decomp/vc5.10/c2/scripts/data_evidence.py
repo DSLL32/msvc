@@ -77,6 +77,32 @@ def verify(config):
             node_sizes.append({'side':side,'table':table,'sha256':sha(read(table,64)),'cases':sizes})
     symbol_dispatch=[]
     record_dispatch=[]
+    name_dispatch=[]
+    if '@intern_symbol_name@12'in config['accepted']:
+        record=next(r for r in config['driver']if r['name']=='@intern_symbol_name@12')
+        raw=(BINARY/record['name_model']).read_bytes();assert sha(raw)==record['name_model_sha256'],'name model differs'
+        layout=json.loads(raw);assert layout['target_sha256']==sha(TARGET.read_bytes())
+        for side,path in [('original',TARGET),('rebuilt',BINARY/'build/c2.exe')]:
+            read=reader(path);start=0x420ebb if side=='original'else maps['@intern_symbol_name@12']
+            outer,classes,inner,inner_classes=(0x420fcc,0x420fe4,0x420ff0,0x421014)if side=='original'else(start+0x1a4,start+0x1bc,start+0x1c7,start+0x1eb)
+            targets=struct.unpack('<6I',read(outer,24));expected=layout['outer']['original_targets']if side=='original'else[start+n for n in layout['outer']['rebuilt_offsets']]
+            assert list(targets)==expected and list(read(classes,11))==layout['outer']['classes'],'symbol-name kind dispatch differs'
+            count,size=9,29
+            targets=struct.unpack('<%dI'%count,read(inner,4*count));expected=layout['inner']['original_targets']if side=='original'else[start+n for n in layout['inner']['rebuilt_offsets']]
+            assert list(targets)==expected,'symbol-name storage target identities differ'
+            classification=list(read(inner_classes,size));assert classification==layout['inner'][side+'_classes'],'symbol-name storage classes differ'
+            actions=['underscore','at','uppercase','uppercase','underscore','at','at','underscore','plain']
+            assert [actions[classification[n]]if n<size else'plain'for n in range(29)]==layout['inner']['actions'],'symbol-name storage semantics differ'
+            pointer=layout['workspace']['original']if side=='original'else maps['_decorated_name']
+            assert read(pointer,2059)==bytes(2059),'decoration workspace initial state differs'
+            loads=layout['import_prefix'][side+'_loads'];addresses=[]
+            for n,at in enumerate(loads):
+                assert read(start+at,2)==bytes.fromhex(layout['import_prefix']['opcodes'][n]),'import prefix load changed'
+                addresses.append(struct.unpack('<I',read(start+at+2,4))[0])
+            assert addresses[1]==addresses[0]+4 and read(addresses[0],6)==b'__imp_','contextual import-name prefix bytes differ'
+            name_dispatch.append({'side':side,'kind_targets_sha256':sha(read(outer,24)),'kind_classes_sha256':sha(read(classes,11)),
+                'storage_targets_sha256':sha(read(inner,4*count)),'storage_classes_sha256':sha(read(inner_classes,size)),
+                'workspace_minimum_bytes':2059,'import_prefix_sha256':sha(read(addresses[0],6)),'model_sha256':sha(raw)})
     if '@read_symbol@4'in config['accepted']:
         record=next(r for r in config['driver']if r['name']=='@read_symbol@4')
         raw=(BINARY/record['record_model']).read_bytes();assert sha(raw)==record['record_model_sha256'],'decoder layout model differs'
@@ -142,7 +168,7 @@ def verify(config):
             else:assert cstring(read,actual)==cstring(original_read,row['initial'])
     return {'model_sha256':sha((BINARY/config['data_model']).read_bytes()),'option_records':53,
             'selector_records':sum(len(t['entries'])for t in value['selectors']),
-            'objects':len(value['objects']),'node_size_dispatch':node_sizes,'symbol_dispatch':symbol_dispatch,'record_dispatch':record_dispatch,'intrinsics':intrinsics,'sides':['original PE','rebuilt Win32 PE'],
+            'objects':len(value['objects']),'node_size_dispatch':node_sizes,'symbol_dispatch':symbol_dispatch,'record_dispatch':record_dispatch,'name_dispatch':name_dispatch,'intrinsics':intrinsics,'sides':['original PE','rebuilt Win32 PE'],
             'checks':['pattern text','destination logical aliases','result/kind/record ABI','selector contents','initial scalar/string values']}
 
 

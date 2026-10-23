@@ -62,7 +62,8 @@
     "@read_symbols@4",
     "@read_symbol@4",
     "_input_varuint",
-    "@input_string@8"
+    "@input_string@8",
+    "@intern_symbol_name@12"
   ],
   "driver": [
     {
@@ -211,7 +212,7 @@
               212,
               312
             ],
-            "lifetime_sha256": "d2800263f9e59d04378350a28f16db57b446a1bf9a69b878c58384eb44ed580b",
+            "lifetime_sha256": "a235660fa49d42b567421984eec010f9d1958171279dc613229033261adcc10b",
             "instructions": [
               {
                 "offset": 212,
@@ -459,17 +460,17 @@
             "review": "Full48b509..48b538: ESI loaded once; intervening strlen repne scans leave ESI untouched; two fwrite calls/cleanup16, no overwrite/escape. First call cleanup is after the intervening direct stderr IAT load, at48b523; second cleanup is adjacent."
           },
           "rebuilt": {
-            "slot": 4214916,
+            "slot": 4214920,
             "holder": "[EBP-0x8]",
             "lifetime": [
               462,
               540
             ],
-            "lifetime_sha256": "6d8f04a255898e58aaf2d4b42e33cea59f70039d209ef1167336b89c7b9bacb2",
+            "lifetime_sha256": "976c6cf98d6f96b5c4bd38f23990678bd68cb474872ebd3ab625d262ad1a0978",
             "instructions": [
               {
                 "offset": 462,
-                "bytes": "8b0d84504000894df8"
+                "bytes": "8b0d88504000894df8"
               },
               {
                 "offset": 509,
@@ -614,7 +615,7 @@
               38,
               154
             ],
-            "lifetime_sha256": "da3716efe0eab576eeae3e49187c558c74b1fdcdd4bca4e54a9d3dc905a8bb78",
+            "lifetime_sha256": "93592db6e5c65871789e965f36de563c4ae62e46e29f7b2b27194193e66035cd",
             "instructions": [
               {
                 "offset": 38,
@@ -669,17 +670,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4214908,
+            "slot": 4214912,
             "holder": "[EBP-0x4]",
             "lifetime": [
               46,
               154
             ],
-            "lifetime_sha256": "3c48012c7a562ca231da84acdb75583fbdf54e004f1cf4a9fd0025f64a1769e9",
+            "lifetime_sha256": "83ec335150ebe86549488679e4ae757f19e2729da8f541bb0685c8bfb90f78f0",
             "instructions": [
               {
                 "offset": 46,
-                "bytes": "8b0d7c504000894dfc"
+                "bytes": "8b0d80504000894dfc"
               },
               {
                 "offset": 89,
@@ -1453,7 +1454,7 @@
               6,
               198
             ],
-            "lifetime_sha256": "bf4e1f4dac323ec49b13e884bcc7887f365a5cccb0091396dec56098aeebd6db"
+            "lifetime_sha256": "a231fae01f87b704656022b6bdb08ee8084740724853fa3dbe889dc34e5fd202"
           }
         }
       ]
@@ -1643,7 +1644,7 @@
               6,
               377
             ],
-            "lifetime_sha256": "436f9e1e4e79a865432a6b0ae863ab6f6d47ec7e5ac59788d101326265e068df"
+            "lifetime_sha256": "afda98601e619bd3ab874a8ab5416a793b0c43414ac2422edc7b8697fad47c5e"
           }
         }
       ]
@@ -4080,7 +4081,7 @@
               6,
               827
             ],
-            "lifetime_sha256": "1c27a7b363bfb473185e6422b9d1f390c9d8b60e146959b4f82f67214cbaa3b1",
+            "lifetime_sha256": "aa3dad9876bd523eb6b2c7e01069417902ea9dadc9ccacdf202087b011ddbe09",
             "instructions": [
               {
                 "offset": 6,
@@ -4339,7 +4340,7 @@
               27,
               145
             ],
-            "lifetime_sha256": "b1ff5fd8fdafd998b7574214ffa02216829fc5e46745e936f8a7c402dc15a09e",
+            "lifetime_sha256": "259fdccf7f4aa7292f37fae7f0221c887c0aab790e54ded28c3a3a9c24e28cc0",
             "instructions": [
               {
                 "offset": 27,
@@ -4358,6 +4359,231 @@
           "evidence": "cases/analysis/string-input-disassembly.txt: original5-byteprefix precedes dominatingEDI seed48d10c, onecallsite420eae withFILE/cleanup4, noEDIclobber and loop backedge reaches call onlyafterseed. Rebuilt1b seed405058->EBP-8, no later slotstore or stackalias; exactlyonecallsite6d, FILEpush/cleanup4, loopbackedge to24 preservescache; errorcall occurs afterloopterminates. Fixed complete intervals guard changed bytes; commonRust owns all CFG/RET/import/extent checks."
         }
       ]
+    },
+    {
+      "name": "@intern_symbol_name@12",
+      "native": "intern_symbol_name",
+      "start": 4329147,
+      "end": 4329419,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "fastcall symbolECX nameEDX poolstack; char*EAX RET4",
+      "state_policy": "symbol-name-intern",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "(unsigned long)global_scope.previous"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        },
+        {
+          "original": "0x4973e8",
+          "native": "(unsigned long)current_debug_scope"
+        },
+        {
+          "original": "0x490b84",
+          "native": "(unsigned long)current_symbol_list_scope"
+        },
+        {
+          "original": "0x4973d4",
+          "native": "(unsigned long)pending_functions"
+        },
+        {
+          "original": "0x4973f0",
+          "native": "(unsigned long)pending_insertion"
+        },
+        {
+          "original": "0x4972fc",
+          "native": "(unsigned long)global_special_symbols"
+        },
+        {
+          "original": "0x49d634",
+          "native": "current_source_file"
+        },
+        {
+          "original": "0x49739c",
+          "native": "last_section_serial"
+        },
+        {
+          "original": "0x4973b0",
+          "native": "il_option_flags"
+        },
+        {
+          "original": "0x4973a0",
+          "native": "(unsigned long)auxiliary_prefix"
+        },
+        {
+          "original": "0x497390",
+          "native": "(unsigned long)aux_expression_file"
+        },
+        {
+          "original": "0x497380",
+          "native": "(unsigned long)aux_symbol_file"
+        },
+        {
+          "original": "0x497c6c",
+          "native": "c2_constant_strings"
+        },
+        {
+          "original": "0x4973c0",
+          "native": "c2_omit_frame_pointer"
+        },
+        {
+          "original": "0x495f1c",
+          "native": "(unsigned long)current_symbol"
+        }
+      ],
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "code_chunks": [
+        [
+          4629760,
+          4629794
+        ]
+      ],
+      "evidence": "cases/analysis/symbol-name-disassembly.txt:272B primary+34B cold; symbolECX nameEDX poolstack; char*EAX RET4",
+      "shared": [
+        [
+          4329420,
+          4329444
+        ],
+        [
+          4329444,
+          4329455
+        ],
+        [
+          4329456,
+          4329492
+        ],
+        [
+          4329492,
+          4329521
+        ]
+      ],
+      "rebuilt_name_dispatch_offsets": [
+        [
+          420,
+          444
+        ],
+        [
+          444,
+          455
+        ],
+        [
+          455,
+          491
+        ],
+        [
+          491,
+          520
+        ]
+      ],
+      "name_model": "cases/analysis/symbol-name-model.json",
+      "name_model_sha256": "1cd46a6add78630c3e0c8a750cb0764d137027cde4ad74098f44e7cbea32c2b7"
     }
   ],
   "stubs": [
@@ -4570,14 +4796,14 @@
       "abi": "fastcall symbolECX; result ignored by decoder; RET0"
     },
     {
-      "name": "@intern_symbol_name@12",
-      "native": "intern_symbol_name",
-      "start": 4329147,
-      "end": 4329148,
+      "name": "@arena_strdup@8",
+      "native": "arena_strdup",
+      "start": 4326224,
+      "end": 4326225,
       "pending_extent": true,
       "kind": "application",
-      "abi": "fastcall symbolECX nameEDX poolstack; char*EAX RET4",
-      "state_policy": "symbol-name-intern",
+      "abi": "fastcall nameECX poolEDX; char*EAX RET0",
+      "state_policy": "symbol-name-copy",
       "state": [
         {
           "original": "0x499708",
@@ -4750,15 +4976,6 @@
       ]
     },
     {
-      "name": "@arena_strdup@8",
-      "native": "arena_strdup",
-      "start": 4326224,
-      "end": 4326225,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall nameECX poolEDX; char*EAX RET0"
-    },
-    {
       "name": "@lookup_global_symbol@4",
       "native": "lookup_global_symbol",
       "start": 4322387,
@@ -4820,6 +5037,15 @@
       "pending_extent": true,
       "kind": "application",
       "abi": "fastcall nameECX unsigned*bytesEDX; char*EAX RET0"
+    },
+    {
+      "name": "@uppercase_symbol_name@4",
+      "native": "uppercase_symbol_name",
+      "start": 4745583,
+      "end": 4745584,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall mutable char*nameECX; void/result ignored by caller; RET0"
     }
   ],
   "text_data": [
@@ -4902,6 +5128,38 @@
       "owner": "@read_symbol@4",
       "kind": "switch-targets",
       "evidence": "cases/analysis/read-symbol-disassembly.txt: signed kind1..23 indexes23 DWORD targets"
+    },
+    {
+      "name": "symbol-name-dispatch-0",
+      "start": 4329420,
+      "end": 4329444,
+      "owner": "@intern_symbol_name@12",
+      "kind": "switch-targets",
+      "evidence": "cases/analysis/symbol-name-disassembly.txt: outer11-kind/six-target map and masked29-value/nine-target storage map"
+    },
+    {
+      "name": "symbol-name-dispatch-1",
+      "start": 4329444,
+      "end": 4329455,
+      "owner": "@intern_symbol_name@12",
+      "kind": "switch-classes",
+      "evidence": "cases/analysis/symbol-name-disassembly.txt: outer11-kind/six-target map and masked29-value/nine-target storage map"
+    },
+    {
+      "name": "symbol-name-dispatch-2",
+      "start": 4329456,
+      "end": 4329492,
+      "owner": "@intern_symbol_name@12",
+      "kind": "switch-targets",
+      "evidence": "cases/analysis/symbol-name-disassembly.txt: outer11-kind/six-target map and masked29-value/nine-target storage map"
+    },
+    {
+      "name": "symbol-name-dispatch-3",
+      "start": 4329492,
+      "end": 4329521,
+      "owner": "@intern_symbol_name@12",
+      "kind": "switch-classes",
+      "evidence": "cases/analysis/symbol-name-disassembly.txt: outer11-kind/six-target map and masked29-value/nine-target storage map"
     }
   ],
   "support": [

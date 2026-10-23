@@ -123,6 +123,32 @@ def main():
                       ('machine call-clobber register mask differs',lambda r:changed_machine_value(r,'0x495f34',7)),
                       ('machine stack alignment differs',lambda r:changed_machine_value(r,'0x49745c',4)),
                       ('earlier intrinsic observation cannot replace final frontier observation',missing_final_intrinsic_observation)]
+    if 'symbol_copy_input'in current_state:
+        def changed_copy_input(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['symbol_copy_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+            path=root/'n/gdb.stdout';raw=path.read_text();raw=re.sub(r'^C2-SYMBOL-COPY-INPUT .*$',lambda m:'C2-SYMBOL-COPY-INPUT '+json.dumps(state['symbol_copy_input'],sort_keys=True),raw,flags=re.M);path.write_text(raw)
+            path=root/'n/receipt.json';receipt=json_at(path);receipt['gdb_outputs']['gdb.stdout']=sha((root/'n/gdb.stdout').read_bytes());write_json(path,receipt)
+        def changed_copy_raw(root,index):
+            path=root/'o/decorated-name.bin';data=bytearray(path.read_bytes());data[index]^=1;path.write_bytes(data)
+        def wrong_name_counter(root):
+            path=root/'n/state.json';state=json_at(path);state['globals']['0x491040']=494;write_json(path,state);raw_changed(root,'n','state.json')
+        def changed_name_dispatch(root):
+            path=audit_directory(root)/'data-evidence.json';data=json_at(path);data['name_dispatch'][0]['workspace_minimum_bytes']=2058;write_json(path,data)
+            path=audit_path(root);receipt=json_at(path);receipt['data_evidence_sha256']=sha((audit_directory(root)/'data-evidence.json').read_bytes());write_json(path,receipt);bind_audit(root)
+        mutations += [('name copier omits actual pool formal',lambda r:changed_copy_input(r,'formals',[{'name':'name','type':'char *'}])),
+                      ('name copier loses actual workspace-plus-one alias',lambda r:changed_copy_input(r,'name_alias',False)),
+                      ('name copier actual pool differs',lambda r:changed_copy_input(r,'pool',1)),
+                      ('name copier caller pool differs',lambda r:changed_copy_input(r,'caller_pool',1)),
+                      ('name copier caller symbol alias differs',lambda r:changed_copy_input(r,'caller_symbol_alias',False)),
+                      ('name copier workspace extent differs',lambda r:changed_copy_input(r,'workspace_size',2058)),
+                      ('name copier native decoration character differs',lambda r:changed_copy_input(r,'decorated_bytes','40'+current_state['symbol_copy_input']['decorated_bytes'][2:])),
+                      ('name copier native untouched workspace tail differs',lambda r:changed_copy_input(r,'decorated_bytes',current_state['symbol_copy_input']['decorated_bytes'][:-2]+'01')),
+                      ('name copier mutated original input scratch',lambda r:changed_copy_input(r,'input_bytes','00'*2058)),
+                      ('name copier raw decoration character differs',lambda r:changed_copy_raw(r,0)),
+                      ('name copier raw filename NUL differs',lambda r:changed_copy_raw(r,23)),
+                      ('name copier raw untouched workspace tail differs',lambda r:changed_copy_raw(r,2058)),
+                      ('name accounting omitted22 characters',wrong_name_counter),
+                      ('name dispatch and workspace proof differs with rebound hash',changed_name_dispatch)]
     if 'symbol_intern_input'in current_state:
         def changed_intern_input(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['symbol_intern_input'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

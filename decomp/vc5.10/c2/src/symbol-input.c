@@ -12,6 +12,10 @@ FILE *aux_expression_file, *aux_symbol_file;
 extern int c2_constant_strings, c2_omit_frame_pointer;
 C2Symbol *current_symbol;
 extern unsigned current_source_file;
+/* Input capacity plus the optional leading decoration character. The byte
+ * before c2_constant_strings in the image is not credited as this object's
+ * payload or declared storage. */
+char decorated_name[2059];
 
 C2Symbol *__fastcall read_symbol(int retain_locals)
 {
@@ -298,4 +302,48 @@ C2Symbol *__fastcall read_symbol(int retain_locals)
         c2_report_internal("E:\\utc\\src\\\\P2\\p2symtab.c", 0x373);
         return NULL;
     }
+}
+
+char *__fastcall intern_symbol_name(C2Symbol *symbol, char *name, int pool)
+{
+    char *result = decorated_name + 1;
+
+    decorated_name[0] = '_';
+    decorated_name[1] = 0;
+    strcpy(result, name);
+    if (name[0] != '?' || symbol->source_kind) {
+        switch (symbol->kind) {
+        case 1: case 7: case 8: case 11:
+            result = decorated_name;
+            break;
+        case 3:
+            if (symbol->source_kind)
+                return NULL;
+            result = decorated_name;
+            result[0] = '$';
+            break;
+        case 4:
+            switch (symbol->flags & 0x1c) {
+            case 0: case 16: case 28:
+                result = decorated_name;
+                break;
+            case 4: case 20: case 24:
+                result = decorated_name;
+                result[0] = '@';
+                break;
+            case 8: case 12:
+                if (symbol->source_kind != 0x19)
+                    uppercase_symbol_name(decorated_name + 1);
+                break;
+            }
+            break;
+        }
+    }
+    if ((symbol->kind == 1 || symbol->kind == 4) &&
+        (((C2FunctionSymbol *)symbol)->attributes & 0x1000)) {
+        memmove(result + 6, result, strlen(result) + 1);
+        memcpy(result, "__imp_", 6);
+    }
+    c2_node_bytes[pool] += strlen(result);
+    return arena_strdup(result, pool);
 }

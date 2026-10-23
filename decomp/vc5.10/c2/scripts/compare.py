@@ -156,7 +156,7 @@ def compare(original,native,validation=None):
     assert len(matching)==1,'unknown original frontier'
     expected=matching[0]
     if expected['name']!='_c2_crt_startup':
-        assert expected.get('state_policy')in ('pre-main-no-arguments','main-arguments-and-initial-state','exit-callback','command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','message-load','message-unescape','diagnostic-emit','cached-message','format-prefix','format-prefix-args','format-integer','exit-cleanup','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern')and expected.get('state'),'new frontier needs explicit state decoder'
+        assert expected.get('state_policy')in ('pre-main-no-arguments','main-arguments-and-initial-state','exit-callback','command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','message-load','message-unescape','diagnostic-emit','cached-message','format-prefix','format-prefix-args','format-integer','exit-cleanup','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy')and expected.get('state'),'new frontier needs explicit state decoder'
         if expected['state_policy']=='pre-main-no-arguments':
             assert expected['abi']=='cdecl, no parameters','parameter ABI has no decoder'
     native_proof=proof.verify(BINARY/'build/native/c2',(native/'native-maps.txt').read_text(),(native/'gdb.stdout').read_text(),state,config)
@@ -172,7 +172,7 @@ def compare(original,native,validation=None):
         section=text.rsplit('observe %08x '%address,1)
         assert len(section)==2,'frontier state is missing'
         raw={int(a,16):int(v,16)for a,v in re.findall(r'^global ([0-9a-f]+) ([0-9a-f]+)$',section[1],re.M)}
-        if expected.get('state_policy')in ('symbol-serial-read','symbol-name-read','symbol-name-intern'):
+        if expected.get('state_policy')in ('symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy'):
             # The already-frozen complete runtime.data observation contains
             # these newly encountered scalars. Extract only these typed DWORDs;
             # the remaining bytes still receive no data/payload/extent credit.
@@ -186,7 +186,7 @@ def compare(original,native,validation=None):
                 raw[pointer]=observed
         required={view['original']:raw[int(view['original'],16)]for view in expected['state']}
         assert state['globals']==required,'frontier globals/runtime state differs'
-    if expected.get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern'):
+    if expected.get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy'):
         segment=text.rsplit('observe %08x '%address,1)[1]
         values=re.findall(r'^command-state argc=(\d+) argv=([0-9a-f]+) input=([0-9a-f]+)$',segment,re.M)
         assert len(values)==1
@@ -255,7 +255,7 @@ def compare(original,native,validation=None):
         assert (original/'copy-flags.bin').read_bytes()==flags.encode()+b'\0'
         assert state['environment_copy']=={'flags':flags,'environment_alias':True},'native flags must borrow actual bound target environment'
     original_overrides=native_overrides=None
-    if expected.get('state_policy')in ('alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern'):
+    if expected.get('state_policy')in ('alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy'):
         initial=re.findall(r'^flags-environment entry=([0-9a-f]+) returned=([0-9a-f]+) alias=(\d+)$',text,re.M)
         assert len(initial)==1 and initial[0][2]=='1';origin=int(initial[0][1],16)
         raw=re.findall(r'^alignment-option input=([0-9a-f]+) current=([0-9a-f]+) operand=([0-9a-f]+) argv=([0-9a-f]+)$',text.rsplit('observe %08x '%address,1)[1],re.M)
@@ -266,15 +266,15 @@ def compare(original,native,validation=None):
         strings={'c2_intermediate_base':(4,'.\\a01068'),'c2_source_name':(16,'numeric-control-flow.c'),'c2_output_name':(52,'numeric-control-flow.obj'),'c2_pdb_name':(84,'vc50.idb')}
         original_overrides=dict(scalar,**{name:origin+offset for name,(offset,value)in strings.items()})
         native_overrides=dict(scalar,**{name:value for name,(offset,value)in strings.items()})
-    if expected.get('state_policy')in ('header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern'):
+    if expected.get('state_policy')in ('header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy'):
         import struct
         segment=text.rsplit('observe %08x '%address,1)[1]
         rows=re.findall(r'^header-streams input=([0-9a-f]+) globals=([0-9a-f]+) iob=([0-9a-f]+)$',segment,re.M)
         assert len(rows)==1;first,second,iob=[int(v,16)for v in rows[0]]
         assert first==iob+3*32 and second==iob+4*32,'original FILE pointers are not distinct canonical iob slots'
         first_data=struct.pack('<8I',0,0,0,1,3,0,0,0);second_data=struct.pack('<8I',0,0,0,1,4,0,0,0)
-        if expected['state_policy']in ('il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern'):
-            consumed={'il-word-read':1,'il-long-read':3,'symbol-reset':12,'symbol-table-empty':12,'allocate-node':12,'node-size':12,'pool-allocate':12,'pool-result':12,'real-from-int':12,'extended-store':12,'extended-results':12,'intrinsics-initialized':12,'machine-initialized':12,'section-constructor':12,'section-symbol':12,'section-linked':12,'section-defaults':12,'sections-initialized':12,'global-symbols':12,'symbol-record':12,'symbol-serial-read':13,'symbol-name-read':15,'symbol-name-intern':38}[expected['state_policy']]
+        if expected['state_policy']in ('il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy'):
+            consumed={'il-word-read':1,'il-long-read':3,'symbol-reset':12,'symbol-table-empty':12,'allocate-node':12,'node-size':12,'pool-allocate':12,'pool-result':12,'real-from-int':12,'extended-store':12,'extended-results':12,'intrinsics-initialized':12,'machine-initialized':12,'section-constructor':12,'section-symbol':12,'section-linked':12,'section-defaults':12,'sections-initialized':12,'global-symbols':12,'symbol-record':12,'symbol-serial-read':13,'symbol-name-read':15,'symbol-name-intern':38,'symbol-name-copy':38}[expected['state_policy']]
             original_stream=(original/'header-streams.bin').read_bytes();assert len(original_stream)==64 and original_stream[:32]==first_data
             words=struct.unpack('<8I',original_stream[32:])
             assert words[2]and words[0]==words[2]+consumed and words[1]==271-consumed and words[3:]==(9,4,0,4096,0),'canonical post-byte FILE/buffer layout differs'
@@ -288,17 +288,17 @@ def compare(original,native,validation=None):
             assert (original/'header-streams.bin').read_bytes()==first_data+second_data,'new canonical CRT streams are not unread read-mode files'
         control=int(re.findall(r'^x87-control ([0-9a-f]+)$',segment,re.M)[0],16)&0xffff
         expected_streams={'input_index':3,'globals_index':4,'input':first_data.hex(),'globals':second_data.hex(),'distinct':True,'x87_control':control}
-        if expected['state_policy']in ('il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern'):
+        if expected['state_policy']in ('il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy'):
             assert re.findall(r'^active-il-stream ([0-9a-f]+)$',segment,re.M)==['%08x'%second],'header byte reader does not use globals IL stream'
             expected_streams['active_index']=4
-        if expected['state_policy']in ('il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern'):expected_streams['valid_buffer']=master.hex()
+        if expected['state_policy']in ('il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy'):expected_streams['valid_buffer']=master.hex()
         assert state['header_streams']==expected_streams,'native FILE identity/layout/state differs'
-        if expected['state_policy']in ('symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern'):
+        if expected['state_policy']in ('symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy'):
             header={'0x490b7c':0,'0x4972f8':1,'0x497df8':146,'0x491050':146,'0x497f6c':0,'0x497de8':0}
             assert {key:state['globals'][key]for key in header}==header,'decoded header fields differ from frozen original format19960416/count146'
         if expected['state_policy']=='il-long-read':
             assert re.findall(r'^il-word-result ([0-9a-f]+)$',segment,re.M)==['0386']and state['il_word_result']==0x386,'16-bit machine result/caller local differs'
-    if expected.get('state_policy')in ('symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern'):
+    if expected.get('state_policy')in ('symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy'):
         hash_bytes=bytearray((original/'symbol-hash.bin').read_bytes());assert len(hash_bytes)==4096
         assert proof.symbols(BINARY/'build/native/c2',data=True)['global_scope'][1]==4100
         if expected['state_policy']in ('section-linked','section-defaults'):
@@ -307,7 +307,7 @@ def compare(original,native,validation=None):
             assert struct.unpack_from('<I',hash_bytes,20)[0]==node,'original bucket5 lost section identity'
             hash_bytes[20:24]=bytes(4);assert hash_bytes==bytes(4096),'original other1023 hash buckets changed'
             assert state['symbol_hash']=={'slots':1024,'section_slot':5,'section_alias':True,'normalized_sha256':sha(bytes(4096))},'native symbol bucket identity or untouched extent differs'
-        elif expected['state_policy']in ('sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern'):
+        elif expected['state_policy']in ('sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy'):
             import struct
             head=struct.unpack_from('<I',(original/'pool-descriptors.bin').read_bytes(),0)[0]
             buckets={5:72,2:160,3:248,4:336,9:424};expected_hash=bytearray(4096)
@@ -331,8 +331,25 @@ def compare(original,native,validation=None):
         assert re.findall(r'^pool-allocate pool=(-?\d+) bytes=(\d+) caller-kind=(-?\d+) caller-pool=(-?\d+)$',segment,re.M)==[('0','64','1','0')]
         assert state['pool_allocate']=={'pool':0,'bytes':64,'caller_kind':1,'caller_pool':0},'pool allocator fastcall bytes/pool or saved node state differs'
         assert [state['globals'][hex(0x491040+4*i)]for i in range(4)]==[64,0,0,0],'node allocation accounting differs'
-    if expected.get('state_policy')in ('machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern'):
+    if expected.get('state_policy')in ('machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy'):
         assert [state['globals'][hex(a)]for a in (0x491074,0x495f34,0x49745c)]==[0x1d0,0x0e,16],'machine save/clobber masks or stack alignment differ'
+    if expected.get('state_policy')=='symbol-name-copy':
+        import struct
+        assert proof.symbols(BINARY/'build/native/c2',data=True)['decorated_name'][1]==2059,'native decoration workspace ELF extent differs'
+        segment=text.rsplit('observe %08x '%address,1)[1]
+        assert re.findall(r'^symbol-copy-input name=([0-9a-f]+) pool=(\d+) caller-symbol=([0-9a-f]+)$',segment,re.M)==[('00497461','0','00497308')],'name copier fastcall arguments/caller symbol differ'
+        template=bytearray(64);template[4]=18;struct.pack_into('<I',template,40,86)
+        name=b'numeric-control-flow.c\0';scratch=name+bytes(2058-len(name));decorated=b'_'+name+bytes(2059-len(name)-1)
+        assert (original/'symbol-template.bin').read_bytes()==template,'registrar changed unrelated transient record fields'
+        assert (original/'symbol-name.bin').read_bytes()==scratch,'registrar changed input name storage'
+        assert (original/'decorated-name.bin').read_bytes()==decorated,'decoration character/name/NUL/untouched workspace differs'
+        assert (original/'source-name-pool.bin').read_bytes()==bytes(12),'source pool changed before copier'
+        observed=re.findall(r'^C2-SYMBOL-COPY-INPUT (.*)$',(native/'gdb.stdout').read_text(),re.M)
+        assert len(observed)==1 and json.loads(observed[0])==state['symbol_copy_input'],'name copier lacks actual raw GDB observation'
+        assert state['symbol_copy_input']=={'formals':[{'name':'name','type':'char *'},{'name':'pool','type':'int'}],
+            'name_alias':True,'pool':0,'caller_pool':0,'caller_symbol_alias':True,
+            'template_bytes':template.hex(),'input_bytes':scratch.hex(),'decorated_bytes':decorated.hex(),
+            'workspace_size':2059,'fifth_pool':bytes(12).hex()},'name copier actual formals/aliases or complete workspace differs'
     if expected.get('state_policy')=='symbol-name-intern':
         import struct
         segment=text.rsplit('observe %08x '%address,1)[1]
@@ -386,7 +403,7 @@ def compare(original,native,validation=None):
         values=re.findall(r'^global-symbols-input scope=([0-9a-f]+) active=([0-9a-f]+) globals=([0-9a-f]+)$',segment,re.M)
         assert len(values)==1 and values[0][0]=='00000000'and values[0][1]==values[0][2]and int(values[0][1],16)
         assert state['global_symbols_input']=={'null_scope':True,'active_globals_alias':True},'global symbols scope/active stream identity differs'
-    if expected.get('state_policy')in ('sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern'):
+    if expected.get('state_policy')in ('sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy'):
         import struct
         segment=text.rsplit('observe %08x '%address,1)[1]
         head=struct.unpack_from('<I',(original/'pool-descriptors.bin').read_bytes(),0)[0]
@@ -472,7 +489,7 @@ def compare(original,native,validation=None):
         assert (original/'section-name.bin').read_bytes()==b'_TEXT\0'and(original/'section-class.bin').read_bytes()==b'CODE\0'
         assert (original/'section-globals.bin').read_bytes()==bytes(28)
         assert state['section_constructor']=={'name':'_TEXT','class_name':'CODE','serial':5,'name_alias':True,'initial_sections':[0]*7},'section constructor inputs/alias/initial globals differ'
-    if expected.get('state_policy')in ('intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern'):
+    if expected.get('state_policy')in ('intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy'):
         import struct
         from intrinsic_evidence import model as intrinsic_model,verify_original_state as verify_original_intrinsics,verify_native_state as verify_native_intrinsics
         value=intrinsic_model(config);assert value is not None
@@ -564,7 +581,7 @@ def compare(original,native,validation=None):
         assert stack and int(rows[0][0],16)==int(stack[1],16)+12,'original constant input must alias the caller stack local'
         assert (original/'real-records.bin').read_bytes()==bytes(36)
         assert state['real_from_int']=={'value':0,'output_is_zero':True,'caller_local_alias':True,'records':['00'*12]*3},'constant initializer input/records/aliases differ'
-    if expected.get('state_policy')in ('pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern'):
+    if expected.get('state_policy')in ('pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy'):
         import struct
         segment=text.rsplit('observe %08x '%address,1)[1]
         rows=re.findall(r'^pool-result free=([0-9a-f]+) types=([0-9a-f]+) head=([0-9a-f]+) cursor=([0-9a-f]+) remaining=(\d+)$',segment,re.M)
@@ -578,12 +595,13 @@ def compare(original,native,validation=None):
         if expected['state_policy']in ('section-symbol','section-linked','section-defaults'):
             expected_cursor,expected_remaining,node_bytes=160,3936,150
             node=(original/'section-node.bin').read_bytes();payload[64:150]=node
-        if expected['state_policy']in ('sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern'):
+        if expected['state_policy']in ('sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy'):
             expected_cursor,expected_remaining,node_bytes=512,3584,494
+            if expected['state_policy']=='symbol-name-copy':node_bytes=516
             section_bytes=(original/'sections.bin').read_bytes()
             for i in range(5):payload[64+88*i:150+88*i]=section_bytes[86*i:86*(i+1)]
         assert block==struct.pack('<II',0,4088)+payload,'original pool block header/zeroed payload/node kind differs'
-        if expected['state_policy']in ('sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern'):
+        if expected['state_policy']in ('sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy'):
             for i in range(5):
                 for field in (24,36,50,54):payload[64+88*i+field:68+88*i+field]=bytes(4)
 
@@ -644,7 +662,7 @@ def compare(original,native,validation=None):
         assert (original/'option-value.bin').read_bytes()==b'/?\0'
         table=proof.symbols(BINARY/'build/native/c2',data=True)['c2_options'][0]+int(native_proof['load_bias'],16)
         assert state['apply']=={'option':table+52*12,'value':'/?','mode':0,'current_alias':1},'option application ABI differs'
-    if expected.get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern'):
+    if expected.get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized','global-symbols','symbol-record','symbol-serial-read','symbol-name-read','symbol-name-intern','symbol-name-copy'):
         from data_evidence import model,plan,verify_original_state,verify_native_state
         data_model=model(config)
         assert (original/'data-plan.txt').read_text()==''.join('%08x %d\n'%(address,size)for name,address,size in plan(data_model))
