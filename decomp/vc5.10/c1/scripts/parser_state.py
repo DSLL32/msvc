@@ -5,7 +5,7 @@ from allocation_imports import export_rva
 from provenance import captured_native_binary
 
 def validate(original,native,entry,state,entry_sequence,sequence,module,candidate):
- assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('post-internal-switches',0x12998),('post-system-info',0x12999),('arena-initialization',0x129db),('arena-reservation',0x12a18),('arena-size-calculation',0x12a7a),('arena-initialized',0x12ab2)]
+ assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('post-internal-switches',0x12998),('post-system-info',0x12999),('arena-initialization',0x129db),('arena-reservation',0x12a18),('arena-size-calculation',0x12a7a),('arena-initialized',0x12ab2),('arenas-complete',0x12ac3)]
  events=(original/'events.txt').read_text();binary=captured_native_binary(native);names=symbols(binary)
  entries=json.loads((native/'internal-parser-entries.json').read_text());returns=json.loads((native/'internal-parser-returns.json').read_text())
  raw_entries=re.findall(r'^internal-parser-entry index=(\d+) seq=(\d+) argument=([0-9a-f]+) mode=(\d+) esp=([0-9a-f]+)$',events,re.M)
@@ -40,6 +40,9 @@ def validate(original,native,entry,state,entry_sequence,sequence,module,candidat
  # getenv is actually reached after all ten calls, rather than assumed absent.
  getenv_before=json.loads((native/'internal-getenv-entries.json').read_text());getenv_after=json.loads((native/'internal-getenv-returns.json').read_text());assert len(getenv_before)==len(getenv_after)==1
  before,after=getenv_before[0],getenv_after[0]
+ if candidate.get('crt_vectors'):
+  from crt_vectors import validate as validate_vectors
+  validate_vectors(original,native,entry['invocation'],before,after)
  assert before['pc']==names['recon_getenv'][0] and before['name']=='MSC_CMD_FLAGS'
  assert before['formal_inventory']==[dict(name='name',type='const char *')]
  assert after['pc']==before['return'] and after['esp']==before['esp']+4 and after['eax']==0

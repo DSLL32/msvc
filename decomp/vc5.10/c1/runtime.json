@@ -124,13 +124,5 @@
     "end": 274803396,
     "pending_extent": true,
     "evidence": "actual arena initializer callee; named INT3 only"
-  },
-  {
-    "name": "CompilerArena::Reset",
-    "symbol": "?Reset@CompilerArena@@QAEXXZ",
-    "start": 274803378,
-    "end": 274803379,
-    "pending_extent": true,
-    "evidence": "actual ECX-only reset member RET0; named INT3 only"
   }
 ]

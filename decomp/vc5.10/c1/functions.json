@@ -67,7 +67,8 @@
     "_initialize_primary_arenas",
     "CompilerArena::Initialize",
     "_arena_reservation_bytes",
-    "import:_ftol"
+    "import:_ftol",
+    "CompilerArena::Reset"
   ],
   "driver": [
     {
@@ -595,6 +596,13 @@
           274924843
         ]
       ],
+      "role": "application"
+    },
+    {
+      "name": "CompilerArena::Reset",
+      "symbol": "?Reset@CompilerArena@@QAEXXZ",
+      "start": 274803378,
+      "end": 274803395,
       "role": "application"
     }
   ],

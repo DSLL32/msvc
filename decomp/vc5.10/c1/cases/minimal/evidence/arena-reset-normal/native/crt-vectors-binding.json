@@ -1,0 +1,12 @@
+{
+  "kind": "actual HOST CRT vectors; separate from Invoke11 and Linux host controls",
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-arena-reset-001",
+  "original_receipt_sha256": "f133b468483caca2b3c0c31d614ceeb99cab8b0613af524eda2c18bd83b8fe0f",
+  "files": {
+    "original-crt-argv.bin": "80c08fa83ab5df2be4dbaff612bee2200d78860167170737a4ba587b4745acc5",
+    "original-crt-environment.bin": "658d18a0f749e8af2265d07e2fec26b12cb9ab099e3437c5bd03640000c4f651"
+  },
+  "host_argc": 3,
+  "environment_count": 78,
+  "pass_argc": 11
+}

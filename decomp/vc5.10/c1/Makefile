@@ -26,7 +26,7 @@ build/native/%.o: src/%.c $(wildcard src/*.h) $(NATIVE_HEADERS) Makefile | build
 	$(NATIVE_CC) $(NATIVE_FLAGS) -Dmain=c1_main -finstrument-functions -c $< -o $@
 build/native/%.o: src/%.cpp $(wildcard src/*.h) $(NATIVE_HEADERS) Makefile | build/native
 	$(NATIVE_CXX) $(filter-out -std=gnu89,$(NATIVE_FLAGS)) -std=gnu++98 -nostdinc++ -fno-exceptions -fno-rtti -Dmain=c1_main -finstrument-functions -c $< -o $@
-build/native/host.o: scripts/native-host.c $(wildcard src/*.h) $(NATIVE_HEADERS) Makefile | build/native
+build/native/host.o: scripts/native-host.c scripts/host-vectors.h $(wildcard src/*.h) $(NATIVE_HEADERS) Makefile | build/native
 	$(NATIVE_CC) $(NATIVE_FLAGS) -c $< -o $@
 build/native/c1-host: $(addprefix build/native/,$(addsuffix .o,$(NATIVE_NAMES))) build/native/host.o $(SHIMS) $(RECON)/src/trace.c Makefile
 	$(NATIVE_CC) $(NATIVE_FLAGS) -no-pie $(filter %.o,$^) $(SHIMS) $(RECON)/src/trace.c -o $@

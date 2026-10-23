@@ -55,7 +55,10 @@ static int parser_return_active, parser_probe;
 static Range getenv_observer;
 static Range system_observers[2];
 static int system_probe;
-static Range scaler_observers[7];
+static Range scaler_observers[10];
+static unsigned scaler_observer_count;
+static int arena_reset_probe;
+static unsigned arena_reset_count;
 static int scaler_probe;
 static DWORD arena_allocation_esp, arena_allocation_error;
 static DWORD system_before_esp, system_before_error;
@@ -271,18 +274,29 @@ static void prepare_mask(void)
     }
     {
         FILE *probe = fopen("scaler-observers.txt", "r");
-        static DWORD const expected[7] = {0x12a7f,0x12a85,0x12a8b,0x12a96,0x12a29,0x12a51,0x12a57};
+        static DWORD const expected[10] = {0x12a7f,0x12a85,0x12a8b,0x12a96,0x12a29,0x12a51,0x12a57,0x12a70,0x12a0f,0x129bc};
         DWORD rva, provider;
         unsigned index;
         if (probe) {
-            for (index = 0; index < 7; ++index) {
-                if (fscanf(probe, "%lx", &rva) != 1 || rva != expected[index]) fail("scaler observer metadata");
+            for (index = 0; index < 10; ++index) {
+                if (fscanf(probe, "%lx", &rva) != 1) {
+                    if (index == 7 && feof(probe)) break;
+                    fail("scaler observer metadata");
+                }
+                if (rva != expected[index]) fail("scaler observer metadata");
                 readmem(base + rva, &first, 1);
                 if (first != snapshot[rva - code_rva] || first == 0xcc) fail("scaler observer outside owned source");
                 scaler_observers[index].first = rva; scaler_observers[index].saved = first; patch(base + rva, 0xcc);
             }
             if (fscanf(probe, "%lx", &rva) != EOF) fail("extra scaler observer");
+            scaler_observer_count = index;
             fclose(probe); scaler_probe = 1;
+            probe = fopen("arena-reset-probe.txt", "r");
+            if (probe) {
+                DWORD entry, returned, objects;
+                if (fscanf(probe, "%lx %lx %lu", &entry, &returned, &objects) != 3 || entry != 0x12ab2 || returned != 0x12a70 || objects != 6 || scaler_observer_count != 10) fail("arena Reset observer metadata");
+                arena_reset_probe = 1; fclose(probe);
+            }
             readmem(base + 0x5d0cc, &provider, 4);
             if (provider != exported(crt_base, "_ftol")) fail("canonical ftol provider");
             fprintf(events, "ftol-provider iat=0005d0cc resolved=%08lx\n", provider);
@@ -716,6 +730,18 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
         environment_address = exported(crt_base, "_environ");
         readmem(environment_address, &environment_address, 4);
         save_vector(environment_address, 4096, "invoke-environment.bin");
+        save_vector(environment_address, 4096, "original-crt-environment.bin");
+        {
+            DWORD argc_address, argv_address, host_argc, host_argv;
+            argc_address = exported(crt_base, "__argc");
+            argv_address = exported(crt_base, "__argv");
+            readmem(argc_address, &host_argc, 4);
+            readmem(argv_address, &host_argv, 4);
+            if (!host_argc || host_argc > 256 || !host_argv) fail("invalid original HOST CRT argv");
+            save_vector(host_argv, host_argc + 1, "original-crt-argv.bin");
+            fprintf(events, "host-crt argc=%lu argv=%08lx environment=%08lx argc-export=%08lx argv-export=%08lx environment-export=%08lx\n",
+                    host_argc, host_argv, environment_address, argc_address, argv_address, exported(crt_base, "_environ"));
+        }
         if (stack[1] > 256) fail("Invoke argc too large");
         for (argument = 0; argument <= stack[1]; ++argument) {
             readmem(stack[2] + argument * 4, &pointer, 4);
@@ -935,7 +961,7 @@ int main(int argc, char **argv)
             memset(&context, 0, sizeof(context)); context.ContextFlags = CONTEXT_FULL | CONTEXT_FLOATING_POINT;
             if (!GetThreadContext(thread, &context)) fail("GetThreadContext");
             if (code == EXCEPTION_SINGLE_STEP && pending != -1) {
-                if (pending <= -30 && pending >= -36) patch(base + scaler_observers[-pending - 30].first, 0xcc);
+                if (pending <= -30 && pending >= -39) patch(base + scaler_observers[-pending - 30].first, 0xcc);
                 else if (pending == -21 || pending == -22) patch(base + system_observers[-pending - 21].first, 0xcc);
                 else if (pending == -20) patch(base + getenv_observer.first, 0xcc);
                 else if (pending <= -3) patch(base + allocation_observers[-pending - 3].first, 0xcc);
@@ -1044,6 +1070,25 @@ int main(int argc, char **argv)
                         save_remote_state("system-info-after", 0, base + 0x5f508, sizeof(info));
                     }
                 }
+                if (restore_probe && arena_reset_probe && address == base + 0x12ab2) {
+                    DWORD value, object, allocation;
+                    DWORD written;
+                    object = context.Ecx;
+                    if (arena_reset_count >= 6 || object != base + 0x58fb0 + arena_reset_count * 32) fail("Reset auxiliary receiver order");
+                    save_remote_state("arena-reset-preseed", arena_reset_count, base + 0x58fb0, 192);
+                    readmem(object + 8, &allocation, 4);
+                    if (!allocation) fail("Reset auxiliary requires actual owned reservation");
+                    value = allocation + 0x1000;
+                    if (!WriteProcessMemory(child, (void *)object, &value, 4, &written) || written != 4) fail("Reset cursor seed");
+                    value = allocation + 0x2000;
+                    if (!WriteProcessMemory(child, (void *)(object + 4), &value, 4, &written) || written != 4) fail("Reset limit seed");
+                    value = 117 + arena_reset_count;
+                    if (!WriteProcessMemory(child, (void *)(object + 12), &value, 4, &written) || written != 4) fail("Reset committed size seed");
+                    value = 37 + arena_reset_count;
+                    if (!WriteProcessMemory(child, (void *)(object + 24), &value, 4, &written) || written != 4) fail("Reset value seed");
+                    fprintf(events, "arena-reset-seed index=%u object=%08lx allocation=%08lx cursor-offset=00001000 limit-offset=00002000 committed=%lu reset=%lu\n", arena_reset_count, object, allocation, 117 + arena_reset_count, 37 + arena_reset_count);
+                    ++arena_reset_count;
+                }
                 if (scaler_probe) {
                     FILE *floating;
                     char name[64];
@@ -1074,9 +1119,9 @@ int main(int argc, char **argv)
                 if (i < count) {
                     patch(address, ranges[i].saved); pending = i;
                     context.EFlags |= 0x100;
-                } else if (scaler_probe && (address == base + 0x12a7f || address == base + 0x12a85 || address == base + 0x12a8b || address == base + 0x12a96 || address == base + 0x12a29 || address == base + 0x12a51 || address == base + 0x12a57)) {
-                    for (i = 0; i < 7; ++i) if (address == base + scaler_observers[i].first) break;
-                    if (i == 7) fail("unknown scaler observer");
+                } else if (scaler_probe && (address == base + 0x12a7f || address == base + 0x12a85 || address == base + 0x12a8b || address == base + 0x12a96 || address == base + 0x12a29 || address == base + 0x12a51 || address == base + 0x12a57 || (arena_reset_probe && (address == base + 0x12a70 || address == base + 0x12a0f || address == base + 0x129bc)))) {
+                    for (i = 0; i < scaler_observer_count; ++i) if (address == base + scaler_observers[i].first) break;
+                    if (i == scaler_observer_count) fail("unknown scaler observer");
                     patch(address, scaler_observers[i].saved); pending = -(int)i - 30; context.EFlags |= 0x100;
                 } else if (restore_probe && address == restore_observer) {
                     patch(address, restore_observer_saved); pending = -2;

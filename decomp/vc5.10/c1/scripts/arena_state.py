@@ -41,7 +41,7 @@ def boundary(original,native,state,sequence,module):
 
 def validate(original,native,fields,entry,state,entry_sequence,sequence,module,candidate,probe):
  expected_fields(fields);assert candidate['restore_probe']['arenas']==PLAN
- assert candidate['expected_frontier']['kind']in ('arena-initialization','arena-reservation','arena-size-calculation','arena-initialized')
+ assert candidate['expected_frontier']['kind']in ('arena-initialization','arena-reservation','arena-size-calculation','arena-initialized','arenas-complete')
  assert state['symbol']in ('initialize_primary_arenas','initialize_primary_arenas()')
  assert state['compiler_state']==entry['compiler_state']
  assert state['args']=={} and state['formal_inventory']==[] and state['caller']['symbol']=='initialize_compiler_arenas'
@@ -86,13 +86,13 @@ def primary_boundary(original,native,state,sequence,module):
  return entry,at
 
 def validate_primary(original,native,entry,state,entry_sequence,sequence,module,candidate):
- expected=candidate['expected_frontier'];assert (expected['rva'],expected['kind'])in [(0x12a18,'arena-reservation'),(0x12a7a,'arena-size-calculation'),(0x12ab2,'arena-initialized')]
+ expected=candidate['expected_frontier'];assert (expected['rva'],expected['kind'])in [(0x12a18,'arena-reservation'),(0x12a7a,'arena-size-calculation'),(0x12ab2,'arena-initialized'),(0x12ac3,'arenas-complete')]
  if expected['kind']=='arena-reservation':assert expected['native_args']==['this','descriptor','address'] and expected['calling_convention']=='thiscall-arena'
  assert state['symbol']=='CompilerArena::Initialize' and state['caller']['symbol']=='initialize_primary_arenas'
  names=symbols(captured_native_binary(native));method='_ZN13CompilerArena10InitializeEP23CompilerArenaDescriptorPv'
  assert state['args']=={'this':names['c1_bss'][0]+804,'descriptor':names['c1_arena_descriptors'][0],'address':0}
  assert state['formal_inventory']==[dict(name='this',type='CompilerArena *'),dict(name='descriptor',type='CompilerArenaDescriptor *'),dict(name='address',type='void *')]
- observations=json.loads((native/'arena-member-entry-observations.json').read_text());assert len(observations)==1;actual=observations[0]
+ observations=json.loads((native/'arena-member-entry-observations.json').read_text());assert len(observations)==(6 if candidate.get('reset_observers')else 1);actual=observations[0]
  assert actual['pc']==names[method][0] and actual['ecx']==state['args']['this']
  assert actual['descriptor']==state['args']['descriptor'] and actual['address']==0
  assert actual['formal_inventory']==state['formal_inventory']
@@ -111,14 +111,14 @@ def validate_primary(original,native,entry,state,entry_sequence,sequence,module,
  assert RECORDS[0]['flags']&1 and all(not(record['flags']&1)for record in RECORDS[1:])
 
 def member_boundary(original,native,state,sequence,module):
- events=(original/'events.txt').read_text();rows=re.findall(r'^trap seq=(\d+) rva=00012a18 esp=([0-9a-f]+) eax=[0-9a-f]+ ecx=([0-9a-f]+) stack=([0-9a-f,]+)$',events,re.M);assert len(rows)==1
+ events=(original/'events.txt').read_text();rows=re.findall(r'^trap seq=(\d+) rva=00012a18 esp=([0-9a-f]+) eax=[0-9a-f]+ ecx=([0-9a-f]+) stack=([0-9a-f,]+)$',events,re.M);count=6 if json.loads((original/'candidate.json').read_text()).get('reset_observers')else 1;assert len(rows)==count
  at=int(rows[0][0]);assert at<sequence
- observations=json.loads((native/'arena-member-entry-observations.json').read_text());assert len(observations)==1;entry=copy.deepcopy(observations[0]);entry.update(entry['crt_state'])
+ observations=json.loads((native/'arena-member-entry-observations.json').read_text());assert len(observations)==count;entry=copy.deepcopy(observations[0]);entry.update(entry['crt_state'])
  assert entry['invocation']==state['invocation']
  return entry,at
 
 def validate_member_writes(original,native,entry,state,entry_sequence,sequence,module,candidate):
- assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('arena-size-calculation',0x12a7a),('arena-initialized',0x12ab2)]
+ assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva'])in [('arena-size-calculation',0x12a7a),('arena-initialized',0x12ab2),('arenas-complete',0x12ac3)]
  names=symbols(captured_native_binary(native));descriptor=names['c1_arena_descriptors'][0]
  assert state['symbol']=='arena_reservation_bytes' and state['args']=={'descriptor':descriptor}
  assert state['formal_inventory']==[dict(name='descriptor',type='CompilerArenaDescriptor *')]

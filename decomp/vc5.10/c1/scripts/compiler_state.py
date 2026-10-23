@@ -50,7 +50,7 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  data=(original/('compiler-data-%03d.bin'%sequence)).read_bytes();bss=(original/('compiler-bss-%03d.bin'%sequence)).read_bytes()
  assert len(data)==6548 and len(bss)==0xa06c
  prefix_state,prefix_sequence=state,sequence
- if expected['kind'] in ('main-helper','work-buffer-allocation','main-switches','scanner-argument','post-internal-switches','post-system-info','arena-initialization','arena-reservation','arena-size-calculation','arena-initialized'):
+ if expected['kind'] in ('main-helper','work-buffer-allocation','main-switches','scanner-argument','post-internal-switches','post-system-info','arena-initialization','arena-reservation','arena-size-calculation','arena-initialized','arenas-complete'):
   prefix_state,prefix_sequence=main_state.boundary(original,native,state,sequence,module,candidate,probe)
  prefix_bss=(original/('compiler-bss-%03d.bin'%prefix_sequence)).read_bytes()
  buffer_state.validate(fields,original,prefix_bss,prefix_state['compiler_state'])
@@ -101,7 +101,7 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  if expected['kind']=='compiler-allocation':
   assert current['initialized']['first_call']==1
   assert saved==b['saved_data']==0 and current['snapshot'] is None
- elif expected['kind'] in ('initialization-callback','initialization-helper','compiler-main','main-helper','work-buffer-allocation','main-switches','scanner-argument','post-internal-switches','post-system-info','arena-initialization','arena-reservation','arena-size-calculation','arena-initialized'):
+ elif expected['kind'] in ('initialization-callback','initialization-helper','compiler-main','main-helper','work-buffer-allocation','main-switches','scanner-argument','post-internal-switches','post-system-info','arena-initialization','arena-reservation','arena-size-calculation','arena-initialized','arenas-complete'):
   assert current['initialized']['first_call']==0 and saved and b['saved_data']
   snapshot=(original/('compiler-snapshot-%03d.bin'%sequence)).read_bytes();assert len(snapshot)==6548
   expected_first = candidate['restore_probe']['snapshot_first_call'] if probe=='restore' else 1
@@ -110,7 +110,7 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
  final_reuse=json.loads((native/'receipt.json').read_text()).get('pdb_reuse',0) if probe=='restore' else 0
  assert current['reuse_state']==final_reuse and b['cleanup_count']==len(registered)
 
- if probe=='normal' and expected['kind'] in ('initialization-callback','initialization-helper','compiler-allocation','compiler-main','main-helper','work-buffer-allocation','main-switches','scanner-argument','post-internal-switches','post-system-info','arena-initialization','arena-reservation','arena-size-calculation','arena-initialized'):
+ if probe=='normal' and expected['kind'] in ('initialization-callback','initialization-helper','compiler-allocation','compiler-main','main-helper','work-buffer-allocation','main-switches','scanner-argument','post-internal-switches','post-system-info','arena-initialization','arena-reservation','arena-size-calculation','arena-initialized','arenas-complete'):
   raw=(original/'events.txt').read_text()
   rows=re.findall(r'^trap seq=\d+ rva=0000e799 .*stack=([0-9a-f,]+)$',raw,re.M)
   assert len(rows)==1 and int(rows[0].split(',')[1],16)==6548
@@ -148,27 +148,31 @@ def validate(original,native,state,sequence,module,candidate,expected,probe):
   allocation_state.validate(original,native,fields,work_entry,scanner_entry,work_sequence,scanner_sequence,module,candidate,probe)
   parser_state.validate(original,native,scanner_entry,state,scanner_sequence,sequence,module,candidate)
 
- elif expected['kind'] in ('post-system-info','arena-initialization','arena-reservation','arena-size-calculation','arena-initialized'):
+ elif expected['kind'] in ('post-system-info','arena-initialization','arena-reservation','arena-size-calculation','arena-initialized','arenas-complete'):
   work_entry,work_sequence=work_state.boundary(original,native,state,sequence,module,candidate)
   main_state.validate_writes(original,native,fields,prefix_state,work_entry,prefix_sequence,work_sequence,module,candidate,probe)
   scanner_entry,scanner_sequence=scanner_state.boundary(original,native,state,sequence,module)
   allocation_state.validate(original,native,fields,work_entry,scanner_entry,work_sequence,scanner_sequence,module,candidate,probe)
   empty_entry,empty_sequence=system_info_state.boundary(original,native,state,sequence,module)
   parser_state.validate(original,native,scanner_entry,empty_entry,scanner_sequence,empty_sequence,module,candidate)
-  if expected['kind'] in ('arena-initialization','arena-reservation','arena-size-calculation','arena-initialized'):
+  if expected['kind'] in ('arena-initialization','arena-reservation','arena-size-calculation','arena-initialized','arenas-complete'):
    arena_entry,arena_sequence=arena_state.boundary(original,native,state,sequence,module)
    system_info_state.validate(original,native,empty_entry,arena_entry,empty_sequence,arena_sequence,module,candidate)
-   if expected['kind'] in ('arena-reservation','arena-size-calculation','arena-initialized'):
+   if expected['kind'] in ('arena-reservation','arena-size-calculation','arena-initialized','arenas-complete'):
     primary_entry,primary_sequence=arena_state.primary_boundary(original,native,state,sequence,module)
     arena_state.validate(original,native,fields,arena_entry,primary_entry,arena_sequence,primary_sequence,module,candidate,probe)
-    if expected['kind'] in ('arena-size-calculation','arena-initialized'):
+    if expected['kind'] in ('arena-size-calculation','arena-initialized','arenas-complete'):
      member_entry,member_sequence=arena_state.member_boundary(original,native,state,sequence,module)
      arena_state.validate_primary(original,native,primary_entry,member_entry,primary_sequence,member_sequence,module,candidate)
-     if expected['kind']=='arena-initialized':
+     if expected['kind'] in ('arena-initialized','arenas-complete'):
       import scaler_state
       scaler_entry,scaler_sequence=scaler_state.boundary(original,native,state,sequence,module)
       arena_state.validate_member_writes(original,native,member_entry,scaler_entry,member_sequence,scaler_sequence,module,candidate)
-      scaler_state.validate(original,native,scaler_entry,state,scaler_sequence,sequence,module,candidate)
+      if expected['kind']=='arenas-complete':
+       import arena_cycle_state
+       arena_cycle_state.validate(original,native,fields,member_entry,scaler_entry,state,member_sequence,scaler_sequence,sequence,module,candidate,probe)
+      else:
+       scaler_state.validate(original,native,scaler_entry,state,scaler_sequence,sequence,module,candidate)
      else:
       arena_state.validate_member_writes(original,native,member_entry,state,member_sequence,sequence,module,candidate)
     else:

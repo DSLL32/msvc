@@ -3,6 +3,7 @@
 #include <float.h>
 #include <string.h>
 #include "c1.h"
+#include "host-vectors.h"
 #include <recon.h>
 
 HMODULE c1_host_module;
@@ -64,6 +65,16 @@ int c1_native_host(int argc, char **argv)
     }
     puts("exports=1");
     if (argc == 2 && !strcmp(argv[1], "minimal")) {
+        const char *crt_argv = recon_host_getenv("RECON_C1_CRT_ARGV");
+        const char *crt_env = recon_host_getenv("RECON_C1_CRT_ENVIRONMENT");
+        if (crt_argv || crt_env) {
+            char **host_argv, **host_env;
+            int host_argc;
+            if (!crt_argv || !crt_env) return 126;
+            host_argc = read_host_vector(crt_argv, &host_argv);
+            read_host_vector(crt_env, &host_env);
+            recon_crt_bind_arguments(host_argc, host_argv, host_env);
+        }
         /* Captured direct-host case: the final slot is BOOL, not callbacks. */
         SetLastError(0);
         pass_result = InvokeCompilerPass(11, pass_args, TRUE);

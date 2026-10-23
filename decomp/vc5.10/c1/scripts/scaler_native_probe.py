@@ -25,7 +25,7 @@ def describe(binary):
   instructions=[dict(pc=i.address,bytes=i.bytes.hex(),mnemonic=i.mnemonic,operands=i.op_str)for i in floating],converted_pc=converted_pc,result_ebp_displacement=cast.operands[0].mem.disp)
  return metadata
 
-def probes(binary,output):
+def probes(binary,output,reset_seed=False):
  metadata=describe(binary);names=symbols(binary);start=metadata['start']
  floating=metadata['instructions'];converted_pc=metadata['converted_pc']
  (output/'scaler-probe-metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')
@@ -89,6 +89,12 @@ class InitialX87(gdb.Breakpoint):
  for index,instruction in enumerate(floating):code+='ScalerFloatPoint(%d,%r)\n'%(instruction['pc'],'instruction-%d'%index)
  code+='ScalerFloatPoint(%d,"converted")\n'%converted_pc
  code+='''arena_reset_entries=[]
+arena_reset_returns=[]
+class ArenaResetReturn(gdb.Breakpoint):
+    def __init__(self,address,index):
+        super(ArenaResetReturn,self).__init__('*0x%x'%address);self.index=index
+    def stop(self):
+        arena_reset_returns.append({'index':self.index,'pc':int(gdb.parse_and_eval('(unsigned int)$pc')),'esp':int(gdb.parse_and_eval('(unsigned int)$esp')),'fp':capture_x87(),'compiler_state':capture_modeled()});self.enabled=False;return False
 class ArenaResetEntry(gdb.Breakpoint):
     def stop(self):
         pc=int(gdb.parse_and_eval('(unsigned int)$pc'));esp=int(gdb.parse_and_eval('(unsigned int)$esp'))
@@ -96,9 +102,17 @@ class ArenaResetEntry(gdb.Breakpoint):
         block=gdb.block_for_pc(pc)
         while block and not block.function:block=block.superblock
         assert block and block.function
-        arena_reset_entries.append({'pc':pc,'esp':esp,'return':words[0],'ecx':int(gdb.parse_and_eval('(unsigned int)$ecx')),
+        before=capture_modeled();index=len(arena_reset_entries);ecx=int(gdb.parse_and_eval('(unsigned int)$ecx'))
+        if RESET_SEED:
+            assert index<6 and ecx==before['live_addresses']['bss']+804+index*32
+            base=before['bss']['arenas'][index]['base'];assert base
+            for offset,value in [(0,base+0x1000),(4,base+0x2000),(12,117+index),(24,37+index)]:
+                gdb.selected_inferior().write_memory(ecx+offset,struct.pack('<I',value))
+        arena_reset_entries.append({'index':index,'pc':pc,'esp':esp,'return':words[0],'ecx':ecx,'seeded':RESET_SEED,'pre_seed':before,
           'formal_inventory':[{'name':symbol.name,'type':str(symbol.type)}for symbol in block if symbol.is_argument],
-          'fp':capture_x87(),'compiler_state':capture_modeled()});return False
+          'fp':capture_x87(),'compiler_state':capture_modeled()})
+        ArenaResetReturn(words[0],index);return False
 '''
+ code=code.replace('RESET_SEED',repr(reset_seed))
  code+='ArenaResetEntry("*0x%x")\n'%names['_ZN13CompilerArena5ResetEv'][0]
  return code

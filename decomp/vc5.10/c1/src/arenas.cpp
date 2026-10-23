@@ -67,7 +67,10 @@ unsigned __cdecl arena_reservation_bytes(CompilerArenaDescriptor *descriptor)
 
 void RECON_THISCALL CompilerArena::Reset(void)
 {
-    __asm { int 3 }
+    committed_bytes = 0;
+    cursor = base;
+    committed_limit = base;
+    reset_value = 0;
 }
 
 void __cdecl initialize_default_pools(void)

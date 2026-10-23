@@ -120,15 +120,8 @@
   },
   {
     "name": "_initialize_default_pools",
-    "start": 268444122,
-    "end": 268444123,
-    "pending_extent": true,
-    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
-  },
-  {
-    "name": "CompilerArena::Reset",
-    "start": 268444104,
-    "end": 268444105,
+    "start": 268444158,
+    "end": 268444159,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   }

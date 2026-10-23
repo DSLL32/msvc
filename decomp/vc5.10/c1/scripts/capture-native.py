@@ -67,6 +67,9 @@ def main():
     if candidate.get('scaler_observers'):
         from x87_reference import bind
         x87_reference=bind(args.system_info_reference,output)
+    if candidate.get('crt_vectors'):
+        from crt_vectors import prepare
+        prepare(args.system_info_reference,output,candidate)
     field_map = json.loads((PROJECT / candidate["field_map"]).read_text()) if candidate.get("field_map") else {}
     buffer_models = field_map.get("output_buffers", [])
     import_boundary = candidate.get("expected_frontier", {}).get("kind") == "import-boundary"
@@ -440,6 +443,12 @@ ActualPrimaryEntry('*0x%x')
 """%primary_address
             member_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN13CompilerArena10InitializeEP23CompilerArenaDescriptorPv$',table,re.M)[1],16)
             member_probe="""arena_member_entries=[]
+arena_member_returns=[]
+class ActualArenaMemberReturn(gdb.Breakpoint):
+    def __init__(self,address,index):
+        super(ActualArenaMemberReturn,self).__init__('*0x%%x'%%address);self.index=index
+    def stop(self):
+        arena_member_returns.append({'index':self.index,'pc':int(gdb.parse_and_eval('(unsigned int)$pc')),'esp':int(gdb.parse_and_eval('(unsigned int)$esp')),'eax':int(gdb.parse_and_eval('(unsigned int)$eax')),'compiler_state':capture_modeled()});self.enabled=False;return False
 class ActualArenaMemberEntry(gdb.Breakpoint):
     def stop(self):
         esp=int(gdb.parse_and_eval('(unsigned int)$esp'));pc=int(gdb.parse_and_eval('(unsigned int)$pc'))
@@ -464,6 +473,7 @@ class ActualArenaMemberEntry(gdb.Breakpoint):
           'args':{'this':int(gdb.parse_and_eval('(unsigned int)$ecx')),'descriptor':words[1],'address':words[2]},
           'pc':pc,'ecx':int(gdb.parse_and_eval('(unsigned int)$ecx')),'esp':esp,'return':words[0],
           'descriptor':words[1],'address':words[2],'formal_inventory':formals,'compiler_state':capture_modeled()})
+        ActualArenaMemberReturn(words[0],len(arena_member_entries)-1)
         return False
 ActualArenaMemberEntry('*0x%x')
 """%member_address
@@ -475,10 +485,11 @@ ActualArenaMemberEntry('*0x%x')
         commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(arena_entries,indent=2)+'\\n')\n"%str(output/'arena-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(primary_entries,indent=2)+'\\n')\n"%str(output/'primary-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(arena_member_entries,indent=2)+'\\n')\n"%str(output/'arena-member-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
+        commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(arena_member_returns,indent=2)+'\\n')\n"%str(output/'arena-member-returns.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         if candidate.get('scaler_observers'):
             from scaler_native_probe import probes
-            allocation_probe=allocation_probe.replace('\nend\n','\n'+probes(binary,output)+'end\n')
-            for name,expression in [('arena-reset-entries.json','arena_reset_entries'),('initial-x87.json','initial_x87_records'),('scaler-fpu.json','scaler_fp_records'),('scaler-entries.json','scaler_entries'),('scaler-returns.json','scaler_returns')]:
+            allocation_probe=allocation_probe.replace('\nend\n','\n'+probes(binary,output,bool(args.restore_probe and candidate.get('reset_observers')))+'end\n')
+            for name,expression in [('arena-reset-returns.json','arena_reset_returns'),('arena-reset-entries.json','arena_reset_entries'),('initial-x87.json','initial_x87_records'),('scaler-fpu.json','scaler_fp_records'),('scaler-entries.json','scaler_entries'),('scaler-returns.json','scaler_returns')]:
                 commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')\n"%(str(output/name),expression)+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         if candidate.get('allocation_observers'):
             table=subprocess.check_output(['nm','-S','--defined-only',str(binary)],text=True)
@@ -588,6 +599,24 @@ class ArenaApiReturn(gdb.Breakpoint):
 internal_parser_returns=[]
 internal_getenv_entries=[]
 internal_getenv_returns=[]
+def observed_crt_vectors():
+    def save_vector(expression,name,expected=None):
+        values=gdb.parse_and_eval(expression);address=int(values.cast(gdb.lookup_type('unsigned int')));assert address
+        rows=[]
+        for i in range(16384):
+            pointer=int(values[i].cast(gdb.lookup_type('unsigned int')))
+            if not pointer:break
+            text=values[i].string(encoding='latin1').encode('latin1')+b'\\0'
+            assert len(text)<=32768;rows.append((pointer,text))
+        else:raise AssertionError('unterminated actual bound CRT vector')
+        assert expected is None or len(rows)==expected
+        raw=struct.pack('<II',address,len(rows))+b''.join(struct.pack('<II',pointer,len(text))+text for pointer,text in rows)
+        open(CRT_OUTPUT+'/'+name,'wb').write(raw)
+        return {'address':address,'count':len(rows)}
+    argc=int(gdb.parse_and_eval('recon_crt_argc'))
+    return {'bound':int(gdb.parse_and_eval('recon_crt_arguments_bound')),'argc':argc,
+      'argv':save_vector('recon_crt_argv','native-crt-argv.bin',argc),
+      'environment':save_vector('recon_crt_environment','native-crt-environment.bin')}
 class InternalParserReturn(gdb.Breakpoint):
     def __init__(self,address,index):
         super(InternalParserReturn,self).__init__('*0x%%x'%%address)
@@ -613,7 +642,7 @@ class InternalParserEntry(gdb.Breakpoint):
 class InternalGetenvReturn(gdb.Breakpoint):
     def stop(self):
         internal_getenv_returns.append({'pc':int(gdb.parse_and_eval('$pc')),'esp':int(gdb.parse_and_eval('(unsigned int)$esp')),'eax':int(gdb.parse_and_eval('(unsigned int)$eax')),
-          'compiler_state':capture_modeled(),'last_error':int(gdb.parse_and_eval('last_error')),'fpu':int(gdb.parse_and_eval('$fctrl'))})
+          'compiler_state':capture_modeled(),'last_error':int(gdb.parse_and_eval('last_error')),'fpu':int(gdb.parse_and_eval('$fctrl')),'crt':{'bound':int(gdb.parse_and_eval('recon_crt_arguments_bound')),'environment':int(gdb.parse_and_eval('(unsigned int)recon_crt_environment'))}})
         self.enabled=False
         return False
 class InternalGetenvEntry(gdb.Breakpoint):
@@ -625,12 +654,13 @@ class InternalGetenvEntry(gdb.Breakpoint):
         block=gdb.block_for_pc(pc)
         while block and not block.function:block=block.superblock
         formals=[{'name':symbol.name,'type':str(symbol.type)}for symbol in block if symbol.is_argument]
-        internal_getenv_entries.append({'pc':pc,'esp':esp,'return':words[0],'name':name,'formal_inventory':formals,'compiler_state':capture_modeled()})
+        internal_getenv_entries.append({'pc':pc,'esp':esp,'return':words[0],'name':name,'crt':observed_crt_vectors(),'formal_inventory':formals,'compiler_state':capture_modeled()})
         InternalGetenvReturn('*0x%%x'%%words[0])
         return False
 InternalParserEntry('*0x%x')
 InternalGetenvEntry('*0x%x')
 """%(parser_address,getenv_address)
+            parser_probe=parser_probe.replace('CRT_OUTPUT',repr(str(output)))
             allocation_probe=allocation_probe.replace('\nend\n','\n'+parser_probe+'end\n')
             for name,expression in [('internal-parser-entries.json','internal_parser_entries'),('internal-parser-returns.json','internal_parser_returns'),('internal-getenv-entries.json','internal_getenv_entries'),('internal-getenv-returns.json','internal_getenv_returns')]:
                 commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')\n"%(str(output/name),expression)+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
@@ -868,6 +898,11 @@ continue""" % (expression, str(PROJECT / 'src/pass.c'), restore_line, str(output
     environment.pop('RECON_C1_SYSTEM_INFO_PROFILE',None)
     environment.pop('RECON_C1_SYSTEM_INFO_REFERENCE',None)
     environment.pop('RECON_C1_X87_ENTRY_REFERENCE',None)
+    environment.pop('RECON_C1_CRT_ARGV',None)
+    environment.pop('RECON_C1_CRT_ENVIRONMENT',None)
+    if candidate.get('crt_vectors'):
+        environment['RECON_C1_CRT_ARGV']=str(output/'original-crt-argv.bin')
+        environment['RECON_C1_CRT_ENVIRONMENT']=str(output/'original-crt-environment.bin')
     if x87_reference:
         environment['RECON_C1_X87_ENTRY_REFERENCE']=x87_reference
     if system_reference:

@@ -26,8 +26,10 @@ def original_fp(directory,sequence):
 def semantic(fp):
     return {key:fp[key]for key in ('cw','sw','tag','top','live')}
 
-def compare(original,native):
+def compare(original,native,index=0):
     events=(original/'events.txt').read_text();candidate=json.loads((original/'candidate.json').read_text())
+    count=6 if candidate.get('reset_observers')else 1
+    assert 0<=index<count
     binary=captured_native_binary(native);names=symbols(binary)
     metadata=json.loads((native/'scaler-probe-metadata.json').read_text())
     from scaler_native_probe import describe
@@ -39,31 +41,33 @@ def compare(original,native):
     assert pe_read(original/'loaded-target.bin',0x5b4d0,8)==struct.pack('<d',-0.01)
     assert (original/'ftol-provider-code-000.bin').read_bytes()==pe_read(crt,0x4dc1,39)
     assert events.count('ftol-provider iat=0005d0cc resolved=78004dc1\n')==1
-    records=json.loads((native/'scaler-fpu.json').read_text());assert [r['label']for r in records]==['instruction-%d'%i for i in range(9)]+['converted']
+    records=json.loads((native/'scaler-fpu.json').read_text());assert [r['label']for r in records]==(['instruction-%d'%i for i in range(9)]+['converted'])*count
+    records=records[index*10:(index+1)*10]
     assert [i['mnemonic']for i in metadata['instructions']]==['fild','fild','fmulp','fld','fmulp','fnstcw','fldcw','fistp','fldcw']
     for instruction,record in zip(metadata['instructions'],records):assert instruction['pc']==record['pc']
     assert records[-1]['pc']==metadata['converted_pc']
     def at(rva):
-        rows=re.findall(r'^fpu seq=(\d+) rva=%08x eax=([0-9a-f]+) edx=([0-9a-f]+) esp=([0-9a-f]+) cw=([0-9a-f]+) sw=([0-9a-f]+) tag=([0-9a-f]+)$'%rva,events,re.M);assert len(rows)==1
-        row=rows[0];sequence=int(row[0]);fp=original_fp(original,sequence)
+        rows=re.findall(r'^fpu seq=(\d+) rva=%08x eax=([0-9a-f]+) edx=([0-9a-f]+) esp=([0-9a-f]+) cw=([0-9a-f]+) sw=([0-9a-f]+) tag=([0-9a-f]+)$'%rva,events,re.M);assert len(rows)==count
+        row=rows[index];sequence=int(row[0]);fp=original_fp(original,sequence)
         assert [int(x,16)&0xffff for x in row[4:]]==[fp['cw'],fp['sw'],fp['tag']]
         return sequence,fp,int(row[1],16),int(row[2],16)
     entry_seq,entry_fp,_,_=at(0x12a7a)
     source_data=(original/('compiler-data-%03d.bin'%entry_seq)).read_bytes();percent=struct.unpack_from('<i',source_data,0x1978)[0]
-    native_entries=json.loads((native/'scaler-entries.json').read_text());native_returns=json.loads((native/'scaler-returns.json').read_text());assert len(native_entries)==len(native_returns)==1
-    entry=native_entries[0];returned=native_returns[0]
-    assert entry['pc']==names['arena_reservation_bytes'][0] and entry['descriptor']==names['c1_arena_descriptors'][0]
+    native_entries=json.loads((native/'scaler-entries.json').read_text());native_returns=json.loads((native/'scaler-returns.json').read_text());assert len(native_entries)==len(native_returns)==count
+    entry=native_entries[index];returned=native_returns[index]
+    assert entry['pc']==names['arena_reservation_bytes'][0] and entry['descriptor']==names['c1_arena_descriptors'][0]+index*20
     assert entry['formal_inventory']==[dict(name='descriptor',type='CompilerArenaDescriptor *')]
     assert entry['compiler_state']['initialized']['memory_percent']==percent
-    descriptor=entry['compiler_state']['arena_descriptors'][0];assert descriptor==dict(kind=0,reserve_bytes=0x3200000,commit_unit=0x10000,flags=0x21,alignment=1)
+    from arena_state import RECORDS
+    descriptor=entry['compiler_state']['arena_descriptors'][index];assert descriptor==RECORDS[index]
     assert entry_fp['cw']==entry['fp']['cw']==0x027f and entry_fp['tag']==entry['fp']['tag']==0xffff
     assert entry_fp['live']==entry['fp']['live']==[] and entry_fp['top']==entry['fp']['top']==0
     comparisons=[]
-    for rva,index,label in [(0x12a7f,0,'before signed load'),(0x12a85,1,'after signed reserve load'),(0x12a8b,3,'after signed percentage multiplication'),(0x12aac,5,'before QWORD conversion'),(0x12a96,9,'after QWORD conversion')]:
-        _,old,_,_=at(rva);new=records[index]['fp']
+    for rva,point_index,label in [(0x12a7f,0,'before signed load'),(0x12a85,1,'after signed reserve load'),(0x12a8b,3,'after signed percentage multiplication'),(0x12aac,5,'before QWORD conversion'),(0x12a96,9,'after QWORD conversion')]:
+        _,old,_,_=at(rva);new=records[point_index]['fp']
         without_sw=lambda fp:{k:v for k,v in semantic(fp).items()if k!='sw'}
         assert without_sw(old)==without_sw(new)
-        comparisons.append(dict(label=label,original_rva=rva,native_pc=records[index]['pc'],architectural_state_match=semantic(old)==semantic(new),original_status=old['sw'],native_status=new['sw']))
+        comparisons.append(dict(label=label,original_rva=rva,native_pc=records[point_index]['pc'],architectural_state_match=semantic(old)==semantic(new),original_status=old['sw'],native_status=new['sw']))
     _,loaded,_,_=at(0x12a85);_,product,_,_=at(0x12a8b);_,negative,_,_=at(0x12aac)
     assert len(loaded['live'])==len(product['live'])==len(negative['live'])==1
     assert value80(loaded['registers'][0])==descriptor['reserve_bytes']
@@ -75,8 +79,8 @@ def compare(original,native):
     assert records[2]['fp']['registers'][1]==loaded['registers'][0]
     assert value80(records[4]['fp']['registers'][0])==Fraction.from_float(-0.01)
     assert records[4]['fp']['registers'][1]==product['registers'][0]
-    for index in (2,4):
-        temporary=records[index]['fp'];previous=records[index-1]['fp']
+    for temporary_index in (2,4):
+        temporary=records[temporary_index]['fp'];previous=records[temporary_index-1]['fp']
         assert temporary['cw']==previous['cw']==0x027f
         assert temporary['sw']&~0x3800==previous['sw']&~0x3800
         assert temporary['top']==6 and temporary['tag']==0x0fff
@@ -110,13 +114,13 @@ def compare(original,native):
         initial_state_match=semantic(original_initial)==semantic(initial[0]['fp']),
         original_initial=semantic(original_initial),native_initial=semantic(initial[0]['fp']),
         comparisons=comparisons,final_state_match=True,temporary_depths=[0,1,2,1,2,1],
-        original_return_sequence=return_seq,captured_native_elf_sha256=sha(binary))
+        original_return_sequence=return_seq,invocation_index=index,descriptor=descriptor,original_sequences={hex(rva):at(rva)[0]for rva in (0x12a7a,0x12a7f,0x12a85,0x12a8b,0x12aac,0x12a96,0x12a29)},captured_native_elf_sha256=sha(binary))
 
 def boundary(original,native,state,sequence,module):
     events=(original/'events.txt').read_text()
-    rows=re.findall(r'^trap seq=(\d+) rva=00012a7a .*stack=([0-9a-f,]+)$',events,re.M);assert len(rows)==1
+    rows=re.findall(r'^trap seq=(\d+) rva=00012a7a .*stack=([0-9a-f,]+)$',events,re.M);count=6 if json.loads((original/'candidate.json').read_text()).get('reset_observers')else 1;assert len(rows)==count
     at=int(rows[0][0]);assert at<sequence
-    entries=json.loads((native/'scaler-entries.json').read_text());assert len(entries)==1
+    entries=json.loads((native/'scaler-entries.json').read_text());assert len(entries)==count
     entry=copy.deepcopy(entries[0]);entry.update(entry['crt_state'])
     assert entry['invocation']==state['invocation'] and entry['args']=={'descriptor':entry['descriptor']}
     return entry,at

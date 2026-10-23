@@ -446,6 +446,11 @@
       "start_rva": 76460,
       "end_rva": 76466,
       "entry": 1
+    },
+    {
+      "start_rva": 76466,
+      "end_rva": 76483,
+      "entry": 1
     }
   ],
   "functions": [
@@ -1355,7 +1360,21 @@
         ]
       ],
       "source": "src/arenas.cpp",
-      "status": "sole-new-candidate; held for actual conversion/allocation support proof"
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "CompilerArena::Reset",
+      "native_symbol": "CompilerArena::Reset",
+      "native_linkage_symbol": "_ZN13CompilerArena5ResetEv",
+      "role": "application",
+      "chunks": [
+        [
+          76466,
+          76483
+        ]
+      ],
+      "source": "src/arenas.cpp",
+      "status": "sole-new-candidate"
     }
   ],
   "text_data": [
@@ -1377,17 +1396,13 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 76466,
-    "native_symbol": "CompilerArena::Reset",
-    "native_linkage_symbol": "_ZN13CompilerArena5ResetEv",
-    "kind": "arena-initialized",
-    "calling_convention": "thiscall-arena-reset",
-    "native_args": [
-      "this"
-    ],
+    "rva": 76483,
+    "native_symbol": "initialize_default_pools",
+    "kind": "arenas-complete",
+    "native_args": [],
     "caller": {
-      "native_symbol": "CompilerArena::Initialize",
-      "return_rva": 76400
+      "native_symbol": "initialize_compiler_arenas",
+      "return_rva": 76247
     }
   },
   "imports": [
@@ -1672,7 +1687,7 @@
       "scope": "owned snapshot interior sentinels and labeled nonzero ints before BSS clear; never dereferenced"
     }
   },
-  "staging_role": "sole57B scaler plus approved6B existing compiler import support; holds actual FPU and unsupported MEM_TOP_DOWN, no acceptance until both real pairs pass",
+  "staging_role": "sole17-byte Reset; full six-arena repeated Initialize/scaler/API/Reset entry+return inventory",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -1764,11 +1779,31 @@
       76438,
       76329,
       76369,
-      76375
+      76375,
+      76400,
+      76303,
+      76220
     ],
     "ftol_thunk_rva": 76460,
     "ftol_iat_rva": 381132,
     "provider_rva": 19905,
     "provider_bytes": 39
+  },
+  "crt_vectors": {
+    "argv": "original-crt-argv.bin",
+    "environment": "original-crt-environment.bin",
+    "scope": "actual canonical hostCRT inputs; distinct from Invoke11 and Linux host controls"
+  },
+  "reset_observers": {
+    "return_rva": 76400,
+    "member_return_rvas": [
+      76303,
+      76220
+    ],
+    "auxiliary": "restore-only typed nonzero Reset inputs for all six arenas; owned reserve interior pointers, never dereferenced",
+    "cursor_offset": 4096,
+    "limit_offset": 8192,
+    "committed_bytes_base": 117,
+    "reset_value_base": 37
   }
 }

@@ -4,7 +4,7 @@ from provenance import captured_native_binary
 import main_fields
 
 def boundary(original,native,state,sequence,module,candidate,probe):
- assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva']) in [('main-helper',0x12830),('work-buffer-allocation',0x12873),('main-switches',0x128b1),('scanner-argument',0x12900),('post-internal-switches',0x12998),('post-system-info',0x12999),('arena-initialization',0x129db),('arena-reservation',0x12a18),('arena-size-calculation',0x12a7a),('arena-initialized',0x12ab2)]
+ assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva']) in [('main-helper',0x12830),('work-buffer-allocation',0x12873),('main-switches',0x128b1),('scanner-argument',0x12900),('post-internal-switches',0x12998),('post-system-info',0x12999),('arena-initialization',0x129db),('arena-reservation',0x12a18),('arena-size-calculation',0x12a7a),('arena-initialized',0x12ab2),('arenas-complete',0x12ac3)]
  events=(original/'events.txt').read_text()
  rows=re.findall(r'^trap seq=(\d+) rva=000127a7 esp=([0-9a-f]+).*stack=([0-9a-f,]+)\nlast-error=(\d+)\nx87-control=([0-9a-f]+)$',events,re.M)
  assert len(rows)==1;entry_sequence=int(rows[0][0]);assert entry_sequence<sequence

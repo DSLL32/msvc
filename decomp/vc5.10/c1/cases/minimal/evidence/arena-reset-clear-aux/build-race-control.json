@@ -1,0 +1,7 @@
+{
+  "status": "PASS",
+  "fresh_controls": 1,
+  "scope": "Actual Make process changes a recorded input while producing an unverified output; recorder rejects and removes output so a later no-op cannot certify it. No reconstruction target executed.",
+  "seconds": 0.0441060671582818,
+  "checker_sha256": "71cc69b1e06fceed90be6d9106028148737d4f26ef8b73e3d56106746c91189e"
+}
