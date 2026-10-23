@@ -848,3 +848,10 @@ space:
         character = (unsigned char)*source_text_cursor++;
     }
 }
+
+/* Original 0x2d380..0x2d39c. Both directive and pragma parsers
+   report the same token spelling before discarding unexpected input. */
+void warn_ignored_token(void)
+{
+    compiler_warning(1, 79, token_names[current_token_code]);
+}

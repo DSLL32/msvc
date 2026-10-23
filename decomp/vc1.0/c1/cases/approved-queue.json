@@ -1,20 +1,14 @@
 {
-  "authorization": "Root approved SINGLE legacy arena API declaration/prototype workflow: one checksum source, normal /Z7 /Od /G5 /W4 and public /Zg. Original validates actual based/modifier forms and compatibility before freezing. No private flags.",
-  "baseline_commit": "d40106f4dd1ef2f4d24e578147fca09963f2159d",
-  "baseline_accepted_count": 969,
+  "authorization": "Root approved SINGLE bounded portability-header diagnostics/recovery /FR /Z7 /Od /G5 /W4, strict expectedfailure/fullpartialartifacts and real recoveredtail finish/browsermarker. No backend/runtime claim.",
+  "baseline_commit": "4f7c670439cf5a1da21f8de514496951ce9b826c",
+  "baseline_accepted_count": 971,
   "status": "complete",
   "cases": [
     {
-      "case": "arena-api-prototypes",
-      "phase": "c1-compile",
-      "status": "complete;969 through970, originalruntime0/fiveexactIRfiles/C4131"
-    },
-    {
-      "case": "arena-api-prototypes",
-      "phase": "c1-prototypes",
-      "status": "complete;970 through971, strictC1exit1/CLexit2, exact375stdout139stderr/noartifacts"
+      "case": "portability-diagnostics",
+      "phase": "c1",
+      "status": "complete;971 through979, strictC1exit6/CLexit2, sixerrors/sevenwarnings/exactpartialfiles/recoveredtail"
     }
   ],
-  "adjustment": "Root approved original /Zg C2213 limitation, C1exit1/CLexit2, complete prototype stdout and exact diagnostics/noartifacts; normal runtime0 remains separate.",
-  "completion": "cases/arena-api-prototypes/validation.json"
+  "completion": "cases/portability-diagnostics/validation.json"
 }

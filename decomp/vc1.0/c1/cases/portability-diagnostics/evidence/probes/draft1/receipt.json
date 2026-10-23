@@ -1,0 +1,22 @@
+{
+  "cwd": "S:\\vc1.0\\c1\\portability-probes\\draft1",
+  "command": [
+    "/usr/bin/wine",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "/nologo",
+    "/c",
+    "/FRaudit.sbr",
+    "/Z7",
+    "/Od",
+    "/G5",
+    "/W4",
+    "audit.c"
+  ],
+  "exit": 2,
+  "seconds": 1.2677189530804753,
+  "inputs": {
+    "portability.h": "9bf542a77abd0c9b416d5cb217f987c40de34efbfdf95ef8ac34dd6523a4031a",
+    "audit.c": "82b88906618fe1b11710d58ce7e976df685e0a504f03b2a92e82bfcaf1370e29"
+  },
+  "runtime": "Not attempted: deliberate frontend diagnostic case."
+}

@@ -100,7 +100,6 @@ void browser_index_overflow(void) { __asm { int 3 } }
 
 void *__stdcall retry_malloc(unsigned bytes) { __asm { int 3 } return 0; }
 
-void __stdcall report_macro_error(char *directive) { __asm { int 3 } }
 
 
 void __stdcall require_complete_type(CType *type) { __asm { int 3 } }
@@ -219,7 +218,6 @@ unsigned short __stdcall based_type_modifier(unsigned short kind) { __asm { int 
 /* Original 0x2c220. */
 
 /* Original 0x2c3a0. */
-void __stdcall report_declaration_error(unsigned code, DeclarationSpec *declaration) { __asm { int 3 } }
 
 /* Original 0x2c4a0. */
 
@@ -370,13 +368,11 @@ TypeShape *__stdcall append_type_shape(TypeShape *head, TypeShape *tail) { __asm
 
 
 
-void __stdcall report_type_syntax_error(unsigned code, CType *type) { __asm { int 3 } }
 
 
 void abort_function_definition(void) { __asm { int 3 } }
 
 
-void __stdcall report_symbol_error(unsigned code, FrontendSymbol *symbol) { __asm { int 3 } }
 
 
 
@@ -447,7 +443,6 @@ void report_ide_file_end(void) { __asm { int 3 } }
 
 
 
-void warn_ignored_token(void) { __asm { int 3 } }
 
 
 
@@ -514,7 +509,6 @@ void browser_macro_end(void) { __asm { int 3 } }
 
 
 /* Original 0x2d3a0. */
-void warn_expected_identifier(void) { __asm { int 3 } }
 
 /* Original 0x1e9e0. */
 
@@ -528,7 +522,6 @@ void warn_expected_identifier(void) { __asm { int 3 } }
 /* Original 0x20090. */
 
 /* Original 0x1e530. */
-void warn_bad_pragma(void) { __asm { int 3 } }
 
 /* Original 0x1ffc0. */
 void synchronize_pch_pragma(void) { __asm { int 3 } }
@@ -597,7 +590,6 @@ void __stdcall warn_ignored_storage_model(FrontendSymbol *symbol) { __asm { int 
 /* Original 0x33f60. */
 
 /* Original 0x3c1f0. */
-void __stdcall report_type_conflict(unsigned code, FrontendSymbol *symbol, char *name, CType *actual, CType *expected) { __asm { int 3 } }
 
 /* Original 0x34fb0. */
 

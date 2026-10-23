@@ -1,7 +1,7 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Thirty-nine native phases are complete: minimal C, optimized Win32 hello, DLL,
+Forty native phases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
@@ -9,11 +9,11 @@ automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
 enum/long-record/literal/floating case, debug-bearing PCH creation/reuse, and
 richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
-the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, and normal/expected-error arena API prototype phases.
+the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, normal/expected-error arena API prototype phases, and portability-header diagnostics.
 
-There are 842 accepted source functions and 971 accepted original entries.
-Accepted original extents cover 236209/277234 code-section bytes (85.202031%):
-215780 frontend bytes, 20243 CRT bytes and 186 import-thunk bytes. This is a
+There are 850 accepted source functions and 979 accepted original entries.
+Accepted original extents cover 236656/277234 code-section bytes (85.363267%):
+216227 frontend bytes, 20243 CRT bytes and 186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Unvisited functions retain named trapping stubs.
 
@@ -35,12 +35,12 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds 39 completed phase histories to fresh
-shared-prefix original first-entry captures. All 831 accepted application entries
+cases/original-entry-references.json binds 40 completed phase histories to fresh
+shared-prefix original first-entry captures. All 839 accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current all 39 regression receipts are in cases/arena-api-prototypes/validation.json.
+current all 40 regression receipts are in cases/portability-diagnostics/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -312,3 +312,12 @@ functions add217 frontend extent bytes. All39 native phases,45 rejections,
 six graph/ABI/mask checks, three flag mutations and state/grammar audits pass.
 Prototype-only output has no backend/runtime success claim. Unsupported initial
 __far/__loadds forms remain failed preflight evidence, not accepted syntax.
+
+Completed portability-header diagnostics/recovery
+------------------------------------------------
+cases/portability-diagnostics reproduces six errors/seven warnings and all
+six partial artifacts at C1exit6, with no backend/runtime success claim. Eight
+whole functions add447 frontend extent bytes. Original/native observations
+prove cast_probe and recovered_tail finish, including full scanner/parser
+words and reset symbol. All40 native phases,49 rejections, six graph/ABI/mask
+checks, three flag mutations and state/grammar audits pass.

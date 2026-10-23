@@ -1,0 +1,4 @@
+portability.h(4) : warning C4117: macro name 'defined' is reserved, '#define' ignored
+portability.h(5) : warning C4117: macro name '__LINE__' is reserved, '#undef' ignored
+portability.h(6) : warning C4080: expected identifier for segment name; found 'int constant'
+portability.h(7) : warning C4079: unexpected token 'int constant'

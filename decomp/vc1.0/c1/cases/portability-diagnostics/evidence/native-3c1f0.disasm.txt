@@ -1,0 +1,63 @@
+
+/root/msvc2/toolchains/1.0-nt/bin/C13232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0003c1f0 <.text+0x251f0>:
+   3c1f0:	53                   	push   ebx
+   3c1f1:	56                   	push   esi
+   3c1f2:	57                   	push   edi
+   3c1f3:	e8 18 6b 00 00       	call   0x42d10
+   3c1f8:	8b 44 24 1c          	mov    eax,DWORD PTR [esp+0x1c]
+   3c1fc:	50                   	push   eax
+   3c1fd:	6a 00                	push   0x0
+   3c1ff:	e8 cc 61 00 00       	call   0x423d0
+   3c204:	66 8b f8             	mov    di,ax
+   3c207:	8b 44 24 20          	mov    eax,DWORD PTR [esp+0x20]
+   3c20b:	50                   	push   eax
+   3c20c:	6a 00                	push   0x0
+   3c20e:	e8 bd 61 00 00       	call   0x423d0
+   3c213:	66 8b d8             	mov    bx,ax
+   3c216:	8b 44 24 14          	mov    eax,DWORD PTR [esp+0x14]
+   3c21a:	0b c0                	or     eax,eax
+   3c21c:	74 38                	je     0x3c256
+   3c21e:	6a 00                	push   0x0
+   3c220:	50                   	push   eax
+   3c221:	e8 aa 61 00 00       	call   0x423d0
+   3c226:	66 8b f0             	mov    si,ax
+   3c229:	53                   	push   ebx
+   3c22a:	e8 21 6b 00 00       	call   0x42d50
+   3c22f:	50                   	push   eax
+   3c230:	57                   	push   edi
+   3c231:	e8 1a 6b 00 00       	call   0x42d50
+   3c236:	50                   	push   eax
+   3c237:	56                   	push   esi
+   3c238:	e8 13 6b 00 00       	call   0x42d50
+   3c23d:	50                   	push   eax
+   3c23e:	8b 44 24 1c          	mov    eax,DWORD PTR [esp+0x1c]
+   3c242:	50                   	push   eax
+   3c243:	e8 88 e7 00 00       	call   0x4a9d0
+   3c248:	83 c4 10             	add    esp,0x10
+   3c24b:	e8 d0 6a 00 00       	call   0x42d20
+   3c250:	5f                   	pop    edi
+   3c251:	5e                   	pop    esi
+   3c252:	5b                   	pop    ebx
+   3c253:	c2 14 00             	ret    0x14
+   3c256:	53                   	push   ebx
+   3c257:	e8 f4 6a 00 00       	call   0x42d50
+   3c25c:	50                   	push   eax
+   3c25d:	57                   	push   edi
+   3c25e:	e8 ed 6a 00 00       	call   0x42d50
+   3c263:	50                   	push   eax
+   3c264:	8b 44 24 20          	mov    eax,DWORD PTR [esp+0x20]
+   3c268:	50                   	push   eax
+   3c269:	8b 44 24 1c          	mov    eax,DWORD PTR [esp+0x1c]
+   3c26d:	50                   	push   eax
+   3c26e:	e8 5d e7 00 00       	call   0x4a9d0
+   3c273:	83 c4 10             	add    esp,0x10
+   3c276:	e8 a5 6a 00 00       	call   0x42d20
+   3c27b:	5f                   	pop    edi
+   3c27c:	5e                   	pop    esi
+   3c27d:	5b                   	pop    ebx
+   3c27e:	c2 14 00             	ret    0x14

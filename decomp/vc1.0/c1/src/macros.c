@@ -306,3 +306,10 @@ int __stdcall macro_replacement_diff(char *left, char *right, unsigned bytes)
         if (left[index] != right[index]) return 1;
     return 0;
 }
+
+/* Original 0x2d3c0..0x2d3da, RET4. A reserved macro retains its
+   definition; report the attempted directive with the current interned name. */
+void __stdcall report_macro_error(char *directive)
+{
+    compiler_warning(1, 117, interned_name, directive);
+}

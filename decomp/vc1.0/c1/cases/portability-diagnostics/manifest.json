@@ -1,0 +1,94 @@
+{
+  "case": "Bounded portability-header diagnostic and browser recovery",
+  "toolchain": "1.0-nt",
+  "phases": {
+    "c1": {
+      "target": "toolchains/1.0-nt/bin/C13232.EXE",
+      "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+      "arguments": [],
+      "canonical_working_directory": "S:\\vc1.0\\c1\\portability-diagnostics",
+      "environment": {
+        "MSC_CMD_FLAGS": "-ef {bin}\\c1.err -il ir -f audit.c -Ze -Zp8 -Gs -Foaudit.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR audit.sbr -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I {include} "
+      },
+      "inputs": [
+        {
+          "path": "inputs/audit.c",
+          "bytes": 298,
+          "sha256": "82b88906618fe1b11710d58ce7e976df685e0a504f03b2a92e82bfcaf1370e29"
+        },
+        {
+          "path": "inputs/portability.h",
+          "bytes": 397,
+          "sha256": "84a2b12d09b7520f221372266cb0d27a755ae19422ac75ddfb88d6f5699bb36c"
+        }
+      ],
+      "outputs": [
+        {
+          "path": "expected/c1/irdb",
+          "bytes": 11,
+          "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b",
+          "output_name": "irdb"
+        },
+        {
+          "path": "expected/c1/irex",
+          "bytes": 918,
+          "sha256": "83e48d08eadc17eb63b8f51cab632e07329b52123510c7f4fffb849b91825a01",
+          "output_name": "irex"
+        },
+        {
+          "path": "expected/c1/irgl",
+          "bytes": 23,
+          "sha256": "b8ab720e6ce10cad6eca5d45a208459e2d1671020dd8c77ae7c4ffa36cad4272",
+          "output_name": "irgl"
+        },
+        {
+          "path": "expected/c1/irin",
+          "bytes": 6,
+          "sha256": "c5ae27aa81a56316155ed95df679eb50b93225c85efdc0fa13d1e1af6df601e1",
+          "output_name": "irin"
+        },
+        {
+          "path": "expected/c1/irsy",
+          "bytes": 2,
+          "sha256": "53bd9133146631a2a2a89188f7d799e4ab85b473b7e927dd8b7782d91fe4ee0c",
+          "output_name": "irsy"
+        },
+        {
+          "path": "expected/c1/audit.sbr",
+          "bytes": 289,
+          "sha256": "76c50885df0d84c77f477812be461aab53319bd17ebd3ac6669a9c807a30af91",
+          "output_name": "audit.sbr"
+        }
+      ],
+      "expected_exit": 6,
+      "expected_stdout": "portability.h(4) : warning C4117: macro name 'defined' is reserved, '#define' ignored\r\nportability.h(5) : warning C4117: macro name '__LINE__' is reserved, '#undef' ignored\r\nportability.h(6) : warning C4080: expected identifier for segment name; found 'int constant'\r\nportability.h(7) : warning C4079: unexpected token 'int constant'\r\nportability.h(8) : warning C4612: bad #pragma syntax, pragma ignored\r\nportability.h(11) : error C2040: 'api_link' : 'int ** ' differs in levels of indirection from 'int *'\r\nportability.h(12) : warning C4091: no symbols were declared\r\nportability.h(13) : error C2513: 'int ' : decl-specifier is missing a declarator before '='\r\nportability.h(14) : error C2122: 'int ' : prototype parameter in name list illegal\r\nportability.h(14) : warning C4131: 'mixed_parameters' : uses old-style declarator\r\nportability.h(14) : error C2136: 'mixed_parameters' : prototype must have parameter types\r\nportability.h(15) : error C2488: 'header_naked_object' : 'naked' can only be applied to function definitions\r\naudit.c(7) : error C2440: 'cast' : cannot convert from 'const int ' to 'struct AuditRecord '\r\n",
+      "expected_stderr": "",
+      "expected_absent_outputs": [
+        "audit.obj",
+        "audit.exe",
+        "msvc.pdb"
+      ],
+      "toolchain_dependencies": [
+        {
+          "path": "toolchains/1.0-nt/bin/C1.ERR",
+          "bytes": 57919,
+          "sha256": "8f9f3304a1a893e588df75d1259e305d3bb3d15a4a4cc5b457265ad774a03775"
+        }
+      ],
+      "original_CL_arguments": "/nologo /c /FRaudit.sbr /Z7 /Od /G5 /W4 audit.c",
+      "transport_reference": "evidence/portability.CL.receipt.json",
+      "expected_function_finishes": [
+        "cast_probe",
+        "recovered_tail"
+      ],
+      "stdio": {
+        "stderr_to_stdout": true,
+        "provenance": "Original CL prepare_execution dup2(1,2); actual spawn stdout intervals isolate six errors/seven warnings from CL source banner."
+      }
+    }
+  },
+  "execution": "Native-only fixtures; explicit original captures separate.",
+  "normalization": "None.",
+  "capture_policy": "Two actual CL child transports/full before-after sets. C1 returns6 for six ordinary errors; CL maps that to2. Exact diagnostics/order/CRLF/full partial artifacts and absent object/PDB files. Relative temporary prefix alone becomes ir.",
+  "runtime": "Deliberate compile-error unit; no backend invocation or runtime success claimed. Valid recovered_tail function finish must be independently observed."
+}

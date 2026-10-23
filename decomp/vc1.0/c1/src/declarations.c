@@ -4,6 +4,7 @@
 #include "pragma.h"
 #include "asm.h"
 #include "expressions.h"
+#include "declaration-text.h"
 #include <recon.h>
 
 int default_thread_storage; /* original 0x6bc44 */
@@ -2461,4 +2462,33 @@ void __stdcall initialize_thread_symbol(FrontendSymbol *symbol)
     begin_aggregate_initializer(symbol);
     emit_initializer(make_integer_constant(0));
     finish_aggregate_initializer(symbol);
+}
+
+/* Original 0x2c3a0..0x2c417, RET8. A declaration without a
+   declarator diagnoses its type unless the stored class spelling is
+   required. The three storage bytes are the complete logical argument. */
+void __stdcall report_declaration_error(unsigned code, DeclarationSpec *declaration)
+{
+    unsigned storage;
+    char *text;
+    if (!(declaration->storage[0] & 0x10)) {
+        report_type_syntax_error(code, declaration->type);
+        return;
+    }
+    begin_declaration_text();
+    storage = declaration->storage[0] | ((unsigned)declaration->storage[1] << 8) |
+              ((unsigned)declaration->storage[2] << 16);
+    text = declaration_text_value(build_storage_text(0, storage));
+    report_syntax_error(code, *text ? text : token_names[TOK_TYPE]);
+    end_declaration_text();
+}
+
+/* Original 0x33720..0x33744, RET8. Mark the symbol only after
+   issuing its first diagnostic so repeated invalid declarations stay quiet. */
+void __stdcall report_symbol_error(unsigned code, FrontendSymbol *symbol)
+{
+    if (!(symbol->flags & 0x80)) {
+        report_syntax_error(code, symbol->name);
+        symbol->flags |= 0x80;
+    }
 }

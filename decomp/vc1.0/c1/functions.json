@@ -975,7 +975,15 @@
     "_type_warning@12",
     "_cache_parameter_bytes@4",
     "_has_parameter_shape_depth@8",
-    "_build_based_text@8"
+    "_build_based_text@8",
+    "_report_macro_error@4",
+    "_warn_expected_identifier",
+    "_warn_ignored_token",
+    "_warn_bad_pragma",
+    "_report_type_conflict@20",
+    "_report_declaration_error@8",
+    "_report_type_syntax_error@8",
+    "_report_symbol_error@8"
   ],
   "driver": [
     {
@@ -2049,7 +2057,7 @@
     {
       "name": "_report_declaration_error@8",
       "start": 181152,
-      "end": 181153
+      "end": 181271
     },
     {
       "name": "_reference_label@4",
@@ -2435,7 +2443,7 @@
     {
       "name": "_report_type_syntax_error@8",
       "start": 246144,
-      "end": 246145
+      "end": 246189
     },
     {
       "name": "_deactivate_symbol_scope",
@@ -2480,7 +2488,7 @@
     {
       "name": "_report_symbol_error@8",
       "start": 210720,
-      "end": 210721
+      "end": 210756
     },
     {
       "name": "_is_record_type@4",
@@ -3007,7 +3015,7 @@
     {
       "name": "_warn_ignored_token",
       "start": 185216,
-      "end": 185217
+      "end": 185244
     },
     {
       "name": "_read_angle_include_filename",
@@ -3312,7 +3320,7 @@
     {
       "name": "_warn_expected_identifier",
       "start": 185248,
-      "end": 185249
+      "end": 185276
     },
     {
       "name": "_process_pack_pragma",
@@ -3348,7 +3356,7 @@
     {
       "name": "_warn_bad_pragma",
       "start": 124208,
-      "end": 124209
+      "end": 124228
     },
     {
       "name": "_synchronize_pch_pragma",
@@ -3503,7 +3511,7 @@
     {
       "name": "_report_type_conflict@20",
       "start": 246256,
-      "end": 246257
+      "end": 246401
     },
     {
       "name": "_merge_function_parameter_types@16",
@@ -5894,6 +5902,11 @@
       "accepted_from": 970,
       "accepted_count": 971,
       "expected_exit": 1
+    },
+    "portability-diagnostics": {
+      "accepted_from": 971,
+      "accepted_count": 979,
+      "expected_exit": 6
     }
   },
   "buffered_streams": [

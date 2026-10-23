@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "0e451b4ad5440feedf4edd0cc00311e4e910889fd8d8d43732ac0c9399be3604",
+    "functions.json": "25bc2b0d817aa7b45c8485b9b2f4183e9d20c26d64af3e558af22435c48db8fc",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "6c63abd1bb6206de09f1c56c71249dacda20c3cdfb7b373c686f3bb67fe5c8d3"
+    "sha256": "15a07aa50ab73921f948a6a59c88bd76a776f370c6e6ba2061ae13effe8faaa5"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "ef7b9bd246d4f55f1bbb80b8d8edc832e72a0ed65956e8b43d0147a8d05670e4"
+    "sha256": "644b48d89655535cbaa987f3903dca2384ff72f790b78bafeac6aaed931f6466"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -3031,7 +3031,7 @@
     },
     "report_declaration_error": {
       "logical": "_report_declaration_error@8",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "report_error": {
       "logical": "_report_error",
@@ -3063,7 +3063,7 @@
     },
     "report_macro_error": {
       "logical": "_report_macro_error@4",
-      "source": "src/stubs.c"
+      "source": "src/macros.c"
     },
     "report_parser_error": {
       "logical": "_report_parser_error@4",
@@ -3071,7 +3071,7 @@
     },
     "report_symbol_error": {
       "logical": "_report_symbol_error@8",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "report_syntax_error": {
       "logical": "_report_syntax_error",
@@ -3083,11 +3083,11 @@
     },
     "report_type_conflict": {
       "logical": "_report_type_conflict@20",
-      "source": "src/stubs.c"
+      "source": "src/conversions.c"
     },
     "report_type_syntax_error": {
       "logical": "_report_type_syntax_error@8",
-      "source": "src/stubs.c"
+      "source": "src/conversions.c"
     },
     "require_complete_type": {
       "logical": "_require_complete_type@4",
@@ -3451,11 +3451,11 @@
     },
     "warn_bad_pragma": {
       "logical": "_warn_bad_pragma",
-      "source": "src/stubs.c"
+      "source": "src/pragma.c"
     },
     "warn_expected_identifier": {
       "logical": "_warn_expected_identifier",
-      "source": "src/stubs.c"
+      "source": "src/pragma.c"
     },
     "warn_ignored_storage_model": {
       "logical": "_warn_ignored_storage_model@4",
@@ -3463,7 +3463,7 @@
     },
     "warn_ignored_token": {
       "logical": "_warn_ignored_token",
-      "source": "src/stubs.c"
+      "source": "src/preprocessor-directives.c"
     },
     "warn_void_function_pointer": {
       "logical": "_warn_void_function_pointer",
@@ -4477,7 +4477,15 @@
     "type_warning",
     "cache_parameter_bytes",
     "has_parameter_shape_depth",
-    "build_based_text"
+    "build_based_text",
+    "report_macro_error",
+    "warn_expected_identifier",
+    "warn_ignored_token",
+    "warn_bad_pragma",
+    "report_type_conflict",
+    "report_declaration_error",
+    "report_type_syntax_error",
+    "report_symbol_error"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5880,6 +5888,25 @@
       "terminal": {
         "kind": "exit",
         "code": 1
+      }
+    },
+    "portability-diagnostics": {
+      "first": 971,
+      "last": 979,
+      "seen_count": 831,
+      "expected": [
+        "report_macro_error",
+        "warn_expected_identifier",
+        "warn_ignored_token",
+        "warn_bad_pragma",
+        "report_type_conflict",
+        "report_declaration_error",
+        "report_type_syntax_error",
+        "report_symbol_error"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 6
       }
     }
   }

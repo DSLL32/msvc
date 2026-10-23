@@ -1,0 +1,35 @@
+{
+  "status": "proposed to root; original feasibility not yet tested",
+  "title": "Explicit-base traversal and control-flow checksum",
+  "arguments": "/Z7 /Od /G5 /W4",
+  "source_plan": "Two record arenas, public :> with pointer-typed constant offsets, supported named-based link-return helpers, bounded forward/backward goto traversal and checksum. Exact runtime values only; no address/padding-dependent checksum.",
+  "provisional_targets": [
+    {
+      "name": "make_member_expression (misleading provisional name; actually based address operator)",
+      "start": "0x3f820",
+      "end": "0x3f94d",
+      "bytes": 301,
+      "gate": "Second operand pointer shape plus model4 OR flags0x80 constant; first operand ordinary pointer or segment. Distinct from previously rejected based(void) variable arm."
+    },
+    {
+      "name": "emit_named_label",
+      "start": "0x2c5b0",
+      "end": "0x2c5fc",
+      "bytes": 76,
+      "gate": "Parser rule165 named C label, independent of QC gate."
+    },
+    {
+      "name": "same_based_pointer_base",
+      "start": "0x26340",
+      "bytes": null,
+      "gate": "Provisional repeated normalized based-expression kind92 from link-return calls."
+    }
+  ],
+  "minimum_analyzed_target_bytes": 377,
+  "requirements": [
+    "Untouched original fullcompile/link/runtime0 before freeze; if public constant arm fails report actualresult rather than substitute success.",
+    "Retain earlier based(void) probe limitation; do not claim all based compatibility forms supported.",
+    "Correct currently unvisited second operand signature from char* to IrToken* and parser semantic node typing only against raw matching frontier evidence.",
+    "No private flags, forced unsupported __segment/__self, incompatible callback calls or extra backend reconstruction."
+  ]
+}

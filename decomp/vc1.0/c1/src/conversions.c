@@ -831,3 +831,39 @@ void __stdcall type_warning(unsigned level, unsigned code, CType *type)
     compiler_warning(level, code, name);
     end_declaration_text();
 }
+
+/* Original 0x3c1f0..0x3c281, RET20. Render both conflicting types
+   before formatting either diagnostic form; a supplied symbol contributes
+   its complete declarator, while the other form uses the caller's name. */
+void __stdcall report_type_conflict(unsigned code, FrontendSymbol *symbol,
+    char *name, CType *actual, CType *expected)
+{
+    short actual_handle, expected_handle, symbol_handle;
+    char *actual_name, *expected_name, *symbol_name;
+    begin_declaration_text();
+    actual_handle = build_declaration_text(0, actual);
+    expected_handle = build_declaration_text(0, expected);
+    if (symbol) {
+        symbol_handle = build_declaration_text(symbol, 0);
+        expected_name = declaration_text_value(expected_handle);
+        actual_name = declaration_text_value(actual_handle);
+        symbol_name = declaration_text_value(symbol_handle);
+        report_syntax_error(code, symbol_name, actual_name, expected_name);
+    } else {
+        expected_name = declaration_text_value(expected_handle);
+        actual_name = declaration_text_value(actual_handle);
+        report_syntax_error(code, name, actual_name, expected_name);
+    }
+    end_declaration_text();
+}
+
+/* Original 0x3c180..0x3c1ad, RET8. The formatted type survives
+   through the syntax diagnostic, then the nested text scope is released. */
+void __stdcall report_type_syntax_error(unsigned code, CType *type)
+{
+    char *name;
+    begin_declaration_text();
+    name = declaration_text_value(build_declaration_text(0, type));
+    report_syntax_error(code, name);
+    end_declaration_text();
+}

@@ -41,7 +41,8 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'calibration-table':('calibration-table','c1'),
          'packet-view-adapter':('packet-view-adapter','c1'),
          'arena-api-compile':('arena-api-prototypes','c1-compile'),
-         'arena-api-prototypes':('arena-api-prototypes','c1-prototypes')}
+         'arena-api-prototypes':('arena-api-prototypes','c1-prototypes'),
+         'portability-diagnostics':('portability-diagnostics','c1')}
 
 
 CASE_DEPENDENCIES = {

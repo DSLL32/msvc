@@ -1,0 +1,56 @@
+{
+  "status": "pass",
+  "tests": [
+    {
+      "name": "scanner-parser-word",
+      "status": "rejected",
+      "function": "_assign_allocated_text@4",
+      "original_instruction": {
+        "function": "_assign_allocated_text@4",
+        "side": "rebuilt",
+        "address": 133833,
+        "bytes": "f60576a3060002",
+        "instruction": "test byte ptr [0x6a376], 2",
+        "word": "scanner_flags",
+        "offset": 2,
+        "width": 1
+      },
+      "seconds": 2.98512398917228
+    },
+    {
+      "name": "old-tag-bit-mask",
+      "status": "rejected",
+      "function": "_begin_tag_definition@12",
+      "original_instruction": {
+        "function": "_begin_tag_definition@12",
+        "side": "rebuilt",
+        "address": 275777,
+        "bytes": "f60576a3060008",
+        "instruction": "test byte ptr [0x6a376], 8",
+        "word": "scanner_flags",
+        "offset": 2,
+        "width": 1
+      },
+      "seconds": 3.0358516359701753
+    },
+    {
+      "name": "upper-halfword-offset",
+      "status": "rejected",
+      "function": "_declare_named_entity@16",
+      "original_instruction": {
+        "function": "_declare_named_entity@16",
+        "side": "rebuilt",
+        "address": 292705,
+        "bytes": "f60576a3060008",
+        "instruction": "test byte ptr [0x6a376], 8",
+        "word": "scanner_flags",
+        "offset": 2,
+        "width": 1
+      },
+      "seconds": 2.9737406512722373
+    }
+  ],
+  "seconds": 9.022385828197002,
+  "executable_sha256": "9b6ca128f693d3bcd7d04e67ad6e8fb36a4e3fda492aeb203f089e407db48bbf",
+  "policy": "Private PE mutations; source, original image and case oracles unchanged."
+}

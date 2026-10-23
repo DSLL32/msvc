@@ -1,0 +1,78 @@
+{
+  "terminal_exit": 6,
+  "expected_exit": 6,
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/portability-diagnostics",
+  "phase": "c1",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": null,
+  "function_finish_probe": false,
+  "timestamp_probe": false,
+  "accepted_count": 979,
+  "accepted_sha256": "e42c5d2929d6ccd2bc5505be246c710fb204fc2494ba79986b0e219f2b358d64",
+  "executable_sha256": "4bcf13b430d4e1873af69250f95da279af52973756f9365505498ee784e32a67",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "0f94a06afc3e47c5fa29175d9ecd57766701f1b9e483a272aab711cee1b776a7",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f audit.c -Ze -Zp8 -Gs -Foaudit.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR audit.sbr -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\portability-diagnostics",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); actual spawn stdout intervals isolate six errors/seven warnings from CL source banner."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/portability-diagnostics",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.0506643895059824,
+  "execution_seconds": 1.527092327363789,
+  "total_seconds": 1.5777596337720752,
+  "files": [
+    {
+      "name": "audit.c",
+      "bytes": 298,
+      "sha256": "82b88906618fe1b11710d58ce7e976df685e0a504f03b2a92e82bfcaf1370e29"
+    },
+    {
+      "name": "audit.sbr",
+      "bytes": 289,
+      "sha256": "76c50885df0d84c77f477812be461aab53319bd17ebd3ac6669a9c807a30af91"
+    },
+    {
+      "name": "irdb",
+      "bytes": 11,
+      "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b"
+    },
+    {
+      "name": "irex",
+      "bytes": 918,
+      "sha256": "83e48d08eadc17eb63b8f51cab632e07329b52123510c7f4fffb849b91825a01"
+    },
+    {
+      "name": "irgl",
+      "bytes": 23,
+      "sha256": "b8ab720e6ce10cad6eca5d45a208459e2d1671020dd8c77ae7c4ffa36cad4272"
+    },
+    {
+      "name": "irin",
+      "bytes": 6,
+      "sha256": "c5ae27aa81a56316155ed95df679eb50b93225c85efdc0fa13d1e1af6df601e1"
+    },
+    {
+      "name": "irsy",
+      "bytes": 2,
+      "sha256": "53bd9133146631a2a2a89188f7d799e4ab85b473b7e927dd8b7782d91fe4ee0c"
+    },
+    {
+      "name": "portability.h",
+      "bytes": 397,
+      "sha256": "84a2b12d09b7520f221372266cb0d27a755ae19422ac75ddfb88d6f5699bb36c"
+    }
+  ]
+}

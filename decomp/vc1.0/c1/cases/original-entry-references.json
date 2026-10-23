@@ -156,6 +156,10 @@
     "arena-api-prototypes": {
       "receipt": "cases/arena-api-prototypes/evidence/arena-api-prototypes-complete-971.receipt.json",
       "sha256": "ad323a99ea016098e10b5ba9100f48bc13c14d1e0cc6e8b1ba0ad39640af8a0d"
+    },
+    "portability-diagnostics": {
+      "receipt": "cases/portability-diagnostics/evidence/portability-complete-979.receipt.json",
+      "sha256": "df5bfaaa6645cc8014105ef3cfac88c509d0817d5ea34a212cb4b602d2e91d67"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

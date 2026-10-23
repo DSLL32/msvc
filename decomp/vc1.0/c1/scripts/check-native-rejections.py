@@ -336,6 +336,26 @@ def main():
     rejects('arena-prototype-absent-backend-output', 'forbidden output exists: api.obj',
             lambda:checker.validate_artifacts(arena,arena_fixture,arena_phase))
 
+    _, portability = checker.run_case('portability-diagnostics', executable, directory, (cache,filter_path))
+    portability_fixture = checker.BINARY/'cases/portability-diagnostics'
+    portability_phase = json.loads((portability_fixture/'manifest.json').read_text())['phases']['c1']
+    portability_messages = portability_phase['expected_stdout'].encode('latin1')
+    rejects('portability-unexpected-success', 'native status',
+            lambda:checker.validate_result('portability-diagnostics',0,portability_messages,b'',portability_phase))
+    wrong_types = portability_messages.replace(b"'int ** '",b"'int * '")
+    rejects('portability-conflicting-type-diagnostic', 'stdout differs',
+            lambda:checker.validate_result('portability-diagnostics',6,wrong_types,b'',portability_phase))
+    diagnostics = portability_messages.splitlines(keepends=True)
+    diagnostics[0],diagnostics[1] = diagnostics[1],diagnostics[0]
+    rejects('portability-reserved-macro-warning-order', 'stdout differs',
+            lambda:checker.validate_result('portability-diagnostics',6,b''.join(diagnostics),b'',portability_phase))
+    recovered_browser = bytearray((portability/'audit.sbr').read_bytes())
+    assert recovered_browser.count(b'recovered_tail\0') == 1 and recovered_browser[-1] == 14
+    recovered_browser[recovered_browser.index(b'recovered_tail\0')] = ord('x')
+    (portability/'audit.sbr').write_bytes(recovered_browser)
+    rejects('portability-recovered-tail-browser-record', 'output bytes differ: audit.sbr',
+            lambda:checker.validate_artifacts(portability,portability_fixture,portability_phase))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

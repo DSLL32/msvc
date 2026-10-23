@@ -719,3 +719,18 @@ void __stdcall emit_listing_directive(unsigned char mode)
         break;
     }
 }
+
+/* Original 0x2d3a0..0x2d3bc. Pragma name lists use the current
+   token's diagnostic spelling when an identifier was required. */
+void warn_expected_identifier(void)
+{
+    compiler_warning(1, 80, token_names[current_token_code]);
+}
+
+/* Original 0x1e530..0x1e544. A malformed warning pragma discards
+   the rest of the source line after issuing its ordinary level-one warning. */
+void warn_bad_pragma(void)
+{
+    compiler_warning(1, 612);
+    skip_source_line();
+}
