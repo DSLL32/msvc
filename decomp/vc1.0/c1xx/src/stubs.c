@@ -534,7 +534,6 @@ unsigned __cdecl hash_word_triplet(void *key) { __asm { int 3 } return 0; }
 unsigned __cdecl hash_word_pair(void *key) { __asm { int 3 } return 0; }
 
 int __cdecl equal_symbol_indices(void *left, void *right) { __asm { int 3 } return 0; }
-int __cdecl equal_first_words(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_tail_word_pairs(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_declaration_indices(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3 } return 0; }

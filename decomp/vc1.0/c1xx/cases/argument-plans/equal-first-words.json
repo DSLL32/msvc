@@ -1,0 +1,62 @@
+{
+  "schema": 1,
+  "function": "_equal_first_words",
+  "native_entry": "equal_first_words",
+  "argument_words": 4,
+  "original_observations": [
+    {
+      "name": "left_owner_index",
+      "original": 2948556
+    },
+    {
+      "name": "right_owner_index",
+      "original": 8303468
+    }
+  ],
+  "native_expressions": {
+    "raw_left": "(unsigned)left",
+    "raw_right": "(unsigned)right",
+    "left_word": "*(unsigned*)left",
+    "right_word": "*(unsigned*)right",
+    "owner_index": "class_contexts[0].symbol->index"
+  },
+  "formals": [
+    {
+      "name": "left",
+      "stack_index": 0,
+      "native_field": "raw_left",
+      "binding": {
+        "kind": "pointee-word",
+        "original_observation_name": "left_owner_index",
+        "original_pointee_address": 2948556,
+        "native_pointee_field": "left_word",
+        "native_semantic_owner_field": "owner_index",
+        "identity": "only consumed unsigned owner-index word: initialized find_friend_access local owner_index on original stack; address is transient and must equal this fresh actual pointer; no other record/stack/padding bytes inspected"
+      }
+    },
+    {
+      "name": "right",
+      "stack_index": 1,
+      "native_field": "raw_right",
+      "binding": {
+        "kind": "pointee-word",
+        "original_observation_name": "right_owner_index",
+        "original_pointee_address": 8303468,
+        "native_pointee_field": "right_word",
+        "native_semantic_owner_field": "owner_index",
+        "identity": "only consumed unsigned owner-index word: initialized FriendRecord.owner_index in original heap; address is transient and must equal this fresh actual pointer; no other record/stack/padding bytes inspected"
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      204496,
+      204516
+    ],
+    "argument_bytes": 8,
+    "proof": "MOV EAX,[entryESP+8]; MOV ECX,[EAX]; MOV EAX,[entryESP+4]; SUB ECX,[EAX]; CMP ECX,1; SBB/NEG EAX; RET0. Cdecl two pointer formals, each consumes exactly one defined DWORD. Unsigned difference<1 iff equality. Original caller cleanup8. No incoming register/hidden input; EAX/ECX both defined from stack/pointees."
+  }
+}

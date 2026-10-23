@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_equal_first_words",
+    "start": 204496,
+    "end": 204516
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1066-equal_first_words/arguments/validation.json",
+  "distinct_direct_callees": [],
+  "next_frontier": "_static_member_alias@4",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.4200502699241042,
+  "total_operation_seconds": 3.2454316141083837,
+  "original_capture_seconds": 0.9163977894932032
+}

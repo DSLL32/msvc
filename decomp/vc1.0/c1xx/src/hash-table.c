@@ -120,6 +120,13 @@ unsigned __cdecl hash_first_word(void *key)
     return *(unsigned *)key;
 }
 
+/* Original 0x31ed0..0x31ee4. Unsigned subtraction followed by a less
+   than one test is equality of the two owner-index words. */
+int __cdecl equal_first_words(void *left, void *right)
+{
+    return *(unsigned *)left == *(unsigned *)right;
+}
+
 /* Original 0xa0cc8: equality callbacks indexed independently of hashing. */
 typedef int (__cdecl *EqualKeys)(void *left, void *right);
 int __cdecl equal_pointer(void *left, void *right);
