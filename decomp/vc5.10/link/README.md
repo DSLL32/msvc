@@ -203,3 +203,11 @@ the latter aliases the real caller local. The initial out-byte is uninitialized
 and recorded on each side without cross-platform value equality. All context,
 filename/option queues and option effects match, including the intentional
 reset of buffer4 remaining count before full linking. 70 focused negatives pass.
+
+FullLink preparation recovers typed section/contribution/group prefixes and
+several LinkContext pointer/size roles. These preserve the existing 664-byte
+context layout. The original-toolchain object retains all 3,799 code bytes and
+166 effective relocation targets; compiler-local label numbering differs. A
+fresh native capture matches the unchanged original FullLink boundary, with
+70 semantic negatives and the strict audit passing. Unknown record tails stay
+unmodeled; no FullLink implementation or additional acceptance credit is claimed.

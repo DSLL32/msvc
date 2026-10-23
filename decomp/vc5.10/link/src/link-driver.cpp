@@ -217,7 +217,7 @@ LinkAuxiliaryData *RECON_THISCALL LinkContext::Initialize(int vxd)
     options.default_extension=".dll";
     options.default180=1;
     specified_switches=0;
-    memset(&reserved194,0,32);
+    memset(&comment_size,0,32);
     create_string_table(&symbols,1024,128);
     create_string_table(&strings,128,32);
     pointer_list.first=NULL;
@@ -226,8 +226,8 @@ LinkAuxiliaryData *RECON_THISCALL LinkContext::Initialize(int vxd)
     pointer_list.count=0;
     dos_image=&default_dos_image;
     dos_image_size=128;
-    objects=NULL;
-    objects_tail=&objects;
+    sections.first=NULL;
+    sections.last=&sections.first;
     if (vxd==1) {
         image_header_size=&LinkContext::VxdHeaderSize;
         image_write_section=&LinkContext::VxdWriteSection;
@@ -242,7 +242,7 @@ LinkAuxiliaryData *RECON_THISCALL LinkContext::Initialize(int vxd)
         allocate_link_memory(1,sizeof(LinkAuxiliaryData)):
         allocate_memory(sizeof(LinkAuxiliaryData)));
     if (auxiliary) memset(auxiliary,0,sizeof(LinkAuxiliaryData));
-    auxiliary_flags=0;
+    incremental_contribution=NULL;
     /* Actual original EAX is this auxiliary allocation, not the receiver.
      * The only discovered caller ignores that return value. */
     return auxiliary;

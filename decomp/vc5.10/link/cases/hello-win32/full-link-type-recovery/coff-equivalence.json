@@ -1,0 +1,11 @@
+{
+  "old": "/root/.ai-tmp/msvc2/vc5.10/link/type-recovery-before/link-driver.obj",
+  "old_sha256": "0c0c39e4bc309486929060ba96905b6bd3bbf06f6f18a315ec4a8b4ff1d0c540",
+  "new": "build/link-driver.obj",
+  "new_sha256": "d7f79a7d34c1d0d7d039a1f3960e04ec63c0316c105126fcbe4e22349af1391a",
+  "text_bytes": 3799,
+  "relocations": 166,
+  "text_and_effective_relocation_targets_equal": true,
+  "relocation_rule": "Defined local symbols bind to original COFF section/value; compiler-generated local label numbers change with added type declarations. Undefined externals bind by exact name. Raw objects and labels remain unchanged.",
+  "runtime_data_sections_equal": true
+}

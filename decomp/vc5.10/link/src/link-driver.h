@@ -4,6 +4,7 @@
 #include <stdio.h>
 #include <stddef.h>
 #include "symbols.h"
+#include "full-link.h"
 #include <recon.h>
 
 /* The context is a PE header plus linker options. Unread fields retain their
@@ -62,25 +63,25 @@ struct LinkContext {
     IMAGE_FILE_HEADER file_header;
     IMAGE_OPTIONAL_HEADER optional_header;
     LinkOptions options;
-    DWORD specified_switches, reserved194;
+    DWORD specified_switches, comment_size;
     const char *entry_name;
     DWORD reserved19c[2];
     struct IncludeSymbol *includes;
     DWORD reserved1a8[3];
-    void *objects;
-    void **objects_tail;
+    SectionList sections;
     LinkPointerList pointer_list;
     DWORD reserved1cc;
     StringTable *symbols, *strings;
     const DefaultDosImage *dos_image;
-    DWORD dos_image_size, reserved1e0;
+    DWORD dos_image_size, pe_header_offset;
     int is_vxd;
     DWORD reserved1e8;
     BYTE dynamic_vxd, reserved1ed[115];
     LinkAuxiliaryData *auxiliary;
     BYTE reserved264[36];
-    DWORD auxiliary_flags;
-    BYTE reserved28c[12];
+    Contribution *incremental_contribution;
+    DWORD reserved28c[2];
+    MacResource *resources;
 
 #ifdef __cplusplus
     LinkAuxiliaryData *RECON_THISCALL Initialize(int vxd);
@@ -106,6 +107,9 @@ typedef char DefaultDosImageSize[(sizeof(DefaultDosImage)==128)?1:-1];
 typedef char LinkAuxiliaryDataSize[(sizeof(LinkAuxiliaryData)==44)?1:-1];
 typedef char LinkContextSymbolsAt1d0[(offsetof(LinkContext,symbols)==0x1d0)?1:-1];
 typedef char LinkContextAuxiliaryAt260[(offsetof(LinkContext,auxiliary)==0x260)?1:-1];
+typedef char LinkContextSectionsAt1b4[(offsetof(LinkContext,sections)==0x1b4)?1:-1];
+typedef char LinkContextIncrementalAt288[(offsetof(LinkContext,incremental_contribution)==0x288)?1:-1];
+typedef char LinkContextResourcesAt294[(offsetof(LinkContext,resources)==0x294)?1:-1];
 typedef char LinkOptionsExtensionAt44[(offsetof(LinkOptions,default_extension)==0x44)?1:-1];
 typedef char LinkOptionsSize[(sizeof(LinkOptions)==108)?1:-1];
 typedef char LinkOptionsForceAt34[(offsetof(LinkOptions,force)==0x34)?1:-1];

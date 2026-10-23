@@ -407,10 +407,10 @@
     {
       "name": "_validate_debug_options@4",
       "start": 4490800,
-      "end": 4490801,
+      "end": 4491235,
       "source": "src/link-driver.cpp",
-      "status": "stub",
-      "pending_extent": true,
+      "status": "implemented",
+      "pending_extent": false,
       "native_symbol": "validate_debug_options"
     },
     {
@@ -554,10 +554,10 @@
     {
       "name": "_release_memory@4",
       "start": 4521520,
-      "end": 4521521,
-      "pending_extent": true,
+      "end": 4521537,
+      "pending_extent": false,
       "source": "src/arguments.c",
-      "status": "stub",
+      "status": "implemented",
       "native_symbol": "release_memory"
     },
     {
@@ -599,10 +599,10 @@
     {
       "name": "_canonicalize_argument@8",
       "start": 4572752,
-      "end": 4572753,
-      "pending_extent": true,
+      "end": 4573007,
+      "pending_extent": false,
       "source": "src/arguments.c",
-      "status": "stub",
+      "status": "implemented",
       "native_symbol": "canonicalize_argument"
     },
     {
@@ -1051,6 +1051,24 @@
       "source": "src/driver-stubs.c",
       "status": "stub",
       "native_symbol": "clear_buffer"
+    },
+    {
+      "name": "_search_library_paths@8",
+      "start": 4572464,
+      "end": 4572742,
+      "pending_extent": false,
+      "status": "implemented",
+      "source": "src/arguments.c",
+      "native_symbol": "search_library_paths"
+    },
+    {
+      "name": "_supports_incremental@4",
+      "start": 4476848,
+      "end": 4476849,
+      "pending_extent": true,
+      "status": "stub",
+      "source": "src/link-driver.cpp",
+      "native_symbol": "supports_incremental"
     }
   ],
   "text_data": [
@@ -2797,6 +2815,70 @@
       "reason": "inline close_timing fprintf format",
       "evidence": "src/initializers.c: close_timing; original PUSH4071f0 at444eeb",
       "sha256": "6a5d728cc41cd399070f898eb5915f68ccc1796788ef70623d9db4dd935373d2"
+    },
+    {
+      "start": 4231676,
+      "end": 4231680,
+      "accepted": true,
+      "reason": "canonicalize_argument contextual LIB search-environment literal",
+      "evidence": "Full45c650..45c74f source call _searchenv(text,\"LIB\",found) at45c706.",
+      "sha256": "28b87d5d1864d6f81087f09ec47da6d67d58e6facac30aba559534f3d43fd9b8"
+    },
+    {
+      "start": 4228084,
+      "end": 4228088,
+      "accepted": true,
+      "reason": "validate_debug_options contextual diagnostic literal",
+      "evidence": "src/link-driver.cpp: validate_debug_options; original448630..4487e3",
+      "sha256": "4e6b35496f8ea544a79b7c68e12fcbc75c7131943469a84b64a43ba71cfbf34a"
+    },
+    {
+      "start": 4228064,
+      "end": 4228076,
+      "accepted": true,
+      "reason": "validate_debug_options contextual diagnostic literal",
+      "evidence": "src/link-driver.cpp: validate_debug_options; original448630..4487e3",
+      "sha256": "295c0e4afccaeeed3ecf3b90ecc6b7076fb6aedf7c23d33e4a7609e5d49da318"
+    },
+    {
+      "start": 4228052,
+      "end": 4228062,
+      "accepted": true,
+      "reason": "validate_debug_options contextual diagnostic literal",
+      "evidence": "src/link-driver.cpp: validate_debug_options; original448630..4487e3",
+      "sha256": "8009efe02a5fcb7f86700440a1af7e99dce490bac6824aa051f448d8a5331cfe"
+    },
+    {
+      "start": 4228036,
+      "end": 4228040,
+      "accepted": true,
+      "reason": "validate_debug_options contextual diagnostic literal",
+      "evidence": "src/link-driver.cpp: validate_debug_options; original448630..4487e3",
+      "sha256": "35ba324233a46ac741e08504f1e35030aa9694c2969527da929daa4ea026f768"
+    },
+    {
+      "start": 4228028,
+      "end": 4228034,
+      "accepted": true,
+      "reason": "validate_debug_options contextual diagnostic literal",
+      "evidence": "src/link-driver.cpp: validate_debug_options; original448630..4487e3",
+      "sha256": "e57777f30106fd72aa05abad67ebc98a7ce23c1f7bbe21c62780892fce860e2e"
+    },
+    {
+      "start": 4228020,
+      "end": 4228028,
+      "accepted": true,
+      "reason": "validate_debug_options contextual diagnostic literal",
+      "evidence": "src/link-driver.cpp: validate_debug_options; original448630..4487e3",
+      "sha256": "ae31dcb6649b12df88e5c34e4b088f2bb842a3952ca6f18bae4e861b00d7c92c"
+    },
+    {
+      "start": 4228012,
+      "end": 4228018,
+      "accepted": true,
+      "reason": "validate_debug_options contextual diagnostic literal",
+      "evidence": "src/link-driver.cpp: validate_debug_options; original448630..4487e3",
+      "sha256": "228899f35e9b735f602dab0d028cbfd02944cf3eba8e2606cba9cfaa10b69c9a"
     }
   ],
   "cases": {
@@ -2805,6 +2887,17 @@
         "/?"
       ],
       "complete": true
+    },
+    "hello-win32": {
+      "arguments": [
+        "/nologo",
+        "/incremental:no",
+        "/out:hello.exe",
+        "hello.obj",
+        "kernel32.lib"
+      ],
+      "complete": false,
+      "manifest": "cases/hello-win32/case.json"
     }
   },
   "review_gate": "approved"
