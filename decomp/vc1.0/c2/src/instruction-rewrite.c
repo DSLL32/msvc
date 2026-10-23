@@ -1674,3 +1674,51 @@ emit_address:
     }
     return previous;
 }
+
+/* Original [00024c00,00024cca), with six switch entries24ccc..24ce4.
+   Replace SAHF with a byte TEST when only CF/ZF or their union is needed. */
+void __fastcall optimize_sahf(MachineInstruction *instruction)
+{
+    MachineInstruction *use = find_flags_use(instruction);
+    unsigned condition, mask;
+    if (!use || (use->opcode & 15) != 0 ||
+        (MACHINE_OP(use) != MC_JCC && MACHINE_OP(use) != MC_SCC)) return;
+    condition = use->operands[1].flags & 15;
+    switch (condition) {
+    case 2: case 3: mask = 1; break;
+    case 4: case 5: mask = 0x40; break;
+    case 6: case 7: mask = 0x41; break;
+    default: return;
+    }
+    instruction->opcode = (instruction->opcode & ~0xfff0U) | (MC_TEST << 8) | 0x10;
+    instruction->operands[0].flags = (instruction->operands[0].flags & ~15U) | OPERAND_REGISTER;
+    instruction->opcode |= HIGH_FIRST;
+    instruction->operands[0].value.reg.words.number = REG_EAX;
+    instruction->operands[1].flags = (instruction->operands[1].flags & ~15U) | OPERAND_IMMEDIATE;
+    instruction->operands[1].value.constant = mask;
+    use->operands[1].flags = (use->operands[1].flags & ~15U) | ((condition & 1) ? 4 : 5);
+}
+
+/* Original [000246d0,00024734). Select the upper byte of a register,
+   shift an immediate arithmetically or advance a memory displacement. */
+void __fastcall advance_operand_byte(MachineOperand *operand)
+{
+    unsigned kind = operand->flags & 15;
+    unsigned short number;
+    switch (kind) {
+    case OPERAND_REGISTER:
+        number = operand->value.reg.words.number;
+        if (number >= 4) compiler_internal_error("@(#)peeps.c:1.148", 0xfd4);
+        operand->value.reg.words.number = number + 4;
+        break;
+    case OPERAND_IMMEDIATE:
+        operand->value.constant = (int)operand->value.constant >> 8;
+        break;
+    case OPERAND_ABSOLUTE: case OPERAND_BASED: case OPERAND_INDEXED:
+        ++operand->value.address->first.displacement;
+        break;
+    default:
+        compiler_internal_error("@(#)peeps.c:1.148", 0xfdb);
+        break;
+    }
+}

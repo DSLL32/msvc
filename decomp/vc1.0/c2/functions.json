@@ -1050,7 +1050,11 @@
     "@can_reuse_float_load@4",
     "@can_split_float_transfer@8",
     "@split_float_memory_transfer@24",
-    "@duplicate_operand@4"
+    "@duplicate_operand@4",
+    "@fold_previous_float_load@8",
+    "@floating_value_for_symbol@4",
+    "@optimize_sahf@4",
+    "@advance_operand_byte@4"
   ],
   "driver": [
     {
@@ -3748,8 +3752,7 @@
     {
       "name": "@advance_operand_byte@4",
       "start": 149200,
-      "end": 149201,
-      "provisional": true
+      "end": 149300
     },
     {
       "name": "@expand_zero_extension@4",
@@ -3760,8 +3763,7 @@
     {
       "name": "@optimize_sahf@4",
       "start": 150528,
-      "end": 150529,
-      "provisional": true
+      "end": 150756
     },
     {
       "name": "_calculate_stack_frame_size",
@@ -6936,8 +6938,7 @@
     {
       "name": "@floating_value_for_symbol@4",
       "start": 160624,
-      "end": 160625,
-      "provisional": true
+      "end": 160651
     },
     {
       "name": "@split_float_memory_transfer@24",
@@ -6982,8 +6983,7 @@
     {
       "name": "@fold_previous_float_load@8",
       "start": 230976,
-      "end": 230977,
-      "provisional": true
+      "end": 231432
     },
     {
       "name": "@external_name_hash@4",

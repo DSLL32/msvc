@@ -167,9 +167,7 @@ MachineOperand *__fastcall immediate_operand(unsigned value) { __asm int 3 }
 
 #include "unoptimized.h"
 unsigned __fastcall assign_physical_register(MachineInstruction *instruction, unsigned reg, int last_use) { __asm int 3 }
-void __fastcall advance_operand_byte(MachineOperand *operand) { __asm int 3 }
 int __fastcall expand_zero_extension(MachineInstruction *instruction) { __asm int 3 }
-void __fastcall optimize_sahf(MachineInstruction *instruction) { __asm int 3 }
 
 #include "machine-layout.h"
 
@@ -379,8 +377,6 @@ int __cdecl divide_extended(const Extended *left, const Extended *right, Extende
 int __cdecl minimum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl maximum_extended(const Extended *left, const Extended *right, Extended *result) { __asm int 3 }
 int __cdecl absolute_extended(const Extended *number, Extended *result) { __asm int 3 }
-const Extended *__fastcall floating_value_for_symbol(SymbolHeader *symbol) { __asm int 3 }
-void __fastcall fold_previous_float_load(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 
 int __fastcall can_keep_float_store(MachineInstruction *instruction, unsigned short number, int use_summary) { __asm int 3 }
 int __fastcall previous_float_is_load(MachineInstruction *instruction) { __asm int 3 }

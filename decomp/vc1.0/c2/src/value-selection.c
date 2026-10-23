@@ -668,3 +668,13 @@ void mark_x87_call_result(void)
 {
     ++x87_stack_depth;
 }
+
+/* Original [00027370,0002738b). Peepholes recover the original extended
+   literal by generated-symbol identity from the same floating cache. */
+const Extended *__fastcall floating_value_for_symbol(SymbolHeader *symbol)
+{
+    FloatingConstantEntry *entry;
+    for (entry = floating_constants; entry; entry = entry->next)
+        if (entry->symbol == symbol) return entry->value;
+    return 0;
+}

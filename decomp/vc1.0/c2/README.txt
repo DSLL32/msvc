@@ -2602,3 +2602,9 @@ Floating memory transfers lowered into integer chunks: checkpoint1046
 @fold_previous_float_load@8. 967 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating1046.json for extent union, limits and measured timings.
+
+Final floating load folding and SAHF selection: checkpoint1050
+4 acceptances pass fresh original/native matching; current frontier
+@prepare_float_schedule@4. 971 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating1050.json for extent union, limits and measured timings.

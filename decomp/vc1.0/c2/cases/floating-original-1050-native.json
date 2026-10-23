@@ -1,0 +1,9 @@
+{
+  "executable_sha256": "a323024d1d9ccc2d2f2236c962692b78610d8b654ad5330cd579ab7e772d7137",
+  "config_sha256": "0189c3a4d4366c5bc536babda777e7b0deffad3ee2a7573960156a464af6026c",
+  "seconds": 0.13774561509490013,
+  "logical": "@prepare_float_schedule@4",
+  "matched": true,
+  "log_sha256": "9fcf09b02c0c21a15d3fc62a67175155aad8b1ef4d85ff964e64a4414ed10acb",
+  "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-ks_54m7w"
+}

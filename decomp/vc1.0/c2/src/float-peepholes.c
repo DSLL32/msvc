@@ -785,3 +785,26 @@ void __fastcall split_float_memory_transfer(MachineInstruction *load, MachineIns
     FP_SET_WIDTH(store, 4);
     store->operands[1] = *reg;
 }
+
+/* Original [00038640,00038808). Fold a preceding FLD/FILD into the
+   popping arithmetic operation after its other operand has been removed.
+   Caller supplies one of the six popping arithmetic forms. */
+void __fastcall fold_previous_float_load(MachineInstruction *first, MachineInstruction *last)
+{
+    unsigned operation;
+    for (; first; first = first->previous) {
+        if (FP_BARRIER(first)) return;
+        if (FP_FLOAT(first)) break;
+    }
+    if (!first || FP_WIDTH(first) == 10) return;
+    if (FP_OPERATION(first) != MC_FLD &&
+        (FP_OPERATION(first) != MC_FILD || FP_WIDTH(first) == 8)) return;
+    if (!FP_OTHER_STORAGE(&first->operands[1]) || (first->operands[1].flags & 0x8000) ||
+        operand_changed_between(first, last, &first->operands[1], FP_WIDTH(first))) return;
+    last->operands[1] = first->operands[1];
+    last->operands[0] = operand_st0;
+    operation = FP_OPERATION(first) == MC_FILD ? FP_POP_FORMS(last).integer : FP_POP_FORMS(last).normal;
+    FP_SET_OPERATION(last, operation);
+    FP_SET_WIDTH(last, FP_WIDTH(first));
+    remove_machine_instruction(first);
+}

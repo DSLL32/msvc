@@ -1,7 +1,7 @@
 {
   "method": "native application entry and captured-output check",
   "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
-  "executable_sha256": "b4cf3ce72427f261c0a88baaceb547ed7f413585a36f03530b21f932e8922e79",
+  "executable_sha256": "0ce0632f8e01849a19f82c55980b6861618691a0039f34c1b48cc7314eb91ad6",
   "trace_enabled": true,
   "shared_hashes": {
     "lib/recon/include/recon.h": "da1d8c5eac6cea60bc408cbfbf47d43ab1e5e1e807a794f5d1c10fe5dd971b6d",
@@ -41,10 +41,10 @@
           4
         ]
       },
-      "setup_seconds": 0.017377479001879692,
-      "execution_seconds": 0.006554468534886837,
-      "check_seconds": 0.0014011003077030182,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-2kg3q18q/minimal"
+      "setup_seconds": 0.019272850826382637,
+      "execution_seconds": 0.0069095660001039505,
+      "check_seconds": 0.0017013857141137123,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-ig0i5oo2/minimal"
     },
     {
       "profile": "hello",
@@ -61,10 +61,10 @@
           4
         ]
       },
-      "setup_seconds": 0.014116107486188412,
-      "execution_seconds": 0.010614120401442051,
-      "check_seconds": 0.001410159282386303,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-2kg3q18q/hello"
+      "setup_seconds": 0.01595938205718994,
+      "execution_seconds": 0.011206455528736115,
+      "check_seconds": 0.001558074727654457,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-ig0i5oo2/hello"
     },
     {
       "profile": "loops",
@@ -81,10 +81,10 @@
           4
         ]
       },
-      "setup_seconds": 0.013016125187277794,
-      "execution_seconds": 0.008032931946218014,
-      "check_seconds": 0.0012915879487991333,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-2kg3q18q/loops"
+      "setup_seconds": 0.01487461943179369,
+      "execution_seconds": 0.008777394890785217,
+      "check_seconds": 0.001265903003513813,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-ig0i5oo2/loops"
     },
     {
       "profile": "pressure",
@@ -101,10 +101,10 @@
           4
         ]
       },
-      "setup_seconds": 0.013209263794124126,
-      "execution_seconds": 0.008485853672027588,
-      "check_seconds": 0.0010256040841341019,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-2kg3q18q/pressure"
+      "setup_seconds": 0.014712022617459297,
+      "execution_seconds": 0.008673414587974548,
+      "check_seconds": 0.0012449705973267555,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-ig0i5oo2/pressure"
     },
     {
       "profile": "aliasing",
@@ -121,22 +121,22 @@
           4
         ]
       },
-      "setup_seconds": 0.011578756384551525,
-      "execution_seconds": 0.007901627570390701,
-      "check_seconds": 0.0010421136394143105,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-2kg3q18q/aliasing"
+      "setup_seconds": 0.013741071335971355,
+      "execution_seconds": 0.0067318398505449295,
+      "check_seconds": 0.0010021347552537918,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-ig0i5oo2/aliasing"
     },
     {
       "profile": "floating",
-      "terminal": "@fold_previous_float_load@8",
+      "terminal": "@prepare_float_schedule@4",
       "returncode": -5,
-      "application_entries": 105,
+      "application_entries": 109,
       "seeded_entries": 858,
       "output": null,
-      "setup_seconds": 0.011563043110072613,
-      "execution_seconds": 0.006074980832636356,
-      "check_seconds": 0.0007598511874675751,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-2kg3q18q/floating"
+      "setup_seconds": 0.012575333938002586,
+      "execution_seconds": 0.0082322359085083,
+      "check_seconds": 0.0007612733170390129,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-ig0i5oo2/floating"
     }
   ],
   "rejected": [
@@ -144,8 +144,8 @@
     "non-clock object corruption",
     "changed captured IR input"
   ],
-  "fixture_seconds": 0.3140092194080353,
-  "suite_setup_seconds": 0.14629898592829704,
-  "negative_check_seconds": 0.022058365866541862,
+  "fixture_seconds": 0.34098626393824816,
+  "suite_setup_seconds": 0.15572935715317726,
+  "negative_check_seconds": 0.024872408248484135,
   "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
 }
