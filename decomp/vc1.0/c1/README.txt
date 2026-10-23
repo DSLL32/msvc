@@ -1,16 +1,17 @@
 C13232.EXE reconstruction (project vc1.0, toolchain1.0-nt)
 ========================================================
 
-Twenty-four native phases are complete: minimal C, optimized Win32 hello, DLL,
+Twenty-five native phases are complete: minimal C, optimized Win32 hello, DLL,
 numeric/varargs, explicit PCH creation/use, do-while, nested SEH, inline
 assembly, browser output, /E, /EP, /P, preserved comments, /Zg prototypes,
 automatic-PCH creation, reuse and changed-macro rebuild, embedded /Z7 types,
 /O2 /Ob1 plus /Ob2 small functions with early returns, and the combined
-enum/long-record/literal/floating case, plus debug-bearing PCH creation/reuse.
+enum/long-record/literal/floating case, debug-bearing PCH creation/reuse, and
+richer indexed/member/OFFSET/x87 inline assembly.
 
-There are748 accepted source functions and875 accepted original entries.
-Accepted original extents cover223068/277234 code-section bytes (80.461992%):
-203301 frontend bytes,19587 CRT bytes and180 import-thunk bytes. This is a
+There are760 accepted source functions and887 accepted original entries.
+Accepted original extents cover225662/277234 code-section bytes (81.397664%):
+205895 frontend bytes,19587 CRT bytes and180 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Unvisited functions retain named trapping stubs.
 
@@ -32,12 +33,12 @@ excluded from application instrumentation. The original BINMODE.OBJ default is
 retained through RECON_DEFAULT_FMODE=0x8000. Fixtures never invoke Wine or
 recapture references. Unknown definitions and dependencies fail.
 
-cases/original-entry-references.json binds24 completed phase histories to fresh
-shared-prefix original first-entry captures. All737 accepted application entries
+cases/original-entry-references.json binds25 completed phase histories to fresh
+shared-prefix original first-entry captures. All749 accepted application entries
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current all24 regression receipts are in cases/debug-pch/validation.json.
+current all25 regression receipts are in cases/inline-asm-rich/validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -100,7 +101,7 @@ Wrong entry order is rejected. scripts/capture-frontier.py validates the
 plan, frozen source dependencies and exact one-entry MSC_CMD_FLAGS environment.
 Full-reference captures and masked captures are explicit, never silent.
 
-Original compiler audits check748 function graphs and instruction boundaries,
+Original compiler audits check760 function graphs and instruction boundaries,
 286 state/default aliases,105 PCH roots and12 callbacks, the21-entry function
 shape cache, scalar options, pragmas, intrinsic groups and serialization data.
 The C grammar audit checks376 states,57904 actions/timings,227 productions and
@@ -162,3 +163,15 @@ All24 native phases and10 oracle/dependency rejections pass. The fresh producer
 all-call debugger proof also matches every one of six enum-sort operand pairs
 in order, alongside the normal original-backed first-entry trace. /Yd was not
 needed for this separate-debug mode. No extra case is queued.
+
+Completed richer inline assembly
+--------------------------------
+cases/inline-asm-rich exercises scaled/register-plus-displacement addressing,
+struct member/array offsets, BYTE/WORD/DWORD/QWORD PTR, OFFSET/TYPE/LENGTH/SIZE,
+and explicit/implicit x87 stack forms. Original CL accepts /Z7 /O2 /G5 /W3;
+the original-built program checks integer/floating results and exits0. Twelve
+new whole functions cover member-scope search, expression arithmetic, scale
+encoding, operand sizes and x87 normalization. All five raw frontend outputs,
+pending buffers, status/streams and first-entry order match originals without
+normalization. All25 native phases,11 oracle/dependency rejections and six
+strict graph/ABI/mask checks pass. No further case is registered yet.

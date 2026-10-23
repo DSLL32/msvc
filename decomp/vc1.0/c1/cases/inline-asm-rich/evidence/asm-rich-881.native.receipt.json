@@ -1,0 +1,46 @@
+{
+  "buffers": {
+    "expression_file": "004f1f800008a0244f20084f020a004f010d5353269d00462d9c002d9b004c4f11534f010e4f010f4f194f01104f16101001040103129b0005040000000005004f01114f16101001040101129c0005040000000005004f01124f160e0e010401000604000000010304004f01134f160d0d1204010203990000000000004f01144f160e0e2d0401000604000000010204004f0115",
+    "symbol_file": "",
+    "line_file": "009800000102010308010102020c01010405010104090101040d01010411080401050800000000000004400700990000010104020101040401010406010104080101040a0101040c0101040e0101041007009a0000010508000000000000104007",
+    "global_file": "1186032e1d30019700000000120a0061736d2d726963682e6300",
+    "debug_file": "0c000a00030401000000",
+    "pch_file": null,
+    "browser_output": null
+  },
+  "frames": [
+    "set_asm_operand_size",
+    "parse_inline_assembler",
+    "parse_asm_statement",
+    "parse_translation_unit",
+    "compile_translation_unit",
+    "guarded_compile",
+    "main"
+  ],
+  "frontier": "set_asm_operand_size",
+  "pc": 1449699783,
+  "label_stack_count": 0,
+  "scanner_flags": 4718592,
+  "exception_scope_depth": [
+    0,
+    0,
+    0
+  ],
+  "original_logical": "_set_asm_operand_size@4",
+  "fresh_original_match": true,
+  "preparation_seconds": 0.003791600465774536,
+  "execution_seconds": 0.14783198479562998,
+  "total_seconds": 0.15435417834669352,
+  "environment": {
+    "LC_ALL": "C",
+    "TZ": "PST8PDT",
+    "RECON_PROGRAM_PATH": "R:\\toolchains\\1.0-nt\\bin\\C13232.EXE",
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f asm-rich.c -Ze -Zp8 -Foasm-rich.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Gs -Gf -Og -Oi -Ot -Oy -Ob1 -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include ",
+    "RECON_DRIVE_R": "/root/msvc2"
+  },
+  "stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); original _spawnvpe child transport and complete boundary inventories captured."
+  },
+  "executable_sha256": "76f38ab8566b46dc4c213f93cfe2675bc9c0a46f1e065f175236a3c32acbc167"
+}

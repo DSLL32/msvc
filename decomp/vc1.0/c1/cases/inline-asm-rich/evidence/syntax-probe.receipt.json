@@ -1,0 +1,40 @@
+{
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc1.0\\c1\\tools\\capture-cl.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "/nologo /c /Z7 /O2 /G5 /W3 asm-rich.c",
+    "S:\\vc1.0\\c1\\transport\\inline-asm-rich-capture1\\stdout",
+    "S:\\vc1.0\\c1\\transport\\inline-asm-rich-capture1\\stderr",
+    "S:\\vc1.0\\c1\\transport\\inline-asm-rich-capture1\\events",
+    "S:\\vc1.0\\c1\\inline-asm-rich",
+    "S:\\vc1.0\\c1\\transport\\inline-asm-rich-capture1\\config.txt",
+    "ordinary",
+    "S:\\vc1.0\\c1\\transport\\inline-asm-rich-capture1"
+  ],
+  "CL_arguments": "/nologo /c /Z7 /O2 /G5 /W3 asm-rich.c",
+  "helper_source": "decomp/vc1.0/cl/src/capture-run.c",
+  "helper_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+  "helper_sha256": "b80b97201ce6f78fccc165200f844db467639e38e02f01523cdf68cecdc6683c",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "cwd": "S:\\vc1.0\\c1\\inline-asm-rich",
+  "environment": {
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib"
+  },
+  "host_exit": 0,
+  "execution_seconds": 1.918368280865252,
+  "children": [
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\000972 -f asm-rich.c -Ze -Zp8 -Foasm-rich.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Gs -Gf -Og -Oi -Ot -Oy -Ob1 -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include "
+      ]
+    }
+  ]
+}

@@ -1,0 +1,41 @@
+[
+  {
+    "name": "canonical",
+    "command": [
+      "make",
+      "-j4",
+      "audit-win32"
+    ],
+    "seconds": 20.49006295017898,
+    "exit": 0
+  },
+  {
+    "name": "existing-projection",
+    "command": [
+      "python3",
+      "scripts/native-traces.py",
+      "--write"
+    ],
+    "seconds": 0.24985912255942822,
+    "exit": 0
+  },
+  {
+    "name": "entries",
+    "command": [
+      "python3",
+      "scripts/capture-frontier.py",
+      "--case",
+      "cases/inline-asm-rich",
+      "--directory",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/captures/asm-rich-entries-887",
+      "--debugger",
+      "/root/.ai-tmp/msvc2/vc1.0/c1/tools/capture-original.exe",
+      "--entry-from",
+      "875",
+      "--entry-to",
+      "887"
+    ],
+    "seconds": 1.1646068133413792,
+    "exit": 0
+  }
+]

@@ -1,0 +1,62 @@
+{
+  "case": "/root/msvc2/decomp/vc1.0/c1/cases/inline-asm-rich",
+  "phase": "c1",
+  "unmasked": false,
+  "enum_callback_trace": false,
+  "accepted_count": 876,
+  "accepted_sha256": "71fe5b451b2da6bf84086f52be969e951c6403a99b8dd878cbc34d55291a2d8f",
+  "executable_sha256": "4548d3efdd98dbb7db5e057e414b2d917ac4563ff5fd318504b78dc33d0a7c32",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "1e991b685aec2f0a5e6d411180f09a258ecd4701237eba322480f344b55d8c47",
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f asm-rich.c -Ze -Zp8 -Foasm-rich.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Gs -Gf -Og -Oi -Ot -Oy -Ob1 -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\captures\\asm-rich-fixed-876\\work",
+  "child_stdio": {
+    "stderr_to_stdout": true,
+    "provenance": "Original CL prepare_execution dup2(1,2); original _spawnvpe child transport and complete boundary inventories captured."
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/captures/asm-rich-fixed-876/work",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.05059495475143194,
+  "execution_seconds": 1.5416372325271368,
+  "total_seconds": 1.5922345500439405,
+  "files": [
+    {
+      "name": "asm-rich.c",
+      "bytes": 1479,
+      "sha256": "566e79deeb536253a93c1f6bc42dcd1dcd7788afef2908e600af1ed113dd4478"
+    },
+    {
+      "name": "irdb",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irex",
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    {
+      "name": "irgl",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irin",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "name": "irsy",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  ]
+}

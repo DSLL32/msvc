@@ -96,6 +96,10 @@
     "debug-pch-use": {
       "receipt": "cases/debug-pch/evidence/debug-pch-use-entries-875.receipt.json",
       "sha256": "8ce537ea12b22e0f0a2729c6dfe7a3a818aeca9724e2e63c04e8d52e10ba4b47"
+    },
+    "inline-asm-rich": {
+      "receipt": "cases/inline-asm-rich/evidence/asm-rich-entries-887.receipt.json",
+      "sha256": "86dc033862612d2d26046ad534e186e6fc9f4752ae02525f57f0e80a89953d23"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

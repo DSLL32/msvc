@@ -128,3 +128,103 @@ void __stdcall emit_asm_label(char *name)
         emit_code_label(make_ir_leaf(2,label,0));
     }
 }
+
+/* Original0x4e151..0x4e273. Resolve the member in an explicit tag, the
+   operand's symbol/frame/register type, or finally the active tag scopes. */
+unsigned __stdcall asm_member_offset(char *name)
+{
+    FrontendSymbol *symbol, *member;
+    unsigned kind;
+    if (!asm_member_context || !asm_member_context->associated.members) {
+        symbol = asm_operand->address->symbol;
+        if (!symbol || !(asm_operand->address->address_flags & 1)) {
+            symbol = asm_operand->frame_symbol;
+            if (!symbol) symbol = asm_operand->register_symbol;
+        }
+        asm_member_context = symbol ? (FrontendSymbol *)symbol->type->field08 : 0;
+    }
+    if (asm_member_context && asm_member_context->associated.members)
+        member = find_asm_member(asm_member_context->associated.members,name);
+    else member = find_asm_scope_member(name);
+    kind = member ? member->kind & 31 : 0;
+    if (!member || kind < 1 || kind > 13 || kind == 5 ||
+        (kind != 2 && kind != 3) || (member->storage[0] & 7) == 3) {
+        char *context = asm_error_context();
+        report_syntax_error(411,name,context);
+        return 0;
+    }
+    asm_member_context = (FrontendSymbol *)member->type->field08;
+    if (!asm_member_context) {
+        if (kind == 2) compiler_warning(1,401,member->name);
+        asm_operand->size = asm_size_encoding(asm_symbol_type_size(member));
+    }
+    return member->detail.value;
+}
+
+/* Original0x4e06c..0x4e150. Search every complete struct tag in active
+   scopes. Later matches retain the legacy ambiguity diagnostic and depth. */
+FrontendSymbol *__stdcall find_asm_scope_member(char *name)
+{
+    unsigned char depth = scope_depth;
+    SymbolScope *scope;
+    FrontendSymbol *tag, *member, *result = 0;
+    unsigned bucket;
+    for (;;) {
+        scope = scope_directory[depth];
+        for (bucket = 0; bucket <= scope->bucket_mask; ++bucket) {
+            tag = scope->buckets ? scope->buckets[bucket & scope->bucket_mask] : 0;
+            for (; tag; tag = tag->next) {
+                if ((tag->kind & 31) != 4 || (tag->type->flags & 0x200)) continue;
+                member = find_asm_member(tag->associated.members,name);
+                if (!member) continue;
+                if (result) {
+                    char *context = asm_error_context();
+                    report_syntax_error(410,name,context);
+                }
+                found_scope_depth = depth;
+                result = member;
+            }
+        }
+        if (!depth--) break;
+    }
+    return result;
+}
+
+/* Original0x4e047..0x4e06b. Interned member names are pointer keys;
+   unnamed members do not satisfy a lookup. */
+FrontendSymbol *__stdcall find_asm_member(FrontendSymbol *members, char *name)
+{
+    for (; members; members = members->next)
+        if (members->name != name_unnamed && members->name == name) break;
+    return members;
+}
+
+/* Original0x5061c..0x50694. OFFSET produces an immediate symbol address,
+   retaining a placeholder symbol after malformed/register expressions. */
+AsmExpression *__stdcall make_asm_offset(AsmExpression *value)
+{
+    char *context;
+    if (!(asm_operand->address->address_flags & 1)) {
+        if (value->kind == 3) {
+            context = asm_error_context();
+            report_syntax_error(404,interned_name,context);
+        } else report_syntax_error(415);
+        asm_operand->address->symbol = translation_sentinel;
+        value->kind = 2;
+    }
+    asm_operand->address->address_flags &= 0xe8;
+    asm_operand->address->address_flags |= 3;
+    asm_operand->size = 2;
+    return value;
+}
+
+/* Original0x4df9f..0x4dfd7. LENGTH reports the outer array bound,
+   stepping past the representation prefix used by qualified arrays. */
+unsigned __stdcall asm_symbol_length(FrontendSymbol *symbol)
+{
+    TypeShape *shape;
+    if ((symbol->kind & 31) == 8 || !(symbol->attributes & 0x400)) return 1;
+    shape = symbol->type->related;
+    if (shape && !(shape->flags & 7)) shape = shape->related;
+    return shape->field08;
+}

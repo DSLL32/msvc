@@ -26,7 +26,8 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'inlining-ob1':('inlining','c1-ob1'), 'inlining-ob2':('inlining','c1-ob2'),
          'combined-types-literals':('combined-types-literals','c1'),
          'debug-pch-create':('debug-pch','c1-create'),
-         'debug-pch-use':('debug-pch','c1-use')}
+         'debug-pch-use':('debug-pch','c1-use'),
+         'inline-asm-rich':('inline-asm-rich','c1')}
 
 
 CASE_DEPENDENCIES = {

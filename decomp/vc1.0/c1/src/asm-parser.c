@@ -221,7 +221,7 @@ int parse_inline_assembler(void)
         case 45:
             asm_member_mode = 1;
             symbol = lookup_asm_symbol(right[-1].name, 0);
-            asm_member_context = (void *)symbol->type->field08;
+            asm_member_context = (FrontendSymbol *)symbol->type->field08;
             break;
         case 46:
             asm_member_mode = 0;
@@ -229,7 +229,7 @@ int parse_inline_assembler(void)
             break;
         case 47:
             asm_member_mode = 1;
-            asm_member_context = (void *)((CType *)right[-1].words.high)->field08;
+            asm_member_context = (FrontendSymbol *)((CType *)right[-1].words.high)->field08;
             break;
         case 48:
             asm_member_mode = 0;

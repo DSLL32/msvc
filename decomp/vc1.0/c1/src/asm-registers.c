@@ -147,3 +147,32 @@ void normalize_asm_addresses(void)
         } else if (!options.option_qc) address->first_register += 40;
     }
 }
+
+/* Original0x508c8..0x5099d. X87 stack-register operands encode the stack
+   index in the address, while their expression retains the register class. */
+AsmExpression *__stdcall make_asm_stack_register(short reg, int index)
+{
+    ArenaPool *pool = &compiler_arena.pools[2];
+    AsmExpression *expression;
+    char *context;
+    if ((asm_operand_class_rules[asm_operand_class] & 0xc0) != 0x80 ||
+        reg != 31 || index > 7 || index < 0) {
+        context = asm_error_context();
+        if (reg != 31) {
+            report_syntax_error(407,context);
+            return make_asm_register(reg);
+        }
+        report_syntax_error(404,"ST",context);
+        reg = 0;
+    }
+    asm_operand->address->address_flags = 0x34;
+    asm_operand->address->first_register = (unsigned char)index;
+    asm_operand->size = (asm_register_properties[reg] >> 8) & 15;
+    if (pool->remaining < (int)sizeof(AsmExpression)) refill_arena(&compiler_arena,pool);
+    expression = (AsmExpression *)pool->next;
+    pool->remaining -= sizeof(AsmExpression);
+    pool->next += sizeof(AsmExpression);
+    expression->kind = 3;
+    expression->field08 = (unsigned)(int)reg;
+    return expression;
+}

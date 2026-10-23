@@ -1,0 +1,91 @@
+{
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc1.0\\c1\\tools\\capture-cl.exe",
+    "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+    "/nologo /c /Z7 /O2 /G5 /W3 asm-rich.c",
+    "S:\\vc1.0\\c1\\transport\\inline-asm-rich-capture2\\stdout",
+    "S:\\vc1.0\\c1\\transport\\inline-asm-rich-capture2\\stderr",
+    "S:\\vc1.0\\c1\\transport\\inline-asm-rich-capture2\\events",
+    "S:\\vc1.0\\c1\\inline-asm-rich",
+    "S:\\vc1.0\\c1\\transport\\inline-asm-rich-capture2\\config.txt",
+    "ordinary",
+    "S:\\vc1.0\\c1\\transport\\inline-asm-rich-capture2"
+  ],
+  "CL_arguments": "/nologo /c /Z7 /O2 /G5 /W3 asm-rich.c",
+  "helper_source": "decomp/vc1.0/cl/src/capture-run.c",
+  "helper_source_sha256": "54ca0856cf47c4817f43a3e95c99830bef06cdea279914282604f51ee14de879",
+  "helper_sha256": "b80b97201ce6f78fccc165200f844db467639e38e02f01523cdf68cecdc6683c",
+  "target_sha256": "c8a1d25ceab0994b0a0a565fcbcaeb5824cab1ff60b8df3437873689e32d3de4",
+  "cwd": "S:\\vc1.0\\c1\\inline-asm-rich",
+  "environment": {
+    "PATH": "R:\\toolchains\\1.0-nt\\bin",
+    "INCLUDE": "R:\\toolchains\\1.0-nt\\include",
+    "LIB": "R:\\toolchains\\1.0-nt\\lib"
+  },
+  "host_exit": 0,
+  "execution_seconds": 2.8212064364925027,
+  "children": [
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c13232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c13232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il .\\001184 -f asm-rich.c -Ze -Zp8 -Foasm-rich.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -Z7 -Gs -Gf -Og -Oi -Ot -Oy -Ob1 -D_M_IX86=500 -G4 -W 3 -I R:\\toolchains\\1.0-nt\\include "
+      ]
+    },
+    {
+      "mode": 0,
+      "file": "R:\\toolchains\\1.0-nt\\bin\\c23232.exe",
+      "argv": [
+        "R:\\toolchains\\1.0-nt\\bin\\c23232.exe"
+      ],
+      "environment": [
+        "MSC_CMD_FLAGS=-ef R:\\toolchains\\1.0-nt\\bin\\c23.err -il .\\001184 -f asm-rich.c -dos -Foasm-rich.obj -ML -Zi -Gs4096 -Gy -G5 -W 3 "
+      ]
+    }
+  ],
+  "C1_boundary_file_sets": {
+    "001-before": [
+      {
+        "name": "asm-rich.c",
+        "bytes": 1479,
+        "sha256": "566e79deeb536253a93c1f6bc42dcd1dcd7788afef2908e600af1ed113dd4478"
+      }
+    ],
+    "001-after": [
+      {
+        "name": "001184db",
+        "bytes": 195,
+        "sha256": "892c2a56fd0636f881590897c1ac7de595ae0ff2ec7dbbd7dd0afdaea5470140"
+      },
+      {
+        "name": "001184ex",
+        "bytes": 1688,
+        "sha256": "35fd85ebfd1182ed50aa14850d84cc21b95566c952a89734d735e3a47611b342"
+      },
+      {
+        "name": "001184gl",
+        "bytes": 260,
+        "sha256": "e0bc4fe3dd575174eff22c568c312a419c3cc681f6c42ec7cb6f7fe78d975b0b"
+      },
+      {
+        "name": "001184in",
+        "bytes": 109,
+        "sha256": "43cddf928eaafb2a0c1c312d51b7dbacbda9c953b43d015f8872b8421a6341cc"
+      },
+      {
+        "name": "001184sy",
+        "bytes": 249,
+        "sha256": "8b0605f3cbc540a655950e94f2c148fbb5cef88e974868e34d8dd68d3e354367"
+      },
+      {
+        "name": "asm-rich.c",
+        "bytes": 1479,
+        "sha256": "566e79deeb536253a93c1f6bc42dcd1dcd7788afef2908e600af1ed113dd4478"
+      }
+    ]
+  }
+}

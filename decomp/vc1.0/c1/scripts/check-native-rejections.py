@@ -121,6 +121,15 @@ def main():
     rejects('preprocessor-line-ending-byte', 'output bytes differ: test.i',
             lambda: checker.validate_artifacts(preprocessed, pp_fixture, pp_phase))
 
+    _, assembly = checker.run_case('inline-asm-rich', executable, directory, (cache, filter_path))
+    assembly_fixture = checker.BINARY/'cases/inline-asm-rich'
+    assembly_phase = json.loads((assembly_fixture/'manifest.json').read_text())['phases']['c1']
+    asm_ir = bytearray((assembly/'irex').read_bytes())
+    asm_ir[-1] ^= 1
+    (assembly/'irex').write_bytes(asm_ir)
+    rejects('rich-assembler-expression-byte', 'output bytes differ: irex',
+            lambda: checker.validate_artifacts(assembly, assembly_fixture, assembly_phase))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

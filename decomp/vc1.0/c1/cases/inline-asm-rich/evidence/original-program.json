@@ -1,0 +1,29 @@
+{
+  "operations": [
+    {
+      "name": "original-link",
+      "command": [
+        "wine",
+        "R:\\toolchains\\1.0-nt\\bin\\CL.EXE",
+        "/nologo",
+        "/Feasm-rich.exe",
+        "asm-rich.obj"
+      ],
+      "seconds": 1.8702031038701534,
+      "exit": 0
+    },
+    {
+      "name": "original-run",
+      "command": [
+        "wine",
+        "S:\\vc1.0\\c1\\inline-asm-rich\\asm-rich.exe"
+      ],
+      "seconds": 1.0697773210704327,
+      "exit": 0
+    }
+  ],
+  "source_sha256": "566e79deeb536253a93c1f6bc42dcd1dcd7788afef2908e600af1ed113dd4478",
+  "object_sha256": "35908b7311d68d977346190a7c860835407ca49d1d5cc10c3f9f6b43c9648102",
+  "exe_sha256": "60acdfad1fa844d02dc73aa885ea0cf6750fbf63fc5e5c2cf32a2c19c7d75562",
+  "scope": "Original backend/link/program behavior only; backend reconstruction is not assigned."
+}

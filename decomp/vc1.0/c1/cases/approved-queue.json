@@ -1,25 +1,20 @@
 {
-  "authorization": "User selected ONE debug-bearing PCH create/reuse workflow. Complete both phases, then pause.",
-  "baseline_accepted_count": 862,
+  "authorization": "User selected ONE substantial inline-assembly case with scaled/indexed and member addressing, operand sizes, OFFSET and x87 forms. Complete it, then propose the next substantial case to root for review.",
+  "baseline_accepted_count": 875,
   "baseline_coverage": {
-    "bytes": 221786,
+    "bytes": 223068,
     "total": 277234,
-    "percent": 79.99956715265805,
+    "percent": 80.46199239631503,
     "metric": "Accepted original extent union; not branch coverage."
   },
   "cases": [
     {
-      "case": "debug-pch",
-      "phase": "c1-create",
-      "status": "complete at874; exact PCH/IR/status/streams and callback/first-entry traces"
-    },
-    {
-      "case": "debug-pch",
-      "phase": "c1-use",
-      "status": "complete at875; actual native producer PCH consumed and unchanged, raw IR/streams/status/first-entry order exact"
+      "case": "inline-asm-rich",
+      "phase": "c1",
+      "status": "complete at887; twelve new whole assembler functions; raw IR/status/streams/first-entry sequence exact"
     }
   ],
   "Yd": "Not selected: the standalone /Z7 types case has no PCH dependency, so /Yd would add a distinct PCH-debug case rather than validate this embedded-type writer.",
-  "status": "complete; paused for user selection",
-  "previous_completed_authorization": "User selected ONE substantial combined ordinary C case; finish it, then pause. No other case is assigned."
+  "status": "complete; next single case awaits root review",
+  "previous_completed_authorization": "User selected ONE debug-bearing PCH create/reuse workflow. Complete both phases, then pause."
 }

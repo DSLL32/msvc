@@ -19,7 +19,7 @@ typedef struct AsmOperand {
 } AsmOperand;
 extern AsmOperand asm_operands[3];
 extern AsmAddress asm_addresses[3];
-extern void *asm_member_context;
+extern FrontendSymbol *asm_member_context;
 extern int asm_skip_initial_newlines;
 void initialize_inline_assembler(void);
 void __stdcall emit_asm_label(char *name);
@@ -34,6 +34,7 @@ typedef struct AsmExpression {
     union { unsigned integer; FrontendSymbol *symbol; char *text; } value;
     unsigned field08;
 } AsmExpression;
+extern char *asm_operator_names[36];
 extern AsmOperand *asm_operand;
 extern short asm_operation, asm_opcode;
 extern int asm_brackets_used, asm_member_mode, asm_operand_count, asm_operand_mode;
@@ -88,6 +89,7 @@ extern AsmOperand *asm_output_operands[3];
 void serialize_asm_instruction(void);
 unsigned char __stdcall asm_address_mode_code(AsmAddress *address);
 void __stdcall add_asm_displacement(unsigned value);
+unsigned __stdcall asm_scale_encoding(unsigned scale);
 AsmExpression * __stdcall multiply_asm_expression(unsigned short operation, AsmExpression *left, AsmExpression *right);
 AsmExpression * __stdcall evaluate_asm_binary(unsigned short operation, AsmExpression *left, AsmExpression *right);
 AsmExpression * __stdcall combine_asm_addresses(unsigned short operation, AsmExpression *left, AsmExpression *right);
@@ -105,8 +107,10 @@ AsmExpression * __stdcall make_asm_offset(AsmExpression *value);
 AsmExpression * __stdcall make_asm_register(short reg);
 AsmExpression *__stdcall make_asm_address_register(short reg);
 extern unsigned short asm_register_properties[46];
-AsmExpression * __stdcall make_asm_stack_register(short reg, unsigned index);
+AsmExpression * __stdcall make_asm_stack_register(short reg, int index);
 void __stdcall set_asm_operand_size(unsigned char size);
 unsigned char __stdcall asm_size_encoding(unsigned bytes);
+FrontendSymbol *__stdcall find_asm_member(FrontendSymbol *members, char *name);
+FrontendSymbol *__stdcall find_asm_scope_member(char *name);
 unsigned __stdcall asm_member_offset(char *name);
 #endif

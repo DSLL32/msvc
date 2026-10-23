@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "d31bc9123bd8c4f0adcf90aec4b724dd953c2f65fe49b54e86f415fcb0df6e6b",
+    "functions.json": "ed63851259b376d3125a89f89a99efd1887ac20ae0a4d5fdf511cdce579aa344",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "03e3f466bc089cf52a3250443e2644f2597d386a3e667b4837d8eda9a0355aaa"
+    "sha256": "da53c45922655fb8cab037b74f715293f21326a65c0e5479aff8d98ead583103"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "db968f9ecdf9fb5dd280af3bb8afeac798d8a9908c9e34b864c9da038139d35b"
+    "sha256": "0085eafe0d06466663aeb4a8d622d45f398781dbca1bc198874ac8ed0d3d3ca4"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -215,7 +215,7 @@
     },
     "asm_member_offset": {
       "logical": "_asm_member_offset@4",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-symbols.c"
     },
     "asm_operand_accepts_size": {
       "logical": "_asm_operand_accepts_size@8",
@@ -229,13 +229,17 @@
       "logical": "_asm_recovery_value@4",
       "source": "src/asm-stubs.c"
     },
+    "asm_scale_encoding": {
+      "logical": "_asm_scale_encoding@4",
+      "source": "src/asm-expressions.c"
+    },
     "asm_size_encoding": {
       "logical": "_asm_size_encoding@4",
       "source": "src/asm.c"
     },
     "asm_symbol_length": {
       "logical": "_asm_symbol_length@4",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-symbols.c"
     },
     "asm_symbol_type_size": {
       "logical": "_asm_symbol_type_size@4",
@@ -627,7 +631,7 @@
     },
     "combine_asm_addresses": {
       "logical": "_combine_asm_addresses@12",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-expressions.c"
     },
     "commit_program_database": {
       "logical": "_commit_program_database",
@@ -1139,7 +1143,7 @@
     },
     "evaluate_asm_binary": {
       "logical": "_evaluate_asm_binary@12",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-expressions.c"
     },
     "evaluate_asm_unary": {
       "logical": "_evaluate_asm_unary@8",
@@ -1221,9 +1225,17 @@
       "logical": "_find_asm_keyword@4",
       "source": "src/asm-mnemonics.c"
     },
+    "find_asm_member": {
+      "logical": "_find_asm_member@8",
+      "source": "src/asm-symbols.c"
+    },
     "find_asm_mnemonic": {
       "logical": "_find_asm_mnemonic@4",
       "source": "src/asm-mnemonics.c"
+    },
+    "find_asm_scope_member": {
+      "logical": "_find_asm_scope_member@4",
+      "source": "src/asm-symbols.c"
     },
     "find_builtin_index": {
       "logical": "_find_builtin_index@4",
@@ -1815,7 +1827,7 @@
     },
     "make_asm_offset": {
       "logical": "_make_asm_offset@4",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-symbols.c"
     },
     "make_asm_register": {
       "logical": "_make_asm_register@4",
@@ -1827,7 +1839,7 @@
     },
     "make_asm_stack_register": {
       "logical": "_make_asm_stack_register@8",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-registers.c"
     },
     "make_asm_symbol": {
       "logical": "_make_asm_symbol@4",
@@ -2151,7 +2163,7 @@
     },
     "multiply_asm_expression": {
       "logical": "_multiply_asm_expression@12",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-expressions.c"
     },
     "multiply_extended": {
       "logical": "_multiply_extended",
@@ -2223,7 +2235,7 @@
     },
     "normalize_asm_x87_operands": {
       "logical": "_normalize_asm_x87_operands",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-instructions.c"
     },
     "normalize_based_expression": {
       "logical": "_normalize_based_expression@4",
@@ -3191,7 +3203,7 @@
     },
     "set_asm_operand_size": {
       "logical": "_set_asm_operand_size@4",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm.c"
     },
     "set_debug_index_cursor": {
       "logical": "_set_debug_index_cursor",
@@ -4303,7 +4315,19 @@
     "write_legacy_enum_members",
     "write_legacy_signed_number",
     "finish_pch_type_records",
-    "restore_pch_debug_state"
+    "restore_pch_debug_state",
+    "asm_member_offset",
+    "find_asm_scope_member",
+    "find_asm_member",
+    "multiply_asm_expression",
+    "asm_scale_encoding",
+    "combine_asm_addresses",
+    "set_asm_operand_size",
+    "make_asm_offset",
+    "evaluate_asm_binary",
+    "asm_symbol_length",
+    "normalize_asm_x87_operands",
+    "make_asm_stack_register"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5441,6 +5465,29 @@
       "seen_count": 736,
       "expected": [
         "restore_pch_debug_state"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 0
+      }
+    },
+    "inline-asm-rich": {
+      "first": 875,
+      "last": 887,
+      "seen_count": 737,
+      "expected": [
+        "asm_member_offset",
+        "find_asm_scope_member",
+        "find_asm_member",
+        "multiply_asm_expression",
+        "asm_scale_encoding",
+        "combine_asm_addresses",
+        "set_asm_operand_size",
+        "make_asm_offset",
+        "evaluate_asm_binary",
+        "asm_symbol_length",
+        "normalize_asm_x87_operands",
+        "make_asm_stack_register"
       ],
       "terminal": {
         "kind": "exit",

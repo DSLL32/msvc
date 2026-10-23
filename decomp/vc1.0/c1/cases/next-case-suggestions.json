@@ -1,27 +1,72 @@
 {
-  "authorization": "Debug-bearing PCH producer/consumer complete. Suggestions below are unassigned; paused for user selection.",
-  "remaining_original_code_extent_bytes": 54166,
+  "authorization": "Rich inline-assembly selected case is complete. Proposed next SINGLE case awaits root review; no extra case executed.",
+  "remaining_original_code_extent_bytes": 51572,
   "metric": "Remaining code-section bytes outside accepted extent union, including unknown application and runtime code; not branch coverage.",
   "suggestions": [
     {
-      "case": "Richer valid inline assembly: scaled address arithmetic, record member offsets, explicit operand sizes, OFFSET and x87 stack forms.",
-      "grounding": [
-        "asm-parser semantic actions call multiply_asm_expression, asm_member_offset, make_asm_offset and set_asm_operand_size",
-        "asm-instructions emit path calls normalize_asm_x87_operands for x87 operand normalization",
-        "asm operand validation calls fits_asm_integer for width-sensitive immediate forms"
+      "case": "One storage/pragma/runtime-initialization integration case",
+      "bundled_features": [
+        "Thread-local scalar/aggregate declarations through supported __declspec(thread).",
+        "Block-scope static state used across calls, plus automatic records with parameter-dependent bitfield values.",
+        "Named #pragma pack(push/pop), #pragma alloc_text for a declared function, and explicit #pragma intrinsic selection; ordinary /Z7 /O2 options if original validates them."
       ],
-      "reason": "Existing inline-asm case exercises ordinary integer operands/labels but misses these expression/address/x87 branches.",
-      "approximate_reachable_scope": "The bounded frontend assembler band4c940..5092c has4125 bytes outside the accepted union, including diagnostics/gaps. This is a band estimate, not a reachable-byte promise; exact valid forms require untouched original validation."
-    },
-    {
-      "case": "Deliberate diagnostic/recovery input with malformed declarations, incomplete records and recoverable expression/token errors.",
-      "grounding": [
-        "parser syntax-error branches call report_parser_error and recover_parser_token",
-        "declaration/expression checks call report_type_syntax_error/report_syntax_error",
-        "lexer exposes recovery/expected-token reporters"
+      "candidate_routines": [
+        {
+          "name": "initialize_thread_symbol",
+          "address": "0x33750",
+          "preliminary_body_bound_bytes": 174
+        },
+        {
+          "name": "declare_named_entity",
+          "address": "0x35aa0",
+          "preliminary_body_bound_bytes": 389
+        },
+        {
+          "name": "assign_allocated_text",
+          "address": "0x35d60",
+          "preliminary_body_bound_bytes": 259
+        },
+        {
+          "name": "local_static_name",
+          "address": "0x363f0",
+          "preliminary_body_bound_bytes": 26
+        },
+        {
+          "name": "record_symbol_alias",
+          "address": "0x36370",
+          "preliminary_body_bound_bytes": 46
+        },
+        {
+          "name": "push_pragma_packing",
+          "address": "0x1e8b0",
+          "preliminary_body_bound_bytes": 54
+        },
+        {
+          "name": "pop_pragma_packing",
+          "address": "0x1e8f0",
+          "preliminary_body_bound_bytes": 233
+        },
+        {
+          "name": "enable_intrinsic_function",
+          "address": "0x2dc60",
+          "preliminary_body_bound_bytes": 126
+        },
+        {
+          "name": "emit_runtime_initializer",
+          "address": "0x2fbc0",
+          "preliminary_body_bound_bytes": 282
+        }
       ],
-      "reason": "Successful valid-source cases avoid most diagnostic dispatch, formatting, error accounting and parser recovery.",
-      "approximate_reachable_scope": "Unmeasured; gate/caller evidence exists but exact reachable extents are not established."
+      "known_byte_scope": "Approximately1589 bytes in nine provisional original body bounds, derived by read-only disassembly/decompiler body ranges; gaps/tails need acceptance-time verification. No promise all nine are reached or that dependencies are limited to them.",
+      "public_reachability_evidence": [
+        "merge_storage_class recognizes modifier5 (thread), sets storage[2] bit2; global declaration path calls initialize_thread_symbol when that bit is present.",
+        "record_local_declaration calls local_static_name for a block-scope static object and record_symbol_alias for its persistent alias.",
+        "pragma dispatcher recognizes alloc_text and invokes declare_named_entity then assign_allocated_text; intrinsic uses enable_intrinsic_function unless option_qc.",
+        "process_pack_pragma recognizes named push/pop and directly dispatches corresponding helpers.",
+        "emit_initializer reaches emit_runtime_initializer for nonconstant bitfield values in an automatic aggregate when ordinary extensions are enabled."
+      ],
+      "why_existing_cases_miss": "Current sources use globals/ordinary local scalars, simple pack(n), and existing intrinsic defaults; they do not explicitly combine TLS, local-static aliasing, named pack stacks, alloc_text and runtime bitfield initialization.",
+      "validation_plan": "Draft one coherent stateful checksum module, validate actual original public syntax/options and CL/C1 transport before freezing; link/run original program to verify static/TLS/layout/results; freeze full native-only dependency/oracle and expected first-entry metadata; reconstruct only reached whole functions through completion, preserving all25 current phases and strict original-compiler/Rust/data/grammar checks. Omit unsupported syntax rather than forcing state."
     }
   ],
   "extent_estimate_policy": "Band estimates subtract the exact clipped accepted union from bounded frontend code regions containing the named original stubs. They include unverified gaps/shared text, are not accepted function extents, and do not promise every byte is reached by one case.",
@@ -47,7 +92,15 @@
       "new_functions": 9,
       "new_extent_bytes": 1282,
       "scope": "Nine new source functions plus matched CRT support/import extents. Enum debug serialization reached through retained PCH declarations; actual producer PCH consumed."
+    },
+    {
+      "case": "inline-asm-rich",
+      "new_functions": 12,
+      "new_extent_bytes": 2594,
+      "scope": "Scaled/member addressing, expression arithmetic, explicit sizes/OFFSET/LENGTH, x87 operand normalization. No errors forced; program exit0 and raw IR exact."
     }
   ],
-  "internal_inline_gate_analysis": "Internal standalone MSC_CMD_FLAGS -qc -Ol entries exist and directly gate the pending inline-query family. CL generic /d1 forwarding is statically available, but an untouched successful full pipeline is not validated. Ordinary /Ob1-/Ob2 does not exercise this family."
+  "internal_inline_gate_analysis": "Internal standalone MSC_CMD_FLAGS -qc -Ol entries exist and directly gate the pending inline-query family. CL generic /d1 forwarding is statically available, but an untouched successful full pipeline is not validated. Ordinary /Ob1-/Ob2 does not exercise this family.",
+  "remaining_outside_identified_CRT_import_bytes": 31874,
+  "remaining_classification": "31874 bytes lie outside accepted union and currently identified library/import extents. They include application code, unclassified support, tables and padding; this is not a complete linker map or a reachability claim."
 }

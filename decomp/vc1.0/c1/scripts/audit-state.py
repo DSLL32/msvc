@@ -432,3 +432,10 @@ for name, address, count in [('_legacy_floating_codes',0x6e088,12), ('_legacy_na
 
 print('105 PCH root identities, 12 PCH graph callbacks and the 21-entry shape-cache boundary match.')
 print('%d state defaults/aliases, %d scalar options, 21 option targets, 17 pragma rules and 5 hash callbacks match; 51 builtin suffixes/groups and 6 declspec rows and 13 debug schemas match; 14 special names and 18 integer limits match; 58 primitive debug codes and four pointer models match.' % (len(STATE), option_scalar_count))
+
+# Operator error paths share the assembler's semantic token vocabulary.
+for index in range(36):
+    old = struct.unpack('<I', read(original,0x730a0 + 4*index,4))[0]
+    new = struct.unpack('<I', read(rebuilt,names['_asm_operator_names'] + 4*index,4))[0]
+    assert cstring(original,old) == cstring(rebuilt,new), ('assembler operator name',index)
+print('36 assembler operator diagnostic names match.')

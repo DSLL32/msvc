@@ -879,7 +879,19 @@
     "_write_legacy_signed_number@8",
     "_finish_pch_type_records",
     "import:SetEndOfFile",
-    "_restore_pch_debug_state@4"
+    "_restore_pch_debug_state@4",
+    "_asm_member_offset@4",
+    "_find_asm_scope_member@4",
+    "_find_asm_member@8",
+    "_multiply_asm_expression@12",
+    "_asm_scale_encoding@4",
+    "_combine_asm_addresses@12",
+    "_set_asm_operand_size@4",
+    "_make_asm_offset@4",
+    "_evaluate_asm_binary@12",
+    "_asm_symbol_length@4",
+    "_normalize_asm_x87_operands",
+    "_make_asm_stack_register@8"
   ],
   "driver": [
     {
@@ -4939,17 +4951,23 @@
     {
       "name": "_multiply_asm_expression@12",
       "start": 327759,
-      "end": 327760
+      "end": 327951
     },
     {
       "name": "_evaluate_asm_binary@12",
       "start": 327164,
-      "end": 327165
+      "end": 327605,
+      "shared": [
+        [
+          327605,
+          327705
+        ]
+      ]
     },
     {
       "name": "_combine_asm_addresses@12",
       "start": 327951,
-      "end": 327952
+      "end": 328288
     },
     {
       "name": "_set_asm_address_operator@4",
@@ -4984,7 +5002,7 @@
     {
       "name": "_asm_symbol_length@4",
       "start": 319391,
-      "end": 319392
+      "end": 319448
     },
     {
       "name": "_make_asm_constant@4",
@@ -5004,7 +5022,7 @@
     {
       "name": "_make_asm_offset@4",
       "start": 329244,
-      "end": 329245
+      "end": 329365
     },
     {
       "name": "_make_asm_register@4",
@@ -5014,12 +5032,12 @@
     {
       "name": "_make_asm_stack_register@8",
       "start": 329928,
-      "end": 329929
+      "end": 330142
     },
     {
       "name": "_set_asm_operand_size@4",
       "start": 319095,
-      "end": 319096
+      "end": 319228
     },
     {
       "name": "_asm_size_encoding@4",
@@ -5035,7 +5053,7 @@
     {
       "name": "_asm_member_offset@4",
       "start": 319825,
-      "end": 319826
+      "end": 320116
     },
     {
       "name": "_emit_asm_label@4",
@@ -5123,7 +5141,13 @@
     {
       "name": "_normalize_asm_x87_operands",
       "start": 321937,
-      "end": 321938
+      "end": 322301,
+      "shared": [
+        [
+          322301,
+          322325
+        ]
+      ]
     },
     {
       "name": "_normalize_asm_addresses",
@@ -5504,6 +5528,21 @@
       "name": "_finish_pch_type_records",
       "start": 294112,
       "end": 294168
+    },
+    {
+      "name": "_find_asm_member@8",
+      "start": 319559,
+      "end": 319596
+    },
+    {
+      "name": "_find_asm_scope_member@4",
+      "start": 319596,
+      "end": 319825
+    },
+    {
+      "name": "_asm_scale_encoding@4",
+      "start": 327705,
+      "end": 327759
     }
   ],
   "cases": {
@@ -5616,6 +5655,10 @@
     "debug-pch-use": {
       "accepted_from": 874,
       "accepted_count": 875
+    },
+    "inline-asm-rich": {
+      "accepted_from": 875,
+      "accepted_count": 887
     }
   },
   "buffered_streams": [

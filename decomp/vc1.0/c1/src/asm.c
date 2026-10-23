@@ -42,7 +42,7 @@ void initialize_inline_assembler(void)
 
 AsmOperand asm_operands[3]; /* original 0x5b028..0x5b058 */
 AsmAddress asm_addresses[3]; /* original 0x5b074..0x5b098 */
-void *asm_member_context; /* original 0x5b130 */
+FrontendSymbol *asm_member_context; /* original 0x5b130 */
 typedef char AsmOperand_size[(sizeof(AsmOperand) == 16) ? 1 : -1];
 typedef char AsmAddress_size[(sizeof(AsmAddress) == 12) ? 1 : -1];
 
@@ -107,4 +107,28 @@ void __stdcall add_asm_displacement(unsigned value)
 {
     asm_operand->address->displacement += value;
     asm_operand->address->address_flags |= 2;
+}
+
+extern FrontendSymbol *translation_sentinel;
+
+/* Original0x4de77..0x4defb. Explicit PTR size supersedes a symbol's size,
+   but duplicate/invalid specifications retain the original diagnostics. */
+void __stdcall set_asm_operand_size(unsigned char size)
+{
+    AsmAddress *address;
+    char *context;
+    if ((asm_operand->flags & 1) || (asm_operand->size = size) == 15) {
+        context = asm_error_context();
+        report_syntax_error(408,context);
+    }
+    if (!asm_address_mode) {
+        address = asm_operand->address;
+        if (address->symbol) {
+            if (address->symbol == translation_sentinel && !(address->flags & 0x3f))
+                address->flags = (address->flags & 0xda) | 0x1a;
+            asm_operand->address->address_flags &= 0xef;
+            asm_operand->address->address_flags |= 0x10;
+        }
+    }
+    asm_operand->flags |= 1;
 }
