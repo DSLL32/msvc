@@ -345,7 +345,7 @@ void recon_load_system_profile(const char *,const char *);
  X(DWORD,GetModuleFileNameA,(HMODULE,LPSTR,DWORD)) X(DWORD,GetVersion,(void)) \
  X(BOOL,SystemTimeToFileTime,(const SYSTEMTIME *,FILETIME *)) \
  X(BOOL,SetFileTime,(HANDLE,const FILETIME *,const FILETIME *,const FILETIME *)) \
- X(void,GetSystemTime,(SYSTEMTIME *)) X(void,ExitProcess,(UINT)) \
+ X(void,GetSystemTime,(SYSTEMTIME *)) X(void,ExitProcess,(UINT)) X(void,DebugBreak,(void)) \
  X(LPVOID,VirtualAlloc,(LPVOID,DWORD,DWORD,DWORD)) X(BOOL,VirtualFree,(LPVOID,DWORD,DWORD)) \
  X(HLOCAL,LocalAlloc,(UINT,DWORD)) X(HLOCAL,LocalFree,(HLOCAL)) \
  X(HGLOBAL,GlobalAlloc,(UINT,DWORD)) X(HGLOBAL,GlobalFree,(HGLOBAL)) \
@@ -609,6 +609,7 @@ RECON_WIN32_FUNCTIONS(RECON_DECLARE_WIN32)
 #define SetFileTime recon_SetFileTime
 #define GetSystemTime recon_GetSystemTime
 #define ExitProcess recon_ExitProcess
+#define DebugBreak recon_DebugBreak
 #define VirtualAlloc recon_VirtualAlloc
 #define VirtualFree recon_VirtualFree
 #define LocalAlloc recon_LocalAlloc

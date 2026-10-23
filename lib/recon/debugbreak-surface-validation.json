@@ -1,0 +1,12 @@
+{
+  "scope": "Typed SDK WINAPI void DebugBreak(void) native remap/link surface only; executed body fails unsupported125. No Win32/native breakpoint/exception equivalence.",
+  "consumer": "VC5 C1 full main cold30420/import5d1b8, unvisited debugBreak flag branch; original build already passes.",
+  "checks": {
+    "gcc_clang": "Correct WINAPI function-pointer signature, link, unvisited normal0 and forced unsupported125 path verified.",
+    "artifacts": {
+      "clang": "a83e13581c2126b97fa2ddb661bb03b4d8097bd923a64d892ff429531d5f04b8",
+      "gcc": "f90fa04a8103bbaf1c027cf672bcd9c85a59cdf860f84e15b0999cf38b693ae3",
+      "probe.c": "c5201f008a73013a119a6bc7e3ffe827e62584e60591e78888bacd3884d664b5"
+    }
+  }
+}

@@ -1111,3 +1111,8 @@ BOOL WINAPI recon_IsDBCSLeadByteEx(UINT page,BYTE byte)
     if (page!=1252 || byte>=128) recon_unsupported("IsDBCSLeadByteEx outside1252 ASCII scope");
     return FALSE;
 }
+
+void WINAPI recon_DebugBreak(void)
+{
+    recon_unsupported("unreviewed DebugBreak exception path");
+}
