@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "compare_output_directory",
-    "native_function": "compare_output_directory",
+    "logical": "write_subsection",
+    "native_function": "write_subsection",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -145,7 +145,9 @@
       "hash_source_name",
       "add_source_name",
       "write_packed_debug",
-      "compare_output_directory"
+      "compare_output_directory",
+      "initialize_output",
+      "write_subsection"
     ],
     "proof_mode": "entry-flow",
     "heap_scope": "Root streamlined routine loop: actual next entry/formals plus reached PE header globals; old module3 proof97 retained. No later symbol-heap equality claim.",
@@ -159,9 +161,15 @@
       "source_name_hash",
       "source_file_index_size",
       "directory_entry_count",
-      "source_line_bytes"
+      "source_line_bytes",
+      "cv_file_offset",
+      "output_capacity",
+      "output_used",
+      "output_handle"
     ],
-    "observed_walks": []
+    "observed_walks": [
+      "output_buffer"
+    ]
   },
   "complete_reference": {
     "path": "decomp/vc1.0/cvpack/cases/hello-debug-dll/reference/packed.dll",

@@ -201,3 +201,31 @@ void write_packed_debug(void)
         write_file(input_file, &directory, 4) != 4) fatal_error(20, NULL, NULL);
 }
 #undef OUTPUT_BYTES
+
+int __cdecl compare_output_directory(const void *left, const void *right)
+{
+    const CvDirectoryEntry *a = left, *b = right;
+
+    if (a->subsection == 0x120 || b->subsection == 0x120) {
+        if (a->subsection == 0x120 && b->subsection != 0x120) return -1;
+        if (a->subsection != 0x120 && b->subsection == 0x120) return 1;
+    }
+    if (b->module > a->module) return -1;
+    if (b->module < a->module) return 1;
+    if (b->subsection > a->subsection) return -1;
+    if (b->subsection < a->subsection) return 1;
+    return 0;
+}
+
+void initialize_output(int handle)
+{
+    output_capacity = 0xffe8;
+    do {
+        output_buffer = malloc(output_capacity);
+        if (output_buffer) break;
+        output_capacity >>= 1;
+    } while (output_capacity >= 0x1000);
+    if (!output_buffer) output_capacity = 0;
+    output_used = 0;
+    output_handle = handle;
+}

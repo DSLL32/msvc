@@ -604,5 +604,16 @@
       4
     ],
     "scope": "Only newly consumed COFF file-name chain; all12 nodebytes and NUL-terminated filename bytes defined by initializer, with actual symbol indices and typed next/name ownership. Bounded traversal, not a fullheap/all-prefix replay."
+  },
+  {
+    "name": "output_buffer",
+    "original": 210368,
+    "size": 1,
+    "next": 4294967295,
+    "limit": 1,
+    "count_original": 210376,
+    "count_native": "output_used",
+    "count_limit": 65536,
+    "scope": "Only actual defined buffered-output prefix [0,output_used) of initialize_output allocation. Capacity/request separately observed; no equality credit or reads of the uninitialized capacity tail. Prefix defined by original inline output copies and matched native source."
   }
 ]
