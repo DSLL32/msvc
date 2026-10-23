@@ -6,9 +6,9 @@ Target: `toolchains/5.10/bin/CVPACK.EXE`; the requested folder spelling is
 
 `/help` is complete: status 1, 193 stdout bytes, no stderr, six application
 entries. The genuine embedded-CodeView `hello-debug-dll` case is in progress at
-`record_symbol_reference`, after dispatching module symbol references. There are 89
-accepted application functions / 28,071 extent bytes, plus 784 associated switch-data
-bytes. This is 44.80% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
+`rewrite_module_global_types`, after building module procedure references. There are 90
+accepted application functions / 28,229 extent bytes, plus 784 associated switch-data
+bytes. This is 45.05% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
 it is neither non-CRT nor executed-branch coverage. Four CRT bodies (400 bytes)
 and five import thunks (30 bytes) remain separate support.
 
@@ -51,8 +51,8 @@ bytes, buffer/record aliases, actual reads and allocations, complete mapped-file
 contents, defined symbol/source-module buffers, and 87 owned counted type-name
 cache nodes with their bucket/segment aliases, plus initialized arena prefixes,
 global pointer slots and direct/pool interned-node ownership. Lookup outputs use actual DWORD caller storage; the recursive-reference helper shares its saved DWORD/WORD local through an explicit union. Earlier byte-schema scaffolds were rejected before the callee executed. Local/global symbol hash heads
-retain their actual shared public-arena nodes, full initialized records/padding
-and separate byte/count counters. The default dispatch row and
+retain their actual shared public-arena nodes, full initialized records and owned padding where defined
+and separate byte/count counters. Three new reference nodes bind module/source offsets and initialized14B payloads while retaining each native allocation's own two unwritten alignment bytes. The source-line flag is one original WORD shared by pack_module and main; its old statistics_enabled label is metadata-only. The default dispatch row and
 next global index share their original storage, with actual DWARF offset proof. Uninitialized allocation tails
 remain native owned; explicit positive controls permit changing them. Extended reference arrays retain their actual cleared allocation identities and
 full initialized capacities, including zero spare bytes. Recursive hash nodes
@@ -81,5 +81,5 @@ Each accepted function's `evidence/*/function-review.json` or `validation.json`
 records fresh/reused controls and separate build/capture/check/fixture times.
 Historical raw is never relabeled; incomplete and superseded trials retain their
 status. Current native help runs in roughly 15 ms; the partial debug fixture is
-about 1.2 s including GDB. Completion will use native entry traces, exact streams,
+about 2.2 s including GDB. Completion will use native entry traces, exact streams,
 status and the cached NB11 master without launching Wine.
