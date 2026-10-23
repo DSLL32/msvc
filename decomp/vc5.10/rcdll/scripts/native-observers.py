@@ -529,3 +529,18 @@ class DecimalIntegerKindEntered(gdb.Breakpoint):
         entry=dict(value=int(value),formal_bytes=value.type.sizeof,entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff)
         integer_kinds.append(entry);save_integer_kinds();DecimalIntegerKindReturned(frame,entry);return False
 DecimalIntegerKindEntered('rc_decimal_integer_kind',internal=True);save_integer_kinds()
+
+interned_types=[]
+def save_interned_types():(path.parent/'interned-types.json').write_text(json.dumps(interned_types,indent=2)+'\n')
+class InternedTypeReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        result=int(gdb.parse_and_eval('$eax'))&0xffffffff
+        self.entry.update(result=result,return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,result_block=bytes(gdb.selected_inferior().read_memory(result-12,32)).hex(),buckets_after=bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&rc_type_buckets')),1024)).hex())
+        save_interned_types();return False
+class InternedTypeEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();parent=frame.older();arg=frame.read_var('type');node=int(parent.read_var('node'));buckets=gdb.parse_and_eval('rc_type_buckets')
+        entry=dict(pointer=int(arg),formal_bytes=arg.type.sizeof,object_bytes=arg.dereference().type.sizeof,entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,payload=bytes(gdb.selected_inferior().read_memory(int(arg),20)).hex(),parent=parent.name(),node=node,node_bytes=bytes(gdb.selected_inferior().read_memory(node,20)).hex(),buckets_address=int(buckets.address),buckets_bytes=buckets.type.sizeof,buckets_before=bytes(gdb.selected_inferior().read_memory(int(buckets.address),1024)).hex())
+        interned_types.append(entry);save_interned_types();InternedTypeReturned(frame,entry);return False
+InternedTypeEntered('rc_intern_type',internal=True);save_interned_types()

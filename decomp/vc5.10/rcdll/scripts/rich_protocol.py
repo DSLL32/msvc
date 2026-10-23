@@ -437,7 +437,7 @@ def prepared_case_state(original,native,b,argv,extra_blocks=0,filename=None,outp
     filename=filename or 'resources.rc';filename_bytes=filename.encode('utf-16le');assert len(filename_bytes)<256
     assert raw_bytes(text,'prepared-filename')==bytes.fromhex(arguments['filename'])==filename_bytes+b'\0'*(514-len(filename_bytes))
     old=struct.unpack('<8I',raw_bytes(text,'prepared-closed-input'));new=struct.unpack('<8I',bytes.fromhex(arguments['closed_input']))
-    buffered_output=b['function']in ['rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type']
+    buffered_output=b['function']in ['rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type','rc_read_string']
     if buffered_output:
         length=len(buffered_output_prefix(b));assert old[0]-old[2]==new[0]-new[2]==length and old[1:2]+old[3:]==new[1:2]+new[3:]==(4096-length,138,4,0,4096,0)
     else:assert old[:4]+old[5:]==new[:4]+new[5:]==(0,0,0,128 if output_open else 0,0,4096,0)and old[4]>=3 and new[4]>=3
@@ -1269,7 +1269,7 @@ def quote_source_filename_trial(original,native):
 
 
 def buffered_output_prefix(b):
-    if b['function']not in ['rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type']:return '#line 1 '.encode('utf-16le')
+    if b['function']not in ['rc_list_macro','rc_scan_line_start','rc_handle_directive','rc_read_nonspace','rc_read_identifier','rc_character_class','rc_directive_code','rc_next_token','rc_read_number','rc_get_logical_character','rc_parse_integer_value','rc_digit_value','rc_decimal_integer_kind','rc_store_integer','rc_intern_type','rc_read_string']:return '#line 1 '.encode('utf-16le')
     path=bytes.fromhex(b['arguments']['source_open']['path_bytes']).decode('utf-16le')
     assert path.endswith('\0')and '\0'not in path[:-1]
     return ('#line 1 "'+path[:-1].replace('\\','\\\\')+'"\r\n').encode('utf-16le')
@@ -1566,4 +1566,62 @@ def store_integer_trial(original,native):
     sections=[struct.unpack_from('<8sIIII',pe,pe_at+24+optional_bytes+40*i)for i in range(section_count)]
     assert any(name.rstrip(b'\0')==b'.data'and rva+raw_length<=0x22830<0x22c30<=rva+virtual_bytes for name,virtual_bytes,rva,raw_length,raw_offset in sections),'bucket defaults must be inside actual loader-zeroed PE data'
     proof['integer_storage']=dict(physical_token_bytes=4,consumed_token_bits=8,token=7,value=1,node_bytes=20,type_bytes=20,private_headers=8,node_fields=dict(token=7,flags=1,type_pointer=None,value=1),type_flags=0x1003,initialization='Both actual28-byte HeapAlloc9 results are entirely zero; target writes token/flags/value and type WORD, with untouched bytes checked.',next_formal=dict(type='RcIntegerType pointer',bytes=4,object_bytes=20,cleanup=4),hidden_inputs=dict(type_bucket_count=256,pointer_bytes=4,all_initial_buckets_null=True,extent='original22830..22c30, loader-zeroed virtual .data'),scope='Type interner remains trapped; no completed token/type return yet. Native source traps before unsupported raw-token fallback; no upper caller-spill initialization claim.')
+    return proof
+
+
+def intern_type_trial(original,native):
+    config=read_configuration(original/'functions.json');assert config.get('trial_function')=='rc_intern_type'and len(config['accepted'])==54
+    a,b,proof=checkpoint(original,native,'rc_read_string',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c23a8d
+    assert re.search(r'^#1\s+0x[0-9a-f]+ in rc_next_token\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert proof['application_trace'][-1]=='rc_intern_type'
+    text=(original/'events.txt').read_text();args=b['arguments'];globals=args['preprocessor']['globals'];old_globals=(original/'globals.bin').read_bytes()
+    input_name=raw_bytes(text,'input-temporary')[:-1].decode('ascii')
+    proof.update(wide_argument_state(original,native,a,b,filename=input_name,extra_blocks=14,output_open=True))
+    rows=args['interned_types'];assert rows==json.loads((native/'interned-types.json').read_text())and len(rows)==1;row=rows[0]
+    calls=re.findall(r'^intern-entry type=([0-9a-f]+) node=([0-9a-f]+) esp=([0-9a-f]+) caller=([0-9a-f]+)$',text,re.M);returns=re.findall(r'^intern-return result=([0-9a-f]+) esp=([0-9a-f]+)$',text,re.M);assert len(calls)==len(returns)==1
+    old_type,old_node,old_sp,old_caller=[int(v,16)for v in calls[0]];old_result,old_after=[int(v,16)for v in returns[0]]
+    assert old_caller==0x71c27437 and old_after==old_sp+8 and row['return_esp']==row['entry_esp']+8 and row['formal_bytes']==4 and row['object_bytes']==20 and row['parent']=='rc_store_integer'
+    type_bytes=b'\x03\x10'+b'\0'*18;node_before=b'\x07\x01'+b'\0'*10+b'\x01'+b'\0'*7
+    assert raw_bytes(text,'intern-type-input')==bytes.fromhex(row['payload'])==type_bytes
+    assert raw_bytes(text,'intern-node-input')==bytes.fromhex(row['node_bytes'])==node_before
+    assert raw_bytes(text,'intern-buckets-before')==bytes.fromhex(row['buckets_before'])==b'\0'*1024 and row['buckets_bytes']==1024 and row['buckets_address']>0
+    entry_bytes=b'\0'*12+type_bytes
+    assert raw_bytes(text,'intern-result-block')==raw_bytes(text,'intern-current-entry')==bytes.fromhex(row['result_block'])==entry_bytes
+    old_buckets=raw_bytes(text,'intern-buckets-after');new_buckets=bytes.fromhex(row['buckets_after']);assert len(old_buckets)==len(new_buckets)==1024
+    old_expected=bytearray(1024);new_expected=bytearray(1024);struct.pack_into('<I',old_expected,12,old_result-4);struct.pack_into('<I',new_expected,12,row['result']-4)
+    assert old_buckets==bytes(old_expected)and new_buckets==bytes(new_expected)
+    assert old_globals[0x22830-0x14000:0x22c30-0x14000]==old_buckets
+    buckets=args['type_buckets'];assert buckets['count']==256 and buckets['bytes']==1024 and buckets['pointer_bytes']==4 and buckets['payload']==row['buckets_after']and buckets['address']==row['buckets_address']
+    allocations=[v for v in b['heap']if v['operation']=='allocate'];requests=re.findall(r'^heap-alloc ([0-9a-f]+) (\d+) (\d+) last-error=([0-9a-f]+)$',text,re.M);results=re.findall(r'^heap-alloc-result ([0-9a-f]+) last-error=([0-9a-f]+)$',text,re.M);payloads=re.findall(r'^heap-alloc-payload (\d+) ([0-9a-f]*)$',text,re.M)
+    assert len(allocations)==len(requests)==len(results)==len(payloads)==19
+    assert requests[18][0]==requests[0][0]and requests[18][1:]==('9','32','00000000')and results[18]==('%08x'%(old_result-12),'00000000')and payloads[18]==('32','00'*32)
+    identity=b['heap_identity'];last=allocations[18];assert last['heap']==identity['handle']and last['flags']==9 and last['bytes']==32 and last['result']+12==row['result']and last['payload']=='00'*32 and last['last_error_before']==last['last_error_after']==0
+    for pointer,size,payload in [(row['result']-4,32,entry_bytes),(row['pointer'],28,b'\0'*8+type_bytes)]:
+        block=next(v for v in identity['blocks']if v['payload']+8==pointer);assert block['owner']==identity['handle']and block['flags']==9 and block['bytes']==size and bytes.fromhex(block['contents'])==payload
+    assert int(results[16][0],16)+8==old_node and int(results[17][0],16)+8==old_type
+    assert allocations[16]['result']+8==row['node']and allocations[17]['result']+8==row['pointer']
+    current=bytearray(node_before);struct.pack_into('<I',current,4,row['result']);old_current=bytearray(node_before);struct.pack_into('<I',old_current,4,old_result)
+    assert raw_bytes(text,'intern-current-node')==b'\0'*8+bytes(old_current)
+    node=args['integer_node'];assert node['pointer']==row['node']and bytes.fromhex(node['payload'])==bytes(current)
+    block=next(v for v in identity['blocks']if v['payload']+8==node['pointer']);assert block['owner']==identity['handle']and block['flags']==9 and block['bytes']==28 and bytes.fromhex(block['contents'])==b'\0'*8+bytes(current)
+    reader=args['reader'];assert reader['formals']==[]and reader['caller']=='rc_next_token'and reader['token_kind']==7 and reader['token_value']==node['pointer']and reader['header_mode']==reader['output_active']==0 and reader['in_directive']==1
+    assert old_globals[0x144f4-0x14000]==int.from_bytes(bytes.fromhex(globals['rc_token_kind']['bytes']),'little')==7
+    assert struct.unpack_from('<I',old_globals,0x16cd0-0x14000)[0]==old_node and int.from_bytes(bytes.fromhex(globals['rc_token_value']['bytes']),'little')==node['pointer']
+    for name,rva,value in [('rc_header_mode',0x16efc,0),('rc_cpp_active',0x1811c,0),('rc_in_directive',0x18530,1)]:
+        assert struct.unpack_from('<I',old_globals,rva-0x14000)[0]==int.from_bytes(bytes.fromhex(globals[name]['bytes']),'little')==value
+    old_frame=struct.unpack_from('<9I',old_globals,0x18e80-0x14000);new_frame=struct.unpack('<9I',bytes.fromhex(globals['rc_source_frames']['bytes'])[:36])
+    old_cursor=struct.unpack_from('<I',old_globals,0x18120-0x14000)[0];new_cursor=int.from_bytes(bytes.fromhex(globals['rc_source_cursor']['bytes']),'little')
+    assert old_cursor==old_frame[5]+16 and new_cursor==new_frame[5]+16==reader['cursor']
+    source=raw_bytes(text,'string-source-block');new_source=next(v for v in identity['blocks']if v['payload']+8==new_frame[5]);assert new_source['owner']==identity['handle']and new_source['flags']==9 and new_source['bytes']==8206
+    assert source==bytes.fromhex(new_source['contents'])and len(source)==8206
+    word=struct.unpack_from('<H',source,8+old_cursor-old_frame[5])[0];assert word==reader['current_word']
+    assert old_frame[0]==new_frame[0]==4098 and old_frame[7]==new_frame[7]==2
+    file=struct.unpack('<8I',raw_bytes(text,'cpp-source-file'));new_file=struct.unpack('<8I',bytes.fromhex(globals['rc_source_file']['file_state']))
+    assert file[0]==file[2]and new_file[0]==new_file[2]and file[1:2]+file[3:]==new_file[1:2]+new_file[3:]==(0,25,5,0,512,0)
+    assert raw_bytes(text,'cpp-source-buffer')==bytes.fromhex(globals['rc_source_file']['file_buffer'])and len(bytes.fromhex(globals['rc_source_file']['file_buffer']))==512
+    assert re.findall(r'^cpp-source-position (\d+)$',text,re.M)==['6762']and re.search(r'^pos:\s*6762$',args['source_fdinfo'],re.M)
+    assert b['crt_errors']==dict(errno=0,last_error=0)
+    proof['type_interning']=dict(input_bytes=20,argument_bytes=4,cleanup=4,result_alias='owned24-byte entry.type at offset4; current integer node.type and returned type are identical',bucket_count=256,hash=3,before_all_null=True,changed_buckets=[3],entry_bytes=24,heap_header_bytes=8,allocation_bytes=32,defined_payload='Full allocation initially zero; next null, copied20-byte type and cleared WORD at type+16; all bytes/tails exact.',next_formals=[],next_hidden_inputs=dict(source_cursor_offset=16,current_word=word,header_mode=0,output_active=0,in_directive=1,token_kind=7,token_value='actual owned integer node7/value1/type alias'),retired_frame_scope='Previous number-parser stack is no longer live; its raw proof remains in integer-storage-verification.json. No stale stack contents asserted.',comparison_scope='No list comparison call occurs in this first empty-bucket insertion; named comparator remains trapped.')
+    proof['trial']='rc_intern_type'
     return proof

@@ -450,3 +450,12 @@ interner's256 null buckets match.
 records ten fresh controls, the independent review and native fallback guard.
 The physical DWORD token remains intact in the Win32 fallback; native unknown
 fallback codes trap before uncharacterized spill bits are consumed.
+
+Type interning is accepted (159 bytes). Empty bucket3 receives one owned
+24-byte entry; its20-byte type copy, cleared WORD16 and returned type/node alias
+match. The next zero-argument filename-string reader sees the actual source
+cursor16 and word114, with header/output modes0 and directive mode1.
+[Verification](cases/resources-rich-trailing-space/intern-type-verification.json)
+records eleven affected controls and the exact current input/FILE/heap state.
+Earlier number-frame storage has expired and is not reread; unchanged prefix
+controls remain bound by their prior record hashes. The comparator stays trapped.

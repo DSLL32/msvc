@@ -13,7 +13,9 @@ typedef struct RcTokenInfo {
 } RcTokenInfo;
 typedef struct RcIntegerType {
     unsigned short flags;
-    unsigned char other[18];
+    unsigned short other2;
+    unsigned key4,key8,other12;
+    unsigned short other16,other18;
 } RcIntegerType;
 typedef struct RcIntegerToken {
     unsigned char token,flags;
@@ -67,5 +69,6 @@ unsigned char __stdcall rc_long_integer_kind(int value);
 unsigned char __stdcall rc_unsigned_integer_kind(unsigned value);
 void * __stdcall rc_store_integer(unsigned token,const unsigned *value);
 RcIntegerType *__stdcall rc_intern_type(RcIntegerType *type);
+int __stdcall rc_equal_type(const RcIntegerType *left,const RcIntegerType *right);
 int __stdcall rc_digit_value(int character);
 #endif

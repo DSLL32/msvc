@@ -57,7 +57,8 @@
     "rc_parse_integer_value",
     "rc_digit_value",
     "rc_decimal_integer_kind",
-    "rc_store_integer"
+    "rc_store_integer",
+    "rc_intern_type"
   ],
   "functions": [
     {
@@ -1372,6 +1373,14 @@
       "end": "0x7341",
       "abi": "stdcall",
       "stack_bytes": 4,
+      "kind": "application"
+    },
+    {
+      "name": "rc_equal_type",
+      "start": "0x7341",
+      "end": "0x736b",
+      "abi": "stdcall",
+      "stack_bytes": 8,
       "kind": "application",
       "stub": true
     }
