@@ -79,7 +79,8 @@
     "rewrite_bp_relative_symbol",
     "match_forward_type",
     "lookup_named_type",
-    "find_local_named_type"
+    "find_local_named_type",
+    "record_base_classes"
   ],
   "functions": [
     {
@@ -2761,8 +2762,11 @@
       "source_name": "record_base_classes",
       "native_symbol": "record_base_classes",
       "original": 4240320,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4240320,
+        4240522
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -2775,7 +2779,8 @@
           "slot": 2,
           "kind": "integer"
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0074-record-base-classes/promotion.json"
     },
     {
       "name": "release_type_payload",
@@ -2885,6 +2890,28 @@
         ]
       ],
       "acceptance_proof": "cases/hello-debug-dll/evidence/0073-find-local-named-type/promotion.json"
+    },
+    {
+      "name": "record_base_relation",
+      "symbol": "_record_base_relation",
+      "source_name": "record_base_relation",
+      "native_symbol": "record_base_relation",
+      "original": 4252960,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "index",
+          "kind": "integer",
+          "slot": 1
+        },
+        {
+          "name": "base",
+          "kind": "integer",
+          "slot": 2
+        }
+      ]
     }
   ],
   "support_unmasked": [

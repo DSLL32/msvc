@@ -94,3 +94,26 @@ checked_limit:
         global_types_exhausted = 1;
     }
 }
+
+/* Record the leading base-class fields of a packed class [0040b3c0,0040b48a). */
+void record_base_classes(unsigned index, unsigned list)
+{
+    unsigned char *field;
+    unsigned short kind;
+    if (!list) return;
+    field = global_type_blocks[(list - 0x1000) >> 9][list & 511] + 4;
+    for (;;) {
+        if (*field >= 0xf0) field += *field & 15;
+        kind = *(unsigned short *)field;
+        if (kind == 0x1401) {
+            record_base_relation(index, *(unsigned *)(field + 4));
+            field += 12;
+            field += *(unsigned short *)field < 0x8000 ? 2 : numeric_leaf_size(field);
+            field += *(unsigned short *)field < 0x8000 ? 2 : numeric_leaf_size(field);
+        } else if (kind == 0x1400) {
+            record_base_relation(index, *(unsigned *)(field + 4));
+            field += 8;
+            field += *(unsigned short *)field < 0x8000 ? 2 : numeric_leaf_size(field);
+        } else return;
+    }
+}

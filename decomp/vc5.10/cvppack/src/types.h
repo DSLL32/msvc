@@ -107,6 +107,7 @@ extern StructureAlias *structure_aliases, *last_structure_alias;
 unsigned char *__fastcall copy_type_arena(TypeArena *arena, const unsigned char *data, unsigned size);
 void __fastcall allocate_global_type(TypeRecord *record);
 void record_base_classes(unsigned index, unsigned list);
+void record_base_relation(unsigned index, unsigned base);
 void release_type_payload(TypeRecord *record);
 unsigned __fastcall compact_legacy_index(unsigned index);
 void flush_type_stack(void);

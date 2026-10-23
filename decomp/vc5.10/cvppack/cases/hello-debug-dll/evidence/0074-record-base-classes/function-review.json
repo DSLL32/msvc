@@ -1,0 +1,77 @@
+{
+  "schema": 1,
+  "candidate": "record_base_classes",
+  "accepted_functions": 74,
+  "application_extent_bytes": 23763,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 37.92250486738374,
+  "qualification": "Application extents / whole text, not non-CRT or branch coverage.",
+  "source_extent": [
+    4240320,
+    4240522
+  ],
+  "associated_text_data": [],
+  "source_review": [
+    "Read packed field list through actual global pointer blocks; skip CodeView padding and scan only leading1400/1401 base records.",
+    "Record index/base relation then skip one/two numeric offsets, exactly preserving original stopping behavior.",
+    "Actual RECT and PAINTSTRUCT lists begin with member fields, so base-relation/numeric helpers remain unexecuted stubs."
+  ],
+  "executed_scope": "No-base exits for two genuine Win32 structures; newstate7global types/328defined arenaB/2global names; next scope-end callback.",
+  "fresh_pair": true,
+  "next_frontier": "leave_symbol_scope",
+  "fresh_negative_count": 23,
+  "affected_controls": {
+    "type-arena-state-checks.json": {
+      "path": "type-arena-state-checks.json",
+      "sha256": "506c9076797699223d40efa335e6e9d6b8f8a589a6f9d4a33409c56469e1df1a"
+    }
+  },
+  "reused_controls": {
+    "read-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0071-match-forward-type/read-state-checks.json",
+      "sha256": "1ba19573dd3b3b7982aeef2b9ff1434fdd616a5511356eda9db244d4ed90d29b"
+    },
+    "initialized-storage-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0071-match-forward-type/initialized-storage-checks.json",
+      "sha256": "699c47129ead5613f30de8b942068bafc181f9ccd256f0baeb82bcc5339a1f5c"
+    },
+    "type-record-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0071-match-forward-type/type-record-state-checks.json",
+      "sha256": "c00410ded5b389615d34b7498eed2837b01ea94f3fba9a3a0b1fa76e54dc44aa"
+    },
+    "abi-state-checks.json": {
+      "path": "cases/hello-debug-dll/evidence/0071-match-forward-type/abi-state-checks.json",
+      "sha256": "702a6801ab297d3736bfc72e61a6d2ee0b12d8707bd7bd85ba55bf497f944bd5"
+    },
+    "help-protocol-report.json": {
+      "path": "cases/hello-debug-dll/evidence/0071-match-forward-type/help-protocol-report.json",
+      "sha256": "c252ae3cdd6dd919240318781d55e3e4a44820d1d8fd636971e21d79214553d2"
+    }
+  },
+  "reuse_reason": "Observer/decoder/controller unchanged; fresh candidate raw/graph and expanded arena/global-cache/scope-state controls.",
+  "seconds": {
+    "trial": {
+      "original_build": 5.371392095461488,
+      "native_build": 2.357226141728461,
+      "graph_tool_build": 0.031009787693619728,
+      "original_capture": 7.197177637368441,
+      "native_capture": 0.7078394470736384,
+      "pair_check": 0.6973048951476812
+    },
+    "controls": 3.959530374035239,
+    "fixtures": {
+      "hello-debug-dll": {
+        "preparation": 0.0024497536942362785,
+        "execution": 0.6985336784273386,
+        "checks": 0.004594055004417896,
+        "total": 1.0158226247876883
+      },
+      "help": {
+        "preparation": 0.0025568874552845955,
+        "execution": 0.006607121787965298,
+        "checks": 0.002711404114961624,
+        "total": 0.016923999413847923
+      }
+    }
+  }
+}
