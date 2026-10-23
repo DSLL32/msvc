@@ -3,6 +3,7 @@
 #include "types.h"
 #include "image.h"
 #include "pack.h"
+#include "widen.h"
 #include <recon.h>
 
 void write_debug_directory(void) { __asm { int 3 } }
@@ -23,7 +24,6 @@ int grow_mapping(CachedFile *file, int size) { __asm { int 3 } return 0; }
 unsigned stream_read(CachedFile *file, void *buffer, unsigned size) { __asm { int 3 } return 0; }
 void read_module_types(CodeViewDirectoryEntry *entry, int precompiled) { __asm { int 3 } }
 void prepare_precompiled_types(ModuleInfo *info) { __asm { int 3 } }
-void read_module_symbols(unsigned index, CodeViewDirectoryEntry *entry) { __asm { int 3 } }
 void read_module_lines(unsigned index, CodeViewDirectoryEntry *entry) { __asm { int 3 } }
 void read_module_global_types(unsigned index, CodeViewDirectoryEntry *entry) { __asm { int 3 } }
 void pack_symbols(void *symbols, CodeViewDirectoryEntry *entry) { __asm { int 3 } }
@@ -32,3 +32,11 @@ void rewrite_legacy_lines(void *lines, CodeViewDirectoryEntry *entry, void *modu
 void decode_new_lines(void *lines, unsigned size, unsigned short *symbols, unsigned short *references) { __asm { int 3 } }
 void rewrite_new_lines(void *lines, CodeViewDirectoryEntry *entry, ModuleInfo *info, unsigned short *symbols, unsigned short *references) { __asm { int 3 } }
 void rewrite_module_global_types(void *types, CodeViewDirectoryEntry *entry, ModuleInfo *info) { __asm { int 3 } }
+
+const char *module_name(ModuleInfo *info) { __asm { int 3 } return NULL; }
+
+int create_widen(WidenTi **object) { __asm { int 3 } return 0; }
+void release_widen(WidenTi *object) { __asm { int 3 } }
+int query_widen(WidenTi *object, WidenOutput *output, const void *input, unsigned size) { __asm { int 3 } return 0; }
+int emit_widen(WidenTi *object, WidenOutput *output, const void *input, unsigned size, unsigned flags) { __asm { int 3 } return 0; }
+void *resize_bytes(void *buffer, unsigned size) { __asm { int 3 } return NULL; }

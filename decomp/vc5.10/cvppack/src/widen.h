@@ -11,6 +11,18 @@ typedef struct WidenOutput {
 } WidenOutput;
 
 #ifdef __cplusplus
+extern "C" {
+#endif
+int create_widen(WidenTi **object);
+void release_widen(WidenTi *object);
+int query_widen(WidenTi *object, WidenOutput *output, const void *input, unsigned size);
+int emit_widen(WidenTi *object, WidenOutput *output, const void *input, unsigned size, unsigned flags);
+void *resize_bytes(void *buffer, unsigned size);
+#ifdef __cplusplus
+}
+#endif
+
+#ifdef __cplusplus
 /* The actual DLL supplies opaque objects. These declarations generate virtual
  * calls only: no constructor, destructor, RTTI or target-side vtable is emitted.
  * RECON_THISCALL is implicit for VC5 members, explicit for native i386. */

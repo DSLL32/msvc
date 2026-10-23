@@ -131,6 +131,20 @@ def compare(config,data,events,native,artifacts=None,views=None):
                 names=[row['name'] for row in data if row['name'] in item['allowed_globals'] and row['original']==value]
                 assert len(names)==1,'argument is not the specified original global address'
                 parameters[item['name']]=dict(null=False,global_name=names[0])
+                if 'buffer_count_slot' in item:
+                    size=original['stack'][item['buffer_count_slot']];row=next(row for row in data if row['name']==item['capacity_global'])
+                    capacity=int.from_bytes(original['memory'][row['original']],'little');pointer=int.from_bytes(original['memory'][value],'little')
+                    assert 0<=size<=capacity and len(original['memory'][pointer])==size
+                    parameters[item['name']].update(size=size,capacity=capacity,bytes=original['memory'][pointer].hex())
+        elif item['kind']=='global-buffer':
+            names=[row['name'] for row in data if row['name'] in item['allowed_globals'] and int.from_bytes(original['memory'][row['original']],'little')==value]
+            assert len(names)==1,'buffer argument does not alias specified original global'
+            row=next(row for row in data if row['name']=='directory_entries');root=int.from_bytes(original['memory'][row['original']],'little');entry=original['stack'][item['entry_slot']]
+            assert entry>=root and (entry-root)%12==0
+            payload=original['memory'][root][entry-root:entry-root+12];assert len(payload)==12
+            size=int.from_bytes(payload[item['count_offset']:item['count_offset']+4],'little');assert 0<=size<=65536
+            assert len(original['memory'][value])==size
+            parameters[item['name']]=dict(global_name=names[0],size=size,bytes=original['memory'][value].hex())
         elif item['kind']=='blob-element-pointer':
             row=next(row for row in data if row['name']==item['root']);root=int.from_bytes(original['memory'][row['original']],'little')
             row=next(row for row in data if row['name']==item['count']);count=int.from_bytes(original['memory'][row['original']],'little')
@@ -153,7 +167,11 @@ def compare(config,data,events,native,artifacts=None,views=None):
         pc=row.pop('pc');sites=[site for site in config.get('read_sites',[]) if site['return_pc']==pc]
         assert len(sites)==1,'unknown actual original read caller'
         site=sites[0];row.pop('buffer')
-        if site.get('count_parameter'):
+        if site.get('allocated_global'):
+            item=next(item for item in data if item['name']==site['allocated_global']);address=int.from_bytes(original['memory'][item['original']],'little')
+            item=next(item for item in data if item['name']==site['capacity_global']);capacity=int.from_bytes(original['memory'][item['original']],'little')
+            assert captured['buffer']==address and any(row['address']==address and row['size']==capacity for row in original['image_allocations']),'read buffer allocation/global ownership differs'
+        elif site.get('count_parameter'):
             allocations=[allocation for allocation in original['module_allocations' if site.get('allocation_kind')=='module' else 'subsection_allocations'] if allocation['address']==captured['buffer']]
             assert len(allocations)==1,'subsection allocation ownership missing/ambiguous'
             allocation=allocations[0];capacity=allocation['size']

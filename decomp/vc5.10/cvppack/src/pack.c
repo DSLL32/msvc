@@ -1,6 +1,7 @@
 /* Original per-module dispatcher [00404c10,00404eae), with its compact
  * subsection switch data [00404eb0,00404ed7). */
 #include "pack.h"
+#include "widen.h"
 #include <recon.h>
 
 ModuleInfo *current_module_info;
@@ -84,4 +85,57 @@ void initialize_single_module(CodeViewDirectoryEntry *entry, ModuleInfo *info)
     entry->data = current_module_buffer;
     info->size = entry->size;
     info->data = current_module_buffer;
+}
+
+/* Read a module's public symbols and widen its type indices [00405130,004051d8). */
+void read_module_symbols(unsigned index, CodeViewDirectoryEntry *entry)
+{
+    if (entry->offset != image_read_mode) {
+        image_read_mode = entry->offset;
+        seek_cached_file(input_file, codeview_file_offset + entry->offset, 0);
+    }
+    if (read_cached_file(input_file, symbol_data, entry->size) != entry->size)
+        fatal_error(1007, "Publics", module_name(current_module_info));
+    image_read_mode += entry->size;
+    entry->size = widen_subsection((unsigned char **)&symbol_data, entry->size, &source_symbol_bytes);
+    symbol_entry_index = index;
+}
+
+/* Convert an older symbol subsection through the opaque WidenTi interface
+ * [00405250,004053ba). The four-byte signature remains in the target buffer. */
+unsigned widen_subsection(unsigned char **buffer, unsigned size, unsigned *capacity)
+{
+    WidenOutput output = { 0, 0, NULL, NULL };
+    WidenTi *object;
+    unsigned input_size, result = size, index;
+    if (*(unsigned *)*buffer == 1) {
+        *(unsigned *)*buffer = 2;
+        input_size = size - 4;
+        if (input_size) {
+            object = (WidenTi *)size;
+            if (!create_widen(&object) || !query_widen(object, &output, *buffer + 4, input_size))
+                fatal_error(1001, NULL, NULL);
+            if (output.bytes > pack_buffer_size) {
+                pack_buffer = resize_bytes(pack_buffer, output.bytes);
+                pack_buffer_size = output.bytes;
+            }
+            if (output.fixups > pack_fixup_count) {
+                pack_fixups = resize_bytes(pack_fixups, output.fixups * 8);
+                pack_fixup_count = output.fixups;
+            }
+            output.output = pack_buffer;
+            output.records = pack_fixups;
+            if (!emit_widen(object, &output, *buffer + 4, input_size, 0))
+                fatal_error(1001, NULL, NULL);
+            result = output.bytes + 4;
+            if (result > *capacity) {
+                *capacity = result;
+                *buffer = resize_bytes(*buffer, result);
+            }
+            for (index = 0; index < output.bytes; ++index)
+                (*buffer)[index + 4] = output.output[index];
+            release_widen(object);
+        }
+    }
+    return result;
 }

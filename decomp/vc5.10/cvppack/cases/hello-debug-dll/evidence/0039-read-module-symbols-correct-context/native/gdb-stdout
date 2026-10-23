@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x56639138 in widen_subsection (buffer=0x5665748c <symbol_data>, size=116, capacity=0x56657310 <symbol_capacity>) at src/stubs.c:35
+35	unsigned widen_subsection(unsigned char **buffer, unsigned size, unsigned *capacity) { __asm { int 3 } return 0; }

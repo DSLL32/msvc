@@ -21,6 +21,7 @@ static int probes_enabled, pending_probe = -1;
 static DWORD watched_address[256], watched_size[256], watch_count;
 static DWORD argument_entry[64], argument_slot[64], argument_count;
 static char argument_kind[64];
+static DWORD argument_buffer_count[64], argument_buffer_offset[64];
 static DWORD graph_address[64], graph_size[64], graph_link[64], graph_count_address[64], graph_count;
 static DWORD graph_string[64], graph_literal[64], graph_handle[64], graph_payload[64], graph_payload_length[64];
 static DWORD file_open_arguments[7];
@@ -46,7 +47,7 @@ static void configure(void)
     }
     value = getenv("VC510_CVPACK_ARGUMENTS");
     while (value && *value && argument_count < 64) {
-        if (sscanf(value, "%lx:%lu:%c", &argument_entry[argument_count], &argument_slot[argument_count], &argument_kind[argument_count]) != 3) break;
+        if (sscanf(value, "%lx:%lu:%c:%lu:%lu", &argument_entry[argument_count], &argument_slot[argument_count], &argument_kind[argument_count], &argument_buffer_count[argument_count], &argument_buffer_offset[argument_count]) != 5) break;
         ++argument_count;
         next = strchr(value, ',');
         value = next ? next + 1 : NULL;
@@ -297,6 +298,14 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         if (!read_bytes(process, context->Esp + argument_slot[i] * 4, &value, 4)) continue;
         if (argument_kind[i] == 'S' && value) string(log, process, value);
         if (argument_kind[i] == 'P' && value) memory(log, process, value, 4);
+        if ((argument_kind[i] == 'B' || argument_kind[i] == 'C') && value &&
+            read_bytes(process, context->Esp + argument_buffer_count[i]*4, &count, 4)) {
+            item = value;
+            if (argument_kind[i] == 'B' && !read_bytes(process, value, &item, 4)) continue;
+            if (argument_buffer_offset[i] != 0xffffffff &&
+                !read_bytes(process, count + argument_buffer_offset[i], &count, 4)) continue;
+            if (count <= 65536) memory(log, process, item, count);
+        }
         if (argument_kind[i] == 'A' && value) {
             if (!read_bytes(process, context->Esp + (argument_slot[i]-1)*4, &count, 4) || count > 64) continue;
             memory(log, process, value, (count+1)*4);

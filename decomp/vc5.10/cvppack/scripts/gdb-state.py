@@ -100,7 +100,10 @@ def install(configuration):
             for site in config.get('read_sites',[]):
                 if site['owner']!=owner.name():continue
                 local=gdb.parse_and_eval(site['local']) if site.get('global_buffer') or (site.get('heap_buffer') and not site.get('count_parameter')) else owner.read_var(site['local'])
-                if site.get('count_parameter'):
+                if site.get('allocated_global'):
+                    capacity=int(gdb.parse_and_eval(site['capacity_global']));entry=owner.read_var(site['count_parameter'])
+                    matches=int(local)==buffer and size==int(entry.dereference()[site['count_member']]) and size<=capacity
+                elif site.get('count_parameter'):
                     local=gdb.parse_and_eval(site['local']) if site.get('global_buffer') else owner.read_var(site['local']);entry=owner.read_var(site['count_parameter'])
                     capacity=int(entry.dereference()[site['count_member']])
                     entry_index=(int(entry)-int(gdb.parse_and_eval('directory_entries')))//12
@@ -161,6 +164,12 @@ def capture(configuration,data_file,output):
         if item['kind']=='string':parameters[item['name']]=dict(null=int(value)==0,bytes=(value.string(encoding='latin1').encode('latin1')+b'\0').hex() if int(value) else None)
         elif item['kind']=='argv':parameters[item['name']]=[(value[i].string(encoding='latin1').encode('latin1')+b'\0').hex() for i in range(int(frame.read_var('argc')))]
         elif item['kind']=='integer-pointer':parameters[item['name']]=dict(null=int(value)==0,bytes=bytes(inferior.read_memory(int(value),4)).hex() if int(value) else None)
+        elif item['kind']=='global-buffer':
+            names=[name for name in item['allowed_globals'] if int(gdb.parse_and_eval(name))==int(value)]
+            assert len(names)==1,'buffer argument does not alias specified global'
+            entry=frame.read_var(item['entry_name']);size=int(entry.dereference()['size'])
+            assert 0<=size<=65536
+            parameters[item['name']]=dict(global_name=names[0],size=size,bytes=bytes(inferior.read_memory(int(value),size)).hex())
         elif item['kind']=='blob-element-pointer':
             root=int(gdb.parse_and_eval(item['root']));count=int(gdb.parse_and_eval(item['count']));address=int(value)
             assert root<=address<root+count*item['element_size'] and (address-root)%item['element_size']==0,'argument is not a directory element'
@@ -182,6 +191,11 @@ def capture(configuration,data_file,output):
                 names=[name for name in item['allowed_globals'] if state['global_addresses'][name]==address]
                 assert len(names)==1,'argument is not the specified global address'
                 parameters[item['name']]=dict(null=False,global_name=names[0])
+                if 'buffer_count_slot' in item:
+                    size=int(frame.read_var(item['buffer_count_name']));capacity=int(gdb.parse_and_eval(item['capacity_global']))
+                    assert 0<=size<=capacity and size<=65536
+                    pointer=int(value.dereference())
+                    parameters[item['name']].update(size=size,capacity=capacity,bytes=bytes(inferior.read_memory(pointer,size)).hex())
         else:parameters[item['name']]=int(value)&0xffffffff
     state['parameters']=parameters
     state['file_calls']=file_calls

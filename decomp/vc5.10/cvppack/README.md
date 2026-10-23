@@ -5,8 +5,8 @@ spelling `cvppack` is retained. The first `/help` case is complete:
 native and masked-original runs produce exit 1, exactly 193 stdout bytes and
 empty stderr, with the same six application entries. The second, genuine
 embedded-debug GUI DLL case is now authorized and in progress; its current
-matching frontier is `read_module_symbols`. Thirty-eight application functions are accepted
-overall, covering 8,071 extent bytes (12.88% of the same whole-text denominator).
+matching frontier is `pack_symbols`. Forty application functions are accepted
+overall, covering 8,601 extent bytes (13.73% of the same whole-text denominator).
 The type-table initialization and complete PE/COFF debug-reader body have
 also been recovered; the PE and CodeView directory reads, complete subsection sort and owned
 segment-map/library loads now match. Module-node creation, scratch setup and the per-module dispatcher are
@@ -82,9 +82,9 @@ ownership. Fourteen semantic mutations fail. Original 33,280 input bytes plus
 2,063,872 zero-extension bytes match the live native view completely. All eleven
 initialized type-table allocations and the nested empty type record are compared.
 
-Twenty completed reads now compare their actual caller/local or owned-heap
+Twenty-one completed reads now compare their actual caller/local or owned-heap
 identity, capacity, count, logical positions, LastError and initialized output
-bytes. Thirteen read mutations and eight initialized-storage mutations fail.
+bytes. Seventeen read mutations and eight initialized-storage mutations fail.
 Uninitialized allocation tails are excluded from initialized input claims; the
 70-entry directory compares its full initialized 840 bytes and separately proves
 the actual 912-byte allocation. Original and native sorting results match exactly.
@@ -94,7 +94,7 @@ for an approved immutable auditor. Function 34 additionally has a static sidecar
 revalidation with the published pre-edit auditor hash, retaining its unchanged
 original/native raw captures. No reference was rerun for that tool-version check.
 
-The current prefix verifies 94 object identities, 20 completed reads and seven
+The current prefix verifies 94 object identities, 21 completed reads and seven
 actual allocator requests. Six work buffers have checked capacities and aliases;
 their uninitialized bytes are not treated as defined inputs. Twenty further
 module/allocation mutation controls fail, including payload contents, capacities,
@@ -107,3 +107,9 @@ The rebuilt per-module dispatcher owns exactly 39 bytes of compiler switch data.
 Its six pointer relocations and 15-byte class map are checked against the original
 and linked output before passing their exact intervals to the shared Rust audit.
 Instruction, gap and terminal checks remain enabled.
+
+The first public-symbol reader and the complete symbol-widening dispatcher now
+match. This first subsection has signature 2 and therefore bypasses WidenTi;
+its next boundary checks the full live 116-byte symbol buffer, directory-element
+identity and bytes. The earlier empty pack-symbol parameter schema was tightened
+and explicitly recaptured before proceeding; both historical observations remain.

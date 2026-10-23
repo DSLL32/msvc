@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "native_only": true,
-  "positive_reads": 14,
+  "positive_reads": 21,
   "rejected": [
     "changed-read-owner",
     "changed-read-local",
@@ -15,7 +15,11 @@
     "changed-read-exit_last_error",
     "changed-read-bytes",
     "missing-completed-read",
-    "reordered-actual-reads"
+    "reordered-actual-reads",
+    "wrong-live-symbol-buffer-alias",
+    "wrong-live-symbol-buffer-extent",
+    "changed-live-symbol-buffer-bytes",
+    "wrong-symbol-directory-index"
   ],
-  "seconds": 0.195917678065598
+  "seconds": 0.6551778195425868
 }

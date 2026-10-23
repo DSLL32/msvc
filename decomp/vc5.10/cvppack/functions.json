@@ -44,7 +44,9 @@
     "find_module_info",
     "initialize_module_pack",
     "pack_module",
-    "initialize_single_module"
+    "initialize_single_module",
+    "read_module_symbols",
+    "widen_subsection"
   ],
   "functions": [
     {
@@ -1290,6 +1292,34 @@
       "symbol": "_read_module_symbols",
       "native_symbol": "read_module_symbols",
       "original": 4215088,
+      "status": "accepted",
+      "extent": [
+        4215088,
+        4215256
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "index",
+          "slot": 1,
+          "kind": "integer"
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "blob-element-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0039-read-module-symbols-live-capacity/promotion.json"
+    },
+    {
+      "name": "read_module_lines",
+      "symbol": "_read_module_lines",
+      "native_symbol": "read_module_lines",
+      "original": 4214896,
       "status": "stub",
       "extent": null,
       "ret": 0,
@@ -1310,16 +1340,6 @@
       ]
     },
     {
-      "name": "read_module_lines",
-      "symbol": "_read_module_lines",
-      "native_symbol": "read_module_lines",
-      "original": 4214896,
-      "status": "stub",
-      "extent": null,
-      "ret": 0,
-      "parameters": []
-    },
-    {
       "name": "read_module_global_types",
       "symbol": "_read_module_global_types",
       "native_symbol": "read_module_global_types",
@@ -1337,7 +1357,27 @@
       "status": "stub",
       "extent": null,
       "ret": 0,
-      "parameters": []
+      "parameters": [
+        {
+          "name": "symbols",
+          "slot": 1,
+          "kind": "global-buffer",
+          "allowed_globals": [
+            "symbol_data"
+          ],
+          "entry_slot": 2,
+          "entry_name": "entry",
+          "count_offset": 8
+        },
+        {
+          "name": "entry",
+          "slot": 2,
+          "kind": "blob-element-pointer",
+          "root": "directory_entries",
+          "count": "directory_count",
+          "element_size": 12
+        }
+      ]
     },
     {
       "name": "decode_legacy_lines",
@@ -1384,6 +1424,123 @@
       "symbol": "_rewrite_module_global_types",
       "native_symbol": "rewrite_module_global_types",
       "original": 4215920,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "widen_subsection",
+      "symbol": "_widen_subsection",
+      "native_symbol": "widen_subsection",
+      "original": 4215376,
+      "status": "accepted",
+      "extent": [
+        4215376,
+        4215738
+      ],
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "buffer",
+          "slot": 1,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "symbol_data",
+            "type_data",
+            "module_data"
+          ],
+          "buffer_count_slot": 2,
+          "buffer_count_name": "size",
+          "capacity_global": "source_symbol_bytes"
+        },
+        {
+          "name": "size",
+          "slot": 2,
+          "kind": "integer"
+        },
+        {
+          "name": "capacity",
+          "slot": 3,
+          "kind": "global-pointer",
+          "allowed_globals": [
+            "source_symbol_bytes",
+            "source_line_bytes",
+            "source_type_bytes"
+          ]
+        }
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0040-widen-subsection-typed-continuation/promotion.json"
+    },
+    {
+      "name": "module_name",
+      "symbol": "_module_name",
+      "native_symbol": "module_name",
+      "original": 4216368,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "info",
+          "slot": 1,
+          "kind": "object-pointer",
+          "shape": {
+            "size": 48,
+            "link": 44,
+            "payload": {
+              "offset": 12,
+              "length_offset": 16
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "create_widen",
+      "symbol": "_create_widen",
+      "native_symbol": "create_widen",
+      "original": 4260496,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "release_widen",
+      "symbol": "_release_widen",
+      "native_symbol": "release_widen",
+      "original": 4260528,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "query_widen",
+      "symbol": "_query_widen",
+      "native_symbol": "query_widen",
+      "original": 4260576,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "emit_widen",
+      "symbol": "_emit_widen",
+      "native_symbol": "emit_widen",
+      "original": 4260608,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": []
+    },
+    {
+      "name": "resize_bytes",
+      "symbol": "_resize_bytes",
+      "native_symbol": "resize_bytes",
+      "original": 4198464,
       "status": "stub",
       "extent": null,
       "ret": 0,
@@ -1561,6 +1718,16 @@
       "count_parameter": "entry",
       "count_member": "size",
       "allocation_kind": "module"
+    },
+    {
+      "return_pc": 4215160,
+      "owner": "read_module_symbols",
+      "local": "symbol_data",
+      "global_buffer": true,
+      "allocated_global": "symbol_data",
+      "capacity_global": "symbol_capacity",
+      "count_parameter": "entry",
+      "count_member": "size"
     }
   ]
 }
