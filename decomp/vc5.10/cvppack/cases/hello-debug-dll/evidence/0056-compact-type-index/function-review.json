@@ -1,0 +1,137 @@
+{
+  "schema": 1,
+  "candidate": "compact_type_index",
+  "accepted_functions": 56,
+  "application_extent_bytes": 16705,
+  "whole_text_denominator_bytes": 62662,
+  "extent_percent": 26.658900130860808,
+  "qualification": "Accepted whole application extents / whole text including CRT/unknown/padding; not non-CRT or executed-branch coverage.",
+  "source_extent": [
+    4206752,
+    4209161
+  ],
+  "associated_text_data": [
+    [
+      4209164,
+      4209288
+    ]
+  ],
+  "source_sha256": "ea7dadd7b22e8161b5dd760d54ff80decde471c9723be0d3883ba35220a3c7c7",
+  "original_body_sha256": "e1b0abf235f0b1ad70bbe53b0dfb0dae3aecc0f15d1d81f64e616b083f791a4b",
+  "abi": {
+    "argument": "ecx",
+    "return_value": "eax",
+    "coff_symbol": "@compact_type_index@4"
+  },
+  "source_review": [
+    "Primitive indices remain unchanged, out-of-range indices return7.",
+    "Recursion flag0x0800 differs from legacy0x8000; alias discard marks final target.",
+    "Existing reference_count is incremented rather than reset; saved versus reloaded payload pointers follow original stores.",
+    "Forward declarations restore prior recursion chain before their recursive call; resolving current recursive type restores it after the helper call.",
+    "Both variable-index offset loops retain observed byte shift by4.",
+    "All10 named application callees and self-call audited; four original jump tables own exactly124B, with padding excluded."
+  ],
+  "executed_scope": "Current genuine debugDLL public records use primitive index0; other branches reconstructed from whole routine and checked statically, no branch-coverage claim.",
+  "fresh_pair": true,
+  "next_frontier": "decode_new_lines",
+  "next_abi": "actual void*/unsigned/ushort*/ushort* formals, complete8093B input and two distinct typed global aliases",
+  "fresh_controls": [
+    {
+      "script": "check-modern-type-state.py",
+      "script_sha256": "118de1b241952d576c310ff5d563910acfc4c83cfb3b6deb4e11b2ae4e6e68a1",
+      "report": "modern-type-checks.json",
+      "report_sha256": "26e3d743d70210ea9c9533f7413fd7a288ff9b5f98206356a28d69ade95f62a5",
+      "count": 13,
+      "seconds": 1.8903724029660225
+    },
+    {
+      "script": "check-read-state.py",
+      "script_sha256": "0ee6d99efed4b3c59cd408c21aee87bae31b281a32a211d3aaadca5426a82418",
+      "report": "read-state-checks.json",
+      "report_sha256": "aa057adddddddf5f6315fecae3c83269215dcb12bb4bbbadb7a566af6e285ccf",
+      "count": 17,
+      "seconds": 0.6553945196792483
+    },
+    {
+      "script": "check-initialized-storage.py",
+      "script_sha256": "24745fb0265dc279f88e0bec66a78f7642e6c8423da65b3c2f0413350221bc79",
+      "report": "initialized-storage-checks.json",
+      "report_sha256": "e6bc5d5f9060992a722e84ea4a3696a8397b1f017796962ad29491d0963108c0",
+      "count": 8,
+      "seconds": 0.41657408233731985
+    },
+    {
+      "script": "check-type-record-state.py",
+      "script_sha256": "6c9903f4df1ef41fa30fc4f45a59a77636464ec02b4efb004baa7a7901954b2e",
+      "report": "type-record-state-checks.json",
+      "report_sha256": "db3b686b3b662451f5f268a185e34bc27ec3361659c1d31c7d37e9eb060f4948",
+      "count": 13,
+      "seconds": 1.21921362914145
+    }
+  ],
+  "reused_controls": {
+    "protocol_receipt": "cases/hello-debug-dll/import-audit-review/0003-qualified-stable/review.json",
+    "sha256": "3c50af6f1d03e026489b9538747129fbd04f20319b51a0bb5d04a8a0d00cdf25",
+    "reason": "Unchanged accept/controller/qualified import checker and provider contract; fresh candidate audit/pair and affected decoder/GDB controls above."
+  },
+  "seconds": {
+    "trial": {
+      "original_build": 3.5538426656275988,
+      "native_build": 2.001883866265416,
+      "graph_tool_build": 0.025576073676347733,
+      "original_capture": 2.7752168960869312,
+      "native_capture": 0.5808244049549103,
+      "pair_check": 0.4120827801525593
+    },
+    "fixtures": {
+      "hello-debug-dll": {
+        "schema": 1,
+        "case": "hello-debug-dll",
+        "terminal": "trap",
+        "native_only": true,
+        "native_sha256": "2e345d66912a26cc67211359dfe09d2c2f27e8d4cc54d03bddc2d3e3ab5ac5b0",
+        "reference_receipt_sha256": "61c8b85e8eedefadd5923d76a773298017c2507ad303b513a9139a03ef94a1f2",
+        "prepared_resources": {
+          "provider_sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b",
+          "source_rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+          "entries": 3,
+          "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de"
+        },
+        "prepared_widen": {
+          "provider_sha256": "808322ba3d6bfccebc996bcc60430afffd3962bfa22c769835114016b7930a92",
+          "contract_sha256": "fe1f3e3109afe67d91745ca1bfaf8f86cb2f2f51f68b5c012cf79637457407d8",
+          "input_dll_sha256": "37c3a6d47173f047a14cae6f4067498d3e0b2905c5f4916bd3f30a4a8e16ae9e",
+          "external_module_sha256": "cd4536b0f88ef633dbba509062edae7423407b206199a89ea971b444ff249a33",
+          "instances": 21
+        },
+        "seconds": {
+          "preparation": 0.0024837423115968704,
+          "execution": 0.5455413861200213,
+          "checks": 0.0045187706127762794,
+          "total": 0.7196797979995608
+        }
+      },
+      "help": {
+        "schema": 1,
+        "case": "help",
+        "terminal": "exit",
+        "native_only": true,
+        "native_sha256": "2e345d66912a26cc67211359dfe09d2c2f27e8d4cc54d03bddc2d3e3ab5ac5b0",
+        "reference_receipt_sha256": "a55251ff7652c5146d63e73004c183cad25a7196b23947e19300b0453081f688",
+        "prepared_resources": {
+          "provider_sha256": "a0ffe4a85d2dfbcd1bb5dba64ea0a1e805db14711d1c7cb5069bd1e044d07f2b",
+          "source_rc_sha256": "926d41eae8d1b19561fd937879b97d4fae174abcb93074005dd266f94a7f2480",
+          "entries": 3,
+          "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de"
+        },
+        "prepared_widen": null,
+        "seconds": {
+          "preparation": 0.0025979867205023766,
+          "execution": 0.006708418019115925,
+          "checks": 0.002520199865102768,
+          "total": 0.016462351195514202
+        }
+      }
+    }
+  }
+}

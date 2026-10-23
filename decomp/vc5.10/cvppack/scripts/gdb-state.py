@@ -191,7 +191,7 @@ def capture(configuration,data_file,output):
             if not integer:
                 pointee=actual.target().strip_typedefs()
                 if pointee.code not in (gdb.TYPE_CODE_VOID,gdb.TYPE_CODE_FUNC):observation['pointee_width']=int(pointee.sizeof)
-                required=item.get('width') if item['kind']=='caller-local-pointer' else item.get('element_size') if item['kind']=='blob-element-pointer' else 4 if item['kind']=='integer-pointer' else None
+                required=item.get('width') if item['kind']=='caller-local-pointer' else item.get('element_size') if item['kind']=='blob-element-pointer' else 4 if item['kind']=='integer-pointer' else item.get('native_pointee_width')
                 if required is not None:assert observation.get('pointee_width')==required, 'actual pointer formal pointee extent differs'
                 if item['kind']=='function-pointer':assert pointee.code==gdb.TYPE_CODE_FUNC, 'callback formal is not an actual function pointer'
             inventory.append(observation)
@@ -205,7 +205,9 @@ def capture(configuration,data_file,output):
         elif item['kind']=='global-buffer':
             names=[name for name in item['allowed_globals'] if int(gdb.parse_and_eval(name))==int(value)]
             assert len(names)==1,'buffer argument does not alias specified global'
-            entry=frame.read_var(item['entry_name']);size=int(entry.dereference()['size'])
+            if 'count_name' in item:size=int(frame.read_var(item['count_name']))
+            else:
+                entry=frame.read_var(item['entry_name']);size=int(entry.dereference()['size'])
             assert 0<=size<=65536
             parameters[item['name']]=dict(global_name=names[0],size=size,bytes=bytes(inferior.read_memory(int(value),size)).hex())
         elif item['kind']=='blob-element-pointer':

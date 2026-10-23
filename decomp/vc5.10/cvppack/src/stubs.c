@@ -51,7 +51,6 @@ unsigned __fastcall compact_type_list(unsigned index, unsigned count) { __asm { 
 unsigned resolve_recursive_type(TypeRecord *record, unsigned index) { __asm { int 3 } return 0; }
 void __fastcall intern_type(TypeRecord *record) { __asm { int 3 } }
 
-unsigned __fastcall compact_type_index(unsigned index) { __asm { int 3 } return 0; }
 
 
 unsigned short numeric_leaf_size(const unsigned char *record) { __asm { int 3 } return 0; }

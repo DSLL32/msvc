@@ -123,7 +123,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
             integer=item['kind']=='integer'
             assert actual['kind']==('integer' if integer else 'pointer'), 'actual frontier formal type differs'
             assert actual['width']==(item.get('native_width',4) if integer else 4), 'actual frontier formal width differs'
-            required=item.get('width') if item['kind']=='caller-local-pointer' else item.get('element_size') if item['kind']=='blob-element-pointer' else 4 if item['kind']=='integer-pointer' else None
+            required=item.get('width') if item['kind']=='caller-local-pointer' else item.get('element_size') if item['kind']=='blob-element-pointer' else 4 if item['kind']=='integer-pointer' else item.get('native_pointee_width')
             if required is not None:assert actual.get('pointee_width')==required, 'actual frontier pointee extent differs'
 
     for item in record['parameters']:
@@ -157,10 +157,13 @@ def compare(config,data,events,native,artifacts=None,views=None):
         elif item['kind']=='global-buffer':
             names=[row['name'] for row in data if row['name'] in item['allowed_globals'] and int.from_bytes(original['memory'][row['original']],'little')==value]
             assert len(names)==1,'buffer argument does not alias specified original global'
-            row=next(row for row in data if row['name']=='directory_entries');root=int.from_bytes(original['memory'][row['original']],'little');entry=original['stack'][item['entry_slot']]
-            assert entry>=root and (entry-root)%12==0
-            payload=original['memory'][root][entry-root:entry-root+12];assert len(payload)==12
-            size=int.from_bytes(payload[item['count_offset']:item['count_offset']+4],'little');assert 0<=size<=65536
+            if 'count_slot' in item:size=original['stack'][item['count_slot']]
+            else:
+                row=next(row for row in data if row['name']=='directory_entries');root=int.from_bytes(original['memory'][row['original']],'little');entry=original['stack'][item['entry_slot']]
+                assert entry>=root and (entry-root)%12==0
+                payload=original['memory'][root][entry-root:entry-root+12];assert len(payload)==12
+                size=int.from_bytes(payload[item['count_offset']:item['count_offset']+4],'little')
+            assert 0<=size<=65536
             assert len(original['memory'][value])==size
             parameters[item['name']]=dict(global_name=names[0],size=size,bytes=original['memory'][value].hex())
         elif item['kind']=='blob-element-pointer':
