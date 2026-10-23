@@ -380,3 +380,9 @@ build/locale-ascii-probe: tests/locale-ascii-probe.c $(SOURCES) $(HEADERS) | bui
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
 locale-ascii-check: build/locale-ascii-probe
 	$(PYTHON) tests/check-locale-ascii.py build/locale-ascii-probe
+
+.PHONY: spawn-state-check
+build/spawn-state-probe: tests/spawn-state-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 $< $(SOURCES) -o $@
+spawn-state-check: build/spawn-state-probe
+	$(PYTHON) tests/check-spawn-state.py build/spawn-state-probe

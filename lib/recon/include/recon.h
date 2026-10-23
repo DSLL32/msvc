@@ -146,6 +146,7 @@ void recon_initterm(ReconInitializer *,ReconInitializer *);
 struct _startupinfo;
 struct _exception;
 extern int recon_crt_app_type,recon_crt_newmode,recon_crt_argc;
+extern int recon_crt_arguments_bound; /* Read-only host observation. */
 extern char **recon_crt_argv,**recon_crt_environment,**recon_crt_initenv;
 extern int (__cdecl *recon_crt_matherr)(struct _exception *);
 void recon_crt_bind_arguments(int,char **,char **);
@@ -158,6 +159,9 @@ typedef struct ReconCrtEnvironmentVector {
 } ReconCrtEnvironmentVector;
 extern ReconCrtEnvironmentVector recon_crt_environment_vectors[3];
 void recon_crt_bind_os_environment(const WCHAR *,size_t,const char *);
+#ifdef RECON_SHIM_IMPL
+void recon_crt_validate_spawn_profile(void);
+#endif
 
 void recon_set_app_type(int);
 int *recon_p_fmode(void),*recon_p_commode(void);

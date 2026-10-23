@@ -742,3 +742,41 @@ and searchenv routines retain their separate CP0 guards. No general1252/DBCS or
 Unicode API behavior follows from this subset. Canonical _getmbcp() reporting0
 for this SBCS state is distinct from the actual internal mb-codepageDWORD1252;
 the original proof binds the latter plus complete tables and LC_CTYPE1033.
+
+Target process environment and RSP2 wait-success response
+-------------------------------------------------------
+A NULL spawn environment inherits the separately bound OS namespace. Explicit
+vectors stay explicit; with no bound target arguments the old host inheritance
+path remains. Bound-but-missing OS blocks and unknown encoding fail closed.
+ASCII WCHAR16 block conversion retains every string and its order, including
+leading-equals process entries, without host controls. PATH search separately
+reads the current target CRT environment through recon_getenv. recon_crt_arguments_bound
+is exposed for read-only host observation. Host transport allocation/cleanup
+must not alter the independently measured parent-state effect.
+
+Only RECON_SPAWN_STATE_PROFILE=msvcrt510-wait-success-v1 enables RSP2. It requires
+mode0, the exact applied1252/en-US profile and inherited target OS namespace.
+The public outer spawn entry captures errno/DOS/LastError before any host helper.
+RSP2 request fields are mode,pid,argc,envc followed by four DWORDs:
+entry errno,DOS,LastError,namespace2; existing length-prefixed strings follow.
+The callback receives parent_state={errno:0,doserrno:2,last_error:2} and
+environment_source='target-os', in addition to the ordinary complete request.
+Its response must be exactly status0/stdout bytes/stderr bytes/parent_state.
+parent_state contains exact before/after maps with errno/doserrno/last_error:
+0/2/2 ->0/0/2. Other keys, types (including bool), states or results deny.
+RSP2 action5 carries those six state DWORDs, then existing stream lengths/bytes.
+Native checks the full response and entry match, handles the streams, and only
+then applies the measured poststate. Stream replay retains logical descriptor
+routing; full FILE/handle/locale/files/process-result matching remains the case
+adapter's responsibility. The adapter must validate full command, argv, CWD,
+input artifacts, target OS environment, response and mandatory invocation count.
+No partial matcher, native PE execution, original launch or fallback is implied.
+
+RSP1 wire/reply/error-state semantics remain unchanged without that option.
+The new profile cannot request native execution or a failed/unknown child result.
+This is the measured wait-success seam, not a general spawn error-state rule.
+Canonical _spawnvp65ba passes envpNULL through65d4/6612/66a6 to _cenvarg6709;
+675a/6766 leave envblkNULL, passed at6974 to CreateProcessA697e. Explicit envp
+uses the distinct cold construction path. The backend6946/6951 clears CRT errno
+and DOS before CreateProcess; actual parent proof binds0/2/2 ->0/0/2. The native
+implementation does not claim Win32 process creation or generic loader behavior.

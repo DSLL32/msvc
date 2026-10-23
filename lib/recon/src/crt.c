@@ -70,7 +70,8 @@ static char environment_update_name[256];
 #endif
 
 int (__cdecl *recon_crt_matherr)(struct _exception *);
-static int recon_crt_arguments_bound,recon_crt_matherr_default;
+int recon_crt_arguments_bound;
+static int recon_crt_matherr_default;
 struct _startupinfo { int newmode; };
 WEAK long recon_osfhnd[256];
 #define os_handles recon_osfhnd
@@ -1637,17 +1638,6 @@ time_t recon_time(time_t *out)
     if (out) *out=value;
     return value;
 }
-WEAK int recon_spawnvpe(int mode,const char *file,const char *const *argv,const char *const *env)
-{
-    const char *path=getenv("PATH"); char buffer[PATH_MAX],program[PATH_MAX]; int result;
-    result=recon_spawnve(mode,file,argv,env);
-    if (result!=-1 || errno!=ENOENT || !path) return result;
-    while ((path=recon_getpath(path,buffer,sizeof(buffer)))!=NULL) {
-        if (snprintf(program,sizeof(program),"%s\\%s",buffer,file)>=(int)sizeof(program)) continue;
-        result=recon_spawnve(mode,program,argv,env); if (result!=-1 || errno!=ENOENT) return result;
-    }
-    return -1;
-}
 int recon_spawnvp(int mode,const char *file,const char *const *argv) { return recon_spawnvpe(mode,file,argv,NULL); }
 static int spawn_list(int search,int mode,const char *file,const char *first,va_list args)
 {
@@ -1960,6 +1950,14 @@ static void ascii_encountered_locale_scope(void)
     }
 #endif
     recon_unsupported("ASCII API unreviewed codepage/locale/profile");
+}
+/* Internal native process-provider gate, not a target CRT API. */
+void recon_crt_validate_spawn_profile(void)
+{
+    if (!recon_crt_arguments_bound || !recon_crt_os_environment ||
+        recon_mb_codepage!=1252 || recon_lc_codepage!=1252)
+        recon_unsupported("spawn profile target namespace/locale");
+    ascii_encountered_locale_scope();
 }
 WEAK int recon_mbsncmp(const unsigned char *left,const unsigned char *right,size_t count)
 {

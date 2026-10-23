@@ -1,0 +1,49 @@
+{
+  "scope": "Explicit RSP2 MSVCRT510 wait-success0/2/2->0/0/2 replay plus actual target-OS NULL-env inheritance. Explicit env remains explicit, unbound RSP1 unchanged. No real Windows execution.",
+  "option": "RECON_SPAWN_STATE_PROFILE=msvcrt510-wait-success-v1",
+  "request": "RSP2 extends mode/pid/argc/envc with fourDWORDs errno/DOS/Last/namespace2 before existing strings; callback parent_state and environment_source target-os.",
+  "response": "Exact status0/stdout bytes/stderr bytes/parent_state{before,after}; six effectDWORDs before stream lengths. Native validates fixed scope/full entry match then applies measured effect after stream handling. Unknown shapes/states/results/profiles/namespace deny.",
+  "reference": {
+    "canonical_provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+    "packet": "/root/.ai-tmp/msvc2/vc5.10/cl/dependency-boundary-2.packet-v3.json",
+    "packet_sha256": "6ebe76a055d79b9d8366639f5732ff9e400b808688c00c0073b7cbc19ae33700",
+    "static_null_environment": "_spawnvp65ba pushesNULL ->65d4 ->6612 ->66a6 ->6709. NULLenvp at675a/6766 leaves envblkNULL;6974 passes it to CreateProcessA697e, hence inherited OS namespace. Explicitenv uses e38b/e3b7 environment construction.",
+    "static_errors": "6946 calls errno accessor and694b clears0;6951 calls DOS accessor and695e clears0 before CreateProcess. Actual parent public-call pre/post independently captured0/2/2->0/0/2.",
+    "static_artifacts": {
+      "spawn-api-asm.txt": "ceb9af41eb15dca3ad589d273ebbc1ff6734f8f46eda7463afeb7a061234a15c",
+      "spawn-create-asm.txt": "fea440b237c3aca1980ba8f94513507f899dbc6986aa039d27a4fadbba6926b8"
+    }
+  },
+  "checks": {
+    "gcc_clang": "Four positives: RSP2 bound OS environment/full parent state effect and RSP1 OS/explicit/unbound; complete108-byte x87 environment with liveST0 unchanged. Twenty native/schema controls, six malformed native replies, missing broker/unknown profile and four malformed request-state controls pass.",
+    "immutable_binaries": {
+      "gcc-reviewed": "3edc9444114a3f0b493f1ccffc1f2ce526bacec6959fabe1f83295c8eae88546",
+      "clang-reviewed": "59b4590f53d1dd63f7bcce035093e00b3b13e85577ffa0e4919433dd02f3d4c9"
+    },
+    "compatibility": "Existing process8, stream72(GCC+Clang), system6, default shim/startup/getenv, environment29/default, locale14/default,68624ASCII/23 controls all passed. No broad suite repetition for explicit RSP2/target namespace change; unbound legacy behavior separately verified.",
+    "focused_measurements": [
+      {
+        "compiler": "gcc",
+        "checks_seconds": 0.1248447922989726,
+        "stdout": "four positives passed\n20 native/schema negatives passed\nsix native wire negatives passed\nmissing broker/unknown profile denials passed\nfour request-state/namespace protocol denials passed\n"
+      },
+      {
+        "compiler": "clang",
+        "checks_seconds": 0.1252190638333559,
+        "stdout": "four positives passed\n20 native/schema negatives passed\nsix native wire negatives passed\nmissing broker/unknown profile denials passed\nfour request-state/namespace protocol denials passed\n"
+      }
+    ],
+    "independent_review": {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/cl/spawn-state-orchestrator-review.json",
+      "sha256": "6a4d98161d8eb566207730b7ee381f51a2c3eaeef59d0c134c2aaf9dbc7395e2",
+      "result": "Parent reviewed full source/typed wire/schema/env selection and independently disassembled canonical NULL-env/error paths, reran both immutable GCC+Clang four positives/32 controls."
+    },
+    "consumer_regression": "VC1 LINK independently reported stable actual broker-WIP C/H snapshot/profile disabled, native rebuild7.596s and71 cached trace/output cases6.307s passed; freeze editor-errors-shared-freeze-vk1l5453. Its native receipt remains owned by LINK."
+  },
+  "limits": [
+    "Case owner validates full actual command/argv/CWD/environment/files/results/streams/lifetimes and mandatory invocation count.",
+    "No host environment/control inheritance after binding; unknown OS encoding/missing bound OS denies.",
+    "RSP2 only known status0/pre0/2/2/post0/0/2 with exact provider/table profile; no broad success reset or failure semantics.",
+    "RSP1 unbound wire/response/error-state behavior unchanged; bound NULL-env source correction is independently explicit."
+  ]
+}
