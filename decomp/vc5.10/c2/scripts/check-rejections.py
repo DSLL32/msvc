@@ -66,7 +66,7 @@ def main():
         ('changed immutable compiled source',changed_snapshot),
         ('changed GDB state decoder input',lambda r:(r/'n/gdb-state.py').write_bytes(b'changed')),
         ('different runtime/global state',wrong_globals),
-        ('different actual arguments',lambda r:mutate_state(r,'arguments',[])),
+        ('different actual arguments',lambda r:mutate_state(r,'arguments',['unrecognized-test-input'])),
         ('inherited empty backend flags',lambda r:mutate_state(r,'MSC_CMD_FLAGS','')),
         ('different source-entry progression',lambda r:mutate_state(r,'trace',[])),
         ('old accepted prefix only was audited',prefix_only_audit),
@@ -107,6 +107,22 @@ def main():
         mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
                       ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
                       ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if 'integer_option'in current_state:
+        def changed_integer_option(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['integer_option'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [('integer input loses bound environment offset',lambda r:changed_integer_option(r,'input_offset',43)),
+                      ('integer operand loses original pointer alias',lambda r:changed_integer_option(r,'operand_alias',False)),
+                      ('copied argument vector has wrong static offset',lambda r:changed_integer_option(r,'argv_offset',28)),
+                      ('copied argument does not alias environment token',lambda r:changed_integer_option(r,'argv_value_alias',False))]
+    if 'target_environment_sha256'in json_at(a.native/'receipt.json'):
+        def changed_target_environment(root):
+            path=root/'n/target-environment.bin';path.write_bytes(b'changed=environment\0\0')
+            rp=root/'n/receipt.json';receipt=json_at(rp);receipt['target_environment_sha256']=sha(path.read_bytes());write_json(rp,receipt)
+        mutations.append(('changed full target environment with matching receipt hash',changed_target_environment))
+    if json_at(a.original/'receipt.json').get('case_inputs'):
+        def changed_ir_input(root):
+            path=root/'o/receipt.json';receipt=json_at(path);name=next(iter(receipt['case_inputs']));receipt['case_inputs'][name]='0'*64;write_json(path,receipt)
+        mutations.append(('different captured IR input hash',changed_ir_input))
     if 'apply'in current_state:
         def changed_apply(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['apply'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

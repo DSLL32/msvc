@@ -139,7 +139,7 @@ def compare(original,native,validation=None):
     assert len(matching)==1,'unknown original frontier'
     expected=matching[0]
     if expected['name']!='_c2_crt_startup':
-        assert expected.get('state_policy')in ('pre-main-no-arguments','main-arguments-and-initial-state','exit-callback','command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','message-load','message-unescape','diagnostic-emit','cached-message','format-prefix','format-prefix-args','format-integer','exit-cleanup','environment-copy')and expected.get('state'),'new frontier needs explicit state decoder'
+        assert expected.get('state_policy')in ('pre-main-no-arguments','main-arguments-and-initial-state','exit-callback','command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','message-load','message-unescape','diagnostic-emit','cached-message','format-prefix','format-prefix-args','format-integer','exit-cleanup','environment-copy','integer-option')and expected.get('state'),'new frontier needs explicit state decoder'
         if expected['state_policy']=='pre-main-no-arguments':
             assert expected['abi']=='cdecl, no parameters','parameter ABI has no decoder'
     native_proof=proof.verify(BINARY/'build/native/c2',(native/'native-maps.txt').read_text(),(native/'gdb.stdout').read_text(),state,config)
@@ -157,16 +157,16 @@ def compare(original,native,validation=None):
         raw={int(a,16):int(v,16)for a,v in re.findall(r'^global ([0-9a-f]+) ([0-9a-f]+)$',section[1],re.M)}
         required={view['original']:raw[int(view['original'],16)]for view in expected['state']}
         assert state['globals']==required,'frontier globals/runtime state differs'
-    if expected.get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy'):
+    if expected.get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option'):
         segment=text.rsplit('observe %08x '%address,1)[1]
         values=re.findall(r'^command-state argc=(\d+) argv=([0-9a-f]+) input=([0-9a-f]+)$',segment,re.M)
         assert len(values)==1
         expected_argv=b'\0'.join(value.encode()for value in case_value['canonical_argv'])+b'\0\0'
         consumed=expected.get('argv_consumed',0)
-        strings=expected_argv[:-2].split(b'\0')[consumed:]
+        strings=([v.encode()for v in expected['expected_argv']]if 'expected_argv'in expected else expected_argv[:-2].split(b'\0')[consumed:])
         assert (original/'command-argv.bin').read_bytes()==b'\0'.join(strings)+b'\0\0'
-        assert int(values[0][0])==len(case_value['canonical_argv'])-consumed
-        assert state['command_state']=={'argc':len(case_value['canonical_argv'])-consumed,'argv':[v.decode()for v in strings]}
+        assert int(values[0][0])==len(strings)
+        assert state['command_state']=={'argc':len(strings),'argv':[v.decode()for v in strings]}
         if expected['state_policy']=='environment-flags':
             assert int(values[0][2],16)==0 and state['flags']is None,'absent MSC_CMD_FLAGS input is not NULL'
     if expected.get('state_policy')in ('message-load','message-unescape'):
@@ -226,6 +226,16 @@ def compare(original,native,validation=None):
         assert (original/'copy-flags.bin').read_bytes()==flags.encode()+b'\0'
         assert state['environment_copy']=={'flags':flags,'environment_alias':True},'native flags must borrow actual bound target environment'
     original_overrides=native_overrides=None
+    if expected.get('state_policy')=='integer-option':
+        initial=re.findall(r'^flags-environment entry=([0-9a-f]+) returned=([0-9a-f]+) alias=(\d+)$',text,re.M)
+        assert len(initial)==1 and initial[0][2]=='1'
+        origin=int(initial[0][1],16)
+        raw=re.findall(r'^integer-option input=([0-9a-f]+) current=([0-9a-f]+) operand=([0-9a-f]+) argv=([0-9a-f]+)$',text.rsplit('observe %08x '%address,1)[1],re.M)
+        assert raw==[('%08x'%(origin+42),'%08x'%(origin+39),'%08x'%(origin+42),'00498010')],'parsed option input/storage aliases differ'
+        assert (original/'integer-input.bin').read_bytes()==b'1\0'and(original/'current-option.bin').read_bytes()==b'-W\0'
+        assert state['integer_option']=={'text':'1','input_offset':42,'current':'-W','current_offset':39,'operand_alias':True,'argv_offset':24,'argv_value_alias':True},'native parsed environment argument aliases differ'
+        original_overrides={'c2_intermediate_base':origin+4,'c2_source_name':origin+16}
+        native_overrides={'c2_intermediate_base':'.\\a01068','c2_source_name':'numeric-control-flow.c'}
     if expected.get('state_policy')=='message-initialize':
         raw=re.findall(r'^message-initialize current=([0-9a-f]+) unexpected=([0-9a-f]+)$',text,re.M)
         assert len(raw)==1 and raw[0][0]==raw[0][1],'message initialization option aliases differ'
@@ -257,7 +267,7 @@ def compare(original,native,validation=None):
         assert (original/'option-value.bin').read_bytes()==b'/?\0'
         table=proof.symbols(BINARY/'build/native/c2',data=True)['c2_options'][0]+int(native_proof['load_bias'],16)
         assert state['apply']=={'option':table+52*12,'value':'/?','mode':0,'current_alias':1},'option application ABI differs'
-    if expected.get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy'):
+    if expected.get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option'):
         from data_evidence import model,plan,verify_original_state,verify_native_state
         data_model=model(config)
         assert (original/'data-plan.txt').read_text()==''.join('%08x %d\n'%(address,size)for name,address,size in plan(data_model))

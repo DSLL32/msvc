@@ -101,12 +101,6 @@ void __fastcall c2_report_internal(char *source, int line)
 
 
 
-char **c2_copy_arguments(void)
-{
-    __asm { int 3 }
-    return NULL;
-}
-
 void __fastcall c2_validate_alignment(char *alignment)
 {
     __asm { int 3 }

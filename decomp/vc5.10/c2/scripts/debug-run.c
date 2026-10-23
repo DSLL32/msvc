@@ -211,7 +211,7 @@ static void observe(CONTEXT *context, DWORD address)
         }
         fclose(file);if(i==4096)ExitProcess(155);
     }
-    if (address == 0x452a22 || address == 0x452a98 || address == 0x452acb || address == 0x452bb7 || address == 0x452bd9 || address == 0x48b7f8 || address == 0x452cfe || address == 0x48b367 || address == 0x48b6e8 || address == 0x48b708) {
+    if (address == 0x452e27 || address == 0x452a22 || address == 0x452a98 || address == 0x452acb || address == 0x452bb7 || address == 0x452bd9 || address == 0x48b7f8 || address == 0x452cfe || address == 0x48b367 || address == 0x48b6e8 || address == 0x48b708) {
         DWORD argc, argv;
         if (!read_memory(0x49972c,&argc,4) || !read_memory(0x499728,&argv,4)) ExitProcess(151);
         fprintf(events,"command-state argc=%lu argv=%08lx input=%08lx\n",argc,argv,context->Ecx);
@@ -226,6 +226,17 @@ static void observe(CONTEXT *context, DWORD address)
     if ((address == 0x4529f1 || address == 0x452a06)) {
         if (!read_memory(context->Esp+4,&value,4)) ExitProcess(149);
         fprintf(events,"exit-callback %08lx\n",value);
+    }
+    if (address == 0x452e27) {
+        DWORD current, operand, argv;
+        if (!read_memory(0x49968c,&current,4) ||
+            !read_memory(0x4980c8,&operand,4) ||
+            !read_memory(0x499728,&argv,4)) ExitProcess(179);
+        fprintf(events,"integer-option input=%08lx current=%08lx operand=%08lx argv=%08lx\n",
+                context->Ecx,current,operand,argv);
+        save_string(context->Ecx,"integer-input.bin");
+        save_string(current,"current-option.bin");
+        save_contextual_data();
     }
     if (address == 0x452a98) {
         fprintf(events,"environment-copy flags=%08lx\n",context->Esi);

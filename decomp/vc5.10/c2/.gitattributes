@@ -1,3 +1,5 @@
 # Original streams are exact bytes, including CRLF and trailing flag spaces.
 *.bin binary
 cases/numeric-control-flow/pipeline/events.txt -whitespace
+# /proc maps are immutable raw observations, including anonymous-row spaces.
+cases/acceptance/**/native/native-maps.txt -whitespace

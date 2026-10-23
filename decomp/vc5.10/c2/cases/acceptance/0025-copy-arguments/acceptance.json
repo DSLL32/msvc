@@ -1,0 +1,48 @@
+{
+  "function": "_c2_copy_arguments",
+  "match": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/copy-original/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/copy-original/graph-audit.json",
+    "matched": "@parse_option_integer@4",
+    "original": "0x452e27",
+    "native": "parse_option_integer",
+    "argument_state": "integer-option",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "parse_option_integer",
+      "symbol_start": "0x2e50",
+      "symbol_size": 777,
+      "static_pc": "0x2e88",
+      "int3_sites": [
+        "0x2e87"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_copy_arguments",
+      "_c2_initialize_options",
+      "_c2_next_argument",
+      "@c2_match_option@16",
+      "@c2_apply_option@12"
+    ],
+    "candidates": [
+      "_c2_copy_arguments"
+    ],
+    "acceptance": false
+  },
+  "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/copy-original",
+  "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/copy-native",
+  "base_configuration_sha256": "3d634679956f3784e948da6a4029f5902b22ca00803e777363cc3a61f59716c6",
+  "review": {
+    "approved": true,
+    "scope": "Completed unsupported /? diagnostic retained; root-authorized numeric-control-flow compilation case",
+    "status": "First case independently passed including32 completion negatives; root/orchestrator released next optimized compilation case autonomously",
+    "review_id": "orchestrator-c2-numeric-release-2026-10-23"
+  }
+}

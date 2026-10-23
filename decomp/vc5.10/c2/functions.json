@@ -34,7 +34,8 @@
     "_format_diagnostic",
     "_format_diagnostic_args",
     "@format_integer@12",
-    "_c2_cleanup"
+    "_c2_cleanup",
+    "_c2_copy_arguments"
   ],
   "driver": [
     {
@@ -183,7 +184,7 @@
               212,
               312
             ],
-            "lifetime_sha256": "582cafdc01f5c90d5ab6b6ffa62408735b2bb534724cef4e07afa070533248bd",
+            "lifetime_sha256": "f70ca5c5115f9c0902a5f630317b32aef08dafc3f8ce02b6d7da919f292198f1",
             "instructions": [
               {
                 "offset": 212,
@@ -202,7 +203,7 @@
                 "bytes": "ff55f483c408"
               }
             ],
-            "review": "Complete401724..401788 reviewed for final cleanup import closure: only ordinary IAT/data operands relocate; same unique cached holder and call/cleanup ABI, no overwrite/escape."
+            "review": "Complete 00401774..004017d8 manually reviewed for argv-copy trial: same unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual global addresses relocated."
           }
         }
       ]
@@ -366,7 +367,7 @@
                 "bytes": "ff55fc83c404"
               }
             ],
-            "review": "Complete401e5d..401ef2 reviewed for final cleanup import closure: only ordinary IAT/data operands relocate; same unique cached holder and call/cleanup ABI, no overwrite/escape."
+            "review": "Complete 00401ead..00401f42 manually reviewed for argv-copy trial: same unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual global addresses relocated."
           }
         }
       ]
@@ -452,7 +453,7 @@
                 "bytes": "ff55f883c410"
               }
             ],
-            "review": "Complete402190..4021de reviewed for final cleanup import closure: only ordinary IAT/data operands relocate; same unique cached holder and call/cleanup ABI, no overwrite/escape."
+            "review": "Complete 004021e0..0040222e manually reviewed for argv-copy trial: same unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual global addresses relocated."
           }
         }
       ]
@@ -586,7 +587,7 @@
               38,
               154
             ],
-            "lifetime_sha256": "0f755ff886e58f285a907ac68d6e576b8393e205e7ebbbafc54e077961356402",
+            "lifetime_sha256": "015d3b1efccc1c1739d74cb46eeab2389867d9c4d51b2452b326b8d5566ceb8b",
             "instructions": [
               {
                 "offset": 38,
@@ -601,7 +602,7 @@
                 "bytes": "ff55f883c404"
               }
             ],
-            "review": "Full402566/40256e..4025da reviewed; unique cached stack slot assignment, two optional calls/cleanup4; intervening callees preserve frame and slot not passed/overwritten."
+            "review": "Complete 004025b6..0040262a manually reviewed for argv-copy trial: same unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual global addresses relocated."
           }
         },
         {
@@ -647,7 +648,7 @@
               46,
               154
             ],
-            "lifetime_sha256": "b7ae0828d685b4fca3308a085f119ebebc6011531fc044286bdfb5de16ecf4f9",
+            "lifetime_sha256": "7bcdb949f776ddc3451994c8f9c3f32f56ed5a819fb1cceb827f73511e9e0b6d",
             "instructions": [
               {
                 "offset": 46,
@@ -662,10 +663,75 @@
                 "bytes": "ff55fc83c404"
               }
             ],
-            "review": "Full402566/40256e..4025da reviewed; unique cached stack slot assignment, two optional calls/cleanup4; intervening callees preserve frame and slot not passed/overwritten."
+            "review": "Complete 004025be..0040262a manually reviewed for argv-copy trial: same unique cached holder, calls/cleanup ABI, no overwrite or escape; contextual global addresses relocated."
           }
         }
       ]
+    },
+    {
+      "name": "_c2_copy_arguments",
+      "native": "c2_copy_arguments",
+      "start": 4532888,
+      "end": 4532939,
+      "kind": "application",
+      "abi": "cdecl, no parameters; returns pointer to terminal argument slot",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        }
+      ],
+      "state_policy": "environment-copy",
+      "argv_consumed": 0,
+      "evidence": "cases/analysis/argv-copy-disassembly.txt: complete 51-byte leaf through RET; static 50-pointer argv storage bounded by independently referenced next object"
     }
   ],
   "stubs": [
@@ -831,13 +897,32 @@
       "abi": "fastcall, ECX source path EDX line"
     },
     {
-      "name": "_c2_copy_arguments",
-      "native": "c2_copy_arguments",
-      "start": 4532888,
-      "end": 4532939,
+      "name": "@c2_validate_alignment@4",
+      "native": "c2_validate_alignment",
+      "start": 4533915,
+      "end": 4533924,
       "pending_extent": true,
       "kind": "application",
-      "abi": "cdecl, no parameters; returns pointer to terminal argument slot",
+      "abi": "fastcall, ECX alignment"
+    },
+    {
+      "name": "@c2_system_fatal@12",
+      "native": "c2_system_fatal",
+      "start": 4765320,
+      "end": 4765358,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall, ECX message EDX prefix; stack filename; RET4"
+    },
+    {
+      "name": "@parse_option_integer@4",
+      "native": "parse_option_integer",
+      "start": 4533799,
+      "end": 4533800,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall ECX integer text; no stack parameters",
+      "state_policy": "integer-option",
       "state": [
         {
           "original": "0x499708",
@@ -892,35 +977,17 @@
           "native": "recon_crt_newmode"
         }
       ],
-      "state_policy": "environment-copy",
-      "argv_consumed": 0
-    },
-    {
-      "name": "@c2_validate_alignment@4",
-      "native": "c2_validate_alignment",
-      "start": 4533915,
-      "end": 4533924,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall, ECX alignment"
-    },
-    {
-      "name": "@c2_system_fatal@12",
-      "native": "c2_system_fatal",
-      "start": 4765320,
-      "end": 4765358,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall, ECX message EDX prefix; stack filename; RET4"
-    },
-    {
-      "name": "@parse_option_integer@4",
-      "native": "parse_option_integer",
-      "start": 4533799,
-      "end": 4533800,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall ECX integer text; no stack parameters"
+      "expected_argv": [
+        "1",
+        "-dos",
+        "-Fonumeric-control-flow.obj",
+        "-ML",
+        "-Fdvc50.idb",
+        "-Bd",
+        "-Gs4096",
+        "-Gy",
+        "-G5"
+      ]
     },
     {
       "name": "@resolve_diagnostic_location@8",

@@ -87,7 +87,7 @@ records=[r for r in %r if r['native']==frame.name()]
 if len(records)==1:
     for view in records[0].get('state',[]):
         info['globals'][view['original']]=int(gdb.parse_and_eval(view['native'])) & 0xffffffff
-    if records[0].get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy'):
+    if records[0].get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option'):
         ptr=gdb.parse_and_eval('c2_argv');values=[];i=0
         while int(ptr[i]):
             values.append(ptr[i].string());i+=1
@@ -95,6 +95,18 @@ if len(records)==1:
         info['command_state']={'argc':int(gdb.parse_and_eval('c2_argc')),'argv':values}
         if records[0]['state_policy']=='environment-flags':
             info['flags']=None if int(gdb.parse_and_eval('flags'))==0 else gdb.parse_and_eval('flags').string()
+    if records[0].get('state_policy')=='integer-option':
+        vector=gdb.parse_and_eval('recon_crt_environment');index=0;origin=None
+        while int(vector[index]):
+            entry=vector[index];prefix=gdb.selected_inferior().read_memory(entry,14).tobytes()
+            if prefix==b'MSC_CMD_FLAGS=':origin=int(entry)+14;break
+            index+=1
+        assert origin is not None
+        value=gdb.parse_and_eval('value');current=gdb.parse_and_eval('c2_current_option');operand=gdb.parse_and_eval('c2_option_operand')
+        array=gdb.parse_and_eval('environment_arguments');argv=gdb.parse_and_eval('c2_argv')
+        info['integer_option']={'text':value.string(),'input_offset':int(value)-origin,'current':current.string(),
+                                'current_offset':int(current)-origin,'operand_alias':int(operand)==int(value),
+                                'argv_offset':int(argv)-int(array.address),'argv_value_alias':int(argv[0])==int(value)}
     if records[0].get('state_policy')=='environment-copy':
         flags=frame.older().read_var('flags');vector=gdb.parse_and_eval('recon_crt_environment');index=0;identity=None
         while int(vector[index]):
@@ -155,7 +167,7 @@ if len(records)==1:
 open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
 """ % (str(output/'native-maps.txt'),config['stubs'],str(output/'state.json'))
     if config.get('data_model'):
-        data_program="""if records and records[0].get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy'):
+        data_program="""if records and records[0].get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option'):
     if records[0]['state_policy']=='wildcard-match':
         info['wildcard']={'pattern':gdb.parse_and_eval('pattern').string(),'input':gdb.parse_and_eval('input').string(),
                       'kind':int(gdb.parse_and_eval('kind')),'current_alias':int(gdb.parse_and_eval('c2_current_option == input'))}
