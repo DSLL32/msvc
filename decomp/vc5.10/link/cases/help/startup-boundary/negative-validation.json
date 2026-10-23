@@ -1,0 +1,21 @@
+{
+  "positive": "fresh first-constructor raw state and import-call comparisons pass",
+  "negative_count": 14,
+  "negative_checks": [
+    "wrong x87_control_word",
+    "wrong crt_fmode",
+    "wrong crt_commode",
+    "wrong crt_adjust_fdiv",
+    "wrong initerm_current_index",
+    "wrong initerm_end_index",
+    "wrong crt_argv",
+    "reordered native initializer slots",
+    "reordered imported calls",
+    "extra imported call",
+    "changed native constructor state",
+    "wrong original callback cursor",
+    "changed original consumed CRT state",
+    "reordered original callback slots"
+  ],
+  "accepted_application_functions": 0
+}

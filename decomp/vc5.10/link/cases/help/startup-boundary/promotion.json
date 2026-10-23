@@ -1,0 +1,8 @@
+{
+  "approved_by": "/root/vc510_orchestrator",
+  "scope": "exact shipped CRT support closure; 0 application functions",
+  "identified_support": 8,
+  "actually_reached_support": 5,
+  "evidence": "validation.json; negative-validation.json; rust-validation.json",
+  "qualification": "Current support mask and entry plan remain exact; static tools may be re-audited without recapturing unchanged original execution."
+}

@@ -1,9 +1,56 @@
-.PHONY: inspect native original fixtures check
+PYTHON ?= python3
+NATIVE_CC ?= clang
+RECON = ../../../lib/recon
+TOOL = $(PYTHON) scripts/wine-tool.py
+SOURCES = src/driver.c src/initializers.c src/host.c
+OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES))
+NATIVE_OBJECTS = $(patsubst src/%.c,build/native/%.o,$(SOURCES))
+HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h $(RECON)/native/sys/*.h)
+ORIGINAL_HEADERS = $(wildcard src/*.h)
+NATIVE_FLAGS = -m32 -std=gnu89 -fms-extensions -fasm-blocks -O0 -g -fno-pie
+NATIVE_CPPFLAGS = -DRECON_NATIVE_TEST -I$(RECON)/include -I$(RECON)/native
+NATIVE_APP_FLAGS = -DRECON_NATIVE_TRACE -finstrument-functions
+SHIMS = $(wildcard $(RECON)/src/*.c)
+
+.PHONY: all inspect native original audit fixtures check capture-help
+all: native
+
+include ../../../tooling/graph-audit/graph-audit.mk
 
 inspect:
-	python3 scripts/inspect.py
+	$(PYTHON) scripts/inspect.py
 
-# Groundwork only. No function has been reconstructed or accepted.
-native original fixtures check:
-	@echo "LINK 5.10 reconstruction is not released; target $@ is unavailable." >&2
-	@exit 1
+build build/native:
+	mkdir -p $@
+
+build/%.obj: src/%.c $(ORIGINAL_HEADERS) | build
+	$(TOOL) CL.EXE /nologo /c /MD /Od /Z7 /I$(RECON)/include /Fo$@ $<
+
+build/link.exe: $(OBJECTS)
+	$(TOOL) LINK.EXE /nologo /incremental:no /map:build/link.map /out:$@ $(OBJECTS) kernel32.lib
+
+original: build/link.exe build/capture-help.exe
+
+build/capture-help.exe: scripts/capture-help.c | build
+	$(TOOL) CL.EXE /nologo /MT /Od /I$(RECON)/include /Febuild/capture-help.exe /Fobuild/capture-help.obj $<
+
+build/native/%.o: src/%.c $(HEADERS) Makefile | build/native
+	$(NATIVE_CC) $(NATIVE_FLAGS) $(NATIVE_CPPFLAGS) $(NATIVE_APP_FLAGS) $(if $(filter src/driver.c,$<),-Dmain=link_main) -c $< -o $@
+
+build/native/LINK.EXE: $(NATIVE_OBJECTS) $(SHIMS) $(HEADERS) Makefile
+	$(NATIVE_CC) $(NATIVE_FLAGS) $(NATIVE_CPPFLAGS) -no-pie $(NATIVE_OBJECTS) $(SHIMS) -o $@
+
+native: build/native/LINK.EXE
+
+build/runtime.json: build/link.exe runtime.json graph.json scripts/runtime-identity.py scripts/binary.py
+	$(PYTHON) scripts/runtime-identity.py --rebuilt
+
+audit: build/runtime.json $(GRAPH_AUDIT_BIN)
+	$(GRAPH_AUDIT_BIN) --profile link --discovery cfg --repo ../../.. --project . --original ../../../toolchains/5.10/bin/LINK.EXE --rebuilt build/link.exe --map build/link.map --config functions.json --runtime runtime.json --rebuilt-runtime build/runtime.json --metadata build/graph.json --check-ret --check-references --check-ownership --check-extents --check-callbacks --report build/graph-audit.json
+
+# Explicit reference capture stays separate from every fixture prerequisite.
+capture-help: build/capture-help.exe
+	$(PYTHON) scripts/reference.py --mode original
+
+fixtures check: native
+	$(PYTHON) scripts/check-native.py

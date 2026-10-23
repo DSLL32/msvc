@@ -16,7 +16,7 @@
       ],
       "theme": "option help",
       "source_provenance": null,
-      "state": "source-only groundwork; no reconstruction oracle",
+      "state": "original baseline captured; initial matching startup trap; 0 accepted functions",
       "sources": []
     },
     {
@@ -78,5 +78,6 @@
         }
       ]
     }
-  ]
+  ],
+  "reconstruction_release": "Exactly help /?; scaffold review required before first acceptance"
 }

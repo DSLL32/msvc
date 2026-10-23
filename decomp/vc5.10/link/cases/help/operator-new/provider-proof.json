@@ -1,0 +1,121 @@
+{
+  "provider": {
+    "path": "toolchains/5.10/bin/MSVCRT.DLL",
+    "bytes": 277776,
+    "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210"
+  },
+  "identity": "MSVCRT.dll!??2@YAPAXI@Z",
+  "abi": "cdecl void*(unsigned32); caller cleans4B, provider RET0",
+  "instruction_extents_rva": {
+    "operator_new": [
+      [
+        16673,
+        16689
+      ]
+    ],
+    "nh_malloc": [
+      [
+        5292,
+        5348
+      ],
+      [
+        43206,
+        43255
+      ]
+    ],
+    "heap_allocator": [
+      [
+        5348,
+        5433
+      ]
+    ],
+    "call_new_handler": [
+      [
+        67970,
+        68002
+      ]
+    ]
+  },
+  "callee_contract": {
+    "operator_new": "Calls _nh_malloc(size,1), independently of malloc newmodeglobal",
+    "nh_malloc": "Unsigned size>ffffffe0 returnsNULL; zero becomes1; calls heapallocator; ifNULL invokes _callnewh(size) whensecondarg1; nonzerohandlerresult retries, zero returnsNULL",
+    "heap_allocator": "Rounds16; optional locked small-blockallocator0x1193 via _lock0x1111/_unlock0x117d; fallback KERNEL32!HeapAlloc via IAT RVA36094 using processheap globalRVA3d0a0",
+    "call_new_handler": "Reads callbackpointer atRVA42034; NULL=>0, else callback(normalizedsize), result normalized boolean",
+    "malloc_difference": "malloc RVA1498..14ac passes mutable newmode scalar RVA3f198 ratherthan forced1"
+  },
+  "live_state": {
+    "new_handler_rva": 270388,
+    "malloc_newmode_rva": 258456,
+    "all_six_observations_new_handler_zero": true,
+    "all_six_observations_malloc_newmode_zero": true,
+    "mutation_evidence": "No mutation observed across three call/return pairs; LINK imports no new-handler setter. NonNULL handler/retry path is not exercised by this case and must remain explicitly unsupported until evidenced."
+  },
+  "actual_observations": [
+    {
+      "event": "operator_new_observation",
+      "name": "observe:new_call_12",
+      "site": 4345461,
+      "stack_top": 12288,
+      "eax": 4345440,
+      "new_handler": 0,
+      "malloc_new_mode": 0
+    },
+    {
+      "event": "operator_new_observation",
+      "name": "observe:new_return_12",
+      "site": 4345466,
+      "stack_top": 12288,
+      "eax": 3936536,
+      "new_handler": 0,
+      "malloc_new_mode": 0
+    },
+    {
+      "event": "operator_new_observation",
+      "name": "observe:new_call_8",
+      "site": 4398469,
+      "stack_top": 4000,
+      "eax": 4398448,
+      "new_handler": 0,
+      "malloc_new_mode": 0
+    },
+    {
+      "event": "operator_new_observation",
+      "name": "observe:new_return_8",
+      "site": 4398474,
+      "stack_top": 4000,
+      "eax": 3948832,
+      "new_handler": 0,
+      "malloc_new_mode": 0
+    },
+    {
+      "event": "operator_new_observation",
+      "name": "observe:new_call_4",
+      "site": 4398581,
+      "stack_top": 4096,
+      "eax": 4398560,
+      "new_handler": 0,
+      "malloc_new_mode": 0
+    },
+    {
+      "event": "operator_new_observation",
+      "name": "observe:new_return_4",
+      "site": 4398586,
+      "stack_top": 4096,
+      "eax": 3952840,
+      "new_handler": 0,
+      "malloc_new_mode": 0
+    }
+  ],
+  "observation_directory": "/root/.ai-tmp/msvc2/vc5.10/link/observe-new-0utx5nwj",
+  "scope": "Unmasked original help analysis only; never function acceptance or native oracle substitution",
+  "alias": {
+    "source_identifier": "crt_operator_new",
+    "original_symbol": "_crt_operator_new",
+    "actual_import": "??2@YAPAXI@Z",
+    "generator": "scripts/weak-import.py",
+    "object_sections": 0,
+    "object_symbols_including_aux": 3,
+    "search_characteristic": "IMAGE_WEAK_EXTERN_SEARCH_ALIAS=3",
+    "probe_directory": "/root/.ai-tmp/msvc2/vc5.10/link/operator-new-probe"
+  }
+}

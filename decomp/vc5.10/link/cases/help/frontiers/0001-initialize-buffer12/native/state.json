@@ -1,0 +1,79 @@
+{
+  "entries": [
+    "_initialize_buffer12"
+  ],
+  "initerm_calls": [
+    [
+      null
+    ],
+    [
+      null,
+      "initialize_buffer12",
+      "initialize_buffer8",
+      "initialize_buffer4",
+      "initialize_timing"
+    ]
+  ],
+  "signal": null,
+  "signal_number": 5,
+  "function": "allocate_buffer12",
+  "pc": 134522988,
+  "previous_byte": 204,
+  "x87_control_word": 639,
+  "crt_fmode": 0,
+  "crt_commode": 0,
+  "crt_adjust_fdiv": 0,
+  "initializers": [
+    null,
+    "initialize_buffer12",
+    "initialize_buffer8",
+    "initialize_buffer4",
+    "initialize_timing"
+  ],
+  "app_globals": {
+    "buffer12": "000000000000000000000000",
+    "buffer8": "000000000000000000000000",
+    "buffer4": "000000000000000000000000",
+    "timing": "0000000000000000000000000000000000000000"
+  },
+  "initerm_current_index": 1,
+  "initerm_end_index": 5,
+  "crt_argv": [
+    "R:\\toolchains\\5.10\\bin\\LINK.EXE",
+    "/?"
+  ],
+  "stack": [
+    134522960,
+    134522736,
+    4294957272,
+    134522736,
+    134522704,
+    134527987,
+    4294957288,
+    134527987,
+    65536,
+    196608,
+    4294957320,
+    134523402,
+    134603128,
+    134603144,
+    14,
+    4158310859,
+    4158141528,
+    0,
+    4294957352,
+    134523220,
+    2,
+    4294957540,
+    4294957552,
+    4160736096,
+    4294957432,
+    0,
+    0,
+    4158201027,
+    2,
+    4294957540,
+    4294957552,
+    4294957392
+  ]
+}

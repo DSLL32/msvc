@@ -1,0 +1,74 @@
+[
+  {
+    "name": "_mainCRTStartup",
+    "start": 4608640,
+    "end": 4608976,
+    "status": "implemented",
+    "library": "MSVCRT.LIB",
+    "evidence": "cases/runtime-entry-identity.json: exact anchored whole section and all relocations",
+    "classification": "crt"
+  },
+  {
+    "name": "__except_handler3",
+    "start": 4608432,
+    "end": 4608438,
+    "status": "implemented",
+    "library": "MSVCRT.LIB",
+    "evidence": "cases/runtime-entry-identity.json: exact anchored whole section and all relocations",
+    "classification": "import"
+  },
+  {
+    "name": "__setargv",
+    "start": 4609056,
+    "end": 4609072,
+    "status": "implemented",
+    "library": "MSVCRT.LIB",
+    "evidence": "cases/runtime-entry-identity.json: exact anchored whole section and all relocations",
+    "classification": "crt"
+  },
+  {
+    "name": "__matherr",
+    "start": 4609040,
+    "end": 4609056,
+    "status": "implemented",
+    "library": "MSVCRT.LIB",
+    "evidence": "cases/runtime-entry-identity.json: exact anchored whole section and all relocations",
+    "classification": "crt"
+  },
+  {
+    "name": "__setdefaultprecision",
+    "start": 4609008,
+    "end": 4609040,
+    "status": "implemented",
+    "library": "MSVCRT.LIB",
+    "evidence": "cases/runtime-entry-identity.json: exact anchored whole section and all relocations",
+    "classification": "crt"
+  },
+  {
+    "name": "__initterm",
+    "start": 4608988,
+    "end": 4608994,
+    "status": "implemented",
+    "library": "MSVCRT.LIB",
+    "evidence": "cases/runtime-entry-identity.json: exact anchored whole section and all relocations",
+    "classification": "import"
+  },
+  {
+    "name": "__XcptFilter",
+    "start": 4608982,
+    "end": 4608988,
+    "status": "implemented",
+    "library": "MSVCRT.LIB",
+    "evidence": "cases/runtime-entry-identity.json: exact anchored whole section and all relocations",
+    "classification": "import"
+  },
+  {
+    "name": "__controlfp",
+    "start": 4609072,
+    "end": 4609078,
+    "status": "implemented",
+    "library": "MSVCRT.LIB",
+    "evidence": "cases/runtime-entry-identity.json: exact anchored whole section and all relocations",
+    "classification": "import"
+  }
+]

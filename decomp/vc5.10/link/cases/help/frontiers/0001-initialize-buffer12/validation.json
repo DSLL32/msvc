@@ -1,0 +1,15 @@
+{
+  "candidate": "_initialize_buffer12",
+  "expected_next": "_allocate_buffer12",
+  "application_functions_accepted": 1,
+  "application_code_extent_bytes": 10,
+  "identified_support": 8,
+  "actually_reached_support": 5,
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/link/masked-b2yez82l",
+  "native_directory": "/root/.ai-tmp/msvc2/vc5.10/link/native-yv55rbal",
+  "notes": "Raw hFile module copies remain in original capture directory; target/canonical CRT bytes are the hash-pinned provided toolchain. Mask is gzip-compressed without changes. Native compiled project/shared source content snapshots are retained.",
+  "original_seconds": 0.9918298218399286,
+  "native_gdb_seconds": 0.13141136430203915,
+  "full_graph_count": 9,
+  "strict_ret_body_count": 5
+}

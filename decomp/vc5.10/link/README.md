@@ -1,35 +1,67 @@
-# LINK 5.10 groundwork
+# LINK 5.10 reconstruction
 
 Target: `toolchains/5.10/bin/LINK.EXE`, PE32 i386, image base `0x400000`,
 entry RVA `0x65280`. There are no exports or TLS directory. No function has
-been reconstructed, unmasked or accepted. `src/` is intentionally empty.
-Reconstruction waits for root release after the Rust graph audit and DLL workflow
-investigation. The original compiler and companion DLLs exist; the CL worker
-proved a minimal original compilation with CL 11.00.7022. This folder's own
-link/debug build probes remain incomplete.
+been reconstructed, unmasked or accepted. Root released exactly the first `/?`
+case; scaffold review is pending before the first function acceptance. Later
+hello, DLL, debug/PDB and resource cases remain source-only and unreleased.
+Native i386 and original 5.10 `/MD /Od /Z7` builds pass with `make -j4`.
 
-`make inspect` prints the read-only PE inventory. `native`, `original`, `fixtures`
-and `check` fail explicitly while reconstruction is unreleased. Source-only cases
+`make inspect` prints the read-only PE inventory. `make native` builds the same
+source using shared shims; `make original` checks the real Win32 build and builds
+the original-only debugger. `make audit` uses the shared Rust CFG tool with
+explicit target/index paths and RET, function-reference, ownership and whole
+extent checks. `fixtures`/`check` fail closed until the first case completes.
+Source-only cases
 in `cases/plan.json` copy the vc1.0 GUI hello, stdcall DLL and debug DLL themes.
 They contain no copied output, trace, object, reference hash or accepted frontier.
 
 ## Original-only probes
 
-After the root shared-Wine health hold is lifted, explicitly run
-`python3 scripts/capture_original.py --capture`. This invokes original tools;
-it is never a regression target. It verifies the fixed shared R:/S: mappings,
-uses a fresh `S:\vc5.10\link\<UTC timestamp>` working tree, and records exact
-commands, input/output hashes, raw streams, loader/process logs and elapsed
-times in scratch. Native shipped MSVCRT, MSPDB50, MSDIS100 and IMAGEHLP are
-selected explicitly. Build probes cover GUI EXE, DLL, `/Z7` plus ordinary link,
-`/debug /debugtype:cv /pdb:none`, and `/debug /pdb:hello.pdb`.
+Explicitly run `make capture-help`, or `python3 scripts/reference.py --mode
+masked` for fresh acceptance evidence. These invoke originals and are never
+fixture prerequisites. The helper copies actual CREATE_PROCESS/LOAD_DLL `hFile`
+contents for identity hashing. The transport verifies fixed shared R:/S: mappings
+and uses fresh `S:\vc5.10\link\...` working directories. Native shipped MSVCRT,
+MSPDB50, MSDIS100 and IMAGEHLP are selected explicitly.
+
+The successful fresh original `/?` reference in `cases/help/original/` exits
+with the full Win32 DWORD **1100**, writes 1430 stdout bytes and no stderr.
+Its loaded MSVCRT hFile has SHA256
+`e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210`.
+The native POSIX projection is 76; it must be checked separately from the full
+logical status, which requires the shared terminal-status recording seam.
 
 The initial `/help`-equivalent `/?` probes did not reach LINK: shared-prefix
 prestartup health failures also affected other tools. One timed-out run's raw
 logs and receipt remain in scratch, summarized by
 `cases/original-probe-incomplete.json`. Its timeout is not LINK's expected result.
-No compiler, linker artifact, PDB or child invocation has been dynamically
-validated. All own Wine processes are stopped; the shared server was untouched.
+Those failures remain historical transport evidence. They are not the current
+help baseline. No debug DLL, PDB or child invocation has been dynamically
+validated; these later cases remain unreleased.
+
+## Acceptance gate
+
+`scripts/accept.py --candidate NAME --write-trial PATH` creates a trial prefix
+containing the candidate. Capture both sides with that exact trial config using
+`reference.py --mode masked --config PATH` and `native-frontier.py --config PATH`.
+Promotion requires root scaffold approval, byte-bound config/runtime snapshots,
+current binaries and source hashes, verified actual target/CRT modules, matching
+raw streams, a nonempty matching frontier, a raw-derived state contract, evidence
+that the candidate executed on both sides, and a fresh Rust audit of the trial.
+Unknown state contracts fail closed. Completion is also fail closed until its
+full output/status/entry comparator exists.
+
+The initial whole-text mask traps at original entry `0x465280`; the native host
+traps at the named `target_startup`. `cases/scaffold-validation.json` records
+19 negative checks, including stale mutually matching snapshots, candidate graph
+omission, incorrect frontiers and invalid ownership. Original process entry has
+no C arguments or application state; OS-loader register values are outside that
+cross-platform boundary. Later application boundaries need explicit state checks.
+
+`cases/runtime-entry-identity.json` is static identity analysis only: anchored
+CRTEXE.OBJ bytes, all relocations, contextual SEH data and reached-callee identity
+candidates. Nothing in that report itself accepts or unmasks runtime code.
 
 ## Dependency findings
 
