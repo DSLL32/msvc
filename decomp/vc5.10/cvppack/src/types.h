@@ -77,6 +77,7 @@ typedef struct InternedType {
     struct InternedType *next;
 } InternedType;
 unsigned short __fastcall hash_type_record(const unsigned char *data);
+extern unsigned char type_hash_current, type_hash_previous, type_hash_mix;
 int lookup_named_type(unsigned short kind, const unsigned char *name, CachedTypeName **match);
 void __fastcall allocate_global_type(TypeRecord *record);
 void record_base_classes(unsigned index, unsigned list);

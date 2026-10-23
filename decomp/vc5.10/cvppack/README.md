@@ -6,9 +6,9 @@ Target: `toolchains/5.10/bin/CVPACK.EXE`; the requested folder spelling is
 
 `/help` is complete: status 1, 193 stdout bytes, no stderr, six application
 entries. The genuine embedded-CodeView `hello-debug-dll` case is in progress at
-`hash_type_record`, with a 24-byte owned argument-list payload. There are 66
-accepted application functions / 20,957 extent bytes, plus 557 associated switch-data
-bytes. This is 33.44% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
+`allocate_global_type`, after hashing a 24-byte owned argument-list payload. There are 67
+accepted application functions / 21,790 extent bytes, plus 605 associated switch-data
+bytes. This is 34.77% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
 it is neither non-CRT nor executed-branch coverage. Four CRT bodies (400 bytes)
 and four import thunks (24 bytes) remain separate support.
 

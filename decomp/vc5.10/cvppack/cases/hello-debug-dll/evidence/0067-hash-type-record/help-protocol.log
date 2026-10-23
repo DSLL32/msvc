@@ -1,0 +1,24 @@
+{
+  "native_only": true,
+  "result": {
+    "terminal": "exit",
+    "exit_status": 1,
+    "application_trace": [
+      "cvpack_main",
+      "initialize_messages",
+      "parse_options",
+      "fatal_error",
+      "print_banner",
+      "message_text"
+    ],
+    "stdout_bytes": 193,
+    "stderr_bytes": 0
+  },
+  "negative_checks": 24,
+  "seconds": {
+    "native_capture": 0.11350175272673368,
+    "candidate_audit": 0.32890483271330595,
+    "pair_check": 0.17638614773750305,
+    "negative_checks": 1.4038613829761744
+  }
+}

@@ -280,6 +280,15 @@ def capture(configuration,data_file,output):
                     parameters[item['name']].update(size=size,capacity=capacity,bytes=bytes(inferior.read_memory(pointer,size)).hex())
         else:parameters[item['name']]=int(value)&0xffffffff
     state['parameters']=parameters
+    caller_state={}
+    for item in (record or {}).get('caller_state',[]):
+        owner=frame.older()
+        while owner is not None and owner.name()!=item['owner']:owner=owner.older()
+        assert owner is not None,'required caller frame is missing'
+        value=owner.read_var(item['local']);actual=value.type.strip_typedefs()
+        assert actual.code==gdb.TYPE_CODE_INT and actual.sizeof==item['width'] and str(actual)==item['native_type'],'actual caller-local type/extent differs'
+        caller_state[item['name']]=dict(owner=owner.name(),local=item['local'],width=int(actual.sizeof),native_type=str(actual),value=int(value))
+    state['caller_state']=caller_state
     state['file_calls']=file_calls
     state['mapping_calls']=mapping_calls
     state['file_reads']=file_reads

@@ -72,7 +72,8 @@
     "rewrite_procedure32_symbol",
     "module_contains_address",
     "compact_type_list",
-    "intern_type"
+    "intern_type",
+    "hash_type_record"
   ],
   "functions": [
     {
@@ -2604,8 +2605,11 @@
       "source_name": "hash_type_record",
       "native_symbol": "hash_type_record",
       "original": 4252064,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4252064,
+        4252897
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -2614,7 +2618,14 @@
           "kind": "type-record-data",
           "native_pointee_width": 1
         }
-      ]
+      ],
+      "text_data": [
+        [
+          4252900,
+          4252948
+        ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0067-hash-type-record/promotion.json"
     },
     {
       "name": "lookup_named_type",
@@ -2644,6 +2655,16 @@
           "root": "type_records",
           "count": "type_record_count",
           "native_pointee_width": 32
+        }
+      ],
+      "caller_state": [
+        {
+          "name": "hash_bucket",
+          "owner": "intern_type",
+          "local": "bucket",
+          "width": 2,
+          "native_type": "unsigned short",
+          "original_register": "ebp"
         }
       ]
     },

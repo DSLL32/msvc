@@ -1,0 +1,1473 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "reused_original_receipt_sha256": "a55251ff7652c5146d63e73004c183cad25a7196b23947e19300b0453081f688",
+  "native_sha256": "b6b9d7c86fa77828a32015bb15ddf69164ed417f9fa3510dc439748c433850bf",
+  "rebuilt_sha256": "7f3181b30ce2bf9e27fd00f26bf7838d9f67262221042f63d08186c0d914b7e3",
+  "result": {
+    "terminal": "exit",
+    "exit_status": 1,
+    "application_trace": [
+      "cvpack_main",
+      "initialize_messages",
+      "parse_options",
+      "fatal_error",
+      "print_banner",
+      "message_text"
+    ],
+    "stdout_bytes": 193,
+    "stderr_bytes": 0
+  },
+  "audit": {
+    "schema": 1,
+    "config_sha256": "f0a0df0d306457327487f026f9a930bd10ecc2ea2a4ebf1bb181951947f17446",
+    "graph_config_sha256": "b8666908cc4814927ea19f6eafdae194dcc81b27e7fefaaa922b771445dff5cb",
+    "original_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+    "rebuilt_sha256": "7f3181b30ce2bf9e27fd00f26bf7838d9f67262221042f63d08186c0d914b7e3",
+    "native_sha256": "b6b9d7c86fa77828a32015bb15ddf69164ed417f9fa3510dc439748c433850bf",
+    "map_sha256": "64c0da4c7cd49917783e57041aacdab168150d73c9a40df91523ce0fb6a5da6d",
+    "graph_tool_sha256": "3c1e3f2ea5dc50c402381f3b0c63b7d38355d6f2525c11f5c28e16ebb9e2d83c",
+    "graph_metadata_sha256": "bdd080f3484888894129e8d24bed963af738e369853c8372ce97cbd7c26ef36c",
+    "graph_metadata_proof_sha256": "4fff59a00db8e6975674de9a585d36d45a9577f0b3125f61ad996efd13ffa522",
+    "switch_data_validator_sha256": "22ca4eafdbd08d5745569b2095eaa281804309a70bd859671e88e760515c5143",
+    "data_sha256": "6774c78d078b2f33039ad40c801b867a79d5c2eb1c1edac07a4cdbacff2ae873",
+    "runtime_sha256": "45bed7b37cc8171159533760fe4d1d62ec97f16d098c27ec474f5cd9ed9790bf",
+    "graph_runtime_sha256": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "audit_wrapper_sha256": "981ad9007576cf7940cfa0a5926d6c24f47e732b2385a1d492fdbb6d8719dc4f",
+    "cached_import_sites": {
+      "evidence_sha256": "1d11f8e059eef48acbc20f9fc2a4c46c8918e6c895ade42d78497f422e51c5e3",
+      "original_free_sites": [
+        4212518,
+        4212529,
+        4212541,
+        4212553,
+        4212564
+      ],
+      "original_checksum_callback": 4212732,
+      "rebuilt_free_sites": [
+        4209116,
+        4209131,
+        4209147,
+        4209163,
+        4209178
+      ],
+      "rebuilt_checksum_callback": 4209351,
+      "scope": "Per-site report checks; no secondary CFG or import inference."
+    },
+    "function_tables": [
+      {
+        "name": "symbol_rewriters",
+        "original": 4268968,
+        "rebuilt": 4235560,
+        "size": 312,
+        "stride": 8,
+        "pointer_offset": 4,
+        "rows": [
+          {
+            "kind": 4102,
+            "function": "rewrite_bp_relative_symbol"
+          },
+          {
+            "kind": 519,
+            "function": "enter_symbol_scope"
+          },
+          {
+            "kind": 4106,
+            "function": "rewrite_procedure32_symbol"
+          },
+          {
+            "kind": 4107,
+            "function": "rewrite_procedure32_symbol"
+          },
+          {
+            "kind": 6,
+            "function": "leave_symbol_scope"
+          },
+          {
+            "kind": 4103,
+            "function": "rewrite_symbol_type4"
+          },
+          {
+            "kind": 4104,
+            "function": "rewrite_global_data_symbol"
+          },
+          {
+            "kind": 4105,
+            "function": "rewrite_symbol_type4"
+          },
+          {
+            "kind": 521,
+            "function": null
+          },
+          {
+            "kind": 4097,
+            "function": "rewrite_symbol_type4"
+          },
+          {
+            "kind": 4110,
+            "function": "rewrite_symbol_type4"
+          },
+          {
+            "kind": 4111,
+            "function": "rewrite_global_data_symbol"
+          },
+          {
+            "kind": 527,
+            "function": null
+          },
+          {
+            "kind": 256,
+            "function": "rewrite_register16_symbol"
+          },
+          {
+            "kind": 263,
+            "function": "enter_symbol_scope"
+          },
+          {
+            "kind": 260,
+            "function": "rewrite_procedure16_symbol"
+          },
+          {
+            "kind": 261,
+            "function": "rewrite_procedure16_symbol"
+          },
+          {
+            "kind": 257,
+            "function": "rewrite_data16_symbol"
+          },
+          {
+            "kind": 258,
+            "function": "rewrite_global_data16_symbol"
+          },
+          {
+            "kind": 259,
+            "function": "rewrite_data16_symbol"
+          },
+          {
+            "kind": 265,
+            "function": null
+          },
+          {
+            "kind": 4099,
+            "function": "rewrite_type_name_symbol"
+          },
+          {
+            "kind": 4109,
+            "function": "rewrite_bp_relative_symbol"
+          },
+          {
+            "kind": 4112,
+            "function": "rewrite_mips_procedure_symbol"
+          },
+          {
+            "kind": 4113,
+            "function": "rewrite_mips_procedure_symbol"
+          },
+          {
+            "kind": 10,
+            "function": null
+          },
+          {
+            "kind": 268,
+            "function": "rewrite_data16_symbol"
+          },
+          {
+            "kind": 264,
+            "function": "enter_symbol_scope"
+          },
+          {
+            "kind": 520,
+            "function": "enter_symbol_scope"
+          },
+          {
+            "kind": 262,
+            "function": "enter_symbol_scope"
+          },
+          {
+            "kind": 518,
+            "function": "enter_symbol_scope"
+          },
+          {
+            "kind": 266,
+            "function": null
+          },
+          {
+            "kind": 522,
+            "function": null
+          },
+          {
+            "kind": 4098,
+            "function": "rewrite_type_name_symbol"
+          },
+          {
+            "kind": 5,
+            "function": null
+          },
+          {
+            "kind": 7,
+            "function": null
+          },
+          {
+            "kind": 1,
+            "function": null
+          },
+          {
+            "kind": 9,
+            "function": "rewrite_object_name_symbol"
+          },
+          {
+            "kind": 4096,
+            "function": null
+          }
+        ]
+      },
+      {
+        "name": "type_index_mappers",
+        "original": 4268312,
+        "rebuilt": 4235872,
+        "size": 12,
+        "stride": 4,
+        "pointer_offset": 0,
+        "rows": [
+          {
+            "kind": null,
+            "function": "compact_legacy_index"
+          },
+          {
+            "kind": null,
+            "function": "compact_type_index"
+          },
+          {
+            "kind": null,
+            "function": "compact_type_index"
+          }
+        ]
+      }
+    ],
+    "data_objects_checked": 143,
+    "resource_strings_checked": 3,
+    "historical_reconstructed_bodies": [
+      {
+        "name": "files_initialize",
+        "historical_status": "stub",
+        "current_status": "accepted",
+        "proof": "cases/hello-debug-dll/evidence/0007-files-initialize/promotion.json",
+        "proof_sha256": "2a4a2fd533ffc303e9ec19d3a042c8781cb54042a9e8bd3200ea5945d7de05e7",
+        "scope": "Current body exists; excluded from this historical mask and checked-function set."
+      },
+      {
+        "name": "select_input_name",
+        "historical_status": "stub",
+        "current_status": "accepted",
+        "proof": "cases/hello-debug-dll/evidence/0011-select-input-name/promotion.json",
+        "proof_sha256": "749055437acf40f6979ea600f36a6f757153d50f00a896981ef0d5596a7fe7ac",
+        "scope": "Current body exists; excluded from this historical mask and checked-function set."
+      },
+      {
+        "name": "initialize_type_tables",
+        "historical_status": "stub",
+        "current_status": "accepted",
+        "proof": "cases/hello-debug-dll/evidence/0020-initialize-type-tables/promotion.json",
+        "proof_sha256": "5fbc63634bcc51544b7d42765cac75218e1ac375bd86bd91759d63653281bcd8",
+        "scope": "Current body exists; excluded from this historical mask and checked-function set."
+      },
+      {
+        "name": "read_image_debug",
+        "historical_status": "stub",
+        "current_status": "accepted",
+        "proof": "cases/hello-debug-dll/evidence/0024-read-image-debug-typed/promotion.json",
+        "proof_sha256": "5604880d6240cf804dbe46231e58130f7a8befde2d9e0ba3ff6ef8a064bad500",
+        "scope": "Current body exists; excluded from this historical mask and checked-function set."
+      },
+      {
+        "name": "initialize_module_pack",
+        "historical_status": "stub",
+        "current_status": "accepted",
+        "proof": "cases/hello-debug-dll/evidence/0036-initialize-module-pack/promotion.json",
+        "proof_sha256": "719576a27ae2220cdd6efd3041235563f7ae2a1606846ed29367889dcb0d70f2",
+        "scope": "Current body exists; excluded from this historical mask and checked-function set."
+      },
+      {
+        "name": "pack_module",
+        "historical_status": "stub",
+        "current_status": "accepted",
+        "proof": "cases/hello-debug-dll/evidence/0037-pack-module/promotion.json",
+        "proof_sha256": "b4aab72594b49cb63e22b7d97373e68ff7d5457f0eabf5fe0baa58694832a91b",
+        "scope": "Current body exists; excluded from this historical mask and checked-function set."
+      }
+    ],
+    "resource_evidence_sha256": "a0aa73854a28ce1c787ab7b0afef461aad389f5134c21a71bfe68508a2d980de",
+    "candidates": [
+      "message_text"
+    ],
+    "checked_functions": [
+      "cvpack_main",
+      "initialize_messages",
+      "parse_options",
+      "print_banner",
+      "fatal_error",
+      "message_text"
+    ],
+    "owned_ranges": 15,
+    "graph_command": [
+      "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+      "--profile",
+      "cl",
+      "--project",
+      "/root/msvc2/decomp/vc5.10/cvppack",
+      "--repo",
+      "/root/msvc2",
+      "--original",
+      "/root/msvc2/toolchains/5.10/bin/CVPACK.EXE",
+      "--rebuilt",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/CVPACK.EXE",
+      "--map",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/cvpack.map",
+      "--config",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/final-native-validation/current-audit/graph-config.json",
+      "--runtime",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/final-native-validation/current-audit/graph-runtime.json",
+      "--rebuilt-runtime",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/final-native-validation/current-audit/graph-runtime.json",
+      "--metadata",
+      "/root/msvc2/decomp/vc5.10/cvppack/build/final-native-validation/current-audit/graph-metadata.json",
+      "--discovery",
+      "cfg",
+      "--check-ret",
+      "--check-imports",
+      "--resolve-register-imports",
+      "--check-references",
+      "--check-ownership",
+      "--check-extents"
+    ],
+    "graph": {
+      "checked_accepted_extents": null,
+      "checked_functions": 6,
+      "checked_unique_accepted_extents": null,
+      "checks": [
+        "call_graph",
+        "ret_cleanup",
+        "known_imports",
+        "register_imports",
+        "function_references",
+        "extent_ownership",
+        "whole_extent_boundaries"
+      ],
+      "discovery": "cfg",
+      "functions": {
+        "_fatal_error": {
+          "edges": [
+            "_close_file",
+            "_message_text",
+            "_print_banner"
+          ],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "exit"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "puts"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "sprintf"
+            }
+          ],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {
+                "4216150": {
+                  "dll": "msvcrt.dll",
+                  "name": "puts"
+                },
+                "4216192": {
+                  "dll": "msvcrt.dll",
+                  "name": "exit"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {
+                "4216102": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4216140": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                }
+              },
+              "roots": [
+                4216016
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": {
+                "4198497": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4198547": {
+                  "dll": "msvcrt.dll",
+                  "name": "sprintf"
+                },
+                "4198563": {
+                  "dll": "msvcrt.dll",
+                  "name": "puts"
+                },
+                "4198609": {
+                  "dll": "msvcrt.dll",
+                  "name": "exit"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4198400
+              ],
+              "unresolved_register_calls": []
+            },
+            "require_all_register_calls_resolved": true
+          }
+        },
+        "_initialize_messages": {
+          "edges": [],
+          "imports": [],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4224640
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4209568
+              ],
+              "unresolved_register_calls": []
+            },
+            "require_all_register_calls_resolved": false
+          }
+        },
+        "_main": {
+          "edges": [
+            "_close_file",
+            "_files_initialize",
+            "_flush_packed_file",
+            "_free_type_tables",
+            "_get_file_size",
+            "_initialize_messages",
+            "_initialize_module_pack",
+            "_initialize_type_tables",
+            "_map_file_region",
+            "_pack_module",
+            "_parse_options",
+            "_print_banner",
+            "_print_statistics",
+            "_read_image_debug",
+            "_select_input_name",
+            "_warning",
+            "_write_debug_directory",
+            "indirect"
+          ],
+          "imports": [
+            {
+              "dll": "kernel32.dll",
+              "name": "GetProcAddress"
+            },
+            {
+              "dll": "kernel32.dll",
+              "name": "LoadLibraryA"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "__p__pgmptr"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "_setmode"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "exit"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "fprintf"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "free"
+            }
+          ],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {
+                "4212307": {
+                  "dll": "msvcrt.dll",
+                  "name": "__p__pgmptr"
+                },
+                "4212344": {
+                  "dll": "msvcrt.dll",
+                  "name": "_setmode"
+                },
+                "4212615": {
+                  "dll": "kernel32.dll",
+                  "name": "LoadLibraryA"
+                },
+                "4212647": {
+                  "dll": "kernel32.dll",
+                  "name": "GetProcAddress"
+                },
+                "4212812": {
+                  "dll": "msvcrt.dll",
+                  "name": "exit"
+                },
+                "4212884": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {
+                "4212518": {
+                  "dll": "msvcrt.dll",
+                  "name": "free"
+                },
+                "4212529": {
+                  "dll": "msvcrt.dll",
+                  "name": "free"
+                },
+                "4212541": {
+                  "dll": "msvcrt.dll",
+                  "name": "free"
+                },
+                "4212553": {
+                  "dll": "msvcrt.dll",
+                  "name": "free"
+                },
+                "4212564": {
+                  "dll": "msvcrt.dll",
+                  "name": "free"
+                }
+              },
+              "roots": [
+                4212256,
+                4212841,
+                4212857
+              ],
+              "unresolved_register_calls": [
+                4212732
+              ]
+            },
+            "rebuilt": {
+              "direct_import_calls": {
+                "4208856": {
+                  "dll": "msvcrt.dll",
+                  "name": "__p__pgmptr"
+                },
+                "4208893": {
+                  "dll": "msvcrt.dll",
+                  "name": "_setmode"
+                },
+                "4209116": {
+                  "dll": "msvcrt.dll",
+                  "name": "free"
+                },
+                "4209131": {
+                  "dll": "msvcrt.dll",
+                  "name": "free"
+                },
+                "4209147": {
+                  "dll": "msvcrt.dll",
+                  "name": "free"
+                },
+                "4209163": {
+                  "dll": "msvcrt.dll",
+                  "name": "free"
+                },
+                "4209178": {
+                  "dll": "msvcrt.dll",
+                  "name": "free"
+                },
+                "4209238": {
+                  "dll": "kernel32.dll",
+                  "name": "LoadLibraryA"
+                },
+                "4209273": {
+                  "dll": "kernel32.dll",
+                  "name": "GetProcAddress"
+                },
+                "4209436": {
+                  "dll": "msvcrt.dll",
+                  "name": "exit"
+                },
+                "4209504": {
+                  "dll": "msvcrt.dll",
+                  "name": "fprintf"
+                }
+              },
+              "other_unresolved_calls": [
+                4209351
+              ],
+              "resolved_register_calls": {},
+              "roots": [
+                4208800,
+                4209454,
+                4209473
+              ],
+              "unresolved_register_calls": []
+            },
+            "require_all_register_calls_resolved": false
+          }
+        },
+        "_message_text": {
+          "edges": [
+            "indirect"
+          ],
+          "imports": [
+            {
+              "dll": "kernel32.dll",
+              "name": "GetProcAddress"
+            },
+            {
+              "dll": "kernel32.dll",
+              "name": "LoadLibraryA"
+            }
+          ],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {
+                "4224543": {
+                  "dll": "kernel32.dll",
+                  "name": "LoadLibraryA"
+                },
+                "4224577": {
+                  "dll": "kernel32.dll",
+                  "name": "GetProcAddress"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4224528
+              ],
+              "unresolved_register_calls": [
+                4224615
+              ]
+            },
+            "rebuilt": {
+              "direct_import_calls": {
+                "4209672": {
+                  "dll": "kernel32.dll",
+                  "name": "LoadLibraryA"
+                },
+                "4209716": {
+                  "dll": "kernel32.dll",
+                  "name": "GetProcAddress"
+                }
+              },
+              "other_unresolved_calls": [
+                4209761
+              ],
+              "resolved_register_calls": {},
+              "roots": [
+                4209655
+              ],
+              "unresolved_register_calls": []
+            },
+            "require_all_register_calls_resolved": false
+          }
+        },
+        "_parse_options": {
+          "edges": [
+            "_fatal_error",
+            "_print_banner",
+            "_warning"
+          ],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "_strcmpi"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "exit"
+            },
+            {
+              "dll": "msvcrt.dll",
+              "name": "toupper"
+            }
+          ],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {
+                "4213144": {
+                  "dll": "msvcrt.dll",
+                  "name": "exit"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {
+                "4212989": {
+                  "dll": "msvcrt.dll",
+                  "name": "toupper"
+                },
+                "4213025": {
+                  "dll": "msvcrt.dll",
+                  "name": "_strcmpi"
+                }
+              },
+              "roots": [
+                4212928
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": {
+                "4215318": {
+                  "dll": "msvcrt.dll",
+                  "name": "toupper"
+                },
+                "4215393": {
+                  "dll": "msvcrt.dll",
+                  "name": "_strcmpi"
+                },
+                "4215536": {
+                  "dll": "msvcrt.dll",
+                  "name": "exit"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4215232
+              ],
+              "unresolved_register_calls": []
+            },
+            "require_all_register_calls_resolved": true
+          }
+        },
+        "_print_banner": {
+          "edges": [
+            "_message_text"
+          ],
+          "imports": [
+            {
+              "dll": "msvcrt.dll",
+              "name": "printf"
+            }
+          ],
+          "register_imports": {
+            "original": {
+              "direct_import_calls": {},
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {
+                "4213248": {
+                  "dll": "msvcrt.dll",
+                  "name": "printf"
+                },
+                "4213272": {
+                  "dll": "msvcrt.dll",
+                  "name": "printf"
+                }
+              },
+              "roots": [
+                4213216
+              ],
+              "unresolved_register_calls": []
+            },
+            "rebuilt": {
+              "direct_import_calls": {
+                "4209606": {
+                  "dll": "msvcrt.dll",
+                  "name": "printf"
+                },
+                "4209634": {
+                  "dll": "msvcrt.dll",
+                  "name": "printf"
+                }
+              },
+              "other_unresolved_calls": [],
+              "resolved_register_calls": {},
+              "roots": [
+                4209578
+              ],
+              "unresolved_register_calls": []
+            },
+            "require_all_register_calls_resolved": true
+          }
+        }
+      },
+      "import_catalogs": {
+        "original": {
+          "normalizable_thunks": 5,
+          "slots": {
+            "4284772": {
+              "dll": "kernel32.dll",
+              "name": "GetModuleHandleA"
+            },
+            "4284776": {
+              "dll": "kernel32.dll",
+              "name": "LoadLibraryA"
+            },
+            "4284780": {
+              "dll": "kernel32.dll",
+              "name": "CreateFileMappingA"
+            },
+            "4284784": {
+              "dll": "kernel32.dll",
+              "name": "MapViewOfFileEx"
+            },
+            "4284788": {
+              "dll": "kernel32.dll",
+              "name": "UnmapViewOfFile"
+            },
+            "4284792": {
+              "dll": "kernel32.dll",
+              "name": "SetFilePointer"
+            },
+            "4284796": {
+              "dll": "kernel32.dll",
+              "name": "SetEndOfFile"
+            },
+            "4284800": {
+              "dll": "kernel32.dll",
+              "name": "CloseHandle"
+            },
+            "4284804": {
+              "dll": "kernel32.dll",
+              "name": "CreateFileA"
+            },
+            "4284808": {
+              "dll": "kernel32.dll",
+              "name": "GetProcAddress"
+            },
+            "4284812": {
+              "dll": "kernel32.dll",
+              "name": "GetFileSize"
+            },
+            "4284820": {
+              "dll": "msvcrt.dll",
+              "name": "realloc"
+            },
+            "4284824": {
+              "dll": "msvcrt.dll",
+              "name": "_chsize"
+            },
+            "4284828": {
+              "dll": "msvcrt.dll",
+              "name": "calloc"
+            },
+            "4284832": {
+              "dll": "msvcrt.dll",
+              "name": "_close"
+            },
+            "4284836": {
+              "dll": "msvcrt.dll",
+              "name": "_stat"
+            },
+            "4284840": {
+              "dll": "msvcrt.dll",
+              "name": "_sopen"
+            },
+            "4284844": {
+              "dll": "msvcrt.dll",
+              "name": "free"
+            },
+            "4284848": {
+              "dll": "msvcrt.dll",
+              "name": "_read"
+            },
+            "4284852": {
+              "dll": "msvcrt.dll",
+              "name": "_lseek"
+            },
+            "4284856": {
+              "dll": "msvcrt.dll",
+              "name": "_write"
+            },
+            "4284860": {
+              "dll": "msvcrt.dll",
+              "name": "malloc"
+            },
+            "4284864": {
+              "dll": "msvcrt.dll",
+              "name": "memmove"
+            },
+            "4284868": {
+              "dll": "msvcrt.dll",
+              "name": "fprintf"
+            },
+            "4284872": {
+              "dll": "msvcrt.dll",
+              "name": "exit"
+            },
+            "4284876": {
+              "dll": "msvcrt.dll",
+              "name": "_setmode"
+            },
+            "4284880": {
+              "dll": "msvcrt.dll",
+              "name": "_strdup"
+            },
+            "4284884": {
+              "dll": "msvcrt.dll",
+              "name": "_except_handler3"
+            },
+            "4284888": {
+              "dll": "msvcrt.dll",
+              "name": "_strcmpi"
+            },
+            "4284892": {
+              "dll": "msvcrt.dll",
+              "name": "toupper"
+            },
+            "4284896": {
+              "dll": "msvcrt.dll",
+              "name": "printf"
+            },
+            "4284900": {
+              "dll": "msvcrt.dll",
+              "name": "_makepath"
+            },
+            "4284904": {
+              "dll": "msvcrt.dll",
+              "name": "_iob"
+            },
+            "4284908": {
+              "dll": "msvcrt.dll",
+              "name": "puts"
+            },
+            "4284912": {
+              "dll": "msvcrt.dll",
+              "name": "sprintf"
+            },
+            "4284916": {
+              "dll": "msvcrt.dll",
+              "name": "qsort"
+            },
+            "4284920": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            },
+            "4284924": {
+              "dll": "msvcrt.dll",
+              "name": "memcmp"
+            },
+            "4284928": {
+              "dll": "msvcrt.dll",
+              "name": "fflush"
+            },
+            "4284932": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsicmp"
+            },
+            "4284936": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsnbcpy"
+            },
+            "4284940": {
+              "dll": "msvcrt.dll",
+              "name": "_mbsnbicmp"
+            },
+            "4284944": {
+              "dll": "msvcrt.dll",
+              "name": "_exit"
+            },
+            "4284948": {
+              "dll": "msvcrt.dll",
+              "name": "_XcptFilter"
+            },
+            "4284952": {
+              "dll": "msvcrt.dll",
+              "name": "__p___initenv"
+            },
+            "4284956": {
+              "dll": "msvcrt.dll",
+              "name": "__getmainargs"
+            },
+            "4284960": {
+              "dll": "msvcrt.dll",
+              "name": "_initterm"
+            },
+            "4284964": {
+              "dll": "msvcrt.dll",
+              "name": "__setusermatherr"
+            },
+            "4284968": {
+              "dll": "msvcrt.dll",
+              "name": "_adjust_fdiv"
+            },
+            "4284972": {
+              "dll": "msvcrt.dll",
+              "name": "__p__commode"
+            },
+            "4284976": {
+              "dll": "msvcrt.dll",
+              "name": "__p__fmode"
+            },
+            "4284980": {
+              "dll": "msvcrt.dll",
+              "name": "__set_app_type"
+            },
+            "4284984": {
+              "dll": "msvcrt.dll",
+              "name": "_controlfp"
+            },
+            "4284988": {
+              "dll": "msvcrt.dll",
+              "name": "__p__pgmptr"
+            },
+            "4284992": {
+              "dll": "msvcrt.dll",
+              "name": "_splitpath"
+            },
+            "4285000": {
+              "dll": "mspdb50.dll",
+              "name": "PDBOpen"
+            },
+            "4285004": {
+              "dll": "mspdb50.dll",
+              "name": "?fCreate@WidenTi@@SAHAAPAU1@IH@Z"
+            },
+            "4285008": {
+              "dll": "mspdb50.dll",
+              "name": "PDBQuerySignature"
+            },
+            "4285012": {
+              "dll": "mspdb50.dll",
+              "name": "PDBQueryAge"
+            },
+            "4285016": {
+              "dll": "mspdb50.dll",
+              "name": "PDBExportValidateInterface"
+            },
+            "4285020": {
+              "dll": "mspdb50.dll",
+              "name": "PDBClose"
+            },
+            "4285024": {
+              "dll": "mspdb50.dll",
+              "name": "PDBOpenTpi"
+            },
+            "4285028": {
+              "dll": "mspdb50.dll",
+              "name": "TypesQueryTiMinEx"
+            },
+            "4285032": {
+              "dll": "mspdb50.dll",
+              "name": "TypesQueryTiMacEx"
+            },
+            "4285036": {
+              "dll": "mspdb50.dll",
+              "name": "TypesQueryPbCVRecordForTiEx"
+            },
+            "4285040": {
+              "dll": "mspdb50.dll",
+              "name": "TypesClose"
+            }
+          }
+        },
+        "rebuilt": {
+          "normalizable_thunks": 4,
+          "slots": {
+            "4231168": {
+              "dll": "kernel32.dll",
+              "name": "LoadLibraryA"
+            },
+            "4231172": {
+              "dll": "kernel32.dll",
+              "name": "SetFilePointer"
+            },
+            "4231176": {
+              "dll": "kernel32.dll",
+              "name": "SetEndOfFile"
+            },
+            "4231180": {
+              "dll": "kernel32.dll",
+              "name": "CreateFileMappingA"
+            },
+            "4231184": {
+              "dll": "kernel32.dll",
+              "name": "CloseHandle"
+            },
+            "4231188": {
+              "dll": "kernel32.dll",
+              "name": "MapViewOfFileEx"
+            },
+            "4231192": {
+              "dll": "kernel32.dll",
+              "name": "CreateFileA"
+            },
+            "4231196": {
+              "dll": "kernel32.dll",
+              "name": "GetFileSize"
+            },
+            "4231200": {
+              "dll": "kernel32.dll",
+              "name": "GetModuleHandleA"
+            },
+            "4231204": {
+              "dll": "kernel32.dll",
+              "name": "GetProcAddress"
+            },
+            "4231212": {
+              "dll": "msvcrt.dll",
+              "name": "fprintf"
+            },
+            "4231216": {
+              "dll": "msvcrt.dll",
+              "name": "_setmode"
+            },
+            "4231220": {
+              "dll": "msvcrt.dll",
+              "name": "_iob"
+            },
+            "4231224": {
+              "dll": "msvcrt.dll",
+              "name": "__p__pgmptr"
+            },
+            "4231228": {
+              "dll": "msvcrt.dll",
+              "name": "memmove"
+            },
+            "4231232": {
+              "dll": "msvcrt.dll",
+              "name": "_except_handler3"
+            },
+            "4231236": {
+              "dll": "msvcrt.dll",
+              "name": "printf"
+            },
+            "4231240": {
+              "dll": "msvcrt.dll",
+              "name": "realloc"
+            },
+            "4231244": {
+              "dll": "msvcrt.dll",
+              "name": "_strcmpi"
+            },
+            "4231248": {
+              "dll": "msvcrt.dll",
+              "name": "toupper"
+            },
+            "4231252": {
+              "dll": "msvcrt.dll",
+              "name": "_exit"
+            },
+            "4231256": {
+              "dll": "msvcrt.dll",
+              "name": "_splitpath"
+            },
+            "4231260": {
+              "dll": "msvcrt.dll",
+              "name": "free"
+            },
+            "4231264": {
+              "dll": "msvcrt.dll",
+              "name": "__getmainargs"
+            },
+            "4231268": {
+              "dll": "msvcrt.dll",
+              "name": "_initterm"
+            },
+            "4231272": {
+              "dll": "msvcrt.dll",
+              "name": "__setusermatherr"
+            },
+            "4231276": {
+              "dll": "msvcrt.dll",
+              "name": "_adjust_fdiv"
+            },
+            "4231280": {
+              "dll": "msvcrt.dll",
+              "name": "__p__commode"
+            },
+            "4231284": {
+              "dll": "msvcrt.dll",
+              "name": "__p__fmode"
+            },
+            "4231288": {
+              "dll": "msvcrt.dll",
+              "name": "__set_app_type"
+            },
+            "4231292": {
+              "dll": "msvcrt.dll",
+              "name": "_controlfp"
+            },
+            "4231296": {
+              "dll": "msvcrt.dll",
+              "name": "_makepath"
+            },
+            "4231300": {
+              "dll": "msvcrt.dll",
+              "name": "qsort"
+            },
+            "4231304": {
+              "dll": "msvcrt.dll",
+              "name": "strncmp"
+            },
+            "4231308": {
+              "dll": "msvcrt.dll",
+              "name": "malloc"
+            },
+            "4231312": {
+              "dll": "msvcrt.dll",
+              "name": "_strdup"
+            },
+            "4231316": {
+              "dll": "msvcrt.dll",
+              "name": "calloc"
+            },
+            "4231320": {
+              "dll": "msvcrt.dll",
+              "name": "sprintf"
+            },
+            "4231324": {
+              "dll": "msvcrt.dll",
+              "name": "puts"
+            },
+            "4231328": {
+              "dll": "msvcrt.dll",
+              "name": "exit"
+            },
+            "4231332": {
+              "dll": "msvcrt.dll",
+              "name": "_XcptFilter"
+            },
+            "4231336": {
+              "dll": "msvcrt.dll",
+              "name": "__p___initenv"
+            }
+          }
+        }
+      },
+      "original_accepted_graphs": null,
+      "profile": "cl",
+      "register_import_inputs": {
+        "metadata_sha256": "ff317139f673c270c7771f04e307ba639a39f1cc476bb25b6e3ae6931e38a3d2",
+        "original_sha256": "62f51b0d705d10426d5b38fc6340859d0bfc829d9d93f27d12a6caa8a2ebe6c6",
+        "preservation_contracts": [
+          {
+            "evidence": {
+              "path": "cases/hello-debug-dll/import-preservation.json",
+              "sha256": "1d11f8e059eef48acbc20f9fc2a4c46c8918e6c895ade42d78497f422e51c5e3"
+            },
+            "preserves": [
+              "esi"
+            ],
+            "target": {
+              "import": {
+                "dll": "msvcrt.dll",
+                "name": "free"
+              }
+            }
+          },
+          {
+            "evidence": {
+              "path": "cases/hello-debug-dll/cached-import-contracts.json",
+              "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+            },
+            "preserves": [
+              "esi"
+            ],
+            "target": {
+              "import": {
+                "dll": "msvcrt.dll",
+                "name": "printf"
+              }
+            }
+          },
+          {
+            "evidence": {
+              "path": "cases/hello-debug-dll/cached-import-contracts.json",
+              "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+            },
+            "preserves": [
+              "ebx"
+            ],
+            "target": {
+              "import": {
+                "dll": "msvcrt.dll",
+                "name": "sprintf"
+              }
+            }
+          },
+          {
+            "evidence": {
+              "path": "cases/hello-debug-dll/cached-import-contracts.json",
+              "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+            },
+            "preserves": [
+              "edi",
+              "ebp"
+            ],
+            "target": {
+              "import": {
+                "dll": "msvcrt.dll",
+                "name": "toupper"
+              }
+            }
+          },
+          {
+            "evidence": {
+              "path": "cases/hello-debug-dll/cached-import-contracts.json",
+              "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+            },
+            "preserves": [
+              "edi",
+              "ebp"
+            ],
+            "target": {
+              "import": {
+                "dll": "msvcrt.dll",
+                "name": "_strcmpi"
+              }
+            }
+          },
+          {
+            "evidence": {
+              "path": "cases/hello-debug-dll/cached-import-contracts.json",
+              "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+            },
+            "preserves": [
+              "esi"
+            ],
+            "target": {
+              "import": {
+                "dll": "msvcrt.dll",
+                "name": "strncmp"
+              }
+            }
+          },
+          {
+            "evidence": {
+              "path": "cases/hello-debug-dll/cached-import-contracts.json",
+              "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+            },
+            "preserves": [
+              "esi"
+            ],
+            "target": {
+              "import": {
+                "dll": "msvcrt.dll",
+                "name": "malloc"
+              }
+            }
+          },
+          {
+            "evidence": {
+              "path": "cases/hello-debug-dll/cached-import-contracts.json",
+              "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+            },
+            "preserves": [
+              "edi"
+            ],
+            "target": {
+              "import": {
+                "dll": "kernel32.dll",
+                "name": "CloseHandle"
+              }
+            }
+          },
+          {
+            "evidence": {
+              "path": "cases/hello-debug-dll/cached-import-contracts.json",
+              "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+            },
+            "preserves": [
+              "ebx",
+              "esi"
+            ],
+            "target": {
+              "function": "_message_text"
+            }
+          },
+          {
+            "evidence": {
+              "path": "cases/hello-debug-dll/cached-import-contracts.json",
+              "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+            },
+            "preserves": [
+              "esi",
+              "edi",
+              "ebp"
+            ],
+            "target": {
+              "function": "_fatal_error"
+            }
+          },
+          {
+            "evidence": {
+              "path": "cases/hello-debug-dll/cached-import-contracts.json",
+              "sha256": "8b8e4efade3d4f58a20d13ce444cb2555cc7581824ebecc51ffdd28e55d579c6"
+            },
+            "preserves": [
+              "edi",
+              "ebp"
+            ],
+            "target": {
+              "function": "_warning"
+            }
+          }
+        ],
+        "rebuilt_sha256": "7f3181b30ce2bf9e27fd00f26bf7838d9f67262221042f63d08186c0d914b7e3"
+      }
+    },
+    "seconds": 0.25970240123569965,
+    "reused_capture_binding": {
+      "original_receipt_sha256": "a55251ff7652c5146d63e73004c183cad25a7196b23947e19300b0453081f688",
+      "native_receipt_sha256": "e2b36e3fe6c8bb6a70b9e61dc9492a2b852cec856a4249425b2f9914f49eac6b",
+      "historical_audit_sha256": "4c7efbea1feee1acbab463450958a66751d2e6ed379fc39df69e12c8d99738b0",
+      "historical_metadata_sha256": null,
+      "historical_metadata_proof_sha256": null,
+      "original_events_sha256": "b312d2bbdb9103ec64b0cc1cb5a709d6c207ec58264667aef3589790de14354f",
+      "masked_image_sha256": "cee437bd18a24df37133847ceb2f8742ee32823af10f551b1d7d4b38213a5656"
+    }
+  },
+  "negatives": {
+    "schema": 1,
+    "rejected": [
+      "stale-original-snapshot",
+      "stale-native-snapshot",
+      "matching-stale-snapshots",
+      "wrong-trial-config",
+      "changed-raw-original",
+      "changed-raw-native-output",
+      "both-missing-frontiers-even-with-matching-receipt-hashes",
+      "wrong-real-original-frontier",
+      "wrong-provider",
+      "unknown-candidate",
+      "stale-native-binary",
+      "stale-Win32-binary",
+      "unmasked-not-acceptance",
+      "wrong-mask",
+      "wrong-actual-provider-bytes-despite-canonical-claim-and-refreshed-file-hash",
+      "missing-actual-native-exit",
+      "wrong-actual-native-exit",
+      "missing-real-original-completion",
+      "wrong-real-original-completion",
+      "historical-audit-detached-from-trial",
+      "accepted-prefix-audit-is-not-candidate-audit",
+      "omitted-native-candidate-entry",
+      "candidate-never-entered-original",
+      "overlapping-application-owners"
+    ],
+    "count": 24
+  },
+  "seconds": {
+    "native_capture": 0.11350175272673368,
+    "candidate_audit": 0.32890483271330595,
+    "pair_check": 0.17638614773750305,
+    "negative_checks": 1.4038613829761744
+  }
+}

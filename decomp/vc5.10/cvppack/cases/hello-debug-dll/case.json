@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0066-intern-type/original",
-  "reference_receipt_sha256": "3c842481877a049ad9e40bb1cea90feebb2871f5536f1679b7dfed15aeba8ea0",
+  "reference": "cases/hello-debug-dll/evidence/0067-hash-type-record/original",
+  "reference_receipt_sha256": "fdeb00581c257d67973e00da62853078d54ca6cc3cffab6a0eedcd423194ed88",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -72,6 +72,7 @@
     "module_contains_address",
     "compact_type_list",
     "intern_type",
-    "hash_type_record"
+    "hash_type_record",
+    "allocate_global_type"
   ]
 }

@@ -1,0 +1,166 @@
+{
+  "schema": 1,
+  "native_only": true,
+  "lookup_values_proved": 768,
+  "maps": [
+    {
+      "name": "previous",
+      "start": 4264312,
+      "end": 4264568,
+      "columns": [
+        1,
+        3,
+        6,
+        13,
+        26,
+        52,
+        105,
+        210
+      ],
+      "table": "00010302060705040d0c0e0f0b0a08091a1b19181c1d1f1e1716141511101213343537363233313039383a3b3f3e3c3d2e2f2d2c28292b2a232220212524262769686a6b6f6e6c6d646567666263616073727071757476777e7f7d7c78797b7a5d5c5e5f5b5a5859505153525657555447464445414042434a4b49484c4d4f4ed2d3d1d0d4d5d7d6dfdedcddd9d8dadbc8c9cbcacecfcdccc5c4c6c7c3c2c0c1e6e7e5e4e0e1e3e2ebeae8e9edeceeeffcfdfffefafbf9f8f1f0f2f3f7f6f4f5bbbab8b9bdbcbebfb6b7b5b4b0b1b3b2a1a0a2a3a7a6a4a5acadafaeaaaba9a88f8e8c8d89888a8b8283818084858786959496979392909198999b9a9e9f9d9c"
+    },
+    {
+      "name": "current",
+      "start": 4264568,
+      "end": 4264824,
+      "columns": [
+        165,
+        74,
+        148,
+        40,
+        80,
+        161,
+        66,
+        133
+      ],
+      "table": "00a54aef9431de7b288d62c7bc19f65350f51abfc4618e2b78dd3297ec49a603a104eb4e35907fda892cc3661db857f2f154bb1e65c02f8ad97c93364de807a242e708add6739c396acf2085fe5bb41112b758fd8623cc693a9f70d5ae0be441e346a90c77d23d98cb6e81245ffa15b0b316f95c27826dc89b3ed1740faa45e08520cf6a11b45bfead08e742399c73d6d5709f3a41e40baefd58b71269cc238624816ecbb015fa5f0ca946e3983dd27774d13e9be045aa0f5cf916b3c86d8227c7628d2853f619bcef4aa5007bde31949732dd7803a649ecbf1af5502b8e61c466c32c89f257b81d4eeb04a1da7f903536937cd9a207e84d1ebb54f18a2fc065"
+    },
+    {
+      "name": "output",
+      "start": 4264824,
+      "end": 4265080,
+      "columns": [
+        151,
+        46,
+        92,
+        184,
+        112,
+        224,
+        192,
+        128
+      ],
+      "table": "00972eb95ccb72e5b82f9601e473ca5d70e75ec92cbb0295c85fe6719403ba2de077ce59bc2b920558cf76e104932abd9007be29cc5be27528bf069174e35acdc057ee799c0bb22578ef56c124b30a9db0279e09ec7bc255089f26b154c37aed20b70e997ceb52c5980fb621c453ea7d50c77ee90c9b22b5e87fc651b4239a0d8017ae39dc4bf26538af168164f34addf067de49ac3b821548df66f114833aad60f74ed93cab1285d84ff6618413aa3d10873ea94cdb62f5a83f8611f463da4d40d76ef91c8b32a5f86fd641a4338a1d30a71e896cfb42d5881fa631d443fa6da0378e19fc6bd245188f36a144d36afdd047fe698c1ba23568ff46d134a31a8d"
+    }
+  ],
+  "payload": "160001120400000003040000750000007500000012000000",
+  "byte_visit_order": [
+    7,
+    6,
+    5,
+    4,
+    3,
+    2,
+    1,
+    0,
+    15,
+    14,
+    13,
+    12,
+    11,
+    10,
+    9,
+    8,
+    23,
+    22,
+    21,
+    20,
+    19,
+    18,
+    17,
+    16
+  ],
+  "hash_globals": {
+    "current": 73,
+    "previous": 17,
+    "mix": 230
+  },
+  "returned_bucket": 2321,
+  "executed_scope": "24-byte generic arglist, three eight-byte groups; other kind/partial-group branches are source/static proof, not executed credit.",
+  "count": 15,
+  "rejected": [
+    {
+      "name": "altered-previous-coefficient",
+      "diagnostic": "('GF(2) column map differs', 8, 12, 13)"
+    },
+    {
+      "name": "altered-current-coefficient",
+      "diagnostic": "('GF(2) column map differs', 8, 41, 40)"
+    },
+    {
+      "name": "altered-output-coefficient",
+      "diagnostic": "('GF(2) column map differs', 8, 185, 184)"
+    },
+    {
+      "name": "wrong-type_hash_current",
+      "diagnostic": "('application global differs', 'type_hash_current', '49', '00')"
+    },
+    {
+      "name": "wrong-type_hash_previous",
+      "diagnostic": "('application global differs', 'type_hash_previous', '11', '00')"
+    },
+    {
+      "name": "wrong-type_hash_mix",
+      "diagnostic": "('application global differs', 'type_hash_mix', 'e6', '00')"
+    },
+    {
+      "name": "wrong-caller-value",
+      "diagnostic": "typed caller state differs"
+    },
+    {
+      "name": "wrong-caller-width",
+      "diagnostic": "typed caller state differs"
+    },
+    {
+      "name": "wrong-caller-native_type",
+      "diagnostic": "typed caller state differs"
+    },
+    {
+      "name": "wrong-caller-owner",
+      "diagnostic": "typed caller state differs"
+    },
+    {
+      "name": "wrong-caller-local",
+      "diagnostic": "typed caller state differs"
+    },
+    {
+      "name": "missing-caller-observation",
+      "diagnostic": "typed caller state differs"
+    },
+    {
+      "name": "wrong-original-return-bucket",
+      "diagnostic": "typed caller state differs"
+    }
+  ],
+  "actual_gdb_rejections": [
+    {
+      "name": "actual-DWARF-caller-width",
+      "returncode": 1,
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x56580228 in allocate_global_type (record=0xf7a32190) at src/stubs.c:66\n66\tvoid __fastcall allocate_global_type(TypeRecord *record) { __asm { int 3 } }\n\nPython Exception <class 'AssertionError'>: actual caller-local type/extent differs\n/root/.ai-tmp/cvpack-hash-caller-8c3dwe5a/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: actual caller-local type/extent differs\n",
+      "bad_config_sha256": "52420ace68e1729283739c1c3beb2b6811ad0d99a1e211c1d1be2c7ffc9b8145",
+      "observer_sha256": "c179ac173ab904daf3311fe54da9d841a8d9c25db287e6ad1e1b4af8e42cf08c"
+    },
+    {
+      "name": "actual-DWARF-caller-native_type",
+      "returncode": 1,
+      "diagnostic": "[Thread debugging using libthread_db enabled]\nUsing host libthread_db library \"/lib/x86_64-linux-gnu/libthread_db.so.1\".\n\nProgram received signal SIGTRAP, Trace/breakpoint trap.\n0x56595228 in allocate_global_type (record=0xf7a7d190) at src/stubs.c:66\n66\tvoid __fastcall allocate_global_type(TypeRecord *record) { __asm { int 3 } }\n\nPython Exception <class 'AssertionError'>: actual caller-local type/extent differs\n/root/.ai-tmp/cvpack-hash-caller-ouw1ycn3/native/commands.gdb:14: Error in sourced command file:\nError occurred in Python: actual caller-local type/extent differs\n",
+      "bad_config_sha256": "f4f6d3eeec3ea5d97a42b332a1e1e78aabfbefb3449dc300578ca8eb383a9716",
+      "observer_sha256": "c179ac173ab904daf3311fe54da9d841a8d9c25db287e6ad1e1b4af8e42cf08c"
+    }
+  ],
+  "original_receipt_sha256": "fdeb00581c257d67973e00da62853078d54ca6cc3cffab6a0eedcd423194ed88",
+  "native_receipt_sha256": "90956a780793fc511baf7214b25ce197291cfa77eda9df0f3803134cef759224",
+  "source_sha256": "28523bd9dad14a3a8c02571cb8b3d4ac62505c22b5503a4c21a948becd8bc81f",
+  "checker_sha256": "73490ed4a400a9b5d86c09c13ef41066e9e7a6b00ae3f6a331e8a9b87f439839",
+  "decoder_sha256": "d5e5db70733b774b096063f2f808080cb6a596afe35d411f301701f9251a9388",
+  "seconds": 2.730221416801214
+}

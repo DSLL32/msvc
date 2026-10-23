@@ -224,6 +224,12 @@ def compare(config,data,events,native,artifacts=None,views=None):
             parameters[item['name']]=dict(owner=item['owner'],offset=offset,capacity=allocation['size'],write_size=item['write_size'])
         else:
             raise AssertionError('unimplemented parameter kind: '+item['kind'])
+    caller_state={}
+    for item in record.get('caller_state',[]):
+        assert item['width'] in (1,2,4)
+        value=original['registers'][item['original_register']] & ((1 << (item['width']*8))-1)
+        caller_state[item['name']]=dict(owner=item['owner'],local=item['local'],width=item['width'],native_type=item['native_type'],value=value)
+    assert caller_state==native.get('caller_state',{}),'typed caller state differs'
     reads=[]
     for captured in original['file_reads']:
         row=dict(captured)
@@ -666,4 +672,4 @@ def compare(config,data,events,native,artifacts=None,views=None):
             parameters[item['name']]=native_parameters[item['name']]=dict(null=True)
     assert parameters == native_parameters, ('typed ABI arguments differ',parameters,native_parameters)
     if original_calls:assert original['last_error']==native['last_error'],'frontier LastError differs'
-    return dict(parameters=parameters,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)
+    return dict(parameters=parameters,caller_state=caller_state,globals=globals_checked,aliased_objects_checked=len(aliases),file_handles_checked=len(handle_aliases),mapped_views_checked=len(view_roles),reads_checked=len(reads),uninitialized_allocations_checked=len(used_uninitialized),allocator_requests_checked=len(image_aliases),initialized_module_buffers_checked=len(module_aliases),typed_record_entries_checked=typed_records_checked,cleared_allocator_requests_checked=len(original['cleared_allocations']),cached_type_names_checked=cached_type_names_checked)
