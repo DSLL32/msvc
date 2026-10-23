@@ -394,7 +394,4 @@ int __fastcall can_split_float_transfer(MachineInstruction *load, MachineInstruc
 MachineInstruction *__fastcall previous_float_load(MachineInstruction *instruction) { __asm int 3 }
 MachineInstruction *__fastcall find_float_transfer_match(MachineInstruction *instruction) { __asm int 3 }
 int __fastcall can_reuse_float_load(MachineInstruction *instruction) { __asm int 3 }
-int __fastcall can_reuse_float_load_width(MachineInstruction *instruction, unsigned bytes) { __asm int 3 }
-int __fastcall combine_float_store_load(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
-int __fastcall fold_float_compare_store(MachineInstruction *instruction, MachineInstruction *branch) { __asm int 3 }
 void __fastcall fold_previous_float_load(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }

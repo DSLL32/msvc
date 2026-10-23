@@ -37,8 +37,9 @@ static const unsigned exchanged_x87_condition[16] = {
 #define FP_OPERATION(i) (((i)->opcode >> 8) & 255)
 #define FP_WIDTH(i) (((i)->opcode >> 4) & 15)
 #define FP_ELIGIBLE(i) (FP_KIND(i) == 0 || FP_KIND(i) == 8 || FP_KIND(i) == 9 || FP_KIND(i) == 10)
-#define FP_FLOAT(i) (FP_ELIGIBLE(i) && ((FP_OPERATION(i) >= MC_FADD && FP_OPERATION(i) <= MC_FLD1) || \
-    (FP_OPERATION(i) >= MC_FUCOM && FP_OPERATION(i) <= MC_FCOS)))
+#define FP_X87_CODE(i) ((FP_OPERATION(i) >= MC_FADD && FP_OPERATION(i) <= MC_FLD1) || \
+    (FP_OPERATION(i) >= MC_FUCOM && FP_OPERATION(i) <= MC_FCOS))
+#define FP_FLOAT(i) (FP_ELIGIBLE(i) && FP_X87_CODE(i))
 #define FP_MEMORY(o) (((o)->flags & 15) == OPERAND_ABSOLUTE || ((o)->flags & 15) == OPERAND_BASED || ((o)->flags & 15) == OPERAND_INDEXED)
 #define FP_REG(o) ((o)->value.constant & 0x3fff)
 #define FP_OTHER_STORAGE(o) (FP_MEMORY(o) || (((o)->flags & 15) == OPERAND_REGISTER && FP_REG(o) > REG_ST0 + 7))
@@ -518,4 +519,106 @@ next_instruction:
             delete_previous = 0; last = 0;
         }
     }
+}
+
+/* Original [00038140,0003825f). Move a nonoverlapping nonpopping
+   store after FCOMP, changing the compare to FCOM and the store to FSTP.
+   Test through last->next so intervening writes and the compare are included. */
+int __fastcall combine_float_store_load(MachineInstruction *first, MachineInstruction *last)
+{
+    if (FP_OPERATION(last) != MC_FCOMP || !operands_equal(&last->operands[0], &operand_st0) ||
+        !FP_OTHER_STORAGE(&last->operands[1]) || FP_OPERATION(first) != MC_FST ||
+        !FP_OTHER_STORAGE(&first->operands[0]) ||
+        operands_overlap_storage(&first->operands[0], FP_WIDTH(first), &last->operands[1], FP_WIDTH(last)) ||
+        operand_changed_between(first, last->next, &first->operands[0], FP_WIDTH(first))) return 0;
+    FP_SET_OPERATION(last, MC_FCOM);
+    FP_SET_OPERATION(first, MC_FSTP);
+    first->previous->next = first->next;
+    first->next->previous = first->previous;
+    last->next->previous = first;
+    first->previous = last;
+    first->next = last->next;
+    last->next = first;
+    return 1;
+}
+
+/* Original [00038260,0003863a). Replace an arithmetic/compare memory
+   operand by an earlier loaded value when a preceding FSTP supplies the
+   same storage. The store becomes nonpopping and operand order is reversed. */
+int __fastcall fold_float_compare_store(MachineInstruction *instruction, MachineInstruction *branch)
+{
+    MachineInstruction *load, *store;
+    MachineOperand *source;
+    unsigned operation = FP_OPERATION(instruction), reg;
+    if (!FP_ARITHMETIC(instruction) && operation != MC_FCOMP) return 0;
+    load = instruction->previous;
+    for (;;) {
+        if (FP_BARRIER(load)) return 0;
+        if (FP_X87_CODE(load)) {
+            if (FP_OPERATION(load) != MC_FLD) return 0;
+            break;
+        }
+        load = load->previous;
+        if (!load) return 0;
+    }
+    if (FP_WIDTH(load) == 10) return 0;
+    store = load->previous;
+    for (;;) {
+        if (FP_BARRIER(store)) return 0;
+        if (FP_X87_CODE(store)) {
+            if (FP_OPERATION(store) != MC_FSTP) return 0;
+            break;
+        }
+        store = store->previous;
+        if (!store) return 0;
+    }
+    if ((store->operands[0].flags & 15) == OPERAND_REGISTER &&
+        FP_REG(&store->operands[0]) > 21 && !branch) return 0;
+    if (!operands_equal(&store->operands[0], &instruction->operands[1]) ||
+        (store->operands[0].flags & 0x8000) || FP_WIDTH(store) == 10 ||
+        operand_changed_between(store, instruction, &store->operands[0], FP_WIDTH(store))) return 0;
+    FP_SET_OPERATION(store, MC_FST);
+    store->operands[0] = instruction->operands[1];
+    source = &load->operands[1];
+    if ((source->flags & 15) == OPERAND_REGISTER && (reg = FP_REG(source)) < 21) {
+        /* Only the valid x87 register rows are recovered; earlier biased
+           table rows belong to unrelated strings, not register operands. */
+        if (reg < REG_ST0) { __asm int 3 }
+        FP_SHIFT_REGISTER(instruction->operands[1], reg, 1);
+    } else instruction->operands[1] = *source;
+    FP_SET_WIDTH(instruction, FP_WIDTH(load));
+    remove_machine_instruction(load);
+    if (operation == MC_FCOMP) FP_REVERSE_BRANCH(branch);
+    else FP_SET_OPERATION(instruction, x87_arithmetic_forms[operation - MC_FADD].reversed);
+    return 1;
+}
+
+/* Original [00038020,00038139). A same-width FSTP to the freshly
+   adjusted [ESP] slot must retain its precision boundary. Other following
+   operations permit reusing the loaded stack value. This lookahead's label
+   rule deliberately omits the backend-stage test used by full barriers. */
+int __fastcall can_reuse_float_load_width(MachineInstruction *instruction, unsigned bytes)
+{
+    MachineInstruction *following = instruction->next;
+    MachineAddress *address;
+    while (following && !FP_ELIGIBLE(following)) {
+        if (FP_KIND(following) == 1 && (!following->record.symbol ||
+            ((LabelSymbol *)following->record.symbol)->references ||
+            ((LabelSymbol *)following->record.symbol)->label_kind == 4)) return 1;
+        following = following->next;
+    }
+    if (!following) return 1;
+    if ((FP_OPERATION(following) == MC_SUB || FP_OPERATION(following) == MC_ADD) &&
+        (following->operands[0].flags & 15) == OPERAND_REGISTER &&
+        following->operands[0].value.reg.words.number == REG_ESP &&
+        (following->operands[1].flags & 15) == OPERAND_IMMEDIATE) {
+        following = following->next;
+        if (!following || !FP_ELIGIBLE(following)) return 1;
+        if (FP_OPERATION(following) == MC_FSTP &&
+            (following->operands[0].flags & 15) == OPERAND_BASED && FP_WIDTH(following) == bytes) {
+            address = following->operands[0].value.address;
+            if (address->base.words.number == REG_ESP && !address->first.displacement && !address->symbol) return 0;
+        }
+    }
+    return 1;
 }

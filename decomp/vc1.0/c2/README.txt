@@ -2452,3 +2452,9 @@ Whole x87 peephole pass: checkpoint974
 @combine_float_store_load@8. 895 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-peephole.json for extent union, limits and measured timings.
+
+x87 comparison store motion and precision lookahead: checkpoint977
+3 acceptances pass fresh original/native matching; current frontier
+@find_float_transfer_match@4. 898 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-transfer.json for extent union, limits and measured timings.

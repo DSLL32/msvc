@@ -1,0 +1,309 @@
+{
+  "checkpoint": 977,
+  "base_commit": "d3ea6a1",
+  "status": "floating active",
+  "source_graphs": 898,
+  "coverage": {
+    "mask_verified": true,
+    "metric": "accepted original code-extent union; not branch coverage",
+    "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+    "accepted_frontiers": 977,
+    "accepted_code_bytes": 265875,
+    "original_code_bytes": 399693,
+    "percentage": 66.51980394953127,
+    "method": "union accepted source, shared text data, CRT and import-thunk ranges; clip to original code sections using VirtualSize, falling back to raw size when zero",
+    "code_sections": [
+      [
+        "0x17000",
+        "0x7894d"
+      ]
+    ],
+    "union_ranges": 402
+  },
+  "frontier": "@find_float_transfer_match@4",
+  "accepted_functions": [
+    {
+      "name": "@can_reuse_float_load_width@8",
+      "start": 229408,
+      "end": 229689
+    },
+    {
+      "name": "@combine_float_store_load@8",
+      "start": 229696,
+      "end": 229983
+    },
+    {
+      "name": "@fold_float_compare_store@8",
+      "start": 229984,
+      "end": 230970
+    }
+  ],
+  "accepted_libraries": [],
+  "reference_sequence": [
+    "cases/floating-original-974.json",
+    "cases/floating-original-975.json",
+    "cases/floating-original-976.json",
+    "cases/floating-original-977.json"
+  ],
+  "native_matches": [
+    {
+      "executable_sha256": "3033b91c84133100f0fab47872ded5136fd72ed2703a89e2fb652b6db9974d53",
+      "config_sha256": "fdd653c8bde7e886945ccfc3eb1f9d44b3024414677f591bd1ae4878002c5554",
+      "seconds": 0.13868830166757107,
+      "logical": "@fold_float_compare_store@8",
+      "matched": true,
+      "log_sha256": "155bc530c3f6d32515a6263c0126bed956fc5073273da9fa7db0d01d796c7cd9",
+      "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-x3iovs47"
+    },
+    {
+      "executable_sha256": "b09295ac7f7af20d2c924d8db3fa5db7f339f302e5d2edad2de1afb97fb9e1f4",
+      "config_sha256": "18b52fe0eb4ce2251e8ff7f8840f8adfa6d038fb6a12afa5d0c2b505e904a784",
+      "seconds": 0.1435323767364025,
+      "logical": "@can_reuse_float_load_width@8",
+      "matched": true,
+      "log_sha256": "30f4bd40b4c5ebc214f9c67c02a46abcc4317c27223a750b976deb0136e56162",
+      "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-_k69pbir"
+    },
+    {
+      "executable_sha256": "43d96e9f777c6b0c30c22e336655456015eec6c28871f2424c999850025e0e9b",
+      "config_sha256": "67e77e4e6d226e87755c08f8ce092cff5309c798d2fbc7adb87b7d46b5fb034f",
+      "seconds": 0.15418009273707867,
+      "logical": "@find_float_transfer_match@4",
+      "matched": true,
+      "log_sha256": "6cd568024cddb46d1c4f3e839ea05661e1680594a1fb08c41483170112a469d1",
+      "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-nzezp03b"
+    }
+  ],
+  "native_fixtures": {
+    "method": "native application entry and captured-output check",
+    "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
+    "executable_sha256": "97c178cbead057dec31985bb17b9d72d9aa1709c521d4d50b5f27fb618404a53",
+    "trace_enabled": true,
+    "shared_hashes": {
+      "lib/recon/include/recon.h": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284",
+      "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+      "lib/recon/include/win32.h": "bd9921fc58eca8020c9a26db68fc4cd228934ed07dd169a1dc8f1bd5f9ede3dd",
+      "lib/recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+      "lib/recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+      "lib/recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+      "lib/recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+      "lib/recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+      "lib/recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+      "lib/recon/native/setjmp.h": "59e06ebb4df3a9242f62c136608bc2a2c45729d91b41e8ed5df4ba5dc646f210",
+      "lib/recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+      "lib/recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+      "lib/recon/spawn.py": "c49209ab1017fbf73eb806211c280344dc566294c539f73e1453675864d46cec",
+      "lib/recon/src/compat.c": "febcc5de62388b4249c2a35f25bcad04adf2f9a7bfb06bf3e1ef63b089a3c50e",
+      "lib/recon/src/crt.c": "1cf556f3771c59820a69a56c38e78cf95080d395f387f3e252d9be9dd100d8d3",
+      "lib/recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+      "lib/recon/src/entry.c": "e6382ac822c2d458befa97d74a5f833d920b60498783fc1f7ae28b9ba516817e",
+      "lib/recon/src/process.c": "5c93ad6d5a8f135ce30425003b1a6db6fce1f9509fbdb38f3457a572cee024d3",
+      "lib/recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+      "lib/recon/src/win32.c": "46d7275bdbb5ba6011fd79e3420f63a2c749d5b6a1ba34955af75159351d361d"
+    },
+    "results": [
+      {
+        "profile": "minimal",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 270,
+        "seeded_entries": 0,
+        "output": {
+          "name": "test.obj",
+          "bytes": 286,
+          "normalized_sha256": "a99b80966425c2b3ed532f78e939c91f018e6f70682f52525fbe6b579fb79929",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.01806851662695408,
+        "execution_seconds": 0.006650468334555626,
+        "check_seconds": 0.001657341606914997,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-xktqljv3/minimal"
+      },
+      {
+        "profile": "hello",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 487,
+        "seeded_entries": 270,
+        "output": {
+          "name": "hello.obj",
+          "bytes": 2289,
+          "normalized_sha256": "84561a86af4bf3bdc3d8683da7c04be170caae4ca011d20402394e8a032cd6d0",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.01572976727038622,
+        "execution_seconds": 0.011411814019083977,
+        "check_seconds": 0.0017130756750702858,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-xktqljv3/hello"
+      },
+      {
+        "profile": "loops",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 77,
+        "seeded_entries": 757,
+        "output": {
+          "name": "loops.obj",
+          "bytes": 620,
+          "normalized_sha256": "cafbb33726695b60d2e92d4173682de0f4ae47c401ecfcbe3b8ce38a54568f87",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.013772362843155861,
+        "execution_seconds": 0.008259851485490799,
+        "check_seconds": 0.0013212794438004494,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-xktqljv3/loops"
+      },
+      {
+        "profile": "pressure",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 8,
+        "seeded_entries": 834,
+        "output": {
+          "name": "pressure.obj",
+          "bytes": 879,
+          "normalized_sha256": "692d3dbb7de8c5e16843d6f9c658bbcc9e1753cc111e281cc4c0b3ffa016a6e3",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.012815904803574085,
+        "execution_seconds": 0.009091246873140335,
+        "check_seconds": 0.0011531319469213486,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-xktqljv3/pressure"
+      },
+      {
+        "profile": "aliasing",
+        "terminal": "exit:0",
+        "returncode": 0,
+        "application_entries": 16,
+        "seeded_entries": 842,
+        "output": {
+          "name": "aliasing.obj",
+          "bytes": 600,
+          "normalized_sha256": "44bf756a158394dab84fbb60cb4ad9e686cf34ced9377cd666f1307a03f744ae",
+          "ignored_timestamp": [
+            4,
+            4
+          ]
+        },
+        "setup_seconds": 0.012655932456254959,
+        "execution_seconds": 0.008281332440674305,
+        "check_seconds": 0.001243741251528263,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-xktqljv3/aliasing"
+      },
+      {
+        "profile": "floating",
+        "terminal": "@find_float_transfer_match@4",
+        "returncode": -5,
+        "application_entries": 36,
+        "seeded_entries": 858,
+        "output": null,
+        "setup_seconds": 0.012723232619464397,
+        "execution_seconds": 0.006762761622667313,
+        "check_seconds": 0.0008116289973258972,
+        "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-xktqljv3/floating"
+      }
+    ],
+    "rejected": [
+      "wrong expected application entry",
+      "non-clock object corruption",
+      "changed captured IR input"
+    ],
+    "fixture_seconds": 0.3221539715304971,
+    "suite_setup_seconds": 0.14494049828499556,
+    "negative_check_seconds": 0.022625356912612915,
+    "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
+  },
+  "limits": [
+    "Three whole helpers: store-to-compare reorder38140..3825f, prior FSTP/FLD memory reuse38260..3863a, precision-width lookahead38020..38139",
+    "All branches reconstructed before acceptance; currently reached helper paths and named frontiers match, not all transformations/exception branches claimed exercised",
+    "Prior-load source ST register adjustment reuses independently verified14..20 upper rows; invalid non-x87 source register below14 explicitly traps on unrecovered data rather than treating neighboring strings as operand records",
+    "Width lookahead preserves ADD/SUB enum distinction and its own label rule omitting backend_stage; same-width freshly adjusted ESP store forbids reuse",
+    "Source recipe/condition values and register encoding macro unchanged from independent974 data proof; shared float-code predicate factored without changing classification",
+    "Five completed object oracles plus floating named trap pass; floating artifact not yet complete"
+  ],
+  "timing": {
+    "analysis_seconds": null,
+    "analysis_note": "unmeasured",
+    "measurements": {
+      "floating-transfer-warnings-timing": {
+        "command": [
+          "python3",
+          "/root/.ai-tmp/vc1.0-c2/optimizer-queue/warn-modules.py",
+          "float-peepholes"
+        ],
+        "seconds": 1.977440652437508,
+        "returncode": 0,
+        "log_sha256": "e181e357acd9266ef1afef40c1d7837b53f31a90c5688d2b21681781e721dcec"
+      },
+      "floating975-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.368828176520765,
+        "returncode": 0,
+        "log_sha256": "a9b0e3063633a8b22f2c4b8bd076ebb55f8fcfd4451e3931ecd64ca34fbd4460"
+      },
+      "floating-transfer-audit-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "audit",
+          "coverage"
+        ],
+        "seconds": 4.365643598139286,
+        "returncode": 0,
+        "log_sha256": "c0fbad62f96d85021bf3ebe322e734acc978dc4b5801664a10d31de91502d158"
+      },
+      "floating976-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.2892190823331475,
+        "returncode": 0,
+        "log_sha256": "2d5532a3cfe7bdecd21bf3ce45d3a767d77161fd11e340238414d7b61bbb3133"
+      },
+      "floating977-build-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "native",
+          "native-trace",
+          "win32"
+        ],
+        "seconds": 2.4057048447430134,
+        "returncode": 0,
+        "log_sha256": "2d5532a3cfe7bdecd21bf3ce45d3a767d77161fd11e340238414d7b61bbb3133"
+      },
+      "floating-transfer-check-timing": {
+        "command": [
+          "make",
+          "-j4",
+          "check"
+        ],
+        "seconds": 0.4258680213242769,
+        "returncode": 0,
+        "log_sha256": "b4dec526843cb74de0a35429d9d946d235d6359e29a63df6cc591da1c9b6b579"
+      }
+    }
+  }
+}

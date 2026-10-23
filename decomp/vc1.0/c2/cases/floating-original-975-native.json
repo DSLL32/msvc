@@ -1,0 +1,9 @@
+{
+  "executable_sha256": "3033b91c84133100f0fab47872ded5136fd72ed2703a89e2fb652b6db9974d53",
+  "config_sha256": "fdd653c8bde7e886945ccfc3eb1f9d44b3024414677f591bd1ae4878002c5554",
+  "seconds": 0.13868830166757107,
+  "logical": "@fold_float_compare_store@8",
+  "matched": true,
+  "log_sha256": "155bc530c3f6d32515a6263c0126bed956fc5073273da9fa7db0d01d796c7cd9",
+  "directory": "/root/.ai-tmp/vc1.0-c2/floating-gdb-x3iovs47"
+}
