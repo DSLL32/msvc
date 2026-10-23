@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "d1a1dd84fea7113c14fa2878824803a0d6f71dadcd5931d1da04fc1903827d5e",
+    "functions.json": "efb32a08b4ea77fbd980e58e811ae1b94e31fbd0aed2e44252647a8ed1387b48",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "25637d1c9b60422b8b412c0959df8bff0f660dba283d4b4cec3d57a3b1473450",
-    "cases/canonical-map.txt": "b7d8b59f0d83149bf3655fb55cb55daf2d7594c4423143be313f1ef15cd7bae3",
+    "cases/original-entry-references.json": "be2f189d58835c1e3cbc269749fd16b4629fc09df96edf856d26f57e8f845df8",
+    "cases/canonical-map.txt": "4a24417c8e61aff647da1d164afd5cc4aadc3f9fd57a47c74bc1ed4757d37af5",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -34,9 +34,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1029-create_static_member_alias-4/entry-reference/original-receipt.json": "2e5eef3eb46cefe65ee210dfc897dc1c05f877ed04675c1f2b8211826aa6b089",
-    "cases/frontiers/state_machine_debug/1029-create_static_member_alias-4/entry-reference/original-events.txt": "d53120cb922ddaecdb77eecb879db65edff948fa0da44057394c41b17d30eb28",
-    "cases/frontiers/state_machine_debug/1029-create_static_member_alias-4/entry-reference/original-entries.plan": "ff4be735632f174d9478fd0a45ebfa88ad32140a7b3b1cc4b700691613ae9bfe"
+    "cases/frontiers/state_machine_debug/1030-make_anonymous_identifier/entry-reference/original-receipt.json": "59fd1ba2d9fc63fe586ef8cc3024fd3e38d5516e7f5fac451e4a4c48784c21ed",
+    "cases/frontiers/state_machine_debug/1030-make_anonymous_identifier/entry-reference/original-events.txt": "168d01a5f9a9af41d8ddcb1ad2e9486dbb8c4fc586dd8cea60e7195ef3c644fa",
+    "cases/frontiers/state_machine_debug/1030-make_anonymous_identifier/entry-reference/original-entries.plan": "feb68527f1a559cba62fb5a85763e69f785ce1817fc6e7e7f95251fa1c8ec895"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -3045,7 +3045,7 @@
     },
     "make_anonymous_identifier": {
       "logical": "_make_anonymous_identifier",
-      "source": "src/stubs.c"
+      "source": "src/declarations.c"
     },
     "make_array_constructor_address": {
       "logical": "_make_array_constructor_address@4",
@@ -6256,7 +6256,8 @@
     "finish_braced_initializer",
     "inferred_initializer_count",
     "validate_union_member",
-    "create_static_member_alias"
+    "create_static_member_alias",
+    "make_anonymous_identifier"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10368,7 +10369,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1030,
+      "last": 1031,
       "seen": [
         "main",
         "message_text",
@@ -11308,12 +11309,13 @@
         "inferred_initializer_count",
         "validate_union_member",
         "create_static_member_alias",
-        "make_anonymous_identifier"
+        "make_anonymous_identifier",
+        "mangle_static_member_name"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_make_anonymous_identifier",
-        "native": "make_anonymous_identifier",
+        "logical": "_mangle_static_member_name@8",
+        "native": "mangle_static_member_name",
         "signal": 5
       }
     }

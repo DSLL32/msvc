@@ -207,7 +207,6 @@ int __stdcall remaining_string_initializer_bytes(CppSymbol *symbol, IrToken *val
 CppSymbol *__stdcall lookup_based_symbol(char *name) { __asm { int 3 } return 0; }
 
 SegmentSymbol *__stdcall lookup_segment_symbol(char *name, char *class_name, unsigned char kind, unsigned unused_mode) { __asm { int 3 } return 0; }
-char * make_anonymous_identifier(void) { __asm { int 3 } return 0; }
 IrToken *__stdcall member_destructor_expression(unsigned char operation, IrToken *object, char *name) { __asm { int 3 } return 0; }
 
 CppSymbol *__stdcall new_label(char *name) { __asm { int 3 } return 0; }

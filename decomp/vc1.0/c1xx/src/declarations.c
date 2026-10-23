@@ -5,6 +5,7 @@
 #include "cpp-context.h"
 #include "parameters.h"
 #include "operators.h"
+#include "keywords.h"
 #include <recon.h>
 
 HashTable *declaration_table; /* original 0x9f340 */
@@ -463,4 +464,20 @@ CppSymbol *__stdcall apply_declarator_modifier(CppSymbol *declaration,
         declaration->type->attributes = modifier->attributes;
     }
     return declaration;
+}
+
+int anonymous_identifier_count = 1; /* original 0x9f448 */
+/* The same writable spelling is reused before interning each generated name. */
+char anonymous_identifier_spelling[5] = "_aaa"; /* original 0x9fd1c */
+
+/* Original 0x3caf0..0x3cb62. Generate an interned three-letter
+   base-26 internal name, diagnosing exhaustion before spelling the name. */
+char *make_anonymous_identifier(void)
+{
+    if (anonymous_identifier_count >= 26 * 26 * 26) fatal_error(501);
+    anonymous_identifier_spelling[3] = (char)('a' + anonymous_identifier_count % 26);
+    anonymous_identifier_spelling[2] = (char)('a' + (anonymous_identifier_count / 26) % 26);
+    anonymous_identifier_spelling[1] = (char)('a' + (anonymous_identifier_count / (26 * 26)) % 26);
+    ++anonymous_identifier_count;
+    return intern_identifier(anonymous_identifier_spelling);
 }
