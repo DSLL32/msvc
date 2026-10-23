@@ -126,10 +126,7 @@ void __cdecl initialize_state_126af(void)
 
 
 
-void __cdecl initialize_state_12753(void)
-{
-    __asm { int 3 }
-}
+
 
 void __cdecl initialize_state_12760(void)
 {

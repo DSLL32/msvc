@@ -306,6 +306,11 @@
       "start_rva": 75590,
       "end_rva": 75603,
       "entry": 1
+    },
+    {
+      "start_rva": 75603,
+      "end_rva": 75616,
+      "entry": 1
     }
   ],
   "functions": [
@@ -943,6 +948,19 @@
         ]
       ],
       "source": "src/pools.cpp",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_12753",
+      "native_symbol": "initialize_state_12753",
+      "role": "application",
+      "chunks": [
+        [
+          75603,
+          75616
+        ]
+      ],
+      "source": "src/pools.cpp",
       "status": "sole-new-candidate"
     }
   ],
@@ -958,8 +976,8 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 75603,
-    "native_symbol": "initialize_state_12753",
+    "rva": 75616,
+    "native_symbol": "initialize_state_12760",
     "kind": "initialization-callback",
     "native_args": [],
     "abi": "cdecl void no arguments,cleanup0"
@@ -1139,10 +1157,10 @@
       "pointer_roles": "owned snapshot interior sentinels, never dereferenced",
       "minimum_pages": 1,
       "normal_case": false,
-      "object_count": 6
+      "object_count": 7
     }
   },
-  "staging_role": "Pool wrapper12746 is sole new candidate; existing genuine member126fc reused with separately modeled receiver",
+  "staging_role": "Pool wrapper12753 is sole new candidate; existing genuine member126fc reused with separately modeled receiver",
   "registered_cleanup": [
     {
       "original_rva": 145728,
