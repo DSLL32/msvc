@@ -1,7 +1,7 @@
 {
   "method": "native application entry and captured-output check",
   "executable": "/root/msvc2/decomp/vc1.0/c2/build/native-trace/C23232.EXE",
-  "executable_sha256": "e057cda475a15e9701c9b30753e64c9578680a929c906ce31cdb4bb6f632afa6",
+  "executable_sha256": "5465a13e135414856da5d89c6fe5a13a3d48d01d2ca49c71decb312eead1d1c4",
   "trace_enabled": true,
   "shared_hashes": {
     "lib/recon/include/recon.h": "2d6b8af6087cfd2156516d0b93ef1f69e36166114ee147df8779f837d7823284",
@@ -41,10 +41,10 @@
           4
         ]
       },
-      "setup_seconds": 0.01704279240220785,
-      "execution_seconds": 0.007526598870754242,
-      "check_seconds": 0.0016911420971155167,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-0k4dedp6/minimal"
+      "setup_seconds": 0.016878342255949974,
+      "execution_seconds": 0.00658367108553648,
+      "check_seconds": 0.0015868227928876877,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-7nwi5laa/minimal"
     },
     {
       "profile": "hello",
@@ -61,10 +61,10 @@
           4
         ]
       },
-      "setup_seconds": 0.014111572876572609,
-      "execution_seconds": 0.012046233750879765,
-      "check_seconds": 0.0016030380502343178,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-0k4dedp6/hello"
+      "setup_seconds": 0.013511753641068935,
+      "execution_seconds": 0.010626657865941525,
+      "check_seconds": 0.001675909385085106,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-7nwi5laa/hello"
     },
     {
       "profile": "loops",
@@ -81,10 +81,10 @@
           4
         ]
       },
-      "setup_seconds": 0.013591568917036057,
-      "execution_seconds": 0.009839107282459736,
-      "check_seconds": 0.0014399951323866844,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-0k4dedp6/loops"
+      "setup_seconds": 0.013061962090432644,
+      "execution_seconds": 0.00939478725194931,
+      "check_seconds": 0.0011951318010687828,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-7nwi5laa/loops"
     },
     {
       "profile": "pressure",
@@ -101,22 +101,30 @@
           4
         ]
       },
-      "setup_seconds": 0.013201861642301083,
-      "execution_seconds": 0.010173162445425987,
-      "check_seconds": 0.001276375725865364,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-0k4dedp6/pressure"
+      "setup_seconds": 0.012461630627512932,
+      "execution_seconds": 0.009492769837379456,
+      "check_seconds": 0.0013439608737826347,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-7nwi5laa/pressure"
     },
     {
       "profile": "aliasing",
-      "terminal": "@find_evictable_machine_region@8",
-      "returncode": -5,
-      "application_entries": 15,
+      "terminal": "exit:0",
+      "returncode": 0,
+      "application_entries": 16,
       "seeded_entries": 842,
-      "output": null,
-      "setup_seconds": 0.013336792588233948,
-      "execution_seconds": 0.0064796945080161095,
-      "check_seconds": 0.0008837068453431129,
-      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-0k4dedp6/aliasing"
+      "output": {
+        "name": "aliasing.obj",
+        "bytes": 600,
+        "normalized_sha256": "44bf756a158394dab84fbb60cb4ad9e686cf34ced9377cd666f1307a03f744ae",
+        "ignored_timestamp": [
+          4,
+          4
+        ]
+      },
+      "setup_seconds": 0.01490321010351181,
+      "execution_seconds": 0.006985897198319435,
+      "check_seconds": 0.0016999207437038422,
+      "directory": "/root/.ai-tmp/vc1.0-c2/native-fixtures-7nwi5laa/aliasing"
     }
   ],
   "rejected": [
@@ -124,8 +132,8 @@
     "non-clock object corruption",
     "changed captured IR input"
   ],
-  "fixture_seconds": 0.3032110519707203,
-  "suite_setup_seconds": 0.14378554094582796,
-  "negative_check_seconds": 0.024068300612270832,
+  "fixture_seconds": 0.29771361500024796,
+  "suite_setup_seconds": 0.13933287654072046,
+  "negative_check_seconds": 0.027348562143743038,
   "timing_notes": "No build, Wine, reference capture or prefix setup in fixtures; unmeasured phases not imputed."
 }

@@ -2371,3 +2371,17 @@ Rematerialized register dependencies and ranges: checkpoint939
 native fixtures pass. See cases/aliasing-live-ranges.json for extent union, limits
 and measured timing splits. Minimal/hello/loops/pressure objects remain exact after timestamp;
 aliasing600-byte final object is incomplete.
+
+Pointer alias and structure-copy stress complete: checkpoint941
+--------------------------------------------------------------
+Sixteen further functions complete this case. Original/native exit0, empty
+streams, all600 object bytes exact except timestamp4..7; normalized SHA
+44bf756a158394dab84fbb60cb4ad9e686cf34ced9377cd666f1307a03f744ae.
+Region eviction candidate search and scheduling address-origin inference are
+recovered with unvisited child traps retained. Memory-motion context7e230 has
+only its consumed boundary prefix defined; its separate family remains unknown.
+Canonical/W3, all863 source graphs, mask/extent checks and5 completed native
+object oracles pass; four malformed completion receipts rejected.
+Accepted extent union252947/399693=63.2853214842%, not branch coverage.
+See cases/aliasing-completion.json for provenance, limits and measured timing.
+Final approved queue item: independent original x87 arithmetic/conversion capture.

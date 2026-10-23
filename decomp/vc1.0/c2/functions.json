@@ -943,7 +943,9 @@
     "@record_rematerialized_work_registers@12",
     "@widen_register_block_interval@8",
     "@register_block_interval_contains@8",
-    "@record_rematerialized_registers@8"
+    "@record_rematerialized_registers@8",
+    "@find_evictable_machine_region@8",
+    "@infer_scheduled_address_symbol@8"
   ],
   "driver": [
     {
@@ -6526,8 +6528,7 @@
     {
       "name": "@infer_scheduled_address_symbol@8",
       "start": 246592,
-      "end": 246593,
-      "provisional": true
+      "end": 246886
     },
     {
       "name": "@scheduled_instruction_changes_register@8",
@@ -6663,8 +6664,7 @@
     {
       "name": "@find_evictable_machine_region@8",
       "start": 307728,
-      "end": 307729,
-      "provisional": true
+      "end": 307829
     },
     {
       "name": "@machine_region_is_ancestor@8",
@@ -6762,6 +6762,24 @@
       "name": "@register_block_interval_contains@8",
       "start": 184496,
       "end": 184527
+    },
+    {
+      "name": "@register_has_region_uses@8",
+      "start": 306848,
+      "end": 306849,
+      "provisional": true
+    },
+    {
+      "name": "@find_forward_scheduled_symbol@12",
+      "start": 247136,
+      "end": 247137,
+      "provisional": true
+    },
+    {
+      "name": "@find_prior_scheduled_definition@8",
+      "start": 246896,
+      "end": 246897,
+      "provisional": true
     }
   ],
   "cases": {

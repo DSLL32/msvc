@@ -2065,3 +2065,50 @@ void __fastcall update_pentium_gap_history(MachineInstruction *last,
         scheduler_pairs.previous[2].second = second;
     }
 }
+
+/* Original7e230: context of the separate memory-motion pass. Only its
+   boundary field at1c is consumed here; remaining fields await that pass.
+   This prefix is neither allocated nor initialized by scheduling. */
+typedef struct MemoryMotionContextPrefix {
+    unsigned field00, field04, field08, field0c, field10, field14, field18;
+    MachineInstruction *boundary;
+} MemoryMotionContextPrefix;
+typedef char MemoryMotionContextPrefixSizeCheck[sizeof(MemoryMotionContextPrefix) == 32 ? 1 : -1];
+MemoryMotionContextPrefix *memory_motion_context;
+/* Original [0003c340,0003c466). Infer an address origin only from region
+   register summaries and compatible visible definitions. Scheduling uses
+   its current region frame; the memory-motion caller supplies its context. */
+SymbolHeader *__fastcall infer_scheduled_address_symbol(MachineOperand *operand, int conservative)
+{
+    MachineInstruction *boundary, *definition;
+    MachineFlowRegion *region;
+    MachineRegionRegister *record;
+    SymbolHeader *symbol;
+    unsigned kind, operation, flags;
+    unsigned short number;
+    if (!conservative) boundary = memory_motion_context->boundary;
+    else {
+        if (!scheduler_regions) return 0;
+        boundary = scheduler_regions->header;
+    }
+    kind = operand->flags & 15;
+    if (kind != OPERAND_BASED && kind != OPERAND_INDEXED) return 0;
+    if (kind == OPERAND_INDEXED && operand->value.address->base.words.number == 27) return 0;
+    if ((boundary->opcode & 15) != 1) return 0;
+    region = boundary->labels.attachment;
+    if (!region || (region->flags & 1)) return 0;
+    number = operand->value.address->base.words.number;
+    record = find_machine_region_register(region, number, 0);
+    if (!record) return 0;
+    if (!(record->flags & 1) && find_forward_scheduled_symbol(&symbol, boundary, number))
+        return symbol;
+    flags = record->flags;
+    if (!(flags & 4) && (!(flags & 1) || !(flags & 2))) return 0;
+    definition = find_prior_scheduled_definition(number, boundary);
+    if (!definition) return 0;
+    operation = (definition->opcode >> 8) & 255;
+    if (operation == MC_LEA || (operation == MC_MOV &&
+        (definition->operands[1].flags & 15) == OPERAND_LABEL_ADDRESS))
+        return definition->operands[1].value.address->symbol;
+    return 0;
+}

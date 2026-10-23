@@ -1,0 +1,39 @@
+{
+  "label": "aliasing-original-941",
+  "profile": "aliasing",
+  "accepted": 941,
+  "events": "exit 0\n",
+  "target_sha256": "0a64eab35cfb4bfb8af452653d21707947ada33952a82a5e712c275ab7712d26",
+  "masked_sha256": "2439f891a9b4fcbe92a0bbcc149c02290a46f4ced97f182be65e04c0b4bac402",
+  "config_sha256": "9d1f91f9b944210637d25f98c1886f66084529a0c51aaf19e5c8209738f6424e",
+  "manifest_sha256": "03c1806403ee70df3b6ae45d2c23fc36d525c7cb39aca64c424211e88c31cefe",
+  "inputs": {
+    "c2/irex": "2887206b3a6facf0c7bf9b12435e54661cd1f12764ea4e9b6e11dab3faf29f14",
+    "c2/irsy": "c23490c660fcfb8777e6b11b81ce80c947c3e111aee3d60a876f3a256676cb24",
+    "c2/irin": "68c42ddca1975bb6601fa0e6762d7b0492da4a3237e3d67fbae2211647a02396",
+    "c2/irgl": "11f8f1f41f4081c60c6d92ccd9ef442651015b504988bb8830236214b329178a"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": "-ef {bin}\\c23.err -il ir -f aliasing.c -W 1 -dos -Foaliasing.obj -ML -Gs4096 -Gy -G5 "
+  },
+  "directory": "/root/.ai-tmp/vc1.0-c2/original-aliasing-371ocbzk",
+  "logical": "exit:0",
+  "original_va": null,
+  "outputs": [
+    {
+      "path": "cases/aliasing-original-941/aliasing.obj",
+      "name": "aliasing.obj",
+      "bytes": 600,
+      "sha256": "427e60b8f0e89c3de2ae03135517b2311205545640aa78df766e2099e882a082",
+      "normalized_sha256": "44bf756a158394dab84fbb60cb4ad9e686cf34ced9377cd666f1307a03f744ae",
+      "ignored_timestamp": [
+        4,
+        4
+      ]
+    }
+  ],
+  "setup_seconds": 0.20257370453327894,
+  "execution_seconds": 1.504636786878109,
+  "check_seconds": 0.00660580862313509,
+  "total_seconds": 1.7138166259974241
+}

@@ -46,4 +46,5 @@ int __fastcall machine_region_is_ancestor(MachineFlowRegion *ancestor, MachineFl
 MachineFlowRegion *__fastcall find_register_preservation_region(unsigned short number, MachineFlowRegion *region);
 MachineInstruction *__fastcall split_machine_region_exit(MachineFlowRegion *region);
 void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned short color, unsigned short number, int apply, MachineBlockHeader *block);
+int __fastcall register_has_region_uses(unsigned short number, MachineFlowRegion *regions);
 #endif

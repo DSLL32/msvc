@@ -1,0 +1,21 @@
+{
+  "profile": "aliasing",
+  "terminal": "exit:0",
+  "returncode": 0,
+  "application_entries": 16,
+  "seeded_entries": 842,
+  "output": {
+    "name": "aliasing.obj",
+    "bytes": 600,
+    "normalized_sha256": "44bf756a158394dab84fbb60cb4ad9e686cf34ced9377cd666f1307a03f744ae",
+    "ignored_timestamp": [
+      4,
+      4
+    ]
+  },
+  "setup_seconds": 0.013610915280878544,
+  "execution_seconds": 0.008105519227683544,
+  "check_seconds": 0.00113007053732872,
+  "directory": "/root/.ai-tmp/vc1.0-c2/aliasing-completion-_vm_i_ym/aliasing",
+  "seconds": 0.023122664541006088
+}

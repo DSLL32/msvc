@@ -1,7 +1,6 @@
-C2 ACTIVE: approved nested-loop stress at939 acceptances/861 source graphs.
-Matching original/native frontier @find_evictable_machine_region@8.
-Extent union252552/399693=63.1864956354%, not branch coverage.
-Minimal+hello+loops+pressure completed object regressions pass; loop620-byte object incomplete.
-Next reference BEFORE cases/aliasing-original-939.json.
-Then remaining approved stress in cases/queue.json.
-Canonical/W3, audit and native fixtures pass; no shim requests.
+C2 ACTIVE: aliasing COMPLETE at941 acceptances/863 source graphs.
+Extent union252947/399693=63.2853214842%, not branch coverage.
+Five completed object oracles exact after timestamp only: minimal,hello,loops,pressure,aliasing.
+Final approved queue item: original floating-point capture and reconstruction.
+Canonical/W3, graph/mask audits and all5 native fixtures pass.
+No shim requests. See cases/aliasing-completion.json and queue.json.

@@ -1025,3 +1025,19 @@ int __fastcall operand_value_depends_on_color(MachineOperand *operand, unsigned 
     }
     return number == color;
 }
+
+/* Original [0004b210,0004b275). Find the outermost eligible region whose
+   register summaries do not use or modify this value. A structured exit
+   without an exit label cannot accept the required preservation sequence. */
+MachineFlowRegion *__fastcall find_evictable_machine_region(unsigned short number,
+    MachineFlowRegion *region)
+{
+    MachineFlowRegion *outer;
+    if (!region || (region->flags & 1)) return 0;
+    if (find_machine_region_register(region, number, 0)) return 0;
+    if ((region->flags & 0x10) && !region->exit_label) return 0;
+    if (!register_is_invariant_in_regions(number, region->children) ||
+        register_has_region_uses(number, region->children)) return 0;
+    outer = find_evictable_machine_region(number, region->parent);
+    return outer ? outer : region;
+}

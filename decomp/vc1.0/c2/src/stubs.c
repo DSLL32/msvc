@@ -392,9 +392,7 @@ void __fastcall emit_explicit_block_transfer(int fill, MachineOperand *source,
     MachineOperand *destination, unsigned short type, unsigned offset) { __asm int 3 }
 void __fastcall transform_machine_region_blocks(MachineFlowRegion *region) { __asm int 3 }
 unsigned __fastcall stack_adjustment_between(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
-SymbolHeader *__fastcall infer_scheduled_address_symbol(MachineOperand *operand, int conservative) { __asm int 3 }
 int __fastcall pentium_flags_live_after(MachineInstruction *instruction) { __asm int 3 }
-MachineFlowRegion *__fastcall find_evictable_machine_region(unsigned short number, MachineFlowRegion *region) { __asm int 3 }
 int __fastcall machine_region_is_ancestor(MachineFlowRegion *ancestor, MachineFlowRegion *region) { __asm int 3 }
 MachineFlowRegion *__fastcall find_register_preservation_region(unsigned short number, MachineFlowRegion *region) { __asm int 3 }
 MachineInstruction *__fastcall split_machine_region_exit(MachineFlowRegion *region) { __asm int 3 }
@@ -402,3 +400,6 @@ void __fastcall mark_machine_region_split(MachineFlowRegion *region, unsigned sh
 int __fastcall diamond_register_constraint(unsigned short number, MachineInstruction *first, MachineInstruction *last, unsigned bytes) { __asm int 3 }
 void fill_previous_pentium_gap(void) { __asm int 3 }
 int __fastcall i386_instruction_cost(MachineInstruction *instruction) { __asm int 3 }
+int __fastcall register_has_region_uses(unsigned short number, MachineFlowRegion *regions) { __asm int 3 }
+int __fastcall find_forward_scheduled_symbol(SymbolHeader **symbol, MachineInstruction *boundary, unsigned short number) { __asm int 3 }
+MachineInstruction *__fastcall find_prior_scheduled_definition(unsigned short number, MachineInstruction *boundary) { __asm int 3 }
