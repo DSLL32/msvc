@@ -339,3 +339,10 @@ VC1 jump buffers default to8DWORDs. Native VC5 profiles may select
 still lives out of line; this setting adds no `_setjmp3` or SEH semantics.
 `_assert` currently has its original typed ABI and fails explicitly on execution;
 its diagnostic/abort branch has not been characterized.
+
+The encountered `system(command)` CRT path uses the existing SpawnBroker with
+mode0, executableCOMSPEC, argv[COMSPEC,"/c",command] and inherited environment.
+Only captured successful responses are supported. The fixture must verify the
+whole invocation, cwd, relevant environment and complete inputs before replaying
+streams/file effects. Missing broker, allow-native replies, NULL commands and
+unreviewed failure/fallback outcomes fail explicitly. No host shell is launched.

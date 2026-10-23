@@ -1,0 +1,19 @@
+{
+  "scope": "nonNULL command with COMSPEC and frozen successful process broker response only",
+  "original_evidence": [
+    "/root/.ai-tmp/msvc2/vc1.0/link/system-crt.analysis.txt",
+    "decomp/vc1.0/link/cases/rom-local-imports/capture/original-validation.json"
+  ],
+  "observed": "mode0 argv[COMSPEC,/c,command], inherited env,cwd,status0,emptychildstreams,errno0",
+  "tests": [
+    "strict fullcommand/cwd/input/argv replay and pinned fileeffects",
+    "no broker,allow-native,nonzero/failure,NULL/missingCOMSPEC rejected"
+  ],
+  "clang_build_checks_seconds": 1.228001375682652,
+  "gcc_checks": "passed",
+  "limits": [
+    "no shell or original process launched",
+    "no NULLcommand access query or commandprocessor fallback",
+    "nonzero outcome explicitly unreviewed"
+  ]
+}

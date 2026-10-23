@@ -4,7 +4,7 @@ CPPFLAGS += -DRECON_NATIVE_TEST -Iinclude -Inative
 CFLAGS += -m32 -std=gnu89 -O0 -g -Wall -Wextra
 SOURCES = src/crt.c src/win32.c src/process.c src/compat.c src/entry.c src/decimal.c
 HEADERS = $(wildcard include/*.h native/*.h native/sys/*.h)
-.PHONY: all check find-check module-check initterm-check startup-check resource-check status-check jump-storage-check trace-check process-check process-stream-check trace-allocation-check adoption-check clean
+.PHONY: all check find-check module-check initterm-check startup-check resource-check status-check jump-storage-check system-check trace-check process-check process-stream-check trace-allocation-check adoption-check clean
 all: build/check
 build:
 	mkdir -p $@
@@ -51,6 +51,10 @@ jump-storage-check: build/jump-storage8 build/jump-storage16
 	./build/jump-storage8
 	./build/jump-storage16
 	$(PYTHON) -c "import subprocess; p=subprocess.run(['build/jump-storage8','assert'],capture_output=True); assert p.returncode==125"
+build/system-target: tests/system-target.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) tests/system-target.c $(SOURCES) -o $@
+system-check: build/system-target
+	$(PYTHON) tests/check-system.py build/system-target
 build/trace-target.o: tests/trace-target.c | build
 	$(CC) -m32 -std=gnu89 -O0 -g -finstrument-functions -c $< -o $@
 build/trace-pie: build/trace-target.o src/trace.c

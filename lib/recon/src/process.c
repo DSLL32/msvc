@@ -108,6 +108,20 @@ static int spawn_request(int mode,const char *file,const char *const *argv,
     if (response[1]) { *result=(int32_t)response[2]; return 1; }
     return 0;
 }
+/* Exact external-command replay only. This is not a POSIX/Windows shell. */
+int recon_system(const char *command)
+{
+    const char *processor=getenv("COMSPEC"); const char *arguments[4];
+    int result,saved_errno=errno;
+    if (!command || !processor || !*processor)
+        recon_unsupported("unreviewed system command processor");
+    arguments[0]=processor; arguments[1]="/c"; arguments[2]=command; arguments[3]=NULL;
+    if (!spawn_request(_P_WAIT,processor,arguments,NULL,&result))
+        recon_unsupported("system requires captured broker response");
+    if (result!=0) recon_unsupported("unreviewed system command result/fallback");
+    errno=saved_errno;
+    return result;
+}
 /* Reject PE files and scripts in the actual execution path. */
 static int native_program(const char *file,char *path)
 {
