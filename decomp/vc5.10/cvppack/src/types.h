@@ -94,6 +94,8 @@ unsigned short __fastcall hash_type_reference(TypeRecord *record, unsigned short
 int __fastcall compare_recursive_type(TypeRecord *record, unsigned index,
     unsigned char *other_data, unsigned other_index);
 unsigned __fastcall intern_recursive_type(unsigned index);
+void __fastcall mark_recursive_type(TypeRecord *record);
+void __fastcall index_recursive_type(unsigned char *data, unsigned index);
 void __fastcall intern_type(TypeRecord *record);
 typedef struct InternedType {
     unsigned index;

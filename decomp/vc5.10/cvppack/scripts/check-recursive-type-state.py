@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 """Recursive-record entry ownership and actual GDB formal-schema controls."""
+import argparse
 import copy
 import importlib.util
 import json
@@ -10,7 +11,8 @@ import tempfile
 import time
 from state import BINARY,sha
 
-start=time.perf_counter();pair=BINARY/'cases/hello-debug-dll/evidence/0080-resolve-recursive-type'
+parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--pair',type=Path,default=BINARY/'cases/hello-debug-dll/evidence/0080-resolve-recursive-type');args=parser.parse_args()
+start=time.perf_counter();pair=args.pair.resolve()
 config=json.loads((pair/'original/configuration.json').read_text());data=json.loads((pair/'original/data.json').read_text())
 events=(pair/'original/events').read_text();native=json.loads((pair/'native/state.json').read_text())
 spec=importlib.util.spec_from_file_location('raw_state',BINARY/'scripts/raw-state.py');decoder=importlib.util.module_from_spec(spec);spec.loader.exec_module(decoder)
@@ -34,10 +36,16 @@ def depth(state):
     raw=int.from_bytes(bytes.fromhex(state['globals']['type_recursion_depth']),'little')^1
     state['globals']['type_recursion_depth']=raw.to_bytes(2,'little').hex()
 reject('lost-caller-recursion-depth',depth,'application global differs')
+if native['function']=='mark_recursive_type':
+    table=int.from_bytes(bytes.fromhex(native['globals']['type_records']),'little')
+    for field,offset,width in [('mapped-index',4,4),('processing-status',28,2),('cached-hash',14,2)]:
+        def alter(state,o=offset,w=width):
+            raw=bytearray.fromhex(state['memory'][str(table)]);raw[332*32+o]^=1;state['memory'][str(table)]=raw.hex()
+        reject('changed-new-recursive-'+field,alter,'initialized type record fields differ')
 actual=[]
 for name in ['pointee-width','omitted-formal']:
     with tempfile.TemporaryDirectory(prefix='cvpack-recursive-abi-',dir=Path.home()/'.ai-tmp') as temporary:
-        directory=Path(temporary);changed=copy.deepcopy(config);row=next(row for row in changed['functions'] if row['name']=='hash_recursive_type')
+        directory=Path(temporary);changed=copy.deepcopy(config);row=next(row for row in changed['functions'] if row['name']==native['function'])
         if name=='pointee-width':row['parameters'][0]['native_pointee_width']=4;reason='actual pointer formal pointee extent differs'
         else:row['parameters']=[];reason='incomplete frontier ABI contract'
         bad=directory/'configuration.json';bad.write_text(json.dumps(changed));output=directory/'native'

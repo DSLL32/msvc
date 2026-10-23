@@ -87,7 +87,8 @@
     "insert_global_symbol",
     "add_type_reference",
     "resolve_recursive_type",
-    "hash_recursive_type"
+    "hash_recursive_type",
+    "intern_recursive_type"
   ],
   "functions": [
     {
@@ -3080,8 +3081,11 @@
       "source_name": "intern_recursive_type",
       "native_symbol": "intern_recursive_type",
       "original": 4229376,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4229376,
+        4229941
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -3090,7 +3094,8 @@
           "kind": "integer",
           "native_width": 4
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0082-intern-recursive-type-declarations/promotion.json"
     },
     {
       "name": "hash_type_reference",
@@ -3115,6 +3120,50 @@
           "register": "edx",
           "kind": "integer",
           "native_width": 2
+        }
+      ]
+    },
+    {
+      "name": "mark_recursive_type",
+      "symbol": "@mark_recursive_type@4",
+      "source_name": "mark_recursive_type",
+      "native_symbol": "mark_recursive_type",
+      "original": 4243584,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "record",
+          "register": "ecx",
+          "kind": "type-record-pointer",
+          "root": "type_records",
+          "count": "type_record_count",
+          "native_pointee_width": 32
+        }
+      ]
+    },
+    {
+      "name": "index_recursive_type",
+      "symbol": "@index_recursive_type@8",
+      "source_name": "index_recursive_type",
+      "native_symbol": "index_recursive_type",
+      "original": 4241552,
+      "status": "stub",
+      "extent": null,
+      "ret": 0,
+      "parameters": [
+        {
+          "name": "data",
+          "register": "ecx",
+          "kind": "unobserved-pointer",
+          "native_pointee_width": 1
+        },
+        {
+          "name": "index",
+          "register": "edx",
+          "kind": "integer",
+          "native_width": 4
         }
       ]
     }
