@@ -48,7 +48,8 @@
     "@c2_allocate_node@8",
     "@c2_node_size@4",
     "@c2_pool_allocate@8",
-    "_c2_initialize_constants"
+    "_c2_initialize_constants",
+    "_c2_real_from_int"
   ],
   "driver": [
     {
@@ -2280,6 +2281,119 @@
         "-G5"
       ],
       "evidence": "cases/analysis/constants-disassembly.txt"
+    },
+    {
+      "name": "_c2_real_from_int",
+      "native": "c2_real_from_int",
+      "start": 4534407,
+      "end": 4534439,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "cdecl int pointer and C2Real pointer; caller cleans8 bytes",
+      "state_policy": "real-from-int",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "c2_symbol_hash_count"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        }
+      ],
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "evidence": "cases/analysis/extended-int-disassembly.txt"
     }
   ],
   "stubs": [
@@ -2429,14 +2543,14 @@
       "abi": "fastcall ECX PDB filename EDX object filename; int result; no stack parameters"
     },
     {
-      "name": "_c2_real_from_int",
-      "native": "c2_real_from_int",
-      "start": 4534407,
-      "end": 4534408,
+      "name": "_store_extended",
+      "native": "store_extended",
+      "start": 4609886,
+      "end": 4609887,
       "pending_extent": true,
       "kind": "application",
-      "abi": "cdecl int pointer and C2Real pointer; caller cleans8 bytes",
-      "state_policy": "real-from-int",
+      "abi": "private ESI C2Real pointer, ST0 incoming80bit value; pop ST0, RET0, preservesintegerregisters",
+      "state_policy": "extended-store",
       "state": [
         {
           "original": "0x499708",

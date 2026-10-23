@@ -3,6 +3,21 @@
 
 C2Real c2_real_zero, c2_real_one, c2_real_two;
 
+/* This compiler has no 80-bit scalar type, and the shared store receives its
+ * address in ESI and value on ST(0). Only that ABI bridge requires assembly. */
+void c2_real_from_int(int *input, C2Real *output)
+{
+    __asm {
+        mov edi, input
+        fild dword ptr [edi]
+    }
+    output->kind = 4;
+    __asm {
+        mov esi, output
+        call store_extended
+    }
+}
+
 void c2_initialize_constants(void)
 {
     int value = 0;

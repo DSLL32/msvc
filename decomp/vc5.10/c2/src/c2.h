@@ -125,6 +125,7 @@ typedef struct C2Real {
 } C2Real;
 extern C2Real c2_real_zero, c2_real_one, c2_real_two;
 void c2_real_from_int(int *input, C2Real *output);
+void store_extended(void); /* Private ABI: ESI destination, incoming ST(0). */
 void c2_initialize_constants(void);
 void c2_initialize_opcodes(void);
 void c2_initialize_machine(void);

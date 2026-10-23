@@ -18,9 +18,14 @@ int __fastcall c2_open_pdb(char *name, char *object_name)
     __asm { int 3 }
     return 0;
 }
-void c2_real_from_int(int *input, C2Real *output)
+/* Named frontier retains the ESI/ST(0) ABI without a C prologue. */
+__declspec(naked) void store_extended(void)
 {
-    __asm { int 3 }
+    RECON_TRACE_NAKED_ENTRY(store_extended)
+    __asm {
+        int 3
+        ret
+    }
 }
 
 void c2_initialize_opcodes(void)

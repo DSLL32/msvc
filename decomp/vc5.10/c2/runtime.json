@@ -132,9 +132,9 @@
     "evidence": null
   },
   {
-    "name": "_c2_real_from_int",
-    "start": 4534407,
-    "end": 4534408,
+    "name": "_store_extended",
+    "start": 4609886,
+    "end": 4609887,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

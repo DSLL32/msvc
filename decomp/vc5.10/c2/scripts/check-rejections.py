@@ -107,6 +107,20 @@ def main():
         mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
                       ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
                       ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if 'extended_store'in current_state:
+        def changed_x87(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['extended_store'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+            path=root/'n/gdb.stdout';raw=re.sub(r'^C2-STORE-ABI-STOP .+$','C2-STORE-ABI-STOP '+json.dumps(state['extended_store'],sort_keys=True),path.read_text(),flags=re.M);path.write_text(raw)
+            path=root/'n/receipt.json';receipt=json_at(path);receipt['gdb_outputs']['gdb.stdout']=sha((root/'n/gdb.stdout').read_bytes());write_json(path,receipt)
+        mutations += [('x87 caller kind bytes differ',lambda r:changed_x87(r,'destination','00'*12)),
+                      ('x87 source lost caller local alias',lambda r:changed_x87(r,'source_alias',False)),
+                      ('x87 control word differs',lambda r:changed_x87(r,'control',0x37f)),
+                      ('x87 stack TOP/status differs',lambda r:changed_x87(r,'status',0)),
+                      ('x87 tag marks wrong live register',lambda r:changed_x87(r,'tag',0xffff)),
+                      ('x87 raw80 value differs',lambda r:changed_x87(r,'registers',['01'+'00'*9]+['00'*10]*7)),
+                      ('x87 FILD instruction identity differs',lambda r:changed_x87(r,'instruction',current_state['extended_store']['instruction']+1)),
+                      ('naked tracing changed ESI',lambda r:changed_x87(r,'pointer',current_state['extended_store']['pointer']+4)),
+                      ('naked tracing changed x87 source pointer',lambda r:changed_x87(r,'data_pointer',current_state['extended_store']['data_pointer']+4))]
     if 'real_from_int'in current_state:
         def changed_real_input(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['real_from_int'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

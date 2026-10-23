@@ -1,0 +1,115 @@
+{
+  "case_id": "numeric-control-flow",
+  "case_inputs": {
+    "a01068ex": "83f26fe13a042a6e5d7139babe23634230edd2fdf4199bebf8b9effcbe29e67a",
+    "a01068gl": "c38e259adbc644283c8f2b9431df0832c17dc74729cdd890df7afd1541c74f7b",
+    "a01068in": "0bbcf997e2cac60b2509b03e4fce81e88a8625eb1952fd1097fc727f83c70b7c",
+    "a01068sy": "7c82aa3c8e48c34374fe30020c45baf03f0784991935a2b8a46f85596af79176",
+    "numeric-control-flow.c": "408a915312a72cbb496a884d696f84e70fb4c8850d50e4697e1d482e5cb7a7d4"
+  },
+  "artifacts": [
+    {
+      "output_name": "numeric-control-flow.obj",
+      "present": false
+    }
+  ],
+  "helper_inputs_sha256": "2130c639542ce09e6853d42d4739887a65044f9e29df625b990033c982b51263",
+  "data_model_sha256": "fd6156decdb58db7886ae294ef4eb64fa31b4b0a814500f323f79af1fccf5425",
+  "data_state_sha256": "1e96ce1442f8a4f2a4369a7176f199da3803434c20dcfcfcc99f7fd08411a660",
+  "explicit_child_environment": true,
+  "child_cwd": "S:\\vc5.10\\c2\\numeric-control-flow\\original-work",
+  "kind": "explicit-original-only",
+  "observe_messages": false,
+  "observe_startup": false,
+  "unmasked": false,
+  "candidates": [
+    "_c2_real_from_int"
+  ],
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc5.10\\c2\\numeric-control-flow\\intreal-original\\capture-helper.exe",
+    "S:\\vc5.10\\c2\\numeric-control-flow\\intreal-original\\C2.EXE",
+    "R:\\toolchains\\5.10\\bin\\C2.EXE",
+    "",
+    "S:\\vc5.10\\c2\\numeric-control-flow\\intreal-original\\plan.txt",
+    "S:\\vc5.10\\c2\\numeric-control-flow\\intreal-original\\requested-environment.bin",
+    "S:\\vc5.10\\c2\\numeric-control-flow\\original-work"
+  ],
+  "base_configuration_sha256": "5659bec36072c72d37f802709b3b5f3e09eda80bdaf287b77fbed8e174e050dd",
+  "configuration_sha256": "605deab35a9f3a4b74d16b433d7c712c806d2d432d62db73adc19e304bb254bd",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "executable_sha256": "dfe54bcb510f6979c84aebfe1929bd91ef5e2eeb1fa2dc203c85e95b2f31aac2",
+  "debugger_sha256": "a24cd8f0721e6c4ce6bf6b3413fa18a06bc0d48dca1991787fe039c101240116",
+  "rebuilt_snapshot_sha256": "5295292b3f1ba3bc0ae45a5a58a118a5bb0701e7ef5a400e2556a210d6928d3f",
+  "rebuilt_map_snapshot_sha256": "2c4be5bf1425dc4d069e4a609f143a8bad2df09961fbee390056a21f50ab3875",
+  "static_input_snapshots": {
+    "runtime-original.json": {
+      "input": "runtime.json",
+      "sha256": "a8d7c9beb30e15825057c73aeb64c0420a3bc0fad4f5a92ee8d8e1f086b08e7b"
+    },
+    "runtime-rebuilt.json": {
+      "input": "build/runtime.json",
+      "sha256": "a50f99e8de037c6705ab897fca89d1b12c3f0aaad0948f4af5b25709a88791ab"
+    },
+    "graph-metadata.json": {
+      "input": "build/graph-metadata.json",
+      "sha256": "42d8ef39183575eab913146a95599b92409e385acd73dcf9c51c19efc7bd1217"
+    }
+  },
+  "audit_receipt_sha256": "35a8124df49834ff298734518ed33e4b3a0f99bc9b1132de3d13a9e8dee4ff4e",
+  "rebuilt_sha256": "5295292b3f1ba3bc0ae45a5a58a118a5bb0701e7ef5a400e2556a210d6928d3f",
+  "audit_inputs": {
+    "runtime.json": "a8d7c9beb30e15825057c73aeb64c0420a3bc0fad4f5a92ee8d8e1f086b08e7b",
+    "build/runtime.json": "a50f99e8de037c6705ab897fca89d1b12c3f0aaad0948f4af5b25709a88791ab",
+    "build/c2.map": "2c4be5bf1425dc4d069e4a609f143a8bad2df09961fbee390056a21f50ab3875",
+    "build/graph-metadata.json": "42d8ef39183575eab913146a95599b92409e385acd73dcf9c51c19efc7bd1217",
+    "graph-audit": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c"
+  },
+  "source_hashes": {
+    "scripts/native-host.c": "06bb0be767661a9b93ee74bb44b6c3f55c1ca114f0988dfa40911a0e04a25259",
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/c2.h": "b2dbe993e0e8fd01b25dc2bdbe12856bb399932d68af9a7fa14afe87357b3ffc",
+    "src/cleanup.c": "ade05818abf0d7dae3de9cdadc21230199beb44759ca8b9a67e98155650cbf5a",
+    "src/constants.c": "5aa37ecd85f032bbf7afd7875471bf4087b77a2ddabd854c51cc51eea064229d",
+    "src/diagnostics.c": "95c93ae8c982b7d0f86c5827de2609f74d5586844560869de470a93fcc371fdd",
+    "src/environment.c": "eb7ec037cd1193bdd340a3423461a3fee04d2142c0247d7892747f4a2c0f8cc7",
+    "src/il-files.c": "58a7ac5d8f13c7dda8d1dc913562dda04a48633c46c8b2b9573c91d2a226259c",
+    "src/il-input.c": "a1bea9f0ed0ec951b88dbae03613156b57206fcbfbeb30bd50b2cddd93a2ca47",
+    "src/integer-option.c": "88278a1164a17a3a538e614bed713a66d91bef094a140237feed18084e06906a",
+    "src/main.c": "78c9468b641eab7e7f1af7fad938fc800b555ec8d11005c5bbcec0bfc8eef94f",
+    "src/messages.rc": "2c5d0852b25ad0dba5048fb18634420c3fb7a7d93032187083bff0b8a443df8c",
+    "src/nodes.c": "952bd3622f0c4ac09094157026ab2cd7ab3e5b891e40c33f6a40f98b17214c4c",
+    "src/onexit.c": "655604423c7d014c413f586440382adbb7651a91596121050a0e98b536d39bd2",
+    "src/option-match.c": "1e7ba11f9961d07211e4e4a7ef6a50b361df23eae587d44678c115ba9a267a07",
+    "src/option-table.c": "2f8ac5134d6edbfb96f270119d47e61cb23686745312a319d3eb08d2982ad0b0",
+    "src/options.c": "9dcb15481f9116e3c301e09c7f2aef04237aeed52bed08a4e7accee6de341ccb",
+    "src/precision.c": "daae70312d63b144872fb3486186501d6de76afae8c42eb0ff572c9d1da25501",
+    "src/startup.c": "9703233f15eac9538cfb31621770ea4560e918d80b2408a5f2a3e08ac1462b88",
+    "src/stubs.c": "0e7aa656e60953d320629788b0fa9d658b03c332083ffac3c1822bc686162008",
+    "src/symbols.c": "ca1e65a8fb493133e6746d35d2fae05e585806effdc11964edd8e20e4be7bebd"
+  },
+  "events_sha256": "89e6abca36e0a3dad16cabd4ac0c34527b0494527a5559f961fb6e31b4be5bb2",
+  "environment": {
+    "MSC_CMD_FLAGS": "-il .\\a01068 -f numeric-control-flow.c -W 1 -dos -Fonumeric-control-flow.obj -ML -Fdvc50.idb -Bd -Gs4096 -Gy -G5 "
+  },
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "execution_inputs": {
+    "child-environment-input.bin": "4b7aec9e20f9354d5788aeccf96821a9a53a7d8a0de26caaa3473bfc72df4105",
+    "child-command-input.bin": "439a3ce5ba3cf93d8b3bc3dbfd81a6f1727a833d79651d988df83dcc16783b61",
+    "data-plan.txt": "019bf5fdabc06c69e8897c62d33c6d8e1bda7b6b9070e9d5bc93b8d00dde67ac"
+  },
+  "helper_status": 0,
+  "seconds": {
+    "setup": 0.14257630612701178,
+    "execution": 1.2329715667292476,
+    "total": 1.4234969951212406
+  },
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

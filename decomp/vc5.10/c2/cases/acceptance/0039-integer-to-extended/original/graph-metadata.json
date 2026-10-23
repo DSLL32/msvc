@@ -1,0 +1,140 @@
+{
+  "schema": 1,
+  "functions": {
+    "_c2_crt_startup": {
+      "original": {
+        "roots": [
+          4670637,
+          4670658
+        ]
+      },
+      "rebuilt": {
+        "roots": [
+          4198939,
+          4198972
+        ]
+      },
+      "evidence": {
+        "original_scope_table": "0x48d3d0",
+        "rebuilt_scope_table": "0x403098",
+        "source": "explicit -1 enclosing scope, filter and handler roots from actual compiled PE scope tables"
+      }
+    },
+    "_c2_main": {
+      "original": {
+        "roots": [
+          4670693,
+          4670736
+        ]
+      },
+      "rebuilt": {
+        "roots": [
+          4199390,
+          4199453
+        ]
+      },
+      "evidence": {
+        "original_scope_table": "0x48d3c0",
+        "rebuilt_scope_table": "0x4030a8",
+        "source": "explicit -1 enclosing scope, filter and handler roots from actual compiled PE scope tables"
+      }
+    },
+    "@c2_match_option@16": {
+      "original": {
+        "text_data": [
+          [
+            4533424,
+            4533444
+          ],
+          [
+            4533456,
+            4533502
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4200972,
+            4200992
+          ],
+          [
+            4200992,
+            4201038
+          ]
+        ]
+      }
+    },
+    "@c2_apply_option@12": {
+      "original": {
+        "text_data": [
+          [
+            4533728,
+            4533760
+          ],
+          [
+            4533760,
+            4533799
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4201823,
+            4201855
+          ],
+          [
+            4201855,
+            4201894
+          ]
+        ]
+      }
+    },
+    "_format_diagnostic_args": {
+      "original": {
+        "text_data": [
+          [
+            4771504,
+            4771532
+          ],
+          [
+            4771532,
+            4771583
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4205106,
+            4205134
+          ],
+          [
+            4205134,
+            4205185
+          ]
+        ]
+      }
+    },
+    "@c2_node_size@4": {
+      "original": {
+        "text_data": [
+          [
+            4248936,
+            4249000
+          ]
+        ]
+      },
+      "rebuilt": {
+        "text_data": [
+          [
+            4206083,
+            4206147
+          ]
+        ]
+      }
+    }
+  },
+  "callback_tables": []
+}
