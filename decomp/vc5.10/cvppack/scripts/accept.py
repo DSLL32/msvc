@@ -67,6 +67,12 @@ def validate_pair(config_path, original_dir, native_dir, audit_path=None):
                         if r['status']=='accepted' or r['name'] in original['candidates']]
     assert audit['checked_functions'] == expected_checked
     assert audit['graph']['checked_functions'] == len(expected_checked), 'candidate graph missing'
+    import importlib.util
+    spec=importlib.util.spec_from_file_location('release_tail',BINARY/'scripts/release-tail.py')
+    release=importlib.util.module_from_spec(spec);spec.loader.exec_module(release)
+    release.verify_projection(audit,audit_path.parent)
+    if audit.get('external_release_tail'):
+        assert release.prove(config)==audit['external_release_tail']['proof'], 'forged Release ABI residual'
     for key,path in [('original_sha256',target),('rebuilt_sha256',BINARY/'build/CVPACK.EXE'),
                      ('native_sha256',BINARY/'build/native/CVPACK'),('map_sha256',BINARY/'build/cvpack.map'),
                      ('graph_tool_sha256',Path(os.environ.get('GRAPH_AUDIT_BIN',str(ROOT/'tooling/graph-audit/target/release/graph-audit'))).resolve()),

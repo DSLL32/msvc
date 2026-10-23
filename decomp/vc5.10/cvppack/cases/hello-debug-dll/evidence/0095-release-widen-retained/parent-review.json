@@ -1,0 +1,21 @@
+{
+  "status": "approved for ordinary Release95 promotion",
+  "input_hashes": {
+    "scripts/release-tail.py": "9cee1360a0fe00bd2b06aa54c7cc9add8d51ce830243bc1665893e206a2d69b6",
+    "scripts/check-widen-release.py": "98d4472b4858cdc9aa22aae7e33791a948735651c9774a4050e10598b6008c4a",
+    "cases/hello-debug-dll/evidence/0095-release-widen-retained/hardened-audit/audit.json": "2d34f6f15b60407c74b22b044a7a8a04b872bad7a7fd8cebf08b12539604a9f3",
+    "cases/hello-debug-dll/evidence/0095-release-widen-retained/release-checks-v2.json": "acfa6ab091d680e3c093f30c9e336430cbdd62d61576a76c2d8a1349d9c2aaf7",
+    "cases/hello-debug-dll/evidence/0095-release-widen-retained/original/receipt.json": "0a2382bbdb55a12dd8bbd103156b4728cbfe627faa00f6856345058ac5630e10",
+    "cases/hello-debug-dll/evidence/0095-release-widen-retained/native-sequence/receipt.json": "4e3c5bd8c4417369c3160064b67988a71815ae0466149d93340da6928b76bcac"
+  },
+  "independent_checks": [
+    "fresh retained original/native check-only pass",
+    "exact95 full graph and94 strict RET same-input subset",
+    "independent refreshed-report wrong-profile rejection",
+    "reviewed28 meaningful controls",
+    "cdecl wrapper caller cleanup4 and actual thiscall slot0 RET0 identity/lifetime",
+    "four actual object lifetimes and all five retained rewritten-output allocations"
+  ],
+  "negative": "('RET projection changed graph input', 'profile')",
+  "scope": "Only8B release_widen external-method tail ABI supplied by explicit local residual; full ownership/import/ref/graph checks retained, strict RET everywhere else. No MSPDB body credit, no new execution during final static hardening."
+}

@@ -20,3 +20,9 @@ extern "C" int emit_widen(WidenTi *object, WidenOutput *output,
 {
     return object->Emit(output, input, size, flags);
 }
+
+/* Tail-dispatched original Release slot0 [004102b0,004102b8). */
+extern "C" void release_widen(WidenTi *object)
+{
+    object->Release();
+}

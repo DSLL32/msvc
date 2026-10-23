@@ -100,7 +100,8 @@
     "rewrite_module_global_types",
     "create_widen",
     "query_widen",
-    "emit_widen"
+    "emit_widen",
+    "release_widen"
   ],
   "functions": [
     {
@@ -1762,8 +1763,11 @@
       "symbol": "_release_widen",
       "native_symbol": "release_widen",
       "original": 4260528,
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        4260528,
+        4260536
+      ],
       "ret": 0,
       "parameters": [
         {
@@ -1776,7 +1780,8 @@
           "state": "emitted",
           "native_stage": 3
         }
-      ]
+      ],
+      "acceptance_proof": "cases/hello-debug-dll/evidence/0095-release-widen-retained/promotion.json"
     },
     {
       "name": "query_widen",
@@ -3714,5 +3719,6 @@
     ]
   },
   "observe_widen_query": true,
-  "observe_widen_emit": true
+  "observe_widen_emit": true,
+  "observe_widen_release": true
 }

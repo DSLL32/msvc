@@ -19,6 +19,8 @@ module_allocations=[]
 widen_factory_calls=[]
 widen_query_calls=[]
 widen_emit_calls=[]
+widen_release_calls=[]
+widen_sequence=[]
 lookup_calls=[]
 lookup_stack=[]
 type_compare_calls=[]
@@ -189,6 +191,7 @@ def install(configuration):
                 slots=bytes(inferior.read_memory(table,40));names=['destroy','unknown','unknown','record','unknown','unknown','unknown','unknown','query','emit']
                 expected=[int(gdb.parse_and_eval("&'native-widen.c'::"+name)) for name in names]
                 assert [int.from_bytes(slots[i:i+4],'little') for i in range(0,40,4)]==expected,'provider vtable typed function identities differ'
+                widen_sequence.append('factory-return')
                 call['vtable_roles']=names
                 call['vtable_slots']=[int.from_bytes(slots[i:i+4],'little') for i in range(0,40,4)]
                 call['provider_functions']={name:int(gdb.parse_and_eval("&'native-widen.c'::"+name)) for name in set(names)}
@@ -200,8 +203,8 @@ def install(configuration):
                 while owner is not None and owner.name()!='widen_subsection':owner=owner.older()
                 assert owner is not None and int(owner.read_var('object').address)==out,'factory output is not actual caller local object'
                 call=dict(output_argument=out,capacity=int(frame.read_var('capacity')),flags=int(frame.read_var('flags')),
-                    entry_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")),owner='widen_subsection',local='object')
-                widen_factory_calls.append(call);WidenFactoryReturned(call);return False
+                    entry_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")),owner='widen_subsection',local='object',instance=len(widen_factory_calls))
+                widen_sequence.append('factory-call');widen_factory_calls.append(call);WidenFactoryReturned(call);return False
         WidenFactoryEntered()
 
     if config.get('observe_widen_query'):
@@ -214,7 +217,8 @@ def install(configuration):
                 call.update(result=int(self.return_value),description_after=bytes(inferior.read_memory(call['description'],16)).hex(),
                     input_after=bytes(inferior.read_memory(call['input_address'],call['size'])).hex(),
                     exit_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
-                assert int(gdb.parse_and_eval("'native-widen.c'::stage"))==2 and int(gdb.parse_and_eval("'native-widen.c'::cursor"))==0,'query provider lifetime/state differs'
+                widen_sequence.append('query-return')
+                assert int(gdb.parse_and_eval("'native-widen.c'::stage"))==2 and int(gdb.parse_and_eval("'native-widen.c'::cursor"))==call['instance'],'query provider lifetime/state differs'
                 return False
         class WidenQueryEntered(gdb.Breakpoint):
             def __init__(self):super().__init__("native-widen.c:query",internal=True)
@@ -223,14 +227,17 @@ def install(configuration):
                 while owner is not None and owner.name()!='widen_subsection':owner=owner.older()
                 assert owner is not None
                 obj=int(frame.read_var('object'));out=int(frame.read_var('out'));source=int(frame.read_var('input'));size=int(frame.read_var('size'))
-                assert obj==int(owner.read_var('object'))==widen_factory_calls[0]['object'],'query opaque object caller/factory alias differs'
+                assert obj==int(owner.read_var('object'))==widen_factory_calls[-1]['object'],'query opaque object caller/factory alias differs'
                 assert out==int(owner.read_var('output').address),'query output descriptor actual caller-local alias differs'
                 assert source==int(owner.read_var('buffer').dereference())+4 and size==int(owner.read_var('input_size')),'query input actual caller alias/extent differs'
                 inferior=gdb.selected_inferior()
-                call=dict(object=obj,description=out,input_address=source,size=size,flags=int(frame.read_var('flags')),
+                call=dict(instance=len(widen_factory_calls)-1,object=obj,description=out,input_address=source,size=size,flags=int(frame.read_var('flags')),
                     description_before=bytes(inferior.read_memory(out,16)).hex(),input=bytes(inferior.read_memory(source,size)).hex(),
                     entry_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
-                widen_query_calls.append(call);WidenQueryReturned(call);return False
+                roots=[name for name in ('symbol_data','type_data','module_data') if source==int(gdb.parse_and_eval(name))+4]
+                assert len(roots)==1,'query input has no unique actual source-buffer root'
+                call.update(input_root=roots[0],read_count=len(file_reads))
+                widen_sequence.append('query-call');widen_query_calls.append(call);WidenQueryReturned(call);return False
         WidenQueryEntered()
 
     if config.get('observe_widen_emit'):
@@ -245,7 +252,8 @@ def install(configuration):
                     output_after=bytes(inferior.read_memory(call['output_address'],call['output_capacity'])).hex(),
                     fixups_after=bytes(inferior.read_memory(call['fixup_address'],call['fixup_capacity']*8)).hex(),
                     exit_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
-                assert int(gdb.parse_and_eval("'native-widen.c'::stage"))==3 and int(gdb.parse_and_eval("'native-widen.c'::cursor"))==0,'emit provider lifetime/state differs'
+                widen_sequence.append('emit-return')
+                assert int(gdb.parse_and_eval("'native-widen.c'::stage"))==3 and int(gdb.parse_and_eval("'native-widen.c'::cursor"))==call['instance'],'emit provider lifetime/state differs'
                 return False
         class WidenEmitEntered(gdb.Breakpoint):
             def __init__(self):super().__init__('native-widen.c:emit',internal=True)
@@ -254,20 +262,59 @@ def install(configuration):
                 while owner is not None and owner.name()!='widen_subsection':owner=owner.older()
                 assert owner is not None
                 obj=int(frame.read_var('object'));out=int(frame.read_var('out'));source=int(frame.read_var('input'));size=int(frame.read_var('size'))
-                assert obj==int(owner.read_var('object'))==widen_factory_calls[0]['object'],'emit opaque object caller/factory alias differs'
+                assert obj==int(owner.read_var('object'))==widen_factory_calls[-1]['object'],'emit opaque object caller/factory alias differs'
                 assert out==int(owner.read_var('output').address),'emit output descriptor actual caller-local alias differs'
                 assert source==int(owner.read_var('buffer').dereference())+4 and size==int(owner.read_var('input_size')),'emit input actual caller alias/extent differs'
                 inferior=gdb.selected_inferior();description=bytes(inferior.read_memory(out,16));words=[int.from_bytes(description[i:i+4],'little') for i in range(0,16,4)]
                 assert words[2]==int(gdb.parse_and_eval('pack_buffer')) and words[3]==int(gdb.parse_and_eval('pack_fixups')),'emit output actual allocation aliases differ'
                 assert words[0]<=int(gdb.parse_and_eval('pack_buffer_size')) and words[1]<=int(gdb.parse_and_eval('pack_fixup_count')),'emit capacities exceed owned allocations'
-                call=dict(object=obj,description=out,input_address=source,size=size,flags=int(frame.read_var('flags')),
+                call=dict(instance=len(widen_factory_calls)-1,object=obj,description=out,input_address=source,size=size,flags=int(frame.read_var('flags')),
                     description_before=description.hex(),input=bytes(inferior.read_memory(source,size)).hex(),
                     output_address=words[2],fixup_address=words[3],output_capacity=words[0],fixup_capacity=words[1],
                     output_before=bytes(inferior.read_memory(words[2],words[0])).hex(),
                     fixups_before=bytes(inferior.read_memory(words[3],words[1]*8)).hex(),
                     entry_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
-                widen_emit_calls.append(call);WidenEmitReturned(call);return False
+                widen_sequence.append('emit-call');widen_emit_calls.append(call);WidenEmitReturned(call);return False
         WidenEmitEntered()
+
+    if config.get('observe_widen_release'):
+        class WidenReleaseReturned(gdb.FinishBreakpoint):
+            def __init__(self,call):
+                self.call=call
+                super().__init__(gdb.newest_frame(),internal=True)
+            def stop(self):
+                call=self.call
+                call.update(exit_stage=int(gdb.parse_and_eval("'native-widen.c'::stage")),
+                    exit_cursor=int(gdb.parse_and_eval("'native-widen.c'::cursor")),
+                    exit_esp=int(gdb.parse_and_eval('$esp')),
+                    exit_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
+                widen_sequence.append('release-return')
+                assert call['exit_stage']==0 and call['exit_cursor']==call['instance']+1,'Release lifetime did not end exactly once'
+                assert call['exit_esp']==call['entry_esp']+4,'native Release callback did not use RET0'
+                return False
+        class WidenReleaseEntered(gdb.Breakpoint):
+            def __init__(self):super().__init__('native-widen.c:destroy',internal=True)
+            def stop(self):
+                frame=gdb.newest_frame();owner=frame.older()
+                while owner is not None and owner.name()!='widen_subsection':owner=owner.older()
+                assert owner is not None
+                obj=int(frame.read_var('object'));instance=len(widen_release_calls)
+                assert instance==len(widen_factory_calls)-1 and obj==int(owner.read_var('object'))==widen_factory_calls[instance]['object'],'Release object/instance identity differs'
+                # Break at the first source line after the compiler prologue.
+                # The actual DWARF frame exposes the caller CFA; saved return
+                # address at EBP+4 and cdecl-frame ESP at EBP+4 are independent
+                # of compiler local stack allocation.
+                entry_esp=int(gdb.parse_and_eval('$ebp'))+4
+                inferior=gdb.selected_inferior();copied=int(owner.read_var('buffer').dereference())+4
+                size=int(owner.read_var('output')['bytes'])
+                call=dict(instance=instance,object=obj,entry_esp=entry_esp,entry_ecx=int(gdb.parse_and_eval('$ecx')),
+                    caller='widen_subsection',copied_address=copied,copied=bytes(inferior.read_memory(copied,size)).hex(),
+                    copied_size=size,entry_stage=int(gdb.parse_and_eval("'native-widen.c'::stage")),
+                    entry_cursor=int(gdb.parse_and_eval("'native-widen.c'::cursor")),
+                    entry_last_error=int(gdb.parse_and_eval("'win32.c'::last_error")))
+                assert call['entry_stage']==3 and call['entry_cursor']==instance,'Release entered without completed emit'
+                widen_sequence.append('release-call');widen_release_calls.append(call);WidenReleaseReturned(call);return False
+        WidenReleaseEntered()
 
     if config.get('observe_global_type_lookup'):
         class LookupReturned(gdb.FinishBreakpoint):
@@ -530,6 +577,8 @@ def capture(configuration,data_file,output):
     state['mapping_calls']=mapping_calls
     state['file_reads']=file_reads
     state['directory_allocation']=directory_allocation
+    state['widen_sequence']=widen_sequence
+    state['widen_release_calls']=widen_release_calls
     state['widen_emit_calls']=widen_emit_calls
     state['widen_query_calls']=widen_query_calls
     state['widen_factory_calls']=widen_factory_calls
@@ -721,9 +770,9 @@ def capture(configuration,data_file,output):
     for item in data:
         if item.get('written_allocation'):
             owned=[row for row in image_allocations if row.get('owner')==item['written_allocation']['owner']]
-            assert len(owned)==1,'symbol output allocation lifetime differs'
-            allocation=owned[0]
-            memory[str(allocation['address'])]=bytes(inferior.read_memory(allocation['address'],allocation['size'])).hex()
+            assert owned,'symbol output allocation lifetime differs'
+            for allocation in owned:
+                memory[str(allocation['address'])]=bytes(inferior.read_memory(allocation['address'],allocation['size'])).hex()
     for item in data:
         if item.get('type_record_table'):
             address=int.from_bytes(bytes.fromhex(state['globals'][item['name']]),'little')

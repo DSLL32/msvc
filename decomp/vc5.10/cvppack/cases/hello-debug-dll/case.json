@@ -5,8 +5,8 @@
     "/nologo",
     "hello.dll"
   ],
-  "reference": "cases/hello-debug-dll/evidence/0094-emit-widen/original",
-  "reference_receipt_sha256": "663538324c1cdb0d47a99a331cde6bcd15917a4a11258c8e222d8554d033eb76",
+  "reference": "cases/hello-debug-dll/evidence/0095-release-widen-retained/original",
+  "reference_receipt_sha256": "0a2382bbdb55a12dd8bbd103156b4728cbfe627faa00f6856345058ac5630e10",
   "terminal": "trap",
   "application_trace": [
     "cvpack_main",
@@ -100,6 +100,7 @@
     "create_widen",
     "query_widen",
     "emit_widen",
-    "release_widen"
+    "release_widen",
+    "enter_symbol_scope"
   ]
 }

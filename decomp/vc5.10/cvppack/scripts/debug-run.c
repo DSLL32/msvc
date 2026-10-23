@@ -34,7 +34,9 @@ static DWORD blob_address[64],blob_size[64],blob_pointer[64],blob_child_size[64]
 static DWORD blob_count_address[64],blob_element_size[64],blob_count_width[64];
 static DWORD widen_output, widen_object, widen_arguments[4];
 static DWORD widen_capacities[2];
+static DWORD widen_release_object;
 static DWORD symbol_output_base, symbol_output_capacity;
+static DWORD symbol_output_addresses[128], symbol_output_sizes[128], symbol_output_count;
 static DWORD lookup_frames[64][3], lookup_depth;
 static int read_bytes(HANDLE process, DWORD address, void *data, DWORD size);
 
@@ -263,7 +265,18 @@ static void widen_state(FILE *log, HANDLE process, CONTEXT *context, DWORD site)
             }
         }
     } else if (site == 0x4102b6) {
+        widen_release_object = context->Ecx;
         fprintf(log, "widen destroy %08lx\n", context->Ecx);
+        memory(log, process, context->Ecx, 4);
+        memory(log, process, context->Eax, 4);
+        /* EDI is the copied output cursor in this actual caller; retain the
+         * initialized payload before a subsequent module reuses the buffer. */
+        if (read_bytes(process, widen_arguments[0], description, 16)) {
+            fprintf(log, "widen copied %08lx %lu\n", context->Edi - description[0], description[0]);
+            memory(log, process, context->Edi - description[0], description[0]);
+        }
+    } else if (site == 0x4053ad) {
+        fprintf(log, "widen destroy-return %08lx\n", widen_release_object);
     }
 }
 
@@ -346,8 +359,8 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         if (read_bytes(process, 0x41257c, &value, 4) && value)
             memory(log, process, value, widen_capacities[1] * 8);
     }
-    if (full_graphs && symbol_output_base)
-        memory(log, process, symbol_output_base, symbol_output_capacity);
+    if (full_graphs) for (i = 0; i < symbol_output_count; ++i)
+        memory(log, process, symbol_output_addresses[i], symbol_output_sizes[i]);
     if (full_graphs) {
       DWORD table;
       for (table = 0; table < 3; ++table) {
@@ -541,7 +554,14 @@ static void state(FILE *log, HANDLE process, CONTEXT *context, DWORD entry, int 
         if (entry == 0x40a7d1) symbol_output_capacity = value;
     } else if (entry == 0x4062b2 || entry == 0x4062d5 || entry == 0x4062f9 || entry == 0x40631d || entry == 0x40639f || entry == 0x40a7d7) {
         fprintf(log, "image-allocation-return %08lx\n", context->Eax);
-        if (entry == 0x40a7d7) symbol_output_base = context->Eax;
+        if (entry == 0x40a7d7) {
+            symbol_output_base = context->Eax;
+            if (symbol_output_count >= 128) fprintf(log, "blob-observation-failed\n");
+            else {
+                symbol_output_addresses[symbol_output_count] = context->Eax;
+                symbol_output_sizes[symbol_output_count++] = symbol_output_capacity;
+            }
+        }
     }
     if (entry == 0x40fb66 && read_bytes(process, context->Esp, &value, 4))
         fprintf(log, "checked-allocation-call %lu\n", value);

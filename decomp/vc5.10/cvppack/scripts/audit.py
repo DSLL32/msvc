@@ -140,6 +140,20 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
                '--map', str(BINARY / 'build/cvpack.map'), '--config', str(generated),
                '--runtime', str(empty), '--rebuilt-runtime', str(empty), '--metadata',str(metadata),'--discovery', 'cfg',
                '--check-ret', '--check-imports', '--resolve-register-imports', '--check-references', '--check-ownership', '--check-extents']
+    release_tail=None
+    if any(row['name']=='release_widen' for row in checked):
+        import importlib.util
+        spec=importlib.util.spec_from_file_location('release_tail',BINARY/'scripts/release-tail.py')
+        release=importlib.util.module_from_spec(spec);spec.loader.exec_module(release)
+        proof=release.prove(config)
+        command.remove('--check-ret')
+        projection=destination/'ret-projection-config.json'
+        projection.write_text(json.dumps(dict(graph_config,accepted=[name for name in graph_config['accepted'] if name!='_release_widen']),indent=2)+'\n')
+        ret_command=command.copy();ret_command[ret_command.index('--config')+1]=str(projection);ret_command.append('--check-ret')
+        ret_result=subprocess.run(ret_command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,timeout=15)
+        assert ret_result.returncode==0,ret_result.stderr.decode()
+        ret_report=destination/'ret-projection-report.json';ret_report.write_bytes(ret_result.stdout)
+        release_tail=dict(proof=proof,command=ret_command,config_sha256=sha(projection),report_sha256=sha(ret_report),report=json.loads(ret_result.stdout))
     result = subprocess.run(command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=15)
     assert result.returncode == 0, result.stderr.decode()
     graph = json.loads(result.stdout)
@@ -165,7 +179,7 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
         assert definition.read_text()=='LIBRARY MSPDB50.DLL\nEXPORTS\n    '+name+'\n','factory import definition differs'
         obj=COFF((BINARY/'build/widen.obj').read_bytes())
         bodies=[s['name'] for s in obj.symbols.values() if s.get('type')==0x20 and s['section']>0]
-        assert bodies==['_create_widen','_query_widen','_emit_widen'],'extra target C++ function vertices'
+        assert bodies==['_create_widen','_query_widen','_emit_widen','_release_widen'],'extra target C++ function vertices'
         imports=[s['name'] for s in obj.symbols.values() if s['name'].startswith('__imp_')]
         assert imports==['__imp_'+name],'factory target import symbol differs'
         factory_import=dict(provider_sha256=sha(provider),export=exports[0],definition_sha256=sha(definition),object_sha256=sha(BINARY/'build/widen.obj'),target_functions=bodies)
@@ -243,7 +257,7 @@ def run(config_path, candidates=(), output=None, reuse_original=None, reuse_nati
         cached_import_sites=import_sites, factory_import=factory_import, function_tables=function_tables, data_aliases=data_aliases, discard_flag_references=discard_flag_references,type_flag_references=type_flag_references, data_objects_checked=len(data), resource_strings_checked=len(actual), historical_reconstructed_bodies=historical_bodies,
         resource_evidence_sha256=sha(BINARY/'cases/help/resources.json'),
         candidates=list(candidates), checked_functions=[r['name'] for r in checked],
-        owned_ranges=len(intervals), graph_command=command, graph=graph,
+        owned_ranges=len(intervals), graph_command=command, graph=graph, external_release_tail=release_tail,
         seconds=time.perf_counter()-begin)
     assert bool(reuse_original)==bool(reuse_native), 'reuse requires both raw captures'
     if reuse_original:

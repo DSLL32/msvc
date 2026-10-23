@@ -6,9 +6,9 @@ Target: `toolchains/5.10/bin/CVPACK.EXE`; the requested folder spelling is
 
 `/help` is complete: status 1, 193 stdout bytes, no stderr, six application
 entries. The genuine embedded-CodeView `hello-debug-dll` case is in progress at
-`release_widen`, after the first complete emission and caller copy. There are 94
-accepted application functions / 28,394 extent bytes, plus 784 associated switch-data
-bytes. This is 45.31% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
+`enter_symbol_scope`, after four complete Widen lifetimes. There are 95
+accepted application functions / 28,402 extent bytes, plus 784 associated switch-data
+bytes. This is 45.33% of the 62,662-byte whole-text denominator, including CRT/unknown/padding;
 it is neither non-CRT nor executed-branch coverage. Four CRT bodies (400 bytes)
 and five import thunks (30 bytes) remain separate support.
 
@@ -73,15 +73,15 @@ normally. This limitation has no unsupported-path equivalence claim.
 Module source-line copies bind the complete original256B input to one allocation shared by its directory and ModuleInfo. Rewrite allocation provenance retains actual call-time operands across module-global resets and input-buffer reuse.
 
 The reviewed MSPDB WidenTi case provider is outside application coverage and has
-now supplied its first factory/query/emit results; release remains pending. It enforces 21 actual lifetimes,
+now supplied four complete factory/query/emit/release lifetimes. It enforces 21 actual lifetimes,
 complete inputs/aliases/sequences/capacities and actual thiscall interfaces,
 writing only observed prefixes and preserving each native allocation's own tail.
-The unreached Record slot fails closed. See `cases/hello-debug-dll/DEPENDENCY.md`.
+The exact8B Release tail uses a reviewed local slot0/RET0 proof alongside full graph checks and common strict return checks on every other function. The unreached Record slot fails closed. See `cases/hello-debug-dll/DEPENDENCY.md`.
 
 `cases/hello-debug-dll/REVIEW-50.md` records the independent source/graph/ABI review.
 Each accepted function's `evidence/*/function-review.json` or `validation.json`
 records fresh/reused controls and separate build/capture/check/fixture times.
 Historical raw is never relabeled; incomplete and superseded trials retain their
-status. Current native help runs in roughly 15 ms; the partial debug fixture is
-about 2.2 s including GDB. Completion will use native entry traces, exact streams,
+status. Current native help runs in roughly 20 ms; the partial debug fixture is
+about 2.6 s including GDB. Completion will use native entry traces, exact streams,
 status and the cached NB11 master without launching Wine.

@@ -78,8 +78,9 @@ def decode(events):
             all_strings[int(location,16)]=raw
     for call in file_calls:call['pathname']=all_strings[call.pop('pointer')]
 
-    widen_factory_calls=[];widen_query_calls=[];widen_emit_calls=[];module_bases={};error=None;probe_regs=None;probe_stack=None
+    widen_factory_calls=[];widen_query_calls=[];widen_emit_calls=[];widen_release_calls=[];widen_sequence=[];widen_read_count=0;module_bases={};error=None;probe_regs=None;probe_stack=None
     for ordinal,line in enumerate(lines):
+        if line.startswith('file-read-call '):widen_read_count+=1
         if line.startswith('module '):
             parts=line.split()
             if len(parts)==3:module_bases[parts[2].lower()]=int(parts[1],16)
@@ -90,6 +91,7 @@ def decode(events):
             if int(probe_address,16)==probe_regs[-1]:probe_stack=bytes.fromhex(contents)
         elif line.startswith('widen create-call '):
             _,_,output,capacity,flags=line.split()
+            widen_sequence.append('factory-call')
             widen_factory_calls.append(dict(output_argument=int(output,16),capacity=int(capacity),flags=int(flags),entry_last_error=error))
         elif line.startswith('widen create-return '):
             assert widen_factory_calls and 'result' not in widen_factory_calls[-1],'unexpected factory return'
@@ -97,6 +99,7 @@ def decode(events):
             for following in lines[ordinal+1:ordinal+5]:
                 if not following.startswith('memory '):break
                 _,observed_address,contents=following.split();observed[int(observed_address,16)]=bytes.fromhex(contents)
+            widen_sequence.append('factory-return')
             widen_factory_calls[-1].update(result=int(result),object=int(object,16),table=int(table,16),memory=observed,exit_last_error=error)
         elif line.startswith(('widen method-call 32 ','widen method-return 32 ')):
             parts=line.split();observed={}
@@ -105,9 +108,11 @@ def decode(events):
                 _,observed_address,contents=following.split();observed[int(observed_address,16)]=bytes.fromhex(contents)
             if parts[1]=='method-call':
                 assert probe_stack is not None and len(probe_stack)>=16,'query actual ABI stack observation missing'
-                widen_query_calls.append(dict(object=int(parts[3],16),description=int(parts[4],16),input_address=int(parts[5],16),size=int(parts[6],16),flags=int(parts[7],16),before=observed,entry_last_error=error,entry_esp=probe_regs[-1],entry_ecx=probe_regs[2],entry_stack_words=struct.unpack('<4I',probe_stack[:16])))
+                widen_sequence.append('query-call')
+                widen_query_calls.append(dict(read_count=widen_read_count,object=int(parts[3],16),description=int(parts[4],16),input_address=int(parts[5],16),size=int(parts[6],16),flags=int(parts[7],16),before=observed,entry_last_error=error,entry_esp=probe_regs[-1],entry_ecx=probe_regs[2],entry_stack_words=struct.unpack('<4I',probe_stack[:16])))
             else:
                 assert widen_query_calls and widen_query_calls[-1]['object']==int(parts[3],16),'query return object/order differs'
+                widen_sequence.append('query-return')
                 widen_query_calls[-1].update(result=int(parts[4]),after=observed,exit_last_error=error,exit_esp=probe_regs[-1],exit_eax=probe_regs[0])
         elif line.startswith(('widen method-call 36 ','widen method-return 36 ')):
             parts=line.split();observed={}
@@ -116,10 +121,30 @@ def decode(events):
                 _,observed_address,contents=following.split();observed[int(observed_address,16)]=bytes.fromhex(contents)
             if parts[1]=='method-call':
                 assert probe_stack is not None and len(probe_stack)>=16,'emit actual ABI stack observation missing'
+                widen_sequence.append('emit-call')
                 widen_emit_calls.append(dict(object=int(parts[3],16),description=int(parts[4],16),input_address=int(parts[5],16),size=int(parts[6],16),flags=int(parts[7],16),before=observed,entry_last_error=error,entry_esp=probe_regs[-1],entry_ecx=probe_regs[2],entry_stack_words=struct.unpack('<4I',probe_stack[:16])))
             else:
                 assert widen_emit_calls and widen_emit_calls[-1]['object']==int(parts[3],16),'emit return object/order differs'
+                widen_sequence.append('emit-return')
                 widen_emit_calls[-1].update(result=int(parts[4]),after=observed,exit_last_error=error,exit_esp=probe_regs[-1],exit_eax=probe_regs[0])
+        elif line.startswith('widen destroy '):
+            assert probe_stack is not None and len(probe_stack)>=8,'Release actual ABI stack missing'
+            observed={}
+            for following in lines[ordinal+1:ordinal+4]:
+                if not following.startswith('memory '):break
+                _,location,contents=following.split();observed[int(location,16)]=bytes.fromhex(contents)
+            widen_sequence.append('release-call')
+            widen_release_calls.append(dict(object=int(line.split()[2],16),entry_ecx=probe_regs[2],table=probe_regs[0],entry_esp=probe_regs[-1],entry_stack_words=struct.unpack('<2I',probe_stack[:8]),before=observed,entry_last_error=error))
+        elif line.startswith('widen copied '):
+            assert widen_release_calls and 'copied' not in widen_release_calls[-1]
+            _,_,location,size=line.split();following=lines[ordinal+1].split()
+            assert following[:2]==['memory',location],'Release copied-byte observation missing'
+            raw=bytes.fromhex(following[2]);assert len(raw)==int(size),'Release copied-byte extent differs'
+            widen_release_calls[-1].update(copied_address=int(location,16),copied=raw.hex(),copied_size=int(size))
+        elif line.startswith('widen destroy-return '):
+            assert widen_release_calls and widen_release_calls[-1]['object']==int(line.split()[2],16),'Release return object/order differs'
+            widen_sequence.append('release-return')
+            widen_release_calls[-1].update(exit_esp=probe_regs[-1],exit_stack_word=struct.unpack('<I',probe_stack[:4])[0],exit_last_error=error)
     type_compare_calls=[]
     for line in lines:
         if line.startswith('type-compare-failed'):raise AssertionError('incomplete recursive comparison observation')
@@ -171,7 +196,7 @@ def decode(events):
     assert registers and len(registers) == 8
     stack = memory[registers[-1]]
     assert len(stack) == 128
-    return dict(address=address,memory=memory,strings=strings,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
+    return dict(address=address,memory=memory,strings=strings,widen_factory_calls=widen_factory_calls,widen_query_calls=widen_query_calls,widen_emit_calls=widen_emit_calls,widen_release_calls=widen_release_calls,widen_sequence=widen_sequence,module_bases=module_bases,lookup_calls=lookup_calls,lookup_active_depth=len(lookup_stack),type_compare_calls=type_compare_calls,
                 registers=dict(zip(('eax','ebx','ecx','edx','esi','edi','ebp','esp'),registers)),esp=registers[-1],stack=struct.unpack('<32I',stack),file_calls=file_calls,file_handles=handles,last_error=last_error,mapping_calls=mapping_calls,mapped_views=mapped_views,file_reads=file_reads,directory_allocation=directory_allocation,subsection_allocations=subsection_allocations,image_allocations=image_allocations,checked_allocations=checked_allocations,module_allocations=module_allocations,cleared_allocations=cleared_allocations)
 
 
@@ -181,7 +206,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
     assert native['function'] == record['native_symbol']
     factories=original['widen_factory_calls']
     if config.get('observe_widen_factory'):
-        assert len(factories)==len(native.get('widen_factory_calls',[]))<=1,'factory lifetime inventory differs'
+        assert len(factories)==len(native.get('widen_factory_calls',[]))<=21,'factory lifetime inventory differs'
         policy=config['observe_widen_factory'];roles=['destroy','unknown','unknown','record','unknown','unknown','unknown','unknown','query','emit']
         for before,after in zip(factories,native['widen_factory_calls']):
             assert before['capacity']==after['capacity']==256 and before['flags']==after['flags']==0 and before['result']==after['result']==1,'factory actual arguments/result differ'
@@ -196,20 +221,25 @@ def compare(config,data,events,native,artifacts=None,views=None):
             assert after['owner']=='widen_subsection' and after['local']=='object','factory native output owner differs'
     if config.get('observe_widen_query'):
         calls=original['widen_query_calls']
-        assert len(calls)==len(native.get('widen_query_calls',[]))<=1,'query lifetime inventory differs'
-        for before,after in zip(calls,native['widen_query_calls']):
-            assert len(factories)==1 and before['object']==factories[0]['object'] and after['object']==native['widen_factory_calls'][0]['object'],'query factory/object alias differs'
-            assert before['description']==factories[0]['output_argument']-24,'query original descriptor caller-local alias differs'
+        assert len(calls)==len(native.get('widen_query_calls',[]))<=21,'query lifetime inventory differs'
+        for instance,(before,after) in enumerate(zip(calls,native['widen_query_calls'])):
+            assert instance<len(factories) and before['object']==factories[instance]['object'] and after['object']==native['widen_factory_calls'][instance]['object'],'query factory/object alias differs'
+            assert before['description']==factories[instance]['output_argument']-24,'query original descriptor caller-local alias differs'
             assert before['entry_ecx']==before['object'] and before['entry_stack_words']==(before['description'],before['input_address'],before['size'],before['flags']),'query actual ECX/stack ABI differs'
             assert before['exit_esp']-before['entry_esp']==16 and before['exit_eax']==before['result'],'query actual callee cleanup/result ABI differs'
             assert before['flags']==after['flags']==0 and before['result']==after['result']==1,'query actual flags/result differ'
             assert before['entry_last_error']==before['exit_last_error']==after['entry_last_error']==after['exit_last_error']==0,'query actual LastError differs'
             source=before['input_address'];descriptor=before['description'];size=before['size']
-            input_row=next(row for row in data if row['name']=='type_data')
-            input_base=int.from_bytes(original['memory'][input_row['original']],'little')
-            actual_base=int.from_bytes(bytes.fromhex(native['globals']['type_data']),'little')
-            assert source==input_base+4 and after['input_address']==actual_base+4,'query owned input buffer/offset alias differs'
-            inputs=[row for row in original['file_reads'] if row['buffer']==input_base and row['pc']==0x4050b8]
+            roots=[]
+            for name in ('symbol_data','type_data','module_data'):
+                row=next(row for row in data if row['name']==name)
+                input_base=int.from_bytes(original['memory'][row['original']],'little')
+                actual_base=int.from_bytes(bytes.fromhex(native['globals'][name]),'little')
+                if source==input_base+4 and after['input_address']==actual_base+4:roots.append((name,input_base))
+            assert len(roots)==1,'query owned input buffer/offset alias differs'
+            name,input_base=roots[0]
+            if 'input_root' in after:assert after['input_root']==name and after['read_count']==before['read_count'],'query actual call-time read/root differs'
+            inputs=[row for row in original['file_reads'][:before['read_count']] if row['buffer']==input_base]
             assert inputs and inputs[-1]['returned']==size+4 and bytes.fromhex(inputs[-1]['bytes'])[4:]==before['before'][source],'query input actual read initialization differs'
             assert size==after['size'] and before['before'][source].hex()==after['input'] and len(bytes.fromhex(after['input']))==size,'query complete initialized input differs'
             assert before['after'][source]==before['before'][source] and after['input_after']==after['input'],'query changed initialized input'
@@ -218,13 +248,13 @@ def compare(config,data,events,native,artifacts=None,views=None):
             assert before['after'][descriptor][8:]==bytes(8),'query unexpectedly initialized output pointers'
     if config.get('observe_widen_emit'):
         calls=original['widen_emit_calls']
-        assert len(calls)==len(native.get('widen_emit_calls',[]))<=1,'emit lifetime inventory differs'
+        assert len(calls)==len(native.get('widen_emit_calls',[]))<=21,'emit lifetime inventory differs'
         def observed_global(name):
             row=next(row for row in data if row['name']==name)
             return int.from_bytes(original['memory'][row['original']],'little'),int.from_bytes(bytes.fromhex(native['globals'][name]),'little')
-        for before,after in zip(calls,native['widen_emit_calls']):
-            assert len(original['widen_query_calls'])==1 and len(native['widen_query_calls'])==1,'emit missing queried object state'
-            query=original['widen_query_calls'][0];actual_query=native['widen_query_calls'][0]
+        for instance,(before,after) in enumerate(zip(calls,native['widen_emit_calls'])):
+            assert instance<len(original['widen_query_calls']) and instance<len(native['widen_query_calls']),'emit missing queried object state'
+            query=original['widen_query_calls'][instance];actual_query=native['widen_query_calls'][instance]
             assert before['object']==query['object'] and after['object']==actual_query['object'],'emit queried object alias differs'
             assert before['description']==query['description'] and after['description']==actual_query['description'],'emit query descriptor alias differs'
             assert before['input_address']==query['input_address'] and after['input_address']==actual_query['input_address'],'emit query input alias differs'
@@ -249,9 +279,31 @@ def compare(config,data,events,native,artifacts=None,views=None):
                 assert len(old_before)==len(old_after)==len(new_before)==len(new_after)==capacity,'emit full capacity observation differs'
                 assert old_after[:written]==new_after[:written],'emit initialized output prefix differs'
                 assert old_before[written:]==old_after[written:] and new_before[written:]==new_after[written:],'emit changed own unwritten capacity tail'
-                assert original['memory'][old_pointer]==old_after and bytes.fromhex(native['memory'][str(new_pointer)])==new_after,'live emitted scratch buffer state differs'
-            old_input,new_input=observed_global('type_data')
-            assert original['memory'][old_input][4:4+final[0]]==before['after'][initial[2]][:final[0]] and bytes.fromhex(native['memory'][str(new_input)])[4:4+final[0]]==bytes.fromhex(after['output_after'])[:final[0]],'caller copied emitted initialized bytes differ'
+                if instance==len(calls)-1:
+                    assert original['memory'][old_pointer]==old_after and bytes.fromhex(native['memory'][str(new_pointer)])==new_after,'live emitted scratch buffer state differs'
+            if not config.get('observe_widen_release'):
+                old_input,new_input=observed_global('type_data')
+                assert original['memory'][old_input][4:4+final[0]]==before['after'][initial[2]][:final[0]] and bytes.fromhex(native['memory'][str(new_input)])[4:4+final[0]]==bytes.fromhex(after['output_after'])[:final[0]],'caller copied emitted initialized bytes differ'
+    if config.get('observe_widen_release'):
+        calls=original['widen_release_calls'];actual=native.get('widen_release_calls',[])
+        assert len(calls)==len(actual)==len(factories)==len(original['widen_query_calls'])==len(original['widen_emit_calls']),'Release complete lifetime inventory differs'
+        cycle=['factory-call','factory-return','query-call','query-return','emit-call','emit-return','release-call','release-return']
+        assert original['widen_sequence']==native.get('widen_sequence')==cycle*len(calls),'Widen actual lifetime sequence differs'
+        for instance,(before,after) in enumerate(zip(calls,actual)):
+            factory=factories[instance];emit=original['widen_emit_calls'][instance];actual_emit=native['widen_emit_calls'][instance]
+            assert before['object']==factory['object'] and after['object']==native['widen_factory_calls'][instance]['object'],'Release opaque instance/object differs'
+            assert before['entry_ecx']==before['object'] and before['entry_stack_words']==(0x4053ad,before['object']),'Release actual ECX/stack/caller identity differs'
+            assert before['before'][before['object']]==before['table'].to_bytes(4,'little') and before['table']==factory['table'],'Release opaque vptr differs'
+            assert int.from_bytes(before['before'][before['table']],'little')==original['module_bases']['mspdb50.dll']+config['observe_widen_factory']['slots'][0],'Release actual slot0 method differs'
+            assert before['exit_esp']==before['entry_esp']+4 and before['exit_stack_word']==before['object'],'Release actual RET0/caller cleanup evidence differs'
+            assert after['instance']==after['entry_cursor']==instance and after['entry_stage']==3 and after['exit_cursor']==instance+1 and after['exit_stage']==0,'Release native lifetime transition differs'
+            assert after['entry_ecx']==after['object'],'Release native actual ECX differs'
+            assert after['exit_esp']==after['entry_esp']+4,'Release native RET0 differs'
+            assert before['entry_last_error']==before['exit_last_error']==after['entry_last_error']==after['exit_last_error']==0,'Release actual LastError differs'
+            size=int.from_bytes(emit['after'][emit['description']][:4],'little')
+            output=int.from_bytes(emit['after'][emit['description']][8:12],'little')
+            assert before['copied_size']==after['copied_size']==size and before['copied']==emit['after'][output][:size].hex()==after['copied']==actual_emit['output_after'][:size*2],'Release caller copied output differs'
+            assert before['copied_address']==emit['input_address'] and after['copied_address']==actual_emit['input_address'],'Release copied output source-buffer alias differs'
     parameters = {};object_parameters=[];arena_parameters=[]
     assert 'parameters' in record, 'frontier lacks explicit ABI/parameter schema'
     if config.get('require_native_argument_inventory'):
@@ -516,7 +568,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
                 symbols=captured('module_symbol_count'),references=captured('module_reference_count'),
                 input=captured('type_data'),read_count=read_count))
             watching=False
-    image_aliases={};image_sizes={};rewrite_owners={}
+    image_aliases={};image_sizes={};rewrite_owners={};rewrite_index=0
     assert len(original['image_allocations'])==len(native.get('image_allocations',[])),'image allocation inventory differs'
     for left,right in zip(original['image_allocations'],native.get('image_allocations',[])):
         sites={0x4062b0:('debug_directory','module_capacity'),0x4062d3:('symbol_data','symbol_capacity'),
@@ -529,8 +581,8 @@ def compare(config,data,events,native,artifacts=None,views=None):
             row=next(row for row in data if row['name']==size_name)
             assert int.from_bytes(original['memory'][row['original']],'little')==left['size'],'actual allocation request differs from capacity source'
         if left['site']==0x40a7d1:
-            assert len(rewrite_contexts)==1,'symbol rewrite call-time context lifetime differs'
-            context=rewrite_contexts[0]
+            assert rewrite_index<len(rewrite_contexts),'symbol rewrite call-time context lifetime differs'
+            context=rewrite_contexts[rewrite_index];rewrite_index+=1
             # The directory entry size is replaced with the packed size after
             # rewriting; retain its input extent from the actual earlier read.
             symbol_reads=[row for row in original['file_reads'][:context['read_count']] if row['pc']==0x4050b8 and row['buffer']==context['input']]
@@ -695,11 +747,13 @@ def compare(config,data,events,native,artifacts=None,views=None):
                 symbols=int.from_bytes(left[20:24],'little');actual_symbols=int.from_bytes(right[20:24],'little')
                 assert bool(symbols)==bool(actual_symbols),'module rewritten symbols NULL state differs'
                 if symbols:
-                    allocations=[row for row in original['image_allocations'] if row['site']==0x40a7d1]
+                    allocations=[row for row in original['image_allocations'] if row['site']==0x40a7d1 and row['address']==symbols]
                     assert len(allocations)==1 and allocations[0]['address']==symbols,'module rewritten symbols allocation lifetime differs'
                     allocation=allocations[0];size=int.from_bytes(left[24:28],'little')
                     assert image_aliases[symbols]==actual_symbols and 0<=size<=allocation['size'],'module rewritten symbols allocation/size differs'
-                    assert symbols+size==global_integer('symbol_output'),'module rewritten symbols initialized extent differs'
+                    assert rewrite_owners[symbols]['info']==address,'module rewritten symbols actual owner differs'
+                    if address==global_integer('current_module_info'):
+                        assert symbols+size==global_integer('symbol_output'),'module rewritten symbols initialized extent differs'
                     assert original['memory'][symbols][:size]==bytes.fromhex(native['memory'][str(actual_symbols)])[:size],'module rewritten symbol bytes differ'
                     pair(symbols,actual_symbols);used_uninitialized.add(symbols)
                 excluded.update(range(28,32))
@@ -995,11 +1049,13 @@ def compare(config,data,events,native,artifacts=None,views=None):
                                 assert len(a)==32 and a[16:18]==b'\x0e\x00','reference node extent/type differs'
                                 assert a[4:30]==b[4:30],'initialized reference node fields differ'
                                 assert a[20:24]==a[4:8],'reference checksum/header hash alias differs'
-                                allocations=[row for row in original['image_allocations'] if row['site']==0x40a7d1]
+                                identifier=int.from_bytes(a[28:30],'little')
+                                allocations=[row for row in original['image_allocations'] if row['site']==0x40a7d1 and rewrite_owners[row['address']]['module']==identifier]
                                 assert len(allocations)==1,'reference source allocation lifetime differs'
                                 source_allocation=allocations[0];base=source_allocation['address'];position=int.from_bytes(a[24:28],'little')
                                 assert int.from_bytes(a[28:30],'little')==rewrite_owners[base]['module'],'reference module owner differs'
-                                size=global_integer('symbol_output')-base
+                                owner_info=original['memory'][rewrite_owners[base]['info']]
+                                size=int.from_bytes(owner_info[24:28],'little')
                                 assert 4<=position<=size-4,'reference source offset exceeds initialized output'
                                 before=original['memory'][base];after=bytes.fromhex(native['memory'][str(image_aliases[base])])
                                 length=int.from_bytes(before[position:position+2],'little')+2
@@ -1017,7 +1073,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
                             assert int.from_bytes(a[4:8],'little')%4096==offset//4,'symbol node hash/bucket differs'
                             source=int.from_bytes(a[:4],'little');destination=int.from_bytes(b[:4],'little')
             elif item.get('written_allocation'):
-                spec=item['written_allocation'];owned=[row for row in original['image_allocations'] if row['site']==spec['site']]
+                spec=item['written_allocation'];owned=[row for row in original['image_allocations'] if row['site']==spec['site'] and rewrite_owners[row['address']]['info']==global_integer('current_module_info')]
                 assert len(owned)==1,'symbol output allocation lifetime differs'
                 owner=owned[0];address=int.from_bytes(raw,'little');other=int.from_bytes(actual,'little')
                 offset=address-owner['address'];capacity=owner['size'];destination=image_aliases[owner['address']]
@@ -1101,7 +1157,7 @@ def compare(config,data,events,native,artifacts=None,views=None):
                                 assert original['memory'][source]==bytes.fromhex(native['memory'][str(destination)]),'directory source lines contents differ'
                                 excluded.update(range(offset,offset+4));pair(source,destination)
                             elif relocation.get('rewritten_symbols_site') and (source in image_aliases or destination in image_aliases.values()):
-                                owners=[row for row in original['image_allocations'] if row['site']==relocation['rewritten_symbols_site']]
+                                owners=[row for row in original['image_allocations'] if row['site']==relocation['rewritten_symbols_site'] and row['address']==source]
                                 assert len(owners)==1 and owners[0]['address']==source,'directory rewritten symbol allocation lifetime differs'
                                 assert image_aliases[source]==destination,'directory rewritten symbol allocation alias differs'
                                 assert offset==rewrite_owners[source]['entry_index']*12+4,'directory rewritten symbol entry owner differs'
@@ -1109,7 +1165,9 @@ def compare(config,data,events,native,artifacts=None,views=None):
                                 length=int.from_bytes(left[offset+4:offset+8],'little')
                                 module=original['memory'][rewrite_owners[source]['info']]
                                 assert module[20:24]==source.to_bytes(4,'little') and int.from_bytes(module[24:28],'little')==length,'directory/module rewritten symbol identity differs'
-                                assert 0<=length<=owners[0]['size'] and source+length==global_integer('symbol_output'),'directory rewritten symbol initialized extent differs'
+                                assert 0<=length<=owners[0]['size'],'directory rewritten symbol initialized extent differs'
+                                if rewrite_owners[source]['info']==global_integer('current_module_info'):
+                                    assert source+length==global_integer('symbol_output'),'current directory rewritten symbol cursor differs'
                                 assert original['memory'][source][:length]==bytes.fromhex(native['memory'][str(destination)])[:length],'directory rewritten symbol contents differ'
                                 excluded.update(range(offset,offset+4));pair(source,destination);used_uninitialized.add(source)
                     assert all(a==b for i,(a,b) in enumerate(zip(left,right)) if i not in excluded),('allocated initialized bytes differ',item['name'],[(i,a,b) for i,(a,b) in enumerate(zip(left,right)) if i not in excluded and a!=b][:16])

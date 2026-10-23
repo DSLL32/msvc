@@ -107,6 +107,8 @@ def main():
         env['VC510_CVPACK_PROBES']+=',4102f7:widen-query-call,4102fa:widen-query-return'
     if config.get('observe_widen_emit'):
         env['VC510_CVPACK_PROBES']+=',41031a:widen-emit-call,41031d:widen-emit-return'
+    if config.get('observe_widen_release'):
+        env['VC510_CVPACK_PROBES']+=',4102b6:widen-release-call,4053ad:widen-release-return'
     if config.get('observe_global_type_lookup'):
         env['VC510_CVPACK_PROBES']+=',402c24:lookup-type-enter,402c4e:lookup-type-sentinel-return,402c8c:lookup-type-normal-return'
     if config.get('observe_recursive_type_compare'):
