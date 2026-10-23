@@ -1839,3 +1839,66 @@ def angle_name_trial(original,native):
     proof['include_marker_guard']=dict(record=str(boundary_path.relative_to(HERE)),sha256=sha(boundary_path),raw_receipt_sha256=sha(guard),production_object_bound=True,scope='Only selected native257-WCHAR model is bounded; original C capacity and larger storage remain unknown.')
     proof['angle_name']=dict(formals=[],return_pointer_alias='rc_macro_name',cleanup=0,entry_source_offset=entry_offset,cursor_advance_bytes=20,parsed_name='windows.h',scratch_write_bytes=20,scratch_untouched_bytes=1004,marker_model=dict(elements=257,element_bytes=2,bytes=514,alignment=0,original_C_size='unknown',original_span=['0x16cf8','0x16efa'],unclaimed_gap=['0x16efa','0x16efc'],next_field='rc_header_mode at16efc',copy_bytes=20,untouched_bytes=494,return_alias=True,code_credit=0,native_guard='production source traps before length>=257 copy'),next_formals=[],next_hidden_inputs=dict(source_cursor_offset=current_offset,current_word=10,include_remaining=96,include_indices=[96,97,98,99],all100_slots_checked=True,directory_pointees_checked=True,token_value_alias='rc_macro_name',scratch_alias='rc_string_buffer+2048',scratch_owned_bytes_remaining=2042,path_characters='actual packed -pc argument',header_mode=0,output_active=1,in_directive=1,token_kind=63),pending_output_defined_bytes=defined)
     proof['trial']='rc_parse_angle_name';return proof
+
+
+def include_search_trial(original,native):
+    config=read_configuration(original/'functions.json');assert config.get('trial_function')=='rc_search_include_directories'and len(config['accepted'])==59
+    a,b,proof=checkpoint(original,native,'rc_scan_comment',('rc_input_temporary','rc_output_temporary'))
+    assert a['words'][0]==0x71c3216d and re.search(r'^#1\s+0x[0-9a-f]+ in rc_scan_line_start\s*\(',(native/'gdb.stdout').read_text(),re.M)
+    assert proof['application_trace'][-1]=='rc_search_include_directories'
+    text=(original/'events.txt').read_text();args=b['arguments'];old_globals=(original/'globals.bin').read_bytes();globals=args['preprocessor']['globals'];calls=args['include_opens']
+    assert calls==json.loads((native/'include-opens.json').read_text())and len(calls)==4
+    entries=re.findall(r'^search-open attempt=(\d+) index=(\d+) path=([0-9a-f]+) first=(\d+) esp=([0-9a-f]+) errno=(\d+) last-error=([0-9a-f]+)$',text,re.M)
+    returns=re.findall(r'^search-open-return attempt=(\d+) result=([0-9a-f]+) esp=([0-9a-f]+) errno=(\d+) last-error=([0-9a-f]+)$',text,re.M);assert len(entries)==4 and len(returns)==3
+    expected_paths=['./windows.h','./windows.h','include/windows.h','R:\\toolchains\\5.10\\include/windows.h']
+    for index,(entry,row,path)in enumerate(zip(entries,calls,expected_paths)):
+        attempt,slot,pointer,first,sp,errno_value,error=entry;assert int(attempt)==index and int(slot)==row['index']==99-index and row['remaining']==96
+        assert row['formal_bytes']==dict(path=4,first=4)and int(first)==row['first']==0 and int(pointer,16)==0x71c37708
+        assert raw_bytes(text,'search-open-path-%d'%index)==bytes.fromhex(row['path_bytes'])==(path+'\0').encode('utf-16le')
+        assert int(errno_value)==row['errno_before']==(0 if index==0 else 2)and int(error,16)==row['last_error_before']==(0 if index==0 else 2)
+        if index<3:
+            attempt,result,after,errno_value,error=returns[index];assert int(attempt)==index and int(result,16)==row['result']==0 and int(after,16)==int(sp,16)+8 and row['return_esp']==row['entry_esp']+12
+            assert int(errno_value)==row['errno_after']==2 and int(error,16)==row['last_error_after']==2
+        else:assert not any(key in row for key in ['result','return_esp','errno_after','last_error_after']),'fourth open is genuinely pending at a child frontier, not a matching unchecked result'
+    c=args['comment'];assert c['formals']==[]and c['caller']=='rc_scan_line_start'and c['depth']==1 and re.findall(r'^comment-depth (\d+)$',text,re.M)==['1']
+    old=struct.unpack('<9I',raw_bytes(text,'comment-frame'));new=struct.unpack('<9I',bytes.fromhex(c['frame']));old_parent=struct.unpack('<9I',raw_bytes(text,'comment-parent-frame'));new_parent=struct.unpack('<9I',bytes.fromhex(c['parent_frame']))
+    assert tuple(old[i]for i in [0,2,6,7,8])==tuple(new[i]for i in [0,2,6,7,8])==(4098,1,4098,1,0)
+    assert old[4]-old_parent[5]==new[4]-new_parent[5]==106 and old[4]>old_parent[5]>0
+    current=struct.unpack_from('<I',old_globals,0x18120-0x14000)[0];assert current-old[5]==c['cursor']-new[5]==2 and c['current_word']==42 and c['encoding']==1
+    master=(ROOT/'toolchains/5.10/include/WINDOWS.H').read_bytes();expected_source=bytes(8)+master[:4098].decode('cp1252').encode('utf-16le')+bytes(2)
+    assert raw_bytes(text,'comment-source-block')==bytes.fromhex(c['source_block'])==expected_source and len(expected_source)==8206 and struct.unpack_from('<H',expected_source,10)[0]==c['current_word']
+    blocks=b['heap_identity']['blocks'];buffer=next(v for v in blocks if v['payload']+8==new[5]);assert buffer['owner']==b['heap_identity']['handle']and buffer['flags']==9 and buffer['bytes']==8206 and bytes.fromhex(buffer['contents'])==expected_source
+    name=next(v for v in blocks if v['payload']+8==new[3]);assert name['owner']==b['heap_identity']['handle']and name['flags']==9 and name['bytes']==34 and bytes.fromhex(name['contents'])==bytes(8)+'resources.rc\0'.encode('utf-16le')
+    assert raw_bytes(text,'comment-filename')==bytes.fromhex(args['filename'])==bytes.fromhex(calls[3]['path_bytes'])+bytes(514-len(bytes.fromhex(calls[3]['path_bytes'])))
+    marker='windows.h\0'.encode('utf-16le')+bytes(494);assert raw_bytes(text,'comment-marker')==bytes.fromhex(c['marker'])==marker
+    storage=bytearray(4090);storage[:26]='resources.rc\0'.encode('utf-16le');path=bytes.fromhex(calls[3]['path_bytes']);storage[2048:2048+len(path)]=path
+    assert raw_bytes(text,'comment-work-buffer')==bytes.fromhex(c['work_buffer'])==bytes(storage)
+    old_file=struct.unpack('<8I',raw_bytes(text,'comment-source-file'));new_file=struct.unpack('<8I',bytes.fromhex(c['source_file']))
+    assert old_file[1:2]+old_file[3:]==new_file[1:2]+new_file[3:]==(510,9,6,0,4096,0)and old_file[0]-old_file[2]==new_file[0]-new_file[2]==2
+    assert raw_bytes(text,'comment-source-buffer')[:512]==bytes.fromhex(c['file_buffer'])[:512]==master[4096:4608]
+    assert re.findall(r'^comment-source-position (\d+)$',text,re.M)==['4608']and re.findall(r'^pos:\s*(\d+)$',c['file_fdinfo'],re.M)==['4608']and Path(c['file_host_path']).resolve()==(ROOT/'toolchains/5.10/include/WINDOWS.H').resolve()
+    assert struct.unpack_from('<I',old_globals,0x14a10-0x14000)[0]==1 and struct.unpack_from('<I',old_globals,0x16ce8-0x14000)[0]==args['current_line']==1 and struct.unpack_from('<I',old_globals,0x29458-0x14000)[0]==args['prepared_lines']==128
+    old_output=struct.unpack('<8I',raw_bytes(text,'cpp-output-file'));new_output=struct.unpack('<8I',bytes.fromhex(globals['rc_cpp_output_file']['file_state']));defined=old_output[0]-old_output[2]
+    assert old_output[1:2]+old_output[3:]==new_output[1:2]+new_output[3:]and defined==new_output[0]-new_output[2]and 0<=defined<=4096 and raw_bytes(text,'cpp-output-buffer')==bytes.fromhex(globals['rc_cpp_output_file']['file_buffer'])[:defined]
+    assert b['crt_errors']==dict(errno=2,last_error=0)
+    masked=(original/'masked-text.bin').read_bytes();relocated=(original/'relocated-text.bin').read_bytes();assert masked[0x384:0x38a]==relocated[0x384:0x38a]=='./\0'.encode('utf-16le')
+    literal=next(v for v in config['functions']if v['name']=='rc_search_include_directories');assert ['0x1384','0x138a']in literal['text_data']
+    searches=json.loads((native/'wide-searches.json').read_text());assert len(searches)==6
+    for row,character in zip(searches,[119,58,46,46,101,101]):
+        assert row['character']&65535==character and row['terminated_input']==row['input_after']=='\\:/\0'.encode('utf-16le').hex()and row['result']==(row['input']+2 if character==58 else 0)
+        assert row['errno_before']==row['errno_after']and row['last_error_before']==row['last_error_after']and row['fp_before']==row['fp_after']
+    # Reuse the unchanged marker length guard proof with current source identity
+    # and the actual current ELF guard bytes; no repeated auxiliary launch.
+    boundary=json.loads((HERE/'cases/resources-rich-trailing-space/include-marker-boundary.json').read_text());guard=boundary['proof'];old_source=json.loads((Path(boundary['raw_directory'])/'production-compiled-source.json').read_text());new_source=json.loads((native/'compiled-source.json').read_text());key='decomp/vc5.10/rcdll/src/directives.c'
+    assert old_source['contents'][key]==new_source['contents'][key]
+    import subprocess
+    symbols=subprocess.check_output(['nm','-S','--defined-only',str(native/'captured-native.elf')],text=True);symbol=re.findall(r'^([0-9a-f]+) ([0-9a-f]+) T rc_handle_directive$',symbols,re.M);assert len(symbol)==1
+    address,size=[int(v,16)for v in symbol[0]];offset=guard['production_guard']['offset'];expected_guard=bytes.fromhex(guard['production_guard']['guard_bytes']);elf=(native/'captured-native.elf').read_bytes();phoff=struct.unpack_from('<I',elf,28)[0];phsize,count=struct.unpack_from('<HH',elf,42);matches=[]
+    for index in range(count):
+        kind,file_offset,start,_,length=struct.unpack_from('<IIIII',elf,phoff+phsize*index)
+        guard_end=address+offset+1
+        if kind==1 and start<=guard_end-len(expected_guard)<guard_end<=start+length:matches.append(elf[file_offset+guard_end-len(expected_guard)-start:file_offset+guard_end-start])
+    assert offset<size and matches==[expected_guard]and expected_guard[-1]==0xcc
+    proof['reused_marker_guard']=dict(record='cases/resources-rich-trailing-space/include-marker-boundary.json',sha256=sha(HERE/'cases/resources-rich-trailing-space/include-marker-boundary.json'),same_compiled_source_sha256=new_source['contents'][key]['sha256'],current_ELF_guard_offset=offset,current_ELF_guard_bytes=expected_guard.hex(),scope='Unchanged marker-length premise; original guard plain/GDB tests reused, current source and actual production ELF guard independently checked.')
+    proof['include_search']=dict(paths=expected_paths,indices=[99,98,97,96],failed_returns=3,successful_open_pending_at_verified_child=True,physical_open_formals=dict(path_pointer_bytes=4,first_bytes=4,cleanup=8),initialized_path_span_bytes=len(path),source_depth=1,decoded_source_bytes=8196,source_terminator_bytes=2,current_source_offset=2,current_word=42,source_file=dict(descriptor=6,capacity=4096,initialized_buffer_bytes=512,consumed_bytes=2,remaining_bytes=510,position=4608,unwritten_tail_bytes=3584,unwritten_tail_scope='Retained raw, not compared or claimed initialized'),next_formals=[],next_hidden_inputs='Actual source cursor points to star42 in owned initialized8198B UTF16 header buffer; source frame/encoding/FILE and parser globals retained. Whole scan-comment body delegates through the existing cursor; no additional register/out-pointer input identified.',return_scope='Search and fourth rc_open_source have not returned; actual matching nonempty rc_scan_comment child frontier proves progress. No None result is accepted.',pending_output_defined_bytes=defined,shared_boundary='Canonical WCHAR16 wcschr; only needle lowWORD is consumed from4B slot, original upper16 bits unobserved/unclaimed.',literal_bytes=6,literal_code_credit=0)
+    proof['trial']='rc_search_include_directories';return proof

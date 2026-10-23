@@ -62,7 +62,8 @@
     "rc_read_string",
     "rc_expect_end",
     "rc_equal_type",
-    "rc_parse_angle_name"
+    "rc_parse_angle_name",
+    "rc_search_include_directories"
   ],
   "functions": [
     {
@@ -1181,7 +1182,12 @@
       "abi": "cdecl",
       "stack_bytes": 0,
       "kind": "application",
-      "stub": true
+      "text_data": [
+        [
+          "0x1384",
+          "0x138a"
+        ]
+      ]
     },
     {
       "name": "rc_parse_pragma",

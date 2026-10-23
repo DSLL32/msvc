@@ -500,3 +500,16 @@ records sixteen affected controls and the plain/GDB guard proof. Native-only
 boundary256 succeeds within the model;257 stops before copying, without claiming
 original long-path capacity. The next include-directory lookup sees the complete
 100-slot list/pointees and the existing owned string-buffer interior scratch.
+
+Include-directory search is accepted (241 bytes), trying local/local/include/SDK
+paths and entering the SDK header. Three failed opens return0 with the real
+error states; the fourth is pending at the comment scanner's actual INT3. The
+new frame owns4,098 decoded characters plus a terminator. Its FILE has4,096-byte
+capacity but only512 initialized buffer bytes; the remaining3,584 are unclaimed.
+[Verification](cases/resources-rich-trailing-space/include-search-verification.json)
+records fourteen affected controls, including matching invented `None` results,
+and a positive unknown-tail control. A missed native boundary was corrected by
+the shared maintainer: glibc `wcschr` had searched past16-bit NULs and omitted
+separators. Canonical-provider probes and the shared UTF16 implementation restore
+matching paths; the unchanged original capture was reused. The failed native
+runs remain retained, and no CRT/data bytes are counted as application code.

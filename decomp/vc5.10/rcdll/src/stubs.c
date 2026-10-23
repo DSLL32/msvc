@@ -147,11 +147,6 @@ int __cdecl rc_search_current_directory(void)
     return 0;
 }
 
-void __cdecl rc_search_include_directories(void)
-{
-    __asm int 3
-    
-}
 
 UINT __cdecl rc_parse_pragma(void)
 {

@@ -1,5 +1,6 @@
 #include <string.h>
 #include <wctype.h>
+#include <wchar.h>
 #include "command.h"
 #include "directives.h"
 #include <recon.h>
@@ -37,4 +38,36 @@ bad_name:
     strcpy(rc_error_text,rc_message(error));
     rc_input_error(error);
     return NULL;
+}
+
+void __cdecl rc_search_include_directories(void)
+{
+    int index,remaining=rc_cpp_includes.remaining;
+    WCHAR *path,*prefix,*destination;
+#ifdef RECON_NATIVE_TEST
+    if(remaining<0 || remaining>100){ __asm int 3 }
+#endif
+    for(index=99;index>=remaining;--index){
+        path=rc_token_value;
+        prefix=rc_cpp_includes.items[index];
+        if(prefix && wcscmp(prefix,L"./")){
+#ifdef RECON_NATIVE_TEST
+            /* Only the identified interior work area and nonempty owned
+             * directory names are available to native concatenation. */
+            if(!*prefix || rc_number_buffer!=&rc_string_buffer[1024] ||
+               wcslen(prefix)+wcslen(path)+2>1021){ __asm int 3 }
+#endif
+            destination=rc_number_buffer;
+            do *destination++=*prefix; while(*prefix++);
+            if(!wcschr(rc_cpp_path_characters,prefix[-2]))
+                destination[-1]=L'/';
+            else --destination;
+            do *destination++=*path; while(*path++);
+            path=rc_number_buffer;
+        }
+        if(rc_open_source(path,0))return;
+    }
+    rc_error_template=rc_message(1015);
+    rc_format(rc_error_text,2048,rc_error_template,rc_token_value);
+    rc_input_fatal(1015);
 }

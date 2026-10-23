@@ -624,3 +624,49 @@ class IncludeCopyEntered(gdb.Breakpoint):
         entry=dict(destination=int(destination),source=int(source),formal_bytes=dict(destination=destination.type.sizeof,source=source.type.sizeof),source_bytes=raw.hex(),before=bytes(gdb.selected_inferior().read_memory(int(destination),514)).hex(),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,caller=frame.older().name())
         include_copies.append(entry);save_include_copies();IncludeCopyReturned(frame,entry);return False
 IncludeCopyEntered('recon_wcscpy',internal=True);save_include_copies()
+
+include_opens=[]
+def save_include_opens():(path.parent/'include-opens.json').write_text(json.dumps(include_opens,indent=2)+'\n')
+class IncludeOpenReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(self.return_value)&0xffffffff,return_esp=int(gdb.parse_and_eval('$esp'))&0xffffffff,errno_after=int(gdb.parse_and_eval('*(int *)&errno')),last_error_after=int(gdb.parse_and_eval('last_error')))
+        save_include_opens();return False
+class IncludeOpenEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();parent=frame.older()
+        if not parent or parent.name()!='rc_search_include_directories':return False
+        pointer=frame.read_var('path');raw=bytearray()
+        for offset in range(257):
+            word=bytes(gdb.selected_inferior().read_memory(int(pointer)+2*offset,2));raw.extend(word)
+            if word==b'\0\0':break
+        else:raise AssertionError('unbounded include open path')
+        entry=dict(index=int(parent.read_var('index')),remaining=int(parent.read_var('remaining')),path=int(pointer),path_bytes=raw.hex(),first=int(frame.read_var('first')),formal_bytes=dict(path=pointer.type.sizeof,first=frame.read_var('first').type.sizeof),entry_esp=(int(gdb.parse_and_eval('$ebp'))+4)&0xffffffff,errno_before=int(gdb.parse_and_eval('*(int *)&errno')),last_error_before=int(gdb.parse_and_eval('last_error')))
+        include_opens.append(entry);save_include_opens();IncludeOpenReturned(frame,entry);return False
+IncludeOpenEntered('rc_open_source',internal=True);save_include_opens()
+
+wide_searches=[]
+def save_wide_searches():(path.parent/'wide-searches.json').write_text(json.dumps(wide_searches,indent=2)+'\n')
+class WideSearchReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry):self.entry=entry;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry['result']=int(gdb.parse_and_eval('$eax'))&0xffffffff;self.entry.update(errno_after=int(gdb.parse_and_eval('*(int *)&errno')),last_error_after=int(gdb.parse_and_eval('last_error')),fp_after=gdb.execute('info float',to_string=True),input_after=bytes(gdb.selected_inferior().read_memory(self.entry['input'],len(bytes.fromhex(self.entry['terminated_input'])))).hex());save_wide_searches();return False
+class WideSearchEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();parent=frame.older()
+        if not parent or parent.name()not in ['rc_handle_directive','rc_search_include_directories']:return False
+        sp=int(gdb.parse_and_eval('$esp'));raw=bytes(gdb.selected_inferior().read_memory(sp,12));caller,pointer,character=__import__('struct').unpack('<3I',raw)
+        terminated=bytearray()
+        for offset in range(257):
+            word=bytes(gdb.selected_inferior().read_memory(pointer+2*offset,2));terminated.extend(word)
+            if word==b'\0\0':break
+        else:raise AssertionError('unbounded observed wcschr input')
+        entry=dict(caller=parent.name(),return_address=caller,input=pointer,character=character,terminated_input=terminated.hex(),source_ten_bytes=bytes(gdb.selected_inferior().read_memory(pointer,10)).hex(),errno_before=int(gdb.parse_and_eval('*(int *)&errno')),last_error_before=int(gdb.parse_and_eval('last_error')),fp_before=gdb.execute('info float',to_string=True))
+        wide_searches.append(entry);save_wide_searches();WideSearchReturned(frame,entry);return False
+# Start exactly at the ABI entry so both the old libc failure and the shared
+# UTF16 replacement retain the actual4-byte physical argument slots.
+if gdb.lookup_global_symbol('recon_wcschr'):
+    WideSearchEntered('*recon_wcschr',internal=True)
+else:
+    WideSearchEntered('wcschr',internal=True)
+save_wide_searches()

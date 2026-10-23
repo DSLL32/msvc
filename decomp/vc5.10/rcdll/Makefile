@@ -131,3 +131,8 @@ build/native/string-storage-host: $(NATIVE_OBJECTS) scripts/string-storage-host.
 build/native/include-marker-boundary-host: $(NATIVE_OBJECTS) scripts/include-marker-boundary-host.c scripts/source-snapshot.py $(NATIVE_SHIMS) $(HEADERS)
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) $(NATIVE_OBJECTS) scripts/include-marker-boundary-host.c $(NATIVE_SHIMS) -o $@
 	$(PYTHON) scripts/source-snapshot.py native build/native-include-marker-boundary-source.json --host scripts/include-marker-boundary-host.c
+
+build/wcschr-api-probe.obj: scripts/wcschr-api-probe.c | build
+	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
+build/wcschr-api-probe.exe: build/wcschr-api-probe.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
