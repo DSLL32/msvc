@@ -31,7 +31,8 @@
     "_initialize_frontend_13",
     "_initialize_output_buffer_06",
     "_initialize_frontend_14",
-    "_initialize_output_buffer_07"
+    "_initialize_output_buffer_07",
+    "_initialize_frontend_15"
   ],
   "trial": null,
   "ranges": [
@@ -286,7 +287,19 @@
       "start_rva": 231526,
       "end_rva": 231584,
       "entry": 1
+    },
+    {
+      "owner": "_initialize_frontend_15",
+      "start_rva": 231598,
+      "end_rva": 231605,
+      "entry": 1
+    },
+    {
+      "owner": "_initialize_frontend_15",
+      "start_rva": 231663,
+      "end_rva": 231677,
+      "entry": 0
     }
   ],
-  "stage": "_initialize_output_buffer_07 accepted; next frontier _initialize_frontend_15"
+  "stage": "_initialize_frontend_15 accepted; next frontier _initialize_output_buffer_08"
 }

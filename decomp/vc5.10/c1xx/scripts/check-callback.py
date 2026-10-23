@@ -26,7 +26,7 @@ def check(original,native,require_audit=True,audit_path=None):
     constructor2=constructor_number>=2
     registrar=trial['trial']=='_register_cleanup'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(constructor_number in (1,2,3,4,5,6,7) or registrar or match is not None and 1<=int(match[1])<=14,
+    s.require(constructor_number in (1,2,3,4,5,6,7) or registrar or match is not None and 1<=int(match[1])<=15,
               'no reviewed callback decoder for this function')
     index=7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and

@@ -36,4 +36,6 @@ void initialize_output_buffer_06(void);
 void destroy_output_buffer_06(void);
 void initialize_output_buffer_07(void);
 void destroy_output_buffer_07(void);
+void initialize_output_buffer_08(void);
+void destroy_output_buffer_08(void);
 #endif

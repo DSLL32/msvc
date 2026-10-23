@@ -134,3 +134,13 @@ void destroy_output_buffer_07(void)
 {
     __asm { int 3 }
 }
+
+void initialize_output_buffer_08(void)
+{
+    __asm { int 3 }
+}
+
+void destroy_output_buffer_08(void)
+{
+    __asm { int 3 }
+}
