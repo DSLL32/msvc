@@ -76,6 +76,9 @@ def main():
         assert all(formal['stack_index'] < 4 for formal in argument_proof['formals']), 'six-word ABI requires explicit count/read receipt'
     anchors = {item['name']: item for item in entry_original.get('diagnostic_observations', [])}
     original_states = [int(value, 16) for value in re.findall(r'^state \d+ ([0-9a-f]+)$', (argument_directory/'original-events.txt').read_text(), re.M)]
+    diagnostics=entry_original.get('diagnostic_observations', [])
+    assert len(original_states)==len(config['checkpoint_state'])+len(diagnostics), 'missing/unreadable exact-word observation'
+    assert original_states[len(config['checkpoint_state']):]==[row['value'] for row in diagnostics], 'diagnostic word receipt differs from raw read'
     for requirement in argument_proof.get('state_requirements', []):
         assert original_states[requirement['index']] == entry_native[requirement['native_field']] == requirement['equals']
     words=dict((int(index),int(value,16)) for index,value in re.findall(r'^argument (\d+) ([0-9a-f]+)$',(argument_directory/'original-events.txt').read_text(),re.M))
@@ -109,6 +112,12 @@ def main():
             assert owner['function']==binding['native_owner_function'] and owner['local']==binding['native_owner_local'], 'actual native owner differs'
             assert formal['original_raw']==binding['original_owner_value']==registers[0]['value']
             assert formal['native_raw']==binding['native_owner_value']==owner['value']
+        elif binding['kind']=='pointee-word':
+            anchor=anchors[binding['original_observation_name']]
+            assert formal['original_raw']==anchor['original']==binding['original_pointee_address'], 'actual argument no longer names observed word'
+            assert binding['original_word']==anchor['value']==binding['native_word']==entry_native[binding['native_pointee_field']], 'observed actual input word differs'
+            if binding.get('native_semantic_owner_field'):
+                assert binding['native_word']==entry_native[binding['native_semantic_owner_field']], 'semantic input owner differs'
         else:
             raise AssertionError('unbound actual argument holds acceptance: '+formal['name'])
     if args.original is None:

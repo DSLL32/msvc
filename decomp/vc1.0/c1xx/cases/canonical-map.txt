@@ -1,6 +1,6 @@
  c1xx
 
- Timestamp is 6adba465 (Fri Oct 23 11:16:05 2026)
+ Timestamp is 6adba4b9 (Fri Oct 23 11:17:29 2026)
 
  Preferred load address is 00010000
 
@@ -336,305 +336,305 @@
  0001:000014cf       _classify_long_integer@4   000124cf f stubs.obj
  0001:000014e4       _classify_unsigned_integer@4 000124e4 f stubs.obj
  0001:000014f9       _mangle_enum_representation@8 000124f9 f stubs.obj
- 0001:0000150e       _hash_first_word           0001250e f stubs.obj
- 0001:00001521       _hash_tail_word_pair       00012521 f stubs.obj
- 0001:00001534       _hash_declaration_index    00012534 f stubs.obj
- 0001:00001547       _hash_resolved_declaration 00012547 f stubs.obj
- 0001:0000155a       _hash_word_triplet         0001255a f stubs.obj
- 0001:0000156d       _hash_word_pair            0001256d f stubs.obj
- 0001:00001580       _equal_symbol_indices      00012580 f stubs.obj
- 0001:00001593       _equal_first_words         00012593 f stubs.obj
- 0001:000015a6       _equal_tail_word_pairs     000125a6 f stubs.obj
- 0001:000015b9       _equal_declaration_indices 000125b9 f stubs.obj
- 0001:000015cc       _equal_resolved_declarations 000125cc f stubs.obj
- 0001:000015df       _equal_word_triplets       000125df f stubs.obj
- 0001:000015f2       _equal_word_pairs          000125f2 f stubs.obj
- 0001:00001605       _vector_contains@8         00012605 f stubs.obj
- 0001:0000161a       _convert_member_pointer_initializer@8 0001261a f stubs.obj
- 0001:0000162f       _can_bind_conversion_reference@8 0001262f f stubs.obj
- 0001:00001644       _make_once_virtual_base_pointer@28 00012644 f stubs.obj
- 0001:00001659       _copy_bytes_forward@12     00012659 f stubs.obj
- 0001:0000166e       _save_extended_in_arena@16 0001266e f stubs.obj
- 0001:00001683       _clone_expression_references@8 00012683 f stubs.obj
- 0001:00001698       _compute_virtual_base_access@8 00012698 f stubs.obj
- 0001:000016ad       _make_null_member_pointer@4 000126ad f stubs.obj
- 0001:000016c2       _qualified_path_has_virtual_base@4 000126c2 f stubs.obj
- 0001:000016d7       _resolve_overloaded_arrow@4 000126d7 f stubs.obj
- 0001:000016ec       _report_operator_overload_failure@4 000126ec f stubs.obj
- 0001:00001701       _evaluate_preprocessor_expression 00012701 f stubs.obj
- 0001:00001714       _undefine_source_macro     00012714 f stubs.obj
- 0001:00001720       _read_macro_parameters     00012720 f stubs.obj
- 0001:0000172c       _read_macro_replacement    0001272c f stubs.obj
- 0001:0000173f       _process_pragma            0001273f f stubs.obj
- 0001:0000174b       _capture_directive_text    0001274b f stubs.obj
- 0001:00001757       _skip_directive_literal@4  00012757 f stubs.obj
- 0001:00001765       _record_pch_condition@4    00012765 f stubs.obj
- 0001:0000177a       _process_pch_directive     0001277a f stubs.obj
- 0001:0000178d       _warn_ident_requires_string 0001278d f stubs.obj
- 0001:00001799       _finish_pascal_literal@4   00012799 f stubs.obj
- 0001:000017a7       _decode_literal_escape@8   000127a7 f stubs.obj
- 0001:000017bc       _pure_virtual_table_expression@4 000127bc f stubs.obj
- 0001:000017d1       _initializer_address_size@4 000127d1 f stubs.obj
- 0001:000017e6       _write_ir_float            000127e6 f stubs.obj
- 0001:000017f2       _write_ir_double           000127f2 f stubs.obj
- 0001:000017fe       _mangle_array_type@8       000127fe f stubs.obj
- 0001:00001813       _retain_reference_temporary@12 00012813 f stubs.obj
- 0001:00001828       _initialize_reference_temporary@12 00012828 f stubs.obj
- 0001:0000183d       _class_tag_for_result_type@4 0001283d f stubs.obj
- 0001:00001852       _temporary_cleanup_is_suppressed@8 00012852 f stubs.obj
- 0001:00001867       _builtin_operand_is_lvalue@4 00012867 f stubs.obj
- 0001:0000187c       _convert_selected_operator_operand 0001287c f stubs.obj
- 0001:0000188f       _equivalent_operand_types@8 0001288f f stubs.obj
- 0001:000018a4       _convert_delete_operand_to_pointer@4 000128a4 f stubs.obj
- 0001:000018b9       _begin_line_record_debug_info 000128b9 f stubs.obj
- 0001:000018c5       _apply_symbol_based_type@8 000128c5 f stubs.obj
- 0001:000018d3       _emit_runtime_bit_field_initializer@4 000128d3 f stubs.obj
- 0001:000018e1       _initializer_object_expression@4 000128e1 f stubs.obj
- 0001:000018f6       _emit_initializer_padding@4 000128f6 f stubs.obj
- 0001:00001904       _emit_runtime_zero_initializer 00012904 f stubs.obj
- 0001:00001910       _remaining_braced_initializer_bytes 00012910 f stubs.obj
- 0001:00001923       _wrap_default_argument_symbols@8 00012923 f stubs.obj
- 0001:00001938       _wrap_default_argument_members@8 00012938 f stubs.obj
- 0001:0000194d       _format_based_declaration@8 0001294d f stubs.obj
- 0001:00001963       _format_pointer_declarator@8 00012963 f stubs.obj
- 0001:00001979       _prepend_type_diagnostic_char@8 00012979 f stubs.obj
- 0001:00001987       _prepend_type_diagnostic@8 00012987 f stubs.obj
- 0001:00001998       _message_text              00012998 f diagnostics.obj
- 0001:000019dc       _parse_options             000129dc f options.obj
- 0001:00001d22       _match_option              00012d22 f options.obj
- 0001:00001ee8       _prefix_character          00012ee8 f options.obj
- 0001:00001f3f       _apply_option              00012f3f f options.obj
- 0001:00002179       _parse_option_number       00013179 f options.obj
- 0001:00002274       _match_option_suffix       00013274 f options.obj
- 0001:0000231d       _finalize_options          0001331d f options.obj
- 0001:0000244c       _push_linkage@4            0001344c f linkage.obj
- 0001:00002486       _parse_linkage@8           00013486 f linkage.obj
- 0001:000025e5       _pop_linkage               000135e5 f linkage.obj
- 0001:000025f8       _initialize_packing        000135f8 f packing.obj
- 0001:00002652       _new_packing_stack         00013652 f packing.obj
- 0001:00002685       _push_packing              00013685 f packing.obj
- 0001:000026e5       _top_packing               000136e5 f packing.obj
- 0001:000026fc       _allocate_permanent@4      000136fc f memory.obj
- 0001:00002791       _new_permanent_page        00013791 f memory.obj
- 0001:0000282e       _new_bitset@4              0001382e f memory.obj
- 0001:000028b9       _checked_malloc@4          000138b9 f memory.obj
- 0001:000028f3       _refill_arena@8            000138f3 f memory.obj
- 0001:00002a01       _copy_arena_bytes@12       00013a01 f memory.obj
- 0001:00002ad3       _release_arena@4           00013ad3 f memory.obj
- 0001:00002b77       _release_permanent@8       00013b77 f memory.obj
- 0001:00002b84       _pop_work_list@4           00013b84 f memory.obj
- 0001:00002ba7       _push_work_list@8          00013ba7 f memory.obj
- 0001:00002c48       _allocate_zeroed@4         00013c48 f memory.obj
- 0001:00002cac       _resize_permanent@12       00013cac f memory.obj
- 0001:00002d0f       _minimum_unsigned@8        00013d0f f memory.obj
- 0001:00002d30       _initialize_checksums      00013d30 f checksums.obj
- 0001:00002ee8       _initialize_lead_bytes     00013ee8 f characters.obj
- 0001:00002f2e       _mark_lead_byte_ranges     00013f2e f characters.obj
- 0001:00002fac       _match_source_character@4  00013fac f comments.obj
- 0001:00002fe6       _skip_block_comment        00013fe6 f comments.obj
- 0001:00003103       _skip_source_comment       00014103 f comments.obj
- 0001:000031a0       _read_env_arguments        000141a0 f arguments.obj
- 0001:00003354       _extend_argument_vector    00014354 f arguments.obj
- 0001:000033e5       _next_argument             000143e5 f arguments.obj
- 0001:00003420       _new_vector@8              00014420 f vectors.obj
- 0001:00003583       _append_vector@8           00014583 f vectors.obj
- 0001:000035c5       _initialize_work_stack@4   000145c5 f vectors.obj
- 0001:00003654       _reset_work_stack@4        00014654 f vectors.obj
- 0001:00003682       _new_empty_vector@4        00014682 f vectors.obj
- 0001:0000369e       _copy_vector_elements@12   0001469e f vectors.obj
- 0001:00003712       _vector_count@4            00014712 f vectors.obj
- 0001:0000373c       _grow_vector@4             0001473c f vectors.obj
- 0001:00003886       _first_vector_item@4       00014886 f vectors.obj
- 0001:000038a0       _copy_vector@8             000148a0 f vectors.obj
- 0001:000038bf       _copy_vector_with_extra@12 000148bf f vectors.obj
- 0001:0000398b       _copy_vector_with_spare@8  0001498b f vectors.obj
- 0001:000039aa       _equal_vectors@8           000149aa f vectors.obj
- 0001:00003a3f       _vector_used_bytes@4       00014a3f f vectors.obj
- 0001:00003a5a       _write_work_character@8    00014a5a f vectors.obj
- 0001:00003b51       _write_work_bytes@16       00014b51 f vectors.obj
- 0001:00003ea6       _finish_work_stack@4       00014ea6 f vectors.obj
- 0001:00003ec4       _read_work_stack@12        00014ec4 f vectors.obj
- 0001:0000400a       _seek_work_stack@12        0001500a f vectors.obj
- 0001:000040f0       _compile_translation_unit  000150f0 f frontend.obj
- 0001:00004530       _initialize_frontend       00015530 f initialization.obj
- 0001:00005030       _initialize_preprocessor   00016030 f preprocessor.obj
- 0001:0000505c       _initialize_macro_text     0001605c f preprocessor.obj
- 0001:00005080       _intern_keyword@4          00016080 f preprocessor.obj
- 0001:00005240       _intern_identifier@4       00016240 f preprocessor.obj
- 0001:0000540c       _initialize_keyword_table  0001640c f keywords.obj
- 0001:00005533       _disable_keyword@4         00016533 f keywords.obj
- 0001:00005590       _initialize_floating_point 00016590 f floating.obj
- 0001:000055a8       _initialize_cpp_context_stack 000165a8 f cpp-context.obj
- 0001:0000560d       _next_member_context@4     0001660d f cpp-context.obj
- 0001:00005644       _new_inline_vector         00016644 f inline-vector.obj
- 0001:000056a7       _inline_vector_bytes       000166a7 f inline-vector.obj
- 0001:000056c2       _inline_vector_count       000166c2 f inline-vector.obj
- 0001:000056ea       _release_inline_vector     000166ea f inline-vector.obj
- 0001:0000570e       _add_inline_pointer        0001670e f inline-vector.obj
- 0001:000057cf       _locate_inline_pointer     000167cf f inline-vector.obj
- 0001:000058e3       _grow_inline_vector        000168e3 f inline-vector.obj
- 0001:00005948       _initialize_intermediate_output 00016948 f intermediate.obj
- 0001:00005953       _open_intermediate         00016953 f intermediate.obj
- 0001:00005a38       _open_expression_intermediate 00016a38 f intermediate.obj
- 0001:00005b7d       _close_intermediate        00016b7d f intermediate.obj
- 0001:00005bea       _cleanup_precompiled_files 00016bea f intermediate.obj
- 0001:00005d54       __sopen                    00016d54 f runtime.obj
- 0001:0000623b       _setvbuf                   0001723b f runtime.obj
- 0001:00006356       __freebuf                  00017356 f runtime.obj
- 0001:000063af       _fseek                     000173af f runtime.obj
- 0001:0000648c       ___tzset                   0001748c f runtime.obj
- 0001:000066b7       __isindst                  000176b7 f runtime.obj
- 0001:00006811       _ftell                     00017811 f runtime.obj
- 0001:00006a10       _evaluate_integer_constant@4 00017a10 f constants.obj
- 0001:00006a98       _new_literal_constant@8    00017a98 f constants.obj
- 0001:00006c49       _make_integer_constant@4   00017c49 f constants.obj
- 0001:00006c85       _new_integer_constant@4    00017c85 f constants.obj
- 0001:00006d21       _fold_symbol_constant@4    00017d21 f constants.obj
- 0001:00006d9f       _make_size_constant@4      00017d9f f constants.obj
- 0001:00006dcd       _fold_binary_constant@12   00017dcd f constants.obj
- 0001:000077cc       _emit_label@4              000187cc f ir.obj
- 0001:00007858       _reference_ir_symbol@4     00018858 f ir.obj
- 0001:00007936       _write_ir_record@8         00018936 f ir.obj
- 0001:00008377       _new_branch_label@4        00019377 f ir.obj
- 0001:00008450       _finish_label_symbols      00019450 f ir.obj
- 0001:00008512       _register_label@4          00019512 f ir.obj
- 0001:0000858d       _get_ir_symbol_index       0001958d f ir.obj
- 0001:000086c4       _emit_record_node@12       000196c4 f ir.obj
- 0001:00008c71       _node_alignment@4          00019c71 f ir.obj
- 0001:00008d9c       _expression_type_alignment@4 00019d9c f ir.obj
- 0001:00008e18       _emit_condition_to_label@12 00019e18 f ir.obj
- 0001:00009044       _initialize_type_table     0001a044 f types.obj
- 0001:0000908b       _intern_type@4             0001a08b f types.obj
- 0001:0000920b       _make_function_type@8      0001a20b f types.obj
- 0001:000092e7       _new_type_shape@12         0001a2e7 f types.obj
- 0001:00009514       _intern_type_shape@4       0001a514 f types.obj
- 0001:000096cb       _make_tagged_type@4        0001a6cb f types.obj
- 0001:000097d7       _copy_type_description@4   0001a7d7 f types.obj
- 0001:00009849       _remove_type_qualifiers@8  0001a849 f types.obj
- 0001:00009893       _make_qualified_type@16    0001a893 f types.obj
- 0001:000098f2       _is_class_name_type@4      0001a8f2 f types.obj
- 0001:0000998c       _finish_type@4             0001a98c f types.obj
- 0001:00009a77       _replace_first_type_shape@16 0001aa77 f types.obj
- 0001:00009c29       _skip_reference_shape@4    0001ac29 f types.obj
- 0001:00009c5f       _strip_based_shape@4       0001ac5f f types.obj
- 0001:00009ca9       _drop_first_type_shape@4   0001aca9 f types.obj
- 0001:00009d39       _dereference_pointer_type@4 0001ad39 f types.obj
- 0001:00009db4       _make_pointer_to_type@8    0001adb4 f types.obj
- 0001:00009e9e       _builtin_integer_type      0001ae9e f types.obj
- 0001:00009eb3       _make_expression_qualified_type@16 0001aeb3 f types.obj
- 0001:00009faa       _change_function_reference_kind@8 0001afaa f types.obj
- 0001:0000a0a4       _initialize_global_scope   0001b0a4 f scopes.obj
- 0001:0000a109       _initialize_translation_state 0001b109 f scopes.obj
- 0001:0000a1d2       _push_symbol_scope@4       0001b1d2 f scopes.obj
- 0001:0000a1f1       _record_scope_directory_entry@4 0001b1f1 f scopes.obj
- 0001:0000a259       _initialize_scope_buckets@8 0001b259 f scopes.obj
- 0001:0000a36a       _retire_scope_directory_entry 0001b36a f scopes.obj
- 0001:0000a39e       _pop_symbol_scope          0001b39e f scopes.obj
- 0001:0000a3b5       _activate_qualified_definition_scopes 0001b3b5 f scopes.obj
- 0001:0000a448       _unwind_qualified_scopes@4 0001b448 f scopes.obj
- 0001:0000a4fc       _initialize_declaration_table 0001b4fc f declarations.obj
- 0001:0000a519       _save_declaration_context@8 0001b519 f declarations.obj
- 0001:0000a552       _new_declarator@4          0001b552 f declarations.obj
- 0001:0000a66d       _apply_conversion_declarator@8 0001b66d f declarations.obj
- 0001:0000a77b       _add_declaration_parameter@16 0001b77b f declarations.obj
- 0001:0000a8d3       _append_declarator@8       0001b8d3 f declarations.obj
- 0001:0000a941       _attach_function_parameters@8 0001b941 f declarations.obj
- 0001:0000a9ba       _attach_plain_function_parameters@8 0001b9ba f declarations.obj
- 0001:0000aa60       _build_function_declarator@8 0001ba60 f declarations.obj
- 0001:0000aa8c       _add_function_shape@12     0001ba8c f declarations.obj
- 0001:0000ad3a       _is_member_declarator@4    0001bd3a f declarations.obj
- 0001:0000ae54       _attach_type_shape@8       0001be54 f declarations.obj
- 0001:0000afb0       _finish_parameter_scope    0001bfb0 f declarations.obj
- 0001:0000b01a       _restore_declaration_context@8 0001c01a f declarations.obj
- 0001:0000b03f       _prepend_declarator@8      0001c03f f declarations.obj
- 0001:0000b091       _new_symbol@8              0001c091 f declarations.obj
- 0001:0000b1f5       _new_abstract_declarator@4 0001c1f5 f declarations.obj
- 0001:0000b358       _apply_declarator_modifier@8 0001c358 f declarations.obj
- 0001:0000b426       _make_anonymous_identifier 0001c426 f declarations.obj
- 0001:0000b4b4       _check_global_object_definition@4 0001c4b4 f declaration-bind.obj
- 0001:0000b576       _finalize_object_storage@4 0001c576 f declaration-bind.obj
- 0001:0000b826       _apply_declaration_type@8  0001c826 f declaration-bind.obj
- 0001:0000bd39       _symbol_has_reference_shape@4 0001cd39 f declaration-bind.obj
- 0001:0000bdb0       _complete_declaration@8    0001cdb0 f declaration-bind.obj
- 0001:0000beac       _lookup_declaration@4      0001ceac f declaration-lookup.obj
- 0001:0000becc       _declaration_scope         0001cecc f declaration-lookup.obj
- 0001:0000bf04       _lookup_scope_declaration@8 0001cf04 f declaration-lookup.obj
- 0001:0000bf4e       _find_scope_symbol@12      0001cf4e f declaration-lookup.obj
- 0001:0000bff0       _find_name_in_chain@8      0001cff0 f declaration-lookup.obj
- 0001:0000c02c       _lookup_outer_declaration@4 0001d02c f declaration-lookup.obj
- 0001:0000c2bc       _record_local_declaration@4 0001d2bc f declaration-lookup.obj
- 0001:0000c480       _reconcile_declaration@8   0001d480 f declaration-lookup.obj
- 0001:0000c850       _insert_symbol@4           0001d850 f declaration-lookup.obj
- 0001:0000c86b       _insert_scope_symbol@8     0001d86b f declaration-lookup.obj
- 0001:0000c9d7       _make_overload_symbol@4    0001d9d7 f declaration-lookup.obj
- 0001:0000cb59       _check_function_defaults@8 0001db59 f declaration-lookup.obj
- 0001:0000cb93       _check_missing_defaults@20 0001db93 f declaration-lookup.obj
- 0001:0000cc09       _lookup_current_scope_declaration@4 0001dc09 f declaration-lookup.obj
- 0001:0000cc29       _insert_current_scope_symbol@4 0001dc29 f declaration-lookup.obj
- 0001:0000cc44       _find_outer_name@4         0001dc44 f declaration-lookup.obj
- 0001:0000cc63       _lookup_scoped_name@8      0001dc63 f declaration-lookup.obj
- 0001:0000ce9d       _lookup_class_name_paths@12 0001de9d f declaration-lookup.obj
- 0001:0000cebd       _lookup_class_name@16      0001debd f declaration-lookup.obj
- 0001:0000d0ce       _find_class_name_paths@12  0001e0ce f declaration-lookup.obj
- 0001:0000d152       _symbol_matches_categories@8 0001e152 f declaration-lookup.obj
- 0001:0000d20e       _resolve_declaration_alias@8 0001e20e f declaration-lookup.obj
- 0001:0000d367       _bind_function_overload@8  0001e367 f declaration-lookup.obj
- 0001:0000d62e       _find_matching_overload@12 0001e62e f declaration-lookup.obj
- 0001:0000da1e       _compare_declaration_parameters@8 0001ea1e f declaration-lookup.obj
- 0001:0000daab       _compare_overload_parameter@12 0001eaab f declaration-lookup.obj
- 0001:0000dd21       _prepend_function_overload@8 0001ed21 f declaration-lookup.obj
- 0001:0000dd43       _find_class_special_member@8 0001ed43 f declaration-lookup.obj
- 0001:0000dd90       _begin_class_member_search@12 0001ed90 f declaration-lookup.obj
- 0001:0000de0e       _next_class_member_search@4 0001ee0e f declaration-lookup.obj
- 0001:0000ded8       _find_qualifier_name@4     0001eed8 f declaration-lookup.obj
- 0001:0000def7       _search_class_name_paths@8 0001eef7 f declaration-lookup.obj
- 0001:0000e221       _class_candidate_is_distinct@8 0001f221 f declaration-lookup.obj
- 0001:0000e31d       _begin_virtual_base_search@8 0001f31d f declaration-lookup.obj
- 0001:0000e36a       _next_virtual_base_search@4 0001f36a f declaration-lookup.obj
- 0001:0000e3e8       _prune_hidden_class_paths@8 0001f3e8 f declaration-lookup.obj
- 0001:0000e476       _merge_declared_symbol@8   0001f476 f declaration-lookup.obj
- 0001:0000e64d       _equivalent_base_type_flags@8 0001f64d f declaration-lookup.obj
- 0001:0000e678       _diagnose_parameter_list_difference@8 0001f678 f declaration-lookup.obj
- 0001:0000e78c       _reconcile_declaration_type@12 0001f78c f declaration-lookup.obj
- 0001:0000ea23       _compatible_declaration_storage@8 0001fa23 f declaration-lookup.obj
- 0001:0000eba1       _merge_declaration_storage@8 0001fba1 f declaration-lookup.obj
- 0001:0000f1f0       _validate_special_function@8 000201f0 f special-functions.obj
- 0001:00010240       _make_vector_helper_call@20 00021240 f runtime-symbols.obj
- 0001:000102c0       _declare_runtime_helpers   000212c0 f runtime-symbols.obj
- 0001:000102f2       _declare_vector_helper@8   000212f2 f runtime-symbols.obj
- 0001:00010310       _declare_runtime_function@20 00021310 f runtime-symbols.obj
- 0001:0001043d       _runtime_void_pointer@4    0002143d f runtime-symbols.obj
- 0001:00010461       _runtime_callback_type@8   00021461 f runtime-symbols.obj
- 0001:000104c9       _initialize_purecall       000214c9 f runtime-symbols.obj
- 0001:000104e0       _runtime_function_symbol@4 000214e0 f runtime-symbols.obj
- 0001:0001055c       _pack_option_flags         0002155c f option-state.obj
- 0001:000105cc       _current_declaration_type@4 000215cc f parser-state.obj
- 0001:0001073b       _global_declaration_type@4 0002173b f parser-state.obj
- 0001:00010778       _finish_external_definition@4 00021778 f parser-state.obj
- 0001:00010819       _detach_new_array_bound@4  00021819 f parser-state.obj
- 0001:00010878       _resolve_declaration@8     00021878 f resolve-declaration.obj
- 0001:00011278       _merge_declaration_type@12 00022278 f declarator-shapes.obj
- 0001:00011d1e       _prepare_declarator_shapes@28 00022d1e f declarator-shapes.obj
- 0001:00012340       _extract_declarator_prefix@16 00023340 f declarator-shapes.obj
- 0001:00012405       _extract_base_prefix@20    00023405 f declarator-shapes.obj
- 0001:00012566       _intern_shape_on@16        00023566 f declarator-shapes.obj
- 0001:0001259d       _merge_function_shape@28   0002359d f declarator-shapes.obj
- 0001:00012ae0       _finish_function_declarator@8 00023ae0 f declarator-shapes.obj
- 0001:00012bc5       _merge_reference_shape@24  00023bc5 f declarator-shapes.obj
- 0001:00012e42       _check_pointer_attributes@12 00023e42 f declarator-shapes.obj
- 0001:00012f53       _finish_array_declarator@20 00023f53 f declarator-shapes.obj
- 0001:0001300e       _add_array_declarator@8    0002400e f declarator-shapes.obj
- 0001:00013118       _normalize_symbol_type@8   00024118 f symbol-types.obj
- 0001:00014156       _normalize_symbol_distance@8 00025156 f symbol-types.obj
- 0001:0001422c       _new_hash_table@16         0002522c f hash-table.obj
- 0001:000143a0       _set_hash_value@12         000253a0 f hash-table.obj
- 0001:00014499       _hash_table_bucket@8       00025499 f hash-table.obj
- 0001:000144d4       _hash_aligned_pointer      000254d4 f hash-table.obj
- 0001:000144ef       _find_hash_entry@12        000254ef f hash-table.obj
- 0001:0001455b       _find_hash_value@8         0002555b f hash-table.obj
- 0001:000145b7       _equal_pointer             000255b7 f hash-table.obj
- 0001:000145d5       _hash_symbol_index         000255d5 f hash-table.obj
- 0001:000145eb       _hash_low_pointer_bits     000255eb f hash-table.obj
+ 0001:0000150e       _hash_tail_word_pair       0001250e f stubs.obj
+ 0001:00001521       _hash_declaration_index    00012521 f stubs.obj
+ 0001:00001534       _hash_resolved_declaration 00012534 f stubs.obj
+ 0001:00001547       _hash_word_triplet         00012547 f stubs.obj
+ 0001:0000155a       _hash_word_pair            0001255a f stubs.obj
+ 0001:0000156d       _equal_symbol_indices      0001256d f stubs.obj
+ 0001:00001580       _equal_first_words         00012580 f stubs.obj
+ 0001:00001593       _equal_tail_word_pairs     00012593 f stubs.obj
+ 0001:000015a6       _equal_declaration_indices 000125a6 f stubs.obj
+ 0001:000015b9       _equal_resolved_declarations 000125b9 f stubs.obj
+ 0001:000015cc       _equal_word_triplets       000125cc f stubs.obj
+ 0001:000015df       _equal_word_pairs          000125df f stubs.obj
+ 0001:000015f2       _vector_contains@8         000125f2 f stubs.obj
+ 0001:00001607       _convert_member_pointer_initializer@8 00012607 f stubs.obj
+ 0001:0000161c       _can_bind_conversion_reference@8 0001261c f stubs.obj
+ 0001:00001631       _make_once_virtual_base_pointer@28 00012631 f stubs.obj
+ 0001:00001646       _copy_bytes_forward@12     00012646 f stubs.obj
+ 0001:0000165b       _save_extended_in_arena@16 0001265b f stubs.obj
+ 0001:00001670       _clone_expression_references@8 00012670 f stubs.obj
+ 0001:00001685       _compute_virtual_base_access@8 00012685 f stubs.obj
+ 0001:0000169a       _make_null_member_pointer@4 0001269a f stubs.obj
+ 0001:000016af       _qualified_path_has_virtual_base@4 000126af f stubs.obj
+ 0001:000016c4       _resolve_overloaded_arrow@4 000126c4 f stubs.obj
+ 0001:000016d9       _report_operator_overload_failure@4 000126d9 f stubs.obj
+ 0001:000016ee       _evaluate_preprocessor_expression 000126ee f stubs.obj
+ 0001:00001701       _undefine_source_macro     00012701 f stubs.obj
+ 0001:0000170d       _read_macro_parameters     0001270d f stubs.obj
+ 0001:00001719       _read_macro_replacement    00012719 f stubs.obj
+ 0001:0000172c       _process_pragma            0001272c f stubs.obj
+ 0001:00001738       _capture_directive_text    00012738 f stubs.obj
+ 0001:00001744       _skip_directive_literal@4  00012744 f stubs.obj
+ 0001:00001752       _record_pch_condition@4    00012752 f stubs.obj
+ 0001:00001767       _process_pch_directive     00012767 f stubs.obj
+ 0001:0000177a       _warn_ident_requires_string 0001277a f stubs.obj
+ 0001:00001786       _finish_pascal_literal@4   00012786 f stubs.obj
+ 0001:00001794       _decode_literal_escape@8   00012794 f stubs.obj
+ 0001:000017a9       _pure_virtual_table_expression@4 000127a9 f stubs.obj
+ 0001:000017be       _initializer_address_size@4 000127be f stubs.obj
+ 0001:000017d3       _write_ir_float            000127d3 f stubs.obj
+ 0001:000017df       _write_ir_double           000127df f stubs.obj
+ 0001:000017eb       _mangle_array_type@8       000127eb f stubs.obj
+ 0001:00001800       _retain_reference_temporary@12 00012800 f stubs.obj
+ 0001:00001815       _initialize_reference_temporary@12 00012815 f stubs.obj
+ 0001:0000182a       _class_tag_for_result_type@4 0001282a f stubs.obj
+ 0001:0000183f       _temporary_cleanup_is_suppressed@8 0001283f f stubs.obj
+ 0001:00001854       _builtin_operand_is_lvalue@4 00012854 f stubs.obj
+ 0001:00001869       _convert_selected_operator_operand 00012869 f stubs.obj
+ 0001:0000187c       _equivalent_operand_types@8 0001287c f stubs.obj
+ 0001:00001891       _convert_delete_operand_to_pointer@4 00012891 f stubs.obj
+ 0001:000018a6       _begin_line_record_debug_info 000128a6 f stubs.obj
+ 0001:000018b2       _apply_symbol_based_type@8 000128b2 f stubs.obj
+ 0001:000018c0       _emit_runtime_bit_field_initializer@4 000128c0 f stubs.obj
+ 0001:000018ce       _initializer_object_expression@4 000128ce f stubs.obj
+ 0001:000018e3       _emit_initializer_padding@4 000128e3 f stubs.obj
+ 0001:000018f1       _emit_runtime_zero_initializer 000128f1 f stubs.obj
+ 0001:000018fd       _remaining_braced_initializer_bytes 000128fd f stubs.obj
+ 0001:00001910       _wrap_default_argument_symbols@8 00012910 f stubs.obj
+ 0001:00001925       _wrap_default_argument_members@8 00012925 f stubs.obj
+ 0001:0000193a       _format_based_declaration@8 0001293a f stubs.obj
+ 0001:00001950       _format_pointer_declarator@8 00012950 f stubs.obj
+ 0001:00001966       _prepend_type_diagnostic_char@8 00012966 f stubs.obj
+ 0001:00001974       _prepend_type_diagnostic@8 00012974 f stubs.obj
+ 0001:00001984       _message_text              00012984 f diagnostics.obj
+ 0001:000019c8       _parse_options             000129c8 f options.obj
+ 0001:00001d0e       _match_option              00012d0e f options.obj
+ 0001:00001ed4       _prefix_character          00012ed4 f options.obj
+ 0001:00001f2b       _apply_option              00012f2b f options.obj
+ 0001:00002165       _parse_option_number       00013165 f options.obj
+ 0001:00002260       _match_option_suffix       00013260 f options.obj
+ 0001:00002309       _finalize_options          00013309 f options.obj
+ 0001:00002438       _push_linkage@4            00013438 f linkage.obj
+ 0001:00002472       _parse_linkage@8           00013472 f linkage.obj
+ 0001:000025d1       _pop_linkage               000135d1 f linkage.obj
+ 0001:000025e4       _initialize_packing        000135e4 f packing.obj
+ 0001:0000263e       _new_packing_stack         0001363e f packing.obj
+ 0001:00002671       _push_packing              00013671 f packing.obj
+ 0001:000026d1       _top_packing               000136d1 f packing.obj
+ 0001:000026e8       _allocate_permanent@4      000136e8 f memory.obj
+ 0001:0000277d       _new_permanent_page        0001377d f memory.obj
+ 0001:0000281a       _new_bitset@4              0001381a f memory.obj
+ 0001:000028a5       _checked_malloc@4          000138a5 f memory.obj
+ 0001:000028df       _refill_arena@8            000138df f memory.obj
+ 0001:000029ed       _copy_arena_bytes@12       000139ed f memory.obj
+ 0001:00002abf       _release_arena@4           00013abf f memory.obj
+ 0001:00002b63       _release_permanent@8       00013b63 f memory.obj
+ 0001:00002b70       _pop_work_list@4           00013b70 f memory.obj
+ 0001:00002b93       _push_work_list@8          00013b93 f memory.obj
+ 0001:00002c34       _allocate_zeroed@4         00013c34 f memory.obj
+ 0001:00002c98       _resize_permanent@12       00013c98 f memory.obj
+ 0001:00002cfb       _minimum_unsigned@8        00013cfb f memory.obj
+ 0001:00002d1c       _initialize_checksums      00013d1c f checksums.obj
+ 0001:00002ed4       _initialize_lead_bytes     00013ed4 f characters.obj
+ 0001:00002f1a       _mark_lead_byte_ranges     00013f1a f characters.obj
+ 0001:00002f98       _match_source_character@4  00013f98 f comments.obj
+ 0001:00002fd2       _skip_block_comment        00013fd2 f comments.obj
+ 0001:000030ef       _skip_source_comment       000140ef f comments.obj
+ 0001:0000318c       _read_env_arguments        0001418c f arguments.obj
+ 0001:00003340       _extend_argument_vector    00014340 f arguments.obj
+ 0001:000033d1       _next_argument             000143d1 f arguments.obj
+ 0001:0000340c       _new_vector@8              0001440c f vectors.obj
+ 0001:0000356f       _append_vector@8           0001456f f vectors.obj
+ 0001:000035b1       _initialize_work_stack@4   000145b1 f vectors.obj
+ 0001:00003640       _reset_work_stack@4        00014640 f vectors.obj
+ 0001:0000366e       _new_empty_vector@4        0001466e f vectors.obj
+ 0001:0000368a       _copy_vector_elements@12   0001468a f vectors.obj
+ 0001:000036fe       _vector_count@4            000146fe f vectors.obj
+ 0001:00003728       _grow_vector@4             00014728 f vectors.obj
+ 0001:00003872       _first_vector_item@4       00014872 f vectors.obj
+ 0001:0000388c       _copy_vector@8             0001488c f vectors.obj
+ 0001:000038ab       _copy_vector_with_extra@12 000148ab f vectors.obj
+ 0001:00003977       _copy_vector_with_spare@8  00014977 f vectors.obj
+ 0001:00003996       _equal_vectors@8           00014996 f vectors.obj
+ 0001:00003a2b       _vector_used_bytes@4       00014a2b f vectors.obj
+ 0001:00003a46       _write_work_character@8    00014a46 f vectors.obj
+ 0001:00003b3d       _write_work_bytes@16       00014b3d f vectors.obj
+ 0001:00003e92       _finish_work_stack@4       00014e92 f vectors.obj
+ 0001:00003eb0       _read_work_stack@12        00014eb0 f vectors.obj
+ 0001:00003ff6       _seek_work_stack@12        00014ff6 f vectors.obj
+ 0001:000040dc       _compile_translation_unit  000150dc f frontend.obj
+ 0001:0000451c       _initialize_frontend       0001551c f initialization.obj
+ 0001:0000501c       _initialize_preprocessor   0001601c f preprocessor.obj
+ 0001:00005048       _initialize_macro_text     00016048 f preprocessor.obj
+ 0001:0000506c       _intern_keyword@4          0001606c f preprocessor.obj
+ 0001:0000522c       _intern_identifier@4       0001622c f preprocessor.obj
+ 0001:000053f8       _initialize_keyword_table  000163f8 f keywords.obj
+ 0001:0000551f       _disable_keyword@4         0001651f f keywords.obj
+ 0001:0000557c       _initialize_floating_point 0001657c f floating.obj
+ 0001:00005594       _initialize_cpp_context_stack 00016594 f cpp-context.obj
+ 0001:000055f9       _next_member_context@4     000165f9 f cpp-context.obj
+ 0001:00005630       _new_inline_vector         00016630 f inline-vector.obj
+ 0001:00005693       _inline_vector_bytes       00016693 f inline-vector.obj
+ 0001:000056ae       _inline_vector_count       000166ae f inline-vector.obj
+ 0001:000056d6       _release_inline_vector     000166d6 f inline-vector.obj
+ 0001:000056fa       _add_inline_pointer        000166fa f inline-vector.obj
+ 0001:000057bb       _locate_inline_pointer     000167bb f inline-vector.obj
+ 0001:000058cf       _grow_inline_vector        000168cf f inline-vector.obj
+ 0001:00005934       _initialize_intermediate_output 00016934 f intermediate.obj
+ 0001:0000593f       _open_intermediate         0001693f f intermediate.obj
+ 0001:00005a24       _open_expression_intermediate 00016a24 f intermediate.obj
+ 0001:00005b69       _close_intermediate        00016b69 f intermediate.obj
+ 0001:00005bd6       _cleanup_precompiled_files 00016bd6 f intermediate.obj
+ 0001:00005d40       __sopen                    00016d40 f runtime.obj
+ 0001:00006227       _setvbuf                   00017227 f runtime.obj
+ 0001:00006342       __freebuf                  00017342 f runtime.obj
+ 0001:0000639b       _fseek                     0001739b f runtime.obj
+ 0001:00006478       ___tzset                   00017478 f runtime.obj
+ 0001:000066a3       __isindst                  000176a3 f runtime.obj
+ 0001:000067fd       _ftell                     000177fd f runtime.obj
+ 0001:000069fc       _evaluate_integer_constant@4 000179fc f constants.obj
+ 0001:00006a84       _new_literal_constant@8    00017a84 f constants.obj
+ 0001:00006c35       _make_integer_constant@4   00017c35 f constants.obj
+ 0001:00006c71       _new_integer_constant@4    00017c71 f constants.obj
+ 0001:00006d0d       _fold_symbol_constant@4    00017d0d f constants.obj
+ 0001:00006d8b       _make_size_constant@4      00017d8b f constants.obj
+ 0001:00006db9       _fold_binary_constant@12   00017db9 f constants.obj
+ 0001:000077b8       _emit_label@4              000187b8 f ir.obj
+ 0001:00007844       _reference_ir_symbol@4     00018844 f ir.obj
+ 0001:00007922       _write_ir_record@8         00018922 f ir.obj
+ 0001:00008363       _new_branch_label@4        00019363 f ir.obj
+ 0001:0000843c       _finish_label_symbols      0001943c f ir.obj
+ 0001:000084fe       _register_label@4          000194fe f ir.obj
+ 0001:00008579       _get_ir_symbol_index       00019579 f ir.obj
+ 0001:000086b0       _emit_record_node@12       000196b0 f ir.obj
+ 0001:00008c5d       _node_alignment@4          00019c5d f ir.obj
+ 0001:00008d88       _expression_type_alignment@4 00019d88 f ir.obj
+ 0001:00008e04       _emit_condition_to_label@12 00019e04 f ir.obj
+ 0001:00009030       _initialize_type_table     0001a030 f types.obj
+ 0001:00009077       _intern_type@4             0001a077 f types.obj
+ 0001:000091f7       _make_function_type@8      0001a1f7 f types.obj
+ 0001:000092d3       _new_type_shape@12         0001a2d3 f types.obj
+ 0001:00009500       _intern_type_shape@4       0001a500 f types.obj
+ 0001:000096b7       _make_tagged_type@4        0001a6b7 f types.obj
+ 0001:000097c3       _copy_type_description@4   0001a7c3 f types.obj
+ 0001:00009835       _remove_type_qualifiers@8  0001a835 f types.obj
+ 0001:0000987f       _make_qualified_type@16    0001a87f f types.obj
+ 0001:000098de       _is_class_name_type@4      0001a8de f types.obj
+ 0001:00009978       _finish_type@4             0001a978 f types.obj
+ 0001:00009a63       _replace_first_type_shape@16 0001aa63 f types.obj
+ 0001:00009c15       _skip_reference_shape@4    0001ac15 f types.obj
+ 0001:00009c4b       _strip_based_shape@4       0001ac4b f types.obj
+ 0001:00009c95       _drop_first_type_shape@4   0001ac95 f types.obj
+ 0001:00009d25       _dereference_pointer_type@4 0001ad25 f types.obj
+ 0001:00009da0       _make_pointer_to_type@8    0001ada0 f types.obj
+ 0001:00009e8a       _builtin_integer_type      0001ae8a f types.obj
+ 0001:00009e9f       _make_expression_qualified_type@16 0001ae9f f types.obj
+ 0001:00009f96       _change_function_reference_kind@8 0001af96 f types.obj
+ 0001:0000a090       _initialize_global_scope   0001b090 f scopes.obj
+ 0001:0000a0f5       _initialize_translation_state 0001b0f5 f scopes.obj
+ 0001:0000a1be       _push_symbol_scope@4       0001b1be f scopes.obj
+ 0001:0000a1dd       _record_scope_directory_entry@4 0001b1dd f scopes.obj
+ 0001:0000a245       _initialize_scope_buckets@8 0001b245 f scopes.obj
+ 0001:0000a356       _retire_scope_directory_entry 0001b356 f scopes.obj
+ 0001:0000a38a       _pop_symbol_scope          0001b38a f scopes.obj
+ 0001:0000a3a1       _activate_qualified_definition_scopes 0001b3a1 f scopes.obj
+ 0001:0000a434       _unwind_qualified_scopes@4 0001b434 f scopes.obj
+ 0001:0000a4e8       _initialize_declaration_table 0001b4e8 f declarations.obj
+ 0001:0000a505       _save_declaration_context@8 0001b505 f declarations.obj
+ 0001:0000a53e       _new_declarator@4          0001b53e f declarations.obj
+ 0001:0000a659       _apply_conversion_declarator@8 0001b659 f declarations.obj
+ 0001:0000a767       _add_declaration_parameter@16 0001b767 f declarations.obj
+ 0001:0000a8bf       _append_declarator@8       0001b8bf f declarations.obj
+ 0001:0000a92d       _attach_function_parameters@8 0001b92d f declarations.obj
+ 0001:0000a9a6       _attach_plain_function_parameters@8 0001b9a6 f declarations.obj
+ 0001:0000aa4c       _build_function_declarator@8 0001ba4c f declarations.obj
+ 0001:0000aa78       _add_function_shape@12     0001ba78 f declarations.obj
+ 0001:0000ad26       _is_member_declarator@4    0001bd26 f declarations.obj
+ 0001:0000ae40       _attach_type_shape@8       0001be40 f declarations.obj
+ 0001:0000af9c       _finish_parameter_scope    0001bf9c f declarations.obj
+ 0001:0000b006       _restore_declaration_context@8 0001c006 f declarations.obj
+ 0001:0000b02b       _prepend_declarator@8      0001c02b f declarations.obj
+ 0001:0000b07d       _new_symbol@8              0001c07d f declarations.obj
+ 0001:0000b1e1       _new_abstract_declarator@4 0001c1e1 f declarations.obj
+ 0001:0000b344       _apply_declarator_modifier@8 0001c344 f declarations.obj
+ 0001:0000b412       _make_anonymous_identifier 0001c412 f declarations.obj
+ 0001:0000b4a0       _check_global_object_definition@4 0001c4a0 f declaration-bind.obj
+ 0001:0000b562       _finalize_object_storage@4 0001c562 f declaration-bind.obj
+ 0001:0000b812       _apply_declaration_type@8  0001c812 f declaration-bind.obj
+ 0001:0000bd25       _symbol_has_reference_shape@4 0001cd25 f declaration-bind.obj
+ 0001:0000bd9c       _complete_declaration@8    0001cd9c f declaration-bind.obj
+ 0001:0000be98       _lookup_declaration@4      0001ce98 f declaration-lookup.obj
+ 0001:0000beb8       _declaration_scope         0001ceb8 f declaration-lookup.obj
+ 0001:0000bef0       _lookup_scope_declaration@8 0001cef0 f declaration-lookup.obj
+ 0001:0000bf3a       _find_scope_symbol@12      0001cf3a f declaration-lookup.obj
+ 0001:0000bfdc       _find_name_in_chain@8      0001cfdc f declaration-lookup.obj
+ 0001:0000c018       _lookup_outer_declaration@4 0001d018 f declaration-lookup.obj
+ 0001:0000c2a8       _record_local_declaration@4 0001d2a8 f declaration-lookup.obj
+ 0001:0000c46c       _reconcile_declaration@8   0001d46c f declaration-lookup.obj
+ 0001:0000c83c       _insert_symbol@4           0001d83c f declaration-lookup.obj
+ 0001:0000c857       _insert_scope_symbol@8     0001d857 f declaration-lookup.obj
+ 0001:0000c9c3       _make_overload_symbol@4    0001d9c3 f declaration-lookup.obj
+ 0001:0000cb45       _check_function_defaults@8 0001db45 f declaration-lookup.obj
+ 0001:0000cb7f       _check_missing_defaults@20 0001db7f f declaration-lookup.obj
+ 0001:0000cbf5       _lookup_current_scope_declaration@4 0001dbf5 f declaration-lookup.obj
+ 0001:0000cc15       _insert_current_scope_symbol@4 0001dc15 f declaration-lookup.obj
+ 0001:0000cc30       _find_outer_name@4         0001dc30 f declaration-lookup.obj
+ 0001:0000cc4f       _lookup_scoped_name@8      0001dc4f f declaration-lookup.obj
+ 0001:0000ce89       _lookup_class_name_paths@12 0001de89 f declaration-lookup.obj
+ 0001:0000cea9       _lookup_class_name@16      0001dea9 f declaration-lookup.obj
+ 0001:0000d0ba       _find_class_name_paths@12  0001e0ba f declaration-lookup.obj
+ 0001:0000d13e       _symbol_matches_categories@8 0001e13e f declaration-lookup.obj
+ 0001:0000d1fa       _resolve_declaration_alias@8 0001e1fa f declaration-lookup.obj
+ 0001:0000d353       _bind_function_overload@8  0001e353 f declaration-lookup.obj
+ 0001:0000d61a       _find_matching_overload@12 0001e61a f declaration-lookup.obj
+ 0001:0000da0a       _compare_declaration_parameters@8 0001ea0a f declaration-lookup.obj
+ 0001:0000da97       _compare_overload_parameter@12 0001ea97 f declaration-lookup.obj
+ 0001:0000dd0d       _prepend_function_overload@8 0001ed0d f declaration-lookup.obj
+ 0001:0000dd2f       _find_class_special_member@8 0001ed2f f declaration-lookup.obj
+ 0001:0000dd7c       _begin_class_member_search@12 0001ed7c f declaration-lookup.obj
+ 0001:0000ddfa       _next_class_member_search@4 0001edfa f declaration-lookup.obj
+ 0001:0000dec4       _find_qualifier_name@4     0001eec4 f declaration-lookup.obj
+ 0001:0000dee3       _search_class_name_paths@8 0001eee3 f declaration-lookup.obj
+ 0001:0000e20d       _class_candidate_is_distinct@8 0001f20d f declaration-lookup.obj
+ 0001:0000e309       _begin_virtual_base_search@8 0001f309 f declaration-lookup.obj
+ 0001:0000e356       _next_virtual_base_search@4 0001f356 f declaration-lookup.obj
+ 0001:0000e3d4       _prune_hidden_class_paths@8 0001f3d4 f declaration-lookup.obj
+ 0001:0000e462       _merge_declared_symbol@8   0001f462 f declaration-lookup.obj
+ 0001:0000e639       _equivalent_base_type_flags@8 0001f639 f declaration-lookup.obj
+ 0001:0000e664       _diagnose_parameter_list_difference@8 0001f664 f declaration-lookup.obj
+ 0001:0000e778       _reconcile_declaration_type@12 0001f778 f declaration-lookup.obj
+ 0001:0000ea0f       _compatible_declaration_storage@8 0001fa0f f declaration-lookup.obj
+ 0001:0000eb8d       _merge_declaration_storage@8 0001fb8d f declaration-lookup.obj
+ 0001:0000f1dc       _validate_special_function@8 000201dc f special-functions.obj
+ 0001:0001022c       _make_vector_helper_call@20 0002122c f runtime-symbols.obj
+ 0001:000102ac       _declare_runtime_helpers   000212ac f runtime-symbols.obj
+ 0001:000102de       _declare_vector_helper@8   000212de f runtime-symbols.obj
+ 0001:000102fc       _declare_runtime_function@20 000212fc f runtime-symbols.obj
+ 0001:00010429       _runtime_void_pointer@4    00021429 f runtime-symbols.obj
+ 0001:0001044d       _runtime_callback_type@8   0002144d f runtime-symbols.obj
+ 0001:000104b5       _initialize_purecall       000214b5 f runtime-symbols.obj
+ 0001:000104cc       _runtime_function_symbol@4 000214cc f runtime-symbols.obj
+ 0001:00010548       _pack_option_flags         00021548 f option-state.obj
+ 0001:000105b8       _current_declaration_type@4 000215b8 f parser-state.obj
+ 0001:00010727       _global_declaration_type@4 00021727 f parser-state.obj
+ 0001:00010764       _finish_external_definition@4 00021764 f parser-state.obj
+ 0001:00010805       _detach_new_array_bound@4  00021805 f parser-state.obj
+ 0001:00010864       _resolve_declaration@8     00021864 f resolve-declaration.obj
+ 0001:00011264       _merge_declaration_type@12 00022264 f declarator-shapes.obj
+ 0001:00011d0a       _prepare_declarator_shapes@28 00022d0a f declarator-shapes.obj
+ 0001:0001232c       _extract_declarator_prefix@16 0002332c f declarator-shapes.obj
+ 0001:000123f1       _extract_base_prefix@20    000233f1 f declarator-shapes.obj
+ 0001:00012552       _intern_shape_on@16        00023552 f declarator-shapes.obj
+ 0001:00012589       _merge_function_shape@28   00023589 f declarator-shapes.obj
+ 0001:00012acc       _finish_function_declarator@8 00023acc f declarator-shapes.obj
+ 0001:00012bb1       _merge_reference_shape@24  00023bb1 f declarator-shapes.obj
+ 0001:00012e2e       _check_pointer_attributes@12 00023e2e f declarator-shapes.obj
+ 0001:00012f3f       _finish_array_declarator@20 00023f3f f declarator-shapes.obj
+ 0001:00012ffa       _add_array_declarator@8    00023ffa f declarator-shapes.obj
+ 0001:00013104       _normalize_symbol_type@8   00024104 f symbol-types.obj
+ 0001:00014142       _normalize_symbol_distance@8 00025142 f symbol-types.obj
+ 0001:00014218       _new_hash_table@16         00025218 f hash-table.obj
+ 0001:0001438c       _set_hash_value@12         0002538c f hash-table.obj
+ 0001:00014485       _hash_table_bucket@8       00025485 f hash-table.obj
+ 0001:000144c0       _hash_aligned_pointer      000254c0 f hash-table.obj
+ 0001:000144db       _hash_first_word           000254db f hash-table.obj
+ 0001:000144f0       _find_hash_entry@12        000254f0 f hash-table.obj
+ 0001:0001455c       _find_hash_value@8         0002555c f hash-table.obj
+ 0001:000145b8       _equal_pointer             000255b8 f hash-table.obj
+ 0001:000145d6       _hash_symbol_index         000255d6 f hash-table.obj
+ 0001:000145ec       _hash_low_pointer_bits     000255ec f hash-table.obj
  0001:00014604       _normalize_type_attributes@8 00025604 f type-attributes.obj
  0001:00014a0d       _merge_type_attributes@8   00025a0d f type-attributes.obj
  0001:00014b49       _is_unqualified_class_type@4 00025b49 f type-attributes.obj
@@ -2144,61 +2144,61 @@ FIXUPS: 5dc56 fffffe22 129f 24 18 1d 1a fffffef0 11 11 10 1e 12 fffffe35
 FIXUPS: 5e991 fffffe32 ffffffb8 9 e fffffdf6 e 52 2b d 8f e e d c 3a 9
 FIXUPS: 5e398 fffffe4c 17 fffa2e80 4c 2b 5e266 29 2a 76 43 29 d 43 3b a2
 FIXUPS: 5f137 1c 35 33 3d 33 39 42 6 50 fffffcd2 40 79 28 2e fffffdde 58
-FIXUPS: 5ef64 2c fffa3bb9 22 3e 86 5d 17 51 18 b5 46 3a 1e 29 f5 22 21
-FIXUPS: 2fde 4c 1a 88 da 4e 33 27 12 165 ffffdc49 f f 1d 13 15 28b8 28
-FIXUPS: 3a24 49 150 47 51 17 4d e fffff93b 10 4c 46 1b fffffda9 42 1c 2d
-FIXUPS: 35d0 fffff41b 12 5 5 a 9 92 e e 11 b 22 1e94 4a a2 57 265 2f9 fffff185
-FIXUPS: 4370 fffffc43 9a 17 66 15 16 17 31 a 1b 17 fffffd7b 6 16 12 fffff7f2
-FIXUPS: 37ad 24 17 28 3e 17 61 17 1b85 18 25 b 11 21 b 8 1b ffffef32 47
-FIXUPS: 44f5 57 56 41 10 39 1d 45 20 6 46 bb 4c 3a 74 1d 14 1b e f 25 16ea
-FIXUPS: 50fa 5 28 29 2d a9 8 42 10 a 27 3b 54 17 7 12 5 5 5 16 7 8 9 1f
-FIXUPS: 53d1 1f 18 e e e 1b 93b b 15 32 24 21 1a 15 15 15 15 15 15 15 15
-FIXUPS: 5ef6 15 1e 15 15 1b f 10 e 10 e 1e 17 5 b 12 12 fffff98c a a 24
-FIXUPS: 59f0 a 24 a a 24 a 24 a 24 a 24 24 24 a a 45 3d 39 1d 37 1d d 15
-FIXUPS: 5cb4 76 14 25 9bf 30 56 16d e 14 fffffc7d 2b 4b ffffff71 fffffe9c
-FIXUPS: 646b 31 58 4c fffffb09 a 15 158 1c5 fffff1b7 a d6 80 5 5 ee 1a7
-FIXUPS: 5945 24 17 a 107b b 14 62 15 2c 12 8 12 2c b 10 2c b 1c 24 9 19
-FIXUPS: 6bde 5c 39 39 3f b e 1b b fffff927 9 34 6b c 988 15 15 5 6 43 40
-FIXUPS: 716d 20 24 14 19 14 a0 b 4c 94 8c 15 51 2c 96 b 18 28 63 52 6d
-FIXUPS: 7842 123 6c fffff013 106c 33 31 2d 149 2c 4b 2d a7 37 6f 24 5f
-FIXUPS: 7f48 53 1b 19 3e 1b 19 13 2ab 1b9 14 67 14 72 14 1ef ffffe874 45
-FIXUPS: 7087 2840 1b 142 119 37 72 3a 43 d2 12 22 13 10 a8 24 36 2e 5d
-FIXUPS: 9f2c 11 12 32 13 11 12 1a 19 18 25 12 ffffd9ea 12 153a 56 31 13
-FIXUPS: 9089 3a 43 29 19 6f 3a 43 72 56 a5 41 1a af 33 1c 3e 26 79 34 10
-FIXUPS: 9651 10e 35 b 6d 4d 2f 151c 42 36 21 24 18 15 48 19 2d 36 b3 14
-FIXUPS: b030 2d ffffd7da 16 81 b1 9d 61 3a 43 1d4 61 3a 43 15 34 48 1c
-FIXUPS: 8f08 13cf 3a 70 8b 6d 20e 7a 46 8 6 1f 22 31 8f 21 29 11 17 e 13f
-FIXUPS: aa5b 90 a8 17 22 2d 14 84 31 2d 75 19 153c 4a 37 e 3f 2d 8e 62
-FIXUPS: b0ad f 32 24 57 5b 74 d8 25 2a 160 5 a 5 ffffeb7d f f f 105 c4
-FIXUPS: a24e 6 34 f 1621 dd a b 32 38 65 26 5c 4b 50 6b 21 4a 83 28 e 107
-FIXUPS: be89 d 2b d 36 100 5 a0 34 86 26 59 3c 47 9fa 1a 8 2c 47 d 17 b
-FIXUPS: cdfb e 10 2b 38 8 d 8 ffffe672 6d 47 42 30 75 33 25 3f 27 41 55
-FIXUPS: b82f 26 1b 1d dd7 8 c 18 3d 68 16 8 18 84 29 57 33 48 14 f a c
-FIXUPS: c92e 8 7d 26 19 ac 16 29 b 8a b 52 2c 18 2b51 15 116 ce 8e 16 c3
-FIXUPS: fb12 151 3f ef 5a b 56 b 3f 4a 4f 34 a7 d 89 68 c5 ffffc324 18
-FIXUPS: c542 15 9e b e 6 2991 1b 16 1b c 9 22 13 16 10 f 12 d9 13 14 1e
-FIXUPS: f1b2 6 f6 188 77 4f 43 a 1f 59 6b 9 8e 12 2c 12 ffffed15 15 13
-FIXUPS: e48b b 3a 3d 84 26 4a 1a 1e7 12 5 9 48 d 8 b 25 19 54 a6 15 2f
-FIXUPS: ea81 2d6 9 187 58 1c 41 ffffec9d 1a 84 2a 1f d 42 ca 25 4f 41 16
-FIXUPS: df73 37 13 12 13 40 47 87 23 13 6 e 5 1b2 26 65 5b b 1b 18 fffff060
-FIXUPS: d4c9 26 49 18 c3 3e 1c 6f 2c 35 c1 13 10 8 31 6 8f 17 33 27 d 9e
-FIXUPS: da5d 15 13 66 24 26 53 53 3e 2f99 55 9d 4c 23 6a 4c 2d 9b 3a 3c
-FIXUPS: 10f88 3d 42 1df 3b ffffbc92 9 74 e a2 af 52 d 8e 33 8f b0 ec 35
-FIXUPS: d435 32 3fcb 1f 24 e 24 12 19 2f 6 1a ffffed9b 3f 36 20f d1 3e
-FIXUPS: 106a4 50 92 3b 4a 3b 3b 8d 96 3f 40 23 33 b 31 d5 1625 66 d fffff42b
-FIXUPS: 1168d 78 55 31 83 1e fffffa29 12 b 10 10 10 e 1f d d 1c 24 8 e
-FIXUPS: 11352 13 b e 8 24 2d 4a 679 4e 2f 15 97 66 12 b 57 d d 63 40 b
-FIXUPS: 11dc2 50 d b 29 b 82 3d 45 20 78 9d 31 2f 24 d 38 26 1ac5 87 22
-FIXUPS: 13d2a 2a 35 3e b 1d b e4 22 34 fe 1a 41 1b 11 2b f 11 9 ffffd808
-FIXUPS: 1196b d d a c e b 8 9c 1831 29 1c 1d 3b 9e 7f 74 1c 65 18 29 14
-FIXUPS: 1360b e 19 e 28 e 5f 79 43 72 11c f8 4c b8 b 3a 18 27 16 ffffecc7
-FIXUPS: 1289b 1f 22 4a d1 7b 9e 1f 5e 48 11 61 24 31 37 26 5c 35 24 3a
-FIXUPS: 12e25 123 6a 32 44 40 6f ed 1d 27 46 1a44 49 54 36 94 2a 113 69
-FIXUPS: 14fdc 35 1e 7d 8 91 2e 24 74 ffffd0cb 18b 113 1f 1f 42 c8 e 19
-FIXUPS: 12718 54 3e 30 29 19 1a91 81 68 2c 29 119 b 13 31 49 41 48 32 1b
-FIXUPS: 146a6 b 44 27 b 27 b e6 33 32 22 2f ff d5 15 1b eb 84 1e63 46 7e
-FIXUPS: 16c25 2d 52 2d ffffea56 28 113 24 40 59 7a 49 56 12 95 42 4d8 fffff24b
-FIXUPS: 1529a 6a 5b 51 11 27 47 14d 11 ffffebed ad 3283 16e 75 38 10 ffffe965
+FIXUPS: 5ef64 2c fffa3ba5 22 3e 86 5d 17 51 18 b5 46 3a 1e 29 f5 22 21
+FIXUPS: 2fca 4c 1a 88 da 4e 33 27 12 165 ffffdc5d f f 1d 13 15 28a4 28
+FIXUPS: 3a10 49 150 47 51 17 4d e fffff93b 10 4c 46 1b fffffda9 42 1c 2d
+FIXUPS: 35bc fffff41b 12 5 5 a 9 92 e e 11 b 22 1e94 4a a2 57 265 2f9 fffff185
+FIXUPS: 435c fffffc43 9a 17 66 15 16 17 31 a 1b 17 fffffd7b 6 16 12 fffff7f2
+FIXUPS: 3799 24 17 28 3e 17 61 17 1b85 18 25 b 11 21 b 8 1b ffffef32 47
+FIXUPS: 44e1 57 56 41 10 39 1d 45 20 6 46 bb 4c 3a 74 1d 14 1b e f 25 16ea
+FIXUPS: 50e6 5 28 29 2d a9 8 42 10 a 27 3b 54 17 7 12 5 5 5 16 7 8 9 1f
+FIXUPS: 53bd 1f 18 e e e 1b 93b b 15 32 24 21 1a 15 15 15 15 15 15 15 15
+FIXUPS: 5ee2 15 1e 15 15 1b f 10 e 10 e 1e 17 5 b 12 12 fffff98c a a 24
+FIXUPS: 59dc a 24 a a 24 a 24 a 24 a 24 24 24 a a 45 3d 39 1d 37 1d d 15
+FIXUPS: 5ca0 76 14 25 9bf 30 56 16d e 14 fffffc7d 2b 4b ffffff71 fffffe9c
+FIXUPS: 6457 31 58 4c fffffb09 a 15 158 1c5 fffff1b7 a d6 80 5 5 ee 1a7
+FIXUPS: 5931 24 17 a 107b b 14 62 15 2c 12 8 12 2c b 10 2c b 1c 24 9 19
+FIXUPS: 6bca 5c 39 39 3f b e 1b b fffff927 9 34 6b c 988 15 15 5 6 43 40
+FIXUPS: 7159 20 24 14 19 14 a0 b 4c 94 8c 15 51 2c 96 b 18 28 63 52 6d
+FIXUPS: 782e 123 6c fffff013 106c 33 31 2d 149 2c 4b 2d a7 37 6f 24 5f
+FIXUPS: 7f34 53 1b 19 3e 1b 19 13 2ab 1b9 14 67 14 72 14 1ef ffffe874 45
+FIXUPS: 7073 2840 1b 142 119 37 72 3a 43 d2 12 22 13 10 a8 24 36 2e 5d
+FIXUPS: 9f18 11 12 32 13 11 12 1a 19 18 25 12 ffffd9ea 12 153a 56 31 13
+FIXUPS: 9075 3a 43 29 19 6f 3a 43 72 56 a5 41 1a af 33 1c 3e 26 79 34 10
+FIXUPS: 963d 10e 35 b 6d 4d 2f 151c 42 36 21 24 18 15 48 19 2d 36 b3 14
+FIXUPS: b01c 2d ffffd7da 16 81 b1 9d 61 3a 43 1d4 61 3a 43 15 34 48 1c
+FIXUPS: 8ef4 13cf 3a 70 8b 6d 20e 7a 46 8 6 1f 22 31 8f 21 29 11 17 e 13f
+FIXUPS: aa47 90 a8 17 22 2d 14 84 31 2d 75 19 153c 4a 37 e 3f 2d 8e 62
+FIXUPS: b099 f 32 24 57 5b 74 d8 25 2a 160 5 a 5 ffffeb7d f f f 105 c4
+FIXUPS: a23a 6 34 f 1621 dd a b 32 38 65 26 5c 4b 50 6b 21 4a 83 28 e 107
+FIXUPS: be75 d 2b d 36 100 5 a0 34 86 26 59 3c 47 9fa 1a 8 2c 47 d 17 b
+FIXUPS: cde7 e 10 2b 38 8 d 8 ffffe672 6d 47 42 30 75 33 25 3f 27 41 55
+FIXUPS: b81b 26 1b 1d dd7 8 c 18 3d 68 16 8 18 84 29 57 33 48 14 f a c
+FIXUPS: c91a 8 7d 26 19 ac 16 29 b 8a b 52 2c 18 2b51 15 116 ce 8e 16 c3
+FIXUPS: fafe 151 3f ef 5a b 56 b 3f 4a 4f 34 a7 d 89 68 c5 ffffc324 18
+FIXUPS: c52e 15 9e b e 6 2991 1b 16 1b c 9 22 13 16 10 f 12 d9 13 14 1e
+FIXUPS: f19e 6 f6 188 77 4f 43 a 1f 59 6b 9 8e 12 2c 12 ffffed15 15 13
+FIXUPS: e477 b 3a 3d 84 26 4a 1a 1e7 12 5 9 48 d 8 b 25 19 54 a6 15 2f
+FIXUPS: ea6d 2d6 9 187 58 1c 41 ffffec9d 1a 84 2a 1f d 42 ca 25 4f 41 16
+FIXUPS: df5f 37 13 12 13 40 47 87 23 13 6 e 5 1b2 26 65 5b b 1b 18 fffff060
+FIXUPS: d4b5 26 49 18 c3 3e 1c 6f 2c 35 c1 13 10 8 31 6 8f 17 33 27 d 9e
+FIXUPS: da49 15 13 66 24 26 53 53 3e 2f99 55 9d 4c 23 6a 4c 2d 9b 3a 3c
+FIXUPS: 10f74 3d 42 1df 3b ffffbc92 9 74 e a2 af 52 d 8e 33 8f b0 ec 35
+FIXUPS: d421 32 3fcb 1f 24 e 24 12 19 2f 6 1a ffffed9b 3f 36 20f d1 3e
+FIXUPS: 10690 50 92 3b 4a 3b 3b 8d 96 3f 40 23 33 b 31 d5 1625 66 d fffff42b
+FIXUPS: 11679 78 55 31 83 1e fffffa29 12 b 10 10 10 e 1f d d 1c 24 8 e
+FIXUPS: 1133e 13 b e 8 24 2d 4a 679 4e 2f 15 97 66 12 b 57 d d 63 40 b
+FIXUPS: 11dae 50 d b 29 b 82 3d 45 20 78 9d 31 2f 24 d 38 26 1ac5 87 22
+FIXUPS: 13d16 2a 35 3e b 1d b e4 22 34 fe 1a 41 1b 11 2b f 11 9 ffffd808
+FIXUPS: 11957 d d a c e b 8 9c 1831 29 1c 1d 3b 9e 7f 74 1c 65 18 29 14
+FIXUPS: 135f7 e 19 e 28 e 5f 79 43 72 11c f8 4c b8 b 3a 18 27 16 ffffecc7
+FIXUPS: 12887 1f 22 4a d1 7b 9e 1f 5e 48 11 61 24 31 37 26 5c 35 24 3a
+FIXUPS: 12e11 123 6a 32 44 40 6f ed 1d 27 46 1a44 49 54 36 94 2a 113 69
+FIXUPS: 14fc8 35 1e 7d 8 91 2e 24 74 ffffd0cb 18b 113 1f 1f 42 c8 e 19
+FIXUPS: 12704 54 3e 30 29 19 1a91 81 68 2c 29 119 b 13 31 49 41 48 32 1b
+FIXUPS: 14692 b 44 27 b 27 b e6 33 32 22 2f ff d5 15 1b eb 84 1e77 46 7e
+FIXUPS: 16c25 2d 52 2d ffffea56 28 113 24 40 59 7a 49 56 12 95 42 4d8 fffff237
+FIXUPS: 15286 6a 5b 51 11 27 47 162 11 ffffebd8 ad 3297 16e 75 38 10 ffffe965
 FIXUPS: 16175 a6 45 c2 2b a3 56 b4 c1 179 8 b4 49 15 19 71 39 c1 18 1a
 FIXUPS: 16a12 2d 37 18 f 15 3e5 a b 33 24 d 63 15 28 d0 10 26 3e 31 8 a
 FIXUPS: 17186 17 51 22 14 12 44 29 a 41 31 4e 1c f 74 4d 4d9 3d 15 5 2a

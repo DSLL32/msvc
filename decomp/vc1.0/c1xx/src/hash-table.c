@@ -113,6 +113,13 @@ unsigned __cdecl hash_aligned_pointer(void *key)
     return ((unsigned)key & 0xffc) >> 2;
 }
 
+/* Original 0x31ef0..0x31ef7. The friendship table hashes the owner's
+   index, stored in the first word of either a record or a temporary key. */
+unsigned __cdecl hash_first_word(void *key)
+{
+    return *(unsigned *)key;
+}
+
 /* Original 0xa0cc8: equality callbacks indexed independently of hashing. */
 typedef int (__cdecl *EqualKeys)(void *left, void *right);
 int __cdecl equal_pointer(void *left, void *right);

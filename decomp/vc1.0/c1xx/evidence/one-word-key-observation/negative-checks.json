@@ -1,0 +1,14 @@
+[
+  {
+    "test": "wrong-address",
+    "status": "rejected by actual acceptance gate under immutable prior configuration; no original invocation",
+    "seconds": 0.09499858785420656,
+    "message": "AssertionError: actual argument no longer names observed word"
+  },
+  {
+    "test": "unreadable-word",
+    "status": "rejected by actual acceptance gate under immutable prior configuration; no original invocation",
+    "seconds": 0.09168446157127619,
+    "message": "AssertionError: missing/unreadable exact-word observation"
+  }
+]

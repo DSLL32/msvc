@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_hash_first_word",
+    "start": 204528,
+    "end": 204535
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1060-hash_first_word/arguments/validation.json",
+  "distinct_direct_callees": [],
+  "next_frontier": "_make_default_constructor_closure@12",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.46751590725034475,
+  "total_operation_seconds": 3.3237722059711814,
+  "original_capture_seconds": 0.8166744997724891
+}

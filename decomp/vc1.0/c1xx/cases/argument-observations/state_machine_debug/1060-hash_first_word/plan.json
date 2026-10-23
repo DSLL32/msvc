@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "function": "_hash_first_word",
+  "native_entry": "hash_first_word",
+  "argument_words": 4,
+  "native_expressions": {
+    "raw_key": "(unsigned)key",
+    "key_word": "*(unsigned*)key",
+    "owner_index": "class_contexts[current_class_context].symbol->index"
+  },
+  "original_observations": [
+    {
+      "name": "key_owner_index",
+      "original": 8303468
+    }
+  ],
+  "formals": [
+    {
+      "name": "key",
+      "stack_index": 0,
+      "native_field": "raw_key",
+      "binding": {
+        "kind": "pointee-word",
+        "original_observation_name": "key_owner_index",
+        "original_pointee_address": 8303468,
+        "native_pointee_field": "key_word",
+        "identity": "only consumed word: freshly initialized FriendRecord.owner_index. The address is a transient heap address derived from the previous fresh frontier; this new capture must prove actual key equals it, or hold. Pointer identity is neither compared nor returned by this function.",
+        "native_semantic_owner_field": "owner_index"
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      204528,
+      204535
+    ],
+    "argument_bytes": 4,
+    "proof": "MOV EAX,[entryESP+4]; MOV EAX,[EAX]; RET. Cdecl one stack argument, caller cleanup at0x4edb4. Only semantic dereference is one complete unsigned initialized owner-index word. No other pointee bytes, incoming register or hidden input. New stopped original records that word and actual raw pointer in the same observation; native reads exactly the same one-word value."
+  }
+}

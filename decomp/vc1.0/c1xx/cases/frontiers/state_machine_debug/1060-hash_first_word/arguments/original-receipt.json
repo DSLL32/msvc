@@ -1,0 +1,52 @@
+{
+  "case": "state_machine_debug",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 1060,
+  "terminal": "_hash_first_word",
+  "candidate": null,
+  "pending_accepted": [],
+  "configuration_sha256": "ddc8ea7104e2d4e43ffcf7d31086822d5bb2d2aa433635d7cadfc00e5a7765a9",
+  "capture_seconds": 0.8664111187681556,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irdb": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "state-machine.cpp": {
+      "bytes": 3831,
+      "sha256": "69e6cb081de0841dafd155ad116a986d5444c297934dbe6f20494fbc626a7844"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\state-machine-debug",
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "observer_sha256": "24e66f5f68ece0d55c6b0c03c4329f7771c11e0d1a9cfa9c02a690fcb0197149",
+  "diagnostic_observations": [
+    {
+      "name": "key_owner_index",
+      "original": 8303468,
+      "value": 152
+    }
+  ]
+}

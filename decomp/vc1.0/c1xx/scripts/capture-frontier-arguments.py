@@ -93,6 +93,14 @@ def main():
             binding['native_owner_value'] = owner['value']
             assert item['original_raw'] == binding['original_owner_value']
             assert item['native_raw'] == binding['native_owner_value']
+        elif binding['kind'] == 'pointee-word':
+            anchor = anchors[binding['original_observation_name']]
+            assert item['original_raw'] == anchor['original'] == binding['original_pointee_address'], 'actual argument no longer names observed word'
+            binding['original_word'] = anchor['value']
+            binding['native_word'] = checkpoint[binding['native_pointee_field']]
+            assert binding['original_word'] == binding['native_word']
+            if binding.get('native_semantic_owner_field'):
+                assert binding['native_word'] == checkpoint[binding['native_semantic_owner_field']]
         else:
             raise AssertionError('unsupported logical argument binding: '+item['name'])
         item['result'] = 'match'
