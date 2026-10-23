@@ -103,7 +103,7 @@ static void save_contextual_data(void)
 static void observe(CONTEXT *context, DWORD address)
 {
     DWORD stack[16], value, i, pointer;
-    static DWORD globals[] = {0x499708,0x4996d4,0x49975c,0x4980d4,0x499718,0x499694,0x4980d0,0x4980cc,0x48d064,0x7803fa90,0x7803fa88,0x7803fa94,0x7803f198,0x7803f928,0x7803fde8};
+    static DWORD globals[] = {0x499708,0x4996d4,0x49975c,0x4980d4,0x499718,0x499694,0x4980d0,0x4980cc,0x48d064,0x7803fa90,0x7803fa88,0x7803fa94,0x7803f198,0x7803f928,0x7803fde8,0x499ac8,0x499adc,0x497e1c,0x497e08,0x497cac,0x49e2f4,0x4980d8,0x497fb0};
     fprintf(events,"observe %08lx eax=%08lx ecx=%08lx edx=%08lx esp=%08lx\n",
         address,context->Eax,context->Ecx,context->Edx,context->Esp);
     if (read_memory(context->Esp,stack,sizeof(stack))) {
@@ -162,10 +162,19 @@ static void observe(CONTEXT *context, DWORD address)
         save_string(current,"current-option.bin");
         save_contextual_data();
     }
-    if (address == 0x48b566) {
+    if (address == 0x48b566 || address == 0x48b57e) {
+        DWORD arguments[2];
         if (!read_memory(context->Esp,stack,sizeof(stack))) ExitProcess(173);
-        fprintf(events,"format-prefix buffer=%08lx offset=%lu format=%08lx character=%lu number=%lu\n",stack[1],stack[1]-context->Esp,stack[2],stack[3],stack[4]);
+        arguments[0]=stack[3];arguments[1]=stack[4];
+        if (address == 0x48b57e && !read_memory(stack[3],arguments,8)) ExitProcess(174);
+        fprintf(events,"format-prefix buffer=%08lx offset=%lu format=%08lx character=%lu number=%lu\n",stack[1],stack[1]-context->Esp,stack[2],arguments[0],arguments[1]);
         save_string(stack[2],"format-pattern.bin");save_string(stack[1]-11,"format-prefix.bin");
+    }
+    if (address == 0x4466a6) {
+        char prefix[13];FILE *output;
+        if (!read_memory(context->Esp,stack,sizeof(stack)) || !read_memory(context->Edx-13,prefix,13)) ExitProcess(175);
+        fprintf(events,"format-integer value=%lu buffer=%08lx base=%lu\n",context->Ecx,context->Edx,stack[1]);
+        output=fopen("integer-prefix.bin","wb");if(!output)ExitProcess(176);fwrite(prefix,1,13,output);fclose(output);
     }
     if (address == 0x48b367) {
         DWORD current, unexpected;

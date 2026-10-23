@@ -56,14 +56,15 @@ def main():
             function.setdefault('original',{})['text_data']=[[r['start'],r['end']]for r in config['text_data']if r.get('owner')==record['name']]
             start=symbols[record.get('symbol',record['name'])]
             intervals=[[start+a,start+b]for a,b in record['rebuilt_text_data_offsets']]
-            matcher=record['name']=='@c2_match_option@16'
-            cleanup=8 if matcher else 4
-            assert read(intervals[0][0]-3,3)==b'\xc2'+struct.pack('<H',cleanup),'expected final RET immediately precedes dispatch data'
-            count=5 if matcher else 8
+            cleanup,count,original_classes,size={
+                '@c2_match_option@16':(8,5,0x452cd0,46),
+                '@c2_apply_option@12':(4,8,0x452e00,39),
+                '_format_diagnostic_args':(0,7,0x48cecc,51)
+            }[record['name']]
+            terminal=b'\xc2'+struct.pack('<H',cleanup)if cleanup else b'\xc3'
+            assert read(intervals[0][0]-len(terminal),len(terminal))==terminal,'expected final RET immediately precedes dispatch data'
             targets=struct.unpack('<%dI'%count,read(intervals[0][0],4*count))
             assert all(start<=address<intervals[0][0]for address in targets)
-            original_classes=0x452cd0 if matcher else 0x452e00
-            size=46 if matcher else 39
             assert read(intervals[1][0],size)==original[offset(inventory,original_classes,size):offset(inventory,original_classes,size)+size]
             function.setdefault('rebuilt',{})['text_data']=intervals
     (BINARY/'build/graph-metadata.json').write_text(json.dumps(metadata,indent=2)+'\n')

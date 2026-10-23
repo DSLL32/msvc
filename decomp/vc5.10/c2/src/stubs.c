@@ -85,10 +85,7 @@ void c2_flush_debug(void)
     __asm { int 3 }
 }
 
-void c2_cleanup(void)
-{
-    __asm { int 3 }
-}
+
 
 BOOL WINAPI c2_console_handler(DWORD control)
 {
@@ -140,12 +137,4 @@ unsigned __fastcall resolve_diagnostic_location(unsigned location, char **file)
 {
     __asm { int 3 }
     return 0;
-}
-void format_diagnostic(char *buffer, const char *format, ...)
-{
-    __asm { int 3 }
-}
-void format_diagnostic_args(char *buffer, const char *format, va_list arguments)
-{
-    __asm { int 3 }
 }

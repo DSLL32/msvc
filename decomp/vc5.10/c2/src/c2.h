@@ -93,6 +93,8 @@ void c2_initialize_optimizer(void);
 void c2_compile_unit(void);
 void c2_finalize_output(void);
 void c2_flush_debug(void);
+extern int c2_cleanup_started, c2_output_incomplete;
+extern FILE *c2_output_stream;
 void c2_cleanup(void);
 BOOL WINAPI c2_console_handler(DWORD control);
 void __fastcall c2_report_internal(char *source, int line);
@@ -109,4 +111,5 @@ void emit_diagnostic(int category, int message, char *format, va_list arguments)
 unsigned __fastcall resolve_diagnostic_location(unsigned location, char **file);
 void format_diagnostic(char *buffer, const char *format, ...);
 void format_diagnostic_args(char *buffer, const char *format, va_list arguments);
+int __fastcall format_integer(int value, char *buffer, unsigned base);
 #endif

@@ -1,0 +1,123 @@
+import gdb,json
+from pathlib import Path
+if exit_status is not None:
+    assert entry_input
+    info=dict(entry_input,completed=True,exit_status=exit_status,trace=trace)
+    Path('/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/cleanup-native-final/state.json').write_text(json.dumps(info,indent=2)+'\n')
+else:
+    import gdb,json
+    from pathlib import Path
+    frame=gdb.newest_frame()
+    info={'function':frame.name(),'pc':int(gdb.parse_and_eval('$pc')),'signal':gdb.execute('info program',to_string=True),'backtrace':gdb.execute('bt',to_string=True),'trace':trace,'globals':{}}
+    pid=gdb.selected_inferior().pid
+    actual_args=Path('/proc/%d/cmdline'%pid).read_bytes().rstrip(b'\0').split(b'\0')
+    actual_env=Path('/proc/%d/environ'%pid).read_bytes().split(b'\0')
+    Path('/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/cleanup-native-final/native-maps.txt').write_text(Path('/proc/%d/maps'%pid).read_text())
+    gdb.execute('info registers eip')
+    gdb.execute('info symbol $pc')
+    gdb.execute('x/1ib $pc-1')
+    gdb.execute('info program')
+    info['arguments']=[v.decode()for v in actual_args[1:]]
+    flags=[v[14:].decode()for v in actual_env if v.startswith(b'MSC_CMD_FLAGS=')]
+    info['MSC_CMD_FLAGS']=flags[0]if flags else None
+    records=[r for r in [{'name': '_c2_math_error', 'native': 'c2_math_error', 'start': 4484380, 'end': 4484383, 'abi': 'cdecl, one pointer parameter', 'kind': 'crt-source'}, {'name': '_c2_print_banner', 'native': 'c2_print_banner', 'start': 4738355, 'end': 4738356, 'pending_extent': True, 'kind': 'application', 'abi': 'cdecl, no parameters'}, {'name': '@c2_open_intermediate@16', 'native': 'c2_open_intermediate', 'start': 4530997, 'end': 4530998, 'pending_extent': True, 'kind': 'application', 'abi': 'fastcall, ECX base EDX suffix; stack mode and description, RET8'}, {'name': '_c2_read_header', 'native': 'c2_read_header', 'start': 4533924, 'end': 4533925, 'pending_extent': True, 'kind': 'application', 'abi': 'cdecl, no parameters'}, {'name': '_c2_reset_symbol_table', 'native': 'c2_reset_symbol_table', 'start': 4534290, 'end': 4534291, 'pending_extent': True, 'kind': 'application', 'abi': 'cdecl, no parameters'}, {'name': '_c2_create_type_table', 'native': 'c2_create_type_table', 'start': 4534317, 'end': 4534318, 'pending_extent': True, 'kind': 'application', 'abi': 'cdecl, no parameters'}, {'name': '_c2_initialize_constants', 'native': 'c2_initialize_constants', 'start': 4534326, 'end': 4534327, 'pending_extent': True, 'kind': 'application', 'abi': 'cdecl, no parameters'}, {'name': '_c2_initialize_opcodes', 'native': 'c2_initialize_opcodes', 'start': 4534439, 'end': 4534440, 'pending_extent': True, 'kind': 'application', 'abi': 'cdecl, no parameters'}, {'name': '_c2_initialize_machine', 'native': 'c2_initialize_machine', 'start': 4534522, 'end': 4534523, 'pending_extent': True, 'kind': 'application', 'abi': 'cdecl, no parameters'}, {'name': '_c2_initialize_trees', 'native': 'c2_initialize_trees', 'start': 4534572, 'end': 4534573, 'pending_extent': True, 'kind': 'application', 'abi': 'cdecl, no parameters'}, {'name': '_c2_initialize_codegen', 'native': 'c2_initialize_codegen', 'start': 4534958, 'end': 4534959, 'pending_extent': True, 'kind': 'application', 'abi': 'cdecl, no parameters'}, {'name': '_c2_initialize_registers', 'native': 'c2_initialize_registers', 'start': 4535034, 'end': 4535035, 'pending_extent': True, 'kind': 'application', 'abi': 'cdecl, no parameters'}, {'name': '_c2_initialize_optimizer', 'native': 'c2_initialize_optimizer', 'start': 4535045, 'end': 4535046, 'pending_extent': True, 'kind': 'application', 'abi': 'cdecl, no parameters'}, {'name': '_c2_compile_unit', 'native': 'c2_compile_unit', 'start': 4538855, 'end': 4538856, 'pending_extent': True, 'kind': 'application', 'abi': 'cdecl, no parameters'}, {'name': '_c2_finalize_output', 'native': 'c2_finalize_output', 'start': 4541174, 'end': 4541175, 'pending_extent': True, 'kind': 'application', 'abi': 'cdecl, no parameters'}, {'name': '_c2_flush_debug', 'native': 'c2_flush_debug', 'start': 4766214, 'end': 4766215, 'pending_extent': True, 'kind': 'application', 'abi': 'cdecl, no parameters'}, {'name': '_c2_console_handler@4', 'native': 'c2_console_handler', 'start': 4737491, 'end': 4737492, 'pending_extent': True, 'kind': 'application', 'abi': 'stdcall, DWORD control event; RET4'}, {'name': '@c2_report_internal@8', 'native': 'c2_report_internal', 'start': 4746044, 'end': 4746045, 'pending_extent': True, 'kind': 'application', 'abi': 'fastcall, ECX source path EDX line'}, {'name': '_c2_copy_arguments', 'native': 'c2_copy_arguments', 'start': 4532888, 'end': 4532939, 'pending_extent': True, 'kind': 'application', 'abi': 'cdecl, no parameters; returns pointer to terminal argument slot'}, {'name': '@c2_validate_alignment@4', 'native': 'c2_validate_alignment', 'start': 4533915, 'end': 4533924, 'pending_extent': True, 'kind': 'application', 'abi': 'fastcall, ECX alignment'}, {'name': '@c2_system_fatal@12', 'native': 'c2_system_fatal', 'start': 4765320, 'end': 4765358, 'pending_extent': True, 'kind': 'application', 'abi': 'fastcall, ECX message EDX prefix; stack filename; RET4'}, {'name': '@parse_option_integer@4', 'native': 'parse_option_integer', 'start': 4533799, 'end': 4533800, 'pending_extent': True, 'kind': 'application', 'abi': 'fastcall ECX integer text; no stack parameters'}, {'name': '@resolve_diagnostic_location@8', 'native': 'resolve_diagnostic_location', 'start': 4413704, 'end': 4413705, 'pending_extent': True, 'kind': 'application', 'abi': 'fastcall ECX location EDX output filename'}] if r['native']==frame.name()]
+    if len(records)==1:
+        for view in records[0].get('state',[]):
+            info['globals'][view['original']]=int(gdb.parse_and_eval(view['native'])) & 0xffffffff
+        if records[0].get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize'):
+            ptr=gdb.parse_and_eval('c2_argv');values=[];i=0
+            while int(ptr[i]):
+                values.append(ptr[i].string());i+=1
+                assert i<4096
+            info['command_state']={'argc':int(gdb.parse_and_eval('c2_argc')),'argv':values}
+            if records[0]['state_policy']=='environment-flags':
+                info['flags']=None if int(gdb.parse_and_eval('flags'))==0 else gdb.parse_and_eval('flags').string()
+        if records[0].get('state_policy')=='format-integer':
+            output=gdb.parse_and_eval('buffer')
+            origin=frame.older().read_var('buffer')
+            info['integer_format']={'value':int(gdb.parse_and_eval('value')),'base':int(gdb.parse_and_eval('base')),
+                                    'output_offset':int(output)-int(origin),'prefix':gdb.selected_inferior().read_memory(output-13,13).tobytes().hex()}
+        if records[0].get('state_policy')in ('format-prefix','format-prefix-args'):
+            prefix_args=records[0]['state_policy']=='format-prefix-args'
+            arguments=gdb.parse_and_eval('(int *)arguments'if prefix_args else '(int *)((char *)&format+4)')
+            buffer=gdb.parse_and_eval('buffer')
+            caller=frame.older().older()if prefix_args else frame.older()
+            origin=caller.read_var('text').address
+            info['format_prefix']={'format':gdb.parse_and_eval('format').string(),'character':int(arguments[0]),'number':int(arguments[1]),
+                                   'output_offset':int(buffer)-int(origin),'prefix':gdb.selected_inferior().read_memory(buffer-11,12).tobytes().hex()}
+        if records[0].get('state_policy')in ('diagnostic-emit','cached-message'):
+            info['message_cache']={'initialized':int(gdb.parse_and_eval('messages_initialized')),
+                                  'cache':[[int(gdb.parse_and_eval('messages[%d].id'%i)),gdb.parse_and_eval('messages[%d].text'%i).string()if int(gdb.parse_and_eval('messages[%d].text'%i))else None]for i in range(7)],
+                                  'bytes':gdb.selected_inferior().read_memory(gdb.parse_and_eval('message_buffer'),384).tobytes().hex()}
+            if records[0]['state_policy']=='diagnostic-emit':
+                arguments=gdb.parse_and_eval('(char **)arguments')
+                info['diagnostic']={'category':int(gdb.parse_and_eval('category')),'message':int(gdb.parse_and_eval('message')),
+                                    'format':gdb.parse_and_eval('format').string(),'format_alias':int(gdb.parse_and_eval('format == message_buffer')),
+                                    'argument':arguments[0].string(),'phase':arguments[1].string(),
+                                    'argument_alias':int(arguments[0]==gdb.parse_and_eval('c2_unexpected_argument'))}
+            else:
+                info['cached_message_id']=int(gdb.parse_and_eval('message'))
+        if records[0].get('state_policy')in ('message-load','message-unescape'):
+            info['message_load']={'message':int(gdb.parse_and_eval('message'))if records[0]['state_policy']=='message-load'else 0,'buffer':int(gdb.parse_and_eval('buffer')),
+                                  'capacity':int(gdb.parse_and_eval('capacity'))if records[0]['state_policy']=='message-load'else 384,'allow_missing':int(gdb.parse_and_eval('allow_missing'))if records[0]['state_policy']=='message-load'else 1,
+                                  'initialized':int(gdb.parse_and_eval('messages_initialized')),
+                                  'cache':[[int(gdb.parse_and_eval('messages[%d].id'%i)),int(gdb.parse_and_eval('messages[%d].text'%i))]for i in range(7)],
+                                  'bytes':gdb.selected_inferior().read_memory(gdb.parse_and_eval('message_buffer'),384).tobytes().hex()}
+        if records[0].get('state_policy')=='match-option':
+            info['matcher']={'table':int(gdb.parse_and_eval('table')),'input':gdb.parse_and_eval('input').string(),
+                             'next':int(gdb.parse_and_eval('next')),'mode':int(gdb.parse_and_eval('mode')),
+                             'record_size':int(gdb.parse_and_eval('sizeof(C2Option)')),
+                             'storage_records':int(gdb.parse_and_eval('sizeof(c2_options)/sizeof(C2Option)'))}
+            gdb.write('C2-MATCHER table=0x%x next=0x%x mode=%d\n'%(info['matcher']['table'],info['matcher']['next'],info['matcher']['mode']))
+        if records[0].get('state_policy')=='exit-callback':
+            info['callback']=int(gdb.parse_and_eval('callback'))
+            gdb.write('C2-CALLBACK 0x%x\n'%info['callback'])
+        if records[0].get('state_policy')=='main-arguments-and-initial-state':
+            def vector(expression):
+                pointer=gdb.parse_and_eval(expression);result=[];i=0
+                while int(pointer[i]):
+                    result.append(pointer[i].string());i+=1
+                    assert i<4096
+                return result
+            info['main']={'argc':int(gdb.parse_and_eval('argc')),'argv':vector('argv'),'environment':vector('environment'),
+                          'initenv_alias':int(gdb.parse_and_eval('recon_crt_initenv == environment')),
+                          'x87_control':int(gdb.parse_and_eval('$fctrl'))}
+    if records and records[0].get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize'):
+        if records[0]['state_policy']=='wildcard-match':
+            info['wildcard']={'pattern':gdb.parse_and_eval('pattern').string(),'input':gdb.parse_and_eval('input').string(),
+                          'kind':int(gdb.parse_and_eval('kind')),'current_alias':int(gdb.parse_and_eval('c2_current_option == input'))}
+        if records[0]['state_policy']=='apply-option':
+            info['apply']={'option':int(gdb.parse_and_eval('option')),'value':gdb.parse_and_eval('value').string(),
+                           'mode':int(gdb.parse_and_eval('mode')),'current_alias':int(gdb.parse_and_eval('c2_current_option == value'))}
+        if records[0]['state_policy']=='message-initialize':
+            info['message_initialization']={'current':gdb.parse_and_eval('c2_current_option').string(),
+                                           'current_alias':int(gdb.parse_and_eval('c2_current_option == c2_unexpected_argument')),
+                                           'current_pointer':int(gdb.parse_and_eval('c2_current_option'))}
+        if records[0]['state_policy']=='message-lookup':
+            info['lookup']={'message':int(gdb.parse_and_eval('message')),'allow_missing':int(gdb.parse_and_eval('allow_missing')),
+                            'current':gdb.parse_and_eval('c2_current_option').string(),
+                            'current_alias':int(gdb.parse_and_eval('c2_current_option == c2_unexpected_argument')),
+                            'current_pointer':int(gdb.parse_and_eval('c2_current_option'))}
+        if records[0]['state_policy']=='fatal-option':
+            arguments=gdb.parse_and_eval('(char **)((char *)&message+4)')
+            info['fatal']={'message':int(gdb.parse_and_eval('message')),'argument':arguments[0].string(),'phase':arguments[1].string(),
+                           'current_alias':int(arguments[0]==gdb.parse_and_eval('c2_current_option')),
+                           'unexpected_alias':int(arguments[0]==gdb.parse_and_eval('c2_unexpected_argument')),
+                           'argument_pointer':int(arguments[0])}
+        model=json.loads(Path('/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/cleanup-native-final/data-model.json').read_text())
+        table=gdb.parse_and_eval('c2_options');options=[];selectors={};objects={}
+        for i in range(len(model['options'])+1):
+            row=table[i]
+            options.append({'pattern':row['pattern'].string()if int(row['pattern'])else None,'value':int(row['value']),
+                            'result':int(row['result']),'kind':int(row['kind']),'reserved':int(row['reserved'])})
+        for item in model['selectors']:
+            rows=[];table=gdb.parse_and_eval(item['native'])
+            for i in range(len(item['entries'])+1):
+                row=table[i];rows.append({'selector':int(row['selector']),'kind':int(row['kind']),'value':int(row['value'])})
+            selectors[item['native']]=rows
+        for item in model['objects']:
+            if item['kind']=='selector':continue
+            value=gdb.parse_and_eval(item['native'])
+            objects[item['native']]=(value.string()if int(value)else None)if item['kind']=='string'else int(value)&0xffffffff
+        info['data_state']={'options':options,'selectors':selectors,'objects':objects}
+    open('/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/cleanup-native-final/state.json','w').write(json.dumps(info,indent=2)+'\n')

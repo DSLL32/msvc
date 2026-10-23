@@ -91,5 +91,7 @@
       "raw_original_buffer": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/canonical-message-observer/message-06-1007.bin"
     }
   ],
-  "state": "original input/output frozen; native fixture incomplete; no accepted target functions"
+  "state": "Complete: canonical exit1/0stdout/51stderr,24 accepted source functions,19 native application trace entries",
+  "terminal_reference": "../acceptance/0024-cleanup/original",
+  "native_trace": "trace.json"
 }

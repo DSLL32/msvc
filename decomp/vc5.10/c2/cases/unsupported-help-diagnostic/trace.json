@@ -1,0 +1,30 @@
+{
+  "evidence": "cases/acceptance/0024-cleanup/original",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "events_sha256": "f4b156885f3fc2774893c3051898a56092a684b45696dae36b9d891eacac6a10",
+  "configuration_sha256": "8fe0d1627fc4346b4729813b361482eaaa4160771e5a61d6401b0ee4244748f8",
+  "application_trace": [
+    "_c2_main",
+    "@c2_read_environment@4",
+    "_c2_initialize_options",
+    "_c2_next_argument",
+    "@c2_match_option@16",
+    "@c2_wildcard_match@12",
+    "@c2_apply_option@12",
+    "_c2_fatal",
+    "@lookup_message@8",
+    "_initialize_messages",
+    "@load_message@16",
+    "@unescape_message@4",
+    "_emit_diagnostic",
+    "@c2_get_diagnostic_string@4",
+    "@find_cached_message@4",
+    "_format_diagnostic",
+    "_format_diagnostic_args",
+    "@format_integer@12",
+    "_c2_cleanup"
+  ],
+  "accepted_application_prefix": [],
+  "excluded": "CRT source and import entries; Linux host/shared shims are not target application entries",
+  "receipt_sha256": "0d8e5fb4e3eccaec5767983adef81151abf1b1d373c837d43bb80f5266cc56e8"
+}

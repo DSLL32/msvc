@@ -2,18 +2,21 @@
 
 Only the first case is released: `/?`, an unsupported-option diagnostic (status
 1, empty stdout, 51 stderr bytes). The minimal intermediate-input case remains
-queued and unauthorized. Fifteen application functions (2849 bytes) and five CRT helpers (438 bytes) are
-accepted; four identified import thunks are tracked separately. The structured
-53-row option table and its selector tables are defined at their point of use.
-The option matcher, wildcard leaf and complete option-action handler are accepted
-with their structured dispatch/classification data. The fatal/resource/cache/emission paths are accepted. The current frontier is
-the prefix formatter for `C1007`. Controller executables and compiled inputs are
-frozen with new captures; final-trap observations are scoped explicitly.
+queued and unauthorized. The first case is complete: exit 1, empty stdout and
+exactly 51 stderr bytes, with matching source-entry order through exit cleanup.
+Nineteen application functions (3402 bytes) and five CRT helpers (438 bytes) are
+accepted. Four import thunks (24 bytes) and contextual text tables (216 bytes)
+are tracked separately. The 3840 source bytes are 0.67% of the 573183-byte `.text`
+extent; this denominator includes CRT/data/padding and is not a non-CRT coverage
+figure. See `cases/first-case-result.json` for counts and measured timings.
 
 `make -j4 native` builds i386 Linux with shared shims; `make -j4 original`
 checks the Win32 reconstruction with the shipped compiler and `/MD` runtime.
 `make audit` uses the common Rust CFG/RET/ownership/extent tool with explicit
-paths. Native fixture targets remain fail closed until this first case completes.
+paths. `make -j4 fixtures` runs only the native executable against frozen streams and
+19 original application entries. Current measurements: 2.7 ms execution, 9.2 ms
+including fixture setup/checks. New capture helpers retain their actual executable
+and immutable compiled inputs; earlier raw evidence is never relabeled.
 Original captures are explicit scripts and never fixture dependencies.
 
 The initial full-text INT3 frontier was matched at `0x452797`, with the actual

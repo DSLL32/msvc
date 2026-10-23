@@ -86,16 +86,6 @@ def compare(original,native,validation=None):
     assert re.findall(r'^image-base ([0-9a-f]+)$',text,re.M)==['00400000'],'unexpected original image base'
     assert re.findall(r'^module ([0-9a-f]+) [0-9a-f]+ MSVCRT.dll$',text,re.M)==['78000000'],'unexpected canonical CRT load base'
     assert 'timeout'not in text,'original capture timed out'
-    traps=re.findall(r'^trap ([0-9a-f]+) ([0-9a-f]+) ',text,re.M)
-    assert len(traps)==1 and int(traps[0][0],16)==0x80000003,'original did not stop at one INT3 frontier'
-    address=int(traps[0][1],16)
-    matching=[r for r in config['stubs']if r['start']==address]
-    assert len(matching)==1,'unknown original frontier'
-    expected=matching[0]
-    if expected['name']!='_c2_crt_startup':
-        assert expected.get('state_policy')in ('pre-main-no-arguments','main-arguments-and-initial-state','exit-callback','command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','message-load','message-unescape','diagnostic-emit','cached-message','format-prefix')and expected.get('state'),'new frontier needs explicit state decoder'
-        if expected['state_policy']=='pre-main-no-arguments':
-            assert expected['abi']=='cdecl, no parameters','parameter ABI has no decoder'
     for group in ('gdb_inputs','gdb_outputs'):
         for name,digest in receipts[1][group].items():
             assert sha((native/name).read_bytes())==digest,'GDB input/output provenance changed'
@@ -110,6 +100,31 @@ def compare(original,native,validation=None):
     import importlib.util
     module_spec=importlib.util.spec_from_file_location('c2_native_elf_proof',BINARY/'scripts/native-proof.py')
     proof=importlib.util.module_from_spec(module_spec);module_spec.loader.exec_module(proof)
+    assert state['arguments']==config['case']['arguments']and state['MSC_CMD_FLAGS']is None,'native actual execution input differs'
+    traps=re.findall(r'^trap ([0-9a-f]+) ([0-9a-f]+) ',text,re.M)
+    if not traps:
+        assert re.findall(r'^exit ([0-9a-f]+)$',text,re.M)==['00000001'],'original has no real successful diagnostic exit'
+        assert 'trap 'not in text and 'exception 'not in text,'exception cannot be completion'
+        native_proof=proof.verify_completion(BINARY/'build/native/c2',(native/'native-maps.txt').read_text(),(native/'gdb.stdout').read_text(),state,config)
+        names={r['start']:r['name']for r in config['driver']if r['name']in config['accepted']}
+        trace=[names[int(n,16)]for n in re.findall(r'^entry ([0-9a-f]+)$',text,re.M)if int(n,16)in names]
+        assert trace and trace==state['trace'],'terminal source-entry progression differs'
+        assert set(config['trial'])<=set(trace),'terminal candidate was not entered'
+        for stream in ('stdout','stderr'):
+            master=(BINARY/'cases/unsupported-help-diagnostic'/(stream+'.bin')).read_bytes()
+            assert (original/(stream+'.bin')).read_bytes()==(native/(stream+'.bin')).read_bytes()==master,'terminal output differs'
+        assert receipts[0]['stdout']['bytes']==0 and receipts[0]['stderr']['bytes']==51
+        return {'validation':str(audit_file),'graph_report':str(report_file),'matched':'completion','original_exit_status':1,'native_exit_status':1,'source_trace':trace,'native_elf_proof':native_proof,'candidates':config['trial'],'acceptance':False}
+
+    assert len(traps)==1 and int(traps[0][0],16)==0x80000003,'original did not stop at one INT3 frontier'
+    address=int(traps[0][1],16)
+    matching=[r for r in config['stubs']if r['start']==address]
+    assert len(matching)==1,'unknown original frontier'
+    expected=matching[0]
+    if expected['name']!='_c2_crt_startup':
+        assert expected.get('state_policy')in ('pre-main-no-arguments','main-arguments-and-initial-state','exit-callback','command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','message-load','message-unescape','diagnostic-emit','cached-message','format-prefix','format-prefix-args','format-integer','exit-cleanup')and expected.get('state'),'new frontier needs explicit state decoder'
+        if expected['state_policy']=='pre-main-no-arguments':
+            assert expected['abi']=='cdecl, no parameters','parameter ABI has no decoder'
     native_proof=proof.verify(BINARY/'build/native/c2',(native/'native-maps.txt').read_text(),(native/'gdb.stdout').read_text(),state,config)
     assert state['arguments']==config['case']['arguments'],'native actual arguments changed'
     assert state['MSC_CMD_FLAGS']is None,'native actual environment inherited backend flags'
@@ -175,11 +190,16 @@ def compare(original,native,validation=None):
         assert state['message_cache']=={'initialized':1,'cache':expected_cache,'bytes':contents.hex()},'message cache state differs'
         if emitting:
             assert state['diagnostic']=={'category':1000,'message':7,'format':fmt.decode(),'format_alias':1,'argument':'/?','phase':'p2','argument_alias':1},'diagnostic call state differs'
-    if expected.get('state_policy')=='format-prefix':
-        raw=re.findall(r'^format-prefix buffer=([0-9a-f]+) offset=(\d+) format=([0-9a-f]+) character=(\d+) number=(\d+)$',text,re.M)
-        assert len(raw)==1 and raw[0][1]=='51'and raw[0][3:]==('67','1007'),'format prefix original stack ABI differs'
+    if expected.get('state_policy')in ('format-prefix','format-prefix-args'):
+        raw=re.findall(r'^format-prefix buffer=([0-9a-f]+) offset=(\d+) format=([0-9a-f]+) character=(\d+) number=(\d+)$',text.rsplit('observe %08x '%address,1)[1],re.M)
+        assert len(raw)==1 and raw[0][1]==('67'if expected['state_policy']=='format-prefix-args'else'51')and raw[0][3:]==('67','1007'),'format prefix original stack ABI differs'
         assert (original/'format-pattern.bin').read_bytes()==b' %c%d: \0'and(original/'format-prefix.bin').read_bytes()==b'fatal error\0'
         assert state['format_prefix']=={'format':' %c%d: ','character':67,'number':1007,'output_offset':11,'prefix':b'fatal error\0'.hex()},'native prefix formatter ABI/output identity differs'
+    if expected.get('state_policy')=='format-integer':
+        raw=re.findall(r'^format-integer value=(\d+) buffer=([0-9a-f]+) base=(\d+)$',text.rsplit('observe %08x '%address,1)[1],re.M)
+        assert len(raw)==1 and raw[0][0]=='1007'and raw[0][2]=='10','integer formatter original ABI differs'
+        assert (original/'integer-prefix.bin').read_bytes()==b'fatal error C'
+        assert state['integer_format']=={'value':1007,'base':10,'output_offset':2,'prefix':b'fatal error C'.hex()},'integer formatter native ABI/output differs'
     original_overrides=native_overrides=None
     if expected.get('state_policy')=='message-initialize':
         raw=re.findall(r'^message-initialize current=([0-9a-f]+) unexpected=([0-9a-f]+)$',text,re.M)

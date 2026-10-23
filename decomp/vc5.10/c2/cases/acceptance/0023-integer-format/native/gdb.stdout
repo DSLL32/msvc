@@ -1,0 +1,36 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+C2-SOURCE-ENTRY _c2_crt_startup 0x56557fb9
+C2-SOURCE-ENTRY _c2_set_argv 0x56558147
+C2-SOURCE-ENTRY _c2_set_default_precision 0x56558207
+C2-SOURCE-ENTRY _c2_main 0x56558280
+C2-SOURCE-ENTRY _c2_register_exit 0x565581a9
+C2-SOURCE-ENTRY _c2_register_onexit 0x56558459
+C2-SOURCE-ENTRY @c2_read_environment@4 0x565584f9
+C2-SOURCE-ENTRY _c2_initialize_options 0x56558698
+C2-SOURCE-ENTRY _c2_next_argument 0x56558977
+C2-SOURCE-ENTRY @c2_match_option@16 0x56558a32
+C2-SOURCE-ENTRY @c2_wildcard_match@12 0x56558f7f
+C2-SOURCE-ENTRY @c2_apply_option@12 0x56558c71
+C2-SOURCE-ENTRY _c2_fatal 0x5655907a
+C2-SOURCE-ENTRY @lookup_message@8 0x5655912c
+C2-SOURCE-ENTRY _initialize_messages 0x565594d7
+C2-SOURCE-ENTRY @load_message@16 0x56559633
+C2-SOURCE-ENTRY @unescape_message@4 0x565596f9
+C2-SOURCE-ENTRY _emit_diagnostic 0x565591c9
+C2-SOURCE-ENTRY @c2_get_diagnostic_string@4 0x56559859
+C2-SOURCE-ENTRY @find_cached_message@4 0x56559ad9
+C2-SOURCE-ENTRY _format_diagnostic 0x565597dd
+C2-SOURCE-ENTRY _format_diagnostic_args 0x565598f1
+C2-SOURCE-ENTRY @format_integer@12 0x56559b7f
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+c2_cleanup () at src/stubs.c:91
+91	}
+eip            0x56557cdf          0x56557cdf <c2_cleanup+47>
+c2_cleanup + 47 in section .text of /root/msvc2/decomp/vc5.10/c2/build/native/c2
+   0x56557cde <c2_cleanup+46>:	int3
+Last stopped for thread 1 (Thread 0xf7fc0580 (LWP 1194549)).
+	Using the running image of child process 1194549.
+Program stopped at 0x56557cde.
+It stopped with signal SIGTRAP, Trace/breakpoint trap.

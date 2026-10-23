@@ -30,7 +30,11 @@
     "@unescape_message@4",
     "_emit_diagnostic",
     "@c2_get_diagnostic_string@4",
-    "@find_cached_message@4"
+    "@find_cached_message@4",
+    "_format_diagnostic",
+    "_format_diagnostic_args",
+    "@format_integer@12",
+    "_c2_cleanup"
   ],
   "driver": [
     {
@@ -173,17 +177,17 @@
             "review": "Full bounded disassembly shows one assignment before all three calls; no holder rewrite or address escape; cdecl preserves ESI"
           },
           "rebuilt": {
-            "slot": 4206680,
+            "slot": 4206660,
             "holder": "[EBP-0xc]",
             "lifetime": [
               212,
               312
             ],
-            "lifetime_sha256": "d842c532a826af6b3c73c65c430d2f783d399f2787e39b72117669cd7c0311d1",
+            "lifetime_sha256": "582cafdc01f5c90d5ab6b6ffa62408735b2bb534724cef4e07afa070533248bd",
             "instructions": [
               {
                 "offset": 212,
-                "bytes": "8b0d58304000894df4"
+                "bytes": "8b0d44304000894df4"
               },
               {
                 "offset": 243,
@@ -198,7 +202,7 @@
                 "bytes": "ff55f483c408"
               }
             ],
-            "review": "Full401764..4017c8 reviewed after conventional getter source; only ordinary globals relocate+20, same unique cached holder and calls/cleanup8; no overwrite/escape."
+            "review": "Complete401724..401788 reviewed for final cleanup import closure: only ordinary IAT/data operands relocate; same unique cached holder and call/cleanup ABI, no overwrite/escape."
           }
         }
       ]
@@ -362,7 +366,7 @@
                 "bytes": "ff55fc83c404"
               }
             ],
-            "review": "Complete401e9d..401f32 reviewed after emission source data: only ordinary globals relocate, no cached holder overwrite/escape; same indirect calls/cleanup."
+            "review": "Complete401e5d..401ef2 reviewed for final cleanup import closure: only ordinary IAT/data operands relocate; same unique cached holder and call/cleanup ABI, no overwrite/escape."
           }
         }
       ]
@@ -427,17 +431,17 @@
             "review": "Full48b509..48b538: ESI loaded once; intervening strlen repne scans leave ESI untouched; two fwrite calls/cleanup16, no overwrite/escape. First call cleanup is after the intervening direct stderr IAT load, at48b523; second cleanup is adjacent."
           },
           "rebuilt": {
-            "slot": 4206676,
+            "slot": 4206692,
             "holder": "[EBP-0x8]",
             "lifetime": [
               462,
               540
             ],
-            "lifetime_sha256": "7ecea86c2c7d22b0adc197a62babdfc8f00cfa17168fec344c1ecd876d80c987",
+            "lifetime_sha256": "c6823a45c607148fc748136758d150ff0aa9d490b5f08edd8943052f435bbe97",
             "instructions": [
               {
                 "offset": 462,
-                "bytes": "8b0d54304000894df8"
+                "bytes": "8b0d64304000894df8"
               },
               {
                 "offset": 509,
@@ -448,7 +452,7 @@
                 "bytes": "ff55f883c410"
               }
             ],
-            "review": "Full4021d0..40221e: unique cached fwrite slot store, same two cdecl calls/cleanup16, strlen scans do not change slot; no overwrite/escape."
+            "review": "Complete402190..4021de reviewed for final cleanup import closure: only ordinary IAT/data operands relocate; same unique cached holder and call/cleanup ABI, no overwrite/escape."
           }
         }
       ]
@@ -470,6 +474,198 @@
       "kind": "application",
       "abi": "fastcall ECX message ID",
       "evidence": "cases/analysis/messages-disassembly.txt; full32-byte linear six-entry/terminator cache lookup, returns matching text or terminator NULL"
+    },
+    {
+      "name": "_format_diagnostic",
+      "native": "format_diagnostic",
+      "start": 4765030,
+      "end": 4765054,
+      "kind": "application",
+      "abi": "cdecl buffer,format,varargs",
+      "evidence": "cases/analysis/format-disassembly.txt; complete24-byte cdecl varargs adapter passes caller va_list to original formatter, no CRT formatting replacement"
+    },
+    {
+      "name": "_format_diagnostic_args",
+      "native": "format_diagnostic_args",
+      "start": 4765054,
+      "end": 4765320,
+      "kind": "application",
+      "abi": "cdecl buffer,format,va_list",
+      "shared": [
+        [
+          4771504,
+          4771532
+        ],
+        [
+          4771532,
+          4771583
+        ]
+      ],
+      "evidence": "cases/analysis/format-disassembly.txt; full266-byte custom format scanner preserving F/l modifiers, c/s/d/x conversions and literal unknown conversion behavior",
+      "rebuilt_text_data_offsets": [
+        [
+          441,
+          469
+        ],
+        [
+          469,
+          520
+        ]
+      ]
+    },
+    {
+      "name": "@format_integer@12",
+      "native": "format_integer",
+      "start": 4482726,
+      "end": 4482821,
+      "kind": "application",
+      "abi": "fastcall ECX signed number EDX output; stack unsigned base, RET4",
+      "code_chunks": [
+        [
+          4657364,
+          4657389
+        ]
+      ],
+      "evidence": "cases/analysis/integer-format-disassembly.txt; full95-byte hot+25-byte cold leaf, original32-byte reversed-digit scratch and negative decimal handling, fastcallRET4"
+    },
+    {
+      "name": "_c2_cleanup",
+      "native": "c2_cleanup",
+      "start": 4541188,
+      "end": 4541225,
+      "kind": "application",
+      "abi": "cdecl, no parameters",
+      "code_chunks": [
+        [
+          4674916,
+          4675022
+        ]
+      ],
+      "evidence": "cases/analysis/cleanup-disassembly.txt; whole37-byte hot+106-byte cold registered callback with reentry/internalerror guard, optional output/assembly close+remove, exact cached import identities separately pinned",
+      "cached_imports": [
+        {
+          "dll": "MSVCRT.dll",
+          "symbol": "remove",
+          "abi": "cdecl int(const char*); caller cleanup4",
+          "original": {
+            "slot": 4772016,
+            "holder": "ESI",
+            "lifetime": [
+              133733,
+              133834
+            ],
+            "lifetime_sha256": "981b285e179446406d7b47779269b4cda1247673e59daaa611109c2cd4ea8a2e",
+            "instructions": [
+              {
+                "offset": 133733,
+                "bytes": "8b35b0d04800"
+              },
+              {
+                "offset": 133774,
+                "bytes": "ffd6"
+              },
+              {
+                "offset": 133824,
+                "bytes": "ffd6"
+              },
+              {
+                "offset": 133776,
+                "bytes": "83c404"
+              },
+              {
+                "offset": 133826,
+                "bytes": "83c404"
+              }
+            ],
+            "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
+          },
+          "rebuilt": {
+            "slot": 4206680,
+            "holder": "[EBP-0x8]",
+            "lifetime": [
+              38,
+              154
+            ],
+            "lifetime_sha256": "0f755ff886e58f285a907ac68d6e576b8393e205e7ebbbafc54e077961356402",
+            "instructions": [
+              {
+                "offset": 38,
+                "bytes": "a1583040008945f8"
+              },
+              {
+                "offset": 110,
+                "bytes": "ff55f883c404"
+              },
+              {
+                "offset": 148,
+                "bytes": "ff55f883c404"
+              }
+            ],
+            "review": "Full402566/40256e..4025da reviewed; unique cached stack slot assignment, two optional calls/cleanup4; intervening callees preserve frame and slot not passed/overwritten."
+          }
+        },
+        {
+          "dll": "MSVCRT.dll",
+          "symbol": "fclose",
+          "abi": "cdecl int(FILE*); caller cleanup4",
+          "original": {
+            "slot": 4772012,
+            "holder": "EDI",
+            "lifetime": [
+              133739,
+              133834
+            ],
+            "lifetime_sha256": "5841d5dc116b2a09ca3b79a05c76b3c99b50322da8d3d0df1cbb9dd194724bd3",
+            "instructions": [
+              {
+                "offset": 133739,
+                "bytes": "8b3dacd04800"
+              },
+              {
+                "offset": 133759,
+                "bytes": "ffd7"
+              },
+              {
+                "offset": 133812,
+                "bytes": "ffd7"
+              },
+              {
+                "offset": 133761,
+                "bytes": "83c404"
+              },
+              {
+                "offset": 133820,
+                "bytes": "83c404"
+              }
+            ],
+            "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
+          },
+          "rebuilt": {
+            "slot": 4206696,
+            "holder": "[EBP-0x4]",
+            "lifetime": [
+              46,
+              154
+            ],
+            "lifetime_sha256": "b7ae0828d685b4fca3308a085f119ebebc6011531fc044286bdfb5de16ecf4f9",
+            "instructions": [
+              {
+                "offset": 46,
+                "bytes": "8b0d68304000894dfc"
+              },
+              {
+                "offset": 89,
+                "bytes": "ff55fc83c404"
+              },
+              {
+                "offset": 135,
+                "bytes": "ff55fc83c404"
+              }
+            ],
+            "review": "Full402566/40256e..4025da reviewed; unique cached stack slot assignment, two optional calls/cleanup4; intervening callees preserve frame and slot not passed/overwritten."
+          }
+        }
+      ]
     }
   ],
   "stubs": [
@@ -617,15 +813,6 @@
       "abi": "cdecl, no parameters"
     },
     {
-      "name": "_c2_cleanup",
-      "native": "c2_cleanup",
-      "start": 4541188,
-      "end": 4541189,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
-    },
-    {
       "name": "_c2_console_handler@4",
       "native": "c2_console_handler",
       "start": 4737491,
@@ -687,79 +874,6 @@
       "pending_extent": true,
       "kind": "application",
       "abi": "fastcall ECX location EDX output filename"
-    },
-    {
-      "name": "_format_diagnostic",
-      "native": "format_diagnostic",
-      "start": 4765030,
-      "end": 4765031,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl buffer,format,varargs",
-      "state": [
-        {
-          "original": "0x499708",
-          "native": "(unsigned long)c2_onexit_end"
-        },
-        {
-          "original": "0x4996d4",
-          "native": "(unsigned long)c2_onexit_begin"
-        },
-        {
-          "original": "0x49975c",
-          "native": "c2_fmode"
-        },
-        {
-          "original": "0x4980d4",
-          "native": "c2_commode"
-        },
-        {
-          "original": "0x499718",
-          "native": "c2_adjust_fdiv"
-        },
-        {
-          "original": "0x499694",
-          "native": "c2_default_math_error"
-        },
-        {
-          "original": "0x4980d0",
-          "native": "c2_new_mode"
-        },
-        {
-          "original": "0x4980cc",
-          "native": "c2_wildcards"
-        },
-        {
-          "original": "0x7803fa88",
-          "native": "recon_fmode"
-        },
-        {
-          "original": "0x7803fa94",
-          "native": "recon_commode"
-        },
-        {
-          "original": "0x7803f928",
-          "native": "recon_adjust_fdiv"
-        },
-        {
-          "original": "0x7803fa90",
-          "native": "recon_crt_app_type"
-        },
-        {
-          "original": "0x7803f198",
-          "native": "recon_crt_newmode"
-        }
-      ],
-      "state_policy": "format-prefix"
-    },
-    {
-      "name": "_format_diagnostic_args",
-      "native": "format_diagnostic_args",
-      "start": 4765054,
-      "end": 4765055,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl buffer,format,va_list"
     }
   ],
   "text_data": [
@@ -794,6 +908,22 @@
       "kind": "byte-classification",
       "owner": "@c2_apply_option@12",
       "evidence": "452d0c bounds kind-1<=38, exact39byte map indexes eight branches"
+    },
+    {
+      "name": "format_conversion_dispatch",
+      "start": 4771504,
+      "end": 4771532,
+      "kind": "jump-table",
+      "owner": "_format_diagnostic_args",
+      "evidence": "48b5b2 seven DWORD conversion labels via bounded normalized F..x class map"
+    },
+    {
+      "name": "format_conversion_classes",
+      "start": 4771532,
+      "end": 4771583,
+      "kind": "byte-classification",
+      "owner": "_format_diagnostic_args",
+      "evidence": "51-byte F..x character classes; F,c,d,l,s,x conversions and default"
     }
   ],
   "support": [

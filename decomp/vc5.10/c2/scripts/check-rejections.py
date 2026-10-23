@@ -163,6 +163,12 @@ def main():
         mutations += [('wrong prefix character argument',lambda r:changed_format(r,'character',70)),
                       ('wrong prefix number argument',lambda r:changed_format(r,'number',1008)),
                       ('wrong output pointer within caller text',lambda r:changed_format(r,'output_offset',12))]
+    if 'integer_format'in current_state:
+        def changed_integer(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['integer_format'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [('different integer formatter value',lambda r:changed_integer(r,'value',1008)),
+                      ('different integer formatter base',lambda r:changed_integer(r,'base',16)),
+                      ('integer output pointer loses parent-buffer offset',lambda r:changed_integer(r,'output_offset',3))]
     if 'flags'in current_state:
         mutations.append(('NULL environment flags changed to empty string',lambda r:mutate_state(r,'flags','')))
     if 'command_state'in current_state:
@@ -170,6 +176,30 @@ def main():
         mutations.append(('changed original argument-vector bytes',lambda r:(r/'o/command-argv.bin').write_bytes(b'wrong\0\0')))
     if 'callback'in current_state:
         mutations.append(('different native callback identity',lambda r:mutate_state(r,'callback',1)))
+    if current_state.get('completed'):
+        skip={'missing raw frontier','wrong raw exception code','wrong native PC with internally matching state hash','wrong native PC with matching raw register observation','different runtime/global state'}
+        mutations=[(name,fn)for name,fn in mutations if name not in skip]
+        def original_event(root,change):
+            path=root/'o/events.txt';path.write_text(change(path.read_text()));raw_changed(root,'o','events.txt')
+        def native_event(root,change):
+            path=root/'n/gdb.stdout';path.write_text(change(path.read_text()))
+            receipt=json_at(root/'n/receipt.json');receipt['gdb_outputs']['gdb.stdout']=sha(path.read_bytes());write_json(root/'n/receipt.json',receipt)
+        def omit_candidate(root):
+            original_event(root,lambda text:re.sub(r'^entry 00454b04\n','',text,flags=re.M))
+            native_event(root,lambda text:re.sub(r'^C2-SOURCE-ENTRY _c2_cleanup .*\n','',text,flags=re.M))
+            path=root/'n/state.json';state=json_at(path);state['trace'].remove('_c2_cleanup');write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [
+            ('missing actual original process exit',lambda r:original_event(r,lambda t:re.sub(r'^exit .*\n','',t,flags=re.M))),
+            ('different actual original process status',lambda r:original_event(r,lambda t:t.replace('exit 00000001','exit 00000000'))),
+            ('missing actual native process exit',lambda r:native_event(r,lambda t:re.sub(r'^C2-PROCESS-EXIT .*\n','',t,flags=re.M))),
+            ('duplicated actual native process exit',lambda r:native_event(r,lambda t:t+'C2-PROCESS-EXIT 1\n')),
+            ('native completion flag is false',lambda r:mutate_state(r,'completed',False)),
+            ('native completion status differs',lambda r:mutate_state(r,'exit_status',0)),
+            ('unchecked NULL frontier cannot stand for completion',lambda r:mutate_state(r,'function',None)),
+            ('original trap cannot stand for completion',lambda r:original_event(r,lambda t:t+'trap 80000003 00454b04 eip=00454b05\n')),
+            ('native SIGTRAP cannot stand for completion',lambda r:native_event(r,lambda t:t+'SIGTRAP\n')),
+            ('candidate omitted from both otherwise matching terminal traces',omit_candidate),
+        ]
     with tempfile.TemporaryDirectory(prefix='candidate-negatives-',dir=Path.home()/'.ai-tmp/msvc2/vc5.10/c2')as scratch:
         for index,(name,change)in enumerate(mutations):
             root=Path(scratch)/str(index);shutil.copytree(a.original,root/'o');shutil.copytree(a.native,root/'n')

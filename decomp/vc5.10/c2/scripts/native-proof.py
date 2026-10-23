@@ -53,3 +53,21 @@ def verify(binary,maps,raw,state,config):
         assert size>0 and entry<=actual<entry+size,'raw entry is outside its named ELF function'
     assert [n for n,_ in entries]==state['trace'],'raw GDB entry order differs from derived state'
     return {'load_bias':hex(bias),'frontier_symbol':name,'symbol_start':hex(start),'symbol_size':size,'static_pc':hex(static_pc),'int3_sites':[hex(n)for n in sorted(traps)]}
+
+def verify_completion(binary,maps,raw,state,config):
+    import json
+    assert set(state)=={'completed','exit_status','trace','arguments','MSC_CMD_FLAGS'},'completion contains an invented frontier'
+    assert state['completed']is True and state['exit_status']==1
+    assert re.findall(r'^C2-PROCESS-EXIT (-?[0-9]+)$',raw,re.M)==['1'],'native raw process exit is absent/different'
+    observed=re.findall(r'^C2-PROCESS-INPUT (.+)$',raw,re.M)
+    assert len(observed)==1 and json.loads(observed[0])=={'arguments':state['arguments'],'MSC_CMD_FLAGS':state['MSC_CMD_FLAGS']},'actual native process input differs'
+    assert 'SIGTRAP'not in raw and not re.findall(r'^eip\s+',raw,re.M),'trap cannot be completion'
+    table=symbols(binary);bias=load_bias(binary,maps)
+    entries=re.findall(r'^C2-SOURCE-ENTRY (\S+) (0x[0-9a-f]+)$',raw,re.M)
+    indexed={r['name']:r.get('native',r['name'].lstrip('_'))for r in config['driver']if r['name']in config['accepted']}
+    for logical,address in entries:
+        assert logical in indexed and indexed[logical]in table
+        start,size=table[indexed[logical]]
+        assert size>0 and start<=int(address,16)-bias<start+size,'completion entry is outside named ELF function'
+    assert entries and [name for name,_ in entries]==state['trace'],'empty/different completion trace'
+    return {'load_bias':hex(bias),'completed':True,'exit_status':1,'source_entries':len(entries)}

@@ -1,0 +1,81 @@
+{
+  "data_model_sha256": "fd6156decdb58db7886ae294ef4eb64fa31b4b0a814500f323f79af1fccf5425",
+  "resource_sha256": "bba673f819e7f365e1914b6e261a33993611fa172aaf4308ae1ea330996198d8",
+  "kind": "native-linux-gdb",
+  "command": [
+    "/usr/bin/gdb",
+    "-nx",
+    "-batch",
+    "-ex",
+    "set pagination off",
+    "-ex",
+    "set confirm off",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/cleanup-native-final/gdb-prefix.py",
+    "-ex",
+    "run /? > /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/cleanup-native-final/stdout.bin 2> /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/cleanup-native-final/stderr.bin",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc5.10/c2/firstcase/cleanup-native-final/gdb-state.py",
+    "/root/msvc2/decomp/vc5.10/c2/build/native/c2"
+  ],
+  "candidates": [
+    "_c2_cleanup"
+  ],
+  "base_configuration_sha256": "875849615eb4bd2b79ca6db0c3ae2013eab7e6f03d459b1b087902ccacba5a6d",
+  "configuration_sha256": "8fe0d1627fc4346b4729813b361482eaaa4160771e5a61d6401b0ee4244748f8",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "native_sha256": "b0a797bbcb246f3c4f7e3ad44a054d243b6b21426d3fca55924fa674b827cf05",
+  "rebuilt_sha256": "e5aa8cc424bdff36a105ddc8127484a38f6c784a9a7fa2df6b864b487b0b68c9",
+  "audit_inputs": {
+    "runtime.json": "82dae3aa3531d17cf0c3b25191e924ad795ca2e618b6ff27c45d62a14cac04db",
+    "build/runtime.json": "2b0b9e30d9336b0e94d53cbc6bfe82bca355ce6f56bfa3059dc44d35672a86b0",
+    "build/c2.map": "f49ad20bff4a6c7ab03d3da2f70375b58ccc80d3b38214e46f38f705a58d928e",
+    "build/graph-metadata.json": "2a9b2850b9322af95f9ea47c8e401bb4610c5307cdd41166d1b167caf6aca8d5",
+    "graph-audit": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c"
+  },
+  "source_hashes": {
+    "scripts/native-host.c": "aa6f74cde7c5d8beb147daaebe0419e2b922e7a14c230aa2426fd5239d41df5e",
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/c2.h": "b32f7c07a42743da914e149d6d53eb7ce68c3e6cfa452d94661545c353edf9cd",
+    "src/cleanup.c": "ade05818abf0d7dae3de9cdadc21230199beb44759ca8b9a67e98155650cbf5a",
+    "src/diagnostics.c": "95c93ae8c982b7d0f86c5827de2609f74d5586844560869de470a93fcc371fdd",
+    "src/environment.c": "44486ae38568891691c56724e46cd3a39953483faa1aee7f1834b4ebc87428f3",
+    "src/main.c": "78c9468b641eab7e7f1af7fad938fc800b555ec8d11005c5bbcec0bfc8eef94f",
+    "src/messages.rc": "2c5d0852b25ad0dba5048fb18634420c3fb7a7d93032187083bff0b8a443df8c",
+    "src/onexit.c": "655604423c7d014c413f586440382adbb7651a91596121050a0e98b536d39bd2",
+    "src/option-match.c": "1e7ba11f9961d07211e4e4a7ef6a50b361df23eae587d44678c115ba9a267a07",
+    "src/option-table.c": "2f8ac5134d6edbfb96f270119d47e61cb23686745312a319d3eb08d2982ad0b0",
+    "src/options.c": "ee46ca151593e3c0535aff703bc848accb39b3f7a578891175472151cd23188a",
+    "src/precision.c": "daae70312d63b144872fb3486186501d6de76afae8c42eb0ff572c9d1da25501",
+    "src/startup.c": "9703233f15eac9538cfb31621770ea4560e918d80b2408a5f2a3e08ac1462b88",
+    "src/stubs.c": "a12b301c174ea84ebf4d627b9ff56779344e116dc3a800cb0c90cc343782430c"
+  },
+  "state_sha256": "a3f2f582a606a82fa5e14703e6ff1c07cc3e3380d0e87dac4621511939198aef",
+  "provenance_sha256": "42b053cf06444b47ebedaac63d6853dced76a719a66e37d868eca61338630c2b",
+  "gdb_inputs": {
+    "gdb-prefix.py": "1367d30981e6e1f399f0a12b0169d971094f5a194af207ea0242ffb80777a37b",
+    "gdb-state.py": "75df553034c870f5e3c178cbb6c6d79b992b22f6827e191ae6afb7ee1fa1c072",
+    "data-model.json": "fd6156decdb58db7886ae294ef4eb64fa31b4b0a814500f323f79af1fccf5425"
+  },
+  "gdb_outputs": {
+    "gdb.stdout": "f54a10d971658285a076980a539841a632d0050de18a329d218c4eb12a51b0bd",
+    "gdb.stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-maps.txt": "a4426cdb24aa3560f131683fd0615d5a34bf3d50ab1e2071fe53144f45210011"
+  },
+  "environment": {
+    "MSC_CMD_FLAGS": null
+  },
+  "helper_status": 0,
+  "seconds": {
+    "execution": 0.17471648938953876,
+    "total": 0.23574488516896963
+  },
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 51,
+    "sha256": "118de3ad66fe572881f6f8cc2d4f8e40fdf349b41e382504c566aeca5d1a5073"
+  }
+}

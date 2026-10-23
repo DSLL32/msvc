@@ -1,0 +1,76 @@
+{
+  "helper_inputs_sha256": "12ef7b18ec74296c2eaa9dd8108d0fab221cf35850dfc12b36ef5cd3d2033bbf",
+  "data_model_sha256": "fd6156decdb58db7886ae294ef4eb64fa31b4b0a814500f323f79af1fccf5425",
+  "data_state_sha256": "e35beaadbf1f60dc2af677cf84e5b22cd8f39e0976401623e80f04b5baaf0462",
+  "explicit_child_environment": true,
+  "child_cwd": "S:\\vc5.10\\c2\\original",
+  "kind": "explicit-original-only",
+  "observe_messages": false,
+  "observe_startup": false,
+  "unmasked": false,
+  "candidates": [
+    "_format_diagnostic"
+  ],
+  "command": [
+    "/usr/bin/wine",
+    "S:\\vc5.10\\c2\\firstcase\\format-wrapper-original\\capture-helper.exe",
+    "S:\\vc5.10\\c2\\firstcase\\format-wrapper-original\\C2.EXE",
+    "R:\\toolchains\\5.10\\bin\\C2.EXE",
+    "/?",
+    "S:\\vc5.10\\c2\\firstcase\\format-wrapper-original\\plan.txt"
+  ],
+  "base_configuration_sha256": "2548e7282b5bf6a14c53e73c32594972435ab418835f1e3ca035a649e9bbb8cc",
+  "configuration_sha256": "a3f82d433d7f8fe01034bc834cce6737685b078e56ffe97bbe3af8d57e6f8a6d",
+  "target_sha256": "e75aecaf4073b0817ffb638cae5fff636b2e2d1a090daabf8f68dbc954515fae",
+  "executable_sha256": "084d714523d5257b0c9dcd44ff48bc57dbd1f9b63f7165eeb07bed2f17ea5787",
+  "debugger_sha256": "15a20582a4aad33c87f4e967fc78d8c55e302d98eb42876708820e1051f91950",
+  "audit_receipt_sha256": "6c4b241f9f441899726c86270544bdf4c9aea68e7b24aad60466dbb08b43515a",
+  "rebuilt_sha256": "2c7708ac397bd010a914b848546744c22a483b54567645a708ffe16bd4381ddc",
+  "audit_inputs": {
+    "runtime.json": "4fd28b8064505a84005a8cfb9eab09375ad4c1666f5f311474dd4ed824d0a31b",
+    "build/runtime.json": "7fe783771f394a736e5b91f8ddc9b15eecd5bd2db43be453f5b23cf595140137",
+    "build/c2.map": "c210185c12c74225e2d4b000a6c97e7c4d66f1844da4ffafe56e3a00ebaabf0a",
+    "build/graph-metadata.json": "93bfd2ffeb5aee87f95d71f562687112dcd7fb879b846185ded71c773015f1a8",
+    "graph-audit": "72cac89f6fa457774dfb876a048a8fc9c55a21663556351aaaf6101e2205e58c"
+  },
+  "source_hashes": {
+    "scripts/native-host.c": "aa6f74cde7c5d8beb147daaebe0419e2b922e7a14c230aa2426fd5239d41df5e",
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/c2.h": "011c2ac6007a12bd238d33aaa24e29073962ebd341145d18e53a86223641ffd7",
+    "src/diagnostics.c": "d443969989e191540dc8e44d7a15cfaac307adb1af307a225ff6ac94e3219943",
+    "src/environment.c": "44486ae38568891691c56724e46cd3a39953483faa1aee7f1834b4ebc87428f3",
+    "src/main.c": "78c9468b641eab7e7f1af7fad938fc800b555ec8d11005c5bbcec0bfc8eef94f",
+    "src/messages.rc": "2c5d0852b25ad0dba5048fb18634420c3fb7a7d93032187083bff0b8a443df8c",
+    "src/onexit.c": "655604423c7d014c413f586440382adbb7651a91596121050a0e98b536d39bd2",
+    "src/option-match.c": "1e7ba11f9961d07211e4e4a7ef6a50b361df23eae587d44678c115ba9a267a07",
+    "src/option-table.c": "2f8ac5134d6edbfb96f270119d47e61cb23686745312a319d3eb08d2982ad0b0",
+    "src/options.c": "ee46ca151593e3c0535aff703bc848accb39b3f7a578891175472151cd23188a",
+    "src/precision.c": "daae70312d63b144872fb3486186501d6de76afae8c42eb0ff572c9d1da25501",
+    "src/startup.c": "9703233f15eac9538cfb31621770ea4560e918d80b2408a5f2a3e08ac1462b88",
+    "src/stubs.c": "3776b5807f5304bc9f2654aba1ef3919a85a53b3a2cf7a04576ac722a17e2087"
+  },
+  "events_sha256": "5edf2579c68d46b42d253e734fd975cf1e6be5c120684e378e5a9509a3887076",
+  "environment": {
+    "MSC_CMD_FLAGS": null
+  },
+  "provider_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "execution_inputs": {
+    "child-environment-input.bin": "5af92f3ecb814199dade3b84c5806644d1ed852cfc77ae92a8114f67d2419f5a",
+    "child-command-input.bin": "af66cdb043ff166573fb3ae7515ebae2f8b8ce1999bf98f21616894003a0bc93",
+    "data-plan.txt": "019bf5fdabc06c69e8897c62d33c6d8e1bda7b6b9070e9d5bc93b8d00dde67ac"
+  },
+  "helper_status": 0,
+  "seconds": {
+    "setup": 0.10828537214547396,
+    "execution": 0.6191437030211091,
+    "total": 0.7640973161906004
+  },
+  "stdout": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  },
+  "stderr": {
+    "bytes": 0,
+    "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+  }
+}

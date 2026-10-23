@@ -7,6 +7,7 @@ from pathlib import Path
 import subprocess
 import shutil
 import time
+import textwrap
 from state import BINARY, TARGET, load, sha, source_hashes, trial_configuration, audit_input_hashes
 
 def main():
@@ -34,6 +35,27 @@ class Entered(gdb.Breakpoint):
 for record in %r:
     Entered(record.get('native',record['name'].lstrip('_')),record['name'])
 """ % [r for r in config['driver']+config['support']if r['name']in config['accepted']and r.get('kind')!='import']
+    prefix_program=prefix_program.replace('trace=[]','trace=[]\nentry_input={}\nexit_status=None')
+    observation='''    def stop(self):
+        if not entry_input:
+            from pathlib import Path
+            pid=gdb.selected_inferior().pid
+            arguments=Path('/proc/%d/cmdline'%pid).read_bytes().rstrip(b'\\0').split(b'\\0')
+            environment=Path('/proc/%d/environ'%pid).read_bytes().split(b'\\0')
+            flags=[v[14:].decode()for v in environment if v.startswith(b'MSC_CMD_FLAGS=')]
+            entry_input.update(arguments=[v.decode()for v in arguments[1:]],MSC_CMD_FLAGS=flags[0]if flags else None)
+            Path(MAPS_PATH).write_text(Path('/proc/%d/maps'%pid).read_text())
+            gdb.write('C2-PROCESS-INPUT '+json.dumps(entry_input,sort_keys=True)+'\\n')
+'''.replace('MAPS_PATH',repr(str(output/'native-maps.txt')))
+    prefix_program=prefix_program.replace('    def stop(self):\n',observation)
+    prefix_program+='''
+def process_exited(event):
+    global exit_status
+    if hasattr(event,'exit_code')and event.exit_code is not None:
+        exit_status=int(event.exit_code)
+        gdb.write('C2-PROCESS-EXIT %d\\n'%exit_status)
+gdb.events.exited.connect(process_exited)
+'''
     (output/'gdb-prefix.py').write_text(prefix_program)
     program="""import gdb,json
 from pathlib import Path
@@ -62,10 +84,17 @@ if len(records)==1:
         info['command_state']={'argc':int(gdb.parse_and_eval('c2_argc')),'argv':values}
         if records[0]['state_policy']=='environment-flags':
             info['flags']=None if int(gdb.parse_and_eval('flags'))==0 else gdb.parse_and_eval('flags').string()
-    if records[0].get('state_policy')=='format-prefix':
-        arguments=gdb.parse_and_eval('(int *)((char *)&format+4)')
+    if records[0].get('state_policy')=='format-integer':
+        output=gdb.parse_and_eval('buffer')
+        origin=frame.older().read_var('buffer')
+        info['integer_format']={'value':int(gdb.parse_and_eval('value')),'base':int(gdb.parse_and_eval('base')),
+                                'output_offset':int(output)-int(origin),'prefix':gdb.selected_inferior().read_memory(output-13,13).tobytes().hex()}
+    if records[0].get('state_policy')in ('format-prefix','format-prefix-args'):
+        prefix_args=records[0]['state_policy']=='format-prefix-args'
+        arguments=gdb.parse_and_eval('(int *)arguments'if prefix_args else '(int *)((char *)&format+4)')
         buffer=gdb.parse_and_eval('buffer')
-        origin=frame.older().read_var('text').address
+        caller=frame.older().older()if prefix_args else frame.older()
+        origin=caller.read_var('text').address
         info['format_prefix']={'format':gdb.parse_and_eval('format').string(),'character':int(arguments[0]),'number':int(arguments[1]),
                                'output_offset':int(buffer)-int(origin),'prefix':gdb.selected_inferior().read_memory(buffer-11,12).tobytes().hex()}
     if records[0].get('state_policy')in ('diagnostic-emit','cached-message'):
@@ -148,6 +177,15 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
     info['data_state']={'options':options,'selectors':selectors,'objects':objects}
 """ % str(output/'data-model.json')
         program=program.replace('open(',data_program+'open(',1)
+    completion='''import gdb,json
+from pathlib import Path
+if exit_status is not None:
+    assert entry_input
+    info=dict(entry_input,completed=True,exit_status=exit_status,trace=trace)
+    Path(STATE_PATH).write_text(json.dumps(info,indent=2)+'\\n')
+else:
+'''.replace('STATE_PATH',repr(str(output/'state.json')))
+    program=completion+textwrap.indent(program,'    ')
     (output/'gdb-state.py').write_text(program)
     command=['/usr/bin/gdb','-nx','-batch','-ex','set pagination off','-ex','set confirm off',
              '-ex','source '+str(output/'gdb-prefix.py'),

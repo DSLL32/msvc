@@ -128,14 +128,6 @@
     "evidence": null
   },
   {
-    "name": "_c2_cleanup",
-    "start": 4541188,
-    "end": 4541189,
-    "kind": "named-target-stub",
-    "pending_extent": true,
-    "evidence": null
-  },
-  {
     "name": "_c2_console_handler@4",
     "start": 4737491,
     "end": 4737492,
@@ -187,22 +179,6 @@
     "name": "@resolve_diagnostic_location@8",
     "start": 4413704,
     "end": 4413705,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
-    "name": "_format_diagnostic",
-    "start": 4765030,
-    "end": 4765031,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
-    "name": "_format_diagnostic_args",
-    "start": 4765054,
-    "end": 4765055,
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null

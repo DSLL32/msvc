@@ -1,0 +1,26 @@
+{
+  "mode": "original",
+  "inputs": {
+    "decomp/vc5.10/c2/Makefile": "bab6742b035397e88722150b94b8645a27320beb49e81576e444d7e2879f2dab",
+    "decomp/vc5.10/c2/src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "decomp/vc5.10/c2/src/c2.h": "b32f7c07a42743da914e149d6d53eb7ce68c3e6cfa452d94661545c353edf9cd",
+    "decomp/vc5.10/c2/src/cleanup.c": "fd78cd801b9c6d902f0cc2c8800e042ddcd3459f23e19661465169b0ea5734c9",
+    "decomp/vc5.10/c2/src/diagnostics.c": "95c93ae8c982b7d0f86c5827de2609f74d5586844560869de470a93fcc371fdd",
+    "decomp/vc5.10/c2/src/environment.c": "44486ae38568891691c56724e46cd3a39953483faa1aee7f1834b4ebc87428f3",
+    "decomp/vc5.10/c2/src/main.c": "78c9468b641eab7e7f1af7fad938fc800b555ec8d11005c5bbcec0bfc8eef94f",
+    "decomp/vc5.10/c2/src/messages.rc": "2c5d0852b25ad0dba5048fb18634420c3fb7a7d93032187083bff0b8a443df8c",
+    "decomp/vc5.10/c2/src/onexit.c": "655604423c7d014c413f586440382adbb7651a91596121050a0e98b536d39bd2",
+    "decomp/vc5.10/c2/src/option-match.c": "1e7ba11f9961d07211e4e4a7ef6a50b361df23eae587d44678c115ba9a267a07",
+    "decomp/vc5.10/c2/src/option-table.c": "2f8ac5134d6edbfb96f270119d47e61cb23686745312a319d3eb08d2982ad0b0",
+    "decomp/vc5.10/c2/src/options.c": "ee46ca151593e3c0535aff703bc848accb39b3f7a578891175472151cd23188a",
+    "decomp/vc5.10/c2/src/precision.c": "daae70312d63b144872fb3486186501d6de76afae8c42eb0ff572c9d1da25501",
+    "decomp/vc5.10/c2/src/startup.c": "9703233f15eac9538cfb31621770ea4560e918d80b2408a5f2a3e08ac1462b88",
+    "decomp/vc5.10/c2/src/stubs.c": "600688c3bdf4c7f4975f2ccfb6cb38355c73372a70216f5967372199ae796586",
+    "lib/recon/include/recon.h": "6a126a5596a293d54d1141a6a690d93b1a0a3b8c20ea345b2f15cec06d736c93",
+    "lib/recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "lib/recon/include/win32.h": "a789f62196f170f663978151e11f7f47c8e0359f3d692b2ac3a8b6016f96ec5f"
+  },
+  "snapshot": "/root/msvc2/decomp/vc5.10/c2/build/provenance/original/2a146a31febc4a065b8b88c166ac5bf16a2b30a797e47883cc0b16428da49d2a",
+  "input_set_sha256": "2a146a31febc4a065b8b88c166ac5bf16a2b30a797e47883cc0b16428da49d2a",
+  "binary_sha256": "0309874edb4cb403b4322b1930581a2696f2bf3ca41d008f1b2a99b6b29b1cce"
+}

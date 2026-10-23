@@ -1,0 +1,58 @@
+{
+  "function": "_format_diagnostic_args",
+  "match": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/format-args-original/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/format-args-original/graph-audit.json",
+    "matched": "@format_integer@12",
+    "original": "0x4466a6",
+    "native": "format_integer",
+    "argument_state": "format-integer",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "format_integer",
+      "symbol_start": "0x2fb0",
+      "symbol_size": 483,
+      "static_pc": "0x2ff4",
+      "int3_sites": [
+        "0x2ff3"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_initialize_options",
+      "_c2_next_argument",
+      "@c2_match_option@16",
+      "@c2_wildcard_match@12",
+      "@c2_apply_option@12",
+      "_c2_fatal",
+      "@lookup_message@8",
+      "_initialize_messages",
+      "@load_message@16",
+      "@unescape_message@4",
+      "_emit_diagnostic",
+      "@c2_get_diagnostic_string@4",
+      "@find_cached_message@4",
+      "_format_diagnostic",
+      "_format_diagnostic_args"
+    ],
+    "candidates": [
+      "_format_diagnostic_args"
+    ],
+    "acceptance": false
+  },
+  "original_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/format-args-original",
+  "native_capture": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/format-args-native",
+  "base_configuration_sha256": "38c003be5007c8f726d4e3841d9a49e9a72fc15e005c4154edd6c12b2e60cee0",
+  "review": {
+    "approved": true,
+    "scope": "First unsupported /? diagnostic only; no second case",
+    "status": "Independently reviewed real candidate pair and all 24 negative controls; authorized first case only",
+    "review_id": "orchestrator-c2-startup-provenance-2026-10-23"
+  }
+}

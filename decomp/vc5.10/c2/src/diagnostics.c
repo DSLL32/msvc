@@ -132,3 +132,76 @@ char *__fastcall find_cached_message(int message)
         ++entry;
     return entry->text;
 }
+
+void format_diagnostic(char *buffer, const char *format, ...)
+{
+    va_list arguments;
+    va_start(arguments, format);
+    format_diagnostic_args(buffer, format, arguments);
+    va_end(arguments);
+}
+
+void format_diagnostic_args(char *buffer, const char *format, va_list arguments)
+{
+    char *output = buffer, *text;
+    int long_argument, value;
+    while (*format) {
+        if (*format != '%') {
+            *output++ = *format++;
+            continue;
+        }
+        long_argument = 0;
+    conversion:
+        switch (format[1]) {
+        case 'F':
+            ++format;
+            goto conversion;
+        case 'l':
+            long_argument = 1;
+            ++format;
+            goto conversion;
+        case 's':
+            text = va_arg(arguments, char *);
+            if (*text) {
+                strcpy(output, text);
+                output += strlen(text);
+            }
+            format += 2;
+            break;
+        case 'c':
+            *output++ = (char)va_arg(arguments, int);
+            format += 2;
+            break;
+        case 'd':
+        case 'x':
+            value = long_argument ? (int)va_arg(arguments, long) : va_arg(arguments, int);
+            output += format_integer(value, output, format[1] == 'd' ? 10 : 16);
+            format += 2;
+            break;
+        default:
+            *output++ = *format++;
+            break;
+        }
+    }
+    *output = '\0';
+}
+
+int __fastcall format_integer(int value, char *buffer, unsigned base)
+{
+    char digits[32], *next = digits;
+    unsigned number = (unsigned)value;
+    int length = 0;
+    *next++ = '\0';
+    if (value < 0 && base == 10) {
+        *buffer++ = '-';
+        number = 0 - number;
+        length = 1;
+    }
+    do {
+        *next++ = "0123456789abcdef"[number % base];
+        number /= base;
+    } while (number);
+    while ((*buffer++ = *--next) != '\0')
+        ++length;
+    return length;
+}

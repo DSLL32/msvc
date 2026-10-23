@@ -1,0 +1,52 @@
+{
+  "application": {
+    "functions": 19,
+    "bytes": 3402
+  },
+  "crt-source": {
+    "functions": 5,
+    "bytes": 438
+  },
+  "import_support": {
+    "thunks": 4,
+    "bytes": 24
+  },
+  "contextual_text_data_bytes": 216,
+  "denominator": {
+    "text_virtual_bytes": 573183,
+    "qualification": "Whole .text extent, including CRT/data/padding; non-CRT denominator is not yet classified."
+  },
+  "source_extent_percent": 0.6699431071751953,
+  "build_seconds": {
+    "native": 1.9345037508755922,
+    "original": 2.8848717361688614
+  },
+  "audit_seconds": 0.05312015023082495,
+  "original_capture_seconds": {
+    "setup": 0.11379696801304817,
+    "execution": 0.6026373337954283,
+    "total": 0.75442816875875
+  },
+  "native_gdb_seconds": {
+    "execution": 0.17471648938953876,
+    "total": 0.23574488516896963
+  },
+  "completion_negative_controls": 32,
+  "native_fixture": {
+    "case": "unsupported-help-diagnostic",
+    "status": "PASS",
+    "application_entries": 19,
+    "stdout_bytes": 0,
+    "stderr_bytes": 51,
+    "seconds": {
+      "setup": 0.005829074420034885,
+      "execution": 0.002735462971031666,
+      "checks": 0.00021236855536699295,
+      "total": 0.009236347861588001
+    },
+    "transport": "native ELF32 only; frozen original reference"
+  },
+  "case": "unsupported-help-diagnostic",
+  "state": "First case complete; original/native binaries frozen for review; next compilation case authorized by root",
+  "stable_binaries": "/root/.ai-tmp/msvc2/vc5.10/c2/firstcase/final-binaries"
+}
