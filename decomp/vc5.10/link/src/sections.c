@@ -86,8 +86,9 @@ void __stdcall initialize_group_enumerator(GroupEnumerator *enumerator,OutputSec
 
 BYTE __stdcall next_contribution_group(GroupEnumerator *enumerator)
 {
-    __asm { int 3 }
-    return 0;
+    if (enumerator->current) enumerator->current=enumerator->current->next;
+    else enumerator->current=enumerator->section->groups;
+    return enumerator->current!=NULL;
 }
 
 OutputSection *__stdcall find_matching_output_section(OutputModule *module,const char *name,

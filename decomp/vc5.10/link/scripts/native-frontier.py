@@ -42,7 +42,7 @@ def main():
             targets.append((record['name'], record.get('native_symbol','link_main' if record['name']=='_main' else record['name'].lstrip('_'))))
     script = '''
 import gdb,json,struct
-state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[],'virtual_alloc_calls':[],'parser_allocations':[],'duplicate_calls':[],'timing_end_calls':[],'delete_calls':[],'new_ownership':[],'mbspbrk_calls':[],'canonicalized_arguments':[],'library_search_calls':[],'searchenv_calls':[],'free_calls':[],'link_string_calls':[],'virtual_memory_calls':[],'section_flag_calls':[],'section_enum_calls':[],'section_next_calls':[],'section_end_calls':[],'section_lookup_calls':[],'section_create_calls':[],'section_resolve_calls':[],'group_enum_calls':[]}
+state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[],'module_probes':[],'system_calls':[],'mbsnbicmp_calls':[],'virtual_alloc_calls':[],'parser_allocations':[],'duplicate_calls':[],'timing_end_calls':[],'delete_calls':[],'new_ownership':[],'mbspbrk_calls':[],'canonicalized_arguments':[],'library_search_calls':[],'searchenv_calls':[],'free_calls':[],'link_string_calls':[],'virtual_memory_calls':[],'section_flag_calls':[],'section_enum_calls':[],'section_next_calls':[],'section_end_calls':[],'section_lookup_calls':[],'section_create_calls':[],'section_resolve_calls':[],'group_enum_calls':[],'group_find_calls':[],'group_next_calls':[],'group_end_calls':[]}
 def cpp_ownership():
     result=[];node=gdb.parse_and_eval('recon_cpp_allocations');seen=set()
     while int(node):
@@ -261,14 +261,14 @@ class SectionResolveEntry(gdb.Breakpoint):
         SectionResolveReturned(gdb.newest_frame(),dict(section=pointer,entry_stack=int(gdb.parse_and_eval('$esp'))));return False
 SectionResolveEntry('*resolve_output_section',internal=True)
 class SectionEndReturned(gdb.FinishBreakpoint):
-    def __init__(self,frame,record):super().__init__(frame,internal=True);self.record=record
+    def __init__(self,frame,record,key='section_end_calls'):super().__init__(frame,internal=True);self.record=record;self.key=key
     def stop(self):
         self.record.update(after=gdb.selected_inferior().read_memory(self.record['enumerator'],16).tobytes().hex(),return_stack=int(gdb.parse_and_eval('$esp')),normal_return=True)
-        state['section_end_calls'].append(self.record);return False
+        state[self.key].append(self.record);return False
 class SectionEndEntry(gdb.Breakpoint):
     def stop(self):
         pointer=int(gdb.parse_and_eval('((unsigned*)$esp)[1]'))
-        SectionEndReturned(gdb.newest_frame(),dict(enumerator=pointer,entry_stack=int(gdb.parse_and_eval('$esp')),before=gdb.selected_inferior().read_memory(pointer,16).tobytes().hex()));return False
+        SectionEndReturned(gdb.newest_frame(),dict(enumerator=pointer,entry_stack=int(gdb.parse_and_eval('$esp')),before=gdb.selected_inferior().read_memory(pointer,16).tobytes().hex()),'group_end_calls'if gdb.newest_frame().older().name()=='find_contribution_group'else 'section_end_calls');return False
 SectionEndEntry('*end_section_enumerator',internal=True)
 class SectionNextReturned(gdb.FinishBreakpoint):
     def __init__(self,frame,record):super().__init__(frame,internal=True);self.record=record
@@ -298,8 +298,37 @@ class GroupEnumReturned(gdb.FinishBreakpoint):
 class GroupEnumEntry(gdb.Breakpoint):
     def stop(self):
         args=gdb.parse_and_eval('(unsigned*)$esp');pointer=int(args[1])
-        GroupEnumReturned(gdb.newest_frame(),dict(enumerator=pointer,section=int(args[2]),entry_stack=int(gdb.parse_and_eval('$esp')),before=gdb.selected_inferior().read_memory(pointer,16).tobytes().hex()));return False
+        GroupEnumReturned(gdb.newest_frame(),dict(enumerator=pointer,section=int(args[2]),owner_local=int(gdb.newest_frame().older().read_var('enumerator').address),entry_stack=int(gdb.parse_and_eval('$esp')),before=gdb.selected_inferior().read_memory(pointer,16).tobytes().hex()));return False
 GroupEnumEntry('*initialize_group_enumerator',internal=True)
+class GroupFindReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,record):super().__init__(frame,internal=True);self.record=record
+    def stop(self):
+        self.record.update(result=int(self.return_value),return_stack=int(gdb.parse_and_eval('$esp')))
+        state['group_find_calls'].append(self.record);return False
+class GroupFindEntry(gdb.Breakpoint):
+    def stop(self):
+        args=gdb.parse_and_eval('(unsigned*)$esp');name=int(args[2])
+        GroupFindReturned(gdb.newest_frame(),dict(section=int(args[1]),name=name,text=gdb.Value(name).cast(gdb.lookup_type('char').pointer()).string(),entry_stack=int(gdb.parse_and_eval('$esp'))));return False
+GroupFindEntry('*find_contribution_group',internal=True)
+class GroupNextReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,record):super().__init__(frame,internal=True);self.record=record
+    def stop(self):
+        self.record.update(after=gdb.selected_inferior().read_memory(self.record['enumerator'],16).tobytes().hex(),return_stack=int(gdb.parse_and_eval('$esp')),result=int(self.return_value)&255)
+        state['group_next_calls'].append(self.record);return False
+class GroupNextEntry(gdb.Breakpoint):
+    def stop(self):
+        pointer=int(gdb.parse_and_eval('((unsigned*)$esp)[1]'))
+        GroupNextReturned(gdb.newest_frame(),dict(enumerator=pointer,entry_stack=int(gdb.parse_and_eval('$esp')),before=gdb.selected_inferior().read_memory(pointer,16).tobytes().hex()));return False
+GroupNextEntry('*next_contribution_group',internal=True)
+class SectionsInitializeReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,record):super().__init__(frame,internal=True);self.record=record
+    def stop(self):
+        self.record.update(return_stack=int(gdb.parse_and_eval('$esp')),normal_return=True)
+        state['sections_initializer_call']=self.record;return False
+class SectionsInitializeEntry(gdb.Breakpoint):
+    def stop(self):
+        SectionsInitializeReturned(gdb.newest_frame(),dict(this=int(gdb.parse_and_eval('$ecx')),entry_stack=int(gdb.parse_and_eval('$esp'))));return False
+SectionsInitializeEntry('*'+str(int(gdb.lookup_global_symbol('LinkContext::InitializeSections').value().address)),internal=True)
 class SectionFlagsReturned(gdb.FinishBreakpoint):
     def __init__(self,frame,record):super().__init__(frame,internal=True);self.record=record
     def stop(self):
@@ -435,7 +464,7 @@ def stopped(event):
     while configuration and configuration.name()!='configure_link_options':configuration=configuration.older()
     full_frame=frame
     while full_frame and full_frame.name()!='LinkContext::FullLink':full_frame=full_frame.older()
-    if configuration or state['function']in ('validate_debug_options','LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section','end_section_enumerator','resolve_output_section','create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group'):
+    if configuration or state['function']in ('validate_debug_options','LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section','end_section_enumerator','resolve_output_section','create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group','LinkContext::PassOne'):
         receiver=(full_frame.read_var('this')if full_frame else (configuration if configuration else frame).read_var('context'))
         state['context_this']=int(receiver);state['context_vxd']=int(receiver.dereference()['is_vxd'])
         state['caller_context']=int(driver.read_var('context'))
@@ -452,7 +481,7 @@ def stopped(event):
                 arena=int(hash_state.dereference()[field]);raw=gdb.selected_inferior().read_memory(arena,16).tobytes();words=struct.unpack('<4I',raw)
                 record['arenas'].append(dict(address=arena,raw=raw.hex(),data=gdb.selected_inferior().read_memory(words[3],words[1]+words[2]).tobytes().hex()))
             state['context_heap'].append(record)
-        if state['function']in ('validate_debug_options','LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section','end_section_enumerator','resolve_output_section','create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group'):
+        if state['function']in ('validate_debug_options','LinkContext::FullLink','initialize_output_modules','duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section','end_section_enumerator','resolve_output_section','create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group','LinkContext::PassOne'):
             state['validation_arguments']=dict(context=int(receiver))
             state['output_name_pointer']=int(gdb.parse_and_eval('output_file_name'))
             state['output_name']=gdb.parse_and_eval('output_file_name').string()
@@ -463,7 +492,7 @@ def stopped(event):
         if state['function']=='initialize_output_modules':
             module=frame.read_var('result')
             state['output_module_formals']=dict(module=int(module),destination_global=int(gdb.parse_and_eval('&output_module')),initial=int(module.dereference()))
-        if state['function']in ('duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section','end_section_enumerator','resolve_output_section','create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group'):
+        if state['function']in ('duplicate_link_string','initialize_contribution_pools','allocate_virtual_memory','initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section','end_section_enumerator','resolve_output_section','create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group','LinkContext::PassOne'):
             if state['function']=='duplicate_link_string':
                 initializer=frame.older();module=initializer.read_var('module');library=initializer.read_var('library');result=initializer.read_var('result');text=frame.read_var('text')
                 state['argument_detail']=dict(address=int(text),text=text.string())
@@ -471,7 +500,7 @@ def stopped(event):
                 module=gdb.parse_and_eval('output_module');library=module.dereference()['library'];result=gdb.parse_and_eval('&output_module')
                 state['frontier_inputs']=dict(formals=[int(frame.read_var(k))for k in ('address','bytes','flags','protection')]if state['function']=='allocate_virtual_memory'else [],hidden_register_inputs=[])
                 if state['function']=='allocate_virtual_memory':state['module_section_pools']={k:int(gdb.parse_and_eval(k))for k in ('module_section_map','module_section_headers','module_section_capacity','module_section_pools_ready')}
-                if state['function']in ('initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section','end_section_enumerator','resolve_output_section','create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group'):
+                if state['function']in ('initialize_comdats','LinkContext::InitializeSections','create_output_section','find_matching_output_section','adjust_output_section_flags','initialize_section_enumerator','next_output_section','end_section_enumerator','resolve_output_section','create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group','LinkContext::PassOne'):
                     if state['function']=='LinkContext::InitializeSections':
                         state['comdat_arena']=int(gdb.parse_and_eval('comdat_arena'))
                         state['section_initializer_formals']=dict(this=int(frame.read_var('this')),stack_formals=[],other_hidden_inputs=[])
@@ -502,21 +531,31 @@ def stopped(event):
                     state['section_initializer_this']=int(initializer.read_var('this'))
                     state['section_handles']=[int(gdb.parse_and_eval(k))for k in ['bss_section', 'small_data_section', 'read_only_section', 'data_section', 'procedure_section', 'import_section', 'import_thunk_section', 'import_descriptor_section', 'delay_import_section', 'export_section', 'export_group', 'exception_section', 'architecture_section', 'ppc_loader_section', 'debug_section', 'debug_symbol_group', 'debug_type_group', 'debug_precompiled_group', 'debug_fixup_group'] ]
                     state['comdat_arena']=int(gdb.parse_and_eval('comdat_arena'))
-                if state['function']in ('create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group'):
-                    finder=frame.older()if state['function']in ('initialize_group_enumerator','next_contribution_group')else frame
-                    name=finder.read_var('name');section=finder.read_var('section')
-                    state['section_group_formals']=dict(name=int(name),section=int(section),text=name.string())
-                    state['section_callback_addresses']={k:int(gdb.parse_and_eval('&'+k))for k in ('next_output_section','end_section_enumerator')}
-                    state['frontier_inputs']=dict(formals=[int(name),int(section)]if state['function']=='create_contribution_group'else[int(section),int(name)],hidden_register_inputs=[])
-                    if state['function']in ('initialize_group_enumerator','next_contribution_group'):
-                        pointer=frame.read_var('enumerator');owner=finder.read_var('enumerator')
-                        state['group_enumerator_formals']=dict(enumerator=int(pointer),section=int(section),owner_local=int(owner.address),before=gdb.selected_inferior().read_memory(int(pointer),16).tobytes().hex(),initial_value_contract='uninitialized output record; no incoming bytes consumed'if state['function']=='initialize_group_enumerator'else 'fully initialized group enumerator record')
+                if state['function']in ('create_contribution_group','find_contribution_group','initialize_group_enumerator','next_contribution_group','LinkContext::PassOne'):
+                    if state['function']=='LinkContext::PassOne':
+                        state['pass_one_formals']=dict(this=int(frame.read_var('this')),raw_ecx=int(gdb.parse_and_eval('$ecx')),stack_formals=[],other_hidden_inputs=[])
+                        state['frontier_inputs']=dict(formals=[],hidden_register_inputs=[dict(register='ecx',value=int(frame.read_var('this')))])
+                        phase=gdb.parse_and_eval('default_phase');state['default_phase']=dict(address=int(phase),text=phase.string())
+                    else:
+                        finder=frame.older()if state['function']in ('initialize_group_enumerator','next_contribution_group','LinkContext::PassOne')else frame
+                        name=finder.read_var('name');section=finder.read_var('section')
+                        state['section_group_formals']=dict(name=int(name),section=int(section),text=name.string())
+                        state['section_callback_addresses']={k:int(gdb.parse_and_eval('&'+k))for k in ('next_output_section','end_section_enumerator')}
+                        state['frontier_inputs']=dict(formals=[int(name),int(section)]if state['function']=='create_contribution_group'else[int(section),int(name)],hidden_register_inputs=[])
+                        if state['function']in ('initialize_group_enumerator','next_contribution_group','LinkContext::PassOne'):
+                            pointer=frame.read_var('enumerator');owner=finder.read_var('enumerator')
+                            state['group_enumerator_formals']=dict(enumerator=int(pointer),section=int(section),owner_local=int(owner.address),before=gdb.selected_inferior().read_memory(int(pointer),16).tobytes().hex(),initial_value_contract='uninitialized output record; no incoming bytes consumed'if state['function']=='initialize_group_enumerator'else 'fully initialized group enumerator record')
+                            state['group_callback_addresses']={k:int(gdb.parse_and_eval('&'+k))for k in ('next_contribution_group','end_section_enumerator')}
+                            state['frontier_inputs']=dict(formals=[int(pointer),int(section)]if state['function']=='initialize_group_enumerator'else[int(pointer)],hidden_register_inputs=[])
+                    if state['function']=='LinkContext::PassOne':
+                        state['section_initializer_this']=state['sections_initializer_call']['this']
+                        state['section_callback_addresses']={k:int(gdb.parse_and_eval('&'+k))for k in ('next_output_section','end_section_enumerator')}
                         state['group_callback_addresses']={k:int(gdb.parse_and_eval('&'+k))for k in ('next_contribution_group','end_section_enumerator')}
-                        state['frontier_inputs']=dict(formals=[int(pointer),int(section)]if state['function']=='initialize_group_enumerator'else[int(pointer)],hidden_register_inputs=[])
-                    initializer=frame.older()
-                    while initializer and initializer.name()!='LinkContext::InitializeSections':initializer=initializer.older()
-                    assert initializer
-                    state['section_initializer_this']=int(initializer.read_var('this'))
+                    else:
+                        initializer=frame.older()
+                        while initializer and initializer.name()!='LinkContext::InitializeSections':initializer=initializer.older()
+                        assert initializer
+                        state['section_initializer_this']=int(initializer.read_var('this'))
                     state['section_handles']=[int(gdb.parse_and_eval(k))for k in ['bss_section', 'small_data_section', 'read_only_section', 'data_section', 'procedure_section', 'import_section', 'import_thunk_section', 'import_descriptor_section', 'delay_import_section', 'export_section', 'export_group', 'exception_section', 'architecture_section', 'ppc_loader_section', 'debug_section', 'debug_symbol_group', 'debug_type_group', 'debug_precompiled_group', 'debug_fixup_group'] ]
                     state['comdat_arena']=int(gdb.parse_and_eval('comdat_arena'))
                     state['section_list']=[int(receiver.dereference()['sections'][k])for k in ('first','last')]
@@ -529,6 +568,14 @@ def stopped(event):
                     arena=gdb.parse_and_eval('output_section_arena');raw=gdb.selected_inferior().read_memory(int(arena),16).tobytes();header=struct.unpack('<4I',raw)
                     state['output_section_arena']=dict(address=int(arena),raw=raw.hex(),data=gdb.selected_inferior().read_memory(header[3],header[1]+header[2]).tobytes().hex())
                     state['output_section_count']=int(gdb.parse_and_eval('output_section_count'))
+                    if state['function']=='LinkContext::PassOne':
+                        arena=gdb.parse_and_eval('contribution_group_arena');raw=gdb.selected_inferior().read_memory(int(arena),16).tobytes();header=struct.unpack('<4I',raw)
+                        state['contribution_group_arena']=dict(address=int(arena),raw=raw.hex(),data=gdb.selected_inferior().read_memory(header[3],header[1]+header[2]).tobytes().hex())
+                        state['group_records']=[]
+                        for i in range(header[1]//44):
+                            address=header[3]+i*44;value=gdb.Value(address).cast(gdb.lookup_type('ContributionGroup').pointer()).dereference();text=value['name'].string()
+                            state['group_records'].append(dict(address=address,name=int(value['name']),text=text,name_bytes=gdb.selected_inferior().read_memory(int(value['name']),len(text)+1).tobytes().hex(),raw=gdb.selected_inferior().read_memory(address,44).tobytes().hex()))
+
                 state['output_names']=[dict(address=int(v),bytes=gdb.selected_inferior().read_memory(int(v),len(v.string())+1).tobytes().hex())for v in (module.dereference()['name'],library.dereference()['name'])]
             state['module_constructor']=dict(result_slot=int(result),current=int(result.dereference()),global_slot=int(gdb.parse_and_eval('&output_module')),module=int(module),library=int(library),module_raw=gdb.selected_inferior().read_memory(int(module),156).tobytes().hex(),library_raw=gdb.selected_inferior().read_memory(int(library),68).tobytes().hex())
             state['output_module_arenas']=[]

@@ -42,6 +42,8 @@ def plan(accepted,case="help"):
         result.extend([(0xe67e,'observe:group_resolve_call'),(0xe683,'observe:group_resolve_return')])
     if '_initialize_group_enumerator@8'in accepted:
         result.extend([(0xe689,'observe:group_enum_call'),(0xe68e,'observe:group_enum_return')])
+    if '_next_contribution_group@4'in accepted:
+        result.extend([(0xe70c,'observe:group_find_call'),(0xe711,'observe:group_find_return'),(0xe73c,'observe:group_name_call'),(0xe741,'observe:group_name_return'),(0xe693,'observe:group_next_call'),(0xe698,'observe:group_next_return'),(0xe6da,'observe:group_next_continue_call'),(0xe6df,'observe:group_next_continue_return'),(0xe6ec,'observe:group_end_call'),(0xe6f1,'observe:group_end_return'),(0x42fa1,'observe:sections_initialize_call'),(0x42fa6,'observe:sections_initialize_return')])
     if '_close_timing' in accepted:result.append((0x44eb6,'observe:timing_end'))
     for suffix,address in [('4',0x431e30),('8',0x431dc0),('12',0x424eb0)]:
         if '_free_buffer'+suffix in accepted:result += [(address+10-0x400000,'observe:delete_call_'+suffix),(address+15-0x400000,'observe:delete_return_'+suffix)]

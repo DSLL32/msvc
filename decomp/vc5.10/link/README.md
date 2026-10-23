@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 66 application
-functions (29,417 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 67 application
+functions (29,470 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `next_contribution_group`; hello-win32 has not completed.
+next frontier is `LinkContext::PassOne`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -375,3 +375,14 @@ all 16 output bytes match their typed roles; the next group-step stub receives
 the owned initialized local. Original/native captures, 131 state negatives and
 the strict 79-vertex/72-RET audit pass. Incoming uninitialized bytes remain
 separate from the fully initialized output contract.
+
+The 53-byte group step is accepted, reaching both empty and nonempty chains.
+Section initialization now finishes: all 12 complete sections and five complete
+groups match, including 19 aliases, owned names, section backlinks, sorted
+debug groups F/P/S/T, and two 4 KiB arenas with 864/220 bytes used. Actual
+`PassOne` ECX, 78 section steps, 11 group steps and their call/return ABIs are
+checked. Both builds, 164 state negatives, four literal/padding controls and
+the strict 80-vertex/73-RET audit pass; independent review adds six focused
+negatives. An actual missing `Pass1` literal mask extent was corrected by owning
+exactly six bytes, retaining two masked padding bytes, and capturing a fresh
+original. The failed raw pair and shared-build refusals remain recorded.

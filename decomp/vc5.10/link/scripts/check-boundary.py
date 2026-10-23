@@ -264,7 +264,7 @@ if args.frontier=='_release_memory@4':
     negative('wrong first parsed switch',lambda s:s.__setitem__('parsed_switch','00'*15))
     negative('changed context allocation state',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('wrong nologo effect',lambda s:s.__setitem__('logo_pending',1))
-if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4'):
+if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne'):
     negative('missing real free',lambda s:s['free_calls'].pop())
     negative('wrong freed allocation',lambda s:s['free_calls'][0].__setitem__('argument',0))
     negative('wrong freed bytes',lambda s:s['free_calls'][1].__setitem__('before','00'))
@@ -287,7 +287,7 @@ if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE
     negative('changed context own data',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('lost live filename list',lambda s:s['argument_lists']['link_files']['nodes'].pop())
     negative('wrong search result',lambda s:s['library_search_calls'][0].__setitem__('result',1))
-if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4'):
+if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne'):
     negative('wrong raw thiscall ECX',lambda s:s['full_link_entry'].__setitem__('this',0))
     negative('lost full-link this formal',lambda s:s['full_link_formals'].__setitem__('this',0))
     negative('wrong full-link out pointer',lambda s:s['full_link_formals'].__setitem__('pack_requested',0))
@@ -391,7 +391,7 @@ if args.frontier in ('_duplicate_link_string@4','_initialize_contribution_pools'
     negative('wrong library virtual extent',lambda s:s['virtual_alloc_calls'][5]['arguments'].__setitem__(1,8192))
     negative('new allocation not initially zero',lambda s:s['virtual_alloc_calls'][4].__setitem__('initial','01'+s['virtual_alloc_calls'][4]['initial'][2:]))
 if args.frontier in ('_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4'):
-    if args.frontier in ('_initialize_group_enumerator@8','_next_contribution_group@4'):
+    if args.frontier in ('_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne'):
         negative('lost group enumerator output formal',lambda s:s['group_enumerator_formals'].__setitem__('enumerator',0))
         negative('lost group enumerator stack-local owner',lambda s:s['group_enumerator_formals'].__setitem__('owner_local',0))
         negative('wrong actual group enumerator section',lambda s:s['group_enumerator_formals'].__setitem__('section',0))
@@ -455,6 +455,77 @@ if args.frontier in ('_create_contribution_group@8','_find_contribution_group@8'
     negative('missing ninth allocation',lambda s:s['virtual_alloc_calls'].pop())
     negative('wrong ninth allocation input',lambda s:s['virtual_alloc_calls'][8]['arguments'].__setitem__(1,8192))
     negative('ninth allocation not initially zero',lambda s:s['virtual_alloc_calls'][8].__setitem__('initial','01'+s['virtual_alloc_calls'][8]['initial'][2:]))
+
+if args.frontier=='LinkContext::PassOne':
+    negative('lost actual PassOne this formal',lambda s:s['pass_one_formals'].__setitem__('this',0))
+    negative('wrong actual PassOne ECX',lambda s:s['pass_one_formals'].__setitem__('raw_ecx',0))
+    negative('invented PassOne stack argument',lambda s:s['pass_one_formals']['stack_formals'].append(1))
+    negative('invented PassOne hidden input',lambda s:s['pass_one_formals']['other_hidden_inputs'].append('edx'))
+    negative('lost PassOne frontier ECX binding',lambda s:s['frontier_inputs']['hidden_register_inputs'][0].__setitem__('value',0))
+    negative('wrong reached phase literal',lambda s:s['default_phase'].__setitem__('text','Pass2'))
+    negative('missing reached phase pointer',lambda s:s['default_phase'].__setitem__('address',0))
+    negative('section initializer did not return',lambda s:s['sections_initializer_call'].__setitem__('normal_return',False))
+    negative('wrong section initializer receiver',lambda s:s['sections_initializer_call'].__setitem__('this',0))
+    negative('wrong section initializer RET',lambda s:s['sections_initializer_call'].__setitem__('return_stack',0))
+    negative('wrong completed section count',lambda s:s.__setitem__('output_section_count',11))
+    negative('missing final section',lambda s:s['section_records'].pop())
+    negative('wrong final section-list tail',lambda s:s['section_list'].__setitem__(1,s['section_list'][0]))
+    for slot in range(19):
+        negative('wrong completed section/group global alias '+str(slot),lambda s,i=slot:s['section_handles'].__setitem__(i,0))
+    def completed_section_word(state,index,offset,value):
+        row=state['section_records'][index];data=bytearray.fromhex(row['raw']);struct.pack_into('<I',data,offset,value);row['raw']=data.hex()
+        page=bytearray.fromhex(state['output_section_arena']['data']);page[index*72:(index+1)*72]=data;state['output_section_arena']['data']=page.hex()
+        if offset==68:row['next']=value
+        if offset==0:row['name']=value
+    def group_word(state,index,offset,value):
+        row=state['group_records'][index];data=bytearray.fromhex(row['raw']);struct.pack_into('<I',data,offset,value);row['raw']=data.hex()
+        page=bytearray.fromhex(state['contribution_group_arena']['data']);page[index*44:(index+1)*44]=data;state['contribution_group_arena']['data']=page.hex()
+        if offset==0:row['name']=value
+    for index in range(12):
+        negative('coherent wrong completed section flags '+str(index),lambda s,i=index:completed_section_word(s,i,32,1))
+    negative('coherent lost export group root',lambda s:completed_section_word(s,7,64,0))
+    negative('coherent unsorted debug group root',lambda s:completed_section_word(s,11,64,s['group_records'][1]['address']))
+    negative('coherent section merge target before PassOne',lambda s:completed_section_word(s,11,60,s['section_records'][7]['address']))
+    negative('coherent nonzero section reserved bytes',lambda s:completed_section_word(s,8,52,1))
+    negative('coherent shortened section chain',lambda s:completed_section_word(s,9,68,0))
+    negative('lost output-section arena',lambda s:s['output_section_arena'].__setitem__('address',0))
+    negative('wrong full section arena descriptor',lambda s:s['output_section_arena'].__setitem__('raw','00'*16))
+    negative('wrong full section arena unused tail',lambda s:s['output_section_arena'].__setitem__('data',s['output_section_arena']['data'][:-2]+'01'))
+    negative('missing complete contribution group',lambda s:s['group_records'].pop())
+    negative('lost group arena owner',lambda s:s['contribution_group_arena'].__setitem__('address',0))
+    negative('wrong group arena descriptor',lambda s:s['contribution_group_arena'].__setitem__('raw','00'*16))
+    negative('wrong group arena unused tail',lambda s:s['contribution_group_arena'].__setitem__('data',s['contribution_group_arena']['data'][:-2]+'01'))
+    for index in range(5):
+        negative('coherent group alignment changed '+str(index),lambda s,i=index:group_word(s,i,24,2))
+        negative('coherent group section backlink changed '+str(index),lambda s,i=index:group_word(s,i,40,0))
+    negative('coherent group reserved data changed',lambda s:group_word(s,2,12,1))
+    negative('coherent debug sorted link changed',lambda s:group_word(s,4,36,s['group_records'][1]['address']))
+    negative('coherent cyclic group link',lambda s:group_word(s,1,36,s['group_records'][1]['address']))
+    negative('coherent borrowed group name',lambda s:group_word(s,0,0,s['section_records'][7]['name']))
+    negative('changed copied group-name bytes',lambda s:s['group_records'][3].__setitem__('name_bytes','00'))
+    negative('missing group finder call',lambda s:s['group_find_calls'].pop())
+    negative('wrong group finder name input',lambda s:s['group_find_calls'][2].__setitem__('name',0))
+    negative('wrong group finder section input',lambda s:s['group_find_calls'][4].__setitem__('section',0))
+    negative('wrong group finder result',lambda s:s['group_find_calls'][0].__setitem__('result',s['group_records'][0]['address']))
+    negative('wrong completed group finder RET8',lambda s:s['group_find_calls'][1].__setitem__('return_stack',0))
+    negative('missing completed group initializer',lambda s:s['group_enum_calls'].pop())
+    negative('lost group enumerator local owner',lambda s:s['group_enum_calls'][2].__setitem__('owner_local',0))
+    negative('wrong completed group initializer RET8',lambda s:s['group_enum_calls'][3].__setitem__('return_stack',0))
+    negative('wrong completed group initializer output',lambda s:s['group_enum_calls'][4].__setitem__('after','00'*16))
+    negative('missing completed group step',lambda s:s['group_next_calls'].pop())
+    negative('wrong nonempty group step AL',lambda s:s['group_next_calls'][2].__setitem__('result',0))
+    negative('wrong final group step AL',lambda s:s['group_next_calls'][-1].__setitem__('result',1))
+    negative('wrong group step current pointer',lambda s:s['group_next_calls'][3].__setitem__('after',s['group_next_calls'][3]['before']))
+    negative('wrong completed group step RET4',lambda s:s['group_next_calls'][5].__setitem__('return_stack',0))
+    negative('missing group cleanup',lambda s:s['group_end_calls'].pop())
+    negative('group cleanup did not return',lambda s:s['group_end_calls'][3].__setitem__('normal_return',False))
+    negative('group cleanup changed enumerator',lambda s:s['group_end_calls'][2].__setitem__('after','00'*16))
+    negative('wrong completed group cleanup RET4',lambda s:s['group_end_calls'][4].__setitem__('return_stack',0))
+    negative('lost final group name duplication',lambda s:s['duplicate_calls'].pop())
+    negative('wrong owned group-name result',lambda s:s['link_string_calls'][18].__setitem__('result',0))
+    negative('lost final group arena allocation',lambda s:s['virtual_alloc_calls'].pop())
+    negative('wrong group arena virtual protection',lambda s:s['virtual_alloc_calls'][9]['arguments'].__setitem__(3,0x40))
+    negative('group arena not initially zero',lambda s:s['virtual_alloc_calls'][9].__setitem__('initial','01'+s['virtual_alloc_calls'][9]['initial'][2:]))
 
 args.report.write_text(json.dumps(dict(frontier=args.frontier,positive=True,negative_count=len(checks),rejected=checks),indent=2)+'\n')
 print('Typed boundary passes; %d semantic negatives rejected.'%len(checks))

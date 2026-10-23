@@ -1,0 +1,29 @@
+{
+  "application_functions": 67,
+  "original_application_extent_bytes": 29470,
+  "support_functions": 13,
+  "support_extent_bytes": 522,
+  "fresh_original_runs": 2,
+  "fresh_native_runs": 3,
+  "native_pre_execution_stale_build_rejections": 2,
+  "fresh_boundary_negative_controls": 164,
+  "fresh_literal_padding_controls": 4,
+  "independent_review_additional_negatives": 6,
+  "reused_protocol_and_preservation_controls": "Unchanged exact-hash controller/import/provider/closed-slot finite semantic proofs. No original execution for shared-only native rebuilds.",
+  "seconds": {
+    "accepted_original": 1.4297342654317617,
+    "accepted_native": 0.6461081746965647,
+    "audit": 0.8310400787740946,
+    "cached_help_fixture": {
+      "setup": 0.059410315938293934,
+      "execution": 0.003780846484005451,
+      "checks": 0.0003640223294496536,
+      "total": 0.06648970395326614
+    },
+    "rejected_masked_literal_original": 1.5886597177013755
+  },
+  "next_frontier": "LinkContext::PassOne",
+  "actual_inputs": "thiscall ECX equals actual FullLink context; no stack formals or other hidden inputs",
+  "scope": "Whole53B group step accepted; both empty/nonempty advancement paths reached. Complete12x72B sections and5x44B groups, separate4Karenas864/220used,19globalaliases,signedstrcmp sortedF/P/S/T links,78section/11groupsteps and5groupconstructors/cleanup ABIs.6B literal ownership correction addszero appcode credit.",
+  "history": "Initial original reached PassOne with masked Pass1 literal and failed typedphase comparison; oldraw retained. Exact6B ownership corrected and freshoriginal taken;2paddingbytes remainCC. Native-only shared-header rebuild retries retained stale refusals, no unnecessary original recapture."
+}

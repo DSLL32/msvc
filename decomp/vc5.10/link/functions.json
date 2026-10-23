@@ -83,7 +83,8 @@
     "_resolve_output_section@4",
     "_create_contribution_group@8",
     "_find_contribution_group@8",
-    "_initialize_group_enumerator@8"
+    "_initialize_group_enumerator@8",
+    "_next_contribution_group@4"
   ],
   "driver": [
     {
@@ -2385,10 +2386,10 @@
     {
       "name": "_next_contribution_group@4",
       "start": 4258928,
-      "end": 4258929,
+      "end": 4258981,
       "source": "src/sections.c",
-      "status": "stub",
-      "pending_extent": true,
+      "status": "implemented",
+      "pending_extent": false,
       "native_symbol": "next_contribution_group",
       "abi": "stdcall BYTE(GroupEnumerator *enumerator); one actual stack input, RET4; no hidden inputs"
     }
@@ -4569,6 +4570,14 @@
       "reason": "adjust_output_section_flags encountered resource section-name literal",
       "evidence": "original45e883..45e8c9; src/sections.c adjust_output_section_flags native-subsystem resource handling",
       "sha256": "35aa252247230a130df4e1f669e653d58e913d1792ef4864d4873fc38d023c1f"
+    },
+    {
+      "start": 4225616,
+      "end": 4225622,
+      "accepted": true,
+      "reason": "FullLink actual PassOne phase string, excluding alignment padding",
+      "sha256": "4aae86b139c1cb318218065518d8f1820e8541cb5f55117889b7c4cfdc44e42c",
+      "evidence": "cases/hello-win32/pass-one-phase-literal.json"
     }
   ],
   "cases": {
