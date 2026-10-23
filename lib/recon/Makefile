@@ -496,3 +496,9 @@ build/spawn-cp0-probe: tests/spawn-state-probe.c $(SOURCES) $(HEADERS) | build
 	$(CC) $(CPPFLAGS) $(CFLAGS) -DRECON_CRT_PROFILE_MSVCRT_510 -DRECON_TEST_SPAWN_CP0 $< $(SOURCES) -o $@
 spawn-cp0-check: build/spawn-cp0-probe
 	$(PYTHON) tests/check-spawn-state.py build/spawn-cp0-probe cp0
+
+.PHONY: wcschr-check
+build/wcschr-probe: tests/wcschr-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+wcschr-check: build/wcschr-probe
+	$(PYTHON) tests/check-wcschr.py build/wcschr-probe

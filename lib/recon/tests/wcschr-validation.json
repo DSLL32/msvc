@@ -1,0 +1,44 @@
+{
+  "scope": "UTF16 first-code-unit search: borrowed first equal pointer, including terminator for zero; NULL for absent before terminator. NULL source unsupported. No locale behavior or host wchar32 boundary.",
+  "canonical_reference": {
+    "path": "/root/msvc2/decomp/vc5.10/rcdll/cases/resources-rich-trailing-space/wcschr-api-reference.json",
+    "sha256": "f98086603dd3e4f3676bf6ea74cf3cb8d01934f992d0b44f9d753be1ec6ef17a"
+  },
+  "canonical_body_sha256": "1099a5094853fb94c897b7b6e1a463e1a7f4302bf010bd3aaa385fda7fac156a",
+  "canonical_rows": 28,
+  "native_controls": "28 original input/error rows plus repeated/high code units, empty string, absent after terminator and zero; source/tail, three error channels and live full108-byte FP state unchanged",
+  "probes": [
+    {
+      "name": "gcc-default",
+      "sha256": "6bcee26888476dfd8fde1b0748ed3575f004f905abff0984a9f3ec018adfeff9",
+      "seconds": 1.44999685510993,
+      "passed": true
+    },
+    {
+      "name": "gcc-510",
+      "sha256": "50eddd834654fcc86148b608f75c3d237d0f4fb316078750356c0660e751a779",
+      "seconds": 1.5310488045215607,
+      "passed": true
+    },
+    {
+      "name": "clang-default",
+      "sha256": "2f8ce09c9204a365b354271af13af9bff1eb5d7f420dd416b9a92aa0f3025e36",
+      "seconds": 1.6215976318344474,
+      "passed": true
+    },
+    {
+      "name": "clang-510",
+      "sha256": "75cc1b9f5f4d0fe6359c4df1622cd3c3458804ee005bed91a7d653998359f111",
+      "seconds": 1.6560306651517749,
+      "passed": true
+    }
+  ],
+  "proof": "/root/.ai-tmp/msvc2/recon-maintenance/wcschr/receipt.json",
+  "original_reuse": "RCDLL unchanged masked include-search original reused for native-only technical pair; failed host wchar32 packet retained separately.",
+  "independent_review": {
+    "path": "/root/.ai-tmp/msvc2/recon-maintenance/wcschr/orchestrator-review.json",
+    "sha256": "6af2edf5b5a657a8681b932e2941b453bfcb9f2900b432236b36cd1d0f5b9f50"
+  },
+  "actual_native": "/root/.ai-tmp/msvc2/vc5.10/rcdll/include-search-trial-native-04",
+  "actual_original": "/root/.ai-tmp/msvc2/vc5.10/rcdll/include-search-trial-original-01"
+}
