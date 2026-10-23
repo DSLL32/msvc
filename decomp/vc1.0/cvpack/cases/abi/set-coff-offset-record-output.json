@@ -1,0 +1,44 @@
+{
+  "size": 28,
+  "offset": 0,
+  "owner": "collect_strip_records",
+  "local": "record",
+  "location": "allocation",
+  "base_register": "esi",
+  "allocation": {
+    "size": 28,
+    "callee": 184240,
+    "call": 164941,
+    "returned": 164946,
+    "argument": 164939,
+    "carrier": 164949
+  },
+  "callsite": {
+    "start": 167286,
+    "end": 167293,
+    "sha256": "502a5a9c645fa1c83cb384c9af8e2f8a92ca4e8f891efd3b0130c5c98367d422"
+  },
+  "frame": {
+    "start": 164880,
+    "end": 164887,
+    "allocation": 96,
+    "sha256": "d04c81ca45e7428f853363ccb3afc67dfa903545c3f2db1f9137835579314aaa"
+  },
+  "wrapper": {
+    "start": 167097,
+    "end": 167293,
+    "sha256": "c1fcef0d694401f1c409694fb030585cca6370d2e3d64f2d7c32a632cf7783e5"
+  },
+  "return_slots": [
+    {
+      "slot": 0,
+      "address": 167293
+    },
+    {
+      "slot": 82,
+      "address": 165004
+    }
+  ],
+  "scope": "Same constructor malloc28 forwarded by ESI to offset setter; only DWORD8 written and no prior payload consumed. Exact live allocation/parent/local size and original nested forwarding; raw28 retained without payload equality credit.",
+  "mode": "output"
+}

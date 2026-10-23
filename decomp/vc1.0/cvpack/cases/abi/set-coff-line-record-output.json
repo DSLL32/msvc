@@ -1,0 +1,44 @@
+{
+  "size": 28,
+  "offset": 0,
+  "owner": "collect_strip_records",
+  "local": "record",
+  "location": "allocation",
+  "base_register": "esi",
+  "allocation": {
+    "size": 28,
+    "callee": 184240,
+    "call": 164941,
+    "returned": 164946,
+    "argument": 164939,
+    "carrier": 164949
+  },
+  "callsite": {
+    "start": 167268,
+    "end": 167283,
+    "sha256": "1e44174de3130175dacc74c0ec871a7963d4d3209b74cc07f4b241948750e9e9"
+  },
+  "frame": {
+    "start": 164880,
+    "end": 164887,
+    "allocation": 96,
+    "sha256": "d04c81ca45e7428f853363ccb3afc67dfa903545c3f2db1f9137835579314aaa"
+  },
+  "wrapper": {
+    "start": 167097,
+    "end": 167283,
+    "sha256": "b755f9938fb2e240710dc48d2113db322973a976d1b2a193e54af57f62ae74da"
+  },
+  "return_slots": [
+    {
+      "slot": 0,
+      "address": 167283
+    },
+    {
+      "slot": 82,
+      "address": 165004
+    }
+  ],
+  "scope": "Same constructor malloc28, forwarded by ESI to first-line setter; only WORD24 written, no existing payload consumed. Native parent pointer/extent and original nested forwarding/lifetime identity, raw28 retained without payload equality credit.",
+  "mode": "output"
+}

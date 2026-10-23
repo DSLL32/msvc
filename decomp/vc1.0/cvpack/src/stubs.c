@@ -126,8 +126,7 @@ void free_strip_records(void) { __asm { int 3 } }
 unsigned short find_next_coff_function(CoffSymbol *symbol,CoffAuxiliary *auxiliary,unsigned long *index)
 { __asm { int 3 } return 0; }
 
-unsigned short read_coff_function_block(const CoffAuxiliary *function,CoffSymbol *block,CoffAuxiliary *auxiliary,unsigned long *index)
-{ __asm { int 3 } return 0; }
+
 void read_coff_function_lines(CoffFunction *record,CoffFunction *previous,unsigned long *offset,unsigned short count)
 { __asm { int 3 } }
 void set_coff_function_end(CoffFunction *record,unsigned long end) { __asm { int 3 } }
@@ -136,6 +135,6 @@ CoffFunction *publish_coff_function(CoffFunction *record) { __asm { int 3 } retu
 
 
 
-void set_coff_function_section(CoffFunction *record,unsigned short section) { __asm { int 3 } }
-void set_coff_function_line(CoffFunction *record,unsigned short line) { __asm { int 3 } }
+
+
 void set_coff_function_offset(CoffFunction *record,unsigned long offset) { __asm { int 3 } }

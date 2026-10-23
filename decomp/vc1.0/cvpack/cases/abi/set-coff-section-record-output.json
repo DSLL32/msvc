@@ -1,0 +1,44 @@
+{
+  "size": 28,
+  "offset": 0,
+  "owner": "collect_strip_records",
+  "local": "record",
+  "location": "allocation",
+  "base_register": "esi",
+  "allocation": {
+    "size": 28,
+    "callee": 184240,
+    "call": 164941,
+    "returned": 164946,
+    "argument": 164939,
+    "carrier": 164949
+  },
+  "callsite": {
+    "start": 167257,
+    "end": 167268,
+    "sha256": "22860db321d398e80f03d0d5cb7763268a64f5fd97730ff6824ff0438db60732"
+  },
+  "frame": {
+    "start": 164880,
+    "end": 164887,
+    "allocation": 96,
+    "sha256": "d04c81ca45e7428f853363ccb3afc67dfa903545c3f2db1f9137835579314aaa"
+  },
+  "wrapper": {
+    "start": 167097,
+    "end": 167268,
+    "sha256": "bbe0f39a0dc963241fd1c6b7170cbadeb6588fb4f33661f896d1760454cab5f2"
+  },
+  "return_slots": [
+    {
+      "slot": 0,
+      "address": 167268
+    },
+    {
+      "slot": 82,
+      "address": 165004
+    }
+  ],
+  "scope": "Same actual live malloc28 constructor record, ESI forwarded to section setter. Callee only writes section WORD6 and consumes no prior payload. Original caller/birth and native parent record/sizeof28 matched; all raw28 retained, no payload equality claim.",
+  "mode": "output"
+}

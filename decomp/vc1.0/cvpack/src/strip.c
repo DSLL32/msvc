@@ -347,3 +347,27 @@ void assign_coff_function_module(CoffFunction *record, unsigned short section,
     } while (module != first);
     fatal_error(37, NULL, NULL);
 }
+
+unsigned short read_coff_function_block(const CoffAuxiliary *function,
+                                        CoffSymbol *block,
+                                        CoffAuxiliary *auxiliary,
+                                        unsigned long *index)
+{
+    if (!function->tag_index) fatal_error(37, NULL, NULL);
+    if (!read_coff_symbol(block, function->tag_index)) fatal_error(37, NULL, NULL);
+    *index = function->tag_index;
+    if (block->storage_class != 0x65) fatal_error(37, NULL, NULL);
+    if (!block->auxiliary_count) return 0;
+    if (!read_coff_auxiliary(auxiliary)) fatal_error(37, NULL, NULL);
+    return 1;
+}
+
+void set_coff_function_section(CoffFunction *record, unsigned short section)
+{
+    record->section = section;
+}
+
+void set_coff_function_line(CoffFunction *record, unsigned short line)
+{
+    record->first_line = line;
+}

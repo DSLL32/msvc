@@ -20,7 +20,7 @@ def validate(item,pe):
             assert proof['return_slots']==[dict(slot=0,address=0x2848c)],'unreviewed allocation constructor caller'
         else:
             assert proof['base_register']=='esi','unreviewed allocation carrier'
-            contexts={0x28d16:(82,0x28d10,'input'),0x28d25:(83,0x28d1f,'output')}
+            contexts={0x28d16:(82,0x28d10,'input'),0x28d25:(83,0x28d1f,'output'),0x28d64:(82,0x28d5e,'output'),0x28d73:(82,0x28d6d,'output'),0x28d7d:(82,0x28d77,'output')}
             returned=proof['return_slots'][0]['address'];assert returned in contexts,'unreviewed forwarded allocation call'
             slot,push,mode=contexts[returned]
             assert proof['return_slots']==[dict(slot=0,address=returned),dict(slot=slot,address=0x2848c)]and proof['mode']==mode,'unreviewed forwarded allocation caller'
