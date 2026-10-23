@@ -177,6 +177,8 @@ void __cdecl initialize_work_buffers(void);
 void *__cdecl reserve_work_buffer(unsigned, unsigned);
 void __cdecl release_work_buffers_238da(void);
 void __cdecl scan_internal_switches(char **);
+unsigned __cdecl parse_internal_switch(const char *, unsigned);
+const char *__cdecl next_internal_token(const char *, char *, unsigned);
 void __cdecl initialize_state_12998(void);
 void __cdecl initialize_compiler_arenas(void);
 void __cdecl parse_command_line(int, char **);

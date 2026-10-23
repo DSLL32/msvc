@@ -90,7 +90,10 @@ if ancestor:
     callargs={name:int(ancestor.read_var(name).cast(gdb.lookup_type('unsigned int'))) for name in ('argc','argv','mode')}
     value['invocation']={'symbol':ancestor.name(),'args':callargs,
       'argv':[ancestor.read_var('argv')[i].string() for i in range(callargs['argc'])],
+      'argv_pointers':[int(ancestor.read_var('argv')[i].cast(gdb.lookup_type('unsigned int'))) for i in range(callargs['argc'])],
       'argv_terminator':int(ancestor.read_var('argv')[callargs['argc']].cast(gdb.lookup_type('unsigned int')))}
+if frame.name()=='parse_internal_switch':
+    value['argument_bytes']=list(gdb.selected_inferior().read_memory(args['argument'],len(gdb.parse_and_eval('argument').string())+1).tobytes())
 caller=frame.older()
 value['caller']={'symbol':caller.name(),'args':{},'pc':int(caller.pc())}
 if caller.name()=='InvokeCompilerPass':
@@ -304,7 +307,36 @@ class ActualWorkEntry(gdb.Breakpoint):
         return False
 ActualWorkEntry('*0x%x')
 """%work_address
-            main_probe+=work_probe
+            scanner_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] scan_internal_switches$',table,re.M)[1],16)
+            scanner_probe="""scanner_entries=[]
+class ActualScannerEntry(gdb.Breakpoint):
+    def stop(self):
+        esp=int(gdb.parse_and_eval('$esp'))
+        words=list(struct.unpack('<2I',gdb.selected_inferior().read_memory(esp,8).tobytes()))
+        block=gdb.block_for_pc(int(gdb.parse_and_eval('$pc')))
+        while block and not block.function:block=block.superblock
+        assert block and block.function
+        formals=[{'name':symbol.name,'type':str(symbol.type)} for symbol in block if symbol.is_argument]
+        assert formals==[{'name':'arguments','type':'char **'}]
+        crt_state={'win32_last_error':int(gdb.parse_and_eval('last_error')),'x87_control':int(gdb.parse_and_eval('$fctrl')),
+          'crt_attached':int(gdb.parse_and_eval('c1_crt_attached')),'raw_dllmain':int(gdb.parse_and_eval('(unsigned int)c1_raw_dllmain')),
+          'onexit_begin':int(gdb.parse_and_eval('(unsigned int)c1_onexit_begin')),'onexit_end':int(gdb.parse_and_eval('(unsigned int)c1_onexit_end')),
+          'onexit_first':int(gdb.parse_and_eval('(unsigned int)*c1_onexit_begin')),'crt_adjust_fdiv':int(gdb.parse_and_eval('c1_crt_adjust_fdiv')),
+          'dll_instance':int(gdb.parse_and_eval('(unsigned int)c1_dll_instance')),'module_token':int(gdb.parse_and_eval('(unsigned int)c1_host_module'))}
+        frame=gdb.newest_frame();caller=frame.older()
+        ancestor=frame
+        while ancestor and ancestor.name()!='InvokeCompilerPass':ancestor=ancestor.older()
+        assert ancestor
+        actual={key:int(ancestor.read_var(key).cast(gdb.lookup_type('unsigned int')))for key in ('argc','argv','mode')}
+        invocation={'symbol':ancestor.name(),'args':actual,'argv':[ancestor.read_var('argv')[i].string()for i in range(actual['argc'])],
+          'argv_pointers':[int(ancestor.read_var('argv')[i].cast(gdb.lookup_type('unsigned int')))for i in range(actual['argc'])],
+          'argv_terminator':int(ancestor.read_var('argv')[actual['argc']].cast(gdb.lookup_type('unsigned int')))}
+        scanner_entries.append({'invocation':invocation,'crt_state':crt_state,'boundary_rva':0x128b1,'symbol':block.function.name,'pc':int(gdb.parse_and_eval('$pc')),'esp':esp,'return':words[0],
+          'args':dict(arguments=words[1]),'formal_inventory':formals,'compiler_state':capture_modeled(),'caller':{'symbol':caller.name(),'pc':int(caller.pc()),'args':{key:int(caller.read_var(key).cast(gdb.lookup_type('unsigned int'))) for key in ('argc','argv')}}})
+        return False
+ActualScannerEntry('*0x%x')
+"""%scanner_address
+            main_probe+=work_probe+scanner_probe
             allocation_probe=allocation_probe.replace('\nend\n','\n'+main_probe+'end\n')
             commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(main_entries,indent=2)+'\\n')\n"%str(output/'main-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(work_entries,indent=2)+'\\n')\n"%str(output/'work-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
@@ -386,6 +418,7 @@ WorkReserveEntry('*0x%x')
             allocation_probe=allocation_probe.replace('\nend\n','\n'+api_probe+'end\n')
             for name,expression in [('work-api-entries.json','work_api_entries'),('work-api-returns.json','work_api_returns'),('work-reserve-entries.json','work_reserve_entries'),('work-reserve-returns.json','work_reserve_returns')]:
                 commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(%s,indent=2)+'\\n')\n"%(str(output/name),expression)+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
+        commands=commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'),"open(%r,'w').write(json.dumps(scanner_entries,indent=2)+'\\n')\n"%str(output/'scanner-entry-observations.json')+"open(%r,'w').write(json.dumps(value,indent=2)+'\\n')"%str(output/'state.json'))
         commands = commands.replace("run\nbt\npython", allocation_probe + "run\nbt\npython", 1)
         commands = commands.replace("open(%r,'w').write(json.dumps(value,indent=2)+'\\n')" % str(output/'state.json'),
                                     "open(%r,'w').write(json.dumps(allocations,indent=2)+'\\n')\n" % str(output/'allocation-observations.json') +

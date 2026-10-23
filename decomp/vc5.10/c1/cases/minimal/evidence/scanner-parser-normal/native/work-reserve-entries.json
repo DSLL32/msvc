@@ -1,0 +1,1094 @@
+[
+  {
+    "index": 0,
+    "pc": 134530416,
+    "esp": 4294957164,
+    "return": 134530319,
+    "raw_args": [
+      5242880,
+      16384
+    ],
+    "args": {
+      "reserve_bytes": 5242880,
+      "commit_bytes": 16384
+    },
+    "formal_inventory": [
+      {
+        "name": "reserve_bytes",
+        "type": "unsigned int"
+      },
+      {
+        "name": "commit_bytes",
+        "type": "unsigned int"
+      }
+    ],
+    "boundary_rva": 75891,
+    "symbol": "reserve_work_buffer",
+    "crt_state": {
+      "win32_last_error": 0,
+      "x87_control": 639,
+      "crt_attached": 1,
+      "raw_dllmain": 0,
+      "onexit_begin": 134756128,
+      "onexit_end": 134756128,
+      "onexit_first": 0,
+      "crt_adjust_fdiv": 0,
+      "dll_instance": 134659188,
+      "module_token": 134659188
+    },
+    "caller": {
+      "symbol": "initialize_work_buffers",
+      "pc": 134530319
+    },
+    "edi": 4160736096,
+    "esi": 134651652,
+    "compiler_state": {
+      "pdb_context": {
+        "database": 0,
+        "names": 0,
+        "types": 0,
+        "minimal_rebuild": 0,
+        "rebuild_state": 0,
+        "read_mode": 0
+      },
+      "pdb_context_layout": {
+        "address": 134653424,
+        "size": 24,
+        "members": {
+          "database": 0,
+          "names": 4,
+          "types": 8,
+          "minimal_rebuild": 12,
+          "rebuild_state": 16,
+          "read_mode": 20
+        }
+      },
+      "output_pdb_context": {
+        "database": 0,
+        "names": 0,
+        "types": 0,
+        "minimal_rebuild": 0,
+        "rebuild_state": 0,
+        "read_mode": 0
+      },
+      "output_pdb_context_layout": {
+        "address": 134653448,
+        "size": 24,
+        "members": {
+          "database": 0,
+          "names": 4,
+          "types": 8,
+          "minimal_rebuild": 12,
+          "rebuild_state": 16,
+          "read_mode": 20
+        }
+      },
+      "live_addresses": {
+        "initialized": 134652308,
+        "bss": 134652616
+      },
+      "initialized": {
+        "first_call": 0,
+        "compiler_phase": 1,
+        "c9_il": 0,
+        "compiler_flags": 0,
+        "system_info": {
+          "dwOemId": 0,
+          "dwPageSize": 4096,
+          "lpMinimumApplicationAddress": 0,
+          "lpMaximumApplicationAddress": 0,
+          "dwActiveProcessorMask": 0,
+          "dwNumberOfProcessors": 0,
+          "dwProcessorType": 0,
+          "dwAllocationGranularity": 65536,
+          "wProcessorLevel": 0,
+          "wProcessorRevision": 0
+        }
+      },
+      "bss": {
+        "work_buffers": [
+          {
+            "data": 0,
+            "limit": 0
+          },
+          {
+            "data": 0,
+            "limit": 0
+          }
+        ],
+        "debug_break": 0,
+        "command_argc": 0,
+        "command_argv": 0,
+        "pch_state": {
+          "image_count": 0,
+          "root_image": 0,
+          "images": 0,
+          "stored_file_position": 0,
+          "file_name": 0,
+          "file_offset": 0,
+          "file": 0,
+          "mapping_handles": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "loaded_image_count": 0,
+          "scratch_arena": 0,
+          "original_pages": 0,
+          "mapped_pages": 0
+        },
+        "empty_record_prototype": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "pools": [
+          {
+            "cursor": 0,
+            "remaining": 0,
+            "minimum_pages": 1,
+            "arena": 0
+          },
+          {
+            "cursor": 0,
+            "remaining": 0,
+            "minimum_pages": 1,
+            "arena": 0
+          },
+          {
+            "cursor": 0,
+            "remaining": 0,
+            "minimum_pages": 1,
+            "arena": 0
+          },
+          {
+            "cursor": 0,
+            "remaining": 0,
+            "minimum_pages": 1,
+            "arena": 0
+          },
+          {
+            "cursor": 0,
+            "remaining": 0,
+            "minimum_pages": 1,
+            "arena": 0
+          },
+          {
+            "cursor": 0,
+            "remaining": 0,
+            "minimum_pages": 1,
+            "arena": 0
+          },
+          {
+            "cursor": 0,
+            "remaining": 0,
+            "minimum_pages": 1,
+            "arena": 0
+          },
+          {
+            "cursor": 0,
+            "remaining": 0,
+            "minimum_pages": 1,
+            "arena": 0
+          },
+          {
+            "cursor": 0,
+            "remaining": 0,
+            "minimum_pages": 1,
+            "arena": 0
+          }
+        ],
+        "pdb_signature": 4294967295,
+        "literal": 0,
+        "saved_literal": 0,
+        "saved_literal_available": 1,
+        "saved_data": 134760384,
+        "cleanup_count": 10,
+        "cleanup_callbacks": [
+          134526576,
+          134526784,
+          134526992,
+          134527200,
+          134527408,
+          134527616,
+          134527824,
+          134528032,
+          134528224,
+          134528416,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "context": {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        "current_context": {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        "contexts": [
+          {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          }
+        ],
+        "output_buffers": [
+          {
+            "data": 0,
+            "cursor": 0,
+            "capacity": 0,
+            "relocated": 0,
+            "relocation_context": 0,
+            "stream": 0,
+            "good": 1,
+            "mode": 0,
+            "file_descriptor": -1
+          },
+          {
+            "data": 0,
+            "cursor": 0,
+            "capacity": 0,
+            "relocated": 0,
+            "relocation_context": 0,
+            "stream": 0,
+            "good": 1,
+            "mode": 0,
+            "file_descriptor": -1
+          },
+          {
+            "data": 0,
+            "cursor": 0,
+            "capacity": 0,
+            "relocated": 0,
+            "relocation_context": 0,
+            "stream": 0,
+            "good": 1,
+            "mode": 0,
+            "file_descriptor": -1
+          },
+          {
+            "data": 0,
+            "cursor": 0,
+            "capacity": 0,
+            "relocated": 0,
+            "relocation_context": 0,
+            "stream": 0,
+            "good": 1,
+            "mode": 0,
+            "file_descriptor": -1
+          },
+          {
+            "data": 0,
+            "cursor": 0,
+            "capacity": 0,
+            "relocated": 0,
+            "relocation_context": 0,
+            "stream": 0,
+            "good": 1,
+            "mode": 0,
+            "file_descriptor": -1
+          },
+          {
+            "data": 0,
+            "cursor": 0,
+            "capacity": 0,
+            "relocated": 0,
+            "relocation_context": 0,
+            "stream": 0,
+            "good": 1,
+            "mode": 0,
+            "file_descriptor": -1
+          },
+          {
+            "data": 0,
+            "cursor": 0,
+            "capacity": 0,
+            "relocated": 0,
+            "relocation_context": 0,
+            "stream": 0,
+            "good": 1,
+            "mode": 0,
+            "file_descriptor": -1
+          },
+          {
+            "data": 0,
+            "cursor": 0,
+            "capacity": 0,
+            "relocated": 0,
+            "relocation_context": 0,
+            "stream": 0,
+            "good": 1,
+            "mode": 0,
+            "file_descriptor": -1
+          }
+        ]
+      },
+      "snapshot": {
+        "first_call": 1,
+        "compiler_phase": 0,
+        "c9_il": 0,
+        "compiler_flags": 0,
+        "system_info": {
+          "dwOemId": 0,
+          "dwPageSize": 4096,
+          "lpMinimumApplicationAddress": 0,
+          "lpMaximumApplicationAddress": 0,
+          "dwActiveProcessorMask": 0,
+          "dwNumberOfProcessors": 0,
+          "dwProcessorType": 0,
+          "dwAllocationGranularity": 65536,
+          "wProcessorLevel": 0,
+          "wProcessorRevision": 0
+        }
+      },
+      "reuse_state": 0,
+      "pass_mode": 1,
+      "initialization_callbacks": [
+        0,
+        134524432,
+        134524528,
+        134524624,
+        134524784,
+        134524848,
+        134524912,
+        134524976,
+        134525056,
+        134525136,
+        134525216,
+        134525296,
+        134525376,
+        134525456,
+        134525536,
+        134525616,
+        134525680,
+        134525760,
+        134525824,
+        134525888,
+        134525968,
+        134528592,
+        134528672,
+        134528768,
+        134528864,
+        134528960,
+        134529056,
+        134529152,
+        134529248,
+        134529344,
+        134526048,
+        134526112,
+        134529632,
+        134526240
+      ],
+      "native_layout": {
+        "work_buffers": 788,
+        "work_buffer_count": 2,
+        "work_buffer_size": 8,
+        "work_buffer_members": {
+          "data": 0,
+          "limit": 4
+        },
+        "initialized_members": {
+          "first_call": 0,
+          "compiler_phase": 4,
+          "c9_il": 8,
+          "compiler_flags": 12,
+          "system_info": 16
+        },
+        "system_info_size": 36,
+        "system_info_members": {
+          "dwOemId": 0,
+          "dwPageSize": 4,
+          "lpMinimumApplicationAddress": 8,
+          "lpMaximumApplicationAddress": 12,
+          "dwActiveProcessorMask": 16,
+          "dwNumberOfProcessors": 20,
+          "dwProcessorType": 24,
+          "dwAllocationGranularity": 28,
+          "wProcessorLevel": 32,
+          "wProcessorRevision": 34
+        },
+        "command_members": {
+          "debug_break": 776,
+          "command_argc": 780,
+          "command_argv": 784
+        },
+        "pch_state": 708,
+        "pch_state_size": 68,
+        "mapping_handle_count": 6,
+        "pch_members": {
+          "image_count": 0,
+          "root_image": 4,
+          "images": 8,
+          "stored_file_position": 12,
+          "file_name": 16,
+          "file_offset": 20,
+          "file": 24,
+          "mapping_handles": 28,
+          "loaded_image_count": 52,
+          "scratch_arena": 56,
+          "original_pages": 60,
+          "mapped_pages": 64
+        },
+        "empty_record_prototype": 688,
+        "empty_record_prototype_size": 20,
+        "initialized_size": 52,
+        "bss_size": 804,
+        "pools": 544,
+        "pool_count": 9,
+        "pool_size": 16,
+        "pool_members": {
+          "cursor": 0,
+          "remaining": 4,
+          "minimum_pages": 8,
+          "arena": 12
+        },
+        "pdb_signature": 540,
+        "literal": 520,
+        "saved_literal": 528,
+        "saved_literal_available": 536,
+        "value_size": 8,
+        "first_call": 0,
+        "saved_data": 0,
+        "cleanup_count": 4,
+        "cleanup_callbacks": 8,
+        "context": 136,
+        "current_context": 148,
+        "contexts": 160,
+        "contexts_stride": 12,
+        "output_buffers": 232,
+        "output_buffer_count": 8,
+        "output_buffer_size": 36,
+        "buffer_members": {
+          "data": 0,
+          "cursor": 4,
+          "capacity": 8,
+          "relocated": 12,
+          "relocation_context": 16,
+          "stream": 20,
+          "good": 24,
+          "mode": 28,
+          "file_descriptor": 32
+        },
+        "context_members": {
+          "object": 0,
+          "value": 4,
+          "saved_frame": 8
+        }
+      }
+    }
+  },
+  {
+    "index": 1,
+    "pc": 134530416,
+    "esp": 4294957164,
+    "return": 134530359,
+    "raw_args": [
+      5242880,
+      16384
+    ],
+    "args": {
+      "reserve_bytes": 5242880,
+      "commit_bytes": 16384
+    },
+    "formal_inventory": [
+      {
+        "name": "reserve_bytes",
+        "type": "unsigned int"
+      },
+      {
+        "name": "commit_bytes",
+        "type": "unsigned int"
+      }
+    ],
+    "boundary_rva": 75891,
+    "symbol": "reserve_work_buffer",
+    "crt_state": {
+      "win32_last_error": 0,
+      "x87_control": 639,
+      "crt_attached": 1,
+      "raw_dllmain": 0,
+      "onexit_begin": 134756128,
+      "onexit_end": 134756128,
+      "onexit_first": 0,
+      "crt_adjust_fdiv": 0,
+      "dll_instance": 134659188,
+      "module_token": 134659188
+    },
+    "caller": {
+      "symbol": "initialize_work_buffers",
+      "pc": 134530359
+    },
+    "edi": 4160736096,
+    "esi": 134651652,
+    "compiler_state": {
+      "pdb_context": {
+        "database": 0,
+        "names": 0,
+        "types": 0,
+        "minimal_rebuild": 0,
+        "rebuild_state": 0,
+        "read_mode": 0
+      },
+      "pdb_context_layout": {
+        "address": 134653424,
+        "size": 24,
+        "members": {
+          "database": 0,
+          "names": 4,
+          "types": 8,
+          "minimal_rebuild": 12,
+          "rebuild_state": 16,
+          "read_mode": 20
+        }
+      },
+      "output_pdb_context": {
+        "database": 0,
+        "names": 0,
+        "types": 0,
+        "minimal_rebuild": 0,
+        "rebuild_state": 0,
+        "read_mode": 0
+      },
+      "output_pdb_context_layout": {
+        "address": 134653448,
+        "size": 24,
+        "members": {
+          "database": 0,
+          "names": 4,
+          "types": 8,
+          "minimal_rebuild": 12,
+          "rebuild_state": 16,
+          "read_mode": 20
+        }
+      },
+      "live_addresses": {
+        "initialized": 134652308,
+        "bss": 134652616
+      },
+      "initialized": {
+        "first_call": 0,
+        "compiler_phase": 1,
+        "c9_il": 0,
+        "compiler_flags": 0,
+        "system_info": {
+          "dwOemId": 0,
+          "dwPageSize": 4096,
+          "lpMinimumApplicationAddress": 0,
+          "lpMaximumApplicationAddress": 0,
+          "dwActiveProcessorMask": 0,
+          "dwNumberOfProcessors": 0,
+          "dwProcessorType": 0,
+          "dwAllocationGranularity": 65536,
+          "wProcessorLevel": 0,
+          "wProcessorRevision": 0
+        }
+      },
+      "bss": {
+        "work_buffers": [
+          {
+            "data": 4152807424,
+            "limit": 4152823803
+          },
+          {
+            "data": 0,
+            "limit": 0
+          }
+        ],
+        "debug_break": 0,
+        "command_argc": 0,
+        "command_argv": 0,
+        "pch_state": {
+          "image_count": 0,
+          "root_image": 0,
+          "images": 0,
+          "stored_file_position": 0,
+          "file_name": 0,
+          "file_offset": 0,
+          "file": 0,
+          "mapping_handles": [
+            0,
+            0,
+            0,
+            0,
+            0,
+            0
+          ],
+          "loaded_image_count": 0,
+          "scratch_arena": 0,
+          "original_pages": 0,
+          "mapped_pages": 0
+        },
+        "empty_record_prototype": [
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "pools": [
+          {
+            "cursor": 0,
+            "remaining": 0,
+            "minimum_pages": 1,
+            "arena": 0
+          },
+          {
+            "cursor": 0,
+            "remaining": 0,
+            "minimum_pages": 1,
+            "arena": 0
+          },
+          {
+            "cursor": 0,
+            "remaining": 0,
+            "minimum_pages": 1,
+            "arena": 0
+          },
+          {
+            "cursor": 0,
+            "remaining": 0,
+            "minimum_pages": 1,
+            "arena": 0
+          },
+          {
+            "cursor": 0,
+            "remaining": 0,
+            "minimum_pages": 1,
+            "arena": 0
+          },
+          {
+            "cursor": 0,
+            "remaining": 0,
+            "minimum_pages": 1,
+            "arena": 0
+          },
+          {
+            "cursor": 0,
+            "remaining": 0,
+            "minimum_pages": 1,
+            "arena": 0
+          },
+          {
+            "cursor": 0,
+            "remaining": 0,
+            "minimum_pages": 1,
+            "arena": 0
+          },
+          {
+            "cursor": 0,
+            "remaining": 0,
+            "minimum_pages": 1,
+            "arena": 0
+          }
+        ],
+        "pdb_signature": 4294967295,
+        "literal": 0,
+        "saved_literal": 0,
+        "saved_literal_available": 1,
+        "saved_data": 134760384,
+        "cleanup_count": 10,
+        "cleanup_callbacks": [
+          134526576,
+          134526784,
+          134526992,
+          134527200,
+          134527408,
+          134527616,
+          134527824,
+          134528032,
+          134528224,
+          134528416,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0,
+          0
+        ],
+        "context": {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        "current_context": {
+          "object": 0,
+          "value": 0,
+          "saved_frame": 0
+        },
+        "contexts": [
+          {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          },
+          {
+            "object": 0,
+            "value": 0,
+            "saved_frame": 0
+          }
+        ],
+        "output_buffers": [
+          {
+            "data": 0,
+            "cursor": 0,
+            "capacity": 0,
+            "relocated": 0,
+            "relocation_context": 0,
+            "stream": 0,
+            "good": 1,
+            "mode": 0,
+            "file_descriptor": -1
+          },
+          {
+            "data": 0,
+            "cursor": 0,
+            "capacity": 0,
+            "relocated": 0,
+            "relocation_context": 0,
+            "stream": 0,
+            "good": 1,
+            "mode": 0,
+            "file_descriptor": -1
+          },
+          {
+            "data": 0,
+            "cursor": 0,
+            "capacity": 0,
+            "relocated": 0,
+            "relocation_context": 0,
+            "stream": 0,
+            "good": 1,
+            "mode": 0,
+            "file_descriptor": -1
+          },
+          {
+            "data": 0,
+            "cursor": 0,
+            "capacity": 0,
+            "relocated": 0,
+            "relocation_context": 0,
+            "stream": 0,
+            "good": 1,
+            "mode": 0,
+            "file_descriptor": -1
+          },
+          {
+            "data": 0,
+            "cursor": 0,
+            "capacity": 0,
+            "relocated": 0,
+            "relocation_context": 0,
+            "stream": 0,
+            "good": 1,
+            "mode": 0,
+            "file_descriptor": -1
+          },
+          {
+            "data": 0,
+            "cursor": 0,
+            "capacity": 0,
+            "relocated": 0,
+            "relocation_context": 0,
+            "stream": 0,
+            "good": 1,
+            "mode": 0,
+            "file_descriptor": -1
+          },
+          {
+            "data": 0,
+            "cursor": 0,
+            "capacity": 0,
+            "relocated": 0,
+            "relocation_context": 0,
+            "stream": 0,
+            "good": 1,
+            "mode": 0,
+            "file_descriptor": -1
+          },
+          {
+            "data": 0,
+            "cursor": 0,
+            "capacity": 0,
+            "relocated": 0,
+            "relocation_context": 0,
+            "stream": 0,
+            "good": 1,
+            "mode": 0,
+            "file_descriptor": -1
+          }
+        ]
+      },
+      "snapshot": {
+        "first_call": 1,
+        "compiler_phase": 0,
+        "c9_il": 0,
+        "compiler_flags": 0,
+        "system_info": {
+          "dwOemId": 0,
+          "dwPageSize": 4096,
+          "lpMinimumApplicationAddress": 0,
+          "lpMaximumApplicationAddress": 0,
+          "dwActiveProcessorMask": 0,
+          "dwNumberOfProcessors": 0,
+          "dwProcessorType": 0,
+          "dwAllocationGranularity": 65536,
+          "wProcessorLevel": 0,
+          "wProcessorRevision": 0
+        }
+      },
+      "reuse_state": 0,
+      "pass_mode": 1,
+      "initialization_callbacks": [
+        0,
+        134524432,
+        134524528,
+        134524624,
+        134524784,
+        134524848,
+        134524912,
+        134524976,
+        134525056,
+        134525136,
+        134525216,
+        134525296,
+        134525376,
+        134525456,
+        134525536,
+        134525616,
+        134525680,
+        134525760,
+        134525824,
+        134525888,
+        134525968,
+        134528592,
+        134528672,
+        134528768,
+        134528864,
+        134528960,
+        134529056,
+        134529152,
+        134529248,
+        134529344,
+        134526048,
+        134526112,
+        134529632,
+        134526240
+      ],
+      "native_layout": {
+        "work_buffers": 788,
+        "work_buffer_count": 2,
+        "work_buffer_size": 8,
+        "work_buffer_members": {
+          "data": 0,
+          "limit": 4
+        },
+        "initialized_members": {
+          "first_call": 0,
+          "compiler_phase": 4,
+          "c9_il": 8,
+          "compiler_flags": 12,
+          "system_info": 16
+        },
+        "system_info_size": 36,
+        "system_info_members": {
+          "dwOemId": 0,
+          "dwPageSize": 4,
+          "lpMinimumApplicationAddress": 8,
+          "lpMaximumApplicationAddress": 12,
+          "dwActiveProcessorMask": 16,
+          "dwNumberOfProcessors": 20,
+          "dwProcessorType": 24,
+          "dwAllocationGranularity": 28,
+          "wProcessorLevel": 32,
+          "wProcessorRevision": 34
+        },
+        "command_members": {
+          "debug_break": 776,
+          "command_argc": 780,
+          "command_argv": 784
+        },
+        "pch_state": 708,
+        "pch_state_size": 68,
+        "mapping_handle_count": 6,
+        "pch_members": {
+          "image_count": 0,
+          "root_image": 4,
+          "images": 8,
+          "stored_file_position": 12,
+          "file_name": 16,
+          "file_offset": 20,
+          "file": 24,
+          "mapping_handles": 28,
+          "loaded_image_count": 52,
+          "scratch_arena": 56,
+          "original_pages": 60,
+          "mapped_pages": 64
+        },
+        "empty_record_prototype": 688,
+        "empty_record_prototype_size": 20,
+        "initialized_size": 52,
+        "bss_size": 804,
+        "pools": 544,
+        "pool_count": 9,
+        "pool_size": 16,
+        "pool_members": {
+          "cursor": 0,
+          "remaining": 4,
+          "minimum_pages": 8,
+          "arena": 12
+        },
+        "pdb_signature": 540,
+        "literal": 520,
+        "saved_literal": 528,
+        "saved_literal_available": 536,
+        "value_size": 8,
+        "first_call": 0,
+        "saved_data": 0,
+        "cleanup_count": 4,
+        "cleanup_callbacks": 8,
+        "context": 136,
+        "current_context": 148,
+        "contexts": 160,
+        "contexts_stride": 12,
+        "output_buffers": 232,
+        "output_buffer_count": 8,
+        "output_buffer_size": 36,
+        "buffer_members": {
+          "data": 0,
+          "cursor": 4,
+          "capacity": 8,
+          "relocated": 12,
+          "relocation_context": 16,
+          "stream": 20,
+          "good": 24,
+          "mode": 28,
+          "file_descriptor": 32
+        },
+        "context_members": {
+          "object": 0,
+          "value": 4,
+          "saved_frame": 8
+        }
+      }
+    }
+  }
+]

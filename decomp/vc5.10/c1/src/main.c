@@ -29,11 +29,6 @@ void __cdecl release_work_buffers_238da(void)
     __asm { int 3 }
 }
 
-void __cdecl scan_internal_switches(char **arguments)
-{
-    __asm { int 3 }
-}
-
 void __cdecl initialize_state_12998(void)
 {
     __asm { int 3 }

@@ -3,15 +3,15 @@
 Target: `toolchains/5.10/bin/C1.DLL`, SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`.
 The lifecycle-only first case is complete. Minimal C compilation is in progress,
-all initialization callbacks and main are complete; work-buffer reservations/commits reach commandline helper128b1. The native i386
+all initialization callbacks and main are complete; internal-switch scanning reaches its first argument parser12900. The native i386
 harness and actual Win32 DLL compile the same reconstructed source; two genuine
 thiscall members and their callers use small C++ translation units. The lifecycle
 fixture resolves both compiler exports; the minimal case calls InvokeCompilerPass.
 AbortCompilerPass remains a named INT3 stub.
 
-Accepted ownership is53 application functions /2025 original bytes,2 CRT support
-functions /451 bytes and one6-byte import thunk:2482 of the `.text` virtual
-extent's322288 bytes (0.770%). That denominator includes CRT and unclassified
+Accepted ownership is54 application functions /2188 original bytes,2 CRT support
+functions /451 bytes and one6-byte import thunk:2645 of the `.text` virtual
+extent's322288 bytes (0.821%). That denominator includes CRT and unclassified
 code; it is not non-CRT coverage. The original17-DWORD PCH-context initializer
 and its tail wrapper were explicitly accepted as one ordered JOINT two-function
 closure after separate non-promotable prospective input evidence.
@@ -437,3 +437,13 @@ preservation witnesses enable common Rust cached-import resolution; all55 source
 functions pass strict auditing. Fresh allocation53/53 and core47/100 controls
 pass; cached native lifecycle4.56ms. See `cases/minimal/RESERVE-WORK-BUFFER.md`
 and `evidence/reserve-main-switches-*` for raw bindings and separate timing.
+
+The internal-switch scanner128b1 (79hot+84cold bytes) is accepted, reaching
+its separate parser12900 with actualargv[1] "-il"/NUL andmode0. Independent real
+scanner entry anchors the earlier allocator/main continuation; no modeled or
+original state changes before the parser. All56 source functions pass strict
+Rust audits. Focused27/27 controls are fresh; unchanged core47/100 and allocation
+53/53 proofs are hash-bound reused, not rerun. Builds4.150/1.904s, normalcaptures
+1.468/.800s,restore1.869/1.639s,audit.026s,nativecachedlifecycle4.13ms. New
+controls24.35/34.18s are separate. See `cases/minimal/SWITCH-SCANNER.md` and
+`evidence/scanner-parser-*`; the getenv/token branch has not yet run.

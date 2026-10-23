@@ -32,7 +32,7 @@
     {
       "order": 2,
       "id": "minimal",
-      "status": "reconstructing; actual work reserve/commit accepted, next commandline helper128b1",
+      "status": "reconstructing; internal-switch scanner accepted, next genuine parse_internal_switch12900",
       "proposed_driver_argv": [
         "/nologo",
         "/c",

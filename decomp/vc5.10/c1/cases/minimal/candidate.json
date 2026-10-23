@@ -371,6 +371,16 @@
       "start_rva": 197691,
       "end_rva": 197721,
       "entry": 0
+    },
+    {
+      "start_rva": 75953,
+      "end_rva": 76032,
+      "entry": 1
+    },
+    {
+      "start_rva": 197721,
+      "end_rva": 197805,
+      "entry": 0
     }
   ],
   "functions": [
@@ -1160,6 +1170,23 @@
         ]
       ],
       "source": "src/work-buffers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_scan_internal_switches",
+      "native_symbol": "scan_internal_switches",
+      "role": "application",
+      "chunks": [
+        [
+          75953,
+          76032
+        ],
+        [
+          197721,
+          197805
+        ]
+      ],
+      "source": "src/options.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -1175,15 +1202,16 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 75953,
-    "native_symbol": "scan_internal_switches",
-    "kind": "main-switches",
+    "rva": 76032,
+    "native_symbol": "parse_internal_switch",
+    "kind": "scanner-argument",
     "native_args": [
-      "arguments"
+      "argument",
+      "mode"
     ],
     "caller": {
-      "native_symbol": "c1_main",
-      "return_rva": 75743
+      "native_symbol": "scan_internal_switches",
+      "return_rva": 75986
     }
   },
   "imports": [
@@ -1435,7 +1463,7 @@
       "normal_case": false
     }
   },
-  "staging_role": "whole reserve helper hot/cold candidate; two real allocator returns, four API calls, then main commandline helper",
+  "staging_role": "full internal-switch scanner hot/cold candidate, actual scanner-entry proof then first argv argument parser frontier",
   "registered_cleanup": [
     {
       "original_rva": 145728,

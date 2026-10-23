@@ -27,7 +27,7 @@ def validate_fields(original,native,fields,entry,state,entry_sequence,sequence,p
   assert values(raw)==[saved+offset for offset in PLAN['pointer_offsets']]
 
 def boundary(original,native,state,sequence,module,candidate):
- assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva']) in [('work-buffer-allocation',0x12873),('main-switches',0x128b1)]
+ assert (candidate['expected_frontier']['kind'],candidate['expected_frontier']['rva']) in [('work-buffer-allocation',0x12873),('main-switches',0x128b1),('scanner-argument',0x12900)]
  events=(original/'events.txt').read_text();rows=re.findall(r'^trap seq=(\d+) rva=00012830 .*stack=([0-9a-f,]+)\nlast-error=(\d+)\nx87-control=([0-9a-f]+)$',events,re.M)
  assert len(rows)==1;entry_sequence=int(rows[0][0]);assert entry_sequence<sequence
  words=[int(x,16) for x in rows[0][1].split(',')];assert words[0]==module+0x127b8

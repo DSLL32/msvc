@@ -109,7 +109,7 @@ def validate(original,native,fields,work_entry,state,work_sequence,sequence,modu
  assert bytes(wanted)==(original/('compiler-bss-%03d.bin'%sequence)).read_bytes()
  for region in ('compiler-data','compiler-snapshot','state'):
   assert (original/('%s-%03d.bin'%(region,work_sequence))).read_bytes()==(original/('%s-%03d.bin'%(region,sequence))).read_bytes()
- for key,value in work_entry['crt_state'].items():assert state[key]==value
+ for key,value in work_entry['crt_state'].items():assert (state['crt_state']if 'crt_state'in state else state)[key]==value
  assert state['caller']['symbol']=='c1_main' and state['args']==dict(arguments=state['invocation']['args']['argv'])
  assert state['formal_inventory']==[dict(name='arguments',type='char **')]
  call(binary,state['caller']['pc'],names['scan_internal_switches'][0])
