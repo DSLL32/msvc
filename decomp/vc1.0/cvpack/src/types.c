@@ -1081,3 +1081,111 @@ void __fastcall store_type(TypeRecord *entry)
     if ((kind == 4 || kind == 5) && !(node->data[8]&0x80))
         record_derived_types(node->index, *(unsigned short *)(node->data+6));
 }
+
+/* Linear byte transforms used by the record hash. The eight basis columns
+   specify each original256-byte lookup exactly, without a runtime initializer. */
+#define HASH_TRANSFORM(x,a,b,c,d,e,f,g,h) \
+    (((x)&1?(a):0)^((x)&2?(b):0)^((x)&4?(c):0)^((x)&8?(d):0)^ \
+     ((x)&16?(e):0)^((x)&32?(f):0)^((x)&64?(g):0)^((x)&128?(h):0))
+#define HASH_LOW(x) HASH_TRANSFORM(x,1,3,6,0x0d,0x1a,0x34,0x69,0xd2)
+#define HASH_HIGH(x) HASH_TRANSFORM(x,0xa5,0x4a,0x94,0x28,0x50,0xa1,0x42,0x85)
+#define HASH_BYTE(x) HASH_TRANSFORM(x,0x97,0x2e,0x5c,0xb8,0x70,0xe0,0xc0,0x80)
+#define HASH_ROW(f,n) f(n),f((n)+1),f((n)+2),f((n)+3), \
+    f((n)+4),f((n)+5),f((n)+6),f((n)+7),f((n)+8),f((n)+9), \
+    f((n)+10),f((n)+11),f((n)+12),f((n)+13),f((n)+14),f((n)+15)
+unsigned char type_hash_low_mix[256] = {
+    HASH_ROW(HASH_LOW,0),
+    HASH_ROW(HASH_LOW,16),
+    HASH_ROW(HASH_LOW,32),
+    HASH_ROW(HASH_LOW,48),
+    HASH_ROW(HASH_LOW,64),
+    HASH_ROW(HASH_LOW,80),
+    HASH_ROW(HASH_LOW,96),
+    HASH_ROW(HASH_LOW,112),
+    HASH_ROW(HASH_LOW,128),
+    HASH_ROW(HASH_LOW,144),
+    HASH_ROW(HASH_LOW,160),
+    HASH_ROW(HASH_LOW,176),
+    HASH_ROW(HASH_LOW,192),
+    HASH_ROW(HASH_LOW,208),
+    HASH_ROW(HASH_LOW,224),
+    HASH_ROW(HASH_LOW,240)
+};
+unsigned char type_hash_high_mix[256] = {
+    HASH_ROW(HASH_HIGH,0),
+    HASH_ROW(HASH_HIGH,16),
+    HASH_ROW(HASH_HIGH,32),
+    HASH_ROW(HASH_HIGH,48),
+    HASH_ROW(HASH_HIGH,64),
+    HASH_ROW(HASH_HIGH,80),
+    HASH_ROW(HASH_HIGH,96),
+    HASH_ROW(HASH_HIGH,112),
+    HASH_ROW(HASH_HIGH,128),
+    HASH_ROW(HASH_HIGH,144),
+    HASH_ROW(HASH_HIGH,160),
+    HASH_ROW(HASH_HIGH,176),
+    HASH_ROW(HASH_HIGH,192),
+    HASH_ROW(HASH_HIGH,208),
+    HASH_ROW(HASH_HIGH,224),
+    HASH_ROW(HASH_HIGH,240)
+};
+unsigned char type_hash_byte[256] = {
+    HASH_ROW(HASH_BYTE,0),
+    HASH_ROW(HASH_BYTE,16),
+    HASH_ROW(HASH_BYTE,32),
+    HASH_ROW(HASH_BYTE,48),
+    HASH_ROW(HASH_BYTE,64),
+    HASH_ROW(HASH_BYTE,80),
+    HASH_ROW(HASH_BYTE,96),
+    HASH_ROW(HASH_BYTE,112),
+    HASH_ROW(HASH_BYTE,128),
+    HASH_ROW(HASH_BYTE,144),
+    HASH_ROW(HASH_BYTE,160),
+    HASH_ROW(HASH_BYTE,176),
+    HASH_ROW(HASH_BYTE,192),
+    HASH_ROW(HASH_BYTE,208),
+    HASH_ROW(HASH_BYTE,224),
+    HASH_ROW(HASH_BYTE,240)
+};
+#undef HASH_ROW
+#undef HASH_BYTE
+#undef HASH_HIGH
+#undef HASH_LOW
+#undef HASH_TRANSFORM
+
+unsigned char type_hash_high, type_hash_low, type_hash_mix;
+
+unsigned short __fastcall hash_type(const unsigned char *record)
+{
+    const unsigned char *cursor = record, *end = record+*(unsigned short *)record+2;
+    unsigned short kind = *(unsigned short *)(record+2), remaining, group, i;
+    switch (kind) {
+    case 4: case 5:
+        cursor += 14;
+        cursor += *(unsigned short *)cursor < 0x8000 ? 2 : numeric_leaf_size(cursor);
+        break;
+    case 6:
+        cursor += 10;
+        cursor += *(unsigned short *)cursor < 0x8000 ? 2 : numeric_leaf_size(cursor);
+        break;
+    case 7:
+        cursor += 12;
+        break;
+    }
+    type_hash_high = type_hash_low = 0;
+    remaining = (unsigned short)(end-cursor);
+    while (remaining) {
+        /* The original unrolls eight bytes backwards, starting with the
+           leading short group, then advancing to the next complete group. */
+        group = ((remaining+7)&7)+1;
+        for (i = group; i; ) {
+            --i;
+            type_hash_mix = type_hash_low_mix[type_hash_low]^type_hash_high_mix[type_hash_high];
+            type_hash_low = type_hash_high;
+            type_hash_high = type_hash_byte[cursor[i]^type_hash_mix];
+        }
+        cursor += group;
+        remaining = (unsigned short)(end-cursor);
+    }
+    return ((unsigned short)type_hash_high<<8|type_hash_low)&0xfff;
+}

@@ -1,0 +1,9 @@
+make: Nothing to be done for 'graph-identities'.
+make: Nothing to be done for 'graph-audit-tool'.
+exception 80000003 va 00019860 base 00010000 first 1
+Restored entry ranges: 71
+/root/.ai-tmp/vc1.0-cvpack/0073-hash_type-original/receipt.json
+hello-debug-dll trap {'setup': 0.1561070689931512, 'execution': 0.015444343909621239, 'debugging': 1.989097991026938, 'checks': 0.018891493789851665, 'total': 2.179546975530684}
+/root/.ai-tmp/vc1.0-cvpack/0073-hash_type-native/receipt.json
+73 complete original/compiler CFG/callee/ABI functions; 162 contextual data objects; strict CRT/import identities verified.
+Fresh original/native candidate proof passes without acceptance: hash_type

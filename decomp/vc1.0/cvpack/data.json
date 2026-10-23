@@ -1028,5 +1028,47 @@
     "stride": 4,
     "pointer_offset": 0,
     "provenance": "Two fastcall ushort index converters: old259c0,new26520; indexed by actual type_signature. Fully typed original/canonical/native function identities."
+  },
+  {
+    "name": "type_hash_low_mix",
+    "symbol": "_type_hash_low_mix",
+    "original": 226552,
+    "size": 256,
+    "source": "src/types.c"
+  },
+  {
+    "name": "type_hash_high_mix",
+    "symbol": "_type_hash_high_mix",
+    "original": 226808,
+    "size": 256,
+    "source": "src/types.c"
+  },
+  {
+    "name": "type_hash_byte",
+    "symbol": "_type_hash_byte",
+    "original": 227064,
+    "size": 256,
+    "source": "src/types.c"
+  },
+  {
+    "name": "type_hash_high",
+    "symbol": "_type_hash_high",
+    "original": 216716,
+    "size": 1,
+    "source": "src/types.c"
+  },
+  {
+    "name": "type_hash_low",
+    "symbol": "_type_hash_low",
+    "original": 216720,
+    "size": 1,
+    "source": "src/types.c"
+  },
+  {
+    "name": "type_hash_mix",
+    "symbol": "_type_hash_mix",
+    "original": 216724,
+    "size": 1,
+    "source": "src/types.c"
   }
 ]

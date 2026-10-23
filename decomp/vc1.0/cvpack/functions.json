@@ -4310,15 +4310,23 @@
       "native": "hash_type",
       "symbol": "@hash_type@4",
       "original": 115104,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        115104,
+        115884
+      ],
       "abi": "unsigned short __fastcall hash_type(const unsigned char *)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0073-hash_type/proof.json",
       "roots": [],
-      "text_data": [],
+      "text_data": [
+        [
+          115884,
+          115916
+        ]
+      ],
       "parameters": [
         {
           "name": "record",
@@ -4327,7 +4335,51 @@
           "bits": 32
         }
       ],
-      "return_bits": 16
+      "return_bits": 16,
+      "required_pdb_record_proof": true,
+      "required_symbol_output_observation": true,
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      },
+      "switches": {
+        "115286": [
+          115765,
+          115698,
+          115631,
+          115564,
+          115497,
+          115430,
+          115363,
+          115296
+        ]
+      },
+      "switch_tables": [
+        {
+          "start": 115884,
+          "targets": [
+            115765,
+            115698,
+            115631,
+            115564,
+            115497,
+            115430,
+            115363,
+            115296
+          ]
+        }
+      ],
+      "compiler_switch_counts": []
     },
     {
       "name": "release_type_data",
@@ -4897,6 +4949,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 72
+    },
+    {
+      "function": "hash_type",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 73
     }
   ],
   "support_unmasked": [
@@ -5491,11 +5549,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "31a62ae928b0d9a511d750dfe4b3c95058e79b05023a42d34d4f8a5251c5143c"
+    "evidence_sha256": "2899a2a3a5cdc4e837636d0e5e0021a2b9b2217f99c05e12c4d57db2449d376e"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "ffbae5424961e3836e8090da453727fa10398b9ae3ccbf49a1cabf4cdd4b9c61"
+    "evidence_sha256": "f9e2740387cc3e41d2f50afc40cfab54979b57c8f321622e13d311da3de6ebcf"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -5527,10 +5585,14 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "a684c8df67b851f048de07f08d6db52e1b94acc609f38e0d6f07372c4160afa8"
+    "evidence_sha256": "9133b177036d6b344dd1ba72ebb3cd480e299eb7916a563435323b8c65ba4369"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "7951352050bfc4042a21467331225ea7b5f6631fe9980d6fbef0ae54584fd070"
+    "evidence_sha256": "a9de2124a5b8541d2246c7bc2fbf86f8de03e97778d56cc3b8d4231f04784c6a"
+  },
+  "type_hash_observations": {
+    "evidence": "cases/abi/type-hash.json",
+    "evidence_sha256": "475448f5717cc26e23df344848f9b518bdafd75093c4d58262dc299565027351"
   }
 }

@@ -70,10 +70,20 @@
       "start": 103808,
       "end": 103824,
       "bytes": "83ec04535657558bd98b0be8102c0000"
+    },
+    {
+      "start": 103819,
+      "end": 103837,
+      "bytes": "e8102c00008be8a17071030081e5ffff0000"
+    },
+    {
+      "start": 104179,
+      "end": 104186,
+      "bytes": "8bcbe866010000"
     }
   ],
   "sources": {
-    "src/types.c": "54a0782c296de05889393369d44049ed8f4c480030f18213ea9b46a2d65fa641",
+    "src/types.c": "3f235e0ced32b2dba05ee03caf74cac06a4464bdaa136fd333323f9e04350c7f",
     "src/types.h": "e07e9a17d5f51731b18c7b611fb91dcbf014a6c49694f93e78dadbb2cfebcfab",
     "src/image.h": "3db3018bf316e791bb96d567eaf5c092bfb0e3b71254ab77d84e6f68b73e2e96"
   },
@@ -211,6 +221,29 @@
       "defined": 40,
       "input_offset": 202,
       "return_address": 103824,
+      "allocation_esp_delta": 184,
+      "buffer_slot": 51,
+      "input_slot": 54,
+      "record_length": 28,
+      "callback_index": 27,
+      "kind": 4,
+      "type_index": 4115,
+      "list_count": 1,
+      "nested_returns": {
+        "6": 162481,
+        "18": 158970,
+        "27": 160029,
+        "33": 158330,
+        "42": 156937,
+        "44": 153648,
+        "46": 151922
+      }
+    },
+    "save_type": {
+      "original": 104544,
+      "defined": 40,
+      "input_offset": 202,
+      "return_address": 104186,
       "allocation_esp_delta": 184,
       "buffer_slot": 51,
       "input_slot": 54,

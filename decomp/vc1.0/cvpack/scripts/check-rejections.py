@@ -71,6 +71,11 @@ def main():
     config,original=load()
     from pdb_checks import check as pdb_checks
     pdb_checks(config,original,reject)
+    from type_hash_checks import check as check_type_hash_tables
+    check_type_hash_tables(config,original,reject)
+    from symbol_output_checks import check_saved_type
+    saved_symbols=BINARY/'cases/hello-debug-dll/evidence/0073-hash_type'
+    if saved_symbols.is_dir():check_saved_type(saved_symbols)
     from symbol_output_checks import check_type_hash
     hashed_symbols=BINARY/'cases/hello-debug-dll/evidence/0072-store_type'
     if hashed_symbols.is_dir():check_type_hash(hashed_symbols)
@@ -579,6 +584,9 @@ def main():
         image=bytearray(pe.data)
         image[pe.offset(symbols['_show_logo'])]^=1
         mutations['changed contextual global initializer']=image
+        if 'type_hash_observations'in config:
+            image=bytearray(pe.data);image[pe.offset(symbols['_type_hash_byte'])+1]^=1
+            mutations['changed reached type hash lookup table']=image
         from module_write import stores
         start=symbols['_read_types'];end=min(v for v in symbols.values()if v>start)
         write=stores(pe,start,end,symbols['_module_type_buffer'])[0]
@@ -601,6 +609,7 @@ def main():
                 assert b'identity cache stale'not in result.stderr,'mutation rejected before its graph/data check'
                 if label=='redirected application callee':assert b'graph differs'in result.stderr,result.stderr
                 if label=='changed callee stack cleanup':assert b'ABI RET cleanup differs'in result.stderr,result.stderr
+                if label=='changed reached type hash lookup table':assert b'initial data differs'in result.stderr and b'type_hash_byte'in result.stderr,result.stderr
                 if label=='wrong module buffer publication target':assert b'read_types writes wrong current_type_map global'in result.stderr or b'module buffer publication store missing'in result.stderr,result.stderr
                 print('rejected:',label)
 

@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "hash_type",
-    "native_function": "hash_type",
+    "logical": "save_type",
+    "native_function": "save_type",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -90,7 +90,8 @@
       "compact_pointer",
       "compact_type_list",
       "store_type",
-      "hash_type"
+      "hash_type",
+      "save_type"
     ]
   },
   "complete_reference": {

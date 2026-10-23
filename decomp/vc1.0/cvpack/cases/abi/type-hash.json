@@ -1,0 +1,61 @@
+{
+  "schema": 1,
+  "tables": [
+    {
+      "name": "type_hash_low_mix",
+      "original": 226552,
+      "size": 256,
+      "basis": [
+        1,
+        3,
+        6,
+        13,
+        26,
+        52,
+        105,
+        210
+      ],
+      "sha256": "23dd03bf2a0e6c7bc0dc61b7e688c3f79e7501f4651c29fa69bbfddcad8e4cbb"
+    },
+    {
+      "name": "type_hash_high_mix",
+      "original": 226808,
+      "size": 256,
+      "basis": [
+        165,
+        74,
+        148,
+        40,
+        80,
+        161,
+        66,
+        133
+      ],
+      "sha256": "32c6ccd054a921c9cbf3a9723d1d442f469ece008c8cb02a5dd17acd66959220"
+    },
+    {
+      "name": "type_hash_byte",
+      "original": 227064,
+      "size": 256,
+      "basis": [
+        151,
+        46,
+        92,
+        184,
+        112,
+        224,
+        192,
+        128
+      ],
+      "sha256": "bac63287697378b1ab89e83f838835861ed1ff62646ce45816f9a5d102d353db"
+    }
+  ],
+  "original_body": {
+    "start": 115104,
+    "end": 115884,
+    "sha256": "c23b669e9b110b8f3942e3abe1a4ffdac8612ac70197ebe056d4cfd1a0658672"
+  },
+  "source": "src/types.c",
+  "source_sha256": "3f235e0ced32b2dba05ee03caf74cac06a4464bdaa136fd333323f9e04350c7f",
+  "scope": "Three actually reached lookup tables, each exactly XOR-linear over eight columns. Full original and rebuilt256-byte contents are independently audited; no generated runtime state or extra function graph."
+}
