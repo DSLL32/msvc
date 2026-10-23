@@ -1,5 +1,42 @@
 {
   "schema": 1,
-  "functions": {},
-  "callback_tables": []
+  "functions": {
+    "_reserve_work_buffer": {
+      "register_imports": {
+        "require_all_register_calls_resolved": true
+      }
+    }
+  },
+  "callback_tables": [],
+  "register_imports": {
+    "preservation_contracts": [
+      {
+        "target": {
+          "import": {
+            "dll": "kernel32.dll",
+            "name": "VirtualAlloc"
+          }
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/minimal/allocation-preservation-v1.json",
+          "sha256": "18eac3cea5b851f9dc33e1f69cb95e1b721d92a804207e0332b3104c5b83a559"
+        }
+      },
+      {
+        "target": {
+          "function": "_report_compiler_error"
+        },
+        "preserves": [
+          "edi"
+        ],
+        "evidence": {
+          "path": "cases/minimal/allocation-preservation-v1.json",
+          "sha256": "18eac3cea5b851f9dc33e1f69cb95e1b721d92a804207e0332b3104c5b83a559"
+        }
+      }
+    ]
+  }
 }

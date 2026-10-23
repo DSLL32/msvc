@@ -1,0 +1,41 @@
+{
+  "schema": 1,
+  "target_sha256": "e27df3bb9a37058c85dad3fb7d1ed30b9e52d38fb6c0f66c8fdba0a11111d3d9",
+  "scope": "only EDI normal-return preservation for actual named VirtualAlloc and report_compiler_error; no global calling-convention assumption",
+  "sdk": {
+    "path": "toolchains/5.10/include/WINBASE.H",
+    "sha256": "6188fc8c8bfa385c3c67fd9ff912f50f00d32d885f2133dd76ed6e18485c9ad5",
+    "first_line": 1275,
+    "last_line": 1284,
+    "text": "WINBASEAPI\nLPVOID\nWINAPI\nVirtualAlloc(\n    LPVOID lpAddress,\n    DWORD dwSize,\n    DWORD flAllocationType,\n    DWORD flProtect\n    );\n"
+  },
+  "abi_basis": "Bounded SDK x86 WINAPI/stdcall normal return and inspected ordinary cdecl wrapper; only EDI required. Actual calls/provider resolutions/RET16/EDI/results/regions must also pass fresh runtime proofs.",
+  "providers": [
+    {
+      "name": "kernel32.dll",
+      "path": "/root/.ai-tmp/vc1.0-capture/wine/drive_c/windows/system32/kernel32.dll",
+      "sha256": "6a080ecb2d0e74c64750c3a7105ca55350867fc904e9f568f190907fd2f4d733",
+      "bytes": 2008819,
+      "export": "VirtualAlloc",
+      "rva": 58664,
+      "entry_bytes": "8bff558bec5dff25003a"
+    },
+    {
+      "name": "kernelbase.dll",
+      "path": "/root/.ai-tmp/vc1.0-capture/wine/drive_c/windows/system32/kernelbase.dll",
+      "sha256": "0487dccab70545e92be2cd427c0f5255928f2a39d03113ab171ec2609c9611e3",
+      "bytes": 6153638,
+      "export": "VirtualAlloc",
+      "rva": 439280,
+      "entry_bytes": "8bff558bec83ec208b45"
+    }
+  ],
+  "fatal": {
+    "name": "_report_compiler_error",
+    "rva": 596549,
+    "end_rva": 596563,
+    "bytes": "8b44240450e84600000083c404c3",
+    "normal_return": "MOV stack arg/PUSH/CALL ordinary variadic diagnostic/ADD ESP4/RET; no own EDI write. Remains masked and receives zero reconstruction credit."
+  },
+  "runtime_requirement": "All four actual successful API calls; original loaded-hFile provider hashes and target IAT export identity; EDI preservation, arguments/RET16/results/regions/zero16KiB; LastError203 observed without reseeding. Unknown reserved remainder remains opaque."
+}

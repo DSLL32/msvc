@@ -95,9 +95,11 @@ def prepare():
     if trial["case"] == "minimal":
         trial["case_inputs"] = {item: sha(PROJECT / item) for item in (
             "cases/minimal/contract.json", "cases/minimal/invoke-argv.bin", "cases/sources/minimal.cpp", "cases/minimal/state-model.json")}
+    if json.loads((PROJECT/"graph-metadata.json").read_text()).get("register_imports"):
+        trial["case_inputs"]["cases/minimal/allocation-preservation-v1.json"]=sha(PROJECT/"cases/minimal/allocation-preservation-v1.json")
     trial["test_seed"] = candidate.get("test_seed")
     trial['test_constructor_seed']=bool(candidate.get('test_constructor_seed'))
-    if trial["test_seed"] or trial_name in ('_checked_malloc','_register_cleanup','_initialize_deferred_work','CompilerPool::Initialize','_initialize_type_ranks','_initialize_generated_comment','_main','_initialize_work_buffers') or (trial_name or '').startswith(('_initialize_frontend_','_initialize_output_buffer_','_initialize_pdb_context_')):
+    if trial["test_seed"] or trial_name in ('_checked_malloc','_register_cleanup','_initialize_deferred_work','CompilerPool::Initialize','_initialize_type_ranks','_initialize_generated_comment','_main','_initialize_work_buffers','_reserve_work_buffer') or (trial_name or '').startswith(('_initialize_frontend_','_initialize_output_buffer_','_initialize_pdb_context_')):
         trial["validation_observers"] = [{"owner":"_initialize_compiler_pass", "original_rva":0x385be,
             "original_byte":0x89,"purpose":"observe typed copy/restore before first-flag reset"}]
     if trial_name=='CompilerPool::Initialize':

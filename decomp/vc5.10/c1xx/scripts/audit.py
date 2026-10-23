@@ -56,6 +56,11 @@ def main():
     graph = Path(os.environ.get("GRAPH_AUDIT_BIN", ROOT / "tooling/graph-audit/target/release/graph-audit"))
     auditor_sha = hashlib.sha256(graph.read_bytes()).hexdigest()
     started = __import__("time").perf_counter()
+    metadata=json.loads((BASE/"graph-metadata.json").read_text())
+    register_imports=bool(metadata.get("register_imports"))
+    if register_imports:
+        from allocation_imports import check_static
+        check_static()
     result = subprocess.run([
         str(graph), "--repo", str(ROOT), "--project", str(BASE),
         "--profile", "c1xx", "--discovery", "cfg",
@@ -68,8 +73,11 @@ def main():
         "--metadata", str(BASE / "graph-metadata.json"),
         "--check-ret", "--check-imports", "--check-references", "--check-ownership", "--check-extents",
         "--include-evidenced-runtime", "--check-accepted-extents",
-    ], check=True, stdout=subprocess.PIPE, text=True)
+    ] + (["--resolve-register-imports"] if register_imports else []), check=True, stdout=subprocess.PIPE, text=True)
     elapsed = __import__("time").perf_counter() - started
+    if register_imports:
+        from allocation_imports import check_report
+        check_report(json.loads(result.stdout))
     report = json.loads(result.stdout)
     if hashlib.sha256(graph.read_bytes()).hexdigest() != auditor_sha:
         raise SystemExit("auditor changed during execution")

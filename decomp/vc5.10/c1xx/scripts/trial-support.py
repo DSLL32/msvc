@@ -156,4 +156,7 @@ def audit(trial, audit_path=None):
                    if row["name"] in trial["accepted"]})
     require(report["checked_functions"] == source_count and
             report["owned_code_chunks"]["original"]["functions"] == owners, "incomplete logical graph/chunk audit")
+    if "_reserve_work_buffer" in trial["accepted"]:
+        from allocation_imports import check_report
+        check_report(report)
     return proof

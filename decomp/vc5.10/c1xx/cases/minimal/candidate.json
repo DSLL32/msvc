@@ -71,7 +71,7 @@
     "_main",
     "_initialize_work_buffers"
   ],
-  "trial": null,
+  "trial": "_reserve_work_buffer",
   "ranges": [
     {
       "owner": "__DllMainCRTStartup@12",
@@ -588,6 +588,18 @@
       "start_rva": 232582,
       "end_rva": 232649,
       "entry": 1
+    },
+    {
+      "owner": "_reserve_work_buffer",
+      "start_rva": 232649,
+      "end_rva": 232711,
+      "entry": 1
+    },
+    {
+      "owner": "_reserve_work_buffer",
+      "start_rva": 467082,
+      "end_rva": 467112,
+      "entry": 0
     }
   ],
   "stage": "_initialize_work_buffers accepted; next frontier _reserve_work_buffer"

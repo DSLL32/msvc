@@ -1,0 +1,19 @@
+{
+  "schema": 1,
+  "kind": "static assumption ablation; no execution or credit",
+  "auditor_sha256": "3c1e3f2ea5dc50c402381f3b0c63b7d38355d6f2525c11f5c28e16ebb9e2d83c",
+  "checks": [
+    {
+      "removed": "VirtualAlloc normal-return EDI preservation",
+      "status": "rejected as required",
+      "seconds": 0.028136027045547962,
+      "stderr": "graph-audit: original _reserve_work_buffer register imports: unresolved register import calls: {272862456}"
+    },
+    {
+      "removed": "report_compiler_error normal-return EDI preservation",
+      "status": "rejected as required",
+      "seconds": 0.030789796262979507,
+      "stderr": "graph-audit: original _reserve_work_buffer register imports: unresolved register import calls: {272862456}"
+    }
+  ]
+}

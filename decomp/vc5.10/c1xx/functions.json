@@ -833,10 +833,15 @@
     {
       "name": "_reserve_work_buffer",
       "start": 272862409,
-      "end": 272862410,
-      "pending_extent": true,
+      "end": 272862471,
       "source": "src/frontend.c",
-      "abi": "cdecl8"
+      "abi": "cdecl8",
+      "code_chunks": [
+        [
+          273096842,
+          273096872
+        ]
+      ]
     }
   ],
   "status": "autonomous minimal C++ reconstruction active",

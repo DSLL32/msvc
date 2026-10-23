@@ -166,8 +166,13 @@ void initialize_work_buffers(void)
 
 BYTE *reserve_work_buffer(unsigned reserve_bytes, unsigned commit_bytes)
 {
-    __asm { int 3 }
-    return NULL;
+    BYTE *buffer;
+    buffer = (BYTE *)VirtualAlloc(NULL, reserve_bytes, MEM_RESERVE, PAGE_READWRITE);
+    if (!buffer)
+        report_compiler_error(60);
+    if (!VirtualAlloc(buffer, commit_bytes, MEM_COMMIT, PAGE_READWRITE))
+        report_compiler_error(60);
+    return buffer;
 }
 
 void initialize_intermediate_files(char **argv)

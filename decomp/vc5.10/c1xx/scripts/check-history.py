@@ -27,13 +27,14 @@ def configure(decoder,original,native,saved_record=None):
     graph=ROOT/'tooling/graph-audit/target/release/graph-audit'
     digest=decoder.s.sha(graph)
     started=time.perf_counter()
+    register_imports=bool(json.loads((native/"graph-metadata.json").read_text()).get("register_imports"))
     run=subprocess.run([str(graph),'--repo',str(ROOT),'--project',str(PROJECT),'--profile','c1xx',
         '--discovery','cfg','--original',str(ROOT/config['target']['path']),
         '--rebuilt',str(native/'c1n32_l.dll'),'--map',str(native/'c1xx.map'),
         '--config',str(native/'trial.json'),'--runtime',str(native/'runtime.json'),
         '--rebuilt-runtime',str(native/'rebuilt-runtime.json'),'--metadata',str(native/'graph-metadata.json'),
         '--check-ret','--check-imports','--check-references','--check-ownership','--check-extents',
-        '--include-evidenced-runtime','--check-accepted-extents'],check=True,stdout=subprocess.PIPE,text=True)
+        '--include-evidenced-runtime','--check-accepted-extents']+(['--resolve-register-imports'] if register_imports else []),check=True,stdout=subprocess.PIPE,text=True)
     report=json.loads(run.stdout)
     decoder.s.require(decoder.s.sha(graph)==digest,'auditor changed during historical validation')
     module('historical_import_check','audit.py').verify_initializer_thunk(
