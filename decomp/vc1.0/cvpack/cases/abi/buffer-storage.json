@@ -22,8 +22,8 @@
   },
   "native_allocation_line": 1306,
   "sources": {
-    "src/types.c": "93c6615b1434c8f0317b3c1fb31e9a5fe62c74185ff5a3bcdacb55a9a4c20c37",
-    "src/types.h": "18196763a674e81abd7cd3e90bbad4d4dd362652303f8145df7da0a35aeaabfd"
+    "src/types.c": "acb4f1ed55539069ceb485733348dd78a105d9602e3354a9c37378496d73ca2b",
+    "src/types.h": "df17b2c95517100b7bf938a0178ab05f70350d569c8e94feda725d4d719a0f23"
   },
   "instructions": [
     {
@@ -91,6 +91,18 @@
       "end": 161772,
       "sha256": "fe3863789410e070ebe1f3daeea717b8e1f32533034a4b6bef2ca14e3a80d645",
       "purpose": "Actual LF_MEMBER compact_type_list loop: call compactor on field+2, reload exact parent+field offset, store AX at same field+2 before next member. Current4219.field6 gets observed convertedGUID1022."
+    },
+    {
+      "start": 109696,
+      "end": 109710,
+      "sha256": "4f552fc0e43d0eba4968f9c7704cf01f7355f9d9840df9939dd458b9f110734f",
+      "purpose": "Intern-type first call: saved registers, actualentry stackargument intoEDI/ECX, fastcall hash_recursive_type before any state write."
+    },
+    {
+      "start": 116288,
+      "end": 116850,
+      "sha256": "762bdc1a10b708b7025a3ddaa94fa800339aef28a4ced33454f1de7523d175b0",
+      "purpose": "Independent whole next-callee ABI review only, does not unmask/accept it: ECX TypeRecord input, EAX zero-extended full return, RET0 and saved EBX/ESI/EDI/EBP; EDX/other scratch values assigned before consuming, no hidden output pointer."
     }
   ],
   "defined_hash_node_ranges": [
@@ -1665,5 +1677,6 @@
       "after": 4166,
       "converted_input_type": 4207
     }
-  }
+  },
+  "recursive_hash_frontier": 116288
 }

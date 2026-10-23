@@ -15,8 +15,8 @@
   ],
   "current": {
     "terminal": "trap",
-    "logical": "intern_type",
-    "native_function": "intern_type",
+    "logical": "hash_recursive_type",
+    "native_function": "hash_recursive_type",
     "stdout": "frontier.stdout",
     "stderr": "frontier.stderr",
     "application_trace": [
@@ -101,7 +101,8 @@
       "convert_global_data32",
       "get_type_record",
       "add_recursive_offset",
-      "intern_type"
+      "intern_type",
+      "hash_recursive_type"
     ]
   },
   "complete_reference": {

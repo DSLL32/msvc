@@ -1,0 +1,62 @@
+{
+  "application_functions": 84,
+  "application_bytes": 29279,
+  "next": "hash_recursive_type",
+  "source": "Whole intern_type1ac80..1ad3b: separate recursive-name hash bucket, candidate validity/flags/index conditions, recursive compare and commit callees. Original repeated dead flag check retained. Contextual RecursiveTypeEntry12 has data0/index4/reserved6/next8; no nodes yet consumed in reached empty bucket prefix.",
+  "abi": "Next hash_recursive_type actual ECX entry4209, bound independently to parent intern_type entry and outer compact_new_type4209. Whole original callee1c640..1c872 reviewed: sole incoming application argument ECX, zero-extended full EAX return, RET0, saved EBX/ESI/EDI/EBP; scratch register values defined on each consuming path, no hidden out pointer. Full ABI review bytes retained without unmask or acceptance credit for the stub.",
+  "state": "No new allocation or write:71 copies1824 defined bytes/71 page slots,11 name-cache nodes,59 exact PDB writes and mandatory four resolver returns retained. Full frame/caller/source/config snapshots match. Original unvisited expanded recursion and queue lifetime remain native guarded.",
+  "rejection_controls": 512,
+  "new_controls": 3,
+  "checks": {
+    "incremental-build": {
+      "command": [
+        "make",
+        "-j4",
+        "all",
+        "native",
+        "build/debug-run.exe",
+        "graph-identities",
+        "graph-audit-tool"
+      ],
+      "status": 0,
+      "elapsed": 3.770076310262084
+    },
+    "audit": {
+      "command": [
+        "python3",
+        "scripts/audit.py"
+      ],
+      "status": 0,
+      "elapsed": 0.5409533251076937
+    },
+    "negatives": {
+      "command": [
+        "python3",
+        "scripts/check-rejections.py"
+      ],
+      "status": 0,
+      "elapsed": 14.37683496531099
+    },
+    "fixtures": {
+      "command": [
+        "python3",
+        "scripts/check-native.py"
+      ],
+      "status": 0,
+      "elapsed": 0.38398671988397837
+    }
+  },
+  "native_acceptance_seconds": {
+    "setup": 0.23567765578627586,
+    "execution": 0.023089643567800522,
+    "debugging": 2.4284787261858582,
+    "checks": 0.018877913244068623,
+    "total": 2.706130691803992
+  },
+  "original_acceptance_seconds": {
+    "setup": 0.2818696303293109,
+    "execution": 2.537286647595465,
+    "total": 2.8426631428301334
+  },
+  "remaining": "Initial DLL case remains partial. No shared shim/CRT scope expansion."
+}

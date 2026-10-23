@@ -1571,3 +1571,31 @@ void __fastcall add_recursive_offset(TypeRecord *entry, unsigned short offset)
     }
     ++entry->recursive_count;
 }
+
+unsigned short intern_type(TypeRecord *entry, unsigned short type)
+{
+    RecursiveTypeEntry *candidate;
+    unsigned long bucket;
+    unsigned short flags;
+    int matched;
+    bucket = hash_recursive_type(entry);
+    candidate = (RecursiveTypeEntry *)name_hash_buckets[bucket];
+    while (candidate) {
+        matched = 0;
+        if (candidate->index >= first_user_type) {
+            flags = entry->flags;
+            if (flags & 1) matched = entry->index == candidate->index;
+            else if (flags & 2) matched = 1;
+            else {
+                flags &= 4;
+                if (flags) matched = 1;
+                /* Retain the original repeated flag test on this branch. */
+                else if (entry->index == candidate->index && flags) matched = 1;
+                else matched = compare_recursive_type(entry, type, candidate->data, candidate->index);
+            }
+        }
+        if (matched) return candidate->index;
+        candidate = candidate->next;
+    }
+    return commit_recursive_type(type);
+}

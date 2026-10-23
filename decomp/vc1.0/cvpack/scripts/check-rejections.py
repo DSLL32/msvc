@@ -111,6 +111,10 @@ def main():
     if recursive_offset_pair.is_dir():
         from recursive_offset_checks import check as check_recursive_offset
         check_recursive_offset(recursive_offset_pair)
+    recursive_intern_pair=BINARY/'cases/hello-debug-dll/evidence/0084-intern_type'
+    if recursive_intern_pair.is_dir():
+        from recursive_intern_checks import check as check_recursive_intern
+        check_recursive_intern(recursive_intern_pair)
     from buffer_storage_checks import check as check_buffer_storage
     buffer_directory=BINARY/'cases/hello-debug-dll/evidence/0075-append_buffer'
     if buffer_directory.is_dir():check_buffer_storage(buffer_directory)

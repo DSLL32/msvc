@@ -1,0 +1,10 @@
+python3 scripts/graph_identities.py --prepare --output build/graph-identities.json
+make: Nothing to be done for 'graph-audit-tool'.
+Prepared hash-bound strict original/compiler relocation identities
+exception 80000003 va 0001c640 base 00010000 first 1
+Restored entry ranges: 82
+/root/.ai-tmp/vc1.0-cvpack/0084-intern_type-original/receipt.json
+hello-debug-dll trap {'setup': 0.23567765578627586, 'execution': 0.023089643567800522, 'debugging': 2.4284787261858582, 'checks': 0.018877913244068623, 'total': 2.706130691803992}
+/root/.ai-tmp/vc1.0-cvpack/0084-intern_type-native/receipt.json
+84 complete original/compiler CFG/callee/ABI functions; 167 contextual data objects; strict CRT/import identities verified.
+Fresh original/native candidate proof passes without acceptance: intern_type

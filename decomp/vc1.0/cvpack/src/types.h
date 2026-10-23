@@ -40,6 +40,14 @@ typedef struct TypeCacheEntry {
 } TypeCacheEntry;
 typedef char TypeCacheEntrySize[(sizeof(TypeCacheEntry)==16)?1:-1];
 
+/* Recursive records use a separate hash chain from ordinary packed types. */
+typedef struct RecursiveTypeEntry {
+    unsigned char *data;
+    unsigned short index, reserved;
+    struct RecursiveTypeEntry *next;
+} RecursiveTypeEntry;
+typedef char RecursiveTypeEntrySize[(sizeof(RecursiveTypeEntry)==12)?1:-1];
+
 typedef struct TypeDerivation {
     unsigned short type, count, capacity, reserved;
     unsigned short *list;
@@ -77,6 +85,9 @@ unsigned short __fastcall compact_type_list(unsigned short, unsigned short);
 void __fastcall add_recursive_offset(TypeRecord *, unsigned short);
 void merge_field_list(unsigned char *, TypeRecord *);
 unsigned short intern_type(TypeRecord *, unsigned short);
+unsigned long __fastcall hash_recursive_type(TypeRecord *);
+int __fastcall compare_recursive_type(TypeRecord *, unsigned short, unsigned char *, unsigned short);
+unsigned short __fastcall commit_recursive_type(unsigned short);
 void __fastcall store_type(TypeRecord *);
 unsigned short __fastcall hash_type(const unsigned char *);
 void release_type_data(TypeRecord *);

@@ -4274,13 +4274,16 @@
       "native": "intern_type",
       "symbol": "_intern_type",
       "original": 109696,
-      "source": "src/stubs.c",
+      "source": "src/types.c",
       "kind": "application",
-      "status": "stub",
-      "extent": null,
+      "status": "accepted",
+      "extent": [
+        109696,
+        109883
+      ],
       "abi": "unsigned short intern_type(TypeRecord *,unsigned short)",
       "stack_cleanup": 0,
-      "evidence": null,
+      "evidence": "cases/hello-debug-dll/evidence/0084-intern_type/proof.json",
       "roots": [],
       "text_data": [],
       "parameters": [
@@ -4297,7 +4300,31 @@
           "bits": 16
         }
       ],
-      "return_bits": 16
+      "return_bits": 16,
+      "required_pdb_record_proof": true,
+      "required_symbol_output_observation": true,
+      "required_type_page_observation": true,
+      "required_buffer_storage_observation": true,
+      "alignment_padding": [
+        [
+          109867,
+          109872
+        ]
+      ],
+      "required_conditional_calls_by_case": {
+        "hello-debug-dll": [
+          {
+            "name": "hello-debug.dll",
+            "mode": 32770,
+            "share": 64
+          },
+          {
+            "name": "Z:\\root\\.ai-tmp\\vc1.0-link\\coverage-capture\\work\\msvc.pdb",
+            "mode": 32768,
+            "share": 64
+          }
+        ]
+      }
     },
     {
       "name": "store_type",
@@ -4869,6 +4896,96 @@
           "bits": 32
         }
       ]
+    },
+    {
+      "name": "hash_recursive_type",
+      "native": "hash_recursive_type",
+      "symbol": "@hash_recursive_type@4",
+      "original": 116288,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned long __fastcall hash_recursive_type(TypeRecord *)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "entry",
+          "kind": "pointer",
+          "bits": 32,
+          "register": "ecx"
+        }
+      ],
+      "return_bits": 32
+    },
+    {
+      "name": "compare_recursive_type",
+      "native": "compare_recursive_type",
+      "symbol": "@compare_recursive_type@16",
+      "original": 124800,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "int __fastcall compare_recursive_type(TypeRecord *,unsigned short,unsigned char *,unsigned short)",
+      "stack_cleanup": 8,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "entry",
+          "kind": "pointer",
+          "bits": 32,
+          "register": "ecx"
+        },
+        {
+          "name": "type",
+          "kind": "integer",
+          "bits": 16,
+          "register": "edx"
+        },
+        {
+          "name": "record",
+          "kind": "pointer",
+          "bits": 32,
+          "slot": 1
+        },
+        {
+          "name": "index",
+          "kind": "integer",
+          "bits": 16,
+          "slot": 2
+        }
+      ],
+      "return_bits": 32
+    },
+    {
+      "name": "commit_recursive_type",
+      "native": "commit_recursive_type",
+      "symbol": "@commit_recursive_type@4",
+      "original": 125632,
+      "source": "src/stubs.c",
+      "kind": "application",
+      "status": "stub",
+      "extent": null,
+      "abi": "unsigned short __fastcall commit_recursive_type(unsigned short)",
+      "stack_cleanup": 0,
+      "evidence": null,
+      "roots": [],
+      "text_data": [],
+      "parameters": [
+        {
+          "name": "type",
+          "kind": "integer",
+          "bits": 16,
+          "register": "ecx"
+        }
+      ],
+      "return_bits": 16
     }
   ],
   "review": {
@@ -5393,6 +5510,12 @@
       "case": "hello-debug-dll",
       "kind": "application",
       "sequence": 83
+    },
+    {
+      "function": "intern_type",
+      "case": "hello-debug-dll",
+      "kind": "application",
+      "sequence": 84
     }
   ],
   "support_unmasked": [
@@ -5987,11 +6110,11 @@
   ],
   "read_observations": {
     "evidence": "cases/abi/image-reads.json",
-    "evidence_sha256": "666096430e795e8aa0eaf610cd4cc1b41f864b1c9ffdb993c00b7e9303de689e"
+    "evidence_sha256": "471d32ec0c89d7d138deede678a1ccedf3fb628292e67d500366de1bae3b499c"
   },
   "allocation_observations": {
     "evidence": "cases/abi/scratch-allocations.json",
-    "evidence_sha256": "5e646ecc1cb59d592e0fd3de2fe03748e2f2b31a9a21dd64e1d501d1343ea3b0"
+    "evidence_sha256": "8fb69aab3ab7205edd3ce7148fa5fa45e1fba9c73df841ac2d4f3fa516eb6cd8"
   },
   "public_arena_observations": {
     "evidence": "cases/abi/public-arena.json",
@@ -6023,26 +6146,26 @@
   },
   "type_cache_observations": {
     "evidence": "cases/abi/type-cache.json",
-    "evidence_sha256": "ab1d061e58d80e6fe73b141e1ebc20f05a8932f0714f67dcb103e4ca726d1ec7"
+    "evidence_sha256": "3fea68436b34a323ce77bbfc165b27db23bedd1083db20eccff5094c03fdc3d5"
   },
   "symbol_output_observations": {
     "evidence": "cases/abi/packed-symbol-output.json",
-    "evidence_sha256": "eee1ba8b72235d0fa1426bf633273bd968bce237d5e43f39e32a164698d93e8e"
+    "evidence_sha256": "f82796cc1bd98cc7886bc3b48faaeba321bb79a34ee77f0b9996b55ec885644e"
   },
   "type_hash_observations": {
     "evidence": "cases/abi/type-hash.json",
-    "evidence_sha256": "2efa740df9edf6d7c9f72fd6625fe43615a2271da7b50b22c20137f0e4a432c8"
+    "evidence_sha256": "a016a4324b73b2392ee3ba6fcd6eb095c85d62d2d01a6fb9452227275edaefb1"
   },
   "type_page_observations": {
     "evidence": "cases/abi/type-pages.json",
-    "evidence_sha256": "23c90ad84885a4aeb4e206751c540ad8eae4c508f5ebd6e442b55e49d9afe884"
+    "evidence_sha256": "12031ebe0268b683ace7667100f04843d464f8ca09bede70974abfdb8e705243"
   },
   "buffer_storage_observations": {
     "evidence": "cases/abi/buffer-storage.json",
-    "evidence_sha256": "614d3bdad6f1ffe1364e5ebd2930d3c8a43714336abc3ae696004f5b883a2de7"
+    "evidence_sha256": "9a1b9f4aa4076d85d381f05985004a38df206d7a3e49243cc49a08fbe08bdc52"
   },
   "resolver_return_observations": {
     "evidence": "cases/abi/resolver-returns.json",
-    "evidence_sha256": "eb707ecfadff07e43d00125c55dc62ff4dc460c1fd3f4db1416f375c9296c0f0"
+    "evidence_sha256": "d8b63189c81e2f0bf40d7f48143aefd34bb0dd527250781c400119d8e1382442"
   }
 }
