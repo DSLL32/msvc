@@ -1,5 +1,5 @@
 {
-  "schema": 17,
+  "schema": 18,
   "original_snapshot_bytes": 8520,
   "original_initialized_region": [
     273465344,
@@ -892,6 +892,60 @@
       "native_expression": "input_pdb_context.read_mode",
       "original_default": 0,
       "evidence": "PDB-context3894f conditional reset; explicit field-role evidence in pdb-context-plan.md"
+    },
+    {
+      "name": "output_pdb_context.database",
+      "class": "external",
+      "original_address": 273461328,
+      "bytes": 4,
+      "native_expression": "output_pdb_context.database",
+      "original_default": 0,
+      "evidence": "PDB-context3898f conditionally resets second persistent instance; selected context defaults to cb050 at3916b"
+    },
+    {
+      "name": "output_pdb_context.names",
+      "class": "external",
+      "original_address": 273461332,
+      "bytes": 4,
+      "native_expression": "output_pdb_context.names",
+      "original_default": 0,
+      "evidence": "PDB-context3898f conditionally resets second persistent instance; selected context defaults to cb050 at3916b"
+    },
+    {
+      "name": "output_pdb_context.types",
+      "class": "external",
+      "original_address": 273461336,
+      "bytes": 4,
+      "native_expression": "output_pdb_context.types",
+      "original_default": 0,
+      "evidence": "PDB-context3898f conditionally resets second persistent instance; selected context defaults to cb050 at3916b"
+    },
+    {
+      "name": "output_pdb_context.minimal_rebuild",
+      "class": "external",
+      "original_address": 273461340,
+      "bytes": 4,
+      "native_expression": "output_pdb_context.minimal_rebuild",
+      "original_default": 0,
+      "evidence": "PDB-context3898f conditionally resets second persistent instance; selected context defaults to cb050 at3916b"
+    },
+    {
+      "name": "output_pdb_context.stream_state",
+      "class": "external",
+      "original_address": 273461348,
+      "bytes": 4,
+      "native_expression": "output_pdb_context.stream_state",
+      "original_default": 0,
+      "evidence": "PDB-context3898f conditionally resets second persistent instance; selected context defaults to cb050 at3916b"
+    },
+    {
+      "name": "output_pdb_context.read_mode",
+      "class": "external",
+      "original_address": 273461352,
+      "bytes": 4,
+      "native_expression": "output_pdb_context.read_mode",
+      "original_default": 0,
+      "evidence": "PDB-context3898f conditionally resets second persistent instance; selected context defaults to cb050 at3916b"
     }
   ],
   "initializers": [
@@ -1160,6 +1214,7 @@
       16,
       20
     ],
-    "outside_snapshot_and_bss": true
+    "outside_snapshot_and_bss": true,
+    "count": 2
   }
 }

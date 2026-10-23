@@ -88,7 +88,7 @@ def prepare():
     trial['test_pdb_seed']=candidate.get('test_pdb_seed')
     if trial['test_pdb_seed'] is not None:
         if trial['test_pdb_seed'] not in (0,1):raise ValueError('unknown PDB reuse mode')
-        trial['auxiliary_pdb_data_seed']={'point':'initializer entry before BSS reset; restore_mode overridden at PDB constructor entry','owner':'_initialize_pdb_context_01','pointer_fields':'owned snapshot interiors +0/+4/+8/+12/+16; never dereferenced','read_mode':37,'reuse_mode':trial['test_pdb_seed'],'code_or_allocator_mock':False}
+        trial['auxiliary_pdb_data_seed']={'point':'initializer entry before BSS reset; restore_mode overridden at PDB constructor entry','owner':trial_name,'pointer_fields':'owned snapshot interiors +0/+4/+8/+12/+16; never dereferenced','read_mode':37,'reuse_mode':trial['test_pdb_seed'],'code_or_allocator_mock':False}
     trial['test_token_seed']=candidate.get('test_token_seed')
     if trial['test_token_seed']:
         if trial['test_token_seed'] not in ('positive','negative'):raise ValueError('unknown token seed arm')

@@ -43,7 +43,8 @@
     "_initialize_frontend_21",
     "_initialize_frontend_22",
     "_initialize_pdb_context_01",
-    "_initialize_frontend_23"
+    "_initialize_frontend_23",
+    "_initialize_pdb_context_02"
   ],
   "trial": null,
   "ranges": [
@@ -394,7 +395,13 @@
       "start_rva": 231866,
       "end_rva": 231880,
       "entry": 0
+    },
+    {
+      "owner": "_initialize_pdb_context_02",
+      "start_rva": 231823,
+      "end_rva": 231866,
+      "entry": 1
     }
   ],
-  "stage": "_initialize_frontend_23 accepted; next frontier _initialize_pdb_context_02"
+  "stage": "_initialize_pdb_context_02 accepted; next frontier _initialize_frontend_24"
 }

@@ -33,3 +33,8 @@ reset, then select reuse=0/1 at the real PDB constructor entry. They prove
 persistent state survives BSS reset, reset/preserve branches, cleanup identity,
 zero return, exact storage map and untouched original +16 gap. Auxiliary
 cases do not authorize acceptance; the natural pair alone does that.
+
+Second instance `3898f..389ba` repeats the same conditional reset at `cb050`;
+`3916b` selects this context in `cb000`, so the generic context methods above
+apply to it. It owns separate six-field native storage and has fresh natural,
+reset and preserve execution pairs. Both original +16 gaps remain unmodeled.

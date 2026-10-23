@@ -22,9 +22,19 @@ void destroy_pdb_context_01(void)
     __asm { int 3 }
 }
 
+CompilerPdbContext output_pdb_context;
+
 int initialize_pdb_context_02(void)
 {
-    __asm { int 3 }
+    if (!restore_mode) {
+        output_pdb_context.database = NULL;
+        output_pdb_context.names = NULL;
+        output_pdb_context.types = NULL;
+        output_pdb_context.stream_state = NULL;
+        output_pdb_context.read_mode = 0;
+        output_pdb_context.minimal_rebuild = NULL;
+    }
+    return 0;
 }
 
 void destroy_pdb_context_02(void)

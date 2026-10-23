@@ -107,6 +107,11 @@ if gdb.lookup_global_symbol('input_pdb_context') is not None:
     for field in fields:
         value['frontend']['storage']['input_pdb_context.'+field]=[int(gdb.parse_and_eval('(unsigned int)&input_pdb_context.'+field)),4]
     value['frontend']['pdb_context_layout']={'size':int(gdb.parse_and_eval('sizeof(CompilerPdbContext)')),'fields':{f.name:[f.bitpos//8,int(f.type.sizeof)] for f in gdb.lookup_type('CompilerPdbContext').fields()}}
+if gdb.lookup_global_symbol('output_pdb_context') is not None:
+    fields=('database','names','types','minimal_rebuild','stream_state','read_mode')
+    value['frontend']['output_pdb_context']={field:int(gdb.parse_and_eval('(unsigned int)output_pdb_context.'+field)) for field in fields}
+    for field in fields:
+        value['frontend']['storage']['output_pdb_context.'+field]=[int(gdb.parse_and_eval('(unsigned int)&output_pdb_context.'+field)),4]
 value['frontend']['callback_slots']=[int(gdb.parse_and_eval('(unsigned int)frontend_initializers[%d]'%n)) for n in range(43)]
 value['target_state']['initializer_words']=[int(gdb.parse_and_eval('(unsigned int)crt_initializers[%d]'%n)) for n in range(2)]
 value['target_state']['onexit_first']=int(gdb.parse_and_eval('(unsigned int)*onexit_begin')) if value['target_state']['onexit_begin'] else None
@@ -133,10 +138,11 @@ end
     pre=output/'collect-pre.gdb'
     pre.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'pre.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'pre-argv.bin'))))
     pdb_seed=''
+    pdb_object='output_pdb_context' if trial['trial']=='_initialize_pdb_context_02' else 'input_pdb_context'
     if trial.get('test_pdb_seed') is not None:
         for index,field in enumerate(('database','names','types','minimal_rebuild','stream_state')):
-            pdb_seed+='set variable input_pdb_context.'+field+'=(void *)((unsigned char *)frontend_bss.saved_state+%d)\n'%(index*4)
-        pdb_seed+='set variable input_pdb_context.read_mode=37\n'
+            pdb_seed+='set variable '+pdb_object+'.'+field+'=(void *)((unsigned char *)frontend_bss.saved_state+%d)\n'%(index*4)
+        pdb_seed+='set variable '+pdb_object+'.read_mode=37\n'
     observer='break *initialize_compiler_pass\ncommands\nsilent\n'+pdb_seed+'source '+str(pre)+'\ncontinue\nend\n'
     if trial['trial']=='_checked_malloc':
         allocation=output/'collect-allocation-entry.gdb'
@@ -185,14 +191,15 @@ end
         signature=output/'collect-signature-entry.gdb'
         signature.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'signature-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'signature-entry-argv.bin'))))
         observer+='break *initialize_frontend_21\ncommands\nsilent\nsource '+str(signature)+'\ncontinue\nend\n'
-    if model['schema']>=17:
-        entry=output/'collect-pdb-entry.gdb'
-        entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'pdb-entry.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'pdb-entry-argv.bin'))))
-        change='' if trial.get('test_pdb_seed') is None else 'set variable restore_mode=%d\n'%trial['test_pdb_seed']
-        observer+='break *initialize_pdb_context_01\ncommands\nsilent\n'+change+'source '+str(entry)+'\ncontinue\nend\n'
-        registration=output/'collect-pdb-registration.gdb'
-        registration.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'pdb-registration.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'pdb-registration-argv.bin'))))
-        observer+='break register_cleanup if frontend_bss.cleanup_count==9\ncommands\nsilent\nsource '+str(registration)+'\ncontinue\nend\n'
+    for number in range(1,3 if model['schema']>=18 else 2 if model['schema']>=17 else 1):
+        stem='pdb' if number==1 else 'pdb02'
+        entry=output/('collect-'+stem+'-entry.gdb')
+        entry.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/(stem+'-entry.json')))).replace(repr(str(output/'native-argv.bin')),repr(str(output/(stem+'-entry-argv.bin')))))
+        change='' if trial.get('test_pdb_seed') is None or trial['trial']!='_initialize_pdb_context_%02d'%number else 'set variable restore_mode=%d\n'%trial['test_pdb_seed']
+        observer+='break *initialize_pdb_context_%02d\ncommands\nsilent\n'%number+change+'source '+str(entry)+'\ncontinue\nend\n'
+        registration=output/('collect-'+stem+'-registration.gdb')
+        registration.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/(stem+'-registration.json')))).replace(repr(str(output/'native-argv.bin')),repr(str(output/(stem+'-registration-argv.bin')))))
+        observer+='break register_cleanup if frontend_bss.cleanup_count==%d\ncommands\nsilent\nsource '%(8+number)+str(registration)+'\ncontinue\nend\n'
     if trial.get('validation_observers'):
         phase=output/'collect-phase.gdb'
         phase.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'phase.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'phase-argv.bin'))))

@@ -38,7 +38,7 @@ def field_map(model,observed):
            'cleanup_callbacks':(0x104c4d58,128,'bss','frontend_bss.cleanup_callbacks'),
            'restore_mode':(0x104cb06c,4,'external','restore_mode'),
            'compiler_mode':(0x104cb008,4,'external','compiler_mode')}
-    s.require(model['schema'] in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17),'unknown state-model schema')
+    s.require(model['schema'] in (1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18),'unknown state-model schema')
     if model['schema']>=2:
         known['context_stack']=(0x104ba900,12,'bss','frontend_bss.context_stack')
         s.require(observed['context_stack_fields']==(['origin','position','top'] if model['schema']>=5 else ['begin','end','top']),
@@ -76,6 +76,9 @@ def field_map(model,observed):
         for field,offset in zip(('database','names','types','minimal_rebuild','stream_state','read_mode'),(0,4,8,12,20,24)):
             known['input_pdb_context.'+field]=(0x104cb030+offset,4,'external','input_pdb_context.'+field)
         s.require(observed['pdb_context_layout']=={'size':24,'fields':{name:[i*4,4] for i,name in enumerate(('database','names','types','minimal_rebuild','stream_state','read_mode'))}},'PDB context projection has unknown storage/gaps')
+    if model['schema']>=18:
+        for field,offset in zip(('database','names','types','minimal_rebuild','stream_state','read_mode'),(0,4,8,12,20,24)):
+            known['output_pdb_context.'+field]=(0x104cb050+offset,4,'external','output_pdb_context.'+field)
     s.require(names==set(known),'field mapping is not the encountered typed projection')
     original=[];native=[]
     for row in model['fields']:
@@ -106,7 +109,7 @@ def field_map(model,observed):
     if model['schema']>=15:fields += ['token_value','sentinel_token']
     if model['schema']>=16:fields.append('source_signature')
     s.require(observed['declared_fields']=={'initialized':['first_invocation'],'bss':fields} and
-              observed['known_sizes']=={'initialized':4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312,7:348,8:384,9:420,10:456,11:492,12:528,13:564,14:568,15:588,16:592,17:592}[model['schema']]},
+              observed['known_sizes']=={'initialized':4,'bss':{1:136,2:148,3:160,4:268,5:276,6:312,7:348,8:384,9:420,10:456,11:492,12:528,13:564,14:568,15:588,16:592,17:592,18:592}[model['schema']]},
               'typed structs contain unmodeled/omitted storage')
     for kind in ('initialized','bss'):
         padding=model['native_padding']['bytes'] if kind=='bss' and model['schema']>=6 else 0
