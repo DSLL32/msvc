@@ -36,6 +36,24 @@
       "register_imports": {
         "require_all_register_calls_resolved": true
       }
+    },
+    "_parse_internal_switch": {
+      "original": {
+        "text_data": [
+          [
+            274803080,
+            274803096
+          ]
+        ],
+        "switches": {
+          "274802963": [
+            274802970,
+            274924743,
+            274803056,
+            274924763
+          ]
+        }
+      }
     }
   }
 }

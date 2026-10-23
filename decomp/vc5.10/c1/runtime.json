@@ -126,13 +126,6 @@
     "evidence": "actual full-main call or cleanup callback identity, named INT3; no body credit"
   },
   {
-    "name": "_parse_internal_switch",
-    "start": 274802944,
-    "end": 274802945,
-    "pending_extent": true,
-    "evidence": "genuine internal-switch scanner callee; named INT3 entry only"
-  },
-  {
     "name": "_next_internal_token",
     "start": 275003328,
     "end": 275003329,

@@ -76,6 +76,39 @@
       "snapshot_original_offset": 5384,
       "snapshot_native_offset": 16,
       "default_proof": "canonical actual loaded compiler-data-000; C1main own operands and GetSystemInfo SDK type; page4096/granularity65536 explicit original defaults"
+    },
+    {
+      "name": "internal_bm_flags",
+      "original_rva": 389884,
+      "bytes": 4,
+      "native_field": "c1_data.internal_bm_flags",
+      "native_offset": 52,
+      "default": 0,
+      "snapshot_original_offset": 4860,
+      "snapshot_native_offset": 52,
+      "default_proof": "canonical C1.DLL initialized DWORD and complete initial loaded compiler-data; own prefix parser atoi store; contextual option role, no bulk image state"
+    },
+    {
+      "name": "internal_zb_value",
+      "original_rva": 388868,
+      "bytes": 4,
+      "native_field": "c1_data.internal_zb_value",
+      "native_offset": 56,
+      "default": 0,
+      "snapshot_original_offset": 3844,
+      "snapshot_native_offset": 56,
+      "default_proof": "canonical C1.DLL initialized DWORD and complete initial loaded compiler-data; own prefix parser atoi store; contextual option role, no bulk image state"
+    },
+    {
+      "name": "memory_percent",
+      "original_rva": 391544,
+      "bytes": 4,
+      "native_field": "c1_data.memory_percent",
+      "native_offset": 60,
+      "default": 100,
+      "snapshot_original_offset": 6520,
+      "snapshot_native_offset": 60,
+      "default_proof": "canonical C1.DLL initialized DWORD and complete initial loaded compiler-data; own prefix parser atoi store; contextual option role, no bulk image state"
     }
   ],
   "modeled_bss": [
@@ -1832,7 +1865,7 @@
         23897
       ]
     ],
-    "hard_frontier_rva": 76032,
+    "hard_frontier_rva": 76184,
     "policy": "reviewed specific internal transfer; tail remains UNMODELED and cannot be semantically consumed before a named trap"
   },
   "pdb_signature": {
@@ -2230,8 +2263,8 @@
     }
   },
   "main_fields": {
-    "initialized_known_bytes": 52,
-    "initialized_unknown_bytes": 6496,
+    "initialized_known_bytes": 64,
+    "initialized_unknown_bytes": 6484,
     "system_info_members": {
       "dwOemId": 0,
       "dwPageSize": 4,
@@ -2246,7 +2279,7 @@
     },
     "system_info_original_rva": 390408,
     "system_info_native_offset": 16,
-    "native_initialized_size": 52,
+    "native_initialized_size": 64,
     "native_bss_size": 804,
     "field_evidence": {
       "compiler_phase": "main127a9 sets1;13585 sets3;13833 and438d6/43950 consumers prove compiler-stage state",
@@ -2254,7 +2287,10 @@
       "compiler_flags": "main12815..12828 andcold3042b toggle0x2000 according to C9IL; further bit consumers remain pending",
       "system_info": "main127e7 pushes5f508 into KERNEL32.GetSystemInfo IAT5d1b4; canonical36-byte SDK layout and explicit initialized defaults",
       "debug_break": "record62e6c string -debugBreak% targets5c34; main condition calls KERNEL32.DebugBreak",
-      "command_argc_argv": "main127cd/127d3 stores actualmain argc/argv;12f9d/12fac advance this commandline cursor"
+      "command_argc_argv": "main127cd/127d3 stores actualmain argc/argv;12f9d/12fac advance this commandline cursor",
+      "internal_bm_flags": "-Bm prefix, atoi store304d1, consumer4cc05 testsbit0x4000 beforeVirtualAlloc",
+      "internal_zb_value": "-ZB prefix, atoi store1297a;1406d..1407b divides by8; broader semantics unrecovered",
+      "memory_percent": "-Zm prefix, atoi store304e5, zero fallback100;12a85 multiplies allocator size by this field and0.01"
     }
   },
   "work_buffers": {

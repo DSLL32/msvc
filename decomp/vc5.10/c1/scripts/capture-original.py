@@ -111,10 +111,13 @@ def main():
     if args.restore_probe and candidate.get("restore_probe", {}).get("pch_member"):
         (output / "pch-member-probe.txt").write_text("11e2a 58f68 44\n")
     if args.restore_probe and field_map.get("main_fields"):
-        (output / "main-fields-probe.txt").write_text("5f3d8 5f2e0 5ede4 5f508 34 55c34\n")
+        (output / "main-fields-probe.txt").write_text("5f3d8 5f2e0 5ede4 5f508 40 55c34\n")
     if candidate.get('allocation_observers'):
         assert candidate['allocation_observers']['rvas']==[0x12889,0x1288b,0x128a2,0x128a4,0x1283f,0x12860]
         (output/'allocation-observers.txt').write_text(''.join('%x\n'%rva for rva in candidate['allocation_observers']['rvas']))
+    if candidate.get('parser_observers'):
+        assert candidate['parser_observers']==dict(getenv_return_rva=0x128ec,parser_entry_rva=0x12900,parser_return_rva=0x128d2)
+        (output/'internal-switch-observers.txt').write_text('128ec\n')
     ranges = []
     for entry in candidate["ranges"]:
         ranges.append("%x %x %d\n" % (entry["start_rva"], entry["end_rva"], entry["entry"]))

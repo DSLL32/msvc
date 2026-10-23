@@ -12,6 +12,9 @@ typedef struct CompilerInitializedState {
     int c9_il;
     DWORD compiler_flags;
     SYSTEM_INFO system_info;
+    int internal_bm_flags;
+    int internal_zb_value;
+    int memory_percent;
 } CompilerInitializedState;
 /* A context saves its current object/value together with a linked stack of
  * prior contexts. The domain of the value is not yet recovered. */

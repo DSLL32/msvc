@@ -381,6 +381,21 @@
       "start_rva": 197721,
       "end_rva": 197805,
       "entry": 0
+    },
+    {
+      "start_rva": 76032,
+      "end_rva": 76164,
+      "entry": 1
+    },
+    {
+      "start_rva": 197805,
+      "end_rva": 197889,
+      "entry": 0
+    },
+    {
+      "start_rva": 76168,
+      "end_rva": 76184,
+      "entry": 0
     }
   ],
   "functions": [
@@ -1187,10 +1202,38 @@
         ]
       ],
       "source": "src/options.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_parse_internal_switch",
+      "native_symbol": "parse_internal_switch",
+      "role": "application",
+      "chunks": [
+        [
+          76032,
+          76164
+        ],
+        [
+          197805,
+          197889
+        ],
+        [
+          76168,
+          76184
+        ]
+      ],
+      "source": "src/options.c",
       "status": "sole-new-candidate"
     }
   ],
-  "text_data": [],
+  "text_data": [
+    {
+      "owner": "_parse_internal_switch",
+      "start_rva": 76168,
+      "end_rva": 76184,
+      "purpose": "actual four-entry mode switch jump table; four padding bytes12984..12988 excluded"
+    }
+  ],
   "expected_initial_frontier": {
     "module_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
     "rva": 73770,
@@ -1202,16 +1245,13 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 76032,
-    "native_symbol": "parse_internal_switch",
-    "kind": "scanner-argument",
-    "native_args": [
-      "argument",
-      "mode"
-    ],
+    "rva": 76184,
+    "native_symbol": "initialize_state_12998",
+    "kind": "post-internal-switches",
+    "native_args": [],
     "caller": {
-      "native_symbol": "scan_internal_switches",
-      "return_rva": 75986
+      "native_symbol": "c1_main",
+      "return_rva": 75751
     }
   },
   "imports": [
@@ -1417,10 +1457,13 @@
       "pointer_roles": "owned snapshot interior sentinels; cleared by genuine member before any semantic consumer"
     },
     "main_fields": {
-      "known_initialized_bytes": 52,
-      "native_initialized_size": 52,
-      "unknown_initialized_bytes": 6496,
+      "known_initialized_bytes": 64,
+      "native_initialized_size": 64,
+      "unknown_initialized_bytes": 6484,
       "snapshot": {
+        "internal_bm_flags": 37,
+        "internal_zb_value": 61,
+        "memory_percent": 83,
         "compiler_phase": 7,
         "c9_il": 9,
         "compiler_flags": 324478056,
@@ -1436,6 +1479,9 @@
         "wProcessorRevision": 4660
       },
       "live": {
+        "internal_bm_flags": 41,
+        "internal_zb_value": 67,
+        "memory_percent": 89,
         "compiler_phase": 11,
         "c9_il": 13,
         "compiler_flags": 610800471,
@@ -1463,7 +1509,7 @@
       "normal_case": false
     }
   },
-  "staging_role": "full internal-switch scanner hot/cold candidate, actual scanner-entry proof then first argv argument parser frontier",
+  "staging_role": "whole mode/prefix parser plus exactowned16Btable, allnaturalargvreturns then capturedabsentMSC_CMD_FLAGS; no newconsumer beyond nextmainstub",
   "registered_cleanup": [
     {
       "original_rva": 145728,
@@ -1534,5 +1580,10 @@
     "reserve_bytes": 5242880,
     "commit_bytes": 16384
   },
-  "audit_metadata": "cases/minimal/audit-metadata.json"
+  "audit_metadata": "cases/minimal/audit-metadata.json",
+  "parser_observers": {
+    "getenv_return_rva": 76012,
+    "parser_entry_rva": 76032,
+    "parser_return_rva": 75986
+  }
 }

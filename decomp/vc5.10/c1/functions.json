@@ -60,7 +60,8 @@
     "_main",
     "_initialize_work_buffers",
     "_reserve_work_buffer",
-    "_scan_internal_switches"
+    "_scan_internal_switches",
+    "_parse_internal_switch"
   ],
   "driver": [
     {
@@ -513,6 +514,22 @@
         [
           274924633,
           274924717
+        ]
+      ],
+      "role": "application"
+    },
+    {
+      "name": "_parse_internal_switch",
+      "start": 274802944,
+      "end": 274803076,
+      "code_chunks": [
+        [
+          274924717,
+          274924801
+        ],
+        [
+          274803080,
+          274803096
         ]
       ],
       "role": "application"

@@ -126,16 +126,9 @@
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "_parse_internal_switch",
-    "start": 268443328,
-    "end": 268443329,
-    "pending_extent": true,
-    "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
-  },
-  {
     "name": "_next_internal_token",
-    "start": 268443342,
-    "end": 268443343,
+    "start": 268443671,
+    "end": 268443672,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   }

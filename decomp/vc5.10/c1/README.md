@@ -3,15 +3,16 @@
 Target: `toolchains/5.10/bin/C1.DLL`, SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`.
 The lifecycle-only first case is complete. Minimal C compilation is in progress,
-all initialization callbacks and main are complete; internal-switch scanning reaches its first argument parser12900. The native i386
+all initialization callbacks and main are complete; internal-switch parsing and actual absent-environment check reach main helper12998. The native i386
 harness and actual Win32 DLL compile the same reconstructed source; two genuine
 thiscall members and their callers use small C++ translation units. The lifecycle
 fixture resolves both compiler exports; the minimal case calls InvokeCompilerPass.
 AbortCompilerPass remains a named INT3 stub.
 
-Accepted ownership is54 application functions /2188 original bytes,2 CRT support
-functions /451 bytes and one6-byte import thunk:2645 of the `.text` virtual
-extent's322288 bytes (0.821%). That denominator includes CRT and unclassified
+Accepted ownership is55 application functions /2404 original code bytes plus16
+owned switch-table bytes,2 CRT support
+functions /451 bytes and one6-byte import thunk:2877 of the `.text` virtual
+extent's322288 bytes (0.893%). That denominator includes CRT and unclassified
 code; it is not non-CRT coverage. The original17-DWORD PCH-context initializer
 and its tail wrapper were explicitly accepted as one ordered JOINT two-function
 closure after separate non-promotable prospective input evidence.
@@ -447,3 +448,14 @@ Rust audits. Focused27/27 controls are fresh; unchanged core47/100 and allocatio
 1.468/.800s,restore1.869/1.639s,audit.026s,nativecachedlifecycle4.13ms. New
 controls24.35/34.18s are separate. See `cases/minimal/SWITCH-SCANNER.md` and
 `evidence/scanner-parser-*`; the getenv/token branch has not yet run.
+
+The internal parser12900 is accepted:216codebytes and16 separately owned mode
+jump-table bytes; adjacent4paddingbytes staymasked/uncredited. Three contextual
+atoi-result fields (defaults0/0/100) expand known initializedstate64B, leaving
+6484B UNMODELED with exact distinct nonzero snapshot/restore proof. Allten natural
+argv calls are independently recorded with actualpointer/bytes/mode/return/stack;
+they exercise unrecognized mode0 only. Canonicalgetenv MSC_CMD_FLAGS is actually
+observedNULL, reaching mainhelper12998; prefix/atoi branches are not executed
+credit. Strict57-source audit2877ownedB passes, fresh focused42/54 controls pass,
+unchanged priorprotocol/old-field/allocation results explicitly reused. See
+`cases/minimal/INTERNAL-SWITCH-PARSER.md` and `evidence/internal-parser-main-*`.

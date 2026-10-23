@@ -5,7 +5,8 @@
  * allocation-granularity defaults; GetSystemInfo refreshes it later in main. */
 CompilerInitializedState c1_data = {
     1, 0, 0, 0,
-    { { 0 }, 4096, NULL, NULL, 0, 0, 0, 65536, 0, 0 }
+    { { 0 }, 4096, NULL, NULL, 0, 0, 0, 65536, 0, 0 },
+    0, 0, 100
 };
 CompilerBss c1_bss;
 int c1_reuse_state;

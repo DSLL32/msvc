@@ -24,8 +24,41 @@ void __cdecl scan_internal_switches(char **arguments)
 
 unsigned __cdecl parse_internal_switch(const char *argument, unsigned mode)
 {
-    __asm { int 3 }
-    return 0;
+    if (!argument)
+        return 0;
+    for (;;) {
+        switch (mode) {
+        case 0:
+            if (argument[0] == '-' && argument[1] == 'B' && argument[2] == 'm') {
+                argument += 3;
+                mode = 1;
+            } else if (argument[0] == '-' && argument[1] == 'Z' && argument[2] == 'B') {
+                argument += 3;
+                mode = 2;
+            } else if (argument[0] == '-' && argument[1] == 'Z' && argument[2] == 'm') {
+                argument += 3;
+                mode = 3;
+            } else {
+                return 0;
+            }
+            break;
+        case 1:
+            c1_data.internal_bm_flags = atoi(argument);
+            return 0;
+        case 2:
+            c1_data.internal_zb_value = atoi(argument);
+            return 0;
+        case 3:
+            c1_data.memory_percent = atoi(argument);
+            if (!c1_data.memory_percent)
+                c1_data.memory_percent = 100;
+            return 0;
+        }
+        if (!*argument)
+            return mode;
+        if (!mode)
+            return 0;
+    }
 }
 
 const char *__cdecl next_internal_token(const char *input, char *token, unsigned size)

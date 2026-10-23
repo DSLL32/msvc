@@ -49,6 +49,11 @@ static unsigned allocation_observer_count, allocation_call_count;
 static DWORD allocation_before_esp, allocation_before_edi;
 static DWORD allocation_regions[2];
 static unsigned allocation_region_count;
+static DWORD parser_return_address, parser_entry_esp, parser_calls;
+static BYTE parser_return_saved;
+static int parser_return_active, parser_probe;
+static Range getenv_observer;
+
 
 
 static void fail(const char *message)
@@ -226,6 +231,18 @@ static void prepare_mask(void)
             fclose(probe); allocation_observer_count = 6;
             readmem(base + 0x5d1c4, &allocation_provider, 4);
             fprintf(events, "allocation-provider iat=0005d1c4 resolved=%08lx\n", allocation_provider);
+        }
+    }
+    {
+        FILE *probe = fopen("internal-switch-observers.txt", "r");
+        DWORD rva;
+        if (probe) {
+            if (fscanf(probe, "%lx", &rva) != 1 || rva != 0x128ec) fail("internal getenv observer metadata");
+            getenv_observer.first = rva;
+            readmem(base + rva, &getenv_observer.saved, 1);
+            if (getenv_observer.saved != snapshot[rva - code_rva] || getenv_observer.saved != 0x83) fail("internal getenv observer outside owned source");
+            if (fscanf(probe, "%lx", &rva) != EOF) fail("extra getenv observer metadata");
+            patch(base + getenv_observer.first, 0xcc); parser_probe = 1; fclose(probe);
         }
     }
     save_remote_state("compiler-callbacks", 0, base + 0x69000, 34 * 4);
@@ -513,6 +530,14 @@ static void seed_main_initialized(BYTE *data, DWORD saved, int snapshot_copy)
     memcpy(data + 0x12e0, &c9, 4);
     memcpy(data + 0xde4, &flags, 4);
     memcpy(data + 0x1508, &info, sizeof(info));
+    {
+        int value = snapshot_copy ? 37 : 41;
+        memcpy(data + 0x12fc, &value, 4);
+        value = snapshot_copy ? 61 : 67;
+        memcpy(data + 0xf04, &value, 4);
+        value = snapshot_copy ? 83 : 89;
+        memcpy(data + 0x1978, &value, 4);
+    }
 }
 
 /* Explicit code-probe input: unknown original bytes stay on the ORIGINAL
@@ -541,7 +566,10 @@ static void seed_restore_state(void)
         write_mem(base + 0x5f2e0, data + 0x12e0, 4);
         write_mem(base + 0x5ede4, data + 0xde4, 4);
         write_mem(base + 0x5f508, data + 0x1508, 36);
-        fprintf(events, "main-fields-seed bytes=52 snapshot-phase=7 live-phase=11 snapshot=%08lx pointers=owned\n", saved);
+        write_mem(base + 0x5f2fc, data + 0x12fc, 4);
+        write_mem(base + 0x5ef04, data + 0xf04, 4);
+        write_mem(base + 0x5f978, data + 0x1978, 4);
+        fprintf(events, "main-fields-seed bytes=64 snapshot-phase=7 live-phase=11 snapshot=%08lx pointers=owned\n", saved);
     }
     free(data);
     write_mem(base + 0x57818, &saved, 4);
@@ -679,6 +707,14 @@ static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
             patch(pch_return_address, 0xcc); pch_return_active = 1;
         }
     }
+    if (parser_probe && address == base + 0x12900) {
+        if (parser_return_active) fail("nested internal parser call");
+        parser_return_address = stack[0]; parser_entry_esp = context->Esp;
+        readmem(parser_return_address, &parser_return_saved, 1);
+        if (parser_return_address != base + 0x128d2 || parser_return_saved != snapshot[0x128d2 - code_rva]) fail("internal parser caller return identity");
+        fprintf(events, "internal-parser-entry index=%lu seq=%u argument=%08lx mode=%lu esp=%08lx\n", parser_calls, sequence - 1, stack[1], stack[2], context->Esp);
+        patch(parser_return_address, 0xcc); parser_return_active = 1;
+    }
     if (address == base + entry_rva) {
         if (return_active) fail("nested target DLL entry unsupported");
         return_address = stack[0]; return_reason = stack[2];
@@ -790,7 +826,7 @@ int main(int argc, char **argv)
         probe = fopen("main-fields-probe.txt", "r");
         if (probe) {
             DWORD phase, c9, flags, info, known, command;
-            if (fscanf(probe, "%lx %lx %lx %lx %lx %lx", &phase, &c9, &flags, &info, &known, &command) != 6 || phase != 0x5f3d8 || c9 != 0x5f2e0 || flags != 0x5ede4 || info != 0x5f508 || known != 52 || command != 0x55c34) fail("main fields probe metadata");
+            if (fscanf(probe, "%lx %lx %lx %lx %lx %lx", &phase, &c9, &flags, &info, &known, &command) != 6 || phase != 0x5f3d8 || c9 != 0x5f2e0 || flags != 0x5ede4 || info != 0x5f508 || known != 64 || command != 0x55c34) fail("main fields probe metadata");
             main_fields_probe = 1; fclose(probe);
         }
         probe = fopen("pch-member-probe.txt", "r");
@@ -839,11 +875,19 @@ int main(int argc, char **argv)
             memset(&context, 0, sizeof(context)); context.ContextFlags = CONTEXT_FULL | CONTEXT_FLOATING_POINT;
             if (!GetThreadContext(thread, &context)) fail("GetThreadContext");
             if (code == EXCEPTION_SINGLE_STEP && pending != -1) {
-                if (pending <= -3) patch(base + allocation_observers[-pending - 3].first, 0xcc);
+                if (pending == -20) patch(base + getenv_observer.first, 0xcc);
+                else if (pending <= -3) patch(base + allocation_observers[-pending - 3].first, 0xcc);
                 else if (pending == -2) patch(restore_observer, 0xcc);
                 else patch(base + ranges[pending].first, 0xcc);
                 context.EFlags &= ~0x100; pending = -1;
                 if (!SetThreadContext(thread, &context)) fail("single step context");
+            } else if (code == EXCEPTION_BREAKPOINT && parser_return_active && address == parser_return_address) {
+                fprintf(events, "internal-parser-return index=%lu seq=%u pc=%08lx esp=%08lx entry-esp=%08lx eax=%08lx\n", parser_calls, sequence, address, context.Esp, parser_entry_esp, context.Eax);
+                fprintf(events, "last-error=%lu\n", thread_error(&context, thread));
+                fprintf(events, "x87-control=%04lx\n", context.FloatSave.ControlWord);
+                save_state(); patch(address, parser_return_saved); parser_return_active = 0; ++parser_calls;
+                context.Eip = address;
+                if (!SetThreadContext(thread, &context)) fail("internal parser return context");
             } else if (code == EXCEPTION_BREAKPOINT && pch_return_active && address == pch_return_address) {
                 fprintf(events, "pch-member-return seq=%u pc=%08lx eax=%08lx esp=%08lx entry-esp=%08lx edi=%08lx entry-edi=%08lx\n", sequence, address, context.Eax, context.Esp, pch_entry_esp, context.Edi, pch_entry_edi);
                 fprintf(events, "last-error=%lu\n", thread_error(&context, thread));
@@ -916,6 +960,14 @@ int main(int argc, char **argv)
                 for (i = 0; i < allocation_observer_count; ++i)
                     if (address == base + allocation_observers[i].first) break;
                 if (i < allocation_observer_count) observe_allocation(&context, address, thread);
+                if (parser_probe && address == base + getenv_observer.first) {
+                    DWORD name, resolved;
+                    char text[64];
+                    readmem(context.Esp, &name, 4); remote_string(name, text, sizeof(text));
+                    readmem(base + 0x5d050, &resolved, 4);
+                    if (resolved != exported(crt_base, "getenv")) fail("canonical getenv provider");
+                    fprintf(events, "internal-getenv seq=%u pc=%08lx provider=%08lx name=%s name-address=%08lx result=%08lx parser-calls=%lu\n", sequence, address, resolved, text, name, context.Eax, parser_calls);
+                }
                 boundary(&context, address, thread);
                 for (i = 0; i < count; ++i)
                     if (ranges[i].entry && address == base + ranges[i].first) break;
@@ -925,6 +977,8 @@ int main(int argc, char **argv)
                 } else if (restore_probe && address == restore_observer) {
                     patch(address, restore_observer_saved); pending = -2;
                     context.EFlags |= 0x100;
+                } else if (parser_probe && address == base + getenv_observer.first) {
+                    patch(address, getenv_observer.saved); pending = -20; context.EFlags |= 0x100;
                 } else {
                     for (i = 0; i < allocation_observer_count; ++i)
                         if (address == base + allocation_observers[i].first) break;
