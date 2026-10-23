@@ -1,0 +1,93 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+000668c0 <.text+0x4f8c0>:
+   668c0:	83 ec 14             	sub    esp,0x14
+   668c3:	53                   	push   ebx
+   668c4:	56                   	push   esi
+   668c5:	57                   	push   edi
+   668c6:	2b db                	sub    ebx,ebx
+   668c8:	8b 74 24 24          	mov    esi,DWORD PTR [esp+0x24]
+   668cc:	3b f3                	cmp    esi,ebx
+   668ce:	75 10                	jne    0x668e0
+   668d0:	2b c0                	sub    eax,eax
+   668d2:	5f                   	pop    edi
+   668d3:	5e                   	pop    esi
+   668d4:	5b                   	pop    ebx
+   668d5:	83 c4 14             	add    esp,0x14
+   668d8:	c2 08 00             	ret    0x8
+   668db:	05 00 00 00 00       	add    eax,0x0
+   668e0:	56                   	push   esi
+   668e1:	e8 4a 7b fe ff       	call   0x4e430
+   668e6:	83 c4 04             	add    esp,0x4
+   668e9:	66 0b c0             	or     ax,ax
+   668ec:	75 22                	jne    0x66910
+   668ee:	8b 1d cc f3 09 00    	mov    ebx,DWORD PTR ds:0x9f3cc
+   668f4:	0b db                	or     ebx,ebx
+   668f6:	0f 84 a4 00 00 00    	je     0x669a0
+   668fc:	56                   	push   esi
+   668fd:	e8 0e 7b fe ff       	call   0x4e410
+   66902:	83 c4 04             	add    esp,0x4
+   66905:	8b c3                	mov    eax,ebx
+   66907:	5f                   	pop    edi
+   66908:	5e                   	pop    esi
+   66909:	5b                   	pop    ebx
+   6690a:	83 c4 14             	add    esp,0x14
+   6690d:	c2 08 00             	ret    0x8
+   66910:	8b 44 24 28          	mov    eax,DWORD PTR [esp+0x28]
+   66914:	2b ff                	sub    edi,edi
+   66916:	8b 40 24             	mov    eax,DWORD PTR [eax+0x24]
+   66919:	89 44 24 0c          	mov    DWORD PTR [esp+0xc],eax
+   6691d:	c6 44 24 10 0f       	mov    BYTE PTR [esp+0x10],0xf
+   66922:	8b 44 24 0c          	mov    eax,DWORD PTR [esp+0xc]
+   66926:	89 44 24 14          	mov    DWORD PTR [esp+0x14],eax
+   6692a:	3b c7                	cmp    eax,edi
+   6692c:	74 c6                	je     0x668f4
+   6692e:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+   66931:	89 44 24 0c          	mov    DWORD PTR [esp+0xc],eax
+   66935:	8b 44 24 14          	mov    eax,DWORD PTR [esp+0x14]
+   66939:	8a 00                	mov    al,BYTE PTR [eax]
+   6693b:	32 44 24 10          	xor    al,BYTE PTR [esp+0x10]
+   6693f:	a8 1f                	test   al,0x1f
+   66941:	75 df                	jne    0x66922
+   66943:	8b 44 24 14          	mov    eax,DWORD PTR [esp+0x14]
+   66947:	f6 40 01 80          	test   BYTE PTR [eax+0x1],0x80
+   6694b:	75 d5                	jne    0x66922
+   6694d:	8b 0d 2c f3 09 00    	mov    ecx,DWORD PTR ds:0x9f32c
+   66953:	0f bf 40 0c          	movsx  eax,WORD PTR [eax+0xc]
+   66957:	8b 44 81 04          	mov    eax,DWORD PTR [ecx+eax*4+0x4]
+   6695b:	3b df                	cmp    ebx,edi
+   6695d:	89 44 24 1c          	mov    DWORD PTR [esp+0x1c],eax
+   66961:	75 91                	jne    0x668f4
+   66963:	8b 40 20             	mov    eax,DWORD PTR [eax+0x20]
+   66966:	8b 40 18             	mov    eax,DWORD PTR [eax+0x18]
+   66969:	50                   	push   eax
+   6696a:	56                   	push   esi
+   6696b:	e8 e0 7b fe ff       	call   0x4e550
+   66970:	83 c4 08             	add    esp,0x8
+   66973:	3b c7                	cmp    eax,edi
+   66975:	8b 44 24 1c          	mov    eax,DWORD PTR [esp+0x1c]
+   66979:	8b 40 20             	mov    eax,DWORD PTR [eax+0x20]
+   6697c:	74 05                	je     0x66983
+   6697e:	8b 58 18             	mov    ebx,DWORD PTR [eax+0x18]
+   66981:	eb 9f                	jmp    0x66922
+   66983:	8b 40 1c             	mov    eax,DWORD PTR [eax+0x1c]
+   66986:	50                   	push   eax
+   66987:	56                   	push   esi
+   66988:	e8 c3 7b fe ff       	call   0x4e550
+   6698d:	83 c4 08             	add    esp,0x8
+   66990:	3b c7                	cmp    eax,edi
+   66992:	74 8e                	je     0x66922
+   66994:	8b 44 24 1c          	mov    eax,DWORD PTR [esp+0x1c]
+   66998:	8b 40 20             	mov    eax,DWORD PTR [eax+0x20]
+   6699b:	8b 58 1c             	mov    ebx,DWORD PTR [eax+0x1c]
+   6699e:	eb 82                	jmp    0x66922
+   669a0:	8b c6                	mov    eax,esi
+   669a2:	5f                   	pop    edi
+   669a3:	5e                   	pop    esi
+   669a4:	5b                   	pop    ebx
+   669a5:	83 c4 14             	add    esp,0x14
+   669a8:	c2 08 00             	ret    0x8

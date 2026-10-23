@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "0a3eb697f025c49fb30a6b020fad52f1964e5ea0f2e6115c8264fff475cd32a4",
+    "functions.json": "109fdbcc761ea1bd154017a0037f606eec8105f44aab9257a42dcd8c9d21004e",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "35810f155a47421a6f2f314c93aeea5791233a98118778ee90b906c67c970985",
-    "cases/canonical-map.txt": "a11bcce1e00916cb98d47e23b574d9a9506d12d021012b6a062f702ea94a2e53",
+    "cases/original-entry-references.json": "508e3d4d36643f78f1719ad9f94e754e8b76a942c9cb60dd66d398a296d3c11a",
+    "cases/canonical-map.txt": "a812b8e640836d3b5419961e4aadd12009dde7c4cc1292988edec46b4a307c48",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -44,9 +44,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1102-declare_qualified_member-12/entry-reference/original-receipt.json": "a7a6dbadfbb7b098d0d1868abeaccc2ccf00e05f1a44346de89c9cb758bf0acf",
-    "cases/frontiers/state_machine_debug/1102-declare_qualified_member-12/entry-reference/original-events.txt": "157e7616efe8ae8583a37a02d31472948dc7dfadb6f5c657e7590b29094c3594",
-    "cases/frontiers/state_machine_debug/1102-declare_qualified_member-12/entry-reference/original-entries.plan": "3990cf0e299350e5e2c76f010ea0cc4f22b9e7ecad64dd073cd2583a599cecde"
+    "cases/frontiers/state_machine_debug/1103-equal_inline_vectors/entry-reference/original-receipt.json": "7d8c53077dff3c411b7e3dff99d16695a0eacd2a0883eb657d0b995485a2fa84",
+    "cases/frontiers/state_machine_debug/1103-equal_inline_vectors/entry-reference/original-events.txt": "84220ea9bd83959df57111d5c5b4b47c5e4e1e9d1072bf7a75bc7ea710622e1a",
+    "cases/frontiers/state_machine_debug/1103-equal_inline_vectors/entry-reference/original-entries.plan": "c0c0f8e9252a942a2f06b36241efc5f691149f5d01f69c072d37f05327f6f75b"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1947,7 +1947,7 @@
     },
     "equal_inline_vectors": {
       "logical": "_equal_inline_vectors",
-      "source": "src/stubs.c"
+      "source": "src/inline-vector.c"
     },
     "equal_pointer": {
       "logical": "_equal_pointer",
@@ -6582,7 +6582,8 @@
     "reset_debug_type_records",
     "reference_tag_symbol",
     "reconcile_typedef",
-    "declare_qualified_member"
+    "declare_qualified_member",
+    "equal_inline_vectors"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10695,7 +10696,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1103,
+      "last": 1104,
       "seen": [
         "main",
         "message_text",
@@ -11707,12 +11708,13 @@
         "reference_tag_symbol",
         "reconcile_typedef",
         "declare_qualified_member",
-        "equal_inline_vectors"
+        "equal_inline_vectors",
+        "pad_debug_field"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_equal_inline_vectors",
-        "native": "equal_inline_vectors",
+        "logical": "_pad_debug_field",
+        "native": "pad_debug_field",
         "signal": 5
       }
     }

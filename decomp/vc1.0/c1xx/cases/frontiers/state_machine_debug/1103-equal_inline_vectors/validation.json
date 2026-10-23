@@ -1,0 +1,16 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_equal_inline_vectors",
+    "start": 320848,
+    "end": 320915
+  },
+  "actual_argument_proof": "cases/frontiers/state_machine_debug/1103-equal_inline_vectors/arguments/validation.json",
+  "distinct_direct_callees": [],
+  "next_frontier": "_pad_debug_field",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.531642603687942,
+  "total_operation_seconds": 4.495983167551458,
+  "original_capture_seconds": 1.868857929483056
+}

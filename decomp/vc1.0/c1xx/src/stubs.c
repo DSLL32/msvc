@@ -336,7 +336,6 @@ void browser_end_tag(void) { __asm { int 3 } }
 
 
 
-int equal_inline_vectors(InlineVector *left, InlineVector *right) { __asm { int 3 } return 0; }
 
 CppSymbol *__stdcall find_c_linkage_function(CppSymbol *functions) { __asm { int 3 } return 0; }
 

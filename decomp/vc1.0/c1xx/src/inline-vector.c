@@ -60,6 +60,20 @@ InlineVector *add_inline_pointer(InlineVector *vector, void *pointer)
     return vector;
 }
 
+/* Original 0x4e550..0x4e593. Pointer equality also covers the shared
+   empty vector. Otherwise compare the complete occupied pointer sequence. */
+int equal_inline_vectors(InlineVector *left, InlineVector *right)
+{
+    unsigned index, count;
+    if (left == right) return 1;
+    if (left->count != right->count) return 0;
+    /* The original sign-extends the short byte count, then divides unsigned. */
+    count = (unsigned)(left->count * 4) / 4;
+    for (index = 0; index < count; ++index)
+        if (left->items[index] != right->items[index]) return 0;
+    return 1;
+}
+
 /* Original 0x4e5f0..0x4e686. Order pointers by their low twelve address
    bits, then scan the equal-key group for full identity. A new pointer uses
    the group's lower bound; a found pointer reports its actual slot. */

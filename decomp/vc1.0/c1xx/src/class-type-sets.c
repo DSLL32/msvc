@@ -61,7 +61,7 @@ int __stdcall next_conversion_function(ConversionIterator *iterator)
    vector; nonempty sets can share either inherited conversion-target list. */
 TypeSet *__stdcall share_inherited_type_set(TypeSet *set, CppSymbol *tag)
 {
-    TypeSet *shared = 0;
+    TypeSet *shared = 0, *inherited;
     BaseClassLink *base;
     CppSymbol *base_tag;
     if (!set) return 0;
@@ -72,10 +72,12 @@ TypeSet *__stdcall share_inherited_type_set(TypeSet *set, CppSymbol *tag)
             if ((base->kind & 31) != 15 || (base->flags & 0x80)) continue;
             base_tag = cpp_context_stack->items[base->context_index];
             if (shared) break;
-            if (equal_inline_vectors(set, base_tag->detail.class_info->conversion_types))
-                shared = base_tag->detail.class_info->conversion_types;
-            else if (equal_inline_vectors(set, base_tag->detail.class_info->ambiguous_conversion_types))
-                shared = base_tag->detail.class_info->ambiguous_conversion_types;
+            inherited = base_tag->detail.class_info->conversion_types;
+            if (equal_inline_vectors(set, inherited)) shared = inherited;
+            else {
+                inherited = base_tag->detail.class_info->ambiguous_conversion_types;
+                if (equal_inline_vectors(set, inherited)) shared = inherited;
+            }
         }
     }
     if (!shared) return set;
