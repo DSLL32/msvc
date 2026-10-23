@@ -107,6 +107,16 @@ def main():
         mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
                       ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
                       ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if 'valid_buffer'in current_state.get('header_streams',{}):
+        def changed_buffer(root):
+            path=root/'n/state.json';state=json_at(path);buffer=state['header_streams']['valid_buffer'];state['header_streams']['valid_buffer']='00'+buffer[2:];write_json(path,state);raw_changed(root,'n','state.json')
+        def changed_buffer_count(root):
+            import struct
+            path=root/'n/state.json';state=json_at(path);words=list(struct.unpack('<8I',bytes.fromhex(state['header_streams']['globals'])));words[1]-=1
+            state['header_streams']['globals']=struct.pack('<8I',*words).hex();write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [('native valid IL buffer differs from captured input',changed_buffer),
+                      ('post-refill count does not match consumed byte',changed_buffer_count),
+                      ('raw original valid buffer changed',lambda r:(r/'o/il-buffer.bin').write_bytes(bytes(271)))]
     if current_state.get('header_streams',{}).get('active_index')is not None:
         def wrong_active_il(root):
             path=root/'n/state.json';state=json_at(path);state['header_streams']['active_index']=3;write_json(path,state);raw_changed(root,'n','state.json')

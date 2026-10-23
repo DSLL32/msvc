@@ -39,7 +39,8 @@
     "@parse_option_integer@4",
     "@c2_validate_alignment@4",
     "@c2_open_intermediate@16",
-    "_c2_read_header"
+    "_c2_read_header",
+    "_c2_read_il_byte"
   ],
   "driver": [
     {
@@ -436,17 +437,17 @@
             "review": "Full48b509..48b538: ESI loaded once; intervening strlen repne scans leave ESI untouched; two fwrite calls/cleanup16, no overwrite/escape. First call cleanup is after the intervening direct stderr IAT load, at48b523; second cleanup is adjacent."
           },
           "rebuilt": {
-            "slot": 4206716,
+            "slot": 4206720,
             "holder": "[EBP-0x8]",
             "lifetime": [
               462,
               540
             ],
-            "lifetime_sha256": "1db9ea783ccc62ae4bcbe46674051d7481ee7b58aa848008009940f0b4f9f917",
+            "lifetime_sha256": "81a410314e299de892e2495454793b77083c9a7879e86f71d4b72680dd30e175",
             "instructions": [
               {
                 "offset": 462,
-                "bytes": "8b0d7c304000894df8"
+                "bytes": "8b0d80304000894df8"
               },
               {
                 "offset": 509,
@@ -457,7 +458,7 @@
                 "bytes": "ff55f883c410"
               }
             ],
-            "review": "Complete 00402540..0040258e manually reviewed for IL-header trial: only data/global operands relocated; same qualified IAT load, unique cached stack holder, call/cleanup ABI, no overwrite or escape."
+            "review": "Complete 00402590..004025de manually reviewed for byte-reader trial: same holder/call/cleanup ABI and no escape/overwrite; imported IAT slot relocates after _filbuf addition."
           }
         }
       ]
@@ -585,17 +586,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4206712,
+            "slot": 4206716,
             "holder": "[EBP-0x8]",
             "lifetime": [
               38,
               154
             ],
-            "lifetime_sha256": "198c84b9546ebd671d62610f640fc29b22fc1a7f50158cc79b23da2694e0d2e3",
+            "lifetime_sha256": "35fe0d5efb717b9e1a5825b9aade35eb2ed571fd98d3089a214e0f0be8553bf2",
             "instructions": [
               {
                 "offset": 38,
-                "bytes": "a1783040008945f8"
+                "bytes": "a17c3040008945f8"
               },
               {
                 "offset": 110,
@@ -606,7 +607,7 @@
                 "bytes": "ff55f883c404"
               }
             ],
-            "review": "Complete 00402916..0040298a manually reviewed for IL-header trial: only data/global operands relocated; same qualified IAT load, unique cached stack holder, call/cleanup ABI, no overwrite or escape."
+            "review": "Complete 00402966..004029da manually reviewed for byte-reader trial: same holder/call/cleanup ABI and no escape/overwrite; imported IAT slot relocates after _filbuf addition."
           }
         },
         {
@@ -646,17 +647,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4206720,
+            "slot": 4206724,
             "holder": "[EBP-0x4]",
             "lifetime": [
               46,
               154
             ],
-            "lifetime_sha256": "d279f29ccb869fa174e13350e4ea5db35e51bb36b85d8a9ab18a9430d805300c",
+            "lifetime_sha256": "18bfaa15af2a00e7e74de0c6570b1aad338ec62095fa9d76175aa0b57cea0756",
             "instructions": [
               {
                 "offset": 46,
-                "bytes": "8b0d80304000894dfc"
+                "bytes": "8b0d84304000894dfc"
               },
               {
                 "offset": 89,
@@ -667,7 +668,7 @@
                 "bytes": "ff55fc83c404"
               }
             ],
-            "review": "Complete 0040291e..0040298a manually reviewed for IL-header trial: only data/global operands relocated; same qualified IAT load, unique cached stack holder, call/cleanup ABI, no overwrite or escape."
+            "review": "Complete 0040296e..004029da manually reviewed for byte-reader trial: same holder/call/cleanup ABI and no escape/overwrite; imported IAT slot relocates after _filbuf addition."
           }
         }
       ]
@@ -1176,6 +1177,98 @@
         ]
       ],
       "evidence": "cases/analysis/il-header-disassembly.txt: complete hot/cold header magic/machine/version/count/model/PDB branches, RET0"
+    },
+    {
+      "name": "_c2_read_il_byte",
+      "native": "c2_read_il_byte",
+      "start": 4325585,
+      "end": 4325621,
+      "kind": "application",
+      "abi": "cdecl, no parameters; int byte/EOF result",
+      "state_policy": "il-byte-read",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        }
+      ],
+      "expected_argv": [
+        "-G5"
+      ],
+      "expected_argc": 0,
+      "evidence": "cases/analysis/il-byte-disassembly.txt: complete 36-byte getc expansion, buffer fast path and imported _filbuf refill, RET0"
     }
   ],
   "stubs": [
@@ -1341,14 +1434,14 @@
       "abi": "fastcall ECX location EDX output filename"
     },
     {
-      "name": "_c2_read_il_byte",
-      "native": "c2_read_il_byte",
-      "start": 4325585,
-      "end": 4325621,
+      "name": "_c2_read_il_word",
+      "native": "c2_read_il_word",
+      "start": 4534091,
+      "end": 4534092,
       "pending_extent": true,
       "kind": "application",
-      "abi": "cdecl, no parameters; int byte/EOF result",
-      "state_policy": "il-byte-read",
+      "abi": "cdecl, no parameters; unsigned-short result",
+      "state_policy": "il-word-read",
       "state": [
         {
           "original": "0x499708",
@@ -1431,15 +1524,6 @@
         "-G5"
       ],
       "expected_argc": 0
-    },
-    {
-      "name": "_c2_read_il_word",
-      "native": "c2_read_il_word",
-      "start": 4534091,
-      "end": 4534092,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters; unsigned-short result"
     },
     {
       "name": "_c2_read_il_long",

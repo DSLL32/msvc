@@ -1,0 +1,31 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+C2-PROCESS-INPUT {"MSC_CMD_FLAGS": "-il .\\a01068 -f numeric-control-flow.c -W 1 -dos -Fonumeric-control-flow.obj -ML -Fdvc50.idb -Bd -Gs4096 -Gy -G5 ", "arguments": []}
+C2-SOURCE-ENTRY _c2_crt_startup 0x56557ee9
+C2-SOURCE-ENTRY _c2_set_argv 0x56558077
+C2-SOURCE-ENTRY _c2_set_default_precision 0x56558137
+C2-SOURCE-ENTRY _c2_main 0x565581b0
+C2-SOURCE-ENTRY _c2_register_exit 0x565580d9
+C2-SOURCE-ENTRY _c2_register_onexit 0x56558389
+C2-SOURCE-ENTRY @c2_read_environment@4 0x565584c9
+C2-SOURCE-ENTRY _c2_copy_arguments 0x56558417
+C2-SOURCE-ENTRY _c2_initialize_options 0x56558668
+C2-SOURCE-ENTRY _c2_next_argument 0x56558947
+C2-SOURCE-ENTRY @c2_match_option@16 0x56558a72
+C2-SOURCE-ENTRY @c2_apply_option@12 0x56558cb1
+C2-SOURCE-ENTRY @parse_option_integer@4 0x565590b9
+C2-SOURCE-ENTRY @c2_validate_alignment@4 0x565589f9
+C2-SOURCE-ENTRY @c2_open_intermediate@16 0x565591fe
+C2-SOURCE-ENTRY _c2_read_header 0x56559327
+C2-SOURCE-ENTRY _c2_read_il_byte 0x56559587
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655789f in c2_read_il_word () at src/stubs.c:18
+18	    __asm { int 3 }
+eip            0x5655789f          0x5655789f <c2_read_il_word+47>
+c2_read_il_word + 47 in section .text of /root/msvc2/decomp/vc5.10/c2/build/native/c2
+   0x5655789e <c2_read_il_word+46>:	int3
+Last stopped for thread 1 (Thread 0xf7fc0580 (LWP 1283961)).
+	Using the running image of child process 1283961.
+Program stopped at 0x5655789e.
+It stopped with signal SIGTRAP, Trace/breakpoint trap.
