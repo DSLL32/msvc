@@ -24,7 +24,7 @@ typedef struct TypeArena {
 typedef struct TypeRecord {
     unsigned char *data;
     unsigned mapped_index, global_index;
-    unsigned short reference_count, reserved;
+    unsigned short reference_count, recursive_hash;
     union {
         unsigned char reference_offsets[12];
         struct {
@@ -90,6 +90,7 @@ typedef struct RecursiveTypeNode {
     struct RecursiveTypeNode *next;
 } RecursiveTypeNode;
 unsigned __fastcall hash_recursive_type(TypeRecord *record);
+unsigned short __fastcall hash_type_reference(TypeRecord *record, unsigned short ordinal);
 int __fastcall compare_recursive_type(TypeRecord *record, unsigned index,
     unsigned char *other_data, unsigned other_index);
 unsigned __fastcall intern_recursive_type(unsigned index);
