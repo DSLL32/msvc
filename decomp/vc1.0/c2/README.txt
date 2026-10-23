@@ -507,3 +507,16 @@ full record input matches, but actual object_file._bufsiz4096 vs native0 holds
 its ABI/acceptance. Failed raw evidence is cases/omf-write-record-abi/PENDING.json;
 shared maintainer is investigating preserved metadata on FILE reuse. No oracle
 exclusion/target forcing or writer promotion. Timings: cases/omf-flush-checkpoint.json.
+
+While writer acceptance is held,67 original-only serializer controls validate
+length/checksum/fwrite request bytes and genuine capacity/short-write diagnostic
+frontiers; they are analysis, not native equivalence or application credit.
+The exact first15-byte THEADR equals the immutable original object prefix.
+scripts/observe-scalar-entry.py --native-only --original-receipt OLD --receipt NEW
+reuses path/hash-bound original input without overwriting failed observations.
+The known mismatch is still rejected, and reusing a native receipt is rejected
+before debugger execution. Analysis/timing state: cases/omf-wire-analysis-state.json.
+Inventory now separately reports1148 app/support functions321586B and5 historical
+CRT bodies1776B; driver metadata remains unchanged.163 pending driver rows and
+51081 unclassified bytes/700 ranges retain unknown identity. A reliable non-CRT
+denominator is unavailable; all original code remains399693B.

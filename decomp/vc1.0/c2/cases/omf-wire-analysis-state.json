@@ -1,0 +1,68 @@
+{
+  "status": "HOLD, scratch C only, not built/accepted",
+  "extent": [
+    "0x6c440",
+    "0x6c4d7"
+  ],
+  "code_bytes": 151,
+  "source_sha256": "9635d45c65883a109bc3ff054ec03479070bd1591e2cecaa91e7668c7fd07dbb",
+  "original_control_analysis": "cases/omf-wire-original-analysis.json",
+  "original_control_cases": 67,
+  "input_state_hold": "cases/omf-write-record-abi/PENDING.json",
+  "provenance": [
+    "Original read-only6c440..6c4d7 disassembly",
+    "Record size at+16 captured before capacity diagnostic; retain original local end pointer even if diagnostic were to return.",
+    "Original remaining signed32 >=0, wire length16 size-2 and checksum8 negative sum; final cursor23,count0; fwrite size1/count size+1.",
+    "First real15-byte THEADR independently equals immutable expected OMF object prefix."
+  ],
+  "limitations": [
+    "No native C equivalence or ABI acceptance claimed while shared FILE._bufsiz differs.",
+    "Capacity/short-write controls stop at actual diagnostic boundary, not fabricated returning calls."
+  ],
+  "timings": {
+    "omf1264-original-wire": {
+      "command": [
+        "python3",
+        "scripts/check-omf-wire.py",
+        "--original-only"
+      ],
+      "seconds": 0.9906109031289816,
+      "returncode": 0,
+      "log_sha256": "580ea9b0eafb339ebe3c03ebf52828912c8e20244e20dbd7a1f9952159687c25"
+    },
+    "omf1264-native-hold-proof": {
+      "command": [
+        "python3",
+        "scripts/observe-scalar-entry.py",
+        "--native-only",
+        "--original-receipt",
+        "cases/omf-write-record-abi",
+        "--profile",
+        "omf",
+        "--function",
+        "@omf_write_record@4",
+        "--parameter",
+        "record:omf_record_current32",
+        "--receipt",
+        "cases/omf-write-record-abi-native-before-fix",
+        "--no-hidden-inputs-proof",
+        "Original6c440..6c4d7 consumes ECX record/RET0; retained original34-byte record and public object FILE metadata must match, no extra hidden input or normalization."
+      ],
+      "seconds": 0.2824014322832227,
+      "returncode": 1,
+      "log_sha256": "93e8f0597279c7406ec2cf36513d10929cbb6fce5130799a465f147834315abf"
+    },
+    "omf1263-inventory": {
+      "command": [
+        "python3",
+        "scripts/inventory.py"
+      ],
+      "seconds": 0.12361208256334066,
+      "returncode": 0,
+      "log_sha256": "ad28c8b08b8e48649858cb83adc1e3e206a16f931eb53f3b41e23d4388020557"
+    }
+  },
+  "no_new_acceptance": 1263,
+  "remaining_inventory": "cases/remaining-code-inventory.json",
+  "native_retry_negative": "cases/omf-write-record-abi-native-before-fix/EXPECTED-HOLD.json"
+}

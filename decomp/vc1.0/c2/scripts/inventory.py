@@ -40,6 +40,27 @@ for name,rows in groups.items():
         unaccepted_provisional_rows=sum(bool(r.get('provisional'))for r in pending),
         unaccepted_indexed_extent_bytes=size(extents(pending)),
         unaccepted_nonprovisional_indexed_extent_bytes=size(extents([r for r in pending if not r.get('provisional')])))
+# These five historical target-local CRT bodies remain in driver metadata for
+# graph/ABI checks. Separate their source credit without relabeling that index
+# or implying that every still unknown range has a library identity.
+historical={
+    '__sopen':(0x75ff0,0x763e0), '__filbuf':(0x72ec0,0x72fa0),
+    '__freebuf':(0x74320,0x74360), '_fseek':(0x71f00,0x71fa0),
+    '_ftell':(0x71d50,0x71e90),
+}
+crt_source=[r for r in groups['application']if r['name']in historical]
+assert len(crt_source)==len(historical)
+assert all((r['start'],r['end'])==historical[r['name']]and r['name']in accepted for r in crt_source)
+app_source=[r for r in groups['application']if r['name']in accepted and r['name']not in historical]
+report['application']['label']='Driver index, including five historical handwritten CRT bodies; use source_application_support for application source credit.'
+report['source_application_support']=dict(accepted_functions=len(app_source),
+    accepted_union_bytes=size(extents(app_source)),denominator_all_original_code_bytes=size(sections),
+    noncrt_denominator=None,noncrt_denominator_status='Unavailable: remaining unclassified ranges have no proven library/application identity.',
+    source_directory='src/',metric='Source function and shared-text-data extent union, not branch coverage')
+report['historical_handwritten_crt']=dict(accepted_functions=len(crt_source),
+    accepted_union_bytes=size(extents(crt_source)),source='src/runtime.c',
+    native_use='Excluded from native source list; native uses shared lib/recon API shims.',
+    original_toolchain_use='Included in the canonical Win32 build.',functions=crt_source)
 all_indexed=extents([r for rows in groups.values()for r in rows])
 unknown=[]
 for lo,hi in sections:

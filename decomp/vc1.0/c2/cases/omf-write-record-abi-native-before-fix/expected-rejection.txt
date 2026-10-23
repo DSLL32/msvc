@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/root/msvc2/decomp/vc1.0/c2/scripts/observe-scalar-entry.py", line 74, in <module>
+    parts=lines[6].split();obj={parts[n]:int(parts[n+1],16 if parts[n]=='stream'else 10)for n in range(1,len(parts),2)};obj['buffer_hex']=lines[7].removeprefix('omf_object_buffer_hex ');other=json.loads(re.search('C2_OBJECT (.*)',log)[1]);assert {k:v for k,v in obj.items()if k!='stream'}=={k:v for k,v in other.items()if k!='stream'};assert obj['stream']and other['stream']and obj['flags']==2 and obj['count']==obj['used']==obj['position']==obj['file_bytes']==0 and obj['null']==1
+                                                                                                                                                                                                                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

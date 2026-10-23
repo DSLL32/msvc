@@ -1,0 +1,6 @@
+{
+  "expected_result": "rejected known _bufsiz4096 vs0",
+  "original_reference": "cases/omf-write-record-abi",
+  "original_binding_sha256": "669b86041f62fc1f69f5df462676162400a81d21ca33d761d8f7423147f6ba0e",
+  "scope": "New native-only retry path negative test, no Wine/original rerun, no original/raw evidence replacement, no acceptance."
+}

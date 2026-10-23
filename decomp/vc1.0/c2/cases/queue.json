@@ -487,5 +487,14 @@
       "limit": "Provisional names identify original IDs; recover valid supported source and descriptor contracts before registration, byte extents not yet proven"
     }
   ],
-  "current_application_frontier": "@omf_find_record@8"
+  "current_application_frontier": "@omf_write_record@4",
+  "current_checkpoint": 1263,
+  "current_hold": {
+    "status": "input-state hold before acceptance",
+    "field": "object_file->_bufsiz",
+    "original": 4096,
+    "native": 0,
+    "owner": "/root/recon_lib_maintenance",
+    "evidence": "cases/omf-write-record-abi/PENDING.json"
+  }
 }
