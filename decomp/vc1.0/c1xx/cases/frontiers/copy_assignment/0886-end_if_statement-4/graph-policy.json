@@ -1,0 +1,13 @@
+{
+  "tool_sha256": "8b437895525bf8e2832654b340a9144bc787b2bba26c40e81273d586f094b624",
+  "flags": [
+    "--discovery",
+    "cfg",
+    "--check-ret",
+    "--check-references",
+    "--check-callbacks",
+    "--check-ownership",
+    "--check-extents"
+  ],
+  "scope": "Shared Rust CFG, ABI, references, callbacks, ownership and extent audit"
+}

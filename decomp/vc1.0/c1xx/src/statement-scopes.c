@@ -36,6 +36,18 @@ unsigned __stdcall begin_implicit_statement_scope(IrToken *label)
     return 1;
 }
 
+/* Original 0x267f0..0x26824, stdcall8. A marked label carries the
+   implicit-scope ownership; unlabeled loop bodies use the returned flag. */
+void __stdcall finish_implicit_statement_scope(IrToken *label, unsigned opened)
+{
+    if (label) {
+        if ((label->flags & 7) == 6) {
+            label->flags = (label->flags & ~3) | 4;
+            end_compound_statement();
+        }
+    } else if (opened) end_compound_statement();
+}
+
 /* Original 0x555b0..0x555b5 is a tail transfer to the shared scope entry. */
 void begin_compound_statement(void)
 {

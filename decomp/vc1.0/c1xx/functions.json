@@ -889,7 +889,19 @@
     "_boolean_expression@8",
     "_begin_if_body",
     "_end_if_condition_region",
-    "_begin_implicit_statement_scope@4"
+    "_begin_implicit_statement_scope@4",
+    "_finish_implicit_statement_scope@8",
+    "_end_if_statement@4",
+    "_close_if_records",
+    "_rank_reference_attributes@12",
+    "_convert_reference_initializer@8",
+    "_reference_requires_temporary@12",
+    "_reference_types_compatible@8",
+    "_strip_reference_type@4",
+    "_reference_tag_compatible@8",
+    "_reference_lvalue_bindable@8",
+    "_reference_lvalue_needs_extension@4",
+    "_bind_reference_lvalue@12"
   ],
   "driver": [
     {
@@ -2597,7 +2609,7 @@
     {
       "name": "_end_if_statement@4",
       "start": 258752,
-      "end": 258753
+      "end": 259006
     },
     {
       "name": "_end_nested_initializer",
@@ -2677,7 +2689,7 @@
     {
       "name": "_finish_implicit_statement_scope@8",
       "start": 157680,
-      "end": 157681
+      "end": 157733
     },
     {
       "name": "_finish_object_initializer@4",
@@ -4866,7 +4878,7 @@
     {
       "name": "_rank_reference_attributes@12",
       "start": 411232,
-      "end": 411233
+      "end": 411372
     },
     {
       "name": "_classify_member_pointer_conversion@12",
@@ -6715,7 +6727,7 @@
     {
       "name": "_convert_reference_initializer@8",
       "start": 422144,
-      "end": 422145
+      "end": 422381
     },
     {
       "name": "_qualified_path_has_virtual_base@4",
@@ -7062,6 +7074,71 @@
       "name": "_end_if_condition_region",
       "start": 258464,
       "end": 258553
+    },
+    {
+      "name": "_close_if_records",
+      "start": 259440,
+      "end": 259952
+    },
+    {
+      "name": "_remove_matching_frontend_record@4",
+      "start": 265776,
+      "end": 265777
+    },
+    {
+      "name": "_remove_frontend_record@4",
+      "start": 265808,
+      "end": 265809
+    },
+    {
+      "name": "_reference_requires_temporary@12",
+      "start": 422448,
+      "end": 422523
+    },
+    {
+      "name": "_bind_reference_lvalue@12",
+      "start": 423104,
+      "end": 423239
+    },
+    {
+      "name": "_retain_reference_temporary@12",
+      "start": 423328,
+      "end": 423329
+    },
+    {
+      "name": "_initialize_reference_temporary@12",
+      "start": 423248,
+      "end": 423249
+    },
+    {
+      "name": "_reference_types_compatible@8",
+      "start": 422736,
+      "end": 422955
+    },
+    {
+      "name": "_reference_lvalue_bindable@8",
+      "start": 422528,
+      "end": 422586
+    },
+    {
+      "name": "_reference_source_is_array@4",
+      "start": 422384,
+      "end": 422385
+    },
+    {
+      "name": "_strip_reference_type@4",
+      "start": 402272,
+      "end": 402301
+    },
+    {
+      "name": "_reference_tag_compatible@8",
+      "start": 422960,
+      "end": 423002
+    },
+    {
+      "name": "_reference_lvalue_needs_extension@4",
+      "start": 422592,
+      "end": 422728
     }
   ],
   "cases": {
@@ -7103,8 +7180,8 @@
       "native_reference": "cases/native-copy-assignment",
       "frontiers": "cases/frontiers/copy_assignment",
       "accepted_from": 871,
-      "terminal": "_finish_implicit_statement_scope@8",
-      "terminal_evidence": "cases/frontiers/copy_assignment/0884-begin_implicit_statement_scope-4/original-events.txt",
+      "terminal": "_class_tag_for_type@4",
+      "terminal_evidence": "cases/frontiers/copy_assignment/0896-bind_reference_lvalue-12/original-events.txt",
       "original_seed": "cases/copy_assignment-seed",
       "frontier_extensions": [
         "cases/frontiers/copy_assignment/0871-read_operator_function_id/frontier-extension.json",
@@ -7120,7 +7197,19 @@
         "cases/frontiers/copy_assignment/0881-boolean_expression-8/frontier-extension.json",
         "cases/frontiers/copy_assignment/0882-begin_if_body/frontier-extension.json",
         "cases/frontiers/copy_assignment/0883-end_if_condition_region/frontier-extension.json",
-        "cases/frontiers/copy_assignment/0884-begin_implicit_statement_scope-4/frontier-extension.json"
+        "cases/frontiers/copy_assignment/0884-begin_implicit_statement_scope-4/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0885-finish_implicit_statement_scope-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0886-end_if_statement-4/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0887-close_if_records/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0888-rank_reference_attributes-12/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0889-convert_reference_initializer-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0890-reference_requires_temporary-12/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0891-reference_types_compatible-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0892-strip_reference_type-4/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0893-reference_tag_compatible-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0894-reference_lvalue_bindable-8/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0895-reference_lvalue_needs_extension-4/frontier-extension.json",
+        "cases/frontiers/copy_assignment/0896-bind_reference_lvalue-12/frontier-extension.json"
       ]
     }
   },

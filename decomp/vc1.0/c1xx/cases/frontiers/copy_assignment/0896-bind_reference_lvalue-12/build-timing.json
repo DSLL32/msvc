@@ -1,0 +1,28 @@
+[
+  {
+    "phase": "native",
+    "seconds": 9.057754213921726,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-bind-reference-lvalue-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 2.89062456227839,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json",
+      "graph-audit-tool",
+      "build/graph-metadata.json"
+    ],
+    "log": "/root/.ai-tmp/msvc2/vc1.0/c1xx/queue-bind-reference-lvalue-canonical.log"
+  }
+]

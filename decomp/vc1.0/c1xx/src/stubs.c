@@ -1,4 +1,5 @@
 #include "mangling.h"
+#include "reference-initializers.h"
 #include "symbol-output.h"
 #include "function-finalization.h"
 #include "record-processing.h"
@@ -175,7 +176,8 @@ void end_do_statement(void) { __asm { int 3 } }
 void end_else_statement(void) { __asm { int 3 } }
 CType * end_enum_specifier(void) { __asm { int 3 } return 0; }
 void end_for_statement(void) { __asm { int 3 } }
-void __stdcall end_if_statement(int mode) { __asm { int 3 } }
+void __stdcall remove_matching_frontend_record(unsigned char kind) { __asm { int 3 } }
+void __stdcall remove_frontend_record(FrontendRecord *record) { __asm { int 3 } }
 void end_nested_initializer(void) { __asm { int 3 } }
 void end_qc_control(void) { __asm { int 3 } }
 void end_seh_except(void) { __asm { int 3 } }
@@ -190,7 +192,6 @@ CppSymbol *__stdcall select_allocation_function(unsigned short flags, CppSymbol 
 void finish_conditional_branch(void) { __asm { int 3 } }
 void increment_expression_record_depth(void) { __asm { int 3 } }
 
-void __stdcall finish_implicit_statement_scope(IrToken *label, unsigned opened) { __asm { int 3 } }
 int __stdcall has_cv_qualifiers(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall initialize_element(IrToken *value, int mode) { __asm { int 3 } }
 CppSymbol *__stdcall lookup_destructor_member(CType *type) { __asm { int 3 } return 0; }
@@ -489,7 +490,6 @@ unsigned __stdcall classify_special_scalar_conversion(CType *target, CType *sour
 int __stdcall has_pointer_or_member_pointer_shape(CType *type) { __asm { int 3 } return 0; }
 int __stdcall based_pointer_has_indirect_base(TypeShape *shape) { __asm { int 3 } return 0; }
 unsigned __stdcall classify_nested_shape_conversion(TypeShape *target, TypeShape *source) { __asm { int 3 } return 0; }
-unsigned __stdcall rank_reference_attributes(unsigned rank, CType *target, CType *source) { __asm { int 3 } return 0; }
 unsigned __stdcall classify_member_pointer_conversion(CType *source, CType *target, int reverse) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall find_source_conversion(CppSymbol *tag, CType *target, unsigned *rank) { __asm { int 3 } return 0; }
 CppSymbol *__stdcall resolve_overloaded_initializer(IrToken *expression, CType *type, int mode) { __asm { int 3 } return 0; }
@@ -587,7 +587,6 @@ void __stdcall collect_member_references(MemberReferenceGroup **groups, IrToken 
 ExpressionReference *__stdcall clone_expression_references(ExpressionReference *references, int arena) { __asm { int 3 } return 0; }
 unsigned char __stdcall compute_virtual_base_access(CppSymbol *base, CppSymbol *derived) { __asm { int 3 } return 0; }
 IrToken *__stdcall make_null_member_pointer(CType *type) { __asm { int 3 } return 0; }
-IrToken *__stdcall convert_reference_initializer(CType *type, IrToken *expression) { __asm { int 3 } return 0; }
 int __stdcall qualified_path_has_virtual_base(QualifiedDeclarator *path) { __asm { int 3 } return 0; }
 IrToken *__stdcall resolve_overloaded_arrow(IrToken *object) { __asm { int 3 } return 0; }
 int __stdcall rank_operator_operands(OverloadSearch *search, IrToken *left, IrToken *right) { __asm { int 3 } return 0; }
@@ -626,3 +625,7 @@ void write_ir_double(double *value) { __asm { int 3 } }
 char *__stdcall mangle_function_pointer_prefix(char *cursor, CType *type) { __asm { int 3 } return 0; }
 char *__stdcall mangle_function_pointer_signature(char *cursor, CType *type) { __asm { int 3 } return 0; }
 char *__stdcall mangle_pointee_shape(char *cursor, CType *type) { __asm { int 3 } return 0; }
+
+IrToken *__stdcall retain_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }
+IrToken *__stdcall initialize_reference_temporary(CType *referent, CType *reference, IrToken *expression) { __asm { int 3 } return 0; }
+int __stdcall reference_source_is_array(CType *type) { __asm { int 3 } return 0; }

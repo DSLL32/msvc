@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_strip_reference_type@4",
+    "start": 402272,
+    "end": 402301
+  },
+  "distinct_direct_callees": [
+    "_dereference_pointer_type@4"
+  ],
+  "next_frontier": "_reference_tag_compatible@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.27123024221509695,
+  "total_operation_seconds": 3.3588437167927623,
+  "original_capture_seconds": 1.5184110878035426
+}

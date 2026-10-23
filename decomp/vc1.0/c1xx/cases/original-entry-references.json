@@ -16,11 +16,11 @@
     "plan_sha256": "e202c7c8bca59732c6060e013a983deb61c10523c9301d68ac4474dba992194f"
   },
   "copy_assignment": {
-    "receipt": "cases/frontiers/copy_assignment/0884-begin_implicit_statement_scope-4/entry-reference/original-receipt.json",
-    "receipt_sha256": "9e9786060dd7349499902da44ea7c8ca4ff3daf5fe9bfdd289e1519fbb296141",
-    "events": "cases/frontiers/copy_assignment/0884-begin_implicit_statement_scope-4/entry-reference/original-events.txt",
-    "events_sha256": "4cc04d9996d29a53780c36a72b1c6f0f7d462ba6da16c4454040768e0b6100cb",
-    "plan": "cases/frontiers/copy_assignment/0884-begin_implicit_statement_scope-4/entry-reference/original-entries.plan",
-    "plan_sha256": "c9c569aa726cf8fc65388d6b5a18dfecbbf0fd06c61d6dc0482325050e1d11b0"
+    "receipt": "cases/frontiers/copy_assignment/0896-bind_reference_lvalue-12/entry-reference/original-receipt.json",
+    "receipt_sha256": "8b856ced4ac56e42447e89ebfb083a1657e1590107232af0ed50ab34c7217b4c",
+    "events": "cases/frontiers/copy_assignment/0896-bind_reference_lvalue-12/entry-reference/original-events.txt",
+    "events_sha256": "94ed761fb03542ff4f836feba13528580d4179756b381f9a7ce3992da1fb75ee",
+    "plan": "cases/frontiers/copy_assignment/0896-bind_reference_lvalue-12/entry-reference/original-entries.plan",
+    "plan_sha256": "8551a3c159c0517647eec58670b938f1535c8ec83d9a02208b51f8fe9d02de44"
   }
 }

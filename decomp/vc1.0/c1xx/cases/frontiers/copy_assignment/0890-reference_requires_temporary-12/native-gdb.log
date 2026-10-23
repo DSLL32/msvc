@@ -1,0 +1,16 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655b15b in reference_types_compatible (referent=0x56605a5c, source=0x56605a4c) at src/stubs.c:632
+632	int __stdcall reference_types_compatible(CType *referent, CType *source) { __asm { int 3 } return 0; }
+#0  0x5655b15b in reference_types_compatible (referent=0x56605a5c, source=0x56605a4c) at src/stubs.c:632
+#1  0x56591f64 in reference_requires_temporary (referent=0x56605a5c, expression=0x5662a60c, extension_binding=0xffffd548) at src/reference-initializers.c:40
+#2  0x56591d81 in convert_reference_initializer (type=0x56605a3c, expression=0x5662a60c) at src/reference-initializers.c:16
+#3  0x56591c00 in convert_derived_initializer (type=0x56605a3c, expression=0x5662a60c) at src/numeric-conversion.c:315
+#4  0x56582d1c in convert_initializer (operation=135 '\207', type=0x56605a3c, expression=0x5662a60c) at src/constructor-initializers.c:595
+#5  0x56598cdd in emit_return_statement (expression=0x5662a60c, mode=2) at src/return-statements.c:82
+#6  0x565a556f in parse_translation_unit () at src/parser-statement-actions.inc:182
+#7  0x5655e1af in compile_translation_unit () at src/frontend.c:73
+#8  0x56558826 in guarded_compile () at src/c1xx.c:28
+#9  0x565587f4 in main (argc=1, argv=0xffffd844, environment=0xffffd84c) at src/c1xx.c:20

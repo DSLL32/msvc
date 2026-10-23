@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 891,
+  "accepted": "_reference_types_compatible@8",
+  "terminal": "_strip_reference_type@4",
+  "original_capture": "cases/frontiers/copy_assignment/0891-reference_types_compatible-8/original-receipt.json",
+  "original_capture_sha256": "de2a20b005280eb0eeaa1e1524862a39f299613a173112658e7b0857a45f5257",
+  "original_events": "cases/frontiers/copy_assignment/0891-reference_types_compatible-8/original-events.txt",
+  "original_events_sha256": "bc3f1bd612468cffc0ca9b5db40c1c6c20a265a9c880137ebec2b1801bd2898d",
+  "original_configuration": "cases/frontiers/copy_assignment/0891-reference_types_compatible-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

@@ -1,0 +1,77 @@
+{
+  "case": "copy_assignment",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 886,
+  "terminal": "_close_if_records",
+  "candidate": "_end_if_statement@4",
+  "pending_accepted": [],
+  "configuration_sha256": "e30fdd815906f30292c2830a5a5202707a1e880a56b976655409d9a9f3b2a41b",
+  "capture_seconds": 1.2678687730804086,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "copy.cpp": {
+      "bytes": 959,
+      "sha256": "61e1ee1752d57f547ae04afc63cab425a8ef1da1411898515f30c5024d94adb5"
+    },
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\copy-assignment",
+  "first_entry_projection": {
+    "accepted_first": 871,
+    "accepted_last": 887,
+    "accepted_prefix_sha256": "37ee58d73d59302779664d60a43f84b2ed0fd2ebec4e2bc6c957a289777c1385",
+    "expected": [
+      "_read_operator_function_id",
+      "_apply_conversion_declarator@8",
+      "_encode_type_name@4",
+      "_mangle_type_identifier@8",
+      "_canonical_conversion_type@4",
+      "_remove_type_set",
+      "_find_expression_type_base@4",
+      "_begin_if_condition",
+      "_begin_if_condition_region",
+      "_validate_based_self",
+      "_boolean_expression@8",
+      "_begin_if_body",
+      "_end_if_condition_region",
+      "_begin_implicit_statement_scope@4",
+      "_finish_implicit_statement_scope@8",
+      "_end_if_statement@4"
+    ],
+    "observed": [
+      "_read_operator_function_id",
+      "_apply_conversion_declarator@8",
+      "_encode_type_name@4",
+      "_mangle_type_identifier@8",
+      "_canonical_conversion_type@4",
+      "_remove_type_set",
+      "_find_expression_type_base@4",
+      "_begin_if_condition",
+      "_begin_if_condition_region",
+      "_validate_based_self",
+      "_boolean_expression@8",
+      "_begin_if_body",
+      "_end_if_condition_region",
+      "_begin_implicit_statement_scope@4",
+      "_finish_implicit_statement_scope@8",
+      "_end_if_statement@4"
+    ],
+    "events_sha256": "e40c74db8eb993128dd72f40d8a1be9b1f05d3afc76509a2a9c0b53e1ac1351f",
+    "plan_sha256": "269d888dfd690a71cb2f7221a12cd1184997c24da8116056bbd318b1d5ebf393"
+  }
+}

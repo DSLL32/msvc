@@ -1,0 +1,12 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565592e4 in close_if_records () at src/stubs.c:178
+178	void close_if_records(void) { __asm { int 3 } }
+#0  0x565592e4 in close_if_records () at src/stubs.c:178
+#1  0x5659e1fe in end_if_statement (complete=1) at src/frontend-records.c:132
+#2  0x565a437b in parse_translation_unit () at src/parser-statement-actions.inc:44
+#3  0x5655e11f in compile_translation_unit () at src/frontend.c:73
+#4  0x56558826 in guarded_compile () at src/c1xx.c:28
+#5  0x565587f4 in main (argc=1, argv=0xffffd844, environment=0xffffd84c) at src/c1xx.c:20

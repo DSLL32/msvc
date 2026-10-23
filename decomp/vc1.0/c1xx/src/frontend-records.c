@@ -4,6 +4,7 @@
 #include "frontend-records.h"
 #include "parameters.h"
 #include "parser.h"
+#include "record-processing.h"
 #include "cpp-context.h"
 #include <setjmp.h>
 #include <recon.h>
@@ -95,6 +96,110 @@ void end_if_condition_region(void)
     record.next = 0;
     record.previous = 0;
     append_frontend_record(&record, sizeof(record));
+}
+
+/* Original 0x3f2c0..0x3f3bd, stdcall4. Empty then regions collapse;
+   occupied regions retain their goto-count delta and cleanup delimiter. */
+void __stdcall end_if_statement(int complete)
+{
+    FrontendRecord record;
+    ConditionalFrontendRecord *conditional;
+    BranchBoundaryRecord *branch;
+    jmp_buf recovery;
+    if (syntax_diagnostic_count && !ir_record_error_context) {
+        if (ir_records_suppressed) return;
+        ir_record_error_context = recovery;
+        if (setjmp(recovery)) {
+            ir_record_error_context = 0;
+            return;
+        }
+    }
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 20) {
+        conditional = (ConditionalFrontendRecord *)find_frontend_record(ir_record_tail, 17, 1);
+        conditional->then_record = 0;
+        remove_last_frontend_record();
+    } else {
+        branch = (BranchBoundaryRecord *)find_frontend_record(ir_record_tail, 20, 1);
+        branch->goto_count -= ir_goto_count;
+        record.kind = 21;
+        record.flags = 0;
+        record.field02 = 0;
+        record.sequence = 0;
+        record.next = 0;
+        record.previous = 0;
+        append_frontend_record(&record, sizeof(record));
+        emit_nonnull_expression_statement(process_expression_records(0));
+    }
+    if (complete) close_if_records();
+    if (ir_record_error_context == recovery) ir_record_error_context = 0;
+}
+
+/* Original 0x3f570..0x3f76f, cdecl. Fold empty condition records and
+   detach statement-region chains behind the completed conditional node. */
+void close_if_records(void)
+{
+    FrontendRecord record, *closing, *condition_end, *then_end, *last;
+    ConditionalFrontendRecord *conditional;
+    FrontendRecord *then_record, *else_record;
+    unsigned char kind;
+    jmp_buf recovery;
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 17) {
+        remove_last_frontend_record();
+        return;
+    }
+    if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 19) {
+        remove_last_frontend_record();
+        if (ir_record_tail && ((ir_record_tail->kind & 0x3f) == 0x3b ||
+            (ir_record_tail->kind & 0x3f) == 0x3c))
+            remove_last_frontend_record();
+        if (ir_record_tail && (ir_record_tail->kind & 0x3f) == 18) {
+            remove_last_frontend_record();
+            remove_last_frontend_record();
+            return;
+        }
+        remove_matching_frontend_record(17);
+        remove_matching_frontend_record(18);
+        return;
+    }
+    if (syntax_diagnostic_count && !ir_record_error_context) {
+        if (ir_records_suppressed) return;
+        ir_record_error_context = recovery;
+        if (setjmp(recovery)) {
+            ir_record_error_context = 0;
+            return;
+        }
+    }
+    record.kind = 24;
+    record.flags = 0;
+    record.field02 = 0;
+    record.sequence = 0;
+    record.next = 0;
+    record.previous = 0;
+    append_frontend_record(&record, sizeof(record));
+    closing = ir_record_tail;
+    conditional = (ConditionalFrontendRecord *)find_frontend_record(closing->previous, 17, 1);
+    then_record = conditional->then_record;
+    else_record = conditional->else_record;
+    if ((conditional->header.next->kind & 0x3f) == 18) {
+        condition_end = find_forward_frontend_record(conditional->header.next->next, 19, 1);
+        kind = condition_end->previous->kind & 0x3f;
+        if (kind == 0x3b || kind == 0x3c) {
+            conditional->header.flags |= kind == 0x3b ? 4 : 8;
+            remove_frontend_record(condition_end->previous);
+        }
+        condition_end->next = closing;
+        last = condition_end;
+    } else {
+        conditional->header.next = closing;
+        last = &conditional->header;
+    }
+    closing->previous = last;
+    if (then_record && else_record) {
+        then_end = find_forward_frontend_record(then_record->next, 21, 1);
+        then_end->next = closing;
+        else_record->previous = then_record->previous;
+    }
+    if (ir_record_error_context == recovery) ir_record_error_context = 0;
 }
 
 /* Original 0x3d6a0..0x3d823. Begin function records and parameter cleanup

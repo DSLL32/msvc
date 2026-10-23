@@ -1,5 +1,6 @@
 /* Scalar and constant conversion across pointer models and x87 values. */
 #include "numeric-conversion.h"
+#include "reference-initializers.h"
 #include "lexer.h"
 #include "constructor-initializers.h"
 #include "unary-expressions.h"
@@ -174,9 +175,7 @@ int __stdcall integer_constant_overflows(unsigned short width, short target_unsi
     return 0;
 }
 
-IrToken *__stdcall try_user_defined_conversion(CType *type, IrToken *expression, int convert_result);
 IrToken *__stdcall convert_member_pointer_initializer(CType *type, IrToken *expression);
-IrToken *__stdcall try_class_pointer_initializer(CType *type, IrToken *expression);
 
 /* Original 0x65ce0..0x65db0. Prefer user-defined and class/member-pointer
    conversions before based-address handling, numeric folding or a cast node.
@@ -273,7 +272,6 @@ IrToken *__stdcall try_class_pointer_initializer(CType *type, IrToken *expressio
 }
 
 IrToken *__stdcall make_null_member_pointer(CType *type);
-IrToken *__stdcall convert_reference_initializer(CType *type, IrToken *expression);
 
 /* Original 0x662e0..0x66488. Declarator-shaped initialization retains
    its null-pointer and reference paths before selecting based/scalar/cast

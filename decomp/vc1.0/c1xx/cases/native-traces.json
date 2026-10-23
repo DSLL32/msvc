@@ -2,19 +2,19 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "4a5c2fdf3955dd2c0251aee78ebaadb5238b13e3d6fcd310df81802313283f08",
+    "functions.json": "64e234bf4081f33850989e920568dc813f85cee9f239636d05e6169f8ee15499",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "b6ea12cae24db43852bf6302dd731a289d39b60dd275ead5ac3a4985e19f0463",
-    "cases/canonical-map.txt": "4bd0a045902c752ca86639afb02198d3ce47a694b0b231b9cf3c1882473fd312",
+    "cases/original-entry-references.json": "44a075f1103165e53fcc85b5a19fd169e3909ea7ebd303e86ba9e0cedf3dbc3a",
+    "cases/canonical-map.txt": "9d7f34ca191427c27b2113fc4eb646a644a7f9518e479290ff27e977b65b0dc0",
     "cases/shared-reference/cpp_basic/original-receipt.json": "c0b231bf1b4ad8c8ee582b0419697346750bcbea4484c6729dc71c7eb35ed198",
     "cases/shared-reference/cpp_basic/original-events.txt": "c211a19028f71257317cb8957e26dd76c27f60208208de53d25e18a8a5520e27",
     "cases/shared-reference/cpp_basic/original-entries.plan": "795b86f57be090ebab4b5bf36a3fe93b742ba8f9b4f29a48ba548a77d801ee07",
     "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-receipt.json": "294c8ba994d7c0a2b262d0ffc64a6108626a4da6278df6f28a5943ea902eb973",
     "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-events.txt": "8c1a3e34e895950da92b0ebff06a54961be5cf23d49f5b599b88124f0dd3b864",
     "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/entry-reference/original-entries.plan": "e202c7c8bca59732c6060e013a983deb61c10523c9301d68ac4474dba992194f",
-    "cases/frontiers/copy_assignment/0884-begin_implicit_statement_scope-4/entry-reference/original-receipt.json": "9e9786060dd7349499902da44ea7c8ca4ff3daf5fe9bfdd289e1519fbb296141",
-    "cases/frontiers/copy_assignment/0884-begin_implicit_statement_scope-4/entry-reference/original-events.txt": "4cc04d9996d29a53780c36a72b1c6f0f7d462ba6da16c4454040768e0b6100cb",
-    "cases/frontiers/copy_assignment/0884-begin_implicit_statement_scope-4/entry-reference/original-entries.plan": "c9c569aa726cf8fc65388d6b5a18dfecbbf0fd06c61d6dc0482325050e1d11b0"
+    "cases/frontiers/copy_assignment/0896-bind_reference_lvalue-12/entry-reference/original-receipt.json": "8b856ced4ac56e42447e89ebfb083a1657e1590107232af0ed50ab34c7217b4c",
+    "cases/frontiers/copy_assignment/0896-bind_reference_lvalue-12/entry-reference/original-events.txt": "94ed761fb03542ff4f836feba13528580d4179756b381f9a7ce3992da1fb75ee",
+    "cases/frontiers/copy_assignment/0896-bind_reference_lvalue-12/entry-reference/original-entries.plan": "8551a3c159c0517647eec58670b938f1535c8ec83d9a02208b51f8fe9d02de44"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -469,6 +469,10 @@
       "logical": "_bind_function_overload@8",
       "source": "src/declaration-lookup.c"
     },
+    "bind_reference_lvalue": {
+      "logical": "_bind_reference_lvalue@12",
+      "source": "src/reference-initializers.c"
+    },
     "bind_selected_overload": {
       "logical": "_bind_selected_overload@8",
       "source": "src/call-expressions.c"
@@ -869,6 +873,10 @@
       "logical": "_clone_expression_references@8",
       "source": "src/stubs.c"
     },
+    "close_if_records": {
+      "logical": "_close_if_records",
+      "source": "src/frontend-records.c"
+    },
     "close_intermediate": {
       "logical": "_close_intermediate",
       "source": "src/intermediate.c"
@@ -1059,7 +1067,7 @@
     },
     "convert_reference_initializer": {
       "logical": "_convert_reference_initializer@8",
-      "source": "src/stubs.c"
+      "source": "src/reference-initializers.c"
     },
     "convert_scalar_initializer": {
       "logical": "_convert_scalar_initializer@12",
@@ -1615,7 +1623,7 @@
     },
     "end_if_statement": {
       "logical": "_end_if_statement@4",
-      "source": "src/stubs.c"
+      "source": "src/frontend-records.c"
     },
     "end_nested_initializer": {
       "logical": "_end_nested_initializer",
@@ -2011,7 +2019,7 @@
     },
     "finish_implicit_statement_scope": {
       "logical": "_finish_implicit_statement_scope@8",
-      "source": "src/stubs.c"
+      "source": "src/statement-scopes.c"
     },
     "finish_initializer_symbol": {
       "logical": "_finish_initializer_symbol@4",
@@ -2536,6 +2544,10 @@
     "initialize_qualified_member": {
       "logical": "_initialize_qualified_member@8",
       "source": "src/constructor-initializers.c"
+    },
+    "initialize_reference_temporary": {
+      "logical": "_initialize_reference_temporary@12",
+      "source": "src/stubs.c"
     },
     "initialize_scope_buckets": {
       "logical": "_initialize_scope_buckets@8",
@@ -3755,7 +3767,7 @@
     },
     "rank_reference_attributes": {
       "logical": "_rank_reference_attributes@12",
-      "source": "src/stubs.c"
+      "source": "src/constructor-initializers.c"
     },
     "read_declspec_attributes": {
       "logical": "_read_declspec_attributes",
@@ -3929,9 +3941,33 @@
       "logical": "_reference_ir_symbol@4",
       "source": "src/ir.c"
     },
+    "reference_lvalue_bindable": {
+      "logical": "_reference_lvalue_bindable@8",
+      "source": "src/reference-initializers.c"
+    },
+    "reference_lvalue_needs_extension": {
+      "logical": "_reference_lvalue_needs_extension@4",
+      "source": "src/reference-initializers.c"
+    },
+    "reference_requires_temporary": {
+      "logical": "_reference_requires_temporary@12",
+      "source": "src/reference-initializers.c"
+    },
+    "reference_source_is_array": {
+      "logical": "_reference_source_is_array@4",
+      "source": "src/stubs.c"
+    },
+    "reference_tag_compatible": {
+      "logical": "_reference_tag_compatible@8",
+      "source": "src/reference-initializers.c"
+    },
     "reference_tag_symbol": {
       "logical": "_reference_tag_symbol@12",
       "source": "src/stubs.c"
+    },
+    "reference_types_compatible": {
+      "logical": "_reference_types_compatible@8",
+      "source": "src/reference-initializers.c"
     },
     "refill_arena": {
       "logical": "_refill_arena@8",
@@ -4001,9 +4037,17 @@
       "logical": "_remaining_string_initializer_bytes@8",
       "source": "src/stubs.c"
     },
+    "remove_frontend_record": {
+      "logical": "_remove_frontend_record@4",
+      "source": "src/stubs.c"
+    },
     "remove_last_frontend_record": {
       "logical": "_remove_last_frontend_record",
       "source": "src/frontend-records.c"
+    },
+    "remove_matching_frontend_record": {
+      "logical": "_remove_matching_frontend_record@4",
+      "source": "src/stubs.c"
     },
     "remove_type_qualifiers": {
       "logical": "_remove_type_qualifiers@8",
@@ -4297,6 +4341,10 @@
       "logical": "_restore_qualified_lookup@4",
       "source": "src/stubs.c"
     },
+    "retain_reference_temporary": {
+      "logical": "_retain_reference_temporary@12",
+      "source": "src/stubs.c"
+    },
     "retire_scope_directory_entry": {
       "logical": "_retire_scope_directory_entry",
       "source": "src/scopes.c"
@@ -4524,6 +4572,10 @@
     "strip_function_designator": {
       "logical": "_strip_function_designator@4",
       "source": "src/stubs.c"
+    },
+    "strip_reference_type": {
+      "logical": "_strip_reference_type@4",
+      "source": "src/reference-initializers.c"
     },
     "subtract_extended": {
       "logical": "_subtract_extended",
@@ -5670,7 +5722,19 @@
     "boolean_expression",
     "begin_if_body",
     "end_if_condition_region",
-    "begin_implicit_statement_scope"
+    "begin_implicit_statement_scope",
+    "finish_implicit_statement_scope",
+    "end_if_statement",
+    "close_if_records",
+    "rank_reference_attributes",
+    "convert_reference_initializer",
+    "reference_requires_temporary",
+    "reference_types_compatible",
+    "strip_reference_type",
+    "reference_tag_compatible",
+    "reference_lvalue_bindable",
+    "reference_lvalue_needs_extension",
+    "bind_reference_lvalue"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -7130,7 +7194,7 @@
     },
     "copy_assignment": {
       "first": 871,
-      "last": 885,
+      "last": 897,
       "seen": [
         "main",
         "message_text",
@@ -7926,12 +7990,24 @@
         "begin_if_body",
         "end_if_condition_region",
         "begin_implicit_statement_scope",
-        "finish_implicit_statement_scope"
+        "finish_implicit_statement_scope",
+        "end_if_statement",
+        "close_if_records",
+        "rank_reference_attributes",
+        "convert_reference_initializer",
+        "reference_requires_temporary",
+        "reference_types_compatible",
+        "strip_reference_type",
+        "reference_tag_compatible",
+        "reference_lvalue_bindable",
+        "reference_lvalue_needs_extension",
+        "bind_reference_lvalue",
+        "class_tag_for_type"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_finish_implicit_statement_scope@8",
-        "native": "finish_implicit_statement_scope",
+        "logical": "_class_tag_for_type@4",
+        "native": "class_tag_for_type",
         "signal": 5
       }
     }

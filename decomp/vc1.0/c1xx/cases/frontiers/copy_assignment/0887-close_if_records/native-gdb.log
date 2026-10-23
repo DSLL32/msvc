@@ -1,0 +1,17 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655a62e in rank_reference_attributes (rank=1, target=0x56605a3c, source=0x56605a4c) at src/stubs.c:492
+492	unsigned __stdcall rank_reference_attributes(unsigned rank, CType *target, CType *source) { __asm { int 3 } return 0; }
+#0  0x5655a62e in rank_reference_attributes (rank=1, target=0x56605a3c, source=0x56605a4c) at src/stubs.c:492
+#1  0x56583605 in classify_derived_type_conversion (target=0x56605a3c, source=0x56605a4c, flags=0, context=0x0) at src/constructor-initializers.c:457
+#2  0x56582eda in classify_type_conversion (target=0x56605a3c, source=0x56605a4c, flags=0, context=0x0) at src/constructor-initializers.c:348
+#3  0x56582da9 in classify_expression_conversion (type=0x56605a3c, value=0x5662a60c, flags=0, context=0x0) at src/constructor-initializers.c:327
+#4  0x565828fd in classify_initializer_conversion (type=0x56605a3c, value=0x5662a60c) at src/constructor-initializers.c:307
+#5  0x5658498b in can_initialize (type=0x56605a3c, expression=0x5662a60c) at src/constructor-initializers.c:697
+#6  0x565987de in emit_return_statement (expression=0x5662a60c, mode=2) at src/return-statements.c:78
+#7  0x565a50df in parse_translation_unit () at src/parser-statement-actions.inc:182
+#8  0x5655e12f in compile_translation_unit () at src/frontend.c:73
+#9  0x56558826 in guarded_compile () at src/c1xx.c:28
+#10 0x565587f4 in main (argc=1, argv=0xffffd844, environment=0xffffd84c) at src/c1xx.c:20

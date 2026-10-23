@@ -15,6 +15,30 @@
 #include "object-initializers.h"
 #include <recon.h>
 
+/* Original 0x64660..0x646eb, stdcall12. Reference binding carries
+   normalized pointer distance, with a minimum nonexact rank of two. */
+unsigned __stdcall rank_reference_attributes(unsigned rank, CType *target, CType *source)
+{
+    TypeShape *shape = target->related;
+    unsigned short target_attributes = shape->attributes;
+    unsigned short source_attributes, source_flags;
+    if (!(target_attributes & 15))
+        target_attributes = normalize_type_attributes(shape->flags, target_attributes);
+    shape = source->related;
+    if (shape && (shape->flags & 0x10)) return rank;
+    source_attributes = source->attributes;
+    if (!(source_attributes & 15)) {
+        source_flags = 1;
+        if (shape && ((shape->flags & 0x77) == 4 ||
+            ((shape->flags & 0x77) == 3 && (shape->flags & 8))))
+            source_flags = shape->flags;
+        source_attributes = normalize_type_attributes(source_flags, source_attributes);
+    }
+    rank = rank_pointer_attributes(rank, (unsigned char)target_attributes,
+        (unsigned char)source_attributes, 0);
+    return rank < 3 ? 2 : rank;
+}
+
 typedef char InitializerClassTrivialOffsetMustBe54[
     (offsetof(ClassInfo, trivial_special_members) == 54) ? 1 : -1];
 typedef char InitializerSymbolDeclarationFlagsOffsetMustBe2[

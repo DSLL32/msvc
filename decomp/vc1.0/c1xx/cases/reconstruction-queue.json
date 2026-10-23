@@ -7,7 +7,7 @@
   "current": {
     "case": "copy_assignment",
     "fixture": "../fixtures/c1xx-copy-assignment",
-    "status": "active copy_assignment; scope entry valid path verified under explicit native cached-lookahead limitation; continue finish_implicit_statement_scope",
+    "status": "active copy_assignment; conditional records and reference binding reconstructed through current accepted frontier; explicit native cached-lookahead limitation retained",
     "seed": "cases/copy_assignment-seed/validation.json"
   },
   "pending": [
@@ -62,5 +62,10 @@
       "case": "virtual_diamond",
       "verification": "cases/frontiers/virtual_diamond/0870-symbol_element_size-4/validation.json"
     }
-  ]
+  ],
+  "after_selected_queue": {
+    "intent": "Propose one substantial combined case targeting the largest remaining non-CRT application families, obtain root review before original execution, then repeat while application families remain",
+    "authorization": "User authorized autonomous additional VC1.0 cases while away; root review requires concrete routines/known extents, public reachability, combined features and original validation plan",
+    "status": "deferred until copy_assignment, stack_lifetime and new_delete complete"
+  }
 }

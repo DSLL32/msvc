@@ -1,0 +1,24 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_convert_reference_initializer@8",
+    "start": 422144,
+    "end": 422381
+  },
+  "distinct_direct_callees": [
+    "_bind_reference_lvalue@12",
+    "_dereference_pointer_type@4",
+    "_initialize_reference_temporary@12",
+    "_reference_requires_temporary@12",
+    "_report_type_conversion@20",
+    "_retain_reference_temporary@12",
+    "_try_user_defined_conversion@12",
+    "_type_qualifiers@4"
+  ],
+  "next_frontier": "_reference_requires_temporary@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2571769878268242,
+  "total_operation_seconds": 3.6733658257871866,
+  "original_capture_seconds": 1.8196025416254997
+}

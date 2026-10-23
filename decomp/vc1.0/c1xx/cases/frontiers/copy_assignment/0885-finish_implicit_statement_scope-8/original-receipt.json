@@ -1,0 +1,75 @@
+{
+  "case": "copy_assignment",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 885,
+  "terminal": "_end_if_statement@4",
+  "candidate": "_finish_implicit_statement_scope@8",
+  "pending_accepted": [],
+  "configuration_sha256": "04c2dd2b6cc31a1d2fff4a1cbb8ef7469f31dfdec1e149c5bf77c0c61d7d2e4c",
+  "capture_seconds": 1.5186002682894468,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "copy.cpp": {
+      "bytes": 959,
+      "sha256": "61e1ee1752d57f547ae04afc63cab425a8ef1da1411898515f30c5024d94adb5"
+    },
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    }
+  },
+  "canonical_working_directory": "S:\\vc1.0\\c1xx\\copy-assignment",
+  "first_entry_projection": {
+    "accepted_first": 871,
+    "accepted_last": 886,
+    "accepted_prefix_sha256": "4404c793c35778009b730567b7808082bc5a9442c70207c5797b4a166145df0c",
+    "expected": [
+      "_read_operator_function_id",
+      "_apply_conversion_declarator@8",
+      "_encode_type_name@4",
+      "_mangle_type_identifier@8",
+      "_canonical_conversion_type@4",
+      "_remove_type_set",
+      "_find_expression_type_base@4",
+      "_begin_if_condition",
+      "_begin_if_condition_region",
+      "_validate_based_self",
+      "_boolean_expression@8",
+      "_begin_if_body",
+      "_end_if_condition_region",
+      "_begin_implicit_statement_scope@4",
+      "_finish_implicit_statement_scope@8"
+    ],
+    "observed": [
+      "_read_operator_function_id",
+      "_apply_conversion_declarator@8",
+      "_encode_type_name@4",
+      "_mangle_type_identifier@8",
+      "_canonical_conversion_type@4",
+      "_remove_type_set",
+      "_find_expression_type_base@4",
+      "_begin_if_condition",
+      "_begin_if_condition_region",
+      "_validate_based_self",
+      "_boolean_expression@8",
+      "_begin_if_body",
+      "_end_if_condition_region",
+      "_begin_implicit_statement_scope@4",
+      "_finish_implicit_statement_scope@8"
+    ],
+    "events_sha256": "40f35efe098a4b4a03aeb9febe977aa21337d4878b0b51a3cef5f275274e1281",
+    "plan_sha256": "32998baa5a3acbf4a7581fd80f8fef07a66af907987e9cbe20395b16b3c7854b"
+  }
+}

@@ -2,6 +2,8 @@
 #define NUMERIC_CONVERSION_H
 #include "binary-expressions.h"
 #include <recon.h>
+IrToken *__stdcall try_class_pointer_initializer(CType *type, IrToken *expression);
+IrToken *__stdcall try_user_defined_conversion(CType *type, IrToken *expression, int convert_result);
 IrToken *__stdcall new_cast_expression(CType *type, IrToken *expression);
 unsigned __stdcall convert_integral_constant(unsigned char operation, IrToken *expression,
     unsigned char shape_flags, unsigned short shape_attributes, unsigned short target_flags);

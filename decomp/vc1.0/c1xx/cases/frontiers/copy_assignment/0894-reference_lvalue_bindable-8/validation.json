@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_reference_lvalue_bindable@8",
+    "start": 422528,
+    "end": 422586
+  },
+  "distinct_direct_callees": [
+    "_modifiable_lvalue@8",
+    "_reference_lvalue_needs_extension@4"
+  ],
+  "next_frontier": "_reference_lvalue_needs_extension@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.24149622954428196,
+  "total_operation_seconds": 2.538338859565556,
+  "original_capture_seconds": 0.7662030924111605
+}

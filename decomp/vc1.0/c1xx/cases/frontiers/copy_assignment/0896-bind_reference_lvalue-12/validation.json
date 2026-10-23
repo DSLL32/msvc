@@ -1,0 +1,22 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_bind_reference_lvalue@12",
+    "start": 423104,
+    "end": 423239
+  },
+  "distinct_direct_callees": [
+    "_builtin_unary_expression@8",
+    "_indirect_storage_expression@4",
+    "_new_cast_expression@8",
+    "_rank_pointer_attributes@16",
+    "_report_type_conversion@20",
+    "_try_class_pointer_initializer@8"
+  ],
+  "next_frontier": "_class_tag_for_type@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2477407669648528,
+  "total_operation_seconds": 2.4394660387188196,
+  "original_capture_seconds": 0.6662203595042229
+}

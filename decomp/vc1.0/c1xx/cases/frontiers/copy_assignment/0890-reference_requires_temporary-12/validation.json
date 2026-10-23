@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_reference_requires_temporary@12",
+    "start": 422448,
+    "end": 422523
+  },
+  "distinct_direct_callees": [
+    "_reference_lvalue_bindable@8",
+    "_reference_source_is_array@4",
+    "_reference_types_compatible@8"
+  ],
+  "next_frontier": "_reference_types_compatible@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2750863656401634,
+  "total_operation_seconds": 3.5908010359853506,
+  "original_capture_seconds": 1.7693000361323357
+}
