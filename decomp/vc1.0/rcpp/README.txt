@@ -120,3 +120,25 @@ fixtures and independent semantic analyses remain historical evidence, outside
 the active registrations. cases/shared-prefix/migration-validation.json records
 the inventory, exact checks, split timings and retirement of four unused private
 prefixes. No application code, frontier or coverage changed.
+
+Host graph audit
+----------------
+
+    make graph-audit
+    make audit-static
+
+These targets use existing canonical build/rcpp.exe and build/rcpp.map, without
+Wine, compiling the reconstruction or recapturing references. The shared Rust
+helper builds quietly once, then its binary runs directly with diagnostics intact.
+Consolidated CFG discovery checks all 161 accepted non-import functions, RET
+cleanup, indexed function references, disjoint backed ownership and whole extent
+tails. Accepted-index checks cover all 179 original and 179 rebuilt extents,
+including 18 import thunks per side. A narrow Python residual compares all
+startup calls, including detached SEH blocks, with the Rust graph. Contextual
+data, shipped-library provenance and classifier/message/ABI probes remain Python
+checks. scripts/audit-graph.py no longer contains an application CFG walker.
+
+cases/rust-graph-audit-validation.json records the host-tool flags, final
+161-function/358-extent positive, two deliberate graph/extent rejections,
+remaining startup-only Python scope and native-suite/ABI timings. This migration
+used existing canonical artifacts and invoked no Wine build or reference capture.

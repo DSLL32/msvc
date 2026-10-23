@@ -98,23 +98,23 @@
   "receipt_files": {
     "native-validation.json": {
       "path": "cases/native-validation.json",
-      "bytes": 16158,
-      "sha256": "d71fb23738044944219c2f074ebbe366bb391077f935361117fba8d8f02b6231"
+      "bytes": 16166,
+      "sha256": "78bc76fe94d9a07a9f52c65363c172e0fc4767e0d0c1c26a317f6cc6826e3990"
     },
     "native-trace-validation.json": {
       "path": "cases/native-trace-validation.json",
-      "bytes": 16186,
-      "sha256": "0df841b532b49a8439b4d61d229c2f035cdce2f3e34ece92dc8ae756f0de9e09"
+      "bytes": 16195,
+      "sha256": "679163c6ae0a1b369d25219c28f04511096f6b9a4a96126d4ce1ec8ceb90307e"
     },
     "native-classifier-validation.json": {
       "path": "cases/native-classifier-validation.json",
       "bytes": 119,
-      "sha256": "ed5ce712d8146fc0eeddc3e0dca46682f4fa9ecc3511136c714d955183a4407e"
+      "sha256": "5e73949e7b3bda46f127134283d9af7b859d44731e94233c35d04389229718f2"
     },
     "native-message-validation.json": {
       "path": "cases/native-message-validation.json",
       "bytes": 205,
-      "sha256": "e7cb4f487cdbc6294f9b8ec4c069eba50264ffb6a6b159e99de2dcb7d35798c4"
+      "sha256": "f88d3b6092cdd481b7fbdbb27f0f6561dd87e7f33e07bc99f027cc9dce13b218"
     },
     "native-rejection-validation.json": {
       "path": "cases/native-rejection-validation.json",
@@ -123,16 +123,16 @@
     }
   },
   "trace_execution": {
-    "executable_sha256": "877511a2bf0e3c4a8542137de34fbf1d452c147285344a182af156e2c790a07e",
+    "executable_sha256": "fba691997e88e2be9b4003288f341cc5e40f7a618f58caee60d2db8ee73ffeeb",
     "cache_sha256": "aee289030cbc0187bdf10181e927e306f969b9b025a68ffce397be885e375150",
-    "preparation_seconds": 0.05153125058859587,
+    "preparation_seconds": 0.05480199493467808,
     "timing_totals": {
-      "setup_seconds": 0.13898231461644173,
-      "execution_seconds": 0.12308086361736059,
-      "check_seconds": 0.0334170451387763
+      "setup_seconds": 0.14721513725817204,
+      "execution_seconds": 0.12512757536023855,
+      "check_seconds": 0.034954655915498734
     },
-    "elapsed_seconds": 0.30037492979317904,
-    "run_directory": "/root/.ai-tmp/vc1.0-rcpp/native/trace-txqasa5c"
+    "elapsed_seconds": 0.3122347667813301,
+    "run_directory": "/root/.ai-tmp/vc1.0-rcpp/native/trace-1_8f11cd"
   },
   "capture": {
     "performed": false,
@@ -270,5 +270,6 @@
     "runs_per_case": 2,
     "seconds": 57.326988437213004,
     "validation": "cases/shared-prefix/migration-validation.json"
-  }
+  },
+  "rust_graph_audit_validation": "cases/rust-graph-audit-validation.json"
 }

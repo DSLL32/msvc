@@ -306,6 +306,8 @@
     "reconstruction_acceptance_unchanged": true,
     "unsupported_original_state": "Windows console callback thread/read-return barrier/exclusive sharing; observable native SIGINT case passes",
     "shared_prefix_migration": "cases/shared-prefix/migration-validation.json",
-    "original_prefix": "/root/.ai-tmp/vc1.0-capture/wine"
+    "original_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+    "graph_audit": "Rust consolidated CFG + RET/reference/ownership/whole-tail/accepted-index checks; startup-only Python SEH safeguard",
+    "graph_audit_validation": "cases/rust-graph-audit-validation.json"
   }
 }

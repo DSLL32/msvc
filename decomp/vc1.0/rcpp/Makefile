@@ -4,6 +4,7 @@ TC = ../../../toolchains/1.0-nt
 RECON = ../../../lib/recon
 .PHONY: all prefix check replay check-suite replay-suite clean audit classifiers messages coverage interrupt-check option-helper
 all: native-trace
+include ../../../tooling/graph-audit/graph-audit.mk
 win32: build/rcpp.exe build/debug-run.exe build/interrupt-run.exe
 prefix:
 	$(TOOL) --init
@@ -17,8 +18,15 @@ build/rcpp.exe: $(OBJECTS)
 build/debug-run.exe: build/debug-run.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< $(TC)/lib/KERNEL32.LIB
 audit: build/rcpp.exe
-	$(PYTHON) scripts/prove-library.py
+	$(MAKE) audit-static
+
+# Existing canonical PE/MAP artifacts only; no Wine, compiler or recapture.
+.PHONY: graph-audit audit-static
+graph-audit: $(GRAPH_AUDIT_BIN) | build
+	$(GRAPH_AUDIT_BIN) --repo ../../.. --project . --profile rcpp --discovery cfg --check-ret --check-references --check-ownership --check-extents --check-accepted-extents --report build/graph.json
 	$(PYTHON) scripts/audit-graph.py
+audit-static: graph-audit
+	$(PYTHON) scripts/prove-library.py
 	$(PYTHON) scripts/audit-data.py
 # Native fixtures never depend on Wine, reference builders or PE execution.
 check replay check-suite replay-suite: native-trace-check
