@@ -221,6 +221,11 @@
       "start_rva": 75261,
       "end_rva": 75319,
       "entry": 1
+    },
+    {
+      "start_rva": 75333,
+      "end_rva": 75334,
+      "entry": 1
     }
   ],
   "functions": [
@@ -655,6 +660,19 @@
         ]
       ],
       "source": "src/buffers.c",
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "_initialize_state_12645",
+      "native_symbol": "initialize_state_12645",
+      "role": "application",
+      "chunks": [
+        [
+          75333,
+          75334
+        ]
+      ],
+      "source": "src/initializers.c",
       "status": "sole-new-candidate"
     }
   ],
@@ -670,8 +688,8 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 75333,
-    "native_symbol": "initialize_state_12645",
+    "rva": 75334,
+    "native_symbol": "initialize_state_12646",
     "kind": "initialization-callback",
     "native_args": [],
     "abi": "cdecl void callback, cleanup0"
@@ -803,7 +821,7 @@
       "normal_case": false
     }
   },
-  "staging_role": "initialize_output_buffer_125fd is the only new function",
+  "staging_role": "initialize_state_12645 is the only new function",
   "registered_cleanup": [
     {
       "original_rva": 145728,
