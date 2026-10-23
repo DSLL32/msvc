@@ -32,7 +32,7 @@
     {
       "order": 2,
       "id": "minimal",
-      "status": "reconstructing; default-pool wrapper109B accepted to first SetArena12b30(pool8,arena0) after all six arena initializations",
+      "status": "reconstructing; SetArena25B accepted to first Refillaa9c(pool8,minimum_bytes1), owned arena0 pointer selected",
       "proposed_driver_argv": [
         "/nologo",
         "/c",

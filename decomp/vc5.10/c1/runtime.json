@@ -119,11 +119,11 @@
     "evidence": "genuine internal-switch scanner callee; named INT3 entry only"
   },
   {
-    "name": "CompilerPool::SetArena",
-    "symbol": "?SetArena@CompilerPool@@QAEXI@Z",
-    "start": 274803504,
-    "end": 274803505,
+    "name": "CompilerPool::Refill",
+    "symbol": "?Refill@CompilerPool@@QAEPAEI@Z",
+    "start": 274770588,
+    "end": 274770589,
     "pending_extent": true,
-    "evidence": "genuine thiscall target of nine default-pool calls; ECX plus unsigned stackargument, realRET4 at12b46; only INT3 identity pending, no extent credit"
+    "evidence": "genuine thiscall pool refill, unsigned minimum byte request; named INT3 entry only, no extent/body credit"
   }
 ]

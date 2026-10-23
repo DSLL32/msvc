@@ -69,7 +69,8 @@
     "_arena_reservation_bytes",
     "import:_ftol",
     "CompilerArena::Reset",
-    "_initialize_default_pools"
+    "_initialize_default_pools",
+    "CompilerPool::SetArena"
   ],
   "driver": [
     {
@@ -610,6 +611,13 @@
       "name": "_initialize_default_pools",
       "start": 274803395,
       "end": 274803504,
+      "role": "application"
+    },
+    {
+      "name": "CompilerPool::SetArena",
+      "symbol": "?SetArena@CompilerPool@@QAEXI@Z",
+      "start": 274803504,
+      "end": 274803529,
       "role": "application"
     }
   ],

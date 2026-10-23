@@ -92,36 +92,36 @@
   },
   {
     "name": "_release_work_buffers_238da",
-    "start": 268443022,
-    "end": 268443023,
+    "start": 268443054,
+    "end": 268443055,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_parse_command_line",
-    "start": 268443039,
-    "end": 268443040,
+    "start": 268443071,
+    "end": 268443072,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_compile_translation_unit",
-    "start": 268443051,
-    "end": 268443052,
+    "start": 268443083,
+    "end": 268443084,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
     "name": "_next_internal_token",
-    "start": 268443799,
-    "end": 268443800,
+    "start": 268443831,
+    "end": 268443832,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   },
   {
-    "name": "CompilerPool::SetArena",
-    "start": 268442640,
-    "end": 268442641,
+    "name": "CompilerPool::Refill",
+    "start": 268442680,
+    "end": 268442681,
     "pending_extent": true,
     "evidence": "unaccepted named INT3 entry identity only; not reconstructed extent"
   }

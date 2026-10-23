@@ -118,6 +118,8 @@ if caller.name()=='InvokeCompilerPass':
 if caller.name()=='c1_main':
     value['caller']['pc']=int(caller.pc())
     value['caller']['args']={name:int(caller.read_var(name).cast(gdb.lookup_type('unsigned int'))) for name in ('argc','argv')}
+if caller.name()=='CompilerPool::SetArena':
+    value['caller']['args']={name:int(caller.read_var(name).cast(gdb.lookup_type('unsigned int')))for name in ('this','arena_index')}
 if caller.name()=='CompilerArena::Initialize':
     value['caller']['args']={name:int(caller.read_var(name).cast(gdb.lookup_type('unsigned int')))for name in ('this','descriptor','address')}
 if frame.name()=='recon_initterm':
@@ -482,18 +484,12 @@ ActualArenaMemberEntry('*0x%x')
                 default_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] initialize_default_pools$',table,re.M)[1],16)
                 default_probe=primary_probe.replace('primary_entries','default_pool_entries').replace('ActualPrimaryEntry','ActualDefaultPoolEntry').replace("'boundary_rva':0x129db","'boundary_rva':0x12ac3").replace("*0x%x"%primary_address,"*0x%x"%default_address)
                 pool_address=int(re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] _ZN12CompilerPool8SetArenaEj$',table,re.M)[1],16)
-                default_probe+="""pool_arena_entries=[]
-class ActualPoolArenaEntry(gdb.Breakpoint):
-    def stop(self):
-        pc=int(gdb.parse_and_eval('(unsigned int)$pc'));esp=int(gdb.parse_and_eval('(unsigned int)$esp'))
-        words=list(struct.unpack('<2I',gdb.selected_inferior().read_memory(esp,8).tobytes()))
-        block=gdb.block_for_pc(pc)
-        while block and not block.function:block=block.superblock
-        assert block and block.function
-        pool_arena_entries.append({'pc':pc,'esp':esp,'return':words[0],'ecx':int(gdb.parse_and_eval('(unsigned int)$ecx')),'arena_index':words[1],
-          'formal_inventory':[{'name':symbol.name,'type':str(symbol.type)}for symbol in block if symbol.is_argument],'compiler_state':capture_modeled()});return False
-ActualPoolArenaEntry('*0x%x')
-"""%pool_address
+                pool_probe=primary_probe.replace('primary_entries','pool_arena_entries').replace('ActualPrimaryEntry','ActualPoolArenaEntry').replace("'boundary_rva':0x129db","'boundary_rva':0x12b30").replace("*0x%x"%primary_address,"*0x%x"%pool_address)
+                pool_probe=pool_probe.replace("struct.unpack('<I',gdb.selected_inferior().read_memory(esp,4).tobytes())","struct.unpack('<2I',gdb.selected_inferior().read_memory(esp,8).tobytes())").replace('        assert formals==[]\n','')
+                pool_probe=pool_probe.replace("'args':{},'formal_inventory':formals", "'args':{'this':int(gdb.parse_and_eval('(unsigned int)$ecx')),'arena_index':words[1]},'ecx':int(gdb.parse_and_eval('(unsigned int)$ecx')),'arena_index':words[1],'formal_inventory':formals")
+                pool_probe=pool_probe.replace("'symbol':block.function.name","'symbol':frame.name()")
+                default_probe+=pool_probe
+
             main_probe+=member_probe+default_probe
             main_probe+=work_probe+scanner_probe+empty_probe+arena_probe+primary_probe
             allocation_probe=allocation_probe.replace('\nend\n','\n'+main_probe+'end\n')

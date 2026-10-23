@@ -456,6 +456,11 @@
       "start_rva": 76483,
       "end_rva": 76592,
       "entry": 1
+    },
+    {
+      "start_rva": 76592,
+      "end_rva": 76617,
+      "entry": 1
     }
   ],
   "functions": [
@@ -1392,7 +1397,20 @@
         ]
       ],
       "source": "src/pools.cpp",
-      "status": "sole-new-candidate"
+      "status": "accepted-prefix"
+    },
+    {
+      "name": "CompilerPool::SetArena",
+      "native_symbol": "_ZN12CompilerPool8SetArenaEj",
+      "role": "application",
+      "chunks": [
+        [
+          76592,
+          76617
+        ]
+      ],
+      "source": "src/pools.cpp",
+      "status": "candidate"
     }
   ],
   "text_data": [
@@ -1414,18 +1432,18 @@
   ],
   "audit_config": "cases/minimal/trial.json",
   "expected_frontier": {
-    "rva": 76592,
-    "native_symbol": "CompilerPool::SetArena",
-    "native_linkage_symbol": "_ZN12CompilerPool8SetArenaEj",
-    "kind": "default-pool-arena",
-    "calling_convention": "thiscall-pool-arena",
+    "rva": 43676,
+    "native_symbol": "CompilerPool::Refill",
+    "native_linkage_symbol": "_ZN12CompilerPool6RefillEj",
+    "kind": "pool-refill",
+    "calling_convention": "thiscall-pool-refill",
     "native_args": [
       "this",
-      "arena_index"
+      "minimum_bytes"
     ],
     "caller": {
-      "native_symbol": "initialize_default_pools",
-      "return_rva": 76495
+      "native_symbol": "CompilerPool::SetArena",
+      "return_rva": 76614
     }
   },
   "imports": [
@@ -1710,7 +1728,7 @@
       "scope": "owned snapshot interior sentinels and labeled nonzero ints before BSS clear; never dereferenced"
     }
   },
-  "staging_role": "sole109B default-pool wrapper; first real SetArena(this=pool8,index0) trap before any pool write; nine explicit calls source graph preserved",
+  "staging_role": "sole25B SetArena member; first genuine Refill(this=pool8,minimum_bytes1) frontier after exact arena pointer store",
   "registered_cleanup": [
     {
       "original_rva": 145728,

@@ -1,0 +1,18 @@
+{
+  "kind": "actualGetSystemInfo-only originalresponse closure",
+  "original_directory": "/root/.ai-tmp/msvc2/vc5.10/c1/minimal-setarena-001",
+  "original_receipt_sha256": "570bbd5c72470045581ee61853e3877284add02a428fc8ea84dac0d490563644",
+  "candidate_sha256": "e96612f054fedf9b9d57d6f9c6f9fa8bcdf675b69de6f07f0379b4164e737216",
+  "environment_sha256": "ec8a3f94a1a5d916ef7f3da4a657ddbda0fbf871d557ef29b8233fddcb1bbbe2",
+  "canonical_target_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+  "canonical_crt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "provider_hfile_sha256": "6a080ecb2d0e74c64750c3a7105ca55350867fc904e9f568f190907fd2f4d733",
+  "provider_export_rva": 51084,
+  "system_info_sha256": "f249873a246e47fe0690bcb26673eac7d0a33c622e6ed0cc42487094160c9b57",
+  "profile_sha256": "348c237e7ae93e54753b22b60c21ee9ce41211ddd3f7812adf178018f90fe3e6",
+  "profile_bytes": 104,
+  "encoder_path": "lib/recon/system_profile.py",
+  "encoder_sha256": "0c305d70c5a9e538bac2ab8d930546a989012daf01c2781f70453122c895c173",
+  "factory_sha256": "36f99b7f5797bd4349f0b63ff322d8f666f91ae08a231d3d1fa962958a4682eb",
+  "memory_status_supplied": false
+}

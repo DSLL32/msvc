@@ -2297,7 +2297,7 @@
         23897
       ]
     ],
-    "hard_frontier_rva": 76592,
+    "hard_frontier_rva": 43676,
     "policy": "reviewed specific internal transfer; tail remains UNMODELED and cannot be semantically consumed before a named trap"
   },
   "pdb_signature": {

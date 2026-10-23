@@ -74,5 +74,12 @@ extern "C" void __cdecl initialize_default_pools(void)
 
 void RECON_THISCALL CompilerPool::SetArena(unsigned arena_index)
 {
+    arena = &c1_bss.arenas[arena_index];
+    Refill(1);
+}
+
+unsigned char *RECON_THISCALL CompilerPool::Refill(unsigned minimum_bytes)
+{
     __asm { int 3 }
+    return NULL;
 }
