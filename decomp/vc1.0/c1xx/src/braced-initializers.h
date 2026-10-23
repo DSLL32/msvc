@@ -28,4 +28,6 @@ void __stdcall emit_runtime_bit_field_initializer(IrToken *value);
 IrToken *__stdcall initializer_object_expression(CType *type);
 void __stdcall emit_initializer_padding(CppSymbol *symbol);
 int __stdcall is_initializer_data_member(CppSymbol *symbol);
+unsigned finish_implicit_initializers(void);
+unsigned remaining_braced_initializer_bytes(void);
 #endif

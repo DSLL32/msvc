@@ -541,3 +541,36 @@ int finish_braced_initializer_element(void)
 }
 #undef INITIALIZER_DECLARATION
 #undef POP_BRACED_INITIALIZER
+
+/* Original 0x47630..0x476ef. Complete an explicit brace, diagnose
+   an incomplete reference array, and defer its trailing zero fill until
+   implicit child contexts and the closing element have been consumed. */
+void end_nested_initializer(void)
+{
+    CppSymbol *symbol;
+    TypeShape *shape;
+    unsigned remaining;
+    if (braced_initializer_depth < 0) return;
+    if (current_braced_initializer->flags & 0x20) {
+        if (braced_initializer_depth >= 0) {
+            --braced_initializer_depth;
+            current_braced_initializer = braced_initializers + braced_initializer_depth;
+        }
+        return;
+    }
+    symbol = current_braced_initializer->symbol;
+    if ((symbol->attributes & 0x400) && !(symbol->attributes & 0x100) &&
+        !(current_braced_initializer->flags & 2)) {
+        shape = current_braced_initializer->type->related->related;
+        if (shape && (shape->flags & 0x40)) report_syntax_error(527, symbol->name);
+    }
+    remaining = finish_implicit_initializers();
+    if (!(current_braced_initializer->flags & 6))
+        remaining += remaining_braced_initializer_bytes();
+    current_braced_initializer->flags = 0;
+    finish_braced_initializer_element();
+    if (remaining) {
+        integer_constant_scratch = remaining;
+        emit_initializer_constant(0);
+    }
+}

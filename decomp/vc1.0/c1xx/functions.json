@@ -1027,7 +1027,8 @@
     "_find_next_initializer_member@8",
     "_is_initializer_data_member@4",
     "_finish_braced_initializer_element",
-    "_emit_initializer_constant@4"
+    "_emit_initializer_constant@4",
+    "_end_nested_initializer"
   ],
   "driver": [
     {
@@ -2740,7 +2741,7 @@
     {
       "name": "_end_nested_initializer",
       "start": 292400,
-      "end": 292401
+      "end": 292591
     },
     {
       "name": "_end_qc_control",
@@ -7713,6 +7714,16 @@
       "name": "_emit_runtime_zero_initializer",
       "start": 285408,
       "end": 285409
+    },
+    {
+      "name": "_finish_implicit_initializers",
+      "start": 292592,
+      "end": 292593
+    },
+    {
+      "name": "_remaining_braced_initializer_bytes",
+      "start": 292848,
+      "end": 292849
     }
   ],
   "cases": {
@@ -7913,7 +7924,7 @@
       "native_reference": "cases/native-state-machine-debug",
       "frontiers": "cases/frontiers/state_machine_debug",
       "accepted_from": 997,
-      "terminal": "_end_nested_initializer",
+      "terminal": "_finish_implicit_initializers",
       "buffered_streams": [
         {
           "name": "_expression_file",
@@ -7936,7 +7947,7 @@
           "original": 576700
         }
       ],
-      "terminal_evidence": "cases/frontiers/state_machine_debug/1022-emit_initializer_constant-4/original-events.txt",
+      "terminal_evidence": "cases/frontiers/state_machine_debug/1023-end_nested_initializer/original-events.txt",
       "original_seed": "cases/state_machine_debug-seed",
       "frontier_extensions": [
         "cases/frontiers/state_machine_debug/0997-begin_debug_info/frontier-extension.json",
@@ -7964,7 +7975,8 @@
         "cases/frontiers/state_machine_debug/1019-find_next_initializer_member-8/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1020-is_initializer_data_member-4/frontier-extension.json",
         "cases/frontiers/state_machine_debug/1021-finish_braced_initializer_element/frontier-extension.json",
-        "cases/frontiers/state_machine_debug/1022-emit_initializer_constant-4/frontier-extension.json"
+        "cases/frontiers/state_machine_debug/1022-emit_initializer_constant-4/frontier-extension.json",
+        "cases/frontiers/state_machine_debug/1023-end_nested_initializer/frontier-extension.json"
       ]
     }
   },

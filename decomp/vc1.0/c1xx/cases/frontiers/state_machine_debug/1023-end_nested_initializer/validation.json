@@ -1,0 +1,21 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_end_nested_initializer",
+    "start": 292400,
+    "end": 292591
+  },
+  "distinct_direct_callees": [
+    "_emit_initializer_constant@4",
+    "_finish_braced_initializer_element",
+    "_finish_implicit_initializers",
+    "_remaining_braced_initializer_bytes",
+    "_report_syntax_error"
+  ],
+  "next_frontier": "_finish_implicit_initializers",
+  "pending_buffers": 5,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.3907859418541193,
+  "total_operation_seconds": 4.033705512061715,
+  "original_capture_seconds": 1.8189729051664472
+}
