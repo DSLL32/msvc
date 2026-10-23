@@ -1,0 +1,49 @@
+{
+  "schema": 1,
+  "function": "_class_has_zero_base_offsets@4",
+  "native_entry": "class_has_zero_base_offsets",
+  "argument_words": 4,
+  "ownership_register": "eax",
+  "ownership_caller_extent": [
+    302800,
+    302839
+  ],
+  "native_caller_locals": {
+    "caller_tag": {
+      "frame": 1,
+      "function": "infer_inheritance_model",
+      "local": "tag"
+    }
+  },
+  "native_expressions": {
+    "raw_tag": "(unsigned)tag"
+  },
+  "formals": [
+    {
+      "name": "tag",
+      "stack_index": 0,
+      "native_field": "raw_tag",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 237291,
+        "original_owner_function": "_infer_inheritance_model@4",
+        "native_owner_function": "infer_inheritance_model",
+        "native_owner_field": "caller_tag",
+        "native_owner_local": "tag",
+        "identity": "Actual accepted caller loads tagEAX49ed0 and retains it while checking classinfoECX; PUSHEAX49ee5/CALL49ee6 return49eeb. Native actual caller tag formal is identical semantic owner; no frozen/stale class-slot identity."
+      }
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      319520,
+      319677
+    ],
+    "argument_bytes": 4,
+    "proof": "SUB ESP20/saveEBX/ESI8B: tagESP+32, all RET4; fullboolean EAX0/1. Virtual-base flags10 returns0; initialized memberchain cursor walks kind15, excludesflags80, loads class-context base tag then rejects displacementnonzero or recursivefalse. Empty/allzero hierarchy returns1. Sole directcallee self4e020, exact recursive graph retained. No incoming semantic register/hiddeninput or uninitialized cursor/output read."
+  }
+}

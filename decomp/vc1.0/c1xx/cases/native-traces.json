@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "0032fc215c79271e80dfaad331d4b987b49c2e1f497591072919af8d8fabb98c",
+    "functions.json": "895effdcc4c8a080afb2c67b103cbd206c9a5a2a6b22cf85c688568f3e2f2122",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "e1ae474bac5bd7f42afe21ba6521ee6509fcb685a27fe7788c63c9b199ea6e95",
-    "cases/canonical-map.txt": "cd9b73793e6742730c78c4b8ca6eeb279be848342f9588bf128fb61fb39b79bb",
+    "cases/original-entry-references.json": "9e7475dff95dbf0ffaed368209d70569eedfbf1a7e8a4681a0aab102a40e4106",
+    "cases/canonical-map.txt": "4ca12c15c837a33d428d0ce747679b93dbdbe204dc7a6ef31c9a7b5b9c6d7968",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -44,9 +44,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1111-infer_inheritance_model-4/entry-reference/original-receipt.json": "7c9231b4a8d70e817d4e8538a3adcc13efaa3896b67f5fa3d076c00cc3cfc9e7",
-    "cases/frontiers/state_machine_debug/1111-infer_inheritance_model-4/entry-reference/original-events.txt": "897bbfadcaed52ea4467f7e706a19a1e3bc0436186e2fab0b30d49d9dbe4ca66",
-    "cases/frontiers/state_machine_debug/1111-infer_inheritance_model-4/entry-reference/original-entries.plan": "ed380ac0e0e02b09099b0ec46a4c2680d46e4dbcc74d787dc60ebeb6d41d62c0"
+    "cases/frontiers/state_machine_debug/1112-class_has_zero_base_offsets-4/entry-reference/original-receipt.json": "6722b6948a6e7590845c3f8b80a17d44f5aa3624d5305e8ebd33be527a424fe5",
+    "cases/frontiers/state_machine_debug/1112-class_has_zero_base_offsets-4/entry-reference/original-events.txt": "b33a5ce0589514e8b6348bec6a8e5fd01fe8d11a50ffb9a96e7bbdda852584df",
+    "cases/frontiers/state_machine_debug/1112-class_has_zero_base_offsets-4/entry-reference/original-entries.plan": "2e00b78bd8c5c2ced15994af0f04e86a679949d3ce03e96e6a56140631bfd06b"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -831,7 +831,7 @@
     },
     "class_has_zero_base_offsets": {
       "logical": "_class_has_zero_base_offsets@4",
-      "source": "src/stubs.c"
+      "source": "src/tags.c"
     },
     "class_member_hash_bits": {
       "logical": "_class_member_hash_bits",
@@ -6599,7 +6599,8 @@
     "resolve_member_pointer_class",
     "member_pointer_class_kind",
     "query_inheritance_model",
-    "infer_inheritance_model"
+    "infer_inheritance_model",
+    "class_has_zero_base_offsets"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10712,7 +10713,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1112,
+      "last": 1113,
       "seen": [
         "main",
         "message_text",
@@ -11733,12 +11734,13 @@
         "member_pointer_class_kind",
         "query_inheritance_model",
         "infer_inheritance_model",
-        "class_has_zero_base_offsets"
+        "class_has_zero_base_offsets",
+        "member_pointer_expression"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_class_has_zero_base_offsets@4",
-        "native": "class_has_zero_base_offsets",
+        "logical": "_member_pointer_expression@4",
+        "native": "member_pointer_expression",
         "signal": 5
       }
     }

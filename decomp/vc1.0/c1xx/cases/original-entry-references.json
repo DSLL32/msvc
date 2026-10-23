@@ -40,11 +40,11 @@
     "plan_sha256": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e"
   },
   "state_machine_debug": {
-    "receipt": "cases/frontiers/state_machine_debug/1111-infer_inheritance_model-4/entry-reference/original-receipt.json",
-    "receipt_sha256": "7c9231b4a8d70e817d4e8538a3adcc13efaa3896b67f5fa3d076c00cc3cfc9e7",
-    "events": "cases/frontiers/state_machine_debug/1111-infer_inheritance_model-4/entry-reference/original-events.txt",
-    "events_sha256": "897bbfadcaed52ea4467f7e706a19a1e3bc0436186e2fab0b30d49d9dbe4ca66",
-    "plan": "cases/frontiers/state_machine_debug/1111-infer_inheritance_model-4/entry-reference/original-entries.plan",
-    "plan_sha256": "ed380ac0e0e02b09099b0ec46a4c2680d46e4dbcc74d787dc60ebeb6d41d62c0"
+    "receipt": "cases/frontiers/state_machine_debug/1112-class_has_zero_base_offsets-4/entry-reference/original-receipt.json",
+    "receipt_sha256": "6722b6948a6e7590845c3f8b80a17d44f5aa3624d5305e8ebd33be527a424fe5",
+    "events": "cases/frontiers/state_machine_debug/1112-class_has_zero_base_offsets-4/entry-reference/original-events.txt",
+    "events_sha256": "b33a5ce0589514e8b6348bec6a8e5fd01fe8d11a50ffb9a96e7bbdda852584df",
+    "plan": "cases/frontiers/state_machine_debug/1112-class_has_zero_base_offsets-4/entry-reference/original-entries.plan",
+    "plan_sha256": "2e00b78bd8c5c2ced15994af0f04e86a679949d3ce03e96e6a56140631bfd06b"
   }
 }

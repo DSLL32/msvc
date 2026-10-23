@@ -1,0 +1,75 @@
+{
+  "schema": 1,
+  "status": "match",
+  "function": "_class_has_zero_base_offsets@4",
+  "case": "state_machine_debug",
+  "accepted_before": 1112,
+  "configuration_sha256": "139bf75c9bc0b8bbc14affe1002787856ef703202b76de74ea768f509be92e0b",
+  "native_entry": "class_has_zero_base_offsets",
+  "declared_formal_count": 1,
+  "formals": [
+    {
+      "name": "tag",
+      "stack_index": 0,
+      "native_field": "raw_tag",
+      "binding": {
+        "kind": "caller-owned-pointer",
+        "original_register": "eax",
+        "original_caller_rva": 237291,
+        "original_owner_function": "_infer_inheritance_model@4",
+        "native_owner_function": "infer_inheritance_model",
+        "native_owner_field": "caller_tag",
+        "native_owner_local": "tag",
+        "identity": "Actual accepted caller loads tagEAX49ed0 and retains it while checking classinfoECX; PUSHEAX49ee5/CALL49ee6 return49eeb. Native actual caller tag formal is identical semantic owner; no frozen/stale class-slot identity.",
+        "original_owner_value": 8301700,
+        "native_owner_value": 1449282692
+      },
+      "original_raw": 8301700,
+      "native_raw": 1449282692,
+      "result": "match"
+    }
+  ],
+  "register_inputs": [],
+  "hidden_inputs": [],
+  "unknown_inputs": [],
+  "abi_analysis": {
+    "original_extent": [
+      319520,
+      319677
+    ],
+    "argument_bytes": 4,
+    "proof": "SUB ESP20/saveEBX/ESI8B: tagESP+32, all RET4; fullboolean EAX0/1. Virtual-base flags10 returns0; initialized memberchain cursor walks kind15, excludesflags80, loads class-context base tag then rejects displacementnonzero or recursivefalse. Empty/allzero hierarchy returns1. Sole directcallee self4e020, exact recursive graph retained. No incoming semantic register/hiddeninput or uninitialized cursor/output read.",
+    "original_target_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7"
+  },
+  "native_executable_sha256": "9097ab722e5965bda316db64779af19b335030224a0bd4a34be5e8dbc7383c68",
+  "capture_timing": {
+    "original_capture_seconds": 0.867036989890039,
+    "native_capture_seconds": 0.18945822771638632,
+    "total_operation_seconds": 1.3824249878525734
+  },
+  "evidence_sha256": {
+    "native-checkpoint.json": "4525336abb71da691a449f017e8880f418dd1b96299e3c4630e5043b6f86c689",
+    "native-commands.gdb": "8724a8793d8486997feb97cc2766577031c3e7490c1b12f76aebe572cc179e7c",
+    "native-gdb.log": "ba6c5564128253890d94c4a6518c99aa29a82cca67252ccec1b385dded7aefe6",
+    "native-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "native-timing.json": "203429f90b53e32102c9787c494b55a06b0ba74b9bb1f20147899fb85fbbb02b",
+    "original-configuration.json": "139bf75c9bc0b8bbc14affe1002787856ef703202b76de74ea768f509be92e0b",
+    "original-disassembly.txt": "09ecdde02b679571a6b852b595fbd24b00d6dfd6fd32b67b556dce7f4dee8bf1",
+    "original-entries.plan": "fb81b2445bbb6901293d7dc54f24c11dfe2115dd5dd1e8973abd3fbb8a072deb",
+    "original-events.txt": "369f25f23e3b864e7ef49f514247bfb89296cc08e7cd4393693c40cbb9785d35",
+    "original-ownership-caller-disassembly.txt": "921c2ce725261918735b1675fe97a2c6ce5eb027a7d0c8f3f044bfee5ed7d416",
+    "original-receipt.json": "1c0291b3692a5070066703d7aa5a6d43a5d235a3a1f82296e5192c9db3b210da",
+    "original-stderr.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "original-stdout.bin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "plan.json": "a1e958b44834616a9eb533d82f569d35bd92555ef3dcc6a4b9985ca43ca94f95"
+  },
+  "uncredited_unused_inputs": [],
+  "argument_observation": {
+    "requested_words": 4,
+    "actual_words": 4,
+    "context_read": true,
+    "all_reads_succeeded": true
+  },
+  "state_requirements": []
+}

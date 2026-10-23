@@ -24,6 +24,22 @@ int member_pointer_requested_model; /* original 0x9f43c, initially zero */
 
 int __stdcall class_has_zero_base_offsets(CppSymbol *tag);
 
+/* Original 0x4e020..0x4e0bd. The compact representation requires
+   every visible base and its own base hierarchy to retain offset zero. */
+int __stdcall class_has_zero_base_offsets(CppSymbol *tag)
+{
+    BaseClassLink *base;
+    CppSymbol *base_tag;
+    if (tag->detail.class_info->flags & 0x10) return 0;
+    for (base = (BaseClassLink *)tag->auxiliary.scope_members; base;
+         base = (BaseClassLink *)base->next) {
+        if ((base->kind & 31) != 15 || (base->flags & 0x80)) continue;
+        base_tag = cpp_context_stack->items[base->context_index];
+        if (base->displacement || !class_has_zero_base_offsets(base_tag)) return 0;
+    }
+    return 1;
+}
+
 /* Original 0x49ed0..0x49ef7. Virtual bases require their dedicated
    model; otherwise zero-offset base hierarchies use the compact layout. */
 int __stdcall infer_inheritance_model(CppSymbol *tag)

@@ -1,0 +1,61 @@
+
+../../../toolchains/1.0-nt/bin/C1XX3232.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+0004e020 <.text+0x37020>:
+   4e020:	83 ec 14             	sub    esp,0x14
+   4e023:	53                   	push   ebx
+   4e024:	56                   	push   esi
+   4e025:	8b 44 24 20          	mov    eax,DWORD PTR [esp+0x20]
+   4e029:	8b 48 20             	mov    ecx,DWORD PTR [eax+0x20]
+   4e02c:	f6 41 33 10          	test   BYTE PTR [ecx+0x33],0x10
+   4e030:	74 0e                	je     0x4e040
+   4e032:	2b c0                	sub    eax,eax
+   4e034:	5e                   	pop    esi
+   4e035:	5b                   	pop    ebx
+   4e036:	83 c4 14             	add    esp,0x14
+   4e039:	c2 04 00             	ret    0x4
+   4e03c:	8d 64 24 00          	lea    esp,[esp+0x0]
+   4e040:	8b 40 24             	mov    eax,DWORD PTR [eax+0x24]
+   4e043:	89 44 24 08          	mov    DWORD PTR [esp+0x8],eax
+   4e047:	c6 44 24 0c 0f       	mov    BYTE PTR [esp+0xc],0xf
+   4e04c:	2b f6                	sub    esi,esi
+   4e04e:	bb 80 00 00 00       	mov    ebx,0x80
+   4e053:	8b 44 24 08          	mov    eax,DWORD PTR [esp+0x8]
+   4e057:	89 44 24 10          	mov    DWORD PTR [esp+0x10],eax
+   4e05b:	3b c6                	cmp    eax,esi
+   4e05d:	74 51                	je     0x4e0b0
+   4e05f:	8b 40 04             	mov    eax,DWORD PTR [eax+0x4]
+   4e062:	89 44 24 08          	mov    DWORD PTR [esp+0x8],eax
+   4e066:	8b 44 24 10          	mov    eax,DWORD PTR [esp+0x10]
+   4e06a:	8a 00                	mov    al,BYTE PTR [eax]
+   4e06c:	32 44 24 0c          	xor    al,BYTE PTR [esp+0xc]
+   4e070:	a8 1f                	test   al,0x1f
+   4e072:	75 df                	jne    0x4e053
+   4e074:	8b 44 24 10          	mov    eax,DWORD PTR [esp+0x10]
+   4e078:	84 58 01             	test   BYTE PTR [eax+0x1],bl
+   4e07b:	75 d6                	jne    0x4e053
+   4e07d:	89 44 24 14          	mov    DWORD PTR [esp+0x14],eax
+   4e081:	8b 0d 2c f3 09 00    	mov    ecx,DWORD PTR ds:0x9f32c
+   4e087:	0f bf 40 0c          	movsx  eax,WORD PTR [eax+0xc]
+   4e08b:	8b 44 81 04          	mov    eax,DWORD PTR [ecx+eax*4+0x4]
+   4e08f:	8b 4c 24 14          	mov    ecx,DWORD PTR [esp+0x14]
+   4e093:	39 71 10             	cmp    DWORD PTR [ecx+0x10],esi
+   4e096:	75 0a                	jne    0x4e0a2
+   4e098:	50                   	push   eax
+   4e099:	e8 82 ff ff ff       	call   0x4e020
+   4e09e:	3b c6                	cmp    eax,esi
+   4e0a0:	75 b1                	jne    0x4e053
+   4e0a2:	2b c0                	sub    eax,eax
+   4e0a4:	5e                   	pop    esi
+   4e0a5:	5b                   	pop    ebx
+   4e0a6:	83 c4 14             	add    esp,0x14
+   4e0a9:	c2 04 00             	ret    0x4
+   4e0ac:	8d 64 24 00          	lea    esp,[esp+0x0]
+   4e0b0:	b8 01 00 00 00       	mov    eax,0x1
+   4e0b5:	5e                   	pop    esi
+   4e0b6:	5b                   	pop    ebx
+   4e0b7:	83 c4 14             	add    esp,0x14
+   4e0ba:	c2 04 00             	ret    0x4

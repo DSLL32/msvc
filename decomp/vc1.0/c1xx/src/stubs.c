@@ -614,5 +614,3 @@ unsigned __stdcall encode_debug_signed(unsigned char *destination, int value) { 
 void __stdcall record_typedef_alias(CppSymbol *symbol, CppSymbol *alias) { __asm { int 3 } }
 
 void __stdcall set_default_inheritance_model(int model) { __asm { int 3 } }
-
-int __stdcall class_has_zero_base_offsets(CppSymbol *tag) { __asm { int 3 } return 0; }
