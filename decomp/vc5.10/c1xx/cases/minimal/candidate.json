@@ -51,7 +51,8 @@
     "_initialize_frontend_26",
     "_initialize_frontend_27",
     "_initialize_frontend_28",
-    "_initialize_frontend_29"
+    "_initialize_frontend_29",
+    "_initialize_frontend_30"
   ],
   "trial": null,
   "ranges": [
@@ -450,7 +451,13 @@
       "start_rva": 231967,
       "end_rva": 231980,
       "entry": 1
+    },
+    {
+      "owner": "_initialize_frontend_30",
+      "start_rva": 231980,
+      "end_rva": 231993,
+      "entry": 1
     }
   ],
-  "stage": "_initialize_frontend_29 accepted; next frontier _initialize_frontend_30"
+  "stage": "_initialize_frontend_30 accepted; next frontier _initialize_frontend_31"
 }
