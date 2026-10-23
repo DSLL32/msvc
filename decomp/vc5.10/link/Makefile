@@ -2,7 +2,7 @@ PYTHON ?= python3
 NATIVE_CC ?= clang
 RECON = ../../../lib/recon
 TOOL = $(PYTHON) scripts/wine-tool.py
-SOURCES = src/driver.c src/initializers.c src/host.c
+SOURCES = src/driver-stubs.c src/driver.c src/initializers.c src/host.c
 OBJECTS = $(patsubst src/%.c,build/%.obj,$(SOURCES))
 NATIVE_OBJECTS = $(patsubst src/%.c,build/native/%.o,$(SOURCES))
 HEADERS = $(wildcard src/*.h $(RECON)/include/*.h $(RECON)/native/*.h $(RECON)/native/sys/*.h)
@@ -45,7 +45,7 @@ build/native/LINK.EXE: $(NATIVE_OBJECTS) $(SHIMS) $(HEADERS) Makefile
 
 native: build/native/LINK.EXE
 
-build/runtime.json: build/link.exe runtime.json graph.json scripts/runtime-identity.py scripts/binary.py
+build/runtime.json: build/link.exe runtime.json graph.json functions.json scripts/runtime-identity.py scripts/binary.py
 	$(PYTHON) scripts/runtime-identity.py --rebuilt
 
 audit: build/runtime.json $(GRAPH_AUDIT_BIN)

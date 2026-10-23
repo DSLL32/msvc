@@ -24,7 +24,7 @@ static void quoted(const char *value)
     fputc('"', events);
     while ((c = (unsigned char)*value++) != 0) {
         if (c == '"' || c == '\\') fputc('\\', events);
-        if (c < 32) fprintf(events, "\\u%04x", c);
+        if (c < 32 || c >= 127) fprintf(events, "\\u%04x", c);
         else fputc(c, events);
     }
     fputc('"', events);
@@ -109,7 +109,16 @@ static int snapshot(DWORD address)
         if (index) fputc(',', events);
         quoted(value);
     }
-    fprintf(events, "]}\n");
+    fprintf(events, "]");
+    if(address==base+0x15230) {
+        if(!remote_string(stack[2],value,sizeof(value)))return 0;
+        fprintf(events,",\"debug_options_pointer\":%lu,\"debug_environment\":",stack[1]);quoted(value);
+    }
+    if(address==base+0xb560) {
+        if(!ReadProcessMemory(process,(void *)(base+0x7f074),&pointer,4,&got)||got!=4||!remote_string(pointer,value,sizeof(value)))return 0;
+        fprintf(events,",\"program_name_pointer\":%lu,\"main_frame_pointer\":%lu,\"program_name\":",pointer,context.Ebp);quoted(value);
+    }
+    fprintf(events,"}\n");
     for (index = 0; index < request_count; ++index) {
         address_base = !strcmp(requests[index].scope, "target") ? base : crt_base;
         if (!address_base || !ReadProcessMemory(process, (void *)(address_base + requests[index].rva),
@@ -243,6 +252,10 @@ int main(int argc, char **argv)
                         DWORD argument,got;
                         if(!ReadProcessMemory(process,(void *)context.Esp,&argument,4,&got)||got!=4){failed=6;break;}
                         fprintf(events,"{\"event\":\"atexit_observation\",\"name\":\"%s\",\"site\":%lu,\"stack_top\":%lu,\"eax\":%lu}\n",entries[index].name,site,argument,context.Eax);
+                    } else if(!strncmp(entries[index].name,"observe:console_",16)) {
+                        DWORD arguments[2],got;
+                        if(!ReadProcessMemory(process,(void *)context.Esp,arguments,8,&got)||got!=8){failed=6;break;}
+                        fprintf(events,"{\"event\":\"console_observation\",\"name\":\"%s\",\"site\":%lu,\"arguments\":[%lu,%lu],\"eax\":%lu}\n",entries[index].name,site,arguments[0],arguments[1],context.Eax);
                     } else fprintf(events, "{\"event\":\"entry\",\"name\":\"%s\",\"rva\":%lu}\n",
                                    entries[index].name, entries[index].rva);
                 }

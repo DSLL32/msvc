@@ -16,6 +16,19 @@
         ],
         "text_data": []
       }
+    },
+    "_main": {
+      "original": {
+        "roots": [
+          4251873,
+          4251918
+        ],
+        "text_data": []
+      },
+      "rebuilt": {
+        "roots": [],
+        "text_data": []
+      }
     }
   },
   "callback_tables": [

@@ -70,9 +70,12 @@ def main():
         ('target',0x943a8,12,'buffer8.bin'),
         ('target',0x94398,12,'buffer4.bin'),
         ('target',0x94460,20,'timing.bin'),
+        ('target',0x7eeb8,4,'diagnostic-output.bin'),
+        ('target',0x7f1a0,256,'debug-flags.bin'),
         ('crt',0x3fa88,4,'crt-fmode.bin'),
         ('crt',0x3fa94,4,'crt-commode.bin'),
-        ('crt',0x3f928,4,'crt-adjust-fdiv.bin')]
+        ('crt',0x3f928,4,'crt-adjust-fdiv.bin'),
+        ('crt',0x3f590,32,'crt-stdout.bin')]
     (capture / 'state-plan.txt').write_text(''.join('%s %x %d %s\n'%item for item in state_plan))
     (capture / 'entries.txt').write_text(''.join(entries))
     helper = BINARY / 'build/capture-help.exe'

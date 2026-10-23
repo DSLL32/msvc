@@ -11,4 +11,6 @@ def plan(accepted):
         name='_register_'+('timing_cleanup' if suffix=='timing' else 'buffer'+suffix+'_cleanup')
         if name in accepted:
             result += [(address+5-0x400000,'observe:atexit_call_'+suffix),(address+10-0x400000,'observe:atexit_return_'+suffix)]
+    if '_main' in accepted:
+        result += [(0xded2,'observe:console_call'),(0xded8,'observe:console_return')]
     return result

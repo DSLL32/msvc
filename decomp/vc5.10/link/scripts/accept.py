@@ -95,7 +95,7 @@ def verify_frontier(original, native, expected_name, expected):
         record, = [record for record in records if record['name'] == expected_name]
     assert traps[0]['address'] == record['start'], 'wrong original frontier'
     state = json.loads((native / 'state.json').read_text())
-    native_name = {'_mainCRTStartup':'target_startup', '_main':'link_main'}.get(expected_name, expected_name.lstrip('_'))
+    native_name = record.get('native_symbol',{'_mainCRTStartup':'target_startup', '_main':'link_main'}.get(expected_name, expected_name.lstrip('_')))
     assert state.get('signal_number') == 5 and state.get('previous_byte') == 204 and state['function'] == native_name, 'wrong native frontier'
     for name in ['stdout.bin', 'stderr.bin']:
         assert (original / name).read_bytes() == (native / name).read_bytes(), 'partial stream differs: ' + name
@@ -123,25 +123,48 @@ def audit_trial(path):
     inputs = [tool, ROOT/'toolchains/5.10/bin/LINK.EXE', BINARY/'build/link.exe',
               BINARY/'build/link.map',path,BINARY/'runtime.json',BINARY/'build/runtime.json',BINARY/'graph.json',BINARY/'build/graph.json']
     inputs.append(strict_path)
+    cached_bodies={'_main','_initialize_debug@8'} & set(trial['accepted'])
+    imported=copy.deepcopy(trial)
+    imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies]
+    import_path=path.parent/'direct-import-config.json'
+    import_path.write_text(json.dumps(imported,indent=2)+'\n')
+    inputs.append(import_path)
+    if cached_bodies:inputs += [BINARY/'scripts/import-residual.py',BINARY/'build/driver.obj',BINARY/'build/driver-stubs.obj']
     before = {str(p):sha(p.read_bytes()) for p in inputs}
-    full_command = [arg for arg in command if arg!='--check-ret'] + ['--include-evidenced-runtime','--check-imports']
+    full_command = [arg for arg in command if arg!='--check-ret'] + ['--include-evidenced-runtime']
     started=time.perf_counter()
     full = subprocess.run(full_command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=True)
     strict_command = command.copy()
     strict_command[strict_command.index('--config')+1] = str(strict_path)
     strict_command.append('--include-evidenced-runtime')
-    strict_command.append('--check-imports')
+
     result = subprocess.run(strict_command, stdout=subprocess.PIPE, stderr=subprocess.PIPE, check=True)
+    import_command=full_command.copy()
+    import_command[import_command.index('--config')+1]=str(import_path)
+    import_command.append('--check-imports')
+    checked_imports=subprocess.run(import_command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=True)
+    residual=None
+    if cached_bodies:
+        import importlib
+        from binary import PE
+        module=importlib.import_module('import-residual')
+        residual={}
+        original_pe=PE(ROOT/'toolchains/5.10/bin/LINK.EXE');rebuilt_pe=PE(BINARY/'build/link.exe')
+        map_text=(BINARY/'build/link.map').read_text()
+        if '_main' in cached_bodies:residual['_main']=module.check(original_pe,rebuilt_pe,(BINARY/'build/driver.obj').read_bytes(),map_text)
+        if '_initialize_debug@8' in cached_bodies:residual['_initialize_debug@8']=module.check_debug(original_pe,rebuilt_pe,(BINARY/'build/driver-stubs.obj').read_bytes(),map_text)
     elapsed=time.perf_counter()-started
     after = {str(p):sha(p.read_bytes()) for p in inputs}
     assert before == after, 'audit inputs changed during discovery'
     report = json.loads(result.stdout)
     full_report = json.loads(full.stdout)
+    import_report=json.loads(checked_imports.stdout)
+    assert set(import_report['functions'])==set(imported['accepted'])
     assert report['discovery'] == 'cfg'
     assert full_report['discovery'] == 'cfg'
     assert set(report['functions']) == set(strict['accepted']), 'strict body subset differs'
     assert set(full_report['functions']) == set(trial['accepted']), 'full trial graph subset differs'
-    return dict(elapsed_seconds=elapsed,full_command=full_command,strict_command=strict_command,
+    return dict(elapsed_seconds=elapsed,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
                 strict_projection_excludes_only_verified_import_thunks=sorted(import_leaves & set(trial['accepted'])),
                 input_sha256_before=before, input_sha256_after=after,
                 full_report=full_report,strict_report=report,

@@ -1,0 +1,135 @@
+{
+  "entries": [
+    "_initialize_buffer12",
+    "_allocate_buffer12",
+    "_register_buffer12_cleanup",
+    "_initialize_buffer8",
+    "_allocate_buffer8",
+    "_register_buffer8_cleanup",
+    "_initialize_buffer4",
+    "_allocate_buffer4",
+    "_register_buffer4_cleanup",
+    "_initialize_timing",
+    "_setup_timing",
+    "_register_timing_cleanup",
+    "_main"
+  ],
+  "initerm_calls": [
+    [
+      null
+    ],
+    [
+      null,
+      "initialize_buffer12",
+      "initialize_buffer8",
+      "initialize_buffer4",
+      "initialize_timing"
+    ]
+  ],
+  "operator_new_calls": [
+    {
+      "bytes": 12288,
+      "result": 134637040
+    },
+    {
+      "bytes": 4000,
+      "result": 134649344
+    },
+    {
+      "bytes": 4096,
+      "result": 134653360
+    }
+  ],
+  "atexit_calls": [
+    {
+      "callback": "free_buffer12",
+      "result": 0
+    },
+    {
+      "callback": "free_buffer8",
+      "result": 0
+    },
+    {
+      "callback": "free_buffer4",
+      "result": 0
+    },
+    {
+      "callback": "close_timing",
+      "result": 0
+    }
+  ],
+  "console_calls": [
+    {
+      "callback": "console_control",
+      "add": 1,
+      "result": 1
+    }
+  ],
+  "signal": null,
+  "signal_number": 5,
+  "function": "initialize_debug",
+  "pc": 134522802,
+  "previous_byte": 204,
+  "x87_control_word": 639,
+  "crt_fmode": 0,
+  "crt_commode": 0,
+  "crt_adjust_fdiv": 0,
+  "crt_stdout_address": 134614728,
+  "crt_stdout_bytes": "0000000000000000000000000200000001000000000000000000000000000000",
+  "initializers": [
+    null,
+    "initialize_buffer12",
+    "initialize_buffer8",
+    "initialize_buffer4",
+    "initialize_timing"
+  ],
+  "diagnostic_output": 134614728,
+  "frontier_arguments": {
+    "options": 0,
+    "environment": "LINK_DB"
+  },
+  "app_globals": {
+    "buffer12": "f06506080004000000040000",
+    "buffer8": "00960608f4010000f4010000",
+    "buffer4": "b0a506080004000000040000",
+    "timing": "ad0b057bad0b057bc80e06080000000000000000"
+  },
+  "crt_argv": [
+    "R:\\toolchains\\5.10\\bin\\LINK.EXE",
+    "/?"
+  ],
+  "stack": [
+    134522768,
+    134523994,
+    4294957288,
+    134523994,
+    0,
+    134586431,
+    0,
+    0,
+    32,
+    4160484352,
+    1910330750,
+    4158078628,
+    1910330751,
+    4160560062,
+    1,
+    1,
+    4158098104,
+    477,
+    4158145480,
+    4160484352,
+    4294956852,
+    4294956848,
+    0,
+    0,
+    0,
+    3,
+    0,
+    4158090472,
+    4160737260,
+    4158145480,
+    134514984,
+    1910330751
+  ]
+}

@@ -24,7 +24,7 @@ def negative(label,change):
     except (AssertionError,KeyError):checks.append(label);return
     raise AssertionError('mutation accepted: '+label)
 for field,value in [('x87_control_word',0x37f),('crt_fmode',0x4000),('crt_commode',1),('crt_adjust_fdiv',1),('initerm_end_index',4)]:
-    negative(field,lambda s,k=field,v=value:s.__setitem__(k,v))
+    if field in native:negative(field,lambda s,k=field,v=value:s.__setitem__(k,v))
 negative('missing initializer call',lambda s:s['initerm_calls'].pop())
 negative('reversed initializer calls',lambda s:s['initerm_calls'].reverse())
 negative('wrong argv',lambda s:s['crt_argv'].__setitem__(1,'/help'))
@@ -36,5 +36,10 @@ for index,call in enumerate(native.get('operator_new_calls',[])):
 for index,call in enumerate(native.get('atexit_calls',[])):
     negative('wrong callback '+str(index),lambda s,i=index:s['atexit_calls'][i].__setitem__('callback','free_buffer_unknown'))
     negative('callback registration failure '+str(index),lambda s,i=index:s['atexit_calls'][i].__setitem__('result',-1))
+if 'program_name' in native:
+    negative('wrong program name',lambda s:s.__setitem__('program_name','link'))
+    negative('lost local basename alias',lambda s:s.__setitem__('program_name_address',0))
+if 'frontier_arguments' in native and 'a' in native['frontier_arguments']:
+    negative('wrong file-cache limit',lambda s:s['frontier_arguments'].__setitem__('a',17))
 args.report.write_text(json.dumps(dict(frontier=args.frontier,positive=True,negative_count=len(checks),rejected=checks),indent=2)+'\n')
 print('Typed boundary passes; %d semantic negatives rejected.'%len(checks))

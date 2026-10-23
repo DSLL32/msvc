@@ -33,6 +33,9 @@ void __cdecl free_buffer8(void);
 void __cdecl allocate_buffer4(void);
 void __cdecl register_buffer4_cleanup(void);
 void __cdecl free_buffer4(void);
+void __cdecl setup_timing(void);
+void __cdecl register_timing_cleanup(void);
+void __cdecl close_timing(void);
 /* Zero-section COFF alias binds this C spelling to ??2@YAPAXI@Z. */
 void *__cdecl crt_operator_new(unsigned bytes);
 #endif

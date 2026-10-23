@@ -2,6 +2,7 @@
 #include <stdlib.h>
 #include <windows.h>
 #include "initializers.h"
+#include "crt-imports.h"
 #include <recon.h>
 
 BufferBlock buffer12, buffer8, buffer4;
@@ -67,4 +68,21 @@ void __cdecl initialize_buffer4(void)
     allocate_buffer4();
     register_buffer4_cleanup();
 }
-void __cdecl initialize_timing(void) { __asm { int 3 } }
+void __cdecl initialize_timing(void)
+{
+    setup_timing();
+    register_timing_cleanup();
+}
+void __cdecl setup_timing(void)
+{
+    timing.output = stdout;
+    timing.display = 0;
+    timing.options = 0;
+    timing.start_tick = GetTickCount();
+    timing.end_tick = timing.start_tick;
+}
+void __cdecl register_timing_cleanup(void)
+{
+    atexit(close_timing);
+}
+void __cdecl close_timing(void) { __asm { int 3 } }

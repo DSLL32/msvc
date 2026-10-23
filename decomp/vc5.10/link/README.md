@@ -2,9 +2,9 @@
 
 Target: `toolchains/5.10/bin/LINK.EXE`, PE32 i386, image base `0x400000`,
 entry RVA `0x65280`. There are no exports or TLS directory. Root approved the scaffold and exact
-shipped CRT startup boundary. Nine application functions are accepted: the three
-buffer constructors and their independent allocation/cleanup-registration helpers.
-The first `/?` case is still in progress at the timing constructor. Later
+shipped CRT startup boundary. Fourteen application functions are accepted: the four constructors, their
+allocation/registration helpers, main, and debug-option initialization. The first
+`/?` case is still in progress at file-cache initialization. Later
 hello, DLL, debug/PDB and resource cases remain source-only and unreleased.
 Native i386 and original 5.10 `/MD /Od /Z7` builds pass with `make -j4`.
 
@@ -105,3 +105,12 @@ callback registration arguments and successful results are compared in order.
 `cases/help/frontiers/` records acceptance order, raw evidence, frozen compiled
 source content and candidate-inclusive Rust provenance. No native fixture is
 claimed complete yet.
+
+Main retains its complete ordinary and SEH paths and the five tool modes.
+Its optimized original caches printf/setvbuf in EBX; debug parsing caches
+isdigit/sscanf in EDI/EBP. Finite instruction certificates prove qualified IAT
+identities, callsites, all register-alias writes through restores, and incoming
+branch cases. Full Rust graph/RET/ref/ownership checks still include both bodies;
+qualified-import checks exclude only these documented residuals. Eighteen
+negative mutations reject wrong slots, calls, register writes, branches, restores
+and dispatch-row identities. Native exceptions are still fatal.

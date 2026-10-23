@@ -136,6 +136,14 @@ if __name__ == '__main__':
         (BINARY/'build/runtime.json').write_text(json.dumps(records,indent=2)+'\n')
         graph=json.loads((BINARY/'graph.json').read_text())
         graph['functions']['_mainCRTStartup']['rebuilt']['roots']=[symbols['_mainCRTStartup']+0x10e,symbols['_mainCRTStartup']+0x123]
+        configuration=json.loads((BINARY/'functions.json').read_text())
+        if any(r['name']=='_main' and r['status']=='implemented' for r in configuration['driver']):
+            rebuilt=PE(BINARY/'build/link.exe')
+            assert rebuilt.read(symbols['_main']+3,3)==b'\x6a\xff\x68'
+            scope=u32(rebuilt.read(symbols['_main']+6,4),0)
+            previous,filter_entry,handler_entry=struct.unpack('<III',rebuilt.read(scope,12))
+            assert previous==0xffffffff
+            graph['functions']['_main']['rebuilt']['roots']=[filter_entry,handler_entry]
         (BINARY/'build/graph.json').write_text(json.dumps(graph,indent=2)+'\n')
         destination=BINARY/'build/runtime-identity.json'
     else:

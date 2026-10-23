@@ -1,0 +1,94 @@
+{
+  "kind": "native-i386-gdb-frontier",
+  "configuration_sha256": "7305faa1f2d0d90b4a17ff2dcd97a38089dfcfb01aaa4c3a6b34b816ea1e62c9",
+  "native_sha256": "4cc5662fe426f3e801015bc1043394f029b8e3f6e1235e2e01ab98b04221487a",
+  "rebuilt_sha256": "9434cd8a9419e9ebf4bdd55a25de7642c4f2e498aafcb6ca08e5e2ec8a1a5d93",
+  "source_files": {
+    "src/crt-imports.h": "f4f51b8a1b4b143356f0f236f80aeda8c01ca76c7280b23fb9a2b442f1fc8479",
+    "src/driver-stubs.c": "c837c322afa9a6ff6b83cad98b882754fa28b138c5bd6f716a7a48b6e81476b3",
+    "src/driver.c": "8cadb6f4a185f7ff085fcce951ab9707a2ff77c79a30da96a8329122b9fb7355",
+    "src/host.c": "3868a1d249889006bbc11e07aa4ae23dcb803cfd36e30a2d420820af77134339",
+    "src/initializers.c": "0a2849251b7a4818f66e43376e66e39d52e11479051d2c00d1d3be61f01e48b0",
+    "src/initializers.h": "275ba0e8e34b2362be3e04bfa0d7a80cc75b1e095760c4997aa7bac46d99590d",
+    "src/link.h": "fc5f036f22925e02317bdd315b2bd4540590d8fb08b357b60f91a272687339b4"
+  },
+  "source_content": {
+    "project/crt-imports.h": "f4f51b8a1b4b143356f0f236f80aeda8c01ca76c7280b23fb9a2b442f1fc8479",
+    "project/driver-stubs.c": "c837c322afa9a6ff6b83cad98b882754fa28b138c5bd6f716a7a48b6e81476b3",
+    "project/driver.c": "8cadb6f4a185f7ff085fcce951ab9707a2ff77c79a30da96a8329122b9fb7355",
+    "project/host.c": "3868a1d249889006bbc11e07aa4ae23dcb803cfd36e30a2d420820af77134339",
+    "project/initializers.c": "0a2849251b7a4818f66e43376e66e39d52e11479051d2c00d1d3be61f01e48b0",
+    "project/initializers.h": "275ba0e8e34b2362be3e04bfa0d7a80cc75b1e095760c4997aa7bac46d99590d",
+    "project/link.h": "fc5f036f22925e02317bdd315b2bd4540590d8fb08b357b60f91a272687339b4",
+    "recon/include/recon.h": "7c33ca0fc5928486fa4caaaee392c9e405e05a88d10e319f939db8a493562df0",
+    "recon/include/trace-abi.h": "30a9fcbf3f923f9fbca66f80bb6afb36e9bcbcdc66081dc67dc48362f3b178b7",
+    "recon/include/win32.h": "a4c018b83809d6ea02435c3d56a2fd41a833346e92d1a8fa7aed621b7e3cbcb5",
+    "recon/native/direct.h": "d84da93b280d06050cc0e44976b3b4543d6f0223d92e8a6d41fde5abf1b88a7e",
+    "recon/native/excpt.h": "f4b83a62c5e795b98110f0c83df315bbb1736797c747210c913498b5c6d84660",
+    "recon/native/fcntl.h": "ed7e2ac5db1a07639bbe85ea1e5ab4409efbb2fbfc34e0e32c0fb5951756997a",
+    "recon/native/float.h": "f0f2d7096dded78b6baa6d30d0c832d3f1a811dfa6be6c54fe6b5fa6ed29b6eb",
+    "recon/native/io.h": "b8da1a5d419244063f9bee4832aeaf2fac092a2f87d2026f7a1f5e87cf82d60b",
+    "recon/native/mbctype.h": "4112eac1774a4beaae56ad564eb84dc1e607f467761b1481d36828b996131d50",
+    "recon/native/mbstring.h": "9a615fe1de631125e557a814d9531e16146c2643d15de36c0888286ff4b16f45",
+    "recon/native/process.h": "12059def4e3ee068cf3e52e12be98002188a9d14cdf15bdc847486c9f81ba41a",
+    "recon/native/setjmp.h": "4e1f6298d24463a5de27b71282a7475aa636f60c15dccc2b039990cb203ca408",
+    "recon/native/share.h": "8e0d1af1b3c0fe996be4d8ded759e94dbddd2e27676243da18077c62a735742b",
+    "recon/native/sys/stat.h": "4be16cf488b159262bf13051aefe12613f22ef93a2bc247a2c8af313d0394efb",
+    "recon/native/sys/timeb.h": "43956856b08374c73e15d66054507401bfcb710ee615865ecafce8da83f03e55",
+    "recon/native/windows.h": "f592663fdb7e3a7aa121a2cd904fdc82dbf54c4633bde35bc11f766f024e037a",
+    "recon/src/compat.c": "3fd3515569a9bb8ea637cdd81359ee74724da607a06bac54d1866953b9e299a6",
+    "recon/src/crt.c": "2c7815fa169c7da193c255954d16fb6b44e2c14b4988b48654541d777eb95d11",
+    "recon/src/decimal.c": "0b7b4042c834f8523c6c76384c1fcb7787e4aa669901f0dd5e854bfd3c3bf4a4",
+    "recon/src/entry.c": "12a10f7190b430c73b4754d2e5c234bce38addb7f188e16518ec0ba604fe8c80",
+    "recon/src/process.c": "b1a4dae8f45ad5051f50acea6bb36d994e0d084c925291d46e154519e5d8f73a",
+    "recon/src/trace.c": "1645aca774f83ef6aba1da9e646ff881e97912c5806e3a0a8b907280516b5328",
+    "recon/src/win32.c": "dccbb907fbe4e278ad0a1076fb2ebbb44ca5702dd36d063e4519111e941ccd05"
+  },
+  "command": [
+    "gdb",
+    "-q",
+    "-nx",
+    "-batch",
+    "-ex",
+    "source /root/.ai-tmp/msvc2/vc5.10/link/native-imavu1fl/capture.gdb.py",
+    "--args",
+    "/root/msvc2/decomp/vc5.10/link/build/native/LINK.EXE",
+    "/?"
+  ],
+  "status": 0,
+  "elapsed_seconds": 0.15741288010030985,
+  "files": {
+    "gdb.stdout": {
+      "bytes": 368,
+      "sha256": "a874308a3b903c561e2bb3d05d7d12a847d8088fd9e508c52b962df4fc1948f7"
+    },
+    "state.json": {
+      "bytes": 3106,
+      "sha256": "70adb3b0a4a219a3548b01df8507d469c8dfdb5a5729cf98c693742ff3a74477"
+    },
+    "runtime.json": {
+      "bytes": 3430,
+      "sha256": "f2c607da5a692c987fc7d6db65c438026d369078a86e6e18389ba4a6730e3396"
+    },
+    "capture.gdb.py": {
+      "bytes": 7178,
+      "sha256": "b129ffc4c41a45ccb164cc09e984c51fe69118b9fbedc8f45b9606c7a8510f8d"
+    },
+    "stdout.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "functions.json": {
+      "bytes": 12299,
+      "sha256": "7305faa1f2d0d90b4a17ff2dcd97a38089dfcfb01aaa4c3a6b34b816ea1e62c9"
+    },
+    "gdb.stderr": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "stderr.bin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  }
+}

@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x0804a908 in initialize_messages (a=16, b=14, c=18, d=16) at src/driver-stubs.c:22
+22	void __stdcall initialize_messages(unsigned a, unsigned b, unsigned c, unsigned d) { __asm { int 3 } }

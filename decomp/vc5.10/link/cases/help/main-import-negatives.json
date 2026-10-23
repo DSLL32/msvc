@@ -1,0 +1,24 @@
+{
+  "positive": true,
+  "negative_count": 18,
+  "rejected": [
+    "swapped setvbuf slot",
+    "swapped second setvbuf slot",
+    "swapped printf slot",
+    "wrong register call",
+    "EBX overwrite",
+    "BH alias overwrite",
+    "branch skips cache load",
+    "changed restore",
+    "wrong dispatch kind",
+    "wrong dispatch function",
+    "wrong dispatch order",
+    "nonzero dispatch sentinel",
+    "debug swapped IAT",
+    "debug wrong call register",
+    "debug EBP overwrite",
+    "debug BP alias overwrite",
+    "debug load-bypassing branch",
+    "debug restore differs"
+  ]
+}

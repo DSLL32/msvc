@@ -38,10 +38,10 @@ def main():
     targets = []
     for record in configuration['driver']:
         if record['name'] in configuration['accepted']:
-            targets.append((record['name'], 'link_main' if record['name']=='_main' else record['name'].lstrip('_')))
+            targets.append((record['name'], record.get('native_symbol','link_main' if record['name']=='_main' else record['name'].lstrip('_'))))
     script = '''
 import gdb,json
-state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[]}
+state={'entries':[],'initerm_calls':[],'operator_new_calls':[],'atexit_calls':[],'console_calls':[]}
 class NewReturned(gdb.FinishBreakpoint):
     def __init__(self,frame,size):
         super().__init__(frame,internal=True);self.size=size
@@ -68,6 +68,20 @@ class AtExitEntry(gdb.Breakpoint):
             AtExitReturned(gdb.newest_frame(),name)
         return False
 AtExitEntry('*atexit',internal=True)
+class ConsoleReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,callback,add):
+        super().__init__(frame,internal=True);self.callback=callback;self.add=add
+    def stop(self):
+        state['console_calls'].append(dict(callback=self.callback,add=self.add,result=int(self.return_value)))
+        return False
+class ConsoleEntry(gdb.Breakpoint):
+    def stop(self):
+        callback=int(gdb.parse_and_eval('((unsigned*)$esp)[1]'))
+        add=int(gdb.parse_and_eval('((unsigned*)$esp)[2]'))
+        name=gdb.execute('info symbol '+str(callback),to_string=True).strip().split(' ')[0]
+        ConsoleReturned(gdb.newest_frame(),name,add)
+        return False
+ConsoleEntry('*recon_SetConsoleCtrlHandler',internal=True)
 def callback_names(begin,count):
     result=[]
     for index in range(count):
@@ -103,7 +117,22 @@ def stopped(event):
     state['crt_fmode']=int(gdb.parse_and_eval('recon_fmode'))
     state['crt_commode']=int(gdb.parse_and_eval('recon_commode'))
     state['crt_adjust_fdiv']=int(gdb.parse_and_eval('recon_adjust_fdiv'))
+    stdout_address=int(gdb.parse_and_eval('&recon_iob[1]'))
+    state['crt_stdout_address']=stdout_address
+    state['crt_stdout_bytes']=gdb.selected_inferior().read_memory(stdout_address,32).tobytes().hex()
     state['initializers']=[gdb.execute('info symbol '+str(int(gdb.parse_and_eval('application_initializers[%%d]'%%i))),to_string=True).strip().split(' ')[0] if i else None for i in range(5)]
+    state['diagnostic_output']=int(gdb.parse_and_eval('diagnostic_output'))
+    if state['function']=='initialize_debug':
+        state['frontier_arguments']=dict(options=int(frame.read_var('options')),environment=frame.read_var('environment').string())
+    if state['function']=='initialize_messages':
+        state['frontier_arguments']={name:int(frame.read_var(name)) for name in ('a','b','c','d')}
+        state['program_name_address']=int(gdb.parse_and_eval('program_name'))
+        state['program_name']=gdb.parse_and_eval('program_name').string()
+        owner=frame
+        while owner and owner.name()!='link_main':owner=owner.older()
+        assert owner
+        state['basename_address']=int(owner.read_var('basename').address)
+    state['debug_flags']=gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('&debug_flags')),256).tobytes().hex()
     state['app_globals']={}
     for symbol,size in [('buffer12',12),('buffer8',12),('buffer4',12),('timing',20)]:
         address=int(gdb.parse_and_eval('&'+symbol))
@@ -141,7 +170,7 @@ open(%r,'w').write(json.dumps(state,indent=2)+'\\n')
                '--args', str(executable), '/?']
     start = time.perf_counter()
     environment = os.environ.copy()
-    for name in ['CL','_CL_','LINK','_LINK_','MSC_CMD_FLAGS','LINK32_DB']:environment.pop(name,None)
+    for name in ['CL','_CL_','LINK','_LINK_','MSC_CMD_FLAGS','LINK32_DB','LINK_DB']:environment.pop(name,None)
     environment['RECON_PROGRAM_PATH'] = r'R:\toolchains\5.10\bin\LINK.EXE'
     result = subprocess.run(command, cwd=capture, env=environment, stdout=subprocess.PIPE, stderr=subprocess.PIPE, timeout=20)
     elapsed = time.perf_counter() - start
