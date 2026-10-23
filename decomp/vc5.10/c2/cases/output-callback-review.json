@@ -1,0 +1,8 @@
+{
+  "approved": true,
+  "boundary_sha256": "382e89af4857ad65f809f17937da005a54be7097b9021cade438fa1e8ee6d7a9",
+  "review": "orchestrator-c2-output-callback-identities-2026-10-23",
+  "receipt": "cases/analysis/output-callback-orchestrator-review.json",
+  "receipt_sha256": "7be8bd6e9cec95bfddfc0bd2b258ded068c1b721253cad5a1c1370b96abbe6d6",
+  "scope": "Storage/address identities only; unknown callable ABI/consumer remains hard hold; no target body credit"
+}

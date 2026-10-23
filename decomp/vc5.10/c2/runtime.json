@@ -748,14 +748,6 @@
     "evidence": null
   },
   {
-    "name": "_initialize_pass_functions",
-    "start": 4536572,
-    "end": 4536573,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
-  },
-  {
     "name": "@initialize_source_output@4",
     "start": 4537956,
     "end": 4537957,
@@ -782,5 +774,221 @@
     "accepted": false,
     "extent_evidence": "cases/analysis/backend-setup-disassembly.txt:full49B41f494..41f4c5 straight primary with calls/conditionalbranch and terminalRET0; application only extent transport, no body acceptance/unmask/credit.",
     "provenance": "Original extent/RET evidence only; source remains INT3, no unmask or source-coverage credit"
+  },
+  {
+    "name": "_output_callback_41eb89",
+    "start": 4320137,
+    "end": 4320138,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_41ec20",
+    "start": 4320288,
+    "end": 4320289,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_41f3f2",
+    "start": 4322290,
+    "end": 4322291,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_41fa04",
+    "start": 4323844,
+    "end": 4323845,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_434139",
+    "start": 4407609,
+    "end": 4407610,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4346cf",
+    "start": 4409039,
+    "end": 4409040,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_435633",
+    "start": 4412979,
+    "end": 4412980,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4357b8",
+    "start": 4413368,
+    "end": 4413369,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_435af6",
+    "start": 4414198,
+    "end": 4414199,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_43696a",
+    "start": 4417898,
+    "end": 4417899,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_442b9f",
+    "start": 4467615,
+    "end": 4467616,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_442d21",
+    "start": 4468001,
+    "end": 4468002,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_442d33",
+    "start": 4468019,
+    "end": 4468020,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_44308f",
+    "start": 4468879,
+    "end": 4468880,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4432a1",
+    "start": 4469409,
+    "end": 4469410,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_44a79d",
+    "start": 4499357,
+    "end": 4499358,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_453e02",
+    "start": 4537858,
+    "end": 4537859,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4541f3",
+    "start": 4538867,
+    "end": 4538868,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_454ba8",
+    "start": 4541352,
+    "end": 4541353,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4849f2",
+    "start": 4737522,
+    "end": 4737523,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4849f5",
+    "start": 4737525,
+    "end": 4737526,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4849fa",
+    "start": 4737530,
+    "end": 4737531,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_output_callback_4850f5",
+    "start": 4739317,
+    "end": 4739318,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_default_runtime_library",
+    "start": 4537010,
+    "end": 4537011,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "@add_output_directive@8",
+    "start": 4537044,
+    "end": 4537045,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_initialize_object_output",
+    "start": 4537100,
+    "end": 4537101,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
+  },
+  {
+    "name": "_initialize_codeview_output",
+    "start": 4554247,
+    "end": 4554248,
+    "pending_extent": true,
+    "kind": "named-target-stub",
+    "evidence": null
   }
 ]

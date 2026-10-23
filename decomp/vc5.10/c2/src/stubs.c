@@ -1,4 +1,5 @@
 #include "functions.h"
+#include "output-callbacks.h"
 #include <recon.h>
 
 /* Unknown child functions remain named trapping frontiers. */
@@ -437,10 +438,6 @@ void __fastcall function_pass_433906(C2Function *function)
     __asm { int 3 }
 }
 
-void initialize_pass_functions(void)
-{
-    __asm { int 3 }
-}
 void __fastcall initialize_source_output(char *source)
 {
     __asm { int 3 }
@@ -451,6 +448,139 @@ C2Record *__fastcall prepare_function_records(C2Function *function)
     return NULL;
 }
 void __fastcall process_records(C2Record *records)
+{
+    __asm { int 3 }
+}
+
+void output_callback_41eb89()
+{
+    __asm { int 3 }
+}
+
+void output_callback_41ec20()
+{
+    __asm { int 3 }
+}
+
+void output_callback_41f3f2()
+{
+    __asm { int 3 }
+}
+
+void output_callback_41fa04()
+{
+    __asm { int 3 }
+}
+
+void output_callback_434139()
+{
+    __asm { int 3 }
+}
+
+void output_callback_4346cf()
+{
+    __asm { int 3 }
+}
+
+void output_callback_435633()
+{
+    __asm { int 3 }
+}
+
+void output_callback_4357b8()
+{
+    __asm { int 3 }
+}
+
+void output_callback_435af6()
+{
+    __asm { int 3 }
+}
+
+void output_callback_43696a()
+{
+    __asm { int 3 }
+}
+
+void output_callback_442b9f()
+{
+    __asm { int 3 }
+}
+
+void output_callback_442d21()
+{
+    __asm { int 3 }
+}
+
+void output_callback_442d33()
+{
+    __asm { int 3 }
+}
+
+void output_callback_44308f()
+{
+    __asm { int 3 }
+}
+
+void output_callback_4432a1()
+{
+    __asm { int 3 }
+}
+
+void output_callback_44a79d()
+{
+    __asm { int 3 }
+}
+
+void output_callback_453e02()
+{
+    __asm { int 3 }
+}
+
+void output_callback_4541f3()
+{
+    __asm { int 3 }
+}
+
+void output_callback_454ba8()
+{
+    __asm { int 3 }
+}
+
+void output_callback_4849f2()
+{
+    __asm { int 3 }
+}
+
+void output_callback_4849f5()
+{
+    __asm { int 3 }
+}
+
+void output_callback_4849fa()
+{
+    __asm { int 3 }
+}
+
+void output_callback_4850f5()
+{
+    __asm { int 3 }
+}
+
+char *default_runtime_library(void)
+{
+    __asm { int 3 }
+    return NULL;
+}
+void __fastcall add_output_directive(int kind, char *value)
+{
+    __asm { int 3 }
+}
+void initialize_object_output(void)
+{
+    __asm { int 3 }
+}
+void initialize_codeview_output(void)
 {
     __asm { int 3 }
 }

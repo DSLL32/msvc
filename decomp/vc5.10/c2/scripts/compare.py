@@ -62,6 +62,11 @@ def compare(original,native,validation=None):
     residual_file=report_file.parent/'import-residuals.json'
     assert sha(residual_file.read_bytes())==audit['import_residuals_sha256']
     assert json.loads(residual_file.read_text())==verify(config,graph),'cached-import identity evidence differs'
+    if '_initialize_pass_functions'in config['accepted']:
+        from callback_evidence import verify as verify_callbacks
+        callback_file=report_file.parent/'callback-evidence.json'
+        assert sha(callback_file.read_bytes())==audit['callback_evidence_sha256']
+        assert json.loads(callback_file.read_text())==verify_callbacks(config,graph)
     for support in config['support']:
         if support['kind']=='import'and support['name']in config['accepted']:
             identity=graph['import_catalogs']['original']['slots'][str(support['iat'])]
@@ -401,7 +406,7 @@ def compare(original,native,validation=None):
         image=(original/'unmodeled-original-data.bin').read_bytes();block=(original/'pool-block.bin').read_bytes()
         preserved=receipts[0]['unmodeled_original_data'];assert len(image)==preserved['bytes']==67328 and sha(image)==preserved['sha256']
         snapshots=receipts[0]['globals_complete_hashes']
-        assert set(snapshots)==({'unmodeled-original-data.bin','pool-block.bin','header-streams.bin'} | ({'initializer-buffer.bin'} if expected.get('frontier_contract')in ('initializers-complete','backend-inputs-open')else set()) | ({'backend-streams.bin'}if expected.get('frontier_contract')=='backend-inputs-open'else set()))
+        assert set(snapshots)==({'unmodeled-original-data.bin','pool-block.bin','header-streams.bin'} | ({'initializer-buffer.bin'} if expected.get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected')else set()) | ({'backend-streams.bin'}if expected.get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected')else set()))
         for name,digest in snapshots.items():assert sha((original/name).read_bytes())==digest,'complete raw snapshot changed'
         head=struct.unpack_from('<I',image,0x48e020-0x48e000)[0]
         def read(address,size):
@@ -426,11 +431,11 @@ def compare(original,native,validation=None):
         source_streams=(original/'header-streams.bin').read_bytes();assert len(source_streams)==64
         input_words=struct.unpack('<8I',source_streams[:32]);closed_words=struct.unpack('<8I',source_streams[32:])
         native_input=bytes.fromhex(streams['input_bytes']);native_closed=struct.unpack('<8I',bytes.fromhex(streams['closed_globals_bytes']))
-        if expected.get('frontier_contract')!='backend-inputs-open':
+        if expected.get('frontier_contract')not in ('backend-inputs-open','output-callbacks-selected'):
             assert closed_words==(0,0,0,0,4,0,4096,0)and native_closed==closed_words,'canonical closed global FILE layout differs'
         assert streams['input_index']==3 and streams['globals_index']==4
         active=struct.unpack('<I',read(0x490b80,4))[0]
-        if expected.get('frontier_contract')=='backend-inputs-open':
+        if expected.get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected'):
             opened=(original/'backend-streams.bin').read_bytes();assert len(opened)==64
             actual=re.findall(r'^backend-inputs-open expression=([0-9a-f]+) symbols=([0-9a-f]+) iob=([0-9a-f]+)$',segment,re.M);assert len(actual)==1
             expression,symbols,iob=[int(value,16)for value in actual[0]]
@@ -441,7 +446,7 @@ def compare(original,native,validation=None):
             assert source_streams[32:]==opened[:32]and native_closed==struct.unpack('<8I',opened[:32])
             assert struct.unpack('<8I',opened[:32])==(0,0,0,1,4,0,4096,0)
             assert struct.unpack('<8I',opened[32:])==(0,0,0,1,5,0,0,0)
-        if expected.get('frontier_contract')in ('initializers-complete','backend-inputs-open'):
+        if expected.get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected'):
             native_words=struct.unpack('<8I',native_input)
             for words in (input_words,native_words):
                 assert words[2] and words[0]==words[2] and words[1]==0 and words[3:]==(25,3,0,4096,0),'postEOF canonical FILE layout differs'
@@ -454,6 +459,28 @@ def compare(original,native,validation=None):
             assert input_words==(0,0,0,1,3,0,0,0)and native_input==source_streams[:32],'main IL stream was unexpectedly consumed'
             assert streams['active_globals_alias'] is True
             assert active==struct.unpack('<I',read(0x497fd4,4))[0],'target active stream no longer aliases closed globals FILE'
+    if expected.get('frontier_contract')=='output-callbacks-selected':
+        from callback_evidence import model as callback_model
+        import struct
+        boundary=callback_model(config)
+        assert all(sha((p/'output-callback-boundary.json').read_bytes())==config['output_callback_boundary_sha256']for p in (original,native))
+        image=(original/'unmodeled-original-data.bin').read_bytes()
+        read_word=lambda address:struct.unpack_from('<I',image,address-0x48e000)[0]
+        names={r['original']:r['native']for r in boundary['targets']}
+        symbols=proof.symbols(BINARY/'build/native/c2',data=True)
+        bias=int(native_proof['load_bias'],16)
+        observed=state['output_setup'];wanted=[]
+        assert [read_word(row['original'])for row in boundary['slots']]==boundary['numeric_case_expected_targets'],'selected callback alternatives differ from actual numeric option state'
+        for row in boundary['slots']:
+            actual=read_word(row['original']);assert actual in row['alternatives']
+            symbol,size=symbols[row['native']];assert size==4
+            target,target_size=symbols[names[actual]];assert target_size>0
+            wanted.append({'address':symbol+bias,'target':target+bias})
+        assert observed=={'group_name':'FLAT','enabled':1,'slots':wanted},'actual callback slot/target identities or group differ'
+        group=read_word(0x49973c);assert image[group-0x48e000:group-0x48e000+5]==b'FLAT\0'
+        assert read_word(0x497c74)==1
+        raw=re.findall(r'^C2-OUTPUT-SETUP (.*)$',(native/'gdb.stdout').read_text(),re.M)
+        assert len(raw)==1 and json.loads(raw[0])==observed,'missing actual callback GDB observation'
     if expected.get('state_policy')=='filename-record':
         import struct
         segment=text.rsplit('observe %08x '%address,1)[1]

@@ -14,6 +14,10 @@ def preflight(name,original,native,validation=None):
     records=[r for r in trial['driver']if r['name']==name]
     assert len(records)==1,'source candidate needs explicit original graph vertex'
     assert name not in base['accepted'],'candidate already accepted'
+    assert not records[0].get('pending_signature'),'function-address identity lacks actual callable ABI'
+    if records[0].get('requires_callback_review'):
+        review=json.loads((BINARY/records[0]['requires_callback_review']).read_text())
+        assert review['approved'] is True and review['boundary_sha256']==base['output_callback_boundary_sha256'],'finite callback boundary review pending'
     result=compare(original,native,validation)
     assert result['matched']!=name,'candidate did not advance to a new frontier'
     audit=json.loads(Path(result['graph_report']).read_text())
@@ -55,6 +59,8 @@ def main():
             shutil.copyfile(source,target)
     if(a.native/'data-model.json').exists():shutil.copyfile(a.native/'data-model.json',a.proof/'native/data-model.json')
     if(a.native/'intrinsic-model.json').exists():shutil.copyfile(a.native/'intrinsic-model.json',a.proof/'native/intrinsic-model.json')
+    for side,source in [('original',a.original),('native',a.native)]:
+        if(source/'output-callback-boundary.json').exists():shutil.copyfile(source/'output-callback-boundary.json',a.proof/side/'output-callback-boundary.json')
     if(a.original/'helper-inputs.json').exists():
         shutil.copyfile(a.original/'helper-inputs.json',a.proof/'original/helper-inputs.json')
         preserve_inputs(a.original/'helper-inputs',json.loads((a.original/'helper-inputs.json').read_text()),a.proof/'original/helper-inputs')
@@ -66,6 +72,9 @@ def main():
     shutil.copyfile(Path(result['graph_report']).parent/'data-evidence.json',validation_folder/'data-evidence.json')
     shutil.copyfile(Path(result['graph_report']).parent/'win32-inputs.json',validation_folder/'win32-inputs.json')
     preserve_inputs(Path(result['graph_report']).parent/'win32-inputs',json.loads((Path(result['graph_report']).parent/'win32-inputs.json').read_text()),validation_folder/'win32-inputs')
+    for name in ('callback-evidence.json',):
+        source=Path(result['graph_report']).parent/name
+        if source.exists():shutil.copyfile(source,validation_folder/name)
     for name in ('configuration.json','pending-correction.json'):
         source=Path(result['validation']).parent/name
         if source.exists(): shutil.copyfile(source,validation_folder/name)

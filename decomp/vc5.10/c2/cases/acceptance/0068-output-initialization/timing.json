@@ -1,0 +1,61 @@
+{
+  "initial_builds": {
+    "native": {
+      "seconds": 2.7177409026771784,
+      "status": 0
+    },
+    "original": {
+      "seconds": 5.605650593526661,
+      "status": 0
+    },
+    "indexes": {
+      "seconds": 0.07136357389390469,
+      "status": 0
+    }
+  },
+  "final_builds": {
+    "native": {
+      "seconds": 2.665751532651484,
+      "status": 0
+    },
+    "original": {
+      "seconds": 6.047173337079585,
+      "status": 0
+    },
+    "helper": {
+      "seconds": 1.9765458656474948,
+      "status": 0
+    },
+    "indexes": {
+      "seconds": 0.0737359682098031,
+      "status": 0
+    }
+  },
+  "original_capture": {
+    "setup": 0.5625738492235541,
+    "execution": 1.3779195928946137,
+    "total": 1.986914868466556
+  },
+  "native_capture": {
+    "execution": 0.426586652174592,
+    "total": 0.5451036365702748
+  },
+  "audit_seconds": 0.47705721016973257,
+  "protocol_controls": {
+    "fresh": 8,
+    "reused": 123,
+    "seconds": {
+      "control_and_rejections": 4.725658071227372
+    }
+  },
+  "callback_controls": {
+    "fresh": 13,
+    "reused": 0,
+    "seconds": 7.660817909054458
+  },
+  "compile_guard": {
+    "fresh": 20,
+    "reused": 0,
+    "seconds": 2.7810696875676513
+  }
+}

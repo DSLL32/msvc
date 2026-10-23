@@ -1,0 +1,144 @@
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+004538fc <.text+0x528fc>:
+  4538fc:	a1 80 7f 49 00       	mov    eax,ds:0x497f80
+  453901:	56                   	push   esi
+  453902:	85 c0                	test   eax,eax
+  453904:	c7 05 3c 97 49 00 c4 	mov    DWORD PTR ds:0x49973c,0x4996c4
+  45390b:	96 49 00 
+  45390e:	0f 84 15 12 02 00    	je     0x474b29
+  453914:	8b 0d ac 7c 49 00    	mov    ecx,DWORD PTR ds:0x497cac
+  45391a:	8b 35 64 fa 48 00    	mov    esi,DWORD PTR ds:0x48fa64
+  453920:	85 c9                	test   ecx,ecx
+  453922:	b8 89 eb 41 00       	mov    eax,0x41eb89
+  453927:	ba 89 eb 41 00       	mov    edx,0x41eb89
+  45392c:	0f 84 45 01 00 00    	je     0x453a77
+  453932:	85 f6                	test   esi,esi
+  453934:	0f 84 3d 01 00 00    	je     0x453a77
+  45393a:	c7 05 e4 7d 49 00 8f 	mov    DWORD PTR ds:0x497de4,0x44308f
+  453941:	30 44 00 
+  453944:	c7 05 00 9a 49 00 a1 	mov    DWORD PTR ds:0x499a00,0x4432a1
+  45394b:	32 44 00 
+  45394e:	c7 05 10 7e 49 00 a8 	mov    DWORD PTR ds:0x497e10,0x454ba8
+  453955:	4b 45 00 
+  453958:	85 c9                	test   ecx,ecx
+  45395a:	0f 84 d8 11 02 00    	je     0x474b38
+  453960:	a1 74 7c 49 00       	mov    eax,ds:0x497c74
+  453965:	85 c0                	test   eax,eax
+  453967:	0f 84 ad 00 00 00    	je     0x453a1a
+  45396d:	b8 f2 f3 41 00       	mov    eax,0x41f3f2
+  453972:	c7 05 bc 7d 49 00 cf 	mov    DWORD PTR ds:0x497dbc,0x4346cf
+  453979:	46 43 00 
+  45397c:	85 f6                	test   esi,esi
+  45397e:	c7 05 e0 7d 49 00 33 	mov    DWORD PTR ds:0x497de0,0x435633
+  453985:	56 43 00 
+  453988:	c7 05 ec 7d 49 00 39 	mov    DWORD PTR ds:0x497dec,0x434139
+  45398f:	41 43 00 
+  453992:	a3 b0 7d 49 00       	mov    ds:0x497db0,eax
+  453997:	a3 d4 7d 49 00       	mov    ds:0x497dd4,eax
+  45399c:	c7 05 e4 7c 49 00 20 	mov    DWORD PTR ds:0x497ce4,0x41ec20
+  4539a3:	ec 41 00 
+  4539a6:	0f 84 e0 00 00 00    	je     0x453a8c
+  4539ac:	c7 05 dc 7d 49 00 21 	mov    DWORD PTR ds:0x497ddc,0x442d21
+  4539b3:	2d 44 00 
+  4539b6:	c7 05 cc 7d 49 00 9f 	mov    DWORD PTR ds:0x497dcc,0x442b9f
+  4539bd:	2b 44 00 
+  4539c0:	c7 05 50 97 49 00 f5 	mov    DWORD PTR ds:0x499750,0x4850f5
+  4539c7:	50 48 00 
+  4539ca:	c7 05 70 10 49 00 6a 	mov    DWORD PTR ds:0x491070,0x43696a
+  4539d1:	69 43 00 
+  4539d4:	c7 05 b4 7d 49 00 b8 	mov    DWORD PTR ds:0x497db4,0x4357b8
+  4539db:	57 43 00 
+  4539de:	c7 05 78 10 49 00 f6 	mov    DWORD PTR ds:0x491078,0x435af6
+  4539e5:	5a 43 00 
+  4539e8:	c7 05 60 7f 49 00 33 	mov    DWORD PTR ds:0x497f60,0x442d33
+  4539ef:	2d 44 00 
+  4539f2:	c7 05 fc 7d 49 00 f3 	mov    DWORD PTR ds:0x497dfc,0x4541f3
+  4539f9:	41 45 00 
+  4539fc:	c7 05 50 7f 49 00 9d 	mov    DWORD PTR ds:0x497f50,0x44a79d
+  453a03:	a7 44 00 
+  453a06:	c7 05 1c 97 49 00 02 	mov    DWORD PTR ds:0x49971c,0x453e02
+  453a0d:	3e 45 00 
+  453a10:	c7 05 ec 7c 49 00 04 	mov    DWORD PTR ds:0x497cec,0x41fa04
+  453a17:	fa 41 00 
+  453a1a:	a1 20 97 49 00       	mov    eax,ds:0x499720
+  453a1f:	85 c0                	test   eax,eax
+  453a21:	74 36                	je     0x453a59
+  453a23:	e8 8a 00 00 00       	call   0x453ab2
+  453a28:	85 c0                	test   eax,eax
+  453a2a:	74 0c                	je     0x453a38
+  453a2c:	8b d0                	mov    edx,eax
+  453a2e:	b9 04 00 00 00       	mov    ecx,0x4
+  453a33:	e8 9c 00 00 00       	call   0x453ad4
+  453a38:	a1 ac 7f 49 00       	mov    eax,ds:0x497fac
+  453a3d:	85 c0                	test   eax,eax
+  453a3f:	75 18                	jne    0x453a59
+  453a41:	a1 e8 7d 49 00       	mov    eax,ds:0x497de8
+  453a46:	85 c0                	test   eax,eax
+  453a48:	75 0f                	jne    0x453a59
+  453a4a:	ba dc 7f 49 00       	mov    edx,0x497fdc
+  453a4f:	b9 04 00 00 00       	mov    ecx,0x4
+  453a54:	e8 7b 00 00 00       	call   0x453ad4
+  453a59:	a1 74 7c 49 00       	mov    eax,ds:0x497c74
+  453a5e:	85 c0                	test   eax,eax
+  453a60:	74 05                	je     0x453a67
+  453a62:	e8 a5 00 00 00       	call   0x453b0c
+  453a67:	a1 64 fa 48 00       	mov    eax,ds:0x48fa64
+  453a6c:	85 c0                	test   eax,eax
+  453a6e:	74 05                	je     0x453a75
+  453a70:	e8 92 43 00 00       	call   0x457e07
+  453a75:	5e                   	pop    esi
+  453a76:	c3                   	ret
+  453a77:	a3 e4 7d 49 00       	mov    ds:0x497de4,eax
+  453a7c:	a3 00 9a 49 00       	mov    ds:0x499a00,eax
+  453a81:	89 15 10 7e 49 00    	mov    DWORD PTR ds:0x497e10,edx
+  453a87:	e9 cc fe ff ff       	jmp    0x453958
+  453a8c:	a1 d8 7d 49 00       	mov    eax,ds:0x497dd8
+  453a91:	85 c0                	test   eax,eax
+  453a93:	0f 85 13 ff ff ff    	jne    0x4539ac
+  453a99:	c7 05 dc 7d 49 00 89 	mov    DWORD PTR ds:0x497ddc,0x41eb89
+  453aa0:	eb 41 00 
+  453aa3:	c7 05 cc 7d 49 00 89 	mov    DWORD PTR ds:0x497dcc,0x41eb89
+  453aaa:	eb 41 00 
+  453aad:	e9 0e ff ff ff       	jmp    0x4539c0
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00474b29 <.text+0x73b29>:
+  474b29:	c7 05 3c 97 49 00 ec 	mov    DWORD PTR ds:0x49973c,0x49d4ec
+  474b30:	d4 49 00 
+  474b33:	e9 dc ed fd ff       	jmp    0x453914
+  474b38:	a3 bc 7d 49 00       	mov    ds:0x497dbc,eax
+  474b3d:	a3 e0 7d 49 00       	mov    ds:0x497de0,eax
+  474b42:	a3 e4 7c 49 00       	mov    ds:0x497ce4,eax
+  474b47:	b9 89 eb 41 00       	mov    ecx,0x41eb89
+  474b4c:	b8 89 eb 41 00       	mov    eax,0x41eb89
+  474b51:	c7 05 ec 7d 49 00 f2 	mov    DWORD PTR ds:0x497dec,0x4849f2
+  474b58:	49 48 00 
+  474b5b:	89 0d b0 7d 49 00    	mov    DWORD PTR ds:0x497db0,ecx
+  474b61:	89 0d d4 7d 49 00    	mov    DWORD PTR ds:0x497dd4,ecx
+  474b67:	a3 50 97 49 00       	mov    ds:0x499750,eax
+  474b6c:	a3 70 10 49 00       	mov    ds:0x491070,eax
+  474b71:	a3 b4 7d 49 00       	mov    ds:0x497db4,eax
+  474b76:	a3 78 10 49 00       	mov    ds:0x491078,eax
+  474b7b:	a3 60 7f 49 00       	mov    ds:0x497f60,eax
+  474b80:	c7 05 dc 7d 49 00 89 	mov    DWORD PTR ds:0x497ddc,0x41eb89
+  474b87:	eb 41 00 
+  474b8a:	c7 05 cc 7d 49 00 89 	mov    DWORD PTR ds:0x497dcc,0x41eb89
+  474b91:	eb 41 00 
+  474b94:	89 15 fc 7d 49 00    	mov    DWORD PTR ds:0x497dfc,edx
+  474b9a:	c7 05 50 7f 49 00 f5 	mov    DWORD PTR ds:0x497f50,0x4849f5
+  474ba1:	49 48 00 
+  474ba4:	c7 05 1c 97 49 00 89 	mov    DWORD PTR ds:0x49971c,0x41eb89
+  474bab:	eb 41 00 
+  474bae:	c7 05 ec 7c 49 00 fa 	mov    DWORD PTR ds:0x497cec,0x4849fa
+  474bb5:	49 48 00 
+  474bb8:	5e                   	pop    esi
+  474bb9:	c3                   	ret

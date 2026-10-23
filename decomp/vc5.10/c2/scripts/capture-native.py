@@ -18,6 +18,10 @@ def main():
     base_snapshot=(BINARY/'functions.json').read_bytes();config,snapshot=trial_configuration(base_snapshot)
     output=args.output.resolve();output.mkdir(parents=True,exist_ok=False)
     (output/'base_configuration.json').write_bytes(base_snapshot);(output/'configuration.json').write_bytes(snapshot)
+    if config.get('output_callback_boundary'):
+        content=(BINARY/config['output_callback_boundary']).read_bytes()
+        assert sha(content)==config['output_callback_boundary_sha256']
+        (output/'output-callback-boundary.json').write_bytes(content)
     executable=BINARY/'build/native/c2'
     shutil.copyfile(executable,output/'native.elf')
     from case_inputs import manifest,materialize,artifacts
@@ -550,15 +554,21 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
         'active_globals_alias':int(gdb.parse_and_eval('c2_current_il'))==int(second),
         'input_bytes':gdb.selected_inferior().read_memory(first,32).tobytes().hex(),
         'closed_globals_bytes':gdb.selected_inferior().read_memory(second,32).tobytes().hex()}
-    if records[0].get('frontier_contract')in ('initializers-complete','backend-inputs-open'):
+    if records[0].get('frontier_contract')in ('initializers-complete','backend-inputs-open','output-callbacks-selected'):
         info['globals_complete']['streams']['active_input_alias']=int(gdb.parse_and_eval('c2_current_il'))==int(first)
         info['globals_complete']['streams']['valid_input_bytes']=gdb.selected_inferior().read_memory(first.dereference()['_base'],15).tobytes().hex()
-    if records[0].get('frontier_contract')=='backend-inputs-open':
+    if records[0].get('frontier_contract')in ('backend-inputs-open','output-callbacks-selected'):
         opened=[]
         for name in ('expression_input','function_symbol_input'):
             file=gdb.parse_and_eval(name)
             opened.append({'index':(int(file)-iob)//32,'bytes':gdb.selected_inferior().read_memory(file,32).tobytes().hex()})
         info['globals_complete']['streams']['backend_inputs']=opened
+    if records[0].get('frontier_contract')=='output-callbacks-selected':
+        info['output_setup']={'group_name':gdb.parse_and_eval('output_group_name').string(),
+            'enabled':int(gdb.parse_and_eval('output_enabled')),
+            'slots':[{'address':int(gdb.parse_and_eval('&'+name)),
+                'target':int(gdb.parse_and_eval(name+'.target'))}for name in ['output_slot_497de4', 'output_slot_499a00', 'output_slot_497e10', 'output_slot_497dbc', 'output_slot_497de0', 'output_slot_497dec', 'output_slot_497db0', 'output_slot_497dd4', 'output_slot_497ce4', 'output_slot_497ddc', 'output_slot_497dcc', 'output_slot_499750', 'output_slot_491070', 'output_slot_497db4', 'output_slot_491078', 'output_slot_497f60', 'output_slot_497dfc', 'output_slot_497f50', 'output_slot_49971c', 'output_slot_497cec']]}
+        gdb.write('C2-OUTPUT-SETUP '+json.dumps(info['output_setup'],sort_keys=True)+'\\n')
     gdb.write('C2-GLOBALS-COMPLETE '+json.dumps(info['globals_complete'],sort_keys=True)+'\\n')
 """.replace('MODEL_SOURCE',repr(complete_model))
     program=program.replace('open(',complete_program+'open(',1)

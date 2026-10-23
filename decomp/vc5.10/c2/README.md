@@ -7,10 +7,10 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 62 application functions (13877 bytes) and five CRT
+Current reconstruction has 63 application functions (14460 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded its complete IL header and
 has initialized all five no-debug output sections and has reconstructed the23-kind symbol decoder; its compact signed readers and whole storage updater match, and it has consumed all global IL and initialized ten sections/seven function declarations or definitions, and has consumed the initializer stream and stops at the function-IR pipeline. Four import thunks (24 bytes) and contextual
-text tables (616 bytes) remain separate. The 14315 source bytes are 2.497% of
+text tables (616 bytes) remain separate. The 14898 source bytes are 2.599% of
 573183 `.text` bytes; that denominator includes CRT/data/padding and is not
 non-CRT coverage. `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -176,3 +176,14 @@ complete state. Proof0067 records6 fresh/125 reused controls (2.936s), original
 capture2.090s and native GDB capture0.525s. Source input manifests now retain
 ordinary owned files, checked byte-for-byte, with no new compressed bundles;
 historical evidence is unchanged.
+
+The583-byte output callback initializer is accepted as source68. All20 slots
+are modeled as four-byte stores-only identities, with23 distinct target stubs
+that remain masked, unaccepted and ABI-unresolved. Actual selected pointers
+match both PE/MAP and ELF/PIE symbols. Function-reference and accepted-extent
+checks now run alongside the existing complete graph/RET/import audit. The
+finite callback source guard rejects invocation/escape until a real callable
+signature is recovered; all20 direct slot-call attempts fail compilation.
+Independent review and13 focused callback rejection controls passed. The
+separate protocol checkpoint refreshed8 controls and reused123 unchanged ones.
+Proof0068 records the build, capture, audit and rejection times separately.

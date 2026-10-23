@@ -14,7 +14,7 @@ def run(config, report):
           '--original',str(TARGET),'--rebuilt',str(BINARY/'build/c2.exe'),
           '--map',str(BINARY/'build/c2.map'),'--config',str(config),
           '--runtime',str(BINARY/'runtime.json'),'--rebuilt-runtime',str(BINARY/'build/runtime.json'),
-          '--metadata',str(BINARY/'build/graph-metadata.json'),'--discovery','cfg','--check-ret','--check-imports','--check-ownership','--check-extents','--report',str(report)]
+          '--metadata',str(BINARY/'build/graph-metadata.json'),'--discovery','cfg','--check-ret','--check-imports','--check-references','--check-accepted-extents','--check-ownership','--check-extents','--report',str(report)]
     begin=time.monotonic();result=subprocess.run(args,capture_output=True,timeout=30)
     assert result.returncode==0,result.stderr.decode(errors='replace')
     provenance=json.loads((BINARY/'build/original/input-provenance.json').read_text())
@@ -32,9 +32,12 @@ def run(config, report):
     from import_evidence import verify
     residual=report.parent/'import-residuals.json'
     residual.write_text(json.dumps(verify(json.loads(config.read_text()),parsed),indent=2)+'\n')
+    from callback_evidence import verify as verify_callbacks
+    callback_file=report.parent/'callback-evidence.json'
+    callback_file.write_text(json.dumps(verify_callbacks(json.loads(config.read_text()),parsed),indent=2)+'\n')
     assert parsed==json.loads(report.read_text()),'audit report differs'
     return dict(command=args,seconds=time.monotonic()-begin,configuration_sha256=sha(config.read_bytes()),
-                tool_sha256=sha(executable.read_bytes()),import_residuals_sha256=sha(residual.read_bytes()),data_evidence_sha256=sha(data_receipt.read_bytes()),report_sha256=sha(report.read_bytes()),
+                tool_sha256=sha(executable.read_bytes()),callback_evidence_sha256=sha(callback_file.read_bytes()),import_residuals_sha256=sha(residual.read_bytes()),data_evidence_sha256=sha(data_receipt.read_bytes()),report_sha256=sha(report.read_bytes()),
                 target_sha256=sha(TARGET.read_bytes()),rebuilt_sha256=sha((BINARY/'build/c2.exe').read_bytes()),
                 rebuilt_map_sha256=sha((BINARY/'build/c2.map').read_bytes()),
                 provenance_sha256=sha(source_file.read_bytes()),metadata_sha256=sha((BINARY/'build/graph-metadata.json').read_bytes()),runtime_sha256=sha((BINARY/'runtime.json').read_bytes()),

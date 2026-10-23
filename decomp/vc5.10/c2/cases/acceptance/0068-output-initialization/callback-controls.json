@@ -1,0 +1,140 @@
+{
+  "positive": {
+    "validation": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/output-initialization-original/audit-receipt.json",
+    "graph_report": "/root/.ai-tmp/msvc2/vc5.10/c2/numeric-control-flow/output-initialization-original/graph-audit.json",
+    "matched": "_default_runtime_library",
+    "original": "0x453ab2",
+    "native": "default_runtime_library",
+    "argument_state": "globals-complete",
+    "native_elf_proof": {
+      "load_bias": "0x56555000",
+      "frontier_symbol": "default_runtime_library",
+      "symbol_start": "0x62e0",
+      "symbol_size": 79,
+      "static_pc": "0x630f",
+      "int3_sites": [
+        "0x630e"
+      ]
+    },
+    "source_trace": [
+      "_c2_crt_startup",
+      "_c2_set_argv",
+      "_c2_set_default_precision",
+      "_c2_main",
+      "_c2_register_exit",
+      "_c2_register_onexit",
+      "@c2_read_environment@4",
+      "_c2_copy_arguments",
+      "_c2_initialize_options",
+      "_c2_next_argument",
+      "@c2_match_option@16",
+      "@c2_apply_option@12",
+      "@parse_option_integer@4",
+      "@c2_validate_alignment@4",
+      "@c2_open_intermediate@16",
+      "_c2_read_header",
+      "_c2_read_il_byte",
+      "_c2_read_il_word",
+      "_c2_read_il_long",
+      "_c2_reset_symbol_table",
+      "_c2_create_type_table",
+      "@c2_allocate_node@8",
+      "@c2_node_size@4",
+      "@c2_pool_allocate@8",
+      "_c2_initialize_constants",
+      "_c2_real_from_int",
+      "_store_extended",
+      "_c2_initialize_opcodes",
+      "_c2_initialize_machine",
+      "_c2_initialize_trees",
+      "@create_section@12",
+      "@insert_symbol@8",
+      "@append_section@4",
+      "@initialize_section_defaults@4",
+      "_c2_initialize_codegen",
+      "@read_symbols@4",
+      "@read_symbol@4",
+      "_input_varuint",
+      "@input_string@8",
+      "@intern_symbol_name@12",
+      "@arena_strdup@8",
+      "@record_filename@4",
+      "@copy_symbol_type@4",
+      "_input_type",
+      "_input_compact_signed",
+      "_input_compact_short",
+      "@update_symbol_storage@4",
+      "@lookup_global_symbol@4",
+      "_next_symbol_serial",
+      "@put_symbol@8",
+      "_c2_initialize_registers",
+      "@read_initializer_records@4",
+      "_c2_initialize_optimizer",
+      "_initialize_backend",
+      "_initialize_pass_functions"
+    ],
+    "candidates": [
+      "_initialize_pass_functions"
+    ],
+    "acceptance": false
+  },
+  "count": 13,
+  "rejected": [
+    {
+      "control": "missing callback slot",
+      "reason": "actual callback slot/target identities or group differ"
+    },
+    {
+      "control": "wrong native slot identity",
+      "reason": "actual callback slot/target identities or group differ"
+    },
+    {
+      "control": "native callback aliases wrong valid target",
+      "reason": "actual callback slot/target identities or group differ"
+    },
+    {
+      "control": "native callback group changes",
+      "reason": "actual callback slot/target identities or group differ"
+    },
+    {
+      "control": "native callback selection option changes",
+      "reason": "actual callback slot/target identities or group differ"
+    },
+    {
+      "control": "original callback changed to allowed but wrong alternative",
+      "reason": "selected callback alternatives differ from actual numeric option state"
+    },
+    {
+      "control": "original callback group identity changes",
+      "reason": ""
+    },
+    {
+      "control": "missing actual callback GDB observation",
+      "reason": "missing actual callback GDB observation"
+    },
+    {
+      "control": "changed slot ownership evidence with rebound hashes",
+      "reason": ""
+    },
+    {
+      "control": "pending member invocation",
+      "reason": "pending callback use/escape requires reviewed actual callable ABI"
+    },
+    {
+      "control": "pending slot escape",
+      "reason": "pending callback use/escape requires reviewed actual callable ABI"
+    },
+    {
+      "control": "pending target direct invocation",
+      "reason": "pending target invocation/escape requires actual ABI review"
+    },
+    {
+      "control": "erased unresolved signature marker",
+      "reason": "pending signature guard"
+    }
+  ],
+  "seconds": 7.660817909054458,
+  "original_receipt_sha256": "57b61f0dffe1af74c2f7c7c3d4eaa70c9df3e84074974549e008870d97357208",
+  "native_receipt_sha256": "fae74e833053c8878d149772ea45678f9264afb09dc80ae683ebde4bac240827",
+  "checker_sha256": "92b1dd034a67bc82a4a01799d7a236b93a3b4de711665589a1a94372681e66d5"
+}
