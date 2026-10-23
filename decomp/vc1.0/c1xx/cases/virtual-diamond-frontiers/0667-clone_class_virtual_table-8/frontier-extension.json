@@ -1,0 +1,12 @@
+{
+  "schema": 1,
+  "accepted_before": 667,
+  "accepted": "_clone_class_virtual_table@8",
+  "terminal": "_copy_vector@8",
+  "original_capture": "cases/virtual-diamond-frontiers/0667-clone_class_virtual_table-8/original-receipt.json",
+  "original_capture_sha256": "1d0a3cdce3f28a3a53ba455b664506b4ee118cf163198784ac46993900e2a494",
+  "original_events": "cases/virtual-diamond-frontiers/0667-clone_class_virtual_table-8/original-events.txt",
+  "original_events_sha256": "516c5aa85ac0938942a2659ff1623d4febdf6d7709a3938e812f4b61486b6603",
+  "original_configuration": "cases/virtual-diamond-frontiers/0667-clone_class_virtual_table-8/original-configuration.json",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

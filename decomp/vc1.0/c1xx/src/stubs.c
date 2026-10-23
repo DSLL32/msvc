@@ -109,7 +109,6 @@ CppSymbol *__stdcall static_member_alias(CppSymbol *symbol) { __asm { int 3 } re
 char *__stdcall make_local_static_name(CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall record_function_symbol_alias(CppSymbol *symbol, CppSymbol *alias) { __asm { int 3 } }
 void __stdcall check_declarator_prefix(CppSymbol *symbol, TypeShape *prefix) { __asm { int 3 } }
-void __stdcall finish_array_declarator(CppSymbol *symbol, TypeShape **result, ShapeCursor current, int is_typedef) { __asm { int 3 } }
 unsigned char __stdcall member_pointer_class_kind(CppSymbol *class_symbol) { __asm { int 3 } return 0; }
 TypeShape *__stdcall merge_type_shape_prefix(TypeShape *head, TypeShape *tail) { __asm { int 3 } return 0; }
 void __stdcall copy_shape_prefix(CppSymbol *symbol, TypeShape *shape, TypeShape **prefix, int is_typedef) { __asm { int 3 } }
@@ -443,12 +442,10 @@ void __stdcall collapse_virtual_conflicts(VirtualEntry *entry) { __asm { int 3 }
 int __stdcall equal_vectors(Vector *left, Vector *right) { __asm { int 3 } return 0; }
 
 
-void *__stdcall clone_class_virtual_table(void *item, int arena) { __asm { int 3 } return 0; }
 void *__stdcall clone_class_virtual_group(void *item, int arena) { __asm { int 3 } return 0; }
 
 
 
-CppSymbol *__stdcall declare_virtual_table_symbol(int kind, VirtualTable *table, CppSymbol *tag) { __asm { int 3 } return 0; }
 
 
 void __stdcall make_default_constructor_closure(CppSymbol *tag, CppSymbol *constructor, int model) { __asm { int 3 } }
@@ -612,7 +609,6 @@ char *__stdcall format_qualified_tag_name(char *cursor, CppSymbol *tag) { __asm 
 char *__stdcall mangle_number(char *cursor, unsigned value) { __asm { int 3 } return 0; }
 char *__stdcall mangle_based_symbol(char *cursor, unsigned short attributes, CppSymbol *symbol) { __asm { int 3 } return 0; }
 char *__stdcall mangle_pointer_base(char *cursor, CType *type) { __asm { int 3 } return 0; }
-char *__stdcall mangle_table_scope_path(char *cursor, CppSymbol *symbol) { __asm { int 3 } return 0; }
 char *__stdcall mangle_vcall_model(char *cursor, CppSymbol *symbol) { __asm { int 3 } return 0; }
 void __stdcall cache_function_parameter_bytes(CppSymbol *function) { __asm { int 3 } }
 int format_integer(unsigned value, char *cursor, unsigned radix) { __asm { int 3 } return 0; }

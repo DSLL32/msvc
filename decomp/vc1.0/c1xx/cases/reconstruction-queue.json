@@ -7,7 +7,7 @@
   "current": {
     "case": "virtual_diamond",
     "fixture": "../fixtures/c1xx-virtual-diamond",
-    "status": "active at clone_class_virtual_table; explicit realloc runtime chain accepted"
+    "status": "active at make_deleting_destructors after virtual-table permanence and naming"
   },
   "pending": [
     {

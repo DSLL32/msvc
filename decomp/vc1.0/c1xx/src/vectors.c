@@ -144,3 +144,31 @@ void *__stdcall first_vector_item(Vector *vector)
 {
     return vector->items[0];
 }
+
+Vector *__stdcall copy_vector_with_extra(Vector *vector, short extra, int arena);
+
+/* Original 0x4ea00..0x4ea13. Plain copies use zero additional capacity,
+   retaining the native three-slot factory behind this two-slot wrapper. */
+Vector *__stdcall copy_vector(Vector *vector, int arena)
+{
+    return copy_vector_with_extra(vector, 0, arena);
+}
+
+/* Original 0x4e980..0x4e9fb. Preserve the three count queries and the
+   fatal diagnostic's filename/line arguments on a negative extra capacity. */
+Vector *__stdcall copy_vector_with_extra(Vector *vector, short extra, int arena)
+{
+    Vector *copy;
+    int capacity = (int)vector_count(vector) + extra;
+    unsigned bytes, i;
+    if (capacity < (int)vector_count(vector))
+        fatal_error(1, pch_diagnostic_name, 106);
+    copy = new_vector((short)(vector_count(vector) + extra), arena);
+    copy->count = vector->count;
+    if (copy->count > 0) {
+        bytes = vector_used_bytes(vector);
+        for (i = 0; i < bytes; ++i)
+            ((unsigned char *)copy->items)[i] = ((unsigned char *)vector->items)[i];
+    }
+    return copy;
+}

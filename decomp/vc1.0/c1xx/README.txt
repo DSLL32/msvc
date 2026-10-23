@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 664 accepted frontiers, including 574 frontend
+PARTIAL binary reconstruction: 677 accepted frontiers, including 585 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1454,3 +1454,24 @@ individual build/reference/GDB/fixture timings and the initial unmatched native
 run are retained. The observer build elapsed is explicitly unmeasured. Accepted
 extent union204709/476418bytes is42.968360%, not branch coverage.
 virtual_diamond is incomplete at clone_class_virtual_table0x78a40.
+
+Virtual-table permanence checkpoint:677 accepted frontiers,592 source functions.
+Ten whole functions beyond62fc1ba persist table/owner/entry storage, release the
+temporary heap table, construct its typed declaration, intern its decorated name,
+encode owner scopes, and finish the array declarator. The clone's full110-byte
+body ends at0x78aad; Ghidra's displayed range omitted its later blocks. Both
+original callback slots remain, including the unused arena slot. Vector copies
+preserve repeated count queries and fatal filename/line arguments. The table's
+auxiliary pointer now has a contextual VirtualTable union member at+0x24.
+
+Raw initialization proves original0x9f268 is type_0064_q1000, used temporarily
+while naming the table. Original special-identifier targets select vftable or
+vbtable, and table declaration retains both kind branches and DLL storage bits.
+Every0667through0676 acceptance matches fresh original/native traps, four pending
+buffers, fourteen state values, streams and every visible file; completed
+cpp_basic remains exact. Full592-function graph, contextual defaults/data, both
+grammars, both cached cases and25negative checks pass. Measured combined wall:
+4.654033seconds.
+
+Accepted extent union205621/476418bytes is43.159788%, not branch coverage.
+The active virtual_diamond case remains incomplete at make_deleting_destructors.

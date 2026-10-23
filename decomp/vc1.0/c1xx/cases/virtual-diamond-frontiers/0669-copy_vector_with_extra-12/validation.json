@@ -1,0 +1,20 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_copy_vector_with_extra@12",
+    "start": 321920,
+    "end": 322044
+  },
+  "distinct_direct_callees": [
+    "_fatal_error",
+    "_new_vector@8",
+    "_vector_count@4",
+    "_vector_used_bytes@4"
+  ],
+  "next_frontier": "_virtual_entry_used_bytes@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.31559788528829813,
+  "total_operation_seconds": 7.002974662929773,
+  "original_capture_seconds": 4.676757335662842
+}

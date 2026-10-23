@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_finish_array_declarator@20",
+    "start": 299216,
+    "end": 299324
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_make_deleting_destructors@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.30783773586153984,
+  "total_operation_seconds": 7.131072768941522,
+  "original_capture_seconds": 4.775451858527958
+}

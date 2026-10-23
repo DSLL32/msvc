@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.246823236346245,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-mangle-table-scope-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 5.131841671653092,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-mangle-table-scope-canonical.log"
+  }
+]

@@ -1,0 +1,18 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_intern_generated_symbol_name@8",
+    "start": 352736,
+    "end": 352780
+  },
+  "distinct_direct_callees": [
+    "_intern_identifier@4",
+    "_write_decorated_name@16"
+  ],
+  "next_frontier": "_mangle_table_scope_path@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2853248817846179,
+  "total_operation_seconds": 5.791816463693976,
+  "original_capture_seconds": 3.472410185262561
+}

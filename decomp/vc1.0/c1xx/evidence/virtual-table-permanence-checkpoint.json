@@ -1,0 +1,15 @@
+{
+  "status": 0,
+  "seconds": 4.654033302329481,
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "check",
+    "native-rejections"
+  ],
+  "log": "evidence/virtual-table-permanence-checkpoint.log",
+  "raw_log_sha256": "c80c59a9d750d58c7440ab9f40a117badbd5506b91558c55a490f13d1de23719",
+  "log_format": "display CRLF to LF; raw bytes in .raw.log.gz",
+  "timing_scope": "combined parallel wall; per-function build/reference/debug/fixture timings separate"
+}

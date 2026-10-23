@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "dea729af5feedd435bb224060ee1122879b2f38e2dd682d43a6ef88437dfc22e",
+    "functions.json": "9e36f819cb2d2f761352e194b7fdb86bfdcf61db82746d522448413aa05533a9",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
     "evidence/fast-replay-verification-receipt.json": "c31482ee4affd1e136825beb31be9913d71a704a1e90d58019c14ff6aa5ee3a9",
-    "cases/canonical-map.txt": "86959d0c17256216498258ed9bbf238955dd00e9999f79165cb6d9c66fbb4ffc",
+    "cases/canonical-map.txt": "8e03cbe2d73e6138c1a9cc7324e1cbfa6e849cc2577f973c20e8699cc868e0cf",
     "cases/object-initializer-trial/frontier-extension.json": "becd7ed4c01caf94840212178315dc3408afe064c6015a7e8bc018fc351b5e94",
     "cases/object-initializer-trial/original-after-receipt.json": "176547f9f659647df53a08f0fecd273770df2d835b4024ee89dcfc75f492ccc3",
     "cases/object-initializer-trial/original-after-events.txt": "a83f5c103dc0cb7c85479b1e6a0cbb6e65de66cf376c0cc858d2c075f45ddc17",
@@ -518,7 +518,47 @@
     "cases/virtual-diamond-frontiers/0666-heap_expand_block/original-configuration.json": "c4f938a85ad468aab2631b61306b1d39b2067d5cca0032edadc4eaf3f0b7acd4",
     "cases/virtual-diamond-frontiers/0666-heap_expand_block/frontier-extension.json": "6e9b668ab647ed935c3a27e9a817d5e3f5c0ca4dda1ddf9160d1c1ad29461c16",
     "cases/virtual-diamond-frontiers/0666-heap_expand_block/original-receipt.json": "aa4ae4088f7e35a12ec811bd945792973fd9fd7bcbebe8bb3978910849348d7c",
-    "cases/virtual-diamond-frontiers/0666-heap_expand_block/original-events.txt": "a41f0ba358ad5573592b9eadc0a6712f6404e7cbf7de3f6d8d22bc2d5deb9001"
+    "cases/virtual-diamond-frontiers/0666-heap_expand_block/original-events.txt": "a41f0ba358ad5573592b9eadc0a6712f6404e7cbf7de3f6d8d22bc2d5deb9001",
+    "cases/virtual-diamond-frontiers/0667-clone_class_virtual_table-8/original-configuration.json": "34c2c5adabb2de574b411f6922f3169402d5e2d9af0f1ae0411b07bab0a18920",
+    "cases/virtual-diamond-frontiers/0667-clone_class_virtual_table-8/frontier-extension.json": "723abb2f0e1195810a7a1558ed5c359956e78bee7be1f6218a331d1ff5c586cc",
+    "cases/virtual-diamond-frontiers/0667-clone_class_virtual_table-8/original-receipt.json": "1d0a3cdce3f28a3a53ba455b664506b4ee118cf163198784ac46993900e2a494",
+    "cases/virtual-diamond-frontiers/0667-clone_class_virtual_table-8/original-events.txt": "516c5aa85ac0938942a2659ff1623d4febdf6d7709a3938e812f4b61486b6603",
+    "cases/virtual-diamond-frontiers/0668-copy_vector-8/original-configuration.json": "2c2f1c0e7758292ae4c743cc52bcad4bcb6820a845c3b6156280f4849c1ee014",
+    "cases/virtual-diamond-frontiers/0668-copy_vector-8/frontier-extension.json": "85f0733bd75120f155da03222c81b39532869b66ef93697b81dbf6a74159c925",
+    "cases/virtual-diamond-frontiers/0668-copy_vector-8/original-receipt.json": "af9a4ce98f08140478e7c343dcbb1b8ca1a65b7ae4288ec102e4bad13765bd19",
+    "cases/virtual-diamond-frontiers/0668-copy_vector-8/original-events.txt": "7a10e458dc809ad91800c6442f27ad655e9863c16046d50c1d2113cd0254d8e8",
+    "cases/virtual-diamond-frontiers/0669-copy_vector_with_extra-12/original-configuration.json": "aae6951be5d0d575865e0d646ca2eafaa7534accb5209b209056bd6602febec2",
+    "cases/virtual-diamond-frontiers/0669-copy_vector_with_extra-12/frontier-extension.json": "e7f2f8f42dc579dd1495531c406799117c0b07a436f34767bb53268690fdc448",
+    "cases/virtual-diamond-frontiers/0669-copy_vector_with_extra-12/original-receipt.json": "bacc14a30120a0407015f204b9871754f3d050bc9b0a31463c335db7915a960b",
+    "cases/virtual-diamond-frontiers/0669-copy_vector_with_extra-12/original-events.txt": "948fe75218f6c90f48cd97adbfb8c4c31c2ee2eaeaf55397cba275badb3bc863",
+    "cases/virtual-diamond-frontiers/0670-virtual_entry_used_bytes-4/original-configuration.json": "9bd23e0145191e08beb028c4807e9722cefe68bd001b1bdb7476fb97b361d260",
+    "cases/virtual-diamond-frontiers/0670-virtual_entry_used_bytes-4/frontier-extension.json": "26dbf34afc74b471555e8ed94f12bf83f466624ac08ea25841c7f3bfa5b05d0d",
+    "cases/virtual-diamond-frontiers/0670-virtual_entry_used_bytes-4/original-receipt.json": "fbb8e35ae7364c4a765f8d26dda5c07db04dfe2df29a414b8565dae5a38fbf58",
+    "cases/virtual-diamond-frontiers/0670-virtual_entry_used_bytes-4/original-events.txt": "d8a1644c7e8ccd1097884ee540ac82bd1ec7d6015a90056e55d3387117ec1dd3",
+    "cases/virtual-diamond-frontiers/0671-release_virtual_table-4/original-configuration.json": "1078f4a6e5f6fbb422902310bb839a6a84f54ccee7557c0c3990257c9f55f4a1",
+    "cases/virtual-diamond-frontiers/0671-release_virtual_table-4/frontier-extension.json": "4594e453ffd0fe0ed8a8b3955d3ed41ebb2d7abfe06017cef850ab8bf870d261",
+    "cases/virtual-diamond-frontiers/0671-release_virtual_table-4/original-receipt.json": "3208aafe2e13e2c3dfc3a8cb6f2c0a46f344c051e69ac7f764804891497783e8",
+    "cases/virtual-diamond-frontiers/0671-release_virtual_table-4/original-events.txt": "fb70b6ae32483d8cd085ef29d2ddb8274360ea591b1269f5d053a82e3a7d19c6",
+    "cases/virtual-diamond-frontiers/0672-declare_virtual_table_symbol-12/original-configuration.json": "158d2a330f23854d21353b141138e0cb2c48c5cba0e6e0cf2ccd57b932766fa0",
+    "cases/virtual-diamond-frontiers/0672-declare_virtual_table_symbol-12/frontier-extension.json": "98b41e1350b33389ab676bf6c9b43f543f2175abd221dc146ce314b735160c47",
+    "cases/virtual-diamond-frontiers/0672-declare_virtual_table_symbol-12/original-receipt.json": "6cb335ddd8973b1c420a2022edf98efad3b53f0fb68df3b31b43f66db73b091a",
+    "cases/virtual-diamond-frontiers/0672-declare_virtual_table_symbol-12/original-events.txt": "74bad0077f5bca4d32c91e12ade3648a98b321c543f38656b7045be0bdd469bd",
+    "cases/virtual-diamond-frontiers/0673-intern_generated_symbol_name-8/original-configuration.json": "e22daa321202e0daa1bd1d84826d87c76e5930f3d711398f92e07a11a5092faf",
+    "cases/virtual-diamond-frontiers/0673-intern_generated_symbol_name-8/frontier-extension.json": "ed38f32dde1b51615ecc960088a4b435ad2d6b44c8f0551c0383f54f4788b748",
+    "cases/virtual-diamond-frontiers/0673-intern_generated_symbol_name-8/original-receipt.json": "e9ed3f9759e9b56933a54a1b0b63b22975474b1c47b82a138acdde3b4301d706",
+    "cases/virtual-diamond-frontiers/0673-intern_generated_symbol_name-8/original-events.txt": "af266145fd13ad08383606425a9e4d463942ac289ee2a7fa3d055c07d3f09abf",
+    "cases/virtual-diamond-frontiers/0674-mangle_table_scope_path-8/original-configuration.json": "85ac059ed623bd83b9751ee1beebc05aa299ef5a07bafff3dc978ab22ad2e7d4",
+    "cases/virtual-diamond-frontiers/0674-mangle_table_scope_path-8/frontier-extension.json": "3c69f65caecd6b8e6fd3f5287b1ffc4455829c6038a080a80c02400f2f12b83b",
+    "cases/virtual-diamond-frontiers/0674-mangle_table_scope_path-8/original-receipt.json": "da61987a046191d7cdb432af633ac97a0806937ed689df8d8c609551e22fe70d",
+    "cases/virtual-diamond-frontiers/0674-mangle_table_scope_path-8/original-events.txt": "1a6e7ea72b9a531e9b62abde6bb00ed0e8ec10b9d52ba7635eb178ba8d53ad41",
+    "cases/virtual-diamond-frontiers/0675-virtual_table_owners-4/original-configuration.json": "137e34218f9ecd878fd18901ad6cbb5942a44bec6e92ceb1246bd78f5008242b",
+    "cases/virtual-diamond-frontiers/0675-virtual_table_owners-4/frontier-extension.json": "f41cf78875e06b521efde940e037ac749c9de2326ff8ab6bd09fd9a022367d9e",
+    "cases/virtual-diamond-frontiers/0675-virtual_table_owners-4/original-receipt.json": "2d045442d1a74097bc3d6de037ffdebf52ee354b8037fbbf66379e6ff76bac3e",
+    "cases/virtual-diamond-frontiers/0675-virtual_table_owners-4/original-events.txt": "7030965a04bbe1b300cdc7265b99c5f3da273068877f2e57b1be6df0204fe59c",
+    "cases/virtual-diamond-frontiers/0676-finish_array_declarator-20/original-configuration.json": "319945b0055c689179ebb62f8e8031c22286ea30a674a5e70ce1a01324db1071",
+    "cases/virtual-diamond-frontiers/0676-finish_array_declarator-20/frontier-extension.json": "34fdd01d0827c7d8a0d937513512f28c7a1b881877b1c6f13d7d909d265682fa",
+    "cases/virtual-diamond-frontiers/0676-finish_array_declarator-20/original-receipt.json": "b1c0e4ab2431d6ffa685c6faae8eecc65a858e2be7dc62ae607e4c73f7cb3145",
+    "cases/virtual-diamond-frontiers/0676-finish_array_declarator-20/original-events.txt": "4b98c5117a4190634ae592388682f57e1bc2e6a8a5ea5982ee318512bdafd3bb"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -1291,7 +1331,7 @@
     },
     "clone_class_virtual_table": {
       "logical": "_clone_class_virtual_table@8",
-      "source": "src/stubs.c"
+      "source": "src/class-finalization.c"
     },
     "close_intermediate": {
       "logical": "_close_intermediate",
@@ -1497,8 +1537,16 @@
       "logical": "_copy_unfinished_type@4",
       "source": "src/stubs.c"
     },
+    "copy_vector": {
+      "logical": "_copy_vector@8",
+      "source": "src/vectors.c"
+    },
     "copy_vector_elements": {
       "logical": "_copy_vector_elements@12",
+      "source": "src/vectors.c"
+    },
+    "copy_vector_with_extra": {
+      "logical": "_copy_vector_with_extra@12",
       "source": "src/vectors.c"
     },
     "count_call_arguments": {
@@ -1623,7 +1671,7 @@
     },
     "declare_virtual_table_symbol": {
       "logical": "_declare_virtual_table_symbol@12",
-      "source": "src/stubs.c"
+      "source": "src/class-finalization.c"
     },
     "declaring_class_for_symbol": {
       "logical": "_declaring_class_for_symbol@4",
@@ -2199,7 +2247,7 @@
     },
     "finish_array_declarator": {
       "logical": "_finish_array_declarator@20",
-      "source": "src/stubs.c"
+      "source": "src/declarator-shapes.c"
     },
     "finish_browser_output": {
       "logical": "_finish_browser_output",
@@ -2789,6 +2837,10 @@
       "logical": "_intern_function_parameters@4",
       "source": "src/parameters.c"
     },
+    "intern_generated_symbol_name": {
+      "logical": "_intern_generated_symbol_name@8",
+      "source": "src/mangling.c"
+    },
     "intern_identifier": {
       "logical": "_intern_identifier@4",
       "source": "src/preprocessor.c"
@@ -3143,7 +3195,7 @@
     },
     "mangle_table_scope_path": {
       "logical": "_mangle_table_scope_path@8",
-      "source": "src/stubs.c"
+      "source": "src/mangling.c"
     },
     "mangle_tag_name": {
       "logical": "_mangle_tag_name@8",
@@ -3969,6 +4021,10 @@
       "logical": "_release_permanent@8",
       "source": "src/memory.c"
     },
+    "release_virtual_table": {
+      "logical": "_release_virtual_table@4",
+      "source": "src/class-finalization.c"
+    },
     "remaining_string_initializer_bytes": {
       "logical": "_remaining_string_initializer_bytes@8",
       "source": "src/stubs.c"
@@ -4641,9 +4697,17 @@
       "logical": "_virtual_entry_capacity_bytes@4",
       "source": "src/class-finalization.c"
     },
+    "virtual_entry_used_bytes": {
+      "logical": "_virtual_entry_used_bytes@4",
+      "source": "src/class-finalization.c"
+    },
     "virtual_table_object_offset": {
       "logical": "_virtual_table_object_offset@4",
       "source": "src/stubs.c"
+    },
+    "virtual_table_owners": {
+      "logical": "_virtual_table_owners@4",
+      "source": "src/class-finalization.c"
     },
     "void_parameter_list": {
       "logical": "_void_parameter_list",
@@ -5289,7 +5353,17 @@
     "grow_virtual_entries",
     "virtual_entry_capacity_bytes",
     "reserve_virtual_table_offset",
-    "matches_virtual_override"
+    "matches_virtual_override",
+    "clone_class_virtual_table",
+    "copy_vector",
+    "copy_vector_with_extra",
+    "virtual_entry_used_bytes",
+    "release_virtual_table",
+    "declare_virtual_table_symbol",
+    "intern_generated_symbol_name",
+    "mangle_table_scope_path",
+    "virtual_table_owners",
+    "finish_array_declarator"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -5957,7 +6031,7 @@
     },
     "virtual_diamond": {
       "first": 643,
-      "last": 667,
+      "last": 677,
       "seen": [
         "main",
         "message_text",
@@ -6536,12 +6610,22 @@
         "virtual_entry_capacity_bytes",
         "reserve_virtual_table_offset",
         "matches_virtual_override",
-        "clone_class_virtual_table"
+        "clone_class_virtual_table",
+        "copy_vector",
+        "copy_vector_with_extra",
+        "virtual_entry_used_bytes",
+        "release_virtual_table",
+        "declare_virtual_table_symbol",
+        "intern_generated_symbol_name",
+        "mangle_table_scope_path",
+        "virtual_table_owners",
+        "finish_array_declarator",
+        "make_deleting_destructors"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_clone_class_virtual_table@8",
-        "native": "clone_class_virtual_table",
+        "logical": "_make_deleting_destructors@12",
+        "native": "make_deleting_destructors",
         "signal": 5
       }
     }

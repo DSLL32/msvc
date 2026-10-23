@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_virtual_entry_used_bytes@4",
+    "start": 493888,
+    "end": 493901
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_release_virtual_table@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.29907077364623547,
+  "total_operation_seconds": 6.994797447696328,
+  "original_capture_seconds": 4.676156270317733
+}

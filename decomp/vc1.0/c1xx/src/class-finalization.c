@@ -805,3 +805,93 @@ int __stdcall matches_virtual_override(CppSymbol *member, VirtualEntry *entry,
     if ((this_type->attributes ^ inherited_this->attributes) & 0x3000) return 0;
     return compatible_override_return(type, inherited_type) ? 1 : 0;
 }
+
+Vector *__stdcall copy_vector(Vector *vector, int arena);
+unsigned __stdcall virtual_entry_used_bytes(VirtualTable *table);
+void __stdcall release_virtual_table(VirtualTable *table);
+
+/* Original 0x78a40..0x78aad. Persist the table and its used entries, then
+   release the temporary heap table. The callback arena slot is unused here;
+   this pass always selects permanent arena zero for the owner vector too. */
+void *__stdcall clone_class_virtual_table(void *item, int arena)
+{
+    VirtualTable *table = item;
+    VirtualTable *copy = allocate_permanent(sizeof(VirtualTable));
+    unsigned bytes, i;
+    *copy = *table;
+    copy->shared_owners = copy_vector(table->shared_owners, 0);
+    if (copy->entry_count > 0) {
+        bytes = virtual_entry_used_bytes(table);
+        copy->entries = allocate_permanent((bytes + 3) & ~3U);
+        bytes = virtual_entry_used_bytes(table);
+        for (i = 0; i < bytes; ++i)
+            ((unsigned char *)copy->entries)[i] = ((unsigned char *)table->entries)[i];
+    }
+    release_virtual_table(table);
+    return copy;
+}
+
+/* Original 0x78940..0x7894c. Used size is independent of reserved capacity. */
+unsigned __stdcall virtual_entry_used_bytes(VirtualTable *table)
+{
+    return (unsigned)table->entry_count << 4;
+}
+
+/* Original 0x789a0..0x789c3. The count, rather than capacity or pointer
+   value, controls release of entries. Owners are held by permanent vectors. */
+void __stdcall release_virtual_table(VirtualTable *table)
+{
+    if (table->entry_count > 0) free(table->entries);
+    free(table);
+}
+
+char *__stdcall intern_generated_symbol_name(CppSymbol *symbol, CppSymbol *owner);
+
+/* Original 0x7ae80..0x7afe4. Give each persistent table its decorated
+   declaration, using a temporary const-int type solely while naming it.
+   The caller supplies kind zero (vftable) or one (vbtable). */
+CppSymbol *__stdcall declare_virtual_table_symbol(int kind, VirtualTable *table,
+    CppSymbol *tag)
+{
+    CppSymbol *symbol;
+    CType *saved_type;
+    DeclarationType declaration;
+    int count = table->entry_count;
+    symbol = new_declarator(table->kind == 0 || table->kind == 2 ?
+        name_vftable : name_vbtable);
+    symbol->type->attributes = normalize_type_attributes(2, table->pointer_attributes);
+    symbol->flags |= 0x80;
+    symbol->auxiliary.virtual_table = table;
+    saved_type = symbol->type;
+    symbol->type = type_0064_q1000;
+    symbol->name = intern_generated_symbol_name(symbol, tag);
+    symbol->type = saved_type;
+    symbol->declaration_flags = (symbol->declaration_flags & ~0x100) | 0x200;
+    if (kind == 0) {
+        attach_type_shape(symbol, new_type_shape(2, table->pointer_attributes & ~0x400, &count));
+        attach_type_shape(symbol, new_type_shape(1, 0, 0));
+        add_function_shape(symbol, 0, 0);
+        declaration.type = type_0080;
+    } else if (kind == 1) {
+        attach_type_shape(symbol, new_type_shape(2, table->pointer_attributes & ~0x400, &count));
+        declaration.type = builtin_integer_type();
+    }
+    declaration.storage[0] = (declaration_storage[0] & ~7) | 0x41;
+    declaration.storage[1] = declaration_storage[1];
+    declaration.storage[2] = declaration_storage[2];
+    if (tag->detail.class_info->flags2 & 4) {
+        declaration.storage[2] |= 4;
+        declaration.storage[2] = (declaration.storage[2] & ~8) |
+            ((tag->detail.class_info->flags2 << 2) & 8);
+    }
+    if (!(declaration.storage[2] & 4) || (declaration.storage[2] & 8))
+        symbol->flags |= 4;
+    return apply_declaration_type(&declaration, symbol);
+}
+
+/* Original 0x7c000..0x7c009. The owner-path vector has a distinct query
+   entry used by symbol decoration, separate from the unshared owner slot. */
+Vector *__stdcall virtual_table_owners(VirtualTable *table)
+{
+    return table->shared_owners;
+}

@@ -593,3 +593,32 @@ char *__stdcall mangle_type(char *cursor, CType *type, int parameter)
     }
     return cursor;
 }
+
+/* Original 0x561e0..0x5620b. Name a generated external symbol in the
+   supplied owner context, then retain the decorated spelling in the interner. */
+char *__stdcall intern_generated_symbol_name(CppSymbol *symbol, CppSymbol *owner)
+{
+    symbol->declaration_flags &= ~0x300;
+    symbol->storage[0] = (symbol->storage[0] & ~5) | 2;
+    return intern_identifier(write_decorated_name(0, symbol, owner, 0));
+}
+
+Vector *__stdcall virtual_table_owners(VirtualTable *table);
+
+/* Original 0x44220..0x44279. Shared table paths append every owner scope
+   and its separator. A declaration without an associated table adds no path. */
+char *__stdcall mangle_table_scope_path(char *cursor, CppSymbol *symbol)
+{
+    Vector *owners;
+    short index;
+    CppSymbol *owner;
+    if (!symbol->auxiliary.virtual_table) return cursor;
+    owners = virtual_table_owners(symbol->auxiliary.virtual_table);
+    index = 0;
+    while (index < owners->count) {
+        owner = owners->items[index++];
+        cursor = mangle_symbol_scope(cursor, owner);
+        *cursor++ = '@';
+    }
+    return cursor;
+}

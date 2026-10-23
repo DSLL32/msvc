@@ -561,3 +561,20 @@ void __stdcall check_pointer_attributes(CppSymbol *symbol, ShapeCursor *current,
         current->attributes &= ~7;
     }
 }
+
+/* Original 0x490d0..0x4913b. The result slot and cursor's two halfwords
+   remain unused ABI slots (RET20); only its shape chain is inspected here. */
+void __stdcall finish_array_declarator(CppSymbol *symbol, TypeShape **result,
+    ShapeCursor current, int is_typedef)
+{
+    TypeShape *element = current.shape;
+    unsigned kind;
+    while (element && (element->flags & 0x77) == 2) element = element->related;
+    symbol->flags = (symbol->flags & ~0x40) | (element ? 0 : 0x40);
+    kind = symbol->kind & 31;
+    if (kind == 10 || kind == 11) symbol->type->attributes &= ~7;
+    if (!is_typedef) {
+        symbol->attributes |= 0x400;
+        if (!current.shape->data.array_bound) symbol->attributes |= 0x100;
+    }
+}
