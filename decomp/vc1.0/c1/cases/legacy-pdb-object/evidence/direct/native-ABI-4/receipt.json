@@ -1,0 +1,8 @@
+{
+  "unit": 4,
+  "exit": 0,
+  "setup_seconds": 0.004212860018014908,
+  "execution_seconds": 0.15977738238871098,
+  "executable_sha256": "18bd394b815835ea255fbefb234cf51d125e431997ad85da320ab3666cbe493a",
+  "scope": "Explicit native method acceptance only; actual pre-prologue registers/stack, exact return/nonvolatiles and own x87 control preservation. Not a fixture dependency."
+}

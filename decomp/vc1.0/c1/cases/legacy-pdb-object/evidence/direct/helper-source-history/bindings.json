@@ -1,0 +1,111 @@
+{
+  "policy": "Current v3 header frozen as built. Earlier two headers recovered by reversing the retained two observer-only edits; no extra historical rebuild or binary-reproduction claim. Original target/candidate bytes are independent of these observer revisions. Each raw receipt retains its actual debugger SHA. No helper EXE or toolchain bundle is archived here.",
+  "baselines": {
+    "evidence/direct/unit-0-first": {
+      "debugger_sha256": "4271e51e19ace558f276e3c3666affb6b08022df6ea62dfee30b6d05a0c9872f",
+      "header": "v1-initial.h",
+      "header_sha256": "7281a4edd84b79cf4451b36d2abe660ddf37477c832b81d61fbb847cd64c7540"
+    },
+    "evidence/direct/unit-0-second": {
+      "debugger_sha256": "e4da8ef06f22655c4de77fe4078e893695691bbb497ccfc637bee3c75ff486c3",
+      "header": "v2-loaded-failure-observer.h",
+      "header_sha256": "7937637a9263d0fec7cd8dcf8c12ab6f8ebffc805e89bd898cfb030bce1c94d8"
+    },
+    "evidence/direct/unit-1-first": {
+      "debugger_sha256": "e4da8ef06f22655c4de77fe4078e893695691bbb497ccfc637bee3c75ff486c3",
+      "header": "v2-loaded-failure-observer.h",
+      "header_sha256": "7937637a9263d0fec7cd8dcf8c12ab6f8ebffc805e89bd898cfb030bce1c94d8"
+    },
+    "evidence/direct/unit-1-second": {
+      "debugger_sha256": "e4da8ef06f22655c4de77fe4078e893695691bbb497ccfc637bee3c75ff486c3",
+      "header": "v2-loaded-failure-observer.h",
+      "header_sha256": "7937637a9263d0fec7cd8dcf8c12ab6f8ebffc805e89bd898cfb030bce1c94d8"
+    },
+    "evidence/direct/unit-2-first": {
+      "debugger_sha256": "e4da8ef06f22655c4de77fe4078e893695691bbb497ccfc637bee3c75ff486c3",
+      "header": "v2-loaded-failure-observer.h",
+      "header_sha256": "7937637a9263d0fec7cd8dcf8c12ab6f8ebffc805e89bd898cfb030bce1c94d8"
+    },
+    "evidence/direct/unit-2-second": {
+      "debugger_sha256": "e4da8ef06f22655c4de77fe4078e893695691bbb497ccfc637bee3c75ff486c3",
+      "header": "v2-loaded-failure-observer.h",
+      "header_sha256": "7937637a9263d0fec7cd8dcf8c12ab6f8ebffc805e89bd898cfb030bce1c94d8"
+    },
+    "evidence/direct/unit-3-first": {
+      "debugger_sha256": "e4da8ef06f22655c4de77fe4078e893695691bbb497ccfc637bee3c75ff486c3",
+      "header": "v2-loaded-failure-observer.h",
+      "header_sha256": "7937637a9263d0fec7cd8dcf8c12ab6f8ebffc805e89bd898cfb030bce1c94d8"
+    },
+    "evidence/direct/unit-3-second": {
+      "debugger_sha256": "e4da8ef06f22655c4de77fe4078e893695691bbb497ccfc637bee3c75ff486c3",
+      "header": "v2-loaded-failure-observer.h",
+      "header_sha256": "7937637a9263d0fec7cd8dcf8c12ab6f8ebffc805e89bd898cfb030bce1c94d8"
+    },
+    "evidence/direct/unit-4-first": {
+      "debugger_sha256": "70ba0449ba870a13b0bc3a0be5664dc7c9d9ce4cc3d6f4e225c2566f51fac1da",
+      "header": "v3-argument-count-canaries.h",
+      "header_sha256": "9b68c0a99f88a0401b47e9434dc8aad8592d2ed8ab59a0fe2f8434db03498161"
+    },
+    "evidence/direct/unit-4-second": {
+      "debugger_sha256": "70ba0449ba870a13b0bc3a0be5664dc7c9d9ce4cc3d6f4e225c2566f51fac1da",
+      "header": "v3-argument-count-canaries.h",
+      "header_sha256": "9b68c0a99f88a0401b47e9434dc8aad8592d2ed8ab59a0fe2f8434db03498161"
+    },
+    "evidence/direct/unit-5-first": {
+      "debugger_sha256": "70ba0449ba870a13b0bc3a0be5664dc7c9d9ce4cc3d6f4e225c2566f51fac1da",
+      "header": "v3-argument-count-canaries.h",
+      "header_sha256": "9b68c0a99f88a0401b47e9434dc8aad8592d2ed8ab59a0fe2f8434db03498161"
+    },
+    "evidence/direct/unit-5-second": {
+      "debugger_sha256": "70ba0449ba870a13b0bc3a0be5664dc7c9d9ce4cc3d6f4e225c2566f51fac1da",
+      "header": "v3-argument-count-canaries.h",
+      "header_sha256": "9b68c0a99f88a0401b47e9434dc8aad8592d2ed8ab59a0fe2f8434db03498161"
+    }
+  },
+  "current_common_inputs": {
+    "decomp/vc1.0/c1/src/capture-original.c": "eb09666b43ea6b1ce4ab4d46d3f43680b8ae47a81e597381e413fbffe9559adf",
+    "decomp/vc1.0/c1/src/asm-grammar.h": "eb70547afde35067608aed4bb3b7c63eca0059975e16a96f60103a73d72fa9ce",
+    "decomp/vc1.0/c1/src/asm.h": "1cf29f430e231ba6bc3dbf02b13652ed2b021d3d6e411accf6fb0bd3e9c08e95",
+    "decomp/vc1.0/c1/src/browser.h": "a733237912f10eb52215bd0728a9bc750ce7efb65c150b20d6123857715c58a3",
+    "decomp/vc1.0/c1/src/builtins.h": "e9ac86ceeb244bd86be88e0e1b217fe800f313a660cbc3ad8caba3e18e5dd2de",
+    "decomp/vc1.0/c1/src/c1.h": "fae8412744b722750d38ce842c3cbe8fb84fa91a463830be8ff960b08782cf96",
+    "decomp/vc1.0/c1/src/capture-pdb-unit.h": "9b68c0a99f88a0401b47e9434dc8aad8592d2ed8ab59a0fe2f8434db03498161",
+    "decomp/vc1.0/c1/src/characters.h": "e3a4195edaa2a6c3856a43291eac3e4ce2b05e0820e5fa3389491a0a13d5f3f5",
+    "decomp/vc1.0/c1/src/codeview-types.h": "a29d05759510acb202da0fd5ba893acd8aa83a8f4e56f0031c5d0d36a074c2f2",
+    "decomp/vc1.0/c1/src/control-ir.h": "f62a746749bd8a644734414bbf6c6ab76f78e1666df1222eebe76ea5207eed3c",
+    "decomp/vc1.0/c1/src/debug-info.h": "a1e8c1594fe136e1045441c0431751409ee71a1f05a0b8139fadacb6ffba3063",
+    "decomp/vc1.0/c1/src/declaration-text.h": "5720b6771a744c5cbd0ebd993b8eb3a30fb4ed4996108e217c5a5b53f3f09efb",
+    "decomp/vc1.0/c1/src/diagnostics.h": "39fcb758573d01149cdc9941eaf7f3c5689a8380a79ae9f7c2eb6d3249a20e71",
+    "decomp/vc1.0/c1/src/expression-records.h": "bd17482083a664d6d2346d52943aef0e96d3b5138f66b965f4b3156806db4014",
+    "decomp/vc1.0/c1/src/expressions.h": "cc3e6749c03d64c4089f2113ab885b1282b6308aa079d674710c385311d50e83",
+    "decomp/vc1.0/c1/src/floating.h": "2c7ff5c7d9b7f5db74984dd6515ba95ea38a97be2db9c7bf1c046b1bebead85d",
+    "decomp/vc1.0/c1/src/frontend.h": "032f7b3200b3d8124d0c3a9006c41b81d07068662ee2b867eb9be4c2556aa49c",
+    "decomp/vc1.0/c1/src/global-ir.h": "09258a8a4772c8ddcf7901127930e014de45fcaac8381a2f129be73e626dc7cc",
+    "decomp/vc1.0/c1/src/hash-table.h": "29965b1c29ab572311c2f72082cad197610e53b21d4b0b8647865c3f953c416a",
+    "decomp/vc1.0/c1/src/initialization.h": "31894de62aee2491ef7fe75ee52d211112f41dd6ef7f345a25866e2caaa049dc",
+    "decomp/vc1.0/c1/src/initializer-records.h": "43a487beecbe0bf5f326f9158b5c219da1f55cc0f1d8b5d9fa5d99e476427cbd",
+    "decomp/vc1.0/c1/src/initializers.h": "7bee0a5b0e5bc9ba7d6e9aa79da18d532e7cd951bb494800736b90f712eb951a",
+    "decomp/vc1.0/c1/src/ir.h": "f3dd4df0885617cee49a8728d79d96b90da00d7caf46545792b81f1992db45df",
+    "decomp/vc1.0/c1/src/keywords.h": "32cc5e25bf1ef8a7cf3914e9b675018df8f4fa692f0e45b42354d1316fd86cde",
+    "decomp/vc1.0/c1/src/lexer.h": "8cbd7a29f94cdad1b7a35e12021d116a1cb5b6d7c2c4c0ae58cfca81e550af05",
+    "decomp/vc1.0/c1/src/literal-names.h": "4b6c28ba7e140495b7ef4365d48bae1af4a1671d247f1f863cb543720f442ca3",
+    "decomp/vc1.0/c1/src/macro-expand.h": "77acd5d730215c42d3540c2eb7895593949b4590d28bbbb8d848b65eeff40afd",
+    "decomp/vc1.0/c1/src/macros.h": "003055bf4500b1a26422b8f54af7d495ba4366c5f61177c8060ccedfed564bf0",
+    "decomp/vc1.0/c1/src/options.h": "aa2f1ecc7f92b55830ff541572d79920e9afb9039359c7f722c81463fce25fb5",
+    "decomp/vc1.0/c1/src/parser.h": "e8f0bfa09f4e8f47ea4efdbaa8845c4b4d91375a19ddd81efcbbfc01d4635721",
+    "decomp/vc1.0/c1/src/pch-format.h": "18e00f17c7686d507f25239921f6d056d1106ab3bc2fe31f297c62d1a80bfc5b",
+    "decomp/vc1.0/c1/src/pch-relocate.h": "125ae30f0bbea53ff66d985f1c6540b42329c94c706faadeb1a8177a22a1a0fc",
+    "decomp/vc1.0/c1/src/pch.h": "5c7ff355fd2b0e856367894e9fd55e148bda412d2c2606ec1aea9fe7c537ac7a",
+    "decomp/vc1.0/c1/src/pp-expression.h": "d93a54ff7c235cc8fc974c1df444539e482c094200a642da44f78975adb3f9fb",
+    "decomp/vc1.0/c1/src/pragma.h": "3a96391a49b342805b1e3397ecca0674adb1732994b6aa061237a74deda95f84",
+    "decomp/vc1.0/c1/src/preprocessor.h": "ea7ad4817c3a2a327459258c054edf1cb472a912a8748befde1def4596e5bc63",
+    "decomp/vc1.0/c1/src/scopes.h": "9fc1a6974e048a39eedb523fda4f45e6376f0c127850b59c8dc1c0b6b9382959",
+    "decomp/vc1.0/c1/src/source-input.h": "a5a167d5acf7be222a9687ec7bea13d8db88f6b78e58103cb7571cbad0c12e85",
+    "decomp/vc1.0/c1/src/tokens.h": "fd813103017494dc8af07f3c4d1b79414c199719ff30f0f570853d0feb8a6122",
+    "decomp/vc1.0/c1/src/types.h": "b2532e8a4452463b56eb6dd15310f1653a41ee77fdf19d8b69934bac5da88441",
+    "decomp/vc1.0/c1/src/work-stack.h": "3c4c26eced7bcf6f99dd5f9d4263cca56cfaaf2e461ea4cfd1a67d983d88be9a",
+    "decomp/vc1.0/c1/cases/legacy-pdb-object/external.h": "97e47cbd5aa9664aa591aecf3c6470230a13b4679c79d9b438ec9db7d4043aec",
+    "decomp/vc1.0/c1/cases/expression-templates/external.h": "79fe7e575e664d0e2897a522493755b4c41e5a80bce52f2860f14c858ac61847",
+    "decomp/vc1.0/c1/scripts/build-capture-helper.py": "2da6e2e039749475a927dcc874f9ece5bab271f6133cd9f30afe19b8de8de237"
+  }
+}

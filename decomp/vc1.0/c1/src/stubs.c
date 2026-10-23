@@ -892,7 +892,5 @@ void __stdcall validate_self_based_source(IrToken *value) { __asm { int 3 } }
 
 /* Fatal shutdown entries, named before their first accepted caller. */
 
-/* External direct candidates: no established public trigger. */
-int __fastcall open_program_database_object(ProgramDatabase *self, unsigned unused_edx,
-    char *path, char *mode, unsigned signature) { __asm { int 3 } }
-int __fastcall reload_program_database(ProgramDatabase *self) { __asm { int 3 } }
+/* Accepted external database methods are in program-database.c. Their direct
+   owned-unit evidence does not establish a public source trigger. */

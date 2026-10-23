@@ -1,0 +1,57 @@
+{
+  "status": "pass",
+  "units": [
+    {
+      "unit": 0,
+      "name": "existing-writable",
+      "status": "pass",
+      "setup_seconds": 0.004232173785567284,
+      "execution_seconds": 0.008073567412793636,
+      "checks_seconds": 0.0037323208525776863
+    },
+    {
+      "unit": 1,
+      "name": "existing-readonly",
+      "status": "pass",
+      "setup_seconds": 0.0038383537903428078,
+      "execution_seconds": 0.007968852296471596,
+      "checks_seconds": 0.0034120967611670494
+    },
+    {
+      "unit": 2,
+      "name": "create-new",
+      "status": "pass",
+      "setup_seconds": 0.0035338252782821655,
+      "execution_seconds": 0.007900828495621681,
+      "checks_seconds": 0.0032159145921468735
+    },
+    {
+      "unit": 3,
+      "name": "missing-readonly",
+      "status": "pass",
+      "setup_seconds": 0.0035293567925691605,
+      "execution_seconds": 0.0038700979202985764,
+      "checks_seconds": 0.0012930911034345627
+    },
+    {
+      "unit": 4,
+      "name": "reload-existing",
+      "status": "pass",
+      "setup_seconds": 0.003795660100877285,
+      "execution_seconds": 0.007889578118920326,
+      "checks_seconds": 0.005106640979647636
+    },
+    {
+      "unit": 5,
+      "name": "reload-short-header",
+      "status": "pass",
+      "setup_seconds": 0.0037934156134724617,
+      "execution_seconds": 0.007921573705971241,
+      "checks_seconds": 0.00491141714155674
+    }
+  ],
+  "reference_seconds": 0.0848439373075962,
+  "total_seconds": 0.21378784347325563,
+  "executable_sha256": "6e662a90bfaf1c694819d356dadf7dc5010c9153ab1a1dcb2ca13abdb8ddb7d4",
+  "scope": "Six direct external method units; no established public trigger. Native i386 only; no Wine, debugger, or cache refresh."
+}

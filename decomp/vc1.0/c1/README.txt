@@ -11,13 +11,16 @@ richer indexed/member/OFFSET/x87 inline assembly, plus the TLS/static/pragma/
 automatic-bitfield checksum case, the deliberate diagnostic/recovery unit, and
 the named-base relocatable record arena, /Zi PCH library binding, the legacy callback adapter, assembler expression/directive checksum, browser-bearing timestamp PCH create/reuse, bounded assembler error recovery, configurable calibration tables, typed packet-view/callback adapters, normal/expected-error arena API prototype phases, portability-header diagnostics, explicit-base/goto traversal, typed x87/bit-scan arithmetic, generated-header shutdown failures, protocol-header parser repair, and assembler operand diagnostics/SEG.
 
-There are 880 accepted source functions and 1013 accepted original entries.
-Accepted original extents cover 240627/277234 code-section bytes (86.795631%):
-219713 frontend bytes, 20728 CRT bytes and 186 import-thunk bytes. This is a
+There are 882 accepted source functions and 1015 accepted original entries.
+Of these,871 are application functions; ten historical runtime.c bodies and
+the historical __strgtold12 body in floating.c are CRT, with no application credit.
+Accepted original extents cover 241032/277234 code-section bytes (86.941717%):
+218294 application bytes,22552 CRT bytes and186 import-thunk bytes. This is a
 union clipped to code-section VirtualSize, including shared text data; it is
 not branch coverage. Of this union,239936bytes have public-case evidence and
-691 bytes have separate direct-test evidence for assembler support and expression
-templates; no public trigger is established for those four functions. Unvisited
+1096 bytes have separate direct-test evidence for assembler support, expression
+templates and database object methods; no public trigger is established for
+those six functions. Unvisited
 functions retain named trapping stubs.
 
 Native build and checks
@@ -43,8 +46,8 @@ shared-prefix original first-entry captures. All 865 publicly reached accepted a
 are checked with accepted-prefix seeding and exact expected order. Every native
 case checks status, raw streams and complete artifacts. Earlier migration checks
 are recorded in cases/shared-prefix-validation.json; automatic-PCH completion and
-current 52 public plus 21 direct regression receipts are in
-cases/expression-templates/validation.json.
+current53 public plus27 direct regression receipts are in
+cases/legacy-pdb-object/object-validation.json.
 The native cache is not silently refreshed. Regenerate it explicitly with
 scripts/native-traces.py --write after a verified original-toolchain map and
 acceptance metadata change.
@@ -125,9 +128,8 @@ store_extended retains its documented ESI/x87 ABI and a native-only entry marker
 that preserves registers, flags and floating state. The source also compiles
 with the original Win32 compiler; recon.h is empty there.
 
-The approved queue is cases/approved-queue.json. Comment preservation and
-prototype output and automatic PCH are complete. The worker is paused pending
-the next selected case. Existing sources,
+The approved queue is cases/approved-queue.json. The legacy PDB object workflow
+is complete; the next substantial residual case awaits review. Existing sources,
 original options/environments, dependencies, outputs and acceptance ranges are
 durable. Independent grammar/layout/ABI analysis remains available in scripts/
 and cases/analysis/. Measured builds, setup, reference capture, native execution
@@ -459,4 +461,29 @@ list, its one live12-byte buffer, exact free ownership/order, unchanged owner
 fields and ECX-this/RET0/nonvolatile ABI. Unwritten constructor fields remain raw;
 freed block-list pointers are never followed. The cached fixture uses no Wine or
 debugger. scripts/check-pdb-cleanup.py checks frozen observations and nine damaged
-ownership/ABI controls. Separate object open/reload methods remain unaccepted.
+ownership/ABI controls.
+
+Direct database object methods
+------------------------------
+The same case has six external units for the353-byte object-open and52-byte
+reload methods: existing writable/readonly files, creation, readonly absence,
+reload success and a truncated32-byte header. Each starts at the actual natural
+constructor with its116/12/12-byte allocations; no target globals or unwritten
+fields are initialized by the driver. Two original baselines and fresh native
+entry/return proofs bind actual formals, linked record/type-index owners,
+store-defined fields, own padding/tails, descriptor positions and error states.
+Complete files/streams match raw bytes; the fixed signature is a direct input.
+There is no established public trigger for these methods. Both preserve their
+own x87 control word; original027f/native037f are recorded, not declared equal.
+These methods perform integer/file operations and no x87 arithmetic.
+
+Run cached units with make -j4 native-pdb-tests followed by
+python3 scripts/check-pdb-objects.py. They need neither Wine nor GDB and are part
+of the normal full check. Explicit debug-pdb-unit.py is acceptance tooling only.
+Twelve damaged observation/cache controls and one real unknown-SIGTRAP control
+are retained. The first zero-argument driver incorrectly filled three canary
+slots with argument placeholders; the failed run is preserved, and only the
+affected reload baselines were repeated after fixing the external frame builder.
+The earlier coverage origin label placed1824 bytes of old __strgtold12 in its
+frontend bucket; current accounting correctly classifies it as CRT. No CRT body
+was added or changed, and historical receipts remain unchanged.

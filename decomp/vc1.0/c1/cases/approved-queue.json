@@ -2,7 +2,7 @@
   "authorization": "Root approved separate legacy PDB object open/reload/owned cleanup workflow; public malformed constructor cleanup reach now independently proved.",
   "baseline_commit": "0a2f078d99e5144d89c96d559762e11b3a67ce89",
   "baseline_accepted_count": 1012,
-  "status": "public cleanup accepted; two direct methods pending",
+  "status": "complete public cleanup and two direct methods; next substantial residual proposal pending review",
   "cases": [
     {
       "case": "legacy-pdb-object",
@@ -12,7 +12,7 @@
     {
       "case": "legacy-pdb-object",
       "phase": "direct object open/reload",
-      "status": "constructor context/ABI probe established; implementation pending"
+      "status": "whole353B/52B methods, six owned units, two original baselines, fresh native entry/return proofs, exact outputs/errors and cached regressions complete"
     }
   ]
 }

@@ -1,6 +1,6 @@
 {
   "case": "Legacy database object methods and owned cleanup",
-  "status": "public malformed-PDB cleanup complete; separate direct object open/reload pending",
+  "status": "complete public cleanup and six direct external object-method units",
   "phases": {
     "context": {
       "target": "toolchains/1.0-nt/bin/C13232.EXE",
@@ -195,5 +195,1908 @@
     "logical": "@create_program_database@16",
     "original": 94976,
     "scope": "Natural accepted constructor has allocated real116B object and two12B owned lists; original modewi establishes writable/incremental. Header, loaded_tail and cumulative retain raw unwritten bytes. Tested wc/rc overwrite cumulative before use."
-  }
+  },
+  "direct_method_oracles": [
+    {
+      "unit": 0,
+      "name": "existing-writable",
+      "baselines": [
+        {
+          "directory": "evidence/direct/unit-0-first",
+          "files": {
+            "capture-status.json": "1e13e36d26e16ce75e27e482f9e1140d1107031892621f11b48ffe05296f1de0",
+            "events": "2289ae834fa51efb758d1e636a8e8a3f171d65b0adb982e29030b70fc37ebaa4",
+            "receipt.json": "f1f0dc7875e75720d06a5bf57350f2177e20ab4d03d3bb083a1ea9a747ce4401",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+            "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/test.c": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129",
+            "work/unit.pdb": "246dbc3280dfd54d351bc30d8d5e076e9d18a4963a1082547be5ecd1e09e4573"
+          }
+        },
+        {
+          "directory": "evidence/direct/unit-0-second",
+          "files": {
+            "capture-status.json": "e9d3d164c58e191c32c1792d0675b1cbbbbaed4f6c947b5de1db8bd6d3c15689",
+            "events": "3ef4ac8e5d4d480461f2c03d079b28a14e27ae41e5c4c17cf481a9683ff5d428",
+            "receipt.json": "f7cc51feab939510979e1067b9579131c8c11c95ff40fc83f28c1031be345b3e",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+            "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/test.c": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129",
+            "work/unit.pdb": "246dbc3280dfd54d351bc30d8d5e076e9d18a4963a1082547be5ecd1e09e4573"
+          }
+        }
+      ],
+      "contract": {
+        "unit": 0,
+        "allocations": [
+          116,
+          12,
+          12,
+          245696,
+          16384,
+          8204,
+          8204
+        ],
+        "header": "4d6963726f736f667420432f432b2b2070726f6772616d20646174616261736520312e30300d0a1a4a4700005c0d0e00d7cedb6a0100000000100810a0000000",
+        "type_offsets": [
+          [
+            5,
+            12
+          ],
+          [
+            5,
+            46
+          ],
+          [
+            5,
+            56
+          ],
+          [
+            5,
+            66
+          ],
+          [
+            5,
+            80
+          ],
+          [
+            5,
+            90
+          ],
+          [
+            5,
+            104
+          ],
+          [
+            5,
+            138
+          ]
+        ],
+        "buckets": [
+          [
+            80,
+            [
+              6,
+              24
+            ]
+          ],
+          [
+            311,
+            [
+              6,
+              48
+            ]
+          ],
+          [
+            321,
+            [
+              6,
+              12
+            ]
+          ],
+          [
+            496,
+            [
+              6,
+              72
+            ]
+          ],
+          [
+            543,
+            [
+              6,
+              96
+            ]
+          ],
+          [
+            583,
+            [
+              6,
+              36
+            ]
+          ],
+          [
+            1949,
+            [
+              6,
+              84
+            ]
+          ],
+          [
+            3467,
+            [
+              6,
+              60
+            ]
+          ]
+        ],
+        "type_entries": [
+          [
+            6,
+            12,
+            null,
+            [
+              5,
+              12
+            ],
+            4096
+          ],
+          [
+            6,
+            24,
+            null,
+            [
+              5,
+              46
+            ],
+            4097
+          ],
+          [
+            6,
+            36,
+            null,
+            [
+              5,
+              56
+            ],
+            4098
+          ],
+          [
+            6,
+            48,
+            null,
+            [
+              5,
+              66
+            ],
+            4099
+          ],
+          [
+            6,
+            60,
+            null,
+            [
+              5,
+              80
+            ],
+            4100
+          ],
+          [
+            6,
+            72,
+            null,
+            [
+              5,
+              90
+            ],
+            4101
+          ],
+          [
+            6,
+            84,
+            null,
+            [
+              5,
+              104
+            ],
+            4102
+          ],
+          [
+            6,
+            96,
+            null,
+            [
+              5,
+              138
+            ],
+            4103
+          ]
+        ],
+        "record_payloads": {
+          "1": "",
+          "5": "41011e0005000000000080000000000000000e52656769737472795265636f7264f15000060002000a0000104702060001020100011037010a00080074000000010002108b0d060001020000f2f1f0010a00080074000000000004109d071e00040206047400030000000374616706041200030004000576616c7565f2f11f021e0005000200061000000000000008000e52656769737472795265636f7264f1"
+        },
+        "lists": {
+          "records": {
+            "head": [
+              1,
+              0
+            ],
+            "tail": [
+              5,
+              0
+            ],
+            "count": 160,
+            "nodes": [
+              [
+                1,
+                0,
+                [
+                  1,
+                  12
+                ],
+                [
+                  5,
+                  0
+                ]
+              ],
+              [
+                5,
+                0,
+                [
+                  5,
+                  172
+                ],
+                null
+              ]
+            ]
+          },
+          "blocks": {
+            "head": [
+              2,
+              0
+            ],
+            "tail": [
+              6,
+              0
+            ],
+            "count": 96,
+            "nodes": [
+              [
+                2,
+                0,
+                [
+                  2,
+                  12
+                ],
+                [
+                  6,
+                  0
+                ]
+              ],
+              [
+                6,
+                8096,
+                [
+                  6,
+                  108
+                ],
+                null
+              ]
+            ]
+          }
+        },
+        "loaded_tail": [
+          5,
+          0
+        ],
+        "descriptor": "owned unit.pdb",
+        "position": [
+          224
+        ],
+        "returns": [
+          [
+            1,
+            1
+          ]
+        ],
+        "errors": {
+          "constructor": [
+            2,
+            2,
+            2
+          ],
+          "result": [
+            2,
+            2,
+            0
+          ]
+        },
+        "undefined_policy": "Constructor header/loaded_tail/cumulative and type-entry padding are raw; only own preservation is checked. Allocation tails are bounded to the observed256B prefix. Original/native FP controls are individually preserved, not claimed equal."
+      },
+      "files": [
+        {
+          "name": "irdb",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irex",
+          "bytes": 6,
+          "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+        },
+        {
+          "name": "irgl",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irsy",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "test.c",
+          "bytes": 327,
+          "sha256": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129"
+        },
+        {
+          "name": "unit.pdb",
+          "bytes": 224,
+          "sha256": "246dbc3280dfd54d351bc30d8d5e076e9d18a4963a1082547be5ecd1e09e4573"
+        }
+      ],
+      "expected_exit": 99,
+      "expected_stdout": "",
+      "expected_stderr": ""
+    },
+    {
+      "unit": 1,
+      "name": "existing-readonly",
+      "baselines": [
+        {
+          "directory": "evidence/direct/unit-1-first",
+          "files": {
+            "capture-status.json": "7e20f14b3662993b00568cb47063ae4ce1bd3b43961aa39bb60a7cf5de96be6a",
+            "events": "f1ebc80d86692c30cbd1889279fd822f1051f96803d90851ccaf882f15937757",
+            "receipt.json": "933304dbd98bdab42d8458e23fab0b4cbbc0d5387229b74e16f5571cc9fd32f1",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+            "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/test.c": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129",
+            "work/unit.pdb": "246dbc3280dfd54d351bc30d8d5e076e9d18a4963a1082547be5ecd1e09e4573"
+          }
+        },
+        {
+          "directory": "evidence/direct/unit-1-second",
+          "files": {
+            "capture-status.json": "6763e7f34808804ade34241f3166f9f4037532f5edd810ffdd180907bdb75838",
+            "events": "040468919d6e5ef501e4e6cdf180856b0ed379e808de847699bde10dc7e3ae04",
+            "receipt.json": "1c1c1aa479edce35dc4997a0fb919f28d5d8e67ff94ffdb12661177e07f2d0e5",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+            "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/test.c": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129",
+            "work/unit.pdb": "246dbc3280dfd54d351bc30d8d5e076e9d18a4963a1082547be5ecd1e09e4573"
+          }
+        }
+      ],
+      "contract": {
+        "unit": 1,
+        "allocations": [
+          116,
+          12,
+          12,
+          32,
+          16384,
+          8204,
+          8204
+        ],
+        "header": "4d6963726f736f667420432f432b2b2070726f6772616d20646174616261736520312e30300d0a1a4a4700005c0d0e00d7cedb6a0100000000100810a0000000",
+        "type_offsets": [
+          [
+            5,
+            12
+          ],
+          [
+            5,
+            46
+          ],
+          [
+            5,
+            56
+          ],
+          [
+            5,
+            66
+          ],
+          [
+            5,
+            80
+          ],
+          [
+            5,
+            90
+          ],
+          [
+            5,
+            104
+          ],
+          [
+            5,
+            138
+          ]
+        ],
+        "buckets": [
+          [
+            80,
+            [
+              6,
+              24
+            ]
+          ],
+          [
+            311,
+            [
+              6,
+              48
+            ]
+          ],
+          [
+            321,
+            [
+              6,
+              12
+            ]
+          ],
+          [
+            496,
+            [
+              6,
+              72
+            ]
+          ],
+          [
+            543,
+            [
+              6,
+              96
+            ]
+          ],
+          [
+            583,
+            [
+              6,
+              36
+            ]
+          ],
+          [
+            1949,
+            [
+              6,
+              84
+            ]
+          ],
+          [
+            3467,
+            [
+              6,
+              60
+            ]
+          ]
+        ],
+        "type_entries": [
+          [
+            6,
+            12,
+            null,
+            [
+              5,
+              12
+            ],
+            4096
+          ],
+          [
+            6,
+            24,
+            null,
+            [
+              5,
+              46
+            ],
+            4097
+          ],
+          [
+            6,
+            36,
+            null,
+            [
+              5,
+              56
+            ],
+            4098
+          ],
+          [
+            6,
+            48,
+            null,
+            [
+              5,
+              66
+            ],
+            4099
+          ],
+          [
+            6,
+            60,
+            null,
+            [
+              5,
+              80
+            ],
+            4100
+          ],
+          [
+            6,
+            72,
+            null,
+            [
+              5,
+              90
+            ],
+            4101
+          ],
+          [
+            6,
+            84,
+            null,
+            [
+              5,
+              104
+            ],
+            4102
+          ],
+          [
+            6,
+            96,
+            null,
+            [
+              5,
+              138
+            ],
+            4103
+          ]
+        ],
+        "record_payloads": {
+          "1": "",
+          "5": "41011e0005000000000080000000000000000e52656769737472795265636f7264f15000060002000a0000104702060001020100011037010a00080074000000010002108b0d060001020000f2f1f0010a00080074000000000004109d071e00040206047400030000000374616706041200030004000576616c7565f2f11f021e0005000200061000000000000008000e52656769737472795265636f7264f1"
+        },
+        "lists": {
+          "records": {
+            "head": [
+              1,
+              0
+            ],
+            "tail": [
+              5,
+              0
+            ],
+            "count": 160,
+            "nodes": [
+              [
+                1,
+                0,
+                [
+                  1,
+                  12
+                ],
+                [
+                  5,
+                  0
+                ]
+              ],
+              [
+                5,
+                0,
+                [
+                  5,
+                  172
+                ],
+                null
+              ]
+            ]
+          },
+          "blocks": {
+            "head": [
+              2,
+              0
+            ],
+            "tail": [
+              6,
+              0
+            ],
+            "count": 96,
+            "nodes": [
+              [
+                2,
+                0,
+                [
+                  2,
+                  12
+                ],
+                [
+                  6,
+                  0
+                ]
+              ],
+              [
+                6,
+                8096,
+                [
+                  6,
+                  108
+                ],
+                null
+              ]
+            ]
+          }
+        },
+        "loaded_tail": [
+          5,
+          0
+        ],
+        "descriptor": "closed",
+        "position": [],
+        "returns": [
+          [
+            1,
+            1
+          ]
+        ],
+        "errors": {
+          "constructor": [
+            2,
+            2,
+            2
+          ],
+          "result": [
+            2,
+            2,
+            0
+          ]
+        },
+        "undefined_policy": "Constructor header/loaded_tail/cumulative and type-entry padding are raw; only own preservation is checked. Allocation tails are bounded to the observed256B prefix. Original/native FP controls are individually preserved, not claimed equal."
+      },
+      "files": [
+        {
+          "name": "irdb",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irex",
+          "bytes": 6,
+          "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+        },
+        {
+          "name": "irgl",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irsy",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "test.c",
+          "bytes": 327,
+          "sha256": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129"
+        },
+        {
+          "name": "unit.pdb",
+          "bytes": 224,
+          "sha256": "246dbc3280dfd54d351bc30d8d5e076e9d18a4963a1082547be5ecd1e09e4573"
+        }
+      ],
+      "expected_exit": 99,
+      "expected_stdout": "",
+      "expected_stderr": ""
+    },
+    {
+      "unit": 2,
+      "name": "create-new",
+      "baselines": [
+        {
+          "directory": "evidence/direct/unit-2-first",
+          "files": {
+            "capture-status.json": "7ea76d8eb7298a375e8300f2302b424cb61ebbd9f2d152ff2a16861e43ecdc7b",
+            "events": "7b41e13dc8b718d55d5511784f5d7db91ae139ba8e880466111dd7bed357484b",
+            "receipt.json": "b65ffa216a958edd2147efa168e8d6011e4cc14b765883dbefbf6b642c30c4de",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+            "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/test.c": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129",
+            "work/unit.pdb": "55df7b4ac855c1bde176a008b58b1e2401d82b350f92dc66e22d0eb760ab7f85"
+          }
+        },
+        {
+          "directory": "evidence/direct/unit-2-second",
+          "files": {
+            "capture-status.json": "7e3909473bd3b3509175962ad18c3f2560753e4cf1bb1fc17592c976517c06d9",
+            "events": "adf5b40c1a2998aea308d5c04850ccc0b961d71abfc37a0837c9d8f432ce9c9f",
+            "receipt.json": "d0c0dc8a56ba8b456452ce2be19fafb7dd6fdbc1ab5dfd6ea0d7914880109843",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+            "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/test.c": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129",
+            "work/unit.pdb": "55df7b4ac855c1bde176a008b58b1e2401d82b350f92dc66e22d0eb760ab7f85"
+          }
+        }
+      ],
+      "contract": {
+        "unit": 2,
+        "allocations": [
+          116,
+          12,
+          12,
+          245696,
+          16384
+        ],
+        "header": "4d6963726f736f667420432f432b2b2070726f6772616d20646174616261736520312e30300d0a1a4a4700005c0d0e0026594131000000000010001000000000",
+        "type_offsets": [],
+        "buckets": [],
+        "type_entries": [],
+        "record_payloads": {
+          "1": ""
+        },
+        "lists": {
+          "records": {
+            "head": [
+              1,
+              0
+            ],
+            "tail": [
+              1,
+              0
+            ],
+            "count": 0,
+            "nodes": [
+              [
+                1,
+                0,
+                [
+                  1,
+                  12
+                ],
+                null
+              ]
+            ]
+          },
+          "blocks": {
+            "head": [
+              2,
+              0
+            ],
+            "tail": [
+              2,
+              0
+            ],
+            "count": 0,
+            "nodes": [
+              [
+                2,
+                0,
+                [
+                  2,
+                  12
+                ],
+                null
+              ]
+            ]
+          }
+        },
+        "loaded_tail": [
+          1,
+          0
+        ],
+        "descriptor": "owned unit.pdb",
+        "position": [
+          64
+        ],
+        "returns": [
+          [
+            1,
+            1
+          ]
+        ],
+        "errors": {
+          "constructor": [
+            2,
+            2,
+            2
+          ],
+          "result": [
+            2,
+            2,
+            0
+          ]
+        },
+        "undefined_policy": "Constructor header/loaded_tail/cumulative and type-entry padding are raw; only own preservation is checked. Allocation tails are bounded to the observed256B prefix. Original/native FP controls are individually preserved, not claimed equal."
+      },
+      "files": [
+        {
+          "name": "irdb",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irex",
+          "bytes": 6,
+          "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+        },
+        {
+          "name": "irgl",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irsy",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "test.c",
+          "bytes": 327,
+          "sha256": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129"
+        },
+        {
+          "name": "unit.pdb",
+          "bytes": 64,
+          "sha256": "55df7b4ac855c1bde176a008b58b1e2401d82b350f92dc66e22d0eb760ab7f85"
+        }
+      ],
+      "expected_exit": 99,
+      "expected_stdout": "",
+      "expected_stderr": ""
+    },
+    {
+      "unit": 3,
+      "name": "missing-readonly",
+      "baselines": [
+        {
+          "directory": "evidence/direct/unit-3-first",
+          "files": {
+            "capture-status.json": "da562d5fc56722eeeb8c850b416c7cce65762edc23273ff2b9c72cfcc2baaf6f",
+            "events": "8179a72c9df4d0cd53c3c23a1269ff5f78b6ecff95cea753cadb81c9d292c928",
+            "receipt.json": "7bcbd59438a2e0b958ea38da1e7f950ec22aea7cb85d7e53e8932c789f3e513e",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+            "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/test.c": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129"
+          }
+        },
+        {
+          "directory": "evidence/direct/unit-3-second",
+          "files": {
+            "capture-status.json": "0236ab2b13d9f521d6dcf0209e3104acb10cf199bb631385586839e20c45d563",
+            "events": "8b789ca5f6f93e878a70257bc5e25a5ed742bcad89b7a163198691721b2d07e5",
+            "receipt.json": "5fdcdba385486e9a9fc4e1724607c5ecddfdaf91cc99182db6422be8dc7dea1d",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+            "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/test.c": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129"
+          }
+        }
+      ],
+      "contract": {
+        "unit": 3,
+        "allocations": [
+          116,
+          12,
+          12
+        ],
+        "header": null,
+        "type_offsets": [],
+        "buckets": [],
+        "type_entries": [],
+        "record_payloads": {
+          "1": ""
+        },
+        "lists": {
+          "records": {
+            "head": [
+              1,
+              0
+            ],
+            "tail": [
+              1,
+              0
+            ],
+            "count": 0,
+            "nodes": [
+              [
+                1,
+                0,
+                [
+                  1,
+                  12
+                ],
+                null
+              ]
+            ]
+          },
+          "blocks": {
+            "head": [
+              2,
+              0
+            ],
+            "tail": [
+              2,
+              0
+            ],
+            "count": 0,
+            "nodes": [
+              [
+                2,
+                0,
+                [
+                  2,
+                  12
+                ],
+                null
+              ]
+            ]
+          }
+        },
+        "loaded_tail": null,
+        "descriptor": "closed",
+        "position": [],
+        "returns": [
+          [
+            1,
+            0
+          ]
+        ],
+        "errors": {
+          "constructor": [
+            2,
+            2,
+            2
+          ],
+          "result": [
+            2,
+            2,
+            2
+          ]
+        },
+        "undefined_policy": "Constructor header/loaded_tail/cumulative and type-entry padding are raw; only own preservation is checked. Allocation tails are bounded to the observed256B prefix. Original/native FP controls are individually preserved, not claimed equal."
+      },
+      "files": [
+        {
+          "name": "irdb",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irex",
+          "bytes": 6,
+          "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+        },
+        {
+          "name": "irgl",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irsy",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "test.c",
+          "bytes": 327,
+          "sha256": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129"
+        }
+      ],
+      "expected_exit": 99,
+      "expected_stdout": "",
+      "expected_stderr": ""
+    },
+    {
+      "unit": 4,
+      "name": "reload-existing",
+      "baselines": [
+        {
+          "directory": "evidence/direct/unit-4-first",
+          "files": {
+            "capture-status.json": "285238de83ba9e9534d65db7704f7a313b330ca3189cda33bc44e0c86d656927",
+            "events": "5619f403e8f8247f6489559453f3a489b2718f8b859b61c7fe5cf7977a3b06c0",
+            "receipt.json": "5caa3015a043d31a0c705c747a258db9695c4ac28f9f6f020618eedc45ad1018",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+            "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/test.c": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129",
+            "work/unit.pdb": "246dbc3280dfd54d351bc30d8d5e076e9d18a4963a1082547be5ecd1e09e4573"
+          }
+        },
+        {
+          "directory": "evidence/direct/unit-4-second",
+          "files": {
+            "capture-status.json": "0b0b0b96858676efe8e4ae8919dbf390eef811944eb18bec7dab8529ed31f0ce",
+            "events": "02308810a672a34cc77c67407c04762465b101229311155c6585258af4e1e9fe",
+            "receipt.json": "5e8c8c3f5a59590046b9468f2e35de7e8bc9a699d15b2293643f19d594180052",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+            "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/test.c": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129",
+            "work/unit.pdb": "246dbc3280dfd54d351bc30d8d5e076e9d18a4963a1082547be5ecd1e09e4573"
+          }
+        }
+      ],
+      "contract": {
+        "unit": 4,
+        "allocations": [
+          116,
+          12,
+          12,
+          245696,
+          16384,
+          8204,
+          8204,
+          245696,
+          16384,
+          8204
+        ],
+        "header": "4d6963726f736f667420432f432b2b2070726f6772616d20646174616261736520312e30300d0a1a4a4700005c0d0e00d7cedb6a0100000000100810a0000000",
+        "type_offsets": [
+          [
+            9,
+            12
+          ],
+          [
+            9,
+            46
+          ],
+          [
+            9,
+            56
+          ],
+          [
+            9,
+            66
+          ],
+          [
+            9,
+            80
+          ],
+          [
+            9,
+            90
+          ],
+          [
+            9,
+            104
+          ],
+          [
+            9,
+            138
+          ]
+        ],
+        "buckets": [
+          [
+            80,
+            [
+              6,
+              120
+            ]
+          ],
+          [
+            311,
+            [
+              6,
+              144
+            ]
+          ],
+          [
+            321,
+            [
+              6,
+              108
+            ]
+          ],
+          [
+            496,
+            [
+              6,
+              168
+            ]
+          ],
+          [
+            543,
+            [
+              6,
+              192
+            ]
+          ],
+          [
+            583,
+            [
+              6,
+              132
+            ]
+          ],
+          [
+            1949,
+            [
+              6,
+              180
+            ]
+          ],
+          [
+            3467,
+            [
+              6,
+              156
+            ]
+          ]
+        ],
+        "type_entries": [
+          [
+            6,
+            12,
+            null,
+            [
+              5,
+              12
+            ],
+            4096
+          ],
+          [
+            6,
+            24,
+            null,
+            [
+              5,
+              46
+            ],
+            4097
+          ],
+          [
+            6,
+            36,
+            null,
+            [
+              5,
+              56
+            ],
+            4098
+          ],
+          [
+            6,
+            48,
+            null,
+            [
+              5,
+              66
+            ],
+            4099
+          ],
+          [
+            6,
+            60,
+            null,
+            [
+              5,
+              80
+            ],
+            4100
+          ],
+          [
+            6,
+            72,
+            null,
+            [
+              5,
+              90
+            ],
+            4101
+          ],
+          [
+            6,
+            84,
+            null,
+            [
+              5,
+              104
+            ],
+            4102
+          ],
+          [
+            6,
+            96,
+            null,
+            [
+              5,
+              138
+            ],
+            4103
+          ],
+          [
+            6,
+            108,
+            null,
+            [
+              9,
+              12
+            ],
+            4096
+          ],
+          [
+            6,
+            120,
+            null,
+            [
+              9,
+              46
+            ],
+            4097
+          ],
+          [
+            6,
+            132,
+            null,
+            [
+              9,
+              56
+            ],
+            4098
+          ],
+          [
+            6,
+            144,
+            null,
+            [
+              9,
+              66
+            ],
+            4099
+          ],
+          [
+            6,
+            156,
+            null,
+            [
+              9,
+              80
+            ],
+            4100
+          ],
+          [
+            6,
+            168,
+            null,
+            [
+              9,
+              90
+            ],
+            4101
+          ],
+          [
+            6,
+            180,
+            null,
+            [
+              9,
+              104
+            ],
+            4102
+          ],
+          [
+            6,
+            192,
+            null,
+            [
+              9,
+              138
+            ],
+            4103
+          ]
+        ],
+        "record_payloads": {
+          "1": "",
+          "5": "41011e0005000000000080000000000000000e52656769737472795265636f7264f15000060002000a0000104702060001020100011037010a00080074000000010002108b0d060001020000f2f1f0010a00080074000000000004109d071e00040206047400030000000374616706041200030004000576616c7565f2f11f021e0005000200061000000000000008000e52656769737472795265636f7264f1",
+          "9": "41011e0005000000000080000000000000000e52656769737472795265636f7264f15000060002000a0000104702060001020100011037010a00080074000000010002108b0d060001020000f2f1f0010a00080074000000000004109d071e00040206047400030000000374616706041200030004000576616c7565f2f11f021e0005000200061000000000000008000e52656769737472795265636f7264f1"
+        },
+        "lists": {
+          "records": {
+            "head": [
+              1,
+              0
+            ],
+            "tail": [
+              9,
+              0
+            ],
+            "count": 320,
+            "nodes": [
+              [
+                1,
+                0,
+                [
+                  1,
+                  12
+                ],
+                [
+                  5,
+                  0
+                ]
+              ],
+              [
+                5,
+                0,
+                [
+                  5,
+                  172
+                ],
+                [
+                  9,
+                  0
+                ]
+              ],
+              [
+                9,
+                0,
+                [
+                  9,
+                  172
+                ],
+                null
+              ]
+            ]
+          },
+          "blocks": {
+            "head": [
+              2,
+              0
+            ],
+            "tail": [
+              6,
+              0
+            ],
+            "count": 192,
+            "nodes": [
+              [
+                2,
+                0,
+                [
+                  2,
+                  12
+                ],
+                [
+                  6,
+                  0
+                ]
+              ],
+              [
+                6,
+                8000,
+                [
+                  6,
+                  204
+                ],
+                null
+              ]
+            ]
+          }
+        },
+        "loaded_tail": [
+          9,
+          0
+        ],
+        "descriptor": "owned unit.pdb",
+        "position": [
+          224
+        ],
+        "returns": [
+          [
+            1,
+            1
+          ],
+          [
+            4,
+            1
+          ]
+        ],
+        "errors": {
+          "constructor": [
+            2,
+            2,
+            2
+          ],
+          "result": [
+            2,
+            2,
+            0
+          ]
+        },
+        "undefined_policy": "Constructor header/loaded_tail/cumulative and type-entry padding are raw; only own preservation is checked. Allocation tails are bounded to the observed256B prefix. Original/native FP controls are individually preserved, not claimed equal."
+      },
+      "files": [
+        {
+          "name": "irdb",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irex",
+          "bytes": 6,
+          "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+        },
+        {
+          "name": "irgl",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irsy",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "test.c",
+          "bytes": 327,
+          "sha256": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129"
+        },
+        {
+          "name": "unit.pdb",
+          "bytes": 224,
+          "sha256": "246dbc3280dfd54d351bc30d8d5e076e9d18a4963a1082547be5ecd1e09e4573"
+        }
+      ],
+      "expected_exit": 99,
+      "expected_stdout": "",
+      "expected_stderr": ""
+    },
+    {
+      "unit": 5,
+      "name": "reload-short-header",
+      "baselines": [
+        {
+          "directory": "evidence/direct/unit-5-first",
+          "files": {
+            "capture-status.json": "b70d50789f24d186ab87237535bcebeca672eaf5d5bd77f497564fc26f102991",
+            "events": "1e059c98f6f55eb9a65c1435193768ac076f47901915a6a68734513ef8617908",
+            "receipt.json": "d471171539b11221c9825b7d5b4388d6e1707b10864da7be52191d64138fd49b",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+            "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/test.c": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129",
+            "work/unit.pdb": "9862a15c15ff2de7346e840e9f84ab54ccfb035fde722d27d2d04ad7f169a7fa"
+          }
+        },
+        {
+          "directory": "evidence/direct/unit-5-second",
+          "files": {
+            "capture-status.json": "8cbe7a18908e0ce939d212c81b5af5826c5e527d0d20ecd117aecb40034af227",
+            "events": "e9dfc8952564791fce04e311250345f457a38683866e8b037fac8d18b1b01c35",
+            "receipt.json": "cf57c850cc8b71af26c5d9b9ac8c61a2728a1ec7fc6c637abd9047834e15f042",
+            "stderr": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "stdout": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irdb": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irex": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4",
+            "work/irgl": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irin": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/irsy": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+            "work/test.c": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129",
+            "work/unit.pdb": "9862a15c15ff2de7346e840e9f84ab54ccfb035fde722d27d2d04ad7f169a7fa"
+          }
+        }
+      ],
+      "contract": {
+        "unit": 5,
+        "allocations": [
+          116,
+          12,
+          12,
+          245696,
+          16384,
+          8204,
+          8204
+        ],
+        "header": "4d6963726f736f667420432f432b2b2070726f6772616d20646174616261736520312e30300d0a1a4a4700005c0d0e00d7cedb6a0100000000100810a0000000",
+        "type_offsets": [
+          [
+            5,
+            12
+          ],
+          [
+            5,
+            46
+          ],
+          [
+            5,
+            56
+          ],
+          [
+            5,
+            66
+          ],
+          [
+            5,
+            80
+          ],
+          [
+            5,
+            90
+          ],
+          [
+            5,
+            104
+          ],
+          [
+            5,
+            138
+          ]
+        ],
+        "buckets": [
+          [
+            80,
+            [
+              6,
+              24
+            ]
+          ],
+          [
+            311,
+            [
+              6,
+              48
+            ]
+          ],
+          [
+            321,
+            [
+              6,
+              12
+            ]
+          ],
+          [
+            496,
+            [
+              6,
+              72
+            ]
+          ],
+          [
+            543,
+            [
+              6,
+              96
+            ]
+          ],
+          [
+            583,
+            [
+              6,
+              36
+            ]
+          ],
+          [
+            1949,
+            [
+              6,
+              84
+            ]
+          ],
+          [
+            3467,
+            [
+              6,
+              60
+            ]
+          ]
+        ],
+        "type_entries": [
+          [
+            6,
+            12,
+            null,
+            [
+              5,
+              12
+            ],
+            4096
+          ],
+          [
+            6,
+            24,
+            null,
+            [
+              5,
+              46
+            ],
+            4097
+          ],
+          [
+            6,
+            36,
+            null,
+            [
+              5,
+              56
+            ],
+            4098
+          ],
+          [
+            6,
+            48,
+            null,
+            [
+              5,
+              66
+            ],
+            4099
+          ],
+          [
+            6,
+            60,
+            null,
+            [
+              5,
+              80
+            ],
+            4100
+          ],
+          [
+            6,
+            72,
+            null,
+            [
+              5,
+              90
+            ],
+            4101
+          ],
+          [
+            6,
+            84,
+            null,
+            [
+              5,
+              104
+            ],
+            4102
+          ],
+          [
+            6,
+            96,
+            null,
+            [
+              5,
+              138
+            ],
+            4103
+          ]
+        ],
+        "record_payloads": {
+          "1": "",
+          "5": "41011e0005000000000080000000000000000e52656769737472795265636f7264f15000060002000a0000104702060001020100011037010a00080074000000010002108b0d060001020000f2f1f0010a00080074000000000004109d071e00040206047400030000000374616706041200030004000576616c7565f2f11f021e0005000200061000000000000008000e52656769737472795265636f7264f1"
+        },
+        "lists": {
+          "records": {
+            "head": [
+              1,
+              0
+            ],
+            "tail": [
+              5,
+              0
+            ],
+            "count": 160,
+            "nodes": [
+              [
+                1,
+                0,
+                [
+                  1,
+                  12
+                ],
+                [
+                  5,
+                  0
+                ]
+              ],
+              [
+                5,
+                0,
+                [
+                  5,
+                  172
+                ],
+                null
+              ]
+            ]
+          },
+          "blocks": {
+            "head": [
+              2,
+              0
+            ],
+            "tail": [
+              6,
+              0
+            ],
+            "count": 96,
+            "nodes": [
+              [
+                2,
+                0,
+                [
+                  2,
+                  12
+                ],
+                [
+                  6,
+                  0
+                ]
+              ],
+              [
+                6,
+                8096,
+                [
+                  6,
+                  108
+                ],
+                null
+              ]
+            ]
+          }
+        },
+        "loaded_tail": [
+          5,
+          0
+        ],
+        "descriptor": "owned unit.pdb",
+        "position": [
+          32
+        ],
+        "returns": [
+          [
+            1,
+            1
+          ],
+          [
+            4,
+            0
+          ]
+        ],
+        "errors": {
+          "constructor": [
+            2,
+            2,
+            2
+          ],
+          "result": [
+            2,
+            2,
+            0
+          ]
+        },
+        "undefined_policy": "Constructor header/loaded_tail/cumulative and type-entry padding are raw; only own preservation is checked. Allocation tails are bounded to the observed256B prefix. Original/native FP controls are individually preserved, not claimed equal."
+      },
+      "files": [
+        {
+          "name": "irdb",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irex",
+          "bytes": 6,
+          "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+        },
+        {
+          "name": "irgl",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irsy",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "test.c",
+          "bytes": 327,
+          "sha256": "82a36125a6da2a7e57842ab14a2798729c081b44b6369dbd095ccfdc07025129"
+        },
+        {
+          "name": "unit.pdb",
+          "bytes": 32,
+          "sha256": "9862a15c15ff2de7346e840e9f84ab54ccfb035fde722d27d2d04ad7f169a7fa"
+        }
+      ],
+      "expected_exit": 99,
+      "expected_stdout": "",
+      "expected_stderr": ""
+    }
+  ],
+  "direct_protocol": "Natural real constructor allocations116/12/12. External original/native drivers supply owned unit.pdb path, wc/rc modes, fixed signature0x31415926 and a bounded private call stack. Original/native individual ABIs proved; own undefined bytes preserved. Exact output file sets, streams, error states, descriptor positions and all reached store-defined fields are compared. No established public trigger for either method."
 }

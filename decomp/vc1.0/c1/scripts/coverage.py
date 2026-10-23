@@ -17,6 +17,7 @@ public_ranges, direct_ranges = [], []
 direct_names = {name for case in config.get('direct_cases',{}).values() if not case['public_reachability'] for name in config['accepted'][case['accepted_from']:case['accepted_count']]}
 by_origin = {'frontend_source': [], 'CRT': [], 'import_thunks': []}
 owners = {}
+explicit_crt = set(json.loads(Path('cases/native-traces.json').read_text()).get('explicit_CRT_variants', []))
 for line in Path('build/c1.map').read_text().splitlines():
     match = re.match(r'\s+[0-9a-f]{4}:[0-9a-f]{8}\s+(\S+)\s+([0-9a-f]{8})', line)
     if match:
@@ -27,7 +28,7 @@ for record in records:
         continue
     if record['name'].startswith('import:'):
         origin = 'import_thunks'
-    elif 'library' in record or owners.get(record['name']) == 'runtime.obj':
+    elif 'library' in record or owners.get(record['name']) == 'runtime.obj' or record['name'] in explicit_crt:
         origin = 'CRT'
     else:
         origin = 'frontend_source'
@@ -71,6 +72,6 @@ print(json.dumps(dict(public_case_accepted_union_bytes=public_size,
                      direct_only_functions=sorted(direct_names),
                      accepted_union_bytes=size, original_code_bytes=total,
                      accepted_by_origin_bytes=origin_sizes,
-                     origin_classification='Frontend: source driver functions outside runtime.c. CRT: runtime.c overrides plus matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes the reconstruction origins, not a complete original linker map.',
+                     origin_classification='Frontend: accepted application source. CRT: runtime.c overrides, explicit CRT variants elsewhere in source, and matched LIBC.LIB/SETARGV code. Imports: import thunks. Includes shared text data; categories are disjoint. This describes accepted reconstruction origins, not a complete original linker map.',
                      percent=100*size/total,
                      metric='Union of accepted original code extents, shared text data, CRT and import thunks, clipped to code-section VirtualSize; not branch coverage.'), indent=2))

@@ -1017,7 +1017,9 @@
     "_abort_function_definition",
     "_make_reusable_zero",
     "_copy_expression_tree@8",
-    "@destroy_pdb_buffer_list@4"
+    "@destroy_pdb_buffer_list@4",
+    "@open_program_database_object@20",
+    "@reload_program_database@4"
   ],
   "driver": [
     {
@@ -6129,7 +6131,7 @@
           "stack_slot": 3
         }
       ],
-      "abi_contract": "Unaccepted: original ECXthis +3 stack args, RET12. Unused EDX C formal expresses original thiscall in period fastcall C; raw wholebody does not consume EDX input. Separate actual class/caller proof required."
+      "abi_contract": "Accepted direct external method: actual ECXthis+3stack inputs, original/native RET12 and four nonvolatiles. Constructor-owned116B object with two12B owned lists; wc/rc establish cumulative before load. No public trigger established. EDX unused, void/volatile parts uncredited."
     },
     {
       "name": "@reload_program_database@4",
@@ -6143,7 +6145,7 @@
           "kind": "pointer_identity"
         }
       ],
-      "abi_contract": "Unaccepted: ECXthis/RET0, intEAX; requires valid owned object and real descriptor positioned at header."
+      "abi_contract": "Accepted direct external method: actual ECXthis/RET0/intEAX; valid constructor-owned object/descriptor, positioned by actual caller. Fresh original/native success and short32B-header failure; four nonvolatiles and own FP control preserved. No public trigger established."
     }
   ],
   "cases": {
@@ -6436,6 +6438,13 @@
       "public_reachability": false,
       "units": 6,
       "manifest": "cases/expression-templates/manifest.json"
+    },
+    "legacy-pdb-object": {
+      "accepted_from": 1013,
+      "accepted_count": 1015,
+      "public_reachability": false,
+      "units": 6,
+      "manifest": "cases/legacy-pdb-object/manifest.json"
     }
   }
 }

@@ -675,6 +675,8 @@ typedef struct EntryPlan {
 } EntryPlan;
 static EntryPlan entries[2048];
 
+#include "capture-pdb-unit.h"
+
 int main(int argc, char **argv)
 {
     STARTUPINFOA si;
@@ -698,6 +700,11 @@ int main(int argc, char **argv)
     DWORD flag_entry_rva = 0, flag_scanner_rva = 0, flag_parser_rva = 0, flag_symbol_rva = 0;
     unsigned callback_count = 0;
 
+    flag_option=getenv("C1_PDB_UNIT");
+    if(flag_option) {
+        pdb_unit=atoi(flag_option);pdb_signature=0x31415926;
+        if(pdb_unit<0||pdb_unit>5||argc==11)return 2;
+    }
     flag_option = getenv("C1_DIRECT_CALL");
     if (flag_option) {
         if (sscanf(flag_option,"%lx,%lx,%u,%lx,%lx",&direct_marker_rva,
@@ -775,14 +782,25 @@ int main(int argc, char **argv)
         status = DBG_CONTINUE;
         if (ev.dwDebugEventCode == CREATE_PROCESS_DEBUG_EVENT) {
             base = (DWORD)ev.u.CreateProcessInfo.lpBaseOfImage;
+            pdb_teb=(DWORD)ev.u.CreateProcessInfo.lpThreadLocalBase;
             if (ev.u.CreateProcessInfo.hFile)
                 CloseHandle(ev.u.CreateProcessInfo.hFile);
+        } else if(pdb_unit>=0&&ev.dwDebugEventCode==CREATE_THREAD_DEBUG_EVENT) {
+            failed=11;TerminateProcess(pi.hProcess,99);
         } else if (ev.dwDebugEventCode == LOAD_DLL_DEBUG_EVENT) {
             if (ev.u.LoadDll.hFile) CloseHandle(ev.u.LoadDll.hFile);
         } else if (ev.dwDebugEventCode == EXCEPTION_DEBUG_EVENT) {
             code = ev.u.Exception.ExceptionRecord.ExceptionCode;
+            if(pdb_unit>=0&&ev.dwThreadId!=pi.dwThreadId) {
+                failed=11;TerminateProcess(pi.hProcess,99);
+                ContinueDebugEvent(ev.dwProcessId,ev.dwThreadId,DBG_CONTINUE);
+                continue;
+            }
             if (code == EXCEPTION_BREAKPOINT && !loader_break) {
                 loader_break = 1;
+                if(pdb_unit>=0&&!pdb_unit_initialize(pi.hProcess,base)) {
+                    failed=11;TerminateProcess(pi.hProcess,99);
+                }
                 if (flag_entry_rva) {
                     flag_entry = base + flag_entry_rva;
                     flag_scanner = base + flag_scanner_rva;
@@ -800,6 +818,9 @@ int main(int argc, char **argv)
                         failed = 7; TerminateProcess(pi.hProcess,99);
                     }
                 }
+            } else if ((flag_result = pdb_unit_event(pi.hProcess,pi.hThread,log,code,
+                        (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress,base)) != 0) {
+                if(flag_result<0) {failed=11;TerminateProcess(pi.hProcess,99);}
             } else if ((flag_result = pdb_free_event(pi.hProcess,pi.hThread,log,code,
                         (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress)) != 0) {
                 if(flag_result<0) {failed=10;TerminateProcess(pi.hProcess,99);}

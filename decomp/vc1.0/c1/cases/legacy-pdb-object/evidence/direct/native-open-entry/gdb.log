@@ -1,0 +1,12 @@
+gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x792a0: file src/program-database.c, line 20.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x565e6d01 in create_program_database (self=0x565f2113 <recon_time+99>, unused_edx=1463420224, path=0x5661da18 <database_path> "S:\\vc1.0\\c1\\legacy-pdb-object\\msvc.pdb", signature=1449137275) at src/program-database.c:154
+154	{
+
+Breakpoint 1, open_program_database_object (self=0x573b0960, unused_edx=2779096485, path=0x0, mode=0xa5a5a5a5 <error: Cannot access memory at address 0xa5a5a5a5>, signature=2779096485) at src/program-database.c:20
+20	{
+[Inferior 1 (process 1794447) killed]

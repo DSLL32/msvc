@@ -6,6 +6,62 @@
 #include "debug-info.h"
 #include <recon.h>
 
+/* Both database-opening methods copy the same original header at0x6a028. */
+static const PdbHeader initial_header = {
+    "Microsoft C/C++ program database 1.00\r\n\032JG", 0x000e0d5c,
+    0, 0, 0x1000, 0x1000, 0
+};
+
+/* Original0x17150..0x172b1, ECX this plus three stack operands, RET12.
+   Unlike open_program_database, this method does not own the object and
+   does not destroy it on failure. Its create path is inline in the original. */
+int __fastcall open_program_database_object(ProgramDatabase *self, unsigned unused_edx,
+    char *path, char *mode, unsigned signature)
+{
+    int valid;
+    self->writable = mode[0] == 'w';
+    switch (mode[1]) {
+    case 'c': self->cumulative = 1; break;
+    default: self->cumulative = 1;
+    case 'i': self->incremental = 1; break;
+    }
+    self->handle = _open(path, _O_BINARY | (self->writable ? _O_RDWR : _O_RDONLY));
+    if (self->handle >= 0) {
+        valid = _read(self->handle, &self->header, sizeof(PdbHeader)) == sizeof(PdbHeader)
+            && self->header.magic == 0x000e0d5c && load_program_database(self);
+        if (!valid) return 0;
+        if (!self->writable) {
+            if (self->handle >= 0) {
+                valid = _close(self->handle) >= 0;
+                self->handle = -1;
+            } else valid = 1;
+            if (!valid) return 0;
+        }
+        return 1;
+    }
+    if (!self->writable) return 0;
+    self->handle = _open(path, _O_BINARY | _O_CREAT | _O_RDWR, 0777);
+    if (self->handle < 0) return 0;
+    self->header = initial_header;
+    self->header.timestamp = signature;
+    if (_write(self->handle, &self->header, sizeof(PdbHeader)) != sizeof(PdbHeader)) {
+        if (self->handle >= 0) {
+            _close(self->handle);
+            self->handle = -1;
+        }
+        return 0;
+    }
+    return load_program_database(self) != 0;
+}
+
+/* Original0x172c0..0x172f4, ECX this/RET0. The caller positions the
+   descriptor; this method neither seeks nor discards previously loaded data. */
+int __fastcall reload_program_database(ProgramDatabase *self)
+{
+    return _read(self->handle, &self->header, sizeof(PdbHeader)) == sizeof(PdbHeader)
+        && self->header.magic == 0x000e0d5c && load_program_database(self);
+}
+
 /* Original 0x17b70..0x17dc3. Each list owns its own allocation chain;
    failure while opening or validating the file releases both chains. */
 ProgramDatabase *open_program_database(char *path, char *mode, unsigned signature)
@@ -96,10 +152,6 @@ PdbBlock *__fastcall initialize_pdb_block(PdbBlock *self, unsigned unused_edx, u
    is written into header byte 48; the companion debug reference uses it too. */
 int __fastcall create_program_database(ProgramDatabase *self, unsigned unused_edx, char *path, unsigned signature)
 {
-    static const PdbHeader initial_header = {
-        "Microsoft C/C++ program database 1.00\r\n\032JG", 0x000e0d5c,
-        0, 0, 0x1000, 0x1000, 0
-    };
     self->handle = _open(path, _O_BINARY | _O_CREAT | _O_RDWR, 0777);
     if (self->handle < 0) return 0;
     self->header = initial_header;

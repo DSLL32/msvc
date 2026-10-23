@@ -1,0 +1,7 @@
+{
+  "status": "pass",
+  "unknown_trap_exit": 88,
+  "before_candidate_completion": true,
+  "seconds": 0.14400390908122063,
+  "scope": "Owned native process; explicit GDB negative only. No original or fixture debugger."
+}

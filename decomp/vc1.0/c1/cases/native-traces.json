@@ -2,12 +2,12 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "4d048671f34f4e89810e4a0eb79f887cd32a7ce3e1a118fc0d31817939bb12f4",
+    "functions.json": "01503f0236e56da0815bcee4a8cd1fb81017d8c8f7edd290d0f2cb7b8c2a4559",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "44caac54d02f751f14a0307d6503a523140bff2b87fdccbd5d2f76e44479720f"
+    "sha256": "698b9f0e08ed3841485809d9816fd65fc3972e9dcadd1bf96ceef480ecf8c467"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
@@ -2355,7 +2355,7 @@
     },
     "open_program_database_object": {
       "logical": "@open_program_database_object@20",
-      "source": "src/stubs.c"
+      "source": "src/program-database.c"
     },
     "open_source_file": {
       "logical": "_open_source_file@8",
@@ -2995,7 +2995,7 @@
     },
     "reload_program_database": {
       "logical": "@reload_program_database@4",
-      "source": "src/stubs.c"
+      "source": "src/program-database.c"
     },
     "relocate_pch_pages": {
       "logical": "_relocate_pch_pages",
@@ -4543,7 +4543,9 @@
     "abort_function_definition",
     "make_reusable_zero",
     "copy_expression_tree",
-    "destroy_pdb_buffer_list"
+    "destroy_pdb_buffer_list",
+    "open_program_database_object",
+    "reload_program_database"
   ],
   "excluded_accepted": {
     "CRT": [
