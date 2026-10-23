@@ -5,3 +5,4 @@ cases/help/main-source-04/*.log binary
 cases/help/noreturn-probe-01/*/*.stdout binary
 cases/help/noreturn-probe-01/*/*.stderr binary
 cases/help/main-source-01/*.log binary
+cases/help/main-observer-build-01/*.log binary

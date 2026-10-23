@@ -1,0 +1,19 @@
+{
+  "scope": "Compiled existing helper plus exact focused delta; no runtime/helper EXE copied",
+  "generated_source": {
+    "path": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/main-observer-source-01/observe-main.c",
+    "sha256": "a876631dec0dba01ff17d2f60d034570a638549d8f9e5d16aeef0cf417fe6cfd"
+  },
+  "target_specific_header": {
+    "path": "decomp/watcom10.0a/wlink/scripts/main-prefix.h",
+    "sha256": "0419866d93a707139a3a1d0d52c42fdfa7ef17eb800c5a5776fd4f2ec96187cd"
+  },
+  "helper": {
+    "path": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/main-observer-source-01/observe-main.exe",
+    "sha256": "3e5684b1dcce2f52d1c84471308b1104839ad3c0f97c7f06cbe4da4a67003c9c"
+  },
+  "generator": {
+    "path": "decomp/watcom10.0a/wlink/scripts/prepare-main-observer.py",
+    "sha256": "243c977499df025a1a2507d8e9730a53de4788abcc65aab623a666e187062171"
+  }
+}

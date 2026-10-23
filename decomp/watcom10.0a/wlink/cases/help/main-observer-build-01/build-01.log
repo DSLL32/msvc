@@ -1,0 +1,3 @@
+observe-main.c
+main-prefix.h(20) : warning C4090: 'function' : different 'const' qualifiers
+main-prefix.h(20) : warning C4022: 'WriteProcessMemory' : pointer mismatch for actual parameter 3
