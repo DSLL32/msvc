@@ -192,7 +192,8 @@ def audit_trial(path):
     register_candidates=[name for name in ['_configure_link_options@12','_parse_switch@8','_print_logo']if name in trial['accepted']]
     register_candidate=bool(register_candidates)
     full_link_candidate='?FullLink@LinkContext@@QAEHPAE@Z' in trial['accepted']
-    imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies and name not in register_candidates and not(full_link_candidate and name=='?FullLink@LinkContext@@QAEHPAE@Z')]
+    pass_one_candidate='LinkContext::PassOne'in trial['accepted']
+    imported['accepted']=[name for name in imported['accepted'] if name not in cached_bodies and name not in register_candidates and not(full_link_candidate and name=='?FullLink@LinkContext@@QAEHPAE@Z')and not(pass_one_candidate and name=='LinkContext::PassOne')]
     import_path=path.parent/'direct-import-config.json'
     import_path.write_text(json.dumps(imported,indent=2)+'\n')
     inputs.append(import_path)
@@ -280,6 +281,35 @@ def audit_trial(path):
         tick=full_link_packet['get_tick_count_contract']
         inputs += [BINARY/tick['hfile']['path'],BINARY/tick['hfile']['receipt'],ROOT/tick['declaration']['path']]
         inputs += sorted((BINARY/'build').glob('*.obj'))
+    pass_one_command=None
+    pass_one_witness=None
+    if pass_one_candidate:
+        import importlib
+        from binary import PE
+        pass_one_checker=importlib.import_module('pass-one-preservation')
+        pass_one_witness=pass_one_checker.check(PE(ROOT/'toolchains/5.10/bin/LINK.EXE'),
+            PE(BINARY/'build/link.exe'),(BINARY/'build/link.map').read_text())
+        pass_one_config=copy.deepcopy(trial)
+        pass_one_config['accepted']=['LinkContext::PassOne']
+        pass_one_config_path=path.parent/'pass-one-register-import-config.json'
+        pass_one_config_path.write_text(json.dumps(pass_one_config,indent=2)+'\n')
+        pass_one_metadata=json.loads((BINARY/'build/graph.json').read_text())
+        pass_one_metadata['functions'].setdefault('LinkContext::PassOne',{})['register_imports']={'require_all_register_calls_resolved':True}
+        evidence=dict(path='cases/hello-win32/pass-one-import-preservation.json',sha256=sha(pass_one_checker.PACKET.read_bytes()))
+        pass_one_metadata['register_imports']={'preservation_contracts':[
+            dict(target=dict(function='_link_message'),preserves=['esi'],evidence=evidence),
+            dict(target={'import':dict(dll='msvcrt.dll',name='fputc')},preserves=['esi'],evidence=evidence)]}
+        pass_one_metadata_path=path.parent/'pass-one-register-import-metadata.json'
+        pass_one_metadata_path.write_text(json.dumps(pass_one_metadata,indent=2)+'\n')
+        pass_one_command=command.copy()
+        pass_one_command[pass_one_command.index('--config')+1]=str(pass_one_config_path)
+        pass_one_command[pass_one_command.index('--metadata')+1]=str(pass_one_metadata_path)
+        pass_one_command+=['--check-imports','--resolve-register-imports']
+        inputs += [pass_one_config_path,pass_one_metadata_path,pass_one_checker.PACKET,BINARY/'scripts/pass-one-preservation.py']
+        packet=json.loads(pass_one_checker.PACKET.read_text());provider=packet['canonical_provider']
+        inputs += [ROOT/provider['path'],BINARY/provider['owned_receipt']]
+        inputs += [BINARY/item['path']for item in provider['owned_hfile_copies']]
+        inputs += [ROOT/item['path']for imported in packet['imports']for item in imported['declarations']]
     delete_support=None
     if 'import:??3@YAXPAX@Z' in trial['accepted']:
         import importlib
@@ -331,6 +361,12 @@ def audit_trial(path):
         full_link_audit=dict(command=full_link_command,witness_binding=full_link_witness,
             inventory=full_link_checker.check_resolution(full_link_report,PE(BINARY/'build/link.exe')),
             report=full_link_report,stderr=resolved.stderr.decode())
+    pass_one_audit=None
+    if pass_one_command:
+        resolved=subprocess.run(pass_one_command,stdout=subprocess.PIPE,stderr=subprocess.PIPE,check=True)
+        pass_one_report=json.loads(resolved.stdout)
+        pass_one_audit=dict(command=pass_one_command,witness_binding=pass_one_witness,
+            inventory=pass_one_checker.check_resolution(pass_one_report),report=pass_one_report,stderr=resolved.stderr.decode())
     member_pointer_contract=None
     if 'LinkContext::Initialize' in trial['accepted']:
         from member_pointers import check_static
@@ -347,7 +383,7 @@ def audit_trial(path):
     assert full_report['discovery'] == 'cfg'
     assert set(report['functions']) == set(strict['accepted']), 'strict body subset differs'
     assert set(full_report['functions']) == set(trial['accepted']), 'full trial graph subset differs'
-    return dict(elapsed_seconds=elapsed,total_elapsed_seconds=time.perf_counter()-audit_started,binding_and_setup_seconds=started-audit_started,delete_support=delete_support,register_import_audit=register_audit,full_link_import_audit=full_link_audit,member_pointer_contract=member_pointer_contract,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
+    return dict(elapsed_seconds=elapsed,total_elapsed_seconds=time.perf_counter()-audit_started,binding_and_setup_seconds=started-audit_started,delete_support=delete_support,register_import_audit=register_audit,full_link_import_audit=full_link_audit,pass_one_import_audit=pass_one_audit,member_pointer_contract=member_pointer_contract,full_command=full_command,strict_command=strict_command,import_command=import_command,import_report=import_report,cached_import_residual=residual,
                 strict_projection_excludes_only_verified_import_thunks=sorted(import_leaves & set(trial['accepted'])),
                 input_sha256_before=before, input_sha256_after=after,
                 full_report=full_report,strict_report=report,

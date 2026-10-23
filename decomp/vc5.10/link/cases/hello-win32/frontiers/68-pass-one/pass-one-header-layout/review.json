@@ -1,0 +1,5383 @@
+{
+  "status": "prospective header-only closed-slot binding review; no oldpacket updated",
+  "headers": [
+    {
+      "path": "src/link-driver.h",
+      "old_sha256": "e5c1f2b46e3e7b744a6f3b409ec59621c0536a76b2b5530a85e321ce16d0597e",
+      "new_sha256": "e83a35872181618f522b9e368a2a63445018915ae2795d15e6d24bb1ff37f1e6",
+      "diff": "--- old/link-driver.h\n+++ new/link-driver.h\n@@ -71,12 +71,12 @@\n     LinkOptions options;\n     DWORD specified_switches, comment_size;\n     const char *entry_name;\n-    DWORD reserved19c[2];\n+    const unsigned char *mac_initializer_name, *mac_terminator_name;\n     struct IncludeSymbol *includes;\n     DWORD reserved1a8[3];\n     SectionList sections;\n     LinkPointerList pointer_list;\n-    DWORD reserved1cc;\n+    OutputLibrary *command_line_library;\n     StringTable *symbols, *strings;\n     const DefaultDosImage *dos_image;\n     DWORD dos_image_size, pe_header_offset;\n@@ -131,6 +131,7 @@\n     void RECON_THISCALL EmitDebugDirectories(DWORD start,DWORD original_offset,DWORD lines,DWORD end,DWORD line_offset);\n     void RECON_THISCALL FinishImage(void);\n     void RECON_THISCALL PassOne(void);\n+    void RECON_THISCALL LoadInputArgument(InputArgument *argument,OutputLibrary *library);\n     void RECON_THISCALL PassTwo(void);\n     void RECON_THISCALL PrepareMacJumpTables(void);\n     void RECON_THISCALL ResolveMacImports(void);\n"
+    },
+    {
+      "path": "src/full-link.h",
+      "old_sha256": "e4d0a470842da4c7e616416d51937419393585debbb4260aec9c729710223feb",
+      "new_sha256": "3bfab4ea2db2c8d727579c4dd332795ca8958cb8a55a45ca35d2fd0ad9b92e14",
+      "diff": "--- old/full-link.h\n+++ new/full-link.h\n@@ -20,7 +20,12 @@\n  * explicitly unnamed rather than borrowing another linker's layout. */\n struct OutputLibrary {\n     char *name;\n-    DWORD reserved04[16];\n+    DWORD reserved04[6];\n+    /* Opaque library-owned index buffers, released after input processing. */\n+    void *index_data[5];\n+    DWORD flags, reserved34[2];\n+    OutputLibrary *next;\n+    DWORD reserved40;\n };\n struct OutputModule {\n     DWORD reserved00;\n@@ -82,6 +87,9 @@\n } MacResource;\n \n typedef char OutputLibrarySize[(sizeof(OutputLibrary)==68)?1:-1];\n+typedef char LibraryIndexDataAt1c[(offsetof(OutputLibrary,index_data)==0x1c)?1:-1];\n+typedef char LibraryFlagsAt30[(offsetof(OutputLibrary,flags)==0x30)?1:-1];\n+typedef char LibraryNextAt3c[(offsetof(OutputLibrary,next)==0x3c)?1:-1];\n typedef char OutputModuleSize[(sizeof(OutputModule)==156)?1:-1];\n typedef char OutputModuleLibraryAt64[(offsetof(OutputModule,library)==0x64)?1:-1];\n typedef char SectionFlagsAt20[(offsetof(OutputSection,characteristics)==0x20)?1:-1];\n"
+    }
+  ],
+  "layout_assertions": {
+    "original_and_native_i386_compile_pass": true,
+    "source": "/root/.ai-tmp/msvc2/vc5.10/link/pass-one-header-layout/layout.c",
+    "source_sha256": "156126974667f77a41e3b0eead8cf90e80ee1826e89bfcacb7c092fc9f2d52bf",
+    "expected": {
+      "LinkContext": 664,
+      "OutputLibrary": 68,
+      "mac_initializer_name": 412,
+      "mac_terminator_name": 416,
+      "command_line_library": 460,
+      "index_data": 28,
+      "flags": 48,
+      "next": 60
+    }
+  },
+  "objects": [
+    {
+      "object": "full-link.obj",
+      "old_path": "/root/msvc2/decomp/vc5.10/link/cases/hello-win32/frontiers/67-next-contribution-group/full-link-proof/build/full-link.obj",
+      "new_path": "/root/msvc2/decomp/vc5.10/link/build/full-link.obj",
+      "old_sha256": "08016634c8781bc12c8f84e02423ec0c830ed5ba5ca2ec192e099c50cb4b32ff",
+      "new_sha256": "994151988bf92cd17bcc705ed77dec195b3e9d811ae768d43e25e2879f8c02bf",
+      "exact_normalized_code_and_reference_roles_equal": true,
+      "code": [
+        {
+          "section": ".text",
+          "bytes": 9899,
+          "normalized_sha256": "559c1d008d28f9964ddaf92a26ec2f9663b6cca8e168042e1af9907d94ea5ad6",
+          "references": [
+            {
+              "offset": 33,
+              "target": {
+                "name": "_output_module"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 38,
+              "target": {
+                "name": "_initialize_output_modules@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 43,
+              "target": {
+                "name": "_initialize_contribution_pools"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 84,
+              "target": {
+                "name": "_initialize_comdats"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 95,
+              "target": {
+                "name": "?InitializeSections@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 319,
+              "target": {
+                "local_section": ".data",
+                "value": 0,
+                "storage": 3,
+                "literal_sha256": "8f9e16c96c30f1489506aa1fd190e9d226344e175b66cbf5f9cf11deb490cf22"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 331,
+              "target": {
+                "local_section": ".data",
+                "value": 8,
+                "storage": 3,
+                "literal_sha256": "c429a2d572d864d12311b9cc26c7da3caf67ba1adeca3448e3395caa0f151aa7"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 356,
+              "target": {
+                "name": "_output_module"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 383,
+              "target": {
+                "name": "_create_contribution@28"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 388,
+              "target": {
+                "name": "_debug_directory"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 434,
+              "target": {
+                "name": "_debug_directory"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 440,
+              "target": {
+                "name": "_attach_comdat@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 452,
+              "target": {
+                "name": "_default_phase"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 456,
+              "target": {
+                "local_section": ".data",
+                "value": 16,
+                "storage": 3,
+                "literal_sha256": "4aae86b139c1cb318218065518d8f1820e8541cb5f55117889b7c4cfdc44e42c"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 467,
+              "target": {
+                "name": "?PassOne@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 475,
+              "target": {
+                "name": "_pdb_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 485,
+              "target": {
+                "name": "_pdb_file_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 491,
+              "target": {
+                "name": "_output_file_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 497,
+              "target": {
+                "name": "_derive_pdb_name@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 502,
+              "target": {
+                "name": "_pdb_file_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 508,
+              "target": {
+                "name": "_pdb_file_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 527,
+              "target": {
+                "name": "_initialize_pdb@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 535,
+              "target": {
+                "name": "_incremental_reuse"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 545,
+              "target": {
+                "name": "_output_file_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 551,
+              "target": {
+                "name": "_initialize_pdb_image@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 558,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 574,
+              "target": {
+                "name": "_derive_old_image_name@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 579,
+              "target": {
+                "name": "_old_image_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 585,
+              "target": {
+                "name": "_old_image_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 610,
+              "target": {
+                "name": "_old_image_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 616,
+              "target": {
+                "name": "_read_old_image@16"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 631,
+              "target": {
+                "name": "_old_image_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 638,
+              "target": {
+                "name": "__imp___unlink"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 646,
+              "target": {
+                "name": "_old_image_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 652,
+              "target": {
+                "name": "_release_memory@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 676,
+              "target": {
+                "name": "_map_file_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 684,
+              "target": {
+                "local_section": ".data",
+                "value": 24,
+                "storage": 3,
+                "literal_sha256": "c4ae7cc704827c37c396c1b0909e96475577f09760c575a94b7cd2e3453ecef6"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 689,
+              "target": {
+                "name": "_output_file_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 695,
+              "target": {
+                "name": "_replace_extension@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 700,
+              "target": {
+                "name": "_map_file_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 705,
+              "target": {
+                "local_section": ".data",
+                "value": 32,
+                "storage": 3,
+                "literal_sha256": "15eec7f94fc5b359e2a9946d8603f6d2e201c84dcea1bb8fa5b8d77e12c06138"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 711,
+              "target": {
+                "name": "_map_file_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 718,
+              "target": {
+                "name": "__imp__fopen"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 726,
+              "target": {
+                "name": "_map_output"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 732,
+              "target": {
+                "name": "_map_output"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 741,
+              "target": {
+                "name": "_map_file_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 754,
+              "target": {
+                "name": "_link_fatal"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 768,
+              "target": {
+                "name": "?ApplySectionAttributes@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 775,
+              "target": {
+                "name": "_mac_target"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 790,
+              "target": {
+                "name": "?PrepareMacResources@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 890,
+              "target": {
+                "local_section": ".data",
+                "value": 36,
+                "storage": 3,
+                "literal_sha256": "2f888cc17df045e22ba72128378556c2db710f891bf3d2bd2b2345e77f9e1dc8"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 895,
+              "target": {
+                "name": "_find_output_section@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 913,
+              "target": {
+                "name": "_section_data_size@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 929,
+              "target": {
+                "name": "_link_fatal"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 938,
+              "target": {
+                "name": "_small_data_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 944,
+              "target": {
+                "name": "_section_data_size@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 986,
+              "target": {
+                "name": "_link_warning"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 996,
+              "target": {
+                "local_section": ".data",
+                "value": 44,
+                "storage": 3,
+                "literal_sha256": "8fb831ae1815c4bd5231eebf5dc2eeb4a155b1ae3c75d5e52b5170941d949813"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1015,
+              "target": {
+                "name": "?LookupSymbol@StringTable@@QAEPAUStringNode@@GPBDPAE@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1020,
+              "target": {
+                "name": "_gp_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1025,
+              "target": {
+                "name": "_gp_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1042,
+              "target": {
+                "local_section": ".data",
+                "value": 48,
+                "storage": 3,
+                "literal_sha256": "8fb831ae1815c4bd5231eebf5dc2eeb4a155b1ae3c75d5e52b5170941d949813"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1053,
+              "target": {
+                "name": "_gp_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1062,
+              "target": {
+                "name": "_link_contribution_fatal"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1085,
+              "target": {
+                "name": "_gp_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1091,
+              "target": {
+                "name": "_set_symbol_defined@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1097,
+              "target": {
+                "name": "_gp_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1109,
+              "target": {
+                "name": "_local_symbol_count"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1118,
+              "target": {
+                "name": "_local_symbol_count"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1125,
+              "target": {
+                "name": "_mac_target"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1140,
+              "target": {
+                "local_section": ".data",
+                "value": 52,
+                "storage": 3,
+                "literal_sha256": "3c65a5527e9c1b6ecc1ce740869eb1c0aa993a0bbf033bf55442f9c09a8464e6"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1159,
+              "target": {
+                "name": "?LookupSymbol@StringTable@@QAEPAUStringNode@@GPBDPAE@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1164,
+              "target": {
+                "name": "_mac_toc_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1170,
+              "target": {
+                "name": "_mac_toc_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1187,
+              "target": {
+                "local_section": ".data",
+                "value": 60,
+                "storage": 3,
+                "literal_sha256": "3c65a5527e9c1b6ecc1ce740869eb1c0aa993a0bbf033bf55442f9c09a8464e6"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1198,
+              "target": {
+                "name": "_mac_toc_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1207,
+              "target": {
+                "name": "_link_contribution_fatal"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1231,
+              "target": {
+                "name": "_mac_toc_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1237,
+              "target": {
+                "name": "_set_symbol_defined@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1242,
+              "target": {
+                "name": "_mac_toc_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1255,
+              "target": {
+                "name": "_mac_toc_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1268,
+              "target": {
+                "name": "_mac_toc_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1280,
+              "target": {
+                "name": "_mac_toc_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1292,
+              "target": {
+                "name": "_local_symbol_count"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1301,
+              "target": {
+                "name": "_local_symbol_count"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1308,
+              "target": {
+                "local_section": ".data",
+                "value": 68,
+                "storage": 3,
+                "literal_sha256": "5eec20873d0a22c2d8fd8d718b0ae49be653f3c19b9ee3b94aa21a62b8698496"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1327,
+              "target": {
+                "name": "?LookupSymbol@StringTable@@QAEPAUStringNode@@GPBDPAE@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1332,
+              "target": {
+                "name": "_mac_function_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1337,
+              "target": {
+                "name": "_mac_function_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1354,
+              "target": {
+                "local_section": ".data",
+                "value": 80,
+                "storage": 3,
+                "literal_sha256": "5eec20873d0a22c2d8fd8d718b0ae49be653f3c19b9ee3b94aa21a62b8698496"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1365,
+              "target": {
+                "name": "_mac_function_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1374,
+              "target": {
+                "name": "_link_contribution_fatal"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1397,
+              "target": {
+                "name": "_mac_function_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1403,
+              "target": {
+                "name": "_set_symbol_defined@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1409,
+              "target": {
+                "name": "_mac_function_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1422,
+              "target": {
+                "name": "_mac_function_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1434,
+              "target": {
+                "name": "_mac_function_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1447,
+              "target": {
+                "name": "_mac_function_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1459,
+              "target": {
+                "name": "_local_symbol_count"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1468,
+              "target": {
+                "name": "_local_symbol_count"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1474,
+              "target": {
+                "name": "_entry_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1486,
+              "target": {
+                "name": "_entry_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1509,
+              "target": {
+                "name": "?ResolveEntryPoint@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1629,
+              "target": {
+                "name": "_entry_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1635,
+              "target": {
+                "name": "_get_symbol_name@16"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1668,
+              "target": {
+                "name": "_short_entry_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1674,
+              "target": {
+                "name": "__imp__strncpy"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1739,
+              "target": {
+                "local_section": ".data",
+                "value": 92,
+                "storage": 3,
+                "literal_sha256": "03ab8ec5983703b07e0dde40a30452d7a27021f99d3aa468fe9e684c2b0c40d2"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1798,
+              "target": {
+                "name": "_output_file_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1804,
+              "target": {
+                "name": "_link_warning"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1815,
+              "target": {
+                "name": "_mac_target"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1830,
+              "target": {
+                "name": "?PrepareMacSymbols@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1841,
+              "target": {
+                "name": "?ResolveMacImports@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1852,
+              "target": {
+                "name": "?ResolveMacExports@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1877,
+              "target": {
+                "name": "?ResolveLocalImports@LinkContext@@QAEXPAPAUContribution@@PAPAUIncludeSymbol@@@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1888,
+              "target": {
+                "name": "?ResolveUndefined@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1942,
+              "target": {
+                "name": "?CollectRelocationSymbols@LinkContext@@QAEXPAKPAPAX01@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1959,
+              "target": {
+                "name": "?SortSymbols@StringTable@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1965,
+              "target": {
+                "name": "_undefined_symbols"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1993,
+              "target": {
+                "name": "_undefined_symbols"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2004,
+              "target": {
+                "name": "_output_file_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2010,
+              "target": {
+                "name": "_link_fatal"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2021,
+              "target": {
+                "name": "_duplicate_symbols"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2055,
+              "target": {
+                "name": "_output_file_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2061,
+              "target": {
+                "name": "_link_fatal"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2072,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2086,
+              "target": {
+                "name": "_output_file_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2092,
+              "target": {
+                "name": "_link_warning"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2103,
+              "target": {
+                "name": "_duplicate_symbols"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2113,
+              "target": {
+                "name": "_undefined_symbols"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2127,
+              "target": {
+                "name": "_output_file_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2133,
+              "target": {
+                "name": "_link_warning"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2147,
+              "target": {
+                "name": "?ApplyMerges@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2153,
+              "target": {
+                "name": "_section_merges"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2180,
+              "target": {
+                "name": "_initialize_section_enumerator@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2192,
+              "target": {
+                "name": "_next_output_section@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2213,
+              "target": {
+                "name": "_apply_section_merge@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2227,
+              "target": {
+                "name": "_end_section_enumerator@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2233,
+              "target": {
+                "name": "_section_merges"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2289,
+              "target": {
+                "name": "_section_merges"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2321,
+              "target": {
+                "name": "__imp__strchr"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2366,
+              "target": {
+                "name": "_link_warning"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2399,
+              "target": {
+                "name": "_mac_target"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2412,
+              "target": {
+                "name": "_prepare_import_sections"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2420,
+              "target": {
+                "name": "_mac_target"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2476,
+              "target": {
+                "name": "_data_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2485,
+              "target": {
+                "name": "_small_data_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2490,
+              "target": {
+                "name": "_data_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2504,
+              "target": {
+                "name": "_data_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2510,
+              "target": {
+                "name": "_small_data_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2516,
+              "target": {
+                "name": "_merge_section_groups@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2522,
+              "target": {
+                "name": "_exception_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2528,
+              "target": {
+                "name": "_read_only_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2542,
+              "target": {
+                "name": "_read_only_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2549,
+              "target": {
+                "name": "_exception_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2555,
+              "target": {
+                "name": "_merge_section_groups@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2566,
+              "target": {
+                "name": "?FinalizeOrder@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2615,
+              "target": {
+                "name": "?PrepareNativeRelocations@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2620,
+              "target": {
+                "name": "_prepare_delay_imports"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2631,
+              "target": {
+                "name": "?CanMergeReadOnlyData@LinkContext@@QAEEXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2646,
+              "target": {
+                "name": "_data_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2655,
+              "target": {
+                "name": "_bss_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2666,
+              "target": {
+                "name": "_data_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2682,
+              "target": {
+                "name": "_data_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2688,
+              "target": {
+                "name": "_bss_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2694,
+              "target": {
+                "name": "_merge_output_section@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2705,
+              "target": {
+                "name": "?MergeExceptionSections@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2730,
+              "target": {
+                "name": "_export_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2736,
+              "target": {
+                "name": "_read_only_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2749,
+              "target": {
+                "name": "_read_only_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2756,
+              "target": {
+                "name": "_export_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2762,
+              "target": {
+                "name": "_merge_output_section@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2780,
+              "target": {
+                "name": "?PrepareMacSections@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2791,
+              "target": {
+                "name": "?PrepareMacJumpTables@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2802,
+              "target": {
+                "name": "?PrepareMacDebugSections@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2813,
+              "target": {
+                "name": "?PrepareMacRuntimeSections@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2819,
+              "target": {
+                "name": "_data_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2825,
+              "target": {
+                "name": "_read_only_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2831,
+              "target": {
+                "name": "_merge_section_groups@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2837,
+              "target": {
+                "name": "_data_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2844,
+              "target": {
+                "name": "_procedure_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2850,
+              "target": {
+                "name": "_merge_section_groups@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2855,
+              "target": {
+                "local_section": ".data",
+                "value": 96,
+                "storage": 3,
+                "literal_sha256": "7ac7c29ffaeaaf1c930d118fa1b4b606346763c47f6530ab8f0a64dbf4e2a295"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2860,
+              "target": {
+                "name": "_data_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2866,
+              "target": {
+                "name": "_find_contribution_group@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2871,
+              "target": {
+                "name": "_mac_procedure_group"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2877,
+              "target": {
+                "name": "_data_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2884,
+              "target": {
+                "name": "_bss_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2890,
+              "target": {
+                "name": "_merge_output_section@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2901,
+              "target": {
+                "name": "?FinalizeOrder@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2912,
+              "target": {
+                "name": "?PrepareAuxiliarySections@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2933,
+              "target": {
+                "name": "_debug_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2944,
+              "target": {
+                "name": "_debug_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2997,
+              "target": {
+                "name": "_output_module"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3015,
+              "target": {
+                "local_section": ".data",
+                "value": 104,
+                "storage": 3,
+                "literal_sha256": "61420fac980ec71f0d3042fe229330b93a3c28ee627efc2ea395e82247cde73e"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3020,
+              "target": {
+                "name": "_create_contribution@28"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 3025,
+              "target": {
+                "name": "_coff_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3071,
+              "target": {
+                "name": "_coff_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3077,
+              "target": {
+                "name": "_attach_comdat@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 3134,
+              "target": {
+                "local_section": ".data",
+                "value": 116,
+                "storage": 3,
+                "literal_sha256": "6d34fd7304545b9ab0caa37f49ac109f7bb5ba9f97fd15ebdc52ccda3c7f8902"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3146,
+              "target": {
+                "local_section": ".data",
+                "value": 128,
+                "storage": 3,
+                "literal_sha256": "539efd4e43ada4dc52e4b270283a18eb0a4686f733fca312979f190aaafa2587"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3171,
+              "target": {
+                "name": "_output_module"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3248,
+              "target": {
+                "name": "_create_contribution@28"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 3253,
+              "target": {
+                "name": "_misc_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3299,
+              "target": {
+                "name": "_misc_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3305,
+              "target": {
+                "name": "_attach_comdat@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 3316,
+              "target": {
+                "name": "_misc_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3329,
+              "target": {
+                "name": "_misc_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3343,
+              "target": {
+                "name": "_misc_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3391,
+              "target": {
+                "name": "_output_module"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3407,
+              "target": {
+                "name": "_fixup_count"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3416,
+              "target": {
+                "local_section": ".data",
+                "value": 140,
+                "storage": 3,
+                "literal_sha256": "ab08ed840575698897e5a50856eed59258063930d271fa9227c2c2d5de713dae"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3421,
+              "target": {
+                "name": "_create_contribution@28"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 3426,
+              "target": {
+                "name": "_fixup_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3472,
+              "target": {
+                "name": "_fixup_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3478,
+              "target": {
+                "name": "_attach_comdat@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 3533,
+              "target": {
+                "name": "_output_module"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3551,
+              "target": {
+                "local_section": ".data",
+                "value": 152,
+                "storage": 3,
+                "literal_sha256": "f86a19859a98494caeee799ea2bf4d3a9b679830dac5d7181ebcdddbc60d74a2"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3556,
+              "target": {
+                "name": "_create_contribution@28"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 3561,
+              "target": {
+                "name": "_codeview_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3607,
+              "target": {
+                "name": "_codeview_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3613,
+              "target": {
+                "name": "_attach_comdat@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 3624,
+              "target": {
+                "name": "_codeview_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3642,
+              "target": {
+                "name": "_codeview_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3657,
+              "target": {
+                "name": "_pdb_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3667,
+              "target": {
+                "name": "_pdb_file_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3702,
+              "target": {
+                "name": "_codeview_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3717,
+              "target": {
+                "name": "_debug_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3731,
+              "target": {
+                "name": "_mac_target"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3745,
+              "target": {
+                "name": "_mac_resource_list"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3835,
+              "target": {
+                "local_section": ".data",
+                "value": 164,
+                "storage": 3,
+                "literal_sha256": "d00883dab7056133f0eb5b4d9d6cd9e00737892a9e62e9d87e3933e0943137ff"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3847,
+              "target": {
+                "local_section": ".data",
+                "value": 172,
+                "storage": 3,
+                "literal_sha256": "f173916d13df455580e6a7e6e2b8d0de50f9c903f483c034088963ab31a76fe1"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3859,
+              "target": {
+                "local_section": ".data",
+                "value": 180,
+                "storage": 3,
+                "literal_sha256": "a43e221c80fb2f1c04d83ea1909f8c074d5cf523a1bd87102dbea66cb10ad9a5"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3889,
+              "target": {
+                "name": "__imp__sprintf"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3917,
+              "target": {
+                "name": "_output_module"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3944,
+              "target": {
+                "name": "_create_contribution@28"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 4002,
+              "target": {
+                "name": "_attach_comdat@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 4024,
+              "target": {
+                "name": "?CountOutputSections@LinkContext@@QAEGXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 4055,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 4070,
+              "target": {
+                "name": "?CreateIncrementalContribution@LinkContext@@QAEPAUContribution@@XZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 4075,
+              "target": {
+                "name": "_incremental_code"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 4083,
+              "target": {
+                "name": "_mac_target"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 4092,
+              "target": {
+                "name": "_mac_function_info"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 4098,
+              "target": {
+                "name": "_move_contribution_to_end@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 4104,
+              "target": {
+                "name": "_mac_data"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 4110,
+              "target": {
+                "name": "_move_contribution_to_end@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 4116,
+              "target": {
+                "name": "_mac_toc"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 4122,
+              "target": {
+                "name": "_move_contribution_to_end@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 4127,
+              "target": {
+                "name": "_mac_toc"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 4136,
+              "target": {
+                "name": "_move_group_to_end@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 4154,
+              "target": {
+                "name": "?BuildDosExtension@LinkContext@@QAEKPAPAX@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 4190,
+              "target": {
+                "name": "__imp___tzset"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 4197,
+              "target": {
+                "name": "_reproducible_build"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 4232,
+              "target": {
+                "name": "__imp__time"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 4254,
+              "target": {
+                "name": "?image_header_size@@3P8LinkContext@@AEKPAK@ZQ1@"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 4674,
+              "target": {
+                "name": "_link_warning"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 4710,
+              "target": {
+                "name": "_align_image_base@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 4845,
+              "target": {
+                "name": "_comdat_roots"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 4860,
+              "target": {
+                "name": "_add_comdat_root@16"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 4867,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 4880,
+              "target": {
+                "name": "_release_memory@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 4934,
+              "target": {
+                "name": "_entry_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 4942,
+              "target": {
+                "name": "_comdat_roots"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 4950,
+              "target": {
+                "name": "_entry_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 4958,
+              "target": {
+                "name": "_add_comdat_root@16"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5046,
+              "target": {
+                "local_section": ".data",
+                "value": 200,
+                "storage": 3,
+                "literal_sha256": "273b6c19f4689487b8feeb2d00bfb51bed1b52adfad0c4147c9795fc8b76b8d8"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5058,
+              "target": {
+                "local_section": ".data",
+                "value": 188,
+                "storage": 3,
+                "literal_sha256": "0d0d77cf498af8035db3bc69563d46abbef474a4c7f7ef795270f11cbaa34b4d"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5094,
+              "target": {
+                "name": "?FindSymbol@StringTable@@QAEPAUStringNode@@PBD@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5108,
+              "target": {
+                "name": "_comdat_roots"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5121,
+              "target": {
+                "name": "_add_comdat_root@16"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5190,
+              "target": {
+                "local_section": ".data",
+                "value": 232,
+                "storage": 3,
+                "literal_sha256": "fe20949af7e0d7e9cf8a0c556f8c2a9df3aa118940d7771c6835426470afe59f"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5202,
+              "target": {
+                "local_section": ".data",
+                "value": 212,
+                "storage": 3,
+                "literal_sha256": "e05d605d4e524b0fe6a646af450a95bf1fade14560b6826a9eda85a543dbdd04"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5238,
+              "target": {
+                "name": "?FindSymbol@StringTable@@QAEPAUStringNode@@PBD@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5252,
+              "target": {
+                "name": "_comdat_roots"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5265,
+              "target": {
+                "name": "_add_comdat_root@16"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5283,
+              "target": {
+                "name": "_add_special_comdat_roots@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5320,
+              "target": {
+                "name": "_comdat_roots"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5326,
+              "target": {
+                "name": "_eliminate_unused_comdats@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5331,
+              "target": {
+                "name": "_finish_comdat_elimination"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5338,
+              "target": {
+                "name": "_verbose_link"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5347,
+              "target": {
+                "name": "_print_removed_comdats"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5376,
+              "target": {
+                "name": "?FoldIdenticalComdats@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5383,
+              "target": {
+                "name": "_verbose_link"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5398,
+              "target": {
+                "name": "?PrintFoldedComdats@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5409,
+              "target": {
+                "name": "?PrepareSectionLayout@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5456,
+              "target": {
+                "name": "?RangeCodeBytes@LinkContext@@QAEKKKPAPAUContribution@@@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5469,
+              "target": {
+                "name": "_large_alpha_image"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5478,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5493,
+              "target": {
+                "name": "_incremental_code"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5502,
+              "target": {
+                "name": "_incremental_code"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5514,
+              "target": {
+                "name": "_incremental_code"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5532,
+              "target": {
+                "name": "_incremental_code"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5540,
+              "target": {
+                "name": "_incremental_code"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5561,
+              "target": {
+                "name": "_incremental_code"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5608,
+              "target": {
+                "name": "?RangeCodeBytes@LinkContext@@QAEKKKPAPAUContribution@@@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5621,
+              "target": {
+                "name": "_large_ppc_image"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5648,
+              "target": {
+                "name": "?LayoutSections@LinkContext@@QAEXPAK00@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5654,
+              "target": {
+                "name": "_gp_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5662,
+              "target": {
+                "name": "_update_gp_bounds"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5668,
+              "target": {
+                "name": "_gp_base"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5682,
+              "target": {
+                "name": "_gp_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5691,
+              "target": {
+                "name": "_gp_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5697,
+              "target": {
+                "name": "_gp_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5728,
+              "target": {
+                "name": "_gp_base"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5736,
+              "target": {
+                "name": "_gp_limit"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5752,
+              "target": {
+                "name": "_gp_base"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5760,
+              "target": {
+                "name": "_gp_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5769,
+              "target": {
+                "name": "_gp_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5775,
+              "target": {
+                "name": "_gp_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5789,
+              "target": {
+                "name": "_mac_target"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5799,
+              "target": {
+                "name": "_mac_toc_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5808,
+              "target": {
+                "name": "_mac_toc"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5816,
+              "target": {
+                "name": "_mac_toc_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5824,
+              "target": {
+                "name": "_mac_function_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5833,
+              "target": {
+                "name": "_mac_function_info"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5840,
+              "target": {
+                "name": "_mac_function_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5848,
+              "target": {
+                "name": "_set_mac_symbol_addresses"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5866,
+              "target": {
+                "name": "_set_mac_section_addresses@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5909,
+              "target": {
+                "name": "_output_file"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5915,
+              "target": {
+                "name": "_seek_file@16"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5922,
+              "target": {
+                "name": "_file_access_statistics"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5931,
+              "target": {
+                "name": "_record_file_access"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5939,
+              "target": {
+                "name": "_file_access_statistics"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5948,
+              "target": {
+                "name": "_record_file_access"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 5954,
+              "target": {
+                "name": "_output_file"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 5959,
+              "target": {
+                "name": "_file_slots"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6015,
+              "target": {
+                "name": "_mapped_write@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6052,
+              "target": {
+                "name": "_buffered_write@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6065,
+              "target": {
+                "name": "_file_access_statistics"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6074,
+              "target": {
+                "name": "_record_file_access"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6080,
+              "target": {
+                "name": "_output_file"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6086,
+              "target": {
+                "name": "_file_slots"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6127,
+              "target": {
+                "name": "_mapped_write@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6149,
+              "target": {
+                "name": "_buffered_write@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6176,
+              "target": {
+                "name": "_output_file"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6182,
+              "target": {
+                "name": "_seek_file@16"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6189,
+              "target": {
+                "name": "_file_access_statistics"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6198,
+              "target": {
+                "name": "_record_file_access"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6204,
+              "target": {
+                "name": "_output_file"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6210,
+              "target": {
+                "name": "_file_slots"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6254,
+              "target": {
+                "name": "_mapped_write@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6280,
+              "target": {
+                "name": "_buffered_write@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6298,
+              "target": {
+                "name": "_release_memory@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6303,
+              "target": {
+                "name": "_debug_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6337,
+              "target": {
+                "name": "_coff_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6369,
+              "target": {
+                "name": "_coff_symbol_offset"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6375,
+              "target": {
+                "name": "_local_symbol_count"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6383,
+              "target": {
+                "name": "_coff_string_size"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6400,
+              "target": {
+                "name": "_coff_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6418,
+              "target": {
+                "name": "_coff_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6424,
+              "target": {
+                "name": "_pad_debug_contribution@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6450,
+              "target": {
+                "name": "_output_file"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6456,
+              "target": {
+                "name": "_seek_file@16"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6474,
+              "target": {
+                "name": "?WriteSections@LinkContext@@QAEXPAK@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6495,
+              "target": {
+                "name": "_output_file"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6507,
+              "target": {
+                "name": "?WriteVxdModuleTable@LinkContext@@QAEXH@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6512,
+              "target": {
+                "name": "_output_file"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6524,
+              "target": {
+                "name": "?WriteVxdNames@LinkContext@@QAEXH@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6569,
+              "target": {
+                "name": "_file_access_statistics"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6578,
+              "target": {
+                "name": "_record_file_access"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6584,
+              "target": {
+                "name": "_output_file"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6590,
+              "target": {
+                "name": "_file_slots"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6664,
+              "target": {
+                "name": "_debug_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6698,
+              "target": {
+                "name": "_codeview_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6706,
+              "target": {
+                "name": "_codeview_offset"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6714,
+              "target": {
+                "name": "_debug_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6744,
+              "target": {
+                "name": "_debug_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6755,
+              "target": {
+                "name": "_mapped_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6798,
+              "target": {
+                "name": "_zero_allocate@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6826,
+              "target": {
+                "name": "_image_comments"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6845,
+              "target": {
+                "name": "_image_comments"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6858,
+              "target": {
+                "name": "_file_access_statistics"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6867,
+              "target": {
+                "name": "_record_file_access"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6873,
+              "target": {
+                "name": "_output_file"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6879,
+              "target": {
+                "name": "_file_slots"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6905,
+              "target": {
+                "name": "_image_comments"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6912,
+              "target": {
+                "name": "_image_comments"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6922,
+              "target": {
+                "name": "_mapped_write@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6929,
+              "target": {
+                "name": "_image_comments"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6936,
+              "target": {
+                "name": "_image_comments"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6946,
+              "target": {
+                "name": "_buffered_write@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 6957,
+              "target": {
+                "name": "_image_comments"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 6962,
+              "target": {
+                "name": "_clear_buffer@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7017,
+              "target": {
+                "name": "_file_access_statistics"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 7026,
+              "target": {
+                "name": "_record_file_access"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7032,
+              "target": {
+                "name": "_output_file"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 7038,
+              "target": {
+                "name": "_file_slots"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 7076,
+              "target": {
+                "name": "_mapped_write@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7095,
+              "target": {
+                "name": "_buffered_write@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7167,
+              "target": {
+                "name": "_file_access_statistics"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 7176,
+              "target": {
+                "name": "_record_file_access"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7182,
+              "target": {
+                "name": "_output_file"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 7187,
+              "target": {
+                "name": "_file_slots"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 7231,
+              "target": {
+                "name": "_mapped_write@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7256,
+              "target": {
+                "name": "_buffered_write@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7299,
+              "target": {
+                "name": "_count_debug_modules@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7308,
+              "target": {
+                "name": "_zero_allocate@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7313,
+              "target": {
+                "name": "_module_debug_table"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 7324,
+              "target": {
+                "name": "_mac_resource_list"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 7338,
+              "target": {
+                "name": "_mac_target"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 7352,
+              "target": {
+                "name": "_mac_resource_list"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 7434,
+              "target": {
+                "name": "_open_argument_file@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7455,
+              "target": {
+                "name": "_map_file_range@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7486,
+              "target": {
+                "name": "_allocate_memory@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7516,
+              "target": {
+                "name": "_seek_file@16"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7524,
+              "target": {
+                "name": "_file_access_statistics"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 7533,
+              "target": {
+                "name": "_record_file_access"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7542,
+              "target": {
+                "name": "_file_slots"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 7586,
+              "target": {
+                "name": "_mapped_read@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7611,
+              "target": {
+                "name": "_buffered_read@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7647,
+              "target": {
+                "name": "_output_file"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 7653,
+              "target": {
+                "name": "_map_file_range@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7725,
+              "target": {
+                "name": "_output_file"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 7731,
+              "target": {
+                "name": "_seek_file@16"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7738,
+              "target": {
+                "name": "_file_access_statistics"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 7747,
+              "target": {
+                "name": "_record_file_access"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7753,
+              "target": {
+                "name": "_output_file"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 7759,
+              "target": {
+                "name": "_file_slots"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 7803,
+              "target": {
+                "name": "_mapped_write@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7828,
+              "target": {
+                "name": "_buffered_write@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7861,
+              "target": {
+                "name": "_release_memory@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7881,
+              "target": {
+                "name": "_close_argument_file@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7927,
+              "target": {
+                "name": "_release_comdat_tables"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 7935,
+              "target": {
+                "name": "_pdb_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 7974,
+              "target": {
+                "name": "_allocate_link_memory@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8004,
+              "target": {
+                "name": "_allocate_pdb_module_table@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8012,
+              "target": {
+                "name": "_mac_target"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8033,
+              "target": {
+                "name": "?PrepareOutput@LinkAuxiliaryData@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8042,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8081,
+              "target": {
+                "name": "_allocate_link_memory@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8124,
+              "target": {
+                "name": "_allocate_mac_incremental_table@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8131,
+              "target": {
+                "name": "_mac_target"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8140,
+              "target": {
+                "name": "_prepare_mac_resource_map"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8153,
+              "target": {
+                "name": "_entry_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8159,
+              "target": {
+                "name": "_set_mac_entry_point@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8171,
+              "target": {
+                "name": "_prepare_mac_data_headers@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8183,
+              "target": {
+                "name": "_prepare_mac_debug_information@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8189,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8198,
+              "target": {
+                "name": "__imp__GetTickCount@0"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8203,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8208,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8222,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8231,
+              "target": {
+                "local_section": ".data",
+                "value": 252,
+                "storage": 3,
+                "literal_sha256": "7df51ac2b7eace69d4997480136928fa4af750632c5665faf6b8f15da818de70"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8236,
+              "target": {
+                "local_section": ".data",
+                "value": 260,
+                "storage": 3,
+                "literal_sha256": "649e103507ace534305f68dfe8328997dba5ed414e3d7741d4ed6825d4e77de7"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8242,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8249,
+              "target": {
+                "name": "__imp__fprintf"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8257,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8265,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8297,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8303,
+              "target": {
+                "local_section": ".data",
+                "value": 268,
+                "storage": 3,
+                "literal_sha256": "a7d13790c2cdab2403c6af0d86c65c8c20bc8f94514637928657e3a09f28f1a7"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8308,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8315,
+              "target": {
+                "name": "__imp__fprintf"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8324,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8331,
+              "target": {
+                "name": "__imp__fflush"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8350,
+              "target": {
+                "name": "_default_phase"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8354,
+              "target": {
+                "local_section": ".data",
+                "value": 300,
+                "storage": 3,
+                "literal_sha256": "0b516fb075b100b82c9ef30649048666c8f000947eaf7436f5e54e7d6b71f8b3"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8365,
+              "target": {
+                "name": "?PassTwo@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8390,
+              "target": {
+                "name": "?WriteLocalImports@LinkContext@@QAEXPAUContribution@@PAPAUIncludeSymbol@@@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8444,
+              "target": {
+                "name": "?WriteRelocationSymbols@LinkContext@@QAEXKPAPAXK0@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8450,
+              "target": {
+                "name": "_current_phase"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8475,
+              "target": {
+                "name": "?FinishOutput@LinkAuxiliaryData@@QAEXPAULinkContext@@@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8483,
+              "target": {
+                "name": "_mac_target"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8498,
+              "target": {
+                "name": "?FinishNativeSections@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8506,
+              "target": {
+                "name": "_mac_target"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8531,
+              "target": {
+                "name": "_mac_procedure_group"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8547,
+              "target": {
+                "name": "_write_mac_incremental_table@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8555,
+              "target": {
+                "name": "_mac_target"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8571,
+              "target": {
+                "name": "_finish_mac_headers@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8584,
+              "target": {
+                "name": "_entry_symbol"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8590,
+              "target": {
+                "name": "_finish_mac_entry_point@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8595,
+              "target": {
+                "name": "_weak_mac_imports"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8600,
+              "target": {
+                "name": "_clear_argument_list@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8605,
+              "target": {
+                "name": "_weak_mac_libraries"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8610,
+              "target": {
+                "name": "_clear_argument_list@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8615,
+              "target": {
+                "name": "_input_files"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8620,
+              "target": {
+                "name": "_clear_argument_list@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8658,
+              "target": {
+                "name": "_emitted_symbol_count"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8666,
+              "target": {
+                "name": "_coff_symbol_offset"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8675,
+              "target": {
+                "name": "_output_file"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8681,
+              "target": {
+                "name": "_seek_file@16"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8700,
+              "target": {
+                "name": "_write_coff_symbols@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8706,
+              "target": {
+                "name": "_emitted_symbol_count"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8715,
+              "target": {
+                "name": "_coff_symbol_offset"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8768,
+              "target": {
+                "name": "?EmitDebugDirectories@LinkContext@@QAEXKKKKK@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8784,
+              "target": {
+                "name": "_finish_image_layout@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8793,
+              "target": {
+                "name": "_release_memory@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 8799,
+              "target": {
+                "name": "_default_phase"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8803,
+              "target": {
+                "local_section": ".data",
+                "value": 308,
+                "storage": 3,
+                "literal_sha256": "2c8e02dc8aa586dffa9f8d5db0f9da4720d5fb63610eea9c8149cc463906cf8b"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8833,
+              "target": {
+                "name": "_emitted_symbol_count"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8848,
+              "target": {
+                "name": "_coff_symbol_offset"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8911,
+              "target": {
+                "name": "_undefined_symbols"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 8977,
+              "target": {
+                "name": "_mapped_debug"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9003,
+              "target": {
+                "name": "_debug_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9012,
+              "target": {
+                "name": "_debug_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9058,
+              "target": {
+                "name": "_debug_section"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9119,
+              "target": {
+                "name": "?FinishImage@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 9125,
+              "target": {
+                "name": "_undefined_symbols"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9199,
+              "target": {
+                "name": "_pdb_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9324,
+              "target": {
+                "name": "_output_file"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9337,
+              "target": {
+                "name": "?image_write_headers@@3P8LinkContext@@AEXH@ZQ1@"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9344,
+              "target": {
+                "name": "_large_alpha_image"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9353,
+              "target": {
+                "name": "_finish_alpha_branches"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 9361,
+              "target": {
+                "name": "_large_ppc_image"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9370,
+              "target": {
+                "name": "_finish_ppc_branches"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 9388,
+              "target": {
+                "name": "_undefined_symbols"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9400,
+              "target": {
+                "name": "_output_file_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9406,
+              "target": {
+                "name": "_link_fatal"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 9449,
+              "target": {
+                "name": "?UpdateChecksum@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 9456,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9480,
+              "target": {
+                "name": "_count_hash_symbols@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 9504,
+              "target": {
+                "name": "_emit_symbol_class@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 9533,
+              "target": {
+                "name": "_emit_symbol_class@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 9548,
+              "target": {
+                "name": "_incremental_weak_symbols"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9563,
+              "target": {
+                "name": "_adjust_incremental_symbols@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 9568,
+              "target": {
+                "name": "_finish_symbol_tables"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 9576,
+              "target": {
+                "name": "_output_file"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9582,
+              "target": {
+                "name": "_close_argument_file@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 9590,
+              "target": {
+                "name": "_pdb_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9599,
+              "target": {
+                "name": "_commit_pdb"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 9604,
+              "target": {
+                "name": "_close_pdb"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 9609,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9618,
+              "target": {
+                "name": "__imp__GetTickCount@0"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9623,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9629,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9643,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9652,
+              "target": {
+                "local_section": ".data",
+                "value": 320,
+                "storage": 3,
+                "literal_sha256": "deb3db5f92b2ff899198cbba57768238b225361f99e711f1dae4b59f55aa7d2f"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9657,
+              "target": {
+                "local_section": ".data",
+                "value": 328,
+                "storage": 3,
+                "literal_sha256": "649e103507ace534305f68dfe8328997dba5ed414e3d7741d4ed6825d4e77de7"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9662,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9669,
+              "target": {
+                "name": "__imp__fprintf"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9678,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9687,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9719,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9725,
+              "target": {
+                "local_section": ".data",
+                "value": 336,
+                "storage": 3,
+                "literal_sha256": "a7d13790c2cdab2403c6af0d86c65c8c20bc8f94514637928657e3a09f28f1a7"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9730,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9737,
+              "target": {
+                "name": "__imp__fprintf"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9746,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9753,
+              "target": {
+                "name": "__imp__fflush"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9772,
+              "target": {
+                "name": "__imp__GetTickCount@0"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9777,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9784,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9793,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9799,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9814,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9820,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9835,
+              "target": {
+                "local_section": ".data",
+                "value": 368,
+                "storage": 3,
+                "literal_sha256": "6a5d728cc41cd399070f898eb5915f68ccc1796788ef70623d9db4dd935373d2"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9841,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9848,
+              "target": {
+                "name": "__imp__fprintf"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9856,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9863,
+              "target": {
+                "name": "__imp__fflush"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 9872,
+              "target": {
+                "name": "_timing"
+              },
+              "kind": 6
+            }
+          ]
+        }
+      ],
+      "local_label_qualification": "Only static3 $SG and label6 $L compiler numbering changes; actual targetsection/value/literalSHA unchanged; all external identities and relocation offsets/kinds exact."
+    },
+    {
+      "object": "link-driver.obj",
+      "old_path": "/root/msvc2/decomp/vc5.10/link/cases/hello-win32/frontiers/67-next-contribution-group/full-link-proof/build/link-driver.obj",
+      "new_path": "/root/msvc2/decomp/vc5.10/link/build/link-driver.obj",
+      "old_sha256": "578be00729300d051436cb6a4e93b7bcda7243074fb398e389da09f3abc75671",
+      "new_sha256": "93b698e0038bc3e4bf1bf0a868c4a8a759b21ccfc95aa7bc5ed04ddaffdd6634",
+      "exact_normalized_code_and_reference_roles_equal": true,
+      "code": [
+        {
+          "section": ".text",
+          "bytes": 3774,
+          "normalized_sha256": "7b158f88ca702dcac09f9142062a4dbe1deb834f60479d50a4f3afbcf04bcafa",
+          "references": [
+            {
+              "offset": 13,
+              "target": {
+                "name": "_linker_usage"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 18,
+              "target": {
+                "name": "_initialize_repro"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 23,
+              "target": {
+                "local_section": ".data",
+                "value": 4,
+                "storage": 3,
+                "literal_sha256": "861668a45b2939017e7534d68749f18ef9efda299dc0bc3af864d76f6df57036"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 28,
+              "target": {
+                "local_section": ".data",
+                "value": 12,
+                "storage": 3,
+                "literal_sha256": "1c6aceb44cb2a2757128f8dba294cf6c2aa6aab8018305a3b40db08bfe461aef"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 41,
+              "target": {
+                "name": "_collect_file_arguments@16"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 46,
+              "target": {
+                "local_section": ".data",
+                "value": 20,
+                "storage": 3,
+                "literal_sha256": "861668a45b2939017e7534d68749f18ef9efda299dc0bc3af864d76f6df57036"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 51,
+              "target": {
+                "local_section": ".data",
+                "value": 28,
+                "storage": 3,
+                "literal_sha256": "1c6aceb44cb2a2757128f8dba294cf6c2aa6aab8018305a3b40db08bfe461aef"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 64,
+              "target": {
+                "name": "_parse_command_line@16"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 69,
+              "target": {
+                "local_section": ".data",
+                "value": 36,
+                "storage": 3,
+                "literal_sha256": "b7ca8f3c5a4f9d14a5b7942468f169e83548ca9277be22b273681c155e68c345"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 74,
+              "target": {
+                "name": "_has_switch@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 93,
+              "target": {
+                "local_section": ".data",
+                "value": 40,
+                "storage": 3,
+                "literal_sha256": "637847bec75326bb5aedbee72a6d54ab27a6f744552c2bd989963fb003640ca1"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 98,
+              "target": {
+                "name": "_has_switch@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 113,
+              "target": {
+                "name": "_logo_pending"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 125,
+              "target": {
+                "name": "_allocate_link_memory@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 140,
+              "target": {
+                "name": "?Initialize@LinkContext@@QAEPAULinkAuxiliaryData@@H@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 153,
+              "target": {
+                "name": "_configure_link_options@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 162,
+              "target": {
+                "name": "_debug_formats"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 234,
+              "target": {
+                "name": "_pdb_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 245,
+              "target": {
+                "name": "_debug_option_present"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 344,
+              "target": {
+                "name": "_pdb_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 373,
+              "target": {
+                "local_section": ".data",
+                "value": 48,
+                "storage": 3,
+                "literal_sha256": "35ff8dccfa4552ddf6261914571781155c31f4a58ec532e7f416cae02e4d72b7"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 378,
+              "target": {
+                "local_section": ".data",
+                "value": 60,
+                "storage": 3,
+                "literal_sha256": "b686dd6cde938beb8ba28c9a0d5a07bca73aae7f89ab82edc6fa54b44975b3f3"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 390,
+              "target": {
+                "name": "_link_warning"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 402,
+              "target": {
+                "name": "_validate_debug_options@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 424,
+              "target": {
+                "name": "_pdb_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 472,
+              "target": {
+                "local_section": ".text",
+                "value": 1963,
+                "storage": 6
+              },
+              "kind": 6
+            },
+            {
+              "offset": 479,
+              "target": {
+                "local_section": ".data",
+                "value": 76,
+                "storage": 3,
+                "literal_sha256": "f0093f3176bd94ff847efd42f372207c1348c6d0aa256102d6e9ba2ccca9ca07"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 488,
+              "target": {
+                "local_section": ".data",
+                "value": 96,
+                "storage": 3,
+                "literal_sha256": "0839263ca3f8a7f5b3788ce3edbc19171ba85e2041406352abef2a81010448e2"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 497,
+              "target": {
+                "local_section": ".data",
+                "value": 116,
+                "storage": 3,
+                "literal_sha256": "d914f3b281fe40fc3c539cea87fff57fa40e476d92285f9446cae77535c5ee15"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 506,
+              "target": {
+                "local_section": ".data",
+                "value": 136,
+                "storage": 3,
+                "literal_sha256": "e337d197ec1bc15cb8f068d2ccc08b441ec6977479591eed8452d4da38191bfd"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 515,
+              "target": {
+                "local_section": ".data",
+                "value": 152,
+                "storage": 3,
+                "literal_sha256": "289033954f8bae5c5bb51d9ce4288adeae47a130492baa2f60fcaf19b2f71246"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 548,
+              "target": {
+                "local_section": ".data",
+                "value": 172,
+                "storage": 3,
+                "literal_sha256": "6939ec1bd4035320b0bed26a1625c3540442055a71448fbc6fd991fda3489531"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 564,
+              "target": {
+                "name": "_link_warning"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 615,
+              "target": {
+                "local_section": ".data",
+                "value": 176,
+                "storage": 3,
+                "literal_sha256": "d43ddf525ff2f63209f5a3861e305064980c7d96553ecab3e2024810418dfb9e"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 631,
+              "target": {
+                "name": "_link_warning"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 741,
+              "target": {
+                "local_section": ".data",
+                "value": 180,
+                "storage": 3,
+                "literal_sha256": "01848e4f93a4b8e9c97c26f566c72aceaa0c9d9cfcd2056bfa6f6497466861d4"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 753,
+              "target": {
+                "name": "_link_warning"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 805,
+              "target": {
+                "local_section": ".data",
+                "value": 200,
+                "storage": 3,
+                "literal_sha256": "d3125c600f1da6b4d335897915ac3a9665ae7c92e1294a2727b2d3c724232062"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 817,
+              "target": {
+                "name": "_link_warning"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 890,
+              "target": {
+                "local_section": ".data",
+                "value": 220,
+                "storage": 3,
+                "literal_sha256": "64add6d5ba628476907bce37eabaa77830652f86e7f1cbfb9eeb327203c19d73"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 895,
+              "target": {
+                "local_section": ".data",
+                "value": 228,
+                "storage": 3,
+                "literal_sha256": "5add6c1c5bb7aad84a32b01c35ebeeedd230334e8869872cffb321af5eeac063"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 907,
+              "target": {
+                "name": "_link_warning"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 937,
+              "target": {
+                "local_section": ".data",
+                "value": 236,
+                "storage": 3,
+                "literal_sha256": "6939ec1bd4035320b0bed26a1625c3540442055a71448fbc6fd991fda3489531"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 942,
+              "target": {
+                "local_section": ".data",
+                "value": 240,
+                "storage": 3,
+                "literal_sha256": "5add6c1c5bb7aad84a32b01c35ebeeedd230334e8869872cffb321af5eeac063"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 954,
+              "target": {
+                "name": "_link_warning"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1027,
+              "target": {
+                "name": "_link_warning"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1125,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1255,
+              "target": {
+                "name": "_logo_pending"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1264,
+              "target": {
+                "name": "_print_logo"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1273,
+              "target": {
+                "name": "_link_argc"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1281,
+              "target": {
+                "name": "_link_argv"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1289,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1302,
+              "target": {
+                "name": "_load_incremental_state@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1325,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1336,
+              "target": {
+                "name": "_incremental_reuse"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1352,
+              "target": {
+                "name": "_link_fatal"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1363,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1372,
+              "target": {
+                "name": "_initialize_incremental_inputs"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1380,
+              "target": {
+                "name": "_reference_optimization_specified"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1391,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1493,
+              "target": {
+                "name": "_buffer4"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1505,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1516,
+              "target": {
+                "name": "_incremental_reuse"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1542,
+              "target": {
+                "name": "_incremental_failed"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1558,
+              "target": {
+                "name": "_link_error"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1576,
+              "target": {
+                "name": "_incremental_reuse"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1589,
+              "target": {
+                "name": "_incremental_link@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1605,
+              "target": {
+                "name": "_abort_incremental@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1617,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1629,
+              "target": {
+                "name": "_incremental_reuse"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1651,
+              "target": {
+                "name": "?FullLink@LinkContext@@QAEHPAE@Z"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1661,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1685,
+              "target": {
+                "name": "_map_output"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1695,
+              "target": {
+                "name": "_write_image_map@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1703,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1716,
+              "target": {
+                "name": "_save_incremental_state@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1721,
+              "target": {
+                "name": "_close_files"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1726,
+              "target": {
+                "name": "_cleanup_pdb"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1734,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1746,
+              "target": {
+                "name": "_incremental_reuse"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1757,
+              "target": {
+                "name": "_incremental_failed"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1805,
+              "target": {
+                "name": "__imp__fflush"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1813,
+              "target": {
+                "name": "_run_cvpack"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1834,
+              "target": {
+                "name": "_link_warning"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1858,
+              "target": {
+                "name": "_map_output"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1868,
+              "target": {
+                "name": "_write_image_map@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1874,
+              "target": {
+                "name": "_maximum_image_size"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1889,
+              "target": {
+                "name": "_maximum_image_size"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1897,
+              "target": {
+                "name": "_maximum_image_size"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1917,
+              "target": {
+                "name": "_link_warning"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1926,
+              "target": {
+                "name": "_diagnostic_output"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1933,
+              "target": {
+                "name": "__imp__fclose"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1942,
+              "target": {
+                "name": "_repro_directory"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1950,
+              "target": {
+                "name": "_close_repro"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 1963,
+              "target": {
+                "local_section": ".text",
+                "value": 476,
+                "storage": 6
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1967,
+              "target": {
+                "local_section": ".text",
+                "value": 485,
+                "storage": 6
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1971,
+              "target": {
+                "local_section": ".text",
+                "value": 494,
+                "storage": 6
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1975,
+              "target": {
+                "local_section": ".text",
+                "value": 519,
+                "storage": 6
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1979,
+              "target": {
+                "local_section": ".text",
+                "value": 519,
+                "storage": 6
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1983,
+              "target": {
+                "local_section": ".text",
+                "value": 519,
+                "storage": 6
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1987,
+              "target": {
+                "local_section": ".text",
+                "value": 503,
+                "storage": 6
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1991,
+              "target": {
+                "local_section": ".text",
+                "value": 519,
+                "storage": 6
+              },
+              "kind": 6
+            },
+            {
+              "offset": 1995,
+              "target": {
+                "local_section": ".text",
+                "value": 512,
+                "storage": 6
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2050,
+              "target": {
+                "local_section": ".data",
+                "value": 248,
+                "storage": 3,
+                "literal_sha256": "a72538b0ead687ca6ce23ed2bc133db3bda48d4d7b5f6cbdbbdbb7ec6ede2eca"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2345,
+              "target": {
+                "local_section": ".data",
+                "value": 280,
+                "storage": 3,
+                "literal_sha256": "831bc40a30efc6335070e9ae1872c6aa2df874a2c28ddbc4646a9fda2b4506d5"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2411,
+              "target": {
+                "name": "_create_string_table@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2433,
+              "target": {
+                "name": "_create_string_table@12"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2500,
+              "target": {
+                "name": "_default_dos_image"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2556,
+              "target": {
+                "name": "?image_header_size@@3P8LinkContext@@AEKPAK@ZQ1@"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2560,
+              "target": {
+                "name": "?VxdHeaderSize@LinkContext@@QAEKPAK@Z"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2566,
+              "target": {
+                "name": "?image_write_section@@3P8LinkContext@@AEXHPAX0@ZQ1@"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2570,
+              "target": {
+                "name": "?VxdWriteSection@LinkContext@@QAEXHPAX0@Z"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2576,
+              "target": {
+                "name": "?image_write_headers@@3P8LinkContext@@AEXH@ZQ1@"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2580,
+              "target": {
+                "name": "?VxdWriteHeaders@LinkContext@@QAEXH@Z"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2588,
+              "target": {
+                "name": "?InitializeVxd@LinkContext@@QAEXXZ"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2602,
+              "target": {
+                "name": "?image_header_size@@3P8LinkContext@@AEKPAK@ZQ1@"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2606,
+              "target": {
+                "name": "?PeHeaderSize@LinkContext@@QAEKPAK@Z"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2612,
+              "target": {
+                "name": "?image_write_section@@3P8LinkContext@@AEXHPAX0@ZQ1@"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2616,
+              "target": {
+                "name": "?PeWriteSection@LinkContext@@QAEXHPAX0@Z"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2622,
+              "target": {
+                "name": "?image_write_headers@@3P8LinkContext@@AEXH@ZQ1@"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2626,
+              "target": {
+                "name": "?PeWriteHeaders@LinkContext@@QAEXH@Z"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2634,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2647,
+              "target": {
+                "name": "_allocate_link_memory@8"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2659,
+              "target": {
+                "name": "_allocate_memory@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2886,
+              "target": {
+                "name": "_logo_pending"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2895,
+              "target": {
+                "name": "_print_logo"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 2900,
+              "target": {
+                "local_section": ".data",
+                "value": 288,
+                "storage": 3,
+                "literal_sha256": "5fe566cb44f86fc43318743c009d000626ee9ec6c02817d4cbd0c58836d0dbd3"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2906,
+              "target": {
+                "name": "__imp__puts"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2920,
+              "target": {
+                "name": "__imp__exit"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2970,
+              "target": {
+                "name": "_incremental_requested"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2975,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 2996,
+              "target": {
+                "name": "_output_file_name"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3004,
+              "target": {
+                "local_section": ".data",
+                "value": 1548,
+                "storage": 3,
+                "literal_sha256": "4e6b35496f8ea544a79b7c68e12fcbc75c7131943469a84b64a43ba71cfbf34a"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3016,
+              "target": {
+                "name": "_link_fatal"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 3025,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3051,
+              "target": {
+                "name": "_incremental_requested"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3067,
+              "target": {
+                "local_section": ".data",
+                "value": 1552,
+                "storage": 3,
+                "literal_sha256": "6939ec1bd4035320b0bed26a1625c3540442055a71448fbc6fd991fda3489531"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3095,
+              "target": {
+                "name": "_incremental_requested"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3104,
+              "target": {
+                "local_section": ".data",
+                "value": 1556,
+                "storage": 3,
+                "literal_sha256": "64add6d5ba628476907bce37eabaa77830652f86e7f1cbfb9eeb327203c19d73"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3109,
+              "target": {
+                "local_section": ".data",
+                "value": 1564,
+                "storage": 3,
+                "literal_sha256": "295c0e4afccaeeed3ecf3b90ecc6b7076fb6aedf7c23d33e4a7609e5d49da318"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3121,
+              "target": {
+                "name": "_link_warning"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 3130,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3164,
+              "target": {
+                "name": "_pdb_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3174,
+              "target": {
+                "name": "_debug_formats"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3183,
+              "target": {
+                "name": "_debug_formats"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3205,
+              "target": {
+                "name": "_incremental_requested"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3221,
+              "target": {
+                "local_section": ".data",
+                "value": 1576,
+                "storage": 3,
+                "literal_sha256": "8009efe02a5fcb7f86700440a1af7e99dce490bac6824aa051f448d8a5331cfe"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3234,
+              "target": {
+                "name": "_incremental_switch_set"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3258,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3266,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3283,
+              "target": {
+                "name": "_pdb_enabled"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3307,
+              "target": {
+                "name": "_incremental_switch_set"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3323,
+              "target": {
+                "local_section": ".data",
+                "value": 1588,
+                "storage": 3,
+                "literal_sha256": "35ff8dccfa4552ddf6261914571781155c31f4a58ec532e7f416cae02e4d72b7"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3336,
+              "target": {
+                "name": "_debug_option_present"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3395,
+              "target": {
+                "name": "_incremental_switch_set"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3411,
+              "target": {
+                "local_section": ".data",
+                "value": 1600,
+                "storage": 3,
+                "literal_sha256": "35ba324233a46ac741e08504f1e35030aa9694c2969527da929daa4ea026f768"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3438,
+              "target": {
+                "name": "_incremental_switch_set"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3454,
+              "target": {
+                "local_section": ".data",
+                "value": 1604,
+                "storage": 3,
+                "literal_sha256": "e57777f30106fd72aa05abad67ebc98a7ce23c1f7bbe21c62780892fce860e2e"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3481,
+              "target": {
+                "name": "_incremental_switch_set"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3494,
+              "target": {
+                "local_section": ".data",
+                "value": 1612,
+                "storage": 3,
+                "literal_sha256": "ae31dcb6649b12df88e5c34e4b088f2bb842a3952ca6f18bae4e861b00d7c92c"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3516,
+              "target": {
+                "name": "_incremental_switch_set"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3529,
+              "target": {
+                "local_section": ".data",
+                "value": 1620,
+                "storage": 3,
+                "literal_sha256": "228899f35e9b735f602dab0d028cbfd02944cf3eba8e2606cba9cfaa10b69c9a"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3540,
+              "target": {
+                "name": "_supports_incremental@4"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 3562,
+              "target": {
+                "local_section": ".data",
+                "value": 1628,
+                "storage": 3,
+                "literal_sha256": "295c0e4afccaeeed3ecf3b90ecc6b7076fb6aedf7c23d33e4a7609e5d49da318"
+              },
+              "kind": 6
+            },
+            {
+              "offset": 3574,
+              "target": {
+                "name": "_link_warning"
+              },
+              "kind": 20
+            },
+            {
+              "offset": 3583,
+              "target": {
+                "name": "_incremental_enabled"
+              },
+              "kind": 6
+            }
+          ]
+        }
+      ],
+      "local_label_qualification": "Only static3 $SG and label6 $L compiler numbering changes; actual targetsection/value/literalSHA unchanged; all external identities and relocation offsets/kinds exact."
+    }
+  ],
+  "current_member_pointer_static_proof": {
+    "callbacks": {
+      "image_header_size": {
+        "original_slot": 4714828,
+        "rebuilt_slot": 4256804,
+        "assigned_methods": {
+          "pe": "LinkContext::PeHeaderSize",
+          "vxd": "LinkContext::VxdHeaderSize"
+        },
+        "original_call_sequences": [
+          [
+            4471349,
+            "8d5424508bcd52ff154cf14700"
+          ]
+        ],
+        "stack_cleanup": 4
+      },
+      "image_write_section": {
+        "original_slot": 4714744,
+        "rebuilt_slot": 4256828,
+        "assigned_methods": {
+          "pe": "LinkContext::PeWriteSection",
+          "vxd": "LinkContext::VxdWriteSection"
+        },
+        "original_call_sequences": [
+          [
+            4456868,
+            "8d5424205256508bcfff15f8f04700"
+          ],
+          [
+            4465851,
+            "8d4424385051528bcbff15f8f04700"
+          ]
+        ],
+        "stack_cleanup": 12
+      },
+      "image_write_headers": {
+        "original_slot": 4714192,
+        "rebuilt_slot": 4256792,
+        "assigned_methods": {
+          "pe": "LinkContext::PeWriteHeaders",
+          "vxd": "LinkContext::VxdWriteHeaders"
+        },
+        "original_call_sequences": [
+          [
+            4420384,
+            "518bcdff15d0ee4700"
+          ],
+          [
+            4474770,
+            "8bcd52ff15d0ee4700"
+          ],
+          [
+            4594057,
+            "528bcfff15d0ee4700"
+          ]
+        ],
+        "stack_cleanup": 4
+      }
+    },
+    "qualification": "Three separate standalone globals only; no embedded664-byte context field, array stride, serialization or nonzero this adjustment is covered. These actual callback bodies remain named traps until reached."
+  },
+  "current_pe_sha256": "fa047b2c9635a59c27958858daa1de268b204648afe745aeba7e69e19686f5e8",
+  "current_map_sha256": "253e8fb9d3119edfb4d2b96991f1bb851a6f1e22b728ff15c18abee4bd278813",
+  "prior_closed_slot_path": "/root/msvc2/decomp/vc5.10/link/cases/hello-win32/frontiers/67-next-contribution-group/full-link-proof/cases/hello-win32/full-link-closed-slot.json",
+  "prior_closed_slot_sha256": "f574a437b807ca6b774d2074ba0a9727eeb65ac2f86931306458d1d33e2b9a44",
+  "unchanged_sources": {
+    "src/link-driver.cpp": "c83bac5fb766f61acd25dafd01a01a19d9801e935706eda7a4e00f94eb0a9176",
+    "src/full-link.cpp": "e78f910053dda34a5b8cdbbe9521563c80710ffd2f6703d2b9414e741385ba2a"
+  },
+  "scope": "Consumed fields replace same-size reservedslots; one PODmethod declaration. Complete.text code and externalcall/slot/store relocation roles in relevantold/currentCOFF identical; no callback/provider semantics changed. Oldartifacts untouched."
+}

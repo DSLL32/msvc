@@ -84,7 +84,8 @@
     "_create_contribution_group@8",
     "_find_contribution_group@8",
     "_initialize_group_enumerator@8",
-    "_next_contribution_group@4"
+    "_next_contribution_group@4",
+    "LinkContext::PassOne"
   ],
   "driver": [
     {
@@ -1879,11 +1880,11 @@
     {
       "name": "LinkContext::PassOne",
       "start": 4503648,
-      "end": 4503649,
-      "source": "src/full-link-stubs.cpp",
-      "status": "stub",
-      "abi": "thiscall void(this; void); callee entry/RET and FullLink callsite analyzed; inputs observed when reached",
-      "pending_extent": true,
+      "end": 4504880,
+      "source": "src/pass-one.cpp",
+      "status": "implemented",
+      "abi": "thiscall void(LinkContext *this); actual ECX, no stack formals or other hidden inputs; RET0",
+      "pending_extent": false,
       "native_symbol": "LinkContext::PassOne",
       "symbol": "?PassOne@LinkContext@@QAEXXZ"
     },
@@ -2392,6 +2393,187 @@
       "pending_extent": false,
       "native_symbol": "next_contribution_group",
       "abi": "stdcall BYTE(GroupEnumerator *enumerator); one actual stack input, RET4; no hidden inputs"
+    },
+    {
+      "name": "_link_message",
+      "start": 4391600,
+      "end": 4391601,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "link_message",
+      "abi": "cdecl void(unsigned message,...); actual wrapper forwards stack va_list, RET0; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_create_library@12",
+      "start": 4255184,
+      "end": 4255185,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "create_library",
+      "abi": "stdcall OutputLibrary *(const char *name,const char *path,LinkPointerList *libraries); three stack inputs,RET12; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_check_output_input_collision@8",
+      "start": 4593728,
+      "end": 4593729,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "check_output_input_collision",
+      "abi": "stdcall void(const char *output,InputArgument *inputs); two actual stack inputs,RET8; no hidden inputs; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "LinkContext::LoadInputArgument",
+      "start": 4495952,
+      "end": 4495953,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "LinkContext::LoadInputArgument",
+      "abi": "thiscall void(LinkContext *this; InputArgument *argument,OutputLibrary *library);ECX,two stack inputs,RET8; declarations derived from actual caller/callee inventory; formals captured when reached",
+      "symbol": "?LoadInputArgument@LinkContext@@QAEXPAUInputArgument@@PAUOutputLibrary@@@Z"
+    },
+    {
+      "name": "_check_input_modules@8",
+      "start": 4496112,
+      "end": 4496113,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "check_input_modules",
+      "abi": "stdcall void(LinkContext *context,OutputLibrary *library);two stack inputs,RET8; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_resolve_weak_externals@8",
+      "start": 4502688,
+      "end": 4502689,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "resolve_weak_externals",
+      "abi": "stdcall void(LinkContext *context,DWORD flags);two stack inputs,RET8; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_search_libraries@4",
+      "start": 4496272,
+      "end": 4496273,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "search_libraries",
+      "abi": "stdcall void(LinkContext *context);one stack input,RET4; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_resolve_initial_entry@4",
+      "start": 4494832,
+      "end": 4494833,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "resolve_initial_entry",
+      "abi": "stdcall BYTE(LinkContext *context);one stack input,AL result,RET4; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_infer_subsystem@4",
+      "start": 4503312,
+      "end": 4503313,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "infer_subsystem",
+      "abi": "stdcall BYTE(LinkContext *context);one stack input,AL result,all actual RET4 paths; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_infer_entry_point@4",
+      "start": 4502928,
+      "end": 4502929,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "infer_entry_point",
+      "abi": "stdcall BYTE(LinkContext *context);one stack input,AL result,all actual RET4 paths; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_process_definition_file@8",
+      "start": 4496656,
+      "end": 4496657,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "process_definition_file",
+      "abi": "stdcall BYTE(LinkContext *context,const char *name);two stack inputs,AL result (upper bits not defined),RET8; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_finalize_mac_entry@8",
+      "start": 4527344,
+      "end": 4527345,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "finalize_mac_entry",
+      "abi": "stdcall void(StringNode **entry,LinkContext *context);two stack inputs,RET8; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_set_subsystem_version@4",
+      "start": 4503504,
+      "end": 4503505,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "set_subsystem_version",
+      "abi": "stdcall void(LinkContext *context);one stack input,all actual RET4 paths; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_warn_unused_libraries@4",
+      "start": 4502592,
+      "end": 4502593,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "warn_unused_libraries",
+      "abi": "stdcall void(OutputLibrary *library);one stack input,RET4; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_warn_missing_default_libraries@4",
+      "start": 4502448,
+      "end": 4502449,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "warn_missing_default_libraries",
+      "abi": "stdcall void(LinkPointerList *libraries);one stack input,RET4; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_initialize_library_enumerator@8",
+      "start": 4258544,
+      "end": 4258545,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "initialize_library_enumerator",
+      "abi": "stdcall void(LibraryEnumerator *enumerator,OutputLibrary *first);two stack inputs,RET8; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_next_library@4",
+      "start": 4258592,
+      "end": 4258593,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "next_library",
+      "abi": "stdcall BYTE(LibraryEnumerator *enumerator);one stack input,ALresult,RET4; declarations derived from actual caller/callee inventory; formals captured when reached"
+    },
+    {
+      "name": "_warn_unused_delay_libraries@0",
+      "start": 4324224,
+      "end": 4324225,
+      "source": "src/pass-one.cpp",
+      "status": "stub",
+      "pending_extent": true,
+      "native_symbol": "warn_unused_delay_libraries",
+      "abi": "stdcall void(void);no stack/hidden inputs,RET0; declarations derived from actual caller/callee inventory; formals captured when reached"
     }
   ],
   "text_data": [

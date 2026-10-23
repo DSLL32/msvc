@@ -64,7 +64,6 @@ void RECON_THISCALL LinkContext::WriteLocalImports(Contribution *contribution,In
 extern "C" void __stdcall write_coff_symbols(LinkContext *context,DWORD image_rva) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::EmitDebugDirectories(DWORD start,DWORD original_offset,DWORD lines,DWORD end,DWORD line_offset) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::FinishImage(void) { __asm { int 3 } }
-void RECON_THISCALL LinkContext::PassOne(void) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::PassTwo(void) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::PrepareMacJumpTables(void) { __asm { int 3 } }
 void RECON_THISCALL LinkContext::ResolveMacImports(void) { __asm { int 3 } }

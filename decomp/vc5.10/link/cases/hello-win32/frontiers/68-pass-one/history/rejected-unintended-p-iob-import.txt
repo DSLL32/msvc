@@ -1,0 +1,1 @@
+graph-audit: LinkContext::PassOne import graph differs: original {Identity { dll: "msvcrt.dll", symbol: Name { name: "fputc" } }}; reconstruction {Identity { dll: "msvcrt.dll", symbol: Name { name: "__p__iob" } }, Identity { dll: "msvcrt.dll", symbol: Name { name: "fputc" } }}

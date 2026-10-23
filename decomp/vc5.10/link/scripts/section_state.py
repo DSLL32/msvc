@@ -37,7 +37,8 @@ def enum_bytes(next_function,end_function,first,current):
 
 
 def compare(original,state,trap,events):
-    completed=state['function']=='LinkContext::PassOne'
+    collision=state['function']=='check_output_input_collision'
+    completed=state['function']=='LinkContext::PassOne'or collision
     sections=SECTIONS+ADDITIONAL_SECTIONS if completed else SECTIONS
     count=len(sections)
     left=trap['section_records'];right=state['section_records']
@@ -51,10 +52,28 @@ def compare(original,state,trap,events):
         context=trap['validation_context'];ncontext=state['context_this']
         formals=trap['pass_one_formals'];nformals=state['pass_one_formals']
         assert formals==dict(this=context,stack_formals=[],other_hidden_inputs=[])
-        assert trap['ecx']==context
-        assert nformals==dict(this=ncontext,raw_ecx=ncontext,stack_formals=[],other_hidden_inputs=[])
-        assert trap['frontier_inputs']==dict(formals=[],hidden_register_inputs=[dict(register='ecx',value=context)])
-        assert state['frontier_inputs']==dict(formals=[],hidden_register_inputs=[dict(register='ecx',value=ncontext)])
+        if collision:
+            assert nformals==dict(this=ncontext,stack_formals=[],other_hidden_inputs=[])
+            entry,=[e for e in events if e['event']=='pass_one_entry']
+            assert entry['this']==formals['this']==context and entry['stack_formals']==entry['other_hidden_inputs']==[]
+            assert trap['esp']==entry['stack_pointer']-44 and trap['stack'][0]==0x44b8d0
+            nentry=state['pass_one_entry']
+            assert nentry['this']==ncontext and nentry['stack_formals']==nentry['other_hidden_inputs']==[]
+            current=trap['collision_formals'];ncurrent=state['collision_formals']
+            lists={e['name']:e for e in events if e['event']=='argument_list'}
+            assert current['output']==trap['stack'][1]==trap['output_name_pointer']==trap['crt_argv_addresses'][3]+5
+            assert current['inputs']==trap['stack'][2]==lists['link_files']['header'][0]
+            assert ncurrent['output']==state['output_name_pointer']==state['crt_argv_addresses'][3]+5
+            assert ncurrent['inputs']==state['argument_lists']['link_files']['header'][0]
+            assert current['text']==ncurrent['text']=='hello.exe'
+            assert trap['frontier_inputs']==dict(formals=[current['output'],current['inputs']],hidden_register_inputs=[])
+            assert state['frontier_inputs']==dict(formals=[ncurrent['output'],ncurrent['inputs']],hidden_register_inputs=[])
+            assert trap['pass_one_flags']==state['pass_one_flags']==dict(verbose_link=0,output_file_open=0,current_image_file=-1,arch_data_ignored=0)
+        else:
+            assert trap['ecx']==context
+            assert nformals==dict(this=ncontext,raw_ecx=ncontext,stack_formals=[],other_hidden_inputs=[])
+            assert trap['frontier_inputs']==dict(formals=[],hidden_register_inputs=[dict(register='ecx',value=context)])
+            assert state['frontier_inputs']==dict(formals=[],hidden_register_inputs=[dict(register='ecx',value=ncontext)])
         assert trap['default_phase']==dict(address=0x407a50,text='Pass1')
         assert state['default_phase']['address']and state['default_phase']['text']=='Pass1'
         observed=[e for e in events if e['event']=='sections_initialize_observation']

@@ -1,0 +1,13 @@
+{
+  "reason": "Earlier native pairs retained at immutable capture paths; final native is frozen alongside validation. Original unchanged and reused after shared rebuild and CRT header fix.",
+  "files": [
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/link/native-wjn9xyfi/receipt.json",
+      "sha256": "8139f6f672c97cbf152154c68d51b2135c6c7969b5752b6d675c5eac57921047"
+    },
+    {
+      "path": "/root/.ai-tmp/msvc2/vc5.10/link/native-p7x49a_f/receipt.json",
+      "sha256": "0782da53496cd662616df47cf6094f8a990715ee6088a8c955a80aad8f4bc565"
+    }
+  ]
+}

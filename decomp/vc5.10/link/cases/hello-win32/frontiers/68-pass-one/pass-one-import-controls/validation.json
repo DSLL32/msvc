@@ -1,0 +1,90 @@
+{
+  "positive": true,
+  "inventory": {
+    "original_register_calls": 2,
+    "original_direct_import_calls": 1,
+    "rebuilt_direct_import_calls": 3,
+    "required_ordinary_preservation_contracts": 2,
+    "unresolved": 0
+  },
+  "witness_binding": {
+    "provider": {
+      "qualified_import_contracts": 1,
+      "application_helper_contracts": 0,
+      "qualification": "Only required canonical-provider/SDK ABI witnesses. Unknown application calls remain barriers; no helper source/object snapshots or target CFG/dataflow walk."
+    },
+    "ordinary_function_contracts": 1,
+    "original_application_witness_bytes": 304,
+    "qualification": "Finite diagnostic wrapper/filter save/restore witness and public qualified CRT ABI only; no application acceptance or CRT source."
+  },
+  "contract_ablations": [
+    {
+      "contract": "message-function",
+      "rejected": true,
+      "reason": "graph-audit: original LinkContext::PassOne register imports: unresolved register import calls: {4504747}"
+    },
+    {
+      "contract": "fputc-provider",
+      "rejected": true,
+      "reason": "graph-audit: original LinkContext::PassOne register imports: unresolved register import calls: {4504747}"
+    }
+  ],
+  "focused_witness_negatives": [
+    "wrong actual fputc provider entry",
+    "wrong shipped declaration line",
+    "unreviewed ordinary register mask",
+    "missing suppression-filter restore",
+    "wrong finite diagnostic body hash",
+    "truncated actual named-stub ABI"
+  ],
+  "negative_count": 8,
+  "command": [
+    "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+    "--profile",
+    "link",
+    "--discovery",
+    "cfg",
+    "--repo",
+    "/root/msvc2",
+    "--project",
+    "/root/msvc2/decomp/vc5.10/link",
+    "--original",
+    "/root/msvc2/toolchains/5.10/bin/LINK.EXE",
+    "--rebuilt",
+    "/root/msvc2/decomp/vc5.10/link/build/link.exe",
+    "--map",
+    "/root/msvc2/decomp/vc5.10/link/build/link.map",
+    "--config",
+    "/root/.ai-tmp/msvc2/vc5.10/link/pass-one-import-controls/functions.json",
+    "--runtime",
+    "/root/msvc2/decomp/vc5.10/link/runtime.json",
+    "--rebuilt-runtime",
+    "/root/msvc2/decomp/vc5.10/link/build/runtime.json",
+    "--metadata",
+    "/root/.ai-tmp/msvc2/vc5.10/link/pass-one-import-controls/metadata.json",
+    "--check-ret",
+    "--check-references",
+    "--check-ownership",
+    "--check-extents",
+    "--check-callbacks",
+    "--check-imports",
+    "--resolve-register-imports"
+  ],
+  "input_sha256": {
+    "/root/msvc2/tooling/graph-audit/target/release/graph-audit": "2871dfec83f97736c31e6e9b3ffaa3726d9b1f62b5d7ff087d345e77a2d0392c",
+    "/root/msvc2/toolchains/5.10/bin/LINK.EXE": "04c892989f4cc8076ef45e033215eb7aefbdf1459cbee9b13a81f8ddb718b579",
+    "/root/msvc2/decomp/vc5.10/link/build/link.exe": "5cd9d37762f76c05bd5fb0110c25d51a1d50f0bd7cce268e2fa7b1e84f6a0e9a",
+    "/root/msvc2/decomp/vc5.10/link/build/link.map": "94ab15c392da2572f1363d7efbe447de13410e44f600ab22b6e79e952c3999c9",
+    "/root/.ai-tmp/msvc2/vc5.10/link/native-p7x49a_f/functions.json": "627816bf7d1c71097f856ef3035cab926b618bd90faacae963578f20b240eb6d",
+    "/root/msvc2/decomp/vc5.10/link/runtime.json": "4ed4659005dc3df4f555d8e8fe32cb54fb9db46b4807d8d2f348209a09dc7b6d",
+    "/root/msvc2/decomp/vc5.10/link/build/runtime.json": "408001e3b300a5845d4b24c45a9ce3fc0d6ba4098d93d34171559acddbc55f6b",
+    "/root/msvc2/decomp/vc5.10/link/build/graph.json": "e1a3920373a813d94a1099081f225a2a5397c2f08859ab2428ab4407a9016fbc",
+    "/root/msvc2/decomp/vc5.10/link/cases/hello-win32/pass-one-import-preservation.json": "dfa68b1f5a7f49e44f0e0cb21f7d30373d1bcd492560bea7d5699bd3316f5602",
+    "/root/msvc2/decomp/vc5.10/link/scripts/pass-one-preservation.py": "a5847e31eb8e2a459ba9f49a60a8ca20f7f89a5d8b48d3826f4dd040572e0c6d",
+    "/root/msvc2/decomp/vc5.10/link/scripts/check-pass-one-imports.py": "de8f727fa7444c02ae34577e460ec17bbc032a982a38ea7537761b65cb2eefc5",
+    "/root/.ai-tmp/msvc2/vc5.10/link/pass-one-import-controls/functions.json": "7521cfbfce2dd6ec25fdb1d0c3243acddf54028835d1fc51666d8104e5c8970a",
+    "/root/.ai-tmp/msvc2/vc5.10/link/pass-one-import-controls/metadata.json": "938f361a07b059bbcbba6f65c5edb6f648cbaaba7aec86b9814ee5f2b58dc580"
+  },
+  "elapsed_seconds": 0.24953816458582878,
+  "qualification": "Common tool discovers every CFG/call/import/RET. Controls bind exactly two necessary ESI contracts; no original/native execution or new library semantics."
+}

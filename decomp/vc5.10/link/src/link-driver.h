@@ -71,12 +71,12 @@ struct LinkContext {
     LinkOptions options;
     DWORD specified_switches, comment_size;
     const char *entry_name;
-    DWORD reserved19c[2];
+    const unsigned char *mac_initializer_name, *mac_terminator_name;
     struct IncludeSymbol *includes;
     DWORD reserved1a8[3];
     SectionList sections;
     LinkPointerList pointer_list;
-    DWORD reserved1cc;
+    OutputLibrary *command_line_library;
     StringTable *symbols, *strings;
     const DefaultDosImage *dos_image;
     DWORD dos_image_size, pe_header_offset;
@@ -131,6 +131,7 @@ struct LinkContext {
     void RECON_THISCALL EmitDebugDirectories(DWORD start,DWORD original_offset,DWORD lines,DWORD end,DWORD line_offset);
     void RECON_THISCALL FinishImage(void);
     void RECON_THISCALL PassOne(void);
+    void RECON_THISCALL LoadInputArgument(InputArgument *argument,OutputLibrary *library);
     void RECON_THISCALL PassTwo(void);
     void RECON_THISCALL PrepareMacJumpTables(void);
     void RECON_THISCALL ResolveMacImports(void);

@@ -1,0 +1,11 @@
+{
+  "reviewer": "/root/vc510_orchestrator",
+  "approved": true,
+  "utc": "2026-10-23T22:11:35.940691+00:00",
+  "header_packet_sha256": "f5991c2135116a5ee9073fe3ff2064d9f271d5d7130de151cafd942361aad899",
+  "import_packet_sha256": "dfa68b1f5a7f49e44f0e0cb21f7d30373d1bcd492560bea7d5699bd3316f5602",
+  "independent_header_checks": "Both old/new COFF complete normalized.text and all716 qualified relocation roles equal, actual current header/source hashes checked. Static local labels compared by section/value/fullsectionSHA rather than generated numbering. Existing sizes664/68 and eight exact size/offset assertions preserved. Only same-size reserved fields refined; no old evidence reclassified.",
+  "independent_import_checks": "PASS reran actual strict common audit,2 cached+1 direct versus3 direct fputc,0 unresolved; both finite ESI contracts necessary,6 witness negatives reject. Read original304B wrapper/filter diagnostic-chain saves/restores and actual canonical provider/shipped fputc ABI. Zero target/CRT body credit.",
+  "independent_import_receipt_sha256": "f47141e5a5c7f7e482239ab46ebea3158ae93eefdc4038499295df663fca1f1e",
+  "scope": "Prospective current header binding may be recorded separately from immutable historical closed-slot witness. Candidate must still pass exact-current full audit and fresh matching raw; no general callback/ABI relaxation."
+}

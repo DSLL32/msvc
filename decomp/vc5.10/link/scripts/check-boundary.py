@@ -264,7 +264,7 @@ if args.frontier=='_release_memory@4':
     negative('wrong first parsed switch',lambda s:s.__setitem__('parsed_switch','00'*15))
     negative('changed context allocation state',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('wrong nologo effect',lambda s:s.__setitem__('logo_pending',1))
-if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne'):
+if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8'):
     negative('missing real free',lambda s:s['free_calls'].pop())
     negative('wrong freed allocation',lambda s:s['free_calls'][0].__setitem__('argument',0))
     negative('wrong freed bytes',lambda s:s['free_calls'][1].__setitem__('before','00'))
@@ -287,7 +287,7 @@ if args.frontier in ('_validate_debug_options@4','?FullLink@LinkContext@@QAEHPAE
     negative('changed context own data',lambda s:s.__setitem__('link_context','01'+s['link_context'][2:]))
     negative('lost live filename list',lambda s:s['argument_lists']['link_files']['nodes'].pop())
     negative('wrong search result',lambda s:s['library_search_calls'][0].__setitem__('result',1))
-if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne'):
+if args.frontier in ('?FullLink@LinkContext@@QAEHPAE@Z','_initialize_output_modules@4','_duplicate_link_string@4','_initialize_contribution_pools','_allocate_virtual_memory@16','_initialize_comdats','LinkContext::InitializeSections','_create_output_section@20','_find_matching_output_section@20','_adjust_output_section_flags@12','_initialize_section_enumerator@8','_next_output_section@4','_end_section_enumerator','_resolve_output_section@4','_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8'):
     negative('wrong raw thiscall ECX',lambda s:s['full_link_entry'].__setitem__('this',0))
     negative('lost full-link this formal',lambda s:s['full_link_formals'].__setitem__('this',0))
     negative('wrong full-link out pointer',lambda s:s['full_link_formals'].__setitem__('pack_requested',0))
@@ -391,7 +391,7 @@ if args.frontier in ('_duplicate_link_string@4','_initialize_contribution_pools'
     negative('wrong library virtual extent',lambda s:s['virtual_alloc_calls'][5]['arguments'].__setitem__(1,8192))
     negative('new allocation not initially zero',lambda s:s['virtual_alloc_calls'][4].__setitem__('initial','01'+s['virtual_alloc_calls'][4]['initial'][2:]))
 if args.frontier in ('_create_contribution_group@8','_find_contribution_group@8','_initialize_group_enumerator@8','_next_contribution_group@4'):
-    if args.frontier in ('_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne'):
+    if args.frontier in ('_initialize_group_enumerator@8','_next_contribution_group@4','LinkContext::PassOne','_check_output_input_collision@8'):
         negative('lost group enumerator output formal',lambda s:s['group_enumerator_formals'].__setitem__('enumerator',0))
         negative('lost group enumerator stack-local owner',lambda s:s['group_enumerator_formals'].__setitem__('owner_local',0))
         negative('wrong actual group enumerator section',lambda s:s['group_enumerator_formals'].__setitem__('section',0))
@@ -456,12 +456,23 @@ if args.frontier in ('_create_contribution_group@8','_find_contribution_group@8'
     negative('wrong ninth allocation input',lambda s:s['virtual_alloc_calls'][8]['arguments'].__setitem__(1,8192))
     negative('ninth allocation not initially zero',lambda s:s['virtual_alloc_calls'][8].__setitem__('initial','01'+s['virtual_alloc_calls'][8]['initial'][2:]))
 
-if args.frontier=='LinkContext::PassOne':
+if args.frontier in ('LinkContext::PassOne','_check_output_input_collision@8'):
     negative('lost actual PassOne this formal',lambda s:s['pass_one_formals'].__setitem__('this',0))
-    negative('wrong actual PassOne ECX',lambda s:s['pass_one_formals'].__setitem__('raw_ecx',0))
+    if args.frontier=='LinkContext::PassOne':
+        negative('wrong actual PassOne ECX',lambda s:s['pass_one_formals'].__setitem__('raw_ecx',0))
     negative('invented PassOne stack argument',lambda s:s['pass_one_formals']['stack_formals'].append(1))
     negative('invented PassOne hidden input',lambda s:s['pass_one_formals']['other_hidden_inputs'].append('edx'))
-    negative('lost PassOne frontier ECX binding',lambda s:s['frontier_inputs']['hidden_register_inputs'][0].__setitem__('value',0))
+    if args.frontier=='LinkContext::PassOne':
+        negative('lost PassOne frontier ECX binding',lambda s:s['frontier_inputs']['hidden_register_inputs'][0].__setitem__('value',0))
+    else:
+        negative('wrong actual PassOne entry ECX',lambda s:s['pass_one_entry'].__setitem__('this',0))
+        negative('lost collision output formal',lambda s:s['collision_formals'].__setitem__('output',0))
+        negative('lost collision input-list formal',lambda s:s['collision_formals'].__setitem__('inputs',0))
+        negative('wrong collision output text',lambda s:s['collision_formals'].__setitem__('text','other.exe'))
+        negative('invented hidden collision argument',lambda s:s['frontier_inputs']['hidden_register_inputs'].append('ecx'))
+        negative('swapped actual collision formals',lambda s:s['frontier_inputs']['formals'].reverse())
+        negative('wrong unopened output flag',lambda s:s['pass_one_flags'].__setitem__('output_file_open',1))
+        negative('wrong current output descriptor',lambda s:s['pass_one_flags'].__setitem__('current_image_file',0))
     negative('wrong reached phase literal',lambda s:s['default_phase'].__setitem__('text','Pass2'))
     negative('missing reached phase pointer',lambda s:s['default_phase'].__setitem__('address',0))
     negative('section initializer did not return',lambda s:s['sections_initializer_call'].__setitem__('normal_return',False))

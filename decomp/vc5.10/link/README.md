@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 67 application
-functions (29,470 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 68 application
+functions (30,702 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `LinkContext::PassOne`; hello-win32 has not completed.
+next frontier is `check_output_input_collision`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -386,3 +386,18 @@ the strict 80-vertex/73-RET audit pass; independent review adds six focused
 negatives. An actual missing `Pass1` literal mask extent was corrected by owning
 exactly six bytes, retaining two masked padding bytes, and capturing a fresh
 original. The failed raw pair and shared-build refusals remain recorded.
+
+The full 1,232-byte `PassOne` driver is accepted. Its actual first boundary is
+`check_output_input_collision(output_name,input_list)`, with both formals, the
+ECX caller, complete prior section/group state, output-name alias and four
+output globals checked. Both builds and the strict 81-vertex/74-return audit
+pass. The exact import inventory is two cached plus one direct `fputc` call
+against three direct calls; two finite ESI preservation witnesses are necessary.
+170 state negatives, two contract removals and six witness controls pass.
+A real import-audit rejection exposed a missing existing `crt-imports.h` include;
+the corrected source was rebuilt and recaptured natively without changing the
+original mask. Header field naming retains both layouts and all 716 qualified
+COFF relocation roles, independently reviewed. Capture/audit times are
+1.530/0.666/0.925 seconds; cached native help is 66.4 ms including 3.79 ms ELF
+execution. Final evidence and retained failed-history references are under
+`frontiers/68-pass-one`; hello-win32 remains incomplete.
