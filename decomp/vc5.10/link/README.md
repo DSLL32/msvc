@@ -20,10 +20,10 @@ counts, hashes and timing are in `cases/help/completion-validation.json`.
 `make audit` retains shared Rust CFG, strict RET, qualified import, reference,
 ownership and whole-extent checks. Unreconstructed calls remain named traps.
 The source-only hello, DLL and debug-DLL themes in `cases/plan.json` contain no
-copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 63 application
-functions (29,083 extent bytes) are accepted in the working prefix. Its filename
+copied vc1.0 oracle. Hello-win32 is in progress after independent first-case review: 64 application
+functions (29,242 extent bytes) are accepted in the working prefix. Its filename
 canonicalization and library-path search have fresh masked/native evidence. The
-next frontier is `create_contribution_group`; hello-win32 has not completed.
+next frontier is `find_contribution_group`; hello-win32 has not completed.
 
 ## Original-only probes
 
@@ -352,3 +352,11 @@ audit pass; independent orchestrator review includes five focused negatives.
 The prior incomplete observer capture and stale native-build rejection remain
 recorded. Audit-only common-tool update reuses exact unchanged original/native
 evidence and retains the prior audit separately.
+
+The 159-byte contribution-group creator is accepted. Its first action reaches
+`find_contribution_group(section,name)` with the actual export-section record
+and `.edata` name; the boundary records that argument order explicitly. Both
+original-toolchain and native builds, 117 state negatives (including swapped
+formals), and the strict 77-vertex/70-RET audit pass. The complete C implementation
+also retains both allocation modes and sorted insertion, which this frontier
+has not dynamically reached. No new CRT implementation or shim was needed.

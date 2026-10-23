@@ -1,0 +1,6 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x080570b2 in find_contribution_group (section=0xf7fb11f8, name=0x806fcb1 ".edata") at src/full-link-stubs.cpp:13
+13	extern "C" ContributionGroup * __stdcall find_contribution_group(OutputSection *section,const char *name) { __asm { int 3 } return 0; }

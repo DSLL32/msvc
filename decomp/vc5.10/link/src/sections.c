@@ -14,7 +14,10 @@ extern BYTE incremental_enabled;
 BYTE initialize_bss;
 char *__stdcall duplicate_link_string(const char *);
 MemoryArena *output_section_arena;
+MemoryArena *contribution_group_arena;
 WORD output_section_count;
+
+#pragma intrinsic(strcmp)
 
 OutputSection *__stdcall create_output_section(OutputModule *module,const char *name,
     DWORD flags,SectionList *sections,IMAGE_OPTIONAL_HEADER *header)
@@ -38,11 +41,26 @@ OutputSection *__stdcall create_output_section(OutputModule *module,const char *
 }
 ContributionGroup *__stdcall create_contribution_group(const char *name,OutputSection *section)
 {
-    __asm { int 3 }
-    return NULL;
+    ContributionGroup *group=find_contribution_group(section,name);
+    ContributionGroup *current,**position;
+    if (group) return group;
+    if (incremental_enabled)
+        group=(ContributionGroup *)allocate_link_memory(1,sizeof(ContributionGroup));
+    else group=(ContributionGroup *)reserve_memory(&contribution_group_arena,sizeof(ContributionGroup));
+    group->name=duplicate_link_string(name);
+    group->section=section;
+    group->alignment=1;
+    position=&section->groups;
+    current=*position;
+    while (current && strcmp(group->name,current->name)>=0) {
+        position=&current->next;
+        current=current->next;
+    }
+    *position=group;
+    group->next=current;
+    return group;
 }
 
-#pragma intrinsic(strcmp)
 OutputSection *__stdcall find_matching_output_section(OutputModule *module,const char *name,
     DWORD flags,SectionList *sections,IMAGE_OPTIONAL_HEADER *header)
 {

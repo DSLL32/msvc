@@ -40,12 +40,13 @@ def compare(original,state,trap,events):
     assert trap['section_initializer_this']==trap['validation_context']
     assert state['section_initializer_this']==state['context_this']
     formals=trap['section_group_formals'];native_formals=state['section_group_formals']
-    assert formals['name']==trap['stack'][1]==0x4021f4
-    assert formals['section']==trap['stack'][2]==left[-1]['address']
+    finder=state['function']=='find_contribution_group'
+    assert formals['name']==trap['stack'][2 if finder else 1]==0x4021f4
+    assert formals['section']==trap['stack'][1 if finder else 2]==left[-1]['address']
     assert native_formals['name'] and native_formals['section']==right[-1]['address']
     assert formals['text']==native_formals['text']=='.edata'
-    assert trap['frontier_inputs']==dict(formals=[formals['name'],formals['section']],hidden_register_inputs=[])
-    assert state['frontier_inputs']==dict(formals=[native_formals['name'],native_formals['section']],hidden_register_inputs=[])
+    assert trap['frontier_inputs']==dict(formals=[formals['section'],formals['name']]if finder else[formals['name'],formals['section']],hidden_register_inputs=[])
+    assert state['frontier_inputs']==dict(formals=[native_formals['section'],native_formals['name']]if finder else[native_formals['name'],native_formals['section']],hidden_register_inputs=[])
     assert trap['section_list']==[left[0]['address'],left[-1]['address']+68]
     assert state['section_list']==[right[0]['address'],right[-1]['address']+68]
     expected_handles=[0,1,2,3,4,5,5,5,6,7,None,None,None,None,None,None,None,None,None]
