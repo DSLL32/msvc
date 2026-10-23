@@ -43,8 +43,7 @@ build/dll-capture.exe: build/dll-capture.obj
 original: build/c1.dll build/dll-capture.exe
 
 audit: build/c1.dll $(GRAPH_AUDIT_BIN)
-	"$(GRAPH_AUDIT_BIN)" --profile cl --discovery cfg --repo "$(abspath ../../..)" --project "$(CURDIR)" --original "$(abspath $(TC)/bin/C1.DLL)" --rebuilt "$(CURDIR)/build/c1.dll" --map "$(CURDIR)/build/c1.map" --config "$(CURDIR)/$(GRAPH_CONFIG)" --runtime "$(CURDIR)/runtime.json" --rebuilt-runtime "$(CURDIR)/runtime-rebuilt.json" $(if $(GRAPH_METADATA),--metadata "$(CURDIR)/$(GRAPH_METADATA)") --check-ret --check-ownership --check-extents
+	"$(GRAPH_AUDIT_BIN)" --profile cl --discovery cfg --repo "$(abspath ../../..)" --project "$(CURDIR)" --original "$(abspath $(TC)/bin/C1.DLL)" --rebuilt "$(CURDIR)/build/c1.dll" --map "$(CURDIR)/build/c1.map" --config "$(CURDIR)/$(GRAPH_CONFIG)" --runtime "$(CURDIR)/runtime.json" --rebuilt-runtime "$(CURDIR)/runtime-rebuilt.json" $(if $(GRAPH_METADATA),--metadata "$(CURDIR)/$(GRAPH_METADATA)") --check-imports --check-ret --check-ownership --check-extents
 
-fixtures:
-	@echo "Initial scaffold is awaiting review; no function or lifecycle case accepted." >&2
-	@exit 2
+fixtures: native
+	$(PYTHON) scripts/fixtures.py

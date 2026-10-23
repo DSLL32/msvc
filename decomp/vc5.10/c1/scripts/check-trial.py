@@ -16,22 +16,24 @@ PROJECT = pair.PROJECT
 
 def check(original, native, audit_directory=None):
     o, n = pair.checked_receipt(original), pair.checked_receipt(native)
-    assert o["kind"] == "explicit-original-capture" and o["mode"] == "masked" and o["exit"] == 125
-    assert n["kind"] == "native-gdb-frontier"
+    assert o["kind"] == "explicit-original-capture" and o["mode"] == "masked" and o["exit"] in (0, 125)
+    assert n["kind"] in ("native-gdb-frontier", "native-gdb-completion")
     candidate = json.loads((original / "candidate.json").read_text())
     config = json.loads((original / "functions.json").read_text())
     assert candidate["functions"] and config["driver"], "trial itself is absent"
     tool_path = "tooling/graph-audit/target/release/graph-audit"
+    native_path = "decomp/vc5.10/c1/build/native/c1-host"
     captured_inputs = []
     for directory, receipt in ((original, o), (native, n)):
         assert receipt["audit_binding_sha256"] == pair.sha(directory / "audit-binding.json")
         captured_binding = json.loads((directory / "audit-binding.json").read_text())
-        execution_inputs = {path: value for path, value in captured_binding["inputs"].items() if path != tool_path}
+        ignored = {tool_path} | ({native_path} if receipt["kind"] == "explicit-original-capture" else set())
+        execution_inputs = {path: value for path, value in captured_binding["inputs"].items() if path not in ignored}
         assert all(pair.sha(pair.ROOT / path) == value for path, value in execution_inputs.items())
         assert pair.sha(directory / "audit.json") == captured_binding["report_sha256"]
         captured_inputs.append(execution_inputs)
-    assert captured_inputs[0] == captured_inputs[1]
-    execution_inputs = captured_inputs[0]
+    assert captured_inputs[0] == {path: value for path, value in captured_inputs[1].items() if path != native_path}
+    execution_inputs = captured_inputs[1]
     assert o["helper_sha256"] == pair.sha(PROJECT / "build/dll-capture.exe")
     audit_directory = audit_directory or PROJECT / "build"
     binding = json.loads((audit_directory / "trial-audit-binding.json").read_text())
@@ -41,20 +43,36 @@ def check(original, native, audit_directory=None):
     report = json.loads((audit_directory / "trial-audit.json").read_text())
     assert {f["name"] for f in candidate["functions"]} == {f["name"] for f in config["driver"]}
     chunks = sorted(tuple(chunk) for f in candidate["functions"] for chunk in f["chunks"])
+    chunks += [(item["start_rva"], item["end_rva"]) for item in candidate.get("imports", [])]
+    chunks.sort()
     assert chunks == sorted((r["start_rva"], r["end_rva"]) for r in candidate["ranges"])
     assert all(start < end for start, end in chunks)
     assert all(left[1] <= right[0] for left, right in zip(chunks, chunks[1:]))
     expected_owned = {f["name"]: [[0x10600000 + a, 0x10600000 + b] for a, b in f["chunks"]]
                       for f in candidate["functions"]}
+    expected_owned.update({item["name"]: [[0x10600000 + item["start_rva"], 0x10600000 + item["end_rva"]]]
+                           for item in candidate.get("imports", [])})
     owned = report["owned_code_chunks"]["original"]
     assert owned["functions"] == expected_owned
-    assert owned["logical_function_count"] == report["checked_functions"] == len(candidate["functions"])
+    assert owned["logical_function_count"] == len(expected_owned)
+    assert report["checked_functions"] == len(candidate["functions"])
     assert owned["interval_count"] == len(chunks)
     assert owned["declared_code_bytes"] == sum(b - a for a, b in chunks)
-    assert {"call_graph", "ret_cleanup", "extent_ownership", "whole_extent_boundaries"} <= set(report["checks"])
+    assert {"call_graph", "known_imports", "ret_cleanup", "extent_ownership", "whole_extent_boundaries"} <= set(report["checks"])
     assert pair.sha(original / "loaded-target.bin") == o["target_sha256"] == config["target"]["sha256"] == pair.sha(pair.ROOT / config["target"]["path"])
     assert pair.sha(original / "loaded-msvcrt.bin") == o["canonical_crt_sha256"] == pair.sha(pair.ROOT / "toolchains/5.10/bin/MSVCRT.DLL")
     expected = candidate["expected_frontier"]
+    if expected.get("kind") == "completion":
+        from completion_state import validate
+        result = validate(original, native, o, n)
+        result.update({"rust_checked_functions": report["checked_functions"],
+                       "rust_owned_original_bytes": owned["declared_code_bytes"],
+                       "current_auditor_sha256": binding["inputs"][tool_path],
+                       "current_audit_report_sha256": binding["report_sha256"],
+                       "execution_receipts": {"original": pair.sha(original / "receipt.json"),
+                                              "native": pair.sha(native / "receipt.json")}})
+        return result
+    assert o["exit"] == 125 and n["kind"] == "native-gdb-frontier"
     raw = (original / "events.txt").read_text()
     frontiers = re.findall(r"^frontier rva=([0-9a-f]{8})$", raw, re.M)
     traps = re.findall(r"^trap seq=(\d+) rva=([0-9a-f]{8}).*stack=([0-9a-f,]+)\nlast-error=(\d+)$", raw, re.M)
@@ -66,41 +84,86 @@ def check(original, native, audit_directory=None):
     state = json.loads((native / "state.json").read_text())
     assert state["symbol"] == expected["native_symbol"]
     transcript = (native / "gdb.txt").read_text()
-    assert "Program received signal SIGTRAP" in transcript and "in " + state["symbol"] + " (" in transcript
+    import_boundary = expected.get("kind") == "import-boundary"
+    if import_boundary:
+        assert "Breakpoint 1, " + state["symbol"] + " (" in transcript
+        assert "break recon_initterm" in (native / "commands.gdb").read_text()
+    else:
+        assert "Program received signal SIGTRAP" in transcript and "in " + state["symbol"] + " (" in transcript
     symbols = subprocess.check_output(["nm", "-S", "--defined-only", str(PROJECT / "build/native/c1-host")], text=True)
-    match = re.search(r"^([0-9a-f]+) ([0-9a-f]+) [Tt] " + re.escape(state["symbol"]) + "$", symbols, re.M)
+    match = re.search(r"^([0-9a-f]+) ([0-9a-f]+) [TtWw] " + re.escape(state["symbol"]) + "$", symbols, re.M)
     assert match
     begin, size = (int(value, 16) for value in match.groups())
     assert begin < state["pc"] <= begin + size
-    opcode = subprocess.check_output(["objdump", "-d", "--start-address=" + str(state["pc"] - 1),
-                                      "--stop-address=" + str(state["pc"]), str(PROJECT / "build/native/c1-host")], text=True)
-    assert "int3" in opcode
+    if not import_boundary:
+        opcode = subprocess.check_output(["objdump", "-d", "--start-address=" + str(state["pc"] - 1),
+                                          "--stop-address=" + str(state["pc"]), str(PROJECT / "build/native/c1-host")], text=True)
+        assert "int3" in opcode
     args = [int(value, 16) for value in words.split(",")][1:4]
     module = re.search(r"^module name=c1n32_l.dll actual=([0-9a-f]+) preferred=([0-9a-f]+)", raw, re.M)
-    assert module and args[0] == int(module[1], 16)
+    assert module
+    module_base = int(module[1], 16)
     identity = state["module_identity"]
     assert identity == {"name": "C1.DLL", "path": "R:\\toolchains\\5.10\\bin\\C1.DLL",
                          "sha256": o["target_sha256"], "flags": 2}
-    assert state["args"]["module"] == state["module_token"] != 0
-    assert [state["args"][name] for name in ("reason", "reserved")] == args[1:3]
+    assert state["module_token"] != 0
+    if import_boundary:
+        assert args[:2] == [module_base + 0x5c000, module_base + 0x5c004]
+        assert state["args"] == {"begin": state["initializer_begin"], "end": state["initializer_end"]}
+        assert state["initializer_end"] - state["initializer_begin"] == 4
+        assert state["initializer_slots"] == [0]
+        assert state["caller"]["symbol"] == "c1_crt_init"
+        caller = state["caller"]["args"]
+        assert caller == {"module": state["module_token"], "reason": 1, "reserved": 0}
+        prior = [row for row in traps if int(row[1], 16) == 0x120ce]
+        assert len(prior) == 1
+        assert [int(value, 16) for value in prior[0][2].split(",")][1:4] == [module_base, 1, 0]
+    else:
+        assert args[0] == module_base
+        assert state["args"]["module"] == state["module_token"]
+        assert [state["args"][name] for name in ("reason", "reserved")] == args[1:3]
     globals_data = (original / ("state-%03d.bin" % int(sequence))).read_bytes()
     attached = struct.unpack_from("<i", globals_data, 0x90)[0]
     hook = struct.unpack_from("<I", globals_data, 0x9c)[0]
-    assert attached == state["crt_attached"] == 0
+    expected_attached = 1 if expected["native_symbol"] == "DllMain" else 0
+    assert attached == state["crt_attached"] == expected_attached
     assert hook == state["raw_dllmain"] == 0, "nonnull callbacks need an explicit identity projection"
     assert int(error) == state["win32_last_error"] == 14007
+    controls = re.findall(r"^x87-control=([0-9a-f]+)$", raw, re.M)
+    # NT stores this architectural WORD in a DWORD context field.
+    assert len(controls) == len(traps)
+    assert (int(controls[-1], 16) & 0xffff) == state["x87_control"] == 0x027f
+    if import_boundary or expected["native_symbol"] == "DllMain":
+        end, begin = struct.unpack_from("<2I", globals_data, 0x94)
+        assert begin == end != 0
+        heap = re.search(r"^state seq=" + sequence + r" heap-begin=([0-9a-f]+) heap-first=([0-9a-f]+)$", raw, re.M)
+        assert heap and int(heap[1], 16) == begin and int(heap[2], 16) == 0
+        assert state["onexit_begin"] == state["onexit_end"] != 0 and state["onexit_first"] == 0
+        assert struct.unpack_from("<I", globals_data, 0)[0] == 0
+        assert struct.unpack_from("<I", globals_data, 0x40)[0] == state["dll_instance"] == 0
+        assert struct.unpack_from("<i", globals_data, 0xa0)[0] == state["crt_adjust_fdiv"] == 0
+        assert "provider iat=0005d0e8 resolved=78001715" in raw
+    for item in candidate.get("imports", []):
+        snapshot = (original / "relocated-text.bin").read_bytes()
+        offset = item["start_rva"] - 0x1000
+        assert snapshot[offset:offset + 6] == b"\xff\x25" + struct.pack("<I", module_base + item["iat_rva"])
+        assert item["end_rva"] - item["start_rva"] == 6
+        slot = report["import_catalogs"]["original"]["slots"][str(0x10600000 + item["iat_rva"])]
+        assert slot == {"dll": item["provider"], "name": "_initterm"}
     return {"status": "fresh matching next frontier and typed CRT state",
             "trial": [f["name"] for f in candidate["functions"]],
             "frontier_rva": expected["rva"], "native_symbol": state["symbol"],
-            "state": ["module identity/token", "reason/reserved", "CRT attach count",
-                      "null raw callback", "Win32 last error"],
+            "state": (["module identity/token", "reason/reserved", "CRT attach count",
+                       "null raw callback", "Win32 last error"] +
+                      (["one NULL initializer slot", "128-byte onexit allocation; first NULL slot",
+                        "onexit begin/end alias", "adjust_fdiv", "pre-DllMain instance"] if import_boundary else [])),
             "rust_checked_functions": report["checked_functions"],
             "rust_owned_original_bytes": owned["declared_code_bytes"],
             "current_auditor_sha256": binding["inputs"][tool_path],
             "current_audit_report_sha256": binding["report_sha256"],
             "execution_receipts": {"original": pair.sha(original / "receipt.json"),
                                    "native": pair.sha(native / "receipt.json")},
-            "promotion": "held pending orchestrator first-candidate review"}
+            "promotion": "eligible under reviewed same-protocol lifecycle continuation"}
 
 
 if __name__ == "__main__":

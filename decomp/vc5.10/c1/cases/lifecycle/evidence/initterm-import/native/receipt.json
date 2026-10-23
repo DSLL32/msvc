@@ -1,0 +1,51 @@
+{
+  "schema": 1,
+  "kind": "native-gdb-frontier",
+  "seconds": 0.13418049179017544,
+  "native_sha256": "638af3647e2f2104b263d51a5cc8e9ce7257ce77f39aca013ab8de397941c48c",
+  "rebuilt_sha256": "33d3e65c968f7db58cec4128628abdef7c90b5e3ebd8d1532488593f911f68aa",
+  "candidate_sha256": "527183c43be846a4d08efc77f311a9e130536de6b3b33638bc4e7ce7c1eef334",
+  "functions_sha256": "1c61477b8e0f7ea50a566a3839d447b68a99aa2a5f3f7d15d00e419da8aa693b",
+  "source_hashes": {
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/c1.h": "5942a0092eb3be5a121aaf4086bc016fb6b1e3d5eb7420c8c238970c9f66df93",
+    "src/dllmain.c": "b8198078a05aa50747148374b2567a3268f5014819a2b3cd5c40a2e6eb45c3b3",
+    "src/exports.c": "a81493c556740962e241f960304678269018011afee7b100762e9b47fc754590",
+    "src/native-crt.c": "206c45d7184182a20fad6abc245111c7c0e363f8c43628fcdf2c5f8376969e11"
+  },
+  "audit_binding_sha256": "4f8be25593d4eb4410dd9e8a5e2fa3250bf7020b0a7e4596cfeb3861e8d44fc7",
+  "artifacts": {
+    "audit-binding.json": {
+      "sha256": "4f8be25593d4eb4410dd9e8a5e2fa3250bf7020b0a7e4596cfeb3861e8d44fc7",
+      "size": 1902
+    },
+    "audit.json": {
+      "sha256": "6c358586ad490b70ac948fa5ae12e08f73c92ad3cca0f6456d6cceb9edb29f78",
+      "size": 8063
+    },
+    "candidate.json": {
+      "sha256": "527183c43be846a4d08efc77f311a9e130536de6b3b33638bc4e7ce7c1eef334",
+      "size": 2255
+    },
+    "commands.gdb": {
+      "sha256": "d1a23eedfeb5949eeeb596bd0edf2c0f60a3e058ad246cda5708bbae384f3a11",
+      "size": 1864
+    },
+    "functions.json": {
+      "sha256": "1c61477b8e0f7ea50a566a3839d447b68a99aa2a5f3f7d15d00e419da8aa693b",
+      "size": 753
+    },
+    "gdb.txt": {
+      "sha256": "759daf8b1989103cb10b64d81d73a844d0c81dc23c104371f545aad80c5b2860",
+      "size": 574
+    },
+    "source-snapshot.json": {
+      "sha256": "c69a138fc4f8b421752ab1a800f8ea521eef9f083efb6193a1675bc1f3bb2ae4",
+      "size": 6627
+    },
+    "state.json": {
+      "sha256": "7eb412ae2fc5b1a81ab342b83fac387713f8a8ed0bb9ade7dce8d525fbe996e9",
+      "size": 727
+    }
+  }
+}

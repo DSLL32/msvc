@@ -6,6 +6,7 @@ import json
 from pathlib import Path
 import re
 import subprocess
+from provenance import check as check_source_snapshot
 
 PROJECT = Path(__file__).resolve().parents[1]
 ROOT = PROJECT.parents[2]
@@ -22,16 +23,16 @@ def checked_receipt(directory):
         path = directory / name
         assert path.is_file() and sha(path) == item["sha256"], "raw artifact changed: " + name
         assert path.stat().st_size == item["size"]
-    for key, file in (("native_sha256", "build/native/c1-host"),
-                      ("rebuilt_sha256", "build/c1.dll"),
+    bindings = [("rebuilt_sha256", "build/c1.dll"),
                       ("candidate_sha256", "cases/lifecycle/candidate.json"),
-                      ("functions_sha256", candidate.get("audit_config", "functions.json"))):
+                      ("functions_sha256", candidate.get("audit_config", "functions.json"))]
+    if receipt["kind"] != "explicit-original-capture":
+        bindings.append(("native_sha256", "build/native/c1-host"))
+    for key, file in bindings:
         assert receipt[key] == sha(PROJECT / file), "stale or wrong trial: " + key
     assert (directory / "candidate.json").read_bytes() == (PROJECT / "cases/lifecycle/candidate.json").read_bytes()
     assert (directory / "functions.json").read_bytes() == (PROJECT / candidate.get("audit_config", "functions.json")).read_bytes()
-    if "source_hashes" in receipt:
-        assert receipt["source_hashes"] == {str(path.relative_to(PROJECT)): sha(path)
-                                            for path in sorted((PROJECT / "src").glob("*")) if path.is_file()}
+    check_source_snapshot(directory)
     return receipt
 
 

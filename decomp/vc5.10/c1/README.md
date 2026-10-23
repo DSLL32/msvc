@@ -2,14 +2,31 @@
 
 Target: `toolchains/5.10/bin/C1.DLL`, SHA-256
 `7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d`.
-The lifecycle-only first case is in progress. The reviewed CRT entry is accepted
-as one support function owning 224 original code bytes; no application function
-is accepted yet. `make groundwork` checks
-the original PE; `make inspect` prints metadata. `make -j4 native original` builds
-the static Linux harness and real Win32 DLL with named INT3 stubs. `make audit`
-invokes common Rust CFG discovery with explicit DLL paths and checks, currently
-with zero accepted vertices. Fixtures remain blocked until the case is accepted.
-See `cases/lifecycle/PROTOCOL.md` for the review and fresh-evidence gate.
+The lifecycle-only first case is complete and paused. The native i386 harness
+and actual Win32 DLL compile the same reconstructed C. Both compiler exports
+remain named INT3 stubs and have never been invoked by this case.
+
+Accepted ownership is one application function (`DllMain`, 35 original bytes),
+two linked CRT support functions (451 bytes), and one genuine import thunk
+(6 bytes). Their union is 492 of the `.text` virtual extent's 322,288 bytes
+(0.153%); that denominator includes CRT and unclassified code, not just application
+code. This is lifecycle coverage, not compiler-pass coverage.
+
+`make -j4 native original` builds both targets. `make audit` uses the common Rust
+CFG tool with imports, callee cleanup, ownership and whole-extent checks.
+`python3 scripts/check-exports.py` separately checks exact names, ordinals,
+internal module name and both still-trapping export ABIs. `make -j4 fixtures`
+runs only Linux code against the cached original status, streams and application
+entry trace. The host also asserts the observed attach/detach state.
+
+The final measured incremental original build took 2.824s, native build 1.270s,
+Rust audit 0.012s, explicit masked-original capture 0.566s and native GDB capture
+0.146s. The native fixture took 0.0042s (setup 0.0016s, execution 0.0021s,
+checks 0.0002s), excluding build. Twenty completion corruption controls pass.
+Evidence, source snapshots, audit bindings and timings live under
+`cases/lifecycle/evidence/`; large immutable original analysis artifacts remain
+hash-addressed in the documented scratch locations. See
+`cases/lifecycle/PROTOCOL.md` for acceptance and provenance details.
 
 ## Binary and host contract
 
@@ -102,7 +119,7 @@ harness/shim/import entries without excluding target initializers.
 `scripts/dll-capture.c` now implements the original-only guarded loader and masker;
 its baseline records both lifecycle calls and its masked mode restores explicit
 ranges from the relocated snapshot. `scripts/native-host.c` is the initial native
-transport, currently trapping at its CRT entry counterpart. The CRT entry is accepted; CRT_INIT, DllMain and both compiler exports still trap.
+transport for the completed attach/resolve/detach case. CRT entry, CRT_INIT and DllMain are accepted; both compiler exports still trap.
 Nonpreferred-base behavior remains untested.
 
 ## Seed cases and release conditions

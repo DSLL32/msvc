@@ -10,6 +10,7 @@ import subprocess
 import time
 
 from groundwork import inspect
+from provenance import freeze
 from wine_tool_support import environment, windows, ROOT, PROJECT, TC, SCRATCH
 
 TARGET = TC / "bin/C1.DLL"
@@ -81,6 +82,8 @@ def main():
         for rva in (0x1202a, 0x120ce, 0x1218e, 0x12223, 0x121a9, 0x121af):
             ranges.append("%x %x 1\n" % (rva, rva + 1))
     (output / "ranges.txt").write_text("".join(ranges))
+    freeze([PROJECT / "scripts/dll-capture.c", PROJECT / "scripts/capture-original.py",
+            PROJECT / "scripts/wine_tool_support.py"], output / "source-snapshot.json")
     shutil.copy2(PROJECT / "build/dll-capture.exe", output / "dll-capture.exe")
     shutil.copy2(CRT, output / "MSVCRT.DLL")
     shutil.copy2(PROJECT / "cases/lifecycle/candidate.json", output / "candidate.json")

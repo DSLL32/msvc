@@ -9,6 +9,10 @@ typedef struct Range { DWORD first, last; int entry; BYTE saved; } Range;
 static HANDLE child;
 static FILE *events;
 static DWORD base, entry_rva, code_rva, code_size, image_size;
+static DWORD crt_base, return_address, return_reason;
+static BYTE return_saved;
+static int return_active;
+static unsigned sequence;
 static BYTE *snapshot;
 static Range ranges[512];
 static unsigned count;
@@ -96,6 +100,7 @@ static void module_loaded(DWORD address, HANDLE file)
     if (!_stricmp(name, "msvcrt.dll")) {
         if (!file || crt_seen || !same_file(file, crt_path, "loaded-msvcrt.bin")) fail("canonical MSVCRT identity");
         crt_seen = 1;
+        crt_base = address;
     }
     if (strcmp(name, "c1n32_l.dll")) return;
     if (!file || target_seen || !same_file(file, target_path, "loaded-target.bin")) fail("target file identity");
@@ -127,6 +132,14 @@ static void prepare_mask(void)
     HANDLE saved;
     DWORD wrote;
     unsigned i;
+    DWORD resolved;
+    static DWORD import_slots[4] = { 0x5d0e8, 0x5d0a8, 0x5d114, 0x5d0ec };
+    static DWORD provider_rvas[4] = { 0x1715, 0x1498, 0x138a, 0x3f928 };
+    for (i = 0; i < 4; ++i) {
+        readmem(base + import_slots[i], &resolved, sizeof(resolved));
+        if (resolved != crt_base + provider_rvas[i]) fail("canonical CRT import resolution");
+        fprintf(events, "provider iat=%08lx resolved=%08lx\n", import_slots[i], resolved);
+    }
     snapshot = (BYTE *)malloc(code_size);
     masked = (BYTE *)malloc(code_size);
     if (!snapshot || !masked) fail("snapshot allocation");
@@ -153,29 +166,49 @@ static void prepare_mask(void)
     fprintf(events, "mask snapshot=relocated-text.bin baseline=%d ranges=%u\n", baseline, count);
 }
 
-static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
+static DWORD thread_error(CONTEXT *context, HANDLE thread)
 {
-    DWORD stack[5];
     DWORD teb, last_error;
     LDT_ENTRY selector;
-    BYTE globals[0xa4];
-    char filename[80];
-    FILE *state;
-    static unsigned sequence;
-    readmem(context->Esp, stack, sizeof(stack));
-    fprintf(events, "trap seq=%u rva=%08lx esp=%08lx eax=%08lx stack=%08lx,%08lx,%08lx,%08lx,%08lx\n",
-            sequence, address - base, context->Esp, context->Eax,
-            stack[0], stack[1], stack[2], stack[3], stack[4]);
     if (!GetThreadSelectorEntry(thread, context->SegFs, &selector)) fail("thread TEB selector");
     teb = selector.BaseLow | ((DWORD)selector.HighWord.Bytes.BaseMid << 16) |
             ((DWORD)selector.HighWord.Bytes.BaseHi << 24);
     readmem(teb + 0x34, &last_error, sizeof(last_error));
-    fprintf(events, "last-error=%lu\n", last_error);
+    return last_error;
+}
+
+static void save_state(void)
+{
+    BYTE globals[0xa4];
+    DWORD begin, first = 0;
+    char filename[80];
+    FILE *state;
     readmem(base + 0x5c000, globals, sizeof(globals));
+    memcpy(&begin, globals + 0x98, 4);
+    if (begin) readmem(begin, &first, 4);
+    fprintf(events, "state seq=%u heap-begin=%08lx heap-first=%08lx\n", sequence, begin, first);
     sprintf(filename, "state-%03u.bin", sequence++);
     state = fopen(filename, "wb");
     if (!state || fwrite(globals, 1, sizeof(globals), state) != sizeof(globals)) fail("save state");
     fclose(state); fflush(events);
+}
+
+static void boundary(CONTEXT *context, DWORD address, HANDLE thread)
+{
+    DWORD stack[5];
+    readmem(context->Esp, stack, sizeof(stack));
+    fprintf(events, "trap seq=%u rva=%08lx esp=%08lx eax=%08lx stack=%08lx,%08lx,%08lx,%08lx,%08lx\n",
+            sequence, address - base, context->Esp, context->Eax,
+            stack[0], stack[1], stack[2], stack[3], stack[4]);
+    fprintf(events, "last-error=%lu\n", thread_error(context, thread));
+    fprintf(events, "x87-control=%04lx\n", context->FloatSave.ControlWord);
+    save_state();
+    if (address == base + entry_rva) {
+        if (return_active) fail("nested target DLL entry unsupported");
+        return_address = stack[0]; return_reason = stack[2];
+        readmem(return_address, &return_saved, 1);
+        patch(return_address, 0xcc); return_active = 1;
+    }
 }
 
 static int host(const char *path)
@@ -245,12 +278,21 @@ int main(int argc, char **argv)
             for (i = 0; i < thread_count; ++i)
                 if (thread_ids[i] == event.dwThreadId) thread = threads[i];
             if (!thread) fail("unknown debug thread");
-            memset(&context, 0, sizeof(context)); context.ContextFlags = CONTEXT_FULL;
+            memset(&context, 0, sizeof(context)); context.ContextFlags = CONTEXT_FULL | CONTEXT_FLOATING_POINT;
             if (!GetThreadContext(thread, &context)) fail("GetThreadContext");
             if (code == EXCEPTION_SINGLE_STEP && pending >= 0) {
                 patch(base + ranges[pending].first, 0xcc);
                 context.EFlags &= ~0x100; pending = -1;
                 if (!SetThreadContext(thread, &context)) fail("single step context");
+            } else if (code == EXCEPTION_BREAKPOINT && return_active && address == return_address) {
+                fprintf(events, "crt-return seq=%u reason=%lu status=%lu pc=%08lx\n",
+                        sequence, return_reason, context.Eax, address);
+                fprintf(events, "last-error=%lu\n", thread_error(&context, thread));
+                fprintf(events, "x87-control=%04lx\n", context.FloatSave.ControlWord);
+                save_state();
+                patch(return_address, return_saved); return_active = 0;
+                context.Eip = address;
+                if (!SetThreadContext(thread, &context)) fail("CRT return context");
             } else if (code == EXCEPTION_BREAKPOINT && target_seen &&
                     address >= base + code_rva && address < base + code_rva + code_size) {
                 if (!initialized) {

@@ -1,0 +1,43 @@
+{
+  "schema": 1,
+  "inputs": {
+    "decomp/vc5.10/c1/cases/lifecycle/candidate.json": "fd99c90fbccec37281cac7feb2c7402d554ba62d880434bc58bf5080109151b3",
+    "decomp/vc5.10/c1/cases/lifecycle/trial.json": "ef02c3aabc1eff665d920bd9a699a29e91368ec45b81b689652d2751cbc4eed8",
+    "decomp/vc5.10/c1/runtime.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "decomp/vc5.10/c1/runtime-rebuilt.json": "37517e5f3dc66819f61f5a7bb8ace1921282415f10551d2defa5c3eb0985b570",
+    "decomp/vc5.10/c1/build/c1.map": "b53d34c6a87aa146f35b2d4b7bd220e3ad6c444f6776b62170eb91b76010eb98",
+    "decomp/vc5.10/c1/build/c1.dll": "496a79651089b8214e2fa3a2b06fee905ad875d2e8796c045c584097588a54df",
+    "decomp/vc5.10/c1/build/native/c1-host": "41d0829c1eafbd41bf297914fcef923e700221e14336e5aa366a98ea2305d333",
+    "toolchains/5.10/bin/C1.DLL": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+    "tooling/graph-audit/target/release/graph-audit": "30fc576ce5e055a36e806f4079862d08bcaa7a734eae4f93e28a30b2c0c4d269"
+  },
+  "report_sha256": "d424fc1fab88373d07c8a274b15773c0d8e7111ca64505ec671f816d02f52836",
+  "command": [
+    "/root/msvc2/tooling/graph-audit/target/release/graph-audit",
+    "--profile",
+    "cl",
+    "--discovery",
+    "cfg",
+    "--repo",
+    "/root/msvc2",
+    "--project",
+    "/root/msvc2/decomp/vc5.10/c1",
+    "--original",
+    "/root/msvc2/toolchains/5.10/bin/C1.DLL",
+    "--rebuilt",
+    "/root/msvc2/decomp/vc5.10/c1/build/c1.dll",
+    "--map",
+    "/root/msvc2/decomp/vc5.10/c1/build/c1.map",
+    "--config",
+    "/root/msvc2/decomp/vc5.10/c1/cases/lifecycle/trial.json",
+    "--runtime",
+    "/root/msvc2/decomp/vc5.10/c1/runtime.json",
+    "--rebuilt-runtime",
+    "/root/msvc2/decomp/vc5.10/c1/runtime-rebuilt.json",
+    "--check-imports",
+    "--check-ret",
+    "--check-ownership",
+    "--check-extents"
+  ],
+  "seconds": 0.01008499413728714
+}

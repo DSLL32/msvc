@@ -4,7 +4,10 @@
     "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d"
   },
   "accepted": [
-    "_c1_crt_entry@12"
+    "_c1_crt_entry@12",
+    "_c1_crt_init@12",
+    "import:_initterm",
+    "_DllMain@12"
   ],
   "driver": [
     {
@@ -18,6 +21,24 @@
         ]
       ],
       "role": "linked-crt-support"
+    },
+    {
+      "name": "_c1_crt_init@12",
+      "start": 274800846,
+      "end": 274801038,
+      "code_chunks": [
+        [
+          274924312,
+          274924347
+        ]
+      ],
+      "role": "linked-crt-support"
+    },
+    {
+      "name": "_DllMain@12",
+      "start": 274801038,
+      "end": 274801073,
+      "role": "application"
     }
   ],
   "cases": [

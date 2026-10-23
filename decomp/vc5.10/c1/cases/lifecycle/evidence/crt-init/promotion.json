@@ -1,0 +1,23 @@
+{
+  "schema": 1,
+  "function": "_c1_crt_init@12",
+  "role": "linked-crt-support",
+  "original_code_chunks_rva": [
+    [
+      73934,
+      74126
+    ],
+    [
+      197400,
+      197435
+    ]
+  ],
+  "owned_code_bytes": 227,
+  "native_symbol": "c1_crt_init",
+  "case": "dll-lifecycle-and-exports",
+  "application_functions_accepted": 0,
+  "crt_functions_accepted": 2,
+  "remaining_frontier": "import:_initterm at RVA0x12223",
+  "protocol": "same candidate-inclusive graph/raw typed-state protocol approved by orchestrator",
+  "native_only_shared_rebuild_reused_unchanged_original": true
+}

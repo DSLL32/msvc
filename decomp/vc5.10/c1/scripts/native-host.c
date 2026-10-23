@@ -1,14 +1,26 @@
 /* Linux transport only; not part of the reconstructed target function graph. */
 #include <stdio.h>
+#include <float.h>
 #include "c1.h"
 #include <recon.h>
 
 HMODULE c1_host_module;
 const ReconModuleSpec *c1_host_identity;
 
+/* Debug observation point outside the target graph. */
+void c1_host_observe(DWORD reason, BOOL status)
+{
+    (void)reason;
+    (void)status;
+}
+
 int main(void)
 {
     ReconModuleSpec spec;
+    C1Initializer *allocated;
+    BOOL status;
+    /* Captured original loader context: x87 precision53, control word027f. */
+    _controlfp(_PC_53, _MCW_PC);
     spec.name = "C1.DLL";
     spec.path = "R:\\toolchains\\5.10\\bin\\C1.DLL";
     spec.sha256 = "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d";
@@ -19,7 +31,15 @@ int main(void)
     if (!c1_host_identity) return 2;
     /* Explicit initial state captured at the original guarded DLL entry. */
     SetLastError(14007);
-    if (!c1_crt_entry(c1_host_module, DLL_PROCESS_ATTACH, NULL)) return 3;
+    status = c1_crt_entry(c1_host_module, DLL_PROCESS_ATTACH, NULL);
+    c1_host_observe(DLL_PROCESS_ATTACH, status);
+    if (!status || c1_crt_attached != 1 || !c1_onexit_begin ||
+            c1_onexit_end != c1_onexit_begin || *c1_onexit_begin ||
+            c1_raw_dllmain || c1_crt_adjust_fdiv ||
+            c1_dll_instance != c1_host_module ||
+            !recon_module_thread_calls_disabled(c1_host_module) ||
+            GetLastError() != 14007) return 3;
+    allocated = c1_onexit_begin;
     puts("attach=1");
     /* The separate artifact audit verifies names, ordinals and both ABIs. */
     {
@@ -28,7 +48,13 @@ int main(void)
         if (!invoke || !abort_pass) return 4;
     }
     puts("exports=1");
-    if (!c1_crt_entry(c1_host_module, DLL_PROCESS_DETACH, NULL)) return 5;
+    status = c1_crt_entry(c1_host_module, DLL_PROCESS_DETACH, NULL);
+    c1_host_observe(DLL_PROCESS_DETACH, status);
+    if (!status || c1_crt_attached || c1_onexit_begin ||
+            c1_onexit_end != allocated || c1_raw_dllmain ||
+            c1_crt_adjust_fdiv || c1_dll_instance != c1_host_module ||
+            !recon_module_thread_calls_disabled(c1_host_module) ||
+            GetLastError() != 14007) return 5;
     puts("detach=1");
     return 0;
 }

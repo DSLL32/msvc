@@ -36,7 +36,7 @@ def main():
                "--config", str(PROJECT / candidate["audit_config"]),
                "--runtime", str(PROJECT / "runtime.json"),
                "--rebuilt-runtime", str(PROJECT / "runtime-rebuilt.json"),
-               "--check-ret", "--check-ownership", "--check-extents"]
+               "--check-imports", "--check-ret", "--check-ownership", "--check-extents"]
     start = time.perf_counter()
     result = subprocess.run(command, check=True, stdout=subprocess.PIPE, text=True)
     seconds = time.perf_counter() - start
@@ -45,13 +45,16 @@ def main():
     expected = {function["name"]: [[0x10600000 + a, 0x10600000 + b]
                                    for a, b in function["chunks"]]
                 for function in candidate["functions"]}
+    for item in candidate.get("imports", []):
+        expected[item["name"]] = [[0x10600000 + item["start_rva"], 0x10600000 + item["end_rva"]]]
     owned = report["owned_code_chunks"]["original"]
     assert owned["functions"] == expected
-    assert owned["logical_function_count"] == report["checked_functions"] == len(expected)
+    assert owned["logical_function_count"] == len(expected)
+    assert report["checked_functions"] == len(candidate["functions"])
     assert owned["interval_count"] == sum(len(chunks) for chunks in expected.values())
     assert owned["declared_code_bytes"] == sum(b - a for chunks in expected.values() for a, b in chunks)
-    assert set(report["functions"]) == set(expected)
-    assert set(report["checks"]) >= {"call_graph", "ret_cleanup", "extent_ownership", "whole_extent_boundaries"}
+    assert set(report["functions"]) == {f["name"] for f in candidate["functions"]}
+    assert set(report["checks"]) >= {"call_graph", "known_imports", "ret_cleanup", "extent_ownership", "whole_extent_boundaries"}
     output = PROJECT / "build/trial-audit.json"
     output.write_text(result.stdout)
     binding = {"schema": 1, "inputs": before, "report_sha256": sha(output),

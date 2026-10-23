@@ -2,7 +2,7 @@
   "schema_version": 1,
   "project": "vc5.10",
   "target": "toolchains/5.10/bin/C1.DLL",
-  "status": "released-lifecycle-only",
+  "status": "first-case-complete-paused",
   "release_gates": [],
   "reference_policy": "Source-only seeds; no vc1.0 artifacts, traces, IR, or expected output are 5.10 references. Freeze real CL-to-C1 invocation before acceptance.",
   "shared_prefix": "~/.ai-tmp/vc1.0-capture/wine",
@@ -19,7 +19,7 @@
     {
       "order": 1,
       "id": "dll-lifecycle-and-exports",
-      "status": "reconstructing; reviewed CRT entry accepted",
+      "status": "complete",
       "original_reference": "cases/lifecycle/evidence",
       "purpose": "Load verified C1, CRT attach, resolve exports by name/ordinal without invoking, CRT detach",
       "expected": {

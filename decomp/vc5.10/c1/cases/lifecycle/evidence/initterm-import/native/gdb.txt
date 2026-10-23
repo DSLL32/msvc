@@ -1,0 +1,9 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x0804a725 in DllMain (module=0x805f098 <native_modules>, reason=1, reserved=0x0) at src/dllmain.c:9
+9	    __asm { int 3 }
+#0  0x0804a725 in DllMain (module=0x805f098 <native_modules>, reason=1, reserved=0x0) at src/dllmain.c:9
+#1  0x0804a8b7 in c1_crt_entry (module=0x805f098 <native_modules>, reason=1, reserved=0x0) at src/native-crt.c:35
+#2  0x0804ab7d in main () at scripts/native-host.c:25

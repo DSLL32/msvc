@@ -1,0 +1,2 @@
+# Preserve exact captured streams/state, including original CRLF bytes.
+cases/lifecycle/evidence/**/*.bin binary

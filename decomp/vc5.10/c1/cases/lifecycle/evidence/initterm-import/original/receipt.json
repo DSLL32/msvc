@@ -1,0 +1,116 @@
+{
+  "schema": 1,
+  "kind": "explicit-original-capture",
+  "mode": "masked",
+  "command": [
+    "wine",
+    "S:\\vc5.10\\c1\\lifecycle-trial-import-002\\dll-capture.exe",
+    "--debug",
+    "R:\\toolchains\\5.10\\bin\\C1.DLL",
+    "R:\\toolchains\\5.10\\bin\\MSVCRT.DLL",
+    "masked",
+    "ranges.txt"
+  ],
+  "cwd": "S:\\vc5.10\\c1\\lifecycle-trial-import-002",
+  "exit": 125,
+  "seconds": 1.0681591583415866,
+  "preflight": {
+    "entry_byte": 83,
+    "entry_relocation_overlap": false,
+    "tls_directory": {
+      "rva": 0,
+      "size": 0
+    },
+    "relocation_sites": 14058,
+    "local_import_cycle_into_target": false
+  },
+  "target_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+  "canonical_crt_sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+  "helper_sha256": "d1e9c226d619519a306bf74b1e33d9a7594130fb45ccb4ab4d8f229516c9b285",
+  "candidate_sha256": "527183c43be846a4d08efc77f311a9e130536de6b3b33638bc4e7ce7c1eef334",
+  "functions_sha256": "1c61477b8e0f7ea50a566a3839d447b68a99aa2a5f3f7d15d00e419da8aa693b",
+  "native_sha256": "8ce6fc423bbaecb6659a84f5208449735354fee9eb2f97ba6f22fb579a26c5e2",
+  "rebuilt_sha256": "33d3e65c968f7db58cec4128628abdef7c90b5e3ebd8d1532488593f911f68aa",
+  "source_hashes": {
+    "src/.gitkeep": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "src/c1.h": "5942a0092eb3be5a121aaf4086bc016fb6b1e3d5eb7420c8c238970c9f66df93",
+    "src/dllmain.c": "b8198078a05aa50747148374b2567a3268f5014819a2b3cd5c40a2e6eb45c3b3",
+    "src/exports.c": "a81493c556740962e241f960304678269018011afee7b100762e9b47fc754590",
+    "src/native-crt.c": "206c45d7184182a20fad6abc245111c7c0e363f8c43628fcdf2c5f8376969e11"
+  },
+  "audit_binding_sha256": "d3077feda1adcf09c42d39a991db082ac20b6ca6bed67a1b872fbbdded27a342",
+  "artifacts": {
+    "MSVCRT.DLL": {
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "size": 277776
+    },
+    "audit-binding.json": {
+      "sha256": "d3077feda1adcf09c42d39a991db082ac20b6ca6bed67a1b872fbbdded27a342",
+      "size": 1902
+    },
+    "audit.json": {
+      "sha256": "6c358586ad490b70ac948fa5ae12e08f73c92ad3cca0f6456d6cceb9edb29f78",
+      "size": 8063
+    },
+    "candidate.json": {
+      "sha256": "527183c43be846a4d08efc77f311a9e130536de6b3b33638bc4e7ce7c1eef334",
+      "size": 2255
+    },
+    "dll-capture.exe": {
+      "sha256": "d1e9c226d619519a306bf74b1e33d9a7594130fb45ccb4ab4d8f229516c9b285",
+      "size": 10752
+    },
+    "events.txt": {
+      "sha256": "603eaf882e029eda20738e29571854567a6dc97b2e15887617fee6b2fa3aaf6f",
+      "size": 2199
+    },
+    "functions.json": {
+      "sha256": "1c61477b8e0f7ea50a566a3839d447b68a99aa2a5f3f7d15d00e419da8aa693b",
+      "size": 753
+    },
+    "loaded-msvcrt.bin": {
+      "sha256": "e390b0529fb9ee1214bb68302a4658b578134d92ab76bc5eb48f3badd843d210",
+      "size": 277776
+    },
+    "loaded-target.bin": {
+      "sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+      "size": 565008
+    },
+    "ranges.txt": {
+      "sha256": "989a98cc27af82e0123f6ff16e1ce7fd9f74c68ab64034cc657cf2368ae6e34c",
+      "size": 70
+    },
+    "relocated-text.bin": {
+      "sha256": "3de6235f0fa89b5d1977f7b582450f80ff52df025f7da8d111ff23cf8b5bb5dc",
+      "size": 322288
+    },
+    "source-snapshot.json": {
+      "sha256": "aa224aea33c6690ef489105beaed13047879fa3144c63ad3daedc41ec4ed15ff",
+      "size": 790
+    },
+    "state-000.bin": {
+      "sha256": "1aed1a399952a043fc2986889e63535d20577ba5c98b4e415e1bda2a349e9cbc",
+      "size": 164
+    },
+    "state-001.bin": {
+      "sha256": "1aed1a399952a043fc2986889e63535d20577ba5c98b4e415e1bda2a349e9cbc",
+      "size": 164
+    },
+    "state-002.bin": {
+      "sha256": "8d205dc46627cc49f83b31598912be511aaf5da30db166a87b26e43c72ee944c",
+      "size": 164
+    },
+    "state-003.bin": {
+      "sha256": "258661bdb90b558f37d02dc2dbff45b0962e59b9bafad9fa6a46de3fbfc18038",
+      "size": 164
+    },
+    "stderr.bin": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    },
+    "stdout.bin": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "size": 0
+    }
+  }
+}

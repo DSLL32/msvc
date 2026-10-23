@@ -1,14 +1,1 @@
-[
-  {
-    "name": "_c1_crt_init@12",
-    "start": 268439861,
-    "end": 268439877,
-    "role": "unaccepted-callee-identity-only"
-  },
-  {
-    "name": "_DllMain@12",
-    "start": 268439552,
-    "end": 268439568,
-    "role": "unaccepted-callee-identity-only"
-  }
-]
+[]

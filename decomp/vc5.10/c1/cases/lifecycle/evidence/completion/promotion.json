@@ -1,0 +1,16 @@
+{
+  "schema": 1,
+  "function": "_DllMain@12",
+  "original_rva": 74126,
+  "end_rva": 74161,
+  "role": "application",
+  "owned_code_bytes": 35,
+  "case": "dll-lifecycle-and-exports",
+  "case_complete": true,
+  "application_functions_accepted": 1,
+  "crt_functions_accepted": 2,
+  "import_thunks_accepted": 1,
+  "native_only_rebuild_reused_unchanged_original": true,
+  "negative_controls_passed": 20,
+  "next_case_not_released": "minimal"
+}

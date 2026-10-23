@@ -1,0 +1,81 @@
+{
+  "schema": 1,
+  "review_gate": "autonomous same-protocol continuation after reviewed first candidate",
+  "ranges": [
+    {
+      "start_rva": 73770,
+      "end_rva": 73934,
+      "entry": 1
+    },
+    {
+      "start_rva": 197340,
+      "end_rva": 197400,
+      "entry": 0
+    },
+    {
+      "start_rva": 73934,
+      "end_rva": 74126,
+      "entry": 1
+    },
+    {
+      "start_rva": 197400,
+      "end_rva": 197435,
+      "entry": 0
+    }
+  ],
+  "functions": [
+    {
+      "name": "_c1_crt_entry@12",
+      "native_symbol": "c1_crt_entry",
+      "role": "linked-crt-support",
+      "chunks": [
+        [
+          73770,
+          73934
+        ],
+        [
+          197340,
+          197400
+        ]
+      ],
+      "status": "accepted-prefix",
+      "source": "src/native-crt.c"
+    },
+    {
+      "name": "_c1_crt_init@12",
+      "native_symbol": "c1_crt_init",
+      "role": "linked-crt-support",
+      "chunks": [
+        [
+          73934,
+          74126
+        ],
+        [
+          197400,
+          197435
+        ]
+      ],
+      "source": "src/native-crt.c",
+      "status": "trial-not-accepted"
+    }
+  ],
+  "text_data": [],
+  "expected_initial_frontier": {
+    "module_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+    "rva": 73770,
+    "native_symbol": "c1_crt_entry",
+    "abi": "stdcall, HINSTANCE/DWORD/LPVOID, cleanup12"
+  },
+  "unreconstructed_exports": [
+    "_InvokeCompilerPass@12",
+    "_AbortCompilerPass@4"
+  ],
+  "audit_config": "cases/lifecycle/trial.json",
+  "expected_frontier": {
+    "module_sha256": "7f12a4a889c5a0277f12c391ca462657dc81ef7be769faf629331bd117983d5d",
+    "rva": 74275,
+    "native_symbol": "recon_initterm",
+    "abi": "cdecl initializer range; original import thunk then canonical provider",
+    "kind": "import-boundary"
+  }
+}

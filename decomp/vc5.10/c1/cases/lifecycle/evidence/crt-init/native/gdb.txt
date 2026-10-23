@@ -1,0 +1,10 @@
+Breakpoint 1 at 0x804bd9c: file ../../../lib/recon/src/crt.c, line 67.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, recon_initterm (begin=0x805e24c <c1_initializers>, end=0x805e250 <c1_crt_attached>) at ../../../lib/recon/src/crt.c:67
+67	    while ((uintptr_t)begin<(uintptr_t)end) {
+#0  recon_initterm (begin=0x805e24c <c1_initializers>, end=0x805e250 <c1_crt_attached>) at ../../../lib/recon/src/crt.c:67
+#1  0x0804aa2e in c1_crt_init (module=0x805f098 <native_modules>, reason=1, reserved=0x0) at src/native-crt.c:66
+#2  0x0804a888 in c1_crt_entry (module=0x805f098 <native_modules>, reason=1, reserved=0x0) at src/native-crt.c:31
+#3  0x0804ab69 in main () at scripts/native-host.c:22
