@@ -26,7 +26,7 @@ def check(original,native,require_audit=True,audit_path=None):
     constructor2=constructor_number>=2
     registrar=trial['trial']=='_register_cleanup'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=15,
+    s.require(constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=16,
               'no reviewed callback decoder for this function')
     index=7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
@@ -68,7 +68,7 @@ def check(original,native,require_audit=True,audit_path=None):
             if '_register_cleanup' not in trial['accepted']:break
             path.append(callback(8+number))
         if not constructor_number and not registrar:
-            name='initialize_output_buffer_%02d'%(completed+1)
+            name='initialize_deferred_work' if index==16 else 'initialize_output_buffer_%02d'%(completed+1)
             path.append((name,records['_'+name]['start']-0x10400000))
     expected += [(str((7 if seed else 8)+i),'%08x'%rva) for i,(_,rva) in enumerate(path)]
     final='%03d'%int(expected[-1][0]);frontier=path[-1][0]

@@ -94,7 +94,8 @@ void initialize_frontend_15(void)
 
 void initialize_frontend_16(void)
 {
-    __asm { int 3 }
+    initialize_deferred_work();
+    register_cleanup(destroy_deferred_work);
 }
 
 void initialize_frontend_17(void)

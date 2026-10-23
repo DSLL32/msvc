@@ -43,4 +43,6 @@ void *checked_malloc(unsigned bytes);
 int report_compiler_error(int number);
 int report_compiler_diagnostic(int number, ...);
 int register_cleanup(Initializer cleanup);
+void initialize_deferred_work(void);
+void destroy_deferred_work(void);
 #endif

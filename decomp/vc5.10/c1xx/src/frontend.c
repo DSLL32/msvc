@@ -102,3 +102,13 @@ int register_cleanup(Initializer cleanup)
     frontend_bss.cleanup_callbacks[frontend_bss.cleanup_count++] = cleanup;
     return 0;
 }
+
+void initialize_deferred_work(void)
+{
+    __asm { int 3 }
+}
+
+void destroy_deferred_work(void)
+{
+    __asm { int 3 }
+}

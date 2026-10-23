@@ -17,7 +17,7 @@ def main():
     d=load('wrapper','check-callback.py');helpers=load('wrapper_helpers','check-projection-negative.py');d.check(args.original,args.native)
     trial=json.loads((args.original/'trial.json').read_text())
     wrapper=trial['trial'];number=int(wrapper[-2:])-7
-    constructor='_initialize_output_buffer_%02d'%number
+    constructor='_initialize_deferred_work' if number==9 else '_initialize_output_buffer_%02d'%number
     record=next(row for row in trial['driver'] if row['name']==wrapper)
     first,entry=record['start'],record['end'];continuation,last=record['code_chunks'][0]
     cases=('missing-continuation','absorbed-constructor','wrong-original-frontier','constructor-unmasked','false-native-PC','extra-constructor-credit')
