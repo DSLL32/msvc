@@ -291,3 +291,10 @@ build/printf-Lg-x87-probe: tests/printf-Lg-x87-probe.c $(SOURCES) $(HEADERS) | b
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
 printf-Lg-x87-check: build/printf-Lg-x87-probe
 	$(PYTHON) tests/check-printf-Lg-x87.py build/printf-Lg-x87-probe
+
+build/cpp-delete-probe: tests/cpp-delete-probe.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+build/check-cpp-ownership: tests/check-cpp-ownership.c $(SOURCES) $(HEADERS) | build
+	$(CC) $(CPPFLAGS) $(CFLAGS) $< $(SOURCES) -o $@
+cpp-delete-check: build/cpp-delete-probe build/check-cpp-ownership
+	$(PYTHON) tests/check-cpp-delete.py build/cpp-delete-probe build/check-cpp-ownership

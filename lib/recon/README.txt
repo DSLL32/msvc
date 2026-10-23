@@ -600,3 +600,15 @@ unchanged; this is provider initial-state behavior, not a case/API reseed.
 iswctype supports the proved default-C ASCII digit/space masks4/8, retaining
 those exact mask bits and both error slots. All128 ASCII values across4 sentinel
 pairs match the actual provider; non-ASCII/other masks/locales fail explicitly.
+
+C++ import allocation ownership
+------------------------------
+Distinct operator-new/delete imports use host-only recon_cpp_allocations records
+(base, requested bytes, rounded malloc request, generation, live state). Successful
+delete and ordinary free retire a live record; successful realloc retires old-new
+ownership, failure retains it. Tracked realloc(size0), NULL/foreign/interior/dead
+delete and unproved allocation failures are unsupported. Host malloc usable size
+and unwritten bytes are not application-owned evidence.
+A stale pointer numerically equal to a fresh allocation after reuse cannot be
+distinguished by pointer-only delete. Fixtures bind allocation generations and
+caller provenance; the runtime does not claim to detect that ambiguity.

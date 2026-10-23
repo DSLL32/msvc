@@ -177,23 +177,66 @@ WEAK void recon_setusermatherr(int (__cdecl *callback)(struct _exception *))
     recon_crt_matherr=callback;
 }
 
+/* Host proof metadata, not target heap headers. Reused numeric addresses
+ * acquire new generations; pointer-only delete cannot distinguish an old
+ * dangling alias from a fresh owner at the identical address (the ABA limit). */
+ReconCppAllocation *recon_cpp_allocations;
+static uint64_t cpp_allocation_generation;
+static ReconCppAllocation *live_cpp_allocation(const void *base)
+{
+    ReconCppAllocation *record;
+    for(record=recon_cpp_allocations;record;record=record->next)
+        if(record->live && record->base==base)return record;
+    return NULL;
+}
 /* Canonical MSVCRT's C++ new forces _nh_malloc's handler mode to1.
  * Current consumers prove the provider handler remains NULL. Preserve this
  * distinct import boundary; unobserved heap-failure/handler paths fail closed. */
 WEAK void *recon_cpp_new(size_t size)
 {
     void *result; int saved_errno=errno;
+    DWORD saved_error=recon_GetLastError();
+    size_t requested=size;
+    ReconCppAllocation *record;
     if (size>0xffffffe0UL) return NULL;
     if (!size) size=1;
-    result=malloc((size+15)&~(size_t)15);
+    size=(size+15)&~(size_t)15;
+    result=malloc(size);
     if (!result) recon_unsupported("operator new allocation failure/new-handler path");
-    errno=saved_errno;
+    record=malloc(sizeof(*record));
+    if(!record || cpp_allocation_generation==UINT64_MAX)
+        recon_unsupported("operator new ownership bookkeeping failure");
+    record->base=result;record->requested=requested;record->rounded=size;
+    record->generation=++cpp_allocation_generation;record->live=1;
+    record->next=recon_cpp_allocations;recon_cpp_allocations=record;
+    recon_SetLastError(saved_error);errno=saved_errno;
     return result;
 }
-
+WEAK void recon_free(void *pointer)
+{
+    ReconCppAllocation *record=live_cpp_allocation(pointer);
+    if(record)record->live=0;
+    free(pointer);
+}
+WEAK void *recon_realloc(void *pointer,size_t size)
+{
+    ReconCppAllocation *record=live_cpp_allocation(pointer);
+    void *result;
+    if(record && !size)recon_unsupported("unreviewed tracked-new realloc zero size");
+    result=realloc(pointer,size);
+    /* Success transfers ownership to realloc even when the base is unchanged.
+     * Failure retains the original live allocation. */
+    if(result && record)record->live=0;
+    return result;
+}
 WEAK void recon_cpp_delete(void *pointer)
 {
-    (void)pointer;recon_unsupported("unreviewed operator delete ownership/lifetime");
+    ReconCppAllocation *record=live_cpp_allocation(pointer);
+    int saved_errno=errno;
+    DWORD saved_error=recon_GetLastError();
+    if(!pointer || !record)recon_unsupported("operator delete without live new ownership");
+    record->live=0;free(pointer);
+    recon_SetLastError(saved_error);errno=saved_errno;
 }
 
 /* Canonical VC5 CVTRES: isolated rb/deny-write and wb/exclusive files.

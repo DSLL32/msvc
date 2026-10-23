@@ -1,0 +1,38 @@
+{
+  "scope": "Distinct delete only for exact live shared-new base. Host-only requested/rounded malloc request/generation/liveness records; successful new allocation behavior unchanged.",
+  "provider_proof": "decomp/vc5.10/link/cases/help/operator-delete/provider-proof.json",
+  "proof_sha256": "30792b0ce71eef83a17ad0482773f9e49cc5393e760b2a378123f96adf3580c5",
+  "canonical_body": "MSVCRT e390... [RVA40d2,40e0),14bytes,RET40df callsfree138a. Actual true decorated import/cdeclABI retained.",
+  "original_checks": "12 controlleddelete/error cases and full114840-byte surviving payload artifact plus actualtarget constructor4096\u2192delete normal return/unchangeddescriptor/next real trap.",
+  "native_checks": "GCC/Clang exact controlled artifact; new\u2192delete/ordinaryfree/reuse generation states, tracked realloc success invalidation/failure retention;7 unknownownership cases denied. Existing new/default/C++/stdio/onexit checks pass.",
+  "regression_receipt": "/root/.ai-tmp/msvc2/recon-maintenance/cpp-ownership-regression/receipt.json",
+  "regression_sha256": "4099152593a6ac316413d2fee6052d8eabf301b77b9b2ddb758c83ac422cce13",
+  "regression_runs": [
+    {
+      "binary": "cl",
+      "build_seconds": 1.6686405669897795,
+      "fixture_wrapper_seconds": 3.184561007656157,
+      "fixture_status": 0
+    },
+    {
+      "binary": "rc",
+      "build_seconds": 2.7547709541395307,
+      "fixture_wrapper_seconds": 2.6086380518972874,
+      "fixture_status": 0
+    },
+    {
+      "binary": "rcpp",
+      "build_seconds": 2.3314794301986694,
+      "fixture_wrapper_seconds": 0.3627747893333435,
+      "fixture_status": 0
+    }
+  ],
+  "regression_note": "95 cachednative cases passed with stable compiledC/H. Subsequent metadata field rename physical\u2192rounded changes debugger labeling only; focusedownership test rebuilt/passed. No repeated broad replay.",
+  "limits": [
+    "NULL/foreign/interior/dead-before-reuse delete unsupported",
+    "successful realloc retires old-new ownership; tracked realloc0 unsupported",
+    "pointer-onlydelete cannot distinguish oldalias andnewowner atsame reusednumericbase; evidence binds generations/callerprovenance",
+    "host malloc usable physicalsize/unwrittenbytes notclaimed",
+    "singlethread fixtures, bookkeepingallocationfailure unsupported"
+  ]
+}
