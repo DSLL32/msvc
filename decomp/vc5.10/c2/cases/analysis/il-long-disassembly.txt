@@ -1,0 +1,92 @@
+c2_read_il_long: cdecl(void), signed32-bit EAX result, RET0.
+Hot452f95..453012=125 bytes; cold474949..47498d=68bytes.
+Four getc expansions fill consecutive bytes of a local long, sharing a cached
+MSVCRT _filbuf pointer across all four optional refill branches. Cold blocks
+return/jump into the owning hot body; no target byte/word helper call is added.
+Fresh case expects version19960416 and symbol-count146 from this same reader.
+
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00452f95 <.text+0x51f95>:
+  452f95:	51                   	push   ecx
+  452f96:	8b 0d 80 0b 49 00    	mov    ecx,DWORD PTR ds:0x490b80
+  452f9c:	56                   	push   esi
+  452f9d:	8b 35 0c d1 48 00    	mov    esi,DWORD PTR ds:0x48d10c
+  452fa3:	8b 41 04             	mov    eax,DWORD PTR [ecx+0x4]
+  452fa6:	48                   	dec    eax
+  452fa7:	89 41 04             	mov    DWORD PTR [ecx+0x4],eax
+  452faa:	0f 88 99 19 02 00    	js     0x474949
+  452fb0:	8b 11                	mov    edx,DWORD PTR [ecx]
+  452fb2:	33 c0                	xor    eax,eax
+  452fb4:	8a 02                	mov    al,BYTE PTR [edx]
+  452fb6:	42                   	inc    edx
+  452fb7:	89 11                	mov    DWORD PTR [ecx],edx
+  452fb9:	88 44 24 04          	mov    BYTE PTR [esp+0x4],al
+  452fbd:	8b 41 04             	mov    eax,DWORD PTR [ecx+0x4]
+  452fc0:	48                   	dec    eax
+  452fc1:	89 41 04             	mov    DWORD PTR [ecx+0x4],eax
+  452fc4:	0f 88 90 19 02 00    	js     0x47495a
+  452fca:	8b 11                	mov    edx,DWORD PTR [ecx]
+  452fcc:	33 c0                	xor    eax,eax
+  452fce:	8a 02                	mov    al,BYTE PTR [edx]
+  452fd0:	42                   	inc    edx
+  452fd1:	89 11                	mov    DWORD PTR [ecx],edx
+  452fd3:	88 44 24 05          	mov    BYTE PTR [esp+0x5],al
+  452fd7:	8b 41 04             	mov    eax,DWORD PTR [ecx+0x4]
+  452fda:	48                   	dec    eax
+  452fdb:	89 41 04             	mov    DWORD PTR [ecx+0x4],eax
+  452fde:	0f 88 87 19 02 00    	js     0x47496b
+  452fe4:	8b 11                	mov    edx,DWORD PTR [ecx]
+  452fe6:	33 c0                	xor    eax,eax
+  452fe8:	8a 02                	mov    al,BYTE PTR [edx]
+  452fea:	42                   	inc    edx
+  452feb:	89 11                	mov    DWORD PTR [ecx],edx
+  452fed:	88 44 24 06          	mov    BYTE PTR [esp+0x6],al
+  452ff1:	8b 41 04             	mov    eax,DWORD PTR [ecx+0x4]
+  452ff4:	48                   	dec    eax
+  452ff5:	89 41 04             	mov    DWORD PTR [ecx+0x4],eax
+  452ff8:	0f 88 7e 19 02 00    	js     0x47497c
+  452ffe:	8b 11                	mov    edx,DWORD PTR [ecx]
+  453000:	33 c0                	xor    eax,eax
+  453002:	8a 02                	mov    al,BYTE PTR [edx]
+  453004:	42                   	inc    edx
+  453005:	88 44 24 07          	mov    BYTE PTR [esp+0x7],al
+  453009:	8b 44 24 04          	mov    eax,DWORD PTR [esp+0x4]
+  45300d:	89 11                	mov    DWORD PTR [ecx],edx
+  45300f:	5e                   	pop    esi
+  453010:	59                   	pop    ecx
+  453011:	c3                   	ret
+
+../../../toolchains/5.10/bin/C2.EXE:     file format pei-i386
+
+
+Disassembly of section .text:
+
+00474949 <.text+0x73949>:
+  474949:	51                   	push   ecx
+  47494a:	ff d6                	call   esi
+  47494c:	8b 0d 80 0b 49 00    	mov    ecx,DWORD PTR ds:0x490b80
+  474952:	83 c4 04             	add    esp,0x4
+  474955:	e9 5f e6 fd ff       	jmp    0x452fb9
+  47495a:	51                   	push   ecx
+  47495b:	ff d6                	call   esi
+  47495d:	8b 0d 80 0b 49 00    	mov    ecx,DWORD PTR ds:0x490b80
+  474963:	83 c4 04             	add    esp,0x4
+  474966:	e9 68 e6 fd ff       	jmp    0x452fd3
+  47496b:	51                   	push   ecx
+  47496c:	ff d6                	call   esi
+  47496e:	8b 0d 80 0b 49 00    	mov    ecx,DWORD PTR ds:0x490b80
+  474974:	83 c4 04             	add    esp,0x4
+  474977:	e9 71 e6 fd ff       	jmp    0x452fed
+  47497c:	51                   	push   ecx
+  47497d:	ff d6                	call   esi
+  47497f:	83 c4 04             	add    esp,0x4
+  474982:	88 44 24 07          	mov    BYTE PTR [esp+0x7],al
+  474986:	8b 44 24 04          	mov    eax,DWORD PTR [esp+0x4]
+  47498a:	5e                   	pop    esi
+  47498b:	59                   	pop    ecx
+  47498c:	c3                   	ret

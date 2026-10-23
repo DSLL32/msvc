@@ -1,14 +1,19 @@
 # C2.EXE reconstruction
 
-Only the first case is released: `/?`, an unsupported-option diagnostic (status
-1, empty stdout, 51 stderr bytes). The minimal intermediate-input case remains
-queued and unauthorized. The first case is complete: exit 1, empty stdout and
-exactly 51 stderr bytes, with matching source-entry order through exit cleanup.
-Nineteen application functions (3402 bytes) and five CRT helpers (438 bytes) are
-accepted. Four import thunks (24 bytes) and contextual text tables (216 bytes)
-are tracked separately. The 3840 source bytes are 0.67% of the 573183-byte `.text`
-extent; this denominator includes CRT/data/padding and is not a non-CRT coverage
-figure. See `cases/first-case-result.json` for counts and measured timings.
+The first `/?` diagnostic case is complete: exit 1, empty stdout and exactly
+51 stderr bytes, with 19 application entries through exit cleanup. Its frozen
+reference remains the native regression case. Root authorized the next case,
+`numeric-control-flow`, compiled by original CL with `/O2 /G5`. Its fresh C2
+argv/environment, four IL files and standalone 2347-byte COFF master are in
+`cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
+
+Current reconstruction has 27 application functions (4578 bytes) and five CRT
+helpers (438 bytes). The numeric case has decoded its complete IL header and
+now stops at symbol-table reset. Four import thunks (24 bytes) and contextual
+text tables (216 bytes) remain separate. The 5016 source bytes are 0.875% of
+573183 `.text` bytes; that denominator includes CRT/data/padding and is not
+non-CRT coverage. `cases/first-case-result.json` describes the finished first
+case, and `cases/acceptance/` retains each subsequent promotion in order.
 
 `make -j4 native` builds i386 Linux with shared shims; `make -j4 original`
 checks the Win32 reconstruction with the shipped compiler and `/MD` runtime.
@@ -77,15 +82,16 @@ argv, and streams under `cases/unsupported-help-diagnostic/`. The controlled env
 
 Use an i386 native executable with original-style Win32 C and `<recon.h>` last,
 shared shim sources at final link, `-O0 -g`, and `make -j4`. C2 remains an EXE;
-its driver relationship still depends on the new DLL frontend workflow.
+its inputs come from the captured original CL/frontend pipeline.
 Preserve each recovered function ABI and distinguish import/runtime entries
 from application graph entries. Imported MSVCRT startup or PDB APIs are not
 application reconstruction coverage.
 
 The shared maintainer supplies startup CRT contracts and a prepared module-resource
-provider for encountered `LoadStringA` strings. MSPDB50/ILStore is not implemented. The current shim has legacy stdio,
-ctype and locale state, but this binary's imported MSVCRT layouts and actual
-calls must be proved before reuse. These are investigation items, not requests
+provider for encountered `LoadStringA` strings. MSPDB50/ILStore is not implemented. The reached canonical FILE layout, character flags, mutable environment
+aliases and `_errno`/`strtol` coupling have fresh matching evidence. Native builds
+select `RECON_CRT_PROFILE_MSVCRT_510` for the verified shipped CRT. Additional
+stdio, locale or PDB contracts still require reached evidence. These are investigation items, not requests
 for speculative compatibility code. Debug/PDB cases may need additional
 shared support after a minimal no-debug standalone case is captured.
 

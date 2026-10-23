@@ -107,6 +107,10 @@ def main():
         mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
                       ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
                       ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if current_state.get('globals',{}).get('0x497df8')==146:
+        def wrong_decoded_count(root):
+            path=root/'n/state.json';state=json_at(path);state['globals']['0x497df8']=147;write_json(path,state);raw_changed(root,'n','state.json')
+        mutations.append(('decoded IL symbol count differs from master header',wrong_decoded_count))
     if 'il_word_result'in current_state:
         mutations.append(('decoded machine differs from original AX result',lambda r:mutate_state(r,'il_word_result',0x2386)))
     if 'valid_buffer'in current_state.get('header_streams',{}):

@@ -41,7 +41,8 @@
     "@c2_open_intermediate@16",
     "_c2_read_header",
     "_c2_read_il_byte",
-    "_c2_read_il_word"
+    "_c2_read_il_word",
+    "_c2_read_il_long"
   ],
   "driver": [
     {
@@ -1436,6 +1437,196 @@
           }
         }
       ]
+    },
+    {
+      "name": "_c2_read_il_long",
+      "native": "c2_read_il_long",
+      "start": 4534165,
+      "end": 4534290,
+      "kind": "application",
+      "abi": "cdecl, no parameters; 32-bit long result",
+      "state_policy": "il-long-read",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        }
+      ],
+      "expected_argv": [
+        "-G5"
+      ],
+      "expected_argc": 0,
+      "code_chunks": [
+        [
+          4671817,
+          4671885
+        ]
+      ],
+      "evidence": "cases/analysis/il-long-disassembly.txt: full 193-byte hot/cold four inline getc operations, cached _filbuf and 32-bit result, RET0",
+      "cached_imports": [
+        {
+          "dll": "MSVCRT.dll",
+          "symbol": "_filbuf",
+          "abi": "cdecl int(FILE*); caller cleanup4; each result truncated to byte",
+          "original": {
+            "slot": 4772108,
+            "holder": "ESI",
+            "instructions": [
+              {
+                "offset": 8,
+                "bytes": "8b350cd14800"
+              },
+              {
+                "offset": 137653,
+                "bytes": "ffd6"
+              },
+              {
+                "offset": 137661,
+                "bytes": "83c404"
+              },
+              {
+                "offset": 137670,
+                "bytes": "ffd6"
+              },
+              {
+                "offset": 137678,
+                "bytes": "83c404"
+              },
+              {
+                "offset": 137687,
+                "bytes": "ffd6"
+              },
+              {
+                "offset": 137695,
+                "bytes": "83c404"
+              },
+              {
+                "offset": 137704,
+                "bytes": "ffd683c404"
+              }
+            ],
+            "review": "Full hot/cold lifetime reviewed: load dominates four optional refill branches, all cold entries branch from owned hot count checks, no ESI clobber/escape, cdecl import preserves ESI, four cleanup4 sites, return restore outside lifetime.",
+            "lifetime_ranges": [
+              [
+                8,
+                122
+              ],
+              [
+                137652,
+                137717
+              ]
+            ],
+            "lifetime_sha256s": [
+              "b3169b1e0fd8af4b714d1c609538d70787ccc27312959d3bcaeca1f8dc6219f6",
+              "b64358e5c333fc2fb77dd344ff5f5bfa34ca1277830ad0f4bd1ebb60aa744343"
+            ]
+          },
+          "rebuilt": {
+            "slot": 4206712,
+            "holder": "[EBP-0x8]",
+            "instructions": [
+              {
+                "offset": 6,
+                "bytes": "a1783040008945f8"
+              },
+              {
+                "offset": 89,
+                "bytes": "ff55f883c404"
+              },
+              {
+                "offset": 179,
+                "bytes": "ff55f883c404"
+              },
+              {
+                "offset": 269,
+                "bytes": "ff55f883c404"
+              },
+              {
+                "offset": 359,
+                "bytes": "ff55f883c404"
+              }
+            ],
+            "review": "Full402248..4023bb reviewed: unique cached IAT assignment dominates four indirect calls, each cleanup4; only stream pointer/count and local four-byte union modified, slot not overwritten/passed and no path bypasses load.",
+            "lifetime": [
+              6,
+              377
+            ],
+            "lifetime_sha256": "8bb8ff8b9b26f45370ef9f9ffacf9d2eb729646aad6a2013c00d56005b35c1f1"
+          }
+        }
+      ]
     }
   ],
   "stubs": [
@@ -1463,7 +1654,90 @@
       "end": 4534291,
       "pending_extent": true,
       "kind": "application",
-      "abi": "cdecl, no parameters"
+      "abi": "cdecl, no parameters",
+      "state_policy": "symbol-reset",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        }
+      ],
+      "expected_argv": [
+        "-G5"
+      ],
+      "expected_argc": 0
     },
     {
       "name": "_c2_create_type_table",
@@ -1599,98 +1873,6 @@
       "pending_extent": true,
       "kind": "application",
       "abi": "fastcall ECX location EDX output filename"
-    },
-    {
-      "name": "_c2_read_il_long",
-      "native": "c2_read_il_long",
-      "start": 4534165,
-      "end": 4534166,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters; 32-bit long result",
-      "state_policy": "il-long-read",
-      "state": [
-        {
-          "original": "0x499708",
-          "native": "(unsigned long)c2_onexit_end"
-        },
-        {
-          "original": "0x4996d4",
-          "native": "(unsigned long)c2_onexit_begin"
-        },
-        {
-          "original": "0x49975c",
-          "native": "c2_fmode"
-        },
-        {
-          "original": "0x4980d4",
-          "native": "c2_commode"
-        },
-        {
-          "original": "0x499718",
-          "native": "c2_adjust_fdiv"
-        },
-        {
-          "original": "0x499694",
-          "native": "c2_default_math_error"
-        },
-        {
-          "original": "0x4980d0",
-          "native": "c2_new_mode"
-        },
-        {
-          "original": "0x4980cc",
-          "native": "c2_wildcards"
-        },
-        {
-          "original": "0x7803fa88",
-          "native": "recon_fmode"
-        },
-        {
-          "original": "0x7803fa94",
-          "native": "recon_commode"
-        },
-        {
-          "original": "0x7803f928",
-          "native": "recon_adjust_fdiv"
-        },
-        {
-          "original": "0x7803fa90",
-          "native": "recon_crt_app_type"
-        },
-        {
-          "original": "0x7803f198",
-          "native": "recon_crt_newmode"
-        },
-        {
-          "original": "0x490b7c",
-          "native": "c2_il_extended_header"
-        },
-        {
-          "original": "0x4972f8",
-          "native": "c2_il_source_table"
-        },
-        {
-          "original": "0x497df8",
-          "native": "c2_il_symbol_count"
-        },
-        {
-          "original": "0x491050",
-          "native": "c2_il_initial_symbol_count"
-        },
-        {
-          "original": "0x497f6c",
-          "native": "c2_il_target_size"
-        },
-        {
-          "original": "0x497de8",
-          "native": "c2_il_eight_byte_target"
-        }
-      ],
-      "expected_argv": [
-        "-G5"
-      ],
-      "expected_argc": 0
     },
     {
       "name": "@c2_open_pdb@8",

@@ -21,3 +21,15 @@ unsigned short c2_read_il_word(void)
     value.bytes[1] = (unsigned char)IL_GETC(refill);
     return value.word;
 }
+
+long c2_read_il_long(void)
+{
+    union { long number; unsigned char bytes[4]; } value;
+    int (__cdecl *refill)(FILE *) = _filbuf;
+
+    value.bytes[0] = (unsigned char)IL_GETC(refill);
+    value.bytes[1] = (unsigned char)IL_GETC(refill);
+    value.bytes[2] = (unsigned char)IL_GETC(refill);
+    value.bytes[3] = (unsigned char)IL_GETC(refill);
+    return value.number;
+}

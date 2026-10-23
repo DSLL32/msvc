@@ -13,12 +13,6 @@ void c2_print_banner(void)
     __asm { int 3 }
 }
 
-long c2_read_il_long(void)
-{
-    __asm { int 3 }
-    return 0;
-}
-
 int __fastcall c2_open_pdb(char *name, char *object_name)
 {
     __asm { int 3 }
