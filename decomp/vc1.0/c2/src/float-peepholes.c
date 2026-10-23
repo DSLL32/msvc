@@ -13,11 +13,7 @@ extern int cpu_model, optimize_precision;
   82d90..82da8 and82da8..82dc0; right-hand/pop/integer/reversal maps are
   82f60..82f78,82f78..82f90,82f90..82fa8. These describe ISA operations,
    not unrelated data in the surrounding module. */
-typedef struct X87ArithmeticForms {
-    unsigned normal, popping, right_popping, integer, right_integer, reversed;
-} X87ArithmeticForms;
-typedef char X87ArithmeticFormsSizeCheck[sizeof(X87ArithmeticForms) == 24 ? 1 : -1];
-static const X87ArithmeticForms x87_arithmetic_forms[6] = {
+const X87ArithmeticForms x87_arithmetic_forms[6] = {
     {MC_FADD, MC_FADDP, MC_FADDP, MC_FIADD, MC_FIADD, MC_FADD},
     {MC_FMUL, MC_FMULP, MC_FMULP, MC_FIMUL, MC_FIMUL, MC_FMUL},
     {MC_FSUB, MC_FSUBP, MC_FSUBRP, MC_FISUB, MC_FISUBR, MC_FSUBR},

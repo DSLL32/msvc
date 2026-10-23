@@ -2500,3 +2500,9 @@ Floating boundary stack reconciliation: checkpoint993
 @prepare_float_register_source@8. 914 graph checks, canonical/native/W3 and all six
 native fixtures pass (five completed exact objects; floating named trap).
 See cases/floating-boundary.json for extent union, limits and measured timings.
+
+Resident floating sources and callee stack accounting: checkpoint996
+3 acceptances pass fresh original/native matching; current frontier
+_exclude_float_machine_registers. 917 graph checks, canonical/native/W3 and all six
+native fixtures pass (five completed exact objects; floating named trap).
+See cases/floating-sources.json for extent union, limits and measured timings.

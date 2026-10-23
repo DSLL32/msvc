@@ -474,13 +474,21 @@ void finish_target_expression(void)
 {
 }
 
-/* First encountered field of optional function+2c target information.
-   The remaining record is not read or allocated by this accessor. */
-typedef struct FunctionFloatStackDepth { short maximum_depth; } FunctionFloatStackDepth;
+/* Encountered four-byte prefix of optional function+2c target information.
+   Later fields are neither read nor allocated by these accessors. */
+typedef struct FunctionFloatStackInfo { short maximum_depth, cleanup_count; } FunctionFloatStackInfo;
 /* Original [00027b60,00027b74). Unknown callees conservatively need
    all eight x87 stack entries; recorded depth is a signed word. */
 int __fastcall function_float_stack_depth(FunctionSymbol *symbol)
 {
-    FunctionFloatStackDepth *information = (FunctionFloatStackDepth *)symbol->field2c;
+    FunctionFloatStackInfo *information = (FunctionFloatStackInfo *)symbol->field2c;
     return information ? information->maximum_depth : 8;
+}
+
+/* Original [00027b80,00027b8f). Unknown callees supply no recorded x87
+   cleanup; known target information stores a signed word at offset2. */
+int __fastcall intrinsic_float_cleanup_count(FunctionSymbol *symbol)
+{
+    FunctionFloatStackInfo *information = (FunctionFloatStackInfo *)symbol->field2c;
+    return information ? information->cleanup_count : 0;
 }

@@ -997,7 +997,10 @@
     "@float_store_value_dead@4",
     "@initialize_float_register_home@8",
     "_pop_float_machine_stack",
-    "@finish_float_machine_range@4"
+    "@finish_float_machine_range@4",
+    "@prepare_float_register_source@8",
+    "@call_preserves_float_stack@4",
+    "@intrinsic_float_cleanup_count@4"
   ],
   "driver": [
     {
@@ -6465,8 +6468,7 @@
     {
       "name": "@intrinsic_float_cleanup_count@4",
       "start": 162688,
-      "end": 162689,
-      "provisional": true
+      "end": 162703
     },
     {
       "name": "@lookup_external_name@4",
@@ -6975,8 +6977,7 @@
     {
       "name": "@call_preserves_float_stack@4",
       "start": 237616,
-      "end": 237617,
-      "provisional": true
+      "end": 237662
     },
     {
       "name": "_exclude_float_machine_registers",
@@ -7015,8 +7016,7 @@
     {
       "name": "@prepare_float_register_source@8",
       "start": 255584,
-      "end": 255585,
-      "provisional": true
+      "end": 257541
     },
     {
       "name": "@find_float_register_reload@12",

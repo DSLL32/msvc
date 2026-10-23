@@ -9,6 +9,8 @@
 #include "value-selection.h"
 #include "records.h"
 #include "global-registers.h"
+#include "float-peepholes.h"
+#include "register-use.h"
 #include <recon.h>
 void *__fastcall float_register_heap_allocate(unsigned bytes);
 extern int cpu_model;
@@ -563,4 +565,168 @@ void __fastcall finish_float_machine_range(MachineInstruction *boundary)
     if (float_machine_exit_depth != float_machine_stack_depth)
         compiler_internal_error("@(#)fltreg.c:1.31", 0x14ba);
     float_machine_stack_depth = float_machine_exit_depth;
+}
+/* Original [0003e660,0003ee05). Materialize a virtual floating source from
+   its home or resident ST slot. Last uses can consume the slot, and adjacent
+   loads or popping arithmetic can absorb the needed exchange. */
+int __fastcall prepare_float_register_source(MachineInstruction *instruction, int number)
+{
+    FloatMachineRegister *reg;
+    MachineInstruction *previous, *following, *exchange;
+    MachineOperand *source = &instruction->operands[1];
+    const X87ArithmeticForms *forms;
+    unsigned operation, previous_operation, kind;
+    int slot;
+    if (number >= float_machine_register_count || number <= 0)
+        compiler_internal_error("@(#)fltreg.c:1.31", 0x131e);
+    reg = &float_machine_registers[number];
+    if (reg->stack_slot == -1) {
+        instruction->record.float_flags |= 0x200;
+        if (!reg->home) {
+            if (!reg->width) reg->width = (instruction->opcode >> 4) & 15;
+            reg->home = arena_alloc(3, sizeof(*reg->home));
+            initialize_float_register_home(reg->home, (unsigned short)number);
+        }
+        assign_machine_operand(source, reg->home);
+        return 0;
+    }
+    if (reg->stack_slot >= 8) compiler_internal_error("@(#)fltreg.c:1.31", 0x1322);
+    operation = FM_OPERATION(instruction);
+    if (!(source->flags & 0x400) && (!(instruction->record.float_flags & 1) || !(reg->flags & 2))) {
+        if (operation == MC_FLD) {
+            following = instruction->next;
+            previous_operation = FM_OPERATION(following);
+            if (FM_ELIGIBLE(following) && FM_FLOAT(following) &&
+                (float_machine_stack[0] != -1 || reg->stack_slot == 1) &&
+                previous_operation >= MC_FADD && previous_operation <= MC_FDIVR &&
+                operands_equal(source, &following->operands[1]) && (following->operands[1].flags & 0x400)) {
+                if (reg->stack_slot == 0) {
+                    remove_machine_instruction(instruction);
+                    return 1;
+                }
+                FM_SET_OPERATION(instruction, MC_FXCH);
+                instruction->opcode = (instruction->opcode & ~0xf0U) | 0x80;
+                FM_SET_STACK_OPERAND(instruction->operands[0], reg->stack_slot);
+                return 0;
+            }
+        }
+        instruction->record.float_flags |= 0x200;
+        reg->flags &= ~1U;
+        FM_SET_STACK_OPERAND(*source, reg->stack_slot);
+        if (((instruction->opcode >> 4) & 15) == 10)
+            instruction->opcode = (instruction->opcode & ~0xf0U) | 0x80;
+        return 0;
+    }
+    reg->flags = (reg->flags & ~1U) | ((source->flags >> 10) & 1);
+    if (operation == MC_FLD) {
+        if (reg->stack_slot == 0) {
+            remove_machine_instruction(instruction);
+            return 1;
+        }
+        if (float_machine_stack[0] == -1 && reg->stack_slot != 1) {
+            instruction->record.float_flags |= 0x200;
+            FM_SET_STACK_OPERAND(*source, reg->stack_slot);
+            if (((instruction->opcode >> 4) & 15) == 10)
+                instruction->opcode = (instruction->opcode & ~0xf0U) | 0x80;
+        } else {
+            FM_SET_OPERATION(instruction, MC_FXCH);
+            instruction->opcode = (instruction->opcode & ~0xf0U) | 0x80;
+            FM_SET_STACK_OPERAND(instruction->operands[0], reg->stack_slot);
+        }
+        return 0;
+    }
+    if (operation < MC_FADD || operation > MC_FDIVR) goto ordinary_source;
+    forms = &x87_arithmetic_forms[operation - MC_FADD];
+    slot = reg->stack_slot;
+    if (slot == 0) {
+        *source = operand_st0;
+        float_machine_registers[float_machine_stack[0]].stack_slot = -1;
+        float_machine_stack[0] = -1;
+        --float_machine_virtual_depth;
+        if (float_machine_virtual_depth < 0) compiler_internal_error("@(#)fltreg.c:1.31", 0x135a);
+        return 0;
+    }
+    if (slot == 1) {
+        FM_SET_OPERATION(instruction, forms->right_popping);
+        instruction->operands[0] = operand_st1;
+        *source = operand_st0;
+        if (number != float_machine_stack[1]) compiler_internal_error("@(#)fltreg.c:1.31", 0x1366);
+        float_machine_registers[float_machine_stack[1]].stack_slot = -1;
+        float_machine_stack[1] = -1;
+        --float_machine_virtual_depth;
+        if (float_machine_virtual_depth < 0) compiler_internal_error("@(#)fltreg.c:1.31", 0x136b);
+        return 0;
+    }
+    previous = instruction->previous;
+    previous_operation = FM_OPERATION(previous);
+    kind = previous->operands[1].flags & 15;
+    if (slot > 1 && float_machine_stack[1] != -1 && FM_ELIGIBLE(previous) && FM_FLOAT(previous) &&
+        ((previous->opcode >> 4) & 15) != 10 && (previous_operation == MC_FLD || previous_operation == MC_FILD) &&
+        (kind == OPERAND_BASED || kind == OPERAND_INDEXED || kind == OPERAND_ABSOLUTE ||
+         (kind == OPERAND_REGISTER && (previous->operands[1].value.reg.words.number & 0x3fff) > 21))) {
+        pop_float_machine_stack();
+        if (FM_OPERATION(previous) == MC_FLD) FM_SET_OPERATION(instruction, forms->reversed);
+        else FM_SET_OPERATION(instruction, forms->right_integer);
+        instruction->opcode = (instruction->opcode & ~0xf0U) | (previous->opcode & 0xf0);
+        FM_SET_OPERATION(previous, MC_FXCH);
+        previous->opcode = (previous->opcode & ~0xf0U) | 0x80;
+        *source = previous->operands[1];
+        FM_SET_STACK_OPERAND(previous->operands[0], reg->stack_slot);
+        float_machine_stack[reg->stack_slot] = float_machine_stack[0];
+        /* Original compares the distinct marker26 here, not the absent -1.
+           Preserve this narrow state rule rather than strengthening it. */
+        if (float_machine_stack[0] != 26)
+            float_machine_registers[float_machine_stack[0]].stack_slot = reg->stack_slot;
+        float_machine_stack[0] = -1;
+        reg->stack_slot = -1;
+        --float_machine_virtual_depth;
+        if (float_machine_virtual_depth < 0) compiler_internal_error("@(#)fltreg.c:1.31", 0x139a);
+        return 0;
+    }
+    following = instruction->next;
+    previous_operation = FM_OPERATION(following);
+    if (FM_ELIGIBLE(following) && previous_operation >= MC_FADDP && previous_operation <= MC_FDIVRP && slot == 2) {
+        FM_SET_OPERATION(instruction, forms->right_popping);
+        FM_SET_STACK_OPERAND(instruction->operands[0], reg->stack_slot);
+        *source = operand_st0;
+        FM_SET_OPERATION(following, FM_REVERSE_POP(previous_operation));
+        float_machine_stack[2] = -1;
+        reg->stack_slot = -1;
+        --float_machine_virtual_depth;
+        if (float_machine_virtual_depth < 0) compiler_internal_error("@(#)fltreg.c:1.31", 0x13b0);
+    } else if (float_machine_exit_depth != 0 && slot == 2) {
+        FM_SET_OPERATION(instruction, forms->right_popping);
+        FM_SET_STACK_OPERAND(instruction->operands[0], reg->stack_slot);
+        *source = operand_st0;
+        exchange = new_machine_instruction(0);
+        FM_SET_OPERATION(exchange, MC_FXCH);
+        exchange->opcode = (exchange->opcode & ~0xf0U) | 0x80;
+        exchange->operands[0] = operand_st1;
+        insert_machine_after(instruction, exchange);
+        float_machine_stack[2] = -1;
+        reg->stack_slot = -1;
+        --float_machine_virtual_depth;
+        if (float_machine_virtual_depth < 0) compiler_internal_error("@(#)fltreg.c:1.31", 0x13c8);
+        if (float_machine_stack[1] != -1) {
+            float_machine_registers[float_machine_stack[1]].stack_slot = 2;
+            float_machine_stack[2] = float_machine_stack[1];
+            float_machine_stack[1] = -1;
+        }
+    } else {
+ordinary_source:
+        instruction->record.float_flags |= 0x200;
+        FM_SET_STACK_OPERAND(*source, reg->stack_slot);
+    }
+    return 0;
+}
+
+/* Original [0003a030,0003a05e). Only a direct known target function
+   with recorded stack demand below eight can keep surrounding x87 values. */
+int __fastcall call_preserves_float_stack(MachineInstruction *instruction)
+{
+    FunctionSymbol *symbol;
+    if ((instruction->operands[0].flags & 15) != OPERAND_SYMBOL) return 0;
+    symbol = (FunctionSymbol *)instruction->operands[0].value.symbol;
+    if ((symbol->field24 & 15) != 5 || symbol->symbol.kind != 4) return 0;
+    return function_float_stack_depth(symbol) < 8;
 }

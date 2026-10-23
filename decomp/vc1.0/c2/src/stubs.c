@@ -364,7 +364,6 @@ unsigned short __fastcall select_intrinsic_a6(Node *node) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_string_length(Node *value, int mode, unsigned type) { __asm int 3 }
 unsigned short __fastcall select_intrinsic_aa_ab(Node *node, int mode) { __asm int 3 }
 unsigned short __fastcall select_runtime_intrinsic(Node *node) { __asm int 3 }
-int __fastcall intrinsic_float_cleanup_count(FunctionSymbol *symbol) { __asm int 3 }
 SymbolHeader *__fastcall lookup_external_name(char *name) { __asm int 3 }
 void __fastcall emit_explicit_block_transfer(int fill, MachineOperand *source,
     MachineOperand *destination, unsigned short type, unsigned offset) { __asm int 3 }
@@ -392,12 +391,10 @@ int __fastcall can_split_float_transfer(MachineInstruction *load, MachineInstruc
 int __fastcall can_reuse_float_load(MachineInstruction *instruction) { __asm int 3 }
 void __fastcall fold_previous_float_load(MachineInstruction *first, MachineInstruction *last) { __asm int 3 }
 
-int __fastcall call_preserves_float_stack(MachineInstruction *instruction) { __asm int 3 }
 void exclude_float_machine_registers(void) { __asm int 3 }
 void release_float_machine_data(void) { __asm int 3 }
 int __fastcall can_keep_float_store(MachineInstruction *instruction, unsigned short number, int use_summary) { __asm int 3 }
 int __fastcall previous_float_is_load(MachineInstruction *instruction) { __asm int 3 }
-int __fastcall prepare_float_register_source(MachineInstruction *instruction, int number) { __asm int 3 }
 int __fastcall find_float_register_reload(MachineInstruction *instruction, unsigned short number, MachineInstruction **reload) { __asm int 3 }
 void __fastcall save_float_machine_register(MachineInstruction *instruction, FloatMachineRegister *reg, unsigned short number, MachineInstruction *reload) { __asm int 3 }
 void __fastcall exchange_float_machine_stack(int first, int second) { __asm int 3 }
