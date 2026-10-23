@@ -1,4 +1,5 @@
 #include <string.h>
+#include <wchar.h>
 #ifdef _MSC_VER
 #include <excpt.h>
 #endif
@@ -36,4 +37,26 @@ WCHAR *__stdcall rc_copy_macro_text(const WCHAR *value,unsigned length)
 #endif
     *cursor=0;
     return result;
+}
+
+int rc_macro_listing_readonly,rc_macro_listing_hidden;
+WCHAR rc_macro_listing_buffer[2048];
+
+void __stdcall rc_list_macro(RcMacro *macro)
+{
+    int length;
+
+    if(!rc_macro_listing_enabled || !rc_cpp_output_file) return;
+    if(!wcscmp(macro->name,L"APSTUDIO_READONLY_SYMBOLS"))
+        rc_macro_listing_readonly=1;
+    else if(!wcscmp(macro->name,L"APSTUDIO_HIDDEN_SYMBOLS"))
+        rc_macro_listing_hidden=1;
+    else if(!rc_macro_listing_hidden && macro->text){
+        length=swprintf(rc_macro_listing_buffer,L"%c%s%c%s%c%d%c%c%c",
+                        0xe000,macro->name,0xe002,macro->text,0xe002,
+                        rc_preparing_line,0xe002,
+                        (rc_macro_listing_readonly!=0)|0xffffff80,0xe002);
+        rc_write_preprocessed(rc_macro_listing_buffer,length*sizeof(WCHAR),1,
+                              rc_cpp_output_file);
+    }
 }

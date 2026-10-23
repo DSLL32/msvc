@@ -436,7 +436,7 @@ def prepared_case_state(original,native,b,argv,extra_blocks=0,filename=None,outp
     filename=filename or 'resources.rc';filename_bytes=filename.encode('utf-16le');assert len(filename_bytes)<256
     assert raw_bytes(text,'prepared-filename')==bytes.fromhex(arguments['filename'])==filename_bytes+b'\0'*(514-len(filename_bytes))
     old=struct.unpack('<8I',raw_bytes(text,'prepared-closed-input'));new=struct.unpack('<8I',bytes.fromhex(arguments['closed_input']))
-    buffered_output=b['function']in ['rc_quote_source_filename','rc_character_token','rc_list_macro']
+    buffered_output=b['function']in ['rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start']
     if buffered_output:
         length=len(buffered_output_prefix(b));assert old[0]-old[2]==new[0]-new[2]==length and old[1:2]+old[3:]==new[1:2]+new[3:]==(4096-length,138,4,0,4096,0)
     else:assert old[:4]+old[5:]==new[:4]+new[5:]==(0,0,0,128 if output_open else 0,0,4096,0)and old[4]>=3 and new[4]>=3
@@ -646,7 +646,7 @@ def preprocessor_state(original,native,b,state,remaining,advance):
                 events=(original/'events.txt').read_text()
                 assert re.findall(r'^cpp-output-pointer ([0-9a-f]+)$',events,re.M)==['%08x'%int.from_bytes(old,'little')]
                 left=struct.unpack('<8I',raw_bytes(events,'cpp-output-file'));right=struct.unpack('<8I',bytes.fromhex(actual['file_state']))
-                if b['function']in ['rc_quote_source_filename','rc_character_token','rc_list_macro']:
+                if b['function']in ['rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start']:
                     prefix=buffered_output_prefix(b);length=len(prefix)
                     assert left[2]and right[2]and left[0]-left[2]==right[0]-right[2]==length
                     assert left[1:2]+left[3:]==right[1:2]+right[3:]==(4096-length,138,4,0,4096,0)
@@ -667,11 +667,11 @@ def preprocessor_state(original,native,b,state,remaining,advance):
                 old_file=int.from_bytes(read(0x21e88,4),'little');new_file=int.from_bytes(bytes.fromhex(observed['globals']['rc_source_file']['bytes']),'little')
                 old_buffer=int.from_bytes(read(0x18120,4),'little');new_buffer=int.from_bytes(bytes.fromhex(observed['globals']['rc_source_cursor']['bytes']),'little')
                 old_name=new_name=0
-                if b['function']in ['rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro']:
+                if b['function']in ['rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start']:
                     old_name=int(re.findall(r'^source-name-result ([0-9a-f]+)$',(original/'events.txt').read_text(),re.M)[0],16)
                     new_name=b['arguments']['source_name_copies'][0]['result']
-                assert left==(4098,old_file,0,old_name,0,old_buffer,3381 if b['function']in ['rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro']else 0,2,0)
-                assert right==(4098,new_file,0,new_name,0,new_buffer,3381 if b['function']in ['rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro']else 0,2,0)
+                assert left==(4098,old_file,0,old_name,0,old_buffer,3381 if b['function']in ['rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start']else 0,2,0)
+                assert right==(4098,new_file,0,new_name,0,new_buffer,3381 if b['function']in ['rc_duplicate_source_name','rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start']else 0,2,0)
             else:assert old==new
         elif row['kind']=='crt-buffered-file':
             if any(old):
@@ -1003,8 +1003,8 @@ def find_macro_trial(original,native):
 
 
 def _macro_setup_trial(original,native,stage):
-    trial,accepted,frontier,caller={'copy':('rc_copy_macro_text',32,'rc_open_source',0x71c24767),'open':('rc_open_source',33,'rc_refill_source',0x71c23eee),'refill':('rc_refill_source',34,'rc_duplicate_source_name',0x71c23ef9),'duplicate':('rc_duplicate_source_name',35,'rc_emit_source_line',0x71c23f27),'emit':('rc_emit_source_line',36,'rc_write_preprocessed',0x71c24275),'write':('rc_write_preprocessed',37,'rc_quote_source_filename',0x71c24281),'quote':('rc_quote_source_filename',38,'rc_character_token',0x71c24220),'token':('rc_character_token',39,'rc_list_macro',0x71c23f6d)}[stage]
-    source_opened=stage!='copy';refilled=stage in ['refill','duplicate','emit','write','quote','token']
+    trial,accepted,frontier,caller={'copy':('rc_copy_macro_text',32,'rc_open_source',0x71c24767),'open':('rc_open_source',33,'rc_refill_source',0x71c23eee),'refill':('rc_refill_source',34,'rc_duplicate_source_name',0x71c23ef9),'duplicate':('rc_duplicate_source_name',35,'rc_emit_source_line',0x71c23f27),'emit':('rc_emit_source_line',36,'rc_write_preprocessed',0x71c24275),'write':('rc_write_preprocessed',37,'rc_quote_source_filename',0x71c24281),'quote':('rc_quote_source_filename',38,'rc_character_token',0x71c24220),'token':('rc_character_token',39,'rc_list_macro',0x71c23f6d),'listing':('rc_list_macro',40,'rc_scan_line_start',0x71c23fa3)}[stage]
+    source_opened=stage!='copy';refilled=stage in ['refill','duplicate','emit','write','quote','token','listing']
     config=read_configuration(original/'functions.json')
     assert config.get('trial_function')==trial and len(config['accepted'])==accepted
     assert json.loads((original/'receipt.json').read_text())['case']=='resources-rich-trailing-space','no-space source overread is unsupported'
@@ -1015,7 +1015,7 @@ def _macro_setup_trial(original,native,stage):
     text=(original/'events.txt').read_text();forwarded=list(struct.unpack('<4I',raw_bytes(text,'setup-forwarded')))
     assert forwarded[2]==0x71c344f8+4+100*4 and b['arguments']['setup_iteration']==100
     forwarded[2]=0x71c344f8
-    state,parser,text,input_name=parsed_option_state(original,native,b,forwarded,extra_blocks=11 if stage in ['duplicate','emit','write','quote','token']else 10 if source_opened else 9,output_open=True);proof.update(state)
+    state,parser,text,input_name=parsed_option_state(original,native,b,forwarded,extra_blocks=11 if stage in ['duplicate','emit','write','quote','token','listing']else 10 if source_opened else 9,output_open=True);proof.update(state)
     globals=b['arguments']['preprocessor']['globals'];wide=b['arguments']['wide_vector']
     old_wide=[int(x,16)for x in re.findall(r'^wide-pointer \d+ ([0-9a-f]+)$',text,re.M)]
     if not source_opened:assert a['words'][1]==old_wide[4]
@@ -1096,10 +1096,11 @@ def _macro_setup_trial(original,native,stage):
     spec=spec_from_file_location('copy_seh',HERE/'scripts/check-copy-seh.py');module=module_from_spec(spec);spec.loader.exec_module(module);seh=module.verify()
     proof.update(trial=trial,preprocessor=parser,trim=dict(original_word_before=32,word_after=0,owned_terminal_preserved=True,all_other_packed_bytes_unchanged=True,native_store_elf_pc=hex(store_pc-5),native_store_opcode='66c7000000'),copies=observations,source_open=dict(input=input_name,first=1,stack_bytes=8,hidden=dict(depth=-1,cursor=None,encoding=0,current_file=None,frame_count=1024,frame_bytes=36,frames_zero=True)),seh=seh,exception_scope='Native normal readable-memory path only; native faults stop. Windows source retains actual filter/handler; no native fault recovery equivalence.',lookup_reference=dict(path='cases/resources-rich/acceptance-0032.json',sha256=sha(HERE/'cases/resources-rich/acceptance-0032.json')))
     if source_opened:proof['source_open']=source_open_state(original,native,b,state,input_name,refilled=refilled)
-    if stage in ['emit','write','quote','token']:proof['source_line']=source_line_state(original,native,a,b)
-    if stage in ['write','quote','token']:proof['output_write']=output_write_state(original,native,b)
+    if stage in ['emit','write','quote','token','listing']:proof['source_line']=source_line_state(original,native,a,b)
+    if stage in ['write','quote','token','listing']:proof['output_write']=output_write_state(original,native,b)
     if stage=='quote':proof['quote']=quote_source_state(original,native,a,b)
     if stage=='token':proof['character_lookup']=listing_marker_state(original,native,a,b)
+    if stage=='listing':proof['macro_listing']=listing_marker_state(original,native,a,b)
     return proof
 
 
@@ -1117,13 +1118,13 @@ def source_open_state(original,native,b,state,input_name,refilled=False):
     requests=re.findall(r'^heap-alloc ([0-9a-f]+) (\d+) (\d+) last-error=([0-9a-f]+)$',text,re.M)
     results=re.findall(r'^heap-alloc-result ([0-9a-f]+) last-error=([0-9a-f]+)$',text,re.M)
     payloads=re.findall(r'^heap-alloc-payload (\d+) ([0-9a-f]*)$',text,re.M)
-    assert len(requests)==len(results)==len(payloads)==(16 if b['function']in ['rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro']else 15)
+    assert len(requests)==len(results)==len(payloads)==(16 if b['function']in ['rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start']else 15)
     assert requests[14][1:]==('9','8206','00000000')and int(results[14][0],16)+8==old_buffer and results[14][1]=='00000000'
     assert requests[14][0]==requests[4][0]and payloads[14]==('8206','00'*8206)
     source=(original/'source'/input_name.rsplit('\\',1)[-1]).read_bytes()
     expected_buffer=b'\0'*8+source+b'\0'*(8198-len(source))if refilled else b'\0'*8206
     assert raw_bytes(text,'source-new-buffer')==expected_buffer
-    allocations=[row for row in b['heap']if row['operation']=='allocate'];assert len(allocations)==(16 if b['function']in ['rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro']else 15)
+    allocations=[row for row in b['heap']if row['operation']=='allocate'];assert len(allocations)==(16 if b['function']in ['rc_emit_source_line','rc_write_preprocessed','rc_quote_source_filename','rc_character_token','rc_list_macro','rc_scan_line_start']else 15)
     allocation=allocations[14];identity=b['heap_identity'];block=next(row for row in identity['blocks']if row['payload']+8==new_buffer)
     assert allocation['heap']==block['owner']==identity['handle']and allocation['result']+8==new_buffer
     assert allocation['bytes']==block['bytes']==8206 and allocation['flags']==block['flags']==9
@@ -1200,7 +1201,7 @@ def source_line_state(original,native,a,b):
     before=raw_bytes(text,'source-line-format-before');after=raw_bytes(text,'source-line-format-after')
     assert len(before)==len(after)==1024 and before==bytes.fromhex(record['before'])and after==bytes.fromhex(record['after'])
     assert after==wanted+before[len(wanted):]
-    if b['function']not in ['rc_character_token','rc_list_macro']:assert globals['rc_macro_name']['bytes']==after.hex()
+    if b['function']not in ['rc_character_token','rc_list_macro','rc_scan_line_start']:assert globals['rc_macro_name']['bytes']==after.hex()
     file=int.from_bytes(bytes.fromhex(globals['rc_cpp_output_file']['bytes']),'little');old_file=int.from_bytes((original/'globals.bin').read_bytes()[0x18e74-0x14000:0x18e78-0x14000],'little')
     write=b['arguments']['write']if b['function']=='rc_write_preprocessed'else b['arguments']['output_writes'][0]['args']
     if b['function']=='rc_write_preprocessed':
@@ -1227,7 +1228,7 @@ def output_write_state(original,native,b):
     assert left[2]and right[2]and left[0]-left[2]==right[0]-right[2]==16
     assert left[1:2]+left[3:]==right[1:2]+right[3:]==(4080,138,4,0,4096,0)
     assert bytes.fromhex(record['written_buffer'])==wanted
-    if b['function']!='rc_list_macro':
+    if b['function']not in ['rc_list_macro','rc_scan_line_start']:
         assert raw_bytes(text,'output-write-after-file')==raw_bytes(text,'cpp-output-file')
         assert record['after_file']==globals['rc_cpp_output_file']['file_state']
         assert raw_bytes(text,'cpp-output-buffer')==wanted
@@ -1262,25 +1263,40 @@ def quote_source_filename_trial(original,native):
 
 
 def buffered_output_prefix(b):
-    if b['function']!='rc_list_macro':return '#line 1 '.encode('utf-16le')
+    if b['function']not in ['rc_list_macro','rc_scan_line_start']:return '#line 1 '.encode('utf-16le')
     path=bytes.fromhex(b['arguments']['source_open']['path_bytes']).decode('utf-16le')
     assert path.endswith('\0')and '\0'not in path[:-1]
     return ('#line 1 "'+path[:-1].replace('\\','\\\\')+'"\r\n').encode('utf-16le')
 
 
 def listing_marker_state(original,native,a,b):
-    text=(original/'events.txt').read_text();arguments=b['arguments'];marker=arguments['marker'];globals=arguments['preprocessor']['globals']
-    pointer=a['words'][1];assert pointer==a['registers']['ebp']-16
-    assert re.findall(r'^source-marker pointer=([0-9a-f]+) parent-bp=([0-9a-f]+)$',text,re.M)==[('%08x'%pointer,'%08x'%a['registers']['ebp'])]
+    text=(original/'events.txt').read_text();arguments=b['arguments'];globals=arguments['preprocessor']['globals']
+    completed=b['function']=='rc_scan_line_start'
+    if completed:
+        records=arguments['macro_listings'];assert records==json.loads((native/'macro-listings.json').read_text())and len(records)==1
+        marker=records[0]
+        calls=re.findall(r'^listing-entry caller=([0-9a-f]+) marker=([0-9a-f]+) esp=([0-9a-f]+) enabled=(\d+)$',text,re.M);assert len(calls)==1
+        caller,pointer,sp,enabled=calls[0];pointer=int(pointer,16);sp=int(sp,16)
+        assert caller=='71c23f6d'and enabled=='0'
+        assert re.findall(r'^listing-return esp=([0-9a-f]+) enabled=(\d+)$',text,re.M)==[('%08x'%(sp+8),'0')]
+        assert marker['return_esp']==marker['entry_esp']+8 and marker['enabled_before']==marker['enabled_after']==0
+        assert marker['record']==marker['after']and raw_bytes(text,'listing-record-before')==raw_bytes(text,'listing-record-after')
+        assert arguments['scan_line']==dict(formals=[],cursor=int.from_bytes(bytes.fromhex(globals['rc_source_cursor']['bytes']),'little'),current_line=0)
+        left=raw_bytes(text,'listing-record-before');name=raw_bytes(text,'listing-name');value=raw_bytes(text,'listing-text')
+    else:
+        marker=arguments['marker'];pointer=a['words'][1]
+        assert re.findall(r'^source-marker pointer=([0-9a-f]+) parent-bp=([0-9a-f]+)$',text,re.M)==[('%08x'%pointer,'%08x'%a['registers']['ebp'])]
+        assert marker['frame_pointer']-128<marker['pointer']<marker['frame_pointer']
+        left=raw_bytes(text,'source-marker-record');name=raw_bytes(text,'source-marker-name');value=raw_bytes(text,'source-marker-text')
+    assert pointer==a['registers']['ebp']-16
     assert marker['pointer']==marker['object']and marker['object_bytes']==16 and marker['formal_bytes']==4 and marker['parent']=='rc_open_source'
-    assert marker['frame_pointer']-128<marker['pointer']<marker['frame_pointer']
-    left=raw_bytes(text,'source-marker-record');right=bytes.fromhex(marker['record']);assert len(left)==len(right)==16
+    right=bytes.fromhex(marker['record']);assert len(left)==len(right)==16
     assert struct.unpack_from('<III',left)==(0,0x71c2124c,0x71c36cf8)
     assert struct.unpack_from('<III',right)==(0,marker['name'],marker['text'])
     assert left[12:14]==right[12:14]==b'\0\0'
     assert marker['text']==marker['marker_global']and marker['marker_global_bytes']==2
-    assert raw_bytes(text,'source-marker-name')==bytes.fromhex(marker['name_bytes'])=='!\0'.encode('utf-16le')
-    assert raw_bytes(text,'source-marker-text')==bytes.fromhex(marker['text_bytes'])==b'\0\0'
+    assert name==bytes.fromhex(marker['name_bytes'])=='!\0'.encode('utf-16le')
+    assert value==bytes.fromhex(marker['text_bytes'])==b'\0\0'
     assert globals['rc_macro_listing_enabled']['bytes']=='00000000'
     path=bytes.fromhex(arguments['source_open']['path_bytes']).decode('utf-16le')[:-1]
     quoted=('"'+path.replace('\\','\\\\')+'"').encode('utf-16le')
@@ -1294,3 +1310,7 @@ def listing_marker_state(original,native,a,b):
 
 def character_token_lookup_trial(original,native):
     return _macro_setup_trial(original,native,'token')
+
+
+def list_macro_trial(original,native):
+    return _macro_setup_trial(original,native,'listing')

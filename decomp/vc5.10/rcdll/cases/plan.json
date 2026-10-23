@@ -42,7 +42,8 @@
     "rc_emit_source_line",
     "rc_write_preprocessed",
     "rc_quote_source_filename",
-    "rc_character_token"
+    "rc_character_token",
+    "rc_list_macro"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",

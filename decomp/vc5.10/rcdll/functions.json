@@ -43,7 +43,8 @@
     "rc_emit_source_line",
     "rc_write_preprocessed",
     "rc_quote_source_filename",
-    "rc_character_token"
+    "rc_character_token",
+    "rc_list_macro"
   ],
   "functions": [
     {
@@ -839,8 +840,7 @@
       "end": "0xc0f9",
       "abi": "stdcall",
       "stack_bytes": 4,
-      "kind": "application",
-      "stub": true
+      "kind": "application"
     },
     {
       "name": "rc_refill_source",

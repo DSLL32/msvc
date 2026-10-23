@@ -89,10 +89,6 @@ int __stdcall rc_macro_text_differs(const WCHAR *value,const WCHAR *prior,unsign
     __asm int 3
     return 0;
 }
-void __stdcall rc_list_macro(RcMacro *macro)
-{
-    __asm int 3
-}
 
 void __cdecl rc_scan_line_start(void)
 {

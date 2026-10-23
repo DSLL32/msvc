@@ -314,3 +314,19 @@ records nine fresh controls and the contextual 256-WORD token table. Its
 pristine original-compiler data matches the original, including the separate
 class[0] alias used by token index256. Other class defaults remain unknown
 storage placeholders; a static scope control verifies they are unclaimed.
+
+Character-token lookup is accepted (43 bytes), completing escaped filename
+output and reaching macro listing. The marker's actual local ownership, name,
+mutable empty replacement, initialized fields and disabled-listing input match;
+its two uninitialized padding bytes remain unclaimed.
+[Verification](cases/resources-rich-trailing-space/character-token-lookup-verification.json)
+records ten fresh controls, exact buffered output and hash-bound prefix reuse.
+The getter preserves the BOM, above-table default and index256/class0 cases.
+
+Macro listing is accepted (195 bytes), preserving the APSTUDIO option handlers
+and listing-record formatter. This case takes the disabled-listing return:
+its marker is unchanged, ret4 restores the stack, and line scanning begins with
+the same cursor, source stack and output buffer.
+[Verification](cases/resources-rich-trailing-space/list-macro-verification.json)
+records nine fresh controls, retained observer corrections and separate timings.
+The unvisited general formatter remains unsupported in native execution.
