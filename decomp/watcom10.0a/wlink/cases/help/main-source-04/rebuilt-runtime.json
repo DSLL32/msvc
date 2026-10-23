@@ -1,0 +1,116 @@
+[
+  {
+    "name": "Spawn",
+    "start": 4260153,
+    "end": 4260153,
+    "pending_extent": true
+  },
+  {
+    "name": "DoLinkFromCommandLine",
+    "start": 4260188,
+    "end": 4260188,
+    "pending_extent": true
+  },
+  {
+    "name": "QClose",
+    "start": 4260210,
+    "end": 4260210,
+    "pending_extent": true
+  },
+  {
+    "name": "QDelete",
+    "start": 4260236,
+    "end": 4260236,
+    "pending_extent": true
+  },
+  {
+    "name": "_LnkFree",
+    "start": 4260261,
+    "end": 4260261,
+    "pending_extent": true
+  },
+  {
+    "name": "BurnSystemList",
+    "start": 4260286,
+    "end": 4260286,
+    "pending_extent": true
+  },
+  {
+    "name": "FreeList",
+    "start": 4260308,
+    "end": 4260308,
+    "pending_extent": true
+  },
+  {
+    "name": "CloseSpillFile",
+    "start": 4260333,
+    "end": 4260333,
+    "pending_extent": true
+  },
+  {
+    "name": "CleanTraces",
+    "start": 4260355,
+    "end": 4260355,
+    "pending_extent": true
+  },
+  {
+    "name": "FreePaths",
+    "start": 4260377,
+    "end": 4260377,
+    "pending_extent": true
+  },
+  {
+    "name": "FreeUndefs",
+    "start": 4260399,
+    "end": 4260399,
+    "pending_extent": true
+  },
+  {
+    "name": "CleanLoadFile",
+    "start": 4260421,
+    "end": 4260421,
+    "pending_extent": true
+  },
+  {
+    "name": "CleanLinkStruct",
+    "start": 4260443,
+    "end": 4260443,
+    "pending_extent": true
+  },
+  {
+    "name": "FreeFormatStuff",
+    "start": 4260465,
+    "end": 4260465,
+    "pending_extent": true
+  },
+  {
+    "name": "FreeObjInfo",
+    "start": 4260487,
+    "end": 4260487,
+    "pending_extent": true
+  },
+  {
+    "name": "FreeVirtMem",
+    "start": 4260509,
+    "end": 4260509,
+    "pending_extent": true
+  },
+  {
+    "name": "FiniMsg",
+    "start": 4260531,
+    "end": 4260531,
+    "pending_extent": true
+  },
+  {
+    "name": "LnkMemFini",
+    "start": 4260553,
+    "end": 4260553,
+    "pending_extent": true
+  },
+  {
+    "name": "exit",
+    "start": 4260576,
+    "end": 4260576,
+    "pending_extent": true
+  }
+]

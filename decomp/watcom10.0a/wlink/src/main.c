@@ -1,21 +1,55 @@
+/* Independently recovered from WLINK 10.0a VA4242e0..4243c8. The later
+ * released wlink.c supplies name correlations, not this version's main graph.
+ * The cleanup is reached by fallthrough after Spawn. No separate entry at
+ * VA4242f0 is established; a later observed entry must revise this extent. */
+#include "link.h"
 #include <recon.h>
 
-#if defined(__WATCOMC__)
-/* Watcom 10.0a expands this intrinsic in place; no extra function vertex. */
-void reconstruction_trap( void );
-#pragma aux reconstruction_trap = 0xcc;
-#endif
+char **Argv;                  /* original DWORD45021c */
+int MapFile;                  /* original DWORD45015c, initially BSS zero */
+char *MapFName;                /* original DWORD450164 */
+outfilelist *OutFiles;         /* original DWORD450160 */
+path_entry *LibPath;           /* original DWORD4500e8 */
+unsigned short LinkState;     /* original WORD450186; confirmed WORD store */
 
-/* Initial application frontier, not an accepted implementation. Native formals
- * use GCC's ABI; the original Watcom build retains its register-call ABI. */
 int main( int argc, char **argv )
 {
+    outfilelist *file;
+
     argc = argc;
-    argv = argv;
-#if defined(__WATCOMC__)
-    reconstruction_trap();
-#else
-    __asm__ __volatile__( "int3" );
-#endif
+    Argv = argv;
+    Spawn( DoLinkFromCommandLine );
+
+    if( MapFile != -1 ) {
+        QClose( MapFile, MapFName );
+        MapFile = -1;
+    }
+    while( OutFiles != 0 ) {
+        file = OutFiles;
+        if( file->handle != -1 ) {
+            QClose( file->handle, file->fname );
+        }
+        if( LinkState & 8 ) {
+            QDelete( file->fname );
+        }
+        _LnkFree( file->fname );
+        OutFiles = file->next;
+        _LnkFree( file );
+    }
+    _LnkFree( MapFName );
+    BurnSystemList();
+    FreeList( LibPath );
+    CloseSpillFile();
+    CleanTraces();
+    FreePaths();
+    FreeUndefs();
+    CleanLoadFile();
+    CleanLinkStruct();
+    FreeFormatStuff();
+    FreeObjInfo();
+    FreeVirtMem();
+    FiniMsg();
+    LnkMemFini();
+    exit( (LinkState & 8) != 0 );
     return 0;
 }

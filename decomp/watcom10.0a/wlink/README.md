@@ -79,3 +79,15 @@ clearly derived, redacted compressed event view. The complete Windows environmen
 block and raw log remain private mode0600 in scratch; their identities are bound
 by the receipt. The derived view is not presented as raw evidence. Actual stdout
 matches the old baseline by hash, which is an output comparison only.
+
+The first main source candidate now contains the recovered 232-byte entry/cleanup
+flow and named INT3 callees. Native GDB reaches Spawn with the expected callback
+and stored argv alias. Both builds pass; `-s` removes the extra compiler stack
+checker absent from the target. The canonical CFG auditor passes call graph,
+function references, ownership and boundaries. Root approved a main-only positive nonreturning endpoint check after a real
+Watcom `exit aborts` annotation probe; both main bodies contain no RET and end
+with their authentic exit tail. Strict RET checks remain for returning app bodies.
+No fake RET or unknown-CRT exemption is used. Evidence and source hashes
+are in `cases/help/main-groundwork.json` and `main-source-01/`. This is source
+and static/native progress, not a paired masked-frontier acceptance. Fixtures
+remain blocked. Bootstrap-table proof and original→Spawn observation come next.

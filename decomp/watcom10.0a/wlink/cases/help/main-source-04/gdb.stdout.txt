@@ -1,0 +1,22 @@
+SIGTRAP is used by the debugger.
+Are you sure you want to change it? (y or n) [answered Y; input not from terminal]
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+Spawn (callback=0x804a96e <DoLinkFromCommandLine>) at src/stubs.c:18
+18	    return 0;
+#0  Spawn (callback=0x804a96e <DoLinkFromCommandLine>) at src/stubs.c:18
+#1  0x0804a7d3 in main (argc=2, argv=0xffffd9a4) at src/main.c:21
+$1 = 1
+#1  0x0804a7d3 in main (argc=2, argv=0xffffd9a4) at src/main.c:21
+21	    Spawn( DoLinkFromCommandLine );
+$2 = 1
+$3 = 2
+$4 = 0xffffdb38 "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE"
+$5 = 0xffffdb65 "?"
+$6 = 0
+$7 = 0x0
+$8 = (outfilelist *) 0x0
+$9 = (path_entry *) 0x0
+$10 = 0

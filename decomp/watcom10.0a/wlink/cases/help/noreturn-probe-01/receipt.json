@@ -1,0 +1,65 @@
+{
+  "scope": "Authored compile/link only, no EXE execution",
+  "runs": [
+    {
+      "mode": "plain",
+      "kind": "compile",
+      "argv": [
+        "wine",
+        "R:\\toolchains\\watcom10.0a\\binnt\\WCC386.EXE",
+        "-bt=nt",
+        "-3r",
+        "-od",
+        "-s",
+        "-d2",
+        "-fo=probe.obj",
+        "probe.c"
+      ],
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/noreturn-probe-01/plain",
+      "status": 0,
+      "seconds": 0.28772067558020353
+    },
+    {
+      "mode": "plain",
+      "kind": "link",
+      "argv": [
+        "wine",
+        "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE",
+        "@probe.lnk"
+      ],
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/noreturn-probe-01/plain",
+      "status": 0,
+      "seconds": 0.34023769944906235
+    },
+    {
+      "mode": "aborts",
+      "kind": "compile",
+      "argv": [
+        "wine",
+        "R:\\toolchains\\watcom10.0a\\binnt\\WCC386.EXE",
+        "-bt=nt",
+        "-3r",
+        "-od",
+        "-s",
+        "-d2",
+        "-fo=probe.obj",
+        "probe.c"
+      ],
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/noreturn-probe-01/aborts",
+      "status": 0,
+      "seconds": 0.175154073163867
+    },
+    {
+      "mode": "aborts",
+      "kind": "link",
+      "argv": [
+        "wine",
+        "R:\\toolchains\\watcom10.0a\\.patched\\WLINK.EXE",
+        "@probe.lnk"
+      ],
+      "cwd": "/root/.ai-tmp/msvc2/watcom10.0a/wlink/noreturn-probe-01/aborts",
+      "status": 0,
+      "seconds": 0.39204481430351734
+    }
+  ]
+}

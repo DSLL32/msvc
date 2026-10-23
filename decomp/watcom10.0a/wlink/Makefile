@@ -25,7 +25,7 @@ build/native/%.o: src/%.c $(HEADERS) Makefile | build/native
 build/native/WLINK: $(NATIVE_OBJECTS) $(HEADERS) $(SHIMS) Makefile
 	$(NATIVE_CC) $(NATIVE_CPPFLAGS) $(NATIVE_FLAGS) -no-pie $(NATIVE_OBJECTS) $(SHIMS) -o $@
 build/original/%.obj: src/%.c $(HEADERS) Makefile | build/original
-	$(TOOL) WCC386 -bt=nt -3r -od -d2 -i=R:\\lib\\recon\\include -fo=$@ $<
+	$(TOOL) WCC386 -bt=nt -3r -od -s -d2 -i=R:\\lib\\recon\\include -fo=$@ $<
 build/original/WLINK.EXE build/original/wlink.map &: $(ORIGINAL_OBJECTS) scripts/write-link.py Makefile
 	$(PYTHON) scripts/write-link.py $(ORIGINAL_OBJECTS)
 	$(TOOL) WLINK @build/original/wlink.lnk

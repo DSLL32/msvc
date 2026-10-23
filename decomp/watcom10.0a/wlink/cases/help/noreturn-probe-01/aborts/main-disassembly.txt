@@ -1,0 +1,22 @@
+
+/root/.ai-tmp/msvc2/watcom10.0a/wlink/noreturn-probe-01/aborts/probe.exe:     file format pei-i386
+
+
+Disassembly of section BEGTEXT:
+
+00410010 <BEGTEXT+0x10>:
+  410010:	53                   	push   ebx
+  410011:	51                   	push   ecx
+  410012:	52                   	push   edx
+  410013:	56                   	push   esi
+  410014:	57                   	push   edi
+  410015:	55                   	push   ebp
+  410016:	89 e5                	mov    ebp,esp
+  410018:	81 ec 04 00 00 00    	sub    esp,0x4
+  41001e:	b8 07 00 00 00       	mov    eax,0x7
+  410023:	e9 01 00 00 00       	jmp    0x410029
+  410028:	c3                   	ret
+  410029:	52                   	push   edx
+  41002a:	89 c2                	mov    edx,eax
+  41002c:	ff 15 84 03 42 00    	call   DWORD PTR ds:0x420384
+  410032:	ff 15 88 03 42 00    	call   DWORD PTR ds:0x420388

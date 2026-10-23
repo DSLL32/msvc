@@ -1,0 +1,18 @@
+{
+  "target": {
+    "path": "toolchains/watcom10.0a/binnt/WLINK.EXE",
+    "sha256": "ae8bb02cce0e92ed1a0c5c003a7312bb05f8bf3c252e1efa27a4835fb83b9ff1"
+  },
+  "driver": [
+    {
+      "name": "main",
+      "symbol": "main_",
+      "start": 4342496,
+      "end": 4342728
+    }
+  ],
+  "accepted": [
+    "main"
+  ],
+  "analysis_only": "Select source candidate solely for static audit; no runtime/app acceptance."
+}

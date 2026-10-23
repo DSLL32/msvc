@@ -1,0 +1,58 @@
+{
+  "status": "source candidate and static/native evidence, no application function accepted",
+  "main": {
+    "start": 4342496,
+    "end_exclusive": 4342728,
+    "bytes": 232,
+    "sha256": "ce895ad3573f2552c233246b719f66310272c50104dd0a7bbeb93a7a52c9c5b8",
+    "arguments": "Watcom original EAX argc, EDX argv; native actual GCC semantic argc/argv; argc unused; Argv aliases supplied argv",
+    "entry_extent_limit": "Cleanup begins by fallthrough at4242f0; no separate direct caller was found in a raw E8/E9 scan. Whole candidate CFG is checked, but later observed alternate entry requires extent revision; raw scan is not proof excluding pointer calls.",
+    "exit": "JMP433f96 into genuine CRT exit; canonical strict RET closure currently HOLD, no fictitious RET or waived unknown tail."
+  },
+  "next_frontier": {
+    "name": "Spawn",
+    "address": 4287804,
+    "callback": 4342728,
+    "actual_call_site": 4342507,
+    "return_address": 4342512
+  },
+  "static_audit": {
+    "scope": "Canonical call graph/references/ownership/extents PASS; root approved main-only positive noreturn endpoint, separately checked by scripts/check-main-exit.py. No RET invented/global relaxation; ordinary returning functions retain strict RET.",
+    "source_name_correction": "Initial hand correlation accidentally inserted an extra CleanSym call and mapped two names to one original no-op; real canonical graph rejection retained. Corrected call/name order to FiniMsg424b0c followed by LnkMemFini433300. No graph waiver."
+  },
+  "original_build": {
+    "flags": [
+      "-bt=nt",
+      "-3r",
+      "-od",
+      "-s",
+      "-d2"
+    ],
+    "errors": 0,
+    "warnings": 0,
+    "no_executable_execution": true,
+    "stack_check": "-s disables compiler __CHK injection; current MAP has no __CHK symbol; original main has no stack-check call.",
+    "exe_sha256": "a9afbd2613e02b1788ed82ecdc60a0438ea3c27ada44417d8a245eb8fdd629a9",
+    "map_sha256": "fc94a57bb7e5626a295ff95ff836b6ecd2a1878d19fdc1a94e23195029bc6527",
+    "build_elapsed_seconds": 1.1968294540420175,
+    "exit_annotation": "Actual Watcom10 #pragma aux exit aborts; tiny plain/annotated probe proves compiler support and removes reachable main RET. Target ends authentic JMP exit_."
+  },
+  "native": {
+    "gdb_elapsed_seconds": 0.1277786772698164,
+    "scope": "Real native Spawn SIGTRAP, argc2, exact original argv0 via env --argv0, question-mark argv1, stored Argv alias/callback and zero app fields. No source mutation."
+  },
+  "source_bindings": {
+    "decomp/watcom10.0a/wlink/src/main.c": "2e142d0a89504cc86ef7ad5d145ed2d78abd0e7f61a99c338693f7a8d465d111",
+    "decomp/watcom10.0a/wlink/src/stubs.c": "ada48c92ff539a3f48a56e22ca6805a93f98c2055bb64853f0cca14ff680924c",
+    "decomp/watcom10.0a/wlink/src/link.h": "2c228091d45ad423b146c141acc9bb05ab4fe5b4d252a836d36696c33ab0ae1f",
+    "decomp/watcom10.0a/wlink/Makefile": "7f3cac03f2152e90f1c5e9b677d19d685eee65347d09c124880ac73b37dcfcfe",
+    "decomp/watcom10.0a/wlink/scripts/audit-main-candidate.py": "643f7125ff4a32e0d4c693022f0bff2e842a3502bc59615db47c9d0f8e058374",
+    "decomp/watcom10.0a/wlink/scripts/check-main-exit.py": "11c108162af058c1d2d5aa2d880b4013b8c1a8bdc75090d3c822fc60298cabf2"
+  },
+  "remaining_acceptance": [
+    "Review focused CRT bootstrap/initializer pins/helper bindings",
+    "Fresh whole-code masked original\u2192Spawn frontier paired with native semantic state"
+  ],
+  "endpoint_proof": "main-source-04/main-exit-proof.json",
+  "source_progress": "main-source-01 retains earlier pre-aborts, pre-promotion source/build progress; main-source-04 contains current actual annotated source/build/ABI evidence."
+}
