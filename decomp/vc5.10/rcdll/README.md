@@ -292,3 +292,10 @@ returned by wcscpy and binding the copied allocation to the source frame.
 [Verification](cases/resources-rich-trailing-space/duplicate-source-name-verification.json)
 records exact UTF-16 input/output ownership, 45 fresh rejection controls and
 timings. Execution now reaches source-line emission.
+
+Source-line emission is accepted (88 bytes), reaching the first output write
+with exact `#line 1 ` bytes and all four write parameters checked.
+[Verification](cases/resources-rich-trailing-space/emit-source-line-verification.json)
+records full scratch/error state and 13 fresh format/write rejection controls;
+unchanged transport, file and source-owner controls reuse their recorded hashes.
+The shared formatter now supports the separately probed exact space suffix.

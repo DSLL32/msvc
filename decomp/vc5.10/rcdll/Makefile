@@ -94,3 +94,8 @@ build/wcstol-api-probe.obj: scripts/wcstol-api-probe.c | build
 	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
 build/wcstol-api-probe.exe: build/wcstol-api-probe.obj
 	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib
+
+build/source-line-format-api-probe.obj: scripts/source-line-format-api-probe.c | build
+	$(TOOL) CL.EXE /nologo /c /Od /MD /W3 /Fo$@ $<
+build/source-line-format-api-probe.exe: build/source-line-format-api-probe.obj
+	$(TOOL) LINK.EXE /nologo /subsystem:console /out:$@ $< kernel32.lib

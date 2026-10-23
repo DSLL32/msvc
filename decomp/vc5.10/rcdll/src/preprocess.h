@@ -80,6 +80,7 @@ void __stdcall rc_open_preprocessor(WCHAR *,WCHAR *,RcOptionList *,RcOptionList 
 int __cdecl rc_refill_source(void);
 WCHAR *__stdcall rc_duplicate_source_name(const WCHAR *);
 void __cdecl rc_emit_source_line(void);
+WCHAR *__stdcall rc_quote_source_filename(WCHAR *,const WCHAR *);
 void __stdcall rc_write_preprocessed(const void *,unsigned,unsigned,FILE *);
 void __cdecl rc_scan_line_start(void);
 void __cdecl rc_run_preprocessor(void);

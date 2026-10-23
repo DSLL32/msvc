@@ -94,10 +94,6 @@ void __stdcall rc_list_macro(RcMacro *macro)
     __asm int 3
 }
 
-void __cdecl rc_emit_source_line(void)
-{
-    __asm int 3
-}
 void __stdcall rc_write_preprocessed(const void *data,unsigned size,unsigned count,FILE *file)
 {
     __asm int 3
@@ -105,4 +101,10 @@ void __stdcall rc_write_preprocessed(const void *data,unsigned size,unsigned cou
 void __cdecl rc_scan_line_start(void)
 {
     __asm int 3
+}
+
+WCHAR *__stdcall rc_quote_source_filename(WCHAR *destination,const WCHAR *path)
+{
+    __asm int 3
+    return NULL;
 }

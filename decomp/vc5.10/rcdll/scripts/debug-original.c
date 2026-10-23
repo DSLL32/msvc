@@ -27,7 +27,7 @@ static DWORD heap_allocation_size;
 static DWORD character_pointer;
 static CONTEXT probe_context;
 static DWORD probe_return,cpinfo_pointer,cpinfo_error,local_pointer,local_bytes,line_file,line_format_pointer,towupper_value;
-static DWORD cpp_count,cpp_vector,cpp_allocation_size;
+static DWORD cpp_count,cpp_vector,cpp_allocation_size,source_format_dest;
 static unsigned macro_copy_count;
 static DWORD macro_copy_length,macro_copy_sp,macro_copy_site,macro_trim_pointer;
 static int path_errors;
@@ -258,6 +258,7 @@ static void snapshot_and_mask(void)
         for(n=0;n<range_count;++n)if(ranges[n].start==0x2b84&&ranges[n].kind)point(base+0x2bc1,45);
         for(n=0;n<range_count;++n)if(ranges[n].start==0x44fd&&ranges[n].kind)point(base+0x45d5,55);
         for(n=0;n<range_count;++n)if(ranges[n].start==0xbee2&&ranges[n].kind){point(base+0x4d2a,53);point(base+0x4d63,53);}
+        for(n=0;n<range_count;++n)if(ranges[n].start==0x4240&&ranges[n].kind)point(base+0x4253,59);
         if(path_errors){
             point(base+0x7efb,47);point(base+0x7f49,49);point(base+0x7f7c,49);
             point(base+0x7f93,51);point(base+0x85b6,51);point(base+0x85ed,51);
@@ -429,6 +430,8 @@ static int trap(HANDLE thread,DWORD address)
             fprintf(events,"macro-copy-return %u result=%08lx esp=%08lx\n",macro_copy_count,c.Eax,c.Esp);
             sprintf(label,"macro-copy-result-%u",macro_copy_count);hexbytes(label,c.Eax-8,macro_copy_length*2+10);
             ++macro_copy_count;point(base+macro_copy_site,53);
+        }else if(p->kind==59){DWORD error;readmem(c.Esp,words,12);source_format_dest=words[0];readmem(initial_teb+0x34,&error,4);fprintf(events,"source-line-format-call dest=%08lx format=%08lx number=%ld errno=%ld last-error=%08lx\n",words[0],words[1],(long)words[2],(long)crt_errno_value(),error);hexbytes("source-line-format-template",words[1],20);hexbytes("source-line-format-before",words[0],1024);point(base+0x4259,60);
+        }else if(p->kind==60){DWORD error;readmem(initial_teb+0x34,&error,4);fprintf(events,"source-line-format-result result=%ld errno=%ld last-error=%08lx\n",(long)c.Eax,(long)crt_errno_value(),error);hexbytes("source-line-format-after",source_format_dest,1024);
         }else if(p->kind==58){fprintf(events,"source-name-result %08lx\n",c.Eax);hexbytes("source-name-result-block",c.Eax-8,wide_string_bytes(c.Eax)+8);
         }else if(p->kind==57){fprintf(events,"refill-result %ld\n",(long)c.Eax);
         }else if(p->kind==55){
@@ -477,10 +480,11 @@ static int trap(HANDLE thread,DWORD address)
             hexbytes("line-prefix",words[1],wide_string_bytes(words[1]));hexbytes("line-text",words[2],wide_string_bytes(words[2]));
             {DWORD current;readmem(base+0x16ce8,&current,4);fprintf(events,"line-current-number %lu\n",current);}
         }
-        if(address==base+0xbc80||address==base+0xbc61||address==base+0x293e||address==base+0x29ef||address==base+0x2b84||address==base+0x44fd||address==base+0x26bb||address==base+0x11b2a||address==base+0x26f8||address==base+0x4c2f||address==base+0x4da5||address==base+0xbee2||address==base+0x3db4||address==base+0x4298||address==base+0xbebd||address==base+0x4240){
+        if(address==base+0xbc80||address==base+0xbc61||address==base+0x293e||address==base+0x29ef||address==base+0x2b84||address==base+0x44fd||address==base+0x26bb||address==base+0x11b2a||address==base+0x26f8||address==base+0x4c2f||address==base+0x4da5||address==base+0xbee2||address==base+0x3db4||address==base+0x4298||address==base+0xbebd||address==base+0x4240||address==base+0x91a4){
             DWORD pointer,count,vector,total,length;char label[80];
             if(address==base+0xbc80){count=words[1];vector=words[2];}
             else{count=cpp_count;vector=cpp_vector;}
+            if(address==base+0x91a4)hexbytes("source-write-payload",words[1],words[2]*words[3]);
             if(address==base+0x293e)hexbytes("option-argument",words[2],wide_string_bytes(words[2]));
             if(address==base+0x29ef){hexbytes("option-operand",words[2],wide_string_bytes(words[2]));hexbytes("option-descriptor",words[1],12);}
             if(address==base+0x2b84){
@@ -489,10 +493,10 @@ static int trap(HANDLE thread,DWORD address)
                 hexbytes("number-operand",words[1],wide_string_bytes(words[1]));
             }
             if(address==base+0x26bb||address==base+0x26f8)hexbytes("setup-forwarded",c.Esp+36,16);
-            if(address==base+0x3db4||address==base+0x4298||address==base+0xbebd||address==base+0x4240){
+            if(address==base+0x3db4||address==base+0x4298||address==base+0xbebd||address==base+0x4240||address==base+0x91a4){
                 DWORD bucket,record,fields[4],count=0,pointer;char label[80];
                 if(address==base+0x3db4){hexbytes("setup-forwarded",c.Esp+36,16);hexbytes("source-open-input",words[1],wide_string_bytes(words[1]));}
-                else{DWORD parent[2];readmem(c.Ebp+8,parent,8);hexbytes("setup-forwarded",c.Ebp+40,16);hexbytes("source-open-forwarded",c.Ebp+8,8);hexbytes("source-open-input",parent[0],wide_string_bytes(parent[0]));hexbytes("source-new-buffer",parent[1]-8,0x200e);readmem(base+0x21e88,&pointer,4);source_file_state(pointer);}
+                else{DWORD parent[2],source_bp=c.Ebp;readmem(source_bp+8,parent,8);hexbytes("setup-forwarded",source_bp+40,16);hexbytes("source-open-forwarded",source_bp+8,8);hexbytes("source-open-input",parent[0],wide_string_bytes(parent[0]));hexbytes("source-new-buffer",parent[1]-8,0x200e);readmem(base+0x21e88,&pointer,4);source_file_state(pointer);}
                 readmem(base+0x18e74,&pointer,4);fprintf(events,"cpp-output-pointer %08lx\n",pointer);if(pointer)hexbytes("cpp-output-file",pointer,32);
                 for(bucket=0;bucket<256;++bucket){
                     readmem(base+0x21ea0+bucket*4,&record,4);

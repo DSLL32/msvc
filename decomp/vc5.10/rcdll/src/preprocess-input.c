@@ -154,3 +154,12 @@ WCHAR *__stdcall rc_duplicate_source_name(const WCHAR *path)
     copy=rc_allocate(length*2+2);
     return wcscpy(copy,path);
 }
+
+void __cdecl rc_emit_source_line(void)
+{
+    WCHAR *end;
+    swprintf(rc_macro_name,L"#line %d ",rc_preparing_line+1);
+    rc_write_preprocessed(rc_macro_name,wcslen(rc_macro_name)*2,1,rc_cpp_output_file);
+    end=rc_quote_source_filename(rc_macro_name,rc_filename);
+    rc_write_preprocessed(rc_macro_name,(end-rc_macro_name)*2,1,rc_cpp_output_file);
+}

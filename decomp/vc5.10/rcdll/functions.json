@@ -39,7 +39,8 @@
     "rc_copy_macro_text",
     "rc_open_source",
     "rc_refill_source",
-    "rc_duplicate_source_name"
+    "rc_duplicate_source_name",
+    "rc_emit_source_line"
   ],
   "functions": [
     {
@@ -861,7 +862,12 @@
       "abi": "cdecl",
       "stack_bytes": 0,
       "kind": "application",
-      "stub": true
+      "text_data": [
+        [
+          "0x1250",
+          "0x1264"
+        ]
+      ]
     },
     {
       "name": "rc_write_preprocessed",
@@ -878,6 +884,15 @@
       "end": "0x12176",
       "abi": "cdecl",
       "stack_bytes": 0,
+      "kind": "application",
+      "stub": true
+    },
+    {
+      "name": "rc_quote_source_filename",
+      "start": "0x41fb",
+      "end": "0x4240",
+      "abi": "stdcall",
+      "stack_bytes": 8,
       "kind": "application",
       "stub": true
     }

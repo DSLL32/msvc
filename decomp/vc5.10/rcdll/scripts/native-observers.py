@@ -377,3 +377,21 @@ class SourceNameEntered(gdb.Breakpoint):
         assert not name_copies;self.enabled=False
         entry=dict(path=pointer,bytes=bytes(value).hex(),formal_bytes=4);name_copies.append(entry);save_name_copies();SourceNameReturned(frame,entry);return False
 SourceNameEntered('rc_duplicate_source_name',internal=True);save_name_copies()
+
+source_formats=[]
+def save_source_formats():
+    (path.parent/'source-line-format.json').write_text(json.dumps(source_formats,indent=2)+'\n')
+class SourceFormatReturned(gdb.FinishBreakpoint):
+    def __init__(self,frame,entry,pointer):
+        self.entry=entry;self.pointer=pointer;super().__init__(frame,internal=True)
+    def stop(self):
+        self.entry.update(result=int(gdb.parse_and_eval('$eax')),after=bytes(gdb.selected_inferior().read_memory(self.pointer,1024)).hex(),errno_after=int(gdb.parse_and_eval('*(int *)&errno')),last_error_after=int(gdb.parse_and_eval('last_error')))
+        save_source_formats();return False
+class SourceFormatEntered(gdb.Breakpoint):
+    def stop(self):
+        frame=gdb.newest_frame();caller=frame.older()
+        if caller is None or caller.name()!='rc_emit_source_line':return False
+        self.enabled=False;pointer=int(frame.read_var('out'));format=int(frame.read_var('format'));base=int(frame.read_register('ebp'))
+        entry=dict(destination=pointer,format=bytes(gdb.selected_inferior().read_memory(format,20)).hex(),number=int.from_bytes(bytes(gdb.selected_inferior().read_memory(base+16,4)),'little',signed=True),before=bytes(gdb.selected_inferior().read_memory(pointer,1024)).hex(),errno_before=int(gdb.parse_and_eval('*(int *)&errno')),last_error_before=int(gdb.parse_and_eval('last_error')))
+        source_formats.append(entry);save_source_formats();SourceFormatReturned(frame,entry,pointer);return False
+SourceFormatEntered('recon_swprintf',internal=True);save_source_formats()

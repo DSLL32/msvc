@@ -38,7 +38,8 @@
     "rc_copy_macro_text",
     "rc_open_source",
     "rc_refill_source",
-    "rc_duplicate_source_name"
+    "rc_duplicate_source_name",
+    "rc_emit_source_line"
   ],
   "target": "toolchains/5.10/bin/RCDLL.DLL",
   "project": "vc5.10",
