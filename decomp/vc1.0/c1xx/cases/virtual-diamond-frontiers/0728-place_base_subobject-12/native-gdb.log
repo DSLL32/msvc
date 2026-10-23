@@ -1,0 +1,15 @@
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Program received signal SIGTRAP, Trace/breakpoint trap.
+0x5655a480 in inherit_virtual_pointer_layout (tag=0x565f1444, base=0x565f074c, displacement=0, unused=0) at src/stubs.c:399
+399	void __stdcall inherit_virtual_pointer_layout(CppSymbol *tag, CppSymbol *base, unsigned displacement, int unused) { __asm { int 3 } }
+#0  0x5655a480 in inherit_virtual_pointer_layout (tag=0x565f1444, base=0x565f074c, displacement=0, unused=0) at src/stubs.c:399
+#1  0x565ac2c9 in inherit_base_virtual_tables (tag=0x565f1444, base=0x565f14c8, virtual_base=0xffffd660) at src/class-finalization.c:914
+#2  0x565ac10a in build_class_virtual_tables (tag=0x565f1444) at src/class-finalization.c:127
+#3  0x565abc65 in prepare_class_virtual_tables (tag=0x565f1444) at src/class-finalization.c:96
+#4  0x565ab80c in end_class_specifier () at src/class-finalization.c:29
+#5  0x565963a3 in parse_translation_unit () at src/parser-declaration-actions.inc:166
+#6  0x5655dd86 in compile_translation_unit () at src/frontend.c:75
+#7  0x565587d6 in guarded_compile () at src/c1xx.c:28
+#8  0x565587a4 in main (argc=1, argv=0xffffd8d4, environment=0xffffd8dc) at src/c1xx.c:20

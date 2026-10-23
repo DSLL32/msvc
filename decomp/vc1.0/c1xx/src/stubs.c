@@ -338,7 +338,6 @@ CppSymbol *__stdcall find_tag_declaration(CppSymbol *symbol) { __asm { int 3 } r
 int __stdcall query_inheritance_model(int *model) { __asm { int 3 } return 0; }
 int __stdcall infer_inheritance_model(CppSymbol *tag) { __asm { int 3 } return 0; }
 
-unsigned __stdcall place_base_subobject(CppSymbol *base, CppSymbol **previous_base, CppSymbol *derived) { __asm { int 3 } return 0; }
 
 void __stdcall record_friend(CppSymbol *owner, DeclarationType *type, CppSymbol *function) { __asm { int 3 } }
 void __stdcall browser_friend_reference(CppSymbol *symbol) { __asm { int 3 } }
@@ -397,7 +396,6 @@ InlineVector *add_inline_pointer(InlineVector *vector, void *pointer) { __asm { 
 TypeSet *remove_type_set(TypeSet *set, CType *type) { __asm { int 3 } return 0; }
 CType *__stdcall canonical_conversion_type(CppSymbol *function) { __asm { int 3 } return 0; }
 int equal_inline_vectors(InlineVector *left, InlineVector *right) { __asm { int 3 } return 0; }
-void __stdcall inherit_virtual_pointer_layout(CppSymbol *tag, CppSymbol *base, unsigned displacement, int unused) { __asm { int 3 } }
 
 CppSymbol *__stdcall find_c_linkage_function(CppSymbol *functions) { __asm { int 3 } return 0; }
 
@@ -659,9 +657,6 @@ int __cdecl equal_declaration_indices(void *left, void *right) { __asm { int 3 }
 int __cdecl equal_resolved_declarations(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_word_triplets(void *left, void *right) { __asm { int 3 } return 0; }
 int __cdecl equal_word_pairs(void *left, void *right) { __asm { int 3 } return 0; }
-VirtualTableGroup *__stdcall copy_inherited_virtual_group(VirtualTableGroup *group, BaseClassLink *base, int arena) { __asm { int 3 } return 0; }
-void __stdcall merge_virtual_group_entries(CppSymbol *tag, VirtualTableGroup *destination, VirtualTableGroup *source) { __asm { int 3 } }
 void __stdcall release_virtual_group(VirtualTableGroup *group) { __asm { int 3 } }
-int __stdcall layout_anonymous_data(CType *type) { __asm { int 3 } return 0; }
-void __stdcall add_direct_this_displacement(VirtualAdjustment *adjustment, unsigned displacement) { __asm { int 3 } }
 unsigned __stdcall virtual_base_entry_byte_offset(VirtualEntry *entry, VirtualTable *table) { __asm { int 3 } return 0; }
+int __stdcall vector_contains(Vector *vector, void *item) { __asm { int 3 } return 0; }

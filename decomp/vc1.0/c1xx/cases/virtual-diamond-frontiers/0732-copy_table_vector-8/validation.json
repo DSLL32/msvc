@@ -1,0 +1,17 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_copy_table_vector@8",
+    "start": 495120,
+    "end": 495143
+  },
+  "distinct_direct_callees": [
+    "_copy_vector_elements@12"
+  ],
+  "next_frontier": "_layout_anonymous_data@4",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.3784299334511161,
+  "total_operation_seconds": 6.036963831633329,
+  "original_capture_seconds": 3.322898834012449
+}

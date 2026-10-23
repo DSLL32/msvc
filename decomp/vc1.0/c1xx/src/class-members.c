@@ -912,3 +912,98 @@ int __stdcall compatible_override_return(CType *member, CType *inherited)
         inherited_shape = inherited_shape->related;
     return shape->related == inherited_shape->related;
 }
+
+/* Original 0x793c0..0x79507. Place a direct base's nonvirtual portion,
+   honoring packing and keeping adjacent empty bases distinct. The repeated
+   packing queries come from the original macro-expanded alignment tests. */
+unsigned __stdcall place_base_subobject(CppSymbol *base, CppSymbol **previous_base,
+    CppSymbol *derived)
+{
+    unsigned short alignment;
+    unsigned padding, offset;
+    unsigned char flags;
+    if (top_packing(packing_stack)->alignment <
+        (unsigned)(base->detail.class_info->alignment_flags & 0x3f))
+        alignment = (unsigned short)top_packing(packing_stack)->alignment;
+    else alignment = base->detail.class_info->alignment_flags & 0x3f;
+    if (CLASS_CONTEXT.alignment <= alignment) {
+        if (top_packing(packing_stack)->alignment <
+            (unsigned)(base->detail.class_info->alignment_flags & 0x3f))
+            alignment = (unsigned short)top_packing(packing_stack)->alignment;
+        else alignment = base->detail.class_info->alignment_flags & 0x3f;
+        CLASS_CONTEXT.alignment = alignment;
+    }
+    padding = class_alignment_padding(base->detail.class_info->alignment_flags & 0x3f);
+    if (!padding && *previous_base &&
+        ((*previous_base)->detail.class_info->flags & 8) &&
+        (base->detail.class_info->flags & 4)) {
+        ++CLASS_CONTEXT.size;
+        padding = class_alignment_padding(base->detail.class_info->alignment_flags & 0x3f);
+    }
+    offset = CLASS_CONTEXT.size + padding;
+    CLASS_CONTEXT.size = offset;
+    CLASS_CONTEXT.size += base->detail.class_info->nonvirtual_size;
+    if (derived) {
+        if (!*previous_base) {
+            flags = derived->detail.class_info->flags;
+            derived->detail.class_info->flags = flags ^
+                ((base->detail.class_info->flags ^ flags) & 4);
+        }
+        flags = derived->detail.class_info->flags;
+        derived->detail.class_info->flags = flags ^
+            ((base->detail.class_info->flags ^ flags) & 8);
+    }
+    *previous_base = base;
+    return offset;
+}
+
+/* Original 0x2ec90..0x2ed8f. Reserve an unnamed object in the current
+   class layout, flushing any pending bit-field unit and applying the current
+   packing limit. Size-wrap recovery reports the class and retains its ABI. */
+unsigned __stdcall layout_anonymous_data(CType *type)
+{
+    unsigned size = type_size(type), alignment, offset;
+    CppSymbol *tag;
+    char *kind, *name;
+    if (CLASS_TAG->attributes & 0x100) {
+        tag = CLASS_TAG;
+        name = tag->name;
+        kind = type_kind_name(tag->type->flags);
+        report_syntax_error(229, kind, name);
+        CLASS_TAG->attributes &= ~0x100U;
+    }
+    if (CLASS_CONTEXT.bit_field_type) {
+        CLASS_CONTEXT.size += CLASS_CONTEXT.bit_field_type & 15;
+        CLASS_CONTEXT.bit_field_bits = 0;
+    }
+    if (top_packing(packing_stack)->alignment < (unsigned)(type->flags & 15))
+        alignment = top_packing(packing_stack)->alignment;
+    else alignment = type->flags & 15;
+    align_class_member(alignment);
+    offset = CLASS_CONTEXT.size;
+    CLASS_CONTEXT.size = offset + size;
+    if (CLASS_CONTEXT.size < offset) {
+        tag = CLASS_TAG;
+        kind = type_kind_name(tag->type->flags);
+        report_syntax_error(89, tag->name, kind);
+        return 0;
+    }
+    return add_member_offset(offset, 0);
+}
+
+/* Original 0x785f0..0x7867d. Test canonical identity, then recursively
+   inspect every visible direct base, including virtual paths. The successor
+   is saved before recursion, and hidden/non-base declarations are skipped. */
+int __stdcall class_derives_from(CppSymbol *derived, CppSymbol *base)
+{
+    BaseClassLink *link, *next;
+    CppSymbol *direct_base;
+    if (derived == base) return 1;
+    for (link = (BaseClassLink *)derived->auxiliary.scope_members; link; link = next) {
+        next = (BaseClassLink *)link->next;
+        if ((link->kind & 31) != 15 || (link->flags & 0x80)) continue;
+        direct_base = cpp_context_stack->items[link->context_index];
+        if (class_derives_from(direct_base, base)) return 1;
+    }
+    return 0;
+}

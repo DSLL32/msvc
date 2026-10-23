@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 2.17651485837996,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-copy-table-vector-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 5.605615974403918,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-copy-table-vector-canonical.log"
+  }
+]

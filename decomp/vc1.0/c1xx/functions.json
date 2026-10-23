@@ -732,7 +732,17 @@
     "_create_virtual_base_group_offsets@8",
     "_validate_virtual_override@8",
     "_virtual_table_object_offset@4",
-    "_clone_class_virtual_group@8"
+    "_clone_class_virtual_group@8",
+    "_place_base_subobject@12",
+    "_inherit_virtual_pointer_layout@16",
+    "_copy_inherited_virtual_group@12",
+    "_copy_virtual_group@8",
+    "_copy_table_vector@8",
+    "_layout_anonymous_data@4",
+    "_add_direct_this_displacement@8",
+    "_merge_virtual_group_entries@12",
+    "_merge_virtual_entry@8",
+    "_class_derives_from@8"
   ],
   "driver": [
     {
@@ -3195,7 +3205,7 @@
     {
       "name": "_place_base_subobject@12",
       "start": 496576,
-      "end": 496577
+      "end": 496904
     },
     {
       "name": "_query_inheritance_model@4",
@@ -6222,7 +6232,7 @@
     {
       "name": "_inherit_virtual_pointer_layout@16",
       "start": 496976,
-      "end": 496977
+      "end": 497123
     },
     {
       "name": "_initialize_virtual_base_entry@12",
@@ -6272,7 +6282,7 @@
     {
       "name": "_copy_inherited_virtual_group@12",
       "start": 495872,
-      "end": 495873
+      "end": 495950
     },
     {
       "name": "_prepare_virtual_group_tables@12",
@@ -6302,7 +6312,7 @@
     {
       "name": "_merge_virtual_group_entries@12",
       "start": 500336,
-      "end": 500337
+      "end": 500584
     },
     {
       "name": "_release_virtual_group@4",
@@ -6322,7 +6332,7 @@
     {
       "name": "_layout_anonymous_data@4",
       "start": 191632,
-      "end": 191633
+      "end": 191888
     },
     {
       "name": "_inherits_virtual_base_vtordisp@8",
@@ -6357,7 +6367,7 @@
     {
       "name": "_add_direct_this_displacement@8",
       "start": 493616,
-      "end": 493617
+      "end": 493636
     },
     {
       "name": "_set_virtual_this_base@8",
@@ -6373,6 +6383,31 @@
       "name": "_virtual_base_entry_byte_offset@8",
       "start": 494640,
       "end": 494641
+    },
+    {
+      "name": "_copy_virtual_group@8",
+      "start": 495472,
+      "end": 495614
+    },
+    {
+      "name": "_copy_table_vector@8",
+      "start": 495120,
+      "end": 495143
+    },
+    {
+      "name": "_merge_virtual_entry@8",
+      "start": 500592,
+      "end": 500827
+    },
+    {
+      "name": "_class_derives_from@8",
+      "start": 493040,
+      "end": 493182
+    },
+    {
+      "name": "_vector_contains@8",
+      "start": 322304,
+      "end": 322305
     }
   ],
   "cases": {
@@ -6498,7 +6533,7 @@
       "native_reference": "cases/native-virtual-diamond",
       "frontiers": "cases/virtual-diamond-frontiers",
       "accepted_from": 643,
-      "terminal": "_place_base_subobject@12",
+      "terminal": "_release_virtual_group@4",
       "frontier_extensions": [
         "cases/virtual-diamond-frontiers/0643-complete_declaration-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0644-add_storage_specifier-16/frontier-extension.json",
@@ -6584,9 +6619,19 @@
         "cases/virtual-diamond-frontiers/0724-create_virtual_base_group_offsets-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0725-validate_virtual_override-8/frontier-extension.json",
         "cases/virtual-diamond-frontiers/0726-virtual_table_object_offset-4/frontier-extension.json",
-        "cases/virtual-diamond-frontiers/0727-clone_class_virtual_group-8/frontier-extension.json"
+        "cases/virtual-diamond-frontiers/0727-clone_class_virtual_group-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0728-place_base_subobject-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0729-inherit_virtual_pointer_layout-16/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0730-copy_inherited_virtual_group-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0731-copy_virtual_group-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0732-copy_table_vector-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0733-layout_anonymous_data-4/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0734-add_direct_this_displacement-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0735-merge_virtual_group_entries-12/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0736-merge_virtual_entry-8/frontier-extension.json",
+        "cases/virtual-diamond-frontiers/0737-class_derives_from-8/frontier-extension.json"
       ],
-      "terminal_evidence": "cases/virtual-diamond-frontiers/0727-clone_class_virtual_group-8/original-events.txt",
+      "terminal_evidence": "cases/virtual-diamond-frontiers/0737-class_derives_from-8/original-events.txt",
       "original_seed": "cases/virtual_diamond-seed"
     }
   },

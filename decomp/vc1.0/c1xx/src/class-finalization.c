@@ -1140,7 +1140,7 @@ void __stdcall merge_virtual_group_entries(CppSymbol *tag,
 void __stdcall release_virtual_group(VirtualTableGroup *group);
 int __stdcall needs_virtual_base_vtordisp(CppSymbol *tag, CppSymbol *base_tag);
 int __stdcall track_empty_base_layout(CppSymbol *base_tag, CppSymbol *tag);
-int __stdcall layout_anonymous_data(CType *type);
+unsigned __stdcall layout_anonymous_data(CType *type);
 
 /* Original 0x7a090..0x7a122. A virtual base shared by two paths retains
    one group: adjust and merge the duplicate's entries, then release its
@@ -1482,4 +1482,167 @@ void *__stdcall clone_class_virtual_group(void *item, int arena)
         else copy->tables = tables;
     }
     return copy;
+}
+
+/* Original 0x79550..0x795e2. The first base supplying each virtual
+   pointer family owns that slot. A vbptr needs its base displacement added;
+   a vfptr carries the original supplying declaration. Argument4 is unused. */
+void __stdcall inherit_virtual_pointer_layout(CppSymbol *tag, CppSymbol *base,
+    unsigned displacement, int unused)
+{
+    int family;
+    unsigned char mask;
+    for (family = 0; family < 2; ++family) {
+        mask = (unsigned char)(0x40U << family);
+        if ((tag->detail.class_info->alignment_flags & mask) ||
+            !(base->detail.class_info->alignment_flags & mask)) continue;
+        if (family == 1) {
+            tag->detail.class_info->virtual_base_pointer_offset =
+                base->detail.class_info->virtual_base_pointer_offset + displacement;
+            tag->detail.class_info->alignment_flags |= 0x80;
+        } else tag->detail.class_info->alignment_flags |= 0x40;
+        if (family == 0)
+            tag->detail.class_info->virtual_dispatch_pointer =
+                base->detail.class_info->virtual_dispatch_pointer;
+    }
+}
+
+VirtualTableGroup *__stdcall copy_virtual_group(VirtualTableGroup *group, int arena);
+
+/* Original 0x79100..0x7914d. Copy the group, then retain corresponding
+   source-table/direct-path identities in both copied table families. */
+VirtualTableGroup *__stdcall copy_inherited_virtual_group(VirtualTableGroup *group,
+    BaseClassLink *base, int arena)
+{
+    VirtualTableGroup *copy = copy_virtual_group(group, arena);
+    Vector *destination, *source;
+    int family;
+    for (family = 0; family < 2; ++family) {
+        destination = family ? copy->base_tables : copy->tables;
+        source = family ? group->base_tables : group->tables;
+        prepare_virtual_group_tables(destination, source, base);
+    }
+    return copy;
+}
+
+Vector *__stdcall copy_table_vector(Vector *tables, int arena);
+
+/* Original 0x78f70..0x78ffd. A working copy preserves every group
+   field and copies its two vectors through the table-copy wrapper. It uses
+   the requested arena and leaves table-kind conversion to the earlier pass. */
+VirtualTableGroup *__stdcall copy_virtual_group(VirtualTableGroup *group, int arena)
+{
+    VirtualTableGroup *copy;
+    ArenaPool *pool;
+    Vector *tables;
+    int index = arena, family;
+    if (!arena) copy = allocate_permanent(sizeof(VirtualTableGroup));
+    else {
+        if (index == -1) index = 0;
+        pool = &compiler_arena.pools[index];
+        if (pool->remaining < (int)sizeof(VirtualTableGroup))
+            refill_arena(&compiler_arena, pool);
+        copy = (VirtualTableGroup *)pool->next;
+        pool->remaining -= sizeof(VirtualTableGroup);
+        pool->next += sizeof(VirtualTableGroup);
+    }
+    *copy = *group;
+    for (family = 0; family < 2; ++family) {
+        tables = family ? group->base_tables : group->tables;
+        tables = copy_table_vector(tables, arena);
+        if (family) copy->base_tables = tables;
+        else copy->tables = tables;
+    }
+    return copy;
+}
+
+/* Original 0x78e10..0x78e26. The table copier has the same two-slot pointer/
+   integer stdcall ABI as the generic callback; only its pointer types differ. */
+Vector *__stdcall copy_table_vector(Vector *tables, int arena)
+{
+    return copy_vector_elements(tables, arena, (VectorCopyElement)copy_virtual_table);
+}
+
+/* Original 0x78830..0x78843. Once a virtual identity is recorded, direct
+   path offsets no longer contribute to the stored fixed this displacement. */
+void __stdcall add_direct_this_displacement(VirtualAdjustment *adjustment,
+    unsigned displacement)
+{
+    if (!adjustment->virtual_base_class) adjustment->displacement += displacement;
+}
+
+void __stdcall merge_virtual_entry(VirtualEntry *destination, VirtualEntry *source);
+
+/* Original 0x7a270..0x7a367. Corresponding virtual-base dispatch tables
+   merge entry by entry, then retain the least restrictive access. Argument1
+   is unused. The destination iterator deliberately retains its selected
+   table on exhaustion; matching group layouts provide corresponding tables. */
+void __stdcall merge_virtual_group_entries(CppSymbol *tag,
+    VirtualTableGroup *destination, VirtualTableGroup *source)
+{
+    Vector *destination_tables = destination->tables, *source_tables = source->tables;
+    short destination_index = 0, source_index = 0;
+    /* The original selected-table slot is unwritten until the first
+       successful destination iteration, and is not cleared at its end. */
+    VirtualTable *destination_table, *source_table;
+    VirtualEntry *destination_entry, *source_entry;
+    int destination_entry_index, source_entry_index;
+    for (;;) {
+        if (destination_index < destination_tables->count)
+            destination_table = destination_tables->items[destination_index++];
+        if (source_index >= source_tables->count) break;
+        source_table = source_tables->items[source_index++];
+        destination_entry_index = source_entry_index = 0;
+        for (;;) {
+            if (destination_entry_index < destination_table->entry_count)
+                destination_entry = &destination_table->entries[destination_entry_index++];
+            else destination_entry = 0;
+            if (source_entry_index < source_table->entry_count)
+                source_entry = &source_table->entries[source_entry_index++];
+            else source_entry = 0;
+            if (!source_entry) break;
+            merge_virtual_entry(destination_entry, source_entry);
+        }
+    }
+    if (destination->flags < source->flags) destination->flags = source->flags;
+}
+
+int __stdcall class_derives_from(CppSymbol *derived, CppSymbol *base);
+int __stdcall vector_contains(Vector *vector, void *item);
+
+/* Original 0x7a370..0x7a45a. Related declaring classes select the more
+   derived override. Unrelated alternatives become an arena-backed conflict
+   vector; inherited-only entries are not added to an existing conflict set. */
+void __stdcall merge_virtual_entry(VirtualEntry *destination, VirtualEntry *source)
+{
+    CppSymbol *destination_owner, *source_owner;
+    Vector *conflicts;
+    if (!(destination->dispatch.flags & 4)) {
+        if (source->dispatch.function == destination->dispatch.function) return;
+        destination_owner = cpp_context_stack->items[
+            destination->dispatch.function->auxiliary.virtual_function.declaring_class];
+        source_owner = cpp_context_stack->items[
+            source->dispatch.function->auxiliary.virtual_function.declaring_class];
+        if (class_derives_from(destination_owner, source_owner)) {
+            destination->dispatch.flags |= 2;
+            destination->dispatch.flags &= ~1U;
+            return;
+        }
+        if (class_derives_from(source_owner, destination_owner)) {
+            destination->dispatch.function = source->dispatch.function;
+            destination->dispatch.this_adjustment = source->dispatch.this_adjustment;
+            destination->dispatch.flags |= 2;
+            destination->dispatch.flags &= ~1U;
+            return;
+        }
+        conflicts = new_vector(2, 2);
+        append_vector(conflicts, destination->dispatch.function);
+        append_vector(conflicts, source->dispatch.function);
+        destination->dispatch.function = (CppSymbol *)conflicts;
+        destination->dispatch.flags |= 4;
+    } else if (!(source->dispatch.flags & 1)) {
+        conflicts = (Vector *)destination->dispatch.function;
+        if (!vector_contains(conflicts, source->dispatch.function))
+            append_vector(conflicts, source->dispatch.function);
+    }
 }

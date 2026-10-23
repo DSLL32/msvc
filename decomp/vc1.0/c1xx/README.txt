@@ -6,7 +6,7 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL binary reconstruction: 728 accepted frontiers, including 636 frontend
+PARTIAL binary reconstruction: 738 accepted frontiers, including 646 frontend
 functions and seven older CRT routines. The cpp_basic starting case now completes
 with exit0, empty stdout/stderr and exact raw intermediate files. All reached
 application functions have readable C bodies and verified original call targets;
@@ -1622,3 +1622,26 @@ Combined measured wall:4.866464seconds.
 
 Accepted extent union211509/476418bytes is44.395678%, not branch coverage.
 virtual_diamond remains incomplete at place_base_subobject0x793c0.
+
+Inherited-group merging checkpoint: 738 accepted frontiers, 653 source functions.
+Ten whole functions beyond 19a5bb2 place direct base subobjects, inherit their
+vfptr/vbptr layout, copy complete working groups through their separate vector
+wrapper, allocate anonymous vtordisp space and merge shared dispatch entries.
+The direct-base placer preserves repeated packing queries, empty-base separation,
+leading/trailing empty flags and its computed unsigned offset result, despite
+the analysis decompiler's provisional void signature.
+
+Related declaring classes select the more-derived final overrider; unrelated
+functions form a conflict vector. Complete this-adjustment records are copied
+without changing their padding. The group merger retains its selected destination
+table on iterator exhaustion, as the original does; this matching-group case
+supplies corresponding tables. Unreached conflict helpers remain named traps.
+
+Every 0728 through 0737 acceptance matches fresh original/native traps, four
+pending buffers, fourteen state values, streams and visible files. Completed
+cpp_basic remains raw byte-exact. Full 653-function graph, contextual data/defaults/
+callback identities, both grammars, both cached native cases and 25 negative
+checks pass. Combined measured wall: 4.826083 seconds.
+
+Accepted extent union 213128/476418 bytes is 44.735505%, not branch coverage.
+virtual_diamond remains incomplete at release_virtual_group 0x79000.

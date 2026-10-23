@@ -1,14 +1,14 @@
 {
   "status": "virtual_diamond reconstruction in progress",
-  "accepted_frontiers": 728,
-  "driver_functions": 636,
+  "accepted_frontiers": 738,
+  "driver_functions": 646,
   "older_crt_functions": 7,
-  "reconstructed_source_functions": 643,
-  "current_frontier": "_place_base_subobject@12",
-  "original_frontier_va": "0x793c0",
+  "reconstructed_source_functions": 653,
+  "current_frontier": "_release_virtual_group@4",
+  "original_frontier_va": "0x79000",
   "all_accepted_frontiers_replayed": false,
   "replay_log_sha256": "ed129c6e3995b31daf7a7d12c8b55587e67ce1c3d9f38f4e5718f318c03988e5",
-  "call_graph_audit_functions": 643,
+  "call_graph_audit_functions": 653,
   "data_audits": {
     "option_rules": 98,
     "keywords": 81,
@@ -677,9 +677,9 @@
     "no_frontend_output_normalization": true
   },
   "accepted_code_extent_union": {
-    "bytes": 211509,
+    "bytes": 213128,
     "total_original_executable_bytes": 476418,
-    "percent": 44.39567774517336,
+    "percent": 44.735505375531574,
     "includes": "accepted functions, shared text data, matched CRT and imports; clipped union",
     "denominator": "executable section VirtualSize, backed raw size only if zero",
     "branch_coverage": false
@@ -1140,8 +1140,8 @@
     "requested": false,
     "paused": false,
     "complete": false,
-    "current_frontier": "_place_base_subobject@12",
-    "original_va": "0x793c0"
+    "current_frontier": "_release_virtual_group@4",
+    "original_va": "0x79000"
   },
   "source_layout": {
     "source": "src",
@@ -1167,8 +1167,8 @@
     "fast_pair_seconds": 3.2309734635055065,
     "fresh_seconds": 133.84906735178083
   },
-  "current_native_application_entries": 84,
-  "latest_verification": "cases/virtual-diamond-frontiers/0727-clone_class_virtual_group-8/validation.json",
+  "current_native_application_entries": 94,
+  "latest_verification": "cases/virtual-diamond-frontiers/0737-class_derives_from-8/validation.json",
   "historical_original_full_replay_frontiers": 534,
   "active_queue": [
     "finish cpp_basic",
@@ -1177,12 +1177,12 @@
     "destruction and new/delete/operator cases"
   ],
   "coverage": {
-    "accepted_code_bytes": 211509,
+    "accepted_code_bytes": 213128,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 44.39567774517336,
-    "accepted_frontiers": 728,
-    "source_functions": 643,
-    "accepted_source_text_and_switch_bytes": 199998,
+    "accepted_code_percent": 44.735505375531574,
+    "accepted_frontiers": 738,
+    "source_functions": 653,
+    "accepted_source_text_and_switch_bytes": 201617,
     "section_ranges": [
       [
         94208,
@@ -1191,12 +1191,12 @@
     ]
   },
   "accepted_extent_coverage": {
-    "accepted_code_bytes": 211509,
+    "accepted_code_bytes": 213128,
     "total_executable_code_bytes": 476418,
-    "accepted_code_percent": 44.39567774517336,
-    "accepted_frontiers": 728,
-    "source_functions": 643,
-    "accepted_source_text_and_switch_bytes": 199998,
+    "accepted_code_percent": 44.735505375531574,
+    "accepted_frontiers": 738,
+    "source_functions": 653,
+    "accepted_source_text_and_switch_bytes": 201617,
     "section_ranges": [
       [
         94208,
@@ -1204,9 +1204,9 @@
       ]
     ]
   },
-  "static_checkpoint": "643 source functions: canonical graph, contextual data/defaults/callbacks, both grammars, both native cases and25 evidence rejections pass",
+  "static_checkpoint": "653 source functions: canonical graph, contextual data/defaults/callbacks, both grammars, both native cases and 25 evidence rejections pass",
   "latest_checkpoint_checks": "evidence/translation-finalization-checkpoint.json",
-  "latest_checkpoint": "evidence/virtual-group-offsets-checkpoint.json",
+  "latest_checkpoint": "evidence/inherited-group-merging-checkpoint.json",
   "complete_frontend_case": false,
   "active_case": "virtual_diamond",
   "cases": {
@@ -1216,8 +1216,8 @@
     },
     "virtual_diamond": {
       "status": "partial",
-      "frontier": "_place_base_subobject@12",
-      "latest_verification": "cases/virtual-diamond-frontiers/0727-clone_class_virtual_group-8/validation.json"
+      "frontier": "_release_virtual_group@4",
+      "latest_verification": "cases/virtual-diamond-frontiers/0737-class_derives_from-8/validation.json"
     }
   }
 }

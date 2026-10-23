@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_copy_virtual_group@8",
+    "start": 495472,
+    "end": 495614
+  },
+  "distinct_direct_callees": [
+    "_allocate_permanent@4",
+    "_copy_table_vector@8",
+    "_refill_arena@8"
+  ],
+  "next_frontier": "_copy_table_vector@8",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.3636013828217983,
+  "total_operation_seconds": 5.304268671199679,
+  "original_capture_seconds": 2.721338637173176
+}

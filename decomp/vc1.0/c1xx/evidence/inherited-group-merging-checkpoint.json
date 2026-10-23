@@ -1,0 +1,15 @@
+{
+  "status": 0,
+  "seconds": 4.826082829385996,
+  "command": [
+    "make",
+    "-j4",
+    "audit",
+    "check",
+    "native-rejections"
+  ],
+  "log": "evidence/inherited-group-merging-checkpoint.log",
+  "raw_log_sha256": "bd1884c10d577eb8cdac862bf33b91e1927466b0328e0935770068440e6af6fd",
+  "log_format": "display CRLF to LF; raw bytes in .raw.log.gz",
+  "timing_scope": "combined parallel wall; per-function build/reference/debug/fixture timings separate"
+}

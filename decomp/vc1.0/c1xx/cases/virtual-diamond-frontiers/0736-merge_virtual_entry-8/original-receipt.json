@@ -1,0 +1,33 @@
+{
+  "case": "virtual_diamond",
+  "scope": "explicit original-only reference diagnostic; no cache update",
+  "accepted_count": 736,
+  "terminal": "_class_derives_from@8",
+  "candidate": "_merge_virtual_entry@8",
+  "pending_accepted": [],
+  "configuration_sha256": "0b209f1f3d7d24c695bca4f54d22b06cce9a65e81b8e8c26b3b47e361a5ca826",
+  "capture_seconds": 4.62554937787354,
+  "original_sha256": "333d015dd85773df2f0f9ab541ca65c40da9a2ad9bc8df9e03815f7deb20b2f7",
+  "outputs": {
+    "irsy": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irgl": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "irin": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "virtual.cpp": {
+      "bytes": 1326,
+      "sha256": "14748b78870f19f42881e05784df8218dcb0bc9f65b81f3b62f37fce5eddef67"
+    },
+    "irex": {
+      "bytes": 6,
+      "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+    }
+  }
+}
