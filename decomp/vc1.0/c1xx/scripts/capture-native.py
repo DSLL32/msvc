@@ -33,7 +33,7 @@ def capture(directory, executable=None, breakpoint=None, expressions=None, case_
                 '    result = {"buffers": [], "states": [], "function": "exit:" + str(exit_codes[0]), "signal": 0, "exit_code": exit_codes[0]}',
                 'else:', '    gdb.execute("bt")',
                 '    result = {"buffers": [], "states": [], "function": gdb.newest_frame().name(), "signal": int(gdb.parse_and_eval("$_siginfo.si_signo"))}']
-    if expressions:
+    if expressions is not None:
         commands += ['    block = gdb.newest_frame().block()',
                      '    arguments = []',
                      '    while block is not None:',

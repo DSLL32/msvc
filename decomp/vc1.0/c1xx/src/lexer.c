@@ -3,6 +3,8 @@
 #include "lexer.h"
 #include "source-input.h"
 #include "characters.h"
+#include "macro-expansion.h"
+#include "function-definitions.h"
 #include <recon.h>
 
 /* Original 0x26120..0x26189. Source-window sentinels are recovered outside
@@ -850,6 +852,47 @@ void __stdcall append_deferred_token(unsigned char token)
     ++deferred_token_end;
     if (deferred_token_end >= deferred_tokens + 200)
         token_allocation_flags |= 0x40000000UL;
+}
+
+/* Original 0x21380..0x214b8. A source sentinel either refills the
+   input or handles the counted macro rescan argument/definition markers. */
+unsigned recover_special_character(void)
+{
+    unsigned char character = (unsigned char)source_text_cursor[-1];
+    if (character == '?') return recover_trigraph();
+    if (character == '\\') {
+        if (!macro_expansion_active && consume_line_escape()) return 1;
+        return 0x10;
+    }
+    if (!macro_expansion_active) {
+        refill_source_or_error();
+        return 1;
+    }
+    character = (unsigned char)*source_text_cursor++;
+    switch (character) {
+    case 'A':
+        save_macro_argument_text(macro_expansion_frames[macro_expansion_active].replacement_start,
+            macro_work_midpoint);
+        macro_work_midpoint = macro_expansion_frames[macro_expansion_active].replacement_start;
+        advance_macro_argument();
+        return 2;
+    case 'D':
+        return finish_macro_expansion() ? 8 : 4;
+    case 'R':
+        source_text_cursor = macro_expansion_frames[macro_expansion_active].source_cursor;
+        --macro_expansion_frames[macro_expansion_active].definition->flags;
+        if (macro_expansion_active == 1) {
+            macro_expansion_start = macro_work_buffer;
+            macro_work_midpoint = macro_work_buffer + (macro_work_bytes >> 1);
+        }
+        if (!browser_macro_end_suppressed && browser_filename)
+            browser_end_macro_expansion();
+        browser_macro_end_suppressed = 0;
+        --macro_expansion_active;
+        return 0x20;
+    default:
+        return 0;
+    }
 }
 
 /* Original 0x211e0..0x21376. A consumed question mark can begin a

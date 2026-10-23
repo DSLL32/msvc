@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "4260e5a49bc0104ef1060e1279d22dd00d0061093361bcbcafc8121e36139825",
+    "functions.json": "de338e376fbe3402d3d78b8175607aded8d75a73e9f3e76d5612eeef1adc98a2",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
-    "cases/original-entry-references.json": "a7dfb3e4f9774baf7ec3baf7ece5ce045c6433be058ac283086e9d30b6319d2c",
-    "cases/canonical-map.txt": "dc5b84f85c3e96579d795de2b9e6120561db68b302c848d2ccd647fc75a9ab71",
+    "cases/original-entry-references.json": "51e55bc2a20baaffeb1d9a90652ad5641ba83e2bac82807b68015eeaf0fc8041",
+    "cases/canonical-map.txt": "35707b4fc440641e0aa8c4b0fbc2bef05f8d9eafaf0d9501f963d29f028477c2",
     "evidence/include-strchr-boundary/receipt.json": "ea8ddecbc93c16c0bc977f54273a0c5d8961ed3490a3d190156e286f960929f3",
     "evidence/include-strchr-boundary/original-observation.txt": "7280bc90e6f4e959459cac8423d70f4356d9b53a5c740a66910816f66fcc1df5",
     "evidence/include-strchr-boundary/original-events.txt": "854e3ce06901ec61d4b677d8eb0b47feff9052d0c8e2acf842c5ff2344578ff1",
@@ -44,9 +44,9 @@
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-receipt.json": "19e3e04c8bab3deeeb336a9f007d66cc7c49f6aca7b8312d8effbc14d2063bee",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-events.txt": "bef4b2b884066ea22f15891bf0bceb93a3a0cb41dd1cfabe54ac8d04f53af7e0",
     "cases/frontiers/new_delete/0996-emit_vector_deleting_destructor_body-4/entry-reference/original-entries.plan": "1a4c165251c157089b3c0284362e12353ce58de1bcc6efc8a22bafd65d0e498e",
-    "cases/frontiers/state_machine_debug/1128-sizeof_type-4/entry-reference/original-receipt.json": "57cc176121d3d02c5b5a6f6f38cc0e4a6f4e69e061f84f626ac27241a56569d9",
-    "cases/frontiers/state_machine_debug/1128-sizeof_type-4/entry-reference/original-events.txt": "4d046d07cb1fb0b5e2f2391425479c17d9468a47bb06d24c359141efe3910b59",
-    "cases/frontiers/state_machine_debug/1128-sizeof_type-4/entry-reference/original-entries.plan": "6fd9e57721196eb1257eaeb1d1f137f26a3149dbaee63707bb9440d1bba7c215"
+    "cases/frontiers/state_machine_debug/1129-recover_special_character/entry-reference/original-receipt.json": "20eb55624a52fa420d05311a5b25e169dd860d1cc994405a781e09781698728f",
+    "cases/frontiers/state_machine_debug/1129-recover_special_character/entry-reference/original-events.txt": "6817c0a53e01603f0db1851c7fa17818441d857d98b285541a337f100089c72f",
+    "cases/frontiers/state_machine_debug/1129-recover_special_character/entry-reference/original-entries.plan": "800744d1afda97e213615cc72fe735fa9633d21d75acaa6b8ebf020c1d9e57ba"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -136,6 +136,10 @@
     "advance_braced_initializer": {
       "logical": "_advance_braced_initializer@4",
       "source": "src/braced-initializers.c"
+    },
+    "advance_macro_argument": {
+      "logical": "_advance_macro_argument",
+      "source": "src/stubs.c"
     },
     "align_class_member": {
       "logical": "_align_class_member@4",
@@ -567,6 +571,10 @@
     },
     "browser_declaration": {
       "logical": "_browser_declaration@4",
+      "source": "src/stubs.c"
+    },
+    "browser_end_macro_expansion": {
+      "logical": "_browser_end_macro_expansion",
       "source": "src/stubs.c"
     },
     "browser_end_tag": {
@@ -4491,7 +4499,7 @@
     },
     "recover_special_character": {
       "logical": "_recover_special_character",
-      "source": "src/stubs.c"
+      "source": "src/lexer.c"
     },
     "recover_trigraph": {
       "logical": "_recover_trigraph",
@@ -5023,6 +5031,10 @@
     },
     "save_extended_in_arena": {
       "logical": "_save_extended_in_arena@16",
+      "source": "src/stubs.c"
+    },
+    "save_macro_argument_text": {
+      "logical": "_save_macro_argument_text@8",
       "source": "src/stubs.c"
     },
     "save_overload_candidate_cursor": {
@@ -6680,7 +6692,8 @@
     "copy_member_pointer_thunk_key",
     "member_pointer_is_aggregate",
     "sizeof_expression",
-    "sizeof_type"
+    "sizeof_type",
+    "recover_special_character"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -10793,7 +10806,7 @@
     },
     "state_machine_debug": {
       "first": 997,
-      "last": 1129,
+      "last": 1130,
       "seen": [
         "main",
         "message_text",
@@ -11831,12 +11844,13 @@
         "member_pointer_is_aggregate",
         "sizeof_expression",
         "sizeof_type",
-        "recover_special_character"
+        "recover_special_character",
+        "consume_line_escape"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_recover_special_character",
-        "native": "recover_special_character",
+        "logical": "_consume_line_escape",
+        "native": "consume_line_escape",
         "signal": 5
       }
     }
