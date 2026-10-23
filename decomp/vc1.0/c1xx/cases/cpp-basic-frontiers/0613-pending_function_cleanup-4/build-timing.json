@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 9.175996398553252,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-pending-function-cleanup-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 4.911674357950687,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-pending-function-cleanup-canonical.log"
+  }
+]

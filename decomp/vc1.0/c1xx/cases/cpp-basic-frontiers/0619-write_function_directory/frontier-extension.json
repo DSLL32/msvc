@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 619,
+  "accepted": "_write_function_directory",
+  "terminal": "_mangle_symbol_identifier@12",
+  "original_capture": "cases/cpp-basic-frontiers/0619-write_function_directory/original-receipt.json",
+  "original_capture_sha256": "938b72bb8400004c4ff13487cbf3c2c5686830d9fda1aeb822e2639457915378",
+  "original_events": "cases/cpp-basic-frontiers/0619-write_function_directory/original-events.txt",
+  "original_events_sha256": "ebf0b5b7d47b3ab8a69cea97b90ae59d210550fc42409c847439439c029b54df",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

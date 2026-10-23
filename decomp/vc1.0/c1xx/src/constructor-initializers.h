@@ -73,4 +73,5 @@ CppSymbol *__stdcall find_user_conversion(CType *target, CType *source, unsigned
 CppSymbol *__stdcall find_class_conversion(CType *target, CType *source, unsigned *rank);
 int __stdcall is_class_or_reference_type(CType *type);
 CppSymbol *__stdcall find_constructor_overloads(CppSymbol *tag);
+extern struct InlineVector *classes_pending_table_output;
 #endif

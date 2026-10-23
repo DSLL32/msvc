@@ -52,10 +52,11 @@ void begin_automatic_pch(void) { __asm { int 3 } }
 void begin_debug_info(void) { __asm { int 3 } }
 void load_precompiled_header(void) { __asm { int 3 } }
 int __stdcall open_forced_include(char *filename, int flags) { __asm { int 3 } return 0; }
-void finish_declarations(void) { __asm { int 3 } }
-void finish_types(void) { __asm { int 3 } }
-void finish_inline_functions(void) { __asm { int 3 } }
-void finish_expression_output(void) { __asm { int 3 } }
+void __stdcall begin_hash_iteration(HashIterator *iterator, HashTable *table) { __asm { int 3 } }
+int __stdcall next_hash_entry(HashIterator *iterator) { __asm { int 3 } return 0; }
+void __stdcall emit_declaration_thunk(void *description, CppSymbol *function) { __asm { int 3 } }
+void __stdcall emit_deferred_type_table(void *description, CppSymbol *symbol) { __asm { int 3 } }
+void __stdcall emit_class_virtual_table(VirtualTable *table, CppSymbol *tag) { __asm { int 3 } }
 void finish_debug_info(void) { __asm { int 3 } }
 void generate_inline_queries(void) { __asm { int 3 } }
 void close_intermediate(FILE *file) { __asm { int 3 } }
@@ -300,8 +301,9 @@ unsigned recover_special_character(void) { __asm { int 3 } return 0; }
 void browser_include_end(void) { __asm { int 3 } }
 void report_ide_source_end(void) { __asm { int 3 } }
 void finish_pch_output(void) { __asm { int 3 } }
-void finish_translation_symbols(void) { __asm { int 3 } }
-int emit_pending_runtime_functions(void) { __asm { int 3 } return 0; }
+void chain_initializer_function(void) { __asm { int 3 } }
+void __stdcall register_initializer_function(CppSymbol *function) { __asm { int 3 } }
+int __stdcall generated_member_model(CppSymbol *function) { __asm { int 3 } return 0; }
 void skip_source_line(void) { __asm { int 3 } }
 int __stdcall write_work_character(int character, WorkingStack *stack) { __asm { int 3 } return 0; }
 void __stdcall write_work_bytes(const void *source, unsigned bytes, unsigned count, WorkingStack *stack) { __asm { int 3 } }

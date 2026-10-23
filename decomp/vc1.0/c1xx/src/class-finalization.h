@@ -30,4 +30,5 @@ void __stdcall diagnose_virtual_ambiguities(CppSymbol *tag);
 void __stdcall coalesce_virtual_table_paths(CppSymbol *tag);
 void __stdcall persist_class_virtual_tables(CppSymbol *tag);
 int __stdcall class_has_pure_virtual(CppSymbol *tag);
+void __stdcall emit_class_virtual_table(VirtualTable *table, CppSymbol *tag);
 #endif

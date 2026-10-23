@@ -1,0 +1,11 @@
+{
+  "schema": 1,
+  "accepted_before": 612,
+  "accepted": "_finish_translation_symbols",
+  "terminal": "_pending_function_cleanup@4",
+  "original_capture": "cases/cpp-basic-frontiers/0612-finish_translation_symbols/original-receipt.json",
+  "original_capture_sha256": "8dcdc1954208523b33e3f066852dca005e1a28761bf01653cda4c0373b163e06",
+  "original_events": "cases/cpp-basic-frontiers/0612-finish_translation_symbols/original-events.txt",
+  "original_events_sha256": "55a6dc162ceff33bc315ac6d57e18fd569b5e31f79d1b8096f4023493ec3b987",
+  "scope": "Fresh masked original and native checkpoint: exact buffers/state/files/streams; canonical call graph verified"
+}

@@ -2,10 +2,10 @@
   "schema": 1,
   "scope": "cached original application first entries; no capture",
   "metadata_sha256": {
-    "functions.json": "bb1c30bc81aa12910609c633ed088ca27022dc29ef1818c2c54fbfebc287a2b4",
+    "functions.json": "b18b062e875358d3626a159a58094d761f2315379a017f43aac178e8a7725813",
     "runtime.json": "31782deab56064a9ee1d3c29d75788ed24060bbbc9b8103b84e1e29b75d8f865",
     "evidence/fast-replay-verification-receipt.json": "c31482ee4affd1e136825beb31be9913d71a704a1e90d58019c14ff6aa5ee3a9",
-    "cases/native-cpp-basic/canonical-map.txt": "96949b709ee92ee0fb1717b90a2a1a630074c64bb805be17a1eba7a65f7927cd",
+    "cases/native-cpp-basic/canonical-map.txt": "c29563f10fdbc2a457414e8c68ce871d8a3accedf56f08669465b17039be9c6e",
     "cases/object-initializer-trial/frontier-extension.json": "becd7ed4c01caf94840212178315dc3408afe064c6015a7e8bc018fc351b5e94",
     "cases/object-initializer-trial/original-after-receipt.json": "176547f9f659647df53a08f0fecd273770df2d835b4024ee89dcfc75f492ccc3",
     "cases/object-initializer-trial/original-after-events.txt": "a83f5c103dc0cb7c85479b1e6a0cbb6e65de66cf376c0cc858d2c075f45ddc17",
@@ -255,7 +255,31 @@
     "cases/cpp-basic-frontiers/0611-free_osfhnd/original-configuration.json": "3fab06036024180d5532b38807c5b6178bdab09fc17476dec4fce93d796c4df3",
     "cases/cpp-basic-frontiers/0611-free_osfhnd/frontier-extension.json": "4a7397e487ef14c4a5dd5ee69300053217379dbe9855fd072686bcc621c87117",
     "cases/cpp-basic-frontiers/0611-free_osfhnd/original-receipt.json": "0a75a8f2d7b98d9cd738e7e836a85b264b7f9f8682fd0f5aa40490cb91087716",
-    "cases/cpp-basic-frontiers/0611-free_osfhnd/original-events.txt": "6750eae7feabc2f5943a891c3d0baa7465ad9952c4cacc2cd54e967ca908f8b0"
+    "cases/cpp-basic-frontiers/0611-free_osfhnd/original-events.txt": "6750eae7feabc2f5943a891c3d0baa7465ad9952c4cacc2cd54e967ca908f8b0",
+    "cases/cpp-basic-frontiers/0612-finish_translation_symbols/frontier-extension.json": "18a5b85c234480e71909a3ad864e637fbbfff411126c6bf2e1131164894dcd50",
+    "cases/cpp-basic-frontiers/0612-finish_translation_symbols/original-receipt.json": "8dcdc1954208523b33e3f066852dca005e1a28761bf01653cda4c0373b163e06",
+    "cases/cpp-basic-frontiers/0612-finish_translation_symbols/original-events.txt": "55a6dc162ceff33bc315ac6d57e18fd569b5e31f79d1b8096f4023493ec3b987",
+    "cases/cpp-basic-frontiers/0613-pending_function_cleanup-4/frontier-extension.json": "6c1037936c55097a2b7361059b7a0f926f8fbb197ba84365f30aa7fd917ffa97",
+    "cases/cpp-basic-frontiers/0613-pending_function_cleanup-4/original-receipt.json": "f20a315a97d85e5dec35ca3456721b4125c22048ef1a88734bc886ae4675897d",
+    "cases/cpp-basic-frontiers/0613-pending_function_cleanup-4/original-events.txt": "efdf125ac2dae38d011e0f591b18be6556557b16860560f2be77a0b5e6ab77ab",
+    "cases/cpp-basic-frontiers/0614-emit_pending_runtime_functions/frontier-extension.json": "440e37d9294e78019ddd746ce412182d4a22121ea3e1100f6a0e12059f047fa9",
+    "cases/cpp-basic-frontiers/0614-emit_pending_runtime_functions/original-receipt.json": "7a9e8bb96f096281e4c6979fb7a815427c54c15bc633465eefba5f26c33af429",
+    "cases/cpp-basic-frontiers/0614-emit_pending_runtime_functions/original-events.txt": "64cf550602251fb851e683de6d4f1ef62c72cbac42e00ab635c50b5e8ffd7090",
+    "cases/cpp-basic-frontiers/0615-finish_declarations/frontier-extension.json": "ada907622cfd0681753150d399cad400830f6be7e875b4d62b6587f98e093347",
+    "cases/cpp-basic-frontiers/0615-finish_declarations/original-receipt.json": "6bf61fc0b1d70554c27ace274c49c36e72bf788f46041fa5a69970477e5bf635",
+    "cases/cpp-basic-frontiers/0615-finish_declarations/original-events.txt": "d50680312344cb98c4de96299123a6ca49193d7f73a35cfba92b373d3bba939f",
+    "cases/cpp-basic-frontiers/0616-finish_types/frontier-extension.json": "adbe01e496d069a00478fa454b61c7ebd39353d864fb057672e8cf8459189863",
+    "cases/cpp-basic-frontiers/0616-finish_types/original-receipt.json": "338f3b1e79e1e167b059a7a89e99316c58cd4042615eed040e1a9aa4f318b17c",
+    "cases/cpp-basic-frontiers/0616-finish_types/original-events.txt": "a9a38fa6873c204c0819c912424ec7e2892e7a493cef924c82a66054520e2411",
+    "cases/cpp-basic-frontiers/0617-finish_inline_functions/frontier-extension.json": "1e545f71d21e6670b2dc83f961c13e9a3edfb971922b570523720320fbccdd0d",
+    "cases/cpp-basic-frontiers/0617-finish_inline_functions/original-receipt.json": "01b8224321f8a09ffd4408333cd2190a1efd30d52b302cf0b28968e9d2c06fd0",
+    "cases/cpp-basic-frontiers/0617-finish_inline_functions/original-events.txt": "8a022ce1337d3f82de0ebe28f61aa292f9410ce5e252e9f0935a12cd731a0013",
+    "cases/cpp-basic-frontiers/0618-finish_expression_output/frontier-extension.json": "210eaf1d96c8258be29445e15d1a762fe76936963d1189e17965cff149d52b41",
+    "cases/cpp-basic-frontiers/0618-finish_expression_output/original-receipt.json": "b9e06d06bb42c92dea6ff3a507afdaa3ab7d409f2f6241614714058ec55c9bbe",
+    "cases/cpp-basic-frontiers/0618-finish_expression_output/original-events.txt": "44ec91d6aa24ff1e4923e140a7aee9f47f9bd1f0202030058156f0d89eecca51",
+    "cases/cpp-basic-frontiers/0619-write_function_directory/frontier-extension.json": "4226aad4cdc4e24f0e9f68b1619792320d20d2cd1e4ef1f98c62b7f6c56cafcc",
+    "cases/cpp-basic-frontiers/0619-write_function_directory/original-receipt.json": "938b72bb8400004c4ff13487cbf3c2c5686830d9fda1aeb822e2639457915378",
+    "cases/cpp-basic-frontiers/0619-write_function_directory/original-events.txt": "ebf0b5b7d47b3ab8a69cea97b90ae59d210550fc42409c847439439c029b54df"
   },
   "application_definitions": {
     "activate_qualified_definition_scopes": {
@@ -566,6 +590,10 @@
       "logical": "_begin_function_output@4",
       "source": "src/function-definitions.c"
     },
+    "begin_hash_iteration": {
+      "logical": "_begin_hash_iteration@8",
+      "source": "src/stubs.c"
+    },
     "begin_if_body": {
       "logical": "_begin_if_body",
       "source": "src/stubs.c"
@@ -804,6 +832,10 @@
     },
     "cast_to_type": {
       "logical": "_cast_to_type@8",
+      "source": "src/stubs.c"
+    },
+    "chain_initializer_function": {
+      "logical": "_chain_initializer_function",
       "source": "src/stubs.c"
     },
     "change_function_reference_kind": {
@@ -1458,6 +1490,10 @@
       "logical": "_emit_class_table_initializers@8",
       "source": "src/constructor-initializers.c"
     },
+    "emit_class_virtual_table": {
+      "logical": "_emit_class_virtual_table@8",
+      "source": "src/stubs.c"
+    },
     "emit_condition_to_label": {
       "logical": "_emit_condition_to_label@12",
       "source": "src/stubs.c"
@@ -1470,12 +1506,20 @@
       "logical": "_emit_constructor_initializers@8",
       "source": "src/constructor-initializers.c"
     },
+    "emit_declaration_thunk": {
+      "logical": "_emit_declaration_thunk@8",
+      "source": "src/stubs.c"
+    },
     "emit_default_ctor_closure_body": {
       "logical": "_emit_default_ctor_closure_body@4",
       "source": "src/stubs.c"
     },
     "emit_deferred_class_terminator": {
       "logical": "_emit_deferred_class_terminator",
+      "source": "src/stubs.c"
+    },
+    "emit_deferred_type_table": {
+      "logical": "_emit_deferred_type_table@8",
       "source": "src/stubs.c"
     },
     "emit_deleting_destructor_body": {
@@ -1544,7 +1588,7 @@
     },
     "emit_pending_runtime_functions": {
       "logical": "_emit_pending_runtime_functions",
-      "source": "src/stubs.c"
+      "source": "src/special-members.c"
     },
     "emit_record_node": {
       "logical": "_emit_record_node@12",
@@ -1940,11 +1984,11 @@
     },
     "finish_declarations": {
       "logical": "_finish_declarations",
-      "source": "src/stubs.c"
+      "source": "src/function-finalization.c"
     },
     "finish_expression_output": {
       "logical": "_finish_expression_output",
-      "source": "src/stubs.c"
+      "source": "src/function-finalization.c"
     },
     "finish_external_definition": {
       "logical": "_finish_external_definition@4",
@@ -1984,7 +2028,7 @@
     },
     "finish_inline_functions": {
       "logical": "_finish_inline_functions",
-      "source": "src/stubs.c"
+      "source": "src/class-finalization.c"
     },
     "finish_label_symbols": {
       "logical": "_finish_label_symbols",
@@ -2024,7 +2068,7 @@
     },
     "finish_translation_symbols": {
       "logical": "_finish_translation_symbols",
-      "source": "src/stubs.c"
+      "source": "src/function-finalization.c"
     },
     "finish_type": {
       "logical": "_finish_type@4",
@@ -2032,7 +2076,7 @@
     },
     "finish_types": {
       "logical": "_finish_types",
-      "source": "src/stubs.c"
+      "source": "src/function-finalization.c"
     },
     "finish_work_stack": {
       "logical": "_finish_work_stack@4",
@@ -2140,6 +2184,10 @@
     },
     "generate_inline_queries": {
       "logical": "_generate_inline_queries",
+      "source": "src/stubs.c"
+    },
+    "generated_member_model": {
+      "logical": "_generated_member_model@4",
       "source": "src/stubs.c"
     },
     "generated_member_name": {
@@ -3058,6 +3106,10 @@
       "logical": "_next_enumerator_value@8",
       "source": "src/stubs.c"
     },
+    "next_hash_entry": {
+      "logical": "_next_hash_entry@4",
+      "source": "src/stubs.c"
+    },
     "next_member_context": {
       "logical": "_next_member_context@4",
       "source": "src/cpp-context.c"
@@ -3165,6 +3217,10 @@
     "pch_record_macro": {
       "logical": "_pch_record_macro@12",
       "source": "src/stubs.c"
+    },
+    "pending_function_cleanup": {
+      "logical": "_pending_function_cleanup@4",
+      "source": "src/function-finalization.c"
     },
     "persist_class_virtual_tables": {
       "logical": "_persist_class_virtual_tables@4",
@@ -3524,6 +3580,10 @@
     },
     "refill_source_or_error": {
       "logical": "_refill_source_or_error",
+      "source": "src/stubs.c"
+    },
+    "register_initializer_function": {
+      "logical": "_register_initializer_function@4",
       "source": "src/stubs.c"
     },
     "register_label": {
@@ -4250,6 +4310,10 @@
       "logical": "_write_decorated_name@16",
       "source": "src/mangling.c"
     },
+    "write_function_directory": {
+      "logical": "_write_function_directory",
+      "source": "src/function-finalization.c"
+    },
     "write_global_header": {
       "logical": "_write_global_header",
       "source": "src/global-ir.c"
@@ -4824,7 +4888,15 @@
     "conditional_expression",
     "prepare_value_operand",
     "collect_declaration_cleanup",
-    "close_source_file"
+    "close_source_file",
+    "finish_translation_symbols",
+    "pending_function_cleanup",
+    "emit_pending_runtime_functions",
+    "finish_declarations",
+    "finish_types",
+    "finish_inline_functions",
+    "finish_expression_output",
+    "write_function_directory"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -4918,7 +4990,7 @@
   "cases": {
     "cpp_basic": {
       "first": 0,
-      "last": 612,
+      "last": 620,
       "seen": [],
       "expected": [
         "main",
@@ -5450,12 +5522,20 @@
         "prepare_value_operand",
         "collect_declaration_cleanup",
         "close_source_file",
-        "finish_translation_symbols"
+        "finish_translation_symbols",
+        "pending_function_cleanup",
+        "emit_pending_runtime_functions",
+        "finish_declarations",
+        "finish_types",
+        "finish_inline_functions",
+        "finish_expression_output",
+        "write_function_directory",
+        "mangle_symbol_identifier"
       ],
       "terminal": {
         "kind": "frontier",
-        "logical": "_finish_translation_symbols",
-        "native": "finish_translation_symbols",
+        "logical": "_mangle_symbol_identifier@12",
+        "native": "mangle_symbol_identifier",
         "signal": 5
       }
     }

@@ -616,7 +616,15 @@
     "_close_source_file",
     "__close",
     "import:CloseHandle",
-    "__free_osfhnd"
+    "__free_osfhnd",
+    "_finish_translation_symbols",
+    "_pending_function_cleanup@4",
+    "_emit_pending_runtime_functions",
+    "_finish_declarations",
+    "_finish_types",
+    "_finish_inline_functions",
+    "_finish_expression_output",
+    "_write_function_directory"
   ],
   "driver": [
     {
@@ -852,22 +860,22 @@
     {
       "name": "_finish_declarations",
       "start": 318816,
-      "end": 318817
+      "end": 318891
     },
     {
       "name": "_finish_types",
       "start": 317472,
-      "end": 317473
+      "end": 317547
     },
     {
       "name": "_finish_inline_functions",
       "start": 504896,
-      "end": 504897
+      "end": 505144
     },
     {
       "name": "_finish_expression_output",
       "start": 351072,
-      "end": 351073
+      "end": 351196
     },
     {
       "name": "_write_ir_record@8",
@@ -2809,12 +2817,12 @@
     {
       "name": "_finish_translation_symbols",
       "start": 213632,
-      "end": 213633
+      "end": 213836
     },
     {
       "name": "_emit_pending_runtime_functions",
       "start": 227840,
-      "end": 227841
+      "end": 228095
     },
     {
       "name": "_begin_source_line",
@@ -5747,14 +5755,64 @@
       "name": "_report_ide_source_end",
       "start": 127840,
       "end": 127841
+    },
+    {
+      "name": "_pending_function_cleanup@4",
+      "start": 324816,
+      "end": 324832
+    },
+    {
+      "name": "_chain_initializer_function",
+      "start": 213584,
+      "end": 213585
+    },
+    {
+      "name": "_register_initializer_function@4",
+      "start": 295968,
+      "end": 295969
+    },
+    {
+      "name": "_generated_member_model@4",
+      "start": 228448,
+      "end": 228449
+    },
+    {
+      "name": "_begin_hash_iteration@8",
+      "start": 323168,
+      "end": 323169
+    },
+    {
+      "name": "_next_hash_entry@4",
+      "start": 323200,
+      "end": 323201
+    },
+    {
+      "name": "_emit_declaration_thunk@8",
+      "start": 318896,
+      "end": 318897
+    },
+    {
+      "name": "_emit_deferred_type_table@8",
+      "start": 317552,
+      "end": 317553
+    },
+    {
+      "name": "_emit_class_virtual_table@8",
+      "start": 505248,
+      "end": 505249
+    },
+    {
+      "name": "_write_function_directory",
+      "start": 372320,
+      "end": 372902
     }
   ],
   "cases": {
     "cpp_basic": {
       "arguments": "",
       "accepted_from": 0,
-      "terminal": "_finish_translation_symbols",
-      "terminal_evidence": "cases/cpp-basic-frontiers/0611-free_osfhnd/original-events.txt",
+      "terminal": "_mangle_symbol_identifier@12",
+      "terminal_evidence": "cases/cpp-basic-frontiers/0619-write_function_directory/original-events.txt",
       "frontier_extensions": [
         "cases/object-initializer-trial/frontier-extension.json",
         "cases/cpp-basic-frontiers/0535-symbol_construction_class-4/frontier-extension.json",
@@ -5833,7 +5891,15 @@
         "cases/cpp-basic-frontiers/0608-close_source_file/frontier-extension.json",
         "cases/cpp-basic-frontiers/0609-close/frontier-extension.json",
         "cases/cpp-basic-frontiers/0610-import-CloseHandle/frontier-extension.json",
-        "cases/cpp-basic-frontiers/0611-free_osfhnd/frontier-extension.json"
+        "cases/cpp-basic-frontiers/0611-free_osfhnd/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0612-finish_translation_symbols/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0613-pending_function_cleanup-4/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0614-emit_pending_runtime_functions/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0615-finish_declarations/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0616-finish_types/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0617-finish_inline_functions/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0618-finish_expression_output/frontier-extension.json",
+        "cases/cpp-basic-frontiers/0619-write_function_directory/frontier-extension.json"
       ]
     }
   },
@@ -7585,6 +7651,59 @@
         {
           "name": "_generated_member_queue",
           "original": 651712,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_pending_cleanup_by_scope",
+      "original": 595156,
+      "fields": [
+        {
+          "name": "_pending_cleanup_by_scope",
+          "original": 595156,
+          "bytes": 124
+        },
+        {
+          "name": "_declaration_kind",
+          "original": 595280,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_declaration_thunks",
+      "original": 652088,
+      "fields": [
+        {
+          "name": "_declaration_thunks",
+          "original": 652088,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_deferred_type_tables",
+      "original": 652092,
+      "fields": [
+        {
+          "name": "_deferred_type_tables",
+          "original": 652092,
+          "bytes": 4
+        }
+      ]
+    },
+    {
+      "kind": "state",
+      "name": "_segment_symbols",
+      "original": 651860,
+      "fields": [
+        {
+          "name": "_segment_symbols",
+          "original": 651860,
           "bytes": 4
         }
       ]

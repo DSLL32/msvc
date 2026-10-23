@@ -1,0 +1,26 @@
+[
+  {
+    "phase": "native",
+    "seconds": 8.779836228117347,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "native",
+      "native-trace"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-emit-pending-runtime-functions-native.log"
+  },
+  {
+    "phase": "canonical",
+    "seconds": 5.565611243247986,
+    "status": 0,
+    "command": [
+      "make",
+      "-j4",
+      "build/c1xx.exe",
+      "build/runtime.json"
+    ],
+    "log": "/root/.ai-tmp/vc1.0-c1xx/queue-emit-pending-runtime-functions-canonical.log"
+  }
+]

@@ -5,6 +5,7 @@
 #include "class-members.h"
 #include "global-ir.h"
 #include "cpp-context.h"
+#include "constructor-initializers.h"
 #include <recon.h>
 
 /* Original 0x2dfc0..0x2e0e7. Retain the temporary class type while running
@@ -551,4 +552,35 @@ int class_member_hash_bits(unsigned count)
         count >>= 1;
     }
     return bits;
+}
+
+/* Original 0x7b440..0x7b537. Emit each queued class's virtual dispatch
+   and virtual-base tables, including the tables retained in its base groups. */
+void finish_inline_functions(void)
+{
+    TypeSetIterator iterator;
+    CppSymbol *tag;
+    VirtualTableGroup *group;
+    Vector *tables, *groups;
+    short table_index, group_index;
+    int kind;
+    if (!classes_pending_table_output) return;
+    begin_type_set(&iterator, classes_pending_table_output);
+    while (next_type_set(&iterator)) {
+        tag = (CppSymbol *)iterator.type;
+        for (kind = 0; kind < 2; ++kind) {
+            tables = kind ? tag->detail.class_info->virtual_base_tables : tag->detail.class_info->virtual_tables;
+            table_index = 0;
+            groups = tag->detail.class_info->virtual_table_groups;
+            group_index = 0;
+            for (;;) {
+                while (table_index < tables->count)
+                    emit_class_virtual_table(tables->items[table_index++], tag);
+                if (group_index >= groups->count) break;
+                group = groups->items[group_index++];
+                tables = kind ? group->base_tables : group->tables;
+                table_index = 0;
+            }
+        }
+    }
 }

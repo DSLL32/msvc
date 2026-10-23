@@ -1,0 +1,22 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_write_function_directory",
+    "start": 372320,
+    "end": 372902
+  },
+  "distinct_direct_callees": [
+    "_compiler_warning",
+    "_debug_tag_type@4",
+    "_flush_debug_types",
+    "_format_symbol_name@4",
+    "_reference_debug_type@4",
+    "_write_global_record@8"
+  ],
+  "next_frontier": "_mangle_symbol_identifier@12",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2669143620878458,
+  "total_operation_seconds": 5.105270559899509,
+  "original_capture_seconds": 3.7739809062331915
+}

@@ -1,0 +1,15 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_pending_function_cleanup@4",
+    "start": 324816,
+    "end": 324832
+  },
+  "distinct_direct_callees": [],
+  "next_frontier": "_emit_pending_runtime_functions",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.2582182539626956,
+  "total_operation_seconds": 5.223946957848966,
+  "original_capture_seconds": 3.925621868111193
+}

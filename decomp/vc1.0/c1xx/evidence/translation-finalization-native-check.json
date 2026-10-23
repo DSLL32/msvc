@@ -1,0 +1,59 @@
+{
+  "measured_partial_phases": {
+    "setup_seconds": 0.0019962675869464874,
+    "execution_seconds": 0.008435854688286781
+  },
+  "mode": "native cached references only",
+  "executable": "/root/msvc2/decomp/vc1.0/c1xx/build/native-trace/C1XX3232.EXE",
+  "executable_sha256": "a39fc2646534f05ba3cbb3e8ab909bc9989420ddb20e585ae2e8c6f347f3c6af",
+  "trace_prepare_seconds": 0.15181515645235777,
+  "build_seconds": "separate target; unmeasured here",
+  "capture_seconds": "none; immutable prior evidence",
+  "cases": [
+    {
+      "case": "cpp_basic",
+      "status": "pass",
+      "terminal": {
+        "kind": "frontier",
+        "logical": "_mangle_symbol_identifier@12",
+        "native_signal": 5,
+        "original_exception": "80000003"
+      },
+      "native_status": -5,
+      "complete_frontend_case": false,
+      "setup_seconds": 0.0019962675869464874,
+      "execution_seconds": 0.008435854688286781,
+      "oracle_seconds": 0.0007245903834700584,
+      "trace_check_seconds": 0.00022964272648096085,
+      "total_seconds": 0.01166381873190403,
+      "application_trace_entries": 538,
+      "stdout_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "outputs": [
+        {
+          "name": "irex",
+          "bytes": 6,
+          "sha256": "43c8cd3aeff29a15ac6812ac79834864a13e33f054ace5b0faa4ca0820fe28e4"
+        },
+        {
+          "name": "irsy",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irin",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        },
+        {
+          "name": "irgl",
+          "bytes": 0,
+          "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+        }
+      ],
+      "reference_manifest": "decomp/vc1.0/c1xx/cases/native-cpp-basic/manifest.json",
+      "reference_manifest_sha256": "8df22733aaef927f03323dd1b33ad8e7cb3df3447bf19443c7afa489da0e6cf0"
+    }
+  ],
+  "status": "pass"
+}

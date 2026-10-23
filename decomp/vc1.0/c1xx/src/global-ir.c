@@ -399,7 +399,7 @@ formats:
             code = ((symbol->attributes & 0x8000) ? 4 : 0) |
                 (((symbol->storage[1] & 1) || (symbol->cpp.flags & 0x6000000)) ? 0x80 : 0) |
                 (function_call_seen ? 8 : 0) | (hidden_frame_enabled ? 1 : 0) |
-                (function_ir.no_inline ? 0x20 : 0);
+                (function_ir.out_of_line_required ? 0x20 : 0);
             no_inline = attributes & 0x800;
             function_not_inlinable = no_inline || (options.configuration.option_GA &&
                 ((attributes & 0x400) || ((attributes & 7) == 2 && options.configuration.option_GEf)));

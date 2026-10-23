@@ -482,3 +482,38 @@ void __stdcall defer_generated_member(CppSymbol *member)
         member->cpp.parts.member_flags &= ~8;
     }
 }
+
+/* Original 0x37a00..0x37afe. Generate queued special-member text under
+   the shared generated-member flag, then release the exhausted pointer list. */
+int emit_pending_runtime_functions(void)
+{
+    TypeSetIterator iterator;
+    CppSymbol *member, *owner;
+    int kind, model;
+    unsigned short pointer_kind;
+    if (error_count || !generated_member_queue) return 0;
+    token_allocation_flags |= 0x08000000UL;
+    begin_type_set(&iterator, generated_member_queue);
+    while (next_type_set(&iterator)) {
+        /* This shared inline-vector cursor also carries function symbols. */
+        member = (CppSymbol *)iterator.type;
+        kind = (signed char)member->cpp.parts.low_flags;
+        if (kind == -1) continue;
+        if (kind < 8 || kind > 10) {
+            owner = cpp_context_stack->items[member->auxiliary.declaring_class];
+            pointer_kind = member->type->related->attributes & 7;
+            if (!pointer_kind) pointer_kind = normalize_type_attributes(4, 0) & 7;
+            model = generated_member_model(member);
+            kind = (signed char)member->cpp.parts.low_flags;
+        } else {
+            owner = member;
+            pointer_kind = 0;
+            model = -1;
+        }
+        capture_inline_member_declaration(owner, kind, model, pointer_kind);
+    }
+    token_allocation_flags &= ~0x08000000UL;
+    release_inline_vector(generated_member_queue);
+    generated_member_queue = 0;
+    return 1;
+}

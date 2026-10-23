@@ -125,6 +125,7 @@ typedef char Arena_size_is_128[(sizeof(Arena) == 128) ? 1 : -1];
 extern Arena compiler_arena, diagnostic_arena;
 void __stdcall refill_arena(Arena *arena, ArenaPool *pool);
 Vector *__stdcall new_vector(short capacity, int arena);
+short __stdcall vector_count(Vector *vector);
 Vector *__stdcall new_empty_vector(int arena);
 int match_option(OptionRule *rules, char *argument, char *(*next)(void), int copy);
 char *next_argument(void);

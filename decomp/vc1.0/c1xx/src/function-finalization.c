@@ -5,6 +5,10 @@
 #include "statement-scopes.h"
 #include "work-list.h"
 #include "control-ir.h"
+#include "object-initializers.h"
+#include "call-expressions.h"
+#include "return-statements.h"
+#include "symbol-output.h"
 #include <recon.h>
 
 /* Lazily allocated by the aggregate-data initializer at original 0x45f00;
@@ -230,4 +234,172 @@ void reset_function_symbol_tables(void)
 {
     function_symbol_aliases = 0;
     function_symbol_bindings = 0;
+}
+
+/* Original 0x34280..0x3434b. Finish deferred file-scope cleanup and build
+   the initializer function that calls the translation unit's queued symbols. */
+void finish_translation_symbols(void)
+{
+    Vector *functions;
+    short index;
+    IrToken *call;
+    if (error_count) return;
+    if (token_allocation_flags & 0x40) flush_current_function(1);
+    if (pending_function_cleanup(0) && !declaration_mode) {
+        emit_pending_function_cleanup();
+        if (token_allocation_flags & 0x40) chain_initializer_function();
+    }
+    if (token_allocation_flags & 0x40) flush_current_function(1);
+    if (vector_count(translation_symbols) > 0) {
+        begin_initializer_function(0);
+        functions = translation_symbols;
+        index = 0;
+        while (index < functions->count) {
+            call = make_resolved_call(functions->items[index++], 0, 0, 0, 0);
+            emit_expression_statement(call);
+        }
+        register_initializer_function(function_symbol);
+        flush_current_function(0);
+    }
+}
+
+/* Original BSS 0x914d4..0x9154f, ending before declaration_kind at
+   0x91550. The producer indexes these work-list heads by declaration_mode;
+   slot zero holds file-scope cleanup. This is contextual list state, not a
+   copied data image. The other slots are populated when their scopes queue
+   deferred objects. */
+WorkList *pending_cleanup_by_scope[31];
+typedef char PendingCleanupScopeStorageMustBe124[
+    (sizeof(pending_cleanup_by_scope) == 124) ? 1 : -1];
+
+/* Original 0x4f4d0..0x4f4df. */
+WorkList *__stdcall pending_function_cleanup(unsigned char kind)
+{
+    return pending_cleanup_by_scope[kind];
+}
+
+HashTable *declaration_thunks; /* original 0x9f338 */
+
+/* Original 0x4dd60..0x4ddaa. Emit each retained declaration thunk using
+   the description key and generated function symbol carried by its map entry. */
+void finish_declarations(void)
+{
+    HashIterator iterator;
+    if (declaration_thunks) {
+        begin_hash_iteration(&iterator, declaration_thunks);
+        while (next_hash_entry(&iterator))
+            emit_declaration_thunk(iterator.key, iterator.value);
+    }
+}
+
+HashTable *deferred_type_tables; /* original 0x9f33c */
+
+/* Original 0x4d820..0x4d86a. Materialize retained type-related tables
+   after parsing, preserving their map iteration and generated-symbol pairing. */
+void finish_types(void)
+{
+    HashIterator iterator;
+    if (deferred_type_tables) {
+        begin_hash_iteration(&iterator, deferred_type_tables);
+        while (next_hash_entry(&iterator))
+            emit_deferred_type_table(iterator.key, iterator.value);
+    }
+}
+
+CppSymbol *segment_symbols; /* original 0x9f254: linked segment declarations */
+
+/* Original 0x55b60..0x55bdb. Emit the segment declarations, function
+   directory and global scope, then initialize requested segment aliases. */
+void finish_expression_output(void)
+{
+    CppSymbol *segment, *alias;
+    IrToken *reference;
+    global_record_kind = 0;
+    if (error_count) return;
+    for (segment = segment_symbols; segment; segment = segment->next)
+        emit_symbol_declaration(segment);
+    write_function_directory();
+    serialize_scope(global_scope);
+    for (segment = segment_symbols; segment; segment = segment->next) {
+        alias = (CppSymbol *)segment->field28;
+        if (alias) {
+            emit_symbol_declaration(alias);
+            reference = symbol_reference(segment);
+            alias = prepare_initializer_symbol((CppSymbol *)segment->field28);
+            initialize_object(alias, reference);
+        }
+    }
+    write_global_record(10, 0);
+}
+
+/* Original 0x5ae60..0x5b0a5. Restore each function's recorded output
+   state, decide whether an out-of-line body is required, and write its final
+   directory record. The head is consumed; the optimization setting is restored. */
+void write_function_directory(void)
+{
+    int saved_Oq = normalized_Oq;
+    unsigned count, index, flags;
+    CppSymbol *function, *tag;
+    FunctionDirectoryEntry *entry;
+    if (function_directory) {
+        do {
+            count = function_directory == function_directory_tail ? function_directory_index + 1 : 20;
+            index = 0;
+            do {
+                entry = &function_directory->entries[index];
+                function = entry->symbol;
+                function_ir.expression_offset = entry->expression_offset;
+                function_ir.symbol_offset = entry->symbol_offset;
+                flags = entry->flags;
+                hidden_frame_enabled = (flags & 0x10) >> 4;
+                function_ir.complexity = entry->complexity;
+                function_ir.parameter_count = entry->parameter_count;
+                inline_candidate = -(int)(flags & 1);
+                function_call_seen = (flags & 2) || ((function->type->related->attributes & 7) == 1);
+                function_not_inlinable = -(int)((flags >> 2) & 1);
+                /* The original deliberately reads this slot from the final
+                   block even when consuming an earlier directory block. */
+                normalized_Oq = -(int)((function_directory_tail->entries[index].flags >> 3) & 1);
+                function_ir.out_of_line_required = 0;
+                if (function->name == name_main || function->name == name_winmain || function->name == name_dllmain) {
+                    if ((function->storage[0] & 7) == 3) {
+                        compiler_warning(3, 8, function->name, token_spellings[TOK_STATIC]);
+                        function->storage[0] = (function->storage[0] & 0xf9) | 1;
+                    }
+                    if (function->storage[1] & 1) {
+                        compiler_warning(3, 8, function->name, token_spellings[TOK_INLINE]);
+                        function->storage[1] &= ~1;
+                    }
+                    function->attributes |= 0x8000;
+                    function_ir.out_of_line_required = 1;
+                } else if ((function->storage[0] & 7) != 3 || (function->declaration_flags & 0x400)) {
+                    if (!(function->storage[1] & 1)) function_ir.out_of_line_required = 1;
+                    else {
+                        function->storage[0] |= 0x40;
+                        if (((function->storage[1] & 0x10) || ((function->storage[2] & 12) == 12)) &&
+                            (!(function->storage[2] & 4) || (function->storage[2] & 8)))
+                            function_ir.out_of_line_required = 1;
+                    }
+                }
+                if (function->storage[1] & 0x80) function_ir.out_of_line_required = 1;
+                if (!function_ir.out_of_line_required && !function->references)
+                    compiler_warning(4, 0x1f9, format_symbol_name(function));
+                else {
+                    if (options.configuration.debug_info) {
+                        if (!(function->declaration_flags & 0x400)) reference_debug_type(function->type);
+                        else {
+                            tag = cpp_context_stack->items[function->auxiliary.declaring_class];
+                            tag->type->debug_index = debug_tag_type(tag);
+                        }
+                        flush_debug_types();
+                    }
+                    write_global_record(14, function);
+                }
+                function->flags |= 8;
+                ++index;
+            } while (--count);
+            function_directory = function_directory->next;
+        } while (function_directory);
+    }
+    normalized_Oq = saved_Oq;
 }

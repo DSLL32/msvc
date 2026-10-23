@@ -51,7 +51,7 @@ typedef struct FunctionIrState {
     unsigned complexity;
     unsigned short parameter_count, reserved;
     unsigned symbol_offset, expression_offset;
-    int no_inline;
+    int out_of_line_required;
 } FunctionIrState;
 extern unsigned char global_record_kind;
 extern unsigned char *global_record_formats[19];
@@ -92,5 +92,6 @@ void write_ir_filename(char *text);
 void write_ir_string(char *text);
 void write_ir_index(unsigned *index);
 void __stdcall write_global_record(unsigned tag, CppSymbol *symbol);
+typedef char FunctionIrOutOfLineOffsetMustBe16[(offsetof(FunctionIrState, out_of_line_required) == 16) ? 1 : -1];
 typedef char FunctionIrStateSizeMustBe20[(sizeof(FunctionIrState) == 20) ? 1 : -1];
 #endif

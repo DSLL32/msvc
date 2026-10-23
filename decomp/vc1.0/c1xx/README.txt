@@ -6,14 +6,14 @@ Original image base 0x10000; entry point VA 0x804e0.
 Starting case: original CL.EXE /Od /c cpp-basic.cpp. The independently verified
 frontend input/output oracle is ../fixtures/cpp-basic/manifest.json.
 
-PARTIAL reconstruction: 612 accepted frontiers, including 529 frontend
+PARTIAL reconstruction: 620 accepted frontiers, including 537 frontend
 functions and seven older CRT routines. The complete yacc driver and its 285
 explicit semantic blocks are reconstructed, preserving all 186 original call
 targets. Type-symbol application, type combinations and class-body initialization
 are reconstructed; class-member alignment, insertion and access labels are
 accepted. Scoped C++ lookup and declaration capture are also reconstructed.
 The declaration-lookahead parser is reconstructed as well; the next matching
-trap is _finish_translation_symbols at original VA 0x34280. The latest ordered replay is recorded in validation.json;
+trap is _mangle_symbol_identifier@12 at original VA 0x433b0. The latest ordered replay is recorded in validation.json;
 the expression stream begins with the six bytes 5b8034030000. Semantic branches
 will be exercised as their named callees are reconstructed. The complete
 frontend case is not yet reconstructed or claimed equivalent.
@@ -29,9 +29,9 @@ check and replay use the instrumented i386 Linux binary and cached original
 application first-entry history. native-check is the output-only variant.
 No fixture invokes Wine, a PE helper, downstream compiler, or reference refresh.
 functions.json retains the accepted original ranges/order; cases/native-traces.json
-projects that original history to all 1009 application definitions, excluding
-original CRT/import entries on both sides. The existing case expects 530 first
-entries: 529 accepted frontend functions plus finish_translation_symbols, whose INT3
+projects that original history to all 1019 application definitions, excluding
+original CRT/import entries on both sides. The existing case expects 538 first
+entries: 537 accepted frontend functions plus mangle_symbol_identifier, whose INT3
 must terminate with SIGTRAP. The migration accepted no functions; the separately documented single-function
 trial accepted initialize_object_value.
 
@@ -1273,3 +1273,26 @@ candidate with scripts/capture-original.py, then pass that scratch capture
 folder to scripts/capture-close-boundary.py. The observer restores only the
 reviewed indexed runtime/import bodies at their matching traps and traps again
 at the caller's return. Its source is diagnostic code, never target implementation.
+
+Translation-finalization checkpoint:620 accepted frontiers,544 source functions.
+The complete deferred-special-member generator, declaration/type table walks,
+queued virtual-table traversal, global/segment output driver and function-directory
+serializer now pass fresh original/native comparisons. The directory restores
+signed one-bit flags exactly and retains the original final-block lookup for
+its saved optimization bit, even while traversing earlier blocks. Its shared
+function-state word at+16 now names the observed out-of-line emission requirement,
+distinct from the separate no-inline attribute and inlining-restriction state.
+
+The scoped cleanup heads, declaration/type maps and segment list have contextual
+default/identity audits. Every acceptance0612through0619 matches four pending
+buffers, fourteen state observations, streams and visible bytes, plus canonical
+candidate graphs and cached native traces. Full544-function graph, contextual
+data/defaults, both grammars, native checks and12boundary/evidence rejections
+pass in4.576seconds combined parallel wall time. All per-function build,
+reference capture, native debugger and cached-fixture timings remain separate.
+Accepted extent union198134/476418bytes is41.588269%, not branch coverage.
+cpp_basic is incomplete at mangle_symbol_identifier (0x433b0) while serializing
+its final function metadata. Evidence is in the0612through0619case directories
+and evidence/translation-finalization-checkpoint.{json,log},
+translation-finalization-native-check.json and translation-finalization-rejections.json.
+No shared compatibility change was required.

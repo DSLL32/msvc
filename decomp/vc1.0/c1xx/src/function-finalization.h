@@ -1,6 +1,7 @@
 #ifndef FUNCTION_FINALIZATION_H
 #define FUNCTION_FINALIZATION_H
 #include "function-definitions.h"
+#include "work-list.h"
 #include <recon.h>
 void __stdcall finish_function_body(int recovering);
 void reset_function_symbol_tables(void);
@@ -30,4 +31,14 @@ typedef char FunctionDirectoryFlagsOffsetMustBe20[(offsetof(FunctionDirectoryEnt
 void __stdcall record_function_definition(CppSymbol *function);
 void __stdcall emit_function_symbols(CppSymbol *symbols);
 int defer_global_symbol(CppSymbol *symbol);
+extern WorkList *pending_cleanup_by_scope[31];
+WorkList *__stdcall pending_function_cleanup(unsigned char kind);
+void chain_initializer_function(void);
+void __stdcall register_initializer_function(CppSymbol *function);
+extern HashTable *declaration_thunks;
+void __stdcall emit_declaration_thunk(void *description, CppSymbol *function);
+extern HashTable *deferred_type_tables;
+void __stdcall emit_deferred_type_table(void *description, CppSymbol *symbol);
+extern CppSymbol *segment_symbols;
+void write_function_directory(void);
 #endif

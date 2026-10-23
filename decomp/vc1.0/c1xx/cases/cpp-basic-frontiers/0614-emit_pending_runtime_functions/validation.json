@@ -1,0 +1,22 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_emit_pending_runtime_functions",
+    "start": 227840,
+    "end": 228095
+  },
+  "distinct_direct_callees": [
+    "_begin_type_set",
+    "_capture_inline_member_declaration@16",
+    "_generated_member_model@4",
+    "_next_type_set",
+    "_normalize_type_attributes@8",
+    "_release_inline_vector"
+  ],
+  "next_frontier": "_finish_declarations",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.23978461232036352,
+  "total_operation_seconds": 5.698997183702886,
+  "original_capture_seconds": 4.376592364162207
+}

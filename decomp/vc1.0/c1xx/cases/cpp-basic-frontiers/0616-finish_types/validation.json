@@ -1,0 +1,19 @@
+{
+  "status": "accepted",
+  "function": {
+    "name": "_finish_types",
+    "start": 317472,
+    "end": 317547
+  },
+  "distinct_direct_callees": [
+    "_begin_hash_iteration@8",
+    "_emit_deferred_type_table@8",
+    "_next_hash_entry@4"
+  ],
+  "next_frontier": "_finish_inline_functions",
+  "pending_buffers": 4,
+  "checkpoint_fields": 14,
+  "fixture_seconds": 0.23699467908591032,
+  "total_operation_seconds": 6.205056626349688,
+  "original_capture_seconds": 4.928151258267462
+}

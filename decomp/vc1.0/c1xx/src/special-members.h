@@ -37,4 +37,5 @@ int __stdcall find_special_member_model(CppSymbol *tag, unsigned char kind, int 
 int __stdcall has_class_initialization(CType *type);
 int __stdcall has_special_member_model(CType *type, unsigned char kind);
 unsigned short type_pointer_model(CType *type);
+int __stdcall generated_member_model(CppSymbol *function);
 #endif
