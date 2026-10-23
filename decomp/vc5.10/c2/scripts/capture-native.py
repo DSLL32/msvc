@@ -140,7 +140,7 @@ records=[r for r in %r if r['native']==frame.name()]
 if len(records)==1:
     for view in records[0].get('state',[]):
         info['globals'][view['original']]=int(gdb.parse_and_eval(view['native'])) & 0xffffffff
-    if records[0].get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults'):
+    if records[0].get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized'):
         ptr=gdb.parse_and_eval('c2_argv');values=[];i=0
         while int(ptr[i]):
             values.append(ptr[i].string());i+=1
@@ -148,7 +148,7 @@ if len(records)==1:
         info['command_state']={'argc':int(gdb.parse_and_eval('c2_argc')),'argv':values}
         if records[0]['state_policy']=='environment-flags':
             info['flags']=None if int(gdb.parse_and_eval('flags'))==0 else gdb.parse_and_eval('flags').string()
-    if records[0].get('state_policy')in ('alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults'):
+    if records[0].get('state_policy')in ('alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized'):
         vector=gdb.parse_and_eval('recon_crt_environment');index=0;origin=None
         while int(vector[index]):
             entry=vector[index];prefix=gdb.selected_inferior().read_memory(entry,14).tobytes()
@@ -160,7 +160,7 @@ if len(records)==1:
         info['alignment_option']={'alignment':None if not int(alignment)else alignment.string(),'current':current.string(),
                                   'current_offset':int(current)-origin,'operand':operand.string(),'operand_offset':int(operand)-origin,
                                   'argv_offset':int(argv)-int(array.address),'argv_value_alias':int(argv[0])==int(current)}
-    if records[0].get('state_policy')in ('symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults'):
+    if records[0].get('state_policy')in ('symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized'):
         import hashlib
         table=gdb.parse_and_eval('c2_symbol_hash')
         data=gdb.selected_inferior().read_memory(table.address,4096).tobytes()
@@ -173,6 +173,11 @@ if len(records)==1:
             info['symbol_hash']['normalized_sha256']=hashlib.sha256(altered).hexdigest()
             info['symbol_hash'].pop('sha256')
 
+    if records[0].get('state_policy')=='sections-initialized':
+        import hashlib
+        table=gdb.parse_and_eval('c2_symbol_hash');head=int(gdb.parse_and_eval('c2_pools[0].blocks'))
+        nonnull={i:int(table[i])-head for i in range(1024)if int(table[i])}
+        info['symbol_hash']={'slots':1024,'section_offsets':nonnull}
     if records[0].get('state_policy')=='allocate-node':
         info['allocate_node']={'kind':int(gdb.parse_and_eval('kind')),'pool':int(gdb.parse_and_eval('pool'))}
     if records[0].get('state_policy')=='node-size':
@@ -182,6 +187,23 @@ if len(records)==1:
         caller=frame.older()
         info['pool_allocate']={'pool':int(gdb.parse_and_eval('pool')),'bytes':int(gdb.parse_and_eval('bytes')),
                                'caller_kind':int(caller.read_var('kind')),'caller_pool':int(caller.read_var('pool'))}
+    if records[0].get('state_policy')=='sections-initialized':
+        head=gdb.parse_and_eval('section_head');section=head;rows=[];addresses=[]
+        while int(section):
+            assert len(rows)<5
+            raw=bytearray(gdb.selected_inferior().read_memory(section,86).tobytes())
+            name=int(section['symbol']['name']);class_name=int(section['class_name']);context=int(section['symbol']['context']);nxt=int(section['next'])
+            for at in (24,36,50,54):raw[at:at+4]=bytes(4)
+            rows.append({'bytes':raw.hex(),'name':section['symbol']['name'].string(),'class_name':section['class_name'].string(),
+                'name_pointer':name,'class_pointer':class_name,'context_alias':context==int(gdb.parse_and_eval('section_context')),
+                'pool_offset':int(section)-int(gdb.parse_and_eval('c2_pools[0].blocks'))})
+            addresses.append(int(section));section=section['next']
+        assert len(rows)==5
+        info['sections']={'rows':rows,'tail_alias':int(gdb.parse_and_eval('section_tail'))==addresses[-1],
+            'outputs':[addresses.index(int(gdb.parse_and_eval(name)))if int(gdb.parse_and_eval(name))in addresses else None for name in ('code_section','data_section','const_section','bss_section','debug_symbols_section','debug_types_section','tls_section')],
+            'output_nulls':[not int(gdb.parse_and_eval(name))for name in ('code_section','data_section','const_section','bss_section','debug_symbols_section','debug_types_section','tls_section')],
+            'context_identity_alias':int(gdb.parse_and_eval('section_context'))==int(gdb.parse_and_eval('&section_context_identity')),
+            'default_alignment':int(gdb.parse_and_eval('default_section_alignment'))}
     if records[0].get('state_policy')=='section-symbol':
         symbol=gdb.parse_and_eval('symbol');section=symbol.cast(gdb.lookup_type('C2Section').pointer())
         raw=bytearray(gdb.selected_inferior().read_memory(section,86).tobytes());raw[24:28]=bytes(4);raw[54:58]=bytes(4)
@@ -234,10 +256,10 @@ if len(records)==1:
             'records':[gdb.selected_inferior().read_memory(gdb.parse_and_eval('&'+name),12).tobytes().hex()for name in ('c2_real_zero','c2_real_one','c2_real_two')],
             'entries':store_abi_entries,'steps':store_steps}
         gdb.write('C2-EXTENDED-RESULTS '+json.dumps(info['extended_results'],sort_keys=True)+'\\n')
-    if records[0].get('state_policy')in ('intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults'):
+    if records[0].get('state_policy')in ('intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized'):
         info['real_results']={'control':int(gdb.parse_and_eval('$fctrl')),'status':int(gdb.parse_and_eval('$fstat')),'tag':int(gdb.parse_and_eval('$ftag')),
             'records':[gdb.selected_inferior().read_memory(gdb.parse_and_eval('&'+name),12).tobytes().hex()for name in ('c2_real_zero','c2_real_one','c2_real_two')]}
-    if records[0].get('state_policy')in ('pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults'):
+    if records[0].get('state_policy')in ('pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized'):
         pools=gdb.parse_and_eval('c2_pools');arena=pools[0];head=arena['blocks']
         assert int(head)
         info['pool_result']={'free':int(gdb.parse_and_eval('c2_free_blocks')),
@@ -249,15 +271,20 @@ if len(records)==1:
     if records[0].get('state_policy')in ('section-symbol','section-linked','section-defaults'):
         payload=bytearray.fromhex(info['pool_result']['payload']);payload[88:92]=bytes(4);payload[118:122]=bytes(4)
         info['pool_result']['payload']=payload.hex()
-    if records[0].get('state_policy')in ('header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults'):
+    if records[0].get('state_policy')=='sections-initialized':
+        payload=bytearray.fromhex(info['pool_result']['payload'])
+        for index in range(5):
+            for field in (24,36,50,54):payload[64+index*88+field:68+index*88+field]=bytes(4)
+        info['pool_result']['payload']=payload.hex()
+    if records[0].get('state_policy')in ('header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized'):
         first=gdb.parse_and_eval('c2_input');second=gdb.parse_and_eval('c2_globals_input');iob=gdb.parse_and_eval('&recon_iob[0]')
         info['header_streams']={'input_index':(int(first)-int(iob))//32,'globals_index':(int(second)-int(iob))//32,
                                 'input':gdb.selected_inferior().read_memory(first,32).tobytes().hex(),
                                 'globals':gdb.selected_inferior().read_memory(second,32).tobytes().hex(),
                                 'distinct':int(first)!=int(second),'x87_control':int(gdb.parse_and_eval('$fctrl'))}
-        if records[0]['state_policy']in ('il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults'):
+        if records[0]['state_policy']in ('il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized'):
             info['header_streams']['active_index']=(int(gdb.parse_and_eval('c2_current_il'))-int(iob))//32
-        if records[0]['state_policy']in ('il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults'):
+        if records[0]['state_policy']in ('il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized'):
             stream=second.dereference();valid=int(stream['_cnt'])+int(stream['_ptr'])-int(stream['_base'])
             assert 0<valid<=int(stream['_bufsiz'])<=4096
             info['header_streams']['valid_buffer']=gdb.selected_inferior().read_memory(stream['_base'],valid).tobytes().hex()
@@ -341,7 +368,7 @@ if len(records)==1:
 open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
 """ % (str(output/'native-maps.txt'),config['stubs'],str(output/'state.json'))
     if config.get('data_model'):
-        data_program="""if records and records[0].get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults'):
+        data_program="""if records and records[0].get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result','real-from-int','extended-store','extended-results','intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized'):
     if records[0]['state_policy']=='wildcard-match':
         info['wildcard']={'pattern':gdb.parse_and_eval('pattern').string(),'input':gdb.parse_and_eval('input').string(),
                       'kind':int(gdb.parse_and_eval('kind')),'current_alias':int(gdb.parse_and_eval('c2_current_option == input'))}
@@ -382,7 +409,7 @@ open(%r,'w').write(json.dumps(info,indent=2)+'\\n')
 """ % str(output/'data-model.json')
         program=program.replace('open(',data_program+'open(',1)
     if config.get('intrinsic_model'):
-        intrinsic_program="""if records and records[0].get('state_policy')in ('intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults'):
+        intrinsic_program="""if records and records[0].get('state_policy')in ('intrinsics-initialized','machine-initialized','section-constructor','section-symbol','section-linked','section-defaults','sections-initialized'):
     model=json.loads(Path(%r).read_text())
     descriptions=gdb.parse_and_eval('intrinsics');expected={r['number']:r for r in model['rows']};texts={r['original']:bytes.fromhex(r['bytes'])for r in model['texts']}
     rows=[]

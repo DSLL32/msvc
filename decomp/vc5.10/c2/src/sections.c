@@ -101,3 +101,13 @@ void __fastcall append_section(C2Section *section)
         section_tail = section;
     }
 }
+
+unsigned default_section_alignment = 4;
+
+C2Section *__fastcall initialize_section_defaults(C2Section *section)
+{
+    section->alignment = default_section_alignment;
+    section->combine = 2;
+    section->symbol.context = section_context;
+    return section;
+}

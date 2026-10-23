@@ -1,0 +1,32 @@
+{
+  "original_capture": {
+    "setup": 0.17457668110728264,
+    "execution": 1.2076792437583208,
+    "total": 1.4237457122653723
+  },
+  "native_gdb_capture": {
+    "execution": 0.2894269675016403,
+    "total": 0.3699503680691123
+  },
+  "rejection_control": {
+    "control_and_rejections": 37.30609244760126
+  },
+  "fresh_rejections": 107,
+  "reused_rejections": 0,
+  "audit_seconds": 0.10255772527307272,
+  "builds": {
+    "native": {
+      "seconds": 2.3437206838279963,
+      "status": 0
+    },
+    "original": {
+      "seconds": 4.725793208926916,
+      "status": 0
+    },
+    "helper": {
+      "seconds": 1.149533450603485,
+      "status": 0
+    }
+  },
+  "cadence": "Full substantial checkpoint after seven functions since40; ordinary per-function controls may reuse unchanged proofs again with hashes."
+}

@@ -18,11 +18,6 @@ int __fastcall c2_open_pdb(char *name, char *object_name)
     __asm { int 3 }
     return 0;
 }
-void __fastcall initialize_section_defaults(C2Section *section)
-{
-    __asm { int 3 }
-}
-
 void c2_initialize_codegen(void)
 {
     __asm { int 3 }

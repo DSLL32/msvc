@@ -56,7 +56,8 @@
     "_c2_initialize_trees",
     "@create_section@12",
     "@insert_symbol@8",
-    "@append_section@4"
+    "@append_section@4",
+    "@initialize_section_defaults@4"
   ],
   "driver": [
     {
@@ -3250,135 +3251,15 @@
         "-G5"
       ],
       "evidence": "cases/analysis/section-constructor-disassembly.txt"
-    }
-  ],
-  "stubs": [
-    {
-      "name": "_c2_math_error",
-      "native": "c2_math_error",
-      "start": 4484380,
-      "end": 4484383,
-      "abi": "cdecl, one pointer parameter",
-      "kind": "crt-source"
-    },
-    {
-      "name": "_c2_print_banner",
-      "native": "c2_print_banner",
-      "start": 4738355,
-      "end": 4738356,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
-    },
-    {
-      "name": "_c2_initialize_codegen",
-      "native": "c2_initialize_codegen",
-      "start": 4534958,
-      "end": 4534959,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
-    },
-    {
-      "name": "_c2_initialize_registers",
-      "native": "c2_initialize_registers",
-      "start": 4535034,
-      "end": 4535035,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
-    },
-    {
-      "name": "_c2_initialize_optimizer",
-      "native": "c2_initialize_optimizer",
-      "start": 4535045,
-      "end": 4535046,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
-    },
-    {
-      "name": "_c2_compile_unit",
-      "native": "c2_compile_unit",
-      "start": 4538855,
-      "end": 4538856,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
-    },
-    {
-      "name": "_c2_finalize_output",
-      "native": "c2_finalize_output",
-      "start": 4541174,
-      "end": 4541175,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
-    },
-    {
-      "name": "_c2_flush_debug",
-      "native": "c2_flush_debug",
-      "start": 4766214,
-      "end": 4766215,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "cdecl, no parameters"
-    },
-    {
-      "name": "_c2_console_handler@4",
-      "native": "c2_console_handler",
-      "start": 4737491,
-      "end": 4737492,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "stdcall, DWORD control event; RET4"
-    },
-    {
-      "name": "@c2_report_internal@8",
-      "native": "c2_report_internal",
-      "start": 4746044,
-      "end": 4746068,
-      "pending_extent": false,
-      "kind": "application",
-      "abi": "fastcall, ECX source path EDX line",
-      "extent_known_for_tail_abi": true,
-      "extent_evidence": "cases/analysis/node-size-disassembly.txt: complete486b3c..486b54 reports fatal internal source/line then RET0; still application INT3/no credit"
-    },
-    {
-      "name": "@c2_system_fatal@12",
-      "native": "c2_system_fatal",
-      "start": 4765320,
-      "end": 4765358,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall, ECX message EDX prefix; stack filename; RET4"
-    },
-    {
-      "name": "@resolve_diagnostic_location@8",
-      "native": "resolve_diagnostic_location",
-      "start": 4413704,
-      "end": 4413705,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall ECX location EDX output filename"
-    },
-    {
-      "name": "@c2_open_pdb@8",
-      "native": "c2_open_pdb",
-      "start": 4765792,
-      "end": 4765793,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall ECX PDB filename EDX object filename; int result; no stack parameters"
     },
     {
       "name": "@initialize_section_defaults@4",
       "native": "initialize_section_defaults",
       "start": 4538002,
-      "end": 4538003,
-      "pending_extent": true,
+      "end": 4538027,
+      "pending_extent": false,
       "kind": "application",
-      "abi": "fastcall section pointerECX; RET0",
+      "abi": "fastcall section pointerECX; identical section pointerEAX result; RET0",
       "state_policy": "section-defaults",
       "state": [
         {
@@ -3493,7 +3374,243 @@
       "expected_argc": 0,
       "expected_argv": [
         "-G5"
+      ],
+      "evidence": "cases/analysis/section-defaults-disassembly.txt"
+    }
+  ],
+  "stubs": [
+    {
+      "name": "_c2_math_error",
+      "native": "c2_math_error",
+      "start": 4484380,
+      "end": 4484383,
+      "abi": "cdecl, one pointer parameter",
+      "kind": "crt-source"
+    },
+    {
+      "name": "_c2_print_banner",
+      "native": "c2_print_banner",
+      "start": 4738355,
+      "end": 4738356,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
+    },
+    {
+      "name": "_c2_initialize_codegen",
+      "native": "c2_initialize_codegen",
+      "start": 4534958,
+      "end": 4534959,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters",
+      "state_policy": "sections-initialized",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "c2_symbol_hash_count"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        },
+        {
+          "original": "0x491074",
+          "native": "selected_save_register_mask"
+        },
+        {
+          "original": "0x495f34",
+          "native": "call_clobbered_register_mask"
+        },
+        {
+          "original": "0x49745c",
+          "native": "stack_alignment"
+        }
+      ],
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
       ]
+    },
+    {
+      "name": "_c2_initialize_registers",
+      "native": "c2_initialize_registers",
+      "start": 4535034,
+      "end": 4535035,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
+    },
+    {
+      "name": "_c2_initialize_optimizer",
+      "native": "c2_initialize_optimizer",
+      "start": 4535045,
+      "end": 4535046,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
+    },
+    {
+      "name": "_c2_compile_unit",
+      "native": "c2_compile_unit",
+      "start": 4538855,
+      "end": 4538856,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
+    },
+    {
+      "name": "_c2_finalize_output",
+      "native": "c2_finalize_output",
+      "start": 4541174,
+      "end": 4541175,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
+    },
+    {
+      "name": "_c2_flush_debug",
+      "native": "c2_flush_debug",
+      "start": 4766214,
+      "end": 4766215,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "cdecl, no parameters"
+    },
+    {
+      "name": "_c2_console_handler@4",
+      "native": "c2_console_handler",
+      "start": 4737491,
+      "end": 4737492,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "stdcall, DWORD control event; RET4"
+    },
+    {
+      "name": "@c2_report_internal@8",
+      "native": "c2_report_internal",
+      "start": 4746044,
+      "end": 4746068,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "fastcall, ECX source path EDX line",
+      "extent_known_for_tail_abi": true,
+      "extent_evidence": "cases/analysis/node-size-disassembly.txt: complete486b3c..486b54 reports fatal internal source/line then RET0; still application INT3/no credit"
+    },
+    {
+      "name": "@c2_system_fatal@12",
+      "native": "c2_system_fatal",
+      "start": 4765320,
+      "end": 4765358,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall, ECX message EDX prefix; stack filename; RET4"
+    },
+    {
+      "name": "@resolve_diagnostic_location@8",
+      "native": "resolve_diagnostic_location",
+      "start": 4413704,
+      "end": 4413705,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall ECX location EDX output filename"
+    },
+    {
+      "name": "@c2_open_pdb@8",
+      "native": "c2_open_pdb",
+      "start": 4765792,
+      "end": 4765793,
+      "pending_extent": true,
+      "kind": "application",
+      "abi": "fastcall ECX PDB filename EDX object filename; int result; no stack parameters"
     }
   ],
   "text_data": [

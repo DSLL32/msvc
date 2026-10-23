@@ -7,10 +7,10 @@ reference remains the native regression case. Root authorized the next case,
 argv/environment, four IL files and standalone 2347-byte COFF master are in
 `cases/numeric-control-flow/`; only the COFF header timestamp is normalized.
 
-Current reconstruction has 41 application functions (5777 bytes) and five CRT
+Current reconstruction has 42 application functions (5802 bytes) and five CRT
 helpers (438 bytes). The numeric case has decoded its complete IL header and
-now stops at setting the first section defaults. Four import thunks (24 bytes) and contextual
-text tables (280 bytes) remain separate. The 6215 source bytes are 1.084% of
+has initialized all five no-debug output sections and now stops before reading global symbols. Four import thunks (24 bytes) and contextual
+text tables (280 bytes) remain separate. The 6240 source bytes are 1.089% of
 573183 `.text` bytes; that denominator includes CRT/data/padding and is not
 non-CRT coverage. `cases/first-case-result.json` describes the finished first
 case, and `cases/acceptance/` retains each subsequent promotion in order.
@@ -107,3 +107,10 @@ new or affected state checks still run with every reconstruction. The intrinsic
 initializer checkpoint ran17 fresh controls and reused60 unchanged ones in
 5.415s; its receipt lists both proof inputs and checker/contract hashes. The
 previous complete74-control store checkpoint took21.022s.
+
+The section-default checkpoint compares all five typed86-byte nodes, pool/hash/list
+aliases, scalar fields, untouched bytes and CONST name/class address sharing.
+The context at original49e300 is still UNMODELED; an approved incomplete-type
+address anchor has no payload/extent/data credit and must be replaced before
+any pointee use. Full107-control checkpoint time is recorded separately from
+build, audit and original/native execution in its acceptance timing receipt.

@@ -123,6 +123,43 @@ def main():
                       ('machine call-clobber register mask differs',lambda r:changed_machine_value(r,'0x495f34',7)),
                       ('machine stack alignment differs',lambda r:changed_machine_value(r,'0x49745c',4)),
                       ('earlier intrinsic observation cannot replace final frontier observation',missing_final_intrinsic_observation)]
+    if 'sections'in current_state:
+        def changed_sections(root,change):
+            path=root/'n/state.json';state=json_at(path);change(state['sections']);write_json(path,state);raw_changed(root,'n','state.json')
+        def changed_section_field(root,index,offset):
+            def change(value):
+                data=bytearray.fromhex(value['rows'][index]['bytes']);data[offset]^=1;value['rows'][index]['bytes']=data.hex()
+            changed_sections(root,change)
+        def changed_final_node(root,index,offset):
+            path=root/'o/sections.bin';data=bytearray(path.read_bytes());data[index*86+offset]^=1;path.write_bytes(data)
+        def changed_final_hash(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['symbol_hash']['section_offsets'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [('final sections omit TLS record',lambda r:changed_sections(r,lambda v:v['rows'].pop())),
+                      ('final section serial differs',lambda r:changed_section_field(r,4,40)),
+                      ('final section code alignment differs',lambda r:changed_section_field(r,0,62)),
+                      ('final section default alignment differs',lambda r:changed_section_field(r,1,62)),
+                      ('final section attribute differs',lambda r:changed_section_field(r,4,66)),
+                      ('final section combine differs',lambda r:changed_section_field(r,2,67)),
+                      ('final section target kind differs',lambda r:changed_section_field(r,2,68)),
+                      ('final section output order differs',lambda r:changed_section_field(r,4,78)),
+                      ('final section untouched tail differs',lambda r:changed_section_field(r,3,85)),
+                      ('final section name differs',lambda r:changed_sections(r,lambda v:v['rows'][0].__setitem__('name','TEXT'))),
+                      ('final section class differs',lambda r:changed_sections(r,lambda v:v['rows'][1].__setitem__('class_name','BSS'))),
+                      ('final CONST name and class lose shared address',lambda r:changed_sections(r,lambda v:v['rows'][2].__setitem__('class_pointer',v['rows'][2]['class_pointer']+4))),
+                      ('final distinct class pointers collapse',lambda r:changed_sections(r,lambda v:v['rows'][1].__setitem__('class_pointer',v['rows'][0]['class_pointer']))),
+                      ('final section pending context alias differs',lambda r:changed_sections(r,lambda v:v['rows'][3].__setitem__('context_alias',False))),
+                      ('final section allocation alias differs',lambda r:changed_sections(r,lambda v:v['rows'][4].__setitem__('pool_offset',72))),
+                      ('final section list tail loses node identity',lambda r:changed_sections(r,lambda v:v.__setitem__('tail_alias',False))),
+                      ('final section output globals reordered',lambda r:changed_sections(r,lambda v:v.__setitem__('outputs',[1,0,2,3,None,None,4]))),
+                      ('final debug section global is unexpectedly nonnull',lambda r:changed_sections(r,lambda v:v['output_nulls'].__setitem__(4,False))),
+                      ('final section opaque anchor alias differs',lambda r:changed_sections(r,lambda v:v.__setitem__('context_identity_alias',False))),
+                      ('final section default alignment global differs',lambda r:changed_sections(r,lambda v:v.__setitem__('default_alignment',8))),
+                      ('final hash bucket points to wrong allocation',lambda r:changed_final_hash(r,'9',72)),
+                      ('final hash contains extra bucket',lambda r:changed_final_hash(r,'1023',72)),
+                      ('original final section context identity differs',lambda r:changed_final_node(r,1,36)),
+                      ('original final section list terminator differs',lambda r:changed_final_node(r,4,50)),
+                      ('original final section string changed',lambda r:(r/'o/section-name-4.bin').write_bytes(b'TLS\0')),
+                      ('original final section addresses changed',lambda r:(r/'o/section-addresses.bin').write_bytes(bytes(20)))]
     if 'section_defaults'in current_state:
         def changed_section_defaults(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['section_defaults'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

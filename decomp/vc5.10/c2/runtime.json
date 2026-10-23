@@ -106,13 +106,5 @@
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null
-  },
-  {
-    "name": "@initialize_section_defaults@4",
-    "start": 4538002,
-    "end": 4538003,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
   }
 ]
