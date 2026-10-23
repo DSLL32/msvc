@@ -30,7 +30,7 @@ build/native/c2: build/messages.rmr build/native/stubs.o build/native/startup.o 
 	$(PYTHON) scripts/build-provenance.py finish native --binary $@
 ORIGINAL_CRT_FLAGS = /MD
 # The target compiler intrinsicizes strlen in option action diagnostics.
-build/option-match.obj build/diagnostics.obj build/il-files.obj build/symbols.obj: ORIGINAL_EXTRA_FLAGS = /Oi
+build/option-match.obj build/diagnostics.obj build/il-files.obj build/symbols.obj build/nodes.obj: ORIGINAL_EXTRA_FLAGS = /Oi
 build/precision.obj: ORIGINAL_CRT_FLAGS = /ML /Zl
 build/%.obj: src/%.c src/c2.h Makefile | build build/original/input-start.json
 	$(TOOL) CL.EXE /nologo /c /Od /G3 /W3 $(ORIGINAL_CRT_FLAGS) $(ORIGINAL_EXTRA_FLAGS) /I$(RECON)/include /Fo$@ $<

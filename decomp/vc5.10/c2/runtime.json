@@ -138,13 +138,5 @@
     "pending_extent": true,
     "kind": "named-target-stub",
     "evidence": null
-  },
-  {
-    "name": "@c2_pool_allocate@8",
-    "start": 4198400,
-    "end": 4198401,
-    "pending_extent": true,
-    "kind": "named-target-stub",
-    "evidence": null
   }
 ]

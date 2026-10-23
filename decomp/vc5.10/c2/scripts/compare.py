@@ -153,7 +153,7 @@ def compare(original,native,validation=None):
     assert len(matching)==1,'unknown original frontier'
     expected=matching[0]
     if expected['name']!='_c2_crt_startup':
-        assert expected.get('state_policy')in ('pre-main-no-arguments','main-arguments-and-initial-state','exit-callback','command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','message-load','message-unescape','diagnostic-emit','cached-message','format-prefix','format-prefix-args','format-integer','exit-cleanup','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate')and expected.get('state'),'new frontier needs explicit state decoder'
+        assert expected.get('state_policy')in ('pre-main-no-arguments','main-arguments-and-initial-state','exit-callback','command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','message-load','message-unescape','diagnostic-emit','cached-message','format-prefix','format-prefix-args','format-integer','exit-cleanup','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result')and expected.get('state'),'new frontier needs explicit state decoder'
         if expected['state_policy']=='pre-main-no-arguments':
             assert expected['abi']=='cdecl, no parameters','parameter ABI has no decoder'
     native_proof=proof.verify(BINARY/'build/native/c2',(native/'native-maps.txt').read_text(),(native/'gdb.stdout').read_text(),state,config)
@@ -171,7 +171,7 @@ def compare(original,native,validation=None):
         raw={int(a,16):int(v,16)for a,v in re.findall(r'^global ([0-9a-f]+) ([0-9a-f]+)$',section[1],re.M)}
         required={view['original']:raw[int(view['original'],16)]for view in expected['state']}
         assert state['globals']==required,'frontier globals/runtime state differs'
-    if expected.get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate'):
+    if expected.get('state_policy')in ('command-line-state','environment-flags','match-option','wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result'):
         segment=text.rsplit('observe %08x '%address,1)[1]
         values=re.findall(r'^command-state argc=(\d+) argv=([0-9a-f]+) input=([0-9a-f]+)$',segment,re.M)
         assert len(values)==1
@@ -240,7 +240,7 @@ def compare(original,native,validation=None):
         assert (original/'copy-flags.bin').read_bytes()==flags.encode()+b'\0'
         assert state['environment_copy']=={'flags':flags,'environment_alias':True},'native flags must borrow actual bound target environment'
     original_overrides=native_overrides=None
-    if expected.get('state_policy')in ('alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate'):
+    if expected.get('state_policy')in ('alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result'):
         initial=re.findall(r'^flags-environment entry=([0-9a-f]+) returned=([0-9a-f]+) alias=(\d+)$',text,re.M)
         assert len(initial)==1 and initial[0][2]=='1';origin=int(initial[0][1],16)
         raw=re.findall(r'^alignment-option input=([0-9a-f]+) current=([0-9a-f]+) operand=([0-9a-f]+) argv=([0-9a-f]+)$',text.rsplit('observe %08x '%address,1)[1],re.M)
@@ -251,15 +251,15 @@ def compare(original,native,validation=None):
         strings={'c2_intermediate_base':(4,'.\\a01068'),'c2_source_name':(16,'numeric-control-flow.c'),'c2_output_name':(52,'numeric-control-flow.obj'),'c2_pdb_name':(84,'vc50.idb')}
         original_overrides=dict(scalar,**{name:origin+offset for name,(offset,value)in strings.items()})
         native_overrides=dict(scalar,**{name:value for name,(offset,value)in strings.items()})
-    if expected.get('state_policy')in ('header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate'):
+    if expected.get('state_policy')in ('header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result'):
         import struct
         segment=text.rsplit('observe %08x '%address,1)[1]
         rows=re.findall(r'^header-streams input=([0-9a-f]+) globals=([0-9a-f]+) iob=([0-9a-f]+)$',segment,re.M)
         assert len(rows)==1;first,second,iob=[int(v,16)for v in rows[0]]
         assert first==iob+3*32 and second==iob+4*32,'original FILE pointers are not distinct canonical iob slots'
         first_data=struct.pack('<8I',0,0,0,1,3,0,0,0);second_data=struct.pack('<8I',0,0,0,1,4,0,0,0)
-        if expected['state_policy']in ('il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate'):
-            consumed={'il-word-read':1,'il-long-read':3,'symbol-reset':12,'symbol-table-empty':12,'allocate-node':12,'node-size':12,'pool-allocate':12}[expected['state_policy']]
+        if expected['state_policy']in ('il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result'):
+            consumed={'il-word-read':1,'il-long-read':3,'symbol-reset':12,'symbol-table-empty':12,'allocate-node':12,'node-size':12,'pool-allocate':12,'pool-result':12}[expected['state_policy']]
             original_stream=(original/'header-streams.bin').read_bytes();assert len(original_stream)==64 and original_stream[:32]==first_data
             words=struct.unpack('<8I',original_stream[32:])
             assert words[2]and words[0]==words[2]+consumed and words[1]==271-consumed and words[3:]==(9,4,0,4096,0),'canonical post-byte FILE/buffer layout differs'
@@ -273,17 +273,17 @@ def compare(original,native,validation=None):
             assert (original/'header-streams.bin').read_bytes()==first_data+second_data,'new canonical CRT streams are not unread read-mode files'
         control=int(re.findall(r'^x87-control ([0-9a-f]+)$',segment,re.M)[0],16)&0xffff
         expected_streams={'input_index':3,'globals_index':4,'input':first_data.hex(),'globals':second_data.hex(),'distinct':True,'x87_control':control}
-        if expected['state_policy']in ('il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate'):
+        if expected['state_policy']in ('il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result'):
             assert re.findall(r'^active-il-stream ([0-9a-f]+)$',segment,re.M)==['%08x'%second],'header byte reader does not use globals IL stream'
             expected_streams['active_index']=4
-        if expected['state_policy']in ('il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate'):expected_streams['valid_buffer']=master.hex()
+        if expected['state_policy']in ('il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result'):expected_streams['valid_buffer']=master.hex()
         assert state['header_streams']==expected_streams,'native FILE identity/layout/state differs'
-        if expected['state_policy']in ('symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate'):
+        if expected['state_policy']in ('symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result'):
             header={'0x490b7c':0,'0x4972f8':1,'0x497df8':146,'0x491050':146,'0x497f6c':0,'0x497de8':0}
             assert {key:state['globals'][key]for key in header}==header,'decoded header fields differ from frozen original format19960416/count146'
         if expected['state_policy']=='il-long-read':
             assert re.findall(r'^il-word-result ([0-9a-f]+)$',segment,re.M)==['0386']and state['il_word_result']==0x386,'16-bit machine result/caller local differs'
-    if expected.get('state_policy')in ('symbol-table-empty','allocate-node','node-size','pool-allocate'):
+    if expected.get('state_policy')in ('symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result'):
         assert (original/'symbol-hash.bin').read_bytes()==bytes(4096),'original hash reset did not clear all1024 slots'
         assert proof.symbols(BINARY/'build/native/c2',data=True)['c2_symbol_hash'][1]==4096
         assert state['symbol_hash']=={'slots':1024,'sha256':sha(bytes(4096))},'native symbol hash extent/contents differ'
@@ -301,6 +301,21 @@ def compare(original,native,validation=None):
         assert re.findall(r'^pool-allocate pool=(-?\d+) bytes=(\d+) caller-kind=(-?\d+) caller-pool=(-?\d+)$',segment,re.M)==[('0','64','1','0')]
         assert state['pool_allocate']=={'pool':0,'bytes':64,'caller_kind':1,'caller_pool':0},'pool allocator fastcall bytes/pool or saved node state differs'
         assert [state['globals'][hex(0x491040+4*i)]for i in range(4)]==[64,0,0,0],'node allocation accounting differs'
+    if expected.get('state_policy')=='pool-result':
+        import struct
+        segment=text.rsplit('observe %08x '%address,1)[1]
+        rows=re.findall(r'^pool-result free=([0-9a-f]+) types=([0-9a-f]+) head=([0-9a-f]+) cursor=([0-9a-f]+) remaining=(\d+)$',segment,re.M)
+        assert len(rows)==1
+        free,types,head,cursor=(int(value,16)for value in rows[0][:4]);remaining=int(rows[0][4])
+        descriptors=(original/'pool-descriptors.bin').read_bytes();block=(original/'pool-block.bin').read_bytes()
+        assert len(descriptors)==48 and len(block)==4096 and head
+        assert struct.unpack('<12I',descriptors)==(head,cursor,remaining)+(0,)*9
+        payload=bytearray(4088);payload[4]=1
+        assert block==struct.pack('<II',0,4088)+payload,'original pool block header/zeroed payload/node kind differs'
+        assert (free,types-head,cursor-head,remaining)==(0,8,72,4024)
+        assert state['pool_result']=={'free':0,'types_offset':8,'cursor_offset':72,'remaining':4024,
+            'next':0,'capacity':4088,'payload':payload.hex(),'other_pools':['00'*12]*3},'native pool allocation contents/aliases/accounting differ'
+        assert [state['globals'][hex(0x491040+4*i)]for i in range(4)]==[64,0,0,0]
     if expected.get('state_policy')=='intermediate-open':
         raw=re.findall(r'^intermediate-open base=([0-9a-f]+) suffix=([0-9a-f]+) mode=([0-9a-f]+) description=([0-9a-f]+)$',text.rsplit('observe %08x '%address,1)[1],re.M)
         assert len(raw)==1 and int(raw[0][0],16)==origin+4
@@ -350,7 +365,7 @@ def compare(original,native,validation=None):
         assert (original/'option-value.bin').read_bytes()==b'/?\0'
         table=proof.symbols(BINARY/'build/native/c2',data=True)['c2_options'][0]+int(native_proof['load_bias'],16)
         assert state['apply']=={'option':table+52*12,'value':'/?','mode':0,'current_alias':1},'option application ABI differs'
-    if expected.get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate'):
+    if expected.get('state_policy')in ('wildcard-match','apply-option','fatal-option','message-lookup','message-initialize','environment-copy','integer-option','alignment-option','intermediate-open','header-read','il-byte-read','il-word-read','il-long-read','symbol-reset','symbol-table-empty','allocate-node','node-size','pool-allocate','pool-result'):
         from data_evidence import model,plan,verify_original_state,verify_native_state
         data_model=model(config)
         assert (original/'data-plan.txt').read_text()==''.join('%08x %d\n'%(address,size)for name,address,size in plan(data_model))

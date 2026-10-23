@@ -107,6 +107,21 @@ def main():
         mutations += [('changed native option kind',changed_native_table),('different logical destination alias',changed_native_alias),
                       ('different initial CPU option',changed_native_default),('changed raw original table with matching hash',changed_original_data),
                       ('changed contextual data receipt with matching hash',changed_data_receipt)]
+    if 'pool_result'in current_state:
+        def changed_pool_result(root,key,value):
+            path=root/'n/state.json';state=json_at(path);state['pool_result'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')
+        def changed_pool_byte(root,side,index):
+            if side=='original':
+                path=root/'o/pool-block.bin';data=bytearray(path.read_bytes());data[index]^=1;path.write_bytes(data)
+            else:
+                path=root/'n/state.json';state=json_at(path);data=bytearray.fromhex(state['pool_result']['payload']);data[index]^=1;state['pool_result']['payload']=data.hex();write_json(path,state);raw_changed(root,'n','state.json')
+        mutations += [('pool cursor offset differs',lambda r:changed_pool_result(r,'cursor_offset',76)),
+                      ('pool remaining capacity differs',lambda r:changed_pool_result(r,'remaining',4028)),
+                      ('node result points at wrong block offset',lambda r:changed_pool_result(r,'types_offset',12)),
+                      ('pool block header capacity differs',lambda r:changed_pool_result(r,'capacity',4096)),
+                      ('pool tail was not zeroed',lambda r:changed_pool_byte(r,'native',4087)),
+                      ('node kind was not stored',lambda r:changed_pool_byte(r,'native',4)),
+                      ('original raw pool tail changed',lambda r:changed_pool_byte(r,'original',4095))]
     if 'pool_allocate'in current_state:
         def changed_pool_argument(root,key,value):
             path=root/'n/state.json';state=json_at(path);state['pool_allocate'][key]=value;write_json(path,state);raw_changed(root,'n','state.json')

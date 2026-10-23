@@ -195,7 +195,7 @@
               212,
               312
             ],
-            "lifetime_sha256": "f5b670f51d3e99f4d39a2a78b14254b66d111d7194a4a7c814efbfcaf00cc8e9",
+            "lifetime_sha256": "d791486958bf574fc650c4cecab08ce3dcf879c3dfc6ceed72d6b6a8c1cb1637",
             "instructions": [
               {
                 "offset": 212,
@@ -443,17 +443,17 @@
             "review": "Full48b509..48b538: ESI loaded once; intervening strlen repne scans leave ESI untouched; two fwrite calls/cleanup16, no overwrite/escape. First call cleanup is after the intervening direct stderr IAT load, at48b523; second cleanup is adjacent."
           },
           "rebuilt": {
-            "slot": 4206720,
+            "slot": 4206704,
             "holder": "[EBP-0x8]",
             "lifetime": [
               462,
               540
             ],
-            "lifetime_sha256": "81a410314e299de892e2495454793b77083c9a7879e86f71d4b72680dd30e175",
+            "lifetime_sha256": "5c5c4ca5df1c87b80fa25ec48afda7399c2e625f00ea9f6ce5aaf13554e809cf",
             "instructions": [
               {
                 "offset": 462,
-                "bytes": "8b0d80304000894df8"
+                "bytes": "8b0d70304000894df8"
               },
               {
                 "offset": 509,
@@ -592,17 +592,17 @@
             "review": "Full cold live interval reviewed; preserved nonvolatile register assigned once before optional branches, two calls/cleanup4, no overwrite/escape."
           },
           "rebuilt": {
-            "slot": 4206716,
+            "slot": 4206728,
             "holder": "[EBP-0x8]",
             "lifetime": [
               38,
               154
             ],
-            "lifetime_sha256": "53c004620dae07db82acaac44c8be2aa590b1eda9242fc0ff447e1fa5e9eca3a",
+            "lifetime_sha256": "1080bac84958da8d54dbbb93cb86804a5d4668ca11cab8e999233720c3922afb",
             "instructions": [
               {
                 "offset": 38,
-                "bytes": "a17c3040008945f8"
+                "bytes": "a1883040008945f8"
               },
               {
                 "offset": 110,
@@ -659,7 +659,7 @@
               46,
               154
             ],
-            "lifetime_sha256": "f1e559a85af9c3811f238644fd5da98ad7162512e5114f3c068fb49ca0faa808",
+            "lifetime_sha256": "11512e36b7ee30e06055e7d7f517b4791dd92e492d6be936387dcd4f670c2186",
             "instructions": [
               {
                 "offset": 46,
@@ -873,12 +873,12 @@
             ]
           },
           "rebuilt": {
-            "slot": 4206704,
+            "slot": 4206676,
             "holder": "[EBP-0x14]",
             "instructions": [
               {
                 "offset": 15,
-                "bytes": "8b0d70304000894dec"
+                "bytes": "8b0d54304000894dec"
               },
               {
                 "offset": 44,
@@ -890,16 +890,16 @@
               15,
               98
             ],
-            "lifetime_sha256": "9eb4a5028a95cee3fa9e50c51b50b67ffe10f60a5558d61d308f9b96e485b52b",
+            "lifetime_sha256": "ae11d435a05a7af02796835b87bc0417c657d41cb4ae787fa25ca17f3b3e66a0",
             "accessed_data": [
               {
-                "slot": 4206672,
+                "slot": 4206668,
                 "dll": "MSVCRT.dll",
                 "symbol": "__mb_cur_max",
                 "abi": "imported 32-bit int variable"
               },
               {
-                "slot": 4206664,
+                "slot": 4206700,
                 "dll": "MSVCRT.dll",
                 "symbol": "_pctype",
                 "abi": "imported pointer variable to unsigned-short flags table indexed by signed char"
@@ -1437,7 +1437,7 @@
               6,
               198
             ],
-            "lifetime_sha256": "065916052c07a0a5677dabafc795a3e90917a160e097b76dd7870bcd9d9e95c4"
+            "lifetime_sha256": "59f35e28ca7b51fd4104444b97951c73ed5641425b2441cfb5e2fd193fae2c03"
           }
         }
       ]
@@ -1627,7 +1627,7 @@
               6,
               377
             ],
-            "lifetime_sha256": "c80ce93b454943551497d670c74161d1cbf84c09a4f0cb990bdbe180829ecf4b"
+            "lifetime_sha256": "628e08c97e2a7f8eef323cf9282b24873e3f30f4937be06f801190b0bed5b5fb"
           }
         }
       ]
@@ -2046,6 +2046,125 @@
           167
         ]
       ]
+    },
+    {
+      "name": "@c2_pool_allocate@8",
+      "native": "c2_pool_allocate",
+      "start": 4198400,
+      "end": 4198618,
+      "pending_extent": false,
+      "kind": "application",
+      "abi": "fastcall int pool ECX,unsigned bytes EDX; pointer result, no stack parameters",
+      "state_policy": "pool-allocate",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "c2_symbol_hash_count"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        }
+      ],
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ],
+      "code_chunks": [
+        [
+          4609967,
+          4610006
+        ]
+      ],
+      "evidence": "cases/analysis/pool-allocation-disassembly.txt"
     }
   ],
   "stubs": [
@@ -2073,7 +2192,110 @@
       "end": 4534327,
       "pending_extent": true,
       "kind": "application",
-      "abi": "cdecl, no parameters"
+      "abi": "cdecl, no parameters",
+      "state_policy": "pool-result",
+      "state": [
+        {
+          "original": "0x499708",
+          "native": "(unsigned long)c2_onexit_end"
+        },
+        {
+          "original": "0x4996d4",
+          "native": "(unsigned long)c2_onexit_begin"
+        },
+        {
+          "original": "0x49975c",
+          "native": "c2_fmode"
+        },
+        {
+          "original": "0x4980d4",
+          "native": "c2_commode"
+        },
+        {
+          "original": "0x499718",
+          "native": "c2_adjust_fdiv"
+        },
+        {
+          "original": "0x499694",
+          "native": "c2_default_math_error"
+        },
+        {
+          "original": "0x4980d0",
+          "native": "c2_new_mode"
+        },
+        {
+          "original": "0x4980cc",
+          "native": "c2_wildcards"
+        },
+        {
+          "original": "0x7803fa88",
+          "native": "recon_fmode"
+        },
+        {
+          "original": "0x7803fa94",
+          "native": "recon_commode"
+        },
+        {
+          "original": "0x7803f928",
+          "native": "recon_adjust_fdiv"
+        },
+        {
+          "original": "0x7803fa90",
+          "native": "recon_crt_app_type"
+        },
+        {
+          "original": "0x7803f198",
+          "native": "recon_crt_newmode"
+        },
+        {
+          "original": "0x490b7c",
+          "native": "c2_il_extended_header"
+        },
+        {
+          "original": "0x4972f8",
+          "native": "c2_il_source_table"
+        },
+        {
+          "original": "0x497df8",
+          "native": "c2_il_symbol_count"
+        },
+        {
+          "original": "0x491050",
+          "native": "c2_il_initial_symbol_count"
+        },
+        {
+          "original": "0x497f6c",
+          "native": "c2_il_target_size"
+        },
+        {
+          "original": "0x497de8",
+          "native": "c2_il_eight_byte_target"
+        },
+        {
+          "original": "0x48fb68",
+          "native": "c2_symbol_hash_count"
+        },
+        {
+          "original": "0x491040",
+          "native": "c2_node_bytes[0]"
+        },
+        {
+          "original": "0x491044",
+          "native": "c2_node_bytes[1]"
+        },
+        {
+          "original": "0x491048",
+          "native": "c2_node_bytes[2]"
+        },
+        {
+          "original": "0x49104c",
+          "native": "c2_node_bytes[3]"
+        }
+      ],
+      "expected_argc": 0,
+      "expected_argv": [
+        "-G5"
+      ]
     },
     {
       "name": "_c2_initialize_opcodes",
@@ -2202,118 +2424,6 @@
       "pending_extent": true,
       "kind": "application",
       "abi": "fastcall ECX PDB filename EDX object filename; int result; no stack parameters"
-    },
-    {
-      "name": "@c2_pool_allocate@8",
-      "native": "c2_pool_allocate",
-      "start": 4198400,
-      "end": 4198401,
-      "pending_extent": true,
-      "kind": "application",
-      "abi": "fastcall int pool ECX,unsigned bytes EDX; pointer result, no stack parameters",
-      "state_policy": "pool-allocate",
-      "state": [
-        {
-          "original": "0x499708",
-          "native": "(unsigned long)c2_onexit_end"
-        },
-        {
-          "original": "0x4996d4",
-          "native": "(unsigned long)c2_onexit_begin"
-        },
-        {
-          "original": "0x49975c",
-          "native": "c2_fmode"
-        },
-        {
-          "original": "0x4980d4",
-          "native": "c2_commode"
-        },
-        {
-          "original": "0x499718",
-          "native": "c2_adjust_fdiv"
-        },
-        {
-          "original": "0x499694",
-          "native": "c2_default_math_error"
-        },
-        {
-          "original": "0x4980d0",
-          "native": "c2_new_mode"
-        },
-        {
-          "original": "0x4980cc",
-          "native": "c2_wildcards"
-        },
-        {
-          "original": "0x7803fa88",
-          "native": "recon_fmode"
-        },
-        {
-          "original": "0x7803fa94",
-          "native": "recon_commode"
-        },
-        {
-          "original": "0x7803f928",
-          "native": "recon_adjust_fdiv"
-        },
-        {
-          "original": "0x7803fa90",
-          "native": "recon_crt_app_type"
-        },
-        {
-          "original": "0x7803f198",
-          "native": "recon_crt_newmode"
-        },
-        {
-          "original": "0x490b7c",
-          "native": "c2_il_extended_header"
-        },
-        {
-          "original": "0x4972f8",
-          "native": "c2_il_source_table"
-        },
-        {
-          "original": "0x497df8",
-          "native": "c2_il_symbol_count"
-        },
-        {
-          "original": "0x491050",
-          "native": "c2_il_initial_symbol_count"
-        },
-        {
-          "original": "0x497f6c",
-          "native": "c2_il_target_size"
-        },
-        {
-          "original": "0x497de8",
-          "native": "c2_il_eight_byte_target"
-        },
-        {
-          "original": "0x48fb68",
-          "native": "c2_symbol_hash_count"
-        },
-        {
-          "original": "0x491040",
-          "native": "c2_node_bytes[0]"
-        },
-        {
-          "original": "0x491044",
-          "native": "c2_node_bytes[1]"
-        },
-        {
-          "original": "0x491048",
-          "native": "c2_node_bytes[2]"
-        },
-        {
-          "original": "0x49104c",
-          "native": "c2_node_bytes[3]"
-        }
-      ],
-      "expected_argc": 0,
-      "expected_argv": [
-        "-G5"
-      ]
     }
   ],
   "text_data": [
@@ -2454,7 +2564,9 @@
     ],
     "child_cwd": "S:\\vc5.10\\c2\\numeric-control-flow\\original-work"
   },
-  "trial": [],
+  "trial": [
+    "@c2_pool_allocate@8"
+  ],
   "pending_data": [],
   "data_model": "cases/analysis/options-model.json",
   "retain_capture_binaries": true

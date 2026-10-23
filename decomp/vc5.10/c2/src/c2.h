@@ -106,6 +106,19 @@ void *__fastcall c2_allocate_node(signed char kind, int pool);
 unsigned __fastcall c2_node_size(int kind);
 void *__fastcall c2_pool_allocate(int pool, unsigned bytes);
 extern unsigned long c2_node_bytes[4];
+typedef struct C2PoolBlock {
+    struct C2PoolBlock *next;
+    int capacity;
+    unsigned char data[1];
+} C2PoolBlock;
+typedef struct C2Pool {
+    C2PoolBlock *blocks;
+    unsigned char *cursor;
+    int remaining;
+} C2Pool;
+extern C2Pool c2_pools[4];
+extern C2PoolBlock *c2_free_blocks;
+extern void *c2_types;
 void c2_initialize_constants(void);
 void c2_initialize_opcodes(void);
 void c2_initialize_machine(void);

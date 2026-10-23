@@ -8,6 +8,55 @@ typedef struct C2NodeHeader {
 } C2NodeHeader;
 
 unsigned long c2_node_bytes[4];
+C2Pool c2_pools[4];
+C2PoolBlock *c2_free_blocks;
+
+void *__fastcall c2_pool_allocate(int pool, unsigned bytes)
+{
+    unsigned rounded = (bytes + 3) & ~3U;
+    C2Pool *arena = &c2_pools[pool];
+    C2PoolBlock *block;
+    unsigned char *result;
+
+    if (rounded <= 4088) {
+        if ((int)rounded > arena->remaining) {
+            block = c2_free_blocks;
+            if (block)
+                c2_free_blocks = block->next;
+            else {
+                block = malloc(4096);
+                if (!block)
+                    c2_fatal(2);
+                block->capacity = 4088;
+            }
+            block->next = arena->blocks;
+            arena->blocks = block;
+            arena->remaining = block->capacity;
+            arena->cursor = block->data;
+            memset(block->data, 0, block->capacity);
+        }
+        result = arena->cursor;
+        arena->cursor += rounded;
+        arena->remaining -= rounded;
+        return result;
+    }
+
+    block = malloc(rounded + 8);
+    if (!block)
+        c2_fatal(2);
+    if (arena->blocks) {
+        block->next = arena->blocks->next;
+        arena->blocks->next = block;
+    } else {
+        arena->blocks = block;
+        block->next = NULL;
+    }
+    block->capacity = rounded;
+    arena->remaining = 0;
+    result = block->data;
+    memset(result, 0, rounded);
+    return result;
+}
 
 unsigned __fastcall c2_node_size(int kind)
 {
