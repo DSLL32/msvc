@@ -199,6 +199,27 @@ FrontendSymbol *__stdcall find_asm_member(FrontendSymbol *members, char *name)
     return members;
 }
 
+/* Original0x505ba..0x5061c. SEG keeps the grammar expression identity,
+   while selecting the current operand's segment-address representation. */
+AsmExpression *__stdcall make_asm_segment_value(AsmExpression *value)
+{
+    AsmAddress *address = asm_operand->address;
+    unsigned storage;
+    int invalid = !(address->address_flags & 1) || !address->symbol;
+    if (!invalid) {
+        storage = address->symbol->storage[0] & 7;
+        invalid = storage >= 4 && storage <= 6;
+    }
+    if (invalid) {
+        report_syntax_error(415);
+        asm_operand->address->symbol = translation_sentinel;
+    }
+    asm_operand->address->address_flags &= 0xe0;
+    asm_operand->address->address_flags |= 11;
+    asm_operand->size = 1;
+    return value;
+}
+
 /* Original0x5061c..0x50694. OFFSET produces an immediate symbol address,
    retaining a placeholder symbol after malformed/register expressions. */
 AsmExpression *__stdcall make_asm_offset(AsmExpression *value)

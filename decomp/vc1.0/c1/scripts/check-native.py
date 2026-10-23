@@ -47,7 +47,8 @@ CASES = {'minimal':('minimal-c','c1'), 'hello-win32':('hello-win32','c1'),
          'typed-x87-bitscan':('typed-x87-bitscan','c1'),
          'generated-header-missing':('generated-header-failures','c1-missing'),
          'generated-header-incomplete':('generated-header-failures','c1-incomplete'),
-         'protocol-parser-repair':('protocol-parser-repair','c1')}
+         'protocol-parser-repair':('protocol-parser-repair','c1'),
+         'asm-parser-repair':('asm-parser-repair','c1')}
 
 
 CASE_DEPENDENCIES = {

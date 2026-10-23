@@ -107,6 +107,7 @@ def main():
                 runtime_break = 'break ' + expected_native + '\n'
 
     abi_inputs = expected_record.get('abi_inputs',[]) if expected_record else []
+    abi_globals = expected_record.get('abi_globals',[]) if expected_record else []
     alias_stderr = phase.get('stdio', {}).get('stderr_to_stdout', False)
     redirection = '>'+shlex.quote(str(directory/'stdout'))
     if alias_stderr:
@@ -199,11 +200,15 @@ if gdb.selected_inferior().pid:
     for item in %r:
         slot=item['stack_slot']
         value=struct.unpack('<I',bytes(gdb.selected_inferior().read_memory(int(gdb.parse_and_eval('$ebp'))+4*(slot+1),4)))[0]
-        row=dict(name=item['name'],stack_slot=slot,value=value)
+        row=dict(name=item['name'],stack_slot=slot,value=value,kind=item.get('kind','u32'))
         if item.get('formal'):
             row['formal_value']=int(gdb.parse_and_eval(item['formal'])) & 0xffffffff
             assert row['formal_value']==value,('native formal/ABI slot differs',row)
         state['abi_inputs'].append(row)
+    state['abi_globals']=[]
+    for item in %r:
+        value=int(gdb.parse_and_eval(item['name'])) & ((1 << (8*item['bytes']))-1)
+        state['abi_globals'].append(dict(name=item['name'],original=item['original'],bytes=item['bytes'],value=value))
     while frame and len(state['frames'])<12:
         state['frames'].append(frame.name())
         frame=frame.older()
@@ -215,6 +220,17 @@ if gdb.selected_inferior().pid:
         ptr,count,base=struct.unpack('<III',bytes(gdb.selected_inferior().read_memory(address,12)))
         assert 0<=ptr-base<=65536,(name,ptr,base)
         state['buffers'][name]=(bytes(gdb.selected_inferior().read_memory(base,ptr-base)).hex() if ptr>base else '')
+    if %r:
+        operand=gdb.parse_and_eval('asm_operand').dereference()
+        address=operand['address'].dereference()
+        symbol=address['symbol']
+        row=[int(gdb.parse_and_eval('asm_operand_count')),int(operand['size']),int(operand['flags']),int(address['displacement']),int(address['address_flags']),int(address['flags']),int(address['first_register']),int(address['second_register']),int(bool(int(symbol))),0,0]
+        name=''
+        if int(symbol):
+            row[9]=int(symbol.dereference()['storage'][0]);row[10]=int(symbol.dereference()['index'])
+            name=symbol.dereference()['name'].string()
+        state['asm_operand_state']=row
+        state['asm_operand_symbol_name']=name
     state['label_stack_count']=int(gdb.parse_and_eval('label_stack_count'))
     state['scanner_flags']=int(gdb.parse_and_eval('scanner_flags'))
     state['exception_scope_depth']=[int(gdb.parse_and_eval('exception_scope_depth[%%d]'%%i)) for i in range(3)]
@@ -222,7 +238,7 @@ else:
     state['frontier']=None
 with open(%r,'w') as out:json.dump(state,out,indent=2)
 end
-''' % (runtime_break+callback_commands+flag_commands,redirection,abi_inputs,names,str(directory/'state.json'))
+''' % (runtime_break+callback_commands+flag_commands,redirection,abi_inputs,abi_globals,names,bool(options.reference and 'asm-state stop ' in (options.reference.resolve()/'events').read_text()),str(directory/'state.json'))
     (directory/'commands.gdb').write_text(script)
     prepared = time.perf_counter()-start
     run_start = time.perf_counter()
@@ -243,8 +259,23 @@ end
             state['original_logical'] = expected_record['name']
             original_stack={int(slot):int(value,16)for slot,value in re.findall(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)}
             for item in state['abi_inputs']:
-                assert item['value']==original_stack[item['stack_slot']],('original/native ABI input differs',item,original_stack[item['stack_slot']])
+                if item['kind']=='pointer_identity':
+                    assert bool(item['value'])==bool(original_stack[item['stack_slot']]),('pointer nullness differs',item)
+                    item['original_pointer']=original_stack[item['stack_slot']]
+                else:
+                    assert item['value']==original_stack[item['stack_slot']],('original/native ABI input differs',item,original_stack[item['stack_slot']])
             if abi_inputs: state['abi_inputs_original_match']=True
+            original_base=int(match[2],16)
+            for item in state['abi_globals']:
+                raw=next(line.split()[3]for line in events.splitlines()if line.startswith('memory %08x '%(item['original']-original_base)))
+                assert int.from_bytes(bytes.fromhex(raw),'little')==item['value'],('ABI global differs',item)
+            if abi_globals: state['abi_globals_original_match']=True
+            if 'asm_operand_state' in state:
+                row=next(line for line in events.splitlines()if line.startswith('asm-state stop '))
+                assert state['asm_operand_state']==[int(x)for x in row.split()[2:]],('asm operand state differs',state['asm_operand_state'],row)
+                name=next(line[len('asm-name stop '):]for line in events.splitlines()if line.startswith('asm-name stop '))
+                assert state['asm_operand_symbol_name']==name,('asm operand symbol differs',state['asm_operand_symbol_name'],name)
+                state['asm_operand_original_match']=True
             if expected_record['name']=='_qsort':
                 stack = {int(slot):int(value,16) for slot,value in re.findall(r'^stack (\d+) ([0-9a-f]+)$',events,re.M)}
                 assert state['qsort_contract']==dict(count=stack[2],width=stack[3],array_nonnull=bool(stack[1]),callback_is_legacy_enumerator=True)

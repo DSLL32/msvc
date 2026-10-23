@@ -999,7 +999,9 @@
     "_macro_scan_error@4",
     "_report_expected_token@8",
     "_recovery_token_value@4",
-    "_recover_parser_token"
+    "_recover_parser_token",
+    "_report_asm_operand_error@8",
+    "_make_asm_segment_value@4"
   ],
   "driver": [
     {
@@ -5179,7 +5181,21 @@
     {
       "name": "_make_asm_segment_value@4",
       "start": 329146,
-      "end": 329147
+      "end": 329244,
+      "abi_inputs": [
+        {
+          "name": "value",
+          "formal": "value",
+          "stack_slot": 1,
+          "kind": "pointer_identity"
+        }
+      ],
+      "abi_return": {
+        "register": "eax",
+        "identity": "value",
+        "stack_cleanup": 4,
+        "argument_payload": "opaque to thiscallee; only returned unchanged. Globalcurrent AsmOperand/AsmAddress supply consumed data."
+      }
     },
     {
       "name": "_make_asm_offset@4",
@@ -5339,7 +5355,26 @@
     {
       "name": "_report_asm_operand_error@8",
       "start": 322325,
-      "end": 322326
+      "end": 322369,
+      "abi_inputs": [
+        {
+          "name": "code",
+          "formal": "code",
+          "stack_slot": 1
+        },
+        {
+          "name": "operand",
+          "formal": "operand",
+          "stack_slot": 2
+        }
+      ],
+      "abi_globals": [
+        {
+          "name": "asm_operand_count",
+          "original": 372772,
+          "bytes": 4
+        }
+      ]
     },
     {
       "name": "_asm_address_mode_code@4",
@@ -6009,6 +6044,11 @@
       "accepted_from": 992,
       "accepted_count": 995,
       "expected_exit": 4
+    },
+    "asm-parser-repair": {
+      "accepted_from": 995,
+      "accepted_count": 997,
+      "expected_exit": 5
     }
   },
   "buffered_streams": [

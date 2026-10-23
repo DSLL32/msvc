@@ -1,0 +1,75 @@
+{
+  "status": "pass",
+  "seconds": 0.14765155781060457,
+  "native": {
+    "entry": {
+      "esp": 4294776668,
+      "value": 1475177892,
+      "state": [
+        1,
+        2,
+        0,
+        0,
+        19,
+        0,
+        0,
+        0,
+        1,
+        34,
+        105
+      ]
+    },
+    "esp": 4294776676,
+    "eax": 1475177892,
+    "state": [
+      1,
+      1,
+      0,
+      0,
+      11,
+      0,
+      0,
+      0,
+      1,
+      34,
+      105
+    ],
+    "caller": "parse_inline_assembler"
+  },
+  "original_entry": [
+    2751964,
+    8158204
+  ],
+  "original_finish": [
+    2751972,
+    8158204,
+    8091657
+  ],
+  "original_state_before": [
+    1,
+    2,
+    0,
+    0,
+    19,
+    0,
+    0,
+    0,
+    1,
+    34,
+    105
+  ],
+  "original_state_after": [
+    1,
+    1,
+    0,
+    0,
+    11,
+    0,
+    0,
+    0,
+    1,
+    34,
+    105
+  ],
+  "contract": "Actual original/native EAX returns identical incoming pointer within eachprocess; RET4/callerESPdelta8. Opaque argument payload is not read by505ba body. Independently raw observed current operand/address/symbol storage andindex match native typed fields before/after; nameanchor preserved. No address normalization of artifacts."
+}

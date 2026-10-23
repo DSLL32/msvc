@@ -1,0 +1,75 @@
+{
+  "return8_probe": false,
+  "stop_function": null,
+  "terminal_exit": 5,
+  "expected_exit": 5,
+  "case": "/root/.ai-tmp/msvc2/vc1.0/c1/asm-parser-repair-preflight",
+  "phase": "c1",
+  "unmasked": true,
+  "enum_callback_trace": false,
+  "enum_callback_function": null,
+  "flag_word_probe": "_finish_function_definition",
+  "function_finish_probe": true,
+  "timestamp_probe": false,
+  "accepted_count": 995,
+  "accepted_sha256": "c356e813419e8d809898e9b65e5d422d0fd2e3ca5f6b9a470afd763de913b8bb",
+  "executable_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "original_sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+  "debugger_sha256": "55e4dbf37cb1debef0d2abf93fa1ee22136de8f96fa891283d08c9136088bab4",
+  "debugger_memory_request": null,
+  "child_arguments": [],
+  "child_environment": {
+    "MSC_CMD_FLAGS": "-ef R:\\toolchains\\1.0-nt\\bin\\c1.err -il ir -f audit.c -Ze -Zp8 -Gs -Foaudit.obj -pc \\:/ -D_MSC_VER=800 -D_WIN32 -FR audit.sbr -Z7 -Ob0 -Ot -D_M_IX86=500 -G4 -W 4 -I R:\\toolchains\\1.0-nt\\include "
+  },
+  "child_working_directory": "S:\\vc1.0\\c1\\asm-parser-repair",
+  "child_stdio": {
+    "stderr_to_stdout": true
+  },
+  "host_working_directory": "/root/.ai-tmp/msvc2/vc1.0/c1/asm-parser-repair",
+  "working_directory_snapshot": "work",
+  "wine_prefix": "/root/.ai-tmp/vc1.0-capture/wine",
+  "fixed_drives": {
+    "R:": "/root/msvc2",
+    "S:": "/root/.ai-tmp/msvc2"
+  },
+  "preparation_seconds": 0.007006178610026836,
+  "execution_seconds": 1.6248962078243494,
+  "total_seconds": 1.6319052372127771,
+  "files": [
+    {
+      "name": "audit.c",
+      "bytes": 405,
+      "sha256": "cc03a34dd4b1e13555e7170c46e4411d189b2bc357889177d650e643b0797309"
+    },
+    {
+      "name": "audit.sbr",
+      "bytes": 165,
+      "sha256": "5532806e6377349bb2657b3dddd2efc1c6e37dc786fd2070d3b59e143453d43f"
+    },
+    {
+      "name": "irdb",
+      "bytes": 11,
+      "sha256": "008a3c8db329cffa3250d9c0ed7be51cc5c4305501dd4ebbd7b9ffd4febdc94b"
+    },
+    {
+      "name": "irex",
+      "bytes": 1020,
+      "sha256": "20133a17625f671f531c06483f20533abfd239e93f531acc08a16d19527c4fae"
+    },
+    {
+      "name": "irgl",
+      "bytes": 23,
+      "sha256": "b63985daf5e1e6415376f53f529f5ca94f9114c0e815c6adb10a1584d5e35364"
+    },
+    {
+      "name": "irin",
+      "bytes": 6,
+      "sha256": "19aac90f415d2c7957b427fff2ffb2ebead00f644462d2cda706e3ca98ec4391"
+    },
+    {
+      "name": "irsy",
+      "bytes": 2,
+      "sha256": "53bd9133146631a2a2a89188f7d799e4ab85b473b7e927dd8b7782d91fe4ee0c"
+    }
+  ]
+}

@@ -180,6 +180,10 @@
     "protocol-parser-repair": {
       "receipt": "cases/protocol-parser-repair/evidence/parser-repair-complete-995.receipt.json",
       "sha256": "3113cd13ffa092a56783094a745d8ee0e98a67019c6035b2b9377c18a2508ac2"
+    },
+    "asm-parser-repair": {
+      "receipt": "cases/asm-parser-repair/evidence/asm-parser-complete-997.receipt.json",
+      "sha256": "e146ed7bb277a2409815dcb4cf3f5bd061e1d0a2ca806bbf4d509cc0b6168f55"
     }
   },
   "policy": "Fresh shared-prefix original entry plans; native fixtures only read frozen receipts."

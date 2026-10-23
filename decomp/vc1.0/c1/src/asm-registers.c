@@ -194,3 +194,15 @@ AsmExpression *__stdcall apply_asm_segment(short segment, AsmExpression *value)
     }
     return value;
 }
+
+/* Original0x4eb15..0x4eb41. The diagnostic context names an operand
+   through the current counter; restore that counter after reporting. */
+void __stdcall report_asm_operand_error(unsigned code, int operand)
+{
+    int count = asm_operand_count;
+    char *context;
+    asm_operand_count = operand;
+    context = asm_error_context();
+    report_syntax_error(code,context);
+    asm_operand_count = count;
+}

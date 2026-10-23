@@ -450,6 +450,28 @@ def main():
     rejects('parser-repair-historical-entry-order', 'native trace protocol-parser-repair index 0: expected',
             lambda:checker.run_case('protocol-parser-repair', executable, private_root, (wrong,filter_path)))
 
+    _, asm_repair = checker.run_case('asm-parser-repair', executable, directory, (cache,filter_path))
+    asm_repair_fixture = checker.BINARY/'cases/asm-parser-repair'
+    asm_repair_phase = json.loads((asm_repair_fixture/'manifest.json').read_text())['phases']['c1']
+    asm_messages = asm_repair_phase['expected_stdout'].encode('latin1')
+    rejects('asm-repair-unexpected-success', 'native status',
+            lambda:checker.validate_result('asm-parser-repair',0,asm_messages,b'',asm_repair_phase))
+    rejects('asm-repair-operand-context', 'stdout differs',
+            lambda:checker.validate_result('asm-parser-repair',5,
+                asm_messages.replace(b"illegal index register in 'operand 2'",b"illegal index register in 'operand 1'"),b'',asm_repair_phase))
+    recovered = bytearray((asm_repair/'audit.sbr').read_bytes())
+    assert recovered.count(b'recovered_tail\0')==1 and recovered[-1]==14
+    recovered[recovered.index(b'recovered_tail\0')]=ord('x')
+    (asm_repair/'audit.sbr').write_bytes(recovered)
+    rejects('asm-repair-recovered-tail-browser', 'output bytes differ: audit.sbr',
+            lambda:checker.validate_artifacts(asm_repair,asm_repair_fixture,asm_repair_phase))
+    wrong = copy.deepcopy(cache)
+    wrong['cases']['asm-parser-repair']['expected'] = list(reversed(wrong['cases']['asm-parser-repair']['expected']))
+    private_root = directory/'wrong-asm-repair-order'
+    private_root.mkdir()
+    rejects('asm-repair-historical-entry-order', 'native trace asm-parser-repair index 0: expected',
+            lambda:checker.run_case('asm-parser-repair',executable,private_root,(wrong,filter_path)))
+
     receipt = dict(status='pass', elapsed_seconds=time.perf_counter()-start,
                    tests=results, evidence=str(directory), new_fixtures=0,
                    policy='Private mutations only; fixture captures unchanged; native execution only.')

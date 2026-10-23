@@ -1,0 +1,2 @@
+3eb15 56 _report_asm_operand_error@8
+405ba a1 _make_asm_segment_value@4

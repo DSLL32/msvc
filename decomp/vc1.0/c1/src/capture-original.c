@@ -72,6 +72,39 @@ static void dump_requested_memory(HANDLE process, HANDLE log, DWORD base)
     }
 }
 
+/* Independent raw offsets from505ba..5061c and4eb15..4eb41. These
+   observations are debugger-only and never target reconstruction data. */
+static void dump_asm_operand(HANDLE process, HANDLE log, DWORD base, const char *boundary)
+{
+    DWORD pointer, count, got, written, symbol, name_pointer, index;
+    unsigned char operand[16], address[12], declaration[32];
+    char line[400], name[128];
+    unsigned length;
+    if (!getenv("C1_ASM_OPERAND_PROBE")) return;
+    if (!ReadProcessMemory(process,(void *)(base+0x4b000),&pointer,4,&got) || got!=4 || !pointer) return;
+    if (!ReadProcessMemory(process,(void *)(base+0x4b024),&count,4,&got) || got!=4 ||
+        !ReadProcessMemory(process,(void *)pointer,operand,16,&got) || got!=16) return;
+    pointer=*(DWORD *)operand;
+    if (!pointer || !ReadProcessMemory(process,(void *)pointer,address,12,&got) || got!=12) return;
+    symbol=*(DWORD *)address;
+    memset(declaration,0,sizeof(declaration)); name[0]=0;
+    if (symbol) {
+        if (!ReadProcessMemory(process,(void *)symbol,declaration,32,&got) || got!=32) return;
+        name_pointer=*(DWORD *)(declaration+8);
+        for(index=0;index<sizeof(name)-1;++index) {
+            if (!ReadProcessMemory(process,(void *)(name_pointer+index),name+index,1,&got) || got!=1) return;
+            if (!name[index]) break;
+        }
+        name[sizeof(name)-1]=0;
+    }
+    length=sprintf(line,"asm-state %s %lu %u %u %lu %u %u %u %u %lu %u %lu\n",boundary,count,
+        operand[4],operand[5],*(DWORD *)(address+4),address[8],address[9],address[10],address[11],
+        symbol!=0,declaration[26],*(DWORD *)(declaration+16));
+    WriteFile(log,line,length,&written,0);
+    length=sprintf(line,"asm-name %s %s\n",boundary,name);
+    WriteFile(log,line,length,&written,0);
+}
+
 /* Keep caller/register evidence for diagnosing a logical-trap divergence. */
 static void dump_context(HANDLE process, HANDLE thread, HANDLE log)
 {
@@ -151,7 +184,7 @@ static int dump_function_symbol(HANDLE process, HANDLE log, const char *boundary
     }
     return WriteFile(log,line,strlen(line),&written,0);
 }
-static int return8_probe;
+static int return8_probe, segment_probe;
 
 static int dump_flag_words(HANDLE process, HANDLE log, const char *boundary)
 {
@@ -163,7 +196,7 @@ static int dump_flag_words(HANDLE process, HANDLE log, const char *boundary)
     return WriteFile(log,line,strlen(line),&written,0) && dump_function_symbol(process,log,boundary);
 }
 static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
-                                 DWORD code, DWORD site)
+                                 DWORD code, DWORD site, DWORD base)
 {
     CONTEXT context;
     DWORD got, arguments[3], timestamp, written;
@@ -181,9 +214,10 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
     memset(&context,0,sizeof(context)); context.ContextFlags = CONTEXT_FULL;
     if (!GetThreadContext(thread,&context)) return -1;
     if (site == flag_entry) {
-        if (return8_probe) {
+        if (segment_probe) dump_asm_operand(process,log,base,"entry");
+        if (return8_probe || segment_probe) {
             if (!ReadProcessMemory(process,(void *)context.Esp,arguments,sizeof(arguments),&got) || got != sizeof(arguments)) return -1;
-            sprintf(line,"return8-entry %u %08lx %08lx\n",flag_count,context.Esp,arguments[1]);
+            sprintf(line,"%s-entry %u %08lx %08lx\n",segment_probe?"segment":"return8",flag_count,context.Esp,arguments[1]);
             if (!WriteFile(log,line,strlen(line),&written,0)) return -1;
         }
         if (timestamp_probe) {
@@ -200,8 +234,9 @@ static int observe_flag_boundary(HANDLE process, HANDLE thread, HANDLE log,
         flag_step = 1;
         context.EFlags |= 0x100;
     } else {
-        if (return8_probe) {
-            sprintf(line,"return8-finish %u %08lx %08lx %08lx\n",flag_count,context.Esp,context.Eax,context.Edx);
+        if (segment_probe) dump_asm_operand(process,log,base,"finish");
+        if (return8_probe || segment_probe) {
+            sprintf(line,"%s-finish %u %08lx %08lx %08lx\n",segment_probe?"segment":"return8",flag_count,context.Esp,context.Eax,context.Edx);
             if (!WriteFile(log,line,strlen(line),&written,0)) return -1;
         }
         if (timestamp_probe) {
@@ -257,6 +292,8 @@ int main(int argc, char **argv)
     flag_option = getenv("C1_FUNCTION_SYMBOL_RVA");
     if (flag_option) flag_symbol_rva = strtoul(flag_option,0,16);
     if (flag_symbol_rva && !flag_entry_rva) return 2;
+    segment_probe = getenv("C1_ASM_SEGMENT_PROBE") != 0;
+    if (segment_probe && !flag_entry_rva) return 2;
     return8_probe = getenv("C1_RETURN8_PROBE") != 0;
     if (return8_probe && !flag_entry_rva) return 2;
     timestamp_probe = getenv("C1_TIMESTAMP_PROBE") != 0;
@@ -332,7 +369,7 @@ int main(int argc, char **argv)
                     }
                 }
             } else if ((flag_result = observe_flag_boundary(pi.hProcess,pi.hThread,log,code,
-                        (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress)) != 0) {
+                        (DWORD)ev.u.Exception.ExceptionRecord.ExceptionAddress,base)) != 0) {
                 if (flag_result < 0) { failed = 8; TerminateProcess(pi.hProcess,99); }
             } else if (callback_step && code == EXCEPTION_SINGLE_STEP) {
                 memset(&context,0,sizeof(context)); context.ContextFlags = CONTEXT_FULL;
@@ -396,6 +433,7 @@ int main(int argc, char **argv)
                 WriteFile(log, line, strlen(line), &written, 0);
                 dump_context(pi.hProcess, pi.hThread, log);
                 dump_requested_memory(pi.hProcess,log,base);
+                dump_asm_operand(pi.hProcess,log,base,"stop");
                 if (argc >= 9) dump_stream_buffers(pi.hProcess, log, base, argv[8]);
                 TerminateProcess(pi.hProcess, 99);
             }

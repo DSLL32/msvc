@@ -45,7 +45,7 @@ ParserValue __stdcall asm_recovery_value(int token) { ParserValue value; __asm {
 /* Original 0x50342. */
 
 /* Original 0x505ba. */
-AsmExpression * __stdcall make_asm_segment_value(AsmExpression *value) { __asm { int 3 } return 0; }
+
 /* Original 0x5061c. */
 
 /* Original 0x507e1. */
@@ -104,7 +104,7 @@ AsmExpression * __stdcall make_asm_segment_value(AsmExpression *value) { __asm {
 /* Original 0x4f64e. */
 
 /* Original 0x4eb15. */
-void __stdcall report_asm_operand_error(unsigned code, int operand) { __asm { int 3 } }
+
 
 /* Original 0x4f12f. */
 

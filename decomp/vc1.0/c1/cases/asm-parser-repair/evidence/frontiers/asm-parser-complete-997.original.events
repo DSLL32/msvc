@@ -1,0 +1,3 @@
+entry _report_asm_operand_error@8 rva 0003eb15 byte 56
+entry _make_asm_segment_value@4 rva 000405ba byte a1
+exit 5

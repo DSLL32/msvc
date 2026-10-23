@@ -1,0 +1,6 @@
+audit.c
+audit.c(7) : error C2400: inline syntax error in 'operand 1'; found 'newline'
+audit.c(8) : error C2400: inline syntax error in 'operand 2'; found 'newline'
+audit.c(9) : error C2400: inline syntax error in 'operand 2'; found 'newline'
+audit.c(10) : error C2421: PTR operator used with register in 'operand 2'
+audit.c(11) : error C2431: illegal index register in 'operand 2'

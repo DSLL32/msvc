@@ -1,0 +1,7 @@
+/usr/bin/gdb: warning: Couldn't determine a path for the index cache directory.
+Breakpoint 1 at 0x43309: file src/asm-stubs.c, line 107.
+[Thread debugging using libthread_db enabled]
+Using host libthread_db library "/lib/x86_64-linux-gnu/libthread_db.so.1".
+
+Breakpoint 1, report_asm_operand_error (code=421, operand=1) at src/asm-stubs.c:107
+107	void __stdcall report_asm_operand_error(unsigned code, int operand) { __asm { int 3 } }

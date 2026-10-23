@@ -2,16 +2,16 @@
   "schema": 1,
   "description": "Original-backed first-entry projection; no execution or recapture",
   "metadata_sha256": {
-    "functions.json": "472de3cc6fb0710d75e215ea358d1859cb6bbaa10257db6b893f5f4e705d06f2",
+    "functions.json": "ef379ca068f4494f9ed93726c36c0513eef1b0b337447f76e36880d3e87e6e9a",
     "runtime.json": "c15da47dbba5071ed3cd154d6e192d771a28fd54b0c681e323639c072b189aa9"
   },
   "source_map_provenance": {
     "path": "build/c1.map",
-    "sha256": "4d285c523263ed16628fb4589ca0ee8c719de3b21b4a8dde5f88080884b6fee6"
+    "sha256": "a232c41c8b5757f8d24375c813040c38ec428f5447f7a71afda3adfe73cb5271"
   },
   "original_entry_references": {
     "path": "cases/original-entry-references.json",
-    "sha256": "289b6208836851352c47e68e956b301723ff6b2e03f54b2d346a0d3d056a0d87"
+    "sha256": "fcc05366f3e8c6da7808cf373dc8182345e2f9d5e0ff38864d27403d8ba85f2d"
   },
   "explicit_CRT_variants": [
     "___strgtold12",
@@ -1883,7 +1883,7 @@
     },
     "make_asm_segment_value": {
       "logical": "_make_asm_segment_value@4",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-symbols.c"
     },
     "make_asm_stack_register": {
       "logical": "_make_asm_stack_register@8",
@@ -3027,7 +3027,7 @@
     },
     "report_asm_operand_error": {
       "logical": "_report_asm_operand_error@8",
-      "source": "src/asm-stubs.c"
+      "source": "src/asm-registers.c"
     },
     "report_asm_parser_error": {
       "logical": "_report_asm_parser_error@4",
@@ -4512,7 +4512,9 @@
     "macro_scan_error",
     "report_expected_token",
     "recovery_token_value",
-    "recover_parser_token"
+    "recover_parser_token",
+    "report_asm_operand_error",
+    "make_asm_segment_value"
   ],
   "excluded_accepted": {
     "CRT": [
@@ -6005,6 +6007,19 @@
       "terminal": {
         "kind": "exit",
         "code": 4
+      }
+    },
+    "asm-parser-repair": {
+      "first": 995,
+      "last": 997,
+      "seen_count": 854,
+      "expected": [
+        "report_asm_operand_error",
+        "make_asm_segment_value"
+      ],
+      "terminal": {
+        "kind": "exit",
+        "code": 5
       }
     }
   }
