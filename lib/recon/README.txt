@@ -76,7 +76,10 @@ VC1 trailing-percent behavior preserved. `_snprintf` retains the VC1 exact-fit
 nontermination and -1 truncation result. Its ordinary conversions use host
 formatting; `%n` explicitly fails until its stop-on-overflow side effects are
 implemented. `_setmode` changes only the legacy descriptor text bit and returns
-the previous mode. Integer scanning wraps at 32 bits as
+the previous mode. `_stat` supplies the VC1 36-byte layout and UTC seconds,
+including drive-index devices, legacy mode bits and untouched alignment bytes.
+Creation time follows the Linux Wine capture environment's mtime fallback;
+POSIX inode-change time is not a Windows creation time. Integer scanning wraps at 32 bits as
 the old CRT does. qsort preserves the VC1 pivot/shortsort tie ordering because
 equal-key ordering affects LINK's serialized import tables.
 

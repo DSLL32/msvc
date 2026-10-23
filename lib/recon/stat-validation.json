@@ -1,0 +1,64 @@
+{
+  "schema": 1,
+  "scope": "C1 automatic-PCH file-mtime CRT seam; native-only regression checks, explicit original-compiler-built characterization outside fixtures.",
+  "layout": {
+    "bytes": 36,
+    "size_offset": 20,
+    "atime_offset": 24,
+    "mtime_offset": 28,
+    "ctime_offset": 32,
+    "untouched_padding": [
+      14,
+      15
+    ]
+  },
+  "original": {
+    "target": "toolchains/1.0-nt/bin/C13232.EXE",
+    "sha256": "7061440a14554b4c81d4908ddb34cd674265594d6b04932d3f70cecf7a731063",
+    "stat_extent": [
+      "0x53c90",
+      "0x53f83"
+    ],
+    "mode_extent": [
+      "0x53bb0",
+      "0x53c84"
+    ],
+    "gmtime_conversion": [
+      "0x57930",
+      "0x579b7"
+    ],
+    "header": "toolchains/1.0-nt/include/SYS/STAT.H",
+    "probe_source": "lib/recon/tests/stat-probe.c",
+    "probe_source_sha256": "a4be8fff5c2d12284c2681f3df5ee4ef1bae5b90a9fab0c94626003d9e481808",
+    "build_source_name": "probe.c; bytes identical to stored stat-probe.c",
+    "probe_executable_sha256": "6f3f5a5955b7b35aa1806349bd21fa94ed7b7a3ec6ee7ca7aacc6e44eebf8c5d",
+    "capture": {
+      "exit": 0,
+      "seconds": 4.608373750932515
+    },
+    "stdout_sha256": "4eff77c35c521f436352fee18fd5d84e0f794f330353cfd6aeb541788472d70f",
+    "stdout": "layout 36 20 24 28 32\r\nstat sample.h 0 0 25 0 100666 1 0 0 25 7 1600000001 1700000003 1700000003 190000000000b6810100000000005555190000000700000001105e5f03f1536503f15365\r\nstat sample.exe 0 0 25 0 100777 1 0 0 25 7 1600000001 1700000003 1700000003 190000000000ff810100000000005555190000000700000001105e5f03f1536503f15365\r\nstat readonly.h 0 0 25 0 100444 1 0 0 25 7 1600000001 1700000003 1700000003 19000000000024810100000000005555190000000700000001105e5f03f1536503f15365\r\nstat directory 0 0 25 0 40777 1 0 0 25 0 1600000001 1700000003 1700000003 190000000000ff410100000000005555190000000000000001105e5f03f1536503f15365\r\nstat absent -1 2 1431655765 21845 52525 21845 21845 21845 1431655765 1431655765 1431655765 1431655765 1431655765 555555555555555555555555555555555555555555555555555555555555555555555555\r\nstat *.h -1 2 1431655765 21845 52525 21845 21845 21845 1431655765 1431655765 1431655765 1431655765 1431655765 555555555555555555555555555555555555555555555555555555555555555555555555\r\nstat Z: -1 2 1431655765 21845 52525 21845 21845 21845 1431655765 1431655765 1431655765 1431655765 1431655765 555555555555555555555555555555555555555555555555555555555555555555555555\r\n",
+    "stderr": ""
+  },
+  "native": [
+    {
+      "compiler": "gcc",
+      "build_seconds": 0.746896461583674,
+      "execution_seconds": 0.0016719140112400055,
+      "exact_rows": 8,
+      "full_struct_bytes": 36,
+      "padding_unchanged": true
+    },
+    {
+      "compiler": "clang",
+      "build_seconds": 1.0886769611388445,
+      "execution_seconds": 0.002048368565738201,
+      "exact_rows": 8,
+      "full_struct_bytes": 36,
+      "padding_unchanged": true
+    }
+  ],
+  "creation_time": "Linux Wine capture fallback equals modification time; not POSIX inode-change time. No birthtime normalization or timestamp masking.",
+  "boundary": "C1 worker independently observes case.h return0 and st_mtime at+28 =1792736790/0x6adafe16, exactly pinned input time; evidence retained in its case.",
+  "additional_checks": "GCC/Clang i386 shared unit suite checks case-insensitive drive paths, read-only mode, unchanged error output and padding, fixed UTC seconds and legacy drive indices; original source remains Win32-compilable."
+}

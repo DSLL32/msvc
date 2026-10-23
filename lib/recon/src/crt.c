@@ -308,10 +308,40 @@ int recon_access(const char *name,int mode)
 }
 int recon_stat(const char *name,struct recon_stat *out)
 {
-    struct stat st; char path[PATH_MAX];
-    if (recon_host_path(name,path,sizeof(path))<0 || stat(path,&st)<0) return -1;
-    if (st.st_size>LONG_MAX) { errno=EOVERFLOW; return -1; }
-    out->st_size=st.st_size; return 0;
+    struct stat64 st;
+    char path[PATH_MAX];
+    const char *drive=name,*extension,*canonical;
+    unsigned device=25,permissions=0400;
+    if (strpbrk(name,"*?") || (name[0] && name[1]==':' && !name[2])) {
+        errno=ENOENT; recon_doserrno=2; return -1;
+    }
+    if (recon_host_path(name,path,sizeof(path))<0) return -1;
+    if (stat64(path,&st)<0) {
+        if (errno==ENOENT || errno==ENOTDIR) { errno=ENOENT; recon_doserrno=2; }
+        return -1;
+    }
+    canonical=getenv("RECON_CANONICAL_CWD");
+    if (!(drive[0] && drive[1]==':') && canonical) drive=canonical;
+    if (drive[0] && drive[1]==':' && isalpha((unsigned char)drive[0]))
+        device=toupper((unsigned char)drive[0])-'A';
+    if (st.st_mode&0222) permissions|=0200;
+    extension=strrchr(name,'.');
+    if (S_ISDIR(st.st_mode) || (extension &&
+        (!strcasecmp(extension,".exe") || !strcasecmp(extension,".cmd") ||
+         !strcasecmp(extension,".bat") || !strcasecmp(extension,".com"))))
+        permissions|=0100;
+    permissions|=(permissions>>3)|(permissions>>6);
+    /* The old CRT leaves the alignment bytes at14..15 untouched. */
+    out->st_dev=out->st_rdev=device;
+    out->st_ino=0; out->st_uid=out->st_gid=0; out->st_nlink=1;
+    out->st_mode=(S_ISDIR(st.st_mode)?0040000:0100000)|permissions;
+    out->st_size=S_ISDIR(st.st_mode)?0:(long)(uint32_t)st.st_size;
+    out->st_atime=st.st_atim.tv_sec<0 || st.st_atim.tv_sec>INT32_MAX?-1:(long)st.st_atim.tv_sec;
+    out->st_mtime=st.st_mtim.tv_sec<0 || st.st_mtim.tv_sec>INT32_MAX?-1:(long)st.st_mtim.tv_sec;
+    /* Linux Wine's directory information uses mtime as creation time, not
+     * Unix inode-change time. This is the original capture environment. */
+    out->st_ctime=out->st_mtime;
+    return 0;
 }
 int recon_remove(const char *name)
 {

@@ -37,7 +37,23 @@ typedef struct ShimFILE {
  char *_ptr; int _cnt; char *_base; int _flag,_file,_charbuf,_bufsiz; char *_tmpfname;
 } ShimFILE;
 typedef char ReconFileIs32[(sizeof(ShimFILE)==32)?1:-1];
-struct recon_stat { long st_size; };
+/* glibc's convenience macros expand to host timespec members; VC1 has
+ * three plain signed 32-bit seconds fields instead. Host shims use st_*tim. */
+#undef st_atime
+#undef st_mtime
+#undef st_ctime
+struct recon_stat {
+ unsigned st_dev;
+ unsigned short st_ino,st_mode;
+ short st_nlink,st_uid,st_gid;
+ unsigned st_rdev;
+ long st_size,st_atime,st_mtime,st_ctime;
+};
+typedef char ReconStatIs36[(sizeof(struct recon_stat)==36)?1:-1];
+typedef char ReconStatSizeAt20[(offsetof(struct recon_stat,st_size)==20)?1:-1];
+typedef char ReconStatAtimeAt24[(offsetof(struct recon_stat,st_atime)==24)?1:-1];
+typedef char ReconStatMtimeAt28[(offsetof(struct recon_stat,st_mtime)==28)?1:-1];
+typedef char ReconStatCtimeAt32[(offsetof(struct recon_stat,st_ctime)==32)?1:-1];
 extern ShimFILE recon_iob[20];
 extern unsigned char recon_osfile[];
 extern unsigned recon_nhandle;

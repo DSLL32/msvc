@@ -2,6 +2,7 @@
 #include <unistd.h>
 #include <fcntl.h>
 #include <direct.h>
+#include <utime.h>
 #include <recon.h>
 /* Raw POSIX probes deliberately bypass the legacy descriptor aliases. */
 #undef read
@@ -122,6 +123,28 @@ int main(void)
     errno=0;
     assert(_setmode(fd,0)==-1 && errno==EBADF);
     assert(_setmode(-1,0x4000)==-1 && errno==EBADF);
+    {
+        struct _stat status;
+        struct utimbuf times;
+        times.actime=1600000001; times.modtime=1700000003;
+        assert(utime(host,&times)==0);
+        memset(&status,0x55,sizeof(status)); errno=0;
+        assert(_stat("N:\\SAMPLE.TXT",&status)==0);
+        assert(sizeof(status)==36 && status.st_size==10);
+        assert(status.st_dev==13 && status.st_rdev==13 && status.st_ino==0);
+        assert(status.st_mode==0100666 && status.st_nlink==1);
+        assert(status.st_uid==0 && status.st_gid==0);
+        assert(status.st_atime==1600000001 && status.st_mtime==1700000003);
+        assert(status.st_ctime==1700000003);
+        assert(((unsigned char *)&status)[14]==0x55 && ((unsigned char *)&status)[15]==0x55);
+        assert(chmod(host,0444)==0 && _stat("N:\\sample.txt",&status)==0);
+        assert(status.st_mode==0100444 && chmod(host,0644)==0);
+        memset(&status,0x55,sizeof(status));
+        assert(_stat("N:\\absent",&status)==-1 && errno==ENOENT);
+        for (i=0;i<(int)sizeof(status);++i) assert(((unsigned char *)&status)[i]==0x55);
+        assert(_stat("N:\\*.txt",&status)==-1 && errno==ENOENT);
+        assert(_stat("N:",&status)==-1 && errno==ENOENT);
+    }
     assert(sscanf("4294967296","%ld",&integer)==1 && integer==0);
     assert(sscanf("65537","%hd",&small)==1 && small==1);
     assert(sscanf("0x100000001,tail","%li%s",&integer,remainder)==2);
