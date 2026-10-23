@@ -164,6 +164,10 @@ end
             number=0x1122334455667788 if trial['test_token_seed']=='positive' else -0x112233445566778
             seed='set variable frontend_bss.token_value.integer=%d\nset variable frontend_bss.sentinel_token.value.integer=-7\nset variable frontend_bss.sentinel_token.kind=165\n'%number
         observer+='break *initialize_frontend_18\ncommands\nsilent\n'+seed+'source '+str(entry)+'\ncontinue\nend\n'
+    if '_initialize_frontend_19' in trial['accepted']:
+        result_point=output/'collect-value-copy-result.gdb'
+        result_point.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'value-copy-result.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'value-copy-result-argv.bin'))))
+        observer+='break *initialize_frontend_19\ncommands\nsilent\nsource '+str(result_point)+'\ncontinue\nend\n'
     if trial.get('validation_observers'):
         phase=output/'collect-phase.gdb'
         phase.write_text(collector.read_text().replace(repr(str(output/'state.json')),repr(str(output/'phase.json'))).replace(repr(str(output/'native-argv.bin')),repr(str(output/'phase-argv.bin'))))

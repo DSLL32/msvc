@@ -114,7 +114,6 @@ void initialize_frontend_19(void)
 
 void initialize_frontend_20(void)
 {
-    __asm { int 3 }
 }
 
 void initialize_frontend_21(void)

@@ -27,7 +27,7 @@ def check(original,native,require_audit=True,audit_path=None):
     registrar=trial['trial']=='_register_cleanup'
     deferred=trial['trial']=='_initialize_deferred_work'
     match=re.fullmatch(r'_initialize_frontend_(\d{2})',trial['trial'] or '')
-    s.require(deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=19,
+    s.require(deferred or constructor_number in (1,2,3,4,5,6,7,8) or registrar or match is not None and 1<=int(match[1])<=20,
               'no reviewed callback decoder for this function')
     index=16 if deferred else 7+constructor_number if constructor_number else 8 if registrar else int(match[1])
     s.require(trial['case']=='minimal' and o['exit']==125 and
@@ -300,13 +300,20 @@ def check_token_value(original,native,trial,text,pre,phase,state,seed,final,symb
                   'token-seed role=callback-entry arm=integer sign='+variant+' unknown-tails-seeded=0 pointer-arm-tested=0' in text,
                   'undeclared token integer auxiliary roles')
     else:s.require('auxiliary_token_data_seed' not in trial,'ordinary token input mocked')
-    after=token_raw(original,final)
+    copy_index=next(i for i,row in enumerate(traps) if row[1]=='0003891e')
+    s.require(traps[copy_index+1][1]=='0003893b','missing immediate post-copy original boundary')
+    after=token_raw(original,'%03d'%int(traps[copy_index+1][0]))
+    native_after=json.loads((native/'value-copy-result.json').read_text()) if (native/'value-copy-result.json').exists() else state
+    if (native/'value-copy-result.json').exists():
+        point=re.search(r'^([0-9a-f]+) [0-9a-f]+ [Tt] initialize_frontend_19$',symbols,re.M)
+        s.require(point is not None and native_after['pc']==int(point[1],16) and native_after['symbol']=='initialize_frontend_19' and native_after['args']=={},'false immediate post-copy native boundary')
     s.require(after[0]==old[0] and after[1]==old[0] and after[2][0]==1 and after[2][1:]==old[2][1:],
               'complete ORIGINAL-to-ORIGINAL40-byte internal copy/source/header preservation differs')
-    s.require((state['frontend']['token_value'],state['frontend']['sentinel_token'])==(number,{'kind':1,'value':number}) and
-              entry['frontend']['sentinel_padding']==state['frontend']['sentinel_padding'],
+    s.require((native_after['frontend']['token_value'],native_after['frontend']['sentinel_token'])==(number,{'kind':1,'value':number}) and
+              entry['frontend']['sentinel_padding']==native_after['frontend']['sentinel_padding'],
               'typed token prefix/kind copy or native own padding preservation differs')
+    s.require(token_raw(original,final)==after and state['frontend']['token_value']==native_after['frontend']['token_value'] and state['frontend']['sentinel_token']==native_after['frontend']['sentinel_token'],'later initializer unexpectedly changed token projection before consumer frontier')
     for key,value in entry['frontend'].items():
-        if key not in ('sentinel_token',):s.require(state['frontend'][key]==value,'token copy changed adjacent modeled native state '+key)
+        if key not in ('sentinel_token',):s.require(native_after['frontend'][key]==value,'token copy changed adjacent modeled native state '+key)
     # The unknown original tails are compared only with ORIGINAL source bytes.
     # No native object or integer conversion represents those bytes or pointers.
