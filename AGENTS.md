@@ -1,6 +1,13 @@
 # AGENTS.md
 
-Use ~/.ai-tmp for scratch space, creating folders under here as required. Create your own wine prefix in this scratch space.
+Use ~/.ai-tmp for scratch space, creating folders under here as required.
+For original builds/reference captures, use the shared repo Wine prefix
+`~/.ai-tmp/vc1.0-capture/wine` (win32). Its fixed drives are `R:` → repo root
+(`/root/msvc2`) and `S:` → shared scratch (`~/.ai-tmp/msvc2`). Use separate
+binary/case subdirectories; do not remap these drives or stop the shared server.
+Prefer relative case paths; use stable absolute paths only when behavior requires
+them. Fixtures remain native-only. Workers already using another prefix may keep
+it for now; new workers should use the shared prefix.
 
 ## Folder layout
 
